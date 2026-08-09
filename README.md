@@ -403,6 +403,22 @@ This produces the 55-variable `(q_A,v_A,w_iA)` principal reduction and its defin
 constraints. The 22-by-22 companion remains the correct fixed-direction characteristic object;
 it is not mislabeled as the complete physical-space PDE state.
 
+Bind that state and its first derivatives to the exact nonlinear coordinate geometry with:
+
+```powershell
+python -m sigma_theory_compiler quartic-geometric-jet-campaign `
+  --first-order-campaign runs/physics-language/quartic-first-order-reduction-campaign/campaign.json `
+  --config configs/backgrounds/quartic_geometric_jet_campaign.json `
+  --output runs/physics-language/quartic-geometric-jet-campaign
+```
+
+This reconstructs the inverse metric and its derivative, Christoffel symbols and their
+derivatives, the scalar gradient/Hessian, Riemann and Ricci curvature, and the Einstein tensor.
+Exact cylindrical and FLRW controls ensure the connection and connection-squared lower-order
+terms cannot be omitted. The next separate gate is the full gauge-fixed quartic nonlinear
+evolution source and elimination of the 11 time-time second partials; this map does not claim
+nonlinear PDE bootstrap closure.
+
 Compile and execute a bounded scalar action variation through Cadabra:
 
 ```powershell

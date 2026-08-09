@@ -111,6 +111,7 @@ from .quartic_dirac_hamiltonian_campaign import (
 from .quartic_first_order_reduction_campaign import (
     run_quartic_first_order_reduction_campaign,
 )
+from .quartic_geometric_jet_campaign import run_quartic_geometric_jet_campaign
 from .quartic_linear_x_campaign import run_quartic_linear_x_symbol_campaign
 from .quartic_linearized_energy_campaign import (
     run_quartic_linearized_energy_campaign,
@@ -1680,6 +1681,72 @@ def _quartic_first_order_reduction_campaign_control(
     }
 
 
+def _quartic_geometric_jet_campaign_control(
+    root: Path,
+) -> tuple[bool, dict[str, Any]]:
+    base = root / "runs" / "physics-language"
+    first_order_path = base / "quartic-first-order-reduction-campaign" / "campaign.json"
+    config_path = (
+        root / "configs" / "backgrounds" / "quartic_geometric_jet_campaign.json"
+    )
+    artifact_path = base / "quartic-geometric-jet-campaign" / "campaign.json"
+    first_order = json.loads(first_order_path.read_text(encoding="utf-8"))
+    config = json.loads(config_path.read_text(encoding="utf-8"))
+    artifact = json.loads(artifact_path.read_text(encoding="utf-8"))
+    result = run_quartic_geometric_jet_campaign(first_order, config)
+    corrupted = json.loads(json.dumps(first_order))
+    corrupted["status"] = "reject"
+    negative = run_quartic_geometric_jet_campaign(corrupted, config)
+    certificates = result.get("certificates", [])
+    counts = result.get("counts", {})
+    control = result.get("geometric_control", {})
+    passed = bool(
+        result.get("status")
+        == "pass_all_12_exact_nonlinear_geometric_state_to_jet_maps"
+        and counts.get("selected") == 12
+        and counts.get("geometric_state_to_jet_maps_passed") == 12
+        and counts.get("rejected") == 0
+        and len(certificates) == 12
+        and control.get("passed") is True
+        and control.get("curvilinear_flat_control", {}).get("connection_nonzero")
+        is True
+        and control.get("curvilinear_flat_control", {}).get("riemann_zero") is True
+        and set(control.get("curved_control", {}).get("einstein_residuals", []))
+        == {"0"}
+        and all(
+            item.get("rejected") is True
+            for item in control.get("negative_controls", {}).values()
+        )
+        and all(
+            item.get("state_dimension") == 55
+            and item.get("remaining_gate")
+            == "quartic_gauge_fixed_nonlinear_evolution_source"
+            for item in certificates
+        )
+        and artifact.get("content_sha256") == result.get("content_sha256")
+        and negative.get("status") == "reject"
+    )
+    return passed, {
+        "first_order_campaign": str(first_order_path),
+        "config": str(config_path),
+        "artifact": str(artifact_path),
+        "status": result.get("status"),
+        "counts": counts,
+        "artifact_hash_matches_reexecution": (
+            artifact.get("content_sha256") == result.get("content_sha256")
+        ),
+        "formula_contract_sha256": control.get("formula_contract_sha256"),
+        "curvilinear_flat_control": control.get("curvilinear_flat_control"),
+        "curved_control": control.get("curved_control"),
+        "negative_controls": control.get("negative_controls"),
+        "prerequisite_corruption_negative": {
+            "status": negative.get("status"),
+            "errors": negative.get("errors"),
+        },
+        "scope": result.get("scope"),
+    }
+
+
 def _quartic_horndeski_covariant_adm_control(
     root: Path,
 ) -> tuple[bool, dict[str, Any]]:
@@ -2849,6 +2916,12 @@ def run_formal_control_suite(
             "All 12 fixed-coefficient linear-X quartic candidates are bound to an exact 55-variable three-dimensional first-order principal reduction whose nonzero characteristic modes reproduce the proven 22-by-22 directional companion pencil.",
             "The reduction introduces 11 fields, 11 time derivatives, and 33 spatial derivatives. Exact extraction of B_i and symmetric C_ij reconstructs the second-order symbol; the characteristic lift has zero residual; and 33 derivative-definition plus 33 independent curl constraints propagate. Omitting one spatial-derivative evolution equation rejects. This corrects the state dimension but does not yet supply nonlinear lower-order sources, connection terms, gauge drivers, a 55-variable symmetrizer, state-to-jet Sobolev bounds, commuted energy closure, or PDE bootstrap.",
             lambda: _quartic_first_order_reduction_campaign_control(root),
+        ),
+        _run_check(
+            "quartic_linear_x_nonlinear_geometric_state_to_jet_map",
+            "All 12 fixed-coefficient linear-X quartic candidates are bound to an exact nonlinear map from the 55-variable first-order state and its derivatives to the scalar covariant jet, Levi-Civita connection, curvature, and Einstein tensor.",
+            "The executable coordinate map retains inverse-metric derivative, connection, and connection-squared terms. Cylindrical Minkowski has nonzero connection but exactly zero Riemann curvature, FLRW reproduces all 16 Einstein components, and omissions of the Hessian connection or Riemann Gamma-squared term reject. The gauge-fixed quartic evolution source, time-time derivative elimination, gauge drivers, symmetrizer derivatives, and nonlinear PDE bootstrap remain unresolved.",
+            lambda: _quartic_geometric_jet_campaign_control(root),
         ),
         _run_check(
             "quartic_horndeski_timelike_flat_physical_hamiltonian",

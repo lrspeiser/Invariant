@@ -53,6 +53,10 @@ from .quartic_first_order_reduction_campaign import (
     run_quartic_first_order_reduction_campaign,
     write_quartic_first_order_reduction_campaign,
 )
+from .quartic_geometric_jet_campaign import (
+    run_quartic_geometric_jet_campaign,
+    write_quartic_geometric_jet_campaign,
+)
 from .quartic_linear_x_campaign import (
     run_quartic_linear_x_symbol_campaign,
     write_quartic_linear_x_symbol_campaign,
@@ -506,6 +510,15 @@ def _parser() -> argparse.ArgumentParser:
     quartic_first_order.add_argument("--moser-campaign", type=Path, required=True)
     quartic_first_order.add_argument("--config", type=Path, required=True)
     quartic_first_order.add_argument("--output", type=Path, required=True)
+    quartic_geometric_jet = subparsers.add_parser(
+        "quartic-geometric-jet-campaign",
+        help="Bind the 55-variable quartic state to exact nonlinear covariant geometry",
+    )
+    quartic_geometric_jet.add_argument(
+        "--first-order-campaign", type=Path, required=True
+    )
+    quartic_geometric_jet.add_argument("--config", type=Path, required=True)
+    quartic_geometric_jet.add_argument("--output", type=Path, required=True)
     dhost_compile = subparsers.add_parser(
         "dhost-pack-compile",
         help="Compile a reduced rank-one quadratic DHOST kinetic family",
@@ -1320,6 +1333,27 @@ def main(argv: list[str] | None = None) -> int:
             0
             if result["status"]
             == "pass_all_12_exact_55_variable_principal_first_order_reductions"
+            else 1
+        )
+    if args.command == "quartic-geometric-jet-campaign":
+        first_order_campaign = json.loads(
+            args.first_order_campaign.read_text(encoding="utf-8")
+        )
+        config = json.loads(args.config.read_text(encoding="utf-8"))
+        result = run_quartic_geometric_jet_campaign(first_order_campaign, config)
+        path = write_quartic_geometric_jet_campaign(result, args.output)
+        print(f"status={result['status']}")
+        print(f"selected={result['counts']['selected']}")
+        print(
+            "geometric_state_to_jet_maps_passed="
+            f"{result['counts']['geometric_state_to_jet_maps_passed']}"
+        )
+        print(f"rejected={result['counts']['rejected']}")
+        print(f"report={path}")
+        return (
+            0
+            if result["status"]
+            == "pass_all_12_exact_nonlinear_geometric_state_to_jet_maps"
             else 1
         )
     if args.command == "dhost-pack-compile":

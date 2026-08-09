@@ -61,6 +61,22 @@ def test_all_formal_known_answer_controls_pass(tmp_path) -> None:
     assert report["counts"]["total"] >= 6
     assert report["counts"]["failed"] == 0
     checks = {item["name"]: item for item in report["checks"]}
+    geometric_jet = checks[
+        "quartic_linear_x_nonlinear_geometric_state_to_jet_map"
+    ]
+    assert geometric_jet["status"] == "pass"
+    assert geometric_jet["evidence"]["artifact_hash_matches_reexecution"]
+    assert geometric_jet["evidence"]["curvilinear_flat_control"] == {
+        "metric": "diag(-1,1,r^2,1)",
+        "scalar": "r",
+        "connection_nonzero": True,
+        "riemann_zero": True,
+        "hessian_theta_theta_residual": "0",
+    }
+    assert all(
+        item["rejected"]
+        for item in geometric_jet["evidence"]["negative_controls"].values()
+    )
     assert checks["projected_aether_q_fixed_metric_first_variation"]["status"] == "pass"
     assert checks["projected_aether_q_fixed_metric_first_variation"]["evidence"][
         "projector_and_B_first_variation_residual"
