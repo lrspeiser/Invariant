@@ -111,6 +111,22 @@ def test_all_formal_known_answer_controls_pass(tmp_path) -> None:
     assert nonquasilinear_pde["evidence"]["characteristic_gap_negative"][
         "status"
     ] == "reject"
+    coordinate_tube = checks[
+        "quartic_linear_x_coordinate_jet_hyperbolicity_tube"
+    ]
+    assert coordinate_tube["status"] == "pass"
+    assert coordinate_tube["evidence"]["artifact_hash_matches_reexecution"]
+    assert coordinate_tube["evidence"]["bounded_coordinate_atoms"]["total"] == 153
+    assert all(
+        item["strict_margin_numeric"] > 0
+        for item in coordinate_tube["evidence"][
+            "covariant_hyperbolicity_components"
+        ].values()
+    )
+    assert coordinate_tube["evidence"]["negative_control"]["rejected"]
+    assert coordinate_tube["evidence"]["configuration_radius_negative"][
+        "status"
+    ] == "reject"
     assert checks["projected_aether_q_fixed_metric_first_variation"]["status"] == "pass"
     assert checks["projected_aether_q_fixed_metric_first_variation"]["evidence"][
         "projector_and_B_first_variation_residual"

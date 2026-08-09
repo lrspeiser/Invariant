@@ -137,6 +137,10 @@ and propagation of 33 definition plus 33 curl constraints pass for all 12 candid
 Appendix-A block lift now supplies a smooth positive 55-variable symmetrizer with explicit uniform
 bounds and a conditional local vacuum gauge-fixed Cauchy theorem. Gauge-driver estimates, a
 computable lifespan, boundary conditions, and long-time box trapping remain fail-closed.
+The compact-interior hypothesis is now constructive: a `1e-13` component cube in the 153
+normalized acceleration-free coordinate 2-jet atoms maps strictly inside the `2e-10` covariant
+hyperbolicity box, with inverse-metric/connection/curvature derivative majorants through order
+four. Euler-remainder and commuted gauge-source estimates remain fail-closed.
 The action-derived FLRW evolution matrix now has an outward-rounded interval integration adapter.
 Its canonical massless-scalar stiff-FLRW control takes 40 certified steps, contains the analytic
 endpoint, preserves the energy constraint within tolerance, and uniformly excludes every declared

@@ -460,6 +460,24 @@ conditional: it applies to compatible vacuum gauge-fixed initial data whose coor
 lies in a compact subset of the certified box interior. It supplies no lifespan, long-time box
 trapping, boundary, matter-source, or observational claim.
 
+Construct an explicit coordinate-state tube inside that covariant box with:
+
+```powershell
+python -m sigma_theory_compiler quartic-coordinate-jet-tube-campaign `
+  --nonquasilinear-pde-campaign runs/physics-language/quartic-nonquasilinear-pde-campaign/campaign.json `
+  --config configs/backgrounds/quartic_coordinate_jet_tube_campaign.json `
+  --output runs/physics-language/quartic-coordinate-jet-tube-campaign
+```
+
+The tube bounds 153 normalized coordinate atoms: ten metric deviations, 44 first partials,
+and 99 acceleration-free symmetric second partials. The exact orthonormal metric-basis identity
+and Neumann/product majorants prove that a common `1e-13` component cube maps strictly inside the
+`2e-10` covariant `nabla(phi)`, `nabla nabla(phi)`, and `G^mu nu` box for all 12 candidates.
+Radial Fréchet majorants through order four are emitted for the inverse metric, connection,
+Hessian, curvature, and Einstein tensor. A `1e-12` cube fails the sufficient Einstein-tensor
+margin and rejects. Euler-remainder/gauge-source derivative bounds and evolution preservation of
+this coordinate tube remain separate gates.
+
 Compile and execute a bounded scalar action variation through Cadabra:
 
 ```powershell

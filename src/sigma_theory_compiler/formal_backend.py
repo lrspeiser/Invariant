@@ -105,6 +105,9 @@ from .quartic_auxiliary_time_campaign import run_quartic_auxiliary_time_campaign
 from .quartic_constraint_reconstruction_campaign import (
     run_quartic_constraint_reconstruction_campaign,
 )
+from .quartic_coordinate_jet_tube_campaign import (
+    run_quartic_coordinate_jet_tube_campaign,
+)
 from .quartic_dirac_hamiltonian_campaign import (
     run_quartic_dirac_hamiltonian_campaign,
 )
@@ -1928,6 +1931,61 @@ def _quartic_nonquasilinear_pde_campaign_control(
     }
 
 
+def _quartic_coordinate_jet_tube_campaign_control(
+    root: Path,
+) -> tuple[bool, dict[str, Any]]:
+    base = root / "runs" / "physics-language"
+    prerequisite_path = base / "quartic-nonquasilinear-pde-campaign" / "campaign.json"
+    config_path = (
+        root / "configs" / "backgrounds" / "quartic_coordinate_jet_tube_campaign.json"
+    )
+    artifact_path = base / "quartic-coordinate-jet-tube-campaign" / "campaign.json"
+    prerequisite = json.loads(prerequisite_path.read_text(encoding="utf-8"))
+    config = json.loads(config_path.read_text(encoding="utf-8"))
+    artifact = json.loads(artifact_path.read_text(encoding="utf-8"))
+    result = run_quartic_coordinate_jet_tube_campaign(prerequisite, config)
+    corrupted = dict(config)
+    corrupted["coordinate_component_radius"] = "1/1000000000000"
+    negative = run_quartic_coordinate_jet_tube_campaign(prerequisite, corrupted)
+    certificates = result.get("certificates", [])
+    counts = result.get("counts", {})
+    control = result.get("generic_coordinate_jet_majorant_control", {})
+    covariant = control.get("covariant_hyperbolicity_components", {})
+    passed = bool(
+        result.get("status")
+        == "pass_all_12_uniform_coordinate_2jet_to_covariant_hyperbolicity_tubes"
+        and counts.get("selected") == 12
+        and counts.get("coordinate_jet_tubes_passed") == 12
+        and len(certificates) == 12
+        and control.get("passed") is True
+        and control.get("orthonormal_symmetric_metric_basis_residual") == "0"
+        and control.get("bounded_coordinate_atoms", {}).get("total") == 153
+        and all(item.get("strict_margin_numeric", 0) > 0 for item in covariant.values())
+        and all(item.get("Frechet_majorant_order") == 4 for item in certificates)
+        and artifact.get("content_sha256") == result.get("content_sha256")
+        and negative.get("status") == "reject"
+    )
+    return passed, {
+        "prerequisite": str(prerequisite_path),
+        "config": str(config_path),
+        "artifact": str(artifact_path),
+        "status": result.get("status"),
+        "counts": counts,
+        "artifact_hash_matches_reexecution": (
+            artifact.get("content_sha256") == result.get("content_sha256")
+        ),
+        "bounded_coordinate_atoms": control.get("bounded_coordinate_atoms"),
+        "covariant_hyperbolicity_components": covariant,
+        "Frechet_majorant_derivatives": control.get("Frechet_majorant_derivatives"),
+        "negative_control": control.get("negative_control"),
+        "configuration_radius_negative": {
+            "status": negative.get("status"),
+            "errors": negative.get("errors"),
+        },
+        "scope": result.get("scope"),
+    }
+
+
 def _quartic_horndeski_covariant_adm_control(
     root: Path,
 ) -> tuple[bool, dict[str, Any]]:
@@ -3115,6 +3173,12 @@ def run_formal_control_suite(
             "All 12 fixed-coefficient linear-X quartic candidates possess a smooth uniformly positive symmetrizer for the complete 55-state nonquasilinear first-order reduction.",
             "The acceleration-independent remainder retains mixed and spatial second derivatives. The exact Appendix-A identities reduce the equations to a first-order system in q, v_0, and v_i; the certified 22-state Riesz symmetrizer lifts through F=L^dagger K M^-1 to an explicitly bounded positive 55-state symmetrizer. This yields a conditional local gauge-fixed vacuum Cauchy theorem for compatible data in the box interior, but no lifespan, long-time box trapping, matter, boundary, or observational certificate.",
             lambda: _quartic_nonquasilinear_pde_campaign_control(root),
+        ),
+        _run_check(
+            "quartic_linear_x_coordinate_jet_hyperbolicity_tube",
+            "All 12 fixed-coefficient linear-X quartic candidates possess a common nonzero coordinate-state 2-jet tube that maps strictly inside the certified covariant hyperbolicity box.",
+            "The orthonormal symmetric-metric basis gives an exact Frobenius perturbation identity. Neumann-series and tensor-product majorants bound the inverse metric, connection, scalar Hessian, curvature, and upper Einstein tensor, with nonnegative radial Frechet envelopes through order four. A 1e-13 coordinate-component tube passes all three covariant-jet margins; 1e-12 rejects. Euler-remainder and commuted gauge-source bounds, lifespan, and tube preservation remain open.",
+            lambda: _quartic_coordinate_jet_tube_campaign_control(root),
         ),
         _run_check(
             "quartic_horndeski_timelike_flat_physical_hamiltonian",

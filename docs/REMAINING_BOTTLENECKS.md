@@ -291,6 +291,13 @@ box interior. The remaining bridge is quantitative nonlinear constraint/gauge re
 source and state-to-jet commutator estimates, boundary energy, a computable lifespan, and proof of
 long-time bootstrap invariance.
 
+The state-to-jet side now has a quantitative coordinate tube. A common `1e-13` bound on 153
+normalized coordinate 2-jet atoms implies strict component bounds for `nabla(phi)`,
+`nabla nabla(phi)`, and `G^mu nu` inside the existing `2e-10` covariant box, and positive radial
+majorants provide derivative envelopes through order four. The next unresolved estimate is no
+longer the geometry map itself: it is a termwise majorant for the acceleration-independent Euler
+remainder and the nonlinear modified-harmonic gauge/constraint source composed with this tube.
+
 The physical-space principal reduction is no longer implicit. The directional 22-by-22 companion
 has been lifted exactly to the genuine 55-variable three-dimensional state `(q_A,v_A,w_iA)`, with
 33 definition constraints and 33 independent curl constraints that propagate. The nonlinear

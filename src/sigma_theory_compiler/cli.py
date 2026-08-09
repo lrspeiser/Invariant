@@ -45,6 +45,10 @@ from .quartic_constraint_reconstruction_campaign import (
     run_quartic_constraint_reconstruction_campaign,
     write_quartic_constraint_reconstruction_campaign,
 )
+from .quartic_coordinate_jet_tube_campaign import (
+    run_quartic_coordinate_jet_tube_campaign,
+    write_quartic_coordinate_jet_tube_campaign,
+)
 from .quartic_dirac_hamiltonian_campaign import (
     run_quartic_dirac_hamiltonian_campaign,
     write_quartic_dirac_hamiltonian_campaign,
@@ -557,6 +561,15 @@ def _parser() -> argparse.ArgumentParser:
     )
     quartic_nonquasilinear_pde.add_argument("--config", type=Path, required=True)
     quartic_nonquasilinear_pde.add_argument("--output", type=Path, required=True)
+    quartic_coordinate_tube = subparsers.add_parser(
+        "quartic-coordinate-jet-tube-campaign",
+        help="Place a uniform coordinate 2-jet tube inside the quartic covariant box",
+    )
+    quartic_coordinate_tube.add_argument(
+        "--nonquasilinear-pde-campaign", type=Path, required=True
+    )
+    quartic_coordinate_tube.add_argument("--config", type=Path, required=True)
+    quartic_coordinate_tube.add_argument("--output", type=Path, required=True)
     dhost_compile = subparsers.add_parser(
         "dhost-pack-compile",
         help="Compile a reduced rank-one quadratic DHOST kinetic family",
@@ -1453,6 +1466,29 @@ def main(argv: list[str] | None = None) -> int:
             0
             if result["status"]
             == "pass_all_12_full_55_state_nonquasilinear_strong_hyperbolicity_lifts"
+            else 1
+        )
+    if args.command == "quartic-coordinate-jet-tube-campaign":
+        nonquasilinear_pde_campaign = json.loads(
+            args.nonquasilinear_pde_campaign.read_text(encoding="utf-8")
+        )
+        config = json.loads(args.config.read_text(encoding="utf-8"))
+        result = run_quartic_coordinate_jet_tube_campaign(
+            nonquasilinear_pde_campaign, config
+        )
+        path = write_quartic_coordinate_jet_tube_campaign(result, args.output)
+        print(f"status={result['status']}")
+        print(f"selected={result['counts']['selected']}")
+        print(
+            "coordinate_jet_tubes_passed="
+            f"{result['counts']['coordinate_jet_tubes_passed']}"
+        )
+        print(f"rejected={result['counts']['rejected']}")
+        print(f"report={path}")
+        return (
+            0
+            if result["status"]
+            == "pass_all_12_uniform_coordinate_2jet_to_covariant_hyperbolicity_tubes"
             else 1
         )
     if args.command == "dhost-pack-compile":

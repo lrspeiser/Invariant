@@ -144,6 +144,11 @@ the Euler remainder is acceleration-independent but retains mixed and spatial se
 The resulting local vacuum gauge-fixed Cauchy statement remains conditional on compatible data in
 the certified box interior. Lifespan, long-time trapping, gauge/source commutators, boundaries,
 matter evolution, and observations remain open.
+The coordinate meaning of “inside the box” is now explicit for these 12 candidates: bounding the
+153 normalized metric-deviation, first-partial, and acceleration-free second-partial atoms by
+`1e-13` keeps all `nabla(phi)`, scalar-Hessian, and upper-Einstein components strictly below
+`2e-10`. Fréchet majorants are available through order four; the Euler remainder and nonlinear
+gauge/constraint source still need the corresponding composition bounds.
 The compiled FLRW background system now has a reusable outward-rounded interval integrator. The
 canonical massless-scalar control encloses the analytic stiff-FLRW endpoint for all 40 accepted
 steps while uniformly bounding the constraint and health margins; off-constraint, singular-matrix,

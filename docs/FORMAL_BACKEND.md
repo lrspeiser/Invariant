@@ -338,6 +338,19 @@ nonquasilinear local well-posedness theorem only for compatible vacuum gauge-fix
 compact subset of the box interior; it does not assign a lifespan or certify long-time trapping,
 boundaries, matter evolution, or observations.
 
+That compact-subset condition now has an explicit coordinate realization. In the normalized
+55-state basis, the ten metric deviations obey the exact identity
+`||h_mu_nu||_F^2=sum_A h_A^2`, including the `sqrt(2)` off-diagonal convention. Bounding those
+ten deviations, all 44 field first partials, and the 99 acceleration-free symmetric second
+partials by `rho` gives a 153-atom component norm. A Neumann majorant for `g^-1`, followed by
+termwise connection, connection-derivative, Riemann, Ricci, scalar-curvature, and Einstein-tensor
+majorants, proves that `rho=1e-13` maps strictly inside the common `2e-10` covariant-jet box.
+The worst of the three hyperbolicity inputs is `|G^mu nu|<4.81e-11`. Differentiating the positive
+radial majorants supplies ordered component Fréchet envelopes through order four. The `1e-12`
+radius fails the sufficient Einstein-tensor margin and is an exact negative. This closes the
+coordinate-to-covariant geometry part of the local tube, not the Euler remainder or commuted
+modified-harmonic gauge source.
+
 The bounded campaign adapter now consumes that exact partition without recompiling known
 noneligible assignments. It rebinds all eligible assignments, solves the FLRW energy constraint
 near a declared shared seed, and interval-certifies each resulting trajectory. For the current
