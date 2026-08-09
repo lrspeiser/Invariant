@@ -288,6 +288,17 @@ and the unitary-clock normal-gradient perturbation for all 12 cases. `Theta=0`, 
 infrared inverse Laplacian, and a broken artifact hash reject. Time derivatives of these auxiliaries
 and nonlinear constraint products remain the next missing reconstruction estimates.
 
+The time-reconstruction campaign now closes the first of those two items. It differentiates the
+exact `alpha_k` and physical `B_i(k)` solutions and eliminates `ddot(zeta)` using the reduced scalar
+Euler equation. Exact rational bounds on the logarithmic FLRW drift of `R=G_T/Theta`,
+`S=G_S/G_T`, and `G_S`, together with the scalar damping and `F_S/G_S` cone, yield uniform
+operators for `dot(alpha)` and `dot(B_i)` in spatial `C1`. Because this requires one more spatial
+derivative, the campaign proves and applies an explicit `H^4 -> C^2` Fourier-lattice embedding;
+order three is an exact fail-closed negative. All 12 pass with a positive chained initial-energy
+radius. Omitting the scalar acceleration equation leaves a nonzero exact residual and rejects.
+The remaining bridge is genuinely nonlinear: products and commutators in the constraints and
+modified-harmonic gauge sector must be bounded in the complete first-order system.
+
 The bounded campaign adapter now consumes that exact partition without recompiling known
 noneligible assignments. It rebinds all eligible assignments, solves the FLRW energy constraint
 near a declared shared seed, and interval-certifies each resulting trajectory. For the current

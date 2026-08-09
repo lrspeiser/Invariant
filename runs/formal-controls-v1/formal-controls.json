@@ -360,7 +360,7 @@
         "primary_source": "https://arxiv.org/abs/gr-qc/0405109",
         "raw_cross_bracket": "2*(-M*n00*p00 - 2*M*n01*p01 - 2*M*n02*p02 - M*n11*p11 - 2*M*n12*p12 - M*n22*p22 + N*m00*p00 + 2*N*m01*p01 + 2*N*m02*p02 + N*m11*p11 + 2*N*m12*p12 + N*m22*p22)",
         "scope": "exact nonlinear pure-GR H-H hypersurface-deformation bracket; lapse/shift primary constraints and D-D/D-H sectors are covered by companion controls, while Einstein-Aether extra-field constraints remain separate",
-        "smeared_momentum_constraint": "2*(M*N0*Pdiv0 + M*N1*Pdiv1 + M*N2*Pdiv2 - M0*N*Pdiv0 - M1*N*Pdiv1 - M2*N*Pdiv2)",
+        "smeared_momentum_constraint": "-2*(-M*N0*Pdiv0 - M*N1*Pdiv1 - M*N2*Pdiv2 + M0*N*Pdiv0 + M1*N*Pdiv1 + M2*N*Pdiv2)",
         "spatial_dimension": 3,
         "structure_shift": "S^i=q^{ij}(N partial_j M-M partial_j N)",
         "ultralocal_cancellations": [
@@ -5127,6 +5127,53 @@
       "status": "pass"
     },
     {
+      "claim": "All 12 fixed-coefficient linear-X quartic candidates possess bounded linear lapse and physical longitudinal-shift reconstruction through one time derivative, chained to explicit positive Sobolev-energy radii.",
+      "evidence": {
+        "artifact": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\runs\\physics-language\\quartic-auxiliary-time-campaign\\campaign.json",
+        "artifact_hash_matches_reexecution": true,
+        "config": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\configs\\backgrounds\\quartic_auxiliary_time_campaign.json",
+        "counts": {
+          "linear_auxiliary_time_reconstruction_passed": 12,
+          "rejected": 0,
+          "selected": 12
+        },
+        "dirac_campaign": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\runs\\physics-language\\quartic-dirac-hamiltonian-campaign\\campaign.json",
+        "energy_campaign": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\runs\\physics-language\\quartic-linearized-energy-campaign\\campaign.json",
+        "final_initial_energy_numeric_range": [
+          5.1790073780284905e-49,
+          5.1790073780284905e-49
+        ],
+        "hash_mismatch_negative": {
+          "errors": [
+            "reconstruction prerequisite hash mismatch"
+          ],
+          "status": "reject"
+        },
+        "negative_controls": {
+          "insufficient_sobolev_order": {
+            "error": "Sobolev order must exceed 7/2 to control second spatial derivatives",
+            "mutated_order": 3,
+            "rejected": true
+          },
+          "omitted_scalar_acceleration_equation": {
+            "corruption": "differentiate auxiliaries but omit the scalar acceleration equation",
+            "exact_witness_residual": "-2001",
+            "rejected": true
+          }
+        },
+        "reconstruction_campaign": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\runs\\physics-language\\quartic-constraint-reconstruction-campaign\\campaign.json",
+        "scope": "The linear scalar reconstruction chain is complete through spatial C1 and one time derivative. Nonlinear products, full gauge-sector variables, quasilinear commutators, PDE trapping, and boundary energy remain fail-closed.",
+        "status": "pass_all_12_linear_auxiliary_time_reconstructions",
+        "time_reconstruction_operator_numeric_range": [
+          34641016159.86282,
+          34641016159.86282
+        ]
+      },
+      "name": "quartic_linear_x_auxiliary_time_reconstruction",
+      "scope": "Exact time differentiation of the KYY auxiliary solutions followed by elimination of ddot(zeta) with the reduced scalar equation; candidate-specific R/S/G_S drift, damping, sound-cone, C2 Sobolev, and infrared bounds. An omitted-acceleration equation and insufficient Sobolev order reject. Nonlinear products, modified-harmonic gauge sectors, quasilinear commutators, full PDE trapping, and boundary energy remain unresolved.",
+      "status": "pass"
+    },
+    {
       "claim": "The named quartic-Horndeski action has a positive three-mode reduced quadratic Hamiltonian on its healthy flat constant-timelike-gradient patch.",
       "evidence": {
         "action_binding_passed": true,
@@ -6678,10 +6725,10 @@
   ],
   "counts": {
     "failed": 0,
-    "passed": 97,
-    "total": 97
+    "passed": 98,
+    "total": 98
   },
-  "created_utc": "2026-08-09T20:15:49.949525+00:00",
+  "created_utc": "2026-08-09T20:37:01.600242+00:00",
   "field_contract": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\configs\\covariant_field_contract.json",
   "interpretation": "Passing controls validates only the stated algebraic scopes. It is not evidence that a generated gravity candidate is healthy or empirically correct.",
   "schema_version": "sigma-formal-controls-1.0"

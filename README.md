@@ -364,6 +364,17 @@ python -m sigma_theory_compiler quartic-constraint-reconstruction-campaign `
   --output runs/physics-language/quartic-constraint-reconstruction-campaign
 ```
 
+Extend the reconstructed auxiliaries through one time derivative with:
+
+```powershell
+python -m sigma_theory_compiler quartic-auxiliary-time-campaign `
+  --dirac-campaign runs/physics-language/quartic-dirac-hamiltonian-campaign/campaign.json `
+  --energy-campaign runs/physics-language/quartic-linearized-energy-campaign/campaign.json `
+  --reconstruction-campaign runs/physics-language/quartic-constraint-reconstruction-campaign/campaign.json `
+  --config configs/backgrounds/quartic_auxiliary_time_campaign.json `
+  --output runs/physics-language/quartic-auxiliary-time-campaign
+```
+
 Compile and execute a bounded scalar action variation through Cadabra:
 
 ```powershell

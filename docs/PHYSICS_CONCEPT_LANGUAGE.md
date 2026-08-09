@@ -176,9 +176,11 @@ This is not promoted to a nonlinear trapping claim: constraint/gauge reconstruct
 22-variable energy, multidimensional nonlinear products, and boundary generators remain separate
 language capabilities. The linear scalar constraint layer is now partially generated rather than
 hand-waved: it derives bounded lapse and longitudinal-shift operators, isolates the harmless
-periodic zero-mode potential kernel, and tightens the admissible energy radius. Auxiliary time
-derivatives and nonlinear reconstruction are still required before this language can emit a full
-spacetime-jet trapping certificate.
+periodic zero-mode potential kernel, and tightens the admissible energy radius. The next adapter
+also generates the linear auxiliary time derivatives: it differentiates the reconstruction IR, substitutes the scalar Euler equation,
+and emits exact coefficient-drift and `C2` Sobolev bounds. Nonlinear products, gauge-sector
+commutators, the complete first-order state, and a full spacetime-jet trapping certificate remain
+outside the pass claim.
 
 The 6 `G3`-only formulas are routed to the dedicated cubic-Horndeski BSSN/CCZ4 weak-field theorem.
 Its compiler contract keeps the source conditions explicit rather than inventing a universal

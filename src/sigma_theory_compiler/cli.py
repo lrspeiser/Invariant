@@ -37,6 +37,10 @@ from .observation_eligibility import (
 )
 from .physics_language import compile_physics_program
 from .principal_ir import compile_physical_principal_ir, write_physical_principal_ir
+from .quartic_auxiliary_time_campaign import (
+    run_quartic_auxiliary_time_campaign,
+    write_quartic_auxiliary_time_campaign,
+)
 from .quartic_constraint_reconstruction_campaign import (
     run_quartic_constraint_reconstruction_campaign,
     write_quartic_constraint_reconstruction_campaign,
@@ -465,6 +469,17 @@ def _parser() -> argparse.ArgumentParser:
     quartic_reconstruction.add_argument("--energy-campaign", type=Path, required=True)
     quartic_reconstruction.add_argument("--config", type=Path, required=True)
     quartic_reconstruction.add_argument("--output", type=Path, required=True)
+    quartic_auxiliary_time = subparsers.add_parser(
+        "quartic-auxiliary-time-campaign",
+        help="Bound time derivatives of reconstructed quartic lapse/shift auxiliaries",
+    )
+    quartic_auxiliary_time.add_argument("--dirac-campaign", type=Path, required=True)
+    quartic_auxiliary_time.add_argument("--energy-campaign", type=Path, required=True)
+    quartic_auxiliary_time.add_argument(
+        "--reconstruction-campaign", type=Path, required=True
+    )
+    quartic_auxiliary_time.add_argument("--config", type=Path, required=True)
+    quartic_auxiliary_time.add_argument("--output", type=Path, required=True)
     dhost_compile = subparsers.add_parser(
         "dhost-pack-compile",
         help="Compile a reduced rank-one quadratic DHOST kinetic family",
@@ -1200,6 +1215,35 @@ def main(argv: list[str] | None = None) -> int:
         return (
             0
             if result["status"] == "pass_all_12_linear_constraint_reconstructions"
+            else 1
+        )
+    if args.command == "quartic-auxiliary-time-campaign":
+        dirac_campaign = json.loads(
+            args.dirac_campaign.read_text(encoding="utf-8")
+        )
+        energy_campaign = json.loads(
+            args.energy_campaign.read_text(encoding="utf-8")
+        )
+        reconstruction_campaign = json.loads(
+            args.reconstruction_campaign.read_text(encoding="utf-8")
+        )
+        config = json.loads(args.config.read_text(encoding="utf-8"))
+        result = run_quartic_auxiliary_time_campaign(
+            dirac_campaign, energy_campaign, reconstruction_campaign, config
+        )
+        path = write_quartic_auxiliary_time_campaign(result, args.output)
+        print(f"status={result['status']}")
+        print(f"selected={result['counts']['selected']}")
+        print(
+            "auxiliary_time_passed="
+            f"{result['counts']['linear_auxiliary_time_reconstruction_passed']}"
+        )
+        print(f"rejected={result['counts']['rejected']}")
+        print(f"report={path}")
+        return (
+            0
+            if result["status"]
+            == "pass_all_12_linear_auxiliary_time_reconstructions"
             else 1
         )
     if args.command == "dhost-pack-compile":
