@@ -419,6 +419,24 @@ terms cannot be omitted. The next separate gate is the full gauge-fixed quartic 
 evolution source and elimination of the 11 time-time second partials; this map does not claim
 nonlinear PDE bootstrap closure.
 
+Generate the complete local gauge-fixed vacuum Euler source and solve the 11 second-time
+partials with:
+
+```powershell
+python -m sigma_theory_compiler quartic-nonlinear-evolution-campaign `
+  --geometric-campaign runs/physics-language/quartic-geometric-jet-campaign/campaign.json `
+  --config configs/backgrounds/quartic_nonlinear_evolution_campaign.json `
+  --output runs/physics-language/quartic-nonlinear-evolution-campaign
+```
+
+The source is the exact `G2=X+c20 X^2`, `G4=M2/2+alpha X` metric/scalar Euler system plus
+the covariant modified-harmonic completion. It defines the two prescribed auxiliary inverse
+metrics, reference connection, and gauge-source covector explicitly; matter still couples only
+to the physical metric. The acceleration Jacobian exactly reproduces the independently extracted
+11-by-11 principal time block on a nontrivial curved/Hessian jet, and each candidate has a nonzero
+source solution inside its certified local box. Nonlinear box invariance, source/symmetrizer
+derivative estimates, boundary conditions, and the PDE bootstrap remain separate fail-closed gates.
+
 Compile and execute a bounded scalar action variation through Cadabra:
 
 ```powershell

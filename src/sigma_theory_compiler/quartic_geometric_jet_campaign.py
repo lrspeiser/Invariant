@@ -17,6 +17,10 @@ SYMMETRIC_METRIC_PAIRS = tuple(
     for left in range(DIMENSION)
     for right in range(left, DIMENSION)
 )
+SYMMETRIC_METRIC_WEIGHTS = tuple(
+    sp.Integer(1) if left == right else sp.sqrt(2)
+    for left, right in SYMMETRIC_METRIC_PAIRS
+)
 
 
 class QuarticGeometricJetError(ValueError):
@@ -141,6 +145,9 @@ def reconstruct_covariant_geometry(
             )
 
     return {
+        "metric": metric,
+        "metric_first": _simplify_tensor(list(metric_first)),
+        "metric_second": _simplify_tensor(list(metric_second)),
         "inverse_metric": inverse,
         "inverse_metric_first": _simplify_tensor(inverse_first),
         "connection": _simplify_tensor(connection),
@@ -167,8 +174,9 @@ def state_to_covariant_geometry(
 
     metric = sp.zeros(DIMENSION)
     for field, (left, right) in enumerate(SYMMETRIC_METRIC_PAIRS):
-        metric[left, right] = state[field]
-        metric[right, left] = state[field]
+        component = state[field] / SYMMETRIC_METRIC_WEIGHTS[field]
+        metric[left, right] = component
+        metric[right, left] = component
 
     def gradient_index(derivative: int, field: int) -> int:
         return 11 + field if derivative == 0 else 22 + 11 * (derivative - 1) + field
@@ -187,11 +195,13 @@ def state_to_covariant_geometry(
     metric_first = _zero_tensor((DIMENSION, DIMENSION, DIMENSION))
     metric_second = _zero_tensor((DIMENSION, DIMENSION, DIMENSION, DIMENSION))
     for field, (left, right) in enumerate(SYMMETRIC_METRIC_PAIRS):
+        weight = SYMMETRIC_METRIC_WEIGHTS[field]
         for derivative in range(DIMENSION):
-            metric_first[derivative][left][right] = first[derivative][field]
-            metric_first[derivative][right][left] = first[derivative][field]
+            first_component = first[derivative][field] / weight
+            metric_first[derivative][left][right] = first_component
+            metric_first[derivative][right][left] = first_component
             for second_derivative in range(DIMENSION):
-                value = second[derivative][second_derivative][field]
+                value = second[derivative][second_derivative][field] / weight
                 metric_second[derivative][second_derivative][left][right] = value
                 metric_second[derivative][second_derivative][right][left] = value
 
@@ -223,7 +233,12 @@ def _coordinate_state(
     scalar: sp.Expr,
     coordinates: Sequence[sp.Symbol],
 ) -> tuple[list[sp.Expr], list[list[sp.Expr]]]:
-    fields = [metric[left, right] for left, right in SYMMETRIC_METRIC_PAIRS] + [scalar]
+    fields = [
+        weight * metric[left, right]
+        for weight, (left, right) in zip(
+            SYMMETRIC_METRIC_WEIGHTS, SYMMETRIC_METRIC_PAIRS, strict=True
+        )
+    ] + [scalar]
     state = list(fields)
     for derivative in range(DIMENSION):
         state.extend(sp.diff(field, coordinates[derivative]) for field in fields)
@@ -308,6 +323,24 @@ def geometric_state_to_jet_control() -> tuple[bool, dict[str, Any]]:
         cylindrical["partial_jet"]["integrability_residuals"]
     ) and _all_zero(flrw["partial_jet"]["integrability_residuals"])
 
+    shear = y
+    sheared_metric = sp.Matrix(
+        [
+            [-1, 0, 0, 0],
+            [0, 1, shear, 0],
+            [0, shear, 1 + shear**2, 0],
+            [0, 0, 0, 1],
+        ]
+    )
+    sheared_state = _coordinate_state(
+        sheared_metric, x, flrw_coordinates
+    )
+    sheared = state_to_covariant_geometry(*sheared_state)
+    off_diagonal_roundtrip_residual = (
+        sheared["metric"] - sheared_metric
+    ).applyfunc(sp.factor)
+    sheared_flat_curvature_zero = _all_zero(sheared["riemann_up"])
+
     passed = bool(
         cylindrical_connection_nonzero
         and flat_curvature_zero
@@ -317,6 +350,8 @@ def geometric_state_to_jet_control() -> tuple[bool, dict[str, Any]]:
         and _all_zero(flrw_einstein_residuals)
         and _all_zero(inverse_compatibility)
         and integrability_zero
+        and off_diagonal_roundtrip_residual.is_zero_matrix
+        and sheared_flat_curvature_zero
     )
     formula_contract = {
         "connection": "Gamma^rho_mu_nu=1/2 g^rho_sigma(d_mu g_sigma_nu+d_nu g_sigma_mu-d_sigma g_mu_nu)",
@@ -334,6 +369,9 @@ def geometric_state_to_jet_control() -> tuple[bool, dict[str, Any]]:
             "coordinate_gradient_components": 44,
             "input_derivative_shape": [4, 55],
             "spacetime_integrability_residual_count": 66,
+            "metric_component_encoding": (
+                "q_(mu,mu)=g_mu_mu; q_(mu,nu)=sqrt(2) g_mu_nu for mu<nu"
+            ),
         },
         "outputs": [
             "g^mu_nu",
@@ -364,6 +402,14 @@ def geometric_state_to_jet_control() -> tuple[bool, dict[str, Any]]:
             "inverse_derivative_compatibility_residuals": [
                 str(item) for item in inverse_compatibility
             ],
+        },
+        "off_diagonal_basis_control": {
+            "metric": "-dt^2+(dx+y dy)^2+dy^2+dz^2",
+            "q_12": "sqrt(2)*y",
+            "metric_roundtrip_residual_zero": (
+                off_diagonal_roundtrip_residual.is_zero_matrix
+            ),
+            "riemann_zero": sheared_flat_curvature_zero,
         },
         "integrability_residuals_zero_on_coordinate_jets": integrability_zero,
         "negative_controls": {

@@ -32,6 +32,12 @@ def test_exact_state_to_covariant_jet_controls_include_lower_order_terms() -> No
     assert evidence["state"]["U_dimension"] == 55
     assert evidence["curvilinear_flat_control"]["connection_nonzero"]
     assert evidence["curvilinear_flat_control"]["riemann_zero"]
+    assert evidence["off_diagonal_basis_control"] == {
+        "metric": "-dt^2+(dx+y dy)^2+dy^2+dz^2",
+        "q_12": "sqrt(2)*y",
+        "metric_roundtrip_residual_zero": True,
+        "riemann_zero": True,
+    }
     assert evidence["curved_control"]["einstein_residuals"] == ["0"] * 16
     assert all(
         item["rejected"] for item in evidence["negative_controls"].values()

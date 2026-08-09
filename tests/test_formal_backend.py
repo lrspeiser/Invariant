@@ -77,6 +77,20 @@ def test_all_formal_known_answer_controls_pass(tmp_path) -> None:
         item["rejected"]
         for item in geometric_jet["evidence"]["negative_controls"].values()
     )
+    nonlinear_source = checks[
+        "quartic_linear_x_gauge_fixed_nonlinear_evolution_source"
+    ]
+    assert nonlinear_source["status"] == "pass"
+    assert nonlinear_source["evidence"]["artifact_hash_matches_reexecution"]
+    assert nonlinear_source["evidence"]["time_acceleration_affine_residual_zero"]
+    assert nonlinear_source["evidence"][
+        "independent_principal_time_block_residual_zero"
+    ]
+    assert nonlinear_source["evidence"]["sample_solution"]["solution_residual_zero"]
+    assert all(
+        item["rejected"]
+        for item in nonlinear_source["evidence"]["negative_controls"].values()
+    )
     assert checks["projected_aether_q_fixed_metric_first_variation"]["status"] == "pass"
     assert checks["projected_aether_q_fixed_metric_first_variation"]["evidence"][
         "projector_and_B_first_variation_residual"

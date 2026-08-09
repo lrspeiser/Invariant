@@ -360,7 +360,7 @@
         "primary_source": "https://arxiv.org/abs/gr-qc/0405109",
         "raw_cross_bracket": "2*(-M*n00*p00 - 2*M*n01*p01 - 2*M*n02*p02 - M*n11*p11 - 2*M*n12*p12 - M*n22*p22 + N*m00*p00 + 2*N*m01*p01 + 2*N*m02*p02 + N*m11*p11 + 2*N*m12*p12 + N*m22*p22)",
         "scope": "exact nonlinear pure-GR H-H hypersurface-deformation bracket; lapse/shift primary constraints and D-D/D-H sectors are covered by companion controls, while Einstein-Aether extra-field constraints remain separate",
-        "smeared_momentum_constraint": "2*(M*N0*Pdiv0 + M*N1*Pdiv1 + M*N2*Pdiv2 - M0*N*Pdiv0 - M1*N*Pdiv1 - M2*N*Pdiv2)",
+        "smeared_momentum_constraint": "-2*(-M*N0*Pdiv0 - M*N1*Pdiv1 - M*N2*Pdiv2 + M0*N*Pdiv0 + M1*N*Pdiv1 + M2*N*Pdiv2)",
         "spatial_dimension": 3,
         "structure_shift": "S^i=q^{ij}(N partial_j M-M partial_j N)",
         "ultralocal_cancellations": [
@@ -5381,6 +5381,12 @@
             "rejected": true
           }
         },
+        "off_diagonal_basis_control": {
+          "metric": "-dt^2+(dx+y dy)^2+dy^2+dz^2",
+          "metric_roundtrip_residual_zero": true,
+          "q_12": "sqrt(2)*y",
+          "riemann_zero": true
+        },
         "prerequisite_corruption_negative": {
           "errors": [
             "first-order campaign prerequisite failed"
@@ -5392,6 +5398,67 @@
       },
       "name": "quartic_linear_x_nonlinear_geometric_state_to_jet_map",
       "scope": "The executable coordinate map retains inverse-metric derivative, connection, and connection-squared terms. Cylindrical Minkowski has nonzero connection but exactly zero Riemann curvature, FLRW reproduces all 16 Einstein components, and omissions of the Hessian connection or Riemann Gamma-squared term reject. The gauge-fixed quartic evolution source, time-time derivative elimination, gauge drivers, symmetrizer derivatives, and nonlinear PDE bootstrap remain unresolved.",
+      "status": "pass"
+    },
+    {
+      "claim": "All 12 fixed-coefficient linear-X quartic candidates are bound to the exact covariant modified-harmonic vacuum Euler source and an exact local solution for all 11 second-time partials.",
+      "evidence": {
+        "artifact": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\runs\\physics-language\\quartic-nonlinear-evolution-campaign\\campaign.json",
+        "artifact_hash_matches_reexecution": true,
+        "config": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\configs\\backgrounds\\quartic_nonlinear_evolution_campaign.json",
+        "counts": {
+          "nonlinear_time_acceleration_eliminations_passed": 12,
+          "rejected": 0,
+          "selected": 12
+        },
+        "curvilinear_reference_connection_control": {
+          "Delta_Gamma_zero_with_matching_flat_reference": true,
+          "gauge_completion_zero": true,
+          "metric": "diag(-1,1,r^2,1)",
+          "omitted_reference_connection_nonzero": true,
+          "physical_connection_nonzero": true
+        },
+        "formula_contract_sha256": "ef174eff2e04e5b6a4ce2a4eead9c1a2af3f36dd8d93b2adf153cab4eb3354fd",
+        "geometric_campaign": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\runs\\physics-language\\quartic-geometric-jet-campaign\\campaign.json",
+        "independent_principal_time_block_residual_zero": true,
+        "negative_controls": {
+          "omit_modified_harmonic_gauge_completion": {
+            "nonzero_matrix_entries": 19,
+            "rejected": true
+          },
+          "omit_riemann_gradient_metric_term": {
+            "nonzero_matrix_entries": 21,
+            "rejected": true
+          },
+          "singular_time_block": {
+            "determinant": "0",
+            "rank": 10,
+            "rejected": true,
+            "witness": "M2=2, alpha=1, c20=0, p=H=0, G^00=-1/2"
+          }
+        },
+        "prerequisite_corruption_negative": {
+          "errors": [
+            "geometric-jet campaign prerequisite failed"
+          ],
+          "status": "reject"
+        },
+        "sample_solution": {
+          "coefficients": {
+            "M2": "1",
+            "alpha": "1/2",
+            "c20": "1"
+          },
+          "maximum_abs_acceleration_numeric": 3.797056274847431e-11,
+          "solution_residual_zero": true,
+          "time_block_determinant_nonzero": true
+        },
+        "scope": "This supplies the exact local gauge-fixed vacuum Euler source and solves all 11 second-time partials wherever the certified time block is invertible. It does not yet prove that nonlinear evolution preserves the local-jet box, bound derivatives of the 55-variable symmetrizer/source, close commuted Sobolev estimates, include matter sources, establish boundary conditions, or prove a PDE bootstrap.",
+        "status": "pass_all_12_exact_local_nonlinear_time_acceleration_eliminations",
+        "time_acceleration_affine_residual_zero": true
+      },
+      "name": "quartic_linear_x_gauge_fixed_nonlinear_evolution_source",
+      "scope": "The full G2=X+c20 X^2, G4=M2/2+alpha X metric/scalar Euler tensor is combined with prescribed auxiliary metrics, a reference connection, and gauge source. Its acceleration Jacobian exactly equals the independent principal time block on a nonzero curved/Hessian jet, all acceleration-quadratic residuals vanish, and every candidate solves a nonzero source inside its certified box. Gauge, Riemann-term, and singular-time-block omissions reject. Nonlinear box invariance, source/symmetrizer derivative bounds, boundary conditions, commuted estimates, and PDE bootstrap remain unresolved.",
       "status": "pass"
     },
     {
@@ -6946,10 +7013,10 @@
   ],
   "counts": {
     "failed": 0,
-    "passed": 101,
-    "total": 101
+    "passed": 102,
+    "total": 102
   },
-  "created_utc": "2026-08-09T22:07:58.637253+00:00",
+  "created_utc": "2026-08-09T22:50:52.209696+00:00",
   "field_contract": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\configs\\covariant_field_contract.json",
   "interpretation": "Passing controls validates only the stated algebraic scopes. It is not evidence that a generated gravity candidate is healthy or empirically correct.",
   "schema_version": "sigma-formal-controls-1.0"

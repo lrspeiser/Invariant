@@ -65,6 +65,10 @@ from .quartic_linearized_energy_campaign import (
     run_quartic_linearized_energy_campaign,
     write_quartic_linearized_energy_campaign,
 )
+from .quartic_nonlinear_evolution_campaign import (
+    run_quartic_nonlinear_evolution_campaign,
+    write_quartic_nonlinear_evolution_campaign,
+)
 from .quartic_quasilinear_moser_campaign import (
     run_quartic_quasilinear_moser_campaign,
     write_quartic_quasilinear_moser_campaign,
@@ -519,6 +523,15 @@ def _parser() -> argparse.ArgumentParser:
     )
     quartic_geometric_jet.add_argument("--config", type=Path, required=True)
     quartic_geometric_jet.add_argument("--output", type=Path, required=True)
+    quartic_nonlinear_evolution = subparsers.add_parser(
+        "quartic-nonlinear-evolution-campaign",
+        help="Generate and solve the exact local gauge-fixed nonlinear quartic source",
+    )
+    quartic_nonlinear_evolution.add_argument(
+        "--geometric-campaign", type=Path, required=True
+    )
+    quartic_nonlinear_evolution.add_argument("--config", type=Path, required=True)
+    quartic_nonlinear_evolution.add_argument("--output", type=Path, required=True)
     dhost_compile = subparsers.add_parser(
         "dhost-pack-compile",
         help="Compile a reduced rank-one quadratic DHOST kinetic family",
@@ -1354,6 +1367,29 @@ def main(argv: list[str] | None = None) -> int:
             0
             if result["status"]
             == "pass_all_12_exact_nonlinear_geometric_state_to_jet_maps"
+            else 1
+        )
+    if args.command == "quartic-nonlinear-evolution-campaign":
+        geometric_campaign = json.loads(
+            args.geometric_campaign.read_text(encoding="utf-8")
+        )
+        config = json.loads(args.config.read_text(encoding="utf-8"))
+        result = run_quartic_nonlinear_evolution_campaign(
+            geometric_campaign, config
+        )
+        path = write_quartic_nonlinear_evolution_campaign(result, args.output)
+        print(f"status={result['status']}")
+        print(f"selected={result['counts']['selected']}")
+        print(
+            "nonlinear_time_acceleration_eliminations_passed="
+            f"{result['counts']['nonlinear_time_acceleration_eliminations_passed']}"
+        )
+        print(f"rejected={result['counts']['rejected']}")
+        print(f"report={path}")
+        return (
+            0
+            if result["status"]
+            == "pass_all_12_exact_local_nonlinear_time_acceleration_eliminations"
             else 1
         )
     if args.command == "dhost-pack-compile":

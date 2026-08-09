@@ -411,7 +411,7 @@
   ],
   "claim": "All 12 quartic candidates now share an exact nonlinear coordinate map from their 55-variable first-order state and its first derivatives to the connection, scalar Hessian, curvature, and Einstein tensor.",
   "config_sha256": "a8bff5b1a50a0c8bab8dcae660943dcea58d0afd3b1da8eeeef2148798231313",
-  "content_sha256": "6c43b1cb33f54b19aa2f4eef5eb51f8a5e0bdc64b21fbbb100931b5606fc38f6",
+  "content_sha256": "1569de3a0bb8af164804fc883e43dd13442695aaadcdbfa49cd7245cb0de7e56",
   "counts": {
     "geometric_state_to_jet_maps_passed": 12,
     "rejected": 0,
@@ -534,6 +534,12 @@
         "rejected": true
       }
     },
+    "off_diagonal_basis_control": {
+      "metric": "-dt^2+(dx+y dy)^2+dy^2+dz^2",
+      "metric_roundtrip_residual_zero": true,
+      "q_12": "sqrt(2)*y",
+      "riemann_zero": true
+    },
     "outputs": [
       "g^mu_nu",
       "partial_lambda g^mu_nu",
@@ -555,6 +561,7 @@
         4,
         55
       ],
+      "metric_component_encoding": "q_(mu,mu)=g_mu_mu; q_(mu,nu)=sqrt(2) g_mu_nu for mu<nu",
       "q_metric_components": 10,
       "q_scalar_components": 1,
       "spacetime_integrability_residual_count": 66

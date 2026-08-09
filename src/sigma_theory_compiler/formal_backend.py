@@ -116,6 +116,9 @@ from .quartic_linear_x_campaign import run_quartic_linear_x_symbol_campaign
 from .quartic_linearized_energy_campaign import (
     run_quartic_linearized_energy_campaign,
 )
+from .quartic_nonlinear_evolution_campaign import (
+    run_quartic_nonlinear_evolution_campaign,
+)
 from .quartic_quasilinear_moser_campaign import (
     run_quartic_quasilinear_moser_campaign,
 )
@@ -1711,6 +1714,11 @@ def _quartic_geometric_jet_campaign_control(
         and control.get("curvilinear_flat_control", {}).get("connection_nonzero")
         is True
         and control.get("curvilinear_flat_control", {}).get("riemann_zero") is True
+        and control.get("off_diagonal_basis_control", {}).get(
+            "metric_roundtrip_residual_zero"
+        )
+        is True
+        and control.get("off_diagonal_basis_control", {}).get("riemann_zero") is True
         and set(control.get("curved_control", {}).get("einstein_residuals", []))
         == {"0"}
         and all(
@@ -1738,6 +1746,87 @@ def _quartic_geometric_jet_campaign_control(
         "formula_contract_sha256": control.get("formula_contract_sha256"),
         "curvilinear_flat_control": control.get("curvilinear_flat_control"),
         "curved_control": control.get("curved_control"),
+        "off_diagonal_basis_control": control.get("off_diagonal_basis_control"),
+        "negative_controls": control.get("negative_controls"),
+        "prerequisite_corruption_negative": {
+            "status": negative.get("status"),
+            "errors": negative.get("errors"),
+        },
+        "scope": result.get("scope"),
+    }
+
+
+def _quartic_nonlinear_evolution_campaign_control(
+    root: Path,
+) -> tuple[bool, dict[str, Any]]:
+    base = root / "runs" / "physics-language"
+    geometric_path = base / "quartic-geometric-jet-campaign" / "campaign.json"
+    config_path = (
+        root
+        / "configs"
+        / "backgrounds"
+        / "quartic_nonlinear_evolution_campaign.json"
+    )
+    artifact_path = base / "quartic-nonlinear-evolution-campaign" / "campaign.json"
+    geometric = json.loads(geometric_path.read_text(encoding="utf-8"))
+    config = json.loads(config_path.read_text(encoding="utf-8"))
+    artifact = json.loads(artifact_path.read_text(encoding="utf-8"))
+    result = run_quartic_nonlinear_evolution_campaign(geometric, config)
+    corrupted = json.loads(json.dumps(geometric))
+    corrupted["status"] = "reject"
+    negative = run_quartic_nonlinear_evolution_campaign(corrupted, config)
+    certificates = result.get("certificates", [])
+    counts = result.get("counts", {})
+    control = result.get("nonlinear_evolution_control", {})
+    passed = bool(
+        result.get("status")
+        == "pass_all_12_exact_local_nonlinear_time_acceleration_eliminations"
+        and counts.get("selected") == 12
+        and counts.get("nonlinear_time_acceleration_eliminations_passed") == 12
+        and counts.get("rejected") == 0
+        and len(certificates) == 12
+        and control.get("passed") is True
+        and control.get("time_acceleration_affine_residual_zero") is True
+        and control.get("independent_principal_time_block_residual_zero") is True
+        and control.get("nonzero_lower_order_source") is True
+        and control.get("sample_solution", {}).get("solution_residual_zero") is True
+        and control.get("curvilinear_reference_connection_control", {}).get(
+            "Delta_Gamma_zero_with_matching_flat_reference"
+        )
+        is True
+        and all(
+            item.get("rejected") is True
+            for item in control.get("negative_controls", {}).values()
+        )
+        and all(
+            item.get("acceleration_solution_residual_zero") is True
+            and item.get("nonzero_source") is True
+            and item.get("maximum_solved_jet_component_numeric", 1) < 2e-10
+            for item in certificates
+        )
+        and artifact.get("content_sha256") == result.get("content_sha256")
+        and negative.get("status") == "reject"
+    )
+    return passed, {
+        "geometric_campaign": str(geometric_path),
+        "config": str(config_path),
+        "artifact": str(artifact_path),
+        "status": result.get("status"),
+        "counts": counts,
+        "artifact_hash_matches_reexecution": (
+            artifact.get("content_sha256") == result.get("content_sha256")
+        ),
+        "formula_contract_sha256": control.get("formula_contract_sha256"),
+        "time_acceleration_affine_residual_zero": control.get(
+            "time_acceleration_affine_residual_zero"
+        ),
+        "independent_principal_time_block_residual_zero": control.get(
+            "independent_principal_time_block_residual_zero"
+        ),
+        "sample_solution": control.get("sample_solution"),
+        "curvilinear_reference_connection_control": control.get(
+            "curvilinear_reference_connection_control"
+        ),
         "negative_controls": control.get("negative_controls"),
         "prerequisite_corruption_negative": {
             "status": negative.get("status"),
@@ -2922,6 +3011,12 @@ def run_formal_control_suite(
             "All 12 fixed-coefficient linear-X quartic candidates are bound to an exact nonlinear map from the 55-variable first-order state and its derivatives to the scalar covariant jet, Levi-Civita connection, curvature, and Einstein tensor.",
             "The executable coordinate map retains inverse-metric derivative, connection, and connection-squared terms. Cylindrical Minkowski has nonzero connection but exactly zero Riemann curvature, FLRW reproduces all 16 Einstein components, and omissions of the Hessian connection or Riemann Gamma-squared term reject. The gauge-fixed quartic evolution source, time-time derivative elimination, gauge drivers, symmetrizer derivatives, and nonlinear PDE bootstrap remain unresolved.",
             lambda: _quartic_geometric_jet_campaign_control(root),
+        ),
+        _run_check(
+            "quartic_linear_x_gauge_fixed_nonlinear_evolution_source",
+            "All 12 fixed-coefficient linear-X quartic candidates are bound to the exact covariant modified-harmonic vacuum Euler source and an exact local solution for all 11 second-time partials.",
+            "The full G2=X+c20 X^2, G4=M2/2+alpha X metric/scalar Euler tensor is combined with prescribed auxiliary metrics, a reference connection, and gauge source. Its acceleration Jacobian exactly equals the independent principal time block on a nonzero curved/Hessian jet, all acceleration-quadratic residuals vanish, and every candidate solves a nonzero source inside its certified box. Gauge, Riemann-term, and singular-time-block omissions reject. Nonlinear box invariance, source/symmetrizer derivative bounds, boundary conditions, commuted estimates, and PDE bootstrap remain unresolved.",
+            lambda: _quartic_nonlinear_evolution_campaign_control(root),
         ),
         _run_check(
             "quartic_horndeski_timelike_flat_physical_hamiltonian",
