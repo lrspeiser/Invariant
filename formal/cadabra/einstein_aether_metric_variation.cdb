@@ -1,0 +1,45 @@
+{a,b,c,d,e,f,m,n,p,q,r,s}::Indices(position=free).
+x::Coordinate.
+g_{a b}::Metric.
+g^{a b}::InverseMetric.
+h^{a b}::Symmetric.
+\nabla{#}::Derivative.
+u_{a}::Depends(x,\nabla{#}).
+D_{a b}::Depends(x,\nabla{#}).
+\lambda::Depends(x).
+
+# The covector u_a is the independent field.  D_ab denotes nabla_a u_b.
+# For h^{ab}=delta g^{ab}, metric compatibility gives the exact connection variation
+# delta D_ab = -delta Gamma^c_ab u_c in the form below.
+deltaD := 1/2 u_{c} (
+    g_{b e} \nabla_{a}{h^{e c}}
+  + g_{a e} \nabla_{b}{h^{e c}}
+  - g_{a e} g_{b f} \nabla^{c}{h^{e f}}
+);
+
+action := \int{sqrtg (
+ - c1/2 g^{a c} g^{b d} D_{a b} D_{c d}
+ - c2/2 g^{a b} g^{c d} D_{a b} D_{c d}
+ - c3/2 g^{b c} g^{a d} D_{a b} D_{c d}
+ + c4/2 g^{a e} u_{e} D_{a b} g^{b f} g^{c m} u_{m} D_{c f}
+ + \lambda (g^{a b} u_{a} u_{b} + 1)
+)}{x};
+
+vary(action, $sqrtg -> -sqrtg g_{a b} h^{a b}/2, g^{a b} -> h^{a b}, D_{a b} -> @(deltaD)$);
+distribute(action);
+integrate_by_parts(action, $h^{a b}$);
+product_rule(action);
+distribute(action);
+substitute(action, $\nabla_{a}{g_{b c}} -> 0, \nabla_{a}{g^{b c}} -> 0, \nabla_{a}{g_{b}^{c}} -> 0, \nabla_{a}{sqrtg} -> 0, \nabla_{a}{c1} -> 0, \nabla_{a}{c2} -> 0, \nabla_{a}{c3} -> 0, \nabla_{a}{c4} -> 0$);
+eliminate_metric(action, repeat=True);
+canonicalise(action);
+rename_dummies(action);
+sort_product(action);
+collect_terms(action);
+import re
+if re.search(r"\\nabla[^()]*\(h", str(action)):
+    raise RuntimeError("metric Euler coefficient still contains a derivative of h")
+print("SIGMA_AETHER_METRIC_VARIATION_NO_H_DERIVATIVES");
+print("SIGMA_AETHER_METRIC_VARIATION_CONNECTION_INCLUDED");
+print("SIGMA_AETHER_METRIC_VARIATION_FINAL");
+print(action);

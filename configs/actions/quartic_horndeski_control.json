@@ -1,0 +1,40 @@
+{
+  "schema_version": "sigma-action-spec-1.0",
+  "role": "known_answer_control",
+  "fields": ["g_mu_nu", "phi"],
+  "matter_metric": "g_mu_nu",
+  "terms": ["EH_R", "SCALAR_X", "HORNDESKI_L4_LINEAR_X"],
+  "coefficients": {
+    "SCALAR_X": "1",
+    "HORNDESKI_L4_LINEAR_X": "alpha"
+  },
+  "universal_constants": ["M_Pl", "Lambda_phi", "alpha"],
+  "parameter_domain": {
+    "positive": ["M_Pl", "Lambda_phi"],
+    "nonzero": ["alpha"]
+  },
+  "background_domain": {
+    "variables": [
+      {
+        "id": "A_star_squared",
+        "covariant_definition": "-g^{mu nu} nabla_mu(phi) nabla_nu(phi) = 2 Lambda_phi^4 X_phi",
+        "unitary_gauge_identification": "A_star_squared where nabla_mu(phi)=-A_star n_mu",
+        "mass_dimension": 4,
+        "nonnegative": true,
+        "locally_measurable": true
+      }
+    ],
+    "inequalities": [
+      "(M_Pl**2-alpha*A_star_squared)*(M_Pl**2+alpha*A_star_squared)>0"
+    ],
+    "preservation": {
+      "status": "rejected",
+      "statement": "An exact contracting closed-FLRW solution crosses the healthy boundary with a nonzero outward derivative, so the action alone does not preserve this patch under unrestricted nonlinear evolution.",
+      "required_controls": [
+        "quartic_horndeski_flrw_background_domain_crossing",
+        "quartic_horndeski_metric_variation_and_noether"
+      ]
+    }
+  },
+  "static_dictionary_status": "derived"
+}

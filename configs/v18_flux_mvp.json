@@ -1,0 +1,54 @@
+{
+  "protocol_version": "SIGMA-THEORY-COMPILER-V18-MVP-1.0.0",
+  "scope_claim": "Exhaustive over the exact atom/operator/cost grammar below; not exhaustive over field theories or mathematics.",
+  "parent_protocol": {
+    "name": "SIGMA-V18-POST-PRESSURE-FLUX-SELECTION-1.0.0",
+    "source_path": "research/galaxy-cluster-unification/configs/sigma_v18_post_pressure_flux_selection.json",
+    "sha256": "d86265531f97ab71cea5f35131b0c6a02a3c5884ec98a0e3d0f0c177c1cf6a6b",
+    "imported_rules": [
+      "one physical metric",
+      "zero object-specific gravity parameters",
+      "zero lensing-only parameters",
+      "at most five universal physical constants",
+      "new spatial-state information beyond the AQUAL flux-only class",
+      "high-field Newtonian recovery",
+      "no observational target before covariant health gates"
+    ]
+  },
+  "theory_contract": {
+    "static_functional": "I_stat = integral d^3x { [H(D,nabla D,Z_b)-D dot nabla W]/(4 pi G) - rho_b W }",
+    "constitutive_equation": "nabla W = delta H / delta D",
+    "base_hamiltonian": "H_Newton = D^2/2",
+    "normalized_invariants": {
+      "x": "D^2/a_sigma^2",
+      "q": "L_sigma^2 (partial_i D_j partial^i D^j)/a_sigma^2",
+      "z": "Z_b^2/Z_0^2"
+    },
+    "universal_constants": ["a_sigma", "L_sigma", "Z_0", "epsilon"],
+    "maximum_universal_constants": 5,
+    "object_specific_parameters": 0,
+    "lensing_only_parameters": 0
+  },
+  "grammar": {
+    "atoms": ["x", "q", "z"],
+    "unary_operators": ["sqrt1p_minus1", "saturate"],
+    "binary_operators": ["add", "multiply"],
+    "max_complexity": 4,
+    "complexity_rule": "atom=1; unary=1+child; binary=1+left+right"
+  },
+  "search": {
+    "coupling_signs": [-1, 1],
+    "coupling_magnitude": 0.1,
+    "convexity_tolerance": 1e-09,
+    "convexity_samples": {
+      "d": [0.1, 1.0, 10.0],
+      "p": [0.0, 0.5, 1.0],
+      "state": [0.0, 0.5, 1.0]
+    }
+  },
+  "authorization": {
+    "observational_data_opened": false,
+    "formula_fitting_allowed": false,
+    "covariant_survivor_claim_allowed": false
+  }
+}

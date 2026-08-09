@@ -1,0 +1,53 @@
+{a,b,c,d,e}::Indices(position=free).
+x::Coordinate.
+g_{a b}::Metric.
+g^{a b}::InverseMetric.
+\nabla{#}::Derivative.
+h^{a b}::Symmetric.
+R_{a b}::Symmetric.
+N::Depends(x,\nabla{#}).
+
+# For h^{ab}=delta g^{ab}, the lapse-smeared Palatini variation before spatial
+# integrations by parts is
+#   sqrtg [N (R_ab-R g_ab/2) h^ab
+#          + N g_ab nabla^2 h^ab - N nabla_a nabla_b h^ab].
+# Unlike the unsmeared Einstein-Hilbert control, derivatives of N must be retained:
+# they generate the nontrivial Hamiltonian-Hamiltonian ADM bracket.
+palatini := \int{sqrtg (
+    N R_{a b} h^{a b}
+  - N R g_{a b} h^{a b}/2
+  + N g_{a b} \nabla^{c}{\nabla_{c}{h^{a b}}}
+  - N \nabla_{a}{\nabla_{b}{h^{a b}}}
+)}{x};
+print("SIGMA_ADM_CURVATURE_PALATINI_BOUNDARY_TRACKED");
+print(palatini);
+
+# The first covariant integration by parts is written explicitly because Cadabra 2.4's
+# integrate_by_parts does not descend through a nested derivative. Cadabra performs the
+# second covariant integration below and must eliminate every remaining derivative of h^{ab}.
+variation := \int{sqrtg (
+    N R_{a b} h^{a b}
+  - N R g_{a b} h^{a b}/2
+  - \nabla^{c}{N} g_{a b} \nabla_{c}{h^{a b}}
+  + \nabla_{a}{N} \nabla_{b}{h^{a b}}
+)}{x};
+print("SIGMA_ADM_CURVATURE_FIRST_IBP_EXPLICIT");
+distribute(variation);
+integrate_by_parts(variation, $h^{a b}$);
+product_rule(variation);
+distribute(variation);
+substitute(variation, $\nabla_{a}{g_{b c}} -> 0, \nabla_{a}{g^{b c}} -> 0, \nabla_{a}{sqrtg} -> 0$);
+eliminate_metric(variation, repeat=True);
+canonicalise(variation);
+rename_dummies(variation);
+sort_product(variation);
+collect_terms(variation);
+
+import re
+if re.search(r"\\nabla[^()]*\(h", str(variation)):
+    raise RuntimeError("spatial curvature Euler coefficient still contains a derivative of h")
+print("SIGMA_ADM_CURVATURE_NO_H_DERIVATIVES");
+print("SIGMA_ADM_CURVATURE_FULLY_COVARIANT");
+print("SIGMA_ADM_CURVATURE_LAPSE_DERIVATIVES_RETAINED");
+print("SIGMA_ADM_CURVATURE_VARIATION_FINAL");
+print(variation);

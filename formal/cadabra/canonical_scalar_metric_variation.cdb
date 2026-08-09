@@ -1,0 +1,16 @@
+{a,b,c,d,e,f}::Indices(position=free).
+x::Coordinate.
+g_{a b}::Metric.
+g^{a b}::InverseMetric.
+h^{a b}::Symmetric.
+p_{a}::Depends(x).
+
+# p_a denotes nabla_a phi and is metric independent with its index down.
+action := -\int{sqrtg (g^{a b} p_{a} p_{b} + mphi^2 phi^2)/2}{x};
+vary(action, $sqrtg -> -sqrtg g_{a b} h^{a b}/2, g^{a b} -> h^{a b}$);
+distribute(action);
+canonicalise(action);
+sort_product(action);
+factor_out(action, $h^{a b}$);
+print("SIGMA_SCALAR_METRIC_VARIATION_FINAL");
+print(action);

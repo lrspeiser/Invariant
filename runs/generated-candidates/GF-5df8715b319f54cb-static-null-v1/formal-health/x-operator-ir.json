@@ -1,0 +1,56 @@
+{
+  "applicable": true,
+  "background_variable": "X=v_i v^i/a_sigma^2>=0 in the aligned frozen local frame",
+  "characteristic_speed_squared": {
+    "longitudinal": "gamma*(X + 1)**(3/2)/epsilon",
+    "transverse": "gamma*sqrt(X + 1)/epsilon"
+  },
+  "conclusion": "the nonlinear kinetic Hessian decays at high X while the static-null K1 gradient coefficient stays finite, so at least one characteristic speed is unbounded",
+  "content_sha256": "41229aa999c535ef6f73ee9d9746ad1f3bad04dee6dba52ef42b5b82cfefbf40",
+  "exponent": "1/2",
+  "gradient_hessian_eigenvalues": {
+    "longitudinal": "M_Pl**2*gamma",
+    "transverse": "M_Pl**2*gamma"
+  },
+  "hamiltonian_derivative_residual": "0",
+  "hamiltonian_positivity_argument": "H(0)=0 and dH/dX>0 for coefficient>0, X>=0, and p>=1/2",
+  "high_X_speed_squared_limits": {
+    "longitudinal": "oo*sign(gamma/epsilon)",
+    "transverse": "oo*sign(gamma/epsilon)"
+  },
+  "input_action_sha256": "4983ef67ccbcf6d6d9b42f90a7b6a709ffff4367267fb188984c3fda57c78562",
+  "kinetic_hessian_eigenvalues": {
+    "longitudinal": "M_Pl**2*epsilon/(X + 1)**(3/2)",
+    "transverse": "M_Pl**2*epsilon/sqrt(X + 1)"
+  },
+  "local_linear_acceleration_hessian": "0",
+  "observational_data_opened": false,
+  "promotion_allowed": false,
+  "proof_scope": "exact finite-background aligned vector-sector Legendre Hessian, radial energy, and characteristic-speed limits; rejection by an unbounded speed is decisive for the constant-gradient completion, while survival would still require coupled closure",
+  "radial_hamiltonian_derivative": "M_Pl**2*a_sigma**2*epsilon/(2*(X + 1)**(3/2))",
+  "radial_legendre_hamiltonian": "M_Pl**2*a_sigma**2*epsilon*(sqrt(X + 1) - 1)/sqrt(X + 1)",
+  "schema_version": "sigma-x-operator-ir-1.0",
+  "sign_certificates": {
+    "kinetic_at_origin": {
+      "condition": "M_Pl**2*epsilon > 0",
+      "normalized_property": "positive(M_Pl**2*epsilon)",
+      "proof": "declared atomic sign assumptions",
+      "status": "pass"
+    },
+    "longitudinal_gradient": {
+      "condition": "M_Pl**2*gamma > 0",
+      "normalized_property": "positive(M_Pl**2*gamma)",
+      "proof": "declared atomic sign assumptions",
+      "status": "pass"
+    },
+    "transverse_gradient": {
+      "condition": "M_Pl**2*gamma > 0",
+      "normalized_property": "positive(M_Pl**2*gamma)",
+      "proof": "declared atomic sign assumptions",
+      "status": "pass"
+    }
+  },
+  "status": "reject",
+  "term_id": "AETHER_X_SQRT1P",
+  "unbounded_characteristic_speed": true
+}

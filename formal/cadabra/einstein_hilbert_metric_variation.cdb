@@ -1,0 +1,25 @@
+{a,b,c,d,e,f}::Indices(position=free).
+x::Coordinate.
+g_{a b}::Metric.
+g^{a b}::InverseMetric.
+h^{a b}::Symmetric.
+R_{a b}::Symmetric.
+\nabla{#}::Derivative.
+\delta{#}::Accent.
+
+# h^{ab}=delta g^{ab}. The two replacement rules are the determinant identity and the
+# Palatini identity delta R = R_ab h^ab + nabla_a V^a.
+action := \int{sqrtg R}{x};
+vary(action, $sqrtg -> -sqrtg g_{a b} h^{a b}/2, R -> R_{a b} h^{a b} + \nabla_{a}{V^{a}}$);
+distribute(action);
+print("SIGMA_EH_BOUNDARY_TRACKED");
+print(action);
+
+# Compactly supported metric variations (or the corresponding GHY completion) remove only the
+# displayed total divergence. No bulk term is discarded.
+substitute(action, $\nabla_{a}{V^{a}} -> 0$);
+canonicalise(action);
+sort_product(action);
+factor_out(action, $h^{a b}$);
+print("SIGMA_EH_METRIC_VARIATION_FINAL");
+print(action);

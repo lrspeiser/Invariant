@@ -1,0 +1,109 @@
+{
+  "background": "local aligned/frozen spatial orthonormal frame",
+  "boundary_contract": [
+    "Einstein-Hilbert normal divergence removed by GHY completion or fixed-boundary/compact-support contract"
+  ],
+  "coefficient_map": {
+    "AETHER_Q1": "M_Pl**2*a_sigma**2*epsilon",
+    "AETHER_X_SQRT1P": "M_Pl**2*a_sigma**2*epsilon",
+    "EH_R": "M_Pl**2/2",
+    "UNIT_VECTOR_CONSTRAINT": "1"
+  },
+  "content_sha256": "43b3670d2bfcd8e8c4be57bf826da5766d5cc5e3ce0943a2e4fdf3dfd39bf9db",
+  "generic_hessian_nullity": 0,
+  "generic_hessian_rank": 9,
+  "hessian": "Matrix([[0, -M_Pl**2, -M_Pl**2, 0, 0, 0, 0, 0, 0], [-M_Pl**2, 0, -M_Pl**2, 0, 0, 0, 0, 0, 0], [-M_Pl**2, -M_Pl**2, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 2*M_Pl**2, 0, 0, 0, 0, 0], [0, 0, 0, 0, 2*M_Pl**2, 0, 0, 0, 0], [0, 0, 0, 0, 0, 2*M_Pl**2, 0, 0, 0], [0, 0, 0, 0, 0, 0, M_Pl**2*epsilon, 0, 0], [0, 0, 0, 0, 0, 0, 0, M_Pl**2*epsilon, 0], [0, 0, 0, 0, 0, 0, 0, 0, M_Pl**2*epsilon]])",
+  "hessian_determinant": "-16*M_Pl**18*epsilon**3",
+  "input_action_sha256": "03b9cdf673de934b5a117f4a53d21c37dd2d4dc9c22f00f452666012af32dfce",
+  "input_adm_ir_sha256": "d775741bba6be5690f946af6ff910347d0b9f6320a53edda6779bfdd3f92af54",
+  "kinetic_primary_constraints": [],
+  "legendre_status": "regular_generic",
+  "local_kinetic_lagrangian": "-M_Pl**2*(2*K11*K22 + 2*K11*K33 - 2*K12**2 - 2*K13**2 + 2*K22*K33 - 2*K23**2 - V_u0**2*epsilon - V_u1**2*epsilon - V_u2**2*epsilon)/2",
+  "nondynamical_primary_seeds": [
+    "lapse/shift primary constraints unresolved for generic-tilt higher-jet Q_a_u",
+    "p_(lambda_u)=0"
+  ],
+  "promotion_allowed": false,
+  "proof_scope": "exact pointwise kinetic Hessian and generic Legendre-rank strata for the frozen action coefficients only for terms listed as locally supported; unsupported higher-jet terms are reported and force unresolved status. Lapse/shift and algebraic-field primaries are carried from ADM IR, while distributed consistency, Poisson closure, gauge reduction, and reduced Hamiltonian boundedness remain separate",
+  "regularity_factors": [
+    {
+      "factor": "epsilon",
+      "multiplicity": 3,
+      "regularity_condition": "epsilon != 0"
+    },
+    {
+      "factor": "M_Pl",
+      "multiplicity": 18,
+      "regularity_condition": "M_Pl != 0"
+    }
+  ],
+  "schema_version": "sigma-legendre-ir-1.0",
+  "secondary_seeds": [
+    "Hamiltonian/momentum secondary constraints require higher-jet Dirac reduction",
+    "-chi^2+A_i A^i+1=0"
+  ],
+  "sector_blocks": {
+    "metric_K_ij": {
+      "determinant": "-16*M_Pl**12",
+      "dimension": 6,
+      "generic_rank": 6,
+      "hessian": "Matrix([[0, -M_Pl**2, -M_Pl**2, 0, 0, 0], [-M_Pl**2, 0, -M_Pl**2, 0, 0, 0], [-M_Pl**2, -M_Pl**2, 0, 0, 0, 0], [0, 0, 0, 2*M_Pl**2, 0, 0], [0, 0, 0, 0, 2*M_Pl**2, 0], [0, 0, 0, 0, 0, 2*M_Pl**2]])",
+      "indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "velocities": [
+        "K11",
+        "K22",
+        "K33",
+        "K12",
+        "K13",
+        "K23"
+      ]
+    },
+    "unit_aether_spatial_vector": {
+      "determinant": "M_Pl**6*epsilon**3",
+      "dimension": 3,
+      "generic_rank": 3,
+      "hessian": "Matrix([[M_Pl**2*epsilon, 0, 0], [0, M_Pl**2*epsilon, 0], [0, 0, M_Pl**2*epsilon]])",
+      "indices": [
+        6,
+        7,
+        8
+      ],
+      "velocities": [
+        "V_u0",
+        "V_u1",
+        "V_u2"
+      ]
+    }
+  },
+  "source_role": "candidate",
+  "status": "unresolved",
+  "term_ids": [
+    "AETHER_Q1",
+    "AETHER_X_SQRT1P",
+    "EH_R",
+    "UNIT_VECTOR_CONSTRAINT"
+  ],
+  "unit_aether_branch": "chi=1,A_i=0",
+  "unsupported_kinetic_terms": [
+    "AETHER_Q1"
+  ],
+  "velocity_count": 9,
+  "velocity_order": [
+    "K11",
+    "K22",
+    "K33",
+    "K12",
+    "K13",
+    "K23",
+    "V_u0",
+    "V_u1",
+    "V_u2"
+  ]
+}

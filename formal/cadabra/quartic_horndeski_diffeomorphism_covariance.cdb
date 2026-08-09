@@ -1,0 +1,50 @@
+{a,b,c,d,e,f}::Indices(position=free).
+x::Coordinate.
+g_{a b}::Metric.
+g^{a b}::InverseMetric.
+\nabla{#}::Derivative.
+G^{a b}::Symmetric.
+G^{a b}::Depends(x,\nabla{#}).
+p_{a}::Depends(x,\nabla{#}).
+\xi^{a}::Depends(x,\nabla{#}).
+
+dG := \xi^{c} \nabla_{c}{G^{a b}}
+    - G^{c b} \nabla_{c}{\xi^{a}}
+    - G^{a c} \nabla_{c}{\xi^{b}};
+dp := \xi^{c} \nabla_{c}{p_{a}} + p_{c} \nabla_{a}{\xi^{c}};
+dsqrtg := sqrtg \nabla_{c}{\xi^{c}};
+scalar := G^{a b} p_{a} p_{b};
+
+direct := sqrtg @(scalar);
+vary(direct, $sqrtg -> @(dsqrtg), G^{a b} -> @(dG), p_{a} -> @(dp)$);
+distribute(direct);
+canonicalise(direct);
+rename_dummies(direct);
+sort_product(direct);
+collect_terms(direct);
+
+boundary := sqrtg (\xi^{c} \nabla_{c}{@(scalar)} + @(scalar) \nabla_{c}{\xi^{c}});
+product_rule(boundary);
+distribute(boundary);
+canonicalise(boundary);
+rename_dummies(boundary);
+sort_product(boundary);
+collect_terms(boundary);
+
+residual := @(direct) - @(boundary);
+canonicalise(residual);
+rename_dummies(residual);
+collect_terms(residual);
+assert(residual == 0)
+
+index_terms := sqrtg @(scalar);
+vary(index_terms, $G^{a b} -> -G^{c b} \nabla_{c}{\xi^{a}} - G^{a c} \nabla_{c}{\xi^{b}}$);
+distribute(index_terms);
+canonicalise(index_terms);
+rename_dummies(index_terms);
+collect_terms(index_terms);
+assert(index_terms != 0)
+
+print("SIGMA_QUARTIC_HORNDESKI_DIFFEO_COVARIANCE_ZERO");
+print("SIGMA_QUARTIC_HORNDESKI_OMITTED_TENSOR_INDEX_TERMS_REJECTED");
+print(residual);

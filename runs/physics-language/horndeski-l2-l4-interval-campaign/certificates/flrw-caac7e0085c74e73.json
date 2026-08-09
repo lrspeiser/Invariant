@@ -1,0 +1,4218 @@
+{
+  "analytic_reference": null,
+  "certification": {
+    "claim": "Every accepted step encloses the continuous FLRW solution and uniformly excludes the declared determinant and perturbative-health singular surfaces; generalized-harmonic k-essence routes also prove positive homogeneous scalar Legendre and energy margins along the trajectory.",
+    "limitations": "This is an FLRW trajectory certificate, not an arbitrary-inhomogeneous strong-hyperbolicity or nonlinear global-energy theorem.",
+    "method": "outward-rounded interval Picard enclosure",
+    "precision_digits": 50
+  },
+  "coefficients": {
+    "a01": "0",
+    "a10": "0",
+    "a20": "0",
+    "c02": "0",
+    "c11": "0",
+    "c20": "-1",
+    "d01": "0",
+    "d10": "1",
+    "m2": "1"
+  },
+  "config_sha256": "79f025448af8114a40b261cf92923c4a2a3cafcde32779d7ba4e1db7506bc1f3",
+  "content_sha256": "142ead85cb5e7b8076a935e45863844325e7ff516c996dd824ed50a6436c9370",
+  "endpoint_enclosure": {
+    "h": {
+      "lower": 0.09701282050216928,
+      "upper": 0.09702595240078285
+    },
+    "u": {
+      "lower": 0.023470863008464737,
+      "upper": 0.023482744073716696
+    },
+    "x": {
+      "lower": 0.026778277533270615,
+      "upper": 0.026785571470431088
+    }
+  },
+  "errors": [],
+  "expressions": {
+    "evolution_matrix": [
+      [
+        "6*(-h*sqrt(x) + sqrt(2)*x**2)/sqrt(x)",
+        "(9*sqrt(2)*h*x - 6*x**(3/2) + sqrt(x))/sqrt(x)"
+      ],
+      [
+        "2",
+        "-sqrt(2)*sqrt(x)"
+      ]
+    ],
+    "evolution_source": [
+      "0",
+      "-3*h**2 + x**2 - x"
+    ],
+    "health": {
+      "F_S": "(2*sqrt(2)*h*x**2 - 2*h_tau*sqrt(x) - 4*x**(7/2) + 3*sqrt(2)*x*x_tau)/(2*sqrt(x)*(h - sqrt(2)*x**(3/2))**2)",
+      "F_T": "1",
+      "G_S": "(6*sqrt(2)*h*x**(3/2) + 6*x**3 - 6*x**2 + x)/(h - sqrt(2)*x**(3/2))**2",
+      "G_T": "1",
+      "Theta": "h - sqrt(2)*x**(3/2)"
+    }
+  },
+  "formulation_certificate": {
+    "G4_X": "0",
+    "canonical_G3": "x",
+    "cubic_bssn_homogeneous_diagnostic": {
+      "cone_margin": 1e-10,
+      "derivative_ratio_upper_bounds": {
+        "G2_X0_phi0": 0.0019093992298542738,
+        "G2_X0_phi1": 0.0,
+        "G2_X1_phi0": 0.004528332639702982,
+        "G2_X1_phi1": 0.0,
+        "G2_X2_phi0": 0.0006651900057206241,
+        "G2_X2_phi1": 0.0,
+        "G3_X0_phi0": 0.02836238904537422,
+        "G3_X0_phi1": 0.0,
+        "G3_X0_phi2": 0.0,
+        "G3_X1_phi0": 0.06928489661538254,
+        "G3_X1_phi1": 0.0,
+        "G3_X1_phi2": 0.0,
+        "G3_X2_phi0": 0.0,
+        "G3_X2_phi1": 0.0,
+        "G3_X2_phi2": 0.0
+      },
+      "expressions": {
+        "G2_X0_phi0": {
+          "E_exponent": 2,
+          "expression": "-x*(x - 1)"
+        },
+        "G2_X0_phi1": {
+          "E_exponent": 2,
+          "expression": "0"
+        },
+        "G2_X1_phi0": {
+          "E_exponent": 4,
+          "expression": "1 - 2*x"
+        },
+        "G2_X1_phi1": {
+          "E_exponent": 4,
+          "expression": "0"
+        },
+        "G2_X2_phi0": {
+          "E_exponent": 6,
+          "expression": "-2"
+        },
+        "G2_X2_phi1": {
+          "E_exponent": 6,
+          "expression": "0"
+        },
+        "G3_X0_phi0": {
+          "E_exponent": 0,
+          "expression": "x"
+        },
+        "G3_X0_phi1": {
+          "E_exponent": 0,
+          "expression": "0"
+        },
+        "G3_X0_phi2": {
+          "E_exponent": 0,
+          "expression": "0"
+        },
+        "G3_X1_phi0": {
+          "E_exponent": 2,
+          "expression": "1"
+        },
+        "G3_X1_phi1": {
+          "E_exponent": 2,
+          "expression": "0"
+        },
+        "G3_X1_phi2": {
+          "E_exponent": 2,
+          "expression": "0"
+        },
+        "G3_X2_phi0": {
+          "E_exponent": 4,
+          "expression": "0"
+        },
+        "G3_X2_phi1": {
+          "E_exponent": 4,
+          "expression": "0"
+        },
+        "G3_X2_phi2": {
+          "E_exponent": 4,
+          "expression": "0"
+        }
+      },
+      "interpretation": "Quantitative homogeneous-frame diagnostic only. The source requires these ratios to be much less than one but supplies no universal numeric threshold; an inhomogeneous-domain bound is still required.",
+      "maximum_derivative_ratio": 0.06928489661538254,
+      "scalar_slicing_cone_gap_min_abs": 1.069489426883638,
+      "slicing_parameter_sigma": 1.0,
+      "source": "https://arxiv.org/abs/1904.00963",
+      "status": "pass_homogeneous_derivative_ratios_and_scalar_slicing_cone_gap_reported",
+      "weak_field_scale_E_upper_bound": 0.2632202435516359
+    },
+    "kessence_health_expressions": {
+      "kessence_energy_density": "-x*(3*x - 1)",
+      "kessence_gradient": "1 - 2*x",
+      "kessence_legendre_jacobian": "1 - 6*x"
+    },
+    "nonlinear_scalar_energy_certificate": "not_applicable_modified_harmonic_route",
+    "proof_route": "cubic_horndeski_bssn_weak_field",
+    "route": "modified_harmonic_uniform_bound_required",
+    "scope": "The pass applies to the enclosed homogeneous trajectory. An arbitrary-inhomogeneous domain still requires common-time and uniform background bounds; cubic G3-only candidates require uniform BSSN weak-field/cone bounds, while G4_X modified-harmonic candidates require a positive symmetrizer and correction/cone-separation certificate. The local scalar energy margin is not a global gravitational positive-energy theorem.",
+    "status": "unresolved_cubic_bssn_uniform_inhomogeneous_weak_field_bounds_required",
+    "uniform_kessence_health_lower_bounds": {}
+  },
+  "initial_state": {
+    "h": "0.1",
+    "u": "0",
+    "x": "0.02836033027760920615332578932719203409080369482614142143796867882010425"
+  },
+  "required_coefficients": [
+    "a01",
+    "a10",
+    "a20",
+    "c02",
+    "c11",
+    "c20",
+    "d01",
+    "d10",
+    "m2"
+  ],
+  "schema_version": "sigma-flrw-background-certificate-1.0",
+  "source_ir_sha256": "5f59a96982ada839c59632e240c8d882ca59ccc809c77e81541622078d3a2667",
+  "status": "pass_interval_certified",
+  "step_certificates": [
+    {
+      "Theta_min_abs": 0.09320267345671895,
+      "constraint_max_abs": 1.0448005614764578e-07,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.2632202435516359,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0019093992298542738,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004528332639702982,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0006651900057206241,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.02836238904537422,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06928489661538254,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0758305432908652
+      },
+      "determinant_min_abs": 1.953601909351392,
+      "health_lower_bounds": {
+        "F_S": 2.919484965987193,
+        "F_T": 1.0,
+        "G_S": 3.1842887121288745,
+        "G_T": 1.0
+      },
+      "index": 0,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09996151715916163,
+          "upper": 0.09996166457698989
+        },
+        "u": {
+          "lower": 0.00029758236073050716,
+          "upper": 0.0002977120527661225
+        },
+        "x": {
+          "lower": 0.028339712313442147,
+          "upper": 0.02833979508250294
+        }
+      },
+      "tau_end": 0.00125
+    },
+    {
+      "Theta_min_abs": 0.09317154147790545,
+      "constraint_max_abs": 2.0915270491286994e-07,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.26312678918384974,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0019067029902875298,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.00452210257609769,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.000663774238633169,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.028341859915436713,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.0692357071862021,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0757501963815794
+      },
+      "determinant_min_abs": 1.953616306350562,
+      "health_lower_bounds": {
+        "F_S": 2.919506329013215,
+        "F_T": 1.0,
+        "G_S": 3.184117015383695,
+        "G_T": 1.0
+      },
+      "index": 1,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09992306417709086,
+          "upper": 0.0999233593968701
+        },
+        "u": {
+          "lower": 0.0005950565293581768,
+          "upper": 0.0005953163407657071
+        },
+        "x": {
+          "lower": 0.028319116479007582,
+          "upper": 0.02831928221009881
+        }
+      },
+      "tau_end": 0.0025
+    },
+    {
+      "Theta_min_abs": 0.09314042864571861,
+      "constraint_max_abs": 3.14020721318391e-07,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.26303340401554975,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0019040115387487205,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004515883337427333,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0006623620290289576,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.028321353131880667,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06918657162800743,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.07566986025329
+      },
+      "determinant_min_abs": 1.9536306812343676,
+      "health_lower_bounds": {
+        "F_S": 2.9195274689407684,
+        "F_T": 1.0,
+        "G_S": 3.183945467570803,
+        "G_T": 1.0
+      },
+      "index": 2,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.0998846410164301,
+          "upper": 0.09988508442566067
+        },
+        "u": {
+          "lower": 0.0008924225815065475,
+          "upper": 0.0008928129433297148
+        },
+        "x": {
+          "lower": 0.02829854274134088,
+          "upper": 0.028298791630093904
+        }
+      },
+      "tau_end": 0.00375
+    },
+    {
+      "Theta_min_abs": 0.09310933494257684,
+      "constraint_max_abs": 4.190848564418364e-07,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.2629400879923698,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0019013248654281396,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004509674902644729,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0006609533669572521,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.028300868663463884,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06913748987343517,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0755895345741477
+      },
+      "determinant_min_abs": 1.9536450339016371,
+      "health_lower_bounds": {
+        "F_S": 2.91954838541097,
+        "F_T": 1.0,
+        "G_S": 3.1837740681578865,
+        "G_T": 1.0
+      },
+      "index": 3,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09984624764087677,
+          "upper": 0.09984683962843983
+        },
+        "u": {
+          "lower": 0.001189680593714714,
+          "upper": 0.0011902019387100493
+        },
+        "x": {
+          "lower": 0.02827799106853204,
+          "upper": 0.028278323311241218
+        }
+      },
+      "tau_end": 0.005
+    },
+    {
+      "Theta_min_abs": 0.09307826035091273,
+      "constraint_max_abs": 5.243458624565278e-07,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.26284684106004674,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0018986429605395512,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004503477250750497,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0006595482424983898,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.02828040647900022,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06908846185524548,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0755092190118827
+      },
+      "determinant_min_abs": 1.953659364251151,
+      "health_lower_bounds": {
+        "F_S": 2.919569078063405,
+        "F_T": 1.0,
+        "G_S": 3.1836028166129084,
+        "G_T": 1.0
+      },
+      "index": 4,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09980788401418317,
+          "upper": 0.099808624970344
+        },
+        "u": {
+          "lower": 0.001486830642437431,
+          "upper": 0.0014874834050796763
+        },
+        "x": {
+          "lower": 0.028257461428725577,
+          "upper": 0.028257877222349553
+        }
+      },
+      "tau_end": 0.00625
+    },
+    {
+      "Theta_min_abs": 0.09304720485317305,
+      "constraint_max_abs": 6.298044926345538e-07,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.2627536631644211,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0018959658143201381,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004497290360792991,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0006581466457636854,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.028259966547359475,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06903948750632206,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.075428913233795
+      },
+      "determinant_min_abs": 1.9536736721816401,
+      "health_lower_bounds": {
+        "F_S": 2.919589546536105,
+        "F_T": 1.0,
+        "G_S": 3.1834317124040896,
+        "G_T": 1.0
+      },
+      "index": 5,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09976955010015637,
+          "upper": 0.09977044041656755
+        },
+        "u": {
+          "lower": 0.0017838728040452173,
+          "upper": 0.001784657420532741
+        },
+        "x": {
+          "lower": 0.028236953790120405,
+          "upper": 0.028237453332283415
+        }
+      },
+      "tau_end": 0.0075
+    },
+    {
+      "Theta_min_abs": 0.09301616843181879,
+      "constraint_max_abs": 7.354615013497304e-07,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.2626605542514365,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0018932934170304337,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004491114211868143,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0006567485668953194,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.0282395488374673,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.0689905667596718,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0753486169067574
+      },
+      "determinant_min_abs": 1.9536879575917838,
+      "health_lower_bounds": {
+        "F_S": 2.91960979046556,
+        "F_T": 1.0,
+        "G_S": 3.1832607549999183,
+        "G_T": 1.0
+      },
+      "index": 6,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.0997312458626581,
+          "upper": 0.09973228593236283
+        },
+        "u": {
+          "lower": 0.002080807154824459,
+          "upper": 0.0020817240630846864
+        },
+        "x": {
+          "lower": 0.028216468120969732,
+          "upper": 0.02821705160996289
+        }
+      },
+      "tau_end": 0.00875
+    },
+    {
+      "Theta_min_abs": 0.09298515106932506,
+      "constraint_max_abs": 8.41317644080571e-07,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.2625675142671396,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0018906257589542607,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004484948783119365,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0006553539960662347,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.028219153318305053,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06894169954842455,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0752683296972123
+      },
+      "determinant_min_abs": 1.9537022203802115,
+      "health_lower_bounds": {
+        "F_S": 2.9196298094867137,
+        "F_T": 1.0,
+        "G_S": 3.183089943869138,
+        "G_T": 1.0
+      },
+      "index": 7,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09969297126560463,
+          "upper": 0.09969416148303996
+        },
+        "u": {
+          "lower": 0.0023776337709775124,
+          "upper": 0.002378683410672371
+        },
+        "x": {
+          "lower": 0.02819600438958093,
+          "upper": 0.028196672024363535
+        }
+      },
+      "tau_end": 0.01
+    },
+    {
+      "Theta_min_abs": 0.09295415274818113,
+      "constraint_max_abs": 9.473736774133105e-07,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.2624745431576805,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0018879628303986736,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004478794053737445,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0006539629234800339,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.02819877995890972,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06889288580583308,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0751880512711691
+      },
+      "determinant_min_abs": 1.953716460445499,
+      "health_lower_bounds": {
+        "F_S": 2.919649603232956,
+        "F_T": 1.0,
+        "G_S": 3.1829192784807496,
+        "G_T": 1.0
+      },
+      "index": 8,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09965472627296665,
+          "upper": 0.09965606703396679
+        },
+        "u": {
+          "lower": 0.0026743527286228084,
+          "upper": 0.0026755355411541867
+        },
+        "x": {
+          "lower": 0.02817556256431545,
+          "upper": 0.02817631454451627
+        }
+      },
+      "tau_end": 0.01125
+    },
+    {
+      "Theta_min_abs": 0.09292317345089035,
+      "constraint_max_abs": 1.0536303590448856e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.26238164086931226,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0018853046216938936,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004472650002960423,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0006525753393708734,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.02817842872837378,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06884412546527276,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.075107781294202
+      },
+      "determinant_min_abs": 1.95373067768617,
+      "health_lower_bounds": {
+        "F_S": 2.9196691713361242,
+        "F_T": 1.0,
+        "G_S": 3.182748758304004,
+        "G_T": 1.0
+      },
+      "index": 9,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09961651084876919,
+          "upper": 0.09961800255056874
+        },
+        "u": {
+          "lower": 0.002970964103794954,
+          "upper": 0.002972280532310176
+        },
+        "x": {
+          "lower": 0.02815514261358867,
+          "upper": 0.028155979139507268
+        }
+      },
+      "tau_end": 0.0125
+    },
+    {
+      "Theta_min_abs": 0.09289221315997029,
+      "constraint_max_abs": 1.1600884477859147e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.26228880734839116,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0018826511231932526,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.0044665166100734755,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0006511912340033606,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.028158099595845115,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06879541846024145,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.07502751943145
+      },
+      "determinant_min_abs": 1.953744872000693,
+      "health_lower_bounds": {
+        "F_S": 2.9196885134265007,
+        "F_T": 1.0,
+        "G_S": 3.182578382808405,
+        "G_T": 1.0
+      },
+      "index": 10,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09957832495709142,
+          "upper": 0.09957996799832872
+        },
+        "u": {
+          "lower": 0.0032674679724448365,
+          "upper": 0.003268918461842149
+        },
+        "x": {
+          "lower": 0.02813474450586982,
+          "upper": 0.028135665778477845
+        }
+      },
+      "tau_end": 0.01375
+    },
+    {
+      "Theta_min_abs": 0.09286127185795245,
+      "constraint_max_abs": 1.266748703563681e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.2621960425413765,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0018800023252731292,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004460393854408821,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0006498105976724509,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.028137792530526885,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06874676472435932,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0749472653476126
+      },
+      "determinant_min_abs": 1.9537590432874812,
+      "health_lower_bounds": {
+        "F_S": 2.919707629132811,
+        "F_T": 1.0,
+        "G_S": 3.182408151463701,
+        "G_T": 1.0
+      },
+      "index": 11,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09954016856206663,
+          "upper": 0.09954196334278703
+        },
+        "u": {
+          "lower": 0.0035638644104397247,
+          "upper": 0.0035654494073738027
+        },
+        "x": {
+          "lower": 0.02811436820968185,
+          "upper": 0.02811537443062435
+        }
+      },
+      "tau_end": 0.015
+    },
+    {
+      "Theta_min_abs": 0.09283034952738249,
+      "constraint_max_abs": 1.3736118874251691e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.26210334639483074,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.00187735821833289,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004454281715345589,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.000648433420703345,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.028117507501677425,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06869816419136864,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0748670187069467
+      },
+      "determinant_min_abs": 1.9537731914448926,
+      "health_lower_bounds": {
+        "F_S": 2.919726518082213,
+        "F_T": 1.0,
+        "G_S": 3.1822380637398804,
+        "G_T": 1.0
+      },
+      "index": 12,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09950204162788209,
+          "upper": 0.09950398854954123
+        },
+        "u": {
+          "lower": 0.0038601534935633723,
+          "upper": 0.003861873446450835
+        },
+        "x": {
+          "lower": 0.02809401369360131,
+          "upper": 0.028095105065198047
+        }
+      },
+      "tau_end": 0.01625
+    },
+    {
+      "Theta_min_abs": 0.09279944615082011,
+      "constraint_max_abs": 1.480678761539975e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.26201071885541916,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0018747187927948268,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004448180172309717,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0006470596934513841,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.02809724447861013,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.0686496167951335,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.07478677917327
+      },
+      "determinant_min_abs": 1.9537873163712278,
+      "health_lower_bounds": {
+        "F_S": 2.919745179900312,
+        "F_T": 1.0,
+        "G_S": 3.1820681191071767,
+        "G_T": 1.0
+      },
+      "index": 13,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09946394411877892,
+          "upper": 0.09946604358424607
+        },
+        "u": {
+          "lower": 0.004156335297516119,
+          "upper": 0.004158190656541064
+        },
+        "x": {
+          "lower": 0.02807368092625826,
+          "upper": 0.028074857651505022
+        }
+      },
+      "tau_end": 0.0175
+    },
+    {
+      "Theta_min_abs": 0.09276856171083901,
+      "constraint_max_abs": 1.5879500892034128e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.2619181598699104,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0018720840391041056,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.0044420892047738565,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0006456894063019542,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.028077003430693366,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06860112246963994,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0747065464099501
+      },
+      "determinant_min_abs": 1.9538014179647278,
+      "health_lower_bounds": {
+        "F_S": 2.9197636142111327,
+        "F_T": 1.0,
+        "G_S": 3.1818983170360546,
+        "G_T": 1.0
+      },
+      "index": 14,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09942587599905196,
+          "upper": 0.09942812841261334
+        },
+        "u": {
+          "lower": 0.004452409897914995,
+          "upper": 0.004454401115034542
+        },
+        "x": {
+          "lower": 0.028053369876336148,
+          "upper": 0.028054632158906058
+        }
+      },
+      "tau_end": 0.01875
+    },
+    {
+      "Theta_min_abs": 0.09273769619002692,
+      "constraint_max_abs": 1.6954266348394064e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.26182566938517576,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0018694539477286936,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004436008792257222,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0006443225496703752,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.028056784327350325,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06855268114899536,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0746263200799118
+      },
+      "determinant_min_abs": 1.9538154961235767,
+      "health_lower_bounds": {
+        "F_S": 2.9197818206371426,
+        "F_T": 1.0,
+        "G_S": 3.1817286569972154,
+        "G_T": 1.0
+      },
+      "index": 15,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.0993878372330497,
+          "upper": 0.0993902430004118
+        },
+        "u": {
+          "lower": 0.004748377370293819,
+          "upper": 0.004750504899243676
+        },
+        "x": {
+          "lower": 0.02803308051257169,
+          "upper": 0.028034428556816534
+        }
+      },
+      "tau_end": 0.02
+    },
+    {
+      "Theta_min_abs": 0.09270684957098553,
+      "constraint_max_abs": 1.8031091640035117e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.2617332473481896,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.001866828509159308,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004429938914325515,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0006429591140018064,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.028036587138058948,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06850429276742859,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0745460998456293
+      },
+      "determinant_min_abs": 1.953829550745898,
+      "health_lower_bounds": {
+        "F_S": 2.919799798799235,
+        "F_T": 1.0,
+        "G_S": 3.1815591384615907,
+        "G_T": 1.0
+      },
+      "index": 16,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09934982778517414,
+          "upper": 0.09935238731346704
+        },
+        "u": {
+          "lower": 0.005044237790103302,
+          "upper": 0.005046502086403342
+        },
+        "x": {
+          "lower": 0.028012812803754766,
+          "upper": 0.02801424681470632
+        }
+      },
+      "tau_end": 0.02125
+    },
+    {
+      "Theta_min_abs": 0.09267602183633059,
+      "constraint_max_abs": 1.9109984433859196e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.2616408937060292,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0018642077139093573,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004423879550590803,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0006415990897711439,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.028016411832351807,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06845595725928968,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0744658853691256
+      },
+      "determinant_min_abs": 1.9538435817297533,
+      "health_lower_bounds": {
+        "F_S": 2.9198175483167264,
+        "F_T": 1.0,
+        "G_S": 3.1813897609003385,
+        "G_T": 1.0
+      },
+      "index": 17,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09931184761988068,
+          "upper": 0.09931456131766145
+        },
+        "u": {
+          "lower": 0.00533999123271115,
+          "upper": 0.005342392753670999
+        },
+        "x": {
+          "lower": 0.027992566718728316,
+          "upper": 0.02799408690209965
+        }
+      },
+      "tau_end": 0.0225
+    },
+    {
+      "Theta_min_abs": 0.09264521296869169,
+      "constraint_max_abs": 2.019095240814437e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.26154860840587485,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.001861591552514876,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004417830680711412,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0006402424674829193,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.02799625837981598,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06840767455904967,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.07438567631197
+      },
+      "determinant_min_abs": 1.9538575889731438,
+      "health_lower_bounds": {
+        "F_S": 2.919835068807359,
+        "F_T": 1.0,
+        "G_S": 3.181220523784839,
+        "G_T": 1.0
+      },
+      "index": 18,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09927389670167805,
+          "upper": 0.09927676497893398
+        },
+        "u": {
+          "lower": 0.005635637773402162,
+          "upper": 0.0056381769781268095
+        },
+        "x": {
+          "lower": 0.027972342226388214,
+          "upper": 0.027973948788575044
+        }
+      },
+      "tau_end": 0.02375
+    },
+    {
+      "Theta_min_abs": 0.09261442295071241,
+      "constraint_max_abs": 2.127400325257501e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.2614563913950095,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0018589800155344716,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004411792284391804,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0006388892376711987,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.02797612675009298,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06835944460130039,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.074305472335276
+      },
+      "determinant_min_abs": 1.9538715723740063,
+      "health_lower_bounds": {
+        "F_S": 2.919852359887293,
+        "F_T": 1.0,
+        "G_S": 3.1810514265866967,
+        "G_T": 1.0
+      },
+      "index": 19,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09923597499512811,
+          "upper": 0.09923899826328018
+        },
+        "u": {
+          "lower": 0.005931177487378336,
+          "upper": 0.005933854836773751
+        },
+        "x": {
+          "lower": 0.027952139295683177,
+          "upper": 0.027953832443765175
+        }
+      },
+      "tau_end": 0.025
+    },
+    {
+      "Theta_min_abs": 0.09258365176505028,
+      "constraint_max_abs": 2.2359144668271165e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.2613642426208189,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0018563730935492607,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.00440576434138248,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0006375393908994834,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.02795601691287861,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.0683112673207543,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0742252730997017
+      },
+      "determinant_min_abs": 1.9538855318302157,
+      "health_lower_bounds": {
+        "F_S": 2.9198694211711134,
+        "F_T": 1.0,
+        "G_S": 3.1808824687777317,
+        "G_T": 1.0
+      },
+      "index": 20,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09919808246484582,
+          "upper": 0.09920126113675203
+        },
+        "u": {
+          "lower": 0.006226610449758961,
+          "upper": 0.006229426406537735
+        },
+        "x": {
+          "lower": 0.02793195789561463,
+          "upper": 0.02793373783735677
+        }
+      },
+      "tau_end": 0.02625
+    },
+    {
+      "Theta_min_abs": 0.09255289939437665,
+      "constraint_max_abs": 2.344638436781934e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.26127216203079207,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0018537707771628179,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.0043997468314798845,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0006361929177606147,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.027935928837922876,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06826314265224447,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0741450782654423
+      },
+      "determinant_min_abs": 1.9538994672395804,
+      "health_lower_bounds": {
+        "F_S": 2.9198862522718096,
+        "F_T": 1.0,
+        "G_S": 3.1807136498299777,
+        "G_T": 1.0
+      },
+      "index": 21,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.0991602190754991,
+          "upper": 0.09916355356545778
+        },
+        "u": {
+          "lower": 0.006521936735580727,
+          "upper": 0.006524891764267721
+        },
+        "x": {
+          "lower": 0.027911797995236624,
+          "upper": 0.027913664939090505
+        }
+      },
+      "tau_end": 0.0275
+    },
+    {
+      "Theta_min_abs": 0.09252216582137683,
+      "constraint_max_abs": 2.453573007530144e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.26118014957252017,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0018511730570011042,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.0043937397345262495,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0006348498088766648,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.027915862495029874,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06821507053072401,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0740648874922354
+      },
+      "determinant_min_abs": 1.9539133784998444,
+      "health_lower_bounds": {
+        "F_S": 2.9199028528007975,
+        "F_T": 1.0,
+        "G_S": 3.180544969215685,
+        "G_T": 1.0
+      },
+      "index": 22,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09912238479180871,
+          "upper": 0.09912587551556198
+        },
+        "u": {
+          "lower": 0.006817156419797824,
+          "upper": 0.0068202509867358345
+        },
+        "x": {
+          "lower": 0.027891659563655698,
+          "upper": 0.02789361371876089
+        }
+      },
+      "tau_end": 0.02875
+    },
+    {
+      "Theta_min_abs": 0.09249145102874995,
+      "constraint_max_abs": 2.5627189526325267e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.2610882051936975,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0018485799237124214,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.00438774303040954,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.000633510054898848,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.02789581785405768,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.0681670508912663,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.073984700439352
+      },
+      "determinant_min_abs": 1.9539272655086852,
+      "health_lower_bounds": {
+        "F_S": 2.9199192223678936,
+        "F_T": 1.0,
+        "G_S": 3.180376426407305,
+        "G_T": 1.0
+      },
+      "index": 23,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09908457957854813,
+          "upper": 0.09908822695328527
+        },
+        "u": {
+          "lower": 0.007112269577282035,
+          "upper": 0.007115504150637477
+        },
+        "x": {
+          "lower": 0.02787154257003079,
+          "upper": 0.02787358414621617
+        }
+      },
+      "tau_end": 0.03
+    },
+    {
+      "Theta_min_abs": 0.09246075499920894,
+      "constraint_max_abs": 2.672077046805484e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.2609963288421212,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.001845991367967351,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004381756699063325,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0006321736465074193,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.027875794884918256,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06811908366906468,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0739045167655956
+      },
+      "determinant_min_abs": 1.9539411281637111,
+      "health_lower_bounds": {
+        "F_S": 2.91993536058132,
+        "F_T": 1.0,
+        "G_S": 3.180208020877498,
+        "G_T": 1.0
+      },
+      "index": 24,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09904680340054349,
+          "upper": 0.09905060784490428
+        },
+        "u": {
+          "lower": 0.007407276282822843,
+          "upper": 0.0074106513325914464
+        },
+        "x": {
+          "lower": 0.027851446983573117,
+          "upper": 0.02785357619135822
+        }
+      },
+      "tau_end": 0.03125
+    },
+    {
+      "Theta_min_abs": 0.09243007771548069,
+      "constraint_max_abs": 2.7816480659238922e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.2609045204656907,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0018434073804586863,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004375780720466643,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0006308405744115704,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.02785579355757732,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06807116879943201,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0738243361293087
+      },
+      "determinant_min_abs": 1.953954966362465,
+      "health_lower_bounds": {
+        "F_S": 2.9199512670477197,
+        "F_T": 1.0,
+        "G_S": 3.18003975209913,
+        "G_T": 1.0
+      },
+      "index": 25,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09900905622267342,
+          "upper": 0.09901301815675162
+        },
+        "u": {
+          "lower": 0.007702176611127531,
+          "upper": 0.007705692609140049
+        },
+        "x": {
+          "lower": 0.02783137277354608,
+          "upper": 0.027833589824142427
+        }
+      },
+      "tau_end": 0.0325
+    },
+    {
+      "Theta_min_abs": 0.09239941916030575,
+      "constraint_max_abs": 2.89143278702426e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.26081278001240843,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0018408279519013901,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004369815074643944,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0006295108293493421,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.027835813842054278,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06802330621780095,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0737441581883556
+      },
+      "determinant_min_abs": 1.9539687800024168,
+      "health_lower_bounds": {
+        "F_S": 2.919966941372118,
+        "F_T": 1.0,
+        "G_S": 3.179871619545258,
+        "G_T": 1.0
+      },
+      "index": 26,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09897133800986897,
+          "upper": 0.09897545785521564
+        },
+        "u": {
+          "lower": 0.007996970636821277,
+          "upper": 0.008000628056749216
+        },
+        "x": {
+          "lower": 0.027811319909265136,
+          "upper": 0.027813625014577598
+        }
+      },
+      "tau_end": 0.03375
+    },
+    {
+      "Theta_min_abs": 0.09236877931643851,
+      "constraint_max_abs": 3.0014319883076324e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.2607211074303794,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0018382530730325249,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004363859741664942,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0006281844020875194,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.02781585570842207,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06797549585972344,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0736639826001322
+      },
+      "determinant_min_abs": 1.953982568980969,
+      "health_lower_bounds": {
+        "F_S": 2.9199823831579512,
+        "F_T": 1.0,
+        "G_S": 3.179703622689142,
+        "G_T": 1.0
+      },
+      "index": 27,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09893364872711348,
+          "upper": 0.09893792690674044
+        },
+        "u": {
+          "lower": 0.008291658434447258,
+          "upper": 0.008295457751808616
+        },
+        "x": {
+          "lower": 0.027791288360097702,
+          "upper": 0.027793681732725842
+        }
+      },
+      "tau_end": 0.035
+    },
+    {
+      "Theta_min_abs": 0.09233815816664712,
+      "constraint_max_abs": 3.1116464491426452e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.26062950266781126,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0018356827346112008,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004357914701644526,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0006268612834215373,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.027795919126807112,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06792773766087064,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.073583809021558
+      },
+      "determinant_min_abs": 1.9539963331954502,
+      "health_lower_bounds": {
+        "F_S": 2.919997592007045,
+        "F_T": 1.0,
+        "G_S": 3.179535761004229,
+        "G_T": 1.0
+      },
+      "index": 28,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09889598833944245,
+          "upper": 0.09890042527782575
+        },
+        "u": {
+          "lower": 0.008586240078466747,
+          "upper": 0.008590181770631772
+        },
+        "x": {
+          "lower": 0.027771278095463037,
+          "upper": 0.02777375994870247
+        }
+      },
+      "tau_end": 0.03625
+    },
+    {
+      "Theta_min_abs": 0.09230755569371353,
+      "constraint_max_abs": 3.222076950068366e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.26053796567301407,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0018331169274185134,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.00435197993474264,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0006255414641753816,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.027776004067389136,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06788003155703266,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.073503637109083
+      },
+      "determinant_min_abs": 1.9540100725431204,
+      "health_lower_bounds": {
+        "F_S": 2.920012567519637,
+        "F_T": 1.0,
+        "G_S": 3.1793680339641623,
+        "G_T": 1.0
+      },
+      "index": 29,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.0988583568119435,
+          "upper": 0.09886295293502674
+        },
+        "u": {
+          "lower": 0.008880715643259212,
+          "upper": 0.008884800189456175
+        },
+        "x": {
+          "lower": 0.02775128908483215,
+          "upper": 0.02775385963267589
+        }
+      },
+      "tau_end": 0.0375
+    },
+    {
+      "Theta_min_abs": 0.09227697188043339,
+      "constraint_max_abs": 3.3327242727974784e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.2604464963944006,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.001830555642257493,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.00434605542116419,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0006242249352014963,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.02775611050040115,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06783237748411852,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.07342346651867
+      },
+      "determinant_min_abs": 1.954023786921163,
+      "health_lower_bounds": {
+        "F_S": 2.9200273092943365,
+        "F_T": 1.0,
+        "G_S": 3.1792004410427674,
+        "G_T": 1.0
+      },
+      "index": 30,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.0988207541097562,
+          "upper": 0.09882550984495404
+        },
+        "u": {
+          "lower": 0.009175085203122416,
+          "upper": 0.009179313084443395
+        },
+        "x": {
+          "lower": 0.027731321297727676,
+          "upper": 0.0277339807548675
+        }
+      },
+      "tau_end": 0.03875
+    },
+    {
+      "Theta_min_abs": 0.092246406709616,
+      "constraint_max_abs": 3.4435892002191907e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.26035509478048635,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0018279988699530453,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004340141141158947,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0006229116873806889,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.02773623839612928,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06778477537815603,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0733432969058037
+      },
+      "determinant_min_abs": 1.9540374762266888,
+      "health_lower_bounds": {
+        "F_S": 2.920041816928148,
+        "F_T": 1.0,
+        "G_S": 3.1790329817140517,
+        "G_T": 1.0
+      },
+      "index": 31,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09878318019807196,
+          "upper": 0.09878809597427357
+        },
+        "u": {
+          "lower": 0.009469348832272515,
+          "upper": 0.009473720531679202
+        },
+        "x": {
+          "lower": 0.027711374703723774,
+          "upper": 0.027714123285551586
+        }
+      },
+      "tau_end": 0.04
+    },
+    {
+      "Theta_min_abs": 0.09221586016408444,
+      "constraint_max_abs": 3.5546725164022173e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.26026376077988894,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.00182544660135189,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004334237075021398,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0006216017116220258,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.027716387724912687,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06773722517529125,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.073263127925489
+      },
+      "determinant_min_abs": 1.9540511403567338,
+      "health_lower_bounds": {
+        "F_S": 2.9200560900164687,
+        "F_T": 1.0,
+        "G_S": 3.1788656554522077,
+        "G_T": 1.0
+      },
+      "index": 32,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09874563504213396,
+          "upper": 0.09875071128970643
+        },
+        "u": {
+          "lower": 0.009763506604844159,
+          "upper": 0.00976802260717367
+        },
+        "x": {
+          "lower": 0.027691449272446027,
+          "upper": 0.027694287195055216
+        }
+      },
+      "tau_end": 0.04125
+    },
+    {
+      "Theta_min_abs": 0.09218533222667542,
+      "constraint_max_abs": 3.665975006597786e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.2601724943413288,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.00182289882732251,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.0043283432030906885,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0006202949988627477,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.02769655845714347,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06768972681178875,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.073182959232244
+      },
+      "determinant_min_abs": 1.9540647792082573,
+      "health_lower_bounds": {
+        "F_S": 2.9200701281530748,
+        "F_T": 1.0,
+        "G_S": 3.1786984617316034,
+        "G_T": 1.0
+      },
+      "index": 33,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.098708118607237,
+          "upper": 0.09871335575802885
+        },
+        "u": {
+          "lower": 0.010057558594890586,
+          "upper": 0.010062219386861302
+        },
+        "x": {
+          "lower": 0.027671544973571324,
+          "upper": 0.027674472453758127
+        }
+      },
+      "tau_end": 0.0425
+    },
+    {
+      "Theta_min_abs": 0.09215482288023932,
+      "constraint_max_abs": 3.7774974572426527e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.2600812954136286,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0018203555387550899,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.00432245950575049,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0006189915400681683,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.02767675056326653,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06764228022403115,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.073102790480098
+      },
+      "determinant_min_abs": 1.9540783926781429,
+      "health_lower_bounds": {
+        "F_S": 2.9200839309301214,
+        "F_T": 1.0,
+        "G_S": 3.1785314000267793,
+        "G_T": 1.0
+      },
+      "index": 34,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09867063085872743,
+          "upper": 0.09867602934607203
+        },
+        "u": {
+          "lower": 0.010351504876383723,
+          "upper": 0.010356310946601137
+        },
+        "x": {
+          "lower": 0.027651661776827752,
+          "upper": 0.02765467903209264
+        }
+      },
+      "tau_end": 0.043750000000000004
+    },
+    {
+      "Theta_min_abs": 0.09212433210764015,
+      "constraint_max_abs": 3.889240655962089e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.2599901639457137,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0018178167265614654,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004316585963428902,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0006176913262315823,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.02765696401377952,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.0675948853485191,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0730226213225935
+      },
+      "determinant_min_abs": 1.9540919806631947,
+      "health_lower_bounds": {
+        "F_S": 2.9200974979381447,
+        "F_T": 1.0,
+        "G_S": 3.178364469812449,
+        "G_T": 1.0
+      },
+      "index": 35,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09863317176200302,
+          "upper": 0.09863873202072211
+        },
+        "u": {
+          "lower": 0.010645345523214285,
+          "upper": 0.010650297362176857
+        },
+        "x": {
+          "lower": 0.027631799651994506,
+          "upper": 0.027634906900543533
+        }
+      },
+      "tau_end": 0.045
+    },
+    {
+      "Theta_min_abs": 0.09209385989175554,
+      "constraint_max_abs": 4.001205391572869e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.2598990998866117,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.00181528238167506,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004310722556598345,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0006163943483741695,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.027637198779232677,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06754754212187096,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0729424514127803
+      },
+      "determinant_min_abs": 1.9541055430601397,
+      "health_lower_bounds": {
+        "F_S": 2.920110828766056,
+        "F_T": 1.0,
+        "G_S": 3.178197670563493,
+        "G_T": 1.0
+      },
+      "index": 36,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09859574128251287,
+          "upper": 0.09860146374891998
+        },
+        "u": {
+          "lower": 0.010939080609191871,
+          "upper": 0.01094417870929692
+        },
+        "x": {
+          "lower": 0.02761195856890176,
+          "upper": 0.027615156029647956
+        }
+      },
+      "tau_end": 0.04625
+    },
+    {
+      "Theta_min_abs": 0.0920634062154767,
+      "constraint_max_abs": 4.1133924540862655e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.25980810318545255,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.001812752495050834,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004304869265775455,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0006151005975449023,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.02761745483022877,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06750025048082277,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0728622804032157
+      },
+      "determinant_min_abs": 1.9541190797656245,
+      "health_lower_bounds": {
+        "F_S": 2.9201239230011398,
+        "F_T": 1.0,
+        "G_S": 3.178031001754958,
+        "G_T": 1.0
+      },
+      "index": 37,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09855833938575727,
+          "upper": 0.09856422449766127
+        },
+        "u": {
+          "lower": 0.011232710208045059,
+          "upper": 0.01123795506359465
+        },
+        "x": {
+          "lower": 0.02759213849743059,
+          "upper": 0.02759542638999532
+        }
+      },
+      "tau_end": 0.0475
+    },
+    {
+      "Theta_min_abs": 0.09203297106170848,
+      "constraint_max_abs": 4.225802634711062e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.2597171737914687,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0018102270576652263,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004299026071520984,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0006138100648204514,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.027597732137422976,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06745301036222795,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0727821079459603
+      },
+      "determinant_min_abs": 1.954132590676215,
+      "health_lower_bounds": {
+        "F_S": 2.9201367802290505,
+        "F_T": 1.0,
+        "G_S": 3.1778644628620514,
+        "G_T": 1.0
+      },
+      "index": 38,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09852096603728759,
+          "upper": 0.09852701423399618
+        },
+        "u": {
+          "lower": 0.01152623439342151,
+          "upper": 0.011531626500628363
+        },
+        "x": {
+          "lower": 0.027572339407512827,
+          "upper": 0.02757571795222719
+        }
+      },
+      "tau_end": 0.04875
+    },
+    {
+      "Theta_min_abs": 0.0920025544133692,
+      "constraint_max_abs": 4.3384367258565265e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.2596263116539949,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0018077060605161015,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004293192954439692,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0006125227413050944,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.027578030671522768,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.0674058217030573,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0727019336925783
+      },
+      "determinant_min_abs": 1.954146075688396,
+      "health_lower_bounds": {
+        "F_S": 2.9201494000338104,
+        "F_T": 1.0,
+        "G_S": 3.177698053360141,
+        "G_T": 1.0
+      },
+      "index": 39,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09848362120270626,
+          "upper": 0.09848983292502943
+        },
+        "u": {
+          "lower": 0.011819653238888063,
+          "upper": 0.011825193095881483
+        },
+        "x": {
+          "lower": 0.02755256126913099,
+          "upper": 0.027556030687037186
+        }
+      },
+      "tau_end": 0.05
+    },
+    {
+      "Theta_min_abs": 0.09197215625339082,
+      "constraint_max_abs": 4.4512955211354e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.259535516722468,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0018051894946226853,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004287369895180225,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.000611238618130616,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.027558350403287833,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06735868444039847,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0726217572941341
+      },
+      "determinant_min_abs": 1.9541595346985698,
+      "health_lower_bounds": {
+        "F_S": 2.9201617819978103,
+        "F_T": 1.0,
+        "G_S": 3.1775317727247505,
+        "G_T": 1.0
+      },
+      "index": 40,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09844630484766653,
+          "upper": 0.09845268053792013
+        },
+        "u": {
+          "lower": 0.012112966817930827,
+          "upper": 0.012118654924762641
+        },
+        "x": {
+          "lower": 0.027532804052318165,
+          "upper": 0.027536364565170886
+        }
+      },
+      "tau_end": 0.051250000000000004
+    },
+    {
+      "Theta_min_abs": 0.09194177656471876,
+      "constraint_max_abs": 4.564379815366973e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.2594447889464276,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.001802677351025525,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004281556874435067,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0006099576864562295,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.027538691303529955,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06731159851145635,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0725415784011865
+      },
+      "determinant_min_abs": 1.9541729676030546,
+      "health_lower_bounds": {
+        "F_S": 2.9201739257017914,
+        "F_T": 1.0,
+        "G_S": 3.1773656204315524,
+        "G_T": 1.0
+      },
+      "index": 41,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09840901693787249,
+          "upper": 0.0984155570398817
+        },
+        "u": {
+          "lower": 0.012406175203955282,
+          "upper": 0.0124120120626058
+        },
+        "x": {
+          "lower": 0.027513067727157895,
+          "upper": 0.02751671955742572
+        }
+      },
+      "tau_end": 0.0525
+    },
+    {
+      "Theta_min_abs": 0.09191141533031195,
+      "constraint_max_abs": 4.677690404580024e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.25935412827551524,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0018001696207864204,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.00427575387294037,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0006086799374684705,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.027519053343112925,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06726456385355241,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0724613966637924
+      },
+      "determinant_min_abs": 1.9541863742980847,
+      "health_lower_bounds": {
+        "F_S": 2.9201858307248627,
+        "F_T": 1.0,
+        "G_S": 3.177199595956372,
+        "G_T": 1.0
+      },
+      "index": 42,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09837175743907885,
+          "upper": 0.09837846239818174
+        },
+        "u": {
+          "lower": 0.012699278470286379,
+          "upper": 0.012705264584670367
+        },
+        "x": {
+          "lower": 0.027493352263784084,
+          "upper": 0.027497095634650845
+        }
+      },
+      "tau_end": 0.05375
+    },
+    {
+      "Theta_min_abs": 0.09188107253314283,
+      "constraint_max_abs": 4.7912280860157595e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.25926353465947455,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.001797666294988368,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004269960871475872,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.000607405362381108,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.02749943649295241,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06721758040412457,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.072381211731506
+      },
+      "determinant_min_abs": 1.9541997546798102,
+      "health_lower_bounds": {
+        "F_S": 2.9201974966444966,
+        "F_T": 1.0,
+        "G_S": 3.177033698775185,
+        "G_T": 1.0
+      },
+      "index": 43,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09833452631709091,
+          "upper": 0.09834139658014197
+        },
+        "u": {
+          "lower": 0.01299227669016863,
+          "upper": 0.01299841256614129
+        },
+        "x": {
+          "lower": 0.027473657632380882,
+          "upper": 0.02747749276774709
+        }
+      },
+      "tau_end": 0.055
+    },
+    {
+      "Theta_min_abs": 0.09185074815619729,
+      "constraint_max_abs": 4.904993658130919e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.2591730080481517,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0017951673647355181,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004264177850864822,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.00060613395243506,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.027479840724015894,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.0671706481007273,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0723010232533667
+      },
+      "determinant_min_abs": 1.954213108644294,
+      "health_lower_bounds": {
+        "F_S": 2.920208923036507,
+        "F_T": 1.0,
+        "G_S": 3.176867928364105,
+        "G_T": 1.0
+      },
+      "index": 44,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09829732353776446,
+          "upper": 0.09830435955313814
+        },
+        "u": {
+          "lower": 0.013285169936766207,
+          "upper": 0.013291456082129187
+        },
+        "x": {
+          "lower": 0.027453983803182598,
+          "upper": 0.02745791092766681
+        }
+      },
+      "tau_end": 0.05625
+    },
+    {
+      "Theta_min_abs": 0.0918204421824747,
+      "constraint_max_abs": 5.018987920600713e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.2590825483914949,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0017926728211531103,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004258404791973848,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0006048656988982967,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.027460266007322542,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.0671237668810313,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0722208308779075
+      },
+      "determinant_min_abs": 1.9542264360875121,
+      "health_lower_bounds": {
+        "F_S": 2.9202201094750655,
+        "F_T": 1.0,
+        "G_S": 3.1767022841993873,
+        "G_T": 1.0
+      },
+      "index": 45,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09826014906700563,
+          "upper": 0.09826735128459987
+        },
+        "u": {
+          "lower": 0.013577958283163041,
+          "upper": 0.013584395207670455
+        },
+        "x": {
+          "lower": 0.027434330746473574,
+          "upper": 0.027438350085413808
+        }
+      },
+      "tau_end": 0.0575
+    },
+    {
+      "Theta_min_abs": 0.0917901545949878,
+      "constraint_max_abs": 5.133211674321902e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.25899215563955474,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0017901826553874227,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004252641675712869,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0006036005930657514,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.02744071231394312,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06707693668282334,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0721406342531432
+      },
+      "determinant_min_abs": 1.9542397369053515,
+      "health_lower_bounds": {
+        "F_S": 2.9202310555326836,
+        "F_T": 1.0,
+        "G_S": 3.1765367657574233,
+        "G_T": 1.0
+      },
+      "index": 46,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09822300287077076,
+          "upper": 0.0982303717420106
+        },
+        "u": {
+          "lower": 0.013870641802362915,
+          "upper": 0.013877230017727374
+        },
+        "x": {
+          "lower": 0.0274146984325881,
+          "upper": 0.027418810212043225
+        }
+      },
+      "tau_end": 0.058750000000000004
+    },
+    {
+      "Theta_min_abs": 0.09175988537676279,
+      "constraint_max_abs": 5.247665721415631e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.25890182974248344,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0017876968586057105,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004246888483034962,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0006023386262592235,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.02742117961499987,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06703015744400588,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0720604330265824
+      },
+      "determinant_min_abs": 1.9542530109936134,
+      "health_lower_bounds": {
+        "F_S": 2.920241760780238,
+        "F_T": 1.0,
+        "G_S": 3.176371372514746,
+        "G_T": 1.0
+      },
+      "index": 47,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.0981858849150664,
+          "upper": 0.09819342089290749
+        },
+        "u": {
+          "lower": 0.01416322056728956,
+          "upper": 0.014169960587188227
+        },
+        "x": {
+          "lower": 0.027395086831910293,
+          "upper": 0.027399291278661447
+        }
+      },
+      "tau_end": 0.06
+    },
+    {
+      "Theta_min_abs": 0.09172963451083925,
+      "constraint_max_abs": 5.362350865230608e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.2588115706505359,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0017852154219961645,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004241145194936317,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0006010797898273016,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.027401667881666442,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06698342910259733,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0719802268452074
+      },
+      "determinant_min_abs": 1.9542662582480055,
+      "health_lower_bounds": {
+        "F_S": 2.920252224786926,
+        "F_T": 1.0,
+        "G_S": 3.176206103948012,
+        "G_T": 1.0
+      },
+      "index": 48,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.0981487951659491,
+          "upper": 0.0981564987048813
+        },
+        "u": {
+          "lower": 0.014455694650786749,
+          "upper": 0.014462586990867402
+        },
+        "x": {
+          "lower": 0.02737549591487401,
+          "upper": 0.02737979325642599
+        }
+      },
+      "tau_end": 0.06125
+    },
+    {
+      "Theta_min_abs": 0.09169940198027011,
+      "constraint_max_abs": 5.477267910346007e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.2587213783140688,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0017827383367678444,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.00423541179245608,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0005998240751452607,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.027382177085167762,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.0669367515967315,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0719000153554858
+      },
+      "determinant_min_abs": 1.954279478564147,
+      "health_lower_bounds": {
+        "F_S": 2.9202624471202987,
+        "F_T": 1.0,
+        "G_S": 3.17604095953401,
+        "G_T": 1.0
+      },
+      "index": 49,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09811173358952537,
+          "upper": 0.09811960514557634
+        },
+        "u": {
+          "lower": 0.014748064125618394,
+          "upper": 0.014755109303505515
+        },
+        "x": {
+          "lower": 0.027355925651962737,
+          "upper": 0.027360316116545418
+        }
+      },
+      "tau_end": 0.0625
+    },
+    {
+      "Theta_min_abs": 0.0916691877681217,
+      "constraint_max_abs": 5.592417662574532e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.258631252683541,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0017802655941506315,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004229688256676284,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0005985714736149807,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.027362707196779953,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06689012486465762,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.071819798203361
+      },
+      "determinant_min_abs": 1.9542926718375646,
+      "health_lower_bounds": {
+        "F_S": 2.920272427346236,
+        "F_T": 1.0,
+        "G_S": 3.1758759387496505,
+        "G_T": 1.0
+      },
+      "index": 50,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09807470015195154,
+          "upper": 0.09808274018269031
+        },
+        "u": {
+          "lower": 0.015040329064468649,
+          "upper": 0.015047527599769508
+        },
+        "x": {
+          "lower": 0.027336376013709484,
+          "upper": 0.027340859830279222
+        }
+      },
+      "tau_end": 0.06375
+    },
+    {
+      "Theta_min_abs": 0.09163899185747365,
+      "constraint_max_abs": 5.7078009289653454e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.25854119370951334,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0017777971853951728,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004223974568721735,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0005973219766648521,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.027343258187830222,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.0668435488447401,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0717395750342555
+      },
+      "determinant_min_abs": 1.9543058379636926,
+      "health_lower_bounds": {
+        "F_S": 2.9202821650289614,
+        "F_T": 1.0,
+        "G_S": 3.1757110410719718,
+        "G_T": 1.0
+      },
+      "index": 51,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09803769481943365,
+          "upper": 0.09804590378397425
+        },
+        "u": {
+          "lower": 0.015332489539941986,
+          "upper": 0.015339841954252776
+        },
+        "x": {
+          "lower": 0.027316846970696678,
+          "upper": 0.027321424368937735
+        }
+      },
+      "tau_end": 0.065
+    },
+    {
+      "Theta_min_abs": 0.09160881423141891,
+      "constraint_max_abs": 5.823418517807137e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.25845120134264876,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.001775333101772826,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.0042182707097599085,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0005960755757496905,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.027323830029696766,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06679702347545836,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0716593454930627
+      },
+      "determinant_min_abs": 1.954318976837872,
+      "health_lower_bounds": {
+        "F_S": 2.920291659731023,
+        "F_T": 1.0,
+        "G_S": 3.175546265978127,
+        "G_T": 1.0
+      },
+      "index": 52,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09800071755822741,
+          "upper": 0.0980090959172324
+        },
+        "u": {
+          "lower": 0.015624545624563311,
+          "upper": 0.01563205244147526
+        },
+        "x": {
+          "lower": 0.02729733849355608,
+          "upper": 0.027302009703882028
+        }
+      },
+      "tau_end": 0.06625
+    },
+    {
+      "Theta_min_abs": 0.09157865487306376,
+      "constraint_max_abs": 5.9392712386310574e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.2583612755337122,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0017728733345756095,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004212576661000862,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0005948322623506468,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.027304422693808672,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06675054869540675,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0715791092241516
+      },
+      "determinant_min_abs": 1.954332088355349,
+      "health_lower_bounds": {
+        "F_S": 2.920300911013305,
+        "F_T": 1.0,
+        "G_S": 3.1753816129453893,
+        "G_T": 1.0
+      },
+      "index": 53,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.097963768334638,
+          "upper": 0.0979723165503222
+        },
+        "u": {
+          "lower": 0.015916497390778044,
+          "upper": 0.015924159135883575
+        },
+        "x": {
+          "lower": 0.02727785055296865,
+          "upper": 0.02728261580652381
+        }
+      },
+      "tau_end": 0.0675
+    },
+    {
+      "Theta_min_abs": 0.09154851376552768,
+      "constraint_max_abs": 6.055359902213794e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.25827141623357047,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0017704178751161445,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004206892403697121,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0005935920279751185,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.027285036151645813,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06670412444329421,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.071498865871356
+      },
+      "determinant_min_abs": 1.9543451724112753,
+      "health_lower_bounds": {
+        "F_S": 2.9203099184350103,
+        "F_T": 1.0,
+        "G_S": 3.1752170814511405,
+        "G_T": 1.0
+      },
+      "index": 54,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09792684711502006,
+          "upper": 0.09793556565115402
+        },
+        "u": {
+          "lower": 0.016208344910952223,
+          "upper": 0.016216162111851104
+        },
+        "x": {
+          "lower": 0.027258383119664484,
+          "upper": 0.027263242648325324
+        }
+      },
+      "tau_end": 0.06875
+    },
+    {
+      "Theta_min_abs": 0.09151839089194351,
+      "constraint_max_abs": 6.171685320580542e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.2581816233931924,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0017679667147276039,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.00420121791914358,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0005923548641566614,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.02726567037473876,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06665775065794423,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.07141861507798
+      },
+      "determinant_min_abs": 1.9543582289007047,
+      "health_lower_bounds": {
+        "F_S": 2.920318681553669,
+        "F_T": 1.0,
+        "G_S": 3.1750526709728777,
+        "G_T": 1.0
+      },
+      "index": 55,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09788995386577751,
+          "upper": 0.09789884318769128
+        },
+        "u": {
+          "lower": 0.01650008825737259,
+          "upper": 0.01650806144367812
+        },
+        "x": {
+          "lower": 0.027238936164422682,
+          "upper": 0.02724389020079926
+        }
+      },
+      "tau_end": 0.07
+    },
+    {
+      "Theta_min_abs": 0.09148828623545725,
+      "constraint_max_abs": 6.288248307008001e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.25809189696364887,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.001765519844763662,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004195553188677421,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0005911207624549053,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.02724632533466867,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06661142727829475,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0713383564867927
+      },
+      "determinant_min_abs": 1.9543712577185957,
+      "health_lower_bounds": {
+        "F_S": 2.920327199925133,
+        "F_T": 1.0,
+        "G_S": 3.1748883809882016,
+        "G_T": 1.0
+      },
+      "index": 56,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09785308855336348,
+          "upper": 0.09786214912795017
+        },
+        "u": {
+          "lower": 0.016791727502246695,
+          "upper": 0.016799857205591892
+        },
+        "x": {
+          "lower": 0.027219509658071253,
+          "upper": 0.027224558435508632
+        }
+      },
+      "tau_end": 0.07125000000000001
+    },
+    {
+      "Theta_min_abs": 0.09145819977922817,
+      "constraint_max_abs": 6.40504967602743e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.25800223689611257,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.001763077256598435,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004189898193677988,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0005898897144554623,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.02722700100306719,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06656515424339779,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.071258089740023
+      },
+      "determinant_min_abs": 1.954384258759807,
+      "health_lower_bounds": {
+        "F_S": 2.9203354731035653,
+        "F_T": 1.0,
+        "G_S": 3.174724210974816,
+        "G_T": 1.0
+      },
+      "index": 57,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09781625114428025,
+          "upper": 0.09782548343999968
+        },
+        "u": {
+          "lower": 0.017083262717702975,
+          "upper": 0.0170915494717468
+        },
+        "x": {
+          "lower": 0.027200103571487024,
+          "upper": 0.027205247324066716
+        }
+      },
+      "tau_end": 0.0725
+    },
+    {
+      "Theta_min_abs": 0.09142813150642871,
+      "constraint_max_abs": 6.522090243427589e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.2579126431418581,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.001760638941626434,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004184252915566703,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0005886617117698418,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.027207697351616367,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06651893149241943,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0711778144793644
+      },
+      "determinant_min_abs": 1.9543972319190996,
+      "health_lower_bounds": {
+        "F_S": 2.920343500641453,
+        "F_T": 1.0,
+        "G_S": 3.1745601604105302,
+        "G_T": 1.0
+      },
+      "index": 58,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09777944160507904,
+          "upper": 0.0977888460919614
+        },
+        "u": {
+          "lower": 0.01737469397579086,
+          "upper": 0.017383138316224435
+        },
+        "x": {
+          "lower": 0.027180717875595527,
+          "upper": 0.027185956838136915
+        }
+      },
+      "tau_end": 0.07375
+    },
+    {
+      "Theta_min_abs": 0.09139808140024452,
+      "constraint_max_abs": 6.639370826257758e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.25782311565226174,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.001758204891262507,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.00417861733580695,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0005874367460353623,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.02718841435204854,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06647275896463953,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0710975303459682
+      },
+      "determinant_min_abs": 1.9544101770911344,
+      "health_lower_bounds": {
+        "F_S": 2.9203512820895936,
+        "F_T": 1.0,
+        "G_S": 3.174396228773251,
+        "G_T": 1.0
+      },
+      "index": 59,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09774265990236,
+          "upper": 0.09775223705200951
+        },
+        "u": {
+          "lower": 0.017666021348480877,
+          "upper": 0.01767462381303371
+        },
+        "x": {
+          "lower": 0.027161352541370903,
+          "upper": 0.02716668694943268
+        }
+      },
+      "tau_end": 0.075
+    },
+    {
+      "Theta_min_abs": 0.09136804944387442,
+      "constraint_max_abs": 6.756892242830774e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.25773365437880197,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0017557750969417927,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004172991435904008,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0005862148089150691,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.02716915197614625,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06642663659945175,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0710172369804403
+      },
+      "determinant_min_abs": 1.954423094170471,
+      "health_lower_bounds": {
+        "F_S": 2.92035881699709,
+        "F_T": 1.0,
+        "G_S": 3.174232415540977,
+        "G_T": 1.0
+      },
+      "index": 60,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.0977059060027721,
+          "upper": 0.09771565628837069
+        },
+        "u": {
+          "lower": 0.017957244907664704,
+          "upper": 0.01796600603611099
+        },
+        "x": {
+          "lower": 0.0271420075398358,
+          "upper": 0.027147437629717407
+        }
+      },
+      "tau_end": 0.07625
+    },
+    {
+      "Theta_min_abs": 0.09133803562053032,
+      "constraint_max_abs": 6.874655312726036e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.2576442592730588,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0017533495501196607,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004167375197404915,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0005849958920976427,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.027149910195742127,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06638056433636313,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0709369340228403
+      },
+      "determinant_min_abs": 1.9544359830515672,
+      "health_lower_bounds": {
+        "F_S": 2.9203661049113525,
+        "F_T": 1.0,
+        "G_S": 3.174068720191801,
+        "G_T": 1.0
+      },
+      "index": 61,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09766917987301296,
+          "upper": 0.09767910376932391
+        },
+        "u": {
+          "lower": 0.018248364725155317,
+          "upper": 0.018257285059320172
+        },
+        "x": {
+          "lower": 0.027122682842061274,
+          "upper": 0.027128208850804345
+        }
+      },
+      "tau_end": 0.0775
+    },
+    {
+      "Theta_min_abs": 0.09130803991343733,
+      "constraint_max_abs": 6.99266085679248e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.25755493028671417,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0017509282422716673,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004161768601898402,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0005837799872973178,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.027130688982718816,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06633454211499419,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0708566211126818
+      },
+      "determinant_min_abs": 1.9544488436287788,
+      "health_lower_bounds": {
+        "F_S": 2.920373145378099,
+        "F_T": 1.0,
+        "G_S": 3.1739051422039064,
+        "G_T": 1.0
+      },
+      "index": 62,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09763248147982885,
+          "upper": 0.0976425794632005
+        },
+        "u": {
+          "lower": 0.01853938087268704,
+          "upper": 0.01854846095645281
+        },
+        "x": {
+          "lower": 0.027103378419166685,
+          "upper": 0.027109000584556488
+        }
+      },
+      "tau_end": 0.07875
+    },
+    {
+      "Theta_min_abs": 0.09127806230583363,
+      "constraint_max_abs": 7.110909697151628e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.25746566737155185,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0017485111648934968,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004156171631014773,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0005825670862537955,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.02711148830900886,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06628856987507858,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0707762978889255
+      },
+      "determinant_min_abs": 1.9544616757963573,
+      "health_lower_bounds": {
+        "F_S": 2.9203799379413433,
+        "F_T": 1.0,
+        "G_S": 3.17374168105556,
+        "G_T": 1.0
+      },
+      "index": 63,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.0975958107900145,
+          "upper": 0.09760608333838391
+        },
+        "u": {
+          "lower": 0.01883029342191565,
+          "upper": 0.01883953380122822
+        },
+        "x": {
+          "lower": 0.02708409424231961,
+          "upper": 0.027089812802886484
+        }
+      },
+      "tau_end": 0.08
+    },
+    {
+      "Theta_min_abs": 0.09124810278097047,
+      "constraint_max_abs": 7.22940265720058e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.2573764704794573,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0017460983095009118,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004150584266425812,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0005813571807321582,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.02709230814659461,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06624264755646295,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0706959639899805
+      },
+      "determinant_min_abs": 1.95447447944845,
+      "health_lower_bounds": {
+        "F_S": 2.9203864821434005,
+        "F_T": 1.0,
+        "G_S": 3.173578336225114,
+        "G_T": 1.0
+      },
+      "index": 64,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09755916777041303,
+          "upper": 0.09756961536330971
+        },
+        "u": {
+          "lower": 0.019121102444418482,
+          "upper": 0.01913050366729361
+        },
+        "x": {
+          "lower": 0.027064830282735715,
+          "upper": 0.027070645477756533
+        }
+      },
+      "tau_end": 0.08125
+    },
+    {
+      "Theta_min_abs": 0.0912181613221122,
+      "constraint_max_abs": 7.34814056161499e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.25728733956241756,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0017436896676297003,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004145006489844684,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0005801502625227838,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.02707314846750812,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06619677509910675,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0706156190537024
+      },
+      "determinant_min_abs": 1.9544872544791,
+      "health_lower_bounds": {
+        "F_S": 2.9203927775248837,
+        "F_T": 1.0,
+        "G_S": 3.1734151071910004,
+        "G_T": 1.0
+      },
+      "index": 65,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09752255238791584,
+          "upper": 0.09753317550646548
+        },
+        "u": {
+          "lower": 0.019411808011694513,
+          "upper": 0.01942137062822414
+        },
+        "x": {
+          "lower": 0.027045586511678685,
+          "upper": 0.027051498581178307
+        }
+      },
+      "tau_end": 0.0825
+    },
+    {
+      "Theta_min_abs": 0.09118823791253622,
+      "constraint_max_abs": 7.467124236352174e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.25719827457252176,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0017412852308356297,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004139438283025852,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0005789463234412655,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.02705400924383108,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06615095244308229,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0705352627173848
+      },
+      "determinant_min_abs": 1.9545000007822415,
+      "health_lower_bounds": {
+        "F_S": 2.920398823624688,
+        "F_T": 1.0,
+        "G_S": 3.1732519934317263,
+        "G_T": 1.0
+      },
+      "index": 66,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09748596460946256,
+          "upper": 0.09749676373639067
+        },
+        "u": {
+          "lower": 0.019702410195164444,
+          "upper": 0.01971213475752308
+        },
+        "x": {
+          "lower": 0.027026362900460107,
+          "upper": 0.027032372085212822
+        }
+      },
+      "tau_end": 0.08375
+    },
+    {
+      "Theta_min_abs": 0.09115833253553296,
+      "constraint_max_abs": 7.586354508654011e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.2571092754619604,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.001738884990694385,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.00413387962776496,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0005777453553283216,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.027034890447694672,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06610517952857423,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0704548946177674
+      },
+      "determinant_min_abs": 1.9545127182517041,
+      "health_lower_bounds": {
+        "F_S": 2.920404619980011,
+        "F_T": 1.0,
+        "G_S": 3.1730889944258767,
+        "G_T": 1.0
+      },
+      "index": 67,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09744940440204088,
+          "upper": 0.09746038002167656
+        },
+        "u": {
+          "lower": 0.019992909066170815,
+          "upper": 0.0200027961286219
+        },
+        "x": {
+          "lower": 0.027007159420439384,
+          "upper": 0.02701326596197037
+        }
+      },
+      "tau_end": 0.085
+    },
+    {
+      "Theta_min_abs": 0.09112844517440584,
+      "constraint_max_abs": 7.705832207050024e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.2570203421830258,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0017364889388015272,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004128330505898743,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0005765473500497163,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.027015792051279512,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06605945629587966,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0703745143910246
+      },
+      "determinant_min_abs": 1.9545254067812077,
+      "health_lower_bounds": {
+        "F_S": 2.920410166126328,
+        "F_T": 1.0,
+        "G_S": 3.1729261096521046,
+        "G_T": 1.0
+      },
+      "index": 68,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09741287173268648,
+          "upper": 0.09742402433096613
+        },
+        "u": {
+          "lower": 0.020283304695978076,
+          "upper": 0.02029335481488037
+        },
+        "x": {
+          "lower": 0.026987976043023616,
+          "upper": 0.02699418018361041
+        }
+      },
+      "tau_end": 0.08625000000000001
+    },
+    {
+      "Theta_min_abs": 0.09109857581247131,
+      "constraint_max_abs": 7.825558161360342e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.25693147468811184,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0017340970667724357,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.0041227908993049355,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0005753522994961732,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.026996714026815537,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06601378268540785,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0702941216727693
+      },
+      "determinant_min_abs": 1.954538066264364,
+      "health_lower_bounds": {
+        "F_S": 2.9204154615974063,
+        "F_T": 1.0,
+        "G_S": 3.1727633385891356,
+        "G_T": 1.0
+      },
+      "index": 69,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09737636656848293,
+          "upper": 0.097387696632954
+        },
+        "u": {
+          "lower": 0.02057359715577269,
+          "upper": 0.020583810889586683
+        },
+        "x": {
+          "lower": 0.026968812739667523,
+          "upper": 0.026975114722341473
+        }
+      },
+      "tau_end": 0.08750000000000001
+    },
+    {
+      "Theta_min_abs": 0.09106872443305876,
+      "constraint_max_abs": 7.945533202698773e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.25684267292971413,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0017317093662422602,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.0041172607899021664,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0005741601955832935,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.02697765634658191,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06596815863768012,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.070213716098045
+      },
+      "determinant_min_abs": 1.9545506965946746,
+      "health_lower_bounds": {
+        "F_S": 2.920420505925285,
+        "F_T": 1.0,
+        "G_S": 3.1726006807157545,
+        "G_T": 1.0
+      },
+      "index": 70,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09733988887656159,
+          "upper": 0.09735139689638632
+        },
+        "u": {
+          "lower": 0.020863786516663214,
+          "upper": 0.02087416442595755
+        },
+        "x": {
+          "lower": 0.02694966948187333,
+          "upper": 0.02695606955042107
+        }
+      },
+      "tau_end": 0.08875
+    },
+    {
+      "Theta_min_abs": 0.09103889101951053,
+      "constraint_max_abs": 8.065758163475772e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.25675393686042985,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.001729325828865868,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004111740159649871,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0005729710302514727,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.02695861898290694,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.0659225840933296,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0701332973013296
+      },
+      "determinant_min_abs": 1.95456329766553,
+      "health_lower_bounds": {
+        "F_S": 2.920425298640287,
+        "F_T": 1.0,
+        "G_S": 3.172438135510815,
+        "G_T": 1.0
+      },
+      "index": 71,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09730343862410148,
+          "upper": 0.0973151250900607
+        },
+        "u": {
+          "lower": 0.021153872849680413,
+          "upper": 0.02116441549713832
+        },
+        "x": {
+          "lower": 0.026930546241190678,
+          "upper": 0.026937044640155585
+        }
+      },
+      "tau_end": 0.09
+    },
+    {
+      "Theta_min_abs": 0.09100907555518196,
+      "constraint_max_abs": 8.186233877401496e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.2566652664329579,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0017269464463177974,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004106228990548195,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0005717847954658193,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.026939601908167958,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06587705899310126,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.070052864916527
+      },
+      "determinant_min_abs": 1.954575869370209,
+      "health_lower_bounds": {
+        "F_S": 2.9204298392710073,
+        "F_T": 1.0,
+        "G_S": 3.172275702453223,
+        "G_T": 1.0
+      },
+      "index": 72,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09726701577832927,
+          "upper": 0.09727888118282604
+        },
+        "u": {
+          "lower": 0.02144385622577732,
+          "upper": 0.02145456417620308
+        },
+        "x": {
+          "lower": 0.026911442989216522,
+          "upper": 0.0269180399639002
+        }
+      },
+      "tau_end": 0.09125
+    },
+    {
+      "Theta_min_abs": 0.0909792780234412,
+      "constraint_max_abs": 8.306961179488811e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.2565766616000986,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.001724571210292202,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004100727264637891,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0005706014832160693,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.02692060509479125,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06583158327785152,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0699724185769697
+      },
+      "determinant_min_abs": 1.954588411601878,
+      "health_lower_bounds": {
+        "F_S": 2.920434127344314,
+        "F_T": 1.0,
+        "G_S": 3.172113381021947,
+        "G_T": 1.0
+      },
+      "index": 73,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09723062030651908,
+          "upper": 0.09724266514358257
+        },
+        "u": {
+          "lower": 0.021733736715829358,
+          "upper": 0.021744610536154764
+        },
+        "x": {
+          "lower": 0.02689235969759504,
+          "upper": 0.026899055494058778
+        }
+      },
+      "tau_end": 0.0925
+    },
+    {
+      "Theta_min_abs": 0.09094949840766944,
+      "constraint_max_abs": 8.42794090605624e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.25648812231475376,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.001722200112502798,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.0040952349640002135,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0005694210855165034,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.026901628515251942,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06578615688854808,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0698919579154176
+      },
+      "determinant_min_abs": 1.9546009242535898,
+      "health_lower_bounds": {
+        "F_S": 2.920438162385351,
+        "F_T": 1.0,
+        "G_S": 3.171951170696007,
+        "G_T": 1.0
+      },
+      "index": 74,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09719425217599238,
+          "upper": 0.09720647694128164
+        },
+        "u": {
+          "lower": 0.0220235143906344,
+          "upper": 0.022034554649925268
+        },
+        "x": {
+          "lower": 0.026873296338017515,
+          "upper": 0.026880091203083777
+        }
+      },
+      "tau_end": 0.09375
+    },
+    {
+      "Theta_min_abs": 0.09091973669126063,
+      "constraint_max_abs": 8.549173894731065e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.25639964852992686,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0017198331446828226,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004089752070756852,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0005682435944058707,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.026882672142073908,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06574077976627002,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0698114825640481
+      },
+      "determinant_min_abs": 1.954613407218283,
+      "health_lower_bounds": {
+        "F_S": 2.9204419439175204,
+        "F_T": 1.0,
+        "G_S": 3.171789070954472,
+        "G_T": 1.0
+      },
+      "index": 75,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09715791135411801,
+          "upper": 0.09717031654492568
+        },
+        "u": {
+          "lower": 0.022313189320912898,
+          "upper": 0.022324396590375543
+        },
+        "x": {
+          "lower": 0.026854252882222266,
+          "upper": 0.026861147063476167
+        }
+      },
+      "tau_end": 0.095
+    },
+    {
+      "Theta_min_abs": 0.0908899928576216,
+      "constraint_max_abs": 8.670660984452344e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.256311240198723,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.0017174702985849797,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004084278567069826,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0005670690019473044,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.0268637359478297,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06569545185220746,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0697309921544598
+      },
+      "determinant_min_abs": 1.95462586038878,
+      "health_lower_bounds": {
+        "F_S": 2.9204454714624877,
+        "F_T": 1.0,
+        "G_S": 3.1716270812764598,
+        "G_T": 1.0
+      },
+      "index": 76,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09712159780831195,
+          "upper": 0.09713418392356811
+        },
+        "u": {
+          "lower": 0.02260276157730793,
+          "upper": 0.022614136430295716
+        },
+        "x": {
+          "lower": 0.026835229301994532,
+          "upper": 0.026842223047785312
+        }
+      },
+      "tau_end": 0.09625
+    },
+    {
+      "Theta_min_abs": 0.09086026689017207,
+      "constraint_max_abs": 8.792403015473846e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.25622289727434844,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.001715111565981384,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004078814435141365,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0005658973002282368,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.026844819905140413,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06565017308766131,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0696504863176726
+      },
+      "determinant_min_abs": 1.9546382836577885,
+      "health_lower_bounds": {
+        "F_S": 2.92044874454019,
+        "F_T": 1.0,
+        "G_S": 3.1714652011411344,
+        "G_T": 1.0
+      },
+      "index": 77,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09708531150603726,
+          "upper": 0.09709807904631325
+        },
+        "u": {
+          "lower": 0.022892231230385324,
+          "upper": 0.02290377424240519
+        },
+        "x": {
+          "lower": 0.026816225569166376,
+          "upper": 0.026823319128608896
+        }
+      },
+      "tau_end": 0.0975
+    },
+    {
+      "Theta_min_abs": 0.09083055877234451,
+      "constraint_max_abs": 8.914400829367183e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.2561346197101113,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.001712756938663521,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004073359657213852,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0005647284813603249,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.026825923986675625,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06560494341404334,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.0695699646841157
+      },
+      "determinant_min_abs": 1.954650676917897,
+      "health_lower_bounds": {
+        "F_S": 2.9204517626688076,
+        "F_T": 1.0,
+        "G_S": 3.1713034300276965,
+        "G_T": 1.0
+      },
+      "index": 78,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09704905241480405,
+          "upper": 0.09706200188231623
+        },
+        "u": {
+          "lower": 0.02318159835063374,
+          "upper": 0.023193310099352757
+        },
+        "x": {
+          "lower": 0.026797241655616595,
+          "upper": 0.026804435278592813
+        }
+      },
+      "tau_end": 0.09875
+    },
+    {
+      "Theta_min_abs": 0.09080086848758429,
+      "constraint_max_abs": 9.036655269024721e-06,
+      "cubic_weak_field_diagnostic": {
+        "E_upper_bound": 0.25604640745942087,
+        "derivative_ratios_upper_bounds": {
+          "G2_X0_phi0": 0.001710406408442188,
+          "G2_X0_phi1": 0.0,
+          "G2_X1_phi0": 0.004067914215569696,
+          "G2_X1_phi1": 0.0,
+          "G2_X2_phi0": 0.0005635625374793634,
+          "G2_X2_phi1": 0.0,
+          "G3_X0_phi0": 0.02680704816515328,
+          "G3_X0_phi1": 0.0,
+          "G3_X0_phi2": 0.0,
+          "G3_X1_phi0": 0.06555976277287577,
+          "G3_X1_phi1": 0.0,
+          "G3_X1_phi2": 0.0,
+          "G3_X2_phi0": 0.0,
+          "G3_X2_phi1": 0.0,
+          "G3_X2_phi2": 0.0
+        },
+        "scalar_slicing_cone_gap_min_abs": 1.069489426883638
+      },
+      "determinant_min_abs": 1.9546630400615779,
+      "health_lower_bounds": {
+        "F_S": 2.920454525364789,
+        "F_T": 1.0,
+        "G_S": 3.1711417674153917,
+        "G_T": 1.0
+      },
+      "index": 79,
+      "kessence_health_lower_bounds": {},
+      "picard_iterations": 1,
+      "state_endpoint": {
+        "h": {
+          "lower": 0.09701282050216928,
+          "upper": 0.09702595240078285
+        },
+        "u": {
+          "lower": 0.023470863008464737,
+          "upper": 0.023482744073716696
+        },
+        "x": {
+          "lower": 0.026778277533270615,
+          "upper": 0.026785571470431088
+        }
+      },
+      "tau_end": 0.1
+    }
+  ],
+  "time": {
+    "step": 0.00125,
+    "steps": 80,
+    "tau_end": 0.1,
+    "tau_start": 0.0
+  },
+  "trajectory_hull": {
+    "h": {
+      "lower": 0.09700796488070892,
+      "upper": 0.10000384241152102
+    },
+    "u": {
+      "lower": -2.9770125842107176e-05,
+      "upper": 0.023512843129504434
+    },
+    "x": {
+      "lower": 0.026775693526427686,
+      "upper": 0.02836238904537422
+    }
+  },
+  "uniform_certificate": {
+    "Theta_min_abs": 0.09080086848758429,
+    "constraint_max_abs_enclosure": 9.036655269024721e-06,
+    "constraint_tolerance": 1e-05,
+    "evolution_determinant_min_abs": 1.953601909351392,
+    "health_lower_bounds": {
+      "F_S": 2.919484965987193,
+      "F_T": 1.0,
+      "G_S": 3.1711417674153917,
+      "G_T": 1.0
+    },
+    "kessence_health_lower_bounds": {}
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "schema_version": "sigma-action-spec-1.0",
+  "role": "candidate",
+  "fields": ["g_mu_nu", "u_mu", "lambda_u"],
+  "matter_metric": "g_mu_nu",
+  "terms": [
+    "EH_R",
+    "AETHER_K1",
+    "AETHER_K4",
+    "AETHER_Q1",
+    "AETHER_X_SQRT1P",
+    "UNIT_VECTOR_CONSTRAINT"
+  ],
+  "coefficients": {
+    "AETHER_K1": "-gamma*M_Pl^2/2",
+    "AETHER_K4": "-gamma*M_Pl^2/2",
+    "AETHER_Q1": "epsilon*M_Pl^2*a_sigma^2",
+    "AETHER_X_SQRT1P": "epsilon*M_Pl^2*a_sigma^2"
+  },
+  "universal_constants": ["M_Pl", "L_sigma", "a_sigma", "epsilon", "gamma"],
+  "parameter_domain": {
+    "positive": ["M_Pl", "L_sigma", "a_sigma", "epsilon", "gamma"],
+    "inequalities": ["gamma <= epsilon"]
+  },
+  "static_dictionary_status": "derived",
+  "generator_origin": {
+    "family_id": "GF-5df8715b319f54cb",
+    "ordinal": 691,
+    "correction_expression": "+(q)+(sqrt(1+(x))-1)",
+    "pareto_front": 3,
+    "source_priority_sha256": "592d38fbb354f4946494cb274159a55c7b801d6a8b13e7a946ad276f572685a7"
+  },
+  "covariant_completion": {
+    "completion_id": "static-null-k1-k4-gradient-regularizer-v1",
+    "static_null_terms": ["AETHER_K1", "AETHER_K4"],
+    "purpose": "Preserve the exact aligned static q+sqrt(1+x)-1 generator shape while supplying positive transverse and longitudinal Aether spatial-gradient energy."
+  }
+}

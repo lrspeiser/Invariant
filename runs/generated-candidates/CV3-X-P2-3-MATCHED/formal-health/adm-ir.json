@@ -1,0 +1,182 @@
+{
+  "boundary_contract": [
+    "Einstein-Hilbert normal divergence removed by GHY completion or fixed-boundary/compact-support contract"
+  ],
+  "combined_adm_bulk_density": "(-gamma*M_Pl^2/2) * (N sqrt(h) (1+X_a)^(-4/3)(1+X_a/3) [K1_ADM+K4_ADM]) + (epsilon*M_Pl^2*a_sigma^2) * (N sqrt(h) [(1+(-a_perp^2+a_i a^i)/a_sigma^2)^(2/3)-1]) + (M_Pl^2/2) * (N sqrt(h) (R3 + K_ij K^ij - K^2)) + (1) * (N sqrt(h) lambda_u (-chi^2 + A_i A^i + 1))",
+  "content_sha256": "a99b64a5c3966a6df4634f73a6ef90f4464b000bc617db99a1fae19b2531d5fa",
+  "definitions": [
+    "K1_ADM and K4_ADM are the exact registered Aether blocks",
+    "X_a=(-a_perp^2+a_i a^i)/a_sigma^2",
+    "a_i=chi E_i+S_ji A^j",
+    "a_perp=-chi Q-A^i P_i",
+    "chi>0",
+    "u^a=chi n^a+A^a"
+  ],
+  "higher_time_derivative_channels": [],
+  "input_action_sha256": "4fd2270add4b44c9cc1b95c71deccceccc00278dcc70423e159cadcd2c8c8138",
+  "lapse_shift_statement": "No dot(N) or dot(N^i) channel occurs after the declared boundary completion; their momenta are primary constraints. Secondary H_perp/H_i entries are seeds until the action-specific Poisson algebra is executed.",
+  "matter_metric": "g_mu_nu",
+  "missing_or_failed_controls": [],
+  "missing_templates": [],
+  "nondynamical_channels": [
+    "N",
+    "N^i",
+    "lambda_u"
+  ],
+  "primary_constraint_seeds": [
+    "p_N=0",
+    "p_(N^i)=0 (three components)",
+    "p_(lambda_u)=0"
+  ],
+  "promotion_allowed": false,
+  "proof_scope": "termwise exact 3+1 template instantiation and primary/secondary seed extraction for the bounded action grammar; it does not by itself prove action-specific Poisson closure, global Hessian rank, physical degree count, or reduced boundedness",
+  "schema_version": "sigma-adm-ir-1.0",
+  "secondary_constraint_seeds": [
+    "H_perp=0",
+    "H_i=0 (three components)",
+    "-chi^2+A_i A^i+1=0"
+  ],
+  "source_role": "candidate",
+  "spatial_jets": [
+    "D_i A_j",
+    "D_i chi",
+    "D_i ln(N)",
+    "R3[h]"
+  ],
+  "static_dictionary_status": "derived",
+  "status": "pass",
+  "term_templates_complete": true,
+  "terms": [
+    {
+      "adm_bulk_basis": "N sqrt(h) (1+X_a)^(-4/3)(1+X_a/3) [K1_ADM+K4_ADM]",
+      "boundary_terms": [],
+      "coefficient": "-gamma*M_Pl^2/2",
+      "covariant_density": "sqrt(-g) (1+X_a_u)^(-4/3) (1+X_a_u/3) (K1_u+K4_u)/L_u^2",
+      "definitions": [
+        "X_a=(-a_perp^2+a_i a^i)/a_sigma^2",
+        "K1_ADM and K4_ADM are the exact registered Aether blocks"
+      ],
+      "higher_time_derivative_channels": [],
+      "nondynamical_channels": [
+        "N",
+        "N^i"
+      ],
+      "proof_scope": "exact product of first-derivative scalar blocks; nonlinear constraint closure remains separate",
+      "required_controls": [
+        "einstein_aether_generic_3plus1_legendre",
+        "nonlinear_aether_acceleration_global_convexity"
+      ],
+      "spatial_jets": [
+        "D_i A_j",
+        "D_i chi",
+        "D_i ln(N)"
+      ],
+      "term_id": "AETHER_MATCHED_K14_P2_3",
+      "velocity_channels": [
+        "K_ij",
+        "V_i=L_n A_i",
+        "L_n chi"
+      ],
+      "verification": "pass",
+      "weighted_adm_bulk": "(-gamma*M_Pl^2/2) * (N sqrt(h) (1+X_a)^(-4/3)(1+X_a/3) [K1_ADM+K4_ADM])"
+    },
+    {
+      "adm_bulk_basis": "N sqrt(h) [(1+(-a_perp^2+a_i a^i)/a_sigma^2)^(2/3)-1]",
+      "boundary_terms": [],
+      "coefficient": "epsilon*M_Pl^2*a_sigma^2",
+      "covariant_density": "sqrt(-g) ((1+X_a_u)^(2/3)-1)",
+      "definitions": [
+        "a_perp=-chi Q-A^i P_i",
+        "a_i=chi E_i+S_ji A^j"
+      ],
+      "higher_time_derivative_channels": [],
+      "nondynamical_channels": [
+        "N",
+        "N^i"
+      ],
+      "proof_scope": "exact nonlinear function of the Aether-acceleration K4_u block; nonlinear Legendre closure remains separate",
+      "required_controls": [
+        "einstein_aether_generic_3plus1_legendre",
+        "nonlinear_aether_acceleration_global_convexity"
+      ],
+      "spatial_jets": [
+        "D_i A_j",
+        "D_i chi",
+        "D_i ln(N)"
+      ],
+      "term_id": "AETHER_X_P2_3",
+      "velocity_channels": [
+        "K_ij",
+        "V_i=L_n A_i",
+        "L_n chi"
+      ],
+      "verification": "pass",
+      "weighted_adm_bulk": "(epsilon*M_Pl^2*a_sigma^2) * (N sqrt(h) [(1+(-a_perp^2+a_i a^i)/a_sigma^2)^(2/3)-1])"
+    },
+    {
+      "adm_bulk_basis": "N sqrt(h) (R3 + K_ij K^ij - K^2)",
+      "boundary_terms": [
+        "Einstein-Hilbert normal divergence removed by GHY completion or fixed-boundary/compact-support contract"
+      ],
+      "coefficient": "M_Pl^2/2",
+      "covariant_density": "sqrt(-g) R",
+      "definitions": [],
+      "higher_time_derivative_channels": [],
+      "nondynamical_channels": [
+        "N",
+        "N^i"
+      ],
+      "proof_scope": "exact ADM Einstein-Hilbert bulk decomposition after the declared boundary completion",
+      "required_controls": [
+        "cadabra_adm_spatial_curvature_variation",
+        "nonlinear_adm_hamiltonian_constraint_algebra"
+      ],
+      "spatial_jets": [
+        "R3[h]"
+      ],
+      "term_id": "EH_R",
+      "velocity_channels": [
+        "K_ij=(dot(h)_ij-L_shift(h)_ij)/(2N)"
+      ],
+      "verification": "pass",
+      "weighted_adm_bulk": "(M_Pl^2/2) * (N sqrt(h) (R3 + K_ij K^ij - K^2))"
+    },
+    {
+      "adm_bulk_basis": "N sqrt(h) lambda_u (-chi^2 + A_i A^i + 1)",
+      "boundary_terms": [],
+      "coefficient": "1",
+      "covariant_density": "sqrt(-g) lambda_u (u_mu u^mu + 1)",
+      "definitions": [
+        "u^a=chi n^a+A^a",
+        "chi>0"
+      ],
+      "higher_time_derivative_channels": [],
+      "nondynamical_channels": [
+        "N",
+        "lambda_u"
+      ],
+      "proof_scope": "exact positive-unit-branch holonomic constraint split",
+      "required_controls": [
+        "einstein_aether_generic_3plus1_legendre",
+        "unit_timelike_vector_dirac_chain"
+      ],
+      "spatial_jets": [],
+      "term_id": "UNIT_VECTOR_CONSTRAINT",
+      "velocity_channels": [],
+      "verification": "pass",
+      "weighted_adm_bulk": "(1) * (N sqrt(h) lambda_u (-chi^2 + A_i A^i + 1))"
+    }
+  ],
+  "unit_aether_reduction": {
+    "branch": "chi=sqrt(1+A_i A^i)>0",
+    "electric_velocity": "W_i=V_i-K_ij A^j+chi D_i ln(N)",
+    "normal_velocity": "L_n chi=(A^i L_n A_i-A^i K_ij A^j)/chi",
+    "spatial_gradient": "D_i chi=A^j D_i A_j/chi"
+  },
+  "velocity_channels": [
+    "K_ij",
+    "K_ij=(dot(h)_ij-L_shift(h)_ij)/(2N)",
+    "L_n chi",
+    "V_i=L_n A_i"
+  ]
+}

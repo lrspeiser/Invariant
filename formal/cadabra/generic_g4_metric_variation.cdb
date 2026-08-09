@@ -1,0 +1,123 @@
+{a,b,c,d,e,f,m,n,p,q,r,s}::Indices(position=free).
+x::Coordinate.
+g_{a b}::Metric.
+g^{a b}::InverseMetric.
+h^{a b}::Symmetric.
+H_{a b}::Symmetric.
+\nabla{#}::Derivative.
+p_{a}::Depends(x,\nabla{#}).
+F::Depends(x,\nabla{#}).
+B::Depends(x,\nabla{#}).
+C::Depends(x,\nabla{#}).
+A::Depends(x,\nabla{#}).
+D::Depends(x,\nabla{#}).
+E::Depends(x,\nabla{#}).
+Q_{a}::Depends(x,\nabla{#}).
+u_{a}::Depends(x).
+R_{a b}::Symmetric.
+Rm_{a b c d}::RiemannTensor.
+S_{a b c}::Symmetric.
+
+# F=G4(phi,X), B=G4_X, C=G4_XX, p_a=nabla_a(phi), and
+# H_ab=nabla_a nabla_b(phi).  The independent metric variation is
+# h^ab=delta g^ab while phi and p_a are held fixed.
+deltaRicci := 1/2 (
+ - \nabla_{c}{\nabla_{a}{g_{b d} h^{c d}}}
+ - \nabla_{c}{\nabla_{b}{g_{a d} h^{c d}}}
+ + \nabla_{c}{\nabla^{c}{g_{a d} g_{b e} h^{d e}}}
+ + \nabla_{a}{\nabla_{b}{g_{d e} h^{d e}}}
+);
+deltaR := R_{a b} h^{a b} + g^{a b} @(deltaRicci);
+deltaH := 1/2 p_{c} (g_{b e} \nabla_{a}{h^{e c}} + g_{a e} \nabla_{b}{h^{e c}} - g_{a e} g_{b f} \nabla^{c}{h^{e f}});
+deltaX := -1/2 p_{a} p_{b} h^{a b};
+
+# A=G4_phi, D=G4_phiX, E=G4_phiphi, and Q_a=nabla_a X.
+# The third derivative of phi is decomposed into its totally symmetric part S
+# plus the exact curvature hook fixed by the Ricci commutator.
+Jabc := S_{a b c} - (Rm^{d}_{c a b} + Rm^{d}_{b a c}) p_{d}/3;
+ddF := A H_{a b} + E p_{a} p_{b} + D (Q_{a} p_{b} + p_{a} Q_{b}) + C Q_{a} Q_{b} - B H_{a}^{c} H_{b c} - B p^{c} @(Jabc);
+boxF := g^{a b} @(ddF);
+
+theta := g^{a b} H_{a b};
+h2 := g^{a c} g^{b d} H_{a b} H_{c d};
+action := \int{sqrtg (F R + B (@(theta) @(theta) - @(h2)))}{x};
+
+vary(action, $sqrtg -> -sqrtg g_{a b} h^{a b}/2, g^{a b} -> h^{a b}, F -> B @(deltaX), B -> C @(deltaX), H_{a b} -> @(deltaH)$);
+distribute(action);
+
+# Cadabra 2.4 does not descend through the nested second derivatives in deltaR.
+# Insert their exact twice-integrated Palatini adjoint; the determinant and deltaF
+# terms from F R are already present in action above.
+palatiniBulk := \int{sqrtg (
+    F R_{a b}
+  + g_{a b} @(boxF)
+  - @(ddF)
+) h^{a b}}{x};
+action := @(action) + @(palatiniBulk);
+# Put the independently varied action terms and the Palatini adjoint under the
+# same integral.  Cadabra otherwise canonicalises each Integral node in
+# isolation and cannot collect the equal-and-opposite third-jet structures.
+substitute(action, $\int{U??}{x} + \int{V??}{x} -> \int{U?? + V??}{x}$);
+print("SIGMA_GENERIC_G4_PALATINI_ADJOINT_INCLUDED");
+integrate_by_parts(action, $h^{a b}$);
+integrate_by_parts(action, $h^{a b}$);
+product_rule(action);
+distribute(action);
+substitute(action, $\nabla_{a}{g_{b c}} -> 0, \nabla_{a}{g^{b c}} -> 0, \nabla_{a}{sqrtg} -> 0, \nabla_{a}{p_{b}} -> H_{a b}$);
+eliminate_metric(action, repeat=True);
+substitute(action, $\nabla_{c}{H_{a b}} -> S_{c a b} - (Rm^{d}_{b c a} + Rm^{d}_{a c b}) p_{d}/3$);
+# Cadabra 2.4 does not canonicalise every metric-raised placement of a
+# Symmetric rank-three tensor into one spelling.  The Euler equation is linear
+# in S, so the exact polarisation test S_abc=u_a u_b u_c is injective on its
+# symmetric coefficient: vanishing for arbitrary u proves that coefficient is
+# zero.  It also lets collect_terms see all equal-and-opposite placements.
+substitute(action, $S_{a b c} -> u_{a} u_{b} u_{c}$);
+distribute(action);
+canonicalise(action);
+rename_dummies(action);
+sort_product(action);
+# Give the four scalar contractions in the polarised third-jet sector common
+# names.  This is only a canonicalisation aid; all four must disappear after
+# collection, so none can mask a surviving third derivative.
+substitute(action, $u_{a} u^{a} -> u2$);
+substitute(action, $p_{a} u^{a} -> up$);
+substitute(action, $h^{a b} u_{a} u_{b} -> huu$);
+substitute(action, $h^{a b} p_{a} u_{b} -> hup$);
+canonicalise(action);
+rename_dummies(action);
+sort_product(action);
+collect_terms(action);
+
+import re
+rendered = str(action)
+if re.search(r"\\nabla[^()]*\(h", rendered):
+    raise RuntimeError("generic G4 metric Euler coefficient still contains a derivative of h")
+for required in ("F", "B", "C", "H", "R", "p", "h"):
+    if required not in rendered:
+        raise RuntimeError("generic G4 variation failed to retain " + required)
+for unresolved_symbol in ("theta", "h2", "palatiniBulk", "action +"):
+    if unresolved_symbol in rendered:
+        raise RuntimeError("generic G4 variation retained " + unresolved_symbol)
+if "S" in rendered:
+    raise RuntimeError("generic G4 metric Euler retained the symmetric third scalar jet")
+if "u" in rendered:
+    raise RuntimeError("generic G4 metric Euler failed the symmetric-jet polarisation identity")
+if re.search(r"\\nabla[^()]*\(H", rendered):
+    raise RuntimeError("generic G4 metric Euler retained a derivative of the Hessian")
+
+# Negative control: if the -B p^c nabla_a H_bc term in nabla_a nabla_b F
+# is omitted from the Palatini adjoint, its two independent polarised
+# contractions remain.  They cannot cancel for arbitrary h, p, and u.
+omittedPalatiniJet := B up (h^{a}_{a} u2 - huu);
+canonicalise(omittedPalatiniJet);
+collect_terms(omittedPalatiniJet);
+negative_rendered = str(omittedPalatiniJet)
+if "u2" not in negative_rendered or "huu" not in negative_rendered:
+    raise RuntimeError("generic G4 omitted-Palatini-third-jet negative control collapsed")
+print("SIGMA_GENERIC_G4_METRIC_VARIATION_NO_H_DERIVATIVES");
+print("SIGMA_GENERIC_G4_METRIC_VARIATION_CONNECTION_INCLUDED");
+print("SIGMA_GENERIC_G4_METRIC_VARIATION_POLARIZATION_CERTIFIED");
+print("SIGMA_GENERIC_G4_METRIC_VARIATION_OMITTED_PALATINI_REJECTED");
+print("SIGMA_GENERIC_G4_METRIC_VARIATION_THIRD_DERIVATIVES_CANCELLED");
+print("SIGMA_GENERIC_G4_METRIC_VARIATION_FINAL");
+print(action);

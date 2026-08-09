@@ -1,0 +1,208 @@
+{
+  "schema_version": "sigma-formal-completion-matrix-1.0",
+  "rule": "A requirement is complete only when the evidence covers generated candidate actions at the full scope requested; known-answer or reduced controls cannot prove candidate completion.",
+  "requirements": [
+    {
+      "id": "covariant_field_contract",
+      "status": "implemented_and_verified",
+      "evidence": [
+        "configs/covariant_field_contract.json",
+        "tests/test_formal_backend.py::test_covariant_field_contract_is_complete_and_fail_closed_for_z_b",
+        "runs/formal-controls-v1/formal-controls.json"
+      ]
+    },
+    {
+      "id": "baryonic_z_resolution",
+      "status": "implemented_and_verified",
+      "decision": "z_b = -g_mu_nu J_b^mu J_b^nu/n_0^2 is a local diagnostic where J_b is timelike; it is forbidden as an action atom under universal minimal matter coupling.",
+      "evidence": [
+        "configs/covariant_field_contract.json",
+        "docs/FORMAL_BACKEND.md",
+        "tests/test_formal_backend.py::test_baryonic_action_atom_is_rejected_despite_one_metric"
+      ]
+    },
+    {
+      "id": "derived_static_dictionary",
+      "status": "implemented_for_q_x_export_with_all_current_q_x_completions_rejected",
+      "evidence": [
+        "src/sigma_theory_compiler/static_dictionary.py",
+        "tests/test_static_dictionary.py",
+        "runs/static-lift/einstein-aether-static-dictionary-ir.json",
+        "runs/static-lift/dense-priority-static-lift-audit.json",
+        "runs/covariant-export-v1/covariant-export-report.json",
+        "runs/generated-candidates/GF-5df8715b319f54cb-static-null-v1/formal-health/action-health.json"
+      ],
+      "implemented": [
+        "exact zero-shift static tensor reductions for EH, canonical scalar, Proca, and unit-Aether K1..K4",
+        "derived local static-observer acceleration mapping x=c^4 a_i a^i/a_sigma^2",
+        "derived baryon-current diagnostic z_b=n_b^2/n_0^2 retained as a forbidden action atom",
+        "safe expression-level lift classifier and 124-family dense-priority audit",
+        "exact Q_a_u projected acceleration-gradient reduction and nonlinear X_a_u mapping",
+        "exact rational generic-tilt Q_a_u 3+1 projector-block decomposition with explicit normal higher-jet channels",
+        "complete aligned frozen-metric auxiliary Q Dirac chain with four second-class constraints, one mode per polarization, positive reduced Hamiltonian, and dispersive symbol",
+        "complete constant-tilt Q lab-frequency root audit proving two real and two nonreal roots for every nonzero tilt and rejecting the static-null completion",
+        "origin-bound export of six exactly representable q/x survivors",
+        "static-null K1/K4 completion preserving q+sqrt(1+x)-1 exactly",
+        "complete nonzero-tilt root rejection of the projected-Q completion",
+        "constant nonlinear-X completion rejection from unbounded high-X characteristic speeds",
+        "derivative-matched nonlinear-X completion rejection from a finite traceless-shear Legendre-rank witness",
+        "formal no-go theorem for every positive multiplicative W(X)(K1+K4) completion"
+      ],
+      "measured_queue_result": {
+        "queued_families": 124,
+        "rejected_for_baryonic_z": 104,
+        "clean_q_families": 20,
+        "exactly_exported_in_current_basis": 6,
+        "uncompleted_actions_rejected_by_necessary_formal_preflight": 6,
+        "active_static_null_completions": 0,
+        "rejected_projected_q_completions": 1,
+        "rejected_covariant_first_v3_completions": 6
+      },
+      "missing": [
+        "a new covariant tensor structure outside the rejected projected-Q and multiplicative K1+K4 classes",
+        "a generated candidate background solution demonstrating a target static limit"
+      ]
+    },
+    {
+      "id": "formal_tensor_backend",
+      "status": "operational_with_bounded_scalar_proca_einstein_aether_and_named_horndeski_adm_control",
+      "evidence": [
+        "scripts/bootstrap_cadabra_wsl.ps1",
+        "formal/cadabra/metric_identity.cdb",
+        "formal/cadabra/canonical_scalar_variation.cdb",
+        "formal/cadabra/einstein_aether_vector_variation.cdb",
+        "formal/cadabra/einstein_aether_metric_variation.cdb",
+        "configs/actions/quartic_horndeski_control.json",
+        "src/sigma_theory_compiler/dhost.py",
+        "src/sigma_theory_compiler/scalar_tensor_pack.py",
+        "src/sigma_theory_compiler/dhost_pack.py",
+        "configs/operator_packs/horndeski_l2_l4_polynomial.json",
+        "configs/operator_packs/dhost_rank_one_family.json",
+        "runs/formal-controls-v1/formal-controls.json"
+      ],
+      "missing": ["generated arbitrary-candidate metric/action exporter", "sandboxed arbitrary-candidate execution"]
+    },
+    {
+      "id": "known_answer_controls",
+      "status": "partial",
+      "implemented": [
+        "nonlinear Einstein-Hilbert Palatini metric variation, contracted Bianchi identity, full pure-GR D-D/D-H/H-H hypersurface-deformation algebra, and linearized ADM two-mode/reduced-Hamiltonian control",
+        "canonical scalar kinetic, generated field and metric Cadabra variation, and exact Noether identity",
+        "generated Proca field and metric variation, curved-background off-shell Noether identity, divergence constraint, ADM/Dirac closure, and reduced-Hamiltonian control",
+        "Einstein-Aether full K1..K4 vector/multiplier and fixed-covector metric variation, exact arbitrary-background 4D fixed-covector Noether identity with corrupted-sign and omitted-connection negatives, reduced nonlinear FLRW, exact arbitrary-jet 2D and unrestricted numerical arbitrary-jet 4D corroboration, exact generic spatially inhomogeneous K1..K4 3+1 decomposition and local nine-velocity Legendre map with lapse-acceleration cancellation, lapse/shift primary-secondary constraint seeds, complete generic D-D/D-H/H-H closure and five-mode count on regular positive-unit-branch patches, pointwise ADM kinetic Hessian and exact mixed unit-normal patches, exact reduced five-mode Minkowski energy with two speed-only ghost witnesses, an executable hypersurface-orthogonal maximal-slice nonlinear total-energy theorem with exact conformal and boundary-charge residuals, the necessary-and-sufficient aligned-Minkowski five-mode healthy principal domain with five instability witnesses and six singular strata, and complete nonlinear five-mode ADM closure plus exact Hamiltonian-instability rejection on the restricted Maxwell-unit-Aether coupling surface",
+        "finite-point quadratic-DHOST ADM scalar block with exact Hessian null direction, derived primary and secondary second-class constraints, one reduced scalar mode, positive reduced control Hamiltonian, and a nondegenerate extra-mode control",
+        "action-hash-bound named covariant quartic-Horndeski G4(X)=M_Pl^2/2+alpha X action with exact unitary-gauge Gauss-Codazzi/second-derivative cancellation, rank-two ADM Hessian, primary null direction, and a wrong-completion nondegenerate control",
+        "Cadabra fixed-metric scalar variation of the same Horndeski action hash with exact commutator/Bianchi reduction to G^(mu nu) nabla_mu nabla_nu(phi)=0 and cancellation of fourth derivatives",
+        "normalized symbolic Horndeski L2-L4 function-family compiler with exact G4/G4_X differential binding, arbitrary-G2 field/metric variation and off-shell Noether identity, arbitrary cubic-Horndeski G3 covariant second-order variation/Hilbert stress/Noether identity with omitted-braiding and omitted-Ricci negative controls, arbitrary-G4 scalar-current cancellation of all 20 flat third-jet components, complete flat nonlinear-X metric/scalar Noether closure with an omitted-G4_XX term negative, exact curved linear-X reduction, full arbitrary-background F(phi)R closure, and three complete exact-rational curved nonlinear-X normal-frame witnesses with nonzero Weyl curvature/curvature gradients and exact Bianchi/commutator/Noether residuals",
+        "arbitrary smooth Horndeski L2-L4 unitary-gauge seven-velocity ADM Hessian theorem with rank six, regular factor G4-2 X G4_X, sole primary null direction p_V_star=0, and a wrong-completion rank-seven negative",
+        "arbitrary smooth Horndeski L2-L4 conditional distributed Dirac theorem with p_N/C_N secondary closure, exact D-D/D-C covariance, rank-two lapse Poisson pair, and three physical modes on invertible-Delta_N patches, with a canonical-scalar regular witness and Delta_N=0 negative",
+        "arbitrary smooth Horndeski L2-L4 homogeneous timelike-gradient tensor theorem with G_T=2(G4-2 X G4_X), F_T=2G4, exact two-polarization principal polynomial, zero-residual Legendre transform, positive reduced Hamiltonian on G_T>0 and F_T>0, and five pathology negative controls",
+        "arbitrary smooth Horndeski L2-L4 on-shell FLRW scalar theorem with exact lapse/shift elimination, Sigma/Theta/G_S/F_S coefficient binding, integration-by-parts residual, principal polynomial, zero-residual Legendre transform, positive reduced Hamiltonian on Theta nonzero and G_S>0/F_S>0, and five pathology controls",
+        "outward-rounded interval Picard integration of the compiled Horndeski FLRW evolution matrix with a 40-step canonical massless-scalar stiff-FLRW analytic enclosure, uniform energy-constraint and G_T/F_T/Theta/G_S/F_S/determinant margins, plus k-essence gradient/nonlinear-Legendre/homogeneous-energy margins and off-constraint, singular-matrix, tensor-ghost, and negative-energy negatives",
+        "Papallo-source-bound generic weak-field formulation partition with exact absorption of G3(phi), generalized-harmonic eligibility only for canonical G3=0/G4_X=0/G5=0, an arbitrary-G2 k-essence effective metric, principal polynomial, positive reduced Hamiltonian, and four pathology controls, plus the exact nonlinear pointwise ADM scalar Legendre map and candidate-specific energy inequality",
+        "source-bound cubic-Horndeski BSSN strong-hyperbolicity theorem with exact m>1/4 and suitable sigma>1/2 mode conditions, 15 G2/G3 weak-field derivative ratios, scalar/slicing-cone separation contract, healthy witness, and three failure-surface controls",
+        "exact generic cubic-Horndeski trace-reversed scalar effective metric including the complete G3_X-squared correction, with zero source-contraction and closed-form residuals plus an omitted-trace-reversal 27/4 witness",
+        "finite-family FLRW campaign orchestration using the exact formulation partition, high-precision energy-constraint root construction and adaptive step refinement near a declared seed, separate outward-rounded certificates for all 3 generalized-harmonic candidates, and local screening of the 6 G3-only cases with 5 passes and one missing positive constraint root; each screened cubic certificate bounds all 15 homogeneous weak-field derivative ratios and the sigma=1 scalar/slicing-cone gap for threshold-free diagnostic ranking",
+        "uniform cubic-Horndeski arbitrary-local-jet domain campaign proving common time covectors, positive scalar spatial blocks, positive characteristic discriminants, and sigma=1 slicing-cone separation over the complete direction sphere for all 5 screened candidates, with nested Hessian radii and gauge/non-timelike negatives",
+        "regular rank-one reduced quadratic-DHOST kinetic family compiler deriving c=b^2/a, the Hessian null direction, and the primary momentum constraint before coefficient enumeration"
+      ],
+      "missing": [
+        "coupling-boundary singular rank and reduced-Hamiltonian stability for generic independent-c1..c4 Einstein-Aether",
+        "termwise canonical normalization of the independently derived second-order nonlinear-G4_X Cadabra metric Euler coefficient to the published B.4 form, plus global G2/G3/G4 lapse-Hessian operator invertibility, singular-stratum classification, exhaustive admissible initial-domain generation, nonlinear evolution-invariant trapping regions for the 5 pointwise-certified cubic-BSSN candidates, modified-harmonic positive symmetrizers and uniform weak-coupling/cone bounds for G4_X candidates, and nonlinear global energy",
+        "full covariant quadratic-DHOST class relations and generic secondary/distributed constraint closure beyond the reduced rank-one pack",
+        "uniform curved-background symmetrizer and nonlinear global energy control for the named quartic-Horndeski action"
+      ]
+    },
+    {
+      "id": "covariant_variation_and_noether",
+      "status": "partial",
+      "implemented": ["nonlinear Einstein-Hilbert Palatini metric variation", "nonlinear contracted Bianchi identity", "bounded scalar, Proca, and Einstein-Aether field and metric Cadabra variation", "canonical scalar Noether identity", "arbitrary normalized G2(phi,X) field/metric variation and exact off-shell Noether identity on an arbitrary local jet", "arbitrary cubic-Horndeski -G3(phi,X) box(phi) covariant second-order scalar variation, Hilbert stress tensor, and exact off-shell Noether identity with omitted-braiding-stress and omitted-Ricci-commutator negative controls", "arbitrary quartic-Horndeski G4(phi,X) scalar current with cancellation of all 20 independent flat third-jet components, complete flat nonlinear-X metric/scalar Noether closure with an omitted-G4_XX q_mu q_nu negative, exact curved linear-X reduction, three exact-rational fully curved nonlinear-X witnesses with nonzero Weyl curvature/curvature gradients, a 345-symbol exact all-local-jet polynomial Noether theorem, and an independent Cadabra metric variation with determinant/inverse-metric/function/Hessian-connection/Palatini terms, no derivative of h^ab, exact commutator decomposition, rank-one polarization cancellation of the complete symmetric third scalar jet, and an omitted-Palatini negative control", "arbitrary-background X-independent G4=F(phi) metric/scalar variation and exact combined Noether identity with omitted-completion and wrong-sign negatives", "Proca divergence identity", "exact off-shell curved-background Proca stress Noether controls", "complete Einstein-Aether K1..K4 vector, multiplier, and fixed-covector metric control variation", "Einstein-Aether exact arbitrary-background 4D fixed-covector metric-vector-multiplier identity source-bound to the Euler variations, with termwise independent couplings and two negative controls", "Einstein-Aether exact reduced nonlinear FLRW, exact arbitrary-jet inhomogeneous 2D, and unrestricted numerical arbitrary-jet 4D corroboration", "action-hash-bound named quartic-Horndeski covariant action with exact metric/scalar variation and combined Noether identity", "Cadabra fixed-metric Horndeski scalar variation reduced by exact commutator and contracted-Bianchi identities to a second-order Einstein-tensor Hessian equation", "fail-closed action-health packets for the known action families, including the rejected named Horndeski packet"],
+      "missing": ["termwise canonical normalization of the independently derived generic nonlinear-G4_X Cadabra metric Euler coefficient against the published B.4 tensor, plus future nonminimal operator-family variation and identity instantiation for every generated action hash"]
+    },
+    {
+      "id": "adm_dirac_generated_candidates",
+      "status": "partial_full_gr_control_and_constraint_surface_aware_engine",
+      "generated_legendre_ir": {
+        "status": "implemented_for_current_bounded_grammar_local_aligned_scope",
+        "evidence": [
+          "src/sigma_theory_compiler/legendre_ir.py",
+          "tests/test_legendre_ir.py"
+        ],
+        "scope": "Action- and ADM-hash-bound exact combined local Hessians, determinants, generic ranks/nullities, factorized regularity conditions, sector blocks, and kinetic primary constraints for actual frozen coefficients."
+      },
+      "generated_dirac_ir": {
+        "status": "implemented_for_regular_current_bounded_grammar_paths",
+        "evidence": [
+          "src/sigma_theory_compiler/dirac_ir.py",
+          "src/sigma_theory_compiler/field_dirac.py",
+          "tests/test_dirac_ir.py",
+          "tests/test_field_dirac.py"
+        ],
+        "scope": "Action/ADM/Legendre-hash-bound local canonical transforms plus exact distributed D-D/D-H/H-H closure and 2/3/5/5 combined mode counts for regular EH/scalar/massive-Proca/Einstein-Aether paths; singular specializations remain unresolved."
+      },
+      "generated_physical_hamiltonian_ir": {
+        "status": "implemented_for_current_bounded_action_adapters_at_physical_quadratic_scope",
+        "evidence": [
+          "src/sigma_theory_compiler/hamiltonian_ir.py",
+          "tests/test_hamiltonian_ir.py"
+        ],
+        "scope": "Action/Dirac/stability/principal-hash-bound physical Fourier-mode Hamiltonian Hessians, inverse Legendre reconstruction, and exact zero Legendre residual for EH, canonical scalar, massive Proca, and aligned-Minkowski Einstein-Aether. Proca includes exact second-class elimination; generic nonlinear Einstein-Aether total-energy positivity remains unresolved."
+      },
+      "implemented_controls": ["reusable exact quadratic Dirac engine with collision-proof multipliers, maximal-minor partial Legendre transform, left-null-space projection of primary consistency equations, iterative higher-generation consistency, and quotient-ring constraint-surface Poisson rank", "nondegenerate higher-derivative oscillator regression with two second-class auxiliary constraints, two physical modes, correctly solved primary multipliers, and a Hamiltonian linear in the Ostrogradsky momentum", "exact 1+1 complete and three-spatial-dimensional scalar HH/DD smeared local-functional constraint algebras with spatial boundary reduction", "complete nonlinear pure-GR canonical metric D-D algebra, kinetic and curvature D-H covariance, Cadabra lapse-smeared spatial-curvature variation, and H-H closure with inverse-metric structure function", "arbitrary-first-jet DeWitt kinetic Hamiltonian weight-one covariance", "Proca primary/secondary closure, Poisson rank, three degrees of freedom, and positive reduced Hamiltonian", "exact two-primary/two-secondary/two-higher-generation closure control", "Einstein-Aether exact generic inhomogeneous K1..K4 3+1 decomposition, unit-branch reduction, symbolic aligned Hessian determinant, tilted nine-velocity affine Legendre transform, lapse-acceleration cancellation, four lapse/shift primary-secondary constraint seeds, and complete generic D-D/D-H/H-H hypersurface-deformation algebra with five modes on regular patches", "Einstein-Aether exact normal-embedding H-H theorem with inverse-metric structure function, Aether-specific -chi D_i N Hamilton flow, and three negative controls", "Einstein-Aether exact aligned and tilted pointwise 3+1 kinetic Hessians with lapse, shift, and multiplier primary null directions", "Einstein-Aether exact inverse-kinetic unit-normal regularity with complete metric-vector mixing in three rational unit-timelike patches and a singular-coupling negative control", "dimension-independent regular-holonomic multiplier Dirac theorem with arbitrary coordinate-dependent kinetic mixing and potential, four second-class constraints, and Poisson determinant [C_,A G^AB C_,B]^4", "Einstein-Aether exact 3D spatial metric/covector/normal-scalar cotangent lift and D-D momentum-constraint closure", "exact four-generation unit-timelike-vector chain with four second-class constraints and three vector modes", "complete nonlinear Maxwell-unit-Aether subclass Hamiltonian with D-D/D-H/H-H closure, five physical modes, wrong-normalization negative control, and exact unbounded-energy rejection", "action-hash-bound sigma-adm-ir-1.0 compiler covering every current bounded-grammar term, including the named Horndeski term, with verified 3+1 templates, boundary contracts, velocity/spatial-jet incidence, nondynamical channels, and primary/secondary constraint seeds", "finite-point quadratic-DHOST primary/secondary second-class chain with one reduced scalar mode, positive reduced control Hamiltonian, and nondegenerate extra-mode control", "named quartic-Horndeski covariant-to-ADM degeneracy with an explicit primary null direction and nondegenerate wrong-completion control"],
+      "generic_horndeski_adm_dirac": {
+        "status": "implemented_regular_unitary_gauge_and_invertible_lapse_hessian_patches",
+        "evidence": ["src/sigma_theory_compiler/dhost.py", "src/sigma_theory_compiler/horndeski.py", "src/sigma_theory_compiler/scalar_tensor_pack.py", "tests/test_dhost.py", "tests/test_horndeski_control.py", "tests/test_scalar_tensor_pack.py"],
+        "scope": "Exact arbitrary-function L2-L4 seven-velocity Hessian rank six and sole p_V_star primary null direction on G4-2 X G4_X != 0, followed by p_N/C_N secondary closure, D-D/D-C covariance, rank-two Poisson pair, and three modes when Delta_N is invertible. Global operator invertibility, boundary zero modes, and singular strata remain unresolved."
+      },
+      "missing": ["complete generated-action Dirac rank stratification beyond the exact local aligned/frozen factors on singular coupling surfaces", "generic arbitrary-function Horndeski global Delta_N operator invertibility, boundary zero modes, and singular-stratum closure", "automatic nonlinear boundary generator and asymptotic charge for each generated survivor", "generic nonlinear boundedness certificate or rejection for each generated formal survivor"]
+    },
+    {
+      "id": "principal_symbols_and_stability",
+      "status": "implemented_for_current_bounded_action_adapters_with_generic_extensions_pending",
+      "generated_stability_ir": {
+        "status": "implemented_for_current_bounded_grammar",
+        "evidence": ["src/sigma_theory_compiler/stability_ir.py", "tests/test_stability_ir.py"],
+        "scope": "Action-hash-bound implication from frozen parameter domains to the actual effective kinetic, gradient, mass, nondegeneracy, and Aether characteristic conditions; exact wrong signs reject and unproved signs remain unresolved."
+      },
+      "generated_physical_principal_ir": {
+        "status": "implemented_for_current_bounded_action_adapters",
+        "evidence": ["src/sigma_theory_compiler/principal_ir.py", "tests/test_principal_ir.py"],
+        "scope": "Action/Dirac/stability-hash-bound physical K, G, propagation, principal-polynomial, and characteristic-speed artifacts for EH, canonical scalar, massive Proca, and full K1..K4 Einstein-Aether, with retained mode count checked against the constraint-surface Dirac count."
+      },
+      "implemented_controls": ["reusable reduced principal-matrix analyzer", "automatic reduced quadratic Lagrangian extraction of K, anisotropic G^{ij}, and time-space B^i blocks with mixed omega-k companion-matrix characteristics", "exact finite-direction anisotropic symbols with cross-gradient blocks", "uniform complete-direction-sphere scalar anisotropy bounds from Rayleigh-quotient eigenvalues", "exact sufficient uniform multi-field spatial-field block certificate with inconclusive cases kept unresolved", "canonical scalar, Proca, and GR TT metric cones on Minkowski, FLRW, generic static spherical, and Schwarzschild exterior backgrounds", "ghost, negative-gradient, singular-unreduced, superluminal, defective-mixed, and oblique-only instability negative controls", "Einstein-Aether known Minkowski speeds", "Einstein-Aether exact gauge/constraint-reduced aligned-Minkowski five-mode kinetic, gradient, characteristic-speed, strong-hyperbolicity, healthy-coupling-domain, negative-witness, and singular-stratum certificate", "Einstein-Aether exact unit-reduced nine-velocity Legendre determinant factorization for every local timelike tilt, with spin-sector characteristic thresholds, rank-loss witness, and a globally subluminal noncharacteristic certificate", "Einstein-Aether sufficient covariant arbitrary-smooth-vacuum-background strong-hyperbolicity theorem in an Aether-aligned first-order tetrad formulation, with executable effective-cone, exact-boost, quasilinear-Hessian, luminal-boundary, negative-speed, and infinite-speed controls", "parameter-domain-aware wrong-sign rejection tied to actual action coefficients", "quartic-Horndeski exact nonlinear contracting closed-FLRW healthy-domain crossing witness", "quartic-Horndeski complete local 11-by-11 modified-harmonic principal extraction with independent gradient, Hessian, Einstein-tensor, and covector jets plus pure-gauge, zero-coupling, ADM-tensor, and scalar-cone reductions", "exact G2=X+c20 X^2 arbitrary-covector scalar-block extension of the quartic 11-by-11 symbol, with all 12 fixed-coefficient G4-only linear-X mutations hash-bound to exact matrices and a phi-dependent-G4 fail-closed negative", "exact six-group baseline Riesz-projector symmetrizer with physical H-star positivity, auxiliary-cone separation, hat-block quotient-rank budget, and explicit perturbation radii", "all-direction uniform local-jet strong-hyperbolicity certificates for the 12 fixed-coefficient linear-X quartic candidates on normalized component boxes of radius 2e-10, with 1e-6 and unsupported-coupling negative controls", "exact local on-shell expanding-FLRW ADM/Dirac/quadratic-Hamiltonian certificates for all 12 fixed-coefficient linear-X quartic candidates, with zero field-equation and constraint-preservation residuals, rank-six ADM Hessian, nonzero lapse pairing, three physical modes, positive G_T/F_T/G_S/F_S, and four negative controls", "arbitrary-function Horndeski L2-L4 homogeneous tensor principal and reduced-Hamiltonian theorem with exact G_T, F_T, c_T squared, two TT modes, and five negative controls", "arbitrary-function Horndeski L2-L4 on-shell FLRW scalar constraint-reduction, principal, and reduced-Hamiltonian theorem with exact Sigma, Theta, G_S, F_S, c_S squared, and five negative controls", "generated gauge-reduced physical principal matrices tied to the same action/Dirac/stability hash chain"],
+      "curved_scalar_principal_extension": {
+        "status": "implemented_known_control",
+        "scope": "quartic-Horndeski arbitrary-curvature fixed-metric scalar effective cone P^(mu nu)=g^(mu nu)-2 alpha G^(mu nu), including one local time-space flux and exact healthy/cone-collapse/gradient/kinetic/metric-superluminal witnesses; it is independently reproduced by the extracted full coupled local symbol"
+      },
+      "coupled_horndeski_formulation": {
+        "status": "conditional_theorem_encoded_action_application_unresolved",
+        "scope": "Papallo generalized-harmonic obstruction for nonzero G4_X plus Kovacs--Reall modified-harmonic weak-coupling theorem and exact auxiliary-cone witness; the action-specific local 11-by-11 symbol and exact 22-by-22 generalized first-order pencil are extracted, and all 12 fixed-coefficient G4-only linear-X sample assignments are bound to exact matrices, including 8 quadratic-kessence scalar-block extensions; an exact six-group baseline Riesz symmetrizer and H-star positivity certificate supplies explicit perturbation budgets, and polynomial component-cube bounds prove pointwise strong hyperbolicity for every spatial direction throughout normalized local-jet boxes of radius 2e-10 for all 12 candidates; each of those 12 also has an exact local on-shell expanding-FLRW witness inside its box with a complete regular three-mode ADM/Dirac count and positive reduced quadratic Hamiltonian, and its connected expanding homogeneous ray remains inside the box for every finite future time; this does not yet prove an inhomogeneous PDE trapping region, nonlinear global energy, boundary charges, singular-stratum closure, or cover the remaining 114 mixed/nonlinear sample assignments"
+      },
+      "missing": ["new reduction adapters for future nonminimal action terms outside the bounded grammar", "exhaustive multi-seed connected-domain construction beyond the campaign's shared local FLRW seed", "nonlinear PDE evolution-invariant trapping regions inside the 5 pointwise-certified cubic-Horndeski local-jet boxes and the 12 pointwise-certified quartic-Horndeski local-jet boxes", "new mixed/nonlinear principal and symmetrizer adapters for the remaining 114 G4_X sample assignments, followed by necessary-and-sufficient multi-field direction-sphere bounds", "generic nonlinear global reduced-Hamiltonian boundedness beyond the certified homogeneous Horndeski tensor and FLRW scalar blocks"]
+    },
+    {
+      "id": "solar_and_direct_observations",
+      "status": "known_gr_reference_formally_gated_and_passed_candidate_data_sealed",
+      "evidence_policy": "configs/observational_evidence_policy.json",
+      "implemented": [
+        "machine observation-eligibility audit over every formal action-health gate plus physical principal/Hamiltonian action and content hashes",
+        "GR/PPN/Solar golden checks blocked without a passing Einstein-Hilbert eligibility certificate",
+        "production Einstein-Hilbert reference eligibility and five bound golden checks passed",
+        "sealed observable-to-observable galaxy protocol with whole-galaxy target-blind splits, covariance-aware scoring, zero object-specific gravity parameters, direct spectral-line kinematic targets, and independent post-freeze raw-lensing falsification",
+        "candidate-data mode never opens a dataset and still requires a separate audited manifest"
+      ],
+      "evidence": [
+        "src/sigma_theory_compiler/observation_eligibility.py",
+        "configs/galaxy_observable_protocol.json",
+        "tests/test_evidence_policy.py",
+        "runs/observation-protocol/galaxy-observable-audit.json",
+        "tests/test_relativity.py",
+        "runs/gr-reference/formal-eligibility.json",
+        "runs/gr-reference/relativity_reference.json"
+      ],
+      "prohibited": ["dark-matter or halo target labels and rescues", "object-specific gravitational parameters", "row-level leakage between radii of the same galaxy", "lensing use during formula selection", "unverified redshift-distance inference", "supernova distance inference"],
+      "unseal_condition": "the same frozen generated candidate action passes every preceding formal gate with no discovery blocker, then a separate raw-observation manifest passes the frozen evidence policy",
+      "missing": ["a generated candidate with a complete formal promotion pass", "an independently audited direct-observation galaxy dataset manifest for that same candidate", "a preregistered hash-committed whole-galaxy split and scoring/stopping manifest"]
+    }
+  ]
+}

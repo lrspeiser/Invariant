@@ -1,0 +1,17 @@
+{a,b,c,d,e,f,m,n,p,q}::Indices(position=free).
+x::Coordinate.
+g_{a b}::Metric.
+g^{a b}::InverseMetric.
+h^{a b}::Symmetric.
+F_{a b}::AntiSymmetric.
+A_{a}::Depends(x).
+
+# F_ab=2 partial_[a A_b] is connection independent. All metric dependence is explicit.
+action := -\int{sqrtg (g^{a c} g^{b d} F_{a b} F_{c d}/4 + mA^2 g^{a b} A_{a} A_{b}/2)}{x};
+vary(action, $sqrtg -> -sqrtg g_{a b} h^{a b}/2, g^{a b} -> h^{a b}$);
+distribute(action);
+canonicalise(action);
+sort_product(action);
+factor_out(action, $h^{a b}$);
+print("SIGMA_PROCA_METRIC_VARIATION_FINAL");
+print(action);

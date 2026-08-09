@@ -1,0 +1,101 @@
+{
+  "action_ir": "C:\\Users\\henry\\Documents\\Codex\\2026-08-06\\for\\outputs\\sigma-theory-compiler\\runs\\campaigns\\CMP-55b43fa111e201988d9f2922\\controls\\action-health\\canonical_scalar_control\\action-ir.json",
+  "created_utc": "2026-08-09T00:41:10.309585+00:00",
+  "discovery_blockers": [],
+  "family": "canonical_scalar_gravity",
+  "gates": {
+    "adm_dirac": {
+      "evidence": [
+        "einstein_hilbert_linearized_adm",
+        "canonical_metric_diffeomorphism_algebra",
+        "canonical_metric_dewitt_kinetic_covariance",
+        "spatial_curvature_density_diffeomorphism_covariance",
+        "cadabra_adm_spatial_curvature_variation",
+        "nonlinear_adm_hamiltonian_constraint_algebra",
+        "canonical_scalar"
+      ],
+      "physical_dof": 3,
+      "scope": "nonlinear pure-GR constraint algebra plus linearized minimally coupled scalar direct-sum control",
+      "status": "pass"
+    },
+    "covariant_identity": {
+      "evidence": [
+        "cadabra_nonlinear_contracted_bianchi",
+        "canonical_scalar_noether_identity"
+      ],
+      "scope": "combined diffeomorphism identity from div(G)=0 and div(T_phi)=E_phi grad(phi)",
+      "status": "pass"
+    },
+    "covariant_variation": {
+      "evidence": [
+        "cadabra_einstein_hilbert_metric_variation",
+        "cadabra_nonlinear_contracted_bianchi",
+        "cadabra_canonical_scalar_metric_variation",
+        "cadabra_canonical_scalar_variation",
+        "generated_scalar_action_ir_variation"
+      ],
+      "scope": "combined EH metric, scalar metric, and generated scalar-field variations",
+      "status": "pass"
+    },
+    "field_contract": {
+      "evidence": [
+        "covariant_field_contract"
+      ],
+      "scope": "exact action-IR and universal-matter-coupling validation",
+      "status": "pass"
+    },
+    "hamiltonian_stability": {
+      "evidence": [
+        "einstein_hilbert_linearized_adm",
+        "canonical_scalar"
+      ],
+      "scope": "positive reduced quadratic Hamiltonian on the declared Minkowski control domain",
+      "status": "pass"
+    },
+    "principal_symbol": {
+      "evidence": [
+        "principal_symbol_controls",
+        "curved_background_principal_controls"
+      ],
+      "scope": "reduced canonical sectors on Minkowski, FLRW, and static spherical backgrounds",
+      "status": "pass"
+    }
+  },
+  "generated_variation": {
+    "action_ir": "C:\\Users\\henry\\Documents\\Codex\\2026-08-06\\for\\outputs\\sigma-theory-compiler\\runs\\campaigns\\CMP-55b43fa111e201988d9f2922\\controls\\action-health\\canonical_scalar_control\\field-variation\\action-ir.json",
+    "backend": {
+      "available": true,
+      "executable": "C:\\Users\\henry\\Documents\\Codex\\2026-08-06\\for\\work\\cadabra2-root\\root\\usr\\bin\\cadabra2",
+      "mode": "wsl-local",
+      "python_module": "C:\\Users\\henry\\Documents\\Codex\\2026-08-06\\for\\work\\cadabra2-root\\root\\usr\\lib\\python3\\dist-packages\\cadabra2.cpython-312-x86_64-linux-gnu.so",
+      "root": "C:\\Users\\henry\\Documents\\Codex\\2026-08-06\\for\\work\\cadabra2-root\\root",
+      "version": "2.4.5.4"
+    },
+    "execution": {
+      "backend_mode": "wsl-local",
+      "expected_fragments": [
+        "\u03b4(\u03c6)",
+        "\\partial",
+        "mphi"
+      ],
+      "return_code": 0,
+      "script": "C:\\Users\\henry\\Documents\\Codex\\2026-08-06\\for\\outputs\\sigma-theory-compiler\\runs\\campaigns\\CMP-55b43fa111e201988d9f2922\\controls\\action-health\\canonical_scalar_control\\field-variation\\scalar-variation.cdb",
+      "stderr_tail": "/mnt/c/Users/henry/Documents/Codex/2026-08-06/for/work/cadabra2-root/root/usr/bin/cadabra2:102: SyntaxWarning: invalid escape sequence '\\s'\n  imatch = re.search('([\\s]*)([^\\s].*[^\\s])([\\s]*)', line)\n/mnt/c/Users/henry/Documents/Codex/2026-08-06/for/work/cadabra2-root/root/usr/bin/cadabra2:177: SyntaxWarning: invalid escape sequence '\\.'\n  match = re.search('([a-zA-Z]*)(.*)[;\\.:]*', line_stripped[found+2:])\n",
+      "stdout_tail": "Property PartialDerivative attached to \\partial(#).\n-\u222b( 1/2 \\partial_{\u03bc}(\u03c6) \\partial^{\u03bc}(\u03c6) +  1/2 mphi^2 \u03c6^{2}}{x}\n-\u222b( 1/2 \\partial_{\u03bc}(\u03b4(\u03c6)) \\partial^{\u03bc}(\u03c6) +  1/2 \\partial_{\u03bc}(\u03c6) \\partial^{\u03bc}(\u03b4(\u03c6))}{x}\n-\u222b( -  1/2 \u03b4(\u03c6) \\partial_{\u03bc}^{\u03bc}(\u03c6) -  1/2 \\partial^{\u03bc}_{\u03bc}(\u03c6) \u03b4(\u03c6)}{x}\n-\u222b( -  1/2 \u03b4(\u03c6) \\partial^{\u03bc}_{\u03bc}(\u03c6) -  1/2 \\partial^{\u03bc}_{\u03bc}(\u03c6) \u03b4(\u03c6)}{x}\n\u222b(\u03b4(\u03c6) \\partial^{\u03bc}_{\u03bc}(\u03c6)}{x}\n\u222b(\u03b4(\u03c6) \\partial^{\u03bc}_{\u03bc}(\u03c6)}{x}\n\u222b(\u03b4(\u03c6) \\partial^{\u03bc}_{\u03bc}(\u03c6)}{x}\n\u222b(\u03b4(\u03c6) \\partial^{\u03bc}_{\u03bc}(\u03c6)}{x}\n"
+    },
+    "expected_euler_lagrange_structure": "c_X box(phi) - m_phi^2 phi = 0",
+    "input_action_sha256": "115ed68d4525aefd4bc93f1e8f36ac9a146188d60ee0b051b851c4d2ab0e1ac3",
+    "result_path": "C:\\Users\\henry\\Documents\\Codex\\2026-08-06\\for\\outputs\\sigma-theory-compiler\\runs\\campaigns\\CMP-55b43fa111e201988d9f2922\\controls\\action-health\\canonical_scalar_control\\field-variation\\variation-result.json",
+    "schema_version": "sigma-covariant-variation-result-1.0",
+    "scope": "variation with respect to phi; EH is independent of phi; metric variation remains separate",
+    "script": "C:\\Users\\henry\\Documents\\Codex\\2026-08-06\\for\\outputs\\sigma-theory-compiler\\runs\\campaigns\\CMP-55b43fa111e201988d9f2922\\controls\\action-health\\canonical_scalar_control\\field-variation\\scalar-variation.cdb",
+    "status": "pass"
+  },
+  "input_action_sha256": "115ed68d4525aefd4bc93f1e8f36ac9a146188d60ee0b051b851c4d2ab0e1ac3",
+  "interpretation": "A control pass validates only the declared action family and backgrounds. It is not observational evidence or a truth probability.",
+  "observational_gates_unsealed": false,
+  "physical_dof": 3,
+  "promotion_allowed": true,
+  "schema_version": "sigma-action-health-1.0",
+  "status": "pass"
+}

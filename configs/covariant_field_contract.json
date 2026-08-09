@@ -1,0 +1,182 @@
+{
+  "schema_version": "sigma-covariant-field-contract-1.0",
+  "status": "normative",
+  "conventions": {
+    "spacetime_dimension": 4,
+    "metric_signature": "-+++",
+    "connection": "Levi-Civita connection of g_mu_nu",
+    "units": "c = hbar = 1",
+    "curvature": "[nabla_mu,nabla_nu] V^rho = R^rho_{ sigma mu nu} V^sigma"
+  },
+  "action_contract": {
+    "action": "S = S_grav[g_mu_nu, gravitational_fields] + S_m[g_mu_nu, psi_m]",
+    "physical_metric": "g_mu_nu",
+    "matter_rule": "Every matter species is minimally coupled to the same metric g_mu_nu and to no candidate gravitational field.",
+    "stress_tensor": "T_m^{mu nu} = (2/sqrt(-g)) delta S_m/delta g_{mu nu}",
+    "on_shell_identity": "nabla_mu T_m^{mu nu} = 0 when the matter equations hold",
+    "forbidden": [
+      "object-specific parameters or metrics",
+      "a lensing-only metric or coupling",
+      "direct dependence of S_grav on a selected matter species, J_b^mu, rho_b, or T_b^{mu nu}",
+      "using an on-shell field equation to replace matter by curvature inside the action"
+    ]
+  },
+  "fields": [
+    {
+      "id": "g_mu_nu",
+      "kind": "symmetric covariant rank-2 tensor",
+      "role": "unique physical metric and gravitational tensor field",
+      "mass_dimension": 0,
+      "dynamical": true
+    },
+    {
+      "id": "psi_m",
+      "kind": "collection of Standard Model and macroscopic matter fields",
+      "role": "universally and minimally coupled matter sector",
+      "mass_dimension": "species-dependent",
+      "dynamical": true
+    },
+    {
+      "id": "phi",
+      "kind": "real scalar",
+      "role": "optional gravitational-sector scalar",
+      "mass_dimension": 1,
+      "dynamical": true
+    },
+    {
+      "id": "u_mu",
+      "kind": "covariant vector",
+      "role": "optional gravitational-sector unit timelike vector",
+      "mass_dimension": 0,
+      "dynamical": true,
+      "constraint": "g^{mu nu} u_mu u_nu = -1"
+    },
+    {
+      "id": "A_mu",
+      "kind": "real covector",
+      "role": "optional unconstrained massive-vector gravitational field and Proca known-answer control",
+      "mass_dimension": 1,
+      "dynamical": true,
+      "field_strength": "F_mu_nu = 2 nabla_[mu A_nu]"
+    },
+    {
+      "id": "lambda_u",
+      "kind": "scalar Lagrange multiplier",
+      "role": "enforces u_mu u^mu = -1",
+      "mass_dimension": 4,
+      "dynamical": false
+    },
+    {
+      "id": "J_b_mu",
+      "kind": "matter-sector baryon-number current",
+      "role": "diagnostic observable; not a gravitational generator field",
+      "mass_dimension": 3,
+      "dynamical": "defined by psi_m",
+      "domain": "regions where a coarse-grained conserved timelike baryon current is meaningful",
+      "on_shell_identity": "nabla_mu J_b^mu = 0 up to explicitly modeled baryon-number-violating processes"
+    }
+  ],
+  "generator_invariants": [
+    {
+      "id": "X_phi",
+      "definition": "-g^{mu nu} nabla_mu(phi) nabla_nu(phi)/(2 Lambda_phi^4)",
+      "dimensionless": true,
+      "sector": "scalar",
+      "maximum_derivatives_per_field": 1
+    },
+    {
+      "id": "H4_phi",
+      "definition": "[Lambda_phi^4 X_phi R + (box phi)^2 - (nabla_mu nabla_nu phi)(nabla^mu nabla^nu phi)]/Lambda_phi^6",
+      "dimensionless": true,
+      "sector": "quartic_horndeski_scalar_tensor",
+      "maximum_derivatives_per_field": 2,
+      "formal_status": "named canonical-G2 plus G4(X_c)=M_Pl^2/2+alpha X_c control with X_c=Lambda_phi^4 X_phi; scalar and Palatini metric variations, combined Noether identity, exact unitary-gauge ADM/Legendre degeneracy, regular-patch distributed Dirac closure with three physical modes, flat constant-timelike-gradient principal/Hamiltonian blocks, and the arbitrary-curvature fixed-metric scalar effective cone P^(mu nu)=g^(mu nu)-2 alpha G^(mu nu) pass; the complete local orthonormal-frame 11-by-11 modified-harmonic metric-scalar principal symbol and exact 22-by-22 generalized first-order pencil are action-hash-bound, and an exact six-group Riesz/H-star construction proves strong hyperbolicity for every spatial direction on a common normalized 2e-10 local-jet box for all 12 fixed-coefficient linear-X quartic candidates; each of those 12 now also has an exact local on-shell expanding FLRW witness inside the box with zero background and constraint-preservation residuals, rank-six seven-velocity ADM Hessian, primary p_V_star=0, strictly nonzero action-specific lapse pairing, regular three-mode distributed Dirac count, and positive G_T/F_T/G_S/F_S reduced quadratic Hamiltonian; exact sign bounds prove its connected expanding homogeneous ray 0<A_star^2<=1e-20 remains inside the box for every finite future time; an exact no-go proves nonzero alpha requires A_star^2<M_Pl^2/abs(alpha), and an exact contracting closed-FLRW witness rejects preservation under unrestricted nonlinear evolution; the remaining 114 G4_X assignments need new principal/symmetrizer adapters, while inhomogeneous PDE trapping, larger multidimensional domains, singular strata, boundary charges, and nonlinear global energy boundedness remain unresolved"
+    },
+    {
+      "id": "K1_u",
+      "definition": "L_u^2 nabla_mu(u_nu) nabla^mu(u^nu)",
+      "dimensionless": true,
+      "sector": "unit_vector",
+      "maximum_derivatives_per_field": 1
+    },
+    {
+      "id": "K2_u",
+      "definition": "L_u^2 (nabla_mu u^mu)^2",
+      "dimensionless": true,
+      "sector": "unit_vector",
+      "maximum_derivatives_per_field": 1
+    },
+    {
+      "id": "K3_u",
+      "definition": "L_u^2 nabla_mu(u_nu) nabla^nu(u^mu)",
+      "dimensionless": true,
+      "sector": "unit_vector",
+      "maximum_derivatives_per_field": 1
+    },
+    {
+      "id": "K4_u",
+      "definition": "L_u^2 (u^mu nabla_mu u_nu)(u^rho nabla_rho u^nu)",
+      "standard_action_sign": "+c4 K4_u for signature (-,+,+,+); equivalently K^{ab}_{mn} contains -c4 u^a u^b g_mn inside L_ae=-K^{ab}_{mn} nabla_a u^m nabla_b u^n",
+      "dimensionless": true,
+      "sector": "unit_vector",
+      "maximum_derivatives_per_field": 1
+    },
+    {
+      "id": "X_a_u",
+      "definition": "a_mu a^mu/a_sigma^2, where a_mu=u^alpha nabla_alpha u_mu",
+      "static_definition": "c^4 a_i a^i/a_sigma^2 for u^mu=n^mu and c restored",
+      "dimensionless": true,
+      "sector": "unit_vector_acceleration",
+      "maximum_derivatives_per_field": 1,
+      "formal_status": "static reduction derived; nonlinear variation and generic-background ADM adapter unresolved"
+    },
+    {
+      "id": "Q_a_u",
+      "definition": "(L_sigma^2/a_sigma^2) P^{mu rho} P^{nu sigma} nabla_mu(a_nu) nabla_rho(a_sigma), where P_mu_nu=g_mu_nu+u_mu u_nu and a_mu=u^alpha nabla_alpha u_mu",
+      "static_definition": "(L_sigma^2/a_sigma^2) (D_i a_j)(D^i a^j) for u^mu=n^mu, K_ij=0, and time-independent fields",
+      "dimensionless": true,
+      "sector": "unit_vector_acceleration_gradient",
+      "maximum_derivatives_per_field": 2,
+      "formal_status": "rejected in the generic unit-vector lane: every nonzero-tilt frozen lab-frequency polynomial has a nonreal conjugate root pair",
+      "warning": "P projects orthogonally to u_mu, not necessarily to the chosen ADM normal. A tilted u_mu can therefore expose higher-time-derivative channels in an ADM foliation."
+    },
+    {
+      "id": "M14_p_u",
+      "definition": "W_p(X_a_u) (K1_u+K4_u)/L_u^2 with W_p(X)=(1+X)^(p-2)[1+(2p-1)X] and 1/2<=p<1",
+      "static_definition": "zero for u^mu=n^mu because K1_u/L_u^2=-a_i a^i and K4_u/L_u^2=+a_i a^i",
+      "dimensionless": true,
+      "sector": "unit_vector_derivative_matched_gradient_completion",
+      "maximum_derivatives_per_field": 1,
+      "formal_status": "rejected: constant weights have unbounded high-X speeds, while every positive decaying multiplicative weight has a finite traceless-shear Legendre-rank obstruction"
+    }
+  ],
+  "diagnostic_invariants": [
+    {
+      "id": "z_b",
+      "definition": "-g_mu_nu J_b^mu J_b^nu/n_0^2 = n_b^2/n_0^2",
+      "normalization": "n_0 is one universal reference baryon-number density",
+      "locally_measurable": "n_b is the baryon-number density measured in the local rest frame of a timelike J_b^mu",
+      "dimensionless": true,
+      "generator_status": "forbidden",
+      "reason": "Baryon number is a selected matter-species property. Direct dependence of S_grav on z_b violates the universal minimal matter split and does not universally describe photons, leptons, or vacuum.",
+      "allowed_uses": [
+        "audited data provenance",
+        "post-solution diagnostics",
+        "testing a separately declared nonminimal matter theory outside this grammar"
+      ]
+    },
+    {
+      "id": "T2_m",
+      "definition": "T_m^{mu nu} T^m_{mu nu}/rho_0^2",
+      "locally_measurable": "only after a complete local stress tensor and uncertainty model are specified",
+      "dimensionless": true,
+      "generator_status": "forbidden",
+      "reason": "Putting a stress tensor defined by variation of S_m back into S_grav makes the matter coupling nonminimal and potentially implicit."
+    }
+  ],
+  "static_dictionary_rule": {
+    "status": "must_be_derived",
+    "requirement": "A covariant candidate must derive x, q, and any state variable in a declared 3+1 static limit; matching names or substituting tensor expressions by analogy is not evidence.",
+    "legacy_z_action_candidates": "quarantine"
+  }
+}

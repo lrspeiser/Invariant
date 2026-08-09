@@ -1,0 +1,51 @@
+{a,b,c,d,e,f,m,n,p,q,r,s}::Indices(position=free).
+x::Coordinate.
+g_{a b}::Metric.
+g^{a b}::InverseMetric.
+h^{a b}::Symmetric.
+R_{a b}::Symmetric.
+\nabla{#}::Derivative.
+p_{a}::Depends(x,\nabla{#}).
+
+# h^{ab}=delta g^{ab}; p_a=nabla_a phi is fixed as a covector in the metric variation.
+# This is the exact Palatini variation of R_ab written in the inverse-metric convention.
+deltaRicci := 1/2 (
+ - \nabla_{c}{\nabla_{a}{g_{b d} h^{c d}}}
+ - \nabla_{c}{\nabla_{b}{g_{a d} h^{c d}}}
+ + \nabla_{c}{\nabla^{c}{g_{a d} g_{b e} h^{d e}}}
+ + \nabla_{a}{\nabla_{b}{g_{d e} h^{d e}}}
+);
+
+deltaR := R_{a b} h^{a b} + g^{a b} @(deltaRicci);
+
+# Up to an exact covariant divergence, the linear-X quartic Horndeski density is
+# G_ab p^a p^b = R_ab p^a p^b - R p^2/2.
+action := \int{sqrtg (
+  R_{a b} g^{a c} g^{b d} p_{c} p_{d}
+ - R g^{c d} p_{c} p_{d}/2
+)}{x};
+
+vary(action, $sqrtg -> -sqrtg g_{a b} h^{a b}/2, g^{a b} -> h^{a b}, R_{a b} -> @(deltaRicci), R -> @(deltaR)$);
+distribute(action);
+print("SIGMA_QUARTIC_HORNDESKI_METRIC_VARIATION_RAW_PALATINI");
+print(action);
+
+# A^ab=p^a p^b-g^ab p^2/2 is the coefficient of delta R_ab.  Applying the exact
+# twice-integrated formal adjoint of the displayed Palatini operator gives the bulk Euler tensor.
+metricEuler :=
+ - g_{a b} (R_{c d} p^{c} p^{d} - R p_{c} p^{c}/2)/2
+ + R_{c a} p^{c} p_{b} + R_{c b} p^{c} p_{a}
+ - R p_{a} p_{b}/2 - R_{a b} p_{c} p^{c}/2
+ + 1/2 (
+   - \nabla_{c}{\nabla_{a}{p^{c} p_{b} - p_{d} p^{d} g^{c}_{b}/2}}
+   - \nabla_{c}{\nabla_{b}{p^{c} p_{a} - p_{d} p^{d} g^{c}_{a}/2}}
+   + \nabla_{c}{\nabla^{c}{p_{a} p_{b} - p_{d} p^{d} g_{a b}/2}}
+   + g_{a b} \nabla_{c}{\nabla_{d}{p^{c} p^{d} - p_{e} p^{e} g^{c d}/2}}
+ );
+canonicalise(metricEuler);
+rename_dummies(metricEuler);
+sort_product(metricEuler);
+print("SIGMA_QUARTIC_HORNDESKI_METRIC_VARIATION_NO_H_DERIVATIVES");
+print("SIGMA_QUARTIC_HORNDESKI_METRIC_VARIATION_PALATINI_INCLUDED");
+print("SIGMA_QUARTIC_HORNDESKI_METRIC_VARIATION_FINAL");
+print(metricEuler);

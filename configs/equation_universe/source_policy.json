@@ -1,0 +1,45 @@
+{
+  "schema_version": "sigma-equation-source-policy-1.0",
+  "rules": {
+    "full": "Structured records and permitted annotations may be stored and redistributed with their license metadata.",
+    "formula_only": "Store independently normalized formula facts and citations; do not ingest surrounding prose.",
+    "metadata_only": "Store source metadata and links. A formula may be attached only when independently encoded rather than copied from the source.",
+    "blocked": "Do not ingest formula content or source text."
+  },
+  "providers": [
+    {
+      "provider": "Wikidata",
+      "default_mode": "full",
+      "license": "CC0-1.0",
+      "policy_url": "https://www.wikidata.org/wiki/Wikidata:Licensing"
+    },
+    {
+      "provider": "NIST DLMF",
+      "default_mode": "metadata_only",
+      "policy_url": "https://dlmf.nist.gov/about/notices",
+      "reason": "The official notice prohibits bulk copying or redistribution."
+    },
+    {
+      "provider": "Wolfram Functions",
+      "default_mode": "metadata_only",
+      "policy_url": "https://functions.wolfram.com/",
+      "reason": "Conservative default pending an explicit compatible bulk-reuse grant."
+    },
+    {
+      "provider": "arXiv",
+      "default_mode": "metadata_only",
+      "reason": "License is paper-specific; retain the per-item license and independently encode formula facts."
+    },
+    {
+      "provider": "INSPIRE-HEP",
+      "default_mode": "metadata_only",
+      "reason": "Use for bibliographic and citation provenance; retrieve paper content under each underlying work's license."
+    }
+  ],
+  "prohibited_uses": [
+    "copying source prose to disguise its origin",
+    "labeling an unmatched equation novel",
+    "removing attribution or license metadata",
+    "treating algebraic rearrangement, symbol renaming, unit conversion, integration by parts, or a field redefinition as novelty"
+  ]
+}

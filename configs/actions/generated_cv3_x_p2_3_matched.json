@@ -1,0 +1,24 @@
+{
+  "schema_version": "sigma-action-spec-1.0",
+  "role": "candidate",
+  "fields": ["g_mu_nu", "u_mu", "lambda_u"],
+  "matter_metric": "g_mu_nu",
+  "terms": ["EH_R", "AETHER_X_P2_3", "AETHER_MATCHED_K14_P2_3", "UNIT_VECTOR_CONSTRAINT"],
+  "coefficients": {
+    "AETHER_X_P2_3": "epsilon*M_Pl^2*a_sigma^2",
+    "AETHER_MATCHED_K14_P2_3": "-gamma*M_Pl^2/2"
+  },
+  "universal_constants": ["M_Pl", "a_sigma", "epsilon", "gamma"],
+  "parameter_domain": {"positive": ["M_Pl", "a_sigma", "epsilon", "gamma"], "inequalities": ["gamma <= epsilon", "gamma < 1"]},
+  "static_dictionary_status": "derived",
+  "generator_origin": {
+    "family_id": "CV3-X-P2-3-MATCHED", "ordinal": 12,
+    "correction_expression": "+((1+x)^(2/3)-1)", "pareto_front": 1,
+    "source_priority_sha256": "f4b77e7d0fd67d9bef3dd466e61aff38d8555ee476e3532e1b8f72c722e73ee9"
+  },
+  "covariant_completion": {
+    "completion_id": "cv3-derivative-matched-k14-v1",
+    "static_null_terms": ["AETHER_MATCHED_K14_P2_3"],
+    "purpose": "Match gradient stiffness to the smallest nonlinear kinetic eigenvalue while preserving F_2/3(x) exactly."
+  }
+}

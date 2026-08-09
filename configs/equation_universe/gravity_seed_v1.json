@@ -1,0 +1,424 @@
+{
+  "schema_version": "sigma-equation-universe-1.0",
+  "sources": [
+    {
+      "source_id": "SRC-SIGMA-CURATED",
+      "title": "Sigma Gravity independently encoded known-answer controls",
+      "url": "https://example.invalid/sigma-gravity/internal-known-answers",
+      "authors": ["Sigma Gravity project"],
+      "year": 2026,
+      "source_kind": "internal_curated",
+      "license_id": "CC0-1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "ingestion_mode": "full",
+      "policy_reason": "Project-authored structured facts dedicated to the seed corpus"
+    },
+    {
+      "source_id": "SRC-WIKIDATA",
+      "title": "Wikidata defining-formula structured data",
+      "url": "https://www.wikidata.org/wiki/Property:P2534",
+      "authors": ["Wikidata contributors"],
+      "source_kind": "structured_formula_data",
+      "license_id": "CC0-1.0",
+      "license_url": "https://www.wikidata.org/wiki/Wikidata:Licensing",
+      "ingestion_mode": "full",
+      "policy_reason": "Wikidata main/property structured data is CC0"
+    },
+    {
+      "source_id": "SRC-DLMF",
+      "title": "NIST Digital Library of Mathematical Functions",
+      "url": "https://dlmf.nist.gov/",
+      "authors": ["NIST DLMF"],
+      "source_kind": "mathematical_reference",
+      "license_id": "NIST-DLMF-NOTICE",
+      "license_url": "https://dlmf.nist.gov/about/notices",
+      "ingestion_mode": "metadata_only",
+      "policy_reason": "DLMF permits limited research/teaching copying but prohibits bulk redistribution; store links and independently encoded facts only"
+    },
+    {
+      "source_id": "SRC-WOLFRAM-FUNCTIONS",
+      "title": "Wolfram Functions Site",
+      "url": "https://functions.wolfram.com/",
+      "authors": ["Wolfram Research"],
+      "source_kind": "restricted_formula_reference",
+      "ingestion_mode": "metadata_only",
+      "policy_reason": "Conservative default: no bulk formula ingestion without an explicit compatible reuse grant"
+    },
+    {
+      "source_id": "SRC-ELING-ENERGY",
+      "title": "Energy in the Einstein-Aether Theory",
+      "url": "https://arxiv.org/abs/gr-qc/0507059",
+      "authors": ["Christopher Eling"],
+      "year": 2005,
+      "source_kind": "primary_paper",
+      "ingestion_mode": "metadata_only",
+      "policy_reason": "Retain citation metadata; formulas below are independently encoded mathematical facts, not copied prose"
+    },
+    {
+      "source_id": "SRC-AETHER-POSITIVE-ENERGY",
+      "title": "A positive energy theorem for Einstein-aether and Horava gravity",
+      "url": "https://arxiv.org/abs/1108.1835",
+      "authors": ["David Garfinkle", "Ted Jacobson"],
+      "year": 2011,
+      "source_kind": "primary_paper",
+      "ingestion_mode": "metadata_only",
+      "policy_reason": "Retain citation metadata; formulas below are independently encoded mathematical facts, not copied prose"
+    },
+    {
+      "source_id": "SRC-AETHER-HYPERBOLICITY",
+      "title": "Well-posed Cauchy formulation for Einstein-aether theory",
+      "url": "https://arxiv.org/abs/1902.05130",
+      "authors": ["Olivier Sarbach", "Enrico Barausse", "Jorge A. Preciado-Lopez"],
+      "year": 2019,
+      "source_kind": "primary_paper",
+      "ingestion_mode": "metadata_only",
+      "policy_reason": "Retain citation metadata; formulas below are independently encoded mathematical facts, not copied prose"
+    },
+    {
+      "source_id": "SRC-BPS-HEALTHY-HORAVA",
+      "title": "A healthy extension of Horava gravity",
+      "url": "https://arxiv.org/abs/0909.3525",
+      "authors": ["D. Blas", "O. Pujolas", "S. Sibiryakov"],
+      "year": 2009,
+      "source_kind": "primary_paper",
+      "ingestion_mode": "metadata_only",
+      "policy_reason": "Retain citation metadata; the acceleration and integration-by-parts facts below are independently encoded"
+    },
+    {
+      "source_id": "SRC-JACOBSON-HORAVA-LIMIT",
+      "title": "Undoing the twist: the Horava limit of Einstein-aether",
+      "url": "https://arxiv.org/abs/1310.5115",
+      "authors": ["Ted Jacobson"],
+      "year": 2013,
+      "source_kind": "primary_paper",
+      "ingestion_mode": "metadata_only",
+      "policy_reason": "Retain citation metadata for the hypersurface-orthogonal Einstein-Aether and Horava relationship"
+    }
+  ],
+  "equations": [
+    {
+      "equation_id": "EQ-NEWTON-SECOND-LAW",
+      "name": "Newton second law",
+      "domain": "classical_mechanics",
+      "representation": "scalar_sympy",
+      "expression": "F = m*a",
+      "latex": "F=ma",
+      "variables": [
+        {"symbol": "F", "canonical_name": "F", "meaning": "force", "dimension": {"M": 1, "L": 1, "T": -2}},
+        {"symbol": "m", "canonical_name": "m", "meaning": "test mass", "dimension": {"M": 1}},
+        {"symbol": "a", "canonical_name": "a", "meaning": "acceleration", "dimension": {"L": 1, "T": -2}}
+      ],
+      "assumptions": ["constant inertial mass", "inertial frame"],
+      "validity": ["classical point-particle mechanics"],
+      "tags": ["force", "dynamics", "known_answer"],
+      "source_id": "SRC-WIKIDATA",
+      "source_locator": "defining formula property P2534",
+      "independently_encoded": true
+    },
+    {
+      "equation_id": "EQ-NEWTON-SECOND-LAW-REARRANGED",
+      "name": "Newton second law rearranged reference",
+      "domain": "classical_mechanics",
+      "representation": "scalar_sympy",
+      "expression": "m*a = F",
+      "variables": [
+        {"symbol": "F", "canonical_name": "F", "meaning": "force", "dimension": {"M": 1, "L": 1, "T": -2}},
+        {"symbol": "m", "canonical_name": "m", "meaning": "test mass", "dimension": {"M": 1}},
+        {"symbol": "a", "canonical_name": "a", "meaning": "acceleration", "dimension": {"L": 1, "T": -2}}
+      ],
+      "assumptions": ["constant inertial mass", "inertial frame"],
+      "validity": ["classical point-particle mechanics"],
+      "tags": ["equivalence_control"],
+      "source_id": "SRC-SIGMA-CURATED",
+      "independently_encoded": true
+    },
+    {
+      "equation_id": "EQ-CENTRIPETAL-ACCELERATION",
+      "name": "Centripetal acceleration",
+      "domain": "classical_mechanics",
+      "representation": "scalar_sympy",
+      "expression": "a = v**2/r",
+      "variables": [
+        {"symbol": "a", "canonical_name": "a", "meaning": "radial acceleration magnitude", "dimension": {"L": 1, "T": -2}},
+        {"symbol": "v", "canonical_name": "v", "meaning": "tangential speed", "dimension": {"L": 1, "T": -1}},
+        {"symbol": "r", "canonical_name": "r", "meaning": "orbit radius", "dimension": {"L": 1}}
+      ],
+      "assumptions": ["uniform circular motion", "r > 0"],
+      "validity": ["Euclidean spatial kinematics"],
+      "tags": ["circular_orbit", "kinematics"],
+      "source_id": "SRC-SIGMA-CURATED",
+      "independently_encoded": true
+    },
+    {
+      "equation_id": "EQ-NEWTON-GRAVITATIONAL-FORCE",
+      "name": "Newton gravitational force",
+      "domain": "newtonian_gravity",
+      "representation": "scalar_sympy",
+      "expression": "F = G*M*m/r**2",
+      "variables": [
+        {"symbol": "F", "canonical_name": "F", "meaning": "force magnitude", "dimension": {"M": 1, "L": 1, "T": -2}},
+        {"symbol": "G", "canonical_name": "G", "meaning": "Newton gravitational constant", "dimension": {"M": -1, "L": 3, "T": -2}, "field_kind": "constant"},
+        {"symbol": "M", "canonical_name": "M", "meaning": "source mass", "dimension": {"M": 1}},
+        {"symbol": "m", "canonical_name": "m", "meaning": "test mass", "dimension": {"M": 1}},
+        {"symbol": "r", "canonical_name": "r", "meaning": "separation", "dimension": {"L": 1}}
+      ],
+      "assumptions": ["point masses", "isolated two-body system", "r > 0"],
+      "validity": ["weak field", "nonrelativistic"],
+      "tags": ["inverse_square", "gravity"],
+      "source_id": "SRC-WIKIDATA",
+      "source_locator": "defining formula structured data",
+      "independently_encoded": true
+    },
+    {
+      "equation_id": "EQ-NEWTON-GRAVITATIONAL-ACCELERATION",
+      "name": "Newton point-mass acceleration",
+      "domain": "newtonian_gravity",
+      "representation": "scalar_sympy",
+      "expression": "a = G*M/r**2",
+      "variables": [
+        {"symbol": "a", "canonical_name": "a", "meaning": "acceleration magnitude", "dimension": {"L": 1, "T": -2}},
+        {"symbol": "G", "canonical_name": "G", "meaning": "Newton gravitational constant", "dimension": {"M": -1, "L": 3, "T": -2}, "field_kind": "constant"},
+        {"symbol": "M", "canonical_name": "M", "meaning": "source mass", "dimension": {"M": 1}},
+        {"symbol": "r", "canonical_name": "r", "meaning": "radius", "dimension": {"L": 1}}
+      ],
+      "assumptions": ["test-particle limit", "r > 0"],
+      "validity": ["Newtonian exterior field"],
+      "tags": ["inverse_square", "gravity", "derived"],
+      "source_id": "SRC-SIGMA-CURATED",
+      "independently_encoded": true
+    },
+    {
+      "equation_id": "EQ-CIRCULAR-ORBIT-SPEED",
+      "name": "Newtonian circular-orbit speed squared",
+      "domain": "newtonian_gravity",
+      "representation": "scalar_sympy",
+      "expression": "v**2 = G*M/r",
+      "variables": [
+        {"symbol": "v", "canonical_name": "v", "meaning": "orbital speed", "dimension": {"L": 1, "T": -1}},
+        {"symbol": "G", "canonical_name": "G", "meaning": "Newton gravitational constant", "dimension": {"M": -1, "L": 3, "T": -2}, "field_kind": "constant"},
+        {"symbol": "M", "canonical_name": "M", "meaning": "central mass", "dimension": {"M": 1}},
+        {"symbol": "r", "canonical_name": "r", "meaning": "orbit radius", "dimension": {"L": 1}}
+      ],
+      "assumptions": ["circular orbit", "M >> m", "r > 0"],
+      "validity": ["weak field", "nonrelativistic", "two-body approximation"],
+      "tags": ["orbit", "rediscovery_target"],
+      "source_id": "SRC-SIGMA-CURATED",
+      "independently_encoded": true
+    },
+    {
+      "equation_id": "EQ-CIRCULAR-PERIOD-KINEMATICS",
+      "name": "Circular-orbit period kinematics",
+      "domain": "classical_mechanics",
+      "representation": "scalar_sympy",
+      "expression": "v*P = 2*pi*r",
+      "variables": [
+        {"symbol": "v", "canonical_name": "v", "meaning": "tangential speed", "dimension": {"L": 1, "T": -1}},
+        {"symbol": "P", "canonical_name": "P", "meaning": "orbital period", "dimension": {"T": 1}},
+        {"symbol": "r", "canonical_name": "r", "meaning": "orbit radius", "dimension": {"L": 1}}
+      ],
+      "assumptions": ["uniform circular motion", "P > 0"],
+      "validity": ["Euclidean spatial kinematics"],
+      "tags": ["orbit", "kinematics"],
+      "source_id": "SRC-SIGMA-CURATED",
+      "independently_encoded": true
+    },
+    {
+      "equation_id": "EQ-KEPLER-THIRD-CIRCULAR",
+      "name": "Kepler third law for a circular test-particle orbit",
+      "domain": "newtonian_gravity",
+      "representation": "scalar_sympy",
+      "expression": "P**2 = 4*pi**2*r**3/(G*M)",
+      "variables": [
+        {"symbol": "P", "canonical_name": "P", "meaning": "orbital period", "dimension": {"T": 1}},
+        {"symbol": "r", "canonical_name": "r", "meaning": "orbit radius", "dimension": {"L": 1}},
+        {"symbol": "G", "canonical_name": "G", "meaning": "Newton gravitational constant", "dimension": {"M": -1, "L": 3, "T": -2}, "field_kind": "constant"},
+        {"symbol": "M", "canonical_name": "M", "meaning": "central mass", "dimension": {"M": 1}}
+      ],
+      "assumptions": ["circular orbit", "test-particle limit", "P > 0", "r > 0"],
+      "validity": ["Newtonian gravity"],
+      "tags": ["orbit", "rediscovery_target"],
+      "source_id": "SRC-SIGMA-CURATED",
+      "independently_encoded": true
+    },
+    {
+      "equation_id": "EQ-NEWTON-POTENTIAL",
+      "name": "Newton point-mass potential",
+      "domain": "newtonian_gravity",
+      "representation": "scalar_sympy",
+      "expression": "Phi = -G*M/r",
+      "variables": [
+        {"symbol": "Phi", "canonical_name": "Phi", "meaning": "specific gravitational potential", "dimension": {"L": 2, "T": -2}},
+        {"symbol": "G", "canonical_name": "G", "meaning": "Newton gravitational constant", "dimension": {"M": -1, "L": 3, "T": -2}, "field_kind": "constant"},
+        {"symbol": "M", "canonical_name": "M", "meaning": "source mass", "dimension": {"M": 1}},
+        {"symbol": "r", "canonical_name": "r", "meaning": "radius", "dimension": {"L": 1}}
+      ],
+      "assumptions": ["potential vanishes at spatial infinity", "r > 0"],
+      "validity": ["Newtonian exterior field"],
+      "tags": ["potential", "gravity"],
+      "source_id": "SRC-SIGMA-CURATED",
+      "independently_encoded": true
+    },
+    {
+      "equation_id": "EQ-SCHWARZSCHILD-RADIUS",
+      "name": "Schwarzschild radius",
+      "domain": "general_relativity",
+      "representation": "scalar_sympy",
+      "expression": "r_s = 2*G*M/c**2",
+      "variables": [
+        {"symbol": "r_s", "canonical_name": "r_s", "meaning": "Schwarzschild areal radius", "dimension": {"L": 1}},
+        {"symbol": "G", "canonical_name": "G", "meaning": "Newton gravitational constant", "dimension": {"M": -1, "L": 3, "T": -2}, "field_kind": "constant"},
+        {"symbol": "M", "canonical_name": "M", "meaning": "ADM mass", "dimension": {"M": 1}},
+        {"symbol": "c", "canonical_name": "c", "meaning": "matter-metric light speed", "dimension": {"L": 1, "T": -1}, "field_kind": "constant"}
+      ],
+      "assumptions": ["asymptotically flat", "vacuum", "spherical symmetry", "nonrotating"],
+      "validity": ["Schwarzschild solution"],
+      "tags": ["GR", "horizon", "known_answer"],
+      "source_id": "SRC-SIGMA-CURATED",
+      "independently_encoded": true
+    },
+    {
+      "equation_id": "EQ-BARYONIC-Z-DIAGNOSTIC",
+      "name": "Covariant baryonic density diagnostic",
+      "domain": "sigma_gravity_field_contract",
+      "representation": "scalar_sympy",
+      "expression": "z_b = n_b**2/n_0**2",
+      "variables": [
+        {"symbol": "z_b", "canonical_name": "z_b", "meaning": "dimensionless baryonic diagnostic", "dimension": {}},
+        {"symbol": "n_b", "canonical_name": "n_b", "meaning": "locally measured baryon number density", "dimension": {"L": -3}},
+        {"symbol": "n_0", "canonical_name": "n_0", "meaning": "fixed baryon-density reference scale", "dimension": {"L": -3}, "field_kind": "constant"}
+      ],
+      "assumptions": ["timelike baryon current", "one universal physical matter metric"],
+      "validity": ["local diagnostic only", "forbidden as an action atom"],
+      "tags": ["covariant", "baryons", "diagnostic", "not_action_atom"],
+      "source_id": "SRC-SIGMA-CURATED",
+      "source_locator": "configs/covariant_field_contract.json",
+      "independently_encoded": true
+    },
+    {
+      "equation_id": "EQ-EINSTEIN-FIELD-EQUATION",
+      "name": "Einstein field equation",
+      "domain": "general_relativity",
+      "representation": "tensor_dsl",
+      "expression": "G_{mu nu} + Lambda g_{mu nu} = 8 pi G T_{mu nu}",
+      "variables": [],
+      "assumptions": ["single Lorentzian matter metric", "metric-compatible torsion-free connection"],
+      "validity": ["Einstein-Hilbert gravity with cosmological constant"],
+      "tags": ["GR", "tensor", "known_answer"],
+      "source_id": "SRC-SIGMA-CURATED",
+      "independently_encoded": true
+    },
+    {
+      "equation_id": "EQ-AETHER-SPIN2-SPEED",
+      "name": "Einstein-Aether spin-2 squared speed",
+      "domain": "einstein_aether",
+      "representation": "scalar_sympy",
+      "expression": "s2 = 1/(1-c13)",
+      "variables": [
+        {"symbol": "s2", "canonical_name": "s2", "meaning": "spin-2 squared characteristic speed", "dimension": {}},
+        {"symbol": "c13", "canonical_name": "c13", "meaning": "c1+c3 coupling combination", "dimension": {}, "field_kind": "coupling"}
+      ],
+      "assumptions": ["unit matter-metric speed", "regular denominator"],
+      "validity": ["frozen physical principal symbol"],
+      "tags": ["aether", "principal_symbol", "spin_2"],
+      "source_id": "SRC-AETHER-HYPERBOLICITY",
+      "source_locator": "physical characteristic speeds",
+      "independently_encoded": true
+    },
+    {
+      "equation_id": "EQ-AETHER-TOTAL-ENERGY",
+      "name": "Asymptotically flat Einstein-Aether total energy",
+      "domain": "einstein_aether",
+      "representation": "tensor_dsl",
+      "expression": "M_ae = M_ADM - c14/(8 pi G) integral_infinity(r^a a_a)",
+      "variables": [],
+      "assumptions": ["asymptotically flat", "asymptotic Aether rest frame"],
+      "validity": ["fully nonlinear boundary charge"],
+      "tags": ["aether", "energy", "boundary_charge"],
+      "source_id": "SRC-ELING-ENERGY",
+      "source_locator": "nonlinear total energy",
+      "independently_encoded": true
+    },
+    {
+      "equation_id": "EQ-AETHER-POSITIVE-ENERGY-DOMAIN",
+      "name": "Restricted Einstein-Aether nonlinear positive-energy domain",
+      "domain": "einstein_aether",
+      "representation": "tensor_dsl",
+      "expression": "rho >= 0 and K = 0 and 0 <= c14 <= 2 and c13 <= 1 implies M_ae >= 0",
+      "variables": [],
+      "assumptions": ["hypersurface-orthogonal Aether", "complete orientable asymptotically flat slice"],
+      "validity": ["restricted nonlinear theorem", "not generic twisting Aether"],
+      "tags": ["aether", "positive_energy", "restricted_theorem"],
+      "source_id": "SRC-AETHER-POSITIVE-ENERGY",
+      "source_locator": "positive energy theorem",
+      "independently_encoded": true
+    },
+    {
+      "equation_id": "EQ-FOLIATION-ACCELERATION",
+      "name": "Preferred-foliation normal acceleration",
+      "domain": "nonprojectable_horava_gravity",
+      "representation": "tensor_dsl",
+      "expression": "a_i = D_i ln(N) = partial_i(N)/N",
+      "variables": [],
+      "assumptions": ["nonprojectable lapse N>0", "unit normal to the preferred foliation"],
+      "validity": ["preferred-foliation ADM geometry"],
+      "tags": ["Horava", "aether", "acceleration", "prior_art"],
+      "source_id": "SRC-BPS-HEALTHY-HORAVA",
+      "source_locator": "proper acceleration definition and acceleration-dependent potential",
+      "independently_encoded": true
+    },
+    {
+      "equation_id": "EQ-ACCELERATION-GRADIENT-IBP",
+      "name": "Acceleration Laplacian and gradient-square boundary equivalence",
+      "domain": "nonprojectable_horava_gravity",
+      "representation": "tensor_dsl",
+      "expression": "integral sqrt(h) a_i Delta(a^i) = - integral sqrt(h) (D_j a_i)(D^j a^i) + boundary",
+      "variables": [],
+      "assumptions": ["metric-compatible spatial connection", "compact support or completed spatial boundary term"],
+      "validity": ["preferred spatial slice", "integration-by-parts equivalence rather than distinct novelty"],
+      "tags": ["Horava", "aether", "acceleration_gradient", "integration_by_parts", "prior_art"],
+      "source_id": "SRC-BPS-HEALTHY-HORAVA",
+      "source_locator": "dimension-four acceleration operator a_i Delta a^i; equivalence independently derived",
+      "independently_encoded": true
+    },
+    {
+      "equation_id": "EQ-SIGMA-PROJECTED-AETHER-Q",
+      "name": "Sigma projected Aether acceleration-gradient invariant",
+      "domain": "sigma_covariant_candidate_grammar",
+      "representation": "tensor_dsl",
+      "expression": "Q_a_u = (L_sigma^2/a_sigma^2) P^{mu rho} P^{nu sigma} nabla_mu(a_nu) nabla_rho(a_sigma)",
+      "variables": [],
+      "assumptions": ["u_mu u^mu=-1", "P_mu_nu=g_mu_nu+u_mu u_nu", "a_mu=u^alpha nabla_alpha u_mu"],
+      "validity": ["candidate grammar definition", "definition is not a health or novelty claim"],
+      "tags": ["aether", "acceleration_gradient", "candidate_operator", "prior_art_screened"],
+      "source_id": "SRC-SIGMA-CURATED",
+      "source_locator": "configs/covariant_field_contract.json",
+      "independently_encoded": true
+    }
+  ],
+  "derivations": [
+    {
+      "derivation_id": "DERIVE-NEWTON-ACCELERATION",
+      "target_equation_id": "EQ-NEWTON-GRAVITATIONAL-ACCELERATION",
+      "inputs": ["EQ-NEWTON-SECOND-LAW", "EQ-NEWTON-GRAVITATIONAL-FORCE"],
+      "operation": "equate force laws and eliminate F and test mass",
+      "assumptions": {"nonzero": ["m", "r"]},
+      "source_id": "SRC-SIGMA-CURATED"
+    },
+    {
+      "derivation_id": "DERIVE-CIRCULAR-ORBIT-SPEED",
+      "target_equation_id": "EQ-CIRCULAR-ORBIT-SPEED",
+      "inputs": ["EQ-NEWTON-SECOND-LAW", "EQ-CENTRIPETAL-ACCELERATION", "EQ-NEWTON-GRAVITATIONAL-FORCE"],
+      "operation": "substitute circular acceleration, equate forces, and eliminate F, a, and test mass",
+      "assumptions": {"nonzero": ["m", "r"]},
+      "source_id": "SRC-SIGMA-CURATED"
+    },
+    {
+      "derivation_id": "DERIVE-KEPLER-THIRD-CIRCULAR",
+      "target_equation_id": "EQ-KEPLER-THIRD-CIRCULAR",
+      "inputs": ["EQ-CIRCULAR-ORBIT-SPEED", "EQ-CIRCULAR-PERIOD-KINEMATICS"],
+      "operation": "eliminate orbital speed",
+      "assumptions": {"nonzero": ["G", "M", "P", "r"]},
+      "source_id": "SRC-SIGMA-CURATED"
+    }
+  ]
+}

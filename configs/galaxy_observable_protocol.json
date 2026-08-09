@@ -1,0 +1,93 @@
+{
+  "schema_version": "sigma-galaxy-observable-protocol-1.0",
+  "status": "sealed",
+  "data_opened": false,
+  "objective": "Discover a universal low-parameter law that predicts held-out galaxy kinematics directly from audited photon, gas-tracer, angular-geometry, and calibration measurements, without an invisible-mass target or object-specific gravitational parameter.",
+  "discovery_channel": {
+    "inputs": [
+      "angular radius and sky position relative to the galaxy center",
+      "calibrated surface-brightness profile or image pixels with PSF, sky, extinction, and photometric covariance",
+      "HI, H-alpha, or CO line-emission measurements with beam and line-spread provenance",
+      "audited angular geometry with uncertainty, retaining the image inputs used for inclination and position-angle inference",
+      "independently calibrated gas and stellar-population conversion factors with uncertainty"
+    ],
+    "prediction_target": "held-out spectral-line centroid wavelength ratios or their reproducible line-of-sight Doppler-velocity representation with full covariance",
+    "preferred_distance_mode": "angular and within-source dimensionless prediction",
+    "distance_exception": "A physical-distance input is allowed only from a separately frozen non-redshift distance protocol with raw provenance and uncertainty.",
+    "baryonic_conversion_rule": "Brightness-to-stellar-mass and line-emission-to-gas-mass conversions are calibration nuisances, not direct observations; they must be globally frozen or hierarchically shared and may not be fitted separately to each galaxy's target kinematics.",
+    "allowed_formula_inputs": [
+      "audited discovery-channel measurements",
+      "covariant fields and invariants already passed by the theory compiler",
+      "universal constants",
+      "globally frozen calibration nuisances"
+    ],
+    "forbidden_formula_inputs": [
+      "galaxy identity or catalog row identifier",
+      "dark-matter halo mass, concentration, radius, profile, or abundance-matching label",
+      "mass discrepancy inferred from the target rotation curve",
+      "redshift-derived distance or physical size",
+      "environment label derived from redshift",
+      "lensing-derived mass, convergence, or acceleration map",
+      "per-galaxy acceleration scale or gravitational coupling"
+    ]
+  },
+  "split_contract": {
+    "unit": "whole galaxy",
+    "group_leakage_forbidden": true,
+    "roles": [
+      "formula-search training galaxies",
+      "formula-selection validation galaxies",
+      "untouched target-blind test galaxies"
+    ],
+    "stratification_inputs": "measurement quality and directly measured morphology only; no target-derived discrepancy, halo fit, or redshift-derived environment",
+    "sealed_test_rule": "Test-galaxy measurements, identities, summary statistics, and residuals remain inaccessible until the theory hash, formula hash, universal constants, calibration policy, likelihood, and stopping rule are frozen."
+  },
+  "scoring_contract": {
+    "fit_term": "joint held-out likelihood using the full measurement and calibration covariance",
+    "complexity_term": "description length or an equivalently preregistered symbolic-complexity penalty",
+    "universality_term": "one shared law and shared gravitational constants across every galaxy",
+    "object_specific_gravity_parameters": 0,
+    "required_baselines": [
+      "Newtonian or weak-field GR prediction from the same audited baryonic inputs only",
+      "a preregistered empirical observable-to-observable relation used as a benchmark rather than ground truth"
+    ],
+    "selection_rule": "Formula ranking uses training and validation galaxies only; no test or lensing result may influence search, hyperparameters, constants, or stopping."
+  },
+  "independent_lensing_falsification": {
+    "status": "sealed_until_after_kinematic_formula_freeze",
+    "allowed_measurements": [
+      "calibrated image pixels and PSF",
+      "relative arc and multiple-image positions",
+      "image parity and topology",
+      "audited time delays when directly measured"
+    ],
+    "forbidden_targets": [
+      "dark-matter map",
+      "NFW or other halo fit",
+      "GR-derived convergence or mass map treated as truth",
+      "lensing-only gravitational parameter"
+    ],
+    "same_law_rule": "The frozen covariant action, universal constants, matter coupling, and baryonic calibration policy must predict lensing without any lensing-only parameter.",
+    "formula_selection_use": "prohibited"
+  },
+  "prohibited_truth_or_rescue": [
+    "dark matter",
+    "invisible halo",
+    "halo mass",
+    "halo concentration",
+    "halo radius",
+    "NFW profile",
+    "abundance-matched mass",
+    "rotation-curve-derived halo label",
+    "redshift-derived distance",
+    "supernova distance modulus",
+    "post-hoc baryonic recalibration chosen to rescue a failed gravity formula"
+  ],
+  "opening_requirements": [
+    "all required theory-side formal gates pass for the exact action hash",
+    "the observational evidence policy hash is frozen",
+    "the dataset manifest and raw-to-derived transformations pass an independent audit",
+    "the galaxy-level split manifest is hash-committed before any test target is opened",
+    "the likelihood, complexity penalty, calibration hierarchy, and stopping rule are preregistered"
+  ]
+}

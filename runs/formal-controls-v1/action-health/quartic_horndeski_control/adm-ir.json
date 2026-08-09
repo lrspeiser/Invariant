@@ -1,0 +1,140 @@
+{
+  "boundary_contract": [
+    "Einstein-Hilbert normal divergence removed by GHY completion or fixed-boundary/compact-support contract",
+    "Gauss-Codazzi normal divergence integrated against G4(X_c); its V_star K bulk term is retained and exactly cancelled"
+  ],
+  "combined_adm_bulk_density": "(M_Pl^2/2) * (N sqrt(h) (R3 + K_ij K^ij - K^2)) + (alpha) * (N sqrt(h) [-X_c (K_ij K^ij-K^2) + X_c R3 + spatial A_star-gradient terms]) + (1) * (N sqrt(h) (Pi_phi^2 - D_i(phi) D^i(phi))/2)",
+  "content_sha256": "80c08893b2b35611fec3d2e2418f11c6a789a435163f24352f72ca651d9c34f8",
+  "definitions": [
+    "Pi_phi=n^mu nabla_mu phi=(dot(phi)-N^i D_i phi)/N",
+    "V_star=L_n A_star cancels between the G4(X_c)R boundary term and the Horndeski second-derivative completion",
+    "X_c=Lambda_phi^4 X_phi=A_star^2/2 in unitary gauge"
+  ],
+  "higher_time_derivative_channels": [],
+  "input_action_sha256": "85a7af135eddf4c924ea8a9f6e890fc6a511b0f712e3935aafd74aae825f99de",
+  "lapse_shift_statement": "No dot(N) or dot(N^i) channel occurs after the declared boundary completion; their momenta are primary constraints. Secondary H_perp/H_i entries are seeds until the action-specific Poisson algebra is executed.",
+  "matter_metric": "g_mu_nu",
+  "missing_or_failed_controls": [],
+  "missing_templates": [],
+  "nondynamical_channels": [
+    "A_star",
+    "N",
+    "N^i"
+  ],
+  "primary_constraint_seeds": [
+    "p_N=0",
+    "p_(N^i)=0 (three components)"
+  ],
+  "promotion_allowed": false,
+  "proof_scope": "termwise exact 3+1 template instantiation and primary/secondary seed extraction for the bounded action grammar; it does not by itself prove action-specific Poisson closure, global Hessian rank, physical degree count, or reduced boundedness",
+  "schema_version": "sigma-adm-ir-1.0",
+  "secondary_constraint_seeds": [
+    "H_perp=0",
+    "H_i=0 (three components)"
+  ],
+  "source_role": "known_answer_control",
+  "spatial_jets": [
+    "D_i A_star",
+    "D_i ln(N)",
+    "D_i phi",
+    "R3[h]"
+  ],
+  "static_dictionary_status": "derived",
+  "status": "pass",
+  "term_templates_complete": true,
+  "terms": [
+    {
+      "adm_bulk_basis": "N sqrt(h) (R3 + K_ij K^ij - K^2)",
+      "boundary_terms": [
+        "Einstein-Hilbert normal divergence removed by GHY completion or fixed-boundary/compact-support contract"
+      ],
+      "coefficient": "M_Pl^2/2",
+      "covariant_density": "sqrt(-g) R",
+      "definitions": [],
+      "higher_time_derivative_channels": [],
+      "nondynamical_channels": [
+        "N",
+        "N^i"
+      ],
+      "proof_scope": "exact ADM Einstein-Hilbert bulk decomposition after the declared boundary completion",
+      "required_controls": [
+        "cadabra_adm_spatial_curvature_variation",
+        "nonlinear_adm_hamiltonian_constraint_algebra"
+      ],
+      "spatial_jets": [
+        "R3[h]"
+      ],
+      "term_id": "EH_R",
+      "velocity_channels": [
+        "K_ij=(dot(h)_ij-L_shift(h)_ij)/(2N)"
+      ],
+      "verification": "pass",
+      "weighted_adm_bulk": "(M_Pl^2/2) * (N sqrt(h) (R3 + K_ij K^ij - K^2))"
+    },
+    {
+      "adm_bulk_basis": "N sqrt(h) [-X_c (K_ij K^ij-K^2) + X_c R3 + spatial A_star-gradient terms]",
+      "boundary_terms": [
+        "Gauss-Codazzi normal divergence integrated against G4(X_c); its V_star K bulk term is retained and exactly cancelled"
+      ],
+      "coefficient": "alpha",
+      "covariant_density": "sqrt(-g) [Lambda_phi^4 X_phi R + (box phi)^2 - (nabla_mu nabla_nu phi)(nabla^mu nabla^nu phi)]",
+      "definitions": [
+        "X_c=Lambda_phi^4 X_phi=A_star^2/2 in unitary gauge",
+        "V_star=L_n A_star cancels between the G4(X_c)R boundary term and the Horndeski second-derivative completion"
+      ],
+      "higher_time_derivative_channels": [],
+      "nondynamical_channels": [
+        "N",
+        "N^i",
+        "A_star"
+      ],
+      "proof_scope": "exact named quartic-Horndeski unitary-gauge kinetic ADM identity for G4=M_Pl^2/2+alpha X_c; distributed closure and stability remain separate",
+      "required_controls": [
+        "quartic_horndeski_covariant_adm_degeneracy"
+      ],
+      "spatial_jets": [
+        "R3[h]",
+        "D_i A_star",
+        "D_i ln(N)"
+      ],
+      "term_id": "HORNDESKI_L4_LINEAR_X",
+      "velocity_channels": [
+        "K_ij=(dot(h)_ij-L_shift(h)_ij)/(2N)"
+      ],
+      "verification": "pass",
+      "weighted_adm_bulk": "(alpha) * (N sqrt(h) [-X_c (K_ij K^ij-K^2) + X_c R3 + spatial A_star-gradient terms])"
+    },
+    {
+      "adm_bulk_basis": "N sqrt(h) (Pi_phi^2 - D_i(phi) D^i(phi))/2",
+      "boundary_terms": [],
+      "coefficient": "1",
+      "covariant_density": "sqrt(-g) Lambda_phi^4 X_phi",
+      "definitions": [
+        "Pi_phi=n^mu nabla_mu phi=(dot(phi)-N^i D_i phi)/N"
+      ],
+      "higher_time_derivative_channels": [],
+      "nondynamical_channels": [
+        "N",
+        "N^i"
+      ],
+      "proof_scope": "exact first-derivative scalar 3+1 split for the contract definition of X_phi",
+      "required_controls": [
+        "canonical_scalar"
+      ],
+      "spatial_jets": [
+        "D_i phi"
+      ],
+      "term_id": "SCALAR_X",
+      "velocity_channels": [
+        "Pi_phi"
+      ],
+      "verification": "pass",
+      "weighted_adm_bulk": "(1) * (N sqrt(h) (Pi_phi^2 - D_i(phi) D^i(phi))/2)"
+    }
+  ],
+  "unit_aether_reduction": null,
+  "velocity_channels": [
+    "K_ij=(dot(h)_ij-L_shift(h)_ij)/(2N)",
+    "Pi_phi"
+  ]
+}

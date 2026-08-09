@@ -1,0 +1,167 @@
+{
+  "checks": [
+    {
+      "claim": "Normalized atoms pass and a dimensionful control is rejected.",
+      "evidence": {
+        "dimensionful_control_rejected": true,
+        "normalized": {
+          "q": {
+            "L": 0,
+            "T": 0
+          },
+          "x": {
+            "L": 0,
+            "T": 0
+          },
+          "z": {
+            "L": 0,
+            "T": 0
+          }
+        }
+      },
+      "name": "dimensions",
+      "status": "pass"
+    },
+    {
+      "claim": "A hand-countable grammar yields exactly its five known forms.",
+      "evidence": {
+        "actual": [
+          "2*q",
+          "2*x",
+          "q",
+          "q + x",
+          "x"
+        ],
+        "counts": {
+          "duplicates_removed": 1,
+          "generated_before_deduplication": 6,
+          "unique": 5
+        },
+        "expected": [
+          "2*q",
+          "2*x",
+          "q",
+          "q + x",
+          "x"
+        ]
+      },
+      "name": "known_enumeration",
+      "status": "pass"
+    },
+    {
+      "claim": "Two independent runs produce identical canonical keys and counts.",
+      "evidence": {
+        "counts": {
+          "duplicates_removed": 24,
+          "generated_before_deduplication": 78,
+          "unique": 54
+        },
+        "first_sha256": "b230d2288c94428b5afa963080bcb2456cf7183bea493273685e9d101a8da6f9",
+        "second_sha256": "b230d2288c94428b5afa963080bcb2456cf7183bea493273685e9d101a8da6f9"
+      },
+      "name": "determinism",
+      "status": "pass"
+    },
+    {
+      "claim": "q screens at fixed state while x*q is correctly rejected.",
+      "evidence": {
+        "q_control": "pass",
+        "x_times_q_control": "reject"
+      },
+      "name": "screening_controls",
+      "status": "pass"
+    },
+    {
+      "claim": "q carries new state information while flux-only x is rejected.",
+      "evidence": {
+        "q_control": "pass",
+        "x_only_control": "reject"
+      },
+      "name": "state_controls",
+      "status": "pass"
+    },
+    {
+      "claim": "Positive elasticity passes and negative elasticity fails.",
+      "evidence": {
+        "negative_elasticity": {
+          "evidence": {
+            "evaluated_points": 4,
+            "hessian": "Matrix([[1, 0], [0, -0.200000000000000]])",
+            "minimum_eigenvalue": -0.19999999999999996,
+            "strict_tolerance": 1e-09,
+            "warning": "A sampled radial test is a kill gate, not a proof of global tensor convexity.",
+            "worst_point": {
+              "d": 0.1,
+              "eigenvalues": [
+                -0.19999999999999996,
+                1.0
+              ],
+              "p": 0.0,
+              "state": 0.0
+            }
+          },
+          "name": "sampled_static_convexity",
+          "reason": "At least one sampled radial constitutive Hessian is non-positive.",
+          "status": "reject"
+        },
+        "positive_elasticity": {
+          "evidence": {
+            "evaluated_points": 4,
+            "hessian": "Matrix([[1, 0], [0, 0.200000000000000]])",
+            "minimum_eigenvalue": 0.19999999999999996,
+            "strict_tolerance": 1e-09,
+            "warning": "A sampled radial test is a kill gate, not a proof of global tensor convexity.",
+            "worst_point": {
+              "d": 0.1,
+              "eigenvalues": [
+                0.19999999999999996,
+                1.0
+              ],
+              "p": 0.0,
+              "state": 0.0
+            }
+          },
+          "name": "sampled_static_convexity",
+          "reason": "Every sampled radial constitutive Hessian eigenvalue is strictly positive.",
+          "status": "pass"
+        }
+      },
+      "name": "convexity_controls",
+      "status": "pass"
+    },
+    {
+      "claim": "The symbolic field equation matches a hand-derived q action.",
+      "evidence": {
+        "derived_rhs": "-0.2*L_sigma**2*Derivative(D(r), (r, 2)) + D(r)",
+        "hand_derived_rhs": "-0.2*L_sigma**2*Derivative(D(r), (r, 2)) + D(r)",
+        "symbolic_residual": "0",
+        "unused_scale_sentinels": [
+          "a_sigma",
+          "Z_0"
+        ]
+      },
+      "name": "euler_lagrange",
+      "status": "pass"
+    },
+    {
+      "claim": "The base action exactly recovers the Newtonian constitutive law.",
+      "evidence": {
+        "base_action": "H = D^2/2",
+        "derived_equation": "Eq(dW_dr, D(r))",
+        "expected_constitutive_equation": "dW_dr = D(r)",
+        "interpretation": "Together with div D = 4*pi*G*rho_b, this is the frozen Newtonian static control.",
+        "symbolic_residual": "0"
+      },
+      "name": "newton_reference",
+      "status": "pass"
+    }
+  ],
+  "counts": {
+    "failed": 0,
+    "passed": 8,
+    "total": 8
+  },
+  "created_utc": "2026-08-07T04:06:42.319951+00:00",
+  "interpretation": "These known-answer checks validate compiler mechanics only. They do not validate any gravity candidate against nature.",
+  "schema_version": "sigma-theory-compiler-validation-1.0"
+}

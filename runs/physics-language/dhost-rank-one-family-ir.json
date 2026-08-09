@@ -1,0 +1,80 @@
+{
+  "c_override_residual": "0",
+  "capability_status": {
+    "distributed_gravitational_constraint_algebra": "unresolved",
+    "full_covariant_dhost_classification": "unresolved",
+    "generic_principal_symbol": "unresolved",
+    "generic_reduced_hamiltonian": "unresolved",
+    "generic_secondary_constraint": "unresolved",
+    "observations": "sealed",
+    "primary_null_direction": "pass",
+    "reduced_adm_kinetic_degeneracy": "pass"
+  },
+  "content_sha256": "767661a99cca44743b1fde97236e978b399557ef9054d78f81164d5e1695db49",
+  "degeneracy_relation": "c=b^2/a on a!=0",
+  "determinant_residual": "0",
+  "errors": [],
+  "generated_coefficients": {
+    "a": "C*(r*x + 1)**2",
+    "b": "C*alpha*(r*x + 1)",
+    "c": "C*alpha**2"
+  },
+  "hessian_null_vector": [
+    "-C*alpha*(r*x + 1)",
+    "C*(r*x + 1)**2"
+  ],
+  "kinetic_hessian": [
+    [
+      "C*(r*x + 1)**2",
+      "C*alpha*(r*x + 1)"
+    ],
+    [
+      "C*alpha*(r*x + 1)",
+      "C*alpha**2"
+    ]
+  ],
+  "known_dirac_mechanism_control": {
+    "constraint_matrix_rank": 2,
+    "passed": true,
+    "physical_scalar_dof": 1,
+    "primary_constraint": "-alpha*p_dhost_0 + p_dhost_1",
+    "reduced_hamiltonian": "(A_star**2*C*alpha**2*m**4 + A_star**2*C*m**2*omega**2 + omega**2*p_dhost_0**2)/(2*C*omega**2)",
+    "secondary_constraint": "A_star*alpha*m**2 - Q_metric*omega**2"
+  },
+  "mutation_space": {
+    "axes": [
+      {
+        "coefficient": "alpha",
+        "values": [
+          "-1",
+          "-1/2",
+          "0",
+          "1/2",
+          "1"
+        ]
+      },
+      {
+        "coefficient": "r",
+        "values": [
+          "-1",
+          "0",
+          "1"
+        ]
+      }
+    ],
+    "declared_cardinality": 15,
+    "enumerated": false,
+    "log10_cardinality": 1.1760912590556813
+  },
+  "null_vector_residual": [
+    "0",
+    "0"
+  ],
+  "primary_constraint": "-(C*alpha*(r*x + 1)) p_V + (C*(r*x + 1)**2) p_K = 0",
+  "primary_source": "https://arxiv.org/abs/1512.06820",
+  "regular_branch_guard": "C*(r*x + 1)**2 != 0",
+  "schema_version": "sigma-reduced-dhost-pack-ir-1.0",
+  "scope": "exact rank-one two-velocity reduced ADM kinetic family on the regular a!=0 branch; the embedded known control proves the primary-secondary mechanism for one potential, not for every generated covariant theory",
+  "source_schema_version": "sigma-reduced-dhost-pack-1.0",
+  "status": "compiled_full_covariant_adapters_unresolved"
+}

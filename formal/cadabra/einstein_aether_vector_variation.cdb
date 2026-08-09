@@ -1,0 +1,27 @@
+{a,b,c,d,e,f}::Indices(position=free).
+x::Coordinate.
+\nabla{#}::Derivative.
+u_{a}::Depends(x,\nabla{#}).
+\lambda::Depends(x).
+\delta{#}::Accent.
+
+action := \int{
+ - c1/2 \nabla_{a}{u_{b}} \nabla^{a}{u^{b}}
+ - c2/2 \nabla_{a}{u^{a}} \nabla_{b}{u^{b}}
+ - c3/2 \nabla_{a}{u_{b}} \nabla^{b}{u^{a}}
+ + c4/2 u^{a} \nabla_{a}{u_{b}} u^{c} \nabla_{c}{u^{b}}
+ + \lambda (u_{a} u^{a} + 1)
+}{x};
+vary(action, $u_{a} -> \delta{u_{a}}$);
+distribute(action);
+integrate_by_parts(action, $\delta{u_{a}}$);
+substitute(action, $\nabla_{a}{c1} -> 0, \nabla_{a}{c2} -> 0, \nabla_{a}{c3} -> 0, \nabla_{a}{c4} -> 0$);
+canonicalise(action);
+sort_product(action);
+print("SIGMA_AETHER_VECTOR_VARIATION_FINAL");
+print(action);
+
+norm_constraint := \int{\lambda (u_{a} u^{a} + 1)}{x};
+vary(norm_constraint, $\lambda -> \delta{\lambda}$);
+print("SIGMA_AETHER_NORM_CONSTRAINT_FINAL");
+print(norm_constraint);

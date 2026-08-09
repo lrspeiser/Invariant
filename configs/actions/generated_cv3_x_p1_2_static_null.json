@@ -1,0 +1,30 @@
+{
+  "schema_version": "sigma-action-spec-1.0",
+  "role": "candidate",
+  "fields": ["g_mu_nu", "u_mu", "lambda_u"],
+  "matter_metric": "g_mu_nu",
+  "terms": ["EH_R", "AETHER_K1", "AETHER_K4", "AETHER_X_SQRT1P", "UNIT_VECTOR_CONSTRAINT"],
+  "coefficients": {
+    "AETHER_K1": "-gamma*M_Pl^2/2",
+    "AETHER_K4": "-gamma*M_Pl^2/2",
+    "AETHER_X_SQRT1P": "epsilon*M_Pl^2*a_sigma^2"
+  },
+  "universal_constants": ["M_Pl", "a_sigma", "epsilon", "gamma"],
+  "parameter_domain": {
+    "positive": ["M_Pl", "a_sigma", "epsilon", "gamma"],
+    "inequalities": ["gamma <= epsilon"]
+  },
+  "static_dictionary_status": "derived",
+  "generator_origin": {
+    "family_id": "CV3-X-P1-2",
+    "ordinal": 1,
+    "correction_expression": "+(sqrt(1+x)-1)",
+    "pareto_front": 1,
+    "source_priority_sha256": "f4b77e7d0fd67d9bef3dd466e61aff38d8555ee476e3532e1b8f72c722e73ee9"
+  },
+  "covariant_completion": {
+    "completion_id": "cv3-static-null-k1-k4-v1",
+    "static_null_terms": ["AETHER_K1", "AETHER_K4"],
+    "purpose": "Supply positive Aether spatial-gradient energy while preserving F_1/2(x) exactly."
+  }
+}

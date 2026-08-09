@@ -1,0 +1,184 @@
+{
+  "boundary_contract": [
+    "Einstein-Hilbert normal divergence removed by GHY completion or fixed-boundary/compact-support contract"
+  ],
+  "combined_adm_bulk_density": "(epsilon*M_Pl^2*a_sigma^2) * (N sqrt(h) Q3, Q3=(L_sigma^2/a_sigma^2) P3^{AC} P3^{BD} B_AB B_CD) + (epsilon*M_Pl^2*a_sigma^2) * (N sqrt(h) Q3^2, Q3=(L_sigma^2/a_sigma^2) P3^{AC} P3^{BD} B_AB B_CD) + (M_Pl^2/2) * (N sqrt(h) (R3 + K_ij K^ij - K^2)) + (1) * (N sqrt(h) lambda_u (-chi^2 + A_i A^i + 1))",
+  "content_sha256": "947bca72c2f2d27f81f6aac909d5d406d3984435b65a4bbe3c80566e77c95088",
+  "definitions": [
+    "B_AB=e_A^mu e_B^nu nabla_mu(a_nu)",
+    "P3^{nn}=A_i A^i, P3^{ni}=chi A^i, P3^{ij}=h^{ij}+A^i A^j",
+    "a_perp=-chi Q-A^i P_i, a_i=chi E_i+S_ji A^j",
+    "chi>0",
+    "u^a=chi n^a+A^a"
+  ],
+  "higher_time_derivative_channels": [
+    "L_n a_i",
+    "L_n a_perp"
+  ],
+  "input_action_sha256": "e4e4c16633d59e05905058b781d126b22bf53eeacc52e664ed7e28f5469216f2",
+  "lapse_shift_statement": "Generic tilt makes P3^{nn}=A_i A^i nonzero, so Q_a_u contains normal derivatives of Aether acceleration. No lapse/shift primary or secondary constraint is asserted before an auxiliary-field higher-jet Dirac analysis.",
+  "matter_metric": "g_mu_nu",
+  "missing_or_failed_controls": [],
+  "missing_templates": [],
+  "nondynamical_channels": [
+    "N",
+    "N^i",
+    "lambda_u"
+  ],
+  "primary_constraint_seeds": [
+    "lapse/shift primary constraints unresolved for generic-tilt higher-jet Q_a_u",
+    "p_(lambda_u)=0"
+  ],
+  "promotion_allowed": false,
+  "proof_scope": "termwise exact 3+1 template instantiation and primary/secondary seed extraction for the bounded action grammar; it does not by itself prove action-specific Poisson closure, global Hessian rank, physical degree count, or reduced boundedness",
+  "schema_version": "sigma-adm-ir-1.0",
+  "secondary_constraint_seeds": [
+    "Hamiltonian/momentum secondary constraints require higher-jet Dirac reduction",
+    "-chi^2+A_i A^i+1=0"
+  ],
+  "source_role": "candidate",
+  "spatial_jets": [
+    "D_i K_jk",
+    "D_i V_j",
+    "D_i a_j",
+    "D_i a_perp",
+    "R3[h]"
+  ],
+  "static_dictionary_status": "derived",
+  "status": "pass",
+  "term_templates_complete": true,
+  "terms": [
+    {
+      "adm_bulk_basis": "N sqrt(h) Q3, Q3=(L_sigma^2/a_sigma^2) P3^{AC} P3^{BD} B_AB B_CD",
+      "boundary_terms": [],
+      "coefficient": "epsilon*M_Pl^2*a_sigma^2",
+      "covariant_density": "sqrt(-g) Q_a_u",
+      "definitions": [
+        "P3^{nn}=A_i A^i, P3^{ni}=chi A^i, P3^{ij}=h^{ij}+A^i A^j",
+        "B_AB=e_A^mu e_B^nu nabla_mu(a_nu)",
+        "a_perp=-chi Q-A^i P_i, a_i=chi E_i+S_ji A^j"
+      ],
+      "higher_time_derivative_channels": [
+        "L_n a_perp",
+        "L_n a_i"
+      ],
+      "nondynamical_channels": [],
+      "proof_scope": "exact generic-tilt projector block decomposition; higher-jet Dirac degeneracy is not inferred",
+      "required_controls": [
+        "projected_aether_q_generic_3plus1_decomposition"
+      ],
+      "spatial_jets": [
+        "D_i a_perp",
+        "D_i a_j",
+        "D_i K_jk",
+        "D_i V_j"
+      ],
+      "term_id": "AETHER_Q1",
+      "velocity_channels": [
+        "K_ij",
+        "V_i=L_n A_i",
+        "L_n chi"
+      ],
+      "verification": "pass",
+      "weighted_adm_bulk": "(epsilon*M_Pl^2*a_sigma^2) * (N sqrt(h) Q3, Q3=(L_sigma^2/a_sigma^2) P3^{AC} P3^{BD} B_AB B_CD)"
+    },
+    {
+      "adm_bulk_basis": "N sqrt(h) Q3^2, Q3=(L_sigma^2/a_sigma^2) P3^{AC} P3^{BD} B_AB B_CD",
+      "boundary_terms": [],
+      "coefficient": "epsilon*M_Pl^2*a_sigma^2",
+      "covariant_density": "sqrt(-g) Q_a_u^2",
+      "definitions": [
+        "P3^{nn}=A_i A^i, P3^{ni}=chi A^i, P3^{ij}=h^{ij}+A^i A^j",
+        "B_AB=e_A^mu e_B^nu nabla_mu(a_nu)"
+      ],
+      "higher_time_derivative_channels": [
+        "L_n a_perp",
+        "L_n a_i"
+      ],
+      "nondynamical_channels": [],
+      "proof_scope": "exact square of the generic-tilt projector block; nonlinear higher-jet Dirac degeneracy is not inferred",
+      "required_controls": [
+        "projected_aether_q_generic_3plus1_decomposition"
+      ],
+      "spatial_jets": [
+        "D_i a_perp",
+        "D_i a_j",
+        "D_i K_jk",
+        "D_i V_j"
+      ],
+      "term_id": "AETHER_Q2",
+      "velocity_channels": [
+        "K_ij",
+        "V_i=L_n A_i",
+        "L_n chi"
+      ],
+      "verification": "pass",
+      "weighted_adm_bulk": "(epsilon*M_Pl^2*a_sigma^2) * (N sqrt(h) Q3^2, Q3=(L_sigma^2/a_sigma^2) P3^{AC} P3^{BD} B_AB B_CD)"
+    },
+    {
+      "adm_bulk_basis": "N sqrt(h) (R3 + K_ij K^ij - K^2)",
+      "boundary_terms": [
+        "Einstein-Hilbert normal divergence removed by GHY completion or fixed-boundary/compact-support contract"
+      ],
+      "coefficient": "M_Pl^2/2",
+      "covariant_density": "sqrt(-g) R",
+      "definitions": [],
+      "higher_time_derivative_channels": [],
+      "nondynamical_channels": [
+        "N",
+        "N^i"
+      ],
+      "proof_scope": "exact ADM Einstein-Hilbert bulk decomposition after the declared boundary completion",
+      "required_controls": [
+        "cadabra_adm_spatial_curvature_variation",
+        "nonlinear_adm_hamiltonian_constraint_algebra"
+      ],
+      "spatial_jets": [
+        "R3[h]"
+      ],
+      "term_id": "EH_R",
+      "velocity_channels": [
+        "K_ij=(dot(h)_ij-L_shift(h)_ij)/(2N)"
+      ],
+      "verification": "pass",
+      "weighted_adm_bulk": "(M_Pl^2/2) * (N sqrt(h) (R3 + K_ij K^ij - K^2))"
+    },
+    {
+      "adm_bulk_basis": "N sqrt(h) lambda_u (-chi^2 + A_i A^i + 1)",
+      "boundary_terms": [],
+      "coefficient": "1",
+      "covariant_density": "sqrt(-g) lambda_u (u_mu u^mu + 1)",
+      "definitions": [
+        "u^a=chi n^a+A^a",
+        "chi>0"
+      ],
+      "higher_time_derivative_channels": [],
+      "nondynamical_channels": [
+        "N",
+        "lambda_u"
+      ],
+      "proof_scope": "exact positive-unit-branch holonomic constraint split",
+      "required_controls": [
+        "einstein_aether_generic_3plus1_legendre",
+        "unit_timelike_vector_dirac_chain"
+      ],
+      "spatial_jets": [],
+      "term_id": "UNIT_VECTOR_CONSTRAINT",
+      "velocity_channels": [],
+      "verification": "pass",
+      "weighted_adm_bulk": "(1) * (N sqrt(h) lambda_u (-chi^2 + A_i A^i + 1))"
+    }
+  ],
+  "unit_aether_reduction": {
+    "branch": "chi=sqrt(1+A_i A^i)>0",
+    "electric_velocity": "W_i=V_i-K_ij A^j+chi D_i ln(N)",
+    "normal_velocity": "L_n chi=(A^i L_n A_i-A^i K_ij A^j)/chi",
+    "spatial_gradient": "D_i chi=A^j D_i A_j/chi"
+  },
+  "velocity_channels": [
+    "K_ij",
+    "K_ij=(dot(h)_ij-L_shift(h)_ij)/(2N)",
+    "L_n chi",
+    "V_i=L_n A_i"
+  ]
+}

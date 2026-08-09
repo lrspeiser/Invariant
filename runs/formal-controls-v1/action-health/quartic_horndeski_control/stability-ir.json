@@ -1,0 +1,142 @@
+{
+  "background_domain": {
+    "inequalities": [
+      "(-A_star_squared*alpha + M_Pl**2)*(A_star_squared*alpha + M_Pl**2) > 0"
+    ],
+    "preservation": {
+      "required_controls": [
+        "quartic_horndeski_flrw_background_domain_crossing",
+        "quartic_horndeski_metric_variation_and_noether"
+      ],
+      "statement": "An exact contracting closed-FLRW solution crosses the healthy boundary with a nonzero outward derivative, so the action alone does not preserve this patch under unrestricted nonlinear evolution.",
+      "status": "rejected"
+    },
+    "variables": [
+      {
+        "covariant_definition": "-g^{mu nu} nabla_mu(phi) nabla_nu(phi) = 2 Lambda_phi^4 X_phi",
+        "id": "A_star_squared",
+        "locally_measurable": true,
+        "mass_dimension": 4,
+        "nonnegative": true,
+        "unitary_gauge_identification": "A_star_squared where nabla_mu(phi)=-A_star n_mu"
+      }
+    ]
+  },
+  "condition_certificate": {
+    "background_domain_preservation": {
+      "declared_status": "rejected",
+      "missing_or_failed_controls": [],
+      "required_controls": [
+        "quartic_horndeski_flrw_background_domain_crossing",
+        "quartic_horndeski_metric_variation_and_noether"
+      ],
+      "statement": "An exact contracting closed-FLRW solution crosses the healthy boundary with a nonzero outward derivative, so the action alone does not preserve this patch under unrestricted nonlinear evolution.",
+      "status": "reject"
+    },
+    "conditions": [
+      {
+        "condition": "M_Pl**2/2 > 0",
+        "name": "positive_tensor_kinetic_and_newton_coupling",
+        "normalized_property": "positive(M_Pl**2/2)",
+        "proof": "declared atomic sign assumptions",
+        "status": "pass"
+      },
+      {
+        "condition": "-(A_star_squared*alpha - M_Pl**2)*(A_star_squared*alpha + M_Pl**2) > 0",
+        "name": "positive_tensor_kinetic_gradient_product_on_declared_background",
+        "normalized_property": "positive(-(A_star_squared*alpha - M_Pl**2)*(A_star_squared*alpha + M_Pl**2))",
+        "proof": "declared inequality: (-A_star_squared*alpha + M_Pl**2)*(A_star_squared*alpha + M_Pl**2) > 0",
+        "status": "pass"
+      },
+      {
+        "condition": "-(A_star_squared*alpha - M_Pl**2)/2 + (A_star_squared*alpha + M_Pl**2)/2 > 0",
+        "name": "positive_tensor_kinetic_gradient_sum_on_declared_background",
+        "normalized_property": "positive(M_Pl**2)",
+        "proof": "declared atomic sign assumptions",
+        "status": "pass"
+      },
+      {
+        "condition": "True",
+        "name": "positive_canonical_scalar_kinetic",
+        "normalized_property": "exact_true",
+        "proof": "required coefficient condition simplifies exactly to true",
+        "status": "pass"
+      },
+      {
+        "condition": "Ne(Lambda_phi, 0)",
+        "name": "nonzero_scalar_normalization",
+        "normalized_property": "nonzero(Lambda_phi)",
+        "proof": "declared atomic sign assumptions",
+        "status": "pass"
+      }
+    ],
+    "pointwise_status": "pass",
+    "status": "reject"
+  },
+  "content_sha256": "1939dd4542f59152ce6596c88e9254794b7613cd7ea95a68a2c10c2f2bfef164",
+  "derived_effective_parameters": {
+    "EH_coefficient": "M_Pl**2/2",
+    "background_A_star_squared": "A_star_squared",
+    "scalar_kinetic_coefficient": "1",
+    "scalar_speed_squared": "1",
+    "tensor_gradient_coefficient": "(A_star_squared*alpha + M_Pl**2)/2",
+    "tensor_kinetic_coefficient": "-(A_star_squared*alpha - M_Pl**2)/2",
+    "tensor_speed_squared": "-(A_star_squared*alpha + M_Pl**2)/(A_star_squared*alpha - M_Pl**2)"
+  },
+  "family": "quartic_horndeski",
+  "input_action_sha256": "85a7af135eddf4c924ea8a9f6e890fc6a511b0f712e3935aafd74aae825f99de",
+  "input_dirac_ir_sha256": "61bd9bc4f0464f1dde15585bb132eb1d68d64145ed6afb34311bbeaba03baa6c",
+  "parameter_domain": {
+    "inequalities": [],
+    "negative": [],
+    "nonnegative": [],
+    "nonpositive": [],
+    "nonzero": [
+      "alpha"
+    ],
+    "positive": [
+      "Lambda_phi",
+      "M_Pl"
+    ]
+  },
+  "physical_hamiltonian": {
+    "missing_or_failed_controls": [],
+    "required_controls": [
+      "quartic_horndeski_timelike_flat_physical_hamiltonian"
+    ],
+    "scope": "generic nonlinear Einstein-Aether physical Hamiltonian remains unresolved; only aligned linear and restricted hypersurface-orthogonal maximal-slice total energy are certified",
+    "status": "unresolved"
+  },
+  "principal_symbol": {
+    "characteristic_speed_squared": {
+      "scalar_speed_squared": "1",
+      "tensor_speed_squared": "-(A_star_squared*alpha + M_Pl**2)/(A_star_squared*alpha - M_Pl**2)"
+    },
+    "coupled_formulation": {
+      "generalized_harmonic": "reject",
+      "missing": [
+        "uniform background-jet bounds satisfying the exact Frobenius time-block condition",
+        "a positive symmetrizer for the extracted 22-by-22 generalized first-order pencil",
+        "uniform symmetrizer-induced correction-norm bound over the background and direction sphere",
+        "uniform separation of physical characteristics from both auxiliary cones"
+      ],
+      "modified_harmonic_weak_coupling": "unresolved"
+    },
+    "generic_coupled_background_supported": false,
+    "missing_or_failed_controls": [],
+    "required_controls": [
+      "quartic_horndeski_timelike_flat_principal_symbol",
+      "quartic_horndeski_arbitrary_curvature_scalar_principal",
+      "quartic_horndeski_coupled_formulation_hyperbolicity",
+      "quartic_horndeski_full_local_principal_extraction",
+      "quartic_horndeski_global_timelike_gradient_no_go"
+    ],
+    "scope": "coefficient-domain-bound reduced ghost, gradient, characteristic, and strong-hyperbolicity controls; Einstein-Aether arbitrary-background pass uses the declared nonluminal sufficient-formulation conditions",
+    "status": "unresolved"
+  },
+  "promotion_allowed": false,
+  "proof_scope": "machine-checked implication from the frozen parameter domain to the actual effective coefficient inequalities, then binding to executable reduced Hamiltonian and principal controls",
+  "schema_version": "sigma-stability-ir-1.0",
+  "source_role": "known_answer_control",
+  "status": "reject"
+}

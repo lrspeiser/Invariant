@@ -1,0 +1,43 @@
+{a,b,c,d}::Indices(position=free).
+x::Coordinate.
+g_{a b}::Metric.
+g^{a b}::InverseMetric.
+\nabla{#}::Derivative.
+E_{a b}::Symmetric.
+V^{a}::Depends(x,\nabla{#}).
+u_{a}::Depends(x,\nabla{#}).
+Q::Depends(x,\nabla{#}).
+\lambda::Depends(x,\nabla{#}).
+\xi^{a}::Depends(x,\nabla{#}).
+
+# E_ab multiplies delta g^ab, V^a multiplies delta u_a, and Q multiplies delta lambda.
+variation := \int{-2 E_{a b} \nabla^{a}{\xi^{b}}
+ + V^{a} \xi^{b} \nabla_{b}{u_{a}}
+ + V^{a} u_{b} \nabla_{a}{\xi^{b}}
+ + Q \xi^{b} \nabla_{b}{\lambda}}{x};
+integrate_by_parts(variation, $\xi^{b}$);
+product_rule(variation);
+distribute(variation);
+canonicalise(variation);
+rename_dummies(variation);
+sort_product(variation);
+
+expected := \int{\xi^{b} (
+  2 \nabla^{a}{E_{a b}}
+  + V^{a} \nabla_{b}{u_{a}}
+  - \nabla_{a}{V^{a} u_{b}}
+  + Q \nabla_{b}{\lambda}
+)}{x};
+product_rule(expected);
+distribute(expected);
+canonicalise(expected);
+rename_dummies(expected);
+sort_product(expected);
+
+residual := @(variation) - @(expected);
+canonicalise(residual);
+rename_dummies(residual);
+collect_terms(residual);
+assert(residual == 0)
+print("SIGMA_AETHER_EULER_NOETHER_COEFFICIENT_DERIVED");
+print(variation);

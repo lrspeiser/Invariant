@@ -1,0 +1,57 @@
+{a,b,c,d,e,f,m,n,p,q,r,s}::Indices(position=free).
+x::Coordinate.
+g_{a b}::Metric.
+g^{a b}::InverseMetric.
+\nabla{#}::Derivative.
+u_{a}::Depends(x,\nabla{#}).
+D_{a b}::Depends(x,\nabla{#}).
+\lambda::Depends(x,\nabla{#}).
+\xi^{a}::Depends(x,\nabla{#}).
+
+# Independent fixed-covector convention. D_ab is nabla_a u_b and therefore transforms
+# as a genuine (0,2) tensor after the metric-connection variation is included.
+dg := - g^{a c} \nabla_{c}{\xi^{b}} - g^{b c} \nabla_{c}{\xi^{a}};
+du := \xi^{c} D_{c a} + u_{c} \nabla_{a}{\xi^{c}};
+dD := \xi^{c} \nabla_{c}{D_{a b}}
+    + D_{c b} \nabla_{a}{\xi^{c}}
+    + D_{a c} \nabla_{b}{\xi^{c}};
+dlambda := \xi^{c} \nabla_{c}{\lambda};
+dsqrtg := sqrtg \nabla_{c}{\xi^{c}};
+
+scalar :=
+ - c1/2 g^{a c} g^{b d} D_{a b} D_{c d}
+ - c2/2 g^{a b} g^{c d} D_{a b} D_{c d}
+ - c3/2 g^{b c} g^{a d} D_{a b} D_{c d}
+ + c4/2 g^{a e} u_{e} D_{a b} g^{b f} g^{c m} u_{m} D_{c f}
+ + \lambda (g^{a b} u_{a} u_{b} + 1);
+
+direct := sqrtg @(scalar);
+vary(direct, $sqrtg -> @(dsqrtg), g^{a b} -> @(dg), u_{a} -> @(du), D_{a b} -> @(dD), \lambda -> @(dlambda)$);
+distribute(direct);
+substitute(direct, $\nabla_{a}{g_{b c}} -> 0, \nabla_{a}{g^{b c}} -> 0, \nabla_{a}{sqrtg} -> 0, \nabla_{a}{c1} -> 0, \nabla_{a}{c2} -> 0, \nabla_{a}{c3} -> 0, \nabla_{a}{c4} -> 0$);
+eliminate_metric(direct, repeat=True);
+canonicalise(direct);
+rename_dummies(direct);
+sort_product(direct);
+collect_terms(direct);
+
+boundary := sqrtg (\xi^{c} \nabla_{c}{@(scalar)} + @(scalar) \nabla_{c}{\xi^{c}});
+converge(boundary):
+    distribute(boundary)
+    product_rule(boundary)
+substitute(boundary, $\nabla_{a}{g_{b c}} -> 0, \nabla_{a}{g^{b c}} -> 0, \nabla_{a}{sqrtg} -> 0, \nabla_{a}{c1} -> 0, \nabla_{a}{c2} -> 0, \nabla_{a}{c3} -> 0, \nabla_{a}{c4} -> 0$);
+substitute(boundary, $\nabla_{a}{u_{b}} -> D_{a b}$);
+eliminate_metric(boundary, repeat=True);
+canonicalise(boundary);
+rename_dummies(boundary);
+sort_product(boundary);
+collect_terms(boundary);
+
+residual := @(direct) - @(boundary);
+canonicalise(residual);
+rename_dummies(residual);
+sort_product(residual);
+collect_terms(residual);
+assert(residual == 0)
+print("SIGMA_AETHER_K1_K2_K3_K4_UNIT_DIFFEO_COVARIANCE_ZERO");
+print(residual);

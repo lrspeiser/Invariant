@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=75", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sigma-theory-compiler"
+version = "0.1.0"
+description = "Falsification-first exhaustive compiler for bounded Sigma Gravity action grammars"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = ["mpmath>=1.3,<2", "numpy>=2,<3", "sympy>=1.13,<2"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.3", "ruff>=0.9"]
+
+[project.scripts]
+sigma-compile = "sigma_theory_compiler.cli:main"
+sigma-campaign = "sigma_theory_compiler.campaign_cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"

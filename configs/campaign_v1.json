@@ -1,0 +1,85 @@
+{
+  "schema_version": "sigma-campaign-config-1.0",
+  "name": "Sigma Covariant Discovery Campaign v1",
+  "project_root": ".",
+  "output_root": "runs/campaigns",
+  "seed": {
+    "source_queue": "runs/knowledge-base/generated-priority-dense.json",
+    "candidate_limit": 6,
+    "include_gr_control": true
+  },
+  "budget": {
+    "duration_days": 14,
+    "max_tasks": 100000,
+    "max_failures": 10000,
+    "max_cycles": 336
+  },
+  "runtime": {
+    "lease_seconds": 300,
+    "research_cycle_seconds": 3600,
+    "default_poll_seconds": 5
+  },
+  "prior_art": {
+    "equation_universe_database": "runs/equation-universe/equations-v1.sqlite",
+    "nearest_limit": 5,
+    "required_for_novelty_language": true,
+    "unmatched_semantics": "not found in this finite corpus; never proof of novelty"
+  },
+  "formal": {
+    "field_contract": "configs/covariant_field_contract.json",
+    "required_controls": "runs/formal-controls-v1/formal-controls.json",
+    "fail_closed": true,
+    "observations_require_full_candidate_formal_pass": true
+  },
+  "scheduler": {
+    "method": "hard-gated Pareto plus value-of-information and diversity",
+    "single_truth_score": false,
+    "diversity_penalty_per_completed_family_task": 0.01
+  },
+  "llm": {
+    "command": [],
+    "provider": "claude-code-oauth-or-api-key",
+    "model": "sonnet",
+    "per_call_budget_usd": 2.0,
+    "total_budget_usd": 500.0,
+    "max_calls": 250,
+    "timeout_seconds": 900,
+    "role": "proposal and failure-analysis only; never a truth judge"
+  },
+  "existing_artifacts": {
+    "survivor_audit": "runs/generator-v2/billion-survivor-audit.json",
+    "dense_gpu_report": "runs/generator-v2/billion-dense-static-gpu.json",
+    "dense_crosscheck": "runs/generator-v2/billion-dense-static-crosscheck.json",
+    "priority_queue": "runs/knowledge-base/generated-priority-dense.json"
+  },
+  "scientific_contract": {
+    "best_means": "work priority within a declared grammar and completed gates, never probability of truth",
+    "hard_gate_rejection_is_terminal": true,
+    "one_universal_matter_metric": true,
+    "no_object_specific_parameters": true,
+    "historical_evidence_may_prioritize_but_not_rescue": true,
+    "llm_may_propose_but_not_bypass_gates": true,
+    "prohibited_evidence_patterns": [
+      "dark matter",
+      "invisible halo",
+      "nfw",
+      "per-object halo",
+      "redshift distance",
+      "redshift-derived distance",
+      "distance modulus",
+      "supernova distance",
+      "gr/nfw-derived",
+      "derived lensing acceleration"
+    ],
+    "gate_order": [
+      "grammar and evidence policy",
+      "vacuum/Newtonian asymptotics and static convexity",
+      "covariant action and variation",
+      "kinetic rank, Hamiltonian, constraints, and degrees of freedom",
+      "principal symbols, hyperbolicity, characteristics, and covariance identities",
+      "GR and Solar-System controls",
+      "audited direct measurements and sealed holdouts",
+      "provenance and reproducibility"
+    ]
+  }
+}

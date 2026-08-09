@@ -1,0 +1,197 @@
+{
+  "content_sha256": "61bd9bc4f0464f1dde15585bb132eb1d68d64145ed6afb34311bbeaba03baa6c",
+  "distributed_constraint_closure": {
+    "constraint_generations": {
+      "primary": [
+        "p_N=0",
+        "p_(N^i)=0 (three components)"
+      ],
+      "secondary": [
+        "C_N=delta(H)/delta(N)=0 (second class with p_N on an invertible lapse-Hessian patch)",
+        "H_i=0 (three spatial-diffeomorphism constraints)"
+      ]
+    },
+    "constraint_surface_rank": {
+      "extended_first_class_constraints": 6,
+      "extended_pairs": 10,
+      "extended_second_class_constraints": 2,
+      "first_class_constraints": 3,
+      "physical_dof": 3,
+      "reduced_canonical_pairs": 6,
+      "second_class_constraints_after_reduction": 0
+    },
+    "family": "quartic_horndeski",
+    "missing_or_failed_controls": [],
+    "poisson_algebra": {
+      "D_C": "{D[M],C_N[f]}=-C_N[Lie_M f]",
+      "D_D": "{D[M],D[L]}=D[[M,L]]",
+      "H_H": "not applicable as a first-class bracket after the unitary scalar-clock gauge",
+      "lapse_pair": "{p_N(x),C_N(y)}=Delta_N(x,y), invertible on the declared regular patch",
+      "status": "pass"
+    },
+    "proof_route": [
+      "exact unitary-gauge ADM cancellation exposes the auxiliary scalar null velocity",
+      "exact curved-FLRW quotient-surface Dirac chain pairs p_N with its secondary constraint",
+      "the exact 3D metric+lapse cotangent lift closes D-D and D-C_N",
+      "invertible distributed lapse Hessian pairs p_N with C_N and fixes the lapse multiplier"
+    ],
+    "regular_local_legendre_patch": true,
+    "required_controls": [
+      "quartic_horndeski_covariant_adm_degeneracy",
+      "quartic_horndeski_unitary_flrw_dirac_chain",
+      "quartic_horndeski_unitary_distributed_dirac_closure"
+    ],
+    "scope": "complete unitary-gauge distributed constraint algebra and three-mode count on regular invertible lapse-Hessian operator patches; global invertibility and boundary zero modes remain separate",
+    "status": "pass"
+  },
+  "hamiltonian_stability": {
+    "reason": "the local kinetic Hamiltonian is not the gauge-reduced physical Hamiltonian; spatial potentials, all constraints, gauge fixing, and boundary charges must be included",
+    "status": "unresolved"
+  },
+  "input_action_sha256": "85a7af135eddf4c924ea8a9f6e890fc6a511b0f712e3935aafd74aae825f99de",
+  "input_adm_ir_sha256": "80c08893b2b35611fec3d2e2418f11c6a789a435163f24352f72ca651d9c34f8",
+  "input_legendre_ir_sha256": "12ec23f414939c3c7958c5ab8af2bbf9ef3fa2de021ea2170699263c6999d8a9",
+  "local_canonical_transform": {
+    "background": "aligned/frozen orthonormal frame with N=1,N^i=0",
+    "canonical_momenta": [
+      "(dot_h22 + dot_h33)*(A_star**2*alpha - M_Pl**2)/4",
+      "(dot_h11 + dot_h33)*(A_star**2*alpha - M_Pl**2)/4",
+      "(dot_h11 + dot_h22)*(A_star**2*alpha - M_Pl**2)/4",
+      "-dot_h12*(A_star**2*alpha - M_Pl**2)/2",
+      "-dot_h13*(A_star**2*alpha - M_Pl**2)/2",
+      "-dot_h23*(A_star**2*alpha - M_Pl**2)/2",
+      "0"
+    ],
+    "channel_map": [
+      "K11=dot_h11/2 at N=1,N^i=0",
+      "K22=dot_h22/2 at N=1,N^i=0",
+      "K33=dot_h33/2 at N=1,N^i=0",
+      "K12=dot_h12/2 at N=1,N^i=0",
+      "K13=dot_h13/2 at N=1,N^i=0",
+      "K23=dot_h23/2 at N=1,N^i=0",
+      "V_star=dot_A_star at N=1,N^i=0"
+    ],
+    "coordinates": [
+      "h11",
+      "h22",
+      "h33",
+      "h12",
+      "h13",
+      "h23",
+      "A_star"
+    ],
+    "hessian": "Matrix([[0, A_star**2*alpha/4 - M_Pl**2/4, A_star**2*alpha/4 - M_Pl**2/4, 0, 0, 0, 0], [A_star**2*alpha/4 - M_Pl**2/4, 0, A_star**2*alpha/4 - M_Pl**2/4, 0, 0, 0, 0], [A_star**2*alpha/4 - M_Pl**2/4, A_star**2*alpha/4 - M_Pl**2/4, 0, 0, 0, 0, 0], [0, 0, 0, -A_star**2*alpha/2 + M_Pl**2/2, 0, 0, 0], [0, 0, 0, 0, -A_star**2*alpha/2 + M_Pl**2/2, 0, 0], [0, 0, 0, 0, 0, -A_star**2*alpha/2 + M_Pl**2/2, 0], [0, 0, 0, 0, 0, 0, 0]])",
+    "hessian_chain_residual": "Matrix([[0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0]])",
+    "hessian_nullity": 1,
+    "hessian_rank": 6,
+    "kinetic_canonical_hamiltonian": "-(P_h11**2 - 2*P_h11*P_h22 - 2*P_h11*P_h33 + P_h12**2 + P_h13**2 + P_h22**2 - 2*P_h22*P_h33 + P_h23**2 + P_h33**2)/(A_star**2*alpha - M_Pl**2)",
+    "kinetic_lagrangian": "(A_star**2*alpha - M_Pl**2)*(dot_h11*dot_h22 + dot_h11*dot_h33 - dot_h12**2 - dot_h13**2 + dot_h22*dot_h33 - dot_h23**2)/4",
+    "legendre_residuals": [
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0"
+    ],
+    "momenta": [
+      "P_h11",
+      "P_h22",
+      "P_h33",
+      "P_h12",
+      "P_h13",
+      "P_h23",
+      "P_A_star"
+    ],
+    "primary_constraints": [
+      "P_A_star"
+    ],
+    "scope": "exact local canonical transform with the metric relation dot(h)_ij=2K_ij; spatial potential terms and boundary generators are certified separately",
+    "solved_velocities": {
+      "dot_h11": "-2*(P_h11 - P_h22 - P_h33)/(A_star**2*alpha - M_Pl**2)",
+      "dot_h12": "-2*P_h12/(A_star**2*alpha - M_Pl**2)",
+      "dot_h13": "-2*P_h13/(A_star**2*alpha - M_Pl**2)",
+      "dot_h22": "2*(P_h11 - P_h22 + P_h33)/(A_star**2*alpha - M_Pl**2)",
+      "dot_h23": "-2*P_h23/(A_star**2*alpha - M_Pl**2)",
+      "dot_h33": "2*(P_h11 + P_h22 - P_h33)/(A_star**2*alpha - M_Pl**2)"
+    },
+    "status": "pass",
+    "unresolved_velocities": [
+      "dot_A_star"
+    ],
+    "unsupported_kinetic_terms": [],
+    "velocities": [
+      "dot_h11",
+      "dot_h22",
+      "dot_h33",
+      "dot_h12",
+      "dot_h13",
+      "dot_h23",
+      "dot_A_star"
+    ]
+  },
+  "promotion_allowed": false,
+  "proof_scope": "hash-bound local canonical transformation plus action-family distributed closure instantiation only where exact smeared-functional/tensor controls cover the same coefficient specialization; unsupported or singular branches remain unresolved",
+  "schema_version": "sigma-dirac-ir-1.0",
+  "source_role": "known_answer_control",
+  "status": "pass",
+  "unitary_gauge_local_dirac_control": {
+    "canonical_hamiltonian": "-(36*M2**2*N**4*a**2*k + 6*M2*N**2*a**4 + N**4*p_h4_1**2 - 6*a**4*alpha - 36*a**2*alpha**2*k)/(12*N*a*(M2*N**2 - alpha))",
+    "canonical_scalar_boundary_control": {
+      "interpretation": "the unitary-clock lapse pair remains second class because the positive canonical scalar kinetic term remains; setting alpha=0 recovers canonical scalar gravity",
+      "substitution": "alpha=0",
+      "surface_pairing": "-(216*M2**3*a**6*k - 6*M2*a**4*p_h4_1**2 + N**2*p_h4_1**4)/(1296*M2**4*N**5*a*k**2)"
+    },
+    "closure": true,
+    "conditional_full_field_count": {
+      "configuration_variables_after_unitary_gauge": 10,
+      "lapse_second_class_constraints": 2,
+      "physical_dof_if_distributed_spatial_chain_closes": 3,
+      "spatial_diffeomorphism_first_class_constraints": 6,
+      "status": "not_yet_a_distributed_closure_proof"
+    },
+    "constraint_generations": [
+      [
+        "p_h4_0"
+      ],
+      [
+        "-(-36*M2**3*N**6*a**2*k + 6*M2**2*N**4*a**4 + 108*M2**2*N**4*a**2*alpha*k - M2*N**6*p_h4_1**2 - 12*M2*N**2*a**4*alpha - 108*M2*N**2*a**2*alpha**2*k + 3*N**4*alpha*p_h4_1**2 + 6*a**4*alpha**2 + 36*a**2*alpha**3*k)/(12*N**2*a*(M2*N**2 - alpha)**2)"
+      ]
+    ],
+    "constraint_matrix_determinant": "(216*M2**4*N**4*a**6*k + 1296*M2**4*N**4*a**4*alpha*k**2 - 432*M2**3*N**2*a**6*alpha*k - 2592*M2**3*N**2*a**4*alpha**2*k**2 - 6*M2**2*N**4*a**4*p_h4_1**2 + 1296*M2**2*N**4*alpha**2*k**2*p_h4_1**2 + 216*M2**2*a**6*alpha**2*k + 1296*M2**2*a**4*alpha**3*k**2 + M2*N**6*p_h4_1**4 + 12*M2*N**2*a**4*alpha*p_h4_1**2 + 108*M2*N**2*a**2*alpha**2*k*p_h4_1**2 - 3*N**4*alpha*p_h4_1**4 - 6*a**4*alpha**2*p_h4_1**2 - 36*a**2*alpha**3*k*p_h4_1**2)**2/(1679616*M2**4*N**6*a**2*k**4*(M2*N**2 - alpha)**6)",
+    "constraint_matrix_rank": 2,
+    "constraint_surface_poisson_matrix": "Matrix([[0, -(216*M2**4*N**4*a**6*k + 1296*M2**4*N**4*a**4*alpha*k**2 - 432*M2**3*N**2*a**6*alpha*k - 2592*M2**3*N**2*a**4*alpha**2*k**2 - 6*M2**2*N**4*a**4*p_h4_1**2 + 1296*M2**2*N**4*alpha**2*k**2*p_h4_1**2 + 216*M2**2*a**6*alpha**2*k + 1296*M2**2*a**4*alpha**3*k**2 + M2*N**6*p_h4_1**4 + 12*M2*N**2*a**4*alpha*p_h4_1**2 + 108*M2*N**2*a**2*alpha**2*k*p_h4_1**2 - 3*N**4*alpha*p_h4_1**4 - 6*a**4*alpha**2*p_h4_1**2 - 36*a**2*alpha**3*k*p_h4_1**2)/(1296*M2**2*N**3*a*k**2*(M2*N**2 - alpha)**3)], [(216*M2**4*N**4*a**6*k + 1296*M2**4*N**4*a**4*alpha*k**2 - 432*M2**3*N**2*a**6*alpha*k - 2592*M2**3*N**2*a**4*alpha**2*k**2 - 6*M2**2*N**4*a**4*p_h4_1**2 + 1296*M2**2*N**4*alpha**2*k**2*p_h4_1**2 + 216*M2**2*a**6*alpha**2*k + 1296*M2**2*a**4*alpha**3*k**2 + M2*N**6*p_h4_1**4 + 12*M2*N**2*a**4*alpha*p_h4_1**2 + 108*M2*N**2*a**2*alpha**2*k*p_h4_1**2 - 3*N**4*alpha*p_h4_1**4 - 6*a**4*alpha**2*p_h4_1**2 - 36*a**2*alpha**3*k*p_h4_1**2)/(1296*M2**2*N**3*a*k**2*(M2*N**2 - alpha)**3), 0]])",
+    "control": "named quartic-Horndeski curved-FLRW unitary-gauge lapse Dirac chain",
+    "covariant_parent": "sqrt(-g){(M2/2)R+Lambda_phi^4 X_phi+alpha[X_c R+(box phi)^2-phi_(mu nu)phi^(mu nu)]}",
+    "first_class_constraints": 0,
+    "gauge_and_background": "phi=t, FLRW with N(t), a(t), and nonzero spatial curvature k",
+    "interpretation": "The cancelled lapse velocity gives p_N=0. On a generic curved-FLRW unitary-gauge patch its preservation produces one secondary constraint with a nonzero Poisson pairing, leaving one minisuperspace degree of freedom.",
+    "minisuperspace_physical_dof": 1,
+    "multiplier_solution": {
+      "_dirac_multiplier_0": "p_h4_1*(31104*M2**5*N**6*alpha**2*k**4 + 216*M2**4*N**8*k**2*p_h4_1**2 - 216*M2**4*N**4*a**6*k - 1296*M2**4*N**4*a**4*alpha*k**2 + 7776*M2**4*N**4*a**2*alpha**2*k**3 - 31104*M2**4*N**4*alpha**3*k**4 - 648*M2**3*N**6*alpha*k**2*p_h4_1**2 + 432*M2**3*N**2*a**6*alpha*k + 2592*M2**3*N**2*a**4*alpha**2*k**2 - 7776*M2**3*N**2*a**2*alpha**3*k**3 + 6*M2**2*N**4*a**4*p_h4_1**2 - 216*M2**2*a**6*alpha**2*k - 1296*M2**2*a**4*alpha**3*k**2 - M2*N**6*p_h4_1**4 - 12*M2*N**2*a**4*alpha*p_h4_1**2 - 108*M2*N**2*a**2*alpha**2*k*p_h4_1**2 + 3*N**4*alpha*p_h4_1**4 + 6*a**4*alpha**2*p_h4_1**2 + 36*a**2*alpha**3*k*p_h4_1**2)/(12*M2**2*k*(216*M2**4*N**4*a**6*k + 1296*M2**4*N**4*a**4*alpha*k**2 - 432*M2**3*N**2*a**6*alpha*k - 2592*M2**3*N**2*a**4*alpha**2*k**2 - 6*M2**2*N**4*a**4*p_h4_1**2 + 1296*M2**2*N**4*alpha**2*k**2*p_h4_1**2 + 216*M2**2*a**6*alpha**2*k + 1296*M2**2*a**4*alpha**3*k**2 + M2*N**6*p_h4_1**4 + 12*M2*N**2*a**4*alpha*p_h4_1**2 + 108*M2*N**2*a**2*alpha**2*k*p_h4_1**2 - 3*N**4*alpha*p_h4_1**4 - 6*a**4*alpha**2*p_h4_1**2 - 36*a**2*alpha**3*k*p_h4_1**2))"
+    },
+    "passed": true,
+    "primary_constraint": "p_h4_0",
+    "primary_secondary_pairing_on_surface": "-(216*M2**4*N**4*a**6*k + 1296*M2**4*N**4*a**4*alpha*k**2 - 432*M2**3*N**2*a**6*alpha*k - 2592*M2**3*N**2*a**4*alpha**2*k**2 - 6*M2**2*N**4*a**4*p_h4_1**2 + 1296*M2**2*N**4*alpha**2*k**2*p_h4_1**2 + 216*M2**2*a**6*alpha**2*k + 1296*M2**2*a**4*alpha**3*k**2 + M2*N**6*p_h4_1**4 + 12*M2*N**2*a**4*alpha*p_h4_1**2 + 108*M2*N**2*a**2*alpha**2*k*p_h4_1**2 - 3*N**4*alpha*p_h4_1**4 - 6*a**4*alpha**2*p_h4_1**2 - 36*a**2*alpha**3*k*p_h4_1**2)/(1296*M2**2*N**3*a*k**2*(M2*N**2 - alpha)**3)",
+    "reduced_lagrangian": "a*(6*M2*N**4*k - 6*M2*N**2*dot_a**2 + N**2*a**2 + 6*N**2*alpha*k + 6*alpha*dot_a**2)/(2*N**3)",
+    "regular_patch": [
+      "N > 0",
+      "a > 0",
+      "M2 > 0",
+      "alpha != 0",
+      "k != 0",
+      "p_h4_1 != 0",
+      "M2*N**2 - alpha != 0",
+      "-216*M2**4*N**4*a**6*k - 1296*M2**4*N**4*a**4*alpha*k**2 + 432*M2**3*N**2*a**6*alpha*k + 2592*M2**3*N**2*a**4*alpha**2*k**2 + 6*M2**2*N**4*a**4*p_h4_1**2 - 1296*M2**2*N**4*alpha**2*k**2*p_h4_1**2 - 216*M2**2*a**6*alpha**2*k - 1296*M2**2*a**4*alpha**3*k**2 - M2*N**6*p_h4_1**4 - 12*M2*N**2*a**4*alpha*p_h4_1**2 - 108*M2*N**2*a**2*alpha**2*k*p_h4_1**2 + 3*N**4*alpha*p_h4_1**4 + 6*a**4*alpha**2*p_h4_1**2 + 36*a**2*alpha**3*k*p_h4_1**2 != 0"
+    ],
+    "scope": "exact action-specific curved-FLRW unitary-gauge Dirac chain and quotient-surface constraint rank; inhomogeneous momentum constraints, distributed H-H closure, three physical field modes, and Hamiltonian boundedness remain unproved",
+    "second_class_constraints": 2,
+    "secondary_constraint": "-(-36*M2**3*N**6*a**2*k + 6*M2**2*N**4*a**4 + 108*M2**2*N**4*a**2*alpha*k - M2*N**6*p_h4_1**2 - 12*M2*N**2*a**4*alpha - 108*M2*N**2*a**2*alpha**2*k + 3*N**4*alpha*p_h4_1**2 + 6*a**4*alpha**2 + 36*a**2*alpha**3*k)/(12*N**2*a*(M2*N**2 - alpha)**2)",
+    "velocity_hessian": "Matrix([[0, 0], [0, a*(-12*M2*N**2 + 12*alpha)/(2*N**3)]])",
+    "velocity_hessian_rank": 1,
+    "velocity_order": [
+      "dot_N",
+      "dot_a"
+    ]
+  }
+}

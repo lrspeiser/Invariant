@@ -1,0 +1,50 @@
+{
+  "applicable": true,
+  "content_sha256": "c948f02417a10310d56a4225a3046765180c1919e7168948c9afd55d762df83a",
+  "definitions": {
+    "B_mu_nu": "nabla_mu a_nu",
+    "P_mu_nu": "g_mu_nu+u_mu u_nu",
+    "Q_a_u": "(L_sigma^2/a_sigma^2) P^{mu rho}P^{nu sigma}B_mu_nu B_rho_sigma",
+    "X_a_u": "a_mu a^mu/a_sigma^2",
+    "a_mu": "u^alpha nabla_alpha u_mu"
+  },
+  "diffeomorphism_noether_identity": {
+    "required_identity": "2 nabla_mu E_g^{mu}{}_nu - E_u^mu nabla_nu u_mu - nabla_mu(E_u^mu u_nu) + E_lambda nabla_nu lambda_u = 0",
+    "status": "unresolved"
+  },
+  "fixed_metric_vector_variation": {
+    "algebraic_controls": {
+      "acceleration_norm_first_variation_residual": "0",
+      "arithmetic": "exact rational tensor contractions in signature (-,+,+)",
+      "passed": true,
+      "projector_and_B_first_variation_residual": "0"
+    },
+    "boundary_contract": "compact-support variations or fixed field/normal data",
+    "q_B_contribution_E_lambda": "-2 Y^nu nabla_lambda u_nu + 2 g_nu_lambda nabla_alpha(Y^nu u^alpha)",
+    "q_action_derivative": "1*C_Q1*Q_a_u^0",
+    "q_auxiliary": "C^{mu nu}=F_Q*(L_sigma^2/a_sigma^2) P^{mu rho}P^{nu sigma}B_rho_sigma; Y^nu=nabla_mu C^{mu nu}",
+    "q_projector_contribution_E_lambda": "2*F_Q*(L_sigma^2/a_sigma^2)*[u^rho P^{nu sigma} B_lambda_nu B_rho_sigma + u^sigma P^{mu rho} B_mu_lambda B_rho_sigma]",
+    "status": "pass",
+    "unit_constraint_contribution": "2 lambda_u u_lambda",
+    "x_auxiliary": "Z^nu=2*C_X*F_X*a^nu/a_sigma^2",
+    "x_contribution_E_lambda": "Z^nu nabla_lambda u_nu - g_nu_lambda nabla_alpha(Z^nu u^alpha)"
+  },
+  "input_action_sha256": "03b9cdf673de934b5a117f4a53d21c37dd2d4dc9c22f00f452666012af32dfce",
+  "metric_variation": {
+    "missing_terms": [
+      "variation of both projectors and raised indices",
+      "variation of the Levi-Civita connection inside a_mu and B_mu_nu",
+      "boundary completion for second derivatives"
+    ],
+    "status": "unresolved"
+  },
+  "nonlinear_x_present": true,
+  "observational_data_opened": false,
+  "promotion_allowed": false,
+  "proof_scope": "exact fixed-metric vector first variation and rational tensor negative residuals; the connection-dependent metric variation, boundary completion, and full Noether identity remain mandatory before this action can pass covariant variation",
+  "q_term_ids": [
+    "AETHER_Q1"
+  ],
+  "schema_version": "sigma-q-variation-ir-1.0",
+  "status": "unresolved"
+}

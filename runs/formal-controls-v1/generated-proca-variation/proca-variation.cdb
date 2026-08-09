@@ -1,0 +1,18 @@
+{a,b,c,d}::Indices(position=free).
+x::Coordinate.
+\partial{#}::Derivative.
+F_{a b}::AntiSymmetric.
+F_{a b}::Depends(x).
+A_{a}::Depends(x,\partial{#}).
+\delta{#}::Accent.
+
+action := -\int{F_{a b} F^{a b}/4 + mA^2 A_{a} A^{a}/2}{x};
+field_strength := F_{a b} = \partial_{a}{A_{b}} - \partial_{b}{A_{a}};
+substitute(action, field_strength);
+vary(action, $A_{a} -> \delta{A_{a}}$);
+distribute(action);
+integrate_by_parts(action, $\delta{A_{a}}$);
+canonicalise(action);
+sort_product(action);
+print("SIGMA_PROCA_VARIATION_FINAL");
+print(action);

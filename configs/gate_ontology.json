@@ -1,0 +1,37 @@
+{
+  "schema_version": "sigma-gate-ontology-1.0",
+  "ordering_rule": "A hard-gate rejection cannot be compensated by any priority score or observational agreement.",
+  "gates": [
+    {"id": "dimensional_consistency", "stage": 0, "hard": true, "keywords": ["dimension", "units", "dimensionless"]},
+    {"id": "one_law_one_metric", "stage": 0, "hard": true, "keywords": ["one metric", "one law", "physical metric", "minimal matter coupling"]},
+    {"id": "no_private_parameters", "stage": 0, "hard": true, "keywords": ["object-specific", "per-object", "lensing-only", "convenience switch", "domain oracle"]},
+    {"id": "vacuum_and_newtonian_limit", "stage": 1, "hard": true, "keywords": ["newtonian limit", "high-field", "vacuum", "solar limit", "screening"]},
+    {"id": "static_convexity", "stage": 1, "hard": true, "keywords": ["convex", "elliptic", "static hessian", "constitutive hessian", "positive definite"]},
+    {"id": "kinetic_rank", "stage": 2, "hard": true, "keywords": ["kinetic rank", "hessian rank", "legendre", "primary constraint", "degenerate"]},
+    {"id": "hamiltonian_boundedness", "stage": 2, "hard": true, "keywords": ["hamiltonian", "negative energy", "boundedness", "ghost"]},
+    {"id": "physical_degree_count", "stage": 2, "hard": true, "keywords": ["degree count", "degrees of freedom", "dirac", "secondary constraint"]},
+    {"id": "characteristics_and_causality", "stage": 3, "hard": true, "keywords": ["characteristic", "principal symbol", "cone", "superluminal", "hyperbolic", "well-posed", "cauchy"]},
+    {"id": "covariant_identity", "stage": 3, "hard": true, "keywords": ["covariant variation", "noether", "bianchi", "diffeomorphism", "metric euler"]},
+    {"id": "gr_reference_recovery", "stage": 4, "hard": true, "keywords": ["einstein-hilbert", "schwarzschild", "ppn", "general relativity", "gr reference"]},
+    {"id": "solar_system", "stage": 4, "hard": true, "keywords": ["cassini", "mercury", "perihelion", "shapiro", "solar system", "light deflection"]},
+    {"id": "measured_galaxy_rotation", "stage": 5, "hard": false, "keywords": ["sparc", "rotation curve", "galaxy", "doppler", "angular-radius"]},
+    {"id": "measured_cluster_baryons", "stage": 5, "hard": false, "keywords": ["cluster", "x-ray", "baryonic", "gas map", "temperature map"]},
+    {"id": "raw_lensing_topology", "stage": 5, "hard": false, "keywords": ["raw lens", "image topology", "held-out image", "arc position", "critical curve"]},
+    {"id": "sealed_holdout", "stage": 6, "hard": false, "keywords": ["holdout", "sealed", "target blind", "preregistered", "untouched"]},
+    {"id": "provenance_and_leakage", "stage": 0, "hard": true, "keywords": ["provenance", "sha256", "data leakage", "target leakage", "parent locked", "hash locked"]}
+  ],
+  "prohibited_evidence_patterns": [
+    "dark matter",
+    "dark-matter",
+    "nfw",
+    "invisible halo",
+    "redshift distance",
+    "redshift-derived",
+    "distance modulus",
+    "supernova",
+    "gr/nfw-derived",
+    "per-object halo"
+  ],
+  "historical_only_rule": "Prohibited evidence is retained for provenance and conflict analysis but contributes zero weight to candidate prioritization."
+}
+

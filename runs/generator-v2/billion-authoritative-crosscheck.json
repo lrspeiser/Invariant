@@ -1,0 +1,1123 @@
+{
+  "accounting": {
+    "basis_hash_matches": true,
+    "block_counts_sum_matches": true,
+    "blocks_root_matches": true,
+    "coefficient_alphabet_matches": true,
+    "config_hash_matches": true,
+    "declared_count_matches": true,
+    "gate_counts_sum_matches": true,
+    "observational_data_closed": true,
+    "survivor_count_matches": true
+  },
+  "all_accounting_checks_pass": true,
+  "all_cross_language_samples_agree": true,
+  "all_recorded_survivors_pass_python_sampled_convexity": true,
+  "all_rejection_witnesses_agree": true,
+  "config_path": "configs\\generator_v2_billion.json",
+  "created_utc": "2026-08-07T05:08:58.191388+00:00",
+  "expected_total_declared_actions": 1088651720,
+  "interpretation": "Cross-language agreement verifies ordinal decoding, basis construction, signs, stable IDs, and cheap gate semantics on the recorded sample. Static convexity remains a sampled kill gate and a pass is not a covariant-health claim.",
+  "manifest_path": "runs\\generator-v2\\billion-authoritative.json",
+  "rejection_witness_count": 5,
+  "rejection_witnesses": [
+    {
+      "candidate_id": "STC2-0119498cc0569ca7472d80c0",
+      "identity_agreement": true,
+      "ordinal": 36910509,
+      "python_reproduces_rejection": true,
+      "rust_gate": "reject_flux_only"
+    },
+    {
+      "candidate_id": "STC2-00000004cd5eb717677cc2f2",
+      "identity_agreement": true,
+      "ordinal": 510742188,
+      "python_reproduces_rejection": true,
+      "rust_gate": "reject_high_field"
+    },
+    {
+      "candidate_id": "STC2-00000c5741aff719fa34e43b",
+      "identity_agreement": true,
+      "ordinal": 259297266,
+      "python_reproduces_rejection": true,
+      "rust_gate": "reject_no_gradient_sector"
+    },
+    {
+      "candidate_id": "STC2-00001721331fd8b3ff47ae30",
+      "identity_agreement": true,
+      "ordinal": 213950845,
+      "python_reproduces_rejection": true,
+      "rust_gate": "reject_negative_elasticity"
+    },
+    {
+      "candidate_id": "STC2-000000000c28c44ae861fc04",
+      "identity_agreement": true,
+      "ordinal": 376249866,
+      "python_reproduces_rejection": true,
+      "rust_gate": "reject_sampled_static_convexity"
+    }
+  ],
+  "sample_count": 32,
+  "sampled_static_convexity_counts": {
+    "pass": 32
+  },
+  "samples": [
+    {
+      "candidate_id": "STC2-00000166b70a19af8675d397",
+      "ordinal": 28692997,
+      "python_sampled_static_convexity": {
+        "evidence": {
+          "evaluated_points": 27,
+          "hessian": "Matrix([[0.1*d**2/(d**2 + 1)**(3/2) + 1 - 0.1/sqrt(d**2 + 1), 0], [0, 3.2*p**10*state**6/(p**4*state**2 + 1)**3 - 4.4*p**6*state**4/(p**4*state**2 + 1)**2 + 1.2*p**2*state**2/(p**4*state**2 + 1) - 0.1*p**2/(p**2 + 1)**(3/2) + 0.2*state**4 + 0.1/sqrt(p**2 + 1)]])",
+          "minimum_eigenvalue": 0.03535533905932736,
+          "strict_tolerance": 1e-09,
+          "warning": "A sampled radial test is a kill gate, not a proof of global tensor convexity.",
+          "worst_point": {
+            "d": 10.0,
+            "eigenvalues": [
+              0.03535533905932736,
+              0.9999014814663159
+            ],
+            "p": 1.0,
+            "state": 0.0
+          }
+        },
+        "name": "sampled_static_convexity",
+        "reason": "Every sampled radial constitutive Hessian eigenvalue is strictly positive.",
+        "status": "pass"
+      },
+      "python_tier0_pass": true,
+      "rust_tier0_gate": "survive_sampled_static",
+      "structural_agreement": {
+        "candidate_id": true,
+        "expression": true,
+        "signs": true,
+        "term_ids": true
+      }
+    },
+    {
+      "candidate_id": "STC2-00000343f225560f06bbf52e",
+      "ordinal": 305885858,
+      "python_sampled_static_convexity": {
+        "evidence": {
+          "evaluated_points": 27,
+          "hessian": "Matrix([[0.1*d**2/(d**2 + 1)**(3/2) + 1 - 0.1/sqrt(d**2 + 1), 0], [0, 0.1*p**2*state**8/(p**2*state**4 + 1)**(3/2) + 1.2*p**2 - 0.1*state**4/sqrt(p**2*state**4 + 1) + 0.2]])",
+          "minimum_eigenvalue": 0.09999999999999998,
+          "strict_tolerance": 1e-09,
+          "warning": "A sampled radial test is a kill gate, not a proof of global tensor convexity.",
+          "worst_point": {
+            "d": 0.1,
+            "eigenvalues": [
+              0.09999999999999998,
+              0.9014814663158427
+            ],
+            "p": 0.0,
+            "state": 1.0
+          }
+        },
+        "name": "sampled_static_convexity",
+        "reason": "Every sampled radial constitutive Hessian eigenvalue is strictly positive.",
+        "status": "pass"
+      },
+      "python_tier0_pass": true,
+      "rust_tier0_gate": "survive_sampled_static",
+      "structural_agreement": {
+        "candidate_id": true,
+        "expression": true,
+        "signs": true,
+        "term_ids": true
+      }
+    },
+    {
+      "candidate_id": "STC2-00000349c7c42c0b475f5849",
+      "ordinal": 430988997,
+      "python_sampled_static_convexity": {
+        "evidence": {
+          "evaluated_points": 27,
+          "hessian": "Matrix([[0.1*d**2/(d**2 + 1)**(3/2) + 1 - 0.1/sqrt(d**2 + 1), 0], [0, 0.8*p**4*state**12/(p**2*state**4 + 1)**3 + 0.8*p**4*state**6/(p**2*state**2 + 1)**3 + 3.0*p**4 - 1.0*p**2*state**8/(p**2*state**4 + 1)**2 - 1.0*p**2*state**4/(p**2*state**2 + 1)**2 + 1.2*p**2 + 0.2*state**4/(p**2*state**4 + 1) + 0.2*state**2/(p**2*state**2 + 1) + 0.2]])",
+          "minimum_eigenvalue": 0.19999999999999996,
+          "strict_tolerance": 1e-09,
+          "warning": "A sampled radial test is a kill gate, not a proof of global tensor convexity.",
+          "worst_point": {
+            "d": 10.0,
+            "eigenvalues": [
+              0.19999999999999996,
+              0.9999014814663159
+            ],
+            "p": 0.0,
+            "state": 0.0
+          }
+        },
+        "name": "sampled_static_convexity",
+        "reason": "Every sampled radial constitutive Hessian eigenvalue is strictly positive.",
+        "status": "pass"
+      },
+      "python_tier0_pass": true,
+      "rust_tier0_gate": "survive_sampled_static",
+      "structural_agreement": {
+        "candidate_id": true,
+        "expression": true,
+        "signs": true,
+        "term_ids": true
+      }
+    },
+    {
+      "candidate_id": "STC2-000004ba0b920de359484921",
+      "ordinal": 767559919,
+      "python_sampled_static_convexity": {
+        "evidence": {
+          "evaluated_points": 27,
+          "hessian": "Matrix([[0.8*d**4/(d**2 + 1)**3 - 0.1*d**2*p**8/(d**2*p**4 + 1)**(3/2) - 0.1*d**2*p**4/(d**2*p**2 + 1)**(3/2) + 0.1*d**2*state**8/(d**2*state**4 + 1)**(3/2) - 1.0*d**2/(d**2 + 1)**2 + 0.1*p**4/sqrt(d**2*p**4 + 1) + 0.1*p**2/sqrt(d**2*p**2 + 1) - 0.1*state**4/sqrt(d**2*state**4 + 1) + 1 + 0.2/(d**2 + 1), -0.2*d**3*p**7/(d**2*p**4 + 1)**(3/2) - 0.1*d**3*p**3/(d**2*p**2 + 1)**(3/2) + 0.4*d*p**3/sqrt(d**2*p**4 + 1) + 0.2*d*p/sqrt(d**2*p**2 + 1)], [-0.2*d**3*p**7/(d**2*p**4 + 1)**(3/2) - 0.1*d**3*p**3/(d**2*p**2 + 1)**(3/2) + 0.4*d*p**3/sqrt(d**2*p**4 + 1) + 0.2*d*p/sqrt(d**2*p**2 + 1), -0.4*d**4*p**6/(d**2*p**4 + 1)**(3/2) - 0.1*d**4*p**2/(d**2*p**2 + 1)**(3/2) + 0.6*d**2*p**2/sqrt(d**2*p**4 + 1) + 0.1*d**2/sqrt(d**2*p**2 + 1)]])",
+          "minimum_eigenvalue": 0.0009999999999998899,
+          "strict_tolerance": 1e-09,
+          "warning": "A sampled radial test is a kill gate, not a proof of global tensor convexity.",
+          "worst_point": {
+            "d": 0.1,
+            "eigenvalues": [
+              0.0009999999999998899,
+              1.188294488697963
+            ],
+            "p": 0.0,
+            "state": 0.0
+          }
+        },
+        "name": "sampled_static_convexity",
+        "reason": "Every sampled radial constitutive Hessian eigenvalue is strictly positive.",
+        "status": "pass"
+      },
+      "python_tier0_pass": true,
+      "rust_tier0_gate": "survive_sampled_static",
+      "structural_agreement": {
+        "candidate_id": true,
+        "expression": true,
+        "signs": true,
+        "term_ids": true
+      }
+    },
+    {
+      "candidate_id": "STC2-000004d2c795435b0ad5bf99",
+      "ordinal": 209566127,
+      "python_sampled_static_convexity": {
+        "evidence": {
+          "evaluated_points": 27,
+          "hessian": "Matrix([[0.4*d**6/(d**4 + 1)**(3/2) - 0.8*d**4*state**12/(d**2*state**4 + 1)**3 + 1.0*d**2*state**8/(d**2*state**4 + 1)**2 - 0.6*d**2/sqrt(d**4 + 1) + 0.2*p**4 - 0.2*state**4/(d**2*state**4 + 1) + 1, 0.8*d*p**3], [0.8*d*p**3, 1.2*d**2*p**2 + 0.2]])",
+          "minimum_eigenvalue": 0.19999999999999996,
+          "strict_tolerance": 1e-09,
+          "warning": "A sampled radial test is a kill gate, not a proof of global tensor convexity.",
+          "worst_point": {
+            "d": 0.1,
+            "eigenvalues": [
+              0.19999999999999996,
+              0.9815475017606854
+            ],
+            "p": 0.0,
+            "state": 0.5
+          }
+        },
+        "name": "sampled_static_convexity",
+        "reason": "Every sampled radial constitutive Hessian eigenvalue is strictly positive.",
+        "status": "pass"
+      },
+      "python_tier0_pass": true,
+      "rust_tier0_gate": "survive_sampled_static",
+      "structural_agreement": {
+        "candidate_id": true,
+        "expression": true,
+        "signs": true,
+        "term_ids": true
+      }
+    },
+    {
+      "candidate_id": "STC2-0000050a1c3cd2a92ea9d14a",
+      "ordinal": 105340391,
+      "python_sampled_static_convexity": {
+        "evidence": {
+          "evaluated_points": 27,
+          "hessian": "Matrix([[3.2*d**10/(d**4 + 1)**3 - 4.4*d**6/(d**4 + 1)**2 + 1.2*d**2/(d**4 + 1) + 1, 0], [0, -3.2*p**10*state**6/(p**4*state**2 + 1)**3 + 4.4*p**6*state**4/(p**4*state**2 + 1)**2 + 0.8*p**4*state**12/(p**2*state**4 + 1)**3 - 1.0*p**2*state**8/(p**2*state**4 + 1)**2 + 1.2*p**2*state**2 - 1.2*p**2*state**2/(p**4*state**2 + 1) + 0.2*state**4/(p**2*state**4 + 1) + 0.2]])",
+          "minimum_eigenvalue": 0.19999999999999996,
+          "strict_tolerance": 1e-09,
+          "warning": "A sampled radial test is a kill gate, not a proof of global tensor convexity.",
+          "worst_point": {
+            "d": 0.1,
+            "eigenvalues": [
+              0.19999999999999996,
+              1.0119944013197602
+            ],
+            "p": 0.0,
+            "state": 0.0
+          }
+        },
+        "name": "sampled_static_convexity",
+        "reason": "Every sampled radial constitutive Hessian eigenvalue is strictly positive.",
+        "status": "pass"
+      },
+      "python_tier0_pass": true,
+      "rust_tier0_gate": "survive_sampled_static",
+      "structural_agreement": {
+        "candidate_id": true,
+        "expression": true,
+        "signs": true,
+        "term_ids": true
+      }
+    },
+    {
+      "candidate_id": "STC2-00000535ac2e8f6b794e339e",
+      "ordinal": 102919894,
+      "python_sampled_static_convexity": {
+        "evidence": {
+          "evaluated_points": 27,
+          "hessian": "Matrix([[-0.8*d**4*state**12/(d**2*state**4 + 1)**3 + 1.0*d**2*state**8/(d**2*state**4 + 1)**2 - 0.2*state**4/(d**2*state**4 + 1) + 1, 0], [0, -0.8*p**4*state**12/(p**2*state**4 + 1)**3 + 1.0*p**2*state**8/(p**2*state**4 + 1)**2 + 1.2*p**2 + 0.2*state**4 - 0.2*state**4/(p**2*state**4 + 1) + 0.2]])",
+          "minimum_eigenvalue": 0.19999999999999996,
+          "strict_tolerance": 1e-09,
+          "warning": "A sampled radial test is a kill gate, not a proof of global tensor convexity.",
+          "worst_point": {
+            "d": 0.1,
+            "eigenvalues": [
+              0.19999999999999996,
+              1.0
+            ],
+            "p": 0.0,
+            "state": 0.0
+          }
+        },
+        "name": "sampled_static_convexity",
+        "reason": "Every sampled radial constitutive Hessian eigenvalue is strictly positive.",
+        "status": "pass"
+      },
+      "python_tier0_pass": true,
+      "rust_tier0_gate": "survive_sampled_static",
+      "structural_agreement": {
+        "candidate_id": true,
+        "expression": true,
+        "signs": true,
+        "term_ids": true
+      }
+    },
+    {
+      "candidate_id": "STC2-0000065082aff6273f8eedf9",
+      "ordinal": 852194503,
+      "python_sampled_static_convexity": {
+        "evidence": {
+          "evaluated_points": 27,
+          "hessian": "Matrix([[0.8*d**4*p**6/(d**2*p**2 + 1)**3 - 0.1*d**2*p**8/(d**2*p**4 + 1)**(3/2) - 1.0*d**2*p**4/(d**2*p**2 + 1)**2 + 0.1*p**4/sqrt(d**2*p**4 + 1) + 0.2*p**2/(d**2*p**2 + 1) + 1, 0.8*d**5*p**5/(d**2*p**2 + 1)**3 - 0.2*d**3*p**7/(d**2*p**4 + 1)**(3/2) - 1.2*d**3*p**3/(d**2*p**2 + 1)**2 + 0.4*d*p**3/sqrt(d**2*p**4 + 1) + 0.4*d*p/(d**2*p**2 + 1)], [0.8*d**5*p**5/(d**2*p**2 + 1)**3 - 0.2*d**3*p**7/(d**2*p**4 + 1)**(3/2) - 1.2*d**3*p**3/(d**2*p**2 + 1)**2 + 0.4*d*p**3/sqrt(d**2*p**4 + 1) + 0.4*d*p/(d**2*p**2 + 1), 0.8*d**6*p**4/(d**2*p**2 + 1)**3 - 0.4*d**4*p**6/(d**2*p**4 + 1)**(3/2) - 1.0*d**4*p**2/(d**2*p**2 + 1)**2 + 0.6*d**2*p**2/sqrt(d**2*p**4 + 1) + 0.2*d**2/(d**2*p**2 + 1) - 0.9*p**10/(p**6 + 1)**(3/2) + 0.8*p**4*state**6/(p**2*state**2 + 1)**3 + 1.5*p**4/sqrt(p**6 + 1) - 1.0*p**2*state**4/(p**2*state**2 + 1)**2 - 0.1*p**2*state**4/(p**2*state**2 + 1)**(3/2) + 0.2*state**2/(p**2*state**2 + 1) + 0.1*state**2/sqrt(p**2*state**2 + 1)]])",
+          "minimum_eigenvalue": 0.0020000000000000018,
+          "strict_tolerance": 1e-09,
+          "warning": "A sampled radial test is a kill gate, not a proof of global tensor convexity.",
+          "worst_point": {
+            "d": 0.1,
+            "eigenvalues": [
+              0.0020000000000000018,
+              1.0
+            ],
+            "p": 0.0,
+            "state": 0.0
+          }
+        },
+        "name": "sampled_static_convexity",
+        "reason": "Every sampled radial constitutive Hessian eigenvalue is strictly positive.",
+        "status": "pass"
+      },
+      "python_tier0_pass": true,
+      "rust_tier0_gate": "survive_sampled_static",
+      "structural_agreement": {
+        "candidate_id": true,
+        "expression": true,
+        "signs": true,
+        "term_ids": true
+      }
+    },
+    {
+      "candidate_id": "STC2-0000072dfea87ebc797189b5",
+      "ordinal": 313867191,
+      "python_sampled_static_convexity": {
+        "evidence": {
+          "evaluated_points": 27,
+          "hessian": "Matrix([[-3.2*d**10/(d**4 + 1)**3 + 4.4*d**6/(d**4 + 1)**2 + 0.8*d**4/(d**2 + 1)**3 - 1.2*d**2/(d**4 + 1) - 1.0*d**2/(d**2 + 1)**2 + 1 + 0.2/(d**2 + 1), 0], [0, -0.9*p**10/(p**6 + 1)**(3/2) + 1.5*p**4/sqrt(p**6 + 1) + 0.8*p**4/(p**2 + 1)**3 - 1.0*p**2/(p**2 + 1)**2 - 0.1*p**2/(p**2 + 1)**(3/2) + 0.2/(p**2 + 1) + 0.1/sqrt(p**2 + 1)]])",
+          "minimum_eigenvalue": 0.18932152421320514,
+          "strict_tolerance": 1e-09,
+          "warning": "A sampled radial test is a kill gate, not a proof of global tensor convexity.",
+          "worst_point": {
+            "d": 0.1,
+            "eigenvalues": [
+              0.18932152421320514,
+              1.176300087378203
+            ],
+            "p": 0.5,
+            "state": 0.0
+          }
+        },
+        "name": "sampled_static_convexity",
+        "reason": "Every sampled radial constitutive Hessian eigenvalue is strictly positive.",
+        "status": "pass"
+      },
+      "python_tier0_pass": true,
+      "rust_tier0_gate": "survive_sampled_static",
+      "structural_agreement": {
+        "candidate_id": true,
+        "expression": true,
+        "signs": true,
+        "term_ids": true
+      }
+    },
+    {
+      "candidate_id": "STC2-0000074f5281798778b34341",
+      "ordinal": 682061948,
+      "python_sampled_static_convexity": {
+        "evidence": {
+          "evaluated_points": 27,
+          "hessian": "Matrix([[-0.1*d**2*p**4/(d**2*p**2 + 1)**(3/2) + 0.2*p**2*state**2 + 0.1*p**2/sqrt(d**2*p**2 + 1) + 0.8, -0.1*d**3*p**3/(d**2*p**2 + 1)**(3/2) + 0.4*d*p*state**2 + 0.2*d*p/sqrt(d**2*p**2 + 1)], [-0.1*d**3*p**3/(d**2*p**2 + 1)**(3/2) + 0.4*d*p*state**2 + 0.2*d*p/sqrt(d**2*p**2 + 1), -0.1*d**4*p**2/(d**2*p**2 + 1)**(3/2) + 0.2*d**2*state**2 + 0.1*d**2/sqrt(d**2*p**2 + 1) + 0.4*p**6/(p**4 + 1)**(3/2) + 3.0*p**4 - 0.6*p**2/sqrt(p**4 + 1)]])",
+          "minimum_eigenvalue": 0.0010000000000000009,
+          "strict_tolerance": 1e-09,
+          "warning": "A sampled radial test is a kill gate, not a proof of global tensor convexity.",
+          "worst_point": {
+            "d": 0.1,
+            "eigenvalues": [
+              0.0010000000000000009,
+              0.8
+            ],
+            "p": 0.0,
+            "state": 0.0
+          }
+        },
+        "name": "sampled_static_convexity",
+        "reason": "Every sampled radial constitutive Hessian eigenvalue is strictly positive.",
+        "status": "pass"
+      },
+      "python_tier0_pass": true,
+      "rust_tier0_gate": "survive_sampled_static",
+      "structural_agreement": {
+        "candidate_id": true,
+        "expression": true,
+        "signs": true,
+        "term_ids": true
+      }
+    },
+    {
+      "candidate_id": "STC2-000007568f9e826d21793574",
+      "ordinal": 445198395,
+      "python_sampled_static_convexity": {
+        "evidence": {
+          "evaluated_points": 27,
+          "hessian": "Matrix([[0.1*d**2*state**4/(d**2*state**2 + 1)**(3/2) - 0.1*state**2/sqrt(d**2*state**2 + 1) + 1, 0], [0, -0.4*p**6*state**4/(p**4*state**2 + 1)**(3/2) + 0.6*p**2*state**2/sqrt(p**4*state**2 + 1) + 0.2*state**4 + 0.2]])",
+          "minimum_eigenvalue": 0.19999999999999996,
+          "strict_tolerance": 1e-09,
+          "warning": "A sampled radial test is a kill gate, not a proof of global tensor convexity.",
+          "worst_point": {
+            "d": 0.1,
+            "eigenvalues": [
+              0.19999999999999996,
+              1.0
+            ],
+            "p": 0.0,
+            "state": 0.0
+          }
+        },
+        "name": "sampled_static_convexity",
+        "reason": "Every sampled radial constitutive Hessian eigenvalue is strictly positive.",
+        "status": "pass"
+      },
+      "python_tier0_pass": true,
+      "rust_tier0_gate": "survive_sampled_static",
+      "structural_agreement": {
+        "candidate_id": true,
+        "expression": true,
+        "signs": true,
+        "term_ids": true
+      }
+    },
+    {
+      "candidate_id": "STC2-000007d327630d0081733b81",
+      "ordinal": 519424257,
+      "python_sampled_static_convexity": {
+        "evidence": {
+          "evaluated_points": 27,
+          "hessian": "Matrix([[0.8*d**4*state**6/(d**2*state**2 + 1)**3 - 1.0*d**2*state**4/(d**2*state**2 + 1)**2 + 0.2*state**2/(d**2*state**2 + 1) + 1, 0], [0, -0.1*p**2*state**8/(p**2*state**4 + 1)**(3/2) - 0.1*p**2/(p**2 + 1)**(3/2) + 0.1*state**4/sqrt(p**2*state**4 + 1) + 0.1/sqrt(p**2 + 1)]])",
+          "minimum_eigenvalue": 0.03535533905932736,
+          "strict_tolerance": 1e-09,
+          "warning": "A sampled radial test is a kill gate, not a proof of global tensor convexity.",
+          "worst_point": {
+            "d": 0.1,
+            "eigenvalues": [
+              0.03535533905932736,
+              1.0
+            ],
+            "p": 1.0,
+            "state": 0.0
+          }
+        },
+        "name": "sampled_static_convexity",
+        "reason": "Every sampled radial constitutive Hessian eigenvalue is strictly positive.",
+        "status": "pass"
+      },
+      "python_tier0_pass": true,
+      "rust_tier0_gate": "survive_sampled_static",
+      "structural_agreement": {
+        "candidate_id": true,
+        "expression": true,
+        "signs": true,
+        "term_ids": true
+      }
+    },
+    {
+      "candidate_id": "STC2-00000b20e0728601713858e2",
+      "ordinal": 209816434,
+      "python_sampled_static_convexity": {
+        "evidence": {
+          "evaluated_points": 27,
+          "hessian": "Matrix([[0.8*d**4*state**12/(d**2*state**4 + 1)**3 - 1.0*d**2*state**8/(d**2*state**4 + 1)**2 + 0.2*state**4/(d**2*state**4 + 1) + 1, 0], [0, -0.8*p**4*state**12/(p**2*state**4 + 1)**3 + 1.0*p**2*state**8/(p**2*state**4 + 1)**2 - 0.1*p**2*state**4/(p**2*state**2 + 1)**(3/2) - 0.2*state**4/(p**2*state**4 + 1) + 0.1*state**2/sqrt(p**2*state**2 + 1) + 0.2]])",
+          "minimum_eigenvalue": 0.09999999999999998,
+          "strict_tolerance": 1e-09,
+          "warning": "A sampled radial test is a kill gate, not a proof of global tensor convexity.",
+          "worst_point": {
+            "d": 10.0,
+            "eigenvalues": [
+              0.09999999999999998,
+              0.9999419587091539
+            ],
+            "p": 0.0,
+            "state": 1.0
+          }
+        },
+        "name": "sampled_static_convexity",
+        "reason": "Every sampled radial constitutive Hessian eigenvalue is strictly positive.",
+        "status": "pass"
+      },
+      "python_tier0_pass": true,
+      "rust_tier0_gate": "survive_sampled_static",
+      "structural_agreement": {
+        "candidate_id": true,
+        "expression": true,
+        "signs": true,
+        "term_ids": true
+      }
+    },
+    {
+      "candidate_id": "STC2-00000c041197e676d92a21bb",
+      "ordinal": 535159043,
+      "python_sampled_static_convexity": {
+        "evidence": {
+          "evaluated_points": 27,
+          "hessian": "Matrix([[0.8*d**4*state**12/(d**2*state**4 + 1)**3 - 0.1*d**2*p**4*state**4/(d**2*p**2*state**2 + 1)**(3/2) - 1.0*d**2*state**8/(d**2*state**4 + 1)**2 + 0.1*p**2*state**2/sqrt(d**2*p**2*state**2 + 1) + 0.2*state**4/(d**2*state**4 + 1) + 1, -0.1*d**3*p**3*state**4/(d**2*p**2*state**2 + 1)**(3/2) + 0.2*d*p*state**2/sqrt(d**2*p**2*state**2 + 1)], [-0.1*d**3*p**3*state**4/(d**2*p**2*state**2 + 1)**(3/2) + 0.2*d*p*state**2/sqrt(d**2*p**2*state**2 + 1), -0.1*d**4*p**2*state**4/(d**2*p**2*state**2 + 1)**(3/2) + 0.1*d**2*state**2/sqrt(d**2*p**2*state**2 + 1) - 3.2*p**10*state**6/(p**4*state**2 + 1)**3 + 4.4*p**6*state**4/(p**4*state**2 + 1)**2 + 3.0*p**4 - 1.2*p**2*state**2/(p**4*state**2 + 1) - 0.1*p**2/(p**2 + 1)**(3/2) + 0.1/sqrt(p**2 + 1)]])",
+          "minimum_eigenvalue": 0.03590729939116033,
+          "strict_tolerance": 1e-09,
+          "warning": "A sampled radial test is a kill gate, not a proof of global tensor convexity.",
+          "worst_point": {
+            "d": 0.1,
+            "eigenvalues": [
+              0.03590729939116033,
+              1.213285548400329
+            ],
+            "p": 0.5,
+            "state": 1.0
+          }
+        },
+        "name": "sampled_static_convexity",
+        "reason": "Every sampled radial constitutive Hessian eigenvalue is strictly positive.",
+        "status": "pass"
+      },
+      "python_tier0_pass": true,
+      "rust_tier0_gate": "survive_sampled_static",
+      "structural_agreement": {
+        "candidate_id": true,
+        "expression": true,
+        "signs": true,
+        "term_ids": true
+      }
+    },
+    {
+      "candidate_id": "STC2-00000c31cd042e1d7643d6a2",
+      "ordinal": 843721878,
+      "python_sampled_static_convexity": {
+        "evidence": {
+          "evaluated_points": 27,
+          "hessian": "Matrix([[0.4*d**6/(d**4 + 1)**(3/2) + 0.1*d**2*p**4*state**4/(d**2*p**2*state**2 + 1)**(3/2) - 0.6*d**2/sqrt(d**4 + 1) - 0.1*p**2*state**2/sqrt(d**2*p**2*state**2 + 1) + 0.2*p**2 + 1, 0.1*d**3*p**3*state**4/(d**2*p**2*state**2 + 1)**(3/2) - 0.2*d*p*state**2/sqrt(d**2*p**2*state**2 + 1) + 0.4*d*p], [0.1*d**3*p**3*state**4/(d**2*p**2*state**2 + 1)**(3/2) - 0.2*d*p*state**2/sqrt(d**2*p**2*state**2 + 1) + 0.4*d*p, 0.1*d**4*p**2*state**4/(d**2*p**2*state**2 + 1)**(3/2) - 0.1*d**2*state**2/sqrt(d**2*p**2*state**2 + 1) + 0.2*d**2 - 0.1*p**2*state**4/(p**2*state**2 + 1)**(3/2) + 0.1*state**2/sqrt(p**2*state**2 + 1)]])",
+          "minimum_eigenvalue": 0.0006592270223223506,
+          "strict_tolerance": 1e-09,
+          "warning": "A sampled radial test is a kill gate, not a proof of global tensor convexity.",
+          "worst_point": {
+            "d": 0.1,
+            "eigenvalues": [
+              0.0006592270223223506,
+              1.195341472895187
+            ],
+            "p": 1.0,
+            "state": 0.0
+          }
+        },
+        "name": "sampled_static_convexity",
+        "reason": "Every sampled radial constitutive Hessian eigenvalue is strictly positive.",
+        "status": "pass"
+      },
+      "python_tier0_pass": true,
+      "rust_tier0_gate": "survive_sampled_static",
+      "structural_agreement": {
+        "candidate_id": true,
+        "expression": true,
+        "signs": true,
+        "term_ids": true
+      }
+    },
+    {
+      "candidate_id": "STC2-00000d1bf8380a1466f784da",
+      "ordinal": 965566111,
+      "python_sampled_static_convexity": {
+        "evidence": {
+          "evaluated_points": 27,
+          "hessian": "Matrix([[0.2*p**2 - 0.2*state**4 + 1, 0.4*d*p], [0.4*d*p, 0.2*d**2 + 0.8*p**4*state**6/(p**2*state**2 + 1)**3 - 1.0*p**2*state**4/(p**2*state**2 + 1)**2 + 1.2*p**2 + 0.2*state**4 + 0.2*state**2/(p**2*state**2 + 1)]])",
+          "minimum_eigenvalue": 0.0020000000000000018,
+          "strict_tolerance": 1e-09,
+          "warning": "A sampled radial test is a kill gate, not a proof of global tensor convexity.",
+          "worst_point": {
+            "d": 0.1,
+            "eigenvalues": [
+              0.0020000000000000018,
+              1.0
+            ],
+            "p": 0.0,
+            "state": 0.0
+          }
+        },
+        "name": "sampled_static_convexity",
+        "reason": "Every sampled radial constitutive Hessian eigenvalue is strictly positive.",
+        "status": "pass"
+      },
+      "python_tier0_pass": true,
+      "rust_tier0_gate": "survive_sampled_static",
+      "structural_agreement": {
+        "candidate_id": true,
+        "expression": true,
+        "signs": true,
+        "term_ids": true
+      }
+    },
+    {
+      "candidate_id": "STC2-00000d8f467a8572d3e24129",
+      "ordinal": 443709285,
+      "python_sampled_static_convexity": {
+        "evidence": {
+          "evaluated_points": 27,
+          "hessian": "Matrix([[0.4*d**6*state**4/(d**4*state**2 + 1)**(3/2) - 0.1*d**2*p**8/(d**2*p**4 + 1)**(3/2) - 0.6*d**2*state**2/sqrt(d**4*state**2 + 1) + 0.1*p**4/sqrt(d**2*p**4 + 1) + 0.2*p**2*state**2 + 1, -0.2*d**3*p**7/(d**2*p**4 + 1)**(3/2) + 0.4*d*p**3/sqrt(d**2*p**4 + 1) + 0.4*d*p*state**2], [-0.2*d**3*p**7/(d**2*p**4 + 1)**(3/2) + 0.4*d*p**3/sqrt(d**2*p**4 + 1) + 0.4*d*p*state**2, -0.4*d**4*p**6/(d**2*p**4 + 1)**(3/2) + 0.6*d**2*p**2/sqrt(d**2*p**4 + 1) + 0.2*d**2*state**2 + 0.8*p**4*state**6/(p**2*state**2 + 1)**3 - 1.0*p**2*state**4/(p**2*state**2 + 1)**2 + 0.2*state**2/(p**2*state**2 + 1) + 0.2]])",
+          "minimum_eigenvalue": 0.15237287267494104,
+          "strict_tolerance": 1e-09,
+          "warning": "A sampled radial test is a kill gate, not a proof of global tensor convexity.",
+          "worst_point": {
+            "d": 0.1,
+            "eigenvalues": [
+              0.15237287267494104,
+              1.298077176654512
+            ],
+            "p": 1.0,
+            "state": 1.0
+          }
+        },
+        "name": "sampled_static_convexity",
+        "reason": "Every sampled radial constitutive Hessian eigenvalue is strictly positive.",
+        "status": "pass"
+      },
+      "python_tier0_pass": true,
+      "rust_tier0_gate": "survive_sampled_static",
+      "structural_agreement": {
+        "candidate_id": true,
+        "expression": true,
+        "signs": true,
+        "term_ids": true
+      }
+    },
+    {
+      "candidate_id": "STC2-00000d9b7105213dd5817638",
+      "ordinal": 218431538,
+      "python_sampled_static_convexity": {
+        "evidence": {
+          "evaluated_points": 27,
+          "hessian": "Matrix([[0.8*d**4*p**6/(d**2*p**2 + 1)**3 - 0.8*d**4/(d**2 + 1)**3 - 1.0*d**2*p**4/(d**2*p**2 + 1)**2 + 1.0*d**2/(d**2 + 1)**2 + 0.2*p**4 + 0.2*p**2/(d**2*p**2 + 1) - 0.2*state**4 + 1 - 0.2/(d**2 + 1), 0.8*d**5*p**5/(d**2*p**2 + 1)**3 - 1.2*d**3*p**3/(d**2*p**2 + 1)**2 + 0.8*d*p**3 + 0.4*d*p/(d**2*p**2 + 1)], [0.8*d**5*p**5/(d**2*p**2 + 1)**3 - 1.2*d**3*p**3/(d**2*p**2 + 1)**2 + 0.8*d*p**3 + 0.4*d*p/(d**2*p**2 + 1), 0.8*d**6*p**4/(d**2*p**2 + 1)**3 - 1.0*d**4*p**2/(d**2*p**2 + 1)**2 + 1.2*d**2*p**2 + 0.2*d**2/(d**2*p**2 + 1) - 0.1*p**2/(p**2 + 1)**(3/2) + 0.1/sqrt(p**2 + 1)]])",
+          "minimum_eigenvalue": 0.034707010043634356,
+          "strict_tolerance": 1e-09,
+          "warning": "A sampled radial test is a kill gate, not a proof of global tensor convexity.",
+          "worst_point": {
+            "d": 0.1,
+            "eigenvalues": [
+              0.034707010043634356,
+              1.0145312739026726
+            ],
+            "p": 1.0,
+            "state": 1.0
+          }
+        },
+        "name": "sampled_static_convexity",
+        "reason": "Every sampled radial constitutive Hessian eigenvalue is strictly positive.",
+        "status": "pass"
+      },
+      "python_tier0_pass": true,
+      "rust_tier0_gate": "survive_sampled_static",
+      "structural_agreement": {
+        "candidate_id": true,
+        "expression": true,
+        "signs": true,
+        "term_ids": true
+      }
+    },
+    {
+      "candidate_id": "STC2-00000e75accd76a2793413d8",
+      "ordinal": 372141903,
+      "python_sampled_static_convexity": {
+        "evidence": {
+          "evaluated_points": 27,
+          "hessian": "Matrix([[0.4*d**6*state**4/(d**4*state**2 + 1)**(3/2) - 0.6*d**2*state**2/sqrt(d**4*state**2 + 1) + 0.2*p**2 + 1, 0.4*d*p], [0.4*d*p, 0.2*d**2 + 0.2*state**2]])",
+          "minimum_eigenvalue": 0.0006659263376765923,
+          "strict_tolerance": 1e-09,
+          "warning": "A sampled radial test is a kill gate, not a proof of global tensor convexity.",
+          "worst_point": {
+            "d": 0.1,
+            "eigenvalues": [
+              0.0006659263376765923,
+              1.2013340736623235
+            ],
+            "p": 1.0,
+            "state": 0.0
+          }
+        },
+        "name": "sampled_static_convexity",
+        "reason": "Every sampled radial constitutive Hessian eigenvalue is strictly positive.",
+        "status": "pass"
+      },
+      "python_tier0_pass": true,
+      "rust_tier0_gate": "survive_sampled_static",
+      "structural_agreement": {
+        "candidate_id": true,
+        "expression": true,
+        "signs": true,
+        "term_ids": true
+      }
+    },
+    {
+      "candidate_id": "STC2-00000eef0dc381bf6f8fbbb9",
+      "ordinal": 506948595,
+      "python_sampled_static_convexity": {
+        "evidence": {
+          "evaluated_points": 27,
+          "hessian": "Matrix([[3.2*d**10/(d**4 + 1)**3 - 4.4*d**6/(d**4 + 1)**2 + 1.2*d**2/(d**4 + 1) - 0.1*d**2/(d**2 + 1)**(3/2) + 1 + 0.1/sqrt(d**2 + 1), 0], [0, -0.9*p**10/(p**6 + 1)**(3/2) + 1.5*p**4/sqrt(p**6 + 1) - 0.1*p**2/(p**2 + 1)**(3/2) + 0.1/sqrt(p**2 + 1)]])",
+          "minimum_eigenvalue": 0.09999999999999998,
+          "strict_tolerance": 1e-09,
+          "warning": "A sampled radial test is a kill gate, not a proof of global tensor convexity.",
+          "worst_point": {
+            "d": 1.0,
+            "eigenvalues": [
+              0.09999999999999998,
+              0.9353553390593273
+            ],
+            "p": 0.0,
+            "state": 0.0
+          }
+        },
+        "name": "sampled_static_convexity",
+        "reason": "Every sampled radial constitutive Hessian eigenvalue is strictly positive.",
+        "status": "pass"
+      },
+      "python_tier0_pass": true,
+      "rust_tier0_gate": "survive_sampled_static",
+      "structural_agreement": {
+        "candidate_id": true,
+        "expression": true,
+        "signs": true,
+        "term_ids": true
+      }
+    },
+    {
+      "candidate_id": "STC2-00000f7c519ba8ad489c7509",
+      "ordinal": 210153455,
+      "python_sampled_static_convexity": {
+        "evidence": {
+          "evaluated_points": 27,
+          "hessian": "Matrix([[-3.2*d**10/(d**4 + 1)**3 + 4.4*d**6/(d**4 + 1)**2 - 1.2*d**2/(d**4 + 1) + 1, 0], [0, 1.2*p**2*state**2 + 0.2]])",
+          "minimum_eigenvalue": 0.19999999999999996,
+          "strict_tolerance": 1e-09,
+          "warning": "A sampled radial test is a kill gate, not a proof of global tensor convexity.",
+          "worst_point": {
+            "d": 1.0,
+            "eigenvalues": [
+              0.19999999999999996,
+              1.1
+            ],
+            "p": 0.0,
+            "state": 0.0
+          }
+        },
+        "name": "sampled_static_convexity",
+        "reason": "Every sampled radial constitutive Hessian eigenvalue is strictly positive.",
+        "status": "pass"
+      },
+      "python_tier0_pass": true,
+      "rust_tier0_gate": "survive_sampled_static",
+      "structural_agreement": {
+        "candidate_id": true,
+        "expression": true,
+        "signs": true,
+        "term_ids": true
+      }
+    },
+    {
+      "candidate_id": "STC2-0000108521064ddf5b17e110",
+      "ordinal": 522191431,
+      "python_sampled_static_convexity": {
+        "evidence": {
+          "evaluated_points": 27,
+          "hessian": "Matrix([[1, 0], [0, -0.4*p**6*state**4/(p**4*state**2 + 1)**(3/2) - 0.1*p**2*state**8/(p**2*state**4 + 1)**(3/2) + 0.6*p**2*state**2/sqrt(p**4*state**2 + 1) + 1.2*p**2 - 0.1*p**2/(p**2 + 1)**(3/2) + 0.1*state**4/sqrt(p**2*state**4 + 1) + 0.1/sqrt(p**2 + 1)]])",
+          "minimum_eigenvalue": 0.10000000000000003,
+          "strict_tolerance": 1e-09,
+          "warning": "A sampled radial test is a kill gate, not a proof of global tensor convexity.",
+          "worst_point": {
+            "d": 0.1,
+            "eigenvalues": [
+              0.10000000000000003,
+              1.0
+            ],
+            "p": 0.0,
+            "state": 0.0
+          }
+        },
+        "name": "sampled_static_convexity",
+        "reason": "Every sampled radial constitutive Hessian eigenvalue is strictly positive.",
+        "status": "pass"
+      },
+      "python_tier0_pass": true,
+      "rust_tier0_gate": "survive_sampled_static",
+      "structural_agreement": {
+        "candidate_id": true,
+        "expression": true,
+        "signs": true,
+        "term_ids": true
+      }
+    },
+    {
+      "candidate_id": "STC2-00001157e5764a76335e549a",
+      "ordinal": 292711724,
+      "python_sampled_static_convexity": {
+        "evidence": {
+          "evaluated_points": 27,
+          "hessian": "Matrix([[-0.4*d**6*state**4/(d**4*state**2 + 1)**(3/2) + 0.4*d**6/(d**4 + 1)**(3/2) + 0.1*d**2*state**4/(d**2*state**2 + 1)**(3/2) + 0.6*d**2*state**2/sqrt(d**4*state**2 + 1) - 0.6*d**2/sqrt(d**4 + 1) + 0.2*p**2 - 0.2*state**4 - 0.1*state**2/sqrt(d**2*state**2 + 1) + 1, 0.4*d*p], [0.4*d*p, 0.2*d**2]])",
+          "minimum_eigenvalue": 0.00022470125935786234,
+          "strict_tolerance": 1e-09,
+          "warning": "A sampled radial test is a kill gate, not a proof of global tensor convexity.",
+          "worst_point": {
+            "d": 0.1,
+            "eigenvalues": [
+              0.00022470125935786234,
+              0.9032567650564849
+            ],
+            "p": 1.0,
+            "state": 1.0
+          }
+        },
+        "name": "sampled_static_convexity",
+        "reason": "Every sampled radial constitutive Hessian eigenvalue is strictly positive.",
+        "status": "pass"
+      },
+      "python_tier0_pass": true,
+      "rust_tier0_gate": "survive_sampled_static",
+      "structural_agreement": {
+        "candidate_id": true,
+        "expression": true,
+        "signs": true,
+        "term_ids": true
+      }
+    },
+    {
+      "candidate_id": "STC2-0000117b78b535bbf60910e7",
+      "ordinal": 771245462,
+      "python_sampled_static_convexity": {
+        "evidence": {
+          "evaluated_points": 27,
+          "hessian": "Matrix([[0.8*d**4*state**6/(d**2*state**2 + 1)**3 - 0.8*d**4/(d**2 + 1)**3 - 1.0*d**2*state**4/(d**2*state**2 + 1)**2 + 1.0*d**2/(d**2 + 1)**2 - 0.2*p**2*state**2 + 0.2*p**2 + 0.2*state**2/(d**2*state**2 + 1) + 1 - 0.2/(d**2 + 1), -0.4*d*p*state**2 + 0.4*d*p], [-0.4*d*p*state**2 + 0.4*d*p, -0.2*d**2*state**2 + 0.2*d**2 + 0.1*p**2*state**8/(p**2*state**4 + 1)**(3/2) - 0.1*state**4/sqrt(p**2*state**4 + 1) + 0.2*state**2]])",
+          "minimum_eigenvalue": 0.00041785866185273246,
+          "strict_tolerance": 1e-09,
+          "warning": "A sampled radial test is a kill gate, not a proof of global tensor convexity.",
+          "worst_point": {
+            "d": 0.1,
+            "eigenvalues": [
+              0.00041785866185273246,
+              1.0132876526401842
+            ],
+            "p": 1.0,
+            "state": 0.0
+          }
+        },
+        "name": "sampled_static_convexity",
+        "reason": "Every sampled radial constitutive Hessian eigenvalue is strictly positive.",
+        "status": "pass"
+      },
+      "python_tier0_pass": true,
+      "rust_tier0_gate": "survive_sampled_static",
+      "structural_agreement": {
+        "candidate_id": true,
+        "expression": true,
+        "signs": true,
+        "term_ids": true
+      }
+    },
+    {
+      "candidate_id": "STC2-0000119b098ff1b06b63a404",
+      "ordinal": 98964786,
+      "python_sampled_static_convexity": {
+        "evidence": {
+          "evaluated_points": 27,
+          "hessian": "Matrix([[-0.8*d**4/(d**2 + 1)**3 + 1.0*d**2/(d**2 + 1)**2 + 1 - 0.2/(d**2 + 1), 0], [0, 0.8*p**4*state**12/(p**2*state**4 + 1)**3 - 1.0*p**2*state**8/(p**2*state**4 + 1)**2 + 0.2*state**4/(p**2*state**4 + 1) + 0.2*state**2 + 0.2]])",
+          "minimum_eigenvalue": 0.19999999999999996,
+          "strict_tolerance": 1e-09,
+          "warning": "A sampled radial test is a kill gate, not a proof of global tensor convexity.",
+          "worst_point": {
+            "d": 0.1,
+            "eigenvalues": [
+              0.19999999999999996,
+              0.811705511302037
+            ],
+            "p": 0.0,
+            "state": 0.0
+          }
+        },
+        "name": "sampled_static_convexity",
+        "reason": "Every sampled radial constitutive Hessian eigenvalue is strictly positive.",
+        "status": "pass"
+      },
+      "python_tier0_pass": true,
+      "rust_tier0_gate": "survive_sampled_static",
+      "structural_agreement": {
+        "candidate_id": true,
+        "expression": true,
+        "signs": true,
+        "term_ids": true
+      }
+    },
+    {
+      "candidate_id": "STC2-000011fae9955ec6a1e466a1",
+      "ordinal": 435667717,
+      "python_sampled_static_convexity": {
+        "evidence": {
+          "evaluated_points": 27,
+          "hessian": "Matrix([[0.8*d**4*p**6/(d**2*p**2 + 1)**3 - 0.8*d**4/(d**2 + 1)**3 - 1.0*d**2*p**4/(d**2*p**2 + 1)**2 - 0.1*d**2*state**4/(d**2*state**2 + 1)**(3/2) + 1.0*d**2/(d**2 + 1)**2 + 0.2*p**2/(d**2*p**2 + 1) + 0.1*state**2/sqrt(d**2*state**2 + 1) + 1 - 0.2/(d**2 + 1), 0.8*d**5*p**5/(d**2*p**2 + 1)**3 - 1.2*d**3*p**3/(d**2*p**2 + 1)**2 + 0.4*d*p/(d**2*p**2 + 1)], [0.8*d**5*p**5/(d**2*p**2 + 1)**3 - 1.2*d**3*p**3/(d**2*p**2 + 1)**2 + 0.4*d*p/(d**2*p**2 + 1), 0.8*d**6*p**4/(d**2*p**2 + 1)**3 - 1.0*d**4*p**2/(d**2*p**2 + 1)**2 + 0.2*d**2/(d**2*p**2 + 1) + 0.2]])",
+          "minimum_eigenvalue": 0.1157858284552421,
+          "strict_tolerance": 1e-09,
+          "warning": "A sampled radial test is a kill gate, not a proof of global tensor convexity.",
+          "worst_point": {
+            "d": 10.0,
+            "eigenvalues": [
+              0.1157858284552421,
+              0.9998559634045617
+            ],
+            "p": 0.5,
+            "state": 0.0
+          }
+        },
+        "name": "sampled_static_convexity",
+        "reason": "Every sampled radial constitutive Hessian eigenvalue is strictly positive.",
+        "status": "pass"
+      },
+      "python_tier0_pass": true,
+      "rust_tier0_gate": "survive_sampled_static",
+      "structural_agreement": {
+        "candidate_id": true,
+        "expression": true,
+        "signs": true,
+        "term_ids": true
+      }
+    },
+    {
+      "candidate_id": "STC2-00001283724d5175e5ae8e17",
+      "ordinal": 22688083,
+      "python_sampled_static_convexity": {
+        "evidence": {
+          "evaluated_points": 27,
+          "hessian": "Matrix([[0.8*d**4*p**6/(d**2*p**2 + 1)**3 - 1.0*d**2*p**4/(d**2*p**2 + 1)**2 + 0.1*d**2*state**8/(d**2*state**4 + 1)**(3/2) + 0.2*p**2/(d**2*p**2 + 1) - 0.1*state**4/sqrt(d**2*state**4 + 1) + 1, 0.8*d**5*p**5/(d**2*p**2 + 1)**3 - 1.2*d**3*p**3/(d**2*p**2 + 1)**2 + 0.4*d*p/(d**2*p**2 + 1)], [0.8*d**5*p**5/(d**2*p**2 + 1)**3 - 1.2*d**3*p**3/(d**2*p**2 + 1)**2 + 0.4*d*p/(d**2*p**2 + 1), 0.8*d**6*p**4/(d**2*p**2 + 1)**3 - 1.0*d**4*p**2/(d**2*p**2 + 1)**2 + 0.2*d**2/(d**2*p**2 + 1) - 0.1*p**2/(p**2 + 1)**(3/2) + 0.2 + 0.1/sqrt(p**2 + 1)]])",
+          "minimum_eigenvalue": 0.18535533905932744,
+          "strict_tolerance": 1e-09,
+          "warning": "A sampled radial test is a kill gate, not a proof of global tensor convexity.",
+          "worst_point": {
+            "d": 1.0,
+            "eigenvalues": [
+              0.18535533905932744,
+              0.95
+            ],
+            "p": 1.0,
+            "state": 0.0
+          }
+        },
+        "name": "sampled_static_convexity",
+        "reason": "Every sampled radial constitutive Hessian eigenvalue is strictly positive.",
+        "status": "pass"
+      },
+      "python_tier0_pass": true,
+      "rust_tier0_gate": "survive_sampled_static",
+      "structural_agreement": {
+        "candidate_id": true,
+        "expression": true,
+        "signs": true,
+        "term_ids": true
+      }
+    },
+    {
+      "candidate_id": "STC2-00001530946e889fed2c7df8",
+      "ordinal": 265286070,
+      "python_sampled_static_convexity": {
+        "evidence": {
+          "evaluated_points": 27,
+          "hessian": "Matrix([[-0.1*d**2*p**4/(d**2*p**2 + 1)**(3/2) + 0.2*p**4 + 0.1*p**2/sqrt(d**2*p**2 + 1) - 0.2*state**4 + 1, -0.1*d**3*p**3/(d**2*p**2 + 1)**(3/2) + 0.8*d*p**3 + 0.2*d*p/sqrt(d**2*p**2 + 1)], [-0.1*d**3*p**3/(d**2*p**2 + 1)**(3/2) + 0.8*d*p**3 + 0.2*d*p/sqrt(d**2*p**2 + 1), -0.1*d**4*p**2/(d**2*p**2 + 1)**(3/2) + 1.2*d**2*p**2 + 0.1*d**2/sqrt(d**2*p**2 + 1) - 0.9*p**10/(p**6 + 1)**(3/2) + 1.5*p**4/sqrt(p**6 + 1)]])",
+          "minimum_eigenvalue": 0.0009999999999999454,
+          "strict_tolerance": 1e-09,
+          "warning": "A sampled radial test is a kill gate, not a proof of global tensor convexity.",
+          "worst_point": {
+            "d": 0.1,
+            "eigenvalues": [
+              0.0009999999999999454,
+              1.0
+            ],
+            "p": 0.0,
+            "state": 0.0
+          }
+        },
+        "name": "sampled_static_convexity",
+        "reason": "Every sampled radial constitutive Hessian eigenvalue is strictly positive.",
+        "status": "pass"
+      },
+      "python_tier0_pass": true,
+      "rust_tier0_gate": "survive_sampled_static",
+      "structural_agreement": {
+        "candidate_id": true,
+        "expression": true,
+        "signs": true,
+        "term_ids": true
+      }
+    },
+    {
+      "candidate_id": "STC2-000016185a979bdf32168e5f",
+      "ordinal": 538743387,
+      "python_sampled_static_convexity": {
+        "evidence": {
+          "evaluated_points": 27,
+          "hessian": "Matrix([[0.4*d**6/(d**4 + 1)**(3/2) + 0.1*d**2*state**8/(d**2*state**4 + 1)**(3/2) - 0.6*d**2/sqrt(d**4 + 1) + 0.2*state**4 - 0.1*state**4/sqrt(d**2*state**4 + 1) + 1, 0], [0, -0.8*p**4*state**12/(p**2*state**4 + 1)**3 + 1.0*p**2*state**8/(p**2*state**4 + 1)**2 - 0.1*p**2/(p**2 + 1)**(3/2) - 0.2*state**4/(p**2*state**4 + 1) + 0.2*state**2 + 0.1/sqrt(p**2 + 1)]])",
+          "minimum_eigenvalue": 0.03535533905932742,
+          "strict_tolerance": 1e-09,
+          "warning": "A sampled radial test is a kill gate, not a proof of global tensor convexity.",
+          "worst_point": {
+            "d": 0.1,
+            "eigenvalues": [
+              0.03535533905932742,
+              0.9940006999175094
+            ],
+            "p": 1.0,
+            "state": 0.0
+          }
+        },
+        "name": "sampled_static_convexity",
+        "reason": "Every sampled radial constitutive Hessian eigenvalue is strictly positive.",
+        "status": "pass"
+      },
+      "python_tier0_pass": true,
+      "rust_tier0_gate": "survive_sampled_static",
+      "structural_agreement": {
+        "candidate_id": true,
+        "expression": true,
+        "signs": true,
+        "term_ids": true
+      }
+    },
+    {
+      "candidate_id": "STC2-00001630a06002ba928d5880",
+      "ordinal": 317860939,
+      "python_sampled_static_convexity": {
+        "evidence": {
+          "evaluated_points": 27,
+          "hessian": "Matrix([[-3.2*d**10/(d**4 + 1)**3 + 4.4*d**6/(d**4 + 1)**2 - 1.2*d**2/(d**4 + 1) + 1, 0], [0, -0.1*p**2/(p**2 + 1)**(3/2) + 0.1/sqrt(p**2 + 1)]])",
+          "minimum_eigenvalue": 0.035355339059327306,
+          "strict_tolerance": 1e-09,
+          "warning": "A sampled radial test is a kill gate, not a proof of global tensor convexity.",
+          "worst_point": {
+            "d": 1.0,
+            "eigenvalues": [
+              0.035355339059327306,
+              1.1
+            ],
+            "p": 1.0,
+            "state": 0.0
+          }
+        },
+        "name": "sampled_static_convexity",
+        "reason": "Every sampled radial constitutive Hessian eigenvalue is strictly positive.",
+        "status": "pass"
+      },
+      "python_tier0_pass": true,
+      "rust_tier0_gate": "survive_sampled_static",
+      "structural_agreement": {
+        "candidate_id": true,
+        "expression": true,
+        "signs": true,
+        "term_ids": true
+      }
+    },
+    {
+      "candidate_id": "STC2-000016ac2f4c94c4e6a38dc8",
+      "ordinal": 604750887,
+      "python_sampled_static_convexity": {
+        "evidence": {
+          "evaluated_points": 27,
+          "hessian": "Matrix([[-3.2*d**10/(d**4 + 1)**3 + 4.4*d**6/(d**4 + 1)**2 - 1.2*d**2/(d**4 + 1) + 1, 0], [0, -0.4*p**6/(p**4 + 1)**(3/2) + 0.8*p**4*state**6/(p**2*state**2 + 1)**3 + 0.8*p**4/(p**2 + 1)**3 - 1.0*p**2*state**4/(p**2*state**2 + 1)**2 - 0.1*p**2*state**4/(p**2*state**2 + 1)**(3/2) + 0.6*p**2/sqrt(p**4 + 1) - 1.0*p**2/(p**2 + 1)**2 + 0.2*state**2 + 0.2*state**2/(p**2*state**2 + 1) + 0.1*state**2/sqrt(p**2*state**2 + 1) + 0.2/(p**2 + 1)]])",
+          "minimum_eigenvalue": 0.16541465443270953,
+          "strict_tolerance": 1e-09,
+          "warning": "A sampled radial test is a kill gate, not a proof of global tensor convexity.",
+          "worst_point": {
+            "d": 1.0,
+            "eigenvalues": [
+              0.16541465443270953,
+              1.1
+            ],
+            "p": 0.5,
+            "state": 0.0
+          }
+        },
+        "name": "sampled_static_convexity",
+        "reason": "Every sampled radial constitutive Hessian eigenvalue is strictly positive.",
+        "status": "pass"
+      },
+      "python_tier0_pass": true,
+      "rust_tier0_gate": "survive_sampled_static",
+      "structural_agreement": {
+        "candidate_id": true,
+        "expression": true,
+        "signs": true,
+        "term_ids": true
+      }
+    },
+    {
+      "candidate_id": "STC2-0000171408102eaee8cc5baf",
+      "ordinal": 211375459,
+      "python_sampled_static_convexity": {
+        "evidence": {
+          "evaluated_points": 27,
+          "hessian": "Matrix([[-0.4*d**6/(d**4 + 1)**(3/2) + 0.6*d**2/sqrt(d**4 + 1) - 0.2*state**4 + 1, 0], [0, 0.1*p**2*state**4/(p**2*state**2 + 1)**(3/2) + 1.2*p**2 - 0.1*state**2/sqrt(p**2*state**2 + 1) + 0.2]])",
+          "minimum_eigenvalue": 0.09999999999999998,
+          "strict_tolerance": 1e-09,
+          "warning": "A sampled radial test is a kill gate, not a proof of global tensor convexity.",
+          "worst_point": {
+            "d": 0.1,
+            "eigenvalues": [
+              0.09999999999999998,
+              0.8059993000824907
+            ],
+            "p": 0.0,
+            "state": 1.0
+          }
+        },
+        "name": "sampled_static_convexity",
+        "reason": "Every sampled radial constitutive Hessian eigenvalue is strictly positive.",
+        "status": "pass"
+      },
+      "python_tier0_pass": true,
+      "rust_tier0_gate": "survive_sampled_static",
+      "structural_agreement": {
+        "candidate_id": true,
+        "expression": true,
+        "signs": true,
+        "term_ids": true
+      }
+    }
+  ],
+  "schema_version": "sigma-generator-v2-crosscheck-1.0"
+}

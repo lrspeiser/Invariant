@@ -1,0 +1,50 @@
+{
+  "schema_version": "sigma-observational-evidence-policy-1.0",
+  "status": "frozen",
+  "principle": "Test laws against measured signals and audited baryonic tracers, never against an inferred invisible component treated as ground truth.",
+  "allowed_primary_observables": [
+    "raw detector counts with calibration and background provenance",
+    "calibrated spectra and wavelength ratios",
+    "angular positions, separations, shapes, and image topology",
+    "proper motions",
+    "time delays",
+    "line-of-sight Doppler velocity ratios",
+    "measured baryonic light and gas tracers with explicit uncertainty"
+  ],
+  "allowed_derived_quantities": {
+    "rule": "Every derived value must retain the raw inputs, transformation, calibration, uncertainty, and assumptions needed to reproduce it.",
+    "preferred_distance_free_examples": [
+      "velocity ratios within one source",
+      "angular-radius ratios within one source",
+      "dimensionless spectral-line ratios",
+      "raw lens-image relative positions and topology"
+    ]
+  },
+  "redshift": {
+    "allowed": "Use the measured spectral wavelength ratio z = delta_lambda/lambda_rest with instrument and line-identification provenance.",
+    "not_allowed_by_default": [
+      "treating redshift as a distance",
+      "using a redshift-derived distance to infer mass or physical size",
+      "using redshift-derived environment labels",
+      "assuming a cosmological model inside a supposedly raw observational gate"
+    ],
+    "exception_rule": "A redshift-to-distance transformation requires a separately frozen and independently audited distance protocol."
+  },
+  "supernovae": {
+    "default_status": "excluded",
+    "rule": "Supernova distance moduli, standardization relations, and cosmological fits are not reference truth unless a separate raw-data and calibration audit is explicitly authorized."
+  },
+  "unobserved_components": {
+    "default_status": "prohibited_as_truth_or_rescue",
+    "prohibited_uses": [
+      "target labels",
+      "accuracy ground truth",
+      "post-hoc rescue of a failed baryons-only law",
+      "object-specific halo fitting",
+      "formula selection"
+    ],
+    "reporting_rule": "State the tested hypothesis as GR plus measured baryons only. Do not relabel a baryons-only mismatch as a failure of GR itself."
+  },
+  "data_opening_rule": "No observational dataset opens until its manifest passes this policy and the relevant theory-side gates are frozen."
+}
+

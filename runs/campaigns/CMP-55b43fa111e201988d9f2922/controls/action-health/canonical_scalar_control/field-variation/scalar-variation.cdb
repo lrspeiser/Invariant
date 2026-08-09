@@ -1,0 +1,10 @@
+{\mu,\nu}::Indices.
+\partial{#}::PartialDerivative;
+
+action := -\int{(1)/2 \partial_{\mu}{\phi} \partial^{\mu}{\phi} + mphi^2/2 \phi^2}{x};
+vary(action, $\phi -> \delta{\phi}$);
+integrate_by_parts(action, $\delta{\phi}$);
+canonicalise(action);
+sort_product(action);
+factor_out(action, $\delta{\phi}$);
+print(action);

@@ -1,0 +1,99 @@
+{
+  "background": "local aligned/frozen spatial orthonormal frame",
+  "boundary_contract": [
+    "Einstein-Hilbert normal divergence removed by GHY completion or fixed-boundary/compact-support contract",
+    "Gauss-Codazzi normal divergence integrated against G4(X_c); its V_star K bulk term is retained and exactly cancelled"
+  ],
+  "coefficient_map": {
+    "EH_R": "M_Pl**2/2",
+    "HORNDESKI_L4_LINEAR_X": "alpha",
+    "SCALAR_X": "1"
+  },
+  "content_sha256": "12ec23f414939c3c7958c5ab8af2bbf9ef3fa2de021ea2170699263c6999d8a9",
+  "generic_hessian_nullity": 1,
+  "generic_hessian_rank": 6,
+  "hessian": "Matrix([[0, A_star**2*alpha - M_Pl**2, A_star**2*alpha - M_Pl**2, 0, 0, 0, 0], [A_star**2*alpha - M_Pl**2, 0, A_star**2*alpha - M_Pl**2, 0, 0, 0, 0], [A_star**2*alpha - M_Pl**2, A_star**2*alpha - M_Pl**2, 0, 0, 0, 0, 0], [0, 0, 0, -2*A_star**2*alpha + 2*M_Pl**2, 0, 0, 0], [0, 0, 0, 0, -2*A_star**2*alpha + 2*M_Pl**2, 0, 0], [0, 0, 0, 0, 0, -2*A_star**2*alpha + 2*M_Pl**2, 0], [0, 0, 0, 0, 0, 0, 0]])",
+  "hessian_determinant": "0",
+  "input_action_sha256": "85a7af135eddf4c924ea8a9f6e890fc6a511b0f712e3935aafd74aae825f99de",
+  "input_adm_ir_sha256": "80c08893b2b35611fec3d2e2418f11c6a789a435163f24352f72ca651d9c34f8",
+  "kinetic_primary_constraints": [
+    "p_V_star"
+  ],
+  "legendre_status": "degenerate_primary_verified",
+  "local_kinetic_lagrangian": "(A_star**2*alpha - M_Pl**2)*(K11*K22 + K11*K33 - K12**2 - K13**2 + K22*K33 - K23**2)",
+  "nondynamical_primary_seeds": [
+    "p_N=0",
+    "p_(N^i)=0 (three components)"
+  ],
+  "promotion_allowed": false,
+  "proof_scope": "exact pointwise kinetic Hessian and generic Legendre-rank strata for the frozen action coefficients only for terms listed as locally supported; unsupported higher-jet terms are reported and force unresolved status. Lapse/shift and algebraic-field primaries are carried from ADM IR, while distributed consistency, Poisson closure, gauge reduction, and reduced Hamiltonian boundedness remain separate",
+  "quartic_horndeski_branch": "unitary gauge, X_c=A_star^2/2, V_star=L_n A_star",
+  "rank_regularity_minor": "-16*(A_star**2*alpha - M_Pl**2)**6",
+  "regularity_factors": [
+    {
+      "factor": "A_star**2*alpha - M_Pl**2",
+      "multiplicity": 6,
+      "regularity_condition": "A_star**2*alpha - M_Pl**2 != 0"
+    }
+  ],
+  "schema_version": "sigma-legendre-ir-1.0",
+  "secondary_seeds": [
+    "H_perp=0",
+    "H_i=0 (three components)"
+  ],
+  "sector_blocks": {
+    "metric_K_ij": {
+      "determinant": "-16*(A_star**2*alpha - M_Pl**2)**6",
+      "dimension": 6,
+      "generic_rank": 6,
+      "hessian": "Matrix([[0, A_star**2*alpha - M_Pl**2, A_star**2*alpha - M_Pl**2, 0, 0, 0], [A_star**2*alpha - M_Pl**2, 0, A_star**2*alpha - M_Pl**2, 0, 0, 0], [A_star**2*alpha - M_Pl**2, A_star**2*alpha - M_Pl**2, 0, 0, 0, 0], [0, 0, 0, -2*A_star**2*alpha + 2*M_Pl**2, 0, 0], [0, 0, 0, 0, -2*A_star**2*alpha + 2*M_Pl**2, 0], [0, 0, 0, 0, 0, -2*A_star**2*alpha + 2*M_Pl**2]])",
+      "indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "velocities": [
+        "K11",
+        "K22",
+        "K33",
+        "K12",
+        "K13",
+        "K23"
+      ]
+    },
+    "quartic_horndeski_auxiliary_scalar": {
+      "determinant": "0",
+      "dimension": 1,
+      "generic_rank": 0,
+      "hessian": "Matrix([[0]])",
+      "indices": [
+        6
+      ],
+      "velocities": [
+        "V_star"
+      ]
+    }
+  },
+  "source_role": "known_answer_control",
+  "status": "pass",
+  "term_ids": [
+    "EH_R",
+    "HORNDESKI_L4_LINEAR_X",
+    "SCALAR_X"
+  ],
+  "unit_aether_branch": null,
+  "unsupported_kinetic_terms": [],
+  "velocity_count": 7,
+  "velocity_order": [
+    "K11",
+    "K22",
+    "K33",
+    "K12",
+    "K13",
+    "K23",
+    "V_star"
+  ]
+}

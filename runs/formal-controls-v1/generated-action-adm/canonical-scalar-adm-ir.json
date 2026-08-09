@@ -1,0 +1,117 @@
+{
+  "boundary_contract": [
+    "Einstein-Hilbert normal divergence removed by GHY completion or fixed-boundary/compact-support contract"
+  ],
+  "combined_adm_bulk_density": "(M_Pl^2/2) * (N sqrt(h) (R3 + K_ij K^ij - K^2)) + (-1/2) * (N sqrt(h) m_phi^2 phi^2) + (1) * (N sqrt(h) (Pi_phi^2 - D_i(phi) D^i(phi))/2)",
+  "content_sha256": "bb7120ddc6559457f1ad6cc507019621c7f78d529a3abc144e10483ba63d0bc8",
+  "definitions": [
+    "Pi_phi=n^mu nabla_mu phi=(dot(phi)-N^i D_i phi)/N"
+  ],
+  "input_action_sha256": "ad7f13488950c85c1c8acad252dbdbf5818731e6da50b4d81f892c46a172f402",
+  "lapse_shift_statement": "No dot(N) or dot(N^i) channel occurs after the declared boundary completion; their momenta are primary constraints. Secondary H_perp/H_i entries are seeds until the action-specific Poisson algebra is executed.",
+  "matter_metric": "g_mu_nu",
+  "missing_or_failed_controls": [],
+  "missing_templates": [],
+  "nondynamical_channels": [
+    "N",
+    "N^i"
+  ],
+  "primary_constraint_seeds": [
+    "p_N=0",
+    "p_(N^i)=0 (three components)"
+  ],
+  "promotion_allowed": false,
+  "proof_scope": "termwise exact 3+1 template instantiation and primary/secondary seed extraction for the bounded action grammar; it does not by itself prove action-specific Poisson closure, global Hessian rank, physical degree count, or reduced boundedness",
+  "schema_version": "sigma-adm-ir-1.0",
+  "secondary_constraint_seeds": [
+    "H_perp=0",
+    "H_i=0 (three components)"
+  ],
+  "source_role": "known_answer_control",
+  "spatial_jets": [
+    "D_i phi",
+    "R3[h]"
+  ],
+  "static_dictionary_status": "derived",
+  "status": "pass",
+  "term_templates_complete": true,
+  "terms": [
+    {
+      "adm_bulk_basis": "N sqrt(h) (R3 + K_ij K^ij - K^2)",
+      "boundary_terms": [
+        "Einstein-Hilbert normal divergence removed by GHY completion or fixed-boundary/compact-support contract"
+      ],
+      "coefficient": "M_Pl^2/2",
+      "covariant_density": "sqrt(-g) R",
+      "definitions": [],
+      "nondynamical_channels": [
+        "N",
+        "N^i"
+      ],
+      "proof_scope": "exact ADM Einstein-Hilbert bulk decomposition after the declared boundary completion",
+      "required_controls": [
+        "cadabra_adm_spatial_curvature_variation",
+        "nonlinear_adm_hamiltonian_constraint_algebra"
+      ],
+      "spatial_jets": [
+        "R3[h]"
+      ],
+      "term_id": "EH_R",
+      "velocity_channels": [
+        "K_ij=(dot(h)_ij-L_shift(h)_ij)/(2N)"
+      ],
+      "verification": "pass",
+      "weighted_adm_bulk": "(M_Pl^2/2) * (N sqrt(h) (R3 + K_ij K^ij - K^2))"
+    },
+    {
+      "adm_bulk_basis": "N sqrt(h) m_phi^2 phi^2",
+      "boundary_terms": [],
+      "coefficient": "-1/2",
+      "covariant_density": "sqrt(-g) m_phi^2 phi^2",
+      "definitions": [],
+      "nondynamical_channels": [
+        "N"
+      ],
+      "proof_scope": "algebraic scalar potential density",
+      "required_controls": [
+        "canonical_scalar"
+      ],
+      "spatial_jets": [],
+      "term_id": "SCALAR_MASS",
+      "velocity_channels": [],
+      "verification": "pass",
+      "weighted_adm_bulk": "(-1/2) * (N sqrt(h) m_phi^2 phi^2)"
+    },
+    {
+      "adm_bulk_basis": "N sqrt(h) (Pi_phi^2 - D_i(phi) D^i(phi))/2",
+      "boundary_terms": [],
+      "coefficient": "1",
+      "covariant_density": "sqrt(-g) Lambda_phi^4 X_phi",
+      "definitions": [
+        "Pi_phi=n^mu nabla_mu phi=(dot(phi)-N^i D_i phi)/N"
+      ],
+      "nondynamical_channels": [
+        "N",
+        "N^i"
+      ],
+      "proof_scope": "exact first-derivative scalar 3+1 split for the contract definition of X_phi",
+      "required_controls": [
+        "canonical_scalar"
+      ],
+      "spatial_jets": [
+        "D_i phi"
+      ],
+      "term_id": "SCALAR_X",
+      "velocity_channels": [
+        "Pi_phi"
+      ],
+      "verification": "pass",
+      "weighted_adm_bulk": "(1) * (N sqrt(h) (Pi_phi^2 - D_i(phi) D^i(phi))/2)"
+    }
+  ],
+  "unit_aether_reduction": null,
+  "velocity_channels": [
+    "K_ij=(dot(h)_ij-L_shift(h)_ij)/(2N)",
+    "Pi_phi"
+  ]
+}

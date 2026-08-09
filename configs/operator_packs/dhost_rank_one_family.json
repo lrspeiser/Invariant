@@ -1,0 +1,15 @@
+{
+  "schema_version": "sigma-reduced-dhost-pack-1.0",
+  "name": "rank-one reduced quadratic DHOST kinetic family",
+  "coefficients": ["C", "alpha", "r"],
+  "kinetic": {
+    "a": "C*(1+r*x)^2",
+    "b": "C*alpha*(1+r*x)",
+    "solve_for": "c",
+    "c_override": "C*alpha^2"
+  },
+  "mutation_axes": [
+    {"coefficient": "alpha", "values": ["-1", "-1/2", "0", "1/2", "1"]},
+    {"coefficient": "r", "values": ["-1", "0", "1"]}
+  ]
+}

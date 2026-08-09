@@ -1,0 +1,84 @@
+{
+  "schema_version": "sigma-reference-benchmarks-2.0",
+  "purpose": "Golden theories must pass and deliberately broken controls must fail before candidate results are trusted.",
+  "benchmarks": [
+    {
+      "id": "NEWTON-STATIC",
+      "action": "H = D^2/2",
+      "expected": [
+        "delta H/delta D = D",
+        "div D = 4 pi G rho_b",
+        "Poisson equation in the static weak-field sector"
+      ],
+      "implementation_status": "implemented",
+      "validation_check": "newton_reference"
+    },
+    {
+      "id": "GR-EINSTEIN-HILBERT",
+      "action": "S = integral sqrt(-g) M_P^2 R/2 d^4x",
+      "expected": [
+        "Einstein field equations",
+        "two physical tensor polarizations",
+        "bounded reduced Hamiltonian on the declared background domain",
+        "metric characteristic cone"
+      ],
+      "implementation_status": "partial_linearized_bianchi_control_implemented_full_adm_deferred",
+      "validation_check": "einstein_hilbert_linearized_bianchi"
+    },
+    {
+      "id": "CANONICAL-SCALAR",
+      "action": "S_phi = integral sqrt(-g)[-(nabla phi)^2/2 - V(phi)] d^4x",
+      "expected": ["rank-one positive scalar kinetic Hessian", "one physical scalar degree of freedom", "metric characteristic cone on Minkowski"],
+      "implementation_status": "implemented_quadratic_minkowski_control",
+      "validation_check": "canonical_scalar"
+    },
+    {
+      "id": "PROCA-MASSIVE-VECTOR",
+      "action": "S_A = integral sqrt(-g)[-F^2/4 - m^2 A^2/2] d^4x",
+      "expected": ["rank-three velocity Hessian", "primary and secondary constraints", "two second-class constraints", "three physical modes"],
+      "implementation_status": "implemented_quadratic_minkowski_adm_dirac_control",
+      "validation_check": "proca_adm_dirac"
+    },
+    {
+      "id": "EINSTEIN-AETHER-MODES",
+      "action": "Einstein-Hilbert plus K1..K4 and lambda(u^2+1)",
+      "expected": ["two tensor, two vector, and one scalar mode", "known linearized mode-speed formulas", "positive finite speeds at the declared point"],
+      "implementation_status": "implemented_known_formula_control_full_constraint_derivation_deferred",
+      "validation_check": "einstein_aether_modes"
+    },
+    {
+      "id": "DHOST-DEGENERATE-ADM-BLOCK",
+      "action": "reduced ADM kinetic form C(K + alpha V_star)^2",
+      "expected": ["zero kinetic determinant", "rank one", "explicit null direction", "primary and secondary second-class constraints", "one reduced scalar degree of freedom", "positive reduced control Hamiltonian", "nondegenerate extra-mode control"],
+      "implementation_status": "implemented_finite_point_adm_dirac_chain_full_covariant_classification_deferred",
+      "validation_check": "dhost_degenerate_kinetic_block"
+    },
+    {
+      "id": "GR-SOLAR-PPN",
+      "parent": "GR-EINSTEIN-HILBERT",
+      "expected": [
+        "PPN gamma = 1",
+        "PPN beta = 1",
+        "Cassini Shapiro delay control",
+        "Mercury perihelion control",
+        "light-deflection control"
+      ],
+      "implementation_status": "deferred_until_covariant_weak_field_solver"
+    },
+    {
+      "id": "NEGATIVE-ELASTICITY",
+      "action": "H = D^2/2 - abs(epsilon) L_sigma^2 (partial D)^2",
+      "expected": ["rejection by static convexity"],
+      "implementation_status": "implemented",
+      "validation_check": "convexity_controls"
+    },
+    {
+      "id": "UNSCREENED-HIGH-FIELD",
+      "action_correction": "f = x*q",
+      "expected": ["rejection by high-field Newtonian recovery"],
+      "implementation_status": "implemented",
+      "validation_check": "screening_controls"
+    }
+  ],
+  "rule": "A candidate pass is scientifically interpretable only if all applicable golden and negative controls behave as expected in the same compiler version."
+}

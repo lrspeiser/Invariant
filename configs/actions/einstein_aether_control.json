@@ -1,0 +1,29 @@
+{
+  "schema_version": "sigma-action-spec-1.0",
+  "role": "known_answer_control",
+  "fields": ["g_mu_nu", "u_mu", "lambda_u"],
+  "matter_metric": "g_mu_nu",
+  "terms": [
+    "EH_R",
+    "AETHER_K1",
+    "AETHER_K2",
+    "AETHER_K3",
+    "AETHER_K4",
+    "UNIT_VECTOR_CONSTRAINT"
+  ],
+  "coefficients": {},
+  "universal_constants": ["M_Pl", "c1", "c2", "c3", "c4"],
+  "parameter_domain": {
+    "positive": ["M_Pl"],
+    "inequalities": [
+      "1-c1-c3 > 0",
+      "c1+c4 > 0",
+      "2-c1-c4 > 0",
+      "2*c1-c1^2+c3^2 > 0",
+      "(c1+c2+c3)*(2+c1+c3+3*c2) > 0",
+      "(2*c1-c1^2+c3^2)/(2*(c1+c4)*(1-c1-c3)) != 1",
+      "(c1+c2+c3)*(2-c1-c4)/((c1+c4)*(1-c1-c3)*(2+c1+c3+3*c2)) != 1"
+    ]
+  },
+  "static_dictionary_status": "derived"
+}

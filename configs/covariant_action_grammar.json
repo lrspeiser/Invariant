@@ -1,0 +1,200 @@
+{
+  "schema_version": "sigma-covariant-action-grammar-1.0",
+  "field_contract": "configs/covariant_field_contract.json",
+  "scope": "Local diffeomorphism-invariant actions containing one metric and at most one extra scalar or unit timelike vector, using the exact term library below.",
+  "bounds": {
+    "maximum_extra_dynamical_fields": 1,
+    "maximum_terms": 8,
+    "maximum_universal_constants": 5,
+    "maximum_derivatives_per_field_in_term": 2
+  },
+  "term_library": [
+    {
+      "id": "EH_R",
+      "fields": ["g_mu_nu"],
+      "invariant": null,
+      "density": "sqrt(-g) R",
+      "coefficient": "M_Pl^2/2",
+      "maximum_derivatives_per_field": 2
+    },
+    {
+      "id": "SCALAR_X",
+      "fields": ["g_mu_nu", "phi"],
+      "invariant": "X_phi",
+      "density": "sqrt(-g) Lambda_phi^4 X_phi",
+      "coefficient": "c_X",
+      "maximum_derivatives_per_field": 1
+    },
+    {
+      "id": "SCALAR_MASS",
+      "fields": ["g_mu_nu", "phi"],
+      "invariant": null,
+      "density": "sqrt(-g) m_phi^2 phi^2",
+      "coefficient": "-1/2",
+      "maximum_derivatives_per_field": 0
+    },
+    {
+      "id": "HORNDESKI_L4_LINEAR_X",
+      "fields": ["g_mu_nu", "phi"],
+      "invariant": "H4_phi",
+      "density": "sqrt(-g) [Lambda_phi^4 X_phi R + (box phi)^2 - (nabla_mu nabla_nu phi)(nabla^mu nabla^nu phi)]",
+      "coefficient": "alpha",
+      "maximum_derivatives_per_field": 2,
+      "required_constants": ["Lambda_phi"],
+      "control_only": true
+    },
+    {
+      "id": "PROCA_F2",
+      "fields": ["g_mu_nu", "A_mu"],
+      "invariant": null,
+      "density": "sqrt(-g) F_mu_nu F^mu_nu",
+      "coefficient": "-1/4",
+      "maximum_derivatives_per_field": 1,
+      "control_only": true
+    },
+    {
+      "id": "PROCA_MASS",
+      "fields": ["g_mu_nu", "A_mu"],
+      "invariant": null,
+      "density": "sqrt(-g) m_A^2 A_mu A^mu",
+      "coefficient": "-1/2",
+      "maximum_derivatives_per_field": 0,
+      "control_only": true
+    },
+    {
+      "id": "AETHER_K1",
+      "fields": ["g_mu_nu", "u_mu"],
+      "invariant": "K1_u",
+      "density": "sqrt(-g) K1_u/L_u^2",
+      "coefficient": "-M_Pl^2*c1/2",
+      "maximum_derivatives_per_field": 1
+    },
+    {
+      "id": "AETHER_K2",
+      "fields": ["g_mu_nu", "u_mu"],
+      "invariant": "K2_u",
+      "density": "sqrt(-g) K2_u/L_u^2",
+      "coefficient": "-M_Pl^2*c2/2",
+      "maximum_derivatives_per_field": 1
+    },
+    {
+      "id": "AETHER_K3",
+      "fields": ["g_mu_nu", "u_mu"],
+      "invariant": "K3_u",
+      "density": "sqrt(-g) K3_u/L_u^2",
+      "coefficient": "-M_Pl^2*c3/2",
+      "maximum_derivatives_per_field": 1
+    },
+    {
+      "id": "AETHER_K4",
+      "fields": ["g_mu_nu", "u_mu"],
+      "invariant": "K4_u",
+      "density": "sqrt(-g) K4_u/L_u^2",
+      "coefficient": "+M_Pl^2*c4/2",
+      "maximum_derivatives_per_field": 1
+    },
+    {
+      "id": "AETHER_X_SQRT1P",
+      "fields": ["g_mu_nu", "u_mu"],
+      "invariant": "X_a_u",
+      "density": "sqrt(-g) (sqrt(1+X_a_u)-1)",
+      "coefficient": "epsilon*M_Pl^2*a_sigma^2",
+      "maximum_derivatives_per_field": 1,
+      "required_constants": ["a_sigma"],
+      "static_legacy_atom": "sqrt(1+x)-1"
+    },
+    {
+      "id": "AETHER_X_P2_3",
+      "fields": ["g_mu_nu", "u_mu"],
+      "invariant": "X_a_u",
+      "density": "sqrt(-g) ((1+X_a_u)^(2/3)-1)",
+      "coefficient": "epsilon*M_Pl^2*a_sigma^2",
+      "maximum_derivatives_per_field": 1,
+      "required_constants": ["a_sigma"],
+      "static_legacy_atom": "(1+x)^(2/3)-1"
+    },
+    {
+      "id": "AETHER_X_P3_4",
+      "fields": ["g_mu_nu", "u_mu"],
+      "invariant": "X_a_u",
+      "density": "sqrt(-g) ((1+X_a_u)^(3/4)-1)",
+      "coefficient": "epsilon*M_Pl^2*a_sigma^2",
+      "maximum_derivatives_per_field": 1,
+      "required_constants": ["a_sigma"],
+      "static_legacy_atom": "(1+x)^(3/4)-1"
+    },
+    {
+      "id": "AETHER_MATCHED_K14_P1_2",
+      "fields": ["g_mu_nu", "u_mu"],
+      "invariant": "M14_p_u",
+      "density": "sqrt(-g) (1+X_a_u)^(-3/2) (K1_u+K4_u)/L_u^2",
+      "coefficient": "-gamma*M_Pl^2/2",
+      "maximum_derivatives_per_field": 1,
+      "required_constants": ["a_sigma"]
+    },
+    {
+      "id": "AETHER_MATCHED_K14_P2_3",
+      "fields": ["g_mu_nu", "u_mu"],
+      "invariant": "M14_p_u",
+      "density": "sqrt(-g) (1+X_a_u)^(-4/3) (1+X_a_u/3) (K1_u+K4_u)/L_u^2",
+      "coefficient": "-gamma*M_Pl^2/2",
+      "maximum_derivatives_per_field": 1,
+      "required_constants": ["a_sigma"]
+    },
+    {
+      "id": "AETHER_MATCHED_K14_P3_4",
+      "fields": ["g_mu_nu", "u_mu"],
+      "invariant": "M14_p_u",
+      "density": "sqrt(-g) (1+X_a_u)^(-5/4) (1+X_a_u/2) (K1_u+K4_u)/L_u^2",
+      "coefficient": "-gamma*M_Pl^2/2",
+      "maximum_derivatives_per_field": 1,
+      "required_constants": ["a_sigma"]
+    },
+    {
+      "id": "AETHER_Q1",
+      "fields": ["g_mu_nu", "u_mu"],
+      "invariant": "Q_a_u",
+      "density": "sqrt(-g) Q_a_u",
+      "coefficient": "epsilon*M_Pl^2*a_sigma^2",
+      "maximum_derivatives_per_field": 2,
+      "required_constants": ["L_sigma", "a_sigma"],
+      "static_legacy_atom": "q"
+    },
+    {
+      "id": "AETHER_Q2",
+      "fields": ["g_mu_nu", "u_mu"],
+      "invariant": "Q_a_u",
+      "density": "sqrt(-g) Q_a_u^2",
+      "coefficient": "epsilon*M_Pl^2*a_sigma^2",
+      "maximum_derivatives_per_field": 2,
+      "required_constants": ["L_sigma", "a_sigma"],
+      "static_legacy_atom": "q^2"
+    },
+    {
+      "id": "AETHER_Q3",
+      "fields": ["g_mu_nu", "u_mu"],
+      "invariant": "Q_a_u",
+      "density": "sqrt(-g) Q_a_u^3",
+      "coefficient": "epsilon*M_Pl^2*a_sigma^2",
+      "maximum_derivatives_per_field": 2,
+      "required_constants": ["L_sigma", "a_sigma"],
+      "static_legacy_atom": "q^3"
+    },
+    {
+      "id": "UNIT_VECTOR_CONSTRAINT",
+      "fields": ["g_mu_nu", "u_mu", "lambda_u"],
+      "invariant": null,
+      "density": "sqrt(-g) lambda_u (u_mu u^mu + 1)",
+      "coefficient": "1",
+      "maximum_derivatives_per_field": 0
+    }
+  ],
+  "mandatory_rules": [
+    "EH_R is required",
+    "u_mu requires UNIT_VECTOR_CONSTRAINT except in the PROCA control",
+    "z_b and T2_m are forbidden",
+    "the same g_mu_nu is the matter metric",
+    "a static Sigma mapping must be derived, not asserted",
+    "Q_a_u terms are admitted for fail-closed candidate export but cannot pass promotion until generic-tilt variation, ADM/Dirac, Hamiltonian, and principal-symbol adapters pass"
+  ]
+}

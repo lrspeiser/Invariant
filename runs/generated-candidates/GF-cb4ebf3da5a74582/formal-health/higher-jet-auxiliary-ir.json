@@ -1,0 +1,45 @@
+{
+  "applicable": true,
+  "auxiliary_fields": [
+    "b_mu",
+    "r^mu"
+  ],
+  "content_sha256": "eaebecbba134bd5ca24cd4dbec6fc20ec5ae33331322781945c0bfab16ae1d84",
+  "equivalence_certificate": {
+    "boundary_equivalence_claimed": false,
+    "quantum_equivalence_claimed": false,
+    "route": "algebraic multiplier equation followed by literal invariant substitution",
+    "status": "pass"
+  },
+  "input_action_sha256": "e4e4c16633d59e05905058b781d126b22bf53eeacc52e664ed7e28f5469216f2",
+  "lift": {
+    "constraint_density": "sqrt(-g) r^mu (b_mu-u^alpha nabla_alpha u_mu)",
+    "maximum_derivative_order_per_independent_field": {
+      "b_mu": 1,
+      "r^mu": 0,
+      "u_mu": 1
+    },
+    "multiplier_euler_equation": "b_mu-u^alpha nabla_alpha u_mu=0",
+    "on_constraint_result": "Q_aux -> Q_a_u exactly for every admitted Q power",
+    "on_constraint_substitution": "b_mu -> a_mu=u^alpha nabla_alpha u_mu",
+    "replacement_definition": "B_mu_nu=nabla_mu b_nu",
+    "replacement_invariant": "Q_aux=(L_sigma^2/a_sigma^2) P^{mu rho}P^{nu sigma} B_mu_nu B_rho_sigma"
+  },
+  "observational_data_opened": false,
+  "promotion_allowed": false,
+  "proof_scope": "exact classical constrained first-derivative rewriting only; it is the input to, not a substitute for, the higher-jet Dirac and physical-Hamiltonian calculation",
+  "q_term_ids": [
+    "AETHER_Q1",
+    "AETHER_Q2"
+  ],
+  "reason": "the exact auxiliary lift is available, but its complete primary/secondary constraint closure and reduced Hamiltonian have not been derived",
+  "required_dirac_work": [
+    "3+1 decompose b_mu and r^mu on the positive unit-Aether branch",
+    "derive all lapse, shift, multiplier, and projected-b kinetic primaries",
+    "preserve every primary and iterate secondary/higher constraints",
+    "compute constraint-surface Poisson rank on generic-tilt parameter strata",
+    "remove gauge and second-class directions before Hamiltonian boundedness"
+  ],
+  "schema_version": "sigma-higher-jet-auxiliary-ir-1.0",
+  "status": "unresolved"
+}

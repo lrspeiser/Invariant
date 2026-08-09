@@ -1,0 +1,154 @@
+{
+  "counts": {
+    "failed": 0,
+    "golden_total": 5,
+    "passed": 5
+  },
+  "created_utc": "2026-08-07T18:19:27.123201+00:00",
+  "deferred": [
+    "automatic variation of arbitrary covariant tensor actions",
+    "ADM/Dirac constraint algebra and physical degree count",
+    "principal-symbol and characteristic-cone generation",
+    "measured extended-disk SPARC likelihood"
+  ],
+  "galaxy_negative_control": {
+    "claim": "Outside a finite baryonic mass, weak-field GR predicts v_c proportional to r^-1/2, not a flat rotation curve.",
+    "evidence": {
+      "angular_radius_ratios": [
+        1.0,
+        2.0,
+        4.0
+      ],
+      "excluded_rescues": [
+        "unobserved source components",
+        "halo parameters inferred from the same rotation curve",
+        "redshift-derived distance"
+      ],
+      "flat_curve_ratio": 1.0,
+      "flat_log_slope": 0.0,
+      "hypothesis_tested": "GR sourced only by a frozen finite baryonic mass",
+      "interpretation": "The distance and absolute baryonic mass cancel from this exterior ratio test. A future data run can use angular radii and Doppler-velocity ratios directly.",
+      "predicted_log_slope": -0.5,
+      "predicted_speed_ratios": [
+        1.0,
+        0.7071067811865475,
+        0.5
+      ],
+      "v_at_4theta_over_v_at_theta": 0.5,
+      "warning": "This is a theoretical asymptotic control, not an observational likelihood. A real source must first demonstrate that both points lie outside the measured baryonic extent."
+    },
+    "name": "asymptotic_baryons_only_galaxy",
+    "status": "expected_mismatch"
+  },
+  "golden_checks": [
+    {
+      "claim": "The Schwarzschild exterior metric has R_ab = 0 when calculated from its metric components.",
+      "evidence": {
+        "all_components": {
+          "R_phiphi": "0",
+          "R_phir": "0",
+          "R_phit": "0",
+          "R_phitheta": "0",
+          "R_rphi": "0",
+          "R_rr": "0",
+          "R_rt": "0",
+          "R_rtheta": "0",
+          "R_thetaphi": "0",
+          "R_thetar": "0",
+          "R_thetat": "0",
+          "R_thetatheta": "0",
+          "R_tphi": "0",
+          "R_tr": "0",
+          "R_tt": "0",
+          "R_ttheta": "0"
+        },
+        "components_calculated": 16,
+        "domain": "r > r_s, excluding the coordinate singularity",
+        "metric": "diag(-(1-r_s/r), (1-r_s/r)^-1, r^2, r^2 sin(theta)^2)",
+        "nonzero_components": {}
+      },
+      "name": "schwarzschild_vacuum",
+      "status": "pass"
+    },
+    {
+      "claim": "The isotropic Schwarzschild expansion recovers PPN beta = gamma = 1.",
+      "evidence": {
+        "beta": "1",
+        "cassini_gamma_minus_one": 0.0,
+        "frozen_cassini_absolute_bound": 2.3e-05,
+        "g_tt_exact": "-(1 - u/2)**2/(u/2 + 1)**2",
+        "g_tt_series": "-2*u**2 + 2*u - 1",
+        "gamma": "1",
+        "spatial_factor_exact": "(u/2 + 1)**4",
+        "spatial_factor_series": "3*u**2/2 + 2*u + 1",
+        "u_definition": "G M/(rho c^2)"
+      },
+      "name": "gr_ppn_recovery",
+      "status": "pass"
+    },
+    {
+      "claim": "GR recovers approximately 43 arcseconds per century of anomalous Mercury perihelion advance.",
+      "evidence": {
+        "acceptance_interval": [
+          42.5,
+          43.5
+        ],
+        "calculated_arcsec_per_century": 42.98197549744704,
+        "formula": "6*pi*G*M/(a*(1-e^2)*c^2) per orbit"
+      },
+      "name": "mercury_perihelion",
+      "status": "pass"
+    },
+    {
+      "claim": "GR recovers approximately 1.75 arcseconds of solar-limb light deflection.",
+      "evidence": {
+        "acceptance_interval": [
+          1.74,
+          1.76
+        ],
+        "calculated_arcsec": 1.7512432813674266,
+        "formula": "4*G*M/(R_sun*c^2)"
+      },
+      "name": "solar_limb_light_deflection",
+      "status": "pass"
+    },
+    {
+      "claim": "GR produces the expected order of magnitude for a frozen Earth-Mercury superior-conjunction Shapiro delay geometry.",
+      "evidence": {
+        "acceptance_interval_microseconds": [
+          100.0,
+          130.0
+        ],
+        "calculated_one_way_microseconds": 110.12540895862828,
+        "warning": "Geometry control only; not a fit to spacecraft tracking residuals."
+      },
+      "name": "shapiro_delay_geometry_control",
+      "status": "pass"
+    }
+  ],
+  "interpretation": "The golden checks validate the GR reference solver. The galaxy control demonstrates an expected mismatch for GR plus the measured finite baryonic source only. Unobserved source components are outside this project's evidence policy and cannot be used as a rescue.",
+  "observational_evidence_policy": {
+    "allowed": [
+      "raw detector counts and calibrated spectra",
+      "angular positions and angular-radius ratios",
+      "proper motions and time delays",
+      "Doppler wavelength and velocity ratios with calibration provenance",
+      "measured baryonic tracers with explicit uncertainty and transformations"
+    ],
+    "excluded": [
+      "dark-matter or invisible-halo quantities as observations or target labels",
+      "halo fits as a rescue for a failed baryons-only prediction",
+      "redshift-derived cosmological distances by default",
+      "supernova distance moduli by default"
+    ],
+    "redshift_rule": "A spectral wavelength shift may be used as a measured dimensionless ratio. It may not be converted to distance, mass, or environment without a separately authorized and audited distance inference."
+  },
+  "reference_action": {
+    "action": "S = integral sqrt(-g) [c^3 R/(16 pi G) + L_m/c] d^4x",
+    "action_variation_engine_status": "deferred",
+    "constraint_and_degree_count_status": "deferred",
+    "expected_field_equation": "G_ab = 8 pi G T_ab/c^4",
+    "name": "Einstein-Hilbert"
+  },
+  "schema_version": "sigma-relativity-reference-1.0"
+}

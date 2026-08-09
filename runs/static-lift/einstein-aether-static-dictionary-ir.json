@@ -1,0 +1,96 @@
+{
+  "aether_static_acceleration_sector": {
+    "action_density_coefficient_of_a_i_a^i": "M_Pl**2*(c1 + c4)/2",
+    "derivation": "-C_K1+C_K4 because K1/Lu^2=-a^2 and K4/Lu^2=+a^2",
+    "present": true
+  },
+  "content_sha256": "0179ce22a456fe5845414563d3e97a0e9869f612caa8c61792da9b722020ff73",
+  "generator_expression_classification": null,
+  "input_action_sha256": "87a554c37fa29f8f8e2763e9d72a2dec1d6a44465dd07c5a559a9420980368ca",
+  "legacy_generator_dictionary": {
+    "q": {
+      "candidate_definition": "q=L_sigma^2 c^4 (D_i a_j)(D^i a^j)/a_sigma^2 with every index projected by h_mu_nu=g_mu_nu+u_mu u_nu",
+      "status": "missing_covariant_action_atom",
+      "warning": "this second-derivative unit-vector invariant is not in the bounded grammar and requires a fresh ADM/Dirac and hyperbolicity adapter"
+    },
+    "x": {
+      "definition": "x=c^4 a_i a^i/a_sigma^2, a_i=D_i ln N",
+      "measurement": "a_i is the proper acceleration measured by a static-observer accelerometer",
+      "status": "derived"
+    },
+    "z": {
+      "current": "J_b^mu=n_b v_b^mu, v_b^mu v^b_mu=-1",
+      "expected": "n_b**2/n_0**2",
+      "generator_status": "forbidden action atom; diagnostic only",
+      "locally_measurable": "n_b=-v^b_mu J_b^mu is the local baryon-number density in the matter rest frame",
+      "z_b": "n_b**2/n_0**2"
+    }
+  },
+  "matter_metric": "g_mu_nu",
+  "promotion_allowed": false,
+  "proof_scope": "exact local tensor contractions on the static zero-shift, K_ij=0 ansatz; the dictionary derives invariant reductions but does not assert that an unsupported legacy q or nonlinear F(x) already has a healthy covariant completion",
+  "schema_version": "sigma-static-dictionary-ir-1.0",
+  "source_role": "known_answer_control",
+  "static_reductions": {
+    "aether": {
+      "K1_over_Lu2": "-a1**2 - a2**2 - a3**2",
+      "K2_over_Lu2": "0",
+      "K3_over_Lu2": "0",
+      "K4_over_Lu2": "a1**2 + a2**2 + a3**2",
+      "acceleration_squared": "a1**2 + a2**2 + a3**2",
+      "derivative_tensor": "Matrix([[0, a1, a2, a3], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]])",
+      "expected": {
+        "K1_over_Lu2": "-a1**2 - a2**2 - a3**2",
+        "K2_over_Lu2": "0",
+        "K3_over_Lu2": "0",
+        "K4_over_Lu2": "a1**2 + a2**2 + a3**2"
+      },
+      "identity": "nabla_mu u_nu=-u_mu a_nu when K_mu_nu=0",
+      "orthogonality_residual": "0"
+    },
+    "baryonic_diagnostic": {
+      "current": "J_b^mu=n_b v_b^mu, v_b^mu v^b_mu=-1",
+      "expected": "n_b**2/n_0**2",
+      "generator_status": "forbidden action atom; diagnostic only",
+      "locally_measurable": "n_b=-v^b_mu J_b^mu is the local baryon-number density in the matter rest frame",
+      "z_b": "n_b**2/n_0**2"
+    },
+    "einstein_hilbert": {
+      "R4_static": "-2*D2N/N + R3",
+      "boundary_term": "sqrt(h) D^2 N=partial_i[sqrt(h) D^i N]",
+      "density_split": "N sqrt(h) R4=N sqrt(h) R3-2 sqrt(h) D^2 N",
+      "density_split_residual": "0"
+    },
+    "proca": {
+      "F_mu_nu_F_mu_nu": "2*(B1**2 + B2**2 + B3**2 - E1**2 - E2**2 - E3**2)",
+      "expected": "2*(B1**2 + B2**2 + B3**2 - E1**2 - E2**2 - E3**2)"
+    },
+    "scalar": {
+      "X_phi": "-(s1**2 + s2**2 + s3**2)/(2*Lambda_phi**4)",
+      "expected": "-(s1**2 + s2**2 + s3**2)/(2*Lambda_phi**4)",
+      "static_gradient_squared": "s1**2 + s2**2 + s3**2"
+    },
+    "static_ansatz": {
+      "aether_acceleration": "a_i=D_i ln N",
+      "extrinsic_curvature": "K_ij=0",
+      "line_element": "ds^2=-N(x)^2 dt^2+h_ij(x) dx^i dx^j",
+      "shift": "N^i=0",
+      "time_independence": "partial_t N=partial_t h_ij=partial_t fields=0",
+      "unit_aether": "u^a=n^a=N^-1(partial_t)^a"
+    }
+  },
+  "status": "pass",
+  "term_adapter_coverage": {
+    "all_current_terms_supported": true,
+    "term_ids": [
+      "AETHER_K1",
+      "AETHER_K2",
+      "AETHER_K3",
+      "AETHER_K4",
+      "EH_R",
+      "UNIT_VECTOR_CONSTRAINT"
+    ],
+    "unsupported_term_ids": []
+  },
+  "universal_matter_coupling_preserved": true
+}

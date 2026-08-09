@@ -1,0 +1,45 @@
+{
+  "schema_version": "sigma-physics-concept-language-1.0",
+  "name": "coherent complex scalar universally coupled to gravity",
+  "fields": [
+    {"id": "g", "kind": "metric", "matter": false, "dimension": null},
+    {"id": "psi", "kind": "complex_scalar", "matter": true, "dimension": {"mass": 1}}
+  ],
+  "matter_coupling": {"universal_metric": "g", "exceptions": []},
+  "concepts": [
+    {"id": "eh", "primitive": "operator.einstein_hilbert", "inputs": ["g"]},
+    {
+      "id": "psi_kinetic",
+      "primitive": "operator.complex_scalar_kinetic",
+      "inputs": ["g", "psi"]
+    },
+    {"id": "total_action", "primitive": "action.sum", "inputs": ["eh", "psi_kinetic"]},
+    {"id": "psi_state", "primitive": "state.coherent", "inputs": ["psi"]},
+    {
+      "id": "G1",
+      "primitive": "observable.first_order_coherence",
+      "inputs": ["psi_state"]
+    },
+    {
+      "id": "T",
+      "primitive": "observable.local_stress_energy",
+      "inputs": ["total_action"]
+    }
+  ],
+  "mutation_spaces": [
+    {"id": "potential_basis", "choices": ["mass", "quartic", "periodic", "bounded_rational"]},
+    {"id": "state_profile", "choices": ["gaussian", "compact_support", "stationary_mode"]}
+  ],
+  "required_verification_stages": [
+    "syntax",
+    "type",
+    "dimension",
+    "covariance",
+    "variation",
+    "noether",
+    "adm",
+    "dirac",
+    "hamiltonian",
+    "principal"
+  ]
+}

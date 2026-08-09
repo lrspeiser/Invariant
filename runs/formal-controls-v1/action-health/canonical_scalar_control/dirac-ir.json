@@ -1,0 +1,141 @@
+{
+  "content_sha256": "228a6876f96e04a3a079184bb842ec0e6624c392cc5c4053891ed479e39ee528",
+  "distributed_constraint_closure": {
+    "constraint_generations": {
+      "primary": [
+        "p_N=0",
+        "p_(N^i)=0 (three components)"
+      ],
+      "secondary": [
+        "H_perp=0",
+        "H_i=0 (three components)"
+      ]
+    },
+    "constraint_surface_rank": {
+      "extended_first_class_constraints": 8,
+      "extended_pairs": 11,
+      "extended_second_class_constraints": 0,
+      "first_class_constraints": 4,
+      "physical_dof": 3,
+      "reduced_canonical_pairs": 7,
+      "second_class_constraints_after_reduction": 0
+    },
+    "family": "canonical_scalar_gravity",
+    "missing_or_failed_controls": [],
+    "poisson_algebra": {
+      "D_D": "{D[M],D[L]}=D[[M,L]]",
+      "D_H": "{D[M],H[N]}=H[Lie_M N]",
+      "H_H": "{H[N],H[M]}=D[h^ij(N D_j M-M D_j N)]",
+      "status": "pass"
+    },
+    "proof_route": [
+      "pure GR D-D/D-H/H-H closure",
+      "exact three-dimensional scalar H-H and D-D local-functional brackets",
+      "exact scalar Hamiltonian weight-one D-H identity",
+      "ultralocal gravity-scalar H-H cross terms cancel under lapse antisymmetrization"
+    ],
+    "regular_local_legendre_patch": true,
+    "required_controls": [
+      "canonical_metric_diffeomorphism_algebra",
+      "canonical_metric_dewitt_kinetic_covariance",
+      "spatial_curvature_density_diffeomorphism_covariance",
+      "cadabra_adm_spatial_curvature_variation",
+      "nonlinear_adm_hamiltonian_constraint_algebra",
+      "canonical_scalar",
+      "canonical_scalar_noether_identity",
+      "canonical_scalar_gravity_cross_constraint_identities",
+      "three_spatial_dimensional_smeared_brackets"
+    ],
+    "scope": "complete minimally coupled canonical-scalar plus GR algebra",
+    "status": "pass"
+  },
+  "hamiltonian_stability": {
+    "reason": "the local kinetic Hamiltonian is not the gauge-reduced physical Hamiltonian; spatial potentials, all constraints, gauge fixing, and boundary charges must be included",
+    "status": "unresolved"
+  },
+  "input_action_sha256": "463c663b6a57c6e9cbf4002c66f965797578cbe73a6f6c1072cf0e74f91934e7",
+  "input_adm_ir_sha256": "030b11279948e2c8710a8f02f8abff0623882d7bfb15ffee4b7d116fe9461282",
+  "input_legendre_ir_sha256": "1fb408a969479d6754ee26d26f802c4a5682af139eb798144969bd2969993185",
+  "local_canonical_transform": {
+    "background": "aligned/frozen orthonormal frame with N=1,N^i=0",
+    "canonical_momenta": [
+      "-M_Pl**2*(dot_h22 + dot_h33)/4",
+      "-M_Pl**2*(dot_h11 + dot_h33)/4",
+      "-M_Pl**2*(dot_h11 + dot_h22)/4",
+      "M_Pl**2*dot_h12/2",
+      "M_Pl**2*dot_h13/2",
+      "M_Pl**2*dot_h23/2",
+      "dot_phi"
+    ],
+    "channel_map": [
+      "K11=dot_h11/2 at N=1,N^i=0",
+      "K22=dot_h22/2 at N=1,N^i=0",
+      "K33=dot_h33/2 at N=1,N^i=0",
+      "K12=dot_h12/2 at N=1,N^i=0",
+      "K13=dot_h13/2 at N=1,N^i=0",
+      "K23=dot_h23/2 at N=1,N^i=0",
+      "Pi_phi=dot_phi at N=1,N^i=0"
+    ],
+    "coordinates": [
+      "h11",
+      "h22",
+      "h33",
+      "h12",
+      "h13",
+      "h23",
+      "phi"
+    ],
+    "hessian": "Matrix([[0, -M_Pl**2/4, -M_Pl**2/4, 0, 0, 0, 0], [-M_Pl**2/4, 0, -M_Pl**2/4, 0, 0, 0, 0], [-M_Pl**2/4, -M_Pl**2/4, 0, 0, 0, 0, 0], [0, 0, 0, M_Pl**2/2, 0, 0, 0], [0, 0, 0, 0, M_Pl**2/2, 0, 0], [0, 0, 0, 0, 0, M_Pl**2/2, 0], [0, 0, 0, 0, 0, 0, 1]])",
+    "hessian_chain_residual": "Matrix([[0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0]])",
+    "hessian_nullity": 0,
+    "hessian_rank": 7,
+    "kinetic_canonical_hamiltonian": "(M_Pl**2*P_phi**2 + 2*P_h11**2 - 4*P_h11*P_h22 - 4*P_h11*P_h33 + 2*P_h12**2 + 2*P_h13**2 + 2*P_h22**2 - 4*P_h22*P_h33 + 2*P_h23**2 + 2*P_h33**2)/(2*M_Pl**2)",
+    "kinetic_lagrangian": "-(M_Pl**2*dot_h11*dot_h22 + M_Pl**2*dot_h11*dot_h33 - M_Pl**2*dot_h12**2 - M_Pl**2*dot_h13**2 + M_Pl**2*dot_h22*dot_h33 - M_Pl**2*dot_h23**2 - 2*dot_phi**2)/4",
+    "legendre_residuals": [
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0"
+    ],
+    "momenta": [
+      "P_h11",
+      "P_h22",
+      "P_h33",
+      "P_h12",
+      "P_h13",
+      "P_h23",
+      "P_phi"
+    ],
+    "primary_constraints": [],
+    "scope": "exact local canonical transform with the metric relation dot(h)_ij=2K_ij; spatial potential terms and boundary generators are certified separately",
+    "solved_velocities": {
+      "dot_h11": "2*(P_h11 - P_h22 - P_h33)/M_Pl**2",
+      "dot_h12": "2*P_h12/M_Pl**2",
+      "dot_h13": "2*P_h13/M_Pl**2",
+      "dot_h22": "-2*(P_h11 - P_h22 + P_h33)/M_Pl**2",
+      "dot_h23": "2*P_h23/M_Pl**2",
+      "dot_h33": "-2*(P_h11 + P_h22 - P_h33)/M_Pl**2",
+      "dot_phi": "P_phi"
+    },
+    "status": "pass",
+    "unresolved_velocities": [],
+    "unsupported_kinetic_terms": [],
+    "velocities": [
+      "dot_h11",
+      "dot_h22",
+      "dot_h33",
+      "dot_h12",
+      "dot_h13",
+      "dot_h23",
+      "dot_phi"
+    ]
+  },
+  "promotion_allowed": false,
+  "proof_scope": "hash-bound local canonical transformation plus action-family distributed closure instantiation only where exact smeared-functional/tensor controls cover the same coefficient specialization; unsupported or singular branches remain unresolved",
+  "schema_version": "sigma-dirac-ir-1.0",
+  "source_role": "known_answer_control",
+  "status": "pass"
+}

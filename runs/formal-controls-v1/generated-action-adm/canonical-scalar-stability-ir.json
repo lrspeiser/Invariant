@@ -1,0 +1,83 @@
+{
+  "condition_certificate": {
+    "conditions": [
+      {
+        "condition": "M_Pl**2/2 > 0",
+        "name": "positive_tensor_kinetic_and_newton_coupling",
+        "normalized_property": "positive(M_Pl**2/2)",
+        "proof": "declared atomic sign assumptions",
+        "status": "pass"
+      },
+      {
+        "condition": "True",
+        "name": "positive_scalar_kinetic_and_gradient",
+        "normalized_property": "exact_true",
+        "proof": "required coefficient condition simplifies exactly to true",
+        "status": "pass"
+      },
+      {
+        "condition": "True",
+        "name": "nonnegative_scalar_mass_energy",
+        "normalized_property": "exact_true",
+        "proof": "required coefficient condition simplifies exactly to true",
+        "status": "pass"
+      },
+      {
+        "condition": "Ne(Lambda_phi, 0)",
+        "name": "nonzero_scalar_normalization",
+        "normalized_property": "nonzero(Lambda_phi)",
+        "proof": "declared atomic sign assumptions",
+        "status": "pass"
+      }
+    ],
+    "status": "pass"
+  },
+  "content_sha256": "1a9104c6584bb04736f4ed3991edd9e7056298f0bac150e2f0c6fe0af44938aa",
+  "derived_effective_parameters": {
+    "EH_coefficient": "M_Pl**2/2",
+    "scalar_kinetic_coefficient": "1",
+    "scalar_mass_lagrangian_coefficient": "-1/2",
+    "scalar_speed_squared": "1"
+  },
+  "family": "canonical_scalar_gravity",
+  "input_action_sha256": "ad7f13488950c85c1c8acad252dbdbf5818731e6da50b4d81f892c46a172f402",
+  "input_dirac_ir_sha256": "3cc8f7e06af6fe9e18b01508b8a4860965452115114ecb5814d9d4b4ee10f7f4",
+  "parameter_domain": {
+    "inequalities": [],
+    "negative": [],
+    "nonnegative": [],
+    "nonpositive": [],
+    "nonzero": [],
+    "positive": [
+      "Lambda_phi",
+      "M_Pl",
+      "m_phi"
+    ]
+  },
+  "physical_hamiltonian": {
+    "missing_or_failed_controls": [],
+    "required_controls": [
+      "einstein_hilbert_linearized_adm",
+      "canonical_scalar"
+    ],
+    "scope": "positive gauge/constraint-reduced quadratic Hamiltonian on declared Minkowski control domains for EH/scalar/Proca",
+    "status": "pass"
+  },
+  "principal_symbol": {
+    "characteristic_speed_squared": {
+      "scalar_speed_squared": "1"
+    },
+    "missing_or_failed_controls": [],
+    "required_controls": [
+      "principal_symbol_controls",
+      "curved_background_principal_controls"
+    ],
+    "scope": "coefficient-domain-bound reduced ghost, gradient, characteristic, and strong-hyperbolicity controls; Einstein-Aether arbitrary-background pass uses the declared nonluminal sufficient-formulation conditions",
+    "status": "pass"
+  },
+  "promotion_allowed": false,
+  "proof_scope": "machine-checked implication from the frozen parameter domain to the actual effective coefficient inequalities, then binding to executable reduced Hamiltonian and principal controls",
+  "schema_version": "sigma-stability-ir-1.0",
+  "source_role": "known_answer_control",
+  "status": "pass"
+}

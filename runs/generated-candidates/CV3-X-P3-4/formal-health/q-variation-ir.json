@@ -1,0 +1,44 @@
+{
+  "applicable": false,
+  "content_sha256": "701fb73f0fcc9800ce35179b598273b592d3cab3432cdb338c27f3eb3415f18e",
+  "definitions": {
+    "B_mu_nu": "nabla_mu a_nu",
+    "P_mu_nu": "g_mu_nu+u_mu u_nu",
+    "Q_a_u": "(L_sigma^2/a_sigma^2) P^{mu rho}P^{nu sigma}B_mu_nu B_rho_sigma",
+    "X_a_u": "a_mu a^mu/a_sigma^2",
+    "a_mu": "u^alpha nabla_alpha u_mu"
+  },
+  "diffeomorphism_noether_identity": {
+    "required_identity": null,
+    "status": "not_applicable"
+  },
+  "fixed_metric_vector_variation": {
+    "algebraic_controls": {
+      "acceleration_norm_first_variation_residual": "0",
+      "arithmetic": "exact rational tensor contractions in signature (-,+,+)",
+      "passed": true,
+      "projector_and_B_first_variation_residual": "0"
+    },
+    "boundary_contract": "compact-support variations or fixed field/normal data",
+    "q_B_contribution_E_lambda": "-2 Y^nu nabla_lambda u_nu + 2 g_nu_lambda nabla_alpha(Y^nu u^alpha)",
+    "q_action_derivative": "0",
+    "q_auxiliary": "C^{mu nu}=F_Q*(L_sigma^2/a_sigma^2) P^{mu rho}P^{nu sigma}B_rho_sigma; Y^nu=nabla_mu C^{mu nu}",
+    "q_projector_contribution_E_lambda": "2*F_Q*(L_sigma^2/a_sigma^2)*[u^rho P^{nu sigma} B_lambda_nu B_rho_sigma + u^sigma P^{mu rho} B_mu_lambda B_rho_sigma]",
+    "status": "pass",
+    "unit_constraint_contribution": "2 lambda_u u_lambda",
+    "x_auxiliary": "Z^nu=2*C_X*F_X*a^nu/a_sigma^2",
+    "x_contribution_E_lambda": "Z^nu nabla_lambda u_nu - g_nu_lambda nabla_alpha(Z^nu u^alpha)"
+  },
+  "input_action_sha256": "6d0f2b5a83c374664c7ba378734c07421f512c7807a725c02ae3f589b8ac63af",
+  "metric_variation": {
+    "missing_terms": [],
+    "status": "not_applicable"
+  },
+  "nonlinear_x_present": false,
+  "observational_data_opened": false,
+  "promotion_allowed": false,
+  "proof_scope": "exact fixed-metric vector first variation and rational tensor negative residuals; the connection-dependent metric variation, boundary completion, and full Noether identity remain mandatory before this action can pass covariant variation",
+  "q_term_ids": [],
+  "schema_version": "sigma-q-variation-ir-1.0",
+  "status": "pass"
+}

@@ -1,0 +1,182 @@
+{
+  "backends": {
+    "cadabra2": {
+      "available": true,
+      "executable": "C:\\Users\\henry\\Documents\\Codex\\2026-08-06\\for\\work\\cadabra2-root\\root\\usr\\bin\\cadabra2",
+      "mode": "wsl-local",
+      "python_module": "C:\\Users\\henry\\Documents\\Codex\\2026-08-06\\for\\work\\cadabra2-root\\root\\usr\\lib\\python3\\dist-packages\\cadabra2.cpython-312-x86_64-linux-gnu.so",
+      "role": "covariant tensor variation adapter target",
+      "root": "C:\\Users\\henry\\Documents\\Codex\\2026-08-06\\for\\work\\cadabra2-root\\root",
+      "version": "2.4.5.4"
+    },
+    "sympy": {
+      "available": true,
+      "role": "known-answer algebra and reduced Hamiltonian controls",
+      "version": "1.14.0"
+    }
+  },
+  "candidate_readiness": {
+    "arbitrary_covariant_variation": "not_implemented",
+    "background_principal_symbols": "not_implemented",
+    "full_adm_dirac_constraint_closure": "not_implemented",
+    "nonlinear_bianchi_noether_verification": "not_implemented",
+    "observational_gates_unsealed": false
+  },
+  "checks": [
+    {
+      "claim": "The field content is explicit and baryon-specific z_b is rejected as a gravitational-action atom.",
+      "evidence": {
+        "baryon_specific_negative_control": {
+          "errors": [
+            "diagnostic matter invariants are forbidden in this gravitational action grammar: z_b",
+            "undeclared generator invariants: z_b",
+            "direct baryon-specific dependence violates universal minimal matter coupling"
+          ],
+          "prohibited_diagnostic_invariants": [
+            "z_b"
+          ],
+          "used_invariants": [
+            "z_b"
+          ],
+          "valid": false
+        },
+        "diagnostic_invariant_ids": [
+          "T2_m",
+          "z_b"
+        ],
+        "errors": [],
+        "field_ids": [
+          "J_b_mu",
+          "g_mu_nu",
+          "lambda_u",
+          "phi",
+          "psi_m",
+          "u_mu"
+        ],
+        "generator_invariant_ids": [
+          "K1_u",
+          "K2_u",
+          "K3_u",
+          "K4_u",
+          "X_phi"
+        ],
+        "valid": true,
+        "z_b_definition": "-g_mu_nu J_b^mu J_b^nu/n_0^2 = n_b^2/n_0^2",
+        "z_b_generator_status": "forbidden"
+      },
+      "name": "covariant_field_contract",
+      "scope": "Exact schema and policy validation.",
+      "status": "pass"
+    },
+    {
+      "claim": "The linearized Einstein tensor obeys its off-shell differential identity.",
+      "evidence": {
+        "identity": "k^mu G^(1)_mu_nu = 0",
+        "independent_metric_perturbations": 10,
+        "residuals": [
+          "(2*k0**2 - k1**2 - k2**2 - k3**2)*(h00*k0 + h01*k1 + h02*k2 + h03*k3)",
+          "-k0*k1*(h00*k0 + h01*k1 + h02*k2 + h03*k3)",
+          "-k0*k2*(h00*k0 + h01*k1 + h02*k2 + h03*k3)",
+          "-k0*k3*(h00*k0 + h01*k1 + h02*k2 + h03*k3)"
+        ]
+      },
+      "name": "einstein_hilbert_linearized_bianchi",
+      "scope": "Exact Fourier-space identity around Minkowski; not nonlinear arbitrary-background variation.",
+      "status": "fail"
+    },
+    {
+      "claim": "A canonical scalar has one positive kinetic mode and the metric characteristic cone.",
+      "evidence": {
+        "action": "S_phi = integral sqrt(-g)[-1/2 (nabla phi)^2 - V(phi)]",
+        "characteristic_speed_squared": 1,
+        "kinetic_hessian": "Matrix([[1]])",
+        "kinetic_rank": 1,
+        "physical_scalar_dof": 1,
+        "principal_polynomial": "k2 - omega2"
+      },
+      "name": "canonical_scalar",
+      "scope": "Exact quadratic control around Minkowski.",
+      "status": "pass"
+    },
+    {
+      "claim": "Massive Proca has a rank-three velocity Hessian, two second-class constraints, and three physical modes.",
+      "evidence": {
+        "action": "S_A = integral sqrt(-g)[-F_mu_nu F^mu_nu/4 - m^2 A_mu A^mu/2]",
+        "constraint_matrix_rank": 2,
+        "constraint_poisson_matrix": "Matrix([[0, -m**2], [m**2, 0]])",
+        "hessian_rank": 3,
+        "physical_vector_dof": 3,
+        "primary_constraint": "pi^0 = 0",
+        "reduced_characteristic_polynomial": "(-omega^2 + |k|^2)^3",
+        "secondary_constraint": "partial_i pi^i + m^2 A^0 = 0",
+        "velocity_hessian": "Matrix([[0, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]])"
+      },
+      "name": "proca_adm_dirac",
+      "scope": "Exact flat-background quadratic Hamiltonian control.",
+      "status": "pass"
+    },
+    {
+      "claim": "Known Einstein-Aether mode formulas give five real positive-speed modes at the declared control point.",
+      "evidence": {
+        "action": "Einstein-Hilbert plus c1..c4 unit-timelike-vector kinetic invariants and lambda(u^2+1)",
+        "couplings": {
+          "c1": "1/10",
+          "c2": "1/20",
+          "c3": "0",
+          "c4": "1/20"
+        },
+        "domain_checks": {
+          "1-c13_nonzero": true,
+          "c14_nonzero": true
+        },
+        "interpretation": "Known linearized Minkowski mode formulas are evaluated at one healthy algebraic control point; this is not a global viability claim for Einstein-Aether theory.",
+        "mode_count": {
+          "scalar": 1,
+          "tensor": 2,
+          "total": 5,
+          "vector": 2
+        },
+        "mode_speed_squared": {
+          "spin_0": "74/81",
+          "spin_1": "19/27",
+          "spin_2": "10/9"
+        }
+      },
+      "name": "einstein_aether_modes",
+      "scope": "Known linearized Minkowski formulas; not a derivation of the full nonlinear constraint algebra.",
+      "status": "pass"
+    },
+    {
+      "claim": "A known degenerate scalar-tensor ADM kinetic block has a null direction while a nondegenerate control does not.",
+      "evidence": {
+        "control": "reduced quadratic-DHOST ADM scalar kinetic block",
+        "determinant": "0",
+        "hessian": "Matrix([[2*C*alpha**2, 2*C*alpha], [2*C*alpha, 2*C]])",
+        "interpretation": "This checks the algebraic DHOST degeneracy mechanism, not a complete covariant DHOST classification.",
+        "kinetic_form": "C*(K + V_star*alpha)**2",
+        "nondegenerate_negative_control_determinant": "4",
+        "null_residual": [
+          "0",
+          "0"
+        ],
+        "null_vector": [
+          "1",
+          "-alpha"
+        ],
+        "rank": 1
+      },
+      "name": "dhost_degenerate_kinetic_block",
+      "scope": "Exact reduced ADM scalar kinetic block; not a full covariant DHOST classification.",
+      "status": "pass"
+    }
+  ],
+  "counts": {
+    "failed": 1,
+    "passed": 5,
+    "total": 6
+  },
+  "created_utc": "2026-08-08T05:51:38.368716+00:00",
+  "field_contract": "C:\\Users\\henry\\Documents\\Codex\\2026-08-06\\for\\outputs\\sigma-theory-compiler\\configs\\covariant_field_contract.json",
+  "interpretation": "Passing controls validates only the stated algebraic scopes. It is not evidence that a generated gravity candidate is healthy or empirically correct.",
+  "schema_version": "sigma-formal-controls-1.0"
+}

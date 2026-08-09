@@ -1,0 +1,105 @@
+{
+  "action_ir": "C:\\Users\\henry\\Documents\\Codex\\2026-08-06\\for\\outputs\\sigma-theory-compiler\\runs\\campaigns\\CMP-55b43fa111e201988d9f2922\\controls\\action-health\\proca_control\\action-ir.json",
+  "created_utc": "2026-08-09T00:41:50.476543+00:00",
+  "discovery_blockers": [],
+  "family": "proca_gravity",
+  "gates": {
+    "adm_dirac": {
+      "evidence": [
+        "einstein_hilbert_linearized_adm",
+        "canonical_metric_diffeomorphism_algebra",
+        "canonical_metric_dewitt_kinetic_covariance",
+        "spatial_curvature_density_diffeomorphism_covariance",
+        "cadabra_adm_spatial_curvature_variation",
+        "nonlinear_adm_hamiltonian_constraint_algebra",
+        "proca_adm_dirac"
+      ],
+      "physical_dof": 5,
+      "scope": "nonlinear pure-GR constraint algebra plus exact flat-background Proca Dirac closure",
+      "status": "pass"
+    },
+    "covariant_identity": {
+      "evidence": [
+        "cadabra_nonlinear_contracted_bianchi",
+        "proca_divergence_identity",
+        "proca_stress_noether_identity",
+        "proca_curved_background_noether_identity"
+      ],
+      "scope": "Einstein Bianchi identity plus Proca divergence constraint and exact stress Noether residuals on flat, FLRW, and static-spherical controls",
+      "status": "pass"
+    },
+    "covariant_variation": {
+      "evidence": [
+        "cadabra_einstein_hilbert_metric_variation",
+        "cadabra_nonlinear_contracted_bianchi",
+        "cadabra_proca_metric_variation",
+        "cadabra_proca_variation",
+        "generated_proca_action_ir_variation"
+      ],
+      "scope": "combined EH metric, Proca metric, and generated vector-field variations",
+      "status": "pass"
+    },
+    "field_contract": {
+      "evidence": [
+        "covariant_field_contract"
+      ],
+      "scope": "exact action-IR and universal-matter-coupling validation",
+      "status": "pass"
+    },
+    "hamiltonian_stability": {
+      "evidence": [
+        "einstein_hilbert_linearized_adm",
+        "proca_adm_dirac"
+      ],
+      "scope": "positive reduced quadratic Hamiltonian on the declared Minkowski control domain",
+      "status": "pass"
+    },
+    "principal_symbol": {
+      "evidence": [
+        "principal_symbol_controls",
+        "curved_background_principal_controls"
+      ],
+      "scope": "reduced canonical sectors on Minkowski, FLRW, and static spherical backgrounds",
+      "status": "pass"
+    }
+  },
+  "generated_variation": {
+    "action_ir": "C:\\Users\\henry\\Documents\\Codex\\2026-08-06\\for\\outputs\\sigma-theory-compiler\\runs\\campaigns\\CMP-55b43fa111e201988d9f2922\\controls\\action-health\\proca_control\\field-variation\\action-ir.json",
+    "backend": {
+      "available": true,
+      "executable": "C:\\Users\\henry\\Documents\\Codex\\2026-08-06\\for\\work\\cadabra2-root\\root\\usr\\bin\\cadabra2",
+      "mode": "wsl-local",
+      "python_module": "C:\\Users\\henry\\Documents\\Codex\\2026-08-06\\for\\work\\cadabra2-root\\root\\usr\\lib\\python3\\dist-packages\\cadabra2.cpython-312-x86_64-linux-gnu.so",
+      "root": "C:\\Users\\henry\\Documents\\Codex\\2026-08-06\\for\\work\\cadabra2-root\\root",
+      "version": "2.4.5.4"
+    },
+    "divergence_identity": "antisymmetry and commuting derivatives imply m_A^2 partial_mu A^mu = 0",
+    "execution": {
+      "backend_mode": "wsl-local",
+      "expected_fragments": [
+        "SIGMA_PROCA_VARIATION_FINAL",
+        "\u03b4{A",
+        "\\partial",
+        "mA"
+      ],
+      "return_code": 0,
+      "script": "C:\\Users\\henry\\Documents\\Codex\\2026-08-06\\for\\outputs\\sigma-theory-compiler\\runs\\campaigns\\CMP-55b43fa111e201988d9f2922\\controls\\action-health\\proca_control\\field-variation\\proca-variation.cdb",
+      "stderr_tail": "/mnt/c/Users/henry/Documents/Codex/2026-08-06/for/work/cadabra2-root/root/usr/bin/cadabra2:102: SyntaxWarning: invalid escape sequence '\\s'\n  imatch = re.search('([\\s]*)([^\\s].*[^\\s])([\\s]*)', line)\n/mnt/c/Users/henry/Documents/Codex/2026-08-06/for/work/cadabra2-root/root/usr/bin/cadabra2:177: SyntaxWarning: invalid escape sequence '\\.'\n  match = re.search('([a-zA-Z]*)(.*)[;\\.:]*', line_stripped[found+2:])\n",
+      "stdout_tail": "-\u222b( 1/4 F_{a b} F^{a b} +  1/2 mA^{2} A_{a} A^{a}}{x}\nF_{a b} = \\partial_{a}(A_{b})-\\partial_{b}(A_{a})\nF_{a b} = \\partial_{a}(A_{b})-\\partial_{b}(A_{a})\nF_{a b} = \\partial_{a}(A_{b})-\\partial_{b}(A_{a})\nF_{a b} = \\partial_{a}(A_{b})-\\partial_{b}(A_{a})\nF_{a b} = \\partial_{a}(A_{b})-\\partial_{b}(A_{a})\nF_{a b} = \\partial_{a}(A_{b})-\\partial_{b}(A_{a})\nF_{a b} = \\partial_{a}(A_{b})-\\partial_{b}(A_{a})\nSIGMA_PROCA_VARIATION_FINAL\nF_{a b} = \\partial_{a}(A_{b})-\\partial_{b}(A_{a})\n-\u222b( -  1/2 \u03b4{A^{a}} \\partial^{b}(\\partial_{b}(A_{a})) +  1/2 \u03b4{A^{a}} \\partial^{b}(\\partial_{a}(A_{b})) -  1/2 \u03b4{A_{b}} \\partial^{a}(\\partial_{a}(A^{b})) +  1/2 \u03b4{A_{b}} \\partial^{a}(\\partial^{b}(A_{a})) +  1/2 A_{a} \u03b4{A^{a}} mA^{2} +  1/2 A^{a} \u03b4{A_{a}} mA^{2}}{x}\nF_{a b} = \\partial_{a}(A_{b})-\\partial_{b}(A_{a})\n"
+    },
+    "expected_euler_lagrange_structure": "partial_mu F^{mu nu} - m_A^2 A^nu = 0 up to the declared sign convention",
+    "input_action_sha256": "9f0f5e159e3d89db33a43b56d77dc3e6290bec671dde280e64500a73e83e5d33",
+    "result_path": "C:\\Users\\henry\\Documents\\Codex\\2026-08-06\\for\\outputs\\sigma-theory-compiler\\runs\\campaigns\\CMP-55b43fa111e201988d9f2922\\controls\\action-health\\proca_control\\field-variation\\variation-result.json",
+    "schema_version": "sigma-covariant-variation-result-1.0",
+    "scope": "variation with respect to A_mu; EH is independent of A_mu; metric variation remains separate",
+    "script": "C:\\Users\\henry\\Documents\\Codex\\2026-08-06\\for\\outputs\\sigma-theory-compiler\\runs\\campaigns\\CMP-55b43fa111e201988d9f2922\\controls\\action-health\\proca_control\\field-variation\\proca-variation.cdb",
+    "status": "pass"
+  },
+  "input_action_sha256": "9f0f5e159e3d89db33a43b56d77dc3e6290bec671dde280e64500a73e83e5d33",
+  "interpretation": "A control pass validates only the declared action family and backgrounds. It is not observational evidence or a truth probability.",
+  "observational_gates_unsealed": false,
+  "physical_dof": 5,
+  "promotion_allowed": true,
+  "schema_version": "sigma-action-health-1.0",
+  "status": "pass"
+}

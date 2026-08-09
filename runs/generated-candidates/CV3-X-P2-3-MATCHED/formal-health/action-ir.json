@@ -1,0 +1,128 @@
+{
+  "canonical": {
+    "coefficient_symbols": [
+      "M_Pl",
+      "a_sigma",
+      "epsilon",
+      "gamma"
+    ],
+    "covariant_completion": {
+      "completion_id": "cv3-derivative-matched-k14-v1",
+      "purpose": "Match gradient stiffness to the smallest nonlinear kinetic eigenvalue while preserving F_2/3(x) exactly.",
+      "static_null_terms": [
+        "AETHER_MATCHED_K14_P2_3"
+      ]
+    },
+    "extra_dynamical_fields": [
+      "u_mu"
+    ],
+    "fields": [
+      "g_mu_nu",
+      "lambda_u",
+      "u_mu"
+    ],
+    "generator_origin": {
+      "correction_expression": "+((1+x)^(2/3)-1)",
+      "family_id": "CV3-X-P2-3-MATCHED",
+      "ordinal": 12,
+      "pareto_front": 1,
+      "source_priority_sha256": "f4b77e7d0fd67d9bef3dd466e61aff38d8555ee476e3532e1b8f72c722e73ee9"
+    },
+    "matter_metric": "g_mu_nu",
+    "parameter_domain": {
+      "inequalities": [
+        "gamma < 1",
+        "gamma <= epsilon"
+      ],
+      "negative": [],
+      "nonnegative": [],
+      "nonpositive": [],
+      "nonzero": [],
+      "positive": [
+        "M_Pl",
+        "a_sigma",
+        "epsilon",
+        "gamma"
+      ]
+    },
+    "schema_version": "sigma-action-ir-1.0",
+    "source_role": "candidate",
+    "static_dictionary_status": "derived",
+    "terms": [
+      {
+        "coefficient": "-gamma*M_Pl^2/2",
+        "density": "sqrt(-g) (1+X_a_u)^(-4/3) (1+X_a_u/3) (K1_u+K4_u)/L_u^2",
+        "fields": [
+          "g_mu_nu",
+          "u_mu"
+        ],
+        "id": "AETHER_MATCHED_K14_P2_3",
+        "invariant": "M14_p_u",
+        "maximum_derivatives_per_field": 1,
+        "required_constants": [
+          "a_sigma"
+        ],
+        "static_legacy_atom": null
+      },
+      {
+        "coefficient": "epsilon*M_Pl^2*a_sigma^2",
+        "density": "sqrt(-g) ((1+X_a_u)^(2/3)-1)",
+        "fields": [
+          "g_mu_nu",
+          "u_mu"
+        ],
+        "id": "AETHER_X_P2_3",
+        "invariant": "X_a_u",
+        "maximum_derivatives_per_field": 1,
+        "required_constants": [
+          "a_sigma"
+        ],
+        "static_legacy_atom": "(1+x)^(2/3)-1"
+      },
+      {
+        "coefficient": "M_Pl^2/2",
+        "density": "sqrt(-g) R",
+        "fields": [
+          "g_mu_nu"
+        ],
+        "id": "EH_R",
+        "invariant": null,
+        "maximum_derivatives_per_field": 2,
+        "required_constants": [],
+        "static_legacy_atom": null
+      },
+      {
+        "coefficient": "1",
+        "density": "sqrt(-g) lambda_u (u_mu u^mu + 1)",
+        "fields": [
+          "g_mu_nu",
+          "u_mu",
+          "lambda_u"
+        ],
+        "id": "UNIT_VECTOR_CONSTRAINT",
+        "invariant": null,
+        "maximum_derivatives_per_field": 0,
+        "required_constants": [],
+        "static_legacy_atom": null
+      }
+    ],
+    "universal_constants": [
+      "M_Pl",
+      "a_sigma",
+      "epsilon",
+      "gamma"
+    ]
+  },
+  "content_sha256": "4fd2270add4b44c9cc1b95c71deccceccc00278dcc70423e159cadcd2c8c8138",
+  "errors": [],
+  "policy_validation": {
+    "errors": [],
+    "prohibited_diagnostic_invariants": [],
+    "used_invariants": [
+      "m14_p_u",
+      "x_a_u"
+    ],
+    "valid": true
+  },
+  "valid": true
+}

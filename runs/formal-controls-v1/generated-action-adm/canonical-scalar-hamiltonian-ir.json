@@ -1,0 +1,55 @@
+{
+  "background": "one nonzero Fourier mode in a frozen local physical frame",
+  "constraint_surface_physical_dof": 3,
+  "construction": {
+    "construction": "H2=(p^T K^-1 p+q^T[k^2 G+M^2]q)/2",
+    "mass_or_constraint_reduction": "scalar potential Hessian -2*C_SCALAR_MASS*m_phi^2 in the physical scalar entry"
+  },
+  "content_sha256": "84ff85ff13c07f0c23acbe1b25168d675d49e64dad09eb5997cf6ee56c7cdc7e",
+  "coordinate_hessian": "Matrix([[M_Pl**2*k**2/2, 0, 0], [0, M_Pl**2*k**2/2, 0], [0, 0, k**2 + m_phi**2]])",
+  "coordinate_hessian_determinant": "M_Pl**4*k**4*(k**2 + m_phi**2)/4",
+  "family": "canonical_scalar_gravity",
+  "gauge_reduction_status": "pass",
+  "generic_nonlinear_total_energy": {
+    "scope": "this artifact is a local physical perturbation/free-matter stability certificate, not a new global positive-mass theorem",
+    "status": "not_claimed"
+  },
+  "input_action_sha256": "ad7f13488950c85c1c8acad252dbdbf5818731e6da50b4d81f892c46a172f402",
+  "input_dirac_ir_sha256": "3cc8f7e06af6fe9e18b01508b8a4860965452115114ecb5814d9d4b4ee10f7f4",
+  "input_principal_ir_sha256": "493f525658439bb1e8c901255bd889d955f8b3a13a148ade3bf50974bc2235ca",
+  "input_stability_ir_sha256": "1a9104c6584bb04736f4ed3991edd9e7056298f0bac150e2f0c6fe0af44938aa",
+  "inverse_legendre_kinetic_matrix": "Matrix([[M_Pl**2/2, 0, 0], [0, M_Pl**2/2, 0], [0, 0, 1]])",
+  "legendre_transform_residual": "0",
+  "momentum_hessian": "Matrix([[2/M_Pl**2, 0, 0], [0, 2/M_Pl**2, 0], [0, 0, 1]])",
+  "momentum_hessian_determinant": "4/M_Pl**4",
+  "phase_space_hessian": "Matrix([[M_Pl**2*k**2/2, 0, 0, 0, 0, 0], [0, M_Pl**2*k**2/2, 0, 0, 0, 0], [0, 0, k**2 + m_phi**2, 0, 0, 0], [0, 0, 0, 2/M_Pl**2, 0, 0], [0, 0, 0, 0, 2/M_Pl**2, 0], [0, 0, 0, 0, 0, 1]])",
+  "physical_basis": [
+    "spin_2_plus",
+    "spin_2_cross",
+    "scalar"
+  ],
+  "physical_mode_count": 3,
+  "positivity_certificate": {
+    "coordinate_and_momentum_blocks_diagonal": true,
+    "exact_legendre_transform": true,
+    "parameter_condition_statuses": {
+      "nonnegative_scalar_mass_energy": "pass",
+      "nonzero_scalar_normalization": "pass",
+      "positive_scalar_kinetic_and_gradient": "pass",
+      "positive_tensor_kinetic_and_newton_coupling": "pass"
+    },
+    "source_reduced_energy_status": "pass",
+    "source_required_controls": [
+      "einstein_hilbert_linearized_adm",
+      "canonical_scalar"
+    ],
+    "status": "pass"
+  },
+  "promotion_allowed": false,
+  "proof_scope": "action/Dirac/stability/principal-hash-bound physical quadratic Hamiltonian after constraint and gauge reduction; exact Proca second-class elimination is included, while generic nonlinear gravitational total-energy positivity is stated separately",
+  "reconstructed_reduced_lagrangian": "-(M_Pl**2*Q0**2*k**2 + M_Pl**2*Q1**2*k**2 - M_Pl**2*V0**2 - M_Pl**2*V1**2 + 2*Q2**2*k**2 + 2*Q2**2*m_phi**2 - 2*V2**2)/4",
+  "reduced_hamiltonian": "(M_Pl**4*Q0**2*k**2 + M_Pl**4*Q1**2*k**2 + 2*M_Pl**2*P2**2 + 2*M_Pl**2*Q2**2*k**2 + 2*M_Pl**2*Q2**2*m_phi**2 + 4*P0**2 + 4*P1**2)/(4*M_Pl**2)",
+  "schema_version": "sigma-physical-hamiltonian-ir-1.0",
+  "status": "pass",
+  "wave_number_domain": "k>0"
+}

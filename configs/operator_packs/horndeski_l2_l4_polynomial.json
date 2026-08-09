@@ -1,0 +1,24 @@
+{
+  "schema_version": "sigma-scalar-tensor-pack-1.0",
+  "name": "normalized polynomial Horndeski L2-L4 family",
+  "normalization": {
+    "u": "phi/Lambda_phi",
+    "x": "-nabla_phi_squared/(2*Lambda_phi**4)",
+    "Lambda_phi_positive": true
+  },
+  "coefficients": ["m2", "c20", "c11", "c02", "d10", "d01", "a10", "a20", "a01"],
+  "functions": {
+    "g2": "x + c20*x^2 + c11*u*x + c02*u^2",
+    "g3": "d10*x + d01*u",
+    "g4": "m2/2 + a10*x + a20*x^2 + a01*u"
+  },
+  "derivative_overrides": {
+    "g4_x": "a10 + 2*a20*x"
+  },
+  "mutation_axes": [
+    {"coefficient": "c20", "values": ["-1", "0", "1"]},
+    {"coefficient": "d10", "values": ["-1", "0", "1"]},
+    {"coefficient": "a10", "values": ["-1", "-1/2", "0", "1/2", "1"]},
+    {"coefficient": "a20", "values": ["-1", "0", "1"]}
+  ]
+}

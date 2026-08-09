@@ -1,0 +1,21 @@
+{a,b,c,d,e,f}::Indices(position=free).
+x::Coordinate.
+\nabla{#}::Derivative.
+\phi::Depends(x,\nabla{#}).
+R::Depends(x,\nabla{#}).
+\delta{#}::Accent.
+
+action := \int{
+ - R \nabla_{a}{\phi} \nabla^{a}{\phi}/2
+ + \nabla_{a}{\nabla^{a}{\phi}} \nabla_{b}{\nabla^{b}{\phi}}
+ - \nabla_{a}{\nabla_{b}{\phi}} \nabla^{a}{\nabla^{b}{\phi}}
+}{x};
+vary(action, $\phi -> \delta{\phi}$);
+distribute(action);
+integrate_by_parts(action, $\nabla_{a}{\delta{\phi}}$);
+integrate_by_parts(action, $\delta{\phi}$);
+canonicalise(action);
+sort_product(action);
+factor_out(action, $\delta{\phi}$);
+print("SIGMA_QUARTIC_HORNDESKI_SCALAR_VARIATION_FINAL");
+print(action);

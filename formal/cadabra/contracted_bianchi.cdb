@@ -1,0 +1,22 @@
+{a,b,c,d,e,f,m,n,p,q,r,s,t#}::Indices(vector).
+g_{a b}::Metric.
+g^{a b}::InverseMetric.
+\nabla{#}::Derivative.
+R_{a b c d}::RiemannTensor.
+\nabla_{e}{R_{a b c d}}::SatisfiesBianchi.
+
+# Contract the exact differential Bianchi identity on two index pairs. This is equivalent,
+# after metric compatibility and the Ricci contractions, to
+# 2 nabla^a R_{a d} - nabla_d R = 0, hence nabla^a G_{a d}=0.
+bianchi := (
+    \nabla_{e}{R_{a b c d}}
+  + \nabla_{a}{R_{b e c d}}
+  + \nabla_{b}{R_{e a c d}}
+);
+young_project_tensor(bianchi, depth=1, modulo_monoterm=True);
+canonicalise(bianchi);
+identity := g^{e c} g^{a d} @(bianchi);
+canonicalise(identity);
+assert(identity == 0)
+print("SIGMA_NONLINEAR_CONTRACTED_BIANCHI_ZERO");
+print(identity);

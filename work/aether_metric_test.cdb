@@ -1,0 +1,30 @@
+{a,b,c,d,e,f,m,n,p,q,r,s}::Indices(position=free).
+g_{a b}::Metric.
+g^{a b}::InverseMetric.
+h^{a b}::Symmetric.
+\nabla{#}::Derivative.
+u_{a}::Depends(\nabla{#}).
+D_{a b}::Depends(\nabla{#}).
+
+deltaD := 1/2 u_{c} (
+    g_{b e} \nabla_{a}{h^{e c}}
+  + g_{a e} \nabla_{b}{h^{e c}}
+  - g_{a e} g_{b f} \nabla^{c}{h^{e f}}
+);
+
+action := -\int{sqrtg c1/2 g^{a c} g^{b d} D_{a b} D_{c d}}{x};
+vary(action, $sqrtg -> -sqrtg g_{a b} h^{a b}/2, g^{a b} -> h^{a b}, D_{a b} -> @(deltaD)$);
+distribute(action);
+product_rule(action);
+integrate_by_parts(action, $h^{a b}$);
+product_rule(action);
+distribute(action);
+substitute(action, $\nabla_{a}{g_{b c}} -> 0, \nabla_{a}{g^{b c}} -> 0, \nabla_{a}{g_{b}^{c}} -> 0, \nabla_{a}{sqrtg} -> 0, \nabla_{a}{c1} -> 0$);
+eliminate_metric(action);
+canonicalise(action);
+rename_dummies(action);
+sort_product(action);
+collect_terms(action);
+factor_out(action, $h_{a b}$);
+print("SIGMA_AETHER_K1_METRIC_VARIATION_FINAL");
+print(action);

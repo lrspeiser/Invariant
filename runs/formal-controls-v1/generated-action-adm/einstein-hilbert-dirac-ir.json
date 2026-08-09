@@ -1,0 +1,128 @@
+{
+  "content_sha256": "6f44d980e7d2ff4866015aa7fbbd61511dca1662a5f84fc3b212247690e2b14a",
+  "distributed_constraint_closure": {
+    "constraint_generations": {
+      "primary": [
+        "p_N=0",
+        "p_(N^i)=0 (three components)"
+      ],
+      "secondary": [
+        "H_perp=0",
+        "H_i=0 (three components)"
+      ]
+    },
+    "constraint_surface_rank": {
+      "extended_first_class_constraints": 8,
+      "extended_pairs": 10,
+      "extended_second_class_constraints": 0,
+      "first_class_constraints": 4,
+      "physical_dof": 2,
+      "reduced_canonical_pairs": 6,
+      "second_class_constraints_after_reduction": 0
+    },
+    "family": "einstein_hilbert",
+    "missing_or_failed_controls": [],
+    "poisson_algebra": {
+      "D_D": "{D[M],D[L]}=D[[M,L]]",
+      "D_H": "{D[M],H[N]}=H[Lie_M N]",
+      "H_H": "{H[N],H[M]}=D[h^ij(N D_j M-M D_j N)]",
+      "status": "pass"
+    },
+    "proof_route": [
+      "exact canonical metric D-D cotangent-lift algebra",
+      "exact kinetic and curvature D-H covariance",
+      "exact nonlinear GR H-H bracket with inverse-metric structure function"
+    ],
+    "regular_local_legendre_patch": true,
+    "required_controls": [
+      "canonical_metric_diffeomorphism_algebra",
+      "canonical_metric_dewitt_kinetic_covariance",
+      "spatial_curvature_density_diffeomorphism_covariance",
+      "cadabra_adm_spatial_curvature_variation",
+      "nonlinear_adm_hamiltonian_constraint_algebra"
+    ],
+    "scope": "complete nonlinear pure-GR distributed constraint algebra",
+    "status": "pass"
+  },
+  "hamiltonian_stability": {
+    "reason": "the local kinetic Hamiltonian is not the gauge-reduced physical Hamiltonian; spatial potentials, all constraints, gauge fixing, and boundary charges must be included",
+    "status": "unresolved"
+  },
+  "input_action_sha256": "8082e572eadac0019258c8db91efa35a394d2ec4189ef5918eb870d0da42e43f",
+  "input_adm_ir_sha256": "e2adf625c7878828363935eb37b818edc314cd62642c0823990cec02e316f1ff",
+  "input_legendre_ir_sha256": "7fd43711a765971e5b07e9f4f1a3ed3d63657c60c503c48c31d9a236e02c10bd",
+  "local_canonical_transform": {
+    "background": "aligned/frozen orthonormal frame with N=1,N^i=0",
+    "canonical_momenta": [
+      "-M_Pl**2*(dot_h22 + dot_h33)/4",
+      "-M_Pl**2*(dot_h11 + dot_h33)/4",
+      "-M_Pl**2*(dot_h11 + dot_h22)/4",
+      "M_Pl**2*dot_h12/2",
+      "M_Pl**2*dot_h13/2",
+      "M_Pl**2*dot_h23/2"
+    ],
+    "channel_map": [
+      "K11=dot_h11/2 at N=1,N^i=0",
+      "K22=dot_h22/2 at N=1,N^i=0",
+      "K33=dot_h33/2 at N=1,N^i=0",
+      "K12=dot_h12/2 at N=1,N^i=0",
+      "K13=dot_h13/2 at N=1,N^i=0",
+      "K23=dot_h23/2 at N=1,N^i=0"
+    ],
+    "coordinates": [
+      "h11",
+      "h22",
+      "h33",
+      "h12",
+      "h13",
+      "h23"
+    ],
+    "hessian": "Matrix([[0, -M_Pl**2/4, -M_Pl**2/4, 0, 0, 0], [-M_Pl**2/4, 0, -M_Pl**2/4, 0, 0, 0], [-M_Pl**2/4, -M_Pl**2/4, 0, 0, 0, 0], [0, 0, 0, M_Pl**2/2, 0, 0], [0, 0, 0, 0, M_Pl**2/2, 0], [0, 0, 0, 0, 0, M_Pl**2/2]])",
+    "hessian_chain_residual": "Matrix([[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]])",
+    "hessian_nullity": 0,
+    "hessian_rank": 6,
+    "kinetic_canonical_hamiltonian": "(P_h11**2 - 2*P_h11*P_h22 - 2*P_h11*P_h33 + P_h12**2 + P_h13**2 + P_h22**2 - 2*P_h22*P_h33 + P_h23**2 + P_h33**2)/M_Pl**2",
+    "kinetic_lagrangian": "-M_Pl**2*(dot_h11*dot_h22 + dot_h11*dot_h33 - dot_h12**2 - dot_h13**2 + dot_h22*dot_h33 - dot_h23**2)/4",
+    "legendre_residuals": [
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0"
+    ],
+    "momenta": [
+      "P_h11",
+      "P_h22",
+      "P_h33",
+      "P_h12",
+      "P_h13",
+      "P_h23"
+    ],
+    "primary_constraints": [],
+    "scope": "exact local canonical transform with the metric relation dot(h)_ij=2K_ij; spatial potential terms and boundary generators are certified separately",
+    "solved_velocities": {
+      "dot_h11": "2*(P_h11 - P_h22 - P_h33)/M_Pl**2",
+      "dot_h12": "2*P_h12/M_Pl**2",
+      "dot_h13": "2*P_h13/M_Pl**2",
+      "dot_h22": "-2*(P_h11 - P_h22 + P_h33)/M_Pl**2",
+      "dot_h23": "2*P_h23/M_Pl**2",
+      "dot_h33": "-2*(P_h11 + P_h22 - P_h33)/M_Pl**2"
+    },
+    "status": "pass",
+    "unresolved_velocities": [],
+    "velocities": [
+      "dot_h11",
+      "dot_h22",
+      "dot_h33",
+      "dot_h12",
+      "dot_h13",
+      "dot_h23"
+    ]
+  },
+  "promotion_allowed": false,
+  "proof_scope": "hash-bound local canonical transformation plus action-family distributed closure instantiation only where exact smeared-functional/tensor controls cover the same coefficient specialization; unsupported or singular branches remain unresolved",
+  "schema_version": "sigma-dirac-ir-1.0",
+  "source_role": "known_answer_control",
+  "status": "pass"
+}
