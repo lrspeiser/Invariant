@@ -173,7 +173,7 @@ It also proves the exact expanding homogeneous ray remains in the box for every 
 time. A chained energy adapter now proves a finite-horizon, all-wavenumber Sobolev estimate for
 the three reduced linearized physical modes and emits a positive admissible initial-energy radius.
 This is not promoted to a nonlinear trapping claim: constraint/gauge reconstruction, the complete
-22-variable energy, multidimensional nonlinear products, and boundary generators remain separate
+55-variable physical-space energy, multidimensional nonlinear products, and boundary generators remain separate
 language capabilities. The linear scalar constraint layer is now partially generated rather than
 hand-waved: it derives bounded lapse and longitudinal-shift operators, isolates the harmless
 periodic zero-mode potential kernel, and tightens the admissible energy radius. The next adapter
@@ -189,6 +189,13 @@ propagates uniform derivative envelopes through the inverse time block to Sobole
 This is an executable prerequisite for Moser estimates. The language still fails closed until an
 action-specific nonlinear state-to-jet map, source bounds, symmetrizer derivatives, gauge
 reconstruction, and a closed bootstrap energy inequality are present.
+
+The language now distinguishes a directional companion from a physical-space first-order state.
+For 11 second-order metric/scalar fields, the former has dimension 22 at fixed spatial covector;
+the latter has dimension 55 after introducing all three spatial derivatives. The generated
+reduction extracts `B_i` and symmetric `C_ij` exactly, emits the 33 derivative-definition and 33
+curl constraints, and proves their principal propagation. Nonlinear connection/source formulas
+and gauge-driver variables are deliberately not inferred from this incidence graph.
 
 The 6 `G3`-only formulas are routed to the dedicated cubic-Horndeski BSSN/CCZ4 weak-field theorem.
 Its compiler contract keeps the source conditions explicit rather than inventing a universal

@@ -272,7 +272,7 @@ Sobolev majorant then supplies a positive initial-energy radius controlling firs
 second spatial derivatives for a finite proper-time interval. All 12 candidates pass, while a
 zero-length background segment and a scalar-gradient ghost reject. This is a linearized
 inhomogeneous physical-mode theorem only. The lapse/shift/constraint reconstruction estimate and
-the nonlinear 22-variable Moser/bootstrap estimate are still missing, so it does not certify that
+the nonlinear physical-space first-order Moser/bootstrap estimate are still missing, so it does not certify that
 the full nonlinear solution remains inside the local-jet box.
 
 The chained reconstruction campaign now closes the spatial auxiliary-variable part of that gap.
@@ -310,6 +310,18 @@ through order four for all 12 candidates. A false degree-one declaration, a miss
 factor, and an `H^3` declaration reject. This closes coefficient-composition regularity only: the
 nonlinear state-to-covariant-jet map, nonlinear sources, symmetrizer derivatives, gauge variables,
 commuted energy inequality, and bootstrap invariance are still required.
+
+The physical-space first-order reduction is now explicit, correcting an important dimensional
+distinction. The 22-by-22 matrix used by the hyperbolicity proof is the companion linearization of
+the 11 second-order equations for one fixed spatial covector; it is not the complete
+three-dimensional PDE state. The generated reduction uses 55 variables: 11 fields `q_A`, 11 time
+derivatives `v_A`, and 33 spatial derivatives `w_iA`. Exact `B_i` and symmetric `C_ij` extraction
+reconstructs the second-order symbol, and an exact characteristic lift proves the 22 nonzero
+directional modes agree with the companion pencil. The other 33 principal directions are the 11
+field and 22 transverse-derivative auxiliary directions. All 33 derivative-definition constraints
+and 33 independent spatial-curl constraints propagate; omitting one `dot(w_i)=D_i v` equation
+rejects. Nonlinear connection/source terms, gauge-driver variables, a 55-variable symmetrizer, and
+state-to-jet Sobolev bounds remain required before a bootstrap claim.
 
 The bounded campaign adapter now consumes that exact partition without recompiling known
 noneligible assignments. It rebinds all eligible assignments, solves the FLRW energy constraint

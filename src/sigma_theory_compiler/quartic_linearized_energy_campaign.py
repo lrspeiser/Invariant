@@ -327,7 +327,7 @@ def certify_quartic_linearized_energy_candidate(
             "This is a linearized inhomogeneous physical-mode theorem, not a nonlinear PDE "
             "trapping theorem. It does not reconstruct lapse, shift, gauge, constraint, or all "
             "spacetime-jet components from the reduced variables; it therefore does not claim "
-            "that the full 22-variable nonlinear solution remains in the symmetrizer box."
+            "that the full physical-space nonlinear solution remains in the symmetrizer box."
         ),
     }
 

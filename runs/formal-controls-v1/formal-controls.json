@@ -360,7 +360,7 @@
         "primary_source": "https://arxiv.org/abs/gr-qc/0405109",
         "raw_cross_bracket": "2*(-M*n00*p00 - 2*M*n01*p01 - 2*M*n02*p02 - M*n11*p11 - 2*M*n12*p12 - M*n22*p22 + N*m00*p00 + 2*N*m01*p01 + 2*N*m02*p02 + N*m11*p11 + 2*N*m12*p12 + N*m22*p22)",
         "scope": "exact nonlinear pure-GR H-H hypersurface-deformation bracket; lapse/shift primary constraints and D-D/D-H sectors are covered by companion controls, while Einstein-Aether extra-field constraints remain separate",
-        "smeared_momentum_constraint": "2*(M*N0*Pdiv0 + M*N1*Pdiv1 + M*N2*Pdiv2 - M0*N*Pdiv0 - M1*N*Pdiv1 - M2*N*Pdiv2)",
+        "smeared_momentum_constraint": "-2*(-M*N0*Pdiv0 - M*N1*Pdiv1 - M*N2*Pdiv2 + M0*N*Pdiv0 + M1*N*Pdiv1 + M2*N*Pdiv2)",
         "spatial_dimension": 3,
         "structure_shift": "S^i=q^{ij}(N partial_j M-M partial_j N)",
         "ultralocal_cancellations": [
@@ -5078,7 +5078,7 @@
         "status": "pass_all_12_finite_horizon_linearized_inhomogeneous_energies"
       },
       "name": "quartic_linear_x_finite_horizon_inhomogeneous_physical_energies",
-      "scope": "Hash-replayed KYY tensor/scalar quadratic Hamiltonians with exact rational coefficient bounds, Hamiltonian-mode cancellation, a Gronwall amplification factor, an explicit three-torus Sobolev C1 majorant, and positive initial-energy radii. This is deliberately limited to the three reduced linear physical modes; lapse/shift/constraint reconstruction, full 22-variable nonlinear trapping, nonlinear boundary energy, and observations remain fail-closed.",
+      "scope": "Hash-replayed KYY tensor/scalar quadratic Hamiltonians with exact rational coefficient bounds, Hamiltonian-mode cancellation, a Gronwall amplification factor, an explicit three-torus Sobolev C1 majorant, and positive initial-energy radii. This is deliberately limited to the three reduced linear physical modes; lapse/shift/constraint reconstruction, full physical-space nonlinear trapping, nonlinear boundary energy, and observations remain fail-closed.",
       "status": "pass"
     },
     {
@@ -5119,11 +5119,11 @@
           34641016155.15731,
           34641016155.15731
         ],
-        "scope": "This is the linear spatial auxiliary reconstruction bridge, not the final nonlinear 22-variable trapping or boundary-energy theorem.",
+        "scope": "This is the linear spatial auxiliary reconstruction bridge, not the final nonlinear physical-space trapping or boundary-energy theorem.",
         "status": "pass_all_12_linear_constraint_reconstructions"
       },
       "name": "quartic_linear_x_constraint_and_gauge_reconstruction",
-      "scope": "Source-bound KYY lapse/shift constraint elimination with an exact beta-k closed form, explicit Theta and infrared singular controls, harmless treatment of the zero-mode shift-potential kernel, candidate-specific operator bounds, and tightened initial-energy radii. Spatial C1 auxiliaries pass; their time derivatives, nonlinear constraint products, full 22-variable jet trapping, and boundary energy remain unresolved.",
+      "scope": "Source-bound KYY lapse/shift constraint elimination with an exact beta-k closed form, explicit Theta and infrared singular controls, harmless treatment of the zero-mode shift-potential kernel, candidate-specific operator bounds, and tightened initial-energy radii. Spatial C1 auxiliaries pass; their time derivatives, nonlinear constraint products, full physical-space jet trapping, and boundary energy remain unresolved.",
       "status": "pass"
     },
     {
@@ -5213,6 +5213,55 @@
       },
       "name": "quartic_linear_x_quasilinear_coefficient_moser_envelopes",
       "scope": "The exact A/B/C blocks are quadratic in 24 covariant jet components, so their third and fourth raw derivatives vanish. Candidate symmetrizer bounds give a verified rational ceiling on the inverse time block, and the differentiated A F=X identity propagates exact companion bounds through Sobolev order four. False degree-one and H3 declarations reject. This is coefficient-composition readiness only: the nonlinear state-to-jet map, source and symmetrizer derivatives, gauge reconstruction, commuted energy closure, and PDE bootstrap remain unresolved.",
+      "status": "pass"
+    },
+    {
+      "claim": "All 12 fixed-coefficient linear-X quartic candidates are bound to an exact 55-variable three-dimensional first-order principal reduction whose nonzero characteristic modes reproduce the proven 22-by-22 directional companion pencil.",
+      "evidence": {
+        "artifact": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\runs\\physics-language\\quartic-first-order-reduction-campaign\\campaign.json",
+        "artifact_hash_matches_reexecution": true,
+        "candidate_set_corruption_negative": {
+          "errors": [
+            "campaign candidate sets do not match"
+          ],
+          "status": "reject"
+        },
+        "config": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\configs\\backgrounds\\quartic_first_order_reduction_campaign.json",
+        "constraint_counts": {
+          "derivative_definition": 33,
+          "independent_spatial_curl": 33
+        },
+        "counts": {
+          "exact_55_variable_reductions_passed": 12,
+          "rejected": 0,
+          "selected": 12
+        },
+        "moser_campaign": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\runs\\physics-language\\quartic-quasilinear-moser-campaign\\campaign.json",
+        "negative_controls": {
+          "omitted_definition_constraint_evolution": {
+            "corruption": "omit the third spatial-derivative evolution equation",
+            "exact_witness_residual": "-7",
+            "rejected": true
+          },
+          "omitted_spatial_derivative_evolution": {
+            "corruption": "omit partial_0 w_3=partial_3 v",
+            "exact_witness_residual": "3600",
+            "rejected": true
+          }
+        },
+        "scope": "This is a principal first-order reduction with exact definition/curl-constraint propagation. It does not yet provide the nonlinear lower-order source, connection terms, gauge-driver state, symmetrizer for the 55-variable reduction, state-to-jet Sobolev bounds, commuted energy closure, or PDE bootstrap.",
+        "spatial_block_content_sha256": "695ff2a5fd45fa3fba21d4ce25ab2f62bd168df187c8e931bc9b5803a9cd4aed",
+        "state_dimensions": {
+          "directional_companion": 22,
+          "physical_space_first_order": 55,
+          "second_order_fields": 11,
+          "zero_speed_auxiliary": 33
+        },
+        "status": "pass_all_12_exact_55_variable_principal_first_order_reductions",
+        "symmetrizer_campaign": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\runs\\physics-language\\quartic-symmetrizer-uniform-domain-campaign\\campaign.json"
+      },
+      "name": "quartic_linear_x_physical_space_first_order_reduction",
+      "scope": "The reduction introduces 11 fields, 11 time derivatives, and 33 spatial derivatives. Exact extraction of B_i and symmetric C_ij reconstructs the second-order symbol; the characteristic lift has zero residual; and 33 derivative-definition plus 33 independent curl constraints propagate. Omitting one spatial-derivative evolution equation rejects. This corrects the state dimension but does not yet supply nonlinear lower-order sources, connection terms, gauge drivers, a 55-variable symmetrizer, state-to-jet Sobolev bounds, commuted energy closure, or PDE bootstrap.",
       "status": "pass"
     },
     {
@@ -6767,10 +6816,10 @@
   ],
   "counts": {
     "failed": 0,
-    "passed": 99,
-    "total": 99
+    "passed": 100,
+    "total": 100
   },
-  "created_utc": "2026-08-09T21:12:45.323710+00:00",
+  "created_utc": "2026-08-09T21:44:39.739923+00:00",
   "field_contract": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\configs\\covariant_field_contract.json",
   "interpretation": "Passing controls validates only the stated algebraic scopes. It is not evidence that a generated gravity candidate is healthy or empirically correct.",
   "schema_version": "sigma-formal-controls-1.0"

@@ -108,6 +108,9 @@ from .quartic_constraint_reconstruction_campaign import (
 from .quartic_dirac_hamiltonian_campaign import (
     run_quartic_dirac_hamiltonian_campaign,
 )
+from .quartic_first_order_reduction_campaign import (
+    run_quartic_first_order_reduction_campaign,
+)
 from .quartic_linear_x_campaign import run_quartic_linear_x_symbol_campaign
 from .quartic_linearized_energy_campaign import (
     run_quartic_linearized_energy_campaign,
@@ -1577,6 +1580,106 @@ def _quartic_quasilinear_moser_campaign_control(
     }
 
 
+def _quartic_first_order_reduction_campaign_control(
+    root: Path,
+) -> tuple[bool, dict[str, Any]]:
+    base = root / "runs" / "physics-language"
+    symmetrizer_path = (
+        base / "quartic-symmetrizer-uniform-domain-campaign" / "campaign.json"
+    )
+    moser_path = base / "quartic-quasilinear-moser-campaign" / "campaign.json"
+    config_path = (
+        root
+        / "configs"
+        / "backgrounds"
+        / "quartic_first_order_reduction_campaign.json"
+    )
+    artifact_path = base / "quartic-first-order-reduction-campaign" / "campaign.json"
+    symmetrizer = json.loads(symmetrizer_path.read_text(encoding="utf-8"))
+    moser = json.loads(moser_path.read_text(encoding="utf-8"))
+    config = json.loads(config_path.read_text(encoding="utf-8"))
+    artifact = json.loads(artifact_path.read_text(encoding="utf-8"))
+    result = run_quartic_first_order_reduction_campaign(
+        symmetrizer, moser, config
+    )
+    corrupted = json.loads(json.dumps(moser))
+    corrupted["certificates"][0]["candidate_id"] = "corrupted-candidate"
+    negative = run_quartic_first_order_reduction_campaign(
+        symmetrizer, corrupted, config
+    )
+    certificates = result.get("certificates", [])
+    counts = result.get("counts", {})
+    control = result.get("generic_reduction_control", {})
+    passed = bool(
+        result.get("status")
+        == "pass_all_12_exact_55_variable_principal_first_order_reductions"
+        and counts.get("selected") == 12
+        and counts.get("exact_55_variable_reductions_passed") == 12
+        and counts.get("rejected") == 0
+        and len(certificates) == 12
+        and control.get("passed") is True
+        and control.get("spatial_block_extraction", {}).get(
+            "B_reconstruction_residual_zero"
+        )
+        is True
+        and control.get("spatial_block_extraction", {}).get(
+            "C_reconstruction_residual_zero"
+        )
+        is True
+        and control.get("full_pencil", {}).get(
+            "nonzero_characteristic_lift_residual_zero"
+        )
+        is True
+        and control.get("full_pencil", {}).get(
+            "directional_companion_lift_residual_zero"
+        )
+        is True
+        and all(
+            item.get("state_dimensions", {}).get("physical_space_first_order")
+            == 55
+            and item.get("state_dimensions", {}).get("directional_companion")
+            == 22
+            and item.get("constraint_counts")
+            == {"derivative_definition": 33, "independent_spatial_curl": 33}
+            and "does not yet provide the nonlinear lower-order source"
+            in item.get("scope", "")
+            for item in certificates
+        )
+        and artifact.get("content_sha256") == result.get("content_sha256")
+        and negative.get("status") == "reject"
+    )
+    return passed, {
+        "symmetrizer_campaign": str(symmetrizer_path),
+        "moser_campaign": str(moser_path),
+        "config": str(config_path),
+        "artifact": str(artifact_path),
+        "status": result.get("status"),
+        "counts": counts,
+        "artifact_hash_matches_reexecution": (
+            artifact.get("content_sha256") == result.get("content_sha256")
+        ),
+        "state_dimensions": {
+            "second_order_fields": 11,
+            "directional_companion": 22,
+            "physical_space_first_order": 55,
+            "zero_speed_auxiliary": 33,
+        },
+        "constraint_counts": {
+            "derivative_definition": 33,
+            "independent_spatial_curl": 33,
+        },
+        "spatial_block_content_sha256": control.get(
+            "spatial_block_extraction", {}
+        ).get("block_content_sha256"),
+        "negative_controls": result.get("negative_controls"),
+        "candidate_set_corruption_negative": {
+            "status": negative.get("status"),
+            "errors": negative.get("errors"),
+        },
+        "scope": result.get("scope"),
+    }
+
+
 def _quartic_horndeski_covariant_adm_control(
     root: Path,
 ) -> tuple[bool, dict[str, Any]]:
@@ -2720,13 +2823,13 @@ def run_formal_control_suite(
         _run_check(
             "quartic_linear_x_finite_horizon_inhomogeneous_physical_energies",
             "All 12 fixed-coefficient linear-X quartic candidates possess a coercive all-wavenumber linearized physical-mode Sobolev energy with an explicit finite-horizon amplification bound on a compact segment of the exact expanding FLRW branch.",
-            "Hash-replayed KYY tensor/scalar quadratic Hamiltonians with exact rational coefficient bounds, Hamiltonian-mode cancellation, a Gronwall amplification factor, an explicit three-torus Sobolev C1 majorant, and positive initial-energy radii. This is deliberately limited to the three reduced linear physical modes; lapse/shift/constraint reconstruction, full 22-variable nonlinear trapping, nonlinear boundary energy, and observations remain fail-closed.",
+            "Hash-replayed KYY tensor/scalar quadratic Hamiltonians with exact rational coefficient bounds, Hamiltonian-mode cancellation, a Gronwall amplification factor, an explicit three-torus Sobolev C1 majorant, and positive initial-energy radii. This is deliberately limited to the three reduced linear physical modes; lapse/shift/constraint reconstruction, full physical-space nonlinear trapping, nonlinear boundary energy, and observations remain fail-closed.",
             lambda: _quartic_linearized_energy_campaign_control(root),
         ),
         _run_check(
             "quartic_linear_x_constraint_and_gauge_reconstruction",
             "All 12 fixed-coefficient linear-X quartic candidates possess exact bounded linear lapse and physical longitudinal-shift reconstruction operators chained to positive Sobolev-energy radii on the compact FLRW segment.",
-            "Source-bound KYY lapse/shift constraint elimination with an exact beta-k closed form, explicit Theta and infrared singular controls, harmless treatment of the zero-mode shift-potential kernel, candidate-specific operator bounds, and tightened initial-energy radii. Spatial C1 auxiliaries pass; their time derivatives, nonlinear constraint products, full 22-variable jet trapping, and boundary energy remain unresolved.",
+            "Source-bound KYY lapse/shift constraint elimination with an exact beta-k closed form, explicit Theta and infrared singular controls, harmless treatment of the zero-mode shift-potential kernel, candidate-specific operator bounds, and tightened initial-energy radii. Spatial C1 auxiliaries pass; their time derivatives, nonlinear constraint products, full physical-space jet trapping, and boundary energy remain unresolved.",
             lambda: _quartic_constraint_reconstruction_campaign_control(root),
         ),
         _run_check(
@@ -2740,6 +2843,12 @@ def run_formal_control_suite(
             "All 12 fixed-coefficient linear-X quartic candidates possess explicit uniform C4 derivative envelopes for the action-derived 22-variable quasilinear companion coefficient on their certified strong-hyperbolicity boxes.",
             "The exact A/B/C blocks are quadratic in 24 covariant jet components, so their third and fourth raw derivatives vanish. Candidate symmetrizer bounds give a verified rational ceiling on the inverse time block, and the differentiated A F=X identity propagates exact companion bounds through Sobolev order four. False degree-one and H3 declarations reject. This is coefficient-composition readiness only: the nonlinear state-to-jet map, source and symmetrizer derivatives, gauge reconstruction, commuted energy closure, and PDE bootstrap remain unresolved.",
             lambda: _quartic_quasilinear_moser_campaign_control(root),
+        ),
+        _run_check(
+            "quartic_linear_x_physical_space_first_order_reduction",
+            "All 12 fixed-coefficient linear-X quartic candidates are bound to an exact 55-variable three-dimensional first-order principal reduction whose nonzero characteristic modes reproduce the proven 22-by-22 directional companion pencil.",
+            "The reduction introduces 11 fields, 11 time derivatives, and 33 spatial derivatives. Exact extraction of B_i and symmetric C_ij reconstructs the second-order symbol; the characteristic lift has zero residual; and 33 derivative-definition plus 33 independent curl constraints propagate. Omitting one spatial-derivative evolution equation rejects. This corrects the state dimension but does not yet supply nonlinear lower-order sources, connection terms, gauge drivers, a 55-variable symmetrizer, state-to-jet Sobolev bounds, commuted energy closure, or PDE bootstrap.",
+            lambda: _quartic_first_order_reduction_campaign_control(root),
         ),
         _run_check(
             "quartic_horndeski_timelike_flat_physical_hamiltonian",

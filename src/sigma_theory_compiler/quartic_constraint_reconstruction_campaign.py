@@ -308,7 +308,7 @@ def certify_quartic_constraint_reconstruction_candidate(
         "scope": (
             "This closes spatial C1 reconstruction of the linear auxiliary variables. It does "
             "not control their time derivatives, nonlinear constraint products, vector gauge "
-            "sectors, or every Einstein/scalar-Hessian jet in the full 22-variable system; a "
+            "sectors, or every Einstein/scalar-Hessian jet in the full physical-space first-order system; a "
             "nonlinear PDE trapping theorem and global boundary energy remain unresolved."
         ),
     }
@@ -419,7 +419,7 @@ def run_quartic_constraint_reconstruction_campaign(
             ),
             "scope": (
                 "This is the linear spatial auxiliary reconstruction bridge, not the final "
-                "nonlinear 22-variable trapping or boundary-energy theorem."
+                "nonlinear physical-space trapping or boundary-energy theorem."
             ),
         }
     except (KeyError, TypeError, ValueError, QuarticConstraintReconstructionError) as error:

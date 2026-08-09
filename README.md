@@ -389,6 +389,20 @@ This command certifies coefficient-composition regularity, not nonlinear PDE boo
 The nonlinear state-to-jet/source map, symmetrizer derivatives, gauge reconstruction, and commuted
 energy inequality remain separate fail-closed gates.
 
+Construct the genuine three-dimensional first-order state with:
+
+```powershell
+python -m sigma_theory_compiler quartic-first-order-reduction-campaign `
+  --symmetrizer-campaign runs/physics-language/quartic-symmetrizer-uniform-domain-campaign/campaign.json `
+  --moser-campaign runs/physics-language/quartic-quasilinear-moser-campaign/campaign.json `
+  --config configs/backgrounds/quartic_first_order_reduction_campaign.json `
+  --output runs/physics-language/quartic-first-order-reduction-campaign
+```
+
+This produces the 55-variable `(q_A,v_A,w_iA)` principal reduction and its definition/curl
+constraints. The 22-by-22 companion remains the correct fixed-direction characteristic object;
+it is not mislabeled as the complete physical-space PDE state.
+
 Compile and execute a bounded scalar action variation through Cadabra:
 
 ```powershell

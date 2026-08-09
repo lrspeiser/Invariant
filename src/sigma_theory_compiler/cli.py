@@ -49,6 +49,10 @@ from .quartic_dirac_hamiltonian_campaign import (
     run_quartic_dirac_hamiltonian_campaign,
     write_quartic_dirac_hamiltonian_campaign,
 )
+from .quartic_first_order_reduction_campaign import (
+    run_quartic_first_order_reduction_campaign,
+    write_quartic_first_order_reduction_campaign,
+)
 from .quartic_linear_x_campaign import (
     run_quartic_linear_x_symbol_campaign,
     write_quartic_linear_x_symbol_campaign,
@@ -492,6 +496,16 @@ def _parser() -> argparse.ArgumentParser:
     quartic_moser.add_argument("--auxiliary-time-campaign", type=Path, required=True)
     quartic_moser.add_argument("--config", type=Path, required=True)
     quartic_moser.add_argument("--output", type=Path, required=True)
+    quartic_first_order = subparsers.add_parser(
+        "quartic-first-order-reduction-campaign",
+        help="Construct the exact 55-variable physical-space first-order quartic reduction",
+    )
+    quartic_first_order.add_argument(
+        "--symmetrizer-campaign", type=Path, required=True
+    )
+    quartic_first_order.add_argument("--moser-campaign", type=Path, required=True)
+    quartic_first_order.add_argument("--config", type=Path, required=True)
+    quartic_first_order.add_argument("--output", type=Path, required=True)
     dhost_compile = subparsers.add_parser(
         "dhost-pack-compile",
         help="Compile a reduced rank-one quadratic DHOST kinetic family",
@@ -1282,6 +1296,30 @@ def main(argv: list[str] | None = None) -> int:
             0
             if result["status"]
             == "pass_all_12_quasilinear_coefficient_derivative_envelopes"
+            else 1
+        )
+    if args.command == "quartic-first-order-reduction-campaign":
+        symmetrizer_campaign = json.loads(
+            args.symmetrizer_campaign.read_text(encoding="utf-8")
+        )
+        moser_campaign = json.loads(args.moser_campaign.read_text(encoding="utf-8"))
+        config = json.loads(args.config.read_text(encoding="utf-8"))
+        result = run_quartic_first_order_reduction_campaign(
+            symmetrizer_campaign, moser_campaign, config
+        )
+        path = write_quartic_first_order_reduction_campaign(result, args.output)
+        print(f"status={result['status']}")
+        print(f"selected={result['counts']['selected']}")
+        print(
+            "exact_55_variable_reductions_passed="
+            f"{result['counts']['exact_55_variable_reductions_passed']}"
+        )
+        print(f"rejected={result['counts']['rejected']}")
+        print(f"report={path}")
+        return (
+            0
+            if result["status"]
+            == "pass_all_12_exact_55_variable_principal_first_order_reductions"
             else 1
         )
     if args.command == "dhost-pack-compile":
