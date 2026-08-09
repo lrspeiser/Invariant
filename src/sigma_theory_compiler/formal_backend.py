@@ -112,6 +112,9 @@ from .quartic_linear_x_campaign import run_quartic_linear_x_symbol_campaign
 from .quartic_linearized_energy_campaign import (
     run_quartic_linearized_energy_campaign,
 )
+from .quartic_quasilinear_moser_campaign import (
+    run_quartic_quasilinear_moser_campaign,
+)
 from .quartic_symmetrizer_domain import run_quartic_symmetrizer_domain_campaign
 from .scalar_tensor_pack import (
     generic_g2_variation_noether_control,
@@ -1486,6 +1489,94 @@ def _quartic_auxiliary_time_campaign_control(
     }
 
 
+def _quartic_quasilinear_moser_campaign_control(
+    root: Path,
+) -> tuple[bool, dict[str, Any]]:
+    base = root / "runs" / "physics-language"
+    symmetrizer_path = (
+        base / "quartic-symmetrizer-uniform-domain-campaign" / "campaign.json"
+    )
+    auxiliary_path = base / "quartic-auxiliary-time-campaign" / "campaign.json"
+    config_path = (
+        root
+        / "configs"
+        / "backgrounds"
+        / "quartic_quasilinear_moser_campaign.json"
+    )
+    artifact_path = base / "quartic-quasilinear-moser-campaign" / "campaign.json"
+    symmetrizer = json.loads(symmetrizer_path.read_text(encoding="utf-8"))
+    auxiliary = json.loads(auxiliary_path.read_text(encoding="utf-8"))
+    config = json.loads(config_path.read_text(encoding="utf-8"))
+    artifact = json.loads(artifact_path.read_text(encoding="utf-8"))
+    result = run_quartic_quasilinear_moser_campaign(
+        symmetrizer, auxiliary, config
+    )
+    corrupted = json.loads(json.dumps(auxiliary))
+    corrupted["certificates"][0]["candidate_id"] = "corrupted-candidate"
+    negative = run_quartic_quasilinear_moser_campaign(
+        symmetrizer, corrupted, config
+    )
+    certificates = result.get("certificates", [])
+    counts = result.get("counts", {})
+    passed = bool(
+        result.get("status")
+        == "pass_all_12_quasilinear_coefficient_derivative_envelopes"
+        and counts.get("selected") == 12
+        and counts.get("quasilinear_coefficient_envelopes_passed") == 12
+        and counts.get("rejected") == 0
+        and len(certificates) == 12
+        and all(
+            item.get("raw_coefficient_degree") == {"A": 2, "B": 2, "C": 2}
+            and all(
+                item.get("raw_Frechet_derivative_2_norm_envelopes", {})
+                .get(name, {})
+                .get(order)
+                == "0"
+                for name in ("A", "B", "C")
+                for order in ("3", "4")
+            )
+            and item.get(
+                "companion_Frechet_derivative_2_norm_envelopes_numeric", {}
+            ).get("4", 0)
+            > 0
+            and "does not reconstruct the nonlinear state-to-covariant-jet map"
+            in item.get("scope", "")
+            for item in certificates
+        )
+        and artifact.get("content_sha256") == result.get("content_sha256")
+        and negative.get("status") == "reject"
+    )
+    return passed, {
+        "symmetrizer_campaign": str(symmetrizer_path),
+        "auxiliary_time_campaign": str(auxiliary_path),
+        "config": str(config_path),
+        "artifact": str(artifact_path),
+        "status": result.get("status"),
+        "counts": counts,
+        "artifact_hash_matches_reexecution": (
+            artifact.get("content_sha256") == result.get("content_sha256")
+        ),
+        "companion_C4_envelope_numeric_range": [
+            min(
+                item["companion_Frechet_derivative_2_norm_envelopes_numeric"]["4"]
+                for item in certificates
+            ),
+            max(
+                item["companion_Frechet_derivative_2_norm_envelopes_numeric"]["4"]
+                for item in certificates
+            ),
+        ]
+        if certificates
+        else [],
+        "negative_controls": result.get("negative_controls"),
+        "candidate_set_corruption_negative": {
+            "status": negative.get("status"),
+            "errors": negative.get("errors"),
+        },
+        "scope": result.get("scope"),
+    }
+
+
 def _quartic_horndeski_covariant_adm_control(
     root: Path,
 ) -> tuple[bool, dict[str, Any]]:
@@ -2643,6 +2734,12 @@ def run_formal_control_suite(
             "All 12 fixed-coefficient linear-X quartic candidates possess bounded linear lapse and physical longitudinal-shift reconstruction through one time derivative, chained to explicit positive Sobolev-energy radii.",
             "Exact time differentiation of the KYY auxiliary solutions followed by elimination of ddot(zeta) with the reduced scalar equation; candidate-specific R/S/G_S drift, damping, sound-cone, C2 Sobolev, and infrared bounds. An omitted-acceleration equation and insufficient Sobolev order reject. Nonlinear products, modified-harmonic gauge sectors, quasilinear commutators, full PDE trapping, and boundary energy remain unresolved.",
             lambda: _quartic_auxiliary_time_campaign_control(root),
+        ),
+        _run_check(
+            "quartic_linear_x_quasilinear_coefficient_moser_envelopes",
+            "All 12 fixed-coefficient linear-X quartic candidates possess explicit uniform C4 derivative envelopes for the action-derived 22-variable quasilinear companion coefficient on their certified strong-hyperbolicity boxes.",
+            "The exact A/B/C blocks are quadratic in 24 covariant jet components, so their third and fourth raw derivatives vanish. Candidate symmetrizer bounds give a verified rational ceiling on the inverse time block, and the differentiated A F=X identity propagates exact companion bounds through Sobolev order four. False degree-one and H3 declarations reject. This is coefficient-composition readiness only: the nonlinear state-to-jet map, source and symmetrizer derivatives, gauge reconstruction, commuted energy closure, and PDE bootstrap remain unresolved.",
+            lambda: _quartic_quasilinear_moser_campaign_control(root),
         ),
         _run_check(
             "quartic_horndeski_timelike_flat_physical_hamiltonian",

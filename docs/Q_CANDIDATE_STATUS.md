@@ -97,7 +97,7 @@ python -m sigma_theory_compiler action-health `
   --output runs/generated-candidates/GF-5df8715b319f54cb-static-null-v1/formal-health
 ```
 
-The latest production formal harness passes 98/98 controls, and 275 tests are collected. The complete
+The latest production formal harness passes 99/99 controls, and 278 tests are collected. The complete
 234/234-test suite passed in 995.1 seconds; all subsequently added scoped tests pass. The newest
 controls add the arbitrary-`G4(phi,X)` fixed-metric scalar current with
 all 20 flat third-jet coefficients canceled, complete flat nonlinear-`X` metric/scalar Noether
@@ -130,6 +130,11 @@ energy radii. Auxiliary time derivatives now pass at linear order after exact us
 equation and an `H^4 -> C^2` estimate. The remaining reconstruction scope is nonlinear constraint
 products, modified-harmonic gauge variables, quasilinear commutators, and the complete
 spacetime-jet map.
+The action-derived quasilinear coefficient maps now have exact uniform `C4` envelopes on the
+certified boxes for all 12 candidates: `A/B/C` are quadratic in the 24 covariant jet components,
+and a verified `||A^-1||_2<5` ceiling closes the inverse-product derivative recurrence. This does
+not yet bound the nonlinear state-to-jet map, sources, symmetrizer derivatives, gauge variables,
+or the commuted energy, so no nonlinear trapping or observational promotion follows.
 The compiled FLRW background system now has a reusable outward-rounded interval integrator. The
 canonical massless-scalar control encloses the analytic stiff-FLRW endpoint for all 40 accepted
 steps while uniformly bounding the constraint and health margins; off-constraint, singular-matrix,

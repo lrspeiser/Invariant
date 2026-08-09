@@ -1,6 +1,6 @@
 # Sigma formal-backend controls
 
-- Passed: 98 / 98
+- Passed: 99 / 99
 - Cadabra 2 available: True
 
 | Control | Status | Verified scope |
@@ -82,6 +82,7 @@
 | `quartic_linear_x_finite_horizon_inhomogeneous_physical_energies` | pass | Hash-replayed KYY tensor/scalar quadratic Hamiltonians with exact rational coefficient bounds, Hamiltonian-mode cancellation, a Gronwall amplification factor, an explicit three-torus Sobolev C1 majorant, and positive initial-energy radii. This is deliberately limited to the three reduced linear physical modes; lapse/shift/constraint reconstruction, full 22-variable nonlinear trapping, nonlinear boundary energy, and observations remain fail-closed. |
 | `quartic_linear_x_constraint_and_gauge_reconstruction` | pass | Source-bound KYY lapse/shift constraint elimination with an exact beta-k closed form, explicit Theta and infrared singular controls, harmless treatment of the zero-mode shift-potential kernel, candidate-specific operator bounds, and tightened initial-energy radii. Spatial C1 auxiliaries pass; their time derivatives, nonlinear constraint products, full 22-variable jet trapping, and boundary energy remain unresolved. |
 | `quartic_linear_x_auxiliary_time_reconstruction` | pass | Exact time differentiation of the KYY auxiliary solutions followed by elimination of ddot(zeta) with the reduced scalar equation; candidate-specific R/S/G_S drift, damping, sound-cone, C2 Sobolev, and infrared bounds. An omitted-acceleration equation and insufficient Sobolev order reject. Nonlinear products, modified-harmonic gauge sectors, quasilinear commutators, full PDE trapping, and boundary energy remain unresolved. |
+| `quartic_linear_x_quasilinear_coefficient_moser_envelopes` | pass | The exact A/B/C blocks are quadratic in 24 covariant jet components, so their third and fourth raw derivatives vanish. Candidate symmetrizer bounds give a verified rational ceiling on the inverse time block, and the differentiated A F=X identity propagates exact companion bounds through Sobolev order four. False degree-one and H3 declarations reject. This is coefficient-composition readiness only: the nonlinear state-to-jet map, source and symmetrizer derivatives, gauge reconstruction, commuted energy closure, and PDE bootstrap remain unresolved. |
 | `quartic_horndeski_timelike_flat_physical_hamiltonian` | pass | Action/Dirac/principal-count-matched exact Legendre transform with positive tensor/scalar momentum and coordinate Hessians plus ghost and gradient negative controls; nonlinear global energy remains unresolved. |
 | `quartic_horndeski_global_timelike_gradient_no_go` | pass | Exact all-amplitude sign split: alpha>0 reaches kinetic rank loss/ghost, alpha<0 reaches cone collapse/gradient instability; an explicit bounded EFT/background domain is required. |
 | `quartic_horndeski_flrw_background_domain_crossing` | pass | Exact action-hash-bound contracting closed-FLRW boundary-crossing witness with a regular homogeneous acceleration system; restricted solution classes, EFT stopping boundaries, and nonlinear G4 completions remain separate. |

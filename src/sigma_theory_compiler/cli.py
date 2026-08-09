@@ -57,6 +57,10 @@ from .quartic_linearized_energy_campaign import (
     run_quartic_linearized_energy_campaign,
     write_quartic_linearized_energy_campaign,
 )
+from .quartic_quasilinear_moser_campaign import (
+    run_quartic_quasilinear_moser_campaign,
+    write_quartic_quasilinear_moser_campaign,
+)
 from .quartic_symmetrizer_domain import (
     run_quartic_symmetrizer_domain_campaign,
     write_quartic_symmetrizer_domain_campaign,
@@ -480,6 +484,14 @@ def _parser() -> argparse.ArgumentParser:
     )
     quartic_auxiliary_time.add_argument("--config", type=Path, required=True)
     quartic_auxiliary_time.add_argument("--output", type=Path, required=True)
+    quartic_moser = subparsers.add_parser(
+        "quartic-quasilinear-moser-campaign",
+        help="Bound C4 jet derivatives of the quartic quasilinear companion coefficients",
+    )
+    quartic_moser.add_argument("--symmetrizer-campaign", type=Path, required=True)
+    quartic_moser.add_argument("--auxiliary-time-campaign", type=Path, required=True)
+    quartic_moser.add_argument("--config", type=Path, required=True)
+    quartic_moser.add_argument("--output", type=Path, required=True)
     dhost_compile = subparsers.add_parser(
         "dhost-pack-compile",
         help="Compile a reduced rank-one quadratic DHOST kinetic family",
@@ -1244,6 +1256,32 @@ def main(argv: list[str] | None = None) -> int:
             0
             if result["status"]
             == "pass_all_12_linear_auxiliary_time_reconstructions"
+            else 1
+        )
+    if args.command == "quartic-quasilinear-moser-campaign":
+        symmetrizer_campaign = json.loads(
+            args.symmetrizer_campaign.read_text(encoding="utf-8")
+        )
+        auxiliary_time_campaign = json.loads(
+            args.auxiliary_time_campaign.read_text(encoding="utf-8")
+        )
+        config = json.loads(args.config.read_text(encoding="utf-8"))
+        result = run_quartic_quasilinear_moser_campaign(
+            symmetrizer_campaign, auxiliary_time_campaign, config
+        )
+        path = write_quartic_quasilinear_moser_campaign(result, args.output)
+        print(f"status={result['status']}")
+        print(f"selected={result['counts']['selected']}")
+        print(
+            "quasilinear_coefficient_envelopes_passed="
+            f"{result['counts']['quasilinear_coefficient_envelopes_passed']}"
+        )
+        print(f"rejected={result['counts']['rejected']}")
+        print(f"report={path}")
+        return (
+            0
+            if result["status"]
+            == "pass_all_12_quasilinear_coefficient_derivative_envelopes"
             else 1
         )
     if args.command == "dhost-pack-compile":

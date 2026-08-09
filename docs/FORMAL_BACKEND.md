@@ -299,6 +299,18 @@ radius. Omitting the scalar acceleration equation leaves a nonzero exact residua
 The remaining bridge is genuinely nonlinear: products and commutators in the constraints and
 modified-harmonic gauge sector must be bounded in the complete first-order system.
 
+The first quasilinear/Moser prerequisite is now generated from the complete extracted matrices.
+Every entry of the action-derived `A`, `B`, and `C` blocks is polynomial of degree at most two in
+the 24 independent covariant background-jet components: four components of `nabla(phi)`, ten of
+the symmetric scalar Hessian, and ten of the symmetric Einstein tensor. The campaign differentiates
+those matrices exactly, proves every raw third and fourth derivative vanishes, and uses the
+candidate symmetrizer certificate to verify the rational ceiling `||A^-1||_2<5`. Repeated
+differentiation of `A F=X` then gives explicit uniform companion-matrix derivative envelopes
+through order four for all 12 candidates. A false degree-one declaration, a missing binomial
+factor, and an `H^3` declaration reject. This closes coefficient-composition regularity only: the
+nonlinear state-to-covariant-jet map, nonlinear sources, symmetrizer derivatives, gauge variables,
+commuted energy inequality, and bootstrap invariance are still required.
+
 The bounded campaign adapter now consumes that exact partition without recompiling known
 noneligible assignments. It rebinds all eligible assignments, solves the FLRW energy constraint
 near a declared shared seed, and interval-certifies each resulting trajectory. For the current

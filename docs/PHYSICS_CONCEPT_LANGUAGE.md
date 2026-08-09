@@ -182,6 +182,14 @@ and emits exact coefficient-drift and `C2` Sobolev bounds. Nonlinear products, g
 commutators, the complete first-order state, and a full spacetime-jet trapping certificate remain
 outside the pass claim.
 
+The language now also derives quasilinear coefficient regularity rather than assigning a generic
+"smooth coefficient" label. For the 12 quartic candidates it differentiates the exact 22-variable
+`A/B/C` pencil in all 24 covariant jet components, detects its exact quadratic degree, and
+propagates uniform derivative envelopes through the inverse time block to Sobolev order four.
+This is an executable prerequisite for Moser estimates. The language still fails closed until an
+action-specific nonlinear state-to-jet map, source bounds, symmetrizer derivatives, gauge
+reconstruction, and a closed bootstrap energy inequality are present.
+
 The 6 `G3`-only formulas are routed to the dedicated cubic-Horndeski BSSN/CCZ4 weak-field theorem.
 Its compiler contract keeps the source conditions explicit rather than inventing a universal
 numeric interpretation of `much less than one`. Adaptive background screening certifies 5 over the

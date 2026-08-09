@@ -375,6 +375,20 @@ python -m sigma_theory_compiler quartic-auxiliary-time-campaign `
   --output runs/physics-language/quartic-auxiliary-time-campaign
 ```
 
+Derive uniform fourth-order quasilinear coefficient envelopes with:
+
+```powershell
+python -m sigma_theory_compiler quartic-quasilinear-moser-campaign `
+  --symmetrizer-campaign runs/physics-language/quartic-symmetrizer-uniform-domain-campaign/campaign.json `
+  --auxiliary-time-campaign runs/physics-language/quartic-auxiliary-time-campaign/campaign.json `
+  --config configs/backgrounds/quartic_quasilinear_moser_campaign.json `
+  --output runs/physics-language/quartic-quasilinear-moser-campaign
+```
+
+This command certifies coefficient-composition regularity, not nonlinear PDE bootstrap closure.
+The nonlinear state-to-jet/source map, symmetrizer derivatives, gauge reconstruction, and commuted
+energy inequality remain separate fail-closed gates.
+
 Compile and execute a bounded scalar action variation through Cadabra:
 
 ```powershell

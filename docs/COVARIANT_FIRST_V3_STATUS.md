@@ -93,7 +93,7 @@ The standalone CLI reruns the complete formal-control suite. Production packet g
 instead reuse the already verified `runs/formal-controls-v1/formal-controls.json`; the action,
 intermediate artifacts, and each gate remain hash-bound.
 
-The current production verification is 98/98 formal controls and 275 collected tests. The complete
+The current production verification is 99/99 formal controls and 278 collected tests. The complete
 234/234-test suite passed in 995.1 seconds; all subsequently added scoped tests pass. The newest
 controls add the arbitrary-`G4(phi,X)` fixed-metric scalar current with all 20
 flat third-jet coefficients canceled, complete flat nonlinear-`X` metric/scalar Noether closure, its
@@ -124,6 +124,12 @@ finite candidate-specific operator bounds and positive tightened energy radii. T
 derivatives now pass at linear order through exact scalar-equation substitution and a higher
 Sobolev estimate; nonlinear
 constraint/gauge products and the complete modified-harmonic first-order state remain fail-closed.
+The extracted quasilinear `A/B/C` blocks now additionally pass an exact coefficient-regularity
+campaign: their dependence on the 24 covariant jet components is quadratic, all raw derivatives
+above order two vanish, and candidate-specific inverse-time-block bounds propagate uniform
+companion derivative envelopes through order four. The nonlinear state-to-jet map, source and
+symmetrizer-derivative estimates, gauge reconstruction, commuted energy, and bootstrap invariance
+remain fail-closed.
 The action-derived FLRW evolution matrix now has an outward-rounded interval integration adapter.
 Its canonical massless-scalar stiff-FLRW control takes 40 certified steps, contains the analytic
 endpoint, preserves the energy constraint within tolerance, and uniformly excludes every declared
