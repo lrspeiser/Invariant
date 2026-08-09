@@ -275,6 +275,19 @@ inhomogeneous physical-mode theorem only. The lapse/shift/constraint reconstruct
 the nonlinear 22-variable Moser/bootstrap estimate are still missing, so it does not certify that
 the full nonlinear solution remains inside the local-jet box.
 
+The chained reconstruction campaign now closes the spatial auxiliary-variable part of that gap.
+Using the exact KYY scalar constraints, it derives
+`alpha_k=(G_T/Theta) dot(zeta_k)` and
+`beta_k=-(G_T/Theta)zeta_k-a^2(G_S/G_T)dot(zeta_k)/|k|^2`. On the declared
+`2*pi` three-torus, nonzero modes have `|k|>=1`; the scalar `beta_0` kernel is harmless because the
+physical longitudinal shift is `B_i(0)=i k_i beta_0=0`. Candidate-specific lower bounds on
+`|Theta|` and upper bounds on `G_T`, `G_S/G_T`, and `a` turn these formulas into explicit `C1`
+operator norms. Tightening the physical initial-energy radius by the square of that norm controls
+the lapse, its first spatial derivative, the longitudinal shift, its first spatial derivative,
+and the unitary-clock normal-gradient perturbation for all 12 cases. `Theta=0`, an unbounded
+infrared inverse Laplacian, and a broken artifact hash reject. Time derivatives of these auxiliaries
+and nonlinear constraint products remain the next missing reconstruction estimates.
+
 The bounded campaign adapter now consumes that exact partition without recompiling known
 noneligible assignments. It rebinds all eligible assignments, solves the FLRW energy constraint
 near a declared shared seed, and interval-certifies each resulting trajectory. For the current

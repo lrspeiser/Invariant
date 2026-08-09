@@ -354,6 +354,16 @@ python -m sigma_theory_compiler quartic-linearized-energy-campaign `
   --output runs/physics-language/quartic-linearized-energy-campaign
 ```
 
+Chain the physical energy to exact linear lapse/shift constraint reconstruction with:
+
+```powershell
+python -m sigma_theory_compiler quartic-constraint-reconstruction-campaign `
+  --dirac-campaign runs/physics-language/quartic-dirac-hamiltonian-campaign/campaign.json `
+  --energy-campaign runs/physics-language/quartic-linearized-energy-campaign/campaign.json `
+  --config configs/backgrounds/quartic_constraint_reconstruction_campaign.json `
+  --output runs/physics-language/quartic-constraint-reconstruction-campaign
+```
+
 Compile and execute a bounded scalar action variation through Cadabra:
 
 ```powershell

@@ -37,6 +37,10 @@ from .observation_eligibility import (
 )
 from .physics_language import compile_physics_program
 from .principal_ir import compile_physical_principal_ir, write_physical_principal_ir
+from .quartic_constraint_reconstruction_campaign import (
+    run_quartic_constraint_reconstruction_campaign,
+    write_quartic_constraint_reconstruction_campaign,
+)
 from .quartic_dirac_hamiltonian_campaign import (
     run_quartic_dirac_hamiltonian_campaign,
     write_quartic_dirac_hamiltonian_campaign,
@@ -453,6 +457,14 @@ def _parser() -> argparse.ArgumentParser:
     quartic_energy.add_argument("--dirac-campaign", type=Path, required=True)
     quartic_energy.add_argument("--config", type=Path, required=True)
     quartic_energy.add_argument("--output", type=Path, required=True)
+    quartic_reconstruction = subparsers.add_parser(
+        "quartic-constraint-reconstruction-campaign",
+        help="Reconstruct and bound linear lapse/shift auxiliaries from quartic physical modes",
+    )
+    quartic_reconstruction.add_argument("--dirac-campaign", type=Path, required=True)
+    quartic_reconstruction.add_argument("--energy-campaign", type=Path, required=True)
+    quartic_reconstruction.add_argument("--config", type=Path, required=True)
+    quartic_reconstruction.add_argument("--output", type=Path, required=True)
     dhost_compile = subparsers.add_parser(
         "dhost-pack-compile",
         help="Compile a reduced rank-one quadratic DHOST kinetic family",
@@ -1161,6 +1173,33 @@ def main(argv: list[str] | None = None) -> int:
             0
             if result["status"]
             == "pass_all_12_finite_horizon_linearized_inhomogeneous_energies"
+            else 1
+        )
+    if args.command == "quartic-constraint-reconstruction-campaign":
+        dirac_campaign = json.loads(
+            args.dirac_campaign.read_text(encoding="utf-8")
+        )
+        energy_campaign = json.loads(
+            args.energy_campaign.read_text(encoding="utf-8")
+        )
+        config = json.loads(args.config.read_text(encoding="utf-8"))
+        result = run_quartic_constraint_reconstruction_campaign(
+            dirac_campaign, energy_campaign, config
+        )
+        path = write_quartic_constraint_reconstruction_campaign(
+            result, args.output
+        )
+        print(f"status={result['status']}")
+        print(f"selected={result['counts']['selected']}")
+        print(
+            "constraint_reconstruction_passed="
+            f"{result['counts']['linear_constraint_reconstruction_passed']}"
+        )
+        print(f"rejected={result['counts']['rejected']}")
+        print(f"report={path}")
+        return (
+            0
+            if result["status"] == "pass_all_12_linear_constraint_reconstructions"
             else 1
         )
     if args.command == "dhost-pack-compile":

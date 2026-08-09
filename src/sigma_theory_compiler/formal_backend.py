@@ -101,6 +101,9 @@ from .principal_symbol import (
 from .q_adm import projected_aether_q_3plus1_control
 from .q_dirac import projected_aether_q_aligned_auxiliary_dirac_control
 from .q_tilt import projected_aether_q_constant_tilt_root_audit
+from .quartic_constraint_reconstruction_campaign import (
+    run_quartic_constraint_reconstruction_campaign,
+)
 from .quartic_dirac_hamiltonian_campaign import (
     run_quartic_dirac_hamiltonian_campaign,
 )
@@ -1281,6 +1284,107 @@ def _quartic_linearized_energy_campaign_control(
     }
 
 
+def _quartic_constraint_reconstruction_campaign_control(
+    root: Path,
+) -> tuple[bool, dict[str, Any]]:
+    base = root / "runs" / "physics-language"
+    dirac_path = base / "quartic-dirac-hamiltonian-campaign" / "campaign.json"
+    energy_path = base / "quartic-linearized-energy-campaign" / "campaign.json"
+    config_path = (
+        root
+        / "configs"
+        / "backgrounds"
+        / "quartic_constraint_reconstruction_campaign.json"
+    )
+    artifact_path = (
+        base / "quartic-constraint-reconstruction-campaign" / "campaign.json"
+    )
+    dirac_campaign = json.loads(dirac_path.read_text(encoding="utf-8"))
+    energy_campaign = json.loads(energy_path.read_text(encoding="utf-8"))
+    config = json.loads(config_path.read_text(encoding="utf-8"))
+    artifact = json.loads(artifact_path.read_text(encoding="utf-8"))
+    result = run_quartic_constraint_reconstruction_campaign(
+        dirac_campaign, energy_campaign, config
+    )
+    corrupted = json.loads(json.dumps(energy_campaign))
+    corrupted["dirac_campaign_sha256"] = "corrupted"
+    negative = run_quartic_constraint_reconstruction_campaign(
+        dirac_campaign, corrupted, config
+    )
+    certificates = result.get("certificates", [])
+    counts = result.get("counts", {})
+    passed = bool(
+        result.get("status") == "pass_all_12_linear_constraint_reconstructions"
+        and counts.get("selected") == 12
+        and counts.get("linear_constraint_reconstruction_passed") == 12
+        and counts.get("rejected") == 0
+        and len(certificates) == 12
+        and all(
+            item.get("operator_norm_bounds", {}).get(
+                "combined_reconstruction_upper_numeric", 0
+            )
+            > 0
+            and item.get("chained_energy_tube", {}).get(
+                "final_initial_E_s_strict_upper_numeric", 0
+            )
+            > 0
+            and "does not control their time derivatives" in item.get("scope", "")
+            for item in certificates
+        )
+        and artifact.get("content_sha256") == result.get("content_sha256")
+        and negative.get("status") == "reject"
+    )
+    return passed, {
+        "dirac_campaign": str(dirac_path),
+        "energy_campaign": str(energy_path),
+        "config": str(config_path),
+        "artifact": str(artifact_path),
+        "status": result.get("status"),
+        "counts": counts,
+        "artifact_hash_matches_reexecution": (
+            artifact.get("content_sha256") == result.get("content_sha256")
+        ),
+        "reconstruction_operator_numeric_range": [
+            min(
+                item["operator_norm_bounds"][
+                    "combined_reconstruction_upper_numeric"
+                ]
+                for item in certificates
+            ),
+            max(
+                item["operator_norm_bounds"][
+                    "combined_reconstruction_upper_numeric"
+                ]
+                for item in certificates
+            ),
+        ]
+        if certificates
+        else [],
+        "chained_initial_energy_numeric_range": [
+            min(
+                item["chained_energy_tube"][
+                    "final_initial_E_s_strict_upper_numeric"
+                ]
+                for item in certificates
+            ),
+            max(
+                item["chained_energy_tube"][
+                    "final_initial_E_s_strict_upper_numeric"
+                ]
+                for item in certificates
+            ),
+        ]
+        if certificates
+        else [],
+        "negative_controls": result.get("negative_controls"),
+        "hash_mismatch_negative": {
+            "status": negative.get("status"),
+            "errors": negative.get("errors"),
+        },
+        "scope": result.get("scope"),
+    }
+
+
 def _quartic_horndeski_covariant_adm_control(
     root: Path,
 ) -> tuple[bool, dict[str, Any]]:
@@ -2426,6 +2530,12 @@ def run_formal_control_suite(
             "All 12 fixed-coefficient linear-X quartic candidates possess a coercive all-wavenumber linearized physical-mode Sobolev energy with an explicit finite-horizon amplification bound on a compact segment of the exact expanding FLRW branch.",
             "Hash-replayed KYY tensor/scalar quadratic Hamiltonians with exact rational coefficient bounds, Hamiltonian-mode cancellation, a Gronwall amplification factor, an explicit three-torus Sobolev C1 majorant, and positive initial-energy radii. This is deliberately limited to the three reduced linear physical modes; lapse/shift/constraint reconstruction, full 22-variable nonlinear trapping, nonlinear boundary energy, and observations remain fail-closed.",
             lambda: _quartic_linearized_energy_campaign_control(root),
+        ),
+        _run_check(
+            "quartic_linear_x_constraint_and_gauge_reconstruction",
+            "All 12 fixed-coefficient linear-X quartic candidates possess exact bounded linear lapse and physical longitudinal-shift reconstruction operators chained to positive Sobolev-energy radii on the compact FLRW segment.",
+            "Source-bound KYY lapse/shift constraint elimination with an exact beta-k closed form, explicit Theta and infrared singular controls, harmless treatment of the zero-mode shift-potential kernel, candidate-specific operator bounds, and tightened initial-energy radii. Spatial C1 auxiliaries pass; their time derivatives, nonlinear constraint products, full 22-variable jet trapping, and boundary energy remain unresolved.",
+            lambda: _quartic_constraint_reconstruction_campaign_control(root),
         ),
         _run_check(
             "quartic_horndeski_timelike_flat_physical_hamiltonian",

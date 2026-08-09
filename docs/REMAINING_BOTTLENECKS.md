@@ -277,7 +277,10 @@ The intervening reduced linear problem is now closed on a nonzero compact time s
 all-wavenumber Sobolev energies for both tensor modes and the scalar mode have finite amplification
 bounds and positive initial-energy radii for all 12 candidates. This does not yet control lapse,
 shift, constraint reconstruction, gauge variables, or nonlinear products in the complete
-22-variable system. Candidate-level
+22-variable system. The exact linear scalar constraints now reconstruct and bound the lapse and
+physical longitudinal shift in spatial `C1`, including a correct periodic zero-mode/infrared
+contract. What remains in this bridge is auxiliary time-derivative control and the nonlinear
+constraint/gauge reconstruction needed to estimate every principal jet. Candidate-level
 local ADM/Dirac and quadratic-energy closure is no longer missing: all 12 have exact on-shell FLRW
 witnesses inside the box, rank-six ADM Hessians, strictly nonzero lapse pairings, three physical
 modes, and positive `G_T,F_T,G_S,F_S`.

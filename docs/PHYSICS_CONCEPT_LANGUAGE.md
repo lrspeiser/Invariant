@@ -174,7 +174,11 @@ time. A chained energy adapter now proves a finite-horizon, all-wavenumber Sobol
 the three reduced linearized physical modes and emits a positive admissible initial-energy radius.
 This is not promoted to a nonlinear trapping claim: constraint/gauge reconstruction, the complete
 22-variable energy, multidimensional nonlinear products, and boundary generators remain separate
-language capabilities.
+language capabilities. The linear scalar constraint layer is now partially generated rather than
+hand-waved: it derives bounded lapse and longitudinal-shift operators, isolates the harmless
+periodic zero-mode potential kernel, and tightens the admissible energy radius. Auxiliary time
+derivatives and nonlinear reconstruction are still required before this language can emit a full
+spacetime-jet trapping certificate.
 
 The 6 `G3`-only formulas are routed to the dedicated cubic-Horndeski BSSN/CCZ4 weak-field theorem.
 Its compiler contract keeps the source conditions explicit rather than inventing a universal

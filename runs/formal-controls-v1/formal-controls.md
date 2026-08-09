@@ -1,6 +1,6 @@
 # Sigma formal-backend controls
 
-- Passed: 96 / 96
+- Passed: 97 / 97
 - Cadabra 2 available: True
 
 | Control | Status | Verified scope |
@@ -80,6 +80,7 @@
 | `quartic_linear_x_uniform_symmetrizer_domains` | pass | Hash-replayed matrix-norm campaign around the exact Minkowski/constant-scalar solution. It combines the six Riesz-group projector bound, positive physical H_star forms, a Neumann-invertible time block, exact diffeomorphism kernel, rank-seven hat quotient, and fixed separated auxiliary cones. A larger box rejects. Nonlinear evolution-invariance of the box and global energy remain unresolved. |
 | `quartic_linear_x_local_on_shell_adm_dirac_hamiltonians` | pass | Hash-replayed action-to-symbol-to-symmetrizer-to-Dirac campaign. Each candidate has exact zero FLRW equation residuals, an invertible acceleration system, rank-six seven-velocity Hessian with p_V_star=0, strictly nonzero lapse pairing, six first-class plus two second-class constraints, and positive G_T/F_T/G_S/F_S. Exact interval sign bounds prove A_star^2 decreases and all local jets remain inside the box on 0<A_star^2<=1e-20; zero is approached only asymptotically. Zero clock gradient, an out-of-box witness, a tensor ghost, and a k-essence ghost reject. Inhomogeneous PDE trapping and nonlinear global energy remain unresolved. |
 | `quartic_linear_x_finite_horizon_inhomogeneous_physical_energies` | pass | Hash-replayed KYY tensor/scalar quadratic Hamiltonians with exact rational coefficient bounds, Hamiltonian-mode cancellation, a Gronwall amplification factor, an explicit three-torus Sobolev C1 majorant, and positive initial-energy radii. This is deliberately limited to the three reduced linear physical modes; lapse/shift/constraint reconstruction, full 22-variable nonlinear trapping, nonlinear boundary energy, and observations remain fail-closed. |
+| `quartic_linear_x_constraint_and_gauge_reconstruction` | pass | Source-bound KYY lapse/shift constraint elimination with an exact beta-k closed form, explicit Theta and infrared singular controls, harmless treatment of the zero-mode shift-potential kernel, candidate-specific operator bounds, and tightened initial-energy radii. Spatial C1 auxiliaries pass; their time derivatives, nonlinear constraint products, full 22-variable jet trapping, and boundary energy remain unresolved. |
 | `quartic_horndeski_timelike_flat_physical_hamiltonian` | pass | Action/Dirac/principal-count-matched exact Legendre transform with positive tensor/scalar momentum and coordinate Hessians plus ghost and gradient negative controls; nonlinear global energy remains unresolved. |
 | `quartic_horndeski_global_timelike_gradient_no_go` | pass | Exact all-amplitude sign split: alpha>0 reaches kinetic rank loss/ghost, alpha<0 reaches cone collapse/gradient instability; an explicit bounded EFT/background domain is required. |
 | `quartic_horndeski_flrw_background_domain_crossing` | pass | Exact action-hash-bound contracting closed-FLRW boundary-crossing witness with a regular homogeneous acceleration system; restricted solution classes, EFT stopping boundaries, and nonlinear G4 completions remain separate. |
