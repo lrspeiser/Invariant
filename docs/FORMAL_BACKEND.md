@@ -263,6 +263,18 @@ adapters. Exact rational sign bounds also prove the connected expanding homogene
 `G_T,F_T,G_S,F_S` and lapse pairing. The 12 cases still need an inhomogeneous PDE trapping region,
 larger multidimensional domains, and a nonlinear global positive-energy theorem.
 
+The next campaign closes one strictly intermediate step without weakening that requirement. On the
+compact segment where `A_star^2` falls from `1e-20` to `5e-21`, it derives exact rational lower
+bounds for `G_T,F_T,G_S,F_S`, bounds their logarithmic drift along the action-derived FLRW flow,
+and applies Hamilton's equations to every Fourier wavenumber. The canonical cross terms cancel,
+giving `dE_s/dt <= gamma H E_s` for the two tensor modes and `zeta`; an explicit three-torus
+Sobolev majorant then supplies a positive initial-energy radius controlling first time/spatial and
+second spatial derivatives for a finite proper-time interval. All 12 candidates pass, while a
+zero-length background segment and a scalar-gradient ghost reject. This is a linearized
+inhomogeneous physical-mode theorem only. The lapse/shift/constraint reconstruction estimate and
+the nonlinear 22-variable Moser/bootstrap estimate are still missing, so it does not certify that
+the full nonlinear solution remains inside the local-jet box.
+
 The bounded campaign adapter now consumes that exact partition without recompiling known
 noneligible assignments. It rebinds all eligible assignments, solves the FLRW energy constraint
 near a declared shared seed, and interval-certifies each resulting trajectory. For the current

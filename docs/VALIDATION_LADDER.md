@@ -19,7 +19,7 @@ That requires a staged reference ladder:
 | Stage | Golden control | Candidate requirement | Current status |
 |---|---|---|---|
 | Static weak field | Newtonian `H = D^2/2` | Recover Newton at high acceleration | Implemented |
-| Formal backend controls | EH nonlinear variation/identities/ADM, scalar, Proca, Einstein-Aether, degenerate scalar-tensor and pathology controls | Reproduce each known answer in its declared scope | Implemented (95/95; see the generated formal ledger for exact per-control scope) |
+| Formal backend controls | EH nonlinear variation/identities/ADM, scalar, Proca, Einstein-Aether, degenerate scalar-tensor and pathology controls | Reproduce each known answer in its declared scope | Implemented (96/96; see the generated formal ledger for exact per-control scope) |
 | Homogeneous background | Canonical massless-scalar stiff FLRW | Derive the background equations, preserve the constraint, and uniformly retain tensor/scalar health | Interval known-answer implemented; generated candidates require their own run configurations |
 | Covariant candidate dynamics | Einstein-Hilbert GR | Nonlinear variation, healthy constraints, two tensor modes, metric cone | Einstein-Hilbert known answer implemented; generated-candidate promotion remains fail-closed |
 | Solar weak field | GR PPN solution | Cassini, Mercury, light bending, Shapiro delay | Formally gated Einstein-Hilbert reference implemented; generated-candidate weak-field/PPN adapter remains missing |

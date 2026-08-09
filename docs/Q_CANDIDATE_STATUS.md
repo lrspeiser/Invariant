@@ -97,7 +97,7 @@ python -m sigma_theory_compiler action-health `
   --output runs/generated-candidates/GF-5df8715b319f54cb-static-null-v1/formal-health
 ```
 
-The latest production formal harness passes 95/95 controls, and 266 tests are collected. The complete
+The latest production formal harness passes 96/96 controls, and 269 tests are collected. The complete
 234/234-test suite passed in 995.1 seconds; all subsequently added scoped tests pass. The newest
 controls add the arbitrary-`G4(phi,X)` fixed-metric scalar current with
 all 20 flat third-jet coefficients canceled, complete flat nonlinear-`X` metric/scalar Noether
@@ -120,7 +120,11 @@ sectors now have exact principal polynomials and reduced Hamiltonians on the dec
 also have candidate-specific on-shell sign proofs at a local expanding FLRW state inside each
 hyperbolicity box, including complete regular three-mode ADM/Dirac counts and positive reduced
 quadratic Hamiltonians. Arbitrary-inhomogeneous domain preservation and nonlinear-global energy
-are still required.
+are still required. The intervening reduced linear problem now passes: every spatial Fourier mode
+of both tensor polarizations and the scalar mode has a coercive finite-horizon Sobolev-energy
+estimate on a compact segment of each exact FLRW branch. Because lapse/shift/constraint
+reconstruction and nonlinear product estimates are not yet present, this result is not labeled a
+full PDE trapping certificate.
 The compiled FLRW background system now has a reusable outward-rounded interval integrator. The
 canonical massless-scalar control encloses the analytic stiff-FLRW endpoint for all 40 accepted
 steps while uniformly bounding the constraint and health margins; off-constraint, singular-matrix,
@@ -139,7 +143,8 @@ including 8 quadratic-kessence extensions, and pass a complete modified-harmonic
 Riesz/H-star symmetrizer certificate on a common nonzero `2e-10` local-jet box. They are not yet
 physics survivors: every case also passes a local on-shell ADM/Dirac/quadratic-energy certificate
 and its exact expanding homogeneous ray stays inside the box at every finite future time, but
-inhomogeneous box preservation/enlargement and nonlinear global-energy closure remain open.
+the new all-wavenumber linearized physical-energy tube still falls short of nonlinear
+inhomogeneous box preservation/enlargement and nonlinear global-energy closure.
 The other 114 still require their corresponding principal/symmetrizer adapters.
 
 ## Prior art and observation seal

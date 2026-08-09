@@ -45,6 +45,10 @@ from .quartic_linear_x_campaign import (
     run_quartic_linear_x_symbol_campaign,
     write_quartic_linear_x_symbol_campaign,
 )
+from .quartic_linearized_energy_campaign import (
+    run_quartic_linearized_energy_campaign,
+    write_quartic_linearized_energy_campaign,
+)
 from .quartic_symmetrizer_domain import (
     run_quartic_symmetrizer_domain_campaign,
     write_quartic_symmetrizer_domain_campaign,
@@ -442,6 +446,13 @@ def _parser() -> argparse.ArgumentParser:
     quartic_dirac.add_argument("--symmetrizers", type=Path, required=True)
     quartic_dirac.add_argument("--config", type=Path, required=True)
     quartic_dirac.add_argument("--output", type=Path, required=True)
+    quartic_energy = subparsers.add_parser(
+        "quartic-linearized-energy-campaign",
+        help="Certify finite-horizon all-wavenumber physical energies for the quartic FLRW branches",
+    )
+    quartic_energy.add_argument("--dirac-campaign", type=Path, required=True)
+    quartic_energy.add_argument("--config", type=Path, required=True)
+    quartic_energy.add_argument("--output", type=Path, required=True)
     dhost_compile = subparsers.add_parser(
         "dhost-pack-compile",
         help="Compile a reduced rank-one quadratic DHOST kinetic family",
@@ -1129,6 +1140,27 @@ def main(argv: list[str] | None = None) -> int:
             0
             if result["status"]
             == "pass_all_12_local_on_shell_adm_dirac_and_quadratic_hamiltonian"
+            else 1
+        )
+    if args.command == "quartic-linearized-energy-campaign":
+        dirac_campaign = json.loads(
+            args.dirac_campaign.read_text(encoding="utf-8")
+        )
+        config = json.loads(args.config.read_text(encoding="utf-8"))
+        result = run_quartic_linearized_energy_campaign(dirac_campaign, config)
+        path = write_quartic_linearized_energy_campaign(result, args.output)
+        print(f"status={result['status']}")
+        print(f"selected={result['counts']['selected']}")
+        print(
+            "linearized_energy_passed="
+            f"{result['counts']['finite_horizon_linearized_energy_passed']}"
+        )
+        print(f"rejected={result['counts']['rejected']}")
+        print(f"report={path}")
+        return (
+            0
+            if result["status"]
+            == "pass_all_12_finite_horizon_linearized_inhomogeneous_energies"
             else 1
         )
     if args.command == "dhost-pack-compile":

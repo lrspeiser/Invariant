@@ -272,7 +272,12 @@ bottlenecks for the 12 simplest cases: all are hash-bound to exact local 11-by-1
 the complete 22-by-22 Riesz/H-star symmetrizer construction on a common `2e-10` normalized local-jet
 component box. A `1e-6` box is an exact negative control. The exact expanding homogeneous ray is
 now forward-invariant for every finite time. Their next bottlenecks are multidimensional enlargement
-and inhomogeneous PDE evolution-invariance of the box plus nonlinear global-energy closure. Candidate-level
+and nonlinear inhomogeneous PDE evolution-invariance of the box plus nonlinear global-energy closure.
+The intervening reduced linear problem is now closed on a nonzero compact time segment: exact
+all-wavenumber Sobolev energies for both tensor modes and the scalar mode have finite amplification
+bounds and positive initial-energy radii for all 12 candidates. This does not yet control lapse,
+shift, constraint reconstruction, gauge variables, or nonlinear products in the complete
+22-variable system. Candidate-level
 local ADM/Dirac and quadratic-energy closure is no longer missing: all 12 have exact on-shell FLRW
 witnesses inside the box, rank-six ADM Hessians, strictly nonzero lapse pairings, three physical
 modes, and positive `G_T,F_T,G_S,F_S`.

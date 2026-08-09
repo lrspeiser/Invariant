@@ -93,7 +93,7 @@ The standalone CLI reruns the complete formal-control suite. Production packet g
 instead reuse the already verified `runs/formal-controls-v1/formal-controls.json`; the action,
 intermediate artifacts, and each gate remain hash-bound.
 
-The current production verification is 95/95 formal controls and 266 collected tests. The complete
+The current production verification is 96/96 formal controls and 269 collected tests. The complete
 234/234-test suite passed in 995.1 seconds; all subsequently added scoped tests pass. The newest
 controls add the arbitrary-`G4(phi,X)` fixed-metric scalar current with all 20
 flat third-jet coefficients canceled, complete flat nonlinear-`X` metric/scalar Noether closure, its
@@ -114,7 +114,11 @@ their exact principal and reduced-Hamiltonian gates on the declared `G_T,F_T,G_S
 patch with `Theta!=0`. The 12 exact linear-`X` quartic candidates now have candidate-specific local
 on-shell FLRW sign proofs inside their strong-hyperbolicity boxes, complete regular ADM/Dirac
 three-mode counts, and positive reduced quadratic Hamiltonians. Arbitrary-inhomogeneous domain
-preservation and nonlinear global energy remain fail-closed.
+preservation and nonlinear global energy remain fail-closed. An additional exact energy campaign
+now controls all spatial Fourier wavenumbers of the three linearized physical modes over a nonzero
+compact segment of every expanding branch, with explicit Sobolev amplification and initial-energy
+radii. It deliberately does not reconstruct lapse/shift/constraint/gauge variables or bound the
+nonlinear 22-variable system, so it is not used to open the observation gate.
 The action-derived FLRW evolution matrix now has an outward-rounded interval integration adapter.
 Its canonical massless-scalar stiff-FLRW control takes 40 certified steps, contains the analytic
 endpoint, preserves the energy constraint within tolerance, and uniformly excludes every declared

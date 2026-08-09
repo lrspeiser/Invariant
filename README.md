@@ -345,6 +345,15 @@ python -m sigma_theory_compiler quartic-dirac-hamiltonian-campaign `
   --output runs/physics-language/quartic-dirac-hamiltonian-campaign
 ```
 
+Then replay the finite-horizon, all-wavenumber linearized physical-energy theorem with:
+
+```powershell
+python -m sigma_theory_compiler quartic-linearized-energy-campaign `
+  --dirac-campaign runs/physics-language/quartic-dirac-hamiltonian-campaign/campaign.json `
+  --config configs/backgrounds/quartic_linearized_energy_campaign.json `
+  --output runs/physics-language/quartic-linearized-energy-campaign
+```
+
 Compile and execute a bounded scalar action variation through Cadabra:
 
 ```powershell

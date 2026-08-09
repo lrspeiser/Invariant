@@ -170,8 +170,11 @@ observationally promoted. A further family adapter now generates an action-speci
 witness within each box and evaluates the ADM Hessian, primary/secondary Dirac chain, Poisson rank,
 three-mode count, and `G_T,F_T,G_S,F_S` reduced Hamiltonian automatically; all 12 pass locally.
 It also proves the exact expanding homogeneous ray remains in the box for every finite future
-time. Inhomogeneous PDE trapping, enlarging to multidimensional domains, and nonlinear global
-energy remain separate language capabilities.
+time. A chained energy adapter now proves a finite-horizon, all-wavenumber Sobolev estimate for
+the three reduced linearized physical modes and emits a positive admissible initial-energy radius.
+This is not promoted to a nonlinear trapping claim: constraint/gauge reconstruction, the complete
+22-variable energy, multidimensional nonlinear products, and boundary generators remain separate
+language capabilities.
 
 The 6 `G3`-only formulas are routed to the dedicated cubic-Horndeski BSSN/CCZ4 weak-field theorem.
 Its compiler contract keeps the source conditions explicit rather than inventing a universal
