@@ -299,7 +299,7 @@ radius. Omitting the scalar acceleration equation leaves a nonzero exact residua
 The remaining bridge is genuinely nonlinear: products and commutators in the constraints and
 modified-harmonic gauge sector must be bounded in the complete first-order system.
 
-The first quasilinear/Moser prerequisite is now generated from the complete extracted matrices.
+The first nonquasilinear/Moser prerequisite is now generated from the complete extracted matrices.
 Every entry of the action-derived `A`, `B`, and `C` blocks is polynomial of degree at most two in
 the 24 independent covariant background-jet components: four components of `nabla(phi)`, ten of
 the symmetric scalar Hessian, and ten of the symmetric Einstein tensor. The campaign differentiates
@@ -320,8 +320,23 @@ reconstructs the second-order symbol, and an exact characteristic lift proves th
 directional modes agree with the companion pencil. The other 33 principal directions are the 11
 field and 22 transverse-derivative auxiliary directions. All 33 derivative-definition constraints
 and 33 independent spatial-curl constraints propagate; omitting one `dot(w_i)=D_i v` equation
-rejects. Nonlinear connection/source terms, gauge-driver variables, a 55-variable symmetrizer, and
-state-to-jet Sobolev bounds remain required before a bootstrap claim.
+rejects. The subsequent geometric and evolution campaigns now supply the nonlinear connection
+map and the acceleration-independent remainder. The full-state lift then constructs a positive
+55-variable symmetrizer; quantitative source/state-to-jet commutator bounds and long-time box
+trapping remain required before a global or quantitative bootstrap claim.
+
+The full nonquasilinear first-order bridge is now explicit. The Euler system is recorded in the
+correct form `A partial_0^2 q + W=0`, where `W` may depend on `partial_0 partial_i q` and
+`partial_i partial_j q`; it is acceleration-independent but not lower order. Exact generic
+controls verify the differentiated identities `D_ij X=-A^-1 P^ij` and
+`D_0i X=-2 A^-1 P^0i` for `X=-A^-1 W`. The fixed Riesz contours give a nonzero
+characteristic gap for `M22`, and the campaign propagates the existing coefficient bounds to
+finite bounds on `M22^-1`, the transverse block `L`, and
+`F=L^dagger K22 M22^-1`. A Schur-complement choice of `c` yields explicit positive lower and
+upper bounds for `K55=[[cI,F],[F^dagger,K22]]` for all 12 candidates. This invokes the published
+nonquasilinear local well-posedness theorem only for compatible vacuum gauge-fixed data in a
+compact subset of the box interior; it does not assign a lifespan or certify long-time trapping,
+boundaries, matter evolution, or observations.
 
 The bounded campaign adapter now consumes that exact partition without recompiling known
 noneligible assignments. It rebinds all eligible assignments, solves the FLRW energy constraint

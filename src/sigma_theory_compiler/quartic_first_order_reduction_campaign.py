@@ -357,9 +357,9 @@ def quartic_full_first_order_reduction_control() -> tuple[bool, dict[str, Any]]:
         ),
         "scope": (
             "This is a principal first-order reduction with exact definition/curl-constraint "
-            "propagation. It does not yet provide the nonlinear lower-order source, connection "
-            "terms, gauge-driver state, symmetrizer for the 55-variable reduction, state-to-jet "
-            "Sobolev bounds, commuted energy closure, or PDE bootstrap."
+            "propagation. It does not yet provide the acceleration-independent remainder, "
+            "connection terms, gauge-driver state, symmetrizer for the 55-variable reduction, "
+            "state-to-jet Sobolev bounds, commuted energy closure, or PDE bootstrap."
         ),
     }
 

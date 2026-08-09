@@ -91,6 +91,26 @@ def test_all_formal_known_answer_controls_pass(tmp_path) -> None:
         item["rejected"]
         for item in nonlinear_source["evidence"]["negative_controls"].values()
     )
+    nonquasilinear_pde = checks[
+        "quartic_linear_x_full_nonquasilinear_pde_symmetrizer"
+    ]
+    assert nonquasilinear_pde["status"] == "pass"
+    assert nonquasilinear_pde["evidence"]["artifact_hash_matches_reexecution"]
+    assert nonquasilinear_pde["evidence"]["generic_nonquasilinear_control"][
+        "passed"
+    ]
+    assert nonquasilinear_pde["evidence"]["generic_full_symmetrizer_lift_control"][
+        "K55_M55_minus_M55_dagger_K55_zero"
+    ]
+    assert (
+        nonquasilinear_pde["evidence"]["representative_uniform_bounds"][
+            "K55_2_lower_numeric"
+        ]
+        > 0
+    )
+    assert nonquasilinear_pde["evidence"]["characteristic_gap_negative"][
+        "status"
+    ] == "reject"
     assert checks["projected_aether_q_fixed_metric_first_variation"]["status"] == "pass"
     assert checks["projected_aether_q_fixed_metric_first_variation"]["evidence"][
         "projector_and_B_first_variation_residual"

@@ -428,9 +428,13 @@ def _nonlinear_witness_data() -> dict[str, Any]:
     acceleration_vector = sp.Matrix(accelerations)
     zero_acceleration = {symbol: 0 for symbol in accelerations}
     acceleration_matrix = equations.jacobian(accelerations).applyfunc(sp.factor)
-    source = equations.subs(zero_acceleration).applyfunc(sp.factor)
+    acceleration_independent_remainder = equations.subs(
+        zero_acceleration
+    ).applyfunc(sp.factor)
     affine_residual = (
-        equations - acceleration_matrix * acceleration_vector - source
+        equations
+        - acceleration_matrix * acceleration_vector
+        - acceleration_independent_remainder
     ).applyfunc(sp.factor)
 
     geometry = result["geometry"]
@@ -537,7 +541,7 @@ def _nonlinear_witness_data() -> dict[str, Any]:
         "geometry": geometry,
         "equations": equations,
         "acceleration_matrix": acceleration_matrix,
-        "source": source,
+        "acceleration_independent_remainder": acceleration_independent_remainder,
         "affine_residual": affine_residual,
         "expected_time_block": expected_time_block,
         "principal_residual": principal_residual,
@@ -558,10 +562,10 @@ def nonlinear_evolution_source_control() -> tuple[bool, dict[str, Any]]:
     data = witness["symbol_data"]
     sample = {data["m2"]: 1, data["alpha"]: sp.Rational(1, 2), data["c20"]: 1}
     matrix = witness["acceleration_matrix"].subs(sample)
-    source = witness["source"].subs(sample)
-    solution = matrix.inv() * (-source)
-    solution_residual = (matrix * solution + source).applyfunc(sp.factor)
-    nonzero_source = any(item != 0 for item in source)
+    remainder = witness["acceleration_independent_remainder"].subs(sample)
+    solution = matrix.inv() * (-remainder)
+    solution_residual = (matrix * solution + remainder).applyfunc(sp.factor)
+    nonzero_remainder = any(item != 0 for item in remainder)
 
     time, radius, angle, height = sp.symbols("t r theta z", real=True)
     coordinates = (time, radius, angle, height)
@@ -605,7 +609,7 @@ def nonlinear_evolution_source_control() -> tuple[bool, dict[str, Any]]:
         and not witness["omitted_riemann_residual"].is_zero_matrix
         and matrix.det() != 0
         and solution_residual.is_zero_matrix
-        and nonzero_source
+        and nonzero_remainder
         and witness["collapse_a_determinant"] == 0
         and witness["collapse_a_rank"] == 10
         and witness["canonical_metric_residual"].is_zero_matrix
@@ -622,7 +626,10 @@ def nonlinear_evolution_source_control() -> tuple[bool, dict[str, Any]]:
         "scalar_euler": "nabla_mu(G2_X nabla^mu phi)-2 alpha G^mu_nu nabla_mu nabla_nu phi",
         "gauge_constraint": "C_beta=tilde_g^rho_sigma(Delta Gamma)_beta_rho_sigma-H_beta",
         "gauge_completion": "-M2/2 hat_P_alpha^(gamma mu nu) g^(alpha beta) nabla_gamma C_beta",
-        "evolution": "A_AB partial_0^2 q_B + S_A=0; partial_0^2 q=-A^{-1}S",
+        "evolution": (
+            "A_AB partial_0^2 q_B + W_A=0; partial_0^2 q=-A^{-1}W, where "
+            "W may depend on q, partial q, partial_0 partial_i q, and partial_i partial_j q"
+        ),
     }
     return passed, {
         "control": "exact gauge-fixed nonlinear quartic time-acceleration elimination",
@@ -638,7 +645,7 @@ def nonlinear_evolution_source_control() -> tuple[bool, dict[str, Any]]:
         "independent_principal_time_block_residual_zero": witness[
             "principal_residual"
         ].is_zero_matrix,
-        "nonzero_lower_order_source": nonzero_source,
+        "nonzero_acceleration_independent_remainder": nonzero_remainder,
         "known_answer_reductions": {
             "alpha_0_c20_0": {
                 "theory": "Einstein-Hilbert plus canonical scalar",
@@ -725,11 +732,11 @@ def _certify_candidate(
         data["c20"]: sp.sympify(coefficients["c20"]),
     }
     matrix = witness["acceleration_matrix"].subs(substitution)
-    source = witness["source"].subs(substitution)
+    remainder = witness["acceleration_independent_remainder"].subs(substitution)
     if matrix.det() == 0:
         raise QuarticNonlinearEvolutionError("candidate time block is singular at the source witness")
-    solution = matrix.inv() * (-source)
-    residual = (matrix * solution + source).applyfunc(sp.factor)
+    solution = matrix.inv() * (-remainder)
+    residual = (matrix * solution + remainder).applyfunc(sp.factor)
     if not residual.is_zero_matrix:
         raise QuarticNonlinearEvolutionError("candidate acceleration solution has nonzero residual")
     bound = sp.Rational(1, 5_000_000_000)
@@ -759,7 +766,9 @@ def _certify_candidate(
         "evolution_formula_contract_sha256": control["formula_contract_sha256"],
         "time_block_determinant_nonzero": True,
         "acceleration_solution_residual_zero": True,
-        "nonzero_source": any(item != 0 for item in source),
+        "nonzero_acceleration_independent_remainder": any(
+            item != 0 for item in remainder
+        ),
         "certified_local_jet_bound": str(bound),
         "maximum_solved_jet_component_numeric": maximum_jet,
         "maximum_abs_acceleration_numeric": max(
@@ -809,8 +818,9 @@ def run_quartic_nonlinear_evolution_campaign(
             "certificates": certificates,
             "claim": (
                 "All 12 quartic candidates are bound to the exact gauge-fixed nonlinear vacuum "
-                "Euler source and an exact local solution for their 11 second-time partials at "
-                "a nonzero source witness inside the certified local-jet box."
+                "Euler equations and an exact local solution for their 11 second-time partials "
+                "at a nonzero acceleration-independent-remainder witness inside the certified "
+                "local-jet box."
             ),
             "scope": control["scope"],
         }

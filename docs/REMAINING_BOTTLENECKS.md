@@ -281,19 +281,23 @@ physical-space first-order system. The exact linear scalar constraints now recon
 physical longitudinal shift in spatial `C1`, including a correct periodic zero-mode/infrared
 contract. Auxiliary time-derivative control is now closed at linear order as well: the scalar evolution equation removes
 `ddot(zeta)`, and exact `H^4 -> C^2` estimates bound `dot(alpha)` and `dot(B_i)` in spatial `C1`.
-The coefficient-composition part of the quasilinear bridge now passes: the exact `A/B/C` blocks
+The coefficient-composition part of the nonquasilinear bridge now passes: the exact `A/B/C` blocks
 are quadratic in the 24 covariant jet variables, their raw derivative tensors vanish above order
 two, and the inverse-time-block recurrence supplies uniform companion `C4` envelopes for all 12
-candidates. The remaining bridge is nonlinear constraint/gauge reconstruction, the state-to-jet
-map, nonlinear source and symmetrizer-derivative estimates, commuted-energy closure, and bootstrap
-invariance.
+candidates. The exact nonlinear state-to-jet map and acceleration-independent Euler remainder are
+also generated. The published block lift now supplies an explicitly bounded positive 55-state
+symmetrizer and a conditional local vacuum gauge-fixed Cauchy theorem for compatible data in the
+box interior. The remaining bridge is quantitative nonlinear constraint/gauge reconstruction,
+source and state-to-jet commutator estimates, boundary energy, a computable lifespan, and proof of
+long-time bootstrap invariance.
 
 The physical-space principal reduction is no longer implicit. The directional 22-by-22 companion
 has been lifted exactly to the genuine 55-variable three-dimensional state `(q_A,v_A,w_iA)`, with
-33 definition constraints and 33 independent curl constraints that propagate. The remaining
-state-to-jet bottleneck is therefore concrete: generate the nonlinear connection and source terms,
-add the modified-harmonic gauge-driver state, construct the corresponding 55-variable (or enlarged)
-symmetrizer, and close its commuted Sobolev energy.
+33 definition constraints and 33 independent curl constraints that propagate. The nonlinear
+connection/Euler map and the Appendix-A 55-state symmetrizer lift now pass as well. The remaining
+state-to-jet bottleneck is quantitative: bound the complete nonlinear constraint/gauge source and
+commutators in Sobolev norms, formulate boundary energy where applicable, and prove a solution
+cannot leave the certified local-jet box over the requested evolution interval.
 Candidate-level local ADM/Dirac and quadratic-energy closure is no longer missing: all 12 have exact on-shell FLRW
 witnesses inside the box, rank-six ADM Hessians, strictly nonzero lapse pairings, three physical
 modes, and positive `G_T,F_T,G_S,F_S`.

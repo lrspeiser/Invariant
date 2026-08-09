@@ -18,7 +18,7 @@ SCHEMA_VERSION = "sigma-quartic-quasilinear-moser-campaign-1.0"
 
 
 class QuarticQuasilinearMoserError(ValueError):
-    """Raised when quasilinear coefficient regularity cannot be certified."""
+    """Raised when nonquasilinear coefficient regularity cannot be certified."""
 
 
 def _canonical_json(value: Any) -> str:
@@ -317,6 +317,9 @@ def certify_quartic_quasilinear_moser_candidate(
     return {
         "schema_version": "sigma-quartic-quasilinear-moser-certificate-1.0",
         "status": "pass_quasilinear_coefficient_derivative_envelopes",
+        "system_classification": (
+            "nonquasilinear_first_order_RHS_depends_on_spatial_derivatives_of_state"
+        ),
         "candidate_id": candidate_id,
         "coefficients": coefficients,
         "domain": {
@@ -477,8 +480,8 @@ def run_quartic_quasilinear_moser_campaign(
             },
             "claim": (
                 "All 12 fixed-coefficient linear-X quartic candidates have explicit uniform C4 "
-                "derivative envelopes for their action-derived 22-variable quasilinear companion "
-                "coefficients on the certified strong-hyperbolicity boxes."
+                "derivative envelopes for their action-derived 22-variable nonquasilinear "
+                "companion coefficients on the certified strong-hyperbolicity boxes."
             ),
             "scope": (
                 "This closes raw coefficient differentiation and inverse-time-block composition, "

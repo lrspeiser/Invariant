@@ -119,6 +119,9 @@ from .quartic_linearized_energy_campaign import (
 from .quartic_nonlinear_evolution_campaign import (
     run_quartic_nonlinear_evolution_campaign,
 )
+from .quartic_nonquasilinear_pde_campaign import (
+    run_quartic_nonquasilinear_pde_campaign,
+)
 from .quartic_quasilinear_moser_campaign import (
     run_quartic_quasilinear_moser_campaign,
 )
@@ -1645,7 +1648,7 @@ def _quartic_first_order_reduction_campaign_control(
             == 22
             and item.get("constraint_counts")
             == {"derivative_definition": 33, "independent_spatial_curl": 33}
-            and "does not yet provide the nonlinear lower-order source"
+            and "does not yet provide the acceleration-independent remainder"
             in item.get("scope", "")
             for item in certificates
         )
@@ -1788,7 +1791,7 @@ def _quartic_nonlinear_evolution_campaign_control(
         and control.get("passed") is True
         and control.get("time_acceleration_affine_residual_zero") is True
         and control.get("independent_principal_time_block_residual_zero") is True
-        and control.get("nonzero_lower_order_source") is True
+        and control.get("nonzero_acceleration_independent_remainder") is True
         and control.get("sample_solution", {}).get("solution_residual_zero") is True
         and control.get("curvilinear_reference_connection_control", {}).get(
             "Delta_Gamma_zero_with_matching_flat_reference"
@@ -1800,7 +1803,7 @@ def _quartic_nonlinear_evolution_campaign_control(
         )
         and all(
             item.get("acceleration_solution_residual_zero") is True
-            and item.get("nonzero_source") is True
+            and item.get("nonzero_acceleration_independent_remainder") is True
             and item.get("maximum_solved_jet_component_numeric", 1) < 2e-10
             for item in certificates
         )
@@ -1829,6 +1832,95 @@ def _quartic_nonlinear_evolution_campaign_control(
         ),
         "negative_controls": control.get("negative_controls"),
         "prerequisite_corruption_negative": {
+            "status": negative.get("status"),
+            "errors": negative.get("errors"),
+        },
+        "scope": result.get("scope"),
+    }
+
+
+def _quartic_nonquasilinear_pde_campaign_control(
+    root: Path,
+) -> tuple[bool, dict[str, Any]]:
+    base = root / "runs" / "physics-language"
+    paths = {
+        "symmetrizer": base / "quartic-symmetrizer-uniform-domain-campaign" / "campaign.json",
+        "moser": base / "quartic-quasilinear-moser-campaign" / "campaign.json",
+        "first_order": base / "quartic-first-order-reduction-campaign" / "campaign.json",
+        "geometric": base / "quartic-geometric-jet-campaign" / "campaign.json",
+        "nonlinear": base / "quartic-nonlinear-evolution-campaign" / "campaign.json",
+    }
+    config_path = (
+        root
+        / "configs"
+        / "backgrounds"
+        / "quartic_nonquasilinear_pde_campaign.json"
+    )
+    artifact_path = base / "quartic-nonquasilinear-pde-campaign" / "campaign.json"
+    campaigns = {
+        name: json.loads(path.read_text(encoding="utf-8"))
+        for name, path in paths.items()
+    }
+    config = json.loads(config_path.read_text(encoding="utf-8"))
+    artifact = json.loads(artifact_path.read_text(encoding="utf-8"))
+    result = run_quartic_nonquasilinear_pde_campaign(
+        campaigns["symmetrizer"],
+        campaigns["moser"],
+        campaigns["first_order"],
+        campaigns["geometric"],
+        campaigns["nonlinear"],
+        config,
+    )
+    corrupted = dict(config)
+    corrupted["characteristic_absolute_lower_bound"] = "0"
+    negative = run_quartic_nonquasilinear_pde_campaign(
+        campaigns["symmetrizer"],
+        campaigns["moser"],
+        campaigns["first_order"],
+        campaigns["geometric"],
+        campaigns["nonlinear"],
+        corrupted,
+    )
+    certificates = result.get("certificates", [])
+    counts = result.get("counts", {})
+    generic = result.get("generic_nonquasilinear_control", {})
+    lift = result.get("generic_full_symmetrizer_lift_control", {})
+    passed = bool(
+        result.get("status")
+        == "pass_all_12_full_55_state_nonquasilinear_strong_hyperbolicity_lifts"
+        and counts.get("selected") == 12
+        and counts.get("full_55_state_symmetrizer_lifts_passed") == 12
+        and counts.get("conditional_local_vacuum_cauchy_certificates") == 12
+        and len(certificates) == 12
+        and generic.get("passed") is True
+        and lift.get("passed") is True
+        and lift.get("K55_M55_minus_M55_dagger_K55_zero") is True
+        and lift.get("all_LDL_pivots_positive") is True
+        and all(
+            item.get("full_first_order_state", {}).get("total") == 55
+            and item.get("uniform_bounds", {}).get("K55_2_lower_numeric", 0) > 0
+            and item.get("conditional_local_wellposedness", {}).get("status")
+            == "theorem_applies_to_compatible_vacuum_data_in_compact_box_interior"
+            for item in certificates
+        )
+        and artifact.get("content_sha256") == result.get("content_sha256")
+        and negative.get("status") == "reject"
+    )
+    return passed, {
+        "campaigns": {name: str(path) for name, path in paths.items()},
+        "config": str(config_path),
+        "artifact": str(artifact_path),
+        "status": result.get("status"),
+        "counts": counts,
+        "artifact_hash_matches_reexecution": (
+            artifact.get("content_sha256") == result.get("content_sha256")
+        ),
+        "generic_nonquasilinear_control": generic,
+        "generic_full_symmetrizer_lift_control": lift,
+        "representative_uniform_bounds": (
+            certificates[0].get("uniform_bounds") if certificates else None
+        ),
+        "characteristic_gap_negative": {
             "status": negative.get("status"),
             "errors": negative.get("errors"),
         },
@@ -2996,14 +3088,14 @@ def run_formal_control_suite(
         ),
         _run_check(
             "quartic_linear_x_quasilinear_coefficient_moser_envelopes",
-            "All 12 fixed-coefficient linear-X quartic candidates possess explicit uniform C4 derivative envelopes for the action-derived 22-variable quasilinear companion coefficient on their certified strong-hyperbolicity boxes.",
-            "The exact A/B/C blocks are quadratic in 24 covariant jet components, so their third and fourth raw derivatives vanish. Candidate symmetrizer bounds give a verified rational ceiling on the inverse time block, and the differentiated A F=X identity propagates exact companion bounds through Sobolev order four. False degree-one and H3 declarations reject. This is coefficient-composition readiness only: the nonlinear state-to-jet map, source and symmetrizer derivatives, gauge reconstruction, commuted energy closure, and PDE bootstrap remain unresolved.",
+            "All 12 fixed-coefficient linear-X quartic candidates possess explicit uniform C4 derivative envelopes for the action-derived 22-variable nonquasilinear companion coefficient on their certified strong-hyperbolicity boxes.",
+            "The exact A/B/C blocks are quadratic in 24 covariant jet components, so their third and fourth raw derivatives vanish. Candidate symmetrizer bounds give a verified rational ceiling on the inverse time block, and the differentiated A F=X identity propagates exact companion bounds through Sobolev order four. False degree-one and H3 declarations reject. This is coefficient-composition readiness; downstream controls supply the nonlinear state-to-jet/Euler map and full-state symmetrizer, while quantitative source commutators and long-time bootstrap closure remain unresolved.",
             lambda: _quartic_quasilinear_moser_campaign_control(root),
         ),
         _run_check(
             "quartic_linear_x_physical_space_first_order_reduction",
             "All 12 fixed-coefficient linear-X quartic candidates are bound to an exact 55-variable three-dimensional first-order principal reduction whose nonzero characteristic modes reproduce the proven 22-by-22 directional companion pencil.",
-            "The reduction introduces 11 fields, 11 time derivatives, and 33 spatial derivatives. Exact extraction of B_i and symmetric C_ij reconstructs the second-order symbol; the characteristic lift has zero residual; and 33 derivative-definition plus 33 independent curl constraints propagate. Omitting one spatial-derivative evolution equation rejects. This corrects the state dimension but does not yet supply nonlinear lower-order sources, connection terms, gauge drivers, a 55-variable symmetrizer, state-to-jet Sobolev bounds, commuted energy closure, or PDE bootstrap.",
+            "The reduction introduces 11 fields, 11 time derivatives, and 33 spatial derivatives. Exact extraction of B_i and symmetric C_ij reconstructs the second-order symbol; the characteristic lift has zero residual; and 33 derivative-definition plus 33 independent curl constraints propagate. Omitting one spatial-derivative evolution equation rejects. This corrects the state dimension but does not yet supply the acceleration-independent remainder, connection terms, gauge drivers, a 55-variable symmetrizer, state-to-jet Sobolev bounds, commuted energy closure, or PDE bootstrap.",
             lambda: _quartic_first_order_reduction_campaign_control(root),
         ),
         _run_check(
@@ -3014,9 +3106,15 @@ def run_formal_control_suite(
         ),
         _run_check(
             "quartic_linear_x_gauge_fixed_nonlinear_evolution_source",
-            "All 12 fixed-coefficient linear-X quartic candidates are bound to the exact covariant modified-harmonic vacuum Euler source and an exact local solution for all 11 second-time partials.",
-            "The full G2=X+c20 X^2, G4=M2/2+alpha X metric/scalar Euler tensor is combined with prescribed auxiliary metrics, a reference connection, and gauge source. Its acceleration Jacobian exactly equals the independent principal time block on a nonzero curved/Hessian jet, all acceleration-quadratic residuals vanish, and every candidate solves a nonzero source inside its certified box. Gauge, Riemann-term, and singular-time-block omissions reject. Nonlinear box invariance, source/symmetrizer derivative bounds, boundary conditions, commuted estimates, and PDE bootstrap remain unresolved.",
+            "All 12 fixed-coefficient linear-X quartic candidates are bound to the exact covariant modified-harmonic vacuum Euler equations and an exact local solution for all 11 second-time partials.",
+            "The full G2=X+c20 X^2, G4=M2/2+alpha X metric/scalar Euler tensor is combined with prescribed auxiliary metrics, a reference connection, and gauge source. Its acceleration Jacobian exactly equals the independent principal time block on a nonzero curved/Hessian jet, all acceleration-quadratic residuals vanish, and every candidate solves a nonzero acceleration-independent remainder inside its certified box. That remainder retains mixed and spatial second derivatives. Gauge, Riemann-term, and singular-time-block omissions reject. Nonlinear box invariance, quantitative source derivatives, boundary conditions, commuted estimates, and long-time bootstrap remain unresolved.",
             lambda: _quartic_nonlinear_evolution_campaign_control(root),
+        ),
+        _run_check(
+            "quartic_linear_x_full_nonquasilinear_pde_symmetrizer",
+            "All 12 fixed-coefficient linear-X quartic candidates possess a smooth uniformly positive symmetrizer for the complete 55-state nonquasilinear first-order reduction.",
+            "The acceleration-independent remainder retains mixed and spatial second derivatives. The exact Appendix-A identities reduce the equations to a first-order system in q, v_0, and v_i; the certified 22-state Riesz symmetrizer lifts through F=L^dagger K M^-1 to an explicitly bounded positive 55-state symmetrizer. This yields a conditional local gauge-fixed vacuum Cauchy theorem for compatible data in the box interior, but no lifespan, long-time box trapping, matter, boundary, or observational certificate.",
+            lambda: _quartic_nonquasilinear_pde_campaign_control(root),
         ),
         _run_check(
             "quartic_horndeski_timelike_flat_physical_hamiltonian",

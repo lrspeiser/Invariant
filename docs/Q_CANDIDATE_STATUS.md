@@ -130,17 +130,20 @@ energy radii. Auxiliary time derivatives now pass at linear order after exact us
 equation and an `H^4 -> C^2` estimate. The remaining reconstruction scope is nonlinear constraint
 products, modified-harmonic gauge variables, quasilinear commutators, and the complete
 spacetime-jet map.
-The action-derived quasilinear coefficient maps now have exact uniform `C4` envelopes on the
+The action-derived nonquasilinear coefficient maps now have exact uniform `C4` envelopes on the
 certified boxes for all 12 candidates: `A/B/C` are quadratic in the 24 covariant jet components,
 and a verified `||A^-1||_2<5` ceiling closes the inverse-product derivative recurrence. This does
-not yet bound the nonlinear state-to-jet map, sources, symmetrizer derivatives, gauge variables,
-or the commuted energy, so no nonlinear trapping or observational promotion follows.
+not yet give quantitative nonlinear source/state-to-jet commutator bounds, gauge estimates,
+boundary energy, or long-time trapping, so no observational promotion follows.
 The complete physical-space principal state is now generated as well. It has 55 variables rather
 than 22: the existing 22-by-22 object is the fixed-direction companion pencil, while the full
 three-dimensional reduction contains 11 fields, 11 time derivatives, and 33 spatial derivatives.
 Its nonzero characteristic lift and all derivative-definition/curl propagation identities pass for
-all 12 candidates. Nonlinear lower-order sources, connection terms, gauge drivers, the enlarged
-symmetrizer, and state-to-jet Sobolev estimates remain open.
+all 12 candidates. The nonlinear connection/Euler map and enlarged 55-state symmetrizer now pass;
+the Euler remainder is acceleration-independent but retains mixed and spatial second derivatives.
+The resulting local vacuum gauge-fixed Cauchy statement remains conditional on compatible data in
+the certified box interior. Lifespan, long-time trapping, gauge/source commutators, boundaries,
+matter evolution, and observations remain open.
 The compiled FLRW background system now has a reusable outward-rounded interval integrator. The
 canonical massless-scalar control encloses the analytic stiff-FLRW endpoint for all 40 accepted
 steps while uniformly bounding the constraint and health margins; off-constraint, singular-matrix,

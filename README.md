@@ -375,7 +375,7 @@ python -m sigma_theory_compiler quartic-auxiliary-time-campaign `
   --output runs/physics-language/quartic-auxiliary-time-campaign
 ```
 
-Derive uniform fourth-order quasilinear coefficient envelopes with:
+Derive uniform fourth-order coefficient envelopes for the nonquasilinear system with:
 
 ```powershell
 python -m sigma_theory_compiler quartic-quasilinear-moser-campaign `
@@ -429,13 +429,36 @@ python -m sigma_theory_compiler quartic-nonlinear-evolution-campaign `
   --output runs/physics-language/quartic-nonlinear-evolution-campaign
 ```
 
-The source is the exact `G2=X+c20 X^2`, `G4=M2/2+alpha X` metric/scalar Euler system plus
+The equations are the exact `G2=X+c20 X^2`, `G4=M2/2+alpha X` metric/scalar Euler system plus
 the covariant modified-harmonic completion. It defines the two prescribed auxiliary inverse
 metrics, reference connection, and gauge-source covector explicitly; matter still couples only
 to the physical metric. The acceleration Jacobian exactly reproduces the independently extracted
 11-by-11 principal time block on a nontrivial curved/Hessian jet, and each candidate has a nonzero
-source solution inside its certified local box. Nonlinear box invariance, source/symmetrizer
+acceleration-independent remainder and acceleration solution inside its certified local box. The
+remainder is not called lower order because it retains mixed and spatial second derivatives.
+Nonlinear box invariance, source/symmetrizer
 derivative estimates, boundary conditions, and the PDE bootstrap remain separate fail-closed gates.
+
+Lift the directional symmetrizer to the complete nonquasilinear PDE state with:
+
+```powershell
+python -m sigma_theory_compiler quartic-nonquasilinear-pde-campaign `
+  --symmetrizer-campaign runs/physics-language/quartic-symmetrizer-uniform-domain-campaign/campaign.json `
+  --moser-campaign runs/physics-language/quartic-quasilinear-moser-campaign/campaign.json `
+  --first-order-campaign runs/physics-language/quartic-first-order-reduction-campaign/campaign.json `
+  --geometric-campaign runs/physics-language/quartic-geometric-jet-campaign/campaign.json `
+  --nonlinear-campaign runs/physics-language/quartic-nonlinear-evolution-campaign/campaign.json `
+  --config configs/backgrounds/quartic_nonquasilinear_pde_campaign.json `
+  --output runs/physics-language/quartic-nonquasilinear-pde-campaign
+```
+
+This implements the Appendix-A block construction
+`F=L^dagger K22 M22^-1` and `K55=[[cI,F],[F^dagger,K22]]`. All 12 candidates receive
+explicit positive lower and upper bounds for the full 55-state symmetrizer, with an exact
+omitted-cross-block negative control. The resulting local well-posedness statement is deliberately
+conditional: it applies to compatible vacuum gauge-fixed initial data whose coordinate-jet image
+lies in a compact subset of the certified box interior. It supplies no lifespan, long-time box
+trapping, boundary, matter-source, or observational claim.
 
 Compile and execute a bounded scalar action variation through Cadabra:
 

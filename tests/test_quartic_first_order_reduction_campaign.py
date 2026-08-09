@@ -63,7 +63,7 @@ def test_all_quartic_candidates_bind_to_55_variable_reduction() -> None:
             "derivative_definition": 33,
             "independent_spatial_curl": 33,
         }
-        and "does not yet provide the nonlinear lower-order source" in item["scope"]
+        and "does not yet provide the acceleration-independent remainder" in item["scope"]
         for item in result["certificates"]
     )
 

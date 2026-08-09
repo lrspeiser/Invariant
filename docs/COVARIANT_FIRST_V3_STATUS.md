@@ -124,17 +124,19 @@ finite candidate-specific operator bounds and positive tightened energy radii. T
 derivatives now pass at linear order through exact scalar-equation substitution and a higher
 Sobolev estimate; nonlinear
 constraint/gauge products and the complete modified-harmonic first-order state remain fail-closed.
-The extracted quasilinear `A/B/C` blocks now additionally pass an exact coefficient-regularity
+The extracted nonquasilinear `A/B/C` blocks now additionally pass an exact coefficient-regularity
 campaign: their dependence on the 24 covariant jet components is quadratic, all raw derivatives
 above order two vanish, and candidate-specific inverse-time-block bounds propagate uniform
-companion derivative envelopes through order four. The nonlinear state-to-jet map, source and
-symmetrizer-derivative estimates, gauge reconstruction, commuted energy, and bootstrap invariance
-remain fail-closed.
+companion derivative envelopes through order four. The nonlinear state-to-jet and Euler maps now
+pass, with the Euler remainder correctly retaining mixed and spatial second derivatives.
+Quantitative source/state-to-jet commutator estimates, gauge reconstruction, boundary energy, and
+long-time bootstrap invariance remain fail-closed.
 An exact physical-space reduction now separates the 22-dimensional fixed-direction companion from
 the genuine 55-variable three-dimensional state. Exact `B_i/C_ij` extraction, characteristic lift,
-and propagation of 33 definition plus 33 curl constraints pass for all 12 candidates. The nonlinear
-connection/source completion, gauge-driver enlargement, 55-variable symmetrizer, state-to-jet
-Sobolev map, and bootstrap energy remain fail-closed.
+and propagation of 33 definition plus 33 curl constraints pass for all 12 candidates. The exact
+Appendix-A block lift now supplies a smooth positive 55-variable symmetrizer with explicit uniform
+bounds and a conditional local vacuum gauge-fixed Cauchy theorem. Gauge-driver estimates, a
+computable lifespan, boundary conditions, and long-time box trapping remain fail-closed.
 The action-derived FLRW evolution matrix now has an outward-rounded interval integration adapter.
 Its canonical massless-scalar stiff-FLRW control takes 40 certified steps, contains the analytic
 endpoint, preserves the energy constraint within tolerance, and uniformly excludes every declared

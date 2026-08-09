@@ -32,7 +32,7 @@ def test_exact_nonlinear_source_matches_independent_principal_and_solves() -> No
     assert evidence["acceleration_count"] == 11
     assert evidence["time_acceleration_affine_residual_zero"]
     assert evidence["independent_principal_time_block_residual_zero"]
-    assert evidence["nonzero_lower_order_source"]
+    assert evidence["nonzero_acceleration_independent_remainder"]
     assert evidence["known_answer_reductions"] == {
         "alpha_0_c20_0": {
             "theory": "Einstein-Hilbert plus canonical scalar",
@@ -58,7 +58,7 @@ def test_exact_nonlinear_source_matches_independent_principal_and_solves() -> No
     )
 
 
-def test_all_candidates_solve_nonzero_source_inside_certified_box() -> None:
+def test_all_candidates_solve_nonzero_acceleration_independent_remainder_inside_certified_box() -> None:
     result = run_quartic_nonlinear_evolution_campaign(
         _load(GEOMETRIC_PATH), _load(CONFIG_PATH)
     )
@@ -72,7 +72,7 @@ def test_all_candidates_solve_nonzero_source_inside_certified_box() -> None:
     }
     assert all(
         item["acceleration_solution_residual_zero"]
-        and item["nonzero_source"]
+        and item["nonzero_acceleration_independent_remainder"]
         and item["maximum_solved_jet_component_numeric"] < 2e-10
         and item["remaining_gate"]
         == "nonlinear_source_symmetrizer_derivative_bounds_and_pde_bootstrap"

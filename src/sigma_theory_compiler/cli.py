@@ -69,6 +69,10 @@ from .quartic_nonlinear_evolution_campaign import (
     run_quartic_nonlinear_evolution_campaign,
     write_quartic_nonlinear_evolution_campaign,
 )
+from .quartic_nonquasilinear_pde_campaign import (
+    run_quartic_nonquasilinear_pde_campaign,
+    write_quartic_nonquasilinear_pde_campaign,
+)
 from .quartic_quasilinear_moser_campaign import (
     run_quartic_quasilinear_moser_campaign,
     write_quartic_quasilinear_moser_campaign,
@@ -532,6 +536,27 @@ def _parser() -> argparse.ArgumentParser:
     )
     quartic_nonlinear_evolution.add_argument("--config", type=Path, required=True)
     quartic_nonlinear_evolution.add_argument("--output", type=Path, required=True)
+    quartic_nonquasilinear_pde = subparsers.add_parser(
+        "quartic-nonquasilinear-pde-campaign",
+        help="Lift the quartic companion symmetrizer to the full 55-state nonlinear PDE",
+    )
+    quartic_nonquasilinear_pde.add_argument(
+        "--symmetrizer-campaign", type=Path, required=True
+    )
+    quartic_nonquasilinear_pde.add_argument(
+        "--moser-campaign", type=Path, required=True
+    )
+    quartic_nonquasilinear_pde.add_argument(
+        "--first-order-campaign", type=Path, required=True
+    )
+    quartic_nonquasilinear_pde.add_argument(
+        "--geometric-campaign", type=Path, required=True
+    )
+    quartic_nonquasilinear_pde.add_argument(
+        "--nonlinear-campaign", type=Path, required=True
+    )
+    quartic_nonquasilinear_pde.add_argument("--config", type=Path, required=True)
+    quartic_nonquasilinear_pde.add_argument("--output", type=Path, required=True)
     dhost_compile = subparsers.add_parser(
         "dhost-pack-compile",
         help="Compile a reduced rank-one quadratic DHOST kinetic family",
@@ -1390,6 +1415,44 @@ def main(argv: list[str] | None = None) -> int:
             0
             if result["status"]
             == "pass_all_12_exact_local_nonlinear_time_acceleration_eliminations"
+            else 1
+        )
+    if args.command == "quartic-nonquasilinear-pde-campaign":
+        symmetrizer_campaign = json.loads(
+            args.symmetrizer_campaign.read_text(encoding="utf-8")
+        )
+        moser_campaign = json.loads(args.moser_campaign.read_text(encoding="utf-8"))
+        first_order_campaign = json.loads(
+            args.first_order_campaign.read_text(encoding="utf-8")
+        )
+        geometric_campaign = json.loads(
+            args.geometric_campaign.read_text(encoding="utf-8")
+        )
+        nonlinear_campaign = json.loads(
+            args.nonlinear_campaign.read_text(encoding="utf-8")
+        )
+        config = json.loads(args.config.read_text(encoding="utf-8"))
+        result = run_quartic_nonquasilinear_pde_campaign(
+            symmetrizer_campaign,
+            moser_campaign,
+            first_order_campaign,
+            geometric_campaign,
+            nonlinear_campaign,
+            config,
+        )
+        path = write_quartic_nonquasilinear_pde_campaign(result, args.output)
+        print(f"status={result['status']}")
+        print(f"selected={result['counts']['selected']}")
+        print(
+            "full_55_state_symmetrizer_lifts_passed="
+            f"{result['counts']['full_55_state_symmetrizer_lifts_passed']}"
+        )
+        print(f"rejected={result['counts']['rejected']}")
+        print(f"report={path}")
+        return (
+            0
+            if result["status"]
+            == "pass_all_12_full_55_state_nonquasilinear_strong_hyperbolicity_lifts"
             else 1
         )
     if args.command == "dhost-pack-compile":
