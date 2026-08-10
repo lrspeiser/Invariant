@@ -403,8 +403,22 @@ Spatial and marked-time Faà-di-Bruno controls then emit all 15 global-`K55` and
 dyadic-`P55` polynomials through total order four, plus all 10 `partial_t K55` polynomials
 through residual order three. A componentwise `H^6` radius of about `2.14e-12` is
 sufficient to keep the atoms and their first spatial partials inside the `1e-13` tube.
-Closing the coordinate-atom time budget from the solved evolution, the explicit operator
-composition remainder, and the dyadic sum remain separate gates.
+The spatialization artifact deliberately stops before substituting the coordinate-atom
+time budget; the downstream campaign below closes that factor. The explicit operator
+composition remainder and dyadic sum remain separate gates.
+
+The coordinate-atom time budget is now closed without assuming an unavailable full
+`H^6` norm for `partial_t Y`. If `E=max_I ||U_I||_H7` for the actual 55-state field, then
+the coordinate construction gives `R=max_A ||Y_A||_H6<=E` exactly. The five time-evolution
+families are `partial_t h=p_0`, `partial_t p_0=F(Y)`, `partial_t p_i=s_0i`,
+`partial_t s_0i=partial_i F(Y)`, and
+`partial_t s_ij=partial_i partial_j p_0`. Spatially differentiating the mixed family
+through order three uses the certified source Frechet hierarchy only through order four;
+the spatial-second family uses at most five spatial derivatives of `p_0`. Exact
+`H^7(R^3)` embedding therefore closes four marked time-jet polynomials and all ten
+`partial_t K55` symbol bounds in the single energy variable `E`. A state-`H^6` negative
+control rejects. The explicit anti-Wick composition estimate, bounded-frequency defect,
+dyadic summation, and numerical lifespan remain open.
 
 That compact-subset condition now has an explicit coordinate realization. In the normalized
 55-state basis, the ten metric deviations obey the exact identity

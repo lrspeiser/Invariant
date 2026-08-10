@@ -641,8 +641,28 @@ The campaign first composes the 24-covariant-jet symbol bounds with the certifie
 it then emits the spatial Faà-di-Bruno polynomials for all 15 `K55` and dyadic `P55`
 pairs and all 10 admissible `partial_t K55` pairs. The componentwise `H^6` radius
 `~2.14e-12` suffices for the coordinate atoms and their first spatial partials to remain
-inside the `1e-13` pointwise tube. The time-atom budget and operator-composition estimate
-remain explicit next gates.
+inside the `1e-13` pointwise tube. Close the formerly abstract time-atom factor with:
+
+```powershell
+python -m sigma_theory_compiler quartic-time-atom-budget-campaign `
+  --low-frequency-campaign runs/physics-language/quartic-low-frequency-symbol-extension-campaign/campaign.json `
+  --r3-campaign runs/physics-language/quartic-r3-sobolev-calculus-campaign/campaign.json `
+  --solved-source-campaign runs/physics-language/quartic-solved-source-moser-campaign/campaign.json `
+  --nonquasilinear-pde-campaign runs/physics-language/quartic-nonquasilinear-pde-campaign/campaign.json `
+  --config configs/backgrounds/quartic_time_atom_budget_campaign.json `
+  --output runs/physics-language/quartic-time-atom-budget-campaign
+```
+
+For the 55-state field `U=(q,v_0,w_i)`, set `E=max_I ||U_I||_H7`. The exact derivative
+map gives `max_A ||Y_A||_H6 <= E` with constant one. The five atom families evolve as
+`partial_t h=p_0`, `partial_t p_0=F(Y)`, `partial_t p_i=s_0i`,
+`partial_t s_0i=partial_i F(Y)`, and
+`partial_t s_ij=partial_i partial_j p_0`. Consequently, the existing fourth-order
+solved-source Frechet envelopes close all four required `L^infinity` time jets and all
+10 `partial_t K55` spatial/frequency bounds as explicit polynomials in `E`; no undefined
+`||partial_t Y||` remains. State `H^6` correctly rejects because the last family needs
+five spatial derivatives of `p_0` in `L^infinity`; `H^7` is the smallest integer order.
+The explicit anti-Wick/evolution composition and dyadic sum remain the next gates.
 
 The tube bounds 153 normalized coordinate atoms: ten metric deviations, 44 first partials,
 and 99 acceleration-free symmetric second partials. The exact orthonormal metric-basis identity

@@ -156,6 +156,9 @@ from .quartic_symmetrizer_domain import run_quartic_symmetrizer_domain_campaign
 from .quartic_symmetrizer_symbol_moser_campaign import (
     run_quartic_symmetrizer_symbol_moser_campaign,
 )
+from .quartic_time_atom_budget_campaign import (
+    run_quartic_time_atom_budget_campaign,
+)
 from .scalar_tensor_pack import (
     generic_g2_variation_noether_control,
     generic_g3_variation_noether_control,
@@ -2942,6 +2945,132 @@ def _quartic_r3_sobolev_calculus_campaign_control(
     }
 
 
+def _quartic_time_atom_budget_campaign_control(
+    root: Path,
+) -> tuple[bool, dict[str, Any]]:
+    base = root / "runs" / "physics-language"
+    paths = {
+        "low_frequency": base
+        / "quartic-low-frequency-symbol-extension-campaign"
+        / "campaign.json",
+        "r3": base / "quartic-r3-sobolev-calculus-campaign" / "campaign.json",
+        "solved_source": base
+        / "quartic-solved-source-moser-campaign"
+        / "campaign.json",
+        "nonquasilinear_pde": base
+        / "quartic-nonquasilinear-pde-campaign"
+        / "campaign.json",
+    }
+    config_path = (
+        root
+        / "configs"
+        / "backgrounds"
+        / "quartic_time_atom_budget_campaign.json"
+    )
+    artifact_path = base / "quartic-time-atom-budget-campaign" / "campaign.json"
+    campaigns = {
+        name: json.loads(path.read_text(encoding="utf-8"))
+        for name, path in paths.items()
+    }
+    config = json.loads(config_path.read_text(encoding="utf-8"))
+    artifact = json.loads(artifact_path.read_text(encoding="utf-8"))
+    result = run_quartic_time_atom_budget_campaign(
+        campaigns["low_frequency"],
+        campaigns["r3"],
+        campaigns["solved_source"],
+        campaigns["nonquasilinear_pde"],
+        config,
+    )
+    insufficient = dict(config)
+    insufficient["state_sobolev_order"] = 6
+    negative = run_quartic_time_atom_budget_campaign(
+        campaigns["low_frequency"],
+        campaigns["r3"],
+        campaigns["solved_source"],
+        campaigns["nonquasilinear_pde"],
+        insufficient,
+    )
+    certificates = result.get("certificates", [])
+    counts = result.get("counts", {})
+    atom_control = result.get("generic_coordinate_atom_time_evolution_control", {})
+    chain_control = result.get("generic_marked_time_chain_control", {})
+    radii = [
+        item.get("sufficient_H7_state_radius_for_coordinate_tube", {}).get(
+            "numeric", 0
+        )
+        for item in certificates
+    ]
+    passed = bool(
+        result.get("status")
+        == "pass_all_12_H7_closed_coordinate_atom_time_budgets"
+        and counts.get("selected") == 12
+        and counts.get("H7_time_atom_budgets_passed") == 12
+        and len(certificates) == 12
+        and atom_control.get("passed") is True
+        and atom_control.get("coordinate_atom_counts", {}).get("total") == 153
+        and atom_control.get("minimal_integer_state_sobolev_order") == 7
+        and atom_control.get("insufficient_H6_negative", {}).get("rejected") is True
+        and set(atom_control.get("commuting_partial_residuals", {}).values()) == {"0"}
+        and chain_control.get("passed") is True
+        and set(chain_control.get("source_spatial_residuals", {}).values()) == {"0"}
+        and set(chain_control.get("marked_time_residuals", {}).values()) == {"0"}
+        and all(value > 2e-12 for value in radii)
+        and all(
+            len(item.get("outward_source_Frechet_bounds", {})) == 5
+            and len(item.get("source_spatial_chain_bounds", {})) == 5
+            and len(item.get("closed_coordinate_atom_time_jets", {})) == 4
+            and len(item.get("closed_time_K55_bounds", {})) == 10
+            and set(
+                item.get("published_R3_placeholder_residuals", {}).values()
+            )
+            == {"0"}
+            and item.get("derivative_accounting", {}).get(
+                "undefined_partial_t_Y_norm_remaining"
+            )
+            is False
+            for item in certificates
+        )
+        and artifact.get("content_sha256") == result.get("content_sha256")
+        and negative.get("status") == "reject"
+    )
+    return passed, {
+        "campaigns": {name: str(path) for name, path in paths.items()},
+        "config": str(config_path),
+        "artifact": str(artifact_path),
+        "status": result.get("status"),
+        "counts": counts,
+        "artifact_hash_matches_reexecution": (
+            artifact.get("content_sha256") == result.get("content_sha256")
+        ),
+        "generic_coordinate_atom_time_evolution_control": atom_control,
+        "generic_marked_time_chain_control": chain_control,
+        "sufficient_H7_state_radius_range": {
+            "minimum": min(radii) if radii else None,
+            "maximum": max(radii) if radii else None,
+        },
+        "representative_source_spatial_chain_bounds": (
+            certificates[0].get("source_spatial_chain_bounds")
+            if certificates
+            else None
+        ),
+        "representative_closed_coordinate_atom_time_jets": (
+            certificates[0].get("closed_coordinate_atom_time_jets")
+            if certificates
+            else None
+        ),
+        "representative_closed_time_K55_bounds": (
+            certificates[0].get("closed_time_K55_bounds")
+            if certificates
+            else None
+        ),
+        "insufficient_H6_state_negative": {
+            "status": negative.get("status"),
+            "errors": negative.get("errors"),
+        },
+        "scope": result.get("scope"),
+    }
+
+
 def _quartic_horndeski_covariant_adm_control(
     root: Path,
 ) -> tuple[bool, dict[str, Any]]:
@@ -4187,8 +4316,14 @@ def run_formal_control_suite(
         _run_check(
             "quartic_linear_x_R3_H6_symbol_spatialization",
             "All 12 fixed-coefficient linear-X quartic candidates possess explicit Fourier-normalized H6(R3) spatialization polynomials for the global K55 symbol, the dyadic-shell P55 evolution symbol, and the time derivative of K55.",
-            "Exact R3 Fourier integrals give the C4 embedding and H6 algebra constants. The certified 153-coordinate-atom to 24-covariant-jet map is inserted with outward integer Frechet ceilings before spatial Faa-di-Bruno composition. All 15 K55/P55 spatial-frequency pairs and 10 time-K55 pairs pass, with a positive sufficient componentwise H6 tube radius. The coordinate-atom time budget, explicit anti-Wick composition/Calderon-Vaillancourt remainder, dyadic sum, lifespan, and matter remain open.",
+            "Exact R3 Fourier integrals give the C4 embedding and H6 algebra constants. The certified 153-coordinate-atom to 24-covariant-jet map is inserted with outward integer Frechet ceilings before spatial Faa-di-Bruno composition. All 15 K55/P55 spatial-frequency pairs and 10 time-K55 pairs pass, with a positive sufficient componentwise H6 tube radius. The downstream H7 time-atom control closes the marked factor; explicit anti-Wick composition/Calderon-Vaillancourt remainder, dyadic sum, lifespan, and matter remain open.",
             lambda: _quartic_r3_sobolev_calculus_campaign_control(root),
+        ),
+        _run_check(
+            "quartic_linear_x_H7_coordinate_time_atom_budget",
+            "All 12 fixed-coefficient linear-X quartic candidates close the coordinate-atom time jets required by the time derivative of the full K55 symbol from the actual 55-state H7 evolution norm.",
+            "The exact 153-atom evolution gives dt h=p0, dt p0=F(Y), dt pi=s0i, dt s0i=di F(Y), and dt sij=di dj p0. R=max||Y||H6 is bounded by E=max||U||H7 with constant one. Fourth-order solved-source Frechet bounds therefore close the four marked time jets and all 10 C3 time-K55 bounds as explicit polynomials in E, with no undefined dtY norm. H6 state regularity rejects; operator composition, dyadic summation, lifespan, and matter remain open.",
+            lambda: _quartic_time_atom_budget_campaign_control(root),
         ),
         _run_check(
             "quartic_horndeski_timelike_flat_physical_hamiltonian",

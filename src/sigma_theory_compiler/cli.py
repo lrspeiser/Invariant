@@ -121,6 +121,10 @@ from .quartic_symmetrizer_symbol_moser_campaign import (
     run_quartic_symmetrizer_symbol_moser_campaign,
     write_quartic_symmetrizer_symbol_moser_campaign,
 )
+from .quartic_time_atom_budget_campaign import (
+    run_quartic_time_atom_budget_campaign,
+    write_quartic_time_atom_budget_campaign,
+)
 from .registry import write_registry
 from .relativity import run_relativity_reference_suite, write_relativity_report
 from .scalar_tensor_pack import compile_scalar_tensor_pack
@@ -741,6 +745,22 @@ def _parser() -> argparse.ArgumentParser:
     )
     quartic_r3_sobolev.add_argument("--config", type=Path, required=True)
     quartic_r3_sobolev.add_argument("--output", type=Path, required=True)
+    quartic_time_atom = subparsers.add_parser(
+        "quartic-time-atom-budget-campaign",
+        help="Close coordinate-atom time jets from the 55-state H7 evolution budget",
+    )
+    quartic_time_atom.add_argument(
+        "--low-frequency-campaign", type=Path, required=True
+    )
+    quartic_time_atom.add_argument("--r3-campaign", type=Path, required=True)
+    quartic_time_atom.add_argument(
+        "--solved-source-campaign", type=Path, required=True
+    )
+    quartic_time_atom.add_argument(
+        "--nonquasilinear-pde-campaign", type=Path, required=True
+    )
+    quartic_time_atom.add_argument("--config", type=Path, required=True)
+    quartic_time_atom.add_argument("--output", type=Path, required=True)
     dhost_compile = subparsers.add_parser(
         "dhost-pack-compile",
         help="Compile a reduced rank-one quadratic DHOST kinetic family",
@@ -1947,6 +1967,40 @@ def main(argv: list[str] | None = None) -> int:
             0
             if result["status"]
             == "pass_all_12_R3_H6_spatialized_K55_P55_symbol_bounds"
+            else 1
+        )
+    if args.command == "quartic-time-atom-budget-campaign":
+        low_frequency_campaign = json.loads(
+            args.low_frequency_campaign.read_text(encoding="utf-8")
+        )
+        r3_campaign = json.loads(args.r3_campaign.read_text(encoding="utf-8"))
+        solved_source_campaign = json.loads(
+            args.solved_source_campaign.read_text(encoding="utf-8")
+        )
+        nonquasilinear_pde_campaign = json.loads(
+            args.nonquasilinear_pde_campaign.read_text(encoding="utf-8")
+        )
+        config = json.loads(args.config.read_text(encoding="utf-8"))
+        result = run_quartic_time_atom_budget_campaign(
+            low_frequency_campaign,
+            r3_campaign,
+            solved_source_campaign,
+            nonquasilinear_pde_campaign,
+            config,
+        )
+        path = write_quartic_time_atom_budget_campaign(result, args.output)
+        print(f"status={result['status']}")
+        print(f"selected={result['counts']['selected']}")
+        print(
+            "H7_time_atom_budgets_passed="
+            f"{result['counts']['H7_time_atom_budgets_passed']}"
+        )
+        print(f"rejected={result['counts']['rejected']}")
+        print(f"report={path}")
+        return (
+            0
+            if result["status"]
+            == "pass_all_12_H7_closed_coordinate_atom_time_budgets"
             else 1
         )
     if args.command == "dhost-pack-compile":

@@ -316,6 +316,30 @@ def test_all_formal_known_answer_controls_pass(tmp_path) -> None:
     assert len(r3_sobolev["evidence"]["representative_spatialized_P55_bounds"]) == 15
     assert len(r3_sobolev["evidence"]["representative_time_K55_bounds"]) == 10
     assert r3_sobolev["evidence"]["insufficient_order_negative"]["status"] == "reject"
+    time_atoms = checks["quartic_linear_x_H7_coordinate_time_atom_budget"]
+    assert time_atoms["status"] == "pass"
+    assert time_atoms["evidence"]["artifact_hash_matches_reexecution"]
+    atom_control = time_atoms["evidence"][
+        "generic_coordinate_atom_time_evolution_control"
+    ]
+    assert atom_control["coordinate_atom_counts"]["total"] == 153
+    assert atom_control["minimal_integer_state_sobolev_order"] == 7
+    assert set(atom_control["commuting_partial_residuals"].values()) == {"0"}
+    assert atom_control["insufficient_H6_negative"]["rejected"]
+    time_chain = time_atoms["evidence"]["generic_marked_time_chain_control"]
+    assert set(time_chain["source_spatial_residuals"].values()) == {"0"}
+    assert set(time_chain["marked_time_residuals"].values()) == {"0"}
+    assert time_atoms["evidence"]["sufficient_H7_state_radius_range"][
+        "minimum"
+    ] > 2e-12
+    assert len(
+        time_atoms["evidence"]["representative_source_spatial_chain_bounds"]
+    ) == 5
+    assert len(
+        time_atoms["evidence"]["representative_closed_coordinate_atom_time_jets"]
+    ) == 4
+    assert len(time_atoms["evidence"]["representative_closed_time_K55_bounds"]) == 10
+    assert time_atoms["evidence"]["insufficient_H6_state_negative"]["status"] == "reject"
     assert checks["projected_aether_q_fixed_metric_first_variation"]["status"] == "pass"
     assert checks["projected_aether_q_fixed_metric_first_variation"]["evidence"][
         "projector_and_B_first_variation_residual"
