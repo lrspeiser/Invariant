@@ -121,10 +121,47 @@ records independently. The optional CUDA benchmark performs one initialization p
 one to five cached measurements and requires CPU/GPU status-root equality. Throughput is a hardware
 measurement, not scientific evidence.
 
+## Stream a bounded Rust search directly into CUDA
+
+The standalone streaming lifecycle generates independently recoverable Rust chunks, validates each
+`SGSURV2` block, screens its survivors with one persistent cached CUDA owner, and retains portable
+candidate lineage for promotion. The checked-in production template covers exactly
+`[0, 1,000,000,000)` in 1,000 one-million-formula chunks, with a 64 GiB disk cap, a 14-day wall
+cap, and paid LLM calls disabled. Confirm at least 64 GiB is free on the service drive first.
+
+```powershell
+$env:PYTHONPATH = "src"
+cargo build --release --manifest-path generator-v2/Cargo.toml
+
+python -m sigma_theory_compiler.rust_streaming_service start `
+  --service-dir C:\gravity-engine-runs\rust-streaming-billion `
+  --execution-config configs/persistent_parallel_search_5090.json `
+  --resource-profile configs/resource_profile_5090.json `
+  --stream-config configs/rust_streaming_service_billion.json
+
+python -m sigma_theory_compiler.rust_streaming_service status `
+  --service-dir C:\gravity-engine-runs\rust-streaming-billion
+python -m sigma_theory_compiler.rust_streaming_service stop `
+  --service-dir C:\gravity-engine-runs\rust-streaming-billion
+python -m sigma_theory_compiler.rust_streaming_service resume `
+  --service-dir C:\gravity-engine-runs\rust-streaming-billion
+python -m sigma_theory_compiler.rust_streaming_service export `
+  --service-dir C:\gravity-engine-runs\rust-streaming-billion `
+  --output C:\gravity-engine-runs\rust-streaming-billion-export
+```
+
+The service preserves the exact ordinal, term IDs, sign mask, sampled-static status, and source
+hashes for every pass or ambiguous result. Zero-survivor chunks remain valid, explicitly marked,
+and hash-checked rather than being silently skipped. Physical NVML samples are reported separately
+from scheduler occupancy: after the Rust gates reject most formulas, the surviving GPU batches can
+be too short to saturate the 5090 even though no GPU work is waiting.
+
 ## Current operational boundary
 
-The service executes the existing deterministic grammar and sampled-static evaluator. It does not
-yet generate new grammar productions from LLM suggestions, run the later covariant/ADM/principal
-symbol/observational gates as queue stages, distribute work across multiple machines, or enforce a
-separate byte quota on the SQLite file. SQLite growth is nevertheless bounded by the configured
-task and wall limits, while the whole service directory is monitored against the service disk cap.
+The service executes the existing deterministic grammar and sampled-static evaluator. A separate
+promotion registry now has one reviewed static covariant-lift evaluator, but the ADM/Dirac,
+principal-symbol, Solar, and direct-observable galaxy evaluators are not service queue stages yet
+and remain fail-closed. The engine also does not yet generate new grammar productions from LLM
+suggestions, distribute work across multiple machines, or enforce a separate byte quota on the
+SQLite file. SQLite growth is nevertheless bounded by the configured task and wall limits, while
+the whole service directory is monitored against the service disk cap.

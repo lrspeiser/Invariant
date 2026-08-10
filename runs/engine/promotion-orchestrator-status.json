@@ -1,7 +1,35 @@
 {
-  "candidate_count": 0,
-  "candidates": [],
-  "content_sha256": "e19f7f69400efb0f1e3a9de094c7694dd36b7213be1b8c95b11d9f5ceff2dc02",
+  "candidate_count": 3,
+  "candidates": [
+    {
+      "blocker": "unresolved_missing_covariant_q_atom",
+      "candidate_id": "STC2-4f2c8cbfdb57a959280f9997",
+      "category": "symbolic",
+      "ordinal": 9,
+      "output_lineage_sha256": "e5da9f6355cc989549e1b1be4b431a1dfdafb4afac04495fae71dc025cb8d84a",
+      "stage_name": "covariant_symbolic_health",
+      "state": "blocked"
+    },
+    {
+      "blocker": null,
+      "candidate_id": "STC2-52bb770419dd8edba25b6916",
+      "category": "symbolic",
+      "ordinal": 110,
+      "output_lineage_sha256": "6eacb1c27a353e5b4ca19467991bbcac00d99fb25c0a1c98acaa7a1377c05a82",
+      "stage_name": "covariant_symbolic_health",
+      "state": "rejected"
+    },
+    {
+      "blocker": "unresolved_missing_covariant_q_atom",
+      "candidate_id": "STC2-8774c1791a114d6d82aa1141",
+      "category": "symbolic",
+      "ordinal": 7,
+      "output_lineage_sha256": "aff3e7e047092ed23d80bf30aad016be1da7bc9db7fb5c4b94492bb0da8d6442",
+      "stage_name": "covariant_symbolic_health",
+      "state": "blocked"
+    }
+  ],
+  "content_sha256": "e2484413a42e408198a7be182071a49ccd01b998a45063edcfb21858ea376f45",
   "data_eligibility": {
     "dark_matter_or_halo_inputs": false,
     "observational_data_opened": false,
@@ -9,45 +37,60 @@
     "passed": true,
     "redshift_distance_inputs": false
   },
-  "event_root_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+  "event_root_sha256": "8386091ead40339f0edee63592f0dcc319272c1a8cc0cbed818ae7137b8b9995",
   "interpretation": "Promotion records gate evidence and lineage only. A blocked or missing gate cannot be treated as passed, and promotion is not proof of a gravity theory.",
-  "pipeline_sha256": "5b155a0e1ec952a78613d15f4c30be771de108dc61abd5ce6981c197861dd03f",
-  "registered_evaluators": [],
+  "pipeline_sha256": "5745e8924e36448dd0016070dbf134f8cb1d492beaacbb113d5988a9f409f0d0",
+  "registered_evaluators": [
+    {
+      "binding_sha256": "85d6500b8cb7750639af3751733d1b2ea18688aa83b8cefd35d7bb8c05e484ee",
+      "evaluator_id": "static-covariant-lift-v1"
+    }
+  ],
   "schema_version": "sigma-promotion-status-1.0",
   "stages": {
     "adm_dirac_principal_health": {
       "category": "formal",
-      "counts": {},
+      "counts": {
+        "blocked": 3
+      },
       "implemented": false,
       "index": 2
     },
     "covariant_symbolic_health": {
       "category": "symbolic",
-      "counts": {},
-      "implemented": false,
+      "counts": {
+        "blocked": 2,
+        "rejected": 1
+      },
+      "implemented": true,
       "index": 1
     },
     "galaxy_direct_observable_controls": {
       "category": "observational",
-      "counts": {},
+      "counts": {
+        "blocked": 3
+      },
       "implemented": false,
       "index": 4
     },
     "sampled_static": {
       "category": "cheap",
-      "counts": {},
+      "counts": {
+        "passed": 3
+      },
       "implemented": true,
       "index": 0
     },
     "solar_known_answer_controls": {
       "category": "observational",
-      "counts": {},
+      "counts": {
+        "blocked": 3
+      },
       "implemented": false,
       "index": 3
     }
   },
   "unimplemented_gates_fail_closed": [
-    "covariant_symbolic_health",
     "adm_dirac_principal_health",
     "solar_known_answer_controls",
     "galaxy_direct_observable_controls"

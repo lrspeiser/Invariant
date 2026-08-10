@@ -160,16 +160,19 @@ and `bounded_survivor_corpus.py`. The `engine-start`, `engine-status`, `engine-s
 `engine-resume`, `engine-export`, and `engine-corpus-build` CLI commands now provide a continuously
 refilled, restart-safe local service, bounded utilization telemetry, and a local status dashboard.
 See [`docs/PERSISTENT_GRAVITY_ENGINE.md`](docs/PERSISTENT_GRAVITY_ENGINE.md). The separate
-`rust_streaming_search.py` adapter can overlap restart-safe Rust `SGSURV2` chunk
-production with one cached CUDA consumer, eliminating Python ordinal decoding from its hot path;
-the checked-in configuration remains a bounded integration control rather than a billion-formula
-production claim. Promotion into later
+`rust_streaming_search.py` adapter and `rust_streaming_service.py` lifecycle overlap restart-safe
+Rust `SGSURV2` chunk production with one cached CUDA consumer, eliminating Python ordinal decoding
+from the hot path. The production template is bounded to one billion formulas, 1,000 independently
+recoverable one-million-formula chunks, 64 GiB of disk, and 14 days. It preserves every surviving
+ordinal, term/sign payload, screening result, and source hash for downstream promotion. Promotion into later
 covariant, Hamiltonian, principal-symbol, and observational gates is represented by a separate
 restart-safe promotion registry in `promotion_orchestrator.py`. It imports real hash-verified Rust
 survivors, chains candidate/evidence lineage through cheap, symbolic, formal, and observational
-stages, and blocks every missing or unimplemented evaluator. The production promotion config
-therefore remains deliberately fail-closed until reviewed downstream evaluator bindings are
-connected.
+stages, and blocks every missing or unimplemented evaluator. The first reviewed downstream binding
+now performs the existing static covariant-lift classification: supported exact lifts pass, forbidden
+baryonic-`z` action atoms reject, and candidates that need an unavailable nonlinear adapter remain
+blocked rather than being misclassified. Later ADM/Dirac, Solar, and direct-observable galaxy gates
+remain deliberately unimplemented and fail-closed.
 
 The first sealed candidate-data target is now defined as observable-to-observable galaxy discovery:
 audited light/gas/angular inputs predict held-out spectral-line kinematics, with whole-galaxy splits,
@@ -746,13 +749,15 @@ inequalities and the entire finite-low principal operator are consequently expli
 `H7` sum remains fail-closed on the localized Bony/Moser source remainder and the
 `H6`-coefficient versus `H7`-state derivative-loss gate.
 
-The component campaign now also proves every entry of the principal identity
-`D_Y E55 J = i P55` for all 12 candidates. It reconstructs 1,089 of 1,683 dynamic-source
-Jacobian entries, emits an exact 594-entry lower-column missing map, and lowers the scalar Euler
-row to an explicit arithmetic/tensor DAG with universal acceleration affinity. The exact Cartesian
-Minkowski/constant-scalar reference is an equilibrium and supports a background-subtracted `L2`
-source convention. Ten metric Euler rows, the coupled component Frechet remainder, the monotone
-global dyadic sum, and the nonlinear lifespan bootstrap remain open and are not claimed.
+The component campaign now proves every entry of the principal identity
+`D_Y E55 J = i P55` for all 12 candidates and materializes the complete first source Jacobian.
+Its 1,089 principal and 594 lower entries form an exact arithmetic-only `11 x 153` manifest with
+all 1,683 positions present. All 11 Euler rows have universal acceleration-affine `A/W` tensor
+DAGs, and the exact Cartesian Minkowski/constant-scalar reference is an equilibrium with a
+background-subtracted `L2` source convention. A quantitative frozen-reference bilinear subfamily
+is bounded for the configured atom pair in rows 0--4. The full mixed `D2F`--`D4F` tensors,
+variable-coefficient Bony/Moser remainder, global `H7` closure, and nonlinear lifespan remain open
+and are not claimed.
 
 The tube bounds 153 normalized coordinate atoms: ten metric deviations, 44 first partials,
 and 99 acceleration-free symmetric second partials. The exact orthonormal metric-basis identity

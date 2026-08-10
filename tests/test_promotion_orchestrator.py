@@ -38,6 +38,16 @@ def reject_evaluator(candidate: dict, context: dict) -> dict:
     }
 
 
+def blocked_evaluator(candidate: dict, context: dict) -> dict:
+    return {
+        "decision": "blocked",
+        "blocker": "missing_exact_covariant_adapter",
+        "candidate_id": candidate["candidate_id"],
+        "input_lineage_sha256": context["input_lineage_sha256"],
+        "data_eligibility": dict(ELIGIBILITY),
+    }
+
+
 def _descriptor(evaluator_id: str, callback_name: str) -> dict:
     artifact = Path(__file__).resolve()
     return {
@@ -170,6 +180,31 @@ def test_rejection_stops_every_downstream_gate(tmp_path: Path) -> None:
     assert rows[2]["blocker"] == rows[3]["blocker"] == "upstream_rejected"
 
 
+def test_unresolved_evaluator_result_blocks_without_rejecting_candidate(
+    tmp_path: Path,
+) -> None:
+    descriptor = _descriptor("symbolic-blocked", "blocked_evaluator")
+    orchestrator = PromotionOrchestrator(tmp_path / "blocked.sqlite", _pipeline(descriptor))
+    orchestrator.register_evaluator(descriptor)
+    orchestrator.register_candidate(_candidate("unresolved"), _evidence("unresolved"))
+    assert orchestrator.run_ready() == {
+        "evaluated": 1,
+        "passed": 0,
+        "rejected": 0,
+        "blocked": 1,
+    }
+    status = orchestrator.status()
+    candidate = status["candidates"][0]
+    assert candidate["state"] == "blocked"
+    assert candidate["blocker"] == "missing_exact_covariant_adapter"
+    with orchestrator.connect() as connection:
+        row = connection.execute(
+            "SELECT result_sha256,output_lineage_sha256 FROM candidate_stages "
+            "WHERE candidate_id='unresolved' AND stage_index=1"
+        ).fetchone()
+    assert len(row["result_sha256"]) == len(row["output_lineage_sha256"]) == 64
+
+
 def test_interrupted_running_gate_recovers_and_replays_once(tmp_path: Path) -> None:
     descriptor = _descriptor("symbolic-recovery", "pass_evaluator")
     pipeline = _pipeline(descriptor)
@@ -229,6 +264,6 @@ def test_bounded_real_rust_survivors_import_idempotently_and_stop_closed(tmp_pat
     assert status["stages"]["sampled_static"]["counts"] == {"passed": 3}
     assert status["stages"]["covariant_symbolic_health"]["counts"] == {"blocked": 3}
     assert all(
-        candidate["blocker"] == "unimplemented_gate_fail_closed"
+        candidate["blocker"] == "hash_bound_evaluator_not_registered"
         for candidate in status["candidates"]
     )

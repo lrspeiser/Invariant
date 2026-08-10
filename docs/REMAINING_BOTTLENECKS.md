@@ -300,12 +300,14 @@ and the entire finite-low principal operator for all 12 candidates. The exact dy
 proves that a naive global `H7` commutator cannot close from `H6` coefficient fields.
 
 The good-unknown/source work now proves all 3,025 entries of the principal identity
-`D_Y E55 J=iP55`, reconstructs 1,089 of 1,683 dynamic-source Jacobian entries, and records an exact
-594-entry lower-column missing map. The scalar Euler row has been lowered to an explicit universal
-arithmetic/tensor DAG and the common Cartesian Minkowski/constant-scalar reference is an exact
-equilibrium with a localized whole-space `L2` source convention. The remaining proof work is the
-ten metric Euler-row lowerings, coupled component Frechet tensors/remainder, the remote
-paraproduct commutator, monotone global dyadic summation, and then the nonlinear bootstrap/lifespan.
+`D_Y E55 J=iP55` and materializes the full first source Jacobian: 1,089 principal plus 594 lower
+entries form an exact arithmetic-only `11 x 153` manifest with all 1,683 positions present. All 11
+Euler rows have universal acceleration-affine `A/W` tensor DAGs. The common Cartesian
+Minkowski/constant-scalar reference is an exact equilibrium with a localized whole-space `L2`
+source convention, and a frozen-reference bilinear subfamily has an explicit `H7` coefficient for
+one configured atom pair in rows 0--4. The remaining proof work is the complete mixed component
+`D2F`--`D4F` tensors, variable-coefficient Bony/Moser remainder, the remote paraproduct commutator,
+monotone global dyadic summation, and then the nonlinear bootstrap/lifespan.
 
 The state-to-jet side now has a quantitative coordinate tube. A common `1e-13` bound on 153
 normalized coordinate 2-jet atoms implies strict component bounds for `nabla(phi)`,

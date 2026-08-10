@@ -577,10 +577,16 @@ class PromotionOrchestrator:
                         "data_eligibility": ELIGIBILITY,
                     },
                 )
-                if not isinstance(output, dict) or output.get("decision") not in {"pass", "reject"}:
-                    raise ValueError("evaluator must return pass/reject decision")
+                if not isinstance(output, dict) or output.get("decision") not in {
+                    "pass",
+                    "reject",
+                    "blocked",
+                }:
+                    raise ValueError("evaluator must return pass/reject/blocked decision")
                 if output.get("data_eligibility") != ELIGIBILITY:
                     raise ValueError("evaluator output eligibility is not fail-closed")
+                if output.get("decision") == "blocked" and not str(output.get("blocker", "")):
+                    raise ValueError("blocked evaluator decisions require an explicit blocker")
             except Exception as error:  # noqa: BLE001 - gate failures must be persisted
                 with self.connect() as connection:
                     retry = attempt < int(self.pipeline["maximum_evaluator_attempts"])
@@ -614,14 +620,21 @@ class PromotionOrchestrator:
                 {"input_lineage_sha256": input_hash, "result_sha256": result_hash}
             )
             decision = str(output["decision"])
+            stage_state = {
+                "pass": "passed",
+                "reject": "rejected",
+                "blocked": "blocked",
+            }[decision]
+            stage_blocker = str(output["blocker"]) if decision == "blocked" else None
             with self.connect() as connection:
                 connection.execute("BEGIN IMMEDIATE")
                 connection.execute(
-                    "UPDATE candidate_stages SET state=?,result_json=?,result_sha256=?,"
+                    "UPDATE candidate_stages SET state=?,blocker=?,result_json=?,result_sha256=?,"
                     "output_lineage_sha256=?,updated_utc=? WHERE candidate_id=? AND stage_index=? "
                     "AND state='running'",
                     (
-                        "passed" if decision == "pass" else "rejected",
+                        stage_state,
+                        stage_blocker,
                         _canonical(wrapper),
                         result_hash,
                         output_lineage,
@@ -645,6 +658,8 @@ class PromotionOrchestrator:
                         (_now(), row["candidate_id"], row["stage_index"]),
                     )
                     rejected += 1
+                elif decision == "blocked":
+                    blocked += 1
                 elif next_index < len(self.stages):
                     next_stage = self.stages[next_index]
                     next_binding = self._registered_binding(connection, next_stage)

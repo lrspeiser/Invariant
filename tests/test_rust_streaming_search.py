@@ -5,6 +5,7 @@ from pathlib import Path
 
 import pytest
 
+from sigma_theory_compiler.bounded_survivor_corpus import verify_generated_manifest
 from sigma_theory_compiler.persistent_parallel_search import PersistentParallelSearch
 from sigma_theory_compiler.real_formula_execution import cuda_available
 from sigma_theory_compiler.rust_streaming_search import (
@@ -119,8 +120,8 @@ def test_streaming_producer_is_single_owner_restart_safe_and_budgeted(tmp_path: 
     assert replay["cursor"]["exhausted"]
 
     invalid = dict(config)
-    invalid["producer_lease_seconds"] = 1
-    with pytest.raises(ValueError, match="lease must cover"):
+    invalid["producer_lease_seconds"] = 0
+    with pytest.raises(ValueError, match="lease must be positive"):
         RustStreamingProducer(coordinator, invalid)
 
 
@@ -164,3 +165,52 @@ def test_real_rust_stream_overlaps_cached_single_gpu_owner(tmp_path: Path) -> No
     }
     saved = json.loads((tmp_path / "report.json").read_text(encoding="utf-8"))
     assert saved == report
+
+
+def test_zero_survivor_rust_chunk_is_strictly_normalized_and_restartable(
+    tmp_path: Path,
+) -> None:
+    _require_local_runtime()
+    execution = _execution(1)
+    coordinator = PersistentParallelSearch(
+        tmp_path / "zero.sqlite", execution, _load(PROFILE)
+    )
+    config = _stream(tmp_path / "chunks", formula_count=1_000_000, chunk_size=1_000_000)
+    config.update(
+        {
+            "start_ordinal": 70_000_000,
+            "target_pending_chunks": 1,
+            "maximum_disk_bytes": 64 * 1024 * 1024,
+        }
+    )
+    producer = RustStreamingProducer(coordinator, config)
+    generated = producer.refill()
+    assert generated["accepted_chunks"] == 1
+    assert generated["cursor"]["next_ordinal"] == 71_000_000
+    assert generated["cursor"]["exhausted"]
+    with coordinator.connect() as connection:
+        row = connection.execute(
+            "SELECT * FROM rust_stream_chunks WHERE source_id=? AND sequence=0",
+            (producer.source_id,),
+        ).fetchone()
+        payload = json.loads(
+            connection.execute("SELECT payload_json FROM work").fetchone()[0]
+        )
+    assert row["state"] == "enqueued"
+    assert row["record_count"] == 0
+    assert row["block_size_bytes"] == 44
+    manifest = json.loads(Path(row["manifest_path"]).read_text(encoding="utf-8"))
+    assert manifest["survivor_count"] == 0
+    assert "survive_sampled_static" not in manifest["gate_counts"]
+    assert payload["manifest_verification_normalization"] == (
+        "omitted-zero-survive-sampled-static-gate"
+    )
+    with pytest.raises(ValueError, match="corpus accounting mismatch"):
+        verify_generated_manifest(
+            Path(row["manifest_path"]),
+            Path(config["output_directory"]),
+            GENERATOR,
+            expected_start=70_000_000,
+            expected_end=71_000_000,
+            equivalence_samples_per_block=8,
+        )

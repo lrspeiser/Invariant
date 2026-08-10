@@ -4,6 +4,7 @@ import hashlib
 import json
 import os
 import sqlite3
+import struct
 import subprocess
 import time
 import uuid
@@ -18,9 +19,9 @@ from .binary_formula_execution import (
     _assets,
     _cuda_assets,
     _load_block,
+    _make_result,
     _screen_cpu,
     configure_binary_evaluators,
-    gpu_binary_block_evaluator,
     validate_binary_result,
 )
 from .bounded_survivor_corpus import HEADER, RECORD, verify_generated_manifest
@@ -35,8 +36,11 @@ ELIGIBILITY = {
     "dark_matter_or_halo_inputs": False,
     "redshift_distance_inputs": False,
 }
-HARD_MAXIMUM_FORMULAS = 1_000_000
+HARD_MAXIMUM_FORMULAS = 1_000_000_000
 MANIFEST_ALLOWANCE_BYTES = 2 * 1024 * 1024
+PROMOTION_MAGIC = b"SGPROM1\0"
+PROMOTION_HEADER = struct.Struct("<8sHHQQQ")
+PROMOTION_RECORD = struct.Struct("<BQBBH6H")
 
 
 def _canonical(value: Any) -> str:
@@ -70,16 +74,130 @@ def _utc() -> str:
     return datetime.now(UTC).isoformat()
 
 
+def _verify_stream_manifest(
+    manifest_path: Path,
+    survivor_directory: Path,
+    generator_path: Path,
+    *,
+    expected_start: int,
+    expected_end: int,
+    equivalence_samples_per_block: int,
+) -> dict[str, Any]:
+    """Verify Rust output, accepting only its omitted zero-valued survivor gate key."""
+    try:
+        return verify_generated_manifest(
+            manifest_path,
+            survivor_directory,
+            generator_path,
+            expected_start=expected_start,
+            expected_end=expected_end,
+            equivalence_samples_per_block=equivalence_samples_per_block,
+        )
+    except ValueError as error:
+        if str(error) != "Rust survivor corpus accounting mismatch":
+            raise
+    raw = manifest_path.read_bytes()
+    manifest = json.loads(raw)
+    gates = manifest.get("gate_counts")
+    blocks = manifest.get("blocks")
+    zero_survivor_omission = (
+        isinstance(gates, dict)
+        and "survive_sampled_static" not in gates
+        and int(manifest.get("survivor_count", -1)) == 0
+        and isinstance(blocks, list)
+        and bool(blocks)
+        and all(
+            int(block.get("survivors", -1)) == 0
+            and isinstance(block.get("survivor_export"), dict)
+            and int(block["survivor_export"].get("record_count", -1)) == 0
+            for block in blocks
+        )
+        and sum(int(value) for value in gates.values()) == expected_end - expected_start
+    )
+    if not zero_survivor_omission:
+        raise ValueError("Rust survivor corpus accounting mismatch")
+    normalized = json.loads(json.dumps(manifest))
+    normalized["gate_counts"]["survive_sampled_static"] = 0
+    audit_path = manifest_path.with_name(
+        f".{manifest_path.name}.{uuid.uuid4().hex}.zero-survivor-audit.json"
+    )
+    try:
+        audit_path.write_text(json.dumps(normalized), encoding="utf-8")
+        audit = verify_generated_manifest(
+            audit_path,
+            survivor_directory,
+            generator_path,
+            expected_start=expected_start,
+            expected_end=expected_end,
+            equivalence_samples_per_block=equivalence_samples_per_block,
+        )
+    finally:
+        audit_path.unlink(missing_ok=True)
+    audit["manifest_path"] = str(manifest_path)
+    audit["manifest_sha256"] = hashlib.sha256(raw).hexdigest()
+    audit["verification_normalization"] = {
+        "kind": "omitted-zero-survive-sampled-static-gate",
+        "original_manifest_sha256": audit["manifest_sha256"],
+        "accepted_value": 0,
+    }
+    return audit
+
+
 def streaming_gpu_block_evaluator(lease: WorkLease) -> dict[str, Any]:
     """Existing binary GPU screen plus a bounded CPU/GPU status equivalence sample."""
     started_ns = time.time_ns()
-    result = gpu_binary_block_evaluator(lease)
     payload = lease.payload
     config, _, hessians = _assets(
         str(payload["generator_config_path"]), str(payload["generator_config_sha256"])
     )
-    records, _ = _load_block(payload)
-    positions = list(result["ordinal_equivalence"]["positions"])
+    records, equivalence = _load_block(payload)
+    import cupy as cp
+
+    assets, cache_reused = _cuda_assets(str(payload["generator_config_sha256"]), hessians)
+    count = len(records)
+    if count:
+        device_terms = cp.asarray(np.ascontiguousarray(records["term_ids"]))
+        device_counts = cp.asarray(np.ascontiguousarray(records["term_count"]))
+        device_masks = cp.asarray(np.ascontiguousarray(records["sign_mask"]))
+        gpu_statuses = cp.empty(count, dtype=cp.uint8)
+        fail_samples = cp.empty(count, dtype=cp.uint16)
+        gpu_margins = cp.empty(count, dtype=cp.float64)
+        tolerance = float(config["convexity_tolerance"])
+        guard = float(payload["ambiguity_guard"])
+        assets.kernel(
+            ((count + 255) // 256,),
+            (256,),
+            (
+                device_terms,
+                device_counts,
+                device_masks,
+                assets.hessians,
+                np.int32(assets.sample_count),
+                np.float64(config["coupling_magnitude"]),
+                np.float64(tolerance - guard),
+                np.float64(tolerance + guard),
+                gpu_statuses,
+                fail_samples,
+                gpu_margins,
+                np.int32(count),
+            ),
+        )
+        cp.cuda.Device().synchronize()
+        host_gpu = cp.asnumpy(gpu_statuses)
+        host_margins = cp.asnumpy(gpu_margins)
+    else:
+        host_gpu = np.empty(0, dtype=np.uint8)
+        host_margins = np.empty(0, dtype=np.float64)
+    result = _make_result(
+        payload,
+        "gpu_cupy_binary_cached",
+        host_gpu,
+        host_margins,
+        equivalence,
+        (time.time_ns() - started_ns) / 1e9,
+        cache_reused,
+    )
+    positions = list(equivalence["positions"])
     sampled = np.array(records[positions], dtype=records.dtype) if positions else records[:0]
     cpu_statuses, _ = _screen_cpu(
         sampled,
@@ -89,9 +207,6 @@ def streaming_gpu_block_evaluator(lease: WorkLease) -> dict[str, Any]:
         float(payload["ambiguity_guard"]),
     )
     if len(sampled):
-        import cupy as cp
-
-        assets, _ = _cuda_assets(str(payload["generator_config_sha256"]), hessians)
         device_terms = cp.asarray(np.ascontiguousarray(sampled["term_ids"]))
         device_counts = cp.asarray(np.ascontiguousarray(sampled["term_count"]))
         device_masks = cp.asarray(np.ascontiguousarray(sampled["sign_mask"]))
@@ -133,6 +248,57 @@ def streaming_gpu_block_evaluator(lease: WorkLease) -> dict[str, Any]:
         "gpu_status_root_sha256": gpu_root,
         "all_equal": True,
     }
+    promotion_directory = Path(payload["promotion_directory"]).resolve()
+    promotion_directory.mkdir(parents=True, exist_ok=True)
+    promotion_path = promotion_directory / (
+        f"promotion-{int(payload['sequence']):08}-"
+        f"{int(payload['start_ordinal'])}-{int(payload['end_ordinal_exclusive'])}.bin"
+    )
+    temporary = promotion_path.with_suffix(promotion_path.suffix + ".tmp")
+    selected = np.flatnonzero(host_gpu != 0)
+    with temporary.open("wb") as handle:
+        handle.write(
+            PROMOTION_HEADER.pack(
+                PROMOTION_MAGIC,
+                1,
+                PROMOTION_RECORD.size,
+                int(payload["start_ordinal"]),
+                int(payload["end_ordinal_exclusive"]),
+                len(selected),
+            )
+        )
+        for position in selected:
+            record = records[int(position)]
+            handle.write(
+                PROMOTION_RECORD.pack(
+                    int(host_gpu[int(position)]),
+                    int(record["ordinal"]),
+                    int(record["term_count"]),
+                    int(record["sign_mask"]),
+                    0,
+                    *map(int, record["term_ids"]),
+                )
+            )
+    temporary.replace(promotion_path)
+    promotion_sha = _file_sha(promotion_path)
+    result["promotion_survivor_export"] = {
+        "schema_version": "sigma-promotion-survivor-block-1.0",
+        "path": str(promotion_path),
+        "sha256": promotion_sha,
+        "record_format": "SGPROM1/1 fixed-25-byte status-plus-SGSURV2-identity",
+        "record_count": len(selected),
+        "pass_count": int(np.count_nonzero(host_gpu == 1)),
+        "ambiguous_count": int(np.count_nonzero(host_gpu == 2)),
+        "source_block_sha256": payload["block_sha256"],
+        "source_manifest_sha256": payload["manifest_sha256"],
+        "generator_config_sha256": payload["generator_config_sha256"],
+        "manifest_verification_normalization": payload.get(
+            "manifest_verification_normalization"
+        ),
+    }
+    result["manifest_verification_normalization"] = payload.get(
+        "manifest_verification_normalization"
+    )
     result["streaming_timing"] = {
         "started_time_ns": started_ns,
         "ended_time_ns": time.time_ns(),
@@ -207,7 +373,7 @@ class RustStreamingProducer:
         self.chunk_size = int(config["chunk_formula_count"])
         maximum = int(config["maximum_formula_count"])
         if not 1 <= self.formula_count <= maximum <= HARD_MAXIMUM_FORMULAS:
-            raise ValueError("streaming formula budget exceeds one million")
+            raise ValueError("streaming formula budget exceeds one billion")
         if self.chunk_size <= 0 or self.start % self.chunk_size:
             raise ValueError("streaming start must align to a positive chunk size")
         self.stop = self.start + self.formula_count
@@ -218,7 +384,7 @@ class RustStreamingProducer:
             raise ValueError("streaming interval exceeds the generator search space")
         self.disk_budget = int(config["maximum_disk_bytes"])
         chunks = (self.formula_count + self.chunk_size - 1) // self.chunk_size
-        worst_case = self.formula_count * RECORD.size + chunks * (
+        worst_case = self.formula_count * (RECORD.size + PROMOTION_RECORD.size) + chunks * (
             HEADER.size + MANIFEST_ALLOWANCE_BYTES
         )
         if self.disk_budget <= 0 or worst_case > self.disk_budget:
@@ -226,11 +392,15 @@ class RustStreamingProducer:
         maximum_wall = float(config["maximum_wall_seconds"])
         if maximum_wall <= 0:
             raise ValueError("streaming wall budget must be positive")
-        if float(config["producer_lease_seconds"]) < maximum_wall:
-            raise ValueError("producer lease must cover the bounded wall interval")
+        if float(config["producer_lease_seconds"]) <= 0:
+            raise ValueError("producer lease must be positive")
         if int(config["target_pending_chunks"]) <= 0:
             raise ValueError("streaming backpressure target must be positive")
         self.output_directory.mkdir(parents=True, exist_ok=True)
+        self.promotion_directory = Path(
+            config.get("promotion_directory", self.output_directory / "promotion")
+        ).resolve()
+        self.promotion_directory.mkdir(parents=True, exist_ok=True)
         identity = {
             "generator_sha256": self.generator_sha,
             "binary_sha256": self.binary_sha,
@@ -298,7 +468,7 @@ class RustStreamingProducer:
         return self.output_directory / f"stream-{sequence:06}-{start}-{end}.json"
 
     def _verify_chunk(self, sequence: int, start: int, end: int, manifest_path: Path) -> dict[str, Any]:
-        audit = verify_generated_manifest(
+        audit = _verify_stream_manifest(
             manifest_path,
             self.output_directory,
             self.generator_path,
@@ -396,17 +566,30 @@ class RustStreamingProducer:
         remaining = (deadline - datetime.now(UTC)).total_seconds()
         if remaining <= 0:
             raise TimeoutError("Rust streaming wall budget exhausted")
-        completed = subprocess.run(
+        process = subprocess.Popen(
             command,
             cwd=self.output_directory,
-            capture_output=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
             text=True,
-            check=False,
-            timeout=remaining,
         )
+        heartbeat_seconds = max(0.1, float(self.config["producer_lease_seconds"]) / 3.0)
+        while True:
+            remaining = (deadline - datetime.now(UTC)).total_seconds()
+            if remaining <= 0:
+                process.kill()
+                process.communicate()
+                raise TimeoutError("Rust streaming wall budget exhausted")
+            try:
+                stdout, stderr = process.communicate(timeout=min(heartbeat_seconds, remaining))
+                break
+            except subprocess.TimeoutExpired:
+                # Refreshing under BEGIN IMMEDIATE ensures no second producer
+                # can take ownership during a long bounded Rust chunk.
+                self._acquire_owner()
         ended_ns = time.time_ns()
-        if completed.returncode != 0:
-            raise RuntimeError(f"Rust stream producer failed: {completed.stderr[-2000:]}")
+        if process.returncode != 0:
+            raise RuntimeError(f"Rust stream producer failed: {stderr[-2000:]}")
         verified = self._verify_chunk(sequence, start, end, manifest_path)
         if _directory_bytes(self.output_directory) > self.disk_budget:
             raise ValueError("Rust stream exceeded its disk budget")
@@ -422,7 +605,7 @@ class RustStreamingProducer:
                     verified["block_size_bytes"],
                     verified["record_count"],
                     ended_ns,
-                    completed.stdout[-4000:],
+                    stdout[-4000:],
                     self.source_id,
                     sequence,
                 ),
@@ -433,6 +616,12 @@ class RustStreamingProducer:
         manifest_path = Path(row["manifest_path"])
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
         block = manifest["blocks"][0]
+        normalization = (
+            "omitted-zero-survive-sampled-static-gate"
+            if int(manifest.get("survivor_count", -1)) == 0
+            and "survive_sampled_static" not in manifest.get("gate_counts", {})
+            else None
+        )
         return {
             "ordinal": int(block["block_index"]),
             "source_id": self.source_id,
@@ -452,6 +641,8 @@ class RustStreamingProducer:
             "max_action_terms": int(self.generator["max_action_terms"]),
             "equivalence_samples": int(self.config["equivalence_samples_per_chunk"]),
             "ambiguity_guard": float(self.config["ambiguity_guard"]),
+            "promotion_directory": str(self.promotion_directory),
+            "manifest_verification_normalization": normalization,
             "data_eligibility": ELIGIBILITY,
         }
 
@@ -552,25 +743,18 @@ def _overlap_seconds(
     return overlap_ns / 1e9
 
 
-def run_rust_streaming_search(
-    database: str | Path,
-    execution_config: dict[str, Any],
-    resource_profile: dict[str, Any],
-    stream_config: dict[str, Any],
-    telemetry_path: str | Path,
-    *,
-    output_report: str | Path | None = None,
+def configure_rust_streaming_execution(
+    execution_config: dict[str, Any], stream_config: dict[str, Any]
 ) -> dict[str, Any]:
-    configured = configure_binary_evaluators(
-        execution_config, {"lane_cycle": ["gpu"]}
-    )
+    configured = configure_binary_evaluators(execution_config, {"lane_cycle": ["gpu"]})
     configured["supervisor"]["gpu_evaluator"] = (
         "sigma_theory_compiler.rust_streaming_search:streaming_gpu_block_evaluator"
     )
+    chunk_count = (
+        int(stream_config["formula_count"]) + int(stream_config["chunk_formula_count"]) - 1
+    ) // int(stream_config["chunk_formula_count"])
     configured["budget"]["maximum_tasks"] = min(
-        int(configured["budget"]["maximum_tasks"]),
-        (int(stream_config["formula_count"]) + int(stream_config["chunk_formula_count"]) - 1)
-        // int(stream_config["chunk_formula_count"]),
+        int(configured["budget"]["maximum_tasks"]), chunk_count
     )
     configured["budget"]["maximum_wall_seconds"] = min(
         float(configured["budget"]["maximum_wall_seconds"]),
@@ -579,13 +763,34 @@ def run_rust_streaming_search(
     configured["supervisor"]["maximum_wall_seconds_per_run"] = configured["budget"][
         "maximum_wall_seconds"
     ]
+    return configured
+
+
+def run_rust_streaming_search(
+    database: str | Path,
+    execution_config: dict[str, Any],
+    resource_profile: dict[str, Any],
+    stream_config: dict[str, Any],
+    telemetry_path: str | Path,
+    *,
+    output_report: str | Path | None = None,
+    external_stop_path: str | Path | None = None,
+    stop_reason_callback: Any = None,
+    status_callback: Any = None,
+) -> dict[str, Any]:
+    configured = configure_rust_streaming_execution(execution_config, stream_config)
     coordinator = PersistentParallelSearch(database, configured, resource_profile)
     producer = RustStreamingProducer(coordinator, stream_config)
     started_ns = time.time_ns()
     try:
         supervisor = PersistentParallelSupervisor(
             database, configured, resource_profile, telemetry_path
-        ).run(refill_callback=producer.refill)
+        ).run(
+            refill_callback=producer.refill,
+            external_stop_path=external_stop_path,
+            stop_reason_callback=stop_reason_callback,
+            status_callback=status_callback,
+        )
     finally:
         producer.release_owner()
     ended_ns = time.time_ns()
@@ -615,14 +820,23 @@ def run_rust_streaming_search(
             }
         )
     exact_interval_complete &= expected_start == producer.stop
-    producer_intervals = [
+    cumulative_producer_intervals = [
         (int(row["generation_started_time_ns"]), int(row["generation_ended_time_ns"]))
         for row in chunks
         if row["generation_started_time_ns"] and row["generation_ended_time_ns"]
     ]
+    producer_intervals = [
+        interval for interval in cumulative_producer_intervals if interval[0] >= started_ns
+    ]
+    generated_this_run = sum(
+        int(row["end_ordinal_exclusive"]) - int(row["start_ordinal"])
+        for row in chunks
+        if row["generation_started_time_ns"]
+        and int(row["generation_started_time_ns"]) >= started_ns
+    )
     consumer_intervals: list[tuple[int, int]] = []
     backend_counts: Counter[str] = Counter()
-    records = 0
+    records = records_this_run = source_formulas_screened_this_run = 0
     equivalence_passed = True
     cache_reused = 0
     for row in work:
@@ -636,9 +850,13 @@ def run_rust_streaming_search(
         equivalence_passed &= result["streaming_cpu_gpu_equivalence"]["all_equal"]
         cache_reused += result["cuda_assets_reused"] is True
         timing = result["streaming_timing"]
-        consumer_intervals.append(
-            (int(timing["started_time_ns"]), int(timing["ended_time_ns"]))
-        )
+        interval = (int(timing["started_time_ns"]), int(timing["ended_time_ns"]))
+        if interval[0] >= started_ns:
+            consumer_intervals.append(interval)
+            records_this_run += int(result["block"]["record_count"])
+            source_formulas_screened_this_run += int(result["block"][
+                "end_ordinal_exclusive"
+            ]) - int(result["block"]["start_ordinal"])
     producer_seconds = sum(end - start for start, end in producer_intervals) / 1e9
     consumer_seconds = sum(end - start for start, end in consumer_intervals) / 1e9
     wall_seconds = (ended_ns - started_ns) / 1e9
@@ -662,22 +880,32 @@ def run_rust_streaming_search(
         "survivor_records": records,
         "producer": {
             "busy_seconds": producer_seconds,
+            "formulas_generated_this_run": generated_this_run,
+            "formulas_generated_cumulative": sum(
+                int(row["end_ordinal_exclusive"]) - int(row["start_ordinal"])
+                for row in chunks
+            ),
             "formulas_per_second": (
-                int(stream_config["formula_count"]) / producer_seconds if producer_seconds else None
+                generated_this_run / producer_seconds if producer_seconds else None
             ),
             "single_owner_utilization": producer_seconds / wall_seconds if wall_seconds else 0.0,
         },
         "consumer": {
             "busy_seconds": consumer_seconds,
-            "records_per_second": records / consumer_seconds if consumer_seconds else None,
+            "survivor_records_screened_this_run": records_this_run,
+            "survivor_records_screened_cumulative": records,
+            "records_per_second": (
+                records_this_run / consumer_seconds if consumer_seconds else None
+            ),
             "single_gpu_owner_utilization": consumer_seconds / wall_seconds if wall_seconds else 0.0,
             "cached_chunks": cache_reused,
             "backend_counts": dict(backend_counts),
         },
         "combined": {
             "wall_seconds": wall_seconds,
+            "source_formulas_screened_this_run": source_formulas_screened_this_run,
             "formulas_per_second": (
-                int(stream_config["formula_count"]) / wall_seconds if wall_seconds else None
+                source_formulas_screened_this_run / wall_seconds if wall_seconds else None
             ),
             "producer_consumer_overlap_seconds": overlap,
             "overlap_observed": overlap > 0,
