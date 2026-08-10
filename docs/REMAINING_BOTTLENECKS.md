@@ -358,13 +358,14 @@ Hermitian `deltaK_A` corrections give 153 zero differentiated Sylvester residual
 coordinate map has 41 nonzero and 112 zero corrections with an explicit affine positivity bound.
 The next exact gate is the 11,781 unordered second-atom conditions requiring component `D2K55`,
 `D2P55`, and `D2TC2`; CK1 still needs its source packet and `partial_1 F10` topology.
-Thirteen chained resumable second-order chunks now cover 832 canonical pairs and all 12 candidates:
-every one of the 9,984 equations has an exact Hermitian `deltaK_AB` with zero Sylvester residual and
-no obstruction. A restart-safe continuous service now derives the per-offset contracts instead of
+Fourteen chained resumable second-order chunks now cover all 861 canonical-active pairs and all 12
+candidates: every one of the 10,332 equations has an exact Hermitian `deltaK_AB` with zero Sylvester
+residual and no obstruction. A restart-safe continuous service now derives the per-offset contracts instead of
 requiring another handwritten wrapper, writes chunk/checkpoint files atomically, resumes or recovers
 orphan artifacts idempotently, enforces wall/disk/history/chunk bounds, and stops permanently on the
-first exact obstruction. The canonical active-affine selector has a final 29-pair partial tail; that
-tail and the other 10,920 global coordinate pairs remain explicitly unevaluated, so this service
+first exact obstruction. Its exact partial-chunk path closes the final 29-pair selector tail and then
+stops idempotently at canonical-active exhaustion. The other 10,920 global coordinate pairs remain
+explicitly unevaluated and uninferred, so this service
 does not promote
 TC2 or global `H7`. TC1's source part needs the `Q`-contracted `partial_1F`
 state-to-jet topology, variable TC3
