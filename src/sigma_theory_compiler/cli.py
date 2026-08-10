@@ -53,6 +53,10 @@ from .quartic_dirac_hamiltonian_campaign import (
     run_quartic_dirac_hamiltonian_campaign,
     write_quartic_dirac_hamiltonian_campaign,
 )
+from .quartic_euler_remainder_majorant_campaign import (
+    run_quartic_euler_remainder_majorant_campaign,
+    write_quartic_euler_remainder_majorant_campaign,
+)
 from .quartic_first_order_reduction_campaign import (
     run_quartic_first_order_reduction_campaign,
     write_quartic_first_order_reduction_campaign,
@@ -570,6 +574,18 @@ def _parser() -> argparse.ArgumentParser:
     )
     quartic_coordinate_tube.add_argument("--config", type=Path, required=True)
     quartic_coordinate_tube.add_argument("--output", type=Path, required=True)
+    quartic_euler_remainder = subparsers.add_parser(
+        "quartic-euler-remainder-majorant-campaign",
+        help="Bound every acceleration-independent quartic Euler remainder term",
+    )
+    quartic_euler_remainder.add_argument(
+        "--nonquasilinear-pde-campaign", type=Path, required=True
+    )
+    quartic_euler_remainder.add_argument(
+        "--coordinate-tube-campaign", type=Path, required=True
+    )
+    quartic_euler_remainder.add_argument("--config", type=Path, required=True)
+    quartic_euler_remainder.add_argument("--output", type=Path, required=True)
     dhost_compile = subparsers.add_parser(
         "dhost-pack-compile",
         help="Compile a reduced rank-one quadratic DHOST kinetic family",
@@ -1489,6 +1505,32 @@ def main(argv: list[str] | None = None) -> int:
             0
             if result["status"]
             == "pass_all_12_uniform_coordinate_2jet_to_covariant_hyperbolicity_tubes"
+            else 1
+        )
+    if args.command == "quartic-euler-remainder-majorant-campaign":
+        nonquasilinear_pde_campaign = json.loads(
+            args.nonquasilinear_pde_campaign.read_text(encoding="utf-8")
+        )
+        coordinate_tube_campaign = json.loads(
+            args.coordinate_tube_campaign.read_text(encoding="utf-8")
+        )
+        config = json.loads(args.config.read_text(encoding="utf-8"))
+        result = run_quartic_euler_remainder_majorant_campaign(
+            nonquasilinear_pde_campaign, coordinate_tube_campaign, config
+        )
+        path = write_quartic_euler_remainder_majorant_campaign(result, args.output)
+        print(f"status={result['status']}")
+        print(f"selected={result['counts']['selected']}")
+        print(
+            "Euler_remainder_majorants_passed="
+            f"{result['counts']['Euler_remainder_majorants_passed']}"
+        )
+        print(f"rejected={result['counts']['rejected']}")
+        print(f"report={path}")
+        return (
+            0
+            if result["status"]
+            == "pass_all_12_complete_coordinate_tube_euler_remainder_majorants"
             else 1
         )
     if args.command == "dhost-pack-compile":

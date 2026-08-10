@@ -111,6 +111,9 @@ from .quartic_coordinate_jet_tube_campaign import (
 from .quartic_dirac_hamiltonian_campaign import (
     run_quartic_dirac_hamiltonian_campaign,
 )
+from .quartic_euler_remainder_majorant_campaign import (
+    run_quartic_euler_remainder_majorant_campaign,
+)
 from .quartic_first_order_reduction_campaign import (
     run_quartic_first_order_reduction_campaign,
 )
@@ -1986,6 +1989,84 @@ def _quartic_coordinate_jet_tube_campaign_control(
     }
 
 
+def _quartic_euler_remainder_majorant_campaign_control(
+    root: Path,
+) -> tuple[bool, dict[str, Any]]:
+    base = root / "runs" / "physics-language"
+    pde_path = base / "quartic-nonquasilinear-pde-campaign" / "campaign.json"
+    tube_path = base / "quartic-coordinate-jet-tube-campaign" / "campaign.json"
+    config_path = (
+        root
+        / "configs"
+        / "backgrounds"
+        / "quartic_euler_remainder_majorant_campaign.json"
+    )
+    artifact_path = base / "quartic-euler-remainder-majorant-campaign" / "campaign.json"
+    pde = json.loads(pde_path.read_text(encoding="utf-8"))
+    tube = json.loads(tube_path.read_text(encoding="utf-8"))
+    config = json.loads(config_path.read_text(encoding="utf-8"))
+    artifact = json.loads(artifact_path.read_text(encoding="utf-8"))
+    result = run_quartic_euler_remainder_majorant_campaign(pde, tube, config)
+    corrupted = dict(config)
+    corrupted["required_scalar_term_count"] = 2
+    negative = run_quartic_euler_remainder_majorant_campaign(
+        pde, tube, corrupted
+    )
+    certificates = result.get("certificates", [])
+    counts = result.get("counts", {})
+    control = result.get("generic_euler_remainder_majorant_control", {})
+    derivatives = control.get("remainder_Frechet_majorant_derivatives", {}).get(
+        "values", {}
+    )
+    passed = bool(
+        result.get("status")
+        == "pass_all_12_complete_coordinate_tube_euler_remainder_majorants"
+        and counts.get("selected") == 12
+        and counts.get("Euler_remainder_majorants_passed") == 12
+        and len(certificates) == 12
+        and control.get("passed") is True
+        and control.get("term_counts", {}).get("quartic_metric_lower") == 8
+        and control.get("term_counts", {}).get("G2_metric_lower") == 2
+        and control.get("term_counts", {}).get("scalar_euler") == 3
+        and control.get("term_counts", {}).get("modified_harmonic_gauge") == 4
+        and set(derivatives) == {"0", "1", "2", "3", "4"}
+        and all(item.get("numeric", -1) >= 0 for item in derivatives.values())
+        and all(
+            item.get("solved_acceleration_component_upper_numeric", 0) > 0
+            for item in certificates
+        )
+        and artifact.get("content_sha256") == result.get("content_sha256")
+        and negative.get("status") == "reject"
+    )
+    return passed, {
+        "prerequisites": {"pde": str(pde_path), "coordinate_tube": str(tube_path)},
+        "config": str(config_path),
+        "artifact": str(artifact_path),
+        "status": result.get("status"),
+        "counts": counts,
+        "artifact_hash_matches_reexecution": (
+            artifact.get("content_sha256") == result.get("content_sha256")
+        ),
+        "term_counts": control.get("term_counts"),
+        "auxiliary_metric_contractions": control.get(
+            "auxiliary_metric_contractions"
+        ),
+        "remainder_Frechet_majorant_derivatives": control.get(
+            "remainder_Frechet_majorant_derivatives"
+        ),
+        "representative_acceleration_upper": (
+            certificates[0].get("solved_acceleration_component_upper_numeric")
+            if certificates
+            else None
+        ),
+        "term_inventory_negative": {
+            "status": negative.get("status"),
+            "errors": negative.get("errors"),
+        },
+        "scope": result.get("scope"),
+    }
+
+
 def _quartic_horndeski_covariant_adm_control(
     root: Path,
 ) -> tuple[bool, dict[str, Any]]:
@@ -3179,6 +3260,12 @@ def run_formal_control_suite(
             "All 12 fixed-coefficient linear-X quartic candidates possess a common nonzero coordinate-state 2-jet tube that maps strictly inside the certified covariant hyperbolicity box.",
             "The orthonormal symmetric-metric basis gives an exact Frobenius perturbation identity. Neumann-series and tensor-product majorants bound the inverse metric, connection, scalar Hessian, curvature, and upper Einstein tensor, with nonnegative radial Frechet envelopes through order four. A 1e-13 coordinate-component tube passes all three covariant-jet margins; 1e-12 rejects. Euler-remainder and commuted gauge-source bounds, lifespan, and tube preservation remain open.",
             lambda: _quartic_coordinate_jet_tube_campaign_control(root),
+        ),
+        _run_check(
+            "quartic_linear_x_euler_remainder_majorants",
+            "All 12 fixed-coefficient linear-X quartic candidates possess complete termwise vacuum Euler-remainder bounds and fourth-order coordinate-atom derivative envelopes on the common coordinate tube.",
+            "Eight quartic metric terms, two G2 metric terms, three scalar terms, and four modified-harmonic gauge stages are bounded with exact radial expressions. The diagonal auxiliary metrics give exact l1 contraction constants 7 and 18. Combining the remainder with the certified time-block inverse yields a finite solved-acceleration bound. Derivatives of A^{-1}, commuted energy closure, a quantitative lifespan, matter sources, and tube preservation remain open.",
+            lambda: _quartic_euler_remainder_majorant_campaign_control(root),
         ),
         _run_check(
             "quartic_horndeski_timelike_flat_physical_hamiltonian",

@@ -127,6 +127,17 @@ def test_all_formal_known_answer_controls_pass(tmp_path) -> None:
     assert coordinate_tube["evidence"]["configuration_radius_negative"][
         "status"
     ] == "reject"
+    euler_remainder = checks["quartic_linear_x_euler_remainder_majorants"]
+    assert euler_remainder["status"] == "pass"
+    assert euler_remainder["evidence"]["artifact_hash_matches_reexecution"]
+    assert euler_remainder["evidence"]["term_counts"] == {
+        "quartic_metric_lower": 8,
+        "G2_metric_lower": 2,
+        "scalar_euler": 3,
+        "modified_harmonic_gauge": 4,
+    }
+    assert euler_remainder["evidence"]["representative_acceleration_upper"] > 0
+    assert euler_remainder["evidence"]["term_inventory_negative"]["status"] == "reject"
     assert checks["projected_aether_q_fixed_metric_first_variation"]["status"] == "pass"
     assert checks["projected_aether_q_fixed_metric_first_variation"]["evidence"][
         "projector_and_B_first_variation_residual"

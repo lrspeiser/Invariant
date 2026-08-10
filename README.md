@@ -469,14 +469,30 @@ python -m sigma_theory_compiler quartic-coordinate-jet-tube-campaign `
   --output runs/physics-language/quartic-coordinate-jet-tube-campaign
 ```
 
+Bound the complete acceleration-independent vacuum Euler remainder on that tube with:
+
+```powershell
+python -m sigma_theory_compiler quartic-euler-remainder-majorant-campaign `
+  --nonquasilinear-pde-campaign runs/physics-language/quartic-nonquasilinear-pde-campaign/campaign.json `
+  --coordinate-tube-campaign runs/physics-language/quartic-coordinate-jet-tube-campaign/campaign.json `
+  --config configs/backgrounds/quartic_euler_remainder_majorant_campaign.json `
+  --output runs/physics-language/quartic-euler-remainder-majorant-campaign
+```
+
+This emits termwise bounds for all metric, scalar, and modified-harmonic gauge
+contributions, fourth-order radial derivative envelopes in the 153 coordinate atoms,
+and a finite solved-acceleration bound for all 12 candidates. It does not yet bound
+derivatives of the inverse time block, close the commuted Sobolev energy, prove a
+lifespan, or add matter sources.
+
 The tube bounds 153 normalized coordinate atoms: ten metric deviations, 44 first partials,
 and 99 acceleration-free symmetric second partials. The exact orthonormal metric-basis identity
 and Neumann/product majorants prove that a common `1e-13` component cube maps strictly inside the
 `2e-10` covariant `nabla(phi)`, `nabla nabla(phi)`, and `G^mu nu` box for all 12 candidates.
 Radial Fréchet majorants through order four are emitted for the inverse metric, connection,
 Hessian, curvature, and Einstein tensor. A `1e-12` cube fails the sufficient Einstein-tensor
-margin and rejects. Euler-remainder/gauge-source derivative bounds and evolution preservation of
-this coordinate tube remain separate gates.
+margin and rejects. The downstream Euler-remainder campaign now bounds the full vacuum source;
+derivatives of the inverse time block and evolution preservation of this tube remain separate gates.
 
 Compile and execute a bounded scalar action variation through Cadabra:
 
