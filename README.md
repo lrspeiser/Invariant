@@ -226,6 +226,11 @@ All six deterministic work items succeeded and reproduced the same six blocked d
 hash-bound callback, seed, work-record, and portable-result roots. Each cold replay copies only the
 four declared inputs into an isolated temporary project root and an immutability regression proves
 that none of the upstream evidence, including the watchdog-owned live campaign, is changed.
+A finite parameter-cell adapter now exposes exactly the reviewed range `[0,6)`, rejects every
+out-of-range point, and performs the expensive immutable campaign attestation once per worker
+process before reusing it for all six deterministic leases. The controlled run completed six
+coordinator tasks with six formally blocked results under explicit task, wall, disk, retry, and
+zero-paid-LLM limits. Expanding the range requires a new reviewed manifest and formal evidence.
 A focused energy audit shows both Aether parameter points satisfy the linearized mode-energy and
 restricted theorem coupling inequalities, but their unconstrained phase spaces include twist: an
 exact unit-Aether witness has `(u wedge du)_txy=-1` at the origin. Because that witness is not an

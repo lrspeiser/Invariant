@@ -483,8 +483,13 @@ The persistent seed coordinator now runs the actual reviewed compilation campaig
 items, not a synthetic callback. Lease recovery and replay preserve deterministic IDs and reproduce
 the same six blocked outcomes. The campaign is rebuilt inside a temporary root containing only four
 hash-bound inputs, and pre/post hashes prove the source evidence and live watchdog database are not
-mutated. The next throughput optimization is to attest the expensive cold campaign once per worker
-process before evaluating larger finite parameter-cell manifests.
+mutated. The cold exact rebuild is now attested once per worker for the bounded reviewed manifest:
+exactly six cells occupy
+range `[0,6)`, a worker performs one immutable cold attestation, and all subsequent cell callbacks
+reuse it through deterministic leases, recovery, and replay. The controlled result is six succeeded
+work items with six blocked scientific decisions under hard task, wall, disk, retry, and `$0` limits.
+The remaining scaling gate is scientific rather than mechanical: any seventh or refined point needs
+a new hash-reviewed manifest entry and candidate-specific formal evidence before admission.
 For the two Aether seeds, the first nonlinear-energy premise is now exact: both rational points pass
 the five linearized mode-energy and restricted coupling inequalities, but neither action imposes
 hypersurface orthogonality. The normalized field-space witness
@@ -492,8 +497,8 @@ hypersurface orthogonality. The normalized field-space witness
 `(u wedge du)_txy|x=0=-1`. This blocks use of the restricted positive-energy theorem on the generic
 twisting phase space; it does not reject either seed because it is not an EOM solution or a
 negative-energy counterexample.
-The next execution step is to close or decisively reject those seed-specific gaps, then scale the
-parameter cells only after the bounded hook reproduces the same lineage and exclusions.
+The next execution step is to close or decisively reject those seed-specific gaps; parameter-cell
+range expansion remains gated on new reviewed lineage and evidence.
 
 The generated L2--L4 FLRW path now has the first validated background implementation:
 `flrw-background-certify` binds a compiled action, uses an outward-rounded interval Picard
