@@ -252,8 +252,10 @@ interval/lapse tasks, and two `G4` lapse/energy tasks. Every packet retains all 
 blocker lineage; coordinator priority stays `0.0`, and scalar truth/probability scores are forbidden.
 The reviewed Aether twist evaluator is now registered for its two packets and reproduces their
 `complete_generic_twisting_reduced_hamiltonian` blocker with no negative mode. The other eight
-packets still fail closed on missing evaluators. All 10 remain blocked and alter no scientific
-decision.
+packets initially failed closed on missing evaluators. The four `G2` packets now also invoke a
+hash-reviewed evaluator: two retain the distributed Dirac boundary blocker and two retain the
+general nonmaximal positive-mass blocker. The four `G3`/`G4` packets remain missing-evaluator
+blocked. All 10 remain blocked and alter no scientific decision.
 A focused energy audit shows both Aether parameter points satisfy the linearized mode-energy and
 restricted theorem coupling inequalities, but their unconstrained phase spaces include twist: an
 exact unit-Aether witness has `(u wedge du)_txy=-1` at the origin. Because that witness is not an

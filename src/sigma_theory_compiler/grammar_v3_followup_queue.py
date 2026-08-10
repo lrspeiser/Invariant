@@ -128,7 +128,9 @@ def _validate_config(config: dict[str, Any]) -> None:
         raise ValueError("grammar-v3 reviewed follow-up task allowlist changed")
     evaluators = config.get("reviewed_evaluators")
     if not isinstance(evaluators, dict) or set(evaluators) != {
-        "aether_nonlinear_twist_energy"
+        "aether_nonlinear_twist_energy",
+        "g2_global_boundary_dirac_contract",
+        "g2_global_positive_mass",
     }:
         raise ValueError("reviewed follow-up evaluator allowlist changed")
     budget = config.get("budget", {})
@@ -192,6 +194,80 @@ def reviewed_aether_twist_sector_evaluator(
             "content_sha256"
         ],
         "negative_energy_mode_found": audit_record["negative_energy_mode_found"],
+        "passed_local_or_restricted_gates": passed_gates,
+        "remaining_blocked_gates": blocked_gates,
+        "scientific_candidate_decision_changed": False,
+        "data_eligibility": {**ELIGIBILITY, "passed": True},
+        "paid_llm_spend_usd": 0.0,
+    }
+
+
+def reviewed_g2_global_positive_mass_evaluator(
+    payload: dict[str, Any],
+    audit_record: dict[str, Any],
+    evaluator_binding_sha256: str,
+    audit_binding: dict[str, str],
+) -> dict[str, Any]:
+    task_type = payload.get("task_type")
+    if (
+        task_type
+        not in {"g2_global_boundary_dirac_contract", "g2_global_positive_mass"}
+        or payload.get("candidate_id") != audit_record.get("seed_id")
+        or payload.get("action_sha256") != audit_record.get("action_sha256")
+        or audit_record.get("decision") != "blocked"
+        or audit_record.get("provenance", {}).get("data_eligibility") != ELIGIBILITY
+        or audit_record.get("solar_bundle") != {"generated": False, "status": "blocked"}
+    ):
+        raise ValueError("G2 positive-mass evaluator candidate or seal binding mismatch")
+    gates = audit_record.get("gate_ledger", {})
+    blocked_gates = [
+        {
+            "gate_id": gate_id,
+            "status": gate["status"],
+            "reason": gate.get("reason"),
+        }
+        for gate_id, gate in sorted(gates.items())
+        if gate.get("status") != "pass"
+    ]
+    passed_gates = sorted(
+        gate_id for gate_id, gate in gates.items() if gate.get("status") == "pass"
+    )
+    if (
+        audit_record.get("first_missing_premise")
+        != "hash_bound_general_nonmaximal_positive_mass_theorem"
+        or {item["gate_id"] for item in blocked_gates}
+        != {
+            "formal_prerequisite_completion",
+            "general_nonmaximal_positive_mass",
+            "global_positive_energy",
+        }
+        or audit_record.get("restricted_theorem_result")
+        != "pass_on_explicit_maximal_slice_contract"
+    ):
+        raise ValueError("G2 positive-mass evaluator blocked-premise contract changed")
+    blocker = (
+        "complete_distributed_dirac_boundary_contract"
+        if task_type == "g2_global_boundary_dirac_contract"
+        else "hash_bound_general_nonmaximal_positive_mass_theorem"
+    )
+    return {
+        "decision": "blocked",
+        "blocker": blocker,
+        "evaluator_binding_sha256": evaluator_binding_sha256,
+        "audit_binding": audit_binding,
+        "audit_candidate_provenance_sha256": audit_record["provenance"][
+            "binding_sha256"
+        ],
+        "dec_boundary_certificate_sha256": audit_record[
+            "dec_and_boundary_certificate"
+        ]["content_sha256"],
+        "global_contract_sha256": audit_record["provenance"][
+            "global_contract_sha256"
+        ],
+        "negative_total_energy_counterexample_found": audit_record[
+            "negative_total_energy_counterexample_found"
+        ],
+        "queued_target_blocker_root_sha256": _sha(payload["target_blockers"]),
         "passed_local_or_restricted_gates": passed_gates,
         "remaining_blocked_gates": blocked_gates,
         "scientific_candidate_decision_changed": False,
@@ -305,7 +381,6 @@ class GrammarV3FollowupQueue:
                 audit.get("content_sha256") != audit_descriptor["content_sha256"]
                 or _sha(audit_body) != audit_descriptor["content_sha256"]
                 or audit.get("decision_counts") != {"blocked": 2}
-                or audit.get("formal_pass_count") != 0
                 or audit.get("target_seed_count") != 2
                 or audit.get("observational_data_opened") is not False
                 or audit.get("data_eligibility") != ELIGIBILITY
@@ -314,17 +389,48 @@ class GrammarV3FollowupQueue:
                 raise ValueError("reviewed Aether twist audit content or outcome changed")
             records = {record["seed_id"]: record for record in audit["candidate_records"]}
             if len(records) != 2:
-                raise ValueError("reviewed Aether twist audit candidate identities changed")
+                raise ValueError("reviewed follow-up audit candidate identities changed")
             predecessors = descriptor["predecessor_bindings"]
-            for record in records.values():
-                provenance = record["provenance"]
+            if task_type == "aether_nonlinear_twist_energy":
+                if audit.get("formal_pass_count") != 0:
+                    raise ValueError("reviewed Aether twist audit formal outcome changed")
+                for record in records.values():
+                    provenance = record["provenance"]
+                    if (
+                        provenance.get("seed_predecessor_content_sha256")
+                        != predecessors["seed_compilation_content_sha256"]
+                        or provenance.get("premise_predecessor_content_sha256")
+                        != predecessors["aether_premise_content_sha256"]
+                    ):
+                        raise ValueError(
+                            "reviewed Aether twist audit predecessor lineage mismatch"
+                        )
+            else:
                 if (
-                    provenance.get("seed_predecessor_content_sha256")
-                    != predecessors["seed_compilation_content_sha256"]
-                    or provenance.get("premise_predecessor_content_sha256")
-                    != predecessors["aether_premise_content_sha256"]
+                    task_type
+                    not in {
+                        "g2_global_boundary_dirac_contract",
+                        "g2_global_positive_mass",
+                    }
+                    or audit.get("full_formal_pass_count") != 0
+                    or audit.get("restricted_maximal_slice_pass_count") != 2
                 ):
-                    raise ValueError("reviewed Aether twist audit predecessor lineage mismatch")
+                    raise ValueError("reviewed G2 positive-mass audit formal outcome changed")
+                expected_provenance = predecessors[
+                    "candidate_predecessor_provenance_sha256"
+                ]
+                for seed_id, record in records.items():
+                    provenance = record["provenance"]
+                    if (
+                        provenance.get("predecessor_content_sha256")
+                        != predecessors["g2_formal_prerequisite_content_sha256"]
+                        or provenance.get("predecessor_provenance_sha256")
+                        != expected_provenance.get(seed_id)
+                        or provenance.get("action_sha256") != record.get("action_sha256")
+                    ):
+                        raise ValueError(
+                            "reviewed G2 positive-mass audit predecessor lineage mismatch"
+                        )
             descriptor_binding = _sha(descriptor)
             loaded[task_type] = {
                 "callback": callback,

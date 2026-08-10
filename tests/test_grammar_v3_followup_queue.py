@@ -74,13 +74,21 @@ def test_packets_preserve_pareto_axes_blockers_and_reviewed_types(tmp_path: Path
         for packet in adapter.work_packets
         if packet["task_type"] == "aether_nonlinear_twist_energy"
     ]
+    g2_packets = [
+        packet
+        for packet in adapter.work_packets
+        if packet["task_type"]
+        in {"g2_global_boundary_dirac_contract", "g2_global_positive_mass"}
+    ]
     missing_packets = [
         packet
         for packet in adapter.work_packets
-        if packet["task_type"] != "aether_nonlinear_twist_energy"
+        if packet["task_type"].startswith(("g3_", "g4_"))
     ]
     assert len(aether_packets) == 2
+    assert len(g2_packets) == 4
     assert all(packet["reviewed_evaluator_binding_sha256"] for packet in aether_packets)
+    assert all(packet["reviewed_evaluator_binding_sha256"] for packet in g2_packets)
     assert all(packet["reviewed_evaluator_binding_sha256"] is None for packet in missing_packets)
     assert all(packet["pareto_axes"] == adapter.report["priority_axes"] for packet in adapter.work_packets)
     assert all(packet["target_blockers"] for packet in adapter.work_packets)
@@ -94,8 +102,8 @@ def test_packets_preserve_pareto_axes_blockers_and_reviewed_types(tmp_path: Path
     assert execution["executed"] == 10
     assert status["work_state_counts"] == {"succeeded": 10}
     assert status["followup_decision_counts"] == {"blocked": 10}
-    assert status["reviewed_evaluator_invocation_count"] == 2
-    assert status["missing_evaluator_count"] == 8
+    assert status["reviewed_evaluator_invocation_count"] == 6
+    assert status["missing_evaluator_count"] == 4
     assert status["candidate_scientific_decisions_changed"] == 0
     assert status["observational_data_opened"] is False
     assert status["paid_llm_spend_usd"] == 0.0
@@ -108,14 +116,43 @@ def test_packets_preserve_pareto_axes_blockers_and_reviewed_types(tmp_path: Path
     results = [json.loads(row["result_json"]) for row in rows]
     invoked = [result for result in results if result["evaluator_invoked"]]
     missing = [result for result in results if not result["evaluator_invoked"]]
-    assert len(invoked) == 2
-    assert len(missing) == 8
+    assert len(invoked) == 6
+    assert len(missing) == 4
+    aether_results = [
+        result
+        for result in invoked
+        if result["task_type"] == "aether_nonlinear_twist_energy"
+    ]
+    g2_boundary_results = [
+        result
+        for result in invoked
+        if result["task_type"] == "g2_global_boundary_dirac_contract"
+    ]
+    g2_mass_results = [
+        result
+        for result in invoked
+        if result["task_type"] == "g2_global_positive_mass"
+    ]
     assert all(
         result["blocker"] == "complete_generic_twisting_reduced_hamiltonian"
         and result["decision"] == "blocked"
         and result["reviewed_evidence"]["negative_energy_mode_found"] is False
         and result["reviewed_evidence"]["scientific_candidate_decision_changed"] is False
-        for result in invoked
+        for result in aether_results
+    )
+    assert len(g2_boundary_results) == 2
+    assert all(
+        result["blocker"] == "complete_distributed_dirac_boundary_contract"
+        and result["reviewed_evidence"]["negative_total_energy_counterexample_found"] is False
+        and result["reviewed_evidence"]["scientific_candidate_decision_changed"] is False
+        for result in g2_boundary_results
+    )
+    assert len(g2_mass_results) == 2
+    assert all(
+        result["blocker"] == "hash_bound_general_nonmaximal_positive_mass_theorem"
+        and result["reviewed_evidence"]["negative_total_energy_counterexample_found"] is False
+        and result["reviewed_evidence"]["scientific_candidate_decision_changed"] is False
+        for result in g2_mass_results
     )
     assert all(result["blocker"] == "reviewed_evaluator_missing" for result in missing)
 

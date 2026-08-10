@@ -513,8 +513,10 @@ It now produces 10 deterministic follow-up work packets keyed to the exact unres
 lineage; all coordinator priorities are `0.0`, and scalar truth/probability scores are rejected.
 The two Aether packets now invoke a hash-reviewed evaluator and reproduce the exact
 `complete_generic_twisting_reduced_hamiltonian` blocker with no negative mode. The other eight
-packets remain missing-evaluator blocked. The bounded execution therefore still ends with 10
-blocked results and no changed candidate decision.
+packets initially remained missing-evaluator blocked. Four `G2` packets now also invoke reviewed
+evidence: two preserve the distributed Dirac boundary blocker and two preserve the general
+nonmaximal positive-mass blocker. The four `G3`/`G4` packets still lack evaluators. The bounded
+execution therefore ends with 10 blocked results and no changed candidate decision.
 For the two Aether seeds, the first nonlinear-energy premise is now exact: both rational points pass
 the five linearized mode-energy and restricted coupling inequalities, but neither action imposes
 hypersurface orthogonality. The normalized field-space witness
