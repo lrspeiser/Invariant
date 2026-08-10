@@ -69,7 +69,19 @@ def test_packets_preserve_pareto_axes_blockers_and_reviewed_types(tmp_path: Path
         "g4_global_lapse_invertibility": 1,
         "g4_global_positive_energy": 1,
     }
-    assert all(packet["reviewed_evaluator_binding_sha256"] is None for packet in adapter.work_packets)
+    aether_packets = [
+        packet
+        for packet in adapter.work_packets
+        if packet["task_type"] == "aether_nonlinear_twist_energy"
+    ]
+    missing_packets = [
+        packet
+        for packet in adapter.work_packets
+        if packet["task_type"] != "aether_nonlinear_twist_energy"
+    ]
+    assert len(aether_packets) == 2
+    assert all(packet["reviewed_evaluator_binding_sha256"] for packet in aether_packets)
+    assert all(packet["reviewed_evaluator_binding_sha256"] is None for packet in missing_packets)
     assert all(packet["pareto_axes"] == adapter.report["priority_axes"] for packet in adapter.work_packets)
     assert all(packet["target_blockers"] for packet in adapter.work_packets)
     assert all(packet["data_eligibility"] == ELIGIBILITY for packet in adapter.work_packets)
@@ -82,7 +94,8 @@ def test_packets_preserve_pareto_axes_blockers_and_reviewed_types(tmp_path: Path
     assert execution["executed"] == 10
     assert status["work_state_counts"] == {"succeeded": 10}
     assert status["followup_decision_counts"] == {"blocked": 10}
-    assert status["missing_evaluator_count"] == 10
+    assert status["reviewed_evaluator_invocation_count"] == 2
+    assert status["missing_evaluator_count"] == 8
     assert status["candidate_scientific_decisions_changed"] == 0
     assert status["observational_data_opened"] is False
     assert status["paid_llm_spend_usd"] == 0.0
@@ -92,10 +105,19 @@ def test_packets_preserve_pareto_axes_blockers_and_reviewed_types(tmp_path: Path
             "SELECT priority,result_json FROM work ORDER BY ordinal"
         ).fetchall()
     assert all(float(row["priority"]) == 0.0 for row in rows)
+    results = [json.loads(row["result_json"]) for row in rows]
+    invoked = [result for result in results if result["evaluator_invoked"]]
+    missing = [result for result in results if not result["evaluator_invoked"]]
+    assert len(invoked) == 2
+    assert len(missing) == 8
     assert all(
-        json.loads(row["result_json"])["blocker"] == "reviewed_evaluator_missing"
-        for row in rows
+        result["blocker"] == "complete_generic_twisting_reduced_hamiltonian"
+        and result["decision"] == "blocked"
+        and result["reviewed_evidence"]["negative_energy_mode_found"] is False
+        and result["reviewed_evidence"]["scientific_candidate_decision_changed"] is False
+        for result in invoked
     )
+    assert all(result["blocker"] == "reviewed_evaluator_missing" for result in missing)
 
     resumed = _adapter(tmp_path / "queue.sqlite")
     replay = resumed.enqueue()
@@ -127,9 +149,19 @@ def test_report_evaluator_disk_and_live_database_tamper_fail_closed(tmp_path: Pa
         _adapter(tmp_path / "report.sqlite", config)
 
     config = _load(CONFIG)
-    config["reviewed_evaluators"] = {"g4_global_positive_energy": {"callback": "arbitrary"}}
-    with pytest.raises(ValueError, match="unreviewed.*evaluator"):
+    config["reviewed_evaluators"]["g4_global_positive_energy"] = {
+        "descriptor_path": "arbitrary",
+        "descriptor_file_sha256": "0" * 64,
+    }
+    with pytest.raises(ValueError, match="evaluator allowlist"):
         _adapter(tmp_path / "evaluator.sqlite", config)
+
+    config = _load(CONFIG)
+    config["reviewed_evaluators"]["aether_nonlinear_twist_energy"][
+        "descriptor_file_sha256"
+    ] = "0" * 64
+    with pytest.raises(ValueError, match="descriptor hash"):
+        _adapter(tmp_path / "descriptor.sqlite", config)
 
     config = _load(CONFIG)
     config["budget"]["maximum_database_bytes"] = 4096

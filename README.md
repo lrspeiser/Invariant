@@ -246,8 +246,10 @@ The Pareto report now feeds a deterministic 10-task follow-up queue targeting on
 premises: two Aether twist-energy tasks, four `G2` boundary/positive-mass tasks, two `G3`
 interval/lapse tasks, and two `G4` lapse/energy tasks. Every packet retains all four Pareto axes and
 blocker lineage; coordinator priority stays `0.0`, and scalar truth/probability scores are forbidden.
-With no reviewed evaluators registered yet, all 10 tasks fail closed as blocked and alter no
-scientific decision.
+The reviewed Aether twist evaluator is now registered for its two packets and reproduces their
+`complete_generic_twisting_reduced_hamiltonian` blocker with no negative mode. The other eight
+packets still fail closed on missing evaluators. All 10 remain blocked and alter no scientific
+decision.
 A focused energy audit shows both Aether parameter points satisfy the linearized mode-energy and
 restricted theorem coupling inequalities, but their unconstrained phase spaces include twist: an
 exact unit-Aether witness has `(u wedge du)_txy=-1` at the origin. Because that witness is not an

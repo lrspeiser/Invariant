@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import hashlib
+import importlib
+import inspect
 import json
 from collections import Counter
 from pathlib import Path
@@ -13,6 +15,7 @@ CONFIG_SCHEMA = "sigma-grammar-v3-followup-queue-config-1.0"
 PAYLOAD_SCHEMA = "sigma-grammar-v3-followup-work-packet-1.0"
 RESULT_SCHEMA = "sigma-grammar-v3-followup-work-result-1.0"
 STATUS_SCHEMA = "sigma-grammar-v3-followup-queue-status-1.0"
+EVALUATOR_DESCRIPTOR_SCHEMA = "sigma-grammar-v3-followup-evaluator-descriptor-1.0"
 
 TASK_SPECS: dict[str, list[tuple[str, tuple[str, ...]]]] = {
     "AETHER_K1234_PARAMETER_CELL": [
@@ -123,8 +126,11 @@ def _validate_config(config: dict[str, Any]) -> None:
         raise ValueError("grammar-v3 follow-up queue enabled paid LLM calls")
     if config.get("reviewed_task_types") != list(REVIEWED_TASK_TYPES):
         raise ValueError("grammar-v3 reviewed follow-up task allowlist changed")
-    if config.get("reviewed_evaluators") != {}:
-        raise ValueError("unreviewed follow-up evaluator descriptor was supplied")
+    evaluators = config.get("reviewed_evaluators")
+    if not isinstance(evaluators, dict) or set(evaluators) != {
+        "aether_nonlinear_twist_energy"
+    }:
+        raise ValueError("reviewed follow-up evaluator allowlist changed")
     budget = config.get("budget", {})
     if (
         set(budget) != {"maximum_tasks", "maximum_wall_seconds", "maximum_database_bytes"}
@@ -133,6 +139,65 @@ def _validate_config(config: dict[str, Any]) -> None:
         or not 4096 <= int(budget["maximum_database_bytes"]) <= 64 * 1024 * 1024
     ):
         raise ValueError("grammar-v3 follow-up queue budget is invalid")
+
+
+def reviewed_aether_twist_sector_evaluator(
+    payload: dict[str, Any],
+    audit_record: dict[str, Any],
+    evaluator_binding_sha256: str,
+    audit_binding: dict[str, str],
+) -> dict[str, Any]:
+    if (
+        payload.get("task_type") != "aether_nonlinear_twist_energy"
+        or payload.get("candidate_id") != audit_record.get("seed_id")
+        or payload.get("action_sha256") != audit_record.get("action_sha256")
+        or audit_record.get("decision") != "blocked"
+        or audit_record.get("provenance", {}).get("data_eligibility") != ELIGIBILITY
+        or audit_record.get("solar_bundle") != {"generated": False, "status": "blocked"}
+    ):
+        raise ValueError("Aether twist evaluator candidate or seal binding mismatch")
+    gates = audit_record.get("gate_ledger", {})
+    blocked_gates = [
+        {
+            "gate_id": gate_id,
+            "status": gate["status"],
+            "reason": gate.get("reason"),
+        }
+        for gate_id, gate in sorted(gates.items())
+        if gate.get("status") != "pass"
+    ]
+    passed_gates = sorted(
+        gate_id for gate_id, gate in gates.items() if gate.get("status") == "pass"
+    )
+    if (
+        audit_record.get("first_missing_premise")
+        != "complete_generic_twisting_reduced_hamiltonian"
+        or {item["gate_id"] for item in blocked_gates}
+        != {
+            "complete_generic_twisting_reduced_hamiltonian",
+            "formal_prerequisite_completion",
+            "global_positive_energy",
+        }
+    ):
+        raise ValueError("Aether twist evaluator blocked-premise contract changed")
+    return {
+        "decision": "blocked",
+        "blocker": "complete_generic_twisting_reduced_hamiltonian",
+        "evaluator_binding_sha256": evaluator_binding_sha256,
+        "audit_binding": audit_binding,
+        "audit_candidate_provenance_sha256": audit_record["provenance"][
+            "binding_sha256"
+        ],
+        "twist_certificate_sha256": audit_record["twist_sector_certificate"][
+            "content_sha256"
+        ],
+        "negative_energy_mode_found": audit_record["negative_energy_mode_found"],
+        "passed_local_or_restricted_gates": passed_gates,
+        "remaining_blocked_gates": blocked_gates,
+        "scientific_candidate_decision_changed": False,
+        "data_eligibility": {**ELIGIBILITY, "passed": True},
+        "paid_llm_spend_usd": 0.0,
+    }
 
 
 class GrammarV3FollowupQueue:
@@ -178,10 +243,99 @@ class GrammarV3FollowupQueue:
         ):
             raise ValueError("bound grammar-v3 Pareto report content or seals changed")
         _reject_scalar_truth_score(self.report)
+        self.evaluators = self._load_reviewed_evaluators()
         self.work_packets = self._build_work_packets()
         self.queue_registry_root_sha256 = _sha(self.work_packets)
         self._initialize_state()
         self.recovered_on_start = self.coordinator.recover_expired()
+
+    def _load_reviewed_evaluators(self) -> dict[str, dict[str, Any]]:
+        loaded = {}
+        for task_type, binding in self.config["reviewed_evaluators"].items():
+            if set(binding) != {"descriptor_path", "descriptor_file_sha256"}:
+                raise ValueError("reviewed evaluator config binding fields are invalid")
+            descriptor_path = self.root / binding["descriptor_path"]
+            if not descriptor_path.is_file() or _file_sha(descriptor_path) != binding[
+                "descriptor_file_sha256"
+            ]:
+                raise ValueError("reviewed follow-up evaluator descriptor hash mismatch")
+            descriptor = _load(descriptor_path)
+            required = {
+                "schema_version",
+                "evaluator_id",
+                "task_type",
+                "callback",
+                "artifact_path",
+                "artifact_sha256",
+                "audit_artifact",
+                "predecessor_bindings",
+                "data_eligibility",
+            }
+            if (
+                set(descriptor) != required
+                or descriptor.get("schema_version") != EVALUATOR_DESCRIPTOR_SCHEMA
+                or descriptor.get("task_type") != task_type
+                or descriptor.get("data_eligibility") != ELIGIBILITY
+            ):
+                raise ValueError("reviewed follow-up evaluator descriptor is invalid")
+            artifact = self.root / descriptor["artifact_path"]
+            if not artifact.is_file() or _file_sha(artifact) != descriptor["artifact_sha256"]:
+                raise ValueError("reviewed follow-up evaluator artifact hash mismatch")
+            module_name, separator, attribute = str(descriptor["callback"]).partition(":")
+            callback = getattr(importlib.import_module(module_name), attribute, None)
+            source = inspect.getsourcefile(callback) if callable(callback) else None
+            if (
+                not separator
+                or not callable(callback)
+                or source is None
+                or Path(source).resolve() != artifact.resolve()
+            ):
+                raise ValueError("reviewed follow-up evaluator callback binding is invalid")
+            audit_descriptor = descriptor["audit_artifact"]
+            audit_path = self.root / audit_descriptor["path"]
+            if not audit_path.is_file() or _file_sha(audit_path) != audit_descriptor[
+                "file_sha256"
+            ]:
+                raise ValueError("reviewed Aether twist audit file hash mismatch")
+            audit = _load(audit_path)
+            audit_body = {
+                key: item for key, item in audit.items() if key != "content_sha256"
+            }
+            if (
+                audit.get("content_sha256") != audit_descriptor["content_sha256"]
+                or _sha(audit_body) != audit_descriptor["content_sha256"]
+                or audit.get("decision_counts") != {"blocked": 2}
+                or audit.get("formal_pass_count") != 0
+                or audit.get("target_seed_count") != 2
+                or audit.get("observational_data_opened") is not False
+                or audit.get("data_eligibility") != ELIGIBILITY
+                or audit.get("paid_llm_spend_usd") != 0.0
+            ):
+                raise ValueError("reviewed Aether twist audit content or outcome changed")
+            records = {record["seed_id"]: record for record in audit["candidate_records"]}
+            if len(records) != 2:
+                raise ValueError("reviewed Aether twist audit candidate identities changed")
+            predecessors = descriptor["predecessor_bindings"]
+            for record in records.values():
+                provenance = record["provenance"]
+                if (
+                    provenance.get("seed_predecessor_content_sha256")
+                    != predecessors["seed_compilation_content_sha256"]
+                    or provenance.get("premise_predecessor_content_sha256")
+                    != predecessors["aether_premise_content_sha256"]
+                ):
+                    raise ValueError("reviewed Aether twist audit predecessor lineage mismatch")
+            descriptor_binding = _sha(descriptor)
+            loaded[task_type] = {
+                "callback": callback,
+                "descriptor_binding_sha256": descriptor_binding,
+                "audit_binding": {
+                    "file_sha256": audit_descriptor["file_sha256"],
+                    "content_sha256": audit_descriptor["content_sha256"],
+                },
+                "records": records,
+            }
+        return loaded
 
     def _build_work_packets(self) -> list[dict[str, Any]]:
         axes = self.report["priority_axes"]
@@ -229,7 +383,11 @@ class GrammarV3FollowupQueue:
                     ],
                     "candidate_blocker_taxonomy_root_sha256": blocker_root,
                     "target_blockers": targets,
-                    "reviewed_evaluator_binding_sha256": None,
+                    "reviewed_evaluator_binding_sha256": (
+                        self.evaluators[task_type]["descriptor_binding_sha256"]
+                        if task_type in self.evaluators
+                        else None
+                    ),
                     "data_eligibility": dict(ELIGIBILITY),
                 }
                 lineage = _sha(task_body)
@@ -315,6 +473,33 @@ class GrammarV3FollowupQueue:
         payload = self._expected_payload(lease)
         if payload["task_type"] not in REVIEWED_TASK_TYPES:
             raise ValueError("leased follow-up task type is not reviewed")
+        evaluator = self.evaluators.get(payload["task_type"])
+        if evaluator is None:
+            reviewed_evidence = None
+            decision = "blocked"
+            blocker = "reviewed_evaluator_missing"
+            evaluator_invoked = False
+        else:
+            audit_record = evaluator["records"].get(payload["candidate_id"])
+            if audit_record is None:
+                raise ValueError("reviewed evaluator lacks the queued candidate")
+            reviewed_evidence = evaluator["callback"](
+                payload,
+                audit_record,
+                evaluator["descriptor_binding_sha256"],
+                evaluator["audit_binding"],
+            )
+            if (
+                reviewed_evidence.get("decision") != "blocked"
+                or reviewed_evidence.get("scientific_candidate_decision_changed") is not False
+                or reviewed_evidence.get("data_eligibility")
+                != {**ELIGIBILITY, "passed": True}
+                or reviewed_evidence.get("paid_llm_spend_usd") != 0.0
+            ):
+                raise ValueError("reviewed follow-up evaluator result is not fail-closed")
+            decision = reviewed_evidence["decision"]
+            blocker = reviewed_evidence["blocker"]
+            evaluator_invoked = True
         result_body = {
             "schema_version": RESULT_SCHEMA,
             "work_id": lease.work_id,
@@ -322,9 +507,10 @@ class GrammarV3FollowupQueue:
             "followup_lineage_sha256": payload["followup_lineage_sha256"],
             "candidate_id": payload["candidate_id"],
             "task_type": payload["task_type"],
-            "decision": "blocked",
-            "blocker": "reviewed_evaluator_missing",
-            "evaluator_invoked": False,
+            "decision": decision,
+            "blocker": blocker,
+            "evaluator_invoked": evaluator_invoked,
+            "reviewed_evidence": reviewed_evidence,
             "scientific_candidate_decision_changed": False,
             "target_blocker_root_sha256": _sha(payload["target_blockers"]),
             "data_eligibility": {**ELIGIBILITY, "passed": True},
@@ -366,6 +552,7 @@ class GrammarV3FollowupQueue:
         records = []
         states: Counter[str] = Counter()
         decisions: Counter[str] = Counter()
+        evaluator_states: Counter[str] = Counter()
         with self.coordinator.connect() as connection:
             rows = connection.execute(
                 "SELECT work_id,ordinal,seed,payload_json,state,attempt,result_json,error_text "
@@ -390,6 +577,7 @@ class GrammarV3FollowupQueue:
                 ):
                     raise ValueError("stored grammar-v3 follow-up result lineage mismatch")
                 decisions[result["decision"]] += 1
+                evaluator_states["invoked" if result["evaluator_invoked"] else "missing"] += 1
                 result_sha = result["content_sha256"]
             records.append(
                 {
@@ -422,7 +610,8 @@ class GrammarV3FollowupQueue:
             "task_count": len(self.work_packets),
             "work_state_counts": dict(sorted(states.items())),
             "followup_decision_counts": dict(sorted(decisions.items())),
-            "missing_evaluator_count": decisions["blocked"],
+            "reviewed_evaluator_invocation_count": evaluator_states["invoked"],
+            "missing_evaluator_count": evaluator_states["missing"],
             "candidate_scientific_decisions_changed": 0,
             "work_records": records,
             "work_records_root_sha256": _sha(records),

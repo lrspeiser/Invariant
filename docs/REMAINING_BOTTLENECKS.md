@@ -505,8 +505,10 @@ The registry is an evidence-prioritization layer, not a promotion around incompl
 It now produces 10 deterministic follow-up work packets keyed to the exact unresolved Aether,
 `G2`, `G3`, and `G4` premises. Each preserves four separate Pareto axes and complete blocker
 lineage; all coordinator priorities are `0.0`, and scalar truth/probability scores are rejected.
-Because the task-specific evaluators are not yet registered, the bounded execution correctly ends
-with 10 blocked results and no changed candidate decision.
+The two Aether packets now invoke a hash-reviewed evaluator and reproduce the exact
+`complete_generic_twisting_reduced_hamiltonian` blocker with no negative mode. The other eight
+packets remain missing-evaluator blocked. The bounded execution therefore still ends with 10
+blocked results and no changed candidate decision.
 For the two Aether seeds, the first nonlinear-energy premise is now exact: both rational points pass
 the five linearized mode-energy and restricted coupling inequalities, but neither action imposes
 hypersurface orthogonality. The normalized field-space witness
