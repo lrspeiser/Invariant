@@ -1,0 +1,2044 @@
+{
+  "certificates": [
+    {
+      "candidate_id": "quartic-symbol-06e267a9215345b6",
+      "coefficients": {
+        "a01": "0",
+        "a10": "-1/2",
+        "a20": "0",
+        "c02": "0",
+        "c11": "0",
+        "c20": "-1",
+        "d01": "0",
+        "d10": "0",
+        "m2": "1"
+      },
+      "connection_to_B7_global_H7": {
+        "B7_fully_replaced": false,
+        "coefficient_high_state_low_branch_removed_from_B7": false,
+        "global_H7_differential_inequality_closed": false,
+        "global_dyadic_summation_applied": false,
+        "induced_two_channel_terms_removed_from_B7": false,
+        "nonlinear_lifespan_proved": false,
+        "other_high_atom_slices_removed_from_B7": false,
+        "representative_full_s01_H01_slice_removed_from_B7": true
+      },
+      "induced_term_closure": {
+        "all_induced_terms_closed": false,
+        "fixed_LP_time_commutator_closed": true,
+        "low_factor_evolution_bound_closed": false,
+        "nonlinear_substitution_remainder_bound_closed": false,
+        "operator_paraproduct_commutator_bound_closed": false,
+        "physical_operator_on_correction_bound_closed": false
+      },
+      "induced_top_order_commutators": {
+        "complete_identity": "(partial_t-T_P)C_Q = Q T_(partial_1 partial_t v_low)w + Q T_(partial_1 v_low)partial_t w - T_P(Q T_(partial_1 v_low)w)",
+        "exhaustiveness_scope": "all terms generated algebraically by applying partial_t-T_P and the nonlinear source substitution to this correction; boundary, gauge, and other high-atom families are outside this slice",
+        "terms": [
+          {
+            "exactly_present": true,
+            "id": "TC1_low_factor_evolution",
+            "origin": "time product rule",
+            "quantitative_bound_instantiated": false,
+            "term": "Q T_(partial_1 partial_t v_low) w_high",
+            "topology": "coefficient_low/state_high"
+          },
+          {
+            "exactly_present": true,
+            "id": "TC2_physical_operator_on_correction",
+            "origin": "substitution v=v_sharp-C_Q into the 55-state operator",
+            "quantitative_bound_instantiated": false,
+            "term": "-T_P(Q T_(partial_1 v_low) w_high)",
+            "topology": "first-order physical operator composed with paraproduct"
+          },
+          {
+            "exactly_present": true,
+            "id": "TC3_operator_paraproduct_commutator",
+            "origin": "exact decomposition of TC2",
+            "quantitative_bound_instantiated": false,
+            "term": "-[T_P,Q T_(partial_1 v_low)]w_high after adding and subtracting Q T_(partial_1 v_low)T_P w_high",
+            "topology": "variable-coefficient Coifman-Meyer commutator"
+          },
+          {
+            "exactly_zero_for_declared_fixed_Fourier_cutoffs": true,
+            "id": "TC4_fixed_LP_time_commutator",
+            "origin": "time-dependent product differentiation",
+            "quantitative_bound_instantiated": true,
+            "term": "[partial_t,T_(partial_1 v_low)]w_high"
+          },
+          {
+            "exactly_present": true,
+            "id": "TC5_nonlinear_substitution_remainder",
+            "origin": "nonlinear change of state beyond the quadratic slice",
+            "quantitative_bound_instantiated": false,
+            "term": "F(Y(v_sharp-C_Q))-F(Y(v_sharp))+DF(Y)J(C_Q)",
+            "topology": "at least quadratic in C_Q / cubic in state"
+          }
+        ]
+      },
+      "modified_state": {
+        "built_only_from_actual_state_variables": true,
+        "channel_1": "2*alpha*(e0-4*e4) T_(partial_1 v0[10]_low) w1[10]_high",
+        "channel_2": "2*alpha*e10 T_(partial_1(v0[7]+v0[9])_low) w1[10]_high",
+        "definition": "v_sharp=v+Q T_(partial_1 v_low) w1[10]_high, with the paraproduct applied componentwise in the low v slot",
+        "dynamic_block": "v0[0]..v0[10]",
+        "high_state": "w1[10]",
+        "uses_certified_kinematic_state_to_jet_map": true
+      },
+      "principal_slice_identity": {
+        "after_J_s01_residual_entries": [],
+        "after_J_s01_residual_zero": true,
+        "all_four_nonzero_entries_cancelled": true,
+        "correction_entries": [
+          {
+            "column": 10,
+            "row": 0,
+            "value": "-1"
+          },
+          {
+            "column": 10,
+            "row": 4,
+            "value": "4"
+          },
+          {
+            "column": 7,
+            "row": 10,
+            "value": "-1"
+          },
+          {
+            "column": 9,
+            "row": 10,
+            "value": "-1"
+          }
+        ],
+        "proved": true,
+        "source_obstruction_entries": [
+          {
+            "column": 10,
+            "row": 0,
+            "value": "1"
+          },
+          {
+            "column": 10,
+            "row": 4,
+            "value": "-4"
+          },
+          {
+            "column": 7,
+            "row": 10,
+            "value": "1"
+          },
+          {
+            "column": 9,
+            "row": 10,
+            "value": "1"
+          }
+        ],
+        "time_differentiated_principal_contribution": "Q T_(partial_1 v_low) H01_high"
+      },
+      "provenance": {
+        "C9_orders": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "D2_arithmetic_packet_sha256": "8fd088ca2c5cd6f146b176f62882db4e9c6c2f1d709707e94d67a98540eada58",
+        "full_entry_manifest_sha256": "baa3374f3e849ca7fcba2357810eb96bfb51e819cf059efe5e227297520d5c94",
+        "induced_top_order_ledger_sha256": "289e6be97995957d807967dd006fe418ec8364f295a61cbe96ce177b64cc8e15",
+        "principal_jet_injection_sha256": "6dc1ddb4afc4ddd248d7bbbe768198559974babdbe715defd5d3b24d9805dd2f",
+        "s01_injection_slice_sha256": "d8baeb33c3311425c70269a3067e6788e69b29a1a31a95539707a2e9363069e7",
+        "two_channel_identity_sha256": "544d8f0a842eabbbc86f728c3f71bc2fdebdae27dc09a622e6049cbce30d658e"
+      },
+      "remaining_gate": "materialize P55 acting on the embedded two-channel correction and prove bounds for TC1, TC2, TC3, and TC5 before extending to other high atoms",
+      "schema_version": "sigma-quartic-two-channel-good-unknown-slice-certificate-1.0",
+      "status": "pass_exact_two_channel_s01_slice_induced_commutators_fail_closed"
+    },
+    {
+      "candidate_id": "quartic-symbol-076dc0ba965ab63a",
+      "coefficients": {
+        "a01": "0",
+        "a10": "1/2",
+        "a20": "0",
+        "c02": "0",
+        "c11": "0",
+        "c20": "1",
+        "d01": "0",
+        "d10": "0",
+        "m2": "1"
+      },
+      "connection_to_B7_global_H7": {
+        "B7_fully_replaced": false,
+        "coefficient_high_state_low_branch_removed_from_B7": false,
+        "global_H7_differential_inequality_closed": false,
+        "global_dyadic_summation_applied": false,
+        "induced_two_channel_terms_removed_from_B7": false,
+        "nonlinear_lifespan_proved": false,
+        "other_high_atom_slices_removed_from_B7": false,
+        "representative_full_s01_H01_slice_removed_from_B7": true
+      },
+      "induced_term_closure": {
+        "all_induced_terms_closed": false,
+        "fixed_LP_time_commutator_closed": true,
+        "low_factor_evolution_bound_closed": false,
+        "nonlinear_substitution_remainder_bound_closed": false,
+        "operator_paraproduct_commutator_bound_closed": false,
+        "physical_operator_on_correction_bound_closed": false
+      },
+      "induced_top_order_commutators": {
+        "complete_identity": "(partial_t-T_P)C_Q = Q T_(partial_1 partial_t v_low)w + Q T_(partial_1 v_low)partial_t w - T_P(Q T_(partial_1 v_low)w)",
+        "exhaustiveness_scope": "all terms generated algebraically by applying partial_t-T_P and the nonlinear source substitution to this correction; boundary, gauge, and other high-atom families are outside this slice",
+        "terms": [
+          {
+            "exactly_present": true,
+            "id": "TC1_low_factor_evolution",
+            "origin": "time product rule",
+            "quantitative_bound_instantiated": false,
+            "term": "Q T_(partial_1 partial_t v_low) w_high",
+            "topology": "coefficient_low/state_high"
+          },
+          {
+            "exactly_present": true,
+            "id": "TC2_physical_operator_on_correction",
+            "origin": "substitution v=v_sharp-C_Q into the 55-state operator",
+            "quantitative_bound_instantiated": false,
+            "term": "-T_P(Q T_(partial_1 v_low) w_high)",
+            "topology": "first-order physical operator composed with paraproduct"
+          },
+          {
+            "exactly_present": true,
+            "id": "TC3_operator_paraproduct_commutator",
+            "origin": "exact decomposition of TC2",
+            "quantitative_bound_instantiated": false,
+            "term": "-[T_P,Q T_(partial_1 v_low)]w_high after adding and subtracting Q T_(partial_1 v_low)T_P w_high",
+            "topology": "variable-coefficient Coifman-Meyer commutator"
+          },
+          {
+            "exactly_zero_for_declared_fixed_Fourier_cutoffs": true,
+            "id": "TC4_fixed_LP_time_commutator",
+            "origin": "time-dependent product differentiation",
+            "quantitative_bound_instantiated": true,
+            "term": "[partial_t,T_(partial_1 v_low)]w_high"
+          },
+          {
+            "exactly_present": true,
+            "id": "TC5_nonlinear_substitution_remainder",
+            "origin": "nonlinear change of state beyond the quadratic slice",
+            "quantitative_bound_instantiated": false,
+            "term": "F(Y(v_sharp-C_Q))-F(Y(v_sharp))+DF(Y)J(C_Q)",
+            "topology": "at least quadratic in C_Q / cubic in state"
+          }
+        ]
+      },
+      "modified_state": {
+        "built_only_from_actual_state_variables": true,
+        "channel_1": "2*alpha*(e0-4*e4) T_(partial_1 v0[10]_low) w1[10]_high",
+        "channel_2": "2*alpha*e10 T_(partial_1(v0[7]+v0[9])_low) w1[10]_high",
+        "definition": "v_sharp=v+Q T_(partial_1 v_low) w1[10]_high, with the paraproduct applied componentwise in the low v slot",
+        "dynamic_block": "v0[0]..v0[10]",
+        "high_state": "w1[10]",
+        "uses_certified_kinematic_state_to_jet_map": true
+      },
+      "principal_slice_identity": {
+        "after_J_s01_residual_entries": [],
+        "after_J_s01_residual_zero": true,
+        "all_four_nonzero_entries_cancelled": true,
+        "correction_entries": [
+          {
+            "column": 10,
+            "row": 0,
+            "value": "1"
+          },
+          {
+            "column": 10,
+            "row": 4,
+            "value": "-4"
+          },
+          {
+            "column": 7,
+            "row": 10,
+            "value": "1"
+          },
+          {
+            "column": 9,
+            "row": 10,
+            "value": "1"
+          }
+        ],
+        "proved": true,
+        "source_obstruction_entries": [
+          {
+            "column": 10,
+            "row": 0,
+            "value": "-1"
+          },
+          {
+            "column": 10,
+            "row": 4,
+            "value": "4"
+          },
+          {
+            "column": 7,
+            "row": 10,
+            "value": "-1"
+          },
+          {
+            "column": 9,
+            "row": 10,
+            "value": "-1"
+          }
+        ],
+        "time_differentiated_principal_contribution": "Q T_(partial_1 v_low) H01_high"
+      },
+      "provenance": {
+        "C9_orders": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "D2_arithmetic_packet_sha256": "8fd088ca2c5cd6f146b176f62882db4e9c6c2f1d709707e94d67a98540eada58",
+        "full_entry_manifest_sha256": "baa3374f3e849ca7fcba2357810eb96bfb51e819cf059efe5e227297520d5c94",
+        "induced_top_order_ledger_sha256": "b41f891a7ee3751f1b5493818d9f352381d0e79865f9cfd5396b732d40fd678b",
+        "principal_jet_injection_sha256": "6dc1ddb4afc4ddd248d7bbbe768198559974babdbe715defd5d3b24d9805dd2f",
+        "s01_injection_slice_sha256": "d8baeb33c3311425c70269a3067e6788e69b29a1a31a95539707a2e9363069e7",
+        "two_channel_identity_sha256": "9ed148f52b08ebd460a4294e119f4d804857b9d91a180e6dacaf7799b553d9cf"
+      },
+      "remaining_gate": "materialize P55 acting on the embedded two-channel correction and prove bounds for TC1, TC2, TC3, and TC5 before extending to other high atoms",
+      "schema_version": "sigma-quartic-two-channel-good-unknown-slice-certificate-1.0",
+      "status": "pass_exact_two_channel_s01_slice_induced_commutators_fail_closed"
+    },
+    {
+      "candidate_id": "quartic-symbol-317e5395817a432b",
+      "coefficients": {
+        "a01": "0",
+        "a10": "-1",
+        "a20": "0",
+        "c02": "0",
+        "c11": "0",
+        "c20": "1",
+        "d01": "0",
+        "d10": "0",
+        "m2": "1"
+      },
+      "connection_to_B7_global_H7": {
+        "B7_fully_replaced": false,
+        "coefficient_high_state_low_branch_removed_from_B7": false,
+        "global_H7_differential_inequality_closed": false,
+        "global_dyadic_summation_applied": false,
+        "induced_two_channel_terms_removed_from_B7": false,
+        "nonlinear_lifespan_proved": false,
+        "other_high_atom_slices_removed_from_B7": false,
+        "representative_full_s01_H01_slice_removed_from_B7": true
+      },
+      "induced_term_closure": {
+        "all_induced_terms_closed": false,
+        "fixed_LP_time_commutator_closed": true,
+        "low_factor_evolution_bound_closed": false,
+        "nonlinear_substitution_remainder_bound_closed": false,
+        "operator_paraproduct_commutator_bound_closed": false,
+        "physical_operator_on_correction_bound_closed": false
+      },
+      "induced_top_order_commutators": {
+        "complete_identity": "(partial_t-T_P)C_Q = Q T_(partial_1 partial_t v_low)w + Q T_(partial_1 v_low)partial_t w - T_P(Q T_(partial_1 v_low)w)",
+        "exhaustiveness_scope": "all terms generated algebraically by applying partial_t-T_P and the nonlinear source substitution to this correction; boundary, gauge, and other high-atom families are outside this slice",
+        "terms": [
+          {
+            "exactly_present": true,
+            "id": "TC1_low_factor_evolution",
+            "origin": "time product rule",
+            "quantitative_bound_instantiated": false,
+            "term": "Q T_(partial_1 partial_t v_low) w_high",
+            "topology": "coefficient_low/state_high"
+          },
+          {
+            "exactly_present": true,
+            "id": "TC2_physical_operator_on_correction",
+            "origin": "substitution v=v_sharp-C_Q into the 55-state operator",
+            "quantitative_bound_instantiated": false,
+            "term": "-T_P(Q T_(partial_1 v_low) w_high)",
+            "topology": "first-order physical operator composed with paraproduct"
+          },
+          {
+            "exactly_present": true,
+            "id": "TC3_operator_paraproduct_commutator",
+            "origin": "exact decomposition of TC2",
+            "quantitative_bound_instantiated": false,
+            "term": "-[T_P,Q T_(partial_1 v_low)]w_high after adding and subtracting Q T_(partial_1 v_low)T_P w_high",
+            "topology": "variable-coefficient Coifman-Meyer commutator"
+          },
+          {
+            "exactly_zero_for_declared_fixed_Fourier_cutoffs": true,
+            "id": "TC4_fixed_LP_time_commutator",
+            "origin": "time-dependent product differentiation",
+            "quantitative_bound_instantiated": true,
+            "term": "[partial_t,T_(partial_1 v_low)]w_high"
+          },
+          {
+            "exactly_present": true,
+            "id": "TC5_nonlinear_substitution_remainder",
+            "origin": "nonlinear change of state beyond the quadratic slice",
+            "quantitative_bound_instantiated": false,
+            "term": "F(Y(v_sharp-C_Q))-F(Y(v_sharp))+DF(Y)J(C_Q)",
+            "topology": "at least quadratic in C_Q / cubic in state"
+          }
+        ]
+      },
+      "modified_state": {
+        "built_only_from_actual_state_variables": true,
+        "channel_1": "2*alpha*(e0-4*e4) T_(partial_1 v0[10]_low) w1[10]_high",
+        "channel_2": "2*alpha*e10 T_(partial_1(v0[7]+v0[9])_low) w1[10]_high",
+        "definition": "v_sharp=v+Q T_(partial_1 v_low) w1[10]_high, with the paraproduct applied componentwise in the low v slot",
+        "dynamic_block": "v0[0]..v0[10]",
+        "high_state": "w1[10]",
+        "uses_certified_kinematic_state_to_jet_map": true
+      },
+      "principal_slice_identity": {
+        "after_J_s01_residual_entries": [],
+        "after_J_s01_residual_zero": true,
+        "all_four_nonzero_entries_cancelled": true,
+        "correction_entries": [
+          {
+            "column": 10,
+            "row": 0,
+            "value": "-2"
+          },
+          {
+            "column": 10,
+            "row": 4,
+            "value": "8"
+          },
+          {
+            "column": 7,
+            "row": 10,
+            "value": "-2"
+          },
+          {
+            "column": 9,
+            "row": 10,
+            "value": "-2"
+          }
+        ],
+        "proved": true,
+        "source_obstruction_entries": [
+          {
+            "column": 10,
+            "row": 0,
+            "value": "2"
+          },
+          {
+            "column": 10,
+            "row": 4,
+            "value": "-8"
+          },
+          {
+            "column": 7,
+            "row": 10,
+            "value": "2"
+          },
+          {
+            "column": 9,
+            "row": 10,
+            "value": "2"
+          }
+        ],
+        "time_differentiated_principal_contribution": "Q T_(partial_1 v_low) H01_high"
+      },
+      "provenance": {
+        "C9_orders": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "D2_arithmetic_packet_sha256": "8fd088ca2c5cd6f146b176f62882db4e9c6c2f1d709707e94d67a98540eada58",
+        "full_entry_manifest_sha256": "baa3374f3e849ca7fcba2357810eb96bfb51e819cf059efe5e227297520d5c94",
+        "induced_top_order_ledger_sha256": "f01ba20490c5f826a900ee0f20a7aac7344c4b69376d95d6f0389e733d77fecf",
+        "principal_jet_injection_sha256": "6dc1ddb4afc4ddd248d7bbbe768198559974babdbe715defd5d3b24d9805dd2f",
+        "s01_injection_slice_sha256": "d8baeb33c3311425c70269a3067e6788e69b29a1a31a95539707a2e9363069e7",
+        "two_channel_identity_sha256": "1f4853209e662e20ef2aea8f4bb9dff0c00222fd54111258274cb786d50eeb83"
+      },
+      "remaining_gate": "materialize P55 acting on the embedded two-channel correction and prove bounds for TC1, TC2, TC3, and TC5 before extending to other high atoms",
+      "schema_version": "sigma-quartic-two-channel-good-unknown-slice-certificate-1.0",
+      "status": "pass_exact_two_channel_s01_slice_induced_commutators_fail_closed"
+    },
+    {
+      "candidate_id": "quartic-symbol-50f184dfe1a814bf",
+      "coefficients": {
+        "a01": "0",
+        "a10": "-1/2",
+        "a20": "0",
+        "c02": "0",
+        "c11": "0",
+        "c20": "0",
+        "d01": "0",
+        "d10": "0",
+        "m2": "1"
+      },
+      "connection_to_B7_global_H7": {
+        "B7_fully_replaced": false,
+        "coefficient_high_state_low_branch_removed_from_B7": false,
+        "global_H7_differential_inequality_closed": false,
+        "global_dyadic_summation_applied": false,
+        "induced_two_channel_terms_removed_from_B7": false,
+        "nonlinear_lifespan_proved": false,
+        "other_high_atom_slices_removed_from_B7": false,
+        "representative_full_s01_H01_slice_removed_from_B7": true
+      },
+      "induced_term_closure": {
+        "all_induced_terms_closed": false,
+        "fixed_LP_time_commutator_closed": true,
+        "low_factor_evolution_bound_closed": false,
+        "nonlinear_substitution_remainder_bound_closed": false,
+        "operator_paraproduct_commutator_bound_closed": false,
+        "physical_operator_on_correction_bound_closed": false
+      },
+      "induced_top_order_commutators": {
+        "complete_identity": "(partial_t-T_P)C_Q = Q T_(partial_1 partial_t v_low)w + Q T_(partial_1 v_low)partial_t w - T_P(Q T_(partial_1 v_low)w)",
+        "exhaustiveness_scope": "all terms generated algebraically by applying partial_t-T_P and the nonlinear source substitution to this correction; boundary, gauge, and other high-atom families are outside this slice",
+        "terms": [
+          {
+            "exactly_present": true,
+            "id": "TC1_low_factor_evolution",
+            "origin": "time product rule",
+            "quantitative_bound_instantiated": false,
+            "term": "Q T_(partial_1 partial_t v_low) w_high",
+            "topology": "coefficient_low/state_high"
+          },
+          {
+            "exactly_present": true,
+            "id": "TC2_physical_operator_on_correction",
+            "origin": "substitution v=v_sharp-C_Q into the 55-state operator",
+            "quantitative_bound_instantiated": false,
+            "term": "-T_P(Q T_(partial_1 v_low) w_high)",
+            "topology": "first-order physical operator composed with paraproduct"
+          },
+          {
+            "exactly_present": true,
+            "id": "TC3_operator_paraproduct_commutator",
+            "origin": "exact decomposition of TC2",
+            "quantitative_bound_instantiated": false,
+            "term": "-[T_P,Q T_(partial_1 v_low)]w_high after adding and subtracting Q T_(partial_1 v_low)T_P w_high",
+            "topology": "variable-coefficient Coifman-Meyer commutator"
+          },
+          {
+            "exactly_zero_for_declared_fixed_Fourier_cutoffs": true,
+            "id": "TC4_fixed_LP_time_commutator",
+            "origin": "time-dependent product differentiation",
+            "quantitative_bound_instantiated": true,
+            "term": "[partial_t,T_(partial_1 v_low)]w_high"
+          },
+          {
+            "exactly_present": true,
+            "id": "TC5_nonlinear_substitution_remainder",
+            "origin": "nonlinear change of state beyond the quadratic slice",
+            "quantitative_bound_instantiated": false,
+            "term": "F(Y(v_sharp-C_Q))-F(Y(v_sharp))+DF(Y)J(C_Q)",
+            "topology": "at least quadratic in C_Q / cubic in state"
+          }
+        ]
+      },
+      "modified_state": {
+        "built_only_from_actual_state_variables": true,
+        "channel_1": "2*alpha*(e0-4*e4) T_(partial_1 v0[10]_low) w1[10]_high",
+        "channel_2": "2*alpha*e10 T_(partial_1(v0[7]+v0[9])_low) w1[10]_high",
+        "definition": "v_sharp=v+Q T_(partial_1 v_low) w1[10]_high, with the paraproduct applied componentwise in the low v slot",
+        "dynamic_block": "v0[0]..v0[10]",
+        "high_state": "w1[10]",
+        "uses_certified_kinematic_state_to_jet_map": true
+      },
+      "principal_slice_identity": {
+        "after_J_s01_residual_entries": [],
+        "after_J_s01_residual_zero": true,
+        "all_four_nonzero_entries_cancelled": true,
+        "correction_entries": [
+          {
+            "column": 10,
+            "row": 0,
+            "value": "-1"
+          },
+          {
+            "column": 10,
+            "row": 4,
+            "value": "4"
+          },
+          {
+            "column": 7,
+            "row": 10,
+            "value": "-1"
+          },
+          {
+            "column": 9,
+            "row": 10,
+            "value": "-1"
+          }
+        ],
+        "proved": true,
+        "source_obstruction_entries": [
+          {
+            "column": 10,
+            "row": 0,
+            "value": "1"
+          },
+          {
+            "column": 10,
+            "row": 4,
+            "value": "-4"
+          },
+          {
+            "column": 7,
+            "row": 10,
+            "value": "1"
+          },
+          {
+            "column": 9,
+            "row": 10,
+            "value": "1"
+          }
+        ],
+        "time_differentiated_principal_contribution": "Q T_(partial_1 v_low) H01_high"
+      },
+      "provenance": {
+        "C9_orders": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "D2_arithmetic_packet_sha256": "8fd088ca2c5cd6f146b176f62882db4e9c6c2f1d709707e94d67a98540eada58",
+        "full_entry_manifest_sha256": "baa3374f3e849ca7fcba2357810eb96bfb51e819cf059efe5e227297520d5c94",
+        "induced_top_order_ledger_sha256": "355a4a715c317d85d9a3adc3e315cb2970ca5a56e8b2ef4dbbe83df385830256",
+        "principal_jet_injection_sha256": "6dc1ddb4afc4ddd248d7bbbe768198559974babdbe715defd5d3b24d9805dd2f",
+        "s01_injection_slice_sha256": "d8baeb33c3311425c70269a3067e6788e69b29a1a31a95539707a2e9363069e7",
+        "two_channel_identity_sha256": "b5793dd5f0a6c526c2d5bbc84f4c4e76fc7050fd290af32d1cae0da8a6c1e702"
+      },
+      "remaining_gate": "materialize P55 acting on the embedded two-channel correction and prove bounds for TC1, TC2, TC3, and TC5 before extending to other high atoms",
+      "schema_version": "sigma-quartic-two-channel-good-unknown-slice-certificate-1.0",
+      "status": "pass_exact_two_channel_s01_slice_induced_commutators_fail_closed"
+    },
+    {
+      "candidate_id": "quartic-symbol-5455cad9e42a0dbc",
+      "coefficients": {
+        "a01": "0",
+        "a10": "-1",
+        "a20": "0",
+        "c02": "0",
+        "c11": "0",
+        "c20": "-1",
+        "d01": "0",
+        "d10": "0",
+        "m2": "1"
+      },
+      "connection_to_B7_global_H7": {
+        "B7_fully_replaced": false,
+        "coefficient_high_state_low_branch_removed_from_B7": false,
+        "global_H7_differential_inequality_closed": false,
+        "global_dyadic_summation_applied": false,
+        "induced_two_channel_terms_removed_from_B7": false,
+        "nonlinear_lifespan_proved": false,
+        "other_high_atom_slices_removed_from_B7": false,
+        "representative_full_s01_H01_slice_removed_from_B7": true
+      },
+      "induced_term_closure": {
+        "all_induced_terms_closed": false,
+        "fixed_LP_time_commutator_closed": true,
+        "low_factor_evolution_bound_closed": false,
+        "nonlinear_substitution_remainder_bound_closed": false,
+        "operator_paraproduct_commutator_bound_closed": false,
+        "physical_operator_on_correction_bound_closed": false
+      },
+      "induced_top_order_commutators": {
+        "complete_identity": "(partial_t-T_P)C_Q = Q T_(partial_1 partial_t v_low)w + Q T_(partial_1 v_low)partial_t w - T_P(Q T_(partial_1 v_low)w)",
+        "exhaustiveness_scope": "all terms generated algebraically by applying partial_t-T_P and the nonlinear source substitution to this correction; boundary, gauge, and other high-atom families are outside this slice",
+        "terms": [
+          {
+            "exactly_present": true,
+            "id": "TC1_low_factor_evolution",
+            "origin": "time product rule",
+            "quantitative_bound_instantiated": false,
+            "term": "Q T_(partial_1 partial_t v_low) w_high",
+            "topology": "coefficient_low/state_high"
+          },
+          {
+            "exactly_present": true,
+            "id": "TC2_physical_operator_on_correction",
+            "origin": "substitution v=v_sharp-C_Q into the 55-state operator",
+            "quantitative_bound_instantiated": false,
+            "term": "-T_P(Q T_(partial_1 v_low) w_high)",
+            "topology": "first-order physical operator composed with paraproduct"
+          },
+          {
+            "exactly_present": true,
+            "id": "TC3_operator_paraproduct_commutator",
+            "origin": "exact decomposition of TC2",
+            "quantitative_bound_instantiated": false,
+            "term": "-[T_P,Q T_(partial_1 v_low)]w_high after adding and subtracting Q T_(partial_1 v_low)T_P w_high",
+            "topology": "variable-coefficient Coifman-Meyer commutator"
+          },
+          {
+            "exactly_zero_for_declared_fixed_Fourier_cutoffs": true,
+            "id": "TC4_fixed_LP_time_commutator",
+            "origin": "time-dependent product differentiation",
+            "quantitative_bound_instantiated": true,
+            "term": "[partial_t,T_(partial_1 v_low)]w_high"
+          },
+          {
+            "exactly_present": true,
+            "id": "TC5_nonlinear_substitution_remainder",
+            "origin": "nonlinear change of state beyond the quadratic slice",
+            "quantitative_bound_instantiated": false,
+            "term": "F(Y(v_sharp-C_Q))-F(Y(v_sharp))+DF(Y)J(C_Q)",
+            "topology": "at least quadratic in C_Q / cubic in state"
+          }
+        ]
+      },
+      "modified_state": {
+        "built_only_from_actual_state_variables": true,
+        "channel_1": "2*alpha*(e0-4*e4) T_(partial_1 v0[10]_low) w1[10]_high",
+        "channel_2": "2*alpha*e10 T_(partial_1(v0[7]+v0[9])_low) w1[10]_high",
+        "definition": "v_sharp=v+Q T_(partial_1 v_low) w1[10]_high, with the paraproduct applied componentwise in the low v slot",
+        "dynamic_block": "v0[0]..v0[10]",
+        "high_state": "w1[10]",
+        "uses_certified_kinematic_state_to_jet_map": true
+      },
+      "principal_slice_identity": {
+        "after_J_s01_residual_entries": [],
+        "after_J_s01_residual_zero": true,
+        "all_four_nonzero_entries_cancelled": true,
+        "correction_entries": [
+          {
+            "column": 10,
+            "row": 0,
+            "value": "-2"
+          },
+          {
+            "column": 10,
+            "row": 4,
+            "value": "8"
+          },
+          {
+            "column": 7,
+            "row": 10,
+            "value": "-2"
+          },
+          {
+            "column": 9,
+            "row": 10,
+            "value": "-2"
+          }
+        ],
+        "proved": true,
+        "source_obstruction_entries": [
+          {
+            "column": 10,
+            "row": 0,
+            "value": "2"
+          },
+          {
+            "column": 10,
+            "row": 4,
+            "value": "-8"
+          },
+          {
+            "column": 7,
+            "row": 10,
+            "value": "2"
+          },
+          {
+            "column": 9,
+            "row": 10,
+            "value": "2"
+          }
+        ],
+        "time_differentiated_principal_contribution": "Q T_(partial_1 v_low) H01_high"
+      },
+      "provenance": {
+        "C9_orders": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "D2_arithmetic_packet_sha256": "8fd088ca2c5cd6f146b176f62882db4e9c6c2f1d709707e94d67a98540eada58",
+        "full_entry_manifest_sha256": "baa3374f3e849ca7fcba2357810eb96bfb51e819cf059efe5e227297520d5c94",
+        "induced_top_order_ledger_sha256": "378eb5b54667567264ed28afe4b9988e6205cec29db5e1fe35b1e10882df4f2c",
+        "principal_jet_injection_sha256": "6dc1ddb4afc4ddd248d7bbbe768198559974babdbe715defd5d3b24d9805dd2f",
+        "s01_injection_slice_sha256": "d8baeb33c3311425c70269a3067e6788e69b29a1a31a95539707a2e9363069e7",
+        "two_channel_identity_sha256": "79b011802ed775b59c4c354a9c2a659c837de288f764d7b986e9c7a318efd3bd"
+      },
+      "remaining_gate": "materialize P55 acting on the embedded two-channel correction and prove bounds for TC1, TC2, TC3, and TC5 before extending to other high atoms",
+      "schema_version": "sigma-quartic-two-channel-good-unknown-slice-certificate-1.0",
+      "status": "pass_exact_two_channel_s01_slice_induced_commutators_fail_closed"
+    },
+    {
+      "candidate_id": "quartic-symbol-561de1410d6cb21f",
+      "coefficients": {
+        "a01": "0",
+        "a10": "1/2",
+        "a20": "0",
+        "c02": "0",
+        "c11": "0",
+        "c20": "-1",
+        "d01": "0",
+        "d10": "0",
+        "m2": "1"
+      },
+      "connection_to_B7_global_H7": {
+        "B7_fully_replaced": false,
+        "coefficient_high_state_low_branch_removed_from_B7": false,
+        "global_H7_differential_inequality_closed": false,
+        "global_dyadic_summation_applied": false,
+        "induced_two_channel_terms_removed_from_B7": false,
+        "nonlinear_lifespan_proved": false,
+        "other_high_atom_slices_removed_from_B7": false,
+        "representative_full_s01_H01_slice_removed_from_B7": true
+      },
+      "induced_term_closure": {
+        "all_induced_terms_closed": false,
+        "fixed_LP_time_commutator_closed": true,
+        "low_factor_evolution_bound_closed": false,
+        "nonlinear_substitution_remainder_bound_closed": false,
+        "operator_paraproduct_commutator_bound_closed": false,
+        "physical_operator_on_correction_bound_closed": false
+      },
+      "induced_top_order_commutators": {
+        "complete_identity": "(partial_t-T_P)C_Q = Q T_(partial_1 partial_t v_low)w + Q T_(partial_1 v_low)partial_t w - T_P(Q T_(partial_1 v_low)w)",
+        "exhaustiveness_scope": "all terms generated algebraically by applying partial_t-T_P and the nonlinear source substitution to this correction; boundary, gauge, and other high-atom families are outside this slice",
+        "terms": [
+          {
+            "exactly_present": true,
+            "id": "TC1_low_factor_evolution",
+            "origin": "time product rule",
+            "quantitative_bound_instantiated": false,
+            "term": "Q T_(partial_1 partial_t v_low) w_high",
+            "topology": "coefficient_low/state_high"
+          },
+          {
+            "exactly_present": true,
+            "id": "TC2_physical_operator_on_correction",
+            "origin": "substitution v=v_sharp-C_Q into the 55-state operator",
+            "quantitative_bound_instantiated": false,
+            "term": "-T_P(Q T_(partial_1 v_low) w_high)",
+            "topology": "first-order physical operator composed with paraproduct"
+          },
+          {
+            "exactly_present": true,
+            "id": "TC3_operator_paraproduct_commutator",
+            "origin": "exact decomposition of TC2",
+            "quantitative_bound_instantiated": false,
+            "term": "-[T_P,Q T_(partial_1 v_low)]w_high after adding and subtracting Q T_(partial_1 v_low)T_P w_high",
+            "topology": "variable-coefficient Coifman-Meyer commutator"
+          },
+          {
+            "exactly_zero_for_declared_fixed_Fourier_cutoffs": true,
+            "id": "TC4_fixed_LP_time_commutator",
+            "origin": "time-dependent product differentiation",
+            "quantitative_bound_instantiated": true,
+            "term": "[partial_t,T_(partial_1 v_low)]w_high"
+          },
+          {
+            "exactly_present": true,
+            "id": "TC5_nonlinear_substitution_remainder",
+            "origin": "nonlinear change of state beyond the quadratic slice",
+            "quantitative_bound_instantiated": false,
+            "term": "F(Y(v_sharp-C_Q))-F(Y(v_sharp))+DF(Y)J(C_Q)",
+            "topology": "at least quadratic in C_Q / cubic in state"
+          }
+        ]
+      },
+      "modified_state": {
+        "built_only_from_actual_state_variables": true,
+        "channel_1": "2*alpha*(e0-4*e4) T_(partial_1 v0[10]_low) w1[10]_high",
+        "channel_2": "2*alpha*e10 T_(partial_1(v0[7]+v0[9])_low) w1[10]_high",
+        "definition": "v_sharp=v+Q T_(partial_1 v_low) w1[10]_high, with the paraproduct applied componentwise in the low v slot",
+        "dynamic_block": "v0[0]..v0[10]",
+        "high_state": "w1[10]",
+        "uses_certified_kinematic_state_to_jet_map": true
+      },
+      "principal_slice_identity": {
+        "after_J_s01_residual_entries": [],
+        "after_J_s01_residual_zero": true,
+        "all_four_nonzero_entries_cancelled": true,
+        "correction_entries": [
+          {
+            "column": 10,
+            "row": 0,
+            "value": "1"
+          },
+          {
+            "column": 10,
+            "row": 4,
+            "value": "-4"
+          },
+          {
+            "column": 7,
+            "row": 10,
+            "value": "1"
+          },
+          {
+            "column": 9,
+            "row": 10,
+            "value": "1"
+          }
+        ],
+        "proved": true,
+        "source_obstruction_entries": [
+          {
+            "column": 10,
+            "row": 0,
+            "value": "-1"
+          },
+          {
+            "column": 10,
+            "row": 4,
+            "value": "4"
+          },
+          {
+            "column": 7,
+            "row": 10,
+            "value": "-1"
+          },
+          {
+            "column": 9,
+            "row": 10,
+            "value": "-1"
+          }
+        ],
+        "time_differentiated_principal_contribution": "Q T_(partial_1 v_low) H01_high"
+      },
+      "provenance": {
+        "C9_orders": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "D2_arithmetic_packet_sha256": "8fd088ca2c5cd6f146b176f62882db4e9c6c2f1d709707e94d67a98540eada58",
+        "full_entry_manifest_sha256": "baa3374f3e849ca7fcba2357810eb96bfb51e819cf059efe5e227297520d5c94",
+        "induced_top_order_ledger_sha256": "aca27b27dfa9729e47ba3d167c51d75f251470553796be8f5748de6414b608fe",
+        "principal_jet_injection_sha256": "6dc1ddb4afc4ddd248d7bbbe768198559974babdbe715defd5d3b24d9805dd2f",
+        "s01_injection_slice_sha256": "d8baeb33c3311425c70269a3067e6788e69b29a1a31a95539707a2e9363069e7",
+        "two_channel_identity_sha256": "d7d38c364c277519a08c5ff5ddf2bd6af994334519e1fe8314dcacbef3c8f9dd"
+      },
+      "remaining_gate": "materialize P55 acting on the embedded two-channel correction and prove bounds for TC1, TC2, TC3, and TC5 before extending to other high atoms",
+      "schema_version": "sigma-quartic-two-channel-good-unknown-slice-certificate-1.0",
+      "status": "pass_exact_two_channel_s01_slice_induced_commutators_fail_closed"
+    },
+    {
+      "candidate_id": "quartic-symbol-8fd254934d778c28",
+      "coefficients": {
+        "a01": "0",
+        "a10": "1",
+        "a20": "0",
+        "c02": "0",
+        "c11": "0",
+        "c20": "1",
+        "d01": "0",
+        "d10": "0",
+        "m2": "1"
+      },
+      "connection_to_B7_global_H7": {
+        "B7_fully_replaced": false,
+        "coefficient_high_state_low_branch_removed_from_B7": false,
+        "global_H7_differential_inequality_closed": false,
+        "global_dyadic_summation_applied": false,
+        "induced_two_channel_terms_removed_from_B7": false,
+        "nonlinear_lifespan_proved": false,
+        "other_high_atom_slices_removed_from_B7": false,
+        "representative_full_s01_H01_slice_removed_from_B7": true
+      },
+      "induced_term_closure": {
+        "all_induced_terms_closed": false,
+        "fixed_LP_time_commutator_closed": true,
+        "low_factor_evolution_bound_closed": false,
+        "nonlinear_substitution_remainder_bound_closed": false,
+        "operator_paraproduct_commutator_bound_closed": false,
+        "physical_operator_on_correction_bound_closed": false
+      },
+      "induced_top_order_commutators": {
+        "complete_identity": "(partial_t-T_P)C_Q = Q T_(partial_1 partial_t v_low)w + Q T_(partial_1 v_low)partial_t w - T_P(Q T_(partial_1 v_low)w)",
+        "exhaustiveness_scope": "all terms generated algebraically by applying partial_t-T_P and the nonlinear source substitution to this correction; boundary, gauge, and other high-atom families are outside this slice",
+        "terms": [
+          {
+            "exactly_present": true,
+            "id": "TC1_low_factor_evolution",
+            "origin": "time product rule",
+            "quantitative_bound_instantiated": false,
+            "term": "Q T_(partial_1 partial_t v_low) w_high",
+            "topology": "coefficient_low/state_high"
+          },
+          {
+            "exactly_present": true,
+            "id": "TC2_physical_operator_on_correction",
+            "origin": "substitution v=v_sharp-C_Q into the 55-state operator",
+            "quantitative_bound_instantiated": false,
+            "term": "-T_P(Q T_(partial_1 v_low) w_high)",
+            "topology": "first-order physical operator composed with paraproduct"
+          },
+          {
+            "exactly_present": true,
+            "id": "TC3_operator_paraproduct_commutator",
+            "origin": "exact decomposition of TC2",
+            "quantitative_bound_instantiated": false,
+            "term": "-[T_P,Q T_(partial_1 v_low)]w_high after adding and subtracting Q T_(partial_1 v_low)T_P w_high",
+            "topology": "variable-coefficient Coifman-Meyer commutator"
+          },
+          {
+            "exactly_zero_for_declared_fixed_Fourier_cutoffs": true,
+            "id": "TC4_fixed_LP_time_commutator",
+            "origin": "time-dependent product differentiation",
+            "quantitative_bound_instantiated": true,
+            "term": "[partial_t,T_(partial_1 v_low)]w_high"
+          },
+          {
+            "exactly_present": true,
+            "id": "TC5_nonlinear_substitution_remainder",
+            "origin": "nonlinear change of state beyond the quadratic slice",
+            "quantitative_bound_instantiated": false,
+            "term": "F(Y(v_sharp-C_Q))-F(Y(v_sharp))+DF(Y)J(C_Q)",
+            "topology": "at least quadratic in C_Q / cubic in state"
+          }
+        ]
+      },
+      "modified_state": {
+        "built_only_from_actual_state_variables": true,
+        "channel_1": "2*alpha*(e0-4*e4) T_(partial_1 v0[10]_low) w1[10]_high",
+        "channel_2": "2*alpha*e10 T_(partial_1(v0[7]+v0[9])_low) w1[10]_high",
+        "definition": "v_sharp=v+Q T_(partial_1 v_low) w1[10]_high, with the paraproduct applied componentwise in the low v slot",
+        "dynamic_block": "v0[0]..v0[10]",
+        "high_state": "w1[10]",
+        "uses_certified_kinematic_state_to_jet_map": true
+      },
+      "principal_slice_identity": {
+        "after_J_s01_residual_entries": [],
+        "after_J_s01_residual_zero": true,
+        "all_four_nonzero_entries_cancelled": true,
+        "correction_entries": [
+          {
+            "column": 10,
+            "row": 0,
+            "value": "2"
+          },
+          {
+            "column": 10,
+            "row": 4,
+            "value": "-8"
+          },
+          {
+            "column": 7,
+            "row": 10,
+            "value": "2"
+          },
+          {
+            "column": 9,
+            "row": 10,
+            "value": "2"
+          }
+        ],
+        "proved": true,
+        "source_obstruction_entries": [
+          {
+            "column": 10,
+            "row": 0,
+            "value": "-2"
+          },
+          {
+            "column": 10,
+            "row": 4,
+            "value": "8"
+          },
+          {
+            "column": 7,
+            "row": 10,
+            "value": "-2"
+          },
+          {
+            "column": 9,
+            "row": 10,
+            "value": "-2"
+          }
+        ],
+        "time_differentiated_principal_contribution": "Q T_(partial_1 v_low) H01_high"
+      },
+      "provenance": {
+        "C9_orders": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "D2_arithmetic_packet_sha256": "8fd088ca2c5cd6f146b176f62882db4e9c6c2f1d709707e94d67a98540eada58",
+        "full_entry_manifest_sha256": "baa3374f3e849ca7fcba2357810eb96bfb51e819cf059efe5e227297520d5c94",
+        "induced_top_order_ledger_sha256": "d88514565ae6932fb88ce7f292c288acaa96dfcdd4e32a24b395ed30e4789b1e",
+        "principal_jet_injection_sha256": "6dc1ddb4afc4ddd248d7bbbe768198559974babdbe715defd5d3b24d9805dd2f",
+        "s01_injection_slice_sha256": "d8baeb33c3311425c70269a3067e6788e69b29a1a31a95539707a2e9363069e7",
+        "two_channel_identity_sha256": "6912ba9685ba0a8fdb147d5b167e3a0a7337d7e0dcd124b6230b9f786c0c8a49"
+      },
+      "remaining_gate": "materialize P55 acting on the embedded two-channel correction and prove bounds for TC1, TC2, TC3, and TC5 before extending to other high atoms",
+      "schema_version": "sigma-quartic-two-channel-good-unknown-slice-certificate-1.0",
+      "status": "pass_exact_two_channel_s01_slice_induced_commutators_fail_closed"
+    },
+    {
+      "candidate_id": "quartic-symbol-9e65901e5299a514",
+      "coefficients": {
+        "a01": "0",
+        "a10": "1",
+        "a20": "0",
+        "c02": "0",
+        "c11": "0",
+        "c20": "0",
+        "d01": "0",
+        "d10": "0",
+        "m2": "1"
+      },
+      "connection_to_B7_global_H7": {
+        "B7_fully_replaced": false,
+        "coefficient_high_state_low_branch_removed_from_B7": false,
+        "global_H7_differential_inequality_closed": false,
+        "global_dyadic_summation_applied": false,
+        "induced_two_channel_terms_removed_from_B7": false,
+        "nonlinear_lifespan_proved": false,
+        "other_high_atom_slices_removed_from_B7": false,
+        "representative_full_s01_H01_slice_removed_from_B7": true
+      },
+      "induced_term_closure": {
+        "all_induced_terms_closed": false,
+        "fixed_LP_time_commutator_closed": true,
+        "low_factor_evolution_bound_closed": false,
+        "nonlinear_substitution_remainder_bound_closed": false,
+        "operator_paraproduct_commutator_bound_closed": false,
+        "physical_operator_on_correction_bound_closed": false
+      },
+      "induced_top_order_commutators": {
+        "complete_identity": "(partial_t-T_P)C_Q = Q T_(partial_1 partial_t v_low)w + Q T_(partial_1 v_low)partial_t w - T_P(Q T_(partial_1 v_low)w)",
+        "exhaustiveness_scope": "all terms generated algebraically by applying partial_t-T_P and the nonlinear source substitution to this correction; boundary, gauge, and other high-atom families are outside this slice",
+        "terms": [
+          {
+            "exactly_present": true,
+            "id": "TC1_low_factor_evolution",
+            "origin": "time product rule",
+            "quantitative_bound_instantiated": false,
+            "term": "Q T_(partial_1 partial_t v_low) w_high",
+            "topology": "coefficient_low/state_high"
+          },
+          {
+            "exactly_present": true,
+            "id": "TC2_physical_operator_on_correction",
+            "origin": "substitution v=v_sharp-C_Q into the 55-state operator",
+            "quantitative_bound_instantiated": false,
+            "term": "-T_P(Q T_(partial_1 v_low) w_high)",
+            "topology": "first-order physical operator composed with paraproduct"
+          },
+          {
+            "exactly_present": true,
+            "id": "TC3_operator_paraproduct_commutator",
+            "origin": "exact decomposition of TC2",
+            "quantitative_bound_instantiated": false,
+            "term": "-[T_P,Q T_(partial_1 v_low)]w_high after adding and subtracting Q T_(partial_1 v_low)T_P w_high",
+            "topology": "variable-coefficient Coifman-Meyer commutator"
+          },
+          {
+            "exactly_zero_for_declared_fixed_Fourier_cutoffs": true,
+            "id": "TC4_fixed_LP_time_commutator",
+            "origin": "time-dependent product differentiation",
+            "quantitative_bound_instantiated": true,
+            "term": "[partial_t,T_(partial_1 v_low)]w_high"
+          },
+          {
+            "exactly_present": true,
+            "id": "TC5_nonlinear_substitution_remainder",
+            "origin": "nonlinear change of state beyond the quadratic slice",
+            "quantitative_bound_instantiated": false,
+            "term": "F(Y(v_sharp-C_Q))-F(Y(v_sharp))+DF(Y)J(C_Q)",
+            "topology": "at least quadratic in C_Q / cubic in state"
+          }
+        ]
+      },
+      "modified_state": {
+        "built_only_from_actual_state_variables": true,
+        "channel_1": "2*alpha*(e0-4*e4) T_(partial_1 v0[10]_low) w1[10]_high",
+        "channel_2": "2*alpha*e10 T_(partial_1(v0[7]+v0[9])_low) w1[10]_high",
+        "definition": "v_sharp=v+Q T_(partial_1 v_low) w1[10]_high, with the paraproduct applied componentwise in the low v slot",
+        "dynamic_block": "v0[0]..v0[10]",
+        "high_state": "w1[10]",
+        "uses_certified_kinematic_state_to_jet_map": true
+      },
+      "principal_slice_identity": {
+        "after_J_s01_residual_entries": [],
+        "after_J_s01_residual_zero": true,
+        "all_four_nonzero_entries_cancelled": true,
+        "correction_entries": [
+          {
+            "column": 10,
+            "row": 0,
+            "value": "2"
+          },
+          {
+            "column": 10,
+            "row": 4,
+            "value": "-8"
+          },
+          {
+            "column": 7,
+            "row": 10,
+            "value": "2"
+          },
+          {
+            "column": 9,
+            "row": 10,
+            "value": "2"
+          }
+        ],
+        "proved": true,
+        "source_obstruction_entries": [
+          {
+            "column": 10,
+            "row": 0,
+            "value": "-2"
+          },
+          {
+            "column": 10,
+            "row": 4,
+            "value": "8"
+          },
+          {
+            "column": 7,
+            "row": 10,
+            "value": "-2"
+          },
+          {
+            "column": 9,
+            "row": 10,
+            "value": "-2"
+          }
+        ],
+        "time_differentiated_principal_contribution": "Q T_(partial_1 v_low) H01_high"
+      },
+      "provenance": {
+        "C9_orders": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "D2_arithmetic_packet_sha256": "8fd088ca2c5cd6f146b176f62882db4e9c6c2f1d709707e94d67a98540eada58",
+        "full_entry_manifest_sha256": "baa3374f3e849ca7fcba2357810eb96bfb51e819cf059efe5e227297520d5c94",
+        "induced_top_order_ledger_sha256": "644ed2c2249054666ea5982c12899b9e14ce5c3899ad3b6332e615b54def83fd",
+        "principal_jet_injection_sha256": "6dc1ddb4afc4ddd248d7bbbe768198559974babdbe715defd5d3b24d9805dd2f",
+        "s01_injection_slice_sha256": "d8baeb33c3311425c70269a3067e6788e69b29a1a31a95539707a2e9363069e7",
+        "two_channel_identity_sha256": "1c1f174922e8ccbd9546cd79c28be65e433ed1f3bfdb0a9240b25ba7184f5f3a"
+      },
+      "remaining_gate": "materialize P55 acting on the embedded two-channel correction and prove bounds for TC1, TC2, TC3, and TC5 before extending to other high atoms",
+      "schema_version": "sigma-quartic-two-channel-good-unknown-slice-certificate-1.0",
+      "status": "pass_exact_two_channel_s01_slice_induced_commutators_fail_closed"
+    },
+    {
+      "candidate_id": "quartic-symbol-e4a6a9193316a6ff",
+      "coefficients": {
+        "a01": "0",
+        "a10": "1/2",
+        "a20": "0",
+        "c02": "0",
+        "c11": "0",
+        "c20": "0",
+        "d01": "0",
+        "d10": "0",
+        "m2": "1"
+      },
+      "connection_to_B7_global_H7": {
+        "B7_fully_replaced": false,
+        "coefficient_high_state_low_branch_removed_from_B7": false,
+        "global_H7_differential_inequality_closed": false,
+        "global_dyadic_summation_applied": false,
+        "induced_two_channel_terms_removed_from_B7": false,
+        "nonlinear_lifespan_proved": false,
+        "other_high_atom_slices_removed_from_B7": false,
+        "representative_full_s01_H01_slice_removed_from_B7": true
+      },
+      "induced_term_closure": {
+        "all_induced_terms_closed": false,
+        "fixed_LP_time_commutator_closed": true,
+        "low_factor_evolution_bound_closed": false,
+        "nonlinear_substitution_remainder_bound_closed": false,
+        "operator_paraproduct_commutator_bound_closed": false,
+        "physical_operator_on_correction_bound_closed": false
+      },
+      "induced_top_order_commutators": {
+        "complete_identity": "(partial_t-T_P)C_Q = Q T_(partial_1 partial_t v_low)w + Q T_(partial_1 v_low)partial_t w - T_P(Q T_(partial_1 v_low)w)",
+        "exhaustiveness_scope": "all terms generated algebraically by applying partial_t-T_P and the nonlinear source substitution to this correction; boundary, gauge, and other high-atom families are outside this slice",
+        "terms": [
+          {
+            "exactly_present": true,
+            "id": "TC1_low_factor_evolution",
+            "origin": "time product rule",
+            "quantitative_bound_instantiated": false,
+            "term": "Q T_(partial_1 partial_t v_low) w_high",
+            "topology": "coefficient_low/state_high"
+          },
+          {
+            "exactly_present": true,
+            "id": "TC2_physical_operator_on_correction",
+            "origin": "substitution v=v_sharp-C_Q into the 55-state operator",
+            "quantitative_bound_instantiated": false,
+            "term": "-T_P(Q T_(partial_1 v_low) w_high)",
+            "topology": "first-order physical operator composed with paraproduct"
+          },
+          {
+            "exactly_present": true,
+            "id": "TC3_operator_paraproduct_commutator",
+            "origin": "exact decomposition of TC2",
+            "quantitative_bound_instantiated": false,
+            "term": "-[T_P,Q T_(partial_1 v_low)]w_high after adding and subtracting Q T_(partial_1 v_low)T_P w_high",
+            "topology": "variable-coefficient Coifman-Meyer commutator"
+          },
+          {
+            "exactly_zero_for_declared_fixed_Fourier_cutoffs": true,
+            "id": "TC4_fixed_LP_time_commutator",
+            "origin": "time-dependent product differentiation",
+            "quantitative_bound_instantiated": true,
+            "term": "[partial_t,T_(partial_1 v_low)]w_high"
+          },
+          {
+            "exactly_present": true,
+            "id": "TC5_nonlinear_substitution_remainder",
+            "origin": "nonlinear change of state beyond the quadratic slice",
+            "quantitative_bound_instantiated": false,
+            "term": "F(Y(v_sharp-C_Q))-F(Y(v_sharp))+DF(Y)J(C_Q)",
+            "topology": "at least quadratic in C_Q / cubic in state"
+          }
+        ]
+      },
+      "modified_state": {
+        "built_only_from_actual_state_variables": true,
+        "channel_1": "2*alpha*(e0-4*e4) T_(partial_1 v0[10]_low) w1[10]_high",
+        "channel_2": "2*alpha*e10 T_(partial_1(v0[7]+v0[9])_low) w1[10]_high",
+        "definition": "v_sharp=v+Q T_(partial_1 v_low) w1[10]_high, with the paraproduct applied componentwise in the low v slot",
+        "dynamic_block": "v0[0]..v0[10]",
+        "high_state": "w1[10]",
+        "uses_certified_kinematic_state_to_jet_map": true
+      },
+      "principal_slice_identity": {
+        "after_J_s01_residual_entries": [],
+        "after_J_s01_residual_zero": true,
+        "all_four_nonzero_entries_cancelled": true,
+        "correction_entries": [
+          {
+            "column": 10,
+            "row": 0,
+            "value": "1"
+          },
+          {
+            "column": 10,
+            "row": 4,
+            "value": "-4"
+          },
+          {
+            "column": 7,
+            "row": 10,
+            "value": "1"
+          },
+          {
+            "column": 9,
+            "row": 10,
+            "value": "1"
+          }
+        ],
+        "proved": true,
+        "source_obstruction_entries": [
+          {
+            "column": 10,
+            "row": 0,
+            "value": "-1"
+          },
+          {
+            "column": 10,
+            "row": 4,
+            "value": "4"
+          },
+          {
+            "column": 7,
+            "row": 10,
+            "value": "-1"
+          },
+          {
+            "column": 9,
+            "row": 10,
+            "value": "-1"
+          }
+        ],
+        "time_differentiated_principal_contribution": "Q T_(partial_1 v_low) H01_high"
+      },
+      "provenance": {
+        "C9_orders": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "D2_arithmetic_packet_sha256": "8fd088ca2c5cd6f146b176f62882db4e9c6c2f1d709707e94d67a98540eada58",
+        "full_entry_manifest_sha256": "baa3374f3e849ca7fcba2357810eb96bfb51e819cf059efe5e227297520d5c94",
+        "induced_top_order_ledger_sha256": "6370691c175a5b0c9c144c06eaba553846df0cce79e2ed6b01786c5e3873c8ec",
+        "principal_jet_injection_sha256": "6dc1ddb4afc4ddd248d7bbbe768198559974babdbe715defd5d3b24d9805dd2f",
+        "s01_injection_slice_sha256": "d8baeb33c3311425c70269a3067e6788e69b29a1a31a95539707a2e9363069e7",
+        "two_channel_identity_sha256": "c5433ee19d517f4e8fb722ca2a5bc9370ab7d66915bef93a9b125719157db164"
+      },
+      "remaining_gate": "materialize P55 acting on the embedded two-channel correction and prove bounds for TC1, TC2, TC3, and TC5 before extending to other high atoms",
+      "schema_version": "sigma-quartic-two-channel-good-unknown-slice-certificate-1.0",
+      "status": "pass_exact_two_channel_s01_slice_induced_commutators_fail_closed"
+    },
+    {
+      "candidate_id": "quartic-symbol-ef832e4c3b71ee42",
+      "coefficients": {
+        "a01": "0",
+        "a10": "1",
+        "a20": "0",
+        "c02": "0",
+        "c11": "0",
+        "c20": "-1",
+        "d01": "0",
+        "d10": "0",
+        "m2": "1"
+      },
+      "connection_to_B7_global_H7": {
+        "B7_fully_replaced": false,
+        "coefficient_high_state_low_branch_removed_from_B7": false,
+        "global_H7_differential_inequality_closed": false,
+        "global_dyadic_summation_applied": false,
+        "induced_two_channel_terms_removed_from_B7": false,
+        "nonlinear_lifespan_proved": false,
+        "other_high_atom_slices_removed_from_B7": false,
+        "representative_full_s01_H01_slice_removed_from_B7": true
+      },
+      "induced_term_closure": {
+        "all_induced_terms_closed": false,
+        "fixed_LP_time_commutator_closed": true,
+        "low_factor_evolution_bound_closed": false,
+        "nonlinear_substitution_remainder_bound_closed": false,
+        "operator_paraproduct_commutator_bound_closed": false,
+        "physical_operator_on_correction_bound_closed": false
+      },
+      "induced_top_order_commutators": {
+        "complete_identity": "(partial_t-T_P)C_Q = Q T_(partial_1 partial_t v_low)w + Q T_(partial_1 v_low)partial_t w - T_P(Q T_(partial_1 v_low)w)",
+        "exhaustiveness_scope": "all terms generated algebraically by applying partial_t-T_P and the nonlinear source substitution to this correction; boundary, gauge, and other high-atom families are outside this slice",
+        "terms": [
+          {
+            "exactly_present": true,
+            "id": "TC1_low_factor_evolution",
+            "origin": "time product rule",
+            "quantitative_bound_instantiated": false,
+            "term": "Q T_(partial_1 partial_t v_low) w_high",
+            "topology": "coefficient_low/state_high"
+          },
+          {
+            "exactly_present": true,
+            "id": "TC2_physical_operator_on_correction",
+            "origin": "substitution v=v_sharp-C_Q into the 55-state operator",
+            "quantitative_bound_instantiated": false,
+            "term": "-T_P(Q T_(partial_1 v_low) w_high)",
+            "topology": "first-order physical operator composed with paraproduct"
+          },
+          {
+            "exactly_present": true,
+            "id": "TC3_operator_paraproduct_commutator",
+            "origin": "exact decomposition of TC2",
+            "quantitative_bound_instantiated": false,
+            "term": "-[T_P,Q T_(partial_1 v_low)]w_high after adding and subtracting Q T_(partial_1 v_low)T_P w_high",
+            "topology": "variable-coefficient Coifman-Meyer commutator"
+          },
+          {
+            "exactly_zero_for_declared_fixed_Fourier_cutoffs": true,
+            "id": "TC4_fixed_LP_time_commutator",
+            "origin": "time-dependent product differentiation",
+            "quantitative_bound_instantiated": true,
+            "term": "[partial_t,T_(partial_1 v_low)]w_high"
+          },
+          {
+            "exactly_present": true,
+            "id": "TC5_nonlinear_substitution_remainder",
+            "origin": "nonlinear change of state beyond the quadratic slice",
+            "quantitative_bound_instantiated": false,
+            "term": "F(Y(v_sharp-C_Q))-F(Y(v_sharp))+DF(Y)J(C_Q)",
+            "topology": "at least quadratic in C_Q / cubic in state"
+          }
+        ]
+      },
+      "modified_state": {
+        "built_only_from_actual_state_variables": true,
+        "channel_1": "2*alpha*(e0-4*e4) T_(partial_1 v0[10]_low) w1[10]_high",
+        "channel_2": "2*alpha*e10 T_(partial_1(v0[7]+v0[9])_low) w1[10]_high",
+        "definition": "v_sharp=v+Q T_(partial_1 v_low) w1[10]_high, with the paraproduct applied componentwise in the low v slot",
+        "dynamic_block": "v0[0]..v0[10]",
+        "high_state": "w1[10]",
+        "uses_certified_kinematic_state_to_jet_map": true
+      },
+      "principal_slice_identity": {
+        "after_J_s01_residual_entries": [],
+        "after_J_s01_residual_zero": true,
+        "all_four_nonzero_entries_cancelled": true,
+        "correction_entries": [
+          {
+            "column": 10,
+            "row": 0,
+            "value": "2"
+          },
+          {
+            "column": 10,
+            "row": 4,
+            "value": "-8"
+          },
+          {
+            "column": 7,
+            "row": 10,
+            "value": "2"
+          },
+          {
+            "column": 9,
+            "row": 10,
+            "value": "2"
+          }
+        ],
+        "proved": true,
+        "source_obstruction_entries": [
+          {
+            "column": 10,
+            "row": 0,
+            "value": "-2"
+          },
+          {
+            "column": 10,
+            "row": 4,
+            "value": "8"
+          },
+          {
+            "column": 7,
+            "row": 10,
+            "value": "-2"
+          },
+          {
+            "column": 9,
+            "row": 10,
+            "value": "-2"
+          }
+        ],
+        "time_differentiated_principal_contribution": "Q T_(partial_1 v_low) H01_high"
+      },
+      "provenance": {
+        "C9_orders": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "D2_arithmetic_packet_sha256": "8fd088ca2c5cd6f146b176f62882db4e9c6c2f1d709707e94d67a98540eada58",
+        "full_entry_manifest_sha256": "baa3374f3e849ca7fcba2357810eb96bfb51e819cf059efe5e227297520d5c94",
+        "induced_top_order_ledger_sha256": "a43f5868bfaa952928ceb0e49dd5bc4861500acd110c8cba3f726fc483e515ab",
+        "principal_jet_injection_sha256": "6dc1ddb4afc4ddd248d7bbbe768198559974babdbe715defd5d3b24d9805dd2f",
+        "s01_injection_slice_sha256": "d8baeb33c3311425c70269a3067e6788e69b29a1a31a95539707a2e9363069e7",
+        "two_channel_identity_sha256": "83f230117ede1dc2d7c163a2e32042608081c23dfcd3a7d0fd4c1a6ea9562d95"
+      },
+      "remaining_gate": "materialize P55 acting on the embedded two-channel correction and prove bounds for TC1, TC2, TC3, and TC5 before extending to other high atoms",
+      "schema_version": "sigma-quartic-two-channel-good-unknown-slice-certificate-1.0",
+      "status": "pass_exact_two_channel_s01_slice_induced_commutators_fail_closed"
+    },
+    {
+      "candidate_id": "quartic-symbol-f31a234e2bf7b97f",
+      "coefficients": {
+        "a01": "0",
+        "a10": "-1/2",
+        "a20": "0",
+        "c02": "0",
+        "c11": "0",
+        "c20": "1",
+        "d01": "0",
+        "d10": "0",
+        "m2": "1"
+      },
+      "connection_to_B7_global_H7": {
+        "B7_fully_replaced": false,
+        "coefficient_high_state_low_branch_removed_from_B7": false,
+        "global_H7_differential_inequality_closed": false,
+        "global_dyadic_summation_applied": false,
+        "induced_two_channel_terms_removed_from_B7": false,
+        "nonlinear_lifespan_proved": false,
+        "other_high_atom_slices_removed_from_B7": false,
+        "representative_full_s01_H01_slice_removed_from_B7": true
+      },
+      "induced_term_closure": {
+        "all_induced_terms_closed": false,
+        "fixed_LP_time_commutator_closed": true,
+        "low_factor_evolution_bound_closed": false,
+        "nonlinear_substitution_remainder_bound_closed": false,
+        "operator_paraproduct_commutator_bound_closed": false,
+        "physical_operator_on_correction_bound_closed": false
+      },
+      "induced_top_order_commutators": {
+        "complete_identity": "(partial_t-T_P)C_Q = Q T_(partial_1 partial_t v_low)w + Q T_(partial_1 v_low)partial_t w - T_P(Q T_(partial_1 v_low)w)",
+        "exhaustiveness_scope": "all terms generated algebraically by applying partial_t-T_P and the nonlinear source substitution to this correction; boundary, gauge, and other high-atom families are outside this slice",
+        "terms": [
+          {
+            "exactly_present": true,
+            "id": "TC1_low_factor_evolution",
+            "origin": "time product rule",
+            "quantitative_bound_instantiated": false,
+            "term": "Q T_(partial_1 partial_t v_low) w_high",
+            "topology": "coefficient_low/state_high"
+          },
+          {
+            "exactly_present": true,
+            "id": "TC2_physical_operator_on_correction",
+            "origin": "substitution v=v_sharp-C_Q into the 55-state operator",
+            "quantitative_bound_instantiated": false,
+            "term": "-T_P(Q T_(partial_1 v_low) w_high)",
+            "topology": "first-order physical operator composed with paraproduct"
+          },
+          {
+            "exactly_present": true,
+            "id": "TC3_operator_paraproduct_commutator",
+            "origin": "exact decomposition of TC2",
+            "quantitative_bound_instantiated": false,
+            "term": "-[T_P,Q T_(partial_1 v_low)]w_high after adding and subtracting Q T_(partial_1 v_low)T_P w_high",
+            "topology": "variable-coefficient Coifman-Meyer commutator"
+          },
+          {
+            "exactly_zero_for_declared_fixed_Fourier_cutoffs": true,
+            "id": "TC4_fixed_LP_time_commutator",
+            "origin": "time-dependent product differentiation",
+            "quantitative_bound_instantiated": true,
+            "term": "[partial_t,T_(partial_1 v_low)]w_high"
+          },
+          {
+            "exactly_present": true,
+            "id": "TC5_nonlinear_substitution_remainder",
+            "origin": "nonlinear change of state beyond the quadratic slice",
+            "quantitative_bound_instantiated": false,
+            "term": "F(Y(v_sharp-C_Q))-F(Y(v_sharp))+DF(Y)J(C_Q)",
+            "topology": "at least quadratic in C_Q / cubic in state"
+          }
+        ]
+      },
+      "modified_state": {
+        "built_only_from_actual_state_variables": true,
+        "channel_1": "2*alpha*(e0-4*e4) T_(partial_1 v0[10]_low) w1[10]_high",
+        "channel_2": "2*alpha*e10 T_(partial_1(v0[7]+v0[9])_low) w1[10]_high",
+        "definition": "v_sharp=v+Q T_(partial_1 v_low) w1[10]_high, with the paraproduct applied componentwise in the low v slot",
+        "dynamic_block": "v0[0]..v0[10]",
+        "high_state": "w1[10]",
+        "uses_certified_kinematic_state_to_jet_map": true
+      },
+      "principal_slice_identity": {
+        "after_J_s01_residual_entries": [],
+        "after_J_s01_residual_zero": true,
+        "all_four_nonzero_entries_cancelled": true,
+        "correction_entries": [
+          {
+            "column": 10,
+            "row": 0,
+            "value": "-1"
+          },
+          {
+            "column": 10,
+            "row": 4,
+            "value": "4"
+          },
+          {
+            "column": 7,
+            "row": 10,
+            "value": "-1"
+          },
+          {
+            "column": 9,
+            "row": 10,
+            "value": "-1"
+          }
+        ],
+        "proved": true,
+        "source_obstruction_entries": [
+          {
+            "column": 10,
+            "row": 0,
+            "value": "1"
+          },
+          {
+            "column": 10,
+            "row": 4,
+            "value": "-4"
+          },
+          {
+            "column": 7,
+            "row": 10,
+            "value": "1"
+          },
+          {
+            "column": 9,
+            "row": 10,
+            "value": "1"
+          }
+        ],
+        "time_differentiated_principal_contribution": "Q T_(partial_1 v_low) H01_high"
+      },
+      "provenance": {
+        "C9_orders": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "D2_arithmetic_packet_sha256": "8fd088ca2c5cd6f146b176f62882db4e9c6c2f1d709707e94d67a98540eada58",
+        "full_entry_manifest_sha256": "baa3374f3e849ca7fcba2357810eb96bfb51e819cf059efe5e227297520d5c94",
+        "induced_top_order_ledger_sha256": "59150fca967a7690d96c17ae8be53505851caf48fba46f5cc0de55f1aad42e9e",
+        "principal_jet_injection_sha256": "6dc1ddb4afc4ddd248d7bbbe768198559974babdbe715defd5d3b24d9805dd2f",
+        "s01_injection_slice_sha256": "d8baeb33c3311425c70269a3067e6788e69b29a1a31a95539707a2e9363069e7",
+        "two_channel_identity_sha256": "c5a4526cef45c18a17aeaf36ee6deaed5e0675fe901b6340293f49bfec60c475"
+      },
+      "remaining_gate": "materialize P55 acting on the embedded two-channel correction and prove bounds for TC1, TC2, TC3, and TC5 before extending to other high atoms",
+      "schema_version": "sigma-quartic-two-channel-good-unknown-slice-certificate-1.0",
+      "status": "pass_exact_two_channel_s01_slice_induced_commutators_fail_closed"
+    },
+    {
+      "candidate_id": "quartic-symbol-fb5c20c15ce6d778",
+      "coefficients": {
+        "a01": "0",
+        "a10": "-1",
+        "a20": "0",
+        "c02": "0",
+        "c11": "0",
+        "c20": "0",
+        "d01": "0",
+        "d10": "0",
+        "m2": "1"
+      },
+      "connection_to_B7_global_H7": {
+        "B7_fully_replaced": false,
+        "coefficient_high_state_low_branch_removed_from_B7": false,
+        "global_H7_differential_inequality_closed": false,
+        "global_dyadic_summation_applied": false,
+        "induced_two_channel_terms_removed_from_B7": false,
+        "nonlinear_lifespan_proved": false,
+        "other_high_atom_slices_removed_from_B7": false,
+        "representative_full_s01_H01_slice_removed_from_B7": true
+      },
+      "induced_term_closure": {
+        "all_induced_terms_closed": false,
+        "fixed_LP_time_commutator_closed": true,
+        "low_factor_evolution_bound_closed": false,
+        "nonlinear_substitution_remainder_bound_closed": false,
+        "operator_paraproduct_commutator_bound_closed": false,
+        "physical_operator_on_correction_bound_closed": false
+      },
+      "induced_top_order_commutators": {
+        "complete_identity": "(partial_t-T_P)C_Q = Q T_(partial_1 partial_t v_low)w + Q T_(partial_1 v_low)partial_t w - T_P(Q T_(partial_1 v_low)w)",
+        "exhaustiveness_scope": "all terms generated algebraically by applying partial_t-T_P and the nonlinear source substitution to this correction; boundary, gauge, and other high-atom families are outside this slice",
+        "terms": [
+          {
+            "exactly_present": true,
+            "id": "TC1_low_factor_evolution",
+            "origin": "time product rule",
+            "quantitative_bound_instantiated": false,
+            "term": "Q T_(partial_1 partial_t v_low) w_high",
+            "topology": "coefficient_low/state_high"
+          },
+          {
+            "exactly_present": true,
+            "id": "TC2_physical_operator_on_correction",
+            "origin": "substitution v=v_sharp-C_Q into the 55-state operator",
+            "quantitative_bound_instantiated": false,
+            "term": "-T_P(Q T_(partial_1 v_low) w_high)",
+            "topology": "first-order physical operator composed with paraproduct"
+          },
+          {
+            "exactly_present": true,
+            "id": "TC3_operator_paraproduct_commutator",
+            "origin": "exact decomposition of TC2",
+            "quantitative_bound_instantiated": false,
+            "term": "-[T_P,Q T_(partial_1 v_low)]w_high after adding and subtracting Q T_(partial_1 v_low)T_P w_high",
+            "topology": "variable-coefficient Coifman-Meyer commutator"
+          },
+          {
+            "exactly_zero_for_declared_fixed_Fourier_cutoffs": true,
+            "id": "TC4_fixed_LP_time_commutator",
+            "origin": "time-dependent product differentiation",
+            "quantitative_bound_instantiated": true,
+            "term": "[partial_t,T_(partial_1 v_low)]w_high"
+          },
+          {
+            "exactly_present": true,
+            "id": "TC5_nonlinear_substitution_remainder",
+            "origin": "nonlinear change of state beyond the quadratic slice",
+            "quantitative_bound_instantiated": false,
+            "term": "F(Y(v_sharp-C_Q))-F(Y(v_sharp))+DF(Y)J(C_Q)",
+            "topology": "at least quadratic in C_Q / cubic in state"
+          }
+        ]
+      },
+      "modified_state": {
+        "built_only_from_actual_state_variables": true,
+        "channel_1": "2*alpha*(e0-4*e4) T_(partial_1 v0[10]_low) w1[10]_high",
+        "channel_2": "2*alpha*e10 T_(partial_1(v0[7]+v0[9])_low) w1[10]_high",
+        "definition": "v_sharp=v+Q T_(partial_1 v_low) w1[10]_high, with the paraproduct applied componentwise in the low v slot",
+        "dynamic_block": "v0[0]..v0[10]",
+        "high_state": "w1[10]",
+        "uses_certified_kinematic_state_to_jet_map": true
+      },
+      "principal_slice_identity": {
+        "after_J_s01_residual_entries": [],
+        "after_J_s01_residual_zero": true,
+        "all_four_nonzero_entries_cancelled": true,
+        "correction_entries": [
+          {
+            "column": 10,
+            "row": 0,
+            "value": "-2"
+          },
+          {
+            "column": 10,
+            "row": 4,
+            "value": "8"
+          },
+          {
+            "column": 7,
+            "row": 10,
+            "value": "-2"
+          },
+          {
+            "column": 9,
+            "row": 10,
+            "value": "-2"
+          }
+        ],
+        "proved": true,
+        "source_obstruction_entries": [
+          {
+            "column": 10,
+            "row": 0,
+            "value": "2"
+          },
+          {
+            "column": 10,
+            "row": 4,
+            "value": "-8"
+          },
+          {
+            "column": 7,
+            "row": 10,
+            "value": "2"
+          },
+          {
+            "column": 9,
+            "row": 10,
+            "value": "2"
+          }
+        ],
+        "time_differentiated_principal_contribution": "Q T_(partial_1 v_low) H01_high"
+      },
+      "provenance": {
+        "C9_orders": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "D2_arithmetic_packet_sha256": "8fd088ca2c5cd6f146b176f62882db4e9c6c2f1d709707e94d67a98540eada58",
+        "full_entry_manifest_sha256": "baa3374f3e849ca7fcba2357810eb96bfb51e819cf059efe5e227297520d5c94",
+        "induced_top_order_ledger_sha256": "fa9225521e3f1d4fa944086c068755e178e23c82ad83e6454c2d98bf3cf2542a",
+        "principal_jet_injection_sha256": "6dc1ddb4afc4ddd248d7bbbe768198559974babdbe715defd5d3b24d9805dd2f",
+        "s01_injection_slice_sha256": "d8baeb33c3311425c70269a3067e6788e69b29a1a31a95539707a2e9363069e7",
+        "two_channel_identity_sha256": "f980e75fb02affe753f45b149babbc901cd9f2e3b1a6bdeadee9e13e375c0963"
+      },
+      "remaining_gate": "materialize P55 acting on the embedded two-channel correction and prove bounds for TC1, TC2, TC3, and TC5 before extending to other high atoms",
+      "schema_version": "sigma-quartic-two-channel-good-unknown-slice-certificate-1.0",
+      "status": "pass_exact_two_channel_s01_slice_induced_commutators_fail_closed"
+    }
+  ],
+  "claim": "The two required field-space channels lift to the actual state correction Q T_(partial_1 v_low)w1[10]_high. The certified kinematic identity makes its differentiated principal term cancel all four s01/H01 obstruction entries exactly for all candidates. Four nonzero induced operator/source classes remain unbounded, so this is a slice identity rather than H7 closure.",
+  "config_sha256": "6e1893113f4e5a3ecf423eff80441d56f5b414304fa101f7dab28cc7e2f37c1b",
+  "content_sha256": "fa3fef69a2f2a5443ad3b2a4f9c47aa8fcf617e2525382e698cd58a9198f60d4",
+  "counts": {
+    "B7_branches_closed": 0,
+    "all_induced_term_bounds_closed": 0,
+    "fixed_LP_time_commutators_closed": 12,
+    "four_entry_cancellations_proved": 12,
+    "full_high_atom_families_closed": 0,
+    "global_H7_closures": 0,
+    "lifespans_proved": 0,
+    "rejected": 0,
+    "remaining_induced_term_ledgers_materialized": 12,
+    "selected": 12,
+    "two_channel_full_s01_slice_identities_proved": 12
+  },
+  "errors": [],
+  "generic_two_channel_good_unknown_slice_control": {
+    "actual_state_to_jet_derivation": {
+      "high_state": "w1[10]=partial_1 phi",
+      "kinematic_evolution": "partial_t w1[10]=s01[10]=partial_1 v0[10]",
+      "low_dynamic_vector": "v=(v0[0],...,v0[10])",
+      "principal_injection": "J_s01=i*eta1*I_11 on the low v slot"
+    },
+    "control": "two-channel differentiated-paraproduct identity on s01/H01",
+    "induced_top_order_ledger": {
+      "complete_identity": "(partial_t-T_P)C_Q = Q T_(partial_1 partial_t v_low)w + Q T_(partial_1 v_low)partial_t w - T_P(Q T_(partial_1 v_low)w)",
+      "exhaustiveness_scope": "all terms generated algebraically by applying partial_t-T_P and the nonlinear source substitution to this correction; boundary, gauge, and other high-atom families are outside this slice",
+      "terms": [
+        {
+          "exactly_present": true,
+          "id": "TC1_low_factor_evolution",
+          "origin": "time product rule",
+          "quantitative_bound_instantiated": false,
+          "term": "Q T_(partial_1 partial_t v_low) w_high",
+          "topology": "coefficient_low/state_high"
+        },
+        {
+          "exactly_present": true,
+          "id": "TC2_physical_operator_on_correction",
+          "origin": "substitution v=v_sharp-C_Q into the 55-state operator",
+          "quantitative_bound_instantiated": false,
+          "term": "-T_P(Q T_(partial_1 v_low) w_high)",
+          "topology": "first-order physical operator composed with paraproduct"
+        },
+        {
+          "exactly_present": true,
+          "id": "TC3_operator_paraproduct_commutator",
+          "origin": "exact decomposition of TC2",
+          "quantitative_bound_instantiated": false,
+          "term": "-[T_P,Q T_(partial_1 v_low)]w_high after adding and subtracting Q T_(partial_1 v_low)T_P w_high",
+          "topology": "variable-coefficient Coifman-Meyer commutator"
+        },
+        {
+          "exactly_zero_for_declared_fixed_Fourier_cutoffs": true,
+          "id": "TC4_fixed_LP_time_commutator",
+          "origin": "time-dependent product differentiation",
+          "quantitative_bound_instantiated": true,
+          "term": "[partial_t,T_(partial_1 v_low)]w_high"
+        },
+        {
+          "exactly_present": true,
+          "id": "TC5_nonlinear_substitution_remainder",
+          "origin": "nonlinear change of state beyond the quadratic slice",
+          "quantitative_bound_instantiated": false,
+          "term": "F(Y(v_sharp-C_Q))-F(Y(v_sharp))+DF(Y)J(C_Q)",
+          "topology": "at least quadratic in C_Q / cubic in state"
+        }
+      ]
+    },
+    "modified_state_ansatz": {
+      "Q": "2*alpha*((e0-4*e4)e10^T+e10(e7+e9)^T)",
+      "channel_1": "2*alpha*(e0-4*e4) T_(partial_1 v0[10]_low) w1[10]_high",
+      "channel_2": "2*alpha*e10 T_(partial_1(v0[7]+v0[9])_low) w1[10]_high",
+      "definition": "v_sharp=v+Q T_(partial_1 v_low) w1[10]_high, with the paraproduct applied componentwise in the low v slot",
+      "paradifferential_order": "one derivative on the spectrally low factor and zero derivatives on the high state factor"
+    },
+    "negative_controls": {
+      "omit_low_factor_time_derivative": {
+        "formal_defect_nonzero_entries": 3,
+        "rejected": true
+      },
+      "omit_low_spatial_derivative": {
+        "frequency_obstruction": "i*eta1*R+Q is not the zero polynomial",
+        "rejected": true,
+        "residual_nonzero_entries": 4
+      },
+      "retain_only_channel_1": {
+        "rejected": true,
+        "residual_nonzero_entries": 2
+      },
+      "retain_only_channel_2": {
+        "rejected": true,
+        "residual_nonzero_entries": 2
+      },
+      "reverse_modified_state_sign": {
+        "rejected": true,
+        "residual_nonzero_entries": 4
+      }
+    },
+    "passed": true,
+    "time_differentiated_identity": {
+      "correction_symbol": "i*eta1*Q",
+      "desired_principal_piece": "Q T_(partial_1 v_low) H01_high",
+      "fixed_Fourier_LP_time_commutator": "[partial_t,Delta_j]=0 exactly",
+      "full_four_entry_residual_zero": true,
+      "product_rule": "partial_t C_Q=Q T_(partial_1 partial_t v_low) w_high + Q T_(partial_1 v_low) partial_t w_high",
+      "source_symbol": "i*eta1*R"
+    }
+  },
+  "schema_version": "sigma-quartic-two-channel-good-unknown-slice-campaign-1.0",
+  "scope": "Only the complete four-entry s01/H01 reference slice is removed. Other high atoms, the induced TC1/TC2/TC3/TC5 terms, B7, global summation, and lifespan remain fail-closed.",
+  "status": "pass_all_12_exact_two_channel_s01_slice_identities_induced_commutators_global_H7_fail_closed",
+  "upstream_sha256": {
+    "component_J_contract": "22eaa766fb8e33743bb7812f50643b58a829130774ce195994050a1ed210f607",
+    "full_source_jacobian": "1707b7258fd434f68b06c7af6bc447b4136624b9916992df8b412e048ab6538a",
+    "rank_one_no_go": "52e5859390945871e8afea44666f938ab6e7d171656115397cc230a25c515eed",
+    "resonant_remedy": "2a27df6df69921e98f9e9ef132b3ad87908388ac91d294d10608aa3ad8b6113a",
+    "solved_source_C9": "65ef71d46cd62c450f44b2f8b0ec2d2dd67ceea52b8844a57fbbf90a99750e42"
+  }
+}

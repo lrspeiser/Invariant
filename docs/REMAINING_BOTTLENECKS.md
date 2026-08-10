@@ -334,10 +334,13 @@ coefficient-high/state-low slice. All 12 candidates therefore have a nonzero res
 `+/-2`). The exact required four-entry correction has rank two:
 `2 a10[(e0-4e4)e10^T + e10(e7+e9)^T]`. A decisive `2 x 2` minor equals `4 a10^2`, while the
 same minor vanishes for every rank-one outer product. This rules out the entire one-scalar,
-one-output modified-unknown ansatz class for all 12 candidates. The two displayed channels cancel
-the algebraic slice exactly, including after the certified `J_s01=i xi1 I_11` injection, but have
-not yet been derived as a differentiated modified state. The next gate is to realize that two-channel
-correction and control every induced top-order commutator, or adopt a separately controlled
+one-output modified-unknown ansatz class for all 12 candidates. The two displayed channels are now
+realized as `v_sharp=v+Q T_(partial_1 v_low) w1[10]_high`; the certified kinematic identity makes
+their differentiated principal term cancel the entire four-entry slice, including after
+`J_s01=i xi1 I_11`. Four induced families remain unbounded: low-factor evolution (TC1), the physical
+operator on the correction (TC2), its paraproduct commutator (TC3), and the nonlinear substitution
+remainder (TC5). The fixed-Fourier time commutator TC4 is exactly zero. The next gate is to close
+TC1/TC2/TC3/TC5 and extend the construction to every high atom, or adopt a separately controlled
 derivative-loss theory. A conditional `H8` assumption raises the second atoms to `H7`, but the packet
 `U_N=N^-7 exp(iNx_1)u_0` has bounded `H7` size and `H8` size growing like `N`; an `E8` energy alone
 repeats the loss. `B7`, global `H7`, dyadic application, and lifespan remain false.

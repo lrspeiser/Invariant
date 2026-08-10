@@ -822,9 +822,14 @@ or `+/-2`: all 12 proposed cancellations are refuted on this slice. The exact fo
 has rank two,
 `2 a10[(e0-4e4)e10^T + e10(e7+e9)^T]`. Its decisive `2 x 2` minor is `4 a10^2`, so every
 single-scalar/single-output (rank-one) modified-unknown channel is now ruled out for all 12
-candidates. The displayed two-channel factorization is an exact algebraic target, not yet a proved
-time-differentiated state correction. The next valid route must realize both channels while
-controlling their new top-order commutators, or use an honest derivative-loss theory. An `H8` state
+candidates. The two-channel factorization is now realized as the legitimate slice-level state
+correction `v_sharp=v+Q T_(partial_1 v_low) w1[10]_high`. The certified kinematic identity
+`partial_t w1[10]=s01[10]=partial_1 v0[10]` makes its differentiated principal term cancel all four
+`s01/H01` entries for every candidate. This is not yet global closure: the low-factor evolution,
+physical-operator composition, operator/paraproduct commutator, and nonlinear substitution
+remainder (TC1, TC2, TC3, and TC5) remain quantitatively open; only the fixed-Fourier time
+commutator TC4 is exactly zero. The next valid route must bound those induced terms and extend the
+identity to the other high atoms, or use an honest derivative-loss theory. An `H8` state
 gives a quantitative conditional `H7` bound, but is not controlled by `H7` data and is not an
 autonomous cure.
 
