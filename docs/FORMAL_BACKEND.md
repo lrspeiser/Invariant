@@ -420,6 +420,37 @@ the spatial-second family uses at most five spatial derivatives of `p_0`. Exact
 control rejects. The explicit anti-Wick composition estimate, bounded-frequency defect,
 dyadic summation, and numerical lifespan remain open.
 
+The compact physical-frequency defect is now an operator theorem. Hash-bound physical
+linearity writes `P55=sum_j A55^j xi_j`, so all second and higher frequency derivatives
+of that pencil vanish exactly. For
+`D=rho(|xi|)(K0 P55-P55^dagger K0)`, the certified cutoff Frechet majorants through
+order four are `1,10080,80640,735840,7650720`. Kernel integration by parts with
+`(1-Delta_xi)^2` gives
+`||Op(D)|| <= (4/3)(B0+6B2+9B4)`, hence the candidate bound
+`(1322334736/3) kappa_c a_c`. This is paid once at fixed physical low frequency.
+The semiclassical high-shell symbol is `K_ext(x,eta/h)`; replacing it by the unscaled
+`K_ext(x,eta)` is an executable negative because `rho(3/2)=1/2` leaves an `h^-1` term.
+
+The dyadic localization layer now fixes the precise Littlewood-Paley convention. The
+same C4 smoothstep yields nonnegative telescoping multipliers, at most two ordinary
+shells at each frequency, at most four enlarged multipliers at each frequency, at most
+five ordinary shells interacting with one enlarged shell, and exact conservative
+energy constants `2^-15` and `2^14` at `H7`. Bernstein and shell-local commutator
+constants are explicit radial polynomial integrals. This audit also proves why the
+global sum cannot be promoted yet: the coordinate atom field is only in `H6`, and
+`a_N=N^-6 exp(iNx1)a0` has bounded `H6` norm while the weighted `H7` commutator grows
+like `N`. The artifact therefore records `full_H7_commutator_closed=false`.
+
+The anti-Wick composition audit removes a separate ambiguity. For the normalized
+Gaussian already used by the positive energy, `Op_h^AW(K)=Op_h^W(a_h)` with
+`a_h=exp((h/4)Delta_(x,xi))K`. Thus pointwise `KP=P^dagger K` does not cancel the
+heat-smoothed product. A frequency-annular positive energy, exact kernel-amplitude algebra,
+matrix-valued Schur constant `1/(8*pi)`, and a nonzero `2x2` heat-smoothing witness are
+all executable. The direct constant proof needs mixed K55 bounds at `(x,xi)` orders
+`(2,4)`, `(0,6)`, `(0,5)`, and `(1,4)`. Current artifacts stop at total order four, so
+the composition remains correctly fail-closed pending a targeted C6 annular extension;
+no additional spatial Sobolev order is required for this particular step.
+
 That compact-subset condition now has an explicit coordinate realization. In the normalized
 55-state basis, the ten metric deviations obey the exact identity
 `||h_mu_nu||_F^2=sum_A h_A^2`, including the `sqrt(2)` off-diagonal convention. Bounding those

@@ -340,6 +340,45 @@ def test_all_formal_known_answer_controls_pass(tmp_path) -> None:
     ) == 4
     assert len(time_atoms["evidence"]["representative_closed_time_K55_bounds"]) == 10
     assert time_atoms["evidence"]["insufficient_H6_state_negative"]["status"] == "reject"
+
+    bounded = checks["quartic_linear_x_compact_physical_frequency_defect"]
+    assert bounded["status"] == "pass"
+    assert bounded["evidence"]["artifact_hash_matches_reexecution"]
+    bounded_control = bounded["evidence"]["generic_compact_frequency_defect_control"]
+    assert bounded_control["compact_symbol_Schur_lemma"]["exact_coefficient"] == "4/3"
+    assert bounded_control["physical_scale_contract"]["high_shell_defect_zero"]
+    assert bounded["evidence"]["wrong_physical_scale_negative"]["status"] == "reject"
+
+    dyadic = checks["quartic_linear_x_H7_dyadic_localization_audit"]
+    assert dyadic["status"] == "pass"
+    assert dyadic["evidence"]["artifact_hash_matches_reexecution"]
+    dyadic_control = dyadic["evidence"]["generic_dyadic_localization_control"]
+    assert dyadic_control["partition"]["maximum_nonzero_ordinary_multipliers"] == 2
+    assert dyadic_control["partition"][
+        "ordinary_shells_interacting_with_one_enlarged_shell"
+    ] == 5
+    assert dyadic_control["partition"][
+        "maximum_simultaneous_enlarged_multiplier_overlap"
+    ] == 4
+    assert dyadic_control["derivative_loss_negative"]["growth_exponent"] == 1
+    assert dyadic["evidence"]["incompatible_regularity_contract_negative"][
+        "status"
+    ] == "reject"
+
+    composition = checks["quartic_linear_x_anti_wick_composition_derivative_audit"]
+    assert composition["status"] == "pass"
+    assert composition["evidence"]["artifact_hash_matches_reexecution"]
+    composition_control = composition["evidence"]["generic_anti_wick_composition_audit"]
+    assert composition_control["anti_wick_to_weyl"]["heat_time"] == "h/4"
+    assert composition_control["anti_wick_to_weyl"][
+        "frequency_heat_transform_residual"
+    ] == "0"
+    assert composition_control["exact_composition_amplitude"][
+        "FTOC_polynomial_residual"
+    ] == "0"
+    assert composition_control["amplitude_Schur_lemma"]["exact_coefficient"] == "1/(8*pi)"
+    assert composition_control["derivative_audit"]["required_maximum_mixed_total_order"] == 6
+    assert composition["evidence"]["false_C4_closure_negative"]["status"] == "reject"
     assert checks["projected_aether_q_fixed_metric_first_variation"]["status"] == "pass"
     assert checks["projected_aether_q_fixed_metric_first_variation"]["evidence"][
         "projector_and_B_first_variation_residual"

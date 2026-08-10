@@ -101,7 +101,13 @@ from .principal_symbol import (
 from .q_adm import projected_aether_q_3plus1_control
 from .q_dirac import projected_aether_q_aligned_auxiliary_dirac_control
 from .q_tilt import projected_aether_q_constant_tilt_root_audit
+from .quartic_anti_wick_composition_campaign import (
+    run_quartic_anti_wick_composition_campaign,
+)
 from .quartic_auxiliary_time_campaign import run_quartic_auxiliary_time_campaign
+from .quartic_bounded_frequency_defect_campaign import (
+    run_quartic_bounded_frequency_defect_campaign,
+)
 from .quartic_constraint_reconstruction_campaign import (
     run_quartic_constraint_reconstruction_campaign,
 )
@@ -110,6 +116,9 @@ from .quartic_coordinate_jet_tube_campaign import (
 )
 from .quartic_dirac_hamiltonian_campaign import (
     run_quartic_dirac_hamiltonian_campaign,
+)
+from .quartic_dyadic_localization_campaign import (
+    run_quartic_dyadic_localization_campaign,
 )
 from .quartic_euler_remainder_majorant_campaign import (
     run_quartic_euler_remainder_majorant_campaign,
@@ -3071,6 +3080,167 @@ def _quartic_time_atom_budget_campaign_control(
     }
 
 
+def _quartic_bounded_frequency_defect_campaign_control(
+    root: Path,
+) -> tuple[bool, dict[str, Any]]:
+    base = root / "runs" / "physics-language"
+    paths = {
+        "low_frequency": base / "quartic-low-frequency-symbol-extension-campaign" / "campaign.json",
+        "evolution": base / "quartic-evolution-symbol-campaign" / "campaign.json",
+        "first_order": base / "quartic-first-order-reduction-campaign" / "campaign.json",
+    }
+    config_path = root / "configs" / "backgrounds" / "quartic_bounded_frequency_defect_campaign.json"
+    artifact_path = base / "quartic-bounded-frequency-defect-campaign" / "campaign.json"
+    campaigns = {name: json.loads(path.read_text(encoding="utf-8")) for name, path in paths.items()}
+    config = json.loads(config_path.read_text(encoding="utf-8"))
+    artifact = json.loads(artifact_path.read_text(encoding="utf-8"))
+    result = run_quartic_bounded_frequency_defect_campaign(
+        campaigns["low_frequency"], campaigns["evolution"], campaigns["first_order"], config
+    )
+    corrupted = dict(config)
+    corrupted["physical_frequency_radii"] = [1, 3]
+    negative = run_quartic_bounded_frequency_defect_campaign(
+        campaigns["low_frequency"], campaigns["evolution"], campaigns["first_order"], corrupted
+    )
+    control = result.get("generic_compact_frequency_defect_control", {})
+    certificates = result.get("certificates", [])
+    passed = bool(
+        result.get("status") == "pass_all_12_actual_P55_compact_frequency_defect_KN_L2_lemmas"
+        and result.get("counts", {}).get("compact_frequency_defect_lemmas_passed") == 12
+        and len(certificates) == 12
+        and control.get("passed") is True
+        and control.get("compact_symbol_Schur_lemma", {}).get("exact_coefficient") == "4/3"
+        and control.get("physical_scale_contract", {}).get("high_shell_defect_zero") is True
+        and all(item.get("physical_scale_contract_passed") is True for item in certificates)
+        and artifact.get("content_sha256") == result.get("content_sha256")
+        and negative.get("status") == "reject"
+    )
+    return passed, {
+        "campaigns": {name: str(path) for name, path in paths.items()},
+        "config": str(config_path),
+        "artifact": str(artifact_path),
+        "status": result.get("status"),
+        "counts": result.get("counts"),
+        "artifact_hash_matches_reexecution": artifact.get("content_sha256") == result.get("content_sha256"),
+        "generic_compact_frequency_defect_control": control,
+        "representative_certificate": certificates[0] if certificates else None,
+        "wrong_physical_scale_negative": {"status": negative.get("status"), "errors": negative.get("errors")},
+        "scope": result.get("scope"),
+    }
+
+
+def _quartic_dyadic_localization_campaign_control(
+    root: Path,
+) -> tuple[bool, dict[str, Any]]:
+    base = root / "runs" / "physics-language"
+    paths = {
+        "r3": base / "quartic-r3-sobolev-calculus-campaign" / "campaign.json",
+        "evolution": base / "quartic-evolution-symbol-campaign" / "campaign.json",
+        "first_order": base / "quartic-first-order-reduction-campaign" / "campaign.json",
+    }
+    config_path = root / "configs" / "backgrounds" / "quartic_dyadic_localization_campaign.json"
+    artifact_path = base / "quartic-dyadic-localization-campaign" / "campaign.json"
+    campaigns = {name: json.loads(path.read_text(encoding="utf-8")) for name, path in paths.items()}
+    config = json.loads(config_path.read_text(encoding="utf-8"))
+    artifact = json.loads(artifact_path.read_text(encoding="utf-8"))
+    result = run_quartic_dyadic_localization_campaign(
+        campaigns["r3"], campaigns["evolution"], campaigns["first_order"], config
+    )
+    false_closure = dict(config)
+    false_closure["coefficient_sobolev_order"] = 7
+    negative = run_quartic_dyadic_localization_campaign(
+        campaigns["r3"], campaigns["evolution"], campaigns["first_order"], false_closure
+    )
+    control = result.get("generic_dyadic_localization_control", {})
+    certificates = result.get("certificates", [])
+    passed = bool(
+        result.get("status") == "pass_all_12_H7_dyadic_local_frameworks_global_commutator_fail_closed"
+        and result.get("counts", {}).get("dyadic_local_frameworks_passed") == 12
+        and result.get("counts", {}).get("full_H7_commutators_closed") == 0
+        and len(certificates) == 12
+        and control.get("passed") is True
+        and control.get("derivative_loss_negative", {}).get("growth_exponent") == 1
+        and all(
+            item.get("shell_local_commutator_bound_certified") is True
+            and item.get("conditional_monotone_dyadic_summation", {}).get("applied") is False
+            and item.get("full_H7_commutator_closed") is False
+            for item in certificates
+        )
+        and artifact.get("content_sha256") == result.get("content_sha256")
+        and negative.get("status") == "reject"
+    )
+    return passed, {
+        "campaigns": {name: str(path) for name, path in paths.items()},
+        "config": str(config_path),
+        "artifact": str(artifact_path),
+        "status": result.get("status"),
+        "counts": result.get("counts"),
+        "artifact_hash_matches_reexecution": artifact.get("content_sha256") == result.get("content_sha256"),
+        "generic_dyadic_localization_control": control,
+        "representative_certificate": certificates[0] if certificates else None,
+        "incompatible_regularity_contract_negative": {
+            "status": negative.get("status"),
+            "errors": negative.get("errors"),
+        },
+        "scope": result.get("scope"),
+    }
+
+
+def _quartic_anti_wick_composition_campaign_control(
+    root: Path,
+) -> tuple[bool, dict[str, Any]]:
+    base = root / "runs" / "physics-language"
+    paths = {
+        "low_frequency": base / "quartic-low-frequency-symbol-extension-campaign" / "campaign.json",
+        "evolution": base / "quartic-evolution-symbol-campaign" / "campaign.json",
+        "r3": base / "quartic-r3-sobolev-calculus-campaign" / "campaign.json",
+        "time_atoms": base / "quartic-time-atom-budget-campaign" / "campaign.json",
+    }
+    config_path = root / "configs" / "backgrounds" / "quartic_anti_wick_composition_campaign.json"
+    artifact_path = base / "quartic-anti-wick-composition-campaign" / "campaign.json"
+    campaigns = {name: json.loads(path.read_text(encoding="utf-8")) for name, path in paths.items()}
+    config = json.loads(config_path.read_text(encoding="utf-8"))
+    artifact = json.loads(artifact_path.read_text(encoding="utf-8"))
+    result = run_quartic_anti_wick_composition_campaign(
+        campaigns["low_frequency"], campaigns["evolution"], campaigns["r3"], campaigns["time_atoms"], config
+    )
+    false_closure = dict(config)
+    false_closure["required_mixed_total_order"] = 4
+    negative = run_quartic_anti_wick_composition_campaign(
+        campaigns["low_frequency"], campaigns["evolution"], campaigns["r3"], campaigns["time_atoms"], false_closure
+    )
+    control = result.get("generic_anti_wick_composition_audit", {})
+    certificates = result.get("certificates", [])
+    passed = bool(
+        result.get("status")
+        == "pass_exact_anti_wick_composition_prerequisite_audit_C6_required"
+        and result.get("counts", {}).get(
+            "exact_composition_prerequisite_audits_passed"
+        )
+        == 12
+        and result.get("counts", {}).get("anti_wick_compositions_closed") == 0
+        and len(certificates) == 12
+        and control.get("passed") is True
+        and control.get("anti_wick_to_weyl", {}).get("heat_time") == "h/4"
+        and control.get("amplitude_Schur_lemma", {}).get("exact_coefficient") == "1/(8*pi)"
+        and all(item.get("anti_wick_composition_closed") is False for item in certificates)
+        and artifact.get("content_sha256") == result.get("content_sha256")
+        and negative.get("status") == "reject"
+    )
+    return passed, {
+        "campaigns": {name: str(path) for name, path in paths.items()},
+        "config": str(config_path),
+        "artifact": str(artifact_path),
+        "status": result.get("status"),
+        "counts": result.get("counts"),
+        "artifact_hash_matches_reexecution": artifact.get("content_sha256") == result.get("content_sha256"),
+        "generic_anti_wick_composition_audit": control,
+        "representative_certificate": certificates[0] if certificates else None,
+        "false_C4_closure_negative": {"status": negative.get("status"), "errors": negative.get("errors")},
+        "scope": result.get("scope"),
+    }
+
+
 def _quartic_horndeski_covariant_adm_control(
     root: Path,
 ) -> tuple[bool, dict[str, Any]]:
@@ -4324,6 +4494,24 @@ def run_formal_control_suite(
             "All 12 fixed-coefficient linear-X quartic candidates close the coordinate-atom time jets required by the time derivative of the full K55 symbol from the actual 55-state H7 evolution norm.",
             "The exact 153-atom evolution gives dt h=p0, dt p0=F(Y), dt pi=s0i, dt s0i=di F(Y), and dt sij=di dj p0. R=max||Y||H6 is bounded by E=max||U||H7 with constant one. Fourth-order solved-source Frechet bounds therefore close the four marked time jets and all 10 C3 time-K55 bounds as explicit polynomials in E, with no undefined dtY norm. H6 state regularity rejects; operator composition, dyadic summation, lifespan, and matter remain open.",
             lambda: _quartic_time_atom_budget_campaign_control(root),
+        ),
+        _run_check(
+            "quartic_linear_x_compact_physical_frequency_defect",
+            "All 12 fixed-coefficient linear-X quartic candidates have an explicit L2 bound for the actual P55 symmetrization defect in the single physical low-frequency block.",
+            "The exact defect is rho(|xi|)[K0 P55-P55^dagger K0]. Four xi derivatives and two kernel integrations by parts give the explicit 4/3 Schur coefficient. Hash-bound degree-one physical-pencil provenance makes partial_xi^2 P55 vanish exactly. The defect disappears on correctly rescaled high shells; an unscaled-shell negative rejects.",
+            lambda: _quartic_bounded_frequency_defect_campaign_control(root),
+        ),
+        _run_check(
+            "quartic_linear_x_H7_dyadic_localization_audit",
+            "All 12 candidates have an exact H7 Littlewood-Paley partition, energy equivalence, Bernstein constants, and shell-local physical-pencil commutator framework.",
+            "The C4 cutoff telescopes exactly, with ordinary simultaneous overlap two, enlarged simultaneous overlap four, five ordinary shells interacting with one enlarged shell, and H7 constants 2^-15 and 2^14. The global H7 commutator remains deliberately fail-closed: compact-frequency Schwartz packets have uniformly bounded H6 coefficient norm but produce N growth, proving that H6 coefficient control cannot close the remote high-coefficient tail.",
+            lambda: _quartic_dyadic_localization_campaign_control(root),
+        ),
+        _run_check(
+            "quartic_linear_x_anti_wick_composition_derivative_audit",
+            "The exact anti-Wick/Weyl composition prerequisites are certified and all 12 candidates are correctly held fail-closed until the mixed annular symbol calculus reaches C6.",
+            "Gaussian anti-Wick quantization has Weyl symbol exp((h/4)Delta)K, so pointwise KP=P^dagger K does not remove the smoothing defect. An exact annular positive energy, kernel-amplitude algebra, 1/(8pi) Schur coefficient, and 2x2 smoothing witness pass. The executable audit identifies only four missing pairs: (2,4), (0,6), (0,5), and (1,4).",
+            lambda: _quartic_anti_wick_composition_campaign_control(root),
         ),
         _run_check(
             "quartic_horndeski_timelike_flat_physical_hamiltonian",

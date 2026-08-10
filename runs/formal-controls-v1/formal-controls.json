@@ -7653,6 +7653,523 @@
       "status": "pass"
     },
     {
+      "claim": "All 12 fixed-coefficient linear-X quartic candidates have an explicit L2 bound for the actual P55 symmetrization defect in the single physical low-frequency block.",
+      "evidence": {
+        "artifact": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\runs\\physics-language\\quartic-bounded-frequency-defect-campaign\\campaign.json",
+        "artifact_hash_matches_reexecution": true,
+        "campaigns": {
+          "evolution": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\runs\\physics-language\\quartic-evolution-symbol-campaign\\campaign.json",
+          "first_order": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\runs\\physics-language\\quartic-first-order-reduction-campaign\\campaign.json",
+          "low_frequency": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\runs\\physics-language\\quartic-low-frequency-symbol-extension-campaign\\campaign.json"
+        },
+        "config": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\configs\\backgrounds\\quartic_bounded_frequency_defect_campaign.json",
+        "counts": {
+          "compact_frequency_defect_lemmas_passed": 12,
+          "rejected": 0,
+          "selected": 12
+        },
+        "generic_compact_frequency_defect_control": {
+          "certified_radial_Frechet_majorants_0_through_4": [
+            1,
+            10080,
+            80640,
+            735840,
+            7650720
+          ],
+          "compact_symbol_Schur_lemma": {
+            "bound": "||Op_h(d)||_L2<=4/3*(B0+6*B2+9*B4)",
+            "exact_coefficient": "4/3",
+            "frequency_ball_volume": "32*pi/3",
+            "hypothesis": "supp_xi d subset {|xi|<=2}, d is C4 in xi",
+            "radial_kernel_integral": "pi**2",
+            "uniform_in_h": true,
+            "valid_quantizations": [
+              "left_Kohn_Nirenberg",
+              "Weyl"
+            ]
+          },
+          "control": "exact compact physical-frequency symmetrization defect",
+          "defect_derivative_multipliers_0_through_4": [
+            4,
+            40322,
+            362880,
+            3427200,
+            36489600
+          ],
+          "defect_identity": "D(U,x,xi)=rho(|xi|)[K0(U,x)P55(U,x,xi)-P55(U,x,xi)^dagger K0(U,x)]",
+          "defect_identity_residual_after_outer_symmetrization": "0",
+          "definitions": {
+            "K0": "K55(U,x,e1)",
+            "P55": "sum_(j=1)^3 A55^j(U,x) xi_j",
+            "chi": "70*t**9 - 315*t**8 + 540*t**7 - 420*t**6 + 126*t**5",
+            "rho": "1 for r<=1; 1-chi(r-1) for 1<r<2; 0 for r>=2"
+          },
+          "endpoint_residuals": {
+            "d0_at_0": "0",
+            "d0_at_1_minus_target": "0",
+            "d1_at_0": "0",
+            "d1_at_1_minus_target": "0",
+            "d2_at_0": "0",
+            "d2_at_1_minus_target": "0",
+            "d3_at_0": "0",
+            "d3_at_1_minus_target": "0",
+            "d4_at_0": "0",
+            "d4_at_1_minus_target": "0"
+          },
+          "negative_controls": {
+            "omitted_mixed_fourth_derivatives": {
+              "Delta_xi_squared_at_zero": "8",
+              "rejected": true,
+              "sum_pure_fourths_at_zero": "0",
+              "witness": "xi1^2*xi2^2"
+            },
+            "one_integration_by_parts": {
+              "R3_kernel_integral": "oo",
+              "rejected": true
+            },
+            "unscaled_shell": {
+              "rejected": true,
+              "rho_at_3_over_2": "1/2",
+              "surviving_principal_defect": "1/(2*h)"
+            }
+          },
+          "passed": true,
+          "physical_scale_contract": {
+            "bounded_defect_paid_once": "fixed physical low-frequency block",
+            "high_shell": "h<=1/2 and 1<=|eta|<=2 implies |eta|/h>=2",
+            "high_shell_defect_zero": true,
+            "semiclassical_symbol": "K_ext(U,x,eta/h)"
+          },
+          "radial_majorant_provenance": {
+            "derived_formula": "M_q=4*R_q+2*q*R_(q-1), with the second term zero at q=0",
+            "source": "generic_low_frequency_extension_control",
+            "upstream_control_passed": true,
+            "upstream_radial_cutoff_Frechet_majorants": [
+              1,
+              10080,
+              80640,
+              735840,
+              7650720
+            ]
+          }
+        },
+        "representative_certificate": {
+          "candidate_ceilings": {
+            "a_c": "808",
+            "kappa_c": "1196727626763922663951"
+          },
+          "candidate_id": "quartic-symbol-06e267a9215345b6",
+          "coefficients": {
+            "a01": "0",
+            "a10": "-1/2",
+            "a20": "0",
+            "c02": "0",
+            "c11": "0",
+            "c20": "-1",
+            "d01": "0",
+            "d10": "0",
+            "m2": "1"
+          },
+          "defect_frequency_derivative_bounds": {
+            "0": "3867823689700998049889632",
+            "1": "38989596704030910841912435376",
+            "2": "350888965129674543085987415040",
+            "3": "3313951337335815129145436697600",
+            "4": "35283834826928384610313178956800"
+          },
+          "full_energy_closed": false,
+          "operator_L2_bound": {
+            "exact": "1278639404403828793809330339964288/3",
+            "factorized": "(1322334736/3)*kappa_c*a_c",
+            "numeric": 4.2621313480127624e+32,
+            "quantization": "Kohn-Nirenberg or Weyl compact-symbol Schur bound"
+          },
+          "physical_pencil_provenance": {
+            "frequency_derivatives_order_2_and_higher_zero": true,
+            "linear_in_xi": true,
+            "source_spatial_block_sha256": "695ff2a5fd45fa3fba21d4ce25ab2f62bd168df187c8e931bc9b5803a9cd4aed"
+          },
+          "physical_scale_contract_passed": true,
+          "remaining_gate": "identify_composition_quantization_and_sum_dyadic_energy",
+          "schema_version": "sigma-quartic-bounded-frequency-defect-certificate-1.0",
+          "scope": "This certifies the fixed physical low-frequency defect as a bounded L2 operator and proves it vanishes on correctly rescaled high shells. It does not close anti-Wick composition, the global H7 commutator, or lifespan.",
+          "status": "pass_actual_P55_compact_frequency_defect_KN_L2_lemma"
+        },
+        "scope": "This certifies the fixed physical low-frequency defect as a bounded L2 operator and proves it vanishes on correctly rescaled high shells. It does not close anti-Wick composition, the global H7 commutator, or lifespan.",
+        "status": "pass_all_12_actual_P55_compact_frequency_defect_KN_L2_lemmas",
+        "wrong_physical_scale_negative": {
+          "errors": [
+            "unsupported compact-defect domain"
+          ],
+          "status": "reject"
+        }
+      },
+      "name": "quartic_linear_x_compact_physical_frequency_defect",
+      "scope": "The exact defect is rho(|xi|)[K0 P55-P55^dagger K0]. Four xi derivatives and two kernel integrations by parts give the explicit 4/3 Schur coefficient. Hash-bound degree-one physical-pencil provenance makes partial_xi^2 P55 vanish exactly. The defect disappears on correctly rescaled high shells; an unscaled-shell negative rejects.",
+      "status": "pass"
+    },
+    {
+      "claim": "All 12 candidates have an exact H7 Littlewood-Paley partition, energy equivalence, Bernstein constants, and shell-local physical-pencil commutator framework.",
+      "evidence": {
+        "artifact": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\runs\\physics-language\\quartic-dyadic-localization-campaign\\campaign.json",
+        "artifact_hash_matches_reexecution": true,
+        "campaigns": {
+          "evolution": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\runs\\physics-language\\quartic-evolution-symbol-campaign\\campaign.json",
+          "first_order": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\runs\\physics-language\\quartic-first-order-reduction-campaign\\campaign.json",
+          "r3": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\runs\\physics-language\\quartic-r3-sobolev-calculus-campaign\\campaign.json"
+        },
+        "config": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\configs\\backgrounds\\quartic_dyadic_localization_campaign.json",
+        "counts": {
+          "dyadic_local_frameworks_passed": 12,
+          "full_H7_commutators_closed": 0,
+          "rejected": 0,
+          "selected": 12
+        },
+        "generic_dyadic_localization_control": {
+          "Bernstein_constants_0_through_4": {
+            "0": "2*sqrt(3)/(3*pi)",
+            "1": "4*sqrt(3)/(3*pi)",
+            "2": "8*sqrt(3)/(3*pi)",
+            "3": "16*sqrt(3)/(3*pi)",
+            "4": "32*sqrt(3)/(3*pi)"
+          },
+          "H7_equivalence": {
+            "dyadic_norm": "Q7=||Delta_-1 u||2^2+sum_j(1+2^(2j))^7||Delta_j u||2^2",
+            "lower": "2^-15",
+            "lower_base_inequality_residual": "3/4",
+            "symmetrized_lower": "lambda*2^-15",
+            "symmetrized_upper": "Lambda*2^14",
+            "upper": "2^14",
+            "upper_base_inequality_residual": "3"
+          },
+          "control": "exact R3 Littlewood-Paley localization and derivative audit",
+          "cutoff": {
+            "chi": "1 for r<=1; 1-S(r-1) for 1<r<2; 0 for r>=2",
+            "endpoint_residuals": {
+              "d0_at_0": "0",
+              "d0_at_1_minus_target": "0",
+              "d1_at_0": "0",
+              "d1_at_1_minus_target": "0",
+              "d2_at_0": "0",
+              "d2_at_1_minus_target": "0",
+              "d3_at_0": "0",
+              "d3_at_1_minus_target": "0",
+              "d4_at_0": "0",
+              "d4_at_1_minus_target": "0"
+            },
+            "low_multiplier": "m_-1(xi)=chi(2|xi|)",
+            "ordinary_multiplier": "m_j(xi)=phi(2^-j|xi|), j>=0",
+            "phi": "phi(r)=chi(r)-chi(2r)",
+            "smoothstep": "70*t**9 - 315*t**8 + 540*t**7 - 420*t**6 + 126*t**5",
+            "smoothstep_derivative_factor_residual": "0"
+          },
+          "derivative_loss_negative": {
+            "R3_Schwartz_Fourier_support_counterexample_encoded": true,
+            "coefficient_H6_bound": "||a_N||H6<=C_a=sum_(k=0)^6 binom(6,k)||D^(6-k)a0||2, uniformly for N>=1",
+            "coefficient_family": "a_N=N^-6 exp(i N x1)a0, N=2^j>=4",
+            "commutator_H7_lower": "N*c_packet/2",
+            "commutator_H7_scaling": "N",
+            "domain": "R3 compact-frequency Schwartz wave packets",
+            "fixed_state_H7_norm": "||u0||H7<infinity",
+            "growth_exponent": 1,
+            "high_product_Fourier_support": "B((N+1)e1,2*epsilon), contained in normalized radii [1,3/2]",
+            "high_shell_lower_margin_at_N4": "3/16",
+            "high_shell_multiplier_lower": "phi>=phi(3/2)=1/2",
+            "high_shell_upper_margin_at_N4": "3/16",
+            "low_shell_separation_margin_at_N4": "7/32",
+            "low_state_Fourier_support": "B(e1,epsilon), contained below normalized radius 1/2",
+            "packet_contract": "a0_hat and u0_hat are nonnegative C_c^infinity packets of radius epsilon=1/8 centered at 0 and e1, with c_packet=||a0 partial_1 u0||2>0",
+            "rejected": true,
+            "rejected_claim": "ell2 H7 commutator <= C ||a||H6 ||u||H7 uniformly in N",
+            "state": "u=u0 is fixed in H7(R3)"
+          },
+          "partition": {
+            "enlarged_equals_one_on_m_j_support": true,
+            "enlarged_multiplier": "mtilde_j=chi(2^(-j-1)|xi|)-chi(2^(2-j)|xi|)",
+            "enlarged_support": "2^(j-2)<|xi|<2^(j+2)",
+            "finite_telescoping_residual": "0",
+            "maximum_nonzero_ordinary_multipliers": 2,
+            "maximum_simultaneous_enlarged_multiplier_overlap": 4,
+            "ordinary_shells_interacting_with_one_enlarged_shell": 5,
+            "ordinary_support": "2^(j-1)<|xi|<2^(j+1)",
+            "sum_of_squares_bounds": [
+              "1/2",
+              "1"
+            ],
+            "sum_of_squares_lower_residual": "(2*a - 1)**2/2",
+            "sum_of_squares_upper_residual": "-2*a*(a - 1)",
+            "telescoping_identity": "m_-1+sum_(j>=0)m_j=1"
+          },
+          "passed": true,
+          "shell_local_commutator": {
+            "bound": "||[Delta_j,A^k]partial_k v||2<=kappa_k||nabla A^k||infinity||v||2",
+            "explicit_common_kappa_upper": "sqrt(2)*(115*sqrt(125938606794) + sqrt(20753953871243448570))/4999280",
+            "first_radial_rational_derived": "23176041/86944",
+            "first_radial_square_integral": "23176041*pi/21736",
+            "integration_by_parts_integrand_residual": "0",
+            "kappa_definition": "||F^-1 phi||1+integral |z||partial_k F^-1 phi(z)|dz",
+            "localized_state": "v=tildeDelta_j u",
+            "second_radial_rational_derived": "99633325780881/9998560",
+            "second_radial_square_integral": "33211108593627*pi/2499640"
+          }
+        },
+        "incompatible_regularity_contract_negative": {
+          "errors": [
+            "unsupported dyadic regularity contract"
+          ],
+          "status": "reject"
+        },
+        "representative_certificate": {
+          "candidate_id": "quartic-symbol-06e267a9215345b6",
+          "coefficients": {
+            "a01": "0",
+            "a10": "-1/2",
+            "a20": "0",
+            "c02": "0",
+            "c11": "0",
+            "c20": "-1",
+            "d01": "0",
+            "d10": "0",
+            "m2": "1"
+          },
+          "conditional_monotone_dyadic_summation": {
+            "applied": false,
+            "hypothesis": "a uniform complete shell differential inequality including composition, source, gauge, constraint, and remote coefficient terms",
+            "reason": "the complete uniform shell inequality is not yet certified"
+          },
+          "dyadic_energy_equivalence": {
+            "lower": "lambda_c*2^-15",
+            "upper": "Lambda_c*2^14"
+          },
+          "failure_reason": "the coordinate-atom coefficient field is certified only in H6; the remote high-coefficient/low-state interaction loses one derivative",
+          "full_H7_commutator_closed": false,
+          "physical_pencil": {
+            "definition": "P55(U,x,xi)=sum_(k=1)^3 A55^k(U,x)xi_k",
+            "exactly_linear_in_xi": true,
+            "source_spatial_block_sha256": "695ff2a5fd45fa3fba21d4ce25ab2f62bd168df187c8e931bc9b5803a9cd4aed"
+          },
+          "required_next_gate": "nonlinear_paradifferential_linearization_or_H8_C7_coefficients",
+          "schema_version": "sigma-quartic-dyadic-localization-certificate-1.0",
+          "scope": "This certifies the LP family, exact H7 equivalence, Bernstein constants, and an explicit shell-local commutator bound for the actual pencil. Dyadic summation is not applied, and global H7 closure from H6 coefficients is deliberately rejected.",
+          "shell_local_coefficient_bound": {
+            "coefficients_by_power": {
+              "1": "46546851*sqrt(3)/(8*sqrt(pi))"
+            },
+            "expression": "46546851*sqrt(3)*R/(8*sqrt(pi))",
+            "variable": "R=max_A ||Y_A||_H6 for the 153 coordinate-atom field Y"
+          },
+          "shell_local_commutator_bound": {
+            "expression": "32224743*sqrt(2)*R*(115*sqrt(125938606794) + sqrt(20753953871243448570))/(3076480*sqrt(pi))",
+            "localized_state": "v=tildeDelta_j u",
+            "per_coordinate_to_Euclidean_gradient_factor": "sqrt(3)",
+            "summed_spatial_coefficient_count": 3,
+            "uniform_in_shell_index": true,
+            "variable": "R=max_A ||Y_A||_H6"
+          },
+          "shell_local_commutator_bound_certified": true,
+          "status": "pass_H7_dyadic_partition_and_shell_local_commutator_framework"
+        },
+        "scope": "This certifies the LP family, exact H7 equivalence, Bernstein constants, and an explicit shell-local commutator bound for the actual pencil. Dyadic summation is not applied, and global H7 closure from H6 coefficients is deliberately rejected.",
+        "status": "pass_all_12_H7_dyadic_local_frameworks_global_commutator_fail_closed"
+      },
+      "name": "quartic_linear_x_H7_dyadic_localization_audit",
+      "scope": "The C4 cutoff telescopes exactly, with ordinary simultaneous overlap two, enlarged simultaneous overlap four, five ordinary shells interacting with one enlarged shell, and H7 constants 2^-15 and 2^14. The global H7 commutator remains deliberately fail-closed: compact-frequency Schwartz packets have uniformly bounded H6 coefficient norm but produce N growth, proving that H6 coefficient control cannot close the remote high-coefficient tail.",
+      "status": "pass"
+    },
+    {
+      "claim": "The exact anti-Wick/Weyl composition prerequisites are certified and all 12 candidates are correctly held fail-closed until the mixed annular symbol calculus reaches C6.",
+      "evidence": {
+        "artifact": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\runs\\physics-language\\quartic-anti-wick-composition-campaign\\campaign.json",
+        "artifact_hash_matches_reexecution": true,
+        "campaigns": {
+          "evolution": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\runs\\physics-language\\quartic-evolution-symbol-campaign\\campaign.json",
+          "low_frequency": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\runs\\physics-language\\quartic-low-frequency-symbol-extension-campaign\\campaign.json",
+          "r3": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\runs\\physics-language\\quartic-r3-sobolev-calculus-campaign\\campaign.json",
+          "time_atoms": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\runs\\physics-language\\quartic-time-atom-budget-campaign\\campaign.json"
+        },
+        "config": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\configs\\backgrounds\\quartic_anti_wick_composition_campaign.json",
+        "counts": {
+          "C6_extensions_required": 12,
+          "anti_wick_compositions_closed": 0,
+          "exact_composition_prerequisite_audits_passed": 12,
+          "rejected": 0,
+          "selected": 12
+        },
+        "false_C4_closure_negative": {
+          "errors": [
+            "unsupported composition audit contract"
+          ],
+          "status": "reject"
+        },
+        "generic_anti_wick_composition_audit": {
+          "amplitude_Schur_lemma": {
+            "R_m": "max_|beta|=m sup_(x,y) integral ||partial_xi^beta r||_2 dxi",
+            "bound": "||Op_h(r)||<=(R0+6R2+9R4)/(8*pi)",
+            "exact_coefficient": "1/(8*pi)",
+            "matrix_dimension_independent": true,
+            "radial_kernel_integral": "pi**2"
+          },
+          "annular_positive_energy": {
+            "Gaussian_MGF_at_tail_parameter": "2*sqrt(2)",
+            "Gaussian_MGF_residual": "0",
+            "chi6": "924*t**13 - 6006*t**12 + 16380*t**11 - 24024*t**10 + 20020*t**9 - 9009*t**8 + 1716*t**7",
+            "chi6_derivative_factor_residual": "0",
+            "coercivity_factor": "-2*sqrt(2)*exp(-8) + 1",
+            "coercivity_factor_numeric": 0.9990511684039018,
+            "cutoff_equals_one": "3<=|eta|<=17",
+            "cutoff_support": "5/2<=|eta|<=35/2",
+            "endpoint_residuals": {
+              "d0_at_0": "0",
+              "d0_at_1_minus_target": "0",
+              "d1_at_0": "0",
+              "d1_at_1_minus_target": "0",
+              "d2_at_0": "0",
+              "d2_at_1_minus_target": "0",
+              "d3_at_0": "0",
+              "d3_at_1_minus_target": "0",
+              "d4_at_0": "0",
+              "d4_at_1_minus_target": "0",
+              "d5_at_0": "0",
+              "d5_at_1_minus_target": "0",
+              "d6_at_0": "0",
+              "d6_at_1_minus_target": "0"
+            },
+            "h_maximum": "1/16",
+            "high_shell_index_minimum": 7,
+            "positive": true,
+            "range_proof": "chi6'=12012*t^6*(1-t)^6>=0 with endpoint values 0 and 1",
+            "rescaled_shell": "4<=|eta|<=16",
+            "semiclassical_scale": "h_j=8*2^-j"
+          },
+          "anti_wick_to_weyl": {
+            "coherent_projector_midpoint_square_residual": "0",
+            "frequency_heat_transform": "(2 - erfc(I*s/(2*sqrt(h))))*exp(-s**2/(4*h))/2 + exp(-s**2/(4*h))*erfc(I*s/(2*sqrt(h)))/2",
+            "frequency_heat_transform_residual": "0",
+            "heat_kernel_normalization": "1",
+            "heat_time": "h/4",
+            "identity": "Op_h^AW(b)=Op_h^W(a_h)",
+            "pointwise_symmetrization_warning": "b p=p^dagger b does not imply a_h p=p^dagger a_h",
+            "weyl_symbol": "a_h=exp((h/4)Delta_(x,xi)) b"
+          },
+          "control": "Gaussian anti-Wick/Weyl composition prerequisite and C6 derivative audit",
+          "derivative_audit": {
+            "current_maximum_mixed_total_order": 4,
+            "maximum_spatial_x_order": 2,
+            "missing_piece": "extend state/frequency Frechet chain to C6 on annulus",
+            "required_maximum_mixed_total_order": 6,
+            "required_pairs_x_frequency": [
+              [
+                2,
+                4
+              ],
+              [
+                0,
+                6
+              ],
+              [
+                0,
+                5
+              ],
+              [
+                1,
+                4
+              ]
+            ],
+            "state_H7_and_coordinate_H6_sufficient_for_x_orders": true
+          },
+          "exact_composition_amplitude": {
+            "FTOC_polynomial_residual": "0",
+            "families": [
+              "heat_smoothing_symmetrization_defect",
+              "coefficient_difference_after_xi_integration_by_parts",
+              "Weyl_derivative_and_subprincipal_terms"
+            ],
+            "hidden_asymptotic_remainder": false,
+            "kernel_formula": "D=(i/h)(OpW(a_h)OpW(p)-OpW(p)^dagger OpW(a_h)); expand at q=(y+w)/2, s=y-w, use b*p=p^dagger*b, apply FTOC to A(q+-s/2), and transfer (i*s_k/h)exp(i*s.xi/h)=partial_xi_k exp(i*s.xi/h)",
+            "majorant_recurrence": {
+              "C_m": "9*A1*(Q*L_(0,m+1)+(m+1)*L_(0,m))",
+              "D_m": "(3/4)*(L_(2,m)+L_(0,m+2)), D_-1=0",
+              "R_m": "S_m+C_m+T_m for m in {0,2,4}",
+              "S_m": "2*A0*(3*Q*D_m+m*D_(m-1))",
+              "T_m": "3*(A0*L_(1,m)+A1*L_(0,m))",
+              "composition_constant": "(R_0+6*R_2+9*R_4)/(8*pi)"
+            },
+            "phase_transfer_residual": "0",
+            "physical_left_to_Weyl_correction_required": "-(1/2) sum_j partial_j A^j, up to the declared evolution sign",
+            "required_K_derivative_pairs_derived_from_recurrence": [
+              [
+                2,
+                4
+              ],
+              [
+                0,
+                6
+              ],
+              [
+                0,
+                5
+              ],
+              [
+                1,
+                4
+              ]
+            ]
+          },
+          "passed": true,
+          "smoothing_defect_negative": {
+            "A": "[[0,1],[c,0]]",
+            "K": "diag(c,1)",
+            "c": "1+x^2",
+            "corrupt_heat_time_h_over_2_witness": "Matrix([[0, 1], [-1, 0]])",
+            "corrupt_heat_time_rejected": true,
+            "heat_smoothed_defect_divided_by_h": "Matrix([[0, 1/2], [-1/2, 0]])",
+            "omitting_smoothing_family_rejected": true,
+            "pointwise_KA_minus_ATK": "Matrix([[0, 0], [0, 0]])"
+          }
+        },
+        "representative_certificate": {
+          "P55_A0_A1_bounds_available": true,
+          "anti_wick_composition_closed": false,
+          "available_mixed_total_order": 4,
+          "candidate_id": "quartic-symbol-06e267a9215345b6",
+          "coefficients": {
+            "a01": "0",
+            "a10": "-1/2",
+            "a20": "0",
+            "c02": "0",
+            "c11": "0",
+            "c20": "-1",
+            "d01": "0",
+            "d10": "0",
+            "m2": "1"
+          },
+          "missing_required_pairs": [
+            "0,5",
+            "0,6",
+            "1,4",
+            "2,4"
+          ],
+          "required_mixed_total_order": 6,
+          "required_next_gate": "quartic_C6_annular_symbol_moser_and_frequency_campaign",
+          "required_pairs": [
+            "0,5",
+            "0,6",
+            "1,4",
+            "2,4"
+          ],
+          "schema_version": "sigma-quartic-anti-wick-composition-audit-certificate-1.0",
+          "scope": "The heat identity, amplitude algebra, Schur constant, and derivative requirements are certified prerequisites, but this candidate cannot receive a numerical composition remainder until the listed spatial/C6 K55 derivatives are generated.",
+          "status": "fail_closed_requires_C6_spatial_frequency_symbol_bounds",
+          "time_K55_order_0_bound_available": true
+        },
+        "scope": "The heat identity, amplitude algebra, Schur constant, and derivative requirements are certified prerequisites, but this candidate cannot receive a numerical composition remainder until the listed spatial/C6 K55 derivatives are generated.",
+        "status": "pass_exact_anti_wick_composition_prerequisite_audit_C6_required"
+      },
+      "name": "quartic_linear_x_anti_wick_composition_derivative_audit",
+      "scope": "Gaussian anti-Wick quantization has Weyl symbol exp((h/4)Delta)K, so pointwise KP=P^dagger K does not remove the smoothing defect. An exact annular positive energy, kernel-amplitude algebra, 1/(8pi) Schur coefficient, and 2x2 smoothing witness pass. The executable audit identifies only four missing pairs: (2,4), (0,6), (0,5), and (1,4).",
+      "status": "pass"
+    },
+    {
       "claim": "The named quartic-Horndeski action has a positive three-mode reduced quadratic Hamiltonian on its healthy flat constant-timelike-gradient patch.",
       "evidence": {
         "action_binding_passed": true,
@@ -9204,10 +9721,10 @@
   ],
   "counts": {
     "failed": 0,
-    "passed": 114,
-    "total": 114
+    "passed": 117,
+    "total": 117
   },
-  "created_utc": "2026-08-10T04:33:04.727694+00:00",
+  "created_utc": "2026-08-10T16:03:29.849727+00:00",
   "field_contract": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\configs\\covariant_field_contract.json",
   "interpretation": "Passing controls validates only the stated algebraic scopes. It is not evidence that a generated gravity candidate is healthy or empirically correct.",
   "schema_version": "sigma-formal-controls-1.0"

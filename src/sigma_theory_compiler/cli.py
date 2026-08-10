@@ -37,9 +37,17 @@ from .observation_eligibility import (
 )
 from .physics_language import compile_physics_program
 from .principal_ir import compile_physical_principal_ir, write_physical_principal_ir
+from .quartic_anti_wick_composition_campaign import (
+    run_quartic_anti_wick_composition_campaign,
+    write_quartic_anti_wick_composition_campaign,
+)
 from .quartic_auxiliary_time_campaign import (
     run_quartic_auxiliary_time_campaign,
     write_quartic_auxiliary_time_campaign,
+)
+from .quartic_bounded_frequency_defect_campaign import (
+    run_quartic_bounded_frequency_defect_campaign,
+    write_quartic_bounded_frequency_defect_campaign,
 )
 from .quartic_constraint_reconstruction_campaign import (
     run_quartic_constraint_reconstruction_campaign,
@@ -52,6 +60,10 @@ from .quartic_coordinate_jet_tube_campaign import (
 from .quartic_dirac_hamiltonian_campaign import (
     run_quartic_dirac_hamiltonian_campaign,
     write_quartic_dirac_hamiltonian_campaign,
+)
+from .quartic_dyadic_localization_campaign import (
+    run_quartic_dyadic_localization_campaign,
+    write_quartic_dyadic_localization_campaign,
 )
 from .quartic_euler_remainder_majorant_campaign import (
     run_quartic_euler_remainder_majorant_campaign,
@@ -761,6 +773,42 @@ def _parser() -> argparse.ArgumentParser:
     )
     quartic_time_atom.add_argument("--config", type=Path, required=True)
     quartic_time_atom.add_argument("--output", type=Path, required=True)
+    quartic_bounded_frequency = subparsers.add_parser(
+        "quartic-bounded-frequency-defect-campaign",
+        help="Bound the fixed physical low-frequency P55 symmetrization defect",
+    )
+    quartic_bounded_frequency.add_argument(
+        "--low-frequency-campaign", type=Path, required=True
+    )
+    quartic_bounded_frequency.add_argument(
+        "--evolution-campaign", type=Path, required=True
+    )
+    quartic_bounded_frequency.add_argument(
+        "--first-order-campaign", type=Path, required=True
+    )
+    quartic_bounded_frequency.add_argument("--config", type=Path, required=True)
+    quartic_bounded_frequency.add_argument("--output", type=Path, required=True)
+    quartic_dyadic = subparsers.add_parser(
+        "quartic-dyadic-localization-campaign",
+        help="Certify the H7 dyadic framework and audit coefficient derivative loss",
+    )
+    quartic_dyadic.add_argument("--r3-campaign", type=Path, required=True)
+    quartic_dyadic.add_argument("--evolution-campaign", type=Path, required=True)
+    quartic_dyadic.add_argument("--first-order-campaign", type=Path, required=True)
+    quartic_dyadic.add_argument("--config", type=Path, required=True)
+    quartic_dyadic.add_argument("--output", type=Path, required=True)
+    quartic_anti_wick = subparsers.add_parser(
+        "quartic-anti-wick-composition-campaign",
+        help="Audit exact anti-Wick composition and the required C6 symbol orders",
+    )
+    quartic_anti_wick.add_argument(
+        "--low-frequency-campaign", type=Path, required=True
+    )
+    quartic_anti_wick.add_argument("--evolution-campaign", type=Path, required=True)
+    quartic_anti_wick.add_argument("--r3-campaign", type=Path, required=True)
+    quartic_anti_wick.add_argument("--time-atom-campaign", type=Path, required=True)
+    quartic_anti_wick.add_argument("--config", type=Path, required=True)
+    quartic_anti_wick.add_argument("--output", type=Path, required=True)
     dhost_compile = subparsers.add_parser(
         "dhost-pack-compile",
         help="Compile a reduced rank-one quadratic DHOST kinetic family",
@@ -2001,6 +2049,104 @@ def main(argv: list[str] | None = None) -> int:
             0
             if result["status"]
             == "pass_all_12_H7_closed_coordinate_atom_time_budgets"
+            else 1
+        )
+    if args.command == "quartic-bounded-frequency-defect-campaign":
+        low_frequency_campaign = json.loads(
+            args.low_frequency_campaign.read_text(encoding="utf-8")
+        )
+        evolution_campaign = json.loads(
+            args.evolution_campaign.read_text(encoding="utf-8")
+        )
+        first_order_campaign = json.loads(
+            args.first_order_campaign.read_text(encoding="utf-8")
+        )
+        config = json.loads(args.config.read_text(encoding="utf-8"))
+        result = run_quartic_bounded_frequency_defect_campaign(
+            low_frequency_campaign,
+            evolution_campaign,
+            first_order_campaign,
+            config,
+        )
+        path = write_quartic_bounded_frequency_defect_campaign(result, args.output)
+        print(f"status={result['status']}")
+        print(f"selected={result['counts']['selected']}")
+        print(
+            "compact_frequency_defect_lemmas_passed="
+            f"{result['counts']['compact_frequency_defect_lemmas_passed']}"
+        )
+        print(f"report={path}")
+        return (
+            0
+            if result["status"]
+            == "pass_all_12_actual_P55_compact_frequency_defect_KN_L2_lemmas"
+            else 1
+        )
+    if args.command == "quartic-dyadic-localization-campaign":
+        r3_campaign = json.loads(args.r3_campaign.read_text(encoding="utf-8"))
+        evolution_campaign = json.loads(
+            args.evolution_campaign.read_text(encoding="utf-8")
+        )
+        first_order_campaign = json.loads(
+            args.first_order_campaign.read_text(encoding="utf-8")
+        )
+        config = json.loads(args.config.read_text(encoding="utf-8"))
+        result = run_quartic_dyadic_localization_campaign(
+            r3_campaign, evolution_campaign, first_order_campaign, config
+        )
+        path = write_quartic_dyadic_localization_campaign(result, args.output)
+        print(f"status={result['status']}")
+        print(f"selected={result['counts']['selected']}")
+        print(
+            "dyadic_local_frameworks_passed="
+            f"{result['counts']['dyadic_local_frameworks_passed']}"
+        )
+        print(
+            "full_H7_commutators_closed="
+            f"{result['counts']['full_H7_commutators_closed']}"
+        )
+        print(f"report={path}")
+        return (
+            0
+            if result["status"]
+            == "pass_all_12_H7_dyadic_local_frameworks_global_commutator_fail_closed"
+            else 1
+        )
+    if args.command == "quartic-anti-wick-composition-campaign":
+        low_frequency_campaign = json.loads(
+            args.low_frequency_campaign.read_text(encoding="utf-8")
+        )
+        evolution_campaign = json.loads(
+            args.evolution_campaign.read_text(encoding="utf-8")
+        )
+        r3_campaign = json.loads(args.r3_campaign.read_text(encoding="utf-8"))
+        time_atom_campaign = json.loads(
+            args.time_atom_campaign.read_text(encoding="utf-8")
+        )
+        config = json.loads(args.config.read_text(encoding="utf-8"))
+        result = run_quartic_anti_wick_composition_campaign(
+            low_frequency_campaign,
+            evolution_campaign,
+            r3_campaign,
+            time_atom_campaign,
+            config,
+        )
+        path = write_quartic_anti_wick_composition_campaign(result, args.output)
+        print(f"status={result['status']}")
+        print(f"selected={result['counts']['selected']}")
+        print(
+            "exact_composition_prerequisite_audits_passed="
+            f"{result['counts']['exact_composition_prerequisite_audits_passed']}"
+        )
+        print(
+            "anti_wick_compositions_closed="
+            f"{result['counts']['anti_wick_compositions_closed']}"
+        )
+        print(f"report={path}")
+        return (
+            0
+            if result["status"]
+            == "pass_exact_anti_wick_composition_prerequisite_audit_C6_required"
             else 1
         )
     if args.command == "dhost-pack-compile":

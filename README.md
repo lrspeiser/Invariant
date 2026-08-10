@@ -664,6 +664,55 @@ solved-source Frechet envelopes close all four required `L^infinity` time jets a
 five spatial derivatives of `p_0` in `L^infinity`; `H^7` is the smallest integer order.
 The explicit anti-Wick/evolution composition and dyadic sum remain the next gates.
 
+The next three operator audits can now run independently:
+
+```powershell
+python -m sigma_theory_compiler quartic-bounded-frequency-defect-campaign `
+  --low-frequency-campaign runs/physics-language/quartic-low-frequency-symbol-extension-campaign/campaign.json `
+  --evolution-campaign runs/physics-language/quartic-evolution-symbol-campaign/campaign.json `
+  --first-order-campaign runs/physics-language/quartic-first-order-reduction-campaign/campaign.json `
+  --config configs/backgrounds/quartic_bounded_frequency_defect_campaign.json `
+  --output runs/physics-language/quartic-bounded-frequency-defect-campaign
+
+python -m sigma_theory_compiler quartic-dyadic-localization-campaign `
+  --r3-campaign runs/physics-language/quartic-r3-sobolev-calculus-campaign/campaign.json `
+  --evolution-campaign runs/physics-language/quartic-evolution-symbol-campaign/campaign.json `
+  --first-order-campaign runs/physics-language/quartic-first-order-reduction-campaign/campaign.json `
+  --config configs/backgrounds/quartic_dyadic_localization_campaign.json `
+  --output runs/physics-language/quartic-dyadic-localization-campaign
+
+python -m sigma_theory_compiler quartic-anti-wick-composition-campaign `
+  --low-frequency-campaign runs/physics-language/quartic-low-frequency-symbol-extension-campaign/campaign.json `
+  --evolution-campaign runs/physics-language/quartic-evolution-symbol-campaign/campaign.json `
+  --r3-campaign runs/physics-language/quartic-r3-sobolev-calculus-campaign/campaign.json `
+  --time-atom-campaign runs/physics-language/quartic-time-atom-budget-campaign/campaign.json `
+  --config configs/backgrounds/quartic_anti_wick_composition_campaign.json `
+  --output runs/physics-language/quartic-anti-wick-composition-campaign
+```
+
+The bounded physical-frequency defect now has an explicit uniform `L2` estimate. With
+`D=rho(|xi|)(K0 P55-P55^dagger K0)`, exact linearity of the physical pencil gives
+`partial_xi^2 P55=0`, while four cutoff derivatives and two integrations by parts give
+`||Op(D)|| <= (1322334736/3) kappa_c a_c`. The critical scale contract is executable:
+high shells use `K_ext(x,eta/h)`, so their defect vanishes; incorrectly reusing
+`K_ext(x,eta)` leaves an `h^-1` defect and rejects.
+
+The Littlewood-Paley family also passes as an exact local framework. Its ordinary
+simultaneous overlap is two, enlarged simultaneous overlap is four, one enlarged shell
+interacts with five ordinary shells, and the conservative `H7` equivalence is
+`2^-15 ||u||_H7^2 <= Q7(u) <= 2^14 ||u||_H7^2`. The full commutator is deliberately
+not marked closed: the current state gives only `H6` coefficient fields, and an exact
+compact-frequency Schwartz-packet family produces an `N`-growing `H7` commutator. The next valid
+step is a paradifferential/good-unknown theorem, or a larger regularity hierarchy.
+
+Finally, Gaussian anti-Wick quantization composes through the Weyl symbol
+`exp((h/4) Delta_(x,xi))K`, not through pointwise `K`. An exact annular construction,
+composition-amplitude algebra, and the Schur coefficient `1/(8*pi)` now pass as prerequisites, including a
+`2x2` negative witness for the otherwise omitted heat-smoothing defect. The current
+`C4` hierarchy cannot close that amplitude: it must be extended only at the four mixed
+pairs `(2,4)`, `(0,6)`, `(0,5)`, and `(1,4)`. This is now a precise generator target,
+not an unspecified pseudodifferential remainder.
+
 The tube bounds 153 normalized coordinate atoms: ten metric deviations, 44 first partials,
 and 99 acceleration-free symmetric second partials. The exact orthonormal metric-basis identity
 and Neumann/product majorants prove that a common `1e-13` component cube maps strictly inside the
