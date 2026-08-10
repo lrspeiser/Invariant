@@ -309,10 +309,12 @@ one configured atom pair in rows 0--4. Global `D2F`--`D4F` operator envelopes no
 component enumeration for the pointwise Taylor remainder, tube Lipschitz bounds, and the complete
 all-direction frozen `D2F` `H7` bilinear estimate. The remaining proof work is the spatially
 variable Bony/paracomposition remainder, remote paraproduct commutator, monotone global dyadic
-summation, and then the nonlinear bootstrap/lifespan. The explicit family
-`f_N=N^-4 sin(Nx)` has uniformly bounded derivatives through order four but unbounded fifth
-derivative, so the current `C4` source envelopes cannot close that step; a conservative route needs
-operator envelopes through order nine and a quantitative vector-valued paracomposition theorem.
+summation, and then the nonlinear bootstrap/lifespan. Exact rational Taylor-jet recurrences now
+provide solved-source operator envelopes through order nine for all 12 candidates, so the direct
+derivative-order gap in `D_x^7(D2F(Y))` is closed. The remaining conservative route needs a
+quantitative vector-valued `153 -> 11` paracomposition theorem, an explicit `H7/H6/H5` regularity
+ledger for the coordinate atoms, every variable good-unknown Bony branch, and remote/resonant shell
+constants before the global sum can be applied.
 
 The state-to-jet side now has a quantitative coordinate tube. A common `1e-13` bound on 153
 normalized coordinate 2-jet atoms implies strict component bounds for `nabla(phi)`,

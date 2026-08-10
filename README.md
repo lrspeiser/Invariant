@@ -182,6 +182,16 @@ for exactly mapped actions but was not reached by these static formulas. The Sol
 reproduces five action-bound GR controls while opening no observations and blocks every candidate
 without its own exact weak-field bundle.
 
+A bounded production-provenance audit subsequently constructed exact typed covariant maps for 2 of
+those 70 blocked identities: `q` and `q-(sqrt(1+x)-1)`. Both then failed the higher-jet formal
+preflight (rank loss and a nonpositive homogeneous acceleration kinetic coefficient, respectively),
+so neither was promoted; the other 68 remain blocked rather than guessed. An isolated
+multi-producer streaming scheduler now leases disjoint Rust ranges transactionally and feeds the
+same single cached CUDA owner. On an identical eight-million-formula benchmark, four producers
+improved source throughput from 1.36 to 3.52 million formulas per second (2.59x wall speedup). It is
+not yet wired into the durable service lifecycle, and the low physical GPU utilization continues to
+show that formula production and verification, not CUDA screening, are the current bottleneck.
+
 The first sealed candidate-data target is now defined as observable-to-observable galaxy discovery:
 audited light/gas/angular inputs predict held-out spectral-line kinematics, with whole-galaxy splits,
 zero object-specific gravity parameters, and no halo or redshift-distance labels. The frozen formula
@@ -766,9 +776,11 @@ background-subtracted `L2` source convention. A quantitative frozen-reference bi
 is bounded for the configured atom pair in rows 0--4. Global `D2F`--`D4F` operator envelopes now
 also certify the full pointwise Taylor remainder, tube Lipschitz bounds, and the all-direction frozen
 `D2F` `H7` bilinear estimate without enumerating every tensor component. The spatially variable
-Bony/paracomposition remainder, global `H7` closure, and nonlinear lifespan remain open: a direct
-oscillatory control proves that the available `C4` envelopes cannot supply the required fifth and
-higher coefficient derivatives.
+Bony/paracomposition remainder, global `H7` closure, and nonlinear lifespan remain open. Exact
+rational solved-source recurrences now extend the operator envelopes through `D9F`, closing the
+previous derivative-order shortage for `D_x^7(D2F(Y))`. What remains is an instantiated
+vector-valued `153 -> 11` `H7` paracomposition theorem, the actual `H7/H6/H5` coordinate-atom
+topology, every good-unknown Bony cancellation branch, and remote/resonant shell summation.
 
 The tube bounds 153 normalized coordinate atoms: ten metric deviations, 44 first partials,
 and 99 acceleration-free symmetric second partials. The exact orthonormal metric-basis identity

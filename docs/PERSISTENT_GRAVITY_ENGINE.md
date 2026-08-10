@@ -165,6 +165,16 @@ portable blocks and registered all 5,855 identities. The static covariant-lift g
 for the forbidden baryonic action atom and blocked 70 for a missing exact nonlinear lift, leaving
 zero candidates eligible for the downstream ADM/Dirac/principal evaluator.
 
+The follow-up production-provenance audit resolved exact covariant maps for 2 of the 70 blocked
+identities and left 68 fail-closed. Both resolved identities failed higher-jet formal preflight, so
+the promoted count remains zero. The isolated `rust_parallel_streaming_search.py` runner can lease
+disjoint chunks to several one-thread Rust producers while retaining one cached CUDA consumer,
+heartbeats, crash recovery, exact ordered lineage, and the original data/LLM guardrails. Four
+producers achieved 3.52 million source formulas per second on the same eight-million-formula range,
+a 2.59x wall improvement over one producer. This runner is validated but is not yet connected to
+the durable start/status/stop/resume/export lifecycle; production templates should benchmark 8,
+12, and 16 producers before choosing the machine's saturation point.
+
 ## Current operational boundary
 
 The service executes the existing deterministic grammar and sampled-static evaluator. A separate
