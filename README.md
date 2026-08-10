@@ -282,6 +282,13 @@ promotion/formal overlay, grammar-v3 evidence, Pareto queue, and follow-up servi
 live SQLite database with `mode=ro` and `query_only`, separates scheduler occupancy from physical
 NVML GPU utilization, reports the hard `$500` LLM ledger, and refuses overlapping outcome totals,
 host paths, and secret-bearing fields. Volatile telemetry stays outside the deterministic core hash.
+The snapshot now renders a standalone static HTML dashboard and persistent top-10 scientific
+leaderboards for formal/ADM-Dirac, hyperbolicity/common-cone, nonlinear energy, Solar controls,
+galaxy direct observables, lensing/cluster, simplicity, internal non-equivalence, and computational
+robustness. GR ranks first in the Solar known-answer table as a calibration control. Missing or
+blocked evidence never enters a ranked list, controls cannot promote generated candidates, and
+each row retains exact metrics, data class, completeness, blocker, uncertainty, and artifact
+lineage. Full tables plus three deterministic history revisions and category deltas are exported.
 A focused energy audit shows both Aether parameter points satisfy the linearized mode-energy and
 restricted theorem coupling inequalities, but their unconstrained phase spaces include twist: an
 exact unit-Aether witness has `(u wedge du)_txy=-1` at the origin. Because that witness is not an

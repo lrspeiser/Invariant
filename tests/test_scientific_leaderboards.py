@@ -1,0 +1,117 @@
+from __future__ import annotations
+
+import copy
+import json
+from pathlib import Path
+
+import pytest
+
+from sigma_theory_compiler.scientific_leaderboards import (
+    CATEGORIES,
+    build_scientific_leaderboards,
+    load_leaderboard_config,
+    validate_scientific_leaderboards,
+)
+
+ROOT = Path(__file__).resolve().parents[1]
+CONFIG = ROOT / "configs" / "scientific_leaderboards.json"
+
+
+def test_category_local_rankings_keep_missing_evidence_unranked() -> None:
+    board = build_scientific_leaderboards(ROOT, load_leaderboard_config(CONFIG))
+    assert tuple(board["categories"]) == CATEGORIES
+    formal = board["categories"]["formal_adm_dirac"]
+    assert formal["top10"][0]["candidate_id"] == "KNOWN-ANSWER-EINSTEIN-AETHER"
+    assert formal["top10"][0]["role"] == "known_answer_control"
+    assert formal["top10"][0]["promotion_eligible"] is False
+    assert formal["top10"][1]["candidate_id"] == "GF-cb4ebf3da5a74582"
+    assert formal["top10"][1]["evidence_status"] == "reject"
+    assert all(row["rank"] is None for row in formal["unranked_blocked_or_untested"])
+
+    solar = board["categories"]["solar_known_answer"]
+    assert solar["top10"][0]["candidate_id"] == "KNOWN-ANSWER-EINSTEIN-HILBERT"
+    assert solar["top10"][0]["metrics"] == {
+        "passed_control_count": 5,
+        "total_control_count": 5,
+    }
+    assert solar["unranked_blocked_or_untested"][0]["evidence_status"] == "blocked"
+
+    assert board["categories"]["lensing_cluster"]["ranked_count"] == 0
+    assert board["categories"]["galaxy_direct_observable"]["ranked_count"] == 0
+    assert board["categories"]["nonlinear_energy"]["ranked_count"] == 0
+    assert board["categories"]["simplicity_complexity"]["ranked_count"] == 6
+    assert board["categories"]["computational_robustness"]["ranked_count"] == 6
+
+
+def test_ranked_rows_are_comparable_and_history_replay_is_idempotent() -> None:
+    config = load_leaderboard_config(CONFIG)
+    first = build_scientific_leaderboards(ROOT, config)
+    replay = build_scientific_leaderboards(ROOT, config, first)
+    assert first["leaderboard_root_sha256"] == replay["leaderboard_root_sha256"]
+    assert first["history"] == replay["history"]
+    assert len(replay["history"]) == 1
+    for category in replay["categories"].values():
+        ranked_classes = {row["data_class"] for row in category["full_ranked"]}
+        assert len(ranked_classes) <= 1
+        assert all(row["gate_completeness"] == "complete_for_category" for row in category["full_ranked"])
+        assert all(row["evidence_status"] != "blocked" for row in category["full_ranked"])
+    encoded = json.dumps(replay).lower()
+    assert "truth_score" not in encoded
+    assert "overall_score" not in encoded
+    assert replay["data_eligibility"] == {
+        "observational_data_opened": False,
+        "dark_matter_or_halo_inputs": False,
+        "redshift_distance_inputs": False,
+        "paid_llm_calls": False,
+    }
+
+
+def test_source_tamper_and_forbidden_data_class_fail_closed() -> None:
+    config = load_leaderboard_config(CONFIG)
+    config["sources"]["solar_known_answer"]["file_sha256"] = "0" * 64
+    with pytest.raises(ValueError, match="file hash mismatch"):
+        build_scientific_leaderboards(ROOT, config)
+
+    config = load_leaderboard_config(CONFIG)
+    config["data_eligibility"]["dark_matter_or_halo_inputs"] = True
+    with pytest.raises(ValueError, match="eligibility"):
+        build_scientific_leaderboards(ROOT, config)
+
+
+def test_negative_controls_reject_score_collapse_mixing_and_control_leakage() -> None:
+    board = build_scientific_leaderboards(ROOT, load_leaderboard_config(CONFIG))
+
+    tampered = copy.deepcopy(board)
+    tampered["truth_score"] = 1.0
+    with pytest.raises(ValueError, match="truth-score"):
+        validate_scientific_leaderboards(tampered)
+
+    tampered = copy.deepcopy(board)
+    formal = tampered["categories"]["formal_adm_dirac"]
+    formal["full_ranked"][0]["data_class"] = "solar_metric"
+    with pytest.raises(ValueError, match="mixing"):
+        validate_scientific_leaderboards(tampered)
+
+    tampered = copy.deepcopy(board)
+    tampered["categories"]["solar_known_answer"]["full_ranked"][0][
+        "promotion_eligible"
+    ] = True
+    with pytest.raises(ValueError, match="promotion"):
+        validate_scientific_leaderboards(tampered)
+
+    for forbidden in (
+        "observational_data_opened",
+        "dark_matter_or_halo_inputs",
+        "redshift_distance_inputs",
+    ):
+        tampered = copy.deepcopy(board)
+        tampered["data_eligibility"][forbidden] = True
+        with pytest.raises(ValueError, match="forbidden data"):
+            validate_scientific_leaderboards(tampered)
+
+    tampered = copy.deepcopy(board)
+    tampered["categories"]["simplicity_complexity"]["full_ranked"][0]["metrics"][
+        "halo_target"
+    ] = 1
+    with pytest.raises(ValueError, match="inferred target"):
+        validate_scientific_leaderboards(tampered)

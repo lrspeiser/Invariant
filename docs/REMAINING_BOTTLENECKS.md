@@ -542,6 +542,12 @@ A unified observability snapshot now reads the watchdog SQLite only through `mod
 promotion, grammar, Pareto, follow-up, GPU, deadline, and LLM-budget state in one portable record.
 Scheduler occupancy and physical NVML utilization are deliberately separate, overlapping pipeline
 counts are not summed, and volatile timestamps/sensor samples do not enter the deterministic core.
+The read-only refresh also builds a static HTML dashboard with per-category top-10 and full-table
+exports. GR is first in the Solar known-answer category strictly as a calibration control;
+generated candidates rank only on completed comparable evidence within their own category.
+Blocked/untested rows remain separate, category data classes cannot mix, and three deterministic
+history revisions expose rank deltas without introducing a global truth score. Galaxy and
+lensing/cluster leaderboards remain empty until sealed candidate prediction evidence exists.
 For the two Aether seeds, the first nonlinear-energy premise is now exact: both rational points pass
 the five linearized mode-energy and restricted coupling inequalities, but neither action imposes
 hypersurface orthogonality. The normalized field-space witness

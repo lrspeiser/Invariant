@@ -9,7 +9,11 @@ from pathlib import Path
 
 import pytest
 
-from sigma_theory_compiler.unified_engine_status import build_unified_snapshot, load_config
+from sigma_theory_compiler.unified_engine_status import (
+    build_unified_snapshot,
+    load_config,
+    main,
+)
 
 REPO = Path(__file__).resolve().parents[1]
 SOURCE_PATHS = [
@@ -182,3 +186,111 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
         "paid_llm_in_streaming_promotion_grammar": False,
         "redshift_distance_inputs": False,
     }
+    live = json.loads(
+        (REPO / "runs/engine/unified-engine-status-live-refresh.json").read_text()
+    )
+    dashboard = (REPO / "runs/engine/unified-engine-dashboard.html").read_text(
+        encoding="utf-8"
+    )
+    assert hashlib.sha256(_canonical(live["core"])).hexdigest() == live[
+        "core_content_sha256"
+    ]
+    assert live["core_content_sha256"] in dashboard
+    leaderboards = live["core"]["scientific_leaderboards"]
+    assert len(leaderboards["categories"]) == 9
+    assert len(leaderboards["history"]) >= 1
+    assert all(
+        "top10" in category and "full_ranked" in category
+        for category in leaderboards["categories"].values()
+    )
+    assert len(dashboard.encode()) < 131072
+    assert "C:\\" not in dashboard
+
+
+def _write_fixture_config(root: Path, config: dict[str, object]) -> Path:
+    body = {
+        "schema_version": "sigma-unified-engine-status-config-1.0",
+        **config,
+    }
+    body["content_sha256"] = hashlib.sha256(_canonical(body)).hexdigest()
+    path = root / "configs/unified_engine_status.json"
+    path.write_text(json.dumps(body, indent=2), encoding="utf-8")
+    return path
+
+
+def test_standalone_refresh_and_dashboard_keep_watchdog_database_read_only(
+    tmp_path: Path,
+) -> None:
+    root, config, database = _fixture(tmp_path)
+    _write_fixture_config(root, config)
+    before = hashlib.sha256(database.read_bytes()).hexdigest()
+    assert main([
+        "refresh",
+        "--project-root",
+        str(root),
+        "--output",
+        "runs/engine/refreshed.json",
+        "--dashboard-output",
+        "runs/engine/dashboard.html",
+        "--maximum-output-bytes",
+        "131072",
+        "--disable-gpu-sample",
+        "--sampled-at-utc",
+        "2026-08-10T20:10:00+00:00",
+    ]) == 0
+    after = hashlib.sha256(database.read_bytes()).hexdigest()
+    assert before == after
+
+    snapshot_path = root / "runs/engine/refreshed.json"
+    dashboard_path = root / "runs/engine/dashboard.html"
+    snapshot = json.loads(snapshot_path.read_text())
+    dashboard = dashboard_path.read_text(encoding="utf-8")
+    assert snapshot["volatile"]["physical_gpu"] == {
+        "availability": "disabled",
+        "source": "disabled_by_operator",
+    }
+    assert len(snapshot_path.read_bytes()) < 131072
+    assert len(dashboard_path.read_bytes()) < 131072
+    assert "Scheduler lanes" in dashboard
+    assert "Physical hardware sample" in dashboard
+    assert "C:\\" not in dashboard
+
+    assert main([
+        "export-dashboard",
+        "--project-root",
+        str(root),
+        "--snapshot",
+        "runs/engine/refreshed.json",
+        "--output",
+        "runs/engine/dashboard-replay.html",
+        "--maximum-output-bytes",
+        "131072",
+    ]) == 0
+    assert (root / "runs/engine/dashboard-replay.html").read_bytes() == dashboard_path.read_bytes()
+
+
+def test_standalone_output_budget_and_path_escape_fail_closed(tmp_path: Path) -> None:
+    root, config, _ = _fixture(tmp_path)
+    _write_fixture_config(root, config)
+    output = root / "runs/engine/too-large.json"
+    with pytest.raises(RuntimeError, match="bounded JSON output"):
+        main([
+            "refresh",
+            "--project-root",
+            str(root),
+            "--output",
+            "runs/engine/too-large.json",
+            "--maximum-output-bytes",
+            "4096",
+            "--disable-gpu-sample",
+        ])
+    assert not output.exists()
+    with pytest.raises(ValueError, match="escapes project root"):
+        main([
+            "refresh",
+            "--project-root",
+            str(root),
+            "--output",
+            "../escaped.json",
+            "--disable-gpu-sample",
+        ])

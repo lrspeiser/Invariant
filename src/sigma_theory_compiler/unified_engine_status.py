@@ -7,6 +7,7 @@ an explicitly separate ``volatile`` hardware/freshness observation.
 
 from __future__ import annotations
 
+import argparse
 import hashlib
 import json
 import re
@@ -410,3 +411,141 @@ def load_config(path: Path) -> dict[str, Any]:
 def write_snapshot(path: Path, snapshot: Mapping[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(snapshot, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def _resolve_inside(project_root: Path, value: str) -> Path:
+    root = project_root.resolve()
+    candidate = (root / value).resolve()
+    if candidate != root and root not in candidate.parents:
+        raise ValueError("output or input path escapes project root")
+    return candidate
+
+
+def _bounded_write(project_root: Path, path: Path, payload: bytes, maximum_bytes: int) -> None:
+    if not 4096 <= maximum_bytes <= 4 * 1024 * 1024:
+        raise ValueError("maximum output bytes must be between 4096 and 4194304")
+    target = path.resolve()
+    root = project_root.resolve()
+    if target == root or root not in target.parents:
+        raise ValueError("output path escapes project root")
+    if len(payload) > maximum_bytes:
+        raise RuntimeError(
+            f"bounded output exceeds maximum: {len(payload)} > {maximum_bytes} bytes"
+        )
+    target.parent.mkdir(parents=True, exist_ok=True)
+    temporary = target.with_name(target.name + ".tmp")
+    temporary.write_bytes(payload)
+    temporary.replace(target)
+
+
+def _load_snapshot(path: Path) -> dict[str, Any]:
+    snapshot = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(snapshot, dict) or set(snapshot) != {
+        "core",
+        "core_content_sha256",
+        "volatile",
+    }:
+        raise ValueError("unified status snapshot shape is invalid")
+    if _sha(snapshot["core"]) != snapshot["core_content_sha256"]:
+        raise ValueError("unified status snapshot core hash mismatch")
+    _assert_redacted(snapshot)
+    return snapshot
+
+
+def _parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(description="Read-only Sigma engine status exporter")
+    subparsers = parser.add_subparsers(dest="command", required=True)
+    refresh = subparsers.add_parser("refresh", help="refresh JSON and optional HTML")
+    refresh.add_argument("--project-root", default=".")
+    refresh.add_argument("--config", default="configs/unified_engine_status.json")
+    refresh.add_argument("--output", default="runs/engine/unified-engine-status-refresh.json")
+    refresh.add_argument("--dashboard-output")
+    refresh.add_argument(
+        "--leaderboard-config", default="configs/scientific_leaderboards.json"
+    )
+    refresh.add_argument("--disable-leaderboards", action="store_true")
+    refresh.add_argument("--maximum-output-bytes", type=int, default=1_048_576)
+    refresh.add_argument("--disable-gpu-sample", action="store_true")
+    refresh.add_argument("--sampled-at-utc")
+    dashboard = subparsers.add_parser("export-dashboard", help="render existing JSON as HTML")
+    dashboard.add_argument("--project-root", default=".")
+    dashboard.add_argument("--snapshot", default="runs/engine/unified-engine-status-refresh.json")
+    dashboard.add_argument("--output", default="runs/engine/unified-engine-dashboard.html")
+    dashboard.add_argument("--maximum-output-bytes", type=int, default=1_048_576)
+    return parser
+
+
+def main(argv: list[str] | None = None) -> int:
+    from .unified_engine_dashboard import render_dashboard, validate_dashboard_input
+
+    arguments = _parser().parse_args(argv)
+    root = Path(arguments.project_root).resolve()
+    if arguments.command == "refresh":
+        config_path = _resolve_inside(root, arguments.config)
+        output_path = _resolve_inside(root, arguments.output)
+        timestamp = _parse_utc(arguments.sampled_at_utc) if arguments.sampled_at_utc else None
+        gpu = (
+            {"availability": "disabled", "source": "disabled_by_operator"}
+            if arguments.disable_gpu_sample
+            else None
+        )
+        snapshot = build_unified_snapshot(
+            root, load_config(config_path), now_utc=timestamp, physical_gpu=gpu
+        )
+        leaderboard_path = _resolve_inside(root, arguments.leaderboard_config)
+        if not arguments.disable_leaderboards and leaderboard_path.is_file():
+            from .scientific_leaderboards import (
+                build_scientific_leaderboards,
+                load_leaderboard_config,
+            )
+
+            previous = None
+            if output_path.is_file():
+                try:
+                    previous_snapshot = _load_snapshot(output_path)
+                    previous = previous_snapshot["core"].get("scientific_leaderboards")
+                except (OSError, ValueError, json.JSONDecodeError):
+                    previous = None
+            snapshot["core"]["scientific_leaderboards"] = build_scientific_leaderboards(
+                root, load_leaderboard_config(leaderboard_path), previous
+            )
+            snapshot["core_content_sha256"] = _sha(snapshot["core"])
+            _assert_redacted(snapshot)
+        json_bytes = (json.dumps(snapshot, indent=2, sort_keys=True) + "\n").encode()
+        html_bytes = None
+        dashboard_path = None
+        if arguments.dashboard_output:
+            dashboard_path = _resolve_inside(root, arguments.dashboard_output)
+            html_bytes = render_dashboard(snapshot).encode()
+            if len(html_bytes) > arguments.maximum_output_bytes:
+                raise RuntimeError("bounded dashboard output exceeds maximum")
+        if len(json_bytes) > arguments.maximum_output_bytes:
+            raise RuntimeError("bounded JSON output exceeds maximum")
+        if len(json_bytes) + (len(html_bytes) if html_bytes is not None else 0) > (
+            arguments.maximum_output_bytes
+        ):
+            raise RuntimeError("bounded combined output exceeds maximum")
+        _bounded_write(root, output_path, json_bytes, arguments.maximum_output_bytes)
+        if dashboard_path is not None and html_bytes is not None:
+            _bounded_write(root, dashboard_path, html_bytes, arguments.maximum_output_bytes)
+        print(json.dumps({
+            "core_content_sha256": snapshot["core_content_sha256"],
+            "json_bytes": len(json_bytes),
+            "dashboard_bytes": len(html_bytes) if html_bytes is not None else 0,
+        }, sort_keys=True))
+        return 0
+    snapshot_path = _resolve_inside(root, arguments.snapshot)
+    output_path = _resolve_inside(root, arguments.output)
+    snapshot = _load_snapshot(snapshot_path)
+    validate_dashboard_input(snapshot, _sha(snapshot["core"]))
+    html_bytes = render_dashboard(snapshot).encode()
+    _bounded_write(root, output_path, html_bytes, arguments.maximum_output_bytes)
+    print(json.dumps({
+        "core_content_sha256": snapshot["core_content_sha256"],
+        "dashboard_bytes": len(html_bytes),
+    }, sort_keys=True))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

@@ -1,0 +1,133 @@
+"""Small dependency-free HTML view for a unified engine status snapshot."""
+
+from __future__ import annotations
+
+import html
+import json
+from collections.abc import Mapping
+from typing import Any
+
+
+def _escape(value: Any) -> str:
+    return html.escape(str(value), quote=True)
+
+
+def _metric(label: str, value: Any, css_class: str = "") -> str:
+    return (
+        f'<div class="metric {css_class}"><span>{_escape(label)}</span>'
+        f"<strong>{_escape(value)}</strong></div>"
+    )
+
+
+def _outcomes(values: Mapping[str, Any]) -> str:
+    ordered = [key for key in ("pass", "reject", "block") if key in values]
+    ordered.extend(sorted(set(values) - set(ordered)))
+    return "".join(
+        _metric(name, "not reported" if values[name] is None else values[name], name)
+        for name in ordered
+    )
+
+
+def render_dashboard(snapshot: Mapping[str, Any]) -> str:
+    """Render only the redacted snapshot; this function never opens source files."""
+    core = snapshot["core"]
+    volatile = snapshot["volatile"]
+    campaign = core["campaign_watchdog"]
+    gpu = volatile["physical_gpu"]
+    lanes = core["scheduler_lanes"]
+    lane_rows = "".join(
+        "<tr>"
+        f"<td>{_escape(name)}</td><td>{_escape(lane['running'])}</td>"
+        f"<td>{_escape(lane['queued'])}</td><td>{_escape(lane['capacity'])}</td>"
+        f"<td>{_escape(lane['scheduler_occupancy_fraction'])}</td>"
+        "</tr>"
+        for name, lane in sorted(lanes.items())
+    )
+    blockers = core["followup_service"]["current_missing_evaluator_blockers"]
+    blocker_rows = "".join(
+        f"<li><code>{_escape(name)}</code><strong>{_escape(count)}</strong></li>"
+        for name, count in sorted(blockers.items())
+    ) or "<li>None</li>"
+    freshness = volatile["campaign_watchdog_freshness"]
+    freshness_text = (
+        freshness["stale_source_reason"] or "fresh under configured threshold"
+    )
+    gpu_metrics = (
+        _metric("Physical GPU utilization", f"{gpu.get('utilization_percent')}%")
+        + _metric(
+            "VRAM",
+            f"{gpu.get('memory_used_mib')} / {gpu.get('memory_total_mib')} MiB",
+        )
+        if gpu.get("availability") == "available"
+        else _metric("Physical GPU telemetry", gpu.get("reason", "unavailable"))
+    )
+    source_revision_count = len(core["source_revisions"])
+    leaderboard_html = _leaderboards_html(core)
+    return f"""<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sigma Gravity Engine Status</title>
+<style>
+:root{{--bg:#0b1020;--panel:#151c31;--line:#2b3657;--text:#e8edf8;--muted:#9eabc7;--green:#4ade80;--red:#fb7185;--amber:#fbbf24;--blue:#60a5fa}}
+*{{box-sizing:border-box}} body{{margin:0;background:var(--bg);color:var(--text);font:14px/1.45 system-ui,sans-serif}} main{{max-width:1180px;margin:auto;padding:28px}} h1{{margin:0;font-size:28px}} h2{{font-size:17px;margin:0 0 14px}} p{{color:var(--muted)}} .head{{display:flex;justify-content:space-between;gap:20px;align-items:start;margin-bottom:22px}} .badge{{padding:7px 11px;border:1px solid var(--line);border-radius:999px;color:var(--green)}} .grid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:14px}} section{{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:17px;margin-bottom:14px}} .metrics{{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:9px}} .metric{{background:#0d1428;border-radius:8px;padding:10px}} .metric span{{display:block;color:var(--muted);font-size:12px}} .metric strong{{font-size:18px}} .pass strong{{color:var(--green)}} .reject strong{{color:var(--red)}} .block strong{{color:var(--amber)}} table{{width:100%;border-collapse:collapse}} th,td{{text-align:left;border-bottom:1px solid var(--line);padding:8px}} th{{color:var(--muted)}} ul{{list-style:none;padding:0;margin:0}} li{{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--line)}} code{{color:var(--blue)}} footer{{color:var(--muted);font-size:12px;margin-top:18px;overflow-wrap:anywhere}}
+</style>
+</head>
+<body><main>
+<div class="head"><div><h1>Sigma Gravity Engine</h1><p>Read-only evidence and execution status</p></div><div class="badge">{_escape(campaign['state'])}</div></div>
+<div class="grid">
+<section><h2>Live campaign evidence</h2><div class="metrics">{_outcomes(campaign['normalized_evidence_outcomes'])}</div><p>Deadline: {_escape(campaign['deadline_utc'])} · {_escape(volatile['deadline_state'])}</p><p>Freshness: {_escape(freshness_text)}</p></section>
+<section><h2>Formal promotion overlay</h2><div class="metrics">{_outcomes(core['promotion_overlay']['formal'])}</div><p>Observational gates opened: {_escape(core['promotion_overlay']['observational_opened'])}</p></section>
+<section><h2>Grammar-v3 candidates</h2><div class="metrics">{_outcomes(core['grammar_parameter_cells']['normalized_scientific_outcomes'])}</div><p>Follow-up packets processed: {_escape(core['followup_service']['processed'])}; deferred: {_escape(core['followup_service']['deferred'])}</p></section>
+<section><h2>Physical hardware sample</h2><div class="metrics">{gpu_metrics}</div><p>Source: {_escape(gpu.get('source', 'not sampled'))}. This is separate from scheduler occupancy.</p></section>
+</div>
+<section><h2>Scheduler lanes</h2><table><thead><tr><th>Lane</th><th>Running</th><th>Queued</th><th>Capacity</th><th>Scheduler occupancy</th></tr></thead><tbody>{lane_rows}</tbody></table></section>
+<div class="grid">
+<section><h2>Current missing-evaluator blockers</h2><ul>{blocker_rows}</ul></section>
+<section><h2>LLM budget ledger</h2><div class="metrics">{_metric('Budget', '$' + str(core['llm']['configured_budget_usd']))}{_metric('Spent', '$' + str(core['llm']['spent_usd']))}{_metric('Reserved', '$' + str(core['llm']['reserved_usd']))}{_metric('Calls', core['llm']['calls_completed'])}</div></section>
+<section><h2>Billion-formula screen</h2><div class="metrics">{_metric('Source formulas', core['billion_formula_streaming']['source_formula_count'])}{_metric('Static survivors', core['billion_formula_streaming']['sampled_static_stage']['pass'])}{_metric('Lift rejected', core['billion_formula_streaming']['promotion_stage']['lift_reject'])}{_metric('Lift blocked', core['billion_formula_streaming']['promotion_stage']['lift_block'])}</div></section>
+</div>
+{leaderboard_html}
+<footer>Core SHA-256: {_escape(snapshot['core_content_sha256'])} · sampled {_escape(volatile['sampled_at_utc'])} · {source_revision_count} immutable source revisions. Cross-pipeline totals are intentionally not summed because candidate sets and gate semantics overlap.</footer>
+</main></body></html>"""
+
+
+def validate_dashboard_input(snapshot: Mapping[str, Any], expected_core_sha: str) -> None:
+    if snapshot.get("core_content_sha256") != expected_core_sha:
+        raise ValueError("dashboard snapshot core hash mismatch")
+    encoded = json.dumps(snapshot, sort_keys=True)
+    if "file://" in encoded.lower():
+        raise ValueError("dashboard snapshot contains a local file URI")
+
+
+def _leaderboards_html(core: Mapping[str, Any]) -> str:
+    leaderboards = core.get("scientific_leaderboards")
+    if not leaderboards:
+        return ""
+    sections = []
+    for category, board in sorted(leaderboards["categories"].items()):
+        rows = "".join(
+            "<tr>"
+            f"<td>{_escape(row['rank'])}</td><td><code>{_escape(row['candidate_id'])}</code></td>"
+            f"<td>{_escape(row['role'])}</td><td>{_escape(json.dumps(row['metrics'], sort_keys=True, separators=(',', ':')))}</td>"
+            f"<td>{_escape(row['evidence_status'])}</td><td>{_escape(row['data_class'])}</td>"
+            f"<td>{_escape(row['gate_completeness'])}</td><td>{_escape(row['blocker'])}</td>"
+            f"<td><code>{_escape(row['lineage']['artifact_link'])}</code><br><code>{_escape(row['lineage']['artifact_content_sha256'])}</code></td>"
+            f"<td>{_escape(row['uncertainty'])}</td>"
+            "</tr>"
+            for row in board["top10"]
+        )
+        if not rows:
+            rows = '<tr><td colspan="10">No completed comparable evidence is rankable.</td></tr>'
+        sections.append(
+            f'<section><h2>Category leaderboard: {_escape(category)}</h2>'
+            f"<p>{_escape(board['ranking_scope'])}. Ranked: {_escape(board['ranked_count'])}; "
+            f"blocked/untested: {_escape(board['unranked_count'])}. Availability: "
+            f"{_escape(board['availability'])}. {_escape(board['absence_reason'] or '')}</p>"
+            "<div style=\"overflow:auto\"><table><thead><tr><th>Rank</th><th>Candidate</th>"
+            "<th>Role</th><th>Exact metrics</th><th>Status</th><th>Data class</th>"
+            "<th>Gate completeness</th><th>Blocker</th><th>Artifact content SHA</th>"
+            f"<th>Uncertainty</th></tr></thead><tbody>{rows}</tbody></table></div></section>"
+        )
+    return "".join(sections)
