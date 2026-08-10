@@ -4,6 +4,32 @@
   "external_paid_llm_calls": false,
   "pipeline_config_path": "configs/promotion_pipeline_fail_closed.json",
   "generator_config_path": "configs/generator_v2_billion.json",
+  "reviewed_evaluator_descriptors": [
+    {
+      "evaluator_id": "static-covariant-lift-v1",
+      "descriptor_path": "configs/promotion_static_lift_evaluator.json",
+      "descriptor_sha256": "67b4bd56a65950114df5ebefe1d3019ac292d93fa3c41d913875c2855caab431",
+      "required_binding_sha256": "85d6500b8cb7750639af3751733d1b2ea18688aa83b8cefd35d7bb8c05e484ee"
+    },
+    {
+      "evaluator_id": "adm-dirac-principal-health-v1",
+      "descriptor_path": "configs/promotion_adm_dirac_principal_evaluator.json",
+      "descriptor_sha256": "9dad165454bf1023cd7a6966314beaffed6cd7bd7ecd3a47f3af5626adee709e",
+      "required_binding_sha256": "e1a2bfec27cedf0e0765383a0bfa6d62a7441dd082d213c0928e395266019e4a"
+    },
+    {
+      "evaluator_id": "solar-known-answer-controls-v1",
+      "descriptor_path": "configs/promotion_solar_known_answer_evaluator.json",
+      "descriptor_sha256": "9f87636e003699a10b9c6331acc5d13a4c6704497826bb122aa21895677f9ee1",
+      "required_binding_sha256": "686d92c18da269467ad97eea8b595c9044fc8ad5272dd9fc8cc0bc1bbec47115"
+    },
+    {
+      "evaluator_id": "galaxy-direct-observable-sealed-v1",
+      "descriptor_path": "configs/promotion_galaxy_direct_observable_evaluator.json",
+      "descriptor_sha256": "08283de6168f248c276787555d29a15593508a4e211e03d7c5a724eddc6a91f2",
+      "required_binding_sha256": "621d29a60817e424da73860f6a4f917c357a3aa39faf92595268a0afc736eb6c"
+    }
+  ],
   "maximum_records_per_run": 1000,
   "maximum_blocks_per_run": 16,
   "maximum_orchestrator_tasks_per_run": 100,

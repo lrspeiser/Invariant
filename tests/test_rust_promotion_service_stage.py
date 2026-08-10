@@ -8,6 +8,7 @@ from pathlib import Path
 import pytest
 
 from sigma_theory_compiler.promotion_orchestrator import ELIGIBILITY as PROMOTION_ELIGIBILITY
+from sigma_theory_compiler.promotion_orchestrator import PromotionOrchestrator
 from sigma_theory_compiler.real_formula_execution import cuda_available
 from sigma_theory_compiler.rust_promotion_service_stage import RustPromotionServiceStage
 from sigma_theory_compiler.rust_streaming_search import ELIGIBILITY
@@ -86,6 +87,9 @@ def _parallel(path: Path) -> Path:
 
 
 def _stage(path: Path) -> Path:
+    reviewed = _load(ROOT / "configs" / "rust_parallel_promotion_stage_fail_closed.json")[
+        "reviewed_evaluator_descriptors"
+    ]
     return _write(
         path,
         {
@@ -94,6 +98,7 @@ def _stage(path: Path) -> Path:
             "external_paid_llm_calls": False,
             "pipeline_config_path": str(PIPELINE),
             "generator_config_path": str(GENERATOR),
+            "reviewed_evaluator_descriptors": reviewed,
             "maximum_records_per_run": 5000,
             "maximum_blocks_per_run": 4,
             "maximum_orchestrator_tasks_per_run": 100,
@@ -137,8 +142,11 @@ def test_automatic_bridge_is_bounded_idempotent_and_cannot_mutate_upstream(
     assert downstream["candidate_count_after"] > 0
     assert downstream["paid_llm_spend_usd"] == 0.0
     assert len(downstream["provenance"]["combined_root_sha256"]) == 64
-    assert downstream["orchestrator"]["registered_evaluators"] == []
-    assert downstream["orchestrator"]["stages"]["covariant_symbolic_health"]["counts"][
+    assert len(downstream["reviewed_evaluator_registry"]) == 4
+    assert len(downstream["evaluator_registry_root_sha256"]) == 64
+    assert downstream["orchestrator_run"]["evaluated"] >= downstream["candidate_count_after"]
+    assert downstream["orchestrator"]["stages"]["covariant_symbolic_health"]["counts"]
+    assert downstream["orchestrator"]["stages"]["adm_dirac_principal_health"]["counts"][
         "blocked"
     ] > 0
     upstream_root = _work_root(service_root / "stream.sqlite")
@@ -151,6 +159,9 @@ def test_automatic_bridge_is_bounded_idempotent_and_cannot_mutate_upstream(
     assert replay["bridge_run"]["registered_candidates"] == 0
     assert replay["provenance"]["combined_root_sha256"] == downstream["provenance"][
         "combined_root_sha256"
+    ]
+    assert replay["evaluator_registry_root_sha256"] == downstream[
+        "evaluator_registry_root_sha256"
     ]
     assert _work_root(service_root / "stream.sqlite") == upstream_root
     status = service_status(service_root)
@@ -184,3 +195,26 @@ def test_stage_rejects_observational_unsealing(tmp_path: Path) -> None:
     }
     with pytest.raises(ValueError, match="eligibility"):
         RustPromotionServiceStage(tmp_path / "downstream", config)
+
+
+def test_descriptor_tampering_and_unlisted_registry_are_rejected(tmp_path: Path) -> None:
+    config = _load(_stage(tmp_path / "stage.json"))
+    config["reviewed_evaluator_descriptors"][0]["descriptor_sha256"] = "0" * 64
+    with pytest.raises(ValueError, match="descriptor file hash"):
+        RustPromotionServiceStage(tmp_path / "tampered", config)
+
+    config = _load(_stage(tmp_path / "binding-stage.json"))
+    config["reviewed_evaluator_descriptors"][0]["required_binding_sha256"] = "1" * 64
+    with pytest.raises(ValueError, match="binding does not match"):
+        RustPromotionServiceStage(tmp_path / "binding-tampered", config)
+
+    config = _load(_stage(tmp_path / "clean-stage.json"))
+    descriptor_allowlist = config["reviewed_evaluator_descriptors"]
+    config["reviewed_evaluator_descriptors"] = []
+    stage = RustPromotionServiceStage(tmp_path / "unlisted", config)
+    orchestrator = PromotionOrchestrator(stage.orchestrator_database, stage.pipeline)
+    descriptor = _load(Path(descriptor_allowlist[0]["descriptor_path"]))
+    descriptor["artifact_path"] = str((ROOT / descriptor["artifact_path"]).resolve())
+    orchestrator.register_evaluator(descriptor)
+    with pytest.raises(ValueError, match="unlisted evaluator"):
+        stage._register_reviewed_evaluators(orchestrator)

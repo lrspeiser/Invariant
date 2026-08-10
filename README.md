@@ -204,8 +204,9 @@ generation and CUDA results are durably committed, it creates a bounded portable
 independently re-verifies every block and ordinal, and imports candidates into separate restart-safe
 bridge/orchestrator databases. Candidate, block, and combined lineage roots are persisted;
 candidate/disk/task/deadline caps backpressure the stage. Downstream failure is recorded fail-closed
-and cannot mutate upstream screening. Evaluators are still separately registered and missing ones
-remain blocked.
+and cannot mutate upstream screening. The service config now allowlists the four reviewed evaluator
+descriptors by descriptor-file hash and exact pipeline binding; only those callbacks are registered
+automatically. Descriptor tampering, a changed registry root, or any unlisted evaluator fails closed.
 
 The first sealed candidate-data target is now defined as observable-to-observable galaxy discovery:
 audited light/gas/angular inputs predict held-out spectral-line kinematics, with whole-galaxy splits,

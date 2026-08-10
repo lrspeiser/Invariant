@@ -189,7 +189,9 @@ and action-to-prediction provenance. An optional `--promotion-stage-config` now 
 survivor export and restart-safe candidate import an automatic one-way service stage. It uses
 separate bridge/orchestrator databases, re-verifies blocks and ordinal identities, enforces its own
 candidate/disk/task/deadline caps, and cannot write back to upstream work. Reviewed evaluators still
-require separate hash-bound registration; absent evaluators block rather than silently running.
+come from an immutable service allowlist: descriptor file hashes, callback artifact hashes, evaluator
+bindings, and the pipeline binding must all agree before automatic registration. The registry root is
+persisted in the stage checkpoint and lineage; unlisted or changed evaluators fail closed.
 Candidate-specific Solar
 and galaxy prediction bundles remain unimplemented and fail-closed; the galaxy evaluator opens no
 data until both exact prediction provenance and a separately authorized observable contract exist.

@@ -8,7 +8,12 @@ from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import Any
 
-from .promotion_orchestrator import ELIGIBILITY, PromotionOrchestrator, validate_pipeline
+from .promotion_orchestrator import (
+    ELIGIBILITY,
+    PromotionOrchestrator,
+    evaluator_binding,
+    validate_pipeline,
+)
 from .rust_promotion_bridge import RustPromotionBridge
 
 SCHEMA_VERSION = "sigma-rust-promotion-service-stage-1.0"
@@ -22,6 +27,7 @@ CREATE TABLE IF NOT EXISTS downstream_stage_state (
   source_service_id TEXT,
   deadline_utc TEXT NOT NULL,
   run_count INTEGER NOT NULL,
+  evaluator_registry_root_sha256 TEXT,
   last_status_json TEXT,
   last_status_sha256 TEXT
 );
@@ -69,6 +75,7 @@ def validate_stage_config(config: dict[str, Any]) -> None:
         "external_paid_llm_calls",
         "pipeline_config_path",
         "generator_config_path",
+        "reviewed_evaluator_descriptors",
         "maximum_records_per_run",
         "maximum_blocks_per_run",
         "maximum_orchestrator_tasks_per_run",
@@ -98,6 +105,30 @@ def validate_stage_config(config: dict[str, Any]) -> None:
         raise ValueError("promotion service disk budget must be positive")
     if not 0 < float(config.get("maximum_wall_seconds", 0)) <= 1_209_600:
         raise ValueError("promotion service wall budget is invalid")
+    descriptors = config.get("reviewed_evaluator_descriptors")
+    if not isinstance(descriptors, list) or len(descriptors) > 16:
+        raise ValueError("reviewed evaluator descriptor allowlist is invalid")
+    evaluator_ids: set[str] = set()
+    for item in descriptors:
+        if not isinstance(item, dict) or set(item) != {
+            "evaluator_id",
+            "descriptor_path",
+            "descriptor_sha256",
+            "required_binding_sha256",
+        }:
+            raise ValueError("reviewed evaluator allowlist entry fields are invalid")
+        evaluator_id = str(item["evaluator_id"])
+        if not evaluator_id or evaluator_id in evaluator_ids:
+            raise ValueError("reviewed evaluator ids must be unique")
+        evaluator_ids.add(evaluator_id)
+        for key in ("descriptor_sha256", "required_binding_sha256"):
+            value = str(item[key])
+            if len(value) != 64:
+                raise ValueError("reviewed evaluator allowlist hash is invalid")
+            try:
+                bytes.fromhex(value)
+            except ValueError as error:
+                raise ValueError("reviewed evaluator allowlist hash is invalid") from error
 
 
 class RustPromotionServiceStage:
@@ -120,11 +151,29 @@ class RustPromotionServiceStage:
         self.config_sha = _sha(config)
         self.pipeline_sha = _file_sha(self.pipeline_path)
         self.generator_sha = _file_sha(self.generator_path)
+        self.reviewed_descriptors = self._load_reviewed_descriptors()
+        self.evaluator_registry_root = _sha(
+            [
+                {
+                    "evaluator_id": item["evaluator_id"],
+                    "descriptor_sha256": item["descriptor_sha256"],
+                    "binding_sha256": item["binding_sha256"],
+                }
+                for item in self.reviewed_descriptors
+            ]
+        )
         self.state_database = self.directory / "stage.sqlite"
         self.bridge_database = self.directory / "bridge.sqlite"
         self.orchestrator_database = self.directory / "promotion.sqlite"
         connection = sqlite3.connect(self.state_database)
         connection.executescript(SQL)
+        columns = {
+            row[1] for row in connection.execute("PRAGMA table_info(downstream_stage_state)")
+        }
+        if "evaluator_registry_root_sha256" not in columns:
+            connection.execute(
+                "ALTER TABLE downstream_stage_state ADD COLUMN evaluator_registry_root_sha256 TEXT"
+            )
         row = connection.execute(
             "SELECT config_sha256 FROM downstream_stage_state WHERE singleton=1"
         ).fetchone()
@@ -133,14 +182,85 @@ class RustPromotionServiceStage:
                 seconds=float(config["maximum_wall_seconds"])
             )
             connection.execute(
-                "INSERT INTO downstream_stage_state VALUES (1,?,NULL,?,0,NULL,NULL)",
-                (self.config_sha, deadline.isoformat()),
+                "INSERT INTO downstream_stage_state "
+                "(singleton,config_sha256,source_service_id,deadline_utc,run_count,"
+                "evaluator_registry_root_sha256,last_status_json,last_status_sha256) "
+                "VALUES (1,?,NULL,?,0,?,NULL,NULL)",
+                (self.config_sha, deadline.isoformat(), self.evaluator_registry_root),
             )
         elif row[0] != self.config_sha:
             connection.close()
             raise ValueError("refusing to resume a changed promotion service stage")
+        else:
+            stored_root = connection.execute(
+                "SELECT evaluator_registry_root_sha256 FROM downstream_stage_state "
+                "WHERE singleton=1"
+            ).fetchone()[0]
+            if stored_root not in (None, self.evaluator_registry_root):
+                connection.close()
+                raise ValueError("reviewed evaluator registry changed across restart")
+            connection.execute(
+                "UPDATE downstream_stage_state SET evaluator_registry_root_sha256=? "
+                "WHERE singleton=1",
+                (self.evaluator_registry_root,),
+            )
         connection.commit()
         connection.close()
+
+    def _load_reviewed_descriptors(self) -> list[dict[str, Any]]:
+        expected = {
+            str(stage["evaluator_id"]): stage["required_evaluator_binding_sha256"]
+            for stage in self.pipeline["stages"]
+            if stage["evaluator_id"] is not None
+        }
+        loaded: list[dict[str, Any]] = []
+        for allow in self.config["reviewed_evaluator_descriptors"]:
+            path = Path(allow["descriptor_path"]).resolve()
+            if not path.is_file() or _file_sha(path) != allow["descriptor_sha256"]:
+                raise ValueError("reviewed evaluator descriptor file hash mismatch")
+            descriptor = _load(path)
+            if descriptor.get("evaluator_id") != allow["evaluator_id"]:
+                raise ValueError("reviewed evaluator descriptor id mismatch")
+            artifact = Path(descriptor["artifact_path"])
+            if not artifact.is_absolute():
+                candidates = [
+                    (Path.cwd() / artifact).resolve(),
+                    (path.parent / artifact).resolve(),
+                    (path.parent.parent / artifact).resolve(),
+                ]
+                artifact = next(
+                    (candidate for candidate in candidates if candidate.is_file()), candidates[0]
+                )
+            descriptor["artifact_path"] = str(artifact)
+            binding = evaluator_binding(descriptor)
+            if (
+                binding != allow["required_binding_sha256"]
+                or expected.get(str(allow["evaluator_id"])) != binding
+            ):
+                raise ValueError("reviewed evaluator binding does not match the pipeline")
+            loaded.append(
+                {
+                    "evaluator_id": str(allow["evaluator_id"]),
+                    "descriptor_sha256": str(allow["descriptor_sha256"]),
+                    "binding_sha256": binding,
+                    "descriptor": descriptor,
+                }
+            )
+        return sorted(loaded, key=lambda item: item["evaluator_id"])
+
+    def _register_reviewed_evaluators(
+        self, orchestrator: PromotionOrchestrator
+    ) -> list[dict[str, str]]:
+        registered = []
+        for item in self.reviewed_descriptors:
+            binding = orchestrator.register_evaluator(item["descriptor"])
+            registered.append(
+                {"evaluator_id": item["evaluator_id"], "binding_sha256": binding}
+            )
+        actual = orchestrator.status()["registered_evaluators"]
+        if actual != registered:
+            raise ValueError("promotion registry contains an unlisted evaluator")
+        return registered
 
     def _state(self) -> sqlite3.Row:
         connection = sqlite3.connect(self.state_database)
@@ -184,11 +304,13 @@ class RustPromotionServiceStage:
             "verified_blocks_root_sha256": _sha(verified),
             "consumed_records_root_sha256": _sha(consumed),
             "candidate_lineage_root_sha256": _sha(candidates),
+            "evaluator_registry_root_sha256": self.evaluator_registry_root,
             "combined_root_sha256": _sha(
                 {
                     "export": export_sha,
                     "generator": self.generator_sha,
                     "pipeline": self.pipeline_sha,
+                    "evaluators": self.evaluator_registry_root,
                     "verified": verified,
                     "consumed": consumed,
                     "candidates": candidates,
@@ -212,6 +334,7 @@ class RustPromotionServiceStage:
         if _directory_bytes(self.directory) >= int(self.config["maximum_disk_bytes"]):
             raise ValueError("promotion service disk budget is exhausted")
         orchestrator = PromotionOrchestrator(self.orchestrator_database, self.pipeline)
+        registered_evaluators = self._register_reviewed_evaluators(orchestrator)
         before = orchestrator.status()
         capacity = int(self.config["maximum_total_candidates"]) - int(
             before["candidate_count"]
@@ -262,6 +385,8 @@ class RustPromotionServiceStage:
             "disk_bytes": disk_bytes,
             "maximum_disk_bytes": int(self.config["maximum_disk_bytes"]),
             "provenance": provenance,
+            "reviewed_evaluator_registry": registered_evaluators,
+            "evaluator_registry_root_sha256": self.evaluator_registry_root,
             "upstream_mutation_contract": (
                 "one-way artifact import only; downstream states have no write path to upstream"
             ),
@@ -293,6 +418,8 @@ class RustPromotionServiceStage:
             "outcome": "not_run",
             "deadline_utc": state["deadline_utc"],
             "run_count": 0,
+            "reviewed_evaluator_count": len(self.reviewed_descriptors),
+            "evaluator_registry_root_sha256": self.evaluator_registry_root,
             "data_eligibility": SERVICE_ELIGIBILITY,
             "paid_llm_spend_usd": 0.0,
         }

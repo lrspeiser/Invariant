@@ -189,6 +189,10 @@ def initialize_service(
         downstream = _load(downstream_path)
         for key in ("pipeline_config_path", "generator_config_path"):
             downstream[key] = str(_resolve_existing(downstream[key], downstream_path))
+        for descriptor in downstream.get("reviewed_evaluator_descriptors", []):
+            descriptor["descriptor_path"] = str(
+                _resolve_existing(descriptor["descriptor_path"], downstream_path)
+            )
         from .rust_promotion_service_stage import RustPromotionServiceStage
 
         _write_json(paths["downstream_config"], downstream)
