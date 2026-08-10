@@ -257,6 +257,11 @@ packets initially failed closed on missing evaluators. The four `G2` packets now
 hash-reviewed evaluator: two retain the distributed Dirac boundary blocker and two retain the
 general nonmaximal positive-mass blocker. The four `G3`/`G4` packets remain missing-evaluator
 blocked. All 10 remain blocked and alter no scientific decision.
+A durable follow-up service now provides start/status/stop/resume/export semantics around this
+queue. It processes the six allowlisted Aether/G2 packets and keeps the four G3/G4 packets in a
+deferred registry without consuming attempts. Stop/resume preserves completed and deferred roots;
+new evaluator descriptors require a new reviewed service-config epoch rather than mutating a
+running scientific allowlist.
 A focused energy audit shows both Aether parameter points satisfy the linearized mode-energy and
 restricted theorem coupling inequalities, but their unconstrained phase spaces include twist: an
 exact unit-Aether witness has `(u wedge du)_txy=-1` at the origin. Because that witness is not an
