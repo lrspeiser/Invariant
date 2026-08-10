@@ -469,6 +469,13 @@ seeds pass local convexity but lack coupled constraint, candidate-wide principal
 closure; the `G3` seed has a conditional BSSN result without a uniform common-cone proof; and the
 conformal `G4(phi)` seed lacks global lapse-operator invertibility, inhomogeneous principal, and
 global-energy proofs. The exact bounded result is 0 pass, 0 reject, 6 blocked, with no Solar bundle.
+For the two Aether seeds, the first nonlinear-energy premise is now exact: both rational points pass
+the five linearized mode-energy and restricted coupling inequalities, but neither action imposes
+hypersurface orthogonality. The normalized field-space witness
+`u_mu=(-sqrt(1+x^2),0,x,0)` has zero unit residual and nonzero
+`(u wedge du)_txy|x=0=-1`. This blocks use of the restricted positive-energy theorem on the generic
+twisting phase space; it does not reject either seed because it is not an EOM solution or a
+negative-energy counterexample.
 The next execution step is to close or decisively reject those seed-specific gaps, then scale the
 parameter cells only after the bounded hook reproduces the same lineage and exclusions.
 

@@ -211,6 +211,11 @@ candidate-specific campaign has now compiled all six action IRs and invoked all 
 adapters. Its ledger is zero pass, zero reject, six blocked: the two Aether seeds still lack nonlinear
 Hamiltonian stability; the `G2`, `G3`, and conformal-`G4` seeds retain explicit coupled-constraint,
 principal/common-cone, lapse-invertibility, or global-energy gaps. No Solar bundle was generated.
+A focused energy audit shows both Aether parameter points satisfy the linearized mode-energy and
+restricted theorem coupling inequalities, but their unconstrained phase spaces include twist: an
+exact unit-Aether witness has `(u wedge du)_txy=-1` at the origin. Because that witness is not an
+equation-of-motion solution or negative-energy counterexample, both remain blocked rather than
+rejected.
 A separate restart-safe production overlay now records
 all three ordered formal layers without mutating the original 5,855-candidate registry or dossier;
 its completed 70-record root is `f1fdc9ae10df047e1c48adbf9b47e601e6fd84a5e15051204aff62fcae933781`,
