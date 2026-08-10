@@ -13,6 +13,7 @@ from sigma_theory_compiler.static_lift_promotion_evaluator import (
 ROOT = Path(__file__).resolve().parents[1]
 PIPELINE = ROOT / "configs" / "promotion_pipeline_fail_closed.json"
 DESCRIPTOR = ROOT / "configs" / "promotion_static_lift_evaluator.json"
+FORMAL_DESCRIPTOR = ROOT / "configs" / "promotion_adm_dirac_principal_evaluator.json"
 GENERATOR = ROOT / "configs" / "generator_v2_billion.json"
 MANIFEST = ROOT / "runs" / "knowledge-base" / "survivor-export-smoke.json"
 SURVIVORS = ROOT / "runs" / "knowledge-base" / "survivors-smoke"
@@ -23,8 +24,8 @@ def _load(path: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def _descriptor() -> dict:
-    descriptor = _load(DESCRIPTOR)
+def _descriptor(path: Path = DESCRIPTOR) -> dict:
+    descriptor = _load(path)
     descriptor["artifact_path"] = str((ROOT / descriptor["artifact_path"]).resolve())
     return descriptor
 
@@ -74,6 +75,7 @@ def test_real_static_lift_promotion_is_reproducible_and_fail_closed(
     ]
     orchestrator = PromotionOrchestrator(tmp_path / "promotion.sqlite", pipeline)
     orchestrator.register_evaluator(descriptor)
+    orchestrator.register_evaluator(_descriptor(FORMAL_DESCRIPTOR))
     assert orchestrator.import_rust_survivors(
         MANIFEST, GENERATOR, SURVIVORS, maximum_candidates=3
     ) == {"accepted": 3, "duplicates": 0, "limit": 3}
@@ -90,7 +92,6 @@ def test_real_static_lift_promotion_is_reproducible_and_fail_closed(
     }
     assert status["stages"]["adm_dirac_principal_health"]["counts"] == {"blocked": 3}
     assert status["unimplemented_gates_fail_closed"] == [
-        "adm_dirac_principal_health",
         "solar_known_answer_controls",
         "galaxy_direct_observable_controls",
     ]

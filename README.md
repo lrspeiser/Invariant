@@ -164,7 +164,9 @@ See [`docs/PERSISTENT_GRAVITY_ENGINE.md`](docs/PERSISTENT_GRAVITY_ENGINE.md). Th
 Rust `SGSURV2` chunk production with one cached CUDA consumer, eliminating Python ordinal decoding
 from the hot path. The production template is bounded to one billion formulas, 1,000 independently
 recoverable one-million-formula chunks, 64 GiB of disk, and 14 days. It preserves every surviving
-ordinal, term/sign payload, screening result, and source hash for downstream promotion. Promotion into later
+ordinal, term/sign payload, screening result, and source hash for downstream promotion. A complete
+production run processed all one billion formulas with 1,000/1,000 chunks successful, screened
+17,047,301 Rust survivors on CUDA, and retained 5,855 exact sampled-static passes. Promotion into later
 covariant, Hamiltonian, principal-symbol, and observational gates is represented by a separate
 restart-safe promotion registry in `promotion_orchestrator.py`. It imports real hash-verified Rust
 survivors, chains candidate/evidence lineage through cheap, symbolic, formal, and observational
@@ -172,7 +174,10 @@ stages, and blocks every missing or unimplemented evaluator. The first reviewed 
 now performs the existing static covariant-lift classification: supported exact lifts pass, forbidden
 baryonic-`z` action atoms reject, and candidates that need an unavailable nonlinear adapter remain
 blocked rather than being misclassified. Later ADM/Dirac, Solar, and direct-observable galaxy gates
-remain deliberately unimplemented and fail-closed.
+remain fail-closed. A restart-safe bridge imported all 5,855 retained identities: 5,785 rejected the
+covariant-lift policy, 70 remained blocked for the missing nonlinear covariant adapter, and zero
+were allowed to advance. The reviewed ADM/Dirac/principal evaluator therefore remains available
+for exactly mapped actions but was not reached by these static formulas.
 
 The first sealed candidate-data target is now defined as observable-to-observable galaxy discovery:
 audited light/gas/angular inputs predict held-out spectral-line kinematics, with whole-galaxy splits,
@@ -755,9 +760,12 @@ Its 1,089 principal and 594 lower entries form an exact arithmetic-only `11 x 15
 all 1,683 positions present. All 11 Euler rows have universal acceleration-affine `A/W` tensor
 DAGs, and the exact Cartesian Minkowski/constant-scalar reference is an equilibrium with a
 background-subtracted `L2` source convention. A quantitative frozen-reference bilinear subfamily
-is bounded for the configured atom pair in rows 0--4. The full mixed `D2F`--`D4F` tensors,
-variable-coefficient Bony/Moser remainder, global `H7` closure, and nonlinear lifespan remain open
-and are not claimed.
+is bounded for the configured atom pair in rows 0--4. Global `D2F`--`D4F` operator envelopes now
+also certify the full pointwise Taylor remainder, tube Lipschitz bounds, and the all-direction frozen
+`D2F` `H7` bilinear estimate without enumerating every tensor component. The spatially variable
+Bony/paracomposition remainder, global `H7` closure, and nonlinear lifespan remain open: a direct
+oscillatory control proves that the available `C4` envelopes cannot supply the required fifth and
+higher coefficient derivatives.
 
 The tube bounds 153 normalized coordinate atoms: ten metric deviations, 44 first partials,
 and 99 acceleration-free symmetric second partials. The exact orthonormal metric-basis identity

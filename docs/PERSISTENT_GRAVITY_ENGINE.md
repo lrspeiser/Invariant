@@ -156,12 +156,22 @@ and hash-checked rather than being silently skipped. Physical NVML samples are r
 from scheduler occupancy: after the Rust gates reject most formulas, the surviving GPU batches can
 be too short to saturate the 5090 even though no GPU work is waiting.
 
+The first complete production run exhausted all one billion ordinals with 1,000/1,000 chunks
+successful. Rust emitted 17,047,301 survivors for CUDA screening; the final sampled-static screen
+retained 5,855 identities and zero ambiguous cases. The GPU owner spent only about 12.36 seconds in
+the resumed 930-million-formula wave because it cleared survivors much faster than the single Rust
+producer generated them. A restart-safe `rust_promotion_bridge.py` importer verified all 1,000
+portable blocks and registered all 5,855 identities. The static covariant-lift gate rejected 5,785
+for the forbidden baryonic action atom and blocked 70 for a missing exact nonlinear lift, leaving
+zero candidates eligible for the downstream ADM/Dirac/principal evaluator.
+
 ## Current operational boundary
 
 The service executes the existing deterministic grammar and sampled-static evaluator. A separate
-promotion registry now has one reviewed static covariant-lift evaluator, but the ADM/Dirac,
-principal-symbol, Solar, and direct-observable galaxy evaluators are not service queue stages yet
-and remain fail-closed. The engine also does not yet generate new grammar productions from LLM
+promotion registry now has reviewed static covariant-lift and ADM/Dirac/principal-health evaluators,
+but they require exact candidate-to-covariant-action provenance and are not service queue stages
+yet. Solar and direct-observable galaxy evaluators remain unimplemented and fail-closed. The engine
+also does not yet generate new grammar productions from LLM
 suggestions, distribute work across multiple machines, or enforce a separate byte quota on the
 SQLite file. SQLite growth is nevertheless bounded by the configured task and wall limits, while
 the whole service directory is monitored against the service disk cap.

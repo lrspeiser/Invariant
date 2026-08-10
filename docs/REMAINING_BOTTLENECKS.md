@@ -305,9 +305,14 @@ entries form an exact arithmetic-only `11 x 153` manifest with all 1,683 positio
 Euler rows have universal acceleration-affine `A/W` tensor DAGs. The common Cartesian
 Minkowski/constant-scalar reference is an exact equilibrium with a localized whole-space `L2`
 source convention, and a frozen-reference bilinear subfamily has an explicit `H7` coefficient for
-one configured atom pair in rows 0--4. The remaining proof work is the complete mixed component
-`D2F`--`D4F` tensors, variable-coefficient Bony/Moser remainder, the remote paraproduct commutator,
-monotone global dyadic summation, and then the nonlinear bootstrap/lifespan.
+one configured atom pair in rows 0--4. Global `D2F`--`D4F` operator envelopes now bypass full
+component enumeration for the pointwise Taylor remainder, tube Lipschitz bounds, and the complete
+all-direction frozen `D2F` `H7` bilinear estimate. The remaining proof work is the spatially
+variable Bony/paracomposition remainder, remote paraproduct commutator, monotone global dyadic
+summation, and then the nonlinear bootstrap/lifespan. The explicit family
+`f_N=N^-4 sin(Nx)` has uniformly bounded derivatives through order four but unbounded fifth
+derivative, so the current `C4` source envelopes cannot close that step; a conservative route needs
+operator envelopes through order nine and a quantitative vector-valued paracomposition theorem.
 
 The state-to-jet side now has a quantitative coordinate tube. A common `1e-13` bound on 153
 normalized coordinate 2-jet atoms implies strict component bounds for `nabla(phi)`,
