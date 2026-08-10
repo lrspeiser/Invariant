@@ -474,6 +474,12 @@ seeds pass local convexity but lack coupled constraint, candidate-wide principal
 closure; the `G3` seed has a conditional BSSN result without a uniform common-cone proof; and the
 conformal `G4(phi)` seed lacks global lapse-operator invertibility, inhomogeneous principal, and
 global-energy proofs. The exact bounded result is 0 pass, 0 reject, 6 blocked, with no Solar bundle.
+The persistent seed coordinator now runs the actual reviewed compilation campaign for all six work
+items, not a synthetic callback. Lease recovery and replay preserve deterministic IDs and reproduce
+the same six blocked outcomes. The campaign is rebuilt inside a temporary root containing only four
+hash-bound inputs, and pre/post hashes prove the source evidence and live watchdog database are not
+mutated. The next throughput optimization is to attest the expensive cold campaign once per worker
+process before evaluating larger finite parameter-cell manifests.
 For the two Aether seeds, the first nonlinear-energy premise is now exact: both rational points pass
 the five linearized mode-energy and restricted coupling inequalities, but neither action imposes
 hypersurface orthogonality. The normalized field-space witness

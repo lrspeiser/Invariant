@@ -211,6 +211,11 @@ candidate-specific campaign has now compiled all six action IRs and invoked all 
 adapters. Its ledger is zero pass, zero reject, six blocked: the two Aether seeds still lack nonlinear
 Hamiltonian stability; the `G2`, `G3`, and conformal-`G4` seeds retain explicit coupled-constraint,
 principal/common-cone, lapse-invertibility, or global-energy gaps. No Solar bundle was generated.
+The restart-safe coordinator now executes this real reviewed campaign rather than a fixture callback.
+All six deterministic work items succeeded and reproduced the same six blocked decisions, with
+hash-bound callback, seed, work-record, and portable-result roots. Each cold replay copies only the
+four declared inputs into an isolated temporary project root and an immutability regression proves
+that none of the upstream evidence, including the watchdog-owned live campaign, is changed.
 A focused energy audit shows both Aether parameter points satisfy the linearized mode-energy and
 restricted theorem coupling inequalities, but their unconstrained phase spaces include twist: an
 exact unit-Aether witness has `(u wedge du)_txy=-1` at the origin. Because that witness is not an
