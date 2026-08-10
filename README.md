@@ -229,6 +229,11 @@ lapse operator; it is now derived exactly in unitary gauge on periodic `T3`:
 zero kernel, and bounded inverse on the declared Sobolev domain. The remaining blocker is global
 Hamiltonian energy: the positive-`X` interval cell has nondecaying stress and cannot itself define
 an asymptotically flat finite-ADM-energy end.
+An explicit smooth radial bridge now connects that interior to `X->0` with integrable canonical
+stress while preserving the principal/common-cone bounds. It exposes a sharper obstruction:
+`Delta_N` tends to zero at infinity. Normalized compact annulus modes put zero in the approximate
+spectrum, so the lapse operator has no bounded `L2(R3)` inverse on this asymptotically-flat
+decaying-gradient domain despite remaining pointwise positive with no literal kernel.
 For `G4=1/2+phi^2/100` on `|phi|<=1`, the exact conformal factor lies in `[1,51/50]` and the
 Einstein-frame scalar kinetic coefficient lies in `[284/289,1]`. The transformation is uniformly
 invertible, tensor and scalar modes share the conformal null cone, and the local lapse kernel has

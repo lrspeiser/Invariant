@@ -490,8 +490,13 @@ first blocker is the full `Delta_N=N^-3+Delta_N^(G3)` operator, because the cubi
 differential/boundary remainder, domain, zero-mode, and coercivity estimate were underived. The
 unitary-gauge periodic derivation now gives
 `Delta_N=N^-3+2 beta K N^-4+(3/2)beta^2 N^-7`, a lower bound about `0.940215`, zero kernel, and a
-bounded inverse. The remaining G3 blocker is global Hamiltonian energy: its positive-`X` interval
-cell has nondecaying stress and is not an asymptotically flat finite-ADM-energy end. The conformal
+bounded inverse. The positive-`X` interval cell itself has nondecaying stress and is not an
+asymptotically flat finite-ADM-energy end.
+An exact radial bridge with `X~r^-4` gives integrable canonical stress and preserves every certified
+principal/common-cone bound through `X->0`. On that asymptotically-flat domain, however,
+`Delta_N->0`; compact annulus modes show zero lies in the approximate spectrum and exclude a
+bounded `L2(R3)` inverse. The next G3 route therefore needs a different global gauge/domain or a
+reformulated constraint pair, not merely pointwise lapse positivity. The conformal
 `G4=1/2+phi^2/100` seed now has a uniformly invertible conformal transformation, positive
 Einstein-frame scalar kinetic coefficient, a shared tensor/scalar null cone, and positive local
 lapse kernel throughout `|phi|<=1`; it still lacks a global lapse function-space/boundary inverse

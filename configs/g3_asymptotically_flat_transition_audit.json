@@ -1,0 +1,50 @@
+{
+  "schema_version": "sigma-g3-asymptotically-flat-transition-audit-config-1.0",
+  "campaign_id": "grammar-v3-g3-asymptotically-flat-transition-20260810",
+  "predecessor": {
+    "path": "runs/engine/g3-full-lapse-dirac-operator-audit.json",
+    "file_sha256": "8f92e1e3e8ee81cb1ddf31e2f00979843e40ca8887e2b388295c506f623ef9f8",
+    "content_sha256": "d127585aa89d63860ccb1c85b1aaadceb060bce9041d8371287701dec5d0b5f7"
+  },
+  "target": {
+    "seed_id": "G3-1ee308440d778dfbee8094d2",
+    "action_sha256": "d583c96daaba16fc429f336cfed5f28d8a9ed54017130eafc597615b79a6af53",
+    "predecessor_provenance_sha256": "bac4a36b94914256c38d775b688d090b2fe127b33dea95f01bc5ebb5d7cf4e33",
+    "lapse_derivation_sha256": "5635dcf5785062f1ab8a8643f18ad697d1e0b2f28cfc2a6229b506d87c718e85",
+    "periodic_coercivity_sha256": "308aaed19457d0caa98174809fe4c7c13cebdf47c6e9e197ce011fe0bde41ad3",
+    "beta": "1/100"
+  },
+  "transition_domain": {
+    "contract_kind": "asymptotically_flat_reference_profile_not_constraint_solution",
+    "initial_slice": "R3_with_radial_coordinate_r",
+    "transition_length_L": "100",
+    "scalar_profile": {
+      "phi_at_t0": "0",
+      "normal_gradient_v": "1/sqrt(1+(r/L)^4)",
+      "spatial_gradient_at_t0": "0",
+      "X": "1/(2*(1+(r/L)^4))",
+      "mixed_hessian": "phi_0i=D_i(v)",
+      "other_hessian_components_at_t0": "0"
+    },
+    "reference_gravity_data": {
+      "h_ij": "delta_ij",
+      "K_ij": "0",
+      "BSSN_lapse": "1",
+      "shift": "0",
+      "role": "principal_and_asymptotic_reference_only"
+    },
+    "function_space": {
+      "lapse_multiplier": "L2(R3)",
+      "test_core": "C_c_infinity(R3)",
+      "asymptotic_metric_target": "h-delta=O_2(r^-1),K=O_1(r^-2)",
+      "scalar_falloff": "v=O(r^-2),X=O(r^-4),D_i(v)=O(r^-3)"
+    },
+    "direction_domain": "all_unit_spatial_covectors_no_sampling"
+  },
+  "data_eligibility": {
+    "observational_data_opened": false,
+    "dark_matter_or_halo_inputs": false,
+    "redshift_distance_inputs": false,
+    "paid_llm_calls": false
+  }
+}
