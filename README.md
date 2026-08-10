@@ -198,7 +198,10 @@ and zero passes. Consequently zero Solar or galaxy prediction bundles exist and 
 promoted. The sealed galaxy evaluator has an empty registry, opens no observations, and blocks all
 70. This rejects the current production survivor set; it does not establish that the grammar has no
 viable formula, so future generator rounds must change or enlarge the candidate structures before
-repeating the same sealed validation ladder. The durable streaming
+repeating the same sealed validation ladder. A separate restart-safe production overlay now records
+all three ordered formal layers without mutating the original 5,855-candidate registry or dossier;
+its completed 70-record root is `f1fdc9ae10df047e1c48adbf9b47e601e6fd84a5e15051204aff62fcae933781`,
+and an idempotent replay inserted zero records. The durable streaming
 service now supports a multi-producer scheduler that leases disjoint Rust ranges transactionally and
 feeds the same single cached CUDA owner while preserving start/status/stop/resume/export recovery.
 On an identical 16-million-formula scaling run, eight producers reached 7.49 million source
