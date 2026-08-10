@@ -344,7 +344,12 @@ Remaining first blockers are explicit. Unchanged-`K55` separate TC2 absorption i
 direction-1 packet has rank two, whereas Hermitian absorption would force the `K55`-mapped range
 into the one-dimensional high-state line. The canonical missing reciprocal block
 `K55^-1 B^dagger K55` completes the pairing algebraically, but is not derived from the state and its
-constraint preservation is unknown. TC1's source part needs the `Q`-contracted `partial_1F`
+constraint preservation is unknown. The minimal coupled remedy class is now exactly ruled out:
+commuting spectral `deltaK` has zero Sylvester left side against a nonzero skew residual; a correction
+using only the same `w1[10]` high slot has right-covector span at most one instead of two; and changing
+`v` with `q,w_i` fixed leaves the nonzero definition residual `-partial_i C_v`. The next admissible
+class must solve the full non-spectral Sylvester equation and/or use at least two high covectors with
+accompanying `q,w_i` constraint corrections. TC1's source part needs the `Q`-contracted `partial_1F`
 state-to-jet topology, variable TC3
 needs the 153-atom tensor `D_Y(P55 E_v Q)`, and TC5 in `H7` needs component
 `D2F[J(C_Q),J(C_Q)]` plus `H7` control of `J(C_Q)`. The next gate is to close those terms and extend

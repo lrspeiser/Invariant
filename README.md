@@ -844,7 +844,12 @@ TC1-principal and TC3 shell terms, while the C9 `D2F` envelope closes TC5 pointw
 positive `K55` energy: its direction-1 packet has rank two, while separate Hermitian absorption
 would force the `K55`-mapped range into the one-dimensional high-state line. The exact missing
 reciprocal block is `K55^-1 B^dagger K55`; it cancels the skew pairing algebraically but is absent
-from the modified state and has no constraint-preservation proof. This is not yet global closure:
+from the modified state and has no constraint-preservation proof. The first coupled remedy class is
+also eliminated: commuting spectral `deltaK` has zero Sylvester left side, a same-high-state
+correction cannot span the reciprocal block's two independent right covectors, and changing `v`
+while holding `q,w_i` fixed violates the derivative-definition constraints. A valid remedy must use
+non-spectral `deltaK` and/or at least two high covectors with matching constraint lifts. This is not
+yet global closure:
 TC1's source part needs the contracted
 state-to-jet topology, variable TC3 needs `D_Y(P55 E_v Q)`, and TC5 in `H7` needs component `D2F`
 plus `H7` control of `J(C_Q)`. The next valid route must close those terms and extend the identity
