@@ -191,11 +191,14 @@ have an ADM velocity-Hessian rank jump between zero and nonzero spatial frequenc
 no quadratic vector evolution or principal symbol. A second exact adapter resolves 27 more actions
 with `F_X(0,0)<0` and certified `F_Q(0,0)>=0`: 20 have negative low-frequency kinetic energy plus
 a finite-wave-number time-block rank loss, and 7 retain three unconstrained negative kinetic
-directions. The production ledger is therefore 50 formal rejections, 20 still blocked for
-additional candidate-specific ADM/Dirac/principal adapters, and zero passes. Consequently zero
-Solar or galaxy prediction bundles exist and no candidate is
+directions. The final 20 have positive aligned kinetic Hessians but fail the exact generic-tilt
+principal test: their frozen lab-frequency polynomial has a nonreal conjugate root pair for every
+nonzero tilt. The complete production ledger is therefore 70 formal rejections, zero blocked,
+and zero passes. Consequently zero Solar or galaxy prediction bundles exist and no candidate is
 promoted. The sealed galaxy evaluator has an empty registry, opens no observations, and blocks all
-70. The durable streaming
+70. This rejects the current production survivor set; it does not establish that the grammar has no
+viable formula, so future generator rounds must change or enlarge the candidate structures before
+repeating the same sealed validation ladder. The durable streaming
 service now supports a multi-producer scheduler that leases disjoint Rust ranges transactionally and
 feeds the same single cached CUDA owner while preserving start/status/stop/resume/export recovery.
 On an identical 16-million-formula scaling run, eight producers reached 7.49 million source

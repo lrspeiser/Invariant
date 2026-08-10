@@ -432,15 +432,15 @@ interval-certified rank, real-characteristic, complete-eigenbasis, ghost, gradie
 checks for every physical polarization. Singular reductions and ambiguous roots are `unresolved`.
 
 The completed one-billion-formula production screen currently leaves 70 exact typed covariant
-lifts after the static gate. Formal necessary-condition adapters have decisively rejected 50:
+lifts after the static gate. Formal necessary-condition adapters have decisively rejected all 70:
 2 fail the earlier higher-jet checks, 15 have an ADM velocity-Hessian rank jump between zero and
 nonzero spatial frequency, 6 have a vanishing quadratic vector principal symbol, 20 have negative
 low-frequency kinetic energy plus a finite-wave-number rank loss, and 7 retain three unconstrained
-negative Aether kinetic directions. The remaining 20 are still blocked because they lie outside
-the bounded formal families implemented so far; none has passed into the Solar or direct-observable
-galaxy gates. The next promotion task is therefore to cluster those 20 by covariant action structure
-and add exact candidate-specific ADM/Dirac/principal adapters, without inferring dynamics from the
-static expression alone.
+negative Aether kinetic directions. The final 20 have positive aligned kinetic Hessians but their
+exact generic-tilt frozen principal polynomial has a nonreal conjugate frequency pair for every
+nonzero tilt. None has passed into the Solar or direct-observable galaxy gates. The next discovery
+task is therefore not to weaken these gates; it is to change or enlarge the formula grammar and
+generate new covariant action families that can survive the same exact ADM/Dirac/principal ladder.
 
 The generated L2--L4 FLRW path now has the first validated background implementation:
 `flrw-background-certify` binds a compiled action, uses an outward-rounded interval Picard
