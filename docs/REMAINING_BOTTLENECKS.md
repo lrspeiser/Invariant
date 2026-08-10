@@ -340,8 +340,12 @@ their differentiated principal term cancel the entire four-entry slice, includin
 `J_s01=i xi1 I_11`. The actual physical packet now contains 24 TC1-principal and 14 TC2 nonzero
 entries. Exact `H7 -> W2,infinity` bounds close TC1's reference principal shell and TC3's reference
 shell; the C9 `D2F` bound closes TC5 pointwise with Taylor weight `1/2`; TC4 is exactly zero.
-Remaining first blockers are explicit: TC2 needs a symmetrizer-compatible enlarged-principal
-identity, TC1's source part needs the `Q`-contracted `partial_1F` state-to-jet topology, variable TC3
+Remaining first blockers are explicit. Unchanged-`K55` separate TC2 absorption is impossible: its
+direction-1 packet has rank two, whereas Hermitian absorption would force the `K55`-mapped range
+into the one-dimensional high-state line. The canonical missing reciprocal block
+`K55^-1 B^dagger K55` completes the pairing algebraically, but is not derived from the state and its
+constraint preservation is unknown. TC1's source part needs the `Q`-contracted `partial_1F`
+state-to-jet topology, variable TC3
 needs the 153-atom tensor `D_Y(P55 E_v Q)`, and TC5 in `H7` needs component
 `D2F[J(C_Q),J(C_Q)]` plus `H7` control of `J(C_Q)`. The next gate is to close those terms and extend
 the construction to every high atom, or adopt a separately controlled derivative-loss theory.

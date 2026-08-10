@@ -840,8 +840,12 @@ correction `v_sharp=v+Q T_(partial_1 v_low) w1[10]_high`. The certified kinemati
 `s01/H01` entries for every candidate. The induced operator audit materializes 24 TC1-principal and
 14 TC2 entries from the actual `P55` block. Exact `H7 -> W2,infinity` constants close the reference
 TC1-principal and TC3 shell terms, while the C9 `D2F` envelope closes TC5 pointwise with its exact
-`1/2` Taylor weight; TC4 is exactly zero. This is not yet global closure: TC2 needs a
-symmetrizer-compatible enlarged-principal identity, TC1's source part needs the contracted
+`1/2` Taylor weight; TC4 is exactly zero. TC2 cannot be absorbed separately by the unchanged
+positive `K55` energy: its direction-1 packet has rank two, while separate Hermitian absorption
+would force the `K55`-mapped range into the one-dimensional high-state line. The exact missing
+reciprocal block is `K55^-1 B^dagger K55`; it cancels the skew pairing algebraically but is absent
+from the modified state and has no constraint-preservation proof. This is not yet global closure:
+TC1's source part needs the contracted
 state-to-jet topology, variable TC3 needs `D_Y(P55 E_v Q)`, and TC5 in `H7` needs component `D2F`
 plus `H7` control of `J(C_Q)`. The next valid route must close those terms and extend the identity
 to the other high atoms, or use an honest derivative-loss theory. An `H8` state
