@@ -943,10 +943,10 @@ nonzero corrections and 112 zeros, with all differentiated Sylvester residuals z
 affine positivity bound. The next unresolved gate is the 11,781 unordered second-atom conditions,
 which require component `D2K55`, `D2P55`, and `D2TC2`; CK1's source packet also remains open. Thus
 the affine extension is certified while full variable TC2 and global H7 stay fail-closed.
-Four chained deterministic second-order chunks now evaluate 256 canonical pairs across all 12
-candidates. All 3,072 candidate equations admit exact Hermitian `deltaK_AB` corrections with zero
+Five chained deterministic second-order chunks now evaluate 320 canonical pairs across all 12
+candidates. All 3,840 candidate equations admit exact Hermitian `deltaK_AB` corrections with zero
 Sylvester residual and no obstruction. Each continuation verifies the prior record chain and resume
-tip before extending it; the other 11,525 pairs remain unevaluated and are not inferred.
+tip before extending it; the other 11,461 pairs remain unevaluated and are not inferred.
 TC1's source part needs the contracted
 state-to-jet topology, variable TC3 needs `D_Y(P55 E_v Q)`, and TC5 in `H7` needs component `D2F`
 plus `H7` control of `J(C_Q)`. The next valid route must close those terms and extend the identity
