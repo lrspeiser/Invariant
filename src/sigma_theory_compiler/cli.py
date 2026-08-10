@@ -85,6 +85,10 @@ from .quartic_quasilinear_moser_campaign import (
     run_quartic_quasilinear_moser_campaign,
     write_quartic_quasilinear_moser_campaign,
 )
+from .quartic_solved_source_moser_campaign import (
+    run_quartic_solved_source_moser_campaign,
+    write_quartic_solved_source_moser_campaign,
+)
 from .quartic_symmetrizer_domain import (
     run_quartic_symmetrizer_domain_campaign,
     write_quartic_symmetrizer_domain_campaign,
@@ -586,6 +590,22 @@ def _parser() -> argparse.ArgumentParser:
     )
     quartic_euler_remainder.add_argument("--config", type=Path, required=True)
     quartic_euler_remainder.add_argument("--output", type=Path, required=True)
+    quartic_solved_source = subparsers.add_parser(
+        "quartic-solved-source-moser-campaign",
+        help="Compose the inverse time block with the Euler remainder through order four",
+    )
+    quartic_solved_source.add_argument("--moser-campaign", type=Path, required=True)
+    quartic_solved_source.add_argument(
+        "--nonquasilinear-pde-campaign", type=Path, required=True
+    )
+    quartic_solved_source.add_argument(
+        "--coordinate-tube-campaign", type=Path, required=True
+    )
+    quartic_solved_source.add_argument(
+        "--euler-remainder-campaign", type=Path, required=True
+    )
+    quartic_solved_source.add_argument("--config", type=Path, required=True)
+    quartic_solved_source.add_argument("--output", type=Path, required=True)
     dhost_compile = subparsers.add_parser(
         "dhost-pack-compile",
         help="Compile a reduced rank-one quadratic DHOST kinetic family",
@@ -1531,6 +1551,40 @@ def main(argv: list[str] | None = None) -> int:
             0
             if result["status"]
             == "pass_all_12_complete_coordinate_tube_euler_remainder_majorants"
+            else 1
+        )
+    if args.command == "quartic-solved-source-moser-campaign":
+        moser_campaign = json.loads(args.moser_campaign.read_text(encoding="utf-8"))
+        nonquasilinear_pde_campaign = json.loads(
+            args.nonquasilinear_pde_campaign.read_text(encoding="utf-8")
+        )
+        coordinate_tube_campaign = json.loads(
+            args.coordinate_tube_campaign.read_text(encoding="utf-8")
+        )
+        euler_remainder_campaign = json.loads(
+            args.euler_remainder_campaign.read_text(encoding="utf-8")
+        )
+        config = json.loads(args.config.read_text(encoding="utf-8"))
+        result = run_quartic_solved_source_moser_campaign(
+            moser_campaign,
+            nonquasilinear_pde_campaign,
+            coordinate_tube_campaign,
+            euler_remainder_campaign,
+            config,
+        )
+        path = write_quartic_solved_source_moser_campaign(result, args.output)
+        print(f"status={result['status']}")
+        print(f"selected={result['counts']['selected']}")
+        print(
+            "solved_source_moser_envelopes_passed="
+            f"{result['counts']['solved_source_moser_envelopes_passed']}"
+        )
+        print(f"rejected={result['counts']['rejected']}")
+        print(f"report={path}")
+        return (
+            0
+            if result["status"]
+            == "pass_all_12_coordinate_atom_C4_solved_source_moser_envelopes"
             else 1
         )
     if args.command == "dhost-pack-compile":

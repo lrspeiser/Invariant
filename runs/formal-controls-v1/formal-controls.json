@@ -6022,6 +6022,182 @@
       "status": "pass"
     },
     {
+      "claim": "All 12 fixed-coefficient linear-X quartic candidates possess fourth-order coordinate-atom Frechet envelopes for the complete solved acceleration source A^{-1}W.",
+      "evidence": {
+        "artifact": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\runs\\physics-language\\quartic-solved-source-moser-campaign\\campaign.json",
+        "artifact_hash_matches_reexecution": true,
+        "campaigns": {
+          "coordinate_tube": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\runs\\physics-language\\quartic-coordinate-jet-tube-campaign\\campaign.json",
+          "euler_remainder": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\runs\\physics-language\\quartic-euler-remainder-majorant-campaign\\campaign.json",
+          "moser": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\runs\\physics-language\\quartic-quasilinear-moser-campaign\\campaign.json",
+          "pde": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\runs\\physics-language\\quartic-nonquasilinear-pde-campaign\\campaign.json"
+        },
+        "config": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\configs\\backgrounds\\quartic_solved_source_moser_campaign.json",
+        "coordinate_jet_Frechet_envelopes": {
+          "envelopes": {
+            "1": {
+              "covered_families": [
+                "scalar_gradient_component",
+                "scalar_hessian_component",
+                "einstein_upper_component"
+              ],
+              "dominant_family": "einstein_upper_component",
+              "exact": "(7679999999990400000000000460800000001958400000000092160000000000000000000000000000000000000000*sqrt(10) + 48000000000122879999999981183999999980031999999999251199999999769600000000000000000000000000000000000000000)/(-10000000000000 + sqrt(10))**8",
+              "numeric": 480.00000000268597
+            },
+            "2": {
+              "covered_families": [
+                "scalar_gradient_component",
+                "scalar_hessian_component",
+                "einstein_upper_component"
+              ],
+              "dominant_family": "einstein_upper_component",
+              "exact": "(-4608000000006681599999999009279999999784960000000016127999999993088000000000000000000000000000000000000000000000000000000*sqrt(10) - 12288000000001612799999988249599999999930880000000668160000000027648000000000000000000000000000000000000000000000000000000)/(-10000000000000 + sqrt(10))**9",
+              "numeric": 26859.77545815508
+            },
+            "3": {
+              "covered_families": [
+                "scalar_gradient_component",
+                "scalar_hessian_component",
+                "einstein_upper_component"
+              ],
+              "dominant_family": "einstein_upper_component",
+              "exact": "(4308480000002995199999999285760000000138240000000021887999999997235200000000000000000000000000000000000000000000000000000000000000000000 + 1774079999999930879999999112960000000002304000000029952000000001105920000000000000000000000000000000000000000000000000000000000000000000*sqrt(10))/(-10000000000000 + sqrt(10))**10",
+              "numeric": 991861.355138566
+            },
+            "4": {
+              "covered_families": [
+                "scalar_gradient_component",
+                "scalar_hessian_component",
+                "einstein_upper_component"
+              ],
+              "dominant_family": "einstein_upper_component",
+              "exact": "(-2073599999999794943999999331840000000010368000000016588800000000552960000000000000000000000000000000000000000000000000000000000000000000000000000000000 - 423936000000092159999999943552000000021657600000001866239999999861760000000000000000000000000000000000000000000000000000000000000000000000000000000000*sqrt(10))/(-10000000000000 + sqrt(10))**11",
+              "numeric": 34142033.421531044
+            }
+          },
+          "input_norm": "153-coordinate-atom component l_infinity",
+          "justification": "The maximum of the scalar-gradient, scalar-Hessian, and upper-Einstein component envelopes bounds the 24-component covariant jet map.",
+          "orders": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "output_norm": "24-covariant-jet component l_infinity"
+        },
+        "counts": {
+          "rejected": 0,
+          "selected": 12,
+          "solved_source_moser_envelopes_passed": 12
+        },
+        "generic_composition_control": {
+          "control": "quadratic coefficient composition and inverse-product recurrence",
+          "inverse_product_identity": "D^n(A F)=sum_{k=0}^n binomial(n,k) D^k A D^(n-k)F=D^n X, with F=A^{-1}X",
+          "inverse_product_residuals": {
+            "1": "0",
+            "2": "0",
+            "3": "0",
+            "4": "0"
+          },
+          "negative_control": {
+            "corruption": "replace the D4 coefficient 3 on A2*(J2)^2 by 2",
+            "exact_witness_residual": "363",
+            "rejected": true
+          },
+          "passed": true,
+          "quadratic_composition_formulas": {
+            "1": "A1*J1",
+            "2": "A2*J1^2+A1*J2",
+            "3": "3*A2*J1*J2+A1*J3",
+            "4": "A2*(3*J2^2+4*J1*J3)+A1*J4"
+          },
+          "quadratic_composition_residuals": {
+            "1": "0",
+            "2": "0",
+            "3": "0",
+            "4": "0"
+          },
+          "scope": "Exact scalar representatives verify the Banach-space chain-rule and product-rule multiplicities used by the matrix/vector norm recurrence."
+        },
+        "insufficient_order_negative": {
+          "errors": [
+            "solved source requires order four"
+          ],
+          "status": "reject"
+        },
+        "representative_solved_source_derivatives": {
+          "2_norm_envelopes_numeric": {
+            "0": 4.135337203939473e-09,
+            "1": 41353.37215108885,
+            "2": 2233882417.981798,
+            "3": 185049873222811.06,
+            "4": 2.0429545816699503e+19
+          },
+          "input_norm": "153-coordinate-atom component l_infinity",
+          "orders": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "output_norm": "11-acceleration-vector Euclidean 2-norm",
+          "recurrence": "F_n <= N*(sqrt(11)*W_n + sum_{k=1}^n binomial(n,k)*A_k*F_{n-k})",
+          "term_breakdown": {
+            "0": {
+              "coefficient_product_terms_numeric": {},
+              "formula": "N*sqrt(11)*W0",
+              "remainder_term_numeric": 8.270674407878946e-10
+            },
+            "1": {
+              "coefficient_product_terms_numeric": {
+                "1": 2.231621295724164e-05
+              },
+              "formula": "N*(sqrt(11)*W1+sum_{k=1}^1 binomial(1,k)*Ak*F1-k)",
+              "remainder_term_numeric": 8270.674407901557
+            },
+            "2": {
+              "coefficient_product_terms_numeric": {
+                "1": 446324260.3503402,
+                "2": 0.02815783861869328
+              },
+              "formula": "N*(sqrt(11)*W2+sum_{k=1}^2 binomial(2,k)*Ak*F2-k)",
+              "remainder_term_numeric": 452223.2178616031
+            },
+            "3": {
+              "coefficient_product_terms_numeric": {
+                "1": 36165221820577.81,
+                "2": 844735160842.4008,
+                "3": 4.5634362535815205
+              },
+              "formula": "N*(sqrt(11)*W3+sum_{k=1}^3 binomial(3,k)*Ak*F3-k)",
+              "remainder_term_numeric": 17663137.440149486
+            },
+            "4": {
+              "coefficient_product_terms_numeric": {
+                "1": 3.9944625310040494e+18,
+                "2": 9.126409409914005e+16,
+                "3": 182537450636288.56,
+                "4": 476.7842917054103
+              },
+              "formula": "N*(sqrt(11)*W4+sum_{k=1}^4 binomial(4,k)*Ak*F4-k)",
+              "remainder_term_numeric": 786074238.1409578
+            }
+          }
+        },
+        "scope": "This closes the A^{-1}W source-composition derivative gate. It does not yet differentiate the full 55-state symmetrizer, close the commuted gauge/constraint energy inequality, prove a quantitative lifespan, or add matter.",
+        "solved_source_fourth_order_range": {
+          "maximum": 1.5897080667380403e+20,
+          "minimum": 2.0058775187753038e+19
+        },
+        "status": "pass_all_12_coordinate_atom_C4_solved_source_moser_envelopes"
+      },
+      "name": "quartic_linear_x_solved_source_moser_envelopes",
+      "scope": "The exact quadratic chain rule composes the 24-component covariant jet with the 153 coordinate atoms, and the exact differentiated identity A F=W propagates the certified A, A^{-1}, and W bounds through order four. Order zero reproduces the independent acceleration bound. The large fourth-order envelopes expose conservative norm growth; full symmetrizer derivatives, commuted energy closure, lifespan, matter, and tube preservation remain open.",
+      "status": "pass"
+    },
+    {
       "claim": "The named quartic-Horndeski action has a positive three-mode reduced quadratic Hamiltonian on its healthy flat constant-timelike-gradient patch.",
       "evidence": {
         "action_binding_passed": true,
@@ -7573,10 +7749,10 @@
   ],
   "counts": {
     "failed": 0,
-    "passed": 105,
-    "total": 105
+    "passed": 106,
+    "total": 106
   },
-  "created_utc": "2026-08-10T00:23:05.957213+00:00",
+  "created_utc": "2026-08-10T00:38:11.807147+00:00",
   "field_contract": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\configs\\covariant_field_contract.json",
   "interpretation": "Passing controls validates only the stated algebraic scopes. It is not evidence that a generated gravity candidate is healthy or empirically correct.",
   "schema_version": "sigma-formal-controls-1.0"

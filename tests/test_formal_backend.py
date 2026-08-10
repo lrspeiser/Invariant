@@ -138,6 +138,19 @@ def test_all_formal_known_answer_controls_pass(tmp_path) -> None:
     }
     assert euler_remainder["evidence"]["representative_acceleration_upper"] > 0
     assert euler_remainder["evidence"]["term_inventory_negative"]["status"] == "reject"
+    solved_source = checks["quartic_linear_x_solved_source_moser_envelopes"]
+    assert solved_source["status"] == "pass"
+    assert solved_source["evidence"]["artifact_hash_matches_reexecution"]
+    assert solved_source["evidence"]["generic_composition_control"]["passed"]
+    assert (
+        solved_source["evidence"]["solved_source_fourth_order_range"]["minimum"]
+        > 1e19
+    )
+    assert (
+        solved_source["evidence"]["solved_source_fourth_order_range"]["maximum"]
+        < 2e20
+    )
+    assert solved_source["evidence"]["insufficient_order_negative"]["status"] == "reject"
     assert checks["projected_aether_q_fixed_metric_first_variation"]["status"] == "pass"
     assert checks["projected_aether_q_fixed_metric_first_variation"]["evidence"][
         "projector_and_B_first_variation_residual"

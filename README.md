@@ -485,6 +485,25 @@ and a finite solved-acceleration bound for all 12 candidates. It does not yet bo
 derivatives of the inverse time block, close the commuted Sobolev energy, prove a
 lifespan, or add matter sources.
 
+Compose those source bounds with the differentiated inverse principal time block using:
+
+```powershell
+python -m sigma_theory_compiler quartic-solved-source-moser-campaign `
+  --moser-campaign runs/physics-language/quartic-quasilinear-moser-campaign/campaign.json `
+  --nonquasilinear-pde-campaign runs/physics-language/quartic-nonquasilinear-pde-campaign/campaign.json `
+  --coordinate-tube-campaign runs/physics-language/quartic-coordinate-jet-tube-campaign/campaign.json `
+  --euler-remainder-campaign runs/physics-language/quartic-euler-remainder-majorant-campaign/campaign.json `
+  --config configs/backgrounds/quartic_solved_source_moser_campaign.json `
+  --output runs/physics-language/quartic-solved-source-moser-campaign
+```
+
+The exact quadratic chain rule maps the 153 coordinate atoms through the 24 covariant
+jet components, then the differentiated identity `A F=W` bounds the complete solved
+acceleration source through order four. All 12 candidates pass. The fourth-order bounds
+are deliberately reported even though they are large (`~2e19` to `~1.6e20`): this closes
+the source-composition gate but signals that the eventual guaranteed lifespan will be
+conservative unless the norm estimates are sharpened.
+
 The tube bounds 153 normalized coordinate atoms: ten metric deviations, 44 first partials,
 and 99 acceleration-free symmetric second partials. The exact orthonormal metric-basis identity
 and Neumann/product majorants prove that a common `1e-13` component cube maps strictly inside the

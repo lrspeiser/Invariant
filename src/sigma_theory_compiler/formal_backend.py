@@ -131,6 +131,9 @@ from .quartic_nonquasilinear_pde_campaign import (
 from .quartic_quasilinear_moser_campaign import (
     run_quartic_quasilinear_moser_campaign,
 )
+from .quartic_solved_source_moser_campaign import (
+    run_quartic_solved_source_moser_campaign,
+)
 from .quartic_symmetrizer_domain import run_quartic_symmetrizer_domain_campaign
 from .scalar_tensor_pack import (
     generic_g2_variation_noether_control,
@@ -2067,6 +2070,106 @@ def _quartic_euler_remainder_majorant_campaign_control(
     }
 
 
+def _quartic_solved_source_moser_campaign_control(
+    root: Path,
+) -> tuple[bool, dict[str, Any]]:
+    base = root / "runs" / "physics-language"
+    paths = {
+        "moser": base / "quartic-quasilinear-moser-campaign" / "campaign.json",
+        "pde": base / "quartic-nonquasilinear-pde-campaign" / "campaign.json",
+        "coordinate_tube": base / "quartic-coordinate-jet-tube-campaign" / "campaign.json",
+        "euler_remainder": base / "quartic-euler-remainder-majorant-campaign" / "campaign.json",
+    }
+    config_path = (
+        root
+        / "configs"
+        / "backgrounds"
+        / "quartic_solved_source_moser_campaign.json"
+    )
+    artifact_path = base / "quartic-solved-source-moser-campaign" / "campaign.json"
+    campaigns = {
+        name: json.loads(path.read_text(encoding="utf-8"))
+        for name, path in paths.items()
+    }
+    config = json.loads(config_path.read_text(encoding="utf-8"))
+    artifact = json.loads(artifact_path.read_text(encoding="utf-8"))
+    result = run_quartic_solved_source_moser_campaign(
+        campaigns["moser"],
+        campaigns["pde"],
+        campaigns["coordinate_tube"],
+        campaigns["euler_remainder"],
+        config,
+    )
+    corrupted = dict(config)
+    corrupted["required_Frechet_majorant_order"] = 3
+    negative = run_quartic_solved_source_moser_campaign(
+        campaigns["moser"],
+        campaigns["pde"],
+        campaigns["coordinate_tube"],
+        campaigns["euler_remainder"],
+        corrupted,
+    )
+    certificates = result.get("certificates", [])
+    counts = result.get("counts", {})
+    control = result.get("generic_composition_control", {})
+    coordinate_jet = result.get("coordinate_jet_Frechet_envelopes", {})
+    fourth_order = [
+        item.get("solved_source_Frechet_derivatives", {})
+        .get("2_norm_envelopes_numeric", {})
+        .get("4", 0)
+        for item in certificates
+    ]
+    passed = bool(
+        result.get("status")
+        == "pass_all_12_coordinate_atom_C4_solved_source_moser_envelopes"
+        and counts.get("selected") == 12
+        and counts.get("solved_source_moser_envelopes_passed") == 12
+        and len(certificates) == 12
+        and control.get("passed") is True
+        and set(control.get("quadratic_composition_residuals", {}).values()) == {"0"}
+        and all(
+            item.get("dominant_family") == "einstein_upper_component"
+            for item in coordinate_jet.get("envelopes", {}).values()
+        )
+        and all(value > 0 for value in fourth_order)
+        and all(
+            item.get("order_zero_acceleration_crosscheck", {}).get(
+                "relative_residual", 1
+            )
+            < 1e-12
+            for item in certificates
+        )
+        and artifact.get("content_sha256") == result.get("content_sha256")
+        and negative.get("status") == "reject"
+    )
+    return passed, {
+        "campaigns": {name: str(path) for name, path in paths.items()},
+        "config": str(config_path),
+        "artifact": str(artifact_path),
+        "status": result.get("status"),
+        "counts": counts,
+        "artifact_hash_matches_reexecution": (
+            artifact.get("content_sha256") == result.get("content_sha256")
+        ),
+        "generic_composition_control": control,
+        "coordinate_jet_Frechet_envelopes": coordinate_jet,
+        "solved_source_fourth_order_range": {
+            "minimum": min(fourth_order) if fourth_order else None,
+            "maximum": max(fourth_order) if fourth_order else None,
+        },
+        "representative_solved_source_derivatives": (
+            certificates[0].get("solved_source_Frechet_derivatives")
+            if certificates
+            else None
+        ),
+        "insufficient_order_negative": {
+            "status": negative.get("status"),
+            "errors": negative.get("errors"),
+        },
+        "scope": result.get("scope"),
+    }
+
+
 def _quartic_horndeski_covariant_adm_control(
     root: Path,
 ) -> tuple[bool, dict[str, Any]]:
@@ -3266,6 +3369,12 @@ def run_formal_control_suite(
             "All 12 fixed-coefficient linear-X quartic candidates possess complete termwise vacuum Euler-remainder bounds and fourth-order coordinate-atom derivative envelopes on the common coordinate tube.",
             "Eight quartic metric terms, two G2 metric terms, three scalar terms, and four modified-harmonic gauge stages are bounded with exact radial expressions. The diagonal auxiliary metrics give exact l1 contraction constants 7 and 18. Combining the remainder with the certified time-block inverse yields a finite solved-acceleration bound. Derivatives of A^{-1}, commuted energy closure, a quantitative lifespan, matter sources, and tube preservation remain open.",
             lambda: _quartic_euler_remainder_majorant_campaign_control(root),
+        ),
+        _run_check(
+            "quartic_linear_x_solved_source_moser_envelopes",
+            "All 12 fixed-coefficient linear-X quartic candidates possess fourth-order coordinate-atom Frechet envelopes for the complete solved acceleration source A^{-1}W.",
+            "The exact quadratic chain rule composes the 24-component covariant jet with the 153 coordinate atoms, and the exact differentiated identity A F=W propagates the certified A, A^{-1}, and W bounds through order four. Order zero reproduces the independent acceleration bound. The large fourth-order envelopes expose conservative norm growth; full symmetrizer derivatives, commuted energy closure, lifespan, matter, and tube preservation remain open.",
+            lambda: _quartic_solved_source_moser_campaign_control(root),
         ),
         _run_check(
             "quartic_horndeski_timelike_flat_physical_hamiltonian",
