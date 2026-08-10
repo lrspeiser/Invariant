@@ -185,7 +185,12 @@ evidence about any candidate.
 The service executes the existing deterministic grammar and sampled-static evaluator. A separate
 promotion registry now has reviewed static covariant-lift, ADM/Dirac/principal-health, sealed Solar
 known-answer, and sealed direct-observable galaxy evaluators. They require exact candidate-to-action
-and action-to-prediction provenance and are not service queue stages yet. Candidate-specific Solar
+and action-to-prediction provenance. An optional `--promotion-stage-config` now makes verified
+survivor export and restart-safe candidate import an automatic one-way service stage. It uses
+separate bridge/orchestrator databases, re-verifies blocks and ordinal identities, enforces its own
+candidate/disk/task/deadline caps, and cannot write back to upstream work. Reviewed evaluators still
+require separate hash-bound registration; absent evaluators block rather than silently running.
+Candidate-specific Solar
 and galaxy prediction bundles remain unimplemented and fail-closed; the galaxy evaluator opens no
 data until both exact prediction provenance and a separately authorized observable contract exist.
 The engine also does not yet generate new

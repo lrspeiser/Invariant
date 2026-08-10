@@ -199,6 +199,13 @@ production and verification, not CUDA screening, are the current bottleneck.
 the first rejection or unresolved gate, and builds a multi-axis Pareto follow-up queue only from
 non-rejected candidates. Its ranking is work allocation, never a truth probability, and it cannot
 override any hard-gate rejection.
+New services may also enable an optional one-way automatic promotion stage. After upstream
+generation and CUDA results are durably committed, it creates a bounded portable export,
+independently re-verifies every block and ordinal, and imports candidates into separate restart-safe
+bridge/orchestrator databases. Candidate, block, and combined lineage roots are persisted;
+candidate/disk/task/deadline caps backpressure the stage. Downstream failure is recorded fail-closed
+and cannot mutate upstream screening. Evaluators are still separately registered and missing ones
+remain blocked.
 
 The first sealed candidate-data target is now defined as observable-to-observable galaxy discovery:
 audited light/gas/angular inputs predict held-out spectral-line kinematics, with whole-galaxy splits,

@@ -95,6 +95,9 @@ def _paths(service_directory: str | Path) -> dict[str, Path]:
         "log": root / "service.log",
         "chunks": root / "chunks",
         "promotion": root / "promotion",
+        "downstream_config": root / "promotion-stage-config.json",
+        "downstream_root": root / "downstream",
+        "downstream_status": root / "downstream-status.json",
     }
 
 
@@ -125,6 +128,7 @@ def initialize_service(
     stream_config_path: str | Path,
     *,
     maximum_tasks: int | None = None,
+    promotion_stage_config_path: str | Path | None = None,
 ) -> dict[str, Any]:
     paths = _paths(service_directory)
     if paths["service"].exists():
@@ -179,6 +183,16 @@ def initialize_service(
     _write_json(paths["execution"], configured)
     _write_json(paths["resource"], resource)
     _write_json(paths["stream"], stream)
+    downstream: dict[str, Any] | None = None
+    if promotion_stage_config_path is not None:
+        downstream_path = Path(promotion_stage_config_path).resolve()
+        downstream = _load(downstream_path)
+        for key in ("pipeline_config_path", "generator_config_path"):
+            downstream[key] = str(_resolve_existing(downstream[key], downstream_path))
+        from .rust_promotion_service_stage import RustPromotionServiceStage
+
+        _write_json(paths["downstream_config"], downstream)
+        RustPromotionServiceStage(paths["downstream_root"], downstream)
     coordinator = PersistentParallelSearch(paths["database"], configured, resource)
     # This validates the full ordinal/disk/wall/lease contract before a worker
     # can be launched and persists the restart cursor atomically.
@@ -195,11 +209,14 @@ def initialize_service(
         "stream_sha256": _sha(stream),
         "maximum_disk_bytes": maximum_disk,
     }
+    if downstream is not None:
+        identity["promotion_stage_sha256"] = _sha(downstream)
     now = datetime.now(UTC).isoformat()
     service = {
         "schema_version": SERVICE_SCHEMA,
         "service_id": f"SGRS-{_sha(identity)[:24]}",
         "scheduler_mode": scheduler_mode,
+        "automatic_promotion_enabled": downstream is not None,
         "identity": identity,
         "state": "initialized",
         "pid": None,
@@ -233,9 +250,10 @@ def _source(database: Path, scheduler_mode: str = "serial") -> dict[str, Any] | 
         connection.row_factory = sqlite3.Row
         table = "rust_parallel_source" if scheduler_mode == "parallel" else "rust_stream_source"
         row = connection.execute(f"SELECT * FROM {table} ORDER BY source_id LIMIT 1").fetchone()
-        count_rows = (
+        chunk_rows = (
             connection.execute(
-                "SELECT state,COUNT(*) FROM rust_parallel_chunks WHERE source_id=? GROUP BY state",
+                "SELECT sequence,start_ordinal,end_ordinal_exclusive,state FROM "
+                "rust_parallel_chunks WHERE source_id=? ORDER BY sequence",
                 (row["source_id"],),
             ).fetchall()
             if scheduler_mode == "parallel" and row is not None
@@ -250,8 +268,14 @@ def _source(database: Path, scheduler_mode: str = "serial") -> dict[str, Any] | 
         return None
     value = dict(row)
     if scheduler_mode == "parallel":
-        counts = {state: int(count) for state, count in count_rows}
+        counts = dict(Counter(chunk["state"] for chunk in chunk_rows))
+        next_ordinal = int(value["start_ordinal"])
+        for chunk in chunk_rows:
+            if int(chunk["start_ordinal"]) != next_ordinal or chunk["state"] != "enqueued":
+                break
+            next_ordinal = int(chunk["end_ordinal_exclusive"])
         value["chunk_counts"] = counts
+        value["next_ordinal"] = next_ordinal
         value["exhausted"] = counts.get("enqueued", 0) == sum(counts.values())
     else:
         value["exhausted"] = int(value["next_ordinal"]) >= int(value["stop_ordinal"])
@@ -267,6 +291,19 @@ def service_status(service_directory: str | Path) -> dict[str, Any]:
     telemetry = None
     if paths["database"].exists():
         telemetry = PersistentParallelSearch(paths["database"], execution, resource).telemetry()
+    downstream = None
+    if paths["downstream_config"].exists():
+        try:
+            from .rust_promotion_service_stage import RustPromotionServiceStage
+
+            downstream = RustPromotionServiceStage(
+                paths["downstream_root"], _load(paths["downstream_config"])
+            ).status()
+        except Exception as error:  # noqa: BLE001 - status must expose fail-closed stage errors
+            downstream = {
+                "outcome": "failed_closed",
+                "error": f"{type(error).__name__}: {error}",
+            }
     status = {
         "schema_version": STATUS_SCHEMA,
         "service_id": service["service_id"],
@@ -285,6 +322,7 @@ def service_status(service_directory: str | Path) -> dict[str, Any]:
         },
         "cost_budget": service["cost_budget"],
         "data_eligibility": service["data_eligibility"],
+        "automatic_promotion": downstream,
     }
     _write_json(paths["status"], status)
     return status
@@ -334,6 +372,8 @@ def run_service_worker(service_directory: str | Path) -> dict[str, Any]:
         "stream_sha256": _sha(stream),
         "maximum_disk_bytes": int(service["identity"]["maximum_disk_bytes"]),
     }
+    if paths["downstream_config"].exists():
+        expected_identity["promotion_stage_sha256"] = _sha(_load(paths["downstream_config"]))
     if service["identity"] != expected_identity:
         raise ValueError("stored streaming service identity mismatch")
     if service["data_eligibility"] != {
@@ -387,13 +427,11 @@ def run_service_worker(service_directory: str | Path) -> dict[str, Any]:
             external_stop_path=paths["stop"], stop_reason_callback=disk_reason,
             status_callback=periodic,
         )
-        envelope = {
+        envelope: dict[str, Any] = {
             "schema_version": "sigma-rust-streaming-service-run-1.0",
             "streaming": report,
             "hardware": _hardware_summary(samples),
         }
-        envelope["content_sha256"] = _sha(envelope)
-        _write_json(paths["last_run"], envelope)
         completed = report["supervisor"]["stop_reason"] == "queue_drained" and report["cursor"][
             "exhausted"
         ]
@@ -403,6 +441,38 @@ def run_service_worker(service_directory: str | Path) -> dict[str, Any]:
             pid=None,
             last_stop_reason=report["supervisor"]["stop_reason"],
         )
+        if paths["downstream_config"].exists():
+            try:
+                export_path = paths["downstream_root"] / "source-promotion-export.json"
+                downstream_config = _load(paths["downstream_config"])
+                export_service(
+                    paths["root"],
+                    export_path,
+                    maximum_export_bytes=int(downstream_config["maximum_disk_bytes"]) // 2,
+                )
+                from .rust_promotion_service_stage import RustPromotionServiceStage
+
+                downstream = RustPromotionServiceStage(
+                    paths["downstream_root"], downstream_config
+                ).run(export_path)
+            except Exception as error:  # noqa: BLE001 - downstream cannot rewrite upstream result
+                downstream = {
+                    "schema_version": "sigma-rust-promotion-service-status-1.0",
+                    "outcome": "failed_closed",
+                    "error": f"{type(error).__name__}: {error}",
+                    "upstream_result_preserved": True,
+                    "data_eligibility": {
+                        **ELIGIBILITY,
+                        "paid_llm_calls": False,
+                        "passed": True,
+                    },
+                    "paid_llm_spend_usd": 0.0,
+                }
+            _write_json(paths["downstream_status"], downstream)
+            envelope["automatic_promotion"] = downstream
+            _update(paths, automatic_promotion_last_outcome=downstream["outcome"])
+        envelope["content_sha256"] = _sha(envelope)
+        _write_json(paths["last_run"], envelope)
         service_status(paths["root"])
         return envelope
     except BaseException as error:
@@ -444,6 +514,7 @@ def start_service(
     *,
     foreground: bool,
     maximum_tasks: int | None = None,
+    promotion_stage_config_path: str | Path | None = None,
 ) -> dict[str, Any]:
     initialize_service(
         service_directory,
@@ -451,6 +522,7 @@ def start_service(
         resource_profile_path,
         stream_config_path,
         maximum_tasks=maximum_tasks,
+        promotion_stage_config_path=promotion_stage_config_path,
     )
     paths = _paths(service_directory)
     if foreground:
@@ -627,6 +699,7 @@ def _parser() -> argparse.ArgumentParser:
     start.add_argument("--resource-profile", required=True)
     start.add_argument("--stream-config", required=True)
     start.add_argument("--maximum-tasks", type=int)
+    start.add_argument("--promotion-stage-config")
     start.add_argument("--foreground", action="store_true")
     for name in ("status", "stop", "resume", "worker"):
         command = commands.add_parser(name)
@@ -650,6 +723,7 @@ def main(argv: list[str] | None = None) -> int:
             args.stream_config,
             foreground=args.foreground,
             maximum_tasks=args.maximum_tasks,
+            promotion_stage_config_path=args.promotion_stage_config,
         )
     elif args.command == "status":
         value = service_status(args.service_dir)
