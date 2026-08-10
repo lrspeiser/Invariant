@@ -7,6 +7,10 @@ from pathlib import Path
 from .action_health import analyze_action_health
 from .action_ir import compile_action_file, load_action_grammar
 from .adm_ir import compile_adm_ir, write_adm_ir
+from .bounded_survivor_corpus import (
+    BoundedSurvivorCorpusBuilder,
+    benchmark_cached_cuda_manifest,
+)
 from .compiler import TheoryCompiler
 from .covariant_export import export_covariant_candidate_files
 from .covariant_variation import vary_proca_action_file, vary_scalar_action_file
@@ -26,6 +30,14 @@ from .formal_backend import (
 )
 from .gpu_screen import crosscheck_dense_gpu_screen, run_dense_gpu_screen
 from .grammar_exhaustion import audit_static_grammar_exhaustion, write_grammar_exhaustion
+from .gravity_engine_service import (
+    export_service,
+    resume_service,
+    run_service_worker,
+    service_status,
+    start_service,
+    stop_service,
+)
 from .hamiltonian_ir import compile_physical_hamiltonian_ir, write_physical_hamiltonian_ir
 from .high_throughput import crosscheck_manifest, write_crosscheck
 from .knowledge import GateOntology, KnowledgeBuilder, prioritize_registered_formulas
@@ -815,11 +827,114 @@ def _parser() -> argparse.ArgumentParser:
     )
     dhost_compile.add_argument("--spec", type=Path, required=True)
     dhost_compile.add_argument("--output", type=Path, required=True)
+    engine_start = subparsers.add_parser(
+        "engine-start", help="Create and start a durable local gravity formula-search service"
+    )
+    engine_start.add_argument("--service-dir", type=Path, required=True)
+    engine_start.add_argument("--mode", choices=("real", "binary"), required=True)
+    engine_start.add_argument(
+        "--execution-config",
+        type=Path,
+        default=Path("configs/persistent_parallel_search_5090.json"),
+    )
+    engine_start.add_argument(
+        "--resource-profile", type=Path, default=Path("configs/resource_profile_5090.json")
+    )
+    engine_start.add_argument("--adapter-config", type=Path, required=True)
+    engine_start.add_argument("--maximum-tasks", type=int)
+    engine_start.add_argument("--maximum-wall-seconds", type=float)
+    engine_start.add_argument("--maximum-disk-bytes", type=int, default=8 * 1024**3)
+    engine_start.add_argument("--foreground", action="store_true")
+    engine_status = subparsers.add_parser("engine-status", help="Inspect a local engine service")
+    engine_status.add_argument("--service-dir", type=Path, required=True)
+    engine_stop = subparsers.add_parser("engine-stop", help="Request a clean engine stop")
+    engine_stop.add_argument("--service-dir", type=Path, required=True)
+    engine_stop.add_argument("--wait-seconds", type=float, default=10.0)
+    engine_resume = subparsers.add_parser("engine-resume", help="Resume a stopped engine service")
+    engine_resume.add_argument("--service-dir", type=Path, required=True)
+    engine_resume.add_argument("--foreground", action="store_true")
+    engine_export = subparsers.add_parser(
+        "engine-export", help="Export engine status, provenance, and result-root summary"
+    )
+    engine_export.add_argument("--service-dir", type=Path, required=True)
+    engine_export.add_argument("--output", type=Path, required=True)
+    engine_corpus = subparsers.add_parser(
+        "engine-corpus-build", help="Build a bounded resumable Rust survivor corpus"
+    )
+    engine_corpus.add_argument("--config", type=Path, required=True)
+    engine_corpus.add_argument("--benchmark-cuda", action="store_true")
+    engine_corpus.add_argument(
+        "--execution-config",
+        type=Path,
+        default=Path("configs/persistent_parallel_search_5090.json"),
+    )
+    engine_corpus.add_argument(
+        "--resource-profile", type=Path, default=Path("configs/resource_profile_5090.json")
+    )
+    engine_corpus.add_argument("--benchmark-output", type=Path)
+    engine_worker = subparsers.add_parser("engine-worker", help=argparse.SUPPRESS)
+    engine_worker.add_argument("--service-dir", type=Path, required=True)
     return parser
 
 
 def main(argv: list[str] | None = None) -> int:
     args = _parser().parse_args(argv)
+    if args.command == "engine-start":
+        result = start_service(
+            args.service_dir,
+            args.execution_config,
+            args.resource_profile,
+            args.adapter_config,
+            mode=args.mode,
+            foreground=args.foreground,
+            maximum_tasks=args.maximum_tasks,
+            maximum_wall_seconds=args.maximum_wall_seconds,
+            maximum_disk_bytes=args.maximum_disk_bytes,
+        )
+        print(json.dumps(result, indent=2, sort_keys=True))
+        return 0
+    if args.command == "engine-worker":
+        result = run_service_worker(args.service_dir)
+        print(json.dumps(result, indent=2, sort_keys=True))
+        return 0 if result["stop_reason"] in {"queue_drained", "external_stop_requested"} else 1
+    if args.command == "engine-status":
+        print(json.dumps(service_status(args.service_dir), indent=2, sort_keys=True))
+        return 0
+    if args.command == "engine-stop":
+        print(
+            json.dumps(
+                stop_service(args.service_dir, wait_seconds=args.wait_seconds),
+                indent=2,
+                sort_keys=True,
+            )
+        )
+        return 0
+    if args.command == "engine-resume":
+        result = resume_service(args.service_dir, foreground=args.foreground)
+        print(json.dumps(result, indent=2, sort_keys=True))
+        return 0
+    if args.command == "engine-export":
+        result = export_service(args.service_dir, args.output)
+        print(json.dumps(result, indent=2, sort_keys=True))
+        return 0
+    if args.command == "engine-corpus-build":
+        config = json.loads(args.config.read_text(encoding="utf-8"))
+        corpus = BoundedSurvivorCorpusBuilder(config).build()
+        result: dict[str, object] = {"corpus": corpus}
+        if args.benchmark_cuda:
+            output_directory = Path(config["output_directory"]).resolve()
+            manifest = Path(corpus["verified_manifests"][0]["manifest_path"])
+            benchmark_output = args.benchmark_output or output_directory / "cuda-benchmark.json"
+            result["benchmark"] = benchmark_cached_cuda_manifest(
+                manifest,
+                output_directory,
+                config["generator_config_path"],
+                json.loads(args.execution_config.read_text(encoding="utf-8")),
+                json.loads(args.resource_profile.read_text(encoding="utf-8")),
+                output_path=benchmark_output,
+            )
+        print(json.dumps(result, indent=2, sort_keys=True))
+        return 0
     if args.command == "search":
         compiler = TheoryCompiler.from_path(args.config)
         registry = compiler.run(config_path=args.config)

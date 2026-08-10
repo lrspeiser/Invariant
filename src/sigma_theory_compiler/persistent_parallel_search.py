@@ -47,6 +47,9 @@ def _validate_config(config: dict[str, Any]) -> None:
         "supervisor.telemetry_interval_seconds": config["supervisor"][
             "telemetry_interval_seconds"
         ],
+        "supervisor.refill_interval_seconds": config["supervisor"][
+            "refill_interval_seconds"
+        ],
         "supervisor.maximum_wall_seconds_per_run": config["supervisor"][
             "maximum_wall_seconds_per_run"
         ],

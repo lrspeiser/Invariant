@@ -38,6 +38,7 @@ def _config(*, lease_seconds: int = 2) -> dict:
         "gpu_evaluator": "synthetic_gpu_owner",
         "worker_poll_seconds": 0.01,
         "telemetry_interval_seconds": 0.02,
+        "refill_interval_seconds": 0.01,
         "maximum_telemetry_bytes": 4 * 1024 * 1024,
         "maximum_wall_seconds_per_run": 10,
         "maximum_process_restarts": 4,
@@ -173,3 +174,24 @@ def test_telemetry_disk_cap_is_explicit_and_reported(tmp_path: Path) -> None:
     ).run(maximum_wall_seconds=1)
     assert report["telemetry_records_written"] == 0
     assert report["telemetry_records_dropped_by_disk_cap"] == 1
+
+
+def test_external_stop_preserves_queued_work_for_clean_resume(tmp_path: Path) -> None:
+    config = _config()
+    profile = _load(PROFILE)
+    database = tmp_path / "external-stop.sqlite"
+    stop = tmp_path / "stop.request"
+    coordinator = PersistentParallelSearch(database, config, profile)
+    coordinator.enqueue([{"ordinal": 1, "formula": "R+X"}], lane="cpu")
+    stop.write_text("stop\n", encoding="utf-8")
+    stopped = PersistentParallelSupervisor(
+        database, config, profile, tmp_path / "external-stop.jsonl"
+    ).run(external_stop_path=stop)
+    assert stopped["stop_reason"] == "external_stop_requested"
+    assert coordinator.telemetry()["counts"]["queued"] == 1
+    stop.unlink()
+    resumed = PersistentParallelSupervisor(
+        database, config, profile, tmp_path / "external-stop.jsonl"
+    ).run(external_stop_path=stop)
+    assert resumed["stop_reason"] == "queue_drained"
+    assert coordinator.telemetry()["counts"]["succeeded"] == 1

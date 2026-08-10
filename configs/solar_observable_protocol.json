@@ -1,0 +1,114 @@
+{
+  "schema_version": "sigma-solar-observable-protocol-1.0",
+  "status": "sealed",
+  "data_opened": false,
+  "objective": "Test a frozen covariant gravity action by predicting untouched Solar-System timing, coherent-frequency, and angular records from training-only state estimates and audited instrument calibration, without using fitted PPN or gravity-model residual labels as truth.",
+  "quantity_classes": {
+    "raw": {
+      "examples": [
+        "station clock counter readings and transmit/receive event tags",
+        "receiver phase-cycle or frequency-count accumulations",
+        "detector pixels or interferometric fringe observables",
+        "instrument housekeeping and weather records used by calibration"
+      ]
+    },
+    "calibrated": {
+      "examples": [
+        "clock-corrected transmit and receive epochs",
+        "coherent carrier-frequency ratios with oscillator provenance",
+        "calibrated angular separations with plate or baseline covariance",
+        "antenna and propagation calibration terms with uncertainty"
+      ]
+    },
+    "derived": {
+      "examples": [
+        "round-trip light-time from paired clock events",
+        "dimensionless coherent Doppler count ratio",
+        "relative angular position within one observing session"
+      ],
+      "rule": "Every derived quantity retains its raw inputs, exact transformation, calibration parameters, full covariance, and assumptions."
+    },
+    "model_dependent": {
+      "examples": [
+        "ephemeris state estimated with a chosen gravity model",
+        "fitted PPN gamma or beta",
+        "precomputed Shapiro, perihelion, or light-deflection residual"
+      ],
+      "allowed_as_prediction_truth": false
+    },
+    "latent": {
+      "examples": [
+        "unmeasured gravitating component",
+        "object-specific gravitational coupling",
+        "post-hoc screening switch"
+      ],
+      "allowed_as_input_or_target": false
+    }
+  },
+  "measurement_channel": {
+    "inputs": [
+      "clock-tagged transmitted and received radio or radar events with station and oscillator provenance",
+      "coherent carrier phase or frequency counts with integration interval and cycle-slip audit",
+      "calibrated optical or radio angular measurements with detector, plate, or interferometric-baseline provenance",
+      "instrument, tropospheric, ionospheric, plasma, and station calibration records with covariance",
+      "training-only initial-condition measurements and their covariance"
+    ],
+    "prediction_targets": [
+      "held-out two-way round-trip light-time records",
+      "held-out coherent carrier frequency-count or phase-ratio records",
+      "held-out relative angular-separation records"
+    ],
+    "allowed_formula_inputs": [
+      "audited measurement-channel inputs available before the test session",
+      "one frozen covariant action and universal constants",
+      "training-only frozen state estimates with uncertainty",
+      "globally frozen instrument and propagation calibration nuisances"
+    ],
+    "forbidden_formula_inputs": [
+      "fitted PPN gamma or beta",
+      "precomputed Shapiro, perihelion, or light-deflection residual labeled by a gravity model",
+      "ephemeris state or residual estimated using held-out target records",
+      "GR-derived correction or post-fit anomaly treated as truth",
+      "object-specific gravitational coupling or screening parameter",
+      "cosmological redshift-derived distance"
+    ],
+    "initial_state_rule": "Initial conditions and nuisance posteriors use training sessions only, are frozen with uncertainty before held-out sessions open, and cannot be refitted to held-out targets."
+  },
+  "split_contract": {
+    "unit": "tracking pass or observing session",
+    "group_leakage_forbidden": true,
+    "roles": [
+      "state-and-calibration training sessions",
+      "formula-selection validation sessions",
+      "untouched target-blind test sessions"
+    ],
+    "stratification_inputs": "instrument, geometry class, and measurement quality fixed before target opening; no gravity-model residual or fitted PPN label",
+    "sealed_test_rule": "Test-session identities, signals, and residuals remain inaccessible until the action hash, universal constants, initial state and covariance, calibration model, likelihood, and stopping rule are frozen."
+  },
+  "scoring_contract": {
+    "fit_term": "joint held-out likelihood in direct signal space using measurement, clock, propagation, and calibration covariance",
+    "complexity_term": "preregistered action description length and universal-parameter count",
+    "object_specific_gravity_parameters": 0,
+    "required_baselines": [
+      "the same signal model under the frozen Einstein-Hilbert reference action",
+      "an instrument-null or no-gravity-perturbation diagnostic that cannot serve as physical truth"
+    ],
+    "selection_rule": "Action and nuisance selection uses training and validation sessions only; no test signal or residual is used before the complete freeze."
+  },
+  "prohibited_truth_or_rescue": [
+    "fitted PPN parameter",
+    "gravity-model-derived ephemeris residual",
+    "dark matter or invisible halo",
+    "redshift-derived distance",
+    "supernova distance modulus",
+    "post-hoc initial-state or calibration refit chosen to rescue a failed action"
+  ],
+  "opening_requirements": [
+    "all required theory-side formal gates pass for the exact action hash",
+    "the observational evidence policy hash is frozen",
+    "the direct-observation dataset manifest and raw-to-calibrated transformations pass an independent audit",
+    "tracking-session group splits are hash-committed before any test target opens",
+    "training-only initial states, calibration hierarchy, covariance, and propagation corrections are frozen",
+    "the likelihood, complexity penalty, baselines, and stopping rule are preregistered"
+  ]
+}

@@ -156,8 +156,20 @@ and paid-LLM inputs fail-closed. A reproducible one-million-formula Rust corpus 
 survivors; cached RTX 5090 screening reached a median 8.80 million survivor records per second.
 The APIs and bounded configs live in `persistent_parallel_search.py`,
 `persistent_parallel_supervisor.py`, `real_formula_execution.py`, `binary_formula_execution.py`,
-and `bounded_survivor_corpus.py`. CLI/service lifecycle wiring and a continuously refilled
-multi-stage scientific evaluator remain follow-on work.
+and `bounded_survivor_corpus.py`. The `engine-start`, `engine-status`, `engine-stop`,
+`engine-resume`, `engine-export`, and `engine-corpus-build` CLI commands now provide a continuously
+refilled, restart-safe local service, bounded utilization telemetry, and a local status dashboard.
+See [`docs/PERSISTENT_GRAVITY_ENGINE.md`](docs/PERSISTENT_GRAVITY_ENGINE.md). The separate
+`rust_streaming_search.py` adapter can overlap restart-safe Rust `SGSURV2` chunk
+production with one cached CUDA consumer, eliminating Python ordinal decoding from its hot path;
+the checked-in configuration remains a bounded integration control rather than a billion-formula
+production claim. Promotion into later
+covariant, Hamiltonian, principal-symbol, and observational gates is represented by a separate
+restart-safe promotion registry in `promotion_orchestrator.py`. It imports real hash-verified Rust
+survivors, chains candidate/evidence lineage through cheap, symbolic, formal, and observational
+stages, and blocks every missing or unimplemented evaluator. The production promotion config
+therefore remains deliberately fail-closed until reviewed downstream evaluator bindings are
+connected.
 
 The first sealed candidate-data target is now defined as observable-to-observable galaxy discovery:
 audited light/gas/angular inputs predict held-out spectral-line kinematics, with whole-galaxy splits,
@@ -165,6 +177,14 @@ zero object-specific gravity parameters, and no halo or redshift-distance labels
 must then face raw lensing geometry as an independent falsification channel. The protocol passes its
 structural audit but opens no data; see
 [`docs/GALAXY_OBSERVABLE_DISCOVERY.md`](docs/GALAXY_OBSERVABLE_DISCOVERY.md).
+
+A matching sealed Solar-System protocol predicts held-out round-trip light-time, coherent
+frequency/phase ratios, and angular separation from admitted tracking and calibration records. It
+forbids fitted PPN labels, precomputed model residuals, held-out ephemeris leakage, and
+object-specific gravity parameters. NASA PDS Cassini SCE1 metadata and all eight volume-catalog
+fingerprints are registered, while every primary radio record remains unopened and unavailable to
+formula search pending a preregistered whole-session split and verified raw parsers; see
+[`docs/OBSERVATIONAL_EVIDENCE_POLICY.md`](docs/OBSERVATIONAL_EVIDENCE_POLICY.md).
 
 The covariant field content, universal matter split, resolution of the legacy baryonic scalar `z`,
 Cadabra/SymPy backend, and formal known-answer controls are specified in

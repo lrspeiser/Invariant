@@ -392,6 +392,8 @@ def configure_real_evaluators(
     configured["supervisor"]["gpu_evaluator"] = (
         "sigma_theory_compiler.real_formula_execution:gpu_formula_batch_evaluator"
     )
+    if "cpu" not in adapter_config["lane_cycle"]:
+        configured["supervisor"]["cpu_workers"] = 0
     if "gpu" not in adapter_config["lane_cycle"]:
         configured["supervisor"]["gpu_workers"] = 0
     return configured

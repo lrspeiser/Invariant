@@ -4,6 +4,7 @@ import hashlib
 import json
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlsplit
 
 REQUIRED_FORMAL_GATES = (
     "field_contract",
@@ -22,6 +23,16 @@ REQUIRED_FORMAL_GATES = (
 )
 
 
+def _allowed_https_host(value: str, allowed_hosts: set[str]) -> bool:
+    parsed = urlsplit(value)
+    return (
+        parsed.scheme == "https"
+        and parsed.hostname in allowed_hosts
+        and parsed.username is None
+        and parsed.password is None
+    )
+
+
 def _load_json(path: str | Path) -> dict[str, Any]:
     return json.loads(Path(path).read_text(encoding="utf-8"))
 
@@ -34,6 +45,365 @@ def _resolved_artifact_path(health_path: Path, value: str) -> Path:
     if candidate.exists():
         return candidate
     return path.resolve()
+
+
+def _portable_path(path: Path) -> str:
+    """Return a repository-relative provenance path when possible."""
+
+    try:
+        return path.resolve().relative_to(Path.cwd().resolve()).as_posix()
+    except ValueError:
+        return path.name
+
+
+def audit_solar_observable_protocol(
+    protocol_path: str | Path, evidence_policy_path: str | Path
+) -> dict[str, Any]:
+    """Validate the sealed direct-observable Solar-System test contract.
+
+    Passing this audit never opens data. It only proves that the future dataset
+    contract separates direct signals from calibrated, derived, model-dependent,
+    and latent quantities and prevents target leakage into theory selection.
+    """
+
+    protocol_path = Path(protocol_path).resolve()
+    policy_path = Path(evidence_policy_path).resolve()
+    errors: list[str] = []
+    try:
+        protocol_bytes = protocol_path.read_bytes()
+        protocol = json.loads(protocol_bytes)
+    except (OSError, json.JSONDecodeError) as error:
+        return {
+            "schema_version": "sigma-solar-observable-audit-1.0",
+            "status": "fail",
+            "errors": [f"cannot load Solar observable protocol: {error}"],
+            "observational_dataset_opened": False,
+        }
+    try:
+        policy_bytes = policy_path.read_bytes()
+        policy = json.loads(policy_bytes)
+    except (OSError, json.JSONDecodeError) as error:
+        return {
+            "schema_version": "sigma-solar-observable-audit-1.0",
+            "status": "fail",
+            "errors": [f"cannot load observational evidence policy: {error}"],
+            "observational_dataset_opened": False,
+        }
+
+    if protocol.get("schema_version") != "sigma-solar-observable-protocol-1.0":
+        errors.append("unsupported Solar observable protocol schema")
+    if protocol.get("status") != "sealed":
+        errors.append("Solar observable protocol must remain sealed")
+    if protocol.get("data_opened") is not False:
+        errors.append("Solar observable protocol cannot claim opened data")
+    if policy.get("schema_version") != "sigma-observational-evidence-policy-1.0":
+        errors.append("unsupported observational evidence policy schema")
+    if policy.get("status") != "frozen":
+        errors.append("observational evidence policy is not frozen")
+
+    classes = protocol.get("quantity_classes", {})
+    required_classes = {"raw", "calibrated", "derived", "model_dependent", "latent"}
+    if set(classes) != required_classes:
+        errors.append("quantity classes must be exactly raw/calibrated/derived/model-dependent/latent")
+    for name in required_classes:
+        if not isinstance(classes.get(name, {}).get("examples"), list) or not classes.get(
+            name, {}
+        ).get("examples"):
+            errors.append(f"quantity class {name} lacks examples")
+    if classes.get("model_dependent", {}).get("allowed_as_prediction_truth") is not False:
+        errors.append("model-dependent quantities cannot be prediction truth")
+    if classes.get("latent", {}).get("allowed_as_input_or_target") is not False:
+        errors.append("latent quantities cannot be inputs or targets")
+    derived_rule = str(classes.get("derived", {}).get("rule", "")).casefold()
+    if not all(token in derived_rule for token in ("raw inputs", "transformation", "covariance")):
+        errors.append("derived quantities lack raw-input, transformation, and covariance provenance")
+
+    channel = protocol.get("measurement_channel", {})
+    inputs = channel.get("inputs", [])
+    targets = channel.get("prediction_targets", [])
+    allowed_inputs = channel.get("allowed_formula_inputs", [])
+    forbidden_inputs = set(channel.get("forbidden_formula_inputs", []))
+    if not isinstance(inputs, list) or len(inputs) < 4:
+        errors.append("Solar measurement channel lacks direct signal classes")
+    target_text = " ".join(str(item) for item in targets).casefold()
+    if "held-out" not in target_text or not any(
+        token in target_text for token in ("light-time", "frequency", "angular")
+    ):
+        errors.append("Solar targets must be held-out direct timing/frequency/angular signals")
+    contaminated = " ".join(
+        [*(str(item) for item in inputs), *(str(item) for item in allowed_inputs), *targets]
+    ).casefold()
+    for prohibited in (
+        "fitted ppn gamma",
+        "fitted ppn beta",
+        "precomputed shapiro residual",
+        "perihelion anomaly label",
+        "ephemeris residual as truth",
+        "gr-derived correction",
+    ):
+        if prohibited in contaminated:
+            errors.append(f"allowed Solar channel contains prohibited input: {prohibited}")
+    required_forbidden = {
+        "fitted PPN gamma or beta",
+        "precomputed Shapiro, perihelion, or light-deflection residual labeled by a gravity model",
+        "ephemeris state or residual estimated using held-out target records",
+        "GR-derived correction or post-fit anomaly treated as truth",
+        "object-specific gravitational coupling or screening parameter",
+        "cosmological redshift-derived distance",
+    }
+    missing_forbidden = sorted(required_forbidden - forbidden_inputs)
+    if missing_forbidden:
+        errors.append("missing forbidden Solar inputs: " + ", ".join(missing_forbidden))
+    initial_state_rule = str(channel.get("initial_state_rule", "")).casefold()
+    if not all(
+        token in initial_state_rule
+        for token in ("training", "frozen", "held-out", "uncertainty")
+    ):
+        errors.append("initial-state estimation is not frozen before held-out prediction")
+
+    split = protocol.get("split_contract", {})
+    if split.get("unit") != "tracking pass or observing session":
+        errors.append("Solar split unit must be a whole tracking pass or observing session")
+    if split.get("group_leakage_forbidden") is not True:
+        errors.append("Solar tracking-session leakage is not forbidden")
+    roles = set(split.get("roles", []))
+    if "untouched target-blind test sessions" not in roles:
+        errors.append("target-blind Solar test-session role is missing")
+    sealed_rule = str(split.get("sealed_test_rule", "")).casefold()
+    if not all(
+        token in sealed_rule
+        for token in ("action hash", "initial state", "stopping rule", "inaccessible")
+    ):
+        errors.append("Solar sealed-test rule does not freeze theory, state, and stopping decisions")
+
+    scoring = protocol.get("scoring_contract", {})
+    if scoring.get("object_specific_gravity_parameters") != 0:
+        errors.append("object-specific Solar gravitational parameters must equal zero")
+    if "covariance" not in str(scoring.get("fit_term", "")).casefold():
+        errors.append("Solar fit score must carry measurement and calibration covariance")
+    selection_rule = str(scoring.get("selection_rule", "")).casefold()
+    if not all(token in selection_rule for token in ("validation", "no test", "freeze")):
+        errors.append("Solar selection rule does not isolate the sealed test channel")
+    if not scoring.get("required_baselines"):
+        errors.append("Solar reference and instrument-null baselines are missing")
+
+    prohibited_truth = {
+        str(item).casefold() for item in protocol.get("prohibited_truth_or_rescue", [])
+    }
+    for required in (
+        "fitted ppn parameter",
+        "gravity-model-derived ephemeris residual",
+        "dark matter or invisible halo",
+        "redshift-derived distance",
+        "supernova distance modulus",
+    ):
+        if required not in prohibited_truth:
+            errors.append(f"missing prohibited Solar truth/rescue quantity: {required}")
+    if policy.get("supernovae", {}).get("default_status") != "excluded":
+        errors.append("supernova distances are not excluded by the evidence policy")
+    if "treating redshift as a distance" not in policy.get("redshift", {}).get(
+        "not_allowed_by_default", []
+    ):
+        errors.append("redshift-distance inference is not excluded by default")
+
+    opening_requirements = protocol.get("opening_requirements", [])
+    if not isinstance(opening_requirements, list) or len(opening_requirements) < 6:
+        errors.append("Solar dataset-opening requirements are incomplete")
+    passed = not errors
+    return {
+        "schema_version": "sigma-solar-observable-audit-1.0",
+        "status": "pass" if passed else "fail",
+        "protocol": _portable_path(protocol_path),
+        "protocol_sha256": hashlib.sha256(protocol_bytes).hexdigest(),
+        "policy": _portable_path(policy_path),
+        "policy_sha256": hashlib.sha256(policy_bytes).hexdigest(),
+        "errors": errors,
+        "quantity_classes": sorted(classes),
+        "prediction_targets": targets,
+        "split_unit": split.get("unit"),
+        "object_specific_gravity_parameters": scoring.get(
+            "object_specific_gravity_parameters"
+        ),
+        "redshift_distance_allowed_by_default": False,
+        "supernova_default_status": policy.get("supernovae", {}).get("default_status"),
+        "observational_dataset_opened": False,
+        "formula_search_authorized": False,
+        "next_required_binding": (
+            "an eligible exact action hash and an independently audited, hash-committed "
+            "Solar direct-observation dataset manifest"
+        ),
+    }
+
+
+def audit_solar_source_registration(
+    manifest_path: str | Path,
+    protocol_path: str | Path,
+    evidence_policy_path: str | Path,
+) -> dict[str, Any]:
+    """Audit metadata registration for a still-sealed Solar data source.
+
+    This gate verifies authoritative-source identity and remote catalog
+    fingerprints. It intentionally does not claim that primary records have been
+    downloaded, parsed, calibrated, split, or made available to formula search.
+    """
+
+    manifest_path = Path(manifest_path).resolve()
+    protocol_path = Path(protocol_path).resolve()
+    policy_path = Path(evidence_policy_path).resolve()
+    errors: list[str] = []
+    try:
+        manifest_bytes = manifest_path.read_bytes()
+        manifest = json.loads(manifest_bytes)
+    except (OSError, json.JSONDecodeError) as error:
+        return {
+            "schema_version": "sigma-solar-source-registration-audit-1.0",
+            "status": "fail",
+            "errors": [f"cannot load Solar source registration: {error}"],
+            "observational_dataset_opened": False,
+        }
+    try:
+        protocol_bytes = protocol_path.read_bytes()
+        protocol = json.loads(protocol_bytes)
+        policy_bytes = policy_path.read_bytes()
+        policy = json.loads(policy_bytes)
+    except (OSError, json.JSONDecodeError) as error:
+        return {
+            "schema_version": "sigma-solar-source-registration-audit-1.0",
+            "status": "fail",
+            "errors": [f"cannot load bound protocol or policy: {error}"],
+            "observational_dataset_opened": False,
+        }
+
+    if manifest.get("schema_version") != "sigma-observation-source-registration-1.0":
+        errors.append("unsupported observation-source registration schema")
+    if manifest.get("status") != "metadata_registered_data_sealed":
+        errors.append("source registration must remain metadata-only and sealed")
+    if manifest.get("data_opened") is not False:
+        errors.append("source registration cannot claim opened primary data")
+    if manifest.get("candidate_use_authorized") is not False:
+        errors.append("source registration cannot authorize candidate use")
+    if protocol.get("schema_version") != "sigma-solar-observable-protocol-1.0":
+        errors.append("bound Solar protocol schema is unsupported")
+    if policy.get("schema_version") != "sigma-observational-evidence-policy-1.0":
+        errors.append("bound observational policy schema is unsupported")
+    protocol_sha = hashlib.sha256(protocol_bytes).hexdigest()
+    policy_sha = hashlib.sha256(policy_bytes).hexdigest()
+    bindings = manifest.get("bindings", {})
+    if bindings.get("solar_protocol_sha256") != protocol_sha:
+        errors.append("source registration Solar protocol hash mismatch")
+    if bindings.get("evidence_policy_sha256") != policy_sha:
+        errors.append("source registration evidence-policy hash mismatch")
+
+    source = manifest.get("source", {})
+    if source.get("authority") != "NASA Planetary Data System":
+        errors.append("Solar source authority must be NASA Planetary Data System")
+    if source.get("dataset_id") != "CO-SS-RSS-1-SCE1-V1.0":
+        errors.append("unexpected Cassini SCE1 dataset identifier")
+    for key in ("profile_url", "archive_url"):
+        value = str(source.get(key, ""))
+        if not _allowed_https_host(value, {"pds.nasa.gov", "atmos.nmsu.edu"}):
+            errors.append(f"source {key} is not an allowlisted authoritative HTTPS URL")
+    if source.get("volume_count") != 8:
+        errors.append("Cassini SCE1 registration must retain all eight archive volumes")
+    if source.get("start_time") != "2002-06-06T12:00:00Z" or source.get(
+        "stop_time"
+    ) != "2002-07-05T12:00:00Z":
+        errors.append("Cassini SCE1 source coverage differs from the PDS profile")
+
+    indexes = manifest.get("remote_catalog_fingerprints", [])
+    expected_catalog_pairs = {
+        (f"cors_{volume:04d}", name)
+        for volume in range(21, 29)
+        for name in ("cumindex.lbl", "cumindex.tab")
+    }
+    actual_catalog_pairs = (
+        {(item.get("volume"), item.get("name")) for item in indexes}
+        if isinstance(indexes, list)
+        else set()
+    )
+    if actual_catalog_pairs != expected_catalog_pairs or len(indexes) != len(
+        expected_catalog_pairs
+    ):
+        errors.append("all eight Cassini catalog label/table fingerprint pairs are required")
+    for item in indexes if isinstance(indexes, list) else []:
+        sha = str(item.get("sha256", ""))
+        url = str(item.get("url", ""))
+        if len(sha) != 64 or any(character not in "0123456789abcdef" for character in sha):
+            errors.append(f"remote catalog fingerprint is invalid for {item.get('name')}")
+        if not isinstance(item.get("byte_length"), int) or item.get("byte_length", 0) <= 0:
+            errors.append(f"remote catalog byte length is invalid for {item.get('name')}")
+        expected_suffix = f"/{item.get('volume')}/index/{item.get('name')}"
+        if not _allowed_https_host(url, {"atmos.nmsu.edu"}) or not urlsplit(
+            url
+        ).path.endswith(expected_suffix):
+            errors.append(f"remote catalog URL is not allowlisted for {item.get('name')}")
+
+    classification = manifest.get("record_classification", {})
+    direct = set(classification.get("direct_signal_records", []))
+    if not {"ATDF/TDF closed-loop tracking records", "RSR open-loop receiver samples"} <= direct:
+        errors.append("direct Cassini tracking/receiver record classes are incomplete")
+    model_dependent = classification.get("model_dependent_records", {})
+    if model_dependent.get("allowed_as_prediction_truth") is not False:
+        errors.append("Cassini model-dependent ODF/SPK records cannot be prediction truth")
+    if not {"ODF navigation products", "SPK ephemeris kernels"} <= set(
+        model_dependent.get("examples", [])
+    ):
+        errors.append("Cassini ODF/SPK model-dependent classification is incomplete")
+    if classification.get("latent_quantities", {}).get("allowed_as_input_or_target") is not False:
+        errors.append("latent Cassini quantities cannot be inputs or targets")
+
+    targets_text = " ".join(manifest.get("future_prediction_targets", [])).casefold()
+    for prohibited in ("ppn gamma", "ppn beta", "shapiro residual", "dark matter", "halo"):
+        if prohibited in targets_text:
+            errors.append(f"future Cassini targets contain a prohibited label: {prohibited}")
+    forbidden = {str(item).casefold() for item in manifest.get("forbidden_uses", [])}
+    for required in (
+        "odf or spk product treated as direct observation truth",
+        "fitted ppn parameter used as a target",
+        "held-out tracking record used to estimate its own initial state",
+        "dark matter or invisible halo used as truth or rescue",
+        "redshift-derived distance or supernova distance modulus",
+    ):
+        if required not in forbidden:
+            errors.append(f"missing forbidden Cassini use: {required}")
+
+    split = manifest.get("future_split_contract", {})
+    if split.get("unit") != protocol.get("split_contract", {}).get("unit"):
+        errors.append("Cassini split unit differs from the frozen Solar protocol")
+    if split.get("group_leakage_forbidden") is not True:
+        errors.append("Cassini future session grouping does not forbid leakage")
+    if "before primary files download" not in str(split.get("freeze_rule", "")).casefold():
+        errors.append("Cassini split is not frozen before primary-file download")
+
+    readiness = manifest.get("readiness", {})
+    if readiness.get("dataset_ready") is not False:
+        errors.append("metadata registration cannot claim dataset readiness")
+    blockers = readiness.get("blockers", [])
+    if not isinstance(blockers, list) or len(blockers) < 6:
+        errors.append("Cassini data-readiness blockers are incomplete")
+    if readiness.get("primary_files_downloaded") is not False:
+        errors.append("metadata registration cannot claim primary files downloaded")
+    if readiness.get("raw_parser_verified") is not False:
+        errors.append("metadata registration cannot claim a verified raw parser")
+
+    passed = not errors
+    return {
+        "schema_version": "sigma-solar-source-registration-audit-1.0",
+        "status": "pass_metadata_registration" if passed else "fail",
+        "manifest": _portable_path(manifest_path),
+        "manifest_sha256": hashlib.sha256(manifest_bytes).hexdigest(),
+        "protocol": _portable_path(protocol_path),
+        "protocol_sha256": protocol_sha,
+        "policy": _portable_path(policy_path),
+        "policy_sha256": policy_sha,
+        "dataset_id": source.get("dataset_id"),
+        "registered_catalog_files": len(indexes) if isinstance(indexes, list) else 0,
+        "errors": errors,
+        "dataset_ready": False,
+        "candidate_use_authorized": False,
+        "observational_dataset_opened": False,
+        "next_required_work": blockers,
+    }
 
 
 def audit_galaxy_observable_protocol(
@@ -184,9 +554,9 @@ def audit_galaxy_observable_protocol(
     return {
         "schema_version": "sigma-galaxy-observable-audit-1.0",
         "status": "pass" if passed else "fail",
-        "protocol": str(protocol_path),
+        "protocol": _portable_path(protocol_path),
         "protocol_sha256": hashlib.sha256(protocol_bytes).hexdigest(),
-        "policy": str(policy_path),
+        "policy": _portable_path(policy_path),
         "policy_sha256": hashlib.sha256(policy_bytes).hexdigest(),
         "errors": errors,
         "discovery_target": target,

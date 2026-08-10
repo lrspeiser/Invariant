@@ -33,3 +33,29 @@ The relevant null hypothesis is “GR sourced by the measured baryons only.” I
 
 The machine-readable policy is [`../configs/observational_evidence_policy.json`](../configs/observational_evidence_policy.json).
 
+## Solar-System direct-observable protocol
+
+The Solar gate now has a separate sealed contract at
+[`../configs/solar_observable_protocol.json`](../configs/solar_observable_protocol.json). It
+distinguishes five quantity classes explicitly: raw, calibrated, derived, model-dependent, and
+latent. Future predictions target untouched round-trip light-time, coherent carrier
+frequency/phase counts, and relative angular measurements. Fitted PPN parameters, precomputed
+Shapiro/perihelion/light-deflection residuals, ephemerides estimated using held-out targets, and
+object-specific gravity or screening parameters are forbidden as formula inputs or truth.
+
+Splits occur by whole tracking pass or observing session. Training-only initial conditions,
+calibrations, covariance, the action hash, likelihood, and stopping rule must be frozen before test
+sessions open. The passing protocol audit is
+[`../runs/observation-protocol/solar-observable-audit.json`](../runs/observation-protocol/solar-observable-audit.json);
+it records `observational_dataset_opened=false` and `formula_search_authorized=false`.
+
+The first authoritative source registration is NASA PDS dataset
+`CO-SS-RSS-1-SCE1-V1.0`, the Cassini first Solar Conjunction Experiment raw radio-science archive.
+The registration fingerprints all eight volumes' catalog labels and tables and classifies ATDF/TDF
+tracking records and RSR receiver samples separately from compressed ODF navigation products and
+SPK ephemerides. It is deliberately metadata-only: primary files are not downloaded, the raw
+bit-level parsers and covariance transformations are not yet verified, and the eight-volume split
+is not frozen. See
+[`../configs/observations/cassini_sce1_source_registration.json`](../configs/observations/cassini_sce1_source_registration.json)
+and its
+[`audit`](../runs/observation-protocol/cassini-sce1-source-registration-audit.json).

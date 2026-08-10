@@ -6,6 +6,7 @@ import pytest
 from sigma_theory_compiler.persistent_parallel_search import PersistentParallelSearch
 from sigma_theory_compiler.real_formula_execution import (
     FiniteFormulaQueueRefill,
+    configure_real_evaluators,
     cpu_formula_batch_evaluator,
     cuda_available,
     gpu_formula_batch_evaluator,
@@ -150,3 +151,13 @@ def test_generator_refill_rejects_ineligible_data_contract(tmp_path: Path) -> No
     adapter["generator_config_path"] = str(path)
     with pytest.raises(ValueError, match="observational data"):
         FiniteFormulaQueueRefill(coordinator, adapter)
+
+
+def test_real_evaluator_configuration_does_not_spawn_unused_lane_owners() -> None:
+    execution = _execution()
+    gpu_only = _adapter(stop=16)
+    gpu_only["lane_cycle"] = ["gpu"]
+    assert configure_real_evaluators(execution, gpu_only)["supervisor"]["cpu_workers"] == 0
+    cpu_only = _adapter(stop=16)
+    cpu_only["lane_cycle"] = ["cpu"]
+    assert configure_real_evaluators(execution, cpu_only)["supervisor"]["gpu_workers"] == 0

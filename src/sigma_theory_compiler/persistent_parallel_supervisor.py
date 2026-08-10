@@ -197,7 +197,15 @@ class PersistentParallelSupervisor:
             handle.flush()
         return True
 
-    def run(self, maximum_wall_seconds: float | None = None) -> dict[str, Any]:
+    def run(
+        self,
+        maximum_wall_seconds: float | None = None,
+        *,
+        refill_callback: Callable[[], dict[str, Any]] | None = None,
+        external_stop_path: str | Path | None = None,
+        stop_reason_callback: Callable[[], str | None] | None = None,
+        status_callback: Callable[[dict[str, Any]], None] | None = None,
+    ) -> dict[str, Any]:
         context = mp.get_context("spawn")
         stop_event = context.Event()
         supervisor_config = self.config["supervisor"]
@@ -207,12 +215,16 @@ class PersistentParallelSupervisor:
             else supervisor_config["maximum_wall_seconds_per_run"]
         )
         telemetry_interval = float(supervisor_config["telemetry_interval_seconds"])
+        refill_interval = float(supervisor_config["refill_interval_seconds"])
         maximum_restarts = int(supervisor_config["maximum_process_restarts"])
         checkpoint_every = int(self.config["queue"]["checkpoint_every_completions"])
         start = time.monotonic()
         self.coordinator.recover_expired()
         processes: dict[int, tuple[Any, WorkerSpec]] = {}
         starts = restarts = crashes = telemetry_records = telemetry_records_dropped = 0
+        refill_calls = 0
+        refill_report: dict[str, Any] | None = None
+        stop_path = Path(external_stop_path).resolve() if external_stop_path else None
         checkpoint_completed = self.coordinator.telemetry()["counts"].get(
             "succeeded", 0
         )
@@ -235,29 +247,55 @@ class PersistentParallelSupervisor:
             processes[process.pid] = (process, spec)
             starts += 1
 
-        for spec in self.specs:
-            spawn(spec)
+        if stop_path is None or not stop_path.exists():
+            for spec in self.specs:
+                spawn(spec)
         sequence = sum(1 for _ in self.telemetry_path.open("r", encoding="utf-8")) if self.telemetry_path.exists() else 0
         stop_reason = "queue_drained"
+        next_telemetry = 0.0
         try:
             while True:
                 self.coordinator.recover_expired()
+                if stop_path is not None and stop_path.exists():
+                    stop_reason = "external_stop_requested"
+                elif stop_reason_callback is not None:
+                    requested_reason = stop_reason_callback()
+                    if requested_reason:
+                        stop_reason = requested_reason
+                if stop_reason != "queue_drained":
+                    break
+                if refill_callback is not None:
+                    try:
+                        refill_report = refill_callback()
+                        refill_calls += 1
+                    except Exception as error:  # noqa: BLE001 - producer must fail closed
+                        stop_reason = f"refill_failed:{type(error).__name__}:{error}"
+                        break
                 snapshot = self.coordinator.telemetry()
-                for lane, samples in utilization_samples.items():
-                    samples.append(
-                        float(snapshot["lanes"][lane]["utilization"])
-                    )
                 process_state = {
                     "alive": sum(process.is_alive() for process, _ in processes.values()),
                     "starts": starts,
                     "restarts": restarts,
                     "crashes": crashes,
                 }
-                sequence += 1
-                if self._append_telemetry(sequence, snapshot, process_state):
-                    telemetry_records += 1
-                else:
-                    telemetry_records_dropped += 1
+                now = time.monotonic()
+                if now >= next_telemetry:
+                    for lane, samples in utilization_samples.items():
+                        samples.append(float(snapshot["lanes"][lane]["utilization"]))
+                    sequence += 1
+                    if self._append_telemetry(sequence, snapshot, process_state):
+                        telemetry_records += 1
+                    else:
+                        telemetry_records_dropped += 1
+                    if status_callback is not None:
+                        status_callback(
+                            {
+                                "execution": snapshot,
+                                "processes": process_state,
+                                "refill": refill_report,
+                            }
+                        )
+                    next_telemetry = now + telemetry_interval
 
                 for pid, (process, spec) in list(processes.items()):
                     if process.is_alive() or process.exitcode is None:
@@ -270,17 +308,34 @@ class PersistentParallelSupervisor:
                     if pending and restarts < maximum_restarts:
                         restarts += 1
                         spawn(spec)
+                if snapshot["queue"]["pending"] and not processes and self.specs:
+                    stop_reason = "worker_restart_budget_exhausted"
+                    break
 
                 completed = int(snapshot["counts"].get("succeeded", 0))
                 if checkpoint_every > 0 and completed - checkpoint_completed >= checkpoint_every:
                     self.coordinator.checkpoint()
                     checkpoint_completed = completed
                 if snapshot["queue"]["pending"] == 0:
+                    cursor = (refill_report or {}).get("cursor", {})
+                    exhausted = bool(cursor.get("exhausted"))
+                    if refill_callback is None or exhausted:
+                        break
+                    if int(snapshot["budget"]["remaining_tasks"]) == 0:
+                        stop_reason = "task_budget_exhausted"
+                        break
+                    if datetime.now(UTC) >= datetime.fromisoformat(
+                        snapshot["budget"]["deadline_utc"]
+                    ):
+                        stop_reason = "execution_deadline_reached"
+                        break
+                if snapshot["queue"]["pending"] and not self.specs:
+                    stop_reason = "no_workers_available"
                     break
                 if time.monotonic() - start >= maximum_wall:
                     stop_reason = "run_wall_time_reached"
                     break
-                time.sleep(telemetry_interval)
+                time.sleep(refill_interval)
         finally:
             stop_event.set()
             grace = float(supervisor_config["shutdown_grace_seconds"])
@@ -307,10 +362,16 @@ class PersistentParallelSupervisor:
             "process_starts": starts,
             "process_restarts": restarts,
             "process_crashes": crashes,
+            "refill_calls": refill_calls,
+            "last_refill": refill_report,
             "telemetry_records_written": telemetry_records,
             "telemetry_records_dropped_by_disk_cap": telemetry_records_dropped,
             "telemetry_path": str(self.telemetry_path),
             "utilization": utilization,
+            "utilization_semantics": (
+                "sampled fraction of configured lane owners holding SQLite work leases; "
+                "this is not CUDA-core, memory-controller, or CPU-core hardware utilization"
+            ),
             "checkpoint": checkpoint,
             "final_telemetry": final,
             "paid_llm_calls_made": 0,
