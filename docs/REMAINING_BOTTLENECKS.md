@@ -357,8 +357,11 @@ has now passed for every one of the 153 atoms. Every first derivative compressio
 Hermitian `deltaK_A` corrections give 153 zero differentiated Sylvester residuals, and the physical
 coordinate map has 41 nonzero and 112 zero corrections with an explicit affine positivity bound.
 The next exact gate is the 11,781 unordered second-atom conditions requiring component `D2K55`,
-`D2P55`, and `D2TC2`; CK1 still needs its source packet and `partial_1 F10` topology. TC1's source
-part needs the `Q`-contracted `partial_1F`
+`D2P55`, and `D2TC2`; CK1 still needs its source packet and `partial_1 F10` topology.
+The first resumable second-order chunk covers 64 canonical pairs and all 12 candidates: every one
+of the 768 equations has an exact Hermitian `deltaK_AB` with zero Sylvester residual and no
+obstruction. The remaining 11,717 pairs are explicitly unevaluated, so this chunk does not promote
+TC2 or global `H7`. TC1's source part needs the `Q`-contracted `partial_1F`
 state-to-jet topology, variable TC3
 needs the 153-atom tensor `D_Y(P55 E_v Q)`, and TC5 in `H7` needs component
 `D2F[J(C_Q),J(C_Q)]` plus `H7` control of `J(C_Q)`. The next gate is to close those terms and extend
