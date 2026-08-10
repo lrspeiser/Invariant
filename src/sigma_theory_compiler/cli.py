@@ -93,6 +93,10 @@ from .quartic_nonquasilinear_pde_campaign import (
     run_quartic_nonquasilinear_pde_campaign,
     write_quartic_nonquasilinear_pde_campaign,
 )
+from .quartic_positive_quantization_campaign import (
+    run_quartic_positive_quantization_campaign,
+    write_quartic_positive_quantization_campaign,
+)
 from .quartic_quasilinear_moser_campaign import (
     run_quartic_quasilinear_moser_campaign,
     write_quartic_quasilinear_moser_campaign,
@@ -687,6 +691,15 @@ def _parser() -> argparse.ArgumentParser:
     )
     quartic_low_frequency.add_argument("--config", type=Path, required=True)
     quartic_low_frequency.add_argument("--output", type=Path, required=True)
+    quartic_positive_quantization = subparsers.add_parser(
+        "quartic-positive-quantization-campaign",
+        help="Positively quantize the global K55 symbol with Gaussian coherent states",
+    )
+    quartic_positive_quantization.add_argument(
+        "--low-frequency-campaign", type=Path, required=True
+    )
+    quartic_positive_quantization.add_argument("--config", type=Path, required=True)
+    quartic_positive_quantization.add_argument("--output", type=Path, required=True)
     dhost_compile = subparsers.add_parser(
         "dhost-pack-compile",
         help="Compile a reduced rank-one quadratic DHOST kinetic family",
@@ -1805,6 +1818,29 @@ def main(argv: list[str] | None = None) -> int:
             0
             if result["status"]
             == "pass_all_12_global_C4_positive_K55_symbol_extensions"
+            else 1
+        )
+    if args.command == "quartic-positive-quantization-campaign":
+        low_frequency_campaign = json.loads(
+            args.low_frequency_campaign.read_text(encoding="utf-8")
+        )
+        config = json.loads(args.config.read_text(encoding="utf-8"))
+        result = run_quartic_positive_quantization_campaign(
+            low_frequency_campaign, config
+        )
+        path = write_quartic_positive_quantization_campaign(result, args.output)
+        print(f"status={result['status']}")
+        print(f"selected={result['counts']['selected']}")
+        print(
+            "positive_quantizations_passed="
+            f"{result['counts']['positive_quantizations_passed']}"
+        )
+        print(f"rejected={result['counts']['rejected']}")
+        print(f"report={path}")
+        return (
+            0
+            if result["status"]
+            == "pass_all_12_uniform_positive_anti_wick_K55_operators"
             else 1
         )
     if args.command == "dhost-pack-compile":

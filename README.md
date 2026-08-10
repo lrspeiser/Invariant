@@ -582,6 +582,24 @@ bound every mixed state/frequency derivative through total order four. The princ
 symmetrization defect is confined to bounded frequencies; positive quantization and
 operator-energy constants remain separate gates.
 
+Quantize the global symbol without losing positivity using:
+
+```powershell
+python -m sigma_theory_compiler quartic-positive-quantization-campaign `
+  --low-frequency-campaign runs/physics-language/quartic-low-frequency-symbol-extension-campaign/campaign.json `
+  --config configs/backgrounds/quartic_positive_quantization_campaign.json `
+  --output runs/physics-language/quartic-positive-quantization-campaign
+```
+
+This chooses normalized Gaussian coherent states on `R^3` and the semiclassical
+anti-Wick phase-space measure `(2*pi*h)^-3 dx dxi`. The exact Gaussian normalization
+and Moyal resolution identity imply that integrating the positive `K55` symbol against
+coherent-state projectors produces a self-adjoint positive operator for every `0<h<=1`.
+Its quadratic form has exactly the same candidate-specific lower and upper bounds as the
+pointwise symbol. This closes positive quantization itself; the time derivative,
+composition/commutator remainder with the first-order evolution operator, dyadic
+summation, nonlinear Sobolev energy, and lifespan remain open.
+
 The tube bounds 153 normalized coordinate atoms: ten metric deviations, 44 first partials,
 and 99 acceleration-free symmetric second partials. The exact orthonormal metric-basis identity
 and Neumann/product majorants prove that a common `1e-13` component cube maps strictly inside the

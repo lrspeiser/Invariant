@@ -1,6 +1,6 @@
 # Sigma formal-backend controls
 
-- Passed: 110 / 110
+- Passed: 111 / 111
 - Cadabra 2 available: True
 
 | Control | Status | Verified scope |
@@ -94,6 +94,7 @@
 | `quartic_linear_x_symmetrizer_symbol_moser_envelopes` | pass | The bivariate inverse and product recurrences propagate exact state/direction multiplicities through the raw A/B/C/H_star blocks, resolvents, Riesz projectors, K22, M22 inverse, transverse lift, cross block, and K55. All 15 multiindices with a+b<=4 are finite on the unit-direction component cube. Homogeneous xi-chart conversion, pseudodifferential quantization, explicit Sobolev/Calderon-Vaillancourt constants, a closed energy inequality, lifespan, matter, and tube preservation remain open. |
 | `quartic_linear_x_homogeneous_frequency_symbol_envelopes` | pass | Exact set-partition bounds give inverse-radius Frechet constants 1,1,4,24,204 and normalization-map constants 1,2,6,36,300. The full Bell composition converts every unit-direction bound into |xi|^-|beta| coordinate-frequency bounds for all 15 state/frequency pairs on |xi|>=1. A smooth low-frequency extension, quantization, explicit Calderon-Vaillancourt/Sobolev constants, a closed energy inequality, lifespan, matter, and tube preservation remain open. |
 | `quartic_linear_x_low_frequency_symbol_extension` | pass | A ninth-degree monotone smoothstep is exactly flat through fourth order at |xi|=1 and |xi|=2. It convexly joins K55(U,e1) to K55(U,xi/|xi|), preserving the same pointwise lower/upper energy bounds, while exact radial Bell constants bound all 15 mixed state/frequency pairs. Principal symmetrization is exact for |xi|>=2 and its defect is confined to bounded frequencies. Positive quantization, operator constants, a closed energy inequality, lifespan, matter, and tube preservation remain open. |
+| `quartic_linear_x_positive_symmetrizer_quantization` | pass | Normalized Gaussian coherent states with phase-space measure (2*pi*h)^-3 dx dxi give an exact Moyal resolution of identity on L2(R3;C55). Integrating the pointwise positive K55 symbol against the coherent-state projectors preserves the exact same lower and upper quadratic-form bounds for every 0<h<=1. Time derivatives, composition with the evolution operator, dyadic summation, a closed Sobolev energy inequality, lifespan, matter, and tube preservation remain open. |
 | `quartic_horndeski_timelike_flat_physical_hamiltonian` | pass | Action/Dirac/principal-count-matched exact Legendre transform with positive tensor/scalar momentum and coordinate Hessians plus ghost and gradient negative controls; nonlinear global energy remains unresolved. |
 | `quartic_horndeski_global_timelike_gradient_no_go` | pass | Exact all-amplitude sign split: alpha>0 reaches kinetic rank loss/ghost, alpha<0 reaches cone collapse/gradient instability; an explicit bounded EFT/background domain is required. |
 | `quartic_horndeski_flrw_background_domain_crossing` | pass | Exact action-hash-bound contracting closed-FLRW boundary-crossing witness with a regular homogeneous acceleration system; restricted solution classes, EFT stopping boundaries, and nonlinear G4 completions remain separate. |

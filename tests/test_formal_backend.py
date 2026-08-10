@@ -240,6 +240,26 @@ def test_all_formal_known_answer_controls_pass(tmp_path) -> None:
     assert low_frequency["evidence"]["insufficient_order_negative"]["status"] == (
         "reject"
     )
+    positive_quantization = checks[
+        "quartic_linear_x_positive_symmetrizer_quantization"
+    ]
+    assert positive_quantization["status"] == "pass"
+    assert positive_quantization["evidence"]["artifact_hash_matches_reexecution"]
+    anti_wick = positive_quantization["evidence"][
+        "generic_gaussian_anti_wick_control"
+    ]
+    assert anti_wick["window_norm_squared"] == "1"
+    assert anti_wick["resolution_of_identity_coefficient"] == "1"
+    assert anti_wick["negative_control"]["rejected"]
+    assert positive_quantization["evidence"]["operator_energy_lower_range"][
+        "minimum"
+    ] > 4e-26
+    assert positive_quantization["evidence"]["operator_energy_upper_range"][
+        "minimum"
+    ] > 1e21
+    assert positive_quantization["evidence"]["wrong_state_dimension_negative"][
+        "status"
+    ] == "reject"
     assert checks["projected_aether_q_fixed_metric_first_variation"]["status"] == "pass"
     assert checks["projected_aether_q_fixed_metric_first_variation"]["evidence"][
         "projector_and_B_first_variation_residual"

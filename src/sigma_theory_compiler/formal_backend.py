@@ -137,6 +137,9 @@ from .quartic_nonlinear_evolution_campaign import (
 from .quartic_nonquasilinear_pde_campaign import (
     run_quartic_nonquasilinear_pde_campaign,
 )
+from .quartic_positive_quantization_campaign import (
+    run_quartic_positive_quantization_campaign,
+)
 from .quartic_quasilinear_moser_campaign import (
     run_quartic_quasilinear_moser_campaign,
 )
@@ -2607,6 +2610,90 @@ def _quartic_low_frequency_symbol_extension_campaign_control(
     }
 
 
+def _quartic_positive_quantization_campaign_control(
+    root: Path,
+) -> tuple[bool, dict[str, Any]]:
+    base = root / "runs" / "physics-language"
+    low_path = base / "quartic-low-frequency-symbol-extension-campaign" / "campaign.json"
+    config_path = (
+        root
+        / "configs"
+        / "backgrounds"
+        / "quartic_positive_quantization_campaign.json"
+    )
+    artifact_path = base / "quartic-positive-quantization-campaign" / "campaign.json"
+    low_frequency = json.loads(low_path.read_text(encoding="utf-8"))
+    config = json.loads(config_path.read_text(encoding="utf-8"))
+    artifact = json.loads(artifact_path.read_text(encoding="utf-8"))
+    result = run_quartic_positive_quantization_campaign(low_frequency, config)
+    corrupted = dict(config)
+    corrupted["state_dimension"] = 22
+    negative = run_quartic_positive_quantization_campaign(
+        low_frequency, corrupted
+    )
+    certificates = result.get("certificates", [])
+    counts = result.get("counts", {})
+    control = result.get("generic_gaussian_anti_wick_control", {})
+    lower_bounds = [
+        item.get("operator_energy_equivalence", {}).get("lower_numeric", 0)
+        for item in certificates
+    ]
+    upper_bounds = [
+        item.get("operator_energy_equivalence", {}).get("upper_numeric", 0)
+        for item in certificates
+    ]
+    passed = bool(
+        result.get("status")
+        == "pass_all_12_uniform_positive_anti_wick_K55_operators"
+        and counts.get("selected") == 12
+        and counts.get("positive_quantizations_passed") == 12
+        and len(certificates) == 12
+        and control.get("passed") is True
+        and control.get("window_norm_squared") == "1"
+        and control.get("resolution_of_identity_coefficient") == "1"
+        and control.get("negative_control", {}).get("rejected") is True
+        and all(value > 4e-26 for value in lower_bounds)
+        and all(value > 1e21 for value in upper_bounds)
+        and all(
+            item.get("quantization", {}).get("self_adjoint") is True
+            and item.get("quantization", {}).get("positive") is True
+            and item.get("operator_energy_equivalence", {}).get("uniform_in_h")
+            is True
+            and item.get("operator_energy_equivalence", {}).get(
+                "exactly_matches_pointwise_symbol_bounds"
+            )
+            is True
+            for item in certificates
+        )
+        and artifact.get("content_sha256") == result.get("content_sha256")
+        and negative.get("status") == "reject"
+    )
+    return passed, {
+        "low_frequency_campaign": str(low_path),
+        "config": str(config_path),
+        "artifact": str(artifact_path),
+        "status": result.get("status"),
+        "counts": counts,
+        "artifact_hash_matches_reexecution": (
+            artifact.get("content_sha256") == result.get("content_sha256")
+        ),
+        "generic_gaussian_anti_wick_control": control,
+        "operator_energy_lower_range": {
+            "minimum": min(lower_bounds) if lower_bounds else None,
+            "maximum": max(lower_bounds) if lower_bounds else None,
+        },
+        "operator_energy_upper_range": {
+            "minimum": min(upper_bounds) if upper_bounds else None,
+            "maximum": max(upper_bounds) if upper_bounds else None,
+        },
+        "wrong_state_dimension_negative": {
+            "status": negative.get("status"),
+            "errors": negative.get("errors"),
+        },
+        "scope": result.get("scope"),
+    }
+
+
 def _quartic_horndeski_covariant_adm_control(
     root: Path,
 ) -> tuple[bool, dict[str, Any]]:
@@ -3836,6 +3923,12 @@ def run_formal_control_suite(
             "All 12 fixed-coefficient linear-X quartic candidates possess a globally defined positive Hermitian C4 extension of the lifted 55-state symmetrizer symbol.",
             "A ninth-degree monotone smoothstep is exactly flat through fourth order at |xi|=1 and |xi|=2. It convexly joins K55(U,e1) to K55(U,xi/|xi|), preserving the same pointwise lower/upper energy bounds, while exact radial Bell constants bound all 15 mixed state/frequency pairs. Principal symmetrization is exact for |xi|>=2 and its defect is confined to bounded frequencies. Positive quantization, operator constants, a closed energy inequality, lifespan, matter, and tube preservation remain open.",
             lambda: _quartic_low_frequency_symbol_extension_campaign_control(root),
+        ),
+        _run_check(
+            "quartic_linear_x_positive_symmetrizer_quantization",
+            "All 12 fixed-coefficient linear-X quartic candidates possess a uniformly positive self-adjoint anti-Wick quantization of the global 55-state symmetrizer symbol.",
+            "Normalized Gaussian coherent states with phase-space measure (2*pi*h)^-3 dx dxi give an exact Moyal resolution of identity on L2(R3;C55). Integrating the pointwise positive K55 symbol against the coherent-state projectors preserves the exact same lower and upper quadratic-form bounds for every 0<h<=1. Time derivatives, composition with the evolution operator, dyadic summation, a closed Sobolev energy inequality, lifespan, matter, and tube preservation remain open.",
+            lambda: _quartic_positive_quantization_campaign_control(root),
         ),
         _run_check(
             "quartic_horndeski_timelike_flat_physical_hamiltonian",

@@ -364,6 +364,19 @@ the principal symbol for `|xi|>=2`; the remaining defect is compactly supported 
 frequency. This is not yet an operator theorem: positive quantization, an explicit
 bounded-frequency remainder estimate, Sobolev commutators, and lifespan remain open.
 
+Positive quantization is now supplied by the Gaussian anti-Wick construction on
+`L2(R^3;C^55)`. For the normalized window
+`g_h(y)=(pi h)^(-3/4)exp(-|y|^2/(2h))`, the coherent states obey the exact Moyal
+identity with phase-space measure `(2*pi*h)^(-3) dx dxi`. Defining
+`Op_h^AW(K_ext)` as the integral of `K_ext(U(x),xi)` against their rank-one
+projectors preserves self-adjointness and positivity. More strongly, each candidate's
+exact pointwise bounds `lambda I<=K_ext<=Lambda I` become
+`lambda||u||^2<=<u,Op_h^AW(K_ext)u><=Lambda||u||^2`, uniformly for `0<h<=1`.
+The executable normalization control rejects a doubled phase-space prefactor. This gate
+does not yet estimate `d_t Op_h^AW(K_ext)`, its composition with the evolution symbol,
+the bounded-frequency defect, dyadic summation, or nonlinear lifespan. Primary references:
+<https://arxiv.org/abs/1806.04898> and <https://arxiv.org/abs/2011.00313>.
+
 That compact-subset condition now has an explicit coordinate realization. In the normalized
 55-state basis, the ten metric deviations obey the exact identity
 `||h_mu_nu||_F^2=sum_A h_A^2`, including the `sqrt(2)` off-diagonal convention. Bounding those
