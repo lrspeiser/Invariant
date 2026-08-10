@@ -265,6 +265,11 @@ queue. It processes the six allowlisted Aether/G2 packets and keeps the four G3/
 deferred registry without consuming attempts. Stop/resume preserves completed and deferred roots;
 new evaluator descriptors require a new reviewed service-config epoch rather than mutating a
 running scientific allowlist.
+A unified read-only status snapshot now combines the active watchdog, billion-formula stream,
+promotion/formal overlay, grammar-v3 evidence, Pareto queue, and follow-up service. It opens the
+live SQLite database with `mode=ro` and `query_only`, separates scheduler occupancy from physical
+NVML GPU utilization, reports the hard `$500` LLM ledger, and refuses overlapping outcome totals,
+host paths, and secret-bearing fields. Volatile telemetry stays outside the deterministic core hash.
 A focused energy audit shows both Aether parameter points satisfy the linearized mode-energy and
 restricted theorem coupling inequalities, but their unconstrained phase spaces include twist: an
 exact unit-Aether witness has `(u wedge du)_txy=-1` at the origin. Because that witness is not an

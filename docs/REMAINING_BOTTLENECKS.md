@@ -526,6 +526,11 @@ A bounded durable service now wraps this queue with start/status/stop/resume/exp
 the six allowlisted Aether/G2 packets, defers the four G3/G4 packets without spending attempts, and
 preserves both roots across restart. Adding reviewed G3/G4 evaluators requires a new immutable
 service-config epoch, preventing silent scientific allowlist drift.
+A unified observability snapshot now reads the watchdog SQLite only through `mode=ro` plus
+`query_only`, hash-verifies immutable subsystem reports, and exposes campaign, streaming,
+promotion, grammar, Pareto, follow-up, GPU, deadline, and LLM-budget state in one portable record.
+Scheduler occupancy and physical NVML utilization are deliberately separate, overlapping pipeline
+counts are not summed, and volatile timestamps/sensor samples do not enter the deterministic core.
 For the two Aether seeds, the first nonlinear-energy premise is now exact: both rational points pass
 the five linearized mode-energy and restricted coupling inequalities, but neither action imposes
 hypersurface orthogonality. The normalized field-space witness
