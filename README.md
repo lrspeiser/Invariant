@@ -188,9 +188,12 @@ A bounded production-provenance audit first constructed exact typed covariant ma
 This closes syntactic covariant provenance, not dynamics: the first 2 fail higher-jet formal
 preflight. An exact bounded formal adapter now resolves another 21 of the 68 composites. Fifteen
 have an ADM velocity-Hessian rank jump between zero and nonzero spatial frequency, while six have
-no quadratic vector evolution or principal symbol. The production ledger is therefore 23 formal
-rejections, 47 still blocked for additional candidate-specific ADM/Dirac/principal adapters, and
-zero passes. Consequently zero Solar or galaxy prediction bundles exist and no candidate is
+no quadratic vector evolution or principal symbol. A second exact adapter resolves 27 more actions
+with `F_X(0,0)<0` and certified `F_Q(0,0)>=0`: 20 have negative low-frequency kinetic energy plus
+a finite-wave-number time-block rank loss, and 7 retain three unconstrained negative kinetic
+directions. The production ledger is therefore 50 formal rejections, 20 still blocked for
+additional candidate-specific ADM/Dirac/principal adapters, and zero passes. Consequently zero
+Solar or galaxy prediction bundles exist and no candidate is
 promoted. The sealed galaxy evaluator has an empty registry, opens no observations, and blocks all
 70. The durable streaming
 service now supports a multi-producer scheduler that leases disjoint Rust ranges transactionally and
