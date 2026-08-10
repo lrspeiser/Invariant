@@ -57,6 +57,10 @@ from .quartic_euler_remainder_majorant_campaign import (
     run_quartic_euler_remainder_majorant_campaign,
     write_quartic_euler_remainder_majorant_campaign,
 )
+from .quartic_evolution_symbol_campaign import (
+    run_quartic_evolution_symbol_campaign,
+    write_quartic_evolution_symbol_campaign,
+)
 from .quartic_first_order_reduction_campaign import (
     run_quartic_first_order_reduction_campaign,
     write_quartic_first_order_reduction_campaign,
@@ -700,6 +704,21 @@ def _parser() -> argparse.ArgumentParser:
     )
     quartic_positive_quantization.add_argument("--config", type=Path, required=True)
     quartic_positive_quantization.add_argument("--output", type=Path, required=True)
+    quartic_evolution_symbol = subparsers.add_parser(
+        "quartic-evolution-symbol-campaign",
+        help="Bound the exact degree-one 55-state principal evolution symbol",
+    )
+    quartic_evolution_symbol.add_argument(
+        "--first-order-campaign", type=Path, required=True
+    )
+    quartic_evolution_symbol.add_argument(
+        "--nonquasilinear-pde-campaign", type=Path, required=True
+    )
+    quartic_evolution_symbol.add_argument(
+        "--symbol-campaign", type=Path, required=True
+    )
+    quartic_evolution_symbol.add_argument("--config", type=Path, required=True)
+    quartic_evolution_symbol.add_argument("--output", type=Path, required=True)
     dhost_compile = subparsers.add_parser(
         "dhost-pack-compile",
         help="Compile a reduced rank-one quadratic DHOST kinetic family",
@@ -1841,6 +1860,35 @@ def main(argv: list[str] | None = None) -> int:
             0
             if result["status"]
             == "pass_all_12_uniform_positive_anti_wick_K55_operators"
+            else 1
+        )
+    if args.command == "quartic-evolution-symbol-campaign":
+        first_order_campaign = json.loads(
+            args.first_order_campaign.read_text(encoding="utf-8")
+        )
+        nonquasilinear_campaign = json.loads(
+            args.nonquasilinear_pde_campaign.read_text(encoding="utf-8")
+        )
+        symbol_campaign = json.loads(
+            args.symbol_campaign.read_text(encoding="utf-8")
+        )
+        config = json.loads(args.config.read_text(encoding="utf-8"))
+        result = run_quartic_evolution_symbol_campaign(
+            first_order_campaign, nonquasilinear_campaign, symbol_campaign, config
+        )
+        path = write_quartic_evolution_symbol_campaign(result, args.output)
+        print(f"status={result['status']}")
+        print(f"selected={result['counts']['selected']}")
+        print(
+            "evolution_symbol_bounds_passed="
+            f"{result['counts']['evolution_symbol_bounds_passed']}"
+        )
+        print(f"rejected={result['counts']['rejected']}")
+        print(f"report={path}")
+        return (
+            0
+            if result["status"]
+            == "pass_all_12_full_55_state_degree_one_evolution_symbol_C4_bounds"
             else 1
         )
     if args.command == "dhost-pack-compile":

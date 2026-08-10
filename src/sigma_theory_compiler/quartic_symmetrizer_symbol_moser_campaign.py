@@ -641,6 +641,9 @@ def _certify_candidate(
         "companion_mixed_Frechet_2_norm_envelopes_numeric": _numeric_hierarchy(
             companion
         ),
+        "companion_mixed_Frechet_2_norm_envelope_integer_ceilings": {
+            _key(*pair): str(sp.ceiling(value)) for pair, value in companion.items()
+        },
         "resolvent_mixed_Frechet_2_norm_envelopes_numeric": _numeric_hierarchy(
             resolvent
         ),
@@ -657,6 +660,10 @@ def _certify_candidate(
         "L_mixed_Frechet_2_norm_envelopes_numeric": _numeric_hierarchy(
             transverse_l
         ),
+        "L_mixed_Frechet_2_norm_envelope_integer_ceilings": {
+            _key(*pair): str(sp.ceiling(value))
+            for pair, value in transverse_l.items()
+        },
         "F_cross_mixed_Frechet_2_norm_envelopes_numeric": _numeric_hierarchy(
             cross_f
         ),

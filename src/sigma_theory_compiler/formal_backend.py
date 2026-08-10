@@ -114,6 +114,9 @@ from .quartic_dirac_hamiltonian_campaign import (
 from .quartic_euler_remainder_majorant_campaign import (
     run_quartic_euler_remainder_majorant_campaign,
 )
+from .quartic_evolution_symbol_campaign import (
+    run_quartic_evolution_symbol_campaign,
+)
 from .quartic_first_order_reduction_campaign import (
     run_quartic_first_order_reduction_campaign,
 )
@@ -2694,6 +2697,120 @@ def _quartic_positive_quantization_campaign_control(
     }
 
 
+def _quartic_evolution_symbol_campaign_control(
+    root: Path,
+) -> tuple[bool, dict[str, Any]]:
+    base = root / "runs" / "physics-language"
+    first_path = base / "quartic-first-order-reduction-campaign" / "campaign.json"
+    pde_path = base / "quartic-nonquasilinear-pde-campaign" / "campaign.json"
+    symbol_path = base / "quartic-symmetrizer-symbol-moser-campaign" / "campaign.json"
+    config_path = (
+        root
+        / "configs"
+        / "backgrounds"
+        / "quartic_evolution_symbol_campaign.json"
+    )
+    artifact_path = base / "quartic-evolution-symbol-campaign" / "campaign.json"
+    first_order = json.loads(first_path.read_text(encoding="utf-8"))
+    nonquasilinear = json.loads(pde_path.read_text(encoding="utf-8"))
+    symbol = json.loads(symbol_path.read_text(encoding="utf-8"))
+    config = json.loads(config_path.read_text(encoding="utf-8"))
+    artifact = json.loads(artifact_path.read_text(encoding="utf-8"))
+    result = run_quartic_evolution_symbol_campaign(
+        first_order, nonquasilinear, symbol, config
+    )
+    insufficient = dict(config)
+    insufficient["maximum_total_derivative_order"] = 3
+    negative = run_quartic_evolution_symbol_campaign(
+        first_order, nonquasilinear, symbol, insufficient
+    )
+    certificates = result.get("certificates", [])
+    counts = result.get("counts", {})
+    control = result.get("generic_degree_one_evolution_symbol_control", {})
+    zeroth_bounds = [
+        int(
+            item.get("homogeneous_principal_P55_bounds", {})
+            .get("0,0", {})
+            .get("scaled_integer_ceiling", 0)
+        )
+        for item in certificates
+    ]
+    fourth_order = [
+        max(
+            int(entry.get("scaled_integer_ceiling", 0))
+            for key, entry in item.get(
+                "homogeneous_principal_P55_bounds", {}
+            ).items()
+            if sum(int(value) for value in key.split(",")) == 4
+        )
+        for item in certificates
+    ]
+    passed = bool(
+        result.get("status")
+        == "pass_all_12_full_55_state_degree_one_evolution_symbol_C4_bounds"
+        and counts.get("selected") == 12
+        and counts.get("evolution_symbol_bounds_passed") == 12
+        and len(certificates) == 12
+        and control.get("passed") is True
+        and control.get("block_scalar_residual") == "0"
+        and control.get("radius_map_Frechet_majorants")
+        == {"0": 1, "1": 1, "2": 2, "3": 6, "4": 36}
+        and set(control.get("radial_Leibniz_residuals", {}).values()) == {"0"}
+        and control.get("negative_control", {}).get("rejected") is True
+        and all(value > 0 for value in zeroth_bounds)
+        and all(value > 0 for value in fourth_order)
+        and all(
+            len(item.get("homogeneous_principal_P55_bounds", {})) == 15
+            and item.get("exact_reduction_provenance", {}).get("state_dimension")
+            == 55
+            and item.get("exact_reduction_provenance", {}).get(
+                "nonzero_characteristic_lift_residual_zero"
+            )
+            is True
+            and all(
+                entry.get("equal") is True
+                for entry in item.get("state_only_crosscheck", {}).values()
+            )
+            for item in certificates
+        )
+        and artifact.get("content_sha256") == result.get("content_sha256")
+        and negative.get("status") == "reject"
+    )
+    return passed, {
+        "campaigns": {
+            "first_order": str(first_path),
+            "nonquasilinear": str(pde_path),
+            "symbol": str(symbol_path),
+        },
+        "config": str(config_path),
+        "artifact": str(artifact_path),
+        "status": result.get("status"),
+        "counts": counts,
+        "artifact_hash_matches_reexecution": (
+            artifact.get("content_sha256") == result.get("content_sha256")
+        ),
+        "generic_degree_one_evolution_symbol_control": control,
+        "P55_scaled_zeroth_order_range": {
+            "minimum": min(zeroth_bounds) if zeroth_bounds else None,
+            "maximum": max(zeroth_bounds) if zeroth_bounds else None,
+        },
+        "P55_scaled_total_order_four_range": {
+            "minimum": min(fourth_order) if fourth_order else None,
+            "maximum": max(fourth_order) if fourth_order else None,
+        },
+        "representative_principal_symbol_bounds": (
+            certificates[0].get("homogeneous_principal_P55_bounds")
+            if certificates
+            else None
+        ),
+        "insufficient_order_negative": {
+            "status": negative.get("status"),
+            "errors": negative.get("errors"),
+        },
+        "scope": result.get("scope"),
+    }
+
+
 def _quartic_horndeski_covariant_adm_control(
     root: Path,
 ) -> tuple[bool, dict[str, Any]]:
@@ -3929,6 +4046,12 @@ def run_formal_control_suite(
             "All 12 fixed-coefficient linear-X quartic candidates possess a uniformly positive self-adjoint anti-Wick quantization of the global 55-state symmetrizer symbol.",
             "Normalized Gaussian coherent states with phase-space measure (2*pi*h)^-3 dx dxi give an exact Moyal resolution of identity on L2(R3;C55). Integrating the pointwise positive K55 symbol against the coherent-state projectors preserves the exact same lower and upper quadratic-form bounds for every 0<h<=1. Time derivatives, composition with the evolution operator, dyadic summation, a closed Sobolev energy inequality, lifespan, matter, and tube preservation remain open.",
             lambda: _quartic_positive_quantization_campaign_control(root),
+        ),
+        _run_check(
+            "quartic_linear_x_full_evolution_symbol_envelopes",
+            "All 12 fixed-coefficient linear-X quartic candidates bind the exact 55-state physical-space first-order reduction to degree-one homogeneous principal-symbol derivatives through total state/frequency order four.",
+            "The certified block identity M55=[[0,0],[L,M22]] gives ||M55||<=||L||+||M22||. Exact normalization-map and radial Leibniz recurrences convert the mixed unit-direction constituent bounds into all 15 scaled P55(U,xi)=|xi|M55(U,xi/|xi|) bounds. This closes the missing evolution side of the symbol calculus; anti-Wick composition/time commutators, lower-order sources, dyadic summation, lifespan, matter, and tube preservation remain open.",
+            lambda: _quartic_evolution_symbol_campaign_control(root),
         ),
         _run_check(
             "quartic_horndeski_timelike_flat_physical_hamiltonian",

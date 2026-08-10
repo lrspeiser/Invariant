@@ -260,6 +260,35 @@ def test_all_formal_known_answer_controls_pass(tmp_path) -> None:
     assert positive_quantization["evidence"]["wrong_state_dimension_negative"][
         "status"
     ] == "reject"
+    evolution_symbol = checks[
+        "quartic_linear_x_full_evolution_symbol_envelopes"
+    ]
+    assert evolution_symbol["status"] == "pass"
+    assert evolution_symbol["evidence"]["artifact_hash_matches_reexecution"]
+    evolution_control = evolution_symbol["evidence"][
+        "generic_degree_one_evolution_symbol_control"
+    ]
+    assert evolution_control["block_scalar_residual"] == "0"
+    assert evolution_control["radius_map_Frechet_majorants"] == {
+        "0": 1,
+        "1": 1,
+        "2": 2,
+        "3": 6,
+        "4": 36,
+    }
+    assert evolution_control["negative_control"]["rejected"]
+    assert evolution_symbol["evidence"]["P55_scaled_zeroth_order_range"][
+        "minimum"
+    ] > 0
+    assert evolution_symbol["evidence"]["P55_scaled_total_order_four_range"][
+        "minimum"
+    ] > 0
+    assert evolution_symbol["evidence"]["representative_principal_symbol_bounds"][
+        "0,4"
+    ]["coordinate_multiindices_covered"] == 15
+    assert evolution_symbol["evidence"]["insufficient_order_negative"][
+        "status"
+    ] == "reject"
     assert checks["projected_aether_q_fixed_metric_first_variation"]["status"] == "pass"
     assert checks["projected_aether_q_fixed_metric_first_variation"]["evidence"][
         "projector_and_B_first_variation_residual"

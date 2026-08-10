@@ -377,6 +377,19 @@ does not yet estimate `d_t Op_h^AW(K_ext)`, its composition with the evolution s
 the bounded-frequency defect, dyadic summation, or nonlinear lifespan. Primary references:
 <https://arxiv.org/abs/1806.04898> and <https://arxiv.org/abs/2011.00313>.
 
+The other side of that composition is now tied to the exact physical-space reduction.
+The 55-state directional symbol has the certified block form
+`M55(U,n)=[[0,0],[L(U,n),M22(U,n)]]` in the 33+22 decomposition, so
+`||D M55||_2` is bounded by the sum of the separately derived `L` and `M22`
+ceilings. Composing with `n=xi/|xi|` and applying the exact radial product recurrence
+to `P55(U,xi)=|xi|M55(U,xi/|xi|)` gives, for all 12 candidates and all
+`a+|beta|<=4`, outward integer bounds for
+`|xi|^(|beta|-1)||D_U^a partial_xi^beta P55||_2`. The zeroth-order crosscheck
+recovers the directional `M55` ceiling exactly; an incorrect second-order Leibniz
+factor rejects. This closes the actual evolution-symbol regularity gate. Anti-Wick
+composition, `d_t K`, the bounded-frequency defect, lower-order nonlinear sources,
+dyadic summation, and a quantitative lifespan remain fail-closed.
+
 That compact-subset condition now has an explicit coordinate realization. In the normalized
 55-state basis, the ten metric deviations obey the exact identity
 `||h_mu_nu||_F^2=sum_A h_A^2`, including the `sqrt(2)` off-diagonal convention. Bounding those

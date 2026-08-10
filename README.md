@@ -600,6 +600,26 @@ pointwise symbol. This closes positive quantization itself; the time derivative,
 composition/commutator remainder with the first-order evolution operator, dyadic
 summation, nonlinear Sobolev energy, and lifespan remain open.
 
+Bind that operator energy to the exact 55-state principal evolution symbol with:
+
+```powershell
+python -m sigma_theory_compiler quartic-evolution-symbol-campaign `
+  --first-order-campaign runs/physics-language/quartic-first-order-reduction-campaign/campaign.json `
+  --nonquasilinear-pde-campaign runs/physics-language/quartic-nonquasilinear-pde-campaign/campaign.json `
+  --symbol-campaign runs/physics-language/quartic-symmetrizer-symbol-moser-campaign/campaign.json `
+  --config configs/backgrounds/quartic_evolution_symbol_campaign.json `
+  --output runs/physics-language/quartic-evolution-symbol-campaign
+```
+
+The exact physical-space reduction supplies the 33+22 block decomposition
+`M55=[[0,0],[L,M22]]`. Outward integer derivative ceilings for `L` and `M22`, the
+operator bound `||M55||<=||L||+||M22||`, and the exact radial Leibniz rule give all
+15 mixed bounds through total order four for
+`P55(U,xi)=|xi|M55(U,xi/|xi|)`. Each frequency derivative has the correct degree
+`1-|beta|`. All 12 candidates pass. The remaining energy gate is now specifically
+the anti-Wick composition and time-commutator remainder, including the bounded-frequency
+defect and dyadic Sobolev summation—not an unspecified evolution-symbol bound.
+
 The tube bounds 153 normalized coordinate atoms: ten metric deviations, 44 first partials,
 and 99 acceleration-free symmetric second partials. The exact orthonormal metric-basis identity
 and Neumann/product majorants prove that a common `1e-13` component cube maps strictly inside the
