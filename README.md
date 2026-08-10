@@ -238,7 +238,11 @@ For `G4=1/2+phi^2/100` on `|phi|<=1`, the exact conformal factor lies in `[1,51/
 Einstein-frame scalar kinetic coefficient lies in `[284/289,1]`. The transformation is uniformly
 invertible, tensor and scalar modes share the conformal null cone, and the local lapse kernel has
 positive coefficient `f K_E in [1,426/425]`. The seed still lacks the lapse/function-space/boundary
-contract needed for a global inverse and a candidate-specific positive-mass theorem.
+contract needed for a global inverse. Its asymptotically-flat Einstein-frame follow-up now passes
+the maximal-domain positive-mass reduction: the scalar/conformal boundary terms vanish and Jordan
+and Einstein ADM four-momenta agree. The remaining blocker is specifically the global unitary-gauge
+lapse inverse. Scalar falloff forces `Delta_N->0`, and compact annulus modes exclude a bounded
+`L2(R3)` inverse; this is a gauge-chart obstruction, not a physical-instability rejection.
 The restart-safe coordinator now executes this real reviewed campaign rather than a fixture callback.
 All six deterministic work items succeeded and reproduced the same six blocked decisions, with
 hash-bound callback, seed, work-record, and portable-result roots. Each cold replay copies only the

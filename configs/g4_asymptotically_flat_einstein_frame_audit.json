@@ -1,0 +1,74 @@
+{
+  "schema_version": "sigma-g4-asymptotically-flat-einstein-frame-audit-config-1.0",
+  "campaign_id": "grammar-v3-g4-asymptotically-flat-einstein-frame-20260810",
+  "predecessor": {
+    "path": "runs/engine/g4-phi-seed-formal-audit.json",
+    "file_sha256": "30ad295116926bfd8f1e2c612f36fdae1148fc317cc3c45e5840ec20c08ff531",
+    "content_sha256": "93a87b507c85c97d03b0db81b0296af4c479f61dc942f6d6bba63a7be085c78c"
+  },
+  "formal_report": {
+    "path": "runs/formal-controls-v1/formal-controls.json",
+    "file_sha256": "b1bf58ebb4b43d3593f264959853dc3cd47f542b85f012999133ee43a6fece57"
+  },
+  "positive_mass_core": {
+    "id": "einstein_aether_restricted_nonlinear_total_energy",
+    "entrypoint": "sigma_theory_compiler.adm_aether:einstein_aether_nonlinear_positive_energy_theorem_control",
+    "source_path": "src/sigma_theory_compiler/adm_aether.py",
+    "source_file_sha256": "06d01368e01c84ed5187f54e5c3acef9cfb74ec38ea473285f6c8bee1ec6e858",
+    "role": "riemannian_maximal_slice_positive_mass_core_only"
+  },
+  "target": {
+    "seed_id": "G3-f9c598b70a77ea54009d8f18",
+    "action_sha256": "6ddd6502d110ead90ff494a6569213ec2e61a0b046dfa86344bb1980df6abc90",
+    "predecessor_provenance_sha256": "b16b688a7bbf15e773de0ffc5481360471f998a33775fc84324a0c144d8ad277",
+    "prior_candidate_certificate_sha256": "e4e6a109378b4d293d67ff1c0b07fd611de6517000f43055cf10ece4b181f21b"
+  },
+  "asymptotically_flat_domain": {
+    "contract_kind": "candidate_specific_maximal_AF_positive_mass_and_lapse_compatibility_domain",
+    "initial_slice": {
+      "topology": "smooth_connected_complete_orientable_without_inner_boundary",
+      "asymptotic_end": "one_asymptotically_euclidean_end",
+      "weighted_regularities": {
+        "p": "p>3",
+        "q": "1/2<q<1",
+        "h_J_minus_delta": "W^{2,p}_{-q}",
+        "K_J": "W^{1,p}_{-1-q}"
+      }
+    },
+    "scalar_data": {
+      "phi": "O_2(r^-1)",
+      "D_i_phi": "O_1(r^-2)",
+      "Pi_phi": "O_1(r^-2)",
+      "allowed_variation": "delta_phi=O_1(r^-1)",
+      "field_value_domain": "all_real_phi_via_global_Einstein_scalar_redefinition"
+    },
+    "ADM_smearing": {
+      "Jordan_lapse": "1/2<=N_J<=2 and N_J=1+O_2(r^-1)",
+      "shift": "beta^i=O_2(r^-1)",
+      "Einstein_lapse": "N_E=sqrt(f)*N_J"
+    },
+    "constraint_subdomain": {
+      "Einstein_hamiltonian": "R_E+K_E^2-K_Eij*K_E^ij=16*pi*G*rho_chi",
+      "Einstein_momentum": "D_Ej(K_E^ij-h_E^ij*K_E)=8*pi*G*j_chi^i",
+      "maximal_slice": "K_E=0",
+      "nonempty_witness": "Minkowski_h_E_with_K_E=0_and_phi=Pi_phi=0"
+    },
+    "boundary_contract": {
+      "Jordan_charge": "ADM_four_momentum_of_h_J_K_J",
+      "Einstein_charge": "ADM_four_momentum_of_h_E_K_E",
+      "scalar_variation_flux": "zero_under_declared_falloff",
+      "conformal_total_divergence": "zero_under_declared_falloff"
+    },
+    "unitary_lapse_space": {
+      "multiplier_space": "L2_of_the_AF_end",
+      "test_core": "compactly_supported_smooth_annulus_functions",
+      "required_inverse": "bounded_inverse_on_L2"
+    }
+  },
+  "data_eligibility": {
+    "observational_data_opened": false,
+    "dark_matter_or_halo_inputs": false,
+    "redshift_distance_inputs": false,
+    "paid_llm_calls": false
+  }
+}

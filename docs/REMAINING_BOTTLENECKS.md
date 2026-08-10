@@ -499,8 +499,11 @@ bounded `L2(R3)` inverse. The next G3 route therefore needs a different global g
 reformulated constraint pair, not merely pointwise lapse positivity. The conformal
 `G4=1/2+phi^2/100` seed now has a uniformly invertible conformal transformation, positive
 Einstein-frame scalar kinetic coefficient, a shared tensor/scalar null cone, and positive local
-lapse kernel throughout `|phi|<=1`; it still lacks a global lapse function-space/boundary inverse
-and candidate-specific positive-mass theorem. The exact bounded result is 0 pass, 0 reject,
+lapse kernel throughout `|phi|<=1`. Its asymptotically-flat Einstein-frame audit now proves the
+maximal-domain positive-mass reduction with equal Jordan/Einstein ADM four-momentum and vanishing
+scalar/conformal boundary terms. It still lacks a bounded global unitary-gauge lapse inverse:
+scalar falloff drives `Delta_N->0` and compact annulus modes put zero in the approximate spectrum.
+This is a chart obstruction, not a theory rejection. The exact bounded result is 0 pass, 0 reject,
 6 blocked, with no Solar bundle.
 The persistent seed coordinator now runs the actual reviewed compilation campaign for all six work
 items, not a synthetic callback. Lease recovery and replay preserve deterministic IDs and reproduce
