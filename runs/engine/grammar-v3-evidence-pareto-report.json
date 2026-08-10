@@ -1,17 +1,17 @@
 {
-  "calibration_control_registry_root_sha256": "d670c6bbfbac934b70d8c2205fe4db0873d3676aad08d6cdfc25928068aadc36",
+  "calibration_control_registry_root_sha256": "265ab03b0549481aa8885dcfe4c31b50e49cf844f75c609006683bb5819c49d5",
   "calibration_outcome_counts": {
-    "pass": 11,
+    "pass": 13,
     "reject": 1
   },
-  "calibration_packet_count": 12,
+  "calibration_packet_count": 14,
   "candidate_count": 6,
   "candidate_decision_counts": {
     "blocked": 6
   },
-  "candidate_packet_count": 11,
+  "candidate_packet_count": 12,
   "candidate_registry_root_sha256": "837e9c16e10c291ae82144ba00211cd46cd4ae9c14d80d0946e26f990942fc2b",
-  "content_sha256": "f5f24133b2716ca9f2246dcf146b5d70c185aec84655824cc8bdd5b1988410b8",
+  "content_sha256": "0a230c093f8c33e0dfdaa1cbae9818c8345d3add09b9a69ec4b43fcd9c9e8ac1",
   "data_eligibility": {
     "dark_matter_or_halo_inputs": false,
     "observational_data_opened": false,
@@ -20,11 +20,11 @@
     "redshift_distance_inputs": false
   },
   "evidence_packet_outcome_counts": {
-    "blocked": 11,
-    "pass": 11,
+    "blocked": 12,
+    "pass": 13,
     "reject": 1
   },
-  "evidence_packet_registry_root_sha256": "0981b4ddec4cd10f5a515440f93e65d564539cf2d081034a8c865b9bb466a115",
+  "evidence_packet_registry_root_sha256": "548a4930db101a8ce8b7ab731369fdc22c9320dad7b5ace805f20d28bc069c10",
   "interpretation": "Pareto fronts order prerequisite follow-up only. Candidate pass, reject, and block remain distinct; calibration-only controls cannot enter or promote the queue.",
   "observational_data_opened": false,
   "paid_llm_spend_usd": 0.0,
@@ -291,8 +291,8 @@
     },
     {
       "action_sha256": "6ddd6502d110ead90ff494a6569213ec2e61a0b046dfa86344bb1980df6abc90",
-      "blocker_count": 4,
-      "blocker_reduction_margin": 5,
+      "blocker_count": 7,
+      "blocker_reduction_margin": 2,
       "blocker_taxonomy": [
         {
           "evidence_root_sha256": "9e974048a2b3f88a22c5da928e76a8c0a92f5b7e19bffa81a6418afebc694812",
@@ -325,18 +325,42 @@
           "reason": "FLRW sign conditions do not establish the arbitrary inhomogeneous principal symbol",
           "source_id": "grammar_v3_candidate_compilation",
           "source_status": "blocked"
+        },
+        {
+          "evidence_root_sha256": null,
+          "gate_id": "formal_prerequisite_completion",
+          "outcome_class": "blocked",
+          "reason": null,
+          "source_id": "g4_phi_formal_audit",
+          "source_status": "blocked"
+        },
+        {
+          "evidence_root_sha256": null,
+          "gate_id": "global_lapse_operator_invertibility",
+          "outcome_class": "blocked",
+          "reason": "pointwise positive multiplication coefficient does not supply a bounded inverse without lapse/function-space/boundary data",
+          "source_id": "g4_phi_formal_audit",
+          "source_status": "blocked"
+        },
+        {
+          "evidence_root_sha256": null,
+          "gate_id": "global_positive_energy",
+          "outcome_class": "blocked",
+          "reason": "regular conformal reduction and positive local kinetic energy do not replace a global positive-mass/boundary theorem",
+          "source_id": "g4_phi_formal_audit",
+          "source_status": "blocked"
         }
       ],
       "candidate_decision": "blocked",
-      "candidate_evidence_packet_count": 1,
-      "evidence_packet_root_sha256": "95bb58ba20e73c999e33e64b8f3218b4c8af6971dc86bc7fe328f5b62442f4e8",
+      "candidate_evidence_packet_count": 2,
+      "evidence_packet_root_sha256": "02212dc77e40ba2f96fa2e22cd2accf364cddd6fc5599c6de37fbe0850f69f30",
       "family_id": "CONFORMAL_G4_PHI_SCALAR_TENSOR",
-      "formal_pass_count": 3,
+      "formal_pass_count": 9,
       "formula_id": "G3-f9c598b70a77ea54009d8f18",
-      "pareto_front": 1,
+      "pareto_front": 2,
       "priority_semantics": "multi-axis work ordering only; not probability or truth",
       "seed_lineage_sha256": "f9c598b70a77ea54009d8f18723ff6c54974c8aceab680d2fc95f513a33b2aa7",
-      "source_lineage_depth": 1
+      "source_lineage_depth": 2
     },
     {
       "action_sha256": "d583c96daaba16fc429f336cfed5f28d8a9ed54017130eafc597615b79a6af53",
@@ -422,13 +446,13 @@
       "family_id": "CUBIC_HORNDESKI_G3_WEAK_CELL",
       "formal_pass_count": 6,
       "formula_id": "G3-1ee308440d778dfbee8094d2",
-      "pareto_front": 2,
+      "pareto_front": 3,
       "priority_semantics": "multi-axis work ordering only; not probability or truth",
       "seed_lineage_sha256": "1ee308440d778dfbee8094d278625c137d0c62c7142476f0eb4c154d6c373df5",
       "source_lineage_depth": 2
     }
   ],
-  "pareto_front_count": 2,
+  "pareto_front_count": 3,
   "priority_axes": [
     "formal_pass_count",
     "candidate_evidence_packet_count",
@@ -436,7 +460,7 @@
     "blocker_reduction_margin"
   ],
   "schema_version": "sigma-grammar-v3-evidence-pareto-report-1.0",
-  "source_packet_link_count": 26,
-  "source_registry_root_sha256": "cdddeb0b3168c2df565903522613c01b44d1d11ec053722a527e5ab8c1750e32",
+  "source_packet_link_count": 32,
+  "source_registry_root_sha256": "008e7fec636826e7d68a731e37c0a437ede2674871c9023b6d26bf33be3dc334",
   "terminally_excluded": []
 }

@@ -38,31 +38,31 @@ def test_ingest_replay_priority_and_exact_blocker_taxonomy(tmp_path: Path) -> No
     assert bridge.ingest() == {
         "accepted_candidates": 6,
         "duplicate_candidates": 0,
-        "accepted_packets": 23,
-        "duplicate_packets": 3,
-        "accepted_source_links": 26,
+        "accepted_packets": 26,
+        "duplicate_packets": 6,
+        "accepted_source_links": 32,
         "duplicate_source_links": 0,
     }
     assert bridge.ingest() == {
         "accepted_candidates": 0,
         "duplicate_candidates": 6,
         "accepted_packets": 0,
-        "duplicate_packets": 26,
+        "duplicate_packets": 32,
         "accepted_source_links": 0,
-        "duplicate_source_links": 26,
+        "duplicate_source_links": 32,
     }
     report = bridge.priority_report()
     assert report["candidate_count"] == 6
-    assert report["candidate_packet_count"] == 11
-    assert report["calibration_packet_count"] == 12
-    assert report["source_packet_link_count"] == 26
+    assert report["candidate_packet_count"] == 12
+    assert report["calibration_packet_count"] == 14
+    assert report["source_packet_link_count"] == 32
     assert report["candidate_decision_counts"] == {"blocked": 6}
     assert report["evidence_packet_outcome_counts"] == {
-        "blocked": 11,
-        "pass": 11,
+        "blocked": 12,
+        "pass": 13,
         "reject": 1,
     }
-    assert report["calibration_outcome_counts"] == {"pass": 11, "reject": 1}
+    assert report["calibration_outcome_counts"] == {"pass": 13, "reject": 1}
     assert report["observational_data_opened"] is False
     assert report["paid_llm_spend_usd"] == 0.0
     assert report["data_eligibility"] == {**ELIGIBILITY, "passed": True}
@@ -82,6 +82,13 @@ def test_ingest_replay_priority_and_exact_blocker_taxonomy(tmp_path: Path) -> No
     assert "uniform_weak_cell_principal_common_cone" in blocker_ids[
         "G3-1ee308440d778dfbee8094d2"
     ]
+    g4_id = "G3-f9c598b70a77ea54009d8f18"
+    assert queue[g4_id]["candidate_decision"] == "blocked"
+    assert "global_lapse_operator_invertibility" in blocker_ids[g4_id]
+    assert "global_positive_energy" in blocker_ids[g4_id]
+    assert queue[g4_id]["formal_pass_count"] == 9
+    assert queue[g4_id]["pareto_front"] == 2
+    assert queue["G3-1ee308440d778dfbee8094d2"]["pareto_front"] == 3
     assert report["priority_axes"] == [
         "formal_pass_count",
         "candidate_evidence_packet_count",
@@ -99,7 +106,7 @@ def test_calibration_packets_never_become_candidate_evidence(tmp_path: Path) -> 
             "SELECT candidate_id,outcome_class,packet_json FROM evidence_packets "
             "WHERE calibration_only=1 ORDER BY packet_id"
         ).fetchall()
-    assert len(calibration) == 12
+    assert len(calibration) == 14
     assert all(row["candidate_id"] is None for row in calibration)
     packets = [json.loads(row["packet_json"]) for row in calibration]
     assert all(packet["eligible_for_candidate_priority"] is False for packet in packets)

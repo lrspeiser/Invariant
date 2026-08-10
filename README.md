@@ -236,11 +236,11 @@ out-of-range point, and performs the expensive immutable campaign attestation on
 process before reusing it for all six deterministic leases. The controlled run completed six
 coordinator tasks with six formally blocked results under explicit task, wall, disk, retry, and
 zero-paid-LLM limits. Expanding the range requires a new reviewed manifest and formal evidence.
-An immutable evidence bridge now ingests the six compilation results plus the Aether, `G2`, and
-`G3` prerequisite packets into an isolated knowledge registry. It preserves candidate/action/source
+An immutable evidence bridge now ingests the six compilation results plus the Aether, `G2`, `G3`,
+and conformal-`G4` prerequisite packets into an isolated knowledge registry. It preserves candidate/action/source
 lineage, separates calibration-only controls, deduplicates replay, refuses the live campaign
 database, and emits a four-axis Pareto queue without a scalar truth score. The current registry has
-6 candidate nodes, 23 unique evidence packets, 12 calibration packets, and two Pareto fronts; all
+6 candidate nodes, 26 unique evidence packets, 14 calibration packets, and three Pareto fronts; all
 six candidate decisions remain blocked.
 A focused energy audit shows both Aether parameter points satisfy the linearized mode-energy and
 restricted theorem coupling inequalities, but their unconstrained phase spaces include twist: an

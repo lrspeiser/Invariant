@@ -107,9 +107,9 @@ def _validate_config(config: dict[str, Any]) -> None:
     if config.get("external_paid_llm_calls") is not False:
         raise ValueError("grammar-v3 evidence knowledge config enabled paid LLM calls")
     sources = config.get("sources")
-    if not isinstance(sources, list) or len(sources) != 4:
-        raise ValueError("grammar-v3 evidence knowledge requires exactly four bound sources")
-    if len({item.get("source_id") for item in sources}) != 4:
+    if not isinstance(sources, list) or len(sources) != 5:
+        raise ValueError("grammar-v3 evidence knowledge requires exactly five bound sources")
+    if len({item.get("source_id") for item in sources}) != 5:
         raise ValueError("grammar-v3 evidence source ids are not unique")
     budget = config.get("budget", {})
     if (
