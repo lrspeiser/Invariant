@@ -462,9 +462,15 @@ generic `F(X_a_u,Q_a_u)` actions and `z_b` from re-entering, calibrates against 
 known-answer controls, and defines seven new typed families. Four are enabled because callable
 formal adapters already exist (complete `K1..K4` Aether, convex `G2` k-essence, weak-cell cubic
 `G3`, and `X`-independent conformal `G4(phi)`); three cross-domain or partial-adapter families remain
-disabled with explicit blockers. Its six concrete seeds are only deterministic queue inputs. The
-next execution step is candidate-specific action compilation and formal evaluation of those seeds,
-then a scalable enumeration only after the bounded hook reproduces the same lineage and exclusions.
+disabled with explicit blockers. All six concrete seeds now compile into candidate-specific typed
+action IR, and all nine declared adapters execute. None yet completes the formal ladder: two Aether
+seeds pass current ADM/Dirac and principal gates but lack nonlinear Hamiltonian stability; two `G2`
+seeds pass local convexity but lack coupled constraint, candidate-wide principal, and global-energy
+closure; the `G3` seed has a conditional BSSN result without a uniform common-cone proof; and the
+conformal `G4(phi)` seed lacks global lapse-operator invertibility, inhomogeneous principal, and
+global-energy proofs. The exact bounded result is 0 pass, 0 reject, 6 blocked, with no Solar bundle.
+The next execution step is to close or decisively reject those seed-specific gaps, then scale the
+parameter cells only after the bounded hook reproduces the same lineage and exclusions.
 
 The generated L2--L4 FLRW path now has the first validated background implementation:
 `flrw-background-certify` binds a compiled action, uses an outward-rounded interval Picard

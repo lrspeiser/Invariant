@@ -207,7 +207,11 @@ same formal gates. A restart-safe seed adapter now validates the manifest and ev
 derives deterministic coordinator work IDs and PRNG seeds, binds reviewed compiler/formal callbacks,
 and reuses the existing lease/recovery/checkpoint machinery. Its six-seed crash/replay fixture is
 idempotent, while a missing or changed callback blocks rather than guessing. A separate restart-safe
-production overlay now records
+candidate-specific campaign has now compiled all six action IRs and invoked all nine declared
+adapters. Its ledger is zero pass, zero reject, six blocked: the two Aether seeds still lack nonlinear
+Hamiltonian stability; the `G2`, `G3`, and conformal-`G4` seeds retain explicit coupled-constraint,
+principal/common-cone, lapse-invertibility, or global-energy gaps. No Solar bundle was generated.
+A separate restart-safe production overlay now records
 all three ordered formal layers without mutating the original 5,855-candidate registry or dossier;
 its completed 70-record root is `f1fdc9ae10df047e1c48adbf9b47e601e6fd84a5e15051204aff62fcae933781`,
 and an idempotent replay inserted zero records. The durable streaming
