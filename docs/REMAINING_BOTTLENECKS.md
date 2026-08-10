@@ -316,6 +316,16 @@ quantitative vector-valued `153 -> 11` paracomposition theorem, an explicit `H7/
 ledger for the coordinate atoms, every variable good-unknown Bony branch, and remote/resonant shell
 constants before the global sum can be applied.
 
+The first paracomposition-topology campaign now resolves most of that bookkeeping: 54 coordinate
+atoms are in `H7`, 99 second atoms are in `H6`, differentiated second atoms are in `H5`, all 14
+nonprincipal seventh-derivative partitions are compatible, the Faà di Bruno multiplicity sum is
+876, the principal coefficient-low/state-high branch cancels through the 3,025-entry identity, and
+the remote shell-index weight sum is explicit. Two gates remain genuinely open. First, an `R3`
+Schwartz packet with uniformly bounded `H6` coefficient norm has coefficient-high/state-low `H7`
+growth proportional to its frequency, so C9 outer smoothness alone cannot repair the lost spatial
+derivative. Second, the balanced/resonant shell ledger still lacks its Fourier bilinear operator
+constant. `B7`, global `H7`, dyadic application, and lifespan therefore remain false.
+
 The state-to-jet side now has a quantitative coordinate tube. A common `1e-13` bound on 153
 normalized coordinate 2-jet atoms implies strict component bounds for `nabla(phi)`,
 `nabla nabla(phi)`, and `G^mu nu` inside the existing `2e-10` covariant box, and positive radial

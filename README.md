@@ -785,7 +785,13 @@ Bony/paracomposition remainder, global `H7` closure, and nonlinear lifespan rema
 rational solved-source recurrences now extend the operator envelopes through `D9F`, closing the
 previous derivative-order shortage for `D_x^7(D2F(Y))`. What remains is an instantiated
 vector-valued `153 -> 11` `H7` paracomposition theorem, the actual `H7/H6/H5` coordinate-atom
-topology, every good-unknown Bony cancellation branch, and remote/resonant shell summation.
+topology, every good-unknown Bony cancellation branch, and remote/resonant shell summation. The
+first quantitative topology campaign now instantiates the 54 `H7` low atoms, 99 `H6` second atoms,
+their derived `H5` ladder, all 14 nonprincipal seventh-derivative partitions, the C9 tame ledger,
+the principal coefficient-low/state-high cancellation, and an exact remote shell-index sum. It also
+proves why closure is not yet available: a compact-frequency Schwartz packet has bounded `H6`
+coefficient norm but `H7` product growth proportional to frequency in the coefficient-high/state-low
+branch, and the resonant Fourier bilinear operator constant remains uninstantiated.
 
 The tube bounds 153 normalized coordinate atoms: ten metric deviations, 44 first partials,
 and 99 acceleration-free symmetric second partials. The exact orthonormal metric-basis identity
