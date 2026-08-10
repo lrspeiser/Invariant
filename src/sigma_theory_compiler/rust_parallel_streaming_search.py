@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import sqlite3
 import subprocess
 import threading
@@ -29,7 +30,6 @@ from .rust_streaming_search import (
     configure_rust_streaming_execution,
     validate_binary_result,
 )
-from .rust_streaming_service import _hardware_summary
 from .survivors import HEADER, RECORD
 
 SCHEMA_VERSION = "sigma-rust-parallel-streaming-1.0"
@@ -84,7 +84,7 @@ class ParallelRustRangeScheduler:
             raise ValueError("parallel source eligibility is not fail-closed")
         self.coordinator = coordinator
         self.config = config
-        self.scheduler_id = scheduler_id or f"parallel-{uuid.uuid4().hex[:16]}"
+        self.scheduler_id = scheduler_id or f"parallel-{os.getpid()}-{uuid.uuid4().hex[:16]}"
         self.generator_path = Path(config["generator_config_path"]).resolve()
         self.binary_path = Path(config["generator_binary_path"]).resolve()
         self.output_directory = Path(config["output_directory"]).resolve()
@@ -508,12 +508,43 @@ def _overlap(intervals_a: list[tuple[int, int]], intervals_b: list[tuple[int, in
     ) / 1e9
 
 
+def _hardware_summary(samples: list[dict[str, Any]]) -> dict[str, Any]:
+    gpu = [sample["gpu"] for sample in samples if sample.get("gpu", {}).get("available")]
+    cpu = [sample["cpu"] for sample in samples if sample.get("cpu", {}).get("available")]
+
+    def stats(values: list[float]) -> dict[str, float] | None:
+        return (
+            {"minimum": min(values), "mean": sum(values) / len(values), "peak": max(values)}
+            if values
+            else None
+        )
+
+    return {
+        "semantics": "periodic physical sensor samples, distinct from scheduler occupancy",
+        "sample_count": len(samples),
+        "gpu_available_samples": len(gpu),
+        "gpu_utilization_percent": stats([float(item["utilization_percent"]) for item in gpu]),
+        "gpu_memory_controller_percent": stats(
+            [float(item["memory_controller_utilization_percent"]) for item in gpu]
+        ),
+        "gpu_power_watts": stats(
+            [float(item["power_watts"]) for item in gpu if item.get("power_watts") is not None]
+        ),
+        "cpu_available_samples": len(cpu),
+        "cpu_utilization_percent": stats([float(item["utilization_percent"]) for item in cpu]),
+    }
+
+
 def run_parallel_rust_streaming_search(
     database: str | Path,
     execution_config: dict[str, Any],
     resource_profile: dict[str, Any],
     parallel_config: dict[str, Any],
     telemetry_path: str | Path,
+    *,
+    external_stop_path: str | Path | None = None,
+    stop_reason_callback: Any = None,
+    status_callback: Any = None,
 ) -> dict[str, Any]:
     stream_view = {
         **parallel_config,
@@ -524,13 +555,22 @@ def run_parallel_rust_streaming_search(
     coordinator = PersistentParallelSearch(database, configured, resource_profile)
     scheduler = ParallelRustRangeScheduler(coordinator, parallel_config)
     hardware_samples: list[dict[str, Any]] = []
+
+    def periodic(value: dict[str, Any]) -> None:
+        hardware = _hardware_telemetry()
+        hardware_samples.append(hardware)
+        if status_callback is not None:
+            status_callback({**value, "hardware": hardware})
+
     started = time.time_ns()
     try:
         supervisor = PersistentParallelSupervisor(
             database, configured, resource_profile, telemetry_path
         ).run(
             refill_callback=scheduler.refill,
-            status_callback=lambda _value: hardware_samples.append(_hardware_telemetry()),
+            external_stop_path=external_stop_path,
+            stop_reason_callback=stop_reason_callback,
+            status_callback=periodic,
         )
     finally:
         scheduler.close()

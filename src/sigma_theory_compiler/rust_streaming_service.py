@@ -16,6 +16,11 @@ from typing import Any
 
 from .gravity_engine_service import _hardware_telemetry
 from .persistent_parallel_search import PersistentParallelSearch
+from .rust_parallel_streaming_search import SCHEMA_VERSION as PARALLEL_SCHEMA_VERSION
+from .rust_parallel_streaming_search import (
+    ParallelRustRangeScheduler,
+    run_parallel_rust_streaming_search,
+)
 from .rust_streaming_search import (
     ELIGIBILITY,
     PROMOTION_HEADER,
@@ -62,7 +67,15 @@ def _write_json(path: Path, value: Any) -> None:
 
 
 def _directory_bytes(path: Path) -> int:
-    return sum(item.stat().st_size for item in path.rglob("*") if item.is_file())
+    total = 0
+    for item in path.rglob("*"):
+        try:
+            if item.is_file():
+                total += item.stat().st_size
+        except FileNotFoundError:
+            # SQLite WAL/SHM files can disappear between enumeration and stat.
+            continue
+    return total
 
 
 def _paths(service_directory: str | Path) -> dict[str, Path]:
@@ -136,7 +149,19 @@ def initialize_service(
     )
     stream["output_directory"] = str(paths["chunks"])
     stream["promotion_directory"] = str(paths["promotion"])
-    configured = configure_rust_streaming_execution(execution, stream)
+    scheduler_mode = (
+        "parallel" if stream.get("schema_version") == PARALLEL_SCHEMA_VERSION else "serial"
+    )
+    stream_view = (
+        {
+            **stream,
+            "schema_version": "sigma-rust-streaming-search-1.0",
+            "producer_lease_seconds": stream["producer_chunk_lease_seconds"],
+        }
+        if scheduler_mode == "parallel"
+        else stream
+    )
+    configured = configure_rust_streaming_execution(execution, stream_view)
     if maximum_tasks is not None:
         if maximum_tasks <= 0:
             raise ValueError("maximum tasks must be positive")
@@ -157,7 +182,13 @@ def initialize_service(
     coordinator = PersistentParallelSearch(paths["database"], configured, resource)
     # This validates the full ordinal/disk/wall/lease contract before a worker
     # can be launched and persists the restart cursor atomically.
-    RustStreamingProducer(coordinator, stream, owner_id="service-initializer").release_owner()
+    if scheduler_mode == "parallel":
+        scheduler = ParallelRustRangeScheduler(
+            coordinator, stream, scheduler_id="service-initializer"
+        )
+        scheduler.close()
+    else:
+        RustStreamingProducer(coordinator, stream, owner_id="service-initializer").release_owner()
     identity = {
         "execution_sha256": _sha(configured),
         "resource_sha256": _sha(resource),
@@ -168,6 +199,7 @@ def initialize_service(
     service = {
         "schema_version": SERVICE_SCHEMA,
         "service_id": f"SGRS-{_sha(identity)[:24]}",
+        "scheduler_mode": scheduler_mode,
         "identity": identity,
         "state": "initialized",
         "pid": None,
@@ -193,15 +225,22 @@ def _update(paths: dict[str, Path], **changes: Any) -> dict[str, Any]:
     return service
 
 
-def _source(database: Path) -> dict[str, Any] | None:
+def _source(database: Path, scheduler_mode: str = "serial") -> dict[str, Any] | None:
     if not database.exists():
         return None
     try:
         connection = sqlite3.connect(database)
         connection.row_factory = sqlite3.Row
-        row = connection.execute(
-            "SELECT * FROM rust_stream_source ORDER BY source_id LIMIT 1"
-        ).fetchone()
+        table = "rust_parallel_source" if scheduler_mode == "parallel" else "rust_stream_source"
+        row = connection.execute(f"SELECT * FROM {table} ORDER BY source_id LIMIT 1").fetchone()
+        count_rows = (
+            connection.execute(
+                "SELECT state,COUNT(*) FROM rust_parallel_chunks WHERE source_id=? GROUP BY state",
+                (row["source_id"],),
+            ).fetchall()
+            if scheduler_mode == "parallel" and row is not None
+            else []
+        )
     except sqlite3.Error:
         return None
     finally:
@@ -210,13 +249,19 @@ def _source(database: Path) -> dict[str, Any] | None:
     if row is None:
         return None
     value = dict(row)
-    value["exhausted"] = int(value["next_ordinal"]) >= int(value["stop_ordinal"])
+    if scheduler_mode == "parallel":
+        counts = {state: int(count) for state, count in count_rows}
+        value["chunk_counts"] = counts
+        value["exhausted"] = counts.get("enqueued", 0) == sum(counts.values())
+    else:
+        value["exhausted"] = int(value["next_ordinal"]) >= int(value["stop_ordinal"])
     return value
 
 
 def service_status(service_directory: str | Path) -> dict[str, Any]:
     paths = _paths(service_directory)
     service = _load(paths["service"])
+    scheduler_mode = service.get("scheduler_mode", "serial")
     execution = _load(paths["execution"])
     resource = _load(paths["resource"])
     telemetry = None
@@ -225,12 +270,13 @@ def service_status(service_directory: str | Path) -> dict[str, Any]:
     status = {
         "schema_version": STATUS_SCHEMA,
         "service_id": service["service_id"],
+        "scheduler_mode": scheduler_mode,
         "state": service["state"],
         "pid": service.get("pid"),
         "alive": _pid_alive(service.get("pid")),
         "stop_requested": paths["stop"].exists(),
         "last_stop_reason": service.get("last_stop_reason"),
-        "source": _source(paths["database"]),
+        "source": _source(paths["database"], scheduler_mode),
         "execution": telemetry,
         "hardware": _hardware_telemetry(),
         "disk": {
@@ -278,6 +324,10 @@ def run_service_worker(service_directory: str | Path) -> dict[str, Any]:
     execution = _load(paths["execution"])
     resource = _load(paths["resource"])
     stream = _load(paths["stream"])
+    scheduler_mode = service.get(
+        "scheduler_mode",
+        "parallel" if stream.get("schema_version") == PARALLEL_SCHEMA_VERSION else "serial",
+    )
     expected_identity = {
         "execution_sha256": _sha(execution),
         "resource_sha256": _sha(resource),
@@ -303,11 +353,12 @@ def run_service_worker(service_directory: str | Path) -> dict[str, Any]:
         )
 
     def periodic(value: dict[str, Any]) -> None:
-        hardware = _hardware_telemetry()
+        hardware = value.get("hardware") or _hardware_telemetry()
         samples.append(hardware)
         status = {
             "schema_version": STATUS_SCHEMA,
             "service_id": service["service_id"],
+            "scheduler_mode": scheduler_mode,
             "state": "running",
             "pid": os.getpid(),
             "alive": True,
@@ -326,14 +377,14 @@ def run_service_worker(service_directory: str | Path) -> dict[str, Any]:
         _write_json(paths["status"], status)
 
     try:
-        report = run_rust_streaming_search(
-            paths["database"],
-            execution,
-            resource,
-            stream,
-            paths["telemetry"],
-            external_stop_path=paths["stop"],
-            stop_reason_callback=disk_reason,
+        runner = (
+            run_parallel_rust_streaming_search
+            if scheduler_mode == "parallel"
+            else run_rust_streaming_search
+        )
+        report = runner(
+            paths["database"], execution, resource, stream, paths["telemetry"],
+            external_stop_path=paths["stop"], stop_reason_callback=disk_reason,
             status_callback=periodic,
         )
         envelope = {
@@ -343,9 +394,9 @@ def run_service_worker(service_directory: str | Path) -> dict[str, Any]:
         }
         envelope["content_sha256"] = _sha(envelope)
         _write_json(paths["last_run"], envelope)
-        completed = report["supervisor"]["stop_reason"] == "queue_drained" and report[
-            "cursor"
-        ]["exhausted"]
+        completed = report["supervisor"]["stop_reason"] == "queue_drained" and report["cursor"][
+            "exhausted"
+        ]
         _update(
             paths,
             state="completed" if completed else "stopped",
@@ -418,11 +469,18 @@ def resume_service(service_directory: str | Path, *, foreground: bool) -> dict[s
         # Reclaim only the lease whose structured owner id proves it belonged
         # to that now-dead service PID; unrelated owners remain protected.
         connection = sqlite3.connect(paths["database"])
-        connection.execute(
-            "UPDATE rust_stream_source SET owner_id=NULL,owner_lease_expires_utc=NULL "
-            "WHERE owner_id LIKE ?",
-            (f"producer-{int(stale_pid)}-%",),
-        )
+        if service.get("scheduler_mode", "serial") == "parallel":
+            connection.execute(
+                "UPDATE rust_parallel_chunks SET state='available',owner_id=NULL,"
+                "lease_expires_utc=NULL WHERE state='generating' AND owner_id LIKE ?",
+                (f"parallel-{int(stale_pid)}-%",),
+            )
+        else:
+            connection.execute(
+                "UPDATE rust_stream_source SET owner_id=NULL,owner_lease_expires_utc=NULL "
+                "WHERE owner_id LIKE ?",
+                (f"producer-{int(stale_pid)}-%",),
+            )
         connection.commit()
         connection.close()
     paths["stop"].unlink(missing_ok=True)
@@ -537,7 +595,10 @@ def export_service(
     report = {
         "schema_version": EXPORT_SCHEMA,
         "service_id": service["service_id"],
-        "source": _source(paths["database"]),
+        "source": _source(
+            paths["database"],
+            service.get("scheduler_mode", "serial"),
+        ),
         "blocks": blocks,
         "block_count": len(blocks),
         "survivor_identity_count": sum(int(block["record_count"]) for block in blocks),

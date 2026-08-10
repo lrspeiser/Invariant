@@ -185,12 +185,13 @@ without its own exact weak-field bundle.
 A bounded production-provenance audit subsequently constructed exact typed covariant maps for 2 of
 those 70 blocked identities: `q` and `q-(sqrt(1+x)-1)`. Both then failed the higher-jet formal
 preflight (rank loss and a nonpositive homogeneous acceleration kinetic coefficient, respectively),
-so neither was promoted; the other 68 remain blocked rather than guessed. An isolated
-multi-producer streaming scheduler now leases disjoint Rust ranges transactionally and feeds the
-same single cached CUDA owner. On an identical eight-million-formula benchmark, four producers
-improved source throughput from 1.36 to 3.52 million formulas per second (2.59x wall speedup). It is
-not yet wired into the durable service lifecycle, and the low physical GPU utilization continues to
-show that formula production and verification, not CUDA screening, are the current bottleneck.
+so neither was promoted; the other 68 remain blocked rather than guessed. The durable streaming
+service now supports a multi-producer scheduler that leases disjoint Rust ranges transactionally and
+feeds the same single cached CUDA owner while preserving start/status/stop/resume/export recovery.
+On an identical 16-million-formula scaling run, eight producers reached 7.49 million source
+formulas per second; 12 and 16 producers were slower as CPU saturation reduced overlap. Eight is
+therefore the evidence-backed 5090 default. Low physical GPU utilization still shows that formula
+production and verification, not CUDA screening, are the current bottleneck.
 `promotion_dossier.py` now independently replays every stored candidate/stage hash chain, explains
 the first rejection or unresolved gate, and builds a multi-axis Pareto follow-up queue only from
 non-rejected candidates. Its ranking is work allocation, never a truth probability, and it cannot

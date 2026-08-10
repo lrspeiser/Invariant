@@ -1,0 +1,57 @@
+{
+  "schema_version": "sigma-rust-parallel-scaling-benchmark-1.0",
+  "formula_interval": {
+    "start_ordinal": 64000000,
+    "end_ordinal_exclusive": 80000000,
+    "formula_count": 16000000,
+    "chunk_formula_count": 1000000
+  },
+  "results": [
+    {
+      "workers": 8,
+      "wall_seconds": 2.1368472,
+      "source_formulas_per_second": 7487666.876695722,
+      "producer_slot_utilization_fraction": 0.5967329109914832,
+      "producer_gpu_overlap_seconds": 0.8099186,
+      "gpu_survivor_records_per_second": 293535.1501430676,
+      "physical_gpu_mean_percent": 3.0,
+      "physical_gpu_peak_percent": 3.0,
+      "physical_cpu_mean_percent": 69.82857142857144,
+      "physical_cpu_peak_percent": 83.0
+    },
+    {
+      "workers": 12,
+      "wall_seconds": 2.2180195,
+      "source_formulas_per_second": 7213642.621266404,
+      "producer_slot_utilization_fraction": 0.4106726744286964,
+      "producer_gpu_overlap_seconds": 0.5449084,
+      "gpu_survivor_records_per_second": 330991.08438178414,
+      "physical_gpu_mean_percent": 5.0,
+      "physical_gpu_peak_percent": 9.0,
+      "physical_cpu_mean_percent": 62.15714285714286,
+      "physical_cpu_peak_percent": 98.6
+    },
+    {
+      "workers": 16,
+      "wall_seconds": 2.7243271,
+      "source_formulas_per_second": 5873009.889304409,
+      "producer_slot_utilization_fraction": 0.3901118348637357,
+      "producer_gpu_overlap_seconds": 0.0,
+      "gpu_survivor_records_per_second": 338671.7583900871,
+      "physical_gpu_mean_percent": 3.75,
+      "physical_gpu_peak_percent": 9.0,
+      "physical_cpu_mean_percent": 66.3,
+      "physical_cpu_peak_percent": 100.0
+    }
+  ],
+  "fastest_workers": 8,
+  "selected_default_workers": 8,
+  "interpretation": "Scheduler occupancy is not hardware utilization; physical GPU values are periodic NVML samples and may miss sub-sample kernel bursts.",
+  "data_eligibility": {
+    "observational_data_opened": false,
+    "dark_matter_or_halo_inputs": false,
+    "redshift_distance_inputs": false,
+    "paid_llm_calls": false,
+    "passed": true
+  }
+}

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import sqlite3
 from pathlib import Path
 
 import pytest
@@ -26,17 +27,17 @@ def _load(path: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def _execution(path: Path) -> Path:
+def _execution(path: Path, tasks: int = 3) -> Path:
     config = _load(EXECUTION)
     config["queue"] = {
         **config["queue"],
-        "maximum_pending_work": 3,
+        "maximum_pending_work": tasks,
         "lease_seconds": 30,
         "checkpoint_every_completions": 1,
     }
     config["budget"] = {
         **config["budget"],
-        "maximum_tasks": 3,
+        "maximum_tasks": tasks,
         "maximum_wall_seconds": 30,
     }
     config["cpu"] = {**config["cpu"], "maximum_workers": 1}
@@ -71,6 +72,31 @@ def _stream(path: Path) -> Path:
         "target_pending_chunks": 2,
         "producer_lease_seconds": 30,
         "maximum_disk_bytes": 16 * 1024 * 1024,
+        "maximum_wall_seconds": 30,
+        "equivalence_samples_per_chunk": 8,
+        "ambiguity_guard": 1e-10,
+        "data_eligibility": ELIGIBILITY,
+    }
+    path.write_text(json.dumps(config), encoding="utf-8")
+    return path
+
+
+def _parallel_stream(path: Path) -> Path:
+    config = {
+        "schema_version": "sigma-rust-parallel-streaming-1.0",
+        "external_paid_llm_calls": False,
+        "generator_config_path": str(GENERATOR),
+        "generator_binary_path": str(BINARY),
+        "output_directory": "replaced-by-service",
+        "start_ordinal": 60_000_000,
+        "formula_count": 2_000_000,
+        "chunk_formula_count": 500_000,
+        "maximum_formula_count": 1_000_000_000,
+        "producer_workers": 4,
+        "threads_per_producer": 1,
+        "target_pending_chunks": 8,
+        "producer_chunk_lease_seconds": 30,
+        "maximum_disk_bytes": 128 * 1024 * 1024,
         "maximum_wall_seconds": 30,
         "equivalence_samples_per_chunk": 8,
         "ambiguity_guard": 1e-10,
@@ -168,3 +194,61 @@ def test_service_rejects_unsealed_or_underbudgeted_sources(tmp_path: Path) -> No
     stream_path.write_text(json.dumps(stream), encoding="utf-8")
     with pytest.raises(ValueError, match="disk budget"):
         initialize_service(tmp_path / "underbudgeted", execution, PROFILE, stream_path)
+
+
+def test_parallel_scheduler_uses_full_service_lifecycle_and_dead_pid_recovery(
+    tmp_path: Path,
+) -> None:
+    if not BINARY.is_file():
+        pytest.skip("bounded release Rust generator is not built")
+    available, reason = cuda_available()
+    if not available:
+        pytest.skip(reason)
+    service_root = tmp_path / "parallel-service"
+    service = initialize_service(
+        service_root,
+        _execution(tmp_path / "parallel-execution.json", tasks=4),
+        PROFILE,
+        _parallel_stream(tmp_path / "parallel-stream.json"),
+    )
+    assert service["scheduler_mode"] == "parallel"
+    database = service_root / "stream.sqlite"
+    connection = sqlite3.connect(database)
+    original_deadline = connection.execute(
+        "SELECT deadline_utc FROM rust_parallel_source"
+    ).fetchone()[0]
+    connection.execute(
+        "UPDATE rust_parallel_chunks SET state='generating',"
+        "owner_id='parallel-999999-dead',lease_expires_utc='2999-01-01T00:00:00+00:00' "
+        "WHERE sequence=0"
+    )
+    connection.commit()
+    connection.close()
+    service["state"] = "running"
+    service["pid"] = 999999
+    (service_root / "service.json").write_text(json.dumps(service), encoding="utf-8")
+
+    resumed = resume_service(service_root, foreground=True)["run"]
+    streaming = resumed["streaming"]
+    assert streaming["schema_version"] == "sigma-rust-parallel-streaming-report-1.0"
+    assert streaming["all_work_succeeded"]
+    assert streaming["cursor"]["exhausted"]
+    assert streaming["producer"]["peak_active"] == 4
+    assert streaming["consumer"]["cache_reused_chunks"] >= 3
+    assert streaming["lineage"]["verified_chunk_count"] == 4
+    status = service_status(service_root)
+    assert status["scheduler_mode"] == "parallel"
+    assert status["state"] == "completed"
+    assert status["source"]["exhausted"]
+    assert status["source"]["deadline_utc"] == original_deadline
+    assert status["cost_budget"]["maximum_paid_llm_spend_usd"] == 0.0
+    assert status["data_eligibility"] == {
+        **ELIGIBILITY,
+        "paid_llm_calls": False,
+        "passed": True,
+    }
+    exported = export_service(
+        service_root, tmp_path / "parallel-promotion.json", maximum_export_bytes=64 * 1024 * 1024
+    )
+    assert exported["block_count"] == 4
+    assert exported["survivor_identity_count"] > 0
