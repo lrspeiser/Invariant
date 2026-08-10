@@ -353,8 +353,12 @@ non-spectral Sylvester equation is now solved exactly at the flat `e1` reference
 solvability compressions vanish, and column 10 has a rank-four Hermitian `deltaK` with 24 nonzero
 entries, squared Frobenius norm `1253060/9`, zero residual, an explicit positivity radius, and a
 closed reference CK3 cost. This does not yet extend to variable coefficients: the first exact gate
-is to verify all 153 derivatives of the equal-eigenspace compressions, while CK1 still needs its
-source packet and `partial_1 F10` topology. TC1's source part needs the `Q`-contracted `partial_1F`
+has now passed for every one of the 153 atoms. Every first derivative compression vanishes, exact
+Hermitian `deltaK_A` corrections give 153 zero differentiated Sylvester residuals, and the physical
+coordinate map has 41 nonzero and 112 zero corrections with an explicit affine positivity bound.
+The next exact gate is the 11,781 unordered second-atom conditions requiring component `D2K55`,
+`D2P55`, and `D2TC2`; CK1 still needs its source packet and `partial_1 F10` topology. TC1's source
+part needs the `Q`-contracted `partial_1F`
 state-to-jet topology, variable TC3
 needs the 153-atom tensor `D_Y(P55 E_v Q)`, and TC5 in `H7` needs component
 `D2F[J(C_Q),J(C_Q)]` plus `H7` control of `J(C_Q)`. The next gate is to close those terms and extend

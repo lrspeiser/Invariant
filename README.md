@@ -882,8 +882,12 @@ Sylvester equation is nevertheless exactly solvable at the flat `e1` reference. 
 solvability compression vanishes, and column 10 admits a rank-four Hermitian `deltaK` with 24
 nonzero entries and zero Sylvester residual. Its squared Frobenius norm is `1253060/9`, yielding an
 explicit positive-energy radius and a closed reference CK3 cost. This is not yet global closure:
-the 153 component derivatives of the equal-eigenspace compressions and CK1's source packet remain
-unverified, so the variable TC2 correction is still fail-closed.
+all 153 first derivatives of the equal-eigenspace compressions now vanish exactly, and exact
+Hermitian first-order corrections exist for every atom. The physical coordinate map leaves 41
+nonzero corrections and 112 zeros, with all differentiated Sylvester residuals zero and an explicit
+affine positivity bound. The next unresolved gate is the 11,781 unordered second-atom conditions,
+which require component `D2K55`, `D2P55`, and `D2TC2`; CK1's source packet also remains open. Thus
+the affine extension is certified while full variable TC2 and global H7 stay fail-closed.
 TC1's source part needs the contracted
 state-to-jet topology, variable TC3 needs `D_Y(P55 E_v Q)`, and TC5 in `H7` needs component `D2F`
 plus `H7` control of `J(C_Q)`. The next valid route must close those terms and extend the identity
