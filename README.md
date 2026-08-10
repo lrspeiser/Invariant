@@ -504,6 +504,26 @@ are deliberately reported even though they are large (`~2e19` to `~1.6e20`): thi
 the source-composition gate but signals that the eventual guaranteed lifespan will be
 conservative unless the norm estimates are sharpened.
 
+Differentiate the actual lifted 55-state Riesz symmetrizer using:
+
+```powershell
+python -m sigma_theory_compiler quartic-full-symmetrizer-moser-campaign `
+  --symmetrizer-campaign runs/physics-language/quartic-symmetrizer-uniform-domain-campaign/campaign.json `
+  --moser-campaign runs/physics-language/quartic-quasilinear-moser-campaign/campaign.json `
+  --nonquasilinear-pde-campaign runs/physics-language/quartic-nonquasilinear-pde-campaign/campaign.json `
+  --coordinate-tube-campaign runs/physics-language/quartic-coordinate-jet-tube-campaign/campaign.json `
+  --solved-source-campaign runs/physics-language/quartic-solved-source-moser-campaign/campaign.json `
+  --config configs/backgrounds/quartic_full_symmetrizer_moser_campaign.json `
+  --output runs/physics-language/quartic-full-symmetrizer-moser-campaign
+```
+
+This differentiates the contour resolvents and Riesz projectors, physical `H_star`
+blocks, inverse companion, transverse lift, cross block, and complete `K55` through
+order four. The resulting coordinate-atom bounds are finite but very conservative
+(`~2.8e54` to `~4.5e55` at fourth order). Direction-symbol derivatives and explicit
+Sobolev product/embedding constants are still required before these coefficient
+multipliers become a closed energy inequality or numerical lifespan.
+
 The tube bounds 153 normalized coordinate atoms: ten metric deviations, 44 first partials,
 and 99 acceleration-free symmetric second partials. The exact orthonormal metric-basis identity
 and Neumann/product majorants prove that a common `1e-13` component cube maps strictly inside the

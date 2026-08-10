@@ -1,6 +1,6 @@
 # Sigma formal-backend controls
 
-- Passed: 106 / 106
+- Passed: 107 / 107
 - Cadabra 2 available: True
 
 | Control | Status | Verified scope |
@@ -90,6 +90,7 @@
 | `quartic_linear_x_coordinate_jet_hyperbolicity_tube` | pass | The orthonormal symmetric-metric basis gives an exact Frobenius perturbation identity. Neumann-series and tensor-product majorants bound the inverse metric, connection, scalar Hessian, curvature, and upper Einstein tensor, with nonnegative radial Frechet envelopes through order four. A 1e-13 coordinate-component tube passes all three covariant-jet margins; 1e-12 rejects. Euler-remainder and commuted gauge-source bounds, lifespan, and tube preservation remain open. |
 | `quartic_linear_x_euler_remainder_majorants` | pass | Eight quartic metric terms, two G2 metric terms, three scalar terms, and four modified-harmonic gauge stages are bounded with exact radial expressions. The diagonal auxiliary metrics give exact l1 contraction constants 7 and 18. Combining the remainder with the certified time-block inverse yields a finite solved-acceleration bound. Derivatives of A^{-1}, commuted energy closure, a quantitative lifespan, matter sources, and tube preservation remain open. |
 | `quartic_linear_x_solved_source_moser_envelopes` | pass | The exact quadratic chain rule composes the 24-component covariant jet with the 153 coordinate atoms, and the exact differentiated identity A F=W propagates the certified A, A^{-1}, and W bounds through order four. Order zero reproduces the independent acceleration bound. The large fourth-order envelopes expose conservative norm growth; full symmetrizer derivatives, commuted energy closure, lifespan, matter, and tube preservation remain open. |
+| `quartic_linear_x_full_symmetrizer_moser_envelopes` | pass | The campaign differentiates the contour resolvents and Riesz projectors, physical H_star blocks, inverse companion, transverse lift, cross block, and K55 itself. Exact recurrence controls and an order-four corruption test pass. The very large bounds expose conservative norm growth. Direction-symbol derivatives, Sobolev product/embedding constants, a closed energy inequality, lifespan, matter, and tube preservation remain open. |
 | `quartic_horndeski_timelike_flat_physical_hamiltonian` | pass | Action/Dirac/principal-count-matched exact Legendre transform with positive tensor/scalar momentum and coordinate Hessians plus ghost and gradient negative controls; nonlinear global energy remains unresolved. |
 | `quartic_horndeski_global_timelike_gradient_no_go` | pass | Exact all-amplitude sign split: alpha>0 reaches kinetic rank loss/ghost, alpha<0 reaches cone collapse/gradient instability; an explicit bounded EFT/background domain is required. |
 | `quartic_horndeski_flrw_background_domain_crossing` | pass | Exact action-hash-bound contracting closed-FLRW boundary-crossing witness with a regular homogeneous acceleration system; restricted solution classes, EFT stopping boundaries, and nonlinear G4 completions remain separate. |

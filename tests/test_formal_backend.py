@@ -151,6 +151,19 @@ def test_all_formal_known_answer_controls_pass(tmp_path) -> None:
         < 2e20
     )
     assert solved_source["evidence"]["insufficient_order_negative"]["status"] == "reject"
+    full_symmetrizer = checks["quartic_linear_x_full_symmetrizer_moser_envelopes"]
+    assert full_symmetrizer["status"] == "pass"
+    assert full_symmetrizer["evidence"]["artifact_hash_matches_reexecution"]
+    assert full_symmetrizer["evidence"]["generic_symmetrizer_derivative_control"][
+        "passed"
+    ]
+    assert full_symmetrizer["evidence"]["K55_coordinate_fourth_order_range"][
+        "minimum"
+    ] > 1e54
+    assert full_symmetrizer["evidence"]["K55_coordinate_fourth_order_range"][
+        "maximum"
+    ] < 5e55
+    assert full_symmetrizer["evidence"]["insufficient_order_negative"]["status"] == "reject"
     assert checks["projected_aether_q_fixed_metric_first_variation"]["status"] == "pass"
     assert checks["projected_aether_q_fixed_metric_first_variation"]["evidence"][
         "projector_and_B_first_variation_residual"

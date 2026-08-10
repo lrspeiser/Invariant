@@ -6198,6 +6198,127 @@
       "status": "pass"
     },
     {
+      "claim": "All 12 fixed-coefficient linear-X quartic candidates possess fourth-order state and coordinate-atom Frechet envelopes for the actual lifted 55-state Riesz symmetrizer.",
+      "evidence": {
+        "K55_coordinate_fourth_order_range": {
+          "maximum": 4.4627791372065243e+55,
+          "minimum": 2.7878249150927172e+54
+        },
+        "artifact": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\runs\\physics-language\\quartic-full-symmetrizer-moser-campaign\\campaign.json",
+        "artifact_hash_matches_reexecution": true,
+        "campaigns": {
+          "coordinate_tube": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\runs\\physics-language\\quartic-coordinate-jet-tube-campaign\\campaign.json",
+          "moser": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\runs\\physics-language\\quartic-quasilinear-moser-campaign\\campaign.json",
+          "pde": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\runs\\physics-language\\quartic-nonquasilinear-pde-campaign\\campaign.json",
+          "solved_source": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\runs\\physics-language\\quartic-solved-source-moser-campaign\\campaign.json",
+          "symmetrizer": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\runs\\physics-language\\quartic-symmetrizer-uniform-domain-campaign\\campaign.json"
+        },
+        "config": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\configs\\backgrounds\\quartic_full_symmetrizer_moser_campaign.json",
+        "counts": {
+          "full_K55_C4_derivative_envelopes_passed": 12,
+          "rejected": 0,
+          "selected": 12
+        },
+        "generic_symmetrizer_derivative_control": {
+          "chain_rule_residuals": {
+            "1": "0",
+            "2": "0",
+            "3": "0",
+            "4": "0"
+          },
+          "control": "full symmetrizer derivative recurrence through order four",
+          "fourth_order_chain_rule": "S4 J1^4+6 S3 J1^2 J2+S2(3 J2^2+4 J1 J3)+S1 J4",
+          "negative_control": {
+            "corruption": "replace the fourth-order coefficient 6 on S3*J1^2*J2 by 5",
+            "exact_witness_residual": "2880",
+            "rejected": true
+          },
+          "passed": true,
+          "resolvent_identity": "R_n=R*sum_{k=1}^n binomial(n,k) M_k R_{n-k}, R=(zI-M)^{-1}",
+          "resolvent_residuals": {
+            "1": "0",
+            "2": "0",
+            "3": "0",
+            "4": "0"
+          },
+          "scope": "Exact scalar representatives verify the multiplicities used after taking operator norms of the matrix resolvent, product, and composition formulas.",
+          "triple_product_identity": "D^n(L K Q)=sum_{a+b+c=n} n!/(a!b!c!) L_a K_b Q_c",
+          "triple_product_residuals": {
+            "0": "0",
+            "1": "0",
+            "2": "0",
+            "3": "0",
+            "4": "0"
+          }
+        },
+        "insufficient_order_negative": {
+          "errors": [
+            "full symmetrizer requires order four"
+          ],
+          "status": "reject"
+        },
+        "representative_derivative_hierarchies": {
+          "F_cross_Frechet_derivative_2_norm_envelopes_numeric": {
+            "0": 2968802771.2085805,
+            "1": 6.790819633728444e+17,
+            "2": 1.919315260913857e+26,
+            "3": 6.423288290835245e+34,
+            "4": 2.625853794554733e+43
+          },
+          "K22_Frechet_derivative_2_norm_envelopes_numeric": {
+            "0": 4148.997969005628,
+            "1": 546053764069.3461,
+            "2": 8.387336170924936e+19,
+            "3": 1.1609182464740193e+28,
+            "4": 1.8212731170199158e+36
+          },
+          "K55_coordinate_atom_Frechet_derivative_2_norm_envelopes_numeric": {
+            "0": 1.1967276267639226e+21,
+            "1": 6.519189469473854e+20,
+            "2": 8.844206658480288e+31,
+            "3": 1.4207287272169327e+43,
+            "4": 2.787824960848222e+54
+          },
+          "Leibniz_commutator_coefficient_multipliers_numeric": {
+            "1": 6.519189469473854e+20,
+            "2": 8.84420665861067e+31,
+            "3": 1.4207287272434653e+43,
+            "4": 2.7878249609050514e+54
+          },
+          "M22_inverse_Frechet_derivative_2_norm_envelopes_numeric": {
+            "0": 3002.257332491686,
+            "1": 291604079486.75525,
+            "2": 5.664603667703526e+19,
+            "3": 1.6505805458193704e+28,
+            "4": 6.41272552163535e+36
+          },
+          "Riesz_projector_Frechet_derivative_2_norm_envelopes_numeric": {
+            "1": 2059049648.8004289,
+            "2": 1.164315322735845e+17,
+            "3": 9.875649464406372e+24,
+            "4": 1.1168618493560983e+33
+          },
+          "Riesz_resolvent": {
+            "Frechet_derivative_2_norm_envelopes_numeric": {
+              "0": 873.9269834050272,
+              "1": 24708595785.605145,
+              "2": 1.3971783872830141e+18,
+              "3": 1.1850779357287647e+26,
+              "4": 1.340234219227318e+34
+            },
+            "baseline_resolvent_2_upper": "88*sqrt(3)/35 + 4*sqrt(10645) + 32*sqrt(249510)/35",
+            "candidate_Neumann_denominator_lower": "-2*sqrt(3)*(88*sqrt(3)/35 + 4*sqrt(10645) + 32*sqrt(249510)/35)*sqrt(52*sqrt(6698224855286153847989829586146856331423190) + sqrt(58916000033421440020834840004699568641091157795) + 2486000000597600000390712)/(25000000000000000000 - sqrt(4000000000960000000630)) + 1",
+            "contour_radius": "1/12"
+          }
+        },
+        "scope": "This differentiates the Riesz projectors, physical H_star blocks, M22 inverse, lift coupling L, cross block F, and complete K55. The reported Leibniz values are coefficient multipliers, not a closed Sobolev energy estimate: direction-symbol derivatives, Sobolev embedding/product constants, boundary terms, a lifespan, and matter remain unresolved.",
+        "status": "pass_all_12_full_K55_coordinate_atom_C4_derivative_envelopes"
+      },
+      "name": "quartic_linear_x_full_symmetrizer_moser_envelopes",
+      "scope": "The campaign differentiates the contour resolvents and Riesz projectors, physical H_star blocks, inverse companion, transverse lift, cross block, and K55 itself. Exact recurrence controls and an order-four corruption test pass. The very large bounds expose conservative norm growth. Direction-symbol derivatives, Sobolev product/embedding constants, a closed energy inequality, lifespan, matter, and tube preservation remain open.",
+      "status": "pass"
+    },
+    {
       "claim": "The named quartic-Horndeski action has a positive three-mode reduced quadratic Hamiltonian on its healthy flat constant-timelike-gradient patch.",
       "evidence": {
         "action_binding_passed": true,
@@ -7749,10 +7870,10 @@
   ],
   "counts": {
     "failed": 0,
-    "passed": 106,
-    "total": 106
+    "passed": 107,
+    "total": 107
   },
-  "created_utc": "2026-08-10T00:38:11.807147+00:00",
+  "created_utc": "2026-08-10T01:01:42.660481+00:00",
   "field_contract": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\configs\\covariant_field_contract.json",
   "interpretation": "Passing controls validates only the stated algebraic scopes. It is not evidence that a generated gravity candidate is healthy or empirically correct.",
   "schema_version": "sigma-formal-controls-1.0"

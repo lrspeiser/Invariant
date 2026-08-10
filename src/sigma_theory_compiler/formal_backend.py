@@ -117,6 +117,9 @@ from .quartic_euler_remainder_majorant_campaign import (
 from .quartic_first_order_reduction_campaign import (
     run_quartic_first_order_reduction_campaign,
 )
+from .quartic_full_symmetrizer_moser_campaign import (
+    run_quartic_full_symmetrizer_moser_campaign,
+)
 from .quartic_geometric_jet_campaign import run_quartic_geometric_jet_campaign
 from .quartic_linear_x_campaign import run_quartic_linear_x_symbol_campaign
 from .quartic_linearized_energy_campaign import (
@@ -2170,6 +2173,118 @@ def _quartic_solved_source_moser_campaign_control(
     }
 
 
+def _quartic_full_symmetrizer_moser_campaign_control(
+    root: Path,
+) -> tuple[bool, dict[str, Any]]:
+    base = root / "runs" / "physics-language"
+    paths = {
+        "symmetrizer": base
+        / "quartic-symmetrizer-uniform-domain-campaign"
+        / "campaign.json",
+        "moser": base / "quartic-quasilinear-moser-campaign" / "campaign.json",
+        "pde": base / "quartic-nonquasilinear-pde-campaign" / "campaign.json",
+        "coordinate_tube": base / "quartic-coordinate-jet-tube-campaign" / "campaign.json",
+        "solved_source": base / "quartic-solved-source-moser-campaign" / "campaign.json",
+    }
+    config_path = (
+        root
+        / "configs"
+        / "backgrounds"
+        / "quartic_full_symmetrizer_moser_campaign.json"
+    )
+    artifact_path = base / "quartic-full-symmetrizer-moser-campaign" / "campaign.json"
+    campaigns = {
+        name: json.loads(path.read_text(encoding="utf-8"))
+        for name, path in paths.items()
+    }
+    config = json.loads(config_path.read_text(encoding="utf-8"))
+    artifact = json.loads(artifact_path.read_text(encoding="utf-8"))
+    result = run_quartic_full_symmetrizer_moser_campaign(
+        campaigns["symmetrizer"],
+        campaigns["moser"],
+        campaigns["pde"],
+        campaigns["coordinate_tube"],
+        campaigns["solved_source"],
+        config,
+    )
+    corrupted = dict(config)
+    corrupted["required_Frechet_majorant_order"] = 3
+    negative = run_quartic_full_symmetrizer_moser_campaign(
+        campaigns["symmetrizer"],
+        campaigns["moser"],
+        campaigns["pde"],
+        campaigns["coordinate_tube"],
+        campaigns["solved_source"],
+        corrupted,
+    )
+    certificates = result.get("certificates", [])
+    counts = result.get("counts", {})
+    control = result.get("generic_symmetrizer_derivative_control", {})
+    fourth_order = [
+        item.get(
+            "K55_coordinate_atom_Frechet_derivative_2_norm_envelopes_numeric", {}
+        ).get("4", 0)
+        for item in certificates
+    ]
+    passed = bool(
+        result.get("status")
+        == "pass_all_12_full_K55_coordinate_atom_C4_derivative_envelopes"
+        and counts.get("selected") == 12
+        and counts.get("full_K55_C4_derivative_envelopes_passed") == 12
+        and len(certificates) == 12
+        and control.get("passed") is True
+        and set(control.get("resolvent_residuals", {}).values()) == {"0"}
+        and set(control.get("triple_product_residuals", {}).values()) == {"0"}
+        and set(control.get("chain_rule_residuals", {}).values()) == {"0"}
+        and all(value > 0 for value in fourth_order)
+        and all(
+            item.get("physical_H_star_Frechet_derivative_2_norm_envelopes_numeric", {}).get(
+                "4"
+            )
+            == 0
+            for item in certificates
+        )
+        and artifact.get("content_sha256") == result.get("content_sha256")
+        and negative.get("status") == "reject"
+    )
+    return passed, {
+        "campaigns": {name: str(path) for name, path in paths.items()},
+        "config": str(config_path),
+        "artifact": str(artifact_path),
+        "status": result.get("status"),
+        "counts": counts,
+        "artifact_hash_matches_reexecution": (
+            artifact.get("content_sha256") == result.get("content_sha256")
+        ),
+        "generic_symmetrizer_derivative_control": control,
+        "K55_coordinate_fourth_order_range": {
+            "minimum": min(fourth_order) if fourth_order else None,
+            "maximum": max(fourth_order) if fourth_order else None,
+        },
+        "representative_derivative_hierarchies": (
+            {
+                key: certificates[0].get(key)
+                for key in (
+                    "Riesz_resolvent",
+                    "Riesz_projector_Frechet_derivative_2_norm_envelopes_numeric",
+                    "K22_Frechet_derivative_2_norm_envelopes_numeric",
+                    "M22_inverse_Frechet_derivative_2_norm_envelopes_numeric",
+                    "F_cross_Frechet_derivative_2_norm_envelopes_numeric",
+                    "K55_coordinate_atom_Frechet_derivative_2_norm_envelopes_numeric",
+                    "Leibniz_commutator_coefficient_multipliers_numeric",
+                )
+            }
+            if certificates
+            else None
+        ),
+        "insufficient_order_negative": {
+            "status": negative.get("status"),
+            "errors": negative.get("errors"),
+        },
+        "scope": result.get("scope"),
+    }
+
+
 def _quartic_horndeski_covariant_adm_control(
     root: Path,
 ) -> tuple[bool, dict[str, Any]]:
@@ -3375,6 +3490,12 @@ def run_formal_control_suite(
             "All 12 fixed-coefficient linear-X quartic candidates possess fourth-order coordinate-atom Frechet envelopes for the complete solved acceleration source A^{-1}W.",
             "The exact quadratic chain rule composes the 24-component covariant jet with the 153 coordinate atoms, and the exact differentiated identity A F=W propagates the certified A, A^{-1}, and W bounds through order four. Order zero reproduces the independent acceleration bound. The large fourth-order envelopes expose conservative norm growth; full symmetrizer derivatives, commuted energy closure, lifespan, matter, and tube preservation remain open.",
             lambda: _quartic_solved_source_moser_campaign_control(root),
+        ),
+        _run_check(
+            "quartic_linear_x_full_symmetrizer_moser_envelopes",
+            "All 12 fixed-coefficient linear-X quartic candidates possess fourth-order state and coordinate-atom Frechet envelopes for the actual lifted 55-state Riesz symmetrizer.",
+            "The campaign differentiates the contour resolvents and Riesz projectors, physical H_star blocks, inverse companion, transverse lift, cross block, and K55 itself. Exact recurrence controls and an order-four corruption test pass. The very large bounds expose conservative norm growth. Direction-symbol derivatives, Sobolev product/embedding constants, a closed energy inequality, lifespan, matter, and tube preservation remain open.",
+            lambda: _quartic_full_symmetrizer_moser_campaign_control(root),
         ),
         _run_check(
             "quartic_horndeski_timelike_flat_physical_hamiltonian",
