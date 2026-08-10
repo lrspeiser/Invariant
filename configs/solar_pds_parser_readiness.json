@@ -1,0 +1,215 @@
+{
+  "schema_version": "sigma-solar-pds-parser-readiness-config-1.0",
+  "campaign_id": "g4-solar-pds-parser-readiness-20260810",
+  "local_bindings": {
+    "source_registration": {
+      "path": "configs/observations/cassini_sce1_source_registration.json",
+      "file_sha256": "a354714476fd64e180fca7705a537af28524fa399374a3cbc720f0f90e5c5928"
+    },
+    "solar_protocol": {
+      "path": "configs/solar_observable_protocol.json",
+      "file_sha256": "56f719635a3c88e1c0efc06686f02ce53bb3157a8529571e2a6dcd48391e058d"
+    },
+    "candidate_protocol_template": {
+      "path": "configs/g4_candidate_solar_protocol_template.json",
+      "file_sha256": "3dae3c556b2acebd48501491672429ad09df04d951623f241763f2eb1869e035"
+    },
+    "real_sun_interval_audit": {
+      "path": "runs/engine/g4-real-sun-interval-source-audit.json",
+      "file_sha256": "479bc2743c7ae8c49392126d00b3590db3a838e6ec2a0b32f60421d2d8c1b98f"
+    }
+  },
+  "data_eligibility": {
+    "candidate_use_authorized": false,
+    "dark_matter_or_halo_inputs": false,
+    "observational_data_opened": false,
+    "paid_llm_calls": false,
+    "redshift_distance_inputs": false,
+    "target_values_accessed": false
+  },
+  "metadata_selection": {
+    "selection_basis": "hash_verified_fixed_width_catalog_metadata_only",
+    "algorithm": "sort each direct class by (start_time,stop_time,volume,label_path,product_id); take floor(i*(n-1)/(k-1)) for i=0..k-1 and k=6",
+    "catalog_label_sha256": "dfa8f8942b714829fd559e64dba7466b81682e1597f6d5b7abb1d179b705161f",
+    "catalog_table_sha256": "8552867ec0a354d748ccb271d842daf61832d93c89622590b10e7691a92437a6",
+    "catalog_record_bytes": 201,
+    "catalog_record_count": 688,
+    "catalog_source_url": "https://atmos.nmsu.edu/pdsd/archive/data/co-ss-rss-1-sce1-v10/cors_0028/index/cumindex.tab",
+    "selected_label_identities": [
+      {
+        "volume": "CORS_0021",
+        "record_class": "TDF",
+        "label_path": "SCE1_157/TDF/C32EASC2002_157_0000XMMMV0.LBL",
+        "product_id": "C32EASC2002_157_0000XMMMV0.TDF",
+        "start_time": "2002-157T05:29:59.0",
+        "stop_time": "2002-158T04:59:12.0",
+        "label_sha256": "06d99b7d72fac4e055a8ca19f8bec18ef55d593b3ab681b7afc019a2465d47d2",
+        "primary_record_sha256": null
+      },
+      {
+        "volume": "CORS_0022",
+        "record_class": "TDF",
+        "label_path": "SCE1_162/TDF/C32EASC2002_162_0000XMMMV0.LBL",
+        "product_id": "C32EASC2002_162_0000XMMMV0.TDF",
+        "start_time": "2002-162T01:43:52.0",
+        "stop_time": "2002-163T04:39:44.0",
+        "label_sha256": "0b7b49189769cef74e1010882447629c3508fefb717e77e563345e33cab141b2",
+        "primary_record_sha256": null
+      },
+      {
+        "volume": "CORS_0023",
+        "record_class": "TDF",
+        "label_path": "SCE1_167/TDF/C32EASC2002_167_0000K252V0.LBL",
+        "product_id": "C32EASC2002_167_0000K252V0.TDF",
+        "start_time": "2002-167T13:56:25.0",
+        "stop_time": "2002-168T04:36:12.0",
+        "label_sha256": "8bc93806f36da78e6d50dc4f56b7bab05fd264ae86bca43335744387d3381924",
+        "primary_record_sha256": null
+      },
+      {
+        "volume": "CORS_0025",
+        "record_class": "TDF",
+        "label_path": "SCE1_174/TDF/C32EASC2002_174_0000K252V0.LBL",
+        "product_id": "C32EASC2002_174_0000K252V0.TDF",
+        "start_time": "2002-174T13:31:30.0",
+        "stop_time": "2002-175T04:05:50.0",
+        "label_sha256": "eb7252cabf100507c378b2e221bd3abc0a3b3b7281e215ac333d434054329f53",
+        "primary_record_sha256": null
+      },
+      {
+        "volume": "CORS_0026",
+        "record_class": "TDF",
+        "label_path": "SCE1_180/TDF/C32EASC2002_180_0000XMMMV0.LBL",
+        "product_id": "C32EASC2002_180_0000XMMMV0.TDF",
+        "start_time": "2002-180T00:59:57.0",
+        "stop_time": "2002-181T03:50:49.0",
+        "label_sha256": "710405aed3262c5f980251539199f46d378bc6bc3c09622eb74abf93b7b3e9c0",
+        "primary_record_sha256": null
+      },
+      {
+        "volume": "CORS_0028",
+        "record_class": "TDF",
+        "label_path": "SCE1_185/TDF/C32EASC2002_185_0000K252V0.LBL",
+        "product_id": "C32EASC2002_185_0000K252V0.TDF",
+        "start_time": "2002-185T12:56:25.0",
+        "stop_time": "2002-186T03:35:43.0",
+        "label_sha256": "631c8e85ae9e870eeb1e985402fcd06e8c7bc467ad9e2c080b0aeae8553bd6c4",
+        "primary_record_sha256": null
+      },
+      {
+        "volume": "CORS_0021",
+        "record_class": "RSR",
+        "label_path": "SCE1_157/RSR/C32EASC2002_157_0639NNNX54D.LBL",
+        "product_id": "C32EASC2002_157_0639NNNX54D.2B1",
+        "start_time": "2002-157T06:39:50.0",
+        "stop_time": "2002-157T09:10:00.0",
+        "label_sha256": "a74d3869bd2a838e580e39fef6f3acbc81dffa37dc5b483152ec38ffccd141da",
+        "primary_record_sha256": null
+      },
+      {
+        "volume": "CORS_0022",
+        "record_class": "RSR",
+        "label_path": "SCE1_163/RSR/C32EASC2002_163_1859X25X25D.LBL",
+        "product_id": "C32EASC2002_163_1859X25X25D.1A1",
+        "start_time": "2002-163T18:59:00.0",
+        "stop_time": "2002-164T02:30:00.0",
+        "label_sha256": "776428d994bca0891c3788342d16db400c99e4c671ce4ea35a80d9b2f4c6ed87",
+        "primary_record_sha256": null
+      },
+      {
+        "volume": "CORS_0024",
+        "record_class": "RSR",
+        "label_path": "SCE1_169/RSR/C32EASC2002_169_1335X54X25D.LBL",
+        "product_id": "C32EASC2002_169_1335X54X25D.1A1",
+        "start_time": "2002-169T13:35:00.0",
+        "stop_time": "2002-169T16:04:00.0",
+        "label_sha256": "36ab671cbb83c7d04060c2a19058800a4fc50f780aa8fa6e9f77ed3089046382",
+        "primary_record_sha256": null
+      },
+      {
+        "volume": "CORS_0025",
+        "record_class": "RSR",
+        "label_path": "SCE1_175/RSR/C32EASC2002_175_0405X45X45D.LBL",
+        "product_id": "C32EASC2002_175_0405X45X45D.1B1",
+        "start_time": "2002-175T04:05:47.0",
+        "stop_time": "2002-175T05:50:00.0",
+        "label_sha256": "49bf8381e02148fde6e8bd6b2b41924792977e1e911079f3fed1a0c88107ad38",
+        "primary_record_sha256": null
+      },
+      {
+        "volume": "CORS_0026",
+        "record_class": "RSR",
+        "label_path": "SCE1_180/RSR/C32EASC2002_180_1533K25K25D.LBL",
+        "product_id": "C32EASC2002_180_1533K25K25D.3A1",
+        "start_time": "2002-180T15:33:03.0",
+        "stop_time": "2002-181T01:40:00.0",
+        "label_sha256": "e9c5cac7af3ebd3eefb6001c0f9fd3b6a0b2500fb89dc46e131b486f51ccbe4f",
+        "primary_record_sha256": null
+      },
+      {
+        "volume": "CORS_0028",
+        "record_class": "RSR",
+        "label_path": "SCE1_186/RSR/C32EASC2002_186_1947X15X15D.LBL",
+        "product_id": "C32EASC2002_186_1947X15X15D.3B1",
+        "start_time": "2002-186T19:47:00.0",
+        "stop_time": "2002-187T01:20:00.0",
+        "label_sha256": "df83b88f1a094d9866db9974b6bcb225ad41b975dcb49b92086827076d331d67",
+        "primary_record_sha256": null
+      }
+    ]
+  },
+  "normalized_layout_roots": {
+    "sce1_tdf_file_identification_layout_sha256": "184db186904404b9fd2ef231dcba45d4e877d7bb311954aacb5d5c9791b6ce9d",
+    "sce1_tdf_tracking_layout_sha256": "0b8f614672750336c0a8e9fb465428964cecd3500bcca17cff544358c236d358",
+    "sce1_rsr_layout_sha256": "377fee6bcd9ce4cec3f1795092bef7d4a1be4ce5aa3ff25d4991294bc0bedbfa"
+  },
+  "authoritative_documentation_sources": {
+    "tdf_pds4_example_label": {
+      "url": "https://pds-geosciences.wustl.edu/radiosciencedocs/urn-nasa-pds-radiosci_documentation/dsn_trk-2-25/tdf01330.xml",
+      "sha256": "acb932a8867d560fc80689d62ac30718bf6b9d2acbd6d1425e49f8e5792441fe"
+    },
+    "tdf_known_answer_bytes": {
+      "url": "https://pds-geosciences.wustl.edu/radiosciencedocs/urn-nasa-pds-radiosci_documentation/dsn_trk-2-25/tdf01330.dat",
+      "sha256": "3558a4328147fbd0097ef51828b3108c930bbc21835589c07f2cd702ab121465"
+    },
+    "rsr_sis_text": {
+      "url": "https://pds-geosciences.wustl.edu/radiosciencedocs/urn-nasa-pds-radiosci_documentation/dsn_0159-science/dsn_0159-science.2008-02-29.txt",
+      "sha256": "a0c5f70094366b81c2cd36f6e86734d9cc828484c385f94c305ed04216ab9fc6"
+    },
+    "rsr_unpack_note": {
+      "url": "https://pds-geosciences.wustl.edu/radiosciencedocs/urn-nasa-pds-radiosci_documentation/dsn_0159-science/rsr_unpack.pdf",
+      "sha256": "a56e7dd6cc05f867d41e6345022aa7f4fdfa5fafbe2c0cb185d512a3eb3f7a6a"
+    },
+    "rsr_pds4_example_label": {
+      "url": "https://pds-geosciences.wustl.edu/radiosciencedocs/urn-nasa-pds-radiosci_documentation/dsn_0159-science/5336021a.xml",
+      "sha256": "8e3c9e7d7f3a4c36a69c243568e1df740fb9b320a564c55369c44d416f737bd6"
+    },
+    "rsr_known_answer_bytes": {
+      "url": "https://pds-geosciences.wustl.edu/radiosciencedocs/urn-nasa-pds-radiosci_documentation/dsn_0159-science/5336021a.rsr",
+      "sha256": "7da722457e270c720763dc7911c88b1e38f106b5796e300f6764ae2c060e69fe"
+    },
+    "rsr_known_answer_table": {
+      "url": "https://pds-geosciences.wustl.edu/radiosciencedocs/urn-nasa-pds-radiosci_documentation/dsn_0159-science/5336021a.tab",
+      "sha256": "4729428d8f8318b4c8f7fa60d3b4a2f7d2c6e303be059fdb042d32063ccd6ab8"
+    }
+  },
+  "verification_vectors": {
+    "tdf_tracking_synthetic": {
+      "record_bytes": 288,
+      "endianness": "MSB first",
+      "bit_numbering": "one-based MSB first",
+      "signedness": "per BIT_DATA_TYPE",
+      "negative_controls": ["payload bit mutation SHA mismatch", "truncation", "bit field beyond parent", "label SHA mismatch"]
+    },
+    "rsr_5336021a_known_answer": {
+      "record_bytes": 8260,
+      "sample_resolution_bits": 16,
+      "sample_rate_kilosample_per_second": 2,
+      "first_four_iq_after_bias": [[10427, 21973], [8919, 22415], [8655, 21763], [8307, 21175]],
+      "endianness": "MSB first 16-bit words",
+      "sample_time_order": "LSB chunk to MSB chunk",
+      "signedness": "two's complement then 2*k+1 bias",
+      "negative_controls": ["payload bit mutation SHA mismatch", "truncation", "CHDO length mismatch", "rate-resolution-layout mismatch"]
+    }
+  }
+}

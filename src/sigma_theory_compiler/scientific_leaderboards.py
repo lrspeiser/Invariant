@@ -256,7 +256,19 @@ def _build_rows(sources: Mapping[str, Any], bindings: Mapping[str, Any]) -> dict
         != "pass"
     ):
         raise ValueError("G4 candidate-use Solar protocol is inconsistent")
-    rows["solar_known_answer"].append(_entry(
+    g4_real_sun = sources["g4_real_sun_source"]
+    solar_parser = sources["solar_parser_readiness"]
+    if (
+        g4_real_sun["decision"] != "blocked"
+        or g4_real_sun["real_source_interval_certificate_admissible"] is not False
+        or g4_real_sun["theorem_requirement_counts"] != {"blocked": 6, "pass": 0}
+        or solar_parser["filled_registration_field_count"] != 2
+        or solar_parser["remaining_registration_field_count"] != 7
+        or solar_parser["metadata_selection"]["primary_record_access_count"] != 0
+        or solar_parser["observational_authorization"] is not False
+    ):
+        raise ValueError("G4 real-Sun or parser readiness evidence is inconsistent")
+    g4_entry = _entry(
         g4_solar_row["candidate_id"],
         "generated_candidate",
         {
@@ -268,24 +280,39 @@ def _build_rows(sources: Mapping[str, Any], bindings: Mapping[str, Any]) -> dict
             ]["real_bundle_count"],
             "analytic_newtonian_ppn_status": "pass_on_declared_scalar_free_background",
             "source_class_uniqueness_theorem": "pass",
-            "remaining_registration_field_count": g4_protocol[
+            "real_sun_theorem_requirement_pass_count": 0,
+            "real_sun_theorem_requirement_blocked_count": 6,
+            "verified_parser_registration_field_count": solar_parser[
+                "filled_registration_field_count"
+            ],
+            "remaining_registration_field_count": solar_parser[
                 "remaining_registration_field_count"
             ],
-            "selected_primary_file_count": g4_protocol["source_registration"][
-                "primary_files_selected"
+            "selected_detached_label_count": solar_parser["metadata_selection"][
+                "selected_identity_count"
+            ],
+            "primary_record_access_count": solar_parser["metadata_selection"][
+                "primary_record_access_count"
             ],
         },
         "blocked",
         "sealed_candidate_specific_solar_prediction",
         "incomplete",
-        g4_protocol["remaining_registration_fields"][0],
-        "g4_solar_protocol",
-        bindings["g4_solar_protocol"],
-        g4_protocol["frozen_contracts"]["source_physics"][
-            "source_class_theorem"
-        ]["source_class_sha256"],
-        "Analytic GR-like Newtonian/PPN predictions and a source-class uniqueness theorem exist, but the real source and eight execution/evaluator hashes are unset; untested, not poor measured performance.",
-    ))
+        g4_real_sun["first_missing_premise"],
+        "g4_real_sun_source",
+        bindings["g4_real_sun_source"],
+        g4_real_sun["provenance"]["binding_sha256"],
+        "Analytic GR-like predictions, a source-class uniqueness theorem, and two verified parsers exist. Real-Sun source support/tail and six other theorem premises remain blocked; no primary record was opened.",
+    )
+    g4_entry["lineage"]["supporting_artifacts"] = [
+        bindings[label]
+        for label in (
+            "g4_solar_promotion",
+            "g4_solar_protocol",
+            "solar_parser_readiness",
+        )
+    ]
+    rows["solar_known_answer"].append(g4_entry)
 
     galaxy = sources["galaxy_direct_observable"]
     rows["galaxy_direct_observable"].append(_entry(

@@ -1,0 +1,145 @@
+{
+  "schema_version": "sigma-g4-real-sun-interval-source-audit-config-1.0",
+  "campaign_id": "grammar-v3-g4-real-sun-interval-source-audit-20260810",
+  "retrieved_utc_date": "2026-08-10",
+  "source_bindings": {
+    "predecessor": {
+      "path": "runs/engine/g4-source-class-scalar-uniqueness-audit.json",
+      "file_sha256": "53cc6473950764ad222299420db70d71aa4236673442415aabf3fed5a146e6a7",
+      "content_sha256": "54b833dfe9f66d2eaf0a0195bb786db7ac328f6c1e6a7063d5d547dfc230c928",
+      "seed_id": "G3-f9c598b70a77ea54009d8f18",
+      "action_sha256": "6ddd6502d110ead90ff494a6569213ec2e61a0b046dfa86344bb1980df6abc90",
+      "required_certificates": {
+        "candidate_binding_sha256": "737129c4b6e882f674bda89655c1fcefbf4887a8d02fbe51fb183e7d29bc456d",
+        "global_coupling_sha256": "8b558b8777a58666ae414d3ee9e36477b621a156df512314a0ecf0f60277d632",
+        "coercivity_sha256": "2cb1a4241ea280730a0ca6a40edef6a027e12d12ae035e7395649140a6b2d977",
+        "instantiation_contract_sha256": "4e380a8e9379d638e99dcc637a2d81a0f7f36cf7e5cdbb3db72e7ac815d10424"
+      }
+    },
+    "solar_protocol": {
+      "path": "configs/solar_observable_protocol.json",
+      "file_sha256": "56f719635a3c88e1c0efc06686f02ce53bb3157a8529571e2a6dcd48391e058d"
+    },
+    "solar_protocol_audit": {
+      "path": "runs/observation-protocol/solar-observable-audit.json",
+      "file_sha256": "ba99ee5b9bdd111fe2f1928191bfea1609e69707c961af0ca950afe25deaf94e"
+    },
+    "source_registration": {
+      "path": "configs/observations/cassini_sce1_source_registration.json",
+      "file_sha256": "a354714476fd64e180fca7705a537af28524fa399374a3cbc720f0f90e5c5928"
+    }
+  },
+  "authoritative_fact_registry": [
+    {
+      "fact_id": "iau_nominal_solar_radius",
+      "classification": "calibrated",
+      "authority": "International Astronomical Union",
+      "source_title": "IAU 2015 Resolution B3",
+      "source_url": "https://www.iau.org/common/Uploaded%20files/IAUGA2015-Resolution-B3-recommended-nominal-conversion.pdf",
+      "remote_document_sha256": "21644e136a12fe301fc29398433a60dcf1e810b85b14934f8b8499956fd8e4a1",
+      "registered_value": "695700000 m exact nominal conversion factor",
+      "limitation": "the resolution explicitly distinguishes nominal conversion factors from true Solar properties",
+      "used_to_instantiate_theorem": false
+    },
+    {
+      "fact_id": "iau_nominal_solar_mass_parameter",
+      "classification": "calibrated",
+      "authority": "International Astronomical Union",
+      "source_title": "IAU 2015 Resolution B3",
+      "source_url": "https://www.iau.org/common/Uploaded%20files/IAUGA2015-Resolution-B3-recommended-nominal-conversion.pdf",
+      "remote_document_sha256": "21644e136a12fe301fc29398433a60dcf1e810b85b14934f8b8499956fd8e4a1",
+      "registered_value": "1.3271244e20 m^3 s^-2 exact nominal conversion factor",
+      "limitation": "not a true Solar GM interval and cannot establish theorem compactness",
+      "used_to_instantiate_theorem": false
+    },
+    {
+      "fact_id": "nist_speed_of_light",
+      "classification": "calibrated",
+      "authority": "NIST CODATA 2022",
+      "source_title": "2022 CODATA recommended values of the fundamental physical constants",
+      "source_url": "https://physics.nist.gov/cuu/pdf/all.pdf",
+      "remote_document_sha256": "5c4a2c8127a80698d05f4d682bd4cac200dabcd9c2e9dd783661a0aa60f4bb1c",
+      "registered_value": "299792458 m s^-1 exact",
+      "limitation": "universal constant; supplies no Solar source interval",
+      "used_to_instantiate_theorem": false
+    },
+    {
+      "fact_id": "nist_gravitational_constant",
+      "classification": "calibrated",
+      "authority": "NIST CODATA 2022",
+      "source_title": "2022 CODATA recommended values of the fundamental physical constants",
+      "source_url": "https://physics.nist.gov/cuu/pdf/all.pdf",
+      "remote_document_sha256": "5c4a2c8127a80698d05f4d682bd4cac200dabcd9c2e9dd783661a0aa60f4bb1c",
+      "registered_value": "6.67430(15)e-11 m^3 kg^-1 s^-2",
+      "limitation": "calibrated universal constant with uncertainty; supplies no Solar source interval",
+      "used_to_instantiate_theorem": false
+    },
+    {
+      "fact_id": "nasa_photospheric_mean_radius",
+      "classification": "calibrated",
+      "authority": "NASA NSSDC",
+      "source_title": "Sun Fact Sheet",
+      "source_url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html",
+      "registered_value": "695700 km volumetric mean radius (compiled)",
+      "limitation": "no rigorous uncertainty interval or claim that all trace-carrying material has compact support at this radius",
+      "used_to_instantiate_theorem": false
+    },
+    {
+      "fact_id": "nasa_solar_wind_noncompact_extent",
+      "classification": "calibrated",
+      "authority": "NASA Parker Solar Probe mission",
+      "source_title": "NASA Enters the Solar Atmosphere for the First Time",
+      "source_url": "https://www.nasa.gov/solar-system/nasa-enters-the-solar-atmosphere-for-the-first-time-bringing-new-discoveries/",
+      "registered_value": "solar material crosses the Alfven critical surface and continues outward as solar wind",
+      "limitation": "mission conclusion establishes that the photosphere is not a finite total-material support boundary; it does not provide a trace-tail norm",
+      "used_to_instantiate_theorem": false
+    },
+    {
+      "fact_id": "nasa_compiled_solar_mass",
+      "classification": "model_dependent",
+      "authority": "NASA NSSDC",
+      "source_title": "Sun Fact Sheet",
+      "source_url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html",
+      "registered_value": "1.9884e30 kg compiled bulk parameter",
+      "limitation": "a dynamical/gravity-model inference, not candidate-independent direct mass truth",
+      "used_to_instantiate_theorem": false
+    },
+    {
+      "fact_id": "nasa_model_central_density",
+      "classification": "model_dependent",
+      "authority": "NASA NSSDC",
+      "source_title": "Sun Fact Sheet",
+      "source_url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html",
+      "registered_value": "1.622e5 kg m^-3 model value at center",
+      "limitation": "single standard-model point, not a rigorous global trace-density upper bound",
+      "used_to_instantiate_theorem": false
+    },
+    {
+      "fact_id": "nasa_model_central_pressure",
+      "classification": "model_dependent",
+      "authority": "NASA NSSDC",
+      "source_title": "Sun Fact Sheet",
+      "source_url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html",
+      "registered_value": "2.477e11 bar model value at center",
+      "limitation": "single isotropic standard-model point, not a global pressure-trace sign certificate",
+      "used_to_instantiate_theorem": false
+    },
+    {
+      "fact_id": "helioseismic_density_inversion",
+      "classification": "model_dependent",
+      "authority": "NASA Technical Reports Server",
+      "source_title": "The Standard Model and Helioseismology: Consequences of Uncertainties in the Input Physics",
+      "source_url": "https://ntrs.nasa.gov/citations/20010111092",
+      "registered_value": "interior density may be inferred from helioseismic frequency observations within a stated solar-model/inversion framework",
+      "limitation": "the underlying frequencies were not opened and the density/pressure inference is model-dependent rather than a direct trace profile",
+      "used_to_instantiate_theorem": false
+    }
+  ],
+  "observational_authorization": false,
+  "data_eligibility": {
+    "observational_data_opened": false,
+    "dark_matter_or_halo_inputs": false,
+    "redshift_distance_inputs": false,
+    "paid_llm_calls": false
+  }
+}
