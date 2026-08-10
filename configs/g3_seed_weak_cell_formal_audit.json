@@ -1,0 +1,48 @@
+{
+  "schema_version": "sigma-g3-seed-weak-cell-formal-audit-config-1.0",
+  "campaign_id": "grammar-v3-g3-weak-cell-formal-audit-20260810",
+  "predecessor": {
+    "path": "runs/engine/covariant-grammar-v3-seed-compilation-campaign.json",
+    "file_sha256": "88c72002d12fd57a8ef79b166363319fe5dc372b52901c1e581bb382fa3e0c21",
+    "content_sha256": "b00cd0ab37f8f7f66f0561df68c1d6735ba3853ad7d3124783202648bc804d47"
+  },
+  "formal_report": {
+    "path": "runs/formal-controls-v1/formal-controls.json",
+    "file_sha256": "b1bf58ebb4b43d3593f264959853dc3cd47f542b85f012999133ee43a6fece57"
+  },
+  "adapter_sources": [
+    {"path": "src/sigma_theory_compiler/scalar_tensor_pack.py", "file_sha256": "156fc763674fda9b8503f3234e4f1c6005af93d5639e28b27a11eef8199c8eaf"},
+    {"path": "src/sigma_theory_compiler/horndeski.py", "file_sha256": "d108ed635851bb57fdeffcf23d02e4f66021e45591dbffd3b62e7983bb468d19"},
+    {"path": "src/sigma_theory_compiler/dhost.py", "file_sha256": "1c2982ce47ad3f6034cf40f43be6e517cb03af9373ab18d45b725c3d1dea98ec"},
+    {"path": "src/sigma_theory_compiler/cubic_bssn_domain.py", "file_sha256": "f1797647f4d289cd8bc3465bd028be867b36dbfe9a90313d553f729f575147d2"}
+  ],
+  "formal_adapters": [
+    {"id": "generic_g2_variation_noether_identity", "entrypoint": "sigma_theory_compiler.scalar_tensor_pack:generic_g2_variation_noether_control", "return_kind": "tuple"},
+    {"id": "generic_g3_variation_noether_identity", "entrypoint": "sigma_theory_compiler.scalar_tensor_pack:generic_g3_variation_noether_control", "return_kind": "tuple"},
+    {"id": "generic_cubic_horndeski_bssn_hyperbolicity", "entrypoint": "sigma_theory_compiler.horndeski:generic_cubic_horndeski_bssn_hyperbolicity_control", "return_kind": "tuple"},
+    {"id": "generic_cubic_horndeski_scalar_effective_metric", "entrypoint": "sigma_theory_compiler.cubic_bssn_domain:generic_cubic_scalar_effective_metric_control", "return_kind": "tuple"},
+    {"id": "generic_horndeski_l2_l4_unitary_adm_primary_degeneracy", "entrypoint": "sigma_theory_compiler.dhost:generic_horndeski_l2_l4_unitary_adm_control", "return_kind": "dict"},
+    {"id": "generic_horndeski_l2_l4_unitary_distributed_dirac_closure", "entrypoint": "sigma_theory_compiler.horndeski:generic_horndeski_l2_l4_unitary_dirac_control", "return_kind": "tuple"}
+  ],
+  "target_seed": {
+    "seed_id": "G3-1ee308440d778dfbee8094d2",
+    "action_sha256": "d583c96daaba16fc429f336cfed5f28d8a9ed54017130eafc597615b79a6af53",
+    "predecessor_provenance_sha256": "da8f32039b303c2578d7e34788620ae8a7ecf6cc240818db58c1066a336af061",
+    "parameters": {"G2": "X_phi", "G3": "(1/100)*X_phi", "jet_domain": "dimensionless derivative ratios<=1/100"},
+    "g3_linear_x_coefficient": "1/100"
+  },
+  "center_calibration": {
+    "X_phi": "1/2",
+    "hessian_covariant": "zero",
+    "G4": "1/2",
+    "G4_X": "0",
+    "BSSN_m": "1",
+    "BSSN_sigma": "1"
+  },
+  "data_eligibility": {
+    "observational_data_opened": false,
+    "dark_matter_or_halo_inputs": false,
+    "redshift_distance_inputs": false,
+    "paid_llm_calls": false
+  }
+}

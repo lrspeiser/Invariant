@@ -473,7 +473,10 @@ seeds pass current ADM/Dirac and principal gates but lack nonlinear Hamiltonian 
 seeds now pass the exact nonlinear Legendre map, local Dirac pair, candidate-wide principal/common
 time cone, pointwise Hamiltonian, and causal-gradient dominant-energy prerequisites, but still lack
 a global constraint function-space/boundary contract and candidate-specific positive-mass theorem;
-the `G3` seed has a conditional BSSN result without a uniform common-cone proof; and the
+the `G3=X/100` seed has an exact healthy center (ADM rank six/nullity one,
+`c_s^2=39999/40003`, and positive slicing-cone gap) but still lacks the componentwise
+gradient/Hessian/curvature cell, frame normalization, direction-sphere interval, and
+candidate-specific lapse boundary operator needed for a uniform common-cone proof; and the
 conformal `G4(phi)` seed lacks global lapse-operator invertibility, inhomogeneous principal, and
 global-energy proofs. The exact bounded result is 0 pass, 0 reject, 6 blocked, with no Solar bundle.
 The persistent seed coordinator now runs the actual reviewed compilation campaign for all six work

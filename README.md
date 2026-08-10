@@ -215,6 +215,12 @@ their exact nonlinear Legendre map, local Dirac pair, principal/common-cone, poi
 and causal-gradient dominant-energy prerequisites. They remain blocked because no global
 constraint-space/boundary contract or candidate-specific positive-mass theorem has been supplied;
 local positivity is not treated as global energy. No Solar bundle was generated.
+The cubic `G3=X/100` seed now has an exact healthy center: ADM primary rank six/nullity one,
+`c_s^2=39999/40003`, and a positive common slicing-cone gap. Its uniform weak-cell theorem remains
+blocked because the seed supplies only a prose derivative-ratio label, not the componentwise
+gradient/Hessian/curvature box, frame binding, and direction-sphere interval required by the
+existing cubic interval machinery. Its candidate-specific lapse boundary operator and global
+energy theorem are also absent.
 The restart-safe coordinator now executes this real reviewed campaign rather than a fixture callback.
 All six deterministic work items succeeded and reproduced the same six blocked decisions, with
 hash-bound callback, seed, work-record, and portable-result roots. Each cold replay copies only the
