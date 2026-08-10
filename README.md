@@ -186,9 +186,13 @@ A bounded production-provenance audit first constructed exact typed covariant ma
 70 identities: `q` and `q-(sqrt(1+x)-1)`. A subsequent composite adapter now lifts all remaining
 68 `F(x,q)` shapes exactly to typed `F(X_a_u,Q_a_u)` actions with universal zero static residual.
 This closes syntactic covariant provenance, not dynamics: the first 2 fail higher-jet formal
-preflight and the other 68 remain blocked for candidate-specific ADM/Dirac/principal analysis.
-Consequently zero Solar or galaxy prediction bundles exist and no candidate is promoted. The sealed
-galaxy evaluator has an empty registry, opens no observations, and blocks all 70. The durable streaming
+preflight. An exact bounded formal adapter now resolves another 21 of the 68 composites. Fifteen
+have an ADM velocity-Hessian rank jump between zero and nonzero spatial frequency, while six have
+no quadratic vector evolution or principal symbol. The production ledger is therefore 23 formal
+rejections, 47 still blocked for additional candidate-specific ADM/Dirac/principal adapters, and
+zero passes. Consequently zero Solar or galaxy prediction bundles exist and no candidate is
+promoted. The sealed galaxy evaluator has an empty registry, opens no observations, and blocks all
+70. The durable streaming
 service now supports a multi-producer scheduler that leases disjoint Rust ranges transactionally and
 feeds the same single cached CUDA owner while preserving start/status/stop/resume/export recovery.
 On an identical 16-million-formula scaling run, eight producers reached 7.49 million source
