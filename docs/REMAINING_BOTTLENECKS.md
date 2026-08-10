@@ -502,6 +502,11 @@ The current six-candidate evidence is also ingested into an isolated immutable k
 blocker taxonomy, and pass/reject/blocked class. Replay is idempotent, the live campaign database is
 refused, and a four-axis Pareto queue produces three fronts without assigning a scalar truth score.
 The registry is an evidence-prioritization layer, not a promotion around incomplete formal gates.
+It now produces 10 deterministic follow-up work packets keyed to the exact unresolved Aether,
+`G2`, `G3`, and `G4` premises. Each preserves four separate Pareto axes and complete blocker
+lineage; all coordinator priorities are `0.0`, and scalar truth/probability scores are rejected.
+Because the task-specific evaluators are not yet registered, the bounded execution correctly ends
+with 10 blocked results and no changed candidate decision.
 For the two Aether seeds, the first nonlinear-energy premise is now exact: both rational points pass
 the five linearized mode-energy and restricted coupling inequalities, but neither action imposes
 hypersurface orthogonality. The normalized field-space witness

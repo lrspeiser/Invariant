@@ -242,6 +242,12 @@ lineage, separates calibration-only controls, deduplicates replay, refuses the l
 database, and emits a four-axis Pareto queue without a scalar truth score. The current registry has
 6 candidate nodes, 26 unique evidence packets, 14 calibration packets, and three Pareto fronts; all
 six candidate decisions remain blocked.
+The Pareto report now feeds a deterministic 10-task follow-up queue targeting only the exact open
+premises: two Aether twist-energy tasks, four `G2` boundary/positive-mass tasks, two `G3`
+interval/lapse tasks, and two `G4` lapse/energy tasks. Every packet retains all four Pareto axes and
+blocker lineage; coordinator priority stays `0.0`, and scalar truth/probability scores are forbidden.
+With no reviewed evaluators registered yet, all 10 tasks fail closed as blocked and alter no
+scientific decision.
 A focused energy audit shows both Aether parameter points satisfy the linearized mode-energy and
 restricted theorem coupling inequalities, but their unconstrained phase spaces include twist: an
 exact unit-Aether witness has `(u wedge du)_txy=-1` at the origin. Because that witness is not an
