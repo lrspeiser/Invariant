@@ -183,3 +183,12 @@ def test_dossier_rejects_self_inconsistent_result_lineage(tmp_path: Path) -> Non
         )
     with pytest.raises(ValueError, match="gate-result lineage is invalid"):
         build_promotion_dossiers(database)
+
+
+def test_promotion_dossier_cli_writes_verified_report(tmp_path: Path) -> None:
+    from sigma_theory_compiler.cli import main
+
+    database, _ = _built_ledger(tmp_path)
+    output = tmp_path / "cli-dossier.json"
+    assert main(["promotion-dossier", "--database", str(database), "--output", str(output)]) == 0
+    assert json.loads(output.read_text(encoding="utf-8"))["candidate_count"] == 3

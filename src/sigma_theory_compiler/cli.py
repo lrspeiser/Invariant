@@ -49,6 +49,7 @@ from .observation_eligibility import (
 )
 from .physics_language import compile_physics_program
 from .principal_ir import compile_physical_principal_ir, write_physical_principal_ir
+from .promotion_dossier import write_promotion_dossiers
 from .quartic_anti_wick_composition_campaign import (
     run_quartic_anti_wick_composition_campaign,
     write_quartic_anti_wick_composition_campaign,
@@ -411,6 +412,12 @@ def _parser() -> argparse.ArgumentParser:
     )
     prioritize.add_argument("--database", type=Path, required=True)
     prioritize.add_argument("--output", type=Path, required=True)
+    promotion_dossier = subparsers.add_parser(
+        "promotion-dossier",
+        help="Verify promotion lineage and explain the Pareto follow-up queue",
+    )
+    promotion_dossier.add_argument("--database", type=Path, required=True)
+    promotion_dossier.add_argument("--output", type=Path, required=True)
     audit = subparsers.add_parser(
         "survivor-audit", help="Verify every compact Generator v2 survivor record and block hash"
     )
@@ -1330,6 +1337,14 @@ def main(argv: list[str] | None = None) -> int:
         print(f"excluded={report['excluded_count']}")
         print(f"pareto_front_one={len(report['front_one'])}")
         print(f"report={args.output}")
+        return 0
+    if args.command == "promotion-dossier":
+        path = write_promotion_dossiers(args.database, args.output)
+        report = json.loads(path.read_text(encoding="utf-8"))
+        print(f"candidates={report['candidate_count']}")
+        print(f"terminal_rejections={report['terminal_rejection_count']}")
+        print(f"work_queue={report['work_queue_count']}")
+        print(f"report={path}")
         return 0
     if args.command == "survivor-audit":
         report = audit_survivor_export(args.manifest, args.output, args.survivor_dir)
