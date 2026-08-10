@@ -497,6 +497,11 @@ reuse it through deterministic leases, recovery, and replay. The controlled resu
 work items with six blocked scientific decisions under hard task, wall, disk, retry, and `$0` limits.
 The remaining scaling gate is scientific rather than mechanical: any seventh or refined point needs
 a new hash-reviewed manifest entry and candidate-specific formal evidence before admission.
+The current six-candidate evidence is also ingested into an isolated immutable knowledge registry:
+23 unique packets (including 12 calibration-only packets) retain their exact action/source lineage,
+blocker taxonomy, and pass/reject/blocked class. Replay is idempotent, the live campaign database is
+refused, and a four-axis Pareto queue produces two fronts without assigning a scalar truth score.
+The registry is an evidence-prioritization layer, not a promotion around incomplete formal gates.
 For the two Aether seeds, the first nonlinear-energy premise is now exact: both rational points pass
 the five linearized mode-energy and restricted coupling inequalities, but neither action imposes
 hypersurface orthogonality. The normalized field-space witness
