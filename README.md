@@ -191,6 +191,10 @@ same single cached CUDA owner. On an identical eight-million-formula benchmark, 
 improved source throughput from 1.36 to 3.52 million formulas per second (2.59x wall speedup). It is
 not yet wired into the durable service lifecycle, and the low physical GPU utilization continues to
 show that formula production and verification, not CUDA screening, are the current bottleneck.
+`promotion_dossier.py` now independently replays every stored candidate/stage hash chain, explains
+the first rejection or unresolved gate, and builds a multi-axis Pareto follow-up queue only from
+non-rejected candidates. Its ranking is work allocation, never a truth probability, and it cannot
+override any hard-gate rejection.
 
 The first sealed candidate-data target is now defined as observable-to-observable galaxy discovery:
 audited light/gas/angular inputs predict held-out spectral-line kinematics, with whole-galaxy splits,

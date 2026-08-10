@@ -80,6 +80,13 @@ mechanisms. One-term corrections are retained as controls but separated from dis
 Every family keeps its exact survivor count and a deterministic representative ordinal, term list,
 sign mask, and correction expression.
 
+The downstream promotion registry has a separate deterministic dossier layer. It verifies the
+pipeline hash, sampled-static lineage, every evaluator input/result/output hash, and all candidate
+stage identities before explaining the first rejection or unresolved blocker. Terminally rejected
+candidates never enter its work queue. Remaining candidates are Pareto-layered by exact gate depth,
+exact evidence count, and term-count parsimony; these axes allocate follow-up derivation effort and
+are explicitly not probabilities that a theory is true.
+
 ## Reproduce
 
 Build Rust Generator v2, configure CuPy for CUDA, then run from the project root:
