@@ -520,8 +520,29 @@ python -m sigma_theory_compiler quartic-full-symmetrizer-moser-campaign `
 This differentiates the contour resolvents and Riesz projectors, physical `H_star`
 blocks, inverse companion, transverse lift, cross block, and complete `K55` through
 order four. The resulting coordinate-atom bounds are finite but very conservative
-(`~2.8e54` to `~4.5e55` at fourth order). Direction-symbol derivatives and explicit
-Sobolev product/embedding constants are still required before these coefficient
+(`~2.8e54` to `~4.5e55` at fourth order).
+
+Differentiate the full symmetrizer symbol jointly in covariant state and unit direction:
+
+```powershell
+python -m sigma_theory_compiler quartic-symmetrizer-symbol-moser-campaign `
+  --symmetrizer-campaign runs/physics-language/quartic-symmetrizer-uniform-domain-campaign/campaign.json `
+  --moser-campaign runs/physics-language/quartic-quasilinear-moser-campaign/campaign.json `
+  --nonquasilinear-pde-campaign runs/physics-language/quartic-nonquasilinear-pde-campaign/campaign.json `
+  --coordinate-tube-campaign runs/physics-language/quartic-coordinate-jet-tube-campaign/campaign.json `
+  --solved-source-campaign runs/physics-language/quartic-solved-source-moser-campaign/campaign.json `
+  --full-symmetrizer-campaign runs/physics-language/quartic-full-symmetrizer-moser-campaign/campaign.json `
+  --config configs/backgrounds/quartic_symmetrizer_symbol_moser_campaign.json `
+  --output runs/physics-language/quartic-symmetrizer-symbol-moser-campaign
+```
+
+The exact bivariate recurrences cover all 15 mixed multiindices `(a,b)` with
+`a+b<=4`, propagating state/direction bounds through `A`, `B`, `C`, `H_star`, the
+resolvents and projectors, `K22`, `M22^-1`, the transverse lift and cross block, and
+the complete `K55`. All 12 candidates pass; their maximum total-order-four envelopes
+are about `8.4e44`. This closes regularity on the unit-direction component cube.
+Homogeneous `xi`-chart conversion, pseudodifferential quantization, and explicit
+Sobolev/Calderon-Vaillancourt constants are still required before the coefficient
 multipliers become a closed energy inequality or numerical lifespan.
 
 The tube bounds 153 normalized coordinate atoms: ten metric deviations, 44 first partials,

@@ -97,6 +97,10 @@ from .quartic_symmetrizer_domain import (
     run_quartic_symmetrizer_domain_campaign,
     write_quartic_symmetrizer_domain_campaign,
 )
+from .quartic_symmetrizer_symbol_moser_campaign import (
+    run_quartic_symmetrizer_symbol_moser_campaign,
+    write_quartic_symmetrizer_symbol_moser_campaign,
+)
 from .registry import write_registry
 from .relativity import run_relativity_reference_suite, write_relativity_report
 from .scalar_tensor_pack import compile_scalar_tensor_pack
@@ -629,6 +633,28 @@ def _parser() -> argparse.ArgumentParser:
     )
     quartic_full_symmetrizer.add_argument("--config", type=Path, required=True)
     quartic_full_symmetrizer.add_argument("--output", type=Path, required=True)
+    quartic_symmetrizer_symbol = subparsers.add_parser(
+        "quartic-symmetrizer-symbol-moser-campaign",
+        help="Bound mixed state and direction derivatives of the lifted K55 symbol",
+    )
+    quartic_symmetrizer_symbol.add_argument(
+        "--symmetrizer-campaign", type=Path, required=True
+    )
+    quartic_symmetrizer_symbol.add_argument("--moser-campaign", type=Path, required=True)
+    quartic_symmetrizer_symbol.add_argument(
+        "--nonquasilinear-pde-campaign", type=Path, required=True
+    )
+    quartic_symmetrizer_symbol.add_argument(
+        "--coordinate-tube-campaign", type=Path, required=True
+    )
+    quartic_symmetrizer_symbol.add_argument(
+        "--solved-source-campaign", type=Path, required=True
+    )
+    quartic_symmetrizer_symbol.add_argument(
+        "--full-symmetrizer-campaign", type=Path, required=True
+    )
+    quartic_symmetrizer_symbol.add_argument("--config", type=Path, required=True)
+    quartic_symmetrizer_symbol.add_argument("--output", type=Path, required=True)
     dhost_compile = subparsers.add_parser(
         "dhost-pack-compile",
         help="Compile a reduced rank-one quadratic DHOST kinetic family",
@@ -1646,6 +1672,48 @@ def main(argv: list[str] | None = None) -> int:
             0
             if result["status"]
             == "pass_all_12_full_K55_coordinate_atom_C4_derivative_envelopes"
+            else 1
+        )
+    if args.command == "quartic-symmetrizer-symbol-moser-campaign":
+        symmetrizer_campaign = json.loads(
+            args.symmetrizer_campaign.read_text(encoding="utf-8")
+        )
+        moser_campaign = json.loads(args.moser_campaign.read_text(encoding="utf-8"))
+        nonquasilinear_pde_campaign = json.loads(
+            args.nonquasilinear_pde_campaign.read_text(encoding="utf-8")
+        )
+        coordinate_tube_campaign = json.loads(
+            args.coordinate_tube_campaign.read_text(encoding="utf-8")
+        )
+        solved_source_campaign = json.loads(
+            args.solved_source_campaign.read_text(encoding="utf-8")
+        )
+        full_symmetrizer_campaign = json.loads(
+            args.full_symmetrizer_campaign.read_text(encoding="utf-8")
+        )
+        config = json.loads(args.config.read_text(encoding="utf-8"))
+        result = run_quartic_symmetrizer_symbol_moser_campaign(
+            symmetrizer_campaign,
+            moser_campaign,
+            nonquasilinear_pde_campaign,
+            coordinate_tube_campaign,
+            solved_source_campaign,
+            full_symmetrizer_campaign,
+            config,
+        )
+        path = write_quartic_symmetrizer_symbol_moser_campaign(result, args.output)
+        print(f"status={result['status']}")
+        print(f"selected={result['counts']['selected']}")
+        print(
+            "mixed_symbol_envelopes_passed="
+            f"{result['counts']['mixed_symbol_envelopes_passed']}"
+        )
+        print(f"rejected={result['counts']['rejected']}")
+        print(f"report={path}")
+        return (
+            0
+            if result["status"]
+            == "pass_all_12_full_K55_mixed_state_direction_C4_symbol_envelopes"
             else 1
         )
     if args.command == "dhost-pack-compile":

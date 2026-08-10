@@ -138,6 +138,9 @@ from .quartic_solved_source_moser_campaign import (
     run_quartic_solved_source_moser_campaign,
 )
 from .quartic_symmetrizer_domain import run_quartic_symmetrizer_domain_campaign
+from .quartic_symmetrizer_symbol_moser_campaign import (
+    run_quartic_symmetrizer_symbol_moser_campaign,
+)
 from .scalar_tensor_pack import (
     generic_g2_variation_noether_control,
     generic_g3_variation_noether_control,
@@ -2186,6 +2189,8 @@ def _quartic_full_symmetrizer_moser_campaign_control(
         "coordinate_tube": base / "quartic-coordinate-jet-tube-campaign" / "campaign.json",
         "solved_source": base / "quartic-solved-source-moser-campaign" / "campaign.json",
     }
+
+
     config_path = (
         root
         / "configs"
@@ -2277,6 +2282,118 @@ def _quartic_full_symmetrizer_moser_campaign_control(
             if certificates
             else None
         ),
+        "insufficient_order_negative": {
+            "status": negative.get("status"),
+            "errors": negative.get("errors"),
+        },
+        "scope": result.get("scope"),
+    }
+
+
+def _quartic_symmetrizer_symbol_moser_campaign_control(
+    root: Path,
+) -> tuple[bool, dict[str, Any]]:
+    base = root / "runs" / "physics-language"
+    paths = {
+        "symmetrizer": base
+        / "quartic-symmetrizer-uniform-domain-campaign"
+        / "campaign.json",
+        "moser": base / "quartic-quasilinear-moser-campaign" / "campaign.json",
+        "pde": base / "quartic-nonquasilinear-pde-campaign" / "campaign.json",
+        "coordinate_tube": base / "quartic-coordinate-jet-tube-campaign" / "campaign.json",
+        "solved_source": base / "quartic-solved-source-moser-campaign" / "campaign.json",
+        "full_symmetrizer": base
+        / "quartic-full-symmetrizer-moser-campaign"
+        / "campaign.json",
+    }
+    config_path = (
+        root
+        / "configs"
+        / "backgrounds"
+        / "quartic_symmetrizer_symbol_moser_campaign.json"
+    )
+    artifact_path = base / "quartic-symmetrizer-symbol-moser-campaign" / "campaign.json"
+    campaigns = {
+        name: json.loads(path.read_text(encoding="utf-8"))
+        for name, path in paths.items()
+    }
+    config = json.loads(config_path.read_text(encoding="utf-8"))
+    artifact = json.loads(artifact_path.read_text(encoding="utf-8"))
+    result = run_quartic_symmetrizer_symbol_moser_campaign(
+        campaigns["symmetrizer"],
+        campaigns["moser"],
+        campaigns["pde"],
+        campaigns["coordinate_tube"],
+        campaigns["solved_source"],
+        campaigns["full_symmetrizer"],
+        config,
+    )
+    insufficient = dict(config)
+    insufficient["maximum_total_derivative_order"] = 3
+    negative = run_quartic_symmetrizer_symbol_moser_campaign(
+        campaigns["symmetrizer"],
+        campaigns["moser"],
+        campaigns["pde"],
+        campaigns["coordinate_tube"],
+        campaigns["solved_source"],
+        campaigns["full_symmetrizer"],
+        insufficient,
+    )
+    certificates = result.get("certificates", [])
+    counts = result.get("counts", {})
+    control = result.get("generic_bivariate_symbol_derivative_control", {})
+    raw = result.get("uniform_raw_mixed_derivative_envelopes", {})
+    fourth_order = [
+        max(item.get("K55_total_order_four_envelopes_numeric", {"missing": 0}).values())
+        for item in certificates
+    ]
+    expected_multiindices = {
+        f"{state},{total - state}"
+        for total in range(5)
+        for state in range(total + 1)
+    }
+    passed = bool(
+        result.get("status")
+        == "pass_all_12_full_K55_mixed_state_direction_C4_symbol_envelopes"
+        and counts.get("selected") == 12
+        and counts.get("mixed_symbol_envelopes_passed") == 12
+        and len(certificates) == 12
+        and len(control.get("multiindices", [])) == 15
+        and set(control.get("inverse_residuals", {}).values()) == {"0"}
+        and set(control.get("triple_product_residuals", {}).values()) == {"0"}
+        and control.get("negative_control", {}).get("rejected") is True
+        and all(
+            set(item.get("K55_mixed_Frechet_2_norm_envelopes_numeric", {}))
+            == expected_multiindices
+            for item in certificates
+        )
+        and all(8e44 < value < 9e44 for value in fourth_order)
+        and raw.get("B", {}).get("0,2", {}).get("exact") == "0"
+        and raw.get("H_star", {}).get("0,2", {}).get("exact") == "0"
+        and raw.get("C", {}).get("0,2", {}).get("numeric", 0) > 0
+        and artifact.get("content_sha256") == result.get("content_sha256")
+        and negative.get("status") == "reject"
+    )
+    return passed, {
+        "campaigns": {name: str(path) for name, path in paths.items()},
+        "config": str(config_path),
+        "artifact": str(artifact_path),
+        "status": result.get("status"),
+        "counts": counts,
+        "artifact_hash_matches_reexecution": (
+            artifact.get("content_sha256") == result.get("content_sha256")
+        ),
+        "generic_bivariate_symbol_derivative_control": control,
+        "mixed_multiindex_count": len(expected_multiindices),
+        "K55_total_order_four_range": {
+            "minimum": min(fourth_order) if fourth_order else None,
+            "maximum": max(fourth_order) if fourth_order else None,
+        },
+        "raw_direction_degree_witnesses": {
+            "B_0_2": raw.get("B", {}).get("0,2"),
+            "H_star_0_2": raw.get("H_star", {}).get("0,2"),
+            "C_0_2": raw.get("C", {}).get("0,2"),
+        },
         "insufficient_order_negative": {
             "status": negative.get("status"),
             "errors": negative.get("errors"),
@@ -3496,6 +3613,12 @@ def run_formal_control_suite(
             "All 12 fixed-coefficient linear-X quartic candidates possess fourth-order state and coordinate-atom Frechet envelopes for the actual lifted 55-state Riesz symmetrizer.",
             "The campaign differentiates the contour resolvents and Riesz projectors, physical H_star blocks, inverse companion, transverse lift, cross block, and K55 itself. Exact recurrence controls and an order-four corruption test pass. The very large bounds expose conservative norm growth. Direction-symbol derivatives, Sobolev product/embedding constants, a closed energy inequality, lifespan, matter, and tube preservation remain open.",
             lambda: _quartic_full_symmetrizer_moser_campaign_control(root),
+        ),
+        _run_check(
+            "quartic_linear_x_symmetrizer_symbol_moser_envelopes",
+            "All 12 fixed-coefficient linear-X quartic candidates possess mixed state/direction Frechet envelopes through total order four for the actual lifted 55-state symmetrizer symbol.",
+            "The bivariate inverse and product recurrences propagate exact state/direction multiplicities through the raw A/B/C/H_star blocks, resolvents, Riesz projectors, K22, M22 inverse, transverse lift, cross block, and K55. All 15 multiindices with a+b<=4 are finite on the unit-direction component cube. Homogeneous xi-chart conversion, pseudodifferential quantization, explicit Sobolev/Calderon-Vaillancourt constants, a closed energy inequality, lifespan, matter, and tube preservation remain open.",
+            lambda: _quartic_symmetrizer_symbol_moser_campaign_control(root),
         ),
         _run_check(
             "quartic_horndeski_timelike_flat_physical_hamiltonian",

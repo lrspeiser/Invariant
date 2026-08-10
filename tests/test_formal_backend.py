@@ -164,6 +164,29 @@ def test_all_formal_known_answer_controls_pass(tmp_path) -> None:
         "maximum"
     ] < 5e55
     assert full_symmetrizer["evidence"]["insufficient_order_negative"]["status"] == "reject"
+    symbol_moser = checks["quartic_linear_x_symmetrizer_symbol_moser_envelopes"]
+    assert symbol_moser["status"] == "pass"
+    assert symbol_moser["evidence"]["artifact_hash_matches_reexecution"]
+    assert symbol_moser["evidence"]["mixed_multiindex_count"] == 15
+    assert symbol_moser["evidence"]["generic_bivariate_symbol_derivative_control"][
+        "negative_control"
+    ]["rejected"]
+    assert symbol_moser["evidence"]["K55_total_order_four_range"][
+        "minimum"
+    ] > 8e44
+    assert symbol_moser["evidence"]["K55_total_order_four_range"][
+        "maximum"
+    ] < 9e44
+    assert symbol_moser["evidence"]["raw_direction_degree_witnesses"]["B_0_2"][
+        "exact"
+    ] == "0"
+    assert symbol_moser["evidence"]["raw_direction_degree_witnesses"][
+        "H_star_0_2"
+    ]["exact"] == "0"
+    assert symbol_moser["evidence"]["raw_direction_degree_witnesses"]["C_0_2"][
+        "numeric"
+    ] > 0
+    assert symbol_moser["evidence"]["insufficient_order_negative"]["status"] == "reject"
     assert checks["projected_aether_q_fixed_metric_first_variation"]["status"] == "pass"
     assert checks["projected_aether_q_fixed_metric_first_variation"]["evidence"][
         "projector_and_B_first_variation_residual"
