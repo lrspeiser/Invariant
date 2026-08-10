@@ -97,6 +97,118 @@ def _entry(
     }
 
 
+def _generated_action_formula(action: Mapping[str, Any]) -> dict[str, Any]:
+    family = action["family_id"]
+    parameters = dict(action.get("parameters", {}))
+    if family == "AETHER_K1234_PARAMETER_CELL":
+        title = "Einstein–Aether gravity"
+        defining_action = (
+            "S = ∫ d⁴x √(-g) [(M_Pl²/2)R − (M_Pl²/2)"
+            "(c₁K₁+c₂K₂+c₃K₃−c₄K₄) + λᵤ(u·u+1)] + S_m[g,ψ]"
+        )
+        explanation = (
+            "Einstein gravity plus a unit timelike vector field with four derivative "
+            "couplings; matter couples universally to the metric."
+        )
+    elif family == "KESSENCE_G2_CONVEX":
+        title = "Einstein gravity + convex k-essence"
+        defining_action = (
+            "S = ∫ d⁴x √(-g) [(M_Pl²/2)R + Λφ⁴ G₂(Xφ)] + S_m[g,ψ], "
+            f"G₂ = {parameters['G2']}"
+        )
+        explanation = (
+            "Einstein gravity plus a scalar whose kinetic energy contains a positive "
+            "quadratic correction."
+        )
+    elif family == "CUBIC_HORNDESKI_G3_WEAK_CELL":
+        title = "Einstein gravity + cubic Horndeski scalar"
+        defining_action = (
+            "S = ∫ d⁴x √(-g) [(M_Pl²/2)R + Λφ⁴Xφ − "
+            "(Λφ/100)Xφ □φ] + S_m[g,ψ]"
+        )
+        explanation = (
+            "Einstein gravity plus a scalar kinetic term and a weak cubic derivative "
+            "interaction."
+        )
+    elif family == "CONFORMAL_G4_PHI_SCALAR_TENSOR":
+        title = "Conformal scalar–tensor gravity"
+        defining_action = (
+            "S = ∫ d⁴x √(-g) [Λφ⁴Xφ + Λφ²(1/2 + φ²/100)R] "
+            "+ S_m[g,ψ]"
+        )
+        explanation = (
+            "A scalar field changes the effective curvature coupling; at φ=0 the "
+            "theory has an exact GR branch."
+        )
+    else:
+        title = family
+        defining_action = "S = ∫ d⁴x Σ(operator densities)"
+        explanation = "Typed covariant action; expand the bound operator terms for details."
+    return {
+        "formula_type": "defining_action",
+        "title": title,
+        "defining_action": defining_action,
+        "plain_language": explanation,
+        "fields": list(action["fields"]),
+        "parameters": parameters,
+        "operator_terms": [operator["density"] for operator in action["operators"]],
+        "action_content_sha256": action["content_sha256"],
+        "scope_note": (
+            "This compact action defines the candidate. Field equations and proof/test "
+            "certificates are derived evidence, not extra fitted formula terms."
+        ),
+    }
+
+
+def _theory_formula(
+    candidate_id: str, action_by_id: Mapping[str, Mapping[str, Any]]
+) -> dict[str, Any]:
+    action = action_by_id.get(candidate_id)
+    if action is not None:
+        return _generated_action_formula(action)
+    if candidate_id == "KNOWN-ANSWER-EINSTEIN-HILBERT":
+        return {
+            "formula_type": "defining_action",
+            "title": "General relativity (Einstein–Hilbert)",
+            "defining_action": "S = ∫ d⁴x √(-g) [(M_Pl²/2)R + L_m]",
+            "plain_language": "Spacetime curvature is sourced by universally coupled matter.",
+            "fields": ["g_mu_nu", "matter"],
+            "parameters": {},
+            "operator_terms": ["sqrt(-g)*(M_Pl^2/2)*R", "sqrt(-g)*L_m"],
+            "action_content_sha256": None,
+            "scope_note": "Calibration control; not a generated discovery candidate.",
+        }
+    if candidate_id == "KNOWN-ANSWER-EINSTEIN-AETHER":
+        return {
+            "formula_type": "theory_family_action",
+            "title": "Einstein–Aether known-answer control",
+            "defining_action": (
+                "S = ∫ d⁴x √(-g) [(M_Pl²/2)(R − c₁K₁ − c₂K₂ − c₃K₃ "
+                "+ c₄K₄) + λᵤ(u·u+1)] + S_m"
+            ),
+            "plain_language": "Einstein gravity plus a constrained unit timelike vector.",
+            "fields": ["g_mu_nu", "u_mu", "lambda_u", "matter"],
+            "parameters": {"c1..c4": "known-answer bundle values"},
+            "operator_terms": ["R", "K1", "K2", "K3", "K4", "u_mu*u^mu+1"],
+            "action_content_sha256": None,
+            "scope_note": "Calibration control; not a generated discovery candidate.",
+        }
+    return {
+        "formula_type": "aggregate_or_unexpanded_artifact",
+        "title": "No single display formula",
+        "defining_action": "See the hash-bound candidate or candidate-set artifact.",
+        "plain_language": (
+            "This row represents an aggregate, an unmapped candidate, or a negative "
+            "control rather than one typed action."
+        ),
+        "fields": [],
+        "parameters": {},
+        "operator_terms": [],
+        "action_content_sha256": None,
+        "scope_note": "No formula is inferred when exact typed-action evidence is absent.",
+    }
+
+
 def _sort_key(category: str, row: Mapping[str, Any]) -> tuple[Any, ...]:
     metrics = row["metrics"]
     if category == "formal_adm_dirac":
@@ -150,6 +262,11 @@ def _admit_and_rank(category: str, rows: list[dict[str, Any]]) -> dict[str, Any]
 
 def _build_rows(sources: Mapping[str, Any], bindings: Mapping[str, Any]) -> dict[str, list[dict[str, Any]]]:
     rows = {category: [] for category in CATEGORIES}
+    compilation = sources["grammar_compilation"]
+    action_by_id = {
+        record["seed_id"]: record["typed_action_ir"]
+        for record in compilation["candidate_records"]
+    }
     formal = sources["formal_adm_dirac"]
     for control, role in ((formal["known_answer_control"], "known_answer_control"), (formal["generated_candidate_negative_control"], "generated_candidate")):
         gates = control["gate_statuses"]
@@ -319,7 +436,6 @@ def _build_rows(sources: Mapping[str, Any], bindings: Mapping[str, Any]) -> dict
         "PRODUCTION-CANDIDATE-SET-70", "generated_candidate_set", {"candidate_count": galaxy["production_candidate_count"], "registered_prediction_bundle_count": galaxy["registered_prediction_bundle_count"]},
         "blocked", "sealed_direct_observable_scaffold", "incomplete", next(iter(galaxy["blocker_counts"])), "galaxy_direct_observable", bindings["galaxy_direct_observable"], galaxy["evaluator_binding_sha256"], "No observational source or candidate prediction bundle was opened; no galaxy performance was measured."))
 
-    compilation = sources["grammar_compilation"]
     action_hashes = [record["typed_action_ir"]["content_sha256"] for record in compilation["candidate_records"]]
     for record in compilation["candidate_records"]:
         action = record["typed_action_ir"]
@@ -336,6 +452,11 @@ def _build_rows(sources: Mapping[str, Any], bindings: Mapping[str, Any]) -> dict
         rows["computational_robustness"].append(_entry(
             record["seed_id"], "generated_candidate", {"attempt": record["attempt"], "state": record["state"], "recovered_lease": False},
             "measured" if record["state"] == "succeeded" else "blocked", "deterministic_bounded_execution", "complete_for_category" if record["state"] == "succeeded" else "incomplete", None if record["state"] == "succeeded" else "execution_incomplete", "computational_execution", bindings["computational_execution"], record["output_lineage_sha256"], "A successful deterministic execution is software robustness evidence, not scientific validity."))
+    for category_rows in rows.values():
+        for row in category_rows:
+            row["theory_formula"] = _theory_formula(
+                row["candidate_id"], action_by_id
+            )
     return rows
 
 
@@ -348,6 +469,22 @@ def _validate_no_collapse(board: Mapping[str, Any]) -> None:
         raise ValueError("leaderboards opened a forbidden data class")
     for value in board["categories"].values():
         for row in value["full_ranked"] + value["unranked_blocked_or_untested"]:
+            formula = row.get("theory_formula")
+            required_formula_keys = {
+                "formula_type",
+                "title",
+                "defining_action",
+                "plain_language",
+                "fields",
+                "parameters",
+                "operator_terms",
+                "action_content_sha256",
+                "scope_note",
+            }
+            if not isinstance(formula, Mapping) or set(formula) != required_formula_keys:
+                raise ValueError("leaderboard row lacks a complete theory formula")
+            if not formula["title"] or not formula["defining_action"]:
+                raise ValueError("leaderboard theory formula is empty")
             if row["role"] == "known_answer_control" and row["promotion_eligible"] is not False:
                 raise ValueError("known-answer control leaked into candidate promotion")
             if row["rank"] is not None and row["gate_completeness"] != "complete_for_category":

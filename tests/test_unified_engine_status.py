@@ -203,6 +203,10 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
         "top10" in category and "full_ranked" in category
         for category in leaderboards["categories"].values()
     )
+    assert "Theory formula" in dashboard
+    assert "Conformal scalar–tensor gravity" in dashboard
+    assert "φ²/100" in dashboard
+    assert "Derived operator terms / evidence scope" in dashboard
     assert len(dashboard.encode()) < 131072
     assert "C:\\" not in dashboard
 

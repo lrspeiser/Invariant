@@ -553,6 +553,14 @@ generated candidates rank only on completed comparable evidence within their own
 Blocked/untested rows remain separate, category data classes cannot mix, and three deterministic
 history revisions expose rank deltas without introducing a global truth score. Galaxy and
 lensing/cluster leaderboards remain empty until sealed candidate prediction evidence exists.
+Every ranked or blocked row now carries a human-readable theory formula. For a typed generated
+candidate this is the compact defining covariant action, together with its fields, exact parameter
+values, bound operator densities, and action hash. Known-answer controls display their standard
+action and are labeled calibration-only. Long field-equation derivations and proof/test campaigns
+remain separate hash-bound evidence rather than being misrepresented as additional fitted terms in
+the candidate formula. The HTML dashboard renders these details as expandable formula cards and
+also shows unranked blocked candidates so their definitions remain inspectable while evidence is
+unfinished.
 A restart-safe formal-to-Solar boundary service verifies the G4 formal pass and analytic audit, but
 defers its only work item until a reviewed action-bound prediction descriptor exists. It does not
 invoke the Solar evaluator or open observations; the dashboard therefore displays the candidate as

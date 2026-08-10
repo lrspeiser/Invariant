@@ -58,6 +58,27 @@ def test_category_local_rankings_keep_missing_evidence_unranked() -> None:
     assert board["categories"]["simplicity_complexity"]["ranked_count"] == 6
     assert board["categories"]["computational_robustness"]["ranked_count"] == 6
 
+    all_rows = [
+        row
+        for category in board["categories"].values()
+        for row in category["full_ranked"]
+        + category["unranked_blocked_or_untested"]
+    ]
+    assert all(row["theory_formula"]["defining_action"] for row in all_rows)
+    assert all(row["theory_formula"]["scope_note"] for row in all_rows)
+
+    gr_formula = solar["top10"][0]["theory_formula"]
+    assert gr_formula["title"] == "General relativity (Einstein–Hilbert)"
+    assert "√(-g)" in gr_formula["defining_action"]
+
+    g4_formula = g4_solar["theory_formula"]
+    assert g4_formula["title"] == "Conformal scalar–tensor gravity"
+    assert "φ²/100" in g4_formula["defining_action"]
+    assert g4_formula["action_content_sha256"] == (
+        "6ddd6502d110ead90ff494a6569213ec2e61a0b046dfa86344bb1980df6abc90"
+    )
+    assert len(g4_formula["operator_terms"]) == 2
+
 
 def test_ranked_rows_are_comparable_and_history_replay_is_idempotent() -> None:
     config = load_leaderboard_config(CONFIG)
@@ -130,4 +151,11 @@ def test_negative_controls_reject_score_collapse_mixing_and_control_leakage() ->
         "halo_target"
     ] = 1
     with pytest.raises(ValueError, match="inferred target"):
+        validate_scientific_leaderboards(tampered)
+
+    tampered = copy.deepcopy(board)
+    del tampered["categories"]["formal_adm_dirac"]["full_ranked"][0][
+        "theory_formula"
+    ]
+    with pytest.raises(ValueError, match="theory formula"):
         validate_scientific_leaderboards(tampered)
