@@ -203,7 +203,11 @@ it forbids the rejected generic `F(X_a_u,Q_a_u)` lane and `z_b`, retains five ha
 controls, declares seven structurally different typed families (four enabled with callable formal
 adapters and three disabled with explicit missing-adapter blockers), and emits six deterministic
 queue seeds. These seeds are search inputs, not viable-theory claims; every one must traverse the
-same formal gates. A separate restart-safe production overlay now records
+same formal gates. A restart-safe seed adapter now validates the manifest and every seed lineage,
+derives deterministic coordinator work IDs and PRNG seeds, binds reviewed compiler/formal callbacks,
+and reuses the existing lease/recovery/checkpoint machinery. Its six-seed crash/replay fixture is
+idempotent, while a missing or changed callback blocks rather than guessing. A separate restart-safe
+production overlay now records
 all three ordered formal layers without mutating the original 5,855-candidate registry or dossier;
 its completed 70-record root is `f1fdc9ae10df047e1c48adbf9b47e601e6fd84a5e15051204aff62fcae933781`,
 and an idempotent replay inserted zero records. The durable streaming
