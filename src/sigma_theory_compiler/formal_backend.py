@@ -121,6 +121,9 @@ from .quartic_full_symmetrizer_moser_campaign import (
     run_quartic_full_symmetrizer_moser_campaign,
 )
 from .quartic_geometric_jet_campaign import run_quartic_geometric_jet_campaign
+from .quartic_homogeneous_frequency_symbol_campaign import (
+    run_quartic_homogeneous_frequency_symbol_campaign,
+)
 from .quartic_linear_x_campaign import run_quartic_linear_x_symbol_campaign
 from .quartic_linearized_energy_campaign import (
     run_quartic_linearized_energy_campaign,
@@ -2306,6 +2309,8 @@ def _quartic_symmetrizer_symbol_moser_campaign_control(
         / "quartic-full-symmetrizer-moser-campaign"
         / "campaign.json",
     }
+
+
     config_path = (
         root
         / "configs"
@@ -2394,6 +2399,92 @@ def _quartic_symmetrizer_symbol_moser_campaign_control(
             "H_star_0_2": raw.get("H_star", {}).get("0,2"),
             "C_0_2": raw.get("C", {}).get("0,2"),
         },
+        "insufficient_order_negative": {
+            "status": negative.get("status"),
+            "errors": negative.get("errors"),
+        },
+        "scope": result.get("scope"),
+    }
+
+
+def _quartic_homogeneous_frequency_symbol_campaign_control(
+    root: Path,
+) -> tuple[bool, dict[str, Any]]:
+    base = root / "runs" / "physics-language"
+    symbol_path = base / "quartic-symmetrizer-symbol-moser-campaign" / "campaign.json"
+    config_path = (
+        root
+        / "configs"
+        / "backgrounds"
+        / "quartic_homogeneous_frequency_symbol_campaign.json"
+    )
+    artifact_path = base / "quartic-homogeneous-frequency-symbol-campaign" / "campaign.json"
+    symbol = json.loads(symbol_path.read_text(encoding="utf-8"))
+    config = json.loads(config_path.read_text(encoding="utf-8"))
+    artifact = json.loads(artifact_path.read_text(encoding="utf-8"))
+    result = run_quartic_homogeneous_frequency_symbol_campaign(symbol, config)
+    insufficient = dict(config)
+    insufficient["maximum_total_derivative_order"] = 3
+    negative = run_quartic_homogeneous_frequency_symbol_campaign(
+        symbol, insufficient
+    )
+    certificates = result.get("certificates", [])
+    counts = result.get("counts", {})
+    control = result.get("generic_homogeneous_frequency_chain_rule_control", {})
+    fourth_order = [
+        max(
+            float(entry.get("numeric_at_radius_lower", 0))
+            for key, entry in item.get(
+                "homogeneous_frequency_K55_bounds", {}
+            ).items()
+            if sum(int(value) for value in key.split(",")) == 4
+        )
+        for item in certificates
+    ]
+    passed = bool(
+        result.get("status")
+        == "pass_all_12_full_K55_homogeneous_frequency_C4_bounds"
+        and counts.get("selected") == 12
+        and counts.get("homogeneous_frequency_bounds_passed") == 12
+        and len(certificates) == 12
+        and control.get("passed") is True
+        and control.get("inverse_radius_Frechet_majorants")
+        == {"0": 1, "1": 1, "2": 4, "3": 24, "4": 204}
+        and control.get("normalization_map_Frechet_majorants")
+        == {"0": 1, "1": 2, "2": 6, "3": 36, "4": 300}
+        and set(control.get("bell_chain_rule_residuals", {}).values()) == {"0"}
+        and control.get("negative_control", {}).get("rejected") is True
+        and all(
+            len(item.get("homogeneous_frequency_K55_bounds", {})) == 15
+            and all(
+                entry.get("equal") is True
+                for entry in item.get("state_only_crosscheck", {}).values()
+            )
+            for item in certificates
+        )
+        and all(8e44 < value < 9e44 for value in fourth_order)
+        and artifact.get("content_sha256") == result.get("content_sha256")
+        and negative.get("status") == "reject"
+    )
+    return passed, {
+        "symbol_campaign": str(symbol_path),
+        "config": str(config_path),
+        "artifact": str(artifact_path),
+        "status": result.get("status"),
+        "counts": counts,
+        "artifact_hash_matches_reexecution": (
+            artifact.get("content_sha256") == result.get("content_sha256")
+        ),
+        "generic_homogeneous_frequency_chain_rule_control": control,
+        "K55_homogeneous_frequency_total_order_four_range": {
+            "minimum": min(fourth_order) if fourth_order else None,
+            "maximum": max(fourth_order) if fourth_order else None,
+        },
+        "representative_frequency_bounds": (
+            certificates[0].get("homogeneous_frequency_K55_bounds")
+            if certificates
+            else None
+        ),
         "insufficient_order_negative": {
             "status": negative.get("status"),
             "errors": negative.get("errors"),
@@ -3619,6 +3710,12 @@ def run_formal_control_suite(
             "All 12 fixed-coefficient linear-X quartic candidates possess mixed state/direction Frechet envelopes through total order four for the actual lifted 55-state symmetrizer symbol.",
             "The bivariate inverse and product recurrences propagate exact state/direction multiplicities through the raw A/B/C/H_star blocks, resolvents, Riesz projectors, K22, M22 inverse, transverse lift, cross block, and K55. All 15 multiindices with a+b<=4 are finite on the unit-direction component cube. Homogeneous xi-chart conversion, pseudodifferential quantization, explicit Sobolev/Calderon-Vaillancourt constants, a closed energy inequality, lifespan, matter, and tube preservation remain open.",
             lambda: _quartic_symmetrizer_symbol_moser_campaign_control(root),
+        ),
+        _run_check(
+            "quartic_linear_x_homogeneous_frequency_symbol_envelopes",
+            "All 12 fixed-coefficient linear-X quartic candidates possess homogeneous frequency derivatives through total state/frequency order four for the actual lifted 55-state symmetrizer symbol.",
+            "Exact set-partition bounds give inverse-radius Frechet constants 1,1,4,24,204 and normalization-map constants 1,2,6,36,300. The full Bell composition converts every unit-direction bound into |xi|^-|beta| coordinate-frequency bounds for all 15 state/frequency pairs on |xi|>=1. A smooth low-frequency extension, quantization, explicit Calderon-Vaillancourt/Sobolev constants, a closed energy inequality, lifespan, matter, and tube preservation remain open.",
+            lambda: _quartic_homogeneous_frequency_symbol_campaign_control(root),
         ),
         _run_check(
             "quartic_horndeski_timelike_flat_physical_hamiltonian",

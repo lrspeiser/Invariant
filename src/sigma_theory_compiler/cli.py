@@ -69,6 +69,10 @@ from .quartic_geometric_jet_campaign import (
     run_quartic_geometric_jet_campaign,
     write_quartic_geometric_jet_campaign,
 )
+from .quartic_homogeneous_frequency_symbol_campaign import (
+    run_quartic_homogeneous_frequency_symbol_campaign,
+    write_quartic_homogeneous_frequency_symbol_campaign,
+)
 from .quartic_linear_x_campaign import (
     run_quartic_linear_x_symbol_campaign,
     write_quartic_linear_x_symbol_campaign,
@@ -655,6 +659,15 @@ def _parser() -> argparse.ArgumentParser:
     )
     quartic_symmetrizer_symbol.add_argument("--config", type=Path, required=True)
     quartic_symmetrizer_symbol.add_argument("--output", type=Path, required=True)
+    quartic_homogeneous_frequency = subparsers.add_parser(
+        "quartic-homogeneous-frequency-symbol-campaign",
+        help="Convert unit-direction K55 bounds to homogeneous xi-derivative bounds",
+    )
+    quartic_homogeneous_frequency.add_argument(
+        "--symbol-campaign", type=Path, required=True
+    )
+    quartic_homogeneous_frequency.add_argument("--config", type=Path, required=True)
+    quartic_homogeneous_frequency.add_argument("--output", type=Path, required=True)
     dhost_compile = subparsers.add_parser(
         "dhost-pack-compile",
         help="Compile a reduced rank-one quadratic DHOST kinetic family",
@@ -1714,6 +1727,31 @@ def main(argv: list[str] | None = None) -> int:
             0
             if result["status"]
             == "pass_all_12_full_K55_mixed_state_direction_C4_symbol_envelopes"
+            else 1
+        )
+    if args.command == "quartic-homogeneous-frequency-symbol-campaign":
+        symbol_campaign = json.loads(
+            args.symbol_campaign.read_text(encoding="utf-8")
+        )
+        config = json.loads(args.config.read_text(encoding="utf-8"))
+        result = run_quartic_homogeneous_frequency_symbol_campaign(
+            symbol_campaign, config
+        )
+        path = write_quartic_homogeneous_frequency_symbol_campaign(
+            result, args.output
+        )
+        print(f"status={result['status']}")
+        print(f"selected={result['counts']['selected']}")
+        print(
+            "homogeneous_frequency_bounds_passed="
+            f"{result['counts']['homogeneous_frequency_bounds_passed']}"
+        )
+        print(f"rejected={result['counts']['rejected']}")
+        print(f"report={path}")
+        return (
+            0
+            if result["status"]
+            == "pass_all_12_full_K55_homogeneous_frequency_C4_bounds"
             else 1
         )
     if args.command == "dhost-pack-compile":

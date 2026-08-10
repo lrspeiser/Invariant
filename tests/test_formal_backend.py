@@ -187,6 +187,34 @@ def test_all_formal_known_answer_controls_pass(tmp_path) -> None:
         "numeric"
     ] > 0
     assert symbol_moser["evidence"]["insufficient_order_negative"]["status"] == "reject"
+    frequency_symbol = checks[
+        "quartic_linear_x_homogeneous_frequency_symbol_envelopes"
+    ]
+    assert frequency_symbol["status"] == "pass"
+    assert frequency_symbol["evidence"]["artifact_hash_matches_reexecution"]
+    frequency_control = frequency_symbol["evidence"][
+        "generic_homogeneous_frequency_chain_rule_control"
+    ]
+    assert frequency_control["normalization_map_Frechet_majorants"] == {
+        "0": 1,
+        "1": 2,
+        "2": 6,
+        "3": 36,
+        "4": 300,
+    }
+    assert frequency_control["negative_control"]["rejected"]
+    assert frequency_symbol["evidence"][
+        "K55_homogeneous_frequency_total_order_four_range"
+    ]["minimum"] > 8e44
+    assert frequency_symbol["evidence"][
+        "K55_homogeneous_frequency_total_order_four_range"
+    ]["maximum"] < 9e44
+    assert frequency_symbol["evidence"]["representative_frequency_bounds"]["0,4"][
+        "coordinate_multiindices_covered"
+    ] == 15
+    assert frequency_symbol["evidence"]["insufficient_order_negative"]["status"] == (
+        "reject"
+    )
     assert checks["projected_aether_q_fixed_metric_first_variation"]["status"] == "pass"
     assert checks["projected_aether_q_fixed_metric_first_variation"]["evidence"][
         "projector_and_B_first_variation_residual"

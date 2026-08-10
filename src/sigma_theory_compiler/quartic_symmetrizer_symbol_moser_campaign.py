@@ -661,6 +661,9 @@ def _certify_candidate(
             cross_f
         ),
         "K55_mixed_Frechet_2_norm_envelopes_numeric": _numeric_hierarchy(k55),
+        "K55_mixed_Frechet_2_norm_envelope_integer_ceilings": {
+            _key(*pair): str(sp.ceiling(value)) for pair, value in k55.items()
+        },
         "K55_total_order_four_envelopes_numeric": total_four,
         "state_only_coverage_crosscheck": state_crosscheck,
         "claim": (

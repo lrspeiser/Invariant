@@ -338,6 +338,18 @@ nonquasilinear local well-posedness theorem only for compatible vacuum gauge-fix
 compact subset of the box interior; it does not assign a lifespan or certify long-time trapping,
 boundaries, matter evolution, or observations.
 
+The lifted symmetrizer now also has an explicit homogeneous frequency chart. Starting
+from the mixed covariant-state/unit-direction bounds for `K55(U,n)`, the compiler
+differentiates `n(xi)=xi/|xi|` by exact set partitions. It obtains operator-norm
+majorants `1,1,4,24,204` for derivatives of `|xi|^-1` and `1,2,6,36,300` for
+derivatives of the normalization map. The full Bell composition then proves, for all
+12 candidates and every coordinate multiindex with `a+|beta|<=4`, a bound of the form
+`||D_U^a partial_xi^beta K55(U,xi/|xi|)|| <= C_(a,beta)|xi|^-|beta|` on
+`|xi|>=1`. The source ceilings are outward integer roundings of exact rational bounds,
+so the proof does not inherit a downward floating-point rounding error. This is the
+high-frequency chart only: low-frequency smoothing, quantization, operator constants,
+the commuted energy estimate, and lifespan remain separate fail-closed gates.
+
 That compact-subset condition now has an explicit coordinate realization. In the normalized
 55-state basis, the ten metric deviations obey the exact identity
 `||h_mu_nu||_F^2=sum_A h_A^2`, including the `sqrt(2)` off-diagonal convention. Bounding those

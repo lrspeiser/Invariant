@@ -541,9 +541,25 @@ The exact bivariate recurrences cover all 15 mixed multiindices `(a,b)` with
 resolvents and projectors, `K22`, `M22^-1`, the transverse lift and cross block, and
 the complete `K55`. All 12 candidates pass; their maximum total-order-four envelopes
 are about `8.4e44`. This closes regularity on the unit-direction component cube.
-Homogeneous `xi`-chart conversion, pseudodifferential quantization, and explicit
-Sobolev/Calderon-Vaillancourt constants are still required before the coefficient
-multipliers become a closed energy inequality or numerical lifespan.
+
+Convert those unit-direction bounds into a homogeneous frequency chart with:
+
+```powershell
+python -m sigma_theory_compiler quartic-homogeneous-frequency-symbol-campaign `
+  --symbol-campaign runs/physics-language/quartic-symmetrizer-symbol-moser-campaign/campaign.json `
+  --config configs/backgrounds/quartic_homogeneous_frequency_symbol_campaign.json `
+  --output runs/physics-language/quartic-homogeneous-frequency-symbol-campaign
+```
+
+For `n=xi/|xi|`, exact set-partition differentiation gives inverse-radius Frechet
+majorants `1,1,4,24,204` and normalization-map majorants `1,2,6,36,300` through
+order four. The Bell-polynomial composition therefore emits rigorous integer ceilings
+for every `D_U^a partial_xi^beta K55` with `a+|beta|<=4`, including the correct
+`|xi|^(-|beta|)` decay for `|xi|>=1`. All 12 candidates pass, and all coordinate
+multiindices are covered rather than only one radial derivative. A smooth low-frequency
+extension, pseudodifferential quantization, and explicit Sobolev/Calderon-Vaillancourt
+constants are still required before these bounds become a closed energy inequality or
+numerical lifespan.
 
 The tube bounds 153 normalized coordinate atoms: ten metric deviations, 44 first partials,
 and 99 acceleration-free symmetric second partials. The exact orthonormal metric-basis identity
