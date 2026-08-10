@@ -808,10 +808,14 @@ proves why closure is not yet available: a compact-frequency Schwartz packet has
 coefficient norm but `H7` product growth proportional to frequency in the coefficient-high/state-low
 branch. A follow-up exact LP-cutoff/Plancherel/Bernstein campaign now closes the balanced/resonant
 `H6 x H7 -> H7` operator with an explicit constant, including seven partners and remote low outputs.
-The high-low obstruction remains: the current 1,683-entry `DF` manifest and C9 norm envelopes do not
-contain the component `D2F` identity needed for a modified-good-unknown cancellation. An `H8` state
-gives a quantitative conditional `H7` bound, but is not controlled by `H7` data and is not an
-autonomous cure.
+The high-low obstruction remains, and a representative component audit now makes it decisive for
+the currently named good unknown. At the exact flat reference, the `H_01` high atom gives
+`D_H01(D_s01[10] F_0)=-2 a10`, while `T_(D_Y E55) deltaY_j` has zero projection onto that
+coefficient-high/state-low branch. Since every candidate has nonzero `a10`, the residual is `+/-1`
+or `+/-2`: all 12 proposed cancellations are refuted on this slice. A different modified unknown
+must contribute the missing `+2 a10` and then satisfy the full tensor identity, or the proof must use
+an honest derivative-loss theory. An `H8` state gives a quantitative conditional `H7` bound, but is
+not controlled by `H7` data and is not an autonomous cure.
 
 The tube bounds 153 normalized coordinate atoms: ten metric deviations, 44 first partials,
 and 99 acceleration-free symmetric second partials. The exact orthonormal metric-basis identity

@@ -325,12 +325,17 @@ Schwartz packet with uniformly bounded `H6` coefficient norm has coefficient-hig
 growth proportional to its frequency, so C9 outer smoothness alone cannot repair the lost spatial
 derivative. The balanced/resonant branch is now closed by an exact cutoff/Plancherel/Bernstein
 estimate, including seven partners, remote low outputs, and explicit support/weight factors. The
-remaining blocker is structural: available evidence has all 1,683 `DF` roots but no componentwise
-high-atom `D2F` cancellation identity. A conditional `H8` assumption raises the second atoms to
-`H7`, but the packet `U_N=N^-7 exp(iNx_1)u_0` has bounded `H7` size and `H8` size growing like `N`;
-an `E8` energy alone repeats the loss. `B7`, global `H7`, dyadic application, and lifespan remain
-false pending a system-specific modified-good-unknown identity or an independently controlled
-derivative-loss local theory.
+remaining blocker is structural, and the first componentwise high-atom `D2F` audit refutes the
+currently named cancellation rather than merely leaving it unknown. At the exact flat reference,
+the real source blocks give `det(A)=6561/4096` and
+`D_H01(D_s01[10] F_0)=-2 a10`; an independent 15,621-node arithmetic `A/W` DAG reproduces it.
+The term `T_(D_Y E55) deltaY_j` is coefficient-low/state-high and has zero projection on this
+coefficient-high/state-low slice. All 12 candidates therefore have a nonzero residual (`+/-1` or
+`+/-2`). A replacement modified unknown must supply `+2 a10` here and prove the complete tensor
+identity, or the analysis must adopt a separately controlled derivative-loss theory. A conditional
+`H8` assumption raises the second atoms to `H7`, but the packet
+`U_N=N^-7 exp(iNx_1)u_0` has bounded `H7` size and `H8` size growing like `N`; an `E8` energy alone
+repeats the loss. `B7`, global `H7`, dyadic application, and lifespan remain false.
 
 The state-to-jet side now has a quantitative coordinate tube. A common `1e-13` bound on 153
 normalized coordinate 2-jet atoms implies strict component bounds for `nabla(phi)`,
