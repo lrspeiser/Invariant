@@ -448,6 +448,14 @@ exact generic-tilt frozen principal polynomial has a nonreal conjugate frequency
 nonzero tilt. None has passed into the Solar or direct-observable galaxy gates. The next discovery
 task is therefore not to weaken these gates; it is to change or enlarge the formula grammar and
 generate new covariant action families that can survive the same exact ADM/Dirac/principal ladder.
+The first rejection-informed grammar-v3 seed manifest does this conservatively: it prevents the old
+generic `F(X_a_u,Q_a_u)` actions and `z_b` from re-entering, calibrates against five hash-bound
+known-answer controls, and defines seven new typed families. Four are enabled because callable
+formal adapters already exist (complete `K1..K4` Aether, convex `G2` k-essence, weak-cell cubic
+`G3`, and `X`-independent conformal `G4(phi)`); three cross-domain or partial-adapter families remain
+disabled with explicit blockers. Its six concrete seeds are only deterministic queue inputs. The
+next execution step is candidate-specific action compilation and formal evaluation of those seeds,
+then a scalable enumeration only after the bounded hook reproduces the same lineage and exclusions.
 
 The generated L2--L4 FLRW path now has the first validated background implementation:
 `flrw-background-certify` binds a compiled action, uses an outward-rounded interval Picard

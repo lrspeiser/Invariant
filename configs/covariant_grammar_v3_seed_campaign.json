@@ -1,0 +1,228 @@
+{
+  "schema_version": "sigma-covariant-grammar-v3-seed-config-1.0",
+  "campaign_id": "grammar-v3-rejection-informed-seeds-20260810",
+  "pre_generation_constraints": {
+    "forbidden_invariants": ["Q_a_u", "T2_m", "z_b"],
+    "forbidden_family_ids": ["GENERIC_UNIT_VECTOR_F_XQ"],
+    "maximum_extra_dynamical_fields": 2,
+    "q_exception_contract": "preferred_foliation_with_separately_hash_bound_cauchy_and_principal_adapter"
+  },
+  "predecessor_artifacts": [
+    {
+      "path": "runs/engine/composite-covariant-lift-campaign.json",
+      "file_sha256": "e6b1db261f825de0a95ba6ad6304832a2e6e3ad0f3412dcad1cc02d363a25be1",
+      "content_sha256": "3cf9279ca75e7906b70f89071e99b92e891ba66f3fc40ec863bbbd9fbb204329",
+      "expected_fields": {"input_candidate_count": 70, "total_exact_lift_count": 70}
+    },
+    {
+      "path": "runs/engine/composite-q-degenerate-formal-campaign.json",
+      "file_sha256": "9436d9483a2b8f8cd72b9e9b52baf81dcc184ffcac53e0c19fafc9b4ffc35275",
+      "content_sha256": "52958b472b56c3126da050a1180fb1f833b2702419089bd332e04735dbc0f3a3",
+      "expected_fields": {"bounded_family_reject_count": 21, "remaining_formal_blocked_count": 47}
+    },
+    {
+      "path": "runs/engine/composite-negative-local-kinetic-campaign.json",
+      "file_sha256": "8deb9b6f5e4f0905442c9fb2c4251cafe59fa3d6606cdcda78aca6158e6fd4b5",
+      "content_sha256": "6f265396f3b1b656cd22bce0d7156ce450fc5cb03eb0f47b132f888d115a1fa9",
+      "expected_fields": {"bounded_family_reject_count": 27, "remaining_formal_blocked_count": 20}
+    },
+    {
+      "path": "runs/engine/composite-positive-qx-tilt-campaign.json",
+      "file_sha256": "0169d283a7f72cb04e820d12886540fba8071576d3d2aacc6343d05276f49ce5",
+      "content_sha256": "241d508294a45ddaa27b8905459875ee5daff4b6b53e5b7c06e44e1e06f1e1c8",
+      "expected_fields": {"input_candidate_count": 20, "remaining_formal_blocked_count": 0}
+    }
+  ],
+  "known_answer_controls": [
+    {
+      "control_id": "GR-EINSTEIN-HILBERT",
+      "classification": "certified_viable_known_answer",
+      "input_action_sha256": "8965f95177ca7e7d798d6163d184d62c5fa3aba0a7d11f32b407f71976d08d73",
+      "expected_health_family": "einstein_hilbert",
+      "expected_gate_counts": {"pass": 13},
+      "action_artifact": {"path": "runs/formal-controls-v1/action-health/einstein_hilbert_control/action-ir.json", "file_sha256": "85b6e0d05d31d1dadf9c725cab84d900a998d83378c3354124b78086b8d29709", "content_sha256": "8965f95177ca7e7d798d6163d184d62c5fa3aba0a7d11f32b407f71976d08d73"},
+      "health_artifact": {"path": "runs/formal-controls-v1/action-health/einstein_hilbert_control/action-health.json", "file_sha256": "d1a2fcc02d9453ad3c6c0ca744f7fc13a5477e471038d8454822054319a8ec93", "content_sha256": null}
+    },
+    {
+      "control_id": "EINSTEIN-AETHER-K1234",
+      "classification": "promotion_pass_known_answer_with_declared_health_gap",
+      "input_action_sha256": "fceb6bc4b4329e6d12cae9f0ae5c0794b06745530a66c90d54f321cd278a0c35",
+      "expected_health_family": "einstein_aether",
+      "expected_gate_counts": {"pass": 12, "unresolved": 1},
+      "promotion_bundle_binding_sha256": "8e80199b8022d1d3a49b7ae539efe5f1e174dd72083da3f10122fc2ede958486",
+      "action_artifact": {"path": "runs/formal-controls-v1/action-health/einstein_aether_control/action-ir.json", "file_sha256": "e434aa26ddd0f7e9e5771fa097677e4c5e077790a5c6db292714712e4a6bc01a", "content_sha256": "fceb6bc4b4329e6d12cae9f0ae5c0794b06745530a66c90d54f321cd278a0c35"},
+      "health_artifact": {"path": "runs/formal-controls-v1/action-health/einstein_aether_control/action-health.json", "file_sha256": "aa6dfcc2f8d1a1b5bb1efa77f3ea010b74901fcde768e403647ed27d3092b9b0", "content_sha256": null}
+    },
+    {
+      "control_id": "CANONICAL-SCALAR-GR",
+      "classification": "certified_viable_known_answer",
+      "input_action_sha256": "463c663b6a57c6e9cbf4002c66f965797578cbe73a6f6c1072cf0e74f91934e7",
+      "expected_health_family": "canonical_scalar_gravity",
+      "expected_gate_counts": {"pass": 13},
+      "action_artifact": {"path": "runs/formal-controls-v1/action-health/canonical_scalar_control/action-ir.json", "file_sha256": "7dac6064107772176ec6881fd298cbcc563ce8201817a820d92b3575c336bdb1", "content_sha256": "463c663b6a57c6e9cbf4002c66f965797578cbe73a6f6c1072cf0e74f91934e7"},
+      "health_artifact": {"path": "runs/formal-controls-v1/action-health/canonical_scalar_control/action-health.json", "file_sha256": "5a313e8c246828eb60abe4aeb0a4d3b2e999adaf6d43b6ceddadfd308d637961", "content_sha256": null}
+    },
+    {
+      "control_id": "PROCA-GR",
+      "classification": "certified_viable_known_answer",
+      "input_action_sha256": "0ec3fd6c233855e1cabf767d35ea12729b1b75dbfb29d409066f4266004c7c0b",
+      "expected_health_family": "proca_gravity",
+      "expected_gate_counts": {"pass": 13},
+      "action_artifact": {"path": "runs/formal-controls-v1/action-health/proca_control/action-ir.json", "file_sha256": "bf57ab5230354acfcc65d7cad1ca04f4f5d55a8c72ce9531c6b1c57a4699c362", "content_sha256": "0ec3fd6c233855e1cabf767d35ea12729b1b75dbfb29d409066f4266004c7c0b"},
+      "health_artifact": {"path": "runs/formal-controls-v1/action-health/proca_control/action-health.json", "file_sha256": "1b0389acc50855e43d5bb12ebb7e9f2b6554b032e090f8c11a627fc3af4e7e30", "content_sha256": null}
+    },
+    {
+      "control_id": "QUARTIC-HORNDESKI-L4",
+      "classification": "known_answer_blocked_negative_control",
+      "input_action_sha256": "85a7af135eddf4c924ea8a9f6e890fc6a511b0f712e3935aafd74aae825f99de",
+      "expected_health_family": "quartic_horndeski",
+      "expected_gate_counts": {"pass": 9, "reject": 1, "unresolved": 3},
+      "action_artifact": {"path": "runs/formal-controls-v1/action-health/quartic_horndeski_control/action-ir.json", "file_sha256": "bed5122025bfac7499e7ca261b8407254e0b58c74a4b9d2f691fce52fc85e736", "content_sha256": "85a7af135eddf4c924ea8a9f6e890fc6a511b0f712e3935aafd74aae825f99de"},
+      "health_artifact": {"path": "runs/formal-controls-v1/action-health/quartic_horndeski_control/action-health.json", "file_sha256": "11d1375692bc50b745341cc5caf5aad2140a87f0ef67dc3cd1fa36b9238d53c3", "content_sha256": null}
+    }
+  ],
+  "typed_family_seeds": [
+    {
+      "family_id": "AETHER_K1234_PARAMETER_CELL",
+      "description": "Complete first-derivative Einstein-Aether operator basis without Q_a_u.",
+      "theory_contract": "generic_unit_vector",
+      "field_ids": ["g_mu_nu", "u_mu", "lambda_u"],
+      "invariants": ["K1_u", "K2_u", "K3_u", "K4_u"],
+      "operator_atoms": ["EH_R", "AETHER_K1", "AETHER_K2", "AETHER_K3", "AETHER_K4", "UNIT_VECTOR_CONSTRAINT"],
+      "formal_adapters": [{"id": "einstein_aether_complete_family", "available": true, "entrypoint": "sigma_theory_compiler.action_health:analyze_action_health"}],
+      "candidate_specific_blockers": ["uniform parameter-domain margins", "nonlinear positive-energy theorem domain"],
+      "hard_blockers": [],
+      "enabled_for_generation": true,
+      "parameter_points": [{"c1": "1/4", "c2": "1/8", "c3": "0", "c4": "1/16"}, {"c1": "1/3", "c2": "1/12", "c3": "1/24", "c4": "1/20"}]
+    },
+    {
+      "family_id": "KESSENCE_G2_CONVEX",
+      "description": "Arbitrary-G2 scalar sector restricted to an explicit convex timelike-gradient cell.",
+      "theory_contract": "diffeomorphism_invariant_scalar_tensor",
+      "field_ids": ["g_mu_nu", "phi"],
+      "invariants": ["X_phi"],
+      "operator_atoms": ["EH_R", "G2_PHI_X"],
+      "formal_adapters": [{"id": "generic_g2_variation_noether", "available": true, "entrypoint": "sigma_theory_compiler.scalar_tensor_pack:generic_g2_variation_noether_control"}, {"id": "generic_kessence_adm_principal", "available": true, "entrypoint": "sigma_theory_compiler.horndeski:generic_kessence_nonlinear_adm_legendre_control"}],
+      "candidate_specific_blockers": ["uniform G2_X>0 margin", "uniform G2_X+2XG2_XX>0 margin", "global energy bound"],
+      "hard_blockers": [],
+      "enabled_for_generation": true,
+      "parameter_points": [{"G2": "X_phi+(1/8)*X_phi^2", "X_domain": "0<=X_phi<=1"}, {"G2": "X_phi+(1/4)*X_phi^2", "X_domain": "0<=X_phi<=1"}]
+    },
+    {
+      "family_id": "CUBIC_HORNDESKI_G3_WEAK_CELL",
+      "description": "Cubic Horndeski G3 interaction in a bounded weak-field derivative cell.",
+      "theory_contract": "diffeomorphism_invariant_scalar_tensor",
+      "field_ids": ["g_mu_nu", "phi"],
+      "invariants": ["X_phi", "box_phi"],
+      "operator_atoms": ["EH_R", "G2_PHI_X", "G3_PHI_X_BOX_PHI"],
+      "formal_adapters": [{"id": "generic_g3_variation_noether", "available": true, "entrypoint": "sigma_theory_compiler.scalar_tensor_pack:generic_g3_variation_noether_control"}, {"id": "cubic_horndeski_bssn", "available": true, "entrypoint": "sigma_theory_compiler.horndeski:generic_cubic_horndeski_bssn_hyperbolicity_control"}],
+      "candidate_specific_blockers": ["uniform weak-field derivative ledger", "common scalar-metric time cone", "boundary flux control"],
+      "hard_blockers": [],
+      "enabled_for_generation": true,
+      "parameter_points": [{"G2": "X_phi", "G3": "(1/100)*X_phi", "jet_domain": "dimensionless derivative ratios<=1/100"}]
+    },
+    {
+      "family_id": "CONFORMAL_G4_PHI_SCALAR_TENSOR",
+      "description": "X-independent G4(phi)R scalar-tensor family, distinct from rejected Q actions.",
+      "theory_contract": "diffeomorphism_invariant_scalar_tensor",
+      "field_ids": ["g_mu_nu", "phi"],
+      "invariants": ["phi", "X_phi", "R"],
+      "operator_atoms": ["G2_PHI_X", "G4_PHI_R"],
+      "formal_adapters": [{"id": "x_independent_g4_metric_noether", "available": true, "entrypoint": "sigma_theory_compiler.scalar_tensor_pack:compile_scalar_tensor_pack"}],
+      "candidate_specific_blockers": ["uniform G4(phi)>0", "common-cone and scalar kinetic margins"],
+      "hard_blockers": [],
+      "enabled_for_generation": true,
+      "parameter_points": [{"G2": "X_phi", "G4": "1/2+(1/100)*phi^2", "phi_domain": "abs(phi)<=1"}]
+    },
+    {
+      "family_id": "QUADRATIC_DHOST_DEGENERATE_CELL",
+      "description": "Quadratic DHOST seed with an explicit degeneracy relation.",
+      "theory_contract": "diffeomorphism_invariant_scalar_tensor",
+      "field_ids": ["g_mu_nu", "phi"],
+      "invariants": ["X_phi", "phi_munu"],
+      "operator_atoms": ["EH_R", "G2_PHI_X", "DHOST_L1", "DHOST_L2"],
+      "formal_adapters": [{"id": "reduced_dhost_dirac", "available": true, "entrypoint": "sigma_theory_compiler.dhost_pack:compile_reduced_dhost_pack"}],
+      "candidate_specific_blockers": [],
+      "hard_blockers": ["full covariant DHOST classification unresolved", "full coupled principal adapter unavailable"],
+      "enabled_for_generation": false,
+      "parameter_points": []
+    },
+    {
+      "family_id": "SCALAR_PHOTON_COHERENCE_COUPLING",
+      "description": "Cross-domain scalar modulation of the Maxwell kinetic invariant.",
+      "theory_contract": "diffeomorphism_and_u1_invariant_multifield",
+      "field_ids": ["g_mu_nu", "phi", "A_mu"],
+      "invariants": ["phi", "X_phi", "F2_A"],
+      "operator_atoms": ["EH_R", "G2_PHI_X", "F_PHI_F2"],
+      "formal_adapters": [{"id": "scalar_photon_coupled_variation", "available": false, "entrypoint": null}],
+      "candidate_specific_blockers": [],
+      "hard_blockers": ["coupled scalar-photon ADM/Dirac adapter unavailable", "coupled principal and energy bounds unavailable"],
+      "enabled_for_generation": false,
+      "parameter_points": []
+    },
+    {
+      "family_id": "SCALAR_AETHER_DERIVATIVE_CROSS",
+      "description": "Cross-domain scalar-gradient and Aether-shear contraction without Q_a_u.",
+      "theory_contract": "generic_unit_vector_multifield",
+      "field_ids": ["g_mu_nu", "phi", "u_mu", "lambda_u"],
+      "invariants": ["X_phi", "K1_u", "Puphi_cross"],
+      "operator_atoms": ["EH_R", "G2_PHI_X", "AETHER_K1", "PUPHI_CROSS", "UNIT_VECTOR_CONSTRAINT"],
+      "formal_adapters": [{"id": "scalar_aether_coupled_formal", "available": false, "entrypoint": null}],
+      "candidate_specific_blockers": [],
+      "hard_blockers": ["coupled scalar-Aether constraint closure unavailable", "generic principal adapter unavailable"],
+      "enabled_for_generation": false,
+      "parameter_points": []
+    }
+  ],
+  "negative_controls": [
+    {
+      "control_id": "OLD-Q-ZERO-LOCAL-LINEAR",
+      "candidate_id": "STC2-1d7f5326b9f9a6e98b6b9436",
+      "ordinal": 677,
+      "input_action_sha256": "242573e44935864c984d702212e02e7ffd8a6cf298c2d2ea08e9d5503dc3fda1",
+      "provenance_binding_sha256": "31b6d47bbe8e38947331386c12e4f76f452c25a8f8bf15809811203fe5532ad6",
+      "source_artifact_path": "runs/engine/composite-q-degenerate-formal-campaign.json",
+      "seed_spec": {"family_id": "GENERIC_UNIT_VECTOR_F_XQ", "theory_contract": "generic_unit_vector", "field_ids": ["g_mu_nu", "u_mu"], "invariants": ["Q_a_u"], "enabled_for_generation": false}
+    },
+    {
+      "control_id": "OLD-Q-NONLINEAR-NO-QUADRATIC",
+      "candidate_id": "STC2-8ca280cd260305f17896609c",
+      "ordinal": 3008915,
+      "input_action_sha256": "4a93ba040ef5439478dbda83ce32135456adb67c5d86141771bb7eb5dc3dfb5e",
+      "provenance_binding_sha256": "8f5c23b7483219c7d7116c4adaaaf3961f95330fb14445eec008cbe7687252dd",
+      "source_artifact_path": "runs/engine/composite-q-degenerate-formal-campaign.json",
+      "seed_spec": {"family_id": "GENERIC_UNIT_VECTOR_F_XQ", "theory_contract": "generic_unit_vector", "field_ids": ["g_mu_nu", "u_mu"], "invariants": ["X_a_u", "Q_a_u"], "enabled_for_generation": false}
+    },
+    {
+      "control_id": "OLD-Q-NEGATIVE-LOCAL",
+      "candidate_id": "STC2-92ed621ea088eaaaaef39633",
+      "ordinal": 693,
+      "input_action_sha256": "187d21bff2323214f7078f8eafb6894e2082778af8a13f78460bfba71492514a",
+      "provenance_binding_sha256": "2ed5ae8da40653f0f8b2d84ca0b844e5f8b3bdb20ba3ef1dee3cdc96bd7246d7",
+      "source_artifact_path": "runs/engine/composite-negative-local-kinetic-campaign.json",
+      "seed_spec": {"family_id": "GENERIC_UNIT_VECTOR_F_XQ", "theory_contract": "generic_unit_vector", "field_ids": ["g_mu_nu", "u_mu"], "invariants": ["X_a_u", "Q_a_u"], "enabled_for_generation": false}
+    },
+    {
+      "control_id": "OLD-Q-POSITIVE-TILT",
+      "candidate_id": "STC2-7e72da50697c552ee3b59cbd",
+      "ordinal": 24000575,
+      "input_action_sha256": "22663cf24e964f91e19c70f8e83833459bfdfba63837447cf040fa884a1bde6a",
+      "provenance_binding_sha256": "99233e72204bc80c0ddbf807d528b769e0b47d7b467497c7e8291775aae734b3",
+      "source_artifact_path": "runs/engine/composite-positive-qx-tilt-campaign.json",
+      "seed_spec": {"family_id": "GENERIC_UNIT_VECTOR_F_XQ", "theory_contract": "generic_unit_vector", "field_ids": ["g_mu_nu", "u_mu"], "invariants": ["X_a_u", "Q_a_u"], "enabled_for_generation": false}
+    },
+    {
+      "control_id": "FORBIDDEN-BARYON-DIAGNOSTIC",
+      "candidate_id": null,
+      "input_action_sha256": null,
+      "source_artifact_path": null,
+      "seed_spec": {"family_id": "BARYON_SPECIFIC_FORCE", "theory_contract": "diffeomorphism_invariant", "field_ids": ["g_mu_nu"], "invariants": ["z_b"], "enabled_for_generation": false}
+    }
+  ],
+  "data_eligibility": {
+    "observational_data_opened": false,
+    "dark_matter_or_halo_inputs": false,
+    "redshift_distance_inputs": false,
+    "paid_llm_calls": false
+  }
+}

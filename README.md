@@ -198,7 +198,12 @@ and zero passes. Consequently zero Solar or galaxy prediction bundles exist and 
 promoted. The sealed galaxy evaluator has an empty registry, opens no observations, and blocks all
 70. This rejects the current production survivor set; it does not establish that the grammar has no
 viable formula, so future generator rounds must change or enlarge the candidate structures before
-repeating the same sealed validation ladder. A separate restart-safe production overlay now records
+repeating the same sealed validation ladder. Grammar v3 now encodes that feedback before generation:
+it forbids the rejected generic `F(X_a_u,Q_a_u)` lane and `z_b`, retains five hash-bound known-answer
+controls, declares seven structurally different typed families (four enabled with callable formal
+adapters and three disabled with explicit missing-adapter blockers), and emits six deterministic
+queue seeds. These seeds are search inputs, not viable-theory claims; every one must traverse the
+same formal gates. A separate restart-safe production overlay now records
 all three ordered formal layers without mutating the original 5,855-candidate registry or dossier;
 its completed 70-record root is `f1fdc9ae10df047e1c48adbf9b47e601e6fd84a5e15051204aff62fcae933781`,
 and an idempotent replay inserted zero records. The durable streaming
