@@ -264,11 +264,14 @@ The reviewed Aether twist evaluator is now registered for its two packets and re
 packets initially failed closed on missing evaluators. The four `G2` packets now also invoke a
 hash-reviewed evaluator: two retain the distributed Dirac boundary blocker and two retain the
 general nonmaximal positive-mass blocker. The four `G3`/`G4` packets remain missing-evaluator
-blocked. All 10 remain blocked and alter no scientific decision.
+blocked in the first epoch. A reviewed G3 epoch now executes both G3 packets from their exact
+interval and lapse artifacts; they retain the global/asymptotically-flat blocker. Only the two G4
+packets remain deferred. All 10 remain blocked and alter no scientific decision.
 A durable follow-up service now provides start/status/stop/resume/export semantics around this
-queue. It processes the six allowlisted Aether/G2 packets and keeps the four G3/G4 packets in a
-deferred registry without consuming attempts. Stop/resume preserves completed and deferred roots;
-new evaluator descriptors require a new reviewed service-config epoch rather than mutating a
+queue. The first epoch processes six Aether/G2 packets and defers four; the reviewed G3 epoch
+preserves those six completed identities, processes exactly the two G3 packets, and leaves two G4
+packets deferred without consuming attempts. Stop/resume preserves completed and deferred roots;
+new evaluator descriptors require another reviewed service-config epoch rather than mutating a
 running scientific allowlist.
 A unified read-only status snapshot now combines the active watchdog, billion-formula stream,
 promotion/formal overlay, grammar-v3 evidence, Pareto queue, and follow-up service. It opens the

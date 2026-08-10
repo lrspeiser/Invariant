@@ -14,6 +14,7 @@ from .persistent_parallel_search import PersistentParallelSearch
 from .promotion_orchestrator import ELIGIBILITY
 
 CONFIG_SCHEMA = "sigma-grammar-v3-followup-service-config-1.0"
+G3_EPOCH_CONFIG_SCHEMA = "sigma-grammar-v3-followup-service-config-g3-epoch-1.0"
 STATUS_SCHEMA = "sigma-grammar-v3-followup-service-status-1.0"
 
 SCHEMA = """
@@ -74,7 +75,10 @@ def _validate_config(config: dict[str, Any]) -> None:
         "data_eligibility",
         "external_paid_llm_calls",
     }
-    if set(config) != required or config.get("schema_version") != CONFIG_SCHEMA:
+    schema = config.get("schema_version")
+    if schema == G3_EPOCH_CONFIG_SCHEMA:
+        required.add("predecessor_service_epoch")
+    if set(config) != required or schema not in {CONFIG_SCHEMA, G3_EPOCH_CONFIG_SCHEMA}:
         raise ValueError("grammar-v3 follow-up service config is invalid")
     if config.get("data_eligibility") != ELIGIBILITY:
         raise ValueError("grammar-v3 follow-up service eligibility is not fail-closed")
@@ -98,8 +102,17 @@ def _validate_config(config: dict[str, Any]) -> None:
     if not isinstance(revisions, list) or len(revisions) != 1:
         raise ValueError("service requires a finite immutable report revision allowlist")
     allowlist = config.get("evaluator_descriptor_allowlist")
-    if not isinstance(allowlist, list) or len(allowlist) != 3:
+    expected_evaluators = 5 if schema == G3_EPOCH_CONFIG_SCHEMA else 3
+    if not isinstance(allowlist, list) or len(allowlist) != expected_evaluators:
         raise ValueError("service evaluator descriptor allowlist is invalid")
+    if schema == G3_EPOCH_CONFIG_SCHEMA and set(config["predecessor_service_epoch"]) != {
+        "config_path",
+        "config_file_sha256",
+        "config_sha256",
+        "completed_work_records_root_sha256",
+        "deferred_packet_root_sha256",
+    }:
+        raise ValueError("service predecessor epoch binding is invalid")
 
 
 class GrammarV3FollowupService:
@@ -134,9 +147,16 @@ class GrammarV3FollowupService:
         self.coordinator = PersistentParallelSearch(
             self.coordinator_database, coordinator_config, resource_profile
         )
-        self.queue = GrammarV3FollowupQueue(
-            self.coordinator, self.queue_config, self.root
-        )
+        if self.config["schema_version"] == G3_EPOCH_CONFIG_SCHEMA:
+            from .grammar_v3_followup_g3_epoch import GrammarV3FollowupQueueG3Epoch
+
+            self.queue = GrammarV3FollowupQueueG3Epoch(
+                self.coordinator, self.queue_config, self.root
+            )
+        else:
+            self.queue = GrammarV3FollowupQueue(
+                self.coordinator, self.queue_config, self.root
+            )
         self._initialize_state()
         self._enforce_disk_budget()
 
@@ -222,7 +242,44 @@ class GrammarV3FollowupService:
                 )
                 self._event(connection, "service_created", {"config_sha256": expected_hash})
             elif row["schema_version"] != STATUS_SCHEMA or row["config_sha256"] != expected_hash:
-                raise ValueError("refusing to resume a changed grammar-v3 follow-up service")
+                if self.config["schema_version"] != G3_EPOCH_CONFIG_SCHEMA:
+                    raise ValueError("refusing to resume a changed grammar-v3 follow-up service")
+                predecessor = self.config["predecessor_service_epoch"]
+                predecessor_path = self.root / predecessor["config_path"]
+                if (
+                    not predecessor_path.is_file()
+                    or _file_sha(predecessor_path) != predecessor["config_file_sha256"]
+                    or _sha(_load(predecessor_path)) != predecessor["config_sha256"]
+                    or row["config_sha256"] != predecessor["config_sha256"]
+                    or row["lifecycle"] not in {"stopped", "waiting_for_reviewed_evaluators"}
+                ):
+                    raise ValueError("refusing an unbound follow-up service epoch transition")
+                completed_root = self.queue.status()["work_records_root_sha256"]
+                deferred = [
+                    dict(item)
+                    for item in connection.execute(
+                        "SELECT followup_task_id,followup_lineage_sha256,task_type,candidate_id,state "
+                        "FROM deferred_packets ORDER BY followup_task_id"
+                    )
+                ]
+                if (
+                    completed_root
+                    != predecessor["completed_work_records_root_sha256"]
+                    or _sha(deferred) != predecessor["deferred_packet_root_sha256"]
+                ):
+                    raise ValueError("follow-up service predecessor roots changed")
+                connection.execute(
+                    "UPDATE service_state SET config_sha256=? WHERE singleton=1",
+                    (expected_hash,),
+                )
+                self._event(
+                    connection,
+                    "service_config_epoch_advanced",
+                    {
+                        "predecessor_config_sha256": predecessor["config_sha256"],
+                        "config_sha256": expected_hash,
+                    },
+                )
 
     @staticmethod
     def _event(
@@ -275,6 +332,32 @@ class GrammarV3FollowupService:
                     raise ValueError("deferred follow-up packet lineage changed")
         return accepted, duplicate
 
+    def _reconcile_deferred(self, packets: list[dict[str, Any]]) -> int:
+        expected = {packet["followup_task_id"]: packet for packet in packets}
+        resolved = 0
+        with self._connect() as connection:
+            rows = connection.execute("SELECT * FROM deferred_packets").fetchall()
+            for row in rows:
+                task_id = row["followup_task_id"]
+                if task_id in expected:
+                    packet = expected[task_id]
+                    if (
+                        row["followup_lineage_sha256"]
+                        != packet["followup_lineage_sha256"]
+                        or row["candidate_id"] != packet["candidate_id"]
+                        or row["task_type"] != packet["task_type"]
+                        or json.loads(row["payload_json"]) != packet
+                    ):
+                        raise ValueError("deferred follow-up packet lineage changed")
+                elif row["task_type"] in self.queue.evaluators:
+                    connection.execute(
+                        "DELETE FROM deferred_packets WHERE followup_task_id=?", (task_id,)
+                    )
+                    resolved += 1
+                else:
+                    raise ValueError("service epoch lost an unevaluated deferred packet")
+        return resolved
+
     def _cycle(self) -> dict[str, Any]:
         self._validate_reviewed_inputs()
         with self._connect() as connection:
@@ -295,6 +378,7 @@ class GrammarV3FollowupService:
             for packet in self.queue.work_packets
             if packet["task_type"] not in self.queue.evaluators
         ]
+        deferred_resolved = self._reconcile_deferred(deferred)
         deferred_accepted, deferred_duplicate = self._record_deferred(deferred)
         admission = self.coordinator.enqueue(ready, lane="cpu", max_attempts=3)
         checkpoint = self.coordinator.checkpoint()
@@ -319,6 +403,7 @@ class GrammarV3FollowupService:
                     "executed": execution["executed"],
                     "deferred_accepted": deferred_accepted,
                     "deferred_duplicate": deferred_duplicate,
+                    "deferred_resolved": deferred_resolved,
                     "checkpoint_sha256": checkpoint["content_sha256"],
                 },
             )
@@ -328,6 +413,7 @@ class GrammarV3FollowupService:
             "executed": execution["executed"],
             "deferred_accepted": deferred_accepted,
             "deferred_duplicate": deferred_duplicate,
+            "deferred_resolved": deferred_resolved,
             "status": self.status(),
         }
 

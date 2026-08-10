@@ -525,12 +525,15 @@ The two Aether packets now invoke a hash-reviewed evaluator and reproduce the ex
 `complete_generic_twisting_reduced_hamiltonian` blocker with no negative mode. The other eight
 packets initially remained missing-evaluator blocked. Four `G2` packets now also invoke reviewed
 evidence: two preserve the distributed Dirac boundary blocker and two preserve the general
-nonmaximal positive-mass blocker. The four `G3`/`G4` packets still lack evaluators. The bounded
-execution therefore ends with 10 blocked results and no changed candidate decision.
+nonmaximal positive-mass blocker. The four `G3`/`G4` packets lacked evaluators in that epoch. The
+G3 epoch now executes both reviewed G3 packets and retains their global/asymptotically-flat
+blocker. Only the two G4 packets remain deferred. The bounded execution therefore still has 10
+blocked results and no changed candidate decision.
 A bounded durable service now wraps this queue with start/status/stop/resume/export. It processes
-the six allowlisted Aether/G2 packets, defers the four G3/G4 packets without spending attempts, and
-preserves both roots across restart. Adding reviewed G3/G4 evaluators requires a new immutable
-service-config epoch, preventing silent scientific allowlist drift.
+the six allowlisted Aether/G2 packets, then migrates through a reviewed G3 epoch that processes two
+more while leaving the two G4 packets deferred without spending attempts. Both roots survive
+restart. Adding G4 evaluators requires another immutable service-config epoch, preventing silent
+scientific allowlist drift.
 A unified observability snapshot now reads the watchdog SQLite only through `mode=ro` plus
 `query_only`, hash-verifies immutable subsystem reports, and exposes campaign, streaming,
 promotion, grammar, Pareto, follow-up, GPU, deadline, and LLM-budget state in one portable record.
