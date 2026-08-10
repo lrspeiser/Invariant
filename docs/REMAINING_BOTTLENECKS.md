@@ -513,7 +513,11 @@ hypersurface orthogonality. The normalized field-space witness
 `u_mu=(-sqrt(1+x^2),0,x,0)` has zero unit residual and nonzero
 `(u wedge du)_txy|x=0=-1`. This blocks use of the restricted positive-energy theorem on the generic
 twisting phase space; it does not reject either seed because it is not an EOM solution or a
-negative-energy counterexample.
+negative-energy counterexample. The exact static pure-twist Hamiltonian is nevertheless uniformly
+coercive for both seeds, with infimum coefficients `3/32` and `1/10`; no negative mode is found.
+The remaining first premise is the complete generic-twisting reduced Hamiltonian, including mixed
+shear/expansion/time velocities, metric--Aether momentum constraints, nonmaximal solutions, and
+boundary charge. Static-twist positivity is not promoted to that global theorem.
 The next execution step is to close or decisively reject those seed-specific gaps; parameter-cell
 range expansion remains gated on new reviewed lineage and evidence.
 

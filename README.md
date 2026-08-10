@@ -252,7 +252,11 @@ A focused energy audit shows both Aether parameter points satisfy the linearized
 restricted theorem coupling inequalities, but their unconstrained phase spaces include twist: an
 exact unit-Aether witness has `(u wedge du)_txy=-1` at the origin. Because that witness is not an
 equation-of-motion solution or negative-energy counterexample, both remain blocked rather than
-rejected.
+rejected. The generic-twist follow-up now proves that both seeds are uniformly coercive on the full
+static pure-twist unit branch: the exact lower coefficients are `3/32` and `1/10`, and no negative
+mode was found. They still lack the complete constraint-reduced Hamiltonian with shear, expansion,
+time velocities, metric--Aether momentum mixing, nonmaximal slices, and boundary charge, so neither
+is promoted.
 A separate restart-safe production overlay now records
 all three ordered formal layers without mutating the original 5,855-candidate registry or dossier;
 its completed 70-record root is `f1fdc9ae10df047e1c48adbf9b47e601e6fd84a5e15051204aff62fcae933781`,
