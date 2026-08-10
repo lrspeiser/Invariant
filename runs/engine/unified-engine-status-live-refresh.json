@@ -31,27 +31,27 @@
     },
     "campaign_watchdog": {
       "budget": {
-        "cycles_completed": 9,
+        "cycles_completed": 10,
         "maximum_cycles": 336,
         "maximum_tasks": 100000,
         "tasks_failed": 0,
-        "tasks_started": 251,
-        "tasks_succeeded": 237
+        "tasks_started": 256,
+        "tasks_succeeded": 241
       },
       "candidate_counts": {
         "active": 2,
-        "deferred": 8,
+        "deferred": 9,
         "rejected": 17
       },
       "deadline_utc": "2026-08-21T18:19:20.149898+00:00",
       "evidence_outcome_counts": {
-        "pass": 228,
+        "pass": 231,
         "reject": 22,
-        "unresolved": 39
+        "unresolved": 41
       },
       "normalized_evidence_outcomes": {
-        "block": 39,
-        "pass": 228,
+        "block": 41,
+        "pass": 231,
         "reject": 22
       },
       "read_contract": "sqlite_uri_mode_ro_plus_query_only_transaction",
@@ -63,9 +63,9 @@
       "state": "active",
       "stop_reason": null,
       "task_counts": {
-        "deferred": 14,
+        "deferred": 15,
         "queued": 2,
-        "succeeded": 237
+        "succeeded": 241
       }
     },
     "cross_pipeline_total": {
@@ -153,8 +153,8 @@
       }
     },
     "llm": {
-      "calls_completed": 8,
-      "calls_started": 8,
+      "calls_completed": 9,
+      "calls_started": 9,
       "configured_budget_usd": 500.0,
       "reserved_usd": 0.0,
       "sealed_subsystems_spend_usd": {
@@ -164,7 +164,7 @@
         "grammar_parameter_cells": 0.0,
         "promotion_overlay": 0.0
       },
-      "spent_usd": 2.477168
+      "spent_usd": 2.714686
     },
     "promotion_overlay": {
       "deadline": "completed_artifact_no_live_deadline",
@@ -1513,7 +1513,7 @@
           "absence_reason": null,
           "availability": "completed_comparable_evidence",
           "category": "solar_known_answer",
-          "category_root_sha256": "4fd1efebe310e68ed5e73db4c389adb36d2098a64f3926bdabee45471b458203",
+          "category_root_sha256": "46d8107f7fc2cba21f2aaccf9eea6da6d8dced3692d7e63d305614753cbe6b32",
           "comparison_data_class": "sealed_solar_known_answer",
           "full_ranked": [
             {
@@ -1567,6 +1567,29 @@
           ],
           "unranked_blocked_or_untested": [
             {
+              "blocker": "missing_candidate_specific_solar_prediction_bundle_descriptor",
+              "candidate_id": "G3-f9c598b70a77ea54009d8f18",
+              "data_class": "sealed_candidate_specific_solar_prediction",
+              "evidence_status": "blocked",
+              "gate_completeness": "incomplete",
+              "lineage": {
+                "artifact_content_sha256": "b72324882b52da29f184e69ca51cc46884ca3957509fea56c78d0e1c22f4dc5c",
+                "artifact_file_sha256": "7ab89c5b88892a4b0a8e25197dc6d818fa9050aaf284b582b2698c5fb14d2470",
+                "artifact_link": "runs/engine/grammar-v3-g4-solar-promotion-service-status.json",
+                "candidate_lineage_sha256": "760bd3660a423178fec198dfae31041c6367e477fdb422360507303782e6ad74",
+                "source_label": "g4_solar_promotion"
+              },
+              "metrics": {
+                "analytic_newtonian_ppn_status": "pass_on_declared_scalar_free_background",
+                "analytic_prediction_bundle_count": 1,
+                "real_solar_bundle_count": 0
+              },
+              "promotion_eligible": false,
+              "rank": null,
+              "role": "generated_candidate",
+              "uncertainty": "Analytic GR-like Newtonian/PPN predictions exist, but no real-source branch-uniqueness contract or registered candidate-use Solar bundle exists; untested, not poor measured performance."
+            },
+            {
               "blocker": "missing_exact_action_bound_solar_control_bundle",
               "candidate_id": "KNOWN-ANSWER-EINSTEIN-AETHER",
               "data_class": "sealed_solar_known_answer",
@@ -1586,10 +1609,10 @@
               "uncertainty": "Missing action-bound Solar bundle; untested rather than poor."
             }
           ],
-          "unranked_count": 1
+          "unranked_count": 2
         }
       },
-      "content_sha256": "e4925dfdfd412be0b28538326dacd5534224fa4fdfab33608fccd81a83bbd9dd",
+      "content_sha256": "a2c72870ac93fff2bc1efd873e7873e42456ddf829d893fa3f8341f5deaf43d2",
       "data_eligibility": {
         "dark_matter_or_halo_inputs": false,
         "observational_data_opened": false,
@@ -1645,14 +1668,14 @@
           {
             "candidate_id": "G3-f9c598b70a77ea54009d8f18",
             "current_rank": 2,
-            "previous_rank": null,
-            "rank_delta": null
+            "previous_rank": 2,
+            "rank_delta": 0
           },
           {
             "candidate_id": "GF-cb4ebf3da5a74582",
             "current_rank": 3,
-            "previous_rank": 2,
-            "rank_delta": -1
+            "previous_rank": 3,
+            "rank_delta": 0
           }
         ],
         "galaxy_direct_observable": [],
@@ -1807,9 +1830,23 @@
             "solar_known_answer": "4fd1efebe310e68ed5e73db4c389adb36d2098a64f3926bdabee45471b458203"
           },
           "leaderboard_root_sha256": "438ec509277410a2ce51c2e516c1cc596164cd998ab4dbaf07b06897b478efd7"
+        },
+        {
+          "category_roots": {
+            "computational_robustness": "e9ce3a583eb81001e3b43e9072dffdb352d1e034bbf3f85f9d08aacda61e41d3",
+            "formal_adm_dirac": "e6fd1992a800f0baa5e48d0ac1089522e562b6a3fa60c47e09aa7afbddac3972",
+            "galaxy_direct_observable": "6c77dc997e7ed54ec56aac681f9e43323e723e6deb75b068af665d6544218302",
+            "hyperbolicity_common_cone": "2eb0426bf4aa7427403a735e450a9e64357e585599cf815e193854ad3908e02c",
+            "lensing_cluster": "edd21d903b5c03f3ea82a2310d1b527fd80f4c604e1d67657b22f6dc7dcfcb82",
+            "nonlinear_energy": "39d68d3351a21cd7746087323a21a047a5d12b55f7a55666b835b7fcd47c2608",
+            "novelty_non_equivalence": "30f6aac0380d700de79a2fefb08dfc56b37b9a074f5b99473a5f30a37d221b33",
+            "simplicity_complexity": "0475666d46929f99b5ad0bb9914f85f8a2ee5ed61d3b7b6c21219bd6ba9a88d1",
+            "solar_known_answer": "46d8107f7fc2cba21f2aaccf9eea6da6d8dced3692d7e63d305614753cbe6b32"
+          },
+          "leaderboard_root_sha256": "94f9568056e96b7b170cd43200cbbda9fff771b21d506834195c3b381d996082"
         }
       ],
-      "leaderboard_root_sha256": "438ec509277410a2ce51c2e516c1cc596164cd998ab4dbaf07b06897b478efd7",
+      "leaderboard_root_sha256": "94f9568056e96b7b170cd43200cbbda9fff771b21d506834195c3b381d996082",
       "ranking_contract": "no global score; category-local completed comparable evidence only; candidate_id is the final deterministic tie-break",
       "schema_version": "sigma-scientific-leaderboards-1.0"
     },
@@ -1858,13 +1895,13 @@
       }
     }
   },
-  "core_content_sha256": "9cafc7d1cdc1c30286d35871b8a3fcc0b6f4bc4bcfb121010f0c10eaa2c8e37f",
+  "core_content_sha256": "ccace34188cba1618e9c385f47b622dcb193f375cc4dfcf74e7b100e5d39638c",
   "volatile": {
     "campaign_watchdog_freshness": {
-      "age_seconds": 3155.989368,
-      "latest_event_utc": "2026-08-10T21:35:05.602473+00:00",
-      "stale": true,
-      "stale_source_reason": "latest_event_older_than_1800_seconds"
+      "age_seconds": 376.303307,
+      "latest_event_utc": "2026-08-10T22:37:15.536734+00:00",
+      "stale": false,
+      "stale_source_reason": null
     },
     "deadline_state": "open",
     "note": "volatile fields are excluded from core_content_sha256",
@@ -1872,11 +1909,11 @@
       "availability": "available",
       "device_class": "NVIDIA GeForce RTX 5090",
       "memory_total_mib": 32607.0,
-      "memory_used_mib": 1322.0,
-      "power_draw_watts": 44.62,
+      "memory_used_mib": 1320.0,
+      "power_draw_watts": 43.02,
       "source": "nvidia-smi_nvml",
-      "utilization_percent": 3.0
+      "utilization_percent": 4.0
     },
-    "sampled_at_utc": "2026-08-10T22:27:41.591841+00:00"
+    "sampled_at_utc": "2026-08-10T22:43:31.840041+00:00"
   }
 }

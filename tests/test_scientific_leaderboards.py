@@ -38,6 +38,15 @@ def test_category_local_rankings_keep_missing_evidence_unranked() -> None:
         "total_control_count": 5,
     }
     assert solar["unranked_blocked_or_untested"][0]["evidence_status"] == "blocked"
+    g4_solar = next(
+        row
+        for row in solar["unranked_blocked_or_untested"]
+        if row["candidate_id"] == "G3-f9c598b70a77ea54009d8f18"
+    )
+    assert g4_solar["rank"] is None
+    assert g4_solar["metrics"]["analytic_prediction_bundle_count"] == 1
+    assert g4_solar["metrics"]["real_solar_bundle_count"] == 0
+    assert g4_solar["blocker"] == "missing_candidate_specific_solar_prediction_bundle_descriptor"
 
     assert board["categories"]["lensing_cluster"]["ranked_count"] == 0
     assert board["categories"]["galaxy_direct_observable"]["ranked_count"] == 0

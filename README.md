@@ -244,7 +244,11 @@ compact annulus modes exclude a bounded `L2(R3)` inverse in that chart. A subseq
 non-unitary audit proves this is not a physical degeneracy: the globally equivalent Einstein-frame
 generalized-harmonic system has wave principal symbol times `I_11`, rank-11 time block, homogeneous
 gauge-constraint propagation, and the correct three physical degrees of freedom. The G4 seed now
-passes its complete formal category, while Solar and observational gates remain sealed.
+passes its complete formal category. Its candidate-specific weak-field audit independently derives
+`G_cav/G_star=1`, Newtonian `U=G_star M/r`, and PPN `gamma=beta=1` on the exact
+`phi_infinity=0` scalar-free branch. Those analytic controls do not yet admit a real Solar bundle:
+material stress/pressure/composition, scalar-branch uniqueness, and the frozen candidate-use data
+protocol remain unbound, so observations stay sealed and the Solar leaderboard keeps it unranked.
 The restart-safe coordinator now executes this real reviewed campaign rather than a fixture callback.
 All six deterministic work items succeeded and reproduced the same six blocked decisions, with
 hash-bound callback, seed, work-record, and portable-result roots. Each cold replay copies only the
@@ -293,6 +297,10 @@ robustness. GR ranks first in the Solar known-answer table as a calibration cont
 blocked evidence never enters a ranked list, controls cannot promote generated candidates, and
 each row retains exact metrics, data class, completeness, blocker, uncertainty, and artifact
 lineage. Full tables plus three deterministic history revisions and category deltas are exported.
+A separate restart-safe formal-to-Solar boundary service now verifies the G4 formal pass and its
+analytic prediction audit, but checkpoints the only work item as
+`deferred_missing_prediction_bundle_descriptor`. It invokes no Solar evaluator and opens no data;
+GR remains calibration-only and the generated candidate is shown as untested rather than poor.
 A focused energy audit shows both Aether parameter points satisfy the linearized mode-energy and
 restricted theorem coupling inequalities, but their unconstrained phase spaces include twist: an
 exact unit-Aether witness has `(u wedge du)_txy=-1` at the origin. Because that witness is not an
@@ -954,10 +962,10 @@ nonzero corrections and 112 zeros, with all differentiated Sylvester residuals z
 affine positivity bound. The next unresolved gate is the 11,781 unordered second-atom conditions,
 which require component `D2K55`, `D2P55`, and `D2TC2`; CK1's source packet also remains open. Thus
 the affine extension is certified while full variable TC2 and global H7 stay fail-closed.
-Six chained deterministic second-order chunks now evaluate 384 canonical pairs across all 12
-candidates. All 4,608 candidate equations admit exact Hermitian `deltaK_AB` corrections with zero
+Seven chained deterministic second-order chunks now evaluate 448 canonical pairs across all 12
+candidates. All 5,376 candidate equations admit exact Hermitian `deltaK_AB` corrections with zero
 Sylvester residual and no obstruction. Each continuation verifies the prior record chain and resume
-tip before extending it; the other 11,397 pairs remain unevaluated and are not inferred.
+tip before extending it; the other 11,333 pairs remain unevaluated and are not inferred.
 TC1's source part needs the contracted
 state-to-jet topology, variable TC3 needs `D_Y(P55 E_v Q)`, and TC5 in `H7` needs component `D2F`
 plus `H7` control of `J(C_Q)`. The next valid route must close those terms and extend the identity

@@ -1,0 +1,163 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "sigma://grammar-v3/g4-solar-prediction-bundle-descriptor-1.0",
+  "title": "Grammar-v3 G4 candidate-specific Solar prediction bundle descriptor",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "descriptor_id",
+    "candidate",
+    "formal_pass_binding",
+    "prediction_audit_binding",
+    "solar_protocol_binding",
+    "prediction_bundle",
+    "reviewed_evaluator",
+    "observational_opening",
+    "data_eligibility"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "sigma-grammar-v3-g4-solar-prediction-bundle-descriptor-1.0"
+    },
+    "descriptor_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidate_id",
+        "role",
+        "family_id",
+        "action_sha256",
+        "seed_lineage_sha256"
+      ],
+      "properties": {
+        "candidate_id": {"const": "G3-f9c598b70a77ea54009d8f18"},
+        "role": {"const": "generated_candidate"},
+        "family_id": {"const": "CONFORMAL_G4_PHI_SCALAR_TENSOR"},
+        "action_sha256": {"const": "6ddd6502d110ead90ff494a6569213ec2e61a0b046dfa86344bb1980df6abc90"},
+        "seed_lineage_sha256": {"const": "f9c598b70a77ea54009d8f18723ff6c54974c8aceab680d2fc95f513a33b2aa7"}
+      }
+    },
+    "formal_pass_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "audit_content_sha256",
+        "candidate_provenance_sha256",
+        "completed_work_records_root_sha256",
+        "queue_registry_root_sha256"
+      ],
+      "properties": {
+        "audit_content_sha256": {"const": "840de19d9f6233e351a05e1b936db37eb7bf31d47489f7835230332cb906e8ba"},
+        "candidate_provenance_sha256": {"const": "201d7caf11473c618d7f4c494faa9f5eee37604863baf4cbe5d7af3de7c30dca"},
+        "completed_work_records_root_sha256": {"const": "4c686cc3eb9cd9fe543a9d2fe5ee5528b7592de496ac8553b0affb911e2889f2"},
+        "queue_registry_root_sha256": {"const": "3e493847b7faba9bb65271df6b51b5887902171f212ab7debe2279d336a62b64"}
+      }
+    },
+    "prediction_audit_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "audit_content_sha256",
+        "candidate_provenance_sha256",
+        "analytic_bundle_count",
+        "real_bundle_count",
+        "decision"
+      ],
+      "properties": {
+        "audit_content_sha256": {"const": "0c0b7ee5fac3c1cc6986648013e3f28da8dd37cba9975a42bcab8f811ebd64c3"},
+        "candidate_provenance_sha256": {"const": "15d7d7995038b081b173845c9a686d24429d150e931f001a16e3fa52801ea1b1"},
+        "analytic_bundle_count": {"const": 1},
+        "real_bundle_count": {"const": 0},
+        "decision": {"const": "blocked"}
+      }
+    },
+    "solar_protocol_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "file_sha256", "content_sha256"],
+      "properties": {
+        "path": {"const": "configs/solar_observable_protocol.json"},
+        "file_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "content_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "prediction_bundle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "file_sha256",
+        "content_sha256",
+        "schema_version",
+        "output_channels",
+        "universal_parameter_count",
+        "object_specific_gravity_parameter_count",
+        "weak_field_solution_sha256",
+        "state_estimation_contract_sha256",
+        "instrument_calibration_contract_sha256",
+        "covariance_contract_sha256",
+        "likelihood_contract_sha256",
+        "split_commitment_sha256",
+        "stopping_rule_sha256"
+      ],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "file_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "content_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "schema_version": {"const": "sigma-candidate-solar-prediction-bundle-1.0"},
+        "output_channels": {
+          "const": [
+            "two_way_round_trip_light_time",
+            "coherent_carrier_frequency_or_phase_ratio",
+            "relative_angular_separation"
+          ]
+        },
+        "universal_parameter_count": {"type": "integer", "minimum": 0},
+        "object_specific_gravity_parameter_count": {"const": 0},
+        "weak_field_solution_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "state_estimation_contract_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "instrument_calibration_contract_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "covariance_contract_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "likelihood_contract_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "split_commitment_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "stopping_rule_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "reviewed_evaluator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "descriptor_path",
+        "descriptor_file_sha256",
+        "evaluator_binding_sha256",
+        "callback"
+      ],
+      "properties": {
+        "descriptor_path": {"type": "string", "minLength": 1},
+        "descriptor_file_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "evaluator_binding_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "callback": {"type": "string", "minLength": 1}
+      }
+    },
+    "observational_opening": {
+      "const": {
+        "authorized": false,
+        "requires_independent_dataset_manifest_audit": true,
+        "requires_preregistered_session_split": true
+      }
+    },
+    "data_eligibility": {
+      "const": {
+        "observational_data_opened": false,
+        "dark_matter_or_halo_inputs": false,
+        "redshift_distance_inputs": false,
+        "paid_llm_calls": false
+      }
+    }
+  }
+}

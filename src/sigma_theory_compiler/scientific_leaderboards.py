@@ -231,6 +231,39 @@ def _build_rows(sources: Mapping[str, Any], bindings: Mapping[str, Any]) -> dict
     blocked = solar["unmapped_candidate_control"]
     rows["solar_known_answer"].append(_entry(blocked["candidate_id"], "known_answer_control", {}, "blocked", "sealed_solar_known_answer", "incomplete", blocked["blocker"], "solar_known_answer", bindings["solar_known_answer"], blocked["input_lineage_sha256"], "Missing action-bound Solar bundle; untested rather than poor."))
 
+    g4_solar = sources["g4_solar_promotion"]
+    if (
+        g4_solar["formal_pass_verified"] is not True
+        or g4_solar["prediction_bundle_descriptor_registered"] is not False
+        or g4_solar["reviewed_solar_evaluator_invoked"] is not False
+        or g4_solar["solar_evaluator_opened"] is not False
+        or g4_solar["work_state_counts"]
+        != {"deferred_missing_prediction_bundle_descriptor": 1}
+    ):
+        raise ValueError("G4 Solar boundary status is inconsistent")
+    g4_solar_row = g4_solar["category_leaderboard"]["blocked_or_untested"][0]
+    rows["solar_known_answer"].append(_entry(
+        g4_solar_row["candidate_id"],
+        "generated_candidate",
+        {
+            "analytic_prediction_bundle_count": g4_solar[
+                "reviewed_prediction_audit_binding"
+            ]["analytic_bundle_count"],
+            "real_solar_bundle_count": g4_solar[
+                "reviewed_prediction_audit_binding"
+            ]["real_bundle_count"],
+            "analytic_newtonian_ppn_status": "pass_on_declared_scalar_free_background",
+        },
+        "blocked",
+        "sealed_candidate_specific_solar_prediction",
+        "incomplete",
+        g4_solar_row["blocker"],
+        "g4_solar_promotion",
+        bindings["g4_solar_promotion"],
+        g4_solar_row["lineage_sha256"],
+        "Analytic GR-like Newtonian/PPN predictions exist, but no real-source branch-uniqueness contract or registered candidate-use Solar bundle exists; untested, not poor measured performance.",
+    ))
+
     galaxy = sources["galaxy_direct_observable"]
     rows["galaxy_direct_observable"].append(_entry(
         "PRODUCTION-CANDIDATE-SET-70", "generated_candidate_set", {"candidate_count": galaxy["production_candidate_count"], "registered_prediction_bundle_count": galaxy["registered_prediction_bundle_count"]},
