@@ -92,7 +92,6 @@ def test_real_static_lift_promotion_is_reproducible_and_fail_closed(
     }
     assert status["stages"]["adm_dirac_principal_health"]["counts"] == {"blocked": 3}
     assert status["unimplemented_gates_fail_closed"] == [
-        "solar_known_answer_controls",
         "galaxy_direct_observable_controls",
     ]
     assert _load(ARTIFACT) == status

@@ -173,11 +173,14 @@ survivors, chains candidate/evidence lineage through cheap, symbolic, formal, an
 stages, and blocks every missing or unimplemented evaluator. The first reviewed downstream binding
 now performs the existing static covariant-lift classification: supported exact lifts pass, forbidden
 baryonic-`z` action atoms reject, and candidates that need an unavailable nonlinear adapter remain
-blocked rather than being misclassified. Later ADM/Dirac, Solar, and direct-observable galaxy gates
-remain fail-closed. A restart-safe bridge imported all 5,855 retained identities: 5,785 rejected the
+blocked rather than being misclassified. Reviewed ADM/Dirac/principal and sealed Solar known-answer
+evaluators are now connected; candidate-specific Solar and direct-observable galaxy gates remain
+fail-closed. A restart-safe bridge imported all 5,855 retained identities: 5,785 rejected the
 covariant-lift policy, 70 remained blocked for the missing nonlinear covariant adapter, and zero
 were allowed to advance. The reviewed ADM/Dirac/principal evaluator therefore remains available
-for exactly mapped actions but was not reached by these static formulas.
+for exactly mapped actions but was not reached by these static formulas. The Solar evaluator
+reproduces five action-bound GR controls while opening no observations and blocks every candidate
+without its own exact weak-field bundle.
 
 The first sealed candidate-data target is now defined as observable-to-observable galaxy discovery:
 audited light/gas/angular inputs predict held-out spectral-line kinematics, with whole-galaxy splits,

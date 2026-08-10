@@ -168,10 +168,11 @@ zero candidates eligible for the downstream ADM/Dirac/principal evaluator.
 ## Current operational boundary
 
 The service executes the existing deterministic grammar and sampled-static evaluator. A separate
-promotion registry now has reviewed static covariant-lift and ADM/Dirac/principal-health evaluators,
-but they require exact candidate-to-covariant-action provenance and are not service queue stages
-yet. Solar and direct-observable galaxy evaluators remain unimplemented and fail-closed. The engine
-also does not yet generate new grammar productions from LLM
+promotion registry now has reviewed static covariant-lift, ADM/Dirac/principal-health, and sealed
+Solar known-answer evaluators. They require exact candidate-to-action and action-to-weak-field
+provenance and are not service queue stages yet. Candidate-specific Solar data and direct-observable
+galaxy evaluators remain unimplemented and fail-closed. The engine also does not yet generate new
+grammar productions from LLM
 suggestions, distribute work across multiple machines, or enforce a separate byte quota on the
 SQLite file. SQLite growth is nevertheless bounded by the configured task and wall limits, while
 the whole service directory is monitored against the service disk cap.

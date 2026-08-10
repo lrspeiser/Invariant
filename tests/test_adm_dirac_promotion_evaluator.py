@@ -28,6 +28,7 @@ ROOT = Path(__file__).resolve().parents[1]
 PIPELINE = ROOT / "configs" / "promotion_pipeline_fail_closed.json"
 STATIC_DESCRIPTOR = ROOT / "configs" / "promotion_static_lift_evaluator.json"
 FORMAL_DESCRIPTOR = ROOT / "configs" / "promotion_adm_dirac_principal_evaluator.json"
+SOLAR_DESCRIPTOR = ROOT / "configs" / "promotion_solar_known_answer_evaluator.json"
 GENERATOR = ROOT / "configs" / "generator_v2_billion.json"
 MANIFEST = ROOT / "runs" / "knowledge-base" / "survivor-export-smoke.json"
 SURVIVORS = ROOT / "runs" / "knowledge-base" / "survivors-smoke"
@@ -153,12 +154,14 @@ def test_pipeline_binding_and_formal_gate_execute_end_to_end(tmp_path: Path) -> 
     pipeline = _load(PIPELINE)
     static_descriptor = _descriptor(STATIC_DESCRIPTOR)
     formal_descriptor = _descriptor(FORMAL_DESCRIPTOR)
+    solar_descriptor = _descriptor(SOLAR_DESCRIPTOR)
     assert evaluator_binding(formal_descriptor) == pipeline["stages"][2][
         "required_evaluator_binding_sha256"
     ]
     orchestrator = PromotionOrchestrator(tmp_path / "formal-promotion.sqlite", pipeline)
     orchestrator.register_evaluator(static_descriptor)
     orchestrator.register_evaluator(formal_descriptor)
+    orchestrator.register_evaluator(solar_descriptor)
     candidate = _known_answer_candidate()
     evidence = {
         "schema_version": EVIDENCE_SCHEMA,
@@ -171,15 +174,17 @@ def test_pipeline_binding_and_formal_gate_execute_end_to_end(tmp_path: Path) -> 
     }
     orchestrator.register_candidate(candidate, evidence)
     assert orchestrator.run_ready(maximum_tasks=3) == {
-        "evaluated": 2,
+        "evaluated": 3,
         "passed": 2,
         "rejected": 0,
-        "blocked": 0,
+        "blocked": 1,
     }
     status = orchestrator.status()
     assert status["stages"]["adm_dirac_principal_health"]["counts"] == {"passed": 1}
     assert status["candidates"][0]["stage_name"] == "solar_known_answer_controls"
-    assert status["candidates"][0]["blocker"] == "unimplemented_gate_fail_closed"
+    assert status["candidates"][0]["blocker"] == (
+        "missing_exact_action_bound_solar_control_bundle"
+    )
 
 
 def test_review_status_artifact_matches_actual_evaluator_decisions() -> None:
