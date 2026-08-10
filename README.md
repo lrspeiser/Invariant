@@ -794,7 +794,12 @@ their derived `H5` ladder, all 14 nonprincipal seventh-derivative partitions, th
 the principal coefficient-low/state-high cancellation, and an exact remote shell-index sum. It also
 proves why closure is not yet available: a compact-frequency Schwartz packet has bounded `H6`
 coefficient norm but `H7` product growth proportional to frequency in the coefficient-high/state-low
-branch, and the resonant Fourier bilinear operator constant remains uninstantiated.
+branch. A follow-up exact LP-cutoff/Plancherel/Bernstein campaign now closes the balanced/resonant
+`H6 x H7 -> H7` operator with an explicit constant, including seven partners and remote low outputs.
+The high-low obstruction remains: the current 1,683-entry `DF` manifest and C9 norm envelopes do not
+contain the component `D2F` identity needed for a modified-good-unknown cancellation. An `H8` state
+gives a quantitative conditional `H7` bound, but is not controlled by `H7` data and is not an
+autonomous cure.
 
 The tube bounds 153 normalized coordinate atoms: ten metric deviations, 44 first partials,
 and 99 acceleration-free symmetric second partials. The exact orthonormal metric-basis identity

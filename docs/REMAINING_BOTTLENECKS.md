@@ -320,11 +320,17 @@ The first paracomposition-topology campaign now resolves most of that bookkeepin
 atoms are in `H7`, 99 second atoms are in `H6`, differentiated second atoms are in `H5`, all 14
 nonprincipal seventh-derivative partitions are compatible, the Faà di Bruno multiplicity sum is
 876, the principal coefficient-low/state-high branch cancels through the 3,025-entry identity, and
-the remote shell-index weight sum is explicit. Two gates remain genuinely open. First, an `R3`
+the remote shell-index weight sum is explicit. An `R3`
 Schwartz packet with uniformly bounded `H6` coefficient norm has coefficient-high/state-low `H7`
 growth proportional to its frequency, so C9 outer smoothness alone cannot repair the lost spatial
-derivative. Second, the balanced/resonant shell ledger still lacks its Fourier bilinear operator
-constant. `B7`, global `H7`, dyadic application, and lifespan therefore remain false.
+derivative. The balanced/resonant branch is now closed by an exact cutoff/Plancherel/Bernstein
+estimate, including seven partners, remote low outputs, and explicit support/weight factors. The
+remaining blocker is structural: available evidence has all 1,683 `DF` roots but no componentwise
+high-atom `D2F` cancellation identity. A conditional `H8` assumption raises the second atoms to
+`H7`, but the packet `U_N=N^-7 exp(iNx_1)u_0` has bounded `H7` size and `H8` size growing like `N`;
+an `E8` energy alone repeats the loss. `B7`, global `H7`, dyadic application, and lifespan remain
+false pending a system-specific modified-good-unknown identity or an independently controlled
+derivative-loss local theory.
 
 The state-to-jet side now has a quantitative coordinate tube. A common `1e-13` bound on 153
 normalized coordinate 2-jet atoms implies strict component bounds for `nabla(phi)`,
