@@ -1,0 +1,46 @@
+{
+  "schema_version": "sigma-g4-phi-seed-formal-audit-config-1.0",
+  "campaign_id": "grammar-v3-g4-phi-formal-audit-20260810",
+  "predecessor": {
+    "path": "runs/engine/covariant-grammar-v3-seed-compilation-campaign.json",
+    "file_sha256": "88c72002d12fd57a8ef79b166363319fe5dc372b52901c1e581bb382fa3e0c21",
+    "content_sha256": "b00cd0ab37f8f7f66f0561df68c1d6735ba3853ad7d3124783202648bc804d47"
+  },
+  "formal_report": {
+    "path": "runs/formal-controls-v1/formal-controls.json",
+    "file_sha256": "b1bf58ebb4b43d3593f264959853dc3cd47f542b85f012999133ee43a6fece57"
+  },
+  "adapter_sources": [
+    {"path": "src/sigma_theory_compiler/scalar_tensor_pack.py", "file_sha256": "156fc763674fda9b8503f3234e4f1c6005af93d5639e28b27a11eef8199c8eaf"},
+    {"path": "src/sigma_theory_compiler/horndeski.py", "file_sha256": "d108ed635851bb57fdeffcf23d02e4f66021e45591dbffd3b62e7983bb468d19"},
+    {"path": "src/sigma_theory_compiler/dhost.py", "file_sha256": "1c2982ce47ad3f6034cf40f43be6e517cb03af9373ab18d45b725c3d1dea98ec"}
+  ],
+  "formal_adapters": [
+    {"id": "generic_g2_variation_noether_identity", "entrypoint": "sigma_theory_compiler.scalar_tensor_pack:generic_g2_variation_noether_control", "return_kind": "tuple"},
+    {"id": "generic_g4_phi_variation_noether_identity", "entrypoint": "sigma_theory_compiler.scalar_tensor_pack:generic_g4_phi_variation_noether_control", "return_kind": "tuple"},
+    {"id": "generic_horndeski_l2_l4_unitary_adm_primary_degeneracy", "entrypoint": "sigma_theory_compiler.dhost:generic_horndeski_l2_l4_unitary_adm_control", "return_kind": "dict"},
+    {"id": "generic_horndeski_l2_l4_unitary_distributed_dirac_closure", "entrypoint": "sigma_theory_compiler.horndeski:generic_horndeski_l2_l4_unitary_dirac_control", "return_kind": "tuple"}
+  ],
+  "known_answer_control": {
+    "role": "canonical_scalar_calibration_only_not_candidate_evidence",
+    "action_path": "runs/formal-controls-v1/action-health/canonical_scalar_control/action-ir.json",
+    "action_file_sha256": "7dac6064107772176ec6881fd298cbcc563ce8201817a820d92b3575c336bdb1",
+    "action_content_sha256": "463c663b6a57c6e9cbf4002c66f965797578cbe73a6f6c1072cf0e74f91934e7",
+    "health_path": "runs/formal-controls-v1/action-health/canonical_scalar_control/action-health.json",
+    "health_file_sha256": "5a313e8c246828eb60abe4aeb0a4d3b2e999adaf6d43b6ceddadfd308d637961",
+    "expected_pass_gate_count": 13
+  },
+  "target_seed": {
+    "seed_id": "G3-f9c598b70a77ea54009d8f18",
+    "action_sha256": "6ddd6502d110ead90ff494a6569213ec2e61a0b046dfa86344bb1980df6abc90",
+    "predecessor_provenance_sha256": "83dc9a21be750f2d166b6eb7956d41642589952496444459b74bffebed900640",
+    "parameters": {"G2": "X_phi", "G4": "1/2+(1/100)*phi^2", "phi_domain": "abs(phi)<=1"},
+    "quadratic_G4_coefficient": "1/100"
+  },
+  "data_eligibility": {
+    "observational_data_opened": false,
+    "dark_matter_or_halo_inputs": false,
+    "redshift_distance_inputs": false,
+    "paid_llm_calls": false
+  }
+}

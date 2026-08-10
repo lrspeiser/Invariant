@@ -209,8 +209,8 @@ and reuses the existing lease/recovery/checkpoint machinery. Its six-seed crash/
 idempotent, while a missing or changed callback blocks rather than guessing. A separate restart-safe
 candidate-specific campaign has now compiled all six action IRs and invoked all nine declared
 adapters. Its ledger is zero pass, zero reject, six blocked: the two Aether seeds still lack nonlinear
-Hamiltonian stability; the `G3` and conformal-`G4` seeds retain explicit coupled-constraint,
-principal/common-cone, lapse-invertibility, or global-energy gaps. Both convex `G2` seeds now pass
+Hamiltonian stability; the `G3` seed retains a uniform-cell gap; and the conformal-`G4` seed retains
+global lapse-invertibility and energy gaps. Both convex `G2` seeds now pass
 their exact nonlinear Legendre map, local Dirac pair, principal/common-cone, pointwise Hamiltonian,
 and causal-gradient dominant-energy prerequisites. They remain blocked because no global
 constraint-space/boundary contract or candidate-specific positive-mass theorem has been supplied;
@@ -221,6 +221,11 @@ blocked because the seed supplies only a prose derivative-ratio label, not the c
 gradient/Hessian/curvature box, frame binding, and direction-sphere interval required by the
 existing cubic interval machinery. Its candidate-specific lapse boundary operator and global
 energy theorem are also absent.
+For `G4=1/2+phi^2/100` on `|phi|<=1`, the exact conformal factor lies in `[1,51/50]` and the
+Einstein-frame scalar kinetic coefficient lies in `[284/289,1]`. The transformation is uniformly
+invertible, tensor and scalar modes share the conformal null cone, and the local lapse kernel has
+positive coefficient `f K_E in [1,426/425]`. The seed still lacks the lapse/function-space/boundary
+contract needed for a global inverse and a candidate-specific positive-mass theorem.
 The restart-safe coordinator now executes this real reviewed campaign rather than a fixture callback.
 All six deterministic work items succeeded and reproduced the same six blocked decisions, with
 hash-bound callback, seed, work-record, and portable-result roots. Each cold replay copies only the

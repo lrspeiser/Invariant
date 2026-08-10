@@ -480,9 +480,12 @@ a global constraint function-space/boundary contract and candidate-specific posi
 the `G3=X/100` seed has an exact healthy center (ADM rank six/nullity one,
 `c_s^2=39999/40003`, and positive slicing-cone gap) but still lacks the componentwise
 gradient/Hessian/curvature cell, frame normalization, direction-sphere interval, and
-candidate-specific lapse boundary operator needed for a uniform common-cone proof; and the
-conformal `G4(phi)` seed lacks global lapse-operator invertibility, inhomogeneous principal, and
-global-energy proofs. The exact bounded result is 0 pass, 0 reject, 6 blocked, with no Solar bundle.
+candidate-specific lapse boundary operator needed for a uniform common-cone proof. The conformal
+`G4=1/2+phi^2/100` seed now has a uniformly invertible conformal transformation, positive
+Einstein-frame scalar kinetic coefficient, a shared tensor/scalar null cone, and positive local
+lapse kernel throughout `|phi|<=1`; it still lacks a global lapse function-space/boundary inverse
+and candidate-specific positive-mass theorem. The exact bounded result is 0 pass, 0 reject,
+6 blocked, with no Solar bundle.
 The persistent seed coordinator now runs the actual reviewed compilation campaign for all six work
 items, not a synthetic callback. Lease recovery and replay preserve deterministic IDs and reproduce
 the same six blocked outcomes. The campaign is rebuilt inside a temporary root containing only four
