@@ -1,0 +1,226 @@
+{
+  "schema_version": "sigma-generator-v2-manifest-1.0",
+  "generator_version": "0.1.0",
+  "protocol_version": "SIGMA-GENERATOR-V2-BILLION-1.0.0",
+  "scope_claim": "Exhaustive over every sorted sparse action containing one through six distinct terms drawn from the frozen 50-term dimensionless v18 flux/state basis, with each term assigned one coefficient from the exact alphabet {-epsilon,+epsilon}.",
+  "config_sha256": "8ec89baec85093812958221c49548f75ed9e8cafdcfed287a64330daf7230a7e",
+  "basis_count": 50,
+  "basis_library_sha256": "f6e09a44eddd20999c8a5c3d3e1e002efb9c892deb706df60669a47f1f7f3840",
+  "max_action_terms": 6,
+  "coefficient_alphabet": [
+    -1,
+    1
+  ],
+  "coefficient_semantics": "Every sparse term has coefficient +/- epsilon; signs are structural and do not add independent constants.",
+  "total_declared_actions": 1088651720,
+  "shard_index": 0,
+  "shard_count": 1,
+  "start_ordinal": 0,
+  "end_ordinal_exclusive": 1000000,
+  "processed_actions": 1000000,
+  "actions_computed_this_run": 1000000,
+  "complete_declared_space": false,
+  "block_size": 1000000,
+  "block_count": 1,
+  "threads_used": 1,
+  "elapsed_seconds": 0.3601866,
+  "throughput_actions_per_second": 2776338.708880341,
+  "checkpoint_directory": null,
+  "checkpoint_blocks_reused": 0,
+  "survivor_export_directory": ".",
+  "survivor_record_format": "SGSURV2/1 little-endian fixed-24-byte",
+  "gate_counts": {
+    "reject_flux_only": 232,
+    "reject_high_field": 475830,
+    "reject_no_gradient_sector": 27054,
+    "reject_negative_elasticity": 2859,
+    "reject_sampled_static_convexity": 468944,
+    "survive_sampled_static": 25081
+  },
+  "survivor_count": 25081,
+  "survivor_samples": [
+    {
+      "candidate_id": "STC2-000271bbeb62be2db2d3eb19",
+      "ordinal": 235334,
+      "term_ids": [
+        0,
+        5,
+        15,
+        26
+      ],
+      "signs": [
+        -1,
+        1,
+        1,
+        1
+      ],
+      "correction_expression": "-(z)+((q)/(1+(q)))+(q**2)+((x**2)/(1+(x**2)))",
+      "gate": "survive_sampled_static"
+    },
+    {
+      "candidate_id": "STC2-00028122d7599d1602e3494c",
+      "ordinal": 479927,
+      "term_ids": [
+        1,
+        3,
+        13,
+        22
+      ],
+      "signs": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "correction_expression": "+(sqrt(1+(z))-1)+(q)+(sqrt(1+(q*z))-1)+(sqrt(1+(x*q))-1)",
+      "gate": "survive_sampled_static"
+    },
+    {
+      "candidate_id": "STC2-0004477a2e482fa9e60bcb1a",
+      "ordinal": 487242,
+      "term_ids": [
+        1,
+        3,
+        29,
+        40
+      ],
+      "signs": [
+        -1,
+        1,
+        -1,
+        -1
+      ],
+      "correction_expression": "-(sqrt(1+(z))-1)+(q)-((z**3)/(1+(z**3)))-(sqrt(1+(x*z**2))-1)",
+      "gate": "survive_sampled_static"
+    },
+    {
+      "candidate_id": "STC2-000578b229b1d8f6734f971b",
+      "ordinal": 33695,
+      "term_ids": [
+        3,
+        8,
+        36
+      ],
+      "signs": [
+        1,
+        1,
+        1
+      ],
+      "correction_expression": "+(q)+((x)/(1+(x)))+(q**3)",
+      "gate": "survive_sampled_static"
+    }
+  ],
+  "rejection_witnesses": {
+    "reject_flux_only": {
+      "candidate_id": "STC2-0120e3e93f137696ba980966",
+      "ordinal": 60479,
+      "term_ids": [
+        6,
+        24,
+        25
+      ],
+      "signs": [
+        1,
+        1,
+        1
+      ],
+      "correction_expression": "+(x)+(x**2)+(sqrt(1+(x**2))-1)",
+      "gate": "reject_flux_only"
+    },
+    "reject_high_field": {
+      "candidate_id": "STC2-00000b79304112693998a34d",
+      "ordinal": 484024,
+      "term_ids": [
+        1,
+        3,
+        21,
+        27
+      ],
+      "signs": [
+        -1,
+        -1,
+        -1,
+        -1
+      ],
+      "correction_expression": "-(sqrt(1+(z))-1)-(q)-(x*q)-(z**3)",
+      "gate": "reject_high_field"
+    },
+    "reject_no_gradient_sector": {
+      "candidate_id": "STC2-0002406ea22a66ee5a321553",
+      "ordinal": 85372,
+      "term_ids": [
+        10,
+        20,
+        41
+      ],
+      "signs": [
+        -1,
+        -1,
+        1
+      ],
+      "correction_expression": "-(sqrt(1+(z**2))-1)-((x*z)/(1+(x*z)))+((x*z**2)/(1+(x*z**2)))",
+      "gate": "reject_no_gradient_sector"
+    },
+    "reject_negative_elasticity": {
+      "candidate_id": "STC2-000bc8b46fc1c46ab2b641c3",
+      "ordinal": 201980,
+      "term_ids": [
+        0,
+        3,
+        11,
+        20
+      ],
+      "signs": [
+        -1,
+        -1,
+        1,
+        -1
+      ],
+      "correction_expression": "-(z)-(q)+((z**2)/(1+(z**2)))-((x*z)/(1+(x*z)))",
+      "gate": "reject_negative_elasticity"
+    },
+    "reject_sampled_static_convexity": {
+      "candidate_id": "STC2-000025efcdbbc9aebcebfe52",
+      "ordinal": 25994,
+      "term_ids": [
+        2,
+        10,
+        30
+      ],
+      "signs": [
+        -1,
+        1,
+        -1
+      ],
+      "correction_expression": "-((z)/(1+(z)))+(sqrt(1+(z**2))-1)-(q*z**2)",
+      "gate": "reject_sampled_static_convexity"
+    }
+  },
+  "rejection_witness_rule": "Each candidate receives exactly one first-failing structural or sampled-static gate; block hashes commit to candidate hash plus gate code.",
+  "blocks_root_sha256": "3a2c47d75145971f5ed76e24bf24b50d0339472f4a47a8bc9c1f4e92e4a52fbe",
+  "blocks": [
+    {
+      "block_index": 0,
+      "start_ordinal": 0,
+      "end_ordinal_exclusive": 1000000,
+      "processed": 1000000,
+      "survivors": 25081,
+      "digest_sha256": "d368f3acd2572f067e48af66c3ca278de3c695e701dd21d9a7d7eb153b4acae4",
+      "survivor_export": {
+        "file": "survivors-00000000-0-1000000.bin",
+        "record_format": "SGSURV2/1 little-endian fixed-24-byte",
+        "record_count": 25081,
+        "file_size_bytes": 601988,
+        "file_sha256": "701d62aa55ad4d0fe25dcd49729211ff256ab0d4c4b54b17e105bd68f9e9adf1"
+      }
+    }
+  ],
+  "observational_data_opened": false,
+  "deferred": [
+    "global tensor static convexity beyond the frozen radial sample",
+    "automatic covariant tensor-action variation",
+    "ADM/Dirac constraint algebra and physical degree count",
+    "principal symbols and characteristic cones",
+    "GR/Solar and audited measurement gates"
+  ]
+}

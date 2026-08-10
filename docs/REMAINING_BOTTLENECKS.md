@@ -291,15 +291,21 @@ box interior. The remaining bridge is quantitative nonlinear constraint/gauge re
 source and state-to-jet commutator estimates, boundary energy, a computable lifespan, and proof of
 long-time bootstrap invariance.
 
-The operator audit has now split that broad bridge into two exact, independently testable
-bottlenecks. The fixed physical low-frequency symmetrization defect is no longer open: it has an
-explicit candidate-specific `L2` bound with Schur coefficient `4/3`, and it vanishes on correctly
-rescaled high dyadic shells. The high-shell anti-Wick composition remains open only because the
-current mixed K55 hierarchy ends at `C4`; the direct amplitude proof requires `(x,xi)` derivative
-pairs `(2,4)`, `(0,6)`, `(0,5)`, and `(1,4)`. Separately, the exact dyadic audit proves that a naive
-global `H7` commutator cannot close from `H6` coefficient fields. The preferred next work is a
-paradifferential/good-unknown linearization tied to the actual nonlinear source; raising the state
-to `H8` and extending the full coefficient chain through `C7` remains the more expensive fallback.
+The operator audit has now split that broad bridge into exact, independently testable layers. The
+fixed physical low-frequency symmetrization defect has an explicit candidate-specific `L2` bound
+with Schur coefficient `4/3`, and it vanishes on correctly rescaled high dyadic shells. The targeted
+annular `C6` campaign now supplies `(x,xi)` pairs `(2,4)`, `(0,6)`, `(0,5)`, and `(1,4)`, closing
+finite principal anti-Wick composition constants, high-shell principal/time/projection inequalities,
+and the entire finite-low principal operator for all 12 candidates. The exact dyadic audit still
+proves that a naive global `H7` commutator cannot close from `H6` coefficient fields.
+
+The good-unknown/source work now proves all 3,025 entries of the principal identity
+`D_Y E55 J=iP55`, reconstructs 1,089 of 1,683 dynamic-source Jacobian entries, and records an exact
+594-entry lower-column missing map. The scalar Euler row has been lowered to an explicit universal
+arithmetic/tensor DAG and the common Cartesian Minkowski/constant-scalar reference is an exact
+equilibrium with a localized whole-space `L2` source convention. The remaining proof work is the
+ten metric Euler-row lowerings, coupled component Frechet tensors/remainder, the remote
+paraproduct commutator, monotone global dyadic summation, and then the nonlinear bootstrap/lifespan.
 
 The state-to-jet side now has a quantitative coordinate tube. A common `1e-13` bound on 153
 normalized coordinate 2-jet atoms implies strict component bounds for `nabla(phi)`,

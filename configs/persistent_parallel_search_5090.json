@@ -1,0 +1,39 @@
+{
+  "schema_version": "sigma-persistent-parallel-search-1.0",
+  "external_paid_llm_calls": false,
+  "determinism": {
+    "master_seed": 509020260810
+  },
+  "queue": {
+    "maximum_pending_work": 100000,
+    "maximum_attempts": 3,
+    "lease_seconds": 300,
+    "checkpoint_every_completions": 1000
+  },
+  "budget": {
+    "maximum_tasks": 1000000000,
+    "maximum_wall_seconds": 1209600
+  },
+  "cpu": {
+    "maximum_workers": 20
+  },
+  "gpu": {
+    "minimum_compute_capability": "8.0",
+    "minimum_memory_mib": 16384,
+    "reserve_memory_mib": 4096,
+    "estimated_bytes_per_candidate": 8192,
+    "maximum_batch_candidates": 2000000
+  },
+  "supervisor": {
+    "cpu_workers": 16,
+    "gpu_workers": 1,
+    "cpu_evaluator": "synthetic_cpu",
+    "gpu_evaluator": "synthetic_gpu_owner",
+    "worker_poll_seconds": 0.25,
+    "telemetry_interval_seconds": 2.0,
+    "maximum_telemetry_bytes": 268435456,
+    "maximum_wall_seconds_per_run": 86400,
+    "maximum_process_restarts": 32,
+    "shutdown_grace_seconds": 5.0
+  }
+}

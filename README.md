@@ -148,6 +148,17 @@ executed v1 campaign and long-running watchdog instructions are documented in
 
 The verified RTX 5090/CUDA 12.9 environment is reserved for the next dense matrix/principal-symbol tier, not the already-fast combinatorial traversal. See [`docs/GPU_TIER2.md`](docs/GPU_TIER2.md) for the mixed-precision safety contract and compact survivor-block plan.
 
+The new persistent parallel-search layer adds a bounded SQLite queue, deterministic seeds,
+leases and crash recovery, resumable checkpoints, a spawn-safe 16-CPU-worker plus one-GPU-owner
+plan, automatic finite-generator refill, and capped JSONL utilization telemetry. Real CPU and CUDA
+adapters are status-root cross-checked and keep observational, halo/dark-matter, redshift-distance,
+and paid-LLM inputs fail-closed. A reproducible one-million-formula Rust corpus produced 25,081
+survivors; cached RTX 5090 screening reached a median 8.80 million survivor records per second.
+The APIs and bounded configs live in `persistent_parallel_search.py`,
+`persistent_parallel_supervisor.py`, `real_formula_execution.py`, `binary_formula_execution.py`,
+and `bounded_survivor_corpus.py`. CLI/service lifecycle wiring and a continuously refilled
+multi-stage scientific evaluator remain follow-on work.
+
 The first sealed candidate-data target is now defined as observable-to-observable galaxy discovery:
 audited light/gas/angular inputs predict held-out spectral-line kinematics, with whole-galaxy splits,
 zero object-specific gravity parameters, and no halo or redshift-distance labels. The frozen formula
@@ -708,10 +719,20 @@ step is a paradifferential/good-unknown theorem, or a larger regularity hierarch
 Finally, Gaussian anti-Wick quantization composes through the Weyl symbol
 `exp((h/4) Delta_(x,xi))K`, not through pointwise `K`. An exact annular construction,
 composition-amplitude algebra, and the Schur coefficient `1/(8*pi)` now pass as prerequisites, including a
-`2x2` negative witness for the otherwise omitted heat-smoothing defect. The current
-`C4` hierarchy cannot close that amplitude: it must be extended only at the four mixed
-pairs `(2,4)`, `(0,6)`, `(0,5)`, and `(1,4)`. This is now a precise generator target,
-not an unspecified pseudodifferential remainder.
+`2x2` negative witness for the otherwise omitted heat-smoothing defect. A targeted annular
+`C6` hierarchy now supplies the four mixed pairs `(2,4)`, `(0,6)`, `(0,5)`, and `(1,4)` and
+finite principal composition constants for all 12 candidates. High-shell principal/time/projection
+inequalities and the entire finite-low principal operator are consequently explicit. The global
+`H7` sum remains fail-closed on the localized Bony/Moser source remainder and the
+`H6`-coefficient versus `H7`-state derivative-loss gate.
+
+The component campaign now also proves every entry of the principal identity
+`D_Y E55 J = i P55` for all 12 candidates. It reconstructs 1,089 of 1,683 dynamic-source
+Jacobian entries, emits an exact 594-entry lower-column missing map, and lowers the scalar Euler
+row to an explicit arithmetic/tensor DAG with universal acceleration affinity. The exact Cartesian
+Minkowski/constant-scalar reference is an equilibrium and supports a background-subtracted `L2`
+source convention. Ten metric Euler rows, the coupled component Frechet remainder, the monotone
+global dyadic sum, and the nonlinear lifespan bootstrap remain open and are not claimed.
 
 The tube bounds 153 normalized coordinate atoms: ten metric deviations, 44 first partials,
 and 99 acceleration-free symmetric second partials. The exact orthonormal metric-basis identity
