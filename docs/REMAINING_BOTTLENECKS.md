@@ -347,9 +347,14 @@ into the one-dimensional high-state line. The canonical missing reciprocal block
 constraint preservation is unknown. The minimal coupled remedy class is now exactly ruled out:
 commuting spectral `deltaK` has zero Sylvester left side against a nonzero skew residual; a correction
 using only the same `w1[10]` high slot has right-covector span at most one instead of two; and changing
-`v` with `q,w_i` fixed leaves the nonzero definition residual `-partial_i C_v`. The next admissible
-class must solve the full non-spectral Sylvester equation and/or use at least two high covectors with
-accompanying `q,w_i` constraint corrections. TC1's source part needs the `Q`-contracted `partial_1F`
+`v` with `q,w_i` fixed leaves the nonzero definition residual `-partial_i C_v`. The unrestricted
+non-spectral Sylvester equation is now solved exactly at the flat `e1` reference. The reference
+`P55` spectrum is `{0,+/-1,+/-1/2,+/-1/3}` with minimum distinct gap `1/6`; all equal-eigenspace
+solvability compressions vanish, and column 10 has a rank-four Hermitian `deltaK` with 24 nonzero
+entries, squared Frobenius norm `1253060/9`, zero residual, an explicit positivity radius, and a
+closed reference CK3 cost. This does not yet extend to variable coefficients: the first exact gate
+is to verify all 153 derivatives of the equal-eigenspace compressions, while CK1 still needs its
+source packet and `partial_1 F10` topology. TC1's source part needs the `Q`-contracted `partial_1F`
 state-to-jet topology, variable TC3
 needs the 153-atom tensor `D_Y(P55 E_v Q)`, and TC5 in `H7` needs component
 `D2F[J(C_Q),J(C_Q)]` plus `H7` control of `J(C_Q)`. The next gate is to close those terms and extend

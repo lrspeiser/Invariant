@@ -856,9 +856,14 @@ reciprocal block is `K55^-1 B^dagger K55`; it cancels the skew pairing algebraic
 from the modified state and has no constraint-preservation proof. The first coupled remedy class is
 also eliminated: commuting spectral `deltaK` has zero Sylvester left side, a same-high-state
 correction cannot span the reciprocal block's two independent right covectors, and changing `v`
-while holding `q,w_i` fixed violates the derivative-definition constraints. A valid remedy must use
-non-spectral `deltaK` and/or at least two high covectors with matching constraint lifts. This is not
-yet global closure:
+while holding `q,w_i` fixed violates the derivative-definition constraints. The full non-spectral
+Sylvester equation is nevertheless exactly solvable at the flat `e1` reference. The reference
+`P55` spectrum is `{0,+/-1,+/-1/2,+/-1/3}` with minimum distinct gap `1/6`; every equal-eigenspace
+solvability compression vanishes, and column 10 admits a rank-four Hermitian `deltaK` with 24
+nonzero entries and zero Sylvester residual. Its squared Frobenius norm is `1253060/9`, yielding an
+explicit positive-energy radius and a closed reference CK3 cost. This is not yet global closure:
+the 153 component derivatives of the equal-eigenspace compressions and CK1's source packet remain
+unverified, so the variable TC2 correction is still fail-closed.
 TC1's source part needs the contracted
 state-to-jet topology, variable TC3 needs `D_Y(P55 E_v Q)`, and TC5 in `H7` needs component `D2F`
 plus `H7` control of `J(C_Q)`. The next valid route must close those terms and extend the identity
