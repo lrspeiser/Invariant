@@ -163,6 +163,45 @@ def _build_rows(sources: Mapping[str, Any], bindings: Mapping[str, Any]) -> dict
     for candidate in formal["real_survivor_decisions"]:
         rows["formal_adm_dirac"].append(_entry(candidate["candidate_id"], "generated_candidate", {}, "blocked", "exact_formal_artifact", "incomplete", candidate["blocker"], "formal_adm_dirac", bindings["formal_adm_dirac"], candidate.get("input_lineage_sha256"), "No exact candidate-to-action map; this is missing evidence, not measured poor performance."))
 
+    followup = sources["grammar_v3_formal_followup"]
+    g4_records = [
+        record
+        for record in followup["work_records"]
+        if record["task_type"]
+        in {"g4_global_lapse_invertibility", "g4_global_positive_energy"}
+    ]
+    g4_ids = {record["candidate_id"] for record in g4_records}
+    if (
+        len(g4_records) != 2
+        or len(g4_ids) != 1
+        or followup["followup_decision_counts"] != {"blocked": 8, "pass": 2}
+        or followup["candidate_scientific_decisions_changed"] != 1
+        or any(record["state"] != "succeeded" for record in g4_records)
+    ):
+        raise ValueError("G4 formal follow-up evidence is incomplete or inconsistent")
+    g4_candidate_id = next(iter(g4_ids))
+    rows["formal_adm_dirac"].append(_entry(
+        g4_candidate_id,
+        "generated_candidate",
+        {
+            "passed_gate_count": min(
+                record["pareto_axis_values"]["formal_pass_count"]
+                for record in g4_records
+            ),
+            "rejected_gate_count": 0,
+            "unresolved_gate_count": 0,
+            "reviewed_followup_packet_count": len(g4_records),
+        },
+        "pass",
+        "exact_formal_artifact",
+        "complete_for_category",
+        None,
+        "grammar_v3_formal_followup",
+        bindings["grammar_v3_formal_followup"],
+        _sha([record["followup_lineage_sha256"] for record in g4_records]),
+        "Full formal pass through the reviewed Einstein-frame generalized-harmonic audit; this is not Solar or observational evidence.",
+    ))
+
     cone_record = sources["g3_common_cone"]["candidate_records"][0]
     proof = cone_record["principal_common_cone_certificate"]["uniform_proof"]
     rows["hyperbolicity_common_cone"].append(_entry(

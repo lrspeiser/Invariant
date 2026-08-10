@@ -1,0 +1,68 @@
+{
+  "schema_version": "sigma-g3-g4-nonunitary-gauge-bypass-audit-config-1.0",
+  "campaign_id": "grammar-v3-g3-g4-nonunitary-gauge-bypass-20260810",
+  "predecessors": {
+    "G3": {
+      "path": "runs/engine/g3-asymptotically-flat-transition-audit.json",
+      "file_sha256": "71705e817b79942c5574fb39d3fd4482a650374bd62fa86895517049f317a289",
+      "content_sha256": "a4405c8efb82be2af4ceabda7048ec2a457f1ad0e860b5a9e80312c96dd0c478"
+    },
+    "G4": {
+      "path": "runs/engine/g4-asymptotically-flat-einstein-frame-audit.json",
+      "file_sha256": "e96237ac8af7dc5d1a4d6a379817d23c904c7f17b19cd2de0e390296fa5be7bc",
+      "content_sha256": "e793c1e221ee00e1c11cf20a68a4e6f6b666f583c27f782ee18b832fb265bfcc"
+    }
+  },
+  "formal_report": {
+    "path": "runs/formal-controls-v1/formal-controls.json",
+    "file_sha256": "b1bf58ebb4b43d3593f264959853dc3cd47f542b85f012999133ee43a6fece57"
+  },
+  "cubic_bssn_adapter": {
+    "id": "generic_cubic_horndeski_bssn_hyperbolicity",
+    "entrypoint": "sigma_theory_compiler.horndeski:generic_cubic_horndeski_bssn_hyperbolicity_control",
+    "source_path": "src/sigma_theory_compiler/horndeski.py",
+    "source_file_sha256": "d108ed635851bb57fdeffcf23d02e4f66021e45591dbffd3b62e7983bb468d19"
+  },
+  "targets": {
+    "G3": {
+      "seed_id": "G3-1ee308440d778dfbee8094d2",
+      "action_sha256": "d583c96daaba16fc429f336cfed5f28d8a9ed54017130eafc597615b79a6af53",
+      "predecessor_provenance_sha256": "18ae59dff5a14ff3fbdaefef9d78be73ea7be96c99bd5191c93b3d962c347d11",
+      "prior_principal_sha256": "f7c827f06e13a14a0e5c5c8ac74195a5b80e215a95f9333f482e81d3deec7c72",
+      "prior_lapse_obstruction_sha256": "c4583474b60190805abe3456ff73e814d0750b07748a61057cbb978da76308c6"
+    },
+    "G4": {
+      "seed_id": "G3-f9c598b70a77ea54009d8f18",
+      "action_sha256": "6ddd6502d110ead90ff494a6569213ec2e61a0b046dfa86344bb1980df6abc90",
+      "predecessor_provenance_sha256": "53079941837a2e14ebc67d1a6b82f297c2d1c14a9e65a0072a90088430f75d8a",
+      "conformal_certificate_sha256": "e30e3303a756812bc45488aa7517de5d93e87a301cc9b23c62ac187edca58649",
+      "positive_mass_certificate_sha256": "fe9474f4c86b992a58c691543eceb80ab3f1fc638e9e89042ce568468e5b9b4d",
+      "prior_lapse_obstruction_sha256": "176802280f6c4fdc2af5d8068209a6134417207a9c776645e4bd532e6e658e90"
+    }
+  },
+  "alternative_formulations": {
+    "G3": {
+      "gauge": "covariant_scalar_retained_BSSN_Bona_Masso",
+      "scalar_is_coordinate": false,
+      "BSSN_m": "1",
+      "BSSN_sigma": "1",
+      "shift": "fixed_zero_on_reference_profile",
+      "ordinary_ADM_lapse": "1+O_2(r^-1)",
+      "asymptotic_scalar_gradient": "O(r^-2)"
+    },
+    "G4": {
+      "frame": "Einstein_frame_with_global_chi(phi)",
+      "gauge": "generalized_harmonic_coordinates",
+      "scalar_is_coordinate": false,
+      "gauge_source": "H_mu_prescribed_independently_of_nabla_chi",
+      "ordinary_ADM_lapse": "1+O_2(r^-1)",
+      "asymptotic_scalar": "chi=O(r^-1),nabla_chi=O(r^-2)"
+    }
+  },
+  "data_eligibility": {
+    "observational_data_opened": false,
+    "dark_matter_or_halo_inputs": false,
+    "redshift_distance_inputs": false,
+    "paid_llm_calls": false
+  }
+}

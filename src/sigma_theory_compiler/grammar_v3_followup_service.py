@@ -15,6 +15,7 @@ from .promotion_orchestrator import ELIGIBILITY
 
 CONFIG_SCHEMA = "sigma-grammar-v3-followup-service-config-1.0"
 G3_EPOCH_CONFIG_SCHEMA = "sigma-grammar-v3-followup-service-config-g3-epoch-1.0"
+G4_FINAL_CONFIG_SCHEMA = "sigma-grammar-v3-followup-service-config-g4-final-1.0"
 STATUS_SCHEMA = "sigma-grammar-v3-followup-service-status-1.0"
 
 SCHEMA = """
@@ -76,9 +77,13 @@ def _validate_config(config: dict[str, Any]) -> None:
         "external_paid_llm_calls",
     }
     schema = config.get("schema_version")
-    if schema == G3_EPOCH_CONFIG_SCHEMA:
+    if schema in {G3_EPOCH_CONFIG_SCHEMA, G4_FINAL_CONFIG_SCHEMA}:
         required.add("predecessor_service_epoch")
-    if set(config) != required or schema not in {CONFIG_SCHEMA, G3_EPOCH_CONFIG_SCHEMA}:
+    if set(config) != required or schema not in {
+        CONFIG_SCHEMA,
+        G3_EPOCH_CONFIG_SCHEMA,
+        G4_FINAL_CONFIG_SCHEMA,
+    }:
         raise ValueError("grammar-v3 follow-up service config is invalid")
     if config.get("data_eligibility") != ELIGIBILITY:
         raise ValueError("grammar-v3 follow-up service eligibility is not fail-closed")
@@ -93,7 +98,7 @@ def _validate_config(config: dict[str, Any]) -> None:
             "maximum_service_bytes",
         }
         or int(budget["maximum_tasks"]) != 10
-        or int(budget["maximum_service_cycles"]) != 3
+        or int(budget["maximum_service_cycles"]) != (4 if schema == G4_FINAL_CONFIG_SCHEMA else 3)
         or not 1 <= float(budget["maximum_wall_seconds"]) <= 300
         or not 4096 <= int(budget["maximum_service_bytes"]) <= 64 * 1024 * 1024
     ):
@@ -102,10 +107,12 @@ def _validate_config(config: dict[str, Any]) -> None:
     if not isinstance(revisions, list) or len(revisions) != 1:
         raise ValueError("service requires a finite immutable report revision allowlist")
     allowlist = config.get("evaluator_descriptor_allowlist")
-    expected_evaluators = 5 if schema == G3_EPOCH_CONFIG_SCHEMA else 3
+    expected_evaluators = 7 if schema == G4_FINAL_CONFIG_SCHEMA else 5 if schema == G3_EPOCH_CONFIG_SCHEMA else 3
     if not isinstance(allowlist, list) or len(allowlist) != expected_evaluators:
         raise ValueError("service evaluator descriptor allowlist is invalid")
-    if schema == G3_EPOCH_CONFIG_SCHEMA and set(config["predecessor_service_epoch"]) != {
+    if schema in {G3_EPOCH_CONFIG_SCHEMA, G4_FINAL_CONFIG_SCHEMA} and set(
+        config["predecessor_service_epoch"]
+    ) != {
         "config_path",
         "config_file_sha256",
         "config_sha256",
@@ -147,7 +154,15 @@ class GrammarV3FollowupService:
         self.coordinator = PersistentParallelSearch(
             self.coordinator_database, coordinator_config, resource_profile
         )
-        if self.config["schema_version"] == G3_EPOCH_CONFIG_SCHEMA:
+        if self.config["schema_version"] == G4_FINAL_CONFIG_SCHEMA:
+            from .grammar_v3_followup_g4_epoch import (
+                GrammarV3FollowupQueueG4FinalEpoch,
+            )
+
+            self.queue = GrammarV3FollowupQueueG4FinalEpoch(
+                self.coordinator, self.queue_config, self.root
+            )
+        elif self.config["schema_version"] == G3_EPOCH_CONFIG_SCHEMA:
             from .grammar_v3_followup_g3_epoch import GrammarV3FollowupQueueG3Epoch
 
             self.queue = GrammarV3FollowupQueueG3Epoch(
@@ -242,7 +257,10 @@ class GrammarV3FollowupService:
                 )
                 self._event(connection, "service_created", {"config_sha256": expected_hash})
             elif row["schema_version"] != STATUS_SCHEMA or row["config_sha256"] != expected_hash:
-                if self.config["schema_version"] != G3_EPOCH_CONFIG_SCHEMA:
+                if self.config["schema_version"] not in {
+                    G3_EPOCH_CONFIG_SCHEMA,
+                    G4_FINAL_CONFIG_SCHEMA,
+                }:
                     raise ValueError("refusing to resume a changed grammar-v3 follow-up service")
                 predecessor = self.config["predecessor_service_epoch"]
                 predecessor_path = self.root / predecessor["config_path"]

@@ -358,9 +358,9 @@ Hermitian `deltaK_A` corrections give 153 zero differentiated Sylvester residual
 coordinate map has 41 nonzero and 112 zero corrections with an explicit affine positivity bound.
 The next exact gate is the 11,781 unordered second-atom conditions requiring component `D2K55`,
 `D2P55`, and `D2TC2`; CK1 still needs its source packet and `partial_1 F10` topology.
-Five chained resumable second-order chunks cover 320 canonical pairs and all 12 candidates: every
-one of the 3,840 equations has an exact Hermitian `deltaK_AB` with zero Sylvester residual and no
-obstruction. Each continuation verifies the prior record chain and resume tip. The remaining 11,461
+Six chained resumable second-order chunks cover 384 canonical pairs and all 12 candidates: every
+one of the 4,608 equations has an exact Hermitian `deltaK_AB` with zero Sylvester residual and no
+obstruction. Each continuation verifies the prior record chain and resume tip. The remaining 11,397
 pairs are explicitly unevaluated, so these chunks do not promote
 TC2 or global `H7`. TC1's source part needs the `Q`-contracted `partial_1F`
 state-to-jet topology, variable TC3
@@ -501,10 +501,12 @@ reformulated constraint pair, not merely pointwise lapse positivity. The conform
 Einstein-frame scalar kinetic coefficient, a shared tensor/scalar null cone, and positive local
 lapse kernel throughout `|phi|<=1`. Its asymptotically-flat Einstein-frame audit now proves the
 maximal-domain positive-mass reduction with equal Jordan/Einstein ADM four-momentum and vanishing
-scalar/conformal boundary terms. It still lacks a bounded global unitary-gauge lapse inverse:
-scalar falloff drives `Delta_N->0` and compact annulus modes put zero in the approximate spectrum.
-This is a chart obstruction, not a theory rejection. The exact bounded result is 0 pass, 0 reject,
-6 blocked, with no Solar bundle.
+scalar/conformal boundary terms. Scalar falloff drives its unitary-gauge `Delta_N->0` and compact
+annulus modes put zero in the approximate spectrum. The exact non-unitary audit resolves that chart
+obstruction: the globally equivalent Einstein-frame generalized-harmonic system has a regular
+rank-11 wave principal block, homogeneous gauge-constraint propagation, and three physical degrees
+of freedom even where the scalar gradient vanishes. The G4 seed therefore has a complete formal
+pass, but no Solar or observational bundle.
 The persistent seed coordinator now runs the actual reviewed compilation campaign for all six work
 items, not a synthetic callback. Lease recovery and replay preserve deterministic IDs and reproduce
 the same six blocked outcomes. The campaign is rebuilt inside a temporary root containing only four
@@ -529,13 +531,14 @@ The two Aether packets now invoke a hash-reviewed evaluator and reproduce the ex
 packets initially remained missing-evaluator blocked. Four `G2` packets now also invoke reviewed
 evidence: two preserve the distributed Dirac boundary blocker and two preserve the general
 nonmaximal positive-mass blocker. The four `G3`/`G4` packets lacked evaluators in that epoch. The
-G3 epoch now executes both reviewed G3 packets and retains their global/asymptotically-flat
-blocker. Only the two G4 packets remain deferred. The bounded execution therefore still has 10
-blocked results and no changed candidate decision.
+G3 epoch now executes both reviewed G3 packets and retains their global/asymptotically-flat blocker.
+The final immutable G4 epoch executes both remaining packets against the non-unitary audit. The
+bounded queue now has 10 processed, 0 deferred, 8 blocked packet decisions and 2 G4 passes; one
+generated candidate changes from blocked to a complete formal pass.
 A bounded durable service now wraps this queue with start/status/stop/resume/export. It processes
-the six allowlisted Aether/G2 packets, then migrates through a reviewed G3 epoch that processes two
-more while leaving the two G4 packets deferred without spending attempts. Both roots survive
-restart. Adding G4 evaluators requires another immutable service-config epoch, preventing silent
+the six allowlisted Aether/G2 packets, then migrates through reviewed G3 and G4 epochs that process
+the remaining four without rewriting predecessor identities. All 10 are now completed and none are
+deferred. Each evaluator addition requires a new immutable service-config epoch, preventing silent
 scientific allowlist drift.
 A unified observability snapshot now reads the watchdog SQLite only through `mode=ro` plus
 `query_only`, hash-verifies immutable subsystem reports, and exposes campaign, streaming,

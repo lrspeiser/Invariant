@@ -237,12 +237,14 @@ decaying-gradient domain despite remaining pointwise positive with no literal ke
 For `G4=1/2+phi^2/100` on `|phi|<=1`, the exact conformal factor lies in `[1,51/50]` and the
 Einstein-frame scalar kinetic coefficient lies in `[284/289,1]`. The transformation is uniformly
 invertible, tensor and scalar modes share the conformal null cone, and the local lapse kernel has
-positive coefficient `f K_E in [1,426/425]`. The seed still lacks the lapse/function-space/boundary
-contract needed for a global inverse. Its asymptotically-flat Einstein-frame follow-up now passes
+positive coefficient `f K_E in [1,426/425]`. Its asymptotically-flat Einstein-frame follow-up now passes
 the maximal-domain positive-mass reduction: the scalar/conformal boundary terms vanish and Jordan
-and Einstein ADM four-momenta agree. The remaining blocker is specifically the global unitary-gauge
-lapse inverse. Scalar falloff forces `Delta_N->0`, and compact annulus modes exclude a bounded
-`L2(R3)` inverse; this is a gauge-chart obstruction, not a physical-instability rejection.
+and Einstein ADM four-momenta agree. Scalar falloff forces the unitary-gauge `Delta_N->0`, and
+compact annulus modes exclude a bounded `L2(R3)` inverse in that chart. A subsequent exact
+non-unitary audit proves this is not a physical degeneracy: the globally equivalent Einstein-frame
+generalized-harmonic system has wave principal symbol times `I_11`, rank-11 time block, homogeneous
+gauge-constraint propagation, and the correct three physical degrees of freedom. The G4 seed now
+passes its complete formal category, while Solar and observational gates remain sealed.
 The restart-safe coordinator now executes this real reviewed campaign rather than a fixture callback.
 All six deterministic work items succeeded and reproduced the same six blocked decisions, with
 hash-bound callback, seed, work-record, and portable-result roots. Each cold replay copies only the
@@ -268,15 +270,17 @@ The reviewed Aether twist evaluator is now registered for its two packets and re
 packets initially failed closed on missing evaluators. The four `G2` packets now also invoke a
 hash-reviewed evaluator: two retain the distributed Dirac boundary blocker and two retain the
 general nonmaximal positive-mass blocker. The four `G3`/`G4` packets remain missing-evaluator
-blocked in the first epoch. A reviewed G3 epoch now executes both G3 packets from their exact
-interval and lapse artifacts; they retain the global/asymptotically-flat blocker. Only the two G4
-packets remain deferred. All 10 remain blocked and alter no scientific decision.
+blocked in the first epoch. A reviewed G3 epoch executes both G3 packets from their exact interval
+and lapse artifacts; they retain the global/asymptotically-flat blocker. A final immutable G4 epoch
+executes the remaining two packets against the non-unitary Einstein-frame audit. The complete queue
+is now 10 processed, 0 deferred, with 8 blocked packets and 2 passing G4 packets; one generated G4
+candidate changes from blocked to a full formal pass.
 A durable follow-up service now provides start/status/stop/resume/export semantics around this
 queue. The first epoch processes six Aether/G2 packets and defers four; the reviewed G3 epoch
-preserves those six completed identities, processes exactly the two G3 packets, and leaves two G4
-packets deferred without consuming attempts. Stop/resume preserves completed and deferred roots;
-new evaluator descriptors require another reviewed service-config epoch rather than mutating a
-running scientific allowlist.
+preserves those six completed identities and processes exactly two more. The final reviewed G4
+epoch preserves all eight predecessors and processes the last two, leaving no deferred packets.
+Stop/resume preserves completed and deferred roots; new evaluator descriptors require another
+reviewed service-config epoch rather than mutating a running scientific allowlist.
 A unified read-only status snapshot now combines the active watchdog, billion-formula stream,
 promotion/formal overlay, grammar-v3 evidence, Pareto queue, and follow-up service. It opens the
 live SQLite database with `mode=ro` and `query_only`, separates scheduler occupancy from physical
@@ -950,10 +954,10 @@ nonzero corrections and 112 zeros, with all differentiated Sylvester residuals z
 affine positivity bound. The next unresolved gate is the 11,781 unordered second-atom conditions,
 which require component `D2K55`, `D2P55`, and `D2TC2`; CK1's source packet also remains open. Thus
 the affine extension is certified while full variable TC2 and global H7 stay fail-closed.
-Five chained deterministic second-order chunks now evaluate 320 canonical pairs across all 12
-candidates. All 3,840 candidate equations admit exact Hermitian `deltaK_AB` corrections with zero
+Six chained deterministic second-order chunks now evaluate 384 canonical pairs across all 12
+candidates. All 4,608 candidate equations admit exact Hermitian `deltaK_AB` corrections with zero
 Sylvester residual and no obstruction. Each continuation verifies the prior record chain and resume
-tip before extending it; the other 11,461 pairs remain unevaluated and are not inferred.
+tip before extending it; the other 11,397 pairs remain unevaluated and are not inferred.
 TC1's source part needs the contracted
 state-to-jet topology, variable TC3 needs `D_Y(P55 E_v Q)`, and TC5 in `H7` needs component `D2F`
 plus `H7` control of `J(C_Q)`. The next valid route must close those terms and extend the identity

@@ -24,8 +24,11 @@ def test_category_local_rankings_keep_missing_evidence_unranked() -> None:
     assert formal["top10"][0]["candidate_id"] == "KNOWN-ANSWER-EINSTEIN-AETHER"
     assert formal["top10"][0]["role"] == "known_answer_control"
     assert formal["top10"][0]["promotion_eligible"] is False
-    assert formal["top10"][1]["candidate_id"] == "GF-cb4ebf3da5a74582"
-    assert formal["top10"][1]["evidence_status"] == "reject"
+    assert formal["top10"][1]["candidate_id"] == "G3-f9c598b70a77ea54009d8f18"
+    assert formal["top10"][1]["evidence_status"] == "pass"
+    assert formal["top10"][1]["role"] == "generated_candidate"
+    assert formal["top10"][2]["candidate_id"] == "GF-cb4ebf3da5a74582"
+    assert formal["top10"][2]["evidence_status"] == "reject"
     assert all(row["rank"] is None for row in formal["unranked_blocked_or_untested"])
 
     solar = board["categories"]["solar_known_answer"]
