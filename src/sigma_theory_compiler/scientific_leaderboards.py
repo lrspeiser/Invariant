@@ -374,17 +374,28 @@ def _build_rows(sources: Mapping[str, Any], bindings: Mapping[str, Any]) -> dict
     ):
         raise ValueError("G4 candidate-use Solar protocol is inconsistent")
     g4_real_sun = sources["g4_real_sun_source"]
+    g4_tail = sources["g4_trace_tail"]
+    g4_tail_record = g4_tail["candidate_records"][0]
     solar_parser = sources["solar_parser_readiness"]
+    solar_calibration = sources["solar_calibration_readiness"]
     if (
         g4_real_sun["decision"] != "blocked"
         or g4_real_sun["real_source_interval_certificate_admissible"] is not False
         or g4_real_sun["theorem_requirement_counts"] != {"blocked": 6, "pass": 0}
-        or solar_parser["filled_registration_field_count"] != 2
-        or solar_parser["remaining_registration_field_count"] != 7
+        or g4_tail["theorem_pass_count"] != 1
+        or g4_tail["real_source_instantiation_pass_count"] != 0
+        or g4_tail_record["overall_decision"] != "blocked"
+        or g4_tail_record["theorem_decision"] != "pass"
+        or g4_tail_record["real_Sun_instantiation_decision"] != "blocked"
+        or g4_tail_record["real_solar_bundle_admissible"] is not False
+        or solar_calibration["filled_registration_field_count"] != 3
+        or solar_calibration["remaining_registration_field_count"] != 6
+        or solar_calibration["primary_record_access_count"] != 0
         or solar_parser["metadata_selection"]["primary_record_access_count"] != 0
+        or solar_calibration["observational_authorization"] is not False
         or solar_parser["observational_authorization"] is not False
     ):
-        raise ValueError("G4 real-Sun or parser readiness evidence is inconsistent")
+        raise ValueError("G4 real-Sun, tail, or calibration evidence is inconsistent")
     g4_entry = _entry(
         g4_solar_row["candidate_id"],
         "generated_candidate",
@@ -397,12 +408,13 @@ def _build_rows(sources: Mapping[str, Any], bindings: Mapping[str, Any]) -> dict
             ]["real_bundle_count"],
             "analytic_newtonian_ppn_status": "pass_on_declared_scalar_free_background",
             "source_class_uniqueness_theorem": "pass",
+            "noncompact_trace_tail_theorem": "pass_conditionally",
             "real_sun_theorem_requirement_pass_count": 0,
             "real_sun_theorem_requirement_blocked_count": 6,
-            "verified_parser_registration_field_count": solar_parser[
+            "verified_registration_field_count": solar_calibration[
                 "filled_registration_field_count"
             ],
-            "remaining_registration_field_count": solar_parser[
+            "remaining_registration_field_count": solar_calibration[
                 "remaining_registration_field_count"
             ],
             "selected_detached_label_count": solar_parser["metadata_selection"][
@@ -415,18 +427,20 @@ def _build_rows(sources: Mapping[str, Any], bindings: Mapping[str, Any]) -> dict
         "blocked",
         "sealed_candidate_specific_solar_prediction",
         "incomplete",
-        g4_real_sun["first_missing_premise"],
-        "g4_real_sun_source",
-        bindings["g4_real_sun_source"],
-        g4_real_sun["provenance"]["binding_sha256"],
-        "Analytic GR-like predictions, a source-class uniqueness theorem, and two verified parsers exist. Real-Sun source support/tail and six other theorem premises remain blocked; no primary record was opened.",
+        g4_tail_record["first_missing_premise"],
+        "g4_trace_tail",
+        bindings["g4_trace_tail"],
+        g4_tail_record["provenance"]["binding_sha256"],
+        "Analytic GR-like predictions, compact and noncompact source-class theorems, two verified parsers, and a covariance-aware raw-signal transform exist. Real-Sun tail facts and six registration fields remain blocked; no primary record was opened.",
     )
     g4_entry["lineage"]["supporting_artifacts"] = [
         bindings[label]
         for label in (
             "g4_solar_promotion",
             "g4_solar_protocol",
+            "g4_real_sun_source",
             "solar_parser_readiness",
+            "solar_calibration_readiness",
         )
     ]
     rows["solar_known_answer"].append(g4_entry)

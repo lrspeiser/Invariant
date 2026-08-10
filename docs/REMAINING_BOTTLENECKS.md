@@ -570,15 +570,20 @@ candidate coupling bound and Hardy coercivity estimate prove nonlinear static un
 exclude scalar zero/tachyonic modes for arbitrary compact source shapes satisfying registered
 trace-density/concentration, pressure-sign, geometry, compactness, and boundary intervals. A
 concentrated-core negative control proves total mass plus radius is insufficient. The frozen Solar
-template consequently remains unauthorized with nine missing registration hashes covering the
-real-source interval certificate, selected files/calibrations, two parsers, covariance transform,
-session split, training-state checkpoint, and reviewed evaluator.
-The metadata-only parser campaign now fills the two parser hashes after selecting 12 detached PDS
-labels and verifying ATDF/TDF and RSR layouts with synthetic byte fixtures; no primary record is
-opened. Seven registration hashes remain. The candidate-independent Solar-source audit cannot yet
+template consequently remains unauthorized until all nine registration hashes covering the
+real-source interval certificate, selected files/calibrations, parsers, covariance transform,
+session split, training-state checkpoint, and reviewed evaluator are filled.
+The metadata-only parser campaign fills both parser hashes after selecting 12 detached PDS labels
+and verifying ATDF/TDF and RSR layouts with synthetic byte fixtures. A second synthetic-fixture
+campaign now fills the raw-to-calibrated transformation/covariance hash, including shared nuisance
+correlations. No primary record is opened; three hashes are filled and six remain. The
+candidate-independent Solar-source audit cannot yet
 instantiate the theorem: nominal constants are calibration-only, interior density/pressure are
 model-dependent, and the noncompact atmosphere/wind invalidates photosphere-as-support. The first
-missing premise is finite trace support with uncertainty or a resolved exterior-tail Kato bound.
+missing premise has been narrowed to registered trace-tail amplitude, decay, composition/pressure,
+angular coverage, and outer-transition facts. A conditional noncompact-tail theorem now proves
+Hardy and Kato coercivity for anisotropic pointwise tails with decay exponent at least four, but it
+does not infer that the real Sun satisfies those bounds.
 For the two Aether seeds, the first nonlinear-energy premise is now exact: both rational points pass
 the five linearized mode-energy and restricted coupling inequalities, but neither action imposes
 hypersurface orthogonality. The normalized field-space witness

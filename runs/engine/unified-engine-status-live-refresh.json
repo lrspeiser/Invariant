@@ -2631,7 +2631,7 @@
           "absence_reason": null,
           "availability": "completed_comparable_evidence",
           "category": "solar_known_answer",
-          "category_root_sha256": "267df12ce540d6cc7976d764e76a775225a36de771a7a419afc75c6e978bd6d0",
+          "category_root_sha256": "bf28baa4b9a0473a124ff7e0919988a219147527c9d1fac1c24d1f9e5ac19956",
           "comparison_data_class": "sealed_solar_known_answer",
           "full_ranked": [
             {
@@ -2719,17 +2719,17 @@
           ],
           "unranked_blocked_or_untested": [
             {
-              "blocker": "registered_finite_trace_support_or_resolved_exterior_tail_Kato_bound",
+              "blocker": "registered_trace_tail_amplitude_decay_and_outer_transition",
               "candidate_id": "G3-f9c598b70a77ea54009d8f18",
               "data_class": "sealed_candidate_specific_solar_prediction",
               "evidence_status": "blocked",
               "gate_completeness": "incomplete",
               "lineage": {
-                "artifact_content_sha256": "14b1e1a0dc298cf402630a8daeed19f61a11c66ba0be010eba9ebb87cee93576",
-                "artifact_file_sha256": "479bc2743c7ae8c49392126d00b3590db3a838e6ec2a0b32f60421d2d8c1b98f",
-                "artifact_link": "runs/engine/g4-real-sun-interval-source-audit.json",
-                "candidate_lineage_sha256": "823f56025c1e59d6c07bed85a4732a54baf97b347f897c4497596be8b47dba4e",
-                "source_label": "g4_real_sun_source",
+                "artifact_content_sha256": "6850bda810acd988fe45e15ed268eec19c8cbb2a213962afdca29e397764ff14",
+                "artifact_file_sha256": "e969149879f526161f7dddd220c11583bf42d729ab329b3bb00c1c09a8c8d3cc",
+                "artifact_link": "runs/engine/g4-noncompact-trace-tail-theorem.json",
+                "candidate_lineage_sha256": "35b97b40cd2fa76a1dcd8760c4e55a62e764c8ddcd1acf5d4325c7ca1059037e",
+                "source_label": "g4_trace_tail",
                 "supporting_artifacts": [
                   {
                     "content_sha256": "b72324882b52da29f184e69ca51cc46884ca3957509fea56c78d0e1c22f4dc5c",
@@ -2742,23 +2742,34 @@
                     "path": "runs/engine/g4-candidate-solar-protocol-template.json"
                   },
                   {
+                    "content_sha256": "14b1e1a0dc298cf402630a8daeed19f61a11c66ba0be010eba9ebb87cee93576",
+                    "file_sha256": "479bc2743c7ae8c49392126d00b3590db3a838e6ec2a0b32f60421d2d8c1b98f",
+                    "path": "runs/engine/g4-real-sun-interval-source-audit.json"
+                  },
+                  {
                     "content_sha256": "b45428db15d87acf5de9a7d91fbec382b01c7f0e63f68cecd276b7f39b330c25",
                     "file_sha256": "4521c3e6968b5c23432fa2935db33ca858afa9856c1c15ba88acf5a7c00cb502",
                     "path": "runs/engine/solar-pds-parser-readiness.json"
+                  },
+                  {
+                    "content_sha256": "0398c1af91b6203dcce772e12148bc1d13fbdcf2e255b939b8d43bc9a6cd54b6",
+                    "file_sha256": "4ae6125f873a3b166b3e5ec98c50bafbe7701a7ada804311f4db0157e52a8349",
+                    "path": "runs/engine/solar-direct-signal-calibration-readiness.json"
                   }
                 ]
               },
               "metrics": {
                 "analytic_newtonian_ppn_status": "pass_on_declared_scalar_free_background",
                 "analytic_prediction_bundle_count": 1,
+                "noncompact_trace_tail_theorem": "pass_conditionally",
                 "primary_record_access_count": 0,
                 "real_solar_bundle_count": 0,
                 "real_sun_theorem_requirement_blocked_count": 6,
                 "real_sun_theorem_requirement_pass_count": 0,
-                "remaining_registration_field_count": 7,
+                "remaining_registration_field_count": 6,
                 "selected_detached_label_count": 12,
                 "source_class_uniqueness_theorem": "pass",
-                "verified_parser_registration_field_count": 2
+                "verified_registration_field_count": 3
               },
               "promotion_eligible": false,
               "rank": null,
@@ -2784,7 +2795,7 @@
                 "scope_note": "This compact action defines the candidate. Field equations and proof/test certificates are derived evidence, not extra fitted formula terms.",
                 "title": "Conformal scalar\u2013tensor gravity"
               },
-              "uncertainty": "Analytic GR-like predictions, a source-class uniqueness theorem, and two verified parsers exist. Real-Sun source support/tail and six other theorem premises remain blocked; no primary record was opened."
+              "uncertainty": "Analytic GR-like predictions, compact and noncompact source-class theorems, two verified parsers, and a covariance-aware raw-signal transform exist. Real-Sun tail facts and six registration fields remain blocked; no primary record was opened."
             },
             {
               "blocker": "missing_exact_action_bound_solar_control_bundle",
@@ -2834,7 +2845,7 @@
           "unranked_count": 2
         }
       },
-      "content_sha256": "21f44f72d0cb6b055d3c091a4e604acbd2017e05efae12f03d568c221dca71cb",
+      "content_sha256": "32efc9650953a807d6f8fefafdcc9fe6349d06a9f54dba26969d91dbb72155dc",
       "data_eligibility": {
         "dark_matter_or_halo_inputs": false,
         "observational_data_opened": false,
@@ -3108,9 +3119,23 @@
             "solar_known_answer": "267df12ce540d6cc7976d764e76a775225a36de771a7a419afc75c6e978bd6d0"
           },
           "leaderboard_root_sha256": "936bd388ae20939d900284cad56ae7c2535f5ea9153c4ef18016965d41b42f72"
+        },
+        {
+          "category_roots": {
+            "computational_robustness": "dfb762e11f5309047eaf3863ca926ce5b81e809028b18ad92b2096ef7d3e25f1",
+            "formal_adm_dirac": "d314e7068a2fc9dbed4155b02968e00cc67cf4d73b414595812185182cb97939",
+            "galaxy_direct_observable": "28a48d6df2e34fc2138365594d8fdcaf0ea996d155e62be5a5848ff0328123c4",
+            "hyperbolicity_common_cone": "10ca37be11a722fd59b31d59015a6db10b3179a3fd382cfedc6d4e315b5bb271",
+            "lensing_cluster": "edd21d903b5c03f3ea82a2310d1b527fd80f4c604e1d67657b22f6dc7dcfcb82",
+            "nonlinear_energy": "ff747293bca3b1d0e9b9425a01ddea8564ccc073bb9fa8edc0aa7d8598c976cd",
+            "novelty_non_equivalence": "a9770431a0f12db6b8c0e3576aec3a683b04ebf842b34607fd971bd5ce9d6f1f",
+            "simplicity_complexity": "bc8bf083851cb3b3fedabc49ae9bd79f3b685bf039ab44a7ae41ea615a586a51",
+            "solar_known_answer": "bf28baa4b9a0473a124ff7e0919988a219147527c9d1fac1c24d1f9e5ac19956"
+          },
+          "leaderboard_root_sha256": "c83dfe1de017bef9bb7d2da4820c55b9cc35a482df55b88333930b98b140d4be"
         }
       ],
-      "leaderboard_root_sha256": "936bd388ae20939d900284cad56ae7c2535f5ea9153c4ef18016965d41b42f72",
+      "leaderboard_root_sha256": "c83dfe1de017bef9bb7d2da4820c55b9cc35a482df55b88333930b98b140d4be",
       "ranking_contract": "no global score; category-local completed comparable evidence only; candidate_id is the final deterministic tie-break",
       "schema_version": "sigma-scientific-leaderboards-1.0"
     },
@@ -3159,10 +3184,10 @@
       }
     }
   },
-  "core_content_sha256": "28e4ca1289f6cf2cf7cf76a69365cfe95e053a03d98f005b8c021fc8f2796474",
+  "core_content_sha256": "e0d4e00d4a5fba2b5269a363b83fce779f4819c9a18510e996aa25bf70e26253",
   "volatile": {
     "campaign_watchdog_freshness": {
-      "age_seconds": 3138.756645,
+      "age_seconds": 3434.53329,
       "latest_event_utc": "2026-08-10T22:37:15.536734+00:00",
       "stale": true,
       "stale_source_reason": "latest_event_older_than_1800_seconds"
@@ -3173,11 +3198,11 @@
       "availability": "available",
       "device_class": "NVIDIA GeForce RTX 5090",
       "memory_total_mib": 32607.0,
-      "memory_used_mib": 1328.0,
-      "power_draw_watts": 45.17,
+      "memory_used_mib": 1334.0,
+      "power_draw_watts": 43.06,
       "source": "nvidia-smi_nvml",
       "utilization_percent": 4.0
     },
-    "sampled_at_utc": "2026-08-10T23:29:34.293379+00:00"
+    "sampled_at_utc": "2026-08-10T23:34:30.070024+00:00"
   }
 }

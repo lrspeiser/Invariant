@@ -47,10 +47,15 @@ def test_category_local_rankings_keep_missing_evidence_unranked() -> None:
     assert g4_solar["metrics"]["analytic_prediction_bundle_count"] == 1
     assert g4_solar["metrics"]["real_solar_bundle_count"] == 0
     assert g4_solar["metrics"]["source_class_uniqueness_theorem"] == "pass"
-    assert g4_solar["metrics"]["verified_parser_registration_field_count"] == 2
-    assert g4_solar["metrics"]["remaining_registration_field_count"] == 7
+    assert g4_solar["metrics"]["noncompact_trace_tail_theorem"] == (
+        "pass_conditionally"
+    )
+    assert g4_solar["metrics"]["verified_registration_field_count"] == 3
+    assert g4_solar["metrics"]["remaining_registration_field_count"] == 6
     assert g4_solar["metrics"]["primary_record_access_count"] == 0
-    assert g4_solar["blocker"] == "registered_finite_trace_support_or_resolved_exterior_tail_Kato_bound"
+    assert g4_solar["blocker"] == (
+        "registered_trace_tail_amplitude_decay_and_outer_transition"
+    )
 
     assert board["categories"]["lensing_cluster"]["ranked_count"] == 0
     assert board["categories"]["galaxy_direct_observable"]["ranked_count"] == 0
