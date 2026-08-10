@@ -360,7 +360,7 @@
         "primary_source": "https://arxiv.org/abs/gr-qc/0405109",
         "raw_cross_bracket": "2*(-M*n00*p00 - 2*M*n01*p01 - 2*M*n02*p02 - M*n11*p11 - 2*M*n12*p12 - M*n22*p22 + N*m00*p00 + 2*N*m01*p01 + 2*N*m02*p02 + N*m11*p11 + 2*N*m12*p12 + N*m22*p22)",
         "scope": "exact nonlinear pure-GR H-H hypersurface-deformation bracket; lapse/shift primary constraints and D-D/D-H sectors are covered by companion controls, while Einstein-Aether extra-field constraints remain separate",
-        "smeared_momentum_constraint": "-2*(-M*N0*Pdiv0 - M*N1*Pdiv1 - M*N2*Pdiv2 + M0*N*Pdiv0 + M1*N*Pdiv1 + M2*N*Pdiv2)",
+        "smeared_momentum_constraint": "2*(M*N0*Pdiv0 + M*N1*Pdiv1 + M*N2*Pdiv2 - M0*N*Pdiv0 - M1*N*Pdiv1 - M2*N*Pdiv2)",
         "spatial_dimension": 3,
         "structure_shift": "S^i=q^{ij}(N partial_j M-M partial_j N)",
         "ultralocal_cancellations": [
@@ -6597,6 +6597,203 @@
       "status": "pass"
     },
     {
+      "claim": "All 12 fixed-coefficient linear-X quartic candidates possess a globally defined positive Hermitian C4 extension of the lifted 55-state symmetrizer symbol.",
+      "evidence": {
+        "K55_global_lower_range": {
+          "maximum": 4.5325169417922035e-26,
+          "minimum": 4.5325169388565476e-26
+        },
+        "K55_global_total_order_four_range": {
+          "maximum": 8.406988324367933e+44,
+          "minimum": 8.402732249977662e+44
+        },
+        "artifact": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\runs\\physics-language\\quartic-low-frequency-symbol-extension-campaign\\campaign.json",
+        "artifact_hash_matches_reexecution": true,
+        "campaigns": {
+          "full_symmetrizer": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\runs\\physics-language\\quartic-full-symmetrizer-moser-campaign\\campaign.json",
+          "homogeneous": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\runs\\physics-language\\quartic-homogeneous-frequency-symbol-campaign\\campaign.json",
+          "symbol": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\runs\\physics-language\\quartic-symmetrizer-symbol-moser-campaign\\campaign.json"
+        },
+        "config": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\configs\\backgrounds\\quartic_low_frequency_symbol_extension_campaign.json",
+        "counts": {
+          "global_C4_positive_symbol_extensions_passed": 12,
+          "rejected": 0,
+          "selected": 12
+        },
+        "generic_low_frequency_extension_control": {
+          "bell_chain_rule_residuals": {
+            "0": "0",
+            "1": "0",
+            "2": "0",
+            "3": "0",
+            "4": "0"
+          },
+          "cutoff": "chi(t)=0 for t<=0; 126t^5-420t^6+540t^7-315t^8+70t^9 for 0<t<1; chi(t)=1 for t>=1",
+          "cutoff_derivative_factorization": "630*t**4*(t - 1)**4",
+          "cutoff_derivative_majorants": {
+            "0": 1,
+            "1": 10080,
+            "2": 60480,
+            "3": 312480,
+            "4": 1360800
+          },
+          "endpoint_C4_residuals": {
+            "derivative_1_at_inner": "0",
+            "derivative_1_at_outer": "0",
+            "derivative_2_at_inner": "0",
+            "derivative_2_at_outer": "0",
+            "derivative_3_at_inner": "0",
+            "derivative_3_at_outer": "0",
+            "derivative_4_at_inner": "0",
+            "derivative_4_at_outer": "0",
+            "value_at_inner": "0",
+            "value_at_outer_minus_one": "0"
+          },
+          "monotonicity_and_range": "chi'(t)=630 t^4(1-t)^4>=0 and chi(0)=0, chi(1)=1, so 0<=chi<=1",
+          "negative_control": {
+            "corruption": "replace the t^9 coefficient 70 by 69",
+            "outer_endpoint_residual": "-1",
+            "rejected": true
+          },
+          "passed": true,
+          "radial_cutoff_Frechet_majorants": {
+            "0": 1,
+            "1": 10080,
+            "2": 80640,
+            "3": 735840,
+            "4": 7650720
+          },
+          "radius_map_Frechet_majorants": {
+            "0": 1,
+            "1": 1,
+            "2": 2,
+            "3": 6,
+            "4": 36
+          },
+          "scope": "Exact C4 radial gluing and conservative Euclidean Frechet majorants; no pseudodifferential operator theorem is asserted here.",
+          "transition_variable": "t=|xi|-1"
+        },
+        "insufficient_order_negative": {
+          "errors": [
+            "low-frequency extension requires total order four"
+          ],
+          "status": "reject"
+        },
+        "representative_global_bounds": {
+          "0,0": {
+            "coordinate_multiindices_covered": 1,
+            "global_ceiling": "1196727626763922663951",
+            "high_frequency_ceiling": "1196727626763922663951",
+            "numeric": 1.1967276267639226e+21,
+            "transition_ceiling": "1196727626763922663951"
+          },
+          "0,1": {
+            "coordinate_multiindices_covered": 3,
+            "global_ceiling": "24126029022992906024989520",
+            "high_frequency_ceiling": "67432225119737360",
+            "numeric": 2.4126029022992907e+25,
+            "transition_ceiling": "24126029022992906024989520"
+          },
+          "0,2": {
+            "coordinate_multiindices_covered": 6,
+            "global_ceiling": "193955842626077971045550388",
+            "high_frequency_ceiling": "946251547934109898355508",
+            "numeric": 1.9395584262607796e+26,
+            "transition_ceiling": "193955842626077971045550388"
+          },
+          "0,3": {
+            "coordinate_multiindices_covered": 10,
+            "global_ceiling": "15753278666782638016180172235340",
+            "high_frequency_ceiling": "15722902803546150702180956134540",
+            "numeric": 1.575327866678264e+31,
+            "transition_ceiling": "15753278666782638016180172235340"
+          },
+          "0,4": {
+            "coordinate_multiindices_covered": 15,
+            "global_ceiling": "319758981527475969420506216605498054332",
+            "high_frequency_ceiling": "319125033610290785217169861996582091772",
+            "numeric": 3.19758981527476e+38,
+            "transition_ceiling": "319758981527475969420506216605498054332"
+          },
+          "1,0": {
+            "coordinate_multiindices_covered": 1,
+            "global_ceiling": "2716328945880247711",
+            "high_frequency_ceiling": "2716328945880247711",
+            "numeric": 2.716328945880248e+18,
+            "transition_ceiling": "2716328945880247711"
+          },
+          "1,1": {
+            "coordinate_multiindices_covered": 3,
+            "global_ceiling": "38172000248028301848963172",
+            "high_frequency_ceiling": "38117239056479356055109412",
+            "numeric": 3.8172000248028303e+25,
+            "transition_ceiling": "38172000248028301848963172"
+          },
+          "1,2": {
+            "coordinate_multiindices_covered": 6,
+            "global_ceiling": "634123909275892416545234879379180",
+            "high_frequency_ceiling": "633355465298424260335597522803180",
+            "numeric": 6.341239092758924e+32,
+            "transition_ceiling": "634123909275892416545234879379180"
+          },
+          "1,3": {
+            "coordinate_multiindices_covered": 10,
+            "global_ceiling": "12874258451446574856943344748542692276040",
+            "high_frequency_ceiling": "12855105772954624037200327389558103837320",
+            "numeric": 1.2874258451446576e+40,
+            "transition_ceiling": "12874258451446574856943344748542692276040"
+          },
+          "2,0": {
+            "coordinate_multiindices_covered": 1,
+            "global_ceiling": "1535452536283874242750514719",
+            "high_frequency_ceiling": "1535452536283874242750514719",
+            "numeric": 1.5354525362838743e+27,
+            "transition_ceiling": "1535452536283874242750514719"
+          },
+          "2,1": {
+            "coordinate_multiindices_covered": 3,
+            "global_ceiling": "25544007227009686079166445197575160",
+            "high_frequency_ceiling": "25513052503878203174432594820840120",
+            "numeric": 2.5544007227009684e+34,
+            "transition_ceiling": "25544007227009686079166445197575160"
+          },
+          "2,2": {
+            "coordinate_multiindices_covered": 6,
+            "global_ceiling": "518348297241481886031370465709176289367048",
+            "high_frequency_ceiling": "517833953855365916403510666726785138667528",
+            "numeric": 5.183482972414819e+41,
+            "transition_ceiling": "518348297241481886031370465709176289367048"
+          },
+          "3,0": {
+            "coordinate_multiindices_covered": 1,
+            "global_ceiling": "1027726205721269778022489763803930059",
+            "high_frequency_ceiling": "1027726205721269778022489763803930059",
+            "numeric": 1.0277262057212698e+36,
+            "transition_ceiling": "1027726205721269778022489763803930059"
+          },
+          "3,1": {
+            "coordinate_multiindices_covered": 3,
+            "global_ceiling": "20880295135912343200132728000484468917706740",
+            "high_frequency_ceiling": "20859576175605002401407794606846181687717300",
+            "numeric": 2.0880295135912344e+43,
+            "transition_ceiling": "20880295135912343200132728000484468917706740"
+          },
+          "4,0": {
+            "coordinate_multiindices_covered": 1,
+            "global_ceiling": "840273224997818079644591886658398574913574654",
+            "high_frequency_ceiling": "840273224997818079644591886658398574913574654",
+            "numeric": 8.402732249978181e+44,
+            "transition_ceiling": "840273224997818079644591886658398574913574654"
+          }
+        },
+        "scope": "The principal symmetrization identity is exact only for |xi|>=2; its defect is confined to bounded frequencies. This campaign does not yet choose a positive quantization, prove an operator norm or G\u00e5rding estimate, close an energy inequality, prove a lifespan, or include matter.",
+        "status": "pass_all_12_global_C4_positive_K55_symbol_extensions"
+      },
+      "name": "quartic_linear_x_low_frequency_symbol_extension",
+      "scope": "A ninth-degree monotone smoothstep is exactly flat through fourth order at |xi|=1 and |xi|=2. It convexly joins K55(U,e1) to K55(U,xi/|xi|), preserving the same pointwise lower/upper energy bounds, while exact radial Bell constants bound all 15 mixed state/frequency pairs. Principal symmetrization is exact for |xi|>=2 and its defect is confined to bounded frequencies. Positive quantization, operator constants, a closed energy inequality, lifespan, matter, and tube preservation remain open.",
+      "status": "pass"
+    },
+    {
       "claim": "The named quartic-Horndeski action has a positive three-mode reduced quadratic Hamiltonian on its healthy flat constant-timelike-gradient patch.",
       "evidence": {
         "action_binding_passed": true,
@@ -8148,10 +8345,10 @@
   ],
   "counts": {
     "failed": 0,
-    "passed": 109,
-    "total": 109
+    "passed": 110,
+    "total": 110
   },
-  "created_utc": "2026-08-10T01:49:03.907043+00:00",
+  "created_utc": "2026-08-10T02:05:05.779893+00:00",
   "field_contract": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\configs\\covariant_field_contract.json",
   "interpretation": "Passing controls validates only the stated algebraic scopes. It is not evidence that a generated gravity candidate is healthy or empirically correct.",
   "schema_version": "sigma-formal-controls-1.0"

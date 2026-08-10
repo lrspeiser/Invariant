@@ -128,6 +128,9 @@ from .quartic_linear_x_campaign import run_quartic_linear_x_symbol_campaign
 from .quartic_linearized_energy_campaign import (
     run_quartic_linearized_energy_campaign,
 )
+from .quartic_low_frequency_symbol_extension_campaign import (
+    run_quartic_low_frequency_symbol_extension_campaign,
+)
 from .quartic_nonlinear_evolution_campaign import (
     run_quartic_nonlinear_evolution_campaign,
 )
@@ -2493,6 +2496,117 @@ def _quartic_homogeneous_frequency_symbol_campaign_control(
     }
 
 
+def _quartic_low_frequency_symbol_extension_campaign_control(
+    root: Path,
+) -> tuple[bool, dict[str, Any]]:
+    base = root / "runs" / "physics-language"
+    paths = {
+        "homogeneous": base
+        / "quartic-homogeneous-frequency-symbol-campaign"
+        / "campaign.json",
+        "symbol": base / "quartic-symmetrizer-symbol-moser-campaign" / "campaign.json",
+        "full_symmetrizer": base
+        / "quartic-full-symmetrizer-moser-campaign"
+        / "campaign.json",
+    }
+    config_path = (
+        root
+        / "configs"
+        / "backgrounds"
+        / "quartic_low_frequency_symbol_extension_campaign.json"
+    )
+    artifact_path = base / "quartic-low-frequency-symbol-extension-campaign" / "campaign.json"
+    campaigns = {
+        name: json.loads(path.read_text(encoding="utf-8"))
+        for name, path in paths.items()
+    }
+    config = json.loads(config_path.read_text(encoding="utf-8"))
+    artifact = json.loads(artifact_path.read_text(encoding="utf-8"))
+    result = run_quartic_low_frequency_symbol_extension_campaign(
+        campaigns["homogeneous"],
+        campaigns["symbol"],
+        campaigns["full_symmetrizer"],
+        config,
+    )
+    insufficient = dict(config)
+    insufficient["maximum_total_derivative_order"] = 3
+    negative = run_quartic_low_frequency_symbol_extension_campaign(
+        campaigns["homogeneous"],
+        campaigns["symbol"],
+        campaigns["full_symmetrizer"],
+        insufficient,
+    )
+    certificates = result.get("certificates", [])
+    counts = result.get("counts", {})
+    control = result.get("generic_low_frequency_extension_control", {})
+    lower_bounds = [
+        item.get("energy_equivalence", {}).get("K55_2_lower_numeric", 0)
+        for item in certificates
+    ]
+    fourth_order = [
+        max(
+            float(entry.get("numeric", 0))
+            for key, entry in item.get(
+                "global_C4_frequency_derivative_integer_ceilings", {}
+            ).items()
+            if sum(int(value) for value in key.split(",")) == 4
+        )
+        for item in certificates
+    ]
+    passed = bool(
+        result.get("status")
+        == "pass_all_12_global_C4_positive_K55_symbol_extensions"
+        and counts.get("selected") == 12
+        and counts.get("global_C4_positive_symbol_extensions_passed") == 12
+        and len(certificates) == 12
+        and control.get("passed") is True
+        and set(control.get("endpoint_C4_residuals", {}).values()) == {"0"}
+        and control.get("radius_map_Frechet_majorants")
+        == {"0": 1, "1": 1, "2": 2, "3": 6, "4": 36}
+        and control.get("radial_cutoff_Frechet_majorants")
+        == {"0": 1, "1": 10080, "2": 80640, "3": 735840, "4": 7650720}
+        and control.get("negative_control", {}).get("rejected") is True
+        and all(value > 4e-26 for value in lower_bounds)
+        and all(8e44 < value < 9e44 for value in fourth_order)
+        and all(
+            len(item.get("global_C4_frequency_derivative_integer_ceilings", {}))
+            == 15
+            for item in certificates
+        )
+        and artifact.get("content_sha256") == result.get("content_sha256")
+        and negative.get("status") == "reject"
+    )
+    return passed, {
+        "campaigns": {name: str(path) for name, path in paths.items()},
+        "config": str(config_path),
+        "artifact": str(artifact_path),
+        "status": result.get("status"),
+        "counts": counts,
+        "artifact_hash_matches_reexecution": (
+            artifact.get("content_sha256") == result.get("content_sha256")
+        ),
+        "generic_low_frequency_extension_control": control,
+        "K55_global_lower_range": {
+            "minimum": min(lower_bounds) if lower_bounds else None,
+            "maximum": max(lower_bounds) if lower_bounds else None,
+        },
+        "K55_global_total_order_four_range": {
+            "minimum": min(fourth_order) if fourth_order else None,
+            "maximum": max(fourth_order) if fourth_order else None,
+        },
+        "representative_global_bounds": (
+            certificates[0].get("global_C4_frequency_derivative_integer_ceilings")
+            if certificates
+            else None
+        ),
+        "insufficient_order_negative": {
+            "status": negative.get("status"),
+            "errors": negative.get("errors"),
+        },
+        "scope": result.get("scope"),
+    }
+
+
 def _quartic_horndeski_covariant_adm_control(
     root: Path,
 ) -> tuple[bool, dict[str, Any]]:
@@ -3716,6 +3830,12 @@ def run_formal_control_suite(
             "All 12 fixed-coefficient linear-X quartic candidates possess homogeneous frequency derivatives through total state/frequency order four for the actual lifted 55-state symmetrizer symbol.",
             "Exact set-partition bounds give inverse-radius Frechet constants 1,1,4,24,204 and normalization-map constants 1,2,6,36,300. The full Bell composition converts every unit-direction bound into |xi|^-|beta| coordinate-frequency bounds for all 15 state/frequency pairs on |xi|>=1. A smooth low-frequency extension, quantization, explicit Calderon-Vaillancourt/Sobolev constants, a closed energy inequality, lifespan, matter, and tube preservation remain open.",
             lambda: _quartic_homogeneous_frequency_symbol_campaign_control(root),
+        ),
+        _run_check(
+            "quartic_linear_x_low_frequency_symbol_extension",
+            "All 12 fixed-coefficient linear-X quartic candidates possess a globally defined positive Hermitian C4 extension of the lifted 55-state symmetrizer symbol.",
+            "A ninth-degree monotone smoothstep is exactly flat through fourth order at |xi|=1 and |xi|=2. It convexly joins K55(U,e1) to K55(U,xi/|xi|), preserving the same pointwise lower/upper energy bounds, while exact radial Bell constants bound all 15 mixed state/frequency pairs. Principal symmetrization is exact for |xi|>=2 and its defect is confined to bounded frequencies. Positive quantization, operator constants, a closed energy inequality, lifespan, matter, and tube preservation remain open.",
+            lambda: _quartic_low_frequency_symbol_extension_campaign_control(root),
         ),
         _run_check(
             "quartic_horndeski_timelike_flat_physical_hamiltonian",

@@ -346,9 +346,23 @@ derivatives of the normalization map. The full Bell composition then proves, for
 12 candidates and every coordinate multiindex with `a+|beta|<=4`, a bound of the form
 `||D_U^a partial_xi^beta K55(U,xi/|xi|)|| <= C_(a,beta)|xi|^-|beta|` on
 `|xi|>=1`. The source ceilings are outward integer roundings of exact rational bounds,
-so the proof does not inherit a downward floating-point rounding error. This is the
-high-frequency chart only: low-frequency smoothing, quantization, operator constants,
-the commuted energy estimate, and lifespan remain separate fail-closed gates.
+so the proof does not inherit a downward floating-point rounding error. This campaign is
+the high-frequency chart only; the next campaign closes the finite-regularity extension.
+Quantization, operator constants, the commuted energy estimate, and lifespan remain
+separate fail-closed gates.
+
+The chart now has a global low-frequency extension as well. With `e1=(1,0,0)`, set
+`K_ext=K55(U,e1)` on `|xi|<=1`, use the directional `K55(U,xi/|xi|)` on
+`|xi|>=2`, and join them on the annulus by the monotone polynomial
+`chi(t)=126t^5-420t^6+540t^7-315t^8+70t^9`, `t=|xi|-1`. Its first four
+derivatives vanish at both endpoints, producing a global `C4` symbol. Exact radial
+set-partition bounds give `1,1,2,6,36` for derivatives of `|xi|` and
+`1,10080,80640,735840,7650720` for the conservative cutoff composition. Since
+`0<=chi<=1`, the extension is a convex combination of positive Hermitian matrices and
+retains each candidate's uniform `K55` lower and upper bounds. It exactly symmetrizes
+the principal symbol for `|xi|>=2`; the remaining defect is compactly supported in
+frequency. This is not yet an operator theorem: positive quantization, an explicit
+bounded-frequency remainder estimate, Sobolev commutators, and lifespan remain open.
 
 That compact-subset condition now has an explicit coordinate realization. In the normalized
 55-state basis, the ten metric deviations obey the exact identity

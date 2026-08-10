@@ -215,6 +215,31 @@ def test_all_formal_known_answer_controls_pass(tmp_path) -> None:
     assert frequency_symbol["evidence"]["insufficient_order_negative"]["status"] == (
         "reject"
     )
+    low_frequency = checks["quartic_linear_x_low_frequency_symbol_extension"]
+    assert low_frequency["status"] == "pass"
+    assert low_frequency["evidence"]["artifact_hash_matches_reexecution"]
+    low_frequency_control = low_frequency["evidence"][
+        "generic_low_frequency_extension_control"
+    ]
+    assert set(low_frequency_control["endpoint_C4_residuals"].values()) == {"0"}
+    assert low_frequency_control["radial_cutoff_Frechet_majorants"] == {
+        "0": 1,
+        "1": 10080,
+        "2": 80640,
+        "3": 735840,
+        "4": 7650720,
+    }
+    assert low_frequency_control["negative_control"]["rejected"]
+    assert low_frequency["evidence"]["K55_global_lower_range"]["minimum"] > 4e-26
+    assert low_frequency["evidence"]["K55_global_total_order_four_range"][
+        "maximum"
+    ] < 9e44
+    assert low_frequency["evidence"]["representative_global_bounds"]["0,4"][
+        "coordinate_multiindices_covered"
+    ] == 15
+    assert low_frequency["evidence"]["insufficient_order_negative"]["status"] == (
+        "reject"
+    )
     assert checks["projected_aether_q_fixed_metric_first_variation"]["status"] == "pass"
     assert checks["projected_aether_q_fixed_metric_first_variation"]["evidence"][
         "projector_and_B_first_variation_residual"

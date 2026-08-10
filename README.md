@@ -556,10 +556,31 @@ majorants `1,1,4,24,204` and normalization-map majorants `1,2,6,36,300` through
 order four. The Bell-polynomial composition therefore emits rigorous integer ceilings
 for every `D_U^a partial_xi^beta K55` with `a+|beta|<=4`, including the correct
 `|xi|^(-|beta|)` decay for `|xi|>=1`. All 12 candidates pass, and all coordinate
-multiindices are covered rather than only one radial derivative. A smooth low-frequency
-extension, pseudodifferential quantization, and explicit Sobolev/Calderon-Vaillancourt
-constants are still required before these bounds become a closed energy inequality or
-numerical lifespan.
+multiindices are covered rather than only one radial derivative. The homogeneous campaign
+alone does not cover `xi=0`; the following campaign closes that extension step. Positive
+pseudodifferential quantization and explicit Sobolev/operator constants remain required
+before these bounds become a closed energy inequality or numerical lifespan.
+
+Glue the homogeneous chart to a positive global finite-regularity symbol with:
+
+```powershell
+python -m sigma_theory_compiler quartic-low-frequency-symbol-extension-campaign `
+  --homogeneous-frequency-campaign runs/physics-language/quartic-homogeneous-frequency-symbol-campaign/campaign.json `
+  --symbol-campaign runs/physics-language/quartic-symmetrizer-symbol-moser-campaign/campaign.json `
+  --full-symmetrizer-campaign runs/physics-language/quartic-full-symmetrizer-moser-campaign/campaign.json `
+  --config configs/backgrounds/quartic_low_frequency_symbol_extension_campaign.json `
+  --output runs/physics-language/quartic-low-frequency-symbol-extension-campaign
+```
+
+The extension equals `K55(U,e1)` for `|xi|<=1`, equals the directional symmetrizer
+for `|xi|>=2`, and uses the monotone ninth-degree smoothstep
+`126t^5-420t^6+540t^7-315t^8+70t^9` between them. The cutoff and its first four
+derivatives match exactly at both endpoints, so the result is globally `C4`. Because
+the transition is a convex combination of two positive Hermitian symmetrizers, it
+preserves the same pointwise energy-equivalence bounds. Exact radial Bell majorants
+bound every mixed state/frequency derivative through total order four. The principal
+symmetrization defect is confined to bounded frequencies; positive quantization and
+operator-energy constants remain separate gates.
 
 The tube bounds 153 normalized coordinate atoms: ten metric deviations, 44 first partials,
 and 99 acceleration-free symmetric second partials. The exact orthonormal metric-basis identity

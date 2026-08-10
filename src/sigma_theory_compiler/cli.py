@@ -81,6 +81,10 @@ from .quartic_linearized_energy_campaign import (
     run_quartic_linearized_energy_campaign,
     write_quartic_linearized_energy_campaign,
 )
+from .quartic_low_frequency_symbol_extension_campaign import (
+    run_quartic_low_frequency_symbol_extension_campaign,
+    write_quartic_low_frequency_symbol_extension_campaign,
+)
 from .quartic_nonlinear_evolution_campaign import (
     run_quartic_nonlinear_evolution_campaign,
     write_quartic_nonlinear_evolution_campaign,
@@ -668,6 +672,21 @@ def _parser() -> argparse.ArgumentParser:
     )
     quartic_homogeneous_frequency.add_argument("--config", type=Path, required=True)
     quartic_homogeneous_frequency.add_argument("--output", type=Path, required=True)
+    quartic_low_frequency = subparsers.add_parser(
+        "quartic-low-frequency-symbol-extension-campaign",
+        help="Glue the homogeneous K55 symbol to a positive global C4 extension",
+    )
+    quartic_low_frequency.add_argument(
+        "--homogeneous-frequency-campaign", type=Path, required=True
+    )
+    quartic_low_frequency.add_argument(
+        "--symbol-campaign", type=Path, required=True
+    )
+    quartic_low_frequency.add_argument(
+        "--full-symmetrizer-campaign", type=Path, required=True
+    )
+    quartic_low_frequency.add_argument("--config", type=Path, required=True)
+    quartic_low_frequency.add_argument("--output", type=Path, required=True)
     dhost_compile = subparsers.add_parser(
         "dhost-pack-compile",
         help="Compile a reduced rank-one quadratic DHOST kinetic family",
@@ -1752,6 +1771,40 @@ def main(argv: list[str] | None = None) -> int:
             0
             if result["status"]
             == "pass_all_12_full_K55_homogeneous_frequency_C4_bounds"
+            else 1
+        )
+    if args.command == "quartic-low-frequency-symbol-extension-campaign":
+        homogeneous_campaign = json.loads(
+            args.homogeneous_frequency_campaign.read_text(encoding="utf-8")
+        )
+        symbol_campaign = json.loads(
+            args.symbol_campaign.read_text(encoding="utf-8")
+        )
+        full_symmetrizer_campaign = json.loads(
+            args.full_symmetrizer_campaign.read_text(encoding="utf-8")
+        )
+        config = json.loads(args.config.read_text(encoding="utf-8"))
+        result = run_quartic_low_frequency_symbol_extension_campaign(
+            homogeneous_campaign,
+            symbol_campaign,
+            full_symmetrizer_campaign,
+            config,
+        )
+        path = write_quartic_low_frequency_symbol_extension_campaign(
+            result, args.output
+        )
+        print(f"status={result['status']}")
+        print(f"selected={result['counts']['selected']}")
+        print(
+            "global_C4_positive_symbol_extensions_passed="
+            f"{result['counts']['global_C4_positive_symbol_extensions_passed']}"
+        )
+        print(f"rejected={result['counts']['rejected']}")
+        print(f"report={path}")
+        return (
+            0
+            if result["status"]
+            == "pass_all_12_global_C4_positive_K55_symbol_extensions"
             else 1
         )
     if args.command == "dhost-pack-compile":
