@@ -479,7 +479,10 @@ action IR, and all nine declared adapters execute. None yet completes the formal
 seeds pass current ADM/Dirac and principal gates but lack nonlinear Hamiltonian stability; two `G2`
 seeds now pass the exact nonlinear Legendre map, local Dirac pair, candidate-wide principal/common
 time cone, pointwise Hamiltonian, and causal-gradient dominant-energy prerequisites, but still lack
-a global constraint function-space/boundary contract and candidate-specific positive-mass theorem;
+the general nonmaximal positive-mass theorem needed for full global energy. An explicit
+asymptotically Euclidean function-space/falloff/constraint/ADM-charge contract now proves vanishing
+scalar boundary variation and a complete maximal-slice Riemannian positive-mass reduction for both
+seeds, but no hash-bound adapter yet proves `E_ADM >= |P_ADM|` on general nonmaximal data;
 the `G3=X/100` seed has an exact healthy center (ADM rank six/nullity one,
 `c_s^2=39999/40003`, and positive slicing-cone gap) but still lacks the componentwise
 gradient/Hessian/curvature cell, frame normalization, direction-sphere interval, and

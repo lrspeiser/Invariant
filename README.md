@@ -212,9 +212,13 @@ adapters. Its ledger is zero pass, zero reject, six blocked: the two Aether seed
 Hamiltonian stability; the `G3` seed retains a uniform-cell gap; and the conformal-`G4` seed retains
 global lapse-invertibility and energy gaps. Both convex `G2` seeds now pass
 their exact nonlinear Legendre map, local Dirac pair, principal/common-cone, pointwise Hamiltonian,
-and causal-gradient dominant-energy prerequisites. They remain blocked because no global
-constraint-space/boundary contract or candidate-specific positive-mass theorem has been supplied;
-local positivity is not treated as global energy. No Solar bundle was generated.
+and causal-gradient dominant-energy prerequisites. They remain blocked on global boundary and
+positive-mass completion; local positivity is not treated as global energy. No Solar bundle was generated.
+The G2 global follow-up now supplies an explicit asymptotically Euclidean function-space, falloff,
+constraint, scalar-flux, and ADM-charge contract. Both seeds pass a complete maximal-slice
+Riemannian positive-mass reduction with vanishing scalar boundary variation. They remain blocked
+on a hash-bound general nonmaximal Einstein--matter theorem proving `E_ADM >= |P_ADM|`; the
+restricted result is not promoted to that full gate.
 The cubic `G3=X/100` seed now has an exact healthy center: ADM primary rank six/nullity one,
 `c_s^2=39999/40003`, and a positive common slicing-cone gap. Its uniform weak-cell theorem remains
 blocked because the seed supplies only a prose derivative-ratio label, not the componentwise
