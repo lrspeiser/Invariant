@@ -223,9 +223,12 @@ The cubic `G3=X/100` seed now has an exact healthy center: ADM primary rank six/
 `c_s^2=39999/40003`, and a positive common slicing-cone gap. Its uniform weak-cell theorem remains
 certified on an explicit nonzero tetrad-domain box. The interval/BSSN machinery proves a negative
 `P00` upper bound, positive spatial and discriminant lower bounds, and a separated slicing cone for
-every unit direction without sampling. The remaining first blocker is the full candidate-specific
-lapse operator: the positive `G2` contribution `N^-3` is exact, but the cubic differential/boundary
-remainder, operator domain, zero-mode estimate, and global energy theorem are absent.
+every unit direction without sampling. The previous first blocker was the full candidate-specific
+lapse operator; it is now derived exactly in unitary gauge on periodic `T3`:
+`Delta_N=N^-3+2 beta K N^-4+(3/2) beta^2 N^-7`, with a certified lower bound about `0.940215`,
+zero kernel, and bounded inverse on the declared Sobolev domain. The remaining blocker is global
+Hamiltonian energy: the positive-`X` interval cell has nondecaying stress and cannot itself define
+an asymptotically flat finite-ADM-energy end.
 For `G4=1/2+phi^2/100` on `|phi|<=1`, the exact conformal factor lies in `[1,51/50]` and the
 Einstein-frame scalar kinetic coefficient lies in `[284/289,1]`. The transformation is uniformly
 invertible, tensor and scalar modes share the conformal null cone, and the local lapse kernel has

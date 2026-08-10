@@ -487,7 +487,11 @@ seeds, but no hash-bound adapter yet proves `E_ADM >= |P_ADM|` on general nonmax
 the `G3=X/100` seed now has a certified nonzero componentwise tetrad box: exact interval/BSSN bounds
 prove a common principal/slicing cone for every unit direction without sampling. Its remaining
 first blocker is the full `Delta_N=N^-3+Delta_N^(G3)` operator, because the cubic
-differential/boundary remainder, domain, zero-mode, and coercivity estimate are underived. The conformal
+differential/boundary remainder, domain, zero-mode, and coercivity estimate were underived. The
+unitary-gauge periodic derivation now gives
+`Delta_N=N^-3+2 beta K N^-4+(3/2)beta^2 N^-7`, a lower bound about `0.940215`, zero kernel, and a
+bounded inverse. The remaining G3 blocker is global Hamiltonian energy: its positive-`X` interval
+cell has nondecaying stress and is not an asymptotically flat finite-ADM-energy end. The conformal
 `G4=1/2+phi^2/100` seed now has a uniformly invertible conformal transformation, positive
 Einstein-frame scalar kinetic coefficient, a shared tensor/scalar null cone, and positive local
 lapse kernel throughout `|phi|<=1`; it still lacks a global lapse function-space/boundary inverse
