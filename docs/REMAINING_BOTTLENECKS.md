@@ -483,10 +483,10 @@ the general nonmaximal positive-mass theorem needed for full global energy. An e
 asymptotically Euclidean function-space/falloff/constraint/ADM-charge contract now proves vanishing
 scalar boundary variation and a complete maximal-slice Riemannian positive-mass reduction for both
 seeds, but no hash-bound adapter yet proves `E_ADM >= |P_ADM|` on general nonmaximal data;
-the `G3=X/100` seed has an exact healthy center (ADM rank six/nullity one,
-`c_s^2=39999/40003`, and positive slicing-cone gap) but still lacks the componentwise
-gradient/Hessian/curvature cell, frame normalization, direction-sphere interval, and
-candidate-specific lapse boundary operator needed for a uniform common-cone proof. The conformal
+the `G3=X/100` seed now has a certified nonzero componentwise tetrad box: exact interval/BSSN bounds
+prove a common principal/slicing cone for every unit direction without sampling. Its remaining
+first blocker is the full `Delta_N=N^-3+Delta_N^(G3)` operator, because the cubic
+differential/boundary remainder, domain, zero-mode, and coercivity estimate are underived. The conformal
 `G4=1/2+phi^2/100` seed now has a uniformly invertible conformal transformation, positive
 Einstein-frame scalar kinetic coefficient, a shared tensor/scalar null cone, and positive local
 lapse kernel throughout `|phi|<=1`; it still lacks a global lapse function-space/boundary inverse

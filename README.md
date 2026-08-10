@@ -221,10 +221,11 @@ on a hash-bound general nonmaximal Einstein--matter theorem proving `E_ADM >= |P
 restricted result is not promoted to that full gate.
 The cubic `G3=X/100` seed now has an exact healthy center: ADM primary rank six/nullity one,
 `c_s^2=39999/40003`, and a positive common slicing-cone gap. Its uniform weak-cell theorem remains
-blocked because the seed supplies only a prose derivative-ratio label, not the componentwise
-gradient/Hessian/curvature box, frame binding, and direction-sphere interval required by the
-existing cubic interval machinery. Its candidate-specific lapse boundary operator and global
-energy theorem are also absent.
+certified on an explicit nonzero tetrad-domain box. The interval/BSSN machinery proves a negative
+`P00` upper bound, positive spatial and discriminant lower bounds, and a separated slicing cone for
+every unit direction without sampling. The remaining first blocker is the full candidate-specific
+lapse operator: the positive `G2` contribution `N^-3` is exact, but the cubic differential/boundary
+remainder, operator domain, zero-mode estimate, and global energy theorem are absent.
 For `G4=1/2+phi^2/100` on `|phi|<=1`, the exact conformal factor lies in `[1,51/50]` and the
 Einstein-frame scalar kinetic coefficient lies in `[284/289,1]`. The transformation is uniformly
 invertible, tensor and scalar modes share the conformal null cone, and the local lapse kernel has

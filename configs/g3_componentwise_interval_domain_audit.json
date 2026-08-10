@@ -1,0 +1,65 @@
+{
+  "schema_version": "sigma-g3-componentwise-interval-domain-audit-config-1.0",
+  "campaign_id": "grammar-v3-g3-componentwise-interval-domain-20260810",
+  "predecessor": {
+    "path": "runs/engine/g3-seed-weak-cell-formal-audit.json",
+    "file_sha256": "7822ee3013b903669005746d51d6c198f4774244f5f8444603e645dca67a1145",
+    "content_sha256": "8c706c9cacd41cdfa88dd4cd2177594d694a22729a61fbfd36e2576940972e0b"
+  },
+  "formal_report": {
+    "path": "runs/formal-controls-v1/formal-controls.json",
+    "file_sha256": "b1bf58ebb4b43d3593f264959853dc3cd47f542b85f012999133ee43a6fece57"
+  },
+  "adapter_sources": [
+    {
+      "path": "src/sigma_theory_compiler/cubic_bssn_domain.py",
+      "file_sha256": "f1797647f4d289cd8bc3465bd028be867b36dbfe9a90313d553f729f575147d2"
+    },
+    {
+      "path": "src/sigma_theory_compiler/horndeski.py",
+      "file_sha256": "d108ed635851bb57fdeffcf23d02e4f66021e45591dbffd3b62e7983bb468d19"
+    }
+  ],
+  "lapse_adapter": {
+    "id": "generic_horndeski_l2_l4_unitary_distributed_dirac_closure",
+    "entrypoint": "sigma_theory_compiler.horndeski:generic_horndeski_l2_l4_unitary_dirac_control"
+  },
+  "target_seed": {
+    "seed_id": "G3-1ee308440d778dfbee8094d2",
+    "action_sha256": "d583c96daaba16fc429f336cfed5f28d8a9ed54017130eafc597615b79a6af53",
+    "predecessor_provenance_sha256": "40ab794e2ffc1850390ff122cc01fee4c5c75c709d961f3981b6c455bae7c9e9",
+    "prior_candidate_certificate_sha256": "01f5c289fae6dd6c5f6b71a9ec8320d05548ed906bc53e1b16d4564f4ac90265",
+    "G2": "X_phi",
+    "G3": "(1/100)*X_phi",
+    "G4": "1/2"
+  },
+  "componentwise_domain": {
+    "contract_kind": "pointwise_local_jet_box_not_evolution_invariant",
+    "normalization": "Lambda_phi=1 and M_Pl=1 in dimensionless adapter variables",
+    "frame": "local_orthonormal_tetrad_e0_equals_BSSN_foliation_normal",
+    "phi_interval": ["-1/100", "1/100"],
+    "anchor_X_interval": ["49/100", "51/100"],
+    "normal_gradient_padding": "1/1000",
+    "spatial_gradient_component_abs": "1/200",
+    "symmetric_hessian_component_abs": "1/100",
+    "riemann_tetrad_component_abs": "1/10000",
+    "lapse_interval": ["99/100", "101/100"],
+    "lapse_log_spatial_gradient_component_abs": "1/100",
+    "extrinsic_curvature_component_abs": "1/100",
+    "slicing": {"BSSN_sigma": "1", "BSSN_m": "1"},
+    "direction_sphere": "all xi_i with delta^ij*xi_i*xi_j=1; no sampling"
+  },
+  "interval_run": {
+    "schema_version": "sigma-cubic-bssn-domain-run-1.0",
+    "precision_digits": 60,
+    "time_covector_margin": 0.000001,
+    "spatial_block_margin": 0.000001,
+    "cone_separation_margin": 0.000001
+  },
+  "data_eligibility": {
+    "observational_data_opened": false,
+    "dark_matter_or_halo_inputs": false,
+    "redshift_distance_inputs": false,
+    "paid_llm_calls": false
+  }
+}
