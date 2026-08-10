@@ -470,8 +470,10 @@ formal adapters already exist (complete `K1..K4` Aether, convex `G2` k-essence, 
 disabled with explicit blockers. All six concrete seeds now compile into candidate-specific typed
 action IR, and all nine declared adapters execute. None yet completes the formal ladder: two Aether
 seeds pass current ADM/Dirac and principal gates but lack nonlinear Hamiltonian stability; two `G2`
-seeds pass local convexity but lack coupled constraint, candidate-wide principal, and global-energy
-closure; the `G3` seed has a conditional BSSN result without a uniform common-cone proof; and the
+seeds now pass the exact nonlinear Legendre map, local Dirac pair, candidate-wide principal/common
+time cone, pointwise Hamiltonian, and causal-gradient dominant-energy prerequisites, but still lack
+a global constraint function-space/boundary contract and candidate-specific positive-mass theorem;
+the `G3` seed has a conditional BSSN result without a uniform common-cone proof; and the
 conformal `G4(phi)` seed lacks global lapse-operator invertibility, inhomogeneous principal, and
 global-energy proofs. The exact bounded result is 0 pass, 0 reject, 6 blocked, with no Solar bundle.
 The persistent seed coordinator now runs the actual reviewed compilation campaign for all six work

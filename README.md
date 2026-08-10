@@ -209,8 +209,12 @@ and reuses the existing lease/recovery/checkpoint machinery. Its six-seed crash/
 idempotent, while a missing or changed callback blocks rather than guessing. A separate restart-safe
 candidate-specific campaign has now compiled all six action IRs and invoked all nine declared
 adapters. Its ledger is zero pass, zero reject, six blocked: the two Aether seeds still lack nonlinear
-Hamiltonian stability; the `G2`, `G3`, and conformal-`G4` seeds retain explicit coupled-constraint,
-principal/common-cone, lapse-invertibility, or global-energy gaps. No Solar bundle was generated.
+Hamiltonian stability; the `G3` and conformal-`G4` seeds retain explicit coupled-constraint,
+principal/common-cone, lapse-invertibility, or global-energy gaps. Both convex `G2` seeds now pass
+their exact nonlinear Legendre map, local Dirac pair, principal/common-cone, pointwise Hamiltonian,
+and causal-gradient dominant-energy prerequisites. They remain blocked because no global
+constraint-space/boundary contract or candidate-specific positive-mass theorem has been supplied;
+local positivity is not treated as global energy. No Solar bundle was generated.
 The restart-safe coordinator now executes this real reviewed campaign rather than a fixture callback.
 All six deterministic work items succeeded and reproduced the same six blocked decisions, with
 hash-bound callback, seed, work-record, and portable-result roots. Each cold replay copies only the
