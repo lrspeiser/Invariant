@@ -173,19 +173,22 @@ survivors, chains candidate/evidence lineage through cheap, symbolic, formal, an
 stages, and blocks every missing or unimplemented evaluator. The first reviewed downstream binding
 now performs the existing static covariant-lift classification: supported exact lifts pass, forbidden
 baryonic-`z` action atoms reject, and candidates that need an unavailable nonlinear adapter remain
-blocked rather than being misclassified. Reviewed ADM/Dirac/principal and sealed Solar known-answer
-evaluators are now connected; candidate-specific Solar and direct-observable galaxy gates remain
-fail-closed. A restart-safe bridge imported all 5,855 retained identities: 5,785 rejected the
+blocked rather than being misclassified. Reviewed ADM/Dirac/principal, sealed Solar known-answer,
+and sealed direct-observable galaxy evaluators are now connected; candidate-specific prediction
+bundles remain fail-closed. A restart-safe bridge imported all 5,855 retained identities: 5,785 rejected the
 covariant-lift policy, 70 remained blocked for the missing nonlinear covariant adapter, and zero
 were allowed to advance. The reviewed ADM/Dirac/principal evaluator therefore remains available
 for exactly mapped actions but was not reached by these static formulas. The Solar evaluator
 reproduces five action-bound GR controls while opening no observations and blocks every candidate
 without its own exact weak-field bundle.
 
-A bounded production-provenance audit subsequently constructed exact typed covariant maps for 2 of
-those 70 blocked identities: `q` and `q-(sqrt(1+x)-1)`. Both then failed the higher-jet formal
-preflight (rank loss and a nonpositive homogeneous acceleration kinetic coefficient, respectively),
-so neither was promoted; the other 68 remain blocked rather than guessed. The durable streaming
+A bounded production-provenance audit first constructed exact typed covariant maps for 2 of those
+70 identities: `q` and `q-(sqrt(1+x)-1)`. A subsequent composite adapter now lifts all remaining
+68 `F(x,q)` shapes exactly to typed `F(X_a_u,Q_a_u)` actions with universal zero static residual.
+This closes syntactic covariant provenance, not dynamics: the first 2 fail higher-jet formal
+preflight and the other 68 remain blocked for candidate-specific ADM/Dirac/principal analysis.
+Consequently zero Solar or galaxy prediction bundles exist and no candidate is promoted. The sealed
+galaxy evaluator has an empty registry, opens no observations, and blocks all 70. The durable streaming
 service now supports a multi-producer scheduler that leases disjoint Rust ranges transactionally and
 feeds the same single cached CUDA owner while preserving start/status/stop/resume/export recovery.
 On an identical 16-million-formula scaling run, eight producers reached 7.49 million source

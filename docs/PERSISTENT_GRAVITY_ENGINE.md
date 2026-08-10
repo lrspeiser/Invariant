@@ -165,9 +165,13 @@ portable blocks and registered all 5,855 identities. The static covariant-lift g
 for the forbidden baryonic action atom and blocked 70 for a missing exact nonlinear lift, leaving
 zero candidates eligible for the downstream ADM/Dirac/principal evaluator.
 
-The follow-up production-provenance audit resolved exact covariant maps for 2 of the 70 blocked
-identities and left 68 fail-closed. Both resolved identities failed higher-jet formal preflight, so
-the promoted count remains zero. `rust_parallel_streaming_search.py` now integrates with the durable
+The production-provenance chain now gives all 70 previously blocked identities exact typed
+covariant shape maps. Two linear maps fail higher-jet formal preflight; the other 68 exact
+`F(X_a_u,Q_a_u)` composite actions remain blocked because no candidate-specific
+ADM/Dirac/principal adapter exists. No Solar or galaxy prediction bundle was therefore generated,
+and the promoted count remains zero. The galaxy evaluator is connected but deliberately sealed with
+an empty prediction-bundle registry and no observational source registrations.
+`rust_parallel_streaming_search.py` now integrates with the durable
 start/status/stop/resume/export lifecycle while preserving one cached CUDA consumer, heartbeats,
 dead-owner recovery, the original execution deadline, exact ordered lineage, and all data/LLM
 guardrails. A bounded identical 16-million-formula comparison measured 7.49M, 7.21M, and 5.87M
@@ -179,10 +183,12 @@ evidence about any candidate.
 ## Current operational boundary
 
 The service executes the existing deterministic grammar and sampled-static evaluator. A separate
-promotion registry now has reviewed static covariant-lift, ADM/Dirac/principal-health, and sealed
-Solar known-answer evaluators. They require exact candidate-to-action and action-to-weak-field
-provenance and are not service queue stages yet. Candidate-specific Solar data and direct-observable
-galaxy evaluators remain unimplemented and fail-closed. The engine also does not yet generate new
+promotion registry now has reviewed static covariant-lift, ADM/Dirac/principal-health, sealed Solar
+known-answer, and sealed direct-observable galaxy evaluators. They require exact candidate-to-action
+and action-to-prediction provenance and are not service queue stages yet. Candidate-specific Solar
+and galaxy prediction bundles remain unimplemented and fail-closed; the galaxy evaluator opens no
+data until both exact prediction provenance and a separately authorized observable contract exist.
+The engine also does not yet generate new
 grammar productions from LLM
 suggestions, distribute work across multiple machines, or enforce a separate byte quota on the
 SQLite file. SQLite growth is nevertheless bounded by the configured task and wall limits, while

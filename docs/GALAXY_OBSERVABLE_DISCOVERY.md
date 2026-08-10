@@ -1,5 +1,11 @@
 # Galaxy observable-to-observable discovery protocol
 
+Implementation status: the promotion pipeline now includes a sealed candidate-specific evaluator,
+but its prediction-bundle registry and observational source registry are both empty. All 70 current
+production candidates are blocked before data access because none has passed candidate-specific
+formal health or supplied an exact direct-observable prediction bundle. No galaxy score or
+scientific decision has been produced.
+
 The first candidate-data target is galaxy kinematics, but the dataset remains sealed until the
 exact candidate action passes every formal gate. The frozen machine-readable contract is
 `configs/galaxy_observable_protocol.json`; its latest audit is

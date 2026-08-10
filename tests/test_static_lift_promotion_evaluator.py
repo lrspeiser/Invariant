@@ -14,6 +14,10 @@ ROOT = Path(__file__).resolve().parents[1]
 PIPELINE = ROOT / "configs" / "promotion_pipeline_fail_closed.json"
 DESCRIPTOR = ROOT / "configs" / "promotion_static_lift_evaluator.json"
 FORMAL_DESCRIPTOR = ROOT / "configs" / "promotion_adm_dirac_principal_evaluator.json"
+SOLAR_DESCRIPTOR = ROOT / "configs" / "promotion_solar_known_answer_evaluator.json"
+GALAXY_DESCRIPTOR = (
+    ROOT / "configs" / "promotion_galaxy_direct_observable_evaluator.json"
+)
 GENERATOR = ROOT / "configs" / "generator_v2_billion.json"
 MANIFEST = ROOT / "runs" / "knowledge-base" / "survivor-export-smoke.json"
 SURVIVORS = ROOT / "runs" / "knowledge-base" / "survivors-smoke"
@@ -76,6 +80,8 @@ def test_real_static_lift_promotion_is_reproducible_and_fail_closed(
     orchestrator = PromotionOrchestrator(tmp_path / "promotion.sqlite", pipeline)
     orchestrator.register_evaluator(descriptor)
     orchestrator.register_evaluator(_descriptor(FORMAL_DESCRIPTOR))
+    orchestrator.register_evaluator(_descriptor(SOLAR_DESCRIPTOR))
+    orchestrator.register_evaluator(_descriptor(GALAXY_DESCRIPTOR))
     assert orchestrator.import_rust_survivors(
         MANIFEST, GENERATOR, SURVIVORS, maximum_candidates=3
     ) == {"accepted": 3, "duplicates": 0, "limit": 3}
@@ -91,7 +97,5 @@ def test_real_static_lift_promotion_is_reproducible_and_fail_closed(
         "rejected": 1,
     }
     assert status["stages"]["adm_dirac_principal_health"]["counts"] == {"blocked": 3}
-    assert status["unimplemented_gates_fail_closed"] == [
-        "galaxy_direct_observable_controls",
-    ]
+    assert status["unimplemented_gates_fail_closed"] == []
     assert _load(ARTIFACT) == status
