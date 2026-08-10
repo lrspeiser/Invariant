@@ -358,9 +358,9 @@ Hermitian `deltaK_A` corrections give 153 zero differentiated Sylvester residual
 coordinate map has 41 nonzero and 112 zero corrections with an explicit affine positivity bound.
 The next exact gate is the 11,781 unordered second-atom conditions requiring component `D2K55`,
 `D2P55`, and `D2TC2`; CK1 still needs its source packet and `partial_1 F10` topology.
-Three chained resumable second-order chunks cover 192 canonical pairs and all 12 candidates: every
-one of the 2,304 equations has an exact Hermitian `deltaK_AB` with zero Sylvester residual and no
-obstruction. Each continuation verifies the prior record chain and resume tip. The remaining 11,589
+Four chained resumable second-order chunks cover 256 canonical pairs and all 12 candidates: every
+one of the 3,072 equations has an exact Hermitian `deltaK_AB` with zero Sylvester residual and no
+obstruction. Each continuation verifies the prior record chain and resume tip. The remaining 11,525
 pairs are explicitly unevaluated, so these chunks do not promote
 TC2 or global `H7`. TC1's source part needs the `Q`-contracted `partial_1F`
 state-to-jet topology, variable TC3
