@@ -1,0 +1,130 @@
+{
+  "schema_version": "sigma-solar-direct-signal-calibration-config-1.0",
+  "campaign_id": "g4-solar-direct-signal-calibration-readiness-20260810",
+  "local_bindings": {
+    "parser_status": {
+      "path": "runs/engine/solar-pds-parser-readiness.json",
+      "file_sha256": "4521c3e6968b5c23432fa2935db33ca858afa9856c1c15ba88acf5a7c00cb502"
+    },
+    "parser_config": {
+      "path": "configs/solar_pds_parser_readiness.json",
+      "file_sha256": "f0a566709c00e2c3218e7ace05711b5ef5cd94b62c0966eae8b600c0115e1f08"
+    },
+    "parser_source": {
+      "path": "src/sigma_theory_compiler/solar_pds_parser_readiness.py",
+      "file_sha256": "11b901328081a3fd48b2f615855235b155625028467915b5d6a0a846f7476da7"
+    },
+    "solar_protocol": {
+      "path": "configs/solar_observable_protocol.json",
+      "file_sha256": "56f719635a3c88e1c0efc06686f02ce53bb3157a8529571e2a6dcd48391e058d"
+    },
+    "source_registration": {
+      "path": "configs/observations/cassini_sce1_source_registration.json",
+      "file_sha256": "a354714476fd64e180fca7705a537af28524fa399374a3cbc720f0f90e5c5928"
+    }
+  },
+  "parser_bindings": {
+    "parser_status_content_sha256": "b45428db15d87acf5de9a7d91fbec382b01c7f0e63f68cecd276b7f39b330c25",
+    "selected_label_file_root_sha256": "0cefb3e60b380a883d3bb217d2d8b65a934a4561f684dd20397c027cc79522e5",
+    "tdf_tracking_layout_sha256": "0b8f614672750336c0a8e9fb465428964cecd3500bcca17cff544358c236d358",
+    "rsr_layout_sha256": "377fee6bcd9ce4cec3f1795092bef7d4a1be4ce5aa3ff25d4991294bc0bedbfa",
+    "filled_parser_registration_fields": {
+      "verified_ATDF_TDF_parser_sha256": "7251db8d1e8edf33f2d66876f96e1392a8e79fde73839769075ccf1e8c736c20",
+      "verified_RSR_parser_sha256": "ddae01e336e1f19902e4552aaef36ce23b5abb5717cf776905e2f00d078180fe"
+    }
+  },
+  "data_eligibility": {
+    "candidate_use_authorized": false,
+    "dark_matter_or_halo_inputs": false,
+    "observational_data_opened": false,
+    "paid_llm_calls": false,
+    "redshift_distance_inputs": false,
+    "target_values_accessed": false
+  },
+  "transformation_contract": {
+    "tdf_reconstruction": {
+      "three_part_formula": "H*1e6 + I*1e1 + L*1e-6",
+      "component_type": "unsigned_24_bit_MSB",
+      "sample_interval_input_unit": "centisecond",
+      "doppler_output": "count/sample_interval_second",
+      "range_type_1": "reconstructed_value*1e-9 second",
+      "range_unit_S": "reconstructed_value*0.5e-18*f_sky second",
+      "range_unit_X_HEF": "reconstructed_value*(11/75)e-18*f_sky second",
+      "range_unit_X_BLOCK_V": "reconstructed_value*(221/1498)e-18*f_sky second"
+    },
+    "rsr_reconstruction": {
+      "phase": "unwrap(atan2(Q,I)) with adjacent principal step strictly below 0.95*pi",
+      "frequency": "least_squares_phase_slope/(2*pi)",
+      "phase_jacobian": "dphase/dI=-Q/(I^2+Q^2), dphase/dQ=I/(I^2+Q^2)",
+      "input_unit": "dimensionless_odd_integer_ADC_code_after_2k_plus_1_bias",
+      "time_unit": "sample/sample_rate_hz"
+    },
+    "calibration_signs": {
+      "round_trip_light_time_s": "raw-clock-troposphere-ionosphere-solar_plasma-station_path-station_geometry",
+      "coherent_carrier_frequency_hz": "reference+residual-reference*oscillator_fraction-propagation_shift-station_geometry_shift",
+      "carrier_phase_rad": "raw-2*pi*reference*total_delay-instrument_phase-2*pi*reference*duration*oscillator_fraction"
+    },
+    "covariance": {
+      "method": "C_out=C_raw+J_nuisance*C_nuisance*J_nuisance^T",
+      "requirements": [
+        "finite symmetric positive-semidefinite covariance",
+        "raw I/Q Jacobian retained",
+        "shared calibration cross-correlations retained",
+        "output order and units retained"
+      ],
+      "nuisance_labels": [
+        "clock_offset_s",
+        "instrument_phase_offset_rad",
+        "ionosphere_delay_s",
+        "oscillator_fractional_error",
+        "propagation_frequency_shift_hz",
+        "solar_plasma_delay_s",
+        "station_geometry_delay_s",
+        "station_geometry_frequency_shift_hz",
+        "station_path_delay_s",
+        "troposphere_delay_s"
+      ]
+    },
+    "time_tags": {
+      "system": "UTC",
+      "association": "absolute TDF-RSR epoch separation must not exceed preregistered window"
+    },
+    "negative_controls": [
+      "unit mismatch",
+      "nonfinite or zero I/Q amplitude",
+      "phase branch ambiguity",
+      "nonpositive sample interval or sample rate",
+      "malformed or non-UTC time tag",
+      "TDF-RSR association-window violation",
+      "covariance shape, symmetry, finiteness, or PSD failure",
+      "unknown calibration nuisance",
+      "nonphysical corrected light time"
+    ]
+  },
+  "known_answer_vectors": {
+    "tdf_nanosecond_range": {
+      "range_parts": [120, 0, 0],
+      "expected_round_trip_light_time_s": 0.12,
+      "doppler_count_parts": [0, 12, 0],
+      "sample_interval_centisecond": 6000,
+      "expected_doppler_count_rate_hz": 2.0
+    },
+    "tdf_range_unit_S": {
+      "range_parts": [1, 0, 0],
+      "sky_frequency_hz": 2000000000.0,
+      "expected_round_trip_light_time_s": 0.001
+    },
+    "rsr_rotating_phasor": {
+      "sample_count": 20,
+      "sample_rate_hz": 100.0,
+      "amplitude": 1000.0,
+      "initial_phase_rad": 0.25,
+      "residual_frequency_hz": 5.0
+    },
+    "covariance_control": {
+      "shared_delay_correlations_required": true,
+      "nonzero_light_time_phase_covariance_required": true,
+      "primary_target_records_opened": false
+    }
+  }
+}
