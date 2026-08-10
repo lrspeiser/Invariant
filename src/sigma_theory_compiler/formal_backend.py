@@ -146,6 +146,9 @@ from .quartic_positive_quantization_campaign import (
 from .quartic_quasilinear_moser_campaign import (
     run_quartic_quasilinear_moser_campaign,
 )
+from .quartic_r3_sobolev_calculus_campaign import (
+    run_quartic_r3_sobolev_calculus_campaign,
+)
 from .quartic_solved_source_moser_campaign import (
     run_quartic_solved_source_moser_campaign,
 )
@@ -2811,6 +2814,134 @@ def _quartic_evolution_symbol_campaign_control(
     }
 
 
+def _quartic_r3_sobolev_calculus_campaign_control(
+    root: Path,
+) -> tuple[bool, dict[str, Any]]:
+    base = root / "runs" / "physics-language"
+    paths = {
+        "low_frequency": base
+        / "quartic-low-frequency-symbol-extension-campaign"
+        / "campaign.json",
+        "evolution": base / "quartic-evolution-symbol-campaign" / "campaign.json",
+        "coordinate_tube": base
+        / "quartic-coordinate-jet-tube-campaign"
+        / "campaign.json",
+        "solved_source": base
+        / "quartic-solved-source-moser-campaign"
+        / "campaign.json",
+    }
+    config_path = (
+        root
+        / "configs"
+        / "backgrounds"
+        / "quartic_r3_sobolev_calculus_campaign.json"
+    )
+    artifact_path = base / "quartic-r3-sobolev-calculus-campaign" / "campaign.json"
+    campaigns = {
+        name: json.loads(path.read_text(encoding="utf-8"))
+        for name, path in paths.items()
+    }
+    config = json.loads(config_path.read_text(encoding="utf-8"))
+    artifact = json.loads(artifact_path.read_text(encoding="utf-8"))
+    result = run_quartic_r3_sobolev_calculus_campaign(
+        campaigns["low_frequency"],
+        campaigns["evolution"],
+        campaigns["coordinate_tube"],
+        campaigns["solved_source"],
+        config,
+    )
+    insufficient = dict(config)
+    insufficient["sobolev_order"] = 5
+    negative = run_quartic_r3_sobolev_calculus_campaign(
+        campaigns["low_frequency"],
+        campaigns["evolution"],
+        campaigns["coordinate_tube"],
+        campaigns["solved_source"],
+        insufficient,
+    )
+    certificates = result.get("certificates", [])
+    counts = result.get("counts", {})
+    control = result.get("generic_R3_sobolev_chain_control", {})
+    radii = [
+        item.get("sufficient_H6_radius_for_state_and_spatial_jet_tube", {}).get(
+            "H6_radius_numeric", 0
+        )
+        for item in certificates
+    ]
+    passed = bool(
+        result.get("status")
+        == "pass_all_12_R3_H6_spatialized_K55_P55_symbol_bounds"
+        and counts.get("selected") == 12
+        and counts.get("R3_symbol_spatializations_passed") == 12
+        and len(certificates) == 12
+        and control.get("passed") is True
+        and control.get("H6_embedding_constant_squares")
+        == {
+            "0": "7/(1024*pi)",
+            "1": "3/(1024*pi)",
+            "2": "3/(1024*pi)",
+            "3": "7/(1024*pi)",
+            "4": "63/(1024*pi)",
+        }
+        and set(control.get("embedding_residuals", {}).values()) == {"0"}
+        and set(control.get("spatial_chain_residuals", {}).values()) == {"0"}
+        and set(control.get("time_chain_residuals", {}).values()) == {"0"}
+        and control.get("negative_control", {}).get("rejected") is True
+        and all(value > 2e-12 for value in radii)
+        and all(
+            item.get("coordinate_map_Frechet_integer_ceilings")
+            == {"1": "481", "2": "26860", "3": "991862", "4": "34142034"}
+            and len(item.get("spatialized_global_K55_bounds", {})) == 15
+            and len(item.get("spatialized_dyadic_P55_bounds", {})) == 15
+            and len(item.get("spatialized_time_K55_bounds", {})) == 10
+            for item in certificates
+        )
+        and artifact.get("content_sha256") == result.get("content_sha256")
+        and negative.get("status") == "reject"
+    )
+    return passed, {
+        "campaigns": {name: str(path) for name, path in paths.items()},
+        "config": str(config_path),
+        "artifact": str(artifact_path),
+        "status": result.get("status"),
+        "counts": counts,
+        "artifact_hash_matches_reexecution": (
+            artifact.get("content_sha256") == result.get("content_sha256")
+        ),
+        "generic_R3_sobolev_chain_control": control,
+        "sobolev_constants": result.get("sobolev_constants"),
+        "sufficient_H6_tube_radius_range": {
+            "minimum": min(radii) if radii else None,
+            "maximum": max(radii) if radii else None,
+        },
+        "representative_coordinate_map_ceilings": (
+            certificates[0].get("coordinate_map_Frechet_integer_ceilings")
+            if certificates
+            else None
+        ),
+        "representative_spatialized_K55_bounds": (
+            certificates[0].get("spatialized_global_K55_bounds")
+            if certificates
+            else None
+        ),
+        "representative_spatialized_P55_bounds": (
+            certificates[0].get("spatialized_dyadic_P55_bounds")
+            if certificates
+            else None
+        ),
+        "representative_time_K55_bounds": (
+            certificates[0].get("spatialized_time_K55_bounds")
+            if certificates
+            else None
+        ),
+        "insufficient_order_negative": {
+            "status": negative.get("status"),
+            "errors": negative.get("errors"),
+        },
+        "scope": result.get("scope"),
+    }
+
+
 def _quartic_horndeski_covariant_adm_control(
     root: Path,
 ) -> tuple[bool, dict[str, Any]]:
@@ -4052,6 +4183,12 @@ def run_formal_control_suite(
             "All 12 fixed-coefficient linear-X quartic candidates bind the exact 55-state physical-space first-order reduction to degree-one homogeneous principal-symbol derivatives through total state/frequency order four.",
             "The certified block identity M55=[[0,0],[L,M22]] gives ||M55||<=||L||+||M22||. Exact normalization-map and radial Leibniz recurrences convert the mixed unit-direction constituent bounds into all 15 scaled P55(U,xi)=|xi|M55(U,xi/|xi|) bounds. This closes the missing evolution side of the symbol calculus; anti-Wick composition/time commutators, lower-order sources, dyadic summation, lifespan, matter, and tube preservation remain open.",
             lambda: _quartic_evolution_symbol_campaign_control(root),
+        ),
+        _run_check(
+            "quartic_linear_x_R3_H6_symbol_spatialization",
+            "All 12 fixed-coefficient linear-X quartic candidates possess explicit Fourier-normalized H6(R3) spatialization polynomials for the global K55 symbol, the dyadic-shell P55 evolution symbol, and the time derivative of K55.",
+            "Exact R3 Fourier integrals give the C4 embedding and H6 algebra constants. The certified 153-coordinate-atom to 24-covariant-jet map is inserted with outward integer Frechet ceilings before spatial Faa-di-Bruno composition. All 15 K55/P55 spatial-frequency pairs and 10 time-K55 pairs pass, with a positive sufficient componentwise H6 tube radius. The coordinate-atom time budget, explicit anti-Wick composition/Calderon-Vaillancourt remainder, dyadic sum, lifespan, and matter remain open.",
+            lambda: _quartic_r3_sobolev_calculus_campaign_control(root),
         ),
         _run_check(
             "quartic_horndeski_timelike_flat_physical_hamiltonian",

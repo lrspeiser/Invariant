@@ -620,6 +620,30 @@ operator bound `||M55||<=||L||+||M22||`, and the exact radial Leibniz rule give 
 the anti-Wick composition and time-commutator remainder, including the bounded-frequency
 defect and dyadic Sobolev summation—not an unspecified evolution-symbol bound.
 
+Spatialize both symbols consistently on `R^3` with:
+
+```powershell
+python -m sigma_theory_compiler quartic-r3-sobolev-calculus-campaign `
+  --low-frequency-campaign runs/physics-language/quartic-low-frequency-symbol-extension-campaign/campaign.json `
+  --evolution-campaign runs/physics-language/quartic-evolution-symbol-campaign/campaign.json `
+  --coordinate-tube-campaign runs/physics-language/quartic-coordinate-jet-tube-campaign/campaign.json `
+  --solved-source-campaign runs/physics-language/quartic-solved-source-moser-campaign/campaign.json `
+  --config configs/backgrounds/quartic_r3_sobolev_calculus_campaign.json `
+  --output runs/physics-language/quartic-r3-sobolev-calculus-campaign
+```
+
+With the declared Fourier convention, `H^6(R^3)` is the smallest integer order that
+controls four spatial derivatives in `L^infinity`. The exact squared embedding constants
+for derivative orders zero through four are
+`7/(1024*pi), 3/(1024*pi), 3/(1024*pi), 7/(1024*pi), 63/(1024*pi)`.
+The campaign first composes the 24-covariant-jet symbol bounds with the certified
+153-coordinate-atom map using outward Fréchet ceilings `481,26860,991862,34142034`;
+it then emits the spatial Faà-di-Bruno polynomials for all 15 `K55` and dyadic `P55`
+pairs and all 10 admissible `partial_t K55` pairs. The componentwise `H^6` radius
+`~2.14e-12` suffices for the coordinate atoms and their first spatial partials to remain
+inside the `1e-13` pointwise tube. The time-atom budget and operator-composition estimate
+remain explicit next gates.
+
 The tube bounds 153 normalized coordinate atoms: ten metric deviations, 44 first partials,
 and 99 acceleration-free symmetric second partials. The exact orthonormal metric-basis identity
 and Neumann/product majorants prove that a common `1e-13` component cube maps strictly inside the

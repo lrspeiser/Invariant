@@ -360,7 +360,7 @@
         "primary_source": "https://arxiv.org/abs/gr-qc/0405109",
         "raw_cross_bracket": "2*(-M*n00*p00 - 2*M*n01*p01 - 2*M*n02*p02 - M*n11*p11 - 2*M*n12*p12 - M*n22*p22 + N*m00*p00 + 2*N*m01*p01 + 2*N*m02*p02 + N*m11*p11 + 2*N*m12*p12 + N*m22*p22)",
         "scope": "exact nonlinear pure-GR H-H hypersurface-deformation bracket; lapse/shift primary constraints and D-D/D-H sectors are covered by companion controls, while Einstein-Aether extra-field constraints remain separate",
-        "smeared_momentum_constraint": "-2*(-M*N0*Pdiv0 - M*N1*Pdiv1 - M*N2*Pdiv2 + M0*N*Pdiv0 + M1*N*Pdiv1 + M2*N*Pdiv2)",
+        "smeared_momentum_constraint": "2*(M*N0*Pdiv0 + M*N1*Pdiv1 + M*N2*Pdiv2 - M0*N*Pdiv0 - M1*N*Pdiv1 - M2*N*Pdiv2)",
         "spatial_dimension": 3,
         "structure_shift": "S^i=q^{ij}(N partial_j M-M partial_j N)",
         "ultralocal_cancellations": [
@@ -7034,6 +7034,437 @@
       "status": "pass"
     },
     {
+      "claim": "All 12 fixed-coefficient linear-X quartic candidates possess explicit Fourier-normalized H6(R3) spatialization polynomials for the global K55 symbol, the dyadic-shell P55 evolution symbol, and the time derivative of K55.",
+      "evidence": {
+        "artifact": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\runs\\physics-language\\quartic-r3-sobolev-calculus-campaign\\campaign.json",
+        "artifact_hash_matches_reexecution": true,
+        "campaigns": {
+          "coordinate_tube": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\runs\\physics-language\\quartic-coordinate-jet-tube-campaign\\campaign.json",
+          "evolution": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\runs\\physics-language\\quartic-evolution-symbol-campaign\\campaign.json",
+          "low_frequency": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\runs\\physics-language\\quartic-low-frequency-symbol-extension-campaign\\campaign.json",
+          "solved_source": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\runs\\physics-language\\quartic-solved-source-moser-campaign\\campaign.json"
+        },
+        "config": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\configs\\backgrounds\\quartic_r3_sobolev_calculus_campaign.json",
+        "counts": {
+          "R3_symbol_spatializations_passed": 12,
+          "rejected": 0,
+          "selected": 12
+        },
+        "generic_R3_sobolev_chain_control": {
+          "H6_algebra_constant": "2*sqrt(7)/sqrt(pi)",
+          "H6_embedding_constant_squares": {
+            "0": "7/(1024*pi)",
+            "1": "3/(1024*pi)",
+            "2": "3/(1024*pi)",
+            "3": "7/(1024*pi)",
+            "4": "63/(1024*pi)"
+          },
+          "embedding_identity": "C_(s,m)^2=Gamma(m+3/2)Gamma(s-m-3/2)/(4*pi^2 Gamma(s))",
+          "embedding_residuals": {
+            "0": "0",
+            "1": "0",
+            "2": "0",
+            "3": "0",
+            "4": "0"
+          },
+          "fourier_convention": {
+            "H6_norm_squared": "(2*pi)^-3 integral (1+|xi|^2)^6 |fhat|^2 dxi",
+            "forward": "fhat(xi)=integral exp(-i x.xi) f(x) dx",
+            "inverse": "f(x)=(2*pi)^-3 integral exp(i x.xi) fhat(xi) dxi"
+          },
+          "negative_control": {
+            "corruption": "replace choose(3,1)=3 by 1 for the marked time block",
+            "exact_witness_residual": "680",
+            "rejected": true
+          },
+          "passed": true,
+          "scope": "Exact Fourier integrals and scalar representatives verify the R3 embedding, algebra, spatial composition, and marked-time composition constants.",
+          "spatial_chain_residuals": {
+            "0": "0",
+            "1": "0",
+            "2": "0",
+            "3": "0",
+            "4": "0"
+          },
+          "time_chain_residuals": {
+            "0": "0",
+            "1": "0",
+            "2": "0",
+            "3": "0",
+            "4": "0"
+          },
+          "weighted_convolution_binomial_sums": {
+            "left": "32",
+            "right": "32"
+          }
+        },
+        "insufficient_order_negative": {
+          "errors": [
+            "R3 C4 symbol spatialization requires H6 and total order four"
+          ],
+          "status": "reject"
+        },
+        "representative_coordinate_map_ceilings": {
+          "1": "481",
+          "2": "26860",
+          "3": "991862",
+          "4": "34142034"
+        },
+        "representative_spatialized_K55_bounds": {
+          "0,0": {
+            "coefficients_by_power": {
+              "0": "1196727626763922663951"
+            },
+            "expression": "1196727626763922663951",
+            "variable": "R=max_A ||Y_A||_H6 for the 153 coordinate-atom field Y"
+          },
+          "0,1": {
+            "coefficients_by_power": {
+              "0": "24126029022992906024989520"
+            },
+            "expression": "24126029022992906024989520",
+            "variable": "R=max_A ||Y_A||_H6 for the 153 coordinate-atom field Y"
+          },
+          "0,2": {
+            "coefficients_by_power": {
+              "0": "193955842626077971045550388"
+            },
+            "expression": "193955842626077971045550388",
+            "variable": "R=max_A ||Y_A||_H6 for the 153 coordinate-atom field Y"
+          },
+          "0,3": {
+            "coefficients_by_power": {
+              "0": "15753278666782638016180172235340"
+            },
+            "expression": "15753278666782638016180172235340",
+            "variable": "R=max_A ||Y_A||_H6 for the 153 coordinate-atom field Y"
+          },
+          "0,4": {
+            "coefficients_by_power": {
+              "0": "319758981527475969420506216605498054332"
+            },
+            "expression": "319758981527475969420506216605498054332",
+            "variable": "R=max_A ||Y_A||_H6 for the 153 coordinate-atom field Y"
+          },
+          "1,0": {
+            "coefficients_by_power": {
+              "1": "1306554222968399148991*sqrt(3)/(32*sqrt(pi))"
+            },
+            "expression": "1306554222968399148991*sqrt(3)*R/(32*sqrt(pi))",
+            "variable": "R=max_A ||Y_A||_H6 for the 153 coordinate-atom field Y"
+          },
+          "1,1": {
+            "coefficients_by_power": {
+              "1": "4590183029825403297337821433*sqrt(3)/(8*sqrt(pi))"
+            },
+            "expression": "4590183029825403297337821433*sqrt(3)*R/(8*sqrt(pi))",
+            "variable": "R=max_A ||Y_A||_H6 for the 153 coordinate-atom field Y"
+          },
+          "1,2": {
+            "coefficients_by_power": {
+              "1": "76253400090426063089564494245346395*sqrt(3)/(8*sqrt(pi))"
+            },
+            "expression": "76253400090426063089564494245346395*sqrt(3)*R/(8*sqrt(pi))",
+            "variable": "R=max_A ||Y_A||_H6 for the 153 coordinate-atom field Y"
+          },
+          "1,3": {
+            "coefficients_by_power": {
+              "1": "774064789393225313273718603006129373096905*sqrt(3)/(4*sqrt(pi))"
+            },
+            "expression": "774064789393225313273718603006129373096905*sqrt(3)*R/(4*sqrt(pi))",
+            "variable": "R=max_A ||Y_A||_H6 for the 153 coordinate-atom field Y"
+          },
+          "2,0": {
+            "coefficients_by_power": {
+              "1": "1306554222968399148991*sqrt(3)/(32*sqrt(pi))",
+              "2": "1065731502960402072490035868260057/(1024*pi)"
+            },
+            "expression": "13*R*(81979346381569390191541220635389*sqrt(pi)*R + 3216133471922213289824*sqrt(3)*pi)/(1024*pi**(3/2))",
+            "variable": "R=max_A ||Y_A||_H6 for the 153 coordinate-atom field Y"
+          },
+          "2,1": {
+            "coefficients_by_power": {
+              "1": "4590183029825403297337821433*sqrt(3)/(8*sqrt(pi))",
+              "2": "2216207646402557965359025543132251522255/(128*pi)"
+            },
+            "expression": "13*R*(170477511261735228104540426394788578635*sqrt(pi)*R + 5649456036708188673646549456*sqrt(3)*pi)/(128*pi**(3/2))",
+            "variable": "R=max_A ||Y_A||_H6 for the 153 coordinate-atom field Y"
+          },
+          "2,2": {
+            "coefficients_by_power": {
+              "1": "76253400090426063089564494245346395*sqrt(3)/(8*sqrt(pi))",
+              "2": "44972092655669647063970389734504654129140387673/(128*pi)"
+            },
+            "expression": "3*R*(14990697551889882354656796578168218043046795891*sqrt(pi)*R + 406684800482272336477677302641847440*sqrt(3)*pi)/(128*pi**(3/2))",
+            "variable": "R=max_A ||Y_A||_H6 for the 153 coordinate-atom field Y"
+          },
+          "3,0": {
+            "coefficients_by_power": {
+              "1": "1306554222968399148991*sqrt(7)/(32*sqrt(pi))",
+              "2": "3197194508881206217470107604780171/(1024*pi)",
+              "3": "343110425728488682376557928547888510730434963*sqrt(3)/(32768*pi**(3/2))"
+            },
+            "expression": "13*R*(26393109671422206336658302195991423902341151*sqrt(3)*pi*R**2 + 7870017252630661458387957180997344*pi**(3/2)*R + 102916271101510825274368*sqrt(7)*pi**2)/(32768*pi**(5/2))",
+            "variable": "R=max_A ||Y_A||_H6 for the 153 coordinate-atom field Y"
+          },
+          "3,1": {
+            "coefficients_by_power": {
+              "1": "4590183029825403297337821433*sqrt(7)/(8*sqrt(pi))",
+              "2": "6648622939207673896077076629396754566765/(128*pi)",
+              "3": "1742742111873083239323710270207446847396310816617553*sqrt(3)/(8192*pi**(3/2))"
+            },
+            "expression": "13*R*(134057085528698710717208482323649757492023908970581*sqrt(3)*pi*R**2 + 32731682162253163796071761867799407097920*pi**(3/2)*R + 361565186349324075113379165184*sqrt(7)*pi**2)/(8192*pi**(5/2))",
+            "variable": "R=max_A ||Y_A||_H6 for the 153 coordinate-atom field Y"
+          },
+          "4,0": {
+            "coefficients_by_power": {
+              "1": "3919662668905197446973*sqrt(7)/(32*sqrt(pi))",
+              "2": "355243834320134024163345289420019*(9 + 4*sqrt(21))/(1024*pi)",
+              "3": "1029331277185466047129673785643665532191304889*sqrt(3)/(16384*pi**(3/2))",
+              "4": "101200660991295870383076038420136033821044044880908572295/(262144*pi**2)"
+            },
+            "expression": "R*(101200660991295870383076038420136033821044044880908572295*pi**(3/2)*R**3 + 16469300434967456754074780570298648515060878224*sqrt(3)*pi**2*R**2 + 818481794273588791672347546823723776*pi**(5/2)*R + 363769686343817240743265576366099456*sqrt(21)*pi**(5/2)*R + 32109876583671377485602816*sqrt(7)*pi**3)/(262144*pi**(7/2))",
+            "variable": "R=max_A ||Y_A||_H6 for the 153 coordinate-atom field Y"
+          }
+        },
+        "representative_spatialized_P55_bounds": {
+          "0,0": {
+            "coefficients_by_power": {
+              "0": "1616"
+            },
+            "expression": "1616",
+            "variable": "R=max_A ||Y_A||_H6 for the 153 coordinate-atom field Y"
+          },
+          "0,1": {
+            "coefficients_by_power": {
+              "0": "3370"
+            },
+            "expression": "3370",
+            "variable": "R=max_A ||Y_A||_H6 for the 153 coordinate-atom field Y"
+          },
+          "0,2": {
+            "coefficients_by_power": {
+              "0": "18242"
+            },
+            "expression": "18242",
+            "variable": "R=max_A ||Y_A||_H6 for the 153 coordinate-atom field Y"
+          },
+          "0,3": {
+            "coefficients_by_power": {
+              "0": "135186"
+            },
+            "expression": "135186",
+            "variable": "R=max_A ||Y_A||_H6 for the 153 coordinate-atom field Y"
+          },
+          "0,4": {
+            "coefficients_by_power": {
+              "0": "1312524"
+            },
+            "expression": "1312524",
+            "variable": "R=max_A ||Y_A||_H6 for the 153 coordinate-atom field Y"
+          },
+          "1,0": {
+            "coefficients_by_power": {
+              "1": "2773927*sqrt(3)/sqrt(pi)"
+            },
+            "expression": "2773927*sqrt(3)*R/sqrt(pi)",
+            "variable": "R=max_A ||Y_A||_H6 for the 153 coordinate-atom field Y"
+          },
+          "1,1": {
+            "coefficients_by_power": {
+              "1": "46546851*sqrt(3)/(8*sqrt(pi))"
+            },
+            "expression": "46546851*sqrt(3)*R/(8*sqrt(pi))",
+            "variable": "R=max_A ||Y_A||_H6 for the 153 coordinate-atom field Y"
+          },
+          "1,2": {
+            "coefficients_by_power": {
+              "1": "252487001*sqrt(3)/(8*sqrt(pi))"
+            },
+            "expression": "252487001*sqrt(3)*R/(8*sqrt(pi))",
+            "variable": "R=max_A ||Y_A||_H6 for the 153 coordinate-atom field Y"
+          },
+          "1,3": {
+            "coefficients_by_power": {
+              "1": "1872940407*sqrt(3)/(8*sqrt(pi))"
+            },
+            "expression": "1872940407*sqrt(3)*R/(8*sqrt(pi))",
+            "variable": "R=max_A ||Y_A||_H6 for the 153 coordinate-atom field Y"
+          },
+          "2,0": {
+            "coefficients_by_power": {
+              "1": "2773927*sqrt(3)/sqrt(pi)",
+              "2": "14534600102673/(512*pi)"
+            },
+            "expression": "R*(14534600102673*sqrt(pi)*R + 1420250624*sqrt(3)*pi)/(512*pi**(3/2))",
+            "variable": "R=max_A ||Y_A||_H6 for the 153 coordinate-atom field Y"
+          },
+          "2,1": {
+            "coefficients_by_power": {
+              "1": "46546851*sqrt(3)/(8*sqrt(pi))",
+              "2": "60973467280611/(1024*pi)"
+            },
+            "expression": "3*R*(20324489093537*sqrt(pi)*R + 1985998976*sqrt(3)*pi)/(1024*pi**(3/2))",
+            "variable": "R=max_A ||Y_A||_H6 for the 153 coordinate-atom field Y"
+          },
+          "2,2": {
+            "coefficients_by_power": {
+              "1": "252487001*sqrt(3)/(8*sqrt(pi))",
+              "2": "82685552545677/(256*pi)"
+            },
+            "expression": "R*(82685552545677*sqrt(pi)*R + 8079584032*sqrt(3)*pi)/(256*pi**(3/2))",
+            "variable": "R=max_A ||Y_A||_H6 for the 153 coordinate-atom field Y"
+          },
+          "3,0": {
+            "coefficients_by_power": {
+              "1": "2773927*sqrt(7)/sqrt(pi)",
+              "2": "43603800308019/(512*pi)",
+              "3": "2379750215182438755*sqrt(3)/(16384*pi**(3/2))"
+            },
+            "expression": "R*(2379750215182438755*sqrt(3)*pi*R**2 + 1395321609856608*pi**(3/2)*R + 45448019968*sqrt(7)*pi**2)/(16384*pi**(5/2))",
+            "variable": "R=max_A ||Y_A||_H6 for the 153 coordinate-atom field Y"
+          },
+          "3,1": {
+            "coefficients_by_power": {
+              "1": "46546851*sqrt(7)/(8*sqrt(pi))",
+              "2": "182920401841833/(1024*pi)",
+              "3": "9983186688679390083*sqrt(3)/(32768*pi**(3/2))"
+            },
+            "expression": "3*R*(3327728896226463361*sqrt(3)*pi*R**2 + 1951150952979552*pi**(3/2)*R + 63551967232*sqrt(7)*pi**2)/(32768*pi**(5/2))",
+            "variable": "R=max_A ||Y_A||_H6 for the 153 coordinate-atom field Y"
+          },
+          "4,0": {
+            "coefficients_by_power": {
+              "1": "8321781*sqrt(7)/sqrt(pi)",
+              "2": "4844866700891*(9 + 4*sqrt(21))/(512*pi)",
+              "3": "7139250645547316265*sqrt(3)/(8192*pi**(3/2))",
+              "4": "1558547250721715795538411/(524288*pi**2)"
+            },
+            "expression": "R*(1558547250721715795538411*pi**(3/2)*R**3 + 456912041315028240960*sqrt(3)*pi**2*R**2 + 44650291515411456*pi**(5/2)*R + 19844574006849536*sqrt(21)*pi**(5/2)*R + 4363009916928*sqrt(7)*pi**3)/(524288*pi**(7/2))",
+            "variable": "R=max_A ||Y_A||_H6 for the 153 coordinate-atom field Y"
+          }
+        },
+        "representative_time_K55_bounds": {
+          "0,0": {
+            "coefficients_by_power": {
+              "0": "1306554222968399148991*sqrt(7)/(32*sqrt(pi))"
+            },
+            "expression": "1306554222968399148991*sqrt(7)/(32*sqrt(pi))",
+            "full_bound": "max_A ||partial_t Y_A||_H6 times the emitted polynomial",
+            "variable": "R=max_A ||Y_A||_H6 for the 153 coordinate-atom field Y"
+          },
+          "0,1": {
+            "coefficients_by_power": {
+              "0": "4590183029825403297337821433*sqrt(7)/(8*sqrt(pi))"
+            },
+            "expression": "4590183029825403297337821433*sqrt(7)/(8*sqrt(pi))",
+            "full_bound": "max_A ||partial_t Y_A||_H6 times the emitted polynomial",
+            "variable": "R=max_A ||Y_A||_H6 for the 153 coordinate-atom field Y"
+          },
+          "0,2": {
+            "coefficients_by_power": {
+              "0": "76253400090426063089564494245346395*sqrt(7)/(8*sqrt(pi))"
+            },
+            "expression": "76253400090426063089564494245346395*sqrt(7)/(8*sqrt(pi))",
+            "full_bound": "max_A ||partial_t Y_A||_H6 times the emitted polynomial",
+            "variable": "R=max_A ||Y_A||_H6 for the 153 coordinate-atom field Y"
+          },
+          "0,3": {
+            "coefficients_by_power": {
+              "0": "774064789393225313273718603006129373096905*sqrt(7)/(4*sqrt(pi))"
+            },
+            "expression": "774064789393225313273718603006129373096905*sqrt(7)/(4*sqrt(pi))",
+            "full_bound": "max_A ||partial_t Y_A||_H6 times the emitted polynomial",
+            "variable": "R=max_A ||Y_A||_H6 for the 153 coordinate-atom field Y"
+          },
+          "1,0": {
+            "coefficients_by_power": {
+              "0": "1306554222968399148991*sqrt(3)/(32*sqrt(pi))",
+              "1": "355243834320134024163345289420019*sqrt(21)/(1024*pi)"
+            },
+            "expression": "13*(27326448793856463397180406878463*sqrt(21)*sqrt(pi)*R + 3216133471922213289824*sqrt(3)*pi)/(1024*pi**(3/2))",
+            "full_bound": "max_A ||partial_t Y_A||_H6 times the emitted polynomial",
+            "variable": "R=max_A ||Y_A||_H6 for the 153 coordinate-atom field Y"
+          },
+          "1,1": {
+            "coefficients_by_power": {
+              "0": "4590183029825403297337821433*sqrt(3)/(8*sqrt(pi))",
+              "1": "738735882134185988453008514377417174085*sqrt(21)/(128*pi)"
+            },
+            "expression": "13*(56825837087245076034846808798262859545*sqrt(21)*sqrt(pi)*R + 5649456036708188673646549456*sqrt(3)*pi)/(128*pi**(3/2))",
+            "full_bound": "max_A ||partial_t Y_A||_H6 times the emitted polynomial",
+            "variable": "R=max_A ||Y_A||_H6 for the 153 coordinate-atom field Y"
+          },
+          "1,2": {
+            "coefficients_by_power": {
+              "0": "76253400090426063089564494245346395*sqrt(3)/(8*sqrt(pi))",
+              "1": "14990697551889882354656796578168218043046795891*sqrt(21)/(128*pi)"
+            },
+            "expression": "3*(4996899183963294118218932192722739347682265297*sqrt(21)*sqrt(pi)*R + 406684800482272336477677302641847440*sqrt(3)*pi)/(128*pi**(3/2))",
+            "full_bound": "max_A ||partial_t Y_A||_H6 times the emitted polynomial",
+            "variable": "R=max_A ||Y_A||_H6 for the 153 coordinate-atom field Y"
+          },
+          "2,0": {
+            "coefficients_by_power": {
+              "0": "1306554222968399148991*sqrt(3)/(32*sqrt(pi))",
+              "1": "355243834320134024163345289420019*(sqrt(21) + 6)/(1024*pi)",
+              "2": "343110425728488682376557928547888510730434963*sqrt(7)/(32768*pi**(3/2))"
+            },
+            "expression": "13*(26393109671422206336658302195991423902341151*sqrt(7)*pi*R**2 + 874446361403406828709773020110816*sqrt(21)*pi**(3/2)*R + 5246678168420440972258638120664896*pi**(3/2)*R + 102916271101510825274368*sqrt(3)*pi**2)/(32768*pi**(5/2))",
+            "full_bound": "max_A ||partial_t Y_A||_H6 times the emitted polynomial",
+            "variable": "R=max_A ||Y_A||_H6 for the 153 coordinate-atom field Y"
+          },
+          "2,1": {
+            "coefficients_by_power": {
+              "0": "4590183029825403297337821433*sqrt(3)/(8*sqrt(pi))",
+              "1": "738735882134185988453008514377417174085*(sqrt(21) + 6)/(128*pi)",
+              "2": "1742742111873083239323710270207446847396310816617553*sqrt(7)/(8192*pi**(3/2))"
+            },
+            "expression": "13*(134057085528698710717208482323649757492023908970581*sqrt(7)*pi*R**2 + 3636853573583684866230195763088823010880*sqrt(21)*pi**(3/2)*R + 21821121441502109197381174578532938065280*pi**(3/2)*R + 361565186349324075113379165184*sqrt(3)*pi**2)/(8192*pi**(5/2))",
+            "full_bound": "max_A ||partial_t Y_A||_H6 times the emitted polynomial",
+            "variable": "R=max_A ||Y_A||_H6 for the 153 coordinate-atom field Y"
+          },
+          "3,0": {
+            "coefficients_by_power": {
+              "0": "1306554222968399148991*sqrt(7)/(32*sqrt(pi))",
+              "1": "8881095858003350604083632235500475/(1024*pi)",
+              "2": "1029331277185466047129673785643665532191304889*(sqrt(3) + sqrt(7))/(32768*pi**(3/2))",
+              "3": "33733553663765290127692012806712011273681348293636190765*sqrt(21)/(262144*pi**2)"
+            },
+            "expression": "(33733553663765290127692012806712011273681348293636190765*sqrt(21)*pi**(3/2)*R**3 + 8234650217483728377037390285149324257530439112*sqrt(3)*pi**2*R**2 + 8234650217483728377037390285149324257530439112*sqrt(7)*pi**2*R**2 + 2273560539648857754645409852288121600*pi**(5/2)*R + 10703292194557125828534272*sqrt(7)*pi**3)/(262144*pi**(7/2))",
+            "full_bound": "max_A ||partial_t Y_A||_H6 times the emitted polynomial",
+            "variable": "R=max_A ||Y_A||_H6 for the 153 coordinate-atom field Y"
+          }
+        },
+        "scope": "This resolves the prior torus/R3 Sobolev mismatch and spatializes the certified symbol derivatives. It does not yet close the coordinate-atom time H6 budget, prove a Calderon-Vaillancourt/composition remainder, sum dyadic energies, or prove lifespan.",
+        "sobolev_constants": {
+          "H6_C4_embedding": {
+            "0": "sqrt(7)/(32*sqrt(pi))",
+            "1": "sqrt(3)/(32*sqrt(pi))",
+            "2": "sqrt(3)/(32*sqrt(pi))",
+            "3": "sqrt(7)/(32*sqrt(pi))",
+            "4": "3*sqrt(7)/(32*sqrt(pi))"
+          },
+          "H6_algebra": "2*sqrt(7)/sqrt(pi)",
+          "dyadic_ball_Bernstein": {
+            "0": "2*sqrt(3)/(3*pi)",
+            "1": "4*sqrt(3)/(3*pi)",
+            "2": "8*sqrt(3)/(3*pi)",
+            "3": "16*sqrt(3)/(3*pi)",
+            "4": "32*sqrt(3)/(3*pi)"
+          }
+        },
+        "status": "pass_all_12_R3_H6_spatialized_K55_P55_symbol_bounds",
+        "sufficient_H6_tube_radius_range": {
+          "maximum": 2.143758674210172e-12,
+          "minimum": 2.143758674210172e-12
+        }
+      },
+      "name": "quartic_linear_x_R3_H6_symbol_spatialization",
+      "scope": "Exact R3 Fourier integrals give the C4 embedding and H6 algebra constants. The certified 153-coordinate-atom to 24-covariant-jet map is inserted with outward integer Frechet ceilings before spatial Faa-di-Bruno composition. All 15 K55/P55 spatial-frequency pairs and 10 time-K55 pairs pass, with a positive sufficient componentwise H6 tube radius. The coordinate-atom time budget, explicit anti-Wick composition/Calderon-Vaillancourt remainder, dyadic sum, lifespan, and matter remain open.",
+      "status": "pass"
+    },
+    {
       "claim": "The named quartic-Horndeski action has a positive three-mode reduced quadratic Hamiltonian on its healthy flat constant-timelike-gradient patch.",
       "evidence": {
         "action_binding_passed": true,
@@ -8585,10 +9016,10 @@
   ],
   "counts": {
     "failed": 0,
-    "passed": 112,
-    "total": 112
+    "passed": 113,
+    "total": 113
   },
-  "created_utc": "2026-08-10T02:52:19.577590+00:00",
+  "created_utc": "2026-08-10T03:16:22.462434+00:00",
   "field_contract": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\configs\\covariant_field_contract.json",
   "interpretation": "Passing controls validates only the stated algebraic scopes. It is not evidence that a generated gravity candidate is healthy or empirically correct.",
   "schema_version": "sigma-formal-controls-1.0"

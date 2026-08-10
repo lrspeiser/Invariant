@@ -105,6 +105,10 @@ from .quartic_quasilinear_moser_campaign import (
     run_quartic_quasilinear_moser_campaign,
     write_quartic_quasilinear_moser_campaign,
 )
+from .quartic_r3_sobolev_calculus_campaign import (
+    run_quartic_r3_sobolev_calculus_campaign,
+    write_quartic_r3_sobolev_calculus_campaign,
+)
 from .quartic_solved_source_moser_campaign import (
     run_quartic_solved_source_moser_campaign,
     write_quartic_solved_source_moser_campaign,
@@ -719,6 +723,24 @@ def _parser() -> argparse.ArgumentParser:
     )
     quartic_evolution_symbol.add_argument("--config", type=Path, required=True)
     quartic_evolution_symbol.add_argument("--output", type=Path, required=True)
+    quartic_r3_sobolev = subparsers.add_parser(
+        "quartic-r3-sobolev-calculus-campaign",
+        help="Spatialize K55 and P55 with explicit R3 H6 constants",
+    )
+    quartic_r3_sobolev.add_argument(
+        "--low-frequency-campaign", type=Path, required=True
+    )
+    quartic_r3_sobolev.add_argument(
+        "--evolution-campaign", type=Path, required=True
+    )
+    quartic_r3_sobolev.add_argument(
+        "--coordinate-tube-campaign", type=Path, required=True
+    )
+    quartic_r3_sobolev.add_argument(
+        "--solved-source-campaign", type=Path, required=True
+    )
+    quartic_r3_sobolev.add_argument("--config", type=Path, required=True)
+    quartic_r3_sobolev.add_argument("--output", type=Path, required=True)
     dhost_compile = subparsers.add_parser(
         "dhost-pack-compile",
         help="Compile a reduced rank-one quadratic DHOST kinetic family",
@@ -1889,6 +1911,42 @@ def main(argv: list[str] | None = None) -> int:
             0
             if result["status"]
             == "pass_all_12_full_55_state_degree_one_evolution_symbol_C4_bounds"
+            else 1
+        )
+    if args.command == "quartic-r3-sobolev-calculus-campaign":
+        low_frequency_campaign = json.loads(
+            args.low_frequency_campaign.read_text(encoding="utf-8")
+        )
+        evolution_campaign = json.loads(
+            args.evolution_campaign.read_text(encoding="utf-8")
+        )
+        coordinate_tube_campaign = json.loads(
+            args.coordinate_tube_campaign.read_text(encoding="utf-8")
+        )
+        solved_source_campaign = json.loads(
+            args.solved_source_campaign.read_text(encoding="utf-8")
+        )
+        config = json.loads(args.config.read_text(encoding="utf-8"))
+        result = run_quartic_r3_sobolev_calculus_campaign(
+            low_frequency_campaign,
+            evolution_campaign,
+            coordinate_tube_campaign,
+            solved_source_campaign,
+            config,
+        )
+        path = write_quartic_r3_sobolev_calculus_campaign(result, args.output)
+        print(f"status={result['status']}")
+        print(f"selected={result['counts']['selected']}")
+        print(
+            "R3_symbol_spatializations_passed="
+            f"{result['counts']['R3_symbol_spatializations_passed']}"
+        )
+        print(f"rejected={result['counts']['rejected']}")
+        print(f"report={path}")
+        return (
+            0
+            if result["status"]
+            == "pass_all_12_R3_H6_spatialized_K55_P55_symbol_bounds"
             else 1
         )
     if args.command == "dhost-pack-compile":

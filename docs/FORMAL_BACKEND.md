@@ -390,6 +390,22 @@ factor rejects. This closes the actual evolution-symbol regularity gate. Anti-Wi
 composition, `d_t K`, the bounded-frequency defect, lower-order nonlinear sources,
 dyadic summation, and a quantitative lifespan remain fail-closed.
 
+The symbol calculus now uses one consistent spatial domain. The anti-Wick operator is on
+`R^3`, so the compiler derives the needed Sobolev constants directly from the declared
+Fourier transform instead of reusing the earlier periodic-torus majorants. For `H^6(R^3)`,
+`C_(6,m)^2=Gamma(m+3/2)Gamma(6-m-3/2)/(4 pi^2 Gamma(6))`; the exact values for
+`m=0,...,4` are `7,3,3,7,63` divided respectively by
+`1024 pi,1024 pi,1024 pi,1024 pi,1024 pi`. Weighted convolution gives the explicit
+algebra constant `2^6 C_(6,0)`. Before spatial differentiation, the campaign composes
+the covariant-state symbol hierarchy with the actual 153-coordinate-atom map, whose
+exact algebraic envelopes have outward integer ceilings `481,26860,991862,34142034`.
+Spatial and marked-time Faà-di-Bruno controls then emit all 15 global-`K55` and
+dyadic-`P55` polynomials through total order four, plus all 10 `partial_t K55` polynomials
+through residual order three. A componentwise `H^6` radius of about `2.14e-12` is
+sufficient to keep the atoms and their first spatial partials inside the `1e-13` tube.
+Closing the coordinate-atom time budget from the solved evolution, the explicit operator
+composition remainder, and the dyadic sum remain separate gates.
+
 That compact-subset condition now has an explicit coordinate realization. In the normalized
 55-state basis, the ten metric deviations obey the exact identity
 `||h_mu_nu||_F^2=sum_A h_A^2`, including the `sqrt(2)` off-diagonal convention. Bounding those

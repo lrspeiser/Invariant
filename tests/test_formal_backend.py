@@ -289,6 +289,33 @@ def test_all_formal_known_answer_controls_pass(tmp_path) -> None:
     assert evolution_symbol["evidence"]["insufficient_order_negative"][
         "status"
     ] == "reject"
+    r3_sobolev = checks["quartic_linear_x_R3_H6_symbol_spatialization"]
+    assert r3_sobolev["status"] == "pass"
+    assert r3_sobolev["evidence"]["artifact_hash_matches_reexecution"]
+    r3_control = r3_sobolev["evidence"]["generic_R3_sobolev_chain_control"]
+    assert r3_control["H6_embedding_constant_squares"] == {
+        "0": "7/(1024*pi)",
+        "1": "3/(1024*pi)",
+        "2": "3/(1024*pi)",
+        "3": "7/(1024*pi)",
+        "4": "63/(1024*pi)",
+    }
+    assert set(r3_control["spatial_chain_residuals"].values()) == {"0"}
+    assert set(r3_control["time_chain_residuals"].values()) == {"0"}
+    assert r3_control["negative_control"]["rejected"]
+    assert r3_sobolev["evidence"]["sufficient_H6_tube_radius_range"][
+        "minimum"
+    ] > 2e-12
+    assert r3_sobolev["evidence"]["representative_coordinate_map_ceilings"] == {
+        "1": "481",
+        "2": "26860",
+        "3": "991862",
+        "4": "34142034",
+    }
+    assert len(r3_sobolev["evidence"]["representative_spatialized_K55_bounds"]) == 15
+    assert len(r3_sobolev["evidence"]["representative_spatialized_P55_bounds"]) == 15
+    assert len(r3_sobolev["evidence"]["representative_time_K55_bounds"]) == 10
+    assert r3_sobolev["evidence"]["insufficient_order_negative"]["status"] == "reject"
     assert checks["projected_aether_q_fixed_metric_first_variation"]["status"] == "pass"
     assert checks["projected_aether_q_fixed_metric_first_variation"]["evidence"][
         "projector_and_B_first_variation_residual"
