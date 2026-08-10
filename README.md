@@ -301,6 +301,14 @@ A separate restart-safe formal-to-Solar boundary service now verifies the G4 for
 analytic prediction audit, but checkpoints the only work item as
 `deferred_missing_prediction_bundle_descriptor`. It invokes no Solar evaluator and opens no data;
 GR remains calibration-only and the generated candidate is shown as untested rather than poor.
+The next physics premise is now conditional rather than unknown: a global coupling bound plus a
+Hardy estimate proves nonlinear static scalar-branch uniqueness and excludes scalar zero/tachyonic
+modes for arbitrary-shaped compact sources in an explicit weak source class. A concentration
+counterexample proves that mass and radius alone cannot instantiate this theorem. The frozen
+candidate-use Solar template therefore requires a registered trace-density or resolved
+concentration bound, pressure-trace sign, weak geometry, topology/falloff, and eight additional
+file/parser/calibration/split/state/evaluator hashes. All nine values remain unset and no primary
+file or target value has been opened.
 A focused energy audit shows both Aether parameter points satisfy the linearized mode-energy and
 restricted theorem coupling inequalities, but their unconstrained phase spaces include twist: an
 exact unit-Aether witness has `(u wedge du)_txy=-1` at the origin. Because that witness is not an
@@ -962,10 +970,10 @@ nonzero corrections and 112 zeros, with all differentiated Sylvester residuals z
 affine positivity bound. The next unresolved gate is the 11,781 unordered second-atom conditions,
 which require component `D2K55`, `D2P55`, and `D2TC2`; CK1's source packet also remains open. Thus
 the affine extension is certified while full variable TC2 and global H7 stay fail-closed.
-Seven chained deterministic second-order chunks now evaluate 448 canonical pairs across all 12
-candidates. All 5,376 candidate equations admit exact Hermitian `deltaK_AB` corrections with zero
+Eight chained deterministic second-order chunks now evaluate 512 canonical pairs across all 12
+candidates. All 6,144 candidate equations admit exact Hermitian `deltaK_AB` corrections with zero
 Sylvester residual and no obstruction. Each continuation verifies the prior record chain and resume
-tip before extending it; the other 11,333 pairs remain unevaluated and are not inferred.
+tip before extending it; the other 11,269 pairs remain unevaluated and are not inferred.
 TC1's source part needs the contracted
 state-to-jet topology, variable TC3 needs `D_Y(P55 E_v Q)`, and TC5 in `H7` needs component `D2F`
 plus `H7` control of `J(C_Q)`. The next valid route must close those terms and extend the identity

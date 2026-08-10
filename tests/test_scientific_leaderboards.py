@@ -46,7 +46,9 @@ def test_category_local_rankings_keep_missing_evidence_unranked() -> None:
     assert g4_solar["rank"] is None
     assert g4_solar["metrics"]["analytic_prediction_bundle_count"] == 1
     assert g4_solar["metrics"]["real_solar_bundle_count"] == 0
-    assert g4_solar["blocker"] == "missing_candidate_specific_solar_prediction_bundle_descriptor"
+    assert g4_solar["metrics"]["source_class_uniqueness_theorem"] == "pass"
+    assert g4_solar["metrics"]["remaining_registration_field_count"] == 9
+    assert g4_solar["blocker"] == "registered_real_source_interval_instantiation_certificate_sha256"
 
     assert board["categories"]["lensing_cluster"]["ranked_count"] == 0
     assert board["categories"]["galaxy_direct_observable"]["ranked_count"] == 0

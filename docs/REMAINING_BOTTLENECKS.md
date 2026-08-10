@@ -358,9 +358,9 @@ Hermitian `deltaK_A` corrections give 153 zero differentiated Sylvester residual
 coordinate map has 41 nonzero and 112 zero corrections with an explicit affine positivity bound.
 The next exact gate is the 11,781 unordered second-atom conditions requiring component `D2K55`,
 `D2P55`, and `D2TC2`; CK1 still needs its source packet and `partial_1 F10` topology.
-Seven chained resumable second-order chunks cover 448 canonical pairs and all 12 candidates: every
-one of the 5,376 equations has an exact Hermitian `deltaK_AB` with zero Sylvester residual and no
-obstruction. Each continuation verifies the prior record chain and resume tip. The remaining 11,333
+Eight chained resumable second-order chunks cover 512 canonical pairs and all 12 candidates: every
+one of the 6,144 equations has an exact Hermitian `deltaK_AB` with zero Sylvester residual and no
+obstruction. Each continuation verifies the prior record chain and resume tip. The remaining 11,269
 pairs are explicitly unevaluated, so these chunks do not promote
 TC2 or global `H7`. TC1's source part needs the `Q`-contracted `partial_1F`
 state-to-jet topology, variable TC3
@@ -557,6 +557,14 @@ A restart-safe formal-to-Solar boundary service verifies the G4 formal pass and 
 defers its only work item until a reviewed action-bound prediction descriptor exists. It does not
 invoke the Solar evaluator or open observations; the dashboard therefore displays the candidate as
 blocked/untested with one analytic bundle and zero real bundles.
+The theorem-side branch question is now closed for an explicit weak source class: a global
+candidate coupling bound and Hardy coercivity estimate prove nonlinear static uniqueness and
+exclude scalar zero/tachyonic modes for arbitrary compact source shapes satisfying registered
+trace-density/concentration, pressure-sign, geometry, compactness, and boundary intervals. A
+concentrated-core negative control proves total mass plus radius is insufficient. The frozen Solar
+template consequently remains unauthorized with nine missing registration hashes covering the
+real-source interval certificate, selected files/calibrations, two parsers, covariance transform,
+session split, training-state checkpoint, and reviewed evaluator.
 For the two Aether seeds, the first nonlinear-energy premise is now exact: both rational points pass
 the five linearized mode-energy and restricted coupling inequalities, but neither action imposes
 hypersurface orthogonality. The normalized field-space witness

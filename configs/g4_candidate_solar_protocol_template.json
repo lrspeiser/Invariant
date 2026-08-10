@@ -1,0 +1,83 @@
+{
+  "schema_version": "sigma-g4-candidate-solar-protocol-template-config-1.0",
+  "campaign_id": "grammar-v3-g4-candidate-solar-protocol-template-20260810",
+  "candidate": {
+    "candidate_id": "G3-f9c598b70a77ea54009d8f18",
+    "role": "generated_candidate",
+    "family_id": "CONFORMAL_G4_PHI_SCALAR_TENSOR",
+    "action_sha256": "6ddd6502d110ead90ff494a6569213ec2e61a0b046dfa86344bb1980df6abc90",
+    "seed_lineage_sha256": "f9c598b70a77ea54009d8f18723ff6c54974c8aceab680d2fc95f513a33b2aa7"
+  },
+  "bindings": {
+    "prediction_audit": {
+      "path": "runs/engine/g4-conformal-solar-prediction-audit.json",
+      "file_sha256": "0036cf8501ae16fe31587f4609ec3872341438453e235a8140b07f8bfa8a7bb4",
+      "content_sha256": "0c0b7ee5fac3c1cc6986648013e3f28da8dd37cba9975a42bcab8f811ebd64c3"
+    },
+    "source_class_uniqueness_audit": {
+      "path": "runs/engine/g4-source-class-scalar-uniqueness-audit.json",
+      "file_sha256": "53cc6473950764ad222299420db70d71aa4236673442415aabf3fed5a146e6a7",
+      "content_sha256": "54b833dfe9f66d2eaf0a0195bb786db7ac328f6c1e6a7063d5d547dfc230c928"
+    },
+    "promotion_service_status": {
+      "path": "runs/engine/grammar-v3-g4-solar-promotion-service-status.json",
+      "file_sha256": "7ab89c5b88892a4b0a8e25197dc6d818fa9050aaf284b582b2698c5fb14d2470",
+      "content_sha256": "b72324882b52da29f184e69ca51cc46884ca3957509fea56c78d0e1c22f4dc5c"
+    },
+    "descriptor_contract": {
+      "path": "configs/grammar_v3_g4_solar_prediction_bundle_descriptor_contract.json",
+      "file_sha256": "49746f7fd43a4984edc2ec7af3e28be38ceaac19dbaab2bd7fc08f681d6d7e0c",
+      "content_sha256": "0680118b707064a841ddb0df54df7fe0dcfa976b0ca054e81fb74443c5f13bfd"
+    },
+    "solar_protocol": {
+      "path": "configs/solar_observable_protocol.json",
+      "file_sha256": "56f719635a3c88e1c0efc06686f02ce53bb3157a8529571e2a6dcd48391e058d"
+    },
+    "solar_protocol_audit": {
+      "path": "runs/observation-protocol/solar-observable-audit.json",
+      "file_sha256": "ba99ee5b9bdd111fe2f1928191bfea1609e69707c961af0ca950afe25deaf94e"
+    },
+    "source_registration": {
+      "path": "configs/observations/cassini_sce1_source_registration.json",
+      "file_sha256": "a354714476fd64e180fca7705a537af28524fa399374a3cbc720f0f90e5c5928"
+    },
+    "evidence_policy": {
+      "path": "configs/observational_evidence_policy.json",
+      "file_sha256": "e58cbd2ec2a8a83f100136f1408eac9f9672fd65ce5c6f26d9f3f231f4bf478d"
+    }
+  },
+  "source_selection": {
+    "authority": "NASA Planetary Data System",
+    "dataset_id": "CO-SS-RSS-1-SCE1-V1.0",
+    "allowed_direct_record_classes": [
+      "ATDF/TDF closed-loop tracking records",
+      "RSR open-loop receiver samples"
+    ],
+    "maximum_primary_files": 12,
+    "maximum_primary_bytes": 2147483648,
+    "selection_basis": [
+      "PDS label metadata",
+      "record class",
+      "station/pass identity",
+      "acquisition mode",
+      "declared time coverage"
+    ],
+    "target_value_access_during_selection": false,
+    "selected_primary_files": [],
+    "selected_primary_file_root_sha256": null
+  },
+  "budget": {
+    "maximum_tasks": 12,
+    "maximum_wall_seconds": 86400,
+    "maximum_download_bytes": 2147483648,
+    "maximum_checkpoint_bytes": 67108864,
+    "maximum_paid_llm_spend_usd": 0.0
+  },
+  "data_eligibility": {
+    "observational_data_opened": false,
+    "dark_matter_or_halo_inputs": false,
+    "redshift_distance_inputs": false,
+    "paid_llm_calls": false
+  },
+  "observational_authorization": false
+}

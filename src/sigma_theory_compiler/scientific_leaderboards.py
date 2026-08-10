@@ -242,6 +242,20 @@ def _build_rows(sources: Mapping[str, Any], bindings: Mapping[str, Any]) -> dict
     ):
         raise ValueError("G4 Solar boundary status is inconsistent")
     g4_solar_row = g4_solar["category_leaderboard"]["blocked_or_untested"][0]
+    g4_protocol = sources["g4_solar_protocol"]
+    if (
+        g4_protocol["candidate"]["candidate_id"] != g4_solar_row["candidate_id"]
+        or g4_protocol["candidate_use_authorized"] is not False
+        or g4_protocol["observational_authorization"] is not False
+        or g4_protocol["descriptor_registration_status"]
+        != "blocked_required_values_unset"
+        or g4_protocol["remaining_registration_field_count"] != 9
+        or g4_protocol["frozen_contracts"]["source_physics"][
+            "source_class_theorem"
+        ]["status"]
+        != "pass"
+    ):
+        raise ValueError("G4 candidate-use Solar protocol is inconsistent")
     rows["solar_known_answer"].append(_entry(
         g4_solar_row["candidate_id"],
         "generated_candidate",
@@ -253,15 +267,24 @@ def _build_rows(sources: Mapping[str, Any], bindings: Mapping[str, Any]) -> dict
                 "reviewed_prediction_audit_binding"
             ]["real_bundle_count"],
             "analytic_newtonian_ppn_status": "pass_on_declared_scalar_free_background",
+            "source_class_uniqueness_theorem": "pass",
+            "remaining_registration_field_count": g4_protocol[
+                "remaining_registration_field_count"
+            ],
+            "selected_primary_file_count": g4_protocol["source_registration"][
+                "primary_files_selected"
+            ],
         },
         "blocked",
         "sealed_candidate_specific_solar_prediction",
         "incomplete",
-        g4_solar_row["blocker"],
-        "g4_solar_promotion",
-        bindings["g4_solar_promotion"],
-        g4_solar_row["lineage_sha256"],
-        "Analytic GR-like Newtonian/PPN predictions exist, but no real-source branch-uniqueness contract or registered candidate-use Solar bundle exists; untested, not poor measured performance.",
+        g4_protocol["remaining_registration_fields"][0],
+        "g4_solar_protocol",
+        bindings["g4_solar_protocol"],
+        g4_protocol["frozen_contracts"]["source_physics"][
+            "source_class_theorem"
+        ]["source_class_sha256"],
+        "Analytic GR-like Newtonian/PPN predictions and a source-class uniqueness theorem exist, but the real source and eight execution/evaluator hashes are unset; untested, not poor measured performance.",
     ))
 
     galaxy = sources["galaxy_direct_observable"]
