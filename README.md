@@ -815,10 +815,15 @@ The high-low obstruction remains, and a representative component audit now makes
 the currently named good unknown. At the exact flat reference, the `H_01` high atom gives
 `D_H01(D_s01[10] F_0)=-2 a10`, while `T_(D_Y E55) deltaY_j` has zero projection onto that
 coefficient-high/state-low branch. Since every candidate has nonzero `a10`, the residual is `+/-1`
-or `+/-2`: all 12 proposed cancellations are refuted on this slice. A different modified unknown
-must contribute the missing `+2 a10` and then satisfy the full tensor identity, or the proof must use
-an honest derivative-loss theory. An `H8` state gives a quantitative conditional `H7` bound, but is
-not controlled by `H7` data and is not an autonomous cure.
+or `+/-2`: all 12 proposed cancellations are refuted on this slice. The exact four-entry correction
+has rank two,
+`2 a10[(e0-4e4)e10^T + e10(e7+e9)^T]`. Its decisive `2 x 2` minor is `4 a10^2`, so every
+single-scalar/single-output (rank-one) modified-unknown channel is now ruled out for all 12
+candidates. The displayed two-channel factorization is an exact algebraic target, not yet a proved
+time-differentiated state correction. The next valid route must realize both channels while
+controlling their new top-order commutators, or use an honest derivative-loss theory. An `H8` state
+gives a quantitative conditional `H7` bound, but is not controlled by `H7` data and is not an
+autonomous cure.
 
 The tube bounds 153 normalized coordinate atoms: ten metric deviations, 44 first partials,
 and 99 acceleration-free symmetric second partials. The exact orthonormal metric-basis identity
