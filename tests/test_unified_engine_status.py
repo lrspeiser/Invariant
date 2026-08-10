@@ -24,6 +24,7 @@ SOURCE_PATHS = [
     "runs/engine/grammar-v3-followup-service-status.json",
     "runs/engine/grammar-v3-followup-queue-status.json",
     "configs/resource_profile_5090.json",
+    "runs/engine/llm-formula-proposal-adapter-readiness.json",
 ]
 LABELS = [
     "billion_streaming",
@@ -33,6 +34,7 @@ LABELS = [
     "followup_service",
     "followup_queue",
     "resource_profile",
+    "llm_proposal_adapter",
 ]
 
 
@@ -128,6 +130,15 @@ def test_read_only_snapshot_is_deterministic_and_does_not_mutate_database(tmp_pa
     }
     assert first["volatile"]["campaign_watchdog_freshness"]["stale"] is False
     assert first["core"]["llm"]["spent_usd"] == 1.25
+    assert first["core"]["llm"]["proposal_adapter"] == {
+        "default_paid_calls_enabled": False,
+        "maximum_call_usd": "5.000000",
+        "maximum_total_usd": "500.000000",
+        "network_calls_made": 0,
+        "output_status": "quarantine_until_downstream_validation",
+        "paid_spend_usd": "0.000000",
+        "status": "ready_disabled_no_network_no_spend",
+    }
     assert "C:\\" not in json.dumps(first)
 
 
@@ -207,6 +218,10 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "Conformal scalar–tensor gravity" in dashboard
     assert "φ²/100" in dashboard
     assert "Derived operator terms / evidence scope" in dashboard
+    assert "Proof and test hierarchy" in dashboard
+    assert "solar_prediction_obligation" in dashboard
+    assert "LLM budget and proposal quarantine" in dashboard
+    assert "quarantine_until_downstream_validation" in dashboard
     assert len(dashboard.encode()) < 131072
     assert "C:\\" not in dashboard
 

@@ -11,8 +11,12 @@ controls, galaxy observables, and independent validation remain separate gates.
 
 ## Safety and evidence contract
 
-- Paid LLM calls are disabled and reported as zero. There is no API-key integration in this
-  service.
+- Paid LLM calls in this service remain disabled and reported as zero. A separate reviewed
+  formula-proposal adapter now exists, but it is disabled by default and is not yet connected to
+  this service lifecycle. It accepts a key only through the named environment-variable reference,
+  reserves integer micro-dollar exposure atomically under an exact $500 total/$5 per-call cap,
+  stores no prompt/output/secret bodies, and quarantines every proposal for normal DSL and formal
+  validation. Its checked-in readiness campaign performs no network call and spends $0.
 - Observational data, dark-matter/halo inputs, and redshift-distance inputs must all remain
   disabled in the adapter. Startup fails before creating the search database if that contract is
   changed.
@@ -195,8 +199,7 @@ persisted in the stage checkpoint and lineage; unlisted or changed evaluators fa
 Candidate-specific Solar
 and galaxy prediction bundles remain unimplemented and fail-closed; the galaxy evaluator opens no
 data until both exact prediction provenance and a separately authorized observable contract exist.
-The engine also does not yet generate new
-grammar productions from LLM
-suggestions, distribute work across multiple machines, or enforce a separate byte quota on the
+The engine does not yet admit the quarantined output of the reviewed LLM adapter as new grammar
+work, distribute work across multiple machines, or enforce a separate byte quota on the
 SQLite file. SQLite growth is nevertheless bounded by the configured task and wall limits, while
 the whole service directory is monitored against the service disk cap.

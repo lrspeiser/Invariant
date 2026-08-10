@@ -358,10 +358,14 @@ Hermitian `deltaK_A` corrections give 153 zero differentiated Sylvester residual
 coordinate map has 41 nonzero and 112 zero corrections with an explicit affine positivity bound.
 The next exact gate is the 11,781 unordered second-atom conditions requiring component `D2K55`,
 `D2P55`, and `D2TC2`; CK1 still needs its source packet and `partial_1 F10` topology.
-Nine chained resumable second-order chunks cover 576 canonical pairs and all 12 candidates: every
-one of the 6,912 equations has an exact Hermitian `deltaK_AB` with zero Sylvester residual and no
-obstruction. Each continuation verifies the prior record chain and resume tip. The remaining 11,205
-pairs are explicitly unevaluated, so these chunks do not promote
+Thirteen chained resumable second-order chunks now cover 832 canonical pairs and all 12 candidates:
+every one of the 9,984 equations has an exact Hermitian `deltaK_AB` with zero Sylvester residual and
+no obstruction. A restart-safe continuous service now derives the per-offset contracts instead of
+requiring another handwritten wrapper, writes chunk/checkpoint files atomically, resumes or recovers
+orphan artifacts idempotently, enforces wall/disk/history/chunk bounds, and stops permanently on the
+first exact obstruction. The canonical active-affine selector has a final 29-pair partial tail; that
+tail and the other 10,920 global coordinate pairs remain explicitly unevaluated, so this service
+does not promote
 TC2 or global `H7`. TC1's source part needs the `Q`-contracted `partial_1F`
 state-to-jet topology, variable TC3
 needs the 153-atom tensor `D_Y(P55 E_v Q)`, and TC5 in `H7` needs component
@@ -561,6 +565,11 @@ remain separate hash-bound evidence rather than being misrepresented as addition
 the candidate formula. The HTML dashboard renders these details as expandable formula cards and
 also shows unranked blocked candidates so their definitions remain inspectable while evidence is
 unfinished.
+A separate candidate-theory dossier now turns that boundary into an explicit hierarchy for GR and
+all six grammar-v3 candidates: 53 hash-sealed nodes comprise 34 scoped proofs, 17 blocked
+obligations, and 2 calibration-only controls. The dashboard nests this hierarchy under each formula
+card and links its dossier artifact/hash, so the compact action remains distinguishable from the
+many derived equations and tests.
 A restart-safe formal-to-Solar boundary service verifies the G4 formal pass and analytic audit, but
 defers its only work item until a reviewed action-bound prediction descriptor exists. It does not
 invoke the Solar evaluator or open observations; the dashboard therefore displays the candidate as

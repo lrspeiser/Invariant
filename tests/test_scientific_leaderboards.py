@@ -83,6 +83,16 @@ def test_category_local_rankings_keep_missing_evidence_unranked() -> None:
         "6ddd6502d110ead90ff494a6569213ec2e61a0b046dfa86344bb1980df6abc90"
     )
     assert len(g4_formula["operator_terms"]) == 2
+    dossiers = board["theory_dossiers"]
+    assert len(dossiers) == 7
+    assert dossiers["G3-f9c598b70a77ea54009d8f18"]["hierarchy_status_counts"] == {
+        "blocked": 1,
+        "calibration_only": 1,
+        "proven": 8,
+    }
+    assert dossiers["G3-f9c598b70a77ea54009d8f18"]["overall_status"] == (
+        "blocked_after_formal_pass"
+    )
 
 
 def test_ranked_rows_are_comparable_and_history_replay_is_idempotent() -> None:
@@ -163,4 +173,11 @@ def test_negative_controls_reject_score_collapse_mixing_and_control_leakage() ->
         "theory_formula"
     ]
     with pytest.raises(ValueError, match="theory formula"):
+        validate_scientific_leaderboards(tampered)
+
+    tampered = copy.deepcopy(board)
+    tampered["theory_dossiers"]["G3-f9c598b70a77ea54009d8f18"][
+        "hierarchy_nodes"
+    ][0]["status"] = "truthy"
+    with pytest.raises(ValueError, match="hierarchy"):
         validate_scientific_leaderboards(tampered)

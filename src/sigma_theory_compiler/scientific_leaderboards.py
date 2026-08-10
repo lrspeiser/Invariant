@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+from collections import Counter
 from collections.abc import Mapping
 from pathlib import Path
 from typing import Any
@@ -207,6 +208,51 @@ def _theory_formula(
         "action_content_sha256": None,
         "scope_note": "No formula is inferred when exact typed-action evidence is absent.",
     }
+
+
+def _theory_dossier_registry(
+    artifact: Mapping[str, Any], binding: Mapping[str, Any]
+) -> dict[str, dict[str, Any]]:
+    if (
+        artifact.get("dossier_count") != 7
+        or artifact.get("known_answer_control_count") != 1
+        or artifact.get("generated_candidate_count") != 6
+        or artifact.get("hierarchy_node_status_counts")
+        != {"blocked": 17, "calibration_only": 2, "proven": 34}
+        or artifact.get("observational_authorization") is not False
+        or artifact.get("observational_data_opened") is not False
+    ):
+        raise ValueError("candidate theory dossier campaign is inconsistent")
+    registry: dict[str, dict[str, Any]] = {}
+    for dossier in artifact["dossiers"]:
+        dossier_id = dossier["dossier_id"]
+        nodes = [
+            {
+                "content_sha256": node["content_sha256"],
+                "evidence_count": len(node["evidence"]),
+                "node_id": node["node_id"],
+                "scope": node["scope"],
+                "status": node["status"],
+            }
+            for node in dossier["hierarchy_nodes"]
+        ]
+        counts = dict(sorted(Counter(node["status"] for node in nodes).items()))
+        if dossier_id in registry or _sha(
+            {key: value for key, value in dossier.items() if key != "content_sha256"}
+        ) != dossier["content_sha256"]:
+            raise ValueError("candidate theory dossier identity or content hash mismatch")
+        registry[dossier_id] = {
+            "artifact_content_sha256": binding["content_sha256"],
+            "artifact_file_sha256": binding["file_sha256"],
+            "artifact_link": binding["path"],
+            "content_sha256": dossier["content_sha256"],
+            "dossier_id": dossier_id,
+            "hierarchy_nodes": nodes,
+            "hierarchy_status_counts": counts,
+            "overall_status": dossier["overall_status"],
+            "role": dossier["role"],
+        }
+    return registry
 
 
 def _sort_key(category: str, row: Mapping[str, Any]) -> tuple[Any, ...]:
@@ -481,6 +527,24 @@ def _validate_no_collapse(board: Mapping[str, Any]) -> None:
             raise ValueError("scalar truth-score collapse is forbidden")
     if board["data_eligibility"] != ELIGIBILITY:
         raise ValueError("leaderboards opened a forbidden data class")
+    dossiers = board.get("theory_dossiers")
+    if not isinstance(dossiers, Mapping) or len(dossiers) != 7:
+        raise ValueError("theory dossier registry is incomplete")
+    for dossier_id, dossier in dossiers.items():
+        if dossier_id != dossier["dossier_id"]:
+            raise ValueError("theory dossier registry key mismatch")
+        node_counts = dict(
+            sorted(Counter(node["status"] for node in dossier["hierarchy_nodes"]).items())
+        )
+        if node_counts != dossier["hierarchy_status_counts"]:
+            raise ValueError("theory dossier hierarchy count mismatch")
+        if any(
+            node["status"] not in {"proven", "blocked", "calibration_only"}
+            or not node["scope"]
+            or node["evidence_count"] < 1
+            for node in dossier["hierarchy_nodes"]
+        ):
+            raise ValueError("theory dossier contains an invalid hierarchy node")
     for value in board["categories"].values():
         for row in value["full_ranked"] + value["unranked_blocked_or_untested"]:
             formula = row.get("theory_formula")
@@ -534,6 +598,9 @@ def build_scientific_leaderboards(
         raise ValueError("leaderboard config eligibility is not fail-closed")
     sources = _sources(project_root.resolve(), config)
     rows = _build_rows(sources, config["sources"])
+    theory_dossiers = _theory_dossier_registry(
+        sources["theory_dossiers"], config["sources"]["theory_dossiers"]
+    )
     categories = {}
     for category in CATEGORIES:
         category_board = _admit_and_rank(category, rows[category])
@@ -561,12 +628,13 @@ def build_scientific_leaderboards(
         for category, board in categories.items()
     }
     body = {
-        "schema_version": "sigma-scientific-leaderboards-1.0",
+        "schema_version": "sigma-scientific-leaderboards-1.1",
         "ranking_contract": "no global score; category-local completed comparable evidence only; candidate_id is the final deterministic tie-break",
         "categories": categories,
         "leaderboard_root_sha256": current_root,
         "history": history,
         "deltas_from_previous": deltas,
+        "theory_dossiers": theory_dossiers,
         "data_eligibility": dict(ELIGIBILITY),
     }
     _validate_no_collapse(body)

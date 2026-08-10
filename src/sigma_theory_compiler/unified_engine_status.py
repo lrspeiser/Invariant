@@ -232,6 +232,17 @@ def build_unified_snapshot(
     followup = sources["followup_service"]
     followup_queue = sources["followup_queue"]
     resource = sources["resource_profile"]
+    llm_adapter = sources["llm_proposal_adapter"]
+    if (
+        llm_adapter.get("status") != "ready_disabled_no_network_no_spend"
+        or llm_adapter.get("default_paid_calls_enabled") is not False
+        or llm_adapter.get("maximum_total_usd") != "500.000000"
+        or llm_adapter.get("network_calls_made") != 0
+        or llm_adapter.get("paid_spend_usd") != "0.000000"
+        or llm_adapter.get("output_status")
+        != "quarantine_until_downstream_validation"
+    ):
+        raise ValueError("LLM proposal adapter readiness is not fail-closed")
 
     blocker_gates: Counter[str] = Counter()
     for row in pareto["pareto_follow_up_queue"]:
@@ -252,6 +263,15 @@ def build_unified_snapshot(
             "grammar_parameter_cells": float(parameter["paid_llm_spend_usd"]),
             "evidence_pareto": float(pareto["paid_llm_spend_usd"]),
             "followup_service": float(followup["paid_llm_spend_usd"]),
+        },
+        "proposal_adapter": {
+            "default_paid_calls_enabled": False,
+            "maximum_call_usd": llm_adapter["maximum_call_usd"],
+            "maximum_total_usd": llm_adapter["maximum_total_usd"],
+            "network_calls_made": llm_adapter["network_calls_made"],
+            "output_status": llm_adapter["output_status"],
+            "paid_spend_usd": llm_adapter["paid_spend_usd"],
+            "status": llm_adapter["status"],
         },
     }
     core = {
