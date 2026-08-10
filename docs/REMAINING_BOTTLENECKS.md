@@ -337,11 +337,15 @@ same minor vanishes for every rank-one outer product. This rules out the entire 
 one-output modified-unknown ansatz class for all 12 candidates. The two displayed channels are now
 realized as `v_sharp=v+Q T_(partial_1 v_low) w1[10]_high`; the certified kinematic identity makes
 their differentiated principal term cancel the entire four-entry slice, including after
-`J_s01=i xi1 I_11`. Four induced families remain unbounded: low-factor evolution (TC1), the physical
-operator on the correction (TC2), its paraproduct commutator (TC3), and the nonlinear substitution
-remainder (TC5). The fixed-Fourier time commutator TC4 is exactly zero. The next gate is to close
-TC1/TC2/TC3/TC5 and extend the construction to every high atom, or adopt a separately controlled
-derivative-loss theory. A conditional `H8` assumption raises the second atoms to `H7`, but the packet
+`J_s01=i xi1 I_11`. The actual physical packet now contains 24 TC1-principal and 14 TC2 nonzero
+entries. Exact `H7 -> W2,infinity` bounds close TC1's reference principal shell and TC3's reference
+shell; the C9 `D2F` bound closes TC5 pointwise with Taylor weight `1/2`; TC4 is exactly zero.
+Remaining first blockers are explicit: TC2 needs a symmetrizer-compatible enlarged-principal
+identity, TC1's source part needs the `Q`-contracted `partial_1F` state-to-jet topology, variable TC3
+needs the 153-atom tensor `D_Y(P55 E_v Q)`, and TC5 in `H7` needs component
+`D2F[J(C_Q),J(C_Q)]` plus `H7` control of `J(C_Q)`. The next gate is to close those terms and extend
+the construction to every high atom, or adopt a separately controlled derivative-loss theory.
+A conditional `H8` assumption raises the second atoms to `H7`, but the packet
 `U_N=N^-7 exp(iNx_1)u_0` has bounded `H7` size and `H8` size growing like `N`; an `E8` energy alone
 repeats the loss. `B7`, global `H7`, dyadic application, and lifespan remain false.
 

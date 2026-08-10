@@ -828,11 +828,14 @@ single-scalar/single-output (rank-one) modified-unknown channel is now ruled out
 candidates. The two-channel factorization is now realized as the legitimate slice-level state
 correction `v_sharp=v+Q T_(partial_1 v_low) w1[10]_high`. The certified kinematic identity
 `partial_t w1[10]=s01[10]=partial_1 v0[10]` makes its differentiated principal term cancel all four
-`s01/H01` entries for every candidate. This is not yet global closure: the low-factor evolution,
-physical-operator composition, operator/paraproduct commutator, and nonlinear substitution
-remainder (TC1, TC2, TC3, and TC5) remain quantitatively open; only the fixed-Fourier time
-commutator TC4 is exactly zero. The next valid route must bound those induced terms and extend the
-identity to the other high atoms, or use an honest derivative-loss theory. An `H8` state
+`s01/H01` entries for every candidate. The induced operator audit materializes 24 TC1-principal and
+14 TC2 entries from the actual `P55` block. Exact `H7 -> W2,infinity` constants close the reference
+TC1-principal and TC3 shell terms, while the C9 `D2F` envelope closes TC5 pointwise with its exact
+`1/2` Taylor weight; TC4 is exactly zero. This is not yet global closure: TC2 needs a
+symmetrizer-compatible enlarged-principal identity, TC1's source part needs the contracted
+state-to-jet topology, variable TC3 needs `D_Y(P55 E_v Q)`, and TC5 in `H7` needs component `D2F`
+plus `H7` control of `J(C_Q)`. The next valid route must close those terms and extend the identity
+to the other high atoms, or use an honest derivative-loss theory. An `H8` state
 gives a quantitative conditional `H7` bound, but is not controlled by `H7` data and is not an
 autonomous cure.
 
