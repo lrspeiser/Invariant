@@ -2584,6 +2584,45 @@ def test_degree_three_unknown_claim_fails_closed_after_resealing(tmp_path: Path)
 @pytest.mark.parametrize(
     "mutation",
     [
+        "remove_corrected_record",
+        "range_hash",
+        "completion_pair",
+        "sphere_hash",
+        "full_sphere_claim",
+    ],
+)
+def test_xyz_completion_semantic_tamper_fails_closed_after_resealing(
+    tmp_path: Path, mutation: str
+) -> None:
+    root, config, _ = _fixture(tmp_path)
+    label = "quartic_tc2_d4_degree_three_rank_two_xyz_completion"
+    spec = next(source for source in config["sources"] if source["label"] == label)
+    target = root / spec["path"]
+    artifact = json.loads(target.read_text(encoding="utf-8"))
+    completion = artifact["exact_completion"]
+    if mutation == "remove_corrected_record":
+        completion["corrected_xyz_result"]["candidate_records"].pop()
+    elif mutation == "range_hash":
+        completion["exact_range_classification"]["normalized_target_sha256"] = "0" * 64
+    elif mutation == "completion_pair":
+        completion["minimal_rank_two_completion"]["coordinate_pairs"][0] = [10, 21]
+    elif mutation == "sphere_hash":
+        completion["exact_sphere_extension"]["symbol_sha256"] = "0" * 64
+    else:
+        artifact["claims"]["full_direction_sphere_D4_compatibility_proved"] = True
+    body = {key: value for key, value in artifact.items() if key != "content_sha256"}
+    artifact["content_sha256"] = hashlib.sha256(_canonical(body)).hexdigest()
+    target.write_text(json.dumps(artifact, indent=2) + "\n", encoding="utf-8")
+    spec["file_sha256"] = hashlib.sha256(target.read_bytes()).hexdigest()
+    spec["content_sha256"] = artifact["content_sha256"]
+
+    with pytest.raises(ValueError, match="rank-two xyz completion"):
+        build_unified_snapshot(root, config, physical_gpu={"availability": "unavailable"})
+
+
+@pytest.mark.parametrize(
+    "mutation",
+    [
         "missing_claim_key",
         "extra_data_key",
         "missing_source_binding",
@@ -2886,8 +2925,8 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "declared five-direction selector" in dashboard
     assert "finite determining theorem" in dashboard
     assert "DeltaB23(n)=(25/16)n3^2*w23*(n3 e21-n2 e32)^T" in dashboard
-    assert "Four directions are now certified" in dashboard
-    assert "final declared <code>xyz_1_2_2</code> recurrence" in dashboard
+    assert "At this predecessor milestone four directions were certified" in dashboard
+    assert "the next certificate resolves that frame" in dashboard
     assert "Paper-complete count maps" in dashboard
     assert "1887436800" in dashboard
     assert "8053063680" in dashboard

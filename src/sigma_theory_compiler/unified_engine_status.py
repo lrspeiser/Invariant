@@ -7646,6 +7646,7 @@ def build_unified_snapshot(
         raise ValueError("quartic TC2 degree-three C23 great-circle escape is inconsistent")
     xyz_counts = quartic_tc2_d4_rank_two_xyz_completion.get("counts", {})
     xyz_completion = quartic_tc2_d4_rank_two_xyz_completion.get("exact_completion", {})
+    xyz_prior = xyz_completion.get("prior_combined_symbol_audit", {})
     xyz_range = xyz_completion.get("exact_range_classification", {})
     xyz_rank_two = xyz_completion.get("minimal_rank_two_completion", {})
     xyz_corrected = xyz_completion.get("corrected_xyz_result", {})
@@ -7690,24 +7691,74 @@ def build_unified_snapshot(
         .get("c23_predecessor", {})
         .get("content_sha256")
         != quartic_tc2_d4_degree_three_c23_escape.get("content_sha256")
+        or xyz_prior.get("directional_evaluations") != 15
+        or xyz_completion.get("selector")
+        != {
+            "direction": ["1/3", "2/3", "2/3"],
+            "final_declared_rational_frame": True,
+            "frame_name": "xyz_1_2_2",
+            "remaining_declared_frames": 0,
+        }
+        or xyz_prior.get("base_D4_RHS_nonzero_entries") != 116
+        or xyz_prior.get("base_D4_RHS_sha256")
+        != "e137be6d8bb6aaafdc45d12c79adc8c2b9e5e37ef511a5e4414b1661c0a0a0b7"
+        or xyz_prior.get("prior_global_symbol_rank") != 2
+        or xyz_prior.get("prior_global_symbol_sha256")
+        != "59c6f074bd1ade330630e6f607e587b92ec7a1c11d2ce061b54079ea3571936b"
+        or xyz_prior.get("prior_aligned_symbol_sha256")
+        != "e94f117a3cfb51317d4a38456924b1cb44c3bb0ed0b301afb35ddc363babc885"
+        or xyz_prior.get("candidate_compatibilities") != 0
+        or xyz_prior.get("candidate_obstructions") != 12
+        or len(xyz_prior.get("candidate_records", [])) != 12
+        or any(
+            record.get("D4_Sylvester_solvable") is not False
+            or set(record.get("nonzero_equal_eigenspace_compressions", {})) != {"0"}
+            or record["nonzero_equal_eigenspace_compressions"]["0"].get("rank") != 4
+            or record["nonzero_equal_eigenspace_compressions"]["0"].get("nonzero_entries") != 56
+            for record in xyz_prior.get("candidate_records", [])
+        )
         or xyz_range.get("normalized_target_rank") != 4
         or xyz_range.get("normalized_target_nonzero_entries") != 56
+        or xyz_range.get("normalized_target_sha256")
+        != "767724a8936ceefbbeea530d0a64be0fa94c47decabede12e061223b71f73ab7"
         or xyz_range.get("transverse_selector_rank") != 22
+        or xyz_range.get("selector_sha256")
+        != "7ef398226365b9e42bd543a3b9c5b00c82621cbf8f67d76b2768e38e81441d26"
+        or xyz_range.get("target_plane_dimension") != 4
+        or xyz_range.get("selector_target_plane_intersection_dimension") != 4
         or xyz_range.get("quotient_target_zero") is not True
+        or xyz_range.get("quotient_target_sha256")
+        != "6bd0f4db2919abb53bd3fc437f3ec440b1c2df2a8e73fe17d06d0a3fc1c10f23"
         or xyz_range.get("target_in_full_transverse_curl_range") is not True
         or xyz_rank_two.get("lower_bound_completion_rank") != 2
         or xyz_rank_two.get("constructed_completion_rank") != 2
         or xyz_rank_two.get("elementary_curl_channels") != 2
         or xyz_rank_two.get("coordinate_pairs") != [[11, 21], [15, 32]]
+        or xyz_rank_two.get("aligned_block_sha256")
+        != "a415ea5ac18d5f43ab57103295df2935acb58e92bb1c532fed97e6ff11bba7b3"
+        or xyz_rank_two.get("global_block_sha256")
+        != "b091a2194f13b1b58bbd441a18773659bad91251752c403d7c297aff4a83f3ad"
+        or len(xyz_rank_two.get("term_records", [])) != 2
         or xyz_rank_two.get("rank_one_impossible_from_skew_rank_bound") is not True
-        or xyz_completion.get("exact_sphere_extension", {}).get("minimal_total_degree") != 3
-        or xyz_completion.get("exact_sphere_extension", {}).get(
-            "prior_four_direction_extensions_zero"
-        )
-        is not True
+        or xyz_completion.get("exact_sphere_extension")
+        != {
+            "antipodally_odd": True,
+            "bounded_on_S2": True,
+            "definition": "DeltaB_xyz(n)=(9/4)*n2*n3*sum_{k=1}^2 u_k*(n cross (r_k cross n_xyz))^T",
+            "envelope": "a_xyz(n)=(9/4)*n2*n3",
+            "envelope_value_at_xyz": "1",
+            "gradient_residual_sha256": "54efa54b8d23c5fdf1e357239619821b52ed647990182ca8b3fd3e1cb57916f9",
+            "minimal_total_degree": 3,
+            "physical_gradient_lift_annihilated_identically": True,
+            "polynomial_and_smooth_on_S2": True,
+            "prior_four_direction_extensions_zero": True,
+            "symbol_nonzero_entries": 63,
+            "symbol_sha256": "cff78832e0ffe582290b200702afa857719fc6a47d5d0f3c7871e9125cb0cb0b",
+        }
         or xyz_corrected.get("candidate_conditions_checked") != 12
         or xyz_corrected.get("candidate_compatibilities") != 12
         or xyz_corrected.get("candidate_obstructions") != 0
+        or len(xyz_corrected.get("candidate_records", [])) != 12
         or any(
             record.get("D4_Sylvester_solvable") is not True
             or record.get("nonzero_equal_eigenspace_compressions") != {}
