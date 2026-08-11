@@ -1,0 +1,47 @@
+{
+  "schema_version": "sigma-kastner-schlatter-cuda-falsification-design-config-1.0",
+  "campaign_id": "kastner-schlatter-cuda-falsification-design-20260811",
+  "output_path": "runs/engine/kastner-schlatter-cuda-falsification-design.json",
+  "predecessors": {
+    "observational_readiness": {
+      "path": "runs/engine/kastner-schlatter-observational-readiness-contract.json",
+      "file_sha256": "96da5e254a97fae39a9e2b036dcc80ae8c8af7fc0bbfcd6cd35241e3008dea35",
+      "content_sha256": "b71e0867bd0a561f05ebe32f3fc2f14fd11e0c97356b870910a14845c2a573ab"
+    },
+    "cuda_consequence": {
+      "path": "runs/engine/kastner-schlatter-cuda-consequence-campaign.json",
+      "file_sha256": "b674a0b32d8671cd99f9cf7cabce0723126aa422c1e2fe6fbe781ec1ac6080b9",
+      "content_sha256": "bd0c8411bab79ca66d9f7a90dd0901bf1167a53a6ed2758187a4877215cf5e7f"
+    }
+  },
+  "deterministic_seed": 2209040255091,
+  "poisson_power": {
+    "replicates": 4096,
+    "exposure_blocks_per_replicate": 512,
+    "null_mean": 4.0,
+    "alternative_low_multiplier": 0.5,
+    "alternative_high_multiplier": 1.5,
+    "absolute_fano_deviation_threshold": 0.25,
+    "maximum_null_rejection_rate": 0.01,
+    "minimum_alternative_detection_rate": 0.99
+  },
+  "btfr_power": {
+    "galaxy_groups": 4096,
+    "records_per_group": 256,
+    "log_residual_sigma": 0.05,
+    "injected_log_offset": 0.025,
+    "absolute_group_mean_z_threshold": 5.0,
+    "maximum_null_rejection_rate": 0.002,
+    "minimum_alternative_detection_rate": 0.99
+  },
+  "gpu_warmup_repetitions": 4,
+  "gpu_measured_repetitions": 16384,
+  "utilization_sample_interval_seconds": 0.02,
+  "gpu_cpu_error_bound": 1e-12,
+  "synthetic_only": true,
+  "observations_opened": false,
+  "scientific_test_pass_allowed": false,
+  "dark_matter_or_halo_inputs": false,
+  "redshift_or_cosmology_inputs": false,
+  "paid_llm_calls": false
+}

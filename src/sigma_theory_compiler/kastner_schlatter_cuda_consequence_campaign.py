@@ -741,6 +741,16 @@ def validate_campaign(document: Mapping[str, Any], config_path: str | Path) -> N
     }
     if any(document.get(key) != value for key, value in seals.items()):
         raise ValueError("consequence campaign data or claim seal changed")
+    if (
+        document.get("campaign_id") != config["campaign_id"]
+        or document.get("scope")
+        != "source-bound synthetic numerical consequences of the Kastner-Schlatter intake"
+        or document.get("decision")
+        != "synthetic_consequences_executed_equation_35_and_physics_claims_blocked"
+        or document.get("first_blocker")
+        != "authoritative_equation_35_h_versus_hbar_normalization_clarification"
+    ):
+        raise ValueError("consequence campaign scope or decision changed")
     gate = document.get("equation_35_normalization_gate", {})
     if (
         gate.get("decision") != "blocked"
@@ -750,22 +760,95 @@ def validate_campaign(document: Mapping[str, Any], config_path: str | Path) -> N
     ):
         raise ValueError("equation-35 normalization did not fail closed")
     counts = document.get("counts", {})
-    if (
-        counts.get("lambda_values_emitted") != 0
-        or counts.get("cosmology_locked_a0_values_emitted") != 0
-        or counts.get("observational_records_accessed") != 0
-        or counts.get("formal_or_theory_passes_inferred") != 0
-        or counts.get("ontology_passes_inferred") != 0
-        or counts.get("paid_llm_calls") != 0
-    ):
+    poisson_rows = len(config["poisson"]["means"]) * len(
+        config["poisson"]["equal_volume_frame_labels"]
+    )
+    poisson_samples = poisson_rows * int(config["poisson"]["samples_per_mean_per_frame"])
+    sds_cases = int(config["sds"]["case_count"])
+    mond_cases = int(config["mond"]["case_count"])
+    warmups = int(config["gpu_warmup_repetitions"])
+    repetitions = int(config["gpu_measured_repetitions"])
+    expected_counts = {
+        "poisson_means": len(config["poisson"]["means"]),
+        "lorentz_equal_volume_frames": len(config["poisson"]["equal_volume_frame_labels"]),
+        "poisson_samples": poisson_samples,
+        "sds_cases": sds_cases,
+        "mond_cases": mond_cases,
+        "gpu_warmup_repetitions": warmups,
+        "gpu_measured_repetitions": repetitions,
+        "gpu_kernel_dispatches": 3 * (warmups + repetitions),
+        "gpu_measured_consequence_evaluations": repetitions
+        * (poisson_samples + sds_cases + mond_cases),
+        "lambda_values_emitted": 0,
+        "cosmology_locked_a0_values_emitted": 0,
+        "observational_records_accessed": 0,
+        "formal_or_theory_passes_inferred": 0,
+        "ontology_passes_inferred": 0,
+        "paid_llm_calls": 0,
+    }
+    if counts != expected_counts:
         raise ValueError("consequence campaign counters violate fail-closed scope")
-    if document.get("gpu_cpu_bindings", {}).get("poisson_output_byte_equal") is not True:
+    gpu_cpu = document.get("gpu_cpu_bindings", {})
+    if (
+        gpu_cpu.get("poisson_output_byte_equal") is not True
+        or gpu_cpu.get("poisson_cpu_sha256") != gpu_cpu.get("poisson_gpu_sha256")
+        or float(gpu_cpu.get("sds_cpu_max_root_residual", math.inf))
+        > float(config["sds"]["root_residual_bound"])
+        or float(gpu_cpu.get("sds_gpu_cpu_max_root_error", math.inf))
+        > float(config["sds"]["gpu_cpu_error_bound"])
+        or float(gpu_cpu.get("mond_gpu_cpu_max_absolute_error", math.inf))
+        > float(config["mond"]["gpu_cpu_error_bound"])
+    ):
         raise ValueError("Poisson CUDA output did not match CPU")
-    if document.get("poisson_four_volume_control", {}).get("all_statistical_controls_closed") is not True:
+    poisson = document.get("poisson_four_volume_control", {})
+    poisson_rows_result = poisson.get("rows", [])
+    precision_rows = poisson.get("cpu_high_precision_cdf_controls", [])
+    if (
+        poisson.get("decision") != "synthetic_statistical_control_closed"
+        or poisson.get("all_statistical_controls_closed") is not True
+        or poisson.get("all_cpu_high_precision_controls_closed") is not True
+        or poisson.get("cdf_error_bound")
+        != float(config["poisson"]["cdf_cpu_high_precision_error_bound"])
+        or len(poisson_rows_result) != poisson_rows
+        or len(precision_rows) != len(config["poisson"]["means"])
+        or any(row.get("statistical_control_closed") is not True for row in poisson_rows_result)
+        or any(
+            row.get("equal_four_volume_control_closed") is not True
+            for row in poisson_rows_result
+        )
+        or any(
+            float(row.get("maximum_cdf_float64_error", math.inf))
+            > float(config["poisson"]["cdf_cpu_high_precision_error_bound"])
+            for row in precision_rows
+        )
+    ):
         raise ValueError("Poisson statistical controls did not close")
-    if document.get("sds_root_domain_control", {}).get("decision") != "synthetic_domain_control_closed":
+    sds = document.get("sds_root_domain_control", {})
+    if (
+        sds.get("decision") != "synthetic_domain_control_closed"
+        or sds.get("case_count") != sds_cases
+        or sds.get("all_static_patch_domains_valid") is not True
+        or sds.get("all_cosmological_horizons_contracted") is not True
+        or sds.get("above_nariai_two_horizon_domain_rejected") is not True
+        or float(sds.get("gpu_max_root_residual", math.inf))
+        > float(config["sds"]["root_residual_bound"])
+        or float(sds.get("gpu_cpu_max_root_error", math.inf))
+        > float(config["sds"]["gpu_cpu_error_bound"])
+    ):
         raise ValueError("SdS consequence control did not close")
-    if document.get("mond_btfr_control", {}).get("decision") != "conditional_synthetic_asymptote_control_closed":
+    mond = document.get("mond_btfr_control", {})
+    if (
+        mond.get("decision") != "conditional_synthetic_asymptote_control_closed"
+        or mond.get("case_count") != mond_cases
+        or mond.get("all_radii_above_r0_and_weak_potential") is not True
+        or mond.get("galaxy_geometry_or_data_tested") is not False
+        or float(mond.get("gpu_cpu_max_absolute_error", math.inf))
+        > float(config["mond"]["gpu_cpu_error_bound"])
+        or float(mond.get("maximum_equation62_to_deep_mond_relative_difference", math.inf))
+        > float(config["mond"]["asymptotic_relative_error_bound"])
+        or float(mond.get("maximum_btfr_v4_equals_mass_relative_residual", math.inf))
+        > float(config["mond"]["gpu_cpu_error_bound"])
+    ):
         raise ValueError("MOND consequence control did not close")
     predecessor_binding = document.get("predecessor_binding", {})
     if (
@@ -782,7 +865,52 @@ def validate_campaign(document: Mapping[str, Any], config_path: str | Path) -> N
     }
     if document.get("deterministic_manifest", {}).get("input_sha256") != hashes:
         raise ValueError("consequence deterministic input manifest mismatch")
-    for binding in document.get("source_bindings", {}).values():
+    manifest = document.get("deterministic_manifest", {})
+    if (
+        manifest.get("seed") != int(config["deterministic_seed"])
+        or manifest.get("generator") != "vectorized_splitmix64_v1"
+        or manifest.get("manifest_root_sha256") != _sha(hashes)
+    ):
+        raise ValueError("consequence deterministic manifest contract changed")
+    runtime = document.get("runtime_measurement", {})
+    elapsed = float(runtime.get("gpu_measured_wall_seconds", 0.0))
+    throughput = float(runtime.get("gpu_consequence_evaluations_per_second", 0.0))
+    utilization = runtime.get("utilization", {})
+    if (
+        runtime.get("device", {}).get("device_name") != "NVIDIA GeForce RTX 5090"
+        or not math.isfinite(elapsed)
+        or elapsed <= 0.0
+        or not math.isfinite(throughput)
+        or not math.isclose(
+            throughput,
+            expected_counts["gpu_measured_consequence_evaluations"] / elapsed,
+            rel_tol=1e-15,
+            abs_tol=0.0,
+        )
+        or runtime.get("timing_scope")
+        != "single local run; nondeterministic and not a sustained throughput claim"
+        or utilization.get("available") is not True
+        or utilization.get("counter_scope")
+        != "device-wide NVML samples during synchronized kernels; may include concurrent processes and are not a lane-only or sustained-capacity claim"
+        or int(utilization.get("sample_count", 0)) <= 0
+        or not (0.0 <= float(utilization.get("gpu_percent_mean", -1.0)) <= 100.0)
+        or not (0.0 <= float(utilization.get("gpu_percent_max", -1.0)) <= 100.0)
+        or not (0.0 <= float(utilization.get("memory_percent_mean", -1.0)) <= 100.0)
+        or not (0.0 <= float(utilization.get("memory_percent_max", -1.0)) <= 100.0)
+    ):
+        raise ValueError("consequence runtime or device-wide utilization contract changed")
+    expected_paths = {
+        "config": config_path.resolve().relative_to(root).as_posix(),
+        "source": "src/sigma_theory_compiler/kastner_schlatter_cuda_consequence_campaign.py",
+        "resource_profile": config["resource_profile"],
+        "test": "tests/test_kastner_schlatter_cuda_consequence_campaign.py",
+    }
+    bindings = document.get("source_bindings", {})
+    if set(bindings) != set(expected_paths):
+        raise ValueError("consequence source binding set changed")
+    for name, binding in bindings.items():
+        if binding.get("path") != expected_paths[name]:
+            raise ValueError("consequence local source path binding mismatch")
         path = root / binding["path"]
         if binding.get("file_sha256") != _file_sha(path):
             raise ValueError("consequence local source binding mismatch")

@@ -16,6 +16,7 @@ CONFIG_SCHEMA = "sigma-kastner-schlatter-equation-graph-admission-config-1.0"
 RESULT_SCHEMA = "sigma-kastner-schlatter-equation-graph-admission-1.0"
 FIRST_BLOCKER = "no_candidate_bound_fundamental_action_or_complete_variational_field_system"
 SOURCE_CONTENT_SHA256 = "560caa71caacd5172ff170d6619f77c99b878c019431c5a1a82982db50117c37"
+SOURCE_FILE_SHA256 = "4c142f202cc30a39ad62039ae01355b91e9264260ec0ec4fd02f45a3a16f82e2"
 SOURCE_PDF_SHA256 = "c2f671293d07b21397e745da00a3ce1a2193c00da647a2ebf4147612b76c1780"
 
 
@@ -764,9 +765,47 @@ def _validate_result(result: dict[str, Any]) -> None:
     graph = result.get("knowledge_graph", {})
     nodes = graph.get("nodes", [])
     edges = graph.get("edges", [])
+    if any(
+        edge.get("edge_type") in {"theory_equivalent_to", "proves_gr_equivalence"}
+        for edge in edges
+    ):
+        raise ValueError("forbidden theory-equivalence edge was admitted")
+    expected_formula_nodes, expected_audit = _compile_formula_nodes()
+    expected_nodes, expected_edges = _build_graph(expected_formula_nodes, expected_audit)
+    if graph != {"nodes": expected_nodes, "edges": expected_edges}:
+        raise ValueError("equation-graph records differ from the deterministic source-bound graph")
+    if result.get("graph_sha256") != _sha(graph):
+        raise ValueError("equation-graph registry hash changed")
+    if len({node.get("node_id") for node in nodes}) != len(nodes):
+        raise ValueError("equation-graph node IDs are not unique")
+    if len({edge.get("edge_id") for edge in edges}) != len(edges):
+        raise ValueError("equation-graph edge IDs are not unique")
+    node_ids = {node["node_id"] for node in nodes}
+    if any(edge.get("source") not in node_ids or edge.get("target") not in node_ids for edge in edges):
+        raise ValueError("equation-graph edge endpoint is missing")
     if counts.get("nodes") != len(nodes) or counts.get("edges") != len(edges):
         raise ValueError("equation-graph aggregate counts changed")
-    if counts.get("formula_nodes") != 25 or counts.get("theory_equivalence_edges") != 0:
+    node_counts = Counter(node["node_type"] for node in nodes)
+    edge_counts = Counter(edge["edge_type"] for edge in edges)
+    expected_counts = {
+        "nodes": len(nodes),
+        "edges": len(edges),
+        "formula_nodes": node_counts["formula"],
+        "assumption_nodes": node_counts["assumption"],
+        "domain_nodes": node_counts["domain"],
+        "source_nodes": node_counts["primary_source"] + node_counts["internal_source"],
+        "action_contract_nodes": node_counts["action_contract"],
+        "absent_capability_nodes": node_counts["absent_capability"],
+        "dependency_edges": edge_counts["depends_on"],
+        "assumption_edges": edge_counts["assumes"],
+        "semantic_algebraic_equivalence_edges": edge_counts[
+            "semantic_algebraic_equivalence"
+        ],
+        "exact_duplicate_edges": edge_counts["exact_duplicate"],
+        "theory_equivalence_edges": 0,
+        "absent_action_edges": edge_counts["not_derived_from_action"] + edge_counts["lacks"],
+    }
+    if counts != expected_counts or counts.get("formula_nodes") != 25:
         raise ValueError("equation/theory equivalence partition changed")
     audit = result.get("duplicate_equivalence_audit", {})
     if audit.get("exact_duplicate_group_count") != 0:
@@ -778,9 +817,55 @@ def _validate_result(result: dict[str, Any]) -> None:
         raise ValueError("semantic equivalence group changed")
     if any(edge["edge_type"] in {"theory_equivalent_to", "proves_gr_equivalence"} for edge in edges):
         raise ValueError("forbidden theory-equivalence edge was admitted")
+    if result.get("admission_contract") != {
+        "kind": "equation_universe_compatible_typed_knowledge_graph",
+        "equation_universe_schema": EQUATION_UNIVERSE_SCHEMA,
+        "equation_only": True,
+        "fundamental_action": None,
+        "variational_edges_present": False,
+        "theory_equivalence_edges_present": False,
+        "observational_edges_present": False,
+    }:
+        raise ValueError("equation-graph admission contract changed")
+    expected_secondary = [
+        "equation_35_h_vs_hbar_factor_normalization_clarification",
+        "no_formal_transaction_process_to_lorentzian_continuum_derivation",
+        "no_registered_global_or_initial_boundary_value_completion",
+        "no_registered_observational_likelihood",
+    ]
+    if result.get("secondary_blockers") != expected_secondary:
+        raise ValueError("equation-graph blocker ledger changed")
     claims = result.get("claim_seals", {})
     if not claims or any(value is not False for value in claims.values()):
         raise ValueError("equation-graph claim seal opened")
+    expected_data_seals = {
+        "observational_data_opened": False,
+        "dark_matter_or_halo_data_opened": False,
+        "redshift_or_cosmology_data_opened": False,
+        "solar_system_data_opened": False,
+    }
+    if result.get("data_seals") != expected_data_seals:
+        raise ValueError("equation-graph data seal changed")
+    if result.get("external_paid_llm_calls") is not False:
+        raise ValueError("equation-graph paid-call seal changed")
+    root = Path(__file__).resolve().parents[2]
+    lineage = result.get("source_lineage", {})
+    if lineage != {
+        "source_intake_content_sha256": SOURCE_CONTENT_SHA256,
+        "source_intake_file_sha256": SOURCE_FILE_SHA256,
+        "source_intake_config_sha256": _file_sha(
+            root / "configs/kastner_schlatter_transactional_gravity_intake.json"
+        ),
+        "source_intake_implementation_sha256": _file_sha(
+            root / "src/sigma_theory_compiler/kastner_schlatter_transactional_gravity_intake.py"
+        ),
+        "primary_pdf_sha256": SOURCE_PDF_SHA256,
+        "bridge_config_sha256": _file_sha(
+            root / "configs/kastner_schlatter_equation_graph_admission.json"
+        ),
+        "bridge_implementation_sha256": _file_sha(Path(__file__).resolve()),
+    }:
+        raise ValueError("equation-graph source lineage changed")
 
 
 def build_admission(config: dict[str, Any], root: Path) -> dict[str, Any]:

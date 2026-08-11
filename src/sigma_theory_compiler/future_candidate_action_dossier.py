@@ -223,11 +223,14 @@ def build_future_candidate_action_dossier(
                 "and a typed 4x4 lower-order coefficient interface. It now also has an exact "
                 "flat-chart canonical seed with compact q, A, pi^{ij}, and p_A^i profiles plus the "
                 "distributed cotangent-lift momentum residual through second profile derivatives. "
-                "The spatially distributed canonical H_core and its off-flat metric-covariantized "
-                "H/D Frechet DAG are still absent, so the B/C coefficient registry, weighted "
+                "On the regular stratum F^2!=31 its local H_core is exact. The declared amplitude-10 "
+                "profile crosses F^2=31, where the Legendre Hessian has rank seven and nullity two; "
+                "the seed momentum lies in the singular image but velocities are nonunique. Thus no "
+                "single smooth global flat-chart H_core exists on that profile, and the off-flat "
+                "metric-covariantized H/D Frechet DAG is still absent. The B/C coefficient registry, weighted "
                 "relative lower-order bound, Fredholm isomorphism, full inverse norm, nonlinear "
                 "remainder, and completed-boundary sign persistence remain unproved. "
-                "No action is rejected; blocked is not rejection."
+                "No additional action is rejected by this follow-up; blocked is not rejection."
             )
         else:
             followup = g3_records.get(candidate_id)

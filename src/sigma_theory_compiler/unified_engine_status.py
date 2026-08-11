@@ -452,6 +452,12 @@ def build_unified_snapshot(
     transactional_gravity_intake = sources["kastner_schlatter_transactional_gravity_intake"]
     transactional_gravity_graph = sources["kastner_schlatter_equation_graph_admission"]
     transactional_gravity_cuda = sources["kastner_schlatter_cuda_consequence_campaign"]
+    transactional_gravity_observational = sources[
+        "kastner_schlatter_observational_readiness_contract"
+    ]
+    transactional_gravity_falsification = sources[
+        "kastner_schlatter_cuda_falsification_design"
+    ]
     generic_g4_b4_termwise_normalization = sources[
         "generic_g4_b4_termwise_normalization"
     ]
@@ -497,6 +503,9 @@ def build_unified_snapshot(
     ]
     future_aether_canonical_seed_constraint_dag_gate = sources[
         "future_aether_canonical_seed_constraint_dag_gate"
+    ]
+    future_aether_characteristic_shell_hcore_gate = sources[
+        "future_aether_characteristic_shell_hcore_gate"
     ]
     future_g3_domain_followup = sources["future_g3_domain_followup"]
     future_g3_action_bound_followup = sources["future_g3_action_bound_followup"]
@@ -568,6 +577,9 @@ def build_unified_snapshot(
     quartic_tc2_fourth_jet_status = sources["quartic_tc2_fourth_jet_status"]
     quartic_tc2_d4_obstruction_certificate = sources[
         "quartic_tc2_d4_obstruction_cokernel_certificate"
+    ]
+    quartic_tc2_d4_homogeneous_freedom_reduction = sources[
+        "quartic_tc2_d4_homogeneous_freedom_reduction"
     ]
     quartic_tc2_reranked_obligation_chunks = tuple(
         sources[f"quartic_tc2_reranked_obligation_chunk_{offset}"]
@@ -1031,6 +1043,140 @@ def build_unified_snapshot(
         .get("counter_scope", "")
     ):
         raise ValueError("Kastner-Schlatter CUDA consequence campaign is inconsistent")
+    transactional_registration_counts = transactional_gravity_observational.get(
+        "registration_counts", {}
+    )
+    if (
+        transactional_gravity_observational.get("decision")
+        != "blocked_registration_incomplete_observations_sealed"
+        or transactional_gravity_observational.get("source_lineage", {}).get(
+            "source_intake_content_sha256"
+        )
+        != transactional_gravity_intake.get("content_sha256")
+        or transactional_gravity_observational.get("source_lineage", {}).get(
+            "equation_graph_content_sha256"
+        )
+        != transactional_gravity_graph.get("content_sha256")
+        or transactional_gravity_observational.get("source_lineage", {}).get(
+            "cuda_consequence_content_sha256"
+        )
+        != transactional_gravity_cuda.get("content_sha256")
+        or transactional_registration_counts.get("total_fields") != 88
+        or transactional_registration_counts.get("by_status")
+        != {
+            "forbidden": 7,
+            "missing_required": 58,
+            "source_blocked": 4,
+            "source_registered": 19,
+        }
+        or transactional_registration_counts.get("by_lane")
+        != {
+            "lambda_relation": 10,
+            "mond_btfr": 34,
+            "sds_clock_acceleration": 22,
+            "transaction_poisson": 22,
+        }
+        or transactional_gravity_observational.get("observational_access_count") != 0
+        or transactional_gravity_observational.get("real_data_bundle_count") != 0
+        or transactional_gravity_observational.get("real_data_pass_count") != 0
+        or transactional_gravity_observational.get("theory_or_ontology_pass_count") != 0
+        or transactional_gravity_observational.get("data_seals")
+        != {
+            "dark_matter_or_halo_inputs_opened": False,
+            "observations_opened": False,
+            "paid_llm_calls": False,
+            "redshift_or_cosmology_inputs_opened": False,
+            "synthetic_only": True,
+            "transaction_event_observations_opened": False,
+        }
+        or not transactional_gravity_observational.get("negative_controls")
+        or any(
+            value is not True
+            for value in transactional_gravity_observational["negative_controls"].values()
+        )
+        or transactional_gravity_observational.get("synthetic_positive_control", {}).get(
+            "observational_pass"
+        )
+        is not False
+        or transactional_gravity_observational.get("synthetic_positive_control", {}).get(
+            "real_data_eligibility"
+        )
+        is not False
+    ):
+        raise ValueError("Kastner-Schlatter observational readiness contract is inconsistent")
+    expected_transactional_falsification_counts = {
+        "btfr_synthetic_residual_values": 2_097_152,
+        "gpu_measured_repetitions": 16_384,
+        "gpu_measured_value_evaluations": 103_079_215_104,
+        "observational_records_accessed": 0,
+        "poisson_synthetic_count_values": 4_194_304,
+        "readiness_fields_advanced": 0,
+        "scientific_tests_passed": 0,
+    }
+    if (
+        transactional_gravity_falsification.get("decision")
+        != "synthetic_falsification_design_controls_closed_observational_lanes_still_blocked"
+        or transactional_gravity_falsification.get("source_bindings", {})
+        .get("cuda_consequence", {})
+        .get("content_sha256")
+        != transactional_gravity_cuda.get("content_sha256")
+        or transactional_gravity_falsification.get("source_bindings", {})
+        .get("observational_readiness", {})
+        .get("content_sha256")
+        != transactional_gravity_observational.get("content_sha256")
+        or transactional_gravity_falsification.get("counts")
+        != expected_transactional_falsification_counts
+        or transactional_gravity_falsification.get("poisson_power_control", {}).get(
+            "empirical_null_rejection_rate"
+        )
+        != 0.000244140625
+        or transactional_gravity_falsification.get("poisson_power_control", {}).get(
+            "empirical_alternative_detection_rate"
+        )
+        != 1.0
+        or transactional_gravity_falsification.get("btfr_power_control", {}).get(
+            "empirical_null_rejection_rate"
+        )
+        != 0.0
+        or transactional_gravity_falsification.get("btfr_power_control", {}).get(
+            "empirical_alternative_detection_rate"
+        )
+        != 0.999267578125
+        or transactional_gravity_falsification.get("btfr_power_control", {}).get(
+            "extended_galaxy_geometry_tested"
+        )
+        is not False
+        or transactional_gravity_falsification.get("gpu_cpu_crosscheck", {}).get(
+            "all_rejection_decisions_byte_equal"
+        )
+        is not True
+        or transactional_gravity_falsification.get("gpu_cpu_crosscheck", {}).get(
+            "maximum_absolute_statistic_error"
+        )
+        > transactional_gravity_falsification.get("gpu_cpu_crosscheck", {}).get(
+            "error_bound"
+        )
+        or transactional_gravity_falsification.get("observational_bridge", {}).get(
+            "registration_fields_advanced"
+        )
+        != 0
+        or transactional_gravity_falsification.get("observational_bridge", {}).get(
+            "real_bundle_fields_filled"
+        )
+        != 0
+        or transactional_gravity_falsification.get("synthetic_only") is not True
+        or transactional_gravity_falsification.get("observations_opened") is not False
+        or transactional_gravity_falsification.get("ontology_pass") is not False
+        or transactional_gravity_falsification.get("theory_pass") is not False
+        or transactional_gravity_falsification.get("scientific_test_pass") is not False
+        or transactional_gravity_falsification.get("dark_matter_or_halo_inputs") is not False
+        or transactional_gravity_falsification.get("redshift_or_cosmology_inputs") is not False
+        or transactional_gravity_falsification.get("paid_llm_calls") is not False
+        or "device-wide NVML" not in transactional_gravity_falsification.get(
+            "runtime_measurement", {}
+        ).get("utilization", {}).get("counter_scope", "")
+    ):
+        raise ValueError("Kastner-Schlatter CUDA falsification design is inconsistent")
     if (
         formal_preflight.get("execution_enabled") is not True
         or formal_preflight.get("candidate_count") != 163
@@ -2454,6 +2600,117 @@ def build_unified_snapshot(
         != 14
     ):
         raise ValueError("future Aether canonical-seed constraint DAG gate is inconsistent")
+    aether_shell_records = future_aether_characteristic_shell_hcore_gate.get(
+        "candidate_records", []
+    )
+    aether_shell_target = next(
+        (
+            record
+            for record in aether_shell_records
+            if record.get("candidate_id") == "G3A-5e9f93eda83935f288c19571"
+        ),
+        None,
+    )
+    aether_shell_control = (
+        aether_shell_target.get("characteristic_shell_H_core_certificate", {})
+        .get("characteristic_shell_control", {})
+        if aether_shell_target
+        else {}
+    )
+    if (
+        future_aether_characteristic_shell_hcore_gate.get("candidate_count") != 14
+        or future_aether_characteristic_shell_hcore_gate.get("decision_counts")
+        != {"blocked": 14}
+        or future_aether_characteristic_shell_hcore_gate.get("first_blocker_counts")
+        != {
+            "alternative_canonical_momentum_variable_or_gauge_avoiding_exact_finite_tilt_York_symbol_shell": 2,
+            "declared_compact_seed_crosses_candidate_bound_Legendre_characteristic_shell_F2_eq31": 1,
+            "noncharacteristic_foliation_or_compact_negative_seed_avoiding_forced_ADM_Legendre_characteristic_crossing": 11,
+        }
+        or future_aether_characteristic_shell_hcore_gate.get(
+            "regular_stratum_flat_chart_H_core_contract_registered_count"
+        )
+        != 1
+        or future_aether_characteristic_shell_hcore_gate.get(
+            "declared_profile_global_flat_chart_H_core_registered_count"
+        )
+        != 0
+        or future_aether_characteristic_shell_hcore_gate.get(
+            "off_flat_metric_covariantization_registered_count"
+        )
+        != 0
+        or future_aether_characteristic_shell_hcore_gate.get(
+            "metric_covariantized_H_D_Frechet_DAG_registered_count"
+        )
+        != 0
+        or future_aether_characteristic_shell_hcore_gate.get("formal_pass_count") != 0
+        or future_aether_characteristic_shell_hcore_gate.get(
+            "candidate_rejection_authorized_count"
+        )
+        != 0
+        or future_aether_characteristic_shell_hcore_gate.get(
+            "constraint_satisfying_negative_total_energy_datum_count"
+        )
+        != 0
+        or future_aether_characteristic_shell_hcore_gate.get("source_lineage", {}).get(
+            "canonical_artifact_content_sha256"
+        )
+        != future_aether_canonical_seed_constraint_dag_gate.get("content_sha256")
+        or len(aether_shell_records) != 14
+        or aether_shell_target is None
+        or aether_shell_target.get("first_blocker")
+        != "declared_compact_seed_crosses_candidate_bound_Legendre_characteristic_shell_F2_eq31"
+        or aether_shell_target.get("decision") != "blocked"
+        or aether_shell_target.get("formal_pass") is not False
+        or aether_shell_target.get("candidate_rejection_authorized") is not False
+        or aether_shell_control.get("only_real_characteristic_condition") != "F**2=31"
+        or aether_shell_control.get("hessian_determinant")
+        != "-31*(F**2 - 31)**2*(33*F**2 + 65)*(61*F**2 + 124)**2/(8796093022208*(F**2 + 1))"
+        or aether_shell_control.get("declared_profile_characteristic_shell", {}).get(
+            "hessian_rank"
+        )
+        != 7
+        or aether_shell_control.get("declared_profile_characteristic_shell", {}).get(
+            "hessian_nullity"
+        )
+        != 2
+        or aether_shell_control.get("seed_legendre_image", {}).get(
+            "shell_primary_compatibility_residuals"
+        )
+        != ["0", "0"]
+        or aether_shell_control.get("incompatible_momentum_negative_control", {}).get(
+            "null_projection_residuals"
+        )
+        != ["0", "1"]
+        or aether_shell_control.get("incompatible_momentum_negative_control", {}).get(
+            "rejected"
+        )
+        is not True
+        or aether_shell_control.get("noncrossing_profile_control", {}).get(
+            "distance_to_characteristic_F_squared"
+        )
+        != "6"
+        or aether_shell_control.get("regular_stratum_H_core", {}).get("registered")
+        is not True
+        or aether_shell_control.get("regular_stratum_H_core", {}).get(
+            "global_on_declared_profile"
+        )
+        is not False
+        or future_aether_characteristic_shell_hcore_gate.get(
+            "automatic_downstream_enqueue_performed"
+        )
+        is not False
+        or future_aether_characteristic_shell_hcore_gate.get("observational_data_opened")
+        is not False
+        or future_aether_characteristic_shell_hcore_gate.get("data_eligibility")
+        != {
+            "observational_data_opened": False,
+            "dark_matter_or_halo_inputs": False,
+            "redshift_distance_inputs": False,
+            "paid_llm_calls": False,
+        }
+    ):
+        raise ValueError("future Aether characteristic-shell H_core gate is inconsistent")
     if (
         future_g3_york_tracefree_compensation.get("candidate_count") != 3
         or future_g3_york_tracefree_compensation.get("decision_counts") != {"blocked": 3}
@@ -2647,10 +2904,16 @@ def build_unified_snapshot(
         or future_candidate_action_dossier.get("source_roots", {}).get(
             "aether_followup_content_sha256"
         )
-        != future_aether_canonical_seed_constraint_dag_gate.get("content_sha256")
+        != future_aether_characteristic_shell_hcore_gate.get("content_sha256")
         or future_candidate_action_dossier.get("source_roots", {}).get("g3_followup_content_sha256")
         != future_g3_flat_radial_matched_constraints_asymptotic_no_go.get("content_sha256")
         or len(future_candidate_action_dossier.get("dossiers", [])) != 19
+        or next(
+            record
+            for record in future_candidate_action_dossier.get("dossiers", [])
+            if record.get("candidate_id") == "G3A-5e9f93eda83935f288c19571"
+        ).get("first_blocker")
+        != "declared_compact_seed_crosses_candidate_bound_Legendre_characteristic_shell_F2_eq31"
         or any(
             record.get("comparison_contract", {}).get("rank") is not None
             or record.get("comparison_contract", {}).get("rank_eligible") is not False
@@ -3815,6 +4078,87 @@ def build_unified_snapshot(
         )
     ):
         raise ValueError("quartic TC2 D4 obstruction certificate is inconsistent")
+    d4_homogeneous_counts = quartic_tc2_d4_homogeneous_freedom_reduction.get(
+        "counts", {}
+    )
+    d4_homogeneous_claims = quartic_tc2_d4_homogeneous_freedom_reduction.get(
+        "claims", {}
+    )
+    d4_homogeneous_reduction = quartic_tc2_d4_homogeneous_freedom_reduction.get(
+        "homogeneous_freedom_reduction", {}
+    )
+    if (
+        quartic_tc2_d4_homogeneous_freedom_reduction.get("status")
+        != "pass_exact_d4_obstruction_invariant_under_all_lower_homogeneous_freedom"
+        or quartic_tc2_d4_homogeneous_freedom_reduction.get("selector_binding", {}).get(
+            "obligation_offset"
+        )
+        != 244
+        or quartic_tc2_d4_homogeneous_freedom_reduction.get("selector_binding", {}).get(
+            "active_indices"
+        )
+        != [0, 2, 3, 9]
+        or quartic_tc2_d4_homogeneous_freedom_reduction.get("selector_binding", {}).get(
+            "canonical_witness_sha256"
+        )
+        != d4_zero_compression.get("sha256")
+        or quartic_tc2_d4_homogeneous_freedom_reduction.get("source_bindings", {})
+        .get("obstruction_certificate", {})
+        .get("content_sha256")
+        != quartic_tc2_d4_obstruction_certificate.get("content_sha256")
+        or d4_homogeneous_counts.get("polarization_directions_checked") != 15
+        or d4_homogeneous_counts.get("Taylor_orders_per_direction_checked") != 5
+        or d4_homogeneous_counts.get("stationary_block_checks") != 75
+        or d4_homogeneous_counts.get("projector_algebra_checks") != 225
+        or d4_homogeneous_counts.get("total_exact_zero_projector_checks") != 300
+        or d4_homogeneous_counts.get("lower_jet_reference_kernel_slots_covered_by_identity")
+        != 20_842
+        or d4_homogeneous_counts.get("induced_cokernel_map_rank") != 0
+        or d4_homogeneous_counts.get("candidate_specializations_checked") != 12
+        or d4_homogeneous_counts.get("candidate_obstructions_invariant") != 12
+        or d4_homogeneous_counts.get("candidate_cancellations") != 0
+        or d4_homogeneous_counts.get("inferred_passes") != 0
+        or d4_homogeneous_reduction.get("induced_D4_zero_eigenspace_map_rank") != 0
+        or d4_homogeneous_reduction.get("induced_D4_zero_eigenspace_map_image_dimension")
+        != 0
+        or d4_homogeneous_reduction.get("canonical_rank_two_witness_in_image") is not False
+        or d4_homogeneous_reduction.get(
+            "total_lower_jet_reference_kernel_slots_before_cross_order_constraints"
+        )
+        != 20_842
+        or d4_homogeneous_claims.get(
+            "alternative_lower_jet_homogeneous_completion_ruled_out_for_obligation_244"
+        )
+        is not True
+        or d4_homogeneous_claims.get("all_12_registered_candidates_D4_obstructed_at_obligation_244")
+        is not True
+        or d4_homogeneous_claims.get("all_3060_fourth_jet_obligations_evaluated")
+        is not False
+        or any(
+            d4_homogeneous_claims.get(key) is not False
+            for key in (
+                "full_fourth_jet_range_closed",
+                "full_tube_Sylvester_identity",
+                "CK1_closed",
+                "CK3_closed",
+                "TC2_closed",
+                "B7_closed",
+                "global_H7_closed",
+                "lifespan_proved",
+            )
+        )
+        or len(quartic_tc2_d4_homogeneous_freedom_reduction.get("candidate_classification", []))
+        != 12
+        or any(
+            row.get("D4_compatible_after_all_lower_homogeneous_freedom") is not False
+            or row.get("cancellation_possible") is not False
+            or row.get("homogeneous_D4_zero_eigenspace_correction") != "0"
+            for row in quartic_tc2_d4_homogeneous_freedom_reduction.get(
+                "candidate_classification", []
+            )
+        )
+    ):
+        raise ValueError("quartic TC2 D4 homogeneous-freedom reduction is inconsistent")
     if (
         unified_live_dashboard_service_readiness.get("decision")
         != "ready_enabled_read_only_bounded"
@@ -4033,6 +4377,53 @@ def build_unified_snapshot(
                 "mond_btfr": transactional_gravity_cuda["mond_btfr_control"],
                 "gpu_cpu_bindings": transactional_gravity_cuda["gpu_cpu_bindings"],
                 "runtime_measurement": transactional_gravity_cuda["runtime_measurement"],
+            },
+            "observational_readiness": {
+                "decision": transactional_gravity_observational["decision"],
+                "registration_counts": transactional_gravity_observational[
+                    "registration_counts"
+                ],
+                "lane_decisions": transactional_gravity_observational["lane_decisions"],
+                "observational_access_count": transactional_gravity_observational[
+                    "observational_access_count"
+                ],
+                "real_data_bundle_count": transactional_gravity_observational[
+                    "real_data_bundle_count"
+                ],
+                "real_data_pass_count": transactional_gravity_observational[
+                    "real_data_pass_count"
+                ],
+                "theory_or_ontology_pass_count": transactional_gravity_observational[
+                    "theory_or_ontology_pass_count"
+                ],
+                "contract_scope": transactional_gravity_observational["contract_scope"],
+                "data_seals": transactional_gravity_observational["data_seals"],
+            },
+            "cuda_falsification_design": {
+                "decision": transactional_gravity_falsification["decision"],
+                "counts": transactional_gravity_falsification["counts"],
+                "poisson_power_control": transactional_gravity_falsification[
+                    "poisson_power_control"
+                ],
+                "btfr_power_control": transactional_gravity_falsification[
+                    "btfr_power_control"
+                ],
+                "gpu_cpu_crosscheck": transactional_gravity_falsification[
+                    "gpu_cpu_crosscheck"
+                ],
+                "observational_bridge": transactional_gravity_falsification[
+                    "observational_bridge"
+                ],
+                "runtime_measurement": transactional_gravity_falsification[
+                    "runtime_measurement"
+                ],
+                "workload_priority": transactional_gravity_falsification[
+                    "workload_priority"
+                ],
+                "synthetic_only": transactional_gravity_falsification["synthetic_only"],
+                "scientific_test_pass": transactional_gravity_falsification[
+                    "scientific_test_pass"
+                ],
             },
             "claim_seals": {
                 "fundamental_action_registered": False,
@@ -4480,10 +4871,10 @@ def build_unified_snapshot(
                     },
                     "family_followup": {
                         "aether": {
-                            "candidate_count": future_aether_canonical_seed_constraint_dag_gate[
+                            "candidate_count": future_aether_characteristic_shell_hcore_gate[
                                 "candidate_count"
                             ],
-                            "decision_counts": future_aether_canonical_seed_constraint_dag_gate[
+                            "decision_counts": future_aether_characteristic_shell_hcore_gate[
                                 "decision_counts"
                             ],
                             "formal_pass_count": 0,
@@ -4655,6 +5046,27 @@ def build_unified_snapshot(
                             "full_operator_inverse_norm_pass_count": future_aether_canonical_seed_constraint_dag_gate[
                                 "full_operator_inverse_norm_pass_count"
                             ],
+                            "regular_stratum_flat_chart_H_core_contract_registered_count": future_aether_characteristic_shell_hcore_gate[
+                                "regular_stratum_flat_chart_H_core_contract_registered_count"
+                            ],
+                            "declared_profile_global_flat_chart_H_core_registered_count": future_aether_characteristic_shell_hcore_gate[
+                                "declared_profile_global_flat_chart_H_core_registered_count"
+                            ],
+                            "off_flat_metric_covariantization_registered_count": future_aether_characteristic_shell_hcore_gate[
+                                "off_flat_metric_covariantization_registered_count"
+                            ],
+                            "characteristic_shell_condition": aether_shell_control[
+                                "only_real_characteristic_condition"
+                            ],
+                            "characteristic_shell_rank": aether_shell_control[
+                                "declared_profile_characteristic_shell"
+                            ]["hessian_rank"],
+                            "characteristic_shell_nullity": aether_shell_control[
+                                "declared_profile_characteristic_shell"
+                            ]["hessian_nullity"],
+                            "noncrossing_control_F_squared_margin": aether_shell_control[
+                                "noncrossing_profile_control"
+                            ]["distance_to_characteristic_F_squared"],
                             "missing_weighted_contract_field_counts": future_aether_weighted_ift_contract_gate[
                                 "missing_contract_field_counts"
                             ],
@@ -4664,10 +5076,10 @@ def build_unified_snapshot(
                             "c2_plus_c3_counts": future_aether_weak_field_ae_constraint_gate[
                                 "c2_plus_c3_counts"
                             ],
-                            "first_blocker_counts": future_aether_canonical_seed_constraint_dag_gate[
+                            "first_blocker_counts": future_aether_characteristic_shell_hcore_gate[
                                 "first_blocker_counts"
                             ],
-                            "candidate_rejection_authorized_count": future_aether_canonical_seed_constraint_dag_gate[
+                            "candidate_rejection_authorized_count": future_aether_characteristic_shell_hcore_gate[
                                 "candidate_rejection_authorized_count"
                             ],
                         },
@@ -5024,10 +5436,35 @@ def build_unified_snapshot(
                     ],
                     "independent_of_c20": d4_range["independent_of_c20"],
                     "exact_candidate_witness_gap": d4_gap["interval"],
-                    "alternative_lower_jet_homogeneous_completion_ruled_out": d4_certificate_claims[
-                        "alternative_lower_jet_homogeneous_completion_ruled_out"
+                    "alternative_lower_jet_homogeneous_completion_ruled_out": d4_homogeneous_claims[
+                        "alternative_lower_jet_homogeneous_completion_ruled_out_for_obligation_244"
                     ],
-                    "next_gate": quartic_tc2_d4_obstruction_certificate["next_gate"],
+                    "homogeneous_freedom_reduction": {
+                        "status": quartic_tc2_d4_homogeneous_freedom_reduction["status"],
+                        "polarization_directions_checked": d4_homogeneous_counts[
+                            "polarization_directions_checked"
+                        ],
+                        "Taylor_orders_per_direction_checked": d4_homogeneous_counts[
+                            "Taylor_orders_per_direction_checked"
+                        ],
+                        "total_exact_zero_projector_checks": d4_homogeneous_counts[
+                            "total_exact_zero_projector_checks"
+                        ],
+                        "lower_jet_reference_kernel_slots_covered_by_identity": d4_homogeneous_counts[
+                            "lower_jet_reference_kernel_slots_covered_by_identity"
+                        ],
+                        "induced_D4_zero_eigenspace_map_rank": d4_homogeneous_reduction[
+                            "induced_D4_zero_eigenspace_map_rank"
+                        ],
+                        "candidate_obstructions_invariant": d4_homogeneous_counts[
+                            "candidate_obstructions_invariant"
+                        ],
+                        "candidate_cancellations": d4_homogeneous_counts[
+                            "candidate_cancellations"
+                        ],
+                        "exact_identity": d4_homogeneous_reduction["exact_identity"],
+                    },
+                    "next_gate": quartic_tc2_d4_homogeneous_freedom_reduction["next_gate"],
                 },
                 "full_fourth_jet_range_closed": False,
             },
@@ -5043,7 +5480,7 @@ def build_unified_snapshot(
                     "lifespans_proved",
                 )
             },
-            "first_missing_premise": "parameterize_order_one_through_three_equal_eigenspace_homogeneous_Sylvester_freedom_or_prove_canonical_zero_block_normalization_mandatory_before_claiming_the_D4_obstruction_for_every_lower_jet_completion",
+            "first_missing_premise": "change_the_candidate_or_operator_ansatz_or_TC2_correction_to_remove_the_invariant_exact_D4_obstruction_before_evaluating_later_selector_obligations",
         },
         "evidence_pareto": {
             "candidate_decision_counts": pareto["candidate_decision_counts"],

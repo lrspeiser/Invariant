@@ -359,10 +359,13 @@ now yields a finite pointwise principal-symbol inverse bound and an elliptic hom
 Euclidean reference. That candidate now also has an exact compact `C3` Aether profile with weighted
 jet bounds through third order and a typed `4x4` lower-order coefficient interface. An exact
 flat-chart canonical seed now registers `q`, `A`, `pi^ij`, and `p_A^i`, together with the distributed
-cotangent-lift momentum residual DAG through the available profile derivatives. The spatially
-distributed canonical `H_core` and off-flat metric-covariantized Hamiltonian/momentum Frechet DAG
-remain unregistered; therefore the complete `B/C` coefficient registry, weighted relative bound,
-kernel estimate, full Fredholm inverse, nonlinear remainder, and completed-boundary sign remain blocked. The other
+cotangent-lift momentum residual DAG through the available profile derivatives. Its local flat-chart
+`H_core` is exact on the regular stratum `F^2 != 31`. The declared amplitude-10 compact profile,
+however, crosses `F^2=31`; there the Legendre Hessian has rank seven and nullity two. The seed
+momentum lies in the singular image, but its velocities are nonunique, so no single smooth global
+flat-chart `H_core` exists on that profile. The off-flat metric-covariantized Hamiltonian/momentum
+Frechet DAG, complete `B/C` coefficient registry, weighted relative bound, full Fredholm inverse,
+nonlinear remainder, and completed-boundary sign remain blocked. The other
 11 retain the forced-characteristic blocker. Blocked is not theory
 rejection. The three cubic-G3 actions now have all
 36 action-bound componentwise fields registered and pass direct uniform principal/common-cone,
@@ -533,16 +536,24 @@ backend agreement and throughput only—no field equation, formal pass, ranking,
 claim, or observational support.
 
 The Kastner–Schlatter transactional-gravity proposal now has a source-bound equation intake, a typed
-54-node/137-edge equation graph, and a separate RTX 5090 synthetic-consequence campaign. The graph
+54-node/137-edge equation graph, an 88-field observational-readiness contract, and two RTX 5090
+synthetic campaigns. The graph
 stores 25 formulas with their assumptions, domains, dependencies, source hashes, and explicit
 absent-action/variational edges; it records one algebraic rearrangement equivalence and no duplicate or
 theory-equivalence claim. CUDA produced 1,572,864 deterministic Poisson samples, 262,144 normalized
 Schwarzschild–de Sitter cases, and 262,144 conditional MOND/BTFR cases, with exact CPU controls and
-17,179,869,184 measured consequence evaluations in 6.344 seconds. Equation 35 remains blocked: using
+17,179,869,184 measured consequence evaluations in 6.343 seconds. Equation 35 remains blocked: using
 the paper's stated `h=2*pi*hbar` and `l_P^2=G*hbar/c^3` makes its middle coefficient `8*pi^2`, while
 the printed final coefficient is `4*pi^2`. No Lambda value or cosmology-derived `a0` is selected, and
 synthetic agreement does not infer a fundamental action, GR equivalence, transactional ontology,
 dark-matter/dark-energy elimination, or observational validity.
+The readiness ledger registers 19 fields, leaves 58 required fields missing, four source-blocked,
+and seven forbidden, with zero observation access or real-data bundles. A second CUDA campaign then
+rehearses Poisson-overdispersion and point-mass BTFR group-residual falsification designs over
+103,079,215,104 measured value evaluations. Synthetic alternatives are detected in 100% and 99.93%
+of registered replicates with byte-equal GPU/CPU decisions. This advances zero readiness fields and
+performs zero scientific tests: an operational transaction-event detector, extended-galaxy geometry,
+and Equation-35/Lambda propagation remain unavailable.
 
 `promotion_dossier.py` now independently replays every stored candidate/stage hash chain, explains
 the first rejection or unresolved gate, and builds a multi-axis Pareto follow-up queue only from
@@ -1256,10 +1267,13 @@ Sylvester compatibility fails for all 12 quartic candidates. The service records
 the sole nonzero reference compression is `(34816/15)*alpha^5*W`, where `W` has rank two, so the
 canonical recurrence is compatible exactly when `alpha=0`, independently of `c20`. Every registered
 candidate has `alpha` in `{±1, ±1/2}` and is canonically obstructed, with exact witness gap
-`[1088/15,34816/15]`. Orders one through three remain mandatory zero-residual prerequisites, but
-their equal-eigenspace homogeneous Sylvester freedom has not yet been parameterized or proved
-inadmissible. The certificate therefore does not claim that every alternative lower-jet completion
-is obstructed. This is a mathematical canonical-candidate obstruction, not an infrastructure
+`[1088/15,34816/15]`. An exact homogeneous-freedom reduction closes the remaining normalization
+caveat. On all 15 nonempty polarization sums through Taylor order four, the stationary-projector
+identity `R0^T(HP-P^T H)R0=0`, together with the mandatory lower recurrence, makes the induced D4
+zero-eigenspace map identically rank zero. This covers all 20,842 order-one-through-three kernel
+slots, so no homogeneous lower-jet completion can cancel the rank-two witness. All 12 candidates are
+therefore invariantly obstructed at obligation 244; the next gate requires a changed candidate or
+operator ansatz, or a changed TC2 correction. This is a mathematical candidate-family obstruction, not an infrastructure
 failure or an inferred pass for the unevaluated tail; full fourth-order range closure, full-tube,
 CK1, CK3, TC2, B7, global-H7, and lifespan remain false.
 

@@ -30,6 +30,8 @@ SOURCE_PATHS = [
     "runs/engine/kastner-schlatter-transactional-gravity-intake.json",
     "runs/engine/kastner-schlatter-equation-graph-admission.json",
     "runs/engine/kastner-schlatter-cuda-consequence-campaign.json",
+    "runs/engine/kastner-schlatter-observational-readiness-contract.json",
+    "runs/engine/kastner-schlatter-cuda-falsification-design.json",
     "runs/engine/generic-g4-b4-termwise-normalization-campaign.json",
     "runs/engine/grammar-v3-formal-preflight-status.json",
     "runs/engine/grammar-v3-promotion-admission-status.json",
@@ -54,6 +56,7 @@ SOURCE_PATHS = [
     "runs/engine/future-aether-principal-inverse-fredholm-gate.json",
     "runs/engine/future-aether-lower-order-coefficient-contract-gate.json",
     "runs/engine/future-aether-canonical-seed-constraint-dag-gate.json",
+    "runs/engine/future-aether-characteristic-shell-hcore-gate.json",
     "runs/engine/future-g3-componentwise-domain-contract-campaign.json",
     "runs/engine/future-g3-action-bound-jet-box-campaign.json",
     "runs/engine/future-g3-af-transition-obstruction-campaign.json",
@@ -110,6 +113,7 @@ SOURCE_PATHS = [
     "runs/physics-language/quartic-tc2-fourth-jet-obligation-service/checkpoint.json",
     "runs/physics-language/quartic-tc2-fourth-jet-obligation-service/service-status.json",
     "runs/physics-language/quartic-tc2-d4-obstruction-cokernel-certificate/campaign.json",
+    "runs/physics-language/quartic-tc2-d4-homogeneous-freedom-reduction/campaign.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000000.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000064.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000128.json",
@@ -165,6 +169,8 @@ LABELS = [
     "kastner_schlatter_transactional_gravity_intake",
     "kastner_schlatter_equation_graph_admission",
     "kastner_schlatter_cuda_consequence_campaign",
+    "kastner_schlatter_observational_readiness_contract",
+    "kastner_schlatter_cuda_falsification_design",
     "generic_g4_b4_termwise_normalization",
     "grammar_v3_formal_preflight",
     "grammar_v3_promotion_admission",
@@ -189,6 +195,7 @@ LABELS = [
     "future_aether_principal_inverse_fredholm_gate",
     "future_aether_lower_order_coefficient_contract_gate",
     "future_aether_canonical_seed_constraint_dag_gate",
+    "future_aether_characteristic_shell_hcore_gate",
     "future_g3_domain_followup",
     "future_g3_action_bound_followup",
     "future_g3_af_transition_obstruction",
@@ -245,6 +252,7 @@ LABELS = [
     "quartic_tc2_fourth_jet_checkpoint",
     "quartic_tc2_fourth_jet_status",
     "quartic_tc2_d4_obstruction_cokernel_certificate",
+    "quartic_tc2_d4_homogeneous_freedom_reduction",
     "quartic_tc2_reranked_obligation_chunk_0",
     "quartic_tc2_reranked_obligation_chunk_64",
     "quartic_tc2_reranked_obligation_chunk_128",
@@ -699,6 +707,41 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     assert transactional["cuda_consequence_campaign"]["counts"][
         "gpu_measured_consequence_evaluations"
     ] == 17_179_869_184
+    readiness = transactional["observational_readiness"]
+    assert readiness["decision"] == "blocked_registration_incomplete_observations_sealed"
+    assert readiness["registration_counts"]["by_status"] == {
+        "forbidden": 7,
+        "missing_required": 58,
+        "source_blocked": 4,
+        "source_registered": 19,
+    }
+    assert readiness["registration_counts"]["total_fields"] == 88
+    assert readiness["observational_access_count"] == 0
+    assert readiness["real_data_bundle_count"] == 0
+    assert readiness["real_data_pass_count"] == 0
+    assert readiness["theory_or_ontology_pass_count"] == 0
+    assert readiness["data_seals"]["transaction_event_observations_opened"] is False
+    falsification = transactional["cuda_falsification_design"]
+    assert falsification["counts"] == {
+        "btfr_synthetic_residual_values": 2_097_152,
+        "gpu_measured_repetitions": 16_384,
+        "gpu_measured_value_evaluations": 103_079_215_104,
+        "observational_records_accessed": 0,
+        "poisson_synthetic_count_values": 4_194_304,
+        "readiness_fields_advanced": 0,
+        "scientific_tests_passed": 0,
+    }
+    assert falsification["poisson_power_control"][
+        "empirical_alternative_detection_rate"
+    ] == 1.0
+    assert falsification["btfr_power_control"][
+        "empirical_alternative_detection_rate"
+    ] == 0.999267578125
+    assert falsification["gpu_cpu_crosscheck"][
+        "all_rejection_decisions_byte_equal"
+    ] is True
+    assert falsification["observational_bridge"]["registration_fields_advanced"] == 0
+    assert falsification["scientific_test_pass"] is False
     assert transactional["claim_seals"]["theory_or_ontology_pass"] is False
     assert transactional["data_seals"]["synthetic_only"] is True
     assert core["promotion_overlay"]["formal"] == {"pass": 0, "reject": 70, "block": 0}
@@ -858,6 +901,13 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                 "distributed_lower_order_coefficient_registry_complete_count": 0,
                 "weighted_relative_lower_order_bound_pass_count": 0,
                 "full_operator_inverse_norm_pass_count": 0,
+                "regular_stratum_flat_chart_H_core_contract_registered_count": 1,
+                "declared_profile_global_flat_chart_H_core_registered_count": 0,
+                "off_flat_metric_covariantization_registered_count": 0,
+                "characteristic_shell_condition": "F**2=31",
+                "characteristic_shell_rank": 7,
+                "characteristic_shell_nullity": 2,
+                "noncrossing_control_F_squared_margin": "6",
                 "missing_weighted_contract_field_counts": {
                     "codomain_space": 3,
                     "completed_boundary_first_derivative_bound": 3,
@@ -884,7 +934,7 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                 "first_blocker_counts": {
                     "noncharacteristic_foliation_or_compact_negative_seed_avoiding_forced_ADM_Legendre_characteristic_crossing": 11,
                     "alternative_canonical_momentum_variable_or_gauge_avoiding_exact_finite_tilt_York_symbol_shell": 2,
-                    "candidate_bound_spatially_distributed_canonical_H_core_and_metric_covariantized_H_D_Frechet_DAG_off_flat_seed_chart": 1,
+                    "declared_compact_seed_crosses_candidate_bound_Legendre_characteristic_shell_F2_eq31": 1,
                 },
                 "candidate_rejection_authorized_count": 0,
             },
@@ -1464,13 +1514,23 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                 "compatibility_iff_over_Q_or_R": "alpha=0",
                 "independent_of_c20": True,
                 "exact_candidate_witness_gap": "[1088/15,34816/15]",
-                "alternative_lower_jet_homogeneous_completion_ruled_out": False,
+                "alternative_lower_jet_homogeneous_completion_ruled_out": True,
+                "homogeneous_freedom_reduction": {
+                    "status": "pass_exact_d4_obstruction_invariant_under_all_lower_homogeneous_freedom",
+                    "polarization_directions_checked": 15,
+                    "Taylor_orders_per_direction_checked": 5,
+                    "total_exact_zero_projector_checks": 300,
+                    "lower_jet_reference_kernel_slots_covered_by_identity": 20842,
+                    "induced_D4_zero_eigenspace_map_rank": 0,
+                    "candidate_obstructions_invariant": 12,
+                    "candidate_cancellations": 0,
+                    "exact_identity": "R0(Y)^T F_H(Y) R0(Y)=0 for every matrix H(Y)",
+                },
                 "next_gate": (
-                    "Parameterize the order-one-through-three equal-eigenspace homogeneous "
-                    "Sylvester kernel and test whether its induced order-four correction can "
-                    "cancel the rank-two zero-eigenspace witness; alternatively prove the "
-                    "canonical zero-block normalization is required by the target symmetrizer "
-                    "construction."
+                    "The current 12-candidate quartic family has an invariant exact D4 "
+                    "obstruction. Any continuation must change the candidate/operator ansatz "
+                    "or the TC2 correction, not merely the lower-jet homogeneous Sylvester "
+                    "normalization."
                 ),
             },
             "full_fourth_jet_range_closed": False,
@@ -1485,9 +1545,8 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
             "lifespans_proved": 0,
         },
         "first_missing_premise": (
-            "parameterize_order_one_through_three_equal_eigenspace_homogeneous_Sylvester_"
-            "freedom_or_prove_canonical_zero_block_normalization_mandatory_before_claiming_"
-            "the_D4_obstruction_for_every_lower_jet_completion"
+            "change_the_candidate_or_operator_ansatz_or_TC2_correction_to_remove_the_"
+            "invariant_exact_D4_obstruction_before_evaluating_later_selector_obligations"
         ),
     }
     assert core["cross_pipeline_total"]["status"] == "not_computed"
@@ -1578,19 +1637,17 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "candidate caps 1.211, 1.211, and 1.210" in dashboard
     assert "Staged future candidate formulas (unranked)" in dashboard
     assert "Current exact Aether and G3 boundary" in dashboard
-    assert "Aether C3 jet envelopes" in dashboard
-    assert "Aether coefficient contracts" in dashboard
     assert "Aether canonical backgrounds" in dashboard
-    assert "Aether D residual DAGs" in dashboard
-    assert "Aether H-core registries" in dashboard
+    assert "Local regular-stratum H-core" in dashboard
+    assert "Global declared-profile H-core" in dashboard
+    assert "Characteristic shell" in dashboard
+    assert "Shell rank" in dashboard
+    assert "Shell nullity" in dashboard
     assert "Aether covariant H/D DAGs" in dashboard
     assert "candidate-bound flat-chart canonical seed" in dashboard
     assert "off-flat metric-covariantized" in dashboard
     assert "G3 radial momentum audits" in dashboard
-    assert "G3 Hamiltonian audits" in dashboard
     assert "Real joint coefficients" in dashboard
-    assert "Flat radial classes rejected" in dashboard
-    assert "<code>alpha+2k=0</code>" in dashboard
     assert "<code>1+2k^2=0</code>" in dashboard
     assert "Live dashboard refresh service" in dashboard
     assert "never overwrites the immutable checked snapshot" in dashboard
@@ -1624,19 +1681,25 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "GPU/CPU violations" in dashboard
     assert "transactional-gravity proposal" in dashboard
     assert "Graph nodes" in dashboard
-    assert "Poisson samples" in dashboard
-    assert "17179869184" in dashboard
-    assert "8*pi^2 l_P^2 q" in dashboard
-    assert "does not establish the transactional ontology" in dashboard
+    assert "Registered fields" in dashboard
+    assert "Missing fields" in dashboard
+    assert "Synthetic power evals" in dashboard
+    assert "103079215104" in dashboard
+    assert "Poisson alt detection" in dashboard
+    assert "BTFR alt detection" in dashboard
+    assert "Readiness advanced" in dashboard
+    assert "Scientific tests" in dashboard
+    assert "Detector equivalence, extended-galaxy geometry" in dashboard
+    assert "do not establish the transactional ontology" in dashboard
     assert "Exact selector" in dashboard
-    assert "Records evaluated" in dashboard
     assert "Obligations closed" in dashboard
-    assert "failed canonical fourth-order equal-eigenspace Sylvester compatibility" in dashboard
-    assert "Canonical candidates obstructed" in dashboard
-    assert "Cokernel rank" in dashboard
-    assert "(34816/15)*alpha^5*W" in dashboard
-    assert "unparameterized order-one-through-three equal-eigenspace" in dashboard
-    assert "stopped permanently" in dashboard
+    assert "Polarization directions" in dashboard
+    assert "Zero-projector checks" in dashboard
+    assert "Lower-jet slots covered" in dashboard
+    assert "Induced D4 map rank" in dashboard
+    assert "Homogeneous cancellations" in dashboard
+    assert "R0^T(HP-P^T H)R0=0" in dashboard
+    assert "no homogeneous lower-jet completion can cancel" in dashboard
     assert "No full formal pass is inferred" not in dashboard
     assert "class #1" in dashboard
     assert "g4_global_positive_energy: 1" not in dashboard

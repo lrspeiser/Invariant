@@ -183,3 +183,48 @@ def test_lineage_and_artifact_tampering_fail_closed() -> None:
     )
     with pytest.raises(ValueError, match="forbidden theory-equivalence edge"):
         _validate_result(tampered_artifact)
+
+
+@pytest.mark.parametrize(
+    ("mutate", "message"),
+    [
+        (
+            lambda value: value["knowledge_graph"]["nodes"][0]["record"].__setitem__(
+                "expression", "p_n = 0"
+            ),
+            "deterministic source-bound graph",
+        ),
+        (
+            lambda value: value.__setitem__("graph_sha256", "0" * 64),
+            "registry hash",
+        ),
+        (
+            lambda value: value["graph_counts"].__setitem__("assumption_nodes", 0),
+            "equivalence partition",
+        ),
+        (
+            lambda value: value["admission_contract"].__setitem__("fundamental_action", "S"),
+            "admission contract",
+        ),
+        (
+            lambda value: value["data_seals"].__setitem__(
+                "observational_data_opened", True
+            ),
+            "data seal",
+        ),
+        (
+            lambda value: value["source_lineage"].__setitem__(
+                "bridge_implementation_sha256", "0" * 64
+            ),
+            "source lineage",
+        ),
+    ],
+)
+def test_rehashed_graph_contract_tampering_fails_closed(mutate, message: str) -> None:
+    tampered = copy.deepcopy(_load(ARTIFACT))
+    mutate(tampered)
+    tampered["content_sha256"] = _sha(
+        {key: value for key, value in tampered.items() if key != "content_sha256"}
+    )
+    with pytest.raises(ValueError, match=message):
+        _validate_result(tampered)
