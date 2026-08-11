@@ -9,6 +9,11 @@ from collections.abc import Mapping
 from pathlib import Path
 from typing import Any
 
+from .scalable_formal_candidate_evidence_export import (
+    iter_scalable_formal_candidate_evidence_records,
+    validate_scalable_formal_candidate_evidence_export,
+)
+
 CATEGORIES = (
     "formal_adm_dirac",
     "hyperbolicity_common_cone",
@@ -255,36 +260,87 @@ def _theory_dossier_registry(
     return registry
 
 
-def _sort_key(category: str, row: Mapping[str, Any]) -> tuple[Any, ...]:
+def _comparison_key(category: str, row: Mapping[str, Any]) -> tuple[Any, ...]:
     metrics = row["metrics"]
     if category == "formal_adm_dirac":
-        return (0 if row["evidence_status"] == "pass" else 1, -metrics["passed_gate_count"], row["candidate_id"])
+        # A gate count is meaningful only inside one evaluator schema.  The
+        # formal-action comparison class intentionally combines an original
+        # reviewed G4 action and an exactly density-equivalent restricted-domain
+        # action, whose artifacts enumerate different ledgers.  Their completed
+        # formal decisions are therefore tied instead of ordered by raw gate
+        # count.
+        return (0 if row["evidence_status"] == "pass" else 1,)
     if category == "hyperbolicity_common_cone":
-        return (-metrics["characteristic_discriminant_lower"], row["candidate_id"])
+        return (-metrics["characteristic_discriminant_lower"],)
     if category == "solar_known_answer":
-        return (-metrics["passed_control_count"], row["candidate_id"])
+        return (-metrics["passed_control_count"],)
     if category == "simplicity_complexity":
-        return (metrics["operator_count"], metrics["field_count"], metrics["parameter_count"], row["candidate_id"])
+        return (metrics["operator_count"], metrics["field_count"], metrics["parameter_count"])
     if category == "novelty_non_equivalence":
-        return (-int(metrics["unique_within_manifest"]), row["candidate_id"])
+        return (-int(metrics["unique_within_manifest"]),)
     if category == "computational_robustness":
-        return (metrics["attempt"], row["candidate_id"])
-    return (row["candidate_id"],)
+        return (metrics["attempt"],)
+    return ()
+
+
+def _sort_key(category: str, row: Mapping[str, Any]) -> tuple[Any, ...]:
+    return (*_comparison_key(category, row), row["candidate_id"])
 
 
 def _admit_and_rank(category: str, rows: list[dict[str, Any]]) -> dict[str, Any]:
-    ranked = [
+    completed = [
         row for row in rows
         if row["evidence_status"] in {"pass", "reject", "measured"}
         and row["gate_completeness"] == "complete_for_category"
     ]
-    unranked = [row for row in rows if row not in ranked]
-    ranked.sort(key=lambda row: _sort_key(category, row))
-    for rank, row in enumerate(ranked, 1):
-        row["rank"] = rank
+    unranked = [row for row in rows if row not in completed]
+    grouped: dict[str, list[dict[str, Any]]] = {}
+    for row in completed:
+        grouped.setdefault(row["data_class"], []).append(row)
+    for group_rows in grouped.values():
+        group_rows.sort(key=lambda row: _sort_key(category, row))
+        previous_key: tuple[Any, ...] | None = None
+        comparison_rank = 0
+        for ordinal, row in enumerate(group_rows, 1):
+            current_key = _comparison_key(category, row)
+            if current_key != previous_key:
+                comparison_rank = ordinal
+                previous_key = current_key
+            row["comparison_group_rank"] = comparison_rank
+    if not grouped:
+        primary_class = None
+    elif category == "formal_adm_dirac" and "full_formal_action_evidence" in grouped:
+        primary_class = "full_formal_action_evidence"
+    elif len(grouped) == 1:
+        primary_class = next(iter(grouped))
+    else:
+        raise ValueError(f"{category} contains multiple incomparable completed evidence classes")
+    ranked = grouped.get(primary_class, []) if primary_class is not None else []
+    for row in ranked:
+        row["rank"] = row["comparison_group_rank"]
+    completed_separate = [
+        row
+        for data_class, group_rows in sorted(grouped.items())
+        if data_class != primary_class
+        for row in group_rows
+    ]
+    comparison_groups = []
+    for data_class, group_rows in sorted(grouped.items()):
+        comparison_groups.append(
+            {
+                "data_class": data_class,
+                "primary": data_class == primary_class,
+                "completed_count": len(group_rows),
+                "decision_counts": dict(
+                    sorted(Counter(row["evidence_status"] for row in group_rows).items())
+                ),
+                "top10_candidate_ids": [row["candidate_id"] for row in group_rows[:10]],
+                "group_root_sha256": _sha(group_rows),
+            }
+        )
     availability = (
         "completed_comparable_evidence"
-        if ranked
+        if completed
         else "blocked_or_untested_only"
         if rows
         else "no_hash_bound_evidence_packets"
@@ -299,9 +355,12 @@ def _admit_and_rank(category: str, rows: list[dict[str, Any]]) -> dict[str, Any]
             else None
         ),
         "ranked_count": len(ranked),
+        "completed_separate_class_count": len(completed_separate),
         "unranked_count": len(unranked),
+        "comparison_groups": comparison_groups,
         "top10": ranked[:10],
         "full_ranked": ranked,
+        "completed_incomparable_evidence": completed_separate,
         "unranked_blocked_or_untested": sorted(unranked, key=lambda row: row["candidate_id"]),
     }
 
@@ -313,18 +372,78 @@ def _build_rows(sources: Mapping[str, Any], bindings: Mapping[str, Any]) -> dict
         record["seed_id"]: record["typed_action_ir"]
         for record in compilation["candidate_records"]
     }
+    scalable_export = sources["scalable_formal_candidates"]
+    validate_scalable_formal_candidate_evidence_export(scalable_export)
+    scalable_records = iter_scalable_formal_candidate_evidence_records(
+        scalable_export
+    )
+    for record in scalable_records:
+        formula = record["theory_formula_inputs"]
+        action_by_id[record["candidate_id"]] = {
+            "family_id": record["family_id"],
+            "fields": formula["fields"],
+            "parameters": formula["parameters"],
+            "operators": formula["ordered_operator_densities"],
+            "content_sha256": formula["action_content_sha256"],
+        }
     formal = sources["formal_adm_dirac"]
     for control, role in ((formal["known_answer_control"], "known_answer_control"), (formal["generated_candidate_negative_control"], "generated_candidate")):
         gates = control["gate_statuses"]
+        comparison_class = (
+            "known_answer_formal_calibration"
+            if role == "known_answer_control"
+            else "generated_formal_negative_control"
+        )
         rows["formal_adm_dirac"].append(_entry(
             control["candidate_id"], role,
             {"passed_gate_count": sum(value == "pass" for value in gates.values()), "rejected_gate_count": sum(value == "reject" for value in gates.values()), "unresolved_gate_count": sum(value == "unresolved" for value in gates.values())},
-            control["decision"], "exact_formal_artifact", "complete_for_category", None if control["decision"] == "pass" else ",".join(control.get("rejected_gates", [])),
+            control["decision"], comparison_class, "complete_for_category", None if control["decision"] == "pass" else ",".join(control.get("rejected_gates", [])),
             "formal_adm_dirac", bindings["formal_adm_dirac"], control.get("bundle_binding_sha256"),
             "Known-answer controls calibrate the evaluator only; formal health is not total-energy or observational evidence.",
         ))
     for candidate in formal["real_survivor_decisions"]:
         rows["formal_adm_dirac"].append(_entry(candidate["candidate_id"], "generated_candidate", {}, "blocked", "exact_formal_artifact", "incomplete", candidate["blocker"], "formal_adm_dirac", bindings["formal_adm_dirac"], candidate.get("input_lineage_sha256"), "No exact candidate-to-action map; this is missing evidence, not measured poor performance."))
+
+    for record in scalable_records:
+        decision = record["final_decision"]
+        contract = record["leaderboard_contract"]
+        metrics = {
+            "alias_count": record["alias_count"],
+            "preflight_decision": record["preflight_decision"],
+            "passed_gate_count": 1 if decision == "pass" else 0,
+            "rejected_gate_count": 1 if decision == "reject" else 0,
+            "unresolved_gate_count": 1 if decision == "blocked" else 0,
+        }
+        if record["direct_metrics"]:
+            metrics["decisive_metrics"] = record["direct_metrics"]
+            metrics["metric_source_sha256"] = record["metric_source_sha256"]
+        data_class = (
+            record["comparison_data_class"]
+            if decision in {"pass", "reject"}
+            else "scalable_formal_candidate_evidence"
+        )
+        uncertainty = (
+            "Exact action-level formal pass transferred by covariant-density equivalence and domain inclusion; Solar and observational evidence remain separate."
+            if decision == "pass"
+            else "Exact decisive Aether principal necessary-condition rejection; ranked only inside its separate comparison class."
+            if decision == "reject"
+            else "The first exact blocker is retained with rank=None; unproved downstream gates are missing evidence rather than measured poor performance."
+        )
+        rows["formal_adm_dirac"].append(
+            _entry(
+                record["candidate_id"],
+                "generated_candidate",
+                metrics,
+                contract["evidence_status"],
+                data_class,
+                contract["gate_completeness"],
+                record["blocker"],
+                "scalable_formal_candidates",
+                bindings["scalable_formal_candidates"],
+                record["result_sha256"],
+                uncertainty,
+            )
+        )
 
     followup = sources["grammar_v3_formal_followup"]
     g4_records = [
@@ -356,7 +475,7 @@ def _build_rows(sources: Mapping[str, Any], bindings: Mapping[str, Any]) -> dict
             "reviewed_followup_packet_count": len(g4_records),
         },
         "pass",
-        "exact_formal_artifact",
+        "full_formal_action_evidence",
         "complete_for_category",
         None,
         "grammar_v3_formal_followup",
@@ -757,7 +876,22 @@ def _validate_no_collapse(board: Mapping[str, Any]) -> None:
         ):
             raise ValueError("theory dossier contains an invalid hierarchy node")
     for value in board["categories"].values():
-        for row in value["full_ranked"] + value["unranked_blocked_or_untested"]:
+        separate = value.get("completed_incomparable_evidence", [])
+        if len(separate) != value.get("completed_separate_class_count", 0):
+            raise ValueError("completed separate evidence count mismatch")
+        if any(
+            row["rank"] is not None
+            or row["gate_completeness"] != "complete_for_category"
+            or row["evidence_status"] not in {"pass", "reject", "measured"}
+            or not isinstance(row.get("comparison_group_rank"), int)
+            for row in separate
+        ):
+            raise ValueError("incomparable completed evidence entered the primary ranking")
+        for row in (
+            value["full_ranked"]
+            + separate
+            + value["unranked_blocked_or_untested"]
+        ):
             formula = row.get("theory_formula")
             required_formula_keys = {
                 "formula_type",
@@ -840,7 +974,7 @@ def build_scientific_leaderboards(
     }
     body = {
         "schema_version": "sigma-scientific-leaderboards-1.1",
-        "ranking_contract": "no global score; category-local completed comparable evidence only; candidate_id is the final deterministic tie-break",
+        "ranking_contract": "no global score; category-local completed comparable evidence only; equal comparison metrics share a rank and candidate_id only stabilizes display order",
         "categories": categories,
         "leaderboard_root_sha256": current_root,
         "history": history,

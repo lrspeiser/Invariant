@@ -21,15 +21,52 @@ def test_category_local_rankings_keep_missing_evidence_unranked() -> None:
     board = build_scientific_leaderboards(ROOT, load_leaderboard_config(CONFIG))
     assert tuple(board["categories"]) == CATEGORIES
     formal = board["categories"]["formal_adm_dirac"]
-    assert formal["top10"][0]["candidate_id"] == "KNOWN-ANSWER-EINSTEIN-AETHER"
-    assert formal["top10"][0]["role"] == "known_answer_control"
-    assert formal["top10"][0]["promotion_eligible"] is False
-    assert formal["top10"][1]["candidate_id"] == "G3-f9c598b70a77ea54009d8f18"
-    assert formal["top10"][1]["evidence_status"] == "pass"
-    assert formal["top10"][1]["role"] == "generated_candidate"
-    assert formal["top10"][2]["candidate_id"] == "GF-cb4ebf3da5a74582"
-    assert formal["top10"][2]["evidence_status"] == "reject"
+    assert [row["candidate_id"] for row in formal["top10"]] == [
+        "G3-f9c598b70a77ea54009d8f18",
+        "G3A-e0eff4150989e3522dc6ba03",
+    ]
+    assert all(row["evidence_status"] == "pass" for row in formal["top10"])
+    assert all(row["role"] == "generated_candidate" for row in formal["top10"])
+    assert all(row["rank"] == 1 for row in formal["top10"])
+    assert formal["top10"][1]["metrics"]["alias_count"] == 31
+    assert formal["completed_separate_class_count"] == 4
+    separate_by_class = {
+        row["data_class"]: row
+        for row in formal["completed_incomparable_evidence"]
+        if row["data_class"] != "aether_aligned_minkowski_principal_necessary_condition"
+    }
+    assert separate_by_class["known_answer_formal_calibration"]["candidate_id"] == (
+        "KNOWN-ANSWER-EINSTEIN-AETHER"
+    )
+    assert separate_by_class["known_answer_formal_calibration"]["promotion_eligible"] is False
+    assert separate_by_class["generated_formal_negative_control"]["candidate_id"] == (
+        "GF-cb4ebf3da5a74582"
+    )
+    aether_rejects = [
+        row
+        for row in formal["completed_incomparable_evidence"]
+        if row["data_class"] == "aether_aligned_minkowski_principal_necessary_condition"
+    ]
+    assert [row["candidate_id"] for row in aether_rejects] == [
+        "G3A-94a3650adaa71c7a9b91c854",
+        "G3A-f5505538608262e27c588d2e",
+    ]
+    assert all(
+        row["rank"] is None
+        and row["comparison_group_rank"] == 1
+        and row["evidence_status"] == "reject"
+        and row["data_class"]
+        == "aether_aligned_minkowski_principal_necessary_condition"
+        for row in aether_rejects
+    )
     assert all(row["rank"] is None for row in formal["unranked_blocked_or_untested"])
+    scalable_blocked = [
+        row
+        for row in formal["unranked_blocked_or_untested"]
+        if row["lineage"]["source_label"] == "scalable_formal_candidates"
+    ]
+    assert len(scalable_blocked) == 160
+    assert all(row["evidence_status"] == "blocked" for row in scalable_blocked)
 
     solar = board["categories"]["solar_known_answer"]
     assert solar["top10"][0]["candidate_id"] == "KNOWN-ANSWER-EINSTEIN-HILBERT"
@@ -83,6 +120,7 @@ def test_category_local_rankings_keep_missing_evidence_unranked() -> None:
         row
         for category in board["categories"].values()
         for row in category["full_ranked"]
+        + category["completed_incomparable_evidence"]
         + category["unranked_blocked_or_untested"]
     ]
     assert all(row["theory_formula"]["defining_action"] for row in all_rows)
@@ -99,6 +137,12 @@ def test_category_local_rankings_keep_missing_evidence_unranked() -> None:
         "6ddd6502d110ead90ff494a6569213ec2e61a0b046dfa86344bb1980df6abc90"
     )
     assert len(g4_formula["operator_terms"]) == 2
+    scalable_g4_formula = formal["top10"][1]["theory_formula"]
+    assert scalable_g4_formula["title"] == "Conformal scalar–tensor gravity"
+    assert scalable_g4_formula["action_content_sha256"] == (
+        "7dd636e53f7cc161feabcb02b1f575bc1da3bd6b84033e870d2d9024c6cd5d21"
+    )
+    assert len(scalable_g4_formula["operator_terms"]) == 2
     dossiers = board["theory_dossiers"]
     assert len(dossiers) == 7
     assert dossiers["G3-f9c598b70a77ea54009d8f18"]["hierarchy_status_counts"] == {

@@ -119,6 +119,9 @@ def render_dashboard(snapshot: Mapping[str, Any]) -> str:
     )
     source_revision_count = len(core["source_revisions"])
     leaderboard_html = _leaderboards_html(core)
+    scalable_outcomes = core["grammar_parameter_cells"][
+        "scalable_unique_action_formal_outcomes"
+    ]
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -137,7 +140,7 @@ def render_dashboard(snapshot: Mapping[str, Any]) -> str:
 <section><h2>Formal promotion overlay</h2><div class="metrics">{_outcomes(core['promotion_overlay']['formal'])}</div><p>Observational gates opened: {_escape(core['promotion_overlay']['observational_opened'])}</p></section>
 <section><h2>Conformal G4 Solar evaluator</h2><div class="metrics">{_metric('Decision', core['g4_solar_evaluator']['decision'])}{_metric('Registered', core['g4_solar_evaluator']['filled_registration_hash_count'])}{_metric('Still missing', core['g4_solar_evaluator']['missing_registration_hash_count'])}{_metric('Leased executions', core['g4_solar_evaluator']['durable_execution']['task_count'])}{_metric('GR controls', core['g4_solar_evaluator']['synthetic_GR_golden_pass_count'])}</div><p>Reviewed descriptor ready: {_escape(core['g4_solar_evaluator']['descriptor_implementation_ready'])}. Observations opened: {_escape(core['g4_solar_evaluator']['observational_data_opened'])}. First missing premise: {_escape(core['g4_solar_evaluator']['first_missing_premise'])}.</p></section>
 <section><h2>Conformal G4 galaxy evaluator</h2><div class="metrics">{_metric('Decision', core['g4_galaxy_evaluator']['decision'])}{_metric('Verified registrations', core['g4_galaxy_evaluator']['registration']['filled_registration_hash_count'])}{_metric('Still missing', core['g4_galaxy_evaluator']['registration']['missing_registration_hash_count'])}{_metric('Analytic controls', str(core['g4_galaxy_evaluator']['forward_model']['analytic_known_answer_pass_count']) + '/3')}{_metric('Object-specific gravity parameters', core['g4_galaxy_evaluator']['object_specific_gravity_parameter_count'])}</div><p>Rotation/lensing implementations, the conditional branch/domain and non-redshift geometry contracts, plus shared-calibration, covariance, likelihood, and stopping policies are hash-bound. The manifest auditor, prediction-bundle builder, and source-registry admission callback are implemented but disabled; synthetic fixtures are not registration evidence. Source records admitted: {_escape(core['g4_galaxy_evaluator']['registration']['source_registry_admission']['source_records_admitted'])}. Real split commitment registered: {_escape(core['g4_galaxy_evaluator']['registration']['real_split_commitment_registered'])}. Prediction bundle registered: {_escape(core['g4_galaxy_evaluator']['registration']['prediction_bundle_registered'])}. Observations opened: {_escape(core['g4_galaxy_evaluator']['registration']['observational_data_opened'])}. First missing premise: {_escape(core['g4_galaxy_evaluator']['registration']['source_registry_admission']['first_missing_premise'])}.</p></section>
-<section><h2>Grammar-v3 scalable candidates</h2><div class="metrics">{_outcomes(core['grammar_parameter_cells']['scalable_unique_action_formal_outcomes'])}{_metric('Reviewed parameter cells', core['grammar_parameter_cells']['reviewed_manifest']['parameter_cell_count'])}{_metric('Unique typed actions', core['grammar_parameter_cells']['reviewed_manifest']['compilation']['unique_candidate_count'])}{_metric('Equivalent aliases', core['grammar_parameter_cells']['reviewed_manifest']['compilation']['equivalent_duplicate_count'])}{_metric('Formal queues admitted', core['grammar_parameter_cells']['reviewed_manifest']['compilation']['formal_preflight']['promotion_admission']['eligible_candidate_count'])}{_metric('G4 preflight blocked', core['grammar_parameter_cells']['scalable_preflight_blocked_excluded_count'])}{_metric('Aether rejected', core['grammar_parameter_cells']['reviewed_manifest']['compilation']['formal_preflight']['promotion_admission']['family_formal_execution']['aether']['decision_counts']['reject'])}{_metric('Aether blocked', core['grammar_parameter_cells']['reviewed_manifest']['compilation']['formal_preflight']['promotion_admission']['family_formal_execution']['aether']['decision_counts']['blocked'])}{_metric('G2 blocked', core['grammar_parameter_cells']['reviewed_manifest']['compilation']['formal_preflight']['promotion_admission']['family_formal_execution']['g2']['decision_counts']['blocked'])}{_metric('G3 blocked', core['grammar_parameter_cells']['reviewed_manifest']['compilation']['formal_preflight']['promotion_admission']['family_formal_execution']['g3']['decision_counts']['blocked'])}</div><p>Across the 163 unique typed actions, the current exact formal tally is 0 pass, 2 reject, and 161 blocked; the older six-seed execution is tracked separately. Durable preflight admitted 162 into family queues and kept one conformal-G4 action blocked. Exact Aether necessary gates reject two spin-0-degenerate actions and leave 126 blocked on twist/coercivity or generic nonlinear-energy premises. Both k-essence actions pass their reviewed local stack but remain blocked on a general nonmaximal positive-mass theorem. All 32 cubic-G3 actions pass local principal, common-cone and periodic Dirac gates. Their first exact blocker is lack of a uniformly invertible lapse operator on the registered asymptotically-flat decaying-gradient domain; an AF Einstein-constraint solution and global energy are separately unproved. No full formal pass is inferred.</p></section>
+<section><h2>Grammar-v3 scalable candidates</h2><div class="metrics">{_outcomes(scalable_outcomes)}{_metric('Reviewed parameter cells', core['grammar_parameter_cells']['reviewed_manifest']['parameter_cell_count'])}{_metric('Unique typed actions', core['grammar_parameter_cells']['reviewed_manifest']['compilation']['unique_candidate_count'])}{_metric('Equivalent aliases', core['grammar_parameter_cells']['reviewed_manifest']['compilation']['equivalent_duplicate_count'])}{_metric('Formal queues admitted', core['grammar_parameter_cells']['reviewed_manifest']['compilation']['formal_preflight']['promotion_admission']['eligible_candidate_count'])}{_metric('G4 preflight blocked', core['grammar_parameter_cells']['scalable_preflight_blocked_excluded_count'])}{_metric('Aether rejected', core['grammar_parameter_cells']['reviewed_manifest']['compilation']['formal_preflight']['promotion_admission']['family_formal_execution']['aether']['decision_counts']['reject'])}{_metric('Aether blocked', core['grammar_parameter_cells']['reviewed_manifest']['compilation']['formal_preflight']['promotion_admission']['family_formal_execution']['aether']['decision_counts']['blocked'])}{_metric('G2 blocked', core['grammar_parameter_cells']['reviewed_manifest']['compilation']['formal_preflight']['promotion_admission']['family_formal_execution']['g2']['decision_counts']['blocked'])}{_metric('G3 blocked', core['grammar_parameter_cells']['reviewed_manifest']['compilation']['formal_preflight']['promotion_admission']['family_formal_execution']['g3']['decision_counts']['blocked'])}</div><p>Across the 163 unique typed actions, the current exact formal tally is {_escape(scalable_outcomes['pass'])} pass, {_escape(scalable_outcomes['reject'])} reject, and {_escape(scalable_outcomes['block'])} blocked; the older six-seed execution is tracked separately. Durable preflight admitted 162 into family queues and initially kept one conformal-G4 action blocked. A candidate-specific exact covariant-density and domain-inclusion follow-up now transfers the reviewed action-level formal pass to that G4 action; Solar and observational validation remain separate and blocked. Exact Aether necessary gates reject two spin-0-degenerate actions and leave 126 blocked on twist/coercivity or generic nonlinear-energy premises. Both k-essence actions pass their reviewed local stack but remain blocked on a general nonmaximal positive-mass theorem. All 32 cubic-G3 actions pass local principal, common-cone and periodic Dirac gates. Their first exact blocker is lack of a uniformly invertible lapse operator on the registered asymptotically-flat decaying-gradient domain; an AF Einstein-constraint solution and global energy are separately unproved.</p></section>
 <section><h2>Physical hardware sample</h2><div class="metrics">{gpu_metrics}</div><p>Source: {_escape(gpu.get('source', 'not sampled'))}. This is separate from scheduler occupancy.</p></section>
 </div>
 <section><h2>Scheduler lanes</h2><table><thead><tr><th>Lane</th><th>Running</th><th>Queued</th><th>Capacity</th><th>Scheduler occupancy</th></tr></thead><tbody>{lane_rows}</tbody></table></section>
@@ -160,6 +163,14 @@ def validate_dashboard_input(snapshot: Mapping[str, Any], expected_core_sha: str
         raise ValueError("dashboard snapshot contains a local file URI")
 
 
+def _rank_label(row: Mapping[str, Any]) -> str | int:
+    if row["rank"] is not None:
+        return row["rank"]
+    if row.get("comparison_group_rank") is not None:
+        return f"class #{row['comparison_group_rank']}"
+    return "unranked"
+
+
 def _leaderboards_html(core: Mapping[str, Any]) -> str:
     leaderboards = core.get("scientific_leaderboards")
     if not leaderboards:
@@ -167,10 +178,16 @@ def _leaderboards_html(core: Mapping[str, Any]) -> str:
     sections = []
     dossiers = leaderboards["theory_dossiers"]
     for category, board in sorted(leaderboards["categories"].items()):
-        display_rows = board["top10"] + board["unranked_blocked_or_untested"]
+        unranked_rows = board["unranked_blocked_or_untested"]
+        displayed_unranked = unranked_rows[:25]
+        display_rows = (
+            board["top10"]
+            + board.get("completed_incomparable_evidence", [])
+            + displayed_unranked
+        )
         rows = "".join(
             "<tr>"
-            f"<td>{_escape(row['rank'] if row['rank'] is not None else 'unranked')}</td><td><code>{_escape(row['candidate_id'])}</code></td>"
+            f"<td>{_escape(_rank_label(row))}</td><td><code>{_escape(row['candidate_id'])}</code></td>"
             f"<td>{_formula_html(row, dossiers)}</td><td>{_escape(row['role'])}</td><td>{_escape(json.dumps(row['metrics'], sort_keys=True, separators=(',', ':')))}</td>"
             f"<td>{_escape(row['evidence_status'])}</td><td>{_escape(row['data_class'])}</td>"
             f"<td>{_escape(row['gate_completeness'])}</td><td>{_escape(row['blocker'])}</td>"
@@ -184,7 +201,9 @@ def _leaderboards_html(core: Mapping[str, Any]) -> str:
         sections.append(
             f'<section><h2>Category leaderboard: {_escape(category)}</h2>'
             f"<p>{_escape(board['ranking_scope'])}. Ranked: {_escape(board['ranked_count'])}; "
-            f"blocked/untested: {_escape(board['unranked_count'])}. Availability: "
+            f"completed in separate evidence classes: {_escape(board.get('completed_separate_class_count', 0))}; "
+            f"blocked/untested: {_escape(board['unranked_count'])} "
+            f"(showing {_escape(len(displayed_unranked))}; full rows remain in the JSON snapshot). Availability: "
             f"{_escape(board['availability'])}. {_escape(board['absence_reason'] or '')}</p>"
             "<div style=\"overflow:auto\"><table><thead><tr><th>Rank</th><th>Candidate</th>"
             "<th>Theory formula</th><th>Role</th><th>Exact metrics</th><th>Status</th><th>Data class</th>"

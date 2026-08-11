@@ -294,6 +294,14 @@ tail, and AF-reference principal gates. All 32 remain blocked rather than reject
 gradient AF data the exact lapse multiplier develops approximate zero modes as `X -> 0`, so a
 uniformly invertible AF lapse/Dirac operator, AF Einstein-constraint solution, global Hamiltonian
 energy, and full formal completion are not claimed. The family still has zero full formal passes.
+The conformal-G4 action that the scalable prerequisite service originally blocked has now received a
+separate candidate-specific follow-up. Its full typed-IR hash differs from the reviewed seed because
+the candidate, manifest, lineage, and declared domain metadata differ, but an exact projection proves
+identical covariant operator densities, parameters, fields, and universal matter coupling. All 32
+parameter-cell domains are rational subsets of the reviewed `abs(phi)<=1` domain, so the reviewed
+non-unitary-gauge formal pass transfers without using the family label as evidence. The scalable
+163-action ledger is therefore one formal pass, two exact Aether rejects, and 160 blocked candidates;
+Solar and observational promotion remain sealed.
 An immutable evidence bridge now ingests the six compilation results plus the Aether, `G2`, `G3`,
 and conformal-`G4` prerequisite packets into an isolated knowledge registry. It preserves candidate/action/source
 lineage, separates calibration-only controls, deduplicates replay, refuses the live campaign
@@ -336,18 +344,27 @@ Each candidate row also exposes its human-readable defining action as the compac
 followed separately by the exact operator terms and the proof/test hierarchy. Derived field
 equations, constraints, predictions, and certificates are therefore visible without being
 misrepresented as additional fitted pieces of the theory.
+The leaderboard now ingests an immutable per-candidate export for the full scalable grammar lane:
+163 unique action IDs, 93 exact aliases, and exact formula inputs reconstructed from the typed
+action IR rather than family labels. Its formal ledger is one G4 pass, two decisive Aether rejects,
+and 160 blocked candidates. The blocked rows remain `rank=None`; the Aether necessary-condition
+rejects receive ranks only inside their own comparison class, while the action-level G4 pass joins
+the reviewed G4 pass in the primary formal table. Those density-equivalent formal passes share a
+rank; raw gate counts from different evaluator schemas are never compared. Known-answer calibration
+and generated negative controls remain separate classes. No scalar truth score or cross-class metric
+is introduced.
 A separate restart-safe formal-to-Solar boundary service now verifies the G4 formal pass and its
-analytic prediction audit, but checkpoints the only work item as
-`deferred_missing_prediction_bundle_descriptor`. It invokes no Solar evaluator and opens no data;
-GR remains calibration-only and the generated candidate is shown as untested rather than poor.
+analytic prediction audit. The reviewed candidate-specific Solar evaluator descriptor is registered
+and its only durable work item executes to an honest blocked result: one implementation hash is
+filled, 16 real-source/prediction/data registrations remain missing, and primary-record access stays
+zero. GR remains calibration-only and no observational target is treated as candidate evidence.
 The next physics premise is now conditional rather than unknown: a global coupling bound plus a
 Hardy estimate proves nonlinear static scalar-branch uniqueness and excludes scalar zero/tachyonic
 modes for arbitrary-shaped compact sources in an explicit weak source class. A concentration
 counterexample proves that mass and radius alone cannot instantiate this theorem. The frozen
-candidate-use Solar template therefore requires a registered trace-density or resolved
-concentration bound, pressure-trace sign, weak geometry, topology/falloff, and eight additional
-file/parser/calibration/split/state/evaluator hashes. All nine values remain unset and no primary
-file or target value has been opened.
+candidate-use Solar template therefore still requires a registered trace-density or resolved
+concentration bound, pressure-trace sign, weak geometry, topology/falloff, and the remaining
+source/prediction/calibration/split/state hashes. No primary file or target value has been opened.
 The G4 galaxy lane now also binds an exact conditional scalar-free branch/domain contract and a
 non-redshift distance/geometry interface on top of the rotation/lensing forward model. This moves
 the sealed registration ledger to five filled and 13 missing fields. A further policy slice binds
@@ -1027,9 +1044,10 @@ explicit positive-energy radius and a closed reference CK3 cost. This is not yet
 all 153 first derivatives of the equal-eigenspace compressions now vanish exactly, and exact
 Hermitian first-order corrections exist for every atom. The physical coordinate map leaves 41
 nonzero corrections and 112 zeros, with all differentiated Sylvester residuals zero and an explicit
-affine positivity bound. The next unresolved gate is the 11,781 unordered second-atom conditions,
-which require component `D2K55`, `D2P55`, and `D2TC2`; CK1's source packet also remains open. Thus
-the affine extension is certified while full variable TC2 and global H7 stay fail-closed.
+affine positivity bound. The next bounded gate was the 11,781 unordered second-atom conditions,
+which require component `D2K55`, `D2P55`, and `D2TC2`; CK1's source packet was still open at that
+stage. Thus the affine extension was certified while full variable TC2 and global H7 stayed
+fail-closed.
 Fourteen chained deterministic second-order chunks, including the exact 29-pair tail, now complete
 the 861-pair canonical-active selector across all 12 candidates. All 10,332 candidate equations
 admit exact Hermitian `deltaK_AB` corrections with zero Sylvester residual and no obstruction. A
@@ -1041,16 +1059,21 @@ entrywise because at least one first direction and the mixed second direction va
 2,675 are explicit, uninferred obligations: 835 require the coordinate-`D2` pushforward and 1,840
 require intrinsic jet Hessians. The first exact 64-obligation chunk, beginning with
 `q[0] x s01[1]`, now includes the required `DF[D2J]` contribution in `D2P55`, `D2K55`, and the
-Sylvester recurrence. A restart-safe continuation service now carries the same exact engine through
-the first 2,176 obligations. All 26,112 candidate equations solve with exact Hermitian zero-residual
-corrections and no obstruction. Every one of the 835 coordinate-`D2` pushforwards is complete;
-499 intrinsic-jet Hessian obligations remain. The service uses atomic checkpoints,
-valid-orphan recovery, bounded wall/disk/chunk budgets, permanent obstruction stops, and an exact
-51-pair final tail rather than inferring selector exhaustion.
-TC1's source part needs the contracted
-state-to-jet topology, variable TC3 needs `D_Y(P55 E_v Q)`, and TC5 in `H7` needs component `D2F`
-plus `H7` control of `J(C_Q)`. The next valid route must close those terms and extend the identity
-to the other high atoms, or use an honest derivative-loss theory. An `H8` state
+Sylvester recurrence. A restart-safe continuation service has now carried the same exact engine
+through all 2,675 obligations. All 32,100 candidate equations solve with exact Hermitian
+zero-residual corrections and no obstruction. Every one of the 835 coordinate-`D2` pushforwards
+and all 1,840 intrinsic-jet Hessian obligations are complete. The service uses atomic checkpoints,
+valid-orphan recovery, bounded wall/disk/chunk budgets, permanent obstruction stops, and evaluated
+the exact 51-pair final tail rather than inferring selector exhaustion.
+The first remaining CK1 reference packet is now closed for all 12 candidates. The exact object is a
+three-index `deltaK_basis` tensor contracted with `e10^T E_v^T P55^k`, and the
+reference-subtracted source uses the exact integral identity
+`d1(F(Y)-F(0)-DF(0)Y)=int_0^1 D2F(theta Y)[Y,d1Y] dtheta`. Exact H7-to-W2-infinity constants and
+the C9 `D2F` envelope give finite candidate-specific bounds for both the `F10` and Q-contracted
+source pieces. The next gate is to differentiate the variable `deltaK` extension inside CK1 and
+enumerate its P55/source commutators. Variable TC3 still needs `D_Y(P55 E_v Q)`, and TC5 in `H7`
+needs component `D2F` plus `H7` control of `J(C_Q)`. The next valid route must close those terms and
+extend the identity to the other high atoms, or use an honest derivative-loss theory. An `H8` state
 gives a quantitative conditional `H7` bound, but is not controlled by `H7` data and is not an
 autonomous cure.
 

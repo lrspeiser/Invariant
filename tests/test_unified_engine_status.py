@@ -28,10 +28,11 @@ SOURCE_PATHS = [
     "runs/engine/grammar-v3-promotion-admission-status.json",
     "runs/engine/grammar-v3-g2-candidate-formal-status.json",
     "runs/engine/grammar-v3-g3-candidate-formal-status.json",
+    "runs/engine/g4-scalable-action-formal-followup.json",
     "runs/engine/aether-parameter-cell-formal-gate-status.json",
     "runs/engine/grammar-v3-evidence-pareto-report.json",
-    "runs/engine/grammar-v3-followup-service-status.json",
-    "runs/engine/grammar-v3-followup-queue-status.json",
+    "runs/engine/grammar-v3-followup-service-g4-final-status.json",
+    "runs/engine/grammar-v3-followup-queue-g4-final-status.json",
     "configs/resource_profile_5090.json",
     "runs/engine/llm-formula-proposal-adapter-readiness.json",
     "runs/engine/campaign-llm-proposal-bridge-readiness.json",
@@ -62,6 +63,7 @@ LABELS = [
     "grammar_v3_promotion_admission",
     "grammar_v3_g2_candidate_formal",
     "grammar_v3_g3_candidate_formal",
+    "grammar_v3_g4_scalable_formal_followup",
     "grammar_v3_aether_candidate_formal",
     "evidence_pareto",
     "followup_service",
@@ -392,9 +394,9 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
         "task_state_counts": {"succeeded": 6},
     }
     assert core["grammar_parameter_cells"]["scalable_unique_action_formal_outcomes"] == {
-        "pass": 0,
+        "pass": 1,
         "reject": 2,
-        "block": 161,
+        "block": 160,
     }
     assert core["grammar_parameter_cells"]["scalable_admitted_family_formal_outcomes"] == {
         "pass": 0,
@@ -402,6 +404,9 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
         "block": 160,
     }
     assert core["grammar_parameter_cells"]["scalable_preflight_blocked_excluded_count"] == 1
+    assert core["grammar_parameter_cells"][
+        "scalable_preflight_blocked_followup_resolved_count"
+    ] == 1
     assert core["grammar_parameter_cells"]["expansion_service"] == {
         "chunk_count": 3,
         "decision_counts": {"blocked": 6},
@@ -509,19 +514,34 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                             "uniform_local_principal_symbol": {"pass": 32},
                         },
                         "work_state_counts": {"succeeded": 32},
-                    }
+                    },
+                    "g4_followup": {
+                        "candidate_count": 1,
+                        "decision_counts": {"pass": 1},
+                        "equivalent_parameter_cell_alias_count": 32,
+                        "formal_followup_decision": "pass",
+                        "original_preflight_decision": "blocked",
+                        "transfer_method": (
+                            "exact_typed_density_projection_and_rational_domain_inclusion"
+                        ),
+                    },
                 },
             },
         },
     }
     assert core["evidence_pareto"]["calibration_control_counts"] == {"pass": 13, "reject": 1}
-    assert core["followup_service"]["followup_decision_counts"] == {"blocked": 10}
-    assert core["followup_service"]["current_missing_evaluator_blockers"] == {
-        "g3_global_lapse_dirac_contract": 1,
-        "g3_uniform_interval_cell": 1,
-        "g4_global_lapse_invertibility": 1,
-        "g4_global_positive_energy": 1,
+    assert core["followup_service"]["followup_decision_counts"] == {
+        "blocked": 8,
+        "pass": 2,
     }
+    assert core["followup_service"]["normalized_followup_outcomes"] == {
+        "block": 8,
+        "pass": 2,
+        "reject": 0,
+    }
+    assert core["followup_service"]["processed"] == 10
+    assert core["followup_service"]["deferred"] == 0
+    assert core["followup_service"]["current_missing_evaluator_blockers"] == {}
     assert core["cross_pipeline_total"]["status"] == "not_computed"
     assert result["volatile"]["campaign_watchdog_freshness"]["stale"] is True
     assert result["volatile"]["campaign_watchdog_freshness"]["stale_source_reason"]
@@ -557,6 +577,14 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
         "core_content_sha256"
     ]
     assert live["core_content_sha256"] in dashboard
+    assert live["core"]["followup_service"]["followup_decision_counts"] == {
+        "blocked": 8,
+        "pass": 2,
+    }
+    assert live["core"]["followup_service"]["deferred"] == 0
+    assert live["core"]["followup_service"][
+        "current_missing_evaluator_blockers"
+    ] == {}
     leaderboards = live["core"]["scientific_leaderboards"]
     assert len(leaderboards["categories"]) == 9
     assert len(leaderboards["history"]) >= 1
@@ -571,10 +599,16 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "Proof and test hierarchy" in dashboard
     assert "How to read a candidate theory" in dashboard
     assert "compact master formula" in dashboard
+    assert "G3A-e0eff4150989e3522dc6ba03" in dashboard
+    assert "current exact formal tally is 1 pass, 2 reject, and 160 blocked" in dashboard
+    assert "No full formal pass is inferred" not in dashboard
+    assert "class #1" in dashboard
+    assert "g4_global_positive_energy: 1" not in dashboard
+    assert "completed in separate evidence classes" in dashboard
     assert "solar_prediction_obligation" in dashboard
     assert "LLM budget and proposal quarantine" in dashboard
     assert "quarantine_until_downstream_validation" in dashboard
-    assert len(dashboard.encode()) < 131072
+    assert len(dashboard.encode()) < 262144
     assert "C:\\" not in dashboard
 
 

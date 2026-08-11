@@ -236,6 +236,9 @@ def build_unified_snapshot(
     promotion_admission = sources["grammar_v3_promotion_admission"]
     g2_candidate_formal = sources["grammar_v3_g2_candidate_formal"]
     g3_candidate_formal = sources["grammar_v3_g3_candidate_formal"]
+    g4_scalable_formal_followup = sources[
+        "grammar_v3_g4_scalable_formal_followup"
+    ]
     aether_candidate_formal = sources["grammar_v3_aether_candidate_formal"]
     pareto = sources["evidence_pareto"]
     followup = sources["followup_service"]
@@ -265,6 +268,28 @@ def build_unified_snapshot(
     g4_galaxy_source_registry_admission = sources[
         "g4_galaxy_source_registry_admission"
     ]
+    if (
+        followup.get("lifecycle") != "idle"
+        or followup.get("processed_count") != 10
+        or followup.get("deferred_count") != 0
+        or followup.get("packet_state_counts")
+        != {"deferred_missing_evaluator": 0, "succeeded": 10}
+        or followup.get("candidate_scientific_decisions_changed") != 1
+        or followup.get("reviewed_evaluator_invocation_count") != 10
+        or followup.get("missing_evaluator_executions") != 0
+        or followup.get("deferred_packets") != []
+        or followup_queue.get("followup_decision_counts")
+        != {"blocked": 8, "pass": 2}
+        or followup_queue.get("work_state_counts") != {"succeeded": 10}
+        or followup_queue.get("candidate_scientific_decisions_changed") != 1
+        or followup_queue.get("reviewed_evaluator_invocation_count") != 10
+        or followup_queue.get("missing_evaluator_count") != 0
+        or followup.get("queue_registry_root_sha256")
+        != followup_queue.get("queue_registry_root_sha256")
+        or followup.get("completed_work_records_root_sha256")
+        != followup_queue.get("work_records_root_sha256")
+    ):
+        raise ValueError("final grammar-v3 follow-up epoch is inconsistent")
     if (
         parameter_expansion.get("execution_enabled") is not True
         or parameter_expansion.get("parameter_cell_count") != 6
@@ -549,6 +574,57 @@ def build_unified_snapshot(
         }
     ):
         raise ValueError("grammar-v3 G3 candidate formal service is inconsistent")
+    g4_equivalence = g4_scalable_formal_followup.get(
+        "equivalence_certificate", {}
+    )
+    if (
+        g4_scalable_formal_followup.get("candidate_count") != 1
+        or g4_scalable_formal_followup.get("candidate_id")
+        != "G3A-e0eff4150989e3522dc6ba03"
+        or g4_scalable_formal_followup.get("preflight_decision") != "blocked"
+        or g4_scalable_formal_followup.get("preflight_blocker")
+        != "family_prerequisite_not_passed"
+        or g4_scalable_formal_followup.get("formal_followup_decision") != "pass"
+        or g4_scalable_formal_followup.get("decision_counts") != {"pass": 1}
+        or g4_scalable_formal_followup.get("formal_pass_count") != 1
+        or g4_scalable_formal_followup.get(
+            "necessary_condition_rejection_count"
+        )
+        != 0
+        or g4_scalable_formal_followup.get(
+            "equivalent_parameter_cell_alias_count"
+        )
+        != 32
+        or g4_equivalence.get("action_density_projection_equal") is not True
+        or g4_equivalence.get("operator_densities_equal") is not True
+        or g4_equivalence.get("universal_matter_coupling_equal") is not True
+        or g4_equivalence.get("representative_domain_is_subset") is not True
+        or g4_equivalence.get("all_alias_domains_inside_reviewed_domain")
+        is not True
+        or g4_equivalence.get("family_label_used_as_equivalence_evidence")
+        is not False
+        or g4_scalable_formal_followup.get("source_bindings", {})
+        .get("compilation_campaign", {})
+        .get("content_sha256")
+        != parameter_compilation.get("content_sha256")
+        or g4_scalable_formal_followup.get("source_bindings", {})
+        .get("formal_preflight_status", {})
+        .get("content_sha256")
+        != formal_preflight.get("content_sha256")
+        or g4_scalable_formal_followup.get("solar_bundle_count") != 0
+        or g4_scalable_formal_followup.get("paid_llm_spend_usd") != 0.0
+        or g4_scalable_formal_followup.get("observational_data_opened") is not False
+        or g4_scalable_formal_followup.get("dark_matter_or_halo_inputs") is not False
+        or g4_scalable_formal_followup.get("redshift_distance_inputs") is not False
+        or g4_scalable_formal_followup.get("data_eligibility")
+        != {
+            "dark_matter_or_halo_inputs": False,
+            "observational_data_opened": False,
+            "paid_llm_calls": False,
+            "redshift_distance_inputs": False,
+        }
+    ):
+        raise ValueError("grammar-v3 scalable G4 formal follow-up is inconsistent")
     if (
         llm_adapter.get("status") != "ready_disabled_no_network_no_spend"
         or llm_adapter.get("default_paid_calls_enabled") is not False
@@ -1296,9 +1372,9 @@ def build_unified_snapshot(
                 "candidate_universe": "six reviewed deterministic seed actions",
             },
             "scalable_unique_action_formal_outcomes": {
-                "pass": 0,
+                "pass": 1,
                 "reject": 2,
-                "block": 161,
+                "block": 160,
             },
             "scalable_admitted_family_formal_outcomes": {
                 "pass": 0,
@@ -1306,6 +1382,7 @@ def build_unified_snapshot(
                 "block": 160,
             },
             "scalable_preflight_blocked_excluded_count": 1,
+            "scalable_preflight_blocked_followup_resolved_count": 1,
             "expansion_service": {
                 "chunk_count": parameter_expansion["chunk_count"],
                 "decision_counts": parameter_expansion["decision_counts"],
@@ -1417,7 +1494,25 @@ def build_unified_snapshot(
                                     "work_state_counts": g3_candidate_formal[
                                         "work_state_counts"
                                     ],
-                                }
+                                },
+                                "g4_followup": {
+                                    "candidate_count": g4_scalable_formal_followup[
+                                        "candidate_count"
+                                    ],
+                                    "decision_counts": g4_scalable_formal_followup[
+                                        "decision_counts"
+                                    ],
+                                    "equivalent_parameter_cell_alias_count": g4_scalable_formal_followup[
+                                        "equivalent_parameter_cell_alias_count"
+                                    ],
+                                    "formal_followup_decision": g4_scalable_formal_followup[
+                                        "formal_followup_decision"
+                                    ],
+                                    "original_preflight_decision": g4_scalable_formal_followup[
+                                        "preflight_decision"
+                                    ],
+                                    "transfer_method": g4_equivalence["method"],
+                                },
                             },
                         },
                     },
@@ -1438,7 +1533,7 @@ def build_unified_snapshot(
             "lifecycle": followup["lifecycle"],
             "packet_state_counts": followup["packet_state_counts"],
             "followup_decision_counts": followup_queue["followup_decision_counts"],
-            "normalized_followup_outcomes": {"pass": 0, "reject": 0, "block": 10},
+            "normalized_followup_outcomes": {"pass": 2, "reject": 0, "block": 8},
             "processed": followup["processed_count"],
             "deferred": followup["deferred_count"],
             "current_missing_evaluator_blockers": dict(sorted(Counter(
