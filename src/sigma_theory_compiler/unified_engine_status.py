@@ -23,6 +23,7 @@ from typing import Any
 from .process_health import pid_alive
 
 SCHEMA_VERSION = "sigma-unified-engine-status-1.0"
+DEFAULT_MAXIMUM_OUTPUT_BYTES = 4_194_304
 _SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 _SECRET_RE = re.compile(r"(api.?key|password|secret|token|authorization)", re.IGNORECASE)
 _HOST_PATH_RE = re.compile(r"(?:[A-Za-z]:[\\/]|/Users/|/home/)", re.IGNORECASE)
@@ -541,6 +542,9 @@ def build_unified_snapshot(
     transactional_gravity_deterministic_compensator = sources[
         "kastner_schlatter_deterministic_compensator_admission"
     ]
+    transactional_gravity_canonical_probability_space = sources[
+        "kastner_schlatter_canonical_probability_space"
+    ]
     transactional_gravity_observable_exposure = sources[
         "kastner_schlatter_transaction_event_observable_exposure"
     ]
@@ -553,6 +557,9 @@ def build_unified_snapshot(
     ]
     transactional_gravity_deferred_gpu_ownership = sources[
         "kastner_schlatter_deferred_gpu_ownership"
+    ]
+    transactional_gravity_deferred_gpu_handoff = sources[
+        "kastner_schlatter_deferred_gpu_handoff_service"
     ]
     transactional_gravity_scalar_cuda = sources[
         "kastner_schlatter_scalar_intensity_cuda_falsification"
@@ -703,6 +710,9 @@ def build_unified_snapshot(
     ]
     quartic_tc2_d4_parity_cubic_generic_direction = sources[
         "quartic_tc2_d4_parity_cubic_generic_direction"
+    ]
+    quartic_tc2_d4_matrix_curl_rank_one_completion = sources[
+        "quartic_tc2_d4_matrix_curl_rank_one_completion"
     ]
     quartic_tc2_reranked_obligation_chunks = tuple(
         sources[f"quartic_tc2_reranked_obligation_chunk_{offset}"]
@@ -2065,6 +2075,82 @@ def build_unified_snapshot(
         or any(transactional_gravity_deterministic_compensator.get("data_seals", {}).values())
     ):
         raise ValueError("Kastner-Schlatter deterministic compensator gate is inconsistent")
+    probability_counts = transactional_gravity_canonical_probability_space.get(
+        "gate_counts", {}
+    )
+    probability_construction = transactional_gravity_canonical_probability_space.get(
+        "canonical_conditional_construction", {}
+    )
+    probability_controls = transactional_gravity_canonical_probability_space.get(
+        "exact_controls", {}
+    )
+    if (
+        transactional_gravity_canonical_probability_space.get("decision")
+        != "canonical_conditional_probability_space_closed_physical_selection_blocked"
+        or transactional_gravity_canonical_probability_space.get("decision_counts")
+        != {"blocked": 2, "pass": 0, "reject": 0}
+        or probability_counts
+        != {
+            "action_or_QED_stochastic_selection_rules": 0,
+            "candidate_action_reject": 0,
+            "candidate_actions": 2,
+            "compiler_canonical_configuration_spaces": 2,
+            "compiler_compensator_martingale_identities": 2,
+            "compiler_completed_causal_filtrations": 2,
+            "compiler_conditional_probability_measures": 2,
+            "evidence_absent": 4,
+            "evidence_closed_by_compiler_construction": 6,
+            "evidence_obligations": 10,
+            "exact_same_action_Cox_witnesses": 2,
+            "paper_or_QED_probability_spaces": 0,
+            "theory_ontology_observational_pass": 0,
+        }
+        or transactional_gravity_canonical_probability_space.get("first_blocker")
+        != "no_registered_paper_QED_or_candidate_action_selection_rule_for_the_compiler_authored_Poisson_probability_space_over_same_mean_Cox_completion"
+        or transactional_gravity_canonical_probability_space.get("source_bindings", {})
+        .get("deterministic_compensator", {})
+        .get("content_sha256")
+        != transactional_gravity_deterministic_compensator.get("content_sha256")
+        or probability_construction.get("candidate_action_selects_this_probability_space")
+        is not False
+        or probability_construction.get("paper_or_QED_supplies_this_probability_space")
+        is not False
+        or probability_construction.get("causal_filtration", {}).get("complete") is not True
+        or probability_construction.get("causal_filtration", {}).get("right_continuous")
+        is not True
+        or probability_construction.get("probability_space", {}).get("sample_space")
+        != "Omega=N_lf(W)"
+        or probability_controls.get("same_action_Cox_nonidentifiability", {}).get(
+            "same_deterministic_candidate_action"
+        )
+        is not True
+        or probability_controls.get("same_action_Cox_nonidentifiability", {}).get(
+            "Poisson_variance_at_mu_2"
+        )
+        != "2"
+        or probability_controls.get("same_action_Cox_nonidentifiability", {}).get(
+            "Cox_variance_at_mu_2"
+        )
+        != "3"
+        or len(transactional_gravity_canonical_probability_space.get("evidence_gap_ledger", []))
+        != 10
+        or len(transactional_gravity_canonical_probability_space.get("candidate_records", []))
+        != 2
+        or any(
+            record.get("candidate_decision") != "blocked"
+            or record.get("compiler_canonical_probability_space") != "pass"
+            or record.get("compiler_causal_filtration") != "pass"
+            or record.get("compiler_compensator_martingale_identity") != "pass"
+            or record.get("candidate_action_selects_Poisson_completion") is not False
+            or record.get("candidate_action_rejection_authorized") is not False
+            for record in transactional_gravity_canonical_probability_space.get(
+                "candidate_records", []
+            )
+        )
+        or any(transactional_gravity_canonical_probability_space.get("claim_seals", {}).values())
+        or any(transactional_gravity_canonical_probability_space.get("data_seals", {}).values())
+    ):
+        raise ValueError("Kastner-Schlatter canonical probability-space gate is inconsistent")
     expected_poisson_cox_power_counts = {
         "finite_sample_evaluation_replicate_tests": 294_912,
         "gpu_generated_count_values": 110_100_480,
@@ -2321,6 +2407,47 @@ def build_unified_snapshot(
         or transactional_gravity_deferred_gpu_ownership.get("scientific_test_pass") is not False
     ):
         raise ValueError("Kastner-Schlatter deferred GPU ownership gate is inconsistent")
+    handoff_contract = transactional_gravity_deferred_gpu_handoff.get("handoff_contract", {})
+    handoff_runtime = transactional_gravity_deferred_gpu_handoff.get(
+        "current_runtime_audit", {}
+    )
+    handoff_sample = handoff_runtime.get("nvml_sample", {})
+    if (
+        transactional_gravity_deferred_gpu_handoff.get("decision")
+        != "deferred_handoff_ready_current_device_occupied_not_started"
+        or handoff_contract.get("required_consecutive_safe_samples") != 3
+        or handoff_contract.get("maximum_gpu_utilization_percent") != 20
+        or handoff_contract.get("minimum_free_gpu_memory_mib") != 8192
+        or handoff_contract.get("maximum_wait_polls_per_cycle") != 721
+        or handoff_contract.get("maximum_service_cycles") != 24
+        or handoff_contract.get("maximum_service_seconds") != 86_400
+        or handoff_contract.get("scheduler_slice_seconds") != 120
+        or handoff_contract.get("gpu_workers") != 1
+        or handoff_contract.get("cpu_workers") != 0
+        or handoff_contract.get("post_reservation_nvml_safe_recheck") is not True
+        or handoff_contract.get("automatic_detached_launch") is not False
+        or handoff_contract.get("handoff_service_direct_sqlite_surface") is not False
+        or handoff_runtime.get("runtime_exists") is not False
+        or handoff_runtime.get("service_lease_exists") is not False
+        or handoff_runtime.get("gpu_owner_reserved_by_readiness") is not False
+        or handoff_runtime.get("scheduler_started_by_readiness") is not False
+        or handoff_sample.get("device_name") != "NVIDIA GeForce RTX 5090"
+        or handoff_sample.get("gpu_utilization_percent") != 99
+        or handoff_sample.get("memory_free_mib") != 8088
+        or transactional_gravity_deferred_gpu_handoff.get("source_bindings", {})
+        .get("deferred_readiness", {})
+        .get("content_sha256")
+        != transactional_gravity_deferred_gpu_ownership.get("content_sha256")
+        or transactional_gravity_deferred_gpu_handoff.get("source_bindings", {})
+        .get("scheduler_readiness", {})
+        .get("content_sha256")
+        != transactional_gravity_gpu_scheduler_adapter.get("content_sha256")
+        or any(transactional_gravity_deferred_gpu_handoff.get("seals", {}).values())
+        or transactional_gravity_deferred_gpu_handoff.get("observations_opened") is not False
+        or transactional_gravity_deferred_gpu_handoff.get("readiness_advanced") is not False
+        or transactional_gravity_deferred_gpu_handoff.get("scientific_test_pass") is not False
+    ):
+        raise ValueError("Kastner-Schlatter deferred GPU handoff service is inconsistent")
     expected_scalar_cuda_counts = {
         "compiler_action_hypotheses": 2,
         "exact_sentinel_groups": 4,
@@ -6251,6 +6378,125 @@ def build_unified_snapshot(
         )
     ):
         raise ValueError("quartic TC2 parity-cubic generic-direction audit is inconsistent")
+    matrix_curl_counts = quartic_tc2_d4_matrix_curl_rank_one_completion.get(
+        "counts", {}
+    )
+    matrix_curl_completion = quartic_tc2_d4_matrix_curl_rank_one_completion.get(
+        "exact_completion", {}
+    )
+    matrix_curl_range = matrix_curl_completion.get(
+        "exact_range_classification", {}
+    )
+    matrix_curl_replay = matrix_curl_completion.get("full_D4_replay", {})
+    matrix_curl_block = matrix_curl_completion.get(
+        "minimal_rank_one_completion", {}
+    )
+    matrix_curl_result = matrix_curl_completion.get("candidate_result", {})
+    matrix_curl_claims = quartic_tc2_d4_matrix_curl_rank_one_completion.get(
+        "claims", {}
+    )
+    if (
+        quartic_tc2_d4_matrix_curl_rank_one_completion.get("status")
+        != "pass_exact_fixed_frame_rank_one_matrix_curl_completion"
+        or quartic_tc2_d4_matrix_curl_rank_one_completion.get("selector_binding")
+        != {
+            "active_indices": [0, 2, 3, 9],
+            "frequency_direction": ["3/5", "4/5", "0"],
+            "obligation_offset": 244,
+        }
+        or matrix_curl_counts
+        != {
+            "candidate_compatibilities": 12,
+            "candidate_conditions_checked": 12,
+            "candidate_obstructions": 0,
+            "combined_curl_channels": 1,
+            "constructed_block_rank": 1,
+            "directional_recurrence_evaluations": 15,
+            "inferred_global_passes": 0,
+            "negative_controls": 6,
+            "raw_matrix_parameters": 1_210,
+            "selector_projection_rank": 22,
+            "target_augmented_rank": 473,
+            "transverse_curl_covectors": 22,
+            "wedge_range_rank": 473,
+        }
+        or quartic_tc2_d4_matrix_curl_rank_one_completion.get("source_bindings", {})
+        .get("generic_direction_obstruction", {})
+        .get("content_sha256")
+        != quartic_tc2_d4_parity_cubic_generic_direction.get("content_sha256")
+        or matrix_curl_completion.get("declared_completion_class", {}).get(
+            "single_fixed_direction_only"
+        )
+        is not True
+        or matrix_curl_completion.get("declared_completion_class", {}).get(
+            "curl_covector_dimension"
+        )
+        != 22
+        or matrix_curl_completion.get("declared_completion_class", {}).get(
+            "raw_matrix_parameter_dimension"
+        )
+        != 1_210
+        or matrix_curl_range.get("selector_projection_rank") != 22
+        or matrix_curl_range.get("selector_projection_kernel_dimension") != 0
+        or matrix_curl_range.get("wedge_range_rank") != 473
+        or matrix_curl_range.get("target_augmented_rank") != 473
+        or matrix_curl_range.get("target_in_image") is not True
+        or matrix_curl_range.get("quotient_target_zero") is not True
+        or matrix_curl_replay.get("directional_evaluations") != 15
+        or matrix_curl_replay.get("all_seven_eigenspaces_checked") is not True
+        or matrix_curl_replay.get("base_D4_RHS_nonzero_entries") != 64
+        or matrix_curl_replay.get("normalized_target_rank") != 2
+        or matrix_curl_block.get("constructed_block_rank") != 1
+        or matrix_curl_block.get("combined_curl_channel_count") != 1
+        or matrix_curl_block.get("all_nonzero_eigenspace_compressions_zero")
+        is not True
+        or matrix_curl_block.get("gradient_lift_annihilation_exact") is not True
+        or matrix_curl_block.get("zero_speed_target_cancelled_exactly") is not True
+        or matrix_curl_result.get("candidate_conditions_checked") != 12
+        or matrix_curl_result.get("candidate_compatibilities") != 12
+        or matrix_curl_result.get("candidate_obstructions") != 0
+        or len(matrix_curl_result.get("candidate_records", [])) != 12
+        or any(
+            record.get("D4_Sylvester_solvable") is not True
+            or record.get("nonzero_equal_eigenspace_compressions") != {}
+            for record in matrix_curl_result.get("candidate_records", [])
+        )
+        or any(
+            matrix_curl_claims.get(key) is not True
+            for key in (
+                "full_D4_recurrence_evaluated_at_fixed_generic_frame",
+                "all_12_fixed_frame_D4_compatibilities_proved",
+                "minimal_rank_one_matrix_curl_completion_constructed",
+                "transverse_curl_range_classified_exactly",
+            )
+        )
+        or any(
+            matrix_curl_claims.get(key) is not False
+            for key in (
+                "additional_generic_directions_audited",
+                "global_smooth_angular_extension_constructed",
+                "local_differential_operator_origin_proved",
+                "covariant_action_origin_proved",
+                "pseudodifferential_constraint_calculus_proved",
+                "corrected_candidate_family_registered",
+                "remaining_D4_selector_closed",
+                "full_tube_Sylvester_identity",
+                "CK1_closed",
+                "CK3_closed",
+                "TC2_closed",
+                "B7_closed",
+                "global_H7_closed",
+                "lifespan_proved",
+            )
+        )
+        or any(
+            control.get("rejected") is not True
+            for control in quartic_tc2_d4_matrix_curl_rank_one_completion.get(
+                "negative_controls", {}
+            ).values()
+        )
+    ):
+        raise ValueError("quartic TC2 matrix-curl rank-one completion is inconsistent")
     if (
         unified_live_dashboard_service_readiness.get("decision")
         != "ready_enabled_read_only_bounded"
@@ -6761,6 +7007,22 @@ def build_unified_snapshot(
                 ],
                 "scope": transactional_gravity_deterministic_compensator["scope"],
             },
+            "canonical_probability_space": {
+                "decision": transactional_gravity_canonical_probability_space["decision"],
+                "decision_counts": transactional_gravity_canonical_probability_space[
+                    "decision_counts"
+                ],
+                "gate_counts": probability_counts,
+                "first_blocker": transactional_gravity_canonical_probability_space[
+                    "first_blocker"
+                ],
+                "construction_domain": transactional_gravity_canonical_probability_space[
+                    "construction_domain"
+                ],
+                "canonical_conditional_construction": probability_construction,
+                "exact_controls": probability_controls,
+                "scope": transactional_gravity_canonical_probability_space["scope"],
+            },
             "transaction_event_observable_exposure": {
                 "decision": transactional_gravity_observable_exposure["decision"],
                 "decision_counts": transactional_gravity_observable_exposure["decision_counts"],
@@ -6831,6 +7093,17 @@ def build_unified_snapshot(
                     "scientific_test_pass"
                 ],
                 "readiness_advanced": transactional_gravity_deferred_gpu_ownership[
+                    "readiness_advanced"
+                ],
+            },
+            "deferred_gpu_handoff_service": {
+                "decision": transactional_gravity_deferred_gpu_handoff["decision"],
+                "handoff_contract": handoff_contract,
+                "current_runtime_audit": handoff_runtime,
+                "scientific_test_pass": transactional_gravity_deferred_gpu_handoff[
+                    "scientific_test_pass"
+                ],
+                "readiness_advanced": transactional_gravity_deferred_gpu_handoff[
                     "readiness_advanced"
                 ],
             },
@@ -8091,7 +8364,27 @@ def build_unified_snapshot(
                         "claims": generic_direction_claims,
                         "scope": quartic_tc2_d4_parity_cubic_generic_direction["scope"],
                     },
-                    "next_gate": quartic_tc2_d4_parity_cubic_generic_direction["next_gate"],
+                    "matrix_curl_rank_one_completion": {
+                        "status": quartic_tc2_d4_matrix_curl_rank_one_completion[
+                            "status"
+                        ],
+                        "counts": matrix_curl_counts,
+                        "selector_binding": quartic_tc2_d4_matrix_curl_rank_one_completion[
+                            "selector_binding"
+                        ],
+                        "declared_completion_class": matrix_curl_completion[
+                            "declared_completion_class"
+                        ],
+                        "exact_range_classification": matrix_curl_range,
+                        "full_D4_replay": matrix_curl_replay,
+                        "minimal_rank_one_completion": matrix_curl_block,
+                        "candidate_result": matrix_curl_result,
+                        "claims": matrix_curl_claims,
+                        "scope": quartic_tc2_d4_matrix_curl_rank_one_completion["scope"],
+                    },
+                    "next_gate": quartic_tc2_d4_matrix_curl_rank_one_completion[
+                        "next_gate"
+                    ],
                 },
                 "full_fourth_jet_range_closed": False,
             },
@@ -8108,7 +8401,7 @@ def build_unified_snapshot(
                 )
             },
             "first_missing_premise": (
-                "matrix_valued_or_covariant_local_generic_direction_D4_completion_beyond_rejected_parity_cubic_scalar_escape"
+                "antipodally_odd_bounded_smooth_matrix_symbol_extension_with_constraint_commutator_boundary_admission"
             ),
         },
         "evidence_pareto": {
@@ -8286,14 +8579,18 @@ def _parser() -> argparse.ArgumentParser:
     refresh.add_argument("--dashboard-output")
     refresh.add_argument("--leaderboard-config", default="configs/scientific_leaderboards.json")
     refresh.add_argument("--disable-leaderboards", action="store_true")
-    refresh.add_argument("--maximum-output-bytes", type=int, default=3_145_728)
+    refresh.add_argument(
+        "--maximum-output-bytes", type=int, default=DEFAULT_MAXIMUM_OUTPUT_BYTES
+    )
     refresh.add_argument("--disable-gpu-sample", action="store_true")
     refresh.add_argument("--sampled-at-utc")
     dashboard = subparsers.add_parser("export-dashboard", help="render existing JSON as HTML")
     dashboard.add_argument("--project-root", default=".")
     dashboard.add_argument("--snapshot", default="runs/engine/unified-engine-status-refresh.json")
     dashboard.add_argument("--output", default="runs/engine/unified-engine-dashboard.html")
-    dashboard.add_argument("--maximum-output-bytes", type=int, default=3_145_728)
+    dashboard.add_argument(
+        "--maximum-output-bytes", type=int, default=DEFAULT_MAXIMUM_OUTPUT_BYTES
+    )
     return parser
 
 

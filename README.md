@@ -671,6 +671,15 @@ compensator-martingale identity. The same action therefore admits both a Poisson
 variance `mu_B` and a Cox completion with variance `mu_B+mu_B^2/4`. This is a compiler-authored
 conditional theorem, not a paper/QED derivation, candidate rejection, ontology pass, or observation.
 
+The compiler now closes the corresponding conditional probability-space construction itself. On a
+regular finite patch it uses `Omega=N_lf(W)` with the evaluation sigma-algebra, the PRM law fixed by
+its Laplace functional, a completed right-continuous causal filtration, and the exact deterministic-
+compensator martingale. This closes six of ten typed obligations for both compiler action branches.
+It still does not provide the missing physical selector: the paper, QED evidence, and actions select
+neither this Poisson space nor exclude the exact same-action Cox completion, whose variance at mean
+two is three instead of two. Both candidates remain blocked; no action rejection, ontology claim,
+observation, or dark-sector conclusion is inferred.
+
 The next compiler boundary makes the observational bridge explicit. A latent event process is
 independently thinned by a calibrated acceptance, marked through a response kernel, and superposed
 with background. Four exact witnesses show that the observed mean cannot identify the latent rate
@@ -691,6 +700,17 @@ samples with utilization at most 20% and at least 8192 MiB free, bounded by 721 
 The current registered sample was 99% utilized with 8083 MiB free, so ownership remains occupied and
 not started. The gate created no CUDA context, process signal, subprocess, SQLite access, runtime,
 lease, checkpoint, scheduler handoff, readiness advance, or scientific result.
+
+A bounded foreground handoff service now connects that safe-wait contract to the existing allowlisted
+scheduler without being started during readiness. It holds an exact PID/argv service lease, waits via
+NVML only, acquires the shared GPU-owner lease after three safe samples, repeats the NVML check after
+reservation, and then admits only the fixed one-GPU/zero-CPU set-indexed evaluator. Atomic checkpoint
+and resume, idempotent completed results, an external stop request, exact stale-owner recovery, 24
+cycles over at most 24 hours, and 120-second scheduler slices are registered. The current sample was
+still 99% utilized with 8088 MiB free, so no runtime or lease was created. The handoff layer has no
+direct SQLite or signal surface; the reviewed scheduler retains its isolated durable queue SQLite and
+fixed child worker, an in-flight slice is not preemptible, and unrelated GPU work can race after the
+last NVML sample.
 
 The corresponding RTX 5090 power study generated 110,100,480 synthetic counts across 144
 exposure/intensity/mixing/sample-size scenarios, calibrated 49,152 independent null replicates, and
@@ -1471,8 +1491,15 @@ eigenspaces for all 12 candidates. The base D4 right-hand side has 64 nonzero en
 candidate retains a rank-two, 14-entry zero-speed obstruction: zero compatibilities and 12 exact
 obstructions. The fail-fast selector leaves two declared rational frames unevaluated. This rejects
 the parity-cubic all-direction completion, not the full direction sphere or broader matrix-valued,
-local, or covariant operators. Variable-coefficient commutators, boundary and energy calculus, and
-corrected-candidate registration remain open. This is not an inferred pass
+local, or covariant operators. The broader fixed-frame matrix-curl class is now solved exactly at
+that same direction. Its 22 transverse curl covectors give 1,210 raw matrix parameters; the
+selector has rank 22, the wedge range has rank 473, and adjoining the target leaves rank 473. A
+minimal single-channel rank-one block therefore cancels the zero-speed target, leaves every other
+eigenspace compression zero, and makes all 12 candidate D4 systems compatible after the complete
+15-evaluation recurrence. This is a one-frame result only. An antipodally odd bounded smooth
+matrix symbol on the direction sphere, further generic-direction audits, pseudodifferential
+constraint/commutator/boundary calculus, local or covariant origin, and corrected-candidate
+registration remain open. This is not an inferred pass
 for the unevaluated tail; full fourth-order range closure, full-tube,
 CK1, CK3, TC2, B7, global-H7, and lifespan remain false.
 

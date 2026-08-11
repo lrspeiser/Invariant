@@ -10,6 +10,7 @@ from pathlib import Path
 import pytest
 
 from sigma_theory_compiler.unified_engine_status import (
+    DEFAULT_MAXIMUM_OUTPUT_BYTES,
     _read_unified_live_service_status,
     build_unified_snapshot,
     load_config,
@@ -48,11 +49,13 @@ SOURCE_PATHS = [
     "runs/engine/kastner-schlatter-actualization-history-map-audit.json",
     "runs/engine/kastner-schlatter-qed-actualization-poisson-derivation-audit.json",
     "runs/engine/kastner-schlatter-deterministic-compensator-admission-gate.json",
+    "runs/engine/kastner-schlatter-canonical-probability-space-gate.json",
     "runs/engine/kastner-schlatter-transaction-event-observable-exposure-gate.json",
     "runs/engine/kastner-schlatter-poisson-cox-cuda-power-campaign.json",
     "runs/engine/kastner-schlatter-set-indexed-cuda-falsification-campaign.json",
     "runs/engine/kastner-schlatter-set-indexed-gpu-scheduler-adapter-readiness.json",
     "runs/engine/kastner-schlatter-deferred-gpu-ownership-readiness.json",
+    "runs/engine/kastner-schlatter-deferred-gpu-handoff-readiness.json",
     "runs/engine/generic-g4-b4-termwise-normalization-campaign.json",
     "runs/engine/einstein-aether-coupling-boundary-kkt-gate.json",
     "runs/engine/grammar-v3-formal-preflight-status.json",
@@ -146,6 +149,7 @@ SOURCE_PATHS = [
     "runs/physics-language/quartic-tc2-d4-full-linear-gradient-annihilator-no-go-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-d4-parity-cubic-angular-escape-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-d4-parity-cubic-generic-direction-campaign/campaign.json",
+    "runs/physics-language/quartic-tc2-d4-matrix-curl-rank-one-completion-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000000.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000064.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000128.json",
@@ -219,11 +223,13 @@ LABELS = [
     "kastner_schlatter_actualization_history_map_audit",
     "kastner_schlatter_qed_actualization_poisson_derivation",
     "kastner_schlatter_deterministic_compensator_admission",
+    "kastner_schlatter_canonical_probability_space",
     "kastner_schlatter_transaction_event_observable_exposure",
     "kastner_schlatter_poisson_cox_cuda_power",
     "kastner_schlatter_set_indexed_cuda_falsification",
     "kastner_schlatter_set_indexed_gpu_scheduler_adapter",
     "kastner_schlatter_deferred_gpu_ownership",
+    "kastner_schlatter_deferred_gpu_handoff_service",
     "generic_g4_b4_termwise_normalization",
     "einstein_aether_coupling_boundary_kkt",
     "grammar_v3_formal_preflight",
@@ -317,6 +323,7 @@ LABELS = [
     "quartic_tc2_d4_full_linear_gradient_annihilator_no_go",
     "quartic_tc2_d4_parity_cubic_angular_escape",
     "quartic_tc2_d4_parity_cubic_generic_direction",
+    "quartic_tc2_d4_matrix_curl_rank_one_completion",
     "quartic_tc2_reranked_obligation_chunk_0",
     "quartic_tc2_reranked_obligation_chunk_64",
     "quartic_tc2_reranked_obligation_chunk_128",
@@ -1039,6 +1046,25 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
         "no_registered_QED_probability_space_causal_filtration_or_deterministic_"
         "compensator_martingale_identity"
     )
+    probability_space = transactional["canonical_probability_space"]
+    assert probability_space["decision_counts"] == {"blocked": 2, "pass": 0, "reject": 0}
+    assert probability_space["gate_counts"]["evidence_obligations"] == 10
+    assert probability_space["gate_counts"]["evidence_closed_by_compiler_construction"] == 6
+    assert probability_space["gate_counts"]["evidence_absent"] == 4
+    assert probability_space["gate_counts"]["compiler_canonical_configuration_spaces"] == 2
+    assert probability_space["gate_counts"]["compiler_completed_causal_filtrations"] == 2
+    assert probability_space["gate_counts"]["compiler_compensator_martingale_identities"] == 2
+    assert probability_space["gate_counts"]["action_or_QED_stochastic_selection_rules"] == 0
+    assert probability_space["canonical_conditional_construction"]["probability_space"][
+        "sample_space"
+    ] == "Omega=N_lf(W)"
+    assert probability_space["exact_controls"]["same_action_Cox_nonidentifiability"][
+        "Cox_variance_at_mu_2"
+    ] == "3"
+    assert probability_space["first_blocker"] == (
+        "no_registered_paper_QED_or_candidate_action_selection_rule_for_the_compiler_authored_"
+        "Poisson_probability_space_over_same_mean_Cox_completion"
+    )
     observable = transactional["transaction_event_observable_exposure"]
     assert observable["decision_counts"] == {"blocked": 2, "pass": 0, "reject": 0}
     assert observable["gate_counts"]["compiler_observation_operator_contracts"] == 1
@@ -1099,6 +1125,20 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     assert deferred_gpu["current_runtime_audit"]["nvml_sample"]["gpu_utilization_percent"] == 99
     assert deferred_gpu["current_runtime_audit"]["nvml_sample"]["memory_free_mib"] == 8083
     assert all(value is False for value in deferred_gpu["execution_state"].values())
+    handoff = transactional["deferred_gpu_handoff_service"]
+    assert handoff["decision"] == "deferred_handoff_ready_current_device_occupied_not_started"
+    assert handoff["handoff_contract"]["required_consecutive_safe_samples"] == 3
+    assert handoff["handoff_contract"]["maximum_wait_polls_per_cycle"] == 721
+    assert handoff["handoff_contract"]["maximum_service_cycles"] == 24
+    assert handoff["handoff_contract"]["scheduler_slice_seconds"] == 120
+    assert handoff["handoff_contract"]["gpu_workers"] == 1
+    assert handoff["handoff_contract"]["cpu_workers"] == 0
+    assert handoff["handoff_contract"]["post_reservation_nvml_safe_recheck"] is True
+    assert handoff["current_runtime_audit"]["runtime_exists"] is False
+    assert handoff["current_runtime_audit"]["service_lease_exists"] is False
+    assert handoff["current_runtime_audit"]["scheduler_started_by_readiness"] is False
+    assert handoff["current_runtime_audit"]["nvml_sample"]["gpu_utilization_percent"] == 99
+    assert handoff["current_runtime_audit"]["nvml_sample"]["memory_free_mib"] == 8088
     extended = transactional["extended_geometry_cuda_stress"]
     assert extended["counts"]["geometry_resolution_cases"] == 20
     assert extended["counts"]["gpu_measured_source_evaluation_interactions"] == 2_860_515_328
@@ -1882,6 +1922,28 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     assert direction_record["cubic_correction_skew_rank"] == 2
     assert generic_direction["claims"]["parity_cubic_all_direction_completion_rejected"] is True
     assert generic_direction["claims"]["full_generic_direction_sphere_classified"] is False
+    matrix_curl = core["quartic_nonlinear_closure"]["fourth_jet_range_obligations"][
+        "canonical_obstruction_certificate"
+    ].pop("matrix_curl_rank_one_completion")
+    assert matrix_curl["counts"]["transverse_curl_covectors"] == 22
+    assert matrix_curl["counts"]["raw_matrix_parameters"] == 1210
+    assert matrix_curl["counts"]["selector_projection_rank"] == 22
+    assert matrix_curl["counts"]["wedge_range_rank"] == 473
+    assert matrix_curl["counts"]["target_augmented_rank"] == 473
+    assert matrix_curl["counts"]["constructed_block_rank"] == 1
+    assert matrix_curl["counts"]["candidate_compatibilities"] == 12
+    assert matrix_curl["counts"]["candidate_obstructions"] == 0
+    assert matrix_curl["exact_range_classification"]["target_in_image"] is True
+    assert matrix_curl["exact_range_classification"]["quotient_target_zero"] is True
+    assert matrix_curl["minimal_rank_one_completion"][
+        "all_nonzero_eigenspace_compressions_zero"
+    ] is True
+    assert matrix_curl["minimal_rank_one_completion"][
+        "zero_speed_target_cancelled_exactly"
+    ] is True
+    assert matrix_curl["candidate_result"]["candidate_compatibilities"] == 12
+    assert matrix_curl["claims"]["all_12_fixed_frame_D4_compatibilities_proved"] is True
+    assert matrix_curl["claims"]["global_smooth_angular_extension_constructed"] is False
     assert core["quartic_nonlinear_closure"] == {
         "candidate_count": 12,
         "coordinate_pair_partition": {
@@ -2143,12 +2205,12 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                         "global-H7, or lifespan."
                     ),
                 },
-                "next_gate": (
-                    "Abandon the scalar-multiplied parity-cubic C12 escape after its first exact "
-                    "generic-direction obstruction. Seek a direction-dependent matrix completion "
-                    "with additional curl channels or a covariant local operator, then re-evaluate "
-                    "generic directions before any remaining-D4 or tube promotion."
-                ),
+                    "next_gate": (
+                        "Extend the one-frame rank-one combined-curl block to an antipodally odd, "
+                        "bounded smooth matrix symbol on the direction sphere that preserves the "
+                        "e1/e2 certificates, then prove pseudodifferential constraint/commutator/"
+                        "boundary admission and re-audit additional generic directions."
+                    ),
             },
             "full_fourth_jet_range_closed": False,
         },
@@ -2162,8 +2224,8 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
             "lifespans_proved": 0,
         },
         "first_missing_premise": (
-            "matrix_valued_or_covariant_local_generic_direction_D4_completion_beyond_rejected_"
-            "parity_cubic_scalar_escape"
+            "antipodally_odd_bounded_smooth_matrix_symbol_extension_with_constraint_"
+            "commutator_boundary_admission"
         ),
     }
     assert core["cross_pipeline_total"]["status"] == "not_computed"
@@ -2196,6 +2258,11 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     live = json.loads((REPO / "runs/engine/unified-engine-status-live-refresh.json").read_text())
     dashboard = (REPO / "runs/engine/unified-engine-dashboard.html").read_text(encoding="utf-8")
     assert hashlib.sha256(_canonical(live["core"])).hexdigest() == live["core_content_sha256"]
+    assert (
+        (REPO / "runs/engine/unified-engine-status.json").stat().st_size
+        + (REPO / "runs/engine/unified-engine-dashboard.html").stat().st_size
+        < DEFAULT_MAXIMUM_OUTPUT_BYTES
+    )
     assert live["core_content_sha256"] in dashboard
     assert live["core"]["followup_service"]["followup_decision_counts"] == {
         "blocked": 8,
@@ -2343,6 +2410,10 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "deterministic predictable compensator" in dashboard
     assert "mu_B+mu_B^2/4" in dashboard
     assert "does not select a physical stochastic law" in dashboard
+    assert "Canonical conditional probability-space boundary" in dashboard
+    assert "Omega=N_lf(W)" in dashboard
+    assert "six of ten typed obligations" in dashboard
+    assert "same-action Cox completion" in dashboard
     assert "Operational event exposure and continuous RTX execution" in dashboard
     assert "one GPU owner" in dashboard
     assert "Service cycles" in dashboard
@@ -2354,6 +2425,11 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "Maximum wait" in dashboard
     assert "current 99%-utilized, 8083-MiB-free sample" in dashboard
     assert "no CUDA context" in dashboard
+    assert "Deferred RTX scheduler handoff" in dashboard
+    assert "Wait polls/cycle" in dashboard
+    assert "24-cycle/24-hour bound" in dashboard
+    assert "current 99%-utilized, 8088-MiB-free sample" in dashboard
+    assert "isolated queue SQLite" in dashboard
     assert "TC2 spatial-gradient completion no-go" in dashboard
     assert "TC2 full fixed-B1 linear completion no-go" in dashboard
     assert "11 v columns project to zero" in dashboard
@@ -2370,6 +2446,11 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "15 exact polarization evaluations" in dashboard
     assert "zero compatibilities and 12 exact obstructions" in dashboard
     assert "not the full direction sphere" in dashboard
+    assert "TC2 fixed-frame matrix-curl completion" in dashboard
+    assert "1,210-parameter matrix-valued wedge range has rank 473" in dashboard
+    assert "single combined-curl, rank-one block" in dashboard
+    assert "makes all 12 candidate D4 systems compatible" in dashboard
+    assert "exact positive result at one fixed frame only" in dashboard
     assert "Paper-complete count maps" in dashboard
     assert "1887436800" in dashboard
     assert "8053063680" in dashboard

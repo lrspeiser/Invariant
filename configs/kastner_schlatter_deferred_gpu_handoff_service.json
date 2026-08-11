@@ -1,0 +1,63 @@
+{
+  "schema_version": "sigma-kastner-schlatter-deferred-gpu-handoff-config-1.0",
+  "service_id": "kastner-schlatter-deferred-gpu-handoff-001",
+  "service_epoch": "kastner-schlatter-deferred-gpu-handoff-20260811-v1",
+  "runtime_directory": "runs/engine/kastner-schlatter-set-indexed-gpu-scheduler-runtime/deferred-handoff-service",
+  "service_lease_name": "handoff-service.lease.json",
+  "service_recovery_name": "handoff-service.lease.recovery.json",
+  "checkpoint_name": "handoff-service-checkpoint.json",
+  "stop_name": "handoff-service.stop.request",
+  "output_path": "runs/engine/kastner-schlatter-deferred-gpu-handoff-readiness.json",
+  "maximum_service_cycles": 24,
+  "maximum_service_seconds": 86400,
+  "maximum_wait_polls_per_cycle": 721,
+  "poll_interval_seconds": 5,
+  "required_consecutive_safe_samples": 3,
+  "maximum_gpu_utilization_percent": 20,
+  "minimum_free_gpu_memory_mib": 8192,
+  "scheduler_slice_seconds": 120,
+  "maximum_state_bytes": 131072,
+  "bindings": {
+    "deferred_config": {
+      "path": "configs/kastner_schlatter_deferred_gpu_ownership.json",
+      "file_sha256": "8d19246b25e3bac3dd683be43dfade3a7ed8392297ee0c937c7a2899055e065a"
+    },
+    "deferred_source": {
+      "path": "src/sigma_theory_compiler/kastner_schlatter_deferred_gpu_ownership.py",
+      "file_sha256": "f016085e43ceac7baec8ae0f02cdd6a92db4b568d4bffb83d5d492000bee9021"
+    },
+    "deferred_readiness": {
+      "path": "runs/engine/kastner-schlatter-deferred-gpu-ownership-readiness.json",
+      "file_sha256": "3f6363b8c3444ab50a91a657d26cecca9ef3c3552608ddcca09f90f9e2f34045",
+      "content_sha256": "ce7e72dc65b0697d99ee754ac1f586ed96ea4fe9f016cd650dfc76e0f60a186e"
+    },
+    "scheduler_config": {
+      "path": "configs/kastner_schlatter_set_indexed_gpu_scheduler_adapter.json",
+      "file_sha256": "89e3f47548acc75a77a5ba657a76f509ca3e0c1f36fae36273f59482fadeba52"
+    },
+    "scheduler_source": {
+      "path": "src/sigma_theory_compiler/kastner_schlatter_set_indexed_gpu_scheduler_adapter.py",
+      "file_sha256": "75e46510e40e71a4c18ad78c8a2eedcdaf43a957421b97977cb94574fba927e7"
+    },
+    "scheduler_readiness": {
+      "path": "runs/engine/kastner-schlatter-set-indexed-gpu-scheduler-adapter-readiness.json",
+      "file_sha256": "b6b918dbeb7300d802b39ee012f001186dcba695829e0c349115fc195d14594f",
+      "content_sha256": "a46af47035375083308cffea76ee1e0d9b9ef0a3c687a3bc51bd29b7f5a2ae4c"
+    },
+    "gitignore": {
+      "path": ".gitignore",
+      "file_sha256": "33d2ada3d63a31cb62cbfbc1ac26b7d08b7b7b23419c7cac8271e1b50c47d289"
+    }
+  },
+  "seals": {
+    "waiting_cuda_context": false,
+    "handoff_service_direct_sqlite_access": false,
+    "live_campaign_sqlite_access": false,
+    "existing_process_signaled": false,
+    "detached_launch": false,
+    "arbitrary_callable_or_subprocess_injection": false,
+    "observations_opened": false,
+    "scientific_or_readiness_promotion": false,
+    "paid_llm_calls": false
+  }
+}
