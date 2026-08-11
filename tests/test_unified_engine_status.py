@@ -46,6 +46,7 @@ SOURCE_PATHS = [
     "runs/engine/kastner-schlatter-poisson-selector-contract-gate.json",
     "runs/engine/kastner-schlatter-conditional-poisson-kernel-completion-gate.json",
     "runs/engine/kastner-schlatter-actualization-history-map-audit.json",
+    "runs/engine/kastner-schlatter-qed-actualization-poisson-derivation-audit.json",
     "runs/engine/kastner-schlatter-transaction-event-observable-exposure-gate.json",
     "runs/engine/kastner-schlatter-poisson-cox-cuda-power-campaign.json",
     "runs/engine/kastner-schlatter-set-indexed-cuda-falsification-campaign.json",
@@ -141,6 +142,7 @@ SOURCE_PATHS = [
     "runs/physics-language/quartic-tc2-d4-axis2-base-rhs-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-d4-spatial-gradient-annihilator-no-go-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-d4-full-linear-gradient-annihilator-no-go-campaign/campaign.json",
+    "runs/physics-language/quartic-tc2-d4-parity-cubic-angular-escape-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000000.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000064.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000128.json",
@@ -212,6 +214,7 @@ LABELS = [
     "kastner_schlatter_poisson_selector_contract",
     "kastner_schlatter_conditional_poisson_kernel_completion",
     "kastner_schlatter_actualization_history_map_audit",
+    "kastner_schlatter_qed_actualization_poisson_derivation",
     "kastner_schlatter_transaction_event_observable_exposure",
     "kastner_schlatter_poisson_cox_cuda_power",
     "kastner_schlatter_set_indexed_cuda_falsification",
@@ -307,6 +310,7 @@ LABELS = [
     "quartic_tc2_d4_axis2_base_rhs",
     "quartic_tc2_d4_spatial_gradient_annihilator_no_go",
     "quartic_tc2_d4_full_linear_gradient_annihilator_no_go",
+    "quartic_tc2_d4_parity_cubic_angular_escape",
     "quartic_tc2_reranked_obligation_chunk_0",
     "quartic_tc2_reranked_obligation_chunk_64",
     "quartic_tc2_reranked_obligation_chunk_128",
@@ -992,6 +996,23 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     assert history["gate_counts"]["paper_complete_history_to_counting_measure_maps"] == 0
     assert history["gate_counts"]["compiler_conditional_count_maps"] == 1
     assert history["compiler_conditional_count_map"]["theorem"]["countably_additive"]
+    qed_poisson = transactional["qed_actualization_poisson_derivation_audit"]
+    assert qed_poisson["decision_counts"] == {"blocked": 2, "pass": 0, "reject": 0}
+    assert qed_poisson["gate_counts"]["microscopic_derivation_obligations"] == 12
+    assert qed_poisson["gate_counts"]["microscopic_obligations_closed"] == 0
+    assert qed_poisson["gate_counts"]["microscopic_obligations_partial"] == 2
+    assert qed_poisson["gate_counts"]["microscopic_obligations_absent"] == 10
+    assert qed_poisson["gate_counts"]["compiler_conditional_sufficient_theorems"] == 1
+    assert qed_poisson["gate_counts"]["exact_same_rate_non_Poisson_witnesses"] == 2
+    assert qed_poisson["independent_rare_channel_Poisson_limit"]["limit_joint_PGF"] == (
+        "exp(sum_i mu_i*(z_i-1))"
+    )
+    assert qed_poisson["exact_controls"]["paired_cluster_same_rate_no_go"][
+        "limit_variance"
+    ] == "2*mu"
+    assert qed_poisson["first_blocker"] == (
+        "no_registered_QED_actualization_channel_probability_array_or_predictable_hazard_kernel"
+    )
     observable = transactional["transaction_event_observable_exposure"]
     assert observable["decision_counts"] == {"blocked": 2, "pass": 0, "reject": 0}
     assert observable["gate_counts"]["compiler_observation_operator_contracts"] == 1
@@ -1018,10 +1039,21 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     assert set_indexed["exact_common_shock_sentinel"]["within_group_cross_covariance"] == "1/2"
     assert set_indexed["synthetic_only"] is True
     gpu_scheduler = transactional["set_indexed_gpu_scheduler_adapter"]
-    assert gpu_scheduler["decision"] == "durable_single_owner_gpu_adapter_ready_not_started"
+    assert gpu_scheduler["decision"] == (
+        "durable_single_owner_gpu_continuous_service_ready_start_gated_not_started"
+    )
     assert gpu_scheduler["scheduler_contract"]["gpu_owner_count"] == 1
     assert gpu_scheduler["scheduler_contract"]["cpu_worker_count"] == 0
     assert gpu_scheduler["scheduler_contract"]["maximum_attempts"] == 3
+    assert gpu_scheduler["continuous_service_contract"]["exclusive_pid_argv_lease"] == (
+        "service.lease.json"
+    )
+    assert gpu_scheduler["continuous_service_contract"]["maximum_service_cycles"] == 241_920
+    assert gpu_scheduler["continuous_service_contract"]["gpu_start_gate"] == {
+        "fails_closed_if_nvml_unavailable": True,
+        "maximum_device_wide_utilization_percent": 20,
+        "minimum_free_memory_mib": 8192,
+    }
     assert gpu_scheduler["execution_state"] == {
         "runtime_created_by_readiness": False,
         "scheduler_started_by_readiness": False,
@@ -1774,6 +1806,24 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     assert full_no_go["combined_axis2_free_B2_range"]["wedge_range_rank"] == 473
     assert full_no_go["combined_axis2_free_B2_range"]["target_augmented_rank"] == 474
     assert full_no_go["claims"]["all_operator_classes_ruled_out"] is False
+    parity_cubic = core["quartic_nonlinear_closure"]["fourth_jet_range_obligations"][
+        "canonical_obstruction_certificate"
+    ].pop("parity_cubic_angular_escape")
+    assert parity_cubic["counts"]["scalar_multiplier_degree"] == 2
+    assert parity_cubic["counts"]["total_angular_polynomial_degree"] == 3
+    assert parity_cubic["counts"]["reference_e1_D4_solutions_inherited"] == 12
+    assert parity_cubic["counts"]["new_axis2_D4_compatibilities"] == 12
+    assert parity_cubic["counts"]["new_axis2_D4_obstructions"] == 0
+    assert parity_cubic["counts"]["generic_direction_D4_compatibilities_proved"] == 0
+    assert parity_cubic["minimality"]["canonical_multiplier"] == "a(n)=n1^2"
+    assert parity_cubic["exact_symbol"]["definition"] == (
+        "B_cubic(n)=n1^2*(n1*V+n2*C_companion)"
+    )
+    assert parity_cubic["pseudodifferential_constraint_admission"][
+        "M1_fourier_symbol"
+    ] == "xi1^2/|xi|^2=n1^2"
+    assert parity_cubic["claims"]["all_12_axis2_D4_compatibilities_proved_for_cubic_symbol"] is True
+    assert parity_cubic["claims"]["generic_direction_D4_compatibility_proved"] is False
     assert core["quartic_nonlinear_closure"] == {
         "candidate_count": 12,
         "coordinate_pair_partition": {
@@ -2036,10 +2086,9 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                     ),
                 },
                 "next_gate": (
-                    "Alter the fixed direction-one B1=V slice or introduce a rigorously admitted "
-                    "nonlinear, higher-degree, nonlocal, or pseudodifferential direction "
-                    "dependence. Every linear direction-homogeneous block on all 55 input columns "
-                    "that preserves B1 and annihilates the complete gradient lift is now ruled out."
+                    "Evaluate the complete D4 recurrence for generic directions and prove an "
+                    "appropriate order-one pseudodifferential constraint, energy, boundary, and "
+                    "variable-coefficient commutator calculus, or replace M1 by a covariant local origin."
                 ),
             },
             "full_fourth_jet_range_closed": False,
@@ -2053,7 +2102,7 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
             "global_H7_closures": 0,
             "lifespans_proved": 0,
         },
-        "first_missing_premise": "admissible_escape_beyond_fixed_B1_linear_gradient_annihilator_class",
+        "first_missing_premise": "generic_direction_D4_and_nonlocal_variable_coefficient_admission",
     }
     assert core["cross_pipeline_total"]["status"] == "not_computed"
     assert result["volatile"]["campaign_watchdog_freshness"]["stale"] is True
@@ -2222,15 +2271,28 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "Compiler kernels" in dashboard
     assert "N|(g,phi)~PRM(q0*exp(phi)*dVol_g)" in dashboard
     assert "Actualization map and set-indexed RTX falsification" in dashboard
-    assert "Operational event exposure and durable RTX execution" in dashboard
+    assert "QED actualization-to-Poisson derivation audit" in dashboard
+    assert "Microscopic obligations" in dashboard
+    assert "Same-rate non-Poisson witnesses" in dashboard
+    assert "variance <code>2 mu</code>" in dashboard
+    assert "registered paper/QED evidence closes none of those twelve microscopic premises" in dashboard
+    assert "Operational event exposure and continuous RTX execution" in dashboard
     assert "one GPU owner" in dashboard
-    assert "did not start the scheduler" in dashboard
+    assert "Service cycles" in dashboard
+    assert "GPU start ceiling" in dashboard
+    assert "8087 MiB free" in dashboard
+    assert "no runtime, queue, lease, or worker was created" in dashboard
     assert "TC2 spatial-gradient completion no-go" in dashboard
     assert "TC2 full fixed-B1 linear completion no-go" in dashboard
     assert "11 v columns project to zero" in dashboard
     assert "11 q columns are nonzero but incapable" in dashboard
     assert "wedge range rank 473" in dashboard
     assert "not every operator class" in dashboard
+    assert "TC2 minimal parity-cubic angular escape" in dashboard
+    assert "a(n)=n1^2" in dashboard
+    assert "all 12 previous axis-two obstructions become exact compatibilities" in dashboard
+    assert "xi1^2/|xi|^2" in dashboard
+    assert "Generic-direction D4 compatibility" in dashboard
     assert "Paper-complete count maps" in dashboard
     assert "1887436800" in dashboard
     assert "8053063680" in dashboard

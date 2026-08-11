@@ -1,9 +1,12 @@
 from __future__ import annotations
 
 import copy
+import hashlib
 import json
+import sys
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 
@@ -50,6 +53,8 @@ def test_readiness_validates_and_did_not_start_scheduler() -> None:
         "scheduler_started_by_readiness": False,
         "worker_result_created_by_readiness": False,
     }
+    assert result["continuous_service_contract"]["foreground_only_no_detached_launcher"] is True
+    assert result["continuous_service_contract"]["runtime_outputs_gitignored"] is True
 
 
 def test_idempotent_enqueue_and_durable_result(tmp_path: Path) -> None:
@@ -84,6 +89,7 @@ def test_expired_lease_is_recovered_after_restart(tmp_path: Path) -> None:
     assert recovered is not None
     assert recovered.work_id == lease.work_id
     assert recovered.attempt == 2
+    assert resumed.telemetry()["recovered_leases"] == 1
 
 
 def test_fixed_evaluator_has_no_immutable_write(monkeypatch: pytest.MonkeyPatch) -> None:
@@ -136,6 +142,84 @@ def test_payload_injection_and_hash_tamper_fail(tmp_path: Path) -> None:
 def test_live_campaign_runtime_override_is_rejected() -> None:
     with pytest.raises(ValueError, match="live campaign runtime override"):
         adapter.create_coordinator(CONFIG, runtime_override=ROOT / "runs/campaigns/forbidden")
+
+
+def test_gpu_start_gate_blocks_busy_device(monkeypatch: pytest.MonkeyPatch) -> None:
+    fake = SimpleNamespace(
+        nvmlInit=lambda: None,
+        nvmlShutdown=lambda: None,
+        nvmlDeviceGetHandleByIndex=lambda _: object(),
+        nvmlDeviceGetUtilizationRates=lambda _: SimpleNamespace(gpu=99),
+        nvmlDeviceGetMemoryInfo=lambda _: SimpleNamespace(free=16_384 * 1024**2),
+    )
+    monkeypatch.setitem(sys.modules, "pynvml", fake)
+    config, _ = adapter.load_adapter_config(CONFIG)
+    with pytest.raises(RuntimeError, match="GPU start gate blocked"):
+        adapter.gpu_start_gate(config)
+
+
+def test_continuous_service_checkpoint_lease_cleanup_and_db_boundary(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    protected = {
+        path: hashlib.sha256(path.read_bytes()).hexdigest()
+        for path in (ROOT / "runs/campaigns").glob("*.sqlite")
+    }
+    monkeypatch.setattr(
+        adapter,
+        "gpu_start_gate",
+        lambda _: {
+            "decision": "start_allowed",
+            "gpu_utilization_percent": 0,
+            "free_memory_mib": 30_000,
+        },
+    )
+    monkeypatch.setattr(
+        adapter,
+        "run_scheduler",
+        lambda *args, **kwargs: {
+            "supervisor": {"stop_reason": "test_control"},
+            "immutable_artifact_written": False,
+            "live_campaign_sqlite_accessed": False,
+        },
+    )
+    checkpoint = adapter.run_continuous_service(
+        CONFIG, runtime_override=tmp_path, maximum_cycles_override=1
+    )
+    assert checkpoint["state"] == "stopped"
+    assert checkpoint["cycle"] == 1
+    assert checkpoint["queue"]["counts"] == {"queued": 1}
+    assert checkpoint["queue"]["recovered_leases"] == 0
+    assert checkpoint["content_sha256"] == adapter._content_sha(checkpoint)
+    assert not (tmp_path / "service.lease.json").exists()
+    assert (tmp_path / "service-checkpoint.json").exists()
+    assert (tmp_path / "durable-gpu-queue.sqlite").exists()
+    assert protected == {
+        path: hashlib.sha256(path.read_bytes()).hexdigest() for path in protected
+    }
+
+
+def test_active_lease_rejected_and_stale_lease_recovered(tmp_path: Path) -> None:
+    config, _ = adapter.load_adapter_config(CONFIG)
+    lease_path, owned = adapter._acquire_service_lease(tmp_path, config)
+    with pytest.raises(RuntimeError, match="already active"):
+        adapter._acquire_service_lease(tmp_path, config)
+    adapter._release_service_lease(lease_path, owned)
+    stale_body = {
+        "schema_version": "sigma-set-indexed-gpu-service-lease-1.0",
+        "service_epoch": config["service"]["service_epoch"],
+        "pid": 2_147_483_647,
+        "process_argv_sha256": "0" * 64,
+        "cycle": 3,
+        "updated_utc": datetime.now(UTC).isoformat(),
+    }
+    stale = {**stale_body, "content_sha256": adapter._content_sha(stale_body)}
+    (tmp_path / "service.lease.json").write_text(
+        json.dumps(stale), encoding="utf-8"
+    )
+    recovered_path, recovered = adapter._acquire_service_lease(tmp_path, config)
+    assert (tmp_path / "service.lease.recovery.json").exists()
+    adapter._release_service_lease(recovered_path, recovered)
 
 
 def test_supervisor_construction_has_exactly_one_gpu_owner(

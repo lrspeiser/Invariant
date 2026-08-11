@@ -535,6 +535,9 @@ def build_unified_snapshot(
     transactional_gravity_actualization_history = sources[
         "kastner_schlatter_actualization_history_map_audit"
     ]
+    transactional_gravity_qed_poisson_derivation = sources[
+        "kastner_schlatter_qed_actualization_poisson_derivation"
+    ]
     transactional_gravity_observable_exposure = sources[
         "kastner_schlatter_transaction_event_observable_exposure"
     ]
@@ -688,6 +691,9 @@ def build_unified_snapshot(
     ]
     quartic_tc2_d4_full_linear_gradient_no_go = sources[
         "quartic_tc2_d4_full_linear_gradient_annihilator_no_go"
+    ]
+    quartic_tc2_d4_parity_cubic_escape = sources[
+        "quartic_tc2_d4_parity_cubic_angular_escape"
     ]
     quartic_tc2_reranked_obligation_chunks = tuple(
         sources[f"quartic_tc2_reranked_obligation_chunk_{offset}"]
@@ -1871,6 +1877,94 @@ def build_unified_snapshot(
         or any(transactional_gravity_actualization_history.get("data_seals", {}).values())
     ):
         raise ValueError("Kastner-Schlatter actualization history map audit is inconsistent")
+    expected_qed_poisson_counts = {
+        "candidate_action_reject": 0,
+        "candidate_actions": 2,
+        "compiler_conditional_sufficient_theorems": 1,
+        "exact_same_rate_non_Poisson_witnesses": 2,
+        "microscopic_derivation_obligations": 12,
+        "microscopic_obligations_absent": 10,
+        "microscopic_obligations_closed": 0,
+        "microscopic_obligations_partial": 2,
+        "paper_or_QED_Poisson_derivation_pass": 0,
+        "paper_or_QED_channel_kernels_registered": 0,
+        "source_evidence_clauses": 5,
+        "theory_ontology_observational_pass": 0,
+    }
+    qed_poisson_theorem = transactional_gravity_qed_poisson_derivation.get(
+        "independent_rare_channel_Poisson_limit", {}
+    )
+    qed_poisson_controls = transactional_gravity_qed_poisson_derivation.get(
+        "exact_controls", {}
+    )
+    if (
+        transactional_gravity_qed_poisson_derivation.get("decision")
+        != "conditional_rare_channel_theorem_closed_paper_QED_derivation_blocked"
+        or transactional_gravity_qed_poisson_derivation.get("decision_counts")
+        != {"blocked": 2, "pass": 0, "reject": 0}
+        or transactional_gravity_qed_poisson_derivation.get("gate_counts")
+        != expected_qed_poisson_counts
+        or transactional_gravity_qed_poisson_derivation.get("first_blocker")
+        != "no_registered_QED_actualization_channel_probability_array_or_predictable_hazard_kernel"
+        or transactional_gravity_qed_poisson_derivation.get("source_bindings", {})
+        .get("conditional_poisson_kernel", {})
+        .get("content_sha256")
+        != transactional_gravity_conditional_poisson.get("content_sha256")
+        or transactional_gravity_qed_poisson_derivation.get("source_bindings", {})
+        .get("operational_event_exposure", {})
+        .get("content_sha256")
+        != transactional_gravity_observable_exposure.get("content_sha256")
+        or transactional_gravity_qed_poisson_derivation.get("source_bindings", {})
+        .get("set_indexed_synthetic_campaign", {})
+        .get("content_sha256")
+        != transactional_gravity_set_indexed_cuda.get("content_sha256")
+        or transactional_gravity_qed_poisson_derivation.get("source_bindings", {})
+        .get("equation_graph", {})
+        .get("content_sha256")
+        != transactional_gravity_graph.get("content_sha256")
+        or transactional_gravity_qed_poisson_derivation.get("source_bindings", {}).get(
+            "primary_pdf_sha256"
+        )
+        != "c2f671293d07b21397e745da00a3ce1a2193c00da647a2ebf4147612b76c1780"
+        or len(
+            transactional_gravity_qed_poisson_derivation.get(
+                "microscopic_derivation_obligations", []
+            )
+        )
+        != 12
+        or qed_poisson_theorem.get("finite_row_joint_PGF")
+        != "G_m(z)=product_k[1+sum_i p_mki*(z_i-1)]"
+        or qed_poisson_theorem.get("limit_joint_PGF")
+        != "exp(sum_i mu_i*(z_i-1))"
+        or qed_poisson_theorem.get("paper_or_registered_QED_closes_conditions") is not False
+        or qed_poisson_controls.get("paired_cluster_same_rate_no_go", {}).get(
+            "limit_variance"
+        )
+        != "2*mu"
+        or qed_poisson_controls.get("paired_cluster_same_rate_no_go", {}).get(
+            "Poisson_conclusion_rejected"
+        )
+        is not True
+        or qed_poisson_controls.get("two_cell_common_shock_no_go", {}).get(
+            "cross_covariance"
+        )
+        != "1/2"
+        or len(transactional_gravity_qed_poisson_derivation.get("candidate_records", [])) != 2
+        or any(
+            record.get("candidate_decision") != "blocked"
+            or record.get("compiler_conditional_rare_channel_theorem") is not True
+            or record.get("paper_or_QED_channel_kernel_registered") is not False
+            or record.get("paper_or_QED_Poisson_derivation_pass") is not False
+            or record.get("candidate_action_rejection_authorized") is not False
+            for record in transactional_gravity_qed_poisson_derivation.get(
+                "candidate_records", []
+            )
+        )
+        or transactional_gravity_qed_poisson_derivation.get("synthetic_only") is not True
+        or any(transactional_gravity_qed_poisson_derivation.get("claim_seals", {}).values())
+        or any(transactional_gravity_qed_poisson_derivation.get("data_seals", {}).values())
+    ):
+        raise ValueError("Kastner-Schlatter QED Poisson derivation audit is inconsistent")
     expected_poisson_cox_power_counts = {
         "finite_sample_evaluation_replicate_tests": 294_912,
         "gpu_generated_count_values": 110_100_480,
@@ -2029,9 +2123,12 @@ def build_unified_snapshot(
     ):
         raise ValueError("Kastner-Schlatter operational exposure gate is inconsistent")
     scheduler_contract = transactional_gravity_gpu_scheduler_adapter.get("scheduler_contract", {})
+    continuous_gpu_contract = transactional_gravity_gpu_scheduler_adapter.get(
+        "continuous_service_contract", {}
+    )
     if (
         transactional_gravity_gpu_scheduler_adapter.get("decision")
-        != "durable_single_owner_gpu_adapter_ready_not_started"
+        != "durable_single_owner_gpu_continuous_service_ready_start_gated_not_started"
         or scheduler_contract.get("coordinator") != "PersistentParallelSearch"
         or scheduler_contract.get("supervisor") != "PersistentParallelSupervisor"
         or scheduler_contract.get("gpu_owner_count") != 1
@@ -2040,10 +2137,35 @@ def build_unified_snapshot(
         or scheduler_contract.get("maximum_attempts") != 3
         or scheduler_contract.get("process_restart_budget") != 2
         or scheduler_contract.get("arbitrary_callable_or_subprocess_surface") is not False
+        or continuous_gpu_contract.get("service_epoch")
+        != "kastner-schlatter-set-indexed-gpu-service-20260811-v1"
+        or continuous_gpu_contract.get("exclusive_pid_argv_lease") != "service.lease.json"
+        or continuous_gpu_contract.get("atomic_checkpoint") != "service-checkpoint.json"
+        or continuous_gpu_contract.get("external_stop_request") != "stop.request"
+        or continuous_gpu_contract.get("maximum_service_cycles") != 241_920
+        or continuous_gpu_contract.get("supervisor_slice_seconds") != 120
+        or continuous_gpu_contract.get("foreground_only_no_detached_launcher") is not True
+        or continuous_gpu_contract.get("idempotent_queue_resume_each_cycle") is not True
+        or continuous_gpu_contract.get("runtime_outputs_gitignored") is not True
+        or continuous_gpu_contract.get("stale_lease_recovery_requires_owner_nonmatch") is not True
+        or continuous_gpu_contract.get("gpu_start_gate")
+        != {
+            "fails_closed_if_nvml_unavailable": True,
+            "maximum_device_wide_utilization_percent": 20,
+            "minimum_free_memory_mib": 8192,
+        }
         or transactional_gravity_gpu_scheduler_adapter.get("source_bindings", {})
         .get("workload_source", {})
         .get("file_sha256")
         != "4f66e8a19025f75156a92f5772fc5be6cb5046dddd4c962e5532528e055935fb"
+        or transactional_gravity_gpu_scheduler_adapter.get("source_bindings", {})
+        .get("source", {})
+        .get("file_sha256")
+        != "75e46510e40e71a4c18ad78c8a2eedcdaf43a957421b97977cb94574fba927e7"
+        or transactional_gravity_gpu_scheduler_adapter.get("source_bindings", {})
+        .get("gitignore", {})
+        .get("file_sha256")
+        != "33d2ada3d63a31cb62cbfbc1ac26b7d08b7b7b23419c7cac8271e1b50c47d289"
         or any(transactional_gravity_gpu_scheduler_adapter.get("execution_state", {}).values())
         or any(transactional_gravity_gpu_scheduler_adapter.get("seals", {}).values())
         or transactional_gravity_gpu_scheduler_adapter.get("scientific_test_pass") is not False
@@ -5753,6 +5875,118 @@ def build_unified_snapshot(
         is not False
     ):
         raise ValueError("quartic TC2 full-linear gradient-annihilator no-go is inconsistent")
+    cubic_escape_counts = quartic_tc2_d4_parity_cubic_escape.get("counts", {})
+    cubic_escape = quartic_tc2_d4_parity_cubic_escape.get("exact_escape", {})
+    cubic_symbol = cubic_escape.get("exact_symbol", {})
+    cubic_two_axis = cubic_escape.get("two_axis_D4_consequence", {})
+    cubic_claims = quartic_tc2_d4_parity_cubic_escape.get("claims", {})
+    if (
+        quartic_tc2_d4_parity_cubic_escape.get("status")
+        != "pass_exact_minimal_parity_preserving_cubic_angular_two_axis_escape"
+        or quartic_tc2_d4_parity_cubic_escape.get("selector_binding")
+        != {
+            "active_indices": [0, 2, 3, 9],
+            "newly_closed_companion_direction": "e2",
+            "obligation_offset": 244,
+            "reference_direction": "e1",
+        }
+        or cubic_escape_counts
+        != {
+            "bound_predecessors": 6,
+            "candidate_specializations": 12,
+            "generic_direction_D4_compatibilities_proved": 0,
+            "inferred_global_passes": 0,
+            "negative_controls": 6,
+            "new_axis2_D4_compatibilities": 12,
+            "new_axis2_D4_obstructions": 0,
+            "nonzero_polynomial_coefficient_blocks": 2,
+            "reference_e1_D4_solutions_inherited": 12,
+            "scalar_multiplier_degree": 2,
+            "total_angular_polynomial_degree": 3,
+        }
+        or quartic_tc2_d4_parity_cubic_escape.get("source_bindings", {})
+        .get("full_linear_no_go", {})
+        .get("content_sha256")
+        != quartic_tc2_d4_full_linear_gradient_no_go.get("content_sha256")
+        or quartic_tc2_d4_parity_cubic_escape.get("source_bindings", {})
+        .get("axis2_base_rhs", {})
+        .get("content_sha256")
+        != quartic_tc2_d4_axis2_base_rhs.get("content_sha256")
+        or quartic_tc2_d4_parity_cubic_escape.get("source_bindings", {})
+        .get("curl_admission", {})
+        .get("content_sha256")
+        != quartic_tc2_d4_curl_constraint_admission.get("content_sha256")
+        or cubic_escape.get("minimality", {}).get("canonical_multiplier") != "a(n)=n1^2"
+        or cubic_escape.get("minimality", {}).get(
+            "minimal_total_angular_polynomial_degree"
+        )
+        != 3
+        or cubic_escape.get("minimality", {}).get("constant_even_multiplier_impossible")
+        is not True
+        or cubic_symbol.get("definition")
+        != "B_cubic(n)=n1^2*(n1*V+n2*C_companion)"
+        or cubic_symbol.get("antipodal_odd") is not True
+        or cubic_symbol.get("sphere_multiplier_interval") != "0<=n1^2<=1"
+        or cubic_symbol.get("e2_block_zero") is not True
+        or cubic_symbol.get("symbol_sha256")
+        != "1a9e8b9f5101ccf6a59cd81181ff02943182b06fea2207fc01814aa32ee713ca"
+        or cubic_escape.get("physical_gradient_lift_equivalence", {}).get("residual_zero")
+        is not True
+        or cubic_escape.get("pseudodifferential_constraint_admission", {}).get(
+            "M1_fourier_symbol"
+        )
+        != "xi1^2/|xi|^2=n1^2"
+        or cubic_escape.get("pseudodifferential_constraint_admission", {}).get(
+            "periodic_or_Schwartz_constraint_surface_invariant"
+        )
+        is not True
+        or cubic_escape.get("pseudodifferential_constraint_admission", {}).get(
+            "local_differential_operator_realization_proved"
+        )
+        is not False
+        or cubic_two_axis.get("reference_e1_solutions_inherited") != 12
+        or cubic_two_axis.get("axis2_D4_compatibilities") != 12
+        or cubic_two_axis.get("axis2_D4_obstructions") != 0
+        or cubic_two_axis.get("axis2_base_D4_RHS_identically_zero") is not True
+        or cubic_two_axis.get("all_direction_D4_compatibility_proved") is not False
+        or len(cubic_two_axis.get("candidate_records", [])) != 12
+        or any(
+            not record.get("e1_D4_Sylvester_solvable_inherited")
+            or not record.get("e2_D4_Sylvester_solvable")
+            or record.get("all_direction_D4_Sylvester_solvable") is not False
+            or record.get("e2_angular_multiplier") != "0"
+            for record in cubic_two_axis.get("candidate_records", [])
+        )
+        or any(
+            control.get("rejected") is not True
+            for control in quartic_tc2_d4_parity_cubic_escape.get(
+                "negative_controls", {}
+            ).values()
+        )
+        or cubic_claims.get("minimal_parity_preserving_cubic_scalar_multiplier_constructed")
+        is not True
+        or cubic_claims.get("all_12_axis2_D4_compatibilities_proved_for_cubic_symbol")
+        is not True
+        or cubic_claims.get("generic_direction_D4_compatibility_proved") is not False
+        or any(
+            cubic_claims.get(key) is not False
+            for key in (
+                "local_differential_operator_origin_proved",
+                "covariant_action_origin_proved",
+                "spatially_covariant_tensor_completion_proved",
+                "corrected_candidate_family_registered",
+                "remaining_D4_selector_closed",
+                "full_tube_Sylvester_identity",
+                "CK1_closed",
+                "CK3_closed",
+                "TC2_closed",
+                "B7_closed",
+                "global_H7_closed",
+                "lifespan_proved",
+            )
+        )
+    ):
+        raise ValueError("quartic TC2 parity-cubic angular escape is inconsistent")
     if (
         unified_live_dashboard_service_readiness.get("decision")
         != "ready_enabled_read_only_bounded"
@@ -6209,6 +6443,30 @@ def build_unified_snapshot(
                 ),
                 "scope": transactional_gravity_actualization_history["scope"],
             },
+            "qed_actualization_poisson_derivation_audit": {
+                "decision": transactional_gravity_qed_poisson_derivation["decision"],
+                "decision_counts": transactional_gravity_qed_poisson_derivation[
+                    "decision_counts"
+                ],
+                "gate_counts": transactional_gravity_qed_poisson_derivation["gate_counts"],
+                "first_blocker": transactional_gravity_qed_poisson_derivation[
+                    "first_blocker"
+                ],
+                "independent_rare_channel_Poisson_limit": (
+                    transactional_gravity_qed_poisson_derivation[
+                        "independent_rare_channel_Poisson_limit"
+                    ]
+                ),
+                "microscopic_derivation_obligations": (
+                    transactional_gravity_qed_poisson_derivation[
+                        "microscopic_derivation_obligations"
+                    ]
+                ),
+                "exact_controls": transactional_gravity_qed_poisson_derivation[
+                    "exact_controls"
+                ],
+                "scope": transactional_gravity_qed_poisson_derivation["scope"],
+            },
             "transaction_event_observable_exposure": {
                 "decision": transactional_gravity_observable_exposure["decision"],
                 "decision_counts": transactional_gravity_observable_exposure["decision_counts"],
@@ -6259,6 +6517,7 @@ def build_unified_snapshot(
             "set_indexed_gpu_scheduler_adapter": {
                 "decision": transactional_gravity_gpu_scheduler_adapter["decision"],
                 "scheduler_contract": scheduler_contract,
+                "continuous_service_contract": continuous_gpu_contract,
                 "execution_state": transactional_gravity_gpu_scheduler_adapter["execution_state"],
                 "scientific_test_pass": transactional_gravity_gpu_scheduler_adapter[
                     "scientific_test_pass"
@@ -7495,7 +7754,26 @@ def build_unified_snapshot(
                         "claims": quartic_tc2_d4_full_linear_gradient_no_go["claims"],
                         "scope": quartic_tc2_d4_full_linear_gradient_no_go["scope"],
                     },
-                    "next_gate": quartic_tc2_d4_full_linear_gradient_no_go["next_gate"],
+                    "parity_cubic_angular_escape": {
+                        "status": quartic_tc2_d4_parity_cubic_escape["status"],
+                        "counts": cubic_escape_counts,
+                        "selector_binding": quartic_tc2_d4_parity_cubic_escape[
+                            "selector_binding"
+                        ],
+                        "declared_escape_class": cubic_escape["declared_escape_class"],
+                        "minimality": cubic_escape["minimality"],
+                        "exact_symbol": cubic_symbol,
+                        "physical_gradient_lift_equivalence": cubic_escape[
+                            "physical_gradient_lift_equivalence"
+                        ],
+                        "pseudodifferential_constraint_admission": cubic_escape[
+                            "pseudodifferential_constraint_admission"
+                        ],
+                        "two_axis_D4_consequence": cubic_two_axis,
+                        "claims": cubic_claims,
+                        "scope": quartic_tc2_d4_parity_cubic_escape["scope"],
+                    },
+                    "next_gate": quartic_tc2_d4_parity_cubic_escape["next_gate"],
                 },
                 "full_fourth_jet_range_closed": False,
             },
@@ -7511,7 +7789,9 @@ def build_unified_snapshot(
                     "lifespans_proved",
                 )
             },
-            "first_missing_premise": "admissible_escape_beyond_fixed_B1_linear_gradient_annihilator_class",
+            "first_missing_premise": (
+                "generic_direction_D4_and_nonlocal_variable_coefficient_admission"
+            ),
         },
         "evidence_pareto": {
             "candidate_decision_counts": pareto["candidate_decision_counts"],

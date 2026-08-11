@@ -649,6 +649,18 @@ one-cell Poisson marginal. It evaluates 48 scenarios, 1,887,436,800 generated co
 CPU/GPU error below `4.5e-16` and byte-identical decisions. The workload is synthetic and opens no
 operational transaction observable, paper/QED derivation, observation, ontology, or scientific pass.
 
+The microscopic QED-to-Poisson step is now a typed proof obligation rather than an assertion. A
+compiler-authored sufficient theorem starts from independent exclusive channel arrays with
+`max_k sum_i p_mki -> 0`, cell probability sums converging to `mu_i`, and a vanishing quadratic
+remainder. Its joint PGF
+`product_k[1+sum_i p_mki*(z_i-1)]` then converges to
+`exp(sum_i mu_i*(z_i-1))`, giving independent Poisson cell counts. The source audit finds twelve
+microscopic obligations: zero closed by the registered paper/QED evidence, two partially specified,
+and ten absent. This gap is material rather than cosmetic. Rare pair-cluster channels preserve the
+same mean rate while giving variance `2*mu`, and a two-cell common shock preserves Poisson marginals
+while giving covariance `1/2`. No QED channel-probability array, predictable hazard kernel,
+independence/no-clustering theorem, candidate rejection, ontology pass, or observation is inferred.
+
 The next compiler boundary makes the observational bridge explicit. A latent event process is
 independently thinned by a calibrated acceptance, marked through a response kernel, and superposed
 with background. Four exact witnesses show that the observed mean cannot identify the latent rate
@@ -656,7 +668,12 @@ without known acceptance and background plus an injective response on a declared
 Ten of eleven operational obligations remain missing and no real event bundle is open. The same
 set-indexed RTX evaluator now also has a durable restart-safe adapter: one GPU owner, zero CPU
 workers, a single hash-bound allowlisted workload, lease recovery, and no arbitrary callable or
-subprocess surface. The readiness artifact did not start the scheduler or advance science.
+subprocess surface. A foreground continuous-service layer adds an exclusive PID/argv lease, atomic
+checkpoints, idempotent queue resume, bounded 120-second supervisor slices, external stop, and a
+device-wide NVML start gate requiring at most 20% utilization and at least 8192 MiB free. The final
+preflight found only 8087 MiB free, so it failed closed before creating a runtime, queue, lease, or
+worker. The readiness artifact therefore advances the continuous execution contract but not a
+production result or any scientific claim.
 
 The corresponding RTX 5090 power study generated 110,100,480 synthetic counts across 144
 exposure/intensity/mixing/sample-size scenarios, calibrated 49,152 independent null replicates, and
@@ -1422,7 +1439,17 @@ candidates are obstructed in that class. The remaining 22 q/v selectors are also
 velocity columns project to zero and 11 configuration columns are nonzero but incapable. Their
 combined freedom with `C23` has wedge rank 473 and augmented rank 474, so every linear
 direction-homogeneous block on all 55 inputs preserving `B1=V` is ruled out. Altered `B1`,
-higher-degree, nonlinear, nonlocal, or pseudodifferential operators remain open. This is not an inferred pass
+higher-degree, nonlinear, nonlocal, or pseudodifferential operators remain open. The first exact
+escape in that larger class is now constructed: parity forces an even scalar multiplier of the
+admitted odd curl symbol, and the smallest one satisfying `a(e1)=1`, `a(e2)=0` is
+`a(n)=n1^2`. Thus
+`B_cubic(n)=n1^2*(n1*V+n2*C_companion)` is an odd, unit-sphere-bounded symbol that annihilates the
+full gradient lift, preserves all 12 reference `e1` D4 solutions, and vanishes at `e2`. Since the
+base `e2` D4 forcing is zero, all 12 previous axis-two obstructions become exact compatibilities.
+This is an order-one angular/pseudodifferential construction with multiplier
+`xi1^2/|xi|^2`, not a local differential or covariant-action operator. Generic-direction D4,
+variable-coefficient commutators, boundary and energy calculus, and corrected-candidate registration
+remain open. This is not an inferred pass
 for the unevaluated tail; full fourth-order range closure, full-tube,
 CK1, CK3, TC2, B7, global-H7, and lifespan remain false.
 
