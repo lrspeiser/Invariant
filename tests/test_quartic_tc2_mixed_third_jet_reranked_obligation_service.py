@@ -71,11 +71,11 @@ def test_service_config_binds_stopped_predecessor_and_selector_chain() -> None:
     )
 
 
-def test_three_exact_chunks_checkpoint_and_status_are_valid() -> None:
+def test_five_exact_chunks_checkpoint_and_status_are_valid() -> None:
     config, _, _, reduction, _, _, _ = _inputs()
     artifacts = []
     prior_resume = _initial_resume_sha256(reduction)
-    for offset in (0, 64, 128):
+    for offset in (0, 64, 128, 192, 256):
         artifact = json.loads(
             (
                 OUTPUT / "chunks" / f"obligation-offset-{offset:06d}.json"
@@ -94,7 +94,7 @@ def test_three_exact_chunks_checkpoint_and_status_are_valid() -> None:
         "cc0881c1e06a7f5fa308be071d950f2ddd3f9239f6b522a87cc13cd9d4c94ea7"
     )
     assert latest["content_sha256"] == (
-        "4a257669a8bc266b1a309ab5d5fd32a4aa879deaa149cc41a42b377120999548"
+        "1e724e025eeccb5d3fbcc6f3f930e9d8102abe06b610ffc49324ce08823ecd83"
     )
     assert initial["status"] == "pass_reranked_obligation_chunk_64_fail_closed"
     assert initial["counts"] == {
@@ -119,11 +119,11 @@ def test_three_exact_chunks_checkpoint_and_status_are_valid() -> None:
         "b6d7222f845bd57d31be37e2237f20112e3b2be9c74e29f150aea13153ce0738"
     )
     assert latest["chunk_contract"]["resume_tip_sha256"] == (
-        "31735507bf42865d30f3e3a64ffd555d4a32727a19352b7783ce75b08cd396a9"
+        "20372bd8d5d6dbed373401cf80cc9b081b17d3b9bb110ae0a6756fc31b9f73fc"
     )
-    assert checkpoint["completed_chunks"] == 3
-    assert checkpoint["next_obligation_offset"] == 192
-    assert checkpoint["remaining_obligations"] == 255
+    assert checkpoint["completed_chunks"] == 5
+    assert checkpoint["next_obligation_offset"] == 320
+    assert checkpoint["remaining_obligations"] == 127
     assert checkpoint["permanently_stopped"] is False
     assert not any(checkpoint["claims"].values())
     assert _hash_matches(checkpoint) and _hash_matches(status)

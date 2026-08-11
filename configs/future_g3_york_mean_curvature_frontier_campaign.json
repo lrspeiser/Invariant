@@ -1,0 +1,74 @@
+{
+  "schema_version": "sigma-future-g3-york-mean-curvature-frontier-config-1.0",
+  "campaign_id": "future-g3-york-mean-curvature-frontier-20260811",
+  "adapter_source": {
+    "path": "src/sigma_theory_compiler/future_g3_york_mean_curvature_frontier_campaign.py",
+    "file_sha256": "716a81c2013385192b9754b44f4b90b6ffbbc4b05c7ea9e3f53bfe9b2c16e80f"
+  },
+  "bindings": {
+    "predecessor": {
+      "path": "runs/engine/future-g3-nonradial-york-bounded-mean-curvature-no-go-campaign.json",
+      "file_sha256": "dec17893b285171a166203037a7bc74867955412f0e54a184107b9c3db33f8f2",
+      "content_sha256": "3f366eeb681396f8ae2056f4414b31f3d03794473d27ac5f150a8e16f9b9ad0f"
+    },
+    "radial_no_go_source": {
+      "path": "runs/engine/future-g3-radial-lichnerowicz-bvp-no-go-campaign.json",
+      "file_sha256": "a207492d5848e5a2e01b0344903d1110ac901a18a75944807c88bcc8327b0d12",
+      "content_sha256": "0242110785e5475469b05597e06a1965926b6451b21d8f7babc1cd7418db8f9a"
+    },
+    "radial_reduction_source": {
+      "path": "runs/engine/future-g3-radial-conformal-constraint-reduction-campaign.json",
+      "file_sha256": "729e8cf6434bf3c455c8aa8d37cfaa7391be08daf2e903b8fe4533bccb48d3cf",
+      "content_sha256": "468500013c61dabda396a39ede9698c354311b6841cdf8ba1180cc997a1ed47d"
+    }
+  },
+  "frontier_contract": {
+    "retained_geometry_class": "h_ij=psi(x)^4*delta_ij_nonradial_psi_allowed",
+    "retained_York_tensor_scope": "arbitrary_smooth_nonradial_TT_or_longitudinal_or_mixed_A_ij",
+    "retained_scalar_profile": "Pi=v(r)=1/sqrt(1+(r/L)^4)",
+    "transition_length_L": "100",
+    "predecessor_common_kappa_cap": "6/5",
+    "kappa_grid_step": "1/1000",
+    "cap_selection_rule": "largest_nonnegative_kappa_grid_point_with_strict_Green_excess",
+    "next_grid_point_semantics": "comparison_inconclusive_not_solution_or_theory_pass",
+    "AF_conformal_factor_class": "C2_positive_psi_minus_1_equals_O2_r_minus_1",
+    "no_momentum_solution_assumed": true,
+    "no_observation_or_numerical_solver_used": true
+  },
+  "targets": [
+    {
+      "candidate_id": "G3A-8555e529226d13e2e9dacad5",
+      "action_sha256": "4f31eb8efc25f3b28fd56d7d6dc6518461b1624f69f3b51ad8f05e6e7374e8eb",
+      "beta": "33/4000",
+      "kappa_cap": "1211/1000",
+      "next_grid_cap": "303/250",
+      "predecessor_record_content_sha256": "e17983d90b45b3e70e882c7e8c804a4a0ec32285f225ded7ce00147373261202",
+      "predecessor_no_go_content_sha256": "2aaf8fea57df65b4932e0d80669927d3d7bcb50f6281d096d42642165406676c"
+    },
+    {
+      "candidate_id": "G3A-8ec243e6dd285fd92e7b8e0c",
+      "action_sha256": "08f435f45ff8f2333451d5cdad37bf201dfe58d254548ba6ccf5814564b98df0",
+      "beta": "17/2000",
+      "kappa_cap": "1211/1000",
+      "next_grid_cap": "303/250",
+      "predecessor_record_content_sha256": "a7baa7cac2b72dd89a07ee624308b95e5d455644ab762e47280a90a953e43e42",
+      "predecessor_no_go_content_sha256": "390c224db13033546e55493c80f1decd16c7ab774c78225dcb6f37998193d6d6"
+    },
+    {
+      "candidate_id": "G3A-8d3cce39bcb13ba5061eb78b",
+      "action_sha256": "181f6837c6934ff9ffbdba5b32383271704e67781a46b01d86fa31571442da98",
+      "beta": "9/1000",
+      "kappa_cap": "121/100",
+      "next_grid_cap": "1211/1000",
+      "predecessor_record_content_sha256": "976efc22925e93c72592d38fb34f4456ca1db01862a36e050da8d2c8d80a6037",
+      "predecessor_no_go_content_sha256": "ce203e4c8f2114bf4cfc4bc396c5ddb71a9dd32b649c20293c6cf866f36fb91e"
+    }
+  ],
+  "output_path": "runs/engine/future-g3-york-mean-curvature-frontier-campaign.json",
+  "data_eligibility": {
+    "observational_data_opened": false,
+    "dark_matter_or_halo_inputs": false,
+    "redshift_distance_inputs": false,
+    "paid_llm_calls": false
+  }
+}

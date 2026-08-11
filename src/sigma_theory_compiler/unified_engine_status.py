@@ -409,6 +409,9 @@ def build_unified_snapshot(
     future_aether_regular_adm_inverse_margin_gate = sources[
         "future_aether_regular_adm_inverse_margin_gate"
     ]
+    future_aether_weighted_ift_contract_gate = sources[
+        "future_aether_weighted_ift_contract_gate"
+    ]
     future_g3_domain_followup = sources["future_g3_domain_followup"]
     future_g3_action_bound_followup = sources["future_g3_action_bound_followup"]
     future_g3_af_transition_obstruction = sources["future_g3_af_transition_obstruction"]
@@ -419,6 +422,9 @@ def build_unified_snapshot(
     future_g3_radial_lichnerowicz_bvp_no_go = sources["future_g3_radial_lichnerowicz_bvp_no_go"]
     future_g3_nonradial_york_bounded_mean_curvature_no_go = sources[
         "future_g3_nonradial_york_bounded_mean_curvature_no_go"
+    ]
+    future_g3_york_mean_curvature_frontier = sources[
+        "future_g3_york_mean_curvature_frontier"
     ]
     future_candidate_action_dossier = sources["future_candidate_action_dossier"]
     g3_candidate_formal = sources["grammar_v3_g3_candidate_formal"]
@@ -455,7 +461,8 @@ def build_unified_snapshot(
         "quartic_tc2_mixed_third_jet_reranked_reduction"
     ]
     quartic_tc2_reranked_obligation_chunks = tuple(
-        sources[f"quartic_tc2_reranked_obligation_chunk_{offset}"] for offset in (0, 64, 128)
+        sources[f"quartic_tc2_reranked_obligation_chunk_{offset}"]
+        for offset in (0, 64, 128, 192, 256)
     )
     quartic_tc2_reranked_obligation_checkpoint = sources[
         "quartic_tc2_reranked_obligation_checkpoint"
@@ -1254,6 +1261,75 @@ def build_unified_snapshot(
     ):
         raise ValueError("future Aether regular-ADM inverse-margin gate is inconsistent")
     if (
+        future_aether_weighted_ift_contract_gate.get("candidate_count") != 14
+        or future_aether_weighted_ift_contract_gate.get("decision_counts") != {"blocked": 14}
+        or future_aether_weighted_ift_contract_gate.get("regular_ADM_candidate_count") != 3
+        or future_aether_weighted_ift_contract_gate.get("forced_characteristic_candidate_count")
+        != 11
+        or future_aether_weighted_ift_contract_gate.get(
+            "reference_conformal_York_Aether_block_control_count"
+        )
+        != 3
+        or future_aether_weighted_ift_contract_gate.get(
+            "typed_weighted_operator_contract_complete_count"
+        )
+        != 0
+        or future_aether_weighted_ift_contract_gate.get(
+            "full_weighted_operator_isomorphism_pass_count"
+        )
+        != 0
+        or future_aether_weighted_ift_contract_gate.get(
+            "nonlinear_remainder_bound_pass_count"
+        )
+        != 0
+        or future_aether_weighted_ift_contract_gate.get(
+            "completed_boundary_sign_persistence_count"
+        )
+        != 0
+        or future_aether_weighted_ift_contract_gate.get(
+            "constraint_satisfying_negative_total_energy_datum_count"
+        )
+        != 0
+        or future_aether_weighted_ift_contract_gate.get("formal_pass_count") != 0
+        or future_aether_weighted_ift_contract_gate.get("candidate_rejection_authorized_count")
+        != 0
+        or future_aether_weighted_ift_contract_gate.get("first_blocker_counts")
+        != {
+            "candidate_bound_gauge_fixed_weighted_constraint_operator_norm_contract_with_nonlinear_remainder_and_completed_boundary_majorants": 3,
+            "noncharacteristic_foliation_or_compact_negative_seed_avoiding_forced_ADM_Legendre_characteristic_crossing": 11,
+        }
+        or set(future_aether_weighted_ift_contract_gate.get("missing_contract_field_counts", {}))
+        != {
+            "weight_delta",
+            "domain_space",
+            "codomain_space",
+            "gauge_fixing",
+            "full_linearized_constraint_map",
+            "reference_inverse_norm",
+            "operator_perturbation_norm",
+            "seed_nonlinear_constraint_residual_norm",
+            "nonlinear_second_derivative_majorant",
+            "completed_boundary_first_derivative_bound",
+            "completed_boundary_second_derivative_bound",
+        }
+        or any(
+            count != 3
+            for count in future_aether_weighted_ift_contract_gate.get(
+                "missing_contract_field_counts", {}
+            ).values()
+        )
+        or future_aether_weighted_ift_contract_gate.get("source_inverse_margin_binding", {}).get(
+            "content_sha256"
+        )
+        != future_aether_regular_adm_inverse_margin_gate.get("content_sha256")
+        or future_aether_weighted_ift_contract_gate.get("observational_data_opened") is not False
+        or future_aether_weighted_ift_contract_gate.get("dark_matter_or_halo_inputs") is not False
+        or future_aether_weighted_ift_contract_gate.get("redshift_distance_inputs") is not False
+        or future_aether_weighted_ift_contract_gate.get("paid_llm_spend_usd") != 0.0
+        or len(future_aether_weighted_ift_contract_gate.get("candidate_records", [])) != 14
+    ):
+        raise ValueError("future Aether weighted-IFT contract gate is inconsistent")
+    if (
         future_g3_domain_followup.get("candidate_count") != 3
         or future_g3_domain_followup.get("decision_counts") != {"blocked": 3}
         or future_g3_domain_followup.get("all_direction_single_center_pass_count") != 3
@@ -1506,6 +1582,48 @@ def build_unified_snapshot(
     ):
         raise ValueError("future G3 nonradial York no-go is inconsistent")
     if (
+        future_g3_york_mean_curvature_frontier.get("candidate_count") != 3
+        or future_g3_york_mean_curvature_frontier.get("decision_counts") != {"blocked": 3}
+        or future_g3_york_mean_curvature_frontier.get(
+            "candidate_millicap_frontier_registration_pass_count"
+        )
+        != 3
+        or future_g3_york_mean_curvature_frontier.get(
+            "strict_extension_beyond_kappa_6_over_5_pass_count"
+        )
+        != 3
+        or future_g3_york_mean_curvature_frontier.get(
+            "expanded_nonradial_York_class_reject_count"
+        )
+        != 3
+        or future_g3_york_mean_curvature_frontier.get("next_grid_cap_inconclusive_count") != 3
+        or future_g3_york_mean_curvature_frontier.get(
+            "candidate_nontrivial_AF_Einstein_constraint_solution_pass_count"
+        )
+        != 0
+        or future_g3_york_mean_curvature_frontier.get(
+            "global_hamiltonian_energy_pass_count"
+        )
+        != 0
+        or future_g3_york_mean_curvature_frontier.get("full_formal_pass_count") != 0
+        or future_g3_york_mean_curvature_frontier.get("theory_reject_count") != 0
+        or future_g3_york_mean_curvature_frontier.get("first_blocker_counts")
+        != {
+            "candidate_specific_nontrivial_AF_Einstein_constraint_solution_beyond_registered_millicap_conformally_flat_York_class": 3
+        }
+        or future_g3_york_mean_curvature_frontier.get("source_bindings", {})
+        .get("predecessor", {})
+        .get("content_sha256")
+        != future_g3_nonradial_york_bounded_mean_curvature_no_go.get("content_sha256")
+        or future_g3_york_mean_curvature_frontier.get("synthetic_fixture_role") != "none_used"
+        or future_g3_york_mean_curvature_frontier.get("observational_data_opened") is not False
+        or future_g3_york_mean_curvature_frontier.get("dark_matter_or_halo_inputs") is not False
+        or future_g3_york_mean_curvature_frontier.get("redshift_distance_inputs") is not False
+        or future_g3_york_mean_curvature_frontier.get("paid_llm_spend_usd") != 0.0
+        or len(future_g3_york_mean_curvature_frontier.get("candidate_records", [])) != 3
+    ):
+        raise ValueError("future G3 York mean-curvature frontier is inconsistent")
+    if (
         future_candidate_action_dossier.get("candidate_count") != 19
         or future_candidate_action_dossier.get("family_counts")
         != {
@@ -1522,9 +1640,9 @@ def build_unified_snapshot(
         or future_candidate_action_dossier.get("source_roots", {}).get(
             "aether_followup_content_sha256"
         )
-        != future_aether_regular_adm_inverse_margin_gate.get("content_sha256")
+        != future_aether_weighted_ift_contract_gate.get("content_sha256")
         or future_candidate_action_dossier.get("source_roots", {}).get("g3_followup_content_sha256")
-        != future_g3_nonradial_york_bounded_mean_curvature_no_go.get("content_sha256")
+        != future_g3_york_mean_curvature_frontier.get("content_sha256")
         or len(future_candidate_action_dossier.get("dossiers", [])) != 19
         or any(
             record.get("comparison_contract", {}).get("rank") is not None
@@ -2381,7 +2499,9 @@ def build_unified_snapshot(
     reranked_prior_resume = "1c979dd6037a9841ef6dc7d506ecb2b51d3b42bec18a5655d0c7bc6acbe7fb5b"
     reranked_total_processed = 0
     reranked_candidate_evaluations = 0
-    for offset, artifact in zip((0, 64, 128), quartic_tc2_reranked_obligation_chunks, strict=True):
+    for offset, artifact in zip(
+        (0, 64, 128, 192, 256), quartic_tc2_reranked_obligation_chunks, strict=True
+    ):
         contract = artifact.get("chunk_contract", {})
         counts = artifact.get("counts", {})
         ledger = artifact.get("closure_ledger", {})
@@ -2433,11 +2553,11 @@ def build_unified_snapshot(
         reranked_candidate_evaluations += counts["candidate_evaluations"]
     reranked_latest = quartic_tc2_reranked_obligation_chunks[-1]
     if (
-        reranked_total_processed != 192
-        or reranked_candidate_evaluations != 2_304
-        or quartic_tc2_reranked_obligation_checkpoint.get("completed_chunks") != 3
-        or quartic_tc2_reranked_obligation_checkpoint.get("next_obligation_offset") != 192
-        or quartic_tc2_reranked_obligation_checkpoint.get("remaining_obligations") != 255
+        reranked_total_processed != 320
+        or reranked_candidate_evaluations != 3_840
+        or quartic_tc2_reranked_obligation_checkpoint.get("completed_chunks") != 5
+        or quartic_tc2_reranked_obligation_checkpoint.get("next_obligation_offset") != 320
+        or quartic_tc2_reranked_obligation_checkpoint.get("remaining_obligations") != 127
         or quartic_tc2_reranked_obligation_checkpoint.get("current_artifact_content_sha256")
         != reranked_latest.get("content_sha256")
         or quartic_tc2_reranked_obligation_checkpoint.get("prior_resume_sha256")
@@ -2446,8 +2566,8 @@ def build_unified_snapshot(
         != quartic_tc2_mixed_third_jet_reranked_reduction.get("content_sha256")
         or quartic_tc2_reranked_obligation_status.get("checkpoint_content_sha256")
         != quartic_tc2_reranked_obligation_checkpoint.get("content_sha256")
-        or quartic_tc2_reranked_obligation_status.get("next_obligation_offset") != 192
-        or quartic_tc2_reranked_obligation_status.get("remaining_obligations") != 255
+        or quartic_tc2_reranked_obligation_status.get("next_obligation_offset") != 320
+        or quartic_tc2_reranked_obligation_status.get("remaining_obligations") != 127
         or quartic_tc2_reranked_obligation_status.get("decision") != "checkpointed"
         or quartic_tc2_reranked_obligation_status.get("permanently_stopped") is not False
         or any(
@@ -2973,10 +3093,10 @@ def build_unified_snapshot(
                     },
                     "family_followup": {
                         "aether": {
-                            "candidate_count": future_aether_regular_adm_inverse_margin_gate[
+                            "candidate_count": future_aether_weighted_ift_contract_gate[
                                 "candidate_count"
                             ],
-                            "decision_counts": future_aether_regular_adm_inverse_margin_gate[
+                            "decision_counts": future_aether_weighted_ift_contract_gate[
                                 "decision_counts"
                             ],
                             "formal_pass_count": 0,
@@ -3058,14 +3178,20 @@ def build_unified_snapshot(
                             "strict_negative_source_margin_pass_count": future_aether_regular_adm_inverse_margin_gate[
                                 "strict_negative_source_margin_pass_count"
                             ],
-                            "weighted_full_constraint_operator_isomorphism_pass_count": future_aether_regular_adm_inverse_margin_gate[
-                                "weighted_full_constraint_operator_isomorphism_pass_count"
+                            "typed_weighted_operator_contract_complete_count": future_aether_weighted_ift_contract_gate[
+                                "typed_weighted_operator_contract_complete_count"
                             ],
-                            "nonlinear_Frechet_remainder_bound_pass_count": future_aether_regular_adm_inverse_margin_gate[
-                                "nonlinear_Frechet_remainder_bound_pass_count"
+                            "weighted_full_constraint_operator_isomorphism_pass_count": future_aether_weighted_ift_contract_gate[
+                                "full_weighted_operator_isomorphism_pass_count"
                             ],
-                            "completed_boundary_sign_persistence_count": future_aether_regular_adm_inverse_margin_gate[
+                            "nonlinear_Frechet_remainder_bound_pass_count": future_aether_weighted_ift_contract_gate[
+                                "nonlinear_remainder_bound_pass_count"
+                            ],
+                            "completed_boundary_sign_persistence_count": future_aether_weighted_ift_contract_gate[
                                 "completed_boundary_sign_persistence_count"
+                            ],
+                            "missing_weighted_contract_field_counts": future_aether_weighted_ift_contract_gate[
+                                "missing_contract_field_counts"
                             ],
                             "finite_amplitude_nonlinear_constraint_completion_count": future_aether_nonlinear_lift_characteristic_gate[
                                 "full_nonlinear_constraint_completion_count"
@@ -3073,18 +3199,18 @@ def build_unified_snapshot(
                             "c2_plus_c3_counts": future_aether_weak_field_ae_constraint_gate[
                                 "c2_plus_c3_counts"
                             ],
-                            "first_blocker_counts": future_aether_regular_adm_inverse_margin_gate[
+                            "first_blocker_counts": future_aether_weighted_ift_contract_gate[
                                 "first_blocker_counts"
                             ],
-                            "candidate_rejection_authorized_count": future_aether_regular_adm_inverse_margin_gate[
+                            "candidate_rejection_authorized_count": future_aether_weighted_ift_contract_gate[
                                 "candidate_rejection_authorized_count"
                             ],
                         },
                         "g3": {
-                            "candidate_count": future_g3_nonradial_york_bounded_mean_curvature_no_go[
+                            "candidate_count": future_g3_york_mean_curvature_frontier[
                                 "candidate_count"
                             ],
-                            "decision_counts": future_g3_nonradial_york_bounded_mean_curvature_no_go[
+                            "decision_counts": future_g3_york_mean_curvature_frontier[
                                 "decision_counts"
                             ],
                             "all_direction_single_center_pass_count": future_g3_domain_followup[
@@ -3156,19 +3282,31 @@ def build_unified_snapshot(
                             "conformally_flat_bounded_mean_curvature_York_class_reject_count": future_g3_nonradial_york_bounded_mean_curvature_no_go[
                                 "conformally_flat_bounded_mean_curvature_York_class_reject_count"
                             ],
+                            "candidate_millicap_frontier_registration_pass_count": future_g3_york_mean_curvature_frontier[
+                                "candidate_millicap_frontier_registration_pass_count"
+                            ],
+                            "strict_extension_beyond_kappa_6_over_5_pass_count": future_g3_york_mean_curvature_frontier[
+                                "strict_extension_beyond_kappa_6_over_5_pass_count"
+                            ],
+                            "expanded_nonradial_York_class_reject_count": future_g3_york_mean_curvature_frontier[
+                                "expanded_nonradial_York_class_reject_count"
+                            ],
+                            "next_grid_cap_inconclusive_count": future_g3_york_mean_curvature_frontier[
+                                "next_grid_cap_inconclusive_count"
+                            ],
                             "asymptotically_flat_Dirac_pass_count": future_g3_af_transition_obstruction[
                                 "AF_unitary_lapse_Dirac_pass_count"
                             ],
-                            "AF_Einstein_constraint_solution_pass_count": future_g3_nonradial_york_bounded_mean_curvature_no_go[
+                            "AF_Einstein_constraint_solution_pass_count": future_g3_york_mean_curvature_frontier[
                                 "candidate_nontrivial_AF_Einstein_constraint_solution_pass_count"
                             ],
-                            "global_energy_pass_count": future_g3_nonradial_york_bounded_mean_curvature_no_go[
+                            "global_energy_pass_count": future_g3_york_mean_curvature_frontier[
                                 "global_hamiltonian_energy_pass_count"
                             ],
-                            "full_formal_pass_count": future_g3_nonradial_york_bounded_mean_curvature_no_go[
+                            "full_formal_pass_count": future_g3_york_mean_curvature_frontier[
                                 "full_formal_pass_count"
                             ],
-                            "first_blocker_counts": future_g3_nonradial_york_bounded_mean_curvature_no_go[
+                            "first_blocker_counts": future_g3_york_mean_curvature_frontier[
                                 "first_blocker_counts"
                             ],
                         },
@@ -3280,7 +3418,7 @@ def build_unified_snapshot(
                 )
             },
             "first_missing_premise": (
-                "evaluate_remaining_255_reranked_mixed_third_sylvester_obligations_then_"
+                "evaluate_remaining_127_reranked_mixed_third_sylvester_obligations_then_"
                 "fourth_and_higher_remainder_or_nonlinear_range_theorem"
             ),
         },

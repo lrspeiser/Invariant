@@ -343,9 +343,11 @@ static source monopole and a negative frozen-source linearized boundary coeffici
 characteristic-shell analysis shows that 11 seed families cross a characteristic shell before the
 proved negativity threshold; two have certified characteristic-free negative windows and one is
 globally noncharacteristic. Those three now also have exact uniform Aether Legendre-sector inverse
-bounds and strict negative source-energy margins. They still lack a full weighted elliptic
-constraint-operator isomorphism, nonlinear Frechet remainder control, and completed-boundary sign
-persistence; the other 11 retain the forced-characteristic blocker. Blocked is not theory
+bounds and strict negative source-energy margins. A typed weighted-IFT gate records the exact
+candidate-bound contract still needed: domain and codomain, gauge fixing, the full linearized map,
+inverse and perturbation norms, nonlinear residual and second-derivative bounds, plus first and
+second completed-boundary derivative majorants. All 11 fields remain absent for each candidate and
+no constants are assumed; the other 11 retain the forced-characteristic blocker. Blocked is not theory
 rejection. The three cubic-G3 actions now have all
 36 action-bound componentwise fields registered and pass direct uniform principal/common-cone,
 exact lapse-coercivity, and periodic `L2(T3)` Dirac gates. Each also has a smooth action-bound
@@ -361,8 +363,10 @@ the Hamiltonian constraint to a positive-source Lichnerowicz BVP. An exact integ
 proves that none of the three BVPs has a positive global solution with `psi -> 1`; this rejects the
 ansatz, not the actions. Exact Hamiltonian reduction and a nonradial Green comparison extend this
 no-go to positive nonradial conformal factors with arbitrary smooth trace-free York tensors,
-including TT, longitudinal, and mixed pieces, whenever `|K| <= (6/5)v`. Non-conformally-flat
-geometry, larger mean curvature, or different scalar data remain open. Candidate-specific
+including TT, longitudinal, and mixed pieces. An exact `1/1000`-grid frontier extends the certified
+mean-curvature caps from `1.2v` to `1.211v`, `1.211v`, and `1.210v` for the three candidates; each
+next grid point is inconclusive. Non-conformally-flat geometry, larger mean curvature, or different
+scalar data remain open. Candidate-specific
 nontrivial AF solutions outside that enlarged ansatz class, global
 energy, and full formal passes remain blocked.
 All 163 current scalable action formulas also render, parse, and canonicalise in a single bounded
@@ -1180,8 +1184,8 @@ and commit or infer no record after a first obstruction. The supervisor stopped 
 limit with a durable checkpoint at offset 1,600. Although 10,700 lexicographic triples remain
 unevaluated, the 41 active directions span an exact rank-15 space: the frozen evidence has rank
 233/680 and a proved minimal complement contains 447 obligations (5,364 candidate checks). None of
-those obligations is inferred passed. A restart-safe selective service has now evaluated 192/447
-of that exact complement and all 2,304 candidate systems without obstruction; 255 obligations
+those obligations is inferred passed. A restart-safe selective service has now evaluated 320/447
+of that exact complement and all 3,840 candidate systems without obstruction; 127 obligations
 remain. Atomic checkpoints, orphan adoption, bounded eight-worker execution, and zero
 post-obstruction commits are enforced. Full tube, CK1, CK3, TC2, B7, global-H7, and lifespan claims
 remain fail-closed.
