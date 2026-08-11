@@ -2,6 +2,8 @@ import json
 import shutil
 from pathlib import Path
 
+import pytest
+
 from sigma_theory_compiler.quartic_tc2_diagonal_third_jet_campaign import _content_hash
 from sigma_theory_compiler.quartic_tc2_fourth_jet_obligation_service import (
     CHUNK_SCHEMA,
@@ -14,6 +16,9 @@ from sigma_theory_compiler.quartic_tc2_fourth_jet_obligation_service import (
     _initial_resume_sha256,
     _validate_chunk_result,
     run_fourth_jet_obligation_service,
+)
+from sigma_theory_compiler.quartic_tc2_fourth_jet_parallel_kernel import (
+    QuarticTC2FourthJetParallelKernelError,
 )
 from sigma_theory_compiler.quartic_tc2_mixed_third_jet_continuation_service import (
     _with_hash,
@@ -237,6 +242,25 @@ def test_first_obstruction_is_permanent_and_has_no_post_records(tmp_path: Path) 
     assert repeated["chunks_advanced"] == 0
 
 
+def test_infrastructure_failure_commits_no_lifecycle_state(tmp_path: Path) -> None:
+    def failed_executor(*args: object) -> dict:
+        raise QuarticTC2FourthJetParallelKernelError(
+            "directional recurrence failed in mandatory orders one through three"
+        )
+
+    output = tmp_path / "infrastructure-failure"
+    with pytest.raises(
+        QuarticTC2FourthJetParallelKernelError,
+        match="mandatory orders one through three",
+    ):
+        run_fourth_jet_obligation_service(
+            ROOT, CONFIG_PATH, output, executor=failed_executor
+        )
+    assert not (output / "checkpoint.json").exists()
+    assert not (output / "service-status.json").exists()
+    assert not (output / "chunks" / "obligation-offset-000000.json").exists()
+
+
 def test_exact_final_tail_is_twenty_without_padding() -> None:
     config, campaign, _, candidates = _inputs()
     dynamic = _chunk_config(config, campaign, 3_040, FINAL_TAIL_SIZE, "f" * 64)
@@ -247,7 +271,7 @@ def test_exact_final_tail_is_twenty_without_padding() -> None:
     assert result["counts"]["fourth_obligations_remaining"] == 0
 
 
-def test_committed_initial_exact_chunk_and_checkpoint_are_valid() -> None:
+def test_two_committed_exact_chunks_and_checkpoint_are_valid() -> None:
     config, campaign, predecessor, candidates = _inputs()
     artifact = json.loads(
         (OUTPUT / "chunks" / "obligation-offset-000000.json").read_text()
@@ -271,10 +295,36 @@ def test_committed_initial_exact_chunk_and_checkpoint_are_valid() -> None:
         "selected": 32,
         "symbolic_parameter_compatible": 32,
     }
-    assert checkpoint["next_obligation_offset"] == 32
-    assert checkpoint["remaining_obligations"] == 3_028
+    second = json.loads(
+        (OUTPUT / "chunks" / "obligation-offset-000032.json").read_text()
+    )
+    second_dynamic = _chunk_config(
+        config,
+        campaign,
+        32,
+        32,
+        artifact["chunk_contract"]["resume_tip_sha256"],
+    )
+    _validate_chunk_result(second, second_dynamic, campaign, candidates)
+    assert second["content_sha256"] == (
+        "b6e03be15c3bfdceb69e71918b12eae0d117009ad43617830f6364ff886b4ee1"
+    )
+    assert second["counts"] == {
+        "candidate_evaluations": 384,
+        "candidate_obstructed": 0,
+        "candidate_solvable": 384,
+        "directional_evaluations": 346,
+        "fourth_obligations_inferred_passed": 0,
+        "fourth_obligations_remaining": 2_996,
+        "partition_counts": {"AABB": 2, "AABC": 30},
+        "selected": 32,
+        "symbolic_parameter_compatible": 32,
+    }
+    assert checkpoint["completed_chunks"] == 2
+    assert checkpoint["next_obligation_offset"] == 64
+    assert checkpoint["remaining_obligations"] == 2_996
     assert checkpoint["prior_resume_sha256"] == (
-        "ee92d51ead9229b3ba4381496ab45049ded2b9e72f42b0c8eb9f9f7a92e1e254"
+        "82261f7d53a122efd79ce799539a018aca1db523a76f77c6e761d978c39d8da5"
     )
     assert checkpoint["permanently_stopped"] is False
     assert not any(checkpoint["claims"].values())

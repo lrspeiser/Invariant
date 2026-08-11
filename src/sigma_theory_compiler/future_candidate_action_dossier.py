@@ -208,7 +208,7 @@ def build_future_candidate_action_dossier(
             followup = aether_records.get(candidate_id)
             if (
                 followup is None
-                or followup["provenance"]["typed_action_ir_sha256"] != action["content_sha256"]
+                or followup["typed_action_ir_sha256"] != action["content_sha256"]
             ):
                 raise ValueError("future Aether dossier binding changed")
             decision = followup["decision"]
@@ -232,10 +232,14 @@ def build_future_candidate_action_dossier(
                 "diagonal is zero-dimensional and the 4x3 Aether off-diagonal principal columns "
                 "vanish. Augmenting the four York unknowns with delta A instead produces a 4x7 "
                 "symbol with a three-dimensional kernel. The actual finite-tilt metric-momentum-to-"
-                "York principal coefficients from the distributed Legendre map remain unregistered, "
-                "so no full ellipticity, Fredholm/isomorphism, inverse-norm, nonlinear-remainder, or "
-                "completed-boundary sign theorem is inferred. The other 11 retain the "
-                "forced-characteristic blocker. Blocked is not rejection."
+                "York principal symbol from the distributed Legendre map is now exact. One of the "
+                "three regular candidates is uniformly principal elliptic throughout its registered "
+                "seed and advances to weighted Fredholm and lower-order bounds. The other two cross "
+                "exact perpendicular-covector York-variable shells; this rejects only K_ij=(L_X)_ij "
+                "as their global completion variable, leaving an alternative canonical momentum or "
+                "gauge open. No full Fredholm/isomorphism, inverse-norm, nonlinear-remainder, or "
+                "completed-boundary sign theorem is inferred. The other 11 retain the forced-"
+                "characteristic blocker. Blocked is not rejection."
             )
         else:
             followup = g3_records.get(candidate_id)
@@ -251,13 +255,14 @@ def build_future_candidate_action_dossier(
                 "BSSN/Bona-Masso principal gates pass. The prior radial conformal/pure-trace "
                 "Lichnerowicz no-go is now extended to positive nonradial conformal factors and "
                 "arbitrary smooth trace-free York tensors, including TT, longitudinal, and mixed "
-                "pieces. The latest exact compensation theorem removes the pointwise |K|/v cap for "
-                "the tracefree-compensated subclass: whenever A^2 supplies the declared deficit, the "
-                "Hamiltonian source retains the strict Green-comparison lower bound. This excludes "
-                "that full compensated conformally-flat York class. Explicit outside-threshold "
-                "controls establish that the extended domain is nonempty, but do not solve momentum "
-                "or infer an AF solution. Undercompensated data and non-conformally-flat geometry "
-                "remain open; a candidate-specific nontrivial AF constraint solution, "
+                "pieces. The exact compensation theorem removes the pointwise |K|/v cap for the "
+                "tracefree-compensated subclass. The latest theorem then removes conformal flatness "
+                "itself: for any smooth complete AF three-geometry, including unrestricted nonzero "
+                "Cotton tensor, one finite point with R3/v^2 below c_star=1536/1953125 is incompatible "
+                "with the compensated Hamiltonian source. The exact endpoint is inconclusive, and an "
+                "above-threshold control is not excluded. No nonconformally-flat metric or momentum "
+                "solution is constructed, so a candidate-specific datum outside the curvature-"
+                "shortfall class, "
                 "global energy, and full formal completion are unproved. No action or theory is "
                 "rejected."
             )

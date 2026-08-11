@@ -347,9 +347,12 @@ bounds and strict negative source-energy margins. A typed weighted-IFT gate firs
 candidate-bound contract still needed. Those three now advance through a concrete Bartnik-style
 `H2_-1/2 -> L2_-5/2` metric reference operator: its direction-independent spectrum is
 `(2,2,8/3,4)`, determinant `128/3`, ellipticity margin `2`, and decaying scalar/York kernel is
-trivial. The candidate-bound Aether constraint-variable block and its off-diagonal principal symbol
-are still absent, so the full Fredholm inverse, nonlinear remainder, and completed-boundary sign
-remain blocked; the other 11 retain the forced-characteristic blocker. Blocked is not theory
+trivial. The positive-unit-branch audit then proves that the Aether variables are fixed free data,
+not extra second-order elliptic unknowns. The exact finite-tilt metric-to-York symbol is now derived
+for all three regular candidates. One remains uniformly principal elliptic throughout its registered
+seed; two cross exact perpendicular-covector York shells, rejecting only `K_ij=(L_X)_ij` as their
+global completion variable. The full weighted Fredholm inverse, lower-order coefficient bounds,
+nonlinear remainder, and completed-boundary sign remain blocked; the other 11 retain the forced-characteristic blocker. Blocked is not theory
 rejection. The three cubic-G3 actions now have all
 36 action-bound componentwise fields registered and pass direct uniform principal/common-cone,
 exact lapse-coercivity, and periodic `L2(T3)` Dirac gates. Each also has a smooth action-bound
@@ -369,9 +372,12 @@ including TT, longitudinal, and mixed pieces. The grid frontier is now replaced 
 thresholds at approximately `1.21195072978967v`, `1.21157957756480v`, and `1.21083761765291v`.
 Each is the unique positive root of the registered monotone Green-comparison polynomial, and the
 closed endpoint is also excluded by a strict interior source/kernel inequality; rational points
-above each root remain comparison-inconclusive. Non-conformally-flat geometry, larger mean curvature, or different
-scalar data remain open. Candidate-specific
-nontrivial AF solutions outside that enlarged ansatz class, global
+above each root remain comparison-inconclusive. Exact tracefree compensation removes the pointwise
+mean-curvature cap, and the latest pointwise theorem removes conformal flatness entirely: for any
+smooth complete AF three-geometry, including unrestricted Cotton tensor, a finite point with
+`R3/v^2 < 1536/1953125` is incompatible with the compensated Hamiltonian source. The exact endpoint
+and above-threshold geometries remain inconclusive, and no nonconformally-flat metric or momentum
+solution is constructed. Candidate-specific nontrivial AF solutions outside that curvature-shortfall class, global
 energy, and full formal passes remain blocked.
 All 163 current scalable action formulas also render, parse, and canonicalise in a single bounded
 Cadabra 2.4.5.4 batch inside isolated user and network namespaces. That closes the general
@@ -1195,6 +1201,14 @@ checkpoints, orphan adoption, bounded eight-worker execution, and zero post-obst
 enforced. This remains a reference Taylor result: fourth-and-higher remainder control or a nonlinear
 range theorem is still required, and full tube, CK1, CK3, TC2, B7, global-H7, and lifespan claims
 remain fail-closed.
+
+The next exact range selector contains 3,060 fourth-order obligations on the same rank-15 active
+space. Its restart-safe eight-worker service has closed the first 64 obligations and all 768/768
+candidate systems with no obstruction; 2,996 remain. Orders one through three are mandatory
+zero-residual prerequisites. A fourth-order incompatibility is retained as a mathematical RHS and
+must flow through permanent obstruction semantics rather than being misreported as infrastructure
+failure. No unevaluated obligation is inferred passed, and fourth-order progress does not promote
+the still-false full-tube, CK1, CK3, TC2, B7, global-H7, or lifespan claims.
 
 The tube bounds 153 normalized coordinate atoms: ten metric deviations, 44 first partials,
 and 99 acceleration-free symmetric second partials. The exact orthonormal metric-basis identity

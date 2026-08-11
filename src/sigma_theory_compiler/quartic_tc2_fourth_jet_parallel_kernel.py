@@ -54,11 +54,12 @@ def _directional_fourth_payload(
         )
     finally:
         directional_engine.TAYLOR_ORDER = prior_order
-    if len(packet["orders"]) != JET_ORDER or not all(
-        order["solvable"] and order["residual_zero"] for order in packet["orders"]
+    lower_orders = packet["orders"][: JET_ORDER - 1]
+    if len(packet["orders"]) != JET_ORDER or len(lower_orders) != 3 or not all(
+        order["solvable"] and order["residual_zero"] for order in lower_orders
     ):
         raise QuarticTC2FourthJetParallelKernelError(
-            "directional recurrence failed before fourth polarization"
+            "directional recurrence failed in mandatory orders one through three"
         )
     multiplier = sp.Integer(24)
     return {

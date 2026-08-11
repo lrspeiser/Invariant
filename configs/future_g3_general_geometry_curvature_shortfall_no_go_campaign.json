@@ -1,0 +1,74 @@
+{
+  "schema_version": "sigma-future-g3-general-geometry-curvature-shortfall-no-go-config-1.0",
+  "campaign_id": "future-g3-general-geometry-curvature-shortfall-no-go-20260811",
+  "adapter_source": {
+    "path": "src/sigma_theory_compiler/future_g3_general_geometry_curvature_shortfall_no_go_campaign.py",
+    "file_sha256": "14672b4035804bcf347f8f7685403b55dd1e1d6aad41a5ff99496009a8f8ace1"
+  },
+  "bindings": {
+    "predecessor": {
+      "path": "runs/engine/future-g3-york-tracefree-compensation-no-go-campaign.json",
+      "file_sha256": "bf32d1aa6ee37a3666ee35ab6d3a03250afd9a14433fd100cf4326fc2b50b764",
+      "content_sha256": "33cb23399cd5c0739ffb8e86dd59d554f09030b7918e3ff42933074db432356b"
+    },
+    "analytic_threshold_source": {
+      "path": "runs/engine/future-g3-york-analytic-mean-curvature-threshold-campaign.json",
+      "file_sha256": "3566816d29783f07b7361ea7e965e3cc0d45e8b7f4bb9291d2020dc55bbabd65",
+      "content_sha256": "911425c0710df598caa6a6f4021620a75559f089ad7b034ccdc9887af1e6ef70"
+    }
+  },
+  "general_geometry_contract": {
+    "geometry_class": "arbitrary_smooth_complete_AF_three_metric_h_ij",
+    "conformal_flatness_required": false,
+    "Cotton_tensor_scope": "unrestricted_may_be_nonzero",
+    "York_decomposition": "K_ij=A_ij+(K/3)*h_ij_with_h_trace(A)=0",
+    "mean_curvature_scope": "arbitrary_smooth_AF_K_with_no_pointwise_cap",
+    "scalar_profile": "Pi=v(r)=1/sqrt(1+(r/L)^4)_in_registered_AF_chart",
+    "source_factor_threshold": "c_star=1536/1953125",
+    "compensation_condition": "A_ij*A^ij>=max(0,(2/3)*K^2-2*beta*K*v^3-(1-c_star)*v^2)",
+    "curvature_shortfall_domain": "exists_finite_x_star_with_R3(x_star)/v(x_star)^2<c_star",
+    "endpoint_semantics": "R3/v^2=c_star_is_inconclusive_if_source_also_saturates",
+    "above_threshold_semantics": "not_excluded_by_this_pointwise_theorem",
+    "momentum_semantics": "Hamiltonian_no_go_independent_of_whether_momentum_equation_closes",
+    "no_observation_or_numerical_solver_used": true
+  },
+  "targets": [
+    {
+      "candidate_id": "G3A-8555e529226d13e2e9dacad5",
+      "action_sha256": "4f31eb8efc25f3b28fd56d7d6dc6518461b1624f69f3b51ad8f05e6e7374e8eb",
+      "beta": "33/4000",
+      "below_threshold_control_ratio": "768/1953125",
+      "endpoint_control_ratio": "1536/1953125",
+      "above_threshold_control_ratio": "1537/1953125",
+      "predecessor_record_content_sha256": "cbe0d892e3baf5a8e91ff7496b842d30f6fa37b83bb82f5f24f5a9b4f6fc44df",
+      "predecessor_compensation_content_sha256": "0996cab1eb45f15e57a9726b346ae381f607ea6a995a2e2c8c559e58e796d41d"
+    },
+    {
+      "candidate_id": "G3A-8ec243e6dd285fd92e7b8e0c",
+      "action_sha256": "08f435f45ff8f2333451d5cdad37bf201dfe58d254548ba6ccf5814564b98df0",
+      "beta": "17/2000",
+      "below_threshold_control_ratio": "768/1953125",
+      "endpoint_control_ratio": "1536/1953125",
+      "above_threshold_control_ratio": "1537/1953125",
+      "predecessor_record_content_sha256": "26fd4abb0e12cb760dfaf97d2d370485e21e6120c773df6453ce0a21f986e385",
+      "predecessor_compensation_content_sha256": "ba1b0267294ab580504b4c0a52f406c3c943b6fe7b75bd3788126679cea3d256"
+    },
+    {
+      "candidate_id": "G3A-8d3cce39bcb13ba5061eb78b",
+      "action_sha256": "181f6837c6934ff9ffbdba5b32383271704e67781a46b01d86fa31571442da98",
+      "beta": "9/1000",
+      "below_threshold_control_ratio": "768/1953125",
+      "endpoint_control_ratio": "1536/1953125",
+      "above_threshold_control_ratio": "1537/1953125",
+      "predecessor_record_content_sha256": "2f6eb909c228a921a171189911309a6886c1b13ba74c5fc2bd06128914029221",
+      "predecessor_compensation_content_sha256": "8d63a256a29e91b9415d05e4ef754dc0073471a6813798a82920f91a4c800f9a"
+    }
+  ],
+  "output_path": "runs/engine/future-g3-general-geometry-curvature-shortfall-no-go-campaign.json",
+  "data_eligibility": {
+    "observational_data_opened": false,
+    "dark_matter_or_halo_inputs": false,
+    "redshift_distance_inputs": false,
+    "paid_llm_calls": false
+  }
+}

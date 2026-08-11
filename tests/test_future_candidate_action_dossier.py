@@ -88,11 +88,12 @@ def test_proof_hierarchy_distinguishes_formula_formal_and_observation_scope() ->
     assert len(g3_records) == 3
     assert all(
         record["first_blocker"]
-        == "candidate_specific_nontrivial_AF_Einstein_constraint_solution_beyond_conformally_flat_tracefree_compensated_York_class"
-        and "removes the pointwise |K|/v cap"
+        == "candidate_specific_AF_Einstein_constraint_datum_outside_general_geometry_curvature_shortfall_class"
+        and "removes conformal flatness"
         in record["hierarchy_nodes"][1]["scope"]
-        and "tracefree-compensated subclass" in record["hierarchy_nodes"][1]["scope"]
-        and "arbitrary smooth trace-free York tensors" in record["hierarchy_nodes"][1]["scope"]
+        and "Cotton tensor" in record["hierarchy_nodes"][1]["scope"]
+        and "R3/v^2 below c_star=1536/1953125"
+        in record["hierarchy_nodes"][1]["scope"]
         for record in g3_records
     )
     aether_records = [
@@ -106,12 +107,14 @@ def test_proof_hierarchy_distinguishes_formula_formal_and_observation_scope() ->
         record["first_blocker"]
         in {
             "noncharacteristic_foliation_or_compact_negative_seed_avoiding_forced_ADM_Legendre_characteristic_crossing",
-            "candidate_bound_finite_tilt_metric_momentum_to_York_principal_symbol_from_spatially_distributed_Legendre_map",
+            "alternative_canonical_momentum_variable_or_gauge_avoiding_exact_finite_tilt_York_symbol_shell",
+            "candidate_bound_weighted_Fredholm_isomorphism_lower_order_coefficient_and_inverse_norm_bounds_for_finite_tilt_York_operator",
         }
         and "finite-amplitude Aether seed" in record["hierarchy_nodes"][1]["scope"]
         and "uniform Aether Legendre-sector margins" in record["hierarchy_nodes"][1]["scope"]
         and "weighted reference principal spectrum" in record["hierarchy_nodes"][1]["scope"]
         and "4x3 Aether off-diagonal principal columns" in record["hierarchy_nodes"][1]["scope"]
+        and "distributed Legendre map is now exact" in record["hierarchy_nodes"][1]["scope"]
         for record in aether_records
     )
 
@@ -134,7 +137,7 @@ def test_artifact_is_portable_and_secret_safe() -> None:
     raw = ARTIFACT.read_bytes()
     artifact = json.loads(raw)
     assert hashlib.sha256(raw).hexdigest() == (
-        "320ffe6149a1680417e227b6f2c87960644b63434a09eb1e46c95dcb92a76c5f"
+        "b2c2ed08f4c69a2091aa5c68a368c56251b33fb85eba96f2dc4f063aa664876e"
     )
     encoded = raw.decode("utf-8")
     assert "C:\\" not in encoded
