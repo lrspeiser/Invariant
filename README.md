@@ -661,6 +661,16 @@ same mean rate while giving variance `2*mu`, and a two-cell common shock preserv
 while giving covariance `1/2`. No QED channel-probability array, predictable hazard kernel,
 independence/no-clustering theorem, candidate rejection, ontology pass, or observation is inferred.
 
+The candidate-bound compensator gate sharpens that boundary further. On a regular globally
+hyperbolic patch, a simple adapted nonexplosive counting random measure with deterministic
+predictable compensator `mu=q0*exp(phi)*dVol_g` has an exponential-martingale characterization that
+implies the registered conditional Poisson Laplace functional and independent finite-partition
+counts. Both compiler actions supply the positive mean measure, but the registered paper, QED, and
+action evidence supplies no probability space, causal filtration, counting random measure, or
+compensator-martingale identity. The same action therefore admits both a Poisson completion with
+variance `mu_B` and a Cox completion with variance `mu_B+mu_B^2/4`. This is a compiler-authored
+conditional theorem, not a paper/QED derivation, candidate rejection, ontology pass, or observation.
+
 The next compiler boundary makes the observational bridge explicit. A latent event process is
 independently thinned by a calibrated acceptance, marked through a response kernel, and superposed
 with background. Four exact witnesses show that the observed mean cannot identify the latent rate
@@ -674,6 +684,13 @@ device-wide NVML start gate requiring at most 20% utilization and at least 8192 
 preflight found only 8087 MiB free, so it failed closed before creating a runtime, queue, lease, or
 worker. The readiness artifact therefore advances the continuous execution contract but not a
 production result or any scientific claim.
+
+A separate deferred RTX ownership gate makes the waiting policy explicit without touching the
+existing workload. It samples device-wide NVML every five seconds and requires three consecutive
+samples with utilization at most 20% and at least 8192 MiB free, bounded by 721 polls or one hour.
+The current registered sample was 99% utilized with 8083 MiB free, so ownership remains occupied and
+not started. The gate created no CUDA context, process signal, subprocess, SQLite access, runtime,
+lease, checkpoint, scheduler handoff, readiness advance, or scientific result.
 
 The corresponding RTX 5090 power study generated 110,100,480 synthetic counts across 144
 exposure/intensity/mixing/sample-size scenarios, calibrated 49,152 independent null replicates, and
@@ -1447,9 +1464,15 @@ admitted odd curl symbol, and the smallest one satisfying `a(e1)=1`, `a(e2)=0` i
 full gradient lift, preserves all 12 reference `e1` D4 solutions, and vanishes at `e2`. Since the
 base `e2` D4 forcing is zero, all 12 previous axis-two obstructions become exact compatibilities.
 This is an order-one angular/pseudodifferential construction with multiplier
-`xi1^2/|xi|^2`, not a local differential or covariant-action operator. Generic-direction D4,
-variable-coefficient commutators, boundary and energy calculus, and corrected-candidate registration
-remain open. This is not an inferred pass
+`xi1^2/|xi|^2`, not a local differential or covariant-action operator. Its first exact rational
+generic-direction audit is now decisive for that scalar completion. At `n=(3/5,4/5,0)`, the full
+orders-one-through-four recurrence uses 15 exact polarization evaluations and checks all seven
+eigenspaces for all 12 candidates. The base D4 right-hand side has 64 nonzero entries, and every
+candidate retains a rank-two, 14-entry zero-speed obstruction: zero compatibilities and 12 exact
+obstructions. The fail-fast selector leaves two declared rational frames unevaluated. This rejects
+the parity-cubic all-direction completion, not the full direction sphere or broader matrix-valued,
+local, or covariant operators. Variable-coefficient commutators, boundary and energy calculus, and
+corrected-candidate registration remain open. This is not an inferred pass
 for the unevaluated tail; full fourth-order range closure, full-tube,
 CK1, CK3, TC2, B7, global-H7, and lifespan remain false.
 
