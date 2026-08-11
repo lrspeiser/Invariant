@@ -214,13 +214,16 @@ def build_future_candidate_action_dossier(
             formal_source = "aether_followup"
             formal_scope = (
                 "The local twist witness and the flat, static, globally pure-twist AE no-go "
-                "remain exact. At weak field the full source is S_H^(2)=rho_2+div Q^(2), "
-                "and its compact monopole is E2=(1/2) integral [c1|grad a|^2+"
-                "(c2+c3)(div a)^2]. All 14 candidates have c1=1/32 and c2+c3>=0, "
-                "admit linearized conformal/York constraint completions, and have strictly "
-                "positive compact quadratic completed energy, with zero negative weak-field "
-                "directions. A finite-amplitude nonlinear AE lift with genuinely negative "
-                "completed boundary energy is still missing; blocked is not rejection."
+                "and the positive weak-field quadratic theorem remain exact. All 14 candidates "
+                "now also have an explicit compact C3 finite-amplitude Aether seed with a "
+                "strictly negative static source monopole, a decaying frozen-source linearized "
+                "conformal/York constraint completion, and a negative linearized completed-"
+                "boundary-energy coefficient. Exact ADM characteristic-shell analysis shows that "
+                "11 candidates are forced across a characteristic shell before the rigorous "
+                "negative-source threshold, while two have certified characteristic-free negative "
+                "amplitude windows and one is globally noncharacteristic. Those three pass only "
+                "the regular-ADM implicit-lift prerequisite; none has the weighted nonlinear "
+                "inverse/remainder and completed-boundary sign estimate. Blocked is not rejection."
             )
         else:
             followup = g3_records.get(candidate_id)
@@ -233,12 +236,14 @@ def build_future_candidate_action_dossier(
             formal_scope = (
                 "The action-bound local box, uniform principal/common cone, lapse coercivity, "
                 "periodic Dirac, smooth AF-profile cone, and scalar-retained nonunitary "
-                "BSSN/Bona-Masso principal gates pass. Exact Minkowski plus constant-scalar "
-                "vacuum data provide a reference-only AF constraint solution. The nontrivial "
-                "decaying-gradient flat ansatz instead has Hamiltonian residual -v^2 and "
-                "nonzero radial momentum flux, so it is rejected as an ansatz, not as a "
-                "theory. A candidate-specific nontrivial AF Einstein-constraint solution and "
-                "global energy remain unproved."
+                "BSSN/Bona-Masso principal gates pass. For the registered radial profile the "
+                "pure-trace momentum constraint reduces exactly to K(r)=-(beta/2)v(r)^3. The "
+                "flat pure-trace completion is rejected, while the Hamiltonian constraint "
+                "reduces to a positive-source radial Lichnerowicz boundary-value problem with "
+                "psi'(0)=0 and psi(infinity)=1. An exact integral inequality proves that no "
+                "positive global solution exists for any of the three candidates inside this "
+                "radial conformal/pure-trace class. A candidate-specific nontrivial AF solution "
+                "outside that ansatz, and then global energy, remain unproved; no theory is rejected."
             )
         status = {"reject": "rejected", "blocked": "blocked"}[decision]
         nodes = [

@@ -1,0 +1,69 @@
+{
+  "schema_version": "sigma-future-g3-radial-lichnerowicz-bvp-no-go-config-1.0",
+  "campaign_id": "future-g3-radial-lichnerowicz-bvp-no-go-20260811",
+  "adapter_source": {
+    "path": "src/sigma_theory_compiler/future_g3_radial_lichnerowicz_bvp_no_go_campaign.py",
+    "file_sha256": "191d5e0a158114dff31973e59ad52c9d58a7aa9fe48f39b11caacc849478d01a"
+  },
+  "bindings": {
+    "predecessor": {
+      "path": "runs/engine/future-g3-radial-conformal-constraint-reduction-campaign.json",
+      "file_sha256": "729e8cf6434bf3c455c8aa8d37cfaa7391be08daf2e903b8fe4533bccb48d3cf",
+      "content_sha256": "468500013c61dabda396a39ede9698c354311b6841cdf8ba1180cc997a1ed47d"
+    },
+    "nonunitary_predecessor": {
+      "path": "runs/engine/future-g3-nonunitary-af-constraint-gate-campaign.json",
+      "file_sha256": "cd569bb88453486ad02257009722f2c34ff1faee107b6b38ebe5e076db37cde9",
+      "content_sha256": "d7574dbc65b833a923ca653a9fc9c87b9fa872a24c6c89020afa995a7039e46a"
+    },
+    "AF_profile_source": {
+      "path": "runs/engine/future-g3-af-transition-obstruction-campaign.json",
+      "file_sha256": "18d8be9e4570a5117af0cd071f92e9d03252bcd65b1aaab08bc2dfdbc690b173",
+      "content_sha256": "c56768424a08f3666be10bb7a2e3c8c56e852f6629ae5cd3d8f7347b4ff6a375"
+    }
+  },
+  "comparison_contract": {
+    "comparison_radius": "L",
+    "transition_length_L": "100",
+    "solution_class": "C2_positive_radial_regular_center_and_psi_limit_one",
+    "equation": "psi_double_prime+2*psi_prime/r+Q_beta*psi^5=0",
+    "Q_beta": "(1/8)*v^2*(1-(7/6)*beta^2*v^4)",
+    "v_squared": "1/(1+(r/L)^4)",
+    "boundary_conditions": [
+      "psi_prime(0)=0",
+      "psi(r)>0",
+      "psi(infinity)=1"
+    ],
+    "no_observation_or_numerical_shooting_used": true
+  },
+  "targets": [
+    {
+      "candidate_id": "G3A-8555e529226d13e2e9dacad5",
+      "action_sha256": "4f31eb8efc25f3b28fd56d7d6dc6518461b1624f69f3b51ad8f05e6e7374e8eb",
+      "beta": "33/4000",
+      "predecessor_record_content_sha256": "6c2c0a08f3855f1229490d05b46d8399c3289a523d11e69ee1632904c22030e6",
+      "constraint_reduction_content_sha256": "718b908757f67d012f7fd9876a4466b033b37d43358a061dce253236a434a1de"
+    },
+    {
+      "candidate_id": "G3A-8ec243e6dd285fd92e7b8e0c",
+      "action_sha256": "08f435f45ff8f2333451d5cdad37bf201dfe58d254548ba6ccf5814564b98df0",
+      "beta": "17/2000",
+      "predecessor_record_content_sha256": "80b13547a396b5e6fd3c9f6bc5bd9dc6cd11b43613607b6f41fad7e1f43f6001",
+      "constraint_reduction_content_sha256": "6423138cc704f6b618f3b425fc5401f1c373dbbbae311e3d61da45f4313dc53b"
+    },
+    {
+      "candidate_id": "G3A-8d3cce39bcb13ba5061eb78b",
+      "action_sha256": "181f6837c6934ff9ffbdba5b32383271704e67781a46b01d86fa31571442da98",
+      "beta": "9/1000",
+      "predecessor_record_content_sha256": "d45ff489bad51f69eaca803c049cc1ea942aa6d4df38352a4c52b326a350498b",
+      "constraint_reduction_content_sha256": "187c02183f24cae25205faad8810b61df93bd85c4b9221f9822c738b88a86a70"
+    }
+  ],
+  "output_path": "runs/engine/future-g3-radial-lichnerowicz-bvp-no-go-campaign.json",
+  "data_eligibility": {
+    "observational_data_opened": false,
+    "dark_matter_or_halo_inputs": false,
+    "redshift_distance_inputs": false,
+    "paid_llm_calls": false
+  }
+}

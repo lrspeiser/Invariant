@@ -88,9 +88,9 @@ def test_proof_hierarchy_distinguishes_formula_formal_and_observation_scope() ->
     assert len(g3_records) == 3
     assert all(
         record["first_blocker"]
-        == "candidate_specific_nontrivial_AF_Einstein_constraint_solution_on_decaying_gradient_domain_in_nonunitary_formulation"
-        and "nonunitary BSSN/Bona-Masso" in record["hierarchy_nodes"][1]["scope"]
-        and "Hamiltonian residual -v^2" in record["hierarchy_nodes"][1]["scope"]
+        == "candidate_specific_nontrivial_AF_Einstein_constraint_solution_beyond_radial_conformal_pure_trace_ansatz"
+        and "K(r)=-(beta/2)v(r)^3" in record["hierarchy_nodes"][1]["scope"]
+        and "no positive global solution exists" in record["hierarchy_nodes"][1]["scope"]
         for record in g3_records
     )
     aether_records = [
@@ -102,9 +102,13 @@ def test_proof_hierarchy_distinguishes_formula_formal_and_observation_scope() ->
     assert len(aether_records) == 14
     assert all(
         record["first_blocker"]
-        == "finite_amplitude_candidate_bound_nonlinear_AE_coupled_constraint_solution_with_negative_completed_boundary_energy_beyond_positive_weak_field_quadratic_regime"
-        and "linearized conformal/York" in record["hierarchy_nodes"][1]["scope"]
-        and "zero negative weak-field directions" in record["hierarchy_nodes"][1]["scope"]
+        in {
+            "noncharacteristic_foliation_or_compact_negative_seed_avoiding_forced_ADM_Legendre_characteristic_crossing",
+            "candidate_bound_weighted_nonlinear_Einstein_Aether_constraint_map_inverse_and_remainder_bound_with_completed_boundary_sign_persistence",
+        }
+        and "finite-amplitude Aether seed" in record["hierarchy_nodes"][1]["scope"]
+        and "characteristic-free negative amplitude windows"
+        in record["hierarchy_nodes"][1]["scope"]
         for record in aether_records
     )
 
@@ -127,7 +131,7 @@ def test_artifact_is_portable_and_secret_safe() -> None:
     raw = ARTIFACT.read_bytes()
     artifact = json.loads(raw)
     assert hashlib.sha256(raw).hexdigest() == (
-        "123f0e0d3d6c27330b39e86675756d0a89764d77f259538bb3138eb62f88f665"
+        "0a14cc1dc9549d4e50230f976921fa1d71af1c6766879206f082f1faf97a01f3"
     )
     encoded = raw.decode("utf-8")
     assert "C:\\" not in encoded

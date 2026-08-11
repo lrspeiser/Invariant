@@ -1,0 +1,78 @@
+{
+  "schema_version": "sigma-future-g3-radial-conformal-constraint-reduction-config-1.0",
+  "campaign_id": "future-g3-radial-conformal-constraint-reduction-20260811",
+  "adapter_source": {
+    "path": "src/sigma_theory_compiler/future_g3_radial_conformal_constraint_reduction_campaign.py",
+    "file_sha256": "bbd575bc27ed5c6a74bffbe072f3ec2f674e96e92ec66b01bab343d687fdada1"
+  },
+  "bindings": {
+    "predecessor": {
+      "path": "runs/engine/future-g3-nonunitary-af-constraint-gate-campaign.json",
+      "file_sha256": "cd569bb88453486ad02257009722f2c34ff1faee107b6b38ebe5e076db37cde9",
+      "content_sha256": "d7574dbc65b833a923ca653a9fc9c87b9fa872a24c6c89020afa995a7039e46a"
+    },
+    "AF_profile_source": {
+      "path": "runs/engine/future-g3-af-transition-obstruction-campaign.json",
+      "file_sha256": "18d8be9e4570a5117af0cd071f92e9d03252bcd65b1aaab08bc2dfdbc690b173",
+      "content_sha256": "c56768424a08f3666be10bb7a2e3c8c56e852f6629ae5cd3d8f7347b4ff6a375"
+    }
+  },
+  "source_bindings": {
+    "generic_G3_stress_source": {
+      "path": "src/sigma_theory_compiler/scalar_tensor_pack.py",
+      "file_sha256": "156fc763674fda9b8503f3234e4f1c6005af93d5639e28b27a11eef8199c8eaf"
+    },
+    "ADM_convention_source": {
+      "path": "src/sigma_theory_compiler/adm_ir.py",
+      "file_sha256": "a727d59c0dcd75e741f40bb68df042e8739de0735d29c931278039a62cd36100"
+    }
+  },
+  "radial_conformal_ansatz": {
+    "initial_slice": "R3_with_isotropic_radial_coordinate_r",
+    "spatial_metric": "h_ij=psi(r)^4*delta_ij",
+    "extrinsic_curvature": "K_ij=(K(r)/3)*h_ij",
+    "extrinsic_curvature_convention": "K_ij=(dot(h)_ij-L_shift(h)_ij)/(2*N)",
+    "scalar_position": "phi_at_t0=0",
+    "scalar_normal_gradient": "Pi=v(r)=1/sqrt(1+(r/L)^4)",
+    "scalar_spatial_gradient": "D_i(phi)=0",
+    "transition_length_L": "100",
+    "lapse": "ordinary_ADM_lapse_not_scalar_clock",
+    "shift": "0_on_initial_slice",
+    "conformal_boundary_conditions": [
+      "psi(r)>0",
+      "psi_prime(0)=0",
+      "psi(infinity)=1"
+    ],
+    "falloff_target": "psi-1=O_2(r^-1),K_ij=O_1(r^-2)"
+  },
+  "targets": [
+    {
+      "candidate_id": "G3A-8555e529226d13e2e9dacad5",
+      "action_sha256": "4f31eb8efc25f3b28fd56d7d6dc6518461b1624f69f3b51ad8f05e6e7374e8eb",
+      "beta": "33/4000",
+      "predecessor_record_content_sha256": "a6c71d1d7701f9589cda91cef0863edb56336f7357348077b0ed52f78a2a3979",
+      "AF_profile_record_content_sha256": "a91e3c4d6f623ab39bcdd9bb89b7cc139417cb17b023bf47f91a219caa8ec4a2"
+    },
+    {
+      "candidate_id": "G3A-8ec243e6dd285fd92e7b8e0c",
+      "action_sha256": "08f435f45ff8f2333451d5cdad37bf201dfe58d254548ba6ccf5814564b98df0",
+      "beta": "17/2000",
+      "predecessor_record_content_sha256": "19e7da985d73e9c95696998874cd331f27d9dc388216944ba78b1322f7ac72e5",
+      "AF_profile_record_content_sha256": "608475795eaebd5384bde82c6f095a9ca761040a1e2f458d76215712360a6187"
+    },
+    {
+      "candidate_id": "G3A-8d3cce39bcb13ba5061eb78b",
+      "action_sha256": "181f6837c6934ff9ffbdba5b32383271704e67781a46b01d86fa31571442da98",
+      "beta": "9/1000",
+      "predecessor_record_content_sha256": "19682a5bc3eaf0a14bc8b67c52e00a628f7e8860294981c0ecb51bbbce1e94c9",
+      "AF_profile_record_content_sha256": "17c2455282d4d196072e003794c94bd8b2d7415dff80d97f9c286cdd862a0f37"
+    }
+  ],
+  "output_path": "runs/engine/future-g3-radial-conformal-constraint-reduction-campaign.json",
+  "data_eligibility": {
+    "observational_data_opened": false,
+    "dark_matter_or_halo_inputs": false,
+    "redshift_distance_inputs": false,
+    "paid_llm_calls": false
+  }
+}

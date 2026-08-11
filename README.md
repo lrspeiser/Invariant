@@ -338,8 +338,13 @@ witness only by introducing a non-pure symmetric-gradient transition. A candidat
 constraint calculation now closes at first nontrivial weak-field order for all 14: each admits a
 linearized conformal/York completion, and every nonzero compact quadratic completed energy is
 strictly positive because `c1=1/32` and `c2+c3>=0`. There are zero negative weak-field directions.
-A finite-amplitude nonlinear AE completion with genuinely negative completed boundary energy is
-still required; blocked is not theory rejection. The three cubic-G3 actions now have all
+Each action now also has the same explicit compact finite-amplitude seed with a rigorously negative
+static source monopole and a negative frozen-source linearized boundary coefficient. Exact ADM
+characteristic-shell analysis shows that 11 seed families cross a characteristic shell before the
+proved negativity threshold; two have certified characteristic-free negative windows and one is
+globally noncharacteristic. Those three pass only the regular-ADM prerequisite: the weighted
+nonlinear inverse/remainder and completed-boundary sign estimate remains missing. Blocked is not
+theory rejection. The three cubic-G3 actions now have all
 36 action-bound componentwise fields registered and pass direct uniform principal/common-cone,
 exact lapse-coercivity, and periodic `L2(T3)` Dirac gates. Each also has a smooth action-bound
 decaying-gradient AF profile retaining the all-direction principal/common cone through `X -> 0`.
@@ -349,8 +354,15 @@ unitary lapse multiplier, so no bounded global `L2(R3)` inverse exists on that p
 scalar-retained nonunitary BSSN/Bona-Masso formulation, all three principal symbols remain regular;
 Minkowski plus a constant scalar gives three reference-only AF vacuum solutions. The nontrivial
 decaying-gradient flat ansatz still has Hamiltonian residual `-v^2` and nonzero radial momentum
-flux. Candidate-specific nontrivial AF Einstein-constraint solutions, global energy, and full
-formal passes remain blocked.
+flux. A radial conformal/pure-trace reduction solves the momentum constraint exactly and reduces
+the Hamiltonian constraint to a positive-source Lichnerowicz BVP. An exact integral comparison
+proves that none of the three BVPs has a positive global solution with `psi -> 1`; this rejects the
+ansatz, not the actions. Candidate-specific nontrivial AF solutions outside that ansatz, global
+energy, and full formal passes remain blocked.
+All 163 current scalable action formulas also render, parse, and canonicalise in a single bounded
+Cadabra 2.4.5.4 batch inside isolated user and network namespaces. That closes the general
+candidate-specific action-export/sandbox plumbing; metric variation is still a separate reviewed
+route and no formal pass is inferred from parsing an action.
 An immutable evidence bridge now ingests the six compilation results plus the Aether, `G2`, `G3`,
 and conformal-`G4` prerequisite packets into an isolated knowledge registry. It preserves candidate/action/source
 lineage, separates calibration-only controls, deduplicates replay, refuses the live campaign
@@ -1155,13 +1167,15 @@ A bounded third-order continuation now closes every diagonal `(A,A,A)` triple in
 active affine sector. All 41 symbolic compatibilities and all 492 candidate-direction evaluations
 are solvable, Hermitian, and exact-zero residual; 312 evaluations require a nonzero
 `deltaK_AAA`. This does not infer polarization: the full mixed sector contains 12,300 `AAB`, `ABB`,
-and `ABC` triples before fourth-and-higher remainder control or a nonlinear range theorem. Nine exact
-lexicographic chunks now close 576/576 of those mixed triples and all 6,912 candidate evaluations
-with zero obstruction. The latest bounded epoch uses eight isolated spawn workers, returns records
-in canonical order, and commits or infers no record after a first obstruction. A restart-safe bounded
-supervisor advanced four epochs autonomously and stopped cleanly at a chunk boundary. Exactly 11,724 mixed
-triples remain; the durable checkpoint resumes at offset 576. Full tube, TC2, B7,
-global-H7, and lifespan claims therefore remain fail-closed.
+and `ABC` triples before fourth-and-higher remainder control or a nonlinear range theorem. Twenty-five
+exact lexicographic chunks now close 1,600 triples and all 19,200 candidate evaluations with zero
+obstruction. The bounded epochs use eight isolated spawn workers, return records in canonical order,
+and commit or infer no record after a first obstruction. The supervisor stopped cleanly at its epoch
+limit with a durable checkpoint at offset 1,600. Although 10,700 lexicographic triples remain
+unevaluated, the 41 active directions span an exact rank-15 space: the frozen evidence has rank
+233/680 and a proved minimal complement contains 447 obligations (5,364 candidate checks). None of
+those obligations is inferred passed. Full tube, TC2, B7, global-H7, and lifespan claims remain
+fail-closed.
 
 The tube bounds 153 normalized coordinate atoms: ten metric deviations, 44 first partials,
 and 99 acceleration-free symmetric second partials. The exact orthonormal metric-basis identity
