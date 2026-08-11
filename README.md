@@ -453,7 +453,10 @@ misrepresented as additional fitted pieces of the theory.
 An additional bounded live-dashboard service refreshes a separate ignored runtime snapshot every
 300 seconds using SQLite read-only URI mode plus a query-only transaction. Its atomic hash-bound
 checkpoint caps execution at 4,032 refreshes and 12 consecutive failures; start/status/stop and
-one-shot refresh commands never overwrite the immutable checked report.
+one-shot refresh commands never overwrite the immutable checked report. The worker re-hashes its
+active registries and rendering sources every 10 seconds and performs a bounded in-place Python
+reload when that evidence schema changes, so a two-week process cannot keep validating with stale
+imported code; the same checkpoint limits this to 128 reloads.
 The staged 19-candidate future chunk has the same treatment: every master action is recompiled from
 its exact typed parameter cell, while formal and observational nodes remain separate. All 17 blocked
 and two rejected staged formulas are explicitly unranked.
@@ -536,8 +539,8 @@ backend agreement and throughput only—no field equation, formal pass, ranking,
 claim, or observational support.
 
 The Kastner–Schlatter transactional-gravity proposal now has a source-bound equation intake, a typed
-54-node/137-edge equation graph, an 88-field observational-readiness contract, and two RTX 5090
-synthetic campaigns. The graph
+54-node/137-edge equation graph, an 88-field observational-readiness contract, two explicit compiler
+action hypotheses, and three RTX 5090 synthetic campaigns. The graph
 stores 25 formulas with their assumptions, domains, dependencies, source hashes, and explicit
 absent-action/variational edges; it records one algebraic rearrangement equivalence and no duplicate or
 theory-equivalence claim. CUDA produced 1,572,864 deterministic Poisson samples, 262,144 normalized
@@ -554,6 +557,16 @@ rehearses Poisson-overdispersion and point-mass BTFR group-residual falsificatio
 of registered replicates with byte-equal GPU/CPU decisions. This advances zero readiness fields and
 performs zero scientific tests: an operational transaction-event detector, extended-galaxy geometry,
 and Equation-35/Lambda propagation remain unavailable.
+The compiler action lane makes the missing physics precise rather than filling it silently. An
+EH-plus-scalar-intensity action with `beta=1/2` reproduces Equation 35's first/middle normalization,
+while `beta=1/4` reproduces its printed final Planck-unit normalization. Both have complete local
+Euler–Lagrange, GHY-boundary, and Noether/Bianchi contracts, but neither is derived by the paper or
+by QED and neither selects a normalization as fact. The extended-source CUDA lane evaluates 20
+geometry/resolution cases and 2,860,515,328 source interactions. It rejects naive local
+superposition as a completion hypothesis because subdivision changes the far coefficient by
+`sqrt(N)` and an unequal pair fails matter-only action–reaction balance; the enclosed-mass
+hypothesis remains geometry-blind and blocked. No covariant extended metric or lensing operator is
+registered, so no extended-galaxy, lensing, dark-sector, or observational conclusion follows.
 
 `promotion_dossier.py` now independently replays every stored candidate/stage hash chain, explains
 the first rejection or unresolved gate, and builds a multi-axis Pareto follow-up queue only from
@@ -1271,10 +1284,14 @@ candidate has `alpha` in `{±1, ±1/2}` and is canonically obstructed, with exac
 caveat. On all 15 nonempty polarization sums through Taylor order four, the stationary-projector
 identity `R0^T(HP-P^T H)R0=0`, together with the mandatory lower recurrence, makes the induced D4
 zero-eigenspace map identically rank zero. This covers all 20,842 order-one-through-three kernel
-slots, so no homogeneous lower-jet completion can cancel the rank-two witness. All 12 candidates are
-therefore invariantly obstructed at obligation 244; the next gate requires a changed candidate or
-operator ansatz, or a changed TC2 correction. This is a mathematical candidate-family obstruction, not an infrastructure
-failure or an inferred pass for the unevaluated tail; full fourth-order range closure, full-tube,
+slots, so no homogeneous lower-jet completion can cancel the rank-two witness. A minimal algebraic
+escape now exists outside that homogeneous class: the rank-one state-space block
+`V=K55(0)^(-1)(e16+e28)e21^T` induces the one-dimensional cokernel map `eta -> eta W`, and the unique
+candidate-specific tuning `eta=-(34816/15)*alpha^5` solves the D4 recurrence for all 12 algebraic
+specializations. This is not yet a physical correction: it has no covariant-action origin, no
+gauge/constraint compatibility proof, no registered corrected candidates, and no universal eta.
+The next gate is to derive that block from an admissible covariant or gauge-fixed TC2 operator, or
+reject it as nonphysical. This is not an inferred pass for the unevaluated tail; full fourth-order range closure, full-tube,
 CK1, CK3, TC2, B7, global-H7, and lifespan remain false.
 
 The tube bounds 153 normalized coordinate atoms: ten metric deviations, 44 first partials,

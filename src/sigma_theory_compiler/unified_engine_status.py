@@ -458,6 +458,12 @@ def build_unified_snapshot(
     transactional_gravity_falsification = sources[
         "kastner_schlatter_cuda_falsification_design"
     ]
+    transactional_gravity_candidate_action = sources[
+        "kastner_schlatter_candidate_action_completion"
+    ]
+    transactional_gravity_extended_geometry = sources[
+        "kastner_schlatter_extended_geometry_cuda_stress"
+    ]
     generic_g4_b4_termwise_normalization = sources[
         "generic_g4_b4_termwise_normalization"
     ]
@@ -581,6 +587,7 @@ def build_unified_snapshot(
     quartic_tc2_d4_homogeneous_freedom_reduction = sources[
         "quartic_tc2_d4_homogeneous_freedom_reduction"
     ]
+    quartic_tc2_d4_minimal_tc2_escape = sources["quartic_tc2_d4_minimal_tc2_escape"]
     quartic_tc2_reranked_obligation_chunks = tuple(
         sources[f"quartic_tc2_reranked_obligation_chunk_{offset}"]
         for offset in (0, 64, 128, 192, 256, 320, 384)
@@ -1177,6 +1184,169 @@ def build_unified_snapshot(
         ).get("utilization", {}).get("counter_scope", "")
     ):
         raise ValueError("Kastner-Schlatter CUDA falsification design is inconsistent")
+    expected_candidate_action_counts = {
+        "complete_local_deterministic_action_hypotheses": 2,
+        "conditional_exact_eq35_branch_matches": 2,
+        "normalization_branches": 2,
+        "normalization_branches_selected_as_fact": 0,
+        "observational_or_theory_passes": 0,
+        "paper_derived_actions": 0,
+    }
+    action_hypotheses = transactional_gravity_candidate_action.get(
+        "completion_hypotheses", []
+    )
+    if (
+        transactional_gravity_candidate_action.get("decision")
+        != "candidate_completions_registered_paper_derivation_and_physics_claims_blocked"
+        or transactional_gravity_candidate_action.get("first_blocker")
+        != "no_paper_derivation_of_candidate_action_or_transaction_intensity_dynamics"
+        or transactional_gravity_candidate_action.get("counts")
+        != expected_candidate_action_counts
+        or transactional_gravity_candidate_action.get("source_bindings", {})
+        .get("intake", {})
+        .get("content_sha256")
+        != transactional_gravity_intake.get("content_sha256")
+        or transactional_gravity_candidate_action.get("source_bindings", {})
+        .get("equation_graph", {})
+        .get("content_sha256")
+        != transactional_gravity_graph.get("content_sha256")
+        or transactional_gravity_candidate_action.get("dimensions", {}).get(
+            "all_declared_terms_dimensionally_closed"
+        )
+        is not True
+        or len(action_hypotheses) != 2
+        or [(row.get("branch_id"), row.get("beta")) for row in action_hypotheses]
+        != [("eq35_middle_h", "1/2"), ("eq35_printed_planck", "1/4")]
+        or any(
+            row.get("paper_authorship_or_derivation") is not False
+            or row.get("candidate_action", {}).get("local_deterministic_action_complete")
+            is not True
+            or row.get("candidate_action", {}).get("stochastic_law_derived_by_action")
+            is not False
+            or row.get("conditional_stochastic_completion", {}).get(
+                "derived_from_QED_actualization"
+            )
+            is not False
+            or row.get("matching", {}).get("exact_coefficient_match") is not True
+            or row.get("matching", {}).get("normalization_selected_as_fact") is not False
+            or row.get("noether_bianchi", {}).get("on_shell_covariant_conservation")
+            is not True
+            for row in action_hypotheses
+        )
+        or any(
+            value is not False
+            for value in transactional_gravity_candidate_action.get("claim_seals", {}).values()
+        )
+        or any(
+            value is not False
+            for value in transactional_gravity_candidate_action.get("data_seals", {}).values()
+        )
+    ):
+        raise ValueError("Kastner-Schlatter candidate-action completion is inconsistent")
+    expected_extended_geometry_counts = {
+        "evaluation_radii_per_case": 2_048,
+        "extended_source_laws_registered": 0,
+        "geometry_resolution_cases": 20,
+        "gpu_kernel_dispatches": 1_320,
+        "gpu_measured_repetitions": 64,
+        "gpu_measured_source_evaluation_interactions": 2_860_515_328,
+        "gpu_warmup_repetitions": 2,
+        "lensing_cases_executed": 0,
+        "observational_records_accessed": 0,
+        "physical_or_theory_passes": 0,
+        "source_resolutions": 5,
+        "synthetic_geometry_classes": 4,
+        "unique_source_evaluation_interactions": 44_695_552,
+    }
+    extended_hypotheses = transactional_gravity_extended_geometry.get(
+        "completion_hypotheses", {}
+    )
+    local_superposition = extended_hypotheses.get("H_local_superposition", {})
+    if (
+        transactional_gravity_extended_geometry.get("decision")
+        != "no_source_supported_extended_completion_local_superposition_rejected_enclosed_mass_blocked"
+        or transactional_gravity_extended_geometry.get("counts")
+        != expected_extended_geometry_counts
+        or transactional_gravity_extended_geometry.get("source_bindings", {})
+        .get("equation_graph", {})
+        .get("content_sha256")
+        != transactional_gravity_graph.get("content_sha256")
+        or transactional_gravity_extended_geometry.get("source_bindings", {})
+        .get("cuda_falsification_design", {})
+        .get("content_sha256")
+        != transactional_gravity_falsification.get("content_sha256")
+        or transactional_gravity_extended_geometry.get("source_bindings", {})
+        .get("observational_readiness", {})
+        .get("content_sha256")
+        != transactional_gravity_observational.get("content_sha256")
+        or transactional_gravity_extended_geometry.get("paper_boundary", {}).get(
+            "extended_source_operator_registered"
+        )
+        is not False
+        or transactional_gravity_extended_geometry.get("paper_boundary", {}).get(
+            "covariant_extended_metric_registered"
+        )
+        is not False
+        or transactional_gravity_extended_geometry.get("paper_boundary", {}).get(
+            "lensing_deflection_operator_registered"
+        )
+        is not False
+        or extended_hypotheses.get("H_enclosed_mass", {}).get("decision")
+        != "blocked_not_a_registered_extended_source_law"
+        or extended_hypotheses.get("H_enclosed_mass", {}).get(
+            "geometry_blind_shell_ring_control"
+        )
+        != "fails_to_distinguish_thin_shell_from_thin_ring_with_same_radial_mass_support"
+        or local_superposition.get("decision")
+        != "hypothesis_rejected_by_exact_splitting_and_pair_balance_controls"
+        or local_superposition.get("point_mass_aggregation_invariant") is not False
+        or [
+            row.get("exact_local_superposition_coincident_split_ratio")
+            for row in local_superposition.get("coincident_split_controls", [])
+        ]
+        != [4.0, 8.0, 16.0, 32.0, 64.0]
+        or local_superposition.get("unequal_pair_matter_force_control", {}).get(
+            "action_reaction_balance"
+        )
+        is not False
+        or local_superposition.get("unequal_pair_matter_force_control", {}).get(
+            "exact_net_matter_force"
+        )
+        != "(3-sqrt(3))/8"
+        or transactional_gravity_extended_geometry.get(
+            "lensing_rotation_consistency_gate", {}
+        ).get("executed")
+        is not False
+        or transactional_gravity_extended_geometry.get(
+            "lensing_rotation_consistency_gate", {}
+        ).get("first_missing_field")
+        != "source_supported_covariant_extended_metric_and_null_geodesic_deflection_operator"
+        or transactional_gravity_extended_geometry.get("gpu_cpu_crosscheck", {}).get(
+            "maximum_absolute_component_error"
+        )
+        > transactional_gravity_extended_geometry.get("gpu_cpu_crosscheck", {}).get(
+            "absolute_error_bound"
+        )
+        or transactional_gravity_extended_geometry.get("gpu_cpu_crosscheck", {}).get(
+            "maximum_far_coefficient_relative_error_to_sqrt_N"
+        )
+        > transactional_gravity_extended_geometry.get("gpu_cpu_crosscheck", {}).get(
+            "far_coefficient_relative_error_bound"
+        )
+        or "device-wide NVML"
+        not in transactional_gravity_extended_geometry.get("runtime_measurement", {})
+        .get("utilization", {})
+        .get("counter_scope", "")
+        or transactional_gravity_extended_geometry.get("synthetic_only") is not True
+        or transactional_gravity_extended_geometry.get("observations_opened") is not False
+        or transactional_gravity_extended_geometry.get("ontology_pass") is not False
+        or transactional_gravity_extended_geometry.get("theory_pass") is not False
+        or transactional_gravity_extended_geometry.get("physical_pass") is not False
+        or transactional_gravity_extended_geometry.get("dark_matter_or_halo_inputs") is not False
+        or transactional_gravity_extended_geometry.get("redshift_or_cosmology_inputs") is not False
+        or transactional_gravity_extended_geometry.get("paid_llm_calls") is not False
+    ):
+        raise ValueError("Kastner-Schlatter extended-geometry CUDA stress is inconsistent")
     if (
         formal_preflight.get("execution_enabled") is not True
         or formal_preflight.get("candidate_count") != 163
@@ -4159,6 +4329,96 @@ def build_unified_snapshot(
         )
     ):
         raise ValueError("quartic TC2 D4 homogeneous-freedom reduction is inconsistent")
+    d4_escape_counts = quartic_tc2_d4_minimal_tc2_escape.get("counts", {})
+    d4_escape_claims = quartic_tc2_d4_minimal_tc2_escape.get("claims", {})
+    d4_escape = quartic_tc2_d4_minimal_tc2_escape.get("exact_escape", {})
+    d4_escape_ansatz = d4_escape.get("correction_ansatz", {})
+    d4_escape_map = d4_escape.get("induced_cokernel_map", {})
+    d4_escape_rows = d4_escape.get("candidate_classification", [])
+    if (
+        quartic_tc2_d4_minimal_tc2_escape.get("status")
+        != "pass_exact_minimal_rank_one_tc2_d4_escape_algebraic_only"
+        or quartic_tc2_d4_minimal_tc2_escape.get("selector_binding", {}).get(
+            "obligation_offset"
+        )
+        != 244
+        or quartic_tc2_d4_minimal_tc2_escape.get("selector_binding", {}).get(
+            "active_indices"
+        )
+        != [0, 2, 3, 9]
+        or quartic_tc2_d4_minimal_tc2_escape.get("selector_binding", {}).get(
+            "canonical_compression_sha256"
+        )
+        != "6dcc21e22a450b41d624a739c7db4e5d9753a3848f1a9578730f10d77db125f2"
+        or quartic_tc2_d4_minimal_tc2_escape.get("source_bindings", {})
+        .get("homogeneous_freedom_reduction", {})
+        .get("content_sha256")
+        != quartic_tc2_d4_homogeneous_freedom_reduction.get("content_sha256")
+        or quartic_tc2_d4_minimal_tc2_escape.get("source_bindings", {})
+        .get("obstruction_certificate", {})
+        .get("content_sha256")
+        != quartic_tc2_d4_obstruction_certificate.get("content_sha256")
+        or d4_escape_counts
+        != {
+            "candidate_D4_obstructions_after_tuning": 0,
+            "candidate_D4_solutions_after_tuning": 12,
+            "candidate_specializations_checked": 12,
+            "correction_basis_dimension": 1,
+            "correction_block_rank": 1,
+            "distinct_candidate_tunings": 4,
+            "induced_cokernel_map_rank": 1,
+            "inferred_global_passes": 0,
+            "negative_controls": 6,
+            "selector_obligations_touched": 1,
+            "target_cokernel_line_dimension": 1,
+        }
+        or d4_escape_ansatz.get("V_rank") != 1
+        or d4_escape_ansatz.get("V_nonzero_entries") != 6
+        or d4_escape_ansatz.get("V_sha256")
+        != "a8a6cb0588ebae512db867990f937a3a9e5a9a38bf90be807fc62a8eb928f9c0"
+        or d4_escape_ansatz.get("W_rank") != 2
+        or d4_escape_ansatz.get("W_nonzero_entries") != 4
+        or d4_escape_ansatz.get("W_sha256")
+        != "e44c769b1eaf44c6e0ffc411007d98f9de24c6e8a20bac112d9a0a062e913500"
+        or d4_escape_ansatz.get("covariant_or_action_derived") is not False
+        or d4_escape_map.get("formula") != "eta -> eta*W"
+        or d4_escape_map.get("rank") != 1
+        or d4_escape_map.get("image_dimension") != 1
+        or d4_escape_map.get("unique_solvability_condition")
+        != "eta=-(34816/15)*alpha^5"
+        or d4_escape.get("distinct_candidate_eta_values")
+        != ["-34816/15", "-1088/15", "1088/15", "34816/15"]
+        or len(d4_escape_rows) != 12
+        or any(
+            row.get("corrected_D4_Sylvester_solvable") is not True
+            or row.get("corrected_D4_Sylvester_residual_zero") is not True
+            or row.get("corrected_deltaK_Hermitian") is not True
+            or row.get("corrected_equal_eigenspace_compressions_zero") is not True
+            or row.get("covariant_operator_origin_proved") is not False
+            for row in d4_escape_rows
+        )
+        or d4_escape_claims.get("obligation_244_minimal_algebraic_TC2_escape_constructed")
+        is not True
+        or d4_escape_claims.get("candidate_specific_tuned_D4_compatibility_count") != 12
+        or d4_escape_claims.get("correction_covariant_or_action_derived") is not False
+        or d4_escape_claims.get("correction_gauge_constraint_compatible") is not False
+        or d4_escape_claims.get("corrected_candidate_family_registered") is not False
+        or d4_escape_claims.get("single_universal_eta_closes_all_12") is not False
+        or any(
+            d4_escape_claims.get(key) is not False
+            for key in (
+                "full_fourth_jet_range_closed",
+                "full_tube_Sylvester_identity",
+                "CK1_closed",
+                "CK3_closed",
+                "TC2_closed",
+                "B7_closed",
+                "global_H7_closed",
+                "lifespan_proved",
+            )
+        )
+    ):
+        raise ValueError("quartic TC2 D4 minimal algebraic escape is inconsistent")
     if (
         unified_live_dashboard_service_readiness.get("decision")
         != "ready_enabled_read_only_bounded"
@@ -4355,7 +4615,7 @@ def build_unified_snapshot(
                 "pdf_sha256": transactional_gravity_intake["primary_source"]["pdf_sha256"],
             },
             "decision": "blocked",
-            "first_blocker": transactional_gravity_intake["first_blocker"],
+            "first_blocker": transactional_gravity_candidate_action["first_blocker"],
             "equation_preflight_counts": transactional_gravity_intake[
                 "synthetic_preflight_counts"
             ],
@@ -4425,9 +4685,60 @@ def build_unified_snapshot(
                     "scientific_test_pass"
                 ],
             },
+            "candidate_action_completion": {
+                "decision": transactional_gravity_candidate_action["decision"],
+                "first_blocker": transactional_gravity_candidate_action["first_blocker"],
+                "counts": transactional_gravity_candidate_action["counts"],
+                "completion_hypotheses": transactional_gravity_candidate_action[
+                    "completion_hypotheses"
+                ],
+                "dimensions": transactional_gravity_candidate_action["dimensions"],
+                "secondary_blockers": transactional_gravity_candidate_action[
+                    "secondary_blockers"
+                ],
+                "scope": transactional_gravity_candidate_action["scope"],
+            },
+            "extended_geometry_cuda_stress": {
+                "decision": transactional_gravity_extended_geometry["decision"],
+                "counts": transactional_gravity_extended_geometry["counts"],
+                "paper_boundary": transactional_gravity_extended_geometry["paper_boundary"],
+                "completion_hypotheses": {
+                    "enclosed_mass": transactional_gravity_extended_geometry[
+                        "completion_hypotheses"
+                    ]["H_enclosed_mass"],
+                    "local_superposition": {
+                        "decision": transactional_gravity_extended_geometry[
+                            "completion_hypotheses"
+                        ]["H_local_superposition"]["decision"],
+                        "point_mass_aggregation_invariant": transactional_gravity_extended_geometry[
+                            "completion_hypotheses"
+                        ]["H_local_superposition"]["point_mass_aggregation_invariant"],
+                        "coincident_split_controls": transactional_gravity_extended_geometry[
+                            "completion_hypotheses"
+                        ]["H_local_superposition"]["coincident_split_controls"],
+                        "unequal_pair_matter_force_control": transactional_gravity_extended_geometry[
+                            "completion_hypotheses"
+                        ]["H_local_superposition"]["unequal_pair_matter_force_control"],
+                    },
+                },
+                "lensing_rotation_consistency_gate": transactional_gravity_extended_geometry[
+                    "lensing_rotation_consistency_gate"
+                ],
+                "gpu_cpu_crosscheck": transactional_gravity_extended_geometry[
+                    "gpu_cpu_crosscheck"
+                ],
+                "runtime_measurement": transactional_gravity_extended_geometry[
+                    "runtime_measurement"
+                ],
+                "interpretation": transactional_gravity_extended_geometry["interpretation"],
+            },
             "claim_seals": {
                 "fundamental_action_registered": False,
                 "variational_derivation_registered": False,
+                "compiler_candidate_action_hypotheses_registered": 2,
+                "compiler_candidate_variational_systems_registered": 2,
+                "paper_fundamental_action_registered": False,
+                "paper_transaction_intensity_dynamics_derived": False,
                 "formal_gr_equivalence_proven": False,
                 "dark_matter_elimination_proven": False,
                 "dark_energy_elimination_proven": False,
@@ -5464,7 +5775,48 @@ def build_unified_snapshot(
                         ],
                         "exact_identity": d4_homogeneous_reduction["exact_identity"],
                     },
-                    "next_gate": quartic_tc2_d4_homogeneous_freedom_reduction["next_gate"],
+                    "minimal_algebraic_TC2_escape": {
+                        "status": quartic_tc2_d4_minimal_tc2_escape["status"],
+                        "correction_basis_dimension": d4_escape_counts[
+                            "correction_basis_dimension"
+                        ],
+                        "correction_block_rank": d4_escape_counts["correction_block_rank"],
+                        "induced_cokernel_map_rank": d4_escape_counts[
+                            "induced_cokernel_map_rank"
+                        ],
+                        "target_cokernel_line_dimension": d4_escape_counts[
+                            "target_cokernel_line_dimension"
+                        ],
+                        "candidate_D4_solutions_after_tuning": d4_escape_counts[
+                            "candidate_D4_solutions_after_tuning"
+                        ],
+                        "candidate_D4_obstructions_after_tuning": d4_escape_counts[
+                            "candidate_D4_obstructions_after_tuning"
+                        ],
+                        "distinct_candidate_eta_values": d4_escape[
+                            "distinct_candidate_eta_values"
+                        ],
+                        "correction_ansatz": {
+                            "definition": d4_escape_ansatz["V_definition"],
+                            "V_rank": d4_escape_ansatz["V_rank"],
+                            "V_nonzero_entries": d4_escape_ansatz["V_nonzero_entries"],
+                            "energy_skew_definition": d4_escape_ansatz[
+                                "energy_skew_definition"
+                            ],
+                            "covariant_or_action_derived": d4_escape_ansatz[
+                                "covariant_or_action_derived"
+                            ],
+                        },
+                        "induced_cokernel_map": d4_escape_map,
+                        "corrected_candidate_family_registered": d4_escape_claims[
+                            "corrected_candidate_family_registered"
+                        ],
+                        "correction_gauge_constraint_compatible": d4_escape_claims[
+                            "correction_gauge_constraint_compatible"
+                        ],
+                        "scope": quartic_tc2_d4_minimal_tc2_escape["scope"],
+                    },
+                    "next_gate": quartic_tc2_d4_minimal_tc2_escape["next_gate"],
                 },
                 "full_fourth_jet_range_closed": False,
             },
@@ -5480,7 +5832,7 @@ def build_unified_snapshot(
                     "lifespans_proved",
                 )
             },
-            "first_missing_premise": "change_the_candidate_or_operator_ansatz_or_TC2_correction_to_remove_the_invariant_exact_D4_obstruction_before_evaluating_later_selector_obligations",
+            "first_missing_premise": "derive_the_rank_one_quartic_state_space_counterterm_from_a_covariant_action_or_admissible_gauge_fixed_TC2_operator_and_prove_constraint_compatibility_or_reject_it_as_nonphysical",
         },
         "evidence_pareto": {
             "candidate_decision_counts": pareto["candidate_decision_counts"],

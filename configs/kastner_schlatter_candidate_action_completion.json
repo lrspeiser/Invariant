@@ -1,0 +1,53 @@
+{
+  "schema_version": "sigma-kastner-schlatter-candidate-action-completion-config-1.0",
+  "campaign_id": "kastner-schlatter-candidate-action-completion-001",
+  "output_path": "runs/engine/kastner-schlatter-candidate-action-completion.json",
+  "predecessors": {
+    "equation_graph": {
+      "path": "runs/engine/kastner-schlatter-equation-graph-admission.json",
+      "file_sha256": "37b62205bcbcb95a35dcb2398ad512974a7abefd2164bb31b67eec83df4f5079",
+      "content_sha256": "c6d16e235b25632488ded7fe49eac227505914842b0d4d937cee40ef75754e74"
+    },
+    "intake": {
+      "path": "runs/engine/kastner-schlatter-transactional-gravity-intake.json",
+      "file_sha256": "4c142f202cc30a39ad62039ae01355b91e9264260ec0ec4fd02f45a3a16f82e2",
+      "content_sha256": "560caa71caacd5172ff170d6619f77c99b878c019431c5a1a82982db50117c37"
+    }
+  },
+  "conventions": {
+    "metric_signature": "-+++",
+    "coordinate_x0": "c*t",
+    "einstein_equation": "G_mn=(8*pi*G/c**4)*T_mn",
+    "stress_tensor": "T_mn=-2*c/sqrt(-g)*delta(S_matter)/delta(g^mn)",
+    "planck_relation": "h=2*pi*hbar",
+    "planck_length": "l_P**2=G*hbar/c**3",
+    "intensity_dimension": "L^-4",
+    "boundary_condition": "Dirichlet metric with GHY term; Dirichlet q or natural n^m*grad_m(q)=0"
+  },
+  "branches": [
+    {
+      "branch_id": "eq35_middle_h",
+      "beta": "1/2",
+      "target_lambda": "4*pi*G*h*q0/c**3",
+      "target_lambda_planck_units": "8*pi**2*l_P**2*q0",
+      "source_status": "matches equation 35 first and middle equalities"
+    },
+    {
+      "branch_id": "eq35_printed_planck",
+      "beta": "1/4",
+      "target_lambda": "2*pi*G*h*q0/c**3",
+      "target_lambda_planck_units": "4*pi**2*l_P**2*q0",
+      "source_status": "matches equation 35 printed final equality after h=2*pi*hbar"
+    }
+  ],
+  "seals": {
+    "paper_action_claim_allowed": false,
+    "paper_variational_derivation_claim_allowed": false,
+    "formal_gr_equivalence_claim_allowed": false,
+    "observational_pass_allowed": false,
+    "theory_validity_claim_allowed": false,
+    "dark_sector_elimination_claim_allowed": false,
+    "observations_opened": false,
+    "paid_llm_calls": false
+  }
+}

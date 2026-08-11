@@ -32,6 +32,8 @@ SOURCE_PATHS = [
     "runs/engine/kastner-schlatter-cuda-consequence-campaign.json",
     "runs/engine/kastner-schlatter-observational-readiness-contract.json",
     "runs/engine/kastner-schlatter-cuda-falsification-design.json",
+    "runs/engine/kastner-schlatter-candidate-action-completion.json",
+    "runs/engine/kastner-schlatter-extended-geometry-cuda-stress.json",
     "runs/engine/generic-g4-b4-termwise-normalization-campaign.json",
     "runs/engine/grammar-v3-formal-preflight-status.json",
     "runs/engine/grammar-v3-promotion-admission-status.json",
@@ -114,6 +116,7 @@ SOURCE_PATHS = [
     "runs/physics-language/quartic-tc2-fourth-jet-obligation-service/service-status.json",
     "runs/physics-language/quartic-tc2-d4-obstruction-cokernel-certificate/campaign.json",
     "runs/physics-language/quartic-tc2-d4-homogeneous-freedom-reduction/campaign.json",
+    "runs/physics-language/quartic-tc2-d4-minimal-tc2-escape-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000000.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000064.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000128.json",
@@ -171,6 +174,8 @@ LABELS = [
     "kastner_schlatter_cuda_consequence_campaign",
     "kastner_schlatter_observational_readiness_contract",
     "kastner_schlatter_cuda_falsification_design",
+    "kastner_schlatter_candidate_action_completion",
+    "kastner_schlatter_extended_geometry_cuda_stress",
     "generic_g4_b4_termwise_normalization",
     "grammar_v3_formal_preflight",
     "grammar_v3_promotion_admission",
@@ -253,6 +258,7 @@ LABELS = [
     "quartic_tc2_fourth_jet_status",
     "quartic_tc2_d4_obstruction_cokernel_certificate",
     "quartic_tc2_d4_homogeneous_freedom_reduction",
+    "quartic_tc2_d4_minimal_tc2_escape",
     "quartic_tc2_reranked_obligation_chunk_0",
     "quartic_tc2_reranked_obligation_chunk_64",
     "quartic_tc2_reranked_obligation_chunk_128",
@@ -695,7 +701,7 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     transactional = core["transactional_gravity_proposal"]
     assert transactional["decision"] == "blocked"
     assert transactional["first_blocker"] == (
-        "no_candidate_bound_fundamental_action_or_complete_variational_field_system"
+        "no_paper_derivation_of_candidate_action_or_transaction_intensity_dynamics"
     )
     assert transactional["equation_preflight_counts"] == {"pass": 7, "reject": 0, "block": 1}
     assert transactional["equation_graph"]["counts"]["nodes"] == 54
@@ -742,6 +748,37 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     ] is True
     assert falsification["observational_bridge"]["registration_fields_advanced"] == 0
     assert falsification["scientific_test_pass"] is False
+    action_completion = transactional["candidate_action_completion"]
+    assert action_completion["counts"] == {
+        "complete_local_deterministic_action_hypotheses": 2,
+        "conditional_exact_eq35_branch_matches": 2,
+        "normalization_branches": 2,
+        "normalization_branches_selected_as_fact": 0,
+        "observational_or_theory_passes": 0,
+        "paper_derived_actions": 0,
+    }
+    assert [row["beta"] for row in action_completion["completion_hypotheses"]] == [
+        "1/2",
+        "1/4",
+    ]
+    assert all(
+        row["candidate_action"]["local_deterministic_action_complete"] is True
+        and row["paper_authorship_or_derivation"] is False
+        for row in action_completion["completion_hypotheses"]
+    )
+    extended = transactional["extended_geometry_cuda_stress"]
+    assert extended["counts"]["geometry_resolution_cases"] == 20
+    assert extended["counts"]["gpu_measured_source_evaluation_interactions"] == 2_860_515_328
+    assert extended["counts"]["extended_source_laws_registered"] == 0
+    assert extended["completion_hypotheses"]["enclosed_mass"]["decision"] == (
+        "blocked_not_a_registered_extended_source_law"
+    )
+    assert extended["completion_hypotheses"]["local_superposition"]["decision"] == (
+        "hypothesis_rejected_by_exact_splitting_and_pair_balance_controls"
+    )
+    assert extended["lensing_rotation_consistency_gate"]["executed"] is False
+    assert transactional["claim_seals"]["compiler_candidate_action_hypotheses_registered"] == 2
+    assert transactional["claim_seals"]["paper_fundamental_action_registered"] is False
     assert transactional["claim_seals"]["theory_or_ontology_pass"] is False
     assert transactional["data_seals"]["synthetic_only"] is True
     assert core["promotion_overlay"]["formal"] == {"pass": 0, "reject": 70, "block": 0}
@@ -1526,11 +1563,57 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                     "candidate_cancellations": 0,
                     "exact_identity": "R0(Y)^T F_H(Y) R0(Y)=0 for every matrix H(Y)",
                 },
+                "minimal_algebraic_TC2_escape": {
+                    "status": "pass_exact_minimal_rank_one_tc2_d4_escape_algebraic_only",
+                    "correction_basis_dimension": 1,
+                    "correction_block_rank": 1,
+                    "induced_cokernel_map_rank": 1,
+                    "target_cokernel_line_dimension": 1,
+                    "candidate_D4_solutions_after_tuning": 12,
+                    "candidate_D4_obstructions_after_tuning": 0,
+                    "distinct_candidate_eta_values": [
+                        "-34816/15",
+                        "-1088/15",
+                        "1088/15",
+                        "34816/15",
+                    ],
+                    "correction_ansatz": {
+                        "definition": "K55(0)^(-1)*(e_16+e_28)*e_21^T",
+                        "V_rank": 1,
+                        "V_nonzero_entries": 6,
+                        "energy_skew_definition": "K55(0)*V-V^T*K55(0)=W",
+                        "covariant_or_action_derived": False,
+                    },
+                    "induced_cokernel_map": {
+                        "all_other_equal_eigenspace_compressions_zero": True,
+                        "canonical_obstruction_in_image": True,
+                        "canonical_obstruction_line_dimension": 1,
+                        "corrected_zero_eigenspace_compression": (
+                            "((34816/15)*alpha^5+eta)*W"
+                        ),
+                        "domain_basis": ["eta"],
+                        "formula": "eta -> eta*W",
+                        "image_basis": ["W"],
+                        "image_dimension": 1,
+                        "rank": 1,
+                        "unique_solvability_condition": "eta=-(34816/15)*alpha^5",
+                    },
+                    "corrected_candidate_family_registered": False,
+                    "correction_gauge_constraint_compatible": False,
+                    "scope": (
+                        "This campaign proves the smallest algebraic state-space TC2 ansatz "
+                        "capable of canceling the invariant obligation-244 cokernel witness. "
+                        "The tuned coefficient is candidate-specific. No covariant/action "
+                        "origin, gauge compatibility, corrected candidate registration, "
+                        "remaining D4 selector pass, tube theorem, CK1, CK3, TC2, B7, "
+                        "global-H7, or lifespan result is inferred."
+                    ),
+                },
                 "next_gate": (
-                    "The current 12-candidate quartic family has an invariant exact D4 "
-                    "obstruction. Any continuation must change the candidate/operator ansatz "
-                    "or the TC2 correction, not merely the lower-jet homogeneous Sylvester "
-                    "normalization."
+                    "Derive the rank-one quartic state-space counterterm from a covariant "
+                    "action or admissible gauge-fixed TC2 operator and prove constraint "
+                    "compatibility, or reject the algebraic escape as nonphysical. Only then "
+                    "register corrected candidates and recompute their affected jet obligations."
                 ),
             },
             "full_fourth_jet_range_closed": False,
@@ -1545,8 +1628,9 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
             "lifespans_proved": 0,
         },
         "first_missing_premise": (
-            "change_the_candidate_or_operator_ansatz_or_TC2_correction_to_remove_the_"
-            "invariant_exact_D4_obstruction_before_evaluating_later_selector_obligations"
+            "derive_the_rank_one_quartic_state_space_counterterm_from_a_covariant_action_"
+            "or_admissible_gauge_fixed_TC2_operator_and_prove_constraint_compatibility_or_"
+            "reject_it_as_nonphysical"
         ),
     }
     assert core["cross_pipeline_total"]["status"] == "not_computed"
@@ -1681,6 +1765,8 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "GPU/CPU violations" in dashboard
     assert "transactional-gravity proposal" in dashboard
     assert "Graph nodes" in dashboard
+    assert "Compiler action hypotheses" in dashboard
+    assert "Paper-derived actions" in dashboard
     assert "Registered fields" in dashboard
     assert "Missing fields" in dashboard
     assert "Synthetic power evals" in dashboard
@@ -1689,17 +1775,25 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "BTFR alt detection" in dashboard
     assert "Readiness advanced" in dashboard
     assert "Scientific tests" in dashboard
-    assert "Detector equivalence, extended-galaxy geometry" in dashboard
+    assert "Extended-source laws" in dashboard
+    assert "Geometry cases" in dashboard
+    assert "Source interactions" in dashboard
+    assert "Lensing cases" in dashboard
+    assert "beta=1/2 matches Equation 35" in dashboard
+    assert "naive local-superposition completion is rejected as a hypothesis" in dashboard
     assert "do not establish the transactional ontology" in dashboard
     assert "Exact selector" in dashboard
     assert "Obligations closed" in dashboard
     assert "Polarization directions" in dashboard
-    assert "Zero-projector checks" in dashboard
     assert "Lower-jet slots covered" in dashboard
-    assert "Induced D4 map rank" in dashboard
-    assert "Homogeneous cancellations" in dashboard
+    assert "Algebraic correction basis" in dashboard
+    assert "Correction-map rank" in dashboard
+    assert "Tuned D4 solutions" in dashboard
+    assert "Covariant origin" in dashboard
     assert "R0^T(HP-P^T H)R0=0" in dashboard
     assert "no homogeneous lower-jet completion can cancel" in dashboard
+    assert "eta=-(34816/15) alpha^5" in dashboard
+    assert "This is an algebraic escape, not a physical correction" in dashboard
     assert "No full formal pass is inferred" not in dashboard
     assert "class #1" in dashboard
     assert "g4_global_positive_energy: 1" not in dashboard
