@@ -40,12 +40,14 @@ SOURCE_PATHS = [
     "runs/engine/future-aether-weak-field-ae-constraint-gate.json",
     "runs/engine/future-aether-finite-amplitude-negative-seed-gate.json",
     "runs/engine/future-aether-nonlinear-lift-characteristic-gate.json",
+    "runs/engine/future-aether-regular-adm-inverse-margin-gate.json",
     "runs/engine/future-g3-componentwise-domain-contract-campaign.json",
     "runs/engine/future-g3-action-bound-jet-box-campaign.json",
     "runs/engine/future-g3-af-transition-obstruction-campaign.json",
     "runs/engine/future-g3-nonunitary-af-constraint-gate-campaign.json",
     "runs/engine/future-g3-radial-conformal-constraint-reduction-campaign.json",
     "runs/engine/future-g3-radial-lichnerowicz-bvp-no-go-campaign.json",
+    "runs/engine/future-g3-nonradial-york-bounded-mean-curvature-no-go-campaign.json",
     "runs/engine/future-candidate-action-dossier.json",
     "runs/engine/grammar-v3-g3-candidate-formal-status.json",
     "runs/engine/g4-scalable-action-formal-followup.json",
@@ -77,6 +79,11 @@ SOURCE_PATHS = [
     "runs/physics-language/quartic-tc2-diagonal-third-jet-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-basis-reduction-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-reduction-campaign/campaign.json",
+    "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000000.json",
+    "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000064.json",
+    "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000128.json",
+    "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/checkpoint.json",
+    "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/service-status.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-chunk-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-continuation-service/chunks/offset-000064.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-continuation-service/chunks/offset-000128.json",
@@ -132,12 +139,14 @@ LABELS = [
     "future_aether_weak_field_ae_constraint_gate",
     "future_aether_finite_amplitude_negative_seed_gate",
     "future_aether_nonlinear_lift_characteristic_gate",
+    "future_aether_regular_adm_inverse_margin_gate",
     "future_g3_domain_followup",
     "future_g3_action_bound_followup",
     "future_g3_af_transition_obstruction",
     "future_g3_nonunitary_af_constraint_gate",
     "future_g3_radial_conformal_constraint_reduction",
     "future_g3_radial_lichnerowicz_bvp_no_go",
+    "future_g3_nonradial_york_bounded_mean_curvature_no_go",
     "future_candidate_action_dossier",
     "grammar_v3_g3_candidate_formal",
     "grammar_v3_g4_scalable_formal_followup",
@@ -169,6 +178,11 @@ LABELS = [
     "quartic_tc2_diagonal_third_jet",
     "quartic_tc2_mixed_third_jet_basis_reduction",
     "quartic_tc2_mixed_third_jet_reranked_reduction",
+    "quartic_tc2_reranked_obligation_chunk_0",
+    "quartic_tc2_reranked_obligation_chunk_64",
+    "quartic_tc2_reranked_obligation_chunk_128",
+    "quartic_tc2_reranked_obligation_checkpoint",
+    "quartic_tc2_reranked_obligation_status",
     "quartic_tc2_mixed_third_jet_chunk",
     "quartic_tc2_mixed_third_jet_chunk_64",
     "quartic_tc2_mixed_third_jet_chunk_128",
@@ -723,6 +737,11 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                 "certified_negative_characteristic_free_amplitude_window_count": 2,
                 "globally_noncharacteristic_candidate_count": 1,
                 "regular_ADM_implicit_lift_prerequisite_pass_count": 3,
+                "uniform_Aether_Legendre_block_inverse_pass_count": 3,
+                "strict_negative_source_margin_pass_count": 3,
+                "weighted_full_constraint_operator_isomorphism_pass_count": 0,
+                "nonlinear_Frechet_remainder_bound_pass_count": 0,
+                "completed_boundary_sign_persistence_count": 0,
                 "c2_plus_c3_counts": {
                     "0": 2,
                     "1/16": 3,
@@ -735,7 +754,7 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                 },
                 "first_blocker_counts": {
                     "noncharacteristic_foliation_or_compact_negative_seed_avoiding_forced_ADM_Legendre_characteristic_crossing": 11,
-                    "candidate_bound_weighted_nonlinear_Einstein_Aether_constraint_map_inverse_and_remainder_bound_with_completed_boundary_sign_persistence": 3,
+                    "candidate_bound_weighted_elliptic_Einstein_Aether_constraint_operator_isomorphism_and_nonlinear_remainder_bound_with_completed_boundary_sign_persistence": 3,
                 },
                 "candidate_rejection_authorized_count": 0,
             },
@@ -762,12 +781,15 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                 "radial_conformal_pure_trace_ansatz_reject_count": 3,
                 "radial_Lichnerowicz_BVP_registration_pass_count": 3,
                 "positive_global_radial_Lichnerowicz_solution_nonexistence_count": 3,
+                "nonradial_York_Hamiltonian_reduction_pass_count": 3,
+                "bounded_mean_curvature_green_comparison_pass_count": 3,
+                "conformally_flat_bounded_mean_curvature_York_class_reject_count": 3,
                 "asymptotically_flat_Dirac_pass_count": 0,
                 "AF_Einstein_constraint_solution_pass_count": 0,
                 "global_energy_pass_count": 0,
                 "full_formal_pass_count": 0,
                 "first_blocker_counts": {
-                    "candidate_specific_nontrivial_AF_Einstein_constraint_solution_beyond_radial_conformal_pure_trace_ansatz": 3
+                    "candidate_specific_nontrivial_AF_Einstein_constraint_solution_beyond_conformally_flat_bounded_mean_curvature_York_class": 3
                 },
             },
         },
@@ -1049,7 +1071,15 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
             "brute_force_unevaluated_triples": 10700,
             "completion_rank": 680,
             "drop_final_obligation_rank": 679,
-            "obligations_evaluated": 0,
+            "obligations_evaluated": 192,
+            "obligations_remaining": 255,
+            "candidate_evaluations": 2304,
+            "candidate_solvable": 2304,
+            "candidate_obstructed": 0,
+            "next_obligation_offset": 192,
+            "resume_tip_sha256": (
+                "31735507bf42865d30f3e3a64ffd555d4a32727a19352b7783ce75b08cd396a9"
+            ),
             "obligations_inferred_passed": 0,
         },
         "closure_counts": {
@@ -1062,7 +1092,7 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
             "lifespans_proved": 0,
         },
         "first_missing_premise": (
-            "evaluate_447_reranked_mixed_third_sylvester_obligations_then_"
+            "evaluate_remaining_255_reranked_mixed_third_sylvester_obligations_then_"
             "fourth_and_higher_remainder_or_nonlinear_range_theorem"
         ),
     }
@@ -1131,12 +1161,16 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "Negative finite seeds" in dashboard
     assert "Forced characteristic crossings" in dashboard
     assert "Regular-ADM prerequisites" in dashboard
+    assert "Legendre inverse margins" in dashboard
+    assert "Negative source margins" in dashboard
     assert "Future G3 uniform boxes" in dashboard
     assert "Future G3 AF profiles" in dashboard
     assert "Radial BVP no-go" in dashboard
+    assert "Nonradial York no-go" in dashboard
     assert "Nontrivial AF solutions" in dashboard
     assert "11 are forced across an ADM characteristic shell" in dashboard
-    assert "integral inequality proves that this BVP has no positive global solution" in dashboard
+    assert "exact uniform Legendre-sector inverse bounds" in dashboard
+    assert "nonradial Green comparison exclude positive conformal factors" in dashboard
     assert "Staged future candidate formulas (unranked)" in dashboard
     assert "These master actions are recompiled from the exact typed cells" in dashboard
     assert "G3A-8555e529226d13e2e9dacad5" in dashboard
@@ -1150,10 +1184,13 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "Mixed third jets closed" in dashboard
     assert "Evidence rank" in dashboard
     assert "Reduced obligations" in dashboard
+    assert "Reduced obligations evaluated" in dashboard
+    assert "Reduced obligations remaining" in dashboard
     assert "Twenty-five exact mixed chunks close 1,600 triples" in dashboard
     assert "447 obligations (5,364 candidate checks)" in dashboard
     assert "rather than the 10,700 unevaluated lexicographic triples" in dashboard
-    assert "None of those 447 obligations is inferred passed" in dashboard
+    assert "evaluated 192/447 obligations and 2,304/2,304 candidate systems" in dashboard
+    assert "255 exact obligations remain and none is inferred passed" in dashboard
     assert "CK1, CK3, TC2, B7, global H7, and lifespan remain fail-closed" in dashboard
     assert "No full formal pass is inferred" not in dashboard
     assert "class #1" in dashboard

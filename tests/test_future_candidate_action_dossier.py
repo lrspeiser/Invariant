@@ -88,9 +88,9 @@ def test_proof_hierarchy_distinguishes_formula_formal_and_observation_scope() ->
     assert len(g3_records) == 3
     assert all(
         record["first_blocker"]
-        == "candidate_specific_nontrivial_AF_Einstein_constraint_solution_beyond_radial_conformal_pure_trace_ansatz"
-        and "K(r)=-(beta/2)v(r)^3" in record["hierarchy_nodes"][1]["scope"]
-        and "no positive global solution exists" in record["hierarchy_nodes"][1]["scope"]
+        == "candidate_specific_nontrivial_AF_Einstein_constraint_solution_beyond_conformally_flat_bounded_mean_curvature_York_class"
+        and "positive nonradial conformal factors" in record["hierarchy_nodes"][1]["scope"]
+        and "arbitrary smooth trace-free York tensors" in record["hierarchy_nodes"][1]["scope"]
         for record in g3_records
     )
     aether_records = [
@@ -104,11 +104,10 @@ def test_proof_hierarchy_distinguishes_formula_formal_and_observation_scope() ->
         record["first_blocker"]
         in {
             "noncharacteristic_foliation_or_compact_negative_seed_avoiding_forced_ADM_Legendre_characteristic_crossing",
-            "candidate_bound_weighted_nonlinear_Einstein_Aether_constraint_map_inverse_and_remainder_bound_with_completed_boundary_sign_persistence",
+            "candidate_bound_weighted_elliptic_Einstein_Aether_constraint_operator_isomorphism_and_nonlinear_remainder_bound_with_completed_boundary_sign_persistence",
         }
         and "finite-amplitude Aether seed" in record["hierarchy_nodes"][1]["scope"]
-        and "characteristic-free negative amplitude windows"
-        in record["hierarchy_nodes"][1]["scope"]
+        and "uniform Aether Legendre-sector margins" in record["hierarchy_nodes"][1]["scope"]
         for record in aether_records
     )
 
@@ -131,7 +130,7 @@ def test_artifact_is_portable_and_secret_safe() -> None:
     raw = ARTIFACT.read_bytes()
     artifact = json.loads(raw)
     assert hashlib.sha256(raw).hexdigest() == (
-        "0a14cc1dc9549d4e50230f976921fa1d71af1c6766879206f082f1faf97a01f3"
+        "ad5f7aad96916d590bafea016f3a7bba75ff5668ce41c0200a917a04c01d3f30"
     )
     encoded = raw.decode("utf-8")
     assert "C:\\" not in encoded

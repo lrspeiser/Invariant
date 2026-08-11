@@ -206,7 +206,10 @@ def build_future_candidate_action_dossier(
             )
         elif preflight_record["family_id"] == "AETHER_K1234_PARAMETER_CELL":
             followup = aether_records.get(candidate_id)
-            if followup is None or followup["typed_action_ir_sha256"] != action["content_sha256"]:
+            if (
+                followup is None
+                or followup["provenance"]["typed_action_ir_sha256"] != action["content_sha256"]
+            ):
                 raise ValueError("future Aether dossier binding changed")
             decision = followup["decision"]
             blocker = followup["first_blocker"]
@@ -221,9 +224,12 @@ def build_future_candidate_action_dossier(
                 "boundary-energy coefficient. Exact ADM characteristic-shell analysis shows that "
                 "11 candidates are forced across a characteristic shell before the rigorous "
                 "negative-source threshold, while two have certified characteristic-free negative "
-                "amplitude windows and one is globally noncharacteristic. Those three pass only "
-                "the regular-ADM implicit-lift prerequisite; none has the weighted nonlinear "
-                "inverse/remainder and completed-boundary sign estimate. Blocked is not rejection."
+                "amplitude windows and one is globally noncharacteristic. Those three now have "
+                "exact uniform Aether Legendre-sector margins, inverse bounds, and strict negative "
+                "source-energy margins. They still lack the full weighted elliptic constraint-"
+                "operator isomorphism, nonlinear Frechet remainder bound, and completed-boundary "
+                "sign persistence. The other 11 retain the forced-characteristic blocker. Blocked "
+                "is not rejection."
             )
         else:
             followup = g3_records.get(candidate_id)
@@ -236,14 +242,15 @@ def build_future_candidate_action_dossier(
             formal_scope = (
                 "The action-bound local box, uniform principal/common cone, lapse coercivity, "
                 "periodic Dirac, smooth AF-profile cone, and scalar-retained nonunitary "
-                "BSSN/Bona-Masso principal gates pass. For the registered radial profile the "
-                "pure-trace momentum constraint reduces exactly to K(r)=-(beta/2)v(r)^3. The "
-                "flat pure-trace completion is rejected, while the Hamiltonian constraint "
-                "reduces to a positive-source radial Lichnerowicz boundary-value problem with "
-                "psi'(0)=0 and psi(infinity)=1. An exact integral inequality proves that no "
-                "positive global solution exists for any of the three candidates inside this "
-                "radial conformal/pure-trace class. A candidate-specific nontrivial AF solution "
-                "outside that ansatz, and then global energy, remain unproved; no theory is rejected."
+                "BSSN/Bona-Masso principal gates pass. The prior radial conformal/pure-trace "
+                "Lichnerowicz no-go is now extended to positive nonradial conformal factors and "
+                "arbitrary smooth trace-free York tensors, including TT, longitudinal, and mixed "
+                "pieces, whenever |K| <= (6/5)v. Exact Hamiltonian reduction and a nonradial Green "
+                "comparison reject that entire ansatz class for all three candidates. "
+                "Non-conformally-flat geometry, mean curvature outside that cap, or different "
+                "scalar data remain open; a candidate-specific nontrivial AF constraint solution, "
+                "global energy, and full formal completion are unproved. No action or theory is "
+                "rejected."
             )
         status = {"reject": "rejected", "blocked": "blocked"}[decision]
         nodes = [
