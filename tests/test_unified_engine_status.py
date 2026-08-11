@@ -43,7 +43,10 @@ SOURCE_PATHS = [
     "runs/engine/kastner-schlatter-positive-intensity-preservation-gate.json",
     "runs/engine/kastner-schlatter-positive-reparameterization-gate.json",
     "runs/engine/kastner-schlatter-covariant-point-process-measure-gate.json",
+    "runs/engine/kastner-schlatter-poisson-selector-contract-gate.json",
+    "runs/engine/kastner-schlatter-poisson-cox-cuda-power-campaign.json",
     "runs/engine/generic-g4-b4-termwise-normalization-campaign.json",
+    "runs/engine/einstein-aether-coupling-boundary-kkt-gate.json",
     "runs/engine/grammar-v3-formal-preflight-status.json",
     "runs/engine/grammar-v3-promotion-admission-status.json",
     "runs/engine/grammar-v3-g2-candidate-formal-status.json",
@@ -130,6 +133,7 @@ SOURCE_PATHS = [
     "runs/physics-language/quartic-tc2-d4-topology-changing-origin-classification-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-d4-curl-constraint-admission-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-d4-curl-companion-range-campaign/campaign.json",
+    "runs/physics-language/quartic-tc2-d4-axis2-base-rhs-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000000.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000064.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000128.json",
@@ -198,7 +202,10 @@ LABELS = [
     "kastner_schlatter_positive_intensity_preservation",
     "kastner_schlatter_positive_reparameterization",
     "kastner_schlatter_covariant_point_process_measure",
+    "kastner_schlatter_poisson_selector_contract",
+    "kastner_schlatter_poisson_cox_cuda_power",
     "generic_g4_b4_termwise_normalization",
+    "einstein_aether_coupling_boundary_kkt",
     "grammar_v3_formal_preflight",
     "grammar_v3_promotion_admission",
     "grammar_v3_g2_candidate_formal",
@@ -285,6 +292,7 @@ LABELS = [
     "quartic_tc2_d4_topology_changing_origin_classification",
     "quartic_tc2_d4_curl_constraint_admission",
     "quartic_tc2_d4_curl_companion_range",
+    "quartic_tc2_d4_axis2_base_rhs",
     "quartic_tc2_reranked_obligation_chunk_0",
     "quartic_tc2_reranked_obligation_chunk_64",
     "quartic_tc2_reranked_obligation_chunk_128",
@@ -418,9 +426,7 @@ def test_hardened_live_service_checkpoint_is_hash_and_route_bound(tmp_path: Path
         "stop_reason": "external_stop_requested",
     }
     checkpoint = {**body, "content_sha256": hashlib.sha256(_canonical(body)).hexdigest()}
-    checkpoint_path = (
-        tmp_path / "runs/engine/unified-live-dashboard-safety-service/checkpoint.json"
-    )
+    checkpoint_path = tmp_path / "runs/engine/unified-live-dashboard-safety-service/checkpoint.json"
     checkpoint_path.parent.mkdir(parents=True)
     checkpoint_path.write_text(json.dumps(checkpoint), encoding="utf-8")
     config = {
@@ -779,6 +785,34 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
         "reject": None,
         "block": 0,
     }
+    aether_boundary = core["einstein_aether_coupling_boundary_kkt"]
+    assert aether_boundary["decision_counts"] == {"blocked": 1, "pass": 0, "reject": 0}
+    assert aether_boundary["gate_counts"] == {
+        "D_only_ambient_singular_constrained_full_rank_witnesses": 2,
+        "candidate_or_theory_reject": 0,
+        "five_mode_linear_positivity_chart_bindings": 1,
+        "generic_symbolic_determinant_identities_pass": 5,
+        "global_nonlinear_stability_pass": 0,
+        "observational_pass": 0,
+        "true_constrained_rank_boundary_witnesses": 3,
+    }
+    assert aether_boundary["symbolic_factorization"]["identity_checks"] == {
+        "KKT_11x11": True,
+        "KKT_equals_minus_four_tangent": True,
+        "ambient_10x10": True,
+        "tangent_9x9": True,
+        "unit_normality_rational": True,
+    }
+    assert (
+        aether_boundary["exact_witnesses"]["D_only_inside_five_mode_positivity_chart"]["KKT_rank"]
+        == 11
+    )
+    assert (
+        aether_boundary["exact_witnesses"]["true_constrained_boundaries"]["c14_equals_zero"][
+            "KKT_rank"
+        ]
+        == 8
+    )
     transactional = core["transactional_gravity_proposal"]
     assert transactional["decision"] == "blocked"
     assert transactional["first_blocker"] == (
@@ -903,13 +937,42 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     assert point_process["gate_counts"]["action_only_Poisson_derivation_pass"] == 0
     assert point_process["gate_counts"]["action_only_Poisson_derivation_reject"] == 2
     assert point_process["measure_domain"]["intensity_measure"] == "mu_q(B)=Integral_B q*dVol_g"
-    assert point_process["exact_nonidentifiability_witness"]["exact_separation"][
-        "same_first_moment"
-    ] is True
+    assert (
+        point_process["exact_nonidentifiability_witness"]["exact_separation"]["same_first_moment"]
+        is True
+    )
     assert point_process["first_blocker"] == (
         "no_registered_stochastic_generating_functional_or_QED_event_kernel_to_select_"
         "Poisson_over_a_covariant_Cox_competitor"
     )
+    selector = transactional["poisson_selector_contract"]
+    assert selector["decision_counts"] == {"blocked": 2, "pass": 0, "reject": 0}
+    assert selector["gate_counts"]["minimal_sufficient_selector_contracts"] == 3
+    assert selector["gate_counts"]["registered_scalar_Poisson_PMF_assertions"] == 1
+    assert selector["gate_counts"]["registered_selector_nodes"] == 0
+    assert selector["gate_counts"]["registered_equations_imply_selector_reject"] == 2
+    assert selector["registered_dependency_audit"]["closed_world_counts"] == {
+        "edges": 137,
+        "nodes": 54,
+    }
+    assert (
+        selector["registered_dependency_audit"]["registered_equations_imply_independent_increments"]
+        is False
+    )
+    assert selector["first_blocker"] == (
+        "no_registered_derivation_of_a_set_indexed_Poisson_Laplace_functional_"
+        "independent_increment_family_or_QED_counting_measure_kernel"
+    )
+    poisson_power = transactional["poisson_cox_cuda_power"]
+    assert poisson_power["counts"]["scenario_cells"] == 144
+    assert poisson_power["counts"]["gpu_generated_count_values"] == 110_100_480
+    assert poisson_power["counts"]["metric_replicate_values_cpu_gpu_checked"] == 1_769_472
+    assert poisson_power["counts"]["scientific_tests_passed"] == 0
+    assert poisson_power["counts"]["observational_records_accessed"] == 0
+    assert poisson_power["gpu_cpu_crosscheck"]["all_rejection_decisions_byte_equal"]
+    assert poisson_power["gpu_cpu_crosscheck"]["maximum_absolute_error"] <= 1e-10
+    assert poisson_power["registered_witness_exact_sentinel"]["fano_factor"] == "3/2"
+    assert poisson_power["synthetic_only"] is True
     extended = transactional["extended_geometry_cuda_stress"]
     assert extended["counts"]["geometry_resolution_cases"] == 20
     assert extended["counts"]["gpu_measured_source_evaluation_interactions"] == 2_860_515_328
@@ -1566,7 +1629,10 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     assert safety["safety_contract"]["atomic_starting_checkpoint_before_spawn"] is True
     assert safety["safety_contract"]["repeated_start_launch_allowed"] is False
     assert safety["safety_contract"]["worker_finally_releases_owned_lease"] is True
-    assert safety["safety_contract"]["leaderboard_history_seed_core_and_content_hash_validated"] is True
+    assert (
+        safety["safety_contract"]["leaderboard_history_seed_core_and_content_hash_validated"]
+        is True
+    )
     assert safety["safety_contract"]["leaderboard_history_seed_pre_and_post_hash_guarded"] is True
     assert safety["safety_contract"]["maximum_seed_history_entries"] == 64
     assert safety["safety_contract"]["maximum_seed_history_bytes"] == 65_536
@@ -1582,9 +1648,12 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
         51,
         53,
     ]
-    assert topology["explicit_TC2_selector_classification"]["registered_selector_control"][
-        "target_W_in_image"
-    ] is False
+    assert (
+        topology["explicit_TC2_selector_classification"]["registered_selector_control"][
+            "target_W_in_image"
+        ]
+        is False
+    )
     curl = core["quartic_nonlinear_closure"]["fourth_jet_range_obligations"][
         "canonical_obstruction_certificate"
     ].pop("curl_constraint_admission")
@@ -1603,7 +1672,10 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     assert curl["gauge_fixed_operator"]["direction_1_block_equals_V"] is True
     assert curl["constraint_propagation"]["definition_constraint_propagation"]["map_rank"] == 1
     assert curl["constraint_propagation"]["curl_constraint_propagation"]["map_rank"] == 3
-    assert curl["physical_reduction_equivalence"]["directional_operator_times_gradient_lift_zero"] is True
+    assert (
+        curl["physical_reduction_equivalence"]["directional_operator_times_gradient_lift_zero"]
+        is True
+    )
     assert curl["admission_result"]["gauge_fixed_constraint_operator_constructed"] is True
     assert curl["admission_result"]["covariant_action_derived"] is False
     assert curl["admission_result"]["all_direction_Sylvester_compatibility_proved"] is False
@@ -1618,6 +1690,18 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     assert companion["equal_eigenspace_audit"]["sole_nonzero_eigenvalue"] == "0"
     assert companion["pure_curl_completion_range"]["exact_range_map"]["target_in_image"] is False
     assert companion["necessary_full_D4_condition"]["base_D4_RHS_computed"] is False
+    axis2 = core["quartic_nonlinear_closure"]["fourth_jet_range_obligations"][
+        "canonical_obstruction_certificate"
+    ].pop("axis2_base_D4_RHS")
+    assert axis2["counts"]["directional_evaluations"] == 15
+    assert axis2["counts"]["candidate_conditions_checked"] == 12
+    assert axis2["counts"]["zero_speed_cancellations_exact"] == 0
+    assert axis2["counts"]["corrected_axis2_D4_obstructions"] == 12
+    assert axis2["polarized_base_D4"]["RHS_base_nonzero_entries"] == 0
+    assert axis2["result"]["base_D4_RHS_identically_zero"] is True
+    assert axis2["result"]["corrected_axis2_D4_obstructions"] == 12
+    assert axis2["claims"]["fixed_chart_curl_completion_axis2_D4_rejected"] is True
+    assert axis2["claims"]["TC2_closed"] is False
     assert core["quartic_nonlinear_closure"] == {
         "candidate_count": 12,
         "coordinate_pair_partition": {
@@ -1879,13 +1963,14 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                         "global-H7, or lifespan."
                     ),
                 },
-                "next_gate": (
-                    "Compute the complete polarized base D4 Sylvester RHS at the e2 reference "
-                    "for the same active tensor-component inputs and test its zero-speed "
-                    "compression against the exact required value -eta*C_companion. The current "
-                    "result rules out repairing the companion with further pure curl constraints "
-                    "but does not infer the missing base-RHS value."
-                ),
+                    "next_gate": (
+                        "Construct an admissible topology-changing completion whose direction-two "
+                        "block has zero order-four zero-speed compression, or whose independently "
+                        "derived base e2 D4 forcing cancels it. The current fixed-chart C12 curl "
+                        "completion is exactly obstructed at e2, and the predecessor already rules "
+                        "out repair by further pure C23 curl additions preserving the direction-one "
+                        "V slice."
+                    ),
             },
             "full_fourth_jet_range_closed": False,
         },
@@ -1899,8 +1984,8 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
             "lifespans_proved": 0,
         },
         "first_missing_premise": (
-            "complete_polarized_base_D4_RHS_at_e2_for_the_same_active_tensor_inputs_and_test_"
-            "zero_speed_compression_against_minus_eta_C_companion"
+            "admissible_topology_changing_completion_with_zero_axis2_D4_zero_speed_compression_"
+            "or_independently_derived_cancelling_base_forcing"
         ),
     }
     assert core["cross_pipeline_total"]["status"] == "not_computed"
@@ -2040,6 +2125,10 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "24/24" in dashboard
     assert "coefficient normalization only" in dashboard
     assert "RTX 5090 synthetic formula stress" in dashboard
+    assert "Einstein-Aether constrained coupling boundaries" in dashboard
+    assert "Ambient-only witnesses" in dashboard
+    assert "tangent rank nine and KKT rank eleven" in dashboard
+    assert "generic aligned coupling-boundary classification only" in dashboard
     assert "87.5-billion-evaluation timing loop" in dashboard
     assert "device-wide and can include concurrent processes" in dashboard
     assert "GPU/CPU violations" in dashboard
@@ -2053,11 +2142,20 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "103079215104" in dashboard
     assert "Poisson alt detection" in dashboard
     assert "BTFR alt detection" in dashboard
+    assert "Sufficient selector contracts" in dashboard
+    assert "Registered selector nodes" in dashboard
+    assert "RTX generated counts" in dashboard
+    assert "110100480" in dashboard
+    assert "n=64 likelihood power" in dashboard
+    assert "n=1024 factorial power" in dashboard
+    assert "full set-indexed Laplace functional" in dashboard
+    assert "single scalar PMF node" in dashboard
+    assert "finite-sample separability" in dashboard
     assert "Readiness advanced" in dashboard
     assert "Positive coordinate actions" in dashboard
     assert "Strict-positive solution gates" in dashboard
     assert "q=q0*exp(phi)" in dashboard
-    assert "no QED derivation selecting that positive sector is registered" in dashboard
+    assert "No paper or QED derivation selecting that positive sector is registered" in dashboard
     assert "Covariant intensity measures" in dashboard
     assert "Poisson/Cox witnesses" in dashboard
     assert "mu_q(B)=Integral_B q*dVol_g" in dashboard
@@ -2115,7 +2213,12 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "Augmented rank" in dashboard
     assert "rank 297" in dashboard
     assert "raises the rank to 298" in dashboard
-    assert "not yet an axis-two obstruction theorem" in dashboard
+    assert "TC2 axis-two base D4 obstruction test" in dashboard
+    assert "Axis-two obstructions" in dashboard
+    assert "zero cancellations, zero compatibilities" in dashboard
+    assert "12 exact axis-two obstructions" in dashboard
+    assert "proposed fixed-chart C12 curl completion" in dashboard
+    assert "not yet an axis-two obstruction theorem" not in dashboard
     assert "-eta*C_companion" in dashboard
     assert "No full formal pass is inferred" not in dashboard
     assert "class #1" in dashboard

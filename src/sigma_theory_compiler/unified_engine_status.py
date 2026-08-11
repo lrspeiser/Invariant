@@ -150,8 +150,7 @@ def _read_unified_live_service_status(
         if (
             not isinstance(runtime_epoch, str)
             or len(runtime_epoch) < 16
-            or runtime_directory
-            != "runs/engine/unified-live-dashboard-safety-service"
+            or runtime_directory != "runs/engine/unified-live-dashboard-safety-service"
             or not isinstance(worker_identity, str)
             or not _SHA256_RE.fullmatch(worker_identity)
             or config_relative is None
@@ -518,12 +517,8 @@ def build_unified_snapshot(
     ]
     transactional_gravity_equivalence = sources["kastner_schlatter_action_equivalence_audit"]
     transactional_gravity_formal = sources["kastner_schlatter_candidate_action_formal_admission"]
-    transactional_gravity_de_sitter = sources[
-        "kastner_schlatter_de_sitter_energy_prerequisite"
-    ]
-    transactional_gravity_poisson_action = sources[
-        "kastner_schlatter_poisson_action_compatibility"
-    ]
+    transactional_gravity_de_sitter = sources["kastner_schlatter_de_sitter_energy_prerequisite"]
+    transactional_gravity_poisson_action = sources["kastner_schlatter_poisson_action_compatibility"]
     transactional_gravity_positive_intensity = sources[
         "kastner_schlatter_positive_intensity_preservation"
     ]
@@ -533,6 +528,8 @@ def build_unified_snapshot(
     transactional_gravity_point_process_measure = sources[
         "kastner_schlatter_covariant_point_process_measure"
     ]
+    transactional_gravity_poisson_selector = sources["kastner_schlatter_poisson_selector_contract"]
+    transactional_gravity_poisson_cox_power = sources["kastner_schlatter_poisson_cox_cuda_power"]
     transactional_gravity_scalar_cuda = sources[
         "kastner_schlatter_scalar_intensity_cuda_falsification"
     ]
@@ -540,6 +537,7 @@ def build_unified_snapshot(
         "kastner_schlatter_extended_geometry_cuda_stress"
     ]
     generic_g4_b4_termwise_normalization = sources["generic_g4_b4_termwise_normalization"]
+    einstein_aether_coupling_boundary_kkt = sources["einstein_aether_coupling_boundary_kkt"]
     formal_preflight = sources["grammar_v3_formal_preflight"]
     promotion_admission = sources["grammar_v3_promotion_admission"]
     g2_candidate_formal = sources["grammar_v3_g2_candidate_formal"]
@@ -667,12 +665,9 @@ def build_unified_snapshot(
     quartic_tc2_d4_topology_changing_origin = sources[
         "quartic_tc2_d4_topology_changing_origin_classification"
     ]
-    quartic_tc2_d4_curl_constraint_admission = sources[
-        "quartic_tc2_d4_curl_constraint_admission"
-    ]
-    quartic_tc2_d4_curl_companion_range = sources[
-        "quartic_tc2_d4_curl_companion_range"
-    ]
+    quartic_tc2_d4_curl_constraint_admission = sources["quartic_tc2_d4_curl_constraint_admission"]
+    quartic_tc2_d4_curl_companion_range = sources["quartic_tc2_d4_curl_companion_range"]
+    quartic_tc2_d4_axis2_base_rhs = sources["quartic_tc2_d4_axis2_base_rhs"]
     quartic_tc2_reranked_obligation_chunks = tuple(
         sources[f"quartic_tc2_reranked_obligation_chunk_{offset}"]
         for offset in (0, 64, 128, 192, 256, 320, 384)
@@ -944,6 +939,85 @@ def build_unified_snapshot(
         or generic_g4_b4_termwise_normalization.get("paid_llm_spend_usd") != 0.0
     ):
         raise ValueError("generic G4 B.4 termwise normalization is inconsistent")
+    expected_aether_boundary_counts = {
+        "D_only_ambient_singular_constrained_full_rank_witnesses": 2,
+        "candidate_or_theory_reject": 0,
+        "five_mode_linear_positivity_chart_bindings": 1,
+        "generic_symbolic_determinant_identities_pass": 5,
+        "global_nonlinear_stability_pass": 0,
+        "observational_pass": 0,
+        "true_constrained_rank_boundary_witnesses": 3,
+    }
+    aether_boundary_factorization = einstein_aether_coupling_boundary_kkt.get(
+        "symbolic_factorization", {}
+    )
+    aether_boundary_witnesses = einstein_aether_coupling_boundary_kkt.get("exact_witnesses", {})
+    if (
+        einstein_aether_coupling_boundary_kkt.get("decision")
+        != "constrained_coupling_boundary_rank_closed_nonlinear_stability_blocked"
+        or einstein_aether_coupling_boundary_kkt.get("decision_counts")
+        != {"blocked": 1, "pass": 0, "reject": 0}
+        or einstein_aether_coupling_boundary_kkt.get("gate_counts")
+        != expected_aether_boundary_counts
+        or einstein_aether_coupling_boundary_kkt.get("first_blocker")
+        != "generic_nonlinear_constraint_reduced_Hamiltonian_boundedness_and_boundary_completion_not_proven"
+        or set(aether_boundary_factorization.get("identity_checks", {}).values()) != {True}
+        or aether_boundary_factorization.get("constrained_KKT_11x11_determinant")
+        != "-(c1 + c4)**3*(-M2 + c1 + c3)**5*(2*M2 + c1 + 3*c2 + c3)/128"
+        or aether_boundary_factorization.get("tangent_9x9_determinant")
+        != "(c1 + c4)**3*(-M2 + c1 + c3)**5*(2*M2 + c1 + 3*c2 + c3)/512"
+        or aether_boundary_witnesses.get("D_only_inside_five_mode_positivity_chart", {}).get(
+            "five_mode_chart_checks"
+        )
+        != {
+            "1_minus_c13_positive": True,
+            "c123_times_trace_positive": True,
+            "vector_gradient_positive": True,
+            "zero_less_c14_less_two": True,
+        }
+        or aether_boundary_witnesses.get("D_only_inside_five_mode_positivity_chart", {}).get(
+            "ambient_rank"
+        )
+        != 9
+        or aether_boundary_witnesses.get("D_only_inside_five_mode_positivity_chart", {}).get(
+            "tangent_rank"
+        )
+        != 9
+        or aether_boundary_witnesses.get("D_only_inside_five_mode_positivity_chart", {}).get(
+            "KKT_rank"
+        )
+        != 11
+        or {
+            name: {key: witness.get(key) for key in ("ambient_rank", "tangent_rank", "KKT_rank")}
+            for name, witness in aether_boundary_witnesses.get(
+                "true_constrained_boundaries", {}
+            ).items()
+        }
+        != {
+            "M2_minus_c13_equals_zero": {
+                "ambient_rank": 5,
+                "tangent_rank": 4,
+                "KKT_rank": 6,
+            },
+            "c14_equals_zero": {
+                "ambient_rank": 7,
+                "tangent_rank": 6,
+                "KKT_rank": 8,
+            },
+                "two_M2_plus_c13_plus_3c2_equals_zero": {
+                "ambient_rank": 10,
+                "tangent_rank": 8,
+                "KKT_rank": 10,
+            },
+        }
+        or einstein_aether_coupling_boundary_kkt.get("reduced_five_mode_chart_binding", {}).get(
+            "D_is_not_a_reduced_five_mode_boundary"
+        )
+        is not True
+        or any(einstein_aether_coupling_boundary_kkt.get("claim_seals", {}).values())
+        or any(einstein_aether_coupling_boundary_kkt.get("data_seals", {}).values())
+    ):
+        raise ValueError("Einstein-Aether coupling-boundary KKT gate is inconsistent")
     if (
         generated_candidate_formula_gpu_stress.get("campaign_decision")
         != "completed_numerical_stress_control_only"
@@ -1521,8 +1595,7 @@ def build_unified_snapshot(
         .get("candidate_action_completion", {})
         .get("content_sha256")
         != transactional_gravity_candidate_action.get("content_sha256")
-        or len(transactional_gravity_positive_reparameterization.get("candidate_records", []))
-        != 2
+        or len(transactional_gravity_positive_reparameterization.get("candidate_records", [])) != 2
         or any(
             record.get("candidate_decision") != "blocked"
             or record.get("candidate_action_rejection_authorized") is not False
@@ -1576,8 +1649,9 @@ def build_unified_snapshot(
         .get("exact_separation", {})
         .get("same_first_moment")
         is not True
-        or transactional_gravity_point_process_measure.get("deterministic_controls", {})
-        .get("exact_moment_separation_control", {})
+        or transactional_gravity_point_process_measure.get("deterministic_controls", {}).get(
+            "exact_moment_separation_control", {}
+        )
         != {
             "Cox_mean": "2",
             "Cox_second_factorial_moment": "5",
@@ -1601,6 +1675,137 @@ def build_unified_snapshot(
         or any(transactional_gravity_point_process_measure.get("data_seals", {}).values())
     ):
         raise ValueError("Kastner-Schlatter covariant point-process gate is inconsistent")
+    expected_poisson_selector_counts = {
+        "Poisson_Laplace_functional_derivation_pass": 0,
+        "QED_counting_measure_kernel_derivation_pass": 0,
+        "candidate_action_reject": 0,
+        "candidate_actions": 2,
+        "independent_increment_derivation_pass": 0,
+        "minimal_sufficient_selector_contracts": 3,
+        "paper_QED_ontology_observational_pass": 0,
+        "registered_action_derivation_edges_to_PMF": 0,
+        "registered_equations_imply_selector_reject": 2,
+        "registered_scalar_Poisson_PMF_assertions": 1,
+        "registered_selector_nodes": 0,
+    }
+    poisson_selector_audit = transactional_gravity_poisson_selector.get(
+        "registered_dependency_audit", {}
+    )
+    if (
+        transactional_gravity_poisson_selector.get("decision")
+        != "Poisson_selector_contract_registered_no_registered_derivation_path"
+        or transactional_gravity_poisson_selector.get("decision_counts")
+        != {"blocked": 2, "pass": 0, "reject": 0}
+        or transactional_gravity_poisson_selector.get("gate_counts")
+        != expected_poisson_selector_counts
+        or transactional_gravity_poisson_selector.get("first_blocker")
+        != "no_registered_derivation_of_a_set_indexed_Poisson_Laplace_functional_independent_increment_family_or_QED_counting_measure_kernel"
+        or transactional_gravity_poisson_selector.get("source_bindings", {})
+        .get("point_process_measure_gate", {})
+        .get("content_sha256")
+        != transactional_gravity_point_process_measure.get("content_sha256")
+        or transactional_gravity_poisson_selector.get("source_bindings", {})
+        .get("equation_graph", {})
+        .get("content_sha256")
+        != transactional_gravity_graph.get("content_sha256")
+        or poisson_selector_audit.get("closed_world_counts") != {"edges": 137, "nodes": 54}
+        or poisson_selector_audit.get("registered_scalar_Poisson_PMF_nodes") != 1
+        or poisson_selector_audit.get("PMF_not_derived_from_action_edge") is not True
+        or any(
+            poisson_selector_audit.get(key) is not False
+            for key in (
+                "registered_equations_imply_Poisson_Laplace_functional",
+                "registered_equations_imply_QED_counting_measure_kernel",
+                "registered_equations_imply_independent_increments",
+            )
+        )
+        or len(transactional_gravity_poisson_selector.get("candidate_records", [])) != 2
+        or any(
+            record.get("candidate_decision") != "blocked"
+            or record.get("candidate_action_rejection_authorized") is not False
+            or record.get("registered_action_stochastic_outputs", {}).get(
+                "positive_intensity_measure"
+            )
+            is not True
+            or any(
+                record.get("registered_action_stochastic_outputs", {}).get(key) is not False
+                for key in (
+                    "Laplace_functional",
+                    "Mecke_or_QED_event_kernel",
+                    "independent_increment_family",
+                    "probability_kernel",
+                )
+            )
+            for record in transactional_gravity_poisson_selector.get("candidate_records", [])
+        )
+        or any(transactional_gravity_poisson_selector.get("claim_seals", {}).values())
+        or any(transactional_gravity_poisson_selector.get("data_seals", {}).values())
+    ):
+        raise ValueError("Kastner-Schlatter Poisson selector contract is inconsistent")
+    expected_poisson_cox_power_counts = {
+        "finite_sample_evaluation_replicate_tests": 294_912,
+        "gpu_generated_count_values": 110_100_480,
+        "metric_replicate_values_cpu_gpu_checked": 1_769_472,
+        "null_calibration_replicates": 49_152,
+        "observational_records_accessed": 0,
+        "paper_or_qed_inferences": 0,
+        "readiness_fields_advanced": 0,
+        "registered_witness_scenario_cells": 12,
+        "scenario_cells": 144,
+        "scientific_tests_passed": 0,
+    }
+    poisson_cox_crosscheck = transactional_gravity_poisson_cox_power.get("gpu_cpu_crosscheck", {})
+    poisson_cox_runtime = transactional_gravity_poisson_cox_power.get("runtime_measurement", {})
+    if (
+        transactional_gravity_poisson_cox_power.get("decision")
+        != "synthetic_poisson_cox_falsification_power_measured_scientific_and_observational_claims_blocked"
+        or transactional_gravity_poisson_cox_power.get("counts")
+        != expected_poisson_cox_power_counts
+        or transactional_gravity_poisson_cox_power.get("source_bindings", {})
+        .get("registered_poisson_cox_witness", {})
+        .get("content_sha256")
+        != transactional_gravity_poisson_action.get("content_sha256")
+        or transactional_gravity_poisson_cox_power.get("registered_witness_exact_sentinel")
+        != {
+            "conditional_rate_support": ["1", "3"],
+            "count_variance": "3",
+            "factorial_excess": "1",
+            "factorial_second_moment": "5",
+            "fano_factor": "3/2",
+            "latent_rate_variance": "1",
+            "mean_count": "2",
+            "poisson_null_factorial_second_moment": "4",
+            "void_probability_symbolic": "(exp(-1)+exp(-3))/2",
+            "weights": ["1/2", "1/2"],
+        }
+        or poisson_cox_crosscheck.get("replicate_metric_values_checked") != 1_769_472
+        or poisson_cox_crosscheck.get("all_rejection_decisions_byte_equal") is not True
+        or poisson_cox_crosscheck.get("exact_registered_witness_sentinel_passed") is not True
+        or poisson_cox_crosscheck.get("maximum_absolute_error")
+        > poisson_cox_crosscheck.get("absolute_error_bound")
+        or poisson_cox_crosscheck.get("maximum_relative_error_scaled_at_one")
+        > poisson_cox_crosscheck.get("relative_error_bound")
+        or "device-wide NVML"
+        not in poisson_cox_runtime.get("utilization", {}).get("counter_scope", "")
+        or transactional_gravity_poisson_cox_power.get("synthetic_only") is not True
+        or any(
+            transactional_gravity_poisson_cox_power.get(key) is not False
+            for key in (
+                "observational_test_pass",
+                "observations_opened",
+                "ontology_pass",
+                "paper_pass",
+                "qed_pass",
+                "readiness_advanced",
+                "redshift_or_cosmology_inputs",
+                "scientific_test_pass",
+                "theory_pass",
+                "dark_matter_or_halo_inputs",
+                "paid_llm_calls",
+            )
+        )
+    ):
+        raise ValueError("Kastner-Schlatter Poisson-Cox CUDA power campaign is inconsistent")
     expected_scalar_cuda_counts = {
         "compiler_action_hypotheses": 2,
         "exact_sentinel_groups": 4,
@@ -5053,9 +5258,7 @@ def build_unified_snapshot(
         or companion_eigenspaces.get("sole_nonzero_eigenvalue") != "0"
         or companion_eigenspaces.get("companion_compression_sha256")
         != "def5dc985fa3356a9a21b2b06d4ebe0f0365058403e3e762eab161d7fb2822be"
-        or companion_audit.get("rotation_control", {}).get(
-            "companion_and_rotated_W_span_dimension"
-        )
+        or companion_audit.get("rotation_control", {}).get("companion_and_rotated_W_span_dimension")
         != 2
         or companion_audit.get("rotation_control", {}).get("companion_is_rotated_W_multiple")
         is not False
@@ -5063,9 +5266,7 @@ def build_unified_snapshot(
         or companion_range.get("exact_range_map", {}).get("rank") != 297
         or companion_range.get("exact_range_map", {}).get("target_augmented_rank") != 298
         or companion_range.get("exact_range_map", {}).get("target_in_image") is not False
-        or companion_range.get("result", {}).get(
-            "pure_curl_self_compatible_completion_exists"
-        )
+        or companion_range.get("result", {}).get("pure_curl_self_compatible_completion_exists")
         is not False
         or companion_audit.get("necessary_full_D4_condition", {}).get("base_D4_RHS_computed")
         is not False
@@ -5076,9 +5277,7 @@ def build_unified_snapshot(
         or len(companion_audit.get("candidate_companion_witnesses", [])) != 12
         or any(
             control.get("rejected") is not True
-            for control in quartic_tc2_d4_curl_companion_range.get(
-                "negative_controls", {}
-            ).values()
+            for control in quartic_tc2_d4_curl_companion_range.get("negative_controls", {}).values()
         )
         or companion_claims.get("axis2_companion_all_eigenspaces_audited") is not True
         or companion_claims.get("pure_curl_self_compatible_completion_ruled_out") is not True
@@ -5104,6 +5303,108 @@ def build_unified_snapshot(
         )
     ):
         raise ValueError("quartic TC2 D4 curl companion range is inconsistent")
+    axis2_counts = quartic_tc2_d4_axis2_base_rhs.get("counts", {})
+    axis2_claims = quartic_tc2_d4_axis2_base_rhs.get("claims", {})
+    axis2_audit = quartic_tc2_d4_axis2_base_rhs.get("exact_axis2_base_D4_audit", {})
+    axis2_result = axis2_audit.get("result", {})
+    axis2_base = axis2_audit.get("polarized_base_D4", {})
+    if (
+        quartic_tc2_d4_axis2_base_rhs.get("status")
+        != "pass_exact_all_12_axis2_D4_companion_obstructions"
+        or quartic_tc2_d4_axis2_base_rhs.get("source_bindings", {})
+        .get("companion_range", {})
+        .get("content_sha256")
+        != quartic_tc2_d4_curl_companion_range.get("content_sha256")
+        or axis2_counts
+        != {
+            "candidate_conditions_checked": 12,
+            "corrected_axis2_D4_compatibilities": 0,
+            "corrected_axis2_D4_obstructions": 12,
+            "directional_evaluations": 15,
+            "inferred_global_passes": 0,
+            "negative_controls": 6,
+            "zero_speed_cancellations_exact": 0,
+        }
+        or quartic_tc2_d4_axis2_base_rhs.get("selector_binding")
+        != {
+            "active_indices": [0, 2, 3, 9],
+            "obligation_offset": 244,
+            "reference_direction": "e2",
+            "same_active_tensor_component_inputs": True,
+            "selector_record_sha256": (
+                "337daa86bf740ae9e66dbef0829df30297c02e22b8baeb6b90328d608fa66c87"
+            ),
+        }
+        or axis2_audit.get("directional_evaluations") != 15
+        or axis2_base.get("RHS_base_nonzero_entries") != 0
+        or {
+            axis2_base.get(key)
+            for key in (
+                "D4K55_sha256",
+                "D4P55_sha256",
+                "D4TC2_sha256",
+                "RHS_base_sha256",
+            )
+        }
+        != {"d4d121c239c4905e1183840e887b102fd0a0c9dc588820df4b858291c70cb4ad"}
+        or axis2_audit.get("companion_correction")
+        != {
+            "block_sha256": ("9ef0bdb7ea7009ebba9b25ccb1225e1b955351d62a4b16c7989d339508a3b195"),
+            "compression_nonzero_entries": 10,
+            "compression_rank": 2,
+            "compression_sha256": (
+                "def5dc985fa3356a9a21b2b06d4ebe0f0365058403e3e762eab161d7fb2822be"
+            ),
+        }
+        or axis2_result
+        != {
+            "base_D4_RHS_identically_zero": True,
+            "base_D4_Sylvester_solvable": True,
+            "base_D4_deltaK_zero": True,
+            "base_D4_residual_zero": True,
+            "candidate_conditions_checked": 12,
+            "corrected_axis2_D4_compatibilities": 0,
+            "corrected_axis2_D4_obstructions": 12,
+            "full_axis2_base_D4_RHS_evaluated": True,
+            "wrong_sign_companion_compatibilities": 0,
+            "zero_speed_cancellations_exact": 0,
+        }
+        or len(axis2_audit.get("candidate_comparison", [])) != 12
+        or any(
+            record.get("corrected_axis2_D4_Sylvester_solvable") is not False
+            or record.get("zero_speed_cancellation_exact") is not False
+            or record.get("corrected_nonzero_equal_eigenspace_compressions", {})
+            .get("0", {})
+            .get("rank")
+            != 2
+            for record in axis2_audit.get("candidate_comparison", [])
+        )
+        or any(
+            control.get("rejected") is not True
+            for control in quartic_tc2_d4_axis2_base_rhs.get("negative_controls", {}).values()
+        )
+        or axis2_claims.get("full_axis2_base_D4_RHS_evaluated") is not True
+        or axis2_claims.get("all_12_axis2_D4_obstructions_proved") is not True
+        or axis2_claims.get("fixed_chart_curl_completion_axis2_D4_rejected") is not True
+        or any(
+            axis2_claims.get(key) is not False
+            for key in (
+                "all_12_axis2_D4_compatibilities_proved",
+                "all_spatial_direction_compatibility_proved",
+                "corrected_candidate_family_registered",
+                "remaining_D4_selector_closed",
+                "spatially_covariant_tensor_completion_proved",
+                "full_tube_Sylvester_identity",
+                "CK1_closed",
+                "CK3_closed",
+                "TC2_closed",
+                "B7_closed",
+                "global_H7_closed",
+                "lifespan_proved",
+            )
+        )
+    ):
+        raise ValueError("quartic TC2 axis-two base D4 RHS gate is inconsistent")
     if (
         unified_live_dashboard_service_readiness.get("decision")
         != "ready_enabled_read_only_bounded"
@@ -5347,6 +5648,21 @@ def build_unified_snapshot(
             },
             "deadline": "completed_artifact_no_live_deadline",
         },
+        "einstein_aether_coupling_boundary_kkt": {
+            "decision": einstein_aether_coupling_boundary_kkt["decision"],
+            "decision_counts": einstein_aether_coupling_boundary_kkt["decision_counts"],
+            "gate_counts": einstein_aether_coupling_boundary_kkt["gate_counts"],
+            "first_blocker": einstein_aether_coupling_boundary_kkt["first_blocker"],
+            "aligned_contract": einstein_aether_coupling_boundary_kkt["aligned_contract"],
+            "symbolic_factorization": einstein_aether_coupling_boundary_kkt[
+                "symbolic_factorization"
+            ],
+            "exact_witnesses": einstein_aether_coupling_boundary_kkt["exact_witnesses"],
+            "reduced_five_mode_chart_binding": einstein_aether_coupling_boundary_kkt[
+                "reduced_five_mode_chart_binding"
+            ],
+            "scope": einstein_aether_coupling_boundary_kkt["scope"],
+        },
         "transactional_gravity_proposal": {
             "primary_source": {
                 "arxiv_id": transactional_gravity_intake["primary_source"]["arxiv_id"],
@@ -5463,9 +5779,7 @@ def build_unified_snapshot(
             },
             "positive_intensity_preservation": {
                 "decision": transactional_gravity_positive_intensity["decision"],
-                "decision_counts": transactional_gravity_positive_intensity[
-                    "decision_counts"
-                ],
+                "decision_counts": transactional_gravity_positive_intensity["decision_counts"],
                 "gate_counts": transactional_gravity_positive_intensity["gate_counts"],
                 "first_blocker": transactional_gravity_positive_intensity["first_blocker"],
                 "witness_domain": transactional_gravity_positive_intensity["witness_domain"],
@@ -5480,9 +5794,7 @@ def build_unified_snapshot(
                     "decision_counts"
                 ],
                 "gate_counts": transactional_gravity_positive_reparameterization["gate_counts"],
-                "first_blocker": transactional_gravity_positive_reparameterization[
-                    "first_blocker"
-                ],
+                "first_blocker": transactional_gravity_positive_reparameterization["first_blocker"],
                 "field_space_contract": transactional_gravity_positive_reparameterization[
                     "field_space_contract"
                 ],
@@ -5493,9 +5805,7 @@ def build_unified_snapshot(
             },
             "covariant_point_process_measure": {
                 "decision": transactional_gravity_point_process_measure["decision"],
-                "decision_counts": transactional_gravity_point_process_measure[
-                    "decision_counts"
-                ],
+                "decision_counts": transactional_gravity_point_process_measure["decision_counts"],
                 "gate_counts": transactional_gravity_point_process_measure["gate_counts"],
                 "first_blocker": transactional_gravity_point_process_measure["first_blocker"],
                 "measure_domain": transactional_gravity_point_process_measure["measure_domain"],
@@ -5508,6 +5818,40 @@ def build_unified_snapshot(
                     "exact_nonidentifiability_witness"
                 ],
                 "scope": transactional_gravity_point_process_measure["scope"],
+            },
+            "poisson_selector_contract": {
+                "decision": transactional_gravity_poisson_selector["decision"],
+                "decision_counts": transactional_gravity_poisson_selector["decision_counts"],
+                "gate_counts": transactional_gravity_poisson_selector["gate_counts"],
+                "first_blocker": transactional_gravity_poisson_selector["first_blocker"],
+                "minimal_Poisson_selector_contract": (
+                    transactional_gravity_poisson_selector["minimal_Poisson_selector_contract"]
+                ),
+                "registered_dependency_audit": transactional_gravity_poisson_selector[
+                    "registered_dependency_audit"
+                ],
+                "scalar_marginal_nonimplication_theorem": (
+                    transactional_gravity_poisson_selector["scalar_marginal_nonimplication_theorem"]
+                ),
+                "scope": transactional_gravity_poisson_selector["scope"],
+            },
+            "poisson_cox_cuda_power": {
+                "decision": transactional_gravity_poisson_cox_power["decision"],
+                "counts": transactional_gravity_poisson_cox_power["counts"],
+                "design": transactional_gravity_poisson_cox_power["design"],
+                "registered_witness_exact_sentinel": (
+                    transactional_gravity_poisson_cox_power["registered_witness_exact_sentinel"]
+                ),
+                "gpu_cpu_crosscheck": transactional_gravity_poisson_cox_power["gpu_cpu_crosscheck"],
+                "runtime_measurement": transactional_gravity_poisson_cox_power[
+                    "runtime_measurement"
+                ],
+                "registered_witness_scenario_results": [
+                    row
+                    for row in transactional_gravity_poisson_cox_power["scenario_results"]
+                    if row["null_mean"] == "2" and row["mixing_delta"] == "1/2"
+                ],
+                "synthetic_only": transactional_gravity_poisson_cox_power["synthetic_only"],
             },
             "scalar_intensity_cuda_falsification": {
                 "decision": transactional_gravity_scalar_cuda["decision"],
@@ -6684,9 +7028,7 @@ def build_unified_snapshot(
                     "curl_companion_range": {
                         "status": quartic_tc2_d4_curl_companion_range["status"],
                         "counts": companion_counts,
-                        "selector_binding": quartic_tc2_d4_curl_companion_range[
-                            "selector_binding"
-                        ],
+                        "selector_binding": quartic_tc2_d4_curl_companion_range["selector_binding"],
                         "axis_2_reference": companion_audit["axis_2_reference"],
                         "companion_block": companion_audit["companion_block"],
                         "equal_eigenspace_audit": companion_eigenspaces,
@@ -6697,7 +7039,18 @@ def build_unified_snapshot(
                         ],
                         "scope": quartic_tc2_d4_curl_companion_range["scope"],
                     },
-                    "next_gate": quartic_tc2_d4_curl_companion_range["next_gate"],
+                    "axis2_base_D4_RHS": {
+                        "status": quartic_tc2_d4_axis2_base_rhs["status"],
+                        "counts": axis2_counts,
+                        "selector_binding": quartic_tc2_d4_axis2_base_rhs["selector_binding"],
+                        "axis_2_reference": axis2_audit["axis_2_reference"],
+                        "polarized_base_D4": axis2_base,
+                        "companion_correction": axis2_audit["companion_correction"],
+                        "result": axis2_result,
+                        "claims": axis2_claims,
+                        "scope": quartic_tc2_d4_axis2_base_rhs["scope"],
+                    },
+                    "next_gate": quartic_tc2_d4_axis2_base_rhs["next_gate"],
                 },
                 "full_fourth_jet_range_closed": False,
             },
@@ -6713,7 +7066,7 @@ def build_unified_snapshot(
                     "lifespans_proved",
                 )
             },
-            "first_missing_premise": "complete_polarized_base_D4_RHS_at_e2_for_the_same_active_tensor_inputs_and_test_zero_speed_compression_against_minus_eta_C_companion",
+            "first_missing_premise": "admissible_topology_changing_completion_with_zero_axis2_D4_zero_speed_compression_or_independently_derived_cancelling_base_forcing",
         },
         "evidence_pareto": {
             "candidate_decision_counts": pareto["candidate_decision_counts"],

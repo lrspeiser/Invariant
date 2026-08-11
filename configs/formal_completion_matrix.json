@@ -151,6 +151,14 @@
         "configs/kastner_schlatter_covariant_point_process_measure_gate.json",
         "tests/test_kastner_schlatter_covariant_point_process_measure_gate.py",
         "runs/engine/kastner-schlatter-covariant-point-process-measure-gate.json",
+        "src/sigma_theory_compiler/kastner_schlatter_poisson_selector_contract_gate.py",
+        "configs/kastner_schlatter_poisson_selector_contract_gate.json",
+        "tests/test_kastner_schlatter_poisson_selector_contract_gate.py",
+        "runs/engine/kastner-schlatter-poisson-selector-contract-gate.json",
+        "src/sigma_theory_compiler/kastner_schlatter_poisson_cox_cuda_power_campaign.py",
+        "configs/kastner_schlatter_poisson_cox_cuda_power_campaign.json",
+        "tests/test_kastner_schlatter_poisson_cox_cuda_power_campaign.py",
+        "runs/engine/kastner-schlatter-poisson-cox-cuda-power-campaign.json",
         "src/sigma_theory_compiler/generic_g4_b4_termwise_normalization_campaign.py",
         "configs/generic_g4_b4_termwise_normalization_campaign.json",
         "formal/sources/kyy_1105.5723v4_eq_B4_canonical_coefficients.json",
@@ -205,6 +213,8 @@
         ,"an exact action-to-Poisson compatibility audit that admits both stationary constant-intensity interfaces conditionally but proves the mixed-Poisson variance identity and keeps action-derived covariant point-process measure, positivity preservation and QED actualization dynamics blocked"
         ,"an exact positive-sector field-coordinate audit for both compiler-authored actions: q=q0*exp(phi) is a global diffeomorphism onto q>0, yields exact local covariant action and Euler-Lagrange rewrites, and guarantees strict positivity for regular finite-phi solutions; the paper/QED sector-selection rule and action-derived point-process probability measure remain absent"
         ,"a minimal covariant random-measure contract plus an exact Poisson-versus-Cox nonidentifiability theorem: both branches provide the positive mean measure mu_q, while two covariant laws share that mean and differ in void probability, variance and factorial moments, so the deterministic actions alone cannot select Poisson statistics"
+        ,"an exact Poisson-selector contract audit registering three sufficient routesâ€”the full set-indexed Laplace functional, all disjoint-family joint generating functions with independent increments, or a Mecke/QED counting kernelâ€”and proving that the registered 54-node graph contains zero selector nodes and zero action-derivation edges to its single scalar PMF assertion; equal dependent cell counts preserve the scalar marginal while violating independent increments"
+        ,"an RTX 5090 finite-sample Poisson-versus-Cox power campaign over 144 exposure/intensity/mixing/sample-size scenarios, 110,100,480 generated counts, 49,152 independent null-calibration replicates and 1,769,472 CPU/GPU metric comparisons with byte-identical guarded decisions; all readiness, scientific, observational, ontology and paper/QED counters remain zero or false"
       ],
       "scalable_formal_provenance_bindings": {
         "kastner_schlatter_transactional_gravity_intake": {
@@ -299,6 +309,29 @@
           "action_only_Poisson_derivation_rejects": 2,
           "candidate_action_rejects": 0,
           "paper_or_QED_derivations": 0
+        },
+        "kastner_schlatter_poisson_selector_contract": {
+          "path": "runs/engine/kastner-schlatter-poisson-selector-contract-gate.json",
+          "file_sha256": "6bb9e434145ada0013782bb23ce74dc434cd7fa453f7ee26e8d9898788507725",
+          "content_sha256": "22185115c60260aa9a27bd05ae6d76299e8ca05b4d64ad7761c3264a4ede74cb",
+          "sufficient_selector_contracts": 3,
+          "registered_scalar_PMF_assertions": 1,
+          "registered_selector_nodes": 0,
+          "registered_action_derivation_edges": 0,
+          "registered_equations_imply_selector_rejects": 2,
+          "candidate_action_rejects": 0
+        },
+        "kastner_schlatter_poisson_cox_cuda_power": {
+          "path": "runs/engine/kastner-schlatter-poisson-cox-cuda-power-campaign.json",
+          "file_sha256": "510ec2a3a585b996ffef60c69c65143cc4dd3c27454ced2d183908509aa001b7",
+          "content_sha256": "604fde7b4fca276bf42120499b8a93f1388442ec0553a425fab63c29963db56d",
+          "scenario_cells": 144,
+          "gpu_generated_count_values": 110100480,
+          "null_calibration_replicates": 49152,
+          "finite_sample_evaluation_replicates": 294912,
+          "cpu_gpu_metric_comparisons": 1769472,
+          "scientific_tests_passed": 0,
+          "observations_opened": false
         },
         "generic_g4_B4_normalization": {
           "path": "runs/engine/generic-g4-b4-termwise-normalization-campaign.json",
@@ -757,10 +790,28 @@
         "exact generic cubic-Horndeski trace-reversed scalar effective metric including the complete G3_X-squared correction, with zero source-contraction and closed-form residuals plus an omitted-trace-reversal 27/4 witness",
         "finite-family FLRW campaign orchestration using the exact formulation partition, high-precision energy-constraint root construction and adaptive step refinement near a declared seed, separate outward-rounded certificates for all 3 generalized-harmonic candidates, and local screening of the 6 G3-only cases with 5 passes and one missing positive constraint root; each screened cubic certificate bounds all 15 homogeneous weak-field derivative ratios and the sigma=1 scalar/slicing-cone gap for threshold-free diagnostic ranking",
         "uniform cubic-Horndeski arbitrary-local-jet domain campaign proving common time covectors, positive scalar spatial blocks, positive characteristic discriminants, and sigma=1 slicing-cone separation over the complete direction sphere for all 5 screened candidates, with nested Hessian radii and gauge/non-timelike negatives",
-        "regular rank-one reduced quadratic-DHOST kinetic family compiler deriving c=b^2/a, the Hessian null direction, and the primary momentum constraint before coefficient enumeration"
+        "regular rank-one reduced quadratic-DHOST kinetic family compiler deriving c=b^2/a, the Hessian null direction, and the primary momentum constraint before coefficient enumeration",
+        "generic independent-c1..c4 aligned-unit-Aether coupling-boundary classification: five exact determinant/normality identities separate the ambient normal Schur factor D from the tangent and constrained KKT determinants, two D=0 witnesses retain full tangent/KKT rank including one inside the positive five-mode chart, and three exact c14, M2-c13, and trace-factor boundaries lose constrained rank without inferring theory rejection or nonlinear global stability"
       ],
+      "coupling_boundary_kkt_evidence": [
+        "src/sigma_theory_compiler/einstein_aether_coupling_boundary_kkt_gate.py",
+        "configs/einstein_aether_coupling_boundary_kkt_gate.json",
+        "tests/test_einstein_aether_coupling_boundary_kkt_gate.py",
+        "runs/engine/einstein-aether-coupling-boundary-kkt-gate.json"
+      ],
+      "coupling_boundary_kkt_binding": {
+        "path": "runs/engine/einstein-aether-coupling-boundary-kkt-gate.json",
+        "file_sha256": "5f2326c19dd5170d146fa162de58552ae6551be1bcb7fe0f0bc4deae866f1609",
+        "content_sha256": "3b3887acf6421672758371ad67c7bc6fb83df6f8dde2059d4cf85a7f29647211",
+        "symbolic_identities": 5,
+        "ambient_only_singularity_witnesses": 2,
+        "true_constrained_rank_boundaries": 3,
+        "five_mode_chart_bindings": 1,
+        "global_nonlinear_stability_passes": 0,
+        "candidate_or_theory_rejects": 0
+      },
       "missing": [
-        "coupling-boundary singular rank and reduced-Hamiltonian stability for generic independent-c1..c4 Einstein-Aether",
+        "generic nonlinear constraint-reduced Hamiltonian boundedness and boundary-charge completion for independent-c1..c4 Einstein-Aether beyond the exact aligned coupling-boundary rank classification and five-mode linear positivity chart",
         "global G2/G3/G4 lapse-Hessian operator invertibility, singular-stratum classification, exhaustive admissible initial-domain generation, nonlinear evolution-invariant trapping regions for the 5 pointwise-certified cubic-BSSN candidates, modified-harmonic positive symmetrizers and uniform weak-coupling/cone bounds for G4_X candidates, and nonlinear global energy",
         "full covariant quadratic-DHOST class relations and generic secondary/distributed constraint closure beyond the reduced rank-one pack",
         "uniform curved-background symmetrizer and nonlinear global energy control for the named quartic-Horndeski action"
@@ -913,7 +964,7 @@
       },
       "global_H7_energy_ledger": {
         "status": "implemented_global_nonremainder_sum_full_D1_and_partial_TC2_correction_global_H7_fail_closed",
-        "scope": "For all 12 candidates, the fail-closed H7 ledger includes the complete reference quadratic deltaK two-jet and the full exact third-jet sector. The fourth-order service closed 244 of 3,060 obligations before finding a rank-two alpha^5 obstruction at offset 244. An exact homogeneous-freedom reduction covers all 15 polarization sums, 300 stationary-projector checks and 20,842 lower-jet kernel slots; its induced D4 zero-eigenspace map has rank zero, so no lower homogeneous completion can cancel the witness. A separate minimal one-parameter rank-one state-space TC2 ansatz spans the obstruction line and gives 12/12 exact candidate-specific D4 solutions after tuning eta=-(34816/15)alpha^5. Its downstream fixed-chart curl completion proves exact 33-definition/33-curl propagation and reference constraint-surface equivalence. The required axis-two companion has been audited on seven eigenspaces: only the zero-speed compression is nonzero, with rank two and ten entries. A 363-parameter pure-C23 completion class has projected rank 297 and cannot reach the companion target because the augmented rank is 298. The full polarized base D4 right-hand side at axis two is still unevaluated, so neither full compatibility nor full obstruction is claimed. No covariant-action origin, spatially covariant tensor completion, all-direction compatibility, universal eta or corrected-candidate registration is proved. The 2,816 later obligations remain unevaluated. Full fourth-order closure, all-order remainder control, variable TC3/high-derivative TC2/H7 TC5 bounds, global dyadic closure, tube preservation, and lifespan remain false.",
+        "scope": "For all 12 candidates, the fail-closed H7 ledger includes the complete reference quadratic deltaK two-jet and the full exact third-jet sector. The fourth-order service closed 244 of 3,060 obligations before finding a rank-two alpha^5 obstruction at offset 244. An exact homogeneous-freedom reduction covers all 15 polarization sums, 300 stationary-projector checks and 20,842 lower-jet kernel slots; its induced D4 zero-eigenspace map has rank zero, so no lower homogeneous completion can cancel the witness. A separate minimal one-parameter rank-one state-space TC2 ansatz spans the obstruction line and gives 12/12 exact candidate-specific D4 solutions after tuning eta=-(34816/15)alpha^5. Its downstream fixed-chart curl completion proves exact 33-definition/33-curl propagation and reference constraint-surface equivalence. The required axis-two companion has been audited on seven eigenspaces: only the zero-speed compression is nonzero, with rank two and ten entries. A 363-parameter pure-C23 completion class has projected rank 297 and cannot reach the companion target because the augmented rank is 298. The complete polarized base D4 right-hand side at axis two is now exactly zero, so it cannot cancel the nonzero rank-two companion for any of the 12 registered eta values: all 12 are exact axis-two obstructions. This rejects that fixed-chart C12 curl completion, not every topology-changing completion. No covariant-action origin, spatially covariant tensor completion, all-direction compatibility, universal eta or corrected-candidate registration is proved. The 2,816 later obligations remain unevaluated. Full fourth-order closure, all-order remainder control, variable TC3/high-derivative TC2/H7 TC5 bounds, global dyadic closure, tube preservation, and lifespan remain false.",
         "evidence": [
           "src/sigma_theory_compiler/quartic_tc2_quadratic_deltak_extension_campaign.py",
           "configs/backgrounds/quartic_tc2_quadratic_deltak_extension_campaign.json",
@@ -1019,7 +1070,11 @@
         "src/sigma_theory_compiler/quartic_tc2_d4_curl_companion_range_campaign.py",
         "configs/backgrounds/quartic_tc2_d4_curl_companion_range_campaign.json",
         "tests/test_quartic_tc2_d4_curl_companion_range_campaign.py",
-        "runs/physics-language/quartic-tc2-d4-curl-companion-range-campaign/campaign.json"
+        "runs/physics-language/quartic-tc2-d4-curl-companion-range-campaign/campaign.json",
+        "src/sigma_theory_compiler/quartic_tc2_d4_axis2_base_rhs_campaign.py",
+        "configs/backgrounds/quartic_tc2_d4_axis2_base_rhs_campaign.json",
+        "tests/test_quartic_tc2_d4_axis2_base_rhs_campaign.py",
+        "runs/physics-language/quartic-tc2-d4-axis2-base-rhs-campaign/campaign.json"
         ],
         "artifact_binding": {
           "file_sha256": "bb651cb099e409fff85d3354c69a88f667cd39453946a8affce00378b3c705bf",
@@ -1175,9 +1230,26 @@
             "full_axis2_compatibility": false,
             "full_axis2_obstruction": false,
             "global_passes": 0
+          },
+          "fourth_jet_axis2_base_D4_RHS_binding": {
+            "file_sha256": "43f85f50b5a5f8f07e1b5f99cf824c9b574df4ec1899de267ff8f0f855c5e252",
+            "content_sha256": "d2fdd65e23574d2f7f65fb328b69764d21073af67ff293622a4735cec26eb451",
+            "selector_offset": 244,
+            "active_indices": [0, 2, 3, 9],
+            "reference_direction": "e2",
+            "directional_evaluations": 15,
+            "candidate_conditions_checked": 12,
+            "base_D4_RHS_identically_zero": true,
+            "zero_speed_cancellations_exact": 0,
+            "corrected_axis2_D4_compatibilities": 0,
+            "corrected_axis2_D4_obstructions": 12,
+            "fixed_chart_C12_curl_completion_rejected_at_axis2": true,
+            "all_spatial_direction_compatibility": false,
+            "corrected_candidate_family_registered": false,
+            "global_passes": 0
           }
       },
-      "missing": ["the complete polarized base D4 Sylvester right-hand side at the axis-two reference for the same active tensor-component inputs, tested against the exact required zero-speed value -eta*C_companion; the pure-C23 repair class is ruled out, but full axis-two obstruction and compatibility remain open and the permanently stopped service leaves 2,816 later obligations unevaluated", "fifth-and-higher remainder control or a nonlinear range theorem that upgrades the completed reference Taylor jets to a tube-uniform Hermitian positive full Sylvester solution", "the remaining variable TC3, high-derivative TC2 and H7 TC5 terms", "an executable component Frechet/Bony-good-unknown remainder bound supplying finite C_L and C_B", "an initial H7 energy bound and substitution into the conditional lifespan/tube formula", "new reduction adapters for future nonminimal action terms outside the bounded grammar", "exhaustive multi-seed connected-domain construction beyond the campaign's shared local FLRW seed", "nonlinear PDE evolution-invariant trapping regions inside the pointwise-certified cubic-Horndeski and quartic-Horndeski local-jet boxes", "new mixed/nonlinear principal and symmetrizer adapters for the remaining 114 G4_X sample assignments, followed by necessary-and-sufficient multi-field direction-sphere bounds", "generic nonlinear global reduced-Hamiltonian boundedness beyond the certified homogeneous Horndeski tensor and FLRW scalar blocks"]
+      "missing": ["a different admissible topology-changing completion with zero axis-two D4 zero-speed compression, or independently derived nonzero base forcing that cancels the companion; the fixed-chart C12 curl completion is exactly obstructed for all 12 candidates and the permanently stopped service leaves 2,816 later obligations unevaluated", "fifth-and-higher remainder control or a nonlinear range theorem that upgrades the completed reference Taylor jets to a tube-uniform Hermitian positive full Sylvester solution", "the remaining variable TC3, high-derivative TC2 and H7 TC5 terms", "an executable component Frechet/Bony-good-unknown remainder bound supplying finite C_L and C_B", "an initial H7 energy bound and substitution into the conditional lifespan/tube formula", "new reduction adapters for future nonminimal action terms outside the bounded grammar", "exhaustive multi-seed connected-domain construction beyond the campaign's shared local FLRW seed", "nonlinear PDE evolution-invariant trapping regions inside the pointwise-certified cubic-Horndeski and quartic-Horndeski local-jet boxes", "new mixed/nonlinear principal and symmetrizer adapters for the remaining 114 G4_X sample assignments, followed by necessary-and-sufficient multi-field direction-sphere bounds", "generic nonlinear global reduced-Hamiltonian boundedness beyond the certified homogeneous Horndeski tensor and FLRW scalar blocks"]
     },
     {
       "id": "solar_and_direct_observations",

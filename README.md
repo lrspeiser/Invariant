@@ -518,6 +518,15 @@ static pure-twist unit branch: the exact lower coefficients are `3/32` and `1/10
 mode was found. They still lack the complete constraint-reduced Hamiltonian with shear, expansion,
 time velocities, metric--Aether momentum mixing, nonmaximal slices, and boundary charge, so neither
 is promoted.
+The generic aligned-unit-Aether coupling-boundary audit now distinguishes coordinate-Hessian
+singularity from physical constrained rank loss for independent `c1..c4`. The ambient ten-velocity
+determinant contains an extra Schur factor `D`, but that factor cancels exactly from both the tangent
+nine-velocity determinant and the eleven-dimensional constraint KKT determinant. Two exact `D=0`
+witnesses have ambient rank nine while retaining tangent rank nine and KKT rank eleven; one lies
+strictly inside the existing positive five-mode linear Hamiltonian chart. The genuine constrained
+rank boundaries are `c14=0`, `M2-c13=0`, and `2*M2+c13+3*c2=0`, with ranks and null vectors checked
+exactly. This closes the aligned coupling-boundary classification, not generic nonlinear
+constraint-reduced Hamiltonian boundedness, boundary energy, candidate rejection, or observations.
 A separate restart-safe production overlay now records
 all three ordered formal layers without mutating the original 5,855-candidate registry or dossier;
 its completed 70-record root is `f1fdc9ae10df047e1c48adbf9b47e601e6fd84a5e15051204aff62fcae933781`,
@@ -552,7 +561,7 @@ claim, or observational support.
 
 The Kastner–Schlatter transactional-gravity proposal now has a source-bound equation intake, a typed
 54-node/137-edge equation graph, an 88-field observational-readiness contract, two explicit compiler
-action hypotheses, and three RTX 5090 synthetic campaigns. The graph
+action hypotheses, and five RTX 5090 synthetic campaigns. The graph
 stores 25 formulas with their assumptions, domains, dependencies, source hashes, and explicit
 absent-action/variational edges; it records one algebraic rearrangement equivalence and no duplicate or
 theory-equivalence claim. CUDA produced 1,572,864 deterministic Poisson samples, 262,144 normalized
@@ -614,7 +623,22 @@ Cox competitor has the same mean and instead gives
 `Var(N(B))=mu+epsilon^2*mu^2` (versus `mu` for Poisson), with different void probabilities and
 factorial moments. A stochastic generating functional, independent-increment axiom, or QED event
 kernel is therefore genuinely additional input rather than a consequence of either deterministic
-compiler action.
+compiler action. The selector-contract audit makes that requirement exact: any one of a full
+set-indexed Poisson Laplace functional, every finite disjoint-family joint generating function with
+independent increments, or a Mecke/QED counting-measure kernel would be sufficient. The registered
+54-node graph contains zero such selector nodes and zero action-derivation edges to its one scalar
+Poisson-PMF assertion. Equal dependent cell counts preserve the same scalar Poisson marginal while
+giving covariance `lambda`, so the scalar PMF alone cannot imply independent increments.
+
+The corresponding RTX 5090 power study generated 110,100,480 synthetic counts across 144
+exposure/intensity/mixing/sample-size scenarios, calibrated 49,152 independent null replicates, and
+checked 1,769,472 likelihood, dispersion, void, and factorial statistics on both GPU and CPU. At the
+registered `mu=2`, `delta=1/2` witness, likelihood power rises from 75.0â€“82.8% for `n=64` to
+99.8â€“100% for `n=256`; all four controls approach 100% by `n=1024`. Maximum CPU/GPU error is below
+`4.6e-13`, with byte-identical decisions. This is a synthetic falsification-design measurement,
+not evidence that transactions exist, that the paper derives Poisson statistics, or that the theory
+fits observations; every readiness, scientific, ontology, paper/QED, and observational counter
+remains zero or false.
 
 `promotion_dossier.py` now independently replays every stored candidate/stage hash chain, explains
 the first rejection or unresolved gate, and builds a multi-axis Pareto follow-up queue only from
@@ -1358,11 +1382,15 @@ The required axis-two companion is now audited on all seven eigenspaces. Only it
 compression is nonzero (rank two, ten entries), and it is independent of the rotated direction-one
 witness. Every additional pure `C_23` curl completion preserving the admitted direction-one slice
 lies in a 297-dimensional projected range over 363 effective parameters; adjoining the companion
-target raises the rank to 298, so no member of that class cancels it. This is not yet a full axis-two
-obstruction: the complete polarized base D4 right-hand side for the same active tensor inputs has not
-been evaluated. Its zero-speed compression must equal `-eta*C_companion` for compatibility.
-The next exact gate is that base-D4 cancellation test, followed by spatial covariance, action origin,
-constraint propagation, and all remaining eigenspace compatibilities. This is not an inferred pass
+target raises the rank to 298, so no member of that class cancels it. The complete polarized base D4
+right-hand side for the same active tensor inputs is now evaluated exactly and vanishes. Because all
+12 registered `eta` values are nonzero, the required equality to `-eta*C_companion` fails for every
+candidate: zero cancellations, zero compatibilities, and 12 exact axis-two obstructions. This rejects
+the proposed fixed-chart `C_12` curl completion, not every topology-changing or spatially covariant
+completion. The next exact gate is a different admissible topology-changing completion with zero
+axis-two D4 zero-speed compression, or an independently derived cancelling base forcing, followed by
+spatial covariance, action origin, constraint propagation, and all remaining eigenspace
+compatibilities. This is not an inferred pass
 for the unevaluated tail; full fourth-order range closure, full-tube,
 CK1, CK3, TC2, B7, global-H7, and lifespan remain false.
 
