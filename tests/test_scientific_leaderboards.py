@@ -113,7 +113,32 @@ def test_category_local_rankings_keep_missing_evidence_unranked() -> None:
         "registered_real_source_manifest_and_selected_primary_roots"
     )
     assert board["categories"]["nonlinear_energy"]["ranked_count"] == 0
-    assert board["categories"]["simplicity_complexity"]["ranked_count"] == 6
+    simplicity = board["categories"]["simplicity_complexity"]
+    assert simplicity["ranked_count"] == 163
+    assert simplicity["completed_separate_class_count"] == 6
+    assert simplicity["comparison_data_class"] == "typed_action_formula_structure_v1"
+    assert [row["candidate_id"] for row in simplicity["top10"][:3]] == [
+        "G3A-2f8983c88f504150381064f2",
+        "G3A-58e59412e5fe77cd54caf863",
+        "G3A-e0eff4150989e3522dc6ba03",
+    ]
+    assert [row["rank"] for row in simplicity["top10"][:3]] == [1, 1, 3]
+    novelty = board["categories"]["novelty_non_equivalence"]
+    assert novelty["ranked_count"] == 163
+    assert novelty["completed_separate_class_count"] == 6
+    assert novelty["comparison_data_class"] == (
+        "exact_action_hash_and_parameter_cell_aliases_v1"
+    )
+    assert [row["candidate_id"] for row in novelty["top10"][:3]] == [
+        "G3A-2f8983c88f504150381064f2",
+        "G3A-58e59412e5fe77cd54caf863",
+        "G3A-e0eff4150989e3522dc6ba03",
+    ]
+    assert all(row["rank"] == 1 for row in novelty["top10"][:3])
+    assert all(
+        row["metrics"]["literature_novelty_claimed"] is False
+        for row in novelty["full_ranked"]
+    )
     assert board["categories"]["computational_robustness"]["ranked_count"] == 6
 
     all_rows = [
@@ -144,7 +169,7 @@ def test_category_local_rankings_keep_missing_evidence_unranked() -> None:
     )
     assert len(scalable_g4_formula["operator_terms"]) == 2
     dossiers = board["theory_dossiers"]
-    assert len(dossiers) == 7
+    assert len(dossiers) == 170
     assert dossiers["G3-f9c598b70a77ea54009d8f18"]["hierarchy_status_counts"] == {
         "blocked": 1,
         "calibration_only": 1,
@@ -153,6 +178,39 @@ def test_category_local_rankings_keep_missing_evidence_unranked() -> None:
     assert dossiers["G3-f9c598b70a77ea54009d8f18"]["overall_status"] == (
         "blocked_after_formal_pass"
     )
+    assert dossiers["G3A-e0eff4150989e3522dc6ba03"][
+        "hierarchy_status_counts"
+    ] == {"blocked": 1, "calibration_only": 1, "proven": 2}
+    assert dossiers["G3A-e0eff4150989e3522dc6ba03"]["overall_status"] == "pass"
+    assert dossiers["G3A-94a3650adaa71c7a9b91c854"][
+        "hierarchy_status_counts"
+    ] == {"blocked": 1, "calibration_only": 1, "proven": 1, "rejected": 1}
+    assert dossiers["G3A-e0eff4150989e3522dc6ba03"]["status_label"] == (
+        "Formal decision"
+    )
+
+    scalable_dossiers = json.loads(
+        (ROOT / "runs/engine/scalable-candidate-explanation-dossier-bridge.json").read_text(
+            encoding="utf-8"
+        )
+    )["dossiers"]
+    exact_g3 = next(
+        dossier
+        for dossier in scalable_dossiers
+        if dossier["candidate_id"] == "G3A-0af3a633b9abdcd9b7067ace"
+    )
+    g3_formula = next(
+        row["theory_formula"]
+        for row in simplicity["full_ranked"]
+        if row["candidate_id"] == exact_g3["candidate_id"]
+    )
+    assert g3_formula["defining_action"] == exact_g3["action"][
+        "human_readable_action"
+    ]["display_text"]
+    assert g3_formula["parameters"]["G3"] == "(13/1600)*X_phi"
+    assert g3_formula["operator_terms"] == [
+        item["density"] for item in exact_g3["action"]["ordered_operator_densities"]
+    ]
 
 
 def test_ranked_rows_are_comparable_and_history_replay_is_idempotent() -> None:

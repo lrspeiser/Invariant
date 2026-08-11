@@ -9,6 +9,9 @@ from collections.abc import Mapping
 from pathlib import Path
 from typing import Any
 
+from .scalable_candidate_structural_metrics_export import (
+    validate_scalable_candidate_structural_metrics_export,
+)
 from .scalable_formal_candidate_evidence_export import (
     iter_scalable_formal_candidate_evidence_records,
     validate_scalable_formal_candidate_evidence_export,
@@ -255,8 +258,77 @@ def _theory_dossier_registry(
             "hierarchy_nodes": nodes,
             "hierarchy_status_counts": counts,
             "overall_status": dossier["overall_status"],
+            "status_label": "Overall",
             "role": dossier["role"],
         }
+    return registry
+
+
+def _scalable_theory_dossier_registry(
+    artifact: Mapping[str, Any], binding: Mapping[str, Any]
+) -> dict[str, dict[str, Any]]:
+    if (
+        artifact.get("candidate_count") != 163
+        or artifact.get("alias_count") != 93
+        or artifact.get("formal_decision_counts")
+        != {"blocked": 160, "pass": 1, "reject": 2}
+        or artifact.get("hierarchy_node_status_counts")
+        != {
+            "blocked": 323,
+            "calibration_only": 163,
+            "proven": 164,
+            "rejected": 2,
+        }
+        or artifact.get("observational_authorization") is not False
+        or artifact.get("observational_data_opened") is not False
+    ):
+        raise ValueError("scalable candidate explanation bridge is inconsistent")
+    registry: dict[str, dict[str, Any]] = {}
+    for dossier in artifact.get("dossiers", []):
+        dossier_id = dossier["candidate_id"]
+        dossier_body = {
+            key: value for key, value in dossier.items() if key != "content_sha256"
+        }
+        if dossier_id in registry or _sha(dossier_body) != dossier["content_sha256"]:
+            raise ValueError("scalable candidate dossier identity or content hash mismatch")
+        nodes = []
+        for node in dossier["hierarchy_nodes"]:
+            node_body = {
+                key: value for key, value in node.items() if key != "content_sha256"
+            }
+            if _sha(node_body) != node["content_sha256"]:
+                raise ValueError("scalable candidate dossier node hash mismatch")
+            nodes.append(
+                {
+                    "content_sha256": node["content_sha256"],
+                    "evidence_count": len(node["evidence"]),
+                    "node_id": node["node_id"],
+                    "scope": node["scope"],
+                    "status": node["status"],
+                }
+            )
+        counts = dict(sorted(Counter(node["status"] for node in nodes).items()))
+        registry[dossier_id] = {
+            "artifact_content_sha256": binding["content_sha256"],
+            "artifact_file_sha256": binding["file_sha256"],
+            "artifact_link": binding["path"],
+            "content_sha256": dossier["content_sha256"],
+            "dossier_id": dossier_id,
+            "hierarchy_nodes": nodes,
+            "hierarchy_status_counts": counts,
+            "overall_status": dossier["formal_decision"],
+            "status_label": "Formal decision",
+            "role": dossier["role"],
+        }
+    expected_root = _sha(
+        [[item["candidate_id"], item["content_sha256"]] for item in artifact["dossiers"]]
+    )
+    if (
+        len(registry) != 163
+        or artifact.get("provenance", {}).get("dossier_registry_root_sha256")
+        != expected_root
+    ):
+        raise ValueError("scalable candidate dossier registry is incomplete")
     return registry
 
 
@@ -275,9 +347,21 @@ def _comparison_key(category: str, row: Mapping[str, Any]) -> tuple[Any, ...]:
     if category == "solar_known_answer":
         return (-metrics["passed_control_count"],)
     if category == "simplicity_complexity":
-        return (metrics["operator_count"], metrics["field_count"], metrics["parameter_count"])
+        return (
+            metrics["operator_count"],
+            metrics["field_count"],
+            metrics["parameter_count"],
+            metrics.get("formula_payload_character_count", 0),
+        )
     if category == "novelty_non_equivalence":
-        return (-int(metrics["unique_within_manifest"]),)
+        return (
+            -int(
+                metrics.get(
+                    "parameter_cell_class_size",
+                    int(metrics.get("unique_within_manifest", False)),
+                )
+            ),
+        )
     if category == "computational_robustness":
         return (metrics["attempt"],)
     return ()
@@ -307,10 +391,15 @@ def _admit_and_rank(category: str, rows: list[dict[str, Any]]) -> dict[str, Any]
                 comparison_rank = ordinal
                 previous_key = current_key
             row["comparison_group_rank"] = comparison_rank
+    preferred_primary_class = {
+        "formal_adm_dirac": "full_formal_action_evidence",
+        "simplicity_complexity": "typed_action_formula_structure_v1",
+        "novelty_non_equivalence": "exact_action_hash_and_parameter_cell_aliases_v1",
+    }.get(category)
     if not grouped:
         primary_class = None
-    elif category == "formal_adm_dirac" and "full_formal_action_evidence" in grouped:
-        primary_class = "full_formal_action_evidence"
+    elif preferred_primary_class in grouped:
+        primary_class = preferred_primary_class
     elif len(grouped) == 1:
         primary_class = next(iter(grouped))
     else:
@@ -386,6 +475,47 @@ def _build_rows(sources: Mapping[str, Any], bindings: Mapping[str, Any]) -> dict
             "operators": formula["ordered_operator_densities"],
             "content_sha256": formula["action_content_sha256"],
         }
+    structural_export = sources["scalable_structural_metrics"]
+    validate_scalable_candidate_structural_metrics_export(structural_export)
+    structural_records = structural_export["candidate_records"]
+    if {record["candidate_id"] for record in structural_records} != {
+        record["candidate_id"] for record in scalable_records
+    }:
+        raise ValueError("scalable structural metrics candidate registry changed")
+    scalable_dossier_by_id = {
+        dossier["candidate_id"]: dossier
+        for dossier in sources["scalable_explanation_dossiers"]["dossiers"]
+    }
+    if set(scalable_dossier_by_id) != {
+        record["candidate_id"] for record in scalable_records
+    }:
+        raise ValueError("scalable explanation dossier candidate registry changed")
+    scalable_formula_by_id: dict[str, dict[str, Any]] = {}
+    for candidate_id, dossier in scalable_dossier_by_id.items():
+        action = action_by_id[candidate_id]
+        exact = dossier["action"]
+        densities = [
+            operator["density"] for operator in exact["ordered_operator_densities"]
+        ]
+        if (
+            exact["action_sha256"] != action["content_sha256"]
+            or exact["fields"] != action["fields"]
+            or exact["parameters"] != action["parameters"]
+            or densities != [operator["density"] for operator in action["operators"]]
+        ):
+            raise ValueError("scalable exact action display disagrees with typed action")
+        formula = _generated_action_formula(action)
+        formula.update(
+            {
+                "defining_action": exact["human_readable_action"]["display_text"],
+                "fields": list(exact["fields"]),
+                "parameters": dict(exact["parameters"]),
+                "operator_terms": densities,
+                "action_content_sha256": exact["action_sha256"],
+                "scope_note": exact["human_readable_action"]["scope"],
+            }
+        )
+        scalable_formula_by_id[candidate_id] = formula
     formal = sources["formal_adm_dirac"]
     for control, role in ((formal["known_answer_control"], "known_answer_control"), (formal["generated_candidate_negative_control"], "generated_candidate")):
         gates = control["gate_statuses"]
@@ -837,6 +967,50 @@ def _build_rows(sources: Mapping[str, Any], bindings: Mapping[str, Any]) -> dict
             record["seed_id"], "generated_candidate", {"unique_within_manifest": action_hashes.count(action["content_sha256"]) == 1, "action_content_sha256": action["content_sha256"]},
             "measured", "internal_exact_action_non_equivalence", "complete_for_category", None, "grammar_compilation", bindings["grammar_compilation"], lineage, "Only exact non-equivalence within this six-seed manifest is measured; literature novelty remains untested."))
 
+    for record in structural_records:
+        metrics = dict(record["structural_metrics"])
+        rows["simplicity_complexity"].append(
+            _entry(
+                record["candidate_id"],
+                "generated_candidate",
+                metrics,
+                "measured",
+                record["structural_comparison_class"],
+                "complete_for_category",
+                None,
+                "scalable_structural_metrics",
+                bindings["scalable_structural_metrics"],
+                record["content_sha256"],
+                "Exact formula-structure measurements only; structural simplicity is not physical truth or viability.",
+            )
+        )
+        equivalence = record["equivalence_evidence"]
+        rows["novelty_non_equivalence"].append(
+            _entry(
+                record["candidate_id"],
+                "generated_candidate",
+                {
+                    "action_content_sha256": record["action_sha256"],
+                    "alias_count": equivalence["alias_count"],
+                    "parameter_cell_class_size": equivalence[
+                        "parameter_cell_class_size"
+                    ],
+                    "representative_action_class_size": equivalence[
+                        "representative_action_class_size"
+                    ],
+                    "literature_novelty_claimed": False,
+                },
+                "measured",
+                record["equivalence_comparison_class"],
+                "complete_for_category",
+                None,
+                "scalable_structural_metrics",
+                bindings["scalable_structural_metrics"],
+                record["content_sha256"],
+                "Exact equality and alias multiplicity inside this 256-cell manifest only; literature novelty is not claimed.",
+            )
+        )
+
     execution = sources["computational_execution"]
     for record in execution["work_records"]:
         rows["computational_robustness"].append(_entry(
@@ -844,8 +1018,11 @@ def _build_rows(sources: Mapping[str, Any], bindings: Mapping[str, Any]) -> dict
             "measured" if record["state"] == "succeeded" else "blocked", "deterministic_bounded_execution", "complete_for_category" if record["state"] == "succeeded" else "incomplete", None if record["state"] == "succeeded" else "execution_incomplete", "computational_execution", bindings["computational_execution"], record["output_lineage_sha256"], "A successful deterministic execution is software robustness evidence, not scientific validity."))
     for category_rows in rows.values():
         for row in category_rows:
-            row["theory_formula"] = _theory_formula(
-                row["candidate_id"], action_by_id
+            candidate_id = row["candidate_id"]
+            row["theory_formula"] = (
+                scalable_formula_by_id[candidate_id]
+                if candidate_id in scalable_formula_by_id
+                else _theory_formula(candidate_id, action_by_id)
             )
     return rows
 
@@ -858,7 +1035,7 @@ def _validate_no_collapse(board: Mapping[str, Any]) -> None:
     if board["data_eligibility"] != ELIGIBILITY:
         raise ValueError("leaderboards opened a forbidden data class")
     dossiers = board.get("theory_dossiers")
-    if not isinstance(dossiers, Mapping) or len(dossiers) != 7:
+    if not isinstance(dossiers, Mapping) or len(dossiers) != 170:
         raise ValueError("theory dossier registry is incomplete")
     for dossier_id, dossier in dossiers.items():
         if dossier_id != dossier["dossier_id"]:
@@ -869,7 +1046,8 @@ def _validate_no_collapse(board: Mapping[str, Any]) -> None:
         if node_counts != dossier["hierarchy_status_counts"]:
             raise ValueError("theory dossier hierarchy count mismatch")
         if any(
-            node["status"] not in {"proven", "blocked", "calibration_only"}
+            node["status"]
+            not in {"proven", "rejected", "blocked", "calibration_only"}
             or not node["scope"]
             or node["evidence_count"] < 1
             for node in dossier["hierarchy_nodes"]
@@ -946,6 +1124,13 @@ def build_scientific_leaderboards(
     theory_dossiers = _theory_dossier_registry(
         sources["theory_dossiers"], config["sources"]["theory_dossiers"]
     )
+    scalable_dossiers = _scalable_theory_dossier_registry(
+        sources["scalable_explanation_dossiers"],
+        config["sources"]["scalable_explanation_dossiers"],
+    )
+    if set(theory_dossiers) & set(scalable_dossiers):
+        raise ValueError("theory dossier registries overlap candidate identities")
+    theory_dossiers.update(scalable_dossiers)
     categories = {}
     for category in CATEGORIES:
         category_board = _admit_and_rank(category, rows[category])

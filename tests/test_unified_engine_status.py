@@ -30,6 +30,8 @@ SOURCE_PATHS = [
     "runs/engine/grammar-v3-g3-candidate-formal-status.json",
     "runs/engine/g4-scalable-action-formal-followup.json",
     "runs/engine/aether-parameter-cell-formal-gate-status.json",
+    "runs/engine/scalable-candidate-structural-metrics.json",
+    "runs/engine/scalable-candidate-explanation-dossier-bridge.json",
     "runs/engine/grammar-v3-evidence-pareto-report.json",
     "runs/engine/grammar-v3-followup-service-g4-final-status.json",
     "runs/engine/grammar-v3-followup-queue-g4-final-status.json",
@@ -65,6 +67,8 @@ LABELS = [
     "grammar_v3_g3_candidate_formal",
     "grammar_v3_g4_scalable_formal_followup",
     "grammar_v3_aether_candidate_formal",
+    "scalable_structural_metrics",
+    "scalable_explanation_dossiers",
     "evidence_pareto",
     "followup_service",
     "followup_queue",
@@ -365,6 +369,71 @@ def test_read_only_snapshot_is_deterministic_and_does_not_mutate_database(tmp_pa
     assert "C:\\" not in json.dumps(first)
 
 
+def test_future_not_before_work_is_scheduled_idle_then_stale(tmp_path: Path) -> None:
+    root, config, database = _fixture(tmp_path)
+    connection = sqlite3.connect(database)
+    connection.execute("ALTER TABLE tasks ADD COLUMN not_before_utc TEXT")
+    connection.execute(
+        "UPDATE tasks SET not_before_utc = ? "
+        "WHERE task_type = 'covariant_lift' AND status = 'queued'",
+        ("2026-08-10T21:00:00+00:00",),
+    )
+    connection.commit()
+    connection.close()
+
+    scheduled = build_unified_snapshot(
+        root,
+        config,
+        now_utc=datetime(2026, 8, 10, 20, 40, tzinfo=UTC),
+        physical_gpu={"availability": "unavailable"},
+    )
+    overdue = build_unified_snapshot(
+        root,
+        config,
+        now_utc=datetime(2026, 8, 10, 21, 40, tzinfo=UTC),
+        physical_gpu={"availability": "unavailable"},
+    )
+
+    assert scheduled["core"] == overdue["core"]
+    assert scheduled["core_content_sha256"] == overdue["core_content_sha256"]
+    cpu_before = scheduled["volatile"]["scheduler_readiness"]["cpu_symbolic"]
+    assert cpu_before == {
+        "queued_total": 1,
+        "runnable_now": 0,
+        "delayed_until_not_before": 1,
+        "earliest_future_not_before_utc": "2026-08-10T21:00:00+00:00",
+    }
+    freshness_before = scheduled["volatile"]["campaign_watchdog_freshness"]
+    assert freshness_before["state"] == "scheduled_idle"
+    assert freshness_before["stale"] is False
+    assert freshness_before["expected_next_event_not_before_utc"] == (
+        "2026-08-10T21:00:00+00:00"
+    )
+    assert freshness_before["freshness_deadline_utc"] == (
+        "2026-08-10T21:30:00+00:00"
+    )
+
+    cpu_after = overdue["volatile"]["scheduler_readiness"]["cpu_symbolic"]
+    assert cpu_after == {
+        "queued_total": 1,
+        "runnable_now": 1,
+        "delayed_until_not_before": 0,
+        "earliest_future_not_before_utc": None,
+    }
+    freshness_after = overdue["volatile"]["campaign_watchdog_freshness"]
+    assert freshness_after["state"] == "stale"
+    assert freshness_after["stale"] is True
+    assert freshness_after["expected_next_event_not_before_utc"] == (
+        "2026-08-10T21:00:00+00:00"
+    )
+    assert freshness_after["freshness_deadline_utc"] == (
+        "2026-08-10T21:30:00+00:00"
+    )
+    assert freshness_after["stale_source_reason"] == (
+        "no_event_by_2026-08-10T21:30:00+00:00"
+    )
+
+
 def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path: Path) -> None:
     root, config, _ = _fixture(tmp_path)
     result = build_unified_snapshot(
@@ -427,6 +496,35 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     }
     assert reviewed_manifest["formal_evaluation_performed"] is False
     assert reviewed_manifest["scientific_decision_counts"] == {}
+    structural = core["grammar_parameter_cells"]["structural_metrics"]
+    assert structural["candidate_count"] == 163
+    assert structural["alias_count"] == 93
+    assert structural["measurement_counts"] == {"measured": 163}
+    assert structural["formal_decision_counts"] == {
+        "blocked": 160,
+        "pass": 1,
+        "reject": 2,
+    }
+    assert structural["simplicity_pareto_front"]["candidate_ids"] == [
+        "G3A-2f8983c88f504150381064f2",
+        "G3A-58e59412e5fe77cd54caf863",
+    ]
+    assert structural["scientific_validity_inference"] is False
+    explanations = core["grammar_parameter_cells"]["explanation_dossiers"]
+    assert explanations["candidate_count"] == 163
+    assert explanations["alias_count"] == 93
+    assert explanations["formal_decision_counts"] == {
+        "blocked": 160,
+        "pass": 1,
+        "reject": 2,
+    }
+    assert explanations["hierarchy_node_status_counts"] == {
+        "blocked": 323,
+        "calibration_only": 163,
+        "proven": 164,
+        "rejected": 2,
+    }
+    assert explanations["observational_data_opened"] is False
     assert reviewed_manifest["compilation"] == {
         "candidate_decision_counts": {"blocked": 0, "pass": 163, "reject": 0},
         "compiled_action_ir_count": 256,
@@ -597,6 +695,9 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "φ²/100" in dashboard
     assert "Derived operator terms / evidence scope" in dashboard
     assert "Proof and test hierarchy" in dashboard
+    assert "1 rejected, 1 blocked, 1 calibration-only" in dashboard
+    assert "Formal decision: pass" in dashboard
+    assert "Overall: pass" not in dashboard
     assert "How to read a candidate theory" in dashboard
     assert "compact master formula" in dashboard
     assert "G3A-e0eff4150989e3522dc6ba03" in dashboard
@@ -608,7 +709,7 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "solar_prediction_obligation" in dashboard
     assert "LLM budget and proposal quarantine" in dashboard
     assert "quarantine_until_downstream_validation" in dashboard
-    assert len(dashboard.encode()) < 262144
+    assert len(dashboard.encode()) < 524288
     assert "C:\\" not in dashboard
 
 

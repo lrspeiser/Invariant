@@ -331,8 +331,11 @@ reviewed service-config epoch rather than mutating a running scientific allowlis
 A unified read-only status snapshot now combines the active watchdog, billion-formula stream,
 promotion/formal overlay, grammar-v3 evidence, Pareto queue, and follow-up service. It opens the
 live SQLite database with `mode=ro` and `query_only`, separates scheduler occupancy from physical
-NVML GPU utilization, reports the hard `$500` LLM ledger, and refuses overlapping outcome totals,
-host paths, and secret-bearing fields. Volatile telemetry stays outside the deterministic core hash.
+NVML GPU utilization, and distinguishes work runnable now from durable future `not_before_utc`
+assignments. A quiet scheduler is reported as scheduled idle until the next ready-time plus the
+freshness grace window, rather than as falsely stale. The snapshot reports the hard `$500` LLM
+ledger and refuses overlapping outcome totals, host paths, and secret-bearing fields. Volatile
+telemetry stays outside the deterministic core hash.
 The snapshot now renders a standalone static HTML dashboard and persistent top-10 scientific
 leaderboards for formal/ADM-Dirac, hyperbolicity/common-cone, nonlinear energy, Solar controls,
 galaxy direct observables, lensing/cluster, simplicity, internal non-equivalence, and computational
@@ -353,6 +356,12 @@ the reviewed G4 pass in the primary formal table. Those density-equivalent forma
 rank; raw gate counts from different evaluator schemas are never compared. Known-answer calibration
 and generated negative controls remain separate classes. No scalar truth score or cross-class metric
 is introduced.
+All 163 scalable actions now also have exact formula-structure measurements and immutable
+candidate-specific explanation dossiers. Simplicity and parameter-cell alias multiplicity receive
+their own tied top-10 tables and a two-action structural Pareto front; these measurements remain
+independent of the one-pass/two-reject/160-blocked formal ledger and make no literature-novelty or
+scientific-validity claim. Each explanation keeps the defining action, formal evidence, control
+boundary, and still-sealed observational evidence as distinct proof nodes.
 A separate restart-safe formal-to-Solar boundary service now verifies the G4 formal pass and its
 analytic prediction audit. The reviewed candidate-specific Solar evaluator descriptor is registered
 and its only durable work item executes to an honest blocked result: one implementation hash is

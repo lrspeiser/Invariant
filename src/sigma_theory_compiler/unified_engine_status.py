@@ -16,7 +16,7 @@ import subprocess
 import urllib.parse
 from collections import Counter
 from collections.abc import Mapping
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import Any
 
@@ -98,6 +98,26 @@ def _read_campaign_mode_ro(database: Path) -> dict[str, Any]:
                 "GROUP BY task_type, status ORDER BY task_type, status"
             ).fetchall()
         }
+        task_columns = {
+            str(row["name"])
+            for row in connection.execute("PRAGMA table_info(tasks)").fetchall()
+        }
+        queued_task_schedule = (
+            [
+                {
+                    "task_type": str(row["task_type"]),
+                    "not_before_utc": row["not_before_utc"],
+                    "count": int(row["count"]),
+                }
+                for row in connection.execute(
+                    "SELECT task_type, not_before_utc, COUNT(*) AS count FROM tasks "
+                    "WHERE status = 'queued' GROUP BY task_type, not_before_utc "
+                    "ORDER BY task_type, not_before_utc"
+                ).fetchall()
+            ]
+            if "not_before_utc" in task_columns
+            else []
+        )
         budget = connection.execute(
             "SELECT limit_microusd, reserved_microusd, spent_microusd, max_calls, "
             "calls_started, calls_completed FROM llm_budgets LIMIT 1"
@@ -112,6 +132,7 @@ def _read_campaign_mode_ro(database: Path) -> dict[str, Any]:
         "candidate_counts": candidates,
         "evidence_counts": evidence,
         "task_type_state_counts": task_types,
+        "queued_task_schedule": queued_task_schedule,
         "llm_budget": dict(budget) if budget else None,
         "latest_event_utc": latest["latest"] if latest else None,
     }
@@ -155,6 +176,63 @@ def _scheduler_lanes(watchdog: Mapping[str, Any], resource: Mapping[str, Any]) -
         "scheduler_occupancy_fraction": None,
     }
     return lanes
+
+
+def _scheduler_readiness(
+    watchdog: Mapping[str, Any],
+    resource: Mapping[str, Any],
+    sampled_at: datetime,
+) -> dict[str, Any]:
+    """Classify queued work without treating future not-before tasks as runnable."""
+    production = resource["production_lanes"]
+    core_lanes = _scheduler_lanes(watchdog, resource)
+    schedules = list(watchdog.get("queued_task_schedule", []))
+    claimed_types: set[str] = set()
+    readiness: dict[str, Any] = {}
+    for name in ("cpu_symbolic", "gpu_dense", "llm_research", "housekeeping"):
+        allowed = set(production[name].get("task_types", []))
+        claimed_types |= allowed
+        relevant = [
+            (row, _parse_utc(row.get("not_before_utc")))
+            for row in schedules
+            if row["task_type"] in allowed
+        ]
+        delayed_rows = [
+            (row, ready_at)
+            for row, ready_at in relevant
+            if ready_at is not None and ready_at > sampled_at
+        ]
+        delayed = sum(int(row["count"]) for row, _ in delayed_rows)
+        future_times = sorted(ready_at for _, ready_at in delayed_rows)
+        readiness[name] = {
+            "queued_total": core_lanes[name]["queued"],
+            "runnable_now": core_lanes[name]["queued"] - delayed,
+            "delayed_until_not_before": delayed,
+            "earliest_future_not_before_utc": (
+                future_times[0].isoformat() if future_times else None
+            ),
+        }
+    relevant = [
+        (row, _parse_utc(row.get("not_before_utc")))
+        for row in schedules
+        if row["task_type"] not in claimed_types
+    ]
+    delayed_rows = [
+        (row, ready_at)
+        for row, ready_at in relevant
+        if ready_at is not None and ready_at > sampled_at
+    ]
+    delayed = sum(int(row["count"]) for row, _ in delayed_rows)
+    future_times = sorted(ready_at for _, ready_at in delayed_rows)
+    readiness["unclassified"] = {
+        "queued_total": core_lanes["unclassified"]["queued"],
+        "runnable_now": core_lanes["unclassified"]["queued"] - delayed,
+        "delayed_until_not_before": delayed,
+        "earliest_future_not_before_utc": (
+            future_times[0].isoformat() if future_times else None
+        ),
+    }
+    return readiness
 
 
 def sample_nvidia_smi() -> dict[str, Any]:
@@ -219,6 +297,7 @@ def build_unified_snapshot(
 ) -> dict[str, Any]:
     """Build one consistent read-only snapshot from hash-bound source revisions."""
     root = project_root.resolve()
+    timestamp = (now_utc or datetime.now(UTC)).astimezone(UTC)
     sources = {spec["label"]: _read_bound_json(root, spec) for spec in config["sources"]}
     watchdog_path = (root / str(config["watchdog_database"])).resolve()
     if root not in watchdog_path.parents:
@@ -240,6 +319,8 @@ def build_unified_snapshot(
         "grammar_v3_g4_scalable_formal_followup"
     ]
     aether_candidate_formal = sources["grammar_v3_aether_candidate_formal"]
+    scalable_structural_metrics = sources["scalable_structural_metrics"]
+    scalable_explanation_dossiers = sources["scalable_explanation_dossiers"]
     pareto = sources["evidence_pareto"]
     followup = sources["followup_service"]
     followup_queue = sources["followup_queue"]
@@ -268,6 +349,45 @@ def build_unified_snapshot(
     g4_galaxy_source_registry_admission = sources[
         "g4_galaxy_source_registry_admission"
     ]
+    if (
+        scalable_structural_metrics.get("candidate_count") != 163
+        or scalable_structural_metrics.get("alias_count") != 93
+        or scalable_structural_metrics.get("formal_decision_counts")
+        != {"blocked": 160, "pass": 1, "reject": 2}
+        or scalable_structural_metrics.get("structural_measurement_counts")
+        != {"measured": 163}
+        or scalable_structural_metrics.get("simplicity_pareto_front", {}).get(
+            "candidate_count"
+        )
+        != 2
+        or scalable_structural_metrics.get("observational_data_opened") is not False
+        or scalable_structural_metrics.get("data_eligibility")
+        != {
+            "dark_matter_or_halo_inputs": False,
+            "observational_data_opened": False,
+            "paid_llm_calls": False,
+            "passed": True,
+            "redshift_distance_inputs": False,
+        }
+    ):
+        raise ValueError("scalable structural metrics export is inconsistent")
+    if (
+        scalable_explanation_dossiers.get("candidate_count") != 163
+        or scalable_explanation_dossiers.get("alias_count") != 93
+        or scalable_explanation_dossiers.get("formal_decision_counts")
+        != {"blocked": 160, "pass": 1, "reject": 2}
+        or scalable_explanation_dossiers.get("hierarchy_node_status_counts")
+        != {
+            "blocked": 323,
+            "calibration_only": 163,
+            "proven": 164,
+            "rejected": 2,
+        }
+        or scalable_explanation_dossiers.get("observational_authorization") is not False
+        or scalable_explanation_dossiers.get("observational_data_opened") is not False
+        or scalable_explanation_dossiers.get("paid_llm_spend_usd") != 0.0
+    ):
+        raise ValueError("scalable explanation dossier bridge is inconsistent")
     if (
         followup.get("lifecycle") != "idle"
         or followup.get("processed_count") != 10
@@ -1518,6 +1638,38 @@ def build_unified_snapshot(
                     },
                 },
             },
+            "structural_metrics": {
+                "alias_count": scalable_structural_metrics["alias_count"],
+                "candidate_count": scalable_structural_metrics["candidate_count"],
+                "formal_decision_counts": scalable_structural_metrics[
+                    "formal_decision_counts"
+                ],
+                "measurement_counts": scalable_structural_metrics[
+                    "structural_measurement_counts"
+                ],
+                "simplicity_pareto_front": scalable_structural_metrics[
+                    "simplicity_pareto_front"
+                ],
+                "simplicity_top10": scalable_structural_metrics["simplicity_top10"],
+                "alias_multiplicity_top10": scalable_structural_metrics[
+                    "alias_multiplicity_top10"
+                ],
+                "scientific_validity_inference": False,
+            },
+            "explanation_dossiers": {
+                "alias_count": scalable_explanation_dossiers["alias_count"],
+                "candidate_count": scalable_explanation_dossiers["candidate_count"],
+                "formal_decision_counts": scalable_explanation_dossiers[
+                    "formal_decision_counts"
+                ],
+                "hierarchy_node_status_counts": scalable_explanation_dossiers[
+                    "hierarchy_node_status_counts"
+                ],
+                "observational_data_opened": False,
+                "dossier_registry_root_sha256": scalable_explanation_dossiers[
+                    "provenance"
+                ]["dossier_registry_root_sha256"],
+            },
         },
         "evidence_pareto": {
             "candidate_decision_counts": pareto["candidate_decision_counts"],
@@ -1553,22 +1705,73 @@ def build_unified_snapshot(
             "reason": "pipelines overlap candidates and use different gate semantics; per-stage exact counts must not be summed",
         },
     }
-    timestamp = (now_utc or datetime.now(UTC)).astimezone(UTC)
     latest = _parse_utc(watchdog["latest_event_utc"])
     age = (timestamp - latest).total_seconds() if latest else None
     threshold = int(config["watchdog_stale_after_seconds"])
+    scheduler_readiness = _scheduler_readiness(watchdog, resource, timestamp)
+    next_ready_values = sorted(
+        _parse_utc(lane["earliest_future_not_before_utc"])
+        for lane in scheduler_readiness.values()
+        if lane["earliest_future_not_before_utc"] is not None
+    )
+    next_ready = next_ready_values[0] if next_ready_values else None
+    scheduled_times = sorted(
+        parsed
+        for row in watchdog.get("queued_task_schedule", [])
+        if (parsed := _parse_utc(row.get("not_before_utc"))) is not None
+    )
+    scheduled_event_anchor = next(
+        (
+            value
+            for value in scheduled_times
+            if latest is None or value > latest
+        ),
+        None,
+    )
+    freshness_deadline = (
+        latest + timedelta(seconds=threshold) if latest is not None else None
+    )
+    if scheduled_event_anchor is not None:
+        scheduled_deadline = scheduled_event_anchor + timedelta(seconds=threshold)
+        freshness_deadline = (
+            scheduled_deadline
+            if freshness_deadline is None
+            else max(freshness_deadline, scheduled_deadline)
+        )
+    freshness_stale = freshness_deadline is None or timestamp > freshness_deadline
     volatile = {
         "sampled_at_utc": timestamp.isoformat(),
         "physical_gpu": dict(physical_gpu) if physical_gpu is not None else sample_nvidia_smi(),
         "campaign_watchdog_freshness": {
             "latest_event_utc": watchdog["latest_event_utc"],
             "age_seconds": age,
-            "stale": age is None or age > threshold,
+            "expected_next_event_not_before_utc": (
+                scheduled_event_anchor.isoformat()
+                if scheduled_event_anchor is not None
+                else None
+            ),
+            "freshness_deadline_utc": (
+                freshness_deadline.isoformat()
+                if freshness_deadline is not None
+                else None
+            ),
+            "state": (
+                "stale"
+                if freshness_stale
+                else "scheduled_idle"
+                if next_ready is not None and next_ready > timestamp
+                else "fresh"
+            ),
+            "stale": freshness_stale,
             "stale_source_reason": (
-                "no_events" if age is None else
-                f"latest_event_older_than_{threshold}_seconds" if age > threshold else None
+                "no_events_or_scheduled_work"
+                if freshness_deadline is None
+                else f"no_event_by_{freshness_deadline.isoformat()}"
+                if freshness_stale
+                else None
             ),
         },
+        "scheduler_readiness": scheduler_readiness,
         "deadline_state": (
             "unavailable" if not _parse_utc(watchdog["campaign"]["deadline_utc"])
             else "expired" if timestamp > _parse_utc(watchdog["campaign"]["deadline_utc"])
@@ -1646,14 +1849,14 @@ def _parser() -> argparse.ArgumentParser:
         "--leaderboard-config", default="configs/scientific_leaderboards.json"
     )
     refresh.add_argument("--disable-leaderboards", action="store_true")
-    refresh.add_argument("--maximum-output-bytes", type=int, default=1_048_576)
+    refresh.add_argument("--maximum-output-bytes", type=int, default=3_145_728)
     refresh.add_argument("--disable-gpu-sample", action="store_true")
     refresh.add_argument("--sampled-at-utc")
     dashboard = subparsers.add_parser("export-dashboard", help="render existing JSON as HTML")
     dashboard.add_argument("--project-root", default=".")
     dashboard.add_argument("--snapshot", default="runs/engine/unified-engine-status-refresh.json")
     dashboard.add_argument("--output", default="runs/engine/unified-engine-dashboard.html")
-    dashboard.add_argument("--maximum-output-bytes", type=int, default=1_048_576)
+    dashboard.add_argument("--maximum-output-bytes", type=int, default=3_145_728)
     return parser
 
 
