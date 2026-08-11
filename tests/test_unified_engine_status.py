@@ -25,6 +25,7 @@ SOURCE_PATHS = [
     "runs/engine/grammar-v3-parameter-cell-manifest.json",
     "runs/engine/grammar-v3-parameter-cell-compilation-campaign.json",
     "runs/engine/generated-candidate-formal-export.json",
+    "runs/engine/generated-candidate-metric-variation-execution.json",
     "runs/engine/grammar-v3-formal-preflight-status.json",
     "runs/engine/grammar-v3-promotion-admission-status.json",
     "runs/engine/grammar-v3-g2-candidate-formal-status.json",
@@ -43,6 +44,7 @@ SOURCE_PATHS = [
     "runs/engine/future-aether-regular-adm-inverse-margin-gate.json",
     "runs/engine/future-aether-weighted-ift-contract-gate.json",
     "runs/engine/future-aether-weighted-reference-operator-gate.json",
+    "runs/engine/future-aether-fixed-free-data-principal-gate.json",
     "runs/engine/future-g3-componentwise-domain-contract-campaign.json",
     "runs/engine/future-g3-action-bound-jet-box-campaign.json",
     "runs/engine/future-g3-af-transition-obstruction-campaign.json",
@@ -52,6 +54,7 @@ SOURCE_PATHS = [
     "runs/engine/future-g3-nonradial-york-bounded-mean-curvature-no-go-campaign.json",
     "runs/engine/future-g3-york-mean-curvature-frontier-campaign.json",
     "runs/engine/future-g3-york-analytic-mean-curvature-threshold-campaign.json",
+    "runs/engine/future-g3-york-tracefree-compensation-no-go-campaign.json",
     "runs/engine/future-candidate-action-dossier.json",
     "runs/engine/grammar-v3-g3-candidate-formal-status.json",
     "runs/engine/g4-scalable-action-formal-followup.json",
@@ -83,6 +86,10 @@ SOURCE_PATHS = [
     "runs/physics-language/quartic-tc2-diagonal-third-jet-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-basis-reduction-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-reduction-campaign/campaign.json",
+    "runs/physics-language/quartic-tc2-fourth-jet-range-obligation-campaign/campaign.json",
+    "runs/physics-language/quartic-tc2-fourth-jet-obligation-service/chunks/obligation-offset-000000.json",
+    "runs/physics-language/quartic-tc2-fourth-jet-obligation-service/checkpoint.json",
+    "runs/physics-language/quartic-tc2-fourth-jet-obligation-service/service-status.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000000.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000064.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000128.json",
@@ -132,6 +139,7 @@ LABELS = [
     "grammar_parameter_cell_manifest",
     "grammar_parameter_cell_compilation",
     "generated_candidate_formal_export",
+    "generated_candidate_metric_variation_specialization",
     "grammar_v3_formal_preflight",
     "grammar_v3_promotion_admission",
     "grammar_v3_g2_candidate_formal",
@@ -150,6 +158,7 @@ LABELS = [
     "future_aether_regular_adm_inverse_margin_gate",
     "future_aether_weighted_ift_contract_gate",
     "future_aether_weighted_reference_operator_gate",
+    "future_aether_fixed_free_data_principal_gate",
     "future_g3_domain_followup",
     "future_g3_action_bound_followup",
     "future_g3_af_transition_obstruction",
@@ -159,6 +168,7 @@ LABELS = [
     "future_g3_nonradial_york_bounded_mean_curvature_no_go",
     "future_g3_york_mean_curvature_frontier",
     "future_g3_york_analytic_threshold",
+    "future_g3_york_tracefree_compensation",
     "future_candidate_action_dossier",
     "grammar_v3_g3_candidate_formal",
     "grammar_v3_g4_scalable_formal_followup",
@@ -190,6 +200,10 @@ LABELS = [
     "quartic_tc2_diagonal_third_jet",
     "quartic_tc2_mixed_third_jet_basis_reduction",
     "quartic_tc2_mixed_third_jet_reranked_reduction",
+    "quartic_tc2_fourth_jet_range_obligations",
+    "quartic_tc2_fourth_jet_chunk_0",
+    "quartic_tc2_fourth_jet_checkpoint",
+    "quartic_tc2_fourth_jet_status",
     "quartic_tc2_reranked_obligation_chunk_0",
     "quartic_tc2_reranked_obligation_chunk_64",
     "quartic_tc2_reranked_obligation_chunk_128",
@@ -764,7 +778,11 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                 "full_coupled_Fredholm_operator_defined_count": 0,
                 "weighted_full_constraint_operator_isomorphism_pass_count": 0,
                 "nonlinear_Frechet_remainder_bound_pass_count": 0,
-                "completed_boundary_sign_persistence_count": 0,
+                    "completed_boundary_sign_persistence_count": 0,
+                    "fixed_free_data_constraint_variable_classification_count": 3,
+                    "zero_dimensional_Aether_constraint_diagonal_block_count": 3,
+                    "zero_Aether_second_order_off_diagonal_columns_count": 3,
+                    "augmented_Aether_unknown_nonelliptic_negative_control_count": 3,
                 "missing_weighted_contract_field_counts": {
                     "codomain_space": 3,
                     "completed_boundary_first_derivative_bound": 3,
@@ -790,7 +808,7 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                 },
                 "first_blocker_counts": {
                     "noncharacteristic_foliation_or_compact_negative_seed_avoiding_forced_ADM_Legendre_characteristic_crossing": 11,
-                    "candidate_bound_Aether_constraint_variable_block_and_off_diagonal_principal_symbol_on_declared_weighted_spaces": 3,
+                        "candidate_bound_finite_tilt_metric_momentum_to_York_principal_symbol_from_spatially_distributed_Legendre_map": 3,
                 },
                 "candidate_rejection_authorized_count": 0,
             },
@@ -826,13 +844,16 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                 "next_grid_cap_inconclusive_count": 3,
                 "exact_algebraic_threshold_pass_count": 3,
                 "closed_threshold_endpoint_reject_count": 3,
-                "above_threshold_control_inconclusive_count": 3,
+                    "above_threshold_control_inconclusive_count": 3,
+                    "tracefree_compensation_bound_pass_count": 3,
+                    "tracefree_compensated_York_class_reject_count": 3,
+                    "undercompensated_control_inconclusive_count": 3,
                 "asymptotically_flat_Dirac_pass_count": 0,
                 "AF_Einstein_constraint_solution_pass_count": 0,
                 "global_energy_pass_count": 0,
                 "full_formal_pass_count": 0,
                 "first_blocker_counts": {
-                    "candidate_specific_nontrivial_AF_Einstein_constraint_solution_beyond_analytic_conformally_flat_York_threshold": 3
+                        "candidate_specific_nontrivial_AF_Einstein_constraint_solution_beyond_conformally_flat_tracefree_compensated_York_class": 3
                 },
             },
         },
@@ -903,6 +924,28 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                 "candidate_specific_metric_variation_execution_from_the_generated_"
                 "action_export_for_each_action_hash_and_future_operator_family"
             ),
+            "candidate_metric_specialization": {
+                "candidate_count": 163,
+                "counts": {
+                    "aether_formal_control_bound": 128,
+                    "blocked": 0,
+                    "candidate_action_hashes_specialized": 163,
+                    "candidate_euler_expressions_materialized": 163,
+                    "formal_passes_inferred": 0,
+                    "rejected": 0,
+                },
+                "first_missing_premise": (
+                    "metric_variation_exporters_for_future_unregistered_nonminimal_"
+                    "operator_families"
+                ),
+                "scope": (
+                    "candidate-specific materialization of exact Euler expressions by "
+                    "substitution into independently executed and reviewed generic metric-"
+                    "variation theorems for every current generated action hash; this is not "
+                    "163 independent backend variations, and no formal decision, global-energy "
+                    "claim, or observational gate is changed"
+                ),
+            },
         },
         "formal_preflight": {
             "candidate_count": 163,
@@ -1125,6 +1168,23 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
             ),
             "obligations_inferred_passed": 0,
         },
+        "fourth_jet_range_obligations": {
+            "active_direction_rank": 15,
+            "selector_obligations": 3060,
+            "candidate_obligation_budget": 36720,
+            "obligations_evaluated": 32,
+            "obligations_remaining": 3028,
+            "candidate_evaluations": 384,
+            "candidate_solvable": 384,
+            "candidate_obstructed": 0,
+            "directional_evaluations": 283,
+            "next_obligation_offset": 32,
+            "resume_tip_sha256": (
+                    "ee92d51ead9229b3ba4381496ab45049ded2b9e72f42b0c8eb9f9f7a92e1e254"
+            ),
+            "parallel_worker_count": 8,
+            "full_fourth_jet_range_closed": False,
+        },
         "closure_counts": {
             "full_tube_Sylvester_identities": 0,
             "full_variable_CK1_closures": 0,
@@ -1135,8 +1195,8 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
             "lifespans_proved": 0,
         },
         "first_missing_premise": (
-            "fourth_and_higher_remainder_or_nonlinear_range_theorem_for_"
-            "tube_uniform_Sylvester_solution"
+            "remaining_3028_exact_fourth_jet_range_obligations_then_all_order_"
+            "remainder_or_nonlinear_range_theorem"
         ),
     }
     assert core["cross_pipeline_total"]["status"] == "not_computed"
@@ -1192,6 +1252,8 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "Formal decision: pass" in dashboard
     assert "Overall: pass" not in dashboard
     assert "How to read a candidate theory" in dashboard
+    assert "Notation guide for the displayed actions" in dashboard
+    assert "The exact ordered covariant densities remain available" in dashboard
     assert "compact master formula" in dashboard
     assert "G3A-e0eff4150989e3522dc6ba03" in dashboard
     assert "current exact formal tally is 3 pass, 2 reject, and 158 blocked" in dashboard

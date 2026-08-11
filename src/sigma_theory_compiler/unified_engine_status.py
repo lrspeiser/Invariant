@@ -385,6 +385,9 @@ def build_unified_snapshot(
     parameter_manifest = sources["grammar_parameter_cell_manifest"]
     parameter_compilation = sources["grammar_parameter_cell_compilation"]
     generated_candidate_formal_export = sources["generated_candidate_formal_export"]
+    generated_candidate_metric_variation = sources[
+        "generated_candidate_metric_variation_specialization"
+    ]
     formal_preflight = sources["grammar_v3_formal_preflight"]
     promotion_admission = sources["grammar_v3_promotion_admission"]
     g2_candidate_formal = sources["grammar_v3_g2_candidate_formal"]
@@ -413,6 +416,9 @@ def build_unified_snapshot(
     future_aether_weighted_reference_operator_gate = sources[
         "future_aether_weighted_reference_operator_gate"
     ]
+    future_aether_fixed_free_data_principal_gate = sources[
+        "future_aether_fixed_free_data_principal_gate"
+    ]
     future_g3_domain_followup = sources["future_g3_domain_followup"]
     future_g3_action_bound_followup = sources["future_g3_action_bound_followup"]
     future_g3_af_transition_obstruction = sources["future_g3_af_transition_obstruction"]
@@ -426,6 +432,7 @@ def build_unified_snapshot(
     ]
     future_g3_york_mean_curvature_frontier = sources["future_g3_york_mean_curvature_frontier"]
     future_g3_york_analytic_threshold = sources["future_g3_york_analytic_threshold"]
+    future_g3_york_tracefree_compensation = sources["future_g3_york_tracefree_compensation"]
     future_candidate_action_dossier = sources["future_candidate_action_dossier"]
     g3_candidate_formal = sources["grammar_v3_g3_candidate_formal"]
     g4_scalable_formal_followup = sources["grammar_v3_g4_scalable_formal_followup"]
@@ -460,6 +467,12 @@ def build_unified_snapshot(
     quartic_tc2_mixed_third_jet_reranked_reduction = sources[
         "quartic_tc2_mixed_third_jet_reranked_reduction"
     ]
+    quartic_tc2_fourth_jet_range_obligations = sources[
+        "quartic_tc2_fourth_jet_range_obligations"
+    ]
+    quartic_tc2_fourth_jet_chunk_0 = sources["quartic_tc2_fourth_jet_chunk_0"]
+    quartic_tc2_fourth_jet_checkpoint = sources["quartic_tc2_fourth_jet_checkpoint"]
+    quartic_tc2_fourth_jet_status = sources["quartic_tc2_fourth_jet_status"]
     quartic_tc2_reranked_obligation_chunks = tuple(
         sources[f"quartic_tc2_reranked_obligation_chunk_{offset}"]
         for offset in (0, 64, 128, 192, 256, 320, 384)
@@ -650,6 +663,37 @@ def build_unified_snapshot(
         != "candidate_specific_metric_variation_execution_from_the_generated_action_export_for_each_action_hash_and_future_operator_family"
     ):
         raise ValueError("generated candidate formal action export is inconsistent")
+    metric_counts = generated_candidate_metric_variation.get(
+        "metric_variation_execution_counts", {}
+    )
+    if (
+        generated_candidate_metric_variation.get("candidate_count") != 163
+        or metric_counts
+        != {
+            "aether_formal_control_bound": 128,
+            "blocked": 0,
+            "candidate_action_hashes_specialized": 163,
+            "candidate_euler_expressions_materialized": 163,
+            "formal_passes_inferred": 0,
+            "rejected": 0,
+        }
+        or generated_candidate_metric_variation.get("current_operator_families_complete")
+        is not True
+        or generated_candidate_metric_variation.get(
+            "future_unregistered_operator_families_complete"
+        )
+        is not False
+        or generated_candidate_metric_variation.get("observational_data_opened") is not False
+        or generated_candidate_metric_variation.get("paid_llm_spend_usd") != 0.0
+        or len(generated_candidate_metric_variation.get("candidate_records", [])) != 163
+        or any(
+            record.get("generic_metric_variation_theorem_bound") is not True
+            or record.get("candidate_specialized_euler_expression_materialized") is not True
+            or record.get("formal_pass_inferred") is not False
+            for record in generated_candidate_metric_variation.get("candidate_records", [])
+        )
+    ):
+        raise ValueError("generated candidate metric specialization is inconsistent")
     if (
         formal_preflight.get("execution_enabled") is not True
         or formal_preflight.get("candidate_count") != 163
@@ -1762,6 +1806,54 @@ def build_unified_snapshot(
     ):
         raise ValueError("future G3 York analytic threshold is inconsistent")
     if (
+        future_aether_fixed_free_data_principal_gate.get("candidate_count") != 14
+        or future_aether_fixed_free_data_principal_gate.get("decision_counts")
+        != {"blocked": 14}
+        or future_aether_fixed_free_data_principal_gate.get(
+            "positive_unit_branch_constraint_variable_classification_count"
+        )
+        != 3
+        or future_aether_fixed_free_data_principal_gate.get(
+            "zero_dimensional_Aether_constraint_diagonal_block_count"
+        )
+        != 3
+        or future_aether_fixed_free_data_principal_gate.get(
+            "zero_Aether_second_order_off_diagonal_columns_count"
+        )
+        != 3
+        or future_aether_fixed_free_data_principal_gate.get(
+            "augmented_Aether_unknown_nonelliptic_negative_control_count"
+        )
+        != 3
+        or future_aether_fixed_free_data_principal_gate.get("formal_pass_count") != 0
+        or future_aether_fixed_free_data_principal_gate.get(
+            "candidate_rejection_authorized_count"
+        )
+        != 0
+        or future_aether_fixed_free_data_principal_gate.get("observational_data_opened")
+        is not False
+    ):
+        raise ValueError("future Aether fixed-free-data principal gate is inconsistent")
+    if (
+        future_g3_york_tracefree_compensation.get("candidate_count") != 3
+        or future_g3_york_tracefree_compensation.get("decision_counts") != {"blocked": 3}
+        or future_g3_york_tracefree_compensation.get(
+            "exact_tracefree_compensation_bound_pass_count"
+        )
+        != 3
+        or future_g3_york_tracefree_compensation.get(
+            "tracefree_compensated_York_class_reject_count"
+        )
+        != 3
+        or future_g3_york_tracefree_compensation.get(
+            "candidate_nontrivial_AF_Einstein_constraint_solution_pass_count"
+        )
+        != 0
+        or future_g3_york_tracefree_compensation.get("theory_reject_count") != 0
+        or future_g3_york_tracefree_compensation.get("observational_data_opened") is not False
+    ):
+        raise ValueError("future G3 tracefree-compensated York gate is inconsistent")
+    if (
         future_candidate_action_dossier.get("candidate_count") != 19
         or future_candidate_action_dossier.get("family_counts")
         != {
@@ -1778,9 +1870,9 @@ def build_unified_snapshot(
         or future_candidate_action_dossier.get("source_roots", {}).get(
             "aether_followup_content_sha256"
         )
-        != future_aether_weighted_reference_operator_gate.get("content_sha256")
+        != future_aether_fixed_free_data_principal_gate.get("content_sha256")
         or future_candidate_action_dossier.get("source_roots", {}).get("g3_followup_content_sha256")
-        != future_g3_york_analytic_threshold.get("content_sha256")
+        != future_g3_york_tracefree_compensation.get("content_sha256")
         or len(future_candidate_action_dossier.get("dossiers", [])) != 19
         or any(
             record.get("comparison_contract", {}).get("rank") is not None
@@ -2737,6 +2829,43 @@ def build_unified_snapshot(
         )
     ):
         raise ValueError("quartic TC2 reranked obligation checkpoint is inconsistent")
+    fourth_counts = quartic_tc2_fourth_jet_range_obligations.get("counts", {})
+    fourth_chunk_counts = quartic_tc2_fourth_jet_chunk_0.get("counts", {})
+    if (
+        quartic_tc2_fourth_jet_range_obligations.get("status")
+        != "pass_exact_fourth_jet_minimal_selector_manifest_no_evaluations_tube_fail_closed"
+        or fourth_counts.get("active_directions") != 15
+        or fourth_counts.get("fourth_selector_records") != 3_060
+        or fourth_counts.get("candidate_fourth_jet_obligations") != 36_720
+        or fourth_counts.get("fourth_jet_obligations_evaluated") != 0
+        or quartic_tc2_fourth_jet_chunk_0.get("status")
+        != "pass_exact_fourth_jet_chunk_32_tube_fail_closed"
+        or fourth_chunk_counts.get("selected") != 32
+        or fourth_chunk_counts.get("candidate_solvable") != 384
+        or fourth_chunk_counts.get("candidate_obstructed") != 0
+        or fourth_chunk_counts.get("fourth_obligations_remaining") != 3_028
+        or fourth_chunk_counts.get("fourth_obligations_inferred_passed") != 0
+        or quartic_tc2_fourth_jet_checkpoint.get("next_obligation_offset") != 32
+        or quartic_tc2_fourth_jet_checkpoint.get("remaining_obligations") != 3_028
+        or quartic_tc2_fourth_jet_checkpoint.get("current_artifact_content_sha256")
+        != quartic_tc2_fourth_jet_chunk_0.get("content_sha256")
+        or quartic_tc2_fourth_jet_status.get("checkpoint_content_sha256")
+        != quartic_tc2_fourth_jet_checkpoint.get("content_sha256")
+        or quartic_tc2_fourth_jet_status.get("decision") != "checkpointed"
+        or any(
+            quartic_tc2_fourth_jet_status.get("claims", {}).get(key) is not False
+            for key in (
+                "full_tube_Sylvester_identity",
+                "CK1_closed",
+                "CK3_closed",
+                "TC2_closed",
+                "B7_closed",
+                "global_H7_closed",
+                "lifespan_proved",
+            )
+        )
+    ):
+        raise ValueError("quartic TC2 fourth-jet obligation service is inconsistent")
 
     blocker_gates: Counter[str] = Counter()
     for row in pareto["pareto_follow_up_queue"]:
@@ -3093,6 +3222,18 @@ def build_unified_snapshot(
                         "first_missing_premise": generated_candidate_formal_export[
                             "first_missing_premise"
                         ],
+                        "candidate_metric_specialization": {
+                            "candidate_count": generated_candidate_metric_variation[
+                                "candidate_count"
+                            ],
+                            "counts": generated_candidate_metric_variation[
+                                "metric_variation_execution_counts"
+                            ],
+                            "first_missing_premise": generated_candidate_metric_variation[
+                                "first_missing_premise"
+                            ],
+                            "scope": generated_candidate_metric_variation["scope"],
+                        },
                     },
                     "formal_preflight": {
                         "candidate_count": formal_preflight["candidate_count"],
@@ -3245,10 +3386,10 @@ def build_unified_snapshot(
                     },
                     "family_followup": {
                         "aether": {
-                            "candidate_count": future_aether_weighted_reference_operator_gate[
+                            "candidate_count": future_aether_fixed_free_data_principal_gate[
                                 "candidate_count"
                             ],
-                            "decision_counts": future_aether_weighted_reference_operator_gate[
+                            "decision_counts": future_aether_fixed_free_data_principal_gate[
                                 "decision_counts"
                             ],
                             "formal_pass_count": 0,
@@ -3360,6 +3501,18 @@ def build_unified_snapshot(
                             "completed_boundary_sign_persistence_count": future_aether_weighted_reference_operator_gate[
                                 "completed_boundary_sign_persistence_count"
                             ],
+                            "fixed_free_data_constraint_variable_classification_count": future_aether_fixed_free_data_principal_gate[
+                                "positive_unit_branch_constraint_variable_classification_count"
+                            ],
+                            "zero_dimensional_Aether_constraint_diagonal_block_count": future_aether_fixed_free_data_principal_gate[
+                                "zero_dimensional_Aether_constraint_diagonal_block_count"
+                            ],
+                            "zero_Aether_second_order_off_diagonal_columns_count": future_aether_fixed_free_data_principal_gate[
+                                "zero_Aether_second_order_off_diagonal_columns_count"
+                            ],
+                            "augmented_Aether_unknown_nonelliptic_negative_control_count": future_aether_fixed_free_data_principal_gate[
+                                "augmented_Aether_unknown_nonelliptic_negative_control_count"
+                            ],
                             "missing_weighted_contract_field_counts": future_aether_weighted_ift_contract_gate[
                                 "missing_contract_field_counts"
                             ],
@@ -3369,16 +3522,20 @@ def build_unified_snapshot(
                             "c2_plus_c3_counts": future_aether_weak_field_ae_constraint_gate[
                                 "c2_plus_c3_counts"
                             ],
-                            "first_blocker_counts": future_aether_weighted_reference_operator_gate[
+                            "first_blocker_counts": future_aether_fixed_free_data_principal_gate[
                                 "first_blocker_counts"
                             ],
-                            "candidate_rejection_authorized_count": future_aether_weighted_reference_operator_gate[
+                            "candidate_rejection_authorized_count": future_aether_fixed_free_data_principal_gate[
                                 "candidate_rejection_authorized_count"
                             ],
                         },
                         "g3": {
-                            "candidate_count": future_g3_york_analytic_threshold["candidate_count"],
-                            "decision_counts": future_g3_york_analytic_threshold["decision_counts"],
+                            "candidate_count": future_g3_york_tracefree_compensation[
+                                "candidate_count"
+                            ],
+                            "decision_counts": future_g3_york_tracefree_compensation[
+                                "decision_counts"
+                            ],
                             "all_direction_single_center_pass_count": future_g3_domain_followup[
                                 "all_direction_single_center_pass_count"
                             ],
@@ -3469,19 +3626,28 @@ def build_unified_snapshot(
                             "above_threshold_control_inconclusive_count": future_g3_york_analytic_threshold[
                                 "above_threshold_negative_control_inconclusive_count"
                             ],
+                            "tracefree_compensation_bound_pass_count": future_g3_york_tracefree_compensation[
+                                "exact_tracefree_compensation_bound_pass_count"
+                            ],
+                            "tracefree_compensated_York_class_reject_count": future_g3_york_tracefree_compensation[
+                                "tracefree_compensated_York_class_reject_count"
+                            ],
+                            "undercompensated_control_inconclusive_count": future_g3_york_tracefree_compensation[
+                                "undercompensated_negative_control_inconclusive_count"
+                            ],
                             "asymptotically_flat_Dirac_pass_count": future_g3_af_transition_obstruction[
                                 "AF_unitary_lapse_Dirac_pass_count"
                             ],
-                            "AF_Einstein_constraint_solution_pass_count": future_g3_york_analytic_threshold[
+                            "AF_Einstein_constraint_solution_pass_count": future_g3_york_tracefree_compensation[
                                 "candidate_nontrivial_AF_Einstein_constraint_solution_pass_count"
                             ],
-                            "global_energy_pass_count": future_g3_york_analytic_threshold[
+                            "global_energy_pass_count": future_g3_york_tracefree_compensation[
                                 "global_hamiltonian_energy_pass_count"
                             ],
-                            "full_formal_pass_count": future_g3_york_analytic_threshold[
+                            "full_formal_pass_count": future_g3_york_tracefree_compensation[
                                 "full_formal_pass_count"
                             ],
-                            "first_blocker_counts": future_g3_york_analytic_threshold[
+                            "first_blocker_counts": future_g3_york_tracefree_compensation[
                                 "first_blocker_counts"
                             ],
                         },
@@ -3582,6 +3748,29 @@ def build_unified_snapshot(
                 "completion_rank": quartic_rerank["completion_rank"],
                 "drop_final_obligation_rank": quartic_rerank["drop_final_obligation_rank"],
             },
+            "fourth_jet_range_obligations": {
+                "active_direction_rank": fourth_counts["active_directions"],
+                "selector_obligations": fourth_counts["fourth_selector_records"],
+                "candidate_obligation_budget": fourth_counts[
+                    "candidate_fourth_jet_obligations"
+                ],
+                "obligations_evaluated": fourth_chunk_counts["selected"],
+                "obligations_remaining": fourth_chunk_counts[
+                    "fourth_obligations_remaining"
+                ],
+                "candidate_evaluations": fourth_chunk_counts["candidate_evaluations"],
+                "candidate_solvable": fourth_chunk_counts["candidate_solvable"],
+                "candidate_obstructed": fourth_chunk_counts["candidate_obstructed"],
+                "directional_evaluations": fourth_chunk_counts[
+                    "directional_evaluations"
+                ],
+                "next_obligation_offset": quartic_tc2_fourth_jet_status[
+                    "next_obligation_offset"
+                ],
+                "resume_tip_sha256": quartic_tc2_fourth_jet_status["prior_resume_sha256"],
+                "parallel_worker_count": 8,
+                "full_fourth_jet_range_closed": False,
+            },
             "closure_counts": {
                 key: quartic_counts[key]
                 for key in (
@@ -3594,7 +3783,7 @@ def build_unified_snapshot(
                     "lifespans_proved",
                 )
             },
-            "first_missing_premise": "fourth_and_higher_remainder_or_nonlinear_range_theorem_for_tube_uniform_Sylvester_solution",
+            "first_missing_premise": "remaining_3028_exact_fourth_jet_range_obligations_then_all_order_remainder_or_nonlinear_range_theorem",
         },
         "evidence_pareto": {
             "candidate_decision_counts": pareto["candidate_decision_counts"],

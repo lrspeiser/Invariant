@@ -88,10 +88,10 @@ def test_proof_hierarchy_distinguishes_formula_formal_and_observation_scope() ->
     assert len(g3_records) == 3
     assert all(
         record["first_blocker"]
-        == "candidate_specific_nontrivial_AF_Einstein_constraint_solution_beyond_analytic_conformally_flat_York_threshold"
-        and "unique positive algebraic threshold kappa_star"
+        == "candidate_specific_nontrivial_AF_Einstein_constraint_solution_beyond_conformally_flat_tracefree_compensated_York_class"
+        and "removes the pointwise |K|/v cap"
         in record["hierarchy_nodes"][1]["scope"]
-        and "closed class |K| <= kappa_star*v is excluded" in record["hierarchy_nodes"][1]["scope"]
+        and "tracefree-compensated subclass" in record["hierarchy_nodes"][1]["scope"]
         and "arbitrary smooth trace-free York tensors" in record["hierarchy_nodes"][1]["scope"]
         for record in g3_records
     )
@@ -106,12 +106,12 @@ def test_proof_hierarchy_distinguishes_formula_formal_and_observation_scope() ->
         record["first_blocker"]
         in {
             "noncharacteristic_foliation_or_compact_negative_seed_avoiding_forced_ADM_Legendre_characteristic_crossing",
-            "candidate_bound_Aether_constraint_variable_block_and_off_diagonal_principal_symbol_on_declared_weighted_spaces",
+            "candidate_bound_finite_tilt_metric_momentum_to_York_principal_symbol_from_spatially_distributed_Legendre_map",
         }
         and "finite-amplitude Aether seed" in record["hierarchy_nodes"][1]["scope"]
         and "uniform Aether Legendre-sector margins" in record["hierarchy_nodes"][1]["scope"]
-        and "metric reference principal spectrum" in record["hierarchy_nodes"][1]["scope"]
-        and "off-diagonal principal symbol" in record["hierarchy_nodes"][1]["scope"]
+        and "weighted reference principal spectrum" in record["hierarchy_nodes"][1]["scope"]
+        and "4x3 Aether off-diagonal principal columns" in record["hierarchy_nodes"][1]["scope"]
         for record in aether_records
     )
 
@@ -134,7 +134,7 @@ def test_artifact_is_portable_and_secret_safe() -> None:
     raw = ARTIFACT.read_bytes()
     artifact = json.loads(raw)
     assert hashlib.sha256(raw).hexdigest() == (
-        "d8d291c3e8fa8e438011e0a5a026bb394fb78ab386a5656e4f9fdc44daff2b09"
+        "320ffe6149a1680417e227b6f2c87960644b63434a09eb1e46c95dcb92a76c5f"
     )
     encoded = raw.decode("utf-8")
     assert "C:\\" not in encoded
