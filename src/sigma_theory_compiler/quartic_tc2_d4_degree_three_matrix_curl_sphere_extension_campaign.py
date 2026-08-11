@@ -433,6 +433,28 @@ def validate_campaign(document: Mapping[str, Any]) -> None:
         )
     counts = document.get("counts", {})
     claims = document.get("claims", {})
+    expected_claim_keys = {
+        "minimal_degree_three_extension_in_declared_class_constructed",
+        "antipodally_odd_bounded_smooth_sphere_symbol_constructed",
+        "e1_e2_and_original_generic_certificates_preserved",
+        "first_additional_generic_frame_recurrence_evaluated",
+        "canonical_degree_three_extension_rejected_as_all_direction_completion",
+        "full_direction_sphere_D4_compatibility_proved",
+        "broader_matrix_curl_symbol_class_classified",
+        "local_differential_operator_origin_proved",
+        "covariant_action_origin_proved",
+        "variable_coefficient_constraint_calculus_proved",
+        "boundary_energy_admission_proved",
+        "corrected_candidate_family_registered",
+        "remaining_D4_selector_closed",
+        "full_tube_Sylvester_identity",
+        "CK1_closed",
+        "CK3_closed",
+        "TC2_closed",
+        "B7_closed",
+        "global_H7_closed",
+        "lifespan_proved",
+    }
     exact = document.get("exact_extension", {})
     audit = exact.get("first_additional_frame_audit", {})
     if (
@@ -459,6 +481,7 @@ def validate_campaign(document: Mapping[str, Any]) -> None:
             "negative_controls": 7,
             "inferred_global_passes": 0,
         }
+        or set(claims) != expected_claim_keys
         or exact.get("minimality", {}).get("minimal_total_extension_degree") != 3
         or exact.get("exact_sphere_symbol", {}).get(
             "physical_gradient_lift_annihilated_identically"

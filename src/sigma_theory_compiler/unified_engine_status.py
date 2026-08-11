@@ -20,6 +20,7 @@ from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import Any
 
+from .cpu_symbolic_overlap_benchmark import EXPECTED_TOP_LEVEL_KEYS as CPU_OVERLAP_KEYS
 from .process_health import pid_alive
 
 SCHEMA_VERSION = "sigma-unified-engine-status-1.0"
@@ -755,7 +756,8 @@ def build_unified_snapshot(
     cpu_overlap_hardware = cpu_real_formula_overlap.get("hardware_attestation", {})
     cpu_overlap_stages = cpu_real_formula_overlap.get("stages", [])
     if (
-        cpu_real_formula_overlap.get("schema_version")
+        set(cpu_real_formula_overlap) != CPU_OVERLAP_KEYS
+        or cpu_real_formula_overlap.get("schema_version")
         != "sigma-cpu-real-formula-overlap-benchmark-1.1"
         or cpu_real_formula_overlap.get("decision")
         != "real_formula_cpu_overlap_completed_target_met_no_policy_promotion"
@@ -6593,6 +6595,28 @@ def build_unified_snapshot(
     sphere_preservation = sphere_extension.get("certificate_preservation", {})
     sphere_frame = sphere_extension.get("first_additional_frame_audit", {})
     sphere_claims = quartic_tc2_d4_degree_three_sphere_extension.get("claims", {})
+    sphere_expected_claim_keys = {
+        "minimal_degree_three_extension_in_declared_class_constructed",
+        "antipodally_odd_bounded_smooth_sphere_symbol_constructed",
+        "e1_e2_and_original_generic_certificates_preserved",
+        "first_additional_generic_frame_recurrence_evaluated",
+        "canonical_degree_three_extension_rejected_as_all_direction_completion",
+        "full_direction_sphere_D4_compatibility_proved",
+        "broader_matrix_curl_symbol_class_classified",
+        "local_differential_operator_origin_proved",
+        "covariant_action_origin_proved",
+        "variable_coefficient_constraint_calculus_proved",
+        "boundary_energy_admission_proved",
+        "corrected_candidate_family_registered",
+        "remaining_D4_selector_closed",
+        "full_tube_Sylvester_identity",
+        "CK1_closed",
+        "CK3_closed",
+        "TC2_closed",
+        "B7_closed",
+        "global_H7_closed",
+        "lifespan_proved",
+    }
     if (
         quartic_tc2_d4_degree_three_sphere_extension.get("status")
         != "pass_exact_minimal_degree_three_matrix_curl_sphere_extension_with_first_additional_frame_obstruction"
@@ -6620,6 +6644,7 @@ def build_unified_snapshot(
             "preserved_direction_certificates": 3,
             "single_curl_channels": 1,
         }
+        or set(sphere_claims) != sphere_expected_claim_keys
         or quartic_tc2_d4_degree_three_sphere_extension.get("source_bindings", {})
         .get("matrix_completion", {})
         .get("content_sha256")

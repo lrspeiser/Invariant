@@ -234,6 +234,7 @@ def load_config(config_path: str | Path) -> tuple[dict[str, Any], Path]:
         != "f6e09a44eddd20999c8a5c3d3e1e002efb9c892deb706df60669a47f1f7f3840"
         or config.get("grid_sha256")
         != "9212ebf18831e3604088ce48e96fd5bb5b842e6c2a5126de6ed934ece146ed24"
+        or float(config.get("ambiguity_guard", math.nan)) != 1e-10
         or config.get("seals") != EXPECTED_SEALS
     ):
         raise ValueError("CPU formula overlap closed contract changed")

@@ -2333,6 +2333,24 @@ def test_degree_three_semantic_tamper_fails_closed_after_resealing(tmp_path: Pat
         build_unified_snapshot(root, config, physical_gpu={"availability": "unavailable"})
 
 
+def test_degree_three_unknown_claim_fails_closed_after_resealing(tmp_path: Path) -> None:
+    root, config, _ = _fixture(tmp_path)
+    label = "quartic_tc2_d4_degree_three_matrix_curl_sphere_extension"
+    spec = next(source for source in config["sources"] if source["label"] == label)
+    target = root / spec["path"]
+    artifact = json.loads(target.read_text(encoding="utf-8"))
+    artifact["claims"]["theory_pass"] = True
+    body = {key: value for key, value in artifact.items() if key != "content_sha256"}
+    artifact["content_sha256"] = hashlib.sha256(_canonical(body)).hexdigest()
+    target.write_text(json.dumps(artifact, indent=2) + "\n", encoding="utf-8")
+    raw = target.read_bytes()
+    spec["file_sha256"] = hashlib.sha256(raw).hexdigest()
+    spec["content_sha256"] = artifact["content_sha256"]
+
+    with pytest.raises(ValueError, match="degree-three sphere extension"):
+        build_unified_snapshot(root, config, physical_gpu={"availability": "unavailable"})
+
+
 def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     config = load_config(REPO / "configs/unified_engine_status.json")
     artifact = json.loads((REPO / "runs/engine/unified-engine-status.json").read_text())

@@ -180,6 +180,7 @@ def test_negative_controls(artifact: dict) -> None:
         (("claims", "full_direction_sphere_D4_compatibility_proved"), True),
         (("claims", "local_differential_operator_origin_proved"), True),
         (("claims", "TC2_closed"), True),
+        (("claims", "theory_pass"), True),
         (("exact_extension", "certificate_preservation", "fixed_block_sha256"), "0" * 64),
     ],
 )

@@ -249,6 +249,12 @@ def test_artifact_claim_tamper_and_config_evaluator_injection_fail(tmp_path: Pat
     with pytest.raises((FileNotFoundError, ValueError)):
         campaign.load_config(bad)
 
+    config = json.loads(CONFIG.read_text(encoding="utf-8"))
+    config["ambiguity_guard"] = 1e-6
+    bad.write_text(json.dumps(config), encoding="utf-8")
+    with pytest.raises((FileNotFoundError, ValueError)):
+        campaign.load_config(bad)
+
 
 def test_hard_deadline_terminates_only_owned_workers(
     monkeypatch: pytest.MonkeyPatch,
