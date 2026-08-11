@@ -139,6 +139,10 @@
         "configs/kastner_schlatter_poisson_action_compatibility.json",
         "tests/test_kastner_schlatter_poisson_action_compatibility.py",
         "runs/engine/kastner-schlatter-poisson-action-compatibility.json",
+        "src/sigma_theory_compiler/kastner_schlatter_positive_intensity_preservation_gate.py",
+        "configs/kastner_schlatter_positive_intensity_preservation_gate.json",
+        "tests/test_kastner_schlatter_positive_intensity_preservation_gate.py",
+        "runs/engine/kastner-schlatter-positive-intensity-preservation-gate.json",
         "src/sigma_theory_compiler/generic_g4_b4_termwise_normalization_campaign.py",
         "configs/generic_g4_b4_termwise_normalization_campaign.json",
         "formal/sources/kyy_1105.5723v4_eq_B4_canonical_coefficients.json",
@@ -155,7 +159,7 @@
       "implemented": [
         "restart-safe bounded SQLite queues, deterministic seeds, leases, checkpoints, crash recovery, periodic refill, and detached start/status/stop/resume/export lifecycle",
         "a separate bounded read-only live-dashboard refresh service with a 300-second interval, hash-bound atomic checkpoint, 4,032-refresh and 12-consecutive-failure limits, atomic runtime snapshot/dashboard publication, explicit start/status/stop/refresh-once lifecycle, and immutable checked-snapshot preservation",
-        "an isolated hardened replacement service, ready but intentionally not started, with Windows-safe list argv and PID-command identity, immutable runtime epoch and counter-preserving reload, final-checkpointed reload failures, interruptible polling and refresh guards, symlink-safe exclusive temporary writes, and pre/post dependency manifests; third-party builder calls remain non-preemptible and snapshot/dashboard publication is not yet cross-file transactional",
+        "an active hardened live-dashboard service cut over only after graceful legacy stop and exact PID/argv absence, with Windows-safe list argv and PID-command identity, an exclusive cross-start lease, atomic pre-spawn starting checkpoint, repeated-start rejection, immutable runtime epoch and counter-preserving reload, final-checkpointed reload failures, interruptible polling and refresh guards, symlink-safe exclusive temporary writes, and pre/post dependency manifests; third-party builder calls remain non-preemptible and snapshot/dashboard publication is not yet cross-file transactional",
         "16 CPU lane owners plus one exclusive cached-CUDA owner on the RTX 5090 profile with separate lease-occupancy and optional CPU/NVML hardware telemetry",
         "real ordinal and hash-verified SGSURV2 binary evaluator adapters with exact CPU/GPU status-root crosschecks",
         "a restart-safe bounded Rust-to-SGSURV2 producer that overlaps hash-verified chunks with one cached CUDA consumer under exclusive producer leases and queue backpressure",
@@ -252,6 +256,16 @@
           "path": "runs/engine/kastner-schlatter-poisson-action-compatibility.json",
           "file_sha256": "cb0085e9086194dca0df4a48c74f0930911ab14abaf02028f42217a1a38da8f2",
           "content_sha256": "611fe2f52994c4dd75cb49abd99e55f6ddcb8a89368cbd8d97b5f63ab428ba75"
+        },
+        "kastner_schlatter_positive_intensity_preservation": {
+          "path": "runs/engine/kastner-schlatter-positive-intensity-preservation-gate.json",
+          "file_sha256": "52d2a13010535c18764fbc66758185a8f7311e3f1dcb6ce87ffcc1dca5c622cf",
+          "content_sha256": "bb916000b6e687f2788ad49fd5ed69cd80d2ec8110eec79f2eb250aca681a3a7",
+          "fully_coupled_crossing_witnesses": 2,
+          "unrestricted_positive_intensity_preservation_rejects": 2,
+          "candidate_action_rejects": 0,
+          "invariant_nonnegative_cones": 0,
+          "positive_reparameterized_actions": 0
         },
         "generic_g4_B4_normalization": {
           "path": "runs/engine/generic-g4-b4-termwise-normalization-campaign.json",
@@ -661,10 +675,16 @@
       ],
       "live_service_safety_binding": {
         "path": "runs/engine/unified-engine-live-service-safety-readiness.json",
-        "file_sha256": "5428fb8b053c5d0b57a54bc04b5739c331b70270a413cbca26e625e261a67a90",
-        "content_sha256": "9b40e2a5d9d34f28166baf9196f59ac0e09f03c325612427e5e37199e95ef56e",
+        "file_sha256": "9005f3b83610bcc7cb494688ce9a365b1b6dc831a7a2019f4c314f7c241beda0",
+        "content_sha256": "2ecaa4b0a38e07e655b29bbfe6f09f2653fad9058391066b5d12da1da961e1d9",
         "decision": "hardened_service_ready_not_started",
-        "integrated_service_replaced": false
+        "legacy_absence_required": true,
+        "cross_start_exclusive_lease": true,
+        "atomic_starting_checkpoint": true,
+        "repeated_start_allowed": false,
+        "integrated_service_replaced": true,
+        "legacy_worker_stopped_before_cutover": true,
+        "active_runtime_epoch": "unified-live-dashboard-safety-epoch-20260811-v1"
       },
       "missing": [
         "distributed multi-node or multi-GPU execution",
@@ -856,7 +876,7 @@
       },
       "global_H7_energy_ledger": {
         "status": "implemented_global_nonremainder_sum_full_D1_and_partial_TC2_correction_global_H7_fail_closed",
-        "scope": "For all 12 candidates, the fail-closed H7 ledger includes the complete reference quadratic deltaK two-jet and the full exact third-jet sector. The fourth-order service closed 244 of 3,060 obligations before finding a rank-two alpha^5 obstruction at offset 244. An exact homogeneous-freedom reduction covers all 15 polarization sums, 300 stationary-projector checks and 20,842 lower-jet kernel slots; its induced D4 zero-eigenspace map has rank zero, so no lower homogeneous completion can cancel the witness. A separate minimal one-parameter rank-one state-space TC2 ansatz spans the obstruction line and gives 12/12 exact candidate-specific D4 solutions after tuning eta=-(34816/15)alpha^5. It is algebraic only: no covariant-action origin, gauge/constraint compatibility, universal eta or corrected-candidate registration is proved. The 2,816 later obligations remain unevaluated. Full fourth-order closure, all-order remainder control, variable TC3/high-derivative TC2/H7 TC5 bounds, global dyadic closure, tube preservation, and lifespan remain false.",
+        "scope": "For all 12 candidates, the fail-closed H7 ledger includes the complete reference quadratic deltaK two-jet and the full exact third-jet sector. The fourth-order service closed 244 of 3,060 obligations before finding a rank-two alpha^5 obstruction at offset 244. An exact homogeneous-freedom reduction covers all 15 polarization sums, 300 stationary-projector checks and 20,842 lower-jet kernel slots; its induced D4 zero-eigenspace map has rank zero, so no lower homogeneous completion can cancel the witness. A separate minimal one-parameter rank-one state-space TC2 ansatz spans the obstruction line and gives 12/12 exact candidate-specific D4 solutions after tuning eta=-(34816/15)alpha^5. Its downstream fixed-chart curl completion now proves exact 33-definition/33-curl constraint propagation and physical constraint-surface equivalence for those reference-direction solutions. No covariant-action origin, spatially covariant tensor completion, all-direction/all-eigenspace compatibility, universal eta or corrected-candidate registration is proved. The 2,816 later obligations remain unevaluated. Full fourth-order closure, all-order remainder control, variable TC3/high-derivative TC2/H7 TC5 bounds, global dyadic closure, tube preservation, and lifespan remain false.",
         "evidence": [
           "src/sigma_theory_compiler/quartic_tc2_quadratic_deltak_extension_campaign.py",
           "configs/backgrounds/quartic_tc2_quadratic_deltak_extension_campaign.json",
@@ -954,7 +974,11 @@
         "src/sigma_theory_compiler/quartic_tc2_d4_topology_changing_origin_classification_campaign.py",
         "configs/backgrounds/quartic_tc2_d4_topology_changing_origin_classification_campaign.json",
         "tests/test_quartic_tc2_d4_topology_changing_origin_classification_campaign.py",
-        "runs/physics-language/quartic-tc2-d4-topology-changing-origin-classification-campaign/campaign.json"
+        "runs/physics-language/quartic-tc2-d4-topology-changing-origin-classification-campaign/campaign.json",
+        "src/sigma_theory_compiler/quartic_tc2_d4_curl_constraint_admission_campaign.py",
+        "configs/backgrounds/quartic_tc2_d4_curl_constraint_admission_campaign.json",
+        "tests/test_quartic_tc2_d4_curl_constraint_admission_campaign.py",
+        "runs/physics-language/quartic-tc2-d4-curl-constraint-admission-campaign/campaign.json"
         ],
         "artifact_binding": {
           "file_sha256": "bb651cb099e409fff85d3354c69a88f667cd39453946a8affce00378b3c705bf",
@@ -1073,9 +1097,24 @@
             "nonzero_incapable_selector_count": 34,
             "registered_selector_54_capable": false,
             "covariant_constraint_row_origin_constructed": false
+          },
+          "fourth_jet_curl_constraint_admission_binding": {
+            "file_sha256": "61beec6a3be333eba6858e04339cd978acb42dfb049b055ddcbf3e5edb732401",
+            "content_sha256": "df37680b05b3d6da32e107bee16397a1a37b77d97c3da5a26c0bd49ad194cb6a",
+            "source_curl_constraints": 1,
+            "direction_blocks": 2,
+            "output_nonzero_coefficients": 6,
+            "definition_constraints_propagated": 33,
+            "curl_constraints_propagated": 33,
+            "candidate_reference_D4_admissions": 12,
+            "fixed_gauge_constraint_admitted": true,
+            "covariant_action_origin": false,
+            "spatially_covariant_tensor_completion": false,
+            "all_direction_compatibility": false,
+            "global_passes": 0
           }
       },
-      "missing": ["an explicit covariant definition/curl constraint-row TC2 operator using one of the five capable canonical selectors (21, 44, 48, 51, 53), or a coupled lower-jet mechanism, followed by constraint-propagation and all-eigenspace compatibility proofs; the complete direct second-order-action domain has zero cokernel rank and registered selector 54 is incapable, while the permanently stopped service leaves 2,816 later obligations unevaluated", "fifth-and-higher remainder control or a nonlinear range theorem that upgrades the completed reference Taylor jets to a tube-uniform Hermitian positive full Sylvester solution", "the remaining variable TC3, high-derivative TC2 and H7 TC5 terms", "an executable component Frechet/Bony-good-unknown remainder bound supplying finite C_L and C_B", "an initial H7 energy bound and substitution into the conditional lifespan/tube formula", "new reduction adapters for future nonminimal action terms outside the bounded grammar", "exhaustive multi-seed connected-domain construction beyond the campaign's shared local FLRW seed", "nonlinear PDE evolution-invariant trapping regions inside the pointwise-certified cubic-Horndeski and quartic-Horndeski local-jet boxes", "new mixed/nonlinear principal and symmetrizer adapters for the remaining 114 G4_X sample assignments, followed by necessary-and-sufficient multi-field direction-sphere bounds", "generic nonlinear global reduced-Hamiltonian boundedness beyond the certified homogeneous Horndeski tensor and FLRW scalar blocks"]
+      "missing": ["a spatially covariant gauge-fixed tensor completion of the exact fixed-chart curl constraint operator, followed by companion-direction and all-eigenspace D4 compatibility; fixed-gauge propagation closes 33 definition and 33 curl constraints for 12 reference-direction admissions, while the permanently stopped service leaves 2,816 later obligations unevaluated", "fifth-and-higher remainder control or a nonlinear range theorem that upgrades the completed reference Taylor jets to a tube-uniform Hermitian positive full Sylvester solution", "the remaining variable TC3, high-derivative TC2 and H7 TC5 terms", "an executable component Frechet/Bony-good-unknown remainder bound supplying finite C_L and C_B", "an initial H7 energy bound and substitution into the conditional lifespan/tube formula", "new reduction adapters for future nonminimal action terms outside the bounded grammar", "exhaustive multi-seed connected-domain construction beyond the campaign's shared local FLRW seed", "nonlinear PDE evolution-invariant trapping regions inside the pointwise-certified cubic-Horndeski and quartic-Horndeski local-jet boxes", "new mixed/nonlinear principal and symmetrizer adapters for the remaining 114 G4_X sample assignments, followed by necessary-and-sufficient multi-field direction-sphere bounds", "generic nonlinear global reduced-Hamiltonian boundedness beyond the certified homogeneous Horndeski tensor and FLRW scalar blocks"]
     },
     {
       "id": "solar_and_direct_observations",

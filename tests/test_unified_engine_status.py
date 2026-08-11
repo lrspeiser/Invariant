@@ -10,6 +10,7 @@ from pathlib import Path
 import pytest
 
 from sigma_theory_compiler.unified_engine_status import (
+    _read_unified_live_service_status,
     build_unified_snapshot,
     load_config,
     main,
@@ -39,6 +40,7 @@ SOURCE_PATHS = [
     "runs/engine/kastner-schlatter-extended-geometry-cuda-stress.json",
     "runs/engine/kastner-schlatter-de-sitter-energy-prerequisite.json",
     "runs/engine/kastner-schlatter-poisson-action-compatibility.json",
+    "runs/engine/kastner-schlatter-positive-intensity-preservation-gate.json",
     "runs/engine/generic-g4-b4-termwise-normalization-campaign.json",
     "runs/engine/grammar-v3-formal-preflight-status.json",
     "runs/engine/grammar-v3-promotion-admission-status.json",
@@ -124,6 +126,7 @@ SOURCE_PATHS = [
     "runs/physics-language/quartic-tc2-d4-minimal-tc2-escape-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-d4-registered-operator-origin-no-go-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-d4-topology-changing-origin-classification-campaign/campaign.json",
+    "runs/physics-language/quartic-tc2-d4-curl-constraint-admission-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000000.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000064.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000128.json",
@@ -189,6 +192,7 @@ LABELS = [
     "kastner_schlatter_extended_geometry_cuda_stress",
     "kastner_schlatter_de_sitter_energy_prerequisite",
     "kastner_schlatter_poisson_action_compatibility",
+    "kastner_schlatter_positive_intensity_preservation",
     "generic_g4_b4_termwise_normalization",
     "grammar_v3_formal_preflight",
     "grammar_v3_promotion_admission",
@@ -274,6 +278,7 @@ LABELS = [
     "quartic_tc2_d4_minimal_tc2_escape",
     "quartic_tc2_d4_registered_operator_origin_no_go",
     "quartic_tc2_d4_topology_changing_origin_classification",
+    "quartic_tc2_d4_curl_constraint_admission",
     "quartic_tc2_reranked_obligation_chunk_0",
     "quartic_tc2_reranked_obligation_chunk_64",
     "quartic_tc2_reranked_obligation_chunk_128",
@@ -376,6 +381,60 @@ def _fixture(tmp_path: Path) -> tuple[Path, dict[str, object], Path]:
         "sources": specs,
     }
     return tmp_path, config, database
+
+
+def test_hardened_live_service_checkpoint_is_hash_and_route_bound(tmp_path: Path) -> None:
+    config_path = tmp_path / "configs/unified_engine_live_service_safety.json"
+    config_path.parent.mkdir(parents=True)
+    config_path.write_text("{}\n", encoding="utf-8")
+    expected_tail = [
+        "-m",
+        "sigma_theory_compiler.unified_engine_live_service_safety",
+        "worker",
+        "--project-root",
+        str(tmp_path.resolve()),
+        "--config",
+        "configs/unified_engine_live_service_safety.json",
+    ]
+    body = {
+        "schema_version": "sigma-unified-engine-live-service-safety-checkpoint-1.0",
+        "runtime_epoch": "unified-live-dashboard-safety-epoch-test",
+        "runtime_directory": "runs/engine/unified-live-dashboard-safety-service",
+        "config_file_sha256": hashlib.sha256(config_path.read_bytes()).hexdigest(),
+        "worker_argv_sha256": hashlib.sha256(_canonical(expected_tail)).hexdigest(),
+        "state": "stopped",
+        "pid": None,
+        "refresh_count": 3,
+        "consecutive_failures": 0,
+        "reload_count": 0,
+        "last_error": None,
+        "last_refresh": None,
+        "stop_reason": "external_stop_requested",
+    }
+    checkpoint = {**body, "content_sha256": hashlib.sha256(_canonical(body)).hexdigest()}
+    checkpoint_path = (
+        tmp_path / "runs/engine/unified-live-dashboard-safety-service/checkpoint.json"
+    )
+    checkpoint_path.parent.mkdir(parents=True)
+    checkpoint_path.write_text(json.dumps(checkpoint), encoding="utf-8")
+    config = {
+        "unified_live_service_checkpoint": checkpoint_path.relative_to(tmp_path).as_posix(),
+        "unified_live_service_config": config_path.relative_to(tmp_path).as_posix(),
+    }
+
+    status = _read_unified_live_service_status(tmp_path, config)
+    assert status["implementation"] == "hardened_safety"
+    assert status["config_current"] is True
+    assert status["alive"] is False
+    assert status["pid_identity_verified"] is False
+
+    checkpoint["runtime_directory"] = "runs/engine/other-runtime"
+    tampered = dict(checkpoint)
+    tampered.pop("content_sha256")
+    checkpoint["content_sha256"] = hashlib.sha256(_canonical(tampered)).hexdigest()
+    checkpoint_path.write_text(json.dumps(checkpoint), encoding="utf-8")
+    with pytest.raises(ValueError, match="hardened unified live-service checkpoint"):
+        _read_unified_live_service_status(tmp_path, config)
 
 
 def test_read_only_snapshot_is_deterministic_and_does_not_mutate_database(tmp_path: Path) -> None:
@@ -808,6 +867,17 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
         "Var(N(B))=E[mu_B]+Var(mu_B)"
     )
     assert poisson_action["exact_mixed_poisson_control"]["Fano_factor"] == "3/2"
+    positivity = transactional["positive_intensity_preservation"]
+    assert positivity["decision_counts"] == {"blocked": 2, "pass": 0, "reject": 0}
+    assert positivity["gate_counts"]["fully_coupled_constraint_satisfying_witnesses"] == 2
+    assert positivity["gate_counts"]["unrestricted_positive_intensity_preservation_reject"] == 2
+    assert positivity["gate_counts"]["candidate_action_reject"] == 0
+    assert positivity["gate_counts"]["restricted_invariant_nonnegative_cone_pass"] == 0
+    assert positivity["gate_counts"]["positive_reparameterized_action_pass"] == 0
+    assert positivity["first_blocker"] == (
+        "no_candidate_bound_positive_intensity_reparameterization_or_proven_invariant_"
+        "nonnegative_initial_data_cone"
+    )
     extended = transactional["extended_geometry_cuda_stress"]
     assert extended["counts"]["geometry_resolution_cases"] == 20
     assert extended["counts"]["gpu_measured_source_evaluation_interactions"] == 2_860_515_328
@@ -1460,6 +1530,10 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     assert safety["service_started"] is False
     assert safety["safety_contract"]["windows_argv_list_shell_false"] is True
     assert safety["safety_contract"]["stale_projection_publication_allowed"] is False
+    assert safety["safety_contract"]["legacy_worker_absence_required_before_start"] is True
+    assert safety["safety_contract"]["atomic_starting_checkpoint_before_spawn"] is True
+    assert safety["safety_contract"]["repeated_start_launch_allowed"] is False
+    assert safety["safety_contract"]["worker_finally_releases_owned_lease"] is True
     topology = core["quartic_nonlinear_closure"]["fourth_jet_range_obligations"][
         "canonical_obstruction_certificate"
     ].pop("topology_changing_origin_classification")
@@ -1475,6 +1549,28 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     assert topology["explicit_TC2_selector_classification"]["registered_selector_control"][
         "target_W_in_image"
     ] is False
+    curl = core["quartic_nonlinear_closure"]["fourth_jet_range_obligations"][
+        "canonical_obstruction_certificate"
+    ].pop("curl_constraint_admission")
+    assert curl["counts"] == {
+        "candidate_reference_D4_solutions_inherited": 12,
+        "curl_constraints_propagated": 33,
+        "definition_constraints_propagated": 33,
+        "direction_blocks": 2,
+        "inferred_global_passes": 0,
+        "negative_controls": 6,
+        "ordered_fourth_coefficient_derivatives_checked": 256,
+        "ordered_lower_coefficient_derivatives_checked": 85,
+        "output_nonzero_coefficients": 6,
+        "source_curl_constraints": 1,
+    }
+    assert curl["gauge_fixed_operator"]["direction_1_block_equals_V"] is True
+    assert curl["constraint_propagation"]["definition_constraint_propagation"]["map_rank"] == 1
+    assert curl["constraint_propagation"]["curl_constraint_propagation"]["map_rank"] == 3
+    assert curl["physical_reduction_equivalence"]["directional_operator_times_gradient_lift_zero"] is True
+    assert curl["admission_result"]["gauge_fixed_constraint_operator_constructed"] is True
+    assert curl["admission_result"]["covariant_action_derived"] is False
+    assert curl["admission_result"]["all_direction_Sylvester_compatibility_proved"] is False
     assert core["quartic_nonlinear_closure"] == {
         "candidate_count": 12,
         "coordinate_pair_partition": {
@@ -1737,11 +1833,10 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                     ),
                 },
                 "next_gate": (
-                    "A successful origin must leave the direct second-order action-principal "
-                    "class: it must either modify a definition/curl constraint row, introduce "
-                    "an explicit nonprincipal TC2 constraint operator with a capable selector, "
-                    "or use coupled lower-jet changes. No covariant derivation or constraint "
-                    "propagation proof for any such mechanism is currently bound."
+                    "Promote the fixed-chart curl completion to a spatially covariant "
+                    "gauge-fixed tensor operator and evaluate its companion-direction/"
+                    "all-eigenspace D4 effects. Only after those checks may corrected "
+                    "candidates be registered or the remaining fourth-jet selector be resumed."
                 ),
             },
             "full_fourth_jet_range_closed": False,
@@ -1756,8 +1851,8 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
             "lifespans_proved": 0,
         },
         "first_missing_premise": (
-                "derive_an_explicit_covariant_definition_or_curl_constraint_row_TC2_operator_"
-                "using_a_capable_selector_and_prove_constraint_propagation"
+            "promote_fixed_chart_curl_completion_to_spatially_covariant_gauge_fixed_tensor_"
+            "and_evaluate_companion_direction_all_eigenspace_D4_effects"
         ),
     }
     assert core["cross_pipeline_total"]["status"] == "not_computed"
@@ -1862,9 +1957,13 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "<code>1+2k^2=0</code>" in dashboard
     assert "Live dashboard refresh service" in dashboard
     assert "never overwrites the immutable checked snapshot" in dashboard
-    assert "Safety implementation" in dashboard
+    assert "Safety readiness artifact" in dashboard
     assert "hardened_service_ready_not_started" in dashboard
-    assert "atomic, but not one cross-file transaction" in dashboard
+    assert "hardened_safety" in dashboard
+    assert "<span>Alive</span><strong>True</strong>" in dashboard
+    assert "PID identity" in dashboard
+    assert "Config current" in dashboard
+    assert "individually atomic, not one cross-file transaction" in dashboard
     assert "These master actions are recompiled from the exact typed cells" in dashboard
     assert "G3A-8555e529226d13e2e9dacad5" in dashboard
     assert "S = integral d^4x" in dashboard
@@ -1920,6 +2019,10 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "Charge interfaces" in dashboard
     assert "Var(N)=E(mu)+Var(mu)" in dashboard
     assert "point-process probability measure" in dashboard
+    assert "Coupled crossing witnesses" in dashboard
+    assert "Unrestricted positivity rejects" in dashboard
+    assert "0&lt;Tau_cross&lt;=q0/v" in dashboard
+    assert "not either action" in dashboard
     assert "naive local-superposition completion is rejected as a hypothesis" in dashboard
     assert "do not establish the transactional ontology" in dashboard
     assert "Exact selector" in dashboard
@@ -1941,6 +2044,12 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "This remains an algebraic escape, not a physical correction" in dashboard
     assert "support-preserving gauge deformation" in dashboard
     assert "changing constraint topology" in dashboard
+    assert "TC2 fixed-gauge curl-constraint admission" in dashboard
+    assert "Source curl constraints" in dashboard
+    assert "Definition constraints" in dashboard
+    assert "Curl constraints" in dashboard
+    assert "eta(Y) u C_12^[10]" in dashboard
+    assert "fixed-gauge constraint-surface admission" in dashboard
     assert "No full formal pass is inferred" not in dashboard
     assert "class #1" in dashboard
     assert "g4_global_positive_energy: 1" not in dashboard

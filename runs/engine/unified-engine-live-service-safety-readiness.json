@@ -1,5 +1,5 @@
 {
-  "content_sha256": "9b40e2a5d9d34f28166baf9196f59ac0e09f03c325612427e5e37199e95ef56e",
+  "content_sha256": "2ecaa4b0a38e07e655b29bbfe6f09f2653fad9058391066b5d12da1da961e1d9",
   "data_seals": {
     "dark_matter_or_halo_inputs": false,
     "observations_opened": false,
@@ -12,28 +12,43 @@
     "a stop or drift request cannot interrupt the interior of one third-party snapshot or leaderboard builder call; it is observed at the next guarded phase boundary",
     "snapshot and dashboard target replacement is individually atomic but not a single cross-file filesystem transaction",
     "PID command-line verification depends on psutil availability and fails closed when unavailable",
+    "the legacy service does not consume the cutover lease, so an operator must keep legacy start disabled after the exact pre-spawn absence checks",
     "the hardened service is isolated and not started or substituted for the existing integrated live service by this lane"
   ],
   "safety_contract": {
+    "atomic_starting_checkpoint_before_spawn": true,
     "control_poll_interval_seconds": 0.25,
     "counters_preserved_across_compatible_reload": true,
+    "cross_start_exclusive_lease": "runs/engine/unified-live-dashboard-cutover.lease.json",
+    "first_refresh_observes_running_checkpoint": true,
+    "legacy_runtime_directory": "runs/engine/unified-live-dashboard-service",
+    "legacy_worker_absence_required_before_start": true,
     "pre_and_post_projection_input_manifest_required": true,
     "refresh_phase_control_guards": 4,
     "reload_failures_checkpointed_in_worker_finally": true,
+    "repeated_start_launch_allowed": false,
     "runtime_directory_fixed": "runs/engine/unified-live-dashboard-safety-service",
     "runtime_epoch": "unified-live-dashboard-safety-epoch-20260811-v1",
+    "runtime_outputs_gitignored": true,
+    "stale_lease_recovery_requires_pid_argv_nonmatch": true,
     "stale_projection_publication_allowed": false,
+    "startup_identity_timeout_seconds": 10,
     "target_and_log_symlinks_rejected": true,
     "unpredictable_exclusive_temp_files": true,
     "windows_argv_list_shell_false": true,
+    "worker_finally_releases_owned_lease": true,
     "worker_pid_bound_to_normalized_argv": true
   },
   "schema_version": "sigma-unified-engine-live-service-safety-readiness-1.0",
   "service_started": false,
   "source_bindings": {
     "config": {
-      "file_sha256": "26967667c3a5227c7b8d721eef26864e627eceab3a9143e144fa1d1221494c27",
+      "file_sha256": "de65ec65b27c6eac96c089db8db2603b7e256499fd7c59cb5215abe469c4539b",
       "path": "configs/unified_engine_live_service_safety.json"
+    },
+    "gitignore": {
+      "file_sha256": "362dc057801ea81e407b9e014dc57aaf84f4d7f386ae318799e5352e296c3c0a",
+      "path": ".gitignore"
     },
     "predecessors": {
       "readiness": {
@@ -55,11 +70,11 @@
       }
     },
     "source": {
-      "file_sha256": "b19323896e25c721dbf8e9e6bea4c3c7d4c87676f39fb3709a5040ea797d2ea1",
+      "file_sha256": "a046b65a8d879524db0c728c40d507273acfda536171c3a6d538684f554776d1",
       "path": "src/sigma_theory_compiler/unified_engine_live_service_safety.py"
     },
     "test": {
-      "file_sha256": "1427986ecd0266a23118d070061ca6236fad163c031a20126a671e7bf370e7a2",
+      "file_sha256": "7caf5fa9ad512c2cbed94970643d824f7ecbd52e5da341224a171615593ff176",
       "path": "tests/test_unified_engine_live_service_safety.py"
     }
   },

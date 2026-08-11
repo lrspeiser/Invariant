@@ -123,8 +123,13 @@ def _read_unified_live_service_status(
     claimed = value.get("content_sha256")
     without_hash = dict(value)
     without_hash.pop("content_sha256", None)
+    schema = value.get("schema_version")
+    implementations = {
+        "sigma-unified-engine-live-service-checkpoint-1.0": "legacy",
+        "sigma-unified-engine-live-service-safety-checkpoint-1.0": "hardened_safety",
+    }
     if (
-        value.get("schema_version") != "sigma-unified-engine-live-service-checkpoint-1.0"
+        schema not in implementations
         or not isinstance(claimed, str)
         or not _SHA256_RE.fullmatch(claimed)
         or _sha(without_hash) != claimed
@@ -134,6 +139,53 @@ def _read_unified_live_service_status(
         or value.get("consecutive_failures", -1) < 0
     ):
         raise ValueError("unified live-service checkpoint is invalid")
+    implementation = implementations[str(schema)]
+    config_current = None
+    pid_identity_verified = None
+    if implementation == "hardened_safety":
+        runtime_epoch = value.get("runtime_epoch")
+        runtime_directory = value.get("runtime_directory")
+        worker_identity = value.get("worker_argv_sha256")
+        config_relative = config.get("unified_live_service_config")
+        if (
+            not isinstance(runtime_epoch, str)
+            or len(runtime_epoch) < 16
+            or runtime_directory
+            != "runs/engine/unified-live-dashboard-safety-service"
+            or not isinstance(worker_identity, str)
+            or not _SHA256_RE.fullmatch(worker_identity)
+            or config_relative is None
+        ):
+            raise ValueError("hardened unified live-service checkpoint is invalid")
+        config_path = (root / str(config_relative)).resolve()
+        if root not in config_path.parents or not config_path.is_file():
+            raise ValueError("hardened unified live-service config is unavailable")
+        config_current = hashlib.sha256(config_path.read_bytes()).hexdigest() == value.get(
+            "config_file_sha256"
+        )
+        expected_tail = [
+            "-m",
+            "sigma_theory_compiler.unified_engine_live_service_safety",
+            "worker",
+            "--project-root",
+            str(root),
+            "--config",
+            config_path.relative_to(root).as_posix(),
+        ]
+        expected_identity = _sha(expected_tail)
+        if worker_identity != expected_identity:
+            raise ValueError("hardened unified live-service worker identity drift")
+        pid_identity_verified = False
+        try:
+            import psutil
+
+            command = psutil.Process(int(value.get("pid"))).cmdline()
+            module_index = command.index("-m")
+            pid_identity_verified = _sha(command[module_index:]) == expected_identity
+        except (ImportError, OSError, ValueError, TypeError):
+            pid_identity_verified = False
+        except psutil.Error:
+            pid_identity_verified = False
     last_refresh = value.get("last_refresh")
     if last_refresh is not None and (
         not isinstance(last_refresh, dict)
@@ -144,8 +196,15 @@ def _read_unified_live_service_status(
         raise ValueError("unified live-service refresh receipt is invalid")
     return {
         "availability": "available",
+        "implementation": implementation,
         "state": value.get("state"),
-        "alive": pid_alive(value.get("pid")),
+        "alive": (
+            pid_identity_verified
+            if implementation == "hardened_safety"
+            else pid_alive(value.get("pid"))
+        ),
+        "pid_identity_verified": pid_identity_verified,
+        "config_current": config_current,
         "pid": value.get("pid"),
         "refresh_count": value.get("refresh_count"),
         "consecutive_failures": value.get("consecutive_failures"),
@@ -465,6 +524,9 @@ def build_unified_snapshot(
     transactional_gravity_poisson_action = sources[
         "kastner_schlatter_poisson_action_compatibility"
     ]
+    transactional_gravity_positive_intensity = sources[
+        "kastner_schlatter_positive_intensity_preservation"
+    ]
     transactional_gravity_scalar_cuda = sources[
         "kastner_schlatter_scalar_intensity_cuda_falsification"
     ]
@@ -598,6 +660,9 @@ def build_unified_snapshot(
     ]
     quartic_tc2_d4_topology_changing_origin = sources[
         "quartic_tc2_d4_topology_changing_origin_classification"
+    ]
+    quartic_tc2_d4_curl_constraint_admission = sources[
+        "quartic_tc2_d4_curl_constraint_admission"
     ]
     quartic_tc2_reranked_obligation_chunks = tuple(
         sources[f"quartic_tc2_reranked_obligation_chunk_{offset}"]
@@ -1365,6 +1430,59 @@ def build_unified_snapshot(
         or any(transactional_gravity_poisson_action.get("data_seals", {}).values())
     ):
         raise ValueError("Kastner-Schlatter Poisson action compatibility is inconsistent")
+    expected_positive_intensity_counts = {
+        "action_derived_point_process_measure_pass": 0,
+        "candidate_action_reject": 0,
+        "candidate_actions": 2,
+        "exact_crossing_witnesses": 2,
+        "fully_coupled_constraint_satisfying_witnesses": 2,
+        "paper_QED_ontology_observational_pass": 0,
+        "positive_reparameterized_action_pass": 0,
+        "restricted_invariant_nonnegative_cone_pass": 0,
+        "stationary_conditional_Poisson_interface_pass": 2,
+        "unrestricted_positive_intensity_preservation_pass": 0,
+        "unrestricted_positive_intensity_preservation_reject": 2,
+    }
+    if (
+        transactional_gravity_positive_intensity.get("decision")
+        != "unrestricted_intensity_positivity_rejected_actions_and_stationary_interfaces_blocked"
+        or transactional_gravity_positive_intensity.get("decision_counts")
+        != {"blocked": 2, "pass": 0, "reject": 0}
+        or transactional_gravity_positive_intensity.get("gate_counts")
+        != expected_positive_intensity_counts
+        or transactional_gravity_positive_intensity.get("first_blocker")
+        != "no_candidate_bound_positive_intensity_reparameterization_or_proven_invariant_nonnegative_initial_data_cone"
+        or transactional_gravity_positive_intensity.get("source_bindings", {})
+        .get("candidate_action_completion", {})
+        .get("content_sha256")
+        != transactional_gravity_candidate_action.get("content_sha256")
+        or transactional_gravity_positive_intensity.get("source_bindings", {})
+        .get("poisson_action_compatibility", {})
+        .get("content_sha256")
+        != transactional_gravity_poisson_action.get("content_sha256")
+        or len(transactional_gravity_positive_intensity.get("candidate_records", [])) != 2
+        or any(
+            record.get("decision") != "blocked"
+            or record.get("candidate_action_rejection_authorized") is not False
+            or record.get("stationary_conditional_interface_preserved") is not True
+            or record.get("unrestricted_positive_intensity_preservation") is not False
+            or record.get("exact_crossing_witness", {}).get("crossing_exists") is not True
+            or record.get("exact_crossing_witness", {}).get("crossing_time_bound")
+            != "0<Tau_cross<=q0/v"
+            or record.get("exact_crossing_witness", {})
+            .get("initial_data", {})
+            .get("Hamiltonian_constraint_residual")
+            != "0"
+            or record.get("exact_crossing_witness", {})
+            .get("initial_data", {})
+            .get("momentum_constraint_residual")
+            != "0"
+            for record in transactional_gravity_positive_intensity.get("candidate_records", [])
+        )
+        or any(transactional_gravity_positive_intensity.get("claim_seals", {}).values())
+        or any(transactional_gravity_positive_intensity.get("data_seals", {}).values())
+    ):
+        raise ValueError("Kastner-Schlatter positive-intensity preservation gate is inconsistent")
     expected_scalar_cuda_counts = {
         "compiler_action_hypotheses": 2,
         "exact_sentinel_groups": 4,
@@ -4681,6 +4799,86 @@ def build_unified_snapshot(
         )
     ):
         raise ValueError("quartic TC2 topology-changing origin classification is inconsistent")
+    curl_counts = quartic_tc2_d4_curl_constraint_admission.get("counts", {})
+    curl_claims = quartic_tc2_d4_curl_constraint_admission.get("claims", {})
+    curl_admission = quartic_tc2_d4_curl_constraint_admission.get("exact_admission", {})
+    curl_result = curl_admission.get("admission_result", {})
+    curl_propagation = curl_admission.get("constraint_propagation", {})
+    curl_operator = curl_admission.get("gauge_fixed_operator", {})
+    curl_equivalence = curl_admission.get("physical_reduction_equivalence", {})
+    curl_coefficient = curl_admission.get("coefficient_jet", {})
+    if (
+        quartic_tc2_d4_curl_constraint_admission.get("status")
+        != "pass_exact_gauge_fixed_curl_constraint_admission_for_minimal_V"
+        or quartic_tc2_d4_curl_constraint_admission.get("source_bindings", {})
+        .get("topology_classification", {})
+        .get("content_sha256")
+        != quartic_tc2_d4_topology_changing_origin.get("content_sha256")
+        or curl_counts
+        != {
+            "candidate_reference_D4_solutions_inherited": 12,
+            "curl_constraints_propagated": 33,
+            "definition_constraints_propagated": 33,
+            "direction_blocks": 2,
+            "inferred_global_passes": 0,
+            "negative_controls": 6,
+            "ordered_fourth_coefficient_derivatives_checked": 256,
+            "ordered_lower_coefficient_derivatives_checked": 85,
+            "output_nonzero_coefficients": 6,
+            "source_curl_constraints": 1,
+        }
+        or curl_result.get("gauge_fixed_constraint_operator_constructed") is not True
+        or curl_result.get("canonical_definition_constraint_surface_invariant") is not True
+        or curl_result.get("canonical_curl_constraint_surface_invariant") is not True
+        or curl_result.get("variable_coefficient_constraint_surface_invariant") is not True
+        or curl_result.get("reference_direction_minimal_escape_physically_equivalent") is not True
+        or curl_result.get("covariant_action_derived") is not False
+        or curl_result.get("spatially_covariant_tensor_completion_proved") is not False
+        or curl_result.get("all_direction_Sylvester_compatibility_proved") is not False
+        or curl_operator.get("direction_1_block_equals_V") is not True
+        or curl_operator.get("direction_1_block_sha256")
+        != "a8a6cb0588ebae512db867990f937a3a9e5a9a38bf90be807fc62a8eb928f9c0"
+        or curl_operator.get("direction_2_companion_sha256")
+        != "9ef0bdb7ea7009ebba9b25ccb1225e1b955351d62a4b16c7989d339508a3b195"
+        or curl_operator.get("direction_3_block_zero") is not True
+        or curl_operator.get("minimal_direction_block_count") != 2
+        or curl_equivalence.get("directional_operator_times_gradient_lift_zero") is not True
+        or curl_equivalence.get("physical_second_order_solutions_unchanged") is not True
+        or curl_propagation.get("definition_constraint_propagation", {}).get("constraint_count")
+        != 33
+        or curl_propagation.get("definition_constraint_propagation", {}).get("map_rank") != 1
+        or curl_propagation.get("curl_constraint_propagation", {}).get("constraint_count") != 33
+        or curl_propagation.get("curl_constraint_propagation", {}).get("map_rank") != 3
+        or curl_coefficient.get("orders_0_through_3_zero") is not True
+        or curl_coefficient.get("canonical_D_0_D_2_D_3_D_9_value") != "1"
+        or curl_admission.get("reference_D4_binding", {}).get("candidate_count") != 12
+        or any(
+            control.get("rejected") is not True
+            for control in quartic_tc2_d4_curl_constraint_admission.get(
+                "negative_controls", {}
+            ).values()
+        )
+        or curl_claims.get("minimal_V_gauge_fixed_curl_constraint_realized") is not True
+        or curl_claims.get("canonical_constraint_surface_invariance_proved") is not True
+        or any(
+            curl_claims.get(key) is not False
+            for key in (
+                "covariant_action_origin_constructed",
+                "spatially_covariant_tensor_completion_proved",
+                "all_spatial_direction_compatibility_proved",
+                "corrected_candidate_family_registered",
+                "remaining_D4_selector_closed",
+                "full_tube_Sylvester_identity",
+                "CK1_closed",
+                "CK3_closed",
+                "TC2_closed",
+                "B7_closed",
+                "global_H7_closed",
+                "lifespan_proved",
+            )
+        )
+    ):
+        raise ValueError("quartic TC2 D4 curl-constraint admission is inconsistent")
     if (
         unified_live_dashboard_service_readiness.get("decision")
         != "ready_enabled_read_only_bounded"
@@ -4723,6 +4921,15 @@ def build_unified_snapshot(
         }
         or safety_contract.get("windows_argv_list_shell_false") is not True
         or safety_contract.get("worker_pid_bound_to_normalized_argv") is not True
+        or safety_contract.get("legacy_worker_absence_required_before_start") is not True
+        or safety_contract.get("cross_start_exclusive_lease")
+        != "runs/engine/unified-live-dashboard-cutover.lease.json"
+        or safety_contract.get("atomic_starting_checkpoint_before_spawn") is not True
+        or safety_contract.get("repeated_start_launch_allowed") is not False
+        or safety_contract.get("worker_finally_releases_owned_lease") is not True
+        or safety_contract.get("stale_lease_recovery_requires_pid_argv_nonmatch") is not True
+        or safety_contract.get("first_refresh_observes_running_checkpoint") is not True
+        or safety_contract.get("runtime_outputs_gitignored") is not True
         or safety_contract.get("counters_preserved_across_compatible_reload") is not True
         or safety_contract.get("reload_failures_checkpointed_in_worker_finally") is not True
         or safety_contract.get("pre_and_post_projection_input_manifest_required") is not True
@@ -5018,6 +5225,19 @@ def build_unified_snapshot(
                     "exact_mixed_poisson_control"
                 ],
                 "scope": transactional_gravity_poisson_action["scope"],
+            },
+            "positive_intensity_preservation": {
+                "decision": transactional_gravity_positive_intensity["decision"],
+                "decision_counts": transactional_gravity_positive_intensity[
+                    "decision_counts"
+                ],
+                "gate_counts": transactional_gravity_positive_intensity["gate_counts"],
+                "first_blocker": transactional_gravity_positive_intensity["first_blocker"],
+                "witness_domain": transactional_gravity_positive_intensity["witness_domain"],
+                "secondary_blockers": transactional_gravity_positive_intensity[
+                    "secondary_blockers"
+                ],
+                "scope": transactional_gravity_positive_intensity["scope"],
             },
             "scalar_intensity_cuda_falsification": {
                 "decision": transactional_gravity_scalar_cuda["decision"],
@@ -6178,7 +6398,20 @@ def build_unified_snapshot(
                         "explicit_TC2_selector_classification": topology_selectors,
                         "scope": quartic_tc2_d4_topology_changing_origin["scope"],
                     },
-                    "next_gate": quartic_tc2_d4_topology_changing_origin["next_gate"],
+                    "curl_constraint_admission": {
+                        "status": quartic_tc2_d4_curl_constraint_admission["status"],
+                        "counts": curl_counts,
+                        "gauge_fixed_operator": curl_admission["gauge_fixed_operator"],
+                        "physical_reduction_equivalence": curl_admission[
+                            "physical_reduction_equivalence"
+                        ],
+                        "constraint_propagation": curl_propagation,
+                        "coefficient_jet": curl_admission["coefficient_jet"],
+                        "reference_D4_binding": curl_admission["reference_D4_binding"],
+                        "admission_result": curl_result,
+                        "scope": quartic_tc2_d4_curl_constraint_admission["scope"],
+                    },
+                    "next_gate": quartic_tc2_d4_curl_constraint_admission["next_gate"],
                 },
                 "full_fourth_jet_range_closed": False,
             },
@@ -6194,7 +6427,7 @@ def build_unified_snapshot(
                     "lifespans_proved",
                 )
             },
-            "first_missing_premise": "derive_an_explicit_covariant_definition_or_curl_constraint_row_TC2_operator_using_a_capable_selector_and_prove_constraint_propagation",
+            "first_missing_premise": "promote_fixed_chart_curl_completion_to_spatially_covariant_gauge_fixed_tensor_and_evaluate_companion_direction_all_eigenspace_D4_effects",
         },
         "evidence_pareto": {
             "candidate_decision_counts": pareto["candidate_decision_counts"],

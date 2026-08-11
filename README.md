@@ -524,11 +524,12 @@ its completed 70-record root is `f1fdc9ae10df047e1c48adbf9b47e601e6fd84a5e150512
 and an idempotent replay inserted zero records. The durable streaming
 service now supports a multi-producer scheduler that leases disjoint Rust ranges transactionally and
 feeds the same single cached CUDA owner while preserving start/status/stop/resume/export recovery.
-The separate read-only unified-dashboard worker remains bounded to 4,032 five-minute refreshes. A
-hardened replacement implementation is now ready but intentionally not substituted into the running
-service: it binds Windows-safe argv/PID identity, a fixed reload epoch with preserved counters,
+The separate read-only unified-dashboard worker remains bounded to 4,032 five-minute refreshes. The
+hardened implementation is now the active worker after an exact stop-and-absence-checked legacy
+cutover: it binds Windows-safe argv/PID identity, a fixed reload epoch with preserved counters,
 quarter-second interruptible control polling, final-checkpoint reload failure recording, unpredictable
-exclusive temporary files, target/log symlink rejection, and pre/post projection dependency manifests.
+exclusive temporary files, target/log symlink rejection, an exclusive cross-start lease, an atomic
+pre-spawn starting checkpoint, and pre/post projection dependency manifests.
 It records two remaining implementation boundaries explicitly: builder interiors are not preemptible,
 and snapshot/dashboard replacements are individually atomic rather than one cross-file transaction.
 On an identical 16-million-formula scaling run, eight producers reached 7.49 million source
@@ -592,8 +593,12 @@ surface charge is a control, not positivity. The conditional covariant point-pro
 closes at the stationary `q=q0>0` background, but it is external to the deterministic action. Exact
 total variance gives `Var(N(B))=E(mu_B)+Var(mu_B)`, so fluctuating action intensity generically yields
 an overdispersed Cox process rather than a homogeneous Poisson process. The action supplies no
-probability path measure, positivity-preservation theorem, QED actualization map, or transaction-event
-observation, and no such claim is inferred.
+probability path measure, QED actualization map, or transaction-event observation. A sharper exact
+gate now gives both compiler actions fully coupled, constraint-satisfying contracting FLRW data on
+compact `T3` for which initially positive `q` crosses zero within
+`0<Tau_cross<=q0/v`. This rejects unrestricted positive-intensity preservation for the canonical
+scalar phase space, not either action. No candidate-bound invariant nonnegative cone or positive
+field reparameterization is registered, and no QED, ontology, or observational claim is inferred.
 
 `promotion_dossier.py` now independently replays every stored candidate/stage hash chain, explains
 the first rejection or unresolved gate, and builds a multi-axis Pareto follow-up queue only from
@@ -1315,8 +1320,8 @@ slots, so no homogeneous lower-jet completion can cancel the rank-two witness. A
 escape now exists outside that homogeneous class: the rank-one state-space block
 `V=K55(0)^(-1)(e16+e28)e21^T` induces the one-dimensional cokernel map `eta -> eta W`, and the unique
 candidate-specific tuning `eta=-(34816/15)*alpha^5` solves the D4 recurrence for all 12 algebraic
-specializations. This is not yet a physical correction: it has no covariant-action origin, no
-gauge/constraint compatibility proof, no registered corrected candidates, and no universal eta.
+specializations. The algebraic artifact alone has no covariant-action origin, registered corrected
+candidates, or universal eta.
 An exact origin audit now rules out the registered linear-`X` quartic-Horndeski TC2 block and the
 entire support-preserving gauge class `B_u=u e54^T`: since `e54^T R0=0`, its 55-dimensional induced
 cokernel map has rank zero and cannot reach `W`. The algebraic `V` succeeds only by using input
@@ -1326,8 +1331,15 @@ now rules out every direct D4 deformation of the registered 11-field second-orde
 zero through three fixed: its 2,145-dimensional joint principal/symmetrizer class has cokernel-map
 rank zero. All 55 canonical TC2 input selectors are classified; only `21`, `44`, `48`, `51`, and `53`
 are algebraically capable, while registered selector `54` lies in the kernel. These five locations are
-necessary algebraic possibilities, not covariant operators. The next exact gate is an explicit
-definition/curl constraint-row TC2 operator using a capable selector, followed by a proof of covariant
+necessary algebraic possibilities, not covariant operators. A downstream exact gate now realizes
+the minimal block as the fixed-chart curl addition
+`eta(Y) u (partial_1 w2[10]-partial_2 w1[10])`. Its two direction blocks annihilate the full
+11-field gradient lift and propagate all 33 definition plus 33 curl constraints homogeneously,
+including the variable-coefficient product rule. This supplies fixed-gauge constraint-surface
+admission for all 12 reference-direction D4 solutions, not covariant-action origin, a spatially
+covariant tensor completion, all-direction/all-eigenspace compatibility, or candidate registration.
+The next exact gate is a spatially covariant gauge-fixed tensor completion followed by companion-
+direction and all-eigenspace D4 evaluation, then a proof of covariant
 origin, constraint propagation, and all other eigenspace compatibilities. This is not an inferred pass
 for the unevaluated tail; full fourth-order range closure, full-tube,
 CK1, CK3, TC2, B7, global-H7, and lifespan remain false.

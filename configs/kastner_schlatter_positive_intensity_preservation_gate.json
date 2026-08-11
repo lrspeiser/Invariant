@@ -1,0 +1,49 @@
+{
+  "schema_version": "sigma-kastner-schlatter-positive-intensity-preservation-gate-config-1.0",
+  "campaign_id": "kastner-schlatter-positive-intensity-preservation-gate-001",
+  "output_path": "runs/engine/kastner-schlatter-positive-intensity-preservation-gate.json",
+  "predecessors": {
+    "poisson_action_compatibility": {
+      "path": "runs/engine/kastner-schlatter-poisson-action-compatibility.json",
+      "file_sha256": "cb0085e9086194dca0df4a48c74f0930911ab14abaf02028f42217a1a38da8f2",
+      "content_sha256": "611fe2f52994c4dd75cb49abd99e55f6ddcb8a89368cbd8d97b5f63ab428ba75"
+    },
+    "de_sitter_energy_prerequisite": {
+      "path": "runs/engine/kastner-schlatter-de-sitter-energy-prerequisite.json",
+      "file_sha256": "f61e9521a84e0013ddb75386aacc65ee985fcbd39b4940c17c4e9d055678518d",
+      "content_sha256": "0bca9c6a9678165a0021c82edaf93b42e7e4645d9982c673168f00fb20956400"
+    },
+    "candidate_action_completion": {
+      "path": "runs/engine/kastner-schlatter-candidate-action-completion.json",
+      "file_sha256": "95e5e36c5bf96afe9e453a290728721c7d7f06dac4596df1ff0f134b6c83607e",
+      "content_sha256": "a83e15679bd11b5c7bb85b2e207e54f82d302f97f0ce6f08f99cd225de739a4c"
+    }
+  },
+  "witness_domain": {
+    "background": "fully coupled spatially flat FLRW Einstein-scalar data with compact T3 spatial quotient",
+    "metric": "ds^2=-dTau^2+a(Tau)^2*delta_ij*dx^i*dx^j",
+    "time_coordinate": "Tau=x0=c*t",
+    "homogeneous_mode": "q=q(Tau), H=a'/a",
+    "initial_intensity": "q(0)=q0>0",
+    "initial_branch": "contracting Friedmann branch H(0)<0",
+    "parameter_domain": "q0>0, A_q>0, B_q>0, G>0, beta>0",
+    "finite_volume": "finite positive comoving T3 volume"
+  },
+  "admission_policy": {
+    "unrestricted_phase_space_positivity_must_hold_for_every_nonnegative_initial_q": true,
+    "crossing_rejects_intensity_preservation_not_the_candidate_action": true,
+    "stationary_interface_remains_conditional": true,
+    "invent_positive_reparameterization": false,
+    "paper_qed_ontology_observation_inference_allowed": false
+  },
+  "seals": {
+    "observations_opened": false,
+    "dark_matter_or_halo_inputs": false,
+    "redshift_or_cosmology_inputs": false,
+    "solar_system_inputs": false,
+    "QED_actualization_derivation_opened": false,
+    "transaction_ontology_validated": false,
+    "paper_action_attribution_allowed": false,
+    "paid_llm_calls": false
+  }
+}

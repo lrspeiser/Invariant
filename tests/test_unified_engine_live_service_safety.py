@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import copy
+import io
 import json
 import os
 from pathlib import Path
@@ -39,9 +40,52 @@ def _checkpoint(config: dict) -> dict:
     return json.loads(safety._checkpoint_payload(value))
 
 
+def _runtime_paths(tmp_path: Path) -> dict[str, Path]:
+    runtime = tmp_path / "runtime"
+    lease = tmp_path / "cutover.lease.json"
+    return {
+        "runtime": runtime,
+        "checkpoint": runtime / "checkpoint.json",
+        "snapshot": runtime / "status.json",
+        "dashboard": runtime / "dashboard.html",
+        "stop": runtime / "stop.request",
+        "log": runtime / "service.log",
+        "lease": lease,
+        "lease_recovery": tmp_path / "cutover.lease.json.recovery",
+        "legacy_checkpoint": tmp_path / "legacy" / "checkpoint.json",
+    }
+
+
+def _write_checkpoint(path: Path, config: dict, *, state: str = "starting") -> None:
+    checkpoint = _checkpoint(config)
+    checkpoint.update(state=state, pid=None if state == "starting" else os.getpid())
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_bytes(safety._checkpoint_payload(checkpoint))
+
+
+def _write_worker_lease(path: Path, config: dict, identity: str) -> None:
+    now = "2026-08-11T00:00:00+00:00"
+    lease = {
+        "schema_version": safety.LEASE_SCHEMA,
+        "runtime_epoch": config["runtime_epoch"],
+        "runtime_directory": config["runtime_directory"],
+        "worker_argv_sha256": identity,
+        "owner_kind": "worker",
+        "owner_pid": os.getpid(),
+        "owner_argv_sha256": identity,
+        "created_utc": now,
+        "updated_utc": now,
+    }
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_bytes(safety._lease_payload(lease))
+
+
 def test_config_is_fixed_epoch_bounded_and_predecessor_bound() -> None:
     config = _config()
     assert config["runtime_directory"] == safety.EXPECTED_RUNTIME_DIRECTORY
+    assert config["legacy_runtime_directory"] == safety.EXPECTED_LEGACY_RUNTIME_DIRECTORY
+    assert config["cutover_lease_path"].endswith(".lease.json")
+    assert config["startup_identity_timeout_seconds"] == 10
     assert config["control_poll_interval_seconds"] == 0.25
     assert config["maximum_refreshes"] == 4032
     assert config["data_seals"] == safety.EXPECTED_SEALS
@@ -223,17 +267,13 @@ def test_reload_failure_is_written_to_final_checkpoint(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     config = _config()
-    runtime = tmp_path / "runtime"
-    paths = {
-        "runtime": runtime,
-        "checkpoint": runtime / "checkpoint.json",
-        "snapshot": runtime / "status.json",
-        "dashboard": runtime / "dashboard.html",
-        "stop": runtime / "stop.request",
-        "log": runtime / "service.log",
-    }
+    paths = _runtime_paths(tmp_path)
+    identity = safety._argv_identity(safety._worker_command(ROOT, CONFIG))
+    _write_checkpoint(paths["checkpoint"], config)
+    _write_worker_lease(paths["lease"], config, identity)
     monkeypatch.setattr(safety, "load_safety_config", lambda root, path: config)
     monkeypatch.setattr(safety, "_paths", lambda root, value: paths)
+    monkeypatch.setattr(safety, "_assert_no_legacy_worker", lambda *args: None)
     monkeypatch.setattr(
         safety,
         "safe_refresh_once",
@@ -249,6 +289,162 @@ def test_reload_failure_is_written_to_final_checkpoint(
     assert checkpoint["state"] == "stopped"
     assert checkpoint["stop_reason"] == "configuration_reload_failed"
     assert checkpoint["last_error"] == "ValueError: bad reload"
+    assert not paths["lease"].exists()
+
+
+def test_legacy_worker_present_rejects_start_before_spawn(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    config = _config()
+    paths = _runtime_paths(tmp_path)
+    monkeypatch.setattr(safety, "load_safety_config", lambda root, path: config)
+    monkeypatch.setattr(safety, "_paths", lambda root, value: paths)
+    monkeypatch.setattr(safety, "_current_exact_argv_identity", lambda: "c" * 64)
+    monkeypatch.setattr(safety, "_worker_pids", lambda identity: [42])
+    monkeypatch.setattr(
+        safety.subprocess,
+        "Popen",
+        lambda *args, **kwargs: pytest.fail("worker spawn must not occur"),
+    )
+    with pytest.raises(RuntimeError, match=r"legacy .* worker present: \[42\]"):
+        safety.start_service(ROOT, CONFIG)
+    assert not paths["lease"].exists()
+    assert not paths["checkpoint"].exists()
+
+
+def test_exclusive_lease_prevents_repeated_concurrent_start(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    config = _config()
+    paths = _runtime_paths(tmp_path)
+    launches: list[list[str]] = []
+
+    class Process:
+        pid = 4242
+
+    def popen(command: list[str], **kwargs):
+        checkpoint = json.loads(paths["checkpoint"].read_text(encoding="utf-8"))
+        assert checkpoint["state"] == "starting"
+        assert checkpoint["pid"] is None
+        assert paths["lease"].is_file()
+        launches.append(command)
+        return Process()
+
+    monkeypatch.setattr(safety, "load_safety_config", lambda root, path: config)
+    monkeypatch.setattr(safety, "_paths", lambda root, value: paths)
+    monkeypatch.setattr(safety, "_current_exact_argv_identity", lambda: "c" * 64)
+    monkeypatch.setattr(safety, "_assert_no_legacy_worker", lambda *args: None)
+    monkeypatch.setattr(safety, "_open_log", lambda path: io.BytesIO())
+    monkeypatch.setattr(safety.subprocess, "Popen", popen)
+    monkeypatch.setattr(safety, "_wait_for_worker_identity", lambda *args: None)
+    monkeypatch.setattr(safety, "_lease_owner_state", lambda lease: "match")
+    first = safety.start_service(ROOT, CONFIG)
+    assert first["pid"] == 4242
+    with pytest.raises(RuntimeError, match="lease already active"):
+        safety.start_service(ROOT, CONFIG)
+    assert len(launches) == 1
+
+
+def test_stale_lease_recovery_requires_verified_nonmatch(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    config = _config()
+    paths = _runtime_paths(tmp_path)
+    identity = "d" * 64
+    stale = {
+        "schema_version": safety.LEASE_SCHEMA,
+        "runtime_epoch": config["runtime_epoch"],
+        "runtime_directory": config["runtime_directory"],
+        "worker_argv_sha256": identity,
+        "owner_kind": "worker",
+        "owner_pid": 42,
+        "owner_argv_sha256": identity,
+        "created_utc": "2026-08-11T00:00:00+00:00",
+        "updated_utc": "2026-08-11T00:00:00+00:00",
+    }
+    paths["lease"].write_bytes(safety._lease_payload(stale))
+    monkeypatch.setattr(safety, "_current_exact_argv_identity", lambda: "e" * 64)
+    monkeypatch.setattr(safety, "_lease_owner_state", lambda lease: "mismatch")
+    recovered = safety._acquire_start_lease(paths, config, identity)
+    assert recovered["owner_kind"] == "starter"
+    assert recovered["owner_pid"] == os.getpid()
+    assert not paths["lease_recovery"].exists()
+    paths["lease"].write_bytes(safety._lease_payload(stale))
+    monkeypatch.setattr(safety, "_lease_owner_state", lambda lease: "unverifiable")
+    with pytest.raises(RuntimeError, match="lease already active: unverifiable"):
+        safety._acquire_start_lease(paths, config, identity)
+    assert paths["lease"].is_file()
+
+
+def test_first_refresh_sees_running_checkpoint_and_stop_allows_rollback(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    config = _config()
+    paths = _runtime_paths(tmp_path)
+    identity = safety._argv_identity(safety._worker_command(ROOT, CONFIG))
+    _write_checkpoint(paths["checkpoint"], config)
+    _write_worker_lease(paths["lease"], config, identity)
+    observed: dict[str, object] = {}
+
+    def refresh(root: Path, value: dict, guard) -> dict:
+        status = safety.service_status(root, CONFIG)
+        observed.update(status)
+        stop_status = safety.stop_service(root, CONFIG)
+        assert stop_status["state"] == "running"
+        assert paths["lease"].is_file()
+        guard()
+        raise AssertionError("stop request was not observed")
+
+    monkeypatch.setattr(safety, "load_safety_config", lambda root, path: config)
+    monkeypatch.setattr(safety, "_paths", lambda root, value: paths)
+    monkeypatch.setattr(safety, "_assert_no_legacy_worker", lambda *args: None)
+    monkeypatch.setattr(safety, "_pid_matches_worker", lambda pid, expected: pid == os.getpid())
+    monkeypatch.setattr(safety, "safe_refresh_once", refresh)
+    assert safety.run_worker(ROOT, CONFIG) == 0
+    assert observed["state"] == "running"
+    assert observed["alive"] is True
+    stopped = json.loads(paths["checkpoint"].read_text(encoding="utf-8"))
+    assert stopped["state"] == "stopped"
+    assert stopped["pid"] is None
+    assert stopped["stop_reason"] == "external_stop_requested"
+    assert not paths["lease"].exists()
+
+    monkeypatch.setattr(safety, "_current_exact_argv_identity", lambda: "f" * 64)
+    rollback_lease = safety._acquire_start_lease(paths, config, identity)
+    assert rollback_lease["owner_kind"] == "starter"
+
+
+def test_worker_releases_lease_even_if_final_checkpoint_write_fails(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    config = _config()
+    paths = _runtime_paths(tmp_path)
+    identity = safety._argv_identity(safety._worker_command(ROOT, CONFIG))
+    _write_checkpoint(paths["checkpoint"], config)
+    _write_worker_lease(paths["lease"], config, identity)
+    original_write = safety._safe_atomic_write
+
+    def controlled_write(path: Path, payload: bytes, maximum: int) -> None:
+        if path == paths["checkpoint"]:
+            checkpoint = json.loads(payload)
+            if checkpoint["state"] == "stopped":
+                raise OSError("final checkpoint fixture failure")
+        original_write(path, payload, maximum)
+
+    monkeypatch.setattr(safety, "load_safety_config", lambda root, path: config)
+    monkeypatch.setattr(safety, "_paths", lambda root, value: paths)
+    monkeypatch.setattr(safety, "_assert_no_legacy_worker", lambda *args: None)
+    monkeypatch.setattr(
+        safety,
+        "safe_refresh_once",
+        lambda *args, **kwargs: (_ for _ in ()).throw(
+            safety.ControlSignal("external_stop_requested")
+        ),
+    )
+    monkeypatch.setattr(safety, "_safe_atomic_write", controlled_write)
+    with pytest.raises(OSError, match="final checkpoint fixture failure"):
+        safety.run_worker(ROOT, CONFIG)
+    assert not paths["lease"].exists()
 
 
 def test_readiness_is_deterministic_and_does_not_open_runtime_state() -> None:
