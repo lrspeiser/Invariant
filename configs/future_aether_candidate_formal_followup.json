@@ -1,0 +1,76 @@
+{
+  "schema_version": "sigma-future-aether-candidate-formal-followup-config-1.0",
+  "campaign_id": "future-aether-candidate-formal-followup-001-20260810",
+  "campaign_implementation": {"path": "src/sigma_theory_compiler/future_aether_candidate_formal_followup.py", "file_sha256": "45961b1b3dc1919781099bce96d04d90ddf85df198b09f85fef4f50095ddf2a7"},
+  "source_preflight_artifact": {"path": "runs/engine/reviewed-future-parameter-formal-preflight-001.json", "file_sha256": "0601b760291903e05e9cba372e5e5b55c2e464f0527825b5dcd35365e21a0137", "content_sha256": "0ac4681e1d5d5d4421b19bde6624b79e4ba02480dc1a52412514a70e610499d4"},
+  "source_preflight_config": {"path": "configs/reviewed_future_parameter_formal_preflight_campaign.json", "file_sha256": "22ff97beb19ac323643cd57fd6bdf1f72fa6017fd30329e5ee9c00c693d59807"},
+  "source_preflight_implementation": {"path": "src/sigma_theory_compiler/reviewed_future_parameter_formal_preflight_campaign.py", "file_sha256": "43fdecd76b70e760f0f5b40e897004695813bd40a9bb8cde081a517d9a2f9ef2"},
+  "aether_formal_control_config": {"path": "configs/aether_parameter_cell_formal_gate_campaign.json", "file_sha256": "082028d898c69c79f9dd39d68500862279370b59af4d145495d56620280b880d"},
+  "aether_formal_campaign_implementation": {"path": "src/sigma_theory_compiler/aether_parameter_cell_formal_gate_campaign.py", "file_sha256": "fad67e2478690ef3cff51976e199b115ba05190ec1c1c0fdaf74d6dbe687cb0c"},
+  "formal_report": {"path": "runs/formal-controls-v1/formal-controls.json", "file_sha256": "b1bf58ebb4b43d3593f264959853dc3cd47f542b85f012999133ee43a6fece57"},
+  "prior_twist_audit": {"path": "runs/engine/aether-twist-sector-energy-audit.json", "file_sha256": "38497dd37c9f197a3e0e61ffdd7552fab82f7cf07f22ed375f15ea5a044a1725", "content_sha256": "71c0904ab9667e1f18af7e06c244eb9a7fbad2995a588192a5486822efbf7c8d"},
+  "required_arbitrary_background_noether": {
+    "formal_check_id": "einstein_aether_arbitrary_background_4d_noether",
+    "evidence_sha256": "741928be924d733d6d722ee3871ddaf67b14f1899744baf88772b84134cb1b1a",
+    "scripts": {
+      "action_diffeomorphism_covariance": {"path": "formal/cadabra/einstein_aether_diffeomorphism_covariance.cdb", "file_sha256": "7d048c9891d1093ead4ca0512d9f59f2efaa64e3dcbae77699ed959e1e2790c1"},
+      "euler_noether_coefficient": {"path": "formal/cadabra/einstein_aether_noether_euler_identity.cdb", "file_sha256": "75517b33bc8a0606bbd788067e33531220646fae79d5a8d98da27221c6b6c389"},
+      "metric_euler": {"path": "formal/cadabra/einstein_aether_metric_variation.cdb", "file_sha256": "8f3e9dae8f2e8ead096d24a43c84c22d90447cca084779ba9b10a3c186bba34d"},
+      "vector_multiplier_euler": {"path": "formal/cadabra/einstein_aether_vector_variation.cdb", "file_sha256": "fd7af0a2eecae025276ba2aac2ecb7487be1106461e2ed885b2d3ac726acea74"}
+    }
+  },
+  "reviewed_adapters": [
+    {
+      "formal_check_id": "einstein_aether_generic_dh_covariance",
+      "entrypoint": "sigma_theory_compiler.adm_aether:einstein_aether_generic_dh_covariance_control",
+      "source_path": "src/sigma_theory_compiler/adm_aether.py",
+      "source_file_sha256": "06d01368e01c84ed5187f54e5c3acef9cfb74ec38ea473285f6c8bee1ec6e858",
+      "evidence_sha256": "b81a423ea44ad25abf3c632d014a7a5485ffda25adaa9fb81454d75a55d5c981",
+      "applicability": "generic_family_identity_specialized_by_exact_action"
+    },
+    {
+      "formal_check_id": "einstein_aether_generic_hh_deformation_kinematics",
+      "entrypoint": "sigma_theory_compiler.adm_aether:einstein_aether_generic_hh_deformation_control",
+      "source_path": "src/sigma_theory_compiler/adm_aether.py",
+      "source_file_sha256": "06d01368e01c84ed5187f54e5c3acef9cfb74ec38ea473285f6c8bee1ec6e858",
+      "evidence_sha256": "9275d40dc61bb3b9c42909aaaf97a73156f6e1bac07b5243954f8658cd0df317",
+      "applicability": "regular_patch_kinematics_specialized_by_exact_action"
+    },
+    {
+      "formal_check_id": "einstein_aether_linearized_physical_energy",
+      "entrypoint": "sigma_theory_compiler.adm_aether:einstein_aether_linearized_energy_control",
+      "source_path": "src/sigma_theory_compiler/adm_aether.py",
+      "source_file_sha256": "06d01368e01c84ed5187f54e5c3acef9cfb74ec38ea473285f6c8bee1ec6e858",
+      "evidence_sha256": "deacc730f5280e936a5ee486fea4b0dc2b38b55f710e0568a2b37d8e0b4c29a2",
+      "applicability": "candidate_rational_formula_specialized"
+    },
+    {
+      "formal_check_id": "einstein_aether_restricted_nonlinear_total_energy",
+      "entrypoint": "sigma_theory_compiler.adm_aether:einstein_aether_nonlinear_positive_energy_theorem_control",
+      "source_path": "src/sigma_theory_compiler/adm_aether.py",
+      "source_file_sha256": "06d01368e01c84ed5187f54e5c3acef9cfb74ec38ea473285f6c8bee1ec6e858",
+      "evidence_sha256": "3bad5111602443591cb5cc498e274c57e9c24819ea0a4accbb258c5cda825085",
+      "applicability": "restricted_subsector_scope_exclusion_only"
+    },
+    {
+      "formal_check_id": "einstein_aether_global_tilt_legendre_strata",
+      "entrypoint": "sigma_theory_compiler.adm_aether:einstein_aether_global_tilt_legendre_control",
+      "source_path": "src/sigma_theory_compiler/adm_aether.py",
+      "source_file_sha256": "06d01368e01c84ed5187f54e5c3acef9cfb74ec38ea473285f6c8bee1ec6e858",
+      "evidence_sha256": "ca7ea4589bf58847085be0e4a069bcd05324ac086ac0ee6b5616dea308c07325",
+      "applicability": "candidate_rational_formula_specialized"
+    },
+    {
+      "formal_check_id": "maxwell_unit_aether_nonlinear_hamiltonian",
+      "entrypoint": "sigma_theory_compiler.adm_aether:maxwell_unit_aether_nonlinear_hamiltonian_control",
+      "source_path": "src/sigma_theory_compiler/adm_aether.py",
+      "source_file_sha256": "06d01368e01c84ed5187f54e5c3acef9cfb74ec38ea473285f6c8bee1ec6e858",
+      "evidence_sha256": "3e2c4cf02616c7e8d01b7cda6dad74546a90291040877241288577258697afe2",
+      "applicability": "control_only_not_action_equivalent"
+    }
+  ],
+  "budget": {"maximum_candidates": 14, "maximum_formal_adapter_replays": 6, "maximum_bound_cadabra_controls": 1, "maximum_paid_llm_spend_usd": 0.0},
+  "observational_authorization": false,
+  "data_eligibility": {"observational_data_opened": false, "dark_matter_or_halo_inputs": false, "redshift_distance_inputs": false, "paid_llm_calls": false},
+  "external_paid_llm_calls": false
+}

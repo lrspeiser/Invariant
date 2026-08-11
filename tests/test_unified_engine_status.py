@@ -33,6 +33,8 @@ SOURCE_PATHS = [
     "runs/engine/scalable-campaign-staged-epoch-status.json",
     "runs/engine/scalable-future-parameter-chunk-001-status.json",
     "runs/engine/reviewed-future-parameter-formal-preflight-001.json",
+    "runs/engine/future-aether-candidate-formal-followup.json",
+    "runs/engine/future-g3-componentwise-domain-contract-campaign.json",
     "runs/engine/grammar-v3-g3-candidate-formal-status.json",
     "runs/engine/g4-scalable-action-formal-followup.json",
     "runs/engine/aether-parameter-cell-formal-gate-status.json",
@@ -61,6 +63,7 @@ SOURCE_PATHS = [
     "runs/physics-language/quartic-tc2-ck1-p55-tube-envelope-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-quadratic-deltak-extension-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-diagonal-third-jet-campaign/campaign.json",
+    "runs/physics-language/quartic-tc2-mixed-third-jet-chunk-campaign/campaign.json",
 ]
 LABELS = [
     "billion_streaming",
@@ -79,6 +82,8 @@ LABELS = [
     "scalable_campaign_epoch",
     "scalable_future_parameter_chunk",
     "scalable_future_formal_preflight",
+    "future_aether_formal_followup",
+    "future_g3_domain_followup",
     "grammar_v3_g3_candidate_formal",
     "grammar_v3_g4_scalable_formal_followup",
     "grammar_v3_aether_candidate_formal",
@@ -107,6 +112,7 @@ LABELS = [
     "quartic_ck1_p55_tube_envelope",
     "quartic_tc2_quadratic_deltak_extension",
     "quartic_tc2_diagonal_third_jet",
+    "quartic_tc2_mixed_third_jet_chunk",
 ]
 
 
@@ -541,6 +547,38 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                 "rejected_before_candidate_specific_formal_queue": 2,
             },
         },
+        "family_followup": {
+            "aether": {
+                "candidate_count": 14,
+                "decision_counts": {"blocked": 14},
+                "formal_pass_count": 0,
+                "exact_negative_local_twist_witness_count": 14,
+                "witness_tilt_squared_counts": {"1": 8, "2": 4, "8": 2},
+                "global_tilt_strata_counts": {
+                    "finite_characteristic_foliation_present": 13,
+                    "globally_noncharacteristic_for_finite_unit_tilt": 1,
+                },
+                "first_blocker_counts": {
+                    "full_constraint_embedding_of_negative_static_twist_jet": 14
+                },
+                "candidate_rejection_authorized_count": 0,
+            },
+            "g3": {
+                "candidate_count": 3,
+                "decision_counts": {"blocked": 3},
+                "all_direction_single_center_pass_count": 3,
+                "full_Delta_N_derivation_pass_count": 3,
+                "nonzero_componentwise_box_pass_count": 0,
+                "uniform_principal_common_cone_pass_count": 0,
+                "uniform_Delta_N_coercivity_pass_count": 0,
+                "periodic_distributed_Dirac_pass_count": 0,
+                "asymptotically_flat_Dirac_pass_count": 0,
+                "full_formal_pass_count": 0,
+                "first_blocker_counts": {
+                    "candidate_bound_nonzero_componentwise_normalized_local_jet_box_values": 3
+                },
+            },
+        },
     }
     structural = core["grammar_parameter_cells"]["structural_metrics"]
     assert structural["candidate_count"] == 163
@@ -749,8 +787,23 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
             "candidate_direction_solvable": 492,
             "candidate_direction_obstructed": 0,
             "full_active_symmetric_triple_count": 12341,
-            "remaining_mixed_triples": 12300,
-            "mixed_third_jet_closures": 0,
+            "remaining_mixed_triples": 12236,
+            "mixed_third_jet_closures": 64,
+        },
+        "mixed_third_jet_chunk": {
+            "chunk_offset": 0,
+            "processed_count": 64,
+            "next_offset": 64,
+            "triple_kind_counts": {"AAB": 40, "ABB": 1, "ABC": 23},
+            "symbolic_parameter_compatible": 64,
+            "candidate_evaluations": 768,
+            "candidate_solvable": 768,
+            "candidate_obstructed": 0,
+            "remaining_mixed_triples": 12236,
+            "resume_tip_sha256": (
+                "96118a2fa7a8a3d5b2ec01976720046dcddcf3149ff7993b6607148f6fc0cbeb"
+            ),
+            "full_mixed_sector_closed": False,
         },
         "closure_counts": {
             "full_tube_Sylvester_identities": 0,
@@ -762,8 +815,8 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
             "lifespans_proved": 0,
         },
         "first_missing_premise": (
-            "polarized_mixed_third_sylvester_jets_then_fourth_and_"
-            "higher_remainder_or_nonlinear_range_theorem"
+            "remaining_12236_polarized_mixed_third_sylvester_jets_then_"
+            "fourth_and_higher_remainder_or_nonlinear_range_theorem"
         ),
     }
     assert core["cross_pipeline_total"]["status"] == "not_computed"
@@ -833,13 +886,20 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "G2 Solar fields remaining" in dashboard
     assert "Future preflight passes" in dashboard
     assert "two exact Aether principal-mode rejects" in dashboard
+    assert "Future Aether blocked" in dashboard
+    assert "Future G3 center checks" in dashboard
+    assert "Future G3 uniform boxes" in dashboard
+    assert "all 14 Aether survivors blocked" in dashboard
+    assert "uniform cone, coercivity, Dirac, and full-formal passes remain zero" in dashboard
     assert "Future reviewed cells" in dashboard
     assert "Future new candidates" in dashboard
     assert "19 new action classes and 13 exact deduplications" in dashboard
     assert "Quartic nonlinear closure" in dashboard
     assert "Diagonal third jets" in dashboard
+    assert "Mixed third jets closed" in dashboard
+    assert "64/64 lexicographic AAB/ABB/ABC triples" in dashboard
     assert "Mixed triples remaining" in dashboard
-    assert "12,300 polarized mixed triples remain" in dashboard
+    assert "12,236 polarized mixed triples remain" in dashboard
     assert "CK1, CK3, TC2, B7, global H7, and lifespan remain fail-closed" in dashboard
     assert "No full formal pass is inferred" not in dashboard
     assert "class #1" in dashboard

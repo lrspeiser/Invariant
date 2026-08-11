@@ -328,6 +328,12 @@ disabled. Reviewed preflight now yields 14 Aether prerequisite passes, two exact
 jet-domain strings do not instantiate the componentwise normalized local box and uniform cone
 certificate. These are prerequisite decisions only: no full formal pass or automatic downstream
 enqueue is inferred, and the new candidates remain outside the scientific leaderboards.
+Candidate-specific follow-up keeps all 14 Aether survivors blocked: each has an exact finite
+negative local pure-twist density witness, but the full gravitational constraint-surface and
+boundary-energy embedding needed to authorize rejection is still missing. The three cubic-G3
+actions pass exact all-direction single-center checks and exact action-specific lapse derivations,
+but their scalar qualitative labels leave 12 normalized domain fields unset; no nonzero
+componentwise box, uniform cone, coercivity, distributed Dirac, or full-formal pass is inferred.
 An immutable evidence bridge now ingests the six compilation results plus the Aether, `G2`, `G3`,
 and conformal-`G4` prerequisite packets into an isolated knowledge registry. It preserves candidate/action/source
 lineage, separates calibration-only controls, deduplicates replay, refuses the live campaign
@@ -1128,8 +1134,10 @@ nonlinear range theorem. Full variable CK1/CK3/TC2, B7, global H7, and lifespan 
 A bounded third-order continuation now closes every diagonal `(A,A,A)` triple in the 41-direction
 active affine sector. All 41 symbolic compatibilities and all 492 candidate-direction evaluations
 are solvable, Hermitian, and exact-zero residual; 312 evaluations require a nonzero
-`deltaK_AAA`. This does not infer polarization: 12,300 mixed `AAB`, `ABB`, and `ABC` triples remain
-before fourth-and-higher remainder control or a nonlinear range theorem. Full tube, TC2, B7,
+`deltaK_AAA`. This does not infer polarization: the full mixed sector contains 12,300 `AAB`, `ABB`,
+and `ABC` triples before fourth-and-higher remainder control or a nonlinear range theorem. A first restartable
+lexicographic chunk now closes 64/64 of those mixed triples--40 `AAB`, one `ABB`, and 23 `ABC`--and
+all 768 candidate evaluations with zero obstruction. Exactly 12,236 mixed triples remain. Full tube, TC2, B7,
 global-H7, and lifespan claims therefore remain fail-closed.
 
 The tube bounds 153 normalized coordinate atoms: ten metric deviations, 44 first partials,
