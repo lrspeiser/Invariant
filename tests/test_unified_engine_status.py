@@ -46,6 +46,7 @@ SOURCE_PATHS = [
     "runs/engine/future-aether-weighted-reference-operator-gate.json",
     "runs/engine/future-aether-fixed-free-data-principal-gate.json",
     "runs/engine/future-aether-finite-tilt-york-symbol-gate.json",
+    "runs/engine/future-aether-principal-inverse-fredholm-gate.json",
     "runs/engine/future-g3-componentwise-domain-contract-campaign.json",
     "runs/engine/future-g3-action-bound-jet-box-campaign.json",
     "runs/engine/future-g3-af-transition-obstruction-campaign.json",
@@ -57,6 +58,7 @@ SOURCE_PATHS = [
     "runs/engine/future-g3-york-analytic-mean-curvature-threshold-campaign.json",
     "runs/engine/future-g3-york-tracefree-compensation-no-go-campaign.json",
     "runs/engine/future-g3-general-geometry-curvature-shortfall-no-go-campaign.json",
+    "runs/engine/future-g3-general-geometry-surplus-mismatch-no-go-campaign.json",
     "runs/engine/future-candidate-action-dossier.json",
     "runs/engine/grammar-v3-g3-candidate-formal-status.json",
     "runs/engine/g4-scalable-action-formal-followup.json",
@@ -91,6 +93,8 @@ SOURCE_PATHS = [
     "runs/physics-language/quartic-tc2-fourth-jet-range-obligation-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-fourth-jet-obligation-service/chunks/obligation-offset-000000.json",
     "runs/physics-language/quartic-tc2-fourth-jet-obligation-service/chunks/obligation-offset-000032.json",
+    "runs/physics-language/quartic-tc2-fourth-jet-obligation-service/chunks/obligation-offset-000064.json",
+    "runs/physics-language/quartic-tc2-fourth-jet-obligation-service/chunks/obligation-offset-000096.json",
     "runs/physics-language/quartic-tc2-fourth-jet-obligation-service/checkpoint.json",
     "runs/physics-language/quartic-tc2-fourth-jet-obligation-service/service-status.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000000.json",
@@ -163,6 +167,7 @@ LABELS = [
     "future_aether_weighted_reference_operator_gate",
     "future_aether_fixed_free_data_principal_gate",
     "future_aether_finite_tilt_york_symbol_gate",
+    "future_aether_principal_inverse_fredholm_gate",
     "future_g3_domain_followup",
     "future_g3_action_bound_followup",
     "future_g3_af_transition_obstruction",
@@ -174,6 +179,7 @@ LABELS = [
     "future_g3_york_analytic_threshold",
     "future_g3_york_tracefree_compensation",
     "future_g3_general_geometry_curvature_shortfall",
+    "future_g3_general_geometry_surplus_mismatch",
     "future_candidate_action_dossier",
     "grammar_v3_g3_candidate_formal",
     "grammar_v3_g4_scalable_formal_followup",
@@ -208,6 +214,8 @@ LABELS = [
     "quartic_tc2_fourth_jet_range_obligations",
     "quartic_tc2_fourth_jet_chunk_0",
     "quartic_tc2_fourth_jet_chunk_32",
+    "quartic_tc2_fourth_jet_chunk_64",
+    "quartic_tc2_fourth_jet_chunk_96",
     "quartic_tc2_fourth_jet_checkpoint",
     "quartic_tc2_fourth_jet_status",
     "quartic_tc2_reranked_obligation_chunk_0",
@@ -794,6 +802,10 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                         "exact_nonelliptic_York_shell_count": 2,
                         "York_ansatz_reject_count": 2,
                         "finite_tilt_weighted_Fredholm_isomorphism_pass_count": 0,
+                        "uniform_principal_symbol_inverse_bound_pass_count": 1,
+                        "principal_elliptic_homotopy_to_reference_pass_count": 1,
+                        "distributed_lower_order_coefficient_registry_complete_count": 0,
+                        "full_operator_inverse_norm_pass_count": 0,
                 "missing_weighted_contract_field_counts": {
                     "codomain_space": 3,
                     "completed_boundary_first_derivative_bound": 3,
@@ -820,7 +832,7 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                     "first_blocker_counts": {
                         "noncharacteristic_foliation_or_compact_negative_seed_avoiding_forced_ADM_Legendre_characteristic_crossing": 11,
                         "alternative_canonical_momentum_variable_or_gauge_avoiding_exact_finite_tilt_York_symbol_shell": 2,
-                        "candidate_bound_weighted_Fredholm_isomorphism_lower_order_coefficient_and_inverse_norm_bounds_for_finite_tilt_York_operator": 1,
+                        "candidate_bound_spatially_distributed_lower_order_linearized_constraint_coefficient_registry_on_weighted_spaces": 1,
                     },
                 "candidate_rejection_authorized_count": 0,
             },
@@ -865,12 +877,17 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                         "exact_curvature_endpoint_inconclusive_count": 3,
                         "above_threshold_not_excluded_control_count": 3,
                         "nonconformally_flat_metric_construction_pass_count": 0,
+                        "exact_surplus_identity_pass_count": 3,
+                        "above_threshold_surplus_mismatch_class_reject_count": 3,
+                        "matched_surplus_necessary_control_count": 3,
+                        "overcurvature_not_excluded_control_count": 3,
+                        "registered_AF_metric_York_datum_pass_count": 0,
                 "asymptotically_flat_Dirac_pass_count": 0,
                 "AF_Einstein_constraint_solution_pass_count": 0,
                 "global_energy_pass_count": 0,
                 "full_formal_pass_count": 0,
                     "first_blocker_counts": {
-                        "candidate_specific_AF_Einstein_constraint_datum_outside_general_geometry_curvature_shortfall_class": 3
+                        "candidate_specific_AF_metric_and_York_data_with_pointwise_curvature_surplus_matching_and_momentum_solution": 3
                     },
             },
         },
@@ -937,9 +954,13 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
             },
             "sandbox_backend": "wsl-local",
             "network_namespace_created": True,
-            "first_missing_premise": (
+            "action_export_historical_first_missing_premise": (
                 "candidate_specific_metric_variation_execution_from_the_generated_"
                 "action_export_for_each_action_hash_and_future_operator_family"
+            ),
+            "first_missing_premise": (
+                "metric_variation_exporters_for_future_unregistered_nonminimal_"
+                "operator_families"
             ),
             "candidate_metric_specialization": {
                 "candidate_count": 163,
@@ -1189,15 +1210,15 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
             "active_direction_rank": 15,
             "selector_obligations": 3060,
             "candidate_obligation_budget": 36720,
-                "obligations_evaluated": 64,
-                "obligations_remaining": 2996,
-                "candidate_evaluations": 768,
-                "candidate_solvable": 768,
+                "obligations_evaluated": 128,
+                "obligations_remaining": 2932,
+                "candidate_evaluations": 1536,
+                "candidate_solvable": 1536,
                 "candidate_obstructed": 0,
-                "directional_evaluations": 629,
-                "next_obligation_offset": 64,
+                "directional_evaluations": 1299,
+                "next_obligation_offset": 128,
                 "resume_tip_sha256": (
-                    "82261f7d53a122efd79ce799539a018aca1db523a76f77c6e761d978c39d8da5"
+                    "31b1337e982eb39c1b11eda612c7b02c7cede629596bb123c64cc89a429784a1"
                 ),
             "parallel_worker_count": 8,
             "full_fourth_jet_range_closed": False,
@@ -1212,7 +1233,7 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
             "lifespans_proved": 0,
         },
         "first_missing_premise": (
-                "remaining_2996_exact_fourth_jet_range_obligations_then_all_order_"
+                "remaining_2932_exact_fourth_jet_range_obligations_then_all_order_"
             "remainder_or_nonlinear_range_theorem"
         ),
     }
@@ -1278,7 +1299,8 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "G2 Solar fields remaining" in dashboard
     assert "Future preflight passes" in dashboard
     assert "Sandboxed actions" in dashboard
-    assert "Metric variations run" in dashboard
+    assert "Independent backend variations" in dashboard
+    assert "Euler specializations" in dashboard
     assert "Future Aether blocked" in dashboard
     assert "Negative finite seeds" in dashboard
     assert "Forced characteristic crossings" in dashboard
@@ -1304,8 +1326,14 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "Staged future candidate formulas (unranked)" in dashboard
     assert "Current exact Aether and G3 boundary" in dashboard
     assert "Aether finite-tilt symbols" in dashboard
-    assert "G3 general-geometry theorems" in dashboard
-    assert "unrestricted Cotton tensor" in dashboard
+    assert "Aether principal inverse bounds" in dashboard
+    assert "Aether elliptic homotopies" in dashboard
+    assert "Aether lower-order registries" in dashboard
+    assert "G3 surplus identities" in dashboard
+    assert "G3 surplus mismatch classes rejected" in dashboard
+    assert "G3 matched surplus controls" in dashboard
+    assert "Registered AF York data" in dashboard
+    assert "exact Hamiltonian residual <code>C-Y</code>" in dashboard
     assert "These master actions are recompiled from the exact typed cells" in dashboard
     assert "G3A-8555e529226d13e2e9dacad5" in dashboard
     assert "S = integral d^4x" in dashboard

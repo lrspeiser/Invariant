@@ -1,0 +1,85 @@
+{
+  "schema_version": "sigma-future-g3-general-geometry-surplus-mismatch-no-go-config-1.0",
+  "campaign_id": "future-g3-general-geometry-surplus-mismatch-no-go-20260811",
+  "adapter_source": {
+    "path": "src/sigma_theory_compiler/future_g3_general_geometry_surplus_mismatch_no_go_campaign.py",
+    "file_sha256": "6c406b2235b638f290639c4439b6eb1720a0c6cc17dbaa40c942739e7a9d08e2"
+  },
+  "bindings": {
+    "predecessor": {
+      "path": "runs/engine/future-g3-general-geometry-curvature-shortfall-no-go-campaign.json",
+      "file_sha256": "001abc2313e0cc88b9a02c6af2043132e97baec069f891d19af001ca92b7059b",
+      "content_sha256": "1c06013ecad8dd73fd3a508b704c886e98ccde8c2c733eac2cd117f97807d809"
+    },
+    "tracefree_compensation_source": {
+      "path": "runs/engine/future-g3-york-tracefree-compensation-no-go-campaign.json",
+      "file_sha256": "bf32d1aa6ee37a3666ee35ab6d3a03250afd9a14433fd100cf4326fc2b50b764",
+      "content_sha256": "33cb23399cd5c0739ffb8e86dd59d554f09030b7918e3ff42933074db432356b"
+    }
+  },
+  "surplus_contract": {
+    "geometry_class": "arbitrary_smooth_complete_AF_three_metric_h_ij",
+    "conformal_flatness_required": false,
+    "Cotton_tensor_scope": "unrestricted_may_be_nonzero",
+    "York_decomposition": "K_ij=A_ij+(K/3)*h_ij_with_h_trace(A)=0",
+    "scalar_profile": "Pi=v(r)=1/sqrt(1+(r/L)^4)_in_registered_AF_chart",
+    "threshold": "c_star=1536/1953125",
+    "deficit": "D_beta=(2/3)*K^2-2*beta*K*v^3-(1-c_star)*v^2",
+    "compensation_condition": "A_ij*A^ij>=max(0,D_beta)",
+    "curvature_surplus": "C=R3-c_star*v^2",
+    "York_source_surplus": "Y=A_ij*A^ij-D_beta=S_beta-c_star*v^2",
+    "no_go_domain": "exists_finite_x_star_with_Y(x_star)>C(x_star)",
+    "matching_semantics": "C=Y_is_Hamiltonian_necessary_not_AF_solution",
+    "overcurvature_semantics": "C>Y_not_excluded_by_this_pointwise_theorem",
+    "momentum_semantics": "Hamiltonian_no_go_independent_of_whether_momentum_equation_closes",
+    "no_observation_or_numerical_solver_used": true
+  },
+  "targets": [
+    {
+      "candidate_id": "G3A-8555e529226d13e2e9dacad5",
+      "action_sha256": "4f31eb8efc25f3b28fd56d7d6dc6518461b1624f69f3b51ad8f05e6e7374e8eb",
+      "beta": "33/4000",
+      "control_unit": "1/1953125",
+      "mismatch_curvature_surplus_ratio": "1/1953125",
+      "mismatch_York_surplus_ratio": "2/1953125",
+      "matched_surplus_ratio": "1/1953125",
+      "overcurvature_surplus_ratio": "3/1953125",
+      "overcurvature_York_surplus_ratio": "2/1953125",
+      "predecessor_record_content_sha256": "71168d2fb9da720775170e55b3258ec3d8cc092953becf06a8777a581df392c2",
+      "predecessor_theorem_content_sha256": "a8a7ed11114dd9e63dfa5c4cd70aa214ad292ebfd081076202c4822ed7ca7caf"
+    },
+    {
+      "candidate_id": "G3A-8ec243e6dd285fd92e7b8e0c",
+      "action_sha256": "08f435f45ff8f2333451d5cdad37bf201dfe58d254548ba6ccf5814564b98df0",
+      "beta": "17/2000",
+      "control_unit": "1/1953125",
+      "mismatch_curvature_surplus_ratio": "1/1953125",
+      "mismatch_York_surplus_ratio": "2/1953125",
+      "matched_surplus_ratio": "1/1953125",
+      "overcurvature_surplus_ratio": "3/1953125",
+      "overcurvature_York_surplus_ratio": "2/1953125",
+      "predecessor_record_content_sha256": "a1a6c668e677203c38b57fa0d3c5a9fcbef27a71181f5b2d1f0b7190e440c355",
+      "predecessor_theorem_content_sha256": "9c79d05f0995c7179e95569ea1b6ab03941b47d982cab6ee2249699e7d53d959"
+    },
+    {
+      "candidate_id": "G3A-8d3cce39bcb13ba5061eb78b",
+      "action_sha256": "181f6837c6934ff9ffbdba5b32383271704e67781a46b01d86fa31571442da98",
+      "beta": "9/1000",
+      "control_unit": "1/1953125",
+      "mismatch_curvature_surplus_ratio": "1/1953125",
+      "mismatch_York_surplus_ratio": "2/1953125",
+      "matched_surplus_ratio": "1/1953125",
+      "overcurvature_surplus_ratio": "3/1953125",
+      "overcurvature_York_surplus_ratio": "2/1953125",
+      "predecessor_record_content_sha256": "90045372092a5ae976e0bbc1165ded51a629c82a01fe3dfb1fbfac4ac9757f2d",
+      "predecessor_theorem_content_sha256": "f618c4397b4c7e1bbf195f8b268d610afad73c985e39f154881a6291fd69c094"
+    }
+  ],
+  "output_path": "runs/engine/future-g3-general-geometry-surplus-mismatch-no-go-campaign.json",
+  "data_eligibility": {
+    "observational_data_opened": false,
+    "dark_matter_or_halo_inputs": false,
+    "redshift_distance_inputs": false,
+    "paid_llm_calls": false
+  }
+}

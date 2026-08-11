@@ -351,8 +351,11 @@ trivial. The positive-unit-branch audit then proves that the Aether variables ar
 not extra second-order elliptic unknowns. The exact finite-tilt metric-to-York symbol is now derived
 for all three regular candidates. One remains uniformly principal elliptic throughout its registered
 seed; two cross exact perpendicular-covector York shells, rejecting only `K_ij=(L_X)_ij` as their
-global completion variable. The full weighted Fredholm inverse, lower-order coefficient bounds,
-nonlinear remainder, and completed-boundary sign remain blocked; the other 11 retain the forced-characteristic blocker. Blocked is not theory
+global completion variable. For the sole uniformly elliptic candidate, the exact determinant gap
+now yields a finite pointwise principal-symbol inverse bound and an elliptic homotopy to the
+Euclidean reference. Its spatially distributed order-zero/order-one coefficient registry, weighted
+kernel estimate, full Fredholm inverse, nonlinear remainder, and completed-boundary sign remain
+blocked; the other 11 retain the forced-characteristic blocker. Blocked is not theory
 rejection. The three cubic-G3 actions now have all
 36 action-bound componentwise fields registered and pass direct uniform principal/common-cone,
 exact lapse-coercivity, and periodic `L2(T3)` Dirac gates. Each also has a smooth action-bound
@@ -375,14 +378,19 @@ closed endpoint is also excluded by a strict interior source/kernel inequality; 
 above each root remain comparison-inconclusive. Exact tracefree compensation removes the pointwise
 mean-curvature cap, and the latest pointwise theorem removes conformal flatness entirely: for any
 smooth complete AF three-geometry, including unrestricted Cotton tensor, a finite point with
-`R3/v^2 < 1536/1953125` is incompatible with the compensated Hamiltonian source. The exact endpoint
-and above-threshold geometries remain inconclusive, and no nonconformally-flat metric or momentum
-solution is constructed. Candidate-specific nontrivial AF solutions outside that curvature-shortfall class, global
+`R3/v^2 < 1536/1953125` is incompatible with the compensated Hamiltonian source. The latest exact
+surplus identity writes the full pointwise residual as `C-Y`, where `C=R3-c*v^2` and
+`Y=S_beta-c*v^2`: any finite point with `Y>C`, including an above-threshold mismatch, rejects that
+datum. Matched `C=Y` is necessary only, overcurvature controls remain inconclusive, and no AF
+metric/York datum or momentum solution is registered. Candidate-specific nontrivial AF solutions
+with pointwise surplus matching, global
 energy, and full formal passes remain blocked.
 All 163 current scalable action formulas also render, parse, and canonicalise in a single bounded
-Cadabra 2.4.5.4 batch inside isolated user and network namespaces. That closes the general
-candidate-specific action-export/sandbox plumbing; metric variation is still a separate reviewed
-route and no formal pass is inferred from parsing an action.
+Cadabra 2.4.5.4 batch inside isolated user and network namespaces. Each action now has an exact
+candidate Euler expression materialized by substitution into an independently executed reviewed
+generic metric-variation theorem, including an execution-receipt-bound Einstein-Aether control and
+an explicit X-independence check for the conformal G4 route. This is not 163 independent backend
+variations, and no formal pass is inferred from parsing or specializing an action.
 An immutable evidence bridge now ingests the six compilation results plus the Aether, `G2`, `G3`,
 and conformal-`G4` prerequisite packets into an isolated knowledge registry. It preserves candidate/action/source
 lineage, separates calibration-only controls, deduplicates replay, refuses the live campaign
@@ -1204,7 +1212,9 @@ remain fail-closed.
 
 The next exact range selector contains 3,060 fourth-order obligations on the same rank-15 active
 space. Its restart-safe eight-worker service has closed the first 64 obligations and all 768/768
-candidate systems with no obstruction; 2,996 remain. Orders one through three are mandatory
+candidate systems plus three subsequent exact 32-obligation chunks: 128/3,060 obligations and
+1,536/1,536 candidate systems are closed with no obstruction; 2,932 remain. Orders one through
+three are mandatory
 zero-residual prerequisites. A fourth-order incompatibility is retained as a mathematical RHS and
 must flow through permanent obstruction semantics rather than being misreported as infrastructure
 failure. No unevaluated obligation is inferred passed, and fourth-order progress does not promote

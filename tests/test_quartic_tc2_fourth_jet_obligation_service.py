@@ -271,7 +271,7 @@ def test_exact_final_tail_is_twenty_without_padding() -> None:
     assert result["counts"]["fourth_obligations_remaining"] == 0
 
 
-def test_two_committed_exact_chunks_and_checkpoint_are_valid() -> None:
+def test_four_committed_exact_chunks_and_checkpoint_are_valid() -> None:
     config, campaign, predecessor, candidates = _inputs()
     artifact = json.loads(
         (OUTPUT / "chunks" / "obligation-offset-000000.json").read_text()
@@ -320,11 +320,49 @@ def test_two_committed_exact_chunks_and_checkpoint_are_valid() -> None:
         "selected": 32,
         "symbolic_parameter_compatible": 32,
     }
-    assert checkpoint["completed_chunks"] == 2
-    assert checkpoint["next_obligation_offset"] == 64
-    assert checkpoint["remaining_obligations"] == 2_996
+    third = json.loads(
+        (OUTPUT / "chunks" / "obligation-offset-000064.json").read_text()
+    )
+    third_dynamic = _chunk_config(
+        config,
+        campaign,
+        64,
+        32,
+        second["chunk_contract"]["resume_tip_sha256"],
+    )
+    _validate_chunk_result(third, third_dynamic, campaign, candidates)
+    assert third["content_sha256"] == (
+        "7c5e45b1550d9ed33c24fcdcd11b0b8b3b5945c037bcde9a5ab90815635e8b5a"
+    )
+    assert third["counts"]["directional_evaluations"] == 340
+    assert third["counts"]["partition_counts"] == {"AABB": 4, "AABC": 28}
+    assert third["counts"]["candidate_solvable"] == 384
+    fourth = json.loads(
+        (OUTPUT / "chunks" / "obligation-offset-000096.json").read_text()
+    )
+    fourth_dynamic = _chunk_config(
+        config,
+        campaign,
+        96,
+        32,
+        third["chunk_contract"]["resume_tip_sha256"],
+    )
+    _validate_chunk_result(fourth, fourth_dynamic, campaign, candidates)
+    assert fourth["content_sha256"] == (
+        "0d2a6e48a1a1488939b8add55db415f757405a678f4567024e978da10a204a2c"
+    )
+    assert fourth["counts"]["directional_evaluations"] == 330
+    assert fourth["counts"]["partition_counts"] == {
+        "AAAB": 1,
+        "AABB": 6,
+        "AABC": 25,
+    }
+    assert fourth["counts"]["candidate_solvable"] == 384
+    assert checkpoint["completed_chunks"] == 4
+    assert checkpoint["next_obligation_offset"] == 128
+    assert checkpoint["remaining_obligations"] == 2_932
     assert checkpoint["prior_resume_sha256"] == (
-        "82261f7d53a122efd79ce799539a018aca1db523a76f77c6e761d978c39d8da5"
+        "31b1337e982eb39c1b11eda612c7b02c7cede629596bb123c64cc89a429784a1"
     )
     assert checkpoint["permanently_stopped"] is False
     assert not any(checkpoint["claims"].values())
