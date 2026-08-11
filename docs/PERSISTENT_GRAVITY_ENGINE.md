@@ -11,12 +11,14 @@ controls, galaxy observables, and independent validation remain separate gates.
 
 ## Safety and evidence contract
 
-- Paid LLM calls in this service remain disabled and reported as zero. A separate reviewed
-  formula-proposal adapter now exists, but it is disabled by default and is not yet connected to
-  this service lifecycle. It accepts a key only through the named environment-variable reference,
-  reserves integer micro-dollar exposure atomically under an exact $500 total/$5 per-call cap,
-  stores no prompt/output/secret bodies, and quarantines every proposal for normal DSL and formal
-  validation. Its checked-in readiness campaign performs no network call and spends $0.
+- Paid LLM calls in this service remain disabled and reported as zero. The reviewed proposal
+  adapter accepts a key only through the named environment-variable reference, reserves integer
+  micro-dollar exposure atomically under an exact $500 total/$5 per-call cap, and stores no
+  prompt/output/secret bodies. A campaign bridge now applies the ordinary lease/retry/recovery
+  machinery to proposal hashes. A second disabled-by-default typed-DSL stage validates the
+  covariant grammar and universal matter contract and can enqueue only a separate reviewed
+  compiler-admission task. Real resolver/compiler callbacks and candidate-registry admission still
+  require a reviewed execution epoch. Checked-in readiness makes no network call and spends $0.
 - Observational data, dark-matter/halo inputs, and redshift-distance inputs must all remain
   disabled in the adapter. Startup fails before creating the search database if that contract is
   changed.
@@ -170,11 +172,13 @@ for the forbidden baryonic action atom and blocked 70 for a missing exact nonlin
 zero candidates eligible for the downstream ADM/Dirac/principal evaluator.
 
 The production-provenance chain now gives all 70 previously blocked identities exact typed
-covariant shape maps. Two linear maps fail higher-jet formal preflight; the other 68 exact
-`F(X_a_u,Q_a_u)` composite actions remain blocked because no candidate-specific
-ADM/Dirac/principal adapter exists. No Solar or galaxy prediction bundle was therefore generated,
-and the promoted count remains zero. The galaxy evaluator is connected but deliberately sealed with
-an empty prediction-bundle registry and no observational source registrations.
+covariant shape maps. The reviewed bounded formal-family chain rejects all 70: two linear maps fail
+higher-jet preflight, 21 zero-local actions are degenerate, 27 fail local kinetic necessary
+conditions, and the final 20 have a nonreal generic-tilt characteristic pair. No Solar or galaxy
+prediction bundle was therefore generated for this billion-formula family, and its promoted count
+remains zero. The separate grammar-v3 campaign has six typed candidates; its conformal G4 candidate
+has a formal pass and a reviewed Solar evaluator, while the other five remain blocked at declared
+formal prerequisites.
 `rust_parallel_streaming_search.py` now integrates with the durable
 start/status/stop/resume/export lifecycle while preserving one cached CUDA consumer, heartbeats,
 dead-owner recovery, the original execution deadline, exact ordered lineage, and all data/LLM
@@ -196,10 +200,21 @@ candidate/disk/task/deadline caps, and cannot write back to upstream work. Revie
 come from an immutable service allowlist: descriptor file hashes, callback artifact hashes, evaluator
 bindings, and the pipeline binding must all agree before automatic registration. The registry root is
 persisted in the stage checkpoint and lineage; unlisted or changed evaluators fail closed.
-Candidate-specific Solar
-and galaxy prediction bundles remain unimplemented and fail-closed; the galaxy evaluator opens no
-data until both exact prediction provenance and a separately authorized observable contract exist.
-The engine does not yet admit the quarantined output of the reviewed LLM adapter as new grammar
-work, distribute work across multiple machines, or enforce a separate byte quota on the
-SQLite file. SQLite growth is nevertheless bounded by the configured task and wall limits, while
-the whole service directory is monitored against the service disk cap.
+The conformal G4 Solar evaluator descriptor is implemented and has executed once through a durable
+lease. It remains scientifically blocked with one registration hash filled and 16 real-source,
+prediction, primary-file, split, likelihood, covariance, and stopping hashes missing; it opened no
+records. Its candidate-specific galaxy evaluator and future direct-observable prediction contract
+are also implemented. A scalar-free-branch forward model now hash-binds the rotation and lensing
+implementations and passes three analytic controls, bringing staged registration to three filled
+and 15 source/split/covariance registrations missing; halo targets, redshift distances, inferred
+lensing mass, and per-galaxy gravity parameters are forbidden. The LLM path reaches a separate hash-only reviewed compiler
+queue in synthetic tests. A follow-on bridge now revalidates the receipt, reruns the existing
+canonicalization/equivalence classifier, deduplicates exact action-IR matches without claiming
+novelty, and can register a hash-only candidate before the reviewed `policy_validate` queue.
+The composed local proposal-to-policy epoch now also has a restart-safe bounded
+start/status/stop/resume/export service with exact checkpoint/config/callback roots. Checked-in
+execution remains disabled, offline, body-free, and at zero spend; no real provider callback epoch
+has admitted an LLM proposal. The
+engine also does not yet distribute work across multiple machines or enforce a
+separate byte quota on the SQLite file. SQLite growth is nevertheless bounded by configured task
+and wall limits, while the whole service directory is monitored against the service disk cap.

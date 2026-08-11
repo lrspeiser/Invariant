@@ -95,6 +95,8 @@
         "a separate secret-safe formula-proposal adapter, disabled by default, with an exact $500 total/$5 per-call cap, atomic idempotent reservations and settlement, environment-only secret reference, body-free telemetry, and quarantined DSL output",
         "a campaign-integrated LLM proposal bridge using the existing leases, retries, crash recovery, and deterministic lineage while persisting only hashes and enqueuing zero compiler tasks until a separately reviewed DSL admission step",
         "a disabled-by-default hash-only typed-DSL admission stage that consumes exact quarantine hashes, validates the covariant grammar and universal matter contract, assigns deterministic candidate lineage, and enqueues only a separate reviewed compiler task; replay recompiles and rejects tampering",
+        "a disabled-by-default compiler-receipt registry bridge that revalidates and recompiles exact receipts, runs the existing canonicalization/equivalence classifier, deduplicates action-IR matches with novelty=false, writes hash-only candidate records, and enqueues only reviewed policy validation",
+        "a bounded composed local epoch that exercises proposal quarantine, typed admission, compiler receipt, equivalence/dedup, ordinary hash-only registration, and the real policy_validate queue end to end: one pass, one dedup, one unsupported reject, one missing-callback block, zero network calls and zero spend; a restart-safe bounded start/status/stop/resume/export service wraps the same epoch with immutable checkpoint/config/callback roots",
         "reviewed hash-bound static, ADM/Dirac/principal, Solar, and sealed-galaxy promotion evaluator descriptors under an immutable allowlist",
         "a durable serial/parallel Rust streaming service with exact interval checkpoints, eight-producer evidence-backed default, one cached CUDA owner, stop/resume/export, automatic fail-closed promotion snapshots, and bounded benchmark artifacts"
       ],
@@ -119,13 +121,21 @@
         "configs/typed_dsl_campaign_admission.json",
         "tests/test_typed_dsl_campaign_admission.py",
         "runs/engine/typed-dsl-campaign-admission-readiness.json",
+        "src/sigma_theory_compiler/compiler_receipt_registry_bridge.py",
+        "configs/compiler_receipt_registry_bridge.json",
+        "tests/test_compiler_receipt_registry_bridge.py",
+        "runs/engine/compiler-receipt-registry-bridge-readiness.json",
+        "src/sigma_theory_compiler/reviewed_local_formula_epoch.py",
+        "configs/reviewed_local_formula_epoch.json",
+        "tests/test_reviewed_local_formula_epoch.py",
+        "runs/engine/reviewed-local-formula-epoch-status.json",
         "runs/engine/promotion-orchestrator-status.json",
         "docs/PERSISTENT_GRAVITY_ENGINE.md"
       ],
       "missing": [
         "distributed multi-node or multi-GPU execution",
-        "a reviewed execution epoch that registers real quarantine-resolver and covariant-compiler callbacks and explicitly enables the typed-DSL admission stage",
-        "promotion of completed hash-only compiler-admission receipts into the ordinary candidate registry without bypassing equivalence, formal, or evidence gates",
+        "a reviewed execution epoch that registers real provider, prompt-resolver, quarantine-resolver, covariant-compiler, equivalence-registry, and policy callbacks and explicitly enables each otherwise disabled stage",
+        "an end-to-end production LLM proposal that reaches the ordinary candidate registry and downstream formal queue without bypassing any gate",
         "automatic scalable typed-grammar parameter-cell expansion beyond the bounded six-seed campaign",
         "a production-duration end-to-end run that includes generation, every implemented promotion evaluator, ranked reporting, and deterministic replay"
       ]
@@ -308,9 +318,9 @@
       },
       "global_H7_energy_ledger": {
         "status": "implemented_global_nonremainder_sum_full_D1_and_partial_TC2_correction_global_H7_fail_closed",
-        "scope": "For all 12 candidates, an exact H7-equivalent dyadic energy sums the finite low modes and all certified high-shell principal, time-symmetrizer, projection-neighbor, coercivity, compact-frequency, localized reference-subtracted source, resonant H6xH7-to-H7, and frozen full-direction D2 terms. The complete 11x153 D1 source Jacobian is available, C9 norm envelopes close the required pointwise derivative order, and an exact high-atom witness proves that the originally named one-channel good unknown cannot cancel the coefficient-high/state-low branch. A two-channel correction cancels the representative four-entry slice. Its TC2 Sylvester problem has an exact Hermitian reference solution, all 153 first-atom derivative extensions, and exact second-atom solutions on the complete 861-pair canonical-active selector: 10,332/10,332 candidate equations are Hermitian with zero residual. The remaining 10,920 pairs were partitioned using both the exact first Jacobian and nonlinear mixed second coordinate map: 8,245 are rigorously discharged entrywise and 2,675 became explicit obligations. The first 64 coordinate-D2 pushforward obligations, including the required DF[D2J] term, now give 768/768 exact candidate solutions and no obstruction; 2,611 obligations remain (771 coordinate-D2 pushforwards and 1,840 intrinsic-jet Hessians). No unevaluated pair is inferred. The remaining induced TC1/TC2/TC3/TC5 bounds, full variable-coefficient paracomposition, global dyadic closure, initial H7 energy, tube preservation, and numerical lifespan remain false."
+        "scope": "For all 12 candidates, an exact H7-equivalent dyadic energy sums the finite low modes and all certified high-shell principal, time-symmetrizer, projection-neighbor, coercivity, compact-frequency, localized reference-subtracted source, resonant H6xH7-to-H7, and frozen full-direction D2 terms. The complete 11x153 D1 source Jacobian is available, C9 norm envelopes close the required pointwise derivative order, and an exact high-atom witness proves that the originally named one-channel good unknown cannot cancel the coefficient-high/state-low branch. A two-channel correction cancels the representative four-entry slice. Its TC2 Sylvester problem has an exact Hermitian reference solution, all 153 first-atom derivative extensions, and exact second-atom solutions on the complete 861-pair canonical-active selector: 10,332/10,332 candidate equations are Hermitian with zero residual. The remaining 10,920 pairs were partitioned using both the exact first Jacobian and nonlinear mixed second coordinate map: 8,245 are rigorously discharged entrywise and 2,675 became explicit obligations. A restart-safe exact service has now evaluated the first 512 coordinate-D2 pushforward obligations, including the required DF[D2J] term: 6,144/6,144 candidate equations solve with no obstruction. Atomic checkpoints, record chains, orphan recovery, bounded execution and the exact final partial tail are implemented. There are 2,163 obligations left (323 coordinate-D2 pushforwards and 1,840 intrinsic-jet Hessians). No unevaluated pair is inferred. The remaining induced TC1/TC2/TC3/TC5 bounds, full variable-coefficient paracomposition, global dyadic closure, initial H7 energy, tube preservation, and numerical lifespan remain false."
       },
-      "missing": ["entrywise arithmetic normalization of all required D2-D4 atom-pair multiindices", "exact Sylvester evaluation of the remaining 2,611 classified TC2 obligations: 771 coordinate-D2 pushforwards and 1,840 intrinsic-jet Hessians", "quantitative closure of the induced TC1, variable TC3, high-derivative TC2 and H7 TC5 terms", "an executable component Frechet/Bony-good-unknown remainder bound supplying finite C_L and C_B", "an initial H7 energy bound and substitution into the conditional lifespan/tube formula", "new reduction adapters for future nonminimal action terms outside the bounded grammar", "exhaustive multi-seed connected-domain construction beyond the campaign's shared local FLRW seed", "nonlinear PDE evolution-invariant trapping regions inside the pointwise-certified cubic-Horndeski and quartic-Horndeski local-jet boxes", "new mixed/nonlinear principal and symmetrizer adapters for the remaining 114 G4_X sample assignments, followed by necessary-and-sufficient multi-field direction-sphere bounds", "generic nonlinear global reduced-Hamiltonian boundedness beyond the certified homogeneous Horndeski tensor and FLRW scalar blocks"]
+      "missing": ["entrywise arithmetic normalization of all required D2-D4 atom-pair multiindices", "exact Sylvester evaluation of the remaining 2,163 classified TC2 obligations: 323 coordinate-D2 pushforwards and 1,840 intrinsic-jet Hessians", "quantitative closure of the induced TC1, variable TC3, high-derivative TC2 and H7 TC5 terms", "an executable component Frechet/Bony-good-unknown remainder bound supplying finite C_L and C_B", "an initial H7 energy bound and substitution into the conditional lifespan/tube formula", "new reduction adapters for future nonminimal action terms outside the bounded grammar", "exhaustive multi-seed connected-domain construction beyond the campaign's shared local FLRW seed", "nonlinear PDE evolution-invariant trapping regions inside the pointwise-certified cubic-Horndeski and quartic-Horndeski local-jet boxes", "new mixed/nonlinear principal and symmetrizer adapters for the remaining 114 G4_X sample assignments, followed by necessary-and-sufficient multi-field direction-sphere bounds", "generic nonlinear global reduced-Hamiltonian boundedness beyond the certified homogeneous Horndeski tensor and FLRW scalar blocks"]
     },
     {
       "id": "solar_and_direct_observations",
@@ -325,6 +335,7 @@
         "the conformal G4 generated candidate has a hash-bound alternative-gauge formal pass, exact scalar-free GR branch and analytic Newtonian/PPN prediction, compact and noncompact trace-source uniqueness theorems, and a candidate theory dossier",
         "bit-level ATDF/TDF and RSR parser implementations plus the raw-to-calibrated direct-signal covariance transformation are hash-bound and pass synthetic fixtures while primary records remain sealed",
         "a reviewed candidate-specific G4 Solar evaluator descriptor is implemented and fills exactly one registration hash; it remains blocked on 16 real-source, prediction, split, likelihood, and primary-file registrations plus separate observation-opening authorization",
+        "a reviewed candidate-specific G4 galaxy evaluator and exact future prediction-bundle contract are implemented; an exact scalar-free-branch forward model now supplies hash-bound baryonic rotation and circularized-axisymmetric lensing implementations with three analytic known-answer passes, bringing registration to three filled and 15 missing while keeping zero object-specific gravity parameters",
         "sealed observable-to-observable galaxy protocol with whole-galaxy target-blind splits, covariance-aware scoring, zero object-specific gravity parameters, direct spectral-line kinematic targets, and independent post-freeze raw-lensing falsification",
         "candidate-data mode never opens a dataset and still requires a separate audited manifest"
       ],
@@ -344,6 +355,13 @@
         "runs/engine/reviewed-g4-candidate-solar-evaluator-readiness.json",
         "src/sigma_theory_compiler/reviewed_g4_candidate_solar_evaluator.py",
         "tests/test_reviewed_g4_candidate_solar_evaluator.py",
+        "configs/reviewed_g4_galaxy_prediction_bundle_contract.json",
+        "runs/engine/reviewed-g4-candidate-galaxy-evaluator-readiness.json",
+        "src/sigma_theory_compiler/reviewed_g4_candidate_galaxy_evaluator.py",
+        "tests/test_reviewed_g4_candidate_galaxy_evaluator.py",
+        "runs/engine/g4-scalar-free-galaxy-forward-model.json",
+        "src/sigma_theory_compiler/g4_scalar_free_galaxy_forward_model.py",
+        "tests/test_g4_scalar_free_galaxy_forward_model.py",
         "runs/observation-protocol/galaxy-observable-audit.json",
         "tests/test_relativity.py",
         "runs/gr-reference/formal-eligibility.json",
@@ -351,7 +369,7 @@
       ],
       "prohibited": ["dark-matter or halo target labels and rescues", "object-specific gravitational parameters", "fitted PPN parameters or gravity-model-derived ephemeris residuals as observational truth", "held-out Solar tracking records used to estimate their own initial state", "row-level leakage between radii of the same galaxy", "lensing use during formula selection", "unverified redshift-distance inference", "supernova distance inference"],
       "unseal_condition": "the same frozen generated candidate action passes every preceding formal gate with no discovery blocker, then a separate raw-observation manifest passes the frozen evidence policy",
-      "missing": ["the 16 real-source, prediction-bundle, selected-primary-file, session-split, initial-state, likelihood, covariance, and stopping-rule hashes required by the reviewed G4 Solar evaluator", "a separate explicit observation-opening authorization after every registration hash is satisfied", "bounded Cassini SCE1 primary-file selection and acquisition under the frozen protocol", "registered Solar trace-tail amplitude, decay, outer-transition, pressure-sign, geometry, topology, and boundary facts sufficient to instantiate the conditional source theorem", "an independently audited direct-observation galaxy dataset manifest for the same formally admitted candidate", "preregistered hash-committed Solar-session and whole-galaxy split/scoring/stopping manifests"]
+      "missing": ["the 16 real-source, prediction-bundle, selected-primary-file, session-split, initial-state, likelihood, covariance, and stopping-rule hashes required by the reviewed G4 Solar evaluator", "the 15 direct-source, shared-calibration, branch/domain, distance-mode, independent-manifest, whole-galaxy split, covariance, likelihood, checkpoint, bundle, and stopping hashes still required after the G4 rotation/lensing implementations were registered", "separate explicit observation-opening authorizations after every registration hash is satisfied", "bounded Cassini SCE1 primary-file selection and acquisition under the frozen protocol", "registered Solar trace-tail amplitude, decay, outer-transition, pressure-sign, geometry, topology, and boundary facts sufficient to instantiate the conditional source theorem", "an independently audited direct-observation galaxy dataset manifest for the same formally admitted candidate", "preregistered hash-committed Solar-session and whole-galaxy split/scoring/stopping manifests"]
     }
   ]
 }

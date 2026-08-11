@@ -495,6 +495,79 @@ def _build_rows(sources: Mapping[str, Any], bindings: Mapping[str, Any]) -> dict
     rows["galaxy_direct_observable"].append(_entry(
         "PRODUCTION-CANDIDATE-SET-70", "generated_candidate_set", {"candidate_count": galaxy["production_candidate_count"], "registered_prediction_bundle_count": galaxy["registered_prediction_bundle_count"]},
         "blocked", "sealed_direct_observable_scaffold", "incomplete", next(iter(galaxy["blocker_counts"])), "galaxy_direct_observable", bindings["galaxy_direct_observable"], galaxy["evaluator_binding_sha256"], "No observational source or candidate prediction bundle was opened; no galaxy performance was measured."))
+    g4_galaxy = sources["g4_galaxy_readiness"]
+    g4_galaxy_decision = g4_galaxy["current_evaluator_decision"]
+    g4_forward = sources["g4_galaxy_forward_model"]
+    g4_forward_decision = g4_forward["current_evaluator_decision"]
+    if (
+        g4_galaxy["decision"] != "blocked"
+        or g4_galaxy["descriptor_implementation_ready"] is not True
+        or g4_galaxy["prediction_bundle_registered"] is not False
+        or g4_galaxy["observational_data_opened"] is not False
+        or g4_galaxy["primary_record_access_count"] != 0
+        or g4_galaxy_decision["filled_registration_hash_count"] != 1
+        or len(g4_galaxy_decision["missing_registration_hashes"]) != 17
+        or g4_galaxy["synthetic_controls"]["shape"][
+            "object_specific_gravity_parameter_count"
+        ]
+        != 0
+    ):
+        raise ValueError("reviewed G4 galaxy evaluator readiness is inconsistent")
+    if (
+        g4_forward["decision"] != "blocked"
+        or g4_forward["prediction_bundle_registered"] is not False
+        or g4_forward["observational_data_opened"] is not False
+        or g4_forward["primary_record_access_count"] != 0
+        or g4_forward["object_specific_gravity_parameter_count"] != 0
+        or g4_forward["dark_matter_or_halo_inputs"] is not False
+        or g4_forward["redshift_distance_inputs"] is not False
+        or g4_forward_decision["filled_registration_hash_count"] != 3
+        or len(g4_forward_decision["missing_registration_hashes"]) != 15
+        or set(g4_forward["synthetic_controls"]["analytic_known_answers"].values())
+        != {"pass"}
+        or g4_forward["synthetic_controls"]["covariance"]["decision"] != "pass"
+    ):
+        raise ValueError("G4 galaxy forward-model readiness is inconsistent")
+    g4_galaxy_entry = _entry(
+        g4_galaxy["candidate"]["candidate_id"],
+        "generated_candidate",
+        {
+            "filled_registration_hash_count": g4_forward_decision[
+                "filled_registration_hash_count"
+            ],
+            "missing_registration_hash_count": len(
+                g4_forward_decision["missing_registration_hashes"]
+            ),
+            "analytic_rotation_lensing_control_pass_count": sum(
+                status == "pass"
+                for status in g4_forward["synthetic_controls"][
+                    "analytic_known_answers"
+                ].values()
+            ),
+            "object_specific_gravity_parameter_count": 0,
+            "prediction_bundle_registered": False,
+            "primary_record_access_count": 0,
+            "synthetic_covariance_control": g4_galaxy["synthetic_controls"][
+                "covariance"
+            ]["decision"],
+            "synthetic_shape_control": g4_galaxy["synthetic_controls"]["shape"][
+                "decision"
+            ],
+        },
+        "blocked",
+        "sealed_candidate_specific_galaxy_prediction",
+        "incomplete",
+        g4_forward["first_missing_premise"],
+        "g4_galaxy_forward_model",
+        bindings["g4_galaxy_forward_model"],
+        g4_forward["provenance"]["binding_sha256"],
+        "The exact scalar-free branch now has hash-bound rotation and lensing implementations with three passing analytic controls. Fifteen source, split, covariance, likelihood, and stopping hashes remain missing; no observation or halo/redshift-derived target was opened.",
+    )
+    g4_galaxy_entry["lineage"]["supporting_artifacts"] = [
+        bindings["galaxy_direct_observable"],
+        bindings["g4_galaxy_readiness"],
+    ]
+    rows["galaxy_direct_observable"].append(g4_galaxy_entry)
 
     action_hashes = [record["typed_action_ir"]["content_sha256"] for record in compilation["candidate_records"]]
     for record in compilation["candidate_records"]:

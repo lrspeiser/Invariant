@@ -59,6 +59,20 @@ def test_category_local_rankings_keep_missing_evidence_unranked() -> None:
 
     assert board["categories"]["lensing_cluster"]["ranked_count"] == 0
     assert board["categories"]["galaxy_direct_observable"]["ranked_count"] == 0
+    g4_galaxy = next(
+        row
+        for row in board["categories"]["galaxy_direct_observable"][
+            "unranked_blocked_or_untested"
+        ]
+        if row["candidate_id"] == "G3-f9c598b70a77ea54009d8f18"
+    )
+    assert g4_galaxy["metrics"]["filled_registration_hash_count"] == 3
+    assert g4_galaxy["metrics"]["missing_registration_hash_count"] == 15
+    assert g4_galaxy["metrics"][
+        "analytic_rotation_lensing_control_pass_count"
+    ] == 3
+    assert g4_galaxy["metrics"]["object_specific_gravity_parameter_count"] == 0
+    assert g4_galaxy["blocker"] == "registered_baryonic_source_and_data_contracts"
     assert board["categories"]["nonlinear_energy"]["ranked_count"] == 0
     assert board["categories"]["simplicity_complexity"]["ranked_count"] == 6
     assert board["categories"]["computational_robustness"]["ranked_count"] == 6

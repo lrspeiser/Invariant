@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "sigma://grammar-v3/g4-galaxy-direct-observable-prediction-bundle-1.0",
+  "title": "Conformal G4 candidate galaxy direct-observable prediction bundle",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "candidate_id",
+    "action_sha256",
+    "formal_provenance_sha256",
+    "branch_and_domain_contract_sha256",
+    "input_contract",
+    "output_contract",
+    "universal_parameter_count",
+    "object_specific_gravity_parameter_count",
+    "rotation_prediction_implementation_sha256",
+    "lensing_prediction_implementation_sha256",
+    "baryonic_calibration_hierarchy_sha256",
+    "joint_covariance_contract_sha256",
+    "likelihood_contract_sha256",
+    "galaxy_split_commitment_sha256",
+    "training_only_checkpoint_sha256",
+    "stopping_rule_sha256",
+    "distance_mode_contract_sha256",
+    "data_eligibility",
+    "observational_data_opened"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "sigma-g4-galaxy-direct-observable-prediction-bundle-1.0"
+    },
+    "candidate_id": {
+      "const": "G3-f9c598b70a77ea54009d8f18"
+    },
+    "action_sha256": {
+      "const": "6ddd6502d110ead90ff494a6569213ec2e61a0b046dfa86344bb1980df6abc90"
+    },
+    "formal_provenance_sha256": {
+      "const": "201d7caf11473c618d7f4c494faa9f5eee37604863baf4cbe5d7af3de7c30dca"
+    },
+    "branch_and_domain_contract_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "input_contract": {
+      "const": {
+        "channels": [
+          "angular_radius_and_relative_sky_position",
+          "surface_brightness_or_image_pixels_with_calibration_and_covariance",
+          "HI_Halpha_or_CO_line_emission_with_beam_and_line_spread_provenance",
+          "angular_geometry_with_inclination_position_angle_image_provenance",
+          "globally_frozen_or_hierarchically_shared_baryonic_calibration_nuisances"
+        ],
+        "distance_mode": "angular_dimensionless_or_separately_registered_nonredshift",
+        "forbidden": [
+          "galaxy_identity_as_formula_input",
+          "dark_matter_or_halo_label",
+          "rotation_curve_derived_mass_discrepancy",
+          "redshift_derived_distance_or_environment",
+          "lensing_derived_mass_or_convergence_truth",
+          "per_galaxy_gravity_parameter"
+        ]
+      }
+    },
+    "output_contract": {
+      "const": {
+        "rotation": [
+          "held_out_spectral_line_centroid_wavelength_ratio",
+          "reproducible_line_of_sight_Doppler_velocity_representation"
+        ],
+        "lensing": [
+          "relative_image_or_arc_positions",
+          "image_parity_and_topology",
+          "directly_measured_time_delay_when_available"
+        ],
+        "same_covariant_action_and_universal_constants": true,
+        "lensing_formula_selection_use": false
+      }
+    },
+    "universal_parameter_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "object_specific_gravity_parameter_count": {
+      "const": 0
+    },
+    "rotation_prediction_implementation_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "lensing_prediction_implementation_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "baryonic_calibration_hierarchy_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "joint_covariance_contract_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "likelihood_contract_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "galaxy_split_commitment_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "training_only_checkpoint_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "stopping_rule_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "distance_mode_contract_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "data_eligibility": {
+      "const": {
+        "observational_data_opened": false,
+        "dark_matter_or_halo_inputs": false,
+        "redshift_distance_inputs": false,
+        "paid_llm_calls": false
+      }
+    },
+    "observational_data_opened": {
+      "const": false
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

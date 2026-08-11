@@ -988,8 +988,12 @@ entrywise because at least one first direction and the mixed second direction va
 2,675 are explicit, uninferred obligations: 835 require the coordinate-`D2` pushforward and 1,840
 require intrinsic jet Hessians. The first exact 64-obligation chunk, beginning with
 `q[0] x s01[1]`, now includes the required `DF[D2J]` contribution in `D2P55`, `D2K55`, and the
-Sylvester recurrence. All 768 candidate equations solve with exact Hermitian zero-residual
-corrections and no obstruction; 2,611 obligations remain.
+Sylvester recurrence. A restart-safe continuation service now carries the same exact engine through
+the first 512 obligations. All 6,144 candidate equations solve with exact Hermitian zero-residual
+corrections and no obstruction; 2,163 obligations remain (323 coordinate-`D2` pushforwards and
+1,840 intrinsic-jet Hessians). The service uses atomic checkpoints,
+valid-orphan recovery, bounded wall/disk/chunk budgets, permanent obstruction stops, and an exact
+51-pair final tail rather than inferring selector exhaustion.
 TC1's source part needs the contracted
 state-to-jet topology, variable TC3 needs `D_Y(P55 E_v Q)`, and TC5 in `H7` needs component `D2F`
 plus `H7` control of `J(C_Q)`. The next valid route must close those terms and extend the identity

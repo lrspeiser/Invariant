@@ -1,0 +1,102 @@
+{
+  "schema_version": "sigma-grammar-v3-g4-galaxy-reviewed-execution-config-1.0",
+  "candidate": {
+    "candidate_id": "G3-f9c598b70a77ea54009d8f18",
+    "role": "generated_candidate",
+    "action_sha256": "6ddd6502d110ead90ff494a6569213ec2e61a0b046dfa86344bb1980df6abc90"
+  },
+  "predecessor_followup_queue": {
+    "path": "runs/engine/grammar-v3-followup-queue-g4-final-status.json",
+    "file_sha256": "53eb76736d32e17127078da92309ca71cfb9cf55fa525b620d2fa2cdf4af9426",
+    "content_sha256": "99b27573a1b7136fc748cb882db91edaf2685b5425420346efaa9e7de9837a3a",
+    "queue_registry_root_sha256": "3e493847b7faba9bb65271df6b51b5887902171f212ab7debe2279d336a62b64",
+    "completed_work_records_root_sha256": "4c686cc3eb9cd9fe543a9d2fe5ee5528b7592de496ac8553b0affb911e2889f2"
+  },
+  "candidate_dossier": {
+    "path": "runs/engine/candidate-theory-dossier-campaign.json",
+    "file_sha256": "359d435a1dfd2903df4d64aa0e61659758e32517c2de80d4f41345202c461d0d",
+    "content_sha256": "88e4eeea0e8581d7bdf0b2add24d3e96830a3e24440c1233a907173894fc5d70",
+    "candidate_dossier_sha256": "c3ce739cddfe70186096280c20602c2f47b9ad716898cdb480242f44b76cf010"
+  },
+  "formal_pass": {
+    "path": "runs/engine/g3-g4-nonunitary-gauge-bypass-audit.json",
+    "file_sha256": "7f093215f5151ee0945e9f9cae28e0dc3133f54ce4bfda6f2764961a2cda8451",
+    "content_sha256": "840de19d9f6233e351a05e1b936db37eb7bf31d47489f7835230332cb906e8ba"
+  },
+  "prediction_bundle_contract": {
+    "path": "configs/reviewed_g4_galaxy_prediction_bundle_contract.json",
+    "file_sha256": "b60ef47278749924c6341e95e2b05da8698e32d67b09536f400b82c053c9a77d",
+    "content_sha256": "9ce0f7579375227d4ddf54a6157352e80cd168d75755fef63fbe983bd4f0cb4d"
+  },
+  "evaluator_descriptor_allowlist": [
+    {
+      "path": "configs/reviewed_g4_candidate_galaxy_evaluator.json",
+      "file_sha256": "a4ad1feba78ced7aea459850b051c8f655a2d6a2168ccb21ea95c8d75c223de0",
+      "content_sha256": "474c3b96ae768b15188a3934a94b4f4378efd687c73051568d26b02e8854f0be",
+      "descriptor_binding_sha256": "474c3b96ae768b15188a3934a94b4f4378efd687c73051568d26b02e8854f0be",
+      "callback_source_sha256": "48910291e12189305bce2e90f4f9bc6b728f21d5fc261fe8401a4c8fd0df1d40"
+    }
+  ],
+  "reviewed_readiness": {
+    "path": "runs/engine/reviewed-g4-candidate-galaxy-evaluator-readiness.json",
+    "file_sha256": "29e066623914c84c88172fffb20e262d31635052cdef66188a709049aee6492f",
+    "content_sha256": "05d9cffd288746fdd297058fec61b21a96226bc169eef46892b53d1a08c3764c"
+  },
+  "executor_source": {
+    "path": "src/sigma_theory_compiler/grammar_v3_g4_galaxy_reviewed_execution.py",
+    "file_sha256": "90764502bf081daee73d622df86d9f59b038f0aca24350f7699b3c373bfda0bf"
+  },
+  "resource_profile": {
+    "path": "configs/resource_profile_5090.json",
+    "file_sha256": "7cefb93ee81f589bc4632e90900e5e67aa97c19b9b31ad3315b9114b5df14a26",
+    "content_sha256": "e6605e735cdb8b74f14180fb49a96da46c5f95745772637e24e93b47d4bd4108"
+  },
+  "coordinator": {
+    "schema_version": "sigma-persistent-parallel-search-1.0",
+    "external_paid_llm_calls": false,
+    "determinism": {
+      "master_seed": 509020260810
+    },
+    "queue": {
+      "maximum_pending_work": 1,
+      "maximum_attempts": 3,
+      "lease_seconds": 2,
+      "checkpoint_every_completions": 1
+    },
+    "budget": {
+      "maximum_tasks": 1,
+      "maximum_wall_seconds": 120
+    },
+    "cpu": {
+      "maximum_workers": 1
+    },
+    "gpu": {
+      "minimum_compute_capability": "8.0",
+      "minimum_memory_mib": 16384,
+      "reserve_memory_mib": 4096,
+      "estimated_bytes_per_candidate": 8192,
+      "maximum_batch_candidates": 1
+    },
+    "supervisor": {
+      "cpu_workers": 1,
+      "gpu_workers": 0,
+      "cpu_evaluator": "reviewed_g4_galaxy",
+      "gpu_evaluator": "disabled",
+      "worker_poll_seconds": 0.1,
+      "telemetry_interval_seconds": 1.0,
+      "refill_interval_seconds": 0.1,
+      "maximum_telemetry_bytes": 1048576,
+      "maximum_wall_seconds_per_run": 120,
+      "maximum_process_restarts": 1,
+      "shutdown_grace_seconds": 1.0
+    }
+  },
+  "observational_opening_authorized": false,
+  "external_paid_llm_calls": false,
+  "data_eligibility": {
+    "observational_data_opened": false,
+    "dark_matter_or_halo_inputs": false,
+    "redshift_distance_inputs": false,
+    "paid_llm_calls": false
+  }
+}

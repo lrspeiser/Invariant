@@ -28,7 +28,13 @@ SOURCE_PATHS = [
     "runs/engine/campaign-llm-proposal-bridge-readiness.json",
     "runs/engine/reviewed-g4-candidate-solar-evaluator-readiness.json",
     "runs/engine/grammar-v3-g4-solar-reviewed-execution-status.json",
+    "runs/engine/reviewed-g4-candidate-galaxy-evaluator-readiness.json",
+    "runs/engine/grammar-v3-g4-galaxy-reviewed-execution-status.json",
     "runs/engine/typed-dsl-campaign-admission-readiness.json",
+    "runs/engine/compiler-receipt-registry-bridge-readiness.json",
+    "runs/engine/reviewed-local-formula-epoch-status.json",
+    "runs/engine/reviewed-local-formula-service-readiness.json",
+    "runs/engine/g4-scalar-free-galaxy-forward-model.json",
 ]
 LABELS = [
     "billion_streaming",
@@ -42,7 +48,13 @@ LABELS = [
     "llm_campaign_bridge",
     "g4_solar_evaluator",
     "g4_solar_execution",
+    "g4_galaxy_evaluator",
+    "g4_galaxy_execution",
     "typed_dsl_admission",
+    "compiler_registry_bridge",
+    "reviewed_local_formula_epoch",
+    "reviewed_local_formula_service",
+    "g4_galaxy_forward_model",
 ]
 
 
@@ -169,6 +181,55 @@ def test_read_only_snapshot_is_deterministic_and_does_not_mutate_database(tmp_pa
         "formula_body_persistence": False,
         "status": "ready_disabled_hash_only",
     }
+    assert first["core"]["llm"]["compiler_registry_bridge"] == {
+        "candidate_body_persistence": False,
+        "default_execution_enabled": False,
+        "fixture_expected_counts": {
+            "block": 1,
+            "dedup": 1,
+            "enqueue": 1,
+            "pass": 1,
+            "reject": 7,
+        },
+        "next_stage_adapter_registered": False,
+        "novelty_claim_allowed": False,
+        "status": "ready_disabled_hash_only",
+    }
+    assert first["core"]["llm"]["reviewed_local_epoch"] == {
+        "default_execution_enabled": False,
+        "expected_bounded_status": {
+            "candidate_count": 1,
+            "compiler_receipt_pass_count": 2,
+            "decision_counts": {
+                "block": 1,
+                "dedup": 1,
+                "pass": 1,
+                "reject": 1,
+            },
+            "network_calls": 0,
+            "next_stage_enqueue_count": 1,
+            "paid_spend_usd": "0.000000",
+            "policy_pass_count": 1,
+            "proposal_quarantine_count": 4,
+        },
+        "formula_body_persistence": False,
+        "network_calls": 0,
+        "paid_spend_usd": "0.000000",
+        "status": "ready_disabled_bounded_mock_only",
+    }
+    assert first["core"]["llm"]["reviewed_local_service"] == {
+        "budgets": {
+            "maximum_attempts": 3,
+            "maximum_disk_bytes": 100_000_000,
+            "maximum_tasks": 1,
+            "maximum_wall_seconds": 120,
+        },
+        "default_execution_enabled": False,
+        "deterministic_export": True,
+        "network_allowed": False,
+        "paid_spend_usd": "0.000000",
+        "status": "ready_disabled_bounded_local_only",
+    }
     assert first["core"]["g4_solar_evaluator"] == {
         "candidate_id": "G3-f9c598b70a77ea54009d8f18",
         "decision": "blocked",
@@ -187,6 +248,40 @@ def test_read_only_snapshot_is_deterministic_and_does_not_mutate_database(tmp_pa
         "observational_data_opened": False,
         "primary_record_access_count": 0,
         "synthetic_GR_golden_pass_count": 5,
+    }
+    assert first["core"]["g4_galaxy_evaluator"] == {
+        "candidate_id": "G3-f9c598b70a77ea54009d8f18",
+        "decision": "blocked",
+        "descriptor_implementation_ready": True,
+        "durable_execution": {
+            "decision_counts": {"blocked": 1},
+            "reviewed_evaluator_invocation_count": 1,
+            "task_count": 1,
+            "work_state_counts": {"succeeded": 1},
+        },
+        "filled_registration_hash_count": 1,
+        "first_missing_premise": "registered_action_bound_galaxy_prediction_bundle",
+        "missing_registration_hash_count": 17,
+        "object_specific_gravity_parameter_count": 0,
+        "observational_data_opened": False,
+        "prediction_bundle_registered": False,
+        "primary_record_access_count": 0,
+        "synthetic_control_decisions": {"covariance": "pass", "shape": "pass"},
+        "forward_model": {
+            "analytic_known_answer_pass_count": 3,
+            "covariance_control": "pass",
+            "decision": "blocked",
+            "filled_registration_hash_count": 3,
+            "first_missing_premise": "registered_baryonic_source_and_data_contracts",
+            "missing_registration_hash_count": 15,
+            "newly_filled_fields": [
+                "lensing_prediction_implementation_sha256",
+                "rotation_prediction_implementation_sha256",
+            ],
+            "object_specific_gravity_parameter_count": 0,
+            "observational_data_opened": False,
+            "prediction_bundle_registered": False,
+        },
     }
     assert "C:\\" not in json.dumps(first)
 

@@ -236,7 +236,13 @@ def build_unified_snapshot(
     llm_bridge = sources["llm_campaign_bridge"]
     g4_solar = sources["g4_solar_evaluator"]
     g4_solar_execution = sources["g4_solar_execution"]
+    g4_galaxy = sources["g4_galaxy_evaluator"]
+    g4_galaxy_execution = sources["g4_galaxy_execution"]
     typed_admission = sources["typed_dsl_admission"]
+    compiler_registry = sources["compiler_registry_bridge"]
+    local_formula_epoch = sources["reviewed_local_formula_epoch"]
+    local_formula_service = sources["reviewed_local_formula_service"]
+    g4_galaxy_forward_model = sources["g4_galaxy_forward_model"]
     if (
         llm_adapter.get("status") != "ready_disabled_no_network_no_spend"
         or llm_adapter.get("default_paid_calls_enabled") is not False
@@ -281,6 +287,33 @@ def build_unified_snapshot(
         or g4_solar_execution.get("primary_record_access_count") != 0
     ):
         raise ValueError("reviewed G4 Solar execution status is not fail-closed")
+    galaxy_decision = g4_galaxy.get("current_evaluator_decision", {})
+    if (
+        g4_galaxy.get("decision") != "blocked"
+        or g4_galaxy.get("descriptor_implementation_ready") is not True
+        or g4_galaxy.get("prediction_bundle_registered") is not False
+        or g4_galaxy.get("candidate_use_authorized") is not False
+        or g4_galaxy.get("observational_data_opened") is not False
+        or g4_galaxy.get("primary_record_access_count") != 0
+        or galaxy_decision.get("filled_registration_hash_count") != 1
+        or len(galaxy_decision.get("missing_registration_hashes", [])) != 17
+        or g4_galaxy["synthetic_controls"]["shape"].get(
+            "object_specific_gravity_parameter_count"
+        )
+        != 0
+    ):
+        raise ValueError("reviewed G4 galaxy evaluator readiness is not fail-closed")
+    if (
+        g4_galaxy_execution.get("decision_counts") != {"blocked": 1}
+        or g4_galaxy_execution.get("work_state_counts") != {"succeeded": 1}
+        or g4_galaxy_execution.get("reviewed_evaluator_invocation_count") != 1
+        or g4_galaxy_execution.get("filled_registration_hash_count") != 1
+        or g4_galaxy_execution.get("missing_registration_hash_count") != 17
+        or g4_galaxy_execution.get("prediction_bundle_registered") is not False
+        or g4_galaxy_execution.get("object_specific_gravity_parameter_count") != 0
+        or g4_galaxy_execution.get("observational_data_opened") is not False
+    ):
+        raise ValueError("reviewed G4 galaxy execution status is not fail-closed")
     if (
         typed_admission.get("status") != "ready_disabled_hash_only"
         or typed_admission.get("default_execution_enabled") is not False
@@ -290,6 +323,75 @@ def build_unified_snapshot(
         != {"block": 1, "enqueue": 1, "pass": 1, "reject": 9}
     ):
         raise ValueError("typed DSL admission readiness is not fail-closed")
+    if (
+        compiler_registry.get("status") != "ready_disabled_hash_only"
+        or compiler_registry.get("default_execution_enabled") is not False
+        or compiler_registry.get("candidate_body_persistence") is not False
+        or compiler_registry.get("next_stage_adapter_registered") is not False
+        or compiler_registry.get("novelty_claim_allowed") is not False
+        or compiler_registry.get("fixture_expected_counts")
+        != {"block": 1, "dedup": 1, "enqueue": 1, "pass": 1, "reject": 7}
+    ):
+        raise ValueError("compiler receipt registry readiness is not fail-closed")
+    expected_epoch = {
+        "candidate_count": 1,
+        "compiler_receipt_pass_count": 2,
+        "decision_counts": {"block": 1, "dedup": 1, "pass": 1, "reject": 1},
+        "network_calls": 0,
+        "next_stage_enqueue_count": 1,
+        "paid_spend_usd": "0.000000",
+        "policy_pass_count": 1,
+        "proposal_quarantine_count": 4,
+    }
+    if (
+        local_formula_epoch.get("status") != "ready_disabled_bounded_mock_only"
+        or local_formula_epoch.get("default_execution_enabled") is not False
+        or local_formula_epoch.get("formula_body_persistence") is not False
+        or local_formula_epoch.get("maximum_total_usd") != "500.000000"
+        or local_formula_epoch.get("network_calls") != 0
+        or local_formula_epoch.get("paid_spend_usd") != "0.000000"
+        or local_formula_epoch.get("expected_bounded_status") != expected_epoch
+    ):
+        raise ValueError("reviewed local formula epoch readiness is not fail-closed")
+    if (
+        local_formula_service.get("status")
+        != "ready_disabled_bounded_local_only"
+        or local_formula_service.get("default_execution_enabled") is not False
+        or local_formula_service.get("network_allowed") is not False
+        or local_formula_service.get("paid_spend_usd") != "0.000000"
+        or local_formula_service.get("deterministic_export") is not True
+        or local_formula_service.get("budgets")
+        != {
+            "maximum_attempts": 3,
+            "maximum_disk_bytes": 100_000_000,
+            "maximum_tasks": 1,
+            "maximum_wall_seconds": 120,
+        }
+    ):
+        raise ValueError("reviewed local formula service readiness is not fail-closed")
+    forward_decision = g4_galaxy_forward_model.get("current_evaluator_decision", {})
+    forward_controls = g4_galaxy_forward_model.get("synthetic_controls", {})
+    if (
+        g4_galaxy_forward_model.get("decision") != "blocked"
+        or g4_galaxy_forward_model.get("prediction_bundle_registered") is not False
+        or g4_galaxy_forward_model.get("candidate_use_authorized") is not False
+        or g4_galaxy_forward_model.get("observational_data_opened") is not False
+        or g4_galaxy_forward_model.get("primary_record_access_count") != 0
+        or g4_galaxy_forward_model.get("object_specific_gravity_parameter_count") != 0
+        or g4_galaxy_forward_model.get("dark_matter_or_halo_inputs") is not False
+        or g4_galaxy_forward_model.get("redshift_distance_inputs") is not False
+        or forward_decision.get("filled_registration_hash_count") != 3
+        or len(forward_decision.get("missing_registration_hashes", [])) != 15
+        or set(g4_galaxy_forward_model.get("newly_filled_registration_fields", {}))
+        != {
+            "lensing_prediction_implementation_sha256",
+            "rotation_prediction_implementation_sha256",
+        }
+        or set(forward_controls.get("analytic_known_answers", {}).values())
+        != {"pass"}
+        or forward_controls.get("covariance", {}).get("decision") != "pass"
+    ):
+        raise ValueError("G4 galaxy forward-model readiness is not fail-closed")
 
     blocker_gates: Counter[str] = Counter()
     for row in pareto["pareto_follow_up_queue"]:
@@ -336,6 +438,44 @@ def build_unified_snapshot(
             "fixture_expected_counts": typed_admission["fixture_expected_counts"],
             "formula_body_persistence": typed_admission["formula_body_persistence"],
             "status": typed_admission["status"],
+        },
+        "compiler_registry_bridge": {
+            "candidate_body_persistence": compiler_registry[
+                "candidate_body_persistence"
+            ],
+            "default_execution_enabled": compiler_registry[
+                "default_execution_enabled"
+            ],
+            "fixture_expected_counts": compiler_registry["fixture_expected_counts"],
+            "next_stage_adapter_registered": compiler_registry[
+                "next_stage_adapter_registered"
+            ],
+            "novelty_claim_allowed": compiler_registry["novelty_claim_allowed"],
+            "status": compiler_registry["status"],
+        },
+        "reviewed_local_epoch": {
+            "default_execution_enabled": local_formula_epoch[
+                "default_execution_enabled"
+            ],
+            "expected_bounded_status": local_formula_epoch["expected_bounded_status"],
+            "formula_body_persistence": local_formula_epoch[
+                "formula_body_persistence"
+            ],
+            "network_calls": local_formula_epoch["network_calls"],
+            "paid_spend_usd": local_formula_epoch["paid_spend_usd"],
+            "status": local_formula_epoch["status"],
+        },
+        "reviewed_local_service": {
+            "budgets": local_formula_service["budgets"],
+            "default_execution_enabled": local_formula_service[
+                "default_execution_enabled"
+            ],
+            "deterministic_export": local_formula_service[
+                "deterministic_export"
+            ],
+            "network_allowed": local_formula_service["network_allowed"],
+            "paid_spend_usd": local_formula_service["paid_spend_usd"],
+            "status": local_formula_service["status"],
         },
     }
     core = {
@@ -441,6 +581,63 @@ def build_unified_snapshot(
                 ],
                 "task_count": g4_solar_execution["task_count"],
                 "work_state_counts": g4_solar_execution["work_state_counts"],
+            },
+        },
+        "g4_galaxy_evaluator": {
+            "candidate_id": g4_galaxy["candidate"]["candidate_id"],
+            "decision": g4_galaxy["decision"],
+            "descriptor_implementation_ready": g4_galaxy[
+                "descriptor_implementation_ready"
+            ],
+            "filled_registration_hash_count": galaxy_decision[
+                "filled_registration_hash_count"
+            ],
+            "first_missing_premise": g4_galaxy["first_missing_premise"],
+            "missing_registration_hash_count": len(
+                galaxy_decision["missing_registration_hashes"]
+            ),
+            "object_specific_gravity_parameter_count": g4_galaxy[
+                "synthetic_controls"
+            ]["shape"]["object_specific_gravity_parameter_count"],
+            "observational_data_opened": g4_galaxy["observational_data_opened"],
+            "prediction_bundle_registered": g4_galaxy[
+                "prediction_bundle_registered"
+            ],
+            "primary_record_access_count": g4_galaxy["primary_record_access_count"],
+            "synthetic_control_decisions": {
+                key: value["decision"]
+                for key, value in sorted(g4_galaxy["synthetic_controls"].items())
+            },
+            "durable_execution": {
+                "decision_counts": g4_galaxy_execution["decision_counts"],
+                "reviewed_evaluator_invocation_count": g4_galaxy_execution[
+                    "reviewed_evaluator_invocation_count"
+                ],
+                "task_count": g4_galaxy_execution["task_count"],
+                "work_state_counts": g4_galaxy_execution["work_state_counts"],
+            },
+            "forward_model": {
+                "analytic_known_answer_pass_count": sum(
+                    status == "pass"
+                    for status in forward_controls["analytic_known_answers"].values()
+                ),
+                "covariance_control": forward_controls["covariance"]["decision"],
+                "decision": g4_galaxy_forward_model["decision"],
+                "filled_registration_hash_count": forward_decision[
+                    "filled_registration_hash_count"
+                ],
+                "first_missing_premise": g4_galaxy_forward_model[
+                    "first_missing_premise"
+                ],
+                "missing_registration_hash_count": len(
+                    forward_decision["missing_registration_hashes"]
+                ),
+                "newly_filled_fields": sorted(
+                    g4_galaxy_forward_model["newly_filled_registration_fields"]
+                ),
+                "object_specific_gravity_parameter_count": 0,
+                "observational_data_opened": False,
+                "prediction_bundle_registered": False,
             },
         },
         "grammar_parameter_cells": {
