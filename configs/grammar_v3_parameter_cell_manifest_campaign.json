@@ -1,0 +1,63 @@
+{
+  "schema_version": "sigma-grammar-v3-parameter-cell-manifest-config-1.0",
+  "campaign_id": "grammar-v3-reviewed-rational-parameter-cells-256-20260810",
+  "source_seed_manifest": {
+    "path": "runs/engine/covariant-grammar-v3-seed-manifest.json",
+    "file_sha256": "8c9a2454a71b9a6deb32f12c875a4d8cad8a1da5d78d7ded09d1798641b7d290",
+    "content_sha256": "e28ad576a68648f11892a3ff1fff5b7e18057f1ba0b27c89d538499e46de171b"
+  },
+  "evaluator_semantics_bindings": [
+    {
+      "path": "src/sigma_theory_compiler/covariant_grammar_v3_seed_compilation_campaign.py",
+      "file_sha256": "e496dcfbf598bd60a763fe0f5ebed739a8c0182e51d4ca0e913080525208f340"
+    },
+    {
+      "path": "configs/grammar_v3_seed_compilation_callback.json",
+      "file_sha256": "27bd97a37155cce3708ee114f6e22fadde08270d3ff93f8289130379458ce1ed"
+    }
+  ],
+  "finite_budget": {
+    "maximum_cells": 256,
+    "chunk_size": 32,
+    "family_quotas": {
+      "AETHER_K1234_PARAMETER_CELL": 128,
+      "KESSENCE_G2_CONVEX": 64,
+      "CUBIC_HORNDESKI_G3_WEAK_CELL": 32,
+      "CONFORMAL_G4_PHI_SCALAR_TENSOR": 32
+    }
+  },
+  "family_grids": {
+    "AETHER_K1234_PARAMETER_CELL": {
+      "c1": ["1/16", "1/8", "3/16", "1/4"],
+      "c2": ["0", "1/32", "1/16", "1/8"],
+      "c3": ["-1/16", "0", "1/16", "1/8"],
+      "c4": ["0", "1/16"]
+    },
+    "KESSENCE_G2_CONVEX": {
+      "alpha": ["1/8", "1/4"],
+      "X_max": {"numerator_start": 1, "numerator_stop": 32, "denominator": 32}
+    },
+    "CUBIC_HORNDESKI_G3_WEAK_CELL": {
+      "beta": {"numerator_start": 1, "numerator_stop": 32, "denominator": 3200}
+    },
+    "CONFORMAL_G4_PHI_SCALAR_TENSOR": {
+      "xi": ["1/100"],
+      "phi_max": {"numerator_start": 1, "numerator_stop": 32, "denominator": 32}
+    }
+  },
+  "negative_controls": [
+    {"control_id": "DUPLICATE-EXACT-CELL", "kind": "duplicate_cell"},
+    {"control_id": "EQUIVALENT-NONCANONICAL-RATIONAL", "kind": "equivalent_rational", "value": "2/16", "canonical_value": "1/8"},
+    {"control_id": "INVALID-NEGATIVE-CONVEXITY", "kind": "invalid_parameter_domain", "alpha": "-1/8"},
+    {"control_id": "FINITE-BUDGET-OVERFLOW", "kind": "budget_overflow", "requested_cells": 257},
+    {"control_id": "FORBIDDEN-OBSERVATIONAL-INPUT", "kind": "forbidden_data_input", "data_eligibility": {"observational_data_opened": true, "dark_matter_or_halo_inputs": false, "redshift_distance_inputs": false, "paid_llm_calls": false}},
+    {"control_id": "INVALID-ZERO-DENOMINATOR", "kind": "invalid_rational", "value": "1/0"}
+  ],
+  "data_eligibility": {
+    "observational_data_opened": false,
+    "dark_matter_or_halo_inputs": false,
+    "redshift_distance_inputs": false,
+    "paid_llm_calls": false
+  },
+  "external_paid_llm_calls": false
+}

@@ -1,0 +1,18 @@
+{
+  "schema_version": "sigma-grammar-v3-formal-preflight-service-config-1.0",
+  "execution_enabled": false,
+  "compilation_campaign": {"path": "runs/engine/grammar-v3-parameter-cell-compilation-campaign.json", "file_sha256": "5d235d1946dbd5153013eb34362ed0289a436a050c9b34f75b126e1cdcc09d80", "content_sha256": "53062e9e1296bfffb6834c36562462688946121db4ce1aff0e6e9d4e1389ac92"},
+  "parameter_cell_manifest": {"path": "runs/engine/grammar-v3-parameter-cell-manifest.json", "file_sha256": "dacbee621057d804ffa7e8b43ba99ea0efe598ca1ec68f549f8ab8b71af14700", "content_sha256": "d25af1508b44e5c975c1044d75d1f302e8e63c8eb4f008c353ed145fb33b99e8"},
+  "source_seed_manifest": {"path": "runs/engine/covariant-grammar-v3-seed-manifest.json", "file_sha256": "8c9a2454a71b9a6deb32f12c875a4d8cad8a1da5d78d7ded09d1798641b7d290", "content_sha256": "e28ad576a68648f11892a3ff1fff5b7e18057f1ba0b27c89d538499e46de171b"},
+  "coordinator_config": {"path": "configs/persistent_parallel_search_5090.json", "file_sha256": "c61a6a8609f38b2e226de7e02ffe257049211ae6ab45ab77053e2b5bdf47d137"},
+  "resource_profile": {"path": "configs/resource_profile_5090.json", "file_sha256": "7cefb93ee81f589bc4632e90900e5e67aa97c19b9b31ad3315b9114b5df14a26"},
+  "reviewed_adapters": [
+    {"family_id": "AETHER_K1234_PARAMETER_CELL", "adapter_id": "aether_flrw_noether_preflight", "callback": "sigma_theory_compiler.covariant_identities:einstein_aether_flrw_variation_control", "source_path": "src/sigma_theory_compiler/covariant_identities.py", "source_file_sha256": "0a4a3aee1754e1b2b5523457705ffb876185673ac2766bb4bf08f14fd3822fe4"},
+    {"family_id": "KESSENCE_G2_CONVEX", "adapter_id": "generic_g2_variation_noether_preflight", "callback": "sigma_theory_compiler.scalar_tensor_pack:generic_g2_variation_noether_control", "source_path": "src/sigma_theory_compiler/scalar_tensor_pack.py", "source_file_sha256": "156fc763674fda9b8503f3234e4f1c6005af93d5639e28b27a11eef8199c8eaf"},
+    {"family_id": "CUBIC_HORNDESKI_G3_WEAK_CELL", "adapter_id": "generic_g3_variation_noether_preflight", "callback": "sigma_theory_compiler.scalar_tensor_pack:generic_g3_variation_noether_control", "source_path": "src/sigma_theory_compiler/scalar_tensor_pack.py", "source_file_sha256": "156fc763674fda9b8503f3234e4f1c6005af93d5639e28b27a11eef8199c8eaf"},
+    {"family_id": "CONFORMAL_G4_PHI_SCALAR_TENSOR", "adapter_id": "x_independent_g4_pack_preflight", "callback": "sigma_theory_compiler.scalar_tensor_pack:compile_scalar_tensor_pack", "source_path": "src/sigma_theory_compiler/scalar_tensor_pack.py", "source_file_sha256": "156fc763674fda9b8503f3234e4f1c6005af93d5639e28b27a11eef8199c8eaf"}
+  ],
+  "budget": {"maximum_tasks": 163, "chunk_size": 32, "maximum_attempts": 3, "maximum_wall_seconds": 120, "maximum_disk_bytes": 67108864, "maximum_paid_llm_spend_usd": 0.0},
+  "data_eligibility": {"observational_data_opened": false, "dark_matter_or_halo_inputs": false, "redshift_distance_inputs": false, "paid_llm_calls": false},
+  "external_paid_llm_calls": false
+}

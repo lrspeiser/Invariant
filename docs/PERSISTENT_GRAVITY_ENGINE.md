@@ -179,6 +179,37 @@ prediction bundle was therefore generated for this billion-formula family, and i
 remains zero. The separate grammar-v3 campaign has six typed candidates; its conformal G4 candidate
 has a formal pass and a reviewed Solar evaluator, while the other five remain blocked at declared
 formal prerequisites.
+The six reviewed parameter cells can now be replayed through a restart-safe three-chunk expansion
+service with outer/child leases, checkpoints, recovery, deduplication, exact callback lineage, and
+hard task/wall/disk/retry/$0 bounds. This validates the execution topology only; the service refuses
+to infer cells outside the current reviewed manifest.
+A separate reviewed manifest now defines 256 exact rational cells in eight deterministic chunks:
+128 Aether, 64 convex k-essence, 32 cubic G3, and 32 conformal G4. It deduplicates exact and
+rationally equivalent cells and enforces domain/resource/data seals. These cells are queued theory
+definitions only; no formal outcome is claimed until a new compiler/formal campaign consumes the
+manifest.
+A reviewed cheap compiler now consumes all 256 cells and emits typed action-IR receipts. Canonical
+action-density equivalence yields 163 unique candidates and 93 aliases while preserving every cell's
+lineage. All eight cheap structural/policy/data gates pass. A restart-safe reviewed preflight service
+then evaluates all 163 unique actions: 162 pass their family prerequisite and one conformal-G4
+action blocks on its existing scalar pack. A separate durable admission service excludes that block
+and queues 128 Aether, two k-essence, and 32 cubic-G3 actions. Neither service runs the expensive
+ADM/global-energy campaigns, so queue admission is not a full formal pass. The two-candidate G2
+queue has since executed its reviewed candidate-specific formal stack: both pass local
+variation/Noether, ADM/Legendre, Dirac, principal/common-cone, Hamiltonian, DEC, boundary-flux, and
+restricted maximal-slice positive-mass gates, but both block on the missing general nonmaximal
+positive-mass theorem; neither is promoted.
+The 128-action Aether queue now has its own exact necessary gate as well: two `c123=0` actions are
+rejected by zero spin-0 speed squared, while 126 remain blocked. The blocked taxonomy separates 79
+finite negative local twist-density witnesses without full constraint/boundary embedding, eight
+actions without a uniform large-tilt gap, and 39 that preserve the local gap but lack the generic
+twisting reduced-Hamiltonian/global-energy theorem.
+The 32-action cubic-G3 queue also has a restart-safe candidate-specific formal service. Every action
+passes the reviewed covariant, ADM-primary, local principal/common-cone, periodic lapse-coercivity,
+periodic distributed-Dirac, finite AF-tail, and AF-reference principal gates. Every action remains
+blocked at the same exact boundary: the AF lapse multiplier admits approximate zero modes as
+`X -> 0`, so uniform AF Dirac invertibility, an AF Einstein-constraint solution, global energy, and
+full formal completion remain false. This is a blocker, not a rejection or a fitted score.
 `rust_parallel_streaming_search.py` now integrates with the durable
 start/status/stop/resume/export lifecycle while preserving one cached CUDA consumer, heartbeats,
 dead-owner recovery, the original execution deadline, exact ordered lineage, and all data/LLM
@@ -206,8 +237,19 @@ prediction, primary-file, split, likelihood, covariance, and stopping hashes mis
 records. Its candidate-specific galaxy evaluator and future direct-observable prediction contract
 are also implemented. A scalar-free-branch forward model now hash-binds the rotation and lensing
 implementations and passes three analytic controls, bringing staged registration to three filled
-and 15 source/split/covariance registrations missing; halo targets, redshift distances, inferred
-lensing mass, and per-galaxy gravity parameters are forbidden. The LLM path reaches a separate hash-only reviewed compiler
+and 15 source/split/covariance registrations missing. A subsequent exact branch/domain and
+non-redshift distance/geometry registration advances the ledger to five filled and 13 missing,
+and a shared-calibration/covariance/likelihood/stopping policy slice advances it again to nine
+filled and nine missing. The held-out split policy is hash-bound but does not count as a real split
+commitment without a source manifest. Source-specific branch selection, real source geometry, the
+training checkpoint, prediction bundle, and primary roots remain absent. A further audited slice
+registers the exact bundle contract and a candidate-bound raw-to-calibrated transform with full
+cross-channel covariance propagation, moving the ledger to 11 filled and seven missing while
+leaving real transform values and bundle content unregistered. A deterministic independent-manifest
+auditor, prediction-bundle builder, and source-registry admission callback now exist, but checked-in
+execution is disabled. Synthetic fixtures cannot register, zero source/target records were opened,
+and the ledger remains 11/seven pending an explicit independent source-opening authorization. Halo targets, redshift distances, inferred lensing mass, and
+per-galaxy gravity parameters are forbidden. The LLM path reaches a separate hash-only reviewed compiler
 queue in synthetic tests. A follow-on bridge now revalidates the receipt, reruns the existing
 canonicalization/equivalence classifier, deduplicates exact action-IR matches without claiming
 novelty, and can register a hash-only candidate before the reviewed `policy_validate` queue.

@@ -228,6 +228,15 @@ def build_unified_snapshot(
     streaming = sources["billion_streaming"]
     promotion = sources["promotion_overlay"]
     parameter = sources["grammar_parameter_cells"]
+    parameter_expansion = sources["grammar_parameter_cell_expansion_service"]
+    grammar_seed_manifest = sources["grammar_v3_seed_manifest"]
+    parameter_manifest = sources["grammar_parameter_cell_manifest"]
+    parameter_compilation = sources["grammar_parameter_cell_compilation"]
+    formal_preflight = sources["grammar_v3_formal_preflight"]
+    promotion_admission = sources["grammar_v3_promotion_admission"]
+    g2_candidate_formal = sources["grammar_v3_g2_candidate_formal"]
+    g3_candidate_formal = sources["grammar_v3_g3_candidate_formal"]
+    aether_candidate_formal = sources["grammar_v3_aether_candidate_formal"]
     pareto = sources["evidence_pareto"]
     followup = sources["followup_service"]
     followup_queue = sources["followup_queue"]
@@ -243,6 +252,303 @@ def build_unified_snapshot(
     local_formula_epoch = sources["reviewed_local_formula_epoch"]
     local_formula_service = sources["reviewed_local_formula_service"]
     g4_galaxy_forward_model = sources["g4_galaxy_forward_model"]
+    g4_galaxy_branch_distance = sources["g4_galaxy_branch_distance"]
+    g4_galaxy_calibration_evaluation = sources[
+        "g4_galaxy_calibration_evaluation"
+    ]
+    g4_galaxy_prediction_contract_transform = sources[
+        "g4_galaxy_prediction_contract_transform"
+    ]
+    g4_galaxy_manifest_bundle_tooling = sources[
+        "g4_galaxy_manifest_bundle_tooling"
+    ]
+    g4_galaxy_source_registry_admission = sources[
+        "g4_galaxy_source_registry_admission"
+    ]
+    if (
+        parameter_expansion.get("execution_enabled") is not True
+        or parameter_expansion.get("parameter_cell_count") != 6
+        or parameter_expansion.get("chunk_count") != 3
+        or parameter_expansion.get("work_state_counts") != {"succeeded": 3}
+        or parameter_expansion.get("decision_counts") != {"blocked": 6}
+        or parameter_expansion.get("paid_llm_spend_usd") != 0.0
+        or parameter_expansion.get("observational_data_opened") is not False
+        or parameter_expansion.get("data_eligibility")
+        != {
+            "dark_matter_or_halo_inputs": False,
+            "observational_data_opened": False,
+            "paid_llm_calls": False,
+            "passed": True,
+            "redshift_distance_inputs": False,
+        }
+        or parameter_expansion.get("source_manifest_content_sha256")
+        != grammar_seed_manifest.get("content_sha256")
+    ):
+        raise ValueError("grammar parameter-cell expansion service is inconsistent")
+    if (
+        parameter_manifest.get("parameter_cell_count") != 256
+        or parameter_manifest.get("family_cell_counts")
+        != {
+            "AETHER_K1234_PARAMETER_CELL": 128,
+            "CONFORMAL_G4_PHI_SCALAR_TENSOR": 32,
+            "CUBIC_HORNDESKI_G3_WEAK_CELL": 32,
+            "KESSENCE_G2_CONVEX": 64,
+        }
+        or len(parameter_manifest.get("chunks", [])) != 8
+        or parameter_manifest.get("formal_evaluation_performed") is not False
+        or parameter_manifest.get("scientific_decision_counts") != {}
+        or parameter_manifest.get("evaluator_semantics_changed") is not False
+        or parameter_manifest.get("negative_control_counts") != {"reject": 6}
+        or parameter_manifest.get("data_eligibility")
+        != {
+            "dark_matter_or_halo_inputs": False,
+            "observational_data_opened": False,
+            "paid_llm_calls": False,
+            "redshift_distance_inputs": False,
+        }
+        or parameter_manifest.get("source_seed_manifest_content_sha256")
+        != grammar_seed_manifest.get("content_sha256")
+    ):
+        raise ValueError("grammar parameter-cell manifest is inconsistent")
+    if (
+        parameter_compilation.get("input_parameter_cell_count") != 256
+        or parameter_compilation.get("compiled_action_ir_count") != 256
+        or parameter_compilation.get("unique_candidate_count") != 163
+        or parameter_compilation.get("equivalent_duplicate_count") != 93
+        or parameter_compilation.get("candidate_decision_counts")
+        != {"blocked": 0, "pass": 163, "reject": 0}
+        or parameter_compilation.get("formal_decision_counts") != {}
+        or parameter_compilation.get("expensive_formal_campaign_run") is not False
+        or parameter_compilation.get("cell_disposition_counts")
+        != {"compiled_representative": 163, "deduplicated_equivalent": 93}
+        or set(parameter_compilation.get("structural_gate_pass_counts", {}).values())
+        != {256}
+        or parameter_compilation.get("negative_control_counts") != {"reject": 5}
+        or parameter_compilation.get("data_eligibility")
+        != {
+            "dark_matter_or_halo_inputs": False,
+            "observational_data_opened": False,
+            "paid_llm_calls": False,
+            "redshift_distance_inputs": False,
+        }
+        or parameter_compilation.get("parameter_cell_manifest_binding", {}).get(
+            "content_sha256"
+        )
+        != parameter_manifest.get("content_sha256")
+    ):
+        raise ValueError("grammar parameter-cell compilation is inconsistent")
+    if (
+        formal_preflight.get("execution_enabled") is not True
+        or formal_preflight.get("candidate_count") != 163
+        or formal_preflight.get("work_state_counts") != {"succeeded": 163}
+        or formal_preflight.get("decision_counts") != {"blocked": 1, "pass": 162}
+        or formal_preflight.get("gate_counts")
+        != {
+            "family_prerequisite": {"blocked": 1, "pass": 162},
+            "receipt_binding": {"pass": 163},
+        }
+        or formal_preflight.get("family_decision_counts")
+        != {
+            "AETHER_K1234_PARAMETER_CELL": {"pass": 128},
+            "CONFORMAL_G4_PHI_SCALAR_TENSOR": {"blocked": 1},
+            "CUBIC_HORNDESKI_G3_WEAK_CELL": {"pass": 32},
+            "KESSENCE_G2_CONVEX": {"pass": 2},
+        }
+        or formal_preflight.get("candidate_registry_root_sha256")
+        != parameter_compilation.get("unique_candidate_registry_root_sha256")
+        or formal_preflight.get("compilation_campaign_content_sha256")
+        != parameter_compilation.get("content_sha256")
+        or formal_preflight.get("expensive_adm_or_global_energy_run") is not False
+        or formal_preflight.get("paid_llm_spend_usd") != 0.0
+        or formal_preflight.get("observational_data_opened") is not False
+        or formal_preflight.get("data_eligibility")
+        != {
+            "dark_matter_or_halo_inputs": False,
+            "observational_data_opened": False,
+            "paid_llm_calls": False,
+            "passed": True,
+            "redshift_distance_inputs": False,
+        }
+    ):
+        raise ValueError("grammar-v3 formal preflight is inconsistent")
+    if (
+        promotion_admission.get("execution_enabled") is not True
+        or promotion_admission.get("preflight_candidate_count") != 163
+        or promotion_admission.get("preflight_pass_count") != 162
+        or promotion_admission.get("preflight_blocked_excluded_count") != 1
+        or promotion_admission.get("eligible_candidate_count") != 162
+        or promotion_admission.get("work_state_counts") != {"succeeded": 162}
+        or promotion_admission.get("decision_counts") != {"pass": 162}
+        or promotion_admission.get("family_decision_counts")
+        != {
+            "AETHER_K1234_PARAMETER_CELL": {"pass": 128},
+            "CUBIC_HORNDESKI_G3_WEAK_CELL": {"pass": 32},
+            "KESSENCE_G2_CONVEX": {"pass": 2},
+        }
+        or promotion_admission.get("target_queue_counts")
+        != {
+            "grammar_v3_aether_candidate_adm_formal": 128,
+            "grammar_v3_g2_candidate_adm_formal": 2,
+            "grammar_v3_g3_candidate_adm_formal": 32,
+        }
+        or set(promotion_admission.get("target_queue_registry_roots", {}))
+        != {
+            "grammar_v3_aether_candidate_adm_formal",
+            "grammar_v3_g2_candidate_adm_formal",
+            "grammar_v3_g3_candidate_adm_formal",
+        }
+        or promotion_admission.get("downstream_expensive_execution_started")
+        is not False
+        or promotion_admission.get("preflight_status_binding")
+        != {
+            "content_sha256": formal_preflight.get("content_sha256"),
+            "file_sha256": "03387c868b9074d71ca79691ed92d0ba293dffea2dfb3169d342c67c1a4fc210",
+            "path": "runs/engine/grammar-v3-formal-preflight-status.json",
+        }
+        or promotion_admission.get("preflight_config_binding")
+        != {
+            "file_sha256": "48253e2fefec23887435b567e1ee52c8d4e7b7257933980d9a9110684b33c7b2",
+            "path": "configs/grammar_v3_formal_preflight_service.json",
+        }
+        or promotion_admission.get("paid_llm_spend_usd") != 0.0
+        or promotion_admission.get("observational_data_opened") is not False
+        or promotion_admission.get("data_eligibility")
+        != {
+            "dark_matter_or_halo_inputs": False,
+            "observational_data_opened": False,
+            "paid_llm_calls": False,
+            "passed": True,
+            "redshift_distance_inputs": False,
+        }
+    ):
+        raise ValueError("grammar-v3 promotion admission is inconsistent")
+    if (
+        g2_candidate_formal.get("execution_enabled") is not True
+        or g2_candidate_formal.get("candidate_count") != 2
+        or g2_candidate_formal.get("work_state_counts") != {"succeeded": 2}
+        or g2_candidate_formal.get("decision_counts") != {"blocked": 2}
+        or g2_candidate_formal.get("full_formal_pass_count") != 0
+        or g2_candidate_formal.get("blocker_counts")
+        != {"hash_bound_general_nonmaximal_positive_mass_theorem": 2}
+        or g2_candidate_formal.get("general_nonmaximal_global_positive_mass_proved")
+        is not False
+        or g2_candidate_formal.get("gate_counts", {}).get(
+            "candidate_action_preflight_admission_binding"
+        )
+        != {"pass": 2}
+        or g2_candidate_formal.get("gate_counts", {}).get(
+            "restricted_maximal_slice_positive_mass"
+        )
+        != {"pass": 2}
+        or g2_candidate_formal.get("gate_counts", {}).get(
+            "general_nonmaximal_positive_mass"
+        )
+        != {"blocked": 2}
+        or g2_candidate_formal.get("promotion_status_binding", {}).get(
+            "content_sha256"
+        )
+        != promotion_admission.get("content_sha256")
+        or g2_candidate_formal.get("paid_llm_spend_usd") != 0.0
+        or g2_candidate_formal.get("observational_data_opened") is not False
+        or g2_candidate_formal.get("data_eligibility")
+        != {
+            "dark_matter_or_halo_inputs": False,
+            "observational_data_opened": False,
+            "paid_llm_calls": False,
+            "passed": True,
+            "redshift_distance_inputs": False,
+        }
+    ):
+        raise ValueError("grammar-v3 G2 candidate formal service is inconsistent")
+    if (
+        aether_candidate_formal.get("candidate_count") != 128
+        or aether_candidate_formal.get("input_preflight_pass_count") != 128
+        or aether_candidate_formal.get("decision_counts")
+        != {"blocked": 126, "reject": 2}
+        or aether_candidate_formal.get("formal_pass_count") != 0
+        or aether_candidate_formal.get("solar_bundle_count") != 0
+        or aether_candidate_formal.get("gate_finding_counts")
+        != {
+            "finite_characteristic_slicing_present": 121,
+            "finite_negative_local_density_witness": 79,
+            "globally_noncharacteristic_for_finite_unit_tilt": 5,
+            "positive_at_every_finite_tilt_but_no_uniform_gap": 8,
+            "principal_spin0_degeneracy_reject": 2,
+            "uniform_positive_static_local_twist_gap": 39,
+        }
+        or len(aether_candidate_formal.get("candidate_bindings", [])) != 128
+        or len(
+            {
+                row.get("candidate_id")
+                for row in aether_candidate_formal.get("candidate_bindings", [])
+            }
+        )
+        != 128
+        or aether_candidate_formal.get("provenance", {}).get(
+            "formal_preflight_status_sha256"
+        )
+        != formal_preflight.get("content_sha256")
+        or aether_candidate_formal.get("provenance", {}).get(
+            "compilation_campaign_sha256"
+        )
+        != parameter_compilation.get("content_sha256")
+        or aether_candidate_formal.get("paid_llm_spend_usd") != 0.0
+        or aether_candidate_formal.get("observational_data_opened") is not False
+        or aether_candidate_formal.get("dark_matter_or_halo_inputs") is not False
+        or aether_candidate_formal.get("redshift_distance_inputs") is not False
+        or aether_candidate_formal.get("data_eligibility")
+        != {
+            "dark_matter_or_halo_inputs": False,
+            "observational_data_opened": False,
+            "paid_llm_calls": False,
+            "redshift_distance_inputs": False,
+        }
+    ):
+        raise ValueError("grammar-v3 Aether candidate formal campaign is inconsistent")
+    if (
+        g3_candidate_formal.get("execution_enabled") is not True
+        or g3_candidate_formal.get("candidate_count") != 32
+        or g3_candidate_formal.get("work_state_counts") != {"succeeded": 32}
+        or g3_candidate_formal.get("decision_counts") != {"blocked": 32}
+        or g3_candidate_formal.get("full_formal_pass_count") != 0
+        or g3_candidate_formal.get("necessary_condition_rejection_count") != 0
+        or g3_candidate_formal.get("blocker_counts")
+        != {"uniformly_invertible_Delta_N_on_AF_decaying_gradient_domain": 32}
+        or g3_candidate_formal.get("gate_counts", {}).get(
+            "candidate_action_preflight_admission_binding"
+        )
+        != {"pass": 32}
+        or g3_candidate_formal.get("gate_counts", {}).get(
+            "uniform_local_principal_symbol"
+        )
+        != {"pass": 32}
+        or g3_candidate_formal.get("gate_counts", {}).get(
+            "distributed_Dirac_on_periodic_cell"
+        )
+        != {"pass": 32}
+        or g3_candidate_formal.get("gate_counts", {}).get(
+            "af_uniform_lapse_Dirac_invertibility"
+        )
+        != {"blocked": 32}
+        or g3_candidate_formal.get("promotion_status_binding", {}).get(
+            "content_sha256"
+        )
+        != promotion_admission.get("content_sha256")
+        or g3_candidate_formal.get("af_global_constraint_solution_proved")
+        is not False
+        or g3_candidate_formal.get("global_positive_energy_proved") is not False
+        or g3_candidate_formal.get("paid_llm_spend_usd") != 0.0
+        or g3_candidate_formal.get("observational_data_opened") is not False
+        or g3_candidate_formal.get("data_eligibility")
+        != {
+            "dark_matter_or_halo_inputs": False,
+            "observational_data_opened": False,
+            "paid_llm_calls": False,
+            "passed": True,
+            "redshift_distance_inputs": False,
+        }
+    ):
+        raise ValueError("grammar-v3 G3 candidate formal service is inconsistent")
     if (
         llm_adapter.get("status") != "ready_disabled_no_network_no_spend"
         or llm_adapter.get("default_paid_calls_enabled") is not False
@@ -392,6 +698,275 @@ def build_unified_snapshot(
         or forward_controls.get("covariance", {}).get("decision") != "pass"
     ):
         raise ValueError("G4 galaxy forward-model readiness is not fail-closed")
+    branch_distance_decision = g4_galaxy_branch_distance.get(
+        "current_evaluator_decision", {}
+    )
+    if (
+        g4_galaxy_branch_distance.get("decision") != "blocked"
+        or g4_galaxy_branch_distance.get("prediction_bundle_registered") is not False
+        or g4_galaxy_branch_distance.get("candidate_use_authorized") is not False
+        or g4_galaxy_branch_distance.get("observational_data_opened") is not False
+        or g4_galaxy_branch_distance.get("primary_record_access_count") != 0
+        or g4_galaxy_branch_distance.get("real_source_geometry_registered") is not False
+        or g4_galaxy_branch_distance.get("source_specific_branch_selection_proven")
+        is not False
+        or g4_galaxy_branch_distance.get("object_specific_gravity_parameter_count")
+        != 0
+        or g4_galaxy_branch_distance.get("dark_matter_or_halo_inputs") is not False
+        or g4_galaxy_branch_distance.get("redshift_distance_inputs") is not False
+        or branch_distance_decision.get("filled_registration_hash_count") != 5
+        or len(branch_distance_decision.get("missing_registration_hashes", [])) != 13
+        or set(g4_galaxy_branch_distance.get("newly_filled_registration_fields", {}))
+        != {
+            "branch_and_domain_contract_sha256",
+            "distance_mode_contract_sha256",
+        }
+        or set(
+            g4_galaxy_branch_distance.get(
+                "preserved_predecessor_registration_fields", {}
+            )
+        )
+        != {
+            "reviewed_candidate_galaxy_evaluator_descriptor_sha256",
+            "rotation_prediction_implementation_sha256",
+            "lensing_prediction_implementation_sha256",
+        }
+        or g4_galaxy_branch_distance.get("branch_contract_status")
+        != "certified_exact_conditional_branch"
+        or g4_galaxy_branch_distance.get("distance_geometry_contract_status")
+        != "certified_interface_no_real_values"
+        or g4_galaxy_branch_distance.get("provenance", {}).get(
+            "forward_model_predecessor_sha256"
+        )
+        != g4_galaxy_forward_model.get("content_sha256")
+    ):
+        raise ValueError("G4 galaxy branch/distance registration is not fail-closed")
+    calibration_decision = g4_galaxy_calibration_evaluation.get(
+        "current_evaluator_decision", {}
+    )
+    if (
+        g4_galaxy_calibration_evaluation.get("decision") != "blocked"
+        or g4_galaxy_calibration_evaluation.get("prediction_bundle_registered")
+        is not False
+        or g4_galaxy_calibration_evaluation.get("candidate_use_authorized")
+        is not False
+        or g4_galaxy_calibration_evaluation.get("observational_data_opened")
+        is not False
+        or g4_galaxy_calibration_evaluation.get("primary_record_access_count") != 0
+        or g4_galaxy_calibration_evaluation.get(
+            "object_specific_gravity_parameter_count"
+        )
+        != 0
+        or g4_galaxy_calibration_evaluation.get("dark_matter_or_halo_inputs")
+        is not False
+        or g4_galaxy_calibration_evaluation.get("redshift_distance_inputs")
+        is not False
+        or g4_galaxy_calibration_evaluation.get("paid_llm_spend_usd") != 0.0
+        or calibration_decision.get("filled_registration_hash_count") != 9
+        or len(calibration_decision.get("missing_registration_hashes", [])) != 9
+        or set(
+            g4_galaxy_calibration_evaluation.get(
+                "newly_filled_registration_fields", {}
+            )
+        )
+        != {
+            "baryonic_calibration_hierarchy_sha256",
+            "joint_covariance_contract_sha256",
+            "likelihood_contract_sha256",
+            "stopping_rule_sha256",
+        }
+        or set(
+            g4_galaxy_calibration_evaluation.get(
+                "preserved_predecessor_registration_fields", {}
+            )
+        )
+        != {
+            "branch_and_domain_contract_sha256",
+            "distance_mode_contract_sha256",
+            "reviewed_candidate_galaxy_evaluator_descriptor_sha256",
+            "rotation_prediction_implementation_sha256",
+            "lensing_prediction_implementation_sha256",
+        }
+        or set(
+            g4_galaxy_calibration_evaluation.get(
+                "non_registration_policy_hashes", {}
+            )
+        )
+        != {"held_out_split_policy_sha256"}
+        or set(
+            g4_galaxy_calibration_evaluation.get(
+                "deliberately_unfilled_registration_fields", {}
+            )
+        )
+        != {
+            "galaxy_split_commitment_sha256",
+            "training_only_checkpoint_sha256",
+        }
+        or g4_galaxy_calibration_evaluation.get("provenance", {}).get(
+            "predecessor_content_sha256"
+        )
+        != g4_galaxy_branch_distance.get("content_sha256")
+    ):
+        raise ValueError("G4 galaxy calibration/evaluation registration is not fail-closed")
+    transform_decision = g4_galaxy_prediction_contract_transform.get(
+        "current_evaluator_decision", {}
+    )
+    if (
+        g4_galaxy_prediction_contract_transform.get("decision") != "blocked"
+        or g4_galaxy_prediction_contract_transform.get(
+            "prediction_bundle_registered"
+        )
+        is not False
+        or g4_galaxy_prediction_contract_transform.get("candidate_use_authorized")
+        is not False
+        or g4_galaxy_prediction_contract_transform.get("observational_data_opened")
+        is not False
+        or g4_galaxy_prediction_contract_transform.get("primary_record_access_count")
+        != 0
+        or g4_galaxy_prediction_contract_transform.get(
+            "object_specific_gravity_parameter_count"
+        )
+        != 0
+        or g4_galaxy_prediction_contract_transform.get("dark_matter_or_halo_inputs")
+        is not False
+        or g4_galaxy_prediction_contract_transform.get("redshift_distance_inputs")
+        is not False
+        or g4_galaxy_prediction_contract_transform.get("paid_llm_spend_usd") != 0.0
+        or g4_galaxy_prediction_contract_transform.get(
+            "real_transform_inputs_registered"
+        )
+        is not False
+        or transform_decision.get("filled_registration_hash_count") != 11
+        or len(transform_decision.get("missing_registration_hashes", [])) != 7
+        or set(
+            g4_galaxy_prediction_contract_transform.get(
+                "newly_filled_registration_fields", {}
+            )
+        )
+        != {
+            "prediction_bundle_contract_sha256",
+            "raw_to_calibrated_transform_sha256",
+        }
+        or len(
+            g4_galaxy_prediction_contract_transform.get(
+                "preserved_predecessor_registration_fields", {}
+            )
+        )
+        != 9
+        or g4_galaxy_prediction_contract_transform.get("provenance", {}).get(
+            "predecessor_content_sha256"
+        )
+        != g4_galaxy_calibration_evaluation.get("content_sha256")
+        or g4_galaxy_prediction_contract_transform.get("synthetic_control", {}).get(
+            "cross_channel_covariance_retained"
+        )
+        is not True
+        or g4_galaxy_prediction_contract_transform.get("synthetic_control", {}).get(
+            "real_operator_or_values_registered"
+        )
+        is not False
+    ):
+        raise ValueError("G4 galaxy prediction/transform registration is not fail-closed")
+    tooling_decision = g4_galaxy_manifest_bundle_tooling.get(
+        "unchanged_evaluator_decision", {}
+    )
+    tooling_controls = g4_galaxy_manifest_bundle_tooling.get(
+        "synthetic_controls", {}
+    )
+    if (
+        g4_galaxy_manifest_bundle_tooling.get("decision") != "blocked"
+        or g4_galaxy_manifest_bundle_tooling.get("candidate_use_authorized")
+        is not False
+        or g4_galaxy_manifest_bundle_tooling.get("observational_data_opened")
+        is not False
+        or g4_galaxy_manifest_bundle_tooling.get("primary_record_access_count") != 0
+        or g4_galaxy_manifest_bundle_tooling.get("prediction_bundle_registered")
+        is not False
+        or g4_galaxy_manifest_bundle_tooling.get("dataset_manifest_registered")
+        is not False
+        or g4_galaxy_manifest_bundle_tooling.get(
+            "independent_registry_receipt_registered"
+        )
+        is not False
+        or g4_galaxy_manifest_bundle_tooling.get("dark_matter_or_halo_inputs")
+        is not False
+        or g4_galaxy_manifest_bundle_tooling.get("redshift_distance_inputs")
+        is not False
+        or g4_galaxy_manifest_bundle_tooling.get("paid_llm_spend_usd") != 0.0
+        or g4_galaxy_manifest_bundle_tooling.get("filled_registration_hash_count")
+        != 11
+        or g4_galaxy_manifest_bundle_tooling.get("missing_registration_hash_count")
+        != 7
+        or g4_galaxy_manifest_bundle_tooling.get("newly_filled_registration_fields")
+        != {}
+        or tooling_decision.get("filled_registration_hash_count") != 11
+        or len(tooling_decision.get("missing_registration_hashes", [])) != 7
+        or tooling_controls.get("manifest_audit_registration_admissible") is not False
+        or tooling_controls.get("bundle_draft_registration_admissible") is not False
+        or tooling_controls.get("synthetic_values_promoted") is not False
+        or g4_galaxy_manifest_bundle_tooling.get("tooling_readiness", {}).get(
+            "enabled"
+        )
+        is not False
+        or g4_galaxy_manifest_bundle_tooling.get("provenance", {}).get(
+            "predecessor_content_sha256"
+        )
+        != g4_galaxy_prediction_contract_transform.get("content_sha256")
+    ):
+        raise ValueError("G4 galaxy manifest/bundle tooling is not fail-closed")
+    source_registry_decision = g4_galaxy_source_registry_admission.get(
+        "unchanged_evaluator_decision", {}
+    )
+    source_registry_readiness = g4_galaxy_source_registry_admission.get(
+        "admission_readiness", {}
+    )
+    if (
+        g4_galaxy_source_registry_admission.get("decision") != "blocked"
+        or g4_galaxy_source_registry_admission.get("service_enabled") is not False
+        or g4_galaxy_source_registry_admission.get("start_requested") is not False
+        or g4_galaxy_source_registry_admission.get("source_records_admitted") != 0
+        or g4_galaxy_source_registry_admission.get("target_records_opened") != 0
+        or g4_galaxy_source_registry_admission.get("primary_record_access_count") != 0
+        or g4_galaxy_source_registry_admission.get(
+            "observation_opening_authorization_registered"
+        )
+        is not False
+        or g4_galaxy_source_registry_admission.get("prediction_bundle_registered")
+        is not False
+        or g4_galaxy_source_registry_admission.get("observational_data_opened")
+        is not False
+        or g4_galaxy_source_registry_admission.get("dark_matter_or_halo_inputs")
+        is not False
+        or g4_galaxy_source_registry_admission.get("redshift_distance_inputs")
+        is not False
+        or g4_galaxy_source_registry_admission.get(
+            "object_specific_gravity_parameter_count"
+        )
+        != 0
+        or g4_galaxy_source_registry_admission.get("paid_llm_spend_usd") != 0.0
+        or g4_galaxy_source_registry_admission.get("filled_registration_hash_count")
+        != 11
+        or g4_galaxy_source_registry_admission.get("missing_registration_hash_count")
+        != 7
+        or g4_galaxy_source_registry_admission.get(
+            "newly_filled_registration_fields"
+        )
+        != {}
+        or source_registry_decision.get("filled_registration_hash_count") != 11
+        or len(source_registry_decision.get("missing_registration_hashes", [])) != 7
+        or source_registry_readiness.get("service_enabled") is not False
+        or source_registry_readiness.get("start_requested") is not False
+        or source_registry_readiness.get("registration_fields_filled") != 0
+        or g4_galaxy_source_registry_admission.get("provenance", {}).get(
+            "manifest_bundle_tooling_sha256"
+        )
+        != g4_galaxy_manifest_bundle_tooling.get("content_sha256")
+        or g4_galaxy_source_registry_admission.get("provenance", {}).get(
+            "ledger_predecessor_sha256"
+        )
+        != g4_galaxy_prediction_contract_transform.get("content_sha256")
+    ):
+        raise ValueError("G4 galaxy source-registry admission is not fail-closed")
 
     blocker_gates: Counter[str] = Counter()
     for row in pareto["pareto_follow_up_queue"]:
@@ -639,14 +1214,215 @@ def build_unified_snapshot(
                 "observational_data_opened": False,
                 "prediction_bundle_registered": False,
             },
+            "registration": {
+                "branch_contract_status": g4_galaxy_branch_distance[
+                    "branch_contract_status"
+                ],
+                "decision": g4_galaxy_prediction_contract_transform["decision"],
+                "distance_geometry_contract_status": g4_galaxy_branch_distance[
+                    "distance_geometry_contract_status"
+                ],
+                "filled_registration_hash_count": transform_decision[
+                    "filled_registration_hash_count"
+                ],
+                "first_missing_premise": g4_galaxy_prediction_contract_transform[
+                    "first_missing_premise"
+                ],
+                "missing_registration_hash_count": len(
+                    transform_decision["missing_registration_hashes"]
+                ),
+                "newly_filled_fields": sorted(
+                    g4_galaxy_prediction_contract_transform[
+                        "newly_filled_registration_fields"
+                    ]
+                ),
+                "held_out_split_policy_registered_as_evidence": True,
+                "real_split_commitment_registered": False,
+                "object_specific_gravity_parameter_count": 0,
+                "observational_data_opened": False,
+                "prediction_bundle_registered": False,
+                "real_transform_inputs_registered": False,
+                "real_source_geometry_registered": False,
+                "source_specific_branch_selection_proven": False,
+                "manifest_bundle_tooling": {
+                    "decision": g4_galaxy_manifest_bundle_tooling["decision"],
+                    "enabled": g4_galaxy_manifest_bundle_tooling[
+                        "tooling_readiness"
+                    ]["enabled"],
+                    "filled_registration_hash_count": g4_galaxy_manifest_bundle_tooling[
+                        "filled_registration_hash_count"
+                    ],
+                    "first_missing_premise": g4_galaxy_manifest_bundle_tooling[
+                        "first_missing_premise"
+                    ],
+                    "missing_registration_hash_count": g4_galaxy_manifest_bundle_tooling[
+                        "missing_registration_hash_count"
+                    ],
+                    "newly_filled_fields": [],
+                    "synthetic_bundle_registration_admissible": False,
+                    "synthetic_manifest_registration_admissible": False,
+                },
+                "source_registry_admission": {
+                    "decision": g4_galaxy_source_registry_admission["decision"],
+                    "enabled": False,
+                    "filled_registration_hash_count": g4_galaxy_source_registry_admission[
+                        "filled_registration_hash_count"
+                    ],
+                    "first_missing_premise": g4_galaxy_source_registry_admission[
+                        "first_missing_premise"
+                    ],
+                    "missing_registration_hash_count": g4_galaxy_source_registry_admission[
+                        "missing_registration_hash_count"
+                    ],
+                    "newly_filled_fields": [],
+                    "source_opening_permission_registered": False,
+                    "source_records_admitted": 0,
+                    "target_records_opened": 0,
+                },
+            },
         },
         "grammar_parameter_cells": {
-            "task_state_counts": parameter["work_state_counts"],
-            "scientific_decision_counts": parameter["decision_counts"],
-            "normalized_scientific_outcomes": {"pass": 0, "reject": 0, "block": 6},
-            "maximum_tasks": parameter["budget"]["maximum_tasks"],
-            "deadline": "bounded_completed_artifact_no_live_deadline",
-            "next_scaling_hook": parameter["next_scaling_hook"],
+            "seed_execution": {
+                "task_state_counts": parameter["work_state_counts"],
+                "scientific_decision_counts": parameter["decision_counts"],
+                "normalized_scientific_outcomes": {
+                    "pass": 0,
+                    "reject": 0,
+                    "block": 6,
+                },
+                "maximum_tasks": parameter["budget"]["maximum_tasks"],
+                "deadline": "bounded_completed_artifact_no_live_deadline",
+                "next_scaling_hook": parameter["next_scaling_hook"],
+                "candidate_universe": "six reviewed deterministic seed actions",
+            },
+            "scalable_unique_action_formal_outcomes": {
+                "pass": 0,
+                "reject": 2,
+                "block": 161,
+            },
+            "scalable_admitted_family_formal_outcomes": {
+                "pass": 0,
+                "reject": 2,
+                "block": 160,
+            },
+            "scalable_preflight_blocked_excluded_count": 1,
+            "expansion_service": {
+                "chunk_count": parameter_expansion["chunk_count"],
+                "decision_counts": parameter_expansion["decision_counts"],
+                "parameter_cell_count": parameter_expansion["parameter_cell_count"],
+                "scientific_scope": parameter_expansion["scientific_scope"],
+                "work_state_counts": parameter_expansion["work_state_counts"],
+            },
+            "reviewed_manifest": {
+                "chunk_count": len(parameter_manifest["chunks"]),
+                "family_cell_counts": parameter_manifest["family_cell_counts"],
+                "formal_evaluation_performed": False,
+                "parameter_cell_count": parameter_manifest["parameter_cell_count"],
+                "scientific_decision_counts": {},
+                "next_execution_hook": parameter_manifest["next_execution_hook"],
+                "compilation": {
+                    "candidate_decision_counts": parameter_compilation[
+                        "candidate_decision_counts"
+                    ],
+                    "compiled_action_ir_count": parameter_compilation[
+                        "compiled_action_ir_count"
+                    ],
+                    "equivalent_duplicate_count": parameter_compilation[
+                        "equivalent_duplicate_count"
+                    ],
+                    "expensive_formal_campaign_run": False,
+                    "formal_decision_counts": {},
+                    "unique_candidate_count": parameter_compilation[
+                        "unique_candidate_count"
+                    ],
+                    "formal_preflight": {
+                        "candidate_count": formal_preflight["candidate_count"],
+                        "decision_counts": formal_preflight["decision_counts"],
+                        "expensive_adm_or_global_energy_run": False,
+                        "family_decision_counts": formal_preflight[
+                            "family_decision_counts"
+                        ],
+                        "gate_counts": formal_preflight["gate_counts"],
+                        "next_promotion_hook": formal_preflight[
+                            "next_promotion_hook"
+                        ],
+                        "work_state_counts": formal_preflight[
+                            "work_state_counts"
+                        ],
+                        "promotion_admission": {
+                            "decision_counts": promotion_admission[
+                                "decision_counts"
+                            ],
+                            "downstream_expensive_execution_started": False,
+                            "eligible_candidate_count": promotion_admission[
+                                "eligible_candidate_count"
+                            ],
+                            "preflight_blocked_excluded_count": promotion_admission[
+                                "preflight_blocked_excluded_count"
+                            ],
+                            "target_queue_counts": promotion_admission[
+                                "target_queue_counts"
+                            ],
+                            "work_state_counts": promotion_admission[
+                                "work_state_counts"
+                            ],
+                            "family_formal_execution": {
+                                "aether": {
+                                    "candidate_count": aether_candidate_formal[
+                                        "candidate_count"
+                                    ],
+                                    "decision_counts": aether_candidate_formal[
+                                        "decision_counts"
+                                    ],
+                                    "formal_pass_count": aether_candidate_formal[
+                                        "formal_pass_count"
+                                    ],
+                                    "gate_finding_counts": aether_candidate_formal[
+                                        "gate_finding_counts"
+                                    ],
+                                },
+                                "g2": {
+                                    "blocker_counts": g2_candidate_formal[
+                                        "blocker_counts"
+                                    ],
+                                    "candidate_count": g2_candidate_formal[
+                                        "candidate_count"
+                                    ],
+                                    "decision_counts": g2_candidate_formal[
+                                        "decision_counts"
+                                    ],
+                                    "full_formal_pass_count": g2_candidate_formal[
+                                        "full_formal_pass_count"
+                                    ],
+                                    "work_state_counts": g2_candidate_formal[
+                                        "work_state_counts"
+                                    ],
+                                },
+                                "g3": {
+                                    "blocker_counts": g3_candidate_formal[
+                                        "blocker_counts"
+                                    ],
+                                    "candidate_count": g3_candidate_formal[
+                                        "candidate_count"
+                                    ],
+                                    "decision_counts": g3_candidate_formal[
+                                        "decision_counts"
+                                    ],
+                                    "full_formal_pass_count": g3_candidate_formal[
+                                        "full_formal_pass_count"
+                                    ],
+                                    "gate_counts": g3_candidate_formal[
+                                        "gate_counts"
+                                    ],
+                                    "work_state_counts": g3_candidate_formal[
+                                        "work_state_counts"
+                                    ],
+                                }
+                            },
+                        },
+                    },
+                },
+            },
         },
         "evidence_pareto": {
             "candidate_decision_counts": pareto["candidate_decision_counts"],

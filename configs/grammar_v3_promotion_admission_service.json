@@ -1,0 +1,16 @@
+{
+  "schema_version": "sigma-grammar-v3-promotion-admission-config-1.0",
+  "execution_enabled": false,
+  "preflight_status": {"path": "runs/engine/grammar-v3-formal-preflight-status.json", "file_sha256": "03387c868b9074d71ca79691ed92d0ba293dffea2dfb3169d342c67c1a4fc210", "content_sha256": "57d7bb28a348b908ceba2345b8b5fcfa9b30a232a0a04e218a152a20a18ace04"},
+  "preflight_config": {"path": "configs/grammar_v3_formal_preflight_service.json", "file_sha256": "48253e2fefec23887435b567e1ee52c8d4e7b7257933980d9a9110684b33c7b2"},
+  "coordinator_config": {"path": "configs/persistent_parallel_search_5090.json", "file_sha256": "c61a6a8609f38b2e226de7e02ffe257049211ae6ab45ab77053e2b5bdf47d137"},
+  "resource_profile": {"path": "configs/resource_profile_5090.json", "file_sha256": "7cefb93ee81f589bc4632e90900e5e67aa97c19b9b31ad3315b9114b5df14a26"},
+  "family_queue_adapters": [
+    {"family_id": "AETHER_K1234_PARAMETER_CELL", "admission_adapter_id": "aether_candidate_adm_formal_queue_v1", "target_task_type": "grammar_v3_aether_candidate_adm_formal", "required_bindings": ["candidate_id", "typed_action_ir_sha256", "preflight_result_sha256", "preflight_adapter_binding_sha256"], "downstream_expensive_execution_enabled": false},
+    {"family_id": "KESSENCE_G2_CONVEX", "admission_adapter_id": "g2_candidate_adm_formal_queue_v1", "target_task_type": "grammar_v3_g2_candidate_adm_formal", "required_bindings": ["candidate_id", "typed_action_ir_sha256", "preflight_result_sha256", "preflight_adapter_binding_sha256"], "downstream_expensive_execution_enabled": false},
+    {"family_id": "CUBIC_HORNDESKI_G3_WEAK_CELL", "admission_adapter_id": "g3_candidate_adm_formal_queue_v1", "target_task_type": "grammar_v3_g3_candidate_adm_formal", "required_bindings": ["candidate_id", "typed_action_ir_sha256", "preflight_result_sha256", "preflight_adapter_binding_sha256"], "downstream_expensive_execution_enabled": false}
+  ],
+  "budget": {"maximum_tasks": 162, "chunk_size": 32, "maximum_attempts": 3, "maximum_wall_seconds": 120, "maximum_disk_bytes": 67108864, "maximum_paid_llm_spend_usd": 0.0},
+  "data_eligibility": {"observational_data_opened": false, "dark_matter_or_halo_inputs": false, "redshift_distance_inputs": false, "paid_llm_calls": false},
+  "external_paid_llm_calls": false
+}

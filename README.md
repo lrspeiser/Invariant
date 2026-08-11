@@ -258,7 +258,42 @@ A finite parameter-cell adapter now exposes exactly the reviewed range `[0,6)`, 
 out-of-range point, and performs the expensive immutable campaign attestation once per worker
 process before reusing it for all six deterministic leases. The controlled run completed six
 coordinator tasks with six formally blocked results under explicit task, wall, disk, retry, and
-zero-paid-LLM limits. Expanding the range requires a new reviewed manifest and formal evidence.
+zero-paid-LLM limits. A second restart-safe expansion service now replays the same six reviewed
+cells as three disjoint chunks with outer/child leases, checkpoints, crash recovery, duplicate
+suppression, and immutable lineage. It proves the scaling machinery without fabricating cells;
+expanding the range still requires a new reviewed manifest and formal evidence.
+A reviewed finite manifest now supplies that next generator layer: 256 exact rational parameter
+cells split into eight 32-cell chunks (128 Aether, 64 convex k-essence, 32 cubic G3, and 32
+conformal G4). Exact duplicate, rational-equivalence, domain, budget, forbidden-data, and zero-
+denominator controls all reject. This manifest is generator provenance rather than viability
+evidence; downstream compilation, equivalence reduction, and preflight carry separate ledgers.
+A reviewed cheap compilation pass now converts all 256 cells to typed action-IR receipts. Exact
+action-density equivalence reduces them to 163 unique candidates plus 93 linked aliases: 128/0 for
+Aether, 2/62 for k-essence, 32/0 for cubic G3, and 1/31 for conformal G4. All cheap lineage, field,
+operator, policy, universal-matter, forbidden-token, and data-seal gates pass; those 163 admissions
+are not ADM/formal passes. A restart-safe reviewed prerequisite service now leases all 163 unique
+actions and returns 162 pass / one blocked: all 128 Aether, two k-essence, and 32 cubic-G3 actions
+pass their hash-bound family prerequisite, while the conformal-G4 action remains blocked by its
+existing scalar pack. Receipt binding passes 163/163. No expensive ADM or global-energy campaign
+has run at that stage, so those results are formal-queue admissions rather than physical viability
+claims. The first family-specific queue has now run both unique k-essence actions. Each passes the
+reviewed covariant variation, coupled ADM/Legendre, local Dirac pair, principal/common-cone,
+pointwise Hamiltonian, DEC, explicit asymptotically-flat contract, scalar-flux, and restricted
+maximal-slice positive-mass gates, but both remain blocked on a hash-bound general nonmaximal
+positive-mass theorem. Full formal passes remain zero for this two-candidate family.
+The 128-action Aether queue has also completed its exact necessary formal gate. Two actions are
+rejected because `c123=0` gives zero spin-0 speed squared. Of the other 126, 79 have finite negative
+static local twist-density witnesses whose full constraint/boundary-energy embedding is unproved,
+eight lose a uniform large-tilt gap, and 39 retain the local twist gap but still lack the generic
+twisting reduced-Hamiltonian/global-energy theorem. Those 126 remain blocked rather than being
+over-rejected; no Aether action receives a full formal pass.
+The 32-action cubic-G3 queue has now completed its candidate-specific reviewed formal service as
+well. All 32 pass exact covariant variation/Noether, ADM primary, uniform local principal and common-
+cone, full periodic lapse-coercivity, periodic distributed-Dirac, finite asymptotically-flat scalar
+tail, and AF-reference principal gates. All 32 remain blocked rather than rejected: on decaying-
+gradient AF data the exact lapse multiplier develops approximate zero modes as `X -> 0`, so a
+uniformly invertible AF lapse/Dirac operator, AF Einstein-constraint solution, global Hamiltonian
+energy, and full formal completion are not claimed. The family still has zero full formal passes.
 An immutable evidence bridge now ingests the six compilation results plus the Aether, `G2`, `G3`,
 and conformal-`G4` prerequisite packets into an isolated knowledge registry. It preserves candidate/action/source
 lineage, separates calibration-only controls, deduplicates replay, refuses the live campaign
@@ -297,6 +332,10 @@ robustness. GR ranks first in the Solar known-answer table as a calibration cont
 blocked evidence never enters a ranked list, controls cannot promote generated candidates, and
 each row retains exact metrics, data class, completeness, blocker, uncertainty, and artifact
 lineage. Full tables plus three deterministic history revisions and category deltas are exported.
+Each candidate row also exposes its human-readable defining action as the compact master formula,
+followed separately by the exact operator terms and the proof/test hierarchy. Derived field
+equations, constraints, predictions, and certificates are therefore visible without being
+misrepresented as additional fitted pieces of the theory.
 A separate restart-safe formal-to-Solar boundary service now verifies the G4 formal pass and its
 analytic prediction audit, but checkpoints the only work item as
 `deferred_missing_prediction_bundle_descriptor`. It invokes no Solar evaluator and opens no data;
@@ -309,6 +348,20 @@ candidate-use Solar template therefore requires a registered trace-density or re
 concentration bound, pressure-trace sign, weak geometry, topology/falloff, and eight additional
 file/parser/calibration/split/state/evaluator hashes. All nine values remain unset and no primary
 file or target value has been opened.
+The G4 galaxy lane now also binds an exact conditional scalar-free branch/domain contract and a
+non-redshift distance/geometry interface on top of the rotation/lensing forward model. This moves
+the sealed registration ledger to five filled and 13 missing fields. A further policy slice binds
+the shared baryonic calibration hierarchy, joint covariance, likelihood, and stopping rule, moving
+the ledger to nine filled and nine missing. The held-out split policy is evidence only: without a
+real source manifest, its split commitment and training checkpoint remain unregistered, as do the
+prediction bundle, selected primary roots, and all observations. The exact prediction-bundle
+contract and candidate-bound raw-to-calibrated covariance transform then advance the ledger to 11
+filled and seven missing. Real transform inputs, bundle content/file, source/split/checkpoint roots,
+selected primary roots, and all observations remain absent. A deterministic independent-manifest
+auditor, prediction-bundle builder, and source-registry admission callback are now implemented and
+hash-bound. Checked-in execution remains disabled: synthetic fixtures are non-registrable, zero
+source or target records were opened, no observation-opening authorization exists, and the exact
+11-filled/seven-missing ledger is unchanged.
 The metadata-only parser pass now selects and hash-binds 12 detached PDS labels and verifies both
 ATDF/TDF and RSR decoding against authoritative layouts plus synthetic byte fixtures. Those two
 registration hashes are filled; seven remain, with zero primary-record accesses. An independent
@@ -989,9 +1042,9 @@ entrywise because at least one first direction and the mixed second direction va
 require intrinsic jet Hessians. The first exact 64-obligation chunk, beginning with
 `q[0] x s01[1]`, now includes the required `DF[D2J]` contribution in `D2P55`, `D2K55`, and the
 Sylvester recurrence. A restart-safe continuation service now carries the same exact engine through
-the first 512 obligations. All 6,144 candidate equations solve with exact Hermitian zero-residual
-corrections and no obstruction; 2,163 obligations remain (323 coordinate-`D2` pushforwards and
-1,840 intrinsic-jet Hessians). The service uses atomic checkpoints,
+the first 2,176 obligations. All 26,112 candidate equations solve with exact Hermitian zero-residual
+corrections and no obstruction. Every one of the 835 coordinate-`D2` pushforwards is complete;
+499 intrinsic-jet Hessian obligations remain. The service uses atomic checkpoints,
 valid-orphan recovery, bounded wall/disk/chunk budgets, permanent obstruction stops, and an exact
 51-pair final tail rather than inferring selector exhaustion.
 TC1's source part needs the contracted

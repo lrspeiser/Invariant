@@ -1,0 +1,46 @@
+{
+  "schema_version": "sigma-grammar-v3-parameter-cell-compilation-config-1.0",
+  "campaign_id": "grammar-v3-256-cell-cheap-compilation-20260810",
+  "parameter_cell_manifest": {
+    "path": "runs/engine/grammar-v3-parameter-cell-manifest.json",
+    "file_sha256": "dacbee621057d804ffa7e8b43ba99ea0efe598ca1ec68f549f8ab8b71af14700",
+    "content_sha256": "d25af1508b44e5c975c1044d75d1f302e8e63c8eb4f008c353ed145fb33b99e8"
+  },
+  "source_seed_manifest": {
+    "path": "runs/engine/covariant-grammar-v3-seed-manifest.json",
+    "file_sha256": "8c9a2454a71b9a6deb32f12c875a4d8cad8a1da5d78d7ded09d1798641b7d290",
+    "content_sha256": "e28ad576a68648f11892a3ff1fff5b7e18057f1ba0b27c89d538499e46de171b"
+  },
+  "compiler_semantics": {
+    "path": "src/sigma_theory_compiler/covariant_grammar_v3_seed_compilation_campaign.py",
+    "file_sha256": "e496dcfbf598bd60a763fe0f5ebed739a8c0182e51d4ca0e913080525208f340"
+  },
+  "field_contract": {
+    "path": "configs/covariant_field_contract.json",
+    "file_sha256": "c31e42645fd6b7b9bd834cd77254451704946e6f6385517011343a74eb692c7c"
+  },
+  "action_policy": {
+    "path": "configs/covariant_action_grammar.json",
+    "file_sha256": "cb505a53a9fd20fec4ba10df38c2d5efae99c403505017ca0e41f1e40addd171",
+    "required_gates": ["cell_lineage", "typed_family", "field_contract", "registered_operators", "action_policy_bounds", "universal_matter_coupling", "forbidden_tokens_absent", "data_eligibility"]
+  },
+  "finite_budget": {
+    "maximum_cells": 256,
+    "chunk_size": 32,
+    "maximum_action_terms": 8
+  },
+  "negative_controls": [
+    {"control_id": "NONUNIVERSAL-MATTER", "kind": "nonuniversal_matter", "expected_failed_gates": ["universal_matter_coupling"]},
+    {"control_id": "FORBIDDEN-BARYON-FIELD", "kind": "forbidden_field", "expected_failed_gates": ["field_contract"]},
+    {"control_id": "UNSUPPORTED-OPERATOR", "kind": "unsupported_operator", "expected_failed_gates": ["registered_operators"]},
+    {"control_id": "CELL-LINEAGE-TAMPER", "kind": "lineage_tamper", "expected_failed_gates": ["cell_lineage"]},
+    {"control_id": "FORBIDDEN-REDSHIFT-DATA", "kind": "forbidden_data", "expected_failed_gates": ["data_eligibility"]}
+  ],
+  "data_eligibility": {
+    "observational_data_opened": false,
+    "dark_matter_or_halo_inputs": false,
+    "redshift_distance_inputs": false,
+    "paid_llm_calls": false
+  },
+  "external_paid_llm_calls": false
+}

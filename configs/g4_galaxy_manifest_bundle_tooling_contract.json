@@ -1,0 +1,63 @@
+{
+  "schema_version": "sigma-g4-galaxy-manifest-bundle-tooling-contract-1.0",
+  "candidate_id": "G3-f9c598b70a77ea54009d8f18",
+  "action_sha256": "6ddd6502d110ead90ff494a6569213ec2e61a0b046dfa86344bb1980df6abc90",
+  "predecessor_content_sha256": "273a8d7fbbdb394724f5e7e3c07cf0c9dd7aeff802193f5edc3af961a89f8c31",
+  "dataset_manifest_contract": {
+    "schema_version": "sigma-g4-galaxy-direct-source-manifest-1.0",
+    "entry_schema_version": "sigma-g4-galaxy-direct-source-manifest-entry-1.0",
+    "split_unit": "whole_galaxy_group_sha256",
+    "allowed_source_channels": [
+      "stellar_light_imaging",
+      "gas_line_emission",
+      "angular_geometry",
+      "nonredshift_metric_geometry"
+    ],
+    "allowed_split_roles": [
+      "formula_search_training",
+      "formula_selection_validation",
+      "untouched_target_blind_test"
+    ],
+    "target_values_must_be_unopened": true,
+    "root_algorithms": {
+      "selected_primary_imaging_and_spectroscopy_root_sha256": "SHA256(canonical(sorted(unique(primary_file_sha256))))",
+      "selected_primary_calibration_root_sha256": "SHA256(canonical(sorted(unique(calibration_file_sha256))))",
+      "galaxy_split_commitment_sha256": "SHA256(canonical({split_salt_commitment_sha256,sorted_unique_whole_galaxy_assignments}))"
+    },
+    "independent_audit_requires_external_registry_receipt": true
+  },
+  "prediction_bundle_builder_contract": {
+    "bundle_schema_version": "sigma-g4-galaxy-direct-observable-prediction-bundle-1.0",
+    "bundle_contract_sha256": "9ce0f7579375227d4ddf54a6157352e80cd168d75755fef63fbe983bd4f0cb4d",
+    "requires_all_non_bundle_registration_hashes": true,
+    "requires_registrable_independent_manifest_audit": true,
+    "canonical_serialization": "UTF8_JSON_sort_keys_compact_ascii_no_trailing_newline",
+    "synthetic_drafts_registration_admissible": false,
+    "builder_may_open_observations": false,
+    "builder_may_authorize_candidate_use": false
+  },
+  "forbidden_manifest_or_bundle_inputs": [
+    "dark_matter_or_halo_label",
+    "redshift_or_redshift_derived_distance",
+    "rotation_curve_target_or_residual_before_role_opening",
+    "lensing_inferred_mass_or_convergence_truth",
+    "mass_discrepancy",
+    "galaxy_identity_as_formula_input",
+    "per_object_gravity_parameter"
+  ],
+  "checked_in_readiness": {
+    "enabled": false,
+    "dataset_manifest_registered": false,
+    "independent_registry_receipt_registered": false,
+    "prediction_bundle_content_registered": false,
+    "prediction_bundle_file_registered": false,
+    "observational_authorization": false
+  },
+  "data_eligibility": {
+    "observational_data_opened": false,
+    "dark_matter_or_halo_inputs": false,
+    "redshift_distance_inputs": false,
+    "paid_llm_calls": false
+  },
+  "content_sha256": "399880e499015e18d0dfd9d4654e9e9c059d1b95f2934e1aa52b42d4a1955c70"
+}

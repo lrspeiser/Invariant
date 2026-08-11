@@ -1,0 +1,56 @@
+{
+  "schema_version": "sigma-g4-galaxy-nonredshift-distance-geometry-contract-1.0",
+  "candidate_id": "G3-f9c598b70a77ea54009d8f18",
+  "action_sha256": "6ddd6502d110ead90ff494a6569213ec2e61a0b046dfa86344bb1980df6abc90",
+  "distance_modes": {
+    "forward_model_mode": "separately_registered_nonredshift_metric_distance",
+    "distance_free_reporting_mode": "angular_and_within_source_dimensionless",
+    "redshift_distance_allowed": false,
+    "cosmological_model_distance_allowed": false
+  },
+  "required_future_geometry_registration": {
+    "schema_version": "sigma-g4-galaxy-source-geometry-registration-1.0",
+    "nonredshift_lens_distance_m": "finite_positive_scalar",
+    "lensing_distance_ratio_D_ls_over_D_s": "finite_scalar_in_closed_interval_0_1",
+    "lens_distance_measurement_provenance_sha256": "required",
+    "lensing_geometry_measurement_provenance_sha256": "required",
+    "distance_and_geometry_covariance_sha256": "required",
+    "independent_nonredshift_distance_audit_sha256": "required",
+    "primary_source_manifest_root_sha256": "required",
+    "redshift_used_as_distance": false,
+    "observational_data_opened_by_contract": false
+  },
+  "forward_model_mapping": {
+    "nonredshift_lens_distance_m": "profile.nonredshift_lens_distance_m",
+    "lensing_distance_ratio_D_ls_over_D_s": "profile.lensing_distance_ratio",
+    "distance_provenance_literal": "separately_registered_nonredshift_distance_required",
+    "geometry_contract": {
+      "rotation": "axisymmetric_circular_orbit_model",
+      "lensing": "circularized_axisymmetric_projected_baryonic_profile",
+      "inclination_use": "rotation_line_of_sight_projection_only"
+    },
+    "physical_radius_relation": "R_m=nonredshift_lens_distance_m*angular_radius_rad",
+    "object_specific_gravity_parameter_count": 0
+  },
+  "current_registration_state": {
+    "real_source_geometry_registered": false,
+    "distance_value_registered": false,
+    "lensing_distance_ratio_registered": false,
+    "primary_source_manifest_registered": false,
+    "prediction_bundle_claimed": false
+  },
+  "forbidden_inputs": [
+    "redshift_derived_distance_or_physical_size",
+    "redshift_derived_environment",
+    "supernova_distance_modulus",
+    "halo_or_dark_matter_distance_rescue",
+    "lensing_inferred_mass_or_convergence_as_geometry_truth"
+  ],
+  "data_eligibility": {
+    "observational_data_opened": false,
+    "dark_matter_or_halo_inputs": false,
+    "redshift_distance_inputs": false,
+    "paid_llm_calls": false
+  },
+  "content_sha256": "1edcdc75721633b039e9631d5dcec6f48c0229e89d8f1ccc885fb1ac2bc210bf"
+}

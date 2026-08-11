@@ -1,0 +1,72 @@
+{
+  "schema_version": "sigma-g4-galaxy-raw-to-calibrated-transform-contract-1.0",
+  "candidate_id": "G3-f9c598b70a77ea54009d8f18",
+  "action_sha256": "6ddd6502d110ead90ff494a6569213ec2e61a0b046dfa86344bb1980df6abc90",
+  "branch_and_domain_contract_sha256": "a606219458c3eeabcbe940a608dbed758288b946bce8dae26dd59a1995acc405",
+  "prediction_bundle_contract_sha256": "9ce0f7579375227d4ddf54a6157352e80cd168d75755fef63fbe983bd4f0cb4d",
+  "transform": {
+    "equation": "y_cal=A_raw_to_cal*x_raw+b_cal",
+    "operator_scope": "registered_linear_instrument_response_background_aperture_beam_and_unit_conversion",
+    "operator_and_offset_must_be_frozen_before_validation_or_test": true,
+    "shared_or_preregistered_population_calibration_only": true,
+    "object_specific_gravity_parameter_count": 0
+  },
+  "input_contract": {
+    "raw_vector": "finite_rank_one_direct_detector_or_spectral_source_measurements",
+    "raw_covariance": "finite_symmetric_positive_semidefinite_in_exact_input_order",
+    "calibration_operator": "finite_output_by_input_matrix_with_registered_provenance",
+    "calibration_offset": "finite_output_vector_with_registered_provenance",
+    "calibration_nuisance_jacobian": "finite_output_by_nuisance_matrix",
+    "calibration_nuisance_covariance": "finite_symmetric_positive_semidefinite_in_exact_nuisance_order",
+    "required_future_hashes": [
+      "raw_file_or_manifest_root_sha256",
+      "raw_channel_order_sha256",
+      "raw_covariance_sha256",
+      "calibration_operator_and_offset_sha256",
+      "calibration_nuisance_order_and_covariance_sha256",
+      "selected_primary_calibration_root_sha256"
+    ]
+  },
+  "output_contract": {
+    "equation": "C_cal=A_raw_to_cal*C_raw*A_raw_to_cal^T+J_cal*C_nuisance*J_cal^T",
+    "allowed_channels": [
+      "stellar_light_calibrated_input_intensity_per_sr",
+      "gas_line_calibrated_input_intensity_per_sr",
+      "baryonic_point_calibrated_integrated_flux",
+      "angular_radius_rad",
+      "inclination_rad",
+      "position_angle_rad"
+    ],
+    "allowed_units": [
+      "calibrated_input_intensity_per_sr",
+      "calibrated_integrated_flux",
+      "rad"
+    ],
+    "full_cross_channel_covariance_retained": true,
+    "surface_density_conversion_remains_in_shared_baryonic_calibration_hierarchy": true
+  },
+  "forbidden_inputs_or_outputs": [
+    "galaxy_identity_as_formula_input",
+    "dark_matter_or_halo_label",
+    "redshift_or_redshift_derived_distance",
+    "rotation_curve_target_or_residual",
+    "mass_discrepancy",
+    "lensing_inferred_mass_or_convergence_truth",
+    "per_galaxy_gravity_parameter"
+  ],
+  "current_registration_state": {
+    "real_raw_manifest_registered": false,
+    "real_calibration_operator_registered": false,
+    "real_calibration_values_registered": false,
+    "real_transform_output_registered": false,
+    "prediction_bundle_claimed": false,
+    "observational_data_opened": false
+  },
+  "data_eligibility": {
+    "observational_data_opened": false,
+    "dark_matter_or_halo_inputs": false,
+    "redshift_distance_inputs": false,
+    "paid_llm_calls": false
+  },
+  "content_sha256": "bf16202dd820486812c544e4839cae1dcbfc4b3e960ece9cda3af92c747b1b6e"
+}

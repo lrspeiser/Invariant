@@ -499,6 +499,16 @@ def _build_rows(sources: Mapping[str, Any], bindings: Mapping[str, Any]) -> dict
     g4_galaxy_decision = g4_galaxy["current_evaluator_decision"]
     g4_forward = sources["g4_galaxy_forward_model"]
     g4_forward_decision = g4_forward["current_evaluator_decision"]
+    g4_registration = sources["g4_galaxy_branch_distance"]
+    g4_registration_decision = g4_registration["current_evaluator_decision"]
+    g4_calibration = sources["g4_galaxy_calibration_evaluation"]
+    g4_calibration_decision = g4_calibration["current_evaluator_decision"]
+    g4_transform = sources["g4_galaxy_prediction_contract_transform"]
+    g4_transform_decision = g4_transform["current_evaluator_decision"]
+    g4_tooling = sources["g4_galaxy_manifest_bundle_tooling"]
+    g4_tooling_decision = g4_tooling["unchanged_evaluator_decision"]
+    g4_source_registry = sources["g4_galaxy_source_registry_admission"]
+    g4_source_registry_decision = g4_source_registry["unchanged_evaluator_decision"]
     if (
         g4_galaxy["decision"] != "blocked"
         or g4_galaxy["descriptor_implementation_ready"] is not True
@@ -528,15 +538,138 @@ def _build_rows(sources: Mapping[str, Any], bindings: Mapping[str, Any]) -> dict
         or g4_forward["synthetic_controls"]["covariance"]["decision"] != "pass"
     ):
         raise ValueError("G4 galaxy forward-model readiness is inconsistent")
+    if (
+        g4_registration["decision"] != "blocked"
+        or g4_registration["prediction_bundle_registered"] is not False
+        or g4_registration["candidate_use_authorized"] is not False
+        or g4_registration["observational_data_opened"] is not False
+        or g4_registration["primary_record_access_count"] != 0
+        or g4_registration["real_source_geometry_registered"] is not False
+        or g4_registration["source_specific_branch_selection_proven"] is not False
+        or g4_registration["object_specific_gravity_parameter_count"] != 0
+        or g4_registration["dark_matter_or_halo_inputs"] is not False
+        or g4_registration["redshift_distance_inputs"] is not False
+        or g4_registration_decision["filled_registration_hash_count"] != 5
+        or len(g4_registration_decision["missing_registration_hashes"]) != 13
+        or set(g4_registration["newly_filled_registration_fields"])
+        != {
+            "branch_and_domain_contract_sha256",
+            "distance_mode_contract_sha256",
+        }
+        or g4_registration["provenance"]["forward_model_predecessor_sha256"]
+        != g4_forward["content_sha256"]
+    ):
+        raise ValueError("G4 galaxy branch/distance registration is inconsistent")
+    if (
+        g4_calibration["decision"] != "blocked"
+        or g4_calibration["prediction_bundle_registered"] is not False
+        or g4_calibration["candidate_use_authorized"] is not False
+        or g4_calibration["observational_data_opened"] is not False
+        or g4_calibration["primary_record_access_count"] != 0
+        or g4_calibration["object_specific_gravity_parameter_count"] != 0
+        or g4_calibration["dark_matter_or_halo_inputs"] is not False
+        or g4_calibration["redshift_distance_inputs"] is not False
+        or g4_calibration["paid_llm_spend_usd"] != 0.0
+        or g4_calibration_decision["filled_registration_hash_count"] != 9
+        or len(g4_calibration_decision["missing_registration_hashes"]) != 9
+        or set(g4_calibration["newly_filled_registration_fields"])
+        != {
+            "baryonic_calibration_hierarchy_sha256",
+            "joint_covariance_contract_sha256",
+            "likelihood_contract_sha256",
+            "stopping_rule_sha256",
+        }
+        or g4_calibration["provenance"]["predecessor_content_sha256"]
+        != g4_registration["content_sha256"]
+    ):
+        raise ValueError("G4 galaxy calibration/evaluation registration is inconsistent")
+    if (
+        g4_transform["decision"] != "blocked"
+        or g4_transform["prediction_bundle_registered"] is not False
+        or g4_transform["candidate_use_authorized"] is not False
+        or g4_transform["observational_data_opened"] is not False
+        or g4_transform["primary_record_access_count"] != 0
+        or g4_transform["object_specific_gravity_parameter_count"] != 0
+        or g4_transform["dark_matter_or_halo_inputs"] is not False
+        or g4_transform["redshift_distance_inputs"] is not False
+        or g4_transform["paid_llm_spend_usd"] != 0.0
+        or g4_transform["real_transform_inputs_registered"] is not False
+        or g4_transform_decision["filled_registration_hash_count"] != 11
+        or len(g4_transform_decision["missing_registration_hashes"]) != 7
+        or set(g4_transform["newly_filled_registration_fields"])
+        != {
+            "prediction_bundle_contract_sha256",
+            "raw_to_calibrated_transform_sha256",
+        }
+        or g4_transform["provenance"]["predecessor_content_sha256"]
+        != g4_calibration["content_sha256"]
+    ):
+        raise ValueError("G4 galaxy prediction/transform registration is inconsistent")
+    if (
+        g4_tooling["decision"] != "blocked"
+        or g4_tooling["candidate_use_authorized"] is not False
+        or g4_tooling["observational_data_opened"] is not False
+        or g4_tooling["primary_record_access_count"] != 0
+        or g4_tooling["prediction_bundle_registered"] is not False
+        or g4_tooling["dataset_manifest_registered"] is not False
+        or g4_tooling["independent_registry_receipt_registered"] is not False
+        or g4_tooling["dark_matter_or_halo_inputs"] is not False
+        or g4_tooling["redshift_distance_inputs"] is not False
+        or g4_tooling["paid_llm_spend_usd"] != 0.0
+        or g4_tooling["filled_registration_hash_count"] != 11
+        or g4_tooling["missing_registration_hash_count"] != 7
+        or g4_tooling["newly_filled_registration_fields"] != {}
+        or g4_tooling_decision["filled_registration_hash_count"] != 11
+        or len(g4_tooling_decision["missing_registration_hashes"]) != 7
+        or g4_tooling["synthetic_controls"][
+            "manifest_audit_registration_admissible"
+        ]
+        is not False
+        or g4_tooling["synthetic_controls"][
+            "bundle_draft_registration_admissible"
+        ]
+        is not False
+        or g4_tooling["synthetic_controls"]["synthetic_values_promoted"] is not False
+        or g4_tooling["tooling_readiness"]["enabled"] is not False
+        or g4_tooling["provenance"]["predecessor_content_sha256"]
+        != g4_transform["content_sha256"]
+    ):
+        raise ValueError("G4 galaxy manifest/bundle tooling is inconsistent")
+    if (
+        g4_source_registry["decision"] != "blocked"
+        or g4_source_registry["service_enabled"] is not False
+        or g4_source_registry["start_requested"] is not False
+        or g4_source_registry["source_records_admitted"] != 0
+        or g4_source_registry["target_records_opened"] != 0
+        or g4_source_registry["primary_record_access_count"] != 0
+        or g4_source_registry["observation_opening_authorization_registered"]
+        is not False
+        or g4_source_registry["prediction_bundle_registered"] is not False
+        or g4_source_registry["observational_data_opened"] is not False
+        or g4_source_registry["dark_matter_or_halo_inputs"] is not False
+        or g4_source_registry["redshift_distance_inputs"] is not False
+        or g4_source_registry["object_specific_gravity_parameter_count"] != 0
+        or g4_source_registry["paid_llm_spend_usd"] != 0.0
+        or g4_source_registry["filled_registration_hash_count"] != 11
+        or g4_source_registry["missing_registration_hash_count"] != 7
+        or g4_source_registry["newly_filled_registration_fields"] != {}
+        or g4_source_registry_decision["filled_registration_hash_count"] != 11
+        or len(g4_source_registry_decision["missing_registration_hashes"]) != 7
+        or g4_source_registry["provenance"]["manifest_bundle_tooling_sha256"]
+        != g4_tooling["content_sha256"]
+        or g4_source_registry["provenance"]["ledger_predecessor_sha256"]
+        != g4_transform["content_sha256"]
+    ):
+        raise ValueError("G4 galaxy source-registry admission is inconsistent")
     g4_galaxy_entry = _entry(
         g4_galaxy["candidate"]["candidate_id"],
         "generated_candidate",
         {
-            "filled_registration_hash_count": g4_forward_decision[
+            "filled_registration_hash_count": g4_transform_decision[
                 "filled_registration_hash_count"
             ],
             "missing_registration_hash_count": len(
-                g4_forward_decision["missing_registration_hashes"]
+                g4_transform_decision["missing_registration_hashes"]
             ),
             "analytic_rotation_lensing_control_pass_count": sum(
                 status == "pass"
@@ -557,15 +690,20 @@ def _build_rows(sources: Mapping[str, Any], bindings: Mapping[str, Any]) -> dict
         "blocked",
         "sealed_candidate_specific_galaxy_prediction",
         "incomplete",
-        g4_forward["first_missing_premise"],
-        "g4_galaxy_forward_model",
-        bindings["g4_galaxy_forward_model"],
-        g4_forward["provenance"]["binding_sha256"],
-        "The exact scalar-free branch now has hash-bound rotation and lensing implementations with three passing analytic controls. Fifteen source, split, covariance, likelihood, and stopping hashes remain missing; no observation or halo/redshift-derived target was opened.",
+        g4_transform["first_missing_premise"],
+        "g4_galaxy_prediction_contract_transform",
+        bindings["g4_galaxy_prediction_contract_transform"],
+        g4_transform["provenance"]["binding_sha256"],
+        "The exact scalar-free branch now also has a hash-bound prediction-bundle contract and a candidate-bound raw-to-calibrated covariance transform. Seven real-source, split, checkpoint, bundle-content/file, and primary-root hashes remain missing; no observation or halo/redshift-derived target was opened.",
     )
     g4_galaxy_entry["lineage"]["supporting_artifacts"] = [
         bindings["galaxy_direct_observable"],
         bindings["g4_galaxy_readiness"],
+        bindings["g4_galaxy_forward_model"],
+        bindings["g4_galaxy_branch_distance"],
+        bindings["g4_galaxy_calibration_evaluation"],
+        bindings["g4_galaxy_manifest_bundle_tooling"],
+        bindings["g4_galaxy_source_registry_admission"],
     ]
     rows["galaxy_direct_observable"].append(g4_galaxy_entry)
 
