@@ -561,7 +561,16 @@ The compiler action lane makes the missing physics precise rather than filling i
 EH-plus-scalar-intensity action with `beta=1/2` reproduces Equation 35's first/middle normalization,
 while `beta=1/4` reproduces its printed final Planck-unit normalization. Both have complete local
 Euler–Lagrange, GHY-boundary, and Noether/Bianchi contracts, but neither is derived by the paper or
-by QED and neither selects a normalization as fact. The extended-source CUDA lane evaluates 20
+by QED and neither selects a normalization as fact. An exact field redefinition maps both
+propagating sectors to the existing canonical Einstein–scalar control; `beta` changes only the
+constant vacuum-energy term, so this adds zero new propagating gravity-operator classes. Both pass
+the local covariant-variation, ADM/Dirac, three-DOF, hyperbolicity, ghost/gradient/tachyon, and
+quadratic-Hamiltonian gates, but both remain blocked on a global de Sitter boundary-charge and
+nonlinear positive-energy theorem. A dedicated RTX 5090 lane checked 137,438,953,472 dispersion and
+Yukawa/Green consequence evaluations in 5.851 seconds at 23.49 billion evaluations/s; the two beta
+branches have identical linear dynamics and the GPU/CPU relative error stayed below `1e-12`.
+These are synthetic implementation controls, not a paper/QED derivation or theory pass. The
+extended-source CUDA lane evaluates 20
 geometry/resolution cases and 2,860,515,328 source interactions. It rejects naive local
 superposition as a completion hypothesis because subdivision changes the far coefficient by
 `sqrt(N)` and an unequal pair fails matter-only action–reaction balance; the enclosed-mass
@@ -1290,8 +1299,12 @@ escape now exists outside that homogeneous class: the rank-one state-space block
 candidate-specific tuning `eta=-(34816/15)*alpha^5` solves the D4 recurrence for all 12 algebraic
 specializations. This is not yet a physical correction: it has no covariant-action origin, no
 gauge/constraint compatibility proof, no registered corrected candidates, and no universal eta.
-The next gate is to derive that block from an admissible covariant or gauge-fixed TC2 operator, or
-reject it as nonphysical. This is not an inferred pass for the unevaluated tail; full fourth-order range closure, full-tube,
+An exact origin audit now rules out the registered linear-`X` quartic-Horndeski TC2 block and the
+entire support-preserving gauge class `B_u=u e54^T`: since `e54^T R0=0`, its 55-dimensional induced
+cokernel map has rank zero and cannot reach `W`. The algebraic `V` succeeds only by using input
+column `e21`, thereby changing the registered constraint topology. The next gate is therefore a
+new covariant invariant or a constraint-admissible topology-changing reduction; arbitrary such
+operators remain open. This is not an inferred pass for the unevaluated tail; full fourth-order range closure, full-tube,
 CK1, CK3, TC2, B7, global-H7, and lifespan remain false.
 
 The tube bounds 153 normalized coordinate atoms: ten metric deviations, 44 first partials,

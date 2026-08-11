@@ -446,27 +446,26 @@ def build_unified_snapshot(
     generated_candidate_metric_variation = sources[
         "generated_candidate_metric_variation_specialization"
     ]
-    generated_candidate_formula_gpu_stress = sources[
-        "generated_candidate_formula_gpu_stress"
-    ]
+    generated_candidate_formula_gpu_stress = sources["generated_candidate_formula_gpu_stress"]
     transactional_gravity_intake = sources["kastner_schlatter_transactional_gravity_intake"]
     transactional_gravity_graph = sources["kastner_schlatter_equation_graph_admission"]
     transactional_gravity_cuda = sources["kastner_schlatter_cuda_consequence_campaign"]
     transactional_gravity_observational = sources[
         "kastner_schlatter_observational_readiness_contract"
     ]
-    transactional_gravity_falsification = sources[
-        "kastner_schlatter_cuda_falsification_design"
-    ]
+    transactional_gravity_falsification = sources["kastner_schlatter_cuda_falsification_design"]
     transactional_gravity_candidate_action = sources[
         "kastner_schlatter_candidate_action_completion"
+    ]
+    transactional_gravity_equivalence = sources["kastner_schlatter_action_equivalence_audit"]
+    transactional_gravity_formal = sources["kastner_schlatter_candidate_action_formal_admission"]
+    transactional_gravity_scalar_cuda = sources[
+        "kastner_schlatter_scalar_intensity_cuda_falsification"
     ]
     transactional_gravity_extended_geometry = sources[
         "kastner_schlatter_extended_geometry_cuda_stress"
     ]
-    generic_g4_b4_termwise_normalization = sources[
-        "generic_g4_b4_termwise_normalization"
-    ]
+    generic_g4_b4_termwise_normalization = sources["generic_g4_b4_termwise_normalization"]
     formal_preflight = sources["grammar_v3_formal_preflight"]
     promotion_admission = sources["grammar_v3_promotion_admission"]
     g2_candidate_formal = sources["grammar_v3_g2_candidate_formal"]
@@ -588,6 +587,9 @@ def build_unified_snapshot(
         "quartic_tc2_d4_homogeneous_freedom_reduction"
     ]
     quartic_tc2_d4_minimal_tc2_escape = sources["quartic_tc2_d4_minimal_tc2_escape"]
+    quartic_tc2_d4_registered_operator_origin_no_go = sources[
+        "quartic_tc2_d4_registered_operator_origin_no_go"
+    ]
     quartic_tc2_reranked_obligation_chunks = tuple(
         sources[f"quartic_tc2_reranked_obligation_chunk_{offset}"]
         for offset in (0, 64, 128, 192, 256, 320, 384)
@@ -827,16 +829,13 @@ def build_unified_snapshot(
         or generic_g4_b4_termwise_normalization.get("nonzero_residual_count") != 0
         or generic_g4_b4_termwise_normalization.get("metric_variation_normalization_pass")
         is not True
-        or generic_g4_b4_termwise_normalization.get("primary_source", {}).get("equation")
-        != "B.4"
+        or generic_g4_b4_termwise_normalization.get("primary_source", {}).get("equation") != "B.4"
         or generic_g4_b4_termwise_normalization.get("primary_source", {}).get("arxiv_id")
         != "1105.5723v4"
         or generic_g4_b4_termwise_normalization.get("primary_source_transcription")
         != {
             "path": "formal/sources/kyy_1105.5723v4_eq_B4_canonical_coefficients.json",
-            "file_sha256": (
-                "497042978c3c0eed8ec02b49c5ceb2c258e60416c23152e34d44cde4ae53d32f"
-            ),
+            "file_sha256": ("497042978c3c0eed8ec02b49c5ceb2c258e60416c23152e34d44cde4ae53d32f"),
         }
         or len(generic_g4_b4_termwise_normalization.get("term_records", [])) != 24
         or any(
@@ -889,17 +888,13 @@ def build_unified_snapshot(
         .get("metric_variation_artifact", {})
         .get("content_sha256")
         != generated_candidate_metric_variation.get("content_sha256")
-        or generated_candidate_formula_gpu_stress.get("exact_cpu_control", {}).get(
-            "within_bound"
-        )
+        or generated_candidate_formula_gpu_stress.get("exact_cpu_control", {}).get("within_bound")
         is not True
         or generated_candidate_formula_gpu_stress.get("exact_cpu_control", {}).get(
             "crosscheck_count"
         )
         != 5216
-        or generated_candidate_formula_gpu_stress.get("gpu_cpu_comparison", {}).get(
-            "within_bounds"
-        )
+        or generated_candidate_formula_gpu_stress.get("gpu_cpu_comparison", {}).get("within_bounds")
         is not True
         or generated_candidate_formula_gpu_stress.get("gpu_cpu_comparison", {}).get(
             "comparison_count"
@@ -913,20 +908,17 @@ def build_unified_snapshot(
         .get("device", {})
         .get("device_name")
         != "NVIDIA GeForce RTX 5090"
-        or "device-wide NVML" not in generated_candidate_formula_gpu_stress.get(
-            "runtime_measurement", {}
-        ).get("utilization", {}).get("counter_scope", "")
+        or "device-wide NVML"
+        not in generated_candidate_formula_gpu_stress.get("runtime_measurement", {})
+        .get("utilization", {})
+        .get("counter_scope", "")
         or generated_candidate_formula_gpu_stress.get("synthetic_only") is not True
         or generated_candidate_formula_gpu_stress.get("formal_pass_inferred") is not False
         or generated_candidate_formula_gpu_stress.get("field_equations_proven") is not False
-        or generated_candidate_formula_gpu_stress.get(
-            "candidate_backend_metric_variation_executed"
-        )
+        or generated_candidate_formula_gpu_stress.get("candidate_backend_metric_variation_executed")
         is not False
-        or generated_candidate_formula_gpu_stress.get("candidate_rejection_authorized")
-        is not False
-        or generated_candidate_formula_gpu_stress.get("scientific_ranking_authorized")
-        is not False
+        or generated_candidate_formula_gpu_stress.get("candidate_rejection_authorized") is not False
+        or generated_candidate_formula_gpu_stress.get("scientific_ranking_authorized") is not False
         or generated_candidate_formula_gpu_stress.get("observations_opened") is not False
         or generated_candidate_formula_gpu_stress.get("dark_matter_or_halo_inputs") is not False
         or generated_candidate_formula_gpu_stress.get("redshift_distance_inputs") is not False
@@ -968,9 +960,7 @@ def build_unified_snapshot(
         transactional_gravity_graph.get("decision") != "blocked"
         or transactional_gravity_graph.get("first_blocker")
         != transactional_gravity_intake.get("first_blocker")
-        or transactional_gravity_graph.get("source_lineage", {}).get(
-            "source_intake_content_sha256"
-        )
+        or transactional_gravity_graph.get("source_lineage", {}).get("source_intake_content_sha256")
         != transactional_gravity_intake.get("content_sha256")
         or transactional_gravity_graph.get("graph_counts")
         != {
@@ -1025,9 +1015,7 @@ def build_unified_snapshot(
             "lambda_values_emitted"
         )
         != 0
-        or transactional_gravity_cuda.get("gpu_cpu_bindings", {}).get(
-            "poisson_output_byte_equal"
-        )
+        or transactional_gravity_cuda.get("gpu_cpu_bindings", {}).get("poisson_output_byte_equal")
         is not True
         or transactional_gravity_cuda.get("poisson_four_volume_control", {}).get(
             "all_statistical_controls_closed"
@@ -1045,7 +1033,8 @@ def build_unified_snapshot(
         or transactional_gravity_cuda.get("dark_matter_or_halo_inputs") is not False
         or transactional_gravity_cuda.get("redshift_or_cosmology_inputs") is not False
         or transactional_gravity_cuda.get("paid_llm_calls") is not False
-        or "device-wide NVML" not in transactional_gravity_cuda.get("runtime_measurement", {})
+        or "device-wide NVML"
+        not in transactional_gravity_cuda.get("runtime_measurement", {})
         .get("utilization", {})
         .get("counter_scope", "")
     ):
@@ -1160,9 +1149,7 @@ def build_unified_snapshot(
         or transactional_gravity_falsification.get("gpu_cpu_crosscheck", {}).get(
             "maximum_absolute_statistic_error"
         )
-        > transactional_gravity_falsification.get("gpu_cpu_crosscheck", {}).get(
-            "error_bound"
-        )
+        > transactional_gravity_falsification.get("gpu_cpu_crosscheck", {}).get("error_bound")
         or transactional_gravity_falsification.get("observational_bridge", {}).get(
             "registration_fields_advanced"
         )
@@ -1179,9 +1166,10 @@ def build_unified_snapshot(
         or transactional_gravity_falsification.get("dark_matter_or_halo_inputs") is not False
         or transactional_gravity_falsification.get("redshift_or_cosmology_inputs") is not False
         or transactional_gravity_falsification.get("paid_llm_calls") is not False
-        or "device-wide NVML" not in transactional_gravity_falsification.get(
-            "runtime_measurement", {}
-        ).get("utilization", {}).get("counter_scope", "")
+        or "device-wide NVML"
+        not in transactional_gravity_falsification.get("runtime_measurement", {})
+        .get("utilization", {})
+        .get("counter_scope", "")
     ):
         raise ValueError("Kastner-Schlatter CUDA falsification design is inconsistent")
     expected_candidate_action_counts = {
@@ -1192,16 +1180,13 @@ def build_unified_snapshot(
         "observational_or_theory_passes": 0,
         "paper_derived_actions": 0,
     }
-    action_hypotheses = transactional_gravity_candidate_action.get(
-        "completion_hypotheses", []
-    )
+    action_hypotheses = transactional_gravity_candidate_action.get("completion_hypotheses", [])
     if (
         transactional_gravity_candidate_action.get("decision")
         != "candidate_completions_registered_paper_derivation_and_physics_claims_blocked"
         or transactional_gravity_candidate_action.get("first_blocker")
         != "no_paper_derivation_of_candidate_action_or_transaction_intensity_dynamics"
-        or transactional_gravity_candidate_action.get("counts")
-        != expected_candidate_action_counts
+        or transactional_gravity_candidate_action.get("counts") != expected_candidate_action_counts
         or transactional_gravity_candidate_action.get("source_bindings", {})
         .get("intake", {})
         .get("content_sha256")
@@ -1221,16 +1206,14 @@ def build_unified_snapshot(
             row.get("paper_authorship_or_derivation") is not False
             or row.get("candidate_action", {}).get("local_deterministic_action_complete")
             is not True
-            or row.get("candidate_action", {}).get("stochastic_law_derived_by_action")
-            is not False
+            or row.get("candidate_action", {}).get("stochastic_law_derived_by_action") is not False
             or row.get("conditional_stochastic_completion", {}).get(
                 "derived_from_QED_actualization"
             )
             is not False
             or row.get("matching", {}).get("exact_coefficient_match") is not True
             or row.get("matching", {}).get("normalization_selected_as_fact") is not False
-            or row.get("noether_bianchi", {}).get("on_shell_covariant_conservation")
-            is not True
+            or row.get("noether_bianchi", {}).get("on_shell_covariant_conservation") is not True
             for row in action_hypotheses
         )
         or any(
@@ -1243,6 +1226,135 @@ def build_unified_snapshot(
         )
     ):
         raise ValueError("Kastner-Schlatter candidate-action completion is inconsistent")
+    if (
+        transactional_gravity_equivalence.get("decision")
+        != "canonical_dynamic_class_identified_paper_and_physics_claims_blocked"
+        or transactional_gravity_equivalence.get("counts")
+        != {
+            "candidate_action_branches": 2,
+            "canonical_dynamic_class_matches": 2,
+            "full_action_equalities_to_constant_free_control": 0,
+            "new_propagating_gravity_operator_classes": 0,
+            "distinct_vacuum_normalization_branches": 2,
+            "paper_or_qed_derived_actions": 0,
+            "literature_novelty_claims": 0,
+            "observational_or_theory_passes": 0,
+        }
+        or transactional_gravity_equivalence.get("source_bindings", {})
+        .get("candidate_action", {})
+        .get("content_sha256")
+        != transactional_gravity_candidate_action.get("content_sha256")
+        or transactional_gravity_equivalence.get("branch_comparison", {}).get(
+            "same_propagating_operator_class"
+        )
+        is not True
+        or transactional_gravity_equivalence.get("branch_comparison", {}).get(
+            "same_constant_vacuum_energy"
+        )
+        is not False
+        or any(
+            item.get("propagating_dynamic_operator_equivalent") is not True
+            or item.get("full_action_equal_to_constant_free_control") is not False
+            or item.get("paper_or_qed_derivation_inferred") is not False
+            or item.get("literature_novelty_inferred") is not False
+            for item in transactional_gravity_equivalence.get("equivalence_certificates", [])
+        )
+        or any(
+            value
+            for section in ("claim_seals", "data_seals")
+            for value in transactional_gravity_equivalence.get(section, {}).values()
+        )
+    ):
+        raise ValueError("Kastner-Schlatter action equivalence audit is inconsistent")
+    if (
+        transactional_gravity_formal.get("decision")
+        != "local_formal_gates_pass_global_boundary_energy_and_full_admission_blocked"
+        or transactional_gravity_formal.get("decision_counts")
+        != {"blocked": 2, "pass": 0, "reject": 0}
+        or transactional_gravity_formal.get("formal_counts")
+        != {
+            "candidate_actions": 2,
+            "covariant_variation_pass": 2,
+            "formal_admission_pass": 0,
+            "gauge_fixed_local_hyperbolicity_pass": 2,
+            "ghost_gradient_tachyon_pass": 2,
+            "global_positive_energy_pass": 0,
+            "paper_or_QED_derived_actions": 0,
+            "regular_ADM_Dirac_pass": 2,
+            "scalar_Hamiltonian_positive_pass": 2,
+            "three_local_DOF_pass": 2,
+        }
+        or transactional_gravity_formal.get("first_blocker")
+        != "global_de_Sitter_boundary_charge_and_nonlinear_positive_energy_theorem_not_registered"
+        or transactional_gravity_formal.get("source_bindings", {})
+        .get("completion_artifact", {})
+        .get("content_sha256")
+        != transactional_gravity_candidate_action.get("content_sha256")
+        or any(transactional_gravity_formal.get("claim_seals", {}).values())
+        or any(transactional_gravity_formal.get("data_seals", {}).values())
+    ):
+        raise ValueError("Kastner-Schlatter formal admission is inconsistent")
+    expected_scalar_cuda_counts = {
+        "compiler_action_hypotheses": 2,
+        "exact_sentinel_groups": 4,
+        "gpu_kernel_dispatches": 32_772,
+        "gpu_measured_parameter_sample_pairs": 68_719_476_736,
+        "gpu_measured_repetitions": 32_768,
+        "gpu_measured_scalar_consequence_evaluations": 137_438_953_472,
+        "gpu_warmup_repetitions": 4,
+        "negative_parameter_controls": 5,
+        "observational_records_accessed": 0,
+        "paper_qed_or_theory_passes": 0,
+        "parameter_cases": 2_048,
+        "spectral_and_radial_samples_per_parameter": 1_024,
+        "unique_parameter_sample_pairs": 2_097_152,
+        "unique_scalar_consequence_values": 4_194_304,
+    }
+    if (
+        transactional_gravity_scalar_cuda.get("decision")
+        != "compiler_hypothesis_scalar_controls_closed_paper_qed_and_theory_claims_blocked"
+        or transactional_gravity_scalar_cuda.get("counts") != expected_scalar_cuda_counts
+        or transactional_gravity_scalar_cuda.get("source_bindings", {})
+        .get("candidate_action_completion", {})
+        .get("content_sha256")
+        != transactional_gravity_candidate_action.get("content_sha256")
+        or transactional_gravity_scalar_cuda.get("gpu_cpu_crosscheck", {}).get(
+            "maximum_absolute_error"
+        )
+        > transactional_gravity_scalar_cuda.get("gpu_cpu_crosscheck", {}).get(
+            "absolute_error_bound"
+        )
+        or transactional_gravity_scalar_cuda.get("gpu_cpu_crosscheck", {}).get(
+            "maximum_relative_error"
+        )
+        > transactional_gravity_scalar_cuda.get("gpu_cpu_crosscheck", {}).get(
+            "relative_error_bound"
+        )
+        or transactional_gravity_scalar_cuda.get("dispersion_control", {}).get(
+            "maximum_gpu_relative_equation_residual"
+        )
+        > transactional_gravity_scalar_cuda.get("gpu_cpu_crosscheck", {}).get(
+            "dispersion_relative_residual_bound"
+        )
+        or "device-wide NVML"
+        not in transactional_gravity_scalar_cuda.get("runtime_measurement", {})
+        .get("utilization", {})
+        .get("counter_scope", "")
+        or transactional_gravity_scalar_cuda.get("synthetic_only") is not True
+        or any(
+            transactional_gravity_scalar_cuda.get(key) is not False
+            for key in (
+                "observations_opened",
+                "ontology_pass",
+                "paper_or_qed_pass",
+                "theory_pass",
+                "dark_matter_or_halo_inputs",
+                "redshift_or_cosmology_inputs",
+                "paid_llm_calls",
+            )
+        )
+    ):
+        raise ValueError("Kastner-Schlatter scalar CUDA campaign is inconsistent")
     expected_extended_geometry_counts = {
         "evaluation_radii_per_case": 2_048,
         "extended_source_laws_registered": 0,
@@ -1258,9 +1370,7 @@ def build_unified_snapshot(
         "synthetic_geometry_classes": 4,
         "unique_source_evaluation_interactions": 44_695_552,
     }
-    extended_hypotheses = transactional_gravity_extended_geometry.get(
-        "completion_hypotheses", {}
-    )
+    extended_hypotheses = transactional_gravity_extended_geometry.get("completion_hypotheses", {})
     local_superposition = extended_hypotheses.get("H_local_superposition", {})
     if (
         transactional_gravity_extended_geometry.get("decision")
@@ -1293,9 +1403,7 @@ def build_unified_snapshot(
         is not False
         or extended_hypotheses.get("H_enclosed_mass", {}).get("decision")
         != "blocked_not_a_registered_extended_source_law"
-        or extended_hypotheses.get("H_enclosed_mass", {}).get(
-            "geometry_blind_shell_ring_control"
-        )
+        or extended_hypotheses.get("H_enclosed_mass", {}).get("geometry_blind_shell_ring_control")
         != "fails_to_distinguish_thin_shell_from_thin_ring_with_same_radial_mass_support"
         or local_superposition.get("decision")
         != "hypothesis_rejected_by_exact_splitting_and_pair_balance_controls"
@@ -1313,13 +1421,13 @@ def build_unified_snapshot(
             "exact_net_matter_force"
         )
         != "(3-sqrt(3))/8"
-        or transactional_gravity_extended_geometry.get(
-            "lensing_rotation_consistency_gate", {}
-        ).get("executed")
+        or transactional_gravity_extended_geometry.get("lensing_rotation_consistency_gate", {}).get(
+            "executed"
+        )
         is not False
-        or transactional_gravity_extended_geometry.get(
-            "lensing_rotation_consistency_gate", {}
-        ).get("first_missing_field")
+        or transactional_gravity_extended_geometry.get("lensing_rotation_consistency_gate", {}).get(
+            "first_missing_field"
+        )
         != "source_supported_covariant_extended_metric_and_null_geodesic_deflection_operator"
         or transactional_gravity_extended_geometry.get("gpu_cpu_crosscheck", {}).get(
             "maximum_absolute_component_error"
@@ -2692,9 +2800,7 @@ def build_unified_snapshot(
             "forced_characteristic_candidate_count"
         )
         != 11
-        or future_aether_canonical_seed_constraint_dag_gate.get(
-            "York_symbol_shell_candidate_count"
-        )
+        or future_aether_canonical_seed_constraint_dag_gate.get("York_symbol_shell_candidate_count")
         != 2
         or future_aether_canonical_seed_constraint_dag_gate.get(
             "uniformly_elliptic_candidate_count"
@@ -2766,8 +2872,7 @@ def build_unified_snapshot(
         or future_aether_canonical_seed_constraint_dag_gate.get("redshift_distance_inputs")
         is not False
         or future_aether_canonical_seed_constraint_dag_gate.get("paid_llm_spend_usd") != 0.0
-        or len(future_aether_canonical_seed_constraint_dag_gate.get("candidate_records", []))
-        != 14
+        or len(future_aether_canonical_seed_constraint_dag_gate.get("candidate_records", [])) != 14
     ):
         raise ValueError("future Aether canonical-seed constraint DAG gate is inconsistent")
     aether_shell_records = future_aether_characteristic_shell_hcore_gate.get(
@@ -2782,15 +2887,15 @@ def build_unified_snapshot(
         None,
     )
     aether_shell_control = (
-        aether_shell_target.get("characteristic_shell_H_core_certificate", {})
-        .get("characteristic_shell_control", {})
+        aether_shell_target.get("characteristic_shell_H_core_certificate", {}).get(
+            "characteristic_shell_control", {}
+        )
         if aether_shell_target
         else {}
     )
     if (
         future_aether_characteristic_shell_hcore_gate.get("candidate_count") != 14
-        or future_aether_characteristic_shell_hcore_gate.get("decision_counts")
-        != {"blocked": 14}
+        or future_aether_characteristic_shell_hcore_gate.get("decision_counts") != {"blocked": 14}
         or future_aether_characteristic_shell_hcore_gate.get("first_blocker_counts")
         != {
             "alternative_canonical_momentum_variable_or_gauge_avoiding_exact_finite_tilt_York_symbol_shell": 2,
@@ -2814,9 +2919,7 @@ def build_unified_snapshot(
         )
         != 0
         or future_aether_characteristic_shell_hcore_gate.get("formal_pass_count") != 0
-        or future_aether_characteristic_shell_hcore_gate.get(
-            "candidate_rejection_authorized_count"
-        )
+        or future_aether_characteristic_shell_hcore_gate.get("candidate_rejection_authorized_count")
         != 0
         or future_aether_characteristic_shell_hcore_gate.get(
             "constraint_satisfying_negative_total_energy_datum_count"
@@ -2836,9 +2939,7 @@ def build_unified_snapshot(
         or aether_shell_control.get("only_real_characteristic_condition") != "F**2=31"
         or aether_shell_control.get("hessian_determinant")
         != "-31*(F**2 - 31)**2*(33*F**2 + 65)*(61*F**2 + 124)**2/(8796093022208*(F**2 + 1))"
-        or aether_shell_control.get("declared_profile_characteristic_shell", {}).get(
-            "hessian_rank"
-        )
+        or aether_shell_control.get("declared_profile_characteristic_shell", {}).get("hessian_rank")
         != 7
         or aether_shell_control.get("declared_profile_characteristic_shell", {}).get(
             "hessian_nullity"
@@ -2852,19 +2953,14 @@ def build_unified_snapshot(
             "null_projection_residuals"
         )
         != ["0", "1"]
-        or aether_shell_control.get("incompatible_momentum_negative_control", {}).get(
-            "rejected"
-        )
+        or aether_shell_control.get("incompatible_momentum_negative_control", {}).get("rejected")
         is not True
         or aether_shell_control.get("noncrossing_profile_control", {}).get(
             "distance_to_characteristic_F_squared"
         )
         != "6"
-        or aether_shell_control.get("regular_stratum_H_core", {}).get("registered")
-        is not True
-        or aether_shell_control.get("regular_stratum_H_core", {}).get(
-            "global_on_declared_profile"
-        )
+        or aether_shell_control.get("regular_stratum_H_core", {}).get("registered") is not True
+        or aether_shell_control.get("regular_stratum_H_core", {}).get("global_on_declared_profile")
         is not False
         or future_aether_characteristic_shell_hcore_gate.get(
             "automatic_downstream_enqueue_performed"
@@ -4138,13 +4234,10 @@ def build_unified_snapshot(
         != 0
         or fourth_obstruction.get("obligation_offset") != 244
         or fourth_obstruction.get("active_indices") != [0, 2, 3, 9]
-        or fourth_obstruction.get("gate")
-        != "fourth-order equal-eigenspace Sylvester compatibility"
+        or fourth_obstruction.get("gate") != "fourth-order equal-eigenspace Sylvester compatibility"
         or len(fourth_obstruction.get("obstructed_candidate_ids", [])) != 12
         or fourth_obstruction.get("record_sha256")
-        != quartic_tc2_fourth_jet_chunk_224.get("chunk_contract", {}).get(
-            "resume_tip_sha256"
-        )
+        != quartic_tc2_fourth_jet_chunk_224.get("chunk_contract", {}).get("resume_tip_sha256")
         or quartic_tc2_fourth_jet_checkpoint.get("next_obligation_offset") != 245
         or quartic_tc2_fourth_jet_checkpoint.get("remaining_obligations") != 2_816
         or quartic_tc2_fourth_jet_checkpoint.get("current_artifact_content_sha256")
@@ -4176,9 +4269,7 @@ def build_unified_snapshot(
         raise ValueError("quartic TC2 fourth-jet obligation service is inconsistent")
     d4_certificate_counts = quartic_tc2_d4_obstruction_certificate.get("counts", {})
     d4_certificate_claims = quartic_tc2_d4_obstruction_certificate.get("claims", {})
-    d4_symbolic = quartic_tc2_d4_obstruction_certificate.get(
-        "exact_symbolic_certificate", {}
-    )
+    d4_symbolic = quartic_tc2_d4_obstruction_certificate.get("exact_symbolic_certificate", {})
     d4_zero_compression = d4_symbolic.get("equal_eigenspace_compressions", {}).get(
         "zero_eigenspace", {}
     )
@@ -4205,9 +4296,7 @@ def build_unified_snapshot(
             "obligation_offset"
         )
         != 244
-        or quartic_tc2_d4_obstruction_certificate.get("selector_binding", {}).get(
-            "active_indices"
-        )
+        or quartic_tc2_d4_obstruction_certificate.get("selector_binding", {}).get("active_indices")
         != [0, 2, 3, 9]
         or quartic_tc2_d4_obstruction_certificate.get("source_bindings", {})
         .get("obstruction_chunk", {})
@@ -4224,10 +4313,8 @@ def build_unified_snapshot(
         or len(d4_candidates) != 12
         or any(row.get("compatible") is not False for row in d4_candidates)
         or {row.get("a10") for row in d4_candidates} != {"-1", "-1/2", "1/2", "1"}
-        or d4_certificate_claims.get("canonical_D4_obligation_244_classified")
-        is not True
-        or d4_certificate_claims.get("canonical_D4_obligation_244_compatible")
-        is not False
+        or d4_certificate_claims.get("canonical_D4_obligation_244_classified") is not True
+        or d4_certificate_claims.get("canonical_D4_obligation_244_compatible") is not False
         or d4_certificate_claims.get("all_12_registered_candidates_canonically_obstructed")
         is not True
         or d4_certificate_claims.get("alternative_lower_jet_homogeneous_completion_ruled_out")
@@ -4248,12 +4335,8 @@ def build_unified_snapshot(
         )
     ):
         raise ValueError("quartic TC2 D4 obstruction certificate is inconsistent")
-    d4_homogeneous_counts = quartic_tc2_d4_homogeneous_freedom_reduction.get(
-        "counts", {}
-    )
-    d4_homogeneous_claims = quartic_tc2_d4_homogeneous_freedom_reduction.get(
-        "claims", {}
-    )
+    d4_homogeneous_counts = quartic_tc2_d4_homogeneous_freedom_reduction.get("counts", {})
+    d4_homogeneous_claims = quartic_tc2_d4_homogeneous_freedom_reduction.get("claims", {})
     d4_homogeneous_reduction = quartic_tc2_d4_homogeneous_freedom_reduction.get(
         "homogeneous_freedom_reduction", {}
     )
@@ -4289,8 +4372,7 @@ def build_unified_snapshot(
         or d4_homogeneous_counts.get("candidate_cancellations") != 0
         or d4_homogeneous_counts.get("inferred_passes") != 0
         or d4_homogeneous_reduction.get("induced_D4_zero_eigenspace_map_rank") != 0
-        or d4_homogeneous_reduction.get("induced_D4_zero_eigenspace_map_image_dimension")
-        != 0
+        or d4_homogeneous_reduction.get("induced_D4_zero_eigenspace_map_image_dimension") != 0
         or d4_homogeneous_reduction.get("canonical_rank_two_witness_in_image") is not False
         or d4_homogeneous_reduction.get(
             "total_lower_jet_reference_kernel_slots_before_cross_order_constraints"
@@ -4302,8 +4384,7 @@ def build_unified_snapshot(
         is not True
         or d4_homogeneous_claims.get("all_12_registered_candidates_D4_obstructed_at_obligation_244")
         is not True
-        or d4_homogeneous_claims.get("all_3060_fourth_jet_obligations_evaluated")
-        is not False
+        or d4_homogeneous_claims.get("all_3060_fourth_jet_obligations_evaluated") is not False
         or any(
             d4_homogeneous_claims.get(key) is not False
             for key in (
@@ -4338,13 +4419,9 @@ def build_unified_snapshot(
     if (
         quartic_tc2_d4_minimal_tc2_escape.get("status")
         != "pass_exact_minimal_rank_one_tc2_d4_escape_algebraic_only"
-        or quartic_tc2_d4_minimal_tc2_escape.get("selector_binding", {}).get(
-            "obligation_offset"
-        )
+        or quartic_tc2_d4_minimal_tc2_escape.get("selector_binding", {}).get("obligation_offset")
         != 244
-        or quartic_tc2_d4_minimal_tc2_escape.get("selector_binding", {}).get(
-            "active_indices"
-        )
+        or quartic_tc2_d4_minimal_tc2_escape.get("selector_binding", {}).get("active_indices")
         != [0, 2, 3, 9]
         or quartic_tc2_d4_minimal_tc2_escape.get("selector_binding", {}).get(
             "canonical_compression_sha256"
@@ -4384,8 +4461,7 @@ def build_unified_snapshot(
         or d4_escape_map.get("formula") != "eta -> eta*W"
         or d4_escape_map.get("rank") != 1
         or d4_escape_map.get("image_dimension") != 1
-        or d4_escape_map.get("unique_solvability_condition")
-        != "eta=-(34816/15)*alpha^5"
+        or d4_escape_map.get("unique_solvability_condition") != "eta=-(34816/15)*alpha^5"
         or d4_escape.get("distinct_candidate_eta_values")
         != ["-34816/15", "-1088/15", "1088/15", "34816/15"]
         or len(d4_escape_rows) != 12
@@ -4419,6 +4495,58 @@ def build_unified_snapshot(
         )
     ):
         raise ValueError("quartic TC2 D4 minimal algebraic escape is inconsistent")
+    origin_no_go = quartic_tc2_d4_registered_operator_origin_no_go.get("exact_no_go", {})
+    origin_map = origin_no_go.get("induced_cokernel_map", {})
+    origin_support = origin_no_go.get("constraint_support_audit", {})
+    origin_claims = quartic_tc2_d4_registered_operator_origin_no_go.get("claims", {})
+    if (
+        quartic_tc2_d4_registered_operator_origin_no_go.get("status")
+        != "pass_exact_no_go_for_registered_support_preserving_TC2_operator_class"
+        or quartic_tc2_d4_registered_operator_origin_no_go.get("source_bindings", {})
+        .get("minimal_escape", {})
+        .get("content_sha256")
+        != quartic_tc2_d4_minimal_tc2_escape.get("content_sha256")
+        or quartic_tc2_d4_registered_operator_origin_no_go.get("counts")
+        != {
+            "broad_induced_cokernel_map_rank": 0,
+            "broad_support_preserving_domain_dimension": 55,
+            "inferred_global_passes": 0,
+            "negative_controls": 5,
+            "positive_controls": 1,
+            "registered_TC2_blocks_checked": 4,
+            "registered_action_terms_checked": 1,
+            "target_augmented_rank": 1,
+        }
+        or origin_map.get("domain_dimension") != 55
+        or origin_map.get("rank") != 0
+        or origin_map.get("image_dimension") != 0
+        or origin_map.get("augmented_rank") != 1
+        or origin_map.get("target_in_image") is not False
+        or origin_support.get("registered_right_support_columns") != [54]
+        or origin_support.get("escape_V_right_support_columns") != [21]
+        or origin_support.get("support_intersection_empty") is not True
+        or origin_claims.get("registered_linear_X_quartic_Horndeski_TC2_origin_ruled_out")
+        is not True
+        or origin_claims.get("registered_support_preserving_gauge_deformation_ruled_out")
+        is not True
+        or any(
+            origin_claims.get(key) is not False
+            for key in (
+                "arbitrary_covariant_quartic_operator_ruled_out",
+                "arbitrary_gauge_fixed_operator_deformation_ruled_out",
+                "constraint_topology_changing_realization_constructed",
+                "corrected_candidate_family_registered",
+                "covariant_realization_constructed",
+                "CK1_closed",
+                "CK3_closed",
+                "TC2_closed",
+                "B7_closed",
+                "global_H7_closed",
+                "lifespan_proved",
+            )
+        )
+    ):
+        raise ValueError("quartic TC2 registered operator origin no-go is inconsistent")
     if (
         unified_live_dashboard_service_readiness.get("decision")
         != "ready_enabled_read_only_bounded"
@@ -4616,9 +4744,7 @@ def build_unified_snapshot(
             },
             "decision": "blocked",
             "first_blocker": transactional_gravity_candidate_action["first_blocker"],
-            "equation_preflight_counts": transactional_gravity_intake[
-                "synthetic_preflight_counts"
-            ],
+            "equation_preflight_counts": transactional_gravity_intake["synthetic_preflight_counts"],
             "equation_35_normalization_gate": transactional_gravity_cuda[
                 "equation_35_normalization_gate"
             ],
@@ -4640,9 +4766,7 @@ def build_unified_snapshot(
             },
             "observational_readiness": {
                 "decision": transactional_gravity_observational["decision"],
-                "registration_counts": transactional_gravity_observational[
-                    "registration_counts"
-                ],
+                "registration_counts": transactional_gravity_observational["registration_counts"],
                 "lane_decisions": transactional_gravity_observational["lane_decisions"],
                 "observational_access_count": transactional_gravity_observational[
                     "observational_access_count"
@@ -4650,9 +4774,7 @@ def build_unified_snapshot(
                 "real_data_bundle_count": transactional_gravity_observational[
                     "real_data_bundle_count"
                 ],
-                "real_data_pass_count": transactional_gravity_observational[
-                    "real_data_pass_count"
-                ],
+                "real_data_pass_count": transactional_gravity_observational["real_data_pass_count"],
                 "theory_or_ontology_pass_count": transactional_gravity_observational[
                     "theory_or_ontology_pass_count"
                 ],
@@ -4665,25 +4787,13 @@ def build_unified_snapshot(
                 "poisson_power_control": transactional_gravity_falsification[
                     "poisson_power_control"
                 ],
-                "btfr_power_control": transactional_gravity_falsification[
-                    "btfr_power_control"
-                ],
-                "gpu_cpu_crosscheck": transactional_gravity_falsification[
-                    "gpu_cpu_crosscheck"
-                ],
-                "observational_bridge": transactional_gravity_falsification[
-                    "observational_bridge"
-                ],
-                "runtime_measurement": transactional_gravity_falsification[
-                    "runtime_measurement"
-                ],
-                "workload_priority": transactional_gravity_falsification[
-                    "workload_priority"
-                ],
+                "btfr_power_control": transactional_gravity_falsification["btfr_power_control"],
+                "gpu_cpu_crosscheck": transactional_gravity_falsification["gpu_cpu_crosscheck"],
+                "observational_bridge": transactional_gravity_falsification["observational_bridge"],
+                "runtime_measurement": transactional_gravity_falsification["runtime_measurement"],
+                "workload_priority": transactional_gravity_falsification["workload_priority"],
                 "synthetic_only": transactional_gravity_falsification["synthetic_only"],
-                "scientific_test_pass": transactional_gravity_falsification[
-                    "scientific_test_pass"
-                ],
+                "scientific_test_pass": transactional_gravity_falsification["scientific_test_pass"],
             },
             "candidate_action_completion": {
                 "decision": transactional_gravity_candidate_action["decision"],
@@ -4693,10 +4803,36 @@ def build_unified_snapshot(
                     "completion_hypotheses"
                 ],
                 "dimensions": transactional_gravity_candidate_action["dimensions"],
-                "secondary_blockers": transactional_gravity_candidate_action[
-                    "secondary_blockers"
-                ],
+                "secondary_blockers": transactional_gravity_candidate_action["secondary_blockers"],
                 "scope": transactional_gravity_candidate_action["scope"],
+            },
+            "action_equivalence_audit": {
+                "decision": transactional_gravity_equivalence["decision"],
+                "first_blocker": transactional_gravity_equivalence["first_blocker"],
+                "counts": transactional_gravity_equivalence["counts"],
+                "branch_comparison": transactional_gravity_equivalence["branch_comparison"],
+                "equivalence_certificates": transactional_gravity_equivalence[
+                    "equivalence_certificates"
+                ],
+                "scope": transactional_gravity_equivalence["scope"],
+            },
+            "candidate_action_formal_admission": {
+                "decision": transactional_gravity_formal["decision"],
+                "decision_counts": transactional_gravity_formal["decision_counts"],
+                "formal_counts": transactional_gravity_formal["formal_counts"],
+                "first_blocker": transactional_gravity_formal["first_blocker"],
+                "formal_domain": transactional_gravity_formal["formal_domain"],
+                "scope": transactional_gravity_formal["scope"],
+            },
+            "scalar_intensity_cuda_falsification": {
+                "decision": transactional_gravity_scalar_cuda["decision"],
+                "first_blocker": transactional_gravity_scalar_cuda["first_blocker"],
+                "counts": transactional_gravity_scalar_cuda["counts"],
+                "linearized_operator": transactional_gravity_scalar_cuda["linearized_operator"],
+                "dispersion_control": transactional_gravity_scalar_cuda["dispersion_control"],
+                "gpu_cpu_crosscheck": transactional_gravity_scalar_cuda["gpu_cpu_crosscheck"],
+                "runtime_measurement": transactional_gravity_scalar_cuda["runtime_measurement"],
+                "synthetic_only": transactional_gravity_scalar_cuda["synthetic_only"],
             },
             "extended_geometry_cuda_stress": {
                 "decision": transactional_gravity_extended_geometry["decision"],
@@ -4724,9 +4860,7 @@ def build_unified_snapshot(
                 "lensing_rotation_consistency_gate": transactional_gravity_extended_geometry[
                     "lensing_rotation_consistency_gate"
                 ],
-                "gpu_cpu_crosscheck": transactional_gravity_extended_geometry[
-                    "gpu_cpu_crosscheck"
-                ],
+                "gpu_cpu_crosscheck": transactional_gravity_extended_geometry["gpu_cpu_crosscheck"],
                 "runtime_measurement": transactional_gravity_extended_geometry[
                     "runtime_measurement"
                 ],
@@ -5731,20 +5865,16 @@ def build_unified_snapshot(
                     "candidate_obstructions_certified": d4_certificate_counts[
                         "candidate_obstructions_certified"
                     ],
-                    "obligation_offset": quartic_tc2_d4_obstruction_certificate[
-                        "selector_binding"
-                    ]["obligation_offset"],
-                    "active_indices": quartic_tc2_d4_obstruction_certificate[
-                        "selector_binding"
-                    ]["active_indices"],
+                    "obligation_offset": quartic_tc2_d4_obstruction_certificate["selector_binding"][
+                        "obligation_offset"
+                    ],
+                    "active_indices": quartic_tc2_d4_obstruction_certificate["selector_binding"][
+                        "active_indices"
+                    ],
                     "zero_eigenspace_factorization": d4_zero_compression["factorization"],
-                    "zero_eigenspace_compression_rank": d4_zero_compression[
-                        "generic_rank"
-                    ],
+                    "zero_eigenspace_compression_rank": d4_zero_compression["generic_rank"],
                     "zero_eigenspace_compression_sha256": d4_zero_compression["sha256"],
-                    "compatibility_iff_over_Q_or_R": d4_range[
-                        "compatibility_iff_over_Q_or_R"
-                    ],
+                    "compatibility_iff_over_Q_or_R": d4_range["compatibility_iff_over_Q_or_R"],
                     "independent_of_c20": d4_range["independent_of_c20"],
                     "exact_candidate_witness_gap": d4_gap["interval"],
                     "alternative_lower_jet_homogeneous_completion_ruled_out": d4_homogeneous_claims[
@@ -5770,9 +5900,7 @@ def build_unified_snapshot(
                         "candidate_obstructions_invariant": d4_homogeneous_counts[
                             "candidate_obstructions_invariant"
                         ],
-                        "candidate_cancellations": d4_homogeneous_counts[
-                            "candidate_cancellations"
-                        ],
+                        "candidate_cancellations": d4_homogeneous_counts["candidate_cancellations"],
                         "exact_identity": d4_homogeneous_reduction["exact_identity"],
                     },
                     "minimal_algebraic_TC2_escape": {
@@ -5781,9 +5909,7 @@ def build_unified_snapshot(
                             "correction_basis_dimension"
                         ],
                         "correction_block_rank": d4_escape_counts["correction_block_rank"],
-                        "induced_cokernel_map_rank": d4_escape_counts[
-                            "induced_cokernel_map_rank"
-                        ],
+                        "induced_cokernel_map_rank": d4_escape_counts["induced_cokernel_map_rank"],
                         "target_cokernel_line_dimension": d4_escape_counts[
                             "target_cokernel_line_dimension"
                         ],
@@ -5793,16 +5919,12 @@ def build_unified_snapshot(
                         "candidate_D4_obstructions_after_tuning": d4_escape_counts[
                             "candidate_D4_obstructions_after_tuning"
                         ],
-                        "distinct_candidate_eta_values": d4_escape[
-                            "distinct_candidate_eta_values"
-                        ],
+                        "distinct_candidate_eta_values": d4_escape["distinct_candidate_eta_values"],
                         "correction_ansatz": {
                             "definition": d4_escape_ansatz["V_definition"],
                             "V_rank": d4_escape_ansatz["V_rank"],
                             "V_nonzero_entries": d4_escape_ansatz["V_nonzero_entries"],
-                            "energy_skew_definition": d4_escape_ansatz[
-                                "energy_skew_definition"
-                            ],
+                            "energy_skew_definition": d4_escape_ansatz["energy_skew_definition"],
                             "covariant_or_action_derived": d4_escape_ansatz[
                                 "covariant_or_action_derived"
                             ],
@@ -5816,7 +5938,45 @@ def build_unified_snapshot(
                         ],
                         "scope": quartic_tc2_d4_minimal_tc2_escape["scope"],
                     },
-                    "next_gate": quartic_tc2_d4_minimal_tc2_escape["next_gate"],
+                    "registered_operator_origin_no_go": {
+                        "status": quartic_tc2_d4_registered_operator_origin_no_go["status"],
+                        "counts": quartic_tc2_d4_registered_operator_origin_no_go["counts"],
+                        "declared_operator_class": {
+                            key: origin_no_go["declared_operator_class"][key]
+                            for key in (
+                                "name",
+                                "general_block",
+                                "domain_dimension_at_one_jet_monomial",
+                                "fixed_input_state",
+                                "scope_limit",
+                            )
+                        },
+                        "induced_cokernel_map": {
+                            key: origin_map[key]
+                            for key in (
+                                "domain_dimension",
+                                "rank",
+                                "image_dimension",
+                                "augmented_rank",
+                                "target_W_rank",
+                                "target_W_nonzero_entries",
+                                "target_in_image",
+                            )
+                        },
+                        "constraint_support_audit": {
+                            key: origin_support[key]
+                            for key in (
+                                "registered_right_support_columns",
+                                "escape_V_right_support_columns",
+                                "support_intersection_empty",
+                                "zero_projector_rank",
+                                "interpretation",
+                            )
+                        },
+                        "sharp_result": origin_no_go["sharp_result"],
+                        "scope": quartic_tc2_d4_registered_operator_origin_no_go["scope"],
+                    },
+                    "next_gate": quartic_tc2_d4_registered_operator_origin_no_go["next_gate"],
                 },
                 "full_fourth_jet_range_closed": False,
             },
@@ -5832,7 +5992,7 @@ def build_unified_snapshot(
                     "lifespans_proved",
                 )
             },
-            "first_missing_premise": "derive_the_rank_one_quartic_state_space_counterterm_from_a_covariant_action_or_admissible_gauge_fixed_TC2_operator_and_prove_constraint_compatibility_or_reject_it_as_nonphysical",
+            "first_missing_premise": "derive_and_constraint_check_a_new_covariant_invariant_or_topology_changing_reduction_with_nonzero_zero_speed_projection",
         },
         "evidence_pareto": {
             "candidate_decision_counts": pareto["candidate_decision_counts"],

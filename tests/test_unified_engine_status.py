@@ -33,6 +33,9 @@ SOURCE_PATHS = [
     "runs/engine/kastner-schlatter-observational-readiness-contract.json",
     "runs/engine/kastner-schlatter-cuda-falsification-design.json",
     "runs/engine/kastner-schlatter-candidate-action-completion.json",
+    "runs/engine/kastner-schlatter-action-equivalence-audit.json",
+    "runs/engine/kastner-schlatter-candidate-action-formal-admission.json",
+    "runs/engine/kastner-schlatter-scalar-intensity-cuda-falsification.json",
     "runs/engine/kastner-schlatter-extended-geometry-cuda-stress.json",
     "runs/engine/generic-g4-b4-termwise-normalization-campaign.json",
     "runs/engine/grammar-v3-formal-preflight-status.json",
@@ -117,6 +120,7 @@ SOURCE_PATHS = [
     "runs/physics-language/quartic-tc2-d4-obstruction-cokernel-certificate/campaign.json",
     "runs/physics-language/quartic-tc2-d4-homogeneous-freedom-reduction/campaign.json",
     "runs/physics-language/quartic-tc2-d4-minimal-tc2-escape-campaign/campaign.json",
+    "runs/physics-language/quartic-tc2-d4-registered-operator-origin-no-go-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000000.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000064.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000128.json",
@@ -175,6 +179,9 @@ LABELS = [
     "kastner_schlatter_observational_readiness_contract",
     "kastner_schlatter_cuda_falsification_design",
     "kastner_schlatter_candidate_action_completion",
+    "kastner_schlatter_action_equivalence_audit",
+    "kastner_schlatter_candidate_action_formal_admission",
+    "kastner_schlatter_scalar_intensity_cuda_falsification",
     "kastner_schlatter_extended_geometry_cuda_stress",
     "generic_g4_b4_termwise_normalization",
     "grammar_v3_formal_preflight",
@@ -259,6 +266,7 @@ LABELS = [
     "quartic_tc2_d4_obstruction_cokernel_certificate",
     "quartic_tc2_d4_homogeneous_freedom_reduction",
     "quartic_tc2_d4_minimal_tc2_escape",
+    "quartic_tc2_d4_registered_operator_origin_no_go",
     "quartic_tc2_reranked_obligation_chunk_0",
     "quartic_tc2_reranked_obligation_chunk_64",
     "quartic_tc2_reranked_obligation_chunk_128",
@@ -706,13 +714,12 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     assert transactional["equation_preflight_counts"] == {"pass": 7, "reject": 0, "block": 1}
     assert transactional["equation_graph"]["counts"]["nodes"] == 54
     assert transactional["equation_graph"]["counts"]["edges"] == 137
-    assert transactional["equation_35_normalization_gate"][
-        "exact_ratio_middle_to_printed"
-    ] == "2"
+    assert transactional["equation_35_normalization_gate"]["exact_ratio_middle_to_printed"] == "2"
     assert transactional["cuda_consequence_campaign"]["counts"]["poisson_samples"] == 1_572_864
-    assert transactional["cuda_consequence_campaign"]["counts"][
-        "gpu_measured_consequence_evaluations"
-    ] == 17_179_869_184
+    assert (
+        transactional["cuda_consequence_campaign"]["counts"]["gpu_measured_consequence_evaluations"]
+        == 17_179_869_184
+    )
     readiness = transactional["observational_readiness"]
     assert readiness["decision"] == "blocked_registration_incomplete_observations_sealed"
     assert readiness["registration_counts"]["by_status"] == {
@@ -737,15 +744,12 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
         "readiness_fields_advanced": 0,
         "scientific_tests_passed": 0,
     }
-    assert falsification["poisson_power_control"][
-        "empirical_alternative_detection_rate"
-    ] == 1.0
-    assert falsification["btfr_power_control"][
-        "empirical_alternative_detection_rate"
-    ] == 0.999267578125
-    assert falsification["gpu_cpu_crosscheck"][
-        "all_rejection_decisions_byte_equal"
-    ] is True
+    assert falsification["poisson_power_control"]["empirical_alternative_detection_rate"] == 1.0
+    assert (
+        falsification["btfr_power_control"]["empirical_alternative_detection_rate"]
+        == 0.999267578125
+    )
+    assert falsification["gpu_cpu_crosscheck"]["all_rejection_decisions_byte_equal"] is True
     assert falsification["observational_bridge"]["registration_fields_advanced"] == 0
     assert falsification["scientific_test_pass"] is False
     action_completion = transactional["candidate_action_completion"]
@@ -766,6 +770,21 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
         and row["paper_authorship_or_derivation"] is False
         for row in action_completion["completion_hypotheses"]
     )
+    equivalence = transactional["action_equivalence_audit"]
+    assert equivalence["counts"]["canonical_dynamic_class_matches"] == 2
+    assert equivalence["counts"]["new_propagating_gravity_operator_classes"] == 0
+    assert equivalence["branch_comparison"]["same_propagating_operator_class"] is True
+    assert equivalence["branch_comparison"]["same_constant_vacuum_energy"] is False
+    formal = transactional["candidate_action_formal_admission"]
+    assert formal["formal_counts"]["regular_ADM_Dirac_pass"] == 2
+    assert formal["formal_counts"]["three_local_DOF_pass"] == 2
+    assert formal["formal_counts"]["global_positive_energy_pass"] == 0
+    assert formal["decision_counts"] == {"blocked": 2, "pass": 0, "reject": 0}
+    scalar_cuda = transactional["scalar_intensity_cuda_falsification"]
+    assert scalar_cuda["counts"]["gpu_measured_scalar_consequence_evaluations"] == (137_438_953_472)
+    assert scalar_cuda["counts"]["paper_qed_or_theory_passes"] == 0
+    assert scalar_cuda["gpu_cpu_crosscheck"]["maximum_relative_error"] < 1e-12
+    assert scalar_cuda["synthetic_only"] is True
     extended = transactional["extended_geometry_cuda_stress"]
     assert extended["counts"]["geometry_resolution_cases"] == 20
     assert extended["counts"]["gpu_measured_source_evaluation_interactions"] == 2_860_515_328
@@ -1236,8 +1255,7 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
             },
             "generic_g4_B4_termwise_normalization": {
                 "status": (
-                    "pass_exact_24_term_generic_nonlinear_G4X_metric_Euler_"
-                    "normalization_to_KYY_B4"
+                    "pass_exact_24_term_generic_nonlinear_G4X_metric_Euler_normalization_to_KYY_B4"
                 ),
                 "primary_source": {
                     "arxiv_id": "1105.5723v4",
@@ -1249,9 +1267,7 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                     ),
                 },
                 "primary_source_transcription": {
-                    "path": (
-                        "formal/sources/kyy_1105.5723v4_eq_B4_canonical_coefficients.json"
-                    ),
+                    "path": ("formal/sources/kyy_1105.5723v4_eq_B4_canonical_coefficients.json"),
                     "file_sha256": (
                         "497042978c3c0eed8ec02b49c5ceb2c258e60416c23152e34d44cde4ae53d32f"
                     ),
@@ -1588,9 +1604,7 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                         "all_other_equal_eigenspace_compressions_zero": True,
                         "canonical_obstruction_in_image": True,
                         "canonical_obstruction_line_dimension": 1,
-                        "corrected_zero_eigenspace_compression": (
-                            "((34816/15)*alpha^5+eta)*W"
-                        ),
+                        "corrected_zero_eigenspace_compression": ("((34816/15)*alpha^5+eta)*W"),
                         "domain_basis": ["eta"],
                         "formula": "eta -> eta*W",
                         "image_basis": ["W"],
@@ -1609,11 +1623,82 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                         "global-H7, or lifespan result is inferred."
                     ),
                 },
+                "registered_operator_origin_no_go": {
+                    "status": "pass_exact_no_go_for_registered_support_preserving_TC2_operator_class",
+                    "counts": {
+                        "broad_induced_cokernel_map_rank": 0,
+                        "broad_support_preserving_domain_dimension": 55,
+                        "inferred_global_passes": 0,
+                        "negative_controls": 5,
+                        "positive_controls": 1,
+                        "registered_TC2_blocks_checked": 4,
+                        "registered_action_terms_checked": 1,
+                        "target_augmented_rank": 1,
+                    },
+                    "declared_operator_class": {
+                        "name": "registered_support_preserving_quartic_TC2_lifts",
+                        "general_block": ("B_u(Y)=u(Y)*e_54^T with arbitrary u(Y) in Q(Y)^55"),
+                        "domain_dimension_at_one_jet_monomial": 55,
+                        "fixed_input_state": {"index": 54, "label": "w1[10]"},
+                        "scope_limit": (
+                            "This class contains the currently registered linear-X "
+                            "quartic-Horndeski TC2 lift and every gauge-fixed "
+                            "coefficient/output-row deformation that retains its "
+                            "first-order constraint topology. It does not contain a new "
+                            "covariant invariant or a deformation that changes the input "
+                            "selector."
+                        ),
+                    },
+                    "induced_cokernel_map": {
+                        "domain_dimension": 55,
+                        "rank": 0,
+                        "image_dimension": 0,
+                        "augmented_rank": 1,
+                        "target_W_rank": 2,
+                        "target_W_nonzero_entries": 4,
+                        "target_in_image": False,
+                    },
+                    "constraint_support_audit": {
+                        "registered_right_support_columns": [54],
+                        "escape_V_right_support_columns": [21],
+                        "support_intersection_empty": True,
+                        "zero_projector_rank": 33,
+                        "interpretation": (
+                            "V consumes the stationary w2[10] constraint-sector state, "
+                            "whereas every registered TC2 block consumes the high w1[10] "
+                            "state. Adding V therefore changes the registered "
+                            "derivative-definition/constraint topology."
+                        ),
+                    },
+                    "sharp_result": {
+                        "reason": "induced map rank 0 while adjoining W raises rank to 1",
+                        "registered_linear_X_quartic_Horndeski_TC2_realizes_V": False,
+                        "sharpness": (
+                            "The no-go permits arbitrary output u and arbitrary quartic "
+                            "coefficient dependence; its only structural restriction is "
+                            "the registered e54 input selector. The algebraic V succeeds "
+                            "precisely by replacing that selector with e21, so changing "
+                            "constraint topology remains an open escape route."
+                        ),
+                        "support_preserving_class_can_cancel_obligation_244_W": False,
+                        "support_preserving_gauge_fixed_deformation_realizes_V": False,
+                    },
+                    "scope": (
+                        "Exact reference-point incompatibility for the currently "
+                        "registered linear-X quartic-Horndeski TC2 lift and the broader "
+                        "55-dimensional class of deformations B_u=u*e54^T that preserve "
+                        "its first-order input selector. No statement is made about new "
+                        "covariant invariants, topology-changing gauge reductions, the "
+                        "remaining D4 selector, a tube theorem, CK1, CK3, TC2, B7, "
+                        "global-H7, or lifespan."
+                    ),
+                },
                 "next_gate": (
-                    "Derive the rank-one quartic state-space counterterm from a covariant "
-                    "action or admissible gauge-fixed TC2 operator and prove constraint "
-                    "compatibility, or reject the algebraic escape as nonphysical. Only then "
-                    "register corrected candidates and recompute their affected jet obligations."
+                    "Derive and constraint-check a covariant invariant or gauge-fixed "
+                    "reduction that genuinely changes the TC2 input selector from e54 to "
+                    "a component with nonzero zero-speed projection (the minimal escape "
+                    "uses e21), then recompute the principal constraint subsystem and the "
+                    "affected D4 obligations."
                 ),
             },
             "full_fourth_jet_range_closed": False,
@@ -1628,9 +1713,8 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
             "lifespans_proved": 0,
         },
         "first_missing_premise": (
-            "derive_the_rank_one_quartic_state_space_counterterm_from_a_covariant_action_"
-            "or_admissible_gauge_fixed_TC2_operator_and_prove_constraint_compatibility_or_"
-            "reject_it_as_nonphysical"
+            "derive_and_constraint_check_a_new_covariant_invariant_or_topology_changing_"
+            "reduction_with_nonzero_zero_speed_projection"
         ),
     }
     assert core["cross_pipeline_total"]["status"] == "not_computed"
@@ -1780,6 +1864,12 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "Source interactions" in dashboard
     assert "Lensing cases" in dashboard
     assert "beta=1/2 matches Equation 35" in dashboard
+    assert "Canonical dynamic-class matches" in dashboard
+    assert "New gravity operator classes" in dashboard
+    assert "Global positive energy" in dashboard
+    assert "Scalar CUDA evals" in dashboard
+    assert "existing canonical Einstein-scalar control" in dashboard
+    assert "identical linear dynamics" in dashboard
     assert "naive local-superposition completion is rejected as a hypothesis" in dashboard
     assert "do not establish the transactional ontology" in dashboard
     assert "Exact selector" in dashboard
@@ -1790,10 +1880,14 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "Correction-map rank" in dashboard
     assert "Tuned D4 solutions" in dashboard
     assert "Covariant origin" in dashboard
+    assert "Registered-origin map rank" in dashboard
+    assert "Registered TC2 blocks" in dashboard
     assert "R0^T(HP-P^T H)R0=0" in dashboard
     assert "no homogeneous lower-jet completion can cancel" in dashboard
     assert "eta=-(34816/15) alpha^5" in dashboard
-    assert "This is an algebraic escape, not a physical correction" in dashboard
+    assert "This remains an algebraic escape, not a physical correction" in dashboard
+    assert "support-preserving gauge deformation" in dashboard
+    assert "changing constraint topology" in dashboard
     assert "No full formal pass is inferred" not in dashboard
     assert "class #1" in dashboard
     assert "g4_global_positive_energy: 1" not in dashboard

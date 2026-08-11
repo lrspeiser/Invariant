@@ -1,0 +1,44 @@
+{
+  "schema_version": "sigma-kastner-schlatter-candidate-action-formal-admission-config-1.0",
+  "campaign_id": "kastner-schlatter-candidate-action-formal-admission-001",
+  "output_path": "runs/engine/kastner-schlatter-candidate-action-formal-admission.json",
+  "predecessors": {
+    "completion_artifact": {
+      "path": "runs/engine/kastner-schlatter-candidate-action-completion.json",
+      "file_sha256": "95e5e36c5bf96afe9e453a290728721c7d7f06dac4596df1ff0f134b6c83607e",
+      "content_sha256": "a83e15679bd11b5c7bb85b2e207e54f82d302f97f0ce6f08f99cd225de739a4c"
+    },
+    "completion_config": {
+      "path": "configs/kastner_schlatter_candidate_action_completion.json",
+      "file_sha256": "a77eb9162f718680a94edd2c7725c92d4a7e76ec73a40e9e74707772914dd331"
+    },
+    "completion_source": {
+      "path": "src/sigma_theory_compiler/kastner_schlatter_candidate_action_completion.py",
+      "file_sha256": "643c7a4ccaa69e87a1896f3064337fa9439c9cd29f22dff9ae14b0670c2dda3c"
+    }
+  },
+  "formal_domain": {
+    "spacetime_dimension": 4,
+    "metric_signature": "-+++",
+    "constant_signs": "G>0, c>0, h_planck>0",
+    "intensity_domain": "q0>0, A_q>0, B_q>0",
+    "adm_domain": "N>0 and positive-definite h_ij",
+    "hyperbolic_gauge": "generalized harmonic metric gauge",
+    "boundary_variation": "GHY plus fixed induced metric; Dirichlet q or zero normal q flux"
+  },
+  "admission_policy": {
+    "candidate_actions_are_compiler_hypotheses": true,
+    "paper_or_qed_derivation_inference": false,
+    "local_gauge_fixed_hyperbolicity_can_pass": true,
+    "restricted_positive_hamiltonian_is_not_global_energy": true,
+    "full_formal_admission_requires_global_boundary_energy": true,
+    "observational_or_theory_pass_allowed": false
+  },
+  "seals": {
+    "observations_opened": false,
+    "dark_matter_or_halo_inputs": false,
+    "redshift_or_cosmology_inputs": false,
+    "solar_system_inputs": false,
+    "paid_llm_calls": false
+  }
+}
