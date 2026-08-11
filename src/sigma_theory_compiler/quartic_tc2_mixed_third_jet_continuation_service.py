@@ -92,7 +92,7 @@ def _chunk_status(size: int) -> str:
 def _chunk_config(
     config: dict[str, Any], prior_resume: str, offset: int, size: int
 ) -> dict[str, Any]:
-    return {
+    body = {
         "schema_version": CHUNK_SCHEMA,
         "expected_upstream_content_sha256": {
             "diagonal_third_jet": config["diagonal_third_jet_content_sha256"],
@@ -113,6 +113,14 @@ def _chunk_config(
         "global_H7_policy": "fail_closed",
         "lifespan_policy": "fail_closed",
     }
+    if int(config.get("parallel_worker_count", 1)) > 1:
+        body.update(
+            {
+                "parallel_worker_count": int(config["parallel_worker_count"]),
+                "parallel_execution_policy": config["parallel_execution_policy"],
+            }
+        )
+    return body
 
 
 def exact_mixed_third_jet_executor(
@@ -203,6 +211,8 @@ def _validate_initial_prior(
 ) -> None:
     contract = artifact.get("chunk_contract", {})
     counts = artifact.get("counts", {})
+    initial_offset = int(config.get("initial_prior_offset", 0))
+    initial_size = int(initial_chunk_config.get("chunk_size", 0))
     if (
         _file_sha256(artifact_data) != config.get("initial_prior_file_sha256")
         or artifact.get("content_sha256") != config.get("initial_prior_content_sha256")
@@ -210,17 +220,19 @@ def _validate_initial_prior(
         or _file_sha256(initial_config_data) != config.get("initial_chunk_config_file_sha256")
         or _content_hash(initial_chunk_config) != config.get("initial_chunk_config_content_sha256")
         or artifact.get("config_sha256") != _content_hash(initial_chunk_config)
-        or artifact.get("status") != _chunk_status(DEFAULT_CHUNK_SIZE)
-        or contract.get("chunk_offset") != 0
-        or contract.get("processed_count") != DEFAULT_CHUNK_SIZE
+        or initial_size != DEFAULT_CHUNK_SIZE
+        or artifact.get("status") != _chunk_status(initial_size)
+        or contract.get("chunk_offset") != initial_offset
+        or contract.get("processed_count") != initial_size
         or contract.get("next_offset") != int(config["start_offset"])
         or contract.get("resume_tip_sha256") != config.get("initial_prior_resume_tip_sha256")
         or artifact.get("first_exact_obstruction") is not None
-        or counts.get("selected") != DEFAULT_CHUNK_SIZE
-        or counts.get("candidate_evaluations") != DEFAULT_CHUNK_SIZE * 12
-        or counts.get("candidate_solvable") != DEFAULT_CHUNK_SIZE * 12
+        or counts.get("selected") != initial_size
+        or counts.get("candidate_evaluations") != initial_size * 12
+        or counts.get("candidate_solvable") != initial_size * 12
         or counts.get("candidate_obstructed") != 0
-        or counts.get("mixed_triples_remaining") != TOTAL_MIXED_TRIPLES - DEFAULT_CHUNK_SIZE
+        or counts.get("mixed_triples_remaining")
+        != TOTAL_MIXED_TRIPLES - initial_offset - initial_size
         or artifact.get("upstream_sha256", {}).get("diagonal_third_jet")
         != diagonal.get("content_sha256")
         or artifact.get("upstream_sha256", {}).get("quadratic_deltaK")
@@ -228,13 +240,13 @@ def _validate_initial_prior(
         or artifact.get("canonical_D2_artifact_sequence_sha256")
         != config.get("canonical_D2_artifact_sequence_sha256")
         or artifact.get("closure_ledger", {}).get("processed_mixed_third_jets_closed")
-        != DEFAULT_CHUNK_SIZE
+        != initial_size
         or not _all_global_claims_false(artifact.get("closure_ledger", {}))
     ):
         raise QuarticTC2MixedThirdJetContinuationServiceError(
             "initial prior artifact/config binding mismatch"
         )
-    _validate_record_chain(artifact, expected_offset=0, expected_size=DEFAULT_CHUNK_SIZE)
+    _validate_record_chain(artifact, expected_offset=initial_offset, expected_size=initial_size)
 
 
 def _validate_service_config(
@@ -253,9 +265,15 @@ def _validate_service_config(
         value = int(config.get(key, 0))
         if not lower <= value <= upper:
             raise QuarticTC2MixedThirdJetContinuationServiceError(f"invalid service budget: {key}")
+    initial_prior_offset = int(config.get("initial_prior_offset", 0))
+    start_offset = int(config.get("start_offset", -1))
+    parallel_worker_count = int(config.get("parallel_worker_count", 1))
     if (
         int(config.get("chunk_size", 0)) != DEFAULT_CHUNK_SIZE
-        or int(config.get("start_offset", -1)) != DEFAULT_CHUNK_SIZE
+        or initial_prior_offset < 0
+        or initial_prior_offset % DEFAULT_CHUNK_SIZE != 0
+        or start_offset != initial_prior_offset + DEFAULT_CHUNK_SIZE
+        or start_offset >= TOTAL_MIXED_TRIPLES
         or config.get("selector") != SELECTOR
         or config.get("resume_policy") != "record_sha256_chain"
         or config.get("orphan_recovery_policy") != "validate_and_adopt"
@@ -266,6 +284,13 @@ def _validate_service_config(
         or config.get("quadratic_deltaK_content_sha256") != quadratic.get("content_sha256")
         or not _content_hash_matches(diagonal)
         or not _content_hash_matches(quadratic)
+        or parallel_worker_count < 1
+        or parallel_worker_count > 16
+        or (
+            parallel_worker_count > 1
+            and config.get("parallel_execution_policy")
+            != "ordered_spawn_pool_bounded_speculation_no_post_obstruction_commit"
+        )
         or any(
             config.get(key) != "fail_closed"
             for key in (
@@ -414,6 +439,27 @@ def _validate_result(
     )
     processed = counts.get("selected")
     closed = result.get("closure_ledger", {}).get("processed_mixed_third_jets_closed")
+    parallel_worker_count = int(chunk_config.get("parallel_worker_count", 1))
+    parallel_contract_invalid = (
+        (
+            contract.get("parallel_worker_count") != parallel_worker_count
+            or contract.get("parallel_execution_policy")
+            != chunk_config.get("parallel_execution_policy")
+            or contract.get("bounded_speculative_evaluations_may_finish_after_first_obstruction")
+            is not True
+            or contract.get("records_after_first_obstruction_committed_or_inferred") != 0
+        )
+        if parallel_worker_count > 1
+        else any(
+            key in contract
+            for key in (
+                "parallel_worker_count",
+                "parallel_execution_policy",
+                "bounded_speculative_evaluations_may_finish_after_first_obstruction",
+                "records_after_first_obstruction_committed_or_inferred",
+            )
+        )
+    )
     if (
         not isinstance(processed, int)
         or not isinstance(closed, int)
@@ -446,6 +492,7 @@ def _validate_result(
         or (obstructed and counts.get("candidate_obstructed", 0) <= 0)
         or (obstructed and closed >= processed)
         or len(manifest) != processed
+        or parallel_contract_invalid
     ):
         raise QuarticTC2MixedThirdJetContinuationServiceError("executor result contract mismatch")
     _validate_record_chain(result, expected_offset=offset, expected_size=requested_size)

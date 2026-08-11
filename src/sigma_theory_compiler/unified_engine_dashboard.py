@@ -28,24 +28,20 @@ def _outcomes(values: Mapping[str, Any]) -> str:
     )
 
 
-def _formula_html(
-    row: Mapping[str, Any], dossiers: Mapping[str, Mapping[str, Any]]
-) -> str:
+def _formula_html(row: Mapping[str, Any], dossiers: Mapping[str, Mapping[str, Any]]) -> str:
     formula = row["theory_formula"]
     parameters = formula["parameters"]
-    parameter_text = ", ".join(
-        f"{key}={value}" for key, value in sorted(parameters.items())
-    ) or "none"
+    parameter_text = (
+        ", ".join(f"{key}={value}" for key, value in sorted(parameters.items())) or "none"
+    )
     field_text = ", ".join(formula["fields"]) or "see bound artifact"
-    operator_terms = "".join(
-        f"<li><code>{_escape(term)}</code></li>"
-        for term in formula["operator_terms"]
-    ) or "<li>No exact operator expansion is attached to this row.</li>"
+    operator_terms = (
+        "".join(f"<li><code>{_escape(term)}</code></li>" for term in formula["operator_terms"])
+        or "<li>No exact operator expansion is attached to this row.</li>"
+    )
     action_hash = formula["action_content_sha256"]
     action_hash_html = (
-        f"<br><small>Action SHA: <code>{_escape(action_hash)}</code></small>"
-        if action_hash
-        else ""
+        f"<br><small>Action SHA: <code>{_escape(action_hash)}</code></small>" if action_hash else ""
     )
     dossier_id = (
         "GR-EINSTEIN-HILBERT"
@@ -59,20 +55,20 @@ def _formula_html(
         nodes = "".join(
             '<li class="proof-node">'
             f'<span class="proof-status proof-{_escape(node["status"])}">'
-            f'{_escape(node["status"])}</span><div><strong>{_escape(node["node_id"])}</strong>'
-            f'<br><small>{_escape(node["scope"])}</small></div></li>'
+            f"{_escape(node['status'])}</span><div><strong>{_escape(node['node_id'])}</strong>"
+            f"<br><small>{_escape(node['scope'])}</small></div></li>"
             for node in dossier["hierarchy_nodes"]
         )
         dossier_html = (
             '<details class="formula-proof"><summary>Proof and test hierarchy '
-            f'({_escape(counts.get("proven", 0))} proven, '
-            f'{_escape(counts.get("rejected", 0))} rejected, '
-            f'{_escape(counts.get("blocked", 0))} blocked, '
-            f'{_escape(counts.get("calibration_only", 0))} calibration-only)</summary>'
-            f'<ul>{nodes}</ul><small>{_escape(dossier.get("status_label", "Overall"))}: '
-            f'{_escape(dossier["overall_status"])}<br>'
-            f'Dossier: <code>{_escape(dossier["artifact_link"])}</code><br>'
-            f'Dossier SHA: <code>{_escape(dossier["content_sha256"])}</code></small></details>'
+            f"({_escape(counts.get('proven', 0))} proven, "
+            f"{_escape(counts.get('rejected', 0))} rejected, "
+            f"{_escape(counts.get('blocked', 0))} blocked, "
+            f"{_escape(counts.get('calibration_only', 0))} calibration-only)</summary>"
+            f"<ul>{nodes}</ul><small>{_escape(dossier.get('status_label', 'Overall'))}: "
+            f"{_escape(dossier['overall_status'])}<br>"
+            f"Dossier: <code>{_escape(dossier['artifact_link'])}</code><br>"
+            f"Dossier SHA: <code>{_escape(dossier['content_sha256'])}</code></small></details>"
         )
     return (
         '<details class="formula"><summary>'
@@ -80,7 +76,7 @@ def _formula_html(
         f'<div class="formula-action"><code>{_escape(formula["defining_action"])}</code></div>'
         f"<p>{_escape(formula['plain_language'])}</p>"
         f"<small>Fields: {_escape(field_text)}<br>Parameters: {_escape(parameter_text)}</small>"
-        "<details class=\"formula-terms\"><summary>Derived operator terms / evidence scope</summary>"
+        '<details class="formula-terms"><summary>Derived operator terms / evidence scope</summary>'
         f"<ul>{operator_terms}</ul><p>{_escape(formula['scope_note'])}</p></details>"
         f"{dossier_html}{action_hash_html}</details>"
     )
@@ -92,50 +88,49 @@ def _future_dossiers_html(core: Mapping[str, Any]) -> str:
     cards = []
     for record in dossier_set["records"]:
         action = record["action"]
-        parameters = ", ".join(
-            f"{key}={value}" for key, value in sorted(action["parameters"].items())
-        ) or "none"
+        parameters = (
+            ", ".join(f"{key}={value}" for key, value in sorted(action["parameters"].items()))
+            or "none"
+        )
         fields = ", ".join(action["fields"])
         terms = "".join(
-            f'<li><code>{_escape(operator["density"])}</code></li>'
+            f"<li><code>{_escape(operator['density'])}</code></li>"
             for operator in action["ordered_operator_densities"]
         )
         counts = {
-            status: sum(
-                node["status"] == status for node in record["hierarchy_nodes"]
-            )
+            status: sum(node["status"] == status for node in record["hierarchy_nodes"])
             for status in ("proven", "rejected", "blocked")
         }
         nodes = "".join(
             '<li class="proof-node">'
             f'<span class="proof-status proof-{_escape(node["status"])}">'
-            f'{_escape(node["status"])}</span><div><strong>{_escape(node["node_id"])}</strong>'
-            f'<br><small>{_escape(node["scope"])}</small></div></li>'
+            f"{_escape(node['status'])}</span><div><strong>{_escape(node['node_id'])}</strong>"
+            f"<br><small>{_escape(node['scope'])}</small></div></li>"
             for node in record["hierarchy_nodes"]
         )
         cards.append(
             '<details class="formula"><summary>'
-            f'{_escape(record["candidate_id"])} · {_escape(record["family_id"])} · '
-            f'{_escape(record["formal_decision"])}</summary>'
+            f"{_escape(record['candidate_id'])} · {_escape(record['family_id'])} · "
+            f"{_escape(record['formal_decision'])}</summary>"
             f'<div class="formula-action"><code>{_escape(action["human_readable_action"]["display_text"])}</code></div>'
-            f'<small>Fields: {_escape(fields)}<br>Parameters: {_escape(parameters)}</small>'
+            f"<small>Fields: {_escape(fields)}<br>Parameters: {_escape(parameters)}</small>"
             '<details class="formula-terms"><summary>Exact ordered covariant densities</summary>'
-            f'<ul>{terms}</ul><p>{_escape(action["human_readable_action"]["scope"])}</p></details>'
+            f"<ul>{terms}</ul><p>{_escape(action['human_readable_action']['scope'])}</p></details>"
             '<details class="formula-proof"><summary>Proof and test hierarchy '
-            f'({_escape(counts["proven"])} proven, {_escape(counts["rejected"])} rejected, '
-            f'{_escape(counts["blocked"])} blocked)</summary><ul>{nodes}</ul>'
-            f'<small>Formal decision: {_escape(record["formal_decision"])}<br>'
-            f'First blocker: {_escape(record["first_blocker"])}<br>'
-            f'Action SHA: <code>{_escape(action["action_sha256"])}</code></small></details></details>'
+            f"({_escape(counts['proven'])} proven, {_escape(counts['rejected'])} rejected, "
+            f"{_escape(counts['blocked'])} blocked)</summary><ul>{nodes}</ul>"
+            f"<small>Formal decision: {_escape(record['formal_decision'])}<br>"
+            f"First blocker: {_escape(record['first_blocker'])}<br>"
+            f"Action SHA: <code>{_escape(action['action_sha256'])}</code></small></details></details>"
         )
     return (
         '<section><h2>Staged future candidate formulas (unranked)</h2><div class="metrics">'
-        f'{_metric("Candidates", dossier_set["candidate_count"])}'
-        f'{_metric("Blocked", dossier_set["decision_counts"]["blocked"])}'
-        f'{_metric("Rejected", dossier_set["decision_counts"]["reject"])}'
-        f'{_metric("Ranked", dossier_set["ranked_candidate_count"])}</div>'
-        '<p>These master actions are recompiled from the exact typed cells. Their proof nodes are '
-        'shown separately; blocked and rejected staged actions never enter a scientific ranking.</p>'
+        f"{_metric('Candidates', dossier_set['candidate_count'])}"
+        f"{_metric('Blocked', dossier_set['decision_counts']['blocked'])}"
+        f"{_metric('Rejected', dossier_set['decision_counts']['reject'])}"
+        f"{_metric('Ranked', dossier_set['ranked_candidate_count'])}</div>"
+        "<p>These master actions are recompiled from the exact typed cells. Their proof nodes are "
+        "shown separately; blocked and rejected staged actions never enter a scientific ranking.</p>"
         + "".join(cards)
         + "</section>"
     )
@@ -146,6 +141,7 @@ def render_dashboard(snapshot: Mapping[str, Any]) -> str:
     core = snapshot["core"]
     volatile = snapshot["volatile"]
     campaign = core["campaign_watchdog"]
+    cpu = volatile["physical_cpu"]
     gpu = volatile["physical_gpu"]
     lanes = core["scheduler_lanes"]
     readiness = volatile["scheduler_readiness"]
@@ -161,13 +157,28 @@ def render_dashboard(snapshot: Mapping[str, Any]) -> str:
         for name, lane in sorted(lanes.items())
     )
     blockers = core["followup_service"]["current_missing_evaluator_blockers"]
-    blocker_rows = "".join(
-        f"<li><code>{_escape(name)}</code><strong>{_escape(count)}</strong></li>"
-        for name, count in sorted(blockers.items())
-    ) or "<li>None</li>"
+    blocker_rows = (
+        "".join(
+            f"<li><code>{_escape(name)}</code><strong>{_escape(count)}</strong></li>"
+            for name, count in sorted(blockers.items())
+        )
+        or "<li>None</li>"
+    )
     freshness = volatile["campaign_watchdog_freshness"]
-    freshness_text = (
-        freshness["stale_source_reason"] or "fresh under configured threshold"
+    freshness_text = freshness["stale_source_reason"] or "fresh under configured threshold"
+    cpu_metrics = (
+        _metric("Physical CPU utilization", f"{cpu.get('utilization_percent')}%")
+        + _metric(
+            "CPU topology",
+            f"{cpu.get('physical_cores')} cores / {cpu.get('logical_processors')} logical",
+        )
+        + _metric(
+            "Host RAM",
+            f"{round(cpu.get('memory_used_bytes', 0) / 2**30, 2)} / "
+            f"{round(cpu.get('memory_total_bytes', 0) / 2**30, 2)} GiB",
+        )
+        if cpu.get("availability") == "available"
+        else _metric("Physical CPU telemetry", cpu.get("reason", "unavailable"))
     )
     gpu_metrics = (
         _metric("Physical GPU utilization", f"{gpu.get('utilization_percent')}%")
@@ -181,9 +192,7 @@ def render_dashboard(snapshot: Mapping[str, Any]) -> str:
     source_revision_count = len(core["source_revisions"])
     leaderboard_html = _leaderboards_html(core)
     future_dossier_html = _future_dossiers_html(core)
-    scalable_outcomes = core["grammar_parameter_cells"][
-        "scalable_unique_action_formal_outcomes"
-    ]
+    scalable_outcomes = core["grammar_parameter_cells"]["scalable_unique_action_formal_outcomes"]
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -196,26 +205,26 @@ def render_dashboard(snapshot: Mapping[str, Any]) -> str:
 </style>
 </head>
 <body><main>
-<div class="head"><div><h1>Sigma Gravity Engine</h1><p>Read-only evidence and execution status</p></div><div class="badge">{_escape(campaign['state'])}</div></div>
+<div class="head"><div><h1>Sigma Gravity Engine</h1><p>Read-only evidence and execution status</p></div><div class="badge">{_escape(campaign["state"])}</div></div>
 <div class="grid">
-<section><h2>Live campaign evidence</h2><div class="metrics">{_outcomes(campaign['normalized_evidence_outcomes'])}</div><p>Deadline: {_escape(campaign['deadline_utc'])} · {_escape(volatile['deadline_state'])}</p><p>Freshness: {_escape(freshness_text)}</p></section>
-<section><h2>Formal promotion overlay</h2><div class="metrics">{_outcomes(core['promotion_overlay']['formal'])}</div><p>Observational gates opened: {_escape(core['promotion_overlay']['observational_opened'])}</p></section>
-<section><h2>Conformal G4 Solar evaluator</h2><div class="metrics">{_metric('Decision', core['g4_solar_evaluator']['decision'])}{_metric('Registered', core['g4_solar_evaluator']['filled_registration_hash_count'])}{_metric('Still missing', core['g4_solar_evaluator']['missing_registration_hash_count'])}{_metric('Leased executions', core['g4_solar_evaluator']['durable_execution']['task_count'])}{_metric('GR controls', core['g4_solar_evaluator']['synthetic_GR_golden_pass_count'])}</div><p>Reviewed descriptor ready: {_escape(core['g4_solar_evaluator']['descriptor_implementation_ready'])}. Observations opened: {_escape(core['g4_solar_evaluator']['observational_data_opened'])}. First missing premise: {_escape(core['g4_solar_evaluator']['first_missing_premise'])}.</p></section>
-<section><h2>Conformal G4 galaxy evaluator</h2><div class="metrics">{_metric('Decision', core['g4_galaxy_evaluator']['decision'])}{_metric('Verified registrations', core['g4_galaxy_evaluator']['registration']['filled_registration_hash_count'])}{_metric('Still missing', core['g4_galaxy_evaluator']['registration']['missing_registration_hash_count'])}{_metric('Analytic controls', str(core['g4_galaxy_evaluator']['forward_model']['analytic_known_answer_pass_count']) + '/3')}{_metric('Object-specific gravity parameters', core['g4_galaxy_evaluator']['object_specific_gravity_parameter_count'])}</div><p>Rotation/lensing implementations, the conditional branch/domain and non-redshift geometry contracts, plus shared-calibration, covariance, likelihood, and stopping policies are hash-bound. The manifest auditor, prediction-bundle builder, and source-registry admission callback are implemented but disabled; synthetic fixtures are not registration evidence. Source records admitted: {_escape(core['g4_galaxy_evaluator']['registration']['source_registry_admission']['source_records_admitted'])}. Real split commitment registered: {_escape(core['g4_galaxy_evaluator']['registration']['real_split_commitment_registered'])}. Prediction bundle registered: {_escape(core['g4_galaxy_evaluator']['registration']['prediction_bundle_registered'])}. Observations opened: {_escape(core['g4_galaxy_evaluator']['registration']['observational_data_opened'])}. First missing premise: {_escape(core['g4_galaxy_evaluator']['registration']['source_registry_admission']['first_missing_premise'])}.</p></section>
-<section><h2>Grammar-v3 scalable candidates</h2><div class="metrics">{_outcomes(scalable_outcomes)}{_metric('Reviewed parameter cells', core['grammar_parameter_cells']['reviewed_manifest']['parameter_cell_count'])}{_metric('Unique typed actions', core['grammar_parameter_cells']['reviewed_manifest']['compilation']['unique_candidate_count'])}{_metric('Equivalent aliases', core['grammar_parameter_cells']['reviewed_manifest']['compilation']['equivalent_duplicate_count'])}{_metric('Explained candidates', core['grammar_parameter_cells']['explanation_dossiers']['candidate_count'])}{_metric('Structural rows', core['grammar_parameter_cells']['structural_metrics']['candidate_count'])}{_metric('Simplicity Pareto front', core['grammar_parameter_cells']['structural_metrics']['simplicity_pareto_front']['candidate_count'])}{_metric('Formal queues admitted', core['grammar_parameter_cells']['reviewed_manifest']['compilation']['formal_preflight']['promotion_admission']['eligible_candidate_count'])}{_metric('Future reviewed cells', core['grammar_parameter_cells']['staged_epoch']['reviewed_future_chunk']['input_cell_count'])}{_metric('Future new candidates', core['grammar_parameter_cells']['staged_epoch']['reviewed_future_chunk']['disposition_counts']['admitted_new_candidate'])}{_metric('Future preflight passes', core['grammar_parameter_cells']['staged_epoch']['reviewed_future_chunk']['preflight']['decision_counts']['pass'])}{_metric('Future preflight rejects', core['grammar_parameter_cells']['staged_epoch']['reviewed_future_chunk']['preflight']['decision_counts']['reject'])}{_metric('Future preflight blocks', core['grammar_parameter_cells']['staged_epoch']['reviewed_future_chunk']['preflight']['decision_counts']['blocked'])}{_metric('Future Aether blocked', core['grammar_parameter_cells']['staged_epoch']['reviewed_future_chunk']['family_followup']['aether']['decision_counts']['blocked'])}{_metric('Future G3 center checks', core['grammar_parameter_cells']['staged_epoch']['reviewed_future_chunk']['family_followup']['g3']['all_direction_single_center_pass_count'])}{_metric('Future G3 uniform boxes', core['grammar_parameter_cells']['staged_epoch']['reviewed_future_chunk']['family_followup']['g3']['nonzero_componentwise_box_pass_count'])}{_metric('G4 preflight blocked', core['grammar_parameter_cells']['scalable_preflight_blocked_excluded_count'])}{_metric('Aether rejected', core['grammar_parameter_cells']['reviewed_manifest']['compilation']['formal_preflight']['promotion_admission']['family_formal_execution']['aether']['decision_counts']['reject'])}{_metric('Aether blocked', core['grammar_parameter_cells']['reviewed_manifest']['compilation']['formal_preflight']['promotion_admission']['family_formal_execution']['aether']['decision_counts']['blocked'])}{_metric('G2 formal passes', core['grammar_parameter_cells']['reviewed_manifest']['compilation']['formal_preflight']['promotion_admission']['family_formal_execution']['g2']['decision_counts']['pass'])}{_metric('G2 Solar analytic branches', core['grammar_parameter_cells']['reviewed_manifest']['compilation']['formal_preflight']['promotion_admission']['family_formal_execution']['g2']['solar_readiness']['analytic_prediction_pass_count'])}{_metric('G2 Solar fields remaining', core['grammar_parameter_cells']['reviewed_manifest']['compilation']['formal_preflight']['promotion_admission']['family_formal_execution']['g2']['solar_readiness']['registration_advance']['after_missing_field_count'])}{_metric('G3 blocked', core['grammar_parameter_cells']['reviewed_manifest']['compilation']['formal_preflight']['promotion_admission']['family_formal_execution']['g3']['decision_counts']['blocked'])}</div><p>Across the 163 unique typed actions, the current exact formal tally is {_escape(scalable_outcomes['pass'])} pass, {_escape(scalable_outcomes['reject'])} reject, and {_escape(scalable_outcomes['block'])} blocked; the older six-seed execution is tracked separately. All 163 now have a hash-bound defining action, exact structural measurements, and a separate candidate-specific proof hierarchy. Structural and alias rankings never imply scientific validity or literature novelty. Durable preflight admitted 162 into family queues and initially kept one conformal-G4 action blocked. A candidate-specific exact covariant-density and domain-inclusion follow-up now transfers the reviewed action-level formal pass to that G4 action; Solar and observational validation remain separate and blocked. Exact Aether necessary gates reject two spin-0-degenerate actions and leave 126 blocked on twist/coercivity or generic nonlinear-energy premises. Both k-essence actions now also pass the reviewed nonmaximal positive-mass theorem on the explicitly registered complete boundaryless asymptotically-Euclidean constraint-data domain. Each has an exact constant-scalar GR-like Solar prediction branch with G_cav/G*=1 and PPN gamma=beta=1. Six action-bound protocol registrations are now sealed, leaving four external fields: real source/domain instantiation, an actual held-out split commitment, selected primary roots, and separate observation authorization. Both candidates remain unranked, with zero primary or held-out accesses and zero real-data passes. A new reviewed 32-cell epoch chunk compiled to 19 new action classes and 13 exact deduplications. Reviewed preflight gave 14 Aether prerequisite passes, two exact Aether principal-mode rejects, and three cubic-G3 domain blocks. Candidate-specific follow-up keeps all 14 Aether survivors blocked: their exact negative local twist witnesses have normalized affine completions, but every completion fails both coupled constraints and is non-asymptotically-Euclidean. A constraint-satisfying AE completion with a defined boundary energy is still required before any theory rejection. The three G3 actions now have explicit action-bound componentwise boxes and pass uniform all-direction principal/common-cone, lapse-coercivity, and periodic-Dirac gates. They remain blocked at the asymptotically-flat/global-energy domain, so no full-formal pass or automatic downstream enqueue is inferred. All 32 earlier cubic-G3 actions pass local principal, common-cone and periodic Dirac gates. Their first exact blocker is lack of a uniformly invertible lapse operator on the registered asymptotically-flat decaying-gradient domain; an AF Einstein-constraint solution and global energy are separately unproved.</p></section>
+<section><h2>Live campaign evidence</h2><div class="metrics">{_outcomes(campaign["normalized_evidence_outcomes"])}</div><p>Deadline: {_escape(campaign["deadline_utc"])} · {_escape(volatile["deadline_state"])}</p><p>Freshness: {_escape(freshness_text)}</p></section>
+<section><h2>Formal promotion overlay</h2><div class="metrics">{_outcomes(core["promotion_overlay"]["formal"])}</div><p>Observational gates opened: {_escape(core["promotion_overlay"]["observational_opened"])}</p></section>
+<section><h2>Conformal G4 Solar evaluator</h2><div class="metrics">{_metric("Decision", core["g4_solar_evaluator"]["decision"])}{_metric("Registered", core["g4_solar_evaluator"]["filled_registration_hash_count"])}{_metric("Still missing", core["g4_solar_evaluator"]["missing_registration_hash_count"])}{_metric("Leased executions", core["g4_solar_evaluator"]["durable_execution"]["task_count"])}{_metric("GR controls", core["g4_solar_evaluator"]["synthetic_GR_golden_pass_count"])}</div><p>Reviewed descriptor ready: {_escape(core["g4_solar_evaluator"]["descriptor_implementation_ready"])}. Observations opened: {_escape(core["g4_solar_evaluator"]["observational_data_opened"])}. First missing premise: {_escape(core["g4_solar_evaluator"]["first_missing_premise"])}.</p></section>
+<section><h2>Conformal G4 galaxy evaluator</h2><div class="metrics">{_metric("Decision", core["g4_galaxy_evaluator"]["decision"])}{_metric("Verified registrations", core["g4_galaxy_evaluator"]["registration"]["filled_registration_hash_count"])}{_metric("Still missing", core["g4_galaxy_evaluator"]["registration"]["missing_registration_hash_count"])}{_metric("Analytic controls", str(core["g4_galaxy_evaluator"]["forward_model"]["analytic_known_answer_pass_count"]) + "/3")}{_metric("Object-specific gravity parameters", core["g4_galaxy_evaluator"]["object_specific_gravity_parameter_count"])}</div><p>Rotation/lensing implementations, the conditional branch/domain and non-redshift geometry contracts, plus shared-calibration, covariance, likelihood, and stopping policies are hash-bound. The manifest auditor, prediction-bundle builder, and source-registry admission callback are implemented but disabled; synthetic fixtures are not registration evidence. Source records admitted: {_escape(core["g4_galaxy_evaluator"]["registration"]["source_registry_admission"]["source_records_admitted"])}. Real split commitment registered: {_escape(core["g4_galaxy_evaluator"]["registration"]["real_split_commitment_registered"])}. Prediction bundle registered: {_escape(core["g4_galaxy_evaluator"]["registration"]["prediction_bundle_registered"])}. Observations opened: {_escape(core["g4_galaxy_evaluator"]["registration"]["observational_data_opened"])}. First missing premise: {_escape(core["g4_galaxy_evaluator"]["registration"]["source_registry_admission"]["first_missing_premise"])}.</p></section>
+<section><h2>Grammar-v3 scalable candidates</h2><div class="metrics">{_outcomes(scalable_outcomes)}{_metric("Reviewed parameter cells", core["grammar_parameter_cells"]["reviewed_manifest"]["parameter_cell_count"])}{_metric("Unique typed actions", core["grammar_parameter_cells"]["reviewed_manifest"]["compilation"]["unique_candidate_count"])}{_metric("Equivalent aliases", core["grammar_parameter_cells"]["reviewed_manifest"]["compilation"]["equivalent_duplicate_count"])}{_metric("Explained candidates", core["grammar_parameter_cells"]["explanation_dossiers"]["candidate_count"])}{_metric("Structural rows", core["grammar_parameter_cells"]["structural_metrics"]["candidate_count"])}{_metric("Simplicity Pareto front", core["grammar_parameter_cells"]["structural_metrics"]["simplicity_pareto_front"]["candidate_count"])}{_metric("Formal queues admitted", core["grammar_parameter_cells"]["reviewed_manifest"]["compilation"]["formal_preflight"]["promotion_admission"]["eligible_candidate_count"])}{_metric("Future reviewed cells", core["grammar_parameter_cells"]["staged_epoch"]["reviewed_future_chunk"]["input_cell_count"])}{_metric("Future new candidates", core["grammar_parameter_cells"]["staged_epoch"]["reviewed_future_chunk"]["disposition_counts"]["admitted_new_candidate"])}{_metric("Future preflight passes", core["grammar_parameter_cells"]["staged_epoch"]["reviewed_future_chunk"]["preflight"]["decision_counts"]["pass"])}{_metric("Future preflight rejects", core["grammar_parameter_cells"]["staged_epoch"]["reviewed_future_chunk"]["preflight"]["decision_counts"]["reject"])}{_metric("Future preflight blocks", core["grammar_parameter_cells"]["staged_epoch"]["reviewed_future_chunk"]["preflight"]["decision_counts"]["blocked"])}{_metric("Future Aether blocked", core["grammar_parameter_cells"]["staged_epoch"]["reviewed_future_chunk"]["family_followup"]["aether"]["decision_counts"]["blocked"])}{_metric("Pure-twist AE no-go", core["grammar_parameter_cells"]["staged_epoch"]["reviewed_future_chunk"]["family_followup"]["aether"]["flat_static_global_pure_twist_AE_completion_obstructed_count"])}{_metric("Cutoff transitions required", core["grammar_parameter_cells"]["staged_epoch"]["reviewed_future_chunk"]["family_followup"]["aether"]["compact_cutoff_non_pure_twist_transition_required_count"])}{_metric("Future G3 center checks", core["grammar_parameter_cells"]["staged_epoch"]["reviewed_future_chunk"]["family_followup"]["g3"]["all_direction_single_center_pass_count"])}{_metric("Future G3 uniform boxes", core["grammar_parameter_cells"]["staged_epoch"]["reviewed_future_chunk"]["family_followup"]["g3"]["nonzero_componentwise_box_pass_count"])}{_metric("Future G3 AF profiles", core["grammar_parameter_cells"]["staged_epoch"]["reviewed_future_chunk"]["family_followup"]["g3"]["AF_decaying_gradient_profile_pass_count"])}{_metric("Flat ansatz failures", core["grammar_parameter_cells"]["staged_epoch"]["reviewed_future_chunk"]["family_followup"]["g3"]["flat_reference_constraint_ansatz_reject_count"])}{_metric("AF unitary Dirac passes", core["grammar_parameter_cells"]["staged_epoch"]["reviewed_future_chunk"]["family_followup"]["g3"]["asymptotically_flat_Dirac_pass_count"])}{_metric("G4 preflight blocked", core["grammar_parameter_cells"]["scalable_preflight_blocked_excluded_count"])}{_metric("Aether rejected", core["grammar_parameter_cells"]["reviewed_manifest"]["compilation"]["formal_preflight"]["promotion_admission"]["family_formal_execution"]["aether"]["decision_counts"]["reject"])}{_metric("Aether blocked", core["grammar_parameter_cells"]["reviewed_manifest"]["compilation"]["formal_preflight"]["promotion_admission"]["family_formal_execution"]["aether"]["decision_counts"]["blocked"])}{_metric("G2 formal passes", core["grammar_parameter_cells"]["reviewed_manifest"]["compilation"]["formal_preflight"]["promotion_admission"]["family_formal_execution"]["g2"]["decision_counts"]["pass"])}{_metric("G2 Solar analytic branches", core["grammar_parameter_cells"]["reviewed_manifest"]["compilation"]["formal_preflight"]["promotion_admission"]["family_formal_execution"]["g2"]["solar_readiness"]["analytic_prediction_pass_count"])}{_metric("G2 Solar fields remaining", core["grammar_parameter_cells"]["reviewed_manifest"]["compilation"]["formal_preflight"]["promotion_admission"]["family_formal_execution"]["g2"]["solar_readiness"]["registration_advance"]["after_missing_field_count"])}{_metric("G3 blocked", core["grammar_parameter_cells"]["reviewed_manifest"]["compilation"]["formal_preflight"]["promotion_admission"]["family_formal_execution"]["g3"]["decision_counts"]["blocked"])}</div><p>Across the 163 unique typed actions, the current exact formal tally is {_escape(scalable_outcomes["pass"])} pass, {_escape(scalable_outcomes["reject"])} reject, and {_escape(scalable_outcomes["block"])} blocked; the older six-seed execution is tracked separately. All 163 now have a hash-bound defining action, exact structural measurements, and a separate candidate-specific proof hierarchy. Structural and alias rankings never imply scientific validity or literature novelty. Durable preflight admitted 162 into family queues and initially kept one conformal-G4 action blocked. A candidate-specific exact covariant-density and domain-inclusion follow-up now transfers the reviewed action-level formal pass to that G4 action; Solar and observational validation remain separate and blocked. Exact Aether necessary gates reject two spin-0-degenerate actions and leave 126 blocked on twist/coercivity or generic nonlinear-energy premises. Both k-essence actions now also pass the reviewed nonmaximal positive-mass theorem on the explicitly registered complete boundaryless asymptotically-Euclidean constraint-data domain. Each has an exact constant-scalar GR-like Solar prediction branch with G_cav/G*=1 and PPN gamma=beta=1. Six action-bound protocol registrations are now sealed, leaving four external fields: real source/domain instantiation, an actual held-out split commitment, selected primary roots, and separate observation authorization. Both candidates remain unranked, with zero primary or held-out accesses and zero real-data passes. A new reviewed 32-cell epoch chunk compiled to 19 new action classes and 13 exact deduplications. Reviewed preflight gave 14 Aether prerequisite passes, two exact Aether principal-mode rejects, and three cubic-G3 domain blocks. Candidate-specific follow-up keeps all 14 Aether survivors blocked. The exact Euclidean Killing-system no-go exhausts the flat, static, globally pure-twist AE completion class: the field is affine and AE decay forces it to zero. A compact radial cutoff preserves the center witness only by introducing a non-pure symmetric-gradient transition. A candidate-bound coupled AE constraint solution beyond that class with genuinely negative completed boundary energy is still required; blocked is not rejection. The three G3 actions have explicit action-bound componentwise boxes and pass uniform all-direction principal/common-cone, lapse-coercivity, and periodic-Dirac gates. Each also has a smooth decaying-gradient AF reference profile that retains its principal/common cone. The flat gravitational ansatz has Hamiltonian residual -1 and is rejected as an ansatz only, while normalized annulus modes obstruct a bounded global unitary-lapse inverse. AF constraint solutions, global energy, full-formal passes, and automatic downstream enqueue remain zero. All 32 earlier cubic-G3 actions pass local principal, common-cone and periodic Dirac gates. Their first exact blocker is lack of a uniformly invertible lapse operator on the registered asymptotically-flat decaying-gradient domain; an AF Einstein-constraint solution and global energy are separately unproved.</p></section>
 {future_dossier_html}
-<section><h2>Quartic nonlinear closure</h2><div class="metrics">{_metric('Candidates', core['quartic_nonlinear_closure']['candidate_count'])}{_metric('Coordinate pairs', core['quartic_nonlinear_closure']['coordinate_pair_partition']['total_unordered_coordinate_pairs'])}{_metric('Two-jets closed', core['quartic_nonlinear_closure']['quadratic_deltaK_two_jet']['closed_candidate_count'])}{_metric('D2 deltaK ceiling', core['quartic_nonlinear_closure']['quadratic_deltaK_two_jet']['D2_coordinate_linf_to_Frobenius_ceiling'])}{_metric('Diagonal third jets', core['quartic_nonlinear_closure']['diagonal_third_jet']['diagonal_triples_closed'])}{_metric('Diagonal evaluations', core['quartic_nonlinear_closure']['diagonal_third_jet']['candidate_direction_evaluations'])}{_metric('Mixed third jets closed', core['quartic_nonlinear_closure']['mixed_third_jet_chunk']['processed_count'])}{_metric('Mixed evaluations', core['quartic_nonlinear_closure']['mixed_third_jet_chunk']['candidate_evaluations'])}{_metric('Mixed triples remaining', core['quartic_nonlinear_closure']['mixed_third_jet_chunk']['remaining_mixed_triples'])}{_metric('Full tube identities', core['quartic_nonlinear_closure']['closure_counts']['full_tube_Sylvester_identities'])}{_metric('Global H7 closures', core['quartic_nonlinear_closure']['closure_counts']['global_H7_closures'])}</div><p>All coordinate pairs are classified and all 12 reference quadratic deltaK two-jets satisfy the Sylvester identity through derivative orders 0, 1, and 2. The exact third-order recurrence passes all 41 diagonal active-coordinate triples and all 492 diagonal candidate-direction evaluations. Two restart-safe mixed chunks now close 128/128 lexicographic AAB/ABB/ABC triples and 1,536/1,536 candidate evaluations with no obstruction. This is not a full tube solution: 12,172 polarized mixed triples remain before fourth-and-higher remainder control or a nonlinear range theorem. First missing premise: {_escape(core['quartic_nonlinear_closure']['first_missing_premise'])}. CK1, CK3, TC2, B7, global H7, and lifespan remain fail-closed.</p></section>
-<section><h2>Physical hardware sample</h2><div class="metrics">{gpu_metrics}</div><p>Source: {_escape(gpu.get('source', 'not sampled'))}. This is separate from scheduler occupancy.</p></section>
+<section><h2>Quartic nonlinear closure</h2><div class="metrics">{_metric("Candidates", core["quartic_nonlinear_closure"]["candidate_count"])}{_metric("Coordinate pairs", core["quartic_nonlinear_closure"]["coordinate_pair_partition"]["total_unordered_coordinate_pairs"])}{_metric("Two-jets closed", core["quartic_nonlinear_closure"]["quadratic_deltaK_two_jet"]["closed_candidate_count"])}{_metric("D2 deltaK ceiling", core["quartic_nonlinear_closure"]["quadratic_deltaK_two_jet"]["D2_coordinate_linf_to_Frobenius_ceiling"])}{_metric("Diagonal third jets", core["quartic_nonlinear_closure"]["diagonal_third_jet"]["diagonal_triples_closed"])}{_metric("Diagonal evaluations", core["quartic_nonlinear_closure"]["diagonal_third_jet"]["candidate_direction_evaluations"])}{_metric("Mixed third jets closed", core["quartic_nonlinear_closure"]["mixed_third_jet_chunk"]["processed_count"])}{_metric("Mixed evaluations", core["quartic_nonlinear_closure"]["mixed_third_jet_chunk"]["candidate_evaluations"])}{_metric("Parallel workers", core["quartic_nonlinear_closure"]["mixed_third_jet_chunk"]["parallel_worker_count"])}{_metric("Mixed triples remaining", core["quartic_nonlinear_closure"]["mixed_third_jet_chunk"]["remaining_mixed_triples"])}{_metric("Full tube identities", core["quartic_nonlinear_closure"]["closure_counts"]["full_tube_Sylvester_identities"])}{_metric("Global H7 closures", core["quartic_nonlinear_closure"]["closure_counts"]["global_H7_closures"])}</div><p>All coordinate pairs are classified and all 12 reference quadratic deltaK two-jets satisfy the Sylvester identity through derivative orders 0, 1, and 2. The exact third-order recurrence passes all 41 diagonal active-coordinate triples and all 492 diagonal candidate-direction evaluations. Four exact mixed chunks now close 256/256 lexicographic AAB/ABB/ABC triples and 3,072/3,072 candidate evaluations with no obstruction. The latest epoch uses eight isolated spawn workers, returns results in canonical order, and commits or infers zero records after a first obstruction. This is not a full tube solution: 12,044 polarized mixed triples remain before fourth-and-higher remainder control or a nonlinear range theorem. First missing premise: {_escape(core["quartic_nonlinear_closure"]["first_missing_premise"])}. CK1, CK3, TC2, B7, global H7, and lifespan remain fail-closed.</p></section>
+<section><h2>Physical hardware sample</h2><div class="metrics">{cpu_metrics}{gpu_metrics}</div><p>CPU source: {_escape(cpu.get("source", "not sampled"))}. GPU source: {_escape(gpu.get("source", "not sampled"))}. These instantaneous host/device sensors are separate from durable scheduler occupancy.</p></section>
 </div>
 <section><h2>Scheduler lanes</h2><table><thead><tr><th>Lane</th><th>Running</th><th>Runnable now</th><th>Scheduled later</th><th>Earliest ready</th><th>Capacity</th><th>Scheduler occupancy</th></tr></thead><tbody>{lane_rows}</tbody></table><p>Runnable and scheduled counts honor each task's durable <code>not_before_utc</code>; scheduler occupancy remains distinct from CPU/GPU hardware utilization.</p></section>
 <div class="grid">
 <section><h2>Current missing-evaluator blockers</h2><ul>{blocker_rows}</ul></section>
-<section><h2>LLM budget and proposal quarantine</h2><div class="metrics">{_metric('Campaign budget', '$' + str(core['llm']['configured_budget_usd']))}{_metric('Campaign spent', '$' + str(core['llm']['spent_usd']))}{_metric('Adapter cap', '$' + core['llm']['proposal_adapter']['maximum_total_usd'])}{_metric('Adapter calls', core['llm']['proposal_adapter']['network_calls_made'])}{_metric('Local epoch candidates', core['llm']['reviewed_local_epoch']['expected_bounded_status']['candidate_count'])}{_metric('Local policy passes', core['llm']['reviewed_local_epoch']['expected_bounded_status']['policy_pass_count'])}</div><p>Adapter: {_escape(core['llm']['proposal_adapter']['status'])}. Campaign bridge: {_escape(core['llm']['campaign_bridge']['status'])}. Typed-DSL admission: {_escape(core['llm']['typed_dsl_admission']['status'])}. Candidate-registry bridge: {_escape(core['llm']['compiler_registry_bridge']['status'])}. Local composed epoch: {_escape(core['llm']['reviewed_local_epoch']['status'])}. Restart-safe service: {_escape(core['llm']['reviewed_local_service']['status'])}. Paid calls and durable formula-body persistence are disabled by default; future outputs remain {_escape(core['llm']['proposal_adapter']['output_status'])}, and only exact hash-bound proposals can enter the separate reviewed compiler queue.</p></section>
-<section><h2>Billion-formula screen</h2><div class="metrics">{_metric('Source formulas', core['billion_formula_streaming']['source_formula_count'])}{_metric('Static survivors', core['billion_formula_streaming']['sampled_static_stage']['pass'])}{_metric('Lift rejected', core['billion_formula_streaming']['promotion_stage']['lift_reject'])}{_metric('Lift blocked', core['billion_formula_streaming']['promotion_stage']['lift_block'])}</div></section>
+<section><h2>LLM budget and proposal quarantine</h2><div class="metrics">{_metric("Campaign budget", "$" + str(core["llm"]["configured_budget_usd"]))}{_metric("Campaign spent", "$" + str(core["llm"]["spent_usd"]))}{_metric("Adapter cap", "$" + core["llm"]["proposal_adapter"]["maximum_total_usd"])}{_metric("Adapter calls", core["llm"]["proposal_adapter"]["network_calls_made"])}{_metric("Local epoch candidates", core["llm"]["reviewed_local_epoch"]["expected_bounded_status"]["candidate_count"])}{_metric("Local policy passes", core["llm"]["reviewed_local_epoch"]["expected_bounded_status"]["policy_pass_count"])}</div><p>Adapter: {_escape(core["llm"]["proposal_adapter"]["status"])}. Campaign bridge: {_escape(core["llm"]["campaign_bridge"]["status"])}. Typed-DSL admission: {_escape(core["llm"]["typed_dsl_admission"]["status"])}. Candidate-registry bridge: {_escape(core["llm"]["compiler_registry_bridge"]["status"])}. Local composed epoch: {_escape(core["llm"]["reviewed_local_epoch"]["status"])}. Restart-safe service: {_escape(core["llm"]["reviewed_local_service"]["status"])}. Paid calls and durable formula-body persistence are disabled by default; future outputs remain {_escape(core["llm"]["proposal_adapter"]["output_status"])}, and only exact hash-bound proposals can enter the separate reviewed compiler queue.</p></section>
+<section><h2>Billion-formula screen</h2><div class="metrics">{_metric("Source formulas", core["billion_formula_streaming"]["source_formula_count"])}{_metric("Static survivors", core["billion_formula_streaming"]["sampled_static_stage"]["pass"])}{_metric("Lift rejected", core["billion_formula_streaming"]["promotion_stage"]["lift_reject"])}{_metric("Lift blocked", core["billion_formula_streaming"]["promotion_stage"]["lift_block"])}</div></section>
 </div>
 <section><h2>How to read a candidate theory</h2><p>Open a candidate name to see its defining action: this is the compact master formula. The field equations, constraints, observable predictions, and pass/block certificates are derived from that action and appear in the separate proof and test hierarchy. They are supporting equations, not extra fitted pieces silently added to the theory.</p></section>
 {leaderboard_html}
-<footer>Core SHA-256: {_escape(snapshot['core_content_sha256'])} · sampled {_escape(volatile['sampled_at_utc'])} · {source_revision_count} immutable source revisions. Cross-pipeline totals are intentionally not summed because candidate sets and gate semantics overlap.</footer>
+<footer>Core SHA-256: {_escape(snapshot["core_content_sha256"])} · sampled {_escape(volatile["sampled_at_utc"])} · {source_revision_count} immutable source revisions. Cross-pipeline totals are intentionally not summed because candidate sets and gate semantics overlap.</footer>
 </main></body></html>"""
 
 
@@ -245,9 +254,7 @@ def _leaderboards_html(core: Mapping[str, Any]) -> str:
         unranked_rows = board["unranked_blocked_or_untested"]
         displayed_unranked = unranked_rows[:25]
         display_rows = (
-            board["top10"]
-            + board.get("completed_incomparable_evidence", [])
-            + displayed_unranked
+            board["top10"] + board.get("completed_incomparable_evidence", []) + displayed_unranked
         )
         rows = "".join(
             "<tr>"
@@ -263,13 +270,13 @@ def _leaderboards_html(core: Mapping[str, Any]) -> str:
         if not rows:
             rows = '<tr><td colspan="11">No completed or blocked candidate evidence is available.</td></tr>'
         sections.append(
-            f'<section><h2>Category leaderboard: {_escape(category)}</h2>'
+            f"<section><h2>Category leaderboard: {_escape(category)}</h2>"
             f"<p>{_escape(board['ranking_scope'])}. Ranked: {_escape(board['ranked_count'])}; "
             f"completed in separate evidence classes: {_escape(board.get('completed_separate_class_count', 0))}; "
             f"blocked/untested: {_escape(board['unranked_count'])} "
             f"(showing {_escape(len(displayed_unranked))}; full rows remain in the JSON snapshot). Availability: "
             f"{_escape(board['availability'])}. {_escape(board['absence_reason'] or '')}</p>"
-            "<div style=\"overflow:auto\"><table><thead><tr><th>Rank</th><th>Candidate</th>"
+            '<div style="overflow:auto"><table><thead><tr><th>Rank</th><th>Candidate</th>'
             "<th>Theory formula</th><th>Role</th><th>Exact metrics</th><th>Status</th><th>Data class</th>"
             "<th>Gate completeness</th><th>Blocker</th><th>Artifact content SHA</th>"
             f"<th>Uncertainty</th></tr></thead><tbody>{rows}</tbody></table></div></section>"

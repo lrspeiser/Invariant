@@ -328,27 +328,41 @@ def test_wall_limit_and_checkpoint_tamper_are_fail_closed(tmp_path: Path) -> Non
         _run(clean, lambda _d, _q, _c, dynamic: _fake_result(dynamic))
 
 
-def test_real_offset_64_service_artifact_is_exact_and_fail_closed() -> None:
+def test_real_two_chunk_service_chain_is_exact_and_fail_closed() -> None:
     _diagonal, _quadratic, config = _inputs()
     checkpoint = _load(REAL_SERVICE / "checkpoint.json")
     status = _load(REAL_SERVICE / "service-status.json")
-    artifact = _load(REAL_SERVICE / "chunks" / "offset-000064.json")
+    offset_64 = _load(REAL_SERVICE / "chunks" / "offset-000064.json")
+    offset_128 = _load(REAL_SERVICE / "chunks" / "offset-000128.json")
     dynamic = _chunk_config(config, config["initial_prior_resume_tip_sha256"], 64, 64)
     _validate_result(
-        artifact,
+        offset_64,
         dynamic,
         64,
         64,
         config["canonical_D2_artifact_sequence_sha256"],
     )
+    dynamic = _chunk_config(config, offset_64["chunk_contract"]["resume_tip_sha256"], 128, 64)
+    _validate_result(
+        offset_128,
+        dynamic,
+        128,
+        64,
+        config["canonical_D2_artifact_sequence_sha256"],
+    )
     assert _load_state(REAL_SERVICE / "checkpoint.json", config) == checkpoint
     assert _hash_matches(checkpoint) and _hash_matches(status)
-    assert artifact["chunk_contract"]["chunk_offset"] == 64
-    assert artifact["chunk_contract"]["processed_count"] == 64
-    assert artifact["chunk_contract"]["next_offset"] == 128
-    assert artifact["counts"]["mixed_triples_remaining"] == 12_172
-    assert artifact["first_exact_obstruction"] is None
-    assert checkpoint["next_offset"] == 128
-    assert checkpoint["remaining_mixed_triples"] == 12_172
+    assert offset_128["chunk_contract"]["chunk_offset"] == 128
+    assert offset_128["chunk_contract"]["processed_count"] == 64
+    assert offset_128["chunk_contract"]["next_offset"] == 192
+    assert offset_128["counts"]["candidate_evaluations"] == 768
+    assert offset_128["counts"]["candidate_solvable"] == 768
+    assert offset_128["counts"]["candidate_obstructed"] == 0
+    assert offset_128["counts"]["mixed_triples_remaining"] == 12_108
+    assert offset_128["first_exact_obstruction"] is None
+    assert checkpoint["completed_chunks"] == 2
+    assert [record["offset"] for record in checkpoint["history"]] == [64, 128]
+    assert checkpoint["next_offset"] == 192
+    assert checkpoint["remaining_mixed_triples"] == 12_108
     assert not any(checkpoint["claims"].values())
-    assert _all_global_claims_false(artifact["closure_ledger"])
+    assert _all_global_claims_false(offset_128["closure_ledger"])

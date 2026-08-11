@@ -35,8 +35,10 @@ SOURCE_PATHS = [
     "runs/engine/reviewed-future-parameter-formal-preflight-001.json",
     "runs/engine/future-aether-candidate-formal-followup.json",
     "runs/engine/future-aether-constraint-boundary-embedding-audit.json",
+    "runs/engine/future-aether-pure-twist-ae-no-go-audit.json",
     "runs/engine/future-g3-componentwise-domain-contract-campaign.json",
     "runs/engine/future-g3-action-bound-jet-box-campaign.json",
+    "runs/engine/future-g3-af-transition-obstruction-campaign.json",
     "runs/engine/future-candidate-action-dossier.json",
     "runs/engine/grammar-v3-g3-candidate-formal-status.json",
     "runs/engine/g4-scalable-action-formal-followup.json",
@@ -68,8 +70,12 @@ SOURCE_PATHS = [
     "runs/physics-language/quartic-tc2-diagonal-third-jet-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-chunk-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-continuation-service/chunks/offset-000064.json",
+    "runs/physics-language/quartic-tc2-mixed-third-jet-continuation-service/chunks/offset-000128.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-continuation-service/checkpoint.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-continuation-service/service-status.json",
+    "runs/physics-language/quartic-tc2-mixed-third-jet-parallel-continuation-service/chunks/offset-000192.json",
+    "runs/physics-language/quartic-tc2-mixed-third-jet-parallel-continuation-service/checkpoint.json",
+    "runs/physics-language/quartic-tc2-mixed-third-jet-parallel-continuation-service/service-status.json",
 ]
 LABELS = [
     "billion_streaming",
@@ -90,8 +96,10 @@ LABELS = [
     "scalable_future_formal_preflight",
     "future_aether_formal_followup",
     "future_aether_constraint_followup",
+    "future_aether_pure_twist_ae_no_go",
     "future_g3_domain_followup",
     "future_g3_action_bound_followup",
+    "future_g3_af_transition_obstruction",
     "future_candidate_action_dossier",
     "grammar_v3_g3_candidate_formal",
     "grammar_v3_g4_scalable_formal_followup",
@@ -123,8 +131,12 @@ LABELS = [
     "quartic_tc2_diagonal_third_jet",
     "quartic_tc2_mixed_third_jet_chunk",
     "quartic_tc2_mixed_third_jet_chunk_64",
+    "quartic_tc2_mixed_third_jet_chunk_128",
     "quartic_tc2_mixed_third_jet_checkpoint",
     "quartic_tc2_mixed_third_jet_continuation_status",
+    "quartic_tc2_mixed_third_jet_parallel_chunk_192",
+    "quartic_tc2_mixed_third_jet_parallel_checkpoint",
+    "quartic_tc2_mixed_third_jet_parallel_status",
 ]
 
 
@@ -144,12 +156,14 @@ def _fixture(tmp_path: Path) -> tuple[Path, dict[str, object], Path]:
         claimed = value.get("content_sha256")
         if claimed is None:
             claimed = hashlib.sha256(_canonical(value)).hexdigest()
-        specs.append({
-            "label": label,
-            "path": rel,
-            "file_sha256": hashlib.sha256(raw).hexdigest(),
-            "content_sha256": claimed,
-        })
+        specs.append(
+            {
+                "label": label,
+                "path": rel,
+                "file_sha256": hashlib.sha256(raw).hexdigest(),
+                "content_sha256": claimed,
+            }
+        )
     database = tmp_path / "runs/campaigns/watchdog.sqlite"
     database.parent.mkdir(parents=True, exist_ok=True)
     connection = sqlite3.connect(database)
@@ -194,12 +208,14 @@ def test_read_only_snapshot_is_deterministic_and_does_not_mutate_database(tmp_pa
         root,
         config,
         now_utc=sampled_at,
+        physical_cpu={"availability": "available", "utilization_percent": 16.0},
         physical_gpu={"availability": "available", "utilization_percent": 4.0},
     )
     second = build_unified_snapshot(
         root,
         config,
         now_utc=sampled_at,
+        physical_cpu={"availability": "available", "utilization_percent": 81.0},
         physical_gpu={"availability": "available", "utilization_percent": 99.0},
     )
     after = hashlib.sha256(database.read_bytes()).hexdigest()
@@ -208,6 +224,7 @@ def test_read_only_snapshot_is_deterministic_and_does_not_mutate_database(tmp_pa
     assert first["core"] == second["core"]
     assert first["core_content_sha256"] == second["core_content_sha256"]
     assert first["volatile"] != second["volatile"]
+    assert first["volatile"]["physical_cpu"]["utilization_percent"] == 16.0
     watchdog = first["core"]["campaign_watchdog"]
     assert watchdog["read_contract"] == "sqlite_uri_mode_ro_plus_query_only_transaction"
     assert watchdog["candidate_counts"] == {"active": 1, "deferred": 1, "rejected": 1}
@@ -355,13 +372,9 @@ def test_read_only_snapshot_is_deterministic_and_does_not_mutate_database(tmp_pa
         "registration": {
             "branch_contract_status": "certified_exact_conditional_branch",
             "decision": "blocked",
-            "distance_geometry_contract_status": (
-                "certified_interface_no_real_values"
-            ),
+            "distance_geometry_contract_status": ("certified_interface_no_real_values"),
             "filled_registration_hash_count": 11,
-            "first_missing_premise": (
-                "registered_real_source_manifest_and_selected_primary_roots"
-            ),
+            "first_missing_premise": ("registered_real_source_manifest_and_selected_primary_roots"),
             "missing_registration_hash_count": 7,
             "newly_filled_fields": [
                 "prediction_bundle_contract_sha256",
@@ -391,9 +404,7 @@ def test_read_only_snapshot_is_deterministic_and_does_not_mutate_database(tmp_pa
                 "decision": "blocked",
                 "enabled": False,
                 "filled_registration_hash_count": 11,
-                "first_missing_premise": (
-                    "explicit_registered_source_opening_authorization"
-                ),
+                "first_missing_premise": ("explicit_registered_source_opening_authorization"),
                 "missing_registration_hash_count": 7,
                 "newly_filled_fields": [],
                 "source_opening_permission_registered": False,
@@ -442,12 +453,8 @@ def test_future_not_before_work_is_scheduled_idle_then_stale(tmp_path: Path) -> 
     freshness_before = scheduled["volatile"]["campaign_watchdog_freshness"]
     assert freshness_before["state"] == "scheduled_idle"
     assert freshness_before["stale"] is False
-    assert freshness_before["expected_next_event_not_before_utc"] == (
-        "2026-08-10T21:00:00+00:00"
-    )
-    assert freshness_before["freshness_deadline_utc"] == (
-        "2026-08-10T21:30:00+00:00"
-    )
+    assert freshness_before["expected_next_event_not_before_utc"] == ("2026-08-10T21:00:00+00:00")
+    assert freshness_before["freshness_deadline_utc"] == ("2026-08-10T21:30:00+00:00")
 
     cpu_after = overdue["volatile"]["scheduler_readiness"]["cpu_symbolic"]
     assert cpu_after == {
@@ -459,15 +466,9 @@ def test_future_not_before_work_is_scheduled_idle_then_stale(tmp_path: Path) -> 
     freshness_after = overdue["volatile"]["campaign_watchdog_freshness"]
     assert freshness_after["state"] == "stale"
     assert freshness_after["stale"] is True
-    assert freshness_after["expected_next_event_not_before_utc"] == (
-        "2026-08-10T21:00:00+00:00"
-    )
-    assert freshness_after["freshness_deadline_utc"] == (
-        "2026-08-10T21:30:00+00:00"
-    )
-    assert freshness_after["stale_source_reason"] == (
-        "no_event_by_2026-08-10T21:30:00+00:00"
-    )
+    assert freshness_after["expected_next_event_not_before_utc"] == ("2026-08-10T21:00:00+00:00")
+    assert freshness_after["freshness_deadline_utc"] == ("2026-08-10T21:30:00+00:00")
+    assert freshness_after["stale_source_reason"] == ("no_event_by_2026-08-10T21:30:00+00:00")
 
 
 def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path: Path) -> None:
@@ -509,9 +510,9 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
         "block": 158,
     }
     assert core["grammar_parameter_cells"]["scalable_preflight_blocked_excluded_count"] == 1
-    assert core["grammar_parameter_cells"][
-        "scalable_preflight_blocked_followup_resolved_count"
-    ] == 1
+    assert (
+        core["grammar_parameter_cells"]["scalable_preflight_blocked_followup_resolved_count"] == 1
+    )
     assert core["grammar_parameter_cells"]["expansion_service"] == {
         "chunk_count": 3,
         "decision_counts": {"blocked": 6},
@@ -532,9 +533,7 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     }
     assert reviewed_manifest["formal_evaluation_performed"] is False
     assert reviewed_manifest["scientific_decision_counts"] == {}
-    future_chunk = core["grammar_parameter_cells"]["staged_epoch"][
-        "reviewed_future_chunk"
-    ]
+    future_chunk = core["grammar_parameter_cells"]["staged_epoch"]["reviewed_future_chunk"]
     assert {
         key: future_chunk[key]
         for key in (
@@ -583,9 +582,24 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                 "nonzero_Hamiltonian_constraint_residual_count": 14,
                 "nonzero_momentum_constraint_residual_count": 14,
                 "undefined_AE_boundary_contribution_count": 14,
+                "flat_static_global_pure_twist_AE_completion_obstructed_count": 14,
+                "compact_cutoff_non_pure_twist_transition_required_count": 14,
+                "normalized_transition_symmetric_gradient_norm_squared_counts": {
+                    "6": 8,
+                    "10": 4,
+                    "34": 2,
+                },
+                "differentiated_Killing_system": {
+                    "coefficient_rank": 18,
+                    "conclusion": "partial_i partial_j A_k=0",
+                    "equations": "T_kij+T_kji=0",
+                    "kernel_dimension": 0,
+                    "second_jet": "T_ijk=partial_i partial_j A_k=T_jik",
+                    "unknown_count": 18,
+                },
                 "constraint_satisfying_negative_total_energy_datum_count": 0,
                 "first_blocker_counts": {
-                    "constraint_satisfying_asymptotically_Euclidean_completion_of_negative_twist_witness": 14
+                    "candidate_bound_AE_coupled_constraint_solution_beyond_flat_static_global_pure_twist_class_with_negative_completed_boundary_energy": 14
                 },
                 "candidate_rejection_authorized_count": 0,
             },
@@ -600,11 +614,15 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                 "uniform_principal_common_cone_pass_count": 3,
                 "uniform_Delta_N_coercivity_pass_count": 3,
                 "periodic_distributed_Dirac_pass_count": 3,
+                "AF_decaying_gradient_profile_pass_count": 3,
+                "AF_principal_common_cone_profile_pass_count": 3,
+                "flat_reference_constraint_ansatz_reject_count": 3,
                 "asymptotically_flat_Dirac_pass_count": 0,
+                "AF_Einstein_constraint_solution_pass_count": 0,
                 "global_energy_pass_count": 0,
                 "full_formal_pass_count": 0,
                 "first_blocker_counts": {
-                    "asymptotically_flat_or_global_energy_domain_missing": 3
+                    "bounded_global_unitary_Delta_N_inverse_on_candidate_AF_transition_profile": 3
                 },
             },
         },
@@ -828,25 +846,30 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
             "candidate_direction_solvable": 492,
             "candidate_direction_obstructed": 0,
             "full_active_symmetric_triple_count": 12341,
-            "remaining_mixed_triples": 12172,
-            "mixed_third_jet_closures": 128,
+            "remaining_mixed_triples": 12044,
+            "mixed_third_jet_closures": 256,
         },
         "mixed_third_jet_chunk": {
-            "chunk_offset": 64,
+            "chunk_offset": 192,
             "latest_chunk_processed_count": 64,
-            "processed_count": 128,
-            "next_offset": 128,
+            "processed_count": 256,
+            "next_offset": 256,
             "triple_kind_counts": {"ABB": 2, "ABC": 62},
-            "symbolic_parameter_compatible": 128,
+            "symbolic_parameter_compatible": 256,
             "latest_candidate_evaluations": 768,
-            "candidate_evaluations": 1536,
-            "candidate_solvable": 1536,
+            "candidate_evaluations": 3072,
+            "candidate_solvable": 3072,
             "candidate_obstructed": 0,
-            "remaining_mixed_triples": 12172,
+            "remaining_mixed_triples": 12044,
             "resume_tip_sha256": (
-                "6a179f60d665e2aa73b2e1c07ec36e7ae49490342af7fb14ca305704fda7e191"
+                "a1f24ad6e68bd4e8c1fa60c4718f729f884151ad431ecfc54d33d530876448ac"
             ),
             "service_decision": "checkpointed",
+            "parallel_worker_count": 8,
+            "parallel_execution_policy": (
+                "ordered_spawn_pool_bounded_speculation_no_post_obstruction_commit"
+            ),
+            "sequential_predecessor_processed_count": 192,
             "full_mixed_sector_closed": False,
         },
         "closure_counts": {
@@ -859,7 +882,7 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
             "lifespans_proved": 0,
         },
         "first_missing_premise": (
-            "remaining_12172_polarized_mixed_third_sylvester_jets_then_"
+            "remaining_12044_polarized_mixed_third_sylvester_jets_then_"
             "fourth_and_higher_remainder_or_nonlinear_range_theorem"
         ),
     }
@@ -881,31 +904,25 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     artifact = json.loads((REPO / "runs/engine/unified-engine-status.json").read_text())
     assert config["schema_version"] == "sigma-unified-engine-status-config-1.0"
     assert artifact["core"]["schema_version"] == "sigma-unified-engine-status-1.0"
-    assert hashlib.sha256(_canonical(artifact["core"])).hexdigest() == artifact["core_content_sha256"]
+    assert (
+        hashlib.sha256(_canonical(artifact["core"])).hexdigest() == artifact["core_content_sha256"]
+    )
     assert artifact["core"]["data_seals"] == {
         "dark_matter_or_halo_inputs": False,
         "observations_opened": False,
         "paid_llm_in_streaming_promotion_grammar": False,
         "redshift_distance_inputs": False,
     }
-    live = json.loads(
-        (REPO / "runs/engine/unified-engine-status-live-refresh.json").read_text()
-    )
-    dashboard = (REPO / "runs/engine/unified-engine-dashboard.html").read_text(
-        encoding="utf-8"
-    )
-    assert hashlib.sha256(_canonical(live["core"])).hexdigest() == live[
-        "core_content_sha256"
-    ]
+    live = json.loads((REPO / "runs/engine/unified-engine-status-live-refresh.json").read_text())
+    dashboard = (REPO / "runs/engine/unified-engine-dashboard.html").read_text(encoding="utf-8")
+    assert hashlib.sha256(_canonical(live["core"])).hexdigest() == live["core_content_sha256"]
     assert live["core_content_sha256"] in dashboard
     assert live["core"]["followup_service"]["followup_decision_counts"] == {
         "blocked": 8,
         "pass": 2,
     }
     assert live["core"]["followup_service"]["deferred"] == 0
-    assert live["core"]["followup_service"][
-        "current_missing_evaluator_blockers"
-    ] == {}
+    assert live["core"]["followup_service"]["current_missing_evaluator_blockers"] == {}
     leaderboards = live["core"]["scientific_leaderboards"]
     assert len(leaderboards["categories"]) == 9
     assert len(leaderboards["history"]) >= 1
@@ -931,12 +948,21 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "Future preflight passes" in dashboard
     assert "two exact Aether principal-mode rejects" in dashboard
     assert "Future Aether blocked" in dashboard
+    assert "Pure-twist AE no-go" in dashboard
+    assert "Cutoff transitions required" in dashboard
     assert "Future G3 center checks" in dashboard
     assert "Future G3 uniform boxes" in dashboard
+    assert "Future G3 AF profiles" in dashboard
+    assert "Flat ansatz failures" in dashboard
+    assert "AF unitary Dirac passes" in dashboard
     assert "all 14 Aether survivors blocked" in dashboard
-    assert "every completion fails both coupled constraints" in dashboard
+    assert "Euclidean Killing-system no-go" in dashboard
+    assert "AE decay forces it to zero" in dashboard
+    assert "compact radial cutoff" in dashboard
     assert "pass uniform all-direction principal/common-cone" in dashboard
-    assert "asymptotically-flat/global-energy domain" in dashboard
+    assert "smooth decaying-gradient AF reference profile" in dashboard
+    assert "Hamiltonian residual -1" in dashboard
+    assert "annulus modes obstruct a bounded global unitary-lapse inverse" in dashboard
     assert "Staged future candidate formulas (unranked)" in dashboard
     assert "These master actions are recompiled from the exact typed cells" in dashboard
     assert "G3A-8555e529226d13e2e9dacad5" in dashboard
@@ -948,10 +974,11 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "Quartic nonlinear closure" in dashboard
     assert "Diagonal third jets" in dashboard
     assert "Mixed third jets closed" in dashboard
-    assert "128/128 lexicographic AAB/ABB/ABC triples" in dashboard
+    assert "256/256 lexicographic AAB/ABB/ABC triples" in dashboard
     assert "Mixed triples remaining" in dashboard
-    assert "12,172 polarized mixed triples remain" in dashboard
-    assert "Two restart-safe mixed chunks now close 128/128" in dashboard
+    assert "12,044 polarized mixed triples remain" in dashboard
+    assert "Four exact mixed chunks now close 256/256" in dashboard
+    assert "eight isolated spawn workers" in dashboard
     assert "CK1, CK3, TC2, B7, global H7, and lifespan remain fail-closed" in dashboard
     assert "No full formal pass is inferred" not in dashboard
     assert "class #1" in dashboard
@@ -981,20 +1008,25 @@ def test_standalone_refresh_and_dashboard_keep_watchdog_database_read_only(
     root, config, database = _fixture(tmp_path)
     _write_fixture_config(root, config)
     before = hashlib.sha256(database.read_bytes()).hexdigest()
-    assert main([
-        "refresh",
-        "--project-root",
-        str(root),
-        "--output",
-        "runs/engine/refreshed.json",
-        "--dashboard-output",
-        "runs/engine/dashboard.html",
-        "--maximum-output-bytes",
-        "1048576",
-        "--disable-gpu-sample",
-        "--sampled-at-utc",
-        "2026-08-10T20:10:00+00:00",
-    ]) == 0
+    assert (
+        main(
+            [
+                "refresh",
+                "--project-root",
+                str(root),
+                "--output",
+                "runs/engine/refreshed.json",
+                "--dashboard-output",
+                "runs/engine/dashboard.html",
+                "--maximum-output-bytes",
+                "1048576",
+                "--disable-gpu-sample",
+                "--sampled-at-utc",
+                "2026-08-10T20:10:00+00:00",
+            ]
+        )
+        == 0
+    )
     after = hashlib.sha256(database.read_bytes()).hexdigest()
     assert before == after
 
@@ -1010,19 +1042,26 @@ def test_standalone_refresh_and_dashboard_keep_watchdog_database_read_only(
     assert len(dashboard_path.read_bytes()) < 1048576
     assert "Scheduler lanes" in dashboard
     assert "Physical hardware sample" in dashboard
+    assert "Physical CPU utilization" in dashboard
+    assert "CPU topology" in dashboard
     assert "C:\\" not in dashboard
 
-    assert main([
-        "export-dashboard",
-        "--project-root",
-        str(root),
-        "--snapshot",
-        "runs/engine/refreshed.json",
-        "--output",
-        "runs/engine/dashboard-replay.html",
-        "--maximum-output-bytes",
-        "131072",
-    ]) == 0
+    assert (
+        main(
+            [
+                "export-dashboard",
+                "--project-root",
+                str(root),
+                "--snapshot",
+                "runs/engine/refreshed.json",
+                "--output",
+                "runs/engine/dashboard-replay.html",
+                "--maximum-output-bytes",
+                "131072",
+            ]
+        )
+        == 0
+    )
     assert (root / "runs/engine/dashboard-replay.html").read_bytes() == dashboard_path.read_bytes()
 
 
@@ -1031,23 +1070,27 @@ def test_standalone_output_budget_and_path_escape_fail_closed(tmp_path: Path) ->
     _write_fixture_config(root, config)
     output = root / "runs/engine/too-large.json"
     with pytest.raises(RuntimeError, match="bounded JSON output"):
-        main([
-            "refresh",
-            "--project-root",
-            str(root),
-            "--output",
-            "runs/engine/too-large.json",
-            "--maximum-output-bytes",
-            "4096",
-            "--disable-gpu-sample",
-        ])
+        main(
+            [
+                "refresh",
+                "--project-root",
+                str(root),
+                "--output",
+                "runs/engine/too-large.json",
+                "--maximum-output-bytes",
+                "4096",
+                "--disable-gpu-sample",
+            ]
+        )
     assert not output.exists()
     with pytest.raises(ValueError, match="escapes project root"):
-        main([
-            "refresh",
-            "--project-root",
-            str(root),
-            "--output",
-            "../escaped.json",
-            "--disable-gpu-sample",
-        ])
+        main(
+            [
+                "refresh",
+                "--project-root",
+                str(root),
+                "--output",
+                "../escaped.json",
+                "--disable-gpu-sample",
+            ]
+        )

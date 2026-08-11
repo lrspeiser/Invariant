@@ -362,15 +362,23 @@ def run_quartic_tc2_mixed_third_jet_chunk_campaign(
         ):
             raise QuarticTC2MixedThirdJetChunkError("closure policy mismatch")
         requested_chunk_size = int(config["chunk_size"])
+        parallel_worker_count = int(config.get("parallel_worker_count", 1))
+        parallel_execution_policy = config.get("parallel_execution_policy")
         if (
             config.get("selector") != "lexicographic_active_direction_multisets_excluding_AAA"
             or not 1 <= requested_chunk_size <= DEFAULT_CHUNK_SIZE
             or int(config["chunk_offset"]) < 0
             or int(config["chunk_offset"]) >= TOTAL_MIXED_TRIPLES
-            or int(config["chunk_offset"]) + requested_chunk_size
-            > TOTAL_MIXED_TRIPLES
+            or int(config["chunk_offset"]) + requested_chunk_size > TOTAL_MIXED_TRIPLES
             or config.get("stop_on_first_obstruction") is not True
             or config.get("resume_policy") != "record_sha256_chain"
+            or parallel_worker_count < 1
+            or parallel_worker_count > min(DEFAULT_CHUNK_SIZE, requested_chunk_size)
+            or (
+                parallel_worker_count > 1
+                and parallel_execution_policy
+                != "ordered_spawn_pool_bounded_speculation_no_post_obstruction_commit"
+            )
         ):
             raise QuarticTC2MixedThirdJetChunkError("chunk contract mismatch")
         generic_passed, generic = generic_mixed_third_polarization_control()
@@ -417,6 +425,22 @@ def run_quartic_tc2_mixed_third_jet_chunk_campaign(
             raise QuarticTC2MixedThirdJetChunkError(
                 "partial chunks are allowed only for the exact final selector tail"
             )
+        parallel_results: dict[tuple[int, int, int], dict[str, Any]] = {}
+        if parallel_worker_count > 1:
+            from .quartic_tc2_mixed_third_jet_parallel_kernel import (
+                evaluate_mixed_triples_process_pool,
+            )
+
+            evaluated = evaluate_mixed_triples_process_pool(
+                list(selected), coefficients, worker_count=parallel_worker_count
+            )
+            parallel_results = {
+                tuple(result["active_position_triple"]): result for result in evaluated
+            }
+            if set(parallel_results) != set(selected):
+                raise QuarticTC2MixedThirdJetChunkError(
+                    "parallel kernel selector coverage mismatch"
+                )
         seed_body = {
             "upstream": actual_upstream,
             "canonical_D2_artifact_sequence_sha256": _content_hash(artifact_hashes),
@@ -431,19 +455,54 @@ def run_quartic_tc2_mixed_third_jet_chunk_campaign(
         alpha, c20 = sp.symbols("alpha c20")
         for chunk_index, triple in enumerate(selected):
             selector_index = offset + chunk_index
-            payload = _polarized_third_payload(triple, directions)
-            rhs = payload["third_Sylvester_RHS"]
-            free_symbols = {str(symbol): symbol for symbol in rhs.free_symbols}
-            alpha = free_symbols.get("alpha", alpha)
-            c20 = free_symbols.get("c20", c20)
-            symbolic_solvable, symbolic_delta, symbolic_audit = _solve_sylvester(rhs)
-            candidate_results: list[dict[str, Any]] = []
-            obstructed_candidates: list[str] = []
-            for candidate_id, candidate_coefficients in sorted(coefficients.items()):
-                candidate = _candidate_result(rhs, alpha, c20, candidate_coefficients)
-                if not candidate["solvable"]:
-                    obstructed_candidates.append(candidate_id)
-                candidate_results.append({"candidate_id": candidate_id, **candidate})
+            if parallel_results:
+                dynamic = dict(parallel_results[triple])
+                dynamic.pop("active_position_triple")
+                candidate_results = dynamic["candidate_results"]
+                obstructed_candidates = dynamic["obstructed_candidate_ids"]
+            else:
+                payload = _polarized_third_payload(triple, directions)
+                rhs = payload["third_Sylvester_RHS"]
+                free_symbols = {str(symbol): symbol for symbol in rhs.free_symbols}
+                alpha = free_symbols.get("alpha", alpha)
+                c20 = free_symbols.get("c20", c20)
+                symbolic_solvable, symbolic_delta, symbolic_audit = _solve_sylvester(rhs)
+                candidate_results = []
+                obstructed_candidates = []
+                for candidate_id, candidate_coefficients in sorted(coefficients.items()):
+                    candidate = _candidate_result(rhs, alpha, c20, candidate_coefficients)
+                    if not candidate["solvable"]:
+                        obstructed_candidates.append(candidate_id)
+                    candidate_results.append({"candidate_id": candidate_id, **candidate})
+                dynamic = {
+                    "D3P55_nonzero_entries": sum(value != 0 for value in payload["D3P55"]),
+                    "D3P55_sha256": _content_hash(_matrix_payload(payload["D3P55"])),
+                    "D3K55_nonzero_entries": sum(value != 0 for value in payload["D3K55"]),
+                    "D3K55_sha256": _content_hash(_matrix_payload(payload["D3K55"])),
+                    "D3TC2_nonzero_entries": sum(value != 0 for value in payload["D3TC2"]),
+                    "D3TC2_sha256": _content_hash(_matrix_payload(payload["D3TC2"])),
+                    "third_Sylvester_RHS_sha256": _content_hash(_matrix_payload(rhs)),
+                    "symbolic_parameter_compatible": symbolic_solvable,
+                    "symbolic_nonzero_equal_eigenspace_compressions": symbolic_audit[
+                        "nonzero_equal_eigenspace_compressions"
+                    ],
+                    "symbolic_deltaK_ABC_Hermitian": (
+                        symbolic_delta.equals(symbolic_delta.T) if symbolic_solvable else False
+                    ),
+                    "symbolic_deltaK_ABC_nonzero_entries": sum(
+                        value != 0 for value in symbolic_delta
+                    ),
+                    "symbolic_deltaK_ABC_rank": (
+                        symbolic_delta.rank() if symbolic_solvable else None
+                    ),
+                    "symbolic_deltaK_ABC_sha256": (
+                        _content_hash(_matrix_payload(symbolic_delta))
+                        if symbolic_solvable
+                        else None
+                    ),
+                    "candidate_results": candidate_results,
+                    "obstructed_candidate_ids": obstructed_candidates,
+                }
             unique_positions = sorted(set(triple))
             record_body = {
                 "selector_index": selector_index,
@@ -465,27 +524,7 @@ def run_quartic_tc2_mixed_third_jet_chunk_campaign(
                         "content_sha256"
                     ],
                 },
-                "D3P55_nonzero_entries": sum(value != 0 for value in payload["D3P55"]),
-                "D3P55_sha256": _content_hash(_matrix_payload(payload["D3P55"])),
-                "D3K55_nonzero_entries": sum(value != 0 for value in payload["D3K55"]),
-                "D3K55_sha256": _content_hash(_matrix_payload(payload["D3K55"])),
-                "D3TC2_nonzero_entries": sum(value != 0 for value in payload["D3TC2"]),
-                "D3TC2_sha256": _content_hash(_matrix_payload(payload["D3TC2"])),
-                "third_Sylvester_RHS_sha256": _content_hash(_matrix_payload(rhs)),
-                "symbolic_parameter_compatible": symbolic_solvable,
-                "symbolic_nonzero_equal_eigenspace_compressions": symbolic_audit[
-                    "nonzero_equal_eigenspace_compressions"
-                ],
-                "symbolic_deltaK_ABC_Hermitian": (
-                    symbolic_delta.equals(symbolic_delta.T) if symbolic_solvable else False
-                ),
-                "symbolic_deltaK_ABC_nonzero_entries": sum(value != 0 for value in symbolic_delta),
-                "symbolic_deltaK_ABC_rank": (symbolic_delta.rank() if symbolic_solvable else None),
-                "symbolic_deltaK_ABC_sha256": (
-                    _content_hash(_matrix_payload(symbolic_delta)) if symbolic_solvable else None
-                ),
-                "candidate_results": candidate_results,
-                "obstructed_candidate_ids": obstructed_candidates,
+                **dynamic,
                 "previous_record_sha256": previous,
             }
             record = {
@@ -538,6 +577,16 @@ def run_quartic_tc2_mixed_third_jet_chunk_campaign(
                 "processed_count": processed,
                 "next_offset": offset + processed,
                 "stop_on_first_obstruction": True,
+                **(
+                    {
+                        "parallel_execution_policy": parallel_execution_policy,
+                        "parallel_worker_count": parallel_worker_count,
+                        "bounded_speculative_evaluations_may_finish_after_first_obstruction": True,
+                        "records_after_first_obstruction_committed_or_inferred": 0,
+                    }
+                    if parallel_worker_count > 1
+                    else {}
+                ),
                 "stopped_early": first_obstruction is not None,
                 "resume_policy": config["resume_policy"],
                 "prior_resume_sha256": config.get("expected_prior_resume_sha256"),

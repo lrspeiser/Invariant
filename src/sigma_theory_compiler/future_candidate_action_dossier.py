@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import hashlib
 import json
 from collections import Counter
@@ -212,9 +213,12 @@ def build_future_candidate_action_dossier(
             formal_hash = followup["content_sha256"]
             formal_source = "aether_followup"
             formal_scope = (
-                "The local twist witness is exact, but its normalized affine completion "
-                "fails both coupled constraints and is not asymptotically Euclidean. A "
-                "constraint-satisfying AE completion is still required; blocked is not rejection."
+                "The local twist witness is exact. The flat, static, globally pure-twist "
+                "asymptotically-Euclidean completion class is exhausted: the Euclidean "
+                "Killing equation makes the field affine and asymptotic decay forces zero. "
+                "A compact cutoff preserves the center witness only by adding a non-pure "
+                "transition. A coupled AE completion with negative completed boundary energy "
+                "is still required; blocked is not rejection."
             )
         else:
             followup = g3_records.get(candidate_id)
@@ -225,9 +229,12 @@ def build_future_candidate_action_dossier(
             formal_hash = followup["content_sha256"]
             formal_source = "g3_followup"
             formal_scope = (
-                "The action-bound componentwise box, uniform principal/common cone, lapse "
-                "coercivity, and periodic Dirac gates pass; the asymptotically-flat/global-"
-                "energy domain remains blocked and no full-formal pass is inferred."
+                "The action-bound local box, uniform principal/common cone, lapse coercivity, "
+                "and periodic Dirac gates pass. A smooth decaying-gradient AF reference "
+                "profile also retains the principal/common cone, but the flat gravitational "
+                "ansatz fails its Hamiltonian constraint and annulus modes obstruct a bounded "
+                "global unitary-lapse inverse. The ansatz failure is not a theory rejection, "
+                "and no AF constraint, global-energy, or full-formal pass is inferred."
             )
         status = {"reject": "rejected", "blocked": "blocked"}[decision]
         nodes = [
@@ -351,3 +358,27 @@ def validate_future_candidate_action_dossier(artifact: dict[str, Any]) -> None:
 def iter_future_candidate_action_dossiers(artifact: dict[str, Any]):
     validate_future_candidate_action_dossier(artifact)
     yield from artifact["dossiers"]
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Build the future candidate action dossier.")
+    parser.add_argument("--project-root", type=Path, default=Path.cwd())
+    parser.add_argument(
+        "--config", type=Path, default=Path("configs/future_candidate_action_dossier.json")
+    )
+    parser.add_argument(
+        "--output", type=Path, default=Path("runs/engine/future-candidate-action-dossier.json")
+    )
+    args = parser.parse_args()
+    root = args.project_root.resolve()
+    config_path = args.config if args.config.is_absolute() else root / args.config
+    output_path = args.output if args.output.is_absolute() else root / args.output
+    config = json.loads(config_path.read_text(encoding="utf-8"))
+    artifact = build_future_candidate_action_dossier(config, root)
+    validate_future_candidate_action_dossier(artifact)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(json.dumps(artifact, indent=2) + "\n", encoding="utf-8")
+
+
+if __name__ == "__main__":
+    main()

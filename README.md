@@ -331,11 +331,20 @@ enqueue is inferred, and the new candidates remain outside the scientific leader
 Candidate-specific follow-up keeps all 14 Aether survivors blocked: each has an exact finite
 negative local pure-twist density witness. Its normalized affine rigid-rotation completion is now
 checked explicitly, but all 14 completions fail both coupled constraints and are non-asymptotically
-Euclidean, leaving the boundary energy undefined rather than negative. A constraint-satisfying AE
-completion is still required before any theory rejection. The three cubic-G3 actions now have all
+Euclidean, leaving the boundary energy undefined rather than negative. The natural flat, static,
+globally pure-twist AE class is now exhausted exactly: the Euclidean Killing system makes the
+Aether field affine and AE decay forces it to zero. Compact radial localization preserves a center
+witness only by introducing a non-pure symmetric-gradient transition. A candidate-bound coupled AE
+constraint solution beyond this class with genuinely negative completed boundary energy is still
+required; blocked is not theory rejection. The three cubic-G3 actions now have all
 36 action-bound componentwise fields registered and pass direct uniform principal/common-cone,
-exact lapse-coercivity, and periodic `L2(T3)` Dirac gates. They remain blocked at the
-asymptotically-flat/global-energy domain, with no full-formal pass inferred.
+exact lapse-coercivity, and periodic `L2(T3)` Dirac gates. Each also has a smooth action-bound
+decaying-gradient AF profile retaining the all-direction principal/common cone through `X -> 0`.
+The flat gravitational ansatz fails its Hamiltonian constraint with exact residual `-1` and is
+rejected only as an ansatz. Normalized annulus modes place zero in the approximate spectrum of the
+unitary lapse multiplier, so no bounded global `L2(R3)` inverse exists on that profile. A globally
+regular alternative formulation, AF Einstein-constraint solution, global energy theorem, and full
+formal pass remain blocked.
 An immutable evidence bridge now ingests the six compilation results plus the Aether, `G2`, `G3`,
 and conformal-`G4` prerequisite packets into an isolated knowledge registry. It preserves candidate/action/source
 lineage, separates calibration-only controls, deduplicates replay, refuses the live campaign
@@ -1140,10 +1149,11 @@ A bounded third-order continuation now closes every diagonal `(A,A,A)` triple in
 active affine sector. All 41 symbolic compatibilities and all 492 candidate-direction evaluations
 are solvable, Hermitian, and exact-zero residual; 312 evaluations require a nonzero
 `deltaK_AAA`. This does not infer polarization: the full mixed sector contains 12,300 `AAB`, `ABB`,
-and `ABC` triples before fourth-and-higher remainder control or a nonlinear range theorem. Two restartable
-lexicographic chunks now close 128/128 of those mixed triples and all 1,536 candidate evaluations
-with zero obstruction. Exactly 12,172 mixed triples remain; the durable checkpoint resumes at offset
-128. Full tube, TC2, B7,
+and `ABC` triples before fourth-and-higher remainder control or a nonlinear range theorem. Four exact
+lexicographic chunks now close 256/256 of those mixed triples and all 3,072 candidate evaluations
+with zero obstruction. The latest bounded epoch uses eight isolated spawn workers, returns records
+in canonical order, and commits or infers no record after a first obstruction. Exactly 12,044 mixed
+triples remain; the durable checkpoint resumes at offset 256. Full tube, TC2, B7,
 global-H7, and lifespan claims therefore remain fail-closed.
 
 The tube bounds 153 normalized coordinate atoms: ten metric deviations, 44 first partials,

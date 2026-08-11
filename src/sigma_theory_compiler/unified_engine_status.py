@@ -99,8 +99,7 @@ def _read_campaign_mode_ro(database: Path) -> dict[str, Any]:
             ).fetchall()
         }
         task_columns = {
-            str(row["name"])
-            for row in connection.execute("PRAGMA table_info(tasks)").fetchall()
+            str(row["name"]) for row in connection.execute("PRAGMA table_info(tasks)").fetchall()
         }
         queued_task_schedule = (
             [
@@ -150,11 +149,13 @@ def _scheduler_lanes(watchdog: Mapping[str, Any], resource: Mapping[str, Any]) -
         claimed_types |= allowed
         capacity = int(lane.get("sustained_workers", lane.get("workers", 0)))
         running = sum(
-            count for (task_type, state), count in states.items()
+            count
+            for (task_type, state), count in states.items()
             if task_type in allowed and state in active_states
         )
         queued = sum(
-            count for (task_type, state), count in states.items()
+            count
+            for (task_type, state), count in states.items()
             if task_type in allowed and state == "queued"
         )
         lanes[name] = {
@@ -166,11 +167,13 @@ def _scheduler_lanes(watchdog: Mapping[str, Any], resource: Mapping[str, Any]) -
     lanes["unclassified"] = {
         "capacity": None,
         "running": sum(
-            count for (task_type, state), count in states.items()
+            count
+            for (task_type, state), count in states.items()
             if task_type not in claimed_types and state in active_states
         ),
         "queued": sum(
-            count for (task_type, state), count in states.items()
+            count
+            for (task_type, state), count in states.items()
             if task_type not in claimed_types and state == "queued"
         ),
         "scheduler_occupancy_fraction": None,
@@ -228,9 +231,7 @@ def _scheduler_readiness(
         "queued_total": core_lanes["unclassified"]["queued"],
         "runnable_now": core_lanes["unclassified"]["queued"] - delayed,
         "delayed_until_not_before": delayed,
-        "earliest_future_not_before_utc": (
-            future_times[0].isoformat() if future_times else None
-        ),
+        "earliest_future_not_before_utc": (future_times[0].isoformat() if future_times else None),
     }
     return readiness
 
@@ -259,6 +260,29 @@ def sample_nvidia_smi() -> dict[str, Any]:
         return {
             "availability": "unavailable",
             "source": "nvidia-smi_nvml",
+            "reason": type(exc).__name__,
+        }
+
+
+def sample_host_cpu() -> dict[str, Any]:
+    """Take one bounded host CPU/RAM sample, separate from scheduler leases."""
+    try:
+        import psutil
+
+        memory = psutil.virtual_memory()
+        return {
+            "availability": "available",
+            "source": "psutil_host_sample",
+            "utilization_percent": float(psutil.cpu_percent(interval=0.05)),
+            "logical_processors": int(psutil.cpu_count(logical=True) or 0),
+            "physical_cores": int(psutil.cpu_count(logical=False) or 0),
+            "memory_used_bytes": int(memory.used),
+            "memory_total_bytes": int(memory.total),
+        }
+    except (ImportError, OSError, RuntimeError, ValueError) as exc:
+        return {
+            "availability": "unavailable",
+            "source": "psutil_host_sample",
             "reason": type(exc).__name__,
         }
 
@@ -293,6 +317,7 @@ def build_unified_snapshot(
     config: Mapping[str, Any],
     *,
     now_utc: datetime | None = None,
+    physical_cpu: Mapping[str, Any] | None = None,
     physical_gpu: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Build one consistent read-only snapshot from hash-bound source revisions."""
@@ -314,25 +339,21 @@ def build_unified_snapshot(
     formal_preflight = sources["grammar_v3_formal_preflight"]
     promotion_admission = sources["grammar_v3_promotion_admission"]
     g2_candidate_formal = sources["grammar_v3_g2_candidate_formal"]
-    g2_nonmaximal_followup = sources[
-        "grammar_v3_g2_nonmaximal_positive_mass_followup"
-    ]
+    g2_nonmaximal_followup = sources["grammar_v3_g2_nonmaximal_positive_mass_followup"]
     g2_solar_readiness = sources["grammar_v3_g2_solar_readiness"]
-    g2_solar_heldout_transfer = sources[
-        "grammar_v3_g2_solar_heldout_transfer"
-    ]
+    g2_solar_heldout_transfer = sources["grammar_v3_g2_solar_heldout_transfer"]
     scalable_campaign_epoch = sources["scalable_campaign_epoch"]
     scalable_future_parameter_chunk = sources["scalable_future_parameter_chunk"]
     scalable_future_formal_preflight = sources["scalable_future_formal_preflight"]
     future_aether_formal_followup = sources["future_aether_formal_followup"]
     future_aether_constraint_followup = sources["future_aether_constraint_followup"]
+    future_aether_pure_twist_ae_no_go = sources["future_aether_pure_twist_ae_no_go"]
     future_g3_domain_followup = sources["future_g3_domain_followup"]
     future_g3_action_bound_followup = sources["future_g3_action_bound_followup"]
+    future_g3_af_transition_obstruction = sources["future_g3_af_transition_obstruction"]
     future_candidate_action_dossier = sources["future_candidate_action_dossier"]
     g3_candidate_formal = sources["grammar_v3_g3_candidate_formal"]
-    g4_scalable_formal_followup = sources[
-        "grammar_v3_g4_scalable_formal_followup"
-    ]
+    g4_scalable_formal_followup = sources["grammar_v3_g4_scalable_formal_followup"]
     aether_candidate_formal = sources["grammar_v3_aether_candidate_formal"]
     scalable_structural_metrics = sources["scalable_structural_metrics"]
     scalable_explanation_dossiers = sources["scalable_explanation_dossiers"]
@@ -352,46 +373,35 @@ def build_unified_snapshot(
     local_formula_service = sources["reviewed_local_formula_service"]
     g4_galaxy_forward_model = sources["g4_galaxy_forward_model"]
     g4_galaxy_branch_distance = sources["g4_galaxy_branch_distance"]
-    g4_galaxy_calibration_evaluation = sources[
-        "g4_galaxy_calibration_evaluation"
-    ]
-    g4_galaxy_prediction_contract_transform = sources[
-        "g4_galaxy_prediction_contract_transform"
-    ]
-    g4_galaxy_manifest_bundle_tooling = sources[
-        "g4_galaxy_manifest_bundle_tooling"
-    ]
-    g4_galaxy_source_registry_admission = sources[
-        "g4_galaxy_source_registry_admission"
-    ]
-    quartic_tc2_quadratic_deltak = sources[
-        "quartic_tc2_quadratic_deltak_extension"
-    ]
-    quartic_tc2_diagonal_third_jet = sources[
-        "quartic_tc2_diagonal_third_jet"
-    ]
-    quartic_tc2_mixed_third_jet_chunk = sources[
-        "quartic_tc2_mixed_third_jet_chunk"
-    ]
-    quartic_tc2_mixed_third_jet_chunk_64 = sources[
-        "quartic_tc2_mixed_third_jet_chunk_64"
-    ]
-    quartic_tc2_mixed_third_jet_checkpoint = sources[
-        "quartic_tc2_mixed_third_jet_checkpoint"
-    ]
+    g4_galaxy_calibration_evaluation = sources["g4_galaxy_calibration_evaluation"]
+    g4_galaxy_prediction_contract_transform = sources["g4_galaxy_prediction_contract_transform"]
+    g4_galaxy_manifest_bundle_tooling = sources["g4_galaxy_manifest_bundle_tooling"]
+    g4_galaxy_source_registry_admission = sources["g4_galaxy_source_registry_admission"]
+    quartic_tc2_quadratic_deltak = sources["quartic_tc2_quadratic_deltak_extension"]
+    quartic_tc2_diagonal_third_jet = sources["quartic_tc2_diagonal_third_jet"]
+    quartic_tc2_mixed_third_jet_chunk = sources["quartic_tc2_mixed_third_jet_chunk"]
+    quartic_tc2_mixed_third_jet_chunk_64 = sources["quartic_tc2_mixed_third_jet_chunk_64"]
+    quartic_tc2_mixed_third_jet_chunk_128 = sources["quartic_tc2_mixed_third_jet_chunk_128"]
+    quartic_tc2_mixed_third_jet_checkpoint = sources["quartic_tc2_mixed_third_jet_checkpoint"]
     quartic_tc2_mixed_third_jet_continuation_status = sources[
         "quartic_tc2_mixed_third_jet_continuation_status"
+    ]
+    quartic_tc2_mixed_third_jet_parallel_chunk_192 = sources[
+        "quartic_tc2_mixed_third_jet_parallel_chunk_192"
+    ]
+    quartic_tc2_mixed_third_jet_parallel_checkpoint = sources[
+        "quartic_tc2_mixed_third_jet_parallel_checkpoint"
+    ]
+    quartic_tc2_mixed_third_jet_parallel_status = sources[
+        "quartic_tc2_mixed_third_jet_parallel_status"
     ]
     if (
         scalable_structural_metrics.get("candidate_count") != 163
         or scalable_structural_metrics.get("alias_count") != 93
         or scalable_structural_metrics.get("formal_decision_counts")
         != {"blocked": 158, "pass": 3, "reject": 2}
-        or scalable_structural_metrics.get("structural_measurement_counts")
-        != {"measured": 163}
-        or scalable_structural_metrics.get("simplicity_pareto_front", {}).get(
-            "candidate_count"
-        )
+        or scalable_structural_metrics.get("structural_measurement_counts") != {"measured": 163}
+        or scalable_structural_metrics.get("simplicity_pareto_front", {}).get("candidate_count")
         != 2
         or scalable_structural_metrics.get("observational_data_opened") is not False
         or scalable_structural_metrics.get("data_eligibility")
@@ -425,14 +435,12 @@ def build_unified_snapshot(
         followup.get("lifecycle") != "idle"
         or followup.get("processed_count") != 10
         or followup.get("deferred_count") != 0
-        or followup.get("packet_state_counts")
-        != {"deferred_missing_evaluator": 0, "succeeded": 10}
+        or followup.get("packet_state_counts") != {"deferred_missing_evaluator": 0, "succeeded": 10}
         or followup.get("candidate_scientific_decisions_changed") != 1
         or followup.get("reviewed_evaluator_invocation_count") != 10
         or followup.get("missing_evaluator_executions") != 0
         or followup.get("deferred_packets") != []
-        or followup_queue.get("followup_decision_counts")
-        != {"blocked": 8, "pass": 2}
+        or followup_queue.get("followup_decision_counts") != {"blocked": 8, "pass": 2}
         or followup_queue.get("work_state_counts") != {"succeeded": 10}
         or followup_queue.get("candidate_scientific_decisions_changed") != 1
         or followup_queue.get("reviewed_evaluator_invocation_count") != 10
@@ -499,8 +507,7 @@ def build_unified_snapshot(
         or parameter_compilation.get("expensive_formal_campaign_run") is not False
         or parameter_compilation.get("cell_disposition_counts")
         != {"compiled_representative": 163, "deduplicated_equivalent": 93}
-        or set(parameter_compilation.get("structural_gate_pass_counts", {}).values())
-        != {256}
+        or set(parameter_compilation.get("structural_gate_pass_counts", {}).values()) != {256}
         or parameter_compilation.get("negative_control_counts") != {"reject": 5}
         or parameter_compilation.get("data_eligibility")
         != {
@@ -509,9 +516,7 @@ def build_unified_snapshot(
             "paid_llm_calls": False,
             "redshift_distance_inputs": False,
         }
-        or parameter_compilation.get("parameter_cell_manifest_binding", {}).get(
-            "content_sha256"
-        )
+        or parameter_compilation.get("parameter_cell_manifest_binding", {}).get("content_sha256")
         != parameter_manifest.get("content_sha256")
     ):
         raise ValueError("grammar parameter-cell compilation is inconsistent")
@@ -575,8 +580,7 @@ def build_unified_snapshot(
             "grammar_v3_g2_candidate_adm_formal",
             "grammar_v3_g3_candidate_adm_formal",
         }
-        or promotion_admission.get("downstream_expensive_execution_started")
-        is not False
+        or promotion_admission.get("downstream_expensive_execution_started") is not False
         or promotion_admission.get("preflight_status_binding")
         != {
             "content_sha256": formal_preflight.get("content_sha256"),
@@ -608,23 +612,16 @@ def build_unified_snapshot(
         or g2_candidate_formal.get("full_formal_pass_count") != 0
         or g2_candidate_formal.get("blocker_counts")
         != {"hash_bound_general_nonmaximal_positive_mass_theorem": 2}
-        or g2_candidate_formal.get("general_nonmaximal_global_positive_mass_proved")
-        is not False
+        or g2_candidate_formal.get("general_nonmaximal_global_positive_mass_proved") is not False
         or g2_candidate_formal.get("gate_counts", {}).get(
             "candidate_action_preflight_admission_binding"
         )
         != {"pass": 2}
-        or g2_candidate_formal.get("gate_counts", {}).get(
-            "restricted_maximal_slice_positive_mass"
-        )
+        or g2_candidate_formal.get("gate_counts", {}).get("restricted_maximal_slice_positive_mass")
         != {"pass": 2}
-        or g2_candidate_formal.get("gate_counts", {}).get(
-            "general_nonmaximal_positive_mass"
-        )
+        or g2_candidate_formal.get("gate_counts", {}).get("general_nonmaximal_positive_mass")
         != {"blocked": 2}
-        or g2_candidate_formal.get("promotion_status_binding", {}).get(
-            "content_sha256"
-        )
+        or g2_candidate_formal.get("promotion_status_binding", {}).get("content_sha256")
         != promotion_admission.get("content_sha256")
         or g2_candidate_formal.get("paid_llm_spend_usd") != 0.0
         or g2_candidate_formal.get("observational_data_opened") is not False
@@ -642,10 +639,7 @@ def build_unified_snapshot(
         g2_nonmaximal_followup.get("candidate_count") != 2
         or g2_nonmaximal_followup.get("decision_counts") != {"pass": 2}
         or g2_nonmaximal_followup.get("full_formal_pass_count") != 2
-        or g2_nonmaximal_followup.get(
-            "general_nonmaximal_positive_mass_pass_count"
-        )
-        != 2
+        or g2_nonmaximal_followup.get("general_nonmaximal_positive_mass_pass_count") != 2
         or g2_nonmaximal_followup.get("solar_bundle_count") != 0
         or g2_nonmaximal_followup.get("observational_data_opened") is not False
         or g2_nonmaximal_followup.get("paid_llm_spend_usd") != 0.0
@@ -669,8 +663,7 @@ def build_unified_snapshot(
         g2_solar_readiness.get("candidate_count") != 2
         or g2_solar_readiness.get("decision_counts") != {"blocked": 2}
         or g2_solar_readiness.get("candidate_analytic_prediction_pass_count") != 2
-        or g2_solar_readiness.get("conditional_static_source_class_pass_count")
-        != 2
+        or g2_solar_readiness.get("conditional_static_source_class_pass_count") != 2
         or g2_solar_readiness.get("real_source_registration_pass_count") != 0
         or g2_solar_readiness.get("real_solar_bundle_count") != 0
         or g2_solar_readiness.get("real_solar_bundle_admissible_count") != 0
@@ -685,11 +678,7 @@ def build_unified_snapshot(
                 "observational_inputs_opened_by_this_audit"
             )
             is not False
-            or len(
-                record.get("real_solar_readiness", {}).get(
-                    "missing_registration_fields", []
-                )
-            )
+            or len(record.get("real_solar_readiness", {}).get("missing_registration_fields", []))
             != 10
             for record in g2_solar_readiness.get("candidate_records", [])
         )
@@ -738,9 +727,7 @@ def build_unified_snapshot(
             or record.get("real_data_pass") is not False
             or len(record.get("filled_registration_fields", [])) != 6
             or len(record.get("remaining_registration_fields", [])) != 4
-            for record in g2_solar_heldout_transfer.get(
-                "candidate_registrations", []
-            )
+            for record in g2_solar_heldout_transfer.get("candidate_registrations", [])
         )
     ):
         raise ValueError("grammar-v3 G2 Solar held-out transfer is inconsistent")
@@ -753,8 +740,7 @@ def build_unified_snapshot(
             "parameter_cells": 256,
             "unique_candidates": 163,
         }
-        or scalable_campaign_epoch.get("next_epoch_readiness", {}).get("state")
-        != "blocked"
+        or scalable_campaign_epoch.get("next_epoch_readiness", {}).get("state") != "blocked"
         or scalable_campaign_epoch.get("next_epoch_readiness", {}).get(
             "scientific_compilation_started"
         )
@@ -785,10 +771,7 @@ def build_unified_snapshot(
         scalable_future_formal_preflight.get("candidate_count") != 19
         or scalable_future_formal_preflight.get("source_input_cell_count") != 32
         or scalable_future_formal_preflight.get("source_new_candidate_count") != 19
-        or scalable_future_formal_preflight.get(
-            "source_deduplicated_candidate_count"
-        )
-        != 13
+        or scalable_future_formal_preflight.get("source_deduplicated_candidate_count") != 13
         or scalable_future_formal_preflight.get("family_counts")
         != {
             "AETHER_K1234_PARAMETER_CELL": 16,
@@ -806,11 +789,8 @@ def build_unified_snapshot(
             "componentwise_normalized_local_jet_box_and_uniform_cone_certificate_missing": 3,
             "nonpositive_spin0_principal_numerator_c123": 2,
         }
-        or scalable_future_formal_preflight.get("formal_preflight_completed")
-        is not True
-        or scalable_future_formal_preflight.get(
-            "full_candidate_specific_formal_completion_claimed"
-        )
+        or scalable_future_formal_preflight.get("formal_preflight_completed") is not True
+        or scalable_future_formal_preflight.get("full_candidate_specific_formal_completion_claimed")
         is not False
         or scalable_future_formal_preflight.get("promotion")
         != {
@@ -819,16 +799,11 @@ def build_unified_snapshot(
             "eligible_for_candidate_specific_formal_queue": 14,
             "rejected_before_candidate_specific_formal_queue": 2,
         }
-        or scalable_future_formal_preflight.get("source_status_binding", {}).get(
-            "content_sha256"
-        )
+        or scalable_future_formal_preflight.get("source_status_binding", {}).get("content_sha256")
         != scalable_future_parameter_chunk.get("content_sha256")
-        or scalable_future_formal_preflight.get("observational_data_opened")
-        is not False
-        or scalable_future_formal_preflight.get("dark_matter_or_halo_inputs")
-        is not False
-        or scalable_future_formal_preflight.get("redshift_distance_inputs")
-        is not False
+        or scalable_future_formal_preflight.get("observational_data_opened") is not False
+        or scalable_future_formal_preflight.get("dark_matter_or_halo_inputs") is not False
+        or scalable_future_formal_preflight.get("redshift_distance_inputs") is not False
         or scalable_future_formal_preflight.get("paid_llm_spend_usd") != 0.0
         or len(scalable_future_formal_preflight.get("candidate_records", [])) != 19
     ):
@@ -838,12 +813,8 @@ def build_unified_snapshot(
         or future_aether_formal_followup.get("input_preflight_pass_count") != 14
         or future_aether_formal_followup.get("decision_counts") != {"blocked": 14}
         or future_aether_formal_followup.get("formal_pass_count") != 0
-        or future_aether_formal_followup.get("candidate_rejection_authorized_count")
-        != 0
-        or future_aether_formal_followup.get(
-            "exact_negative_local_twist_witness_count"
-        )
-        != 14
+        or future_aether_formal_followup.get("candidate_rejection_authorized_count") != 0
+        or future_aether_formal_followup.get("exact_negative_local_twist_witness_count") != 14
         or future_aether_formal_followup.get("witness_tilt_squared_counts")
         != {"1": 8, "2": 4, "8": 2}
         or future_aether_formal_followup.get("global_tilt_strata_counts")
@@ -854,18 +825,11 @@ def build_unified_snapshot(
         or future_aether_formal_followup.get("first_blocker_counts")
         != {"full_constraint_embedding_of_negative_static_twist_jet": 14}
         or future_aether_formal_followup.get("reviewed_adapter_replay_count") != 6
-        or future_aether_formal_followup.get("source_preflight_binding", {}).get(
-            "content_sha256"
-        )
+        or future_aether_formal_followup.get("source_preflight_binding", {}).get("content_sha256")
         != scalable_future_formal_preflight.get("content_sha256")
-        or future_aether_formal_followup.get(
-            "full_candidate_specific_formal_completion_claimed"
-        )
+        or future_aether_formal_followup.get("full_candidate_specific_formal_completion_claimed")
         is not False
-        or future_aether_formal_followup.get(
-            "automatic_downstream_enqueue_performed"
-        )
-        is not False
+        or future_aether_formal_followup.get("automatic_downstream_enqueue_performed") is not False
         or future_aether_formal_followup.get("observational_data_opened") is not False
         or future_aether_formal_followup.get("dark_matter_or_halo_inputs") is not False
         or future_aether_formal_followup.get("redshift_distance_inputs") is not False
@@ -875,32 +839,18 @@ def build_unified_snapshot(
         raise ValueError("future Aether formal follow-up is inconsistent")
     if (
         future_aether_constraint_followup.get("candidate_count") != 14
-        or future_aether_constraint_followup.get("decision_counts")
-        != {"blocked": 14}
-        or future_aether_constraint_followup.get(
-            "explicit_affine_ansatz_constraint_reject_count"
-        )
+        or future_aether_constraint_followup.get("decision_counts") != {"blocked": 14}
+        or future_aether_constraint_followup.get("explicit_affine_ansatz_constraint_reject_count")
         != 14
-        or future_aether_constraint_followup.get(
-            "nonzero_Hamiltonian_constraint_residual_count"
-        )
+        or future_aether_constraint_followup.get("nonzero_Hamiltonian_constraint_residual_count")
         != 14
-        or future_aether_constraint_followup.get(
-            "nonzero_momentum_constraint_residual_count"
-        )
-        != 14
-        or future_aether_constraint_followup.get(
-            "undefined_AE_boundary_contribution_count"
-        )
-        != 14
+        or future_aether_constraint_followup.get("nonzero_momentum_constraint_residual_count") != 14
+        or future_aether_constraint_followup.get("undefined_AE_boundary_contribution_count") != 14
         or future_aether_constraint_followup.get(
             "constraint_satisfying_negative_total_energy_datum_count"
         )
         != 0
-        or future_aether_constraint_followup.get(
-            "candidate_rejection_authorized_count"
-        )
-        != 0
+        or future_aether_constraint_followup.get("candidate_rejection_authorized_count") != 0
         or future_aether_constraint_followup.get("formal_pass_count") != 0
         or future_aether_constraint_followup.get("first_blocker_counts")
         != {
@@ -918,26 +868,68 @@ def build_unified_snapshot(
     ):
         raise ValueError("future Aether constraint follow-up is inconsistent")
     if (
+        future_aether_pure_twist_ae_no_go.get("candidate_count") != 14
+        or future_aether_pure_twist_ae_no_go.get("decision_counts") != {"blocked": 14}
+        or future_aether_pure_twist_ae_no_go.get("bounded_pure_twist_AE_no_go_audit_completed")
+        is not True
+        or future_aether_pure_twist_ae_no_go.get(
+            "flat_static_global_pure_twist_AE_completion_obstructed_count"
+        )
+        != 14
+        or future_aether_pure_twist_ae_no_go.get(
+            "compact_cutoff_non_pure_twist_transition_required_count"
+        )
+        != 14
+        or future_aether_pure_twist_ae_no_go.get(
+            "normalized_transition_symmetric_gradient_norm_squared_counts"
+        )
+        != {"6": 8, "10": 4, "34": 2}
+        or future_aether_pure_twist_ae_no_go.get(
+            "constraint_satisfying_negative_total_energy_datum_count"
+        )
+        != 0
+        or future_aether_pure_twist_ae_no_go.get("candidate_rejection_authorized_count") != 0
+        or future_aether_pure_twist_ae_no_go.get("formal_pass_count") != 0
+        or future_aether_pure_twist_ae_no_go.get("first_blocker_counts")
+        != {
+            "candidate_bound_AE_coupled_constraint_solution_beyond_flat_static_global_pure_twist_class_with_negative_completed_boundary_energy": 14
+        }
+        or future_aether_pure_twist_ae_no_go.get("symbolic_obstruction_control", {})
+        .get("differentiated_Killing_system", {})
+        .get("coefficient_rank")
+        != 18
+        or future_aether_pure_twist_ae_no_go.get("symbolic_obstruction_control", {})
+        .get("differentiated_Killing_system", {})
+        .get("unknown_count")
+        != 18
+        or future_aether_pure_twist_ae_no_go.get("symbolic_obstruction_control", {})
+        .get("differentiated_Killing_system", {})
+        .get("kernel_dimension")
+        != 0
+        or future_aether_pure_twist_ae_no_go.get("source_embedding_binding", {}).get(
+            "content_sha256"
+        )
+        != future_aether_constraint_followup.get("content_sha256")
+        or future_aether_pure_twist_ae_no_go.get("observational_data_opened") is not False
+        or future_aether_pure_twist_ae_no_go.get("dark_matter_or_halo_inputs") is not False
+        or future_aether_pure_twist_ae_no_go.get("redshift_distance_inputs") is not False
+        or future_aether_pure_twist_ae_no_go.get("paid_llm_spend_usd") != 0.0
+        or len(future_aether_pure_twist_ae_no_go.get("candidate_records", [])) != 14
+    ):
+        raise ValueError("future Aether pure-twist AE no-go is inconsistent")
+    if (
         future_g3_domain_followup.get("candidate_count") != 3
         or future_g3_domain_followup.get("decision_counts") != {"blocked": 3}
-        or future_g3_domain_followup.get("all_direction_single_center_pass_count")
-        != 3
+        or future_g3_domain_followup.get("all_direction_single_center_pass_count") != 3
         or future_g3_domain_followup.get("full_Delta_N_derivation_pass_count") != 3
-        or future_g3_domain_followup.get("nonzero_componentwise_box_pass_count")
-        != 0
-        or future_g3_domain_followup.get("uniform_principal_common_cone_pass_count")
-        != 0
-        or future_g3_domain_followup.get("uniform_Delta_N_coercivity_pass_count")
-        != 0
-        or future_g3_domain_followup.get("periodic_distributed_Dirac_pass_count")
-        != 0
-        or future_g3_domain_followup.get("asymptotically_flat_Dirac_pass_count")
-        != 0
+        or future_g3_domain_followup.get("nonzero_componentwise_box_pass_count") != 0
+        or future_g3_domain_followup.get("uniform_principal_common_cone_pass_count") != 0
+        or future_g3_domain_followup.get("uniform_Delta_N_coercivity_pass_count") != 0
+        or future_g3_domain_followup.get("periodic_distributed_Dirac_pass_count") != 0
+        or future_g3_domain_followup.get("asymptotically_flat_Dirac_pass_count") != 0
         or future_g3_domain_followup.get("full_formal_pass_count") != 0
         or future_g3_domain_followup.get("first_blocker_counts")
-        != {
-            "candidate_bound_nonzero_componentwise_normalized_local_jet_box_values": 3
-        }
+        != {"candidate_bound_nonzero_componentwise_normalized_local_jet_box_values": 3}
         or future_g3_domain_followup.get("source_bindings", {})
         .get("preflight", {})
         .get("content_sha256")
@@ -952,26 +944,14 @@ def build_unified_snapshot(
     if (
         future_g3_action_bound_followup.get("candidate_count") != 3
         or future_g3_action_bound_followup.get("decision_counts") != {"blocked": 3}
-        or future_g3_action_bound_followup.get("domain_registration_filled_field_count")
-        != 36
-        or future_g3_action_bound_followup.get("domain_registration_missing_field_count")
-        != 0
-        or future_g3_action_bound_followup.get("nonzero_componentwise_box_pass_count")
-        != 3
-        or future_g3_action_bound_followup.get(
-            "uniform_principal_common_cone_pass_count"
-        )
-        != 3
-        or future_g3_action_bound_followup.get("full_Delta_N_derivation_pass_count")
-        != 3
-        or future_g3_action_bound_followup.get("uniform_Delta_N_coercivity_pass_count")
-        != 3
-        or future_g3_action_bound_followup.get(
-            "periodic_distributed_Dirac_pass_count"
-        )
-        != 3
-        or future_g3_action_bound_followup.get("asymptotically_flat_Dirac_pass_count")
-        != 0
+        or future_g3_action_bound_followup.get("domain_registration_filled_field_count") != 36
+        or future_g3_action_bound_followup.get("domain_registration_missing_field_count") != 0
+        or future_g3_action_bound_followup.get("nonzero_componentwise_box_pass_count") != 3
+        or future_g3_action_bound_followup.get("uniform_principal_common_cone_pass_count") != 3
+        or future_g3_action_bound_followup.get("full_Delta_N_derivation_pass_count") != 3
+        or future_g3_action_bound_followup.get("uniform_Delta_N_coercivity_pass_count") != 3
+        or future_g3_action_bound_followup.get("periodic_distributed_Dirac_pass_count") != 3
+        or future_g3_action_bound_followup.get("asymptotically_flat_Dirac_pass_count") != 0
         or future_g3_action_bound_followup.get("global_energy_pass_count") != 0
         or future_g3_action_bound_followup.get("full_formal_pass_count") != 0
         or future_g3_action_bound_followup.get("first_blocker_counts")
@@ -988,39 +968,58 @@ def build_unified_snapshot(
     ):
         raise ValueError("future G3 action-bound follow-up is inconsistent")
     if (
+        future_g3_af_transition_obstruction.get("candidate_count") != 3
+        or future_g3_af_transition_obstruction.get("decision_counts") != {"blocked": 3}
+        or future_g3_af_transition_obstruction.get("AF_decaying_gradient_profile_pass_count") != 3
+        or future_g3_af_transition_obstruction.get("AF_principal_common_cone_profile_pass_count")
+        != 3
+        or future_g3_af_transition_obstruction.get("flat_reference_constraint_ansatz_reject_count")
+        != 3
+        or future_g3_af_transition_obstruction.get("AF_unitary_lapse_Dirac_pass_count") != 0
+        or future_g3_af_transition_obstruction.get("AF_Einstein_constraint_solution_pass_count")
+        != 0
+        or future_g3_af_transition_obstruction.get("global_hamiltonian_energy_pass_count") != 0
+        or future_g3_af_transition_obstruction.get("full_formal_pass_count") != 0
+        or future_g3_af_transition_obstruction.get("first_blocker_counts")
+        != {"bounded_global_unitary_Delta_N_inverse_on_candidate_AF_transition_profile": 3}
+        or future_g3_af_transition_obstruction.get("synthetic_fixture_role") != "none_used"
+        or future_g3_af_transition_obstruction.get("source_bindings", {})
+        .get("predecessor", {})
+        .get("content_sha256")
+        != future_g3_action_bound_followup.get("content_sha256")
+        or future_g3_af_transition_obstruction.get("observational_data_opened") is not False
+        or future_g3_af_transition_obstruction.get("dark_matter_or_halo_inputs") is not False
+        or future_g3_af_transition_obstruction.get("redshift_distance_inputs") is not False
+        or future_g3_af_transition_obstruction.get("paid_llm_spend_usd") != 0.0
+        or len(future_g3_af_transition_obstruction.get("candidate_records", [])) != 3
+    ):
+        raise ValueError("future G3 AF transition obstruction is inconsistent")
+    if (
         future_candidate_action_dossier.get("candidate_count") != 19
         or future_candidate_action_dossier.get("family_counts")
         != {
             "AETHER_K1234_PARAMETER_CELL": 16,
             "CUBIC_HORNDESKI_G3_WEAK_CELL": 3,
         }
-        or future_candidate_action_dossier.get("decision_counts")
-        != {"blocked": 17, "reject": 2}
+        or future_candidate_action_dossier.get("decision_counts") != {"blocked": 17, "reject": 2}
         or future_candidate_action_dossier.get("ranked_candidate_count") != 0
-        or future_candidate_action_dossier.get("observational_authorization")
-        is not False
+        or future_candidate_action_dossier.get("observational_authorization") is not False
         or future_candidate_action_dossier.get("observational_data_opened") is not False
         or future_candidate_action_dossier.get("paid_llm_spend_usd") != 0.0
-        or future_candidate_action_dossier.get("source_roots", {}).get(
-            "preflight_content_sha256"
-        )
+        or future_candidate_action_dossier.get("source_roots", {}).get("preflight_content_sha256")
         != scalable_future_formal_preflight.get("content_sha256")
         or future_candidate_action_dossier.get("source_roots", {}).get(
             "aether_followup_content_sha256"
         )
-        != future_aether_constraint_followup.get("content_sha256")
-        or future_candidate_action_dossier.get("source_roots", {}).get(
-            "g3_followup_content_sha256"
-        )
-        != future_g3_action_bound_followup.get("content_sha256")
+        != future_aether_pure_twist_ae_no_go.get("content_sha256")
+        or future_candidate_action_dossier.get("source_roots", {}).get("g3_followup_content_sha256")
+        != future_g3_af_transition_obstruction.get("content_sha256")
         or len(future_candidate_action_dossier.get("dossiers", [])) != 19
         or any(
             record.get("comparison_contract", {}).get("rank") is not None
             or record.get("comparison_contract", {}).get("rank_eligible") is not False
             or not record.get("action", {}).get("ordered_operator_densities")
-            or record.get("action", {})
-            .get("human_readable_action", {})
-            .get("display_kind")
+            or record.get("action", {}).get("human_readable_action", {}).get("display_kind")
             != "verbatim_ordered_covariant_density_concatenation"
             for record in future_candidate_action_dossier.get("dossiers", [])
         )
@@ -1029,8 +1028,7 @@ def build_unified_snapshot(
     if (
         aether_candidate_formal.get("candidate_count") != 128
         or aether_candidate_formal.get("input_preflight_pass_count") != 128
-        or aether_candidate_formal.get("decision_counts")
-        != {"blocked": 126, "reject": 2}
+        or aether_candidate_formal.get("decision_counts") != {"blocked": 126, "reject": 2}
         or aether_candidate_formal.get("formal_pass_count") != 0
         or aether_candidate_formal.get("solar_bundle_count") != 0
         or aether_candidate_formal.get("gate_finding_counts")
@@ -1050,13 +1048,9 @@ def build_unified_snapshot(
             }
         )
         != 128
-        or aether_candidate_formal.get("provenance", {}).get(
-            "formal_preflight_status_sha256"
-        )
+        or aether_candidate_formal.get("provenance", {}).get("formal_preflight_status_sha256")
         != formal_preflight.get("content_sha256")
-        or aether_candidate_formal.get("provenance", {}).get(
-            "compilation_campaign_sha256"
-        )
+        or aether_candidate_formal.get("provenance", {}).get("compilation_campaign_sha256")
         != parameter_compilation.get("content_sha256")
         or aether_candidate_formal.get("paid_llm_spend_usd") != 0.0
         or aether_candidate_formal.get("observational_data_opened") is not False
@@ -1084,24 +1078,15 @@ def build_unified_snapshot(
             "candidate_action_preflight_admission_binding"
         )
         != {"pass": 32}
-        or g3_candidate_formal.get("gate_counts", {}).get(
-            "uniform_local_principal_symbol"
-        )
+        or g3_candidate_formal.get("gate_counts", {}).get("uniform_local_principal_symbol")
         != {"pass": 32}
-        or g3_candidate_formal.get("gate_counts", {}).get(
-            "distributed_Dirac_on_periodic_cell"
-        )
+        or g3_candidate_formal.get("gate_counts", {}).get("distributed_Dirac_on_periodic_cell")
         != {"pass": 32}
-        or g3_candidate_formal.get("gate_counts", {}).get(
-            "af_uniform_lapse_Dirac_invertibility"
-        )
+        or g3_candidate_formal.get("gate_counts", {}).get("af_uniform_lapse_Dirac_invertibility")
         != {"blocked": 32}
-        or g3_candidate_formal.get("promotion_status_binding", {}).get(
-            "content_sha256"
-        )
+        or g3_candidate_formal.get("promotion_status_binding", {}).get("content_sha256")
         != promotion_admission.get("content_sha256")
-        or g3_candidate_formal.get("af_global_constraint_solution_proved")
-        is not False
+        or g3_candidate_formal.get("af_global_constraint_solution_proved") is not False
         or g3_candidate_formal.get("global_positive_energy_proved") is not False
         or g3_candidate_formal.get("paid_llm_spend_usd") != 0.0
         or g3_candidate_formal.get("observational_data_opened") is not False
@@ -1115,35 +1100,23 @@ def build_unified_snapshot(
         }
     ):
         raise ValueError("grammar-v3 G3 candidate formal service is inconsistent")
-    g4_equivalence = g4_scalable_formal_followup.get(
-        "equivalence_certificate", {}
-    )
+    g4_equivalence = g4_scalable_formal_followup.get("equivalence_certificate", {})
     if (
         g4_scalable_formal_followup.get("candidate_count") != 1
-        or g4_scalable_formal_followup.get("candidate_id")
-        != "G3A-e0eff4150989e3522dc6ba03"
+        or g4_scalable_formal_followup.get("candidate_id") != "G3A-e0eff4150989e3522dc6ba03"
         or g4_scalable_formal_followup.get("preflight_decision") != "blocked"
-        or g4_scalable_formal_followup.get("preflight_blocker")
-        != "family_prerequisite_not_passed"
+        or g4_scalable_formal_followup.get("preflight_blocker") != "family_prerequisite_not_passed"
         or g4_scalable_formal_followup.get("formal_followup_decision") != "pass"
         or g4_scalable_formal_followup.get("decision_counts") != {"pass": 1}
         or g4_scalable_formal_followup.get("formal_pass_count") != 1
-        or g4_scalable_formal_followup.get(
-            "necessary_condition_rejection_count"
-        )
-        != 0
-        or g4_scalable_formal_followup.get(
-            "equivalent_parameter_cell_alias_count"
-        )
-        != 32
+        or g4_scalable_formal_followup.get("necessary_condition_rejection_count") != 0
+        or g4_scalable_formal_followup.get("equivalent_parameter_cell_alias_count") != 32
         or g4_equivalence.get("action_density_projection_equal") is not True
         or g4_equivalence.get("operator_densities_equal") is not True
         or g4_equivalence.get("universal_matter_coupling_equal") is not True
         or g4_equivalence.get("representative_domain_is_subset") is not True
-        or g4_equivalence.get("all_alias_domains_inside_reviewed_domain")
-        is not True
-        or g4_equivalence.get("family_label_used_as_equivalence_evidence")
-        is not False
+        or g4_equivalence.get("all_alias_domains_inside_reviewed_domain") is not True
+        or g4_equivalence.get("family_label_used_as_equivalence_evidence") is not False
         or g4_scalable_formal_followup.get("source_bindings", {})
         .get("compilation_campaign", {})
         .get("content_sha256")
@@ -1172,8 +1145,7 @@ def build_unified_snapshot(
         or llm_adapter.get("maximum_total_usd") != "500.000000"
         or llm_adapter.get("network_calls_made") != 0
         or llm_adapter.get("paid_spend_usd") != "0.000000"
-        or llm_adapter.get("output_status")
-        != "quarantine_until_downstream_validation"
+        or llm_adapter.get("output_status") != "quarantine_until_downstream_validation"
     ):
         raise ValueError("LLM proposal adapter readiness is not fail-closed")
     if (
@@ -1220,9 +1192,7 @@ def build_unified_snapshot(
         or g4_galaxy.get("primary_record_access_count") != 0
         or galaxy_decision.get("filled_registration_hash_count") != 1
         or len(galaxy_decision.get("missing_registration_hashes", [])) != 17
-        or g4_galaxy["synthetic_controls"]["shape"].get(
-            "object_specific_gravity_parameter_count"
-        )
+        or g4_galaxy["synthetic_controls"]["shape"].get("object_specific_gravity_parameter_count")
         != 0
     ):
         raise ValueError("reviewed G4 galaxy evaluator readiness is not fail-closed")
@@ -1277,8 +1247,7 @@ def build_unified_snapshot(
     ):
         raise ValueError("reviewed local formula epoch readiness is not fail-closed")
     if (
-        local_formula_service.get("status")
-        != "ready_disabled_bounded_local_only"
+        local_formula_service.get("status") != "ready_disabled_bounded_local_only"
         or local_formula_service.get("default_execution_enabled") is not False
         or local_formula_service.get("network_allowed") is not False
         or local_formula_service.get("paid_spend_usd") != "0.000000"
@@ -1310,14 +1279,11 @@ def build_unified_snapshot(
             "lensing_prediction_implementation_sha256",
             "rotation_prediction_implementation_sha256",
         }
-        or set(forward_controls.get("analytic_known_answers", {}).values())
-        != {"pass"}
+        or set(forward_controls.get("analytic_known_answers", {}).values()) != {"pass"}
         or forward_controls.get("covariance", {}).get("decision") != "pass"
     ):
         raise ValueError("G4 galaxy forward-model readiness is not fail-closed")
-    branch_distance_decision = g4_galaxy_branch_distance.get(
-        "current_evaluator_decision", {}
-    )
+    branch_distance_decision = g4_galaxy_branch_distance.get("current_evaluator_decision", {})
     if (
         g4_galaxy_branch_distance.get("decision") != "blocked"
         or g4_galaxy_branch_distance.get("prediction_bundle_registered") is not False
@@ -1325,10 +1291,8 @@ def build_unified_snapshot(
         or g4_galaxy_branch_distance.get("observational_data_opened") is not False
         or g4_galaxy_branch_distance.get("primary_record_access_count") != 0
         or g4_galaxy_branch_distance.get("real_source_geometry_registered") is not False
-        or g4_galaxy_branch_distance.get("source_specific_branch_selection_proven")
-        is not False
-        or g4_galaxy_branch_distance.get("object_specific_gravity_parameter_count")
-        != 0
+        or g4_galaxy_branch_distance.get("source_specific_branch_selection_proven") is not False
+        or g4_galaxy_branch_distance.get("object_specific_gravity_parameter_count") != 0
         or g4_galaxy_branch_distance.get("dark_matter_or_halo_inputs") is not False
         or g4_galaxy_branch_distance.get("redshift_distance_inputs") is not False
         or branch_distance_decision.get("filled_registration_hash_count") != 5
@@ -1338,11 +1302,7 @@ def build_unified_snapshot(
             "branch_and_domain_contract_sha256",
             "distance_mode_contract_sha256",
         }
-        or set(
-            g4_galaxy_branch_distance.get(
-                "preserved_predecessor_registration_fields", {}
-            )
-        )
+        or set(g4_galaxy_branch_distance.get("preserved_predecessor_registration_fields", {}))
         != {
             "reviewed_candidate_galaxy_evaluator_descriptor_sha256",
             "rotation_prediction_implementation_sha256",
@@ -1352,40 +1312,24 @@ def build_unified_snapshot(
         != "certified_exact_conditional_branch"
         or g4_galaxy_branch_distance.get("distance_geometry_contract_status")
         != "certified_interface_no_real_values"
-        or g4_galaxy_branch_distance.get("provenance", {}).get(
-            "forward_model_predecessor_sha256"
-        )
+        or g4_galaxy_branch_distance.get("provenance", {}).get("forward_model_predecessor_sha256")
         != g4_galaxy_forward_model.get("content_sha256")
     ):
         raise ValueError("G4 galaxy branch/distance registration is not fail-closed")
-    calibration_decision = g4_galaxy_calibration_evaluation.get(
-        "current_evaluator_decision", {}
-    )
+    calibration_decision = g4_galaxy_calibration_evaluation.get("current_evaluator_decision", {})
     if (
         g4_galaxy_calibration_evaluation.get("decision") != "blocked"
-        or g4_galaxy_calibration_evaluation.get("prediction_bundle_registered")
-        is not False
-        or g4_galaxy_calibration_evaluation.get("candidate_use_authorized")
-        is not False
-        or g4_galaxy_calibration_evaluation.get("observational_data_opened")
-        is not False
+        or g4_galaxy_calibration_evaluation.get("prediction_bundle_registered") is not False
+        or g4_galaxy_calibration_evaluation.get("candidate_use_authorized") is not False
+        or g4_galaxy_calibration_evaluation.get("observational_data_opened") is not False
         or g4_galaxy_calibration_evaluation.get("primary_record_access_count") != 0
-        or g4_galaxy_calibration_evaluation.get(
-            "object_specific_gravity_parameter_count"
-        )
-        != 0
-        or g4_galaxy_calibration_evaluation.get("dark_matter_or_halo_inputs")
-        is not False
-        or g4_galaxy_calibration_evaluation.get("redshift_distance_inputs")
-        is not False
+        or g4_galaxy_calibration_evaluation.get("object_specific_gravity_parameter_count") != 0
+        or g4_galaxy_calibration_evaluation.get("dark_matter_or_halo_inputs") is not False
+        or g4_galaxy_calibration_evaluation.get("redshift_distance_inputs") is not False
         or g4_galaxy_calibration_evaluation.get("paid_llm_spend_usd") != 0.0
         or calibration_decision.get("filled_registration_hash_count") != 9
         or len(calibration_decision.get("missing_registration_hashes", [])) != 9
-        or set(
-            g4_galaxy_calibration_evaluation.get(
-                "newly_filled_registration_fields", {}
-            )
-        )
+        or set(g4_galaxy_calibration_evaluation.get("newly_filled_registration_fields", {}))
         != {
             "baryonic_calibration_hierarchy_sha256",
             "joint_covariance_contract_sha256",
@@ -1393,9 +1337,7 @@ def build_unified_snapshot(
             "stopping_rule_sha256",
         }
         or set(
-            g4_galaxy_calibration_evaluation.get(
-                "preserved_predecessor_registration_fields", {}
-            )
+            g4_galaxy_calibration_evaluation.get("preserved_predecessor_registration_fields", {})
         )
         != {
             "branch_and_domain_contract_sha256",
@@ -1404,24 +1346,16 @@ def build_unified_snapshot(
             "rotation_prediction_implementation_sha256",
             "lensing_prediction_implementation_sha256",
         }
-        or set(
-            g4_galaxy_calibration_evaluation.get(
-                "non_registration_policy_hashes", {}
-            )
-        )
+        or set(g4_galaxy_calibration_evaluation.get("non_registration_policy_hashes", {}))
         != {"held_out_split_policy_sha256"}
         or set(
-            g4_galaxy_calibration_evaluation.get(
-                "deliberately_unfilled_registration_fields", {}
-            )
+            g4_galaxy_calibration_evaluation.get("deliberately_unfilled_registration_fields", {})
         )
         != {
             "galaxy_split_commitment_sha256",
             "training_only_checkpoint_sha256",
         }
-        or g4_galaxy_calibration_evaluation.get("provenance", {}).get(
-            "predecessor_content_sha256"
-        )
+        or g4_galaxy_calibration_evaluation.get("provenance", {}).get("predecessor_content_sha256")
         != g4_galaxy_branch_distance.get("content_sha256")
     ):
         raise ValueError("G4 galaxy calibration/evaluation registration is not fail-closed")
@@ -1430,36 +1364,20 @@ def build_unified_snapshot(
     )
     if (
         g4_galaxy_prediction_contract_transform.get("decision") != "blocked"
-        or g4_galaxy_prediction_contract_transform.get(
-            "prediction_bundle_registered"
-        )
-        is not False
-        or g4_galaxy_prediction_contract_transform.get("candidate_use_authorized")
-        is not False
-        or g4_galaxy_prediction_contract_transform.get("observational_data_opened")
-        is not False
-        or g4_galaxy_prediction_contract_transform.get("primary_record_access_count")
+        or g4_galaxy_prediction_contract_transform.get("prediction_bundle_registered") is not False
+        or g4_galaxy_prediction_contract_transform.get("candidate_use_authorized") is not False
+        or g4_galaxy_prediction_contract_transform.get("observational_data_opened") is not False
+        or g4_galaxy_prediction_contract_transform.get("primary_record_access_count") != 0
+        or g4_galaxy_prediction_contract_transform.get("object_specific_gravity_parameter_count")
         != 0
-        or g4_galaxy_prediction_contract_transform.get(
-            "object_specific_gravity_parameter_count"
-        )
-        != 0
-        or g4_galaxy_prediction_contract_transform.get("dark_matter_or_halo_inputs")
-        is not False
-        or g4_galaxy_prediction_contract_transform.get("redshift_distance_inputs")
-        is not False
+        or g4_galaxy_prediction_contract_transform.get("dark_matter_or_halo_inputs") is not False
+        or g4_galaxy_prediction_contract_transform.get("redshift_distance_inputs") is not False
         or g4_galaxy_prediction_contract_transform.get("paid_llm_spend_usd") != 0.0
-        or g4_galaxy_prediction_contract_transform.get(
-            "real_transform_inputs_registered"
-        )
+        or g4_galaxy_prediction_contract_transform.get("real_transform_inputs_registered")
         is not False
         or transform_decision.get("filled_registration_hash_count") != 11
         or len(transform_decision.get("missing_registration_hashes", [])) != 7
-        or set(
-            g4_galaxy_prediction_contract_transform.get(
-                "newly_filled_registration_fields", {}
-            )
-        )
+        or set(g4_galaxy_prediction_contract_transform.get("newly_filled_registration_fields", {}))
         != {
             "prediction_bundle_contract_sha256",
             "raw_to_calibrated_transform_sha256",
@@ -1484,59 +1402,38 @@ def build_unified_snapshot(
         is not False
     ):
         raise ValueError("G4 galaxy prediction/transform registration is not fail-closed")
-    tooling_decision = g4_galaxy_manifest_bundle_tooling.get(
-        "unchanged_evaluator_decision", {}
-    )
-    tooling_controls = g4_galaxy_manifest_bundle_tooling.get(
-        "synthetic_controls", {}
-    )
+    tooling_decision = g4_galaxy_manifest_bundle_tooling.get("unchanged_evaluator_decision", {})
+    tooling_controls = g4_galaxy_manifest_bundle_tooling.get("synthetic_controls", {})
     if (
         g4_galaxy_manifest_bundle_tooling.get("decision") != "blocked"
-        or g4_galaxy_manifest_bundle_tooling.get("candidate_use_authorized")
-        is not False
-        or g4_galaxy_manifest_bundle_tooling.get("observational_data_opened")
-        is not False
+        or g4_galaxy_manifest_bundle_tooling.get("candidate_use_authorized") is not False
+        or g4_galaxy_manifest_bundle_tooling.get("observational_data_opened") is not False
         or g4_galaxy_manifest_bundle_tooling.get("primary_record_access_count") != 0
-        or g4_galaxy_manifest_bundle_tooling.get("prediction_bundle_registered")
+        or g4_galaxy_manifest_bundle_tooling.get("prediction_bundle_registered") is not False
+        or g4_galaxy_manifest_bundle_tooling.get("dataset_manifest_registered") is not False
+        or g4_galaxy_manifest_bundle_tooling.get("independent_registry_receipt_registered")
         is not False
-        or g4_galaxy_manifest_bundle_tooling.get("dataset_manifest_registered")
-        is not False
-        or g4_galaxy_manifest_bundle_tooling.get(
-            "independent_registry_receipt_registered"
-        )
-        is not False
-        or g4_galaxy_manifest_bundle_tooling.get("dark_matter_or_halo_inputs")
-        is not False
-        or g4_galaxy_manifest_bundle_tooling.get("redshift_distance_inputs")
-        is not False
+        or g4_galaxy_manifest_bundle_tooling.get("dark_matter_or_halo_inputs") is not False
+        or g4_galaxy_manifest_bundle_tooling.get("redshift_distance_inputs") is not False
         or g4_galaxy_manifest_bundle_tooling.get("paid_llm_spend_usd") != 0.0
-        or g4_galaxy_manifest_bundle_tooling.get("filled_registration_hash_count")
-        != 11
-        or g4_galaxy_manifest_bundle_tooling.get("missing_registration_hash_count")
-        != 7
-        or g4_galaxy_manifest_bundle_tooling.get("newly_filled_registration_fields")
-        != {}
+        or g4_galaxy_manifest_bundle_tooling.get("filled_registration_hash_count") != 11
+        or g4_galaxy_manifest_bundle_tooling.get("missing_registration_hash_count") != 7
+        or g4_galaxy_manifest_bundle_tooling.get("newly_filled_registration_fields") != {}
         or tooling_decision.get("filled_registration_hash_count") != 11
         or len(tooling_decision.get("missing_registration_hashes", [])) != 7
         or tooling_controls.get("manifest_audit_registration_admissible") is not False
         or tooling_controls.get("bundle_draft_registration_admissible") is not False
         or tooling_controls.get("synthetic_values_promoted") is not False
-        or g4_galaxy_manifest_bundle_tooling.get("tooling_readiness", {}).get(
-            "enabled"
-        )
+        or g4_galaxy_manifest_bundle_tooling.get("tooling_readiness", {}).get("enabled")
         is not False
-        or g4_galaxy_manifest_bundle_tooling.get("provenance", {}).get(
-            "predecessor_content_sha256"
-        )
+        or g4_galaxy_manifest_bundle_tooling.get("provenance", {}).get("predecessor_content_sha256")
         != g4_galaxy_prediction_contract_transform.get("content_sha256")
     ):
         raise ValueError("G4 galaxy manifest/bundle tooling is not fail-closed")
     source_registry_decision = g4_galaxy_source_registry_admission.get(
         "unchanged_evaluator_decision", {}
     )
-    source_registry_readiness = g4_galaxy_source_registry_admission.get(
-        "admission_readiness", {}
-    )
+    source_registry_readiness = g4_galaxy_source_registry_admission.get("admission_readiness", {})
     if (
         g4_galaxy_source_registry_admission.get("decision") != "blocked"
         or g4_galaxy_source_registry_admission.get("service_enabled") is not False
@@ -1544,31 +1441,17 @@ def build_unified_snapshot(
         or g4_galaxy_source_registry_admission.get("source_records_admitted") != 0
         or g4_galaxy_source_registry_admission.get("target_records_opened") != 0
         or g4_galaxy_source_registry_admission.get("primary_record_access_count") != 0
-        or g4_galaxy_source_registry_admission.get(
-            "observation_opening_authorization_registered"
-        )
+        or g4_galaxy_source_registry_admission.get("observation_opening_authorization_registered")
         is not False
-        or g4_galaxy_source_registry_admission.get("prediction_bundle_registered")
-        is not False
-        or g4_galaxy_source_registry_admission.get("observational_data_opened")
-        is not False
-        or g4_galaxy_source_registry_admission.get("dark_matter_or_halo_inputs")
-        is not False
-        or g4_galaxy_source_registry_admission.get("redshift_distance_inputs")
-        is not False
-        or g4_galaxy_source_registry_admission.get(
-            "object_specific_gravity_parameter_count"
-        )
-        != 0
+        or g4_galaxy_source_registry_admission.get("prediction_bundle_registered") is not False
+        or g4_galaxy_source_registry_admission.get("observational_data_opened") is not False
+        or g4_galaxy_source_registry_admission.get("dark_matter_or_halo_inputs") is not False
+        or g4_galaxy_source_registry_admission.get("redshift_distance_inputs") is not False
+        or g4_galaxy_source_registry_admission.get("object_specific_gravity_parameter_count") != 0
         or g4_galaxy_source_registry_admission.get("paid_llm_spend_usd") != 0.0
-        or g4_galaxy_source_registry_admission.get("filled_registration_hash_count")
-        != 11
-        or g4_galaxy_source_registry_admission.get("missing_registration_hash_count")
-        != 7
-        or g4_galaxy_source_registry_admission.get(
-            "newly_filled_registration_fields"
-        )
-        != {}
+        or g4_galaxy_source_registry_admission.get("filled_registration_hash_count") != 11
+        or g4_galaxy_source_registry_admission.get("missing_registration_hash_count") != 7
+        or g4_galaxy_source_registry_admission.get("newly_filled_registration_fields") != {}
         or source_registry_decision.get("filled_registration_hash_count") != 11
         or len(source_registry_decision.get("missing_registration_hashes", [])) != 7
         or source_registry_readiness.get("service_enabled") is not False
@@ -1617,30 +1500,21 @@ def build_unified_snapshot(
     ):
         raise ValueError("quartic TC2 quadratic deltaK extension is inconsistent")
     quartic_third_counts = quartic_tc2_diagonal_third_jet.get("counts", {})
-    quartic_third_slice = quartic_tc2_diagonal_third_jet.get(
-        "slice_contract", {}
-    )
-    quartic_third_blocker = quartic_tc2_diagonal_third_jet.get(
-        "first_remaining_blocker", {}
-    )
+    quartic_third_slice = quartic_tc2_diagonal_third_jet.get("slice_contract", {})
+    quartic_third_blocker = quartic_tc2_diagonal_third_jet.get("first_remaining_blocker", {})
     if (
         quartic_tc2_diagonal_third_jet.get("status")
         != "pass_bounded_all_41_diagonal_active_coordinate_third_jet_audit_mixed_triples_full_tube_global_H7_fail_closed"
         or quartic_third_slice.get("active_coordinate_directions") != 41
         or quartic_third_slice.get("diagonal_triples") != 41
-        or quartic_third_slice.get("full_symmetric_triples_in_41_direction_sector")
-        != 12_341
+        or quartic_third_slice.get("full_symmetric_triples_in_41_direction_sector") != 12_341
         or quartic_third_slice.get("mixed_AAB_ABB_ABC_triples") != 0
         or quartic_third_counts.get("candidates") != 12
-        or quartic_third_counts.get("symbolic_parameter_diagonal_third_jet_passes")
-        != 41
+        or quartic_third_counts.get("symbolic_parameter_diagonal_third_jet_passes") != 41
         or quartic_third_counts.get("candidate_direction_evaluations") != 492
         or quartic_third_counts.get("candidate_direction_solvable") != 492
         or quartic_third_counts.get("candidate_direction_obstructed") != 0
-        or quartic_third_counts.get(
-            "candidates_all_41_diagonal_third_jets_closed"
-        )
-        != 12
+        or quartic_third_counts.get("candidates_all_41_diagonal_third_jets_closed") != 12
         or any(
             quartic_third_counts.get(key) != 0
             for key in (
@@ -1653,17 +1527,12 @@ def build_unified_snapshot(
             )
         )
         or quartic_third_blocker.get("closed") is not False
-        or "12,300 polarized mixed triples"
-        not in quartic_third_blocker.get("required", "")
+        or "12,300 polarized mixed triples" not in quartic_third_blocker.get("required", "")
     ):
         raise ValueError("quartic TC2 diagonal third-jet slice is inconsistent")
     quartic_mixed_counts = quartic_tc2_mixed_third_jet_chunk.get("counts", {})
-    quartic_mixed_contract = quartic_tc2_mixed_third_jet_chunk.get(
-        "chunk_contract", {}
-    )
-    quartic_mixed_ledger = quartic_tc2_mixed_third_jet_chunk.get(
-        "closure_ledger", {}
-    )
+    quartic_mixed_contract = quartic_tc2_mixed_third_jet_chunk.get("chunk_contract", {})
+    quartic_mixed_ledger = quartic_tc2_mixed_third_jet_chunk.get("closure_ledger", {})
     if (
         quartic_tc2_mixed_third_jet_chunk.get("status")
         != "pass_mixed_third_jet_chunk_64_global_closure_fail_closed"
@@ -1677,14 +1546,10 @@ def build_unified_snapshot(
         or quartic_mixed_counts.get("candidate_evaluations") != 768
         or quartic_mixed_counts.get("candidate_solvable") != 768
         or quartic_mixed_counts.get("candidate_obstructed") != 0
-        or quartic_mixed_counts.get("triple_kind_counts")
-        != {"AAB": 40, "ABB": 1, "ABC": 23}
+        or quartic_mixed_counts.get("triple_kind_counts") != {"AAB": 40, "ABB": 1, "ABC": 23}
         or quartic_mixed_counts.get("mixed_triples_remaining") != 12_236
-        or quartic_tc2_mixed_third_jet_chunk.get("first_exact_obstruction")
-        is not None
-        or quartic_tc2_mixed_third_jet_chunk.get("upstream_sha256", {}).get(
-            "diagonal_third_jet"
-        )
+        or quartic_tc2_mixed_third_jet_chunk.get("first_exact_obstruction") is not None
+        or quartic_tc2_mixed_third_jet_chunk.get("upstream_sha256", {}).get("diagonal_third_jet")
         != quartic_tc2_diagonal_third_jet.get("content_sha256")
         or quartic_mixed_ledger.get("processed_mixed_third_jets_closed") != 64
         or any(
@@ -1702,15 +1567,12 @@ def build_unified_snapshot(
         )
     ):
         raise ValueError("quartic TC2 mixed third-jet chunk is inconsistent")
-    quartic_mixed_64_counts = quartic_tc2_mixed_third_jet_chunk_64.get(
-        "counts", {}
-    )
-    quartic_mixed_64_contract = quartic_tc2_mixed_third_jet_chunk_64.get(
-        "chunk_contract", {}
-    )
-    quartic_mixed_64_ledger = quartic_tc2_mixed_third_jet_chunk_64.get(
-        "closure_ledger", {}
-    )
+    quartic_mixed_64_counts = quartic_tc2_mixed_third_jet_chunk_64.get("counts", {})
+    quartic_mixed_64_contract = quartic_tc2_mixed_third_jet_chunk_64.get("chunk_contract", {})
+    quartic_mixed_64_ledger = quartic_tc2_mixed_third_jet_chunk_64.get("closure_ledger", {})
+    quartic_mixed_128_counts = quartic_tc2_mixed_third_jet_chunk_128.get("counts", {})
+    quartic_mixed_128_contract = quartic_tc2_mixed_third_jet_chunk_128.get("chunk_contract", {})
+    quartic_mixed_128_ledger = quartic_tc2_mixed_third_jet_chunk_128.get("closure_ledger", {})
     if (
         quartic_tc2_mixed_third_jet_chunk_64.get("status")
         != "pass_mixed_third_jet_chunk_64_global_closure_fail_closed"
@@ -1726,11 +1588,9 @@ def build_unified_snapshot(
         or quartic_mixed_64_counts.get("candidate_evaluations") != 768
         or quartic_mixed_64_counts.get("candidate_solvable") != 768
         or quartic_mixed_64_counts.get("candidate_obstructed") != 0
-        or quartic_mixed_64_counts.get("triple_kind_counts")
-        != {"ABB": 2, "ABC": 62}
+        or quartic_mixed_64_counts.get("triple_kind_counts") != {"ABB": 2, "ABC": 62}
         or quartic_mixed_64_counts.get("mixed_triples_remaining") != 12_172
-        or quartic_tc2_mixed_third_jet_chunk_64.get("first_exact_obstruction")
-        is not None
+        or quartic_tc2_mixed_third_jet_chunk_64.get("first_exact_obstruction") is not None
         or quartic_mixed_64_ledger.get("processed_mixed_third_jets_closed") != 64
         or any(
             quartic_mixed_64_ledger.get(key) is not False
@@ -1745,37 +1605,52 @@ def build_unified_snapshot(
                 "lifespan_proved",
             )
         )
-        or quartic_tc2_mixed_third_jet_checkpoint.get("completed_chunks") != 1
-        or quartic_tc2_mixed_third_jet_checkpoint.get("next_offset") != 128
-        or quartic_tc2_mixed_third_jet_checkpoint.get("remaining_mixed_triples")
-        != 12_172
-        or quartic_tc2_mixed_third_jet_checkpoint.get(
-            "current_artifact_content_sha256"
-        )
-        != quartic_tc2_mixed_third_jet_chunk_64.get("content_sha256")
-        or quartic_tc2_mixed_third_jet_checkpoint.get("prior_resume_sha256")
+        or quartic_tc2_mixed_third_jet_chunk_128.get("status")
+        != "pass_mixed_third_jet_chunk_64_global_closure_fail_closed"
+        or quartic_mixed_128_contract.get("chunk_offset") != 128
+        or quartic_mixed_128_contract.get("processed_count") != 64
+        or quartic_mixed_128_contract.get("next_offset") != 192
+        or quartic_mixed_128_contract.get("global_mixed_triple_count") != 12_300
+        or quartic_mixed_128_contract.get("prior_resume_sha256")
         != quartic_mixed_64_contract.get("resume_tip_sha256")
-        or quartic_tc2_mixed_third_jet_continuation_status.get(
-            "checkpoint_content_sha256"
-        )
-        != quartic_tc2_mixed_third_jet_checkpoint.get("content_sha256")
-        or quartic_tc2_mixed_third_jet_continuation_status.get("next_offset")
-        != 128
-        or quartic_tc2_mixed_third_jet_continuation_status.get(
-            "remaining_mixed_triples"
-        )
-        != 12_172
-        or quartic_tc2_mixed_third_jet_continuation_status.get("decision")
-        != "checkpointed"
-        or quartic_tc2_mixed_third_jet_continuation_status.get(
-            "permanently_stopped"
-        )
-        is not False
+        or quartic_mixed_128_contract.get("stopped_early") is not False
+        or quartic_mixed_128_counts.get("selected") != 64
+        or quartic_mixed_128_counts.get("symbolic_parameter_compatible") != 64
+        or quartic_mixed_128_counts.get("candidate_evaluations") != 768
+        or quartic_mixed_128_counts.get("candidate_solvable") != 768
+        or quartic_mixed_128_counts.get("candidate_obstructed") != 0
+        or quartic_mixed_128_counts.get("triple_kind_counts") != {"ABB": 1, "ABC": 63}
+        or quartic_mixed_128_counts.get("mixed_triples_remaining") != 12_108
+        or quartic_tc2_mixed_third_jet_chunk_128.get("first_exact_obstruction") is not None
+        or quartic_mixed_128_ledger.get("processed_mixed_third_jets_closed") != 64
         or any(
-            quartic_tc2_mixed_third_jet_continuation_status.get("claims", {}).get(
-                key
+            quartic_mixed_128_ledger.get(key) is not False
+            for key in (
+                "all_12_300_mixed_third_jets_closed",
+                "full_tube_Sylvester_identity",
+                "CK1_closed",
+                "CK3_closed",
+                "TC2_closed",
+                "B7_closed",
+                "global_H7_closed",
+                "lifespan_proved",
             )
-            is not False
+        )
+        or quartic_tc2_mixed_third_jet_checkpoint.get("completed_chunks") != 2
+        or quartic_tc2_mixed_third_jet_checkpoint.get("next_offset") != 192
+        or quartic_tc2_mixed_third_jet_checkpoint.get("remaining_mixed_triples") != 12_108
+        or quartic_tc2_mixed_third_jet_checkpoint.get("current_artifact_content_sha256")
+        != quartic_tc2_mixed_third_jet_chunk_128.get("content_sha256")
+        or quartic_tc2_mixed_third_jet_checkpoint.get("prior_resume_sha256")
+        != quartic_mixed_128_contract.get("resume_tip_sha256")
+        or quartic_tc2_mixed_third_jet_continuation_status.get("checkpoint_content_sha256")
+        != quartic_tc2_mixed_third_jet_checkpoint.get("content_sha256")
+        or quartic_tc2_mixed_third_jet_continuation_status.get("next_offset") != 192
+        or quartic_tc2_mixed_third_jet_continuation_status.get("remaining_mixed_triples") != 12_108
+        or quartic_tc2_mixed_third_jet_continuation_status.get("decision") != "checkpointed"
+        or quartic_tc2_mixed_third_jet_continuation_status.get("permanently_stopped") is not False
+        or any(
+            quartic_tc2_mixed_third_jet_continuation_status.get("claims", {}).get(key) is not False
             for key in (
                 "full_mixed_sector_closed",
                 "full_tube_Sylvester_identity",
@@ -1789,6 +1664,79 @@ def build_unified_snapshot(
         )
     ):
         raise ValueError("quartic TC2 mixed third-jet continuation is inconsistent")
+
+    quartic_parallel_counts = quartic_tc2_mixed_third_jet_parallel_chunk_192.get("counts", {})
+    quartic_parallel_contract = quartic_tc2_mixed_third_jet_parallel_chunk_192.get(
+        "chunk_contract", {}
+    )
+    quartic_parallel_ledger = quartic_tc2_mixed_third_jet_parallel_chunk_192.get(
+        "closure_ledger", {}
+    )
+    if (
+        quartic_tc2_mixed_third_jet_parallel_chunk_192.get("status")
+        != "pass_mixed_third_jet_chunk_64_global_closure_fail_closed"
+        or quartic_parallel_contract.get("chunk_offset") != 192
+        or quartic_parallel_contract.get("processed_count") != 64
+        or quartic_parallel_contract.get("next_offset") != 256
+        or quartic_parallel_contract.get("global_mixed_triple_count") != 12_300
+        or quartic_parallel_contract.get("prior_resume_sha256")
+        != quartic_mixed_128_contract.get("resume_tip_sha256")
+        or quartic_parallel_contract.get("parallel_worker_count") != 8
+        or quartic_parallel_contract.get("parallel_execution_policy")
+        != "ordered_spawn_pool_bounded_speculation_no_post_obstruction_commit"
+        or quartic_parallel_contract.get("records_after_first_obstruction_committed_or_inferred")
+        != 0
+        or quartic_parallel_contract.get("stopped_early") is not False
+        or quartic_parallel_counts.get("selected") != 64
+        or quartic_parallel_counts.get("symbolic_parameter_compatible") != 64
+        or quartic_parallel_counts.get("candidate_evaluations") != 768
+        or quartic_parallel_counts.get("candidate_solvable") != 768
+        or quartic_parallel_counts.get("candidate_obstructed") != 0
+        or quartic_parallel_counts.get("triple_kind_counts") != {"ABB": 2, "ABC": 62}
+        or quartic_parallel_counts.get("mixed_triples_remaining") != 12_044
+        or quartic_tc2_mixed_third_jet_parallel_chunk_192.get("first_exact_obstruction") is not None
+        or quartic_parallel_ledger.get("processed_mixed_third_jets_closed") != 64
+        or any(
+            quartic_parallel_ledger.get(key) is not False
+            for key in (
+                "all_12_300_mixed_third_jets_closed",
+                "full_tube_Sylvester_identity",
+                "CK1_closed",
+                "CK3_closed",
+                "TC2_closed",
+                "B7_closed",
+                "global_H7_closed",
+                "lifespan_proved",
+            )
+        )
+        or quartic_tc2_mixed_third_jet_parallel_checkpoint.get("completed_chunks") != 1
+        or quartic_tc2_mixed_third_jet_parallel_checkpoint.get("next_offset") != 256
+        or quartic_tc2_mixed_third_jet_parallel_checkpoint.get("remaining_mixed_triples") != 12_044
+        or quartic_tc2_mixed_third_jet_parallel_checkpoint.get("current_artifact_content_sha256")
+        != quartic_tc2_mixed_third_jet_parallel_chunk_192.get("content_sha256")
+        or quartic_tc2_mixed_third_jet_parallel_checkpoint.get("prior_resume_sha256")
+        != quartic_parallel_contract.get("resume_tip_sha256")
+        or quartic_tc2_mixed_third_jet_parallel_status.get("checkpoint_content_sha256")
+        != quartic_tc2_mixed_third_jet_parallel_checkpoint.get("content_sha256")
+        or quartic_tc2_mixed_third_jet_parallel_status.get("next_offset") != 256
+        or quartic_tc2_mixed_third_jet_parallel_status.get("remaining_mixed_triples") != 12_044
+        or quartic_tc2_mixed_third_jet_parallel_status.get("decision") != "checkpointed"
+        or quartic_tc2_mixed_third_jet_parallel_status.get("permanently_stopped") is not False
+        or any(
+            quartic_tc2_mixed_third_jet_parallel_status.get("claims", {}).get(key) is not False
+            for key in (
+                "full_mixed_sector_closed",
+                "full_tube_Sylvester_identity",
+                "CK1_closed",
+                "CK3_closed",
+                "TC2_closed",
+                "B7_closed",
+                "global_H7_closed",
+                "lifespan_proved",
+            )
+        )
+    ):
+        raise ValueError("quartic TC2 parallel mixed third-jet epoch is inconsistent")
 
     blocker_gates: Counter[str] = Counter()
     for row in pareto["pareto_follow_up_queue"]:
@@ -1837,39 +1785,25 @@ def build_unified_snapshot(
             "status": typed_admission["status"],
         },
         "compiler_registry_bridge": {
-            "candidate_body_persistence": compiler_registry[
-                "candidate_body_persistence"
-            ],
-            "default_execution_enabled": compiler_registry[
-                "default_execution_enabled"
-            ],
+            "candidate_body_persistence": compiler_registry["candidate_body_persistence"],
+            "default_execution_enabled": compiler_registry["default_execution_enabled"],
             "fixture_expected_counts": compiler_registry["fixture_expected_counts"],
-            "next_stage_adapter_registered": compiler_registry[
-                "next_stage_adapter_registered"
-            ],
+            "next_stage_adapter_registered": compiler_registry["next_stage_adapter_registered"],
             "novelty_claim_allowed": compiler_registry["novelty_claim_allowed"],
             "status": compiler_registry["status"],
         },
         "reviewed_local_epoch": {
-            "default_execution_enabled": local_formula_epoch[
-                "default_execution_enabled"
-            ],
+            "default_execution_enabled": local_formula_epoch["default_execution_enabled"],
             "expected_bounded_status": local_formula_epoch["expected_bounded_status"],
-            "formula_body_persistence": local_formula_epoch[
-                "formula_body_persistence"
-            ],
+            "formula_body_persistence": local_formula_epoch["formula_body_persistence"],
             "network_calls": local_formula_epoch["network_calls"],
             "paid_spend_usd": local_formula_epoch["paid_spend_usd"],
             "status": local_formula_epoch["status"],
         },
         "reviewed_local_service": {
             "budgets": local_formula_service["budgets"],
-            "default_execution_enabled": local_formula_service[
-                "default_execution_enabled"
-            ],
-            "deterministic_export": local_formula_service[
-                "deterministic_export"
-            ],
+            "default_execution_enabled": local_formula_service["default_execution_enabled"],
+            "deterministic_export": local_formula_service["deterministic_export"],
             "network_allowed": local_formula_service["network_allowed"],
             "paid_spend_usd": local_formula_service["paid_spend_usd"],
             "status": local_formula_service["status"],
@@ -1897,7 +1831,11 @@ def build_unified_snapshot(
                 "reject": watchdog["evidence_counts"].get("reject", 0),
                 "block": watchdog["evidence_counts"].get("unresolved", 0),
             },
-            "scientific_outcome_semantics": {"pass": "pass", "reject": "reject", "unresolved": "block"},
+            "scientific_outcome_semantics": {
+                "pass": "pass",
+                "reject": "reject",
+                "unresolved": "block",
+            },
             "deadline_utc": watchdog["campaign"]["deadline_utc"],
             "stop_reason": watchdog["campaign"]["stop_reason"],
             "budget": {
@@ -1934,34 +1872,36 @@ def build_unified_snapshot(
                 "formal_reached": streaming["promotion"]["adm_dirac_principal_reached"],
             },
             "historical_physical_gpu_utilization_percent": {
-                "mean": streaming["screening"]["resumed_wave"]["physical_gpu_utilization_mean_percent"],
-                "peak": streaming["screening"]["resumed_wave"]["physical_gpu_utilization_peak_percent"],
+                "mean": streaming["screening"]["resumed_wave"][
+                    "physical_gpu_utilization_mean_percent"
+                ],
+                "peak": streaming["screening"]["resumed_wave"][
+                    "physical_gpu_utilization_peak_percent"
+                ],
             },
             "deadline": "completed_artifact_no_live_deadline",
         },
         "promotion_overlay": {
             "state": promotion["state"],
-            "lift": {"pass": promotion["lift_passed_count"], "reject": promotion["upstream_terminal_candidate_count"]},
+            "lift": {
+                "pass": promotion["lift_passed_count"],
+                "reject": promotion["upstream_terminal_candidate_count"],
+            },
             "formal": {
                 "pass": promotion["formal_passed_count"],
                 "reject": promotion["formal_rejected_count"],
                 "block": promotion["remaining_formal_blocked_count"],
             },
-            "observational_opened": promotion["solar_opened_count"] + promotion["galaxy_opened_count"],
+            "observational_opened": promotion["solar_opened_count"]
+            + promotion["galaxy_opened_count"],
             "deadline": "completed_artifact_no_live_deadline",
         },
         "g4_solar_evaluator": {
             "candidate_id": g4_solar["candidate"]["candidate_id"],
             "decision": g4_solar["decision"],
-            "descriptor_implementation_ready": g4_solar[
-                "descriptor_implementation_ready"
-            ],
-            "filled_registration_hash_count": solar_decision[
-                "filled_registration_hash_count"
-            ],
-            "missing_registration_hash_count": len(
-                solar_decision["missing_registration_hashes"]
-            ),
+            "descriptor_implementation_ready": g4_solar["descriptor_implementation_ready"],
+            "filled_registration_hash_count": solar_decision["filled_registration_hash_count"],
+            "missing_registration_hash_count": len(solar_decision["missing_registration_hashes"]),
             "first_missing_premise": g4_solar["first_missing_premise"],
             "observational_data_opened": g4_solar["observational_data_opened"],
             "primary_record_access_count": g4_solar["primary_record_access_count"],
@@ -1983,23 +1923,15 @@ def build_unified_snapshot(
         "g4_galaxy_evaluator": {
             "candidate_id": g4_galaxy["candidate"]["candidate_id"],
             "decision": g4_galaxy["decision"],
-            "descriptor_implementation_ready": g4_galaxy[
-                "descriptor_implementation_ready"
-            ],
-            "filled_registration_hash_count": galaxy_decision[
-                "filled_registration_hash_count"
-            ],
+            "descriptor_implementation_ready": g4_galaxy["descriptor_implementation_ready"],
+            "filled_registration_hash_count": galaxy_decision["filled_registration_hash_count"],
             "first_missing_premise": g4_galaxy["first_missing_premise"],
-            "missing_registration_hash_count": len(
-                galaxy_decision["missing_registration_hashes"]
-            ),
-            "object_specific_gravity_parameter_count": g4_galaxy[
-                "synthetic_controls"
-            ]["shape"]["object_specific_gravity_parameter_count"],
-            "observational_data_opened": g4_galaxy["observational_data_opened"],
-            "prediction_bundle_registered": g4_galaxy[
-                "prediction_bundle_registered"
+            "missing_registration_hash_count": len(galaxy_decision["missing_registration_hashes"]),
+            "object_specific_gravity_parameter_count": g4_galaxy["synthetic_controls"]["shape"][
+                "object_specific_gravity_parameter_count"
             ],
+            "observational_data_opened": g4_galaxy["observational_data_opened"],
+            "prediction_bundle_registered": g4_galaxy["prediction_bundle_registered"],
             "primary_record_access_count": g4_galaxy["primary_record_access_count"],
             "synthetic_control_decisions": {
                 key: value["decision"]
@@ -2023,9 +1955,7 @@ def build_unified_snapshot(
                 "filled_registration_hash_count": forward_decision[
                     "filled_registration_hash_count"
                 ],
-                "first_missing_premise": g4_galaxy_forward_model[
-                    "first_missing_premise"
-                ],
+                "first_missing_premise": g4_galaxy_forward_model["first_missing_premise"],
                 "missing_registration_hash_count": len(
                     forward_decision["missing_registration_hashes"]
                 ),
@@ -2037,9 +1967,7 @@ def build_unified_snapshot(
                 "prediction_bundle_registered": False,
             },
             "registration": {
-                "branch_contract_status": g4_galaxy_branch_distance[
-                    "branch_contract_status"
-                ],
+                "branch_contract_status": g4_galaxy_branch_distance["branch_contract_status"],
                 "decision": g4_galaxy_prediction_contract_transform["decision"],
                 "distance_geometry_contract_status": g4_galaxy_branch_distance[
                     "distance_geometry_contract_status"
@@ -2054,9 +1982,7 @@ def build_unified_snapshot(
                     transform_decision["missing_registration_hashes"]
                 ),
                 "newly_filled_fields": sorted(
-                    g4_galaxy_prediction_contract_transform[
-                        "newly_filled_registration_fields"
-                    ]
+                    g4_galaxy_prediction_contract_transform["newly_filled_registration_fields"]
                 ),
                 "held_out_split_policy_registered_as_evidence": True,
                 "real_split_commitment_registered": False,
@@ -2068,9 +1994,7 @@ def build_unified_snapshot(
                 "source_specific_branch_selection_proven": False,
                 "manifest_bundle_tooling": {
                     "decision": g4_galaxy_manifest_bundle_tooling["decision"],
-                    "enabled": g4_galaxy_manifest_bundle_tooling[
-                        "tooling_readiness"
-                    ]["enabled"],
+                    "enabled": g4_galaxy_manifest_bundle_tooling["tooling_readiness"]["enabled"],
                     "filled_registration_hash_count": g4_galaxy_manifest_bundle_tooling[
                         "filled_registration_hash_count"
                     ],
@@ -2144,38 +2068,24 @@ def build_unified_snapshot(
                 "scientific_decision_counts": {},
                 "next_execution_hook": parameter_manifest["next_execution_hook"],
                 "compilation": {
-                    "candidate_decision_counts": parameter_compilation[
-                        "candidate_decision_counts"
-                    ],
-                    "compiled_action_ir_count": parameter_compilation[
-                        "compiled_action_ir_count"
-                    ],
+                    "candidate_decision_counts": parameter_compilation["candidate_decision_counts"],
+                    "compiled_action_ir_count": parameter_compilation["compiled_action_ir_count"],
                     "equivalent_duplicate_count": parameter_compilation[
                         "equivalent_duplicate_count"
                     ],
                     "expensive_formal_campaign_run": False,
                     "formal_decision_counts": {},
-                    "unique_candidate_count": parameter_compilation[
-                        "unique_candidate_count"
-                    ],
+                    "unique_candidate_count": parameter_compilation["unique_candidate_count"],
                     "formal_preflight": {
                         "candidate_count": formal_preflight["candidate_count"],
                         "decision_counts": formal_preflight["decision_counts"],
                         "expensive_adm_or_global_energy_run": False,
-                        "family_decision_counts": formal_preflight[
-                            "family_decision_counts"
-                        ],
+                        "family_decision_counts": formal_preflight["family_decision_counts"],
                         "gate_counts": formal_preflight["gate_counts"],
-                        "next_promotion_hook": formal_preflight[
-                            "next_promotion_hook"
-                        ],
-                        "work_state_counts": formal_preflight[
-                            "work_state_counts"
-                        ],
+                        "next_promotion_hook": formal_preflight["next_promotion_hook"],
+                        "work_state_counts": formal_preflight["work_state_counts"],
                         "promotion_admission": {
-                            "decision_counts": promotion_admission[
-                                "decision_counts"
-                            ],
+                            "decision_counts": promotion_admission["decision_counts"],
                             "downstream_expensive_execution_started": False,
                             "eligible_candidate_count": promotion_admission[
                                 "eligible_candidate_count"
@@ -2183,20 +2093,12 @@ def build_unified_snapshot(
                             "preflight_blocked_excluded_count": promotion_admission[
                                 "preflight_blocked_excluded_count"
                             ],
-                            "target_queue_counts": promotion_admission[
-                                "target_queue_counts"
-                            ],
-                            "work_state_counts": promotion_admission[
-                                "work_state_counts"
-                            ],
+                            "target_queue_counts": promotion_admission["target_queue_counts"],
+                            "work_state_counts": promotion_admission["work_state_counts"],
                             "family_formal_execution": {
                                 "aether": {
-                                    "candidate_count": aether_candidate_formal[
-                                        "candidate_count"
-                                    ],
-                                    "decision_counts": aether_candidate_formal[
-                                        "decision_counts"
-                                    ],
+                                    "candidate_count": aether_candidate_formal["candidate_count"],
+                                    "decision_counts": aether_candidate_formal["decision_counts"],
                                     "formal_pass_count": aether_candidate_formal[
                                         "formal_pass_count"
                                     ],
@@ -2208,15 +2110,11 @@ def build_unified_snapshot(
                                     "predecessor_blocker_counts": g2_candidate_formal[
                                         "blocker_counts"
                                     ],
-                                    "candidate_count": g2_candidate_formal[
-                                        "candidate_count"
-                                    ],
+                                    "candidate_count": g2_candidate_formal["candidate_count"],
                                     "predecessor_decision_counts": g2_candidate_formal[
                                         "decision_counts"
                                     ],
-                                    "decision_counts": g2_nonmaximal_followup[
-                                        "decision_counts"
-                                    ],
+                                    "decision_counts": g2_nonmaximal_followup["decision_counts"],
                                     "full_formal_pass_count": g2_nonmaximal_followup[
                                         "full_formal_pass_count"
                                     ],
@@ -2232,9 +2130,7 @@ def build_unified_snapshot(
                                         "conditional_static_source_class_pass_count": g2_solar_readiness[
                                             "conditional_static_source_class_pass_count"
                                         ],
-                                        "decision_counts": g2_solar_readiness[
-                                            "decision_counts"
-                                        ],
+                                        "decision_counts": g2_solar_readiness["decision_counts"],
                                         "real_solar_bundle_count": g2_solar_readiness[
                                             "real_solar_bundle_count"
                                         ],
@@ -2255,29 +2151,17 @@ def build_unified_snapshot(
                                             "first_missing_premise"
                                         ],
                                     },
-                                    "work_state_counts": g2_candidate_formal[
-                                        "work_state_counts"
-                                    ],
+                                    "work_state_counts": g2_candidate_formal["work_state_counts"],
                                 },
                                 "g3": {
-                                    "blocker_counts": g3_candidate_formal[
-                                        "blocker_counts"
-                                    ],
-                                    "candidate_count": g3_candidate_formal[
-                                        "candidate_count"
-                                    ],
-                                    "decision_counts": g3_candidate_formal[
-                                        "decision_counts"
-                                    ],
+                                    "blocker_counts": g3_candidate_formal["blocker_counts"],
+                                    "candidate_count": g3_candidate_formal["candidate_count"],
+                                    "decision_counts": g3_candidate_formal["decision_counts"],
                                     "full_formal_pass_count": g3_candidate_formal[
                                         "full_formal_pass_count"
                                     ],
-                                    "gate_counts": g3_candidate_formal[
-                                        "gate_counts"
-                                    ],
-                                    "work_state_counts": g3_candidate_formal[
-                                        "work_state_counts"
-                                    ],
+                                    "gate_counts": g3_candidate_formal["gate_counts"],
+                                    "work_state_counts": g3_candidate_formal["work_state_counts"],
                                 },
                                 "g4_followup": {
                                     "candidate_count": g4_scalable_formal_followup[
@@ -2305,60 +2189,36 @@ def build_unified_snapshot(
             "structural_metrics": {
                 "alias_count": scalable_structural_metrics["alias_count"],
                 "candidate_count": scalable_structural_metrics["candidate_count"],
-                "formal_decision_counts": scalable_structural_metrics[
-                    "formal_decision_counts"
-                ],
-                "measurement_counts": scalable_structural_metrics[
-                    "structural_measurement_counts"
-                ],
-                "simplicity_pareto_front": scalable_structural_metrics[
-                    "simplicity_pareto_front"
-                ],
+                "formal_decision_counts": scalable_structural_metrics["formal_decision_counts"],
+                "measurement_counts": scalable_structural_metrics["structural_measurement_counts"],
+                "simplicity_pareto_front": scalable_structural_metrics["simplicity_pareto_front"],
                 "simplicity_top10": scalable_structural_metrics["simplicity_top10"],
-                "alias_multiplicity_top10": scalable_structural_metrics[
-                    "alias_multiplicity_top10"
-                ],
+                "alias_multiplicity_top10": scalable_structural_metrics["alias_multiplicity_top10"],
                 "scientific_validity_inference": False,
             },
             "explanation_dossiers": {
                 "alias_count": scalable_explanation_dossiers["alias_count"],
                 "candidate_count": scalable_explanation_dossiers["candidate_count"],
-                "formal_decision_counts": scalable_explanation_dossiers[
-                    "formal_decision_counts"
-                ],
+                "formal_decision_counts": scalable_explanation_dossiers["formal_decision_counts"],
                 "hierarchy_node_status_counts": scalable_explanation_dossiers[
                     "hierarchy_node_status_counts"
                 ],
                 "observational_data_opened": False,
-                "dossier_registry_root_sha256": scalable_explanation_dossiers[
-                    "provenance"
-                ]["dossier_registry_root_sha256"],
+                "dossier_registry_root_sha256": scalable_explanation_dossiers["provenance"][
+                    "dossier_registry_root_sha256"
+                ],
             },
             "staged_epoch": {
                 "stage_count": scalable_campaign_epoch["stage_count"],
-                "sealed_epoch_counts": scalable_campaign_epoch[
-                    "sealed_epoch_counts"
-                ],
-                "next_epoch_readiness": scalable_campaign_epoch[
-                    "next_epoch_readiness"
-                ],
+                "sealed_epoch_counts": scalable_campaign_epoch["sealed_epoch_counts"],
+                "next_epoch_readiness": scalable_campaign_epoch["next_epoch_readiness"],
                 "reviewed_future_chunk": {
-                    "input_cell_count": scalable_future_parameter_chunk[
-                        "input_cell_count"
-                    ],
-                    "disposition_counts": scalable_future_parameter_chunk[
-                        "disposition_counts"
-                    ],
+                    "input_cell_count": scalable_future_parameter_chunk["input_cell_count"],
+                    "disposition_counts": scalable_future_parameter_chunk["disposition_counts"],
                     "preflight": {
-                        "candidate_count": scalable_future_formal_preflight[
-                            "candidate_count"
-                        ],
-                        "decision_counts": scalable_future_formal_preflight[
-                            "decision_counts"
-                        ],
-                        "family_counts": scalable_future_formal_preflight[
-                            "family_counts"
-                        ],
+                        "candidate_count": scalable_future_formal_preflight["candidate_count"],
+                        "decision_counts": scalable_future_formal_preflight["decision_counts"],
+                        "family_counts": scalable_future_formal_preflight["family_counts"],
                         "first_blocker_counts": scalable_future_formal_preflight[
                             "first_blocker_counts"
                         ],
@@ -2367,12 +2227,8 @@ def build_unified_snapshot(
                     },
                     "family_followup": {
                         "aether": {
-                            "candidate_count": future_aether_constraint_followup[
-                                "candidate_count"
-                            ],
-                            "decision_counts": future_aether_constraint_followup[
-                                "decision_counts"
-                            ],
+                            "candidate_count": future_aether_pure_twist_ae_no_go["candidate_count"],
+                            "decision_counts": future_aether_pure_twist_ae_no_go["decision_counts"],
                             "formal_pass_count": 0,
                             "exact_negative_local_twist_witness_count": future_aether_formal_followup[
                                 "exact_negative_local_twist_witness_count"
@@ -2395,19 +2251,31 @@ def build_unified_snapshot(
                             "undefined_AE_boundary_contribution_count": future_aether_constraint_followup[
                                 "undefined_AE_boundary_contribution_count"
                             ],
-                            "constraint_satisfying_negative_total_energy_datum_count": 0,
-                            "first_blocker_counts": future_aether_constraint_followup[
+                            "flat_static_global_pure_twist_AE_completion_obstructed_count": future_aether_pure_twist_ae_no_go[
+                                "flat_static_global_pure_twist_AE_completion_obstructed_count"
+                            ],
+                            "compact_cutoff_non_pure_twist_transition_required_count": future_aether_pure_twist_ae_no_go[
+                                "compact_cutoff_non_pure_twist_transition_required_count"
+                            ],
+                            "normalized_transition_symmetric_gradient_norm_squared_counts": future_aether_pure_twist_ae_no_go[
+                                "normalized_transition_symmetric_gradient_norm_squared_counts"
+                            ],
+                            "differentiated_Killing_system": future_aether_pure_twist_ae_no_go[
+                                "symbolic_obstruction_control"
+                            ]["differentiated_Killing_system"],
+                            "constraint_satisfying_negative_total_energy_datum_count": future_aether_pure_twist_ae_no_go[
+                                "constraint_satisfying_negative_total_energy_datum_count"
+                            ],
+                            "first_blocker_counts": future_aether_pure_twist_ae_no_go[
                                 "first_blocker_counts"
                             ],
-                            "candidate_rejection_authorized_count": 0,
+                            "candidate_rejection_authorized_count": future_aether_pure_twist_ae_no_go[
+                                "candidate_rejection_authorized_count"
+                            ],
                         },
                         "g3": {
-                            "candidate_count": future_g3_action_bound_followup[
-                                "candidate_count"
-                            ],
-                            "decision_counts": future_g3_action_bound_followup[
-                                "decision_counts"
-                            ],
+                            "candidate_count": future_g3_action_bound_followup["candidate_count"],
+                            "decision_counts": future_g3_action_bound_followup["decision_counts"],
                             "all_direction_single_center_pass_count": future_g3_domain_followup[
                                 "all_direction_single_center_pass_count"
                             ],
@@ -2432,27 +2300,35 @@ def build_unified_snapshot(
                             "periodic_distributed_Dirac_pass_count": future_g3_action_bound_followup[
                                 "periodic_distributed_Dirac_pass_count"
                             ],
-                            "asymptotically_flat_Dirac_pass_count": future_g3_action_bound_followup[
-                                "asymptotically_flat_Dirac_pass_count"
+                            "AF_decaying_gradient_profile_pass_count": future_g3_af_transition_obstruction[
+                                "AF_decaying_gradient_profile_pass_count"
                             ],
-                            "global_energy_pass_count": future_g3_action_bound_followup[
-                                "global_energy_pass_count"
+                            "AF_principal_common_cone_profile_pass_count": future_g3_af_transition_obstruction[
+                                "AF_principal_common_cone_profile_pass_count"
                             ],
-                            "full_formal_pass_count": future_g3_action_bound_followup[
+                            "flat_reference_constraint_ansatz_reject_count": future_g3_af_transition_obstruction[
+                                "flat_reference_constraint_ansatz_reject_count"
+                            ],
+                            "asymptotically_flat_Dirac_pass_count": future_g3_af_transition_obstruction[
+                                "AF_unitary_lapse_Dirac_pass_count"
+                            ],
+                            "AF_Einstein_constraint_solution_pass_count": future_g3_af_transition_obstruction[
+                                "AF_Einstein_constraint_solution_pass_count"
+                            ],
+                            "global_energy_pass_count": future_g3_af_transition_obstruction[
+                                "global_hamiltonian_energy_pass_count"
+                            ],
+                            "full_formal_pass_count": future_g3_af_transition_obstruction[
                                 "full_formal_pass_count"
                             ],
-                            "first_blocker_counts": future_g3_action_bound_followup[
+                            "first_blocker_counts": future_g3_af_transition_obstruction[
                                 "first_blocker_counts"
                             ],
                         },
                     },
                     "action_dossiers": {
-                        "candidate_count": future_candidate_action_dossier[
-                            "candidate_count"
-                        ],
-                        "decision_counts": future_candidate_action_dossier[
-                            "decision_counts"
-                        ],
+                        "candidate_count": future_candidate_action_dossier["candidate_count"],
+                        "decision_counts": future_candidate_action_dossier["decision_counts"],
                         "ranked_candidate_count": 0,
                         "dossier_registry_root_sha256": future_candidate_action_dossier[
                             "dossier_registry_root_sha256"
@@ -2466,21 +2342,15 @@ def build_unified_snapshot(
             "candidate_count": quartic_counts["selected"],
             "coordinate_pair_partition": quartic_pairs,
             "quadratic_deltaK_two_jet": {
-                "closed_candidate_count": quartic_counts[
-                    "reference_two_jets_closed"
-                ],
-                "closed_derivative_orders": quartic_control[
-                    "reference_jet_orders_closed"
-                ],
+                "closed_candidate_count": quartic_counts["reference_two_jets_closed"],
+                "closed_derivative_orders": quartic_control["reference_jet_orders_closed"],
                 "D2_coordinate_linf_to_Frobenius_ceiling": quartic_tc2_quadratic_deltak[
                     "quadratic_D2_envelopes"
                 ][0]["D2_deltaK_coordinate_linf_to_Frobenius_integer_ceiling"],
                 "full_tube_Sylvester_identity_closed": False,
             },
             "diagonal_third_jet": {
-                "active_direction_count": quartic_third_slice[
-                    "active_coordinate_directions"
-                ],
+                "active_direction_count": quartic_third_slice["active_coordinate_directions"],
                 "diagonal_triples_closed": quartic_third_counts[
                     "symbolic_parameter_diagonal_third_jet_passes"
                 ],
@@ -2496,35 +2366,26 @@ def build_unified_snapshot(
                 "full_active_symmetric_triple_count": quartic_third_slice[
                     "full_symmetric_triples_in_41_direction_sector"
                 ],
-                "remaining_mixed_triples": 12_172,
-                "mixed_third_jet_closures": 128,
+                "remaining_mixed_triples": 12_044,
+                "mixed_third_jet_closures": 256,
             },
             "mixed_third_jet_chunk": {
-                "chunk_offset": quartic_mixed_64_contract["chunk_offset"],
-                "latest_chunk_processed_count": quartic_mixed_64_contract[
-                    "processed_count"
-                ],
-                "processed_count": 128,
-                "next_offset": quartic_mixed_64_contract["next_offset"],
-                "triple_kind_counts": quartic_mixed_64_counts[
-                    "triple_kind_counts"
-                ],
-                "symbolic_parameter_compatible": 128,
-                "latest_candidate_evaluations": quartic_mixed_64_counts[
-                    "candidate_evaluations"
-                ],
-                "candidate_evaluations": 1_536,
-                "candidate_solvable": 1_536,
+                "chunk_offset": quartic_parallel_contract["chunk_offset"],
+                "latest_chunk_processed_count": quartic_parallel_contract["processed_count"],
+                "processed_count": 256,
+                "next_offset": quartic_parallel_contract["next_offset"],
+                "triple_kind_counts": quartic_parallel_counts["triple_kind_counts"],
+                "symbolic_parameter_compatible": 256,
+                "latest_candidate_evaluations": quartic_parallel_counts["candidate_evaluations"],
+                "candidate_evaluations": 3_072,
+                "candidate_solvable": 3_072,
                 "candidate_obstructed": 0,
-                "remaining_mixed_triples": quartic_mixed_64_counts[
-                    "mixed_triples_remaining"
-                ],
-                "resume_tip_sha256": quartic_mixed_64_contract[
-                    "resume_tip_sha256"
-                ],
-                "service_decision": quartic_tc2_mixed_third_jet_continuation_status[
-                    "decision"
-                ],
+                "remaining_mixed_triples": quartic_parallel_counts["mixed_triples_remaining"],
+                "resume_tip_sha256": quartic_parallel_contract["resume_tip_sha256"],
+                "service_decision": quartic_tc2_mixed_third_jet_parallel_status["decision"],
+                "parallel_worker_count": quartic_parallel_contract["parallel_worker_count"],
+                "parallel_execution_policy": quartic_parallel_contract["parallel_execution_policy"],
+                "sequential_predecessor_processed_count": 192,
                 "full_mixed_sector_closed": False,
             },
             "closure_counts": {
@@ -2540,7 +2401,7 @@ def build_unified_snapshot(
                 )
             },
             "first_missing_premise": (
-                "remaining_12172_polarized_mixed_third_sylvester_jets_then_"
+                "remaining_12044_polarized_mixed_third_sylvester_jets_then_"
                 "fourth_and_higher_remainder_or_nonlinear_range_theorem"
             ),
         },
@@ -2548,7 +2409,9 @@ def build_unified_snapshot(
             "candidate_decision_counts": pareto["candidate_decision_counts"],
             "normalized_candidate_outcomes": {"pass": 0, "reject": 0, "block": 6},
             "candidate_evidence_packet_counts": {
-                key: value for key, value in pareto["evidence_packet_outcome_counts"].items() if key == "blocked"
+                key: value
+                for key, value in pareto["evidence_packet_outcome_counts"].items()
+                if key == "blocked"
             },
             "calibration_control_counts": pareto["calibration_outcome_counts"],
             "blocker_gate_counts": dict(sorted(blocker_gates.items())),
@@ -2561,9 +2424,11 @@ def build_unified_snapshot(
             "normalized_followup_outcomes": {"pass": 2, "reject": 0, "block": 8},
             "processed": followup["processed_count"],
             "deferred": followup["deferred_count"],
-            "current_missing_evaluator_blockers": dict(sorted(Counter(
-                packet["task_type"] for packet in followup["deferred_packets"]
-            ).items())),
+            "current_missing_evaluator_blockers": dict(
+                sorted(
+                    Counter(packet["task_type"] for packet in followup["deferred_packets"]).items()
+                )
+            ),
             "deadline": "bounded_waiting_service_no_live_deadline",
         },
         "llm": llm_summary,
@@ -2594,16 +2459,10 @@ def build_unified_snapshot(
         if (parsed := _parse_utc(row.get("not_before_utc"))) is not None
     )
     scheduled_event_anchor = next(
-        (
-            value
-            for value in scheduled_times
-            if latest is None or value > latest
-        ),
+        (value for value in scheduled_times if latest is None or value > latest),
         None,
     )
-    freshness_deadline = (
-        latest + timedelta(seconds=threshold) if latest is not None else None
-    )
+    freshness_deadline = latest + timedelta(seconds=threshold) if latest is not None else None
     if scheduled_event_anchor is not None:
         scheduled_deadline = scheduled_event_anchor + timedelta(seconds=threshold)
         freshness_deadline = (
@@ -2614,19 +2473,16 @@ def build_unified_snapshot(
     freshness_stale = freshness_deadline is None or timestamp > freshness_deadline
     volatile = {
         "sampled_at_utc": timestamp.isoformat(),
+        "physical_cpu": (dict(physical_cpu) if physical_cpu is not None else sample_host_cpu()),
         "physical_gpu": dict(physical_gpu) if physical_gpu is not None else sample_nvidia_smi(),
         "campaign_watchdog_freshness": {
             "latest_event_utc": watchdog["latest_event_utc"],
             "age_seconds": age,
             "expected_next_event_not_before_utc": (
-                scheduled_event_anchor.isoformat()
-                if scheduled_event_anchor is not None
-                else None
+                scheduled_event_anchor.isoformat() if scheduled_event_anchor is not None else None
             ),
             "freshness_deadline_utc": (
-                freshness_deadline.isoformat()
-                if freshness_deadline is not None
-                else None
+                freshness_deadline.isoformat() if freshness_deadline is not None else None
             ),
             "state": (
                 "stale"
@@ -2646,8 +2502,10 @@ def build_unified_snapshot(
         },
         "scheduler_readiness": scheduler_readiness,
         "deadline_state": (
-            "unavailable" if not _parse_utc(watchdog["campaign"]["deadline_utc"])
-            else "expired" if timestamp > _parse_utc(watchdog["campaign"]["deadline_utc"])
+            "unavailable"
+            if not _parse_utc(watchdog["campaign"]["deadline_utc"])
+            else "expired"
+            if timestamp > _parse_utc(watchdog["campaign"]["deadline_utc"])
             else "open"
         ),
         "note": "volatile fields are excluded from core_content_sha256",
@@ -2718,9 +2576,7 @@ def _parser() -> argparse.ArgumentParser:
     refresh.add_argument("--config", default="configs/unified_engine_status.json")
     refresh.add_argument("--output", default="runs/engine/unified-engine-status-refresh.json")
     refresh.add_argument("--dashboard-output")
-    refresh.add_argument(
-        "--leaderboard-config", default="configs/scientific_leaderboards.json"
-    )
+    refresh.add_argument("--leaderboard-config", default="configs/scientific_leaderboards.json")
     refresh.add_argument("--disable-leaderboards", action="store_true")
     refresh.add_argument("--maximum-output-bytes", type=int, default=3_145_728)
     refresh.add_argument("--disable-gpu-sample", action="store_true")
@@ -2786,11 +2642,16 @@ def main(argv: list[str] | None = None) -> int:
         _bounded_write(root, output_path, json_bytes, arguments.maximum_output_bytes)
         if dashboard_path is not None and html_bytes is not None:
             _bounded_write(root, dashboard_path, html_bytes, arguments.maximum_output_bytes)
-        print(json.dumps({
-            "core_content_sha256": snapshot["core_content_sha256"],
-            "json_bytes": len(json_bytes),
-            "dashboard_bytes": len(html_bytes) if html_bytes is not None else 0,
-        }, sort_keys=True))
+        print(
+            json.dumps(
+                {
+                    "core_content_sha256": snapshot["core_content_sha256"],
+                    "json_bytes": len(json_bytes),
+                    "dashboard_bytes": len(html_bytes) if html_bytes is not None else 0,
+                },
+                sort_keys=True,
+            )
+        )
         return 0
     snapshot_path = _resolve_inside(root, arguments.snapshot)
     output_path = _resolve_inside(root, arguments.output)
@@ -2798,10 +2659,15 @@ def main(argv: list[str] | None = None) -> int:
     validate_dashboard_input(snapshot, _sha(snapshot["core"]))
     html_bytes = render_dashboard(snapshot).encode()
     _bounded_write(root, output_path, html_bytes, arguments.maximum_output_bytes)
-    print(json.dumps({
-        "core_content_sha256": snapshot["core_content_sha256"],
-        "dashboard_bytes": len(html_bytes),
-    }, sort_keys=True))
+    print(
+        json.dumps(
+            {
+                "core_content_sha256": snapshot["core_content_sha256"],
+                "dashboard_bytes": len(html_bytes),
+            },
+            sort_keys=True,
+        )
+    )
     return 0
 
 
