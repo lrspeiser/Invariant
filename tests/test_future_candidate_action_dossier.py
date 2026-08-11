@@ -88,9 +88,10 @@ def test_proof_hierarchy_distinguishes_formula_formal_and_observation_scope() ->
     assert len(g3_records) == 3
     assert all(
         record["first_blocker"]
-        == "candidate_specific_nontrivial_AF_Einstein_constraint_solution_beyond_registered_millicap_conformally_flat_York_class"
-        and "candidate-bound grid caps 1.211, 1.211, and 1.210"
+        == "candidate_specific_nontrivial_AF_Einstein_constraint_solution_beyond_analytic_conformally_flat_York_threshold"
+        and "unique positive algebraic threshold kappa_star"
         in record["hierarchy_nodes"][1]["scope"]
+        and "closed class |K| <= kappa_star*v is excluded" in record["hierarchy_nodes"][1]["scope"]
         and "arbitrary smooth trace-free York tensors" in record["hierarchy_nodes"][1]["scope"]
         for record in g3_records
     )
@@ -105,11 +106,12 @@ def test_proof_hierarchy_distinguishes_formula_formal_and_observation_scope() ->
         record["first_blocker"]
         in {
             "noncharacteristic_foliation_or_compact_negative_seed_avoiding_forced_ADM_Legendre_characteristic_crossing",
-            "candidate_bound_gauge_fixed_weighted_constraint_operator_norm_contract_with_nonlinear_remainder_and_completed_boundary_majorants",
+            "candidate_bound_Aether_constraint_variable_block_and_off_diagonal_principal_symbol_on_declared_weighted_spaces",
         }
         and "finite-amplitude Aether seed" in record["hierarchy_nodes"][1]["scope"]
         and "uniform Aether Legendre-sector margins" in record["hierarchy_nodes"][1]["scope"]
-        and "eleven candidate-bound norm" in record["hierarchy_nodes"][1]["scope"]
+        and "metric reference principal spectrum" in record["hierarchy_nodes"][1]["scope"]
+        and "off-diagonal principal symbol" in record["hierarchy_nodes"][1]["scope"]
         for record in aether_records
     )
 
@@ -132,7 +134,7 @@ def test_artifact_is_portable_and_secret_safe() -> None:
     raw = ARTIFACT.read_bytes()
     artifact = json.loads(raw)
     assert hashlib.sha256(raw).hexdigest() == (
-        "42db2af7683f562caf801d5372b6cee2b195aa8e4794fb09da7671d0519bbe52"
+        "d8d291c3e8fa8e438011e0a5a026bb394fb78ab386a5656e4f9fdc44daff2b09"
     )
     encoded = raw.decode("utf-8")
     assert "C:\\" not in encoded

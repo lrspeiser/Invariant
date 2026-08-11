@@ -72,6 +72,21 @@ def _claims(*, full_mixed_sector_closed: bool = False) -> dict[str, bool]:
     }
 
 
+def _scope(*, full_mixed_sector_closed: bool = False) -> str:
+    if full_mixed_sector_closed:
+        return (
+            "All 447 exact reranked obligations are closed; the bound rank-680 "
+            "completion theorem therefore closes the 12,300-entry reference mixed "
+            "third-jet sector. Full tube, CK1, CK3, TC2, B7, global H7, and lifespan "
+            "remain fail-closed."
+        )
+    return (
+        "Only explicitly evaluated reranked obligations are closed. No remaining active "
+        "triple is inferred passed; full mixed sector, full tube, CK1, CK3, TC2, B7, "
+        "global H7, and lifespan remain fail-closed."
+    )
+
+
 def _initial_resume_sha256(reduction: dict[str, Any]) -> str:
     return _content_hash(
         {
@@ -82,9 +97,7 @@ def _initial_resume_sha256(reduction: dict[str, Any]) -> str:
             "obligation_selector_seed_sha256": reduction["exact_reranking"][
                 "obligation_seed_sha256"
             ],
-            "obligation_selector_tip_sha256": reduction["exact_reranking"][
-                "obligation_tip_sha256"
-            ],
+            "obligation_selector_tip_sha256": reduction["exact_reranking"]["obligation_tip_sha256"],
         }
     )
 
@@ -96,10 +109,8 @@ def _selector_records(reduction: dict[str, Any]) -> list[dict[str, Any]]:
             "pass_exact_stopped_chain_1600_rerank_447_obligations_"
             "no_inferred_passes_global_closure_fail_closed"
         )
-        or reduction.get("counts", {}).get("stable_mixed_triples_evaluated")
-        != STABLE_PREFIX_COUNT
-        or reduction.get("counts", {}).get("reranked_exact_obligations")
-        != TOTAL_OBLIGATIONS
+        or reduction.get("counts", {}).get("stable_mixed_triples_evaluated") != STABLE_PREFIX_COUNT
+        or reduction.get("counts", {}).get("reranked_exact_obligations") != TOTAL_OBLIGATIONS
         or reduction.get("counts", {}).get("reranked_obligations_evaluated") != 0
         or reduction.get("counts", {}).get("remaining_active_triples_inferred_passed") != 0
         or reduction.get("exact_reranking", {}).get("completion_rank") != 680
@@ -305,10 +316,7 @@ def exact_reranked_obligation_executor(
         len(selected) != requested_size
         or requested_size < 1
         or requested_size > DEFAULT_CHUNK_SIZE
-        or (
-            requested_size != DEFAULT_CHUNK_SIZE
-            and offset + requested_size != TOTAL_OBLIGATIONS
-        )
+        or (requested_size != DEFAULT_CHUNK_SIZE and offset + requested_size != TOTAL_OBLIGATIONS)
     ):
         raise QuarticTC2RerankedObligationServiceError("selective chunk range mismatch")
     provenance = _provenance_packet(diagonal, canonical_artifacts, chunk_config)
@@ -375,13 +383,9 @@ def exact_reranked_obligation_executor(
             break
     processed = len(manifest)
     candidate_evaluations = sum(len(record["candidate_results"]) for record in manifest)
-    candidate_obstructions = sum(
-        len(record["obstructed_candidate_ids"]) for record in manifest
-    )
+    candidate_obstructions = sum(len(record["obstructed_candidate_ids"]) for record in manifest)
     passed = sum(not record["obstructed_candidate_ids"] for record in manifest)
-    selector_complete = (
-        first_obstruction is None and offset + passed == TOTAL_OBLIGATIONS
-    )
+    selector_complete = first_obstruction is None and offset + passed == TOTAL_OBLIGATIONS
     partial_tail = requested_size != DEFAULT_CHUNK_SIZE
     status = (
         "stop_first_exact_reranked_obligation"
@@ -424,9 +428,7 @@ def exact_reranked_obligation_executor(
             "reranked_reduction": reduction["content_sha256"],
         },
         "canonical_D2_artifact_content_sha256": provenance["artifact_hashes"],
-        "canonical_D2_artifact_sequence_sha256": _content_hash(
-            provenance["artifact_hashes"]
-        ),
+        "canonical_D2_artifact_sequence_sha256": _content_hash(provenance["artifact_hashes"]),
         "chunk_contract": contract,
         **(
             {
@@ -434,8 +436,7 @@ def exact_reranked_obligation_executor(
                     "selector_total": TOTAL_OBLIGATIONS,
                     "tail_offset": offset,
                     "tail_size": requested_size,
-                    "tail_exhausts_selector_exactly": offset + requested_size
-                    == TOTAL_OBLIGATIONS,
+                    "tail_exhausts_selector_exactly": offset + requested_size == TOTAL_OBLIGATIONS,
                     "padded_or_inferred_obligations": 0,
                     "passed": True,
                 }
@@ -476,11 +477,7 @@ def exact_reranked_obligation_executor(
             "global_H7_closed": False,
             "lifespan_proved": False,
         },
-        "scope": (
-            "Only explicitly evaluated reranked obligations are closed. No remaining active "
-            "triple is inferred passed; full mixed sector, full tube, CK1, CK3, TC2, B7, "
-            "global H7, and lifespan remain fail-closed."
-        ),
+        "scope": _scope(full_mixed_sector_closed=selector_complete),
     }
     return {**body, "content_sha256": _content_hash(body)}
 
@@ -496,9 +493,7 @@ def _chunk_config(
         "expected_prior_resume_sha256": prior,
         "reranked_reduction_content_sha256": reduction["content_sha256"],
         "obligation_selector_tip_sha256": config["obligation_selector_tip_sha256"],
-        "canonical_D2_artifact_sequence_sha256": config[
-            "canonical_D2_artifact_sequence_sha256"
-        ],
+        "canonical_D2_artifact_sequence_sha256": config["canonical_D2_artifact_sequence_sha256"],
         "parallel_worker_count": config["parallel_worker_count"],
         "parallel_execution_policy": config["parallel_execution_policy"],
         "stop_on_first_obstruction": True,
@@ -531,9 +526,7 @@ def _validate_chunk_result(
     closed = result.get("closure_ledger", {}).get("processed_reranked_obligations_closed")
     partial = requested_size != DEFAULT_CHUNK_SIZE
     selector_complete = bool(
-        obstruction is None
-        and isinstance(closed, int)
-        and offset + closed == TOTAL_OBLIGATIONS
+        obstruction is None and isinstance(closed, int) and offset + closed == TOTAL_OBLIGATIONS
     )
     expected_status = (
         "stop_first_exact_reranked_obligation"
@@ -568,8 +561,7 @@ def _validate_chunk_result(
         or contract.get("requested_chunk_size") != requested_size
         or contract.get("processed_count") != processed
         or contract.get("next_obligation_offset") != offset + processed
-        or contract.get("prior_resume_sha256")
-        != chunk_config["expected_prior_resume_sha256"]
+        or contract.get("prior_resume_sha256") != chunk_config["expected_prior_resume_sha256"]
         or contract.get("resume_seed_sha256")
         != _chunk_seed(
             reduction,
@@ -587,8 +579,7 @@ def _validate_chunk_result(
         or contract.get("stopped_early") is not bool(obstruction)
         or contract.get("resume_policy") != "record_sha256_chain"
         or counts.get("candidate_evaluations") != processed * 12
-        or counts.get("candidate_solvable") + counts.get("candidate_obstructed")
-        != processed * 12
+        or counts.get("candidate_solvable") + counts.get("candidate_obstructed") != processed * 12
         or counts.get("reranked_obligations_remaining") != TOTAL_OBLIGATIONS - offset - closed
         or counts.get("remaining_active_triples_inferred_passed") != 0
         or counts.get("symbolic_parameter_compatible")
@@ -602,6 +593,7 @@ def _validate_chunk_result(
         is not selector_complete
         or result.get("closure_ledger", {}).get("all_12_300_mixed_third_jets_closed")
         is not selector_complete
+        or result.get("scope") != _scope(full_mixed_sector_closed=selector_complete)
         or any(
             result.get("closure_ledger", {}).get(key) is not False
             for key in (
@@ -635,8 +627,7 @@ def _validate_chunk_result(
             or record.get("chunk_index") != local_index
             or record.get("obligation_index") != offset + local_index
             or record.get("global_selector_index") != selector_record["global_selector_index"]
-            or record.get("selector_obligation_sha256")
-            != selector_record["obligation_sha256"]
+            or record.get("selector_obligation_sha256") != selector_record["obligation_sha256"]
             or record.get("active_position_triple") != list(triple)
             or record.get("triple_kind") != _triple_kind(triple)
             or record.get("previous_record_sha256") != previous
@@ -689,12 +680,8 @@ def _validate_chunk_result(
             "obstructed_candidate_ids": last["obstructed_candidate_ids"],
             "gate": "equal-eigenspace compatibility of reranked mixed third Sylvester RHS",
         }:
-            raise QuarticTC2RerankedObligationServiceError(
-                "result first obstruction mismatch"
-            )
-    expected_kinds = Counter(
-        selector[offset + index]["triple_kind"] for index in range(processed)
-    )
+            raise QuarticTC2RerankedObligationServiceError("result first obstruction mismatch")
+    expected_kinds = Counter(selector[offset + index]["triple_kind"] for index in range(processed))
     if counts.get("triple_kind_counts") != dict(sorted(expected_kinds.items())):
         raise QuarticTC2RerankedObligationServiceError("result kind mismatch")
     tail = result.get("partial_tail_control")
@@ -726,9 +713,7 @@ def _initial_state(config: dict[str, Any], reduction: dict[str, Any]) -> dict[st
         "obligation_selector_seed_sha256": config["obligation_selector_seed_sha256"],
         "obligation_selector_tip_sha256": config["obligation_selector_tip_sha256"],
         "stable_predecessor_prefix_count": STABLE_PREFIX_COUNT,
-        "stable_predecessor_resume_tip_sha256": config[
-            "stable_predecessor_resume_tip_sha256"
-        ],
+        "stable_predecessor_resume_tip_sha256": config["stable_predecessor_resume_tip_sha256"],
         "next_obligation_offset": 0,
         "remaining_obligations": TOTAL_OBLIGATIONS,
         "prior_resume_sha256": _initial_resume_sha256(reduction),
@@ -756,10 +741,8 @@ def _load_state(path: Path, config: dict[str, Any], reduction: dict[str, Any]) -
         or state.get("reranked_reduction_content_sha256") != reduction["content_sha256"]
         or state.get("reranked_reduction_file_sha256")
         != config["reranked_reduction"]["file_sha256"]
-        or state.get("obligation_selector_seed_sha256")
-        != config["obligation_selector_seed_sha256"]
-        or state.get("obligation_selector_tip_sha256")
-        != config["obligation_selector_tip_sha256"]
+        or state.get("obligation_selector_seed_sha256") != config["obligation_selector_seed_sha256"]
+        or state.get("obligation_selector_tip_sha256") != config["obligation_selector_tip_sha256"]
         or state.get("stable_predecessor_prefix_count") != STABLE_PREFIX_COUNT
         or state.get("stable_predecessor_resume_tip_sha256")
         != config["stable_predecessor_resume_tip_sha256"]
@@ -857,13 +840,13 @@ def _pending_artifact(
     if not path.exists():
         return None
     artifact, data = _load_file(path)
-    _validate_chunk_result(
-        artifact, chunk_config, reduction, service_config, offset, size
-    )
+    _validate_chunk_result(artifact, chunk_config, reduction, service_config, offset, size)
     return artifact, data
 
 
-def _status(state: dict[str, Any], checkpoint_data: bytes, decision: str, reason: str) -> dict[str, Any]:
+def _status(
+    state: dict[str, Any], checkpoint_data: bytes, decision: str, reason: str
+) -> dict[str, Any]:
     return _with_hash(
         {
             "schema_version": STATUS_SCHEMA,
@@ -936,18 +919,12 @@ def run_reranked_obligation_service(
             reason = "history_limit"
             break
         size = min(DEFAULT_CHUNK_SIZE, remaining)
-        chunk_config = _chunk_config(
-            config, reduction, offset, size, state["prior_resume_sha256"]
-        )
+        chunk_config = _chunk_config(config, reduction, offset, size, state["prior_resume_sha256"])
         relative = Path("chunks") / f"obligation-offset-{offset:06d}.json"
         artifact_path = output / relative
-        pending = _pending_artifact(
-            artifact_path, chunk_config, reduction, config, offset, size
-        )
+        pending = _pending_artifact(artifact_path, chunk_config, reduction, config, offset, size)
         if pending is None:
-            result = executor(
-                diagonal, quadratic, canonical_artifacts, reduction, chunk_config
-            )
+            result = executor(diagonal, quadratic, canonical_artifacts, reduction, chunk_config)
             _validate_chunk_result(result, chunk_config, reduction, config, offset, size)
             artifact_data = _json_bytes(result)
         else:
@@ -963,9 +940,7 @@ def run_reranked_obligation_service(
             "next_obligation_offset": contract["next_obligation_offset"],
             "requested_chunk_size": size,
             "processed_count": contract["processed_count"],
-            "closed_count": result["closure_ledger"][
-                "processed_reranked_obligations_closed"
-            ],
+            "closed_count": result["closure_ledger"]["processed_reranked_obligations_closed"],
             "remaining_obligations": result["counts"]["reranked_obligations_remaining"],
             "artifact_path": relative.as_posix(),
             "artifact_file_sha256": _file_sha256(artifact_data),
@@ -992,18 +967,30 @@ def run_reranked_obligation_service(
                 "history": [*state["history"], history_record],
                 "claims": _claims(
                     full_mixed_sector_closed=(
-                        not obstruction
-                        and result["counts"]["reranked_obligations_remaining"] == 0
+                        not obstruction and result["counts"]["reranked_obligations_remaining"] == 0
                     )
                 ),
             }
         )
         checkpoint_data = _json_bytes(state)
+        selector_complete = bool(not obstruction and state["remaining_obligations"] == 0)
+        status_decision = (
+            "stopped" if obstruction else ("completed" if selector_complete else "checkpointed")
+        )
+        status_reason = (
+            "exact_obstruction"
+            if obstruction
+            else (
+                "reranked_selector_complete_full_tube_still_open"
+                if selector_complete
+                else "chunk_limit"
+            )
+        )
         status = _status(
             state,
             checkpoint_data,
-            "stopped" if obstruction else "checkpointed",
-            "exact_obstruction" if obstruction else "chunk_limit",
+            status_decision,
+            status_reason,
         )
         status_data = _json_bytes(status)
         current_bytes = _service_disk_bytes(output)
@@ -1029,8 +1016,15 @@ def run_reranked_obligation_service(
         if obstruction:
             reason = "exact_obstruction"
             break
+        if selector_complete:
+            reason = "reranked_selector_complete_full_tube_still_open"
+            break
     return {
-        "status": "stopped" if state["permanently_stopped"] else "checkpointed",
+        "status": (
+            "stopped"
+            if state["permanently_stopped"]
+            else ("completed" if state["remaining_obligations"] == 0 else "checkpointed")
+        ),
         "reason": reason,
         "chunks_advanced": advanced,
         "next_obligation_offset": state["next_obligation_offset"],

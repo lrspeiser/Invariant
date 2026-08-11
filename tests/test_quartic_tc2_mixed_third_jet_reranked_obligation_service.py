@@ -19,6 +19,7 @@ from sigma_theory_compiler.quartic_tc2_mixed_third_jet_reranked_obligation_servi
     _hash_matches,
     _initial_resume_sha256,
     _load_state,
+    _scope,
     _validate_chunk_result,
     _validate_config,
     _with_hash,
@@ -33,10 +34,7 @@ CONFIG_PATH = (
     / "quartic_tc2_mixed_third_jet_reranked_obligation_service.json"
 )
 OUTPUT = (
-    ROOT
-    / "runs"
-    / "physics-language"
-    / "quartic-tc2-mixed-third-jet-reranked-obligation-service"
+    ROOT / "runs" / "physics-language" / "quartic-tc2-mixed-third-jet-reranked-obligation-service"
 )
 
 
@@ -71,18 +69,24 @@ def test_service_config_binds_stopped_predecessor_and_selector_chain() -> None:
     )
 
 
-def test_five_exact_chunks_checkpoint_and_status_are_valid() -> None:
+def test_seven_exact_chunks_checkpoint_and_status_are_valid() -> None:
     config, _, _, reduction, _, _, _ = _inputs()
     artifacts = []
     prior_resume = _initial_resume_sha256(reduction)
-    for offset in (0, 64, 128, 192, 256):
+    for offset, size in (
+        (0, 64),
+        (64, 64),
+        (128, 64),
+        (192, 64),
+        (256, 64),
+        (320, 64),
+        (384, 63),
+    ):
         artifact = json.loads(
-            (
-                OUTPUT / "chunks" / f"obligation-offset-{offset:06d}.json"
-            ).read_text(encoding="utf-8")
+            (OUTPUT / "chunks" / f"obligation-offset-{offset:06d}.json").read_text(encoding="utf-8")
         )
-        dynamic = _chunk_config(config, reduction, offset, 64, prior_resume)
-        _validate_chunk_result(artifact, dynamic, reduction, config, offset, 64)
+        dynamic = _chunk_config(config, reduction, offset, size, prior_resume)
+        _validate_chunk_result(artifact, dynamic, reduction, config, offset, size)
         artifacts.append(artifact)
         prior_resume = artifact["chunk_contract"]["resume_tip_sha256"]
     checkpoint = json.loads((OUTPUT / "checkpoint.json").read_text(encoding="utf-8"))
@@ -94,7 +98,7 @@ def test_five_exact_chunks_checkpoint_and_status_are_valid() -> None:
         "cc0881c1e06a7f5fa308be071d950f2ddd3f9239f6b522a87cc13cd9d4c94ea7"
     )
     assert latest["content_sha256"] == (
-        "1e724e025eeccb5d3fbcc6f3f930e9d8102abe06b610ffc49324ce08823ecd83"
+        "a543a2a98d3cdab9bcfbe2e742e3853922d32b87784051dc7be2f87769724853"
     )
     assert initial["status"] == "pass_reranked_obligation_chunk_64_fail_closed"
     assert initial["counts"] == {
@@ -119,16 +123,21 @@ def test_five_exact_chunks_checkpoint_and_status_are_valid() -> None:
         "b6d7222f845bd57d31be37e2237f20112e3b2be9c74e29f150aea13153ce0738"
     )
     assert latest["chunk_contract"]["resume_tip_sha256"] == (
-        "20372bd8d5d6dbed373401cf80cc9b081b17d3b9bb110ae0a6756fc31b9f73fc"
+        "36338e1d76f61acbbab4927f7fd38cc116defb3a5d0ccd2a73d45faafe726e55"
     )
-    assert checkpoint["completed_chunks"] == 5
-    assert checkpoint["next_obligation_offset"] == 320
-    assert checkpoint["remaining_obligations"] == 127
+    assert latest["scope"] == _scope(full_mixed_sector_closed=True)
+    assert latest["closure_ledger"]["all_447_reranked_obligations_closed"] is True
+    assert latest["closure_ledger"]["all_12_300_mixed_third_jets_closed"] is True
+    assert checkpoint["completed_chunks"] == 7
+    assert checkpoint["next_obligation_offset"] == 447
+    assert checkpoint["remaining_obligations"] == 0
     assert checkpoint["permanently_stopped"] is False
-    assert not any(checkpoint["claims"].values())
+    assert checkpoint["claims"]["full_mixed_sector_closed"] is True
+    assert sum(checkpoint["claims"].values()) == 1
     assert _hash_matches(checkpoint) and _hash_matches(status)
     assert status["checkpoint_content_sha256"] == checkpoint["content_sha256"]
-    assert status["decision"] == "checkpointed"
+    assert status["decision"] == "completed"
+    assert status["reason"] == "reranked_selector_complete_full_tube_still_open"
 
 
 def test_selector_record_tamper_is_rejected_after_rehash() -> None:
@@ -204,7 +213,5 @@ def test_final_tail_size_is_exactly_63_without_padding() -> None:
     completed_claims = _claims(full_mixed_sector_closed=True)
     assert completed_claims["full_mixed_sector_closed"] is True
     assert not any(
-        value
-        for key, value in completed_claims.items()
-        if key != "full_mixed_sector_closed"
+        value for key, value in completed_claims.items() if key != "full_mixed_sector_closed"
     )

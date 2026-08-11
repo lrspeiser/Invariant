@@ -343,11 +343,13 @@ static source monopole and a negative frozen-source linearized boundary coeffici
 characteristic-shell analysis shows that 11 seed families cross a characteristic shell before the
 proved negativity threshold; two have certified characteristic-free negative windows and one is
 globally noncharacteristic. Those three now also have exact uniform Aether Legendre-sector inverse
-bounds and strict negative source-energy margins. A typed weighted-IFT gate records the exact
-candidate-bound contract still needed: domain and codomain, gauge fixing, the full linearized map,
-inverse and perturbation norms, nonlinear residual and second-derivative bounds, plus first and
-second completed-boundary derivative majorants. All 11 fields remain absent for each candidate and
-no constants are assumed; the other 11 retain the forced-characteristic blocker. Blocked is not theory
+bounds and strict negative source-energy margins. A typed weighted-IFT gate first recorded the exact
+candidate-bound contract still needed. Those three now advance through a concrete Bartnik-style
+`H2_-1/2 -> L2_-5/2` metric reference operator: its direction-independent spectrum is
+`(2,2,8/3,4)`, determinant `128/3`, ellipticity margin `2`, and decaying scalar/York kernel is
+trivial. The candidate-bound Aether constraint-variable block and its off-diagonal principal symbol
+are still absent, so the full Fredholm inverse, nonlinear remainder, and completed-boundary sign
+remain blocked; the other 11 retain the forced-characteristic blocker. Blocked is not theory
 rejection. The three cubic-G3 actions now have all
 36 action-bound componentwise fields registered and pass direct uniform principal/common-cone,
 exact lapse-coercivity, and periodic `L2(T3)` Dirac gates. Each also has a smooth action-bound
@@ -363,9 +365,11 @@ the Hamiltonian constraint to a positive-source Lichnerowicz BVP. An exact integ
 proves that none of the three BVPs has a positive global solution with `psi -> 1`; this rejects the
 ansatz, not the actions. Exact Hamiltonian reduction and a nonradial Green comparison extend this
 no-go to positive nonradial conformal factors with arbitrary smooth trace-free York tensors,
-including TT, longitudinal, and mixed pieces. An exact `1/1000`-grid frontier extends the certified
-mean-curvature caps from `1.2v` to `1.211v`, `1.211v`, and `1.210v` for the three candidates; each
-next grid point is inconclusive. Non-conformally-flat geometry, larger mean curvature, or different
+including TT, longitudinal, and mixed pieces. The grid frontier is now replaced by exact algebraic
+thresholds at approximately `1.21195072978967v`, `1.21157957756480v`, and `1.21083761765291v`.
+Each is the unique positive root of the registered monotone Green-comparison polynomial, and the
+closed endpoint is also excluded by a strict interior source/kernel inequality; rational points
+above each root remain comparison-inconclusive. Non-conformally-flat geometry, larger mean curvature, or different
 scalar data remain open. Candidate-specific
 nontrivial AF solutions outside that enlarged ansatz class, global
 energy, and full formal passes remain blocked.
@@ -1184,10 +1188,12 @@ and commit or infer no record after a first obstruction. The supervisor stopped 
 limit with a durable checkpoint at offset 1,600. Although 10,700 lexicographic triples remain
 unevaluated, the 41 active directions span an exact rank-15 space: the frozen evidence has rank
 233/680 and a proved minimal complement contains 447 obligations (5,364 candidate checks). None of
-those obligations is inferred passed. A restart-safe selective service has now evaluated 320/447
-of that exact complement and all 3,840 candidate systems without obstruction; 127 obligations
-remain. Atomic checkpoints, orphan adoption, bounded eight-worker execution, and zero
-post-obstruction commits are enforced. Full tube, CK1, CK3, TC2, B7, global-H7, and lifespan claims
+those obligations is inferred passed. A restart-safe selective service has now evaluated all 447
+obligations and all 5,364 candidate systems without obstruction. Together with the exact rank-680
+completion theorem, this closes the entire 12,300-entry reference mixed third-jet sector. Atomic
+checkpoints, orphan adoption, bounded eight-worker execution, and zero post-obstruction commits are
+enforced. This remains a reference Taylor result: fourth-and-higher remainder control or a nonlinear
+range theorem is still required, and full tube, CK1, CK3, TC2, B7, global-H7, and lifespan claims
 remain fail-closed.
 
 The tube bounds 153 normalized coordinate atoms: ten metric deviations, 44 first partials,
