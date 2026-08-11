@@ -648,6 +648,66 @@ def _build_rows(sources: Mapping[str, Any], bindings: Mapping[str, Any]) -> dict
     blocked = solar["unmapped_candidate_control"]
     rows["solar_known_answer"].append(_entry(blocked["candidate_id"], "known_answer_control", {}, "blocked", "sealed_solar_known_answer", "incomplete", blocked["blocker"], "solar_known_answer", bindings["solar_known_answer"], blocked["input_lineage_sha256"], "Missing action-bound Solar bundle; untested rather than poor."))
 
+    g2_solar = sources["g2_solar_readiness"]
+    if (
+        g2_solar["candidate_count"] != 2
+        or g2_solar["decision_counts"] != {"blocked": 2}
+        or g2_solar["candidate_analytic_prediction_pass_count"] != 2
+        or g2_solar["conditional_static_source_class_pass_count"] != 2
+        or g2_solar["real_source_registration_pass_count"] != 0
+        or g2_solar["real_solar_bundle_count"] != 0
+        or g2_solar["real_solar_bundle_admissible_count"] != 0
+        or g2_solar["observational_data_opened"] is not False
+        or g2_solar["paid_llm_spend_usd"] != 0.0
+    ):
+        raise ValueError("G2 Solar-readiness evidence is inconsistent")
+    for record in g2_solar["candidate_records"]:
+        prediction = record["scalar_free_prediction_certificate"]
+        readiness = record["real_solar_readiness"]
+        if (
+            record["decision"] != "blocked"
+            or record["candidate_analytic_prediction_status"]
+            != "pass_on_exact_constant_phi_branch"
+            or record["static_source_class_certificate"]["status"]
+            != "pass_as_conditional_source_class_theorem"
+            or readiness["decision"] != "blocked"
+            or readiness["candidate_use_authorized"] is not False
+            or readiness["observational_inputs_opened_by_this_audit"] is not False
+            or len(readiness["missing_registration_fields"]) != 10
+            or prediction["Newtonian_prediction"]["G_cav_over_G_star"] != "1"
+            or prediction["PPN_prediction"]["gamma"] != "1"
+            or prediction["PPN_prediction"]["beta"] != "1"
+        ):
+            raise ValueError("G2 candidate Solar record is inconsistent")
+        rows["solar_known_answer"].append(
+            _entry(
+                record["candidate_id"],
+                "generated_candidate",
+                {
+                    "analytic_prediction_status": record[
+                        "candidate_analytic_prediction_status"
+                    ],
+                    "G_cav_over_G_star": "1",
+                    "PPN_gamma": "1",
+                    "PPN_beta": "1",
+                    "conditional_static_source_class_theorem": "pass",
+                    "real_solar_bundle_count": 0,
+                    "missing_registration_field_count": len(
+                        readiness["missing_registration_fields"]
+                    ),
+                    "primary_record_access_count": 0,
+                },
+                "blocked",
+                "sealed_candidate_specific_solar_prediction",
+                "incomplete",
+                record["first_missing_premise"],
+                "g2_solar_readiness",
+                bindings["g2_solar_readiness"],
+                record["provenance"]["binding_sha256"],
+                "Exact GR-like Newtonian, PPN, and Schwarzschild predictions hold on the constant-scalar branch, with a conditional static-source uniqueness theorem. No real-Sun source, action-bound prediction bundle, primary record, or observation authorization is registered.",
+            )
+        )
+
     g4_solar = sources["g4_solar_promotion"]
     if (
         g4_solar["formal_pass_verified"] is not True

@@ -317,7 +317,9 @@ def build_unified_snapshot(
     g2_nonmaximal_followup = sources[
         "grammar_v3_g2_nonmaximal_positive_mass_followup"
     ]
+    g2_solar_readiness = sources["grammar_v3_g2_solar_readiness"]
     scalable_campaign_epoch = sources["scalable_campaign_epoch"]
+    scalable_future_parameter_chunk = sources["scalable_future_parameter_chunk"]
     g3_candidate_formal = sources["grammar_v3_g3_candidate_formal"]
     g4_scalable_formal_followup = sources[
         "grammar_v3_g4_scalable_formal_followup"
@@ -352,6 +354,9 @@ def build_unified_snapshot(
     ]
     g4_galaxy_source_registry_admission = sources[
         "g4_galaxy_source_registry_admission"
+    ]
+    quartic_tc2_quadratic_deltak = sources[
+        "quartic_tc2_quadratic_deltak_extension"
     ]
     if (
         scalable_structural_metrics.get("candidate_count") != 163
@@ -637,6 +642,36 @@ def build_unified_snapshot(
     ):
         raise ValueError("grammar-v3 G2 nonmaximal follow-up is inconsistent")
     if (
+        g2_solar_readiness.get("candidate_count") != 2
+        or g2_solar_readiness.get("decision_counts") != {"blocked": 2}
+        or g2_solar_readiness.get("candidate_analytic_prediction_pass_count") != 2
+        or g2_solar_readiness.get("conditional_static_source_class_pass_count")
+        != 2
+        or g2_solar_readiness.get("real_source_registration_pass_count") != 0
+        or g2_solar_readiness.get("real_solar_bundle_count") != 0
+        or g2_solar_readiness.get("real_solar_bundle_admissible_count") != 0
+        or g2_solar_readiness.get("observational_data_opened") is not False
+        or g2_solar_readiness.get("paid_llm_spend_usd") != 0.0
+        or len(g2_solar_readiness.get("candidate_records", [])) != 2
+        or any(
+            record.get("decision") != "blocked"
+            or record.get("candidate_analytic_prediction_status")
+            != "pass_on_exact_constant_phi_branch"
+            or record.get("real_solar_readiness", {}).get(
+                "observational_inputs_opened_by_this_audit"
+            )
+            is not False
+            or len(
+                record.get("real_solar_readiness", {}).get(
+                    "missing_registration_fields", []
+                )
+            )
+            != 10
+            for record in g2_solar_readiness.get("candidate_records", [])
+        )
+    ):
+        raise ValueError("grammar-v3 G2 Solar readiness is inconsistent")
+    if (
         scalable_campaign_epoch.get("stage_count") != 10
         or scalable_campaign_epoch.get("sealed_epoch_counts")
         != {
@@ -654,6 +689,25 @@ def build_unified_snapshot(
         or scalable_campaign_epoch.get("paid_llm_spend_usd") != 0.0
     ):
         raise ValueError("scalable campaign epoch is inconsistent")
+    if (
+        scalable_future_parameter_chunk.get("input_cell_count") != 32
+        or scalable_future_parameter_chunk.get("disposition_counts")
+        != {
+            "admitted_new_candidate": 19,
+            "deduplicated_existing_candidate": 13,
+        }
+        or scalable_future_parameter_chunk.get("next_blocker")
+        != "reviewed_formal_preflight_not_run_for_new_candidates"
+        or scalable_future_parameter_chunk.get("paid_llm_spend_usd") != 0.0
+        or scalable_future_parameter_chunk.get("data_eligibility")
+        != {
+            "dark_matter_or_halo_inputs": False,
+            "observational_data_opened": False,
+            "paid_llm_calls": False,
+            "redshift_distance_inputs": False,
+        }
+    ):
+        raise ValueError("scalable future parameter chunk is inconsistent")
     if (
         aether_candidate_formal.get("candidate_count") != 128
         or aether_candidate_formal.get("input_preflight_pass_count") != 128
@@ -1213,6 +1267,38 @@ def build_unified_snapshot(
     ):
         raise ValueError("G4 galaxy source-registry admission is not fail-closed")
 
+    quartic_counts = quartic_tc2_quadratic_deltak.get("counts", {})
+    quartic_pairs = quartic_tc2_quadratic_deltak.get("pair_partition", {})
+    quartic_control = quartic_tc2_quadratic_deltak.get(
+        "generic_quadratic_sylvester_jet_control", {}
+    )
+    if (
+        quartic_tc2_quadratic_deltak.get("status")
+        != "pass_all_12_complete_reference_quadratic_deltaK_two_jets_full_identity_fail_closed"
+        or quartic_pairs.get("total_unordered_coordinate_pairs") != 11_781
+        or quartic_pairs.get("canonical_active_exact_pairs") != 861
+        or quartic_pairs.get("excluded_exact_obligations") != 2_675
+        or quartic_pairs.get("entrywise_zero_chain_rule_pairs") != 8_245
+        or quartic_pairs.get("coverage_complete") is not True
+        or quartic_counts.get("selected") != 12
+        or quartic_counts.get("reference_two_jets_closed") != 12
+        or any(
+            quartic_counts.get(key) != 0
+            for key in (
+                "full_tube_Sylvester_identities",
+                "full_variable_CK1_closures",
+                "CK3_closures",
+                "TC2_closures",
+                "B7_closures",
+                "global_H7_closures",
+                "lifespans_proved",
+            )
+        )
+        or quartic_control.get("reference_jet_orders_closed") != [0, 1, 2]
+        or quartic_control.get("full_tube_Sylvester_identity_closed") is not False
+    ):
+        raise ValueError("quartic TC2 quadratic deltaK extension is inconsistent")
+
     blocker_gates: Counter[str] = Counter()
     for row in pareto["pareto_follow_up_queue"]:
         for blocker in row["blocker_taxonomy"]:
@@ -1648,6 +1734,24 @@ def build_unified_snapshot(
                                     ],
                                     "actual_initial_data_set_instantiated": False,
                                     "cell_preservation_or_global_evolution_proved": False,
+                                    "solar_readiness": {
+                                        "analytic_prediction_pass_count": g2_solar_readiness[
+                                            "candidate_analytic_prediction_pass_count"
+                                        ],
+                                        "conditional_static_source_class_pass_count": g2_solar_readiness[
+                                            "conditional_static_source_class_pass_count"
+                                        ],
+                                        "decision_counts": g2_solar_readiness[
+                                            "decision_counts"
+                                        ],
+                                        "real_solar_bundle_count": g2_solar_readiness[
+                                            "real_solar_bundle_count"
+                                        ],
+                                        "observational_data_opened": False,
+                                        "first_missing_premise": g2_solar_readiness[
+                                            "candidate_records"
+                                        ][0]["first_missing_premise"],
+                                    },
                                     "work_state_counts": g2_candidate_formal[
                                         "work_state_counts"
                                     ],
@@ -1735,7 +1839,49 @@ def build_unified_snapshot(
                 "next_epoch_readiness": scalable_campaign_epoch[
                     "next_epoch_readiness"
                 ],
+                "reviewed_future_chunk": {
+                    "input_cell_count": scalable_future_parameter_chunk[
+                        "input_cell_count"
+                    ],
+                    "disposition_counts": scalable_future_parameter_chunk[
+                        "disposition_counts"
+                    ],
+                    "next_blocker": scalable_future_parameter_chunk["next_blocker"],
+                    "expensive_formal_preflight_run": False,
+                },
             },
+        },
+        "quartic_nonlinear_closure": {
+            "candidate_count": quartic_counts["selected"],
+            "coordinate_pair_partition": quartic_pairs,
+            "quadratic_deltaK_two_jet": {
+                "closed_candidate_count": quartic_counts[
+                    "reference_two_jets_closed"
+                ],
+                "closed_derivative_orders": quartic_control[
+                    "reference_jet_orders_closed"
+                ],
+                "D2_coordinate_linf_to_Frobenius_ceiling": quartic_tc2_quadratic_deltak[
+                    "quadratic_D2_envelopes"
+                ][0]["D2_deltaK_coordinate_linf_to_Frobenius_integer_ceiling"],
+                "full_tube_Sylvester_identity_closed": False,
+            },
+            "closure_counts": {
+                key: quartic_counts[key]
+                for key in (
+                    "full_tube_Sylvester_identities",
+                    "full_variable_CK1_closures",
+                    "CK3_closures",
+                    "TC2_closures",
+                    "B7_closures",
+                    "global_H7_closures",
+                    "lifespans_proved",
+                )
+            },
+            "first_missing_premise": (
+                "third_sylvester_jet_equal_eigenspace_compatibility_or_"
+                "nonlinear_range_theorem"
+            ),
         },
         "evidence_pareto": {
             "candidate_decision_counts": pareto["candidate_decision_counts"],

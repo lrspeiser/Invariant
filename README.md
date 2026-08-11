@@ -286,6 +286,14 @@ dominant-energy, ADM-charge, integrability, and scalar-boundary conditions. Both
 pass this formal category. The claim is conditional on initial data satisfying that contract;
 existence, evolution and cell preservation, nonlinear stability, Solar tests, and observations are
 not inferred.
+Both k-essence actions now also have candidate-specific weak-field Solar readiness packets. Exact
+action replay gives a constant-scalar branch with zero scalar current and stress,
+`G_cav/G_star=1`, PPN `gamma=beta=1`, and the standard Schwarzschild perihelion,
+light-deflection, and Shapiro formulas. A conditional static-source uniqueness identity is proved
+on its declared positive-lapse, no-inner-boundary, constant-asymptotic-scalar domain. These are
+analytic branch predictions, not real-Sun evidence: both rows remain unranked because the real
+source/domain, candidate evaluator, held-out split, action-bound prediction bundle, primary roots,
+and observation authorization are not registered.
 The 128-action Aether queue has also completed its exact necessary formal gate. Two actions are
 rejected because `c123=0` gives zero spin-0 speed squared. Of the other 126, 79 have finite negative
 static local twist-density witnesses whose full constraint/boundary-energy embedding is unproved,
@@ -307,6 +315,12 @@ parameter-cell domains are rational subsets of the reviewed `abs(phi)<=1` domain
 non-unitary-gauge formal pass transfers without using the family label as evidence. The scalable
 163-action ledger is therefore three formal passes, two exact Aether rejects, and 158 blocked candidates;
 Solar and observational promotion remain sealed.
+A first reviewed future epoch chunk now extends the generator range from ordinals 256 through 287.
+Its 32 parameter cells compile deterministically to 19 new action-equivalence candidates plus 13
+exact deduplications against the immutable 163-candidate ledger. Atomic publication, leases,
+checkpoint recovery, replay identity, and hard task/wall/disk limits are implemented and checked
+disabled. No expensive formal decision is inferred: all 19 new actions wait at
+`reviewed_formal_preflight_not_run_for_new_candidates` before they may enter any leaderboard.
 An immutable evidence bridge now ingests the six compilation results plus the Aether, `G2`, `G3`,
 and conformal-`G4` prerequisite packets into an isolated knowledge registry. It preserves candidate/action/source
 lineage, separates calibration-only controls, deduplicates replay, refuses the live campaign
@@ -1097,6 +1111,13 @@ TC5 in `H7` needs component `D2F` plus `H7` control of `J(C_Q)`. The next valid 
 extend the identity to the other high atoms, or use an honest derivative-loss theory. An `H8` state
 gives a quantitative conditional `H7` bound, but is not controlled by `H7` data and is not an
 autonomous cure.
+The next bounded surrogate now assembles those 11,781 second-order identities into a complete
+Hermitian quadratic `deltaK` two-jet for every one of the 12 quartic candidates. The Sylvester
+residual and its first two state derivatives vanish exactly; the common coordinate
+`D2 deltaK` ceiling is `16472172`, and an explicit Weyl smallness condition preserves positivity.
+This still is not a full tube solution. The first missing premise is the third Sylvester jet and
+equal-eigenspace compatibility--requiring `D3K55`, `D3P55`, `D3TC2`, and `deltaK_ABC`--or a
+nonlinear range theorem. Full variable CK1/CK3/TC2, B7, global H7, and lifespan remain false.
 
 The tube bounds 153 normalized coordinate atoms: ten metric deviations, 44 first partials,
 and 99 acceleration-free symmetric second partials. The exact orthonormal metric-basis identity

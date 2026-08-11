@@ -28,7 +28,9 @@ SOURCE_PATHS = [
     "runs/engine/grammar-v3-promotion-admission-status.json",
     "runs/engine/grammar-v3-g2-candidate-formal-status.json",
     "runs/engine/g2-scalable-nonmaximal-positive-mass-audit.json",
+    "runs/engine/g2-scalable-solar-prediction-readiness.json",
     "runs/engine/scalable-campaign-staged-epoch-status.json",
+    "runs/engine/scalable-future-parameter-chunk-001-status.json",
     "runs/engine/grammar-v3-g3-candidate-formal-status.json",
     "runs/engine/g4-scalable-action-formal-followup.json",
     "runs/engine/aether-parameter-cell-formal-gate-status.json",
@@ -54,6 +56,8 @@ SOURCE_PATHS = [
     "runs/engine/g4-galaxy-prediction-contract-transform-registration.json",
     "runs/engine/g4-galaxy-manifest-bundle-tooling-readiness.json",
     "runs/engine/g4-galaxy-source-registry-admission-readiness.json",
+    "runs/physics-language/quartic-tc2-ck1-p55-tube-envelope-campaign/campaign.json",
+    "runs/physics-language/quartic-tc2-quadratic-deltak-extension-campaign/campaign.json",
 ]
 LABELS = [
     "billion_streaming",
@@ -67,7 +71,9 @@ LABELS = [
     "grammar_v3_promotion_admission",
     "grammar_v3_g2_candidate_formal",
     "grammar_v3_g2_nonmaximal_positive_mass_followup",
+    "grammar_v3_g2_solar_readiness",
     "scalable_campaign_epoch",
+    "scalable_future_parameter_chunk",
     "grammar_v3_g3_candidate_formal",
     "grammar_v3_g4_scalable_formal_followup",
     "grammar_v3_aether_candidate_formal",
@@ -93,6 +99,8 @@ LABELS = [
     "g4_galaxy_prediction_contract_transform",
     "g4_galaxy_manifest_bundle_tooling",
     "g4_galaxy_source_registry_admission",
+    "quartic_ck1_p55_tube_envelope",
+    "quartic_tc2_quadratic_deltak_extension",
 ]
 
 
@@ -500,6 +508,17 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     }
     assert reviewed_manifest["formal_evaluation_performed"] is False
     assert reviewed_manifest["scientific_decision_counts"] == {}
+    assert core["grammar_parameter_cells"]["staged_epoch"][
+        "reviewed_future_chunk"
+    ] == {
+        "input_cell_count": 32,
+        "disposition_counts": {
+            "admitted_new_candidate": 19,
+            "deduplicated_existing_candidate": 13,
+        },
+        "next_blocker": "reviewed_formal_preflight_not_run_for_new_candidates",
+        "expensive_formal_preflight_run": False,
+    }
     structural = core["grammar_parameter_cells"]["structural_metrics"]
     assert structural["candidate_count"] == 163
     assert structural["alias_count"] == 93
@@ -592,6 +611,17 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                         "general_nonmaximal_positive_mass_pass_count": 2,
                         "actual_initial_data_set_instantiated": False,
                         "cell_preservation_or_global_evolution_proved": False,
+                        "solar_readiness": {
+                            "analytic_prediction_pass_count": 2,
+                            "conditional_static_source_class_pass_count": 2,
+                            "decision_counts": {"blocked": 2},
+                            "real_solar_bundle_count": 0,
+                            "observational_data_opened": False,
+                            "first_missing_premise": (
+                                "registered_candidate_specific_real_source_and_"
+                                "action_bound_Solar_prediction_bundle"
+                            ),
+                        },
                         "work_state_counts": {"succeeded": 2},
                     },
                     "g3": {
@@ -648,6 +678,38 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     assert core["followup_service"]["processed"] == 10
     assert core["followup_service"]["deferred"] == 0
     assert core["followup_service"]["current_missing_evaluator_blockers"] == {}
+    assert core["quartic_nonlinear_closure"] == {
+        "candidate_count": 12,
+        "coordinate_pair_partition": {
+            "canonical_active_exact_pairs": 861,
+            "coverage_complete": True,
+            "entrywise_zero_chain_rule_pairs": 8245,
+            "excluded_exact_obligations": 2675,
+            "global_pair_index_set_sha256": (
+                "d300bb318a6475e88d7dfccd6ef4df9ff991e1e1d8cc535ef555c817723168ef"
+            ),
+            "total_unordered_coordinate_pairs": 11781,
+        },
+        "quadratic_deltaK_two_jet": {
+            "closed_candidate_count": 12,
+            "closed_derivative_orders": [0, 1, 2],
+            "D2_coordinate_linf_to_Frobenius_ceiling": 16472172,
+            "full_tube_Sylvester_identity_closed": False,
+        },
+        "closure_counts": {
+            "full_tube_Sylvester_identities": 0,
+            "full_variable_CK1_closures": 0,
+            "CK3_closures": 0,
+            "TC2_closures": 0,
+            "B7_closures": 0,
+            "global_H7_closures": 0,
+            "lifespans_proved": 0,
+        },
+        "first_missing_premise": (
+            "third_sylvester_jet_equal_eigenspace_compatibility_or_"
+            "nonlinear_range_theorem"
+        ),
+    }
     assert core["cross_pipeline_total"]["status"] == "not_computed"
     assert result["volatile"]["campaign_watchdog_freshness"]["stale"] is True
     assert result["volatile"]["campaign_watchdog_freshness"]["stale_source_reason"]
@@ -711,6 +773,12 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "G3A-e0eff4150989e3522dc6ba03" in dashboard
     assert "current exact formal tally is 3 pass, 2 reject, and 158 blocked" in dashboard
     assert "G2 formal passes" in dashboard
+    assert "G2 Solar analytic branches" in dashboard
+    assert "Future reviewed cells" in dashboard
+    assert "Future new candidates" in dashboard
+    assert "19 new action classes and 13 exact deduplications" in dashboard
+    assert "Quartic nonlinear closure" in dashboard
+    assert "CK1, CK3, TC2, B7, global H7, and lifespan remain fail-closed" in dashboard
     assert "No full formal pass is inferred" not in dashboard
     assert "class #1" in dashboard
     assert "g4_global_positive_energy: 1" not in dashboard

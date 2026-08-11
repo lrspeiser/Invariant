@@ -95,6 +95,25 @@ def test_category_local_rankings_keep_missing_evidence_unranked() -> None:
     assert g4_solar["blocker"] == (
         "registered_trace_tail_amplitude_decay_and_outer_transition"
     )
+    g2_solar = [
+        row
+        for row in solar["unranked_blocked_or_untested"]
+        if row["lineage"]["source_label"] == "g2_solar_readiness"
+    ]
+    assert [row["candidate_id"] for row in g2_solar] == [
+        "G3A-2f8983c88f504150381064f2",
+        "G3A-58e59412e5fe77cd54caf863",
+    ]
+    assert all(
+        row["rank"] is None
+        and row["evidence_status"] == "blocked"
+        and row["metrics"]["PPN_gamma"] == "1"
+        and row["metrics"]["PPN_beta"] == "1"
+        and row["metrics"]["real_solar_bundle_count"] == 0
+        and row["metrics"]["missing_registration_field_count"] == 10
+        and row["metrics"]["primary_record_access_count"] == 0
+        for row in g2_solar
+    )
 
     assert board["categories"]["lensing_cluster"]["ranked_count"] == 0
     assert board["categories"]["galaxy_direct_observable"]["ranked_count"] == 0
