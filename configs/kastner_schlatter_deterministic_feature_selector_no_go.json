@@ -1,0 +1,71 @@
+{
+  "schema_version": "sigma-kastner-schlatter-deterministic-feature-selector-no-go-config-1.0",
+  "campaign_id": "kastner-schlatter-deterministic-feature-selector-no-go-001",
+  "output_path": "runs/engine/kastner-schlatter-deterministic-feature-selector-no-go.json",
+  "predecessors": {
+    "canonical_probability_space": {
+      "path": "runs/engine/kastner-schlatter-canonical-probability-space-gate.json",
+      "file_sha256": "4fe00f9bb9bb2155631c1e73c60fb713b9353ce53ac3501480bd79efb2df47db",
+      "content_sha256": "3e25957c809756a2c5badff02cf0f84ec246e2083e997d9bebc3e30a78360e78"
+    },
+    "deterministic_compensator": {
+      "path": "runs/engine/kastner-schlatter-deterministic-compensator-admission-gate.json",
+      "file_sha256": "be4de100f32485693df42c26fb95798b6519c6545c2b5672b81833f3a0bfd26f",
+      "content_sha256": "40ee8fc7d6c1f2492edc19edaa7c9dd794b62d37464b26f0d72058ff4eecdaba"
+    },
+    "candidate_action_completion": {
+      "path": "runs/engine/kastner-schlatter-candidate-action-completion.json",
+      "file_sha256": "95e5e36c5bf96afe9e453a290728721c7d7f06dac4596df1ff0f134b6c83607e",
+      "content_sha256": "a83e15679bd11b5c7bb85b2e207e54f82d302f97f0ce6f08f99cd225de739a4c"
+    },
+    "equation_graph": {
+      "path": "runs/engine/kastner-schlatter-equation-graph-admission.json",
+      "file_sha256": "37b62205bcbcb95a35dcb2398ad512974a7abefd2164bb31b67eec83df4f5079",
+      "content_sha256": "c6d16e235b25632488ded7fe49eac227505914842b0d4d937cee40ef75754e74"
+    },
+    "qed_actualization_audit": {
+      "path": "runs/engine/kastner-schlatter-qed-actualization-poisson-derivation-audit.json",
+      "file_sha256": "b7891a450b43abc913c1d360c5f38edb117925a39939c629578c358f5931b92b",
+      "content_sha256": "cec941a0455608f437c2fb8a79fee42dec6d614b9a8f23ef327300ea4d72e024"
+    },
+    "actualization_history_map": {
+      "path": "runs/engine/kastner-schlatter-actualization-history-map-audit.json",
+      "file_sha256": "6347b4d9da5cebcbe09579ab15ffa66b6232de8f85691412d9828e8be0402a34",
+      "content_sha256": "630c184372529bf1e24a7b2404a142096972bdd88e040ded00faee36a228dcd9"
+    }
+  },
+  "deterministic_feature_domain": {
+    "candidate_variables": ["g_mn", "phi"],
+    "candidate_intensity": "mu_g_phi(dx)=q0*exp(phi(x))*dVol_g(x)",
+    "registered_features": [
+      "compiler_action_and_branch_normalization",
+      "metric_and_scalar_Euler_Lagrange_equations",
+      "positive_intensity_measure_mu_g_phi",
+      "conditional_mean_measure_E_N_equals_mu_g_phi"
+    ],
+    "excluded_stochastic_features": [
+      "probability_law_on_counting_measures",
+      "second_and_higher_factorial_cumulants",
+      "Mecke_or_Papangelou_kernel",
+      "independent_increment_or_compensator_identity"
+    ]
+  },
+  "admission_policy": {
+    "deterministic_feature_factorization_is_a_valid_no_go_scope": true,
+    "single_cell_second_factorial_witness_characterizes_all_Poisson_laws": false,
+    "compiler_probability_space_counts_as_physical_selection": false,
+    "candidate_action_rejection_allowed": false
+  },
+  "seals": {
+    "observations_opened": false,
+    "transaction_event_observations_opened": false,
+    "dark_matter_or_halo_inputs": false,
+    "redshift_or_cosmology_inputs": false,
+    "solar_system_inputs": false,
+    "QED_actualization_derivation_opened": false,
+    "transaction_ontology_validated": false,
+    "paper_action_attribution_allowed": false,
+    "scientific_test_pass_allowed": false,
+    "paid_llm_calls": false
+  }
+}

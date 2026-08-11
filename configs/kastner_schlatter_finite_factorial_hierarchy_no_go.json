@@ -1,0 +1,59 @@
+{
+  "schema_version": "sigma-kastner-schlatter-finite-factorial-hierarchy-no-go-config-1.0",
+  "campaign_id": "kastner-schlatter-finite-factorial-hierarchy-no-go-001",
+  "output_path": "runs/engine/kastner-schlatter-finite-factorial-hierarchy-no-go.json",
+  "predecessors": {
+    "second_order_selector_no_go": {
+      "path": "runs/engine/kastner-schlatter-second-order-selector-no-go.json",
+      "file_sha256": "512c7fbceaef30f8f5784e627948a3ff4de85321f52a10e5c2714735660b7e29",
+      "content_sha256": "ab2598a59d3f24fb12d20a85737b8ac28e62bd8c9e54992e533732ccbd7d04ac"
+    },
+    "canonical_probability_space": {
+      "path": "runs/engine/kastner-schlatter-canonical-probability-space-gate.json",
+      "file_sha256": "4fe00f9bb9bb2155631c1e73c60fb713b9353ce53ac3501480bd79efb2df47db",
+      "content_sha256": "3e25957c809756a2c5badff02cf0f84ec246e2083e997d9bebc3e30a78360e78"
+    },
+    "candidate_action_completion": {
+      "path": "runs/engine/kastner-schlatter-candidate-action-completion.json",
+      "file_sha256": "95e5e36c5bf96afe9e453a290728721c7d7f06dac4596df1ff0f134b6c83607e",
+      "content_sha256": "a83e15679bd11b5c7bb85b2e207e54f82d302f97f0ce6f08f99cd225de739a4c"
+    },
+    "positive_reparameterization": {
+      "path": "runs/engine/kastner-schlatter-positive-reparameterization-gate.json",
+      "file_sha256": "19e4c6d83772a0be18a7711dcc8592b258a5b6b309a91ccb70ba054bf41c11f2",
+      "content_sha256": "2bcd7428b1c84df614ade4011a417da5237ddeffb461c52138d980227c97bd2c"
+    },
+    "qed_actualization_audit": {
+      "path": "runs/engine/kastner-schlatter-qed-actualization-poisson-derivation-audit.json",
+      "file_sha256": "b7891a450b43abc913c1d360c5f38edb117925a39939c629578c358f5931b92b",
+      "content_sha256": "cec941a0455608f437c2fb8a79fee42dec6d614b9a8f23ef327300ea4d72e024"
+    }
+  },
+  "theorem_domain": {
+    "finite_order": "arbitrary integer k>=1",
+    "intensity": "mu_g_phi(dx)=q0*exp(phi(x))*dVol_g(x)",
+    "measure_class": "diffuse finite intensity measure on a regular patch",
+    "witness_cell": "relatively compact B with mu_g_phi(B)=1",
+    "inside_locations": "conditional on N_B=n, n iid points with law mu_g_phi(. intersect B)",
+    "outside_completion": "independent PRM(mu_g_phi restricted to W\\B)"
+  },
+  "admission_policy": {
+    "any_fixed_finite_factorial_hierarchy_selects_Poisson": false,
+    "full_Laplace_Mecke_or_joint_family_is_still_sufficient": true,
+    "compiler_theorem_counts_as_paper_or_QED_derivation": false,
+    "candidate_action_rejection_allowed": false
+  },
+  "exact_control_orders": [1, 2, 3, 4, 5, 6],
+  "seals": {
+    "observations_opened": false,
+    "transaction_event_observations_opened": false,
+    "dark_matter_or_halo_inputs": false,
+    "redshift_or_cosmology_inputs": false,
+    "solar_system_inputs": false,
+    "QED_actualization_derivation_opened": false,
+    "transaction_ontology_validated": false,
+    "paper_action_attribution_allowed": false,
+    "scientific_test_pass_allowed": false,
+    "paid_llm_calls": false
+  }
+}

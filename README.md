@@ -688,6 +688,61 @@ neither this Poisson space nor exclude the exact same-action Cox completion, who
 two is three instead of two. Both candidates remain blocked; no action rejection, ontology claim,
 observation, or dark-sector conclusion is inferred.
 
+This selection gap is now an exact deterministic-feature no-go. The Poisson and Cox completions
+share the candidate action, Euler-Lagrange equations, positive intensity, and conditional mean, yet
+at `mu(B)=2` their variances are two and three, their second factorial moments are four and five,
+and their void probabilities are `exp(-2)` and `exp(-2) cosh(1)`. Consequently, no selector that
+factors only through those registered deterministic features can select Poisson. The theorem does
+not rule out a new QED stochastic kernel and does not treat one cell as a universal characterization.
+
+Even the complete first and second factorial measures are insufficient. On any admissible diffuse
+cell of intensity two, the exact count law `P(N_B=0)=1/3`, `P(N_B=3)=2/3`, with iid locations inside
+and an independent Poisson process outside, has `alpha_1=mu`, `alpha_2=mu tensor mu`, and
+`kappa_2=0`, exactly like Poisson. Its third factorial moment on that cell is four rather than eight,
+and its void probability is `1/3` rather than `exp(-2)`. This separates the registered pair without
+claiming that a finite third-order check characterizes all point-process laws or that the constructed
+non-Poisson law is physical. Both action branches remain blocked, not rejected.
+
+The same obstruction holds at every preassigned finite order. For arbitrary `k>=1`, an exact
+finite-difference perturbation of Poisson(1) stays positive and normalized, matches every factorial
+moment through order `k`, and changes order `k+1` by
+`(-1)^(k+1)*exp(-1)/2`. IID placement on a diffuse unit-intensity cell plus an independent Poisson
+outside process lifts this to full factorial measures `alpha_j=mu^tensor_j` for all `j<=k`.
+Six exact controls check 27 moment identities. The counterexample depends on `k`, so this does not
+claim one law matches every order or that an infinite hierarchy is determinate without additional
+analytic assumptions. The missing source-bound object is now sharply nonfinite: a full Laplace or
+Mecke functional, all independent Poisson partition laws, or an equivalent physical selector.
+
+The compiler now closes the mathematical admission interface for that nonfinite boundary using two
+countable, hashable cores. A Laplace identity on rational simple functions over a countable ring of
+continuity sets extends to the full nonnegative measurable class; independently, a Mecke identity on
+rational cylinder functions extends by a monotone class and yields the Poisson Laplace functional
+through an exact ODE. Either route is sufficient to determine `PRM(mu)` on the declared locally
+finite configuration space. The closed-world source audit finds one scalar PMF node but zero
+Laplace-core or Mecke-core certificates, typed paper history maps, QED kernels, selector nodes, or
+action-to-law derivation edges. Thus the compiler contract is complete while the physical/source
+certificate remains absent; both candidates stay blocked and unrejected.
+
+A source-domain type audit confirms that absence slot by slot. The Laplace route has ten required
+typed slots (`0 complete / 3 partial / 7 absent`); the Mecke route has ten (`0 / 2 / 8`). The paper's
+shrinking-region count, localized absorption semantics, and average four-volume rate are useful
+fragments but do not supply a probability measure, expectation operator, set-indexed consistency,
+test-function core, add-one-event operator, or selector identity. The compiler can algebraically
+replay a scalar transform from its standard Poisson PMF, but that PMF is implementation-only and has
+no paper-bound region, random-measure law, core quantifier, or consistency proof. It therefore does
+not inhabit either source-bound certificate, and no claim is made about what a future QED kernel
+could supply.
+
+The minimal history-to-probability bridge is now typed as three primitive registrations: a
+candidate-conditioned QED history kernel `Q:(g,phi)->Prob(H,Sigma_H)`, a measurable locally finite
+count map `C:H->N_lf(W)`, and a source-bound countable Laplace or Mecke identity. Given those
+primitives, the compiler derives `P=C_*Q` and pulls counting-measure expectations back to history
+expectations; the countable selector theorem then fixes `PRM(mu)`. The registered source closes none
+of the three primitives completely (`0 complete / 1 partial / 2 absent`). The identity-map fixture
+`H=N_lf(W), Q=PRM(mu), C=id` proves only that the schema is mathematically satisfiable—it is
+compiler-only and has no paper or QED attribution. Both action branches remain blocked and
+unrejected, with zero physical bridges, observations, ontology passes, or dark-sector conclusions.
+
 The next compiler boundary makes the observational bridge explicit. A latent event process is
 independently thinned by a calibrated acceptance, marked through a response kernel, and superposed
 with background. Four exact witnesses show that the observed mean cannot identify the latent rate
@@ -710,12 +765,15 @@ not started. The gate created no CUDA context, process signal, subprocess, SQLit
 lease, checkpoint, scheduler handoff, readiness advance, or scientific result.
 
 A bounded foreground handoff service now connects that safe-wait contract to the existing allowlisted
-scheduler without being started during readiness. It holds an exact PID/argv service lease, waits via
+scheduler without being started during its construction/readiness run. It holds an exact PID/argv service lease, waits via
 NVML only, acquires the shared GPU-owner lease after three safe samples, repeats the NVML check after
 reservation, and then admits only the fixed one-GPU/zero-CPU set-indexed evaluator. Atomic checkpoint
 and resume, idempotent completed results, an external stop request, exact stale-owner recovery, 24
-cycles over at most 24 hours, and 120-second scheduler slices are registered. The current sample was
-still 99% utilized with 8088 MiB free, so no runtime or lease was created. The handoff layer has no
+cycles over at most 24 hours, and 120-second scheduler slices are registered. After that readiness
+artifact was sealed, the reviewed service was activated exactly once under its PID/argv lease. Its
+mutable checkpoint is projected only in the dashboard's volatile panel, not into the deterministic
+scientific core. At the activation audit it remained waiting because free device memory was below
+8192 MiB; no GPU-owner lease or scheduler cycle had been entered. The handoff layer has no
 direct SQLite or signal surface; the reviewed scheduler retains its isolated durable queue SQLite and
 fixed child worker, an in-flight slice is not preemptible, and unrelated GPU work can race after the
 last NVML sample.
@@ -1514,8 +1572,18 @@ antipodally odd, annihilates the gradient lift, and preserves all 12 certificate
 and `(3/5,4/5,0)`. At the next frame `(3/5,0,4/5)`, its envelope vanishes and all 12 candidates
 retain rank-two zero-speed obstructions. This rejects that canonical degree-three extension as an
 all-direction completion, not broader channel/envelope classes. A correction nonvanishing on the
-`n2=0` great circle remains the next exact gate. This is not an inferred pass
-for the unevaluated tail; full fourth-order range closure, full-tube,
+`n2=0` great circle is now constructed exactly:
+`DeltaB23(n)=(25/16)n3^2*w23*(n3 e21-n2 e32)^T`. It is also minimal degree three in its
+fixed-output, single-`C23`-curl, even-envelope class, preserves the full `n3=0` certificate plane,
+and annihilates the gradient lift. At `(3/5,0,4/5)` its envelope equals one; the rank-one block
+cancels the normalized rank-two target and closes all 12 exact D4 systems. Four declared directions
+are therefore certified. The final `xyz_1_2_2` recurrence is now also exact: the prior combined
+symbol has a rank-four obstruction for all 12 candidates, the target lies in the rank-22 transverse
+curl range, and rank one is impossible. A sharp two-wedge rank-two degree-three extension closes
+all 12 XYZ systems while preserving the four earlier certificates, so all five declared directions
+are certified. This finite selector is not a determining theorem for the full sphere. A larger exact
+sphere audit plus pseudodifferential constraint, commutator, boundary-energy, local/covariant and
+PDE admission remain open. This is not an inferred pass for the unevaluated tail; full fourth-order range closure, full-tube,
 CK1, CK3, TC2, B7, global-H7, and lifespan remain false.
 
 The tube bounds 153 normalized coordinate atoms: ten metric deviations, 44 first partials,

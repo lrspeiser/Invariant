@@ -11,6 +11,7 @@ import pytest
 
 from sigma_theory_compiler.unified_engine_status import (
     DEFAULT_MAXIMUM_OUTPUT_BYTES,
+    _read_deferred_gpu_handoff_status,
     _read_unified_live_service_status,
     build_unified_snapshot,
     load_config,
@@ -51,6 +52,12 @@ SOURCE_PATHS = [
     "runs/engine/kastner-schlatter-qed-actualization-poisson-derivation-audit.json",
     "runs/engine/kastner-schlatter-deterministic-compensator-admission-gate.json",
     "runs/engine/kastner-schlatter-canonical-probability-space-gate.json",
+    "runs/engine/kastner-schlatter-deterministic-feature-selector-no-go.json",
+    "runs/engine/kastner-schlatter-second-order-selector-no-go.json",
+    "runs/engine/kastner-schlatter-finite-factorial-hierarchy-no-go.json",
+    "runs/engine/kastner-schlatter-countable-full-law-selector-admission.json",
+    "runs/engine/kastner-schlatter-source-selector-type-inhabitation-audit.json",
+    "runs/engine/kastner-schlatter-actualization-probability-bridge-contract.json",
     "runs/engine/kastner-schlatter-transaction-event-observable-exposure-gate.json",
     "runs/engine/kastner-schlatter-poisson-cox-cuda-power-campaign.json",
     "runs/engine/kastner-schlatter-set-indexed-cuda-falsification-campaign.json",
@@ -152,6 +159,8 @@ SOURCE_PATHS = [
     "runs/physics-language/quartic-tc2-d4-parity-cubic-generic-direction-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-d4-matrix-curl-rank-one-completion-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-d4-degree-three-matrix-curl-sphere-extension-campaign/campaign.json",
+    "runs/physics-language/quartic-tc2-d4-degree-three-c23-great-circle-escape-campaign/campaign.json",
+    "runs/physics-language/quartic-tc2-d4-degree-three-rank-two-xyz-completion-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000000.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000064.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000128.json",
@@ -227,6 +236,12 @@ LABELS = [
     "kastner_schlatter_qed_actualization_poisson_derivation",
     "kastner_schlatter_deterministic_compensator_admission",
     "kastner_schlatter_canonical_probability_space",
+    "kastner_schlatter_deterministic_feature_selector_no_go",
+    "kastner_schlatter_second_order_selector_no_go",
+    "kastner_schlatter_finite_factorial_hierarchy_no_go",
+    "kastner_schlatter_countable_full_law_selector_admission",
+    "kastner_schlatter_source_selector_type_inhabitation_audit",
+    "kastner_schlatter_actualization_probability_bridge_contract",
     "kastner_schlatter_transaction_event_observable_exposure",
     "kastner_schlatter_poisson_cox_cuda_power",
     "kastner_schlatter_set_indexed_cuda_falsification",
@@ -328,6 +343,8 @@ LABELS = [
     "quartic_tc2_d4_parity_cubic_generic_direction",
     "quartic_tc2_d4_matrix_curl_rank_one_completion",
     "quartic_tc2_d4_degree_three_matrix_curl_sphere_extension",
+    "quartic_tc2_d4_degree_three_c23_great_circle_escape",
+    "quartic_tc2_d4_degree_three_rank_two_xyz_completion",
     "quartic_tc2_reranked_obligation_chunk_0",
     "quartic_tc2_reranked_obligation_chunk_64",
     "quartic_tc2_reranked_obligation_chunk_128",
@@ -482,6 +499,66 @@ def test_hardened_live_service_checkpoint_is_hash_and_route_bound(tmp_path: Path
     checkpoint_path.write_text(json.dumps(checkpoint), encoding="utf-8")
     with pytest.raises(ValueError, match="hardened unified live-service checkpoint"):
         _read_unified_live_service_status(tmp_path, config)
+
+
+def test_deferred_gpu_handoff_checkpoint_is_hash_and_seal_bound(tmp_path: Path) -> None:
+    service_config = {
+        "service_id": "deferred-test",
+        "service_epoch": "epoch-test",
+        "runtime_directory": "runs/engine/deferred-test-runtime",
+        "service_lease_name": "service.lease.json",
+        "maximum_state_bytes": 131072,
+        "maximum_service_cycles": 24,
+        "maximum_wait_polls_per_cycle": 721,
+        "required_consecutive_safe_samples": 3,
+        "maximum_gpu_utilization_percent": 20,
+        "minimum_free_gpu_memory_mib": 8192,
+    }
+    service_config_path = tmp_path / "configs/deferred.json"
+    service_config_path.parent.mkdir(parents=True)
+    service_config_path.write_text(json.dumps(service_config), encoding="utf-8")
+    body = {
+        "schema_version": "sigma-kastner-schlatter-deferred-gpu-handoff-checkpoint-1.0",
+        "service_id": "deferred-test",
+        "service_epoch": "epoch-test",
+        "config_file_sha256": hashlib.sha256(service_config_path.read_bytes()).hexdigest(),
+        "state": "stopped",
+        "pid": None,
+        "process_argv_sha256": None,
+        "attempted_cycles": 0,
+        "executed_cycles": 0,
+        "polls_in_cycle": 0,
+        "consecutive_safe_samples": 0,
+        "last_nvml_sample": None,
+        "last_scheduler_receipt": None,
+        "error": None,
+        "waiting_cuda_context_created": False,
+        "handoff_service_direct_sqlite_accessed": False,
+        "live_campaign_sqlite_accessed": False,
+        "existing_process_signaled": False,
+    }
+    checkpoint = {**body, "content_sha256": hashlib.sha256(_canonical(body)).hexdigest()}
+    checkpoint_path = tmp_path / "runs/engine/deferred-test-runtime/checkpoint.json"
+    checkpoint_path.parent.mkdir(parents=True)
+    checkpoint_path.write_text(json.dumps(checkpoint), encoding="utf-8")
+    config = {
+        "deferred_gpu_handoff_checkpoint": checkpoint_path.relative_to(tmp_path).as_posix(),
+        "deferred_gpu_handoff_config": service_config_path.relative_to(tmp_path).as_posix(),
+    }
+
+    status = _read_deferred_gpu_handoff_status(tmp_path, config)
+    assert status["availability"] == "available"
+    assert status["state"] == "stopped"
+    assert status["alive"] is False
+    assert status["safe_now"] is False
+
+    checkpoint["live_campaign_sqlite_accessed"] = True
+    tampered = dict(checkpoint)
+    tampered.pop("content_sha256")
+    checkpoint["content_sha256"] = hashlib.sha256(_canonical(tampered)).hexdigest()
+    checkpoint_path.write_text(json.dumps(checkpoint), encoding="utf-8")
+    with pytest.raises(ValueError, match="deferred GPU handoff checkpoint"):
+        _read_deferred_gpu_handoff_status(tmp_path, config)
 
 
 def test_read_only_snapshot_is_deterministic_and_does_not_mutate_database(tmp_path: Path) -> None:
@@ -830,8 +907,9 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     assert cpu_overlap["contract"]["worker_stages"] == [15, 16]
     assert cpu_overlap["contract"]["gpu_workers"] == 0
     assert cpu_overlap["cross_stage_replay_equal"] is True
-    assert cpu_overlap["stages"][0]["partition_independent_status_root_sha256"] == (
-        cpu_overlap["stages"][1]["partition_independent_status_root_sha256"]
+    assert (
+        cpu_overlap["stages"][0]["partition_independent_status_root_sha256"]
+        == (cpu_overlap["stages"][1]["partition_independent_status_root_sha256"])
     )
     assert cpu_overlap["stages"][0]["cpu_percent_median"] == 74.3
     assert cpu_overlap["stages"][1]["cpu_percent_median"] == 89.4
@@ -1045,9 +1123,9 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     assert qed_poisson["independent_rare_channel_Poisson_limit"]["limit_joint_PGF"] == (
         "exp(sum_i mu_i*(z_i-1))"
     )
-    assert qed_poisson["exact_controls"]["paired_cluster_same_rate_no_go"][
-        "limit_variance"
-    ] == "2*mu"
+    assert (
+        qed_poisson["exact_controls"]["paired_cluster_same_rate_no_go"]["limit_variance"] == "2*mu"
+    )
     assert qed_poisson["first_blocker"] == (
         "no_registered_QED_actualization_channel_probability_array_or_predictable_hazard_kernel"
     )
@@ -1061,12 +1139,18 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     assert compensator["gate_counts"]["registered_causal_filtrations"] == 0
     assert compensator["gate_counts"]["action_or_QED_compensator_identities"] == 0
     assert compensator["gate_counts"]["exact_same_action_alternative_law_witnesses"] == 2
-    assert compensator["deterministic_compensator_Poisson_characterization"][
-        "candidate_action_or_paper_supplies_compensator_identity"
-    ] is False
-    assert compensator["exact_controls"]["same_action_Poisson_Cox_nonidentifiability"][
-        "Cox_variance_on_B"
-    ] == "mu_B+mu_B^2/4"
+    assert (
+        compensator["deterministic_compensator_Poisson_characterization"][
+            "candidate_action_or_paper_supplies_compensator_identity"
+        ]
+        is False
+    )
+    assert (
+        compensator["exact_controls"]["same_action_Poisson_Cox_nonidentifiability"][
+            "Cox_variance_on_B"
+        ]
+        == "mu_B+mu_B^2/4"
+    )
     assert compensator["first_blocker"] == (
         "no_registered_QED_probability_space_causal_filtration_or_deterministic_"
         "compensator_martingale_identity"
@@ -1080,16 +1164,122 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     assert probability_space["gate_counts"]["compiler_completed_causal_filtrations"] == 2
     assert probability_space["gate_counts"]["compiler_compensator_martingale_identities"] == 2
     assert probability_space["gate_counts"]["action_or_QED_stochastic_selection_rules"] == 0
-    assert probability_space["canonical_conditional_construction"]["probability_space"][
-        "sample_space"
-    ] == "Omega=N_lf(W)"
-    assert probability_space["exact_controls"]["same_action_Cox_nonidentifiability"][
-        "Cox_variance_at_mu_2"
-    ] == "3"
+    assert (
+        probability_space["canonical_conditional_construction"]["probability_space"]["sample_space"]
+        == "Omega=N_lf(W)"
+    )
+    assert (
+        probability_space["exact_controls"]["same_action_Cox_nonidentifiability"][
+            "Cox_variance_at_mu_2"
+        ]
+        == "3"
+    )
     assert probability_space["first_blocker"] == (
         "no_registered_paper_QED_or_candidate_action_selection_rule_for_the_compiler_authored_"
         "Poisson_probability_space_over_same_mean_Cox_completion"
     )
+    deterministic_feature = transactional["deterministic_feature_selector_no_go"]
+    assert deterministic_feature["decision_counts"] == {"blocked": 2, "pass": 0, "reject": 0}
+    assert deterministic_feature["gate_counts"]["deterministic_feature_fibers"] == 2
+    assert deterministic_feature["gate_counts"]["same_feature_Poisson_Cox_pairs"] == 2
+    assert deterministic_feature["gate_counts"]["deterministic_factor_selector_no_go_theorems"] == 2
+    assert deterministic_feature["gate_counts"]["registered_stochastic_features_outside_fiber"] == 0
+    assert (
+        "only selectors factoring through D"
+        in deterministic_feature["factorization_no_go"]["scope_limit"]
+    )
+    assert (
+        deterministic_feature["exact_controls"]["same_feature_distinct_law_witness"][
+            "law_separation"
+        ]["Cox_variance"]
+        == "3"
+    )
+    second_order = transactional["second_order_selector_no_go"]
+    assert second_order["decision_counts"] == {"blocked": 2, "pass": 0, "reject": 0}
+    assert second_order["gate_counts"]["exact_second_order_counterexamples"] == 2
+    assert second_order["gate_counts"]["first_factorial_measure_matches"] == 2
+    assert second_order["gate_counts"]["second_factorial_measure_matches"] == 2
+    assert second_order["gate_counts"]["third_factorial_separations"] == 2
+    assert second_order["second_order_no_go"]["global_pair_cumulant_measure"] == (
+        "kappa_2=0, exactly as for PRM(mu)"
+    )
+    assert second_order["exact_controls"]["inside_count_moments"]["third_factorial_moment"] == "4"
+    finite_hierarchy = transactional["finite_factorial_hierarchy_no_go"]
+    assert finite_hierarchy["decision_counts"] == {"blocked": 2, "pass": 0, "reject": 0}
+    assert finite_hierarchy["gate_counts"]["arbitrary_finite_order_no_go_theorems"] == 1
+    assert finite_hierarchy["gate_counts"]["candidate_bound_hierarchy_counterexamples"] == 2
+    assert finite_hierarchy["gate_counts"]["exact_control_orders_checked"] == 6
+    assert finite_hierarchy["gate_counts"]["exact_control_moment_identities_checked"] == 27
+    assert finite_hierarchy["gate_counts"]["registered_nonfinite_stochastic_selectors"] == 0
+    assert finite_hierarchy["finite_hierarchy_no_go"]["theorem_name"] == (
+        "arbitrary_finite_factorial_hierarchy_nonidentifiability"
+    )
+    assert len(finite_hierarchy["exact_controls"]["orders_1_through_6"]) == 6
+    countable_selector = transactional["countable_full_law_selector_admission"]
+    assert countable_selector["decision_counts"] == {"blocked": 2, "pass": 0, "reject": 0}
+    assert countable_selector["gate_counts"]["mathematically_sufficient_countable_routes"] == 2
+    assert countable_selector["gate_counts"]["compiler_route_replays"] == 4
+    assert countable_selector["gate_counts"]["typed_obligations"] == 12
+    assert countable_selector["gate_counts"]["closed_by_compiler_mathematics"] == 6
+    assert countable_selector["gate_counts"]["absent_from_source_QED_or_action"] == 6
+    assert countable_selector["gate_counts"]["source_or_QED_route_certificates"] == 0
+    assert (
+        countable_selector["countable_selector_admission_theorem"]["laplace_core_route"][
+            "mathematically_sufficient"
+        ]
+        is True
+    )
+    assert (
+        countable_selector["countable_selector_admission_theorem"]["mecke_core_route"][
+            "mathematically_sufficient"
+        ]
+        is True
+    )
+    source_type_audit = transactional["source_selector_type_inhabitation_audit"]
+    assert source_type_audit["decision_counts"] == {"blocked": 2, "pass": 0, "reject": 0}
+    assert source_type_audit["gate_counts"]["Laplace_source_complete_slots"] == 0
+    assert source_type_audit["gate_counts"]["Laplace_source_partial_slots"] == 3
+    assert source_type_audit["gate_counts"]["Laplace_source_absent_slots"] == 7
+    assert source_type_audit["gate_counts"]["Mecke_source_complete_slots"] == 0
+    assert source_type_audit["gate_counts"]["Mecke_source_partial_slots"] == 2
+    assert source_type_audit["gate_counts"]["Mecke_source_absent_slots"] == 8
+    assert source_type_audit["gate_counts"]["source_bound_countable_certificates"] == 0
+    assert (
+        source_type_audit["exact_controls"]["compiler_scalar_transform_partial_replay"][
+            "qualifies_as_source_bound_core_certificate"
+        ]
+        is False
+    )
+    bridge = transactional["actualization_probability_bridge_contract"]
+    assert bridge["decision_counts"] == {"blocked": 2, "pass": 0, "reject": 0}
+    assert bridge["gate_counts"]["primitive_source_registrations"] == 3
+    assert bridge["gate_counts"]["source_complete_primitives"] == 0
+    assert bridge["gate_counts"]["source_partial_primitives"] == 1
+    assert bridge["gate_counts"]["source_absent_primitives"] == 2
+    assert bridge["gate_counts"]["compiler_derived_bridge_objects"] == 2
+    assert bridge["gate_counts"]["complete_paper_or_QED_bridges"] == 0
+    assert [row["source_status"] for row in bridge["primitive_interface"]] == [
+        "absent",
+        "partial_semantics_only",
+        "absent",
+    ]
+    assert bridge["compiler_derived_objects"][0]["formula"] == "P_g_phi=C_*Q_g_phi on N_lf(W)"
+    assert bridge["composition_theorem"]["minimality"]["without_core_identity"] == (
+        "the law is defined but Poisson versus Cox remains unresolved"
+    )
+    assert (
+        bridge["exact_controls"]["compiler_identity_fixture_positive_control"][
+            "source_or_QED_attribution"
+        ]
+        is False
+    )
+    assert [record["branch_id"] for record in bridge["candidate_records"]] == [
+        "eq35_middle_h",
+        "eq35_printed_planck",
+    ]
+    assert all(record["candidate_decision"] == "blocked" for record in bridge["candidate_records"])
+    assert not any(bridge["claim_seals"].values())
+    assert not any(bridge["data_seals"].values())
     observable = transactional["transaction_event_observable_exposure"]
     assert observable["decision_counts"] == {"blocked": 2, "pass": 0, "reject": 0}
     assert observable["gate_counts"]["compiler_observation_operator_contracts"] == 1
@@ -1921,12 +2111,11 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     assert parity_cubic["counts"]["new_axis2_D4_obstructions"] == 0
     assert parity_cubic["counts"]["generic_direction_D4_compatibilities_proved"] == 0
     assert parity_cubic["minimality"]["canonical_multiplier"] == "a(n)=n1^2"
-    assert parity_cubic["exact_symbol"]["definition"] == (
-        "B_cubic(n)=n1^2*(n1*V+n2*C_companion)"
+    assert parity_cubic["exact_symbol"]["definition"] == ("B_cubic(n)=n1^2*(n1*V+n2*C_companion)")
+    assert (
+        parity_cubic["pseudodifferential_constraint_admission"]["M1_fourier_symbol"]
+        == "xi1^2/|xi|^2=n1^2"
     )
-    assert parity_cubic["pseudodifferential_constraint_admission"][
-        "M1_fourier_symbol"
-    ] == "xi1^2/|xi|^2=n1^2"
     assert parity_cubic["claims"]["all_12_axis2_D4_compatibilities_proved_for_cubic_symbol"] is True
     assert parity_cubic["claims"]["generic_direction_D4_compatibility_proved"] is False
     generic_direction = core["quartic_nonlinear_closure"]["fourth_jet_range_obligations"][
@@ -1938,9 +2127,7 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     assert generic_direction["counts"]["directional_recurrence_evaluations"] == 15
     assert generic_direction["counts"]["candidate_direction_compatibilities"] == 0
     assert generic_direction["counts"]["candidate_direction_obstructions"] == 12
-    direction_record = generic_direction["exact_generic_direction_audit"][
-        "direction_records"
-    ][0]
+    direction_record = generic_direction["exact_generic_direction_audit"]["direction_records"][0]
     assert direction_record["direction"] == ["3/5", "4/5", "0"]
     assert direction_record["base_D4_RHS_nonzero_entries"] == 64
     assert direction_record["cubic_correction_block_rank"] == 1
@@ -1960,12 +2147,11 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     assert matrix_curl["counts"]["candidate_obstructions"] == 0
     assert matrix_curl["exact_range_classification"]["target_in_image"] is True
     assert matrix_curl["exact_range_classification"]["quotient_target_zero"] is True
-    assert matrix_curl["minimal_rank_one_completion"][
-        "all_nonzero_eigenspace_compressions_zero"
-    ] is True
-    assert matrix_curl["minimal_rank_one_completion"][
-        "zero_speed_target_cancelled_exactly"
-    ] is True
+    assert (
+        matrix_curl["minimal_rank_one_completion"]["all_nonzero_eigenspace_compressions_zero"]
+        is True
+    )
+    assert matrix_curl["minimal_rank_one_completion"]["zero_speed_target_cancelled_exactly"] is True
     assert matrix_curl["candidate_result"]["candidate_compatibilities"] == 12
     assert matrix_curl["claims"]["all_12_fixed_frame_D4_compatibilities_proved"] is True
     assert matrix_curl["claims"]["global_smooth_angular_extension_constructed"] is False
@@ -1979,9 +2165,10 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     assert sphere_extension["counts"]["candidate_direction_compatibilities"] == 0
     assert sphere_extension["counts"]["candidate_direction_obstructions"] == 12
     assert sphere_extension["exact_sphere_symbol"]["antipodally_odd"] is True
-    assert sphere_extension["exact_sphere_symbol"][
-        "physical_gradient_lift_annihilated_identically"
-    ] is True
+    assert (
+        sphere_extension["exact_sphere_symbol"]["physical_gradient_lift_annihilated_identically"]
+        is True
+    )
     assert sphere_extension["exact_sphere_symbol"]["output_vector_sha256"] == (
         "68f42985cff4653364ddf9d0ce0a6bb1c9e84aa5c3b8998d338195220a985e7a"
     )
@@ -1997,9 +2184,10 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     assert sphere_extension["first_additional_frame_audit"]["base_D4_RHS_sha256"] == (
         "d3ab104a0de327e978b6bbe03113b2cf883bce4b34684eed94574560388e0513"
     )
-    assert sphere_extension["first_additional_frame_audit"][
-        "total_correction_block_sha256"
-    ] == "8dac2461183b13df9be8d92d60f3bb5926624e75ce72601c864bdddbe99db862"
+    assert (
+        sphere_extension["first_additional_frame_audit"]["total_correction_block_sha256"]
+        == "8dac2461183b13df9be8d92d60f3bb5926624e75ce72601c864bdddbe99db862"
+    )
     assert sphere_extension["first_additional_frame_audit"]["selector"]["direction"] == [
         "3/5",
         "0",
@@ -2008,16 +2196,58 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     assert sphere_extension["first_additional_frame_audit"]["selector"]["frame_name"] == (
         "xz_3_4_5"
     )
-    assert sphere_extension["first_additional_frame_audit"]["selector"][
-        "deterministic_position_after_original_generic_frame"
-    ] == 1
-    assert sphere_extension["first_additional_frame_audit"]["selector"][
-        "later_declared_frames_unevaluated"
-    ] == 1
-    assert sphere_extension["claims"][
-        "canonical_degree_three_extension_rejected_as_all_direction_completion"
-    ] is True
+    assert (
+        sphere_extension["first_additional_frame_audit"]["selector"][
+            "deterministic_position_after_original_generic_frame"
+        ]
+        == 1
+    )
+    assert (
+        sphere_extension["first_additional_frame_audit"]["selector"][
+            "later_declared_frames_unevaluated"
+        ]
+        == 1
+    )
+    assert (
+        sphere_extension["claims"][
+            "canonical_degree_three_extension_rejected_as_all_direction_completion"
+        ]
+        is True
+    )
     assert sphere_extension["claims"]["broader_matrix_curl_symbol_class_classified"] is False
+    c23_escape = core["quartic_nonlinear_closure"]["fourth_jet_range_obligations"][
+        "canonical_obstruction_certificate"
+    ].pop("degree_three_C23_great_circle_escape")
+    assert c23_escape["counts"]["minimal_total_extension_degree"] == 3
+    assert c23_escape["counts"]["total_certified_directions"] == 4
+    assert c23_escape["counts"]["new_candidate_direction_compatibilities"] == 12
+    assert c23_escape["counts"]["new_candidate_direction_obstructions"] == 0
+    assert c23_escape["counts"]["remaining_declared_frames"] == 1
+    assert c23_escape["exact_sphere_symbol"]["symbol_sha256"] == (
+        "9db986773ebca9a1f85eff597c3596a731d4c0ce55dd5b8c91ce74a96e2bd735"
+    )
+    assert c23_escape["xz_escape_audit"]["candidate_compatibilities"] == 12
+    assert c23_escape["xz_escape_audit"]["candidate_obstructions"] == 0
+    assert c23_escape["selector_binding"]["remaining_declared_direction"] == "xyz_1_2_2"
+    assert c23_escape["claims"]["all_12_xz_D4_compatibilities_proved"] is True
+    assert c23_escape["claims"]["remaining_xyz_frame_audited"] is False
+    xyz = core["quartic_nonlinear_closure"]["fourth_jet_range_obligations"][
+        "canonical_obstruction_certificate"
+    ].pop("degree_three_rank_two_xyz_completion")
+    assert xyz["counts"]["prior_candidate_obstructions"] == 12
+    assert xyz["counts"]["normalized_target_rank"] == 4
+    assert xyz["counts"]["transverse_selector_rank"] == 22
+    assert xyz["counts"]["minimal_completion_rank"] == 2
+    assert xyz["counts"]["new_curl_channels"] == 2
+    assert xyz["counts"]["new_candidate_direction_compatibilities"] == 12
+    assert xyz["counts"]["new_candidate_direction_obstructions"] == 0
+    assert xyz["counts"]["total_certified_directions"] == 5
+    assert xyz["counts"]["remaining_declared_directions"] == 0
+    assert xyz["minimal_rank_two_completion"]["coordinate_pairs"] == [[11, 21], [15, 32]]
+    assert xyz["exact_range_classification"]["target_in_full_transverse_curl_range"] is True
+    assert xyz["corrected_xyz_result"]["candidate_compatibilities"] == 12
+    assert xyz["claims"]["all_five_declared_direction_certificates_closed"] is True
+    assert xyz["claims"]["full_direction_sphere_D4_compatibility_proved"] is False
     assert core["quartic_nonlinear_closure"] == {
         "candidate_count": 12,
         "coordinate_pair_partition": {
@@ -2279,12 +2509,13 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                         "global-H7, or lifespan."
                     ),
                 },
-                    "next_gate": (
-                        "Enlarge the envelope/channel class so the correction need not vanish on "
-                        "the n2=0 great circle, while retaining the e1/e2 certificates, antipodal "
-                        "oddness, gradient-lift annihilation and the original generic-frame block; "
-                        "then re-audit the xz frame before any all-direction or PDE admission claim."
-                    ),
+                "next_gate": (
+                    "Establish a rigorous finite generic-direction determining theorem or audit "
+                    "a larger exact sphere selector for the combined degree-three matrix-curl "
+                    "symbol, then prove pseudodifferential constraint, commutator, "
+                    "boundary-energy and local/covariant admission before any full-sphere or "
+                    "TC2 claim."
+                ),
             },
             "full_fourth_jet_range_closed": False,
         },
@@ -2298,8 +2529,7 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
             "lifespans_proved": 0,
         },
         "first_missing_premise": (
-            "matrix_curl_channel_or_envelope_nonvanishing_on_n2_zero_great_circle_with_"
-            "preserved_certificates"
+            "finite_generic_direction_determining_theorem_or_larger_exact_sphere_selector_for_combined_degree_three_symbol"
         ),
     }
     assert core["cross_pipeline_total"]["status"] == "not_computed"
@@ -2351,6 +2581,57 @@ def test_degree_three_unknown_claim_fails_closed_after_resealing(tmp_path: Path)
         build_unified_snapshot(root, config, physical_gpu={"availability": "unavailable"})
 
 
+@pytest.mark.parametrize(
+    "mutation",
+    [
+        "missing_claim_key",
+        "extra_data_key",
+        "missing_source_binding",
+        "predecessor_binding",
+        "primitive_properties",
+        "theorem_minimality",
+        "fixture_purpose",
+        "candidate_identity",
+    ],
+)
+def test_probability_bridge_semantic_tamper_fails_closed_after_resealing(
+    tmp_path: Path, mutation: str
+) -> None:
+    root, config, _ = _fixture(tmp_path)
+    label = "kastner_schlatter_actualization_probability_bridge_contract"
+    spec = next(source for source in config["sources"] if source["label"] == label)
+    target = root / spec["path"]
+    artifact = json.loads(target.read_text(encoding="utf-8"))
+    if mutation == "missing_claim_key":
+        artifact["claim_seals"].pop("theory_validity_claimed")
+    elif mutation == "extra_data_key":
+        artifact["data_seals"]["invented_false_key"] = False
+    elif mutation == "missing_source_binding":
+        artifact["source_bindings"].pop("test")
+    elif mutation == "predecessor_binding":
+        artifact["source_bindings"]["source_type_audit"]["path"] = "runs/engine/mutated.json"
+        artifact["source_bindings"]["source_type_audit"]["file_sha256"] = "0" * 64
+    elif mutation == "primitive_properties":
+        artifact["primitive_interface"][0]["required_properties"] = ["normalization only"]
+    elif mutation == "theorem_minimality":
+        artifact["composition_theorem"]["minimality"]["without_core_identity"] = "resolved"
+    elif mutation == "fixture_purpose":
+        artifact["exact_controls"]["compiler_identity_fixture_positive_control"]["purpose"] = (
+            "physical attribution"
+        )
+    else:
+        artifact["candidate_records"][0]["branch_id"] = "mutated_branch"
+        artifact["candidate_records"][0]["first_blocker"] = "mutated_blocker"
+    body = {key: value for key, value in artifact.items() if key != "content_sha256"}
+    artifact["content_sha256"] = hashlib.sha256(_canonical(body)).hexdigest()
+    target.write_text(json.dumps(artifact, indent=2) + "\n", encoding="utf-8")
+    spec["file_sha256"] = hashlib.sha256(target.read_bytes()).hexdigest()
+    spec["content_sha256"] = artifact["content_sha256"]
+
+    with pytest.raises(ValueError, match="actualization probability bridge"):
+        build_unified_snapshot(root, config, physical_gpu={"availability": "unavailable"})
+
+
 def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     config = load_config(REPO / "configs/unified_engine_status.json")
     artifact = json.loads((REPO / "runs/engine/unified-engine-status.json").read_text())
@@ -2368,11 +2649,9 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     live = json.loads((REPO / "runs/engine/unified-engine-status-live-refresh.json").read_text())
     dashboard = (REPO / "runs/engine/unified-engine-dashboard.html").read_text(encoding="utf-8")
     assert hashlib.sha256(_canonical(live["core"])).hexdigest() == live["core_content_sha256"]
-    assert (
-        (REPO / "runs/engine/unified-engine-status.json").stat().st_size
-        + (REPO / "runs/engine/unified-engine-dashboard.html").stat().st_size
-        < DEFAULT_MAXIMUM_OUTPUT_BYTES
-    )
+    assert (REPO / "runs/engine/unified-engine-status.json").stat().st_size + (
+        REPO / "runs/engine/unified-engine-dashboard.html"
+    ).stat().st_size < DEFAULT_MAXIMUM_OUTPUT_BYTES
     assert live["core_content_sha256"] in dashboard
     assert live["core"]["followup_service"]["followup_decision_counts"] == {
         "blocked": 8,
@@ -2519,7 +2798,10 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "Microscopic obligations" in dashboard
     assert "Same-rate non-Poisson witnesses" in dashboard
     assert "variance <code>2 mu</code>" in dashboard
-    assert "registered paper/QED evidence closes none of those twelve microscopic premises" in dashboard
+    assert (
+        "registered paper/QED evidence closes none of those twelve microscopic premises"
+        in dashboard
+    )
     assert "Deterministic compensator admission boundary" in dashboard
     assert "Positive mean measures" in dashboard
     assert "deterministic predictable compensator" in dashboard
@@ -2529,6 +2811,28 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "Omega=N_lf(W)" in dashboard
     assert "six of ten typed obligations" in dashboard
     assert "same-action Cox completion" in dashboard
+    assert "Deterministic-feature selector no-go" in dashboard
+    assert "selectors factoring through" in dashboard
+    assert "exp(-2) cosh(1)" in dashboard
+    assert "Second-order stochastic selector no-go" in dashboard
+    assert "P(N_B=0)=1/3" in dashboard
+    assert "full second factorial measure" in dashboard
+    assert "Finite factorial-hierarchy selector no-go" in dashboard
+    assert "Arbitrary-order theorems" in dashboard
+    assert "no fixed finite hierarchy uniquely selects Poisson" in dashboard
+    assert "an infinite hierarchy would still require a determinacy premise" in dashboard
+    assert "Countable full-law selector admission" in dashboard
+    assert "Sufficient routes" in dashboard
+    assert "rational simple functions" in dashboard
+    assert "zero Laplace-core certificates" in dashboard
+    assert "Source-domain selector type audit" in dashboard
+    assert "Laplace partial" in dashboard
+    assert "Mecke absent" in dashboard
+    assert "inhabits neither source-bound certificate" in dashboard
+    assert "Minimal actualization-probability bridge" in dashboard
+    assert "Q:(g,phi)-&gt;Prob(H,Sigma_H)" in dashboard
+    assert "P=C_*Q" in dashboard
+    assert "compiler-only" in dashboard
     assert "Operational event exposure and continuous RTX execution" in dashboard
     assert "one GPU owner" in dashboard
     assert "Service cycles" in dashboard
@@ -2538,12 +2842,15 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "Deferred GPU ownership" in dashboard
     assert "Safe samples required" in dashboard
     assert "Maximum wait" in dashboard
-    assert "current 99%-utilized, 8083-MiB-free sample" in dashboard
+    assert "registered readiness sample was 99% utilized with 8083 MiB free" in dashboard
     assert "no CUDA context" in dashboard
     assert "Deferred RTX scheduler handoff" in dashboard
     assert "Wait polls/cycle" in dashboard
     assert "24-cycle/24-hour bound" in dashboard
-    assert "current 99%-utilized, 8088-MiB-free sample" in dashboard
+    assert "volatile runtime panel" in dashboard
+    assert "PID identity" in dashboard
+    assert "Consecutive safe" in dashboard
+    assert "device-wide runtime measurements" in dashboard
     assert "isolated queue SQLite" in dashboard
     assert "TC2 spatial-gradient completion no-go" in dashboard
     assert "TC2 full fixed-B1 linear completion no-go" in dashboard
@@ -2571,6 +2878,16 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "n=(3/5,0,4/5)" in dashboard
     assert "All 12 candidates retain rank-two zero-speed obstructions" in dashboard
     assert "not broader matrix-curl channel or envelope classes" in dashboard
+    assert "TC2 degree-three C23 great-circle escape" in dashboard
+    assert "TC2 rank-two XYZ completion" in dashboard
+    assert "n=(1/3,2/3,2/3)" in dashboard
+    assert "Rank one is impossible" in dashboard
+    assert "two-wedge, rank-two" in dashboard
+    assert "declared five-direction selector" in dashboard
+    assert "finite determining theorem" in dashboard
+    assert "DeltaB23(n)=(25/16)n3^2*w23*(n3 e21-n2 e32)^T" in dashboard
+    assert "Four directions are now certified" in dashboard
+    assert "final declared <code>xyz_1_2_2</code> recurrence" in dashboard
     assert "Paper-complete count maps" in dashboard
     assert "1887436800" in dashboard
     assert "8053063680" in dashboard
@@ -2722,7 +3039,7 @@ def test_standalone_refresh_and_dashboard_keep_watchdog_database_read_only(
                 "--output",
                 "runs/engine/dashboard-replay.html",
                 "--maximum-output-bytes",
-                "131072",
+                "1048576",
             ]
         )
         == 0
