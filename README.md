@@ -630,11 +630,39 @@ independent increments, or a Mecke/QED counting-measure kernel would be sufficie
 Poisson-PMF assertion. Equal dependent cell counts preserve the same scalar Poisson marginal while
 giving covariance `lambda`, so the scalar PMF alone cannot imply independent increments.
 
+As a testable compiler completion, both positive scalar-intensity branches now admit the exact
+conditional random-measure kernel `N|(g,phi)~PRM(q0*exp(phi)*dVol_g)`. Its Laplace functional,
+every finite disjoint-set joint PGF with independent increments, Mecke identity, diffeomorphism
+covariance, and stationary Poisson PMF all close exactly. This is a mathematically complete external
+stochastic test object, not a derivation from either deterministic action, the paper, QED
+actualization, or observations. The physical selection gate remains blocked and neither action is
+rejected.
+
+The source-bound actualization audit narrows that blocker. The paper supplies five partial clauses
+about transaction records and localized absorption endpoints, but no measurable locally finite
+history space or arbitrary set-indexed counting map. The compiler can declare
+`N_h(B)=sum_tau 1_B(a_h(tau))`; integer values, countable additivity, local finiteness by premise,
+and diffeomorphism covariance then follow, while the probability law remains unselected. A new RTX
+5090 workload tests exactly this joint-law boundary with block common shocks that preserve every
+one-cell Poisson marginal. It evaluates 48 scenarios, 1,887,436,800 generated counts,
+8,053,063,680 joint PGF/Laplace terms, and 322,122,547,200 projection multiply-adds with maximum
+CPU/GPU error below `4.5e-16` and byte-identical decisions. The workload is synthetic and opens no
+operational transaction observable, paper/QED derivation, observation, ontology, or scientific pass.
+
+The next compiler boundary makes the observational bridge explicit. A latent event process is
+independently thinned by a calibrated acceptance, marked through a response kernel, and superposed
+with background. Four exact witnesses show that the observed mean cannot identify the latent rate
+without known acceptance and background plus an injective response on a declared model class.
+Ten of eleven operational obligations remain missing and no real event bundle is open. The same
+set-indexed RTX evaluator now also has a durable restart-safe adapter: one GPU owner, zero CPU
+workers, a single hash-bound allowlisted workload, lease recovery, and no arbitrary callable or
+subprocess surface. The readiness artifact did not start the scheduler or advance science.
+
 The corresponding RTX 5090 power study generated 110,100,480 synthetic counts across 144
 exposure/intensity/mixing/sample-size scenarios, calibrated 49,152 independent null replicates, and
 checked 1,769,472 likelihood, dispersion, void, and factorial statistics on both GPU and CPU. At the
-registered `mu=2`, `delta=1/2` witness, likelihood power rises from 75.0â€“82.8% for `n=64` to
-99.8â€“100% for `n=256`; all four controls approach 100% by `n=1024`. Maximum CPU/GPU error is below
+registered `mu=2`, `delta=1/2` witness, likelihood power rises from 75.0-82.8% for `n=64` to
+99.8-100% for `n=256`; all four controls approach 100% by `n=1024`. Maximum CPU/GPU error is below
 `4.6e-13`, with byte-identical decisions. This is a synthetic falsification-design measurement,
 not evidence that transactions exist, that the paper derives Poisson statistics, or that the theory
 fits observations; every readiness, scientific, ontology, paper/QED, and observational counter
@@ -1387,10 +1415,14 @@ right-hand side for the same active tensor inputs is now evaluated exactly and v
 12 registered `eta` values are nonzero, the required equality to `-eta*C_companion` fails for every
 candidate: zero cancellations, zero compatibilities, and 12 exact axis-two obstructions. This rejects
 the proposed fixed-chart `C_12` curl completion, not every topology-changing or spatially covariant
-completion. The next exact gate is a different admissible topology-changing completion with zero
-axis-two D4 zero-speed compression, or an independently derived cancelling base forcing, followed by
-spatial covariance, action origin, constraint propagation, and all remaining eigenspace
-compatibilities. This is not an inferred pass
+completion. The spatial-gradient escape class is now exhausted exactly: every linear completion on
+the 33 gradient columns that preserves `B1=V` and annihilates the complete lift reduces to a
+605-parameter `C23` family whose projected rank is 297, while the target raises it to 298. All 12
+candidates are obstructed in that class. The remaining 22 q/v selectors are also classified: 11
+velocity columns project to zero and 11 configuration columns are nonzero but incapable. Their
+combined freedom with `C23` has wedge rank 473 and augmented rank 474, so every linear
+direction-homogeneous block on all 55 inputs preserving `B1=V` is ruled out. Altered `B1`,
+higher-degree, nonlinear, nonlocal, or pseudodifferential operators remain open. This is not an inferred pass
 for the unevaluated tail; full fourth-order range closure, full-tube,
 CK1, CK3, TC2, B7, global-H7, and lifespan remain false.
 

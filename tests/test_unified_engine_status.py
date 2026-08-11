@@ -44,7 +44,12 @@ SOURCE_PATHS = [
     "runs/engine/kastner-schlatter-positive-reparameterization-gate.json",
     "runs/engine/kastner-schlatter-covariant-point-process-measure-gate.json",
     "runs/engine/kastner-schlatter-poisson-selector-contract-gate.json",
+    "runs/engine/kastner-schlatter-conditional-poisson-kernel-completion-gate.json",
+    "runs/engine/kastner-schlatter-actualization-history-map-audit.json",
+    "runs/engine/kastner-schlatter-transaction-event-observable-exposure-gate.json",
     "runs/engine/kastner-schlatter-poisson-cox-cuda-power-campaign.json",
+    "runs/engine/kastner-schlatter-set-indexed-cuda-falsification-campaign.json",
+    "runs/engine/kastner-schlatter-set-indexed-gpu-scheduler-adapter-readiness.json",
     "runs/engine/generic-g4-b4-termwise-normalization-campaign.json",
     "runs/engine/einstein-aether-coupling-boundary-kkt-gate.json",
     "runs/engine/grammar-v3-formal-preflight-status.json",
@@ -134,6 +139,8 @@ SOURCE_PATHS = [
     "runs/physics-language/quartic-tc2-d4-curl-constraint-admission-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-d4-curl-companion-range-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-d4-axis2-base-rhs-campaign/campaign.json",
+    "runs/physics-language/quartic-tc2-d4-spatial-gradient-annihilator-no-go-campaign/campaign.json",
+    "runs/physics-language/quartic-tc2-d4-full-linear-gradient-annihilator-no-go-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000000.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000064.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000128.json",
@@ -203,7 +210,12 @@ LABELS = [
     "kastner_schlatter_positive_reparameterization",
     "kastner_schlatter_covariant_point_process_measure",
     "kastner_schlatter_poisson_selector_contract",
+    "kastner_schlatter_conditional_poisson_kernel_completion",
+    "kastner_schlatter_actualization_history_map_audit",
+    "kastner_schlatter_transaction_event_observable_exposure",
     "kastner_schlatter_poisson_cox_cuda_power",
+    "kastner_schlatter_set_indexed_cuda_falsification",
+    "kastner_schlatter_set_indexed_gpu_scheduler_adapter",
     "generic_g4_b4_termwise_normalization",
     "einstein_aether_coupling_boundary_kkt",
     "grammar_v3_formal_preflight",
@@ -293,6 +305,8 @@ LABELS = [
     "quartic_tc2_d4_curl_constraint_admission",
     "quartic_tc2_d4_curl_companion_range",
     "quartic_tc2_d4_axis2_base_rhs",
+    "quartic_tc2_d4_spatial_gradient_annihilator_no_go",
+    "quartic_tc2_d4_full_linear_gradient_annihilator_no_go",
     "quartic_tc2_reranked_obligation_chunk_0",
     "quartic_tc2_reranked_obligation_chunk_64",
     "quartic_tc2_reranked_obligation_chunk_128",
@@ -963,6 +977,28 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
         "no_registered_derivation_of_a_set_indexed_Poisson_Laplace_functional_"
         "independent_increment_family_or_QED_counting_measure_kernel"
     )
+    conditional = transactional["conditional_poisson_kernel_completion"]
+    assert conditional["decision_counts"] == {"blocked": 2, "pass": 0, "reject": 0}
+    assert conditional["gate_counts"]["compiler_authored_conditional_kernels"] == 2
+    assert conditional["gate_counts"]["conditional_Laplace_selector_pass"] == 2
+    assert conditional["gate_counts"]["conditional_independent_increment_pass"] == 2
+    assert conditional["gate_counts"]["paper_or_QED_actualization_derivation_pass"] == 0
+    assert conditional["conditional_Poisson_kernel_contract"]["kernel"] == (
+        "K[(g,phi),dN]=PRM(mu_g_phi)(dN)"
+    )
+    history = transactional["actualization_history_map_audit"]
+    assert history["decision_counts"] == {"blocked": 2, "pass": 0, "reject": 0}
+    assert history["gate_counts"]["typed_map_obligations"] == 12
+    assert history["gate_counts"]["paper_complete_history_to_counting_measure_maps"] == 0
+    assert history["gate_counts"]["compiler_conditional_count_maps"] == 1
+    assert history["compiler_conditional_count_map"]["theorem"]["countably_additive"]
+    observable = transactional["transaction_event_observable_exposure"]
+    assert observable["decision_counts"] == {"blocked": 2, "pass": 0, "reject": 0}
+    assert observable["gate_counts"]["compiler_observation_operator_contracts"] == 1
+    assert observable["gate_counts"]["exact_nonidentifiability_witnesses"] == 4
+    assert observable["gate_counts"]["operational_obligations_registered"] == 0
+    assert observable["gate_counts"]["real_observation_bundles"] == 0
+    assert observable["identifiability_theorem"]["current_contract_satisfies_conditions"] is False
     poisson_power = transactional["poisson_cox_cuda_power"]
     assert poisson_power["counts"]["scenario_cells"] == 144
     assert poisson_power["counts"]["gpu_generated_count_values"] == 110_100_480
@@ -973,6 +1009,24 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     assert poisson_power["gpu_cpu_crosscheck"]["maximum_absolute_error"] <= 1e-10
     assert poisson_power["registered_witness_exact_sentinel"]["fano_factor"] == "3/2"
     assert poisson_power["synthetic_only"] is True
+    set_indexed = transactional["set_indexed_cuda_falsification"]
+    assert set_indexed["counts"]["scenario_cells"] == 48
+    assert set_indexed["counts"]["gpu_generated_unique_count_values"] == 1_887_436_800
+    assert set_indexed["counts"]["joint_pgf_terms_evaluated"] == 8_053_063_680
+    assert set_indexed["counts"]["projection_multiply_adds"] == 322_122_547_200
+    assert set_indexed["gpu_cpu_crosscheck"]["all_heldout_decisions_byte_equal"]
+    assert set_indexed["exact_common_shock_sentinel"]["within_group_cross_covariance"] == "1/2"
+    assert set_indexed["synthetic_only"] is True
+    gpu_scheduler = transactional["set_indexed_gpu_scheduler_adapter"]
+    assert gpu_scheduler["decision"] == "durable_single_owner_gpu_adapter_ready_not_started"
+    assert gpu_scheduler["scheduler_contract"]["gpu_owner_count"] == 1
+    assert gpu_scheduler["scheduler_contract"]["cpu_worker_count"] == 0
+    assert gpu_scheduler["scheduler_contract"]["maximum_attempts"] == 3
+    assert gpu_scheduler["execution_state"] == {
+        "runtime_created_by_readiness": False,
+        "scheduler_started_by_readiness": False,
+        "worker_result_created_by_readiness": False,
+    }
     extended = transactional["extended_geometry_cuda_stress"]
     assert extended["counts"]["geometry_resolution_cases"] == 20
     assert extended["counts"]["gpu_measured_source_evaluation_interactions"] == 2_860_515_328
@@ -1702,6 +1756,24 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     assert axis2["result"]["corrected_axis2_D4_obstructions"] == 12
     assert axis2["claims"]["fixed_chart_curl_completion_axis2_D4_rejected"] is True
     assert axis2["claims"]["TC2_closed"] is False
+    spatial_no_go = core["quartic_nonlinear_closure"]["fourth_jet_range_obligations"][
+        "canonical_obstruction_certificate"
+    ].pop("spatial_gradient_annihilator_no_go")
+    assert spatial_no_go["counts"]["raw_affine_dimension"] == 605
+    assert spatial_no_go["counts"]["effective_projected_parameters"] == 363
+    assert spatial_no_go["axis2_projected_range"]["range_rank"] == 297
+    assert spatial_no_go["axis2_projected_range"]["target_augmented_rank"] == 298
+    assert spatial_no_go["candidate_consequence"]["candidate_no_go_results"] == 12
+    full_no_go = core["quartic_nonlinear_closure"]["fourth_jet_range_obligations"][
+        "canonical_obstruction_certificate"
+    ].pop("full_linear_gradient_annihilator_no_go")
+    assert full_no_go["counts"]["canonical_qv_selectors_checked"] == 22
+    assert full_no_go["counts"]["canonical_qv_kernel_selectors"] == 11
+    assert full_no_go["counts"]["canonical_qv_nonzero_incapable_selectors"] == 11
+    assert full_no_go["counts"]["canonical_qv_capable_selectors"] == 0
+    assert full_no_go["combined_axis2_free_B2_range"]["wedge_range_rank"] == 473
+    assert full_no_go["combined_axis2_free_B2_range"]["target_augmented_rank"] == 474
+    assert full_no_go["claims"]["all_operator_classes_ruled_out"] is False
     assert core["quartic_nonlinear_closure"] == {
         "candidate_count": 12,
         "coordinate_pair_partition": {
@@ -1963,14 +2035,12 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                         "global-H7, or lifespan."
                     ),
                 },
-                    "next_gate": (
-                        "Construct an admissible topology-changing completion whose direction-two "
-                        "block has zero order-four zero-speed compression, or whose independently "
-                        "derived base e2 D4 forcing cancels it. The current fixed-chart C12 curl "
-                        "completion is exactly obstructed at e2, and the predecessor already rules "
-                        "out repair by further pure C23 curl additions preserving the direction-one "
-                        "V slice."
-                    ),
+                "next_gate": (
+                    "Alter the fixed direction-one B1=V slice or introduce a rigorously admitted "
+                    "nonlinear, higher-degree, nonlocal, or pseudodifferential direction "
+                    "dependence. Every linear direction-homogeneous block on all 55 input columns "
+                    "that preserves B1 and annihilates the complete gradient lift is now ruled out."
+                ),
             },
             "full_fourth_jet_range_closed": False,
         },
@@ -1983,10 +2053,7 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
             "global_H7_closures": 0,
             "lifespans_proved": 0,
         },
-        "first_missing_premise": (
-            "admissible_topology_changing_completion_with_zero_axis2_D4_zero_speed_compression_"
-            "or_independently_derived_cancelling_base_forcing"
-        ),
+        "first_missing_premise": "admissible_escape_beyond_fixed_B1_linear_gradient_annihilator_class",
     }
     assert core["cross_pipeline_total"]["status"] == "not_computed"
     assert result["volatile"]["campaign_watchdog_freshness"]["stale"] is True
@@ -2151,6 +2218,24 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "full set-indexed Laplace functional" in dashboard
     assert "single scalar PMF node" in dashboard
     assert "finite-sample separability" in dashboard
+    assert "Conditional Poisson kernel completion" in dashboard
+    assert "Compiler kernels" in dashboard
+    assert "N|(g,phi)~PRM(q0*exp(phi)*dVol_g)" in dashboard
+    assert "Actualization map and set-indexed RTX falsification" in dashboard
+    assert "Operational event exposure and durable RTX execution" in dashboard
+    assert "one GPU owner" in dashboard
+    assert "did not start the scheduler" in dashboard
+    assert "TC2 spatial-gradient completion no-go" in dashboard
+    assert "TC2 full fixed-B1 linear completion no-go" in dashboard
+    assert "11 v columns project to zero" in dashboard
+    assert "11 q columns are nonzero but incapable" in dashboard
+    assert "wedge range rank 473" in dashboard
+    assert "not every operator class" in dashboard
+    assert "Paper-complete count maps" in dashboard
+    assert "1887436800" in dashboard
+    assert "8053063680" in dashboard
+    assert "322122547200" in dashboard
+    assert "block common-shock alternatives preserve every one-cell Poisson marginal" in dashboard
     assert "Readiness advanced" in dashboard
     assert "Positive coordinate actions" in dashboard
     assert "Strict-positive solution gates" in dashboard

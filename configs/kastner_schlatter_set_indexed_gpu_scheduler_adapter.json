@@ -1,0 +1,73 @@
+{
+  "schema_version": "sigma-kastner-schlatter-set-indexed-gpu-scheduler-adapter-config-1.0",
+  "adapter_id": "kastner-schlatter-set-indexed-gpu-scheduler-adapter-001",
+  "reviewed_workload_id": "kastner-schlatter-set-indexed-cuda-falsification-001",
+  "runtime_directory": "runs/engine/kastner-schlatter-set-indexed-gpu-scheduler-runtime",
+  "database_name": "durable-gpu-queue.sqlite",
+  "telemetry_name": "supervisor-telemetry.jsonl",
+  "output_path": "runs/engine/kastner-schlatter-set-indexed-gpu-scheduler-adapter-readiness.json",
+  "bindings": {
+    "workload_config": {
+      "path": "configs/kastner_schlatter_set_indexed_cuda_falsification_campaign.json",
+      "file_sha256": "b9dce3ec340afc2f6d2ef37e771a8673546a748f1580447820f71a24e8e4be7c"
+    },
+    "workload_source": {
+      "path": "src/sigma_theory_compiler/kastner_schlatter_set_indexed_cuda_falsification_campaign.py",
+      "file_sha256": "4f66e8a19025f75156a92f5772fc5be6cb5046dddd4c962e5532528e055935fb"
+    },
+    "persistent_search_source": {
+      "path": "src/sigma_theory_compiler/persistent_parallel_search.py",
+      "file_sha256": "234a39a593bcac07b6442c77ac029bf6239467d1f05c520a19054f766ab11201"
+    },
+    "persistent_supervisor_source": {
+      "path": "src/sigma_theory_compiler/persistent_parallel_supervisor.py",
+      "file_sha256": "50e554539c85e260bbbbcdfc48377fddd5c0925eb4cf2dcc5b6fad40279b74cc"
+    },
+    "resource_profile": {
+      "path": "configs/resource_profile_5090.json",
+      "file_sha256": "7cefb93ee81f589bc4632e90900e5e67aa97c19b9b31ad3315b9114b5df14a26"
+    }
+  },
+  "persistent_config": {
+    "schema_version": "sigma-persistent-parallel-search-1.0",
+    "external_paid_llm_calls": false,
+    "determinism": {"master_seed": 2209040255095},
+    "queue": {
+      "maximum_pending_work": 1,
+      "maximum_attempts": 3,
+      "lease_seconds": 120,
+      "checkpoint_every_completions": 1
+    },
+    "budget": {"maximum_tasks": 1, "maximum_wall_seconds": 1209600},
+    "cpu": {"maximum_workers": 0},
+    "gpu": {
+      "minimum_compute_capability": "12.0",
+      "minimum_memory_mib": 30000,
+      "reserve_memory_mib": 4096,
+      "estimated_bytes_per_candidate": 8589934592,
+      "maximum_batch_candidates": 1
+    },
+    "supervisor": {
+      "cpu_workers": 0,
+      "gpu_workers": 1,
+      "cpu_evaluator": "synthetic_cpu",
+      "gpu_evaluator": "sigma_theory_compiler.kastner_schlatter_set_indexed_gpu_scheduler_adapter:gpu_reviewed_workload_evaluator",
+      "worker_poll_seconds": 0.05,
+      "telemetry_interval_seconds": 0.2,
+      "refill_interval_seconds": 0.05,
+      "maximum_telemetry_bytes": 1048576,
+      "maximum_wall_seconds_per_run": 120,
+      "maximum_process_restarts": 2,
+      "shutdown_grace_seconds": 5
+    }
+  },
+  "seals": {
+    "arbitrary_callable_injection": false,
+    "arbitrary_subprocess_injection": false,
+    "cpu_worker_execution": false,
+    "live_campaign_sqlite_access": false,
+    "observations_opened": false,
+    "scientific_or_readiness_promotion": false,
+    "paid_llm_calls": false
+  }
+}

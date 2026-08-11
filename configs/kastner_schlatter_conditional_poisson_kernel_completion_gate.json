@@ -1,0 +1,36 @@
+{
+  "schema_version": "sigma-kastner-schlatter-conditional-poisson-kernel-completion-config-1.0",
+  "campaign_id": "kastner-schlatter-conditional-poisson-kernel-completion-001",
+  "output_path": "runs/engine/kastner-schlatter-conditional-poisson-kernel-completion-gate.json",
+  "predecessor": {
+    "path": "runs/engine/kastner-schlatter-poisson-selector-contract-gate.json",
+    "file_sha256": "6bb9e434145ada0013782bb23ce74dc434cd7fa453f7ee26e8d9898788507725",
+    "content_sha256": "22185115c60260aa9a27bd05ae6d76299e8ca05b4d64ad7761c3264a4ede74cb"
+  },
+  "conditional_kernel_domain": {
+    "classical_input": "smooth oriented Lorentzian (M,g) and finite real phi",
+    "positive_intensity": "q=q0*exp(phi)>0 with q0>0",
+    "intensity_measure": "mu_g_phi(B)=Integral_B q0*exp(phi)*dVol_g",
+    "local_finiteness_scope": "relatively compact measurable B on each regular field patch",
+    "random_output": "locally finite integer-valued counting measure N",
+    "conditioning": "conditional on the complete classical pair (g,phi)"
+  },
+  "admission_policy": {
+    "compiler_authored_external_stochastic_completion_allowed": true,
+    "paper_or_QED_attribution_allowed": false,
+    "deterministic_action_derivation_inferred": false,
+    "conditional_Poisson_is_not_unconditional_Poisson_after_random_field_marginalization": true,
+    "candidate_action_rejection_allowed": false
+  },
+  "seals": {
+    "observations_opened": false,
+    "dark_matter_or_halo_inputs": false,
+    "redshift_or_cosmology_inputs": false,
+    "solar_system_inputs": false,
+    "QED_actualization_derivation_opened": false,
+    "transaction_ontology_validated": false,
+    "paper_action_attribution_allowed": false,
+    "scientific_test_pass_allowed": false,
+    "paid_llm_calls": false
+  }
+}
