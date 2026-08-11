@@ -255,9 +255,13 @@ def generic_second_atom_sylvester_control() -> tuple[bool, dict[str, Any]]:
 def _second_pair_symbolic_packet(
     left_key: tuple[tuple[str, str], ...],
     right_key: tuple[tuple[str, str], ...],
+    second_coordinate_key: tuple[tuple[str, str], ...] = (),
 ) -> dict[str, Any]:
     left = {name: sp.sympify(value) for name, value in left_key}
     right = {name: sp.sympify(value) for name, value in right_key}
+    second_coordinate = {
+        name: sp.sympify(value) for name, value in second_coordinate_key
+    }
     reference = _reference_and_first_jet_packet()
     data = _symbol_data()
     xi = data["xi_lower"]
@@ -351,6 +355,10 @@ def _second_pair_symbolic_packet(
         - mass_right * p_original_left
     )
     p_mixed = p_original_mixed.extract(ordering, ordering).applyfunc(sp.factor)
+    if second_coordinate:
+        p_mixed = (
+            p_mixed + physical_derivatives(second_coordinate)[0]
+        ).applyfunc(sp.factor)
 
     coupling0 = p0[33:55, 0:33]
     companion0 = p0[33:55, 33:55]
@@ -426,6 +434,8 @@ def _second_pair_symbolic_packet(
     h_mixed = action_b_mixed.row_join(action_a_mixed).col_join(
         action_a_mixed.row_join(sp.zeros(11))
     )
+    if second_coordinate:
+        h_mixed = (h_mixed + h_direction(second_coordinate)).applyfunc(sp.factor)
     identity22 = sp.eye(22)
     companion_energy0 = sp.zeros(22)
     companion_energy_left = sp.zeros(22)
@@ -648,6 +658,11 @@ def _second_pair_symbolic_packet(
         "second_Sylvester_residual_zero": sylvester_residual.is_zero_matrix,
         "parameter_symbols": [str(alpha), str(c20)],
     }
+    if second_coordinate:
+        body["second_coordinate_direction"] = {
+            name: str(value) for name, value in second_coordinate.items()
+        }
+        body["coordinate_D2_pushforward_included"] = True
     return {**body, "content_sha256": _content_hash(body)}
 
 
