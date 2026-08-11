@@ -20,6 +20,7 @@ from sigma_theory_compiler.unified_engine_status import (
 REPO = Path(__file__).resolve().parents[1]
 SOURCE_PATHS = [
     "runs/engine/rust-streaming-billion-status.json",
+    "runs/benchmarks/cpu-real-formula-overlap-15-16.json",
     "runs/engine/composite-promotion-overlay-production-status.json",
     "runs/engine/grammar-v3-parameter-cell-execution-status.json",
     "runs/engine/grammar-v3-parameter-cell-expansion-service-status.json",
@@ -150,6 +151,7 @@ SOURCE_PATHS = [
     "runs/physics-language/quartic-tc2-d4-parity-cubic-angular-escape-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-d4-parity-cubic-generic-direction-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-d4-matrix-curl-rank-one-completion-campaign/campaign.json",
+    "runs/physics-language/quartic-tc2-d4-degree-three-matrix-curl-sphere-extension-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000000.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000064.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000128.json",
@@ -194,6 +196,7 @@ SOURCE_PATHS = [
 ]
 LABELS = [
     "billion_streaming",
+    "cpu_real_formula_overlap_benchmark",
     "promotion_overlay",
     "grammar_parameter_cells",
     "grammar_parameter_cell_expansion_service",
@@ -324,6 +327,7 @@ LABELS = [
     "quartic_tc2_d4_parity_cubic_angular_escape",
     "quartic_tc2_d4_parity_cubic_generic_direction",
     "quartic_tc2_d4_matrix_curl_rank_one_completion",
+    "quartic_tc2_d4_degree_three_matrix_curl_sphere_extension",
     "quartic_tc2_reranked_obligation_chunk_0",
     "quartic_tc2_reranked_obligation_chunk_64",
     "quartic_tc2_reranked_obligation_chunk_128",
@@ -816,6 +820,27 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
         "reject": None,
         "block": 0,
     }
+    cpu_overlap = core.pop("cpu_real_formula_overlap_benchmark")
+    assert cpu_overlap["decision"] == (
+        "real_formula_cpu_overlap_completed_target_met_no_policy_promotion"
+    )
+    assert cpu_overlap["coverage"]["unique_formula_count"] == 65_536
+    assert cpu_overlap["coverage"]["candidate_grid_evaluations"] == 22_478_848
+    assert cpu_overlap["coverage"]["signed_term_hessian_accumulations"] == 134_873_088
+    assert cpu_overlap["contract"]["worker_stages"] == [15, 16]
+    assert cpu_overlap["contract"]["gpu_workers"] == 0
+    assert cpu_overlap["cross_stage_replay_equal"] is True
+    assert cpu_overlap["stages"][0]["partition_independent_status_root_sha256"] == (
+        cpu_overlap["stages"][1]["partition_independent_status_root_sha256"]
+    )
+    assert cpu_overlap["stages"][0]["cpu_percent_median"] == 74.3
+    assert cpu_overlap["stages"][1]["cpu_percent_median"] == 89.4
+    assert cpu_overlap["stages"][1]["cpu_percent_peak"] == 100.0
+    assert cpu_overlap["cpu_target_met"] is True
+    assert cpu_overlap["resource_backoff_triggered"] is True
+    assert cpu_overlap["resource_policy_promoted"] is False
+    assert cpu_overlap["scientific_pass"] is False
+    assert not any(cpu_overlap["seals"].values())
     aether_boundary = core["einstein_aether_coupling_boundary_kkt"]
     assert aether_boundary["decision_counts"] == {"blocked": 1, "pass": 0, "reject": 0}
     assert aether_boundary["gate_counts"] == {
@@ -1944,6 +1969,55 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     assert matrix_curl["candidate_result"]["candidate_compatibilities"] == 12
     assert matrix_curl["claims"]["all_12_fixed_frame_D4_compatibilities_proved"] is True
     assert matrix_curl["claims"]["global_smooth_angular_extension_constructed"] is False
+    sphere_extension = core["quartic_nonlinear_closure"]["fourth_jet_range_obligations"][
+        "canonical_obstruction_certificate"
+    ].pop("degree_three_matrix_curl_sphere_extension")
+    assert sphere_extension["counts"]["minimal_total_extension_degree"] == 3
+    assert sphere_extension["counts"]["preserved_direction_certificates"] == 3
+    assert sphere_extension["counts"]["candidate_certificates_preserved"] == 12
+    assert sphere_extension["counts"]["additional_frames_evaluated"] == 1
+    assert sphere_extension["counts"]["candidate_direction_compatibilities"] == 0
+    assert sphere_extension["counts"]["candidate_direction_obstructions"] == 12
+    assert sphere_extension["exact_sphere_symbol"]["antipodally_odd"] is True
+    assert sphere_extension["exact_sphere_symbol"][
+        "physical_gradient_lift_annihilated_identically"
+    ] is True
+    assert sphere_extension["exact_sphere_symbol"]["output_vector_sha256"] == (
+        "68f42985cff4653364ddf9d0ce0a6bb1c9e84aa5c3b8998d338195220a985e7a"
+    )
+    assert sphere_extension["exact_sphere_symbol"]["symbol_sha256"] == (
+        "965ab6cc84cfd809dede2d0b9f10a8002956e6a43dee1a4995c0fdf42c407c26"
+    )
+    assert sphere_extension["exact_sphere_symbol"]["gradient_lift_residual_sha256"] == (
+        "4efb4f5888421b27afeb457ab5bd0f20260c86f9f4f20229e45b1baccdd89346"
+    )
+    assert sphere_extension["certificate_preservation"]["fixed_block_sha256"] == (
+        "006aecdc99032a89a597b56e69ffed9ef35d3c9f1278b20ec96b1b0741dceb3a"
+    )
+    assert sphere_extension["first_additional_frame_audit"]["base_D4_RHS_sha256"] == (
+        "d3ab104a0de327e978b6bbe03113b2cf883bce4b34684eed94574560388e0513"
+    )
+    assert sphere_extension["first_additional_frame_audit"][
+        "total_correction_block_sha256"
+    ] == "8dac2461183b13df9be8d92d60f3bb5926624e75ce72601c864bdddbe99db862"
+    assert sphere_extension["first_additional_frame_audit"]["selector"]["direction"] == [
+        "3/5",
+        "0",
+        "4/5",
+    ]
+    assert sphere_extension["first_additional_frame_audit"]["selector"]["frame_name"] == (
+        "xz_3_4_5"
+    )
+    assert sphere_extension["first_additional_frame_audit"]["selector"][
+        "deterministic_position_after_original_generic_frame"
+    ] == 1
+    assert sphere_extension["first_additional_frame_audit"]["selector"][
+        "later_declared_frames_unevaluated"
+    ] == 1
+    assert sphere_extension["claims"][
+        "canonical_degree_three_extension_rejected_as_all_direction_completion"
+    ] is True
+    assert sphere_extension["claims"]["broader_matrix_curl_symbol_class_classified"] is False
     assert core["quartic_nonlinear_closure"] == {
         "candidate_count": 12,
         "coordinate_pair_partition": {
@@ -2206,10 +2280,10 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                     ),
                 },
                     "next_gate": (
-                        "Extend the one-frame rank-one combined-curl block to an antipodally odd, "
-                        "bounded smooth matrix symbol on the direction sphere that preserves the "
-                        "e1/e2 certificates, then prove pseudodifferential constraint/commutator/"
-                        "boundary admission and re-audit additional generic directions."
+                        "Enlarge the envelope/channel class so the correction need not vanish on "
+                        "the n2=0 great circle, while retaining the e1/e2 certificates, antipodal "
+                        "oddness, gradient-lift annihilation and the original generic-frame block; "
+                        "then re-audit the xz frame before any all-direction or PDE admission claim."
                     ),
             },
             "full_fourth_jet_range_closed": False,
@@ -2224,8 +2298,8 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
             "lifespans_proved": 0,
         },
         "first_missing_premise": (
-            "antipodally_odd_bounded_smooth_matrix_symbol_extension_with_constraint_"
-            "commutator_boundary_admission"
+            "matrix_curl_channel_or_envelope_nonvanishing_on_n2_zero_great_circle_with_"
+            "preserved_certificates"
         ),
     }
     assert core["cross_pipeline_total"]["status"] == "not_computed"
@@ -2238,6 +2312,24 @@ def test_hash_tamper_fails_closed(tmp_path: Path) -> None:
     target = root / SOURCE_PATHS[0]
     target.write_bytes(target.read_bytes() + b"\n")
     with pytest.raises(ValueError, match="file hash mismatch"):
+        build_unified_snapshot(root, config, physical_gpu={"availability": "unavailable"})
+
+
+def test_degree_three_semantic_tamper_fails_closed_after_resealing(tmp_path: Path) -> None:
+    root, config, _ = _fixture(tmp_path)
+    label = "quartic_tc2_d4_degree_three_matrix_curl_sphere_extension"
+    spec = next(source for source in config["sources"] if source["label"] == label)
+    target = root / spec["path"]
+    artifact = json.loads(target.read_text(encoding="utf-8"))
+    artifact["exact_extension"]["exact_sphere_symbol"]["symbol_sha256"] = "0" * 64
+    body = {key: value for key, value in artifact.items() if key != "content_sha256"}
+    artifact["content_sha256"] = hashlib.sha256(_canonical(body)).hexdigest()
+    target.write_text(json.dumps(artifact, indent=2) + "\n", encoding="utf-8")
+    raw = target.read_bytes()
+    spec["file_sha256"] = hashlib.sha256(raw).hexdigest()
+    spec["content_sha256"] = artifact["content_sha256"]
+
+    with pytest.raises(ValueError, match="degree-three sphere extension"):
         build_unified_snapshot(root, config, physical_gpu={"availability": "unavailable"})
 
 
@@ -2369,6 +2461,11 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "Exact matches" in dashboard
     assert "24/24" in dashboard
     assert "coefficient normalization only" in dashboard
+    assert "CPU real-formula overlap benchmark" in dashboard
+    assert "22,478,848 unique candidate-grid evaluations" in dashboard
+    assert "89.4% median and 100% peak device-wide CPU" in dashboard
+    assert "triggering backoff and no persistent resource-policy change" in dashboard
+    assert "sampled-static screen reject, not a theory rejection" in dashboard
     assert "RTX 5090 synthetic formula stress" in dashboard
     assert "Einstein-Aether constrained coupling boundaries" in dashboard
     assert "Ambient-only witnesses" in dashboard
@@ -2451,6 +2548,11 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "single combined-curl, rank-one block" in dashboard
     assert "makes all 12 candidate D4 systems compatible" in dashboard
     assert "exact positive result at one fixed frame only" in dashboard
+    assert "TC2 degree-three matrix-curl sphere extension" in dashboard
+    assert "DeltaB(n)=(25/12)n1*n2*w*(n1 e21-n2 e54)^T" in dashboard
+    assert "n=(3/5,0,4/5)" in dashboard
+    assert "All 12 candidates retain rank-two zero-speed obstructions" in dashboard
+    assert "not broader matrix-curl channel or envelope classes" in dashboard
     assert "Paper-complete count maps" in dashboard
     assert "1887436800" in dashboard
     assert "8053063680" in dashboard

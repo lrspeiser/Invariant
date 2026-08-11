@@ -1,0 +1,68 @@
+{
+  "schema_version": "sigma-cpu-symbolic-overlap-benchmark-config-1.1",
+  "campaign_id": "cpu-real-formula-overlap-15-16-001",
+  "output_path": "runs/benchmarks/cpu-real-formula-overlap-15-16.json",
+  "worker_stages": [15, 16],
+  "start_ordinal": 1000000000,
+  "stop_ordinal_exclusive": 1000065536,
+  "unique_formula_count": 65536,
+  "grid_point_count": 343,
+  "term_count": 6,
+  "maximum_stage_seconds": 120,
+  "maximum_total_seconds": 240,
+  "sample_interval_seconds": 0.1,
+  "shutdown_reserve_seconds": 1.0,
+  "fixed_shard_size": 1024,
+  "fixed_shard_count": 64,
+  "minimum_available_ram_mib": 32768,
+  "cpu_backoff_above_percent": 92,
+  "cpu_target_percent": 80,
+  "gpu_workers": 0,
+  "start_method": "spawn",
+  "maximum_output_bytes": 1048576,
+  "allowlisted_evaluator": "sigma_theory_compiler.real_formula_execution:cpu_formula_batch_evaluator",
+  "basis_library_sha256": "f6e09a44eddd20999c8a5c3d3e1e002efb9c892deb706df60669a47f1f7f3840",
+  "grid_sha256": "9212ebf18831e3604088ce48e96fd5bb5b842e6c2a5126de6ed934ece146ed24",
+  "ambiguity_guard": 1e-10,
+  "bindings": {
+    "evaluator_source": {
+      "path": "src/sigma_theory_compiler/real_formula_execution.py",
+      "file_sha256": "0f39187b359a8ee428503ac8c19cedde14a8bd5c69d24033fab33171cf57df9a"
+    },
+    "generator_config": {
+      "path": "configs/generator_v2_billion.json",
+      "file_sha256": "8ec89baec85093812958221c49548f75ed9e8cafdcfed287a64330daf7230a7e"
+    },
+    "high_throughput_source": {
+      "path": "src/sigma_theory_compiler/high_throughput.py",
+      "file_sha256": "c4870f00125df3f6cc5040d271ac107fcca9a4d944b81f795c4d9bbfa61544c6"
+    },
+    "gpu_screen_source": {
+      "path": "src/sigma_theory_compiler/gpu_screen.py",
+      "file_sha256": "25ed0a2b2ed3cdacec0ad0c7ad023306fa2fa74cf1f5db76bf529c7cd73dcf42"
+    },
+    "prior_execution_contract": {
+      "path": "configs/real_formula_execution_5090.json",
+      "file_sha256": "c61d4e68964a1e6883796b97c5c0cbea70034f9b43172967574609e2547777c2"
+    },
+    "authoritative_manifest": {
+      "path": "runs/generator-v2/billion-authoritative.json",
+      "file_sha256": "a8dd2595c509ffae32fe3857d89ab27d937c2d19e33b22df0c004e5151c26398"
+    },
+    "resource_profile": {
+      "path": "configs/resource_profile_5090.json",
+      "file_sha256": "7cefb93ee81f589bc4632e90900e5e67aa97c19b9b31ad3315b9114b5df14a26"
+    }
+  },
+  "seals": {
+    "sqlite_access": false,
+    "gpu_or_cuda_access": false,
+    "existing_process_signaled": false,
+    "arbitrary_callable_or_subprocess_injection": false,
+    "observations_opened": false,
+    "dark_matter_or_halo_inputs": false,
+    "redshift_distance_inputs": false,
+    "scientific_or_resource_policy_promotion": false,
+    "paid_llm_calls": false
+  }
+}

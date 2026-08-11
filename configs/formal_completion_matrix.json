@@ -212,6 +212,12 @@
     {
       "id": "continuous_formula_execution_and_promotion",
       "status": "operational_persistent_GPU_service_reviewed_promotions_and_quarantined_LLM_campaign",
+      "evidence": [
+        "src/sigma_theory_compiler/cpu_symbolic_overlap_benchmark.py",
+        "configs/cpu_symbolic_overlap_benchmark.json",
+        "tests/test_cpu_symbolic_overlap_benchmark.py",
+        "runs/benchmarks/cpu-real-formula-overlap-15-16.json"
+      ],
       "implemented": [
         "restart-safe bounded SQLite queues, deterministic seeds, leases, checkpoints, crash recovery, periodic refill, and detached start/status/stop/resume/export lifecycle",
         "a separate bounded read-only live-dashboard refresh service with a 300-second interval, hash-bound atomic checkpoint, 4,032-refresh and 12-consecutive-failure limits, atomic runtime snapshot/dashboard publication, explicit start/status/stop/refresh-once lifecycle, and immutable checked-snapshot preservation",
@@ -264,8 +270,23 @@
         ,"a restart-safe continuous RTX service contract around the set-indexed workload with one fixed GPU owner, zero CPU workers, exclusive PID/argv lease, atomic checkpoints, idempotent queue resume, bounded 120-second supervisor slices, external stop, Git-ignored runtime and a fail-closed NVML start gate; the final 8,087 MiB free-memory preflight missed the 8,192 MiB floor, so no runtime or production result was created"
         ,"a bounded deferred RTX ownership gate that polls device-wide NVML every five seconds, requires three consecutive samples at no more than 20% utilization and at least 8,192 MiB free, and stops after 721 polls or one hour; the registered 99%-utilized, 8,083-MiB-free sample remains occupied, so no CUDA context, signal, subprocess, SQLite access, lease, checkpoint, scheduler handoff, readiness advance or scientific result was created"
         ,"a bounded foreground RTX handoff service that holds an exact PID/argv lease, waits via NVML only, acquires the shared GPU-owner lease after three safe samples, performs a post-reservation safe recheck and invokes only the fixed one-GPU/zero-CPU evaluator through the reviewed scheduler; the occupied 99%-utilized, 8,088-MiB-free sample keeps runtime and leases absent"
+        ,"a bounded CPU-only real-formula overlap benchmark over a disjoint 65,536-formula six-term tail and fixed 343-point Hessian grid; 15 and 16 workers produce identical partition-independent roots, the 16-worker control reaches 89.4% median/100% peak device-wide CPU and triggers the 92% backoff, so no persistent resource-policy, formal, theory, ranking, observational, GPU or SQLite promotion is inferred"
       ],
       "scalable_formal_provenance_bindings": {
+        "cpu_real_formula_overlap_benchmark": {
+          "path": "runs/benchmarks/cpu-real-formula-overlap-15-16.json",
+          "file_sha256": "9cd00ab25ac93f003441c5397b5dc1e3796da9a432dac8f9b7e60c660beee987",
+          "content_sha256": "1cab89ab66f4bafbf4be6adcde7f40bd787eaec1814497a08b0a0c64a9d3b3de",
+          "unique_formula_count": 65536,
+          "candidate_grid_evaluations": 22478848,
+          "signed_term_hessian_accumulations": 134873088,
+          "worker_stages": [15, 16],
+          "partition_independent_status_root_sha256": "7c678fae9bf8ce77561f58ef3df33ee40516fc26856db7920b5b84b2f275e909",
+          "cpu_target_met": true,
+          "resource_backoff_triggered": true,
+          "resource_policy_promoted": false,
+          "scientific_pass": false
+        },
         "kastner_schlatter_transactional_gravity_intake": {
           "path": "runs/engine/kastner-schlatter-transactional-gravity-intake.json",
           "file_sha256": "4c142f202cc30a39ad62039ae01355b91e9264260ec0ec4fd02f45a3a16f82e2",
@@ -1156,7 +1177,7 @@
       },
       "global_H7_energy_ledger": {
         "status": "implemented_global_nonremainder_sum_full_D1_and_partial_TC2_correction_global_H7_fail_closed",
-        "scope": "For all 12 candidates, the fail-closed H7 ledger includes the complete reference quadratic deltaK two-jet and the full exact third-jet sector. The fourth-order service closed 244 of 3,060 obligations before finding a rank-two alpha^5 obstruction at offset 244. An exact homogeneous-freedom reduction covers all 15 polarization sums, 300 stationary-projector checks and 20,842 lower-jet kernel slots; its induced D4 zero-eigenspace map has rank zero, so no lower homogeneous completion can cancel the witness. A separate minimal one-parameter rank-one state-space TC2 ansatz spans the obstruction line and gives 12/12 exact candidate-specific D4 solutions after tuning eta=-(34816/15)alpha^5. Its downstream fixed-chart curl completion proves exact 33-definition/33-curl propagation and reference constraint-surface equivalence. The required axis-two companion has been audited on seven eigenspaces: only the zero-speed compression is nonzero, with rank two and ten entries. A 363-parameter pure-C23 completion class has projected rank 297 and cannot reach the companion target because the augmented rank is 298. The complete polarized base D4 right-hand side at axis two is exactly zero, so the unweighted fixed-chart C12 curl completion is obstructed for all 12 eta values. The minimal parity-preserving multiplier a(n)=n1^2 yields a bounded odd cubic angular symbol that preserves all 12 e1 solutions and converts the 12 axis-two obstructions into exact compatibilities. Its first rational generic-direction audit executes the full orders-one-through-four recurrence at n=(3/5,4/5,0), checks all seven eigenspaces, and finds exact obstructions for all 12 candidates. This rejects the scalar parity-cubic all-direction completion, not the full direction sphere or broader matrix-valued, local, or covariant operators. The complete fixed-frame matrix-curl range at the same direction has 22 transverse covectors, 1,210 raw parameters and wedge rank 473; the target-augmented rank is also 473. A minimal single-channel rank-one block cancels the target and gives 12/12 exact fixed-frame compatibilities with all nonzero-eigenspace compressions zero. A bounded antipodally odd smooth sphere extension, additional generic-direction audits, pseudodifferential commutator and boundary-energy calculus, corrected-candidate registration, and the 2,816 later obligations remain open. Full fourth-order closure, all-order remainder control, variable TC3/high-derivative TC2/H7 TC5 bounds, global dyadic closure, tube preservation, and lifespan remain false.",
+        "scope": "For all 12 candidates, the fail-closed H7 ledger includes the complete reference quadratic deltaK two-jet and the full exact third-jet sector. The fourth-order service closed 244 of 3,060 obligations before finding a rank-two alpha^5 obstruction at offset 244. An exact homogeneous-freedom reduction covers all 15 polarization sums, 300 stationary-projector checks and 20,842 lower-jet kernel slots; its induced D4 zero-eigenspace map has rank zero, so no lower homogeneous completion can cancel the witness. A separate minimal one-parameter rank-one state-space TC2 ansatz spans the obstruction line and gives 12/12 exact candidate-specific D4 solutions after tuning eta=-(34816/15)alpha^5. Its downstream fixed-chart curl completion proves exact 33-definition/33-curl propagation and reference constraint-surface equivalence. The required axis-two companion has been audited on seven eigenspaces: only the zero-speed compression is nonzero, with rank two and ten entries. A 363-parameter pure-C23 completion class has projected rank 297 and cannot reach the companion target because the augmented rank is 298. The complete polarized base D4 right-hand side at axis two is exactly zero, so the unweighted fixed-chart C12 curl completion is obstructed for all 12 eta values. The minimal parity-preserving multiplier a(n)=n1^2 yields a bounded odd cubic angular symbol that preserves all 12 e1 solutions and converts the 12 axis-two obstructions into exact compatibilities. Its first rational generic-direction audit executes the full orders-one-through-four recurrence at n=(3/5,4/5,0), checks all seven eigenspaces, and finds exact obstructions for all 12 candidates. This rejects the scalar parity-cubic all-direction completion, not the full direction sphere or broader matrix-valued, local, or covariant operators. The complete fixed-frame matrix-curl range at the same direction has 22 transverse covectors, 1,210 raw parameters and wedge rank 473; the target-augmented rank is also 473. A minimal single-channel rank-one block cancels the target and gives 12/12 exact fixed-frame compatibilities with all nonzero-eigenspace compressions zero. Its minimal degree-three bounded smooth antipodally odd extension preserves the e1, e2 and original generic certificates but vanishes at n=(3/5,0,4/5), where all 12 candidates retain exact rank-two obstructions. This rejects the canonical fixed-output single-C12 even-envelope extension, not broader matrix-curl symbols. A channel or envelope nonvanishing on the n2=0 great circle, additional direction audits, pseudodifferential commutator and boundary-energy calculus, corrected-candidate registration, and the 2,816 later obligations remain open. Full fourth-order closure, all-order remainder control, variable TC3/high-derivative TC2/H7 TC5 bounds, global dyadic closure, tube preservation, and lifespan remain false.",
         "evidence": [
           "src/sigma_theory_compiler/quartic_tc2_quadratic_deltak_extension_campaign.py",
           "configs/backgrounds/quartic_tc2_quadratic_deltak_extension_campaign.json",
@@ -1287,6 +1308,10 @@
           ,"configs/backgrounds/quartic_tc2_d4_matrix_curl_rank_one_completion_campaign.json"
           ,"tests/test_quartic_tc2_d4_matrix_curl_rank_one_completion_campaign.py"
           ,"runs/physics-language/quartic-tc2-d4-matrix-curl-rank-one-completion-campaign/campaign.json"
+          ,"src/sigma_theory_compiler/quartic_tc2_d4_degree_three_matrix_curl_sphere_extension_campaign.py"
+          ,"configs/backgrounds/quartic_tc2_d4_degree_three_matrix_curl_sphere_extension_campaign.json"
+          ,"tests/test_quartic_tc2_d4_degree_three_matrix_curl_sphere_extension_campaign.py"
+          ,"runs/physics-language/quartic-tc2-d4-degree-three-matrix-curl-sphere-extension-campaign/campaign.json"
         ],
         "artifact_binding": {
           "file_sha256": "bb651cb099e409fff85d3354c69a88f667cd39453946a8affce00378b3c705bf",
@@ -1535,9 +1560,23 @@
             "global_smooth_angular_extension_constructed": false,
             "additional_generic_directions_audited": false,
             "inferred_global_passes": 0
+          },
+          "fourth_jet_degree_three_matrix_curl_sphere_extension_binding": {
+            "file_sha256": "80314bc44780b32b8e6c97daac0983cc203928030c2976899b19e743165b28a7",
+            "content_sha256": "eeed4ff94da64999679428e47453447490a31affa9aab6e97e120da894aebe0c",
+            "minimal_total_extension_degree": 3,
+            "preserved_direction_certificates": 3,
+            "candidate_certificates_preserved": 12,
+            "additional_frame": ["3/5", "0", "4/5"],
+            "directional_recurrence_evaluations": 15,
+            "candidate_compatibilities": 0,
+            "candidate_obstructions": 12,
+            "canonical_extension_rejected_as_all_direction_completion": true,
+            "broader_matrix_curl_symbol_classified": false,
+            "inferred_global_passes": 0
           }
       },
-      "missing": ["an antipodally odd bounded smooth matrix-symbol extension of the one-frame rank-one curl block that preserves the e1/e2 certificates, followed by pseudodifferential constraint, variable-coefficient commutator, boundary-energy, and additional generic-direction analysis; the permanently stopped service leaves 2,816 later obligations unevaluated", "fifth-and-higher remainder control or a nonlinear range theorem that upgrades the completed reference Taylor jets to a tube-uniform Hermitian positive full Sylvester solution", "the remaining variable TC3, high-derivative TC2 and H7 TC5 terms", "an executable component Frechet/Bony-good-unknown remainder bound supplying finite C_L and C_B", "an initial H7 energy bound and substitution into the conditional lifespan/tube formula", "new reduction adapters for future nonminimal action terms outside the bounded grammar", "exhaustive multi-seed connected-domain construction beyond the campaign's shared local FLRW seed", "nonlinear PDE evolution-invariant trapping regions inside the pointwise-certified cubic-Horndeski and quartic-Horndeski local-jet boxes", "new mixed/nonlinear principal and symmetrizer adapters for the remaining 114 G4_X sample assignments, followed by necessary-and-sufficient multi-field direction-sphere bounds", "generic nonlinear global reduced-Hamiltonian boundedness beyond the certified homogeneous Horndeski tensor and FLRW scalar blocks"]
+      "missing": ["a matrix-curl channel or envelope nonvanishing on the n2=0 great circle while preserving e1/e2/original-generic certificates, followed by xz and additional direction audits plus pseudodifferential constraint, variable-coefficient commutator and boundary-energy analysis; the permanently stopped service leaves 2,816 later obligations unevaluated", "fifth-and-higher remainder control or a nonlinear range theorem that upgrades the completed reference Taylor jets to a tube-uniform Hermitian positive full Sylvester solution", "the remaining variable TC3, high-derivative TC2 and H7 TC5 terms", "an executable component Frechet/Bony-good-unknown remainder bound supplying finite C_L and C_B", "an initial H7 energy bound and substitution into the conditional lifespan/tube formula", "new reduction adapters for future nonminimal action terms outside the bounded grammar", "exhaustive multi-seed connected-domain construction beyond the campaign's shared local FLRW seed", "nonlinear PDE evolution-invariant trapping regions inside the pointwise-certified cubic-Horndeski and quartic-Horndeski local-jet boxes", "new mixed/nonlinear principal and symmetrizer adapters for the remaining 114 G4_X sample assignments, followed by necessary-and-sufficient multi-field direction-sphere bounds", "generic nonlinear global reduced-Hamiltonian boundedness beyond the certified homogeneous Horndeski tensor and FLRW scalar blocks"]
     },
     {
       "id": "solar_and_direct_observations",

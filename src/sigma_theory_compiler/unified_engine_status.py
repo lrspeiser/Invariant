@@ -495,6 +495,7 @@ def build_unified_snapshot(
     unified_live_service = _read_unified_live_service_status(root, config)
 
     streaming = sources["billion_streaming"]
+    cpu_real_formula_overlap = sources["cpu_real_formula_overlap_benchmark"]
     promotion = sources["promotion_overlay"]
     parameter = sources["grammar_parameter_cells"]
     parameter_expansion = sources["grammar_parameter_cell_expansion_service"]
@@ -714,6 +715,9 @@ def build_unified_snapshot(
     quartic_tc2_d4_matrix_curl_rank_one_completion = sources[
         "quartic_tc2_d4_matrix_curl_rank_one_completion"
     ]
+    quartic_tc2_d4_degree_three_sphere_extension = sources[
+        "quartic_tc2_d4_degree_three_matrix_curl_sphere_extension"
+    ]
     quartic_tc2_reranked_obligation_chunks = tuple(
         sources[f"quartic_tc2_reranked_obligation_chunk_{offset}"]
         for offset in (0, 64, 128, 192, 256, 320, 384)
@@ -746,6 +750,88 @@ def build_unified_snapshot(
     unified_live_dashboard_service_safety = sources[
         "unified_live_dashboard_service_safety_readiness"
     ]
+    cpu_overlap_contract = cpu_real_formula_overlap.get("contract", {})
+    cpu_overlap_coverage = cpu_real_formula_overlap.get("coverage", {})
+    cpu_overlap_hardware = cpu_real_formula_overlap.get("hardware_attestation", {})
+    cpu_overlap_stages = cpu_real_formula_overlap.get("stages", [])
+    if (
+        cpu_real_formula_overlap.get("schema_version")
+        != "sigma-cpu-real-formula-overlap-benchmark-1.1"
+        or cpu_real_formula_overlap.get("decision")
+        != "real_formula_cpu_overlap_completed_target_met_no_policy_promotion"
+        or cpu_overlap_contract
+        != {
+            "allowlisted_evaluator": (
+                "sigma_theory_compiler.real_formula_execution:cpu_formula_batch_evaluator"
+            ),
+            "cpu_backoff_above_percent": 92,
+            "cpu_target_percent": 80,
+            "fixed_shard_count": 64,
+            "fixed_shard_size": 1_024,
+            "gpu_workers": 0,
+            "maximum_stage_seconds": 120,
+            "maximum_total_seconds": 240,
+            "minimum_available_ram_mib": 32_768,
+            "sample_interval_seconds": 0.1,
+            "shutdown_reserve_seconds": 1.0,
+            "worker_stages": [15, 16],
+        }
+        or cpu_overlap_coverage.get("interval")
+        != {"start": 1_000_000_000, "stop": 1_000_065_536}
+        or cpu_overlap_coverage.get("unique_formula_count") != 65_536
+        or cpu_overlap_coverage.get("term_count") != 6
+        or cpu_overlap_coverage.get("grid_point_count") != 343
+        or cpu_overlap_coverage.get("candidate_grid_evaluations") != 22_478_848
+        or cpu_overlap_coverage.get("signed_term_hessian_accumulations") != 134_873_088
+        or cpu_overlap_hardware
+        != {
+            "installed_ram_mib": 98_010,
+            "logical_processors": 24,
+            "physical_cores": 24,
+            "profile_matches_host_topology": True,
+            "profile_reserved_cpu_cores": 8,
+            "profile_sustained_cpu_workers": 16,
+            "resource_profile_file_sha256": (
+                "7cefb93ee81f589bc4632e90900e5e67aa97c19b9b31ad3315b9114b5df14a26"
+            ),
+        }
+        or len(cpu_overlap_stages) != 2
+        or [stage.get("workers") for stage in cpu_overlap_stages] != [15, 16]
+        or any(stage.get("batch_count") != 64 for stage in cpu_overlap_stages)
+        or any(
+            stage.get("counts") != {"ambiguous": 0, "pass": 0, "reject": 65_536}
+            or stage.get("partition_independent_status_root_sha256")
+            != "7c678fae9bf8ce77561f58ef3df33ee40516fc26856db7920b5b84b2f275e909"
+            or stage.get("fixed_shard_manifest_root_sha256")
+            != "5af6f1eca00d98da865541361eff765fea2039359b797573b4ca1da0fc7f84cf"
+            or stage.get("reported_margin_minimum") != -11809.791419690013
+            or stage.get("hard_deadline_enforced") is not True
+            or stage.get("hard_deadline_triggered") is not False
+            or stage.get("owned_worker_termination_count") != 0
+            or stage.get("gpu_workers") != 0
+            or stage.get("backend") != "cpu_numpy"
+            for stage in cpu_overlap_stages
+        )
+        or cpu_overlap_stages[0].get("cpu_percent_median") != 74.3
+        or cpu_overlap_stages[0].get("cpu_percent_peak") != 81.1
+        or cpu_overlap_stages[0].get("backoff_threshold_exceeded") is not False
+        or cpu_overlap_stages[1].get("cpu_percent_median") != 89.4
+        or cpu_overlap_stages[1].get("cpu_percent_peak") != 100.0
+        or cpu_overlap_stages[1].get("backoff_threshold_exceeded") is not True
+        or cpu_real_formula_overlap.get("stage_16_admitted") is not True
+        or cpu_real_formula_overlap.get("overlap_control_executed") is not True
+        or cpu_real_formula_overlap.get("cross_stage_replay_equal") is not True
+        or cpu_real_formula_overlap.get("cpu_target_met") is not True
+        or cpu_real_formula_overlap.get("resource_backoff_triggered") is not True
+        or cpu_real_formula_overlap.get("resource_policy_promoted") is not False
+        or cpu_real_formula_overlap.get("hard_total_deadline_enforced") is not True
+        or cpu_real_formula_overlap.get("total_bound_respected") is not True
+        or cpu_real_formula_overlap.get("total_formula_evaluator_executions") != 131_072
+        or cpu_real_formula_overlap.get("overlap_control_replay_formula_evaluations") != 65_536
+        or cpu_real_formula_overlap.get("scientific_pass") is not False
+        or any(cpu_real_formula_overlap.get("seals", {}).values())
+    ):
+        raise ValueError("CPU real-formula overlap benchmark is inconsistent")
     if (
         scalable_structural_metrics.get("candidate_count") != 163
         or scalable_structural_metrics.get("alias_count") != 93
@@ -6497,6 +6583,150 @@ def build_unified_snapshot(
         )
     ):
         raise ValueError("quartic TC2 matrix-curl rank-one completion is inconsistent")
+    sphere_extension_counts = quartic_tc2_d4_degree_three_sphere_extension.get(
+        "counts", {}
+    )
+    sphere_extension = quartic_tc2_d4_degree_three_sphere_extension.get(
+        "exact_extension", {}
+    )
+    sphere_symbol = sphere_extension.get("exact_sphere_symbol", {})
+    sphere_preservation = sphere_extension.get("certificate_preservation", {})
+    sphere_frame = sphere_extension.get("first_additional_frame_audit", {})
+    sphere_claims = quartic_tc2_d4_degree_three_sphere_extension.get("claims", {})
+    if (
+        quartic_tc2_d4_degree_three_sphere_extension.get("status")
+        != "pass_exact_minimal_degree_three_matrix_curl_sphere_extension_with_first_additional_frame_obstruction"
+        or quartic_tc2_d4_degree_three_sphere_extension.get("selector_binding")
+        != {
+            "active_indices": [0, 2, 3, 9],
+            "newly_audited_direction": "xz_3_4_5",
+            "obligation_offset": 244,
+            "preserved_directions": ["e1", "e2", "xy_3_4_5"],
+        }
+        or sphere_extension_counts
+        != {
+            "additional_frames_evaluated": 1,
+            "additional_frames_unevaluated_after_stop": 1,
+            "bound_predecessors": 4,
+            "candidate_certificates_preserved": 12,
+            "candidate_direction_compatibilities": 0,
+            "candidate_direction_obstructions": 12,
+            "candidate_direction_systems_evaluated": 12,
+            "directional_recurrence_evaluations": 15,
+            "inferred_global_passes": 0,
+            "minimal_total_extension_degree": 3,
+            "negative_controls": 7,
+            "nonzero_polynomial_coefficient_blocks": 2,
+            "preserved_direction_certificates": 3,
+            "single_curl_channels": 1,
+        }
+        or quartic_tc2_d4_degree_three_sphere_extension.get("source_bindings", {})
+        .get("matrix_completion", {})
+        .get("content_sha256")
+        != quartic_tc2_d4_matrix_curl_rank_one_completion.get("content_sha256")
+        or quartic_tc2_d4_degree_three_sphere_extension.get("source_bindings", {})
+        .get("parity_cubic", {})
+        .get("content_sha256")
+        != quartic_tc2_d4_parity_cubic_escape.get("content_sha256")
+        or quartic_tc2_d4_degree_three_sphere_extension.get("source_bindings", {})
+        .get("minimal_escape", {})
+        .get("content_sha256")
+        != quartic_tc2_d4_minimal_tc2_escape.get("content_sha256")
+        or quartic_tc2_d4_degree_three_sphere_extension.get("source_bindings", {})
+        .get("fourth_campaign", {})
+        .get("content_sha256")
+        != quartic_tc2_fourth_jet_range_obligations.get("content_sha256")
+        or sphere_extension.get("minimality", {}).get("minimal_total_extension_degree") != 3
+        or sphere_extension.get("minimality", {}).get("canonical_envelope")
+        != "a(n)=(25/12)*n1*n2"
+        or sphere_symbol.get("definition")
+        != "DeltaB(n)=(25/12)*n1*n2*w*(n1*e21-n2*e54)^T"
+        or sphere_symbol.get("polynomial_and_smooth_on_S2") is not True
+        or sphere_symbol.get("bounded_on_S2") is not True
+        or sphere_symbol.get("antipodally_odd") is not True
+        or sphere_symbol.get("physical_gradient_lift_annihilated_identically") is not True
+        or sphere_symbol.get("output_vector_sha256")
+        != "68f42985cff4653364ddf9d0ce0a6bb1c9e84aa5c3b8998d338195220a985e7a"
+        or sphere_symbol.get("symbol_sha256")
+        != "965ab6cc84cfd809dede2d0b9f10a8002956e6a43dee1a4995c0fdf42c407c26"
+        or sphere_symbol.get("gradient_lift_residual_sha256")
+        != "4efb4f5888421b27afeb457ab5bd0f20260c86f9f4f20229e45b1baccdd89346"
+        or sphere_preservation.get("candidate_certificates_preserved") != 12
+        or sphere_preservation.get("reference_e1_extension_zero") is not True
+        or sphere_preservation.get("axis2_e2_extension_zero") is not True
+        or sphere_preservation.get("original_generic_extension_equals_fixed_block") is not True
+        or sphere_preservation.get("fixed_block_sha256")
+        != "006aecdc99032a89a597b56e69ffed9ef35d3c9f1278b20ec96b1b0741dceb3a"
+        or sphere_frame.get("directional_evaluations") != 15
+        or sphere_frame.get("all_seven_eigenspaces_checked_per_candidate") is not True
+        or sphere_frame.get("base_D4_RHS_nonzero_entries") != 20
+        or sphere_frame.get("base_D4_RHS_sha256")
+        != "d3ab104a0de327e978b6bbe03113b2cf883bce4b34684eed94574560388e0513"
+        or sphere_frame.get("total_correction_block_sha256")
+        != "8dac2461183b13df9be8d92d60f3bb5926624e75ce72601c864bdddbe99db862"
+        or sphere_frame.get("extension_block_zero_at_frame") is not True
+        or sphere_frame.get("candidate_compatibilities") != 0
+        or sphere_frame.get("candidate_obstructions") != 12
+        or sphere_frame.get("selector", {}).get("direction") != ["3/5", "0", "4/5"]
+        or sphere_frame.get("selector", {}).get("frame_name") != "xz_3_4_5"
+        or sphere_frame.get("selector", {}).get(
+            "deterministic_position_after_original_generic_frame"
+        )
+        != 1
+        or sphere_frame.get("selector", {}).get("later_declared_frames_unevaluated") != 1
+        or sphere_frame.get("selector", {}).get("stop_reason")
+        != "first_exact_additional_frame_obstruction"
+        or len(sphere_frame.get("candidate_records", [])) != 12
+        or any(
+            record.get("D4_Sylvester_solvable") is not False
+            or record.get("nonzero_equal_eigenspace_compressions", {})
+            .get("0", {})
+            .get("rank")
+            != 2
+            or record.get("nonzero_equal_eigenspace_compressions", {})
+            .get("0", {})
+            .get("nonzero_entries")
+            != 14
+            for record in sphere_frame.get("candidate_records", [])
+        )
+        or any(
+            sphere_claims.get(key) is not True
+            for key in (
+                "antipodally_odd_bounded_smooth_sphere_symbol_constructed",
+                "canonical_degree_three_extension_rejected_as_all_direction_completion",
+                "e1_e2_and_original_generic_certificates_preserved",
+                "first_additional_generic_frame_recurrence_evaluated",
+                "minimal_degree_three_extension_in_declared_class_constructed",
+            )
+        )
+        or any(
+            sphere_claims.get(key) is not False
+            for key in (
+                "broader_matrix_curl_symbol_class_classified",
+                "full_direction_sphere_D4_compatibility_proved",
+                "local_differential_operator_origin_proved",
+                "covariant_action_origin_proved",
+                "variable_coefficient_constraint_calculus_proved",
+                "boundary_energy_admission_proved",
+                "corrected_candidate_family_registered",
+                "remaining_D4_selector_closed",
+                "full_tube_Sylvester_identity",
+                "CK1_closed",
+                "CK3_closed",
+                "TC2_closed",
+                "B7_closed",
+                "global_H7_closed",
+                "lifespan_proved",
+            )
+        )
+        or any(
+            control.get("rejected") is not True
+            for control in quartic_tc2_d4_degree_three_sphere_extension.get(
+                "negative_controls", {}
+            ).values()
+        )
+    ):
+        raise ValueError("quartic TC2 degree-three sphere extension is inconsistent")
     if (
         unified_live_dashboard_service_readiness.get("decision")
         != "ready_enabled_read_only_bounded"
@@ -6739,6 +6969,37 @@ def build_unified_snapshot(
                 ],
             },
             "deadline": "completed_artifact_no_live_deadline",
+        },
+        "cpu_real_formula_overlap_benchmark": {
+            "decision": cpu_real_formula_overlap["decision"],
+            "coverage": cpu_overlap_coverage,
+            "contract": cpu_overlap_contract,
+            "hardware_attestation": cpu_overlap_hardware,
+            "stages": cpu_overlap_stages,
+            "stage_16_admitted": cpu_real_formula_overlap["stage_16_admitted"],
+            "overlap_control_executed": cpu_real_formula_overlap[
+                "overlap_control_executed"
+            ],
+            "cross_stage_replay_equal": cpu_real_formula_overlap[
+                "cross_stage_replay_equal"
+            ],
+            "cpu_target_met": cpu_real_formula_overlap["cpu_target_met"],
+            "resource_backoff_triggered": cpu_real_formula_overlap[
+                "resource_backoff_triggered"
+            ],
+            "resource_policy_promoted": cpu_real_formula_overlap[
+                "resource_policy_promoted"
+            ],
+            "total_formula_evaluator_executions": cpu_real_formula_overlap[
+                "total_formula_evaluator_executions"
+            ],
+            "overlap_control_replay_formula_evaluations": cpu_real_formula_overlap[
+                "overlap_control_replay_formula_evaluations"
+            ],
+            "total_elapsed_seconds": cpu_real_formula_overlap["total_elapsed_seconds"],
+            "scientific_pass": cpu_real_formula_overlap["scientific_pass"],
+            "interpretation": cpu_real_formula_overlap["interpretation"],
+            "seals": cpu_real_formula_overlap["seals"],
         },
         "einstein_aether_coupling_boundary_kkt": {
             "decision": einstein_aether_coupling_boundary_kkt["decision"],
@@ -8382,9 +8643,23 @@ def build_unified_snapshot(
                         "claims": matrix_curl_claims,
                         "scope": quartic_tc2_d4_matrix_curl_rank_one_completion["scope"],
                     },
-                    "next_gate": quartic_tc2_d4_matrix_curl_rank_one_completion[
-                        "next_gate"
-                    ],
+                    "degree_three_matrix_curl_sphere_extension": {
+                        "status": quartic_tc2_d4_degree_three_sphere_extension["status"],
+                        "counts": sphere_extension_counts,
+                        "selector_binding": quartic_tc2_d4_degree_three_sphere_extension[
+                            "selector_binding"
+                        ],
+                        "declared_extension_class": sphere_extension[
+                            "declared_extension_class"
+                        ],
+                        "minimality": sphere_extension["minimality"],
+                        "exact_sphere_symbol": sphere_symbol,
+                        "certificate_preservation": sphere_preservation,
+                        "first_additional_frame_audit": sphere_frame,
+                        "claims": sphere_claims,
+                        "scope": quartic_tc2_d4_degree_three_sphere_extension["scope"],
+                    },
+                    "next_gate": quartic_tc2_d4_degree_three_sphere_extension["next_gate"],
                 },
                 "full_fourth_jet_range_closed": False,
             },
@@ -8401,7 +8676,7 @@ def build_unified_snapshot(
                 )
             },
             "first_missing_premise": (
-                "antipodally_odd_bounded_smooth_matrix_symbol_extension_with_constraint_commutator_boundary_admission"
+                "matrix_curl_channel_or_envelope_nonvanishing_on_n2_zero_great_circle_with_preserved_certificates"
             ),
         },
         "evidence_pareto": {

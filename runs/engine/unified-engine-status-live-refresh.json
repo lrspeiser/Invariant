@@ -31,27 +31,27 @@
     },
     "campaign_watchdog": {
       "budget": {
-        "cycles_completed": 31,
+        "cycles_completed": 32,
         "maximum_cycles": 336,
         "maximum_tasks": 100000,
         "tasks_failed": 0,
-        "tasks_started": 361,
-        "tasks_succeeded": 325
+        "tasks_started": 366,
+        "tasks_succeeded": 329
       },
       "candidate_counts": {
         "active": 2,
-        "deferred": 30,
+        "deferred": 31,
         "rejected": 17
       },
       "deadline_utc": "2026-08-21T18:19:20.149898+00:00",
       "evidence_outcome_counts": {
-        "pass": 294,
+        "pass": 297,
         "reject": 22,
-        "unresolved": 83
+        "unresolved": 85
       },
       "normalized_evidence_outcomes": {
-        "block": 83,
-        "pass": 294,
+        "block": 85,
+        "pass": 297,
         "reject": 22
       },
       "read_contract": "sqlite_uri_mode_ro_plus_query_only_transaction",
@@ -63,9 +63,9 @@
       "state": "active",
       "stop_reason": null,
       "task_counts": {
-        "deferred": 36,
+        "deferred": 37,
         "queued": 2,
-        "succeeded": 325
+        "succeeded": 329
       }
     },
     "continuous_dashboard": {
@@ -123,6 +123,166 @@
         "service_started": false
       },
       "writes_live_campaign_database": false
+    },
+    "cpu_real_formula_overlap_benchmark": {
+      "contract": {
+        "allowlisted_evaluator": "sigma_theory_compiler.real_formula_execution:cpu_formula_batch_evaluator",
+        "cpu_backoff_above_percent": 92,
+        "cpu_target_percent": 80,
+        "fixed_shard_count": 64,
+        "fixed_shard_size": 1024,
+        "gpu_workers": 0,
+        "maximum_stage_seconds": 120,
+        "maximum_total_seconds": 240,
+        "minimum_available_ram_mib": 32768,
+        "sample_interval_seconds": 0.1,
+        "shutdown_reserve_seconds": 1.0,
+        "worker_stages": [
+          15,
+          16
+        ]
+      },
+      "coverage": {
+        "candidate_grid_evaluations": 22478848,
+        "disjoint_from_prior_execution_stop": true,
+        "first_candidate_id": "STC2-f9eacf5b6cfe44a67d38f940",
+        "grid_point_count": 343,
+        "interval": {
+          "start": 1000000000,
+          "stop": 1000065536
+        },
+        "last_candidate_id": "STC2-eec3c7ee83d030875ab452ce",
+        "signed_term_hessian_accumulations": 134873088,
+        "six_term_tier_start_ordinal": 71646920,
+        "term_count": 6,
+        "unique_formula_count": 65536
+      },
+      "cpu_target_met": true,
+      "cross_stage_replay_equal": true,
+      "decision": "real_formula_cpu_overlap_completed_target_met_no_policy_promotion",
+      "hardware_attestation": {
+        "installed_ram_mib": 98010,
+        "logical_processors": 24,
+        "physical_cores": 24,
+        "profile_matches_host_topology": true,
+        "profile_reserved_cpu_cores": 8,
+        "profile_sustained_cpu_workers": 16,
+        "resource_profile_file_sha256": "7cefb93ee81f589bc4632e90900e5e67aa97c19b9b31ad3315b9114b5df14a26"
+      },
+      "interpretation": "This extends sampled-static formula coverage and measures CPU overlap. A sampled-static pass is not a covariant-health, theory, formal, observational, or ranking pass; a screen reject is not a theory rejection. Fixed-interval host CPU samples and summed worker process CPU time are hardware measurements, not a resource-policy change.",
+      "overlap_control_executed": true,
+      "overlap_control_replay_formula_evaluations": 65536,
+      "resource_backoff_triggered": true,
+      "resource_policy_promoted": false,
+      "scientific_pass": false,
+      "seals": {
+        "arbitrary_callable_or_subprocess_injection": false,
+        "dark_matter_or_halo_inputs": false,
+        "existing_process_signaled": false,
+        "gpu_or_cuda_access": false,
+        "observations_opened": false,
+        "paid_llm_calls": false,
+        "redshift_distance_inputs": false,
+        "scientific_or_resource_policy_promotion": false,
+        "sqlite_access": false
+      },
+      "stage_16_admitted": true,
+      "stages": [
+        {
+          "all_evaluator_controls_passed": true,
+          "ambiguous_are_not_passes": true,
+          "backend": "cpu_numpy",
+          "backoff_threshold_exceeded": false,
+          "batch_count": 64,
+          "candidate_grid_evaluations": 22478848,
+          "candidate_grid_evaluations_per_second": 22002114.973010458,
+          "content_sha256": "dd04afce416ae2891128a7fedff0c26c484ad529cfd333c3545baf9e9c1489c0",
+          "counts": {
+            "ambiguous": 0,
+            "pass": 0,
+            "reject": 65536
+          },
+          "cpu_percent_mean": 68.77,
+          "cpu_percent_median": 74.3,
+          "cpu_percent_peak": 81.1,
+          "cpu_sample_count": 10,
+          "cpu_sample_interval_seconds": 0.1,
+          "cpu_sampling_contract": "fixed_interval_blocking_device_wide_psutil",
+          "cpu_target_met_by_median": false,
+          "cpu_target_percent": 80,
+          "elapsed_seconds": 1.0216676000272855,
+          "exact_gap_overlap_duplicate_free_coverage": true,
+          "fixed_shard_count": 64,
+          "fixed_shard_manifest_root_sha256": "5af6f1eca00d98da865541361eff765fea2039359b797573b4ca1da0fc7f84cf",
+          "fixed_shard_size": 1024,
+          "gpu_workers": 0,
+          "hard_deadline_enforced": true,
+          "hard_deadline_triggered": false,
+          "interval": {
+            "start": 1000000000,
+            "stop": 1000065536
+          },
+          "minimum_available_ram_mib": 56336,
+          "owned_worker_termination_count": 0,
+          "partition_independent_status_root_sha256": "7c678fae9bf8ce77561f58ef3df33ee40516fc26856db7920b5b84b2f275e909",
+          "reported_margin_minimum": -11809.791419690013,
+          "signed_term_hessian_accumulations": 134873088,
+          "unique_formula_count": 65536,
+          "unique_formulas_per_second": 64146.10779303341,
+          "wall_bound_exceeded": false,
+          "worker_cpu_capacity_percent": 18.416072082704957,
+          "worker_cpu_seconds": 4.515625,
+          "workers": 15
+        },
+        {
+          "all_evaluator_controls_passed": true,
+          "ambiguous_are_not_passes": true,
+          "backend": "cpu_numpy",
+          "backoff_threshold_exceeded": true,
+          "batch_count": 64,
+          "candidate_grid_evaluations": 22478848,
+          "candidate_grid_evaluations_per_second": 22120567.799790733,
+          "content_sha256": "8b59bf948dd7ee22ecf20d8402f4bf2d88cb41bc5c5e26d34e3b2b6316fd1eda",
+          "counts": {
+            "ambiguous": 0,
+            "pass": 0,
+            "reject": 65536
+          },
+          "cpu_percent_mean": 87.17,
+          "cpu_percent_median": 89.4,
+          "cpu_percent_peak": 100.0,
+          "cpu_sample_count": 10,
+          "cpu_sample_interval_seconds": 0.1,
+          "cpu_sampling_contract": "fixed_interval_blocking_device_wide_psutil",
+          "cpu_target_met_by_median": true,
+          "cpu_target_percent": 80,
+          "elapsed_seconds": 1.0161966999876313,
+          "exact_gap_overlap_duplicate_free_coverage": true,
+          "fixed_shard_count": 64,
+          "fixed_shard_manifest_root_sha256": "5af6f1eca00d98da865541361eff765fea2039359b797573b4ca1da0fc7f84cf",
+          "fixed_shard_size": 1024,
+          "gpu_workers": 0,
+          "hard_deadline_enforced": true,
+          "hard_deadline_triggered": false,
+          "interval": {
+            "start": 1000000000,
+            "stop": 1000065536
+          },
+          "minimum_available_ram_mib": 56280,
+          "owned_worker_termination_count": 0,
+          "partition_independent_status_root_sha256": "7c678fae9bf8ce77561f58ef3df33ee40516fc26856db7920b5b84b2f275e909",
+          "reported_margin_minimum": -11809.791419690013,
+          "signed_term_hessian_accumulations": 134873088,
+          "unique_formula_count": 65536,
+          "unique_formulas_per_second": 64491.45131134324,
+          "wall_bound_exceeded": false,
+          "worker_cpu_capacity_percent": 19.21995023231007,
+          "worker_cpu_seconds": 4.6875,
+          "workers": 16
+        }
+      ],
+      "total_elapsed_seconds": 2.343868499970995,
+      "total_formula_evaluator_executions": 131072
     },
     "cross_pipeline_total": {
       "reason": "pipelines overlap candidates and use different gate semantics; per-stage exact counts must not be summed",
@@ -4291,8 +4451,8 @@
       }
     },
     "llm": {
-      "calls_completed": 30,
-      "calls_started": 30,
+      "calls_completed": 31,
+      "calls_started": 31,
       "campaign_bridge": {
         "admission_callback_configured": false,
         "campaign_task_type": "reviewed_llm_formula_proposal",
@@ -4370,7 +4530,7 @@
         "grammar_parameter_cells": 0.0,
         "promotion_overlay": 0.0
       },
-      "spent_usd": 8.225375,
+      "spent_usd": 8.508076,
       "typed_dsl_admission": {
         "compiler_queue_task_type": "reviewed_covariant_compiler_admission",
         "default_execution_enabled": false,
@@ -4427,7 +4587,7 @@
         "mixed_third_jet_closures": 1600,
         "remaining_mixed_triples": 10700
       },
-      "first_missing_premise": "antipodally_odd_bounded_smooth_matrix_symbol_extension_with_constraint_commutator_boundary_admission",
+      "first_missing_premise": "matrix_curl_channel_or_envelope_nonvanishing_on_n2_zero_great_circle_with_preserved_certificates",
       "fourth_jet_range_obligations": {
         "active_direction_rank": 15,
         "candidate_evaluations": 2940,
@@ -5014,6 +5174,307 @@
             },
             "scope": "Exact gauge-fixed constraint admission of the minimal rank-one V at the reference direction. The two-direction curl completion annihilates the canonical gradient lift and gives a closed homogeneous definition/curl-constraint subsystem, including variable coefficient eta(Y). It is not derived from a covariant action; spatially covariant completion, other directions/eigenspaces, corrected registration, the remaining D4 selector, tube closure, CK1, CK3, TC2, B7, global-H7, and lifespan remain fail-closed.",
             "status": "pass_exact_gauge_fixed_curl_constraint_admission_for_minimal_V"
+          },
+          "degree_three_matrix_curl_sphere_extension": {
+            "certificate_preservation": {
+              "axis2_e2_extension_zero": true,
+              "candidate_certificates_preserved": 12,
+              "fixed_block_rank": 1,
+              "fixed_block_sha256": "006aecdc99032a89a597b56e69ffed9ef35d3c9f1278b20ec96b1b0741dceb3a",
+              "minus_e1_extension_zero": true,
+              "minus_e2_extension_zero": true,
+              "original_generic_direction": [
+                "3/5",
+                "4/5",
+                "0"
+              ],
+              "original_generic_extension_equals_fixed_block": true,
+              "reference_e1_extension_zero": true
+            },
+            "claims": {
+              "B7_closed": false,
+              "CK1_closed": false,
+              "CK3_closed": false,
+              "TC2_closed": false,
+              "antipodally_odd_bounded_smooth_sphere_symbol_constructed": true,
+              "boundary_energy_admission_proved": false,
+              "broader_matrix_curl_symbol_class_classified": false,
+              "canonical_degree_three_extension_rejected_as_all_direction_completion": true,
+              "corrected_candidate_family_registered": false,
+              "covariant_action_origin_proved": false,
+              "e1_e2_and_original_generic_certificates_preserved": true,
+              "first_additional_generic_frame_recurrence_evaluated": true,
+              "full_direction_sphere_D4_compatibility_proved": false,
+              "full_tube_Sylvester_identity": false,
+              "global_H7_closed": false,
+              "lifespan_proved": false,
+              "local_differential_operator_origin_proved": false,
+              "minimal_degree_three_extension_in_declared_class_constructed": true,
+              "remaining_D4_selector_closed": false,
+              "variable_coefficient_constraint_calculus_proved": false
+            },
+            "counts": {
+              "additional_frames_evaluated": 1,
+              "additional_frames_unevaluated_after_stop": 1,
+              "bound_predecessors": 4,
+              "candidate_certificates_preserved": 12,
+              "candidate_direction_compatibilities": 0,
+              "candidate_direction_obstructions": 12,
+              "candidate_direction_systems_evaluated": 12,
+              "directional_recurrence_evaluations": 15,
+              "inferred_global_passes": 0,
+              "minimal_total_extension_degree": 3,
+              "negative_controls": 7,
+              "nonzero_polynomial_coefficient_blocks": 2,
+              "preserved_direction_certificates": 3,
+              "single_curl_channels": 1
+            },
+            "declared_extension_class": {
+              "broader_matrix_symbols_included": false,
+              "even_polynomial_envelope": true,
+              "fixed_output_vector": true,
+              "name": "fixed_output_single_C12_curl_channel_with_even_scalar_envelope",
+              "required_axis_values": [
+                "a(e1)=0",
+                "a(e2)=0",
+                "a(3/5,4/5,0)=1"
+              ],
+              "single_curl_channel": "C12_field10",
+              "symbol": "DeltaB(n)=a(n)*w*(n1*e21-n2*e54)^T"
+            },
+            "exact_sphere_symbol": {
+              "antipodally_odd": true,
+              "bounded_on_S2": true,
+              "curl_covector_euclidean_bound": "1",
+              "definition": "DeltaB(n)=(25/12)*n1*n2*w*(n1*e21-n2*e54)^T",
+              "envelope_absolute_bound": "25/24",
+              "frobenius_bound": "(25/24)*sqrt(519430282693403623252011/50911634695216128906250000)",
+              "gradient_lift_residual_sha256": "4efb4f5888421b27afeb457ab5bd0f20260c86f9f4f20229e45b1baccdd89346",
+              "nonzero_polynomial_coefficient_blocks": 2,
+              "output_vector_nonzero_entries": 12,
+              "output_vector_sha256": "68f42985cff4653364ddf9d0ce0a6bb1c9e84aa5c3b8998d338195220a985e7a",
+              "physical_gradient_lift_annihilated_identically": true,
+              "polynomial_and_smooth_on_S2": true,
+              "symbol_sha256": "965ab6cc84cfd809dede2d0b9f10a8002956e6a43dee1a4995c0fdf42c407c26"
+            },
+            "first_additional_frame_audit": {
+              "all_seven_eigenspaces_checked_per_candidate": true,
+              "base_D4_RHS_nonzero_entries": 20,
+              "base_D4_RHS_sha256": "d3ab104a0de327e978b6bbe03113b2cf883bce4b34684eed94574560388e0513",
+              "candidate_compatibilities": 0,
+              "candidate_obstructions": 12,
+              "candidate_records": [
+                {
+                  "D4_Sylvester_solvable": false,
+                  "a10": "-1/2",
+                  "c20": "-1",
+                  "candidate_id": "quartic-symbol-06e267a9215345b6",
+                  "eta": "1088/15",
+                  "nonzero_equal_eigenspace_compressions": {
+                    "0": {
+                      "nonzero_entries": 14,
+                      "rank": 2,
+                      "sha256": "3dc854a84d99f1b92f2c7c1817a14297e0d382805035222b973602c73e991dd6"
+                    }
+                  }
+                },
+                {
+                  "D4_Sylvester_solvable": false,
+                  "a10": "1/2",
+                  "c20": "1",
+                  "candidate_id": "quartic-symbol-076dc0ba965ab63a",
+                  "eta": "-1088/15",
+                  "nonzero_equal_eigenspace_compressions": {
+                    "0": {
+                      "nonzero_entries": 14,
+                      "rank": 2,
+                      "sha256": "83c4abbfd3aac4980832d81a74e48d35e613645e00320f31ba58a67dd7239f45"
+                    }
+                  }
+                },
+                {
+                  "D4_Sylvester_solvable": false,
+                  "a10": "-1",
+                  "c20": "1",
+                  "candidate_id": "quartic-symbol-317e5395817a432b",
+                  "eta": "34816/15",
+                  "nonzero_equal_eigenspace_compressions": {
+                    "0": {
+                      "nonzero_entries": 14,
+                      "rank": 2,
+                      "sha256": "b19a6c0dd5fe531a9c27b481714d44e11e45d63886025a006db8c4bca1d18a8e"
+                    }
+                  }
+                },
+                {
+                  "D4_Sylvester_solvable": false,
+                  "a10": "-1/2",
+                  "c20": "0",
+                  "candidate_id": "quartic-symbol-50f184dfe1a814bf",
+                  "eta": "1088/15",
+                  "nonzero_equal_eigenspace_compressions": {
+                    "0": {
+                      "nonzero_entries": 14,
+                      "rank": 2,
+                      "sha256": "3dc854a84d99f1b92f2c7c1817a14297e0d382805035222b973602c73e991dd6"
+                    }
+                  }
+                },
+                {
+                  "D4_Sylvester_solvable": false,
+                  "a10": "-1",
+                  "c20": "-1",
+                  "candidate_id": "quartic-symbol-5455cad9e42a0dbc",
+                  "eta": "34816/15",
+                  "nonzero_equal_eigenspace_compressions": {
+                    "0": {
+                      "nonzero_entries": 14,
+                      "rank": 2,
+                      "sha256": "b19a6c0dd5fe531a9c27b481714d44e11e45d63886025a006db8c4bca1d18a8e"
+                    }
+                  }
+                },
+                {
+                  "D4_Sylvester_solvable": false,
+                  "a10": "1/2",
+                  "c20": "-1",
+                  "candidate_id": "quartic-symbol-561de1410d6cb21f",
+                  "eta": "-1088/15",
+                  "nonzero_equal_eigenspace_compressions": {
+                    "0": {
+                      "nonzero_entries": 14,
+                      "rank": 2,
+                      "sha256": "83c4abbfd3aac4980832d81a74e48d35e613645e00320f31ba58a67dd7239f45"
+                    }
+                  }
+                },
+                {
+                  "D4_Sylvester_solvable": false,
+                  "a10": "1",
+                  "c20": "1",
+                  "candidate_id": "quartic-symbol-8fd254934d778c28",
+                  "eta": "-34816/15",
+                  "nonzero_equal_eigenspace_compressions": {
+                    "0": {
+                      "nonzero_entries": 14,
+                      "rank": 2,
+                      "sha256": "2754be74e2bbc579e3a3c4d0d27f83207a01d065d1e03d653d54e262e60e93e6"
+                    }
+                  }
+                },
+                {
+                  "D4_Sylvester_solvable": false,
+                  "a10": "1",
+                  "c20": "0",
+                  "candidate_id": "quartic-symbol-9e65901e5299a514",
+                  "eta": "-34816/15",
+                  "nonzero_equal_eigenspace_compressions": {
+                    "0": {
+                      "nonzero_entries": 14,
+                      "rank": 2,
+                      "sha256": "2754be74e2bbc579e3a3c4d0d27f83207a01d065d1e03d653d54e262e60e93e6"
+                    }
+                  }
+                },
+                {
+                  "D4_Sylvester_solvable": false,
+                  "a10": "1/2",
+                  "c20": "0",
+                  "candidate_id": "quartic-symbol-e4a6a9193316a6ff",
+                  "eta": "-1088/15",
+                  "nonzero_equal_eigenspace_compressions": {
+                    "0": {
+                      "nonzero_entries": 14,
+                      "rank": 2,
+                      "sha256": "83c4abbfd3aac4980832d81a74e48d35e613645e00320f31ba58a67dd7239f45"
+                    }
+                  }
+                },
+                {
+                  "D4_Sylvester_solvable": false,
+                  "a10": "1",
+                  "c20": "-1",
+                  "candidate_id": "quartic-symbol-ef832e4c3b71ee42",
+                  "eta": "-34816/15",
+                  "nonzero_equal_eigenspace_compressions": {
+                    "0": {
+                      "nonzero_entries": 14,
+                      "rank": 2,
+                      "sha256": "2754be74e2bbc579e3a3c4d0d27f83207a01d065d1e03d653d54e262e60e93e6"
+                    }
+                  }
+                },
+                {
+                  "D4_Sylvester_solvable": false,
+                  "a10": "-1/2",
+                  "c20": "1",
+                  "candidate_id": "quartic-symbol-f31a234e2bf7b97f",
+                  "eta": "1088/15",
+                  "nonzero_equal_eigenspace_compressions": {
+                    "0": {
+                      "nonzero_entries": 14,
+                      "rank": 2,
+                      "sha256": "3dc854a84d99f1b92f2c7c1817a14297e0d382805035222b973602c73e991dd6"
+                    }
+                  }
+                },
+                {
+                  "D4_Sylvester_solvable": false,
+                  "a10": "-1",
+                  "c20": "0",
+                  "candidate_id": "quartic-symbol-fb5c20c15ce6d778",
+                  "eta": "34816/15",
+                  "nonzero_equal_eigenspace_compressions": {
+                    "0": {
+                      "nonzero_entries": 14,
+                      "rank": 2,
+                      "sha256": "b19a6c0dd5fe531a9c27b481714d44e11e45d63886025a006db8c4bca1d18a8e"
+                    }
+                  }
+                }
+              ],
+              "directional_evaluations": 15,
+              "extension_block_zero_at_frame": true,
+              "selector": {
+                "deterministic_position_after_original_generic_frame": 1,
+                "direction": [
+                  "3/5",
+                  "0",
+                  "4/5"
+                ],
+                "frame_name": "xz_3_4_5",
+                "later_declared_frames_unevaluated": 1,
+                "stop_reason": "first_exact_additional_frame_obstruction"
+              },
+              "total_correction_block_rank": 1,
+              "total_correction_block_sha256": "8dac2461183b13df9be8d92d60f3bb5926624e75ce72601c864bdddbe99db862"
+            },
+            "minimality": {
+              "canonical_envelope": "a(n)=(25/12)*n1*n2",
+              "constant_even_envelope_impossible": true,
+              "curl_covector_degree": 1,
+              "degree_one_envelope_rejected_by_antipodal_parity": true,
+              "minimal_even_envelope_degree": 2,
+              "minimal_total_extension_degree": 3,
+              "normalization_at_original_generic_frame": "1"
+            },
+            "scope": "Exact minimal degree-three construction within the fixed-output single-C12-curl scalar-envelope class. The polynomial symbol is bounded, smooth and antipodally odd on the direction sphere, annihilates the physical gradient lift, and preserves the e1, e2 and xy_3_4_5 certificates. Its first additional full orders-one-through-four audit at xz_3_4_5 obstructs all 12 candidates. No broader all-direction, local, covariant, PDE-admission, remaining-D4, tube, CK, TC2, B7, H7 or lifespan conclusion is inferred.",
+            "selector_binding": {
+              "active_indices": [
+                0,
+                2,
+                3,
+                9
+              ],
+              "newly_audited_direction": "xz_3_4_5",
+              "obligation_offset": 244,
+              "preserved_directions": [
+                "e1",
+                "e2",
+                "xy_3_4_5"
+              ]
+            },
+            "status": "pass_exact_minimal_degree_three_matrix_curl_sphere_extension_with_first_additional_frame_obstruction"
           },
           "exact_candidate_witness_gap": "[1088/15,34816/15]",
           "full_linear_gradient_annihilator_no_go": {
@@ -5731,7 +6192,7 @@
             "status": "pass_exact_minimal_rank_one_tc2_d4_escape_algebraic_only",
             "target_cokernel_line_dimension": 1
           },
-          "next_gate": "Extend the one-frame rank-one combined-curl block to an antipodally odd, bounded smooth matrix symbol on the direction sphere that preserves the e1/e2 certificates, then prove pseudodifferential constraint/commutator/boundary admission and re-audit additional generic directions.",
+          "next_gate": "Enlarge the envelope/channel class so the correction need not vanish on the n2=0 great circle, while retaining the e1/e2 certificates, antipodal oddness, gradient-lift annihilation and the original generic-frame block; then re-audit the xz frame before any all-direction or PDE admission claim.",
           "obligation_offset": 244,
           "parity_cubic_angular_escape": {
             "claims": {
@@ -46836,6 +47297,12 @@
         "freshness_class": "immutable_completed_snapshot",
         "stale_source_reason": null
       },
+      "cpu_real_formula_overlap_benchmark": {
+        "content_sha256": "1cab89ab66f4bafbf4be6adcde7f40bd787eaec1814497a08b0a0c64a9d3b3de",
+        "file_sha256": "9cd00ab25ac93f003441c5397b5dc1e3796da9a432dac8f9b7e60c660beee987",
+        "freshness_class": "immutable_completed_snapshot",
+        "stale_source_reason": null
+      },
       "einstein_aether_coupling_boundary_kkt": {
         "content_sha256": "3b3887acf6421672758371ad67c7bc6fb83df6f8dde2059d4cf85a7f29647211",
         "file_sha256": "5f2326c19dd5170d146fa162de58552ae6551be1bcb7fe0f0bc4deae866f1609",
@@ -47403,6 +47870,12 @@
       "quartic_tc2_d4_curl_constraint_admission": {
         "content_sha256": "df37680b05b3d6da32e107bee16397a1a37b77d97c3da5a26c0bd49ad194cb6a",
         "file_sha256": "61beec6a3be333eba6858e04339cd978acb42dfb049b055ddcbf3e5edb732401",
+        "freshness_class": "immutable_completed_snapshot",
+        "stale_source_reason": null
+      },
+      "quartic_tc2_d4_degree_three_matrix_curl_sphere_extension": {
+        "content_sha256": "eeed4ff94da64999679428e47453447490a31affa9aab6e97e120da894aebe0c",
+        "file_sha256": "80314bc44780b32b8e6c97daac0983cc203928030c2976899b19e743165b28a7",
         "freshness_class": "immutable_completed_snapshot",
         "stale_source_reason": null
       },
@@ -50843,13 +51316,13 @@
       }
     }
   },
-  "core_content_sha256": "6d322f5ab9a18e7d033bd745b68e8143cda5d31325dec13a9bc082619ea03ece",
+  "core_content_sha256": "6a8da6a165a4efd4b100ae629c77b93d0091ac132c02f536f38e6dab97d002e4",
   "volatile": {
     "campaign_watchdog_freshness": {
-      "age_seconds": 2599.830759,
-      "expected_next_event_not_before_utc": "2026-08-11T21:26:28.160422+00:00",
-      "freshness_deadline_utc": "2026-08-11T21:56:28.160422+00:00",
-      "latest_event_utc": "2026-08-11T20:26:28.169241+00:00",
+      "age_seconds": 1367.789148,
+      "expected_next_event_not_before_utc": "2026-08-11T22:29:07.282466+00:00",
+      "freshness_deadline_utc": "2026-08-11T22:59:07.282466+00:00",
+      "latest_event_utc": "2026-08-11T21:29:07.290655+00:00",
       "stale": false,
       "stale_source_reason": null,
       "state": "scheduled_idle"
@@ -50884,21 +51357,16 @@
       "availability": "available",
       "logical_processors": 24,
       "memory_total_bytes": 102771290112,
-      "memory_used_bytes": 41939714048,
+      "memory_used_bytes": 42961580032,
       "physical_cores": 24,
       "source": "psutil_host_sample",
-      "utilization_percent": 10.8
+      "utilization_percent": 6.7
     },
     "physical_gpu": {
-      "availability": "available",
-      "device_class": "NVIDIA GeForce RTX 5090",
-      "memory_total_mib": 32607.0,
-      "memory_used_mib": 24041.0,
-      "power_draw_watts": 560.09,
-      "source": "nvidia-smi_nvml",
-      "utilization_percent": 99.0
+      "availability": "disabled",
+      "source": "disabled_by_operator"
     },
-    "sampled_at_utc": "2026-08-11T21:09:48+00:00",
+    "sampled_at_utc": "2026-08-11T21:51:55.079803+00:00",
     "scheduler_readiness": {
       "cpu_symbolic": {
         "delayed_until_not_before": 0,
@@ -50914,13 +51382,13 @@
       },
       "housekeeping": {
         "delayed_until_not_before": 1,
-        "earliest_future_not_before_utc": "2026-08-11T21:26:28.160422+00:00",
+        "earliest_future_not_before_utc": "2026-08-11T22:29:07.282466+00:00",
         "queued_total": 1,
         "runnable_now": 0
       },
       "llm_research": {
         "delayed_until_not_before": 1,
-        "earliest_future_not_before_utc": "2026-08-11T21:26:28.160422+00:00",
+        "earliest_future_not_before_utc": "2026-08-11T22:29:07.282466+00:00",
         "queued_total": 1,
         "runnable_now": 0
       },
@@ -50934,18 +51402,18 @@
     "unified_live_dashboard_service": {
       "alive": true,
       "availability": "available",
-      "checkpoint_content_sha256": "69d0af1420f1ad76c35bacd247c9cf88c02318abf3b339fd4f365b688f0d2a1e",
-      "checkpoint_file_sha256": "1c5ac41e3817507347c8fa944378846b467d2112e34781e9127fc4cd6bb43717",
+      "checkpoint_content_sha256": "10fd9cd8d77e1589205508464f3f5b78ce60f06a1da8414dfe1cb15154766894",
+      "checkpoint_file_sha256": "b7e272e8145f1150bad0d5cf60f16cfee1c424d7e01a8609e22f40400f499d66",
       "config_current": true,
       "consecutive_failures": 0,
       "implementation": "hardened_safety",
       "last_error_kind": null,
       "last_refresh": {
-        "core_content_sha256": "4aebf94816cd40e51f91b35788f64d30ad4a30495560d398344c6c9e45fa63e4",
-        "dashboard_file_sha256": "1812719795d727e21696d8c289f7956c81ebcf3f6b3d234fd18d10b35ce0c3b3",
+        "core_content_sha256": "9dfe45e3c43f1e29743366db647496803bdc8f6b44c465bfe6700877625deafa",
+        "dashboard_file_sha256": "0b566626d3f50eb9d23fcf9d6cd37342bb25839c20a64412ee8990f1ab91123b",
         "leaderboard_history_seed": {
-          "core_content_sha256": "3b2d7a56b16d69afc9dd0d2ec8a997b1462c83fbe0feea5f27063a47a7647934",
-          "file_sha256": "dd1a7e8a85421bdb7ac2a989fb7892c60bf7b378dc08030d8e740d85be96a258",
+          "core_content_sha256": "4de74f3859f16f5a055e1af729c65394861bc592a8f3689dcc7cf215e0113ea8",
+          "file_sha256": "abe210c5f2e4177f64d6f0d2899776fe36b96450f28c1dec90571cf5157fb86f",
           "history_entry_count": 8,
           "history_sha256": "103442c8a287790e495b61c3b52d6f0f5edf8f337fd50c179451cd2632265e5c",
           "leaderboard_content_sha256": "69477c58bf51b7ba8f8619bc6603cc7eb48e70083e9d7110bb7c94c6ea20400f",
@@ -50953,12 +51421,12 @@
           "path": "runs/engine/unified-live-dashboard-safety-service/unified-engine-status-live.json",
           "source_kind": "runtime_snapshot"
         },
-        "projection_input_manifest_sha256": "beed0021aa538bc09470765ff0a11986cb08d7446fb31dfbd7649da858be58e8",
-        "snapshot_file_sha256": "d15e7646e914ba9abaa5e13049913be4d2f394be7ffc3ecb2b97d412d0be4fff"
+        "projection_input_manifest_sha256": "f55fa164e67e994e7150f6a50f20c602e1e80823b116adedfce6c1b52de55ca9",
+        "snapshot_file_sha256": "d4656ece9bc5764500dfe542c4bf621543444e7752d64e1c016b21736468651b"
       },
-      "pid": 29756,
+      "pid": 31684,
       "pid_identity_verified": true,
-      "refresh_count": 24,
+      "refresh_count": 29,
       "state": "running",
       "stop_reason": null
     }

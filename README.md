@@ -549,6 +549,14 @@ On an identical 16-million-formula scaling run, eight producers reached 7.49 mil
 formulas per second; 12 and 16 producers were slower as CPU saturation reduced overlap. Eight is
 therefore the evidence-backed 5090 default. Low physical GPU utilization still shows that formula
 production and verification, not CUDA screening, are the current bottleneck.
+A bounded CPU-only overlap benchmark therefore evaluated a disjoint 65,536-formula six-term tail
+with the real formula evaluator on the fixed 343-point Hessian grid: 22,478,848 unique grid
+evaluations and 134,873,088 signed term-Hessian accumulations. Fixed shards gave identical results
+at 15 and 16 workers. Device-wide median CPU rose from 74.3% to 89.4%; the 16-worker peak reached
+100%, crossed the 92% backoff threshold, and correctly caused no persistent resource-policy change.
+Worker-only CPU capacity is reported separately because device-wide counters include concurrent
+work. All 65,536 outcomes were sampled-static screen rejects, not theory rejections, and no formal,
+ranking, observation, GPU, or SQLite claim is inferred.
 The new candidate-bound formula stress lane drives the same RTX 5090 much harder on dense numerical
 work: all 163 materialized Euler projections were checked on 5,341,184 deterministic synthetic
 candidate-point pairs against CPU evaluation, with 5,216 additional exact-rational sentinels and zero
@@ -1499,7 +1507,14 @@ eigenspace compression zero, and makes all 12 candidate D4 systems compatible af
 15-evaluation recurrence. This is a one-frame result only. An antipodally odd bounded smooth
 matrix symbol on the direction sphere, further generic-direction audits, pseudodifferential
 constraint/commutator/boundary calculus, local or covariant origin, and corrected-candidate
-registration remain open. This is not an inferred pass
+registration remain open. The minimal smooth extension in the fixed-output, single-`C12`-curl,
+even-envelope class is now exact:
+`DeltaB(n)=(25/12)n1*n2*w*(n1 e21-n2 e54)^T`. It is degree three, bounded, smooth,
+antipodally odd, annihilates the gradient lift, and preserves all 12 certificates at `e1`, `e2`,
+and `(3/5,4/5,0)`. At the next frame `(3/5,0,4/5)`, its envelope vanishes and all 12 candidates
+retain rank-two zero-speed obstructions. This rejects that canonical degree-three extension as an
+all-direction completion, not broader channel/envelope classes. A correction nonvanishing on the
+`n2=0` great circle remains the next exact gate. This is not an inferred pass
 for the unevaluated tail; full fourth-order range closure, full-tube,
 CK1, CK3, TC2, B7, global-H7, and lifespan remain false.
 
