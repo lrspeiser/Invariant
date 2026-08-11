@@ -31,27 +31,27 @@
     },
     "campaign_watchdog": {
       "budget": {
-        "cycles_completed": 23,
+        "cycles_completed": 24,
         "maximum_cycles": 336,
         "maximum_tasks": 100000,
         "tasks_failed": 0,
-        "tasks_started": 321,
-        "tasks_succeeded": 293
+        "tasks_started": 326,
+        "tasks_succeeded": 297
       },
       "candidate_counts": {
         "active": 2,
-        "deferred": 22,
+        "deferred": 23,
         "rejected": 17
       },
       "deadline_utc": "2026-08-21T18:19:20.149898+00:00",
       "evidence_outcome_counts": {
-        "pass": 270,
+        "pass": 273,
         "reject": 22,
-        "unresolved": 67
+        "unresolved": 69
       },
       "normalized_evidence_outcomes": {
-        "block": 67,
-        "pass": 270,
+        "block": 69,
+        "pass": 273,
         "reject": 22
       },
       "read_contract": "sqlite_uri_mode_ro_plus_query_only_transaction",
@@ -63,9 +63,9 @@
       "state": "active",
       "stop_reason": null,
       "task_counts": {
-        "deferred": 28,
+        "deferred": 29,
         "queued": 2,
-        "succeeded": 293
+        "succeeded": 297
       }
     },
     "continuous_dashboard": {
@@ -497,14 +497,114 @@
                 "aether_formal_control_bound": 128,
                 "blocked": 0,
                 "candidate_action_hashes_specialized": 163,
+                "candidate_backend_variations_executed": 0,
                 "candidate_euler_expressions_materialized": 163,
+                "candidate_specializations_symbolically_verified": 163,
+                "exact_formula_domains_validated": 163,
                 "formal_passes_inferred": 0,
-                "rejected": 0
+                "rejected": 0,
+                "typed_action_hashes_replayed": 163
               },
               "first_missing_premise": "metric_variation_exporters_for_future_unregistered_nonminimal_operator_families",
-              "scope": "candidate-specific materialization of exact Euler expressions by substitution into independently executed and reviewed generic metric-variation theorems for every current generated action hash; this is not 163 independent backend variations, and no formal decision, global-energy claim, or observational gate is changed"
+              "scope": "candidate-specific materialization and symbolic verification of exact Euler specializations by substitution into independently executed or reviewed generic metric-variation theorems for every current replayed action hash; this is not 163 independent backend variations, and no formal decision, global-energy claim, or observational gate is changed"
             },
             "first_missing_premise": "metric_variation_exporters_for_future_unregistered_nonminimal_operator_families",
+            "generic_g4_B4_termwise_normalization": {
+              "canonical_term_count": 24,
+              "full_candidate_formal_pass_inferred": false,
+              "matched_term_count": 24,
+              "metric_variation_normalization_pass": true,
+              "nonzero_residual_count": 0,
+              "primary_source": {
+                "arxiv_id": "1105.5723v4",
+                "authors": "Kobayashi, Yamaguchi, Yokoyama",
+                "equation": "B.4",
+                "title": "Generalized G-inflation: Inflation with the most general second-order field equations"
+              },
+              "primary_source_transcription": {
+                "file_sha256": "497042978c3c0eed8ec02b49c5ceb2c258e60416c23152e34d44cde4ae53d32f",
+                "path": "formal/sources/kyy_1105.5723v4_eq_B4_canonical_coefficients.json"
+              },
+              "scope": "The independently executed Cadabra coefficient of delta g^ab matches all 24 canonical contractions obtained from KYY equation B.4. This closes tensor spelling and coefficient normalization only; it does not prove global energy, nonlinear stability, observational validity, or future unregistered operator families.",
+              "status": "pass_exact_24_term_generic_nonlinear_G4X_metric_Euler_normalization_to_KYY_B4"
+            },
+            "gpu_synthetic_formula_stress": {
+              "campaign_decision": "completed_numerical_stress_control_only",
+              "counts": {
+                "candidate_count": 163,
+                "cpu_exact_rational_crosschecks": 5216,
+                "cpu_full_projection_evaluations": 5341184,
+                "family_count": 4,
+                "formal_passes_inferred": 0,
+                "gpu_measured_candidate_formula_evaluations": 87509958656,
+                "gpu_measured_repetitions": 16384,
+                "gpu_projection_dispatches": 16392,
+                "gpu_warmup_repetitions": 8,
+                "observational_records_accessed": 0,
+                "paid_llm_calls": 0,
+                "synthetic_points_per_candidate": 32768,
+                "unique_candidate_point_pairs": 5341184
+              },
+              "exact_cpu_control": {
+                "bit_equal_to_converted_exact_count": 4900,
+                "candidate_count": 163,
+                "crosscheck_count": 5216,
+                "error_bound": 5e-15,
+                "exact_result_registry_root_sha256": "2f4c6b2f17f23c913dd4ed1dfb371c59bee37360a48daf99de830df49e14df2f",
+                "float64_max_absolute_error_after_single_reference_conversion": 2.220446049250313e-16,
+                "method": "Python Fraction evaluation of every candidate on the declared dyadic sentinel points",
+                "points_per_candidate": 32,
+                "within_bound": true
+              },
+              "formal_pass_inferred": false,
+              "gpu_cpu_comparison": {
+                "absolute_error_bound": 5e-13,
+                "bound_semantics": "a point violates only when both absolute and relative bounds are exceeded",
+                "comparison_count": 5341184,
+                "cpu_output_sha256": "51eddb89b41fd209329f3e962d884833d8cebc461f04f30ad2485493bfc62e53",
+                "gpu_output_sha256": "28faa9d3267f2e374e172141d02c7e64ce319c8667e5a6b24771595aafab90dc",
+                "max_absolute_error": 2.220446049250313e-16,
+                "max_relative_error": 1.2637483275749894e-13,
+                "relative_error_bound": 5e-13,
+                "relative_floor": 1e-12,
+                "violating_point_count": 0,
+                "within_bounds": true
+              },
+              "interpretation": "This is a numerical backend/throughput control. Synthetic operator coordinates need not be realizable field jets, and agreement cannot establish a field equation, formal pass, phenomenological fitness, or observational support.",
+              "observations_opened": false,
+              "runtime_measurement": {
+                "cpu_full_projection_wall_seconds": 0.012065799965057522,
+                "device": {
+                  "backend": "cupy_cuda",
+                  "compute_capability": "12.0",
+                  "cuda_runtime_version": 12090,
+                  "cupy_version": "13.5.1",
+                  "device_index": 0,
+                  "device_name": "NVIDIA GeForce RTX 5090",
+                  "total_global_memory_mib": 32606
+                },
+                "gpu_allocated_input_bytes": 4478616,
+                "gpu_allocated_output_bytes": 42729472,
+                "gpu_candidate_formula_evaluations_per_second": 14422239577.99339,
+                "gpu_measured_wall_seconds": 6.067709399969317,
+                "measured_utc": "2026-08-11T14:03:18.757481+00:00",
+                "timing_scope": "single measured local run; not deterministic and not a sustained-capacity guarantee",
+                "utilization": {
+                  "available": true,
+                  "counter_scope": "device-wide NVML samples during measured synchronized GPU repetitions; counters can include concurrent processes and are not a continuous or lane-only utilization claim",
+                  "gpu_percent_max": 99,
+                  "gpu_percent_mean": 97.21989528795811,
+                  "memory_percent_max": 25,
+                  "memory_percent_mean": 13.87434554973822,
+                  "memory_used_mib_max": 7943,
+                  "power_watts_max": 333.419,
+                  "sample_count": 191,
+                  "sample_interval_seconds": 0.02
+                }
+              },
+              "scope": "candidate-bound numerical stress of the 163 materialized metric-Euler formula projections on independent synthetic dyadic operator coordinates",
+              "synthetic_only": true
+            },
             "metric_variation_counts": {
               "executed_by_this_campaign": 0,
               "formal_passes_inferred": 0,
@@ -575,7 +675,7 @@
               "blocked": 17,
               "reject": 2
             },
-            "dossier_registry_root_sha256": "ac6704c1a6826a73ec326819e1f7d9110fbb9d4cde91678c5fda0deb069b12cd",
+            "dossier_registry_root_sha256": "49a251a6125b980ea3f9554b02f0b5280be7bf82bfed3ed8616990e70a0b3518",
             "ranked_candidate_count": 0,
             "records": [
               {
@@ -684,7 +784,7 @@
                   "rank_eligible": false,
                   "scientific_validity_inferred_from_formula": false
                 },
-                "content_sha256": "1a2a7b1bf34bc79b924d6eac31de7dd158795d04b7d1e38815e303f17a08e2c7",
+                "content_sha256": "eeb2e897100e6d1acec4f90acfb1dfd5029c4f0cb38a9ec1b51c89362d7fd67c",
                 "family_id": "AETHER_K1234_PARAMETER_CELL",
                 "first_blocker": "noncharacteristic_foliation_or_compact_negative_seed_avoiding_forced_ADM_Legendre_characteristic_crossing",
                 "formal_decision": "blocked",
@@ -702,14 +802,14 @@
                   },
                   {
                     "blocker": "noncharacteristic_foliation_or_compact_negative_seed_avoiding_forced_ADM_Legendre_characteristic_crossing",
-                    "content_sha256": "762424fce2f8b5d0f86d82f87c066bfa0fea42e7642bcd53db9bcf20e7fc14bd",
+                    "content_sha256": "cbeb449bf5de2fada54702f1065c7a293b007428c92e6bfbc23569bf0e784bf1",
                     "decision": "blocked",
                     "evidence": {
-                      "record_sha256": "5dd0e3b586c56a6ca4447e716a4e4f4f52b7788d2e9f38ef6011711b8d944a85",
+                      "record_sha256": "2b7d73dd730b27394072998e3cf60ed0bc752b83a83446feec94ce98adb372ca",
                       "source": "aether_followup"
                     },
                     "node_id": "reviewed_formal_evidence",
-                    "scope": "The exact local-twist, asymptotically Euclidean no-go, weak-field, finite-amplitude seed, characteristic-shell, fixed-free-data, and finite-tilt York-symbol results remain bound in the predecessor chain. Eleven candidates still encounter the registered ADM characteristic obstruction and two cross exact York-variable shells. The sole uniformly elliptic candidate has an exact determinant gap, a pointwise principal-symbol inverse bound, an elliptic homotopy to the Euclidean reference, and now an explicit compact C3 Aether profile with exact weighted jet bounds through third order plus a typed 4x4 lower-order coefficient interface. That seed is not yet a full canonical background: finite-tilt pi^{ij} and p_A^i and the distributed Hamiltonian/momentum coefficient DAG are unregistered. Hence the weighted relative lower-order bound, Fredholm isomorphism, full inverse norm, nonlinear remainder, and completed-boundary sign persistence remain unproved. No action is rejected; blocked is not rejection.",
+                    "scope": "The exact local-twist, asymptotically Euclidean no-go, weak-field, finite-amplitude seed, characteristic-shell, fixed-free-data, and finite-tilt York-symbol results remain bound in the predecessor chain. Eleven candidates still encounter the registered ADM characteristic obstruction and two cross exact York-variable shells. The sole uniformly elliptic candidate has an exact determinant gap, a pointwise principal-symbol inverse bound, an elliptic homotopy to the Euclidean reference, an explicit compact C3 Aether profile with exact weighted jet bounds, and a typed 4x4 lower-order coefficient interface. It now also has an exact flat-chart canonical seed with compact q, A, pi^{ij}, and p_A^i profiles plus the distributed cotangent-lift momentum residual through second profile derivatives. The spatially distributed canonical H_core and its off-flat metric-covariantized H/D Frechet DAG are still absent, so the B/C coefficient registry, weighted relative lower-order bound, Fredholm isomorphism, full inverse norm, nonlinear remainder, and completed-boundary sign persistence remain unproved. No action is rejected; blocked is not rejection.",
                     "status": "blocked"
                   },
                   {
@@ -833,7 +933,7 @@
                   "rank_eligible": false,
                   "scientific_validity_inferred_from_formula": false
                 },
-                "content_sha256": "4a8b02fae99088e4a1013541eae286d71e3b729f58674b1925ee498aa805e2d2",
+                "content_sha256": "dbd4bbf3144098c1cb4fe1c11a76256d44b13ecd7a01f54a28fab5aa6755215e",
                 "family_id": "AETHER_K1234_PARAMETER_CELL",
                 "first_blocker": "noncharacteristic_foliation_or_compact_negative_seed_avoiding_forced_ADM_Legendre_characteristic_crossing",
                 "formal_decision": "blocked",
@@ -851,14 +951,14 @@
                   },
                   {
                     "blocker": "noncharacteristic_foliation_or_compact_negative_seed_avoiding_forced_ADM_Legendre_characteristic_crossing",
-                    "content_sha256": "239705ef9df26a5207ba52f216d7209ca26e6fcc5da688bcd22c1bf0cd8dfda8",
+                    "content_sha256": "ea5d9650779c59f7194938736e2f719c3c804efd7d362e69ee63949913bb5c3b",
                     "decision": "blocked",
                     "evidence": {
-                      "record_sha256": "e47b5801dd87a490205099ef1078d8eecfb377a4449d94a119add8177d9db36a",
+                      "record_sha256": "ef04f8446d0584d4878b90c8550005730df63b83958a442cd1a82e9aae750a4b",
                       "source": "aether_followup"
                     },
                     "node_id": "reviewed_formal_evidence",
-                    "scope": "The exact local-twist, asymptotically Euclidean no-go, weak-field, finite-amplitude seed, characteristic-shell, fixed-free-data, and finite-tilt York-symbol results remain bound in the predecessor chain. Eleven candidates still encounter the registered ADM characteristic obstruction and two cross exact York-variable shells. The sole uniformly elliptic candidate has an exact determinant gap, a pointwise principal-symbol inverse bound, an elliptic homotopy to the Euclidean reference, and now an explicit compact C3 Aether profile with exact weighted jet bounds through third order plus a typed 4x4 lower-order coefficient interface. That seed is not yet a full canonical background: finite-tilt pi^{ij} and p_A^i and the distributed Hamiltonian/momentum coefficient DAG are unregistered. Hence the weighted relative lower-order bound, Fredholm isomorphism, full inverse norm, nonlinear remainder, and completed-boundary sign persistence remain unproved. No action is rejected; blocked is not rejection.",
+                    "scope": "The exact local-twist, asymptotically Euclidean no-go, weak-field, finite-amplitude seed, characteristic-shell, fixed-free-data, and finite-tilt York-symbol results remain bound in the predecessor chain. Eleven candidates still encounter the registered ADM characteristic obstruction and two cross exact York-variable shells. The sole uniformly elliptic candidate has an exact determinant gap, a pointwise principal-symbol inverse bound, an elliptic homotopy to the Euclidean reference, an explicit compact C3 Aether profile with exact weighted jet bounds, and a typed 4x4 lower-order coefficient interface. It now also has an exact flat-chart canonical seed with compact q, A, pi^{ij}, and p_A^i profiles plus the distributed cotangent-lift momentum residual through second profile derivatives. The spatially distributed canonical H_core and its off-flat metric-covariantized H/D Frechet DAG are still absent, so the B/C coefficient registry, weighted relative lower-order bound, Fredholm isomorphism, full inverse norm, nonlinear remainder, and completed-boundary sign persistence remain unproved. No action is rejected; blocked is not rejection.",
                     "status": "blocked"
                   },
                   {
@@ -982,7 +1082,7 @@
                   "rank_eligible": false,
                   "scientific_validity_inferred_from_formula": false
                 },
-                "content_sha256": "c2e47bfd6eec35aba1a2da0c818e4a02102ba491b6e334ae651d1cca703fb44d",
+                "content_sha256": "f47c4464fe7cc66f6f6f226de64cb4cc4a39c01ad8b24f573a7bfc8d747194c9",
                 "family_id": "AETHER_K1234_PARAMETER_CELL",
                 "first_blocker": "noncharacteristic_foliation_or_compact_negative_seed_avoiding_forced_ADM_Legendre_characteristic_crossing",
                 "formal_decision": "blocked",
@@ -1000,14 +1100,14 @@
                   },
                   {
                     "blocker": "noncharacteristic_foliation_or_compact_negative_seed_avoiding_forced_ADM_Legendre_characteristic_crossing",
-                    "content_sha256": "57915816f4c32f89a4ded327aac3623168280bc3f88dafb47b0cacbf884f0bd6",
+                    "content_sha256": "e1ba1875bf8dbd91af72d20f66511cedce95e21f12277d3066aebe7d38a1dc15",
                     "decision": "blocked",
                     "evidence": {
-                      "record_sha256": "3559070bd17791f5083ca6fc46571bc4eac96e26b5f68c66ee0047d12a6e9ebe",
+                      "record_sha256": "75198754df1b8b291be52a21647da75f4749a5f99edd798f0c95192b7de1aa79",
                       "source": "aether_followup"
                     },
                     "node_id": "reviewed_formal_evidence",
-                    "scope": "The exact local-twist, asymptotically Euclidean no-go, weak-field, finite-amplitude seed, characteristic-shell, fixed-free-data, and finite-tilt York-symbol results remain bound in the predecessor chain. Eleven candidates still encounter the registered ADM characteristic obstruction and two cross exact York-variable shells. The sole uniformly elliptic candidate has an exact determinant gap, a pointwise principal-symbol inverse bound, an elliptic homotopy to the Euclidean reference, and now an explicit compact C3 Aether profile with exact weighted jet bounds through third order plus a typed 4x4 lower-order coefficient interface. That seed is not yet a full canonical background: finite-tilt pi^{ij} and p_A^i and the distributed Hamiltonian/momentum coefficient DAG are unregistered. Hence the weighted relative lower-order bound, Fredholm isomorphism, full inverse norm, nonlinear remainder, and completed-boundary sign persistence remain unproved. No action is rejected; blocked is not rejection.",
+                    "scope": "The exact local-twist, asymptotically Euclidean no-go, weak-field, finite-amplitude seed, characteristic-shell, fixed-free-data, and finite-tilt York-symbol results remain bound in the predecessor chain. Eleven candidates still encounter the registered ADM characteristic obstruction and two cross exact York-variable shells. The sole uniformly elliptic candidate has an exact determinant gap, a pointwise principal-symbol inverse bound, an elliptic homotopy to the Euclidean reference, an explicit compact C3 Aether profile with exact weighted jet bounds, and a typed 4x4 lower-order coefficient interface. It now also has an exact flat-chart canonical seed with compact q, A, pi^{ij}, and p_A^i profiles plus the distributed cotangent-lift momentum residual through second profile derivatives. The spatially distributed canonical H_core and its off-flat metric-covariantized H/D Frechet DAG are still absent, so the B/C coefficient registry, weighted relative lower-order bound, Fredholm isomorphism, full inverse norm, nonlinear remainder, and completed-boundary sign persistence remain unproved. No action is rejected; blocked is not rejection.",
                     "status": "blocked"
                   },
                   {
@@ -1131,7 +1231,7 @@
                   "rank_eligible": false,
                   "scientific_validity_inferred_from_formula": false
                 },
-                "content_sha256": "bf4f968919c5f9a1a800ec40382ccf8824d9c2f17b410cc04e8f89aeccd5a963",
+                "content_sha256": "20a8a759deaebaf84b9d5b9e2607f33e8f213633b5ec9b3dab72be89bc0f47d6",
                 "family_id": "AETHER_K1234_PARAMETER_CELL",
                 "first_blocker": "alternative_canonical_momentum_variable_or_gauge_avoiding_exact_finite_tilt_York_symbol_shell",
                 "formal_decision": "blocked",
@@ -1149,14 +1249,14 @@
                   },
                   {
                     "blocker": "alternative_canonical_momentum_variable_or_gauge_avoiding_exact_finite_tilt_York_symbol_shell",
-                    "content_sha256": "11e816220095171d7ad3ff990ed0faac9dd9c757e15b1a868f0453315f05d293",
+                    "content_sha256": "458750d3694e56a909d2c9155895099f8a1258239ac89a7367678ed0112ad246",
                     "decision": "blocked",
                     "evidence": {
-                      "record_sha256": "56bead0b3736a2c0d5e23dec23aaa72b9dce9db2a0295fead19c903b86b6a2c1",
+                      "record_sha256": "6c2f16aa3e0b6c28a9cfa0623dd7032749c3792e756e36f8abccd383af9e17b6",
                       "source": "aether_followup"
                     },
                     "node_id": "reviewed_formal_evidence",
-                    "scope": "The exact local-twist, asymptotically Euclidean no-go, weak-field, finite-amplitude seed, characteristic-shell, fixed-free-data, and finite-tilt York-symbol results remain bound in the predecessor chain. Eleven candidates still encounter the registered ADM characteristic obstruction and two cross exact York-variable shells. The sole uniformly elliptic candidate has an exact determinant gap, a pointwise principal-symbol inverse bound, an elliptic homotopy to the Euclidean reference, and now an explicit compact C3 Aether profile with exact weighted jet bounds through third order plus a typed 4x4 lower-order coefficient interface. That seed is not yet a full canonical background: finite-tilt pi^{ij} and p_A^i and the distributed Hamiltonian/momentum coefficient DAG are unregistered. Hence the weighted relative lower-order bound, Fredholm isomorphism, full inverse norm, nonlinear remainder, and completed-boundary sign persistence remain unproved. No action is rejected; blocked is not rejection.",
+                    "scope": "The exact local-twist, asymptotically Euclidean no-go, weak-field, finite-amplitude seed, characteristic-shell, fixed-free-data, and finite-tilt York-symbol results remain bound in the predecessor chain. Eleven candidates still encounter the registered ADM characteristic obstruction and two cross exact York-variable shells. The sole uniformly elliptic candidate has an exact determinant gap, a pointwise principal-symbol inverse bound, an elliptic homotopy to the Euclidean reference, an explicit compact C3 Aether profile with exact weighted jet bounds, and a typed 4x4 lower-order coefficient interface. It now also has an exact flat-chart canonical seed with compact q, A, pi^{ij}, and p_A^i profiles plus the distributed cotangent-lift momentum residual through second profile derivatives. The spatially distributed canonical H_core and its off-flat metric-covariantized H/D Frechet DAG are still absent, so the B/C coefficient registry, weighted relative lower-order bound, Fredholm isomorphism, full inverse norm, nonlinear remainder, and completed-boundary sign persistence remain unproved. No action is rejected; blocked is not rejection.",
                     "status": "blocked"
                   },
                   {
@@ -1429,9 +1529,9 @@
                   "rank_eligible": false,
                   "scientific_validity_inferred_from_formula": false
                 },
-                "content_sha256": "e3b44bda8eb64b99c301e60dac77e3640032820b79ec50a8313d97525c3dc3b3",
+                "content_sha256": "6f38ec3ed695e4f409bf42bcbd4ce3dc76350bda219fe821e5fd8489319dd95e",
                 "family_id": "AETHER_K1234_PARAMETER_CELL",
-                "first_blocker": "candidate_bound_full_canonical_seed_point_including_pi_and_p_A_and_distributed_H_D_coefficient_DAG",
+                "first_blocker": "candidate_bound_spatially_distributed_canonical_H_core_and_metric_covariantized_H_D_Frechet_DAG_off_flat_seed_chart",
                 "formal_decision": "blocked",
                 "hierarchy_nodes": [
                   {
@@ -1446,15 +1546,15 @@
                     "status": "proven"
                   },
                   {
-                    "blocker": "candidate_bound_full_canonical_seed_point_including_pi_and_p_A_and_distributed_H_D_coefficient_DAG",
-                    "content_sha256": "775ac8078cc41df2efb4aba5a9da37a7d01f651384cd90c61f39792adab60823",
+                    "blocker": "candidate_bound_spatially_distributed_canonical_H_core_and_metric_covariantized_H_D_Frechet_DAG_off_flat_seed_chart",
+                    "content_sha256": "e871ad2afe01cafd224ce8e3f43e76335d2dd30adee4b229bedb2fb0332c6866",
                     "decision": "blocked",
                     "evidence": {
-                      "record_sha256": "aa0be01c91e1d523550405b69f1ef0e58f08252add88265a6f4af4ffec04f66d",
+                      "record_sha256": "cf2db72bd93ed9b71c23f3234b4d0e950888e1200b71a322cdb7e3a383e44bb0",
                       "source": "aether_followup"
                     },
                     "node_id": "reviewed_formal_evidence",
-                    "scope": "The exact local-twist, asymptotically Euclidean no-go, weak-field, finite-amplitude seed, characteristic-shell, fixed-free-data, and finite-tilt York-symbol results remain bound in the predecessor chain. Eleven candidates still encounter the registered ADM characteristic obstruction and two cross exact York-variable shells. The sole uniformly elliptic candidate has an exact determinant gap, a pointwise principal-symbol inverse bound, an elliptic homotopy to the Euclidean reference, and now an explicit compact C3 Aether profile with exact weighted jet bounds through third order plus a typed 4x4 lower-order coefficient interface. That seed is not yet a full canonical background: finite-tilt pi^{ij} and p_A^i and the distributed Hamiltonian/momentum coefficient DAG are unregistered. Hence the weighted relative lower-order bound, Fredholm isomorphism, full inverse norm, nonlinear remainder, and completed-boundary sign persistence remain unproved. No action is rejected; blocked is not rejection.",
+                    "scope": "The exact local-twist, asymptotically Euclidean no-go, weak-field, finite-amplitude seed, characteristic-shell, fixed-free-data, and finite-tilt York-symbol results remain bound in the predecessor chain. Eleven candidates still encounter the registered ADM characteristic obstruction and two cross exact York-variable shells. The sole uniformly elliptic candidate has an exact determinant gap, a pointwise principal-symbol inverse bound, an elliptic homotopy to the Euclidean reference, an explicit compact C3 Aether profile with exact weighted jet bounds, and a typed 4x4 lower-order coefficient interface. It now also has an exact flat-chart canonical seed with compact q, A, pi^{ij}, and p_A^i profiles plus the distributed cotangent-lift momentum residual through second profile derivatives. The spatially distributed canonical H_core and its off-flat metric-covariantized H/D Frechet DAG are still absent, so the B/C coefficient registry, weighted relative lower-order bound, Fredholm isomorphism, full inverse norm, nonlinear remainder, and completed-boundary sign persistence remain unproved. No action is rejected; blocked is not rejection.",
                     "status": "blocked"
                   },
                   {
@@ -1727,7 +1827,7 @@
                   "rank_eligible": false,
                   "scientific_validity_inferred_from_formula": false
                 },
-                "content_sha256": "fbc7883a8053b8a165c6c4aeec450078491e39e5649816edb2011a301c587fcf",
+                "content_sha256": "6a675c679250511bb9a089fafeb78d572bfa1afe9b3f854d6f77d036bbcf809a",
                 "family_id": "AETHER_K1234_PARAMETER_CELL",
                 "first_blocker": "noncharacteristic_foliation_or_compact_negative_seed_avoiding_forced_ADM_Legendre_characteristic_crossing",
                 "formal_decision": "blocked",
@@ -1745,14 +1845,14 @@
                   },
                   {
                     "blocker": "noncharacteristic_foliation_or_compact_negative_seed_avoiding_forced_ADM_Legendre_characteristic_crossing",
-                    "content_sha256": "b35b7c66edf1878ef07dc8ea48afa2dbacb4b33452d454547d7c7f3b1729521a",
+                    "content_sha256": "4b889b8dd211a21e218a93d582948d3ae2c560f0e8704af32e645f4090469cc8",
                     "decision": "blocked",
                     "evidence": {
-                      "record_sha256": "b9215804933708bbda118bc51b1b594a18980d2e62d6f565357c8172dd4fbab1",
+                      "record_sha256": "c331a864655b41712b74e853ad69e0cdcac58fd0f02643060e1fc9b27c69d033",
                       "source": "aether_followup"
                     },
                     "node_id": "reviewed_formal_evidence",
-                    "scope": "The exact local-twist, asymptotically Euclidean no-go, weak-field, finite-amplitude seed, characteristic-shell, fixed-free-data, and finite-tilt York-symbol results remain bound in the predecessor chain. Eleven candidates still encounter the registered ADM characteristic obstruction and two cross exact York-variable shells. The sole uniformly elliptic candidate has an exact determinant gap, a pointwise principal-symbol inverse bound, an elliptic homotopy to the Euclidean reference, and now an explicit compact C3 Aether profile with exact weighted jet bounds through third order plus a typed 4x4 lower-order coefficient interface. That seed is not yet a full canonical background: finite-tilt pi^{ij} and p_A^i and the distributed Hamiltonian/momentum coefficient DAG are unregistered. Hence the weighted relative lower-order bound, Fredholm isomorphism, full inverse norm, nonlinear remainder, and completed-boundary sign persistence remain unproved. No action is rejected; blocked is not rejection.",
+                    "scope": "The exact local-twist, asymptotically Euclidean no-go, weak-field, finite-amplitude seed, characteristic-shell, fixed-free-data, and finite-tilt York-symbol results remain bound in the predecessor chain. Eleven candidates still encounter the registered ADM characteristic obstruction and two cross exact York-variable shells. The sole uniformly elliptic candidate has an exact determinant gap, a pointwise principal-symbol inverse bound, an elliptic homotopy to the Euclidean reference, an explicit compact C3 Aether profile with exact weighted jet bounds, and a typed 4x4 lower-order coefficient interface. It now also has an exact flat-chart canonical seed with compact q, A, pi^{ij}, and p_A^i profiles plus the distributed cotangent-lift momentum residual through second profile derivatives. The spatially distributed canonical H_core and its off-flat metric-covariantized H/D Frechet DAG are still absent, so the B/C coefficient registry, weighted relative lower-order bound, Fredholm isomorphism, full inverse norm, nonlinear remainder, and completed-boundary sign persistence remain unproved. No action is rejected; blocked is not rejection.",
                     "status": "blocked"
                   },
                   {
@@ -1987,7 +2087,7 @@
                   "rank_eligible": false,
                   "scientific_validity_inferred_from_formula": false
                 },
-                "content_sha256": "e39ac93459e1638d16b5f8f8965554beab0fa952f72f190c4cde4c2498ffc0bd",
+                "content_sha256": "ec7667ccb8acc3bbbfb4d4028cc84fdcee6b867868c8bd06aa58b5db0ea3e017",
                 "family_id": "AETHER_K1234_PARAMETER_CELL",
                 "first_blocker": "noncharacteristic_foliation_or_compact_negative_seed_avoiding_forced_ADM_Legendre_characteristic_crossing",
                 "formal_decision": "blocked",
@@ -2005,14 +2105,14 @@
                   },
                   {
                     "blocker": "noncharacteristic_foliation_or_compact_negative_seed_avoiding_forced_ADM_Legendre_characteristic_crossing",
-                    "content_sha256": "b557b91d1f2885fd88fc2fdd518106212ed11b0176f96bf5b14c40fc6f2f770e",
+                    "content_sha256": "ce5ae3d8e03457b91fc105f8cd47f6866aad3814c3efd2baf2d7dfa63ee6e2b6",
                     "decision": "blocked",
                     "evidence": {
-                      "record_sha256": "e2f28fcfaf42fc8aa073dc38658de215e7579e972bce51b630a0cae2a0c8e28b",
+                      "record_sha256": "65b8878dba37f59629769f9b9ad373936888584fadc8f6307c24af66f0efb9ae",
                       "source": "aether_followup"
                     },
                     "node_id": "reviewed_formal_evidence",
-                    "scope": "The exact local-twist, asymptotically Euclidean no-go, weak-field, finite-amplitude seed, characteristic-shell, fixed-free-data, and finite-tilt York-symbol results remain bound in the predecessor chain. Eleven candidates still encounter the registered ADM characteristic obstruction and two cross exact York-variable shells. The sole uniformly elliptic candidate has an exact determinant gap, a pointwise principal-symbol inverse bound, an elliptic homotopy to the Euclidean reference, and now an explicit compact C3 Aether profile with exact weighted jet bounds through third order plus a typed 4x4 lower-order coefficient interface. That seed is not yet a full canonical background: finite-tilt pi^{ij} and p_A^i and the distributed Hamiltonian/momentum coefficient DAG are unregistered. Hence the weighted relative lower-order bound, Fredholm isomorphism, full inverse norm, nonlinear remainder, and completed-boundary sign persistence remain unproved. No action is rejected; blocked is not rejection.",
+                    "scope": "The exact local-twist, asymptotically Euclidean no-go, weak-field, finite-amplitude seed, characteristic-shell, fixed-free-data, and finite-tilt York-symbol results remain bound in the predecessor chain. Eleven candidates still encounter the registered ADM characteristic obstruction and two cross exact York-variable shells. The sole uniformly elliptic candidate has an exact determinant gap, a pointwise principal-symbol inverse bound, an elliptic homotopy to the Euclidean reference, an explicit compact C3 Aether profile with exact weighted jet bounds, and a typed 4x4 lower-order coefficient interface. It now also has an exact flat-chart canonical seed with compact q, A, pi^{ij}, and p_A^i profiles plus the distributed cotangent-lift momentum residual through second profile derivatives. The spatially distributed canonical H_core and its off-flat metric-covariantized H/D Frechet DAG are still absent, so the B/C coefficient registry, weighted relative lower-order bound, Fredholm isomorphism, full inverse norm, nonlinear remainder, and completed-boundary sign persistence remain unproved. No action is rejected; blocked is not rejection.",
                     "status": "blocked"
                   },
                   {
@@ -2358,7 +2458,7 @@
                   "rank_eligible": false,
                   "scientific_validity_inferred_from_formula": false
                 },
-                "content_sha256": "ad4f0585b963f2579f00d58bbe3a54605022afa3249d90edbdac0f1d2c87a131",
+                "content_sha256": "a72c1eaaed05fdaf546c9fa3bc91482ea3d2d0af1a2562ce94f4fc0f0dfd1c7d",
                 "family_id": "AETHER_K1234_PARAMETER_CELL",
                 "first_blocker": "noncharacteristic_foliation_or_compact_negative_seed_avoiding_forced_ADM_Legendre_characteristic_crossing",
                 "formal_decision": "blocked",
@@ -2376,14 +2476,14 @@
                   },
                   {
                     "blocker": "noncharacteristic_foliation_or_compact_negative_seed_avoiding_forced_ADM_Legendre_characteristic_crossing",
-                    "content_sha256": "509fd55c71b0d4cbee65622b6fbbd68ab417376eab8dd707f9c970ada854a9d6",
+                    "content_sha256": "88137e8bbd443815c7c2313eb3290beaffcd33f2d83811415018abb1504da2c1",
                     "decision": "blocked",
                     "evidence": {
-                      "record_sha256": "cc70a8d65e5417450b5e1e19555fa574228e31acb704783a2e2a36a191e508bf",
+                      "record_sha256": "f5812fddd063c0453436fb195469536fb503e919a74d7dfff94d3adc2719a902",
                       "source": "aether_followup"
                     },
                     "node_id": "reviewed_formal_evidence",
-                    "scope": "The exact local-twist, asymptotically Euclidean no-go, weak-field, finite-amplitude seed, characteristic-shell, fixed-free-data, and finite-tilt York-symbol results remain bound in the predecessor chain. Eleven candidates still encounter the registered ADM characteristic obstruction and two cross exact York-variable shells. The sole uniformly elliptic candidate has an exact determinant gap, a pointwise principal-symbol inverse bound, an elliptic homotopy to the Euclidean reference, and now an explicit compact C3 Aether profile with exact weighted jet bounds through third order plus a typed 4x4 lower-order coefficient interface. That seed is not yet a full canonical background: finite-tilt pi^{ij} and p_A^i and the distributed Hamiltonian/momentum coefficient DAG are unregistered. Hence the weighted relative lower-order bound, Fredholm isomorphism, full inverse norm, nonlinear remainder, and completed-boundary sign persistence remain unproved. No action is rejected; blocked is not rejection.",
+                    "scope": "The exact local-twist, asymptotically Euclidean no-go, weak-field, finite-amplitude seed, characteristic-shell, fixed-free-data, and finite-tilt York-symbol results remain bound in the predecessor chain. Eleven candidates still encounter the registered ADM characteristic obstruction and two cross exact York-variable shells. The sole uniformly elliptic candidate has an exact determinant gap, a pointwise principal-symbol inverse bound, an elliptic homotopy to the Euclidean reference, an explicit compact C3 Aether profile with exact weighted jet bounds, and a typed 4x4 lower-order coefficient interface. It now also has an exact flat-chart canonical seed with compact q, A, pi^{ij}, and p_A^i profiles plus the distributed cotangent-lift momentum residual through second profile derivatives. The spatially distributed canonical H_core and its off-flat metric-covariantized H/D Frechet DAG are still absent, so the B/C coefficient registry, weighted relative lower-order bound, Fredholm isomorphism, full inverse norm, nonlinear remainder, and completed-boundary sign persistence remain unproved. No action is rejected; blocked is not rejection.",
                     "status": "blocked"
                   },
                   {
@@ -2507,7 +2607,7 @@
                   "rank_eligible": false,
                   "scientific_validity_inferred_from_formula": false
                 },
-                "content_sha256": "1fcaf316e2b960b29b751f6fac4f0e4d5126b2f649259a87f34eb3b0d2117678",
+                "content_sha256": "8700cb2f7603fe112263fcffe392a5b62940e29fcfe7abdce4a3af600634cd17",
                 "family_id": "AETHER_K1234_PARAMETER_CELL",
                 "first_blocker": "noncharacteristic_foliation_or_compact_negative_seed_avoiding_forced_ADM_Legendre_characteristic_crossing",
                 "formal_decision": "blocked",
@@ -2525,14 +2625,14 @@
                   },
                   {
                     "blocker": "noncharacteristic_foliation_or_compact_negative_seed_avoiding_forced_ADM_Legendre_characteristic_crossing",
-                    "content_sha256": "d1a4847aefea24508cc44edcc54140b98d7bedfc2184495bcba2b6679a07d303",
+                    "content_sha256": "25d5a2c7d75a1bb08323f4af994bd03303062940816e147d66d627880ebdacbb",
                     "decision": "blocked",
                     "evidence": {
-                      "record_sha256": "e8205e03a4bc1c0f8c8e46dc23d18eb564a7041fe46f7284ca58729ab7fd6f98",
+                      "record_sha256": "c50ee2034d49d3a1f59ec46da1c7d62d6a4dabc8240cd4f8d1ec47a8fd23518a",
                       "source": "aether_followup"
                     },
                     "node_id": "reviewed_formal_evidence",
-                    "scope": "The exact local-twist, asymptotically Euclidean no-go, weak-field, finite-amplitude seed, characteristic-shell, fixed-free-data, and finite-tilt York-symbol results remain bound in the predecessor chain. Eleven candidates still encounter the registered ADM characteristic obstruction and two cross exact York-variable shells. The sole uniformly elliptic candidate has an exact determinant gap, a pointwise principal-symbol inverse bound, an elliptic homotopy to the Euclidean reference, and now an explicit compact C3 Aether profile with exact weighted jet bounds through third order plus a typed 4x4 lower-order coefficient interface. That seed is not yet a full canonical background: finite-tilt pi^{ij} and p_A^i and the distributed Hamiltonian/momentum coefficient DAG are unregistered. Hence the weighted relative lower-order bound, Fredholm isomorphism, full inverse norm, nonlinear remainder, and completed-boundary sign persistence remain unproved. No action is rejected; blocked is not rejection.",
+                    "scope": "The exact local-twist, asymptotically Euclidean no-go, weak-field, finite-amplitude seed, characteristic-shell, fixed-free-data, and finite-tilt York-symbol results remain bound in the predecessor chain. Eleven candidates still encounter the registered ADM characteristic obstruction and two cross exact York-variable shells. The sole uniformly elliptic candidate has an exact determinant gap, a pointwise principal-symbol inverse bound, an elliptic homotopy to the Euclidean reference, an explicit compact C3 Aether profile with exact weighted jet bounds, and a typed 4x4 lower-order coefficient interface. It now also has an exact flat-chart canonical seed with compact q, A, pi^{ij}, and p_A^i profiles plus the distributed cotangent-lift momentum residual through second profile derivatives. The spatially distributed canonical H_core and its off-flat metric-covariantized H/D Frechet DAG are still absent, so the B/C coefficient registry, weighted relative lower-order bound, Fredholm isomorphism, full inverse norm, nonlinear remainder, and completed-boundary sign persistence remain unproved. No action is rejected; blocked is not rejection.",
                     "status": "blocked"
                   },
                   {
@@ -2656,7 +2756,7 @@
                   "rank_eligible": false,
                   "scientific_validity_inferred_from_formula": false
                 },
-                "content_sha256": "4c5e2da411a3d11bc6cd37462b01bafa6dff1c7a4d7c10f6f537141974b2ae08",
+                "content_sha256": "3d5773195e025ee347d2aa0d6ba75e6839b57ef04e45375457049c3cd69ba472",
                 "family_id": "AETHER_K1234_PARAMETER_CELL",
                 "first_blocker": "noncharacteristic_foliation_or_compact_negative_seed_avoiding_forced_ADM_Legendre_characteristic_crossing",
                 "formal_decision": "blocked",
@@ -2674,14 +2774,14 @@
                   },
                   {
                     "blocker": "noncharacteristic_foliation_or_compact_negative_seed_avoiding_forced_ADM_Legendre_characteristic_crossing",
-                    "content_sha256": "61d66200ae59b01982b2782fb30b274c9691bdfd1efbff86cc3da6c3eb919edf",
+                    "content_sha256": "daeb52e0b8ff6142ab7c4fa403614dd9664a22afbebb79e8684aa33ed71db81c",
                     "decision": "blocked",
                     "evidence": {
-                      "record_sha256": "199823a67bec7ba9c618d5aec0022ab4fcb281d8555967707df6554dd49d6993",
+                      "record_sha256": "e2e39c5e10bd0fa153cbc00d417b081606ef15a9b07d7895992b6a5a1d85e52f",
                       "source": "aether_followup"
                     },
                     "node_id": "reviewed_formal_evidence",
-                    "scope": "The exact local-twist, asymptotically Euclidean no-go, weak-field, finite-amplitude seed, characteristic-shell, fixed-free-data, and finite-tilt York-symbol results remain bound in the predecessor chain. Eleven candidates still encounter the registered ADM characteristic obstruction and two cross exact York-variable shells. The sole uniformly elliptic candidate has an exact determinant gap, a pointwise principal-symbol inverse bound, an elliptic homotopy to the Euclidean reference, and now an explicit compact C3 Aether profile with exact weighted jet bounds through third order plus a typed 4x4 lower-order coefficient interface. That seed is not yet a full canonical background: finite-tilt pi^{ij} and p_A^i and the distributed Hamiltonian/momentum coefficient DAG are unregistered. Hence the weighted relative lower-order bound, Fredholm isomorphism, full inverse norm, nonlinear remainder, and completed-boundary sign persistence remain unproved. No action is rejected; blocked is not rejection.",
+                    "scope": "The exact local-twist, asymptotically Euclidean no-go, weak-field, finite-amplitude seed, characteristic-shell, fixed-free-data, and finite-tilt York-symbol results remain bound in the predecessor chain. Eleven candidates still encounter the registered ADM characteristic obstruction and two cross exact York-variable shells. The sole uniformly elliptic candidate has an exact determinant gap, a pointwise principal-symbol inverse bound, an elliptic homotopy to the Euclidean reference, an explicit compact C3 Aether profile with exact weighted jet bounds, and a typed 4x4 lower-order coefficient interface. It now also has an exact flat-chart canonical seed with compact q, A, pi^{ij}, and p_A^i profiles plus the distributed cotangent-lift momentum residual through second profile derivatives. The spatially distributed canonical H_core and its off-flat metric-covariantized H/D Frechet DAG are still absent, so the B/C coefficient registry, weighted relative lower-order bound, Fredholm isomorphism, full inverse norm, nonlinear remainder, and completed-boundary sign persistence remain unproved. No action is rejected; blocked is not rejection.",
                     "status": "blocked"
                   },
                   {
@@ -2805,7 +2905,7 @@
                   "rank_eligible": false,
                   "scientific_validity_inferred_from_formula": false
                 },
-                "content_sha256": "52f6abfcea8326522ca4ee9080f6743cad2485d07612e258e728aff86093b9c1",
+                "content_sha256": "17785da3002b0cb1c86285f3866cac48700c66b3059c3dfee2bfa327aa5853f4",
                 "family_id": "AETHER_K1234_PARAMETER_CELL",
                 "first_blocker": "noncharacteristic_foliation_or_compact_negative_seed_avoiding_forced_ADM_Legendre_characteristic_crossing",
                 "formal_decision": "blocked",
@@ -2823,14 +2923,14 @@
                   },
                   {
                     "blocker": "noncharacteristic_foliation_or_compact_negative_seed_avoiding_forced_ADM_Legendre_characteristic_crossing",
-                    "content_sha256": "07974f8d0803923e464780e68083950f980322834ab1fff2e8502d451f568218",
+                    "content_sha256": "6204bc38aa983922c1374c99f3ebf4dfe31de09d18be8044bc622a1e92070671",
                     "decision": "blocked",
                     "evidence": {
-                      "record_sha256": "c7a992dd964ef55fcfbfac695e6859ce141352f2b12524083ef1e3a36c2d4c99",
+                      "record_sha256": "036d8bede88f50df3f46b43fd3ee95cba96051f371b97034f7ca116371eb19f6",
                       "source": "aether_followup"
                     },
                     "node_id": "reviewed_formal_evidence",
-                    "scope": "The exact local-twist, asymptotically Euclidean no-go, weak-field, finite-amplitude seed, characteristic-shell, fixed-free-data, and finite-tilt York-symbol results remain bound in the predecessor chain. Eleven candidates still encounter the registered ADM characteristic obstruction and two cross exact York-variable shells. The sole uniformly elliptic candidate has an exact determinant gap, a pointwise principal-symbol inverse bound, an elliptic homotopy to the Euclidean reference, and now an explicit compact C3 Aether profile with exact weighted jet bounds through third order plus a typed 4x4 lower-order coefficient interface. That seed is not yet a full canonical background: finite-tilt pi^{ij} and p_A^i and the distributed Hamiltonian/momentum coefficient DAG are unregistered. Hence the weighted relative lower-order bound, Fredholm isomorphism, full inverse norm, nonlinear remainder, and completed-boundary sign persistence remain unproved. No action is rejected; blocked is not rejection.",
+                    "scope": "The exact local-twist, asymptotically Euclidean no-go, weak-field, finite-amplitude seed, characteristic-shell, fixed-free-data, and finite-tilt York-symbol results remain bound in the predecessor chain. Eleven candidates still encounter the registered ADM characteristic obstruction and two cross exact York-variable shells. The sole uniformly elliptic candidate has an exact determinant gap, a pointwise principal-symbol inverse bound, an elliptic homotopy to the Euclidean reference, an explicit compact C3 Aether profile with exact weighted jet bounds, and a typed 4x4 lower-order coefficient interface. It now also has an exact flat-chart canonical seed with compact q, A, pi^{ij}, and p_A^i profiles plus the distributed cotangent-lift momentum residual through second profile derivatives. The spatially distributed canonical H_core and its off-flat metric-covariantized H/D Frechet DAG are still absent, so the B/C coefficient registry, weighted relative lower-order bound, Fredholm isomorphism, full inverse norm, nonlinear remainder, and completed-boundary sign persistence remain unproved. No action is rejected; blocked is not rejection.",
                     "status": "blocked"
                   },
                   {
@@ -2954,7 +3054,7 @@
                   "rank_eligible": false,
                   "scientific_validity_inferred_from_formula": false
                 },
-                "content_sha256": "407a1c7a64a4e70072fa53b70ef1ee3007fc17d66524aacabfab31186616dd83",
+                "content_sha256": "6e3bd662d97ed75633a20ff2a1e578bf48cb8e1335efcf2201dd446782c1cbab",
                 "family_id": "AETHER_K1234_PARAMETER_CELL",
                 "first_blocker": "alternative_canonical_momentum_variable_or_gauge_avoiding_exact_finite_tilt_York_symbol_shell",
                 "formal_decision": "blocked",
@@ -2972,14 +3072,14 @@
                   },
                   {
                     "blocker": "alternative_canonical_momentum_variable_or_gauge_avoiding_exact_finite_tilt_York_symbol_shell",
-                    "content_sha256": "49d4fbacd2f7ed7bfcee6837176f2ed5d16b777b5d68d0ee0074cdf274048431",
+                    "content_sha256": "d0f795611540ecf397776db54e65905989cc732569d765beef67564a8a5df93d",
                     "decision": "blocked",
                     "evidence": {
-                      "record_sha256": "249136867f31d0819e83505190504366de84062982d5d3d1385092d67c52f7c7",
+                      "record_sha256": "d4f44b616377abf6d1d3044f7d17e6172a74bd4a4bc3f237ff2a5fee24ad5073",
                       "source": "aether_followup"
                     },
                     "node_id": "reviewed_formal_evidence",
-                    "scope": "The exact local-twist, asymptotically Euclidean no-go, weak-field, finite-amplitude seed, characteristic-shell, fixed-free-data, and finite-tilt York-symbol results remain bound in the predecessor chain. Eleven candidates still encounter the registered ADM characteristic obstruction and two cross exact York-variable shells. The sole uniformly elliptic candidate has an exact determinant gap, a pointwise principal-symbol inverse bound, an elliptic homotopy to the Euclidean reference, and now an explicit compact C3 Aether profile with exact weighted jet bounds through third order plus a typed 4x4 lower-order coefficient interface. That seed is not yet a full canonical background: finite-tilt pi^{ij} and p_A^i and the distributed Hamiltonian/momentum coefficient DAG are unregistered. Hence the weighted relative lower-order bound, Fredholm isomorphism, full inverse norm, nonlinear remainder, and completed-boundary sign persistence remain unproved. No action is rejected; blocked is not rejection.",
+                    "scope": "The exact local-twist, asymptotically Euclidean no-go, weak-field, finite-amplitude seed, characteristic-shell, fixed-free-data, and finite-tilt York-symbol results remain bound in the predecessor chain. Eleven candidates still encounter the registered ADM characteristic obstruction and two cross exact York-variable shells. The sole uniformly elliptic candidate has an exact determinant gap, a pointwise principal-symbol inverse bound, an elliptic homotopy to the Euclidean reference, an explicit compact C3 Aether profile with exact weighted jet bounds, and a typed 4x4 lower-order coefficient interface. It now also has an exact flat-chart canonical seed with compact q, A, pi^{ij}, and p_A^i profiles plus the distributed cotangent-lift momentum residual through second profile derivatives. The spatially distributed canonical H_core and its off-flat metric-covariantized H/D Frechet DAG are still absent, so the B/C coefficient registry, weighted relative lower-order bound, Fredholm isomorphism, full inverse norm, nonlinear remainder, and completed-boundary sign persistence remain unproved. No action is rejected; blocked is not rejection.",
                     "status": "blocked"
                   },
                   {
@@ -3103,7 +3203,7 @@
                   "rank_eligible": false,
                   "scientific_validity_inferred_from_formula": false
                 },
-                "content_sha256": "dba073895128ed5b78d08e69df536e375e91d2175c18839ed1c4a3d100cca57c",
+                "content_sha256": "cfd4166c3143aec897ded028abb3b0b0ce953a1ab5152b44ec9467bde7351c2c",
                 "family_id": "AETHER_K1234_PARAMETER_CELL",
                 "first_blocker": "noncharacteristic_foliation_or_compact_negative_seed_avoiding_forced_ADM_Legendre_characteristic_crossing",
                 "formal_decision": "blocked",
@@ -3121,14 +3221,14 @@
                   },
                   {
                     "blocker": "noncharacteristic_foliation_or_compact_negative_seed_avoiding_forced_ADM_Legendre_characteristic_crossing",
-                    "content_sha256": "39ade82aeb3a7b18c600bbffb9b9fbddb7fdbe7183913c8c3ea961ba2f1dc38b",
+                    "content_sha256": "1db3e5f783002ed4656d620726dc4383ec40382fcf9db4d50e93e7828ef0b500",
                     "decision": "blocked",
                     "evidence": {
-                      "record_sha256": "5e5c944d7edd857489e7d8df235a446ef0fb963c43e0aa0158d8d6e61d6eb53b",
+                      "record_sha256": "a53ddbd87da2a29e746c5e4b1c8795e049dddf97c45c8cf3e2a9f44dc4e3ddb8",
                       "source": "aether_followup"
                     },
                     "node_id": "reviewed_formal_evidence",
-                    "scope": "The exact local-twist, asymptotically Euclidean no-go, weak-field, finite-amplitude seed, characteristic-shell, fixed-free-data, and finite-tilt York-symbol results remain bound in the predecessor chain. Eleven candidates still encounter the registered ADM characteristic obstruction and two cross exact York-variable shells. The sole uniformly elliptic candidate has an exact determinant gap, a pointwise principal-symbol inverse bound, an elliptic homotopy to the Euclidean reference, and now an explicit compact C3 Aether profile with exact weighted jet bounds through third order plus a typed 4x4 lower-order coefficient interface. That seed is not yet a full canonical background: finite-tilt pi^{ij} and p_A^i and the distributed Hamiltonian/momentum coefficient DAG are unregistered. Hence the weighted relative lower-order bound, Fredholm isomorphism, full inverse norm, nonlinear remainder, and completed-boundary sign persistence remain unproved. No action is rejected; blocked is not rejection.",
+                    "scope": "The exact local-twist, asymptotically Euclidean no-go, weak-field, finite-amplitude seed, characteristic-shell, fixed-free-data, and finite-tilt York-symbol results remain bound in the predecessor chain. Eleven candidates still encounter the registered ADM characteristic obstruction and two cross exact York-variable shells. The sole uniformly elliptic candidate has an exact determinant gap, a pointwise principal-symbol inverse bound, an elliptic homotopy to the Euclidean reference, an explicit compact C3 Aether profile with exact weighted jet bounds, and a typed 4x4 lower-order coefficient interface. It now also has an exact flat-chart canonical seed with compact q, A, pi^{ij}, and p_A^i profiles plus the distributed cotangent-lift momentum residual through second profile derivatives. The spatially distributed canonical H_core and its off-flat metric-covariantized H/D Frechet DAG are still absent, so the B/C coefficient registry, weighted relative lower-order bound, Fredholm isomorphism, full inverse norm, nonlinear remainder, and completed-boundary sign persistence remain unproved. No action is rejected; blocked is not rejection.",
                     "status": "blocked"
                   },
                   {
@@ -3252,7 +3352,7 @@
                   "rank_eligible": false,
                   "scientific_validity_inferred_from_formula": false
                 },
-                "content_sha256": "2172cf537f75c5ea112fd080bcd3800e3f53b656166f8fcfc1eca138a94f4e2b",
+                "content_sha256": "68bc208a260e0e9b5a1dfe137c4c30b450260528f12c3f0823819f7c3211c9f4",
                 "family_id": "AETHER_K1234_PARAMETER_CELL",
                 "first_blocker": "noncharacteristic_foliation_or_compact_negative_seed_avoiding_forced_ADM_Legendre_characteristic_crossing",
                 "formal_decision": "blocked",
@@ -3270,14 +3370,14 @@
                   },
                   {
                     "blocker": "noncharacteristic_foliation_or_compact_negative_seed_avoiding_forced_ADM_Legendre_characteristic_crossing",
-                    "content_sha256": "8dc117c4fa5cafb3dab87889774477465c4ccdcb426b50c7b314e270a90d3081",
+                    "content_sha256": "e12b1f68440b4b18f302d08eb9ca902b140874ffa4cca522e62fe2c43356d93b",
                     "decision": "blocked",
                     "evidence": {
-                      "record_sha256": "eba8f958644fbcceff52d71846ef0df6b7920f9cc51d8820e3eb0c099313ceb3",
+                      "record_sha256": "d8b3358bdb56cf96e36a1f7d466da0adb1817adf6965411d59e3825e2a5cbcb2",
                       "source": "aether_followup"
                     },
                     "node_id": "reviewed_formal_evidence",
-                    "scope": "The exact local-twist, asymptotically Euclidean no-go, weak-field, finite-amplitude seed, characteristic-shell, fixed-free-data, and finite-tilt York-symbol results remain bound in the predecessor chain. Eleven candidates still encounter the registered ADM characteristic obstruction and two cross exact York-variable shells. The sole uniformly elliptic candidate has an exact determinant gap, a pointwise principal-symbol inverse bound, an elliptic homotopy to the Euclidean reference, and now an explicit compact C3 Aether profile with exact weighted jet bounds through third order plus a typed 4x4 lower-order coefficient interface. That seed is not yet a full canonical background: finite-tilt pi^{ij} and p_A^i and the distributed Hamiltonian/momentum coefficient DAG are unregistered. Hence the weighted relative lower-order bound, Fredholm isomorphism, full inverse norm, nonlinear remainder, and completed-boundary sign persistence remain unproved. No action is rejected; blocked is not rejection.",
+                    "scope": "The exact local-twist, asymptotically Euclidean no-go, weak-field, finite-amplitude seed, characteristic-shell, fixed-free-data, and finite-tilt York-symbol results remain bound in the predecessor chain. Eleven candidates still encounter the registered ADM characteristic obstruction and two cross exact York-variable shells. The sole uniformly elliptic candidate has an exact determinant gap, a pointwise principal-symbol inverse bound, an elliptic homotopy to the Euclidean reference, an explicit compact C3 Aether profile with exact weighted jet bounds, and a typed 4x4 lower-order coefficient interface. It now also has an exact flat-chart canonical seed with compact q, A, pi^{ij}, and p_A^i profiles plus the distributed cotangent-lift momentum residual through second profile derivatives. The spatially distributed canonical H_core and its off-flat metric-covariantized H/D Frechet DAG are still absent, so the B/C coefficient registry, weighted relative lower-order bound, Fredholm isomorphism, full inverse norm, nonlinear remainder, and completed-boundary sign persistence remain unproved. No action is rejected; blocked is not rejection.",
                     "status": "blocked"
                   },
                   {
@@ -3316,6 +3416,7 @@
                 "5/32": 1
               },
               "candidate_Aether_constraint_principal_block_pass_count": 0,
+              "candidate_bound_flat_chart_D_residual_DAG_registered_count": 1,
               "candidate_count": 14,
               "candidate_rejection_authorized_count": 0,
               "certified_negative_characteristic_free_amplitude_window_count": 2,
@@ -3346,14 +3447,14 @@
               "finite_tilt_weighted_Fredholm_isomorphism_pass_count": 0,
               "first_blocker_counts": {
                 "alternative_canonical_momentum_variable_or_gauge_avoiding_exact_finite_tilt_York_symbol_shell": 2,
-                "candidate_bound_full_canonical_seed_point_including_pi_and_p_A_and_distributed_H_D_coefficient_DAG": 1,
+                "candidate_bound_spatially_distributed_canonical_H_core_and_metric_covariantized_H_D_Frechet_DAG_off_flat_seed_chart": 1,
                 "noncharacteristic_foliation_or_compact_negative_seed_avoiding_forced_ADM_Legendre_characteristic_crossing": 11
               },
               "fixed_free_data_constraint_variable_classification_count": 3,
               "flat_static_global_pure_twist_AE_completion_obstructed_count": 14,
               "formal_pass_count": 0,
               "frozen_source_linearized_constraint_completion_count": 14,
-              "full_canonical_background_point_registered_count": 0,
+              "full_canonical_background_point_registered_count": 1,
               "full_coupled_Fredholm_operator_defined_count": 0,
               "full_operator_inverse_norm_pass_count": 0,
               "global_tilt_strata_counts": {
@@ -3362,6 +3463,7 @@
               },
               "globally_noncharacteristic_candidate_count": 1,
               "lower_order_coefficient_contract_declared_count": 1,
+              "metric_covariantized_H_D_Frechet_DAG_registered_count": 0,
               "metric_reference_principal_ellipticity_pass_count": 3,
               "metric_reference_trivial_kernel_pass_count": 3,
               "missing_weighted_contract_field_counts": {
@@ -3391,6 +3493,7 @@
               "registered_compact_source_right_inverse_count": 3,
               "registered_seed_characteristic_crossing_count": 13,
               "regular_ADM_implicit_lift_prerequisite_pass_count": 3,
+              "spatially_distributed_canonical_H_core_registered_count": 0,
               "strict_negative_source_margin_pass_count": 3,
               "strictly_positive_compact_quadratic_energy_count": 14,
               "typed_weighted_operator_contract_complete_count": 0,
@@ -3565,8 +3668,8 @@
       }
     },
     "llm": {
-      "calls_completed": 22,
-      "calls_started": 22,
+      "calls_completed": 23,
+      "calls_started": 23,
       "campaign_bridge": {
         "admission_callback_configured": false,
         "campaign_task_type": "reviewed_llm_formula_proposal",
@@ -3644,7 +3747,7 @@
         "grammar_parameter_cells": 0.0,
         "promotion_overlay": 0.0
       },
-      "spent_usd": 6.218335,
+      "spent_usd": 6.453681,
       "typed_dsl_admission": {
         "compiler_queue_task_type": "reviewed_covariant_compiler_admission",
         "default_execution_enabled": false,
@@ -3701,21 +3804,56 @@
         "mixed_third_jet_closures": 1600,
         "remaining_mixed_triples": 10700
       },
-      "first_missing_premise": "remaining_2868_exact_fourth_jet_range_obligations_then_all_order_remainder_or_nonlinear_range_theorem",
+      "first_missing_premise": "resolve_exact_fourth_order_equal_eigenspace_Sylvester_obstruction_at_obligation_244_before_any_higher_order_remainder_or_nonlinear_range_theorem",
       "fourth_jet_range_obligations": {
         "active_direction_rank": 15,
-        "candidate_evaluations": 2304,
+        "candidate_evaluations": 2940,
         "candidate_obligation_budget": 36720,
-        "candidate_obstructed": 0,
-        "candidate_solvable": 2304,
-        "directional_evaluations": 2211,
+        "candidate_obstructed": 12,
+        "candidate_solvable": 2928,
+        "directional_evaluations": 2918,
+        "first_exact_obstruction": {
+          "active_indices": [
+            0,
+            2,
+            3,
+            9
+          ],
+          "active_positions": [
+            0,
+            2,
+            4,
+            15
+          ],
+          "gate": "fourth-order equal-eigenspace Sylvester compatibility",
+          "obligation_offset": 244,
+          "obstructed_candidate_ids": [
+            "quartic-symbol-06e267a9215345b6",
+            "quartic-symbol-076dc0ba965ab63a",
+            "quartic-symbol-317e5395817a432b",
+            "quartic-symbol-50f184dfe1a814bf",
+            "quartic-symbol-5455cad9e42a0dbc",
+            "quartic-symbol-561de1410d6cb21f",
+            "quartic-symbol-8fd254934d778c28",
+            "quartic-symbol-9e65901e5299a514",
+            "quartic-symbol-e4a6a9193316a6ff",
+            "quartic-symbol-ef832e4c3b71ee42",
+            "quartic-symbol-f31a234e2bf7b97f",
+            "quartic-symbol-fb5c20c15ce6d778"
+          ],
+          "record_sha256": "7c309eec9d225f4c0813f0696e9806d7e5c2c9802528ade40d1d92c5f13d4c56",
+          "selector_record_sha256": "337daa86bf740ae9e66dbef0829df30297c02e22b8baeb6b90328d608fa66c87"
+        },
         "full_fourth_jet_range_closed": false,
-        "next_obligation_offset": 192,
-        "obligations_evaluated": 192,
-        "obligations_remaining": 2868,
+        "next_obligation_offset": 245,
+        "obligations_closed": 244,
+        "obligations_evaluated": 245,
+        "obligations_remaining": 2816,
         "parallel_worker_count": 8,
-        "resume_tip_sha256": "bfe759542cdcd3309677b08bce16b23717b1c22cf6aafd24f878fd1aa73e7a47",
-        "selector_obligations": 3060
+        "permanently_stopped": true,
+        "resume_tip_sha256": "7c309eec9d225f4c0813f0696e9806d7e5c2c9802528ade40d1d92c5f13d4c56",
+        "selector_obligations": 3060,
+        "stop_reason": "exact_obstruction"
       },
       "mixed_third_jet_chunk": {
         "candidate_evaluations": 19200,
@@ -42989,6 +43127,12 @@
         "freshness_class": "immutable_completed_snapshot",
         "stale_source_reason": null
       },
+      "future_aether_canonical_seed_constraint_dag_gate": {
+        "content_sha256": "79fcb07f1cc60297b0954f8fcb88aa4793b40c1f72f8064ac2fe4ce5ceb5dc97",
+        "file_sha256": "e5049b8d39d5b06e6012915d3f05c7886ecb014b983d7cf3877604322e3feddb",
+        "freshness_class": "immutable_completed_snapshot",
+        "stale_source_reason": null
+      },
       "future_aether_constraint_followup": {
         "content_sha256": "5e59cbc7d405b827e9f76620499af89439b334a474042251d56629ea5932e27e",
         "file_sha256": "d6ef962f5ee5b2388f13ca387a133d8420850aff4b2204170778219d2c32d391",
@@ -43068,8 +43212,8 @@
         "stale_source_reason": null
       },
       "future_candidate_action_dossier": {
-        "content_sha256": "29c931c0d1a513a93e160994886d333307ff8e99f063d78bc698511f447c3f00",
-        "file_sha256": "3f6168ee173cc8a66119ced654604fdeb24355095e8e45402d51c6061fa2e2ad",
+        "content_sha256": "f1848c8a6648e7ade6156d91e1327697272c2eafed383ef797e3a665e9721bb9",
+        "file_sha256": "a5b83355a802e287931ade95ecfa66bef5c81ca9e908002ae108259d090221ff",
         "freshness_class": "immutable_completed_snapshot",
         "stale_source_reason": null
       },
@@ -43217,9 +43361,21 @@
         "freshness_class": "immutable_completed_snapshot",
         "stale_source_reason": null
       },
+      "generated_candidate_formula_gpu_stress": {
+        "content_sha256": "e5d2f5f89c28aefe9d1d8f513aeedd206775d647f781d9ce943730aa3c61ae2b",
+        "file_sha256": "21163c1f759b1ab28994ff3e06a683996c435bd67277e8d66ce80b185782f598",
+        "freshness_class": "immutable_completed_snapshot",
+        "stale_source_reason": null
+      },
       "generated_candidate_metric_variation_specialization": {
-        "content_sha256": "78196adb42eda082dafcd370449a22c3d6ea0d33d6ce9e8d886e9b67dc52001c",
-        "file_sha256": "d85438364404923dea4a85cf6d782875bdd733853970316fbc30a80f59255b01",
+        "content_sha256": "bbd5ec183d7710141959361b555a218f7702c095023c06b158d35246569184d8",
+        "file_sha256": "8adcfbd3846eb60c55c837f972ebe82507d91def2224777f65c3cda69d2afb4e",
+        "freshness_class": "immutable_completed_snapshot",
+        "stale_source_reason": null
+      },
+      "generic_g4_b4_termwise_normalization": {
+        "content_sha256": "a9e06a7d4c44ab40744fe54b0e7c11074b7d802355a2a743cbbb326febb35966",
+        "file_sha256": "52b67ac2fbaa7cfa495e5da8088fa1aec9fc03b331e4e15bec3bea4dee35d224",
         "freshness_class": "immutable_completed_snapshot",
         "stale_source_reason": null
       },
@@ -43338,8 +43494,8 @@
         "stale_source_reason": null
       },
       "quartic_tc2_fourth_jet_checkpoint": {
-        "content_sha256": "31d8111d462efe937197ad7b003c92905e85eb7046c169663783c8a86d08574a",
-        "file_sha256": "63d4f524fd7500acd059f8d5b23874ac6ccb136674680e14c9524a5587e1c3ac",
+        "content_sha256": "39603a9a8d640f2fb0b6b69e8beb79550bdc0acac28d777822f02a66700b8d82",
+        "file_sha256": "995d034fce7132ed649de70a4b74c78744ae0adc561e0409f7bcf3ec70f64e26",
         "freshness_class": "immutable_completed_snapshot",
         "stale_source_reason": null
       },
@@ -43358,6 +43514,18 @@
       "quartic_tc2_fourth_jet_chunk_160": {
         "content_sha256": "cc334f6d9b7667ce64ee9c8cb922ea7590ba65baaa02f031c905b2b01852695d",
         "file_sha256": "c0a80a0c4145e1868b1e2f7e52801d777c19543a29af98029d43763eb3008989",
+        "freshness_class": "immutable_completed_snapshot",
+        "stale_source_reason": null
+      },
+      "quartic_tc2_fourth_jet_chunk_192": {
+        "content_sha256": "ff1920687f6a1e299902674d77b629bc07c06c1e332ad45181b5d8b3b527188c",
+        "file_sha256": "93badebf9838d807be56de5e4b51538917fea485dbaeeda5dd073398cce98aea",
+        "freshness_class": "immutable_completed_snapshot",
+        "stale_source_reason": null
+      },
+      "quartic_tc2_fourth_jet_chunk_224": {
+        "content_sha256": "a218264eed0930d00f632876a258f6be14de68bb97584871f2361ca27aacc6fe",
+        "file_sha256": "653c60e600ffdb095398218b27f1eb0fe41a33a52c499ddf00ccc3705b8c7264",
         "freshness_class": "immutable_completed_snapshot",
         "stale_source_reason": null
       },
@@ -43386,8 +43554,8 @@
         "stale_source_reason": null
       },
       "quartic_tc2_fourth_jet_status": {
-        "content_sha256": "c4e800d25355c52720841d9568a3b259a56821f8a032df228fd747bba4c26620",
-        "file_sha256": "f7d03979b845ad95bbc48cca1a53f6924114a4c445297a72cd9656fd5f11e180",
+        "content_sha256": "f6cdd4d4f04ea0687f06fd637ec0e8a5856115df7a3de5fbb47ec4e0ac06e043",
+        "file_sha256": "9ada9a1907c8af59a1499f9e5cfff6cc93e81bfe1c5ed0dc17da3f37267f010e",
         "freshness_class": "immutable_completed_snapshot",
         "stale_source_reason": null
       },
@@ -43705,13 +43873,13 @@
       }
     }
   },
-  "core_content_sha256": "6d222d7009354f21652c74bb7341d4d4a5c51302a1a920863801e66566f6283d",
+  "core_content_sha256": "65f5231484ebcf173aaf62a98f116f4d53d8e0e87255b0a5626fa4517fe1eb41",
   "volatile": {
     "campaign_watchdog_freshness": {
-      "age_seconds": 3567.813264,
-      "expected_next_event_not_before_utc": "2026-08-11T13:08:23.822306+00:00",
-      "freshness_deadline_utc": "2026-08-11T13:38:23.822306+00:00",
-      "latest_event_utc": "2026-08-11T12:08:23.841926+00:00",
+      "age_seconds": 2968.785496,
+      "expected_next_event_not_before_utc": "2026-08-11T14:10:31.205251+00:00",
+      "freshness_deadline_utc": "2026-08-11T14:40:31.205251+00:00",
+      "latest_event_utc": "2026-08-11T13:10:31.214504+00:00",
       "stale": false,
       "stale_source_reason": null,
       "state": "scheduled_idle"
@@ -43746,21 +43914,16 @@
       "availability": "available",
       "logical_processors": 24,
       "memory_total_bytes": 102771290112,
-      "memory_used_bytes": 40715702272,
+      "memory_used_bytes": 34568073216,
       "physical_cores": 24,
       "source": "psutil_host_sample",
-      "utilization_percent": 8.7
+      "utilization_percent": 9.8
     },
     "physical_gpu": {
-      "availability": "available",
-      "device_class": "NVIDIA GeForce RTX 5090",
-      "memory_total_mib": 32607.0,
-      "memory_used_mib": 1825.0,
-      "power_draw_watts": 50.12,
-      "source": "nvidia-smi_nvml",
-      "utilization_percent": 4.0
+      "availability": "disabled",
+      "source": "disabled_by_operator"
     },
-    "sampled_at_utc": "2026-08-11T13:07:51.655190+00:00",
+    "sampled_at_utc": "2026-08-11T14:00:00+00:00",
     "scheduler_readiness": {
       "cpu_symbolic": {
         "delayed_until_not_before": 0,
@@ -43776,13 +43939,13 @@
       },
       "housekeeping": {
         "delayed_until_not_before": 1,
-        "earliest_future_not_before_utc": "2026-08-11T13:08:23.822306+00:00",
+        "earliest_future_not_before_utc": "2026-08-11T14:10:31.205251+00:00",
         "queued_total": 1,
         "runnable_now": 0
       },
       "llm_research": {
         "delayed_until_not_before": 1,
-        "earliest_future_not_before_utc": "2026-08-11T13:08:23.822306+00:00",
+        "earliest_future_not_before_utc": "2026-08-11T14:10:31.205251+00:00",
         "queued_total": 1,
         "runnable_now": 0
       },
@@ -43796,20 +43959,20 @@
     "unified_live_dashboard_service": {
       "alive": true,
       "availability": "available",
-      "checkpoint_content_sha256": "76af14381b918cee47155670b7ae24c7e66f0f7a322bceb6f19071bca718bb04",
-      "checkpoint_file_sha256": "43a8eed8406b5bc6933d38fc0b744e069d6e194a4448ce62895a93b5a81d5538",
-      "consecutive_failures": 0,
-      "last_error_kind": null,
+      "checkpoint_content_sha256": "85dda889bc6a9904f09734cffb966162f629d7daff4d50e43259ab6e5549d1b9",
+      "checkpoint_file_sha256": "4accc7ce6eac723285103073b375cb2bc03ee8335819a772becce37cd6e1f6fe",
+      "consecutive_failures": 1,
+      "last_error_kind": "ValueError",
       "last_refresh": {
-        "core_content_sha256": "d65f38c6e72780b2afed7e533436690fd33894dff2a5e42c9b66d209d1e876e8",
-        "dashboard_bytes": 381851,
-        "dashboard_file_sha256": "8860e3c716dbd6e1e56e269edb2331feb5455f273ab744fc77899c98753ed907",
-        "json_bytes": 2434607,
-        "sampled_at_utc": "2026-08-11T13:04:00.160548+00:00",
-        "snapshot_file_sha256": "8070dc423095c30b4d82560494358e2673290edbdb8ea26ad55b7148a7581cef"
+        "core_content_sha256": "452ba33489a1b5a8a2a5a97ce8ff4c9ff44b09fdc27337e7c24ee9821f2ca385",
+        "dashboard_bytes": 385572,
+        "dashboard_file_sha256": "1e5fe82aeec1ad4fc2278b333571483cc9368f574b0114ce127f5950cf389d9c",
+        "json_bytes": 2441173,
+        "sampled_at_utc": "2026-08-11T14:01:40.618769+00:00",
+        "snapshot_file_sha256": "e510ced247ce185f18c7680ceab0033e8fe0b86b68daac7c18ea0bb786ea9ba0"
       },
-      "pid": 26764,
-      "refresh_count": 2,
+      "pid": 15248,
+      "refresh_count": 5,
       "state": "running",
       "stop_reason": null
     }

@@ -200,7 +200,9 @@ polarization certificate proves the complete symmetric coefficient vanishes; the
 Euler coefficient contains curvature and at most second scalar derivatives. Omitting the required
 Palatini `G4_X p^c nabla_a H_bc` completion leaves two independent polarization contractions and is
 rejected. Termwise normalization of the independently derived coefficient against the published
-B.4 spelling is still pending. The generic L2--L4 unitary-gauge ADM kinetic adapter is now exact:
+B.4 spelling now passes: the 24 canonical contractions and coefficients match exactly with zero
+residual, and sign-flip, omitted-`G4_XX`, and wrong-equation controls fail closed. This normalization
+does not itself prove a candidate formal pass or global energy. The generic L2--L4 unitary-gauge ADM kinetic adapter is now exact:
 for arbitrary local `G4` and `G4_X`, the complete seven-velocity Hessian has rank six and the sole
 null direction `p_V_star=0` on `G4-2 X G4_X != 0`. A wrong completion restores rank seven. Generic
 preservation of `p_N` then produces `C_N`; exact D-D/D-C covariance and the two-by-two Poisson

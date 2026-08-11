@@ -446,6 +446,12 @@ def build_unified_snapshot(
     generated_candidate_metric_variation = sources[
         "generated_candidate_metric_variation_specialization"
     ]
+    generated_candidate_formula_gpu_stress = sources[
+        "generated_candidate_formula_gpu_stress"
+    ]
+    generic_g4_b4_termwise_normalization = sources[
+        "generic_g4_b4_termwise_normalization"
+    ]
     formal_preflight = sources["grammar_v3_formal_preflight"]
     promotion_admission = sources["grammar_v3_promotion_admission"]
     g2_candidate_formal = sources["grammar_v3_g2_candidate_formal"]
@@ -485,6 +491,9 @@ def build_unified_snapshot(
     ]
     future_aether_lower_order_coefficient_contract_gate = sources[
         "future_aether_lower_order_coefficient_contract_gate"
+    ]
+    future_aether_canonical_seed_constraint_dag_gate = sources[
+        "future_aether_canonical_seed_constraint_dag_gate"
     ]
     future_g3_domain_followup = sources["future_g3_domain_followup"]
     future_g3_action_bound_followup = sources["future_g3_action_bound_followup"]
@@ -550,6 +559,8 @@ def build_unified_snapshot(
     quartic_tc2_fourth_jet_chunk_96 = sources["quartic_tc2_fourth_jet_chunk_96"]
     quartic_tc2_fourth_jet_chunk_128 = sources["quartic_tc2_fourth_jet_chunk_128"]
     quartic_tc2_fourth_jet_chunk_160 = sources["quartic_tc2_fourth_jet_chunk_160"]
+    quartic_tc2_fourth_jet_chunk_192 = sources["quartic_tc2_fourth_jet_chunk_192"]
+    quartic_tc2_fourth_jet_chunk_224 = sources["quartic_tc2_fourth_jet_chunk_224"]
     quartic_tc2_fourth_jet_checkpoint = sources["quartic_tc2_fourth_jet_checkpoint"]
     quartic_tc2_fourth_jet_status = sources["quartic_tc2_fourth_jet_status"]
     quartic_tc2_reranked_obligation_chunks = tuple(
@@ -753,9 +764,13 @@ def build_unified_snapshot(
             "aether_formal_control_bound": 128,
             "blocked": 0,
             "candidate_action_hashes_specialized": 163,
+            "candidate_backend_variations_executed": 0,
             "candidate_euler_expressions_materialized": 163,
+            "candidate_specializations_symbolically_verified": 163,
+            "exact_formula_domains_validated": 163,
             "formal_passes_inferred": 0,
             "rejected": 0,
+            "typed_action_hashes_replayed": 163,
         }
         or generated_candidate_metric_variation.get("current_operator_families_complete")
         is not True
@@ -768,12 +783,131 @@ def build_unified_snapshot(
         or len(generated_candidate_metric_variation.get("candidate_records", [])) != 163
         or any(
             record.get("generic_metric_variation_theorem_bound") is not True
+            or record.get("candidate_action_hash_replayed") is not True
+            or record.get("candidate_formula_domain_validated") is not True
             or record.get("candidate_specialized_euler_expression_materialized") is not True
+            or record.get("candidate_backend_metric_variation_executed") is not False
             or record.get("formal_pass_inferred") is not False
+            or record.get("formal_decision_changed") is not False
+            or record.get("observational_data_opened") is not False
             for record in generated_candidate_metric_variation.get("candidate_records", [])
         )
     ):
         raise ValueError("generated candidate metric specialization is inconsistent")
+    if (
+        generic_g4_b4_termwise_normalization.get("status")
+        != "pass_exact_24_term_generic_nonlinear_G4X_metric_Euler_normalization_to_KYY_B4"
+        or generic_g4_b4_termwise_normalization.get("canonical_term_count") != 24
+        or generic_g4_b4_termwise_normalization.get("matched_term_count") != 24
+        or generic_g4_b4_termwise_normalization.get("nonzero_residual_count") != 0
+        or generic_g4_b4_termwise_normalization.get("metric_variation_normalization_pass")
+        is not True
+        or generic_g4_b4_termwise_normalization.get("primary_source", {}).get("equation")
+        != "B.4"
+        or generic_g4_b4_termwise_normalization.get("primary_source", {}).get("arxiv_id")
+        != "1105.5723v4"
+        or generic_g4_b4_termwise_normalization.get("primary_source_transcription")
+        != {
+            "path": "formal/sources/kyy_1105.5723v4_eq_B4_canonical_coefficients.json",
+            "file_sha256": (
+                "497042978c3c0eed8ec02b49c5ceb2c258e60416c23152e34d44cde4ae53d32f"
+            ),
+        }
+        or len(generic_g4_b4_termwise_normalization.get("term_records", [])) != 24
+        or any(
+            record.get("residual") != "0"
+            or record.get("B4_coefficient") != record.get("cadabra_coefficient")
+            for record in generic_g4_b4_termwise_normalization.get("term_records", [])
+        )
+        or generic_g4_b4_termwise_normalization.get("negative_controls")
+        != {
+            "flip_R_pp_sign_rejected": True,
+            "omit_G4_XX_QQ_rejected": True,
+            "wrong_source_equation_rejected": True,
+        }
+        or generic_g4_b4_termwise_normalization.get("full_candidate_formal_pass_inferred")
+        is not False
+        or generic_g4_b4_termwise_normalization.get("global_energy_inferred") is not False
+        or generic_g4_b4_termwise_normalization.get("observational_data_opened") is not False
+        or generic_g4_b4_termwise_normalization.get("dark_matter_or_halo_inputs") is not False
+        or generic_g4_b4_termwise_normalization.get("redshift_distance_inputs") is not False
+        or generic_g4_b4_termwise_normalization.get("paid_llm_spend_usd") != 0.0
+    ):
+        raise ValueError("generic G4 B.4 termwise normalization is inconsistent")
+    if (
+        generated_candidate_formula_gpu_stress.get("campaign_decision")
+        != "completed_numerical_stress_control_only"
+        or generated_candidate_formula_gpu_stress.get("counts")
+        != {
+            "candidate_count": 163,
+            "cpu_exact_rational_crosschecks": 5216,
+            "cpu_full_projection_evaluations": 5341184,
+            "family_count": 4,
+            "formal_passes_inferred": 0,
+            "gpu_measured_candidate_formula_evaluations": 87509958656,
+            "gpu_measured_repetitions": 16384,
+            "gpu_projection_dispatches": 16392,
+            "gpu_warmup_repetitions": 8,
+            "observational_records_accessed": 0,
+            "paid_llm_calls": 0,
+            "synthetic_points_per_candidate": 32768,
+            "unique_candidate_point_pairs": 5341184,
+        }
+        or generated_candidate_formula_gpu_stress.get("family_counts")
+        != {
+            "AETHER_K1234_PARAMETER_CELL": 128,
+            "CONFORMAL_G4_PHI_SCALAR_TENSOR": 1,
+            "CUBIC_HORNDESKI_G3_WEAK_CELL": 32,
+            "KESSENCE_G2_CONVEX": 2,
+        }
+        or generated_candidate_formula_gpu_stress.get("source_bindings", {})
+        .get("metric_variation_artifact", {})
+        .get("content_sha256")
+        != generated_candidate_metric_variation.get("content_sha256")
+        or generated_candidate_formula_gpu_stress.get("exact_cpu_control", {}).get(
+            "within_bound"
+        )
+        is not True
+        or generated_candidate_formula_gpu_stress.get("exact_cpu_control", {}).get(
+            "crosscheck_count"
+        )
+        != 5216
+        or generated_candidate_formula_gpu_stress.get("gpu_cpu_comparison", {}).get(
+            "within_bounds"
+        )
+        is not True
+        or generated_candidate_formula_gpu_stress.get("gpu_cpu_comparison", {}).get(
+            "comparison_count"
+        )
+        != 5341184
+        or generated_candidate_formula_gpu_stress.get("gpu_cpu_comparison", {}).get(
+            "violating_point_count"
+        )
+        != 0
+        or generated_candidate_formula_gpu_stress.get("runtime_measurement", {})
+        .get("device", {})
+        .get("device_name")
+        != "NVIDIA GeForce RTX 5090"
+        or "device-wide NVML" not in generated_candidate_formula_gpu_stress.get(
+            "runtime_measurement", {}
+        ).get("utilization", {}).get("counter_scope", "")
+        or generated_candidate_formula_gpu_stress.get("synthetic_only") is not True
+        or generated_candidate_formula_gpu_stress.get("formal_pass_inferred") is not False
+        or generated_candidate_formula_gpu_stress.get("field_equations_proven") is not False
+        or generated_candidate_formula_gpu_stress.get(
+            "candidate_backend_metric_variation_executed"
+        )
+        is not False
+        or generated_candidate_formula_gpu_stress.get("candidate_rejection_authorized")
+        is not False
+        or generated_candidate_formula_gpu_stress.get("scientific_ranking_authorized")
+        is not False
+        or generated_candidate_formula_gpu_stress.get("observations_opened") is not False
+        or generated_candidate_formula_gpu_stress.get("dark_matter_or_halo_inputs") is not False
+        or generated_candidate_formula_gpu_stress.get("redshift_distance_inputs") is not False
+        or generated_candidate_formula_gpu_stress.get("paid_llm_calls") is not False
+    ):
+        raise ValueError("generated candidate GPU formula stress control is inconsistent")
     if (
         formal_preflight.get("execution_enabled") is not True
         or formal_preflight.get("candidate_count") != 163
@@ -2108,6 +2242,96 @@ def build_unified_snapshot(
     ):
         raise ValueError("future Aether lower-order coefficient-contract gate is inconsistent")
     if (
+        future_aether_canonical_seed_constraint_dag_gate.get("candidate_count") != 14
+        or future_aether_canonical_seed_constraint_dag_gate.get("decision_counts")
+        != {"blocked": 14}
+        or future_aether_canonical_seed_constraint_dag_gate.get(
+            "bounded_canonical_seed_constraint_DAG_gate_completed"
+        )
+        is not True
+        or future_aether_canonical_seed_constraint_dag_gate.get(
+            "forced_characteristic_candidate_count"
+        )
+        != 11
+        or future_aether_canonical_seed_constraint_dag_gate.get(
+            "York_symbol_shell_candidate_count"
+        )
+        != 2
+        or future_aether_canonical_seed_constraint_dag_gate.get(
+            "uniformly_elliptic_candidate_count"
+        )
+        != 1
+        or future_aether_canonical_seed_constraint_dag_gate.get(
+            "full_canonical_background_point_registered_count"
+        )
+        != 1
+        or future_aether_canonical_seed_constraint_dag_gate.get(
+            "candidate_bound_flat_chart_D_residual_DAG_registered_count"
+        )
+        != 1
+        or future_aether_canonical_seed_constraint_dag_gate.get(
+            "spatially_distributed_canonical_H_core_registered_count"
+        )
+        != 0
+        or future_aether_canonical_seed_constraint_dag_gate.get(
+            "metric_covariantized_H_D_Frechet_DAG_registered_count"
+        )
+        != 0
+        or future_aether_canonical_seed_constraint_dag_gate.get(
+            "distributed_lower_order_coefficient_registry_complete_count"
+        )
+        != 0
+        or future_aether_canonical_seed_constraint_dag_gate.get(
+            "weighted_relative_lower_order_bound_pass_count"
+        )
+        != 0
+        or future_aether_canonical_seed_constraint_dag_gate.get(
+            "weighted_Fredholm_isomorphism_pass_count"
+        )
+        != 0
+        or future_aether_canonical_seed_constraint_dag_gate.get(
+            "full_operator_inverse_norm_pass_count"
+        )
+        != 0
+        or future_aether_canonical_seed_constraint_dag_gate.get(
+            "nonlinear_remainder_bound_pass_count"
+        )
+        != 0
+        or future_aether_canonical_seed_constraint_dag_gate.get(
+            "completed_boundary_sign_persistence_count"
+        )
+        != 0
+        or future_aether_canonical_seed_constraint_dag_gate.get("formal_pass_count") != 0
+        or future_aether_canonical_seed_constraint_dag_gate.get(
+            "candidate_rejection_authorized_count"
+        )
+        != 0
+        or future_aether_canonical_seed_constraint_dag_gate.get("first_blocker_counts")
+        != {
+            "alternative_canonical_momentum_variable_or_gauge_avoiding_exact_finite_tilt_York_symbol_shell": 2,
+            "candidate_bound_spatially_distributed_canonical_H_core_and_metric_covariantized_H_D_Frechet_DAG_off_flat_seed_chart": 1,
+            "noncharacteristic_foliation_or_compact_negative_seed_avoiding_forced_ADM_Legendre_characteristic_crossing": 11,
+        }
+        or future_aether_canonical_seed_constraint_dag_gate.get(
+            "source_lower_order_binding", {}
+        ).get("content_sha256")
+        != future_aether_lower_order_coefficient_contract_gate.get("content_sha256")
+        or future_aether_canonical_seed_constraint_dag_gate.get(
+            "automatic_downstream_enqueue_performed"
+        )
+        is not False
+        or future_aether_canonical_seed_constraint_dag_gate.get("observational_data_opened")
+        is not False
+        or future_aether_canonical_seed_constraint_dag_gate.get("dark_matter_or_halo_inputs")
+        is not False
+        or future_aether_canonical_seed_constraint_dag_gate.get("redshift_distance_inputs")
+        is not False
+        or future_aether_canonical_seed_constraint_dag_gate.get("paid_llm_spend_usd") != 0.0
+        or len(future_aether_canonical_seed_constraint_dag_gate.get("candidate_records", []))
+        != 14
+    ):
+        raise ValueError("future Aether canonical-seed constraint DAG gate is inconsistent")
+    if (
         future_g3_york_tracefree_compensation.get("candidate_count") != 3
         or future_g3_york_tracefree_compensation.get("decision_counts") != {"blocked": 3}
         or future_g3_york_tracefree_compensation.get(
@@ -2300,7 +2524,7 @@ def build_unified_snapshot(
         or future_candidate_action_dossier.get("source_roots", {}).get(
             "aether_followup_content_sha256"
         )
-        != future_aether_lower_order_coefficient_contract_gate.get("content_sha256")
+        != future_aether_canonical_seed_constraint_dag_gate.get("content_sha256")
         or future_candidate_action_dossier.get("source_roots", {}).get("g3_followup_content_sha256")
         != future_g3_flat_radial_matched_constraints_asymptotic_no_go.get("content_sha256")
         or len(future_candidate_action_dossier.get("dossiers", [])) != 19
@@ -3266,6 +3490,9 @@ def build_unified_snapshot(
     fourth_chunk_counts_96 = quartic_tc2_fourth_jet_chunk_96.get("counts", {})
     fourth_chunk_counts_128 = quartic_tc2_fourth_jet_chunk_128.get("counts", {})
     fourth_chunk_counts_160 = quartic_tc2_fourth_jet_chunk_160.get("counts", {})
+    fourth_chunk_counts_192 = quartic_tc2_fourth_jet_chunk_192.get("counts", {})
+    fourth_chunk_counts_224 = quartic_tc2_fourth_jet_chunk_224.get("counts", {})
+    fourth_obstruction = quartic_tc2_fourth_jet_chunk_224.get("first_exact_obstruction", {})
     if (
         quartic_tc2_fourth_jet_range_obligations.get("status")
         != "pass_exact_fourth_jet_minimal_selector_manifest_no_evaluations_tube_fail_closed"
@@ -3325,15 +3552,58 @@ def build_unified_snapshot(
         or fourth_chunk_counts_160.get("fourth_obligations_inferred_passed") != 0
         or quartic_tc2_fourth_jet_chunk_160.get("chunk_contract", {}).get("prior_resume_sha256")
         != quartic_tc2_fourth_jet_chunk_128.get("chunk_contract", {}).get("resume_tip_sha256")
-        or quartic_tc2_fourth_jet_checkpoint.get("next_obligation_offset") != 192
-        or quartic_tc2_fourth_jet_checkpoint.get("remaining_obligations") != 2_868
+        or quartic_tc2_fourth_jet_chunk_192.get("status")
+        != "pass_exact_fourth_jet_chunk_32_tube_fail_closed"
+        or fourth_chunk_counts_192.get("selected") != 32
+        or fourth_chunk_counts_192.get("candidate_solvable") != 384
+        or fourth_chunk_counts_192.get("candidate_obstructed") != 0
+        or fourth_chunk_counts_192.get("directional_evaluations") != 456
+        or fourth_chunk_counts_192.get("fourth_obligations_remaining") != 2_836
+        or fourth_chunk_counts_192.get("fourth_obligations_inferred_passed") != 0
+        or quartic_tc2_fourth_jet_chunk_192.get("chunk_contract", {}).get("prior_resume_sha256")
+        != quartic_tc2_fourth_jet_chunk_160.get("chunk_contract", {}).get("resume_tip_sha256")
+        or quartic_tc2_fourth_jet_chunk_224.get("status")
+        != "stop_first_exact_fourth_jet_obstruction"
+        or fourth_chunk_counts_224.get("selected") != 21
+        or fourth_chunk_counts_224.get("symbolic_parameter_compatible") != 20
+        or fourth_chunk_counts_224.get("candidate_evaluations") != 252
+        or fourth_chunk_counts_224.get("candidate_solvable") != 240
+        or fourth_chunk_counts_224.get("candidate_obstructed") != 12
+        or fourth_chunk_counts_224.get("directional_evaluations") != 251
+        or fourth_chunk_counts_224.get("fourth_obligations_remaining") != 2_816
+        or fourth_chunk_counts_224.get("fourth_obligations_inferred_passed") != 0
+        or quartic_tc2_fourth_jet_chunk_224.get("chunk_contract", {}).get("prior_resume_sha256")
+        != quartic_tc2_fourth_jet_chunk_192.get("chunk_contract", {}).get("resume_tip_sha256")
+        or quartic_tc2_fourth_jet_chunk_224.get("chunk_contract", {}).get("stopped_early")
+        is not True
+        or quartic_tc2_fourth_jet_chunk_224.get("chunk_contract", {}).get(
+            "records_after_first_obstruction_committed_or_inferred"
+        )
+        != 0
+        or fourth_obstruction.get("obligation_offset") != 244
+        or fourth_obstruction.get("active_indices") != [0, 2, 3, 9]
+        or fourth_obstruction.get("gate")
+        != "fourth-order equal-eigenspace Sylvester compatibility"
+        or len(fourth_obstruction.get("obstructed_candidate_ids", [])) != 12
+        or fourth_obstruction.get("record_sha256")
+        != quartic_tc2_fourth_jet_chunk_224.get("chunk_contract", {}).get(
+            "resume_tip_sha256"
+        )
+        or quartic_tc2_fourth_jet_checkpoint.get("next_obligation_offset") != 245
+        or quartic_tc2_fourth_jet_checkpoint.get("remaining_obligations") != 2_816
         or quartic_tc2_fourth_jet_checkpoint.get("current_artifact_content_sha256")
-        != quartic_tc2_fourth_jet_chunk_160.get("content_sha256")
-        or quartic_tc2_fourth_jet_checkpoint.get("completed_chunks") != 6
-        or len(quartic_tc2_fourth_jet_checkpoint.get("history", [])) != 6
+        != quartic_tc2_fourth_jet_chunk_224.get("content_sha256")
+        or quartic_tc2_fourth_jet_checkpoint.get("completed_chunks") != 8
+        or len(quartic_tc2_fourth_jet_checkpoint.get("history", [])) != 8
+        or quartic_tc2_fourth_jet_checkpoint.get("permanently_stopped") is not True
+        or quartic_tc2_fourth_jet_checkpoint.get("stop_reason") != "exact_obstruction"
         or quartic_tc2_fourth_jet_status.get("checkpoint_content_sha256")
         != quartic_tc2_fourth_jet_checkpoint.get("content_sha256")
-        or quartic_tc2_fourth_jet_status.get("decision") != "checkpointed"
+        or quartic_tc2_fourth_jet_status.get("decision") != "stopped"
+        or quartic_tc2_fourth_jet_status.get("reason") != "exact_obstruction"
+        or quartic_tc2_fourth_jet_status.get("permanently_stopped") is not True
+        or quartic_tc2_fourth_jet_status.get("next_obligation_offset") != 245
+        or quartic_tc2_fourth_jet_status.get("remaining_obligations") != 2_816
         or any(
             quartic_tc2_fourth_jet_status.get("claims", {}).get(key) is not False
             for key in (
@@ -3763,6 +4033,55 @@ def build_unified_snapshot(
                             ],
                             "scope": generated_candidate_metric_variation["scope"],
                         },
+                        "gpu_synthetic_formula_stress": {
+                            "campaign_decision": generated_candidate_formula_gpu_stress[
+                                "campaign_decision"
+                            ],
+                            "counts": generated_candidate_formula_gpu_stress["counts"],
+                            "exact_cpu_control": generated_candidate_formula_gpu_stress[
+                                "exact_cpu_control"
+                            ],
+                            "gpu_cpu_comparison": generated_candidate_formula_gpu_stress[
+                                "gpu_cpu_comparison"
+                            ],
+                            "runtime_measurement": generated_candidate_formula_gpu_stress[
+                                "runtime_measurement"
+                            ],
+                            "synthetic_only": True,
+                            "formal_pass_inferred": False,
+                            "observations_opened": False,
+                            "scope": generated_candidate_formula_gpu_stress["scope"],
+                            "interpretation": generated_candidate_formula_gpu_stress[
+                                "interpretation"
+                            ],
+                        },
+                        "generic_g4_B4_termwise_normalization": {
+                            "status": generic_g4_b4_termwise_normalization["status"],
+                            "primary_source": {
+                                key: generic_g4_b4_termwise_normalization["primary_source"][key]
+                                for key in (
+                                    "arxiv_id",
+                                    "authors",
+                                    "equation",
+                                    "title",
+                                )
+                            },
+                            "primary_source_transcription": generic_g4_b4_termwise_normalization[
+                                "primary_source_transcription"
+                            ],
+                            "canonical_term_count": generic_g4_b4_termwise_normalization[
+                                "canonical_term_count"
+                            ],
+                            "matched_term_count": generic_g4_b4_termwise_normalization[
+                                "matched_term_count"
+                            ],
+                            "nonzero_residual_count": generic_g4_b4_termwise_normalization[
+                                "nonzero_residual_count"
+                            ],
+                            "metric_variation_normalization_pass": True,
+                            "full_candidate_formal_pass_inferred": False,
+                            "scope": generic_g4_b4_termwise_normalization["interpretation"],
+                        },
                     },
                     "formal_preflight": {
                         "candidate_count": formal_preflight["candidate_count"],
@@ -3915,10 +4234,10 @@ def build_unified_snapshot(
                     },
                     "family_followup": {
                         "aether": {
-                            "candidate_count": future_aether_lower_order_coefficient_contract_gate[
+                            "candidate_count": future_aether_canonical_seed_constraint_dag_gate[
                                 "candidate_count"
                             ],
-                            "decision_counts": future_aether_lower_order_coefficient_contract_gate[
+                            "decision_counts": future_aether_canonical_seed_constraint_dag_gate[
                                 "decision_counts"
                             ],
                             "formal_pass_count": 0,
@@ -4021,13 +4340,13 @@ def build_unified_snapshot(
                             "full_coupled_Fredholm_operator_defined_count": future_aether_weighted_reference_operator_gate[
                                 "full_coupled_Fredholm_operator_defined_count"
                             ],
-                            "weighted_full_constraint_operator_isomorphism_pass_count": future_aether_lower_order_coefficient_contract_gate[
+                            "weighted_full_constraint_operator_isomorphism_pass_count": future_aether_canonical_seed_constraint_dag_gate[
                                 "weighted_Fredholm_isomorphism_pass_count"
                             ],
-                            "nonlinear_Frechet_remainder_bound_pass_count": future_aether_lower_order_coefficient_contract_gate[
+                            "nonlinear_Frechet_remainder_bound_pass_count": future_aether_canonical_seed_constraint_dag_gate[
                                 "nonlinear_remainder_bound_pass_count"
                             ],
-                            "completed_boundary_sign_persistence_count": future_aether_lower_order_coefficient_contract_gate[
+                            "completed_boundary_sign_persistence_count": future_aether_canonical_seed_constraint_dag_gate[
                                 "completed_boundary_sign_persistence_count"
                             ],
                             "fixed_free_data_constraint_variable_classification_count": future_aether_fixed_free_data_principal_gate[
@@ -4069,16 +4388,25 @@ def build_unified_snapshot(
                             "lower_order_coefficient_contract_declared_count": future_aether_lower_order_coefficient_contract_gate[
                                 "lower_order_coefficient_contract_declared_count"
                             ],
-                            "full_canonical_background_point_registered_count": future_aether_lower_order_coefficient_contract_gate[
+                            "full_canonical_background_point_registered_count": future_aether_canonical_seed_constraint_dag_gate[
                                 "full_canonical_background_point_registered_count"
                             ],
-                            "distributed_lower_order_coefficient_registry_complete_count": future_aether_lower_order_coefficient_contract_gate[
+                            "candidate_bound_flat_chart_D_residual_DAG_registered_count": future_aether_canonical_seed_constraint_dag_gate[
+                                "candidate_bound_flat_chart_D_residual_DAG_registered_count"
+                            ],
+                            "spatially_distributed_canonical_H_core_registered_count": future_aether_canonical_seed_constraint_dag_gate[
+                                "spatially_distributed_canonical_H_core_registered_count"
+                            ],
+                            "metric_covariantized_H_D_Frechet_DAG_registered_count": future_aether_canonical_seed_constraint_dag_gate[
+                                "metric_covariantized_H_D_Frechet_DAG_registered_count"
+                            ],
+                            "distributed_lower_order_coefficient_registry_complete_count": future_aether_canonical_seed_constraint_dag_gate[
                                 "distributed_lower_order_coefficient_registry_complete_count"
                             ],
-                            "weighted_relative_lower_order_bound_pass_count": future_aether_lower_order_coefficient_contract_gate[
+                            "weighted_relative_lower_order_bound_pass_count": future_aether_canonical_seed_constraint_dag_gate[
                                 "weighted_relative_lower_order_bound_pass_count"
                             ],
-                            "full_operator_inverse_norm_pass_count": future_aether_lower_order_coefficient_contract_gate[
+                            "full_operator_inverse_norm_pass_count": future_aether_canonical_seed_constraint_dag_gate[
                                 "full_operator_inverse_norm_pass_count"
                             ],
                             "missing_weighted_contract_field_counts": future_aether_weighted_ift_contract_gate[
@@ -4090,10 +4418,10 @@ def build_unified_snapshot(
                             "c2_plus_c3_counts": future_aether_weak_field_ae_constraint_gate[
                                 "c2_plus_c3_counts"
                             ],
-                            "first_blocker_counts": future_aether_lower_order_coefficient_contract_gate[
+                            "first_blocker_counts": future_aether_canonical_seed_constraint_dag_gate[
                                 "first_blocker_counts"
                             ],
-                            "candidate_rejection_authorized_count": future_aether_lower_order_coefficient_contract_gate[
+                            "candidate_rejection_authorized_count": future_aether_canonical_seed_constraint_dag_gate[
                                 "candidate_rejection_authorized_count"
                             ],
                         },
@@ -4369,8 +4697,11 @@ def build_unified_snapshot(
                     + fourth_chunk_counts_96["selected"]
                     + fourth_chunk_counts_128["selected"]
                     + fourth_chunk_counts_160["selected"]
+                    + fourth_chunk_counts_192["selected"]
+                    + fourth_chunk_counts_224["selected"]
                 ),
-                "obligations_remaining": fourth_chunk_counts_160["fourth_obligations_remaining"],
+                "obligations_closed": 244,
+                "obligations_remaining": fourth_chunk_counts_224["fourth_obligations_remaining"],
                 "candidate_evaluations": (
                     fourth_chunk_counts_0["candidate_evaluations"]
                     + fourth_chunk_counts_32["candidate_evaluations"]
@@ -4378,6 +4709,8 @@ def build_unified_snapshot(
                     + fourth_chunk_counts_96["candidate_evaluations"]
                     + fourth_chunk_counts_128["candidate_evaluations"]
                     + fourth_chunk_counts_160["candidate_evaluations"]
+                    + fourth_chunk_counts_192["candidate_evaluations"]
+                    + fourth_chunk_counts_224["candidate_evaluations"]
                 ),
                 "candidate_solvable": (
                     fourth_chunk_counts_0["candidate_solvable"]
@@ -4386,6 +4719,8 @@ def build_unified_snapshot(
                     + fourth_chunk_counts_96["candidate_solvable"]
                     + fourth_chunk_counts_128["candidate_solvable"]
                     + fourth_chunk_counts_160["candidate_solvable"]
+                    + fourth_chunk_counts_192["candidate_solvable"]
+                    + fourth_chunk_counts_224["candidate_solvable"]
                 ),
                 "candidate_obstructed": (
                     fourth_chunk_counts_0["candidate_obstructed"]
@@ -4394,6 +4729,8 @@ def build_unified_snapshot(
                     + fourth_chunk_counts_96["candidate_obstructed"]
                     + fourth_chunk_counts_128["candidate_obstructed"]
                     + fourth_chunk_counts_160["candidate_obstructed"]
+                    + fourth_chunk_counts_192["candidate_obstructed"]
+                    + fourth_chunk_counts_224["candidate_obstructed"]
                 ),
                 "directional_evaluations": (
                     fourth_chunk_counts_0["directional_evaluations"]
@@ -4402,10 +4739,15 @@ def build_unified_snapshot(
                     + fourth_chunk_counts_96["directional_evaluations"]
                     + fourth_chunk_counts_128["directional_evaluations"]
                     + fourth_chunk_counts_160["directional_evaluations"]
+                    + fourth_chunk_counts_192["directional_evaluations"]
+                    + fourth_chunk_counts_224["directional_evaluations"]
                 ),
                 "next_obligation_offset": quartic_tc2_fourth_jet_status["next_obligation_offset"],
                 "resume_tip_sha256": quartic_tc2_fourth_jet_status["prior_resume_sha256"],
                 "parallel_worker_count": 8,
+                "permanently_stopped": True,
+                "stop_reason": "exact_obstruction",
+                "first_exact_obstruction": fourth_obstruction,
                 "full_fourth_jet_range_closed": False,
             },
             "closure_counts": {
@@ -4420,7 +4762,7 @@ def build_unified_snapshot(
                     "lifespans_proved",
                 )
             },
-            "first_missing_premise": "remaining_2868_exact_fourth_jet_range_obligations_then_all_order_remainder_or_nonlinear_range_theorem",
+            "first_missing_premise": "resolve_exact_fourth_order_equal_eigenspace_Sylvester_obstruction_at_obligation_244_before_any_higher_order_remainder_or_nonlinear_range_theorem",
         },
         "evidence_pareto": {
             "candidate_decision_counts": pareto["candidate_decision_counts"],

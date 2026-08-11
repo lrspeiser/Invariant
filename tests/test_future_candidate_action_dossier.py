@@ -106,12 +106,13 @@ def test_proof_hierarchy_distinguishes_formula_formal_and_observation_scope() ->
         in {
             "noncharacteristic_foliation_or_compact_negative_seed_avoiding_forced_ADM_Legendre_characteristic_crossing",
             "alternative_canonical_momentum_variable_or_gauge_avoiding_exact_finite_tilt_York_symbol_shell",
-            "candidate_bound_full_canonical_seed_point_including_pi_and_p_A_and_distributed_H_D_coefficient_DAG",
+            "candidate_bound_spatially_distributed_canonical_H_core_and_metric_covariantized_H_D_Frechet_DAG_off_flat_seed_chart",
         }
         and "compact C3 Aether profile" in record["hierarchy_nodes"][1]["scope"]
         and "pi^{ij}" in record["hierarchy_nodes"][1]["scope"]
-        and "distributed Hamiltonian/momentum coefficient DAG"
+        and "distributed cotangent-lift momentum residual"
         in record["hierarchy_nodes"][1]["scope"]
+        and "spatially distributed canonical H_core" in record["hierarchy_nodes"][1]["scope"]
         and "weighted relative lower-order bound" in record["hierarchy_nodes"][1]["scope"]
         for record in aether_records
     )
@@ -135,7 +136,7 @@ def test_artifact_is_portable_and_secret_safe() -> None:
     raw = ARTIFACT.read_bytes()
     artifact = json.loads(raw)
     assert hashlib.sha256(raw).hexdigest() == (
-        "3f6168ee173cc8a66119ced654604fdeb24355095e8e45402d51c6061fa2e2ad"
+        "a5b83355a802e287931ade95ecfa66bef5c81ca9e908002ae108259d090221ff"
     )
     encoded = raw.decode("utf-8")
     assert "C:\\" not in encoded

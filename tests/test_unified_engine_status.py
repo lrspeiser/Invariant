@@ -26,6 +26,8 @@ SOURCE_PATHS = [
     "runs/engine/grammar-v3-parameter-cell-compilation-campaign.json",
     "runs/engine/generated-candidate-formal-export.json",
     "runs/engine/generated-candidate-metric-variation-execution.json",
+    "runs/engine/generated-candidate-formula-gpu-stress-campaign.json",
+    "runs/engine/generic-g4-b4-termwise-normalization-campaign.json",
     "runs/engine/grammar-v3-formal-preflight-status.json",
     "runs/engine/grammar-v3-promotion-admission-status.json",
     "runs/engine/grammar-v3-g2-candidate-formal-status.json",
@@ -48,6 +50,7 @@ SOURCE_PATHS = [
     "runs/engine/future-aether-finite-tilt-york-symbol-gate.json",
     "runs/engine/future-aether-principal-inverse-fredholm-gate.json",
     "runs/engine/future-aether-lower-order-coefficient-contract-gate.json",
+    "runs/engine/future-aether-canonical-seed-constraint-dag-gate.json",
     "runs/engine/future-g3-componentwise-domain-contract-campaign.json",
     "runs/engine/future-g3-action-bound-jet-box-campaign.json",
     "runs/engine/future-g3-af-transition-obstruction-campaign.json",
@@ -99,6 +102,8 @@ SOURCE_PATHS = [
     "runs/physics-language/quartic-tc2-fourth-jet-obligation-service/chunks/obligation-offset-000096.json",
     "runs/physics-language/quartic-tc2-fourth-jet-obligation-service/chunks/obligation-offset-000128.json",
     "runs/physics-language/quartic-tc2-fourth-jet-obligation-service/chunks/obligation-offset-000160.json",
+    "runs/physics-language/quartic-tc2-fourth-jet-obligation-service/chunks/obligation-offset-000192.json",
+    "runs/physics-language/quartic-tc2-fourth-jet-obligation-service/chunks/obligation-offset-000224.json",
     "runs/physics-language/quartic-tc2-fourth-jet-obligation-service/checkpoint.json",
     "runs/physics-language/quartic-tc2-fourth-jet-obligation-service/service-status.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000000.json",
@@ -152,6 +157,8 @@ LABELS = [
     "grammar_parameter_cell_compilation",
     "generated_candidate_formal_export",
     "generated_candidate_metric_variation_specialization",
+    "generated_candidate_formula_gpu_stress",
+    "generic_g4_b4_termwise_normalization",
     "grammar_v3_formal_preflight",
     "grammar_v3_promotion_admission",
     "grammar_v3_g2_candidate_formal",
@@ -174,6 +181,7 @@ LABELS = [
     "future_aether_finite_tilt_york_symbol_gate",
     "future_aether_principal_inverse_fredholm_gate",
     "future_aether_lower_order_coefficient_contract_gate",
+    "future_aether_canonical_seed_constraint_dag_gate",
     "future_g3_domain_followup",
     "future_g3_action_bound_followup",
     "future_g3_af_transition_obstruction",
@@ -225,6 +233,8 @@ LABELS = [
     "quartic_tc2_fourth_jet_chunk_96",
     "quartic_tc2_fourth_jet_chunk_128",
     "quartic_tc2_fourth_jet_chunk_160",
+    "quartic_tc2_fourth_jet_chunk_192",
+    "quartic_tc2_fourth_jet_chunk_224",
     "quartic_tc2_fourth_jet_checkpoint",
     "quartic_tc2_fourth_jet_status",
     "quartic_tc2_reranked_obligation_chunk_0",
@@ -816,7 +826,10 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                 "principal_elliptic_homotopy_to_reference_pass_count": 1,
                 "compact_profile_C3_weighted_jet_bound_pass_count": 1,
                 "lower_order_coefficient_contract_declared_count": 1,
-                "full_canonical_background_point_registered_count": 0,
+                "full_canonical_background_point_registered_count": 1,
+                "candidate_bound_flat_chart_D_residual_DAG_registered_count": 1,
+                "spatially_distributed_canonical_H_core_registered_count": 0,
+                "metric_covariantized_H_D_Frechet_DAG_registered_count": 0,
                 "distributed_lower_order_coefficient_registry_complete_count": 0,
                 "weighted_relative_lower_order_bound_pass_count": 0,
                 "full_operator_inverse_norm_pass_count": 0,
@@ -846,7 +859,7 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                 "first_blocker_counts": {
                     "noncharacteristic_foliation_or_compact_negative_seed_avoiding_forced_ADM_Legendre_characteristic_crossing": 11,
                     "alternative_canonical_momentum_variable_or_gauge_avoiding_exact_finite_tilt_York_symbol_shell": 2,
-                    "candidate_bound_full_canonical_seed_point_including_pi_and_p_A_and_distributed_H_D_coefficient_DAG": 1,
+                    "candidate_bound_spatially_distributed_canonical_H_core_and_metric_covariantized_H_D_Frechet_DAG_off_flat_seed_chart": 1,
                 },
                 "candidate_rejection_authorized_count": 0,
             },
@@ -985,20 +998,163 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                     "aether_formal_control_bound": 128,
                     "blocked": 0,
                     "candidate_action_hashes_specialized": 163,
+                    "candidate_backend_variations_executed": 0,
                     "candidate_euler_expressions_materialized": 163,
+                    "candidate_specializations_symbolically_verified": 163,
+                    "exact_formula_domains_validated": 163,
                     "formal_passes_inferred": 0,
                     "rejected": 0,
+                    "typed_action_hashes_replayed": 163,
                 },
                 "first_missing_premise": (
                     "metric_variation_exporters_for_future_unregistered_nonminimal_"
                     "operator_families"
                 ),
                 "scope": (
-                    "candidate-specific materialization of exact Euler expressions by "
-                    "substitution into independently executed and reviewed generic metric-"
-                    "variation theorems for every current generated action hash; this is not "
-                    "163 independent backend variations, and no formal decision, global-energy "
-                    "claim, or observational gate is changed"
+                    "candidate-specific materialization and symbolic verification of exact Euler "
+                    "specializations by substitution into independently executed or reviewed "
+                    "generic metric-variation theorems for every current replayed action hash; "
+                    "this is not 163 independent backend variations, and no formal decision, "
+                    "global-energy claim, or observational gate is changed"
+                ),
+            },
+            "gpu_synthetic_formula_stress": {
+                "campaign_decision": "completed_numerical_stress_control_only",
+                "counts": {
+                    "candidate_count": 163,
+                    "cpu_exact_rational_crosschecks": 5216,
+                    "cpu_full_projection_evaluations": 5341184,
+                    "family_count": 4,
+                    "formal_passes_inferred": 0,
+                    "gpu_measured_candidate_formula_evaluations": 87509958656,
+                    "gpu_measured_repetitions": 16384,
+                    "gpu_projection_dispatches": 16392,
+                    "gpu_warmup_repetitions": 8,
+                    "observational_records_accessed": 0,
+                    "paid_llm_calls": 0,
+                    "synthetic_points_per_candidate": 32768,
+                    "unique_candidate_point_pairs": 5341184,
+                },
+                "exact_cpu_control": {
+                    "bit_equal_to_converted_exact_count": 4900,
+                    "candidate_count": 163,
+                    "crosscheck_count": 5216,
+                    "error_bound": 5e-15,
+                    "exact_result_registry_root_sha256": (
+                        "2f4c6b2f17f23c913dd4ed1dfb371c59bee37360a48daf99de830df49e14df2f"
+                    ),
+                    "float64_max_absolute_error_after_single_reference_conversion": (
+                        2.220446049250313e-16
+                    ),
+                    "method": (
+                        "Python Fraction evaluation of every candidate on the declared "
+                        "dyadic sentinel points"
+                    ),
+                    "points_per_candidate": 32,
+                    "within_bound": True,
+                },
+                "gpu_cpu_comparison": {
+                    "absolute_error_bound": 5e-13,
+                    "bound_semantics": (
+                        "a point violates only when both absolute and relative bounds are exceeded"
+                    ),
+                    "comparison_count": 5341184,
+                    "cpu_output_sha256": (
+                        "51eddb89b41fd209329f3e962d884833d8cebc461f04f30ad2485493bfc62e53"
+                    ),
+                    "gpu_output_sha256": (
+                        "28faa9d3267f2e374e172141d02c7e64ce319c8667e5a6b24771595aafab90dc"
+                    ),
+                    "max_absolute_error": 2.220446049250313e-16,
+                    "max_relative_error": 1.2637483275749894e-13,
+                    "relative_error_bound": 5e-13,
+                    "relative_floor": 1e-12,
+                    "violating_point_count": 0,
+                    "within_bounds": True,
+                },
+                "runtime_measurement": {
+                    "cpu_full_projection_wall_seconds": 0.012065799965057522,
+                    "device": {
+                        "backend": "cupy_cuda",
+                        "compute_capability": "12.0",
+                        "cuda_runtime_version": 12090,
+                        "cupy_version": "13.5.1",
+                        "device_index": 0,
+                        "device_name": "NVIDIA GeForce RTX 5090",
+                        "total_global_memory_mib": 32606,
+                    },
+                    "gpu_allocated_input_bytes": 4478616,
+                    "gpu_allocated_output_bytes": 42729472,
+                    "gpu_candidate_formula_evaluations_per_second": 14422239577.99339,
+                    "gpu_measured_wall_seconds": 6.067709399969317,
+                    "measured_utc": "2026-08-11T14:03:18.757481+00:00",
+                    "timing_scope": (
+                        "single measured local run; not deterministic and not a sustained-capacity guarantee"
+                    ),
+                    "utilization": {
+                        "available": True,
+                        "counter_scope": (
+                            "device-wide NVML samples during measured synchronized GPU repetitions; "
+                            "counters can include concurrent processes and are not a continuous or "
+                            "lane-only utilization claim"
+                        ),
+                        "gpu_percent_max": 99,
+                        "gpu_percent_mean": 97.21989528795811,
+                        "memory_percent_max": 25,
+                        "memory_percent_mean": 13.87434554973822,
+                        "memory_used_mib_max": 7943,
+                        "power_watts_max": 333.419,
+                        "sample_count": 191,
+                        "sample_interval_seconds": 0.02,
+                    },
+                },
+                "synthetic_only": True,
+                "formal_pass_inferred": False,
+                "observations_opened": False,
+                "scope": (
+                    "candidate-bound numerical stress of the 163 materialized metric-Euler "
+                    "formula projections on independent synthetic dyadic operator coordinates"
+                ),
+                "interpretation": (
+                    "This is a numerical backend/throughput control. Synthetic operator "
+                    "coordinates need not be realizable field jets, and agreement cannot "
+                    "establish a field equation, formal pass, phenomenological fitness, or "
+                    "observational support."
+                ),
+            },
+            "generic_g4_B4_termwise_normalization": {
+                "status": (
+                    "pass_exact_24_term_generic_nonlinear_G4X_metric_Euler_"
+                    "normalization_to_KYY_B4"
+                ),
+                "primary_source": {
+                    "arxiv_id": "1105.5723v4",
+                    "authors": "Kobayashi, Yamaguchi, Yokoyama",
+                    "equation": "B.4",
+                    "title": (
+                        "Generalized G-inflation: Inflation with the most general "
+                        "second-order field equations"
+                    ),
+                },
+                "primary_source_transcription": {
+                    "path": (
+                        "formal/sources/kyy_1105.5723v4_eq_B4_canonical_coefficients.json"
+                    ),
+                    "file_sha256": (
+                        "497042978c3c0eed8ec02b49c5ceb2c258e60416c23152e34d44cde4ae53d32f"
+                    ),
+                },
+                "canonical_term_count": 24,
+                "matched_term_count": 24,
+                "nonzero_residual_count": 0,
+                "metric_variation_normalization_pass": True,
+                "full_candidate_formal_pass_inferred": False,
+                "scope": (
+                    "The independently executed Cadabra coefficient of delta g^ab matches "
+                    "all 24 canonical contractions obtained from KYY equation B.4. This "
+                    "closes tensor spelling and coefficient normalization only; it does not "
+                    "prove global energy, nonlinear stability, observational validity, or "
+                    "future unregistered operator families."
                 ),
             },
         },
@@ -1227,17 +1383,46 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
             "active_direction_rank": 15,
             "selector_obligations": 3060,
             "candidate_obligation_budget": 36720,
-            "obligations_evaluated": 192,
-            "obligations_remaining": 2868,
-            "candidate_evaluations": 2304,
-            "candidate_solvable": 2304,
-            "candidate_obstructed": 0,
-            "directional_evaluations": 2211,
-            "next_obligation_offset": 192,
+            "obligations_evaluated": 245,
+            "obligations_closed": 244,
+            "obligations_remaining": 2816,
+            "candidate_evaluations": 2940,
+            "candidate_solvable": 2928,
+            "candidate_obstructed": 12,
+            "directional_evaluations": 2918,
+            "next_obligation_offset": 245,
             "resume_tip_sha256": (
-                "bfe759542cdcd3309677b08bce16b23717b1c22cf6aafd24f878fd1aa73e7a47"
+                "7c309eec9d225f4c0813f0696e9806d7e5c2c9802528ade40d1d92c5f13d4c56"
             ),
             "parallel_worker_count": 8,
+            "permanently_stopped": True,
+            "stop_reason": "exact_obstruction",
+            "first_exact_obstruction": {
+                "active_indices": [0, 2, 3, 9],
+                "active_positions": [0, 2, 4, 15],
+                "gate": "fourth-order equal-eigenspace Sylvester compatibility",
+                "obligation_offset": 244,
+                "obstructed_candidate_ids": [
+                    "quartic-symbol-06e267a9215345b6",
+                    "quartic-symbol-076dc0ba965ab63a",
+                    "quartic-symbol-317e5395817a432b",
+                    "quartic-symbol-50f184dfe1a814bf",
+                    "quartic-symbol-5455cad9e42a0dbc",
+                    "quartic-symbol-561de1410d6cb21f",
+                    "quartic-symbol-8fd254934d778c28",
+                    "quartic-symbol-9e65901e5299a514",
+                    "quartic-symbol-e4a6a9193316a6ff",
+                    "quartic-symbol-ef832e4c3b71ee42",
+                    "quartic-symbol-f31a234e2bf7b97f",
+                    "quartic-symbol-fb5c20c15ce6d778",
+                ],
+                "record_sha256": (
+                    "7c309eec9d225f4c0813f0696e9806d7e5c2c9802528ade40d1d92c5f13d4c56"
+                ),
+                "selector_record_sha256": (
+                    "337daa86bf740ae9e66dbef0829df30297c02e22b8baeb6b90328d608fa66c87"
+                ),
+            },
             "full_fourth_jet_range_closed": False,
         },
         "closure_counts": {
@@ -1250,8 +1435,8 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
             "lifespans_proved": 0,
         },
         "first_missing_premise": (
-            "remaining_2868_exact_fourth_jet_range_obligations_then_all_order_"
-            "remainder_or_nonlinear_range_theorem"
+            "resolve_exact_fourth_order_equal_eigenspace_Sylvester_obstruction_at_"
+            "obligation_244_before_any_higher_order_remainder_or_nonlinear_range_theorem"
         ),
     }
     assert core["cross_pipeline_total"]["status"] == "not_computed"
@@ -1345,7 +1530,11 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "Aether C3 jet envelopes" in dashboard
     assert "Aether coefficient contracts" in dashboard
     assert "Aether canonical backgrounds" in dashboard
-    assert "Aether lower-order registries" in dashboard
+    assert "Aether D residual DAGs" in dashboard
+    assert "Aether H-core registries" in dashboard
+    assert "Aether covariant H/D DAGs" in dashboard
+    assert "candidate-bound flat-chart canonical seed" in dashboard
+    assert "off-flat metric-covariantized" in dashboard
     assert "G3 radial momentum audits" in dashboard
     assert "G3 Hamiltonian audits" in dashboard
     assert "Real joint coefficients" in dashboard
@@ -1374,9 +1563,19 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "other 10,700 lexicographic triples" in dashboard
     assert "CK1, CK3, TC2, B7, global H7, and lifespan remain fail-closed" in dashboard
     assert "Fourth-order range closure" in dashboard
+    assert "Generic G4 equation B.4 normalization" in dashboard
+    assert "Exact matches" in dashboard
+    assert "24/24" in dashboard
+    assert "coefficient normalization only" in dashboard
+    assert "RTX 5090 synthetic formula stress" in dashboard
+    assert "87.5-billion-evaluation timing loop" in dashboard
+    assert "device-wide and can include concurrent processes" in dashboard
+    assert "GPU/CPU violations" in dashboard
     assert "Exact selector" in dashboard
-    assert "Obligations evaluated" in dashboard
-    assert "Unevaluated obligations are never inferred to pass" in dashboard
+    assert "Records evaluated" in dashboard
+    assert "Obligations closed" in dashboard
+    assert "failed fourth-order equal-eigenspace Sylvester compatibility" in dashboard
+    assert "stopped permanently" in dashboard
     assert "No full formal pass is inferred" not in dashboard
     assert "class #1" in dashboard
     assert "g4_global_positive_energy: 1" not in dashboard

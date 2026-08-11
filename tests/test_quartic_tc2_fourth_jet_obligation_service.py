@@ -239,7 +239,7 @@ def test_exact_final_tail_is_twenty_without_padding() -> None:
     assert result["counts"]["fourth_obligations_remaining"] == 0
 
 
-def test_six_committed_exact_chunks_and_checkpoint_are_valid() -> None:
+def test_eight_committed_exact_chunks_and_permanent_obstruction_are_valid() -> None:
     config, campaign, predecessor, candidates = _inputs()
     artifact = json.loads((OUTPUT / "chunks" / "obligation-offset-000000.json").read_text())
     checkpoint = json.loads((OUTPUT / "checkpoint.json").read_text())
@@ -348,12 +348,59 @@ def test_six_committed_exact_chunks_and_checkpoint_are_valid() -> None:
     assert sixth["counts"]["directional_evaluations"] == 468
     assert sixth["counts"]["partition_counts"] == {"AABC": 3, "ABCD": 29}
     assert sixth["counts"]["candidate_solvable"] == 384
-    assert checkpoint["completed_chunks"] == 6
-    assert checkpoint["next_obligation_offset"] == 192
-    assert checkpoint["remaining_obligations"] == 2_868
-    assert checkpoint["prior_resume_sha256"] == (
-        "bfe759542cdcd3309677b08bce16b23717b1c22cf6aafd24f878fd1aa73e7a47"
+    seventh = json.loads((OUTPUT / "chunks" / "obligation-offset-000192.json").read_text())
+    seventh_dynamic = _chunk_config(
+        config,
+        campaign,
+        192,
+        32,
+        sixth["chunk_contract"]["resume_tip_sha256"],
     )
-    assert checkpoint["permanently_stopped"] is False
+    _validate_chunk_result(seventh, seventh_dynamic, campaign, candidates)
+    assert seventh["content_sha256"] == (
+        "ff1920687f6a1e299902674d77b629bc07c06c1e332ad45181b5d8b3b527188c"
+    )
+    assert seventh["counts"]["directional_evaluations"] == 456
+    assert seventh["counts"]["partition_counts"] == {"AABC": 6, "ABCD": 26}
+    assert seventh["counts"]["candidate_solvable"] == 384
+    eighth = json.loads((OUTPUT / "chunks" / "obligation-offset-000224.json").read_text())
+    eighth_dynamic = _chunk_config(
+        config,
+        campaign,
+        224,
+        32,
+        seventh["chunk_contract"]["resume_tip_sha256"],
+    )
+    _validate_chunk_result(eighth, eighth_dynamic, campaign, candidates)
+    assert eighth["content_sha256"] == (
+        "a218264eed0930d00f632876a258f6be14de68bb97584871f2361ca27aacc6fe"
+    )
+    assert eighth["status"] == "stop_first_exact_fourth_jet_obstruction"
+    assert eighth["counts"] == {
+        "candidate_evaluations": 252,
+        "candidate_obstructed": 12,
+        "candidate_solvable": 240,
+        "directional_evaluations": 251,
+        "fourth_obligations_inferred_passed": 0,
+        "fourth_obligations_remaining": 2_816,
+        "partition_counts": {"AAAB": 1, "AABC": 14, "ABCD": 6},
+        "selected": 21,
+        "symbolic_parameter_compatible": 20,
+    }
+    assert eighth["first_exact_obstruction"]["obligation_offset"] == 244
+    assert eighth["first_exact_obstruction"]["active_indices"] == [0, 2, 3, 9]
+    assert len(eighth["first_exact_obstruction"]["obstructed_candidate_ids"]) == 12
+    assert len(eighth["obligation_manifest"]) == 21
+    assert eighth["chunk_contract"]["records_after_first_obstruction_committed_or_inferred"] == 0
+    assert checkpoint["completed_chunks"] == 8
+    assert checkpoint["next_obligation_offset"] == 245
+    assert checkpoint["remaining_obligations"] == 2_816
+    assert checkpoint["prior_resume_sha256"] == (
+        "7c309eec9d225f4c0813f0696e9806d7e5c2c9802528ade40d1d92c5f13d4c56"
+    )
+    assert checkpoint["permanently_stopped"] is True
+    assert checkpoint["stop_reason"] == "exact_obstruction"
     assert not any(checkpoint["claims"].values())
     assert status["checkpoint_content_sha256"] == checkpoint["content_sha256"]
+    assert status["decision"] == "stopped"
+    assert status["reason"] == "exact_obstruction"

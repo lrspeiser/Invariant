@@ -50,7 +50,10 @@ metric Euler tensor now reaches a fully integrated raw coefficient with all deri
 the metric variation and the Hessian-connection term included. Its exact commutator decomposition
 and rank-one polarization certificate cancel the complete symmetric third scalar jet, leaving only
 curvature and second scalar derivatives; omitting the required Palatini completion is rejected.
-Termwise normalization to the published B.4 spelling remains unresolved. The generic unitary-gauge ADM
+Termwise normalization to the published B.4 spelling now passes exactly: all 24 canonical
+contractions in the independently executed Cadabra coefficient match equation B.4 of
+Kobayashi--Yamaguchi--Yokoyama with zero residual, while sign-flip, omitted-`G4_XX`, and wrong-source
+controls reject. This closes tensor spelling and coefficient normalization only. The generic unitary-gauge ADM
 primary stage is now implemented: the arbitrary L2--L4 seven-velocity Hessian has rank six with
 sole null direction `p_V_star=0` on `G4-2 X G4_X != 0`, and a wrong-completion negative restores
 rank seven. The secondary chain, D-D/D-C covariance, lapse-pair Poisson rank, and three-mode count
@@ -354,10 +357,12 @@ seed; two cross exact perpendicular-covector York shells, rejecting only `K_ij=(
 global completion variable. For the sole uniformly elliptic candidate, the exact determinant gap
 now yields a finite pointwise principal-symbol inverse bound and an elliptic homotopy to the
 Euclidean reference. That candidate now also has an exact compact `C3` Aether profile with weighted
-jet bounds through third order and a typed `4x4` lower-order coefficient interface. The full
-finite-tilt canonical background still lacks `pi^ij` and `p_A^i`, and the distributed Hamiltonian/
-momentum coefficient DAG is unregistered; therefore the weighted relative bound, kernel estimate,
-full Fredholm inverse, nonlinear remainder, and completed-boundary sign remain blocked. The other
+jet bounds through third order and a typed `4x4` lower-order coefficient interface. An exact
+flat-chart canonical seed now registers `q`, `A`, `pi^ij`, and `p_A^i`, together with the distributed
+cotangent-lift momentum residual DAG through the available profile derivatives. The spatially
+distributed canonical `H_core` and off-flat metric-covariantized Hamiltonian/momentum Frechet DAG
+remain unregistered; therefore the complete `B/C` coefficient registry, weighted relative bound,
+kernel estimate, full Fredholm inverse, nonlinear remainder, and completed-boundary sign remain blocked. The other
 11 retain the forced-characteristic blocker. Blocked is not theory
 rejection. The three cubic-G3 actions now have all
 36 action-bound componentwise fields registered and pass direct uniform principal/common-cone,
@@ -517,6 +522,15 @@ On an identical 16-million-formula scaling run, eight producers reached 7.49 mil
 formulas per second; 12 and 16 producers were slower as CPU saturation reduced overlap. Eight is
 therefore the evidence-backed 5090 default. Low physical GPU utilization still shows that formula
 production and verification, not CUDA screening, are the current bottleneck.
+The new candidate-bound formula stress lane drives the same RTX 5090 much harder on dense numerical
+work: all 163 materialized Euler projections were checked on 5,341,184 deterministic synthetic
+candidate-point pairs against CPU evaluation, with 5,216 additional exact-rational sentinels and zero
+registered error-bound violations. A single measured throughput loop evaluated 87,509,958,656
+candidate-formula pairs in 6.068 seconds (14.42 billion/s); device-wide NVML averaged 97.22%, but can
+include concurrent processes and is not a lane-only or sustained-capacity claim. These coordinates are
+synthetic operator inputs, not necessarily realizable field jets or observations, so the run proves
+backend agreement and throughput only—no field equation, formal pass, ranking, rejection, dark-sector
+claim, or observational support.
 `promotion_dossier.py` now independently replays every stored candidate/stage hash chain, explains
 the first rejection or unresolved gate, and builds a multi-axis Pareto follow-up queue only from
 non-rejected candidates. Its ranking is work allocation, never a truth probability, and it cannot
@@ -1221,14 +1235,14 @@ range theorem is still required, and full tube, CK1, CK3, TC2, B7, global-H7, an
 remain fail-closed.
 
 The next exact range selector contains 3,060 fourth-order obligations on the same rank-15 active
-space. Its restart-safe eight-worker service has closed six exact 32-obligation chunks:
-192/3,060 obligations and 2,304/2,304 candidate systems are closed with no obstruction; 2,868
-remain. Orders one through
-three are mandatory
-zero-residual prerequisites. A fourth-order incompatibility is retained as a mathematical RHS and
-must flow through permanent obstruction semantics rather than being misreported as infrastructure
-failure. No unevaluated obligation is inferred passed, and fourth-order progress does not promote
-the still-false full-tube, CK1, CK3, TC2, B7, global-H7, or lifespan claims.
+space. Its restart-safe eight-worker service committed 245 selector records and closed 244 exact
+obligations. At selector offset 244, active indices `[0,2,3,9]`, fourth-order equal-eigenspace
+Sylvester compatibility fails for all 12 quartic candidates. The service records 2,928 solvable and
+12 obstructed candidate systems, commits no post-obstruction record, and permanently stops with
+2,816 obligations unevaluated. Orders one through three remain mandatory zero-residual
+prerequisites. This is a mathematical candidate obstruction, not an infrastructure failure or an
+inferred pass for the unevaluated tail; full fourth-order range closure, full-tube, CK1, CK3, TC2,
+B7, global-H7, and lifespan remain false.
 
 The tube bounds 153 normalized coordinate atoms: ten metric deviations, 44 first partials,
 and 99 acceleration-free symmetric second partials. The exact orthonormal metric-basis identity

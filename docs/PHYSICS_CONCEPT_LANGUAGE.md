@@ -95,9 +95,9 @@ Next implementation packs should be:
 
 1. extend the symbolic `G2(phi,X)`, `G3(phi,X)`, `G4(phi,X)` pack from exact normalized functions,
    `G4_X` completion, exact generic `G2/G3` variation/Noether controls, arbitrary-`G4` scalar
-   variation, flat nonlinear-`G4_X` metric/Noether closure, and full curved `G4=F(phi)` closure into
-   termwise tensor-backend normalization of the curved nonlinear-`G4_X` metric variation plus the
-   candidate-background and arbitrary-inhomogeneous principal adapters; the ADM/Dirac gates,
+   variation, flat nonlinear-`G4_X` metric/Noether closure, full curved `G4=F(phi)` closure, and the
+   completed exact 24-term B.4 tensor normalization into the candidate-background and
+   arbitrary-inhomogeneous principal adapters; the ADM/Dirac gates,
    homogeneous tensor and constraint-reduced FLRW scalar principal/Hamiltonian adapters, three
    exact curved rational witnesses, and the 345-symbol all-jet theorem already pass;
 2. extend the new regular rank-one reduced quadratic-DHOST pack into the full covariant quadratic
@@ -119,8 +119,8 @@ flat nonlinear-`X` metric tensor and combined Noether identity also pass, while 
 arbitrary-curved metric/Noether closure. Three exact-rational curved nonlinear-`G4_X` witnesses with
 nonzero Weyl curvature/curvature gradients pass the complete metric/scalar identity, and a separate
 345-symbol polynomial expansion proves it on the complete local jet. Independent backend derivation
-of the metric variation now reaches a complete second-order raw coefficient, while termwise
-normalization to the published spelling remains open. The generic ADM primary and conditional
+of the metric variation now reaches a complete second-order raw coefficient, and all 24 canonical
+terms match the published B.4 spelling with zero residual. The generic ADM primary and conditional
 distributed Dirac gates pass. The exact arbitrary-function homogeneous tensor block now emits
 `G_T=2(G4-2 X G4_X)`, `F_T=2G4`, its two-polarization characteristic polynomial, and a positive
 reduced Hamiltonian on `G_T>0, F_T>0`. The constraint-reduced FLRW scalar adapter also derives

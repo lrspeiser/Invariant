@@ -32,10 +32,10 @@ def test_committed_artifact_is_exact_rebuild(rebuilt: dict) -> None:
     assert committed == rebuilt
     validate_generated_candidate_metric_variation_execution_campaign(committed)
     assert hashlib.sha256(ARTIFACT.read_bytes()).hexdigest() == (
-        "d85438364404923dea4a85cf6d782875bdd733853970316fbc30a80f59255b01"
+        "8adcfbd3846eb60c55c837f972ebe82507d91def2224777f65c3cda69d2afb4e"
     )
     assert committed["content_sha256"] == (
-        "78196adb42eda082dafcd370449a22c3d6ea0d33d6ce9e8d886e9b67dc52001c"
+        "bbd5ec183d7710141959361b555a218f7702c095023c06b158d35246569184d8"
     )
 
 
@@ -54,10 +54,19 @@ def test_all_current_action_hashes_receive_candidate_receipts(rebuilt: dict) -> 
     assert all(
         record["candidate_specialized_euler_expression_materialized"] is True for record in records
     )
+    assert all(record["candidate_formula_domain_validated"] is True for record in records)
+    assert all(record["candidate_action_hash_replayed"] is True for record in records)
+    assert all(
+        record["candidate_backend_metric_variation_executed"] is False for record in records
+    )
     assert all(record["formal_pass_inferred"] is False for record in records)
 
 
 def test_family_specializers_are_explicit_and_action_bound(rebuilt: dict) -> None:
+    from sigma_theory_compiler import (
+        generated_candidate_metric_variation_execution_campaign as module,
+    )
+
     adapters = Counter(
         record["metric_variation_execution"]["adapter"] for record in rebuilt["candidate_records"]
     )
@@ -71,6 +80,16 @@ def test_family_specializers_are_explicit_and_action_bound(rebuilt: dict) -> Non
         execution = record["metric_variation_execution"]
         assert execution["generic_control_status"] == "pass"
         assert execution["specialization"]["specialization_residual"] == "0"
+        domain = execution["specialization"]["exact_formula_domain_certificate"]
+        assert execution["specialization"]["exact_formula_domain_certificate_sha256"] == (
+            module._sha(domain)
+        )
+        binding = execution["candidate_specialization_binding"]
+        binding_body = {key: value for key, value in binding.items() if key != "content_sha256"}
+        assert binding["content_sha256"] == module._sha(binding_body)
+        assert binding["action_sha256"] == record["action_sha256"]
+        assert binding["formula_inputs_sha256"] == record["formula_inputs_sha256"]
+        assert execution["candidate_backend_metric_variation_executed"] is False
         assert execution["negative_control"]["rejected"] is True
         assert len(record["action_sha256"]) == 64
         assert len(record["formula_inputs_sha256"]) == 64
@@ -83,6 +102,10 @@ def test_family_specializers_are_explicit_and_action_bound(rebuilt: dict) -> Non
     control = aether["metric_variation_execution"]["specialization"]["generic_basis_formal_control"]
     assert control["formal_control_name"] == "cadabra_einstein_aether_metric_variation"
     assert control["backend_return_code"] == 0
+    assert control["executed_script_path"] == (
+        "formal/cadabra/einstein_aether_metric_variation.cdb"
+    )
+    assert len(control["script_formal_control_binding_sha256"]) == 64
 
 
 def test_rational_parameter_substitutions_are_candidate_specific(rebuilt: dict) -> None:
@@ -113,6 +136,26 @@ def test_rational_parameter_substitutions_are_candidate_specific(rebuilt: dict) 
         )
         == 32
     )
+    assert all(
+        record["metric_variation_execution"]["specialization"][
+            "exact_formula_domain_certificate"
+        ]["status"]
+        == "pass_exact_linear_G3_jet_domain"
+        for record in g3
+    )
+    g4 = next(
+        record
+        for record in rebuilt["candidate_records"]
+        if record["family_id"] == "CONFORMAL_G4_PHI_SCALAR_TENSOR"
+    )
+    g4_domain = g4["metric_variation_execution"]["specialization"][
+        "exact_formula_domain_certificate"
+    ]
+    assert g4_domain["G4_X"] == "0"
+    assert g4_domain["G4_XX"] == "0"
+    assert g4_domain["G4_phi"] == "phi/50"
+    assert g4_domain["G4_phiphi"] == "1/50"
+    assert g4_domain["X_independence_exact"] is True
 
 
 def test_hash_parameter_and_atom_tampering_fail_closed() -> None:
@@ -126,6 +169,11 @@ def test_hash_parameter_and_atom_tampering_fail_closed() -> None:
     bad_controls["formal_controls_artifact"]["file_sha256"] = "0" * 64
     with pytest.raises(ValueError, match="formal controls file hash mismatch"):
         build_generated_candidate_metric_variation_execution_campaign(bad_controls, ROOT)
+
+    bad_compiler = copy.deepcopy(config)
+    bad_compiler["compilation_config"]["file_sha256"] = "0" * 64
+    with pytest.raises(ValueError, match="compilation config file hash mismatch"):
+        build_generated_candidate_metric_variation_execution_campaign(bad_compiler, ROOT)
 
     export_path = ROOT / config["generated_action_export"]["path"]
     export = _load(export_path)
@@ -144,12 +192,15 @@ def test_hash_parameter_and_atom_tampering_fail_closed() -> None:
     g4["formula_inputs_sha256"] = formula["formula_inputs_sha256"]
     g4_body = {key: value for key, value in g4.items() if key != "content_sha256"}
     g4["content_sha256"] = module._sha(g4_body)
+    export["candidate_record_registry_root_sha256"] = module._sha(
+        [item["content_sha256"] for item in export["candidate_records"]]
+    )
     original_loader = module._load_bound
     try:
         module._load_bound = lambda root, binding, label: (
             export if label == "generated action export" else original_loader(root, binding, label)
         )
-        with pytest.raises(ValueError, match="G4 candidate left the reviewed X-independent"):
+        with pytest.raises(ValueError, match="candidate action lineage changed"):
             build_generated_candidate_metric_variation_execution_campaign(config, ROOT)
     finally:
         module._load_bound = original_loader
@@ -181,6 +232,72 @@ def test_hash_parameter_and_atom_tampering_fail_closed() -> None:
         ] = original
 
 
+def test_density_action_and_aether_script_coherent_tampering_fail_closed() -> None:
+    from sigma_theory_compiler import (
+        generated_candidate_metric_variation_execution_campaign as module,
+    )
+
+    config = _load(CONFIG)
+    export = _load(ROOT / config["generated_action_export"]["path"])
+    density_tamper = copy.deepcopy(export)
+    target = density_tamper["candidate_records"][0]
+    target["theory_formula_inputs"]["ordered_operator_densities"][0]["density"] += "+0"
+    formula = target["theory_formula_inputs"]
+    formula_body = {key: value for key, value in formula.items() if key != "formula_inputs_sha256"}
+    formula["formula_inputs_sha256"] = module._sha(formula_body)
+    target["formula_inputs_sha256"] = formula["formula_inputs_sha256"]
+    target_body = {key: value for key, value in target.items() if key != "content_sha256"}
+    target["content_sha256"] = module._sha(target_body)
+    density_tamper["candidate_record_registry_root_sha256"] = module._sha(
+        [item["content_sha256"] for item in density_tamper["candidate_records"]]
+    )
+
+    original_loader = module._load_bound
+    try:
+        module._load_bound = lambda root, binding, label: (
+            density_tamper if label == "generated action export" else original_loader(root, binding, label)
+        )
+        with pytest.raises(ValueError, match="candidate action lineage changed"):
+            build_generated_candidate_metric_variation_execution_campaign(config, ROOT)
+    finally:
+        module._load_bound = original_loader
+
+    action_tamper = copy.deepcopy(export)
+    target = action_tamper["candidate_records"][0]
+    target["action_sha256"] = "0" * 64
+    target["theory_formula_inputs"]["action_content_sha256"] = "0" * 64
+    formula = target["theory_formula_inputs"]
+    formula_body = {key: value for key, value in formula.items() if key != "formula_inputs_sha256"}
+    formula["formula_inputs_sha256"] = module._sha(formula_body)
+    target["formula_inputs_sha256"] = formula["formula_inputs_sha256"]
+    target_body = {key: value for key, value in target.items() if key != "content_sha256"}
+    target["content_sha256"] = module._sha(target_body)
+    action_tamper["candidate_record_registry_root_sha256"] = module._sha(
+        [item["content_sha256"] for item in action_tamper["candidate_records"]]
+    )
+    try:
+        module._load_bound = lambda root, binding, label: (
+            action_tamper if label == "generated action export" else original_loader(root, binding, label)
+        )
+        with pytest.raises(ValueError, match="candidate action lineage changed"):
+            build_generated_candidate_metric_variation_execution_campaign(config, ROOT)
+    finally:
+        module._load_bound = original_loader
+
+    receipt = _load(ROOT / config["aether_execution_receipt"]["path"])
+    receipt["script_path"] = "formal/cadabra/not-the-bound-script.cdb"
+    receipt_body = {key: value for key, value in receipt.items() if key != "content_sha256"}
+    receipt["content_sha256"] = module._sha(receipt_body)
+    try:
+        module._load_bound = lambda root, binding, label: (
+            receipt if label == "Aether execution receipt" else original_loader(root, binding, label)
+        )
+        with pytest.raises(ValueError, match="Aether metric-variation formal control"):
+            build_generated_candidate_metric_variation_execution_campaign(config, ROOT)
+    finally:
+        module._load_bound = original_loader
+
+
 def test_scope_and_seals_remain_fail_closed(rebuilt: dict) -> None:
     assert rebuilt["current_operator_families_complete"] is True
     assert rebuilt["future_unregistered_operator_families_complete"] is False
@@ -192,6 +309,10 @@ def test_scope_and_seals_remain_fail_closed(rebuilt: dict) -> None:
     assert counts["aether_formal_control_bound"] == 128
     assert counts["candidate_action_hashes_specialized"] == 163
     assert counts["candidate_euler_expressions_materialized"] == 163
+    assert counts["typed_action_hashes_replayed"] == 163
+    assert counts["exact_formula_domains_validated"] == 163
+    assert counts["candidate_specializations_symbolically_verified"] == 163
+    assert counts["candidate_backend_variations_executed"] == 0
     assert rebuilt["observational_data_opened"] is False
     assert rebuilt["dark_matter_or_halo_inputs"] is False
     assert rebuilt["redshift_distance_inputs"] is False
