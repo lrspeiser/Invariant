@@ -80,6 +80,30 @@
       "read_contract": "sqlite_uri_mode_ro_plus_query_only_transaction",
       "reads_live_campaign_database": true,
       "refresh_interval_seconds": 300,
+      "safety_hardening": {
+        "decision": "hardened_service_ready_not_started",
+        "remaining_limitations": [
+          "a stop or drift request cannot interrupt the interior of one third-party snapshot or leaderboard builder call; it is observed at the next guarded phase boundary",
+          "snapshot and dashboard target replacement is individually atomic but not a single cross-file filesystem transaction",
+          "PID command-line verification depends on psutil availability and fails closed when unavailable",
+          "the hardened service is isolated and not started or substituted for the existing integrated live service by this lane"
+        ],
+        "safety_contract": {
+          "control_poll_interval_seconds": 0.25,
+          "counters_preserved_across_compatible_reload": true,
+          "pre_and_post_projection_input_manifest_required": true,
+          "refresh_phase_control_guards": 4,
+          "reload_failures_checkpointed_in_worker_finally": true,
+          "runtime_directory_fixed": "runs/engine/unified-live-dashboard-safety-service",
+          "runtime_epoch": "unified-live-dashboard-safety-epoch-20260811-v1",
+          "stale_projection_publication_allowed": false,
+          "target_and_log_symlinks_rejected": true,
+          "unpredictable_exclusive_temp_files": true,
+          "windows_argv_list_shell_false": true,
+          "worker_pid_bound_to_normalized_argv": true
+        },
+        "service_started": false
+      },
       "writes_live_campaign_database": false
     },
     "cross_pipeline_total": {
@@ -3811,7 +3835,7 @@
         "mixed_third_jet_closures": 1600,
         "remaining_mixed_triples": 10700
       },
-      "first_missing_premise": "derive_and_constraint_check_a_new_covariant_invariant_or_topology_changing_reduction_with_nonzero_zero_speed_projection",
+      "first_missing_premise": "derive_an_explicit_covariant_definition_or_curl_constraint_row_TC2_operator_using_a_capable_selector_and_prove_constraint_propagation",
       "fourth_jet_range_obligations": {
         "active_direction_rank": 15,
         "candidate_evaluations": 2940,
@@ -3884,7 +3908,7 @@
             "status": "pass_exact_minimal_rank_one_tc2_d4_escape_algebraic_only",
             "target_cokernel_line_dimension": 1
           },
-          "next_gate": "Derive and constraint-check a covariant invariant or gauge-fixed reduction that genuinely changes the TC2 input selector from e54 to a component with nonzero zero-speed projection (the minimal escape uses e21), then recompute the principal constraint subsystem and the affected D4 obligations.",
+          "next_gate": "A successful origin must leave the direct second-order action-principal class: it must either modify a definition/curl constraint row, introduce an explicit nonprincipal TC2 constraint operator with a capable selector, or use coupled lower-jet changes. No covariant derivation or constraint propagation proof for any such mechanism is currently bound.",
           "obligation_offset": 244,
           "registered_operator_origin_no_go": {
             "constraint_support_audit": {
@@ -3939,6 +3963,1024 @@
           },
           "selector_obligations_classified": 1,
           "status": "pass_exact_canonical_d4_obstruction_cokernel_classification",
+          "topology_changing_origin_classification": {
+            "counts": {
+              "canonical_cokernel_capable_selectors": 5,
+              "canonical_kernel_selectors": 16,
+              "canonical_nonzero_incapable_selectors": 34,
+              "canonical_selectors_checked": 55,
+              "constructive_rank_one_cokernel_blocks": 5,
+              "direct_deltaP_domain_dimension": 605,
+              "direct_joint_cokernel_map_rank": 0,
+              "direct_joint_domain_dimension": 2145,
+              "direct_symmetric_deltaK_domain_dimension": 1540,
+              "inferred_global_passes": 0,
+              "negative_controls": 6
+            },
+            "direct_action_origin_no_go": {
+              "canonical_lift_support": {
+                "R0T_K0_Ev_nonzero_entries": 0,
+                "R0T_K0_Ev_sha256": "4efb4f5888421b27afeb457ab5bd0f20260c86f9f4f20229e45b1baccdd89346",
+                "R0T_K0_Ev_zero": true,
+                "output_labels": [
+                  "v[0]",
+                  "v[1]",
+                  "v[2]",
+                  "v[3]",
+                  "v[4]",
+                  "v[5]",
+                  "v[6]",
+                  "v[7]",
+                  "v[8]",
+                  "v[9]",
+                  "v[10]"
+                ],
+                "output_rows": [
+                  33,
+                  34,
+                  35,
+                  36,
+                  37,
+                  38,
+                  39,
+                  40,
+                  41,
+                  42,
+                  43
+                ],
+                "velocity_embedding_sha256": "594701d5912821c9a61ebfdeeaf16290b4bd836e9ea83a369a538c19ddeb0e45"
+              },
+              "declared_class": {
+                "allowed_coefficients": "arbitrary exact D4 coefficient tensors",
+                "allowed_second_order_changes": [
+                  "deltaA",
+                  "deltaB^i",
+                  "deltaC^ij"
+                ],
+                "broad_deltaP_domain_dimension": 605,
+                "canonical_first_order_state_dimension": 55,
+                "canonical_lift_formula": "deltaP55=E_v*Z for arbitrary Z in Q^(11x55)",
+                "covers_arbitrary_direct_symmetrizer_variation": true,
+                "covers_mass_variation": true,
+                "covers_mixed_Hessian_Cij_variation": true,
+                "excludes_changes_to_definition_or_curl_equations": true,
+                "excludes_explicit_nonprincipal_TC2_constraint_rows": true,
+                "excludes_lower_jet_coupled_changes": true,
+                "joint_domain_dimension": 2145,
+                "name": "direct_D4_second_order_action_principal_deformations",
+                "orders_0_through_3_fixed": true,
+                "second_order_field_dimension": 11,
+                "symmetric_deltaK_domain_dimension": 1540
+              },
+              "deltaK_cokernel_map": {
+                "P0_R0_sha256": "d4d121c239c4905e1183840e887b102fd0a0c9dc588820df4b858291c70cb4ad",
+                "P0_R0_zero": true,
+                "R0T_P0T_sha256": "d4d121c239c4905e1183840e887b102fd0a0c9dc588820df4b858291c70cb4ad",
+                "R0T_P0T_zero": true,
+                "formula": "R0^T(deltaK*P0-P0^T*deltaK)R0=0 because P0*R0=0",
+                "rank": 0,
+                "symmetric_domain_dimension": 1540,
+                "target_W_in_image": false
+              },
+              "deltaP_cokernel_map": {
+                "domain_dimension": 605,
+                "formula": "R0^T(K0*E_v*Z-Z^T*E_v^T*K0)R0=0 because R0^T*K0*E_v=0",
+                "rank": 0,
+                "target_W_in_image": false,
+                "target_augmented_rank": 1
+              },
+              "joint_result": {
+                "direct_action_principal_origin_ruled_out": true,
+                "joint_domain_dimension": 2145,
+                "joint_map_rank": 0,
+                "target_W_in_image": false,
+                "target_W_nonzero_entries": 4,
+                "target_W_rank": 2,
+                "target_W_sha256": "e44c769b1eaf44c6e0ffc411007d98f9de24c6e8a20bac112d9a0a062e913500"
+              }
+            },
+            "explicit_TC2_selector_classification": {
+              "canonical_capable_indices": [
+                21,
+                44,
+                48,
+                51,
+                53
+              ],
+              "canonical_capable_labels": [
+                "w2[10]",
+                "w1[0]",
+                "w1[4]",
+                "w1[7]",
+                "w1[9]"
+              ],
+              "canonical_counts": {
+                "cokernel_capable_selectors": 5,
+                "nonzero_projection_incapable_selectors": 34,
+                "selectors_checked": 55,
+                "zero_projection_selectors": 16
+              },
+              "canonical_kernel_indices": [
+                33,
+                34,
+                35,
+                36,
+                37,
+                38,
+                39,
+                40,
+                41,
+                42,
+                43,
+                45,
+                46,
+                47,
+                52,
+                54
+              ],
+              "canonical_selector_records": [
+                {
+                  "induced_map_rank": 32,
+                  "projected_selector_sha256": "db036449fdc816bb05b500c446f6146d135f5484c0967e2f99d36de387ccfc4a",
+                  "projected_selector_sparse": [
+                    {
+                      "index": 0,
+                      "value": "1"
+                    }
+                  ],
+                  "projection_zero": false,
+                  "selector_index": 0,
+                  "selector_label": "q[0]",
+                  "target_W_in_image": false,
+                  "target_augmented_rank": 33
+                },
+                {
+                  "induced_map_rank": 32,
+                  "projected_selector_sha256": "75cd39381d59bb48f608e39c3f82bcac8901a61eb193feec838105860ee7883a",
+                  "projected_selector_sparse": [
+                    {
+                      "index": 1,
+                      "value": "1"
+                    }
+                  ],
+                  "projection_zero": false,
+                  "selector_index": 1,
+                  "selector_label": "q[1]",
+                  "target_W_in_image": false,
+                  "target_augmented_rank": 33
+                },
+                {
+                  "induced_map_rank": 32,
+                  "projected_selector_sha256": "8c7c597751b954c152a4cf2e3886dd4567af89ca2e40b384865345241a18d33e",
+                  "projected_selector_sparse": [
+                    {
+                      "index": 2,
+                      "value": "1"
+                    }
+                  ],
+                  "projection_zero": false,
+                  "selector_index": 2,
+                  "selector_label": "q[2]",
+                  "target_W_in_image": false,
+                  "target_augmented_rank": 33
+                },
+                {
+                  "induced_map_rank": 32,
+                  "projected_selector_sha256": "308b8e5e6f27f5b9bdb5a54057ae6c17f8c104aa1cbba297402d181311b3d55f",
+                  "projected_selector_sparse": [
+                    {
+                      "index": 3,
+                      "value": "1"
+                    }
+                  ],
+                  "projection_zero": false,
+                  "selector_index": 3,
+                  "selector_label": "q[3]",
+                  "target_W_in_image": false,
+                  "target_augmented_rank": 33
+                },
+                {
+                  "induced_map_rank": 32,
+                  "projected_selector_sha256": "49b1ee21b10a6f013e5bbc306ce398a5f0bd6fda5f6ee25b5c0426ba811826ca",
+                  "projected_selector_sparse": [
+                    {
+                      "index": 4,
+                      "value": "1"
+                    }
+                  ],
+                  "projection_zero": false,
+                  "selector_index": 4,
+                  "selector_label": "q[4]",
+                  "target_W_in_image": false,
+                  "target_augmented_rank": 33
+                },
+                {
+                  "induced_map_rank": 32,
+                  "projected_selector_sha256": "f8332dca6b2524155b38e31efeb7f354a812ff8675615da830d1bdd202cc34af",
+                  "projected_selector_sparse": [
+                    {
+                      "index": 5,
+                      "value": "1"
+                    }
+                  ],
+                  "projection_zero": false,
+                  "selector_index": 5,
+                  "selector_label": "q[5]",
+                  "target_W_in_image": false,
+                  "target_augmented_rank": 33
+                },
+                {
+                  "induced_map_rank": 32,
+                  "projected_selector_sha256": "a26113192f42148825caf6cc07e69b67bf8e90acac2d46216252c926faa7b6ee",
+                  "projected_selector_sparse": [
+                    {
+                      "index": 6,
+                      "value": "1"
+                    }
+                  ],
+                  "projection_zero": false,
+                  "selector_index": 6,
+                  "selector_label": "q[6]",
+                  "target_W_in_image": false,
+                  "target_augmented_rank": 33
+                },
+                {
+                  "induced_map_rank": 32,
+                  "projected_selector_sha256": "dbf6f2cfdb8b211a63b5dd84bf79fac9d2e1e06ffb3dbf519166f000008183f7",
+                  "projected_selector_sparse": [
+                    {
+                      "index": 7,
+                      "value": "1"
+                    }
+                  ],
+                  "projection_zero": false,
+                  "selector_index": 7,
+                  "selector_label": "q[7]",
+                  "target_W_in_image": false,
+                  "target_augmented_rank": 33
+                },
+                {
+                  "induced_map_rank": 32,
+                  "projected_selector_sha256": "61bea8435743045d7db1223430f1c1b5b840df0490ca2cf8ba94bb4ea45f42ab",
+                  "projected_selector_sparse": [
+                    {
+                      "index": 8,
+                      "value": "1"
+                    }
+                  ],
+                  "projection_zero": false,
+                  "selector_index": 8,
+                  "selector_label": "q[8]",
+                  "target_W_in_image": false,
+                  "target_augmented_rank": 33
+                },
+                {
+                  "induced_map_rank": 32,
+                  "projected_selector_sha256": "4ab909de3d90640f2ee537b7a75a70da2cc59647784bd5e6e7bdbe517fafd13d",
+                  "projected_selector_sparse": [
+                    {
+                      "index": 9,
+                      "value": "1"
+                    }
+                  ],
+                  "projection_zero": false,
+                  "selector_index": 9,
+                  "selector_label": "q[9]",
+                  "target_W_in_image": false,
+                  "target_augmented_rank": 33
+                },
+                {
+                  "induced_map_rank": 32,
+                  "projected_selector_sha256": "36b8adcfdb7db673389ee3fe8a5785707b16626a03aed328fcce202016ed7d43",
+                  "projected_selector_sparse": [
+                    {
+                      "index": 10,
+                      "value": "1"
+                    }
+                  ],
+                  "projection_zero": false,
+                  "selector_index": 10,
+                  "selector_label": "q[10]",
+                  "target_W_in_image": false,
+                  "target_augmented_rank": 33
+                },
+                {
+                  "induced_map_rank": 32,
+                  "projected_selector_sha256": "6ea6ee98c456ccf4455628477de1b55478d331e575a44dc59ab26ee0d9843b71",
+                  "projected_selector_sparse": [
+                    {
+                      "index": 11,
+                      "value": "1"
+                    }
+                  ],
+                  "projection_zero": false,
+                  "selector_index": 11,
+                  "selector_label": "w2[0]",
+                  "target_W_in_image": false,
+                  "target_augmented_rank": 33
+                },
+                {
+                  "induced_map_rank": 32,
+                  "projected_selector_sha256": "c89749ff9f92e4e09cafd844a0fd96d39938484e96c48637202dce66d59bcd3f",
+                  "projected_selector_sparse": [
+                    {
+                      "index": 12,
+                      "value": "1"
+                    }
+                  ],
+                  "projection_zero": false,
+                  "selector_index": 12,
+                  "selector_label": "w2[1]",
+                  "target_W_in_image": false,
+                  "target_augmented_rank": 33
+                },
+                {
+                  "induced_map_rank": 32,
+                  "projected_selector_sha256": "0d82035a118e74d70c94b394af60c7be044390f7ed33e86f829455a4485b1a0d",
+                  "projected_selector_sparse": [
+                    {
+                      "index": 13,
+                      "value": "1"
+                    }
+                  ],
+                  "projection_zero": false,
+                  "selector_index": 13,
+                  "selector_label": "w2[2]",
+                  "target_W_in_image": false,
+                  "target_augmented_rank": 33
+                },
+                {
+                  "induced_map_rank": 32,
+                  "projected_selector_sha256": "12ea1c4735564a1127e764d819634894b9a59e9b8da75f0468bbb319f6a8e6b0",
+                  "projected_selector_sparse": [
+                    {
+                      "index": 14,
+                      "value": "1"
+                    }
+                  ],
+                  "projection_zero": false,
+                  "selector_index": 14,
+                  "selector_label": "w2[3]",
+                  "target_W_in_image": false,
+                  "target_augmented_rank": 33
+                },
+                {
+                  "induced_map_rank": 32,
+                  "projected_selector_sha256": "9c0552422f3619ad1c39a1d726b3e6e9221be60624417699fb9a46b4d5313797",
+                  "projected_selector_sparse": [
+                    {
+                      "index": 15,
+                      "value": "1"
+                    }
+                  ],
+                  "projection_zero": false,
+                  "selector_index": 15,
+                  "selector_label": "w2[4]",
+                  "target_W_in_image": false,
+                  "target_augmented_rank": 33
+                },
+                {
+                  "induced_map_rank": 32,
+                  "projected_selector_sha256": "2d514f1c1fb0c36b5602ea76adde8ff1a558e0645c1bffaa6ee58aba79939376",
+                  "projected_selector_sparse": [
+                    {
+                      "index": 16,
+                      "value": "1"
+                    }
+                  ],
+                  "projection_zero": false,
+                  "selector_index": 16,
+                  "selector_label": "w2[5]",
+                  "target_W_in_image": false,
+                  "target_augmented_rank": 33
+                },
+                {
+                  "induced_map_rank": 32,
+                  "projected_selector_sha256": "654e0afc006a399d9aba461d0c0f07147074d73291c46e3b5a074904b272580d",
+                  "projected_selector_sparse": [
+                    {
+                      "index": 17,
+                      "value": "1"
+                    }
+                  ],
+                  "projection_zero": false,
+                  "selector_index": 17,
+                  "selector_label": "w2[6]",
+                  "target_W_in_image": false,
+                  "target_augmented_rank": 33
+                },
+                {
+                  "induced_map_rank": 32,
+                  "projected_selector_sha256": "85b8f4fbef8c31af2343dce352b5d0cce233e86d2e16f6681d0fbb764f874f55",
+                  "projected_selector_sparse": [
+                    {
+                      "index": 18,
+                      "value": "1"
+                    }
+                  ],
+                  "projection_zero": false,
+                  "selector_index": 18,
+                  "selector_label": "w2[7]",
+                  "target_W_in_image": false,
+                  "target_augmented_rank": 33
+                },
+                {
+                  "induced_map_rank": 32,
+                  "projected_selector_sha256": "3c38a65278ac85b7bbbee20559527a8e6ce3f82b2891a86a0745bd1fbaa750d9",
+                  "projected_selector_sparse": [
+                    {
+                      "index": 19,
+                      "value": "1"
+                    }
+                  ],
+                  "projection_zero": false,
+                  "selector_index": 19,
+                  "selector_label": "w2[8]",
+                  "target_W_in_image": false,
+                  "target_augmented_rank": 33
+                },
+                {
+                  "induced_map_rank": 32,
+                  "projected_selector_sha256": "e42723eb5e936da21109dd109ae049735142c92e41ad4476ed56158bcecb57e1",
+                  "projected_selector_sparse": [
+                    {
+                      "index": 20,
+                      "value": "1"
+                    }
+                  ],
+                  "projection_zero": false,
+                  "selector_index": 20,
+                  "selector_label": "w2[9]",
+                  "target_W_in_image": false,
+                  "target_augmented_rank": 33
+                },
+                {
+                  "induced_map_rank": 32,
+                  "projected_selector_sha256": "8cdfa639d50d6b64ccee8407c5bac2d10e4fe21d3f09bbab96fbac0f8c1b4b64",
+                  "projected_selector_sparse": [
+                    {
+                      "index": 21,
+                      "value": "1"
+                    }
+                  ],
+                  "projection_zero": false,
+                  "selector_index": 21,
+                  "selector_label": "w2[10]",
+                  "target_W_in_image": true,
+                  "target_augmented_rank": 32,
+                  "target_plane_coordinates": [
+                    "0",
+                    "1"
+                  ]
+                },
+                {
+                  "induced_map_rank": 32,
+                  "projected_selector_sha256": "797a1f2375214f8d43f16748d803e32a4a8225e1ac97f0947fb0f3bbcca7f69a",
+                  "projected_selector_sparse": [
+                    {
+                      "index": 22,
+                      "value": "1"
+                    }
+                  ],
+                  "projection_zero": false,
+                  "selector_index": 22,
+                  "selector_label": "w3[0]",
+                  "target_W_in_image": false,
+                  "target_augmented_rank": 33
+                },
+                {
+                  "induced_map_rank": 32,
+                  "projected_selector_sha256": "23a1f9188165187a8155a7608c96fed898a93a0b6cc61fbb1733c0b5840ca96d",
+                  "projected_selector_sparse": [
+                    {
+                      "index": 23,
+                      "value": "1"
+                    }
+                  ],
+                  "projection_zero": false,
+                  "selector_index": 23,
+                  "selector_label": "w3[1]",
+                  "target_W_in_image": false,
+                  "target_augmented_rank": 33
+                },
+                {
+                  "induced_map_rank": 32,
+                  "projected_selector_sha256": "c277d24d30cf64e7823151bea763ec5ef98a7e569241ce87a0e69f1f7301eee4",
+                  "projected_selector_sparse": [
+                    {
+                      "index": 24,
+                      "value": "1"
+                    }
+                  ],
+                  "projection_zero": false,
+                  "selector_index": 24,
+                  "selector_label": "w3[2]",
+                  "target_W_in_image": false,
+                  "target_augmented_rank": 33
+                },
+                {
+                  "induced_map_rank": 32,
+                  "projected_selector_sha256": "acb887ed65f33236cc92b55b411684386ad37b0c02bdb76b8cc7180d7681d1ad",
+                  "projected_selector_sparse": [
+                    {
+                      "index": 25,
+                      "value": "1"
+                    }
+                  ],
+                  "projection_zero": false,
+                  "selector_index": 25,
+                  "selector_label": "w3[3]",
+                  "target_W_in_image": false,
+                  "target_augmented_rank": 33
+                },
+                {
+                  "induced_map_rank": 32,
+                  "projected_selector_sha256": "7c8adfb1e890481ad143d0c13960b7054b9d507939a1502c4004db7ec4728eea",
+                  "projected_selector_sparse": [
+                    {
+                      "index": 26,
+                      "value": "1"
+                    }
+                  ],
+                  "projection_zero": false,
+                  "selector_index": 26,
+                  "selector_label": "w3[4]",
+                  "target_W_in_image": false,
+                  "target_augmented_rank": 33
+                },
+                {
+                  "induced_map_rank": 32,
+                  "projected_selector_sha256": "8ae647611f1c9bd4279df87b6a18288721056b6b0ceedf2ee69bb478652d79f6",
+                  "projected_selector_sparse": [
+                    {
+                      "index": 27,
+                      "value": "1"
+                    }
+                  ],
+                  "projection_zero": false,
+                  "selector_index": 27,
+                  "selector_label": "w3[5]",
+                  "target_W_in_image": false,
+                  "target_augmented_rank": 33
+                },
+                {
+                  "induced_map_rank": 32,
+                  "projected_selector_sha256": "20e2002ff55b353f819152bd5ab87f612d348a0990ace9ea9f9e4535b9693453",
+                  "projected_selector_sparse": [
+                    {
+                      "index": 28,
+                      "value": "1"
+                    }
+                  ],
+                  "projection_zero": false,
+                  "selector_index": 28,
+                  "selector_label": "w3[6]",
+                  "target_W_in_image": false,
+                  "target_augmented_rank": 33
+                },
+                {
+                  "induced_map_rank": 32,
+                  "projected_selector_sha256": "7d23956b858ed6ea919bf92d3cf9f4773272132fd98b2496d1ec12cfcd93a76f",
+                  "projected_selector_sparse": [
+                    {
+                      "index": 29,
+                      "value": "1"
+                    }
+                  ],
+                  "projection_zero": false,
+                  "selector_index": 29,
+                  "selector_label": "w3[7]",
+                  "target_W_in_image": false,
+                  "target_augmented_rank": 33
+                },
+                {
+                  "induced_map_rank": 32,
+                  "projected_selector_sha256": "e4f5236d73252be9cc4fbd349e35eb5a7c1e62e04d001dbbd0a96021b63cf290",
+                  "projected_selector_sparse": [
+                    {
+                      "index": 30,
+                      "value": "1"
+                    }
+                  ],
+                  "projection_zero": false,
+                  "selector_index": 30,
+                  "selector_label": "w3[8]",
+                  "target_W_in_image": false,
+                  "target_augmented_rank": 33
+                },
+                {
+                  "induced_map_rank": 32,
+                  "projected_selector_sha256": "fe2f8983f06e91e5788466712e7c512d9fcd93a15a5d7159cb0b27e1188a06e7",
+                  "projected_selector_sparse": [
+                    {
+                      "index": 31,
+                      "value": "1"
+                    }
+                  ],
+                  "projection_zero": false,
+                  "selector_index": 31,
+                  "selector_label": "w3[9]",
+                  "target_W_in_image": false,
+                  "target_augmented_rank": 33
+                },
+                {
+                  "induced_map_rank": 32,
+                  "projected_selector_sha256": "2c6ccc377f5b56cb77c933b98a7bf2809d59ddd724727aad0e0835b508e086d3",
+                  "projected_selector_sparse": [
+                    {
+                      "index": 32,
+                      "value": "1"
+                    }
+                  ],
+                  "projection_zero": false,
+                  "selector_index": 32,
+                  "selector_label": "w3[10]",
+                  "target_W_in_image": false,
+                  "target_augmented_rank": 33
+                },
+                {
+                  "induced_map_rank": 0,
+                  "projected_selector_sha256": "2b33706da1577c0a612ad5a618bfb98e1d8a875c04705b7148fce334a20c319a",
+                  "projected_selector_sparse": [],
+                  "projection_zero": true,
+                  "selector_index": 33,
+                  "selector_label": "v[0]",
+                  "target_W_in_image": false,
+                  "target_augmented_rank": 1
+                },
+                {
+                  "induced_map_rank": 0,
+                  "projected_selector_sha256": "2b33706da1577c0a612ad5a618bfb98e1d8a875c04705b7148fce334a20c319a",
+                  "projected_selector_sparse": [],
+                  "projection_zero": true,
+                  "selector_index": 34,
+                  "selector_label": "v[1]",
+                  "target_W_in_image": false,
+                  "target_augmented_rank": 1
+                },
+                {
+                  "induced_map_rank": 0,
+                  "projected_selector_sha256": "2b33706da1577c0a612ad5a618bfb98e1d8a875c04705b7148fce334a20c319a",
+                  "projected_selector_sparse": [],
+                  "projection_zero": true,
+                  "selector_index": 35,
+                  "selector_label": "v[2]",
+                  "target_W_in_image": false,
+                  "target_augmented_rank": 1
+                },
+                {
+                  "induced_map_rank": 0,
+                  "projected_selector_sha256": "2b33706da1577c0a612ad5a618bfb98e1d8a875c04705b7148fce334a20c319a",
+                  "projected_selector_sparse": [],
+                  "projection_zero": true,
+                  "selector_index": 36,
+                  "selector_label": "v[3]",
+                  "target_W_in_image": false,
+                  "target_augmented_rank": 1
+                },
+                {
+                  "induced_map_rank": 0,
+                  "projected_selector_sha256": "2b33706da1577c0a612ad5a618bfb98e1d8a875c04705b7148fce334a20c319a",
+                  "projected_selector_sparse": [],
+                  "projection_zero": true,
+                  "selector_index": 37,
+                  "selector_label": "v[4]",
+                  "target_W_in_image": false,
+                  "target_augmented_rank": 1
+                },
+                {
+                  "induced_map_rank": 0,
+                  "projected_selector_sha256": "2b33706da1577c0a612ad5a618bfb98e1d8a875c04705b7148fce334a20c319a",
+                  "projected_selector_sparse": [],
+                  "projection_zero": true,
+                  "selector_index": 38,
+                  "selector_label": "v[5]",
+                  "target_W_in_image": false,
+                  "target_augmented_rank": 1
+                },
+                {
+                  "induced_map_rank": 0,
+                  "projected_selector_sha256": "2b33706da1577c0a612ad5a618bfb98e1d8a875c04705b7148fce334a20c319a",
+                  "projected_selector_sparse": [],
+                  "projection_zero": true,
+                  "selector_index": 39,
+                  "selector_label": "v[6]",
+                  "target_W_in_image": false,
+                  "target_augmented_rank": 1
+                },
+                {
+                  "induced_map_rank": 0,
+                  "projected_selector_sha256": "2b33706da1577c0a612ad5a618bfb98e1d8a875c04705b7148fce334a20c319a",
+                  "projected_selector_sparse": [],
+                  "projection_zero": true,
+                  "selector_index": 40,
+                  "selector_label": "v[7]",
+                  "target_W_in_image": false,
+                  "target_augmented_rank": 1
+                },
+                {
+                  "induced_map_rank": 0,
+                  "projected_selector_sha256": "2b33706da1577c0a612ad5a618bfb98e1d8a875c04705b7148fce334a20c319a",
+                  "projected_selector_sparse": [],
+                  "projection_zero": true,
+                  "selector_index": 41,
+                  "selector_label": "v[8]",
+                  "target_W_in_image": false,
+                  "target_augmented_rank": 1
+                },
+                {
+                  "induced_map_rank": 0,
+                  "projected_selector_sha256": "2b33706da1577c0a612ad5a618bfb98e1d8a875c04705b7148fce334a20c319a",
+                  "projected_selector_sparse": [],
+                  "projection_zero": true,
+                  "selector_index": 42,
+                  "selector_label": "v[9]",
+                  "target_W_in_image": false,
+                  "target_augmented_rank": 1
+                },
+                {
+                  "induced_map_rank": 0,
+                  "projected_selector_sha256": "2b33706da1577c0a612ad5a618bfb98e1d8a875c04705b7148fce334a20c319a",
+                  "projected_selector_sparse": [],
+                  "projection_zero": true,
+                  "selector_index": 43,
+                  "selector_label": "v[10]",
+                  "target_W_in_image": false,
+                  "target_augmented_rank": 1
+                },
+                {
+                  "induced_map_rank": 32,
+                  "projected_selector_sha256": "19019dfd9efe6338af761a588be4178dd83cd7233f079a588ba21a010c3bc5f1",
+                  "projected_selector_sparse": [
+                    {
+                      "index": 16,
+                      "value": "-2*sqrt(2)"
+                    },
+                    {
+                      "index": 28,
+                      "value": "-2*sqrt(2)"
+                    }
+                  ],
+                  "projection_zero": false,
+                  "selector_index": 44,
+                  "selector_label": "w1[0]",
+                  "target_W_in_image": true,
+                  "target_augmented_rank": 32,
+                  "target_plane_coordinates": [
+                    "-2*sqrt(2)",
+                    "0"
+                  ]
+                },
+                {
+                  "induced_map_rank": 0,
+                  "projected_selector_sha256": "2b33706da1577c0a612ad5a618bfb98e1d8a875c04705b7148fce334a20c319a",
+                  "projected_selector_sparse": [],
+                  "projection_zero": true,
+                  "selector_index": 45,
+                  "selector_label": "w1[1]",
+                  "target_W_in_image": false,
+                  "target_augmented_rank": 1
+                },
+                {
+                  "induced_map_rank": 0,
+                  "projected_selector_sha256": "2b33706da1577c0a612ad5a618bfb98e1d8a875c04705b7148fce334a20c319a",
+                  "projected_selector_sparse": [],
+                  "projection_zero": true,
+                  "selector_index": 46,
+                  "selector_label": "w1[2]",
+                  "target_W_in_image": false,
+                  "target_augmented_rank": 1
+                },
+                {
+                  "induced_map_rank": 0,
+                  "projected_selector_sha256": "2b33706da1577c0a612ad5a618bfb98e1d8a875c04705b7148fce334a20c319a",
+                  "projected_selector_sparse": [],
+                  "projection_zero": true,
+                  "selector_index": 47,
+                  "selector_label": "w1[3]",
+                  "target_W_in_image": false,
+                  "target_augmented_rank": 1
+                },
+                {
+                  "induced_map_rank": 32,
+                  "projected_selector_sha256": "ac0f83df5c2a525e5a43338a2d3e4e51a92cde9317d7b67889564df004c62d9d",
+                  "projected_selector_sparse": [
+                    {
+                      "index": 16,
+                      "value": "4*sqrt(2)"
+                    },
+                    {
+                      "index": 28,
+                      "value": "4*sqrt(2)"
+                    }
+                  ],
+                  "projection_zero": false,
+                  "selector_index": 48,
+                  "selector_label": "w1[4]",
+                  "target_W_in_image": true,
+                  "target_augmented_rank": 32,
+                  "target_plane_coordinates": [
+                    "4*sqrt(2)",
+                    "0"
+                  ]
+                },
+                {
+                  "induced_map_rank": 32,
+                  "projected_selector_sha256": "26aff3721d825a7b1d38c904e7a34a2901565e8b753a7b3c06a3e76165ec551a",
+                  "projected_selector_sparse": [
+                    {
+                      "index": 11,
+                      "value": "-3*sqrt(2)/2"
+                    }
+                  ],
+                  "projection_zero": false,
+                  "selector_index": 49,
+                  "selector_label": "w1[5]",
+                  "target_W_in_image": false,
+                  "target_augmented_rank": 33
+                },
+                {
+                  "induced_map_rank": 32,
+                  "projected_selector_sha256": "05ef9233854c6b16c4331d8b27cfb90240265a9ba4d343e6797f6b2ef7a6670e",
+                  "projected_selector_sparse": [
+                    {
+                      "index": 22,
+                      "value": "-3*sqrt(2)/2"
+                    }
+                  ],
+                  "projection_zero": false,
+                  "selector_index": 50,
+                  "selector_label": "w1[6]",
+                  "target_W_in_image": false,
+                  "target_augmented_rank": 33
+                },
+                {
+                  "induced_map_rank": 32,
+                  "projected_selector_sha256": "19019dfd9efe6338af761a588be4178dd83cd7233f079a588ba21a010c3bc5f1",
+                  "projected_selector_sparse": [
+                    {
+                      "index": 16,
+                      "value": "-2*sqrt(2)"
+                    },
+                    {
+                      "index": 28,
+                      "value": "-2*sqrt(2)"
+                    }
+                  ],
+                  "projection_zero": false,
+                  "selector_index": 51,
+                  "selector_label": "w1[7]",
+                  "target_W_in_image": true,
+                  "target_augmented_rank": 32,
+                  "target_plane_coordinates": [
+                    "-2*sqrt(2)",
+                    "0"
+                  ]
+                },
+                {
+                  "induced_map_rank": 0,
+                  "projected_selector_sha256": "2b33706da1577c0a612ad5a618bfb98e1d8a875c04705b7148fce334a20c319a",
+                  "projected_selector_sparse": [],
+                  "projection_zero": true,
+                  "selector_index": 52,
+                  "selector_label": "w1[8]",
+                  "target_W_in_image": false,
+                  "target_augmented_rank": 1
+                },
+                {
+                  "induced_map_rank": 32,
+                  "projected_selector_sha256": "19019dfd9efe6338af761a588be4178dd83cd7233f079a588ba21a010c3bc5f1",
+                  "projected_selector_sparse": [
+                    {
+                      "index": 16,
+                      "value": "-2*sqrt(2)"
+                    },
+                    {
+                      "index": 28,
+                      "value": "-2*sqrt(2)"
+                    }
+                  ],
+                  "projection_zero": false,
+                  "selector_index": 53,
+                  "selector_label": "w1[9]",
+                  "target_W_in_image": true,
+                  "target_augmented_rank": 32,
+                  "target_plane_coordinates": [
+                    "-2*sqrt(2)",
+                    "0"
+                  ]
+                },
+                {
+                  "induced_map_rank": 0,
+                  "projected_selector_sha256": "2b33706da1577c0a612ad5a618bfb98e1d8a875c04705b7148fce334a20c319a",
+                  "projected_selector_sparse": [],
+                  "projection_zero": true,
+                  "selector_index": 54,
+                  "selector_label": "w1[10]",
+                  "target_W_in_image": false,
+                  "target_augmented_rank": 1
+                }
+              ],
+              "constructive_rank_one_blocks": [
+                {
+                  "covariant_origin_proved": false,
+                  "full_equal_eigenspace_compatibility_checked": false,
+                  "projected_energy_skew_equals_W": true,
+                  "projection_target_plane_coordinates": [
+                    "0",
+                    "1"
+                  ],
+                  "rank_one_block_rank": 1,
+                  "rank_one_block_sha256": "a8a6cb0588ebae512db867990f937a3a9e5a9a38bf90be807fc62a8eb928f9c0",
+                  "selector_index": 21,
+                  "selector_label": "w2[10]"
+                },
+                {
+                  "covariant_origin_proved": false,
+                  "full_equal_eigenspace_compatibility_checked": false,
+                  "projected_energy_skew_equals_W": true,
+                  "projection_target_plane_coordinates": [
+                    "-2*sqrt(2)",
+                    "0"
+                  ],
+                  "rank_one_block_rank": 1,
+                  "rank_one_block_sha256": "6b8beb71e7aec093372f3c45d60c5fa473358cd0752ac24d6e5c0edc9a4d2bad",
+                  "selector_index": 44,
+                  "selector_label": "w1[0]"
+                },
+                {
+                  "covariant_origin_proved": false,
+                  "full_equal_eigenspace_compatibility_checked": false,
+                  "projected_energy_skew_equals_W": true,
+                  "projection_target_plane_coordinates": [
+                    "4*sqrt(2)",
+                    "0"
+                  ],
+                  "rank_one_block_rank": 1,
+                  "rank_one_block_sha256": "8b6637b52aa9674189f3260fd8b880f65022d2521338ed19f539c9faaf20be90",
+                  "selector_index": 48,
+                  "selector_label": "w1[4]"
+                },
+                {
+                  "covariant_origin_proved": false,
+                  "full_equal_eigenspace_compatibility_checked": false,
+                  "projected_energy_skew_equals_W": true,
+                  "projection_target_plane_coordinates": [
+                    "-2*sqrt(2)",
+                    "0"
+                  ],
+                  "rank_one_block_rank": 1,
+                  "rank_one_block_sha256": "f8dd82229a700d1a538244855588cac43bc4eb97c1d12d7b7cfb5b8f28c1916a",
+                  "selector_index": 51,
+                  "selector_label": "w1[7]"
+                },
+                {
+                  "covariant_origin_proved": false,
+                  "full_equal_eigenspace_compatibility_checked": false,
+                  "projected_energy_skew_equals_W": true,
+                  "projection_target_plane_coordinates": [
+                    "-2*sqrt(2)",
+                    "0"
+                  ],
+                  "rank_one_block_rank": 1,
+                  "rank_one_block_sha256": "4705a9619cd39f94f684a1af8f23ec1c8d14eccecffb021ccac091c3bb80f3e4",
+                  "selector_index": 53,
+                  "selector_label": "w1[9]"
+                }
+              ],
+              "minimal_escape_control": {
+                "V_sha256": "a8a6cb0588ebae512db867990f937a3a9e5a9a38bf90be807fc62a8eb928f9c0",
+                "accepted": true,
+                "projection_target_plane_coordinates": [
+                  "0",
+                  "1"
+                ],
+                "selector_index": 21,
+                "selector_label": "w2[10]",
+                "target_W_in_image": true
+              },
+              "necessary_and_sufficient_condition": {
+                "R0T_kernel_dimension": 22,
+                "R0T_rank": 33,
+                "capable_nonzero_projection_condition": "(a,b)!=(0,0)",
+                "capable_selector_preimage_dimension": 24,
+                "condition": "R0^T*h is a nonzero member of span{e16+e28,e21}",
+                "general_capable_selector": "h=a*(e16+e28)+b*e21+k, k in ker(R0^T), (a,b)!=(0,0)",
+                "proof": "The image is {a wedge (R0^T h): a in im(R0^T K0)}. Since K0 is invertible, im(R0^T K0)=im(R0^T), dimension 33. A nonzero selector projection gives rank 32. The rank-two W=L wedge Q belongs to this image iff the selector projection lies in span{L,Q}.",
+                "selector": "h in Q^55",
+                "target_plane_dimension": 2
+              },
+              "registered_selector_control": {
+                "projection_zero": true,
+                "rejected": true,
+                "selector_index": 54,
+                "selector_label": "w1[10]",
+                "target_W_in_image": false
+              }
+            },
+            "scope": "Exact reference-point theorem for direct D4 deformations of the canonical 11-field second-order action/principal operator, plus a complete classification of canonical and general input covectors capable of reaching the obligation-244 zero-speed witness through an explicit TC2 block. Coupled lower-jet action changes, new constraint-row operators, other equal eigenspaces, the remaining D4 selector, tube closure, CK1, CK3, TC2, B7, global-H7, and lifespan remain open.",
+            "status": "pass_exact_direct_action_origin_no_go_and_complete_selector_classification"
+          },
           "zero_eigenspace_compression_rank": 2,
           "zero_eigenspace_compression_sha256": "6dcc21e22a450b41d624a739c7db4e5d9753a3848f1a9578730f10d77db125f2",
           "zero_eigenspace_factorization": "(34816/15)*alpha^5*W"
@@ -43631,6 +44673,12 @@
         "freshness_class": "immutable_completed_snapshot",
         "stale_source_reason": null
       },
+      "kastner_schlatter_de_sitter_energy_prerequisite": {
+        "content_sha256": "0bca9c6a9678165a0021c82edaf93b42e7e4645d9982c673168f00fb20956400",
+        "file_sha256": "f61e9521a84e0013ddb75386aacc65ee985fcbd39b4940c17c4e9d055678518d",
+        "freshness_class": "immutable_completed_snapshot",
+        "stale_source_reason": null
+      },
       "kastner_schlatter_equation_graph_admission": {
         "content_sha256": "c6d16e235b25632488ded7fe49eac227505914842b0d4d937cee40ef75754e74",
         "file_sha256": "37b62205bcbcb95a35dcb2398ad512974a7abefd2164bb31b67eec83df4f5079",
@@ -43646,6 +44694,12 @@
       "kastner_schlatter_observational_readiness_contract": {
         "content_sha256": "b71e0867bd0a561f05ebe32f3fc2f14fd11e0c97356b870910a14845c2a573ab",
         "file_sha256": "96da5e254a97fae39a9e2b036dcc80ae8c8af7fc0bbfcd6cd35241e3008dea35",
+        "freshness_class": "immutable_completed_snapshot",
+        "stale_source_reason": null
+      },
+      "kastner_schlatter_poisson_action_compatibility": {
+        "content_sha256": "611fe2f52994c4dd75cb49abd99e55f6ddcb8a89368cbd8d97b5f63ab428ba75",
+        "file_sha256": "cb0085e9086194dca0df4a48c74f0930911ab14abaf02028f42217a1a38da8f2",
         "freshness_class": "immutable_completed_snapshot",
         "stale_source_reason": null
       },
@@ -43706,6 +44760,12 @@
       "quartic_tc2_d4_registered_operator_origin_no_go": {
         "content_sha256": "2e36e22901106e64d0ef0a18212350b44c657c0cfb63f72cf41931d2ffb611e3",
         "file_sha256": "ae42b7996ffdb5ef45383f712715a20462d3451d51a50780fcd04ba04dfcf3c7",
+        "freshness_class": "immutable_completed_snapshot",
+        "stale_source_reason": null
+      },
+      "quartic_tc2_d4_topology_changing_origin_classification": {
+        "content_sha256": "a651886567fc042451464993acdd642d5e75afdb4015eebdcac8d92db9288b0d",
+        "file_sha256": "378a67b784bc47e65922d326786b6b34c81ac2c51a59b4bfe749ab4a41fa7199",
         "freshness_class": "immutable_completed_snapshot",
         "stale_source_reason": null
       },
@@ -44090,6 +45150,12 @@
       "unified_live_dashboard_service_readiness": {
         "content_sha256": "a3be005a2322a625f178c6c257c81c75a319b10605317be817ebda6112a5bcb7",
         "file_sha256": "5fa27805c51036d5b81f59fe3a55d1681b2fc976b90cf69a3f305cfa563ab07e",
+        "freshness_class": "immutable_completed_snapshot",
+        "stale_source_reason": null
+      },
+      "unified_live_dashboard_service_safety_readiness": {
+        "content_sha256": "9b40e2a5d9d34f28166baf9196f59ac0e09f03c325612427e5e37199e95ef56e",
+        "file_sha256": "5428fb8b053c5d0b57a54bc04b5739c331b70270a413cbca26e625e261a67a90",
         "freshness_class": "immutable_completed_snapshot",
         "stale_source_reason": null
       }
@@ -44642,6 +45708,35 @@
         "redshift_or_cosmology_inputs": false,
         "synthetic_only": true
       },
+      "de_sitter_energy_prerequisite": {
+        "decision": "charge_interface_and_fixed_scalar_energy_pass_coupled_global_energy_blocked",
+        "decision_counts": {
+          "blocked": 2,
+          "pass": 0,
+          "reject": 0
+        },
+        "declared_charge_framework": {
+          "background": "four-dimensional de Sitter Einstein background with q=q0",
+          "charge_formalism": "Einstein-Hilbert covariant phase space / Iyer-Wald surface variation",
+          "fixed_background_energy_domain": "static patch 0<=r<L with finite-energy scalar perturbations",
+          "fixed_background_flux_condition": "zero scalar energy flux through every patch boundary component",
+          "nonlinear_boundary_phase_space_registered": false,
+          "reference_normalization": "H_xi[de_Sitter,q0]=0"
+        },
+        "first_blocker": "candidate_bound_de_Sitter_boundary_conditions_zero_symplectic_flux_and_integrable_coupled_charge_not_registered",
+        "prerequisite_counts": {
+          "candidate_actions": 2,
+          "closed_slice_empty_boundary_control_pass": 2,
+          "covariant_charge_interface_pass": 2,
+          "exact_de_Sitter_background_radius_pass": 2,
+          "fixed_background_scalar_positive_energy_pass": 2,
+          "full_formal_admission_pass": 0,
+          "nonlinear_coupled_positive_energy_pass": 0,
+          "nontrivial_integrable_coupled_charge_pass": 0,
+          "paper_or_QED_derived_actions": 0
+        },
+        "scope": "exact de Sitter charge and fixed-background energy prerequisites for two compiler-authored actions; no paper, QED, ontology, or observation inference"
+      },
       "decision": "blocked",
       "equation_35_normalization_gate": {
         "cosmology_locked_a0_values_emitted": 0,
@@ -44879,6 +45974,51 @@
         },
         "theory_or_ontology_pass_count": 0
       },
+      "poisson_action_compatibility": {
+        "counts": {
+          "action_derived_point_process_measures": 0,
+          "candidate_action_branches": 2,
+          "conditional_covariant_point_process_interfaces": 2,
+          "fluctuating_intensity_homogeneous_poisson_closures": 0,
+          "observational_or_theory_passes": 0,
+          "positive_intensity_preservation_theorems": 0,
+          "qed_actualization_derivations": 0,
+          "stationary_homogeneous_poisson_matches": 2
+        },
+        "covariant_point_process_contract": {
+          "conditional_intensity_measure": "mu_B=Integral_B q*dVol_g",
+          "counting_measure": "N(B) for measurable spacetime region B",
+          "disjoint_region_independence": "part of the external conditional Poisson law",
+          "invariant_exposure": "dVol_g=sqrt(abs(g))*d4x",
+          "provided_by_deterministic_euler_lagrange_action": false,
+          "required_domain": "q(x)>=0 almost everywhere and locally integrable"
+        },
+        "decision": "stationary_conditional_poisson_interface_closed_dynamic_derivation_blocked",
+        "exact_mixed_poisson_control": {
+          "E_N": "2",
+          "E_mu": "2",
+          "Fano_factor": "3/2",
+          "Var_N": "3",
+          "Var_mu": "1",
+          "homogeneous_poisson_rejected_for_fluctuating_intensity": true,
+          "intensity_support": [
+            "1",
+            "3"
+          ],
+          "probabilities": [
+            "1/2",
+            "1/2"
+          ]
+        },
+        "first_blocker": "no_action_derived_covariant_point_process_measure_or_positive_intensity_dynamics",
+        "mixed_poisson_theorem": {
+          "consequence": "random integrated intensity generically produces an overdispersed Cox/mixed-Poisson count, not the homogeneous Poisson law",
+          "exact_homogeneous_poisson_condition": "Var(mu_B)=0 for every registered B",
+          "law_of_total_expectation": "E[N(B)]=E[mu_B]",
+          "law_of_total_variance": "Var(N(B))=E[mu_B]+Var(mu_B)"
+        },
+        "scope": "exact probability-law compatibility audit of compiler-authored deterministic actions; the conditional point-process law remains an external hypothesis"
+      },
       "primary_source": {
         "arxiv_id": "2209.04025",
         "authors": [
@@ -44971,10 +46111,10 @@
       }
     }
   },
-  "core_content_sha256": "89f5549bfe6cda821062cd63524428c8020396416916123929ee9acda21a7bdd",
+  "core_content_sha256": "8849dc3eb74d859d59970734c953b1f6e714b64a84416e1e188689512ce78ac5",
   "volatile": {
     "campaign_watchdog_freshness": {
-      "age_seconds": 1069.866885,
+      "age_seconds": 2646.526296,
       "expected_next_event_not_before_utc": "2026-08-11T17:17:44.543614+00:00",
       "freshness_deadline_utc": "2026-08-11T17:47:44.543614+00:00",
       "latest_event_utc": "2026-08-11T16:17:44.553646+00:00",
@@ -45012,16 +46152,16 @@
       "availability": "available",
       "logical_processors": 24,
       "memory_total_bytes": 102771290112,
-      "memory_used_bytes": 41877377024,
+      "memory_used_bytes": 41649774592,
       "physical_cores": 24,
       "source": "psutil_host_sample",
-      "utilization_percent": 6.2
+      "utilization_percent": 7.3
     },
     "physical_gpu": {
       "availability": "disabled",
       "source": "disabled_by_operator"
     },
-    "sampled_at_utc": "2026-08-11T16:35:34.420531+00:00",
+    "sampled_at_utc": "2026-08-11T17:01:51.079942+00:00",
     "scheduler_readiness": {
       "cpu_symbolic": {
         "delayed_until_not_before": 0,
@@ -45057,20 +46197,20 @@
     "unified_live_dashboard_service": {
       "alive": true,
       "availability": "available",
-      "checkpoint_content_sha256": "32362db79732cc11a7f4eada0ac690f18ad47099fd528cb84fa423d6093786ac",
-      "checkpoint_file_sha256": "cb25046491d02068803cc1ba8108b54801a2296d42cb2f4b6af966e0d5ece06e",
+      "checkpoint_content_sha256": "094fa405baf9301544bb71d72dfff5dec7ccb8b3aa6c3a3804204fca0345a527",
+      "checkpoint_file_sha256": "4d72edbd7fb2eddd14ab36321f12b85599050f5179d5ce3ba572d5e7b5a38533",
       "consecutive_failures": 0,
       "last_error_kind": null,
       "last_refresh": {
-        "core_content_sha256": "5666ebb97256f7fcb39d5ff0c010b2da53e2e7f431a46eb0fd765809abbb526f",
-        "dashboard_bytes": 393940,
-        "dashboard_file_sha256": "470b3fb6494f2085b10c50c567f07cf2580b4d46edbf55106e8ea78fa1417f87",
-        "json_bytes": 2491314,
-        "sampled_at_utc": "2026-08-11T16:31:42.537244+00:00",
-        "snapshot_file_sha256": "6e740f67bc4b2cde87ab369b5528ad6b81ea6e0a12be11c1f77455bbf6dff4d0"
+        "core_content_sha256": "535a036b4acdaa50c55e78b4d2705d2dc69d65c4ea6742acc10c2beea4860423",
+        "dashboard_bytes": 393939,
+        "dashboard_file_sha256": "a30c3b231d5671b1db6d6fc4a069b4f586165cf8d329373c249f3ee1ee18be53",
+        "json_bytes": 2492704,
+        "sampled_at_utc": "2026-08-11T17:01:47.041670+00:00",
+        "snapshot_file_sha256": "0f2ef025ca5236debad8afc5b83abb03a939d278b0d0c319dce0d0900d4b93a1"
       },
       "pid": 28400,
-      "refresh_count": 4,
+      "refresh_count": 10,
       "state": "running",
       "stop_reason": null
     }

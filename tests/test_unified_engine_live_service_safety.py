@@ -1,0 +1,261 @@
+from __future__ import annotations
+
+import copy
+import json
+import os
+from pathlib import Path
+
+import pytest
+
+import sigma_theory_compiler.unified_engine_live_service_safety as safety
+
+ROOT = Path(__file__).resolve().parents[1]
+CONFIG = ROOT / "configs/unified_engine_live_service_safety.json"
+ARTIFACT = ROOT / "runs/engine/unified-engine-live-service-safety-readiness.json"
+
+
+def _config() -> dict:
+    return safety.load_safety_config(ROOT, CONFIG)
+
+
+def _checkpoint(config: dict) -> dict:
+    value = {
+        "schema_version": safety.CHECKPOINT_SCHEMA,
+        "runtime_epoch": config["runtime_epoch"],
+        "runtime_directory": config["runtime_directory"],
+        "config_file_sha256": "a" * 64,
+        "worker_argv_sha256": "b" * 64,
+        "state": "running",
+        "pid": 1,
+        "refresh_count": 19,
+        "consecutive_failures": 2,
+        "reload_count": 3,
+        "last_reload_utc": None,
+        "last_error": None,
+        "last_refresh": None,
+        "stop_reason": None,
+        "updated_utc": "2026-08-11T00:00:00+00:00",
+    }
+    return json.loads(safety._checkpoint_payload(value))
+
+
+def test_config_is_fixed_epoch_bounded_and_predecessor_bound() -> None:
+    config = _config()
+    assert config["runtime_directory"] == safety.EXPECTED_RUNTIME_DIRECTORY
+    assert config["control_poll_interval_seconds"] == 0.25
+    assert config["maximum_refreshes"] == 4032
+    assert config["data_seals"] == safety.EXPECTED_SEALS
+    drift = copy.deepcopy(config)
+    drift["runtime_directory"] = "runs/engine/new-reset-epoch"
+    path = ROOT / "configs/unified_engine_live_service_safety.runtime-drift.test.json"
+    try:
+        path.write_text(json.dumps(drift), encoding="utf-8")
+        with pytest.raises(ValueError, match="runtime_directory epoch drift"):
+            safety.load_safety_config(ROOT, path)
+    finally:
+        path.unlink(missing_ok=True)
+
+
+def test_checkpoint_hash_epoch_and_counters_fail_closed() -> None:
+    config = _config()
+    checkpoint = _checkpoint(config)
+    safety._validate_checkpoint(checkpoint, config)
+    checkpoint["refresh_count"] = 0
+    with pytest.raises(ValueError, match="content hash"):
+        safety._validate_checkpoint(checkpoint, config)
+    checkpoint = _checkpoint(config)
+    checkpoint["runtime_epoch"] = "different-epoch"
+    checkpoint["content_sha256"] = safety._sha(
+        {key: item for key, item in checkpoint.items() if key != "content_sha256"}
+    )
+    with pytest.raises(ValueError, match="epoch mismatch"):
+        safety._validate_checkpoint(checkpoint, config)
+
+
+def test_compatible_reload_preserves_epoch_and_all_counters(tmp_path: Path) -> None:
+    current = _config()
+    reloaded = copy.deepcopy(current)
+    reloaded["refresh_interval_seconds"] = 301
+    path = tmp_path / "reload.json"
+    path.write_text(json.dumps(reloaded), encoding="utf-8")
+    checkpoint = _checkpoint(current)
+    before = {key: checkpoint[key] for key in ("refresh_count", "consecutive_failures")}
+    new_config, config_sha = safety._reload_preserving_epoch(
+        ROOT, path, current, checkpoint
+    )
+    assert new_config["refresh_interval_seconds"] == 301
+    assert checkpoint["refresh_count"] == before["refresh_count"]
+    assert checkpoint["consecutive_failures"] == before["consecutive_failures"]
+    assert checkpoint["reload_count"] == 4
+    assert checkpoint["config_file_sha256"] == config_sha
+
+
+def test_worker_argv_preserves_windows_spaced_tokens(tmp_path: Path) -> None:
+    root = tmp_path / "project with spaces"
+    config = root / "configs" / "live safety config.json"
+    config.parent.mkdir(parents=True)
+    config.write_text("{}", encoding="utf-8")
+    command = safety._worker_command(root, config)
+    assert command[0] == os.fspath(Path(safety.sys.executable))
+    assert command[command.index("--project-root") + 1] == str(root.resolve())
+    assert command[command.index("--config") + 1] == "configs/live safety config.json"
+    assert safety._argv_identity(command) == safety._argv_identity(["launcher", *command[1:]])
+    assert "project with spaces" not in " ".join(command[:4])
+
+
+def test_pid_identity_rejects_live_unrelated_process(monkeypatch: pytest.MonkeyPatch) -> None:
+    expected = safety._argv_identity(safety._worker_command(ROOT, CONFIG))
+
+    class Process:
+        def __init__(self, pid: int) -> None:
+            assert pid == 42
+
+        def cmdline(self) -> list[str]:
+            return ["python", "-m", "unrelated.module", "worker"]
+
+    import psutil
+
+    monkeypatch.setattr(safety, "pid_alive", lambda pid: pid == 42)
+    monkeypatch.setattr(psutil, "Process", Process)
+    assert safety._pid_matches_worker(42, expected) is False
+
+
+def test_secure_atomic_write_ignores_predictable_temp_symlink(tmp_path: Path) -> None:
+    target = tmp_path / "checkpoint.json"
+    predictable = tmp_path / "checkpoint.json.tmp"
+    victim = tmp_path / "victim.txt"
+    victim.write_bytes(b"safe")
+    try:
+        predictable.symlink_to(victim)
+    except OSError:
+        pytest.skip("symlink creation unavailable")
+    safety._safe_atomic_write(target, b"new", 1024)
+    assert target.read_bytes() == b"new"
+    assert victim.read_bytes() == b"safe"
+    assert predictable.is_symlink()
+    target.unlink()
+    target.symlink_to(victim)
+    with pytest.raises(RuntimeError, match="target symlink"):
+        safety._safe_atomic_write(target, b"bad", 1024)
+    assert victim.read_bytes() == b"safe"
+
+
+def test_secure_atomic_write_uses_exclusive_unpredictable_name(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    target = tmp_path / "status.json"
+    predictable = tmp_path / "status.json.tmp"
+    predictable.write_bytes(b"attacker-controlled")
+    created: list[str] = []
+    original = safety.tempfile.mkstemp
+
+    def recording_mkstemp(*, prefix: str, suffix: str, dir: Path):
+        descriptor, name = original(prefix=prefix, suffix=suffix, dir=dir)
+        created.append(name)
+        return descriptor, name
+
+    monkeypatch.setattr(safety.tempfile, "mkstemp", recording_mkstemp)
+    safety._safe_atomic_write(target, b"published", 1024)
+    assert target.read_bytes() == b"published"
+    assert predictable.read_bytes() == b"attacker-controlled"
+    assert len(created) == 1
+    assert Path(created[0]).name != predictable.name
+
+
+def test_interruptible_wait_observes_control_without_full_interval(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    calls = 0
+
+    def guard() -> None:
+        nonlocal calls
+        calls += 1
+        if calls == 3:
+            raise safety.ControlSignal("external_stop_requested")
+
+    monkeypatch.setattr(safety.time, "sleep", lambda seconds: None)
+    with pytest.raises(safety.ControlSignal, match="external_stop_requested"):
+        safety._interruptible_wait(300.0, 0.25, guard)
+    assert calls == 3
+
+
+def test_stale_projection_manifest_aborts_before_publication(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    config = _config()
+    runtime = tmp_path / "runtime"
+    paths = {
+        "runtime": runtime,
+        "checkpoint": runtime / "checkpoint.json",
+        "snapshot": runtime / "status.json",
+        "dashboard": runtime / "dashboard.html",
+        "stop": runtime / "stop.request",
+        "log": runtime / "service.log",
+    }
+    manifests = iter(
+        [
+            {"file_sha256": {"a": "1"}, "manifest_sha256": "1" * 64},
+            {"file_sha256": {"a": "2"}, "manifest_sha256": "2" * 64},
+        ]
+    )
+    monkeypatch.setattr(safety, "_paths", lambda root, value: paths)
+    monkeypatch.setattr(safety, "_dependency_manifest", lambda *args: next(manifests))
+    monkeypatch.setattr(safety, "load_config", lambda path: {})
+    monkeypatch.setattr(safety, "load_leaderboard_config", lambda path: {})
+    snapshot = {
+        "core": {"data_seals": {}},
+        "volatile": {"sampled_at_utc": "fixture"},
+    }
+    with pytest.raises(safety.ControlSignal, match="projection_inputs_changed"):
+        safety.safe_refresh_once(
+            ROOT,
+            config,
+            lambda: None,
+            snapshot_builder=lambda *args: copy.deepcopy(snapshot),
+            leaderboard_builder=lambda *args: {},
+            dashboard_renderer=lambda value: "dashboard",
+        )
+    assert not paths["snapshot"].exists()
+    assert not paths["dashboard"].exists()
+
+
+def test_reload_failure_is_written_to_final_checkpoint(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    config = _config()
+    runtime = tmp_path / "runtime"
+    paths = {
+        "runtime": runtime,
+        "checkpoint": runtime / "checkpoint.json",
+        "snapshot": runtime / "status.json",
+        "dashboard": runtime / "dashboard.html",
+        "stop": runtime / "stop.request",
+        "log": runtime / "service.log",
+    }
+    monkeypatch.setattr(safety, "load_safety_config", lambda root, path: config)
+    monkeypatch.setattr(safety, "_paths", lambda root, value: paths)
+    monkeypatch.setattr(
+        safety,
+        "safe_refresh_once",
+        lambda *args, **kwargs: (_ for _ in ()).throw(safety.ControlSignal("configuration_changed")),
+    )
+    monkeypatch.setattr(
+        safety,
+        "_reload_preserving_epoch",
+        lambda *args, **kwargs: (_ for _ in ()).throw(ValueError("bad reload")),
+    )
+    safety.run_worker(ROOT, CONFIG)
+    checkpoint = json.loads(paths["checkpoint"].read_text(encoding="utf-8"))
+    assert checkpoint["state"] == "stopped"
+    assert checkpoint["stop_reason"] == "configuration_reload_failed"
+    assert checkpoint["last_error"] == "ValueError: bad reload"
+
+
+def test_readiness_is_deterministic_and_does_not_open_runtime_state() -> None:
+    rebuilt = safety.build_safety_readiness(ROOT, CONFIG)
+    stored = json.loads(ARTIFACT.read_text(encoding="utf-8"))
+    assert rebuilt == stored
+    assert rebuilt["live_database_opened_by_readiness"] is False
+    assert rebuilt["supervisor_outputs_opened_by_readiness"] is False
+    assert rebuilt["service_started"] is False
+    assert rebuilt["safety_contract"]["stale_projection_publication_allowed"] is False

@@ -1,0 +1,49 @@
+{
+  "schema_version": "sigma-kastner-schlatter-de-sitter-energy-prerequisite-config-1.0",
+  "campaign_id": "kastner-schlatter-de-sitter-energy-prerequisite-001",
+  "output_path": "runs/engine/kastner-schlatter-de-sitter-energy-prerequisite.json",
+  "predecessors": {
+    "formal_admission_artifact": {
+      "path": "runs/engine/kastner-schlatter-candidate-action-formal-admission.json",
+      "file_sha256": "04d6660a03fe6416b442f2b26e15ed14deec060b1d8aa2effde3f4ac89eef56c",
+      "content_sha256": "2c0804f957c2490a74079a62fbd2d0a3d1302df5eb145402dd5f906083f0bf50"
+    },
+    "formal_admission_config": {
+      "path": "configs/kastner_schlatter_candidate_action_formal_admission.json",
+      "file_sha256": "7e6d6d72eef4aa2a4ed70468f62408a503604991cb45e85c9f4bfc39bc7d255b"
+    },
+    "formal_admission_source": {
+      "path": "src/sigma_theory_compiler/kastner_schlatter_candidate_action_formal_admission.py",
+      "file_sha256": "0e4f20a8fb6275814779a0c4bee094c7f5169cbb143b665233b2bae035d1a078"
+    },
+    "completion_artifact": {
+      "path": "runs/engine/kastner-schlatter-candidate-action-completion.json",
+      "file_sha256": "95e5e36c5bf96afe9e453a290728721c7d7f06dac4596df1ff0f134b6c83607e",
+      "content_sha256": "a83e15679bd11b5c7bb85b2e207e54f82d302f97f0ce6f08f99cd225de739a4c"
+    }
+  },
+  "declared_charge_framework": {
+    "background": "four-dimensional de Sitter Einstein background with q=q0",
+    "charge_formalism": "Einstein-Hilbert covariant phase space / Iyer-Wald surface variation",
+    "reference_normalization": "H_xi[de_Sitter,q0]=0",
+    "fixed_background_energy_domain": "static patch 0<=r<L with finite-energy scalar perturbations",
+    "fixed_background_flux_condition": "zero scalar energy flux through every patch boundary component",
+    "nonlinear_boundary_phase_space_registered": false
+  },
+  "admission_policy": {
+    "compiler_action_attribution_only": true,
+    "closed_slice_zero_charge_is_not_positive_energy": true,
+    "fixed_background_scalar_energy_is_not_coupled_nonlinear_energy": true,
+    "charge_integrability_requires_zero_symplectic_flux": true,
+    "paper_qed_ontology_observation_inference_allowed": false
+  },
+  "seals": {
+    "observations_opened": false,
+    "dark_matter_or_halo_inputs": false,
+    "redshift_or_cosmology_inputs": false,
+    "solar_system_inputs": false,
+    "QED_actualization_derivation_opened": false,
+    "transaction_ontology_validated": false,
+    "paid_llm_calls": false
+  }
+}

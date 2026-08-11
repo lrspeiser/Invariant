@@ -459,6 +459,12 @@ def build_unified_snapshot(
     ]
     transactional_gravity_equivalence = sources["kastner_schlatter_action_equivalence_audit"]
     transactional_gravity_formal = sources["kastner_schlatter_candidate_action_formal_admission"]
+    transactional_gravity_de_sitter = sources[
+        "kastner_schlatter_de_sitter_energy_prerequisite"
+    ]
+    transactional_gravity_poisson_action = sources[
+        "kastner_schlatter_poisson_action_compatibility"
+    ]
     transactional_gravity_scalar_cuda = sources[
         "kastner_schlatter_scalar_intensity_cuda_falsification"
     ]
@@ -590,6 +596,9 @@ def build_unified_snapshot(
     quartic_tc2_d4_registered_operator_origin_no_go = sources[
         "quartic_tc2_d4_registered_operator_origin_no_go"
     ]
+    quartic_tc2_d4_topology_changing_origin = sources[
+        "quartic_tc2_d4_topology_changing_origin_classification"
+    ]
     quartic_tc2_reranked_obligation_chunks = tuple(
         sources[f"quartic_tc2_reranked_obligation_chunk_{offset}"]
         for offset in (0, 64, 128, 192, 256, 320, 384)
@@ -619,6 +628,9 @@ def build_unified_snapshot(
         "quartic_tc2_mixed_third_jet_parallel_supervisor_readiness"
     ]
     unified_live_dashboard_service_readiness = sources["unified_live_dashboard_service_readiness"]
+    unified_live_dashboard_service_safety = sources[
+        "unified_live_dashboard_service_safety_readiness"
+    ]
     if (
         scalable_structural_metrics.get("candidate_count") != 163
         or scalable_structural_metrics.get("alias_count") != 93
@@ -1294,6 +1306,65 @@ def build_unified_snapshot(
         or any(transactional_gravity_formal.get("data_seals", {}).values())
     ):
         raise ValueError("Kastner-Schlatter formal admission is inconsistent")
+    if (
+        transactional_gravity_de_sitter.get("decision")
+        != "charge_interface_and_fixed_scalar_energy_pass_coupled_global_energy_blocked"
+        or transactional_gravity_de_sitter.get("decision_counts")
+        != {"blocked": 2, "pass": 0, "reject": 0}
+        or transactional_gravity_de_sitter.get("prerequisite_counts")
+        != {
+            "candidate_actions": 2,
+            "closed_slice_empty_boundary_control_pass": 2,
+            "covariant_charge_interface_pass": 2,
+            "exact_de_Sitter_background_radius_pass": 2,
+            "fixed_background_scalar_positive_energy_pass": 2,
+            "full_formal_admission_pass": 0,
+            "nonlinear_coupled_positive_energy_pass": 0,
+            "nontrivial_integrable_coupled_charge_pass": 0,
+            "paper_or_QED_derived_actions": 0,
+        }
+        or transactional_gravity_de_sitter.get("first_blocker")
+        != "candidate_bound_de_Sitter_boundary_conditions_zero_symplectic_flux_and_integrable_coupled_charge_not_registered"
+        or transactional_gravity_de_sitter.get("source_bindings", {})
+        .get("formal_admission_artifact", {})
+        .get("content_sha256")
+        != transactional_gravity_formal.get("content_sha256")
+        or any(transactional_gravity_de_sitter.get("claim_seals", {}).values())
+        or any(transactional_gravity_de_sitter.get("data_seals", {}).values())
+    ):
+        raise ValueError("Kastner-Schlatter de Sitter energy prerequisite is inconsistent")
+    expected_poisson_action_counts = {
+        "candidate_action_branches": 2,
+        "conditional_covariant_point_process_interfaces": 2,
+        "stationary_homogeneous_poisson_matches": 2,
+        "action_derived_point_process_measures": 0,
+        "positive_intensity_preservation_theorems": 0,
+        "qed_actualization_derivations": 0,
+        "fluctuating_intensity_homogeneous_poisson_closures": 0,
+        "observational_or_theory_passes": 0,
+    }
+    if (
+        transactional_gravity_poisson_action.get("decision")
+        != "stationary_conditional_poisson_interface_closed_dynamic_derivation_blocked"
+        or transactional_gravity_poisson_action.get("counts") != expected_poisson_action_counts
+        or transactional_gravity_poisson_action.get("first_blocker")
+        != "no_action_derived_covariant_point_process_measure_or_positive_intensity_dynamics"
+        or transactional_gravity_poisson_action.get("source_bindings", {})
+        .get("candidate_action", {})
+        .get("content_sha256")
+        != transactional_gravity_candidate_action.get("content_sha256")
+        or transactional_gravity_poisson_action.get("exact_mixed_poisson_control", {}).get(
+            "Fano_factor"
+        )
+        != "3/2"
+        or transactional_gravity_poisson_action.get("exact_mixed_poisson_control", {}).get(
+            "homogeneous_poisson_rejected_for_fluctuating_intensity"
+        )
+        is not True
+        or any(transactional_gravity_poisson_action.get("claim_seals", {}).values())
+        or any(transactional_gravity_poisson_action.get("data_seals", {}).values())
+    ):
+        raise ValueError("Kastner-Schlatter Poisson action compatibility is inconsistent")
     expected_scalar_cuda_counts = {
         "compiler_action_hypotheses": 2,
         "exact_sentinel_groups": 4,
@@ -4547,6 +4618,69 @@ def build_unified_snapshot(
         )
     ):
         raise ValueError("quartic TC2 registered operator origin no-go is inconsistent")
+    topology_direct = quartic_tc2_d4_topology_changing_origin.get("exact_classification", {}).get(
+        "direct_action_origin_no_go", {}
+    )
+    topology_joint = topology_direct.get("joint_result", {})
+    topology_selectors = quartic_tc2_d4_topology_changing_origin.get(
+        "exact_classification", {}
+    ).get("explicit_TC2_selector_classification", {})
+    topology_selector_counts = topology_selectors.get("canonical_counts", {})
+    topology_claims = quartic_tc2_d4_topology_changing_origin.get("claims", {})
+    if (
+        quartic_tc2_d4_topology_changing_origin.get("status")
+        != "pass_exact_direct_action_origin_no_go_and_complete_selector_classification"
+        or quartic_tc2_d4_topology_changing_origin.get("source_bindings", {})
+        .get("registered_operator_no_go", {})
+        .get("content_sha256")
+        != quartic_tc2_d4_registered_operator_origin_no_go.get("content_sha256")
+        or quartic_tc2_d4_topology_changing_origin.get("counts")
+        != {
+            "canonical_cokernel_capable_selectors": 5,
+            "canonical_kernel_selectors": 16,
+            "canonical_nonzero_incapable_selectors": 34,
+            "canonical_selectors_checked": 55,
+            "constructive_rank_one_cokernel_blocks": 5,
+            "direct_deltaP_domain_dimension": 605,
+            "direct_joint_cokernel_map_rank": 0,
+            "direct_joint_domain_dimension": 2145,
+            "direct_symmetric_deltaK_domain_dimension": 1540,
+            "inferred_global_passes": 0,
+            "negative_controls": 6,
+        }
+        or topology_joint.get("direct_action_principal_origin_ruled_out") is not True
+        or topology_joint.get("joint_map_rank") != 0
+        or topology_joint.get("target_W_in_image") is not False
+        or topology_selector_counts
+        != {
+            "cokernel_capable_selectors": 5,
+            "nonzero_projection_incapable_selectors": 34,
+            "selectors_checked": 55,
+            "zero_projection_selectors": 16,
+        }
+        or topology_selectors.get("canonical_capable_indices") != [21, 44, 48, 51, 53]
+        or topology_selectors.get("registered_selector_control", {}).get("selector_index") != 54
+        or topology_selectors.get("registered_selector_control", {}).get("projection_zero")
+        is not True
+        or topology_claims.get("direct_second_order_action_principal_origin_ruled_out") is not True
+        or topology_claims.get("all_55_canonical_TC2_input_selectors_classified") is not True
+        or topology_claims.get("explicit_constraint_row_covariant_origin_constructed") is not False
+        or topology_claims.get("constraint_propagation_for_topology_change_proved") is not False
+        or any(
+            topology_claims.get(key) is not False
+            for key in (
+                "remaining_D4_selector_closed",
+                "full_tube_Sylvester_identity",
+                "CK1_closed",
+                "CK3_closed",
+                "TC2_closed",
+                "B7_closed",
+                "global_H7_closed",
+                "lifespan_proved",
+            )
+        )
+    ):
+        raise ValueError("quartic TC2 topology-changing origin classification is inconsistent")
     if (
         unified_live_dashboard_service_readiness.get("decision")
         != "ready_enabled_read_only_bounded"
@@ -4571,6 +4705,34 @@ def build_unified_snapshot(
         }
     ):
         raise ValueError("unified live dashboard service readiness is inconsistent")
+    safety_contract = unified_live_dashboard_service_safety.get("safety_contract", {})
+    if (
+        unified_live_dashboard_service_safety.get("decision")
+        != "hardened_service_ready_not_started"
+        or unified_live_dashboard_service_safety.get("service_started") is not False
+        or unified_live_dashboard_service_safety.get("live_database_opened_by_readiness")
+        is not False
+        or unified_live_dashboard_service_safety.get("supervisor_outputs_opened_by_readiness")
+        is not False
+        or unified_live_dashboard_service_safety.get("data_seals")
+        != {
+            "dark_matter_or_halo_inputs": False,
+            "observations_opened": False,
+            "paid_llm_calls": False,
+            "redshift_distance_inputs": False,
+        }
+        or safety_contract.get("windows_argv_list_shell_false") is not True
+        or safety_contract.get("worker_pid_bound_to_normalized_argv") is not True
+        or safety_contract.get("counters_preserved_across_compatible_reload") is not True
+        or safety_contract.get("reload_failures_checkpointed_in_worker_finally") is not True
+        or safety_contract.get("pre_and_post_projection_input_manifest_required") is not True
+        or safety_contract.get("stale_projection_publication_allowed") is not False
+        or safety_contract.get("unpredictable_exclusive_temp_files") is not True
+        or safety_contract.get("target_and_log_symlinks_rejected") is not True
+        or safety_contract.get("control_poll_interval_seconds") != 0.25
+        or safety_contract.get("refresh_phase_control_guards") != 4
+    ):
+        raise ValueError("unified live dashboard safety readiness is inconsistent")
 
     blocker_gates: Counter[str] = Counter()
     for row in pareto["pareto_follow_up_queue"]:
@@ -4701,6 +4863,14 @@ def build_unified_snapshot(
             "atomic_snapshot_write": True,
             "atomic_dashboard_write": True,
             "immutable_snapshot_overwritten": False,
+            "safety_hardening": {
+                "decision": unified_live_dashboard_service_safety["decision"],
+                "service_started": unified_live_dashboard_service_safety["service_started"],
+                "safety_contract": unified_live_dashboard_service_safety["safety_contract"],
+                "remaining_limitations": unified_live_dashboard_service_safety[
+                    "remaining_limitations"
+                ],
+            },
         },
         "billion_formula_streaming": {
             "completed": streaming["execution"]["completed"],
@@ -4823,6 +4993,31 @@ def build_unified_snapshot(
                 "first_blocker": transactional_gravity_formal["first_blocker"],
                 "formal_domain": transactional_gravity_formal["formal_domain"],
                 "scope": transactional_gravity_formal["scope"],
+            },
+            "de_sitter_energy_prerequisite": {
+                "decision": transactional_gravity_de_sitter["decision"],
+                "decision_counts": transactional_gravity_de_sitter["decision_counts"],
+                "prerequisite_counts": transactional_gravity_de_sitter["prerequisite_counts"],
+                "first_blocker": transactional_gravity_de_sitter["first_blocker"],
+                "declared_charge_framework": transactional_gravity_de_sitter[
+                    "declared_charge_framework"
+                ],
+                "scope": transactional_gravity_de_sitter["scope"],
+            },
+            "poisson_action_compatibility": {
+                "decision": transactional_gravity_poisson_action["decision"],
+                "counts": transactional_gravity_poisson_action["counts"],
+                "first_blocker": transactional_gravity_poisson_action["first_blocker"],
+                "covariant_point_process_contract": transactional_gravity_poisson_action[
+                    "covariant_point_process_contract"
+                ],
+                "mixed_poisson_theorem": transactional_gravity_poisson_action[
+                    "mixed_poisson_theorem"
+                ],
+                "exact_mixed_poisson_control": transactional_gravity_poisson_action[
+                    "exact_mixed_poisson_control"
+                ],
+                "scope": transactional_gravity_poisson_action["scope"],
             },
             "scalar_intensity_cuda_falsification": {
                 "decision": transactional_gravity_scalar_cuda["decision"],
@@ -5976,7 +6171,14 @@ def build_unified_snapshot(
                         "sharp_result": origin_no_go["sharp_result"],
                         "scope": quartic_tc2_d4_registered_operator_origin_no_go["scope"],
                     },
-                    "next_gate": quartic_tc2_d4_registered_operator_origin_no_go["next_gate"],
+                    "topology_changing_origin_classification": {
+                        "status": quartic_tc2_d4_topology_changing_origin["status"],
+                        "counts": quartic_tc2_d4_topology_changing_origin["counts"],
+                        "direct_action_origin_no_go": topology_direct,
+                        "explicit_TC2_selector_classification": topology_selectors,
+                        "scope": quartic_tc2_d4_topology_changing_origin["scope"],
+                    },
+                    "next_gate": quartic_tc2_d4_topology_changing_origin["next_gate"],
                 },
                 "full_fourth_jet_range_closed": False,
             },
@@ -5992,7 +6194,7 @@ def build_unified_snapshot(
                     "lifespans_proved",
                 )
             },
-            "first_missing_premise": "derive_and_constraint_check_a_new_covariant_invariant_or_topology_changing_reduction_with_nonzero_zero_speed_projection",
+            "first_missing_premise": "derive_an_explicit_covariant_definition_or_curl_constraint_row_TC2_operator_using_a_capable_selector_and_prove_constraint_propagation",
         },
         "evidence_pareto": {
             "candidate_decision_counts": pareto["candidate_decision_counts"],

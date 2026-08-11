@@ -1,0 +1,39 @@
+{
+  "schema_version": "sigma-unified-engine-live-service-safety-config-1.0",
+  "enabled": true,
+  "runtime_directory": "runs/engine/unified-live-dashboard-safety-service",
+  "runtime_epoch": "unified-live-dashboard-safety-epoch-20260811-v1",
+  "refresh_interval_seconds": 300,
+  "control_poll_interval_seconds": 0.25,
+  "maximum_refreshes": 4032,
+  "maximum_consecutive_failures": 12,
+  "maximum_output_bytes": 3145728,
+  "unified_config_path": "configs/unified_engine_status.json",
+  "leaderboard_config_path": "configs/scientific_leaderboards.json",
+  "output_path": "runs/engine/unified-engine-live-service-safety-readiness.json",
+  "predecessors": {
+    "service_source": {
+      "path": "src/sigma_theory_compiler/unified_engine_live_service.py",
+      "file_sha256": "272f24a557bb0967649989c46ffe9b6f5bccf7b59acb0f25cd84f34110e3fa59"
+    },
+    "service_config": {
+      "path": "configs/unified_engine_live_service.json",
+      "file_sha256": "e3f5be2951e6156ab6f444885f3d4beb30261b58d05852109c12632b8f37d59d"
+    },
+    "service_test": {
+      "path": "tests/test_unified_engine_live_service.py",
+      "file_sha256": "20523b1f2cbda9fe85d9b04b454d4234b27ba6fac22c0afa44705cdd962fa7d0"
+    },
+    "readiness": {
+      "path": "runs/engine/unified-engine-live-service-readiness.json",
+      "file_sha256": "5fa27805c51036d5b81f59fe3a55d1681b2fc976b90cf69a3f305cfa563ab07e",
+      "content_sha256": "a3be005a2322a625f178c6c257c81c75a319b10605317be817ebda6112a5bcb7"
+    }
+  },
+  "data_seals": {
+    "observations_opened": false,
+    "dark_matter_or_halo_inputs": false,
+    "redshift_distance_inputs": false,
+    "paid_llm_calls": false
+  }
+}

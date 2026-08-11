@@ -1,0 +1,67 @@
+{
+  "content_sha256": "9b40e2a5d9d34f28166baf9196f59ac0e09f03c325612427e5e37199e95ef56e",
+  "data_seals": {
+    "dark_matter_or_halo_inputs": false,
+    "observations_opened": false,
+    "paid_llm_calls": false,
+    "redshift_distance_inputs": false
+  },
+  "decision": "hardened_service_ready_not_started",
+  "live_database_opened_by_readiness": false,
+  "remaining_limitations": [
+    "a stop or drift request cannot interrupt the interior of one third-party snapshot or leaderboard builder call; it is observed at the next guarded phase boundary",
+    "snapshot and dashboard target replacement is individually atomic but not a single cross-file filesystem transaction",
+    "PID command-line verification depends on psutil availability and fails closed when unavailable",
+    "the hardened service is isolated and not started or substituted for the existing integrated live service by this lane"
+  ],
+  "safety_contract": {
+    "control_poll_interval_seconds": 0.25,
+    "counters_preserved_across_compatible_reload": true,
+    "pre_and_post_projection_input_manifest_required": true,
+    "refresh_phase_control_guards": 4,
+    "reload_failures_checkpointed_in_worker_finally": true,
+    "runtime_directory_fixed": "runs/engine/unified-live-dashboard-safety-service",
+    "runtime_epoch": "unified-live-dashboard-safety-epoch-20260811-v1",
+    "stale_projection_publication_allowed": false,
+    "target_and_log_symlinks_rejected": true,
+    "unpredictable_exclusive_temp_files": true,
+    "windows_argv_list_shell_false": true,
+    "worker_pid_bound_to_normalized_argv": true
+  },
+  "schema_version": "sigma-unified-engine-live-service-safety-readiness-1.0",
+  "service_started": false,
+  "source_bindings": {
+    "config": {
+      "file_sha256": "26967667c3a5227c7b8d721eef26864e627eceab3a9143e144fa1d1221494c27",
+      "path": "configs/unified_engine_live_service_safety.json"
+    },
+    "predecessors": {
+      "readiness": {
+        "content_sha256": "a3be005a2322a625f178c6c257c81c75a319b10605317be817ebda6112a5bcb7",
+        "file_sha256": "5fa27805c51036d5b81f59fe3a55d1681b2fc976b90cf69a3f305cfa563ab07e",
+        "path": "runs/engine/unified-engine-live-service-readiness.json"
+      },
+      "service_config": {
+        "file_sha256": "e3f5be2951e6156ab6f444885f3d4beb30261b58d05852109c12632b8f37d59d",
+        "path": "configs/unified_engine_live_service.json"
+      },
+      "service_source": {
+        "file_sha256": "272f24a557bb0967649989c46ffe9b6f5bccf7b59acb0f25cd84f34110e3fa59",
+        "path": "src/sigma_theory_compiler/unified_engine_live_service.py"
+      },
+      "service_test": {
+        "file_sha256": "20523b1f2cbda9fe85d9b04b454d4234b27ba6fac22c0afa44705cdd962fa7d0",
+        "path": "tests/test_unified_engine_live_service.py"
+      }
+    },
+    "source": {
+      "file_sha256": "b19323896e25c721dbf8e9e6bea4c3c7d4c87676f39fb3709a5040ea797d2ea1",
+      "path": "src/sigma_theory_compiler/unified_engine_live_service_safety.py"
+    },
+    "test": {
+      "file_sha256": "1427986ecd0266a23118d070061ca6236fad163c031a20126a671e7bf370e7a2",
+      "path": "tests/test_unified_engine_live_service_safety.py"
+    }
+  },
+  "supervisor_outputs_opened_by_readiness": false
+}

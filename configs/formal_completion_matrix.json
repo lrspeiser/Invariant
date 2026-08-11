@@ -131,6 +131,14 @@
         "configs/kastner_schlatter_scalar_intensity_cuda_falsification.json",
         "tests/test_kastner_schlatter_scalar_intensity_cuda_falsification.py",
         "runs/engine/kastner-schlatter-scalar-intensity-cuda-falsification.json",
+        "src/sigma_theory_compiler/kastner_schlatter_de_sitter_energy_prerequisite.py",
+        "configs/kastner_schlatter_de_sitter_energy_prerequisite.json",
+        "tests/test_kastner_schlatter_de_sitter_energy_prerequisite.py",
+        "runs/engine/kastner-schlatter-de-sitter-energy-prerequisite.json",
+        "src/sigma_theory_compiler/kastner_schlatter_poisson_action_compatibility.py",
+        "configs/kastner_schlatter_poisson_action_compatibility.json",
+        "tests/test_kastner_schlatter_poisson_action_compatibility.py",
+        "runs/engine/kastner-schlatter-poisson-action-compatibility.json",
         "src/sigma_theory_compiler/generic_g4_b4_termwise_normalization_campaign.py",
         "configs/generic_g4_b4_termwise_normalization_campaign.json",
         "formal/sources/kyy_1105.5723v4_eq_B4_canonical_coefficients.json",
@@ -147,6 +155,7 @@
       "implemented": [
         "restart-safe bounded SQLite queues, deterministic seeds, leases, checkpoints, crash recovery, periodic refill, and detached start/status/stop/resume/export lifecycle",
         "a separate bounded read-only live-dashboard refresh service with a 300-second interval, hash-bound atomic checkpoint, 4,032-refresh and 12-consecutive-failure limits, atomic runtime snapshot/dashboard publication, explicit start/status/stop/refresh-once lifecycle, and immutable checked-snapshot preservation",
+        "an isolated hardened replacement service, ready but intentionally not started, with Windows-safe list argv and PID-command identity, immutable runtime epoch and counter-preserving reload, final-checkpointed reload failures, interruptible polling and refresh guards, symlink-safe exclusive temporary writes, and pre/post dependency manifests; third-party builder calls remain non-preemptible and snapshot/dashboard publication is not yet cross-file transactional",
         "16 CPU lane owners plus one exclusive cached-CUDA owner on the RTX 5090 profile with separate lease-occupancy and optional CPU/NVML hardware telemetry",
         "real ordinal and hash-verified SGSURV2 binary evaluator adapters with exact CPU/GPU status-root crosschecks",
         "a restart-safe bounded Rust-to-SGSURV2 producer that overlaps hash-verified chunks with one cached CUDA consumer under exclusive producer leases and queue backpressure",
@@ -180,6 +189,8 @@
         ,"an exact field-redefinition audit proving that both compiler-authored Kastner-Schlatter completion branches share the existing canonical Einstein-scalar propagating operator class and differ only in their constant vacuum-energy normalization; zero new gravity-operator or literature-novelty claims are emitted"
         ,"a formal local admission audit for both compiler-authored action branches with exact variation, ADM/Dirac, three-DOF, hyperbolicity, ghost/gradient/tachyon and quadratic-Hamiltonian passes, while global de Sitter boundary charge and nonlinear positive energy remain blocked"
         ,"an RTX 5090 scalar-intensity perturbation campaign covering 137,438,953,472 measured dispersion and Yukawa/Green consequence evaluations with registered CPU/GPU bounds; both beta branches have identical linear dynamics and no paper, QED, theory or observational claim is inferred"
+        ,"an exact de Sitter prerequisite audit for both compiler-authored branches, registering the Iyer-Wald surface-charge interface, closed-S3 zero-boundary control and conditional fixed-background scalar energy while keeping nontrivial integrable coupled charge and nonlinear positive energy blocked"
+        ,"an exact action-to-Poisson compatibility audit that admits both stationary constant-intensity interfaces conditionally but proves the mixed-Poisson variance identity and keeps action-derived covariant point-process measure, positivity preservation and QED actualization dynamics blocked"
       ],
       "scalable_formal_provenance_bindings": {
         "kastner_schlatter_transactional_gravity_intake": {
@@ -231,6 +242,16 @@
           "path": "runs/engine/kastner-schlatter-scalar-intensity-cuda-falsification.json",
           "file_sha256": "57c775c9be8bc79cde0e4da91ed516c9435d6e91b5da172de82742b2fa858760",
           "content_sha256": "51dddfc103383685e296b5bbb1fa5d18666b1e6fcb3b2ab1074031ed3ddbb6a5"
+        },
+        "kastner_schlatter_de_sitter_energy_prerequisite": {
+          "path": "runs/engine/kastner-schlatter-de-sitter-energy-prerequisite.json",
+          "file_sha256": "f61e9521a84e0013ddb75386aacc65ee985fcbd39b4940c17c4e9d055678518d",
+          "content_sha256": "0bca9c6a9678165a0021c82edaf93b42e7e4645d9982c673168f00fb20956400"
+        },
+        "kastner_schlatter_poisson_action_compatibility": {
+          "path": "runs/engine/kastner-schlatter-poisson-action-compatibility.json",
+          "file_sha256": "cb0085e9086194dca0df4a48c74f0930911ab14abaf02028f42217a1a38da8f2",
+          "content_sha256": "611fe2f52994c4dd75cb49abd99e55f6ddcb8a89368cbd8d97b5f63ab428ba75"
         },
         "generic_g4_B4_normalization": {
           "path": "runs/engine/generic-g4-b4-termwise-normalization-campaign.json",
@@ -630,10 +651,21 @@
         "configs/unified_engine_live_service.json",
         "tests/test_unified_engine_live_service.py",
         "runs/engine/unified-engine-live-service-readiness.json",
+        "src/sigma_theory_compiler/unified_engine_live_service_safety.py",
+        "configs/unified_engine_live_service_safety.json",
+        "tests/test_unified_engine_live_service_safety.py",
+        "runs/engine/unified-engine-live-service-safety-readiness.json",
         "docs/UNIFIED_LIVE_DASHBOARD.md",
         "runs/engine/promotion-orchestrator-status.json",
         "docs/PERSISTENT_GRAVITY_ENGINE.md"
       ],
+      "live_service_safety_binding": {
+        "path": "runs/engine/unified-engine-live-service-safety-readiness.json",
+        "file_sha256": "5428fb8b053c5d0b57a54bc04b5739c331b70270a413cbca26e625e261a67a90",
+        "content_sha256": "9b40e2a5d9d34f28166baf9196f59ac0e09f03c325612427e5e37199e95ef56e",
+        "decision": "hardened_service_ready_not_started",
+        "integrated_service_replaced": false
+      },
       "missing": [
         "distributed multi-node or multi-GPU execution",
         "a reviewed execution epoch that registers real provider, prompt-resolver, quarantine-resolver, covariant-compiler, equivalence-registry, and policy callbacks and explicitly enables each otherwise disabled stage",
@@ -915,10 +947,14 @@
           "configs/backgrounds/quartic_tc2_d4_minimal_tc2_escape_campaign.json",
           "tests/test_quartic_tc2_d4_minimal_tc2_escape_campaign.py",
           "runs/physics-language/quartic-tc2-d4-minimal-tc2-escape-campaign/campaign.json",
-          "src/sigma_theory_compiler/quartic_tc2_d4_registered_operator_origin_no_go_campaign.py",
-          "configs/backgrounds/quartic_tc2_d4_registered_operator_origin_no_go_campaign.json",
-          "tests/test_quartic_tc2_d4_registered_operator_origin_no_go_campaign.py",
-          "runs/physics-language/quartic-tc2-d4-registered-operator-origin-no-go-campaign/campaign.json"
+        "src/sigma_theory_compiler/quartic_tc2_d4_registered_operator_origin_no_go_campaign.py",
+        "configs/backgrounds/quartic_tc2_d4_registered_operator_origin_no_go_campaign.json",
+        "tests/test_quartic_tc2_d4_registered_operator_origin_no_go_campaign.py",
+        "runs/physics-language/quartic-tc2-d4-registered-operator-origin-no-go-campaign/campaign.json",
+        "src/sigma_theory_compiler/quartic_tc2_d4_topology_changing_origin_classification_campaign.py",
+        "configs/backgrounds/quartic_tc2_d4_topology_changing_origin_classification_campaign.json",
+        "tests/test_quartic_tc2_d4_topology_changing_origin_classification_campaign.py",
+        "runs/physics-language/quartic-tc2-d4-topology-changing-origin-classification-campaign/campaign.json"
         ],
         "artifact_binding": {
           "file_sha256": "bb651cb099e409fff85d3354c69a88f667cd39453946a8affce00378b3c705bf",
@@ -1025,9 +1061,21 @@
             "support_preserving_gauge_deformation_ruled_out": true,
             "arbitrary_covariant_operator_ruled_out": false,
             "topology_changing_realization_constructed": false
+          },
+          "fourth_jet_topology_changing_origin_classification_binding": {
+            "file_sha256": "378a67b784bc47e65922d326786b6b34c81ac2c51a59b4bfe749ab4a41fa7199",
+            "content_sha256": "a651886567fc042451464993acdd642d5e75afdb4015eebdcac8d92db9288b0d",
+            "direct_action_domain_dimension": 2145,
+            "direct_action_induced_cokernel_rank": 0,
+            "canonical_selector_count": 55,
+            "capable_selectors": [21, 44, 48, 51, 53],
+            "kernel_selector_count": 16,
+            "nonzero_incapable_selector_count": 34,
+            "registered_selector_54_capable": false,
+            "covariant_constraint_row_origin_constructed": false
           }
       },
-      "missing": ["a new covariant invariant or constraint-admissible topology-changing reduction that changes the TC2 input selector from e54 to a state with nonzero zero-speed projection; the registered linear-X origin and all support-preserving gauge deformations are exactly ruled out, while the permanently stopped service leaves 2,816 later obligations unevaluated", "fifth-and-higher remainder control or a nonlinear range theorem that upgrades the completed reference Taylor jets to a tube-uniform Hermitian positive full Sylvester solution", "the remaining variable TC3, high-derivative TC2 and H7 TC5 terms", "an executable component Frechet/Bony-good-unknown remainder bound supplying finite C_L and C_B", "an initial H7 energy bound and substitution into the conditional lifespan/tube formula", "new reduction adapters for future nonminimal action terms outside the bounded grammar", "exhaustive multi-seed connected-domain construction beyond the campaign's shared local FLRW seed", "nonlinear PDE evolution-invariant trapping regions inside the pointwise-certified cubic-Horndeski and quartic-Horndeski local-jet boxes", "new mixed/nonlinear principal and symmetrizer adapters for the remaining 114 G4_X sample assignments, followed by necessary-and-sufficient multi-field direction-sphere bounds", "generic nonlinear global reduced-Hamiltonian boundedness beyond the certified homogeneous Horndeski tensor and FLRW scalar blocks"]
+      "missing": ["an explicit covariant definition/curl constraint-row TC2 operator using one of the five capable canonical selectors (21, 44, 48, 51, 53), or a coupled lower-jet mechanism, followed by constraint-propagation and all-eigenspace compatibility proofs; the complete direct second-order-action domain has zero cokernel rank and registered selector 54 is incapable, while the permanently stopped service leaves 2,816 later obligations unevaluated", "fifth-and-higher remainder control or a nonlinear range theorem that upgrades the completed reference Taylor jets to a tube-uniform Hermitian positive full Sylvester solution", "the remaining variable TC3, high-derivative TC2 and H7 TC5 terms", "an executable component Frechet/Bony-good-unknown remainder bound supplying finite C_L and C_B", "an initial H7 energy bound and substitution into the conditional lifespan/tube formula", "new reduction adapters for future nonminimal action terms outside the bounded grammar", "exhaustive multi-seed connected-domain construction beyond the campaign's shared local FLRW seed", "nonlinear PDE evolution-invariant trapping regions inside the pointwise-certified cubic-Horndeski and quartic-Horndeski local-jet boxes", "new mixed/nonlinear principal and symmetrizer adapters for the remaining 114 G4_X sample assignments, followed by necessary-and-sufficient multi-field direction-sphere bounds", "generic nonlinear global reduced-Hamiltonian boundedness beyond the certified homogeneous Horndeski tensor and FLRW scalar blocks"]
     },
     {
       "id": "solar_and_direct_observations",

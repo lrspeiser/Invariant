@@ -524,6 +524,13 @@ its completed 70-record root is `f1fdc9ae10df047e1c48adbf9b47e601e6fd84a5e150512
 and an idempotent replay inserted zero records. The durable streaming
 service now supports a multi-producer scheduler that leases disjoint Rust ranges transactionally and
 feeds the same single cached CUDA owner while preserving start/status/stop/resume/export recovery.
+The separate read-only unified-dashboard worker remains bounded to 4,032 five-minute refreshes. A
+hardened replacement implementation is now ready but intentionally not substituted into the running
+service: it binds Windows-safe argv/PID identity, a fixed reload epoch with preserved counters,
+quarter-second interruptible control polling, final-checkpoint reload failure recording, unpredictable
+exclusive temporary files, target/log symlink rejection, and pre/post projection dependency manifests.
+It records two remaining implementation boundaries explicitly: builder interiors are not preemptible,
+and snapshot/dashboard replacements are individually atomic rather than one cross-file transaction.
 On an identical 16-million-formula scaling run, eight producers reached 7.49 million source
 formulas per second; 12 and 16 producers were slower as CPU saturation reduced overlap. Eight is
 therefore the evidence-backed 5090 default. Low physical GPU utilization still shows that formula
@@ -576,6 +583,17 @@ superposition as a completion hypothesis because subdivision changes the far coe
 `sqrt(N)` and an unequal pair fails matter-only action–reaction balance; the enclosed-mass
 hypothesis remains geometry-blind and blocked. No covariant extended metric or lensing operator is
 registered, so no extended-galaxy, lensing, dark-sector, or observational conclusion follows.
+
+Two further exact gates sharpen the transactional boundary. Both compiler branches have exact de
+Sitter radii, an Iyer-Wald surface-charge variation interface, a closed-`S3` empty-boundary control,
+and nonnegative fixed-background scalar energy under zero boundary flux. They still have zero
+nontrivial integrable coupled charges and zero nonlinear coupled positive-energy theorems; an empty
+surface charge is a control, not positivity. The conditional covariant point-process interface also
+closes at the stationary `q=q0>0` background, but it is external to the deterministic action. Exact
+total variance gives `Var(N(B))=E(mu_B)+Var(mu_B)`, so fluctuating action intensity generically yields
+an overdispersed Cox process rather than a homogeneous Poisson process. The action supplies no
+probability path measure, positivity-preservation theorem, QED actualization map, or transaction-event
+observation, and no such claim is inferred.
 
 `promotion_dossier.py` now independently replays every stored candidate/stage hash chain, explains
 the first rejection or unresolved gate, and builds a multi-axis Pareto follow-up queue only from
@@ -1303,8 +1321,15 @@ An exact origin audit now rules out the registered linear-`X` quartic-Horndeski 
 entire support-preserving gauge class `B_u=u e54^T`: since `e54^T R0=0`, its 55-dimensional induced
 cokernel map has rank zero and cannot reach `W`. The algebraic `V` succeeds only by using input
 column `e21`, thereby changing the registered constraint topology. The next gate is therefore a
-new covariant invariant or a constraint-admissible topology-changing reduction; arbitrary such
-operators remain open. This is not an inferred pass for the unevaluated tail; full fourth-order range closure, full-tube,
+new covariant invariant or a constraint-admissible topology-changing reduction. A complete follow-up
+now rules out every direct D4 deformation of the registered 11-field second-order action with orders
+zero through three fixed: its 2,145-dimensional joint principal/symmetrizer class has cokernel-map
+rank zero. All 55 canonical TC2 input selectors are classified; only `21`, `44`, `48`, `51`, and `53`
+are algebraically capable, while registered selector `54` lies in the kernel. These five locations are
+necessary algebraic possibilities, not covariant operators. The next exact gate is an explicit
+definition/curl constraint-row TC2 operator using a capable selector, followed by a proof of covariant
+origin, constraint propagation, and all other eigenspace compatibilities. This is not an inferred pass
+for the unevaluated tail; full fourth-order range closure, full-tube,
 CK1, CK3, TC2, B7, global-H7, and lifespan remain false.
 
 The tube bounds 153 normalized coordinate atoms: ten metric deviations, 44 first partials,

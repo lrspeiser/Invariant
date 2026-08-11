@@ -37,6 +37,8 @@ SOURCE_PATHS = [
     "runs/engine/kastner-schlatter-candidate-action-formal-admission.json",
     "runs/engine/kastner-schlatter-scalar-intensity-cuda-falsification.json",
     "runs/engine/kastner-schlatter-extended-geometry-cuda-stress.json",
+    "runs/engine/kastner-schlatter-de-sitter-energy-prerequisite.json",
+    "runs/engine/kastner-schlatter-poisson-action-compatibility.json",
     "runs/engine/generic-g4-b4-termwise-normalization-campaign.json",
     "runs/engine/grammar-v3-formal-preflight-status.json",
     "runs/engine/grammar-v3-promotion-admission-status.json",
@@ -121,6 +123,7 @@ SOURCE_PATHS = [
     "runs/physics-language/quartic-tc2-d4-homogeneous-freedom-reduction/campaign.json",
     "runs/physics-language/quartic-tc2-d4-minimal-tc2-escape-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-d4-registered-operator-origin-no-go-campaign/campaign.json",
+    "runs/physics-language/quartic-tc2-d4-topology-changing-origin-classification-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000000.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000064.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000128.json",
@@ -161,6 +164,7 @@ SOURCE_PATHS = [
     "runs/physics-language/quartic-tc2-mixed-third-jet-parallel-continuation-service/service-status.json",
     "runs/engine/quartic-tc2-mixed-third-jet-parallel-supervisor-readiness.json",
     "runs/engine/unified-engine-live-service-readiness.json",
+    "runs/engine/unified-engine-live-service-safety-readiness.json",
 ]
 LABELS = [
     "billion_streaming",
@@ -183,6 +187,8 @@ LABELS = [
     "kastner_schlatter_candidate_action_formal_admission",
     "kastner_schlatter_scalar_intensity_cuda_falsification",
     "kastner_schlatter_extended_geometry_cuda_stress",
+    "kastner_schlatter_de_sitter_energy_prerequisite",
+    "kastner_schlatter_poisson_action_compatibility",
     "generic_g4_b4_termwise_normalization",
     "grammar_v3_formal_preflight",
     "grammar_v3_promotion_admission",
@@ -267,6 +273,7 @@ LABELS = [
     "quartic_tc2_d4_homogeneous_freedom_reduction",
     "quartic_tc2_d4_minimal_tc2_escape",
     "quartic_tc2_d4_registered_operator_origin_no_go",
+    "quartic_tc2_d4_topology_changing_origin_classification",
     "quartic_tc2_reranked_obligation_chunk_0",
     "quartic_tc2_reranked_obligation_chunk_64",
     "quartic_tc2_reranked_obligation_chunk_128",
@@ -307,6 +314,7 @@ LABELS = [
     "quartic_tc2_mixed_third_jet_parallel_status",
     "quartic_tc2_mixed_third_jet_parallel_supervisor_readiness",
     "unified_live_dashboard_service_readiness",
+    "unified_live_dashboard_service_safety_readiness",
 ]
 
 
@@ -785,6 +793,21 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     assert scalar_cuda["counts"]["paper_qed_or_theory_passes"] == 0
     assert scalar_cuda["gpu_cpu_crosscheck"]["maximum_relative_error"] < 1e-12
     assert scalar_cuda["synthetic_only"] is True
+    de_sitter = transactional["de_sitter_energy_prerequisite"]
+    assert de_sitter["prerequisite_counts"]["covariant_charge_interface_pass"] == 2
+    assert de_sitter["prerequisite_counts"]["fixed_background_scalar_positive_energy_pass"] == 2
+    assert de_sitter["prerequisite_counts"]["nontrivial_integrable_coupled_charge_pass"] == 0
+    assert de_sitter["first_blocker"] == (
+        "candidate_bound_de_Sitter_boundary_conditions_zero_symplectic_flux_and_"
+        "integrable_coupled_charge_not_registered"
+    )
+    poisson_action = transactional["poisson_action_compatibility"]
+    assert poisson_action["counts"]["stationary_homogeneous_poisson_matches"] == 2
+    assert poisson_action["counts"]["action_derived_point_process_measures"] == 0
+    assert poisson_action["mixed_poisson_theorem"]["law_of_total_variance"] == (
+        "Var(N(B))=E[mu_B]+Var(mu_B)"
+    )
+    assert poisson_action["exact_mixed_poisson_control"]["Fano_factor"] == "3/2"
     extended = transactional["extended_geometry_cuda_stress"]
     assert extended["counts"]["geometry_resolution_cases"] == 20
     assert extended["counts"]["gpu_measured_source_evaluation_interactions"] == 2_860_515_328
@@ -1432,6 +1455,26 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     assert core["followup_service"]["processed"] == 10
     assert core["followup_service"]["deferred"] == 0
     assert core["followup_service"]["current_missing_evaluator_blockers"] == {}
+    safety = core["continuous_dashboard"]["safety_hardening"]
+    assert safety["decision"] == "hardened_service_ready_not_started"
+    assert safety["service_started"] is False
+    assert safety["safety_contract"]["windows_argv_list_shell_false"] is True
+    assert safety["safety_contract"]["stale_projection_publication_allowed"] is False
+    topology = core["quartic_nonlinear_closure"]["fourth_jet_range_obligations"][
+        "canonical_obstruction_certificate"
+    ].pop("topology_changing_origin_classification")
+    assert topology["counts"]["direct_joint_domain_dimension"] == 2145
+    assert topology["counts"]["direct_joint_cokernel_map_rank"] == 0
+    assert topology["explicit_TC2_selector_classification"]["canonical_capable_indices"] == [
+        21,
+        44,
+        48,
+        51,
+        53,
+    ]
+    assert topology["explicit_TC2_selector_classification"]["registered_selector_control"][
+        "target_W_in_image"
+    ] is False
     assert core["quartic_nonlinear_closure"] == {
         "candidate_count": 12,
         "coordinate_pair_partition": {
@@ -1694,11 +1737,11 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                     ),
                 },
                 "next_gate": (
-                    "Derive and constraint-check a covariant invariant or gauge-fixed "
-                    "reduction that genuinely changes the TC2 input selector from e54 to "
-                    "a component with nonzero zero-speed projection (the minimal escape "
-                    "uses e21), then recompute the principal constraint subsystem and the "
-                    "affected D4 obligations."
+                    "A successful origin must leave the direct second-order action-principal "
+                    "class: it must either modify a definition/curl constraint row, introduce "
+                    "an explicit nonprincipal TC2 constraint operator with a capable selector, "
+                    "or use coupled lower-jet changes. No covariant derivation or constraint "
+                    "propagation proof for any such mechanism is currently bound."
                 ),
             },
             "full_fourth_jet_range_closed": False,
@@ -1713,8 +1756,8 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
             "lifespans_proved": 0,
         },
         "first_missing_premise": (
-            "derive_and_constraint_check_a_new_covariant_invariant_or_topology_changing_"
-            "reduction_with_nonzero_zero_speed_projection"
+                "derive_an_explicit_covariant_definition_or_curl_constraint_row_TC2_operator_"
+                "using_a_capable_selector_and_prove_constraint_propagation"
         ),
     }
     assert core["cross_pipeline_total"]["status"] == "not_computed"
@@ -1819,6 +1862,9 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "<code>1+2k^2=0</code>" in dashboard
     assert "Live dashboard refresh service" in dashboard
     assert "never overwrites the immutable checked snapshot" in dashboard
+    assert "Safety implementation" in dashboard
+    assert "hardened_service_ready_not_started" in dashboard
+    assert "atomic, but not one cross-file transaction" in dashboard
     assert "These master actions are recompiled from the exact typed cells" in dashboard
     assert "G3A-8555e529226d13e2e9dacad5" in dashboard
     assert "S = integral d^4x" in dashboard
@@ -1870,6 +1916,10 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "Scalar CUDA evals" in dashboard
     assert "existing canonical Einstein-scalar control" in dashboard
     assert "identical linear dynamics" in dashboard
+    assert "Transactional action boundary and point-process gate" in dashboard
+    assert "Charge interfaces" in dashboard
+    assert "Var(N)=E(mu)+Var(mu)" in dashboard
+    assert "point-process probability measure" in dashboard
     assert "naive local-superposition completion is rejected as a hypothesis" in dashboard
     assert "do not establish the transactional ontology" in dashboard
     assert "Exact selector" in dashboard
@@ -1882,6 +1932,9 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "Covariant origin" in dashboard
     assert "Registered-origin map rank" in dashboard
     assert "Registered TC2 blocks" in dashboard
+    assert "TC2 topology-changing origin classification" in dashboard
+    assert "Capable selectors" in dashboard
+    assert "21, 44, 48, 51, and 53" in dashboard
     assert "R0^T(HP-P^T H)R0=0" in dashboard
     assert "no homogeneous lower-jet completion can cancel" in dashboard
     assert "eta=-(34816/15) alpha^5" in dashboard
