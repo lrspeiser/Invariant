@@ -98,7 +98,7 @@ def test_category_local_rankings_keep_missing_evidence_unranked() -> None:
     g2_solar = [
         row
         for row in solar["unranked_blocked_or_untested"]
-        if row["lineage"]["source_label"] == "g2_solar_readiness"
+        if row["lineage"]["source_label"] == "g2_solar_heldout_transfer"
     ]
     assert [row["candidate_id"] for row in g2_solar] == [
         "G3A-2f8983c88f504150381064f2",
@@ -110,8 +110,11 @@ def test_category_local_rankings_keep_missing_evidence_unranked() -> None:
         and row["metrics"]["PPN_gamma"] == "1"
         and row["metrics"]["PPN_beta"] == "1"
         and row["metrics"]["real_solar_bundle_count"] == 0
-        and row["metrics"]["missing_registration_field_count"] == 10
+        and row["metrics"]["filled_registration_field_count"] == 6
+        and row["metrics"]["missing_registration_field_count"] == 4
         and row["metrics"]["primary_record_access_count"] == 0
+        and row["metrics"]["held_out_target_access_count"] == 0
+        and row["metrics"]["real_data_pass_count"] == 0
         for row in g2_solar
     )
 

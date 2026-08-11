@@ -292,8 +292,12 @@ action replay gives a constant-scalar branch with zero scalar current and stress
 light-deflection, and Shapiro formulas. A conditional static-source uniqueness identity is proved
 on its declared positive-lapse, no-inner-boundary, constant-asymptotic-scalar domain. These are
 analytic branch predictions, not real-Sun evidence: both rows remain unranked because the real
-source/domain, candidate evaluator, held-out split, action-bound prediction bundle, primary roots,
-and observation authorization are not registered.
+source/domain, actual held-out split, selected primary roots, and observation authorization are not
+registered. A subsequent action-bound held-out transfer slice now seals six theory/protocol-side
+registrations per candidate: the real-source contract shell, evaluator descriptor, training-state
+contract, frozen nuisance/likelihood/stopping contract, prediction descriptor, and immutable bundle
+file. The readiness ledger therefore moves from ten missing fields to four while primary and
+held-out access counts and real-data passes remain zero.
 The 128-action Aether queue has also completed its exact necessary formal gate. Two actions are
 rejected because `c123=0` gives zero spin-0 speed squared. Of the other 126, 79 have finite negative
 static local twist-density witnesses whose full constraint/boundary-energy embedding is unproved,
@@ -319,8 +323,11 @@ A first reviewed future epoch chunk now extends the generator range from ordinal
 Its 32 parameter cells compile deterministically to 19 new action-equivalence candidates plus 13
 exact deduplications against the immutable 163-candidate ledger. Atomic publication, leases,
 checkpoint recovery, replay identity, and hard task/wall/disk limits are implemented and checked
-disabled. No expensive formal decision is inferred: all 19 new actions wait at
-`reviewed_formal_preflight_not_run_for_new_candidates` before they may enter any leaderboard.
+disabled. Reviewed preflight now yields 14 Aether prerequisite passes, two exact Aether rejects on
+`nonpositive_spin0_principal_numerator_c123`, and three cubic-G3 blocks because their qualitative
+jet-domain strings do not instantiate the componentwise normalized local box and uniform cone
+certificate. These are prerequisite decisions only: no full formal pass or automatic downstream
+enqueue is inferred, and the new candidates remain outside the scientific leaderboards.
 An immutable evidence bridge now ingests the six compilation results plus the Aether, `G2`, `G3`,
 and conformal-`G4` prerequisite packets into an isolated knowledge registry. It preserves candidate/action/source
 lineage, separates calibration-only controls, deduplicates replay, refuses the live campaign
@@ -1118,6 +1125,12 @@ residual and its first two state derivatives vanish exactly; the common coordina
 This still is not a full tube solution. The first missing premise is the third Sylvester jet and
 equal-eigenspace compatibility--requiring `D3K55`, `D3P55`, `D3TC2`, and `deltaK_ABC`--or a
 nonlinear range theorem. Full variable CK1/CK3/TC2, B7, global H7, and lifespan remain false.
+A bounded third-order continuation now closes every diagonal `(A,A,A)` triple in the 41-direction
+active affine sector. All 41 symbolic compatibilities and all 492 candidate-direction evaluations
+are solvable, Hermitian, and exact-zero residual; 312 evaluations require a nonzero
+`deltaK_AAA`. This does not infer polarization: 12,300 mixed `AAB`, `ABB`, and `ABC` triples remain
+before fourth-and-higher remainder control or a nonlinear range theorem. Full tube, TC2, B7,
+global-H7, and lifespan claims therefore remain fail-closed.
 
 The tube bounds 153 normalized coordinate atoms: ten metric deviations, 44 first partials,
 and 99 acceleration-free symmetric second partials. The exact orthonormal metric-basis identity

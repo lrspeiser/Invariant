@@ -649,6 +649,7 @@ def _build_rows(sources: Mapping[str, Any], bindings: Mapping[str, Any]) -> dict
     rows["solar_known_answer"].append(_entry(blocked["candidate_id"], "known_answer_control", {}, "blocked", "sealed_solar_known_answer", "incomplete", blocked["blocker"], "solar_known_answer", bindings["solar_known_answer"], blocked["input_lineage_sha256"], "Missing action-bound Solar bundle; untested rather than poor."))
 
     g2_solar = sources["g2_solar_readiness"]
+    g2_solar_transfer = sources["g2_solar_heldout_transfer"]
     if (
         g2_solar["candidate_count"] != 2
         or g2_solar["decision_counts"] != {"blocked": 2}
@@ -661,11 +662,68 @@ def _build_rows(sources: Mapping[str, Any], bindings: Mapping[str, Any]) -> dict
         or g2_solar["paid_llm_spend_usd"] != 0.0
     ):
         raise ValueError("G2 Solar-readiness evidence is inconsistent")
+    if (
+        g2_solar_transfer["candidate_count"] != 2
+        or g2_solar_transfer["decision_counts"] != {"blocked": 2}
+        or g2_solar_transfer["registration_advance_per_candidate"]
+        != {
+            "after_missing_field_count": 4,
+            "before_missing_field_count": 10,
+            "filled_field_count": 6,
+            "filled_fields": [
+                "candidate_specific_real_source_contract_sha256",
+                "candidate_specific_evaluator_descriptor_sha256",
+                "training_only_initial_state_sha256",
+                "frozen_nuisance_likelihood_stopping_rule_sha256",
+                "action_bound_prediction_bundle_descriptor_sha256",
+                "action_bound_prediction_bundle_file_sha256",
+            ],
+            "remaining_fields": [
+                "source_branch_domain_instantiation_sha256",
+                "held_out_split_commitment_sha256",
+                "selected_primary_record_roots_sha256",
+                "observation_opening_authorization_sha256",
+            ],
+        }
+        or g2_solar_transfer["primary_record_access_count"] != 0
+        or g2_solar_transfer["held_out_target_access_count"] != 0
+        or g2_solar_transfer["real_data_pass_count"] != 0
+        or g2_solar_transfer["observational_authorization"] is not False
+        or g2_solar_transfer["observational_data_opened"] is not False
+        or g2_solar_transfer["dark_matter_or_halo_inputs"] is not False
+        or g2_solar_transfer["redshift_distance_inputs"] is not False
+        or g2_solar_transfer["paid_llm_spend_usd"] != 0.0
+        or g2_solar_transfer["source_bindings"]["g2_readiness"]
+        ["content_sha256"]
+        != g2_solar["content_sha256"]
+    ):
+        raise ValueError("G2 Solar held-out transfer evidence is inconsistent")
+    transfer_by_candidate = {
+        record["candidate_id"]: record
+        for record in g2_solar_transfer["candidate_registrations"]
+    }
     for record in g2_solar["candidate_records"]:
         prediction = record["scalar_free_prediction_certificate"]
         readiness = record["real_solar_readiness"]
+        transfer = transfer_by_candidate.get(record["candidate_id"])
         if (
-            record["decision"] != "blocked"
+            transfer is None
+            or transfer["action_sha256"] != record["action_sha256"]
+            or transfer["evaluator_result"]["decision"] != "blocked"
+            or transfer["evaluator_result"]["filled_registration_field_count"] != 6
+            or len(transfer["remaining_registration_fields"]) != 4
+            or transfer["candidate_use_authorized"] is not False
+            or transfer["observational_data_opened"] is not False
+            or transfer["real_data_pass"] is not False
+            or any(
+                transfer["registration_hashes"][field] is not None
+                for field in transfer["remaining_registration_fields"]
+            )
+            or any(
+                transfer["registration_hashes"][field] is None
+                for field in transfer["filled_registration_fields"]
+            )
+            or record["decision"] != "blocked"
             or record["candidate_analytic_prediction_status"]
             != "pass_on_exact_constant_phi_branch"
             or record["static_source_class_certificate"]["status"]
@@ -692,19 +750,22 @@ def _build_rows(sources: Mapping[str, Any], bindings: Mapping[str, Any]) -> dict
                     "PPN_beta": "1",
                     "conditional_static_source_class_theorem": "pass",
                     "real_solar_bundle_count": 0,
+                    "filled_registration_field_count": 6,
                     "missing_registration_field_count": len(
-                        readiness["missing_registration_fields"]
+                        transfer["remaining_registration_fields"]
                     ),
                     "primary_record_access_count": 0,
+                    "held_out_target_access_count": 0,
+                    "real_data_pass_count": 0,
                 },
                 "blocked",
                 "sealed_candidate_specific_solar_prediction",
                 "incomplete",
-                record["first_missing_premise"],
-                "g2_solar_readiness",
-                bindings["g2_solar_readiness"],
-                record["provenance"]["binding_sha256"],
-                "Exact GR-like Newtonian, PPN, and Schwarzschild predictions hold on the constant-scalar branch, with a conditional static-source uniqueness theorem. No real-Sun source, action-bound prediction bundle, primary record, or observation authorization is registered.",
+                g2_solar_transfer["first_missing_premise"],
+                "g2_solar_heldout_transfer",
+                bindings["g2_solar_heldout_transfer"],
+                transfer["content_sha256"],
+                "Exact GR-like Newtonian, PPN, and Schwarzschild predictions hold on the constant-scalar branch. Six action-bound protocol registrations are sealed, but real source/domain instantiation, an actual held-out split commitment, selected primary roots, and separate observation authorization remain absent.",
             )
         )
 

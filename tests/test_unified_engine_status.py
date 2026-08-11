@@ -29,8 +29,10 @@ SOURCE_PATHS = [
     "runs/engine/grammar-v3-g2-candidate-formal-status.json",
     "runs/engine/g2-scalable-nonmaximal-positive-mass-audit.json",
     "runs/engine/g2-scalable-solar-prediction-readiness.json",
+    "runs/engine/g2-solar-heldout-transfer-registration.json",
     "runs/engine/scalable-campaign-staged-epoch-status.json",
     "runs/engine/scalable-future-parameter-chunk-001-status.json",
+    "runs/engine/reviewed-future-parameter-formal-preflight-001.json",
     "runs/engine/grammar-v3-g3-candidate-formal-status.json",
     "runs/engine/g4-scalable-action-formal-followup.json",
     "runs/engine/aether-parameter-cell-formal-gate-status.json",
@@ -58,6 +60,7 @@ SOURCE_PATHS = [
     "runs/engine/g4-galaxy-source-registry-admission-readiness.json",
     "runs/physics-language/quartic-tc2-ck1-p55-tube-envelope-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-quadratic-deltak-extension-campaign/campaign.json",
+    "runs/physics-language/quartic-tc2-diagonal-third-jet-campaign/campaign.json",
 ]
 LABELS = [
     "billion_streaming",
@@ -72,8 +75,10 @@ LABELS = [
     "grammar_v3_g2_candidate_formal",
     "grammar_v3_g2_nonmaximal_positive_mass_followup",
     "grammar_v3_g2_solar_readiness",
+    "grammar_v3_g2_solar_heldout_transfer",
     "scalable_campaign_epoch",
     "scalable_future_parameter_chunk",
+    "scalable_future_formal_preflight",
     "grammar_v3_g3_candidate_formal",
     "grammar_v3_g4_scalable_formal_followup",
     "grammar_v3_aether_candidate_formal",
@@ -101,6 +106,7 @@ LABELS = [
     "g4_galaxy_source_registry_admission",
     "quartic_ck1_p55_tube_envelope",
     "quartic_tc2_quadratic_deltak_extension",
+    "quartic_tc2_diagonal_third_jet",
 ]
 
 
@@ -516,8 +522,25 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
             "admitted_new_candidate": 19,
             "deduplicated_existing_candidate": 13,
         },
-        "next_blocker": "reviewed_formal_preflight_not_run_for_new_candidates",
-        "expensive_formal_preflight_run": False,
+        "preflight": {
+            "candidate_count": 19,
+            "decision_counts": {"blocked": 3, "pass": 14, "reject": 2},
+            "family_counts": {
+                "AETHER_K1234_PARAMETER_CELL": 16,
+                "CUBIC_HORNDESKI_G3_WEAK_CELL": 3,
+            },
+            "first_blocker_counts": {
+                "componentwise_normalized_local_jet_box_and_uniform_cone_certificate_missing": 3,
+                "nonpositive_spin0_principal_numerator_c123": 2,
+            },
+            "full_candidate_specific_formal_completion_claimed": False,
+            "promotion": {
+                "automatic_downstream_enqueue_performed": False,
+                "blocked_pending_exact_domain_registration": 3,
+                "eligible_for_candidate_specific_formal_queue": 14,
+                "rejected_before_candidate_specific_formal_queue": 2,
+            },
+        },
     }
     structural = core["grammar_parameter_cells"]["structural_metrics"]
     assert structural["candidate_count"] == 163
@@ -617,9 +640,32 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                             "decision_counts": {"blocked": 2},
                             "real_solar_bundle_count": 0,
                             "observational_data_opened": False,
+                            "registration_advance": {
+                                "after_missing_field_count": 4,
+                                "before_missing_field_count": 10,
+                                "filled_field_count": 6,
+                                "filled_fields": [
+                                    "candidate_specific_real_source_contract_sha256",
+                                    "candidate_specific_evaluator_descriptor_sha256",
+                                    "training_only_initial_state_sha256",
+                                    "frozen_nuisance_likelihood_stopping_rule_sha256",
+                                    "action_bound_prediction_bundle_descriptor_sha256",
+                                    "action_bound_prediction_bundle_file_sha256",
+                                ],
+                                "remaining_fields": [
+                                    "source_branch_domain_instantiation_sha256",
+                                    "held_out_split_commitment_sha256",
+                                    "selected_primary_record_roots_sha256",
+                                    "observation_opening_authorization_sha256",
+                                ],
+                            },
+                            "held_out_target_access_count": 0,
+                            "primary_record_access_count": 0,
+                            "real_data_pass_count": 0,
                             "first_missing_premise": (
-                                "registered_candidate_specific_real_source_and_"
-                                "action_bound_Solar_prediction_bundle"
+                                "candidate_specific_real_source_branch_domain_"
+                                "instantiation_and_metadata_only_session_split_"
+                                "commitment"
                             ),
                         },
                         "work_state_counts": {"succeeded": 2},
@@ -696,6 +742,16 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
             "D2_coordinate_linf_to_Frobenius_ceiling": 16472172,
             "full_tube_Sylvester_identity_closed": False,
         },
+        "diagonal_third_jet": {
+            "active_direction_count": 41,
+            "diagonal_triples_closed": 41,
+            "candidate_direction_evaluations": 492,
+            "candidate_direction_solvable": 492,
+            "candidate_direction_obstructed": 0,
+            "full_active_symmetric_triple_count": 12341,
+            "remaining_mixed_triples": 12300,
+            "mixed_third_jet_closures": 0,
+        },
         "closure_counts": {
             "full_tube_Sylvester_identities": 0,
             "full_variable_CK1_closures": 0,
@@ -706,8 +762,8 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
             "lifespans_proved": 0,
         },
         "first_missing_premise": (
-            "third_sylvester_jet_equal_eigenspace_compatibility_or_"
-            "nonlinear_range_theorem"
+            "polarized_mixed_third_sylvester_jets_then_fourth_and_"
+            "higher_remainder_or_nonlinear_range_theorem"
         ),
     }
     assert core["cross_pipeline_total"]["status"] == "not_computed"
@@ -774,10 +830,16 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "current exact formal tally is 3 pass, 2 reject, and 158 blocked" in dashboard
     assert "G2 formal passes" in dashboard
     assert "G2 Solar analytic branches" in dashboard
+    assert "G2 Solar fields remaining" in dashboard
+    assert "Future preflight passes" in dashboard
+    assert "two exact Aether principal-mode rejects" in dashboard
     assert "Future reviewed cells" in dashboard
     assert "Future new candidates" in dashboard
     assert "19 new action classes and 13 exact deduplications" in dashboard
     assert "Quartic nonlinear closure" in dashboard
+    assert "Diagonal third jets" in dashboard
+    assert "Mixed triples remaining" in dashboard
+    assert "12,300 polarized mixed triples remain" in dashboard
     assert "CK1, CK3, TC2, B7, global H7, and lifespan remain fail-closed" in dashboard
     assert "No full formal pass is inferred" not in dashboard
     assert "class #1" in dashboard

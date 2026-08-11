@@ -1,0 +1,102 @@
+{
+  "schema_version": "sigma-reviewed-future-parameter-formal-preflight-config-1.0",
+  "campaign_id": "reviewed-future-parameter-formal-preflight-001-20260810",
+  "campaign_implementation": {"path": "src/sigma_theory_compiler/reviewed_future_parameter_formal_preflight_campaign.py", "file_sha256": "43fdecd76b70e760f0f5b40e897004695813bd40a9bb8cde081a517d9a2f9ef2"},
+  "source_status": {"path": "runs/engine/scalable-future-parameter-chunk-001-status.json", "file_sha256": "f176436cfbe06fcbe1051a5dda49252c0d7ac5561b2cf7cedc50ff0048defea7", "content_sha256": "2c4713d23e2b069a3a8d7d146aaa37be6e5c8d69215760af27753f43adbad81e"},
+  "source_campaign_config": {"path": "configs/scalable_future_parameter_chunk_campaign.json", "file_sha256": "a10d2dc9f82577503d2be968282fcaed50fcd353e1b12b6d14d34d7d4ed55734"},
+  "source_campaign_implementation": {"path": "src/sigma_theory_compiler/scalable_future_parameter_chunk_campaign.py", "file_sha256": "ba33c67326951dddcb4cb6fb0425225725db85df919dd8d039140f148f8a69fc"},
+  "source_seed_manifest": {"path": "runs/engine/covariant-grammar-v3-seed-manifest.json", "file_sha256": "8c9a2454a71b9a6deb32f12c875a4d8cad8a1da5d78d7ded09d1798641b7d290", "content_sha256": "e28ad576a68648f11892a3ff1fff5b7e18057f1ba0b27c89d538499e46de171b"},
+  "formal_report": {"path": "runs/formal-controls-v1/formal-controls.json", "file_sha256": "b1bf58ebb4b43d3593f264959853dc3cd47f542b85f012999133ee43a6fece57"},
+  "reviewed_specializers": [
+    {
+      "family_id": "AETHER_K1234_PARAMETER_CELL",
+      "entrypoint": "sigma_theory_compiler.aether_parameter_cell_formal_gate_campaign:_specialize",
+      "source_path": "src/sigma_theory_compiler/aether_parameter_cell_formal_gate_campaign.py",
+      "source_file_sha256": "fad67e2478690ef3cff51976e199b115ba05190ec1c1c0fdaf74d6dbe687cb0c",
+      "applicability_contract": "exact c1,c2,c3,c4 rational specialization after exact six-operator Aether action match"
+    },
+    {
+      "family_id": "CUBIC_HORNDESKI_G3_WEAK_CELL",
+      "entrypoint": "sigma_theory_compiler.g3_seed_weak_cell_formal_audit:_candidate_certificate",
+      "source_path": "src/sigma_theory_compiler/g3_seed_weak_cell_formal_audit.py",
+      "source_file_sha256": "06572d3d3c86668e5ddea7157e7aeaa8d7f3ed600e1935d4399ee4b0fe109b8b",
+      "applicability_contract": "exact canonical G2=X_phi and linear rational G3=beta*X_phi action with fixed off-shell center calibration"
+    }
+  ],
+  "reviewed_adapters": [
+    {
+      "family_id": "AETHER_K1234_PARAMETER_CELL",
+      "formal_check_id": "einstein_aether_flrw_variation_noether",
+      "entrypoint": "sigma_theory_compiler.covariant_identities:einstein_aether_flrw_variation_control",
+      "return_kind": "dict",
+      "source_path": "src/sigma_theory_compiler/covariant_identities.py",
+      "source_file_sha256": "0a4a3aee1754e1b2b5523457705ffb876185673ac2766bb4bf08f14fd3822fe4",
+      "evidence_sha256": "c77389a9505cf98cfa6f0e3db3335d1895c27f44eb64f955f6a2cf1253f231cc",
+      "applicability_contract": "cheap generic Einstein-Aether covariant variation/Noether prerequisite only; no ADM or energy conclusion"
+    },
+    {
+      "family_id": "CUBIC_HORNDESKI_G3_WEAK_CELL",
+      "formal_check_id": "generic_g2_variation_noether_identity",
+      "entrypoint": "sigma_theory_compiler.scalar_tensor_pack:generic_g2_variation_noether_control",
+      "return_kind": "tuple",
+      "source_path": "src/sigma_theory_compiler/scalar_tensor_pack.py",
+      "source_file_sha256": "156fc763674fda9b8503f3234e4f1c6005af93d5639e28b27a11eef8199c8eaf",
+      "evidence_sha256": "7b0d16dc8c0edbd51e03c7976a9c73b459ac009c180593a6f9f55c9ec2a455f9",
+      "applicability_contract": "generic covariant G2 variation/Noether identity for exact G2=X_phi"
+    },
+    {
+      "family_id": "CUBIC_HORNDESKI_G3_WEAK_CELL",
+      "formal_check_id": "generic_g3_variation_noether_identity",
+      "entrypoint": "sigma_theory_compiler.scalar_tensor_pack:generic_g3_variation_noether_control",
+      "return_kind": "tuple",
+      "source_path": "src/sigma_theory_compiler/scalar_tensor_pack.py",
+      "source_file_sha256": "156fc763674fda9b8503f3234e4f1c6005af93d5639e28b27a11eef8199c8eaf",
+      "evidence_sha256": "8ed638c80b6da148281dd9adb949b00c6105046392a00e69de664e37e654aab9",
+      "applicability_contract": "generic covariant G3 variation/Noether identity for exact linear G3=beta*X_phi"
+    },
+    {
+      "family_id": "CUBIC_HORNDESKI_G3_WEAK_CELL",
+      "formal_check_id": "generic_cubic_horndeski_bssn_hyperbolicity",
+      "entrypoint": "sigma_theory_compiler.horndeski:generic_cubic_horndeski_bssn_hyperbolicity_control",
+      "return_kind": "tuple",
+      "source_path": "src/sigma_theory_compiler/horndeski.py",
+      "source_file_sha256": "d108ed635851bb57fdeffcf23d02e4f66021e45591dbffd3b62e7983bb468d19",
+      "evidence_sha256": "5122bcf80794e56db0594c621842377d1c80f8d069e6438799fd22d2ed386e5e",
+      "applicability_contract": "generic symbolic BSSN prerequisite; candidate pass requires a separately instantiated componentwise jet box"
+    },
+    {
+      "family_id": "CUBIC_HORNDESKI_G3_WEAK_CELL",
+      "formal_check_id": "generic_cubic_horndeski_scalar_effective_metric",
+      "entrypoint": "sigma_theory_compiler.cubic_bssn_domain:generic_cubic_scalar_effective_metric_control",
+      "return_kind": "tuple",
+      "source_path": "src/sigma_theory_compiler/cubic_bssn_domain.py",
+      "source_file_sha256": "f1797647f4d289cd8bc3465bd028be867b36dbfe9a90313d553f729f575147d2",
+      "evidence_sha256": "38816d7edf7f8d712f60c659258d7f506852185b65e19a9d2150925cf4b7e20c",
+      "applicability_contract": "generic effective-metric formula; uniform cone use requires candidate-bound componentwise interval inputs"
+    },
+    {
+      "family_id": "CUBIC_HORNDESKI_G3_WEAK_CELL",
+      "formal_check_id": "generic_horndeski_l2_l4_unitary_adm_primary_degeneracy",
+      "entrypoint": "sigma_theory_compiler.dhost:generic_horndeski_l2_l4_unitary_adm_control",
+      "return_kind": "dict",
+      "source_path": "src/sigma_theory_compiler/dhost.py",
+      "source_file_sha256": "1c2982ce47ad3f6034cf40f43be6e517cb03af9373ab18d45b725c3d1dea98ec",
+      "evidence_sha256": "e88a4d8c076e8fa84ea4631e37864af9b633374a7ee299c62a620d5679de7941",
+      "applicability_contract": "generic constant-G4 ADM-primary prerequisite; not a candidate-specific G3 distributed Dirac proof"
+    },
+    {
+      "family_id": "CUBIC_HORNDESKI_G3_WEAK_CELL",
+      "formal_check_id": "generic_horndeski_l2_l4_unitary_distributed_dirac_closure",
+      "entrypoint": "sigma_theory_compiler.horndeski:generic_horndeski_l2_l4_unitary_dirac_control",
+      "return_kind": "tuple",
+      "source_path": "src/sigma_theory_compiler/horndeski.py",
+      "source_file_sha256": "d108ed635851bb57fdeffcf23d02e4f66021e45591dbffd3b62e7983bb468d19",
+      "evidence_sha256": "6317af9e5675477fc145cf2c19ab57149f5d2d24deb27d003348b1835a4faf16",
+      "applicability_contract": "generic conditional Dirac chain only; candidate-specific Delta_N and boundary invertibility remain required"
+    }
+  ],
+  "g3_center_calibration": {"X_phi": "1/2", "hessian_covariant": "zero", "G4": "1/2", "G4_X": "0", "BSSN_m": "1", "BSSN_sigma": "1"},
+  "budget": {"maximum_candidates": 19, "maximum_adapter_invocations": 7, "maximum_paid_llm_spend_usd": 0.0},
+  "data_eligibility": {"observational_data_opened": false, "dark_matter_or_halo_inputs": false, "redshift_distance_inputs": false, "paid_llm_calls": false},
+  "external_paid_llm_calls": false
+}

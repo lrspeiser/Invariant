@@ -318,8 +318,12 @@ def build_unified_snapshot(
         "grammar_v3_g2_nonmaximal_positive_mass_followup"
     ]
     g2_solar_readiness = sources["grammar_v3_g2_solar_readiness"]
+    g2_solar_heldout_transfer = sources[
+        "grammar_v3_g2_solar_heldout_transfer"
+    ]
     scalable_campaign_epoch = sources["scalable_campaign_epoch"]
     scalable_future_parameter_chunk = sources["scalable_future_parameter_chunk"]
+    scalable_future_formal_preflight = sources["scalable_future_formal_preflight"]
     g3_candidate_formal = sources["grammar_v3_g3_candidate_formal"]
     g4_scalable_formal_followup = sources[
         "grammar_v3_g4_scalable_formal_followup"
@@ -357,6 +361,9 @@ def build_unified_snapshot(
     ]
     quartic_tc2_quadratic_deltak = sources[
         "quartic_tc2_quadratic_deltak_extension"
+    ]
+    quartic_tc2_diagonal_third_jet = sources[
+        "quartic_tc2_diagonal_third_jet"
     ]
     if (
         scalable_structural_metrics.get("candidate_count") != 163
@@ -672,6 +679,55 @@ def build_unified_snapshot(
     ):
         raise ValueError("grammar-v3 G2 Solar readiness is inconsistent")
     if (
+        g2_solar_heldout_transfer.get("candidate_count") != 2
+        or g2_solar_heldout_transfer.get("decision_counts") != {"blocked": 2}
+        or g2_solar_heldout_transfer.get("registration_advance_per_candidate")
+        != {
+            "after_missing_field_count": 4,
+            "before_missing_field_count": 10,
+            "filled_field_count": 6,
+            "filled_fields": [
+                "candidate_specific_real_source_contract_sha256",
+                "candidate_specific_evaluator_descriptor_sha256",
+                "training_only_initial_state_sha256",
+                "frozen_nuisance_likelihood_stopping_rule_sha256",
+                "action_bound_prediction_bundle_descriptor_sha256",
+                "action_bound_prediction_bundle_file_sha256",
+            ],
+            "remaining_fields": [
+                "source_branch_domain_instantiation_sha256",
+                "held_out_split_commitment_sha256",
+                "selected_primary_record_roots_sha256",
+                "observation_opening_authorization_sha256",
+            ],
+        }
+        or g2_solar_heldout_transfer.get("primary_record_access_count") != 0
+        or g2_solar_heldout_transfer.get("held_out_target_access_count") != 0
+        or g2_solar_heldout_transfer.get("real_data_pass_count") != 0
+        or g2_solar_heldout_transfer.get("observational_authorization") is not False
+        or g2_solar_heldout_transfer.get("observational_data_opened") is not False
+        or g2_solar_heldout_transfer.get("dark_matter_or_halo_inputs") is not False
+        or g2_solar_heldout_transfer.get("redshift_distance_inputs") is not False
+        or g2_solar_heldout_transfer.get("paid_llm_spend_usd") != 0.0
+        or g2_solar_heldout_transfer.get("source_bindings", {})
+        .get("g2_readiness", {})
+        .get("content_sha256")
+        != g2_solar_readiness.get("content_sha256")
+        or len(g2_solar_heldout_transfer.get("candidate_registrations", [])) != 2
+        or any(
+            record.get("evaluator_result", {}).get("decision") != "blocked"
+            or record.get("candidate_use_authorized") is not False
+            or record.get("observational_data_opened") is not False
+            or record.get("real_data_pass") is not False
+            or len(record.get("filled_registration_fields", [])) != 6
+            or len(record.get("remaining_registration_fields", [])) != 4
+            for record in g2_solar_heldout_transfer.get(
+                "candidate_registrations", []
+            )
+        )
+    ):
+        raise ValueError("grammar-v3 G2 Solar held-out transfer is inconsistent")
+    if (
         scalable_campaign_epoch.get("stage_count") != 10
         or scalable_campaign_epoch.get("sealed_epoch_counts")
         != {
@@ -708,6 +764,58 @@ def build_unified_snapshot(
         }
     ):
         raise ValueError("scalable future parameter chunk is inconsistent")
+    if (
+        scalable_future_formal_preflight.get("candidate_count") != 19
+        or scalable_future_formal_preflight.get("source_input_cell_count") != 32
+        or scalable_future_formal_preflight.get("source_new_candidate_count") != 19
+        or scalable_future_formal_preflight.get(
+            "source_deduplicated_candidate_count"
+        )
+        != 13
+        or scalable_future_formal_preflight.get("family_counts")
+        != {
+            "AETHER_K1234_PARAMETER_CELL": 16,
+            "CUBIC_HORNDESKI_G3_WEAK_CELL": 3,
+        }
+        or scalable_future_formal_preflight.get("decision_counts")
+        != {"blocked": 3, "pass": 14, "reject": 2}
+        or scalable_future_formal_preflight.get("family_decision_counts")
+        != {
+            "AETHER_K1234_PARAMETER_CELL": {"pass": 14, "reject": 2},
+            "CUBIC_HORNDESKI_G3_WEAK_CELL": {"blocked": 3},
+        }
+        or scalable_future_formal_preflight.get("first_blocker_counts")
+        != {
+            "componentwise_normalized_local_jet_box_and_uniform_cone_certificate_missing": 3,
+            "nonpositive_spin0_principal_numerator_c123": 2,
+        }
+        or scalable_future_formal_preflight.get("formal_preflight_completed")
+        is not True
+        or scalable_future_formal_preflight.get(
+            "full_candidate_specific_formal_completion_claimed"
+        )
+        is not False
+        or scalable_future_formal_preflight.get("promotion")
+        != {
+            "automatic_downstream_enqueue_performed": False,
+            "blocked_pending_exact_domain_registration": 3,
+            "eligible_for_candidate_specific_formal_queue": 14,
+            "rejected_before_candidate_specific_formal_queue": 2,
+        }
+        or scalable_future_formal_preflight.get("source_status_binding", {}).get(
+            "content_sha256"
+        )
+        != scalable_future_parameter_chunk.get("content_sha256")
+        or scalable_future_formal_preflight.get("observational_data_opened")
+        is not False
+        or scalable_future_formal_preflight.get("dark_matter_or_halo_inputs")
+        is not False
+        or scalable_future_formal_preflight.get("redshift_distance_inputs")
+        is not False
+        or scalable_future_formal_preflight.get("paid_llm_spend_usd") != 0.0
+        or len(scalable_future_formal_preflight.get("candidate_records", [])) != 19
+    ):
+        raise ValueError("scalable future formal preflight is inconsistent")
     if (
         aether_candidate_formal.get("candidate_count") != 128
         or aether_candidate_formal.get("input_preflight_pass_count") != 128
@@ -1298,6 +1406,47 @@ def build_unified_snapshot(
         or quartic_control.get("full_tube_Sylvester_identity_closed") is not False
     ):
         raise ValueError("quartic TC2 quadratic deltaK extension is inconsistent")
+    quartic_third_counts = quartic_tc2_diagonal_third_jet.get("counts", {})
+    quartic_third_slice = quartic_tc2_diagonal_third_jet.get(
+        "slice_contract", {}
+    )
+    quartic_third_blocker = quartic_tc2_diagonal_third_jet.get(
+        "first_remaining_blocker", {}
+    )
+    if (
+        quartic_tc2_diagonal_third_jet.get("status")
+        != "pass_bounded_all_41_diagonal_active_coordinate_third_jet_audit_mixed_triples_full_tube_global_H7_fail_closed"
+        or quartic_third_slice.get("active_coordinate_directions") != 41
+        or quartic_third_slice.get("diagonal_triples") != 41
+        or quartic_third_slice.get("full_symmetric_triples_in_41_direction_sector")
+        != 12_341
+        or quartic_third_slice.get("mixed_AAB_ABB_ABC_triples") != 0
+        or quartic_third_counts.get("candidates") != 12
+        or quartic_third_counts.get("symbolic_parameter_diagonal_third_jet_passes")
+        != 41
+        or quartic_third_counts.get("candidate_direction_evaluations") != 492
+        or quartic_third_counts.get("candidate_direction_solvable") != 492
+        or quartic_third_counts.get("candidate_direction_obstructed") != 0
+        or quartic_third_counts.get(
+            "candidates_all_41_diagonal_third_jets_closed"
+        )
+        != 12
+        or any(
+            quartic_third_counts.get(key) != 0
+            for key in (
+                "mixed_third_jet_closures",
+                "full_tube_Sylvester_identities",
+                "TC2_closures",
+                "B7_closures",
+                "global_H7_closures",
+                "lifespans_proved",
+            )
+        )
+        or quartic_third_blocker.get("closed") is not False
+        or "12,300 polarized mixed triples"
+        not in quartic_third_blocker.get("required", "")
+    ):
+        raise ValueError("quartic TC2 diagonal third-jet slice is inconsistent")
 
     blocker_gates: Counter[str] = Counter()
     for row in pareto["pareto_follow_up_queue"]:
@@ -1748,9 +1897,21 @@ def build_unified_snapshot(
                                             "real_solar_bundle_count"
                                         ],
                                         "observational_data_opened": False,
-                                        "first_missing_premise": g2_solar_readiness[
-                                            "candidate_records"
-                                        ][0]["first_missing_premise"],
+                                        "registration_advance": g2_solar_heldout_transfer[
+                                            "registration_advance_per_candidate"
+                                        ],
+                                        "held_out_target_access_count": g2_solar_heldout_transfer[
+                                            "held_out_target_access_count"
+                                        ],
+                                        "primary_record_access_count": g2_solar_heldout_transfer[
+                                            "primary_record_access_count"
+                                        ],
+                                        "real_data_pass_count": g2_solar_heldout_transfer[
+                                            "real_data_pass_count"
+                                        ],
+                                        "first_missing_premise": g2_solar_heldout_transfer[
+                                            "first_missing_premise"
+                                        ],
                                     },
                                     "work_state_counts": g2_candidate_formal[
                                         "work_state_counts"
@@ -1846,8 +2007,22 @@ def build_unified_snapshot(
                     "disposition_counts": scalable_future_parameter_chunk[
                         "disposition_counts"
                     ],
-                    "next_blocker": scalable_future_parameter_chunk["next_blocker"],
-                    "expensive_formal_preflight_run": False,
+                    "preflight": {
+                        "candidate_count": scalable_future_formal_preflight[
+                            "candidate_count"
+                        ],
+                        "decision_counts": scalable_future_formal_preflight[
+                            "decision_counts"
+                        ],
+                        "family_counts": scalable_future_formal_preflight[
+                            "family_counts"
+                        ],
+                        "first_blocker_counts": scalable_future_formal_preflight[
+                            "first_blocker_counts"
+                        ],
+                        "full_candidate_specific_formal_completion_claimed": False,
+                        "promotion": scalable_future_formal_preflight["promotion"],
+                    },
                 },
             },
         },
@@ -1866,6 +2041,28 @@ def build_unified_snapshot(
                 ][0]["D2_deltaK_coordinate_linf_to_Frobenius_integer_ceiling"],
                 "full_tube_Sylvester_identity_closed": False,
             },
+            "diagonal_third_jet": {
+                "active_direction_count": quartic_third_slice[
+                    "active_coordinate_directions"
+                ],
+                "diagonal_triples_closed": quartic_third_counts[
+                    "symbolic_parameter_diagonal_third_jet_passes"
+                ],
+                "candidate_direction_evaluations": quartic_third_counts[
+                    "candidate_direction_evaluations"
+                ],
+                "candidate_direction_solvable": quartic_third_counts[
+                    "candidate_direction_solvable"
+                ],
+                "candidate_direction_obstructed": quartic_third_counts[
+                    "candidate_direction_obstructed"
+                ],
+                "full_active_symmetric_triple_count": quartic_third_slice[
+                    "full_symmetric_triples_in_41_direction_sector"
+                ],
+                "remaining_mixed_triples": 12_300,
+                "mixed_third_jet_closures": 0,
+            },
             "closure_counts": {
                 key: quartic_counts[key]
                 for key in (
@@ -1879,8 +2076,8 @@ def build_unified_snapshot(
                 )
             },
             "first_missing_premise": (
-                "third_sylvester_jet_equal_eigenspace_compatibility_or_"
-                "nonlinear_range_theorem"
+                "polarized_mixed_third_sylvester_jets_then_fourth_and_"
+                "higher_remainder_or_nonlinear_range_theorem"
             ),
         },
         "evidence_pareto": {
