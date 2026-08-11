@@ -206,44 +206,26 @@ def build_future_candidate_action_dossier(
             )
         elif preflight_record["family_id"] == "AETHER_K1234_PARAMETER_CELL":
             followup = aether_records.get(candidate_id)
-            if (
-                followup is None
-                or followup["typed_action_ir_sha256"] != action["content_sha256"]
-            ):
+            if followup is None or followup["typed_action_ir_sha256"] != action["content_sha256"]:
                 raise ValueError("future Aether dossier binding changed")
             decision = followup["decision"]
             blocker = followup["first_blocker"]
             formal_hash = followup["content_sha256"]
             formal_source = "aether_followup"
             formal_scope = (
-                "The local twist witness and the flat, static, globally pure-twist AE no-go "
-                "and the positive weak-field quadratic theorem remain exact. All 14 candidates "
-                "now also have an explicit compact C3 finite-amplitude Aether seed with a "
-                "strictly negative static source monopole, a decaying frozen-source linearized "
-                "conformal/York constraint completion, and a negative linearized completed-"
-                "boundary-energy coefficient. Exact ADM characteristic-shell analysis shows that "
-                "11 candidates are forced across a characteristic shell before the rigorous "
-                "negative-source threshold, while two have certified characteristic-free negative "
-                "amplitude windows and one is globally noncharacteristic. Those three now have "
-                "exact uniform Aether Legendre-sector margins, inverse bounds, and strict negative "
-                "source-energy margins. The weighted reference principal spectrum remains exact. "
-                "The positive-unit-branch ADM audit now proves that A_i and p_A^i are prescribed "
-                "free data rather than extra elliptic constraint unknowns: the second-order Aether "
-                "diagonal is zero-dimensional and the 4x3 Aether off-diagonal principal columns "
-                "vanish. Augmenting the four York unknowns with delta A instead produces a 4x7 "
-                "symbol with a three-dimensional kernel. The actual finite-tilt metric-momentum-to-"
-                "York principal symbol from the distributed Legendre map is now exact. One of the "
-                "three regular candidates is uniformly principal elliptic throughout its registered "
-                "seed. That candidate now also has an exact positive determinant gap, a rational "
-                "pointwise principal-symbol inverse bound, and an elliptic homotopy to the Euclidean "
-                "reference. Its distributed order-zero/one constraint coefficients and weighted "
-                "kernel/coercivity estimate remain unregistered, so full Fredholm and operator "
-                "inverse bounds do not follow. The other two cross "
-                "exact perpendicular-covector York-variable shells; this rejects only K_ij=(L_X)_ij "
-                "as their global completion variable, leaving an alternative canonical momentum or "
-                "gauge open. No full Fredholm/isomorphism, full inverse-norm, nonlinear-remainder, or "
-                "completed-boundary sign theorem is inferred. The other 11 retain the forced-"
-                "characteristic blocker. Blocked is not rejection."
+                "The exact local-twist, asymptotically Euclidean no-go, weak-field, finite-amplitude "
+                "seed, characteristic-shell, fixed-free-data, and finite-tilt York-symbol results "
+                "remain bound in the predecessor chain. Eleven candidates still encounter the "
+                "registered ADM characteristic obstruction and two cross exact York-variable "
+                "shells. The sole uniformly elliptic candidate has an exact determinant gap, a "
+                "pointwise principal-symbol inverse bound, an elliptic homotopy to the Euclidean "
+                "reference, and now an explicit compact C3 Aether profile with exact weighted jet "
+                "bounds through third order plus a typed 4x4 lower-order coefficient interface. "
+                "That seed is not yet a full canonical background: finite-tilt pi^{ij} and p_A^i "
+                "and the distributed Hamiltonian/momentum coefficient DAG are unregistered. Hence "
+                "the weighted relative lower-order bound, Fredholm isomorphism, full inverse norm, "
+                "nonlinear remainder, and completed-boundary sign persistence remain unproved. "
+                "No action is rejected; blocked is not rejection."
             )
         else:
             followup = g3_records.get(candidate_id)
@@ -256,20 +238,17 @@ def build_future_candidate_action_dossier(
             formal_scope = (
                 "The action-bound local box, uniform principal/common cone, lapse coercivity, "
                 "periodic Dirac, smooth AF-profile cone, and scalar-retained nonunitary "
-                "BSSN/Bona-Masso principal gates pass. The prior radial conformal/pure-trace "
-                "Lichnerowicz no-go is now extended to positive nonradial conformal factors and "
-                "arbitrary smooth trace-free York tensors, including TT, longitudinal, and mixed "
-                "pieces. The exact compensation theorem removes the pointwise |K|/v cap for the "
-                "tracefree-compensated subclass. The latest theorem then removes conformal flatness "
-                "itself: for any smooth complete AF three-geometry, including unrestricted nonzero "
-                "Cotton tensor, the exact Hamiltonian residual is C-Y, where C is curvature surplus "
-                "above c_star*v^2 and Y is the candidate York-source surplus. Thus any finite point "
-                "with Y>C is excluded, strictly extending the earlier curvature-shortfall theorem "
-                "into endpoint and above-threshold geometry. Exact controls reject an above-threshold "
-                "surplus mismatch, retain C=Y only as a necessary Hamiltonian condition, and leave "
-                "C>Y unexcluded. No AF metric/York datum or momentum solution is constructed, so "
-                "candidate-specific pointwise surplus matching plus momentum closure, global energy, "
-                "and full formal completion remain unproved. No action or theory is rejected."
+                "BSSN/Bona-Masso principal gates pass. The conformal, York, curvature-shortfall, "
+                "and curvature-surplus no-go chain remains exact. The newest gate directly combines "
+                "the leading radial momentum and Hamiltonian constraints for real flat spherical "
+                "AF York data with standard r^-2 falloff. Momentum requires alpha+2k=0, while the "
+                "Hamiltonian equation requires 1-(2/3)k^2+(2/3)alpha^2=0; together they give "
+                "1+2k^2=0, so this declared real joint-constraint class is empty for all three exact "
+                "actions. Candidate beta terms enter only at lower asymptotic orders and cannot "
+                "remove that leading obstruction. Nonflat metrics, nonradial York tensors, different "
+                "falloff, and polyhomogeneous or logarithmic data remain open. No AF solution, global "
+                "energy theorem, full formal completion, action rejection, or theory rejection is "
+                "inferred."
             )
         status = {"reject": "rejected", "blocked": "blocked"}[decision]
         nodes = [

@@ -353,9 +353,12 @@ for all three regular candidates. One remains uniformly principal elliptic throu
 seed; two cross exact perpendicular-covector York shells, rejecting only `K_ij=(L_X)_ij` as their
 global completion variable. For the sole uniformly elliptic candidate, the exact determinant gap
 now yields a finite pointwise principal-symbol inverse bound and an elliptic homotopy to the
-Euclidean reference. Its spatially distributed order-zero/order-one coefficient registry, weighted
-kernel estimate, full Fredholm inverse, nonlinear remainder, and completed-boundary sign remain
-blocked; the other 11 retain the forced-characteristic blocker. Blocked is not theory
+Euclidean reference. That candidate now also has an exact compact `C3` Aether profile with weighted
+jet bounds through third order and a typed `4x4` lower-order coefficient interface. The full
+finite-tilt canonical background still lacks `pi^ij` and `p_A^i`, and the distributed Hamiltonian/
+momentum coefficient DAG is unregistered; therefore the weighted relative bound, kernel estimate,
+full Fredholm inverse, nonlinear remainder, and completed-boundary sign remain blocked. The other
+11 retain the forced-characteristic blocker. Blocked is not theory
 rejection. The three cubic-G3 actions now have all
 36 action-bound componentwise fields registered and pass direct uniform principal/common-cone,
 exact lapse-coercivity, and periodic `L2(T3)` Dirac gates. Each also has a smooth action-bound
@@ -382,9 +385,12 @@ smooth complete AF three-geometry, including unrestricted Cotton tensor, a finit
 surplus identity writes the full pointwise residual as `C-Y`, where `C=R3-c*v^2` and
 `Y=S_beta-c*v^2`: any finite point with `Y>C`, including an above-threshold mismatch, rejects that
 datum. Matched `C=Y` is necessary only, overcurvature controls remain inconclusive, and no AF
-metric/York datum or momentum solution is registered. Candidate-specific nontrivial AF solutions
-with pointwise surplus matching, global
-energy, and full formal passes remain blocked.
+metric/York datum or momentum solution is registered. A separate leading-order joint-constraint
+audit now excludes real flat spherical AF York data with standard `r^-2` falloff: momentum requires
+`alpha+2k=0`, the Hamiltonian equation requires `1-(2/3)k^2+(2/3)alpha^2=0`, and together these
+give `1+2k^2=0`. This rejects only that matched data class. Nonflat, nonradial, different-falloff,
+and logarithmic/polyhomogeneous data, candidate-specific nontrivial AF solutions, global energy,
+and full formal passes remain blocked.
 All 163 current scalable action formulas also render, parse, and canonicalise in a single bounded
 Cadabra 2.4.5.4 batch inside isolated user and network namespaces. Each action now has an exact
 candidate Euler expression materialized by substitution into an independently executed reviewed
@@ -436,6 +442,10 @@ Each candidate row also exposes its human-readable defining action as the compac
 followed separately by the exact operator terms and the proof/test hierarchy. Derived field
 equations, constraints, predictions, and certificates are therefore visible without being
 misrepresented as additional fitted pieces of the theory.
+An additional bounded live-dashboard service refreshes a separate ignored runtime snapshot every
+300 seconds using SQLite read-only URI mode plus a query-only transaction. Its atomic hash-bound
+checkpoint caps execution at 4,032 refreshes and 12 consecutive failures; start/status/stop and
+one-shot refresh commands never overwrite the immutable checked report.
 The staged 19-candidate future chunk has the same treatment: every master action is recompiled from
 its exact typed parameter cell, while formal and observational nodes remain separate. All 17 blocked
 and two rejected staged formulas are explicitly unranked.
@@ -1211,9 +1221,9 @@ range theorem is still required, and full tube, CK1, CK3, TC2, B7, global-H7, an
 remain fail-closed.
 
 The next exact range selector contains 3,060 fourth-order obligations on the same rank-15 active
-space. Its restart-safe eight-worker service has closed the first 64 obligations and all 768/768
-candidate systems plus three subsequent exact 32-obligation chunks: 128/3,060 obligations and
-1,536/1,536 candidate systems are closed with no obstruction; 2,932 remain. Orders one through
+space. Its restart-safe eight-worker service has closed six exact 32-obligation chunks:
+192/3,060 obligations and 2,304/2,304 candidate systems are closed with no obstruction; 2,868
+remain. Orders one through
 three are mandatory
 zero-residual prerequisites. A fourth-order incompatibility is retained as a mathematical RHS and
 must flow through permanent obstruction semantics rather than being misreported as infrastructure

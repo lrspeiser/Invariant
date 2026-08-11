@@ -97,6 +97,7 @@
       "status": "operational_persistent_GPU_service_reviewed_promotions_and_quarantined_LLM_campaign",
       "implemented": [
         "restart-safe bounded SQLite queues, deterministic seeds, leases, checkpoints, crash recovery, periodic refill, and detached start/status/stop/resume/export lifecycle",
+        "a separate bounded read-only live-dashboard refresh service with a 300-second interval, hash-bound atomic checkpoint, 4,032-refresh and 12-consecutive-failure limits, atomic runtime snapshot/dashboard publication, explicit start/status/stop/refresh-once lifecycle, and immutable checked-snapshot preservation",
         "16 CPU lane owners plus one exclusive cached-CUDA owner on the RTX 5090 profile with separate lease-occupancy and optional CPU/NVML hardware telemetry",
         "real ordinal and hash-verified SGSURV2 binary evaluator adapters with exact CPU/GPU status-root crosschecks",
         "a restart-safe bounded Rust-to-SGSURV2 producer that overlaps hash-verified chunks with one cached CUDA consumer under exclusive producer leases and queue backpressure",
@@ -120,7 +121,7 @@
         "a candidate-specific conformal-G4 follow-up proving exact covariant-density equivalence to the reviewed formal-pass seed, rational inclusion of all 32 parameter-cell domains in the reviewed domain, and a transferable formal pass without treating family labels or unequal full typed-IR hashes as equivalence evidence",
         "an immutable versioned 163-candidate scalable formal evidence export with 93 alias lineages, exact typed-action formula inputs, three formal passes, two separate-class exact rejects, 158 rank-none blocked rows, and no scalar or cross-class score",
         "a checked-disabled restart-safe 10-stage campaign epoch that attests the complete reviewed scalable chain",
-        "a first bounded reviewed future epoch chunk covering 32 cells at ordinals 256 through 287, compiling to 19 new action classes and 13 exact deduplications; reviewed preflight gives 14 Aether prerequisite passes, two exact Aether rejects and three cubic-G3 blocks. The Aether chain reaches explicit compact finite-amplitude negative source seeds and an exact characteristic-shell partition: 11 seed families are forced across a characteristic shell before the negativity threshold, while three have exact uniform Legendre-sector inverse bounds and strict negative source-energy margins. Two cross exact perpendicular-covector York shells. For the sole uniformly elliptic candidate, an exact determinant gap supplies a pointwise principal inverse bound and elliptic homotopy to the Euclidean reference; distributed lower-order coefficients, a weighted kernel estimate, the full Fredholm inverse, nonlinear remainder and boundary-sign estimates remain missing. All three G3 actions pass action-bound local, periodic, AF-profile and scalar-retained nonunitary principal gates. The exact general-geometry surplus identity writes the Hamiltonian residual as C-Y and excludes any finite datum with source surplus Y greater than curvature surplus C, including above-threshold mismatch controls. Matched surplus is only necessary, overcurvature controls remain inconclusive, no AF metric/York datum or momentum solution is registered, and no action is rejected. All 19 exact master actions have separate proof hierarchies and remain unranked."
+        "a first bounded reviewed future epoch chunk covering 32 cells at ordinals 256 through 287, compiling to 19 new action classes and 13 exact deduplications; reviewed preflight gives 14 Aether prerequisite passes, two exact Aether rejects and three cubic-G3 blocks. The Aether chain reaches explicit compact finite-amplitude negative source seeds and an exact characteristic-shell partition: 11 seed families are forced across a characteristic shell before the negativity threshold, while three have exact uniform Legendre-sector inverse bounds and strict negative source-energy margins. Two cross exact perpendicular-covector York shells. For the sole uniformly elliptic candidate, an exact determinant gap supplies a pointwise principal inverse bound and elliptic homotopy to the Euclidean reference; an exact compact C3 profile now has weighted jet bounds through third order and a typed lower-order coefficient interface, but finite-tilt pi^ij and p_A^i plus the distributed Hamiltonian/momentum coefficient DAG remain missing, so the weighted relative bound, full Fredholm inverse, nonlinear remainder and boundary-sign estimates do not follow. All three G3 actions pass action-bound local, periodic, AF-profile and scalar-retained nonunitary principal gates. Beyond the exact curvature-surplus chain, the leading real flat spherical AF York constraints with r^-2 falloff require alpha+2k=0 and 1-(2/3)k^2+(2/3)alpha^2=0, hence 1+2k^2=0; this rejects that matched data class while leaving nonflat, nonradial, different-falloff and logarithmic/polyhomogeneous data open. No action is rejected. All 19 exact master actions have separate proof hierarchies and remain unranked."
       ],
       "scalable_formal_provenance_bindings": {
         "formal_preflight": {
@@ -218,6 +219,11 @@
           "file_sha256": "a6dbd4fbc19fc2e39b319a0fc472dd38d891cb1b5f4086eed0f6c30383909fd3",
           "content_sha256": "27df3c4aee72998f22fac6d598db00803aaa6c0d38087cb137b94c12459a8d9b"
         },
+        "future_aether_lower_order_coefficient_contract_gate": {
+          "path": "runs/engine/future-aether-lower-order-coefficient-contract-gate.json",
+          "file_sha256": "3bf5e7aeb5a29b4383bd69d12ab8fcd8c545bc461c55a3faaa628bb1fdff5585",
+          "content_sha256": "9f8c5e3db114c3431aac7fb90441d26ca110e431dbef8b7bcfff6fe230233915"
+        },
         "future_g3_action_bound_followup": {
           "path": "runs/engine/future-g3-action-bound-jet-box-campaign.json",
           "file_sha256": "5140970b0ed0c5c88f771e48a37ea8d8e1e4dd59d6f9c8d7b9ff95d156bd9fa7",
@@ -268,10 +274,20 @@
           "file_sha256": "932d0c6c76407ed786b0500c0cdb551e08e40e5ec6e04810eec71d3ec80b4e6a",
           "content_sha256": "6fd80b865c02883a4d5b387573a7fdd8a13238e984edc2e61204b1b1d08019d7"
         },
+        "future_g3_flat_radial_matched_constraints_asymptotic_no_go": {
+          "path": "runs/engine/future-g3-flat-radial-matched-constraints-asymptotic-no-go-campaign.json",
+          "file_sha256": "d3a10c1820acf026142844f391b0e9ecfee32646383816261fb4a53a61213189",
+          "content_sha256": "9eeb346ddf1f57a65b5b0f352d2373bd1bf5438fd049ef33cc3264f1e61326aa"
+        },
         "future_candidate_action_dossier": {
           "path": "runs/engine/future-candidate-action-dossier.json",
-          "file_sha256": "405a3f138dd8d1e28fcb42db64077b52be001119e9ca1c49f239307c18484247",
-          "content_sha256": "13223e10d5d8050ad2169952deab868fd9830308bfdda67474ec1a6279c68a20"
+          "file_sha256": "3f6168ee173cc8a66119ced654604fdeb24355095e8e45402d51c6061fa2e2ad",
+          "content_sha256": "29c931c0d1a513a93e160994886d333307ff8e99f063d78bc698511f447c3f00"
+        },
+        "unified_live_dashboard_service_readiness": {
+          "path": "runs/engine/unified-engine-live-service-readiness.json",
+          "file_sha256": "5fa27805c51036d5b81f59fe3a55d1681b2fc976b90cf69a3f305cfa563ab07e",
+          "content_sha256": "a3be005a2322a625f178c6c257c81c75a319b10605317be817ebda6112a5bcb7"
         },
         "g3_formal": {
           "path": "runs/engine/grammar-v3-g3-candidate-formal-status.json",
@@ -423,6 +439,10 @@
         "configs/future_aether_principal_inverse_fredholm_gate.json",
         "tests/test_future_aether_principal_inverse_fredholm_gate.py",
         "runs/engine/future-aether-principal-inverse-fredholm-gate.json",
+        "src/sigma_theory_compiler/future_aether_lower_order_coefficient_contract_gate.py",
+        "configs/future_aether_lower_order_coefficient_contract_gate.json",
+        "tests/test_future_aether_lower_order_coefficient_contract_gate.py",
+        "runs/engine/future-aether-lower-order-coefficient-contract-gate.json",
         "src/sigma_theory_compiler/future_g3_componentwise_domain_contract_campaign.py",
         "configs/future_g3_componentwise_domain_contract_campaign.json",
         "tests/test_future_g3_componentwise_domain_contract_campaign.py",
@@ -467,10 +487,19 @@
         "configs/future_g3_general_geometry_surplus_mismatch_no_go_campaign.json",
         "tests/test_future_g3_general_geometry_surplus_mismatch_no_go_campaign.py",
         "runs/engine/future-g3-general-geometry-surplus-mismatch-no-go-campaign.json",
+        "src/sigma_theory_compiler/future_g3_flat_radial_matched_constraints_asymptotic_no_go_campaign.py",
+        "configs/future_g3_flat_radial_matched_constraints_asymptotic_no_go_campaign.json",
+        "tests/test_future_g3_flat_radial_matched_constraints_asymptotic_no_go_campaign.py",
+        "runs/engine/future-g3-flat-radial-matched-constraints-asymptotic-no-go-campaign.json",
         "src/sigma_theory_compiler/future_candidate_action_dossier.py",
         "configs/future_candidate_action_dossier.json",
         "tests/test_future_candidate_action_dossier.py",
         "runs/engine/future-candidate-action-dossier.json",
+        "src/sigma_theory_compiler/unified_engine_live_service.py",
+        "configs/unified_engine_live_service.json",
+        "tests/test_unified_engine_live_service.py",
+        "runs/engine/unified-engine-live-service-readiness.json",
+        "docs/UNIFIED_LIVE_DASHBOARD.md",
         "runs/engine/promotion-orchestrator-status.json",
         "docs/PERSISTENT_GRAVITY_ENGINE.md"
       ],
@@ -481,8 +510,8 @@
         "a uniform AF lapse/Dirac inverse or a different globally regular constraint formulation for the 32 cubic-G3 candidates, followed by candidate-specific AF constraint solutions and global energy",
         "full gravitational constraint/boundary-energy embedding of the 79 Aether local negative-density witnesses and a generic twisting reduced-Hamiltonian/global-energy theorem for the remaining blocked Aether actions",
         "candidate-specific existence and evolution/cell-preservation theorems, nonlinear stability, real-source/action-bound Solar prediction bundles, and observational evidence for the two conditional-domain G2 formal passes",
-        "a noncharacteristic foliation or different compact negative seed for 11 future Aether actions; an alternative canonical momentum variable or gauge avoiding the exact finite-tilt York-symbol shell for two regular actions; and a spatially distributed lower-order coefficient registry, weighted kernel estimate, full Fredholm inverse norm, nonlinear remainder and completed-boundary sign estimates for the one uniformly principal-elliptic action; the two exact Aether rejects require no downstream execution",
-        "candidate-specific AF metric and York data satisfying pointwise curvature/source-surplus matching plus the momentum constraint for the three future-epoch cubic-G3 actions, followed by a nontrivial AF Einstein-constraint solution, global energy and full-formal follow-up",
+        "a noncharacteristic foliation or different compact negative seed for 11 future Aether actions; an alternative canonical momentum variable or gauge avoiding the exact finite-tilt York-symbol shell for two regular actions; and a full canonical finite-tilt seed point including pi^ij and p_A^i, the distributed Hamiltonian/momentum lower-order coefficient DAG, weighted relative bound, full Fredholm inverse norm, nonlinear remainder and completed-boundary sign estimates for the one uniformly principal-elliptic action; the two exact Aether rejects require no downstream execution",
+        "candidate-specific AF metric and York data beyond the excluded real flat spherical r^-2 matched-constraint class, including nonflat, nonradial, different-falloff or logarithmic/polyhomogeneous data, followed by a nontrivial AF Einstein-constraint solution, global energy and full-formal follow-up",
         "a production-duration end-to-end run that includes generation, every implemented promotion evaluator, ranked reporting, and deterministic replay"
       ]
     },
@@ -737,6 +766,8 @@
           "runs/physics-language/quartic-tc2-fourth-jet-obligation-service/chunks/obligation-offset-000032.json",
           "runs/physics-language/quartic-tc2-fourth-jet-obligation-service/chunks/obligation-offset-000064.json",
           "runs/physics-language/quartic-tc2-fourth-jet-obligation-service/chunks/obligation-offset-000096.json",
+          "runs/physics-language/quartic-tc2-fourth-jet-obligation-service/chunks/obligation-offset-000128.json",
+          "runs/physics-language/quartic-tc2-fourth-jet-obligation-service/chunks/obligation-offset-000160.json",
           "runs/physics-language/quartic-tc2-fourth-jet-obligation-service/checkpoint.json",
           "runs/physics-language/quartic-tc2-fourth-jet-obligation-service/service-status.json"
         ],
@@ -786,17 +817,17 @@
           "fourth_jet_range_obligation_binding": {
             "selector_file_sha256": "1bcdad6095cdb6ca483748da2ed08196ad8f5d73e4782586cd0c505991c03b05",
             "selector_content_sha256": "b87e76db34c828fe2d9ec1623c34af4ead33cd9f627140bc4dd776999ee9462e",
-            "latest_file_sha256": "7dbb3fd66144c77f84943042d218ebcd9a39a48c3818ac81d9cff0f2fc8435cc",
-            "latest_content_sha256": "0d2a6e48a1a1488939b8add55db415f757405a678f4567024e978da10a204a2c",
-            "checkpoint_content_sha256": "63fb7eef9e244fde00e6c003d8ae57214bb544355af94e645944a2dcff3edb22",
-            "status_content_sha256": "30c99d46610694a4531722d27225daafc94a1bd85626466eebb7bb9cc82891d9",
-            "evaluated_obligations": 128,
-            "remaining_obligations": 2932,
-            "candidate_evaluations": 1536,
+            "latest_file_sha256": "c0a80a0c4145e1868b1e2f7e52801d777c19543a29af98029d43763eb3008989",
+            "latest_content_sha256": "cc334f6d9b7667ce64ee9c8cb922ea7590ba65baaa02f031c905b2b01852695d",
+            "checkpoint_content_sha256": "31d8111d462efe937197ad7b003c92905e85eb7046c169663783c8a86d08574a",
+            "status_content_sha256": "c4e800d25355c52720841d9568a3b259a56821f8a032df228fd747bba4c26620",
+            "evaluated_obligations": 192,
+            "remaining_obligations": 2868,
+            "candidate_evaluations": 2304,
             "candidate_obstructed": 0
           }
       },
-      "missing": ["exact evaluation of the remaining 2932 fourth-order range obligations, with any incompatible fourth-order compression treated as a candidate obstruction and permanent fail-closed stop", "fifth-and-higher remainder control or a nonlinear range theorem that upgrades the completed reference Taylor jets to a tube-uniform Hermitian positive full Sylvester solution", "the remaining variable TC3, high-derivative TC2 and H7 TC5 terms", "an executable component Frechet/Bony-good-unknown remainder bound supplying finite C_L and C_B", "an initial H7 energy bound and substitution into the conditional lifespan/tube formula", "new reduction adapters for future nonminimal action terms outside the bounded grammar", "exhaustive multi-seed connected-domain construction beyond the campaign's shared local FLRW seed", "nonlinear PDE evolution-invariant trapping regions inside the pointwise-certified cubic-Horndeski and quartic-Horndeski local-jet boxes", "new mixed/nonlinear principal and symmetrizer adapters for the remaining 114 G4_X sample assignments, followed by necessary-and-sufficient multi-field direction-sphere bounds", "generic nonlinear global reduced-Hamiltonian boundedness beyond the certified homogeneous Horndeski tensor and FLRW scalar blocks"]
+      "missing": ["exact evaluation of the remaining 2868 fourth-order range obligations, with any incompatible fourth-order compression treated as a candidate obstruction and permanent fail-closed stop", "fifth-and-higher remainder control or a nonlinear range theorem that upgrades the completed reference Taylor jets to a tube-uniform Hermitian positive full Sylvester solution", "the remaining variable TC3, high-derivative TC2 and H7 TC5 terms", "an executable component Frechet/Bony-good-unknown remainder bound supplying finite C_L and C_B", "an initial H7 energy bound and substitution into the conditional lifespan/tube formula", "new reduction adapters for future nonminimal action terms outside the bounded grammar", "exhaustive multi-seed connected-domain construction beyond the campaign's shared local FLRW seed", "nonlinear PDE evolution-invariant trapping regions inside the pointwise-certified cubic-Horndeski and quartic-Horndeski local-jet boxes", "new mixed/nonlinear principal and symmetrizer adapters for the remaining 114 G4_X sample assignments, followed by necessary-and-sufficient multi-field direction-sphere bounds", "generic nonlinear global reduced-Hamiltonian boundedness beyond the certified homogeneous Horndeski tensor and FLRW scalar blocks"]
     },
     {
       "id": "solar_and_direct_observations",

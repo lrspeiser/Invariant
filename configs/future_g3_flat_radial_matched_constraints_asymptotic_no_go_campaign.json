@@ -1,0 +1,69 @@
+{
+  "schema_version": "sigma-future-g3-flat-radial-matched-constraints-asymptotic-no-go-config-1.0",
+  "campaign_id": "future-g3-flat-radial-matched-constraints-asymptotic-no-go-20260811",
+  "adapter_source": {
+    "path": "src/sigma_theory_compiler/future_g3_flat_radial_matched_constraints_asymptotic_no_go_campaign.py",
+    "file_sha256": "09aa3792b5a79a198a6f65342b2ce84cf386f7221a746680faa5f5fd74c69276"
+  },
+  "bindings": {
+    "predecessor": {
+      "path": "runs/engine/future-g3-general-geometry-surplus-mismatch-no-go-campaign.json",
+      "file_sha256": "932d0c6c76407ed786b0500c0cdb551e08e40e5ec6e04810eec71d3ec80b4e6a",
+      "content_sha256": "6fd80b865c02883a4d5b387573a7fdd8a13238e984edc2e61204b1b1d08019d7"
+    },
+    "curvature_shortfall_source": {
+      "path": "runs/engine/future-g3-general-geometry-curvature-shortfall-no-go-campaign.json",
+      "file_sha256": "001abc2313e0cc88b9a02c6af2043132e97baec069f891d19af001ca92b7059b",
+      "content_sha256": "1c06013ecad8dd73fd3a508b704c886e98ccde8c2c733eac2cd117f97807d809"
+    }
+  },
+  "asymptotic_contract": {
+    "spatial_metric": "h_ij=delta_ij_on_R3",
+    "scalar_curvature": "R3=0",
+    "scalar_profile": "Pi=v(r)=1/sqrt(1+(r/L)^4)",
+    "transition_length_L": "100",
+    "York_decomposition": "K_ij=A_ij+(K/3)*delta_ij",
+    "radial_tracefree_tensor": "A^i_j=a(r)*(n^i*n_j-delta^i_j/3)",
+    "tracefree_norm": "A_ij*A^ij=(2/3)*a(r)^2",
+    "real_data": true,
+    "asymptotic_expansions": [
+      "v(r)=L^2/r^2+O(r^-6)",
+      "K(r)=k*L^2/r^2+o_1(r^-2)",
+      "a(r)=alpha*L^2/r^2+o_1(r^-2)"
+    ],
+    "momentum_equation": "a_prime+3*a/r-K_prime=(3/2)*beta*v^2*v_prime",
+    "Hamiltonian_equation": "0=v^2+2*beta*K*v^3-(2/3)*K^2+(2/3)*a^2",
+    "no_compensation_inequality_assumed": true,
+    "no_observation_or_numerical_solver_used": true
+  },
+  "targets": [
+    {
+      "candidate_id": "G3A-8555e529226d13e2e9dacad5",
+      "action_sha256": "4f31eb8efc25f3b28fd56d7d6dc6518461b1624f69f3b51ad8f05e6e7374e8eb",
+      "beta": "33/4000",
+      "predecessor_record_content_sha256": "b0056ae1e2f8a9182b36a8c47918cf7d2d96e76295522d38abda6cf72bb49c96",
+      "predecessor_theorem_content_sha256": "76fc684680a28071bce5f022e0e7efbb7a1d9138631c24f8f98fef4bf3cb7764"
+    },
+    {
+      "candidate_id": "G3A-8ec243e6dd285fd92e7b8e0c",
+      "action_sha256": "08f435f45ff8f2333451d5cdad37bf201dfe58d254548ba6ccf5814564b98df0",
+      "beta": "17/2000",
+      "predecessor_record_content_sha256": "0e77ca9188d2bea8d80d9eebc67c46baa0494676c5379549fa0e45ae1cbda7e6",
+      "predecessor_theorem_content_sha256": "4f8ed107428897f8b4f67d9a2ea0403c0056fc5600dd5359ab6903bd11a54142"
+    },
+    {
+      "candidate_id": "G3A-8d3cce39bcb13ba5061eb78b",
+      "action_sha256": "181f6837c6934ff9ffbdba5b32383271704e67781a46b01d86fa31571442da98",
+      "beta": "9/1000",
+      "predecessor_record_content_sha256": "fdfa27281feea0613cc4604ff3177e73cb27140d0dd4f436254fc6de922ba162",
+      "predecessor_theorem_content_sha256": "bdf65c264d83152ffcef5b7af1852708c542c6fa25654aae1d34a1e4b595403d"
+    }
+  ],
+  "output_path": "runs/engine/future-g3-flat-radial-matched-constraints-asymptotic-no-go-campaign.json",
+  "data_eligibility": {
+    "observational_data_opened": false,
+    "dark_matter_or_halo_inputs": false,
+    "redshift_distance_inputs": false,
+    "paid_llm_calls": false
+  }
+}

@@ -47,6 +47,7 @@ SOURCE_PATHS = [
     "runs/engine/future-aether-fixed-free-data-principal-gate.json",
     "runs/engine/future-aether-finite-tilt-york-symbol-gate.json",
     "runs/engine/future-aether-principal-inverse-fredholm-gate.json",
+    "runs/engine/future-aether-lower-order-coefficient-contract-gate.json",
     "runs/engine/future-g3-componentwise-domain-contract-campaign.json",
     "runs/engine/future-g3-action-bound-jet-box-campaign.json",
     "runs/engine/future-g3-af-transition-obstruction-campaign.json",
@@ -59,6 +60,7 @@ SOURCE_PATHS = [
     "runs/engine/future-g3-york-tracefree-compensation-no-go-campaign.json",
     "runs/engine/future-g3-general-geometry-curvature-shortfall-no-go-campaign.json",
     "runs/engine/future-g3-general-geometry-surplus-mismatch-no-go-campaign.json",
+    "runs/engine/future-g3-flat-radial-matched-constraints-asymptotic-no-go-campaign.json",
     "runs/engine/future-candidate-action-dossier.json",
     "runs/engine/grammar-v3-g3-candidate-formal-status.json",
     "runs/engine/g4-scalable-action-formal-followup.json",
@@ -95,6 +97,8 @@ SOURCE_PATHS = [
     "runs/physics-language/quartic-tc2-fourth-jet-obligation-service/chunks/obligation-offset-000032.json",
     "runs/physics-language/quartic-tc2-fourth-jet-obligation-service/chunks/obligation-offset-000064.json",
     "runs/physics-language/quartic-tc2-fourth-jet-obligation-service/chunks/obligation-offset-000096.json",
+    "runs/physics-language/quartic-tc2-fourth-jet-obligation-service/chunks/obligation-offset-000128.json",
+    "runs/physics-language/quartic-tc2-fourth-jet-obligation-service/chunks/obligation-offset-000160.json",
     "runs/physics-language/quartic-tc2-fourth-jet-obligation-service/checkpoint.json",
     "runs/physics-language/quartic-tc2-fourth-jet-obligation-service/service-status.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000000.json",
@@ -136,6 +140,7 @@ SOURCE_PATHS = [
     "runs/physics-language/quartic-tc2-mixed-third-jet-parallel-continuation-service/checkpoint.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-parallel-continuation-service/service-status.json",
     "runs/engine/quartic-tc2-mixed-third-jet-parallel-supervisor-readiness.json",
+    "runs/engine/unified-engine-live-service-readiness.json",
 ]
 LABELS = [
     "billion_streaming",
@@ -168,6 +173,7 @@ LABELS = [
     "future_aether_fixed_free_data_principal_gate",
     "future_aether_finite_tilt_york_symbol_gate",
     "future_aether_principal_inverse_fredholm_gate",
+    "future_aether_lower_order_coefficient_contract_gate",
     "future_g3_domain_followup",
     "future_g3_action_bound_followup",
     "future_g3_af_transition_obstruction",
@@ -180,6 +186,7 @@ LABELS = [
     "future_g3_york_tracefree_compensation",
     "future_g3_general_geometry_curvature_shortfall",
     "future_g3_general_geometry_surplus_mismatch",
+    "future_g3_flat_radial_matched_constraints_asymptotic_no_go",
     "future_candidate_action_dossier",
     "grammar_v3_g3_candidate_formal",
     "grammar_v3_g4_scalable_formal_followup",
@@ -216,6 +223,8 @@ LABELS = [
     "quartic_tc2_fourth_jet_chunk_32",
     "quartic_tc2_fourth_jet_chunk_64",
     "quartic_tc2_fourth_jet_chunk_96",
+    "quartic_tc2_fourth_jet_chunk_128",
+    "quartic_tc2_fourth_jet_chunk_160",
     "quartic_tc2_fourth_jet_checkpoint",
     "quartic_tc2_fourth_jet_status",
     "quartic_tc2_reranked_obligation_chunk_0",
@@ -257,6 +266,7 @@ LABELS = [
     "quartic_tc2_mixed_third_jet_parallel_checkpoint",
     "quartic_tc2_mixed_third_jet_parallel_status",
     "quartic_tc2_mixed_third_jet_parallel_supervisor_readiness",
+    "unified_live_dashboard_service_readiness",
 ]
 
 
@@ -792,20 +802,24 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                 "full_coupled_Fredholm_operator_defined_count": 0,
                 "weighted_full_constraint_operator_isomorphism_pass_count": 0,
                 "nonlinear_Frechet_remainder_bound_pass_count": 0,
-                    "completed_boundary_sign_persistence_count": 0,
-                    "fixed_free_data_constraint_variable_classification_count": 3,
-                    "zero_dimensional_Aether_constraint_diagonal_block_count": 3,
-                    "zero_Aether_second_order_off_diagonal_columns_count": 3,
-                        "augmented_Aether_unknown_nonelliptic_negative_control_count": 3,
-                        "finite_tilt_metric_York_symbol_derived_count": 3,
-                        "uniform_fixed_free_data_principal_ellipticity_pass_count": 1,
-                        "exact_nonelliptic_York_shell_count": 2,
-                        "York_ansatz_reject_count": 2,
-                        "finite_tilt_weighted_Fredholm_isomorphism_pass_count": 0,
-                        "uniform_principal_symbol_inverse_bound_pass_count": 1,
-                        "principal_elliptic_homotopy_to_reference_pass_count": 1,
-                        "distributed_lower_order_coefficient_registry_complete_count": 0,
-                        "full_operator_inverse_norm_pass_count": 0,
+                "completed_boundary_sign_persistence_count": 0,
+                "fixed_free_data_constraint_variable_classification_count": 3,
+                "zero_dimensional_Aether_constraint_diagonal_block_count": 3,
+                "zero_Aether_second_order_off_diagonal_columns_count": 3,
+                "augmented_Aether_unknown_nonelliptic_negative_control_count": 3,
+                "finite_tilt_metric_York_symbol_derived_count": 3,
+                "uniform_fixed_free_data_principal_ellipticity_pass_count": 1,
+                "exact_nonelliptic_York_shell_count": 2,
+                "York_ansatz_reject_count": 2,
+                "finite_tilt_weighted_Fredholm_isomorphism_pass_count": 0,
+                "uniform_principal_symbol_inverse_bound_pass_count": 1,
+                "principal_elliptic_homotopy_to_reference_pass_count": 1,
+                "compact_profile_C3_weighted_jet_bound_pass_count": 1,
+                "lower_order_coefficient_contract_declared_count": 1,
+                "full_canonical_background_point_registered_count": 0,
+                "distributed_lower_order_coefficient_registry_complete_count": 0,
+                "weighted_relative_lower_order_bound_pass_count": 0,
+                "full_operator_inverse_norm_pass_count": 0,
                 "missing_weighted_contract_field_counts": {
                     "codomain_space": 3,
                     "completed_boundary_first_derivative_bound": 3,
@@ -829,11 +843,11 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                     "3/32": 1,
                     "5/32": 1,
                 },
-                    "first_blocker_counts": {
-                        "noncharacteristic_foliation_or_compact_negative_seed_avoiding_forced_ADM_Legendre_characteristic_crossing": 11,
-                        "alternative_canonical_momentum_variable_or_gauge_avoiding_exact_finite_tilt_York_symbol_shell": 2,
-                        "candidate_bound_spatially_distributed_lower_order_linearized_constraint_coefficient_registry_on_weighted_spaces": 1,
-                    },
+                "first_blocker_counts": {
+                    "noncharacteristic_foliation_or_compact_negative_seed_avoiding_forced_ADM_Legendre_characteristic_crossing": 11,
+                    "alternative_canonical_momentum_variable_or_gauge_avoiding_exact_finite_tilt_York_symbol_shell": 2,
+                    "candidate_bound_full_canonical_seed_point_including_pi_and_p_A_and_distributed_H_D_coefficient_DAG": 1,
+                },
                 "candidate_rejection_authorized_count": 0,
             },
             "g3": {
@@ -868,27 +882,31 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                 "next_grid_cap_inconclusive_count": 3,
                 "exact_algebraic_threshold_pass_count": 3,
                 "closed_threshold_endpoint_reject_count": 3,
-                    "above_threshold_control_inconclusive_count": 3,
-                        "tracefree_compensation_bound_pass_count": 3,
-                        "tracefree_compensated_York_class_reject_count": 3,
-                        "undercompensated_control_inconclusive_count": 3,
-                        "general_geometry_pointwise_theorem_pass_count": 3,
-                        "curvature_shortfall_constraint_class_reject_count": 3,
-                        "exact_curvature_endpoint_inconclusive_count": 3,
-                        "above_threshold_not_excluded_control_count": 3,
-                        "nonconformally_flat_metric_construction_pass_count": 0,
-                        "exact_surplus_identity_pass_count": 3,
-                        "above_threshold_surplus_mismatch_class_reject_count": 3,
-                        "matched_surplus_necessary_control_count": 3,
-                        "overcurvature_not_excluded_control_count": 3,
-                        "registered_AF_metric_York_datum_pass_count": 0,
+                "above_threshold_control_inconclusive_count": 3,
+                "tracefree_compensation_bound_pass_count": 3,
+                "tracefree_compensated_York_class_reject_count": 3,
+                "undercompensated_control_inconclusive_count": 3,
+                "general_geometry_pointwise_theorem_pass_count": 3,
+                "curvature_shortfall_constraint_class_reject_count": 3,
+                "exact_curvature_endpoint_inconclusive_count": 3,
+                "above_threshold_not_excluded_control_count": 3,
+                "nonconformally_flat_metric_construction_pass_count": 0,
+                "exact_surplus_identity_pass_count": 3,
+                "above_threshold_surplus_mismatch_class_reject_count": 3,
+                "matched_surplus_necessary_control_count": 3,
+                "overcurvature_not_excluded_control_count": 3,
+                "radial_momentum_leading_order_pass_count": 3,
+                "flat_Hamiltonian_leading_order_pass_count": 3,
+                "joint_real_asymptotic_coefficient_solution_count": 0,
+                "flat_radial_matched_constraint_class_reject_count": 3,
+                "registered_AF_metric_York_datum_pass_count": 0,
                 "asymptotically_flat_Dirac_pass_count": 0,
                 "AF_Einstein_constraint_solution_pass_count": 0,
                 "global_energy_pass_count": 0,
                 "full_formal_pass_count": 0,
-                    "first_blocker_counts": {
-                        "candidate_specific_AF_metric_and_York_data_with_pointwise_curvature_surplus_matching_and_momentum_solution": 3
-                    },
+                "first_blocker_counts": {
+                    "candidate_specific_AF_metric_York_data_beyond_flat_radial_r_minus_2_asymptotic_class": 3
+                },
             },
         },
     }
@@ -959,8 +977,7 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                 "action_export_for_each_action_hash_and_future_operator_family"
             ),
             "first_missing_premise": (
-                "metric_variation_exporters_for_future_unregistered_nonminimal_"
-                "operator_families"
+                "metric_variation_exporters_for_future_unregistered_nonminimal_operator_families"
             ),
             "candidate_metric_specialization": {
                 "candidate_count": 163,
@@ -1210,16 +1227,16 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
             "active_direction_rank": 15,
             "selector_obligations": 3060,
             "candidate_obligation_budget": 36720,
-                "obligations_evaluated": 128,
-                "obligations_remaining": 2932,
-                "candidate_evaluations": 1536,
-                "candidate_solvable": 1536,
-                "candidate_obstructed": 0,
-                "directional_evaluations": 1299,
-                "next_obligation_offset": 128,
-                "resume_tip_sha256": (
-                    "31b1337e982eb39c1b11eda612c7b02c7cede629596bb123c64cc89a429784a1"
-                ),
+            "obligations_evaluated": 192,
+            "obligations_remaining": 2868,
+            "candidate_evaluations": 2304,
+            "candidate_solvable": 2304,
+            "candidate_obstructed": 0,
+            "directional_evaluations": 2211,
+            "next_obligation_offset": 192,
+            "resume_tip_sha256": (
+                "bfe759542cdcd3309677b08bce16b23717b1c22cf6aafd24f878fd1aa73e7a47"
+            ),
             "parallel_worker_count": 8,
             "full_fourth_jet_range_closed": False,
         },
@@ -1233,7 +1250,7 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
             "lifespans_proved": 0,
         },
         "first_missing_premise": (
-                "remaining_2932_exact_fourth_jet_range_obligations_then_all_order_"
+            "remaining_2868_exact_fourth_jet_range_obligations_then_all_order_"
             "remainder_or_nonlinear_range_theorem"
         ),
     }
@@ -1325,15 +1342,18 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "candidate caps 1.211, 1.211, and 1.210" in dashboard
     assert "Staged future candidate formulas (unranked)" in dashboard
     assert "Current exact Aether and G3 boundary" in dashboard
-    assert "Aether finite-tilt symbols" in dashboard
-    assert "Aether principal inverse bounds" in dashboard
-    assert "Aether elliptic homotopies" in dashboard
+    assert "Aether C3 jet envelopes" in dashboard
+    assert "Aether coefficient contracts" in dashboard
+    assert "Aether canonical backgrounds" in dashboard
     assert "Aether lower-order registries" in dashboard
-    assert "G3 surplus identities" in dashboard
-    assert "G3 surplus mismatch classes rejected" in dashboard
-    assert "G3 matched surplus controls" in dashboard
-    assert "Registered AF York data" in dashboard
-    assert "exact Hamiltonian residual <code>C-Y</code>" in dashboard
+    assert "G3 radial momentum audits" in dashboard
+    assert "G3 Hamiltonian audits" in dashboard
+    assert "Real joint coefficients" in dashboard
+    assert "Flat radial classes rejected" in dashboard
+    assert "<code>alpha+2k=0</code>" in dashboard
+    assert "<code>1+2k^2=0</code>" in dashboard
+    assert "Live dashboard refresh service" in dashboard
+    assert "never overwrites the immutable checked snapshot" in dashboard
     assert "These master actions are recompiled from the exact typed cells" in dashboard
     assert "G3A-8555e529226d13e2e9dacad5" in dashboard
     assert "S = integral d^4x" in dashboard

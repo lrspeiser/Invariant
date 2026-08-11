@@ -88,11 +88,10 @@ def test_proof_hierarchy_distinguishes_formula_formal_and_observation_scope() ->
     assert len(g3_records) == 3
     assert all(
         record["first_blocker"]
-        == "candidate_specific_AF_metric_and_York_data_with_pointwise_curvature_surplus_matching_and_momentum_solution"
-        and "removes conformal flatness" in record["hierarchy_nodes"][1]["scope"]
-        and "Cotton tensor" in record["hierarchy_nodes"][1]["scope"]
-        and "Hamiltonian residual is C-Y" in record["hierarchy_nodes"][1]["scope"]
-        and "surplus mismatch" in record["hierarchy_nodes"][1]["scope"]
+        == "candidate_specific_AF_metric_York_data_beyond_flat_radial_r_minus_2_asymptotic_class"
+        and "alpha+2k=0" in record["hierarchy_nodes"][1]["scope"]
+        and "1+2k^2=0" in record["hierarchy_nodes"][1]["scope"]
+        and "polyhomogeneous" in record["hierarchy_nodes"][1]["scope"]
         for record in g3_records
     )
     aether_records = [
@@ -107,15 +106,13 @@ def test_proof_hierarchy_distinguishes_formula_formal_and_observation_scope() ->
         in {
             "noncharacteristic_foliation_or_compact_negative_seed_avoiding_forced_ADM_Legendre_characteristic_crossing",
             "alternative_canonical_momentum_variable_or_gauge_avoiding_exact_finite_tilt_York_symbol_shell",
-            "candidate_bound_spatially_distributed_lower_order_linearized_constraint_coefficient_registry_on_weighted_spaces",
+            "candidate_bound_full_canonical_seed_point_including_pi_and_p_A_and_distributed_H_D_coefficient_DAG",
         }
-        and "finite-amplitude Aether seed" in record["hierarchy_nodes"][1]["scope"]
-        and "uniform Aether Legendre-sector margins" in record["hierarchy_nodes"][1]["scope"]
-        and "weighted reference principal spectrum" in record["hierarchy_nodes"][1]["scope"]
-        and "4x3 Aether off-diagonal principal columns" in record["hierarchy_nodes"][1]["scope"]
-        and "distributed Legendre map is now exact" in record["hierarchy_nodes"][1]["scope"]
-        and "positive determinant gap" in record["hierarchy_nodes"][1]["scope"]
-        and "pointwise principal-symbol inverse bound" in record["hierarchy_nodes"][1]["scope"]
+        and "compact C3 Aether profile" in record["hierarchy_nodes"][1]["scope"]
+        and "pi^{ij}" in record["hierarchy_nodes"][1]["scope"]
+        and "distributed Hamiltonian/momentum coefficient DAG"
+        in record["hierarchy_nodes"][1]["scope"]
+        and "weighted relative lower-order bound" in record["hierarchy_nodes"][1]["scope"]
         for record in aether_records
     )
 
@@ -138,7 +135,7 @@ def test_artifact_is_portable_and_secret_safe() -> None:
     raw = ARTIFACT.read_bytes()
     artifact = json.loads(raw)
     assert hashlib.sha256(raw).hexdigest() == (
-        "405a3f138dd8d1e28fcb42db64077b52be001119e9ca1c49f239307c18484247"
+        "3f6168ee173cc8a66119ced654604fdeb24355095e8e45402d51c6061fa2e2ad"
     )
     encoded = raw.decode("utf-8")
     assert "C:\\" not in encoded
