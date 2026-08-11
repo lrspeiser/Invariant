@@ -576,19 +576,89 @@ def validate_campaign(document: Mapping[str, Any], config_path: str | Path) -> N
     if any(document.get(key) != value for key, value in seals.items()):
         raise ValueError("GPU stress artifact violates a data or claim seal")
     counts = document.get("counts", {})
+    candidate_count = 163
+    points_per_candidate = int(config["synthetic_points_per_candidate"])
+    exact_points_per_candidate = int(config["exact_cpu_points_per_candidate"])
+    measured_repetitions = int(config["gpu_measured_repetitions"])
+    warmup_repetitions = int(config["gpu_warmup_repetitions"])
+    unique_pairs = candidate_count * points_per_candidate
+    exact_crosschecks = candidate_count * exact_points_per_candidate
+    expected_counts = {
+        "candidate_count": candidate_count,
+        "cpu_exact_rational_crosschecks": exact_crosschecks,
+        "cpu_full_projection_evaluations": unique_pairs,
+        "family_count": 4,
+        "formal_passes_inferred": 0,
+        "gpu_measured_candidate_formula_evaluations": unique_pairs * measured_repetitions,
+        "gpu_measured_repetitions": measured_repetitions,
+        "gpu_projection_dispatches": warmup_repetitions + measured_repetitions,
+        "gpu_warmup_repetitions": warmup_repetitions,
+        "observational_records_accessed": 0,
+        "paid_llm_calls": 0,
+        "synthetic_points_per_candidate": points_per_candidate,
+        "unique_candidate_point_pairs": unique_pairs,
+    }
     if (
-        counts.get("candidate_count") != 163
-        or counts.get("formal_passes_inferred") != 0
-        or counts.get("observational_records_accessed") != 0
-        or counts.get("paid_llm_calls") != 0
-        or sum(document.get("family_counts", {}).values()) != 163
+        counts != expected_counts
+        or document.get("family_counts")
+        != {
+            "AETHER_K1234_PARAMETER_CELL": 128,
+            "CONFORMAL_G4_PHI_SCALAR_TENSOR": 1,
+            "CUBIC_HORNDESKI_G3_WEAK_CELL": 32,
+            "KESSENCE_G2_CONVEX": 2,
+        }
     ):
         raise ValueError("GPU stress counter accounting mismatch")
-    if document.get("exact_cpu_control", {}).get("within_bound") is not True:
+    exact = document.get("exact_cpu_control", {})
+    if (
+        exact.get("candidate_count") != candidate_count
+        or exact.get("points_per_candidate") != exact_points_per_candidate
+        or exact.get("crosscheck_count") != exact_crosschecks
+        or exact.get("error_bound") != config["exact_cpu_float_error_bound"]
+        or exact.get("within_bound") is not True
+        or exact.get("float64_max_absolute_error_after_single_reference_conversion", float("inf"))
+        > config["exact_cpu_float_error_bound"]
+    ):
         raise ValueError("exact CPU control did not close")
     comparison = document.get("gpu_cpu_comparison", {})
-    if comparison.get("within_bounds") is not True or comparison.get("violating_point_count") != 0:
+    error_bounds = config["gpu_cpu_error_bounds"]
+    if (
+        comparison.get("comparison_count") != unique_pairs
+        or comparison.get("absolute_error_bound") != error_bounds["absolute"]
+        or comparison.get("relative_error_bound") != error_bounds["relative"]
+        or comparison.get("relative_floor") != error_bounds["relative_floor"]
+        or comparison.get("max_absolute_error", float("inf")) > error_bounds["absolute"]
+        or comparison.get("max_relative_error", float("inf")) > error_bounds["relative"]
+        or comparison.get("within_bounds") is not True
+        or comparison.get("violating_point_count") != 0
+    ):
         raise ValueError("GPU/CPU comparison did not close")
+    numeric_control = {
+        "exact_cpu_control": exact,
+        "gpu_cpu_comparison": comparison,
+    }
+    if _sha(numeric_control) != config["expected_numeric_control_sha256"]:
+        raise ValueError("GPU stress numeric control binding mismatch")
+    runtime = document.get("runtime_measurement", {})
+    if runtime.get("timing_scope") != (
+        "single measured local run; not deterministic and not a sustained-capacity guarantee"
+    ):
+        raise ValueError("GPU stress runtime scope mismatch")
+    utilization = runtime.get("utilization", {})
+    if utilization.get("counter_scope") != (
+        "device-wide NVML samples during measured synchronized GPU repetitions; counters can "
+        "include concurrent processes and are not a continuous or lane-only utilization claim"
+    ):
+        raise ValueError("GPU stress utilization scope mismatch")
+    if utilization.get("available") is True and (
+        not isinstance(utilization.get("sample_count"), int)
+        or utilization["sample_count"] <= 0
+        or not 0 <= utilization.get("gpu_percent_mean", -1) <= 100
+        or not 0 <= utilization.get("gpu_percent_max", -1) <= 100
+        or not 0 <= utilization.get("memory_percent_mean", -1) <= 100
+        or not 0 <= utilization.get("memory_percent_max", -1) <= 100
+    ):
+        raise ValueError("GPU stress utilization accounting mismatch")
     bindings = document.get("source_bindings", {})
     expected = {
         "metric_variation_artifact": config["metric_variation_artifact"]["path"],

@@ -73,6 +73,39 @@ def test_content_manifest_and_seal_tampering_fail_closed() -> None:
         validate_campaign(tampered, CONFIG)
 
 
+def _rehash(document: dict) -> None:
+    body = {key: value for key, value in document.items() if key != "content_sha256"}
+    canonical = json.dumps(body, sort_keys=True, separators=(",", ":"), ensure_ascii=True)
+    document["content_sha256"] = hashlib.sha256(canonical.encode("ascii")).hexdigest()
+
+
+@pytest.mark.parametrize(
+    ("mutation", "message"),
+    (
+        (lambda row: row["counts"].__setitem__("unique_candidate_point_pairs", 1), "counter"),
+        (lambda row: row["exact_cpu_control"].__setitem__("error_bound", 1.0), "CPU control"),
+        (
+            lambda row: row["gpu_cpu_comparison"].__setitem__("max_absolute_error", 0.0),
+            "numeric control",
+        ),
+        (
+            lambda row: row["runtime_measurement"]["utilization"].__setitem__(
+                "counter_scope", "lane-only"
+            ),
+            "utilization scope",
+        ),
+    ),
+)
+def test_rehashed_accounting_numeric_and_scope_tampering_fails_closed(
+    mutation, message: str
+) -> None:
+    tampered = copy.deepcopy(_load(ARTIFACT))
+    mutation(tampered)
+    _rehash(tampered)
+    with pytest.raises(ValueError, match=message):
+        validate_campaign(tampered, CONFIG)
+
+
 def test_host_paths_and_secret_markers_are_absent() -> None:
     text = ARTIFACT.read_text(encoding="utf-8")
     lowered = text.lower()

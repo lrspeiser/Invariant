@@ -1073,7 +1073,7 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                     "within_bounds": True,
                 },
                 "runtime_measurement": {
-                    "cpu_full_projection_wall_seconds": 0.012065799965057522,
+                    "cpu_full_projection_wall_seconds": 0.011667799961287528,
                     "device": {
                         "backend": "cupy_cuda",
                         "compute_capability": "12.0",
@@ -1085,9 +1085,9 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                     },
                     "gpu_allocated_input_bytes": 4478616,
                     "gpu_allocated_output_bytes": 42729472,
-                    "gpu_candidate_formula_evaluations_per_second": 14422239577.99339,
-                    "gpu_measured_wall_seconds": 6.067709399969317,
-                    "measured_utc": "2026-08-11T14:03:18.757481+00:00",
+                    "gpu_candidate_formula_evaluations_per_second": 17790117991.44622,
+                    "gpu_measured_wall_seconds": 4.919020700035617,
+                    "measured_utc": "2026-08-11T14:17:39.990252+00:00",
                     "timing_scope": (
                         "single measured local run; not deterministic and not a sustained-capacity guarantee"
                     ),
@@ -1099,12 +1099,12 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                             "lane-only utilization claim"
                         ),
                         "gpu_percent_max": 99,
-                        "gpu_percent_mean": 97.21989528795811,
-                        "memory_percent_max": 25,
-                        "memory_percent_mean": 13.87434554973822,
-                        "memory_used_mib_max": 7943,
-                        "power_watts_max": 333.419,
-                        "sample_count": 191,
+                        "gpu_percent_mean": 92.25806451612904,
+                        "memory_percent_max": 9,
+                        "memory_percent_mean": 8.503225806451614,
+                        "memory_used_mib_max": 2949,
+                        "power_watts_max": 213.968,
+                        "sample_count": 155,
                         "sample_interval_seconds": 0.02,
                     },
                 },

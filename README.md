@@ -526,7 +526,7 @@ The new candidate-bound formula stress lane drives the same RTX 5090 much harder
 work: all 163 materialized Euler projections were checked on 5,341,184 deterministic synthetic
 candidate-point pairs against CPU evaluation, with 5,216 additional exact-rational sentinels and zero
 registered error-bound violations. A single measured throughput loop evaluated 87,509,958,656
-candidate-formula pairs in 6.068 seconds (14.42 billion/s); device-wide NVML averaged 97.22%, but can
+candidate-formula pairs in 4.919 seconds (17.79 billion/s); device-wide NVML averaged 92.26%, but can
 include concurrent processes and is not a lane-only or sustained-capacity claim. These coordinates are
 synthetic operator inputs, not necessarily realizable field jets or observations, so the run proves
 backend agreement and throughput only—no field equation, formal pass, ranking, rejection, dark-sector

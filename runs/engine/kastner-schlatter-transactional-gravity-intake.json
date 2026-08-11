@@ -1,0 +1,414 @@
+{
+  "schema_version": "sigma-kastner-schlatter-transactional-gravity-intake-1.0",
+  "campaign_id": "kastner-schlatter-transactional-gravity-intake-001",
+  "primary_source": {
+    "arxiv_id": "2209.04025",
+    "version": "v1",
+    "title": "Gravity from Transactions: Fulfilling the Entropic Gravity Program",
+    "authors": [
+      "A. Schlatter",
+      "R. E. Kastner"
+    ],
+    "abstract_url": "https://arxiv.org/abs/2209.04025",
+    "pdf_url": "https://arxiv.org/pdf/2209.04025v1",
+    "pdf_sha256": "c2f671293d07b21397e745da00a3ce1a2193c00da647a2ebf4147612b76c1780",
+    "page_count": 16
+  },
+  "source_binding": {
+    "official_pdf_sha256": "c2f671293d07b21397e745da00a3ce1a2193c00da647a2ebf4147612b76c1780",
+    "config_path": "configs/kastner_schlatter_transactional_gravity_intake.json",
+    "config_file_sha256": "7bcc4090542eae30650a805139b2705acc7249f29f6a996d7f4b091d6bf6d577",
+    "implementation_path": "src/sigma_theory_compiler/kastner_schlatter_transactional_gravity_intake.py",
+    "implementation_file_sha256": "e61ce31eed25d4e9c29be1c12f4da3bd0b74ceb17c9d14809096c49ee6cea7de"
+  },
+  "action_contract": {
+    "contract_kind": "equation_only_proposal_intake",
+    "fundamental_action": null,
+    "field_content_closed": false,
+    "variational_principle_registered": false,
+    "euler_lagrange_map_registered": false,
+    "boundary_terms_registered": false,
+    "candidate_action_hash": null
+  },
+  "formula_contracts": [
+    {
+      "contract_id": "transaction_poisson_rate_and_pressure",
+      "paper_pages": [
+        9
+      ],
+      "paper_equations": [
+        33,
+        34
+      ],
+      "paper_statement": "Transaction counts are asserted to follow a Poisson stochastic process; a constant average rate q_gamma is transactions per four-volume.",
+      "equations_latex": [
+        "\\bar\\lambda(x_0)=\\lim_{R\\to0}N_R(x_0)/V_R",
+        "\\Delta\\bar\\lambda/\\Delta x_0=q_\\gamma",
+        "\\bar P_\\gamma=-c h q_\\gamma"
+      ],
+      "classification": "paper_proposal_with_qed_and_lorentz_invariance_assertions",
+      "assumptions": [
+        "constant average transaction rate",
+        "rate is measured per four-volume",
+        "small-volume and finite-difference limits in equation 33 exist",
+        "the paper's cited Poisson/Lorentz-invariance premise applies",
+        "smallest wavelength compatible with the time-energy inequality"
+      ],
+      "not_claimed": [
+        "a microscopic rate derived from a registered action",
+        "independence or stationarity beyond the stated constant-rate model"
+      ]
+    },
+    {
+      "contract_id": "standard_poisson_cuda_reference",
+      "paper_pages": [
+        9
+      ],
+      "paper_equations": [],
+      "equations_latex": [
+        "p(n\\mid\\mu)=e^{-\\mu}\\mu^n/n!"
+      ],
+      "classification": "standard_implementation_of_paper_poisson_assertion_not_printed_equation",
+      "assumptions": [
+        "mu >= 0",
+        "n is a nonnegative integer"
+      ],
+      "not_claimed": [
+        "the paper explicitly prints this PMF"
+      ]
+    },
+    {
+      "contract_id": "transaction_cosmological_term",
+      "paper_pages": [
+        9,
+        10
+      ],
+      "paper_equations": [
+        35,
+        36
+      ],
+      "equations_latex": [
+        "\\Lambda=-(4\\pi G/c^4)\\bar P_\\gamma=(4\\pi G h/c^3)q_\\gamma=4\\pi^2l_P^2q_\\gamma",
+        "R_{00}+\\Lambda\\delta_{00}=(4\\pi G/c^4)T_{00}"
+      ],
+      "classification": "paper_derived_identification_with_explicit_premises",
+      "assumptions": [
+        "the same page states l_P^2=G\\hbar/c^3",
+        "repulsive pressure sign convention",
+        "homogeneous energy distribution near the origin"
+      ],
+      "normalization_note": "The printed final equality needs clarification: with h=2*pi*hbar and l_P^2=G*hbar/c^3, its middle expression is 8*pi^2*l_P^2*q_gamma, not the printed 4*pi^2*l_P^2*q_gamma.",
+      "not_claimed": [
+        "a measured value of Lambda",
+        "dark-energy elimination",
+        "cosmological perturbation equivalence"
+      ]
+    },
+    {
+      "contract_id": "einstein_trace_reversed_recovery_scope",
+      "paper_pages": [
+        9,
+        10
+      ],
+      "paper_equations": [
+        38,
+        39
+      ],
+      "equations_latex": [
+        "R_{00}+\\Lambda\\delta_{00}=(8\\pi G/c^4)(T_{00}-T\\delta_{00}/2)",
+        "R_{\\mu\\nu}+\\Lambda g_{\\mu\\nu}=(8\\pi G/c^4)(T_{\\mu\\nu}-Tg_{\\mu\\nu}/2)"
+      ],
+      "classification": "paper_successive_generalization_not_action_equivalence_proof",
+      "assumptions": [
+        "local inertial/geodesic-normal coordinates around each point",
+        "small ball of test systems and local volume-acceleration relation",
+        "initial-rest calculation followed by local-rest-frame transformation",
+        "known tensor transformation rules",
+        "equation 38 holds in every local inertial frame around every point"
+      ],
+      "not_claimed": [
+        "a covariant fundamental action",
+        "Euler-Lagrange recovery",
+        "global existence or boundary terms",
+        "formal equivalence to general relativity"
+      ]
+    },
+    {
+      "contract_id": "schwarzschild_de_sitter_background",
+      "paper_pages": [
+        11
+      ],
+      "paper_equations": [
+        42,
+        44,
+        45
+      ],
+      "equations_latex": [
+        "ds^2=f(r)c^2dt^2-f(r)^{-1}dr^2-r^2d\\Omega^2",
+        "f(r)=1-r^2/R_0^2-R_S/r",
+        "R_0=\\sqrt{3/\\Lambda},\\quad R_S=2GM/c^2",
+        "a_\\infty=cH_0=c^2/R_0=c^2\\sqrt{\\Lambda/3},\\quad a_0=a_\\infty/2",
+        "a(r)=(r/R_0)a_0"
+      ],
+      "classification": "standard_solution_plus_paper_interpretive_use",
+      "assumptions": [
+        "static Schwarzschild-de Sitter chart",
+        "the paper labels a(r) hypothetical in empty de Sitter space",
+        "transactional interpretation denies physical pure-vacuum spacetime"
+      ],
+      "not_claimed": [
+        "global chart coverage",
+        "transactional ontology validation"
+      ]
+    },
+    {
+      "contract_id": "sds_effective_entropy_quadratic",
+      "paper_pages": [
+        13
+      ],
+      "paper_equations": [
+        55,
+        59,
+        60
+      ],
+      "equations_latex": [
+        "\\bar S_{dS}(r)=S_{dS}(r)+\\Delta S_{dS}(r)",
+        "(\\bar a^2/a_0)S-\\bar a|\\Delta S_{dS}|-gS=0",
+        "\\bar a=(a_0/2)(|\\Delta S_{dS}|/S+\\sqrt{(|\\Delta S_{dS}|/S)^2+4g/a_0})"
+      ],
+      "classification": "paper_proposed_observer_consistency_relation",
+      "assumptions": [
+        "first-order weak-potential entropy change",
+        "r is at or above the limit radius",
+        "local clock/entropy products for two observers are equated",
+        "effective entropy is positive"
+      ],
+      "not_claimed": [
+        "derivation from a fundamental action",
+        "unique relativistic completion"
+      ]
+    },
+    {
+      "contract_id": "sds_mond_galaxy_relation",
+      "paper_pages": [
+        14,
+        15
+      ],
+      "paper_equations": [
+        62,
+        65,
+        68,
+        69
+      ],
+      "equations_latex": [
+        "\\bar a(r)=a_0|\\Phi(r)|(1+\\sqrt{1+c^4/(MGa_0)})",
+        "r>r_0=\\sqrt{MG/a_0}",
+        "\\bar a(r)\\approx\\sqrt{MGa_0}/r",
+        "v^2=\\sqrt{MGa_0}"
+      ],
+      "classification": "paper_approximation_and_interpretive_mond_identification",
+      "assumptions": [
+        "|\\Phi|\\ll1 and the paper's first-order entropy construction",
+        "r>r_0 and |\\Phi|a_0\\ll1",
+        "|\\Phi|=MG/(c^2r)",
+        "\\bar a=v^2/r for circular motion"
+      ],
+      "not_claimed": [
+        "galaxy-data likelihood pass",
+        "lensing or cluster agreement",
+        "dark-matter elimination"
+      ]
+    },
+    {
+      "contract_id": "action_and_validation_absence_contract",
+      "paper_pages": [
+        15
+      ],
+      "paper_equations": [],
+      "equations_latex": [],
+      "classification": "fail_closed_intake_boundary",
+      "assumptions": [],
+      "not_claimed": [
+        "fundamental action",
+        "formal GR equivalence",
+        "dark-matter elimination",
+        "dark-energy elimination",
+        "observational pass",
+        "theory validity"
+      ]
+    }
+  ],
+  "synthetic_checks": [
+    {
+      "check_id": "poisson_float64_recurrence",
+      "status": "pass",
+      "scope": "synthetic_numeric_implementation_only",
+      "vectors": [
+        {
+          "mu": "1/4",
+          "p_n_float64": [
+            "0.77880078307140488",
+            "0.19470019576785122",
+            "0.024337524470981402",
+            "0.0020281270392484502",
+            "0.00012675793995302814",
+            "6.3378969976514072e-06",
+            "2.640790415688086e-07",
+            "9.4313943417431652e-09",
+            "2.9473107317947391e-10"
+          ],
+          "truncated_mass": "0.99999999999160361"
+        },
+        {
+          "mu": "2",
+          "p_n_float64": [
+            "0.1353352832366127",
+            "0.2706705664732254",
+            "0.2706705664732254",
+            "0.18044704431548361",
+            "0.090223522157741806",
+            "0.036089408863096722",
+            "0.012029802954365574",
+            "0.0034370865583901638",
+            "0.00085927163959754094"
+          ],
+          "truncated_mass": "0.99976255267173897"
+        },
+        {
+          "mu": "7/2",
+          "p_n_float64": [
+            "0.030197383422318501",
+            "0.10569084197811475",
+            "0.18495897346170082",
+            "0.21578546903865095",
+            "0.18881228540881959",
+            "0.13216859978617371",
+            "0.077098349875267994",
+            "0.038549174937633997",
+            "0.016865264035214874"
+          ],
+          "truncated_mass": "0.99012634194389515"
+        }
+      ]
+    },
+    {
+      "check_id": "poisson_symbolic_mean_variance",
+      "status": "pass",
+      "scope": "standard_poisson_contract_not_paper_printed_equation",
+      "mean_residual": "0",
+      "variance_residual": "0"
+    },
+    {
+      "check_id": "transaction_pressure_lambda_identity",
+      "status": "block",
+      "scope": "equation_34_35_algebra_and_same_page_planck_length_normalization",
+      "pressure_to_middle_exact_residual": "0",
+      "printed_chain_exact_residual": "4*pi**2*l_P**2*q",
+      "first_missing_premise": "equation_35_h_vs_hbar_factor_normalization_clarification",
+      "vectors": [
+        {
+          "q_gamma": "0",
+          "normalized_pressure_c_equals_h_equals_1": "0",
+          "normalized_lambda_lP_equals_1": "0"
+        },
+        {
+          "q_gamma": "1/8",
+          "normalized_pressure_c_equals_h_equals_1": "-1/8",
+          "normalized_lambda_lP_equals_1": "4.934802200544679"
+        },
+        {
+          "q_gamma": "3/2",
+          "normalized_pressure_c_equals_h_equals_1": "-3/2",
+          "normalized_lambda_lP_equals_1": "59.217626406536148"
+        }
+      ]
+    },
+    {
+      "check_id": "einstein_trace_reversal_four_dimensions",
+      "status": "pass",
+      "scope": "tensor_algebra_only_not_derivation_or_equivalence_proof",
+      "rhs_trace_coefficient": "-1",
+      "exact_residual": "0"
+    },
+    {
+      "check_id": "sds_entropy_quadratic_positive_root",
+      "status": "pass",
+      "scope": "equation_59_60_algebra_only",
+      "positive_root": "5/3 + sqrt(151)/3",
+      "exact_residual": "0"
+    },
+    {
+      "check_id": "sds_mond_main_formula_normalized",
+      "status": "pass",
+      "scope": "equation_62_synthetic_evaluation_only",
+      "exact_value": "1/2 + sqrt(2)/2",
+      "float64_reference": "1.2071067811865475"
+    },
+    {
+      "check_id": "mond_circular_velocity_relation",
+      "status": "pass",
+      "scope": "equation_68_69_algebra_only",
+      "exact_v_squared": "sqrt(G)*sqrt(M)*sqrt(a_0)",
+      "exact_v_fourth": "G*M*a_0"
+    },
+    {
+      "check_id": "negative_control_wrong_quadratic_branch",
+      "status": "pass",
+      "scope": "deterministic_negative_control",
+      "mutation_rejected": true,
+      "exact_residual": "50/3 + 10*sqrt(151)/3"
+    }
+  ],
+  "synthetic_preflight_counts": {
+    "pass": 7,
+    "reject": 0,
+    "block": 1
+  },
+  "cuda_handoff_contract": {
+    "ready_for_later_execution": true,
+    "execution_performed": false,
+    "numeric_type": "IEEE-754 binary64",
+    "kernels": [
+      "poisson_pmf_and_recurrence",
+      "transaction_pressure_and_lambda",
+      "sds_entropy_quadratic_positive_root",
+      "sds_mond_equation_62",
+      "mond_circular_velocity"
+    ],
+    "domain_guards": [
+      "mu>=0 and integer n>=0",
+      "q_gamma>=0",
+      "a0>0, S>0, g>=0, |DeltaS_dS|>=0",
+      "M>0, G>0, c>0, r>r0"
+    ],
+    "blocked_constant_normalization": "equation 35 h-versus-hbar factor requires clarification before using its final Lambda normalization",
+    "reference_vectors_sha256": "dba6447f06cacb400d950dbca3a068999ba9bdfdb2106d325a5bc25096c82d30"
+  },
+  "decision": "blocked",
+  "first_blocker": "no_candidate_bound_fundamental_action_or_complete_variational_field_system",
+  "remaining_missing_premises": [
+    "no_candidate_bound_fundamental_action_or_complete_variational_field_system",
+    "no_formal_transaction_process_to_lorentzian_continuum_derivation",
+    "einstein_recovery_uses_local_and_transformation_assumptions_not_a_variational_proof",
+    "no_candidate_bound_perturbation_initial_boundary_value_or_global_completion",
+    "no_registered_galaxy_lensing_cluster_or_cosmology_likelihood"
+  ],
+  "claim_seals": {
+    "fundamental_action_registered": false,
+    "formal_gr_equivalence_proven": false,
+    "dark_matter_elimination_proven": false,
+    "dark_energy_elimination_proven": false,
+    "observational_pass": false,
+    "theory_validity_claimed": false,
+    "cuda_execution_performed": false,
+    "automatic_downstream_enqueue_performed": false
+  },
+  "data_seals": {
+    "observational_data_opened": false,
+    "dark_matter_or_halo_data_opened": false,
+    "redshift_or_cosmology_data_opened": false,
+    "solar_system_data_opened": false
+  },
+  "external_paid_llm_calls": false,
+  "content_sha256": "560caa71caacd5172ff170d6619f77c99b878c019431c5a1a82982db50117c37"
+}
