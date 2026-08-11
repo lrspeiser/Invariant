@@ -37,7 +37,7 @@ def rebuilt(config: dict) -> dict:
 @pytest.fixture(scope="module")
 def export_records() -> dict[str, dict]:
     export = json.loads(
-        (ROOT / "runs" / "engine" / "scalable-formal-candidate-evidence-export.json").read_text(
+        (ROOT / "runs" / "engine" / "scalable-formal-candidate-evidence-export-v1.1.json").read_text(
             encoding="utf-8"
         )
     )
@@ -53,7 +53,7 @@ def test_artifact_is_exact_rebuild(rebuilt: dict) -> None:
     body = {key: value for key, value in artifact.items() if key != "content_sha256"}
     assert artifact["content_sha256"] == _sha(body)
     assert hashlib.sha256(ARTIFACT_PATH.read_bytes()).hexdigest() == (
-        "a92be2b659c20a0f1016e3f65ff204cd9f10ec0a79ef09f131d0ef23783607c9"
+        "2b1552f679f35e6fe499a3650b7f4f27e7d5b3ec5ba181b63d8fbfd3a64d3033"
     )
 
 
@@ -66,17 +66,17 @@ def test_complete_candidate_and_hierarchy_accounting(rebuilt: dict) -> None:
         "CUBIC_HORNDESKI_G3_WEAK_CELL": 32,
         "KESSENCE_G2_CONVEX": 2,
     }
-    assert rebuilt["formal_decision_counts"] == {"blocked": 160, "pass": 1, "reject": 2}
+    assert rebuilt["formal_decision_counts"] == {"blocked": 158, "pass": 3, "reject": 2}
     assert rebuilt["hierarchy_node_status_counts"] == {
-        "blocked": 323,
+        "blocked": 321,
         "calibration_only": 163,
-        "proven": 164,
+        "proven": 166,
         "rejected": 2,
     }
     assert rebuilt["comparison_data_class_counts"] == {
         "aether_aligned_minkowski_principal_necessary_condition": 2,
-        "full_formal_action_evidence": 1,
-        "unranked_incomplete": 160,
+        "full_formal_action_evidence": 3,
+        "unranked_incomplete": 158,
     }
 
 
@@ -109,8 +109,8 @@ def test_blockers_rejections_and_formal_pass_keep_distinct_semantics(rebuilt: di
     }
     decisions = Counter(item["formal_decision"] for item in dossiers)
     statuses = Counter(node["status"] for node in formal_nodes.values())
-    assert decisions == Counter({"blocked": 160, "reject": 2, "pass": 1})
-    assert statuses == Counter({"blocked": 160, "rejected": 2, "proven": 1})
+    assert decisions == Counter({"blocked": 158, "pass": 3, "reject": 2})
+    assert statuses == Counter({"blocked": 158, "proven": 3, "rejected": 2})
     for dossier in dossiers:
         node = formal_nodes[dossier["candidate_id"]]
         if dossier["formal_decision"] == "blocked":
@@ -122,10 +122,26 @@ def test_blockers_rejections_and_formal_pass_keep_distinct_semantics(rebuilt: di
         )
         assert observation["status"] == "blocked"
 
-    g4 = next(item for item in dossiers if item["formal_decision"] == "pass")
+    g4 = next(
+        item
+        for item in dossiers
+        if item["family_id"] == "CONFORMAL_G4_PHI_SCALAR_TENSOR"
+    )
     assert g4["candidate_id"] == "G3A-e0eff4150989e3522dc6ba03"
     assert g4["preflight"]["decision"] == "blocked"
     assert formal_nodes[g4["candidate_id"]]["family_label_used_as_equivalence_evidence"] is False
+    g2 = [
+        item
+        for item in dossiers
+        if item["family_id"] == "KESSENCE_G2_CONVEX"
+    ]
+    assert len(g2) == 2
+    assert all(item["formal_decision"] == "pass" for item in g2)
+    assert all(
+        formal_nodes[item["candidate_id"]]["actual_initial_data_set_instantiated"]
+        is False
+        for item in g2
+    )
 
 
 def test_comparison_classes_and_calibration_boundaries_are_preserved(rebuilt: dict) -> None:

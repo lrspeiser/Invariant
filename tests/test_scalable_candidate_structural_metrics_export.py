@@ -51,7 +51,7 @@ def test_exact_population_alias_and_family_metrics(export: dict) -> None:
     assert export["parameter_cell_count"] == 256
     assert export["representative_exact_action_class_count"] == 163
     assert export["representative_exact_action_duplicate_count"] == 0
-    assert export["formal_decision_counts"] == {"blocked": 160, "pass": 1, "reject": 2}
+    assert export["formal_decision_counts"] == {"blocked": 158, "pass": 3, "reject": 2}
     assert export["structural_measurement_counts"] == {"measured": 163}
     assert export["family_counts"] == {
         "AETHER_K1234_PARAMETER_CELL": 128,
@@ -131,7 +131,7 @@ def test_blocked_formal_candidates_are_measured_without_validity_promotion(
         for record in export["candidate_records"]
         if record["formal_context"]["decision"] == "blocked"
     ]
-    assert len(blocked) == 160
+    assert len(blocked) == 158
     assert all(record["structural_evidence_status"] == "measured" for record in blocked)
     assert all(record["scientific_validity_inference"] is False for record in blocked)
     assert all(

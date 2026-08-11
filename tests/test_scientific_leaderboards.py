@@ -23,12 +23,14 @@ def test_category_local_rankings_keep_missing_evidence_unranked() -> None:
     formal = board["categories"]["formal_adm_dirac"]
     assert [row["candidate_id"] for row in formal["top10"]] == [
         "G3-f9c598b70a77ea54009d8f18",
+        "G3A-2f8983c88f504150381064f2",
+        "G3A-58e59412e5fe77cd54caf863",
         "G3A-e0eff4150989e3522dc6ba03",
     ]
     assert all(row["evidence_status"] == "pass" for row in formal["top10"])
     assert all(row["role"] == "generated_candidate" for row in formal["top10"])
     assert all(row["rank"] == 1 for row in formal["top10"])
-    assert formal["top10"][1]["metrics"]["alias_count"] == 31
+    assert formal["top10"][3]["metrics"]["alias_count"] == 31
     assert formal["completed_separate_class_count"] == 4
     separate_by_class = {
         row["data_class"]: row
@@ -65,7 +67,7 @@ def test_category_local_rankings_keep_missing_evidence_unranked() -> None:
         for row in formal["unranked_blocked_or_untested"]
         if row["lineage"]["source_label"] == "scalable_formal_candidates"
     ]
-    assert len(scalable_blocked) == 160
+    assert len(scalable_blocked) == 158
     assert all(row["evidence_status"] == "blocked" for row in scalable_blocked)
 
     solar = board["categories"]["solar_known_answer"]
@@ -162,7 +164,7 @@ def test_category_local_rankings_keep_missing_evidence_unranked() -> None:
         "6ddd6502d110ead90ff494a6569213ec2e61a0b046dfa86344bb1980df6abc90"
     )
     assert len(g4_formula["operator_terms"]) == 2
-    scalable_g4_formula = formal["top10"][1]["theory_formula"]
+    scalable_g4_formula = formal["top10"][3]["theory_formula"]
     assert scalable_g4_formula["title"] == "Conformal scalar–tensor gravity"
     assert scalable_g4_formula["action_content_sha256"] == (
         "7dd636e53f7cc161feabcb02b1f575bc1da3bd6b84033e870d2d9024c6cd5d21"
@@ -182,6 +184,16 @@ def test_category_local_rankings_keep_missing_evidence_unranked() -> None:
         "hierarchy_status_counts"
     ] == {"blocked": 1, "calibration_only": 1, "proven": 2}
     assert dossiers["G3A-e0eff4150989e3522dc6ba03"]["overall_status"] == "pass"
+    for candidate_id in (
+        "G3A-2f8983c88f504150381064f2",
+        "G3A-58e59412e5fe77cd54caf863",
+    ):
+        assert dossiers[candidate_id]["overall_status"] == "pass"
+        assert dossiers[candidate_id]["hierarchy_status_counts"] == {
+            "blocked": 1,
+            "calibration_only": 1,
+            "proven": 2,
+        }
     assert dossiers["G3A-94a3650adaa71c7a9b91c854"][
         "hierarchy_status_counts"
     ] == {"blocked": 1, "calibration_only": 1, "proven": 1, "rejected": 1}

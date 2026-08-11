@@ -258,14 +258,14 @@ def validate_scalable_candidate_structural_metrics_export(
         aliases += int(evidence["alias_count"])
         formal[record["formal_context"]["decision"]] += 1
     if aliases != 93 or dict(sorted(formal.items())) != {
-        "blocked": 160,
-        "pass": 1,
+        "blocked": 158,
+        "pass": 3,
         "reject": 2,
     }:
         raise ValueError("structural metrics source accounting changed")
     if export.get("alias_count") != 93 or export.get("formal_decision_counts") != {
-        "blocked": 160,
-        "pass": 1,
+        "blocked": 158,
+        "pass": 3,
         "reject": 2,
     }:
         raise ValueError("structural metrics aggregate accounting changed")

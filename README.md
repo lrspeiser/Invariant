@@ -279,8 +279,13 @@ has run at that stage, so those results are formal-queue admissions rather than 
 claims. The first family-specific queue has now run both unique k-essence actions. Each passes the
 reviewed covariant variation, coupled ADM/Legendre, local Dirac pair, principal/common-cone,
 pointwise Hamiltonian, DEC, explicit asymptotically-flat contract, scalar-flux, and restricted
-maximal-slice positive-mass gates, but both remain blocked on a hash-bound general nonmaximal
-positive-mass theorem. Full formal passes remain zero for this two-candidate family.
+maximal-slice positive-mass gates. A subsequent candidate-specific theorem application now closes
+the general nonmaximal positive-mass premise for both actions on the explicit complete,
+boundaryless, asymptotically-Euclidean Einstein--G2 constraint-data domain, including the exact
+dominant-energy, ADM-charge, integrability, and scalar-boundary conditions. Both actions therefore
+pass this formal category. The claim is conditional on initial data satisfying that contract;
+existence, evolution and cell preservation, nonlinear stability, Solar tests, and observations are
+not inferred.
 The 128-action Aether queue has also completed its exact necessary formal gate. Two actions are
 rejected because `c123=0` gives zero spin-0 speed squared. Of the other 126, 79 have finite negative
 static local twist-density witnesses whose full constraint/boundary-energy embedding is unproved,
@@ -300,7 +305,7 @@ the candidate, manifest, lineage, and declared domain metadata differ, but an ex
 identical covariant operator densities, parameters, fields, and universal matter coupling. All 32
 parameter-cell domains are rational subsets of the reviewed `abs(phi)<=1` domain, so the reviewed
 non-unitary-gauge formal pass transfers without using the family label as evidence. The scalable
-163-action ledger is therefore one formal pass, two exact Aether rejects, and 160 blocked candidates;
+163-action ledger is therefore three formal passes, two exact Aether rejects, and 158 blocked candidates;
 Solar and observational promotion remain sealed.
 An immutable evidence bridge now ingests the six compilation results plus the Aether, `G2`, `G3`,
 and conformal-`G4` prerequisite packets into an isolated knowledge registry. It preserves candidate/action/source
@@ -349,17 +354,18 @@ equations, constraints, predictions, and certificates are therefore visible with
 misrepresented as additional fitted pieces of the theory.
 The leaderboard now ingests an immutable per-candidate export for the full scalable grammar lane:
 163 unique action IDs, 93 exact aliases, and exact formula inputs reconstructed from the typed
-action IR rather than family labels. Its formal ledger is one G4 pass, two decisive Aether rejects,
-and 160 blocked candidates. The blocked rows remain `rank=None`; the Aether necessary-condition
+action IR rather than family labels. Its formal ledger is one G4 pass, two conditional-domain G2
+passes, two decisive Aether rejects, and 158 blocked candidates. The blocked rows remain `rank=None`; the Aether necessary-condition
 rejects receive ranks only inside their own comparison class, while the action-level G4 pass joins
-the reviewed G4 pass in the primary formal table. Those density-equivalent formal passes share a
+the reviewed G4 pass and the two G2 formal passes in the primary formal table. These completed
+formal-action rows share a
 rank; raw gate counts from different evaluator schemas are never compared. Known-answer calibration
 and generated negative controls remain separate classes. No scalar truth score or cross-class metric
 is introduced.
 All 163 scalable actions now also have exact formula-structure measurements and immutable
 candidate-specific explanation dossiers. Simplicity and parameter-cell alias multiplicity receive
 their own tied top-10 tables and a two-action structural Pareto front; these measurements remain
-independent of the one-pass/two-reject/160-blocked formal ledger and make no literature-novelty or
+independent of the three-pass/two-reject/158-blocked formal ledger and make no literature-novelty or
 scientific-validity claim. Each explanation keeps the defining action, formal evidence, control
 boundary, and still-sealed observational evidence as distinct proof nodes.
 A separate restart-safe formal-to-Solar boundary service now verifies the G4 formal pass and its
@@ -1079,9 +1085,15 @@ three-index `deltaK_basis` tensor contracted with `e10^T E_v^T P55^k`, and the
 reference-subtracted source uses the exact integral identity
 `d1(F(Y)-F(0)-DF(0)Y)=int_0^1 D2F(theta Y)[Y,d1Y] dtheta`. Exact H7-to-W2-infinity constants and
 the C9 `D2F` envelope give finite candidate-specific bounds for both the `F10` and Q-contracted
-source pieces. The next gate is to differentiate the variable `deltaK` extension inside CK1 and
-enumerate its P55/source commutators. Variable TC3 still needs `D_Y(P55 E_v Q)`, and TC5 in `H7`
-needs component `D2F` plus `H7` control of `J(C_Q)`. The next valid route must close those terms and
+source pieces. The affine variable-`deltaK` CK1 commutator ledger is now enumerated for all 153
+atoms and three spatial pencils. Exact covariant evolution-symbol ceilings composed with the
+coordinate-map `DJ` and `D2J` bounds give a coordinate `DP55` ceiling of `44382832` and a
+coordinate `D2P55` ceiling of `4844866700891`. This closes the tube-uniform affine-`deltaK` P55
+commutator remainder for all 12 candidates, including both nonzero chain-rule branches. The first
+remaining gate is a tube-uniform non-affine `deltaK(Y)` construction with first/second derivative
+bounds, Hermiticity, positivity, and the full Sylvester identity; the completed 11,781 reference
+Hessians do not prove that nonlinear convergence. Variable TC3 still needs `D_Y(P55 E_v Q)`, and
+TC5 in `H7` needs component `D2F` plus `H7` control of `J(C_Q)`. The next valid route must close those terms and
 extend the identity to the other high atoms, or use an honest derivative-loss theory. An `H8` state
 gives a quantitative conditional `H7` bound, but is not controlled by `H7` data and is not an
 autonomous cure.

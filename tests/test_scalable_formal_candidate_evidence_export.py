@@ -16,7 +16,9 @@ from sigma_theory_compiler.scalable_formal_candidate_evidence_export import (
 
 ROOT = Path(__file__).resolve().parents[1]
 CONFIG = ROOT / "configs" / "scalable_formal_candidate_evidence_export.json"
-ARTIFACT = ROOT / "runs" / "engine" / "scalable-formal-candidate-evidence-export.json"
+ARTIFACT = (
+    ROOT / "runs" / "engine" / "scalable-formal-candidate-evidence-export-v1.1.json"
+)
 
 
 def _load(path: Path) -> dict:
@@ -33,9 +35,9 @@ def test_exact_candidate_alias_and_final_decision_accounting(export: dict) -> No
     assert export["parameter_cell_count"] == 256
     assert export["candidate_count"] == 163
     assert export["alias_count"] == 93
-    assert export["final_decision_counts"] == {"blocked": 160, "pass": 1, "reject": 2}
-    assert export["formal_pass_count"] == 1
-    assert export["rank_eligible_count"] == 3
+    assert export["final_decision_counts"] == {"blocked": 158, "pass": 3, "reject": 2}
+    assert export["formal_pass_count"] == 3
+    assert export["rank_eligible_count"] == 5
     assert export["family_counts"] == {
         "AETHER_K1234_PARAMETER_CELL": {
             "candidate_count": 128,
@@ -54,7 +56,7 @@ def test_exact_candidate_alias_and_final_decision_accounting(export: dict) -> No
         },
         "KESSENCE_G2_CONVEX": {
             "candidate_count": 2,
-            "decision_counts": {"blocked": 2},
+            "decision_counts": {"pass": 2},
             "alias_count": 62,
         },
     }
@@ -98,16 +100,25 @@ def test_blocked_candidates_are_unranked_and_only_exact_rejects_are_eligible(
                 "spin_0_principal_speed_squared": "0",
             }
         else:
-            assert record["candidate_id"] == "G3A-e0eff4150989e3522dc6ba03"
-            assert record["preflight_decision"] == "blocked"
             assert board["rank_eligible"] is True
             assert board["comparison_data_class"] == "full_formal_action_evidence"
-            assert record["direct_metrics"] == {
-                "action_density_projection_equal": True,
-                "equivalent_parameter_cell_alias_count": 32,
-                "formal_pass_count": 1,
-            }
-    assert decisions == Counter({"blocked": 160, "reject": 2, "pass": 1})
+            if record["family_id"] == "CONFORMAL_G4_PHI_SCALAR_TENSOR":
+                assert record["candidate_id"] == "G3A-e0eff4150989e3522dc6ba03"
+                assert record["preflight_decision"] == "blocked"
+                assert record["direct_metrics"] == {
+                    "action_density_projection_equal": True,
+                    "equivalent_parameter_cell_alias_count": 32,
+                    "formal_pass_count": 1,
+                }
+            else:
+                assert record["family_id"] == "KESSENCE_G2_CONVEX"
+                assert record["preflight_decision"] == "pass"
+                assert record["direct_metrics"] == {
+                    "general_nonmaximal_positive_mass_theorem": True,
+                    "actual_initial_data_set_instantiated": False,
+                    "cell_preservation_or_global_evolution_proved": False,
+                }
+    assert decisions == Counter({"blocked": 158, "pass": 3, "reject": 2})
 
 
 def test_candidate_metrics_are_directly_provenanced_and_never_aggregate(export: dict) -> None:
@@ -122,11 +133,11 @@ def test_candidate_metrics_are_directly_provenanced_and_never_aggregate(export: 
         assert record["direct_metrics"] == {}
         assert record["metric_source_sha256"] is None
         assert record["leaderboard_contract"]["rank_eligible"] is False
-    assert all(
-        record["direct_metrics"] == {}
-        for record in records
-        if record["family_id"] == "KESSENCE_G2_CONVEX"
-    )
+    g2 = [
+        record for record in records if record["family_id"] == "KESSENCE_G2_CONVEX"
+    ]
+    assert len(g2) == 2
+    assert all(record["metric_source_sha256"] for record in g2)
 
 
 def test_validator_rejects_blocked_scoring_aggregate_metrics_and_record_tamper(
@@ -181,6 +192,11 @@ def test_binding_budget_and_data_tamper_fail_closed(tmp_path: Path) -> None:
     g4_binding["g4_followup"]["content_sha256"] = "0" * 64
     with pytest.raises(ValueError, match="content hash mismatch"):
         build_scalable_formal_candidate_evidence_export(g4_binding, ROOT)
+
+    g2_binding = _load(CONFIG)
+    g2_binding["g2_followup"]["content_sha256"] = "0" * 64
+    with pytest.raises(ValueError, match="content hash mismatch"):
+        build_scalable_formal_candidate_evidence_export(g2_binding, ROOT)
 
     opened = _load(CONFIG)
     opened["data_eligibility"]["observational_data_opened"] = True

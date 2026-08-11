@@ -27,6 +27,8 @@ SOURCE_PATHS = [
     "runs/engine/grammar-v3-formal-preflight-status.json",
     "runs/engine/grammar-v3-promotion-admission-status.json",
     "runs/engine/grammar-v3-g2-candidate-formal-status.json",
+    "runs/engine/g2-scalable-nonmaximal-positive-mass-audit.json",
+    "runs/engine/scalable-campaign-staged-epoch-status.json",
     "runs/engine/grammar-v3-g3-candidate-formal-status.json",
     "runs/engine/g4-scalable-action-formal-followup.json",
     "runs/engine/aether-parameter-cell-formal-gate-status.json",
@@ -64,6 +66,8 @@ LABELS = [
     "grammar_v3_formal_preflight",
     "grammar_v3_promotion_admission",
     "grammar_v3_g2_candidate_formal",
+    "grammar_v3_g2_nonmaximal_positive_mass_followup",
+    "scalable_campaign_epoch",
     "grammar_v3_g3_candidate_formal",
     "grammar_v3_g4_scalable_formal_followup",
     "grammar_v3_aether_candidate_formal",
@@ -463,14 +467,14 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
         "task_state_counts": {"succeeded": 6},
     }
     assert core["grammar_parameter_cells"]["scalable_unique_action_formal_outcomes"] == {
-        "pass": 1,
+        "pass": 3,
         "reject": 2,
-        "block": 160,
+        "block": 158,
     }
     assert core["grammar_parameter_cells"]["scalable_admitted_family_formal_outcomes"] == {
-        "pass": 0,
+        "pass": 2,
         "reject": 2,
-        "block": 160,
+        "block": 158,
     }
     assert core["grammar_parameter_cells"]["scalable_preflight_blocked_excluded_count"] == 1
     assert core["grammar_parameter_cells"][
@@ -501,8 +505,8 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     assert structural["alias_count"] == 93
     assert structural["measurement_counts"] == {"measured": 163}
     assert structural["formal_decision_counts"] == {
-        "blocked": 160,
-        "pass": 1,
+        "blocked": 158,
+        "pass": 3,
         "reject": 2,
     }
     assert structural["simplicity_pareto_front"]["candidate_ids"] == [
@@ -514,14 +518,14 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     assert explanations["candidate_count"] == 163
     assert explanations["alias_count"] == 93
     assert explanations["formal_decision_counts"] == {
-        "blocked": 160,
-        "pass": 1,
+        "blocked": 158,
+        "pass": 3,
         "reject": 2,
     }
     assert explanations["hierarchy_node_status_counts"] == {
-        "blocked": 323,
+        "blocked": 321,
         "calibration_only": 163,
-        "proven": 164,
+        "proven": 166,
         "rejected": 2,
     }
     assert explanations["observational_data_opened"] is False
@@ -578,12 +582,16 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                         },
                     },
                     "g2": {
-                        "blocker_counts": {
+                        "predecessor_blocker_counts": {
                             "hash_bound_general_nonmaximal_positive_mass_theorem": 2
                         },
                         "candidate_count": 2,
-                        "decision_counts": {"blocked": 2},
-                        "full_formal_pass_count": 0,
+                        "predecessor_decision_counts": {"blocked": 2},
+                        "decision_counts": {"pass": 2},
+                        "full_formal_pass_count": 2,
+                        "general_nonmaximal_positive_mass_pass_count": 2,
+                        "actual_initial_data_set_instantiated": False,
+                        "cell_preservation_or_global_evolution_proved": False,
                         "work_state_counts": {"succeeded": 2},
                     },
                     "g3": {
@@ -701,7 +709,8 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "How to read a candidate theory" in dashboard
     assert "compact master formula" in dashboard
     assert "G3A-e0eff4150989e3522dc6ba03" in dashboard
-    assert "current exact formal tally is 1 pass, 2 reject, and 160 blocked" in dashboard
+    assert "current exact formal tally is 3 pass, 2 reject, and 158 blocked" in dashboard
+    assert "G2 formal passes" in dashboard
     assert "No full formal pass is inferred" not in dashboard
     assert "class #1" in dashboard
     assert "g4_global_positive_energy: 1" not in dashboard

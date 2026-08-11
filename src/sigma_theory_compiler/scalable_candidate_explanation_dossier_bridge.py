@@ -22,7 +22,10 @@ SOURCE_FAMILIES = {
         "AETHER_K1234_PARAMETER_CELL",
         "aether_status",
     ),
-    "grammar_v3_g2_candidate_formal": ("KESSENCE_G2_CONVEX", "g2_status"),
+    "g2_scalable_nonmaximal_positive_mass_audit": (
+        "KESSENCE_G2_CONVEX",
+        "g2_followup",
+    ),
     "grammar_v3_g3_candidate_formal": (
         "CUBIC_HORNDESKI_G3_WEAK_CELL",
         "g3_status",
@@ -95,6 +98,7 @@ def _validate_config(config: dict[str, Any]) -> None:
         "scalable_export",
         "aether_status",
         "g2_status",
+        "g2_followup",
         "g3_status",
         "g4_followup",
     }:
@@ -203,20 +207,37 @@ def _family_formal_context(
             "specialization_sha256": bound["specialization_sha256"],
             "reviewed_adapter_evidence": status["reviewed_formal_adapter_evidence"],
         }
-    elif source_key == "g2_status":
+    elif source_key == "g2_followup":
+        candidates = {
+            item["candidate_id"]: item for item in status.get("candidate_records", [])
+        }
+        bound = candidates.get(candidate_id)
         if (
             status.get("candidate_count") != 2
-            or status.get("decision_counts") != {"blocked": 2}
-            or record["final_decision"] != "blocked"
-            or record["blocker"] != "hash_bound_general_nonmaximal_positive_mass_theorem"
+            or status.get("decision_counts") != {"pass": 2}
+            or bound is None
+            or record["final_decision"] != "pass"
+            or record["blocker"] is not None
+            or bound.get("decision") != "pass"
+            or bound.get("typed_action_ir_sha256") != record["action_sha256"]
+            or bound.get("content_sha256") != record["result_sha256"]
+            or bound.get("previous_blocker_closed")
+            != "hash_bound_general_nonmaximal_positive_mass_theorem"
         ):
-            raise ValueError("G2 candidate formal binding changed")
+            raise ValueError("G2 nonmaximal positive-mass formal binding changed")
         context = {
-            "gate_summary_scope": "unanimous reviewed result across both exact G2 actions",
-            "unanimous_gate_outcomes": _unanimous_gate_summary(status, 2),
-            "candidate_result_sha256": record["result_sha256"],
-            "reviewed_adapter_registry_root_sha256": status[
-                "reviewed_adapter_registry_root_sha256"
+            "gate_summary_scope": (
+                "candidate-specific conditional nonmaximal positive-mass theorem on the "
+                "registered complete AE constraint domain"
+            ),
+            "candidate_gate_outcomes": dict(sorted(bound["gate_ledger"].items())),
+            "theorem_interface_sha256": status["theorem_interface_sha256"],
+            "nonmaximal_contract_sha256": status["nonmaximal_contract_sha256"],
+            "actual_initial_data_set_instantiated": bound[
+                "actual_initial_data_set_instantiated"
+            ],
+            "cell_preservation_or_global_evolution_proved": bound[
+                "cell_preservation_or_global_evolution_proved"
             ],
         }
     elif source_key == "g3_status":
@@ -381,7 +402,7 @@ def _validate_output(artifact: dict[str, Any], maximum_output_bytes: int) -> Non
         or len({item["candidate_id"] for item in dossiers}) != 163
         or artifact["candidate_count"] != 163
         or artifact["alias_count"] != 93
-        or artifact["formal_decision_counts"] != {"blocked": 160, "pass": 1, "reject": 2}
+        or artifact["formal_decision_counts"] != {"blocked": 158, "pass": 3, "reject": 2}
     ):
         raise ValueError("explanation dossier candidate accounting changed")
     for dossier in dossiers:

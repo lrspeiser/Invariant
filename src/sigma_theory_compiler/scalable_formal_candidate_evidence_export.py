@@ -12,6 +12,9 @@ from .aether_parameter_cell_formal_gate_campaign import (
     build_aether_parameter_cell_formal_gate_status,
 )
 from .covariant_grammar_v3_seed_compilation_campaign import _compile_action_ir
+from .g2_scalable_nonmaximal_positive_mass_audit import (
+    build_g2_scalable_nonmaximal_positive_mass_audit,
+)
 from .g4_scalable_action_formal_followup import build_g4_scalable_action_formal_followup
 from .grammar_v3_formal_preflight_service import GrammarV3FormalPreflightService
 from .grammar_v3_g2_candidate_formal_service import GrammarV3G2CandidateFormalService
@@ -22,8 +25,8 @@ from .grammar_v3_promotion_admission_service import GrammarV3PromotionAdmissionS
 from .persistent_parallel_search import WorkLease
 from .promotion_orchestrator import ELIGIBILITY
 
-CONFIG_SCHEMA = "sigma-scalable-formal-candidate-evidence-export-config-1.0"
-EXPORT_SCHEMA = "sigma-scalable-formal-candidate-evidence-export-1.0"
+CONFIG_SCHEMA = "sigma-scalable-formal-candidate-evidence-export-config-1.1"
+EXPORT_SCHEMA = "sigma-scalable-formal-candidate-evidence-export-1.1"
 RECORD_SCHEMA = "sigma-scalable-formal-candidate-evidence-record-1.0"
 RECORD_COLUMNS = (
     "candidate_id",
@@ -79,6 +82,8 @@ def _validate_config(config: dict[str, Any]) -> None:
         "aether_config",
         "g2_status",
         "g2_config",
+        "g2_followup",
+        "g2_followup_config",
         "g3_status",
         "g3_config",
         "g4_followup",
@@ -271,6 +276,7 @@ def _final_evidence(
     *,
     aether: dict[str, dict[str, Any]],
     g2_results: dict[str, dict[str, Any]],
+    g2_followup_by_id: dict[str, dict[str, Any]],
     g3_results: dict[str, dict[str, Any]],
     g3_evidence: dict[str, dict[str, Any]],
     g4_followup: dict[str, Any],
@@ -298,11 +304,34 @@ def _final_evidence(
         evidence_source = "aether_parameter_cell_formal_gate"
     elif family_id == "KESSENCE_G2_CONVEX":
         source = g2_results[candidate_id]
-        decision = source["decision"]
-        blocker = source["first_missing_premise"]
-        result_sha256 = source["content_sha256"]
-        gate_ledger = source["gate_ledger"]
-        evidence_source = "grammar_v3_g2_candidate_formal"
+        followup = g2_followup_by_id.get(candidate_id)
+        if (
+            source.get("decision") != "blocked"
+            or source.get("first_missing_premise")
+            != "hash_bound_general_nonmaximal_positive_mass_theorem"
+            or followup is None
+            or followup.get("decision") != "pass"
+            or followup.get("previous_blocker_closed")
+            != "hash_bound_general_nonmaximal_positive_mass_theorem"
+            or followup.get("lineage", {}).get("predecessor_result_sha256")
+            != source.get("content_sha256")
+        ):
+            raise ValueError("G2 nonmaximal positive-mass follow-up lineage changed")
+        decision = "pass"
+        blocker = None
+        result_sha256 = followup["content_sha256"]
+        gate_ledger = followup["gate_ledger"]
+        direct_metrics = {
+            "general_nonmaximal_positive_mass_theorem": True,
+            "actual_initial_data_set_instantiated": followup[
+                "actual_initial_data_set_instantiated"
+            ],
+            "cell_preservation_or_global_evolution_proved": followup[
+                "cell_preservation_or_global_evolution_proved"
+            ],
+        }
+        metric_source_sha256 = followup["theorem_application_sha256"]
+        evidence_source = "g2_scalable_nonmaximal_positive_mass_audit"
     elif family_id == "CUBIC_HORNDESKI_G3_WEAK_CELL":
         source = g3_results[candidate_id]
         if candidate_id not in g3_evidence:
@@ -428,6 +457,19 @@ def validate_scalable_formal_candidate_evidence_export(export: dict[str, Any]) -
         ):
             raise ValueError("candidate theory formula inputs or action hash changed")
         board = record["leaderboard_contract"]
+        metric_text = _canonical(record["direct_metrics"]).lower()
+        if any(
+            token in metric_text
+            for token in (
+                "aggregate",
+                "truth_score",
+                "overall_score",
+                "dark_matter",
+                "halo",
+                "redshift",
+            )
+        ):
+            raise ValueError("aggregate or forbidden metric entered candidate evidence")
         if record["final_decision"] == "blocked":
             if board != {
                 "rank": None,
@@ -454,42 +496,57 @@ def validate_scalable_formal_candidate_evidence_export(export: dict[str, Any]) -
                 raise ValueError("noncomparable or incomplete reject became rank eligible")
         elif record["final_decision"] == "pass":
             if (
-                record["candidate_id"] != "G3A-e0eff4150989e3522dc6ba03"
-                or record["action_sha256"]
-                != "7dd636e53f7cc161feabcb02b1f575bc1da3bd6b84033e870d2d9024c6cd5d21"
-                or record["preflight_decision"] != "blocked"
-                or board["comparison_data_class"] != "full_formal_action_evidence"
-                or set(record["direct_metrics"])
-                != {
-                    "action_density_projection_equal",
-                    "equivalent_parameter_cell_alias_count",
-                    "formal_pass_count",
-                }
+                board["comparison_data_class"] != "full_formal_action_evidence"
                 or record["metric_source_sha256"] is None
             ):
-                raise ValueError("G4 formal pass lineage or metrics changed")
+                raise ValueError("formal pass comparison class or provenance changed")
+            if record["family_id"] == "CONFORMAL_G4_PHI_SCALAR_TENSOR":
+                if (
+                    record["candidate_id"] != "G3A-e0eff4150989e3522dc6ba03"
+                    or record["action_sha256"]
+                    != "7dd636e53f7cc161feabcb02b1f575bc1da3bd6b84033e870d2d9024c6cd5d21"
+                    or record["preflight_decision"] != "blocked"
+                    or set(record["direct_metrics"])
+                    != {
+                        "action_density_projection_equal",
+                        "equivalent_parameter_cell_alias_count",
+                        "formal_pass_count",
+                    }
+                ):
+                    raise ValueError("G4 formal pass lineage or metrics changed")
+            elif record["family_id"] == "KESSENCE_G2_CONVEX":
+                if (
+                    record["candidate_id"]
+                    not in {
+                        "G3A-2f8983c88f504150381064f2",
+                        "G3A-58e59412e5fe77cd54caf863",
+                    }
+                    or record["preflight_decision"] != "pass"
+                    or set(record["direct_metrics"])
+                    != {
+                        "general_nonmaximal_positive_mass_theorem",
+                        "actual_initial_data_set_instantiated",
+                        "cell_preservation_or_global_evolution_proved",
+                    }
+                    or record["direct_metrics"]
+                    != {
+                        "general_nonmaximal_positive_mass_theorem": True,
+                        "actual_initial_data_set_instantiated": False,
+                        "cell_preservation_or_global_evolution_proved": False,
+                    }
+                ):
+                    raise ValueError("G2 formal pass lineage, scope, or metrics changed")
+            else:
+                raise ValueError("unreviewed scalable family entered formal pass state")
         else:
             raise ValueError("formal evidence export contains unknown decision")
-        metric_text = _canonical(record["direct_metrics"]).lower()
-        if any(
-            token in metric_text
-            for token in (
-                "aggregate",
-                "truth_score",
-                "overall_score",
-                "dark_matter",
-                "halo",
-                "redshift",
-            )
-        ):
-            raise ValueError("aggregate or forbidden metric entered candidate evidence")
         if record["direct_metrics"] and record["metric_source_sha256"] is None:
             raise ValueError("candidate metrics lack exact evidence provenance")
-    if dict(sorted(decisions.items())) != {"blocked": 160, "pass": 1, "reject": 2} or aliases != 93:
+    if dict(sorted(decisions.items())) != {"blocked": 158, "pass": 3, "reject": 2} or aliases != 93:
         raise ValueError("scalable formal evidence final accounting changed")
-    if export.get("final_decision_counts") != {"blocked": 160, "pass": 1, "reject": 2}:
+    if export.get("final_decision_counts") != {"blocked": 158, "pass": 3, "reject": 2}:
         raise ValueError("scalable formal evidence aggregate decision counts changed")
-    if export.get("formal_pass_count") != 1 or export.get("rank_eligible_count") != 3:
+    if export.get("formal_pass_count") != 3 or export.get("rank_eligible_count") != 5:
         raise ValueError("scalable formal evidence pass/rank contract changed")
     g4 = export.get("g4_followup_provenance", {})
     if g4 != {
@@ -497,6 +554,14 @@ def validate_scalable_formal_candidate_evidence_export(export: dict[str, Any]) -
         "binding_sha256": "c25eb1187844323a3db7a73f69615da25957eb7ba9049c9079e671ce48b6e370",
     }:
         raise ValueError("G4 formal follow-up provenance changed")
+    g2 = export.get("g2_followup_provenance", {})
+    if g2 != {
+        "content_sha256": "b7e85df56c81da473ead0ac0531b50195b2b41aa8d96798a252ccbbead5376d6",
+        "theorem_interface_sha256": "1820f51a70ddc2ea13be49771dd512136e134219fd5883e50a31b5332fd6cbd1",
+        "nonmaximal_contract_sha256": "689bb9e3c6c925de7ff86056b7b65f5f387a0088942836d7acaf8fc536bc4a6a",
+        "result_registry_root_sha256": "97918ac6f88a021bc5eec1a3fff1e46ffce9a697b158a1913ae3a0725061d997",
+    }:
+        raise ValueError("G2 nonmaximal positive-mass follow-up provenance changed")
     if export.get("data_eligibility") != {**ELIGIBILITY, "passed": True}:
         raise ValueError("scalable formal evidence export opened forbidden data")
 
@@ -518,6 +583,8 @@ def build_scalable_formal_candidate_evidence_export(
     aether_config = _bound_json(root, config, "aether_config")
     g2_status = _bound_json(root, config, "g2_status", content=True)
     g2_config = _bound_json(root, config, "g2_config")
+    g2_followup = _bound_json(root, config, "g2_followup", content=True)
+    g2_followup_config = _bound_json(root, config, "g2_followup_config")
     g3_status = _bound_json(root, config, "g3_status", content=True)
     g3_config = _bound_json(root, config, "g3_config")
     g4_followup = _bound_json(root, config, "g4_followup", content=True)
@@ -530,6 +597,13 @@ def build_scalable_formal_candidate_evidence_export(
         or promotion_status.get("decision_counts") != {"pass": 162}
     ):
         raise ValueError("scalable formal evidence upstream accounting changed")
+    if (
+        build_g2_scalable_nonmaximal_positive_mass_audit(g2_followup_config, root)
+        != g2_followup
+        or g2_followup.get("decision_counts") != {"pass": 2}
+        or g2_followup.get("full_formal_pass_count") != 2
+    ):
+        raise ValueError("G2 nonmaximal positive-mass follow-up replay changed")
     if (
         build_g4_scalable_action_formal_followup(g4_followup_config, root) != g4_followup
         or g4_followup.get("provenance", {}).get("binding_sha256")
@@ -602,6 +676,11 @@ def build_scalable_formal_candidate_evidence_export(
     if build_aether_parameter_cell_formal_gate_status(aether_campaign) != aether_status:
         raise ValueError("Aether formal candidate replay changed")
     aether_by_id = {record["candidate_id"]: record for record in aether_campaign["candidate_records"]}
+    g2_followup_by_id = {
+        record["candidate_id"]: record for record in g2_followup["candidate_records"]
+    }
+    if len(g2_followup_by_id) != 2:
+        raise ValueError("G2 nonmaximal positive-mass follow-up candidate registry changed")
     aliases = _alias_groups(
         list(iter_parameter_cells(preflight.cell_manifest, preflight.source_manifest)),
         preflight.work_items,
@@ -644,6 +723,7 @@ def build_scalable_formal_candidate_evidence_export(
             source["family_id"],
             aether=aether_by_id,
             g2_results=g2_results,
+            g2_followup_by_id=g2_followup_by_id,
             g3_results=g3_results,
             g3_evidence=g3.candidate_evidence,
             g4_followup=g4_followup,
@@ -695,6 +775,8 @@ def build_scalable_formal_candidate_evidence_export(
             "aether_config",
             "g2_status",
             "g2_config",
+            "g2_followup",
+            "g2_followup_config",
             "g3_status",
             "g3_config",
             "g4_followup",
@@ -732,7 +814,7 @@ def build_scalable_formal_candidate_evidence_export(
         "alias_count": sum(record["compilation_lineage"]["alias_count"] for record in records),
         "family_counts": family_counts,
         "final_decision_counts": decision_counts,
-        "formal_pass_count": 1,
+        "formal_pass_count": 3,
         "rank_eligible_count": sum(
             record["final_evidence"]["leaderboard_contract"]["rank_eligible"]
             for record in records
@@ -744,12 +826,23 @@ def build_scalable_formal_candidate_evidence_export(
         ),
         "leaderboard_contract": (
             "blocked candidates are rank=None/incomplete; exact Aether rejects and the "
-            "reviewed G4 formal pass are eligible only within separate evidence classes; "
+            "reviewed G2 and G4 formal passes are eligible only within completed formal "
+            "action evidence; exact Aether rejects remain in a separate class; "
             "no global truth score"
         ),
         "g4_followup_provenance": {
             "content_sha256": g4_followup["content_sha256"],
             "binding_sha256": g4_followup["provenance"]["binding_sha256"],
+        },
+        "g2_followup_provenance": {
+            "content_sha256": g2_followup["content_sha256"],
+            "theorem_interface_sha256": g2_followup["theorem_interface_sha256"],
+            "nonmaximal_contract_sha256": g2_followup[
+                "nonmaximal_contract_sha256"
+            ],
+            "result_registry_root_sha256": g2_followup[
+                "result_registry_root_sha256"
+            ],
         },
         "candidate_records": compact_records,
         "observational_data_opened": False,

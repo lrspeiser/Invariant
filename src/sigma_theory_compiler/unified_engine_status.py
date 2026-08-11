@@ -314,6 +314,10 @@ def build_unified_snapshot(
     formal_preflight = sources["grammar_v3_formal_preflight"]
     promotion_admission = sources["grammar_v3_promotion_admission"]
     g2_candidate_formal = sources["grammar_v3_g2_candidate_formal"]
+    g2_nonmaximal_followup = sources[
+        "grammar_v3_g2_nonmaximal_positive_mass_followup"
+    ]
+    scalable_campaign_epoch = sources["scalable_campaign_epoch"]
     g3_candidate_formal = sources["grammar_v3_g3_candidate_formal"]
     g4_scalable_formal_followup = sources[
         "grammar_v3_g4_scalable_formal_followup"
@@ -353,7 +357,7 @@ def build_unified_snapshot(
         scalable_structural_metrics.get("candidate_count") != 163
         or scalable_structural_metrics.get("alias_count") != 93
         or scalable_structural_metrics.get("formal_decision_counts")
-        != {"blocked": 160, "pass": 1, "reject": 2}
+        != {"blocked": 158, "pass": 3, "reject": 2}
         or scalable_structural_metrics.get("structural_measurement_counts")
         != {"measured": 163}
         or scalable_structural_metrics.get("simplicity_pareto_front", {}).get(
@@ -375,12 +379,12 @@ def build_unified_snapshot(
         scalable_explanation_dossiers.get("candidate_count") != 163
         or scalable_explanation_dossiers.get("alias_count") != 93
         or scalable_explanation_dossiers.get("formal_decision_counts")
-        != {"blocked": 160, "pass": 1, "reject": 2}
+        != {"blocked": 158, "pass": 3, "reject": 2}
         or scalable_explanation_dossiers.get("hierarchy_node_status_counts")
         != {
-            "blocked": 323,
+            "blocked": 321,
             "calibration_only": 163,
-            "proven": 164,
+            "proven": 166,
             "rejected": 2,
         }
         or scalable_explanation_dossiers.get("observational_authorization") is not False
@@ -605,6 +609,51 @@ def build_unified_snapshot(
         }
     ):
         raise ValueError("grammar-v3 G2 candidate formal service is inconsistent")
+    if (
+        g2_nonmaximal_followup.get("candidate_count") != 2
+        or g2_nonmaximal_followup.get("decision_counts") != {"pass": 2}
+        or g2_nonmaximal_followup.get("full_formal_pass_count") != 2
+        or g2_nonmaximal_followup.get(
+            "general_nonmaximal_positive_mass_pass_count"
+        )
+        != 2
+        or g2_nonmaximal_followup.get("solar_bundle_count") != 0
+        or g2_nonmaximal_followup.get("observational_data_opened") is not False
+        or g2_nonmaximal_followup.get("paid_llm_spend_usd") != 0.0
+        or g2_nonmaximal_followup.get("source_bindings", {})
+        .get("g2_status", {})
+        .get("content_sha256")
+        != g2_candidate_formal.get("content_sha256")
+        or len(g2_nonmaximal_followup.get("candidate_records", [])) != 2
+        or any(
+            record.get("decision") != "pass"
+            or record.get("previous_blocker_closed")
+            != "hash_bound_general_nonmaximal_positive_mass_theorem"
+            or record.get("actual_initial_data_set_instantiated") is not False
+            or record.get("cell_preservation_or_global_evolution_proved") is not False
+            or record.get("nonlinear_asymptotic_stability_proved") is not False
+            for record in g2_nonmaximal_followup.get("candidate_records", [])
+        )
+    ):
+        raise ValueError("grammar-v3 G2 nonmaximal follow-up is inconsistent")
+    if (
+        scalable_campaign_epoch.get("stage_count") != 10
+        or scalable_campaign_epoch.get("sealed_epoch_counts")
+        != {
+            "aliases": 93,
+            "decisions": {"blocked": 158, "pass": 3, "reject": 2},
+            "parameter_cells": 256,
+            "unique_candidates": 163,
+        }
+        or scalable_campaign_epoch.get("next_epoch_readiness", {}).get("state")
+        != "blocked"
+        or scalable_campaign_epoch.get("next_epoch_readiness", {}).get(
+            "scientific_compilation_started"
+        )
+        is not False
+        or scalable_campaign_epoch.get("paid_llm_spend_usd") != 0.0
+    ):
+        raise ValueError("scalable campaign epoch is inconsistent")
     if (
         aether_candidate_formal.get("candidate_count") != 128
         or aether_candidate_formal.get("input_preflight_pass_count") != 128
@@ -1492,14 +1541,14 @@ def build_unified_snapshot(
                 "candidate_universe": "six reviewed deterministic seed actions",
             },
             "scalable_unique_action_formal_outcomes": {
-                "pass": 1,
+                "pass": 3,
                 "reject": 2,
-                "block": 160,
+                "block": 158,
             },
             "scalable_admitted_family_formal_outcomes": {
-                "pass": 0,
+                "pass": 2,
                 "reject": 2,
-                "block": 160,
+                "block": 158,
             },
             "scalable_preflight_blocked_excluded_count": 1,
             "scalable_preflight_blocked_followup_resolved_count": 1,
@@ -1579,18 +1628,26 @@ def build_unified_snapshot(
                                     ],
                                 },
                                 "g2": {
-                                    "blocker_counts": g2_candidate_formal[
+                                    "predecessor_blocker_counts": g2_candidate_formal[
                                         "blocker_counts"
                                     ],
                                     "candidate_count": g2_candidate_formal[
                                         "candidate_count"
                                     ],
-                                    "decision_counts": g2_candidate_formal[
+                                    "predecessor_decision_counts": g2_candidate_formal[
                                         "decision_counts"
                                     ],
-                                    "full_formal_pass_count": g2_candidate_formal[
+                                    "decision_counts": g2_nonmaximal_followup[
+                                        "decision_counts"
+                                    ],
+                                    "full_formal_pass_count": g2_nonmaximal_followup[
                                         "full_formal_pass_count"
                                     ],
+                                    "general_nonmaximal_positive_mass_pass_count": g2_nonmaximal_followup[
+                                        "general_nonmaximal_positive_mass_pass_count"
+                                    ],
+                                    "actual_initial_data_set_instantiated": False,
+                                    "cell_preservation_or_global_evolution_proved": False,
                                     "work_state_counts": g2_candidate_formal[
                                         "work_state_counts"
                                     ],
@@ -1669,6 +1726,15 @@ def build_unified_snapshot(
                 "dossier_registry_root_sha256": scalable_explanation_dossiers[
                     "provenance"
                 ]["dossier_registry_root_sha256"],
+            },
+            "staged_epoch": {
+                "stage_count": scalable_campaign_epoch["stage_count"],
+                "sealed_epoch_counts": scalable_campaign_epoch[
+                    "sealed_epoch_counts"
+                ],
+                "next_epoch_readiness": scalable_campaign_epoch[
+                    "next_epoch_readiness"
+                ],
             },
         },
         "evidence_pareto": {

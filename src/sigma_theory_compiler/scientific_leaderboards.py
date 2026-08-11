@@ -271,12 +271,12 @@ def _scalable_theory_dossier_registry(
         artifact.get("candidate_count") != 163
         or artifact.get("alias_count") != 93
         or artifact.get("formal_decision_counts")
-        != {"blocked": 160, "pass": 1, "reject": 2}
+            != {"blocked": 158, "pass": 3, "reject": 2}
         or artifact.get("hierarchy_node_status_counts")
         != {
-            "blocked": 323,
-            "calibration_only": 163,
-            "proven": 164,
+                "blocked": 321,
+                "calibration_only": 163,
+                "proven": 166,
             "rejected": 2,
         }
         or artifact.get("observational_authorization") is not False
@@ -552,8 +552,13 @@ def _build_rows(sources: Mapping[str, Any], bindings: Mapping[str, Any]) -> dict
             if decision in {"pass", "reject"}
             else "scalable_formal_candidate_evidence"
         )
+        pass_scope = (
+            "Conditional positive ADM four-momentum is proven on the registered complete boundaryless asymptotically-Euclidean nonmaximal Einstein-G2 constraint domain; existence, evolution, stability, Solar, and observational evidence remain separate."
+            if record["family_id"] == "KESSENCE_G2_CONVEX"
+            else "Exact action-level formal pass transferred by covariant-density equivalence and domain inclusion; Solar and observational evidence remain separate."
+        )
         uncertainty = (
-            "Exact action-level formal pass transferred by covariant-density equivalence and domain inclusion; Solar and observational evidence remain separate."
+            pass_scope
             if decision == "pass"
             else "Exact decisive Aether principal necessary-condition rejection; ranked only inside its separate comparison class."
             if decision == "reject"
