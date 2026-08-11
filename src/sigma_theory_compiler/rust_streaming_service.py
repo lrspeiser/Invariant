@@ -16,6 +16,7 @@ from typing import Any
 
 from .gravity_engine_service import _hardware_telemetry
 from .persistent_parallel_search import PersistentParallelSearch
+from .process_health import pid_alive
 from .rust_parallel_streaming_search import SCHEMA_VERSION as PARALLEL_SCHEMA_VERSION
 from .rust_parallel_streaming_search import (
     ParallelRustRangeScheduler,
@@ -102,13 +103,7 @@ def _paths(service_directory: str | Path) -> dict[str, Path]:
 
 
 def _pid_alive(pid: int | None) -> bool:
-    if not pid or pid <= 0:
-        return False
-    try:
-        os.kill(pid, 0)
-        return True
-    except OSError:
-        return False
+    return pid_alive(pid)
 
 
 def _resolve_existing(path_value: str, config_path: Path) -> Path:

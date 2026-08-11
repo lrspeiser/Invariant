@@ -55,6 +55,53 @@ def _read_bound_json(project_root: Path, spec: Mapping[str, Any]) -> dict[str, A
     return value
 
 
+def _read_mixed_third_jet_supervisor_status(
+    project_root: Path, config: Mapping[str, Any]
+) -> dict[str, Any]:
+    relative = config.get("mixed_third_jet_supervisor_status")
+    if relative is None:
+        return {"availability": "not_configured"}
+    root = project_root.resolve()
+    path = (root / str(relative)).resolve()
+    if root not in path.parents:
+        raise ValueError("mixed-third-jet supervisor status escapes project root")
+    if not path.is_file():
+        return {"availability": "configured_not_started"}
+    raw = path.read_bytes()
+    value = json.loads(raw)
+    if not isinstance(value, dict):
+        raise TypeError("mixed-third-jet supervisor status is not an object")
+    claimed = value.get("content_sha256")
+    without_hash = dict(value)
+    without_hash.pop("content_sha256", None)
+    if (
+        not isinstance(claimed, str)
+        or not _SHA256_RE.fullmatch(claimed)
+        or _sha(without_hash) != claimed
+        or any(value.get("claims", {}).values())
+        or value.get("chunks_advanced", 0) < 0
+        or value.get("epochs_completed", 0) < value.get("chunks_advanced", 0)
+        or value.get("next_offset", 0) < 0
+        or value.get("remaining_mixed_triples", 0) < 0
+    ):
+        raise ValueError("mixed-third-jet supervisor status is not fail-closed")
+    return {
+        "availability": "available",
+        "state": value.get("state"),
+        "alive": value.get("alive"),
+        "pid": value.get("pid"),
+        "epochs_completed": value.get("epochs_completed"),
+        "chunks_advanced": value.get("chunks_advanced"),
+        "next_offset": value.get("next_offset"),
+        "remaining_mixed_triples": value.get("remaining_mixed_triples"),
+        "prior_resume_sha256": value.get("prior_resume_sha256"),
+        "stop_reason": value.get("stop_reason"),
+        "content_sha256": claimed,
+        "file_sha256": hashlib.sha256(raw).hexdigest(),
+        "claims": value.get("claims"),
+    }
+
+
 def _counts(rows: list[sqlite3.Row], key: str = "status") -> dict[str, int]:
     return {str(row[key]): int(row["count"]) for row in rows}
 
@@ -328,6 +375,7 @@ def build_unified_snapshot(
     if root not in watchdog_path.parents:
         raise ValueError("watchdog database escapes project root")
     watchdog = _read_campaign_mode_ro(watchdog_path)
+    mixed_third_jet_supervisor = _read_mixed_third_jet_supervisor_status(root, config)
 
     streaming = sources["billion_streaming"]
     promotion = sources["promotion_overlay"]
@@ -348,9 +396,15 @@ def build_unified_snapshot(
     future_aether_formal_followup = sources["future_aether_formal_followup"]
     future_aether_constraint_followup = sources["future_aether_constraint_followup"]
     future_aether_pure_twist_ae_no_go = sources["future_aether_pure_twist_ae_no_go"]
+    future_aether_weak_field_ae_constraint_gate = sources[
+        "future_aether_weak_field_ae_constraint_gate"
+    ]
     future_g3_domain_followup = sources["future_g3_domain_followup"]
     future_g3_action_bound_followup = sources["future_g3_action_bound_followup"]
     future_g3_af_transition_obstruction = sources["future_g3_af_transition_obstruction"]
+    future_g3_nonunitary_af_constraint_gate = sources[
+        "future_g3_nonunitary_af_constraint_gate"
+    ]
     future_candidate_action_dossier = sources["future_candidate_action_dossier"]
     g3_candidate_formal = sources["grammar_v3_g3_candidate_formal"]
     g4_scalable_formal_followup = sources["grammar_v3_g4_scalable_formal_followup"]
@@ -386,14 +440,18 @@ def build_unified_snapshot(
     quartic_tc2_mixed_third_jet_continuation_status = sources[
         "quartic_tc2_mixed_third_jet_continuation_status"
     ]
-    quartic_tc2_mixed_third_jet_parallel_chunk_192 = sources[
-        "quartic_tc2_mixed_third_jet_parallel_chunk_192"
-    ]
+    quartic_tc2_mixed_third_jet_parallel_chunks = tuple(
+        sources[f"quartic_tc2_mixed_third_jet_parallel_chunk_{offset}"]
+        for offset in (192, 256, 320, 384, 448, 512)
+    )
     quartic_tc2_mixed_third_jet_parallel_checkpoint = sources[
         "quartic_tc2_mixed_third_jet_parallel_checkpoint"
     ]
     quartic_tc2_mixed_third_jet_parallel_status = sources[
         "quartic_tc2_mixed_third_jet_parallel_status"
+    ]
+    quartic_tc2_mixed_third_jet_parallel_supervisor_readiness = sources[
+        "quartic_tc2_mixed_third_jet_parallel_supervisor_readiness"
     ]
     if (
         scalable_structural_metrics.get("candidate_count") != 163
@@ -918,6 +976,59 @@ def build_unified_snapshot(
     ):
         raise ValueError("future Aether pure-twist AE no-go is inconsistent")
     if (
+        future_aether_weak_field_ae_constraint_gate.get("candidate_count") != 14
+        or future_aether_weak_field_ae_constraint_gate.get("decision_counts")
+        != {"blocked": 14}
+        or future_aether_weak_field_ae_constraint_gate.get(
+            "bounded_weak_field_AE_constraint_gate_completed"
+        )
+        is not True
+        or future_aether_weak_field_ae_constraint_gate.get(
+            "weak_field_linearized_constraint_completion_count"
+        )
+        != 14
+        or future_aether_weak_field_ae_constraint_gate.get(
+            "strictly_positive_compact_quadratic_energy_count"
+        )
+        != 14
+        or future_aether_weak_field_ae_constraint_gate.get(
+            "weak_field_negative_completed_energy_direction_count"
+        )
+        != 0
+        or future_aether_weak_field_ae_constraint_gate.get(
+            "finite_amplitude_nonlinear_constraint_completion_count"
+        )
+        != 0
+        or future_aether_weak_field_ae_constraint_gate.get("c2_plus_c3_counts")
+        != {"0": 2, "1/16": 3, "1/32": 1, "1/4": 1, "1/8": 3, "3/16": 2, "3/32": 1, "5/32": 1}
+        or future_aether_weak_field_ae_constraint_gate.get("formal_pass_count") != 0
+        or future_aether_weak_field_ae_constraint_gate.get(
+            "candidate_rejection_authorized_count"
+        )
+        != 0
+        or future_aether_weak_field_ae_constraint_gate.get(
+            "constraint_satisfying_negative_total_energy_datum_count"
+        )
+        != 0
+        or future_aether_weak_field_ae_constraint_gate.get("first_blocker_counts")
+        != {
+            "finite_amplitude_candidate_bound_nonlinear_AE_coupled_constraint_solution_with_negative_completed_boundary_energy_beyond_positive_weak_field_quadratic_regime": 14
+        }
+        or future_aether_weak_field_ae_constraint_gate.get("source_no_go_binding", {}).get(
+            "content_sha256"
+        )
+        != future_aether_pure_twist_ae_no_go.get("content_sha256")
+        or future_aether_weak_field_ae_constraint_gate.get("observational_data_opened")
+        is not False
+        or future_aether_weak_field_ae_constraint_gate.get("dark_matter_or_halo_inputs")
+        is not False
+        or future_aether_weak_field_ae_constraint_gate.get("redshift_distance_inputs")
+        is not False
+        or future_aether_weak_field_ae_constraint_gate.get("paid_llm_spend_usd") != 0.0
+        or len(future_aether_weak_field_ae_constraint_gate.get("candidate_records", [])) != 14
+    ):
+        raise ValueError("future Aether weak-field AE constraint gate is inconsistent")
+    if (
         future_g3_domain_followup.get("candidate_count") != 3
         or future_g3_domain_followup.get("decision_counts") != {"blocked": 3}
         or future_g3_domain_followup.get("all_direction_single_center_pass_count") != 3
@@ -995,6 +1106,50 @@ def build_unified_snapshot(
     ):
         raise ValueError("future G3 AF transition obstruction is inconsistent")
     if (
+        future_g3_nonunitary_af_constraint_gate.get("candidate_count") != 3
+        or future_g3_nonunitary_af_constraint_gate.get("decision_counts") != {"blocked": 3}
+        or future_g3_nonunitary_af_constraint_gate.get(
+            "nonunitary_formulation_registration_pass_count"
+        )
+        != 3
+        or future_g3_nonunitary_af_constraint_gate.get("nonunitary_AF_principal_pass_count")
+        != 3
+        or future_g3_nonunitary_af_constraint_gate.get(
+            "flat_nontrivial_reference_constraint_ansatz_reject_count"
+        )
+        != 3
+        or future_g3_nonunitary_af_constraint_gate.get(
+            "actual_AF_vacuum_constraint_reference_pass_count"
+        )
+        != 3
+        or future_g3_nonunitary_af_constraint_gate.get(
+            "candidate_nontrivial_AF_Einstein_constraint_solution_pass_count"
+        )
+        != 0
+        or future_g3_nonunitary_af_constraint_gate.get("global_hamiltonian_energy_pass_count")
+        != 0
+        or future_g3_nonunitary_af_constraint_gate.get("full_formal_pass_count") != 0
+        or future_g3_nonunitary_af_constraint_gate.get("first_blocker_counts")
+        != {
+            "candidate_specific_nontrivial_AF_Einstein_constraint_solution_on_decaying_gradient_domain_in_nonunitary_formulation": 3
+        }
+        or future_g3_nonunitary_af_constraint_gate.get("synthetic_fixture_role") != "none_used"
+        or future_g3_nonunitary_af_constraint_gate.get("source_bindings", {})
+        .get("predecessor", {})
+        .get("content_sha256")
+        != future_g3_af_transition_obstruction.get("content_sha256")
+        or future_g3_nonunitary_af_constraint_gate.get("observational_data_opened") is not False
+        or future_g3_nonunitary_af_constraint_gate.get("dark_matter_or_halo_inputs") is not False
+        or future_g3_nonunitary_af_constraint_gate.get("redshift_distance_inputs") is not False
+        or future_g3_nonunitary_af_constraint_gate.get("paid_llm_spend_usd") != 0.0
+        or len(future_g3_nonunitary_af_constraint_gate.get("candidate_records", [])) != 3
+        or any(
+            record.get("theory_rejected") is not False
+            for record in future_g3_nonunitary_af_constraint_gate.get("candidate_records", [])
+        )
+    ):
+        raise ValueError("future G3 nonunitary AF constraint gate is inconsistent")
+    if (
         future_candidate_action_dossier.get("candidate_count") != 19
         or future_candidate_action_dossier.get("family_counts")
         != {
@@ -1011,9 +1166,9 @@ def build_unified_snapshot(
         or future_candidate_action_dossier.get("source_roots", {}).get(
             "aether_followup_content_sha256"
         )
-        != future_aether_pure_twist_ae_no_go.get("content_sha256")
+        != future_aether_weak_field_ae_constraint_gate.get("content_sha256")
         or future_candidate_action_dossier.get("source_roots", {}).get("g3_followup_content_sha256")
-        != future_g3_af_transition_obstruction.get("content_sha256")
+        != future_g3_nonunitary_af_constraint_gate.get("content_sha256")
         or len(future_candidate_action_dossier.get("dossiers", [])) != 19
         or any(
             record.get("comparison_contract", {}).get("rank") is not None
@@ -1665,61 +1820,74 @@ def build_unified_snapshot(
     ):
         raise ValueError("quartic TC2 mixed third-jet continuation is inconsistent")
 
-    quartic_parallel_counts = quartic_tc2_mixed_third_jet_parallel_chunk_192.get("counts", {})
-    quartic_parallel_contract = quartic_tc2_mixed_third_jet_parallel_chunk_192.get(
-        "chunk_contract", {}
-    )
-    quartic_parallel_ledger = quartic_tc2_mixed_third_jet_parallel_chunk_192.get(
-        "closure_ledger", {}
-    )
-    if (
-        quartic_tc2_mixed_third_jet_parallel_chunk_192.get("status")
-        != "pass_mixed_third_jet_chunk_64_global_closure_fail_closed"
-        or quartic_parallel_contract.get("chunk_offset") != 192
-        or quartic_parallel_contract.get("processed_count") != 64
-        or quartic_parallel_contract.get("next_offset") != 256
-        or quartic_parallel_contract.get("global_mixed_triple_count") != 12_300
-        or quartic_parallel_contract.get("prior_resume_sha256")
-        != quartic_mixed_128_contract.get("resume_tip_sha256")
-        or quartic_parallel_contract.get("parallel_worker_count") != 8
-        or quartic_parallel_contract.get("parallel_execution_policy")
-        != "ordered_spawn_pool_bounded_speculation_no_post_obstruction_commit"
-        or quartic_parallel_contract.get("records_after_first_obstruction_committed_or_inferred")
-        != 0
-        or quartic_parallel_contract.get("stopped_early") is not False
-        or quartic_parallel_counts.get("selected") != 64
-        or quartic_parallel_counts.get("symbolic_parameter_compatible") != 64
-        or quartic_parallel_counts.get("candidate_evaluations") != 768
-        or quartic_parallel_counts.get("candidate_solvable") != 768
-        or quartic_parallel_counts.get("candidate_obstructed") != 0
-        or quartic_parallel_counts.get("triple_kind_counts") != {"ABB": 2, "ABC": 62}
-        or quartic_parallel_counts.get("mixed_triples_remaining") != 12_044
-        or quartic_tc2_mixed_third_jet_parallel_chunk_192.get("first_exact_obstruction") is not None
-        or quartic_parallel_ledger.get("processed_mixed_third_jets_closed") != 64
-        or any(
-            quartic_parallel_ledger.get(key) is not False
-            for key in (
-                "all_12_300_mixed_third_jets_closed",
-                "full_tube_Sylvester_identity",
-                "CK1_closed",
-                "CK3_closed",
-                "TC2_closed",
-                "B7_closed",
-                "global_H7_closed",
-                "lifespan_proved",
+    prior_resume = quartic_mixed_128_contract.get("resume_tip_sha256")
+    for offset, artifact in zip(
+        (192, 256, 320, 384, 448, 512),
+        quartic_tc2_mixed_third_jet_parallel_chunks,
+        strict=True,
+    ):
+        counts = artifact.get("counts", {})
+        contract = artifact.get("chunk_contract", {})
+        ledger = artifact.get("closure_ledger", {})
+        if (
+            artifact.get("status")
+            != "pass_mixed_third_jet_chunk_64_global_closure_fail_closed"
+            or contract.get("chunk_offset") != offset
+            or contract.get("processed_count") != 64
+            or contract.get("next_offset") != offset + 64
+            or contract.get("global_mixed_triple_count") != 12_300
+            or contract.get("prior_resume_sha256") != prior_resume
+            or contract.get("parallel_worker_count") != 8
+            or contract.get("parallel_execution_policy")
+            != "ordered_spawn_pool_bounded_speculation_no_post_obstruction_commit"
+            or contract.get(
+                "bounded_speculative_evaluations_may_finish_after_first_obstruction"
             )
-        )
-        or quartic_tc2_mixed_third_jet_parallel_checkpoint.get("completed_chunks") != 1
-        or quartic_tc2_mixed_third_jet_parallel_checkpoint.get("next_offset") != 256
-        or quartic_tc2_mixed_third_jet_parallel_checkpoint.get("remaining_mixed_triples") != 12_044
+            is not True
+            or contract.get("records_after_first_obstruction_committed_or_inferred") != 0
+            or contract.get("stopped_early") is not False
+            or counts.get("selected") != 64
+            or counts.get("symbolic_parameter_compatible") != 64
+            or counts.get("candidate_evaluations") != 768
+            or counts.get("candidate_solvable") != 768
+            or counts.get("candidate_obstructed") != 0
+            or sum(counts.get("triple_kind_counts", {}).values()) != 64
+            or counts.get("mixed_triples_remaining") != 12_300 - (offset + 64)
+            or artifact.get("first_exact_obstruction") is not None
+            or ledger.get("processed_mixed_third_jets_closed") != 64
+            or any(
+                ledger.get(key) is not False
+                for key in (
+                    "all_12_300_mixed_third_jets_closed",
+                    "full_tube_Sylvester_identity",
+                    "CK1_closed",
+                    "CK3_closed",
+                    "TC2_closed",
+                    "B7_closed",
+                    "global_H7_closed",
+                    "lifespan_proved",
+                )
+            )
+        ):
+            raise ValueError(f"quartic TC2 parallel mixed third-jet offset {offset} is inconsistent")
+        prior_resume = contract.get("resume_tip_sha256")
+
+    quartic_parallel_latest = quartic_tc2_mixed_third_jet_parallel_chunks[-1]
+    quartic_parallel_counts = quartic_parallel_latest["counts"]
+    quartic_parallel_contract = quartic_parallel_latest["chunk_contract"]
+    if (
+        quartic_tc2_mixed_third_jet_parallel_checkpoint.get("completed_chunks") != 6
+        or quartic_tc2_mixed_third_jet_parallel_checkpoint.get("next_offset") != 576
+        or quartic_tc2_mixed_third_jet_parallel_checkpoint.get("remaining_mixed_triples")
+        != 11_724
         or quartic_tc2_mixed_third_jet_parallel_checkpoint.get("current_artifact_content_sha256")
-        != quartic_tc2_mixed_third_jet_parallel_chunk_192.get("content_sha256")
+        != quartic_parallel_latest.get("content_sha256")
         or quartic_tc2_mixed_third_jet_parallel_checkpoint.get("prior_resume_sha256")
-        != quartic_parallel_contract.get("resume_tip_sha256")
+        != prior_resume
         or quartic_tc2_mixed_third_jet_parallel_status.get("checkpoint_content_sha256")
         != quartic_tc2_mixed_third_jet_parallel_checkpoint.get("content_sha256")
-        or quartic_tc2_mixed_third_jet_parallel_status.get("next_offset") != 256
-        or quartic_tc2_mixed_third_jet_parallel_status.get("remaining_mixed_triples") != 12_044
+        or quartic_tc2_mixed_third_jet_parallel_status.get("next_offset") != 576
+        or quartic_tc2_mixed_third_jet_parallel_status.get("remaining_mixed_triples") != 11_724
         or quartic_tc2_mixed_third_jet_parallel_status.get("decision") != "checkpointed"
         or quartic_tc2_mixed_third_jet_parallel_status.get("permanently_stopped") is not False
         or any(
@@ -1735,8 +1903,36 @@ def build_unified_snapshot(
                 "lifespan_proved",
             )
         )
+        or quartic_tc2_mixed_third_jet_parallel_supervisor_readiness.get("status")
+        != "portable_stopped_checkpoint"
+        or quartic_tc2_mixed_third_jet_parallel_supervisor_readiness.get("lifecycle", {}).get(
+            "next_offset"
+        )
+        != 576
+        or quartic_tc2_mixed_third_jet_parallel_supervisor_readiness.get("lifecycle", {}).get(
+            "remaining_mixed_triples"
+        )
+        != 11_724
+        or quartic_tc2_mixed_third_jet_parallel_supervisor_readiness.get(
+            "parallel_contract", {}
+        ).get("parallel_worker_count")
+        != 8
+        or any(
+            quartic_tc2_mixed_third_jet_parallel_supervisor_readiness.get("claims", {}).get(key)
+            is not False
+            for key in (
+                "full_mixed_sector_closed",
+                "full_tube_Sylvester_identity",
+                "CK1_closed",
+                "CK3_closed",
+                "TC2_closed",
+                "B7_closed",
+                "global_H7_closed",
+                "lifespan_proved",
+            )
+        )
     ):
-        raise ValueError("quartic TC2 parallel mixed third-jet epoch is inconsistent")
+        raise ValueError("quartic TC2 parallel mixed third-jet checkpoint is inconsistent")
 
     blocker_gates: Counter[str] = Counter()
     for row in pareto["pareto_follow_up_queue"]:
@@ -2227,8 +2423,12 @@ def build_unified_snapshot(
                     },
                     "family_followup": {
                         "aether": {
-                            "candidate_count": future_aether_pure_twist_ae_no_go["candidate_count"],
-                            "decision_counts": future_aether_pure_twist_ae_no_go["decision_counts"],
+                            "candidate_count": future_aether_weak_field_ae_constraint_gate[
+                                "candidate_count"
+                            ],
+                            "decision_counts": future_aether_weak_field_ae_constraint_gate[
+                                "decision_counts"
+                            ],
                             "formal_pass_count": 0,
                             "exact_negative_local_twist_witness_count": future_aether_formal_followup[
                                 "exact_negative_local_twist_witness_count"
@@ -2266,10 +2466,25 @@ def build_unified_snapshot(
                             "constraint_satisfying_negative_total_energy_datum_count": future_aether_pure_twist_ae_no_go[
                                 "constraint_satisfying_negative_total_energy_datum_count"
                             ],
-                            "first_blocker_counts": future_aether_pure_twist_ae_no_go[
+                            "weak_field_linearized_constraint_completion_count": future_aether_weak_field_ae_constraint_gate[
+                                "weak_field_linearized_constraint_completion_count"
+                            ],
+                            "strictly_positive_compact_quadratic_energy_count": future_aether_weak_field_ae_constraint_gate[
+                                "strictly_positive_compact_quadratic_energy_count"
+                            ],
+                            "weak_field_negative_completed_energy_direction_count": future_aether_weak_field_ae_constraint_gate[
+                                "weak_field_negative_completed_energy_direction_count"
+                            ],
+                            "finite_amplitude_nonlinear_constraint_completion_count": future_aether_weak_field_ae_constraint_gate[
+                                "finite_amplitude_nonlinear_constraint_completion_count"
+                            ],
+                            "c2_plus_c3_counts": future_aether_weak_field_ae_constraint_gate[
+                                "c2_plus_c3_counts"
+                            ],
+                            "first_blocker_counts": future_aether_weak_field_ae_constraint_gate[
                                 "first_blocker_counts"
                             ],
-                            "candidate_rejection_authorized_count": future_aether_pure_twist_ae_no_go[
+                            "candidate_rejection_authorized_count": future_aether_weak_field_ae_constraint_gate[
                                 "candidate_rejection_authorized_count"
                             ],
                         },
@@ -2309,19 +2524,34 @@ def build_unified_snapshot(
                             "flat_reference_constraint_ansatz_reject_count": future_g3_af_transition_obstruction[
                                 "flat_reference_constraint_ansatz_reject_count"
                             ],
+                            "nonunitary_formulation_registration_pass_count": future_g3_nonunitary_af_constraint_gate[
+                                "nonunitary_formulation_registration_pass_count"
+                            ],
+                            "nonunitary_AF_principal_pass_count": future_g3_nonunitary_af_constraint_gate[
+                                "nonunitary_AF_principal_pass_count"
+                            ],
+                            "flat_nontrivial_reference_constraint_ansatz_reject_count": future_g3_nonunitary_af_constraint_gate[
+                                "flat_nontrivial_reference_constraint_ansatz_reject_count"
+                            ],
+                            "actual_AF_vacuum_constraint_reference_pass_count": future_g3_nonunitary_af_constraint_gate[
+                                "actual_AF_vacuum_constraint_reference_pass_count"
+                            ],
+                            "candidate_nontrivial_AF_Einstein_constraint_solution_pass_count": future_g3_nonunitary_af_constraint_gate[
+                                "candidate_nontrivial_AF_Einstein_constraint_solution_pass_count"
+                            ],
                             "asymptotically_flat_Dirac_pass_count": future_g3_af_transition_obstruction[
                                 "AF_unitary_lapse_Dirac_pass_count"
                             ],
-                            "AF_Einstein_constraint_solution_pass_count": future_g3_af_transition_obstruction[
-                                "AF_Einstein_constraint_solution_pass_count"
+                            "AF_Einstein_constraint_solution_pass_count": future_g3_nonunitary_af_constraint_gate[
+                                "candidate_nontrivial_AF_Einstein_constraint_solution_pass_count"
                             ],
-                            "global_energy_pass_count": future_g3_af_transition_obstruction[
+                            "global_energy_pass_count": future_g3_nonunitary_af_constraint_gate[
                                 "global_hamiltonian_energy_pass_count"
                             ],
-                            "full_formal_pass_count": future_g3_af_transition_obstruction[
+                            "full_formal_pass_count": future_g3_nonunitary_af_constraint_gate[
                                 "full_formal_pass_count"
                             ],
-                            "first_blocker_counts": future_g3_af_transition_obstruction[
+                            "first_blocker_counts": future_g3_nonunitary_af_constraint_gate[
                                 "first_blocker_counts"
                             ],
                         },
@@ -2366,19 +2596,19 @@ def build_unified_snapshot(
                 "full_active_symmetric_triple_count": quartic_third_slice[
                     "full_symmetric_triples_in_41_direction_sector"
                 ],
-                "remaining_mixed_triples": 12_044,
-                "mixed_third_jet_closures": 256,
+                "remaining_mixed_triples": 11_724,
+                "mixed_third_jet_closures": 576,
             },
             "mixed_third_jet_chunk": {
                 "chunk_offset": quartic_parallel_contract["chunk_offset"],
                 "latest_chunk_processed_count": quartic_parallel_contract["processed_count"],
-                "processed_count": 256,
+                "processed_count": 576,
                 "next_offset": quartic_parallel_contract["next_offset"],
                 "triple_kind_counts": quartic_parallel_counts["triple_kind_counts"],
-                "symbolic_parameter_compatible": 256,
+                "symbolic_parameter_compatible": 576,
                 "latest_candidate_evaluations": quartic_parallel_counts["candidate_evaluations"],
-                "candidate_evaluations": 3_072,
-                "candidate_solvable": 3_072,
+                "candidate_evaluations": 6_912,
+                "candidate_solvable": 6_912,
                 "candidate_obstructed": 0,
                 "remaining_mixed_triples": quartic_parallel_counts["mixed_triples_remaining"],
                 "resume_tip_sha256": quartic_parallel_contract["resume_tip_sha256"],
@@ -2401,7 +2631,7 @@ def build_unified_snapshot(
                 )
             },
             "first_missing_premise": (
-                "remaining_12044_polarized_mixed_third_sylvester_jets_then_"
+                "remaining_11724_polarized_mixed_third_sylvester_jets_then_"
                 "fourth_and_higher_remainder_or_nonlinear_range_theorem"
             ),
         },
@@ -2501,6 +2731,7 @@ def build_unified_snapshot(
             ),
         },
         "scheduler_readiness": scheduler_readiness,
+        "mixed_third_jet_supervisor": mixed_third_jet_supervisor,
         "deadline_state": (
             "unavailable"
             if not _parse_utc(watchdog["campaign"]["deadline_utc"])

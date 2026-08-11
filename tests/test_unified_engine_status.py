@@ -36,9 +36,11 @@ SOURCE_PATHS = [
     "runs/engine/future-aether-candidate-formal-followup.json",
     "runs/engine/future-aether-constraint-boundary-embedding-audit.json",
     "runs/engine/future-aether-pure-twist-ae-no-go-audit.json",
+    "runs/engine/future-aether-weak-field-ae-constraint-gate.json",
     "runs/engine/future-g3-componentwise-domain-contract-campaign.json",
     "runs/engine/future-g3-action-bound-jet-box-campaign.json",
     "runs/engine/future-g3-af-transition-obstruction-campaign.json",
+    "runs/engine/future-g3-nonunitary-af-constraint-gate-campaign.json",
     "runs/engine/future-candidate-action-dossier.json",
     "runs/engine/grammar-v3-g3-candidate-formal-status.json",
     "runs/engine/g4-scalable-action-formal-followup.json",
@@ -74,8 +76,14 @@ SOURCE_PATHS = [
     "runs/physics-language/quartic-tc2-mixed-third-jet-continuation-service/checkpoint.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-continuation-service/service-status.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-parallel-continuation-service/chunks/offset-000192.json",
+    "runs/physics-language/quartic-tc2-mixed-third-jet-parallel-continuation-service/chunks/offset-000256.json",
+    "runs/physics-language/quartic-tc2-mixed-third-jet-parallel-continuation-service/chunks/offset-000320.json",
+    "runs/physics-language/quartic-tc2-mixed-third-jet-parallel-continuation-service/chunks/offset-000384.json",
+    "runs/physics-language/quartic-tc2-mixed-third-jet-parallel-continuation-service/chunks/offset-000448.json",
+    "runs/physics-language/quartic-tc2-mixed-third-jet-parallel-continuation-service/chunks/offset-000512.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-parallel-continuation-service/checkpoint.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-parallel-continuation-service/service-status.json",
+    "runs/engine/quartic-tc2-mixed-third-jet-parallel-supervisor-readiness.json",
 ]
 LABELS = [
     "billion_streaming",
@@ -97,9 +105,11 @@ LABELS = [
     "future_aether_formal_followup",
     "future_aether_constraint_followup",
     "future_aether_pure_twist_ae_no_go",
+    "future_aether_weak_field_ae_constraint_gate",
     "future_g3_domain_followup",
     "future_g3_action_bound_followup",
     "future_g3_af_transition_obstruction",
+    "future_g3_nonunitary_af_constraint_gate",
     "future_candidate_action_dossier",
     "grammar_v3_g3_candidate_formal",
     "grammar_v3_g4_scalable_formal_followup",
@@ -135,8 +145,14 @@ LABELS = [
     "quartic_tc2_mixed_third_jet_checkpoint",
     "quartic_tc2_mixed_third_jet_continuation_status",
     "quartic_tc2_mixed_third_jet_parallel_chunk_192",
+    "quartic_tc2_mixed_third_jet_parallel_chunk_256",
+    "quartic_tc2_mixed_third_jet_parallel_chunk_320",
+    "quartic_tc2_mixed_third_jet_parallel_chunk_384",
+    "quartic_tc2_mixed_third_jet_parallel_chunk_448",
+    "quartic_tc2_mixed_third_jet_parallel_chunk_512",
     "quartic_tc2_mixed_third_jet_parallel_checkpoint",
     "quartic_tc2_mixed_third_jet_parallel_status",
+    "quartic_tc2_mixed_third_jet_parallel_supervisor_readiness",
 ]
 
 
@@ -416,6 +432,56 @@ def test_read_only_snapshot_is_deterministic_and_does_not_mutate_database(tmp_pa
     assert "C:\\" not in json.dumps(first)
 
 
+def test_parallel_proof_supervisor_is_volatile_and_fail_closed(tmp_path: Path) -> None:
+    root, config, _ = _fixture(tmp_path)
+    body = {
+        "schema_version": "sigma-quartic-tc2-mixed-third-jet-parallel-supervisor-state-1.0",
+        "state": "running",
+        "pid": 1234,
+        "alive": True,
+        "epochs_completed": 3,
+        "chunks_advanced": 3,
+        "next_offset": 512,
+        "remaining_mixed_triples": 11_788,
+        "prior_resume_sha256": "a" * 64,
+        "stop_reason": None,
+        "claims": {
+            "full_mixed_sector_closed": False,
+            "full_tube_Sylvester_identity": False,
+            "CK1_closed": False,
+            "CK3_closed": False,
+            "TC2_closed": False,
+            "B7_closed": False,
+            "global_H7_closed": False,
+            "lifespan_proved": False,
+        },
+    }
+    status = {**body, "content_sha256": hashlib.sha256(_canonical(body)).hexdigest()}
+    path = root / "runs/physics-language/proof-supervisor/supervisor-status.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(status, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    config["mixed_third_jet_supervisor_status"] = path.relative_to(root).as_posix()
+    snapshot = build_unified_snapshot(
+        root,
+        config,
+        now_utc=datetime(2026, 8, 10, 20, 10, tzinfo=UTC),
+        physical_cpu={"availability": "unavailable"},
+        physical_gpu={"availability": "unavailable"},
+    )
+    runtime = snapshot["volatile"]["mixed_third_jet_supervisor"]
+    assert runtime["availability"] == "available"
+    assert runtime["state"] == "running"
+    assert runtime["next_offset"] == 512
+    assert runtime["remaining_mixed_triples"] == 11_788
+    assert "mixed_third_jet_supervisor" not in snapshot["core"]
+
+    body["claims"]["global_H7_closed"] = True
+    tampered = {**body, "content_sha256": hashlib.sha256(_canonical(body)).hexdigest()}
+    path.write_text(json.dumps(tampered, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    with pytest.raises(ValueError, match="not fail-closed"):
+        build_unified_snapshot(root, config)
+
+
 def test_future_not_before_work_is_scheduled_idle_then_stale(tmp_path: Path) -> None:
     root, config, database = _fixture(tmp_path)
     connection = sqlite3.connect(database)
@@ -598,8 +664,22 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                     "unknown_count": 18,
                 },
                 "constraint_satisfying_negative_total_energy_datum_count": 0,
+                "weak_field_linearized_constraint_completion_count": 14,
+                "strictly_positive_compact_quadratic_energy_count": 14,
+                "weak_field_negative_completed_energy_direction_count": 0,
+                "finite_amplitude_nonlinear_constraint_completion_count": 0,
+                "c2_plus_c3_counts": {
+                    "0": 2,
+                    "1/16": 3,
+                    "1/32": 1,
+                    "1/4": 1,
+                    "1/8": 3,
+                    "3/16": 2,
+                    "3/32": 1,
+                    "5/32": 1,
+                },
                 "first_blocker_counts": {
-                    "candidate_bound_AE_coupled_constraint_solution_beyond_flat_static_global_pure_twist_class_with_negative_completed_boundary_energy": 14
+                    "finite_amplitude_candidate_bound_nonlinear_AE_coupled_constraint_solution_with_negative_completed_boundary_energy_beyond_positive_weak_field_quadratic_regime": 14
                 },
                 "candidate_rejection_authorized_count": 0,
             },
@@ -617,12 +697,17 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                 "AF_decaying_gradient_profile_pass_count": 3,
                 "AF_principal_common_cone_profile_pass_count": 3,
                 "flat_reference_constraint_ansatz_reject_count": 3,
+                "nonunitary_formulation_registration_pass_count": 3,
+                "nonunitary_AF_principal_pass_count": 3,
+                "flat_nontrivial_reference_constraint_ansatz_reject_count": 3,
+                "actual_AF_vacuum_constraint_reference_pass_count": 3,
+                "candidate_nontrivial_AF_Einstein_constraint_solution_pass_count": 0,
                 "asymptotically_flat_Dirac_pass_count": 0,
                 "AF_Einstein_constraint_solution_pass_count": 0,
                 "global_energy_pass_count": 0,
                 "full_formal_pass_count": 0,
                 "first_blocker_counts": {
-                    "bounded_global_unitary_Delta_N_inverse_on_candidate_AF_transition_profile": 3
+                    "candidate_specific_nontrivial_AF_Einstein_constraint_solution_on_decaying_gradient_domain_in_nonunitary_formulation": 3
                 },
             },
         },
@@ -846,23 +931,23 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
             "candidate_direction_solvable": 492,
             "candidate_direction_obstructed": 0,
             "full_active_symmetric_triple_count": 12341,
-            "remaining_mixed_triples": 12044,
-            "mixed_third_jet_closures": 256,
+            "remaining_mixed_triples": 11724,
+            "mixed_third_jet_closures": 576,
         },
         "mixed_third_jet_chunk": {
-            "chunk_offset": 192,
+            "chunk_offset": 512,
             "latest_chunk_processed_count": 64,
-            "processed_count": 256,
-            "next_offset": 256,
+            "processed_count": 576,
+            "next_offset": 576,
             "triple_kind_counts": {"ABB": 2, "ABC": 62},
-            "symbolic_parameter_compatible": 256,
+            "symbolic_parameter_compatible": 576,
             "latest_candidate_evaluations": 768,
-            "candidate_evaluations": 3072,
-            "candidate_solvable": 3072,
+            "candidate_evaluations": 6912,
+            "candidate_solvable": 6912,
             "candidate_obstructed": 0,
-            "remaining_mixed_triples": 12044,
+            "remaining_mixed_triples": 11724,
             "resume_tip_sha256": (
-                "a1f24ad6e68bd4e8c1fa60c4718f729f884151ad431ecfc54d33d530876448ac"
+                "310fa6e9ebfca0ead4720fcfa99085d45f7b2b46334e88c60b590b62ce4a4bb6"
             ),
             "service_decision": "checkpointed",
             "parallel_worker_count": 8,
@@ -882,7 +967,7 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
             "lifespans_proved": 0,
         },
         "first_missing_premise": (
-            "remaining_12044_polarized_mixed_third_sylvester_jets_then_"
+            "remaining_11724_polarized_mixed_third_sylvester_jets_then_"
             "fourth_and_higher_remainder_or_nonlinear_range_theorem"
         ),
     }
@@ -946,23 +1031,18 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "G2 Solar analytic branches" in dashboard
     assert "G2 Solar fields remaining" in dashboard
     assert "Future preflight passes" in dashboard
-    assert "two exact Aether principal-mode rejects" in dashboard
+    assert "Weak-field completions" in dashboard
     assert "Future Aether blocked" in dashboard
     assert "Pure-twist AE no-go" in dashboard
-    assert "Cutoff transitions required" in dashboard
-    assert "Future G3 center checks" in dashboard
+    assert "Positive quadratic energies" in dashboard
+    assert "Negative weak-field directions" in dashboard
     assert "Future G3 uniform boxes" in dashboard
     assert "Future G3 AF profiles" in dashboard
-    assert "Flat ansatz failures" in dashboard
-    assert "AF unitary Dirac passes" in dashboard
-    assert "all 14 Aether survivors blocked" in dashboard
-    assert "Euclidean Killing-system no-go" in dashboard
-    assert "AE decay forces it to zero" in dashboard
-    assert "compact radial cutoff" in dashboard
-    assert "pass uniform all-direction principal/common-cone" in dashboard
-    assert "smooth decaying-gradient AF reference profile" in dashboard
-    assert "Hamiltonian residual -1" in dashboard
-    assert "annulus modes obstruct a bounded global unitary-lapse inverse" in dashboard
+    assert "Nonunitary principal passes" in dashboard
+    assert "AF vacuum references" in dashboard
+    assert "Nontrivial AF solutions" in dashboard
+    assert "14 linearized conformal/York completions" in dashboard
+    assert "Hamiltonian residual -v^2" in dashboard
     assert "Staged future candidate formulas (unranked)" in dashboard
     assert "These master actions are recompiled from the exact typed cells" in dashboard
     assert "G3A-8555e529226d13e2e9dacad5" in dashboard
@@ -970,14 +1050,14 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "blocked and rejected staged actions never enter a scientific ranking" in dashboard
     assert "Future reviewed cells" in dashboard
     assert "Future new candidates" in dashboard
-    assert "19 new action classes and 13 exact deduplications" in dashboard
+    assert "Every action has an exact human-readable master formula" in dashboard
     assert "Quartic nonlinear closure" in dashboard
     assert "Diagonal third jets" in dashboard
     assert "Mixed third jets closed" in dashboard
-    assert "256/256 lexicographic AAB/ABB/ABC triples" in dashboard
+    assert "576/576 lexicographic AAB/ABB/ABC triples" in dashboard
     assert "Mixed triples remaining" in dashboard
-    assert "12,044 polarized mixed triples remain" in dashboard
-    assert "Four exact mixed chunks now close 256/256" in dashboard
+    assert "11,724 polarized mixed triples remain" in dashboard
+    assert "Nine exact mixed chunks now close 576/576" in dashboard
     assert "eight isolated spawn workers" in dashboard
     assert "CK1, CK3, TC2, B7, global H7, and lifespan remain fail-closed" in dashboard
     assert "No full formal pass is inferred" not in dashboard

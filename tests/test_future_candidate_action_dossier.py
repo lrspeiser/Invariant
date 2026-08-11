@@ -88,9 +88,9 @@ def test_proof_hierarchy_distinguishes_formula_formal_and_observation_scope() ->
     assert len(g3_records) == 3
     assert all(
         record["first_blocker"]
-        == "bounded_global_unitary_Delta_N_inverse_on_candidate_AF_transition_profile"
-        and "decaying-gradient AF reference profile" in record["hierarchy_nodes"][1]["scope"]
-        and "annulus modes obstruct" in record["hierarchy_nodes"][1]["scope"]
+        == "candidate_specific_nontrivial_AF_Einstein_constraint_solution_on_decaying_gradient_domain_in_nonunitary_formulation"
+        and "nonunitary BSSN/Bona-Masso" in record["hierarchy_nodes"][1]["scope"]
+        and "Hamiltonian residual -v^2" in record["hierarchy_nodes"][1]["scope"]
         for record in g3_records
     )
     aether_records = [
@@ -102,8 +102,9 @@ def test_proof_hierarchy_distinguishes_formula_formal_and_observation_scope() ->
     assert len(aether_records) == 14
     assert all(
         record["first_blocker"]
-        == "candidate_bound_AE_coupled_constraint_solution_beyond_flat_static_global_pure_twist_class_with_negative_completed_boundary_energy"
-        and "Killing equation makes the field affine" in record["hierarchy_nodes"][1]["scope"]
+        == "finite_amplitude_candidate_bound_nonlinear_AE_coupled_constraint_solution_with_negative_completed_boundary_energy_beyond_positive_weak_field_quadratic_regime"
+        and "linearized conformal/York" in record["hierarchy_nodes"][1]["scope"]
+        and "zero negative weak-field directions" in record["hierarchy_nodes"][1]["scope"]
         for record in aether_records
     )
 
@@ -126,7 +127,7 @@ def test_artifact_is_portable_and_secret_safe() -> None:
     raw = ARTIFACT.read_bytes()
     artifact = json.loads(raw)
     assert hashlib.sha256(raw).hexdigest() == (
-        "df3dc3edc54a10e1fcf3029b392e96a00956935d1aaa3b564ca543a8c7b91791"
+        "123f0e0d3d6c27330b39e86675756d0a89764d77f259538bb3138eb62f88f665"
     )
     encoded = raw.decode("utf-8")
     assert "C:\\" not in encoded

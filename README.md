@@ -335,16 +335,22 @@ Euclidean, leaving the boundary energy undefined rather than negative. The natur
 globally pure-twist AE class is now exhausted exactly: the Euclidean Killing system makes the
 Aether field affine and AE decay forces it to zero. Compact radial localization preserves a center
 witness only by introducing a non-pure symmetric-gradient transition. A candidate-bound coupled AE
-constraint solution beyond this class with genuinely negative completed boundary energy is still
-required; blocked is not theory rejection. The three cubic-G3 actions now have all
+constraint calculation now closes at first nontrivial weak-field order for all 14: each admits a
+linearized conformal/York completion, and every nonzero compact quadratic completed energy is
+strictly positive because `c1=1/32` and `c2+c3>=0`. There are zero negative weak-field directions.
+A finite-amplitude nonlinear AE completion with genuinely negative completed boundary energy is
+still required; blocked is not theory rejection. The three cubic-G3 actions now have all
 36 action-bound componentwise fields registered and pass direct uniform principal/common-cone,
 exact lapse-coercivity, and periodic `L2(T3)` Dirac gates. Each also has a smooth action-bound
 decaying-gradient AF profile retaining the all-direction principal/common cone through `X -> 0`.
 The flat gravitational ansatz fails its Hamiltonian constraint with exact residual `-1` and is
 rejected only as an ansatz. Normalized annulus modes place zero in the approximate spectrum of the
-unitary lapse multiplier, so no bounded global `L2(R3)` inverse exists on that profile. A globally
-regular alternative formulation, AF Einstein-constraint solution, global energy theorem, and full
-formal pass remain blocked.
+unitary lapse multiplier, so no bounded global `L2(R3)` inverse exists on that profile. In a
+scalar-retained nonunitary BSSN/Bona-Masso formulation, all three principal symbols remain regular;
+Minkowski plus a constant scalar gives three reference-only AF vacuum solutions. The nontrivial
+decaying-gradient flat ansatz still has Hamiltonian residual `-v^2` and nonzero radial momentum
+flux. Candidate-specific nontrivial AF Einstein-constraint solutions, global energy, and full
+formal passes remain blocked.
 An immutable evidence bridge now ingests the six compilation results plus the Aether, `G2`, `G3`,
 and conformal-`G4` prerequisite packets into an isolated knowledge registry. It preserves candidate/action/source
 lineage, separates calibration-only controls, deduplicates replay, refuses the live campaign
@@ -1149,11 +1155,12 @@ A bounded third-order continuation now closes every diagonal `(A,A,A)` triple in
 active affine sector. All 41 symbolic compatibilities and all 492 candidate-direction evaluations
 are solvable, Hermitian, and exact-zero residual; 312 evaluations require a nonzero
 `deltaK_AAA`. This does not infer polarization: the full mixed sector contains 12,300 `AAB`, `ABB`,
-and `ABC` triples before fourth-and-higher remainder control or a nonlinear range theorem. Four exact
-lexicographic chunks now close 256/256 of those mixed triples and all 3,072 candidate evaluations
+and `ABC` triples before fourth-and-higher remainder control or a nonlinear range theorem. Nine exact
+lexicographic chunks now close 576/576 of those mixed triples and all 6,912 candidate evaluations
 with zero obstruction. The latest bounded epoch uses eight isolated spawn workers, returns records
-in canonical order, and commits or infers no record after a first obstruction. Exactly 12,044 mixed
-triples remain; the durable checkpoint resumes at offset 256. Full tube, TC2, B7,
+in canonical order, and commits or infers no record after a first obstruction. A restart-safe bounded
+supervisor advanced four epochs autonomously and stopped cleanly at a chunk boundary. Exactly 11,724 mixed
+triples remain; the durable checkpoint resumes at offset 576. Full tube, TC2, B7,
 global-H7, and lifespan claims therefore remain fail-closed.
 
 The tube bounds 153 normalized coordinate atoms: ten metric deviations, 44 first partials,

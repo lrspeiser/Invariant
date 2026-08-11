@@ -213,12 +213,14 @@ def build_future_candidate_action_dossier(
             formal_hash = followup["content_sha256"]
             formal_source = "aether_followup"
             formal_scope = (
-                "The local twist witness is exact. The flat, static, globally pure-twist "
-                "asymptotically-Euclidean completion class is exhausted: the Euclidean "
-                "Killing equation makes the field affine and asymptotic decay forces zero. "
-                "A compact cutoff preserves the center witness only by adding a non-pure "
-                "transition. A coupled AE completion with negative completed boundary energy "
-                "is still required; blocked is not rejection."
+                "The local twist witness and the flat, static, globally pure-twist AE no-go "
+                "remain exact. At weak field the full source is S_H^(2)=rho_2+div Q^(2), "
+                "and its compact monopole is E2=(1/2) integral [c1|grad a|^2+"
+                "(c2+c3)(div a)^2]. All 14 candidates have c1=1/32 and c2+c3>=0, "
+                "admit linearized conformal/York constraint completions, and have strictly "
+                "positive compact quadratic completed energy, with zero negative weak-field "
+                "directions. A finite-amplitude nonlinear AE lift with genuinely negative "
+                "completed boundary energy is still missing; blocked is not rejection."
             )
         else:
             followup = g3_records.get(candidate_id)
@@ -230,11 +232,13 @@ def build_future_candidate_action_dossier(
             formal_source = "g3_followup"
             formal_scope = (
                 "The action-bound local box, uniform principal/common cone, lapse coercivity, "
-                "and periodic Dirac gates pass. A smooth decaying-gradient AF reference "
-                "profile also retains the principal/common cone, but the flat gravitational "
-                "ansatz fails its Hamiltonian constraint and annulus modes obstruct a bounded "
-                "global unitary-lapse inverse. The ansatz failure is not a theory rejection, "
-                "and no AF constraint, global-energy, or full-formal pass is inferred."
+                "periodic Dirac, smooth AF-profile cone, and scalar-retained nonunitary "
+                "BSSN/Bona-Masso principal gates pass. Exact Minkowski plus constant-scalar "
+                "vacuum data provide a reference-only AF constraint solution. The nontrivial "
+                "decaying-gradient flat ansatz instead has Hamiltonian residual -v^2 and "
+                "nonzero radial momentum flux, so it is rejected as an ansatz, not as a "
+                "theory. A candidate-specific nontrivial AF Einstein-constraint solution and "
+                "global energy remain unproved."
             )
         status = {"reject": "rejected", "blocked": "blocked"}[decision]
         nodes = [

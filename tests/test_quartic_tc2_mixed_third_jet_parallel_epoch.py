@@ -48,7 +48,7 @@ def test_parallel_epoch_inputs_are_complete_and_hash_bound() -> None:
     )
 
 
-def test_parallel_epoch_artifact_is_exact_ordered_and_fail_closed() -> None:
+def test_six_parallel_epoch_artifacts_are_exact_ordered_and_fail_closed() -> None:
     config = json.loads(
         (
             ROOT
@@ -57,33 +57,47 @@ def test_parallel_epoch_artifact_is_exact_ordered_and_fail_closed() -> None:
             / "quartic_tc2_mixed_third_jet_parallel_continuation_service.json"
         ).read_text(encoding="utf-8")
     )
-    artifact = json.loads((OUTPUT / "chunks" / "offset-000192.json").read_text(encoding="utf-8"))
+    artifacts = [
+        json.loads(
+            (OUTPUT / "chunks" / f"offset-{offset:06d}.json").read_text(encoding="utf-8")
+        )
+        for offset in (192, 256, 320, 384, 448, 512)
+    ]
     checkpoint = json.loads((OUTPUT / "checkpoint.json").read_text(encoding="utf-8"))
     status = json.loads((OUTPUT / "service-status.json").read_text(encoding="utf-8"))
-    dynamic = _chunk_config(
-        config,
-        config["initial_prior_resume_tip_sha256"],
-        192,
-        64,
-    )
-    _validate_result(
-        artifact,
-        dynamic,
-        192,
-        64,
-        config["canonical_D2_artifact_sequence_sha256"],
-    )
+    prior_tip = config["initial_prior_resume_tip_sha256"]
+    for offset, artifact in zip((192, 256, 320, 384, 448, 512), artifacts, strict=True):
+        dynamic = _chunk_config(config, prior_tip, offset, 64)
+        _validate_result(
+            artifact,
+            dynamic,
+            offset,
+            64,
+            config["canonical_D2_artifact_sequence_sha256"],
+        )
+        prior_tip = artifact["chunk_contract"]["resume_tip_sha256"]
     assert _load_state(OUTPUT / "checkpoint.json", config) == checkpoint
     assert _hash_matches(checkpoint) and _hash_matches(status)
-    assert artifact["chunk_contract"]["parallel_worker_count"] == 8
-    assert artifact["chunk_contract"]["processed_count"] == 64
-    assert artifact["counts"]["candidate_solvable"] == 768
-    assert artifact["counts"]["candidate_obstructed"] == 0
-    assert artifact["counts"]["mixed_triples_remaining"] == 12_044
-    assert checkpoint["next_offset"] == 256
-    assert checkpoint["remaining_mixed_triples"] == 12_044
-    assert artifact["first_exact_obstruction"] is None
-    assert _all_global_claims_false(artifact["closure_ledger"])
+    latest = artifacts[-1]
+    assert latest["chunk_contract"]["parallel_worker_count"] == 8
+    assert latest["chunk_contract"]["processed_count"] == 64
+    assert latest["chunk_contract"]["next_offset"] == 576
+    assert latest["counts"]["candidate_solvable"] == 768
+    assert latest["counts"]["candidate_obstructed"] == 0
+    assert latest["counts"]["mixed_triples_remaining"] == 11_724
+    assert checkpoint["completed_chunks"] == 6
+    assert [record["offset"] for record in checkpoint["history"]] == [
+        192,
+        256,
+        320,
+        384,
+        448,
+        512,
+    ]
+    assert checkpoint["next_offset"] == 576
+    assert checkpoint["remaining_mixed_triples"] == 11_724
+    assert latest["first_exact_obstruction"] is None
+    assert _all_global_claims_false(latest["closure_ledger"])
     assert not any(checkpoint["claims"].values())
 
 

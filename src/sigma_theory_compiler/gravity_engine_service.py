@@ -19,6 +19,7 @@ from .binary_formula_execution import (
 )
 from .persistent_parallel_search import PersistentParallelSearch, plan_parallel_capacity
 from .persistent_parallel_supervisor import PersistentParallelSupervisor
+from .process_health import pid_alive
 from .real_formula_execution import FiniteFormulaQueueRefill, configure_real_evaluators
 
 SERVICE_SCHEMA = "sigma-gravity-engine-service-1.0"
@@ -119,13 +120,7 @@ def _hardware_telemetry() -> dict[str, Any]:
 
 
 def _pid_alive(pid: int | None) -> bool:
-    if not pid or pid <= 0:
-        return False
-    try:
-        os.kill(pid, 0)
-        return True
-    except OSError:
-        return False
+    return pid_alive(pid)
 
 
 def _resolve_adapter_paths(config: dict[str, Any], config_path: Path) -> dict[str, Any]:
