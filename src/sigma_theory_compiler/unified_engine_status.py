@@ -233,6 +233,10 @@ def build_unified_snapshot(
     followup_queue = sources["followup_queue"]
     resource = sources["resource_profile"]
     llm_adapter = sources["llm_proposal_adapter"]
+    llm_bridge = sources["llm_campaign_bridge"]
+    g4_solar = sources["g4_solar_evaluator"]
+    g4_solar_execution = sources["g4_solar_execution"]
+    typed_admission = sources["typed_dsl_admission"]
     if (
         llm_adapter.get("status") != "ready_disabled_no_network_no_spend"
         or llm_adapter.get("default_paid_calls_enabled") is not False
@@ -243,6 +247,49 @@ def build_unified_snapshot(
         != "quarantine_until_downstream_validation"
     ):
         raise ValueError("LLM proposal adapter readiness is not fail-closed")
+    if (
+        llm_bridge.get("status") != "ready_disabled_quarantine_only"
+        or llm_bridge.get("default_execution_enabled") is not False
+        or llm_bridge.get("maximum_total_usd") != "500.000000"
+        or llm_bridge.get("network_calls_made") != 0
+        or llm_bridge.get("paid_spend_usd") != "0.000000"
+        or llm_bridge.get("compiler_tasks_enqueued") != 0
+        or llm_bridge.get("raw_body_persistence") is not False
+        or llm_bridge.get("provider_callback_registered") is not False
+        or llm_bridge.get("prompt_resolver_callback_registered") is not False
+    ):
+        raise ValueError("LLM campaign bridge readiness is not fail-closed")
+    solar_decision = g4_solar.get("current_evaluator_decision", {})
+    if (
+        g4_solar.get("decision") != "blocked"
+        or g4_solar.get("descriptor_implementation_ready") is not True
+        or g4_solar.get("candidate_use_authorized") is not False
+        or g4_solar.get("observational_data_opened") is not False
+        or g4_solar.get("primary_record_access_count") != 0
+        or solar_decision.get("decision") != "blocked"
+        or solar_decision.get("filled_registration_hash_count") != 1
+        or len(solar_decision.get("missing_registration_hashes", [])) != 16
+    ):
+        raise ValueError("reviewed G4 Solar evaluator readiness is not fail-closed")
+    if (
+        g4_solar_execution.get("decision_counts") != {"blocked": 1}
+        or g4_solar_execution.get("work_state_counts") != {"succeeded": 1}
+        or g4_solar_execution.get("reviewed_evaluator_invocation_count") != 1
+        or g4_solar_execution.get("filled_registration_hash_count") != 1
+        or g4_solar_execution.get("missing_registration_hash_count") != 16
+        or g4_solar_execution.get("observational_data_opened") is not False
+        or g4_solar_execution.get("primary_record_access_count") != 0
+    ):
+        raise ValueError("reviewed G4 Solar execution status is not fail-closed")
+    if (
+        typed_admission.get("status") != "ready_disabled_hash_only"
+        or typed_admission.get("default_execution_enabled") is not False
+        or typed_admission.get("formula_body_persistence") is not False
+        or typed_admission.get("paid_spend_usd") != "0.000000"
+        or typed_admission.get("fixture_expected_counts")
+        != {"block": 1, "enqueue": 1, "pass": 1, "reject": 9}
+    ):
+        raise ValueError("typed DSL admission readiness is not fail-closed")
 
     blocker_gates: Counter[str] = Counter()
     for row in pareto["pareto_follow_up_queue"]:
@@ -272,6 +319,23 @@ def build_unified_snapshot(
             "output_status": llm_adapter["output_status"],
             "paid_spend_usd": llm_adapter["paid_spend_usd"],
             "status": llm_adapter["status"],
+        },
+        "campaign_bridge": {
+            "admission_callback_configured": llm_bridge["admission_callback_configured"],
+            "campaign_task_type": llm_bridge["campaign_task_type"],
+            "compiler_tasks_enqueued": llm_bridge["compiler_tasks_enqueued"],
+            "default_execution_enabled": llm_bridge["default_execution_enabled"],
+            "network_calls_made": llm_bridge["network_calls_made"],
+            "paid_spend_usd": llm_bridge["paid_spend_usd"],
+            "raw_body_persistence": llm_bridge["raw_body_persistence"],
+            "status": llm_bridge["status"],
+        },
+        "typed_dsl_admission": {
+            "compiler_queue_task_type": typed_admission["compiler_queue_task_type"],
+            "default_execution_enabled": typed_admission["default_execution_enabled"],
+            "fixture_expected_counts": typed_admission["fixture_expected_counts"],
+            "formula_body_persistence": typed_admission["formula_body_persistence"],
+            "status": typed_admission["status"],
         },
     }
     core = {
@@ -348,6 +412,36 @@ def build_unified_snapshot(
             },
             "observational_opened": promotion["solar_opened_count"] + promotion["galaxy_opened_count"],
             "deadline": "completed_artifact_no_live_deadline",
+        },
+        "g4_solar_evaluator": {
+            "candidate_id": g4_solar["candidate"]["candidate_id"],
+            "decision": g4_solar["decision"],
+            "descriptor_implementation_ready": g4_solar[
+                "descriptor_implementation_ready"
+            ],
+            "filled_registration_hash_count": solar_decision[
+                "filled_registration_hash_count"
+            ],
+            "missing_registration_hash_count": len(
+                solar_decision["missing_registration_hashes"]
+            ),
+            "first_missing_premise": g4_solar["first_missing_premise"],
+            "observational_data_opened": g4_solar["observational_data_opened"],
+            "primary_record_access_count": g4_solar["primary_record_access_count"],
+            "synthetic_GR_golden_pass_count": sum(
+                status == "pass"
+                for status in g4_solar["synthetic_fixtures"]["GR_known_answer"][
+                    "golden_statuses"
+                ].values()
+            ),
+            "durable_execution": {
+                "decision_counts": g4_solar_execution["decision_counts"],
+                "reviewed_evaluator_invocation_count": g4_solar_execution[
+                    "reviewed_evaluator_invocation_count"
+                ],
+                "task_count": g4_solar_execution["task_count"],
+                "work_state_counts": g4_solar_execution["work_state_counts"],
+            },
         },
         "grammar_parameter_cells": {
             "task_state_counts": parameter["work_state_counts"],

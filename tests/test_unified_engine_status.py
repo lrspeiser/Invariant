@@ -25,6 +25,10 @@ SOURCE_PATHS = [
     "runs/engine/grammar-v3-followup-queue-status.json",
     "configs/resource_profile_5090.json",
     "runs/engine/llm-formula-proposal-adapter-readiness.json",
+    "runs/engine/campaign-llm-proposal-bridge-readiness.json",
+    "runs/engine/reviewed-g4-candidate-solar-evaluator-readiness.json",
+    "runs/engine/grammar-v3-g4-solar-reviewed-execution-status.json",
+    "runs/engine/typed-dsl-campaign-admission-readiness.json",
 ]
 LABELS = [
     "billion_streaming",
@@ -35,6 +39,10 @@ LABELS = [
     "followup_queue",
     "resource_profile",
     "llm_proposal_adapter",
+    "llm_campaign_bridge",
+    "g4_solar_evaluator",
+    "g4_solar_execution",
+    "typed_dsl_admission",
 ]
 
 
@@ -138,6 +146,47 @@ def test_read_only_snapshot_is_deterministic_and_does_not_mutate_database(tmp_pa
         "output_status": "quarantine_until_downstream_validation",
         "paid_spend_usd": "0.000000",
         "status": "ready_disabled_no_network_no_spend",
+    }
+    assert first["core"]["llm"]["campaign_bridge"] == {
+        "admission_callback_configured": False,
+        "campaign_task_type": "reviewed_llm_formula_proposal",
+        "compiler_tasks_enqueued": 0,
+        "default_execution_enabled": False,
+        "network_calls_made": 0,
+        "paid_spend_usd": "0.000000",
+        "raw_body_persistence": False,
+        "status": "ready_disabled_quarantine_only",
+    }
+    assert first["core"]["llm"]["typed_dsl_admission"] == {
+        "compiler_queue_task_type": "reviewed_covariant_compiler_admission",
+        "default_execution_enabled": False,
+        "fixture_expected_counts": {
+            "block": 1,
+            "enqueue": 1,
+            "pass": 1,
+            "reject": 9,
+        },
+        "formula_body_persistence": False,
+        "status": "ready_disabled_hash_only",
+    }
+    assert first["core"]["g4_solar_evaluator"] == {
+        "candidate_id": "G3-f9c598b70a77ea54009d8f18",
+        "decision": "blocked",
+        "descriptor_implementation_ready": True,
+        "durable_execution": {
+            "decision_counts": {"blocked": 1},
+            "reviewed_evaluator_invocation_count": 1,
+            "task_count": 1,
+            "work_state_counts": {"succeeded": 1},
+        },
+        "filled_registration_hash_count": 1,
+        "first_missing_premise": (
+            "registered_real_source_interval_and_trace_tail_prediction_bundle"
+        ),
+        "missing_registration_hash_count": 16,
+        "observational_data_opened": False,
+        "primary_record_access_count": 0,
+        "synthetic_GR_golden_pass_count": 5,
     }
     assert "C:\\" not in json.dumps(first)
 

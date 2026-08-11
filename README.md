@@ -977,10 +977,16 @@ nonzero corrections and 112 zeros, with all differentiated Sylvester residuals z
 affine positivity bound. The next unresolved gate is the 11,781 unordered second-atom conditions,
 which require component `D2K55`, `D2P55`, and `D2TC2`; CK1's source packet also remains open. Thus
 the affine extension is certified while full variable TC2 and global H7 stay fail-closed.
-Nine chained deterministic second-order chunks now evaluate 576 canonical pairs across all 12
-candidates. All 6,912 candidate equations admit exact Hermitian `deltaK_AB` corrections with zero
-Sylvester residual and no obstruction. Each continuation verifies the prior record chain and resume
-tip before extending it; the other 11,205 pairs remain unevaluated and are not inferred.
+Fourteen chained deterministic second-order chunks, including the exact 29-pair tail, now complete
+the 861-pair canonical-active selector across all 12 candidates. All 10,332 candidate equations
+admit exact Hermitian `deltaK_AB` corrections with zero Sylvester residual and no obstruction. A
+restart-safe continuation service verifies the prior record chain and resume tip, writes atomic
+checkpoints, recovers valid orphan artifacts, and stops idempotently at selector exhaustion. The
+remaining 10,920 coordinate pairs have also been classified using both the exact flat 153-to-24
+first Jacobian and the nonlinear mixed second coordinate map. Exactly 8,245 pairs are discharged
+entrywise because at least one first direction and the mixed second direction vanish. The remaining
+2,675 are explicit, uninferred obligations: 835 require the coordinate-`D2` pushforward and 1,840
+require intrinsic jet Hessians. The first stable obligation is `q[0] x s01[1]`.
 TC1's source part needs the contracted
 state-to-jet topology, variable TC3 needs `D_Y(P55 E_v Q)`, and TC5 in `H7` needs component `D2F`
 plus `H7` control of `J(C_Q)`. The next valid route must close those terms and extend the identity

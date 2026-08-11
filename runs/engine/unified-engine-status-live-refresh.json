@@ -136,6 +136,27 @@
       },
       "processed": 6
     },
+    "g4_solar_evaluator": {
+      "candidate_id": "G3-f9c598b70a77ea54009d8f18",
+      "decision": "blocked",
+      "descriptor_implementation_ready": true,
+      "durable_execution": {
+        "decision_counts": {
+          "blocked": 1
+        },
+        "reviewed_evaluator_invocation_count": 1,
+        "task_count": 1,
+        "work_state_counts": {
+          "succeeded": 1
+        }
+      },
+      "filled_registration_hash_count": 1,
+      "first_missing_premise": "registered_real_source_interval_and_trace_tail_prediction_bundle",
+      "missing_registration_hash_count": 16,
+      "observational_data_opened": false,
+      "primary_record_access_count": 0,
+      "synthetic_GR_golden_pass_count": 5
+    },
     "grammar_parameter_cells": {
       "deadline": "bounded_completed_artifact_no_live_deadline",
       "maximum_tasks": 6,
@@ -155,6 +176,16 @@
     "llm": {
       "calls_completed": 10,
       "calls_started": 10,
+      "campaign_bridge": {
+        "admission_callback_configured": false,
+        "campaign_task_type": "reviewed_llm_formula_proposal",
+        "compiler_tasks_enqueued": 0,
+        "default_execution_enabled": false,
+        "network_calls_made": 0,
+        "paid_spend_usd": "0.000000",
+        "raw_body_persistence": false,
+        "status": "ready_disabled_quarantine_only"
+      },
       "configured_budget_usd": 500.0,
       "proposal_adapter": {
         "default_paid_calls_enabled": false,
@@ -173,7 +204,19 @@
         "grammar_parameter_cells": 0.0,
         "promotion_overlay": 0.0
       },
-      "spent_usd": 2.988822
+      "spent_usd": 2.988822,
+      "typed_dsl_admission": {
+        "compiler_queue_task_type": "reviewed_covariant_compiler_admission",
+        "default_execution_enabled": false,
+        "fixture_expected_counts": {
+          "block": 1,
+          "enqueue": 1,
+          "pass": 1,
+          "reject": 9
+        },
+        "formula_body_persistence": false,
+        "status": "ready_disabled_hash_only"
+      }
     },
     "promotion_overlay": {
       "deadline": "completed_artifact_no_live_deadline",
@@ -3653,9 +3696,27 @@
         "freshness_class": "immutable_completed_snapshot",
         "stale_source_reason": null
       },
+      "g4_solar_evaluator": {
+        "content_sha256": "17e9410233a546f8ac946b3ec1993f00fbd564080eef1b7c40e41669894f5fc5",
+        "file_sha256": "4fba90244ae58bae71192010356d53cf6d5c0f97517b97cef94a72a74a1cb49c",
+        "freshness_class": "immutable_completed_snapshot",
+        "stale_source_reason": null
+      },
+      "g4_solar_execution": {
+        "content_sha256": "f3956814494f1c3db1cb22c36651f6c9019511ff07e36cda88c58af443672d74",
+        "file_sha256": "81a88405cff5062753c207a3aed3beb97e2c6d7452487f2724e03f99bf6a1148",
+        "freshness_class": "immutable_completed_snapshot",
+        "stale_source_reason": null
+      },
       "grammar_parameter_cells": {
         "content_sha256": "c3aa264a7cbd7afbdbba1b32527f370e3c9ddd5b53c9cd220d7572b12959e593",
         "file_sha256": "76098b4a4c1108b2408039adaaaefea717ff35ec6775314ddaa4aa93ef53cede",
+        "freshness_class": "immutable_completed_snapshot",
+        "stale_source_reason": null
+      },
+      "llm_campaign_bridge": {
+        "content_sha256": "49a37169665f8bce6f72ca5d081d08c620ffacffda02f871d7d0332e13b7e936",
+        "file_sha256": "ff5fb957cc8f5fab08fdf34601aafdf3dd07c52813956374c78a7393b2c812a9",
         "freshness_class": "immutable_completed_snapshot",
         "stale_source_reason": null
       },
@@ -3676,16 +3737,22 @@
         "file_sha256": "7cefb93ee81f589bc4632e90900e5e67aa97c19b9b31ad3315b9114b5df14a26",
         "freshness_class": "immutable_completed_snapshot",
         "stale_source_reason": null
+      },
+      "typed_dsl_admission": {
+        "content_sha256": "5187dbf28f2087d294c1e85de70f0c20adc0a3c5b2c450e8db40b5ff385786a2",
+        "file_sha256": "1dcb15be647eff8b85357f816356658204ac72a8685eac561ec85167643394c7",
+        "freshness_class": "immutable_completed_snapshot",
+        "stale_source_reason": null
       }
     }
   },
-  "core_content_sha256": "8a2d7a7af16247d535f2745a312c1436aec5a6c121c78986bf63090dc729154e",
+  "core_content_sha256": "099e64a1b792fab1284141795db79de00476d182e78368b19625cc58533c45d4",
   "volatile": {
     "campaign_watchdog_freshness": {
-      "age_seconds": 644.038237,
+      "age_seconds": 2253.075868,
       "latest_event_utc": "2026-08-10T23:39:49.830882+00:00",
-      "stale": false,
-      "stale_source_reason": null
+      "stale": true,
+      "stale_source_reason": "latest_event_older_than_1800_seconds"
     },
     "deadline_state": "open",
     "note": "volatile fields are excluded from core_content_sha256",
@@ -3693,11 +3760,11 @@
       "availability": "available",
       "device_class": "NVIDIA GeForce RTX 5090",
       "memory_total_mib": 32607.0,
-      "memory_used_mib": 1330.0,
-      "power_draw_watts": 43.96,
+      "memory_used_mib": 1331.0,
+      "power_draw_watts": 44.42,
       "source": "nvidia-smi_nvml",
-      "utilization_percent": 4.0
+      "utilization_percent": 3.0
     },
-    "sampled_at_utc": "2026-08-10T23:50:33.869119+00:00"
+    "sampled_at_utc": "2026-08-11T00:17:22.906750+00:00"
   }
 }

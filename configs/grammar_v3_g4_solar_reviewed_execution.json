@@ -1,0 +1,91 @@
+{
+  "schema_version": "sigma-grammar-v3-g4-solar-reviewed-execution-config-1.0",
+  "candidate": {
+    "candidate_id": "G3-f9c598b70a77ea54009d8f18",
+    "role": "generated_candidate",
+    "action_sha256": "6ddd6502d110ead90ff494a6569213ec2e61a0b046dfa86344bb1980df6abc90"
+  },
+  "predecessor_followup_queue": {
+    "path": "runs/engine/grammar-v3-followup-queue-g4-final-status.json",
+    "file_sha256": "53eb76736d32e17127078da92309ca71cfb9cf55fa525b620d2fa2cdf4af9426",
+    "content_sha256": "99b27573a1b7136fc748cb882db91edaf2685b5425420346efaa9e7de9837a3a",
+    "queue_registry_root_sha256": "3e493847b7faba9bb65271df6b51b5887902171f212ab7debe2279d336a62b64",
+    "completed_work_records_root_sha256": "4c686cc3eb9cd9fe543a9d2fe5ee5528b7592de496ac8553b0affb911e2889f2"
+  },
+  "predecessor_solar_promotion_status": {
+    "path": "runs/engine/grammar-v3-g4-solar-promotion-service-status.json",
+    "file_sha256": "7ab89c5b88892a4b0a8e25197dc6d818fa9050aaf284b582b2698c5fb14d2470",
+    "content_sha256": "b72324882b52da29f184e69ca51cc46884ca3957509fea56c78d0e1c22f4dc5c"
+  },
+  "reviewed_readiness": {
+    "path": "runs/engine/reviewed-g4-candidate-solar-evaluator-readiness.json",
+    "file_sha256": "4fba90244ae58bae71192010356d53cf6d5c0f97517b97cef94a72a74a1cb49c",
+    "content_sha256": "17e9410233a546f8ac946b3ec1993f00fbd564080eef1b7c40e41669894f5fc5"
+  },
+  "evaluator_descriptor_allowlist": [
+    {
+      "path": "configs/reviewed_g4_candidate_solar_evaluator.json",
+      "file_sha256": "7765c31ee491cdb2c05d6cccdc2f655b2432933dacb44133d1fce588784424a1",
+      "content_sha256": "57dc02b3d739622dba7208df897ef5545201ca287f2e52c66d4d48ef90989d14",
+      "descriptor_binding_sha256": "57dc02b3d739622dba7208df897ef5545201ca287f2e52c66d4d48ef90989d14",
+      "callback_source_sha256": "d9085420dd4ffe7c146443c4dda519c96752c1772e7c8628faee0cb25bab3e73"
+    }
+  ],
+  "executor_source": {
+    "path": "src/sigma_theory_compiler/grammar_v3_g4_solar_reviewed_execution.py",
+    "file_sha256": "0f0a505601d9319a5d1a62c0c7afc3107765c2572716391fc81f410714f08550"
+  },
+  "resource_profile": {
+    "path": "configs/resource_profile_5090.json",
+    "file_sha256": "7cefb93ee81f589bc4632e90900e5e67aa97c19b9b31ad3315b9114b5df14a26",
+    "content_sha256": "e6605e735cdb8b74f14180fb49a96da46c5f95745772637e24e93b47d4bd4108"
+  },
+  "coordinator": {
+    "schema_version": "sigma-persistent-parallel-search-1.0",
+    "external_paid_llm_calls": false,
+    "determinism": {
+      "master_seed": 509020260810
+    },
+    "queue": {
+      "maximum_pending_work": 1,
+      "maximum_attempts": 3,
+      "lease_seconds": 2,
+      "checkpoint_every_completions": 1
+    },
+    "budget": {
+      "maximum_tasks": 1,
+      "maximum_wall_seconds": 120
+    },
+    "cpu": {
+      "maximum_workers": 1
+    },
+    "gpu": {
+      "minimum_compute_capability": "8.0",
+      "minimum_memory_mib": 16384,
+      "reserve_memory_mib": 4096,
+      "estimated_bytes_per_candidate": 8192,
+      "maximum_batch_candidates": 1
+    },
+    "supervisor": {
+      "cpu_workers": 1,
+      "gpu_workers": 0,
+      "cpu_evaluator": "reviewed_g4_solar",
+      "gpu_evaluator": "disabled",
+      "worker_poll_seconds": 0.1,
+      "telemetry_interval_seconds": 1.0,
+      "refill_interval_seconds": 0.1,
+      "maximum_telemetry_bytes": 1048576,
+      "maximum_wall_seconds_per_run": 120,
+      "maximum_process_restarts": 1,
+      "shutdown_grace_seconds": 1.0
+    }
+  },
+  "observational_opening_authorized": false,
+  "external_paid_llm_calls": false,
+  "data_eligibility": {
+    "observational_data_opened": false,
+    "dark_matter_or_halo_inputs": false,
+    "redshift_distance_inputs": false,
+    "paid_llm_calls": false
+  }
+}
