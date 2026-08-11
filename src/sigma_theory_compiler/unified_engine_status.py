@@ -449,6 +449,9 @@ def build_unified_snapshot(
     generated_candidate_formula_gpu_stress = sources[
         "generated_candidate_formula_gpu_stress"
     ]
+    transactional_gravity_intake = sources["kastner_schlatter_transactional_gravity_intake"]
+    transactional_gravity_graph = sources["kastner_schlatter_equation_graph_admission"]
+    transactional_gravity_cuda = sources["kastner_schlatter_cuda_consequence_campaign"]
     generic_g4_b4_termwise_normalization = sources[
         "generic_g4_b4_termwise_normalization"
     ]
@@ -563,6 +566,9 @@ def build_unified_snapshot(
     quartic_tc2_fourth_jet_chunk_224 = sources["quartic_tc2_fourth_jet_chunk_224"]
     quartic_tc2_fourth_jet_checkpoint = sources["quartic_tc2_fourth_jet_checkpoint"]
     quartic_tc2_fourth_jet_status = sources["quartic_tc2_fourth_jet_status"]
+    quartic_tc2_d4_obstruction_certificate = sources[
+        "quartic_tc2_d4_obstruction_cokernel_certificate"
+    ]
     quartic_tc2_reranked_obligation_chunks = tuple(
         sources[f"quartic_tc2_reranked_obligation_chunk_{offset}"]
         for offset in (0, 64, 128, 192, 256, 320, 384)
@@ -908,6 +914,123 @@ def build_unified_snapshot(
         or generated_candidate_formula_gpu_stress.get("paid_llm_calls") is not False
     ):
         raise ValueError("generated candidate GPU formula stress control is inconsistent")
+    transactional_claim_seals = {
+        "fundamental_action_registered": False,
+        "formal_gr_equivalence_proven": False,
+        "dark_matter_elimination_proven": False,
+        "dark_energy_elimination_proven": False,
+        "observational_pass": False,
+        "theory_validity_claimed": False,
+        "cuda_execution_performed": False,
+        "automatic_downstream_enqueue_performed": False,
+    }
+    if (
+        transactional_gravity_intake.get("decision") != "blocked"
+        or transactional_gravity_intake.get("first_blocker")
+        != "no_candidate_bound_fundamental_action_or_complete_variational_field_system"
+        or transactional_gravity_intake.get("synthetic_preflight_counts")
+        != {"pass": 7, "reject": 0, "block": 1}
+        or transactional_gravity_intake.get("claim_seals") != transactional_claim_seals
+        or transactional_gravity_intake.get("source_binding", {}).get("official_pdf_sha256")
+        != "c2f671293d07b21397e745da00a3ce1a2193c00da647a2ebf4147612b76c1780"
+    ):
+        raise ValueError("Kastner-Schlatter transactional-gravity intake is inconsistent")
+    graph_claim_seals = {
+        "fundamental_action_registered": False,
+        "variational_derivation_registered": False,
+        "formal_gr_equivalence_proven": False,
+        "dark_matter_elimination_proven": False,
+        "dark_energy_elimination_proven": False,
+        "observational_pass": False,
+        "theory_validity_claimed": False,
+        "automatic_downstream_enqueue_performed": False,
+    }
+    if (
+        transactional_gravity_graph.get("decision") != "blocked"
+        or transactional_gravity_graph.get("first_blocker")
+        != transactional_gravity_intake.get("first_blocker")
+        or transactional_gravity_graph.get("source_lineage", {}).get(
+            "source_intake_content_sha256"
+        )
+        != transactional_gravity_intake.get("content_sha256")
+        or transactional_gravity_graph.get("graph_counts")
+        != {
+            "nodes": 54,
+            "edges": 137,
+            "formula_nodes": 25,
+            "assumption_nodes": 12,
+            "domain_nodes": 6,
+            "source_nodes": 2,
+            "action_contract_nodes": 1,
+            "absent_capability_nodes": 8,
+            "dependency_edges": 18,
+            "assumption_edges": 35,
+            "semantic_algebraic_equivalence_edges": 1,
+            "exact_duplicate_edges": 0,
+            "theory_equivalence_edges": 0,
+            "absent_action_edges": 33,
+        }
+        or transactional_gravity_graph.get("claim_seals") != graph_claim_seals
+    ):
+        raise ValueError("Kastner-Schlatter equation graph admission is inconsistent")
+    expected_transactional_cuda_counts = {
+        "cosmology_locked_a0_values_emitted": 0,
+        "formal_or_theory_passes_inferred": 0,
+        "gpu_kernel_dispatches": 24600,
+        "gpu_measured_consequence_evaluations": 17179869184,
+        "gpu_measured_repetitions": 8192,
+        "gpu_warmup_repetitions": 8,
+        "lambda_values_emitted": 0,
+        "lorentz_equal_volume_frames": 2,
+        "mond_cases": 262144,
+        "observational_records_accessed": 0,
+        "ontology_passes_inferred": 0,
+        "paid_llm_calls": 0,
+        "poisson_means": 3,
+        "poisson_samples": 1572864,
+        "sds_cases": 262144,
+    }
+    if (
+        transactional_gravity_cuda.get("decision")
+        != "synthetic_consequences_executed_equation_35_and_physics_claims_blocked"
+        or transactional_gravity_cuda.get("first_blocker")
+        != "authoritative_equation_35_h_versus_hbar_normalization_clarification"
+        or transactional_gravity_cuda.get("predecessor_binding", {}).get("content_sha256")
+        != transactional_gravity_intake.get("content_sha256")
+        or transactional_gravity_cuda.get("counts") != expected_transactional_cuda_counts
+        or transactional_gravity_cuda.get("equation_35_normalization_gate", {}).get(
+            "exact_ratio_middle_to_printed"
+        )
+        != "2"
+        or transactional_gravity_cuda.get("equation_35_normalization_gate", {}).get(
+            "lambda_values_emitted"
+        )
+        != 0
+        or transactional_gravity_cuda.get("gpu_cpu_bindings", {}).get(
+            "poisson_output_byte_equal"
+        )
+        is not True
+        or transactional_gravity_cuda.get("poisson_four_volume_control", {}).get(
+            "all_statistical_controls_closed"
+        )
+        is not True
+        or transactional_gravity_cuda.get("sds_root_domain_control", {}).get("decision")
+        != "synthetic_domain_control_closed"
+        or transactional_gravity_cuda.get("mond_btfr_control", {}).get("decision")
+        != "conditional_synthetic_asymptote_control_closed"
+        or transactional_gravity_cuda.get("synthetic_only") is not True
+        or transactional_gravity_cuda.get("observations_opened") is not False
+        or transactional_gravity_cuda.get("ontology_pass") is not False
+        or transactional_gravity_cuda.get("theory_pass") is not False
+        or transactional_gravity_cuda.get("formal_pass") is not False
+        or transactional_gravity_cuda.get("dark_matter_or_halo_inputs") is not False
+        or transactional_gravity_cuda.get("redshift_or_cosmology_inputs") is not False
+        or transactional_gravity_cuda.get("paid_llm_calls") is not False
+        or "device-wide NVML" not in transactional_gravity_cuda.get("runtime_measurement", {})
+        .get("utilization", {})
+        .get("counter_scope", "")
+    ):
+        raise ValueError("Kastner-Schlatter CUDA consequence campaign is inconsistent")
     if (
         formal_preflight.get("execution_enabled") is not True
         or formal_preflight.get("candidate_count") != 163
@@ -3618,6 +3741,80 @@ def build_unified_snapshot(
         )
     ):
         raise ValueError("quartic TC2 fourth-jet obligation service is inconsistent")
+    d4_certificate_counts = quartic_tc2_d4_obstruction_certificate.get("counts", {})
+    d4_certificate_claims = quartic_tc2_d4_obstruction_certificate.get("claims", {})
+    d4_symbolic = quartic_tc2_d4_obstruction_certificate.get(
+        "exact_symbolic_certificate", {}
+    )
+    d4_zero_compression = d4_symbolic.get("equal_eigenspace_compressions", {}).get(
+        "zero_eigenspace", {}
+    )
+    d4_range = d4_symbolic.get("range_certificate", {})
+    d4_gap = d4_symbolic.get("exact_candidate_gap", {})
+    d4_candidates = d4_symbolic.get("candidate_classification", [])
+    if (
+        quartic_tc2_d4_obstruction_certificate.get("status")
+        != "pass_exact_canonical_d4_obstruction_cokernel_classification"
+        or d4_certificate_counts
+        != {
+            "candidate_compatibilities_certified": 0,
+            "candidate_obstructions_certified": 12,
+            "candidate_specializations_checked": 12,
+            "compression_generic_rank": 2,
+            "compression_nonzero_entries": 4,
+            "directional_polarization_evaluations": 15,
+            "inferred_passes": 0,
+            "negative_controls": 4,
+            "nonzero_reference_eigenspace_compressions": 1,
+            "selector_obligations_classified": 1,
+        }
+        or quartic_tc2_d4_obstruction_certificate.get("selector_binding", {}).get(
+            "obligation_offset"
+        )
+        != 244
+        or quartic_tc2_d4_obstruction_certificate.get("selector_binding", {}).get(
+            "active_indices"
+        )
+        != [0, 2, 3, 9]
+        or quartic_tc2_d4_obstruction_certificate.get("source_bindings", {})
+        .get("obstruction_chunk", {})
+        .get("content_sha256")
+        != quartic_tc2_fourth_jet_chunk_224.get("content_sha256")
+        or d4_zero_compression.get("factorization") != "(34816/15)*alpha^5*W"
+        or d4_zero_compression.get("generic_rank") != 2
+        or d4_zero_compression.get("nonzero_entries") != 4
+        or d4_zero_compression.get("sha256")
+        != "6dcc21e22a450b41d624a739c7db4e5d9753a3848f1a9578730f10d77db125f2"
+        or d4_range.get("compatibility_iff_over_Q_or_R") != "alpha=0"
+        or d4_range.get("independent_of_c20") is not True
+        or d4_gap.get("interval") != "[1088/15,34816/15]"
+        or len(d4_candidates) != 12
+        or any(row.get("compatible") is not False for row in d4_candidates)
+        or {row.get("a10") for row in d4_candidates} != {"-1", "-1/2", "1/2", "1"}
+        or d4_certificate_claims.get("canonical_D4_obligation_244_classified")
+        is not True
+        or d4_certificate_claims.get("canonical_D4_obligation_244_compatible")
+        is not False
+        or d4_certificate_claims.get("all_12_registered_candidates_canonically_obstructed")
+        is not True
+        or d4_certificate_claims.get("alternative_lower_jet_homogeneous_completion_ruled_out")
+        is not False
+        or d4_certificate_claims.get("c20_can_remove_canonical_obstruction") is not False
+        or any(
+            d4_certificate_claims.get(key) is not False
+            for key in (
+                "full_fourth_jet_range_closed",
+                "full_tube_Sylvester_identity",
+                "CK1_closed",
+                "CK3_closed",
+                "TC2_closed",
+                "B7_closed",
+                "global_H7_closed",
+                "lifespan_proved",
+            )
+        )
+    ):
+        raise ValueError("quartic TC2 D4 obstruction certificate is inconsistent")
     if (
         unified_live_dashboard_service_readiness.get("decision")
         != "ready_enabled_read_only_bounded"
@@ -3805,6 +4002,55 @@ def build_unified_snapshot(
                 ],
             },
             "deadline": "completed_artifact_no_live_deadline",
+        },
+        "transactional_gravity_proposal": {
+            "primary_source": {
+                "arxiv_id": transactional_gravity_intake["primary_source"]["arxiv_id"],
+                "title": transactional_gravity_intake["primary_source"]["title"],
+                "authors": transactional_gravity_intake["primary_source"]["authors"],
+                "pdf_sha256": transactional_gravity_intake["primary_source"]["pdf_sha256"],
+            },
+            "decision": "blocked",
+            "first_blocker": transactional_gravity_intake["first_blocker"],
+            "equation_preflight_counts": transactional_gravity_intake[
+                "synthetic_preflight_counts"
+            ],
+            "equation_35_normalization_gate": transactional_gravity_cuda[
+                "equation_35_normalization_gate"
+            ],
+            "equation_graph": {
+                "counts": transactional_gravity_graph["graph_counts"],
+                "graph_sha256": transactional_gravity_graph["graph_sha256"],
+                "decision": transactional_gravity_graph["decision"],
+                "first_blocker": transactional_gravity_graph["first_blocker"],
+            },
+            "cuda_consequence_campaign": {
+                "decision": transactional_gravity_cuda["decision"],
+                "first_blocker": transactional_gravity_cuda["first_blocker"],
+                "counts": transactional_gravity_cuda["counts"],
+                "poisson": transactional_gravity_cuda["poisson_four_volume_control"],
+                "sds": transactional_gravity_cuda["sds_root_domain_control"],
+                "mond_btfr": transactional_gravity_cuda["mond_btfr_control"],
+                "gpu_cpu_bindings": transactional_gravity_cuda["gpu_cpu_bindings"],
+                "runtime_measurement": transactional_gravity_cuda["runtime_measurement"],
+            },
+            "claim_seals": {
+                "fundamental_action_registered": False,
+                "variational_derivation_registered": False,
+                "formal_gr_equivalence_proven": False,
+                "dark_matter_elimination_proven": False,
+                "dark_energy_elimination_proven": False,
+                "observational_pass": False,
+                "theory_or_ontology_pass": False,
+                "automatic_downstream_enqueue_performed": False,
+            },
+            "data_seals": {
+                "synthetic_only": True,
+                "observations_opened": False,
+                "dark_matter_or_halo_inputs": False,
+                "redshift_or_cosmology_inputs": False,
+                "paid_llm_calls": False,
+            },
         },
         "promotion_overlay": {
             "state": promotion["state"],
@@ -4748,6 +4994,41 @@ def build_unified_snapshot(
                 "permanently_stopped": True,
                 "stop_reason": "exact_obstruction",
                 "first_exact_obstruction": fourth_obstruction,
+                "canonical_obstruction_certificate": {
+                    "status": quartic_tc2_d4_obstruction_certificate["status"],
+                    "selector_obligations_classified": d4_certificate_counts[
+                        "selector_obligations_classified"
+                    ],
+                    "candidate_specializations_checked": d4_certificate_counts[
+                        "candidate_specializations_checked"
+                    ],
+                    "candidate_compatibilities_certified": d4_certificate_counts[
+                        "candidate_compatibilities_certified"
+                    ],
+                    "candidate_obstructions_certified": d4_certificate_counts[
+                        "candidate_obstructions_certified"
+                    ],
+                    "obligation_offset": quartic_tc2_d4_obstruction_certificate[
+                        "selector_binding"
+                    ]["obligation_offset"],
+                    "active_indices": quartic_tc2_d4_obstruction_certificate[
+                        "selector_binding"
+                    ]["active_indices"],
+                    "zero_eigenspace_factorization": d4_zero_compression["factorization"],
+                    "zero_eigenspace_compression_rank": d4_zero_compression[
+                        "generic_rank"
+                    ],
+                    "zero_eigenspace_compression_sha256": d4_zero_compression["sha256"],
+                    "compatibility_iff_over_Q_or_R": d4_range[
+                        "compatibility_iff_over_Q_or_R"
+                    ],
+                    "independent_of_c20": d4_range["independent_of_c20"],
+                    "exact_candidate_witness_gap": d4_gap["interval"],
+                    "alternative_lower_jet_homogeneous_completion_ruled_out": d4_certificate_claims[
+                        "alternative_lower_jet_homogeneous_completion_ruled_out"
+                    ],
+                    "next_gate": quartic_tc2_d4_obstruction_certificate["next_gate"],
+                },
                 "full_fourth_jet_range_closed": False,
             },
             "closure_counts": {
@@ -4762,7 +5043,7 @@ def build_unified_snapshot(
                     "lifespans_proved",
                 )
             },
-            "first_missing_premise": "resolve_exact_fourth_order_equal_eigenspace_Sylvester_obstruction_at_obligation_244_before_any_higher_order_remainder_or_nonlinear_range_theorem",
+            "first_missing_premise": "parameterize_order_one_through_three_equal_eigenspace_homogeneous_Sylvester_freedom_or_prove_canonical_zero_block_normalization_mandatory_before_claiming_the_D4_obstruction_for_every_lower_jet_completion",
         },
         "evidence_pareto": {
             "candidate_decision_counts": pareto["candidate_decision_counts"],

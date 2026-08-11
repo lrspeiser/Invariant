@@ -531,6 +531,19 @@ include concurrent processes and is not a lane-only or sustained-capacity claim.
 synthetic operator inputs, not necessarily realizable field jets or observations, so the run proves
 backend agreement and throughput only—no field equation, formal pass, ranking, rejection, dark-sector
 claim, or observational support.
+
+The Kastner–Schlatter transactional-gravity proposal now has a source-bound equation intake, a typed
+54-node/137-edge equation graph, and a separate RTX 5090 synthetic-consequence campaign. The graph
+stores 25 formulas with their assumptions, domains, dependencies, source hashes, and explicit
+absent-action/variational edges; it records one algebraic rearrangement equivalence and no duplicate or
+theory-equivalence claim. CUDA produced 1,572,864 deterministic Poisson samples, 262,144 normalized
+Schwarzschild–de Sitter cases, and 262,144 conditional MOND/BTFR cases, with exact CPU controls and
+17,179,869,184 measured consequence evaluations in 6.344 seconds. Equation 35 remains blocked: using
+the paper's stated `h=2*pi*hbar` and `l_P^2=G*hbar/c^3` makes its middle coefficient `8*pi^2`, while
+the printed final coefficient is `4*pi^2`. No Lambda value or cosmology-derived `a0` is selected, and
+synthetic agreement does not infer a fundamental action, GR equivalence, transactional ontology,
+dark-matter/dark-energy elimination, or observational validity.
+
 `promotion_dossier.py` now independently replays every stored candidate/stage hash chain, explains
 the first rejection or unresolved gate, and builds a multi-axis Pareto follow-up queue only from
 non-rejected candidates. Its ranking is work allocation, never a truth probability, and it cannot
@@ -1239,10 +1252,16 @@ space. Its restart-safe eight-worker service committed 245 selector records and 
 obligations. At selector offset 244, active indices `[0,2,3,9]`, fourth-order equal-eigenspace
 Sylvester compatibility fails for all 12 quartic candidates. The service records 2,928 solvable and
 12 obstructed candidate systems, commits no post-obstruction record, and permanently stops with
-2,816 obligations unevaluated. Orders one through three remain mandatory zero-residual
-prerequisites. This is a mathematical candidate obstruction, not an infrastructure failure or an
-inferred pass for the unevaluated tail; full fourth-order range closure, full-tube, CK1, CK3, TC2,
-B7, global-H7, and lifespan remain false.
+2,816 obligations unevaluated. An exact cokernel certificate sharpens the canonical obstruction:
+the sole nonzero reference compression is `(34816/15)*alpha^5*W`, where `W` has rank two, so the
+canonical recurrence is compatible exactly when `alpha=0`, independently of `c20`. Every registered
+candidate has `alpha` in `{±1, ±1/2}` and is canonically obstructed, with exact witness gap
+`[1088/15,34816/15]`. Orders one through three remain mandatory zero-residual prerequisites, but
+their equal-eigenspace homogeneous Sylvester freedom has not yet been parameterized or proved
+inadmissible. The certificate therefore does not claim that every alternative lower-jet completion
+is obstructed. This is a mathematical canonical-candidate obstruction, not an infrastructure
+failure or an inferred pass for the unevaluated tail; full fourth-order range closure, full-tube,
+CK1, CK3, TC2, B7, global-H7, and lifespan remain false.
 
 The tube bounds 153 normalized coordinate atoms: ten metric deviations, 44 first partials,
 and 99 acceleration-free symmetric second partials. The exact orthonormal metric-basis identity

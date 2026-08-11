@@ -1,0 +1,51 @@
+{
+  "schema_version": "sigma-kastner-schlatter-cuda-consequence-config-1.0",
+  "campaign_id": "kastner-schlatter-cuda-consequence-001",
+  "predecessor": {
+    "path": "runs/engine/kastner-schlatter-transactional-gravity-intake.json",
+    "file_sha256": "4c142f202cc30a39ad62039ae01355b91e9264260ec0ec4fd02f45a3a16f82e2",
+    "content_sha256": "560caa71caacd5172ff170d6619f77c99b878c019431c5a1a82982db50117c37"
+  },
+  "resource_profile": "configs/resource_profile_5090.json",
+  "deterministic_seed": 2209040255090,
+  "poisson": {
+    "means": ["1/4", "2", "7/2"],
+    "equal_volume_frame_labels": ["frame_A", "lorentz_frame_B"],
+    "samples_per_mean_per_frame": 262144,
+    "maximum_count": 32,
+    "mean_z_limit": 5.0,
+    "equal_volume_z_limit": 5.0,
+    "fano_absolute_tolerance": 0.025,
+    "cdf_cpu_high_precision_error_bound": 5e-16
+  },
+  "sds": {
+    "case_count": 262144,
+    "epsilon_min": 1e-8,
+    "epsilon_max": 0.01,
+    "bisection_iterations": 80,
+    "root_residual_bound": 5e-14,
+    "gpu_cpu_error_bound": 5e-13
+  },
+  "mond": {
+    "case_count": 262144,
+    "normalized_G": 1.0,
+    "normalized_c": 1.0,
+    "independent_a0": 1.0,
+    "mass_min": 1e-20,
+    "mass_max": 1e-12,
+    "radius_over_r0_min": 1.01,
+    "radius_over_r0_max": 1000000.0,
+    "asymptotic_relative_error_bound": 2e-6,
+    "gpu_cpu_error_bound": 5e-13
+  },
+  "gpu_warmup_repetitions": 8,
+  "gpu_measured_repetitions": 8192,
+  "utilization_sample_interval_seconds": 0.02,
+  "synthetic_only": true,
+  "observations_opened": false,
+  "ontology_pass_allowed": false,
+  "theory_pass_allowed": false,
+  "dark_matter_or_halo_inputs": false,
+  "redshift_or_cosmology_inputs": false,
+  "paid_llm_calls": false
+}

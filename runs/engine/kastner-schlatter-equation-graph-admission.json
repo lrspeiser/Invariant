@@ -1,0 +1,2995 @@
+{
+  "schema_version": "sigma-kastner-schlatter-equation-graph-admission-1.0",
+  "campaign_id": "kastner-schlatter-equation-graph-admission-001",
+  "source_lineage": {
+    "source_intake_content_sha256": "560caa71caacd5172ff170d6619f77c99b878c019431c5a1a82982db50117c37",
+    "source_intake_file_sha256": "4c142f202cc30a39ad62039ae01355b91e9264260ec0ec4fd02f45a3a16f82e2",
+    "source_intake_config_sha256": "7bcc4090542eae30650a805139b2705acc7249f29f6a996d7f4b091d6bf6d577",
+    "source_intake_implementation_sha256": "e61ce31eed25d4e9c29be1c12f4da3bd0b74ceb17c9d14809096c49ee6cea7de",
+    "primary_pdf_sha256": "c2f671293d07b21397e745da00a3ce1a2193c00da647a2ebf4147612b76c1780",
+    "bridge_config_sha256": "016353dbd4b81535aa6664763212572c683806380cbfb6f3f2b1c875b3554cc9",
+    "bridge_implementation_sha256": "c1220840e06e235ddd63041b08cffa8c08dff6cd4ba5e8616ae8ccaa882438a0"
+  },
+  "admission_contract": {
+    "kind": "equation_universe_compatible_typed_knowledge_graph",
+    "equation_universe_schema": "sigma-equation-universe-1.0",
+    "equation_only": true,
+    "fundamental_action": null,
+    "variational_edges_present": false,
+    "theory_equivalence_edges_present": false,
+    "observational_edges_present": false
+  },
+  "knowledge_graph": {
+    "nodes": [
+      {
+        "node_id": "EQ-KS-POISSON-PMF-IMPLEMENTATION",
+        "node_type": "formula",
+        "equation_universe_schema": "sigma-equation-universe-1.0",
+        "record": {
+          "equation_id": "EQ-KS-POISSON-PMF-IMPLEMENTATION",
+          "name": "Standard Poisson PMF implementation",
+          "domain": "transaction_stochastic_process",
+          "representation": "scalar_sympy",
+          "expression": "p_n = exp(-mu)*mu**n/fact_n",
+          "latex": null,
+          "variables": [
+            {
+              "symbol": "p_n",
+              "canonical_name": "p_n",
+              "meaning": "count probability",
+              "dimension": {},
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "mu",
+              "canonical_name": "mu",
+              "meaning": "Poisson mean",
+              "dimension": {},
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "n",
+              "canonical_name": "n",
+              "meaning": "count",
+              "dimension": {},
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "fact_n",
+              "canonical_name": "fact_n",
+              "meaning": "n factorial",
+              "dimension": {},
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            }
+          ],
+          "assumptions": [
+            "poisson_count_domain"
+          ],
+          "validity": [
+            "equation-only proposal intake; no theory validation inference"
+          ],
+          "tags": [
+            "kastner_schlatter",
+            "equation_only",
+            "implementation_not_printed_equation"
+          ],
+          "source_id": "SRC-KS-2209.04025V1",
+          "source_locator": "p.9 Poisson assertion; standard PMF is implementation-only",
+          "independently_encoded": true
+        },
+        "record_sha256": "6b8db80aa522abd335a6a6eb6e081beb75f1e4649f836055b10b3bed21268c72",
+        "exact_formula_sha256": "1b544570b43343493e2b499b2892cea4fb5355852ef51c29beabad4120c3e752",
+        "normalized_expression": "-fact_n*p_n*exp(mu) + mu**n",
+        "semantic_hash": "caedce5d3bd35aebbd51d937cdb8b0dbba6611cb61f2f6b26e0c955d3d0c4b0a",
+        "structural_hash": "a9b7bfe32099aaf1c541ea2383555a0c3d0d3b7ba807ad2183300e2a8ca11a9e",
+        "dimension_status": "unknown",
+        "dimension_detail": {
+          "left": "{}",
+          "right": null
+        }
+      },
+      {
+        "node_id": "EQ-KS-33-FOUR-RATE",
+        "node_type": "formula",
+        "equation_universe_schema": "sigma-equation-universe-1.0",
+        "record": {
+          "equation_id": "EQ-KS-33-FOUR-RATE",
+          "name": "Average transaction-density derivative",
+          "domain": "transaction_stochastic_process",
+          "representation": "scalar_sympy",
+          "expression": "d_lambda_dx0 = q_gamma",
+          "latex": null,
+          "variables": [
+            {
+              "symbol": "d_lambda_dx0",
+              "canonical_name": "d_lambda_dx0",
+              "meaning": "average density derivative",
+              "dimension": {
+                "L": -4
+              },
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "q_gamma",
+              "canonical_name": "q_gamma",
+              "meaning": "transaction rate per four-volume",
+              "dimension": {
+                "L": -4
+              },
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            }
+          ],
+          "assumptions": [
+            "constant_poisson_four_rate"
+          ],
+          "validity": [
+            "equation-only proposal intake; no theory validation inference"
+          ],
+          "tags": [
+            "kastner_schlatter",
+            "equation_only"
+          ],
+          "source_id": "SRC-KS-2209.04025V1",
+          "source_locator": "p.9 equation (33) following text",
+          "independently_encoded": true
+        },
+        "record_sha256": "f0a21490692c00594e50833d6b17eda9dfffe5f42c9b573981b2289de4bfd543",
+        "exact_formula_sha256": "651fe6727bfe9fa5ca2bc761034598540c254145c4bdf58fe2d9ad1e2b4205cf",
+        "normalized_expression": "-d_lambda_dx0 + q_gamma",
+        "semantic_hash": "d78aa9deca39782729a0c5d7a628a0d66d78df6dca68cbcc6e789d9437d70a60",
+        "structural_hash": "cfa3022398e6062881ec69af546e7c9f39da3e77a4d225f1f2afd19538a3e93a",
+        "dimension_status": "pass",
+        "dimension_detail": {
+          "left": "{\"L\":\"-4\"}",
+          "right": "{\"L\":\"-4\"}"
+        }
+      },
+      {
+        "node_id": "EQ-KS-34-PRESSURE",
+        "node_type": "formula",
+        "equation_universe_schema": "sigma-equation-universe-1.0",
+        "record": {
+          "equation_id": "EQ-KS-34-PRESSURE",
+          "name": "Transaction pressure",
+          "domain": "transaction_cosmological_identification",
+          "representation": "scalar_sympy",
+          "expression": "Pbar = -c*h*q_gamma",
+          "latex": null,
+          "variables": [
+            {
+              "symbol": "Pbar",
+              "canonical_name": "Pbar",
+              "meaning": "average transaction pressure",
+              "dimension": {
+                "M": 1,
+                "L": -1,
+                "T": -2
+              },
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "c",
+              "canonical_name": "c",
+              "meaning": "speed of light",
+              "dimension": {
+                "L": 1,
+                "T": -1
+              },
+              "field_kind": "constant",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "h",
+              "canonical_name": "h",
+              "meaning": "Planck constant as printed",
+              "dimension": {
+                "M": 1,
+                "L": 2,
+                "T": -1
+              },
+              "field_kind": "constant",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "q_gamma",
+              "canonical_name": "q_gamma",
+              "meaning": "transaction rate per four-volume",
+              "dimension": {
+                "L": -4
+              },
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            }
+          ],
+          "assumptions": [
+            "constant_poisson_four_rate",
+            "repulsive_pressure_sign"
+          ],
+          "validity": [
+            "equation-only proposal intake; no theory validation inference"
+          ],
+          "tags": [
+            "kastner_schlatter",
+            "equation_only"
+          ],
+          "source_id": "SRC-KS-2209.04025V1",
+          "source_locator": "p.9 equation (34)",
+          "independently_encoded": true
+        },
+        "record_sha256": "ea0110cb170a4757226da070956b70014bb7205be12d1a1f9ce13ba7758e0aec",
+        "exact_formula_sha256": "624b2c04d6be5172a84a362e99666f0c15e3db45e2f9f94f1e68734fc86eda02",
+        "normalized_expression": "-Pbar - c*h*q_gamma",
+        "semantic_hash": "746bea388ab29c33c6f5bc7f0dc78f73053846190352161a429b08b0e4a567bc",
+        "structural_hash": "f63f11ee124c9341c46fc9529c38fb76ea008355b5963850b00e02f2b3b2cd94",
+        "dimension_status": "pass",
+        "dimension_detail": {
+          "left": "{\"L\":\"-1\",\"M\":\"1\",\"T\":\"-2\"}",
+          "right": "{\"L\":\"-1\",\"M\":\"1\",\"T\":\"-2\"}"
+        }
+      },
+      {
+        "node_id": "EQ-KS-35-LAMBDA-PRESSURE",
+        "node_type": "formula",
+        "equation_universe_schema": "sigma-equation-universe-1.0",
+        "record": {
+          "equation_id": "EQ-KS-35-LAMBDA-PRESSURE",
+          "name": "Cosmological term from transaction pressure",
+          "domain": "transaction_cosmological_identification",
+          "representation": "scalar_sympy",
+          "expression": "Lambda = -4*pi*G*Pbar/c**4",
+          "latex": null,
+          "variables": [
+            {
+              "symbol": "Lambda",
+              "canonical_name": "Lambda",
+              "meaning": "cosmological term",
+              "dimension": {
+                "L": -2
+              },
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "G",
+              "canonical_name": "G",
+              "meaning": "Newton gravitational constant",
+              "dimension": {
+                "M": -1,
+                "L": 3,
+                "T": -2
+              },
+              "field_kind": "constant",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "Pbar",
+              "canonical_name": "Pbar",
+              "meaning": "average transaction pressure",
+              "dimension": {
+                "M": 1,
+                "L": -1,
+                "T": -2
+              },
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "c",
+              "canonical_name": "c",
+              "meaning": "speed of light",
+              "dimension": {
+                "L": 1,
+                "T": -1
+              },
+              "field_kind": "constant",
+              "tensor_rank": 0
+            }
+          ],
+          "assumptions": [
+            "repulsive_pressure_sign"
+          ],
+          "validity": [
+            "equation-only proposal intake; no theory validation inference"
+          ],
+          "tags": [
+            "kastner_schlatter",
+            "equation_only"
+          ],
+          "source_id": "SRC-KS-2209.04025V1",
+          "source_locator": "p.9 equation (35), first equality",
+          "independently_encoded": true
+        },
+        "record_sha256": "5c91e99d173757ef098a2a7120fa43ab6d49df3a8cb2a9a8460ff9abb7c985ab",
+        "exact_formula_sha256": "a5d0ec772af6664112336de8dc907c433ec074955b950fe18045395bb0df62e2",
+        "normalized_expression": "-4*pi*G*Pbar - Lambda*c**4",
+        "semantic_hash": "14a96b6b94d14b7b5045833327b5170a3675919cba72c6f708d61e0af9231e79",
+        "structural_hash": "c29079c69bb5be6b227c93f47750516e2b858670015285969e99d2453ba8fe42",
+        "dimension_status": "pass",
+        "dimension_detail": {
+          "left": "{\"L\":\"-2\"}",
+          "right": "{\"L\":\"-2\"}"
+        }
+      },
+      {
+        "node_id": "EQ-KS-35-LAMBDA-RATE",
+        "node_type": "formula",
+        "equation_universe_schema": "sigma-equation-universe-1.0",
+        "record": {
+          "equation_id": "EQ-KS-35-LAMBDA-RATE",
+          "name": "Cosmological term from transaction rate",
+          "domain": "transaction_cosmological_identification",
+          "representation": "scalar_sympy",
+          "expression": "Lambda = 4*pi*G*h*q_gamma/c**3",
+          "latex": null,
+          "variables": [
+            {
+              "symbol": "Lambda",
+              "canonical_name": "Lambda",
+              "meaning": "cosmological term",
+              "dimension": {
+                "L": -2
+              },
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "G",
+              "canonical_name": "G",
+              "meaning": "Newton gravitational constant",
+              "dimension": {
+                "M": -1,
+                "L": 3,
+                "T": -2
+              },
+              "field_kind": "constant",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "h",
+              "canonical_name": "h",
+              "meaning": "Planck constant as printed",
+              "dimension": {
+                "M": 1,
+                "L": 2,
+                "T": -1
+              },
+              "field_kind": "constant",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "q_gamma",
+              "canonical_name": "q_gamma",
+              "meaning": "transaction rate per four-volume",
+              "dimension": {
+                "L": -4
+              },
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "c",
+              "canonical_name": "c",
+              "meaning": "speed of light",
+              "dimension": {
+                "L": 1,
+                "T": -1
+              },
+              "field_kind": "constant",
+              "tensor_rank": 0
+            }
+          ],
+          "assumptions": [
+            "constant_poisson_four_rate"
+          ],
+          "validity": [
+            "equation-only proposal intake; no theory validation inference"
+          ],
+          "tags": [
+            "kastner_schlatter",
+            "equation_only"
+          ],
+          "source_id": "SRC-KS-2209.04025V1",
+          "source_locator": "p.9 equation (35), middle equality",
+          "independently_encoded": true
+        },
+        "record_sha256": "f024bc0e177acc99604310e42477136c8e2972cdd919c32dfbdec82eb89a95e5",
+        "exact_formula_sha256": "0652107ff779146be9d1fe8d205c063fc83cc9be53040890138c359d69ddfd39",
+        "normalized_expression": "-4*pi*G*h*q_gamma + Lambda*c**3",
+        "semantic_hash": "eda1adcbad3eb96f53b33b298e539292951d2b23e3253796d05971d8dc583477",
+        "structural_hash": "a6c4f51c4a35ffb3c9a242a401e372abc67891e345195100ba0ac753891e1f3a",
+        "dimension_status": "pass",
+        "dimension_detail": {
+          "left": "{\"L\":\"-2\"}",
+          "right": "{\"L\":\"-2\"}"
+        }
+      },
+      {
+        "node_id": "EQ-KS-35-LAMBDA-PLANCK",
+        "node_type": "formula",
+        "equation_universe_schema": "sigma-equation-universe-1.0",
+        "record": {
+          "equation_id": "EQ-KS-35-LAMBDA-PLANCK",
+          "name": "Printed Planck-length cosmological term",
+          "domain": "transaction_cosmological_identification",
+          "representation": "scalar_sympy",
+          "expression": "Lambda = 4*pi**2*lP**2*q_gamma",
+          "latex": null,
+          "variables": [
+            {
+              "symbol": "Lambda",
+              "canonical_name": "Lambda",
+              "meaning": "cosmological term",
+              "dimension": {
+                "L": -2
+              },
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "lP",
+              "canonical_name": "lP",
+              "meaning": "Planck length",
+              "dimension": {
+                "L": 1
+              },
+              "field_kind": "constant",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "q_gamma",
+              "canonical_name": "q_gamma",
+              "meaning": "transaction rate per four-volume",
+              "dimension": {
+                "L": -4
+              },
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            }
+          ],
+          "assumptions": [
+            "constant_poisson_four_rate"
+          ],
+          "validity": [
+            "equation-only proposal intake; no theory validation inference"
+          ],
+          "tags": [
+            "kastner_schlatter",
+            "equation_only",
+            "normalization_clarification_required"
+          ],
+          "source_id": "SRC-KS-2209.04025V1",
+          "source_locator": "p.9 equation (35), printed final equality; normalization blocked in intake",
+          "independently_encoded": true
+        },
+        "record_sha256": "b2dabb55eee9606f56dddab8a6da4e9083cff717f7b67aa483441b967c9a125e",
+        "exact_formula_sha256": "482f3d7ef282bf59ee435689d9ccad96dc6b292262b2fe7fccaec605cba31b83",
+        "normalized_expression": "-Lambda + 4*pi**2*lP**2*q_gamma",
+        "semantic_hash": "f2fcb1e7a3c0eb1a886890fa1de9cb77a337a0e5eb63fce6d84e996543796b6c",
+        "structural_hash": "0623d1e9e8ebdf4bd89f04e4a1bf2e9b876523e3224f806f798f6c0aabc8a4a2",
+        "dimension_status": "pass",
+        "dimension_detail": {
+          "left": "{\"L\":\"-2\"}",
+          "right": "{\"L\":\"-2\"}"
+        }
+      },
+      {
+        "node_id": "EQ-KS-38-LOCAL-00",
+        "node_type": "formula",
+        "equation_universe_schema": "sigma-equation-universe-1.0",
+        "record": {
+          "equation_id": "EQ-KS-38-LOCAL-00",
+          "name": "Local trace-reversed zero component",
+          "domain": "local_trace_reversed_gravity",
+          "representation": "tensor_dsl",
+          "expression": "R_00 + Lambda delta_00 = (8 pi G/c^4) (T_00 - (1/2) T delta_00)",
+          "latex": null,
+          "variables": [],
+          "assumptions": [
+            "local_inertial_frames",
+            "homogeneous_local_energy"
+          ],
+          "validity": [
+            "equation-only proposal intake; no theory validation inference"
+          ],
+          "tags": [
+            "kastner_schlatter",
+            "equation_only"
+          ],
+          "source_id": "SRC-KS-2209.04025V1",
+          "source_locator": "p.10 equation (38)",
+          "independently_encoded": true
+        },
+        "record_sha256": "371766b8833e709d09110c081763645b6fa63a68e189679364e28040ae83b816",
+        "exact_formula_sha256": "929caf44a5ce18d469b014e7d950b58fb87af52bb39d6acce3e5b8d70878536e",
+        "normalized_expression": "R_00 + Lambda delta_00 = (8 pi G/c^4) (T_00 - (1/2) T delta_00)",
+        "semantic_hash": "b578779778e92d61449b9fb165671493180c56cca420487514c7eb1c19d9868e",
+        "structural_hash": null,
+        "dimension_status": "unknown",
+        "dimension_detail": {
+          "reason": "non-scalar representation"
+        }
+      },
+      {
+        "node_id": "EQ-KS-39-TRACE-REVERSED",
+        "node_type": "formula",
+        "equation_universe_schema": "sigma-equation-universe-1.0",
+        "record": {
+          "equation_id": "EQ-KS-39-TRACE-REVERSED",
+          "name": "Full trace-reversed Einstein-form equation",
+          "domain": "local_trace_reversed_gravity",
+          "representation": "tensor_dsl",
+          "expression": "R_mn + Lambda g_mn = (8 pi G/c^4) (T_mn - (1/2) T g_mn)",
+          "latex": null,
+          "variables": [],
+          "assumptions": [
+            "local_inertial_frames",
+            "known_tensor_transformations"
+          ],
+          "validity": [
+            "equation-only proposal intake; no theory validation inference"
+          ],
+          "tags": [
+            "kastner_schlatter",
+            "equation_only",
+            "successive_generalization_not_action_equivalence"
+          ],
+          "source_id": "SRC-KS-2209.04025V1",
+          "source_locator": "p.10 equation (39)",
+          "independently_encoded": true
+        },
+        "record_sha256": "68e24c6233907e902df8d2bca7922fd0c0d84471e0c2cf67e9f3418d1937eabd",
+        "exact_formula_sha256": "04b273519200089d925138b92227913ba2511cc5e6b10b6824420c2e75525431",
+        "normalized_expression": "R_mn + Lambda g_mn = (8 pi G/c^4) (T_mn - (1/2) T g_mn)",
+        "semantic_hash": "8090dd605988ade011ed19275a368f4617da76a637b1a42f1806d15562513440",
+        "structural_hash": null,
+        "dimension_status": "unknown",
+        "dimension_detail": {
+          "reason": "non-scalar representation"
+        }
+      },
+      {
+        "node_id": "EQ-KS-42-SDS-METRIC",
+        "node_type": "formula",
+        "equation_universe_schema": "sigma-equation-universe-1.0",
+        "record": {
+          "equation_id": "EQ-KS-42-SDS-METRIC",
+          "name": "Schwarzschild-de Sitter line element",
+          "domain": "schwarzschild_de_sitter",
+          "representation": "tensor_dsl",
+          "expression": "ds2 = f(r)c2dt2 - inv(f(r))dr2 - r2dOmega2",
+          "latex": null,
+          "variables": [],
+          "assumptions": [
+            "static_sds_chart"
+          ],
+          "validity": [
+            "equation-only proposal intake; no theory validation inference"
+          ],
+          "tags": [
+            "kastner_schlatter",
+            "equation_only"
+          ],
+          "source_id": "SRC-KS-2209.04025V1",
+          "source_locator": "p.11 equation (42), line element",
+          "independently_encoded": true
+        },
+        "record_sha256": "6e8d814f24ef6adaebcff1684dfc2667b543d44c7950a4b9f1ed68f1ad576435",
+        "exact_formula_sha256": "a7b911bd063b1a829a0e3d908d1198b471002f518797e1609596ca548a3ec2b9",
+        "normalized_expression": "ds2 = f(r)c2dt2 - inv(f(r))dr2 - r2dOmega2",
+        "semantic_hash": "176f3b8981da5d1d97db909a53b38cc3763ab2fda0e90e47de5eedb6ca75acab",
+        "structural_hash": null,
+        "dimension_status": "unknown",
+        "dimension_detail": {
+          "reason": "non-scalar representation"
+        }
+      },
+      {
+        "node_id": "EQ-KS-42-METRIC-FACTOR",
+        "node_type": "formula",
+        "equation_universe_schema": "sigma-equation-universe-1.0",
+        "record": {
+          "equation_id": "EQ-KS-42-METRIC-FACTOR",
+          "name": "Schwarzschild-de Sitter metric factor",
+          "domain": "schwarzschild_de_sitter",
+          "representation": "scalar_sympy",
+          "expression": "f = 1-r**2/R0**2-Rs/r",
+          "latex": null,
+          "variables": [
+            {
+              "symbol": "f",
+              "canonical_name": "f",
+              "meaning": "static metric factor",
+              "dimension": {},
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "r",
+              "canonical_name": "r",
+              "meaning": "radial coordinate",
+              "dimension": {
+                "L": 1
+              },
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "R0",
+              "canonical_name": "R0",
+              "meaning": "de Sitter horizon radius",
+              "dimension": {
+                "L": 1
+              },
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "Rs",
+              "canonical_name": "Rs",
+              "meaning": "Schwarzschild radius",
+              "dimension": {
+                "L": 1
+              },
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            }
+          ],
+          "assumptions": [
+            "static_sds_chart"
+          ],
+          "validity": [
+            "equation-only proposal intake; no theory validation inference"
+          ],
+          "tags": [
+            "kastner_schlatter",
+            "equation_only"
+          ],
+          "source_id": "SRC-KS-2209.04025V1",
+          "source_locator": "p.11 equation (42), metric factor",
+          "independently_encoded": true
+        },
+        "record_sha256": "b627581a05f94ee6b843c583dee91038a0cd9eb45a4b0c00bc5d86c3ffc283aa",
+        "exact_formula_sha256": "ce56eaa5529698db6239fb1dac189d7eaa575fda2d31c86f973e7668159e1f11",
+        "normalized_expression": "-R0**2*Rs - R0**2*f*r + R0**2*r - r**3",
+        "semantic_hash": "e148ea2d699cf4ef18c100440ebb9625476abe797a48d1e10bee2ff8556455c7",
+        "structural_hash": "d4b369c457e510a2a7a17d3413754acea9b4d1146ba21764660e7677d5c70ab8",
+        "dimension_status": "pass",
+        "dimension_detail": {
+          "left": "{}",
+          "right": "{}"
+        }
+      },
+      {
+        "node_id": "EQ-KS-42-R0",
+        "node_type": "formula",
+        "equation_universe_schema": "sigma-equation-universe-1.0",
+        "record": {
+          "equation_id": "EQ-KS-42-R0",
+          "name": "de Sitter radius",
+          "domain": "schwarzschild_de_sitter",
+          "representation": "scalar_sympy",
+          "expression": "R0 = sqrt(3/Lambda)",
+          "latex": null,
+          "variables": [
+            {
+              "symbol": "R0",
+              "canonical_name": "R0",
+              "meaning": "de Sitter horizon radius",
+              "dimension": {
+                "L": 1
+              },
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "Lambda",
+              "canonical_name": "Lambda",
+              "meaning": "cosmological term",
+              "dimension": {
+                "L": -2
+              },
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            }
+          ],
+          "assumptions": [
+            "static_sds_chart"
+          ],
+          "validity": [
+            "equation-only proposal intake; no theory validation inference"
+          ],
+          "tags": [
+            "kastner_schlatter",
+            "equation_only"
+          ],
+          "source_id": "SRC-KS-2209.04025V1",
+          "source_locator": "p.11 equation (42), definition after line element",
+          "independently_encoded": true
+        },
+        "record_sha256": "8af2b90ee96fe65ea3772977756d98a7e53a1c89c92fc2d492d39ec7e5062b8c",
+        "exact_formula_sha256": "a8740d80f42e50d36445dbfbe542d49af397689a2f0617f2f7b3752d566091f6",
+        "normalized_expression": "-R0 + sqrt(3)*sqrt(1/Lambda)",
+        "semantic_hash": "88bd2e84543627a107f0284e261d657bd64121be496049912d4d10368d9e0d9d",
+        "structural_hash": "eeb036320c4a1ecc362839bdcb76ca358a90fe47873635f415732f40078dc7fe",
+        "dimension_status": "pass",
+        "dimension_detail": {
+          "left": "{\"L\":\"1\"}",
+          "right": "{\"L\":\"1\"}"
+        }
+      },
+      {
+        "node_id": "EQ-KS-42-RS",
+        "node_type": "formula",
+        "equation_universe_schema": "sigma-equation-universe-1.0",
+        "record": {
+          "equation_id": "EQ-KS-42-RS",
+          "name": "Schwarzschild radius",
+          "domain": "schwarzschild_de_sitter",
+          "representation": "scalar_sympy",
+          "expression": "Rs = 2*G*M/c**2",
+          "latex": null,
+          "variables": [
+            {
+              "symbol": "Rs",
+              "canonical_name": "Rs",
+              "meaning": "Schwarzschild radius",
+              "dimension": {
+                "L": 1
+              },
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "G",
+              "canonical_name": "G",
+              "meaning": "Newton gravitational constant",
+              "dimension": {
+                "M": -1,
+                "L": 3,
+                "T": -2
+              },
+              "field_kind": "constant",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "M",
+              "canonical_name": "M",
+              "meaning": "central mass",
+              "dimension": {
+                "M": 1
+              },
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "c",
+              "canonical_name": "c",
+              "meaning": "speed of light",
+              "dimension": {
+                "L": 1,
+                "T": -1
+              },
+              "field_kind": "constant",
+              "tensor_rank": 0
+            }
+          ],
+          "assumptions": [
+            "static_sds_chart"
+          ],
+          "validity": [
+            "equation-only proposal intake; no theory validation inference"
+          ],
+          "tags": [
+            "kastner_schlatter",
+            "equation_only"
+          ],
+          "source_id": "SRC-KS-2209.04025V1",
+          "source_locator": "p.11 text immediately before equation (42)",
+          "independently_encoded": true
+        },
+        "record_sha256": "a5c4176c025c4be40ee17b871acc17b22926e78709563b9a83f4019206525481",
+        "exact_formula_sha256": "fb0bfaf114438d7dc649adfb4abed5423bd57275eb913fba413968b812e4878b",
+        "normalized_expression": "-2*G*M + Rs*c**2",
+        "semantic_hash": "b21d04f48e09be3c4d18d216c406b0cce78f978e7d0b620ca46b0cfd3049a074",
+        "structural_hash": "31c144fc7dff0a0ab0ab6908f2ae3838e44ef45c16b87782334d3b68580d5537",
+        "dimension_status": "pass",
+        "dimension_detail": {
+          "left": "{\"L\":\"1\"}",
+          "right": "{\"L\":\"1\"}"
+        }
+      },
+      {
+        "node_id": "EQ-KS-44-AINF-H0",
+        "node_type": "formula",
+        "equation_universe_schema": "sigma-equation-universe-1.0",
+        "record": {
+          "equation_id": "EQ-KS-44-AINF-H0",
+          "name": "de Sitter horizon acceleration from Hubble constant",
+          "domain": "schwarzschild_de_sitter",
+          "representation": "scalar_sympy",
+          "expression": "a_inf = c*H0",
+          "latex": null,
+          "variables": [
+            {
+              "symbol": "a_inf",
+              "canonical_name": "a_inf",
+              "meaning": "horizon acceleration",
+              "dimension": {
+                "L": 1,
+                "T": -2
+              },
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "c",
+              "canonical_name": "c",
+              "meaning": "speed of light",
+              "dimension": {
+                "L": 1,
+                "T": -1
+              },
+              "field_kind": "constant",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "H0",
+              "canonical_name": "H0",
+              "meaning": "Hubble constant",
+              "dimension": {
+                "T": -1
+              },
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            }
+          ],
+          "assumptions": [
+            "static_sds_chart"
+          ],
+          "validity": [
+            "equation-only proposal intake; no theory validation inference"
+          ],
+          "tags": [
+            "kastner_schlatter",
+            "equation_only"
+          ],
+          "source_id": "SRC-KS-2209.04025V1",
+          "source_locator": "p.11 equation (44), first equality",
+          "independently_encoded": true
+        },
+        "record_sha256": "fe5beed61c09b80a378b8c87fd64b1f9540425349798cac69674381c226a21a1",
+        "exact_formula_sha256": "10c82f33e1458720e39179da41650e8edc60548f26075713aad82c8ee49bc77c",
+        "normalized_expression": "-H0*c + a_inf",
+        "semantic_hash": "349afe12cea155f16d8b5614647e2d91a390ecb91048874cd335b2c2ac89ddba",
+        "structural_hash": "c80885fd30b3a3930931d198b8f8b0d45e6de400e5085e243c3f4039bd86682a",
+        "dimension_status": "pass",
+        "dimension_detail": {
+          "left": "{\"L\":\"1\",\"T\":\"-2\"}",
+          "right": "{\"L\":\"1\",\"T\":\"-2\"}"
+        }
+      },
+      {
+        "node_id": "EQ-KS-44-AINF-R0",
+        "node_type": "formula",
+        "equation_universe_schema": "sigma-equation-universe-1.0",
+        "record": {
+          "equation_id": "EQ-KS-44-AINF-R0",
+          "name": "de Sitter horizon acceleration from radius",
+          "domain": "schwarzschild_de_sitter",
+          "representation": "scalar_sympy",
+          "expression": "a_inf = c**2/R0",
+          "latex": null,
+          "variables": [
+            {
+              "symbol": "a_inf",
+              "canonical_name": "a_inf",
+              "meaning": "horizon acceleration",
+              "dimension": {
+                "L": 1,
+                "T": -2
+              },
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "c",
+              "canonical_name": "c",
+              "meaning": "speed of light",
+              "dimension": {
+                "L": 1,
+                "T": -1
+              },
+              "field_kind": "constant",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "R0",
+              "canonical_name": "R0",
+              "meaning": "de Sitter horizon radius",
+              "dimension": {
+                "L": 1
+              },
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            }
+          ],
+          "assumptions": [
+            "static_sds_chart"
+          ],
+          "validity": [
+            "equation-only proposal intake; no theory validation inference"
+          ],
+          "tags": [
+            "kastner_schlatter",
+            "equation_only"
+          ],
+          "source_id": "SRC-KS-2209.04025V1",
+          "source_locator": "p.11 equation (44), second equality",
+          "independently_encoded": true
+        },
+        "record_sha256": "45999c3f79576028f587324c7cee37640580b2070ba724b9df992a6160eb44cd",
+        "exact_formula_sha256": "d566df0cb44a41adc18f62f0bef396436d1d39ee783d105b8cce734df0f2865d",
+        "normalized_expression": "-R0*a_inf + c**2",
+        "semantic_hash": "789d16b7b56be2d3e50b996d22b359cfa9b7acbb51fa81639d10fcf18ac4254f",
+        "structural_hash": "7884c9595259c0d5454b735a10ffaac15262e0be552a4b215e28c7b3469ea145",
+        "dimension_status": "pass",
+        "dimension_detail": {
+          "left": "{\"L\":\"1\",\"T\":\"-2\"}",
+          "right": "{\"L\":\"1\",\"T\":\"-2\"}"
+        }
+      },
+      {
+        "node_id": "EQ-KS-44-AINF-LAMBDA",
+        "node_type": "formula",
+        "equation_universe_schema": "sigma-equation-universe-1.0",
+        "record": {
+          "equation_id": "EQ-KS-44-AINF-LAMBDA",
+          "name": "de Sitter horizon acceleration from Lambda",
+          "domain": "schwarzschild_de_sitter",
+          "representation": "scalar_sympy",
+          "expression": "a_inf = c**2*sqrt(Lambda/3)",
+          "latex": null,
+          "variables": [
+            {
+              "symbol": "a_inf",
+              "canonical_name": "a_inf",
+              "meaning": "horizon acceleration",
+              "dimension": {
+                "L": 1,
+                "T": -2
+              },
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "c",
+              "canonical_name": "c",
+              "meaning": "speed of light",
+              "dimension": {
+                "L": 1,
+                "T": -1
+              },
+              "field_kind": "constant",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "Lambda",
+              "canonical_name": "Lambda",
+              "meaning": "cosmological term",
+              "dimension": {
+                "L": -2
+              },
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            }
+          ],
+          "assumptions": [
+            "static_sds_chart"
+          ],
+          "validity": [
+            "equation-only proposal intake; no theory validation inference"
+          ],
+          "tags": [
+            "kastner_schlatter",
+            "equation_only"
+          ],
+          "source_id": "SRC-KS-2209.04025V1",
+          "source_locator": "p.11 equation (44), third equality",
+          "independently_encoded": true
+        },
+        "record_sha256": "b290a129b6f59926b0d67220db67a13688b17fdcf613313f339552fb7ea444f9",
+        "exact_formula_sha256": "1b3056bc35975f2f6fa877cd25d5c1f3cfebe751d66bd094c433b2181abd735a",
+        "normalized_expression": "-sqrt(3)*sqrt(Lambda)*c**2 + 3*a_inf",
+        "semantic_hash": "25f7875276838579ce0f8d8a91b478e7149c6f69c7250007961cb6eb43b9ee75",
+        "structural_hash": "8860157feabc84aac90d1103c28f8139239160cb540900b5fba0b391f70957fe",
+        "dimension_status": "pass",
+        "dimension_detail": {
+          "left": "{\"L\":\"1\",\"T\":\"-2\"}",
+          "right": "{\"L\":\"1\",\"T\":\"-2\"}"
+        }
+      },
+      {
+        "node_id": "EQ-KS-A0-DEFINITION",
+        "node_type": "formula",
+        "equation_universe_schema": "sigma-equation-universe-1.0",
+        "record": {
+          "equation_id": "EQ-KS-A0-DEFINITION",
+          "name": "Paper acceleration-scale definition",
+          "domain": "schwarzschild_de_sitter",
+          "representation": "scalar_sympy",
+          "expression": "a0 = a_inf/2",
+          "latex": null,
+          "variables": [
+            {
+              "symbol": "a0",
+              "canonical_name": "a0",
+              "meaning": "paper acceleration scale",
+              "dimension": {
+                "L": 1,
+                "T": -2
+              },
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "a_inf",
+              "canonical_name": "a_inf",
+              "meaning": "horizon acceleration",
+              "dimension": {
+                "L": 1,
+                "T": -2
+              },
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            }
+          ],
+          "assumptions": [
+            "static_sds_chart"
+          ],
+          "validity": [
+            "equation-only proposal intake; no theory validation inference"
+          ],
+          "tags": [
+            "kastner_schlatter",
+            "equation_only"
+          ],
+          "source_id": "SRC-KS-2209.04025V1",
+          "source_locator": "p.11 text following equation (44)",
+          "independently_encoded": true
+        },
+        "record_sha256": "ba7446eeae9da96a2c2b1c5cca41c3106c10746360ded430cd59ec03cd8cc6d9",
+        "exact_formula_sha256": "7ea839a49956ed4cc7639e564d7501b674245fa0c98bd6921bf1118c8d0a8b94",
+        "normalized_expression": "-2*a0 + a_inf",
+        "semantic_hash": "482bed7862928ce7c929d5721b501a24e9c0ac19223c6f7a1448d99945b5b480",
+        "structural_hash": "3a8ec2eaa30f392d98dee80dc6e60e7d5ec1ba052b8bd5b8a0b7d281bebef992",
+        "dimension_status": "pass",
+        "dimension_detail": {
+          "left": "{\"L\":\"1\",\"T\":\"-2\"}",
+          "right": "{\"L\":\"1\",\"T\":\"-2\"}"
+        }
+      },
+      {
+        "node_id": "EQ-KS-45-DE-SITTER-ACCELERATION",
+        "node_type": "formula",
+        "equation_universe_schema": "sigma-equation-universe-1.0",
+        "record": {
+          "equation_id": "EQ-KS-45-DE-SITTER-ACCELERATION",
+          "name": "Hypothetical de Sitter radial acceleration",
+          "domain": "schwarzschild_de_sitter",
+          "representation": "scalar_sympy",
+          "expression": "a = r*a0/R0",
+          "latex": null,
+          "variables": [
+            {
+              "symbol": "a",
+              "canonical_name": "a",
+              "meaning": "hypothetical acceleration",
+              "dimension": {
+                "L": 1,
+                "T": -2
+              },
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "r",
+              "canonical_name": "r",
+              "meaning": "radial coordinate",
+              "dimension": {
+                "L": 1
+              },
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "a0",
+              "canonical_name": "a0",
+              "meaning": "paper acceleration scale",
+              "dimension": {
+                "L": 1,
+                "T": -2
+              },
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "R0",
+              "canonical_name": "R0",
+              "meaning": "de Sitter horizon radius",
+              "dimension": {
+                "L": 1
+              },
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            }
+          ],
+          "assumptions": [
+            "static_sds_chart"
+          ],
+          "validity": [
+            "equation-only proposal intake; no theory validation inference"
+          ],
+          "tags": [
+            "kastner_schlatter",
+            "equation_only"
+          ],
+          "source_id": "SRC-KS-2209.04025V1",
+          "source_locator": "p.11 equation (45); paper calls this hypothetical in empty space",
+          "independently_encoded": true
+        },
+        "record_sha256": "c22e3315ad263a948f058f0261e9786b900c8b75e4fa7a39edde13e255b20556",
+        "exact_formula_sha256": "491d0227f72a3761c2eee4a35acc557891baf748a509488d1e809ce60b362d3b",
+        "normalized_expression": "-R0*a + a0*r",
+        "semantic_hash": "a75b64c8bcf79a4958ec2b9c00bddce4a7c7993762281db63d8e494098904400",
+        "structural_hash": "ee3de90d3ea20e2441eb9facca2f200f23a6668607be3cdaef91eef3fbb6d290",
+        "dimension_status": "pass",
+        "dimension_detail": {
+          "left": "{\"L\":\"1\",\"T\":\"-2\"}",
+          "right": "{\"L\":\"1\",\"T\":\"-2\"}"
+        }
+      },
+      {
+        "node_id": "EQ-KS-55-EFFECTIVE-ENTROPY",
+        "node_type": "formula",
+        "equation_universe_schema": "sigma-equation-universe-1.0",
+        "record": {
+          "equation_id": "EQ-KS-55-EFFECTIVE-ENTROPY",
+          "name": "Effective de Sitter entropy definition",
+          "domain": "effective_entropy",
+          "representation": "latex_only",
+          "expression": "Sbar_dS(r)=S_dS(r)+DeltaS_dS(r)",
+          "latex": null,
+          "variables": [],
+          "assumptions": [
+            "weak_potential_first_order",
+            "positive_effective_entropy"
+          ],
+          "validity": [
+            "equation-only proposal intake; no theory validation inference"
+          ],
+          "tags": [
+            "kastner_schlatter",
+            "equation_only"
+          ],
+          "source_id": "SRC-KS-2209.04025V1",
+          "source_locator": "p.13 equation (55); full printed right side retained in intake contract",
+          "independently_encoded": true
+        },
+        "record_sha256": "25069f5f0971e95b8554d14cf6d171fd9c2520bd5d60cde7af55361c2a5e5e26",
+        "exact_formula_sha256": "732006e56a7cb843f5cac5a51f0481b3b07ede67c8b6f4dd4f3d8251b531ca7c",
+        "normalized_expression": "Sbar_dS(r)=S_dS(r)+DeltaS_dS(r)",
+        "semantic_hash": "6f3e7a361cdd3b984a92d71bb8a2f756016eb73e473e720b6df62effa919dac0",
+        "structural_hash": null,
+        "dimension_status": "unknown",
+        "dimension_detail": {
+          "reason": "non-scalar representation"
+        }
+      },
+      {
+        "node_id": "EQ-KS-59-ENTROPY-QUADRATIC",
+        "node_type": "formula",
+        "equation_universe_schema": "sigma-equation-universe-1.0",
+        "record": {
+          "equation_id": "EQ-KS-59-ENTROPY-QUADRATIC",
+          "name": "Effective acceleration entropy quadratic",
+          "domain": "effective_entropy",
+          "representation": "scalar_sympy",
+          "expression": "abar**2*S/a0 = abar*D+g*S",
+          "latex": "(\\bar a^2/a_0)S-\\bar aD-gS=0",
+          "variables": [
+            {
+              "symbol": "abar",
+              "canonical_name": "abar",
+              "meaning": "effective acceleration",
+              "dimension": {
+                "L": 1,
+                "T": -2
+              },
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "S",
+              "canonical_name": "S",
+              "meaning": "entropy-like quantity",
+              "dimension": {},
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "a0",
+              "canonical_name": "a0",
+              "meaning": "paper acceleration scale",
+              "dimension": {
+                "L": 1,
+                "T": -2
+              },
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "D",
+              "canonical_name": "D",
+              "meaning": "absolute effective entropy deficit",
+              "dimension": {},
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "g",
+              "canonical_name": "g",
+              "meaning": "gravitative pull",
+              "dimension": {
+                "L": 1,
+                "T": -2
+              },
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            }
+          ],
+          "assumptions": [
+            "positive_effective_entropy",
+            "outer_radius_branch"
+          ],
+          "validity": [
+            "equation-only proposal intake; no theory validation inference"
+          ],
+          "tags": [
+            "kastner_schlatter",
+            "equation_only"
+          ],
+          "source_id": "SRC-KS-2209.04025V1",
+          "source_locator": "p.13 equation (59), D=Abs(DeltaS_dS)",
+          "independently_encoded": true
+        },
+        "record_sha256": "a4024b04ad62a66cd0336eef515ff943a8f42f220882f6ea244a27897440ff78",
+        "exact_formula_sha256": "f9ededdecf9cd2dfac837a8ed14f729d1091e3821aa7ba3898226c7f278ce4f4",
+        "normalized_expression": "-D*a0*abar - S*a0*g + S*abar**2",
+        "semantic_hash": "1790960aaa3e80a77a97765d10c20390a2e73327e6c91d39a39f18c8f3d3e105",
+        "structural_hash": "a010005b0f06ea4246ec05dcedb164a093b729efb73329aedaedcc28d226ee44",
+        "dimension_status": "pass",
+        "dimension_detail": {
+          "left": "{\"L\":\"1\",\"T\":\"-2\"}",
+          "right": "{\"L\":\"1\",\"T\":\"-2\"}"
+        }
+      },
+      {
+        "node_id": "EQ-KS-60-POSITIVE-ROOT",
+        "node_type": "formula",
+        "equation_universe_schema": "sigma-equation-universe-1.0",
+        "record": {
+          "equation_id": "EQ-KS-60-POSITIVE-ROOT",
+          "name": "Positive branch of the entropy quadratic",
+          "domain": "effective_entropy",
+          "representation": "scalar_sympy",
+          "expression": "abar = a0*(D/S+sqrt((D/S)**2+4*g/a0))/2",
+          "latex": null,
+          "variables": [
+            {
+              "symbol": "abar",
+              "canonical_name": "abar",
+              "meaning": "effective acceleration",
+              "dimension": {
+                "L": 1,
+                "T": -2
+              },
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "a0",
+              "canonical_name": "a0",
+              "meaning": "paper acceleration scale",
+              "dimension": {
+                "L": 1,
+                "T": -2
+              },
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "D",
+              "canonical_name": "D",
+              "meaning": "absolute effective entropy deficit",
+              "dimension": {},
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "S",
+              "canonical_name": "S",
+              "meaning": "entropy-like quantity",
+              "dimension": {},
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "g",
+              "canonical_name": "g",
+              "meaning": "gravitative pull",
+              "dimension": {
+                "L": 1,
+                "T": -2
+              },
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            }
+          ],
+          "assumptions": [
+            "positive_effective_entropy",
+            "outer_radius_branch"
+          ],
+          "validity": [
+            "equation-only proposal intake; no theory validation inference"
+          ],
+          "tags": [
+            "kastner_schlatter",
+            "equation_only"
+          ],
+          "source_id": "SRC-KS-2209.04025V1",
+          "source_locator": "p.13 equation (60), D=Abs(DeltaS_dS)",
+          "independently_encoded": true
+        },
+        "record_sha256": "6b54e666c2ea44eae7e872f261d385f01cda72312e23d1441557baba240b17c0",
+        "exact_formula_sha256": "74ab1b5f860236746b0635e38e700cbde99c54d50a469f857c71b4ccd6c0facb",
+        "normalized_expression": "-D*a0 - S*a0*sqrt(D**2/S**2 + 4*g/a0) + 2*S*abar",
+        "semantic_hash": "71faf7f38fbae96e93683db69f040eaf112b6d6e02daef4c1334147f88c04aeb",
+        "structural_hash": "ccdf65bbede88e69c251e8d1b39ee62882695e4326787203f267ef1abdceedbb",
+        "dimension_status": "pass",
+        "dimension_detail": {
+          "left": "{\"L\":\"1\",\"T\":\"-2\"}",
+          "right": "{\"L\":\"1\",\"T\":\"-2\"}"
+        }
+      },
+      {
+        "node_id": "EQ-KS-62-SDS-MOND",
+        "node_type": "formula",
+        "equation_universe_schema": "sigma-equation-universe-1.0",
+        "record": {
+          "equation_id": "EQ-KS-62-SDS-MOND",
+          "name": "Schwarzschild-de Sitter effective acceleration",
+          "domain": "galaxy_acceleration_approximation",
+          "representation": "scalar_sympy",
+          "expression": "abar = a0*Phi_abs*(1+sqrt(1+c**4/(M*G*a0)))",
+          "latex": null,
+          "variables": [
+            {
+              "symbol": "abar",
+              "canonical_name": "abar",
+              "meaning": "effective acceleration",
+              "dimension": {
+                "L": 1,
+                "T": -2
+              },
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "a0",
+              "canonical_name": "a0",
+              "meaning": "paper acceleration scale",
+              "dimension": {
+                "L": 1,
+                "T": -2
+              },
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "Phi_abs",
+              "canonical_name": "Phi_abs",
+              "meaning": "absolute dimensionless potential",
+              "dimension": {},
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "c",
+              "canonical_name": "c",
+              "meaning": "speed of light",
+              "dimension": {
+                "L": 1,
+                "T": -1
+              },
+              "field_kind": "constant",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "M",
+              "canonical_name": "M",
+              "meaning": "central mass",
+              "dimension": {
+                "M": 1
+              },
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "G",
+              "canonical_name": "G",
+              "meaning": "Newton gravitational constant",
+              "dimension": {
+                "M": -1,
+                "L": 3,
+                "T": -2
+              },
+              "field_kind": "constant",
+              "tensor_rank": 0
+            }
+          ],
+          "assumptions": [
+            "weak_potential_first_order",
+            "outer_radius_branch"
+          ],
+          "validity": [
+            "equation-only proposal intake; no theory validation inference"
+          ],
+          "tags": [
+            "kastner_schlatter",
+            "equation_only"
+          ],
+          "source_id": "SRC-KS-2209.04025V1",
+          "source_locator": "p.14 equation (62)",
+          "independently_encoded": true
+        },
+        "record_sha256": "ef4f957689ac907c0e9e72c8a56ab8cd5cc4d5c479ef237e75b212690d676ed4",
+        "exact_formula_sha256": "3e1e5c7c74517f693669417102cb635095af873bedf56497cdc3aba0a16d99fe",
+        "normalized_expression": "-Phi_abs*a0*sqrt(1 + c**4/(G*M*a0)) - Phi_abs*a0 + abar",
+        "semantic_hash": "9230baee47e801ff13694ae5e6740795ae738e5d62ca9134ae80bc6dbba500e5",
+        "structural_hash": "7a12b35451cec379d60f1e45f18e26b97c5b4b4eb6bd9bd4b4b85f00de2e140d",
+        "dimension_status": "pass",
+        "dimension_detail": {
+          "left": "{\"L\":\"1\",\"T\":\"-2\"}",
+          "right": "{\"L\":\"1\",\"T\":\"-2\"}"
+        }
+      },
+      {
+        "node_id": "EQ-KS-65-LIMIT-RADIUS",
+        "node_type": "formula",
+        "equation_universe_schema": "sigma-equation-universe-1.0",
+        "record": {
+          "equation_id": "EQ-KS-65-LIMIT-RADIUS",
+          "name": "Effective-entropy limit radius",
+          "domain": "galaxy_acceleration_approximation",
+          "representation": "scalar_sympy",
+          "expression": "r0 = sqrt(M*G/a0)",
+          "latex": null,
+          "variables": [
+            {
+              "symbol": "r0",
+              "canonical_name": "r0",
+              "meaning": "limit radius",
+              "dimension": {
+                "L": 1
+              },
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "M",
+              "canonical_name": "M",
+              "meaning": "central mass",
+              "dimension": {
+                "M": 1
+              },
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "G",
+              "canonical_name": "G",
+              "meaning": "Newton gravitational constant",
+              "dimension": {
+                "M": -1,
+                "L": 3,
+                "T": -2
+              },
+              "field_kind": "constant",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "a0",
+              "canonical_name": "a0",
+              "meaning": "paper acceleration scale",
+              "dimension": {
+                "L": 1,
+                "T": -2
+              },
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            }
+          ],
+          "assumptions": [
+            "positive_effective_entropy"
+          ],
+          "validity": [
+            "equation-only proposal intake; no theory validation inference"
+          ],
+          "tags": [
+            "kastner_schlatter",
+            "equation_only"
+          ],
+          "source_id": "SRC-KS-2209.04025V1",
+          "source_locator": "p.14 equation (65)",
+          "independently_encoded": true
+        },
+        "record_sha256": "1f286b256dd9d9d94693c5eb46bc911b0b5771d732ac853c66a9b642c77c1b8c",
+        "exact_formula_sha256": "b02b28e76184bb3368be44c6d5fa6e703a5e26526cc0177ab062b3fa59acd740",
+        "normalized_expression": "-r0 + sqrt(G*M/a0)",
+        "semantic_hash": "417b1f8e6a11df1ca329a38a5401821df322a8c6a0d3d8ac698d01275a74d371",
+        "structural_hash": "cd95779cf3126cd496f2e741dfd0526bb4d7505c0beb407c747a2e1a31850147",
+        "dimension_status": "pass",
+        "dimension_detail": {
+          "left": "{\"L\":\"1\"}",
+          "right": "{\"L\":\"1\"}"
+        }
+      },
+      {
+        "node_id": "EQ-KS-68-DEEP-ACCELERATION",
+        "node_type": "formula",
+        "equation_universe_schema": "sigma-equation-universe-1.0",
+        "record": {
+          "equation_id": "EQ-KS-68-DEEP-ACCELERATION",
+          "name": "Paper MOND-like outer acceleration approximation",
+          "domain": "galaxy_acceleration_approximation",
+          "representation": "scalar_sympy",
+          "expression": "abar = sqrt(M*G*a0)/r",
+          "latex": null,
+          "variables": [
+            {
+              "symbol": "abar",
+              "canonical_name": "abar",
+              "meaning": "effective acceleration",
+              "dimension": {
+                "L": 1,
+                "T": -2
+              },
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "M",
+              "canonical_name": "M",
+              "meaning": "central mass",
+              "dimension": {
+                "M": 1
+              },
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "G",
+              "canonical_name": "G",
+              "meaning": "Newton gravitational constant",
+              "dimension": {
+                "M": -1,
+                "L": 3,
+                "T": -2
+              },
+              "field_kind": "constant",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "a0",
+              "canonical_name": "a0",
+              "meaning": "paper acceleration scale",
+              "dimension": {
+                "L": 1,
+                "T": -2
+              },
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "r",
+              "canonical_name": "r",
+              "meaning": "radial coordinate",
+              "dimension": {
+                "L": 1
+              },
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            }
+          ],
+          "assumptions": [
+            "outer_radius_branch",
+            "deep_mond_approximation"
+          ],
+          "validity": [
+            "equation-only proposal intake; no theory validation inference"
+          ],
+          "tags": [
+            "kastner_schlatter",
+            "equation_only"
+          ],
+          "source_id": "SRC-KS-2209.04025V1",
+          "source_locator": "p.14 equation (68)",
+          "independently_encoded": true
+        },
+        "record_sha256": "70a95479b4c7c11e05dedcab9aa43cf5dec528dd2c4a4fdc98418fb92c088c26",
+        "exact_formula_sha256": "14b89b9747dd1c02b911a610e60006f7be42dae935a1103f86bac913f78b7581",
+        "normalized_expression": "-abar*r + sqrt(G*M*a0)",
+        "semantic_hash": "941aec2ab602c0dade78d7b2895ac377ac9eb9df54094f702fbf4bc169b38561",
+        "structural_hash": "24f6f7f945e7251748cc0d5b6163e5c1b0ffbb425f9b31258e258b2081e16506",
+        "dimension_status": "pass",
+        "dimension_detail": {
+          "left": "{\"L\":\"1\",\"T\":\"-2\"}",
+          "right": "{\"L\":\"1\",\"T\":\"-2\"}"
+        }
+      },
+      {
+        "node_id": "EQ-KS-69-VELOCITY",
+        "node_type": "formula",
+        "equation_universe_schema": "sigma-equation-universe-1.0",
+        "record": {
+          "equation_id": "EQ-KS-69-VELOCITY",
+          "name": "Paper asymptotic circular velocity relation",
+          "domain": "galaxy_acceleration_approximation",
+          "representation": "scalar_sympy",
+          "expression": "v**2 = sqrt(M*G*a0)",
+          "latex": null,
+          "variables": [
+            {
+              "symbol": "v",
+              "canonical_name": "v",
+              "meaning": "circular speed",
+              "dimension": {
+                "L": 1,
+                "T": -1
+              },
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "M",
+              "canonical_name": "M",
+              "meaning": "central mass",
+              "dimension": {
+                "M": 1
+              },
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "G",
+              "canonical_name": "G",
+              "meaning": "Newton gravitational constant",
+              "dimension": {
+                "M": -1,
+                "L": 3,
+                "T": -2
+              },
+              "field_kind": "constant",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "a0",
+              "canonical_name": "a0",
+              "meaning": "paper acceleration scale",
+              "dimension": {
+                "L": 1,
+                "T": -2
+              },
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            }
+          ],
+          "assumptions": [
+            "deep_mond_approximation",
+            "circular_motion"
+          ],
+          "validity": [
+            "equation-only proposal intake; no theory validation inference"
+          ],
+          "tags": [
+            "kastner_schlatter",
+            "equation_only"
+          ],
+          "source_id": "SRC-KS-2209.04025V1",
+          "source_locator": "p.15 equation (69)",
+          "independently_encoded": true
+        },
+        "record_sha256": "18c0fff05d566d519cb319191eece4dd2e40e713ef8fa6e525cf48407392ca08",
+        "exact_formula_sha256": "048996ca5d89134e3212e307863fcccb4f1569a74729a131e2fb6b144aff5d4b",
+        "normalized_expression": "-v**2 + sqrt(G*M*a0)",
+        "semantic_hash": "a5d66c272b761755aaf5e3536c62bce59f33078421f42f953b87cea17de0683e",
+        "structural_hash": "16dceeb58b7484d63d32eb6effa00f7979838cc52672994712c2cdfb613d3a3b",
+        "dimension_status": "pass",
+        "dimension_detail": {
+          "left": "{\"L\":\"2\",\"T\":\"-2\"}",
+          "right": "{\"L\":\"2\",\"T\":\"-2\"}"
+        }
+      },
+      {
+        "node_id": "EQ-KS-59-REARRANGED-CONTROL",
+        "node_type": "formula",
+        "equation_universe_schema": "sigma-equation-universe-1.0",
+        "record": {
+          "equation_id": "EQ-KS-59-REARRANGED-CONTROL",
+          "name": "Entropy quadratic rearrangement control",
+          "domain": "effective_entropy",
+          "representation": "scalar_sympy",
+          "expression": "abar*D+g*S = abar**2*S/a0",
+          "latex": null,
+          "variables": [
+            {
+              "symbol": "abar",
+              "canonical_name": "abar",
+              "meaning": "effective acceleration",
+              "dimension": {
+                "L": 1,
+                "T": -2
+              },
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "S",
+              "canonical_name": "S",
+              "meaning": "entropy-like quantity",
+              "dimension": {},
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "a0",
+              "canonical_name": "a0",
+              "meaning": "paper acceleration scale",
+              "dimension": {
+                "L": 1,
+                "T": -2
+              },
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "D",
+              "canonical_name": "D",
+              "meaning": "absolute effective entropy deficit",
+              "dimension": {},
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            },
+            {
+              "symbol": "g",
+              "canonical_name": "g",
+              "meaning": "gravitative pull",
+              "dimension": {
+                "L": 1,
+                "T": -2
+              },
+              "field_kind": "scalar",
+              "tensor_rank": 0
+            }
+          ],
+          "assumptions": [
+            "positive_effective_entropy",
+            "outer_radius_branch"
+          ],
+          "validity": [
+            "equation-only proposal intake; no theory validation inference"
+          ],
+          "tags": [
+            "kastner_schlatter",
+            "equation_only",
+            "equivalence_control",
+            "not_additional_paper_equation"
+          ],
+          "source_id": "SRC-SIGMA-INTERNAL-EQUIVALENCE-CONTROL",
+          "source_locator": "internal exact rearrangement of p.13 equation (59)",
+          "independently_encoded": true
+        },
+        "record_sha256": "011ad768b62cc3d7176baf87a0bead55bbe7003f689a121ccbba1721869d1013",
+        "exact_formula_sha256": "27af1a1165a831872e020bf7756ba0499ac6a12d5c9bf24322bf35fc89ba9611",
+        "normalized_expression": "-D*a0*abar - S*a0*g + S*abar**2",
+        "semantic_hash": "1790960aaa3e80a77a97765d10c20390a2e73327e6c91d39a39f18c8f3d3e105",
+        "structural_hash": "a010005b0f06ea4246ec05dcedb164a093b729efb73329aedaedcc28d226ee44",
+        "dimension_status": "pass",
+        "dimension_detail": {
+          "left": "{\"L\":\"1\",\"T\":\"-2\"}",
+          "right": "{\"L\":\"1\",\"T\":\"-2\"}"
+        }
+      },
+      {
+        "node_id": "ASSUME-CIRCULAR_MOTION",
+        "node_type": "assumption",
+        "statement": "effective radial acceleration equals v**2/r"
+      },
+      {
+        "node_id": "ASSUME-CONSTANT_POISSON_FOUR_RATE",
+        "node_type": "assumption",
+        "statement": "constant average transaction rate per four-volume"
+      },
+      {
+        "node_id": "ASSUME-DEEP_MOND_APPROXIMATION",
+        "node_type": "assumption",
+        "statement": "the equation-68 square-root-dominance approximation holds"
+      },
+      {
+        "node_id": "ASSUME-HOMOGENEOUS_LOCAL_ENERGY",
+        "node_type": "assumption",
+        "statement": "energy is homogeneous near the local origin"
+      },
+      {
+        "node_id": "ASSUME-KNOWN_TENSOR_TRANSFORMATIONS",
+        "node_type": "assumption",
+        "statement": "known tensor transformation rules"
+      },
+      {
+        "node_id": "ASSUME-LOCAL_INERTIAL_FRAMES",
+        "node_type": "assumption",
+        "statement": "local inertial frames around every spacetime point"
+      },
+      {
+        "node_id": "ASSUME-OUTER_RADIUS_BRANCH",
+        "node_type": "assumption",
+        "statement": "r is above r0=sqrt(M*G/a0)"
+      },
+      {
+        "node_id": "ASSUME-POISSON_COUNT_DOMAIN",
+        "node_type": "assumption",
+        "statement": "mu >= 0 and n is a nonnegative integer"
+      },
+      {
+        "node_id": "ASSUME-POSITIVE_EFFECTIVE_ENTROPY",
+        "node_type": "assumption",
+        "statement": "effective de Sitter entropy is positive"
+      },
+      {
+        "node_id": "ASSUME-REPULSIVE_PRESSURE_SIGN",
+        "node_type": "assumption",
+        "statement": "transaction pressure uses the paper's repulsive sign"
+      },
+      {
+        "node_id": "ASSUME-STATIC_SDS_CHART",
+        "node_type": "assumption",
+        "statement": "static Schwarzschild-de Sitter chart and positive radii"
+      },
+      {
+        "node_id": "ASSUME-WEAK_POTENTIAL_FIRST_ORDER",
+        "node_type": "assumption",
+        "statement": "first-order weak-potential entropy construction"
+      },
+      {
+        "node_id": "DOMAIN-EFFECTIVE_ENTROPY",
+        "node_type": "domain",
+        "name": "effective_entropy"
+      },
+      {
+        "node_id": "DOMAIN-GALAXY_ACCELERATION_APPROXIMATION",
+        "node_type": "domain",
+        "name": "galaxy_acceleration_approximation"
+      },
+      {
+        "node_id": "DOMAIN-LOCAL_TRACE_REVERSED_GRAVITY",
+        "node_type": "domain",
+        "name": "local_trace_reversed_gravity"
+      },
+      {
+        "node_id": "DOMAIN-SCHWARZSCHILD_DE_SITTER",
+        "node_type": "domain",
+        "name": "schwarzschild_de_sitter"
+      },
+      {
+        "node_id": "DOMAIN-TRANSACTION_COSMOLOGICAL_IDENTIFICATION",
+        "node_type": "domain",
+        "name": "transaction_cosmological_identification"
+      },
+      {
+        "node_id": "DOMAIN-TRANSACTION_STOCHASTIC_PROCESS",
+        "node_type": "domain",
+        "name": "transaction_stochastic_process"
+      },
+      {
+        "node_id": "SOURCE-KS-2209.04025V1",
+        "node_type": "primary_source",
+        "arxiv_id": "2209.04025",
+        "version": "v1",
+        "pdf_sha256": "c2f671293d07b21397e745da00a3ce1a2193c00da647a2ebf4147612b76c1780"
+      },
+      {
+        "node_id": "SOURCE-SIGMA-EQUIVALENCE-CONTROL",
+        "node_type": "internal_source",
+        "scope": "algebraic rearrangement control only"
+      },
+      {
+        "node_id": "ACTION-CONTRACT-ABSENT",
+        "node_type": "action_contract",
+        "fundamental_action": null,
+        "status": "absent"
+      },
+      {
+        "node_id": "ABSENT-FUNDAMENTAL_ACTION",
+        "node_type": "absent_capability",
+        "capability": "fundamental_action",
+        "status": "not_registered_or_proven"
+      },
+      {
+        "node_id": "ABSENT-CLOSED_FIELD_CONTENT",
+        "node_type": "absent_capability",
+        "capability": "closed_field_content",
+        "status": "not_registered_or_proven"
+      },
+      {
+        "node_id": "ABSENT-VARIATIONAL_PRINCIPLE",
+        "node_type": "absent_capability",
+        "capability": "variational_principle",
+        "status": "not_registered_or_proven"
+      },
+      {
+        "node_id": "ABSENT-EULER_LAGRANGE_MAP",
+        "node_type": "absent_capability",
+        "capability": "euler_lagrange_map",
+        "status": "not_registered_or_proven"
+      },
+      {
+        "node_id": "ABSENT-BOUNDARY_TERMS",
+        "node_type": "absent_capability",
+        "capability": "boundary_terms",
+        "status": "not_registered_or_proven"
+      },
+      {
+        "node_id": "ABSENT-FORMAL_GR_EQUIVALENCE",
+        "node_type": "absent_capability",
+        "capability": "formal_gr_equivalence",
+        "status": "not_registered_or_proven"
+      },
+      {
+        "node_id": "ABSENT-DARK_SECTOR_ELIMINATION_PROOF",
+        "node_type": "absent_capability",
+        "capability": "dark_sector_elimination_proof",
+        "status": "not_registered_or_proven"
+      },
+      {
+        "node_id": "ABSENT-OBSERVATIONAL_VALIDATION",
+        "node_type": "absent_capability",
+        "capability": "observational_validation",
+        "status": "not_registered_or_proven"
+      }
+    ],
+    "edges": [
+      {
+        "edge_id": "EDGE-a3903982daa1c71dd5371a73",
+        "edge_type": "sourced_from",
+        "source": "EQ-KS-POISSON-PMF-IMPLEMENTATION",
+        "target": "SOURCE-KS-2209.04025V1",
+        "detail": "p.9 Poisson assertion; standard PMF is implementation-only"
+      },
+      {
+        "edge_id": "EDGE-f2b3e3395efacd787b4e1faf",
+        "edge_type": "valid_in_domain",
+        "source": "EQ-KS-POISSON-PMF-IMPLEMENTATION",
+        "target": "DOMAIN-TRANSACTION_STOCHASTIC_PROCESS",
+        "detail": "declared equation domain only"
+      },
+      {
+        "edge_id": "EDGE-b0afb10e21c4a04ab01850d9",
+        "edge_type": "not_derived_from_action",
+        "source": "EQ-KS-POISSON-PMF-IMPLEMENTATION",
+        "target": "ACTION-CONTRACT-ABSENT",
+        "detail": "intake provides equations but no fundamental variational action"
+      },
+      {
+        "edge_id": "EDGE-b8d8f35a6a8eeb981f1c40df",
+        "edge_type": "assumes",
+        "source": "EQ-KS-POISSON-PMF-IMPLEMENTATION",
+        "target": "ASSUME-POISSON_COUNT_DOMAIN",
+        "detail": "explicit proposal or implementation premise"
+      },
+      {
+        "edge_id": "EDGE-b2efcd35b7ebf09fae07999d",
+        "edge_type": "sourced_from",
+        "source": "EQ-KS-33-FOUR-RATE",
+        "target": "SOURCE-KS-2209.04025V1",
+        "detail": "p.9 equation (33) following text"
+      },
+      {
+        "edge_id": "EDGE-4633de3fc77cd4fa1261d436",
+        "edge_type": "valid_in_domain",
+        "source": "EQ-KS-33-FOUR-RATE",
+        "target": "DOMAIN-TRANSACTION_STOCHASTIC_PROCESS",
+        "detail": "declared equation domain only"
+      },
+      {
+        "edge_id": "EDGE-2b39cc425ee78f61224176a3",
+        "edge_type": "not_derived_from_action",
+        "source": "EQ-KS-33-FOUR-RATE",
+        "target": "ACTION-CONTRACT-ABSENT",
+        "detail": "intake provides equations but no fundamental variational action"
+      },
+      {
+        "edge_id": "EDGE-76985c1a85fead8ea1f509ee",
+        "edge_type": "assumes",
+        "source": "EQ-KS-33-FOUR-RATE",
+        "target": "ASSUME-CONSTANT_POISSON_FOUR_RATE",
+        "detail": "explicit proposal or implementation premise"
+      },
+      {
+        "edge_id": "EDGE-1362b6d2819cac8dfd3aede4",
+        "edge_type": "sourced_from",
+        "source": "EQ-KS-34-PRESSURE",
+        "target": "SOURCE-KS-2209.04025V1",
+        "detail": "p.9 equation (34)"
+      },
+      {
+        "edge_id": "EDGE-527bb270cafdc99b228bc5b7",
+        "edge_type": "valid_in_domain",
+        "source": "EQ-KS-34-PRESSURE",
+        "target": "DOMAIN-TRANSACTION_COSMOLOGICAL_IDENTIFICATION",
+        "detail": "declared equation domain only"
+      },
+      {
+        "edge_id": "EDGE-f97be1d2922aa7e3fdcee301",
+        "edge_type": "not_derived_from_action",
+        "source": "EQ-KS-34-PRESSURE",
+        "target": "ACTION-CONTRACT-ABSENT",
+        "detail": "intake provides equations but no fundamental variational action"
+      },
+      {
+        "edge_id": "EDGE-be0cbbaf1ce07b42c2aac100",
+        "edge_type": "assumes",
+        "source": "EQ-KS-34-PRESSURE",
+        "target": "ASSUME-CONSTANT_POISSON_FOUR_RATE",
+        "detail": "explicit proposal or implementation premise"
+      },
+      {
+        "edge_id": "EDGE-5e162d7fe22f32834ae730d3",
+        "edge_type": "assumes",
+        "source": "EQ-KS-34-PRESSURE",
+        "target": "ASSUME-REPULSIVE_PRESSURE_SIGN",
+        "detail": "explicit proposal or implementation premise"
+      },
+      {
+        "edge_id": "EDGE-2e2e905f2ec29647da08d253",
+        "edge_type": "sourced_from",
+        "source": "EQ-KS-35-LAMBDA-PRESSURE",
+        "target": "SOURCE-KS-2209.04025V1",
+        "detail": "p.9 equation (35), first equality"
+      },
+      {
+        "edge_id": "EDGE-fa84ae39fd5ac10778b9cf2c",
+        "edge_type": "valid_in_domain",
+        "source": "EQ-KS-35-LAMBDA-PRESSURE",
+        "target": "DOMAIN-TRANSACTION_COSMOLOGICAL_IDENTIFICATION",
+        "detail": "declared equation domain only"
+      },
+      {
+        "edge_id": "EDGE-c3c5a193a25598da02d492d6",
+        "edge_type": "not_derived_from_action",
+        "source": "EQ-KS-35-LAMBDA-PRESSURE",
+        "target": "ACTION-CONTRACT-ABSENT",
+        "detail": "intake provides equations but no fundamental variational action"
+      },
+      {
+        "edge_id": "EDGE-2b594cf2fd1b507cd2ff9832",
+        "edge_type": "assumes",
+        "source": "EQ-KS-35-LAMBDA-PRESSURE",
+        "target": "ASSUME-REPULSIVE_PRESSURE_SIGN",
+        "detail": "explicit proposal or implementation premise"
+      },
+      {
+        "edge_id": "EDGE-e56f2bce7a156da6ad2c6c06",
+        "edge_type": "sourced_from",
+        "source": "EQ-KS-35-LAMBDA-RATE",
+        "target": "SOURCE-KS-2209.04025V1",
+        "detail": "p.9 equation (35), middle equality"
+      },
+      {
+        "edge_id": "EDGE-2efaf5e723dbace7b3590c8c",
+        "edge_type": "valid_in_domain",
+        "source": "EQ-KS-35-LAMBDA-RATE",
+        "target": "DOMAIN-TRANSACTION_COSMOLOGICAL_IDENTIFICATION",
+        "detail": "declared equation domain only"
+      },
+      {
+        "edge_id": "EDGE-0ebe7ad353d22bf3ec35863e",
+        "edge_type": "not_derived_from_action",
+        "source": "EQ-KS-35-LAMBDA-RATE",
+        "target": "ACTION-CONTRACT-ABSENT",
+        "detail": "intake provides equations but no fundamental variational action"
+      },
+      {
+        "edge_id": "EDGE-20b12e3ce589795279c0edd6",
+        "edge_type": "assumes",
+        "source": "EQ-KS-35-LAMBDA-RATE",
+        "target": "ASSUME-CONSTANT_POISSON_FOUR_RATE",
+        "detail": "explicit proposal or implementation premise"
+      },
+      {
+        "edge_id": "EDGE-22876092c840d04b922d33f2",
+        "edge_type": "sourced_from",
+        "source": "EQ-KS-35-LAMBDA-PLANCK",
+        "target": "SOURCE-KS-2209.04025V1",
+        "detail": "p.9 equation (35), printed final equality; normalization blocked in intake"
+      },
+      {
+        "edge_id": "EDGE-0c57c47b345670ca87264c04",
+        "edge_type": "valid_in_domain",
+        "source": "EQ-KS-35-LAMBDA-PLANCK",
+        "target": "DOMAIN-TRANSACTION_COSMOLOGICAL_IDENTIFICATION",
+        "detail": "declared equation domain only"
+      },
+      {
+        "edge_id": "EDGE-2ea2ef25d0c3f0c94b61ba1c",
+        "edge_type": "not_derived_from_action",
+        "source": "EQ-KS-35-LAMBDA-PLANCK",
+        "target": "ACTION-CONTRACT-ABSENT",
+        "detail": "intake provides equations but no fundamental variational action"
+      },
+      {
+        "edge_id": "EDGE-cd6d85388a26c8d14f66553a",
+        "edge_type": "assumes",
+        "source": "EQ-KS-35-LAMBDA-PLANCK",
+        "target": "ASSUME-CONSTANT_POISSON_FOUR_RATE",
+        "detail": "explicit proposal or implementation premise"
+      },
+      {
+        "edge_id": "EDGE-cd1a0f26d5ff3ace97f030ce",
+        "edge_type": "sourced_from",
+        "source": "EQ-KS-38-LOCAL-00",
+        "target": "SOURCE-KS-2209.04025V1",
+        "detail": "p.10 equation (38)"
+      },
+      {
+        "edge_id": "EDGE-b2b7c9c2de848d41112f9897",
+        "edge_type": "valid_in_domain",
+        "source": "EQ-KS-38-LOCAL-00",
+        "target": "DOMAIN-LOCAL_TRACE_REVERSED_GRAVITY",
+        "detail": "declared equation domain only"
+      },
+      {
+        "edge_id": "EDGE-0b902c7a6ef3c27aacc6dcca",
+        "edge_type": "not_derived_from_action",
+        "source": "EQ-KS-38-LOCAL-00",
+        "target": "ACTION-CONTRACT-ABSENT",
+        "detail": "intake provides equations but no fundamental variational action"
+      },
+      {
+        "edge_id": "EDGE-87c2b559a459f037d7a37717",
+        "edge_type": "assumes",
+        "source": "EQ-KS-38-LOCAL-00",
+        "target": "ASSUME-LOCAL_INERTIAL_FRAMES",
+        "detail": "explicit proposal or implementation premise"
+      },
+      {
+        "edge_id": "EDGE-68ef9478f5dee38005c91d36",
+        "edge_type": "assumes",
+        "source": "EQ-KS-38-LOCAL-00",
+        "target": "ASSUME-HOMOGENEOUS_LOCAL_ENERGY",
+        "detail": "explicit proposal or implementation premise"
+      },
+      {
+        "edge_id": "EDGE-e8c51e349c9d5bedd9f8de9e",
+        "edge_type": "sourced_from",
+        "source": "EQ-KS-39-TRACE-REVERSED",
+        "target": "SOURCE-KS-2209.04025V1",
+        "detail": "p.10 equation (39)"
+      },
+      {
+        "edge_id": "EDGE-aedc4a9b8040984a7214c65f",
+        "edge_type": "valid_in_domain",
+        "source": "EQ-KS-39-TRACE-REVERSED",
+        "target": "DOMAIN-LOCAL_TRACE_REVERSED_GRAVITY",
+        "detail": "declared equation domain only"
+      },
+      {
+        "edge_id": "EDGE-b77a0cbc7e514af2714d3644",
+        "edge_type": "not_derived_from_action",
+        "source": "EQ-KS-39-TRACE-REVERSED",
+        "target": "ACTION-CONTRACT-ABSENT",
+        "detail": "intake provides equations but no fundamental variational action"
+      },
+      {
+        "edge_id": "EDGE-18a3f5e1b816f63692e16d24",
+        "edge_type": "assumes",
+        "source": "EQ-KS-39-TRACE-REVERSED",
+        "target": "ASSUME-LOCAL_INERTIAL_FRAMES",
+        "detail": "explicit proposal or implementation premise"
+      },
+      {
+        "edge_id": "EDGE-bc5d44ab399932e761bfb939",
+        "edge_type": "assumes",
+        "source": "EQ-KS-39-TRACE-REVERSED",
+        "target": "ASSUME-KNOWN_TENSOR_TRANSFORMATIONS",
+        "detail": "explicit proposal or implementation premise"
+      },
+      {
+        "edge_id": "EDGE-e6cf2708e73480081703eb80",
+        "edge_type": "sourced_from",
+        "source": "EQ-KS-42-SDS-METRIC",
+        "target": "SOURCE-KS-2209.04025V1",
+        "detail": "p.11 equation (42), line element"
+      },
+      {
+        "edge_id": "EDGE-eca6f10c35dc51f9c473804d",
+        "edge_type": "valid_in_domain",
+        "source": "EQ-KS-42-SDS-METRIC",
+        "target": "DOMAIN-SCHWARZSCHILD_DE_SITTER",
+        "detail": "declared equation domain only"
+      },
+      {
+        "edge_id": "EDGE-e05a37839254b74a5f2853d2",
+        "edge_type": "not_derived_from_action",
+        "source": "EQ-KS-42-SDS-METRIC",
+        "target": "ACTION-CONTRACT-ABSENT",
+        "detail": "intake provides equations but no fundamental variational action"
+      },
+      {
+        "edge_id": "EDGE-d57f5eb93d034634efcf1e84",
+        "edge_type": "assumes",
+        "source": "EQ-KS-42-SDS-METRIC",
+        "target": "ASSUME-STATIC_SDS_CHART",
+        "detail": "explicit proposal or implementation premise"
+      },
+      {
+        "edge_id": "EDGE-e1c66db848f7dc201724f3a3",
+        "edge_type": "sourced_from",
+        "source": "EQ-KS-42-METRIC-FACTOR",
+        "target": "SOURCE-KS-2209.04025V1",
+        "detail": "p.11 equation (42), metric factor"
+      },
+      {
+        "edge_id": "EDGE-012ddc78e4e2dc5e81087c81",
+        "edge_type": "valid_in_domain",
+        "source": "EQ-KS-42-METRIC-FACTOR",
+        "target": "DOMAIN-SCHWARZSCHILD_DE_SITTER",
+        "detail": "declared equation domain only"
+      },
+      {
+        "edge_id": "EDGE-b88dacaad93e5428acd669ee",
+        "edge_type": "not_derived_from_action",
+        "source": "EQ-KS-42-METRIC-FACTOR",
+        "target": "ACTION-CONTRACT-ABSENT",
+        "detail": "intake provides equations but no fundamental variational action"
+      },
+      {
+        "edge_id": "EDGE-3c3811c1e8be5c95ca0e1389",
+        "edge_type": "assumes",
+        "source": "EQ-KS-42-METRIC-FACTOR",
+        "target": "ASSUME-STATIC_SDS_CHART",
+        "detail": "explicit proposal or implementation premise"
+      },
+      {
+        "edge_id": "EDGE-98c2d3c6498956091db13621",
+        "edge_type": "sourced_from",
+        "source": "EQ-KS-42-R0",
+        "target": "SOURCE-KS-2209.04025V1",
+        "detail": "p.11 equation (42), definition after line element"
+      },
+      {
+        "edge_id": "EDGE-3a93913ce5119ddf623cfa28",
+        "edge_type": "valid_in_domain",
+        "source": "EQ-KS-42-R0",
+        "target": "DOMAIN-SCHWARZSCHILD_DE_SITTER",
+        "detail": "declared equation domain only"
+      },
+      {
+        "edge_id": "EDGE-49799601ac5b620989316f94",
+        "edge_type": "not_derived_from_action",
+        "source": "EQ-KS-42-R0",
+        "target": "ACTION-CONTRACT-ABSENT",
+        "detail": "intake provides equations but no fundamental variational action"
+      },
+      {
+        "edge_id": "EDGE-17125e065d6df982f52ded54",
+        "edge_type": "assumes",
+        "source": "EQ-KS-42-R0",
+        "target": "ASSUME-STATIC_SDS_CHART",
+        "detail": "explicit proposal or implementation premise"
+      },
+      {
+        "edge_id": "EDGE-3db45f8d227adf7c370aee00",
+        "edge_type": "sourced_from",
+        "source": "EQ-KS-42-RS",
+        "target": "SOURCE-KS-2209.04025V1",
+        "detail": "p.11 text immediately before equation (42)"
+      },
+      {
+        "edge_id": "EDGE-f8f1b05b6ab9a9f6861e97ed",
+        "edge_type": "valid_in_domain",
+        "source": "EQ-KS-42-RS",
+        "target": "DOMAIN-SCHWARZSCHILD_DE_SITTER",
+        "detail": "declared equation domain only"
+      },
+      {
+        "edge_id": "EDGE-0d640102a50ad8e67f4dc98b",
+        "edge_type": "not_derived_from_action",
+        "source": "EQ-KS-42-RS",
+        "target": "ACTION-CONTRACT-ABSENT",
+        "detail": "intake provides equations but no fundamental variational action"
+      },
+      {
+        "edge_id": "EDGE-8cee9c09a3b2732ec62c42d4",
+        "edge_type": "assumes",
+        "source": "EQ-KS-42-RS",
+        "target": "ASSUME-STATIC_SDS_CHART",
+        "detail": "explicit proposal or implementation premise"
+      },
+      {
+        "edge_id": "EDGE-52d256e8caa5a57dd19211e2",
+        "edge_type": "sourced_from",
+        "source": "EQ-KS-44-AINF-H0",
+        "target": "SOURCE-KS-2209.04025V1",
+        "detail": "p.11 equation (44), first equality"
+      },
+      {
+        "edge_id": "EDGE-dbcbf8dcfe84ecac260ffa18",
+        "edge_type": "valid_in_domain",
+        "source": "EQ-KS-44-AINF-H0",
+        "target": "DOMAIN-SCHWARZSCHILD_DE_SITTER",
+        "detail": "declared equation domain only"
+      },
+      {
+        "edge_id": "EDGE-ef3766c657d33bd9a1471fb2",
+        "edge_type": "not_derived_from_action",
+        "source": "EQ-KS-44-AINF-H0",
+        "target": "ACTION-CONTRACT-ABSENT",
+        "detail": "intake provides equations but no fundamental variational action"
+      },
+      {
+        "edge_id": "EDGE-6543f4cdc4f8d57e1f1c3425",
+        "edge_type": "assumes",
+        "source": "EQ-KS-44-AINF-H0",
+        "target": "ASSUME-STATIC_SDS_CHART",
+        "detail": "explicit proposal or implementation premise"
+      },
+      {
+        "edge_id": "EDGE-024c354580a921e53673a327",
+        "edge_type": "sourced_from",
+        "source": "EQ-KS-44-AINF-R0",
+        "target": "SOURCE-KS-2209.04025V1",
+        "detail": "p.11 equation (44), second equality"
+      },
+      {
+        "edge_id": "EDGE-41017d5576e4bf7f1351c079",
+        "edge_type": "valid_in_domain",
+        "source": "EQ-KS-44-AINF-R0",
+        "target": "DOMAIN-SCHWARZSCHILD_DE_SITTER",
+        "detail": "declared equation domain only"
+      },
+      {
+        "edge_id": "EDGE-bdecf512f3531a3838253dfb",
+        "edge_type": "not_derived_from_action",
+        "source": "EQ-KS-44-AINF-R0",
+        "target": "ACTION-CONTRACT-ABSENT",
+        "detail": "intake provides equations but no fundamental variational action"
+      },
+      {
+        "edge_id": "EDGE-88bfb54193f9054eb1d888b4",
+        "edge_type": "assumes",
+        "source": "EQ-KS-44-AINF-R0",
+        "target": "ASSUME-STATIC_SDS_CHART",
+        "detail": "explicit proposal or implementation premise"
+      },
+      {
+        "edge_id": "EDGE-34b0ecfaca143bbc127a22b5",
+        "edge_type": "sourced_from",
+        "source": "EQ-KS-44-AINF-LAMBDA",
+        "target": "SOURCE-KS-2209.04025V1",
+        "detail": "p.11 equation (44), third equality"
+      },
+      {
+        "edge_id": "EDGE-0e54e27ccf6e7c68ce3871d7",
+        "edge_type": "valid_in_domain",
+        "source": "EQ-KS-44-AINF-LAMBDA",
+        "target": "DOMAIN-SCHWARZSCHILD_DE_SITTER",
+        "detail": "declared equation domain only"
+      },
+      {
+        "edge_id": "EDGE-525446383485883fac9be750",
+        "edge_type": "not_derived_from_action",
+        "source": "EQ-KS-44-AINF-LAMBDA",
+        "target": "ACTION-CONTRACT-ABSENT",
+        "detail": "intake provides equations but no fundamental variational action"
+      },
+      {
+        "edge_id": "EDGE-0b13823cb4c5c4ce3b62aa11",
+        "edge_type": "assumes",
+        "source": "EQ-KS-44-AINF-LAMBDA",
+        "target": "ASSUME-STATIC_SDS_CHART",
+        "detail": "explicit proposal or implementation premise"
+      },
+      {
+        "edge_id": "EDGE-73105b3ce7daff5100803d27",
+        "edge_type": "sourced_from",
+        "source": "EQ-KS-A0-DEFINITION",
+        "target": "SOURCE-KS-2209.04025V1",
+        "detail": "p.11 text following equation (44)"
+      },
+      {
+        "edge_id": "EDGE-324c0c569c8ec672d9869d7e",
+        "edge_type": "valid_in_domain",
+        "source": "EQ-KS-A0-DEFINITION",
+        "target": "DOMAIN-SCHWARZSCHILD_DE_SITTER",
+        "detail": "declared equation domain only"
+      },
+      {
+        "edge_id": "EDGE-cc2047f5159c35edddd39528",
+        "edge_type": "not_derived_from_action",
+        "source": "EQ-KS-A0-DEFINITION",
+        "target": "ACTION-CONTRACT-ABSENT",
+        "detail": "intake provides equations but no fundamental variational action"
+      },
+      {
+        "edge_id": "EDGE-a4dc72fca1060f9723451ef8",
+        "edge_type": "assumes",
+        "source": "EQ-KS-A0-DEFINITION",
+        "target": "ASSUME-STATIC_SDS_CHART",
+        "detail": "explicit proposal or implementation premise"
+      },
+      {
+        "edge_id": "EDGE-88afa5372e5b14ebd394e398",
+        "edge_type": "sourced_from",
+        "source": "EQ-KS-45-DE-SITTER-ACCELERATION",
+        "target": "SOURCE-KS-2209.04025V1",
+        "detail": "p.11 equation (45); paper calls this hypothetical in empty space"
+      },
+      {
+        "edge_id": "EDGE-995f38abba6bc71fa097ec3e",
+        "edge_type": "valid_in_domain",
+        "source": "EQ-KS-45-DE-SITTER-ACCELERATION",
+        "target": "DOMAIN-SCHWARZSCHILD_DE_SITTER",
+        "detail": "declared equation domain only"
+      },
+      {
+        "edge_id": "EDGE-a39a32f223b9900321830e9c",
+        "edge_type": "not_derived_from_action",
+        "source": "EQ-KS-45-DE-SITTER-ACCELERATION",
+        "target": "ACTION-CONTRACT-ABSENT",
+        "detail": "intake provides equations but no fundamental variational action"
+      },
+      {
+        "edge_id": "EDGE-c98199211fc8453b63bc03b8",
+        "edge_type": "assumes",
+        "source": "EQ-KS-45-DE-SITTER-ACCELERATION",
+        "target": "ASSUME-STATIC_SDS_CHART",
+        "detail": "explicit proposal or implementation premise"
+      },
+      {
+        "edge_id": "EDGE-a8eedd26071d9f10fc78a340",
+        "edge_type": "sourced_from",
+        "source": "EQ-KS-55-EFFECTIVE-ENTROPY",
+        "target": "SOURCE-KS-2209.04025V1",
+        "detail": "p.13 equation (55); full printed right side retained in intake contract"
+      },
+      {
+        "edge_id": "EDGE-93a45129b52e7ea5919d8399",
+        "edge_type": "valid_in_domain",
+        "source": "EQ-KS-55-EFFECTIVE-ENTROPY",
+        "target": "DOMAIN-EFFECTIVE_ENTROPY",
+        "detail": "declared equation domain only"
+      },
+      {
+        "edge_id": "EDGE-6de1480ab0698a1d8e3db808",
+        "edge_type": "not_derived_from_action",
+        "source": "EQ-KS-55-EFFECTIVE-ENTROPY",
+        "target": "ACTION-CONTRACT-ABSENT",
+        "detail": "intake provides equations but no fundamental variational action"
+      },
+      {
+        "edge_id": "EDGE-8f26f53e0f0eec32145acabc",
+        "edge_type": "assumes",
+        "source": "EQ-KS-55-EFFECTIVE-ENTROPY",
+        "target": "ASSUME-WEAK_POTENTIAL_FIRST_ORDER",
+        "detail": "explicit proposal or implementation premise"
+      },
+      {
+        "edge_id": "EDGE-92d4eb292528d04c26a65a2f",
+        "edge_type": "assumes",
+        "source": "EQ-KS-55-EFFECTIVE-ENTROPY",
+        "target": "ASSUME-POSITIVE_EFFECTIVE_ENTROPY",
+        "detail": "explicit proposal or implementation premise"
+      },
+      {
+        "edge_id": "EDGE-a810c7f45aad58a13ccc5e14",
+        "edge_type": "sourced_from",
+        "source": "EQ-KS-59-ENTROPY-QUADRATIC",
+        "target": "SOURCE-KS-2209.04025V1",
+        "detail": "p.13 equation (59), D=Abs(DeltaS_dS)"
+      },
+      {
+        "edge_id": "EDGE-2b7848530a29df993d6fba5a",
+        "edge_type": "valid_in_domain",
+        "source": "EQ-KS-59-ENTROPY-QUADRATIC",
+        "target": "DOMAIN-EFFECTIVE_ENTROPY",
+        "detail": "declared equation domain only"
+      },
+      {
+        "edge_id": "EDGE-1c9fc0d94365f2ecc8de8c3e",
+        "edge_type": "not_derived_from_action",
+        "source": "EQ-KS-59-ENTROPY-QUADRATIC",
+        "target": "ACTION-CONTRACT-ABSENT",
+        "detail": "intake provides equations but no fundamental variational action"
+      },
+      {
+        "edge_id": "EDGE-12c14428539194a312600961",
+        "edge_type": "assumes",
+        "source": "EQ-KS-59-ENTROPY-QUADRATIC",
+        "target": "ASSUME-POSITIVE_EFFECTIVE_ENTROPY",
+        "detail": "explicit proposal or implementation premise"
+      },
+      {
+        "edge_id": "EDGE-763039c52d4391f5ac310132",
+        "edge_type": "assumes",
+        "source": "EQ-KS-59-ENTROPY-QUADRATIC",
+        "target": "ASSUME-OUTER_RADIUS_BRANCH",
+        "detail": "explicit proposal or implementation premise"
+      },
+      {
+        "edge_id": "EDGE-d756ae02f39a7668471779ea",
+        "edge_type": "sourced_from",
+        "source": "EQ-KS-60-POSITIVE-ROOT",
+        "target": "SOURCE-KS-2209.04025V1",
+        "detail": "p.13 equation (60), D=Abs(DeltaS_dS)"
+      },
+      {
+        "edge_id": "EDGE-ca1c3b1b6e3498380124c491",
+        "edge_type": "valid_in_domain",
+        "source": "EQ-KS-60-POSITIVE-ROOT",
+        "target": "DOMAIN-EFFECTIVE_ENTROPY",
+        "detail": "declared equation domain only"
+      },
+      {
+        "edge_id": "EDGE-ab2f25f9d80a6bdc3a2f6d10",
+        "edge_type": "not_derived_from_action",
+        "source": "EQ-KS-60-POSITIVE-ROOT",
+        "target": "ACTION-CONTRACT-ABSENT",
+        "detail": "intake provides equations but no fundamental variational action"
+      },
+      {
+        "edge_id": "EDGE-eb1f5ecb615f605b83b0df39",
+        "edge_type": "assumes",
+        "source": "EQ-KS-60-POSITIVE-ROOT",
+        "target": "ASSUME-POSITIVE_EFFECTIVE_ENTROPY",
+        "detail": "explicit proposal or implementation premise"
+      },
+      {
+        "edge_id": "EDGE-6645c194d6e40daf692d16cc",
+        "edge_type": "assumes",
+        "source": "EQ-KS-60-POSITIVE-ROOT",
+        "target": "ASSUME-OUTER_RADIUS_BRANCH",
+        "detail": "explicit proposal or implementation premise"
+      },
+      {
+        "edge_id": "EDGE-a9af87e4d9a80e48673313fb",
+        "edge_type": "sourced_from",
+        "source": "EQ-KS-62-SDS-MOND",
+        "target": "SOURCE-KS-2209.04025V1",
+        "detail": "p.14 equation (62)"
+      },
+      {
+        "edge_id": "EDGE-a179bfb9b032dfb2caf86550",
+        "edge_type": "valid_in_domain",
+        "source": "EQ-KS-62-SDS-MOND",
+        "target": "DOMAIN-GALAXY_ACCELERATION_APPROXIMATION",
+        "detail": "declared equation domain only"
+      },
+      {
+        "edge_id": "EDGE-8e47ca76bb433955d5fd9676",
+        "edge_type": "not_derived_from_action",
+        "source": "EQ-KS-62-SDS-MOND",
+        "target": "ACTION-CONTRACT-ABSENT",
+        "detail": "intake provides equations but no fundamental variational action"
+      },
+      {
+        "edge_id": "EDGE-bdc100215652d429f227c6e4",
+        "edge_type": "assumes",
+        "source": "EQ-KS-62-SDS-MOND",
+        "target": "ASSUME-WEAK_POTENTIAL_FIRST_ORDER",
+        "detail": "explicit proposal or implementation premise"
+      },
+      {
+        "edge_id": "EDGE-a8ec9e630334597d5c8cf2ab",
+        "edge_type": "assumes",
+        "source": "EQ-KS-62-SDS-MOND",
+        "target": "ASSUME-OUTER_RADIUS_BRANCH",
+        "detail": "explicit proposal or implementation premise"
+      },
+      {
+        "edge_id": "EDGE-1b9914e4d0f16fb2717c9d79",
+        "edge_type": "sourced_from",
+        "source": "EQ-KS-65-LIMIT-RADIUS",
+        "target": "SOURCE-KS-2209.04025V1",
+        "detail": "p.14 equation (65)"
+      },
+      {
+        "edge_id": "EDGE-84d87442e0492b074c8a7bf3",
+        "edge_type": "valid_in_domain",
+        "source": "EQ-KS-65-LIMIT-RADIUS",
+        "target": "DOMAIN-GALAXY_ACCELERATION_APPROXIMATION",
+        "detail": "declared equation domain only"
+      },
+      {
+        "edge_id": "EDGE-0286c08bcf572100febb0f15",
+        "edge_type": "not_derived_from_action",
+        "source": "EQ-KS-65-LIMIT-RADIUS",
+        "target": "ACTION-CONTRACT-ABSENT",
+        "detail": "intake provides equations but no fundamental variational action"
+      },
+      {
+        "edge_id": "EDGE-0ad7d004311786d8984510e0",
+        "edge_type": "assumes",
+        "source": "EQ-KS-65-LIMIT-RADIUS",
+        "target": "ASSUME-POSITIVE_EFFECTIVE_ENTROPY",
+        "detail": "explicit proposal or implementation premise"
+      },
+      {
+        "edge_id": "EDGE-777ea46b3af51914f6c13f75",
+        "edge_type": "sourced_from",
+        "source": "EQ-KS-68-DEEP-ACCELERATION",
+        "target": "SOURCE-KS-2209.04025V1",
+        "detail": "p.14 equation (68)"
+      },
+      {
+        "edge_id": "EDGE-458fe1d5906365b34a501483",
+        "edge_type": "valid_in_domain",
+        "source": "EQ-KS-68-DEEP-ACCELERATION",
+        "target": "DOMAIN-GALAXY_ACCELERATION_APPROXIMATION",
+        "detail": "declared equation domain only"
+      },
+      {
+        "edge_id": "EDGE-39e8efe6719dddabb7b7e041",
+        "edge_type": "not_derived_from_action",
+        "source": "EQ-KS-68-DEEP-ACCELERATION",
+        "target": "ACTION-CONTRACT-ABSENT",
+        "detail": "intake provides equations but no fundamental variational action"
+      },
+      {
+        "edge_id": "EDGE-0a1252c9a0f116274a14be51",
+        "edge_type": "assumes",
+        "source": "EQ-KS-68-DEEP-ACCELERATION",
+        "target": "ASSUME-OUTER_RADIUS_BRANCH",
+        "detail": "explicit proposal or implementation premise"
+      },
+      {
+        "edge_id": "EDGE-15cc47724f577fc93373a3dc",
+        "edge_type": "assumes",
+        "source": "EQ-KS-68-DEEP-ACCELERATION",
+        "target": "ASSUME-DEEP_MOND_APPROXIMATION",
+        "detail": "explicit proposal or implementation premise"
+      },
+      {
+        "edge_id": "EDGE-f730c46820e70cfd9dd76f36",
+        "edge_type": "sourced_from",
+        "source": "EQ-KS-69-VELOCITY",
+        "target": "SOURCE-KS-2209.04025V1",
+        "detail": "p.15 equation (69)"
+      },
+      {
+        "edge_id": "EDGE-08db300322ea7cbdfd0a2e4b",
+        "edge_type": "valid_in_domain",
+        "source": "EQ-KS-69-VELOCITY",
+        "target": "DOMAIN-GALAXY_ACCELERATION_APPROXIMATION",
+        "detail": "declared equation domain only"
+      },
+      {
+        "edge_id": "EDGE-8b166d907dcce5819dd3cd1b",
+        "edge_type": "not_derived_from_action",
+        "source": "EQ-KS-69-VELOCITY",
+        "target": "ACTION-CONTRACT-ABSENT",
+        "detail": "intake provides equations but no fundamental variational action"
+      },
+      {
+        "edge_id": "EDGE-46e0462465120bf0c33c8068",
+        "edge_type": "assumes",
+        "source": "EQ-KS-69-VELOCITY",
+        "target": "ASSUME-DEEP_MOND_APPROXIMATION",
+        "detail": "explicit proposal or implementation premise"
+      },
+      {
+        "edge_id": "EDGE-e1b4ff9c1734a0c02d40618c",
+        "edge_type": "assumes",
+        "source": "EQ-KS-69-VELOCITY",
+        "target": "ASSUME-CIRCULAR_MOTION",
+        "detail": "explicit proposal or implementation premise"
+      },
+      {
+        "edge_id": "EDGE-9999e2c9af2f4e87e1862bc9",
+        "edge_type": "sourced_from",
+        "source": "EQ-KS-59-REARRANGED-CONTROL",
+        "target": "SOURCE-SIGMA-EQUIVALENCE-CONTROL",
+        "detail": "internal exact rearrangement of p.13 equation (59)"
+      },
+      {
+        "edge_id": "EDGE-ddd5babf4d89d6fae9d9ebf1",
+        "edge_type": "valid_in_domain",
+        "source": "EQ-KS-59-REARRANGED-CONTROL",
+        "target": "DOMAIN-EFFECTIVE_ENTROPY",
+        "detail": "declared equation domain only"
+      },
+      {
+        "edge_id": "EDGE-985d31851e2e98c8ce194589",
+        "edge_type": "not_derived_from_action",
+        "source": "EQ-KS-59-REARRANGED-CONTROL",
+        "target": "ACTION-CONTRACT-ABSENT",
+        "detail": "intake provides equations but no fundamental variational action"
+      },
+      {
+        "edge_id": "EDGE-b437971ce04cfe439dec5958",
+        "edge_type": "assumes",
+        "source": "EQ-KS-59-REARRANGED-CONTROL",
+        "target": "ASSUME-POSITIVE_EFFECTIVE_ENTROPY",
+        "detail": "explicit proposal or implementation premise"
+      },
+      {
+        "edge_id": "EDGE-095a4d83da074fdada2450ac",
+        "edge_type": "assumes",
+        "source": "EQ-KS-59-REARRANGED-CONTROL",
+        "target": "ASSUME-OUTER_RADIUS_BRANCH",
+        "detail": "explicit proposal or implementation premise"
+      },
+      {
+        "edge_id": "EDGE-f6bffb8f10a543a0b432d849",
+        "edge_type": "depends_on",
+        "source": "EQ-KS-34-PRESSURE",
+        "target": "EQ-KS-33-FOUR-RATE",
+        "detail": "declared formula lineage"
+      },
+      {
+        "edge_id": "EDGE-32eeeaf26e7d2ce368a479e6",
+        "edge_type": "depends_on",
+        "source": "EQ-KS-35-LAMBDA-PRESSURE",
+        "target": "EQ-KS-34-PRESSURE",
+        "detail": "declared formula lineage"
+      },
+      {
+        "edge_id": "EDGE-47322d9ba3cf060e9995de0b",
+        "edge_type": "depends_on",
+        "source": "EQ-KS-35-LAMBDA-RATE",
+        "target": "EQ-KS-34-PRESSURE",
+        "detail": "declared formula lineage"
+      },
+      {
+        "edge_id": "EDGE-c407b8111810b2d0d03bf73d",
+        "edge_type": "depends_on",
+        "source": "EQ-KS-39-TRACE-REVERSED",
+        "target": "EQ-KS-38-LOCAL-00",
+        "detail": "declared formula lineage"
+      },
+      {
+        "edge_id": "EDGE-9a2e337e5bcb0651880e0169",
+        "edge_type": "depends_on",
+        "source": "EQ-KS-42-SDS-METRIC",
+        "target": "EQ-KS-39-TRACE-REVERSED",
+        "detail": "declared formula lineage"
+      },
+      {
+        "edge_id": "EDGE-f065e3e3580aa6141d4c2e5e",
+        "edge_type": "depends_on",
+        "source": "EQ-KS-42-SDS-METRIC",
+        "target": "EQ-KS-42-METRIC-FACTOR",
+        "detail": "declared formula lineage"
+      },
+      {
+        "edge_id": "EDGE-e5f4710225ded3dc5ea91c7a",
+        "edge_type": "depends_on",
+        "source": "EQ-KS-44-AINF-R0",
+        "target": "EQ-KS-42-R0",
+        "detail": "declared formula lineage"
+      },
+      {
+        "edge_id": "EDGE-51e04508fdc2f1578bcb3177",
+        "edge_type": "depends_on",
+        "source": "EQ-KS-44-AINF-LAMBDA",
+        "target": "EQ-KS-42-R0",
+        "detail": "declared formula lineage"
+      },
+      {
+        "edge_id": "EDGE-44fc62299320a30c4afef2d7",
+        "edge_type": "depends_on",
+        "source": "EQ-KS-A0-DEFINITION",
+        "target": "EQ-KS-44-AINF-R0",
+        "detail": "declared formula lineage"
+      },
+      {
+        "edge_id": "EDGE-4b29e9604eb6cacc46e55746",
+        "edge_type": "depends_on",
+        "source": "EQ-KS-45-DE-SITTER-ACCELERATION",
+        "target": "EQ-KS-A0-DEFINITION",
+        "detail": "declared formula lineage"
+      },
+      {
+        "edge_id": "EDGE-46a8f4fe8747cf2f408275ca",
+        "edge_type": "depends_on",
+        "source": "EQ-KS-59-ENTROPY-QUADRATIC",
+        "target": "EQ-KS-55-EFFECTIVE-ENTROPY",
+        "detail": "declared formula lineage"
+      },
+      {
+        "edge_id": "EDGE-5cb8314cb99340ce4422aa8b",
+        "edge_type": "depends_on",
+        "source": "EQ-KS-60-POSITIVE-ROOT",
+        "target": "EQ-KS-59-ENTROPY-QUADRATIC",
+        "detail": "declared formula lineage"
+      },
+      {
+        "edge_id": "EDGE-923951bff2bb0530f0c5dc3d",
+        "edge_type": "depends_on",
+        "source": "EQ-KS-62-SDS-MOND",
+        "target": "EQ-KS-60-POSITIVE-ROOT",
+        "detail": "declared formula lineage"
+      },
+      {
+        "edge_id": "EDGE-9b1c62bfd2ae36220faf7b8a",
+        "edge_type": "depends_on",
+        "source": "EQ-KS-65-LIMIT-RADIUS",
+        "target": "EQ-KS-55-EFFECTIVE-ENTROPY",
+        "detail": "declared formula lineage"
+      },
+      {
+        "edge_id": "EDGE-845a6c45faee0620ad5663c1",
+        "edge_type": "depends_on",
+        "source": "EQ-KS-68-DEEP-ACCELERATION",
+        "target": "EQ-KS-62-SDS-MOND",
+        "detail": "declared formula lineage"
+      },
+      {
+        "edge_id": "EDGE-192e58cd67cca89affafe5cf",
+        "edge_type": "depends_on",
+        "source": "EQ-KS-68-DEEP-ACCELERATION",
+        "target": "EQ-KS-65-LIMIT-RADIUS",
+        "detail": "declared formula lineage"
+      },
+      {
+        "edge_id": "EDGE-c8d8e44dcaaab239ddc75aa8",
+        "edge_type": "depends_on",
+        "source": "EQ-KS-69-VELOCITY",
+        "target": "EQ-KS-68-DEEP-ACCELERATION",
+        "detail": "declared formula lineage"
+      },
+      {
+        "edge_id": "EDGE-b2dd2edcd706e65c985e668c",
+        "edge_type": "depends_on",
+        "source": "EQ-KS-59-REARRANGED-CONTROL",
+        "target": "EQ-KS-59-ENTROPY-QUADRATIC",
+        "detail": "declared formula lineage"
+      },
+      {
+        "edge_id": "EDGE-d29b10bcf32b735083251f3b",
+        "edge_type": "semantic_algebraic_equivalence",
+        "source": "EQ-KS-59-ENTROPY-QUADRATIC",
+        "target": "EQ-KS-59-REARRANGED-CONTROL",
+        "detail": "equal equation-universe semantic hash; not exact duplicate or theory equivalence"
+      },
+      {
+        "edge_id": "EDGE-fb80b309771671e88effde1a",
+        "edge_type": "lacks",
+        "source": "ACTION-CONTRACT-ABSENT",
+        "target": "ABSENT-FUNDAMENTAL_ACTION",
+        "detail": "explicit fail-closed absence edge"
+      },
+      {
+        "edge_id": "EDGE-051bce4ba2068a7555bce9c6",
+        "edge_type": "lacks",
+        "source": "ACTION-CONTRACT-ABSENT",
+        "target": "ABSENT-CLOSED_FIELD_CONTENT",
+        "detail": "explicit fail-closed absence edge"
+      },
+      {
+        "edge_id": "EDGE-f01b66da8af1dfc27c575b1c",
+        "edge_type": "lacks",
+        "source": "ACTION-CONTRACT-ABSENT",
+        "target": "ABSENT-VARIATIONAL_PRINCIPLE",
+        "detail": "explicit fail-closed absence edge"
+      },
+      {
+        "edge_id": "EDGE-2d814ca73113d884ea646bf3",
+        "edge_type": "lacks",
+        "source": "ACTION-CONTRACT-ABSENT",
+        "target": "ABSENT-EULER_LAGRANGE_MAP",
+        "detail": "explicit fail-closed absence edge"
+      },
+      {
+        "edge_id": "EDGE-efe7ad7d14af1e831b0ff684",
+        "edge_type": "lacks",
+        "source": "ACTION-CONTRACT-ABSENT",
+        "target": "ABSENT-BOUNDARY_TERMS",
+        "detail": "explicit fail-closed absence edge"
+      },
+      {
+        "edge_id": "EDGE-e226a4470f44a1ecdd30317b",
+        "edge_type": "lacks",
+        "source": "ACTION-CONTRACT-ABSENT",
+        "target": "ABSENT-FORMAL_GR_EQUIVALENCE",
+        "detail": "explicit fail-closed absence edge"
+      },
+      {
+        "edge_id": "EDGE-a7a899b97adbe1eb58ec35f4",
+        "edge_type": "lacks",
+        "source": "ACTION-CONTRACT-ABSENT",
+        "target": "ABSENT-DARK_SECTOR_ELIMINATION_PROOF",
+        "detail": "explicit fail-closed absence edge"
+      },
+      {
+        "edge_id": "EDGE-9b8de6df8909920e8a662d78",
+        "edge_type": "lacks",
+        "source": "ACTION-CONTRACT-ABSENT",
+        "target": "ABSENT-OBSERVATIONAL_VALIDATION",
+        "detail": "explicit fail-closed absence edge"
+      }
+    ]
+  },
+  "graph_counts": {
+    "nodes": 54,
+    "edges": 137,
+    "formula_nodes": 25,
+    "assumption_nodes": 12,
+    "domain_nodes": 6,
+    "source_nodes": 2,
+    "action_contract_nodes": 1,
+    "absent_capability_nodes": 8,
+    "dependency_edges": 18,
+    "assumption_edges": 35,
+    "semantic_algebraic_equivalence_edges": 1,
+    "exact_duplicate_edges": 0,
+    "theory_equivalence_edges": 0,
+    "absent_action_edges": 33
+  },
+  "duplicate_equivalence_audit": {
+    "exact_duplicate_groups": [],
+    "exact_duplicate_group_count": 0,
+    "exact_duplicate_nodes_suppressed": 0,
+    "semantic_equivalence_not_exact_duplicate_groups": [
+      [
+        "EQ-KS-59-ENTROPY-QUADRATIC",
+        "EQ-KS-59-REARRANGED-CONTROL"
+      ]
+    ],
+    "semantic_equivalence_not_exact_duplicate_group_count": 1,
+    "theory_equivalence_edges": 0
+  },
+  "decision": "blocked",
+  "first_blocker": "no_candidate_bound_fundamental_action_or_complete_variational_field_system",
+  "secondary_blockers": [
+    "equation_35_h_vs_hbar_factor_normalization_clarification",
+    "no_formal_transaction_process_to_lorentzian_continuum_derivation",
+    "no_registered_global_or_initial_boundary_value_completion",
+    "no_registered_observational_likelihood"
+  ],
+  "claim_seals": {
+    "fundamental_action_registered": false,
+    "variational_derivation_registered": false,
+    "formal_gr_equivalence_proven": false,
+    "dark_matter_elimination_proven": false,
+    "dark_energy_elimination_proven": false,
+    "observational_pass": false,
+    "theory_validity_claimed": false,
+    "automatic_downstream_enqueue_performed": false
+  },
+  "data_seals": {
+    "observational_data_opened": false,
+    "dark_matter_or_halo_data_opened": false,
+    "redshift_or_cosmology_data_opened": false,
+    "solar_system_data_opened": false
+  },
+  "external_paid_llm_calls": false,
+  "graph_sha256": "4767ac4d4feea01910f4cb29a8c09e8c09615fb2f2053fdd3895f501885ec558",
+  "content_sha256": "df0aef1166399222e13dc47c8899c0c934722b377365f47ed8e17420cdc6ac3a"
+}

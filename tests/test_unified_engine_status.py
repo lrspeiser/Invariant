@@ -27,6 +27,9 @@ SOURCE_PATHS = [
     "runs/engine/generated-candidate-formal-export.json",
     "runs/engine/generated-candidate-metric-variation-execution.json",
     "runs/engine/generated-candidate-formula-gpu-stress-campaign.json",
+    "runs/engine/kastner-schlatter-transactional-gravity-intake.json",
+    "runs/engine/kastner-schlatter-equation-graph-admission.json",
+    "runs/engine/kastner-schlatter-cuda-consequence-campaign.json",
     "runs/engine/generic-g4-b4-termwise-normalization-campaign.json",
     "runs/engine/grammar-v3-formal-preflight-status.json",
     "runs/engine/grammar-v3-promotion-admission-status.json",
@@ -106,6 +109,7 @@ SOURCE_PATHS = [
     "runs/physics-language/quartic-tc2-fourth-jet-obligation-service/chunks/obligation-offset-000224.json",
     "runs/physics-language/quartic-tc2-fourth-jet-obligation-service/checkpoint.json",
     "runs/physics-language/quartic-tc2-fourth-jet-obligation-service/service-status.json",
+    "runs/physics-language/quartic-tc2-d4-obstruction-cokernel-certificate/campaign.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000000.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000064.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000128.json",
@@ -158,6 +162,9 @@ LABELS = [
     "generated_candidate_formal_export",
     "generated_candidate_metric_variation_specialization",
     "generated_candidate_formula_gpu_stress",
+    "kastner_schlatter_transactional_gravity_intake",
+    "kastner_schlatter_equation_graph_admission",
+    "kastner_schlatter_cuda_consequence_campaign",
     "generic_g4_b4_termwise_normalization",
     "grammar_v3_formal_preflight",
     "grammar_v3_promotion_admission",
@@ -237,6 +244,7 @@ LABELS = [
     "quartic_tc2_fourth_jet_chunk_224",
     "quartic_tc2_fourth_jet_checkpoint",
     "quartic_tc2_fourth_jet_status",
+    "quartic_tc2_d4_obstruction_cokernel_certificate",
     "quartic_tc2_reranked_obligation_chunk_0",
     "quartic_tc2_reranked_obligation_chunk_64",
     "quartic_tc2_reranked_obligation_chunk_128",
@@ -676,6 +684,23 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
         "reject": None,
         "block": 0,
     }
+    transactional = core["transactional_gravity_proposal"]
+    assert transactional["decision"] == "blocked"
+    assert transactional["first_blocker"] == (
+        "no_candidate_bound_fundamental_action_or_complete_variational_field_system"
+    )
+    assert transactional["equation_preflight_counts"] == {"pass": 7, "reject": 0, "block": 1}
+    assert transactional["equation_graph"]["counts"]["nodes"] == 54
+    assert transactional["equation_graph"]["counts"]["edges"] == 137
+    assert transactional["equation_35_normalization_gate"][
+        "exact_ratio_middle_to_printed"
+    ] == "2"
+    assert transactional["cuda_consequence_campaign"]["counts"]["poisson_samples"] == 1_572_864
+    assert transactional["cuda_consequence_campaign"]["counts"][
+        "gpu_measured_consequence_evaluations"
+    ] == 17_179_869_184
+    assert transactional["claim_seals"]["theory_or_ontology_pass"] is False
+    assert transactional["data_seals"]["synthetic_only"] is True
     assert core["promotion_overlay"]["formal"] == {"pass": 0, "reject": 70, "block": 0}
     assert core["grammar_parameter_cells"]["seed_execution"] == {
         "candidate_universe": "six reviewed deterministic seed actions",
@@ -1423,6 +1448,31 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                     "337daa86bf740ae9e66dbef0829df30297c02e22b8baeb6b90328d608fa66c87"
                 ),
             },
+            "canonical_obstruction_certificate": {
+                "status": "pass_exact_canonical_d4_obstruction_cokernel_classification",
+                "selector_obligations_classified": 1,
+                "candidate_specializations_checked": 12,
+                "candidate_compatibilities_certified": 0,
+                "candidate_obstructions_certified": 12,
+                "obligation_offset": 244,
+                "active_indices": [0, 2, 3, 9],
+                "zero_eigenspace_factorization": "(34816/15)*alpha^5*W",
+                "zero_eigenspace_compression_rank": 2,
+                "zero_eigenspace_compression_sha256": (
+                    "6dcc21e22a450b41d624a739c7db4e5d9753a3848f1a9578730f10d77db125f2"
+                ),
+                "compatibility_iff_over_Q_or_R": "alpha=0",
+                "independent_of_c20": True,
+                "exact_candidate_witness_gap": "[1088/15,34816/15]",
+                "alternative_lower_jet_homogeneous_completion_ruled_out": False,
+                "next_gate": (
+                    "Parameterize the order-one-through-three equal-eigenspace homogeneous "
+                    "Sylvester kernel and test whether its induced order-four correction can "
+                    "cancel the rank-two zero-eigenspace witness; alternatively prove the "
+                    "canonical zero-block normalization is required by the target symmetrizer "
+                    "construction."
+                ),
+            },
             "full_fourth_jet_range_closed": False,
         },
         "closure_counts": {
@@ -1435,8 +1485,9 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
             "lifespans_proved": 0,
         },
         "first_missing_premise": (
-            "resolve_exact_fourth_order_equal_eigenspace_Sylvester_obstruction_at_"
-            "obligation_244_before_any_higher_order_remainder_or_nonlinear_range_theorem"
+            "parameterize_order_one_through_three_equal_eigenspace_homogeneous_Sylvester_"
+            "freedom_or_prove_canonical_zero_block_normalization_mandatory_before_claiming_"
+            "the_D4_obstruction_for_every_lower_jet_completion"
         ),
     }
     assert core["cross_pipeline_total"]["status"] == "not_computed"
@@ -1571,10 +1622,20 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "87.5-billion-evaluation timing loop" in dashboard
     assert "device-wide and can include concurrent processes" in dashboard
     assert "GPU/CPU violations" in dashboard
+    assert "transactional-gravity proposal" in dashboard
+    assert "Graph nodes" in dashboard
+    assert "Poisson samples" in dashboard
+    assert "17179869184" in dashboard
+    assert "8*pi^2 l_P^2 q" in dashboard
+    assert "does not establish the transactional ontology" in dashboard
     assert "Exact selector" in dashboard
     assert "Records evaluated" in dashboard
     assert "Obligations closed" in dashboard
-    assert "failed fourth-order equal-eigenspace Sylvester compatibility" in dashboard
+    assert "failed canonical fourth-order equal-eigenspace Sylvester compatibility" in dashboard
+    assert "Canonical candidates obstructed" in dashboard
+    assert "Cokernel rank" in dashboard
+    assert "(34816/15)*alpha^5*W" in dashboard
+    assert "unparameterized order-one-through-three equal-eigenspace" in dashboard
     assert "stopped permanently" in dashboard
     assert "No full formal pass is inferred" not in dashboard
     assert "class #1" in dashboard
