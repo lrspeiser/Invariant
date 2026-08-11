@@ -1,0 +1,68 @@
+{
+  "schema_version": "sigma-future-aether-constraint-boundary-embedding-audit-config-1.0",
+  "campaign_id": "future-aether-constraint-boundary-embedding-audit-001-20260810",
+  "campaign_implementation": {
+    "path": "src/sigma_theory_compiler/future_aether_constraint_boundary_embedding_audit.py",
+    "file_sha256": "852ed6c8d7a550d5e84d2257c1c2970ab8d44d3f8b91a194058078c9ec7d05f0"
+  },
+  "source_followup_artifact": {
+    "path": "runs/engine/future-aether-candidate-formal-followup.json",
+    "file_sha256": "b71e9b62d5ec3556567d290cf1582f43e007406ce2e524006181ef82ab9df2e4",
+    "content_sha256": "de8f21c343328b1888b306faae0bdeddf660cbdd6a591a3b3258ebe6eb9f7fe4"
+  },
+  "source_followup_config": {
+    "path": "configs/future_aether_candidate_formal_followup.json",
+    "file_sha256": "4a92526df698dcd78da40bc8aed73265bccf4d02b4ec889c9dc8db41e721353b"
+  },
+  "source_followup_implementation": {
+    "path": "src/sigma_theory_compiler/future_aether_candidate_formal_followup.py",
+    "file_sha256": "45961b1b3dc1919781099bce96d04d90ddf85df198b09f85fef4f50095ddf2a7"
+  },
+  "adm_aether_source": {
+    "path": "src/sigma_theory_compiler/adm_aether.py",
+    "file_sha256": "06d01368e01c84ed5187f54e5c3acef9cfb74ec38ea473285f6c8bee1ec6e858"
+  },
+  "formal_report": {
+    "path": "runs/formal-controls-v1/formal-controls.json",
+    "file_sha256": "b1bf58ebb4b43d3593f264959853dc3cd47f542b85f012999133ee43a6fece57"
+  },
+  "reviewed_controls": [
+    {
+      "formal_check_id": "einstein_aether_generic_3plus1_legendre",
+      "entrypoint": "sigma_theory_compiler.adm_aether:einstein_aether_3plus1_decomposition_control",
+      "evidence_sha256": "232ea12f7815b99e5a162f74ef4932d8bf2bada041d71fe71cc385be0152a353",
+      "applicability": "generic_exact_action_local_Legendre_and_lapse_divergence_structure"
+    },
+    {
+      "formal_check_id": "einstein_aether_generic_lapse_shift_constraint_seeds",
+      "entrypoint": "sigma_theory_compiler.adm_aether:einstein_aether_lapse_shift_constraint_seed_control",
+      "evidence_sha256": "d8ed883d59f2fd5db01fb340104b077bf8f697278a5225e0975f993387ae7f49",
+      "applicability": "generic_exact_action_Hamiltonian_and_momentum_constraint_seed_structure"
+    },
+    {
+      "formal_check_id": "einstein_aether_spatial_diffeomorphism_algebra",
+      "entrypoint": "sigma_theory_compiler.adm_aether:einstein_aether_spatial_diffeomorphism_control",
+      "evidence_sha256": "8156d1f721c3596e0530f9601612c2cdf9fac9d2a17e6fd8fd44881d4e216640",
+      "applicability": "canonical_cotangent_lift_momentum_constraint_structure"
+    },
+    {
+      "formal_check_id": "einstein_aether_restricted_nonlinear_total_energy",
+      "entrypoint": "sigma_theory_compiler.adm_aether:einstein_aether_nonlinear_positive_energy_theorem_control",
+      "evidence_sha256": "3bad5111602443591cb5cc498e274c57e9c24819ea0a4accbb258c5cda825085",
+      "applicability": "boundary_identity_and_twisting_scope_exclusion_only"
+    }
+  ],
+  "budget": {
+    "maximum_candidates": 14,
+    "maximum_reviewed_control_replays": 4,
+    "maximum_paid_llm_spend_usd": 0.0
+  },
+  "observational_authorization": false,
+  "data_eligibility": {
+    "observational_data_opened": false,
+    "dark_matter_or_halo_inputs": false,
+    "redshift_distance_inputs": false,
+    "paid_llm_calls": false
+  },
+  "external_paid_llm_calls": false
+}

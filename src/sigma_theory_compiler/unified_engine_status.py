@@ -325,7 +325,10 @@ def build_unified_snapshot(
     scalable_future_parameter_chunk = sources["scalable_future_parameter_chunk"]
     scalable_future_formal_preflight = sources["scalable_future_formal_preflight"]
     future_aether_formal_followup = sources["future_aether_formal_followup"]
+    future_aether_constraint_followup = sources["future_aether_constraint_followup"]
     future_g3_domain_followup = sources["future_g3_domain_followup"]
+    future_g3_action_bound_followup = sources["future_g3_action_bound_followup"]
+    future_candidate_action_dossier = sources["future_candidate_action_dossier"]
     g3_candidate_formal = sources["grammar_v3_g3_candidate_formal"]
     g4_scalable_formal_followup = sources[
         "grammar_v3_g4_scalable_formal_followup"
@@ -369,6 +372,15 @@ def build_unified_snapshot(
     ]
     quartic_tc2_mixed_third_jet_chunk = sources[
         "quartic_tc2_mixed_third_jet_chunk"
+    ]
+    quartic_tc2_mixed_third_jet_chunk_64 = sources[
+        "quartic_tc2_mixed_third_jet_chunk_64"
+    ]
+    quartic_tc2_mixed_third_jet_checkpoint = sources[
+        "quartic_tc2_mixed_third_jet_checkpoint"
+    ]
+    quartic_tc2_mixed_third_jet_continuation_status = sources[
+        "quartic_tc2_mixed_third_jet_continuation_status"
     ]
     if (
         scalable_structural_metrics.get("candidate_count") != 163
@@ -862,6 +874,50 @@ def build_unified_snapshot(
     ):
         raise ValueError("future Aether formal follow-up is inconsistent")
     if (
+        future_aether_constraint_followup.get("candidate_count") != 14
+        or future_aether_constraint_followup.get("decision_counts")
+        != {"blocked": 14}
+        or future_aether_constraint_followup.get(
+            "explicit_affine_ansatz_constraint_reject_count"
+        )
+        != 14
+        or future_aether_constraint_followup.get(
+            "nonzero_Hamiltonian_constraint_residual_count"
+        )
+        != 14
+        or future_aether_constraint_followup.get(
+            "nonzero_momentum_constraint_residual_count"
+        )
+        != 14
+        or future_aether_constraint_followup.get(
+            "undefined_AE_boundary_contribution_count"
+        )
+        != 14
+        or future_aether_constraint_followup.get(
+            "constraint_satisfying_negative_total_energy_datum_count"
+        )
+        != 0
+        or future_aether_constraint_followup.get(
+            "candidate_rejection_authorized_count"
+        )
+        != 0
+        or future_aether_constraint_followup.get("formal_pass_count") != 0
+        or future_aether_constraint_followup.get("first_blocker_counts")
+        != {
+            "constraint_satisfying_asymptotically_Euclidean_completion_of_negative_twist_witness": 14
+        }
+        or future_aether_constraint_followup.get("source_followup_binding", {}).get(
+            "content_sha256"
+        )
+        != future_aether_formal_followup.get("content_sha256")
+        or future_aether_constraint_followup.get("observational_data_opened") is not False
+        or future_aether_constraint_followup.get("dark_matter_or_halo_inputs") is not False
+        or future_aether_constraint_followup.get("redshift_distance_inputs") is not False
+        or future_aether_constraint_followup.get("paid_llm_spend_usd") != 0.0
+        or len(future_aether_constraint_followup.get("candidate_records", [])) != 14
+    ):
+        raise ValueError("future Aether constraint follow-up is inconsistent")
+    if (
         future_g3_domain_followup.get("candidate_count") != 3
         or future_g3_domain_followup.get("decision_counts") != {"blocked": 3}
         or future_g3_domain_followup.get("all_direction_single_center_pass_count")
@@ -893,6 +949,83 @@ def build_unified_snapshot(
         or len(future_g3_domain_followup.get("candidate_records", [])) != 3
     ):
         raise ValueError("future G3 domain follow-up is inconsistent")
+    if (
+        future_g3_action_bound_followup.get("candidate_count") != 3
+        or future_g3_action_bound_followup.get("decision_counts") != {"blocked": 3}
+        or future_g3_action_bound_followup.get("domain_registration_filled_field_count")
+        != 36
+        or future_g3_action_bound_followup.get("domain_registration_missing_field_count")
+        != 0
+        or future_g3_action_bound_followup.get("nonzero_componentwise_box_pass_count")
+        != 3
+        or future_g3_action_bound_followup.get(
+            "uniform_principal_common_cone_pass_count"
+        )
+        != 3
+        or future_g3_action_bound_followup.get("full_Delta_N_derivation_pass_count")
+        != 3
+        or future_g3_action_bound_followup.get("uniform_Delta_N_coercivity_pass_count")
+        != 3
+        or future_g3_action_bound_followup.get(
+            "periodic_distributed_Dirac_pass_count"
+        )
+        != 3
+        or future_g3_action_bound_followup.get("asymptotically_flat_Dirac_pass_count")
+        != 0
+        or future_g3_action_bound_followup.get("global_energy_pass_count") != 0
+        or future_g3_action_bound_followup.get("full_formal_pass_count") != 0
+        or future_g3_action_bound_followup.get("first_blocker_counts")
+        != {"asymptotically_flat_or_global_energy_domain_missing": 3}
+        or future_g3_action_bound_followup.get("source_bindings", {})
+        .get("predecessor", {})
+        .get("content_sha256")
+        != future_g3_domain_followup.get("content_sha256")
+        or future_g3_action_bound_followup.get("observational_data_opened") is not False
+        or future_g3_action_bound_followup.get("dark_matter_or_halo_inputs") is not False
+        or future_g3_action_bound_followup.get("redshift_distance_inputs") is not False
+        or future_g3_action_bound_followup.get("paid_llm_spend_usd") != 0.0
+        or len(future_g3_action_bound_followup.get("candidate_records", [])) != 3
+    ):
+        raise ValueError("future G3 action-bound follow-up is inconsistent")
+    if (
+        future_candidate_action_dossier.get("candidate_count") != 19
+        or future_candidate_action_dossier.get("family_counts")
+        != {
+            "AETHER_K1234_PARAMETER_CELL": 16,
+            "CUBIC_HORNDESKI_G3_WEAK_CELL": 3,
+        }
+        or future_candidate_action_dossier.get("decision_counts")
+        != {"blocked": 17, "reject": 2}
+        or future_candidate_action_dossier.get("ranked_candidate_count") != 0
+        or future_candidate_action_dossier.get("observational_authorization")
+        is not False
+        or future_candidate_action_dossier.get("observational_data_opened") is not False
+        or future_candidate_action_dossier.get("paid_llm_spend_usd") != 0.0
+        or future_candidate_action_dossier.get("source_roots", {}).get(
+            "preflight_content_sha256"
+        )
+        != scalable_future_formal_preflight.get("content_sha256")
+        or future_candidate_action_dossier.get("source_roots", {}).get(
+            "aether_followup_content_sha256"
+        )
+        != future_aether_constraint_followup.get("content_sha256")
+        or future_candidate_action_dossier.get("source_roots", {}).get(
+            "g3_followup_content_sha256"
+        )
+        != future_g3_action_bound_followup.get("content_sha256")
+        or len(future_candidate_action_dossier.get("dossiers", [])) != 19
+        or any(
+            record.get("comparison_contract", {}).get("rank") is not None
+            or record.get("comparison_contract", {}).get("rank_eligible") is not False
+            or not record.get("action", {}).get("ordered_operator_densities")
+            or record.get("action", {})
+            .get("human_readable_action", {})
+            .get("display_kind")
+            != "verbatim_ordered_covariant_density_concatenation"
+            for record in future_candidate_action_dossier.get("dossiers", [])
+        )
+    ):
+        raise ValueError("future candidate action dossier is inconsistent")
     if (
         aether_candidate_formal.get("candidate_count") != 128
         or aether_candidate_formal.get("input_preflight_pass_count") != 128
@@ -1569,6 +1702,93 @@ def build_unified_snapshot(
         )
     ):
         raise ValueError("quartic TC2 mixed third-jet chunk is inconsistent")
+    quartic_mixed_64_counts = quartic_tc2_mixed_third_jet_chunk_64.get(
+        "counts", {}
+    )
+    quartic_mixed_64_contract = quartic_tc2_mixed_third_jet_chunk_64.get(
+        "chunk_contract", {}
+    )
+    quartic_mixed_64_ledger = quartic_tc2_mixed_third_jet_chunk_64.get(
+        "closure_ledger", {}
+    )
+    if (
+        quartic_tc2_mixed_third_jet_chunk_64.get("status")
+        != "pass_mixed_third_jet_chunk_64_global_closure_fail_closed"
+        or quartic_mixed_64_contract.get("chunk_offset") != 64
+        or quartic_mixed_64_contract.get("processed_count") != 64
+        or quartic_mixed_64_contract.get("next_offset") != 128
+        or quartic_mixed_64_contract.get("global_mixed_triple_count") != 12_300
+        or quartic_mixed_64_contract.get("prior_resume_sha256")
+        != quartic_mixed_contract.get("resume_tip_sha256")
+        or quartic_mixed_64_contract.get("stopped_early") is not False
+        or quartic_mixed_64_counts.get("selected") != 64
+        or quartic_mixed_64_counts.get("symbolic_parameter_compatible") != 64
+        or quartic_mixed_64_counts.get("candidate_evaluations") != 768
+        or quartic_mixed_64_counts.get("candidate_solvable") != 768
+        or quartic_mixed_64_counts.get("candidate_obstructed") != 0
+        or quartic_mixed_64_counts.get("triple_kind_counts")
+        != {"ABB": 2, "ABC": 62}
+        or quartic_mixed_64_counts.get("mixed_triples_remaining") != 12_172
+        or quartic_tc2_mixed_third_jet_chunk_64.get("first_exact_obstruction")
+        is not None
+        or quartic_mixed_64_ledger.get("processed_mixed_third_jets_closed") != 64
+        or any(
+            quartic_mixed_64_ledger.get(key) is not False
+            for key in (
+                "all_12_300_mixed_third_jets_closed",
+                "full_tube_Sylvester_identity",
+                "CK1_closed",
+                "CK3_closed",
+                "TC2_closed",
+                "B7_closed",
+                "global_H7_closed",
+                "lifespan_proved",
+            )
+        )
+        or quartic_tc2_mixed_third_jet_checkpoint.get("completed_chunks") != 1
+        or quartic_tc2_mixed_third_jet_checkpoint.get("next_offset") != 128
+        or quartic_tc2_mixed_third_jet_checkpoint.get("remaining_mixed_triples")
+        != 12_172
+        or quartic_tc2_mixed_third_jet_checkpoint.get(
+            "current_artifact_content_sha256"
+        )
+        != quartic_tc2_mixed_third_jet_chunk_64.get("content_sha256")
+        or quartic_tc2_mixed_third_jet_checkpoint.get("prior_resume_sha256")
+        != quartic_mixed_64_contract.get("resume_tip_sha256")
+        or quartic_tc2_mixed_third_jet_continuation_status.get(
+            "checkpoint_content_sha256"
+        )
+        != quartic_tc2_mixed_third_jet_checkpoint.get("content_sha256")
+        or quartic_tc2_mixed_third_jet_continuation_status.get("next_offset")
+        != 128
+        or quartic_tc2_mixed_third_jet_continuation_status.get(
+            "remaining_mixed_triples"
+        )
+        != 12_172
+        or quartic_tc2_mixed_third_jet_continuation_status.get("decision")
+        != "checkpointed"
+        or quartic_tc2_mixed_third_jet_continuation_status.get(
+            "permanently_stopped"
+        )
+        is not False
+        or any(
+            quartic_tc2_mixed_third_jet_continuation_status.get("claims", {}).get(
+                key
+            )
+            is not False
+            for key in (
+                "full_mixed_sector_closed",
+                "full_tube_Sylvester_identity",
+                "CK1_closed",
+                "CK3_closed",
+                "TC2_closed",
+                "B7_closed",
+                "global_H7_closed",
+                "lifespan_proved",
+            )
+        )
+    ):
+        raise ValueError("quartic TC2 mixed third-jet continuation is inconsistent")
 
     blocker_gates: Counter[str] = Counter()
     for row in pareto["pareto_follow_up_queue"]:
@@ -2147,10 +2367,10 @@ def build_unified_snapshot(
                     },
                     "family_followup": {
                         "aether": {
-                            "candidate_count": future_aether_formal_followup[
+                            "candidate_count": future_aether_constraint_followup[
                                 "candidate_count"
                             ],
-                            "decision_counts": future_aether_formal_followup[
+                            "decision_counts": future_aether_constraint_followup[
                                 "decision_counts"
                             ],
                             "formal_pass_count": 0,
@@ -2163,34 +2383,81 @@ def build_unified_snapshot(
                             "global_tilt_strata_counts": future_aether_formal_followup[
                                 "global_tilt_strata_counts"
                             ],
-                            "first_blocker_counts": future_aether_formal_followup[
+                            "explicit_affine_ansatz_constraint_reject_count": future_aether_constraint_followup[
+                                "explicit_affine_ansatz_constraint_reject_count"
+                            ],
+                            "nonzero_Hamiltonian_constraint_residual_count": future_aether_constraint_followup[
+                                "nonzero_Hamiltonian_constraint_residual_count"
+                            ],
+                            "nonzero_momentum_constraint_residual_count": future_aether_constraint_followup[
+                                "nonzero_momentum_constraint_residual_count"
+                            ],
+                            "undefined_AE_boundary_contribution_count": future_aether_constraint_followup[
+                                "undefined_AE_boundary_contribution_count"
+                            ],
+                            "constraint_satisfying_negative_total_energy_datum_count": 0,
+                            "first_blocker_counts": future_aether_constraint_followup[
                                 "first_blocker_counts"
                             ],
                             "candidate_rejection_authorized_count": 0,
                         },
                         "g3": {
-                            "candidate_count": future_g3_domain_followup[
+                            "candidate_count": future_g3_action_bound_followup[
                                 "candidate_count"
                             ],
-                            "decision_counts": future_g3_domain_followup[
+                            "decision_counts": future_g3_action_bound_followup[
                                 "decision_counts"
                             ],
                             "all_direction_single_center_pass_count": future_g3_domain_followup[
                                 "all_direction_single_center_pass_count"
                             ],
-                            "full_Delta_N_derivation_pass_count": future_g3_domain_followup[
+                            "domain_registration_filled_field_count": future_g3_action_bound_followup[
+                                "domain_registration_filled_field_count"
+                            ],
+                            "domain_registration_missing_field_count": future_g3_action_bound_followup[
+                                "domain_registration_missing_field_count"
+                            ],
+                            "full_Delta_N_derivation_pass_count": future_g3_action_bound_followup[
                                 "full_Delta_N_derivation_pass_count"
                             ],
-                            "nonzero_componentwise_box_pass_count": 0,
-                            "uniform_principal_common_cone_pass_count": 0,
-                            "uniform_Delta_N_coercivity_pass_count": 0,
-                            "periodic_distributed_Dirac_pass_count": 0,
-                            "asymptotically_flat_Dirac_pass_count": 0,
-                            "full_formal_pass_count": 0,
-                            "first_blocker_counts": future_g3_domain_followup[
+                            "nonzero_componentwise_box_pass_count": future_g3_action_bound_followup[
+                                "nonzero_componentwise_box_pass_count"
+                            ],
+                            "uniform_principal_common_cone_pass_count": future_g3_action_bound_followup[
+                                "uniform_principal_common_cone_pass_count"
+                            ],
+                            "uniform_Delta_N_coercivity_pass_count": future_g3_action_bound_followup[
+                                "uniform_Delta_N_coercivity_pass_count"
+                            ],
+                            "periodic_distributed_Dirac_pass_count": future_g3_action_bound_followup[
+                                "periodic_distributed_Dirac_pass_count"
+                            ],
+                            "asymptotically_flat_Dirac_pass_count": future_g3_action_bound_followup[
+                                "asymptotically_flat_Dirac_pass_count"
+                            ],
+                            "global_energy_pass_count": future_g3_action_bound_followup[
+                                "global_energy_pass_count"
+                            ],
+                            "full_formal_pass_count": future_g3_action_bound_followup[
+                                "full_formal_pass_count"
+                            ],
+                            "first_blocker_counts": future_g3_action_bound_followup[
                                 "first_blocker_counts"
                             ],
                         },
+                    },
+                    "action_dossiers": {
+                        "candidate_count": future_candidate_action_dossier[
+                            "candidate_count"
+                        ],
+                        "decision_counts": future_candidate_action_dossier[
+                            "decision_counts"
+                        ],
+                        "ranked_candidate_count": 0,
+                        "dossier_registry_root_sha256": future_candidate_action_dossier[
+                            "dossier_registry_root_sha256"
+                        ],
+                        "records": future_candidate_action_dossier["dossiers"],
                     },
                 },
             },
@@ -2229,33 +2496,34 @@ def build_unified_snapshot(
                 "full_active_symmetric_triple_count": quartic_third_slice[
                     "full_symmetric_triples_in_41_direction_sector"
                 ],
-                "remaining_mixed_triples": 12_236,
-                "mixed_third_jet_closures": 64,
+                "remaining_mixed_triples": 12_172,
+                "mixed_third_jet_closures": 128,
             },
             "mixed_third_jet_chunk": {
-                "chunk_offset": quartic_mixed_contract["chunk_offset"],
-                "processed_count": quartic_mixed_contract["processed_count"],
-                "next_offset": quartic_mixed_contract["next_offset"],
-                "triple_kind_counts": quartic_mixed_counts[
+                "chunk_offset": quartic_mixed_64_contract["chunk_offset"],
+                "latest_chunk_processed_count": quartic_mixed_64_contract[
+                    "processed_count"
+                ],
+                "processed_count": 128,
+                "next_offset": quartic_mixed_64_contract["next_offset"],
+                "triple_kind_counts": quartic_mixed_64_counts[
                     "triple_kind_counts"
                 ],
-                "symbolic_parameter_compatible": quartic_mixed_counts[
-                    "symbolic_parameter_compatible"
-                ],
-                "candidate_evaluations": quartic_mixed_counts[
+                "symbolic_parameter_compatible": 128,
+                "latest_candidate_evaluations": quartic_mixed_64_counts[
                     "candidate_evaluations"
                 ],
-                "candidate_solvable": quartic_mixed_counts[
-                    "candidate_solvable"
-                ],
-                "candidate_obstructed": quartic_mixed_counts[
-                    "candidate_obstructed"
-                ],
-                "remaining_mixed_triples": quartic_mixed_counts[
+                "candidate_evaluations": 1_536,
+                "candidate_solvable": 1_536,
+                "candidate_obstructed": 0,
+                "remaining_mixed_triples": quartic_mixed_64_counts[
                     "mixed_triples_remaining"
                 ],
-                "resume_tip_sha256": quartic_mixed_contract[
+                "resume_tip_sha256": quartic_mixed_64_contract[
                     "resume_tip_sha256"
+                ],
+                "service_decision": quartic_tc2_mixed_third_jet_continuation_status[
+                    "decision"
                 ],
                 "full_mixed_sector_closed": False,
             },
@@ -2272,7 +2540,7 @@ def build_unified_snapshot(
                 )
             },
             "first_missing_premise": (
-                "remaining_12236_polarized_mixed_third_sylvester_jets_then_"
+                "remaining_12172_polarized_mixed_third_sylvester_jets_then_"
                 "fourth_and_higher_remainder_or_nonlinear_range_theorem"
             ),
         },

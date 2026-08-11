@@ -34,7 +34,10 @@ SOURCE_PATHS = [
     "runs/engine/scalable-future-parameter-chunk-001-status.json",
     "runs/engine/reviewed-future-parameter-formal-preflight-001.json",
     "runs/engine/future-aether-candidate-formal-followup.json",
+    "runs/engine/future-aether-constraint-boundary-embedding-audit.json",
     "runs/engine/future-g3-componentwise-domain-contract-campaign.json",
+    "runs/engine/future-g3-action-bound-jet-box-campaign.json",
+    "runs/engine/future-candidate-action-dossier.json",
     "runs/engine/grammar-v3-g3-candidate-formal-status.json",
     "runs/engine/g4-scalable-action-formal-followup.json",
     "runs/engine/aether-parameter-cell-formal-gate-status.json",
@@ -64,6 +67,9 @@ SOURCE_PATHS = [
     "runs/physics-language/quartic-tc2-quadratic-deltak-extension-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-diagonal-third-jet-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-chunk-campaign/campaign.json",
+    "runs/physics-language/quartic-tc2-mixed-third-jet-continuation-service/chunks/offset-000064.json",
+    "runs/physics-language/quartic-tc2-mixed-third-jet-continuation-service/checkpoint.json",
+    "runs/physics-language/quartic-tc2-mixed-third-jet-continuation-service/service-status.json",
 ]
 LABELS = [
     "billion_streaming",
@@ -83,7 +89,10 @@ LABELS = [
     "scalable_future_parameter_chunk",
     "scalable_future_formal_preflight",
     "future_aether_formal_followup",
+    "future_aether_constraint_followup",
     "future_g3_domain_followup",
+    "future_g3_action_bound_followup",
+    "future_candidate_action_dossier",
     "grammar_v3_g3_candidate_formal",
     "grammar_v3_g4_scalable_formal_followup",
     "grammar_v3_aether_candidate_formal",
@@ -113,6 +122,9 @@ LABELS = [
     "quartic_tc2_quadratic_deltak_extension",
     "quartic_tc2_diagonal_third_jet",
     "quartic_tc2_mixed_third_jet_chunk",
+    "quartic_tc2_mixed_third_jet_chunk_64",
+    "quartic_tc2_mixed_third_jet_checkpoint",
+    "quartic_tc2_mixed_third_jet_continuation_status",
 ]
 
 
@@ -520,9 +532,18 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     }
     assert reviewed_manifest["formal_evaluation_performed"] is False
     assert reviewed_manifest["scientific_decision_counts"] == {}
-    assert core["grammar_parameter_cells"]["staged_epoch"][
+    future_chunk = core["grammar_parameter_cells"]["staged_epoch"][
         "reviewed_future_chunk"
-    ] == {
+    ]
+    assert {
+        key: future_chunk[key]
+        for key in (
+            "input_cell_count",
+            "disposition_counts",
+            "preflight",
+            "family_followup",
+        )
+    } == {
         "input_cell_count": 32,
         "disposition_counts": {
             "admitted_new_candidate": 19,
@@ -558,8 +579,13 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                     "finite_characteristic_foliation_present": 13,
                     "globally_noncharacteristic_for_finite_unit_tilt": 1,
                 },
+                "explicit_affine_ansatz_constraint_reject_count": 14,
+                "nonzero_Hamiltonian_constraint_residual_count": 14,
+                "nonzero_momentum_constraint_residual_count": 14,
+                "undefined_AE_boundary_contribution_count": 14,
+                "constraint_satisfying_negative_total_energy_datum_count": 0,
                 "first_blocker_counts": {
-                    "full_constraint_embedding_of_negative_static_twist_jet": 14
+                    "constraint_satisfying_asymptotically_Euclidean_completion_of_negative_twist_witness": 14
                 },
                 "candidate_rejection_authorized_count": 0,
             },
@@ -567,19 +593,34 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                 "candidate_count": 3,
                 "decision_counts": {"blocked": 3},
                 "all_direction_single_center_pass_count": 3,
+                "domain_registration_filled_field_count": 36,
+                "domain_registration_missing_field_count": 0,
                 "full_Delta_N_derivation_pass_count": 3,
-                "nonzero_componentwise_box_pass_count": 0,
-                "uniform_principal_common_cone_pass_count": 0,
-                "uniform_Delta_N_coercivity_pass_count": 0,
-                "periodic_distributed_Dirac_pass_count": 0,
+                "nonzero_componentwise_box_pass_count": 3,
+                "uniform_principal_common_cone_pass_count": 3,
+                "uniform_Delta_N_coercivity_pass_count": 3,
+                "periodic_distributed_Dirac_pass_count": 3,
                 "asymptotically_flat_Dirac_pass_count": 0,
+                "global_energy_pass_count": 0,
                 "full_formal_pass_count": 0,
                 "first_blocker_counts": {
-                    "candidate_bound_nonzero_componentwise_normalized_local_jet_box_values": 3
+                    "asymptotically_flat_or_global_energy_domain_missing": 3
                 },
             },
         },
     }
+    future_dossiers = future_chunk["action_dossiers"]
+    assert future_dossiers["candidate_count"] == 19
+    assert future_dossiers["decision_counts"] == {"blocked": 17, "reject": 2}
+    assert future_dossiers["ranked_candidate_count"] == 0
+    assert len(future_dossiers["records"]) == 19
+    assert all(
+        record["comparison_contract"]["rank"] is None
+        and record["comparison_contract"]["rank_eligible"] is False
+        and record["action"]["human_readable_action"]["display_kind"]
+        == "verbatim_ordered_covariant_density_concatenation"
+        for record in future_dossiers["records"]
+    )
     structural = core["grammar_parameter_cells"]["structural_metrics"]
     assert structural["candidate_count"] == 163
     assert structural["alias_count"] == 93
@@ -787,22 +828,25 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
             "candidate_direction_solvable": 492,
             "candidate_direction_obstructed": 0,
             "full_active_symmetric_triple_count": 12341,
-            "remaining_mixed_triples": 12236,
-            "mixed_third_jet_closures": 64,
+            "remaining_mixed_triples": 12172,
+            "mixed_third_jet_closures": 128,
         },
         "mixed_third_jet_chunk": {
-            "chunk_offset": 0,
-            "processed_count": 64,
-            "next_offset": 64,
-            "triple_kind_counts": {"AAB": 40, "ABB": 1, "ABC": 23},
-            "symbolic_parameter_compatible": 64,
-            "candidate_evaluations": 768,
-            "candidate_solvable": 768,
+            "chunk_offset": 64,
+            "latest_chunk_processed_count": 64,
+            "processed_count": 128,
+            "next_offset": 128,
+            "triple_kind_counts": {"ABB": 2, "ABC": 62},
+            "symbolic_parameter_compatible": 128,
+            "latest_candidate_evaluations": 768,
+            "candidate_evaluations": 1536,
+            "candidate_solvable": 1536,
             "candidate_obstructed": 0,
-            "remaining_mixed_triples": 12236,
+            "remaining_mixed_triples": 12172,
             "resume_tip_sha256": (
-                "96118a2fa7a8a3d5b2ec01976720046dcddcf3149ff7993b6607148f6fc0cbeb"
+                "6a179f60d665e2aa73b2e1c07ec36e7ae49490342af7fb14ca305704fda7e191"
             ),
+            "service_decision": "checkpointed",
             "full_mixed_sector_closed": False,
         },
         "closure_counts": {
@@ -815,7 +859,7 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
             "lifespans_proved": 0,
         },
         "first_missing_premise": (
-            "remaining_12236_polarized_mixed_third_sylvester_jets_then_"
+            "remaining_12172_polarized_mixed_third_sylvester_jets_then_"
             "fourth_and_higher_remainder_or_nonlinear_range_theorem"
         ),
     }
@@ -890,16 +934,24 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "Future G3 center checks" in dashboard
     assert "Future G3 uniform boxes" in dashboard
     assert "all 14 Aether survivors blocked" in dashboard
-    assert "uniform cone, coercivity, Dirac, and full-formal passes remain zero" in dashboard
+    assert "every completion fails both coupled constraints" in dashboard
+    assert "pass uniform all-direction principal/common-cone" in dashboard
+    assert "asymptotically-flat/global-energy domain" in dashboard
+    assert "Staged future candidate formulas (unranked)" in dashboard
+    assert "These master actions are recompiled from the exact typed cells" in dashboard
+    assert "G3A-8555e529226d13e2e9dacad5" in dashboard
+    assert "S = integral d^4x" in dashboard
+    assert "blocked and rejected staged actions never enter a scientific ranking" in dashboard
     assert "Future reviewed cells" in dashboard
     assert "Future new candidates" in dashboard
     assert "19 new action classes and 13 exact deduplications" in dashboard
     assert "Quartic nonlinear closure" in dashboard
     assert "Diagonal third jets" in dashboard
     assert "Mixed third jets closed" in dashboard
-    assert "64/64 lexicographic AAB/ABB/ABC triples" in dashboard
+    assert "128/128 lexicographic AAB/ABB/ABC triples" in dashboard
     assert "Mixed triples remaining" in dashboard
-    assert "12,236 polarized mixed triples remain" in dashboard
+    assert "12,172 polarized mixed triples remain" in dashboard
+    assert "Two restart-safe mixed chunks now close 128/128" in dashboard
     assert "CK1, CK3, TC2, B7, global H7, and lifespan remain fail-closed" in dashboard
     assert "No full formal pass is inferred" not in dashboard
     assert "class #1" in dashboard
@@ -938,7 +990,7 @@ def test_standalone_refresh_and_dashboard_keep_watchdog_database_read_only(
         "--dashboard-output",
         "runs/engine/dashboard.html",
         "--maximum-output-bytes",
-        "131072",
+        "1048576",
         "--disable-gpu-sample",
         "--sampled-at-utc",
         "2026-08-10T20:10:00+00:00",
@@ -954,8 +1006,8 @@ def test_standalone_refresh_and_dashboard_keep_watchdog_database_read_only(
         "availability": "disabled",
         "source": "disabled_by_operator",
     }
-    assert len(snapshot_path.read_bytes()) < 131072
-    assert len(dashboard_path.read_bytes()) < 131072
+    assert len(snapshot_path.read_bytes()) < 1048576
+    assert len(dashboard_path.read_bytes()) < 1048576
     assert "Scheduler lanes" in dashboard
     assert "Physical hardware sample" in dashboard
     assert "C:\\" not in dashboard

@@ -361,11 +361,14 @@ def run_quartic_tc2_mixed_third_jet_chunk_campaign(
             )
         ):
             raise QuarticTC2MixedThirdJetChunkError("closure policy mismatch")
+        requested_chunk_size = int(config["chunk_size"])
         if (
             config.get("selector") != "lexicographic_active_direction_multisets_excluding_AAA"
-            or int(config["chunk_size"]) != DEFAULT_CHUNK_SIZE
+            or not 1 <= requested_chunk_size <= DEFAULT_CHUNK_SIZE
             or int(config["chunk_offset"]) < 0
             or int(config["chunk_offset"]) >= TOTAL_MIXED_TRIPLES
+            or int(config["chunk_offset"]) + requested_chunk_size
+            > TOTAL_MIXED_TRIPLES
             or config.get("stop_on_first_obstruction") is not True
             or config.get("resume_policy") != "record_sha256_chain"
         ):
@@ -406,9 +409,14 @@ def run_quartic_tc2_mixed_third_jet_chunk_campaign(
             raise QuarticTC2MixedThirdJetChunkError("candidate count mismatch")
         selector = _mixed_selector()
         offset = int(config["chunk_offset"])
-        selected = selector[offset : offset + DEFAULT_CHUNK_SIZE]
-        if len(selected) != DEFAULT_CHUNK_SIZE:
-            raise QuarticTC2MixedThirdJetChunkError("short final chunks are not enabled")
+        selected = selector[offset : offset + requested_chunk_size]
+        if len(selected) != requested_chunk_size:
+            raise QuarticTC2MixedThirdJetChunkError("chunk selector length mismatch")
+        partial_tail = requested_chunk_size != DEFAULT_CHUNK_SIZE
+        if partial_tail and offset + requested_chunk_size != TOTAL_MIXED_TRIPLES:
+            raise QuarticTC2MixedThirdJetChunkError(
+                "partial chunks are allowed only for the exact final selector tail"
+            )
         seed_body = {
             "upstream": actual_upstream,
             "canonical_D2_artifact_sequence_sha256": _content_hash(artifact_hashes),
@@ -509,7 +517,12 @@ def run_quartic_tc2_mixed_third_jet_chunk_campaign(
             "status": (
                 "stop_first_exact_mixed_third_jet_obstruction"
                 if first_obstruction
-                else "pass_mixed_third_jet_chunk_64_global_closure_fail_closed"
+                else (
+                    f"pass_mixed_third_jet_exact_partial_tail_{requested_chunk_size}_"
+                    "global_closure_fail_closed"
+                    if partial_tail
+                    else "pass_mixed_third_jet_chunk_64_global_closure_fail_closed"
+                )
             ),
             "errors": [],
             "upstream_sha256": actual_upstream,
@@ -521,7 +534,7 @@ def run_quartic_tc2_mixed_third_jet_chunk_campaign(
                 "selector": config["selector"],
                 "global_mixed_triple_count": TOTAL_MIXED_TRIPLES,
                 "chunk_offset": offset,
-                "requested_chunk_size": DEFAULT_CHUNK_SIZE,
+                "requested_chunk_size": requested_chunk_size,
                 "processed_count": processed,
                 "next_offset": offset + processed,
                 "stop_on_first_obstruction": True,
@@ -530,7 +543,24 @@ def run_quartic_tc2_mixed_third_jet_chunk_campaign(
                 "prior_resume_sha256": config.get("expected_prior_resume_sha256"),
                 "resume_seed_sha256": seed,
                 "resume_tip_sha256": previous,
+                **({"exact_final_partial_tail": True} if partial_tail else {}),
             },
+            **(
+                {
+                    "partial_tail_control": {
+                        "selector_total": TOTAL_MIXED_TRIPLES,
+                        "tail_offset": offset,
+                        "tail_size": requested_chunk_size,
+                        "tail_exhausts_selector_exactly": (
+                            offset + requested_chunk_size == TOTAL_MIXED_TRIPLES
+                        ),
+                        "padded_or_inferred_triples": 0,
+                        "passed": True,
+                    }
+                }
+                if partial_tail
+                else {}
+            ),
             "counts": {
                 "selected": processed,
                 "triple_kind_counts": dict(sorted(kinds.items())),

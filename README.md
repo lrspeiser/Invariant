@@ -329,11 +329,13 @@ jet-domain strings do not instantiate the componentwise normalized local box and
 certificate. These are prerequisite decisions only: no full formal pass or automatic downstream
 enqueue is inferred, and the new candidates remain outside the scientific leaderboards.
 Candidate-specific follow-up keeps all 14 Aether survivors blocked: each has an exact finite
-negative local pure-twist density witness, but the full gravitational constraint-surface and
-boundary-energy embedding needed to authorize rejection is still missing. The three cubic-G3
-actions pass exact all-direction single-center checks and exact action-specific lapse derivations,
-but their scalar qualitative labels leave 12 normalized domain fields unset; no nonzero
-componentwise box, uniform cone, coercivity, distributed Dirac, or full-formal pass is inferred.
+negative local pure-twist density witness. Its normalized affine rigid-rotation completion is now
+checked explicitly, but all 14 completions fail both coupled constraints and are non-asymptotically
+Euclidean, leaving the boundary energy undefined rather than negative. A constraint-satisfying AE
+completion is still required before any theory rejection. The three cubic-G3 actions now have all
+36 action-bound componentwise fields registered and pass direct uniform principal/common-cone,
+exact lapse-coercivity, and periodic `L2(T3)` Dirac gates. They remain blocked at the
+asymptotically-flat/global-energy domain, with no full-formal pass inferred.
 An immutable evidence bridge now ingests the six compilation results plus the Aether, `G2`, `G3`,
 and conformal-`G4` prerequisite packets into an isolated knowledge registry. It preserves candidate/action/source
 lineage, separates calibration-only controls, deduplicates replay, refuses the live campaign
@@ -379,6 +381,9 @@ Each candidate row also exposes its human-readable defining action as the compac
 followed separately by the exact operator terms and the proof/test hierarchy. Derived field
 equations, constraints, predictions, and certificates are therefore visible without being
 misrepresented as additional fitted pieces of the theory.
+The staged 19-candidate future chunk has the same treatment: every master action is recompiled from
+its exact typed parameter cell, while formal and observational nodes remain separate. All 17 blocked
+and two rejected staged formulas are explicitly unranked.
 The leaderboard now ingests an immutable per-candidate export for the full scalable grammar lane:
 163 unique action IDs, 93 exact aliases, and exact formula inputs reconstructed from the typed
 action IR rather than family labels. Its formal ledger is one G4 pass, two conditional-domain G2
@@ -1135,9 +1140,10 @@ A bounded third-order continuation now closes every diagonal `(A,A,A)` triple in
 active affine sector. All 41 symbolic compatibilities and all 492 candidate-direction evaluations
 are solvable, Hermitian, and exact-zero residual; 312 evaluations require a nonzero
 `deltaK_AAA`. This does not infer polarization: the full mixed sector contains 12,300 `AAB`, `ABB`,
-and `ABC` triples before fourth-and-higher remainder control or a nonlinear range theorem. A first restartable
-lexicographic chunk now closes 64/64 of those mixed triples--40 `AAB`, one `ABB`, and 23 `ABC`--and
-all 768 candidate evaluations with zero obstruction. Exactly 12,236 mixed triples remain. Full tube, TC2, B7,
+and `ABC` triples before fourth-and-higher remainder control or a nonlinear range theorem. Two restartable
+lexicographic chunks now close 128/128 of those mixed triples and all 1,536 candidate evaluations
+with zero obstruction. Exactly 12,172 mixed triples remain; the durable checkpoint resumes at offset
+128. Full tube, TC2, B7,
 global-H7, and lifespan claims therefore remain fail-closed.
 
 The tube bounds 153 normalized coordinate atoms: ten metric deviations, 44 first partials,
