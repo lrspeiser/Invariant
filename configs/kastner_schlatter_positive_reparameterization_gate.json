@@ -1,0 +1,37 @@
+{
+  "schema_version": "sigma-kastner-schlatter-positive-reparameterization-gate-config-1.0",
+  "campaign_id": "kastner-schlatter-positive-reparameterization-gate-001",
+  "output_path": "runs/engine/kastner-schlatter-positive-reparameterization-gate.json",
+  "predecessor": {
+    "path": "runs/engine/kastner-schlatter-positive-intensity-preservation-gate.json",
+    "file_sha256": "52d2a13010535c18764fbc66758185a8f7311e3f1dcb6ce87ffcc1dca5c622cf",
+    "content_sha256": "bb916000b6e687f2788ad49fd5ed69cd80d2ec8110eec79f2eb250aca681a3a7"
+  },
+  "field_space_contract": {
+    "original_field_space": "q in R",
+    "restricted_field_space": "q in (0,infinity)",
+    "new_coordinate": "phi in R",
+    "map": "q=q0*exp(phi)",
+    "inverse": "phi=log(q/q0)",
+    "new_coordinate_dimension": "dimensionless",
+    "parameter_domain": "q0>0, A_q>0, B_q>0, beta>0",
+    "regularity_scope": "finite real phi on the maximal regular classical solution"
+  },
+  "admission_policy": {
+    "exact_change_of_variables_required": true,
+    "global_original_phase_space_invariance_inferred": false,
+    "restricted_sector_selection_from_paper_or_QED_inferred": false,
+    "action_derived_point_process_measure_inferred": false,
+    "candidate_action_rejection_allowed": false
+  },
+  "seals": {
+    "observations_opened": false,
+    "dark_matter_or_halo_inputs": false,
+    "redshift_or_cosmology_inputs": false,
+    "solar_system_inputs": false,
+    "QED_actualization_derivation_opened": false,
+    "transaction_ontology_validated": false,
+    "paper_action_attribution_allowed": false,
+    "paid_llm_calls": false
+  }
+}

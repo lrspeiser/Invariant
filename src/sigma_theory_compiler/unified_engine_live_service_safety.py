@@ -26,6 +26,10 @@ LEASE_SCHEMA = "sigma-unified-engine-live-service-cutover-lease-1.0"
 ARTIFACT_SCHEMA = "sigma-unified-engine-live-service-safety-readiness-1.0"
 EXPECTED_RUNTIME_DIRECTORY = "runs/engine/unified-live-dashboard-safety-service"
 EXPECTED_LEGACY_RUNTIME_DIRECTORY = "runs/engine/unified-live-dashboard-service"
+EXPECTED_CHECKED_SNAPSHOT = "runs/engine/unified-engine-status.json"
+EXPECTED_LEADERBOARD_SCHEMA = "sigma-scientific-leaderboards-1.1"
+MAXIMUM_SEED_HISTORY_ENTRIES = 64
+MAXIMUM_SEED_HISTORY_BYTES = 65536
 EXPECTED_SEALS = {
     "observations_opened": False,
     "dark_matter_or_halo_inputs": False,
@@ -159,6 +163,8 @@ def _paths(root: Path, config: Mapping[str, Any]) -> dict[str, Path]:
         "lease": lease,
         "lease_recovery": lease.with_name(f"{lease.name}.recovery"),
         "legacy_checkpoint": legacy_runtime / "checkpoint.json",
+        "legacy_snapshot": legacy_runtime / "unified-engine-status-live.json",
+        "checked_snapshot": _resolve_inside(root, EXPECTED_CHECKED_SNAPSHOT),
     }
 
 
@@ -561,6 +567,192 @@ def _dependency_manifest(
     return {"file_sha256": ordered, "manifest_sha256": _sha(ordered)}
 
 
+def _is_sha256(value: Any) -> bool:
+    if not isinstance(value, str) or len(value) != 64:
+        return False
+    try:
+        int(value, 16)
+    except ValueError:
+        return False
+    return True
+
+
+def _validated_snapshot_leaderboard(
+    root: Path,
+    config: Mapping[str, Any],
+    path: Path,
+    source_kind: str,
+    *,
+    expected_file_sha256: str | None = None,
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    if not path.is_file():
+        raise ValueError(f"{source_kind} leaderboard seed missing")
+    if path.is_symlink():
+        raise ValueError(f"{source_kind} leaderboard seed symlink rejected")
+    raw = path.read_bytes()
+    if len(raw) > int(config["maximum_output_bytes"]):
+        raise ValueError(f"{source_kind} leaderboard seed snapshot oversized")
+    file_sha = hashlib.sha256(raw).hexdigest()
+    if expected_file_sha256 is not None and file_sha != expected_file_sha256:
+        raise ValueError(f"{source_kind} leaderboard seed file hash mismatch")
+    value = json.loads(raw)
+    if not isinstance(value, dict) or not isinstance(value.get("core"), dict):
+        raise TypeError(f"{source_kind} leaderboard seed snapshot invalid")
+    core = value["core"]
+    if value.get("core_content_sha256") != _sha(core):
+        raise ValueError(f"{source_kind} leaderboard seed core hash mismatch")
+    leaderboard = core.get("scientific_leaderboards")
+    if not isinstance(leaderboard, dict):
+        raise TypeError(f"{source_kind} scientific leaderboard missing")
+    if leaderboard.get("schema_version") != EXPECTED_LEADERBOARD_SCHEMA:
+        raise ValueError(f"{source_kind} scientific leaderboard schema incompatible")
+    if leaderboard.get("content_sha256") != _content_sha(leaderboard):
+        raise ValueError(f"{source_kind} scientific leaderboard content hash mismatch")
+    history = leaderboard.get("history")
+    if not isinstance(history, list) or not history:
+        raise ValueError(f"{source_kind} scientific leaderboard history missing")
+    if len(history) > MAXIMUM_SEED_HISTORY_ENTRIES:
+        raise ValueError(f"{source_kind} scientific leaderboard history oversized")
+    history_bytes = _canonical(history)
+    if len(history_bytes) > MAXIMUM_SEED_HISTORY_BYTES:
+        raise ValueError(f"{source_kind} scientific leaderboard history oversized")
+    for entry in history:
+        if (
+            not isinstance(entry, dict)
+            or set(entry) != {"category_roots", "leaderboard_root_sha256"}
+            or not _is_sha256(entry.get("leaderboard_root_sha256"))
+            or not isinstance(entry.get("category_roots"), dict)
+            or not all(_is_sha256(item) for item in entry["category_roots"].values())
+        ):
+            raise ValueError(f"{source_kind} scientific leaderboard history invalid")
+    if history[-1]["leaderboard_root_sha256"] != leaderboard.get(
+        "leaderboard_root_sha256"
+    ):
+        raise ValueError(f"{source_kind} scientific leaderboard history head mismatch")
+    revisions = core.get("source_revisions")
+    if not isinstance(revisions, dict) or not revisions:
+        raise TypeError(f"{source_kind} source revisions missing")
+    for label, revision in revisions.items():
+        if (
+            not isinstance(label, str)
+            or not isinstance(revision, dict)
+            or not _is_sha256(revision.get("file_sha256"))
+            or not _is_sha256(revision.get("content_sha256"))
+        ):
+            raise ValueError(f"{source_kind} source revision invalid: {label}")
+    return leaderboard, {
+        "source_kind": source_kind,
+        "path": path.relative_to(root).as_posix(),
+        "file_sha256": file_sha,
+        "core_content_sha256": value["core_content_sha256"],
+        "leaderboard_content_sha256": leaderboard["content_sha256"],
+        "leaderboard_root_sha256": leaderboard["leaderboard_root_sha256"],
+        "history_entry_count": len(history),
+        "history_sha256": _sha(history),
+    }
+
+
+def _checked_or_legacy_leaderboard_seed(
+    root: Path, config: Mapping[str, Any], paths: Mapping[str, Path]
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    if paths["checked_snapshot"].exists():
+        return _validated_snapshot_leaderboard(
+            root, config, paths["checked_snapshot"], "checked_snapshot"
+        )
+    if not paths["legacy_checkpoint"].is_file():
+        raise ValueError("checked and legacy leaderboard seeds missing")
+    checkpoint_raw = paths["legacy_checkpoint"].read_bytes()
+    checkpoint = json.loads(checkpoint_raw)
+    if not isinstance(checkpoint, dict):
+        raise TypeError("legacy leaderboard seed checkpoint invalid")
+    body = {
+        key: item for key, item in checkpoint.items() if key != "content_sha256"
+    }
+    expected_content = hashlib.sha256(
+        json.dumps(
+            body, sort_keys=True, separators=(",", ":"), ensure_ascii=False
+        ).encode()
+    ).hexdigest()
+    legacy_config = _resolve_inside(
+        root, str(config["predecessors"]["service_config"]["path"])
+    )
+    receipt = checkpoint.get("last_refresh")
+    if (
+        checkpoint.get("schema_version")
+        != "sigma-unified-engine-live-service-checkpoint-1.0"
+        or checkpoint.get("content_sha256") != expected_content
+        or checkpoint.get("config_file_sha256") != _file_sha(legacy_config)
+        or checkpoint.get("state") != "stopped"
+        or checkpoint.get("pid") is not None
+        or not isinstance(receipt, dict)
+        or not _is_sha256(receipt.get("snapshot_file_sha256"))
+    ):
+        raise ValueError("legacy leaderboard seed checkpoint validation failed")
+    return _validated_snapshot_leaderboard(
+        root,
+        config,
+        paths["legacy_snapshot"],
+        "legacy_snapshot",
+        expected_file_sha256=receipt["snapshot_file_sha256"],
+    )
+
+
+def _runtime_leaderboard_seed(
+    root: Path, config: Mapping[str, Any], paths: Mapping[str, Path]
+) -> tuple[dict[str, Any], dict[str, Any]] | None:
+    if not paths["snapshot"].exists():
+        return None
+    if not paths["checkpoint"].is_file():
+        raise ValueError("runtime leaderboard seed checkpoint missing")
+    checkpoint = json.loads(paths["checkpoint"].read_text(encoding="utf-8"))
+    _validate_checkpoint(checkpoint, config)
+    receipt = checkpoint.get("last_refresh")
+    if not isinstance(receipt, dict) or not _is_sha256(
+        receipt.get("snapshot_file_sha256")
+    ):
+        raise ValueError("runtime leaderboard seed receipt missing")
+    return _validated_snapshot_leaderboard(
+        root,
+        config,
+        paths["snapshot"],
+        "runtime_snapshot",
+        expected_file_sha256=receipt["snapshot_file_sha256"],
+    )
+
+
+def _select_previous_leaderboard(
+    root: Path, config: Mapping[str, Any], paths: Mapping[str, Path]
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    predecessor, predecessor_receipt = _checked_or_legacy_leaderboard_seed(
+        root, config, paths
+    )
+    runtime_seed = _runtime_leaderboard_seed(root, config, paths)
+    if runtime_seed is None:
+        return predecessor, predecessor_receipt
+    runtime, runtime_receipt = runtime_seed
+    predecessor_history = predecessor["history"]
+    runtime_history = runtime["history"]
+    if runtime_history == predecessor_history:
+        return runtime, runtime_receipt
+    if (
+        len(runtime_history) < len(predecessor_history)
+        and runtime_history == predecessor_history[-len(runtime_history) :]
+    ):
+        return predecessor, predecessor_receipt
+
+    def extends(base: list[Any], candidate: list[Any]) -> bool:
+        for overlap in range(min(len(base), len(candidate)), 0, -1):
+            if base[-overlap:] == candidate[:overlap]:
+                return len(candidate) > overlap
+        return False
+
+    if extends(predecessor_history, runtime_history):
+        return runtime, runtime_receipt
+    if extends(runtime_history, predecessor_history):
+        return predecessor, predecessor_receipt
+    raise ValueError("runtime and predecessor leaderboard histories are incompatible")
+
+
 def safe_refresh_once(
     root: Path,
     config: Mapping[str, Any],
@@ -577,22 +769,22 @@ def safe_refresh_once(
     guard()
     snapshot = snapshot_builder(root, load_config(unified_path))
     guard()
-    previous = None
-    if paths["snapshot"].is_file():
-        previous = json.loads(paths["snapshot"].read_text(encoding="utf-8")).get("core", {}).get(
-            "scientific_leaderboards"
-        )
+    previous, seed_receipt = _select_previous_leaderboard(root, config, paths)
     snapshot["core"]["scientific_leaderboards"] = leaderboard_builder(
         root, load_leaderboard_config(leaderboard_path), previous
     )
     snapshot["core_content_sha256"] = _sha(snapshot["core"])
     snapshot["live_projection_input_manifest_sha256"] = manifest_before["manifest_sha256"]
+    snapshot["leaderboard_history_seed"] = seed_receipt
     guard()
     json_bytes = (json.dumps(snapshot, indent=2, sort_keys=True) + "\n").encode()
     html_bytes = dashboard_renderer(snapshot).encode()
     manifest_after = _dependency_manifest(root, unified_path, leaderboard_path)
     if manifest_after != manifest_before:
         raise ControlSignal("projection_inputs_changed_during_refresh")
+    seed_path = _resolve_inside(root, str(seed_receipt["path"]))
+    if _file_sha(seed_path) != seed_receipt["file_sha256"]:
+        raise ControlSignal("leaderboard_history_seed_changed_during_refresh")
     guard()
     maximum = int(config["maximum_output_bytes"])
     _safe_atomic_write(paths["snapshot"], json_bytes, maximum)
@@ -602,6 +794,7 @@ def safe_refresh_once(
         "projection_input_manifest_sha256": manifest_before["manifest_sha256"],
         "snapshot_file_sha256": hashlib.sha256(json_bytes).hexdigest(),
         "dashboard_file_sha256": hashlib.sha256(html_bytes).hexdigest(),
+        "leaderboard_history_seed": seed_receipt,
     }
 
 
@@ -944,6 +1137,13 @@ def build_safety_readiness(root: Path, config_path: Path) -> dict[str, Any]:
                 "startup_identity_timeout_seconds"
             ],
             "runtime_outputs_gitignored": True,
+            "leaderboard_history_seed_checked_snapshot": EXPECTED_CHECKED_SNAPSHOT,
+            "leaderboard_history_seed_legacy_fallback_hash_bound": True,
+            "leaderboard_history_seed_core_and_content_hash_validated": True,
+            "leaderboard_history_seed_source_revisions_structurally_validated": True,
+            "leaderboard_history_seed_pre_and_post_hash_guarded": True,
+            "maximum_seed_history_entries": MAXIMUM_SEED_HISTORY_ENTRIES,
+            "maximum_seed_history_bytes": MAXIMUM_SEED_HISTORY_BYTES,
         },
         "remaining_limitations": [
             "a stop or drift request cannot interrupt the interior of one third-party snapshot or leaderboard builder call; it is observed at the next guarded phase boundary",

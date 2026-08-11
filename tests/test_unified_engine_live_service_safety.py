@@ -53,6 +53,8 @@ def _runtime_paths(tmp_path: Path) -> dict[str, Path]:
         "lease": lease,
         "lease_recovery": tmp_path / "cutover.lease.json.recovery",
         "legacy_checkpoint": tmp_path / "legacy" / "checkpoint.json",
+        "legacy_snapshot": tmp_path / "legacy" / "unified-engine-status-live.json",
+        "checked_snapshot": tmp_path / "checked" / "unified-engine-status.json",
     }
 
 
@@ -78,6 +80,42 @@ def _write_worker_lease(path: Path, config: dict, identity: str) -> None:
     }
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_bytes(safety._lease_payload(lease))
+
+
+def _seed_fixture(
+    tmp_path: Path, *, roots: list[str] | None = None
+) -> tuple[Path, dict, Path]:
+    root = tmp_path / "seed-root"
+    unified = root / "configs" / "unified.json"
+    unified.parent.mkdir(parents=True)
+    unified.write_text(json.dumps({"sources": []}), encoding="utf-8")
+    config = copy.deepcopy(_config())
+    config["unified_config_path"] = "configs/unified.json"
+    roots = roots or ["a" * 64]
+    history = [
+        {"category_roots": {"solar": "b" * 64}, "leaderboard_root_sha256": item}
+        for item in roots
+    ]
+    leaderboard = {
+        "schema_version": safety.EXPECTED_LEADERBOARD_SCHEMA,
+        "leaderboard_root_sha256": roots[-1],
+        "history": history,
+    }
+    leaderboard["content_sha256"] = safety._content_sha(leaderboard)
+    core = {
+        "scientific_leaderboards": leaderboard,
+        "source_revisions": {
+            "fixture": {
+                "file_sha256": "d" * 64,
+                "content_sha256": "e" * 64,
+            }
+        },
+    }
+    snapshot = {"core": core, "core_content_sha256": safety._sha(core)}
+    path = root / "runs" / "seed.json"
+    path.parent.mkdir(parents=True)
+    path.write_text(json.dumps(snapshot), encoding="utf-8")
+    return root, config, path
 
 
 def test_config_is_fixed_epoch_bounded_and_predecessor_bound() -> None:
@@ -227,15 +265,9 @@ def test_stale_projection_manifest_aborts_before_publication(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     config = _config()
-    runtime = tmp_path / "runtime"
-    paths = {
-        "runtime": runtime,
-        "checkpoint": runtime / "checkpoint.json",
-        "snapshot": runtime / "status.json",
-        "dashboard": runtime / "dashboard.html",
-        "stop": runtime / "stop.request",
-        "log": runtime / "service.log",
-    }
+    paths = _runtime_paths(tmp_path)
+    seed = tmp_path / "seed.json"
+    seed.write_text("{}", encoding="utf-8")
     manifests = iter(
         [
             {"file_sha256": {"a": "1"}, "manifest_sha256": "1" * 64},
@@ -246,18 +278,173 @@ def test_stale_projection_manifest_aborts_before_publication(
     monkeypatch.setattr(safety, "_dependency_manifest", lambda *args: next(manifests))
     monkeypatch.setattr(safety, "load_config", lambda path: {})
     monkeypatch.setattr(safety, "load_leaderboard_config", lambda path: {})
+    monkeypatch.setattr(
+        safety,
+        "_select_previous_leaderboard",
+        lambda *args: (
+            {"history": []},
+            {
+                "path": "seed.json",
+                "file_sha256": safety._file_sha(seed),
+                "source_kind": "fixture",
+            },
+        ),
+    )
     snapshot = {
         "core": {"data_seals": {}},
         "volatile": {"sampled_at_utc": "fixture"},
     }
     with pytest.raises(safety.ControlSignal, match="projection_inputs_changed"):
         safety.safe_refresh_once(
-            ROOT,
+            tmp_path,
             config,
             lambda: None,
             snapshot_builder=lambda *args: copy.deepcopy(snapshot),
             leaderboard_builder=lambda *args: {},
             dashboard_renderer=lambda value: "dashboard",
+        )
+    assert not paths["snapshot"].exists()
+    assert not paths["dashboard"].exists()
+
+
+def test_checked_leaderboard_seed_validation_fails_closed_on_tamper_schema_and_size(
+    tmp_path: Path,
+) -> None:
+    root, config, path = _seed_fixture(tmp_path, roots=["a" * 64, "c" * 64])
+    leaderboard, receipt = safety._validated_snapshot_leaderboard(
+        root, config, path, "checked_snapshot"
+    )
+    assert len(leaderboard["history"]) == 2
+    assert receipt["history_entry_count"] == 2
+    valid = json.loads(path.read_text(encoding="utf-8"))
+
+    tampered = copy.deepcopy(valid)
+    tampered["core"]["scientific_leaderboards"]["history"][0][
+        "leaderboard_root_sha256"
+    ] = "d" * 64
+    tampered["core_content_sha256"] = safety._sha(tampered["core"])
+    path.write_text(json.dumps(tampered), encoding="utf-8")
+    with pytest.raises(ValueError, match="content hash mismatch"):
+        safety._validated_snapshot_leaderboard(
+            root, config, path, "checked_snapshot"
+        )
+
+    incompatible = copy.deepcopy(valid)
+    incompatible["core"]["scientific_leaderboards"]["schema_version"] = "other"
+    incompatible["core"]["scientific_leaderboards"][
+        "content_sha256"
+    ] = safety._content_sha(incompatible["core"]["scientific_leaderboards"])
+    incompatible["core_content_sha256"] = safety._sha(incompatible["core"])
+    path.write_text(json.dumps(incompatible), encoding="utf-8")
+    with pytest.raises(ValueError, match="schema incompatible"):
+        safety._validated_snapshot_leaderboard(
+            root, config, path, "checked_snapshot"
+        )
+
+    oversized = copy.deepcopy(valid)
+    oversized_history = [
+        {
+            "category_roots": {"solar": "b" * 64},
+            "leaderboard_root_sha256": f"{index:064x}",
+        }
+        for index in range(safety.MAXIMUM_SEED_HISTORY_ENTRIES + 1)
+    ]
+    oversized["core"]["scientific_leaderboards"]["history"] = oversized_history
+    oversized["core"]["scientific_leaderboards"][
+        "leaderboard_root_sha256"
+    ] = oversized_history[-1]["leaderboard_root_sha256"]
+    oversized["core"]["scientific_leaderboards"][
+        "content_sha256"
+    ] = safety._content_sha(oversized["core"]["scientific_leaderboards"])
+    oversized["core_content_sha256"] = safety._sha(oversized["core"])
+    path.write_text(json.dumps(oversized), encoding="utf-8")
+    with pytest.raises(ValueError, match="history oversized"):
+        safety._validated_snapshot_leaderboard(
+            root, config, path, "checked_snapshot"
+        )
+
+    path.unlink()
+    with pytest.raises(ValueError, match="seed missing"):
+        safety._validated_snapshot_leaderboard(
+            root, config, path, "checked_snapshot"
+        )
+
+
+def test_truncated_runtime_history_is_replaced_by_compatible_checked_history(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    config = _config()
+    paths = _runtime_paths(tmp_path)
+    checked = {"history": [{"id": 1}, {"id": 2}, {"id": 3}]}
+    runtime = {"history": [{"id": 3}]}
+    checked_receipt = {"source_kind": "checked_snapshot"}
+    runtime_receipt = {"source_kind": "runtime_snapshot"}
+    monkeypatch.setattr(
+        safety,
+        "_checked_or_legacy_leaderboard_seed",
+        lambda *args: (checked, checked_receipt),
+    )
+    monkeypatch.setattr(
+        safety, "_runtime_leaderboard_seed", lambda *args: (runtime, runtime_receipt)
+    )
+    selected, receipt = safety._select_previous_leaderboard(ROOT, config, paths)
+    assert selected is checked
+    assert receipt is checked_receipt
+
+    runtime["history"] = [{"id": 2}, {"id": 3}, {"id": 4}]
+    selected, receipt = safety._select_previous_leaderboard(ROOT, config, paths)
+    assert selected is runtime
+    assert receipt is runtime_receipt
+
+    runtime["history"] = [{"id": 9}]
+    with pytest.raises(ValueError, match="histories are incompatible"):
+        safety._select_previous_leaderboard(ROOT, config, paths)
+
+
+def test_checked_and_legacy_seed_missing_fails_closed(tmp_path: Path) -> None:
+    config = _config()
+    paths = _runtime_paths(tmp_path)
+    with pytest.raises(ValueError, match="checked and legacy leaderboard seeds missing"):
+        safety._checked_or_legacy_leaderboard_seed(ROOT, config, paths)
+
+
+def test_seed_hash_change_aborts_before_publication(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    config = _config()
+    paths = _runtime_paths(tmp_path)
+    seed = tmp_path / "seed.json"
+    seed.write_text("seed", encoding="utf-8")
+    manifest = {"file_sha256": {"a": "1"}, "manifest_sha256": "1" * 64}
+    monkeypatch.setattr(safety, "_paths", lambda root, value: paths)
+    monkeypatch.setattr(safety, "_dependency_manifest", lambda *args: manifest)
+    monkeypatch.setattr(safety, "load_config", lambda path: {})
+    monkeypatch.setattr(safety, "load_leaderboard_config", lambda path: {})
+    monkeypatch.setattr(
+        safety,
+        "_select_previous_leaderboard",
+        lambda *args: (
+            {"history": []},
+            {
+                "path": "seed.json",
+                "file_sha256": safety._file_sha(seed),
+                "source_kind": "fixture",
+            },
+        ),
+    )
+
+    def mutate_seed(value: dict) -> str:
+        seed.write_text("changed", encoding="utf-8")
+        return "dashboard"
+
+    with pytest.raises(safety.ControlSignal, match="seed_changed_during_refresh"):
+        safety.safe_refresh_once(
+            tmp_path,
+            config,
+            lambda: None,
+            snapshot_builder=lambda *args: {"core": {}, "volatile": {}},
+            leaderboard_builder=lambda *args: {},
+            dashboard_renderer=mutate_seed,
         )
     assert not paths["snapshot"].exists()
     assert not paths["dashboard"].exists()
@@ -455,3 +642,8 @@ def test_readiness_is_deterministic_and_does_not_open_runtime_state() -> None:
     assert rebuilt["supervisor_outputs_opened_by_readiness"] is False
     assert rebuilt["service_started"] is False
     assert rebuilt["safety_contract"]["stale_projection_publication_allowed"] is False
+    assert rebuilt["safety_contract"]["leaderboard_history_seed_checked_snapshot"] == (
+        safety.EXPECTED_CHECKED_SNAPSHOT
+    )
+    assert rebuilt["safety_contract"]["leaderboard_history_seed_pre_and_post_hash_guarded"] is True
+    assert rebuilt["safety_contract"]["maximum_seed_history_entries"] == 64

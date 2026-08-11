@@ -530,6 +530,10 @@ cutover: it binds Windows-safe argv/PID identity, a fixed reload epoch with pres
 quarter-second interruptible control polling, final-checkpoint reload failure recording, unpredictable
 exclusive temporary files, target/log symlink rejection, an exclusive cross-start lease, an atomic
 pre-spawn starting checkpoint, and pre/post projection dependency manifests.
+At a fresh runtime-directory cutover it now also validates and seeds compatible scientific-
+leaderboard history from the checked snapshot, with a hash-bound stopped-legacy fallback and strict
+64-entry/65,536-byte caps. Tampered, incompatible, or oversized lineage fails closed rather than
+silently resetting the scientific history.
 It records two remaining implementation boundaries explicitly: builder interiors are not preemptible,
 and snapshot/dashboard replacements are individually atomic rather than one cross-file transaction.
 On an identical 16-million-formula scaling run, eight producers reached 7.49 million source
@@ -598,7 +602,19 @@ gate now gives both compiler actions fully coupled, constraint-satisfying contra
 compact `T3` for which initially positive `q` crosses zero within
 `0<Tau_cross<=q0/v`. This rejects unrestricted positive-intensity preservation for the canonical
 scalar phase space, not either action. No candidate-bound invariant nonnegative cone or positive
-field reparameterization is registered, and no QED, ontology, or observational claim is inferred.
+field reparameterization follows in the original unrestricted phase space. On the restricted open
+sector, however, `q=q0*exp(phi)` is an exact global coordinate map onto `q>0`; substituting it into
+both compiler-authored branches gives exact local covariant actions with positive kinetic
+coefficient and strictly positive `q` for every regular finite-`phi` solution. This is a
+mathematical sector choice, not a derivation from the paper or QED. No action-derived point-process
+probability measure, QED sector-selection rule, ontology pass, or observational claim is inferred.
+The positive field does define the locally finite covariant mean measure
+`mu_q(B)=Integral_B q*dVol_g`, but that still does not select Poisson statistics. An exact covariant
+Cox competitor has the same mean and instead gives
+`Var(N(B))=mu+epsilon^2*mu^2` (versus `mu` for Poisson), with different void probabilities and
+factorial moments. A stochastic generating functional, independent-increment axiom, or QED event
+kernel is therefore genuinely additional input rather than a consequence of either deterministic
+compiler action.
 
 `promotion_dossier.py` now independently replays every stored candidate/stage hash chain, explains
 the first rejection or unresolved gate, and builds a multi-axis Pareto follow-up queue only from
@@ -1338,9 +1354,15 @@ the minimal block as the fixed-chart curl addition
 including the variable-coefficient product rule. This supplies fixed-gauge constraint-surface
 admission for all 12 reference-direction D4 solutions, not covariant-action origin, a spatially
 covariant tensor completion, all-direction/all-eigenspace compatibility, or candidate registration.
-The next exact gate is a spatially covariant gauge-fixed tensor completion followed by companion-
-direction and all-eigenspace D4 evaluation, then a proof of covariant
-origin, constraint propagation, and all other eigenspace compatibilities. This is not an inferred pass
+The required axis-two companion is now audited on all seven eigenspaces. Only its zero-speed
+compression is nonzero (rank two, ten entries), and it is independent of the rotated direction-one
+witness. Every additional pure `C_23` curl completion preserving the admitted direction-one slice
+lies in a 297-dimensional projected range over 363 effective parameters; adjoining the companion
+target raises the rank to 298, so no member of that class cancels it. This is not yet a full axis-two
+obstruction: the complete polarized base D4 right-hand side for the same active tensor inputs has not
+been evaluated. Its zero-speed compression must equal `-eta*C_companion` for compatibility.
+The next exact gate is that base-D4 cancellation test, followed by spatial covariance, action origin,
+constraint propagation, and all remaining eigenspace compatibilities. This is not an inferred pass
 for the unevaluated tail; full fourth-order range closure, full-tube,
 CK1, CK3, TC2, B7, global-H7, and lifespan remain false.
 
