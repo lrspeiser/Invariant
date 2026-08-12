@@ -1,0 +1,151 @@
+# Sigma Core and Math Pack v1
+
+## Purpose
+
+Invariant is evolving from a gravity-first compiler into a domain-independent discovery system.
+Gravity remains a first-class domain pack. The shared core operates on **candidate artifacts** and
+does not decide what validity means for a particular field.
+
+The governing rule is unchanged:
+
+> A proposal may advance only when every required verifier returns exact, candidate-bound evidence.
+> Missing, unsupported, timed-out, or untrusted evidence is a block, never a pass.
+
+## Sigma Core
+
+The core pipeline is:
+
+```text
+generate
+  -> type check
+  -> canonicalize
+  -> cheap reject
+  -> counterexample search
+  -> exact verification
+  -> prior-art comparison
+  -> domain-specific admission
+```
+
+A candidate artifact may be a formula, identity, conjecture, theorem, proof, algorithm,
+construction, or physical action. Every artifact carries:
+
+- a closed-world schema and type;
+- canonical content and identity hashes;
+- generator and premise lineage;
+- the exact domain-pack version;
+- required gate names and ordered gate receipts;
+- forbidden dependency and data-access declarations;
+- promotion state derived from receipts rather than asserted by the generator.
+
+Domain packs provide typed generation grammars, canonicalization rules, counterexample domains,
+exact verifiers, prior-art adapters, and an admission contract. A domain pack cannot redefine core
+receipt semantics or translate `blocked` into `pass`.
+
+## Math Pack v1
+
+The first mathematical primitives cover:
+
+- types: integer, rational, real, complex, sequence, set, matrix, polynomial, function, and graph;
+- formulas: equations, inequalities, and recurrences;
+- exact algebraic canonicalization;
+- deterministic exact, boundary, random, and adversarial counterexample search;
+- symbolic identity verification;
+- induction certificates for bounded benchmark families;
+- a future Lean adapter whose accepted proof dependency closure must be contained in the benchmark's
+  allowed-premise manifest.
+
+`math_pack.py` connects those primitives to Sigma Core. Its closed promotion path is `typed`,
+`canonicalized`, `counterexample_screened`, `exactly_verified`, and `prior_art_checked`. A bounded
+counterexample search may pass its screening stage but cannot satisfy exact verification. The first
+exact verifier accepts rational-function equations that SymPy reduces identically to zero; other
+formula and proof classes remain blocked until an explicit verifier is registered.
+
+Computational agreement is never proof. A million successful evaluations can advance a candidate
+to a proof attempt, but cannot produce a `proved` receipt.
+
+## Blind rediscovery protocol
+
+Each benchmark has a preregistered manifest with four disjoint closures:
+
+1. **Generation closure** — definitions, axioms, examples, grammar, and generator code visible before
+   candidate selection.
+2. **Verification closure** — proof rules and exact backends allowed to verify a selected candidate.
+3. **Forbidden closure** — the target, equivalent formulations, target-derived lemmas, its historical
+   proof, answer-bearing imports, network access, and undeclared files.
+4. **Post-unseal closure** — historical theorem and equivalence references used only after a candidate
+   and proof receipt have been sealed.
+
+Pre-unseal file reads are deny-by-default and recorded. A successful benchmark must bind the allowed
+premise root, source root, complete enumeration or search receipt, candidate root, counterexample
+receipt, proof receipt, dependency-closure root, and post-unseal equivalence receipt.
+
+The first implemented control withholds the closed form for the sequence defined by
+`S(n) = sum(k, k=1..n)`. The generator receives only the definition, exact examples, and a bounded
+integer arithmetic grammar. A correct result must independently propose a closed form, survive
+adversarial integer evaluation, and carry an induction proof whose base and step identities are
+checked exactly before the historical theorem is unsealed. Its bounded search enumerates 46,656 raw
+coefficient triples and 12,167 canonical classes. One candidate survives the public examples and all
+59 preregistered counterexample points; the induction base and successor identity are then proved
+before the withheld fixture is read. This demonstrates the bounded protocol, not novelty or
+unbounded polynomial discovery, and its file-read guard is process-local rather than an OS sandbox.
+
+Required negative controls include:
+
+- a formula that matches only the provided examples;
+- a formula with a hidden boundary failure;
+- a candidate that reads or imports the withheld theorem;
+- a proof with an undeclared lemma;
+- a correctly typed but unproved conjecture;
+- a semantically valid result with forged or re-sealed promotion fields.
+
+## Synthetic mathematics
+
+Historical rediscovery is complemented by mathematical worlds generated after the model-training
+cutoff. A synthetic-world generator seals:
+
+- fresh symbols and operations;
+- finite or algebraic axioms;
+- a complete derivation graph generated by a trusted reference engine;
+- a split between visible ancestor theorems and hidden holdouts.
+
+The discovery engine sees only the visible subgraph. Scoring uses exact equivalence and proof
+verification against hidden ground truth after sealing. This controls for memorization more strongly
+than historical examples alone.
+
+## Scoring and promotion
+
+Scores are lexicographic and cannot compensate for a failed hard gate:
+
+1. well typed;
+2. nontrivial under the registered equivalence relation;
+3. survives counterexample search;
+4. exactly agrees on the declared computational domain;
+5. formally proved;
+6. independent of forbidden premises;
+7. simple under preregistered objectives;
+8. absent from the unsealed comparison corpus.
+
+Prior-art absence means only `not found in the registered corpus`; it never establishes novelty.
+
+The principal benchmark metric is:
+
+```text
+withheld results independently rediscovered and proved
+------------------------------------------------------
+eligible preregistered holdouts
+```
+
+Secondary metrics report proof rate, counterexample kill rate, forbidden-dependency rejection,
+search cost, proof cost, equivalence-class coverage, and results by artifact type. Formula,
+conjecture, theorem, algorithm, and construction results are reported separately.
+
+## Curriculum
+
+The planned historical suite progresses through arithmetic and geometric sequences, sums of powers,
+recurrences, binomial and generating-function identities, trigonometric and calculus identities,
+number theory, combinatorial constructions, and historically nontrivial machine-checkable theorems.
+The first release target is 100 historical holdouts and 100 synthetic holdouts.
+
+No benchmark-wide success is claimed until every holdout has an immutable manifest, an isolated
+generation closure, deterministic replay, negative controls, and independently validated proof and
+dependency receipts.

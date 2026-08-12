@@ -1,0 +1,285 @@
+{
+  "benchmark_id": "anonymous-natural-sum-blind-rediscovery-001",
+  "bindings": {
+    "config": {
+      "file_sha256": "46a982033c92636a11293fec4cf4266ce99915f07a6fc47349269ff5551d8656",
+      "path": "configs/backgrounds/anonymous_natural_sum_blind_rediscovery.json"
+    },
+    "source": {
+      "file_sha256": "0a965887d1b604d0b15ac9b60c766b567890a6089c9e52343f3e0479f67a023d",
+      "path": "src/sigma_theory_compiler/anonymous_natural_sum_blind_rediscovery.py"
+    },
+    "test_and_withheld_reference": {
+      "file_sha256": "a0544115a5b40ea732259196e7024dce267784bd08e1c0f5e780f0b2acae5f13",
+      "path": "tests/test_anonymous_natural_sum_blind_rediscovery.py"
+    }
+  },
+  "blinded_pre_unseal_root_sha256": "63a89eef6375f105175497614900e64acf60be4fee63842ecacf1d601a16bf10",
+  "claims": {
+    "bounded_grammar_exhausted": true,
+    "counterexample_domain_passed": true,
+    "novel_theorem_claimed": false,
+    "operating_system_sandbox_provided": false,
+    "unbounded_formula_space_exhausted": false,
+    "unique_public_example_survivor": true,
+    "universal_identity_proved_by_induction": true,
+    "winner_sealed_before_reference_access": true,
+    "withheld_theorem_matched_post_seal": true
+  },
+  "content_sha256": "05b7ab12f3876513216394dd578258ea6af242d0b8e6a4911e281a4d713bd5be",
+  "decision": "pass_blind_bounded_grammar_rediscovery_independently_proved_before_unseal",
+  "enumeration": {
+    "canonical_coefficient_classes": 12167,
+    "counterexample_tests_per_survivor": 59,
+    "exact_example_survivors": 1,
+    "fully_tested_survivors": 1,
+    "raw_cartesian_candidates": 46656
+  },
+  "induction_proof": {
+    "allowed_premises_used": [
+      "definition_base_case",
+      "definition_successor_rule",
+      "exact_rational_arithmetic",
+      "polynomial_identity"
+    ],
+    "base_case": {
+      "candidate_value": "0",
+      "definition_value": 0,
+      "index": 0,
+      "proved": true
+    },
+    "conclusion": "candidate_equals_anonymous_definition_for_every_nonnegative_integer",
+    "forbidden_premises_used": [],
+    "proof_method": "mathematical_induction_from_definition_recurrence",
+    "successor_difference_coefficients": {
+      "constant": "1",
+      "linear": "1"
+    },
+    "successor_identity": "candidate(n+1)-candidate(n)=n+1",
+    "successor_identity_proved": true
+  },
+  "limits": [
+    "enumeration_exhausts_only_the_declared_finite_quadratic_rational_grammar",
+    "public_examples_are_not_the_universal_proof",
+    "file_read_guards_are_process_local_not_an_operating_system_sandbox",
+    "the_benchmark_rediscovers_a_withheld_known_theorem_and_claims_no_novelty"
+  ],
+  "negative_controls": [
+    {
+      "control_id": "wrong_formula_square_only",
+      "eligible": false,
+      "first_counterexample": 2,
+      "reason": "definition_counterexample"
+    },
+    {
+      "control_id": "example_lookup_overfit",
+      "eligible": false,
+      "first_counterexample": 6,
+      "memorized_example_count": 6,
+      "reason": "undefined_outside_public_examples"
+    },
+    {
+      "control_id": "forbidden_withheld_theorem_premise",
+      "eligible": false,
+      "first_counterexample": null,
+      "reason": "proof_uses_forbidden_premise"
+    },
+    {
+      "candidate_id": "f48406b1add8e3e88d5b86c0",
+      "control_id": "winner_with_unproved_generalization",
+      "eligible": false,
+      "first_counterexample": null,
+      "reason": "finite_examples_do_not_prove_universal_identity"
+    }
+  ],
+  "post_unseal": {
+    "comparison_permitted_only_after_pre_unseal_seal": true,
+    "matches_withheld_known_theorem": true,
+    "pre_unseal_seal_verified": true,
+    "withheld_reference_file_sha256": "a0544115a5b40ea732259196e7024dce267784bd08e1c0f5e780f0b2acae5f13",
+    "withheld_theorem": {
+      "anonymous_function": "S",
+      "basis": [
+        "square",
+        "linear",
+        "constant"
+      ],
+      "coefficients": {
+        "constant": {
+          "denominator": 1,
+          "numerator": 0
+        },
+        "linear": {
+          "denominator": 2,
+          "numerator": 1
+        },
+        "square": {
+          "denominator": 2,
+          "numerator": 1
+        }
+      },
+      "domain": "nonnegative_integers"
+    },
+    "withheld_theorem_sha256": "6ed66ad1e4d8bb9589b9e03863e564bc86c60d653f7c6623477143d722a92e80"
+  },
+  "pre_unseal": {
+    "benchmark_id": "anonymous-natural-sum-blind-rediscovery-001",
+    "content_sha256": "63a89eef6375f105175497614900e64acf60be4fee63842ecacf1d601a16bf10",
+    "definition_root_sha256": "b74c4c125d61ec91dc685798ae58d5cd080d00988e710a5e3cadfd2e3d5101f1",
+    "dependency_audit": {
+      "dependency_root_sha256": "4d7967e67cb58e47ef9f014de1bcb2db7336414e1b2a6ec33bee54a6166db772",
+      "forbidden_dependency_closure_empty": true,
+      "forbidden_import_roots_present": [],
+      "import_roots": [
+        "__future__",
+        "argparse",
+        "ast",
+        "builtins",
+        "collections",
+        "contextlib",
+        "fractions",
+        "hashlib",
+        "io",
+        "itertools",
+        "json",
+        "os",
+        "pathlib",
+        "threading",
+        "typing"
+      ],
+      "source_bytes_scanned": 25031,
+      "source_file_sha256": "0a965887d1b604d0b15ac9b60c766b567890a6089c9e52343f3e0479f67a023d",
+      "unexpected_import_roots": []
+    },
+    "discovery": {
+      "candidate_catalog_root_sha256": "0fe699a4476dc2f2b7f33f280d7bbb2db613c399ce65e718e24c1cfa86b2b042",
+      "counterexample_records": [
+        {
+          "candidate_id": "f48406b1add8e3e88d5b86c0",
+          "counterexample": null
+        }
+      ],
+      "counterexample_records_root_sha256": "e2e9418fb167e682f2556481f317c8dc8a4a0ddf98e56c70cb029d681a8cf1d5",
+      "enumeration": {
+        "canonical_coefficient_classes": 12167,
+        "counterexample_tests_per_survivor": 59,
+        "exact_example_survivors": 1,
+        "fully_tested_survivors": 1,
+        "raw_cartesian_candidates": 46656
+      },
+      "example_survivors_root_sha256": "710b8cce1f674733e1b73e388d697dab44da99c88bb441416daa4d20330766d5",
+      "induction_proof": {
+        "allowed_premises_used": [
+          "definition_base_case",
+          "definition_successor_rule",
+          "exact_rational_arithmetic",
+          "polynomial_identity"
+        ],
+        "base_case": {
+          "candidate_value": "0",
+          "definition_value": 0,
+          "index": 0,
+          "proved": true
+        },
+        "conclusion": "candidate_equals_anonymous_definition_for_every_nonnegative_integer",
+        "forbidden_premises_used": [],
+        "proof_method": "mathematical_induction_from_definition_recurrence",
+        "successor_difference_coefficients": {
+          "constant": "1",
+          "linear": "1"
+        },
+        "successor_identity": "candidate(n+1)-candidate(n)=n+1",
+        "successor_identity_proved": true
+      },
+      "winner": {
+        "candidate_id": "f48406b1add8e3e88d5b86c0",
+        "coefficients": {
+          "constant": {
+            "denominator": 1,
+            "numerator": 0
+          },
+          "linear": {
+            "denominator": 2,
+            "numerator": 1
+          },
+          "square": {
+            "denominator": 2,
+            "numerator": 1
+          }
+        }
+      },
+      "winner_formula": "a*n^2+b*n+c"
+    },
+    "examples_root_sha256": "a611c20a25ca46e984669392284fd8628171d910bfc4d5691fd5af21dc56ff6d",
+    "grammar_root_sha256": "70b1b2078ca8b2f234592e67d81f8e3d7d39f10dbdae05c13250de7d150367d6",
+    "io_boundary": {
+      "allowed_access_count": 18,
+      "allowed_paths": [
+        "configs/backgrounds/anonymous_natural_sum_blind_rediscovery.json",
+        "src/sigma_theory_compiler/anonymous_natural_sum_blind_rediscovery.py"
+      ],
+      "attempted_access_count": 19,
+      "denied_access_count": 1,
+      "denied_content_bytes_exposed": 0,
+      "denied_paths": [
+        "tests/test_anonymous_natural_sum_blind_rediscovery.py"
+      ],
+      "enforcement_surfaces": [
+        "Path.open",
+        "Path.read_bytes",
+        "Path.read_text",
+        "io.open"
+      ],
+      "llm_calls": 0,
+      "network_calls": 0,
+      "owned_threads": 1,
+      "subprocesses": 0
+    },
+    "negative_controls": [
+      {
+        "control_id": "wrong_formula_square_only",
+        "eligible": false,
+        "first_counterexample": 2,
+        "reason": "definition_counterexample"
+      },
+      {
+        "control_id": "example_lookup_overfit",
+        "eligible": false,
+        "first_counterexample": 6,
+        "memorized_example_count": 6,
+        "reason": "undefined_outside_public_examples"
+      },
+      {
+        "control_id": "forbidden_withheld_theorem_premise",
+        "eligible": false,
+        "first_counterexample": null,
+        "reason": "proof_uses_forbidden_premise"
+      },
+      {
+        "candidate_id": "f48406b1add8e3e88d5b86c0",
+        "control_id": "winner_with_unproved_generalization",
+        "eligible": false,
+        "first_counterexample": null,
+        "reason": "finite_examples_do_not_prove_universal_identity"
+      }
+    ]
+  },
+  "schema_version": "invariant-anonymous-natural-sum-blind-rediscovery-result-1.0",
+  "winner": {
+    "candidate_id": "f48406b1add8e3e88d5b86c0",
+    "coefficients": {
+      "constant": {
+        "denominator": 1,
+        "numerator": 0
+      },
+      "linear": {
+        "denominator": 2,
+        "numerator": 1
+      },
+      "square": {
+        "denominator": 2,
+        "numerator": 1
+      }
+    }
+  }
+}

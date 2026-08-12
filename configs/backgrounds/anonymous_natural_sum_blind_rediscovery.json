@@ -1,0 +1,117 @@
+{
+  "schema_version": "invariant-anonymous-natural-sum-blind-rediscovery-config-1.0",
+  "benchmark_id": "anonymous-natural-sum-blind-rediscovery-001",
+  "problem": {
+    "anonymous_function": "S",
+    "domain": "nonnegative_integers",
+    "definition": "S(n) is obtained by adding each positive integer not exceeding n",
+    "base_case": {
+      "n": 0,
+      "value": 0
+    },
+    "successor_rule": "S(n+1)-S(n)=n+1"
+  },
+  "exact_examples": [
+    {
+      "n": 0,
+      "value": 0
+    },
+    {
+      "n": 1,
+      "value": 1
+    },
+    {
+      "n": 2,
+      "value": 3
+    },
+    {
+      "n": 3,
+      "value": 6
+    },
+    {
+      "n": 4,
+      "value": 10
+    },
+    {
+      "n": 5,
+      "value": 15
+    }
+  ],
+  "bounded_grammar": {
+    "basis": [
+      "square",
+      "linear",
+      "constant"
+    ],
+    "coefficient_numerator_min": -4,
+    "coefficient_numerator_max": 4,
+    "positive_denominators": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  "counterexample_domain": {
+    "first_n": 6,
+    "last_n_inclusive": 64
+  },
+  "induction_contract": {
+    "base_index": 0,
+    "allowed_premises": [
+      "definition_base_case",
+      "definition_successor_rule",
+      "exact_rational_arithmetic",
+      "polynomial_identity"
+    ],
+    "forbidden_premises": [
+      "withheld_known_theorem",
+      "equivalent_closed_form_assumption",
+      "existing_sum_formula_implementation",
+      "external_oracle"
+    ]
+  },
+  "execution_boundary": {
+    "owned_threads": 1,
+    "pre_unseal_file_read_allowlist": [
+      "configs/backgrounds/anonymous_natural_sum_blind_rediscovery.json",
+      "src/sigma_theory_compiler/anonymous_natural_sum_blind_rediscovery.py"
+    ],
+    "pre_unseal_denied_probe": "tests/test_anonymous_natural_sum_blind_rediscovery.py",
+    "allowed_import_roots": [
+      "__future__",
+      "argparse",
+      "ast",
+      "builtins",
+      "collections",
+      "contextlib",
+      "fractions",
+      "hashlib",
+      "io",
+      "itertools",
+      "json",
+      "os",
+      "pathlib",
+      "threading",
+      "typing"
+    ],
+    "forbidden_import_roots": [
+      "sigma_theory_compiler",
+      "sympy",
+      "numpy",
+      "requests",
+      "urllib",
+      "httpx",
+      "openai"
+    ],
+    "network_calls_allowed": false,
+    "llm_calls_allowed": false,
+    "subprocesses_allowed": false
+  },
+  "withheld_reference": {
+    "path": "tests/test_anonymous_natural_sum_blind_rediscovery.py",
+    "assignment": "WITHHELD_KNOWN_THEOREM",
+    "access_phase": "post_seal_only"
+  },
+  "output_path": "runs/math-language/anonymous-natural-sum-blind-rediscovery/campaign.json"
+}

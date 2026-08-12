@@ -14,6 +14,47 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  sigma-core-math-pack:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+      - name: Install Invariant and test tools
+        run: python -m pip install --editable ".[dev]"
+      - name: Check Sigma Core and Math Pack source
+        run: >-
+          python -m ruff check
+          src/sigma_theory_compiler/sigma_core.py
+          src/sigma_theory_compiler/math_types.py
+          src/sigma_theory_compiler/math_expression_ir.py
+          src/sigma_theory_compiler/math_canonicalizer.py
+          src/sigma_theory_compiler/math_counterexample.py
+          src/sigma_theory_compiler/math_pack.py
+          src/sigma_theory_compiler/anonymous_natural_sum_blind_rediscovery.py
+          tests/test_sigma_core.py
+          tests/test_math_types.py
+          tests/test_math_expression_ir.py
+          tests/test_math_canonicalizer.py
+          tests/test_math_counterexample.py
+          tests/test_math_pack.py
+          tests/test_anonymous_natural_sum_blind_rediscovery.py
+      - name: Verify Sigma Core, Math Pack, and blind rediscovery
+        run: >-
+          python -m pytest
+          tests/test_sigma_core.py
+          tests/test_math_types.py
+          tests/test_math_expression_ir.py
+          tests/test_math_canonicalizer.py
+          tests/test_math_counterexample.py
+          tests/test_math_pack.py
+          tests/test_anonymous_natural_sum_blind_rediscovery.py
+          -q --durations=20
+
   portable-continuous-and-gates:
     runs-on: ubuntu-24.04
     timeout-minutes: 60
