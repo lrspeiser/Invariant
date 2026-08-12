@@ -33,6 +33,7 @@ SOURCE_PATHS = [
     "runs/engine/continuous-scientific-pipeline-epoch-003-formal-receipt-worker-partition-0001/result.json",
     "runs/engine/continuous-scientific-pipeline-epoch-003-cumulative-formal-receipt-worker/result.json",
     "runs/engine/continuous-scientific-pipeline-epoch-003-cumulative-formal-partition-0003/result.json",
+    "runs/engine/continuous-scientific-pipeline-epoch-003-cumulative-formal-partition-0004/result.json",
     "runs/engine/composite-promotion-overlay-production-status.json",
     "runs/engine/grammar-v3-parameter-cell-execution-status.json",
     "runs/engine/grammar-v3-parameter-cell-expansion-service-status.json",
@@ -376,6 +377,9 @@ CONTINUOUS_PIPELINE_DEPENDENCIES = (
     "configs/continuous_scientific_pipeline_epoch_003_cumulative_formal_receipt_partition_0003.json",
     "src/sigma_theory_compiler/continuous_scientific_pipeline_cumulative_formal_partition_0003.py",
     "tests/test_continuous_scientific_pipeline_cumulative_formal_partition_0003.py",
+    "configs/continuous_scientific_pipeline_epoch_003_cumulative_formal_receipt_partition_0004.json",
+    "src/sigma_theory_compiler/continuous_scientific_pipeline_cumulative_formal_partition_0004.py",
+    "tests/test_continuous_scientific_pipeline_cumulative_formal_partition_0004.py",
     "runs/engine/continuous-scientific-pipeline-epoch-003-candidate-followup/batch-01.json",
     "runs/engine/continuous-scientific-pipeline-epoch-003-candidate-followup/batch-02.json",
     "runs/engine/continuous-scientific-pipeline-epoch-003-candidate-followup/batch-03.json",
@@ -397,6 +401,7 @@ LABELS = [
     "continuous_scientific_pipeline_epoch_003_formal_receipt_worker_partition_0001",
     "continuous_scientific_pipeline_epoch_003_cumulative_formal_receipt_worker",
     "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0003",
+    "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0004",
     "promotion_overlay",
     "grammar_parameter_cells",
     "grammar_parameter_cell_expansion_service",
@@ -678,6 +683,14 @@ def _fixture(tmp_path: Path) -> tuple[Path, dict[str, object], Path]:
     shutil.copytree(
         REPO / cumulative_partition_0003_tree,
         tmp_path / cumulative_partition_0003_tree,
+        dirs_exist_ok=True,
+    )
+    cumulative_partition_0004_tree = Path(
+        "runs/engine/continuous-scientific-pipeline-epoch-003-cumulative-formal-partition-0004"
+    )
+    shutil.copytree(
+        REPO / cumulative_partition_0004_tree,
+        tmp_path / cumulative_partition_0004_tree,
         dirs_exist_ok=True,
     )
     leaderboard_config = json.loads(
@@ -1727,6 +1740,55 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     )
     assert not any(cumulative_partition_0003["promotion_contract"].values())
     assert not any(cumulative_partition_0003["seals"].values())
+    cumulative_partition_0004 = core.pop(
+        "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0004"
+    )
+    assert cumulative_partition_0004["artifact_binding"] == {
+        "path": (
+            "runs/engine/continuous-scientific-pipeline-epoch-003-cumulative-formal-"
+            "partition-0004/result.json"
+        ),
+        "file_sha256": "9f1444d4852273b6e63672f19351d76cd9b08c1b5093cdc8acc4162899180679",
+        "content_sha256": "aa853ceedac0359904a5e756e43b0c28163625c4938c5bf88095f794bf3fee7a",
+    }
+    assert cumulative_partition_0004["decision"] == (
+        "cumulative_formal_receipt_prefix_advanced_to_partition_0004_no_promotion"
+    )
+    assert cumulative_partition_0004["counts"] == {
+        "candidate_promotions": 0,
+        "cumulative_candidate_blocks": 0,
+        "cumulative_candidate_passes": 0,
+        "cumulative_candidate_rejects": 80,
+        "cumulative_formal_passes": 0,
+        "cumulative_formally_checked_candidates": 80,
+        "cumulative_newly_processed_candidates": 78,
+        "cumulative_reconciled_preserved_candidates": 2,
+        "initial_pending_formal_receipts": 11_247,
+        "processed_leaf_pages": 4,
+        "processed_partition_prefix_length": 4,
+        "rank_assignments": 0,
+        "remaining_pending_formal_receipts": 11_169,
+    }
+    assert cumulative_partition_0004["pending_leaf_catalog_root_sha256"] == (
+        "f4f7a85c8ad520ceec23eef86a31cd4d757524c0d8e0b96f94ca5507d2dfd7e7"
+    )
+    assert cumulative_partition_0004["processed_partition_summaries_root_sha256"] == (
+        "2f9c9751cb9e9eb98425096fadedf1928214837e962e00e80c1a34f729609d9e"
+    )
+    assert cumulative_partition_0004["cumulative_formal_receipt_ledger_root_sha256"] == (
+        "8baf2a96b8dbbc68dd5fe6b76ee826068d1e8424e787a21a87250027909730c5"
+    )
+    assert cumulative_partition_0004["cumulative_newly_processed_ordinals_root_sha256"] == (
+        "8949b1560544abe3121a10d5cac2f8e83b3b6a98a64051ef9cebbb652fb533f0"
+    )
+    assert cumulative_partition_0004["complete_processed_partition_prefix"] is True
+    assert cumulative_partition_0004["complete_global_formal_receipts"] is False
+    assert cumulative_partition_0004["complete_comparable_evidence"] is False
+    assert cumulative_partition_0004["first_remaining_blocker"] == (
+        "11169_candidate_specific_formal_receipts_pending"
+    )
+    assert not any(cumulative_partition_0004["promotion_contract"].values())
+    assert not any(cumulative_partition_0004["seals"].values())
     assert not any(service_result["seals"].values())
     aether_boundary = core["einstein_aether_coupling_boundary_kkt"]
     assert aether_boundary["decision_counts"] == {"blocked": 1, "pass": 0, "reject": 0}
@@ -4404,6 +4466,10 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "gap-free, nonoverlapping three-leaf prefix" in dashboard
     assert "29 new candidates all hard-reject" in dashboard
     assert "65 checked candidates and 11,184 pending receipts" in dashboard
+    assert "Epoch 003 cumulative partition 0004" in dashboard
+    assert "gap-free, nonoverlapping four-leaf prefix" in dashboard
+    assert "15 new candidates all hard-reject" in dashboard
+    assert "80 checked candidates and 11,169 pending receipts" in dashboard
     assert "Scalar-Hessian curl invariance gate" in dashboard
     assert "12 independent antisymmetric pairs" in dashboard
     assert "corrected source Jacobian" in dashboard
@@ -4909,4 +4975,23 @@ def test_cumulative_partition_0003_unified_semantic_tamper_fails_closed(
     spec["content_sha256"] = artifact["content_sha256"]
 
     with pytest.raises(ValueError, match="partition 0003 result contract mismatch"):
+        build_unified_snapshot(root, config, physical_gpu={"availability": "unavailable"})
+
+
+def test_cumulative_partition_0004_unified_semantic_tamper_fails_closed(
+    tmp_path: Path,
+) -> None:
+    root, config, _ = _fixture(tmp_path)
+    label = "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0004"
+    spec = next(source for source in config["sources"] if source["label"] == label)
+    target = root / spec["path"]
+    artifact = json.loads(target.read_text(encoding="utf-8"))
+    artifact["counts"]["remaining_pending_formal_receipts"] = 0
+    body = {key: value for key, value in artifact.items() if key != "content_sha256"}
+    artifact["content_sha256"] = hashlib.sha256(_canonical(body)).hexdigest()
+    target.write_text(json.dumps(artifact, indent=2) + "\n", encoding="utf-8")
+    spec["file_sha256"] = hashlib.sha256(target.read_bytes()).hexdigest()
+    spec["content_sha256"] = artifact["content_sha256"]
+
+    with pytest.raises(ValueError, match="partition 0004 result contract mismatch"):
         build_unified_snapshot(root, config, physical_gpu={"availability": "unavailable"})

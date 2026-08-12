@@ -639,6 +639,17 @@ and theory-wide rejection remain false. Its sealed result is
 `runs/engine/continuous-scientific-pipeline-epoch-003-cumulative-formal-partition-0003/result.json`
 (`cdb30e56ea3b44f04bb2b0ec3f43dead57bba2cba07147e440df0196f912b5a4`, content
 `057ba51349337f4335ea4e4f15383e86b21af8d2a57fd0af0e177451ab211351`).
+Partition 0004 advances the same immutable prefix with the deterministic next leaf at
+`[1,004,882,432,1,004,883,456)`. All 15 pending candidates hard-reject at the reviewed mapping
+boundary. The four-leaf ledger now contains 80 checked candidatesâ€”78 newly processed and two
+reconciledâ€”with 11,169 receipts pending. Its catalog root remains fixed and its partition-summary,
+cumulative-receipt, and processed-ordinal roots advance without overlaps or gaps. One CPU child,
+zero GPU workers, and the cleanup-inclusive 120-second formal bound were used; global
+formal/comparable completeness, formal passes, ranks, promotions, live SQLite, observations, and
+theory-wide rejection remain false. Its sealed result is
+`runs/engine/continuous-scientific-pipeline-epoch-003-cumulative-formal-partition-0004/result.json`
+(`9f1444d4852273b6e63672f19351d76cd9b08c1b5093cdc8acc4162899180679`, content
+`aa853ceedac0359904a5e756e43b0c28163625c4938c5bf88095f794bf3fee7a`).
 The new candidate-bound formula stress lane drives the same RTX 5090 much harder on dense numerical
 work: all 163 materialized Euler projections were checked on 5,341,184 deterministic synthetic
 candidate-point pairs against CPU evaluation, with 5,216 additional exact-rational sentinels and zero

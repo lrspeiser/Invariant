@@ -29,6 +29,9 @@ from .continuous_scientific_pipeline_candidate_followup import (
 from .continuous_scientific_pipeline_cumulative_formal_partition_0003 import (
     validate_result as validate_cumulative_formal_partition_0003_result,
 )
+from .continuous_scientific_pipeline_cumulative_formal_partition_0004 import (
+    validate_result as validate_cumulative_formal_partition_0004_result,
+)
 from .continuous_scientific_pipeline_cumulative_formal_receipt_worker import (
     validate_result as validate_cumulative_formal_receipt_worker_result,
 )
@@ -788,6 +791,9 @@ def build_unified_snapshot(
     continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0003 = sources[
         "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0003"
     ]
+    continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0004 = sources[
+        "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0004"
+    ]
     promotion = sources["promotion_overlay"]
     parameter = sources["grammar_parameter_cells"]
     parameter_expansion = sources["grammar_parameter_cell_expansion_service"]
@@ -1320,6 +1326,12 @@ def build_unified_snapshot(
         root,
         root
         / "configs/continuous_scientific_pipeline_epoch_003_cumulative_formal_receipt_partition_0003.json",
+    )
+    validate_cumulative_formal_partition_0004_result(
+        continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0004,
+        root,
+        root
+        / "configs/continuous_scientific_pipeline_epoch_003_cumulative_formal_receipt_partition_0004.json",
     )
     if (
         scalable_structural_metrics.get("candidate_count") != 163
@@ -9494,6 +9506,70 @@ def build_unified_snapshot(
                 ]
             ),
             "seals": continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0003[
+                "seals"
+            ],
+        },
+        "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0004": {
+            "artifact_binding": source_specs[
+                "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0004"
+            ],
+            "decision": continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0004[
+                "decision"
+            ],
+            "counts": continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0004[
+                "counts"
+            ],
+            "pending_leaf_catalog_root_sha256": (
+                continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0004[
+                    "pending_leaf_catalog_root_sha256"
+                ]
+            ),
+            "processed_partition_summaries_root_sha256": (
+                continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0004[
+                    "processed_partition_summaries_root_sha256"
+                ]
+            ),
+            "cumulative_formal_receipt_ledger_root_sha256": (
+                continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0004[
+                    "cumulative_formal_receipt_ledger_root_sha256"
+                ]
+            ),
+            "cumulative_newly_processed_ordinals_root_sha256": (
+                continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0004[
+                    "cumulative_newly_processed_ordinals_root_sha256"
+                ]
+            ),
+            "complete_processed_partition_prefix": (
+                continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0004[
+                    "complete_processed_partition_prefix"
+                ]
+            ),
+            "complete_global_formal_receipts": (
+                continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0004[
+                    "complete_global_formal_receipts"
+                ]
+            ),
+            "complete_comparable_evidence": (
+                continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0004[
+                    "complete_comparable_evidence"
+                ]
+            ),
+            "first_remaining_blocker": (
+                continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0004[
+                    "first_remaining_blocker"
+                ]
+            ),
+            "execution_contract": (
+                continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0004[
+                    "execution_contract"
+                ]
+            ),
+            "promotion_contract": (
+                continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0004[
+                    "promotion_contract"
+                ]
+            ),
+            "seals": continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0004[
                 "seals"
             ],
         },

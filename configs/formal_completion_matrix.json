@@ -310,6 +310,13 @@
         "runs/engine/continuous-scientific-pipeline-epoch-003-cumulative-formal-partition-0003/partition-0003.json",
         "runs/engine/continuous-scientific-pipeline-epoch-003-cumulative-formal-partition-0003/cumulative-ledger.json",
         "runs/engine/continuous-scientific-pipeline-epoch-003-cumulative-formal-partition-0003/result.json"
+        ,"src/sigma_theory_compiler/continuous_scientific_pipeline_cumulative_formal_partition_0004.py"
+        ,"configs/continuous_scientific_pipeline_epoch_003_cumulative_formal_receipt_partition_0004.json"
+        ,"tests/test_continuous_scientific_pipeline_cumulative_formal_partition_0004.py"
+        ,"runs/engine/continuous-scientific-pipeline-epoch-003-cumulative-formal-partition-0004/preflight.json"
+        ,"runs/engine/continuous-scientific-pipeline-epoch-003-cumulative-formal-partition-0004/partition-0004.json"
+        ,"runs/engine/continuous-scientific-pipeline-epoch-003-cumulative-formal-partition-0004/cumulative-ledger.json"
+        ,"runs/engine/continuous-scientific-pipeline-epoch-003-cumulative-formal-partition-0004/result.json"
       ],
       "implemented": [
         "restart-safe bounded SQLite queues, deterministic seeds, leases, checkpoints, crash recovery, periodic refill, and detached start/status/stop/resume/export lifecycle",
@@ -381,6 +388,7 @@
         ,"a bounded first formal-receipt partition that closes one complete 24-candidate leaf as 22 new plus two reconciled exact hard rejects, reduces the global pending queue from 11,247 to 11,225, and keeps global formal completeness, comparable evidence, leaderboard rebuild, rank and promotion false"
         ,"a deterministic cumulative formal-receipt worker that proves a gap-free disjoint two-leaf prefix, adds 12 exact rejects from partition 0002, records 36 checked candidates in a durable cumulative ledger, reduces pending receipts from 11,247 to 11,213, and keeps global formal completeness, comparable evidence, formal pass, rank and promotion false"
         ,"a deterministic partition-0003 successor that proves a gap-free nonoverlapping three-leaf prefix, adds 29 exact mapper rejects, records 65 checked candidates in the cumulative ledger, reduces pending receipts to 11,184, and keeps global formal completeness, comparable evidence, theory-wide rejection, formal pass, rank and promotion false"
+        ,"a deterministic partition-0004 successor that proves a gap-free nonoverlapping four-leaf prefix, adds 15 exact mapper rejects, records 80 checked candidates in the cumulative ledger, reduces pending receipts to 11,169, and keeps global formal completeness, comparable evidence, theory-wide rejection, formal pass, rank and promotion false"
       ],
       "scalable_formal_provenance_bindings": {
         "continuous_scientific_pipeline_admission": {
@@ -575,6 +583,32 @@
           "rank_assignments": 0,
           "candidate_promotions": 0,
           "first_blocker": "11184_candidate_specific_formal_receipts_pending"
+        },
+        "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0004": {
+          "path": "runs/engine/continuous-scientific-pipeline-epoch-003-cumulative-formal-partition-0004/result.json",
+          "file_sha256": "9f1444d4852273b6e63672f19351d76cd9b08c1b5093cdc8acc4162899180679",
+          "content_sha256": "aa853ceedac0359904a5e756e43b0c28163625c4938c5bf88095f794bf3fee7a",
+          "processed_partition_prefix_length": 4,
+          "processed_leaf_pages": 4,
+          "cumulative_formally_checked_candidates": 80,
+          "cumulative_newly_processed_candidates": 78,
+          "cumulative_reconciled_preserved_candidates": 2,
+          "cumulative_candidate_rejects": 80,
+          "cumulative_candidate_blocks": 0,
+          "cumulative_candidate_passes": 0,
+          "initial_pending_formal_receipts": 11247,
+          "remaining_pending_formal_receipts": 11169,
+          "pending_leaf_catalog_root_sha256": "f4f7a85c8ad520ceec23eef86a31cd4d757524c0d8e0b96f94ca5507d2dfd7e7",
+          "processed_partition_summaries_root_sha256": "2f9c9751cb9e9eb98425096fadedf1928214837e962e00e80c1a34f729609d9e",
+          "cumulative_formal_receipt_ledger_root_sha256": "8baf2a96b8dbbc68dd5fe6b76ee826068d1e8424e787a21a87250027909730c5",
+          "cumulative_newly_processed_ordinals_root_sha256": "8949b1560544abe3121a10d5cac2f8e83b3b6a98a64051ef9cebbb652fb533f0",
+          "complete_processed_partition_prefix": true,
+          "complete_global_formal_receipts": false,
+          "complete_comparable_evidence": false,
+          "formal_passes": 0,
+          "rank_assignments": 0,
+          "candidate_promotions": 0,
+          "first_blocker": "11169_candidate_specific_formal_receipts_pending"
         },
         "cpu_real_formula_overlap_benchmark": {
           "path": "runs/benchmarks/cpu-real-formula-overlap-15-16.json",
