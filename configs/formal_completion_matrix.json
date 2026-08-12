@@ -271,7 +271,11 @@
         "src/sigma_theory_compiler/continuous_scientific_pipeline_service.py",
         "configs/continuous_scientific_pipeline_service.json",
         "tests/test_continuous_scientific_pipeline_service.py",
-        "runs/engine/continuous-scientific-pipeline-service-readiness.json"
+        "runs/engine/continuous-scientific-pipeline-service-readiness.json",
+        "src/sigma_theory_compiler/continuous_formula_formal_backend.py",
+        "configs/continuous_formula_formal_backend.json",
+        "tests/test_continuous_formula_formal_backend.py",
+        "runs/engine/continuous-scientific-pipeline-service-result.json"
       ],
       "implemented": [
         "restart-safe bounded SQLite queues, deterministic seeds, leases, checkpoints, crash recovery, periodic refill, and detached start/status/stop/resume/export lifecycle",
@@ -334,7 +338,8 @@
         ,"a bounded foreground RTX handoff service that holds an exact PID/argv lease, waits via NVML only, acquires the shared GPU-owner lease after three safe samples, performs a post-reservation safe recheck and invokes only the fixed one-GPU/zero-CPU evaluator through the reviewed scheduler; its immutable readiness artifact records no start, while subsequent single-process activation is reported only by the volatile dashboard and still cannot enter GPU ownership or a scheduler cycle until the live utilization and free-memory gates both close"
         ,"a bounded CPU-only real-formula overlap benchmark over a disjoint 65,536-formula six-term tail and fixed 343-point Hessian grid; 15 and 16 workers produce identical partition-independent roots, the 16-worker control reaches 89.4% median/100% peak device-wide CPU and triggers the 92% backoff, so no persistent resource-policy, formal, theory, ranking, observational, GPU or SQLite promotion is inferred"
         ,"an exact continuous scientific-pipeline admission state machine ordering real generation, candidate-root-bound formal validation and comparable-evidence leaderboard rebuilding; it allows one action per cycle, fixes generation at 15 CPU/zero GPU workers, waits on resource/ownership/receipt/root failures, and never treats sampled-static screening as ranking"
-        ,"a bounded single-owner CPU service implementation with an argv-bound O_EXCL lease, isolated self-hashed JSON queue/checkpoint, cooperative stop, 16-cycle/600-second service bound, 120-second owned-child deadline, 15 real evaluator workers and zero GPU workers; it was not started, its formal backend is deliberately fail-closed, and even future valid formal evidence may request only a leaderboard rebuild rather than assign rank directly"
+        ,"a bounded single-owner CPU service with an argv-bound O_EXCL lease, isolated self-hashed JSON queue/checkpoint, cooperative stop, 16-cycle/600-second service bound, 120-second owned-child deadline, 15 real evaluator workers and zero GPU workers; its candidate-bound backend reconstructs survivor identities, maps supported candidates to typed covariant actions, and runs the action-health ADM/Legendre/Dirac/principal/Hamiltonian chain without equating local controls to formal promotion"
+        ,"a sealed bounded execution over eight 15-worker batches and 3,932,160 unique formulas: five sampled-static rejects and three survivor batches with exact formal-block receipts, producing zero formal passes, leaderboard rebuild requests, rank assignments, GPU use, live campaign SQLite access, or observational/theory promotion"
       ],
       "scalable_formal_provenance_bindings": {
         "continuous_scientific_pipeline_admission": {
@@ -354,8 +359,8 @@
         },
         "continuous_scientific_pipeline_service_readiness": {
           "path": "runs/engine/continuous-scientific-pipeline-service-readiness.json",
-          "file_sha256": "4968b1f5b7656d6597450b1dc6f36321cdad85bb1b3766e1a1f1cceb7513a2f3",
-          "content_sha256": "813a92c582eeb828b1ee3921efa2a71e9be1b3f85e35ceffe7f97b761d017c87",
+          "file_sha256": "ccb54cd372ce27aff0c49a844cb8d47ae15df8ab536aa3ed0b2d7c7e04017447",
+          "content_sha256": "8e6e6ff3c1075e7b8de6f0c1c386b0a5b4c7dd68836582bed23a80bee6d51a9d",
           "cpu_workers": 15,
           "gpu_workers": 0,
           "maximum_actions_per_cycle": 1,
@@ -364,8 +369,24 @@
           "maximum_action_seconds": 120,
           "service_started": false,
           "queue_created": false,
-          "formal_backend_available": false,
+          "formal_backend_available": true,
           "direct_rank_assignment": false
+        },
+        "continuous_scientific_pipeline_service_result": {
+          "path": "runs/engine/continuous-scientific-pipeline-service-result.json",
+          "file_sha256": "06134db8ce0514e34dd3354842aefdc00a1454d3ff0f57e1388b0ff066d79f9b",
+          "content_sha256": "fb596003ff77e89c28b9b135c9fa1433b9d9f55255cf439bb8f165d2f85b4f7f",
+          "unique_formula_count": 3932160,
+          "real_CPU_batches": 8,
+          "workers_per_batch": 15,
+          "sampled_static_reject_batches": 5,
+          "sampled_static_pass_batches": 3,
+          "formal_receipts": 3,
+          "formal_blocks": 3,
+          "formal_passes": 0,
+          "leaderboard_rebuild_requests": 0,
+          "rank_assignments": 0,
+          "terminal_state": "bounded_complete"
         },
         "cpu_real_formula_overlap_benchmark": {
           "path": "runs/benchmarks/cpu-real-formula-overlap-15-16.json",
@@ -1351,6 +1372,10 @@
         "status": "implemented_representative_two_channel_slice_cancellation_full_D2_identity_fail_closed",
         "scope": "For all 12 candidates, the rank-two modified state exactly cancels the complete four-entry s01[10]/H_01 principal slice, reconciling the unmodified finite-Sobolev witness without rejecting it. The registered D1 manifest has 11x153=1683 entries per candidate, while the ordered D2 target has 11x153x153=257499 and no complete D2 manifest exists. Other high-atom/low-direction identities, induced TC1/TC2/TC3/TC5 bounds, B7, global H7 and lifespan remain false. The bound topology snapshot predates the current dyadic artifact and is not promoted to regenerated-current lineage."
       },
+      "scalar_hessian_D2_integrability": {
+        "status": "implemented_naive_scalar_hessian_chunk_integrability_obstruction_covariant_repair_fail_closed",
+        "scope": "For all 12 candidates, a closed-world 11x9x99=9801-entry naive scalar-Hessian derivative submanifest replays the four-entry s01/H01 slice but fails Schwarz symmetry in 24 ordered family pairs and 30 nonzero residual components per candidate. This blocks admission of the registered -A^-1 B_i and -m A^-1 C_ij chunks as a D2F tensor by naive differentiation; it does not rule out a typed coordinate-to-block Frechet map or covariant connection correction, and it authorizes no candidate rejection, global H7 closure, or lifespan claim."
+      },
       "anti_wick_composition_derivative_audit": {
         "status": "implemented_targeted_annular_C6_principal_composition_global_H7_fail_closed",
         "scope": "The Gaussian anti-Wick operator is exactly the Weyl operator with symbol exp((h/4)Delta)K. A positive annular energy, exact composition-amplitude algebra, 1/(8*pi) Schur coefficient, heat-smoothing witness, and false-C4-closure negative all pass. The targeted C6 hierarchy supplies (x,xi) pairs (2,4), (0,6), (0,5), and (1,4), giving finite principal composition constants and high-shell/finite-low principal inequalities for all 12 candidates. Localized source remainders, the remote H6-coefficient/H7-state paraproduct, global dyadic summation, and lifespan remain fail-closed."
@@ -1361,7 +1386,7 @@
       },
       "global_H7_energy_ledger": {
         "status": "implemented_global_nonremainder_sum_full_D1_and_partial_TC2_correction_global_H7_fail_closed",
-        "scope_current": "The downstream C23 and XYZ extensions and the sixth-frame correction close six rational frames. The exact two-chart rational audit then finds a regular counterexample at n=(2/3,2/3,1/3): all 12 candidates retain rank-four, 56-entry zero-speed compressions with nonzero denominator-cleared constant numerators. Full-sphere D4 compatibility of the current combined symbol is therefore disproved. A new preserving topology-changing angular correction or revised symbol class, repeat chart audit, pseudodifferential constraint and variable-coefficient commutator calculus, boundary energy, local/covariant origin, corrected-candidate registration, and the 2,816 later obligations remain open; full D4, tube, CK1, CK3, TC2, B7, H7 and lifespan claims remain false. This field supersedes the historical endpoint sentence retained in scope for provenance.",
+        "scope_current": "The downstream C23, XYZ and sixth-frame extensions close six rational frames. A two-chart audit found a regular rank-four counterexample at n=(2/3,2/3,1/3), disproving full-sphere D4 compatibility of that six-frame symbol. The unique sparsest degree-four preservation envelope a7=(81/14)n2*n3(2*n1*n2-n3^2) and a sharp rank-two two-curl correction now close all 12 systems there while preserving the six earlier frames, giving seven exact direction certificates. A repeat two-chart audit or determining theorem for the revised degree-five symbol, pseudodifferential constraint and variable-coefficient commutator calculus, boundary energy, local/covariant origin, corrected-candidate registration, and the 2,816 later obligations remain open; full D4, tube, CK1, CK3, TC2, B7, H7 and lifespan claims remain false. This field supersedes the historical endpoint sentence retained in scope for provenance.",
         "scope": "For all 12 candidates, the fail-closed H7 ledger includes the complete reference quadratic deltaK two-jet and the full exact third-jet sector. The fourth-order service closed 244 of 3,060 obligations before finding a rank-two alpha^5 obstruction at offset 244. An exact homogeneous-freedom reduction covers all 15 polarization sums, 300 stationary-projector checks and 20,842 lower-jet kernel slots; its induced D4 zero-eigenspace map has rank zero, so no lower homogeneous completion can cancel the witness. A separate minimal one-parameter rank-one state-space TC2 ansatz spans the obstruction line and gives 12/12 exact candidate-specific D4 solutions after tuning eta=-(34816/15)alpha^5. Its downstream fixed-chart curl completion proves exact 33-definition/33-curl propagation and reference constraint-surface equivalence. The required axis-two companion has been audited on seven eigenspaces: only the zero-speed compression is nonzero, with rank two and ten entries. A 363-parameter pure-C23 completion class has projected rank 297 and cannot reach the companion target because the augmented rank is 298. The complete polarized base D4 right-hand side at axis two is exactly zero, so the unweighted fixed-chart C12 curl completion is obstructed for all 12 eta values. The minimal parity-preserving multiplier a(n)=n1^2 yields a bounded odd cubic angular symbol that preserves all 12 e1 solutions and converts the 12 axis-two obstructions into exact compatibilities. Its first rational generic-direction audit executes the full orders-one-through-four recurrence at n=(3/5,4/5,0), checks all seven eigenspaces, and finds exact obstructions for all 12 candidates. This rejects the scalar parity-cubic all-direction completion, not the full direction sphere or broader matrix-valued, local, or covariant operators. The complete fixed-frame matrix-curl range at the same direction has 22 transverse covectors, 1,210 raw parameters and wedge rank 473; the target-augmented rank is also 473. A minimal single-channel rank-one block cancels the target and gives 12/12 exact fixed-frame compatibilities with all nonzero-eigenspace compressions zero. Its minimal degree-three bounded smooth antipodally odd extension preserves the e1, e2 and original generic certificates but vanishes at n=(3/5,0,4/5), where all 12 candidates retain exact rank-two obstructions. This rejects the canonical fixed-output single-C12 even-envelope extension, not broader matrix-curl symbols. A channel or envelope nonvanishing on the n2=0 great circle, additional direction audits, pseudodifferential commutator and boundary-energy calculus, corrected-candidate registration, and the 2,816 later obligations remain open. Full fourth-order closure, all-order remainder control, variable TC3/high-derivative TC2/H7 TC5 bounds, global dyadic closure, tube preservation, and lifespan remain false.",
         "evidence": [
           "src/sigma_theory_compiler/recovery_artifact_validation.py",
@@ -1391,6 +1416,10 @@
           "configs/backgrounds/quartic_full_tensor_good_unknown_reconciliation_gate.json",
           "tests/test_quartic_full_tensor_good_unknown_reconciliation_gate.py",
           "runs/physics-language/quartic-full-tensor-good-unknown-reconciliation-gate/campaign.json",
+          "src/sigma_theory_compiler/quartic_scalar_hessian_d2_integrability_gate.py",
+          "configs/backgrounds/quartic_scalar_hessian_d2_integrability_gate.json",
+          "tests/test_quartic_scalar_hessian_d2_integrability_gate.py",
+          "runs/physics-language/quartic-scalar-hessian-d2-integrability-gate/campaign.json",
           "src/sigma_theory_compiler/quartic_tc2_quadratic_deltak_extension_campaign.py",
           "configs/backgrounds/quartic_tc2_quadratic_deltak_extension_campaign.json",
           "tests/test_quartic_tc2_quadratic_deltak_extension_campaign.py",
@@ -1540,6 +1569,10 @@
           ,"configs/backgrounds/quartic_tc2_d4_rational_chart_determining_gate.json"
           ,"tests/test_quartic_tc2_d4_rational_chart_determining_gate.py"
           ,"runs/physics-language/quartic-tc2-d4-rational-chart-determining-gate/campaign.json"
+          ,"src/sigma_theory_compiler/quartic_tc2_d4_degree_five_counterexample_escape_campaign.py"
+          ,"configs/backgrounds/quartic_tc2_d4_degree_five_counterexample_escape_campaign.json"
+          ,"tests/test_quartic_tc2_d4_degree_five_counterexample_escape_campaign.py"
+          ,"runs/physics-language/quartic-tc2-d4-degree-five-counterexample-escape-campaign/campaign.json"
         ],
         "artifact_binding": {
           "file_sha256": "bb651cb099e409fff85d3354c69a88f667cd39453946a8affce00378b3c705bf",
@@ -1846,6 +1879,24 @@
             "lifespans_proved": 0,
             "first_blocker": "complete_candidate_bound_ordered_D2F_component_manifest_and_full_high_atom_good_unknown_identity_not_registered"
           },
+          "scalar_hessian_D2_integrability_binding": {
+            "file_sha256": "654a0442e0d6ec0166eed1d15da163260658d6cd44192da9cbb4e4b2b88f105a",
+            "content_sha256": "66f680eec0ab93169163f7f1e2055aac7713f45fcc2abf2f12907183e701b45c",
+            "candidate_count": 12,
+            "candidate_pass": 0,
+            "candidate_reject": 0,
+            "candidate_blocked": 12,
+            "ordered_D2_entries_materialized_per_candidate": 9801,
+            "ordered_D2_entries_materialized_total": 117612,
+            "nonzero_chunk_derivatives_per_candidate": 186,
+            "failed_ordered_family_pairs_per_candidate": 24,
+            "nonzero_Schwarz_residuals_per_candidate": 30,
+            "integrable_candidate_manifests": 0,
+            "full_ordered_D2_manifests_admitted": 0,
+            "global_H7_closures": 0,
+            "lifespans_proved": 0,
+            "first_blocker": "typed_coordinate_to_block_Frechet_map_or_covariant_connection_terms_restoring_Schwarz_integrability_not_registered"
+          },
           "fourth_jet_degree_three_matrix_curl_sphere_extension_binding": {
             "file_sha256": "118ee8b29dc6ddc40099a5ad53a07f0d2692de52e22912f64dab85e8dfedd972",
             "content_sha256": "4c76c478f692bcacff5f7203fab42a7c1b5e667cf2df4169ae5ccbabeb1d79ed",
@@ -1922,9 +1973,25 @@
             "current_combined_symbol_full_sphere_D4_compatibility_disproved": true,
             "revised_symbol_class_or_preserving_correction_constructed": false,
             "inferred_global_passes": 0
+          },
+          "fourth_jet_degree_five_counterexample_escape_binding": {
+            "file_sha256": "a5c34554b1723ff11dfe8c9823974b4db90597eb5df36449931b4d01553e3eff",
+            "content_sha256": "eb46a7b76d5f51a62254ecbe00e91c120103c5d81948443c1b9e4da2004414b5",
+            "counterexample_direction": ["2/3", "2/3", "1/3"],
+            "minimal_even_homogeneous_envelope_degree": 4,
+            "two_monomial_supports_checked": 105,
+            "two_monomial_supports_feasible": 1,
+            "minimal_completion_rank": 2,
+            "curl_channels": 2,
+            "candidate_compatibilities": 12,
+            "candidate_obstructions": 0,
+            "prior_direction_certificates_preserved": 6,
+            "total_certified_directions": 7,
+            "revised_symbol_full_sphere_D4_compatibility_proved": false,
+            "inferred_global_passes": 0
           }
       },
-      "missing": ["a new topology-changing angular correction nonzero at n=(2/3,2/3,1/3) while preserving the six certified frames, or a revised symbol class, followed by a repeat rational-chart counterexample search and pseudodifferential constraint, variable-coefficient commutator, boundary-energy and local/covariant admission; the current combined symbol's full-sphere D4 compatibility is disproved and the permanently stopped service leaves 2,816 later obligations unevaluated", "fifth-and-higher remainder control or a nonlinear range theorem that upgrades the completed reference Taylor jets to a tube-uniform Hermitian positive full Sylvester solution", "the remaining variable TC3, high-derivative TC2 and H7 TC5 terms", "an executable component Frechet/Bony-good-unknown remainder bound supplying finite C_L and C_B", "an initial H7 energy bound and substitution into the conditional lifespan/tube formula", "new reduction adapters for future nonminimal action terms outside the bounded grammar", "exhaustive multi-seed connected-domain construction beyond the campaign's shared local FLRW seed", "nonlinear PDE evolution-invariant trapping regions inside the pointwise-certified cubic-Horndeski and quartic-Horndeski local-jet boxes", "new mixed/nonlinear principal and symmetrizer adapters for the remaining 114 G4_X sample assignments, followed by necessary-and-sufficient multi-field direction-sphere bounds", "generic nonlinear global reduced-Hamiltonian boundedness beyond the certified homogeneous Horndeski tensor and FLRW scalar blocks"]
+      "missing": ["a repeat rational-chart counterexample search or determining theorem for the revised seven-frame degree-five symbol, followed by pseudodifferential constraint, variable-coefficient commutator, boundary-energy and local/covariant admission; the prior six-frame symbol's full-sphere D4 compatibility was disproved, its regular counterexample is now repaired only at that exact direction, and the permanently stopped service leaves 2,816 later obligations unevaluated", "fifth-and-higher remainder control or a nonlinear range theorem that upgrades the completed reference Taylor jets to a tube-uniform Hermitian positive full Sylvester solution", "the remaining variable TC3, high-derivative TC2 and H7 TC5 terms", "an executable component Frechet/Bony-good-unknown remainder bound supplying finite C_L and C_B", "an initial H7 energy bound and substitution into the conditional lifespan/tube formula", "new reduction adapters for future nonminimal action terms outside the bounded grammar", "exhaustive multi-seed connected-domain construction beyond the campaign's shared local FLRW seed", "nonlinear PDE evolution-invariant trapping regions inside the pointwise-certified cubic-Horndeski and quartic-Horndeski local-jet boxes", "new mixed/nonlinear principal and symmetrizer adapters for the remaining 114 G4_X sample assignments, followed by necessary-and-sufficient multi-field direction-sphere bounds", "generic nonlinear global reduced-Hamiltonian boundedness beyond the certified homogeneous Horndeski tensor and FLRW scalar blocks"]
     },
     {
       "id": "solar_and_direct_observations",

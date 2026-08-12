@@ -564,14 +564,18 @@ or below 32,768 MiB available RAM, and waits behind an existing CPU owner.  Gene
 receipts are self-hashed and share a candidate-root barrier; sampled-static results cannot rank, and
 ranking is a leaderboard rebuild rather than direct rank assignment.  Seven exact scenarios close
 one generation, one formal action, one ranking rebuild, and four fail-closed waits.  This is a
-readiness-only state machine. A downstream bounded service now implements the single-owner loop with
-an argv-bound exclusive lease, isolated self-hashed JSON queue/checkpoint, cooperative stop, at most
-16 cycles/600 seconds, and a hard 120-second deadline that may terminate only its own 15 evaluator
-children. Its immutable readiness artifact is unstarted; a later controlled runtime is reported only
-by the ignored service checkpoint/queue. The candidate-specific formal backend is intentionally
-`none_fail_closed`, so a real sampled-static batch cannot rank; even future valid formal evidence may
-request only a leaderboard rebuild, never assign rank directly. No service runtime, live campaign
-SQLite access, GPU owner, scientific pass, or ranking promotion was created by the readiness run.
+readiness-only state machine. A downstream bounded service implements the single-owner loop with an
+argv-bound exclusive lease, isolated self-hashed JSON queue/checkpoint, cooperative stop, at most 16
+cycles/600 seconds, and a hard 120-second deadline that may terminate only its own 15 evaluator
+children. Its immutable readiness artifact remains design-time evidence; the separately sealed
+execution result records a completed disjoint interval `[1,000,080,896,1,004,013,056)`: eight real
+15-worker CPU batches evaluated 3,932,160 unique formulas. Five batches were sampled-static rejects;
+three produced bounded survivor manifests and candidate-bound covariant-action health receipts, all
+three formally blocked. The backend reconstructs survivor identities, maps supported candidates to
+typed covariant actions, and runs the ADM/Legendre/Dirac/principal/Hamiltonian health pipeline, but it
+never equates a local control pass with a candidate pass. The result contains zero formal passes,
+leaderboard rebuild requests, or rank assignments. No live campaign SQLite, GPU ownership,
+observation, theory promotion, or direct rank mutation occurred.
 The new candidate-bound formula stress lane drives the same RTX 5090 much harder on dense numerical
 work: all 163 materialized Euler projections were checked on 5,341,184 deterministic synthetic
 candidate-point pairs against CPU evaluation, with 5,216 additional exact-rational sentinels and zero
@@ -1451,6 +1455,19 @@ are `77fd5565f57578e072e9ec7244bc844670a41decb34cb4ca423d39bea3df8afd` /
 `3e7e87efcb1f34c7f28a480e895ec118656b825e9762f6e8ee524cba4d552748` /
 `0cbab8c360e68036c4be70fe977994e4bab9287773a51a7e0e5dfdb6d3e6a460`.
 
+The next closed-world D2 gate materializes the naive scalar-Hessian derivative submanifest rather
+than assuming those source chunks form a Frechet tensor. It checks `11x9x99=9,801` ordered entries
+per candidate (`117,612` total), replays the known four-entry cancellation, and finds 24 failed
+ordered family pairs with 30 nonzero Schwarz-symmetry residual components for every candidate. Thus
+the registered `-A^-1 B_i` / `-m A^-1 C_ij` chunks cannot yet be admitted as a scalar-field Hessian by
+naive differentiation. All 12 candidates remain blocked and unrejected: a typed coordinate-to-block
+Frechet map or covariant connection terms could still restore integrability. The artifact
+file/content hash is `654a0442e0d6ec0166eed1d15da163260658d6cd44192da9cbb4e4b2b88f105a` /
+`66f680eec0ab93169163f7f1e2055aac7713f45fcc2abf2f12907183e701b45c`;
+source/config/test hashes are `bb570371bdf3a33bc0bb492b48cf642fcf1f950cd6a9576eb9e85670c9321064` /
+`4fbfeb98093600039ff751849a7d04b701960def756f7336b5b1766c81c3d607` /
+`d8b481596da39c006260fe3cdb90e288817bcbf58de3fd7ef011eb18f265c218`.
+
 The component campaign now proves every entry of the principal identity
 `D_Y E55 J = i P55` for all 12 candidates and materializes the complete first source Jacobian.
 Its 1,089 principal and 594 lower entries form an exact arithmetic-only `11 x 153` manifest with
@@ -1667,9 +1684,14 @@ symbol: at the regular stereographic point `(u,v)=(2/5,1/5)`, or
 `n=(2/3,2/3,1/3)`, all 12 candidates retain a rank-four, 56-entry zero-speed
 compression after the full orders-one-through-four recurrence. Each denominator clears to a
 nonzero constant numerator polynomial, so full-sphere D4 compatibility of the current combined
-symbol is rigorously disproved. A new topology-changing angular correction that preserves the six
-certificates, or a revised symbol class, followed by pseudodifferential constraint, commutator,
-boundary-energy, local/covariant and PDE admission, remains open. This is
+symbol is rigorously disproved. Within the declared even homogeneous scalar-envelope times
+transverse-curl class, degrees zero and two cannot preserve the six certificates; degree four is
+first feasible. Exhaustive sparse support classification gives the unique two-monomial envelope
+`a7(n)=(81/14)n2*n3(2*n1*n2-n3^2)`. Its sharp rank-two, two-curl correction closes all 12 former
+counterexample systems and preserves the six prior frames, producing a degree-five odd smooth
+bounded gradient-annihilating symbol with seven exact direction certificates. A repeat two-chart
+search for this revised symbol, or a determining theorem, followed by pseudodifferential constraint,
+commutator, boundary-energy, local/covariant and PDE admission, remains open. This is
 not an inferred pass for the unevaluated tail; full fourth-order range closure, full-tube,
 CK1, CK3, TC2, B7, global-H7, and lifespan remain false.
 

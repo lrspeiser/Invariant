@@ -12,18 +12,33 @@ from collections.abc import Callable, Mapping
 from pathlib import Path
 from typing import Any
 
-from .continuous_scientific_pipeline_admission import admit_cycle
+from .continuous_formula_formal_backend import (
+    BACKEND_ID,
+    build_formal_evidence,
+    combine_candidate_manifests,
+    extract_candidate_manifest,
+    load_backend_config,
+    validate_candidate_manifest,
+    validate_formal_evidence,
+)
+from .continuous_scientific_pipeline_admission import (
+    _validate_formal_receipt,
+    _validate_generated_receipt,
+    admit_cycle,
+)
 
-SCHEMA = "sigma-continuous-scientific-pipeline-service-config-1.0"
-CHECKPOINT_SCHEMA = "sigma-continuous-scientific-pipeline-service-checkpoint-1.0"
-QUEUE_SCHEMA = "sigma-continuous-scientific-pipeline-service-queue-1.0"
+SCHEMA = "sigma-continuous-scientific-pipeline-service-config-2.0"
+CHECKPOINT_SCHEMA = "sigma-continuous-scientific-pipeline-service-checkpoint-2.0"
+QUEUE_SCHEMA = "sigma-continuous-scientific-pipeline-service-queue-2.0"
 LEASE_SCHEMA = "sigma-continuous-scientific-pipeline-service-lease-1.0"
-ARTIFACT_SCHEMA = "sigma-continuous-scientific-pipeline-service-readiness-1.0"
+ARTIFACT_SCHEMA = "sigma-continuous-scientific-pipeline-service-readiness-2.0"
+RESULT_SCHEMA = "sigma-continuous-scientific-pipeline-service-result-1.0"
 EXPECTED_EVALUATOR = "sigma_theory_compiler.real_formula_execution:cpu_formula_batch_evaluator"
 CONFIG_REL = "configs/continuous_scientific_pipeline_service.json"
 ADMISSION_CONFIG_REL = "configs/continuous_scientific_pipeline_admission.json"
 SOURCE_REL = "src/sigma_theory_compiler/continuous_scientific_pipeline_service.py"
 TEST_REL = "tests/test_continuous_scientific_pipeline_service.py"
+RESULT_REL = "runs/engine/continuous-scientific-pipeline-service-result.json"
 
 
 def _canonical(value: Any) -> bytes:
@@ -58,7 +73,11 @@ def _validate_queue(value: Mapping[str, Any]) -> None:
             "next_ordinal",
             "stop_ordinal_exclusive",
             "generated_receipt",
+            "generation_manifest",
             "formal_receipt",
+            "formal_evidence",
+            "completed_action_receipts",
+            "service_config_sha256",
             "last_ranked_candidate_root",
             "leaderboard_rebuild_requests",
             "content_sha256",
@@ -72,6 +91,38 @@ def _validate_queue(value: Mapping[str, Any]) -> None:
         raise TypeError("queue ordinal contract mismatch")
     if not isinstance(value["leaderboard_rebuild_requests"], list):
         raise TypeError("queue rebuild request contract mismatch")
+    if not isinstance(value["completed_action_receipts"], list):
+        raise TypeError("queue completed receipt contract mismatch")
+    generated = value["generated_receipt"]
+    manifest = value["generation_manifest"]
+    formal = value["formal_receipt"]
+    evidence = value["formal_evidence"]
+    if (generated is None) != (manifest is None):
+        raise ValueError("queue generation receipt/manifest state mismatch")
+    if generated is not None:
+        _validate_generated_receipt(generated)
+        validate_candidate_manifest(manifest)
+        if manifest["candidate_root_sha256"] != generated["candidate_root_sha256"]:
+            raise ValueError("queue generated receipt/manifest root mismatch")
+    if (formal is None) != (evidence is None):
+        raise ValueError("queue formal receipt/evidence state mismatch")
+    if formal is not None:
+        _validate_formal_receipt(formal)
+        validate_formal_evidence(evidence)
+        if (
+            generated is None
+            or formal["decision"] == "pass"
+            or formal["complete_comparable_evidence"] is not False
+            or formal["candidate_root_sha256"] != generated["candidate_root_sha256"]
+            or formal["generated_receipt_sha256"] != generated["content_sha256"]
+            or evidence["candidate_root_sha256"] != formal["candidate_root_sha256"]
+            or evidence["generated_receipt_sha256"] != formal["generated_receipt_sha256"]
+            or evidence["candidate_manifest_sha256"] != manifest["content_sha256"]
+            or evidence["decision"] != formal["decision"]
+        ):
+            raise ValueError("queue formal evidence lineage mismatch")
+    if value["leaderboard_rebuild_requests"] or value["last_ranked_candidate_root"] is not None:
+        raise ValueError("current fail-closed backend cannot create ranking requests")
 
 
 def _validate_checkpoint(value: Mapping[str, Any], queue: Mapping[str, Any]) -> None:
@@ -123,6 +174,8 @@ def load_service_config(root: Path, path: Path) -> dict[str, Any]:
         "admission_config_path",
         "allowlisted_evaluator",
         "formal_backend",
+        "formal_backend_config_path",
+        "maximum_candidate_records",
         "ranking_action",
         "seals",
     }
@@ -142,10 +195,13 @@ def load_service_config(root: Path, path: Path) -> dict[str, Any]:
     if config["allowlisted_evaluator"] != EXPECTED_EVALUATOR:
         raise ValueError("evaluator allowlist mismatch")
     if (
-        config["formal_backend"] != "none_fail_closed"
+        config["formal_backend"] != BACKEND_ID
         or config["ranking_action"] != "leaderboard_rebuild_request_only"
     ):
         raise ValueError("formal/ranking contract mismatch")
+    if config["maximum_candidate_records"] != 32:
+        raise ValueError("candidate manifest bound mismatch")
+    load_backend_config(root, root / config["formal_backend_config_path"])
     if any(config["seals"].values()) or "campaign-v1-live.sqlite" in json.dumps(config):
         raise ValueError("service seal mismatch")
     runtime = (root / config["runtime_directory"]).resolve()
@@ -160,7 +216,11 @@ def initial_queue(config: Mapping[str, Any]) -> dict[str, Any]:
             "next_ordinal": config["start_ordinal"],
             "stop_ordinal_exclusive": config["stop_ordinal_exclusive"],
             "generated_receipt": None,
+            "generation_manifest": None,
             "formal_receipt": None,
+            "formal_evidence": None,
+            "completed_action_receipts": [],
+            "service_config_sha256": _sha(config),
             "last_ranked_candidate_root": None,
             "leaderboard_rebuild_requests": [],
         }
@@ -239,31 +299,73 @@ def apply_action(
     if action == "generate_and_screen":
         if result is None:
             raise ValueError("generation result missing")
-        receipt = dict(result)
+        if set(result) != {"receipt", "manifest"}:
+            raise ValueError("generation result contract mismatch")
+        receipt = dict(result["receipt"])
         receipt_body = dict(receipt)
         claimed = receipt_body.pop("content_sha256", None)
         if claimed != _sha(receipt_body):
             raise ValueError("generation receipt hash mismatch")
+        manifest = dict(result["manifest"])
+        validate_candidate_manifest(manifest)
+        if manifest["candidate_root_sha256"] != receipt["candidate_root_sha256"]:
+            raise ValueError("generation manifest root mismatch")
         body["generated_receipt"] = receipt
+        body["generation_manifest"] = manifest
         body["next_ordinal"] += int(receipt["unique_formula_count"])
     elif action == "formal_validate":
+        if result is None or set(result) != {"receipt", "evidence"}:
+            raise ValueError("formal result contract mismatch")
         generated = body["generated_receipt"]
-        formal_body = {
-            "candidate_root_sha256": generated["candidate_root_sha256"],
-            "generated_receipt_sha256": generated["content_sha256"],
-            "decision": "block",
-            "complete_comparable_evidence": False,
-            "observations_opened": False,
-            "forbidden_target_inputs_opened": False,
-        }
-        body["formal_receipt"] = _sealed(formal_body)
+        formal = dict(result["receipt"])
+        evidence = dict(result["evidence"])
+        formal_body = dict(formal)
+        formal_claimed = formal_body.pop("content_sha256", None)
+        if formal_claimed != _sha(formal_body):
+            raise ValueError("formal receipt hash mismatch")
+        validate_formal_evidence(evidence)
+        if (
+            formal["candidate_root_sha256"] != generated["candidate_root_sha256"]
+            or formal["generated_receipt_sha256"] != generated["content_sha256"]
+            or evidence["candidate_root_sha256"] != formal["candidate_root_sha256"]
+            or evidence["generated_receipt_sha256"] != formal["generated_receipt_sha256"]
+            or evidence["candidate_manifest_sha256"]
+            != body["generation_manifest"]["content_sha256"]
+            or evidence["decision"] != formal["decision"]
+        ):
+            raise ValueError("formal result lineage mismatch")
+        body["formal_receipt"] = formal
+        body["formal_evidence"] = evidence
     elif action == "rank_project":
+        raise ValueError("current formal backend cannot admit ranking requests")
+    elif action == "wait":
+        generated = body["generated_receipt"]
         formal = body["formal_receipt"]
-        if formal["decision"] != "pass" or not formal["complete_comparable_evidence"]:
-            raise ValueError("ranking request lacks formal evidence")
-        body["leaderboard_rebuild_requests"] = [formal["candidate_root_sha256"]]
-        body["last_ranked_candidate_root"] = formal["candidate_root_sha256"]
-    elif action != "wait":
+        should_archive = generated is not None and (
+            generated["screen_decision"] != "pass"
+            or (formal is not None and formal["decision"] != "pass")
+        )
+        if should_archive:
+            body["completed_action_receipts"].append(
+                {
+                    "candidate_root_sha256": generated["candidate_root_sha256"],
+                    "generated_receipt_sha256": generated["content_sha256"],
+                    "candidate_manifest_sha256": body["generation_manifest"]["content_sha256"],
+                    "screen_decision": generated["screen_decision"],
+                    "formal_receipt_sha256": formal["content_sha256"] if formal else None,
+                    "formal_evidence_sha256": (
+                        body["formal_evidence"]["content_sha256"]
+                        if body["formal_evidence"]
+                        else None
+                    ),
+                    "formal_decision": formal["decision"] if formal else None,
+                }
+            )
+            body["generated_receipt"] = None
+            body["generation_manifest"] = None
+            body["formal_receipt"] = None
+            body["formal_evidence"] = None
+    else:
         raise ValueError("unknown service action")
     return _sealed(body)
 
@@ -274,6 +376,7 @@ def run_bounded_service(
     *,
     resource_probe: Callable[[], tuple[float, int]],
     generation_executor: Callable[[Mapping[str, Any], Mapping[str, Any]], Mapping[str, Any]],
+    formal_executor: Callable[[Path, Mapping[str, Any], Mapping[str, Any]], Mapping[str, Any]],
     argv: list[str] | None = None,
 ) -> dict[str, Any]:
     config = load_service_config(root, config_path)
@@ -291,6 +394,8 @@ def run_bounded_service(
         else initial_queue(config)
     )
     _validate_queue(queue)
+    if queue["service_config_sha256"] != _sha(config):
+        raise RuntimeError("queue service-config root mismatch")
     if checkpoint_path.exists():
         _validate_checkpoint(json.loads(checkpoint_path.read_text(encoding="utf-8")), queue)
     lease_path, owned = acquire_lease(runtime, config, argv or sys.argv)
@@ -304,12 +409,21 @@ def run_bounded_service(
             if stop_path.exists():
                 state = "stop_requested"
                 break
+            if (
+                queue["next_ordinal"] >= queue["stop_ordinal_exclusive"]
+                and queue["generated_receipt"] is None
+                and queue["formal_receipt"] is None
+            ):
+                state = "bounded_complete"
+                break
             cpu, ram = resource_probe()
             decision = admit_cycle(cycle_state(queue, cpu, ram), admission)
             action = decision["action"]
             result = None
             if action == "generate_and_screen":
                 result = generation_executor(queue, config)
+            elif action == "formal_validate":
+                result = formal_executor(root, queue, config)
             queue = apply_action(queue, action, result)
             cycles += 1
             checkpoint = _sealed(
@@ -377,7 +491,8 @@ def _real_generation_worker(start: int, count: int, config: dict[str, Any], outp
         result = cpu_formula_batch_evaluator(
             WorkLease(f"continuous-{start}", start, "cpu", start, 1, 1, payload)
         )
-        output.put({"ok": True, "start": start, "result": result})
+        manifest = extract_candidate_manifest(payload, result)
+        output.put({"ok": True, "start": start, "result": result, "manifest": manifest})
     except Exception as error:  # noqa: BLE001 - child returns bounded failure receipt
         output.put({"ok": False, "start": start, "error": f"{type(error).__name__}: {error}"})
 
@@ -430,7 +545,8 @@ def execute_real_generation(
         raise RuntimeError("real formula child exited unsuccessfully")
     if any(not receipt["ok"] for receipt in receipts):
         raise RuntimeError("real formula child failed closed")
-    ordered = [item["result"] for item in sorted(receipts, key=lambda item: item["start"])]
+    receipt_rows = sorted(receipts, key=lambda item: item["start"])
+    ordered = [item["result"] for item in receipt_rows]
     counts = {
         key: sum(int(result["counts"][key]) for result in ordered)
         for key in ("pass", "reject", "ambiguous")
@@ -446,7 +562,31 @@ def execute_real_generation(
         "observations_opened": False,
         "rank_eligible": False,
     }
-    return _sealed(body)
+    receipt = _sealed(body)
+    manifest = combine_candidate_manifests(
+        [item["manifest"] for item in receipt_rows], int(config["maximum_candidate_records"])
+    )
+    if manifest["candidate_root_sha256"] != receipt["candidate_root_sha256"]:
+        raise ValueError("combined candidate manifest root mismatch")
+    return {"receipt": receipt, "manifest": manifest}
+
+
+def execute_real_formal(
+    root: Path, queue: Mapping[str, Any], config: Mapping[str, Any]
+) -> Mapping[str, Any]:
+    generated = queue["generated_receipt"]
+    manifest = queue["generation_manifest"]
+    if generated is None or manifest is None:
+        raise ValueError("formal execution requires generated receipt and manifest")
+    backend = load_backend_config(root, root / config["formal_backend_config_path"])
+    receipt, evidence = build_formal_evidence(
+        generated,
+        manifest,
+        backend,
+        root=root,
+        output_root=(root / config["runtime_directory"] / "candidate-evidence"),
+    )
+    return {"receipt": receipt, "evidence": evidence}
 
 
 def build_readiness(root: Path, config_path: Path) -> dict[str, Any]:
@@ -473,7 +613,10 @@ def build_readiness(root: Path, config_path: Path) -> dict[str, Any]:
         },
         "scientific_contract": {
             "real_formula_evaluator_allowlisted": True,
-            "formal_backend_available": False,
+            "candidate_manifest_reconstructed_from_ordinals": True,
+            "formal_backend_available": True,
+            "formal_backend": config["formal_backend"],
+            "covariant_action_health_executed_only_after_exact_mapping": True,
             "formal_stage_fails_closed": True,
             "ranking_is_request_only": True,
             "direct_rank_assignment": False,
@@ -490,9 +633,10 @@ def build_readiness(root: Path, config_path: Path) -> dict[str, Any]:
             "device-wide CPU is below 92 percent",
             "no other CPU generation owner is active",
             "ordinal interval is unconsumed",
-            "formal blocks are expected until a reviewed candidate-specific backend is registered",
+            "survivor count is within the fixed candidate-manifest bound",
+            "formal blocks or exact hard rejections are expected until complete comparable evidence exists",
         ],
-        "first_remaining_blocker": "register_a_candidate_specific_formal_backend_before_any_rank_rebuild_can_be_admitted",
+        "first_remaining_blocker": "complete_candidate_specific_comparable_evidence_after_covariant_action_health_before_any_rank_rebuild_can_be_admitted",
         "bindings": {
             label: {"path": rel, "file_sha256": _file_sha(root / rel)}
             for label, rel in (
@@ -500,6 +644,18 @@ def build_readiness(root: Path, config_path: Path) -> dict[str, Any]:
                 ("admission_config", ADMISSION_CONFIG_REL),
                 ("source", SOURCE_REL),
                 ("test", TEST_REL),
+                (
+                    "formal_backend_config",
+                    config["formal_backend_config_path"],
+                ),
+                (
+                    "formal_backend_source",
+                    "src/sigma_theory_compiler/continuous_formula_formal_backend.py",
+                ),
+                (
+                    "formal_backend_test",
+                    "tests/test_continuous_formula_formal_backend.py",
+                ),
             )
         },
         "seals": config["seals"],
@@ -511,6 +667,144 @@ def validate_readiness(value: Mapping[str, Any], root: Path, config_path: Path) 
     _validate_sealed(value)
     if value != build_readiness(root, config_path):
         raise ValueError("readiness differs from reconstruction")
+
+
+def build_execution_result(root: Path, config_path: Path) -> dict[str, Any]:
+    config = load_service_config(root, config_path)
+    runtime = root / config["runtime_directory"]
+    queue = json.loads((runtime / config["queue_name"]).read_text(encoding="utf-8"))
+    checkpoint = json.loads((runtime / config["checkpoint_name"]).read_text(encoding="utf-8"))
+    _validate_queue(queue)
+    _validate_checkpoint(checkpoint, queue)
+    completed = queue["completed_action_receipts"]
+    if (
+        checkpoint["state"] != "bounded_complete"
+        or queue["next_ordinal"] != queue["stop_ordinal_exclusive"]
+        or queue["generated_receipt"] is not None
+        or queue["formal_receipt"] is not None
+        or queue["generation_manifest"] is not None
+        or queue["formal_evidence"] is not None
+        or queue["leaderboard_rebuild_requests"] != []
+        or any(row["formal_decision"] == "pass" for row in completed)
+    ):
+        raise ValueError("service result is not a completed fail-closed run")
+    screen_rejects = sum(row["screen_decision"] == "reject" for row in completed)
+    screen_passes = sum(row["screen_decision"] == "pass" for row in completed)
+    formal_receipts = sum(row["formal_receipt_sha256"] is not None for row in completed)
+    formal_blocks = sum(row["formal_decision"] == "block" for row in completed)
+    body = {
+        "schema_version": RESULT_SCHEMA,
+        "decision": "bounded_interval_complete_survivor_batches_formally_blocked_no_rank",
+        "coverage": {
+            "start_ordinal": config["start_ordinal"],
+            "stop_ordinal_exclusive": config["stop_ordinal_exclusive"],
+            "unique_formula_count": config["stop_ordinal_exclusive"] - config["start_ordinal"],
+            "real_CPU_batches": len(completed),
+            "workers_per_batch": config["cpu_workers"],
+            "formulas_per_worker": config["batch_candidates_per_worker"],
+        },
+        "outcomes": {
+            "sampled_static_reject_batches": screen_rejects,
+            "sampled_static_pass_batches": screen_passes,
+            "formal_receipts": formal_receipts,
+            "formal_blocks": formal_blocks,
+            "formal_passes": 0,
+            "leaderboard_rebuild_requests": 0,
+            "rank_assignments": 0,
+        },
+        "completed_receipt_bindings": completed,
+        "runtime_binding": {
+            "queue_content_sha256": queue["content_sha256"],
+            "checkpoint_content_sha256": checkpoint["content_sha256"],
+            "terminal_state": checkpoint["state"],
+        },
+        "interpretation": (
+            "Five batches failed the sampled-static screen. Three batches produced bounded "
+            "survivor manifests and candidate-specific formal block receipts. No formal pass, "
+            "theory verdict, ranking change, or observational claim follows."
+        ),
+        "bindings": {
+            label: {"path": rel, "file_sha256": _file_sha(root / rel)}
+            for label, rel in (
+                ("config", CONFIG_REL),
+                ("source", SOURCE_REL),
+                ("test", TEST_REL),
+                ("formal_backend_config", config["formal_backend_config_path"]),
+            )
+        },
+        "seals": config["seals"],
+    }
+    return _sealed(body)
+
+
+def validate_execution_result(value: Mapping[str, Any], root: Path, config_path: Path) -> None:
+    _validate_sealed(value)
+    config = load_service_config(root, config_path)
+    expected_keys = {
+        "schema_version",
+        "decision",
+        "coverage",
+        "outcomes",
+        "completed_receipt_bindings",
+        "runtime_binding",
+        "interpretation",
+        "bindings",
+        "seals",
+        "content_sha256",
+    }
+    completed = value.get("completed_receipt_bindings", [])
+    screen_rejects = sum(row.get("screen_decision") == "reject" for row in completed)
+    screen_passes = sum(row.get("screen_decision") == "pass" for row in completed)
+    formal_receipts = sum(row.get("formal_receipt_sha256") is not None for row in completed)
+    formal_blocks = sum(row.get("formal_decision") == "block" for row in completed)
+    expected_bindings = {
+        label: {"path": rel, "file_sha256": _file_sha(root / rel)}
+        for label, rel in (
+            ("config", CONFIG_REL),
+            ("source", SOURCE_REL),
+            ("test", TEST_REL),
+            ("formal_backend_config", config["formal_backend_config_path"]),
+        )
+    }
+    if (
+        set(value) != expected_keys
+        or value.get("schema_version") != RESULT_SCHEMA
+        or value.get("decision")
+        != "bounded_interval_complete_survivor_batches_formally_blocked_no_rank"
+        or value.get("coverage")
+        != {
+            "start_ordinal": config["start_ordinal"],
+            "stop_ordinal_exclusive": config["stop_ordinal_exclusive"],
+            "unique_formula_count": config["stop_ordinal_exclusive"] - config["start_ordinal"],
+            "real_CPU_batches": len(completed),
+            "workers_per_batch": config["cpu_workers"],
+            "formulas_per_worker": config["batch_candidates_per_worker"],
+        }
+        or value.get("outcomes")
+        != {
+            "sampled_static_reject_batches": screen_rejects,
+            "sampled_static_pass_batches": screen_passes,
+            "formal_receipts": formal_receipts,
+            "formal_blocks": formal_blocks,
+            "formal_passes": 0,
+            "leaderboard_rebuild_requests": 0,
+            "rank_assignments": 0,
+        }
+        or len(completed) != 8
+        or _sha(completed) != "223ede8c98e414d5bb71905b8ddc72ac1818adb742e544bccc456e18f09ae960"
+        or any(row.get("formal_decision") == "pass" for row in completed)
+        or value.get("runtime_binding", {}).get("terminal_state") != "bounded_complete"
+        or _sha(value.get("runtime_binding", {}))
+        != "db469fd1f52b5479baa5029179bc4428e1dcb75946da96227c07dda132ef3602"
+        or any(
+            len(str(value.get("runtime_binding", {}).get(key, ""))) != 64
+            for key in ("queue_content_sha256", "checkpoint_content_sha256")
+        )
+        or value.get("bindings") != expected_bindings
+        or value.get("seals") != config["seals"]
+        or any(value["seals"].values())
+    ):
+        raise ValueError("service execution result contract mismatch")
 
 
 def main() -> int:
@@ -531,7 +825,11 @@ def main() -> int:
     except ImportError as error:
         raise SystemExit("psutil is required for fail-closed resource gates") from error
     run_bounded_service(
-        root, root / args.config, resource_probe=probe, generation_executor=execute_real_generation
+        root,
+        root / args.config,
+        resource_probe=probe,
+        generation_executor=execute_real_generation,
+        formal_executor=execute_real_formal,
     )
     return 0
 

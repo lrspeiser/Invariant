@@ -1,0 +1,56 @@
+{
+  "schema_version": "sigma-quartic-scalar-hessian-d2-integrability-config-1.0",
+  "campaign_id": "quartic-scalar-hessian-d2-integrability-001",
+  "output_path": "runs/physics-language/quartic-scalar-hessian-d2-integrability-gate/campaign.json",
+  "predecessors": {
+    "full_tensor_reconciliation": {
+      "path": "runs/physics-language/quartic-full-tensor-good-unknown-reconciliation-gate/campaign.json",
+      "file_sha256": "cf7957c2efad52a1fa91761fc6259e17a58011cc6093365f9e86e8e7eea0dfd6",
+      "content_sha256": "9994df86948a4419dd999b66610e9fea847dece6d5300f68152e942ffb2b87c8"
+    },
+    "full_source_jacobian": {
+      "path": "runs/physics-language/quartic-full-source-jacobian-arithmetic-campaign/campaign.json",
+      "file_sha256": "e893ebcaef464b958516279c557382fb76ecdb0fd542b3e3fed6a347076fcdae",
+      "content_sha256": "1707b7258fd434f68b06c7af6bc447b4136624b9916992df8b412e048ab6538a"
+    },
+    "unspecialized_principal_chunks": {
+      "path": "runs/physics-language/quartic-unspecialized-source-jacobian-campaign/campaign.json",
+      "file_sha256": "8ecae346f75ba5bbeb266e486b96f48a0c76387513ff92d20d1bc68d8ecef22b",
+      "content_sha256": "b60dbbb191f43d84d3d9c9e44e4adf70e4e7d729143905561b695cfabcaa7c72"
+    },
+    "representative_d2": {
+      "path": "runs/physics-language/quartic-high-atom-d2-good-unknown-campaign/campaign.json",
+      "file_sha256": "5848e62c811baf4a005e821d73c3dcc6d29a285fa2be57cfbe6842b56dfd3513",
+      "content_sha256": "5b6a5c43d9e22c2780f3987e3271b8c863c802129b3837777da246a5d635b466"
+    },
+    "two_channel_slice": {
+      "path": "runs/physics-language/quartic-two-channel-good-unknown-slice-campaign/campaign.json",
+      "file_sha256": "b83dc512fe3c3679c9013b23538513685d6fae76a493b01fb97330507f43ba06",
+      "content_sha256": "fa3fef69a2f2a5443ad3b2a4f9c47aa8fcf617e2525382e698cd58a9198f60d4"
+    }
+  },
+  "slice_contract": {
+    "source_outputs": 11,
+    "coordinate_atoms": 153,
+    "scalar_hessian_directions": 9,
+    "acceleration_free_second_atoms": 99,
+    "reference": "flat_zero_jet_M2_1",
+    "schwarz_subslice": "scalar_hessian_field10_by_scalar_hessian_field10"
+  },
+  "policies": {
+    "naive_chunk_differentiation_admission": "require_schwarz_integrability",
+    "full_D2_promotion": "fail_closed",
+    "good_unknown_promotion": "fail_closed",
+    "global_H7": "fail_closed",
+    "lifespan": "fail_closed",
+    "candidate_rejection": "forbidden"
+  },
+  "seals": {
+    "observations_opened": false,
+    "solar_system_inputs_opened": false,
+    "cosmology_inputs_opened": false,
+    "paid_llm_calls": false,
+    "live_SQLite_opened": false,
+    "GPU_execution_used": false
+  }
+}
