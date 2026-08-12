@@ -2,9 +2,12 @@ import hashlib
 import json
 from pathlib import Path
 
+import pytest
+
 from sigma_theory_compiler.quartic_anti_wick_composition_campaign import (
     generic_anti_wick_composition_audit,
     run_quartic_anti_wick_composition_campaign,
+    validate_quartic_anti_wick_composition_artifact,
 )
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -25,15 +28,11 @@ def test_heat_symbol_annular_schur_and_smoothing_witness_are_exact() -> None:
     passed, control = generic_anti_wick_composition_audit()
     assert passed
     assert control["anti_wick_to_weyl"]["heat_time"] == "h/4"
-    assert control["anti_wick_to_weyl"][
-        "coherent_projector_midpoint_square_residual"
-    ] == "0"
+    assert control["anti_wick_to_weyl"]["coherent_projector_midpoint_square_residual"] == "0"
     assert control["anti_wick_to_weyl"]["frequency_heat_transform_residual"] == "0"
     assert control["annular_positive_energy"]["positive"]
     assert control["amplitude_Schur_lemma"]["exact_coefficient"] == "1/(8*pi)"
-    assert control["smoothing_defect_negative"][
-        "omitting_smoothing_family_rejected"
-    ]
+    assert control["smoothing_defect_negative"]["omitting_smoothing_family_rejected"]
     assert control["smoothing_defect_negative"]["pointwise_KA_minus_ATK"] == (
         "Matrix([[0, 0], [0, 0]])"
     )
@@ -46,9 +45,7 @@ def test_all_candidates_are_audited_and_held_fail_closed_at_C4() -> None:
     result = run_quartic_anti_wick_composition_campaign(
         _load(LOW), _load(EVOLUTION), _load(R3), _load(TIME), _load(CONFIG)
     )
-    assert result["status"] == (
-        "pass_exact_anti_wick_composition_prerequisite_audit_C6_required"
-    )
+    assert result["status"] == ("pass_exact_anti_wick_composition_prerequisite_audit_C6_required")
     assert result["counts"] == {
         "selected": 12,
         "exact_composition_prerequisite_audits_passed": 12,
@@ -67,28 +64,43 @@ def test_all_candidates_are_audited_and_held_fail_closed_at_C4() -> None:
 
 
 def test_false_C4_closure_and_corrupt_provenance_reject() -> None:
-    low, evolution, r3, time, config = map(
-        _load, (LOW, EVOLUTION, R3, TIME, CONFIG)
-    )
+    low, evolution, r3, time, config = map(_load, (LOW, EVOLUTION, R3, TIME, CONFIG))
     false_closure = dict(config)
     false_closure["required_mixed_total_order"] = 4
-    result = run_quartic_anti_wick_composition_campaign(
-        low, evolution, r3, time, false_closure
-    )
+    result = run_quartic_anti_wick_composition_campaign(low, evolution, r3, time, false_closure)
     assert result["status"] == "reject"
 
     corrupt = json.loads(json.dumps(time))
     corrupt["upstream_sha256"]["low_frequency"] = "corrupt"
-    corrupt_body = {
-        key: value for key, value in corrupt.items() if key != "content_sha256"
-    }
+    corrupt_body = {key: value for key, value in corrupt.items() if key != "content_sha256"}
     corrupt["content_sha256"] = hashlib.sha256(
-        json.dumps(
-            corrupt_body, sort_keys=True, separators=(",", ":"), ensure_ascii=True
-        ).encode()
+        json.dumps(corrupt_body, sort_keys=True, separators=(",", ":"), ensure_ascii=True).encode()
+    ).hexdigest()
+    result = run_quartic_anti_wick_composition_campaign(low, evolution, r3, corrupt, config)
+    assert result["status"] == "reject"
+    assert "not the registered artifact" in result["errors"][0]
+
+
+def test_public_validator_rejects_resealed_promotion_and_bound_input_substitution() -> None:
+    artifact, config = _load(ARTIFACT), _load(CONFIG)
+    validate_quartic_anti_wick_composition_artifact(artifact, ROOT, config)
+    promoted = json.loads(json.dumps(artifact))
+    promoted["counts"]["anti_wick_compositions_closed"] = 12
+    body = {key: value for key, value in promoted.items() if key != "content_sha256"}
+    promoted["content_sha256"] = hashlib.sha256(
+        json.dumps(body, sort_keys=True, separators=(",", ":"), ensure_ascii=True).encode()
+    ).hexdigest()
+    with pytest.raises(ValueError, match="deterministic reconstruction"):
+        validate_quartic_anti_wick_composition_artifact(promoted, ROOT, config)
+
+    low = _load(LOW)
+    low["counts"]["selected"] = 0
+    body = {key: value for key, value in low.items() if key != "content_sha256"}
+    low["content_sha256"] = hashlib.sha256(
+        json.dumps(body, sort_keys=True, separators=(",", ":"), ensure_ascii=True).encode()
     ).hexdigest()
     result = run_quartic_anti_wick_composition_campaign(
-        low, evolution, r3, corrupt, config
+        low, _load(EVOLUTION), _load(R3), _load(TIME), config
     )
     assert result["status"] == "reject"
-    assert "time-atom low-frequency provenance mismatch" in result["errors"][0]
+    assert "not the registered artifact" in result["errors"][0]

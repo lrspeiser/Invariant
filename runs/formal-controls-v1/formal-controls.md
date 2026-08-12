@@ -1,6 +1,6 @@
 # Sigma formal-backend controls
 
-- Passed: 117 / 117
+- Passed: 118 / 118
 - Cadabra 2 available: True
 
 | Control | Status | Verified scope |
@@ -101,6 +101,7 @@
 | `quartic_linear_x_compact_physical_frequency_defect` | pass | The exact defect is rho(|xi|)[K0 P55-P55^dagger K0]. Four xi derivatives and two kernel integrations by parts give the explicit 4/3 Schur coefficient. Hash-bound degree-one physical-pencil provenance makes partial_xi^2 P55 vanish exactly. The defect disappears on correctly rescaled high shells; an unscaled-shell negative rejects. |
 | `quartic_linear_x_H7_dyadic_localization_audit` | pass | The C4 cutoff telescopes exactly, with ordinary simultaneous overlap two, enlarged simultaneous overlap four, five ordinary shells interacting with one enlarged shell, and H7 constants 2^-15 and 2^14. The global H7 commutator remains deliberately fail-closed: compact-frequency Schwartz packets have uniformly bounded H6 coefficient norm but produce N growth, proving that H6 coefficient control cannot close the remote high-coefficient tail. |
 | `quartic_linear_x_anti_wick_composition_derivative_audit` | pass | Gaussian anti-Wick quantization has Weyl symbol exp((h/4)Delta)K, so pointwise KP=P^dagger K does not remove the smoothing defect. An exact annular positive energy, kernel-amplitude algebra, 1/(8pi) Schur coefficient, and 2x2 smoothing witness pass. The executable audit identifies only four missing pairs: (2,4), (0,6), (0,5), and (1,4). |
+| `quartic_linear_x_annular_K55_C6_principal_composition` | pass | A standalone deterministic validator binds every predecessor and exact data seal. This closes only the principal annular operator remainder; the full dyadic energy, nonlinear lifespan, matter, and observations remain fail-closed. |
 | `quartic_horndeski_timelike_flat_physical_hamiltonian` | pass | Action/Dirac/principal-count-matched exact Legendre transform with positive tensor/scalar momentum and coordinate Hessians plus ghost and gradient negative controls; nonlinear global energy remains unresolved. |
 | `quartic_horndeski_global_timelike_gradient_no_go` | pass | Exact all-amplitude sign split: alpha>0 reaches kinetic rank loss/ghost, alpha<0 reaches cone collapse/gradient instability; an explicit bounded EFT/background domain is required. |
 | `quartic_horndeski_flrw_background_domain_crossing` | pass | Exact action-hash-bound contracting closed-FLRW boundary-crossing witness with a regular homogeneous acceleration system; restricted solution classes, EFT stopping boundaries, and nonlinear G4 completions remain separate. |

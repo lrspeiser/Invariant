@@ -27,8 +27,27 @@ from .quartic_symmetrizer_symbol_moser_campaign import (
     _positive,
     _uniform_raw_mixed_envelopes,
 )
+from .recovery_artifact_validation import (
+    DATA_SEALS,
+    load_bound_inputs,
+    validate_bound_inputs,
+    validate_exact_rebuild,
+)
 
 SCHEMA_VERSION = "sigma-quartic-annular-k55-c6-campaign-1.0"
+CONFIG_KEYS = {
+    "schema_version",
+    "expected_candidate_count",
+    "maximum_total_derivative_order",
+    "spatial_dimension",
+    "state_dimension",
+    "covariant_state_component_radius",
+    "contour_radius",
+    "annular_support_radius_lower",
+    "annular_support_radius_upper",
+    "annular_ramp_width",
+    "semiclassical_h_maximum",
+}
 DEFAULT_ANNULAR_RADIUS_LOWER = sp.Rational(5, 2)
 DEFAULT_ANNULAR_RAMP_WIDTH = sp.Rational(1, 2)
 
@@ -43,9 +62,9 @@ def _canonical_json(value: Any) -> str:
 
 def _content_hash_matches(campaign: dict[str, Any]) -> bool:
     body = {key: value for key, value in campaign.items() if key != "content_sha256"}
-    return campaign.get("content_sha256") == hashlib.sha256(
-        _canonical_json(body).encode()
-    ).hexdigest()
+    return (
+        campaign.get("content_sha256") == hashlib.sha256(_canonical_json(body).encode()).hexdigest()
+    )
 
 
 def _candidate_records(campaign: dict[str, Any]) -> dict[str, dict[str, Any]]:
@@ -70,8 +89,7 @@ def _key(left: int, right: int) -> str:
 
 def _partition_count(multiplicities: tuple[int, ...]) -> int:
     order = sum(
-        derivative_order * count
-        for derivative_order, count in enumerate(multiplicities, start=1)
+        derivative_order * count for derivative_order, count in enumerate(multiplicities, start=1)
     )
     denominator = 1
     for derivative_order, count in enumerate(multiplicities, start=1):
@@ -97,9 +115,9 @@ def _chi_derivative_majorants(maximum_order: int) -> dict[int, int]:
     cutoff = _chi6()
     return {
         order: int(
-            sum(abs(coefficient) for _, coefficient in sp.Poly(
-                sp.diff(cutoff, t, order), t
-            ).terms())
+            sum(
+                abs(coefficient) for _, coefficient in sp.Poly(sp.diff(cutoff, t, order), t).terms()
+            )
         )
         for order in range(maximum_order + 1)
     }
@@ -120,16 +138,9 @@ def annular_cutoff_frechet_majorants(
         total = sp.Integer(0)
         for multiplicities in _multiplicity_vectors(order):
             outer_order = sum(multiplicities)
-            term = (
-                _partition_count(multiplicities)
-                * chi[outer_order]
-                * scale**outer_order
-            )
+            term = _partition_count(multiplicities) * chi[outer_order] * scale**outer_order
             for derivative_order, count in enumerate(multiplicities, start=1):
-                derivative_bound = (
-                    radial[derivative_order]
-                    * radius_lower ** (1 - derivative_order)
-                )
+                derivative_bound = radial[derivative_order] * radius_lower ** (1 - derivative_order)
                 term *= derivative_bound**count
             total += term
         result[order] = sp.factor(total)
@@ -143,9 +154,7 @@ def generic_annular_k55_c6_control() -> tuple[bool, dict[str, Any]]:
     maximum_order = 6
     pairs = _pairs(maximum_order)
     u, v = sp.symbols("u v", real=True, finite=True)
-    coefficient = {
-        pair: sp.Integer(7 + 10 * pair[0] + pair[1]) for pair in pairs
-    }
+    coefficient = {pair: sp.Integer(7 + 10 * pair[0] + pair[1]) for pair in pairs}
     inverse_zero = sp.Integer(2)
     inverse = {(0, 0): inverse_zero}
     for state_order, direction_order in pairs[1:]:
@@ -159,18 +168,12 @@ def generic_annular_k55_c6_control() -> tuple[bool, dict[str, Any]]:
             if (left_state, left_direction) != (0, 0)
         )
     coefficient_series = sum(
-        coefficient[pair]
-        * u ** pair[0]
-        * v ** pair[1]
-        / (factorial(pair[0]) * factorial(pair[1]))
+        coefficient[pair] * u ** pair[0] * v ** pair[1] / (factorial(pair[0]) * factorial(pair[1]))
         for pair in pairs
         if pair != (0, 0)
     )
     inverse_series = sum(
-        inverse[pair]
-        * u ** pair[0]
-        * v ** pair[1]
-        / (factorial(pair[0]) * factorial(pair[1]))
+        inverse[pair] * u ** pair[0] * v ** pair[1] / (factorial(pair[0]) * factorial(pair[1]))
         for pair in pairs
     )
     inverse_residuals = {
@@ -202,9 +205,7 @@ def generic_annular_k55_c6_control() -> tuple[bool, dict[str, Any]]:
         for order in range(maximum_order + 1)
     )
     bell_residuals: dict[str, str] = {}
-    direction_bounds = {
-        pair: sp.Integer(3 + 10 * pair[0] + pair[1]) for pair in pairs
-    }
+    direction_bounds = {pair: sp.Integer(3 + 10 * pair[0] + pair[1]) for pair in pairs}
     for state_order, frequency_order in pairs:
         direct = sp.diff(
             outer.subs(n, frequency_curve),
@@ -213,42 +214,27 @@ def generic_annular_k55_c6_control() -> tuple[bool, dict[str, Any]]:
             v,
             frequency_order,
         ).subs({u: 0, v: 0})
-        recurrence = _composed_bound(
-            direction_bounds, state_order, frequency_order, normalization
-        )
-        bell_residuals[_key(state_order, frequency_order)] = str(
-            sp.expand(direct - recurrence)
-        )
+        recurrence = _composed_bound(direction_bounds, state_order, frequency_order, normalization)
+        bell_residuals[_key(state_order, frequency_order)] = str(sp.expand(direct - recurrence))
 
     t = sp.Symbol("t", real=True)
     cutoff = _chi6()
-    cutoff_residual = sp.factor(
-        sp.diff(cutoff, t) - 12012 * t**6 * (1 - t) ** 6
-    )
+    cutoff_residual = sp.factor(sp.diff(cutoff, t) - 12012 * t**6 * (1 - t) ** 6)
     endpoint_residuals = [
-        sp.diff(cutoff, t, order).subs(t, endpoint)
-        - (1 if endpoint == 1 and order == 0 else 0)
+        sp.diff(cutoff, t, order).subs(t, endpoint) - (1 if endpoint == 1 and order == 0 else 0)
         for endpoint in (0, 1)
         for order in range(7)
     ]
     cutoff_majorants = annular_cutoff_frechet_majorants(maximum_order)
 
-    j1, j2, c1, c2, energy = sp.symbols(
-        "J1 J2 C1 C2 E", nonnegative=True, finite=True
-    )
+    j1, j2, c1, c2, energy = sp.symbols("J1 J2 C1 C2 E", nonnegative=True, finite=True)
     k1, k2 = sp.symbols("K1 K2", nonnegative=True, finite=True)
     coordinate_curve = j1 * u + j2 * u**2 / 2
     outer_curve = k1 * v + k2 * v**2 / 2
-    second_direct = sp.diff(
-        outer_curve.subs(v, coordinate_curve), u, 2
-    ).subs(u, 0)
-    second_coordinate_residual = sp.expand(
-        second_direct - (k2 * j1**2 + k1 * j2)
-    )
+    second_direct = sp.diff(outer_curve.subs(v, coordinate_curve), u, 2).subs(u, 0)
+    second_coordinate_residual = sp.expand(second_direct - (k2 * j1**2 + k1 * j2))
     spatial_curve = c1 * energy * u + c2 * energy * u**2 / 2
-    second_spatial_direct = sp.diff(
-        outer_curve.subs(v, spatial_curve), u, 2
-    ).subs(u, 0)
+    second_spatial_direct = sp.diff(outer_curve.subs(v, spatial_curve), u, 2).subs(u, 0)
     second_spatial_residual = sp.expand(
         second_spatial_direct - (k2 * (c1 * energy) ** 2 + k1 * c2 * energy)
     )
@@ -303,12 +289,8 @@ def _covariant_direction_k55_c6(
 ) -> dict[tuple[int, int], sp.Expr]:
     maximum_order = 6
     inverse_a = sp.sympify(moser["inverse_time_block_2_norm_rational_ceiling"])
-    b_product = _bivariate_inverse_product(
-        inverse_a, raw["A"], raw["B"], maximum_order
-    )
-    c_product = _bivariate_inverse_product(
-        inverse_a, raw["A"], raw["C"], maximum_order
-    )
+    b_product = _bivariate_inverse_product(inverse_a, raw["A"], raw["B"], maximum_order)
+    c_product = _bivariate_inverse_product(inverse_a, raw["A"], raw["C"], maximum_order)
     transverse_l = _bivariate_inverse_product(
         inverse_a,
         raw["A"],
@@ -323,9 +305,7 @@ def _covariant_direction_k55_c6(
         for pair in _pairs(maximum_order)
     }
     for order in range(5):
-        published = sp.sympify(
-            moser["companion_Frechet_derivative_2_norm_envelopes"][str(order)]
-        )
+        published = sp.sympify(moser["companion_Frechet_derivative_2_norm_envelopes"][str(order)])
         if sp.N(companion[(order, 0)], 80) < sp.N(published, 80) * (1 - sp.Float("1e-14")):
             raise QuarticAnnularK55C6Error(
                 "uniform companion hierarchy misses a published state bound"
@@ -338,15 +318,9 @@ def _covariant_direction_k55_c6(
     denominator = 1 - baseline_resolvent * perturbation
     if not _positive(denominator):
         raise QuarticAnnularK55C6Error("candidate resolvent margin failed")
-    resolvent = _bivariate_resolvent(
-        baseline_resolvent / denominator, companion, maximum_order
-    )
+    resolvent = _bivariate_resolvent(baseline_resolvent / denominator, companion, maximum_order)
     projector = {
-        pair: (
-            sp.Integer(0)
-            if pair == (0, 0)
-            else sp.N(contour_radius, 80) * resolvent[pair]
-        )
+        pair: (sp.Integer(0) if pair == (0, 0) else sp.N(contour_radius, 80) * resolvent[pair])
         for pair in _pairs(maximum_order)
     }
     projector_zero = {
@@ -356,11 +330,7 @@ def _covariant_direction_k55_c6(
         ].items()
     }
     h_star = {
-        pair: (
-            sp.Rational(9, 8)
-            if pair == (0, 0)
-            else sp.N(raw["H_star"][pair], 80)
-        )
+        pair: (sp.Rational(9, 8) if pair == (0, 0) else sp.N(raw["H_star"][pair], 80))
         for pair in _pairs(maximum_order)
     }
     k22 = _bivariate_k22(
@@ -371,8 +341,7 @@ def _covariant_direction_k55_c6(
         maximum_order,
     )
     identity = {
-        pair: sp.Integer(1) if pair == (0, 0) else sp.Integer(0)
-        for pair in _pairs(maximum_order)
+        pair: sp.Integer(1) if pair == (0, 0) else sp.Integer(0) for pair in _pairs(maximum_order)
     }
     inverse_m22 = _bivariate_inverse_product(
         sp.sympify(pde["uniform_bounds"]["M22_inverse_2_upper"]),
@@ -381,9 +350,7 @@ def _covariant_direction_k55_c6(
         maximum_order,
         product_zero=sp.sympify(pde["uniform_bounds"]["M22_inverse_2_upper"]),
     )
-    cross_f = _bivariate_triple_product(
-        transverse_l, k22, inverse_m22, maximum_order
-    )
+    cross_f = _bivariate_triple_product(transverse_l, k22, inverse_m22, maximum_order)
     cross_f[(0, 0)] = sp.N(sp.sympify(pde["uniform_bounds"]["F_2_upper"]), 80)
     k55 = {
         pair: (
@@ -449,9 +416,7 @@ def _certify_candidate(
 
     normalization = normalization_map_frechet_majorants(6)
     homogeneous = {
-        pair: _composed_bound(
-            direction_ceilings, pair[0], pair[1], normalization
-        )
+        pair: _composed_bound(direction_ceilings, pair[0], pair[1], normalization)
         for pair in _pairs(6)
     }
     coordinate_map = {
@@ -462,9 +427,7 @@ def _certify_candidate(
     for frequency_order in range(7):
         coordinate[(0, frequency_order)] = homogeneous[(0, frequency_order)]
     for frequency_order in range(6):
-        coordinate[(1, frequency_order)] = (
-            homogeneous[(1, frequency_order)] * coordinate_map[1]
-        )
+        coordinate[(1, frequency_order)] = homogeneous[(1, frequency_order)] * coordinate_map[1]
     for frequency_order in range(5):
         coordinate[(2, frequency_order)] = (
             homogeneous[(2, frequency_order)] * coordinate_map[1] ** 2
@@ -478,9 +441,7 @@ def _certify_candidate(
     for frequency_order in range(7):
         spatial[(0, frequency_order)] = coordinate[(0, frequency_order)]
     for frequency_order in range(6):
-        spatial[(1, frequency_order)] = sp.factor(
-            coordinate[(1, frequency_order)] * c1 * energy
-        )
+        spatial[(1, frequency_order)] = sp.factor(coordinate[(1, frequency_order)] * c1 * energy)
     for frequency_order in range(5):
         spatial[(2, frequency_order)] = sp.factor(
             coordinate[(2, frequency_order)] * (c1 * energy) ** 2
@@ -516,14 +477,11 @@ def _certify_candidate(
     }
     d = {
         order: sp.factor(
-            sp.Rational(3, 4)
-            * (evaluated_l1[(2, order)] + evaluated_l1[(0, order + 2)])
+            sp.Rational(3, 4) * (evaluated_l1[(2, order)] + evaluated_l1[(0, order + 2)])
         )
         for order in range(5)
     }
-    q = radius_upper + sp.sqrt(
-        3 * sp.sympify(config["semiclassical_h_maximum"]) / 2
-    )
+    q = radius_upper + sp.sqrt(3 * sp.sympify(config["semiclassical_h_maximum"]) / 2)
     r_symbol = sp.Symbol("R", nonnegative=True, finite=True)
     p_bounds = {
         pair: sp.sympify(
@@ -535,41 +493,23 @@ def _certify_candidate(
     a0 = p_bounds[(0, 1)]
     a1 = p_bounds[(1, 1)]
     s_bound = {
-        order: sp.factor(
-            2
-            * a0
-            * (3 * q * d[order] + (order * d[order - 1] if order else 0))
-        )
+        order: sp.factor(2 * a0 * (3 * q * d[order] + (order * d[order - 1] if order else 0)))
         for order in (0, 2, 4)
     }
     c_bound = {
         order: sp.factor(
-            9
-            * a1
-            * (
-                q * evaluated_l1[(0, order + 1)]
-                + (order + 1) * evaluated_l1[(0, order)]
-            )
+            9 * a1 * (q * evaluated_l1[(0, order + 1)] + (order + 1) * evaluated_l1[(0, order)])
         )
         for order in (0, 2, 4)
     }
     t_bound = {
-        order: sp.factor(
-            3
-            * (
-                a0 * evaluated_l1[(1, order)]
-                + a1 * evaluated_l1[(0, order)]
-            )
-        )
+        order: sp.factor(3 * (a0 * evaluated_l1[(1, order)] + a1 * evaluated_l1[(0, order)]))
         for order in (0, 2, 4)
     }
     amplitude = {
-        order: sp.factor(s_bound[order] + c_bound[order] + t_bound[order])
-        for order in (0, 2, 4)
+        order: sp.factor(s_bound[order] + c_bound[order] + t_bound[order]) for order in (0, 2, 4)
     }
-    composition = sp.factor(
-        (amplitude[0] + 6 * amplitude[2] + 9 * amplitude[4]) / (8 * sp.pi)
-    )
+    composition = sp.factor((amplitude[0] + 6 * amplitude[2] + 9 * amplitude[4]) / (8 * sp.pi))
     composition_numeric = float(sp.N(composition, 18))
     if not (composition_numeric > 0 and sp.Float(composition_numeric).is_finite):
         raise QuarticAnnularK55C6Error("composition constant is not finite positive")
@@ -592,9 +532,7 @@ def _certify_candidate(
         "annular_cutoff": {
             "support": f"{radius_lower}<=|xi|<={radius_upper}",
             "volume": str(volume),
-            "Frechet_majorants": {
-                str(order): str(value) for order, value in cutoff_bounds.items()
-            },
+            "Frechet_majorants": {str(order): str(value) for order, value in cutoff_bounds.items()},
         },
         "localized_symbol_L1_frequency_bounds": {
             _key(*pair): str(evaluated_l1[pair])
@@ -659,6 +597,7 @@ def run_quartic_annular_k55_c6_campaign(
             "r3": r3_campaign,
             "anti_wick": anti_wick_campaign,
         }
+        validate_bound_inputs(config, campaigns, CONFIG_KEYS)
         expected_statuses = {
             "symmetrizer": "pass_all_linear_X_quartic_candidates_strongly_hyperbolic_on_local_boxes",
             "moser": "pass_all_12_quasilinear_coefficient_derivative_envelopes",
@@ -675,11 +614,12 @@ def run_quartic_annular_k55_c6_campaign(
                 raise QuarticAnnularK55C6Error(f"{name} prerequisite status mismatch")
             if not _content_hash_matches(campaign):
                 raise QuarticAnnularK55C6Error(f"{name} campaign content hash mismatch")
-        upstream = {
-            name: campaign.get("content_sha256") for name, campaign in campaigns.items()
-        }
+        upstream = {name: campaign.get("content_sha256") for name, campaign in campaigns.items()}
         pde_upstream = pde_campaign.get("upstream_sha256", {})
-        if pde_upstream.get("symmetrizer") != upstream["symmetrizer"] or pde_upstream.get("moser") != upstream["moser"]:
+        if (
+            pde_upstream.get("symmetrizer") != upstream["symmetrizer"]
+            or pde_upstream.get("moser") != upstream["moser"]
+        ):
             raise QuarticAnnularK55C6Error("PDE provenance mismatch")
         if tube_campaign.get("nonquasilinear_pde_campaign_sha256") != upstream["pde"]:
             raise QuarticAnnularK55C6Error("tube provenance mismatch")
@@ -739,21 +679,17 @@ def run_quartic_annular_k55_c6_campaign(
         baseline_passed, baseline = quartic_horndeski_baseline_riesz_symmetrizer_control()
         if not baseline_passed:
             raise QuarticAnnularK55C6Error("baseline Riesz control failed")
-        baseline_contract = baseline[
-            "quantitative_physical_group_perturbation_contract"
-        ]
+        baseline_contract = baseline["quantitative_physical_group_perturbation_contract"]
         contour_radius = sp.sympify(config["contour_radius"])
         if contour_radius != sp.sympify(baseline_contract["contour_radius"]):
             raise QuarticAnnularK55C6Error("Riesz contour mismatch")
-        raw = _uniform_raw_mixed_envelopes(
-            str(config["covariant_state_component_radius"]), 6
-        )
-        record_maps = {
-            name: _candidate_records(campaign) for name, campaign in campaigns.items()
-        }
+        raw = _uniform_raw_mixed_envelopes(str(config["covariant_state_component_radius"]), 6)
+        record_maps = {name: _candidate_records(campaign) for name, campaign in campaigns.items()}
         candidate_ids = set(record_maps["symmetrizer"])
         expected = int(config.get("expected_candidate_count", 12))
-        if len(candidate_ids) != expected or any(set(records) != candidate_ids for records in record_maps.values()):
+        if len(candidate_ids) != expected or any(
+            set(records) != candidate_ids for records in record_maps.values()
+        ):
             raise QuarticAnnularK55C6Error("candidate-set mismatch")
         certificates = [
             _certify_candidate(
@@ -785,6 +721,7 @@ def run_quartic_annular_k55_c6_campaign(
                 "operator-remainder input, not a closed dyadic or nonlinear energy theorem."
             ),
             "scope": certificates[0]["scope"],
+            "data_seals": DATA_SEALS,
         }
     except (KeyError, TypeError, ValueError, QuarticAnnularK55C6Error) as error:
         errors.append(str(error))
@@ -800,11 +737,31 @@ def run_quartic_annular_k55_c6_campaign(
                 "full_dyadic_energies_closed": 0,
                 "rejected": 0,
             },
+            "data_seals": DATA_SEALS,
         }
     return {
         **body,
         "content_sha256": hashlib.sha256(_canonical_json(body).encode()).hexdigest(),
     }
+
+
+def validate_quartic_annular_k55_c6_artifact(
+    artifact: dict[str, Any], root: Path, config: dict[str, Any]
+) -> None:
+    labels = (
+        "symmetrizer",
+        "moser",
+        "pde",
+        "tube",
+        "solved",
+        "full",
+        "symbol_c4",
+        "r3",
+        "anti_wick",
+    )
+    loaded = load_bound_inputs(root, config, labels)
+    rebuilt = run_quartic_annular_k55_c6_campaign(*(loaded[label] for label in labels), config)
+    validate_exact_rebuild(artifact, rebuilt)
 
 
 def write_quartic_annular_k55_c6_campaign(result: dict[str, Any], output: Path) -> Path:

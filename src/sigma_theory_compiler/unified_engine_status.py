@@ -21,7 +21,21 @@ from pathlib import Path
 from typing import Any
 
 from .cpu_symbolic_overlap_benchmark import EXPECTED_TOP_LEVEL_KEYS as CPU_OVERLAP_KEYS
+from .kastner_schlatter_history_kernel_projective_admission import (
+    _validate_result as validate_history_kernel_projective_result,
+)
 from .process_health import pid_alive
+from .quartic_annular_k55_c6_campaign import validate_quartic_annular_k55_c6_artifact
+from .quartic_anti_wick_composition_campaign import (
+    validate_quartic_anti_wick_composition_artifact,
+)
+from .quartic_bounded_frequency_defect_campaign import (
+    validate_quartic_bounded_frequency_defect_artifact,
+)
+from .quartic_dyadic_localization_campaign import validate_quartic_dyadic_localization_artifact
+from .quartic_tc2_d4_degree_three_sixth_frame_completion_campaign import (
+    validate_campaign as validate_sixth_frame_completion,
+)
 
 SCHEMA_VERSION = "sigma-unified-engine-status-1.0"
 DEFAULT_MAXIMUM_OUTPUT_BYTES = 4_194_304
@@ -657,6 +671,14 @@ def build_unified_snapshot(
     root = project_root.resolve()
     timestamp = (now_utc or datetime.now(UTC)).astimezone(UTC)
     sources = {spec["label"]: _read_bound_json(root, spec) for spec in config["sources"]}
+    source_specs = {
+        spec["label"]: {
+            "path": spec["path"],
+            "file_sha256": spec["file_sha256"],
+            "content_sha256": spec["content_sha256"],
+        }
+        for spec in config["sources"]
+    }
     watchdog_path = (root / str(config["watchdog_database"])).resolve()
     if root not in watchdog_path.parents:
         raise ValueError("watchdog database escapes project root")
@@ -734,6 +756,9 @@ def build_unified_snapshot(
     ]
     transactional_gravity_probability_bridge = sources[
         "kastner_schlatter_actualization_probability_bridge_contract"
+    ]
+    transactional_gravity_history_kernel_projective = sources[
+        "kastner_schlatter_history_kernel_projective_admission"
     ]
     transactional_gravity_observable_exposure = sources[
         "kastner_schlatter_transaction_event_observable_exposure"
@@ -854,6 +879,59 @@ def build_unified_snapshot(
     g4_galaxy_prediction_contract_transform = sources["g4_galaxy_prediction_contract_transform"]
     g4_galaxy_manifest_bundle_tooling = sources["g4_galaxy_manifest_bundle_tooling"]
     g4_galaxy_source_registry_admission = sources["g4_galaxy_source_registry_admission"]
+    quartic_anti_wick_recovery = sources["quartic_anti_wick_composition_campaign"]
+    quartic_annular_c6_recovery = sources["quartic_annular_k55_c6_campaign"]
+    quartic_bounded_frequency_recovery = sources[
+        "quartic_bounded_frequency_defect_campaign"
+    ]
+    quartic_dyadic_recovery = sources["quartic_dyadic_localization_campaign"]
+    validation_config_root = root
+    validate_quartic_anti_wick_composition_artifact(
+        quartic_anti_wick_recovery,
+        validation_config_root,
+        json.loads(
+            (
+                validation_config_root
+                / "configs/backgrounds/quartic_anti_wick_composition_campaign.json"
+            ).read_text(
+                encoding="utf-8"
+            )
+        ),
+    )
+    validate_quartic_annular_k55_c6_artifact(
+        quartic_annular_c6_recovery,
+        validation_config_root,
+        json.loads(
+            (
+                validation_config_root
+                / "configs/backgrounds/quartic_annular_k55_c6_campaign.json"
+            ).read_text(
+                encoding="utf-8"
+            )
+        ),
+    )
+    validate_quartic_bounded_frequency_defect_artifact(
+        quartic_bounded_frequency_recovery,
+        validation_config_root,
+        json.loads(
+            (
+                validation_config_root
+                / "configs/backgrounds/quartic_bounded_frequency_defect_campaign.json"
+            ).read_text(encoding="utf-8")
+        ),
+    )
+    validate_quartic_dyadic_localization_artifact(
+        quartic_dyadic_recovery,
+        validation_config_root,
+        json.loads(
+            (
+                validation_config_root
+                / "configs/backgrounds/quartic_dyadic_localization_campaign.json"
+            ).read_text(
+                encoding="utf-8"
+            )
+        ),
+    )
     quartic_tc2_quadratic_deltak = sources["quartic_tc2_quadratic_deltak_extension"]
     quartic_tc2_diagonal_third_jet = sources["quartic_tc2_diagonal_third_jet"]
     quartic_tc2_mixed_third_jet_basis_reduction = sources[
@@ -910,6 +988,9 @@ def build_unified_snapshot(
     ]
     quartic_tc2_d4_rank_two_xyz_completion = sources[
         "quartic_tc2_d4_degree_three_rank_two_xyz_completion"
+    ]
+    quartic_tc2_d4_sixth_frame_completion = sources[
+        "quartic_tc2_d4_degree_three_sixth_frame_completion"
     ]
     quartic_tc2_reranked_obligation_chunks = tuple(
         sources[f"quartic_tc2_reranked_obligation_chunk_{offset}"]
@@ -3052,6 +3133,99 @@ def build_unified_snapshot(
         or any(transactional_gravity_probability_bridge.get("data_seals", {}).values())
     ):
         raise ValueError("Kastner-Schlatter actualization probability bridge is inconsistent")
+    validate_history_kernel_projective_result(transactional_gravity_history_kernel_projective)
+    history_kernel_source_bindings = {
+        "actualization_probability_bridge": source_specs[
+            "kastner_schlatter_actualization_probability_bridge_contract"
+        ],
+        "source_type_audit": source_specs[
+            "kastner_schlatter_source_selector_type_inhabitation_audit"
+        ],
+        "qed_actualization_audit": source_specs[
+            "kastner_schlatter_qed_actualization_poisson_derivation"
+        ],
+        "primary_pdf_sha256": (
+            "c2f671293d07b21397e745da00a3ce1a2193c00da647a2ebf4147612b76c1780"
+        ),
+        "config": {
+            "path": "configs/kastner_schlatter_history_kernel_projective_admission.json",
+            "file_sha256": (
+                "5aeac7dab53ec2a5af062ad78524620758f8b1defb1ad7017d7422e115609dca"
+            ),
+        },
+        "source": {
+            "path": (
+                "src/sigma_theory_compiler/"
+                "kastner_schlatter_history_kernel_projective_admission.py"
+            ),
+            "file_sha256": (
+                "0bc61efbeeb32bac02990de603adcdf622a928c7a56241a48877d384d2ac0824"
+            ),
+        },
+        "test": {
+            "path": "tests/test_kastner_schlatter_history_kernel_projective_admission.py",
+            "file_sha256": (
+                "1ecd1f5458246f4b3980afe47f473c5c4211a27ef9d72be2c40172c50aa36c43"
+            ),
+        },
+    }
+    if (
+        transactional_gravity_history_kernel_projective.get("admission_domain")
+        != {
+            "candidate_parameters": "fixed regular (g,phi)",
+            "generator": "declared countable ring R with finite partitions",
+            "history_coordinates": "locally finite count vectors on partitions of R",
+            "target": "Q_g_phi on the cylinder sigma algebra of N_lf(W)",
+        }
+        or transactional_gravity_history_kernel_projective.get("secondary_blockers")
+        != [
+            "no_source_declared_standard_Borel_actualization_history_space",
+            "no_source_projective_coarsening_identities_for_finite_partition_counts",
+            "no_source_candidate_measurability_or_nonexplosion_theorem",
+            "no_source_bound_countable_Laplace_or_Mecke_selector_after_Q",
+        ]
+        or transactional_gravity_history_kernel_projective.get("scope")
+        != (
+            "candidate-bound projective-cylinder prerequisite for Q_g_phi and exact two-cell "
+            "nonidentifiability; no paper/QED stochastic law or physical claim inferred"
+        )
+        or transactional_gravity_history_kernel_projective.get("source_bindings")
+        != history_kernel_source_bindings
+        or set(transactional_gravity_history_kernel_projective.get("claim_seals", {}))
+        != {
+            "candidate_action_rejected",
+            "candidate_action_selects_Poisson",
+            "candidate_action_stochastic_law_derived",
+            "compiler_nonidentifiability_witness_attributed_to_source",
+            "compiler_projective_fixture_attributed_to_source",
+            "dark_sector_elimination_proven",
+            "observational_pass",
+            "paper_QED_candidate_measurability_proven",
+            "paper_QED_finite_partition_family_registered",
+            "paper_QED_history_kernel_registered",
+            "paper_QED_nonexplosion_proven",
+            "paper_QED_projective_consistency_proven",
+            "scientific_test_pass",
+            "theory_validity_claimed",
+            "transaction_ontology_validated",
+        }
+        or set(transactional_gravity_history_kernel_projective.get("data_seals", {}))
+        != {
+            "QED_actualization_derivation_opened",
+            "dark_matter_or_halo_inputs",
+            "observations_opened",
+            "paid_llm_calls",
+            "paper_action_attribution_allowed",
+            "redshift_or_cosmology_inputs",
+            "scientific_test_pass_allowed",
+            "solar_system_inputs",
+            "transaction_event_observations_opened",
+            "transaction_ontology_validated",
+        }
+        or any(transactional_gravity_history_kernel_projective.get("claim_seals", {}).values())
+        or any(transactional_gravity_history_kernel_projective.get("data_seals", {}).values())
+    ):
+        raise ValueError("Kastner-Schlatter history-kernel projective admission is inconsistent")
     expected_poisson_cox_power_counts = {
         "finite_sample_evaluation_replicate_tests": 294_912,
         "gpu_generated_count_values": 110_100_480,
@@ -7795,6 +7969,267 @@ def build_unified_snapshot(
         )
     ):
         raise ValueError("quartic TC2 rank-two xyz completion is inconsistent")
+    validate_sixth_frame_completion(quartic_tc2_d4_sixth_frame_completion)
+    sixth_counts = quartic_tc2_d4_sixth_frame_completion.get("counts", {})
+    sixth_completion = quartic_tc2_d4_sixth_frame_completion.get("exact_completion", {})
+    sixth_prior = sixth_completion.get("prior_symbol_audit", {})
+    sixth_range = sixth_completion.get("exact_range_classification", {})
+    sixth_rank_two = sixth_completion.get("minimal_rank_two_completion", {})
+    sixth_extension = sixth_completion.get("exact_sphere_extension", {})
+    sixth_corrected = sixth_completion.get("corrected_result", {})
+    sixth_claims = quartic_tc2_d4_sixth_frame_completion.get("claims", {})
+    sixth_true_claims = {
+        "all_12_sixth_frame_D4_compatibilities_proved",
+        "all_six_selector_direction_certificates_closed",
+        "full_sixth_frame_orders_one_through_four_recurrence_evaluated",
+        "minimal_degree_three_preserving_extension_constructed",
+        "minimal_rank_two_completion_constructed",
+        "prior_combined_symbol_sixth_frame_obstructed_all_12_candidates",
+        "rank_four_target_in_full_transverse_curl_range",
+    }
+    sixth_false_claims = {
+        "B7_closed",
+        "CK1_closed",
+        "CK3_closed",
+        "TC2_closed",
+        "boundary_energy_admission_proved",
+        "corrected_candidate_family_registered",
+        "covariant_action_origin_proved",
+        "finite_selector_determines_full_direction_sphere",
+        "full_direction_sphere_D4_compatibility_proved",
+        "full_tube_Sylvester_identity",
+        "global_H7_closed",
+        "lifespan_proved",
+        "local_differential_operator_origin_proved",
+        "remaining_D4_selector_closed",
+        "variable_coefficient_constraint_calculus_proved",
+    }
+    expected_sixth_bindings = {
+        "campaign_source": {
+            "file_sha256": "9567ade5da6e5baf3522d873f4546cb3381ea9e04892192126d0122b7f290a8b",
+            "path": "src/sigma_theory_compiler/quartic_tc2_d4_degree_three_sixth_frame_completion_campaign.py",
+        },
+        "campaign_test": {
+            "file_sha256": "1821622157313831071b01b09d18c7308d9a5aee50f5510f3758dd10f793d520",
+            "path": "tests/test_quartic_tc2_d4_degree_three_sixth_frame_completion_campaign.py",
+        },
+        "c23_predecessor": source_specs["quartic_tc2_d4_degree_three_c23_great_circle_escape"],
+        "xyz_predecessor": source_specs["quartic_tc2_d4_degree_three_rank_two_xyz_completion"],
+        "minimal_escape": source_specs["quartic_tc2_d4_minimal_tc2_escape"],
+        "fourth_campaign": source_specs["quartic_tc2_fourth_jet_range_obligations"],
+    }
+    expected_sixth_bindings = {
+        key: ({k: v for k, v in value.items() if k != "label"})
+        for key, value in expected_sixth_bindings.items()
+    }
+    sixth_config_path = (
+        root
+        / "configs/backgrounds/quartic_tc2_d4_degree_three_sixth_frame_completion_campaign.json"
+    )
+    sixth_config_raw = sixth_config_path.read_bytes()
+    sixth_config = json.loads(sixth_config_raw)
+    sixth_config_claimed = sixth_config.pop("content_sha256", None)
+    sixth_config["content_sha256"] = sixth_config_claimed
+    sixth_source_bindings_on_disk = all(
+        hashlib.sha256((root / binding["path"]).read_bytes()).hexdigest()
+        == binding["file_sha256"]
+        for binding in (
+            expected_sixth_bindings["campaign_source"],
+            expected_sixth_bindings["campaign_test"],
+        )
+    )
+    if (
+        set(quartic_tc2_d4_sixth_frame_completion)
+        != {
+            "claims",
+            "config_sha256",
+            "content_sha256",
+            "counts",
+            "errors",
+            "exact_completion",
+            "negative_controls",
+            "next_gate",
+            "schema_version",
+            "scope",
+            "selector_binding",
+            "source_bindings",
+            "status",
+        }
+        or quartic_tc2_d4_sixth_frame_completion.get("schema_version")
+        != "sigma-quartic-tc2-d4-degree-three-sixth-frame-completion-campaign-1.0"
+        or quartic_tc2_d4_sixth_frame_completion.get("status")
+        != "pass_exact_degree_three_sixth_frame_rank_two_completion_all_12_candidates"
+        or quartic_tc2_d4_sixth_frame_completion.get("config_sha256")
+        != "0b70770d9f120e118a6ba92af38ceb17d364f7583d673f1408c0ade43b1521c9"
+        or quartic_tc2_d4_sixth_frame_completion.get("errors") != []
+        or quartic_tc2_d4_sixth_frame_completion.get("scope")
+        != "Exact full D4 recurrence and sharp rank-two correction at the deterministic sixth rational frame xyz_2_1_2. The unique quadratic even preservation envelope gives a degree-three odd smooth bounded transverse-curl extension and preserves all five prior certificates. This closes a six-direction selector only."
+        or quartic_tc2_d4_sixth_frame_completion.get("next_gate")
+        != "Audit the next deterministic exact rational sphere frame or prove a finite generic-direction determining theorem; then establish pseudodifferential constraint, commutator, boundary-energy and local/covariant admission."
+        or hashlib.sha256(sixth_config_raw).hexdigest()
+        != "22a47d7d007f3631f47bc415dca7f2a773a5d91ea5ffd04ed9a1398609f5a299"
+        or sixth_config_claimed
+        != "0b70770d9f120e118a6ba92af38ceb17d364f7583d673f1408c0ade43b1521c9"
+        or _sha({key: value for key, value in sixth_config.items() if key != "content_sha256"})
+        != sixth_config_claimed
+        or sixth_config["campaign_source"] != expected_sixth_bindings["campaign_source"]
+        or sixth_config["campaign_test"] != expected_sixth_bindings["campaign_test"]
+        or any(
+            sixth_config[key] != expected_sixth_bindings[key]
+            for key in ("c23_predecessor", "fourth_campaign", "minimal_escape", "xyz_predecessor")
+        )
+        or not sixth_source_bindings_on_disk
+        or sixth_counts
+        != {
+            "bound_predecessors": 4,
+            "directional_recurrence_evaluations": 15,
+            "inferred_global_passes": 0,
+            "minimal_completion_rank": 2,
+            "negative_controls": 9,
+            "new_candidate_direction_compatibilities": 12,
+            "new_candidate_direction_obstructions": 0,
+            "new_candidate_direction_systems_evaluated": 12,
+            "new_curl_channels": 2,
+            "normalized_target_rank": 4,
+            "prior_candidate_obstructions": 12,
+            "prior_direction_certificates_preserved": 5,
+            "total_certified_directions": 6,
+            "transverse_selector_rank": 22,
+        }
+        or quartic_tc2_d4_sixth_frame_completion.get("selector_binding")
+        != {
+            "active_indices": [0, 2, 3, 9],
+            "newly_closed_direction": "xyz_2_1_2",
+            "obligation_offset": 244,
+            "prior_certified_directions": ["e1", "e2", "xy_3_4_5", "xz_3_4_5", "xyz_1_2_2"],
+            "total_certified_directions": 6,
+        }
+        or quartic_tc2_d4_sixth_frame_completion.get("source_bindings")
+        != expected_sixth_bindings
+        or sixth_completion.get("selector")
+        != {
+            "deterministic_rational_orientation": True,
+            "direction": ["2/3", "1/3", "2/3"],
+            "frame_name": "xyz_2_1_2",
+            "prior_certified_directions": 5,
+            "total_certified_directions": 6,
+        }
+        or sixth_prior.get("directional_evaluations") != 15
+        or sixth_prior.get("base_D4_RHS_nonzero_entries") != 116
+        or sixth_prior.get("base_D4_RHS_sha256")
+        != "d0a80929907a3436880fe068faf9d7a48b2f6966bbd984ea1fd2cd19cde33ab3"
+        or sixth_prior.get("prior_global_symbol_rank") != 4
+        or sixth_prior.get("prior_global_symbol_sha256")
+        != "f8793e9f81b1487f50e1f6c30ff42d32aa94501aeaf0fd4c24736b68862fd343"
+        or sixth_prior.get("xyz_predecessor_block_sha256")
+        != "064d1838707330b0f8c7be8c054287faba0c1c8936beaea4a6fadcf8cb25765d"
+        or sixth_prior.get("prior_aligned_symbol_sha256")
+        != "6313d27651a01bf57e101358753055a85785e75a11f942b894fc632001c53909"
+        or sixth_prior.get("candidate_compatibilities") != 0
+        or sixth_prior.get("candidate_obstructions") != 12
+        or len(sixth_prior.get("candidate_records", [])) != 12
+        or any(
+            record.get("D4_Sylvester_solvable") is not False
+            or set(record.get("nonzero_equal_eigenspace_compressions", {})) != {"0"}
+            or record["nonzero_equal_eigenspace_compressions"]["0"].get("rank") != 4
+            or record["nonzero_equal_eigenspace_compressions"]["0"].get("nonzero_entries") != 56
+            for record in sixth_prior.get("candidate_records", [])
+        )
+        or sixth_range.get("normalized_target_sha256")
+        != "8bf2ca4b022f46411344c1665879dbb60b71229572ec72d9b89867589af54abe"
+        or sixth_range.get("normalized_target_rank") != 4
+        or sixth_range.get("normalized_target_nonzero_entries") != 56
+        or sixth_range.get("eta_normalized_targets") != 12
+        or sixth_range.get("distinct_eta_normalized_targets") != 1
+        or sixth_range.get("transverse_selector_rank") != 22
+        or sixth_range.get("selector_sha256")
+        != "7ef398226365b9e42bd543a3b9c5b00c82621cbf8f67d76b2768e38e81441d26"
+        or sixth_range.get("target_plane_dimension") != 4
+        or sixth_range.get("selector_target_plane_intersection_dimension") != 4
+        or sixth_range.get("quotient_target_zero") is not True
+        or sixth_range.get("quotient_target_sha256")
+        != "6bd0f4db2919abb53bd3fc437f3ec440b1c2df2a8e73fe17d06d0a3fc1c10f23"
+        or sixth_range.get("target_in_full_transverse_curl_range") is not True
+        or sixth_rank_two.get("lower_bound_completion_rank") != 2
+        or sixth_rank_two.get("constructed_completion_rank") != 2
+        or sixth_rank_two.get("coordinate_pairs") != [[11, 21], [15, 32]]
+        or sixth_rank_two.get("elementary_curl_channels") != 2
+        or sixth_rank_two.get("aligned_block_sha256")
+        != "5cff55360df6e7641b127739d63c33b8c83a802007109ebe325be1faa80a985d"
+        or sixth_rank_two.get("global_block_sha256")
+        != "a0a4ceb8e17ed8df1774d68d401421ed1102eea09aa82564ee8d970781b6c788"
+        or sixth_rank_two.get("rank_one_impossible_from_skew_rank_bound") is not True
+        or sixth_rank_two.get("term_records")
+        != [
+            {
+                "coordinate_pair": [11, 21],
+                "linear_curl_sha256": "7eb58046217ac76a4dc0c1dbbaf6d7b5f88131a820a857e106264ee7b9d07823",
+                "output_nonzero_entries": 3,
+                "output_sha256": "753191730efb97477f2e6da0552571d0398209b88d0897355b73bcde516e50ba",
+                "right_nonzero_entries": 21,
+                "right_sha256": "6a2b226a872658c8c12d48af6813ccb7809cf1177065cd98de8af5de3820e7aa",
+            },
+            {
+                "coordinate_pair": [15, 32],
+                "linear_curl_sha256": "d5f596f03e3ad8f7b1a50e87bfa395aee65f1396fba12061cf68fb0f9d2d3192",
+                "output_nonzero_entries": 3,
+                "output_sha256": "5fe1d40d81e1965b519a55edc9eb4b1d6d6d60d60be0c9986d953f76cf376743",
+                "right_nonzero_entries": 21,
+                "right_sha256": "3ef7b6b4a385f2004e52dfa041f2aa577bf1e7e162e83853d987d62e169b9de0",
+            },
+        ]
+        or sixth_extension.get("envelope") != "a6(n)=(3/2)*n3*(4*n1+n2-3*n3)"
+        or sixth_extension.get("definition")
+        != "DeltaB_6(n)=(3/2)*n3*(4*n1+n2-3*n3)*sum_{k=1}^2 u_k*(n cross (r_k cross n_6))^T"
+        or sixth_extension.get("envelope_coefficient_system_rank") != 6
+        or sixth_extension.get("minimal_even_homogeneous_envelope_degree") != 2
+        or sixth_extension.get("minimal_total_extension_degree") != 3
+        or sixth_extension.get("symbol_sha256")
+        != "6c55561ac1765e6103b5b8fc661d4ae0a99801e2c59041317bbd123db1c287c2"
+        or sixth_extension.get("symbol_nonzero_entries") != 63
+        or sixth_extension.get("gradient_residual_sha256")
+        != "54efa54b8d23c5fdf1e357239619821b52ed647990182ca8b3fd3e1cb57916f9"
+        or any(
+            sixth_extension.get(key) is not True
+            for key in (
+                "antipodally_odd",
+                "bounded_on_S2",
+                "five_prior_direction_extensions_zero",
+                "physical_gradient_lift_annihilated_identically",
+                "polynomial_and_smooth_on_S2",
+                "unique_under_five_zero_values_and_one_normalization",
+            )
+        )
+        or sixth_corrected.get("candidate_conditions_checked") != 12
+        or sixth_corrected.get("candidate_compatibilities") != 12
+        or sixth_corrected.get("candidate_obstructions") != 0
+        or len(sixth_corrected.get("candidate_records", [])) != 12
+        or any(
+            record.get("D4_Sylvester_solvable") is not True
+            or record.get("nonzero_equal_eigenspace_compressions") != {}
+            for record in sixth_corrected.get("candidate_records", [])
+        )
+        or set(sixth_claims) != sixth_true_claims | sixth_false_claims
+        or any(sixth_claims.get(key) is not True for key in sixth_true_claims)
+        or any(sixth_claims.get(key) is not False for key in sixth_false_claims)
+        or set(quartic_tc2_d4_sixth_frame_completion.get("negative_controls", {}))
+        != {
+            "constant_envelope_breaks_prior_certificates",
+            "degree_zero_even_envelope",
+            "infer_finite_determining_theorem",
+            "infer_full_direction_sphere",
+            "infer_local_covariant_or_PDE_admission",
+            "odd_envelope_breaks_odd_symbol",
+            "omit_linear_curl_lift",
+            "rank_one_completion",
+            "rank_zero_completion",
+        }
+        or any(
+            control.get("rejected") is not True
+            for control in quartic_tc2_d4_sixth_frame_completion.get("negative_controls", {}).values()
+        )
+    ):
+        raise ValueError("quartic TC2 sixth-frame completion is inconsistent")
     if (
         unified_live_dashboard_service_readiness.get("decision")
         != "ready_enabled_read_only_bounded"
@@ -8418,6 +8853,40 @@ def build_unified_snapshot(
                 "claim_seals": transactional_gravity_probability_bridge["claim_seals"],
                 "data_seals": transactional_gravity_probability_bridge["data_seals"],
                 "scope": transactional_gravity_probability_bridge["scope"],
+            },
+            "history_kernel_projective_admission": {
+                "decision": transactional_gravity_history_kernel_projective["decision"],
+                "decision_counts": transactional_gravity_history_kernel_projective[
+                    "decision_counts"
+                ],
+                "gate_counts": transactional_gravity_history_kernel_projective["gate_counts"],
+                "first_blocker": transactional_gravity_history_kernel_projective[
+                    "first_blocker"
+                ],
+                "admission_domain": transactional_gravity_history_kernel_projective[
+                    "admission_domain"
+                ],
+                "admission_obligations": transactional_gravity_history_kernel_projective[
+                    "admission_obligations"
+                ],
+                "extension_theorem": transactional_gravity_history_kernel_projective[
+                    "extension_theorem"
+                ],
+                "exact_nonidentifiability_witness": transactional_gravity_history_kernel_projective[
+                    "exact_nonidentifiability_witness"
+                ],
+                "exact_controls": transactional_gravity_history_kernel_projective[
+                    "exact_controls"
+                ],
+                "candidate_records": transactional_gravity_history_kernel_projective[
+                    "candidate_records"
+                ],
+                "secondary_blockers": transactional_gravity_history_kernel_projective[
+                    "secondary_blockers"
+                ],
+                "claim_seals": transactional_gravity_history_kernel_projective["claim_seals"],
+                "data_seals": transactional_gravity_history_kernel_projective["data_seals"],
+                "scope": transactional_gravity_history_kernel_projective["scope"],
             },
             "transaction_event_observable_exposure": {
                 "decision": transactional_gravity_observable_exposure["decision"],
@@ -9384,6 +9853,68 @@ def build_unified_snapshot(
         },
         "quartic_nonlinear_closure": {
             "candidate_count": quartic_counts["selected"],
+            "recovery_operator_calculus": {
+                "anti_wick_composition_prerequisite": {
+                    "artifact_binding": source_specs[
+                        "quartic_anti_wick_composition_campaign"
+                    ],
+                    "status": quartic_anti_wick_recovery["status"],
+                    "counts": quartic_anti_wick_recovery["counts"],
+                    "generic_control": quartic_anti_wick_recovery[
+                        "generic_anti_wick_composition_audit"
+                    ],
+                    "claim": quartic_anti_wick_recovery["claim"],
+                    "scope": quartic_anti_wick_recovery["scope"],
+                    "data_seals": quartic_anti_wick_recovery["data_seals"],
+                },
+                "annular_k55_c6": {
+                    "artifact_binding": source_specs["quartic_annular_k55_c6_campaign"],
+                    "status": quartic_annular_c6_recovery["status"],
+                    "counts": quartic_annular_c6_recovery["counts"],
+                    "generic_control": quartic_annular_c6_recovery[
+                        "generic_annular_k55_c6_control"
+                    ],
+                    "claim": quartic_annular_c6_recovery["claim"],
+                    "scope": quartic_annular_c6_recovery["scope"],
+                    "data_seals": quartic_annular_c6_recovery["data_seals"],
+                },
+                "bounded_frequency_defect": {
+                    "artifact_binding": source_specs[
+                        "quartic_bounded_frequency_defect_campaign"
+                    ],
+                    "status": quartic_bounded_frequency_recovery["status"],
+                    "counts": quartic_bounded_frequency_recovery["counts"],
+                    "generic_control": quartic_bounded_frequency_recovery[
+                        "generic_compact_frequency_defect_control"
+                    ],
+                    "claim": quartic_bounded_frequency_recovery["claim"],
+                    "scope": quartic_bounded_frequency_recovery["scope"],
+                    "data_seals": quartic_bounded_frequency_recovery["data_seals"],
+                },
+                "dyadic_localization": {
+                    "artifact_binding": source_specs["quartic_dyadic_localization_campaign"],
+                    "status": quartic_dyadic_recovery["status"],
+                    "counts": quartic_dyadic_recovery["counts"],
+                    "generic_control": quartic_dyadic_recovery[
+                        "generic_dyadic_localization_control"
+                    ],
+                    "claim": quartic_dyadic_recovery["claim"],
+                    "scope": quartic_dyadic_recovery["scope"],
+                    "data_seals": quartic_dyadic_recovery["data_seals"],
+                },
+                "ordered_candidate_ids": [
+                    row["candidate_id"] for row in quartic_anti_wick_recovery["certificates"]
+                ],
+                "all_candidate_sets_equal": (
+                    [row["candidate_id"] for row in quartic_anti_wick_recovery["certificates"]]
+                    == [row["candidate_id"] for row in quartic_annular_c6_recovery["certificates"]]
+                    == [
+                        row["candidate_id"]
+                        for row in quartic_bounded_frequency_recovery["certificates"]
+                    ]
+                    == [row["candidate_id"] for row in quartic_dyadic_recovery["certificates"]]
+                ),
+            },
             "coordinate_pair_partition": quartic_pairs,
             "quadratic_deltaK_two_jet": {
                 "closed_candidate_count": quartic_counts["reference_two_jets_closed"],
@@ -9816,7 +10347,21 @@ def build_unified_snapshot(
                         "claims": xyz_claims,
                         "scope": quartic_tc2_d4_rank_two_xyz_completion["scope"],
                     },
-                    "next_gate": quartic_tc2_d4_rank_two_xyz_completion["next_gate"],
+                    "degree_three_sixth_frame_completion": {
+                        "status": quartic_tc2_d4_sixth_frame_completion["status"],
+                        "counts": sixth_counts,
+                        "selector_binding": quartic_tc2_d4_sixth_frame_completion[
+                            "selector_binding"
+                        ],
+                        "prior_symbol_audit": sixth_prior,
+                        "exact_range_classification": sixth_range,
+                        "minimal_rank_two_completion": sixth_rank_two,
+                        "exact_sphere_extension": sixth_extension,
+                        "corrected_result": sixth_corrected,
+                        "claims": sixth_claims,
+                        "scope": quartic_tc2_d4_sixth_frame_completion["scope"],
+                    },
+                    "next_gate": quartic_tc2_d4_sixth_frame_completion["next_gate"],
                 },
                 "full_fourth_jet_range_closed": False,
             },
@@ -9833,7 +10378,7 @@ def build_unified_snapshot(
                 )
             },
             "first_missing_premise": (
-                "finite_generic_direction_determining_theorem_or_larger_exact_sphere_selector_for_combined_degree_three_symbol"
+                "next_deterministic_exact_rational_sphere_frame_or_finite_generic_direction_determining_theorem"
             ),
         },
         "evidence_pareto": {

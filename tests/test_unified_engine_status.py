@@ -58,6 +58,7 @@ SOURCE_PATHS = [
     "runs/engine/kastner-schlatter-countable-full-law-selector-admission.json",
     "runs/engine/kastner-schlatter-source-selector-type-inhabitation-audit.json",
     "runs/engine/kastner-schlatter-actualization-probability-bridge-contract.json",
+    "runs/engine/kastner-schlatter-history-kernel-projective-admission.json",
     "runs/engine/kastner-schlatter-transaction-event-observable-exposure-gate.json",
     "runs/engine/kastner-schlatter-poisson-cox-cuda-power-campaign.json",
     "runs/engine/kastner-schlatter-set-indexed-cuda-falsification-campaign.json",
@@ -129,6 +130,10 @@ SOURCE_PATHS = [
     "runs/engine/g4-galaxy-prediction-contract-transform-registration.json",
     "runs/engine/g4-galaxy-manifest-bundle-tooling-readiness.json",
     "runs/engine/g4-galaxy-source-registry-admission-readiness.json",
+    "runs/physics-language/quartic-anti-wick-composition-campaign/campaign.json",
+    "runs/physics-language/quartic-annular-k55-c6-campaign/campaign.json",
+    "runs/physics-language/quartic-bounded-frequency-defect-campaign/campaign.json",
+    "runs/physics-language/quartic-dyadic-localization-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-ck1-p55-tube-envelope-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-quadratic-deltak-extension-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-diagonal-third-jet-campaign/campaign.json",
@@ -161,6 +166,7 @@ SOURCE_PATHS = [
     "runs/physics-language/quartic-tc2-d4-degree-three-matrix-curl-sphere-extension-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-d4-degree-three-c23-great-circle-escape-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-d4-degree-three-rank-two-xyz-completion-campaign/campaign.json",
+    "runs/physics-language/quartic-tc2-d4-degree-three-sixth-frame-completion-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000000.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000064.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000128.json",
@@ -203,6 +209,16 @@ SOURCE_PATHS = [
     "runs/engine/unified-engine-live-service-readiness.json",
     "runs/engine/unified-engine-live-service-safety-readiness.json",
 ]
+
+RECOVERY_CONFIG_PATHS = (
+    "configs/backgrounds/quartic_anti_wick_composition_campaign.json",
+    "configs/backgrounds/quartic_annular_k55_c6_campaign.json",
+    "configs/backgrounds/quartic_bounded_frequency_defect_campaign.json",
+    "configs/backgrounds/quartic_dyadic_localization_campaign.json",
+)
+SIXTH_FRAME_CONFIG_PATH = (
+    "configs/backgrounds/quartic_tc2_d4_degree_three_sixth_frame_completion_campaign.json"
+)
 LABELS = [
     "billion_streaming",
     "cpu_real_formula_overlap_benchmark",
@@ -242,6 +258,7 @@ LABELS = [
     "kastner_schlatter_countable_full_law_selector_admission",
     "kastner_schlatter_source_selector_type_inhabitation_audit",
     "kastner_schlatter_actualization_probability_bridge_contract",
+    "kastner_schlatter_history_kernel_projective_admission",
     "kastner_schlatter_transaction_event_observable_exposure",
     "kastner_schlatter_poisson_cox_cuda_power",
     "kastner_schlatter_set_indexed_cuda_falsification",
@@ -313,6 +330,10 @@ LABELS = [
     "g4_galaxy_prediction_contract_transform",
     "g4_galaxy_manifest_bundle_tooling",
     "g4_galaxy_source_registry_admission",
+    "quartic_anti_wick_composition_campaign",
+    "quartic_annular_k55_c6_campaign",
+    "quartic_bounded_frequency_defect_campaign",
+    "quartic_dyadic_localization_campaign",
     "quartic_ck1_p55_tube_envelope",
     "quartic_tc2_quadratic_deltak_extension",
     "quartic_tc2_diagonal_third_jet",
@@ -345,6 +366,7 @@ LABELS = [
     "quartic_tc2_d4_degree_three_matrix_curl_sphere_extension",
     "quartic_tc2_d4_degree_three_c23_great_circle_escape",
     "quartic_tc2_d4_degree_three_rank_two_xyz_completion",
+    "quartic_tc2_d4_degree_three_sixth_frame_completion",
     "quartic_tc2_reranked_obligation_chunk_0",
     "quartic_tc2_reranked_obligation_chunk_64",
     "quartic_tc2_reranked_obligation_chunk_128",
@@ -413,6 +435,38 @@ def _fixture(tmp_path: Path) -> tuple[Path, dict[str, object], Path]:
                 "content_sha256": claimed,
             }
         )
+    for config_rel in RECOVERY_CONFIG_PATHS:
+        source_config = REPO / config_rel
+        target_config = tmp_path / config_rel
+        target_config.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(source_config, target_config)
+        recovery_config = json.loads(source_config.read_text(encoding="utf-8"))
+        for binding in recovery_config["predecessors"].values():
+            predecessor_rel = binding["path"]
+            predecessor_source = REPO / predecessor_rel
+            predecessor_target = tmp_path / predecessor_rel
+            predecessor_target.parent.mkdir(parents=True, exist_ok=True)
+            if not predecessor_target.exists():
+                shutil.copyfile(predecessor_source, predecessor_target)
+    sixth_config_source = REPO / SIXTH_FRAME_CONFIG_PATH
+    sixth_config_target = tmp_path / SIXTH_FRAME_CONFIG_PATH
+    sixth_config_target.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copyfile(sixth_config_source, sixth_config_target)
+    sixth_config = json.loads(sixth_config_source.read_text(encoding="utf-8"))
+    for key in (
+        "campaign_source",
+        "campaign_test",
+        "c23_predecessor",
+        "fourth_campaign",
+        "minimal_escape",
+        "xyz_predecessor",
+    ):
+        relative = sixth_config[key]["path"]
+        source = REPO / relative
+        target = tmp_path / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        if not target.exists():
+            shutil.copyfile(source, target)
     database = tmp_path / "runs/campaigns/watchdog.sqlite"
     database.parent.mkdir(parents=True, exist_ok=True)
     connection = sqlite3.connect(database)
@@ -1280,6 +1334,26 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     assert all(record["candidate_decision"] == "blocked" for record in bridge["candidate_records"])
     assert not any(bridge["claim_seals"].values())
     assert not any(bridge["data_seals"].values())
+    projective = transactional["history_kernel_projective_admission"]
+    assert projective["decision_counts"] == {"blocked": 2, "pass": 0, "reject": 0}
+    assert projective["gate_counts"]["history_kernel_admission_obligations"] == 6
+    assert projective["gate_counts"]["source_complete_obligations"] == 0
+    assert projective["gate_counts"]["source_partial_obligations"] == 1
+    assert projective["gate_counts"]["source_absent_obligations"] == 5
+    assert projective["gate_counts"]["exact_same_input_distinct_history_law_witnesses"] == 2
+    assert projective["extension_theorem"]["theorem_name"] == (
+        "countable_projective_history_kernel_admission"
+    )
+    assert projective["exact_nonidentifiability_witness"]["exact_separation"] == (
+        "(1+exp(-2))/2-exp(-1)=(1-exp(-1))^2/2>0"
+    )
+    assert [record["branch_id"] for record in projective["candidate_records"]] == [
+        "eq35_middle_h",
+        "eq35_printed_planck",
+    ]
+    assert all(record["candidate_decision"] == "blocked" for record in projective["candidate_records"])
+    assert not any(projective["claim_seals"].values())
+    assert not any(projective["data_seals"].values())
     observable = transactional["transaction_event_observable_exposure"]
     assert observable["decision_counts"] == {"blocked": 2, "pass": 0, "reject": 0}
     assert observable["gate_counts"]["compiler_observation_operator_contracts"] == 1
@@ -2017,6 +2091,40 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     assert safety["safety_contract"]["leaderboard_history_seed_pre_and_post_hash_guarded"] is True
     assert safety["safety_contract"]["maximum_seed_history_entries"] == 64
     assert safety["safety_contract"]["maximum_seed_history_bytes"] == 65_536
+    recovery = core["quartic_nonlinear_closure"].pop("recovery_operator_calculus")
+    assert recovery["all_candidate_sets_equal"] is True
+    assert len(recovery["ordered_candidate_ids"]) == 12
+    assert recovery["anti_wick_composition_prerequisite"]["artifact_binding"] == {
+        "path": "runs/physics-language/quartic-anti-wick-composition-campaign/campaign.json",
+        "file_sha256": "9a9cb443ee86a5b5d45ba29ea1287442b101f8c675681f6eedaa927d33f41f1e",
+        "content_sha256": "02c98ac16a6cd4bc3871003fb77918e21666a60fec65bc28c85484a6011c541d",
+    }
+    assert recovery["annular_k55_c6"]["artifact_binding"]["file_sha256"] == (
+        "bcc2b4184e5bcfb64d9a8a24ca095aa4067c18502c0c2f4956dcd8ad6f7fc527"
+    )
+    assert recovery["bounded_frequency_defect"]["artifact_binding"]["file_sha256"] == (
+        "e2dd669e0a939558d7379ac3600032eb7bca22e550d6965816ceca5e2724187a"
+    )
+    assert recovery["dyadic_localization"]["artifact_binding"]["file_sha256"] == (
+        "859b472f666cae9175aa7da8bc90ef175ca16f1987b967d65c71f5cc14139c94"
+    )
+    assert recovery["anti_wick_composition_prerequisite"]["counts"] == {
+        "C6_extensions_required": 12,
+        "anti_wick_compositions_closed": 0,
+        "exact_composition_prerequisite_audits_passed": 12,
+        "rejected": 0,
+        "selected": 12,
+    }
+    assert recovery["annular_k55_c6"]["counts"]["principal_composition_constants_instantiated"] == 12
+    assert recovery["annular_k55_c6"]["counts"]["full_dyadic_energies_closed"] == 0
+    assert recovery["bounded_frequency_defect"]["counts"]["compact_frequency_defect_lemmas_passed"] == 12
+    assert recovery["dyadic_localization"]["counts"]["dyadic_local_frameworks_passed"] == 12
+    assert recovery["dyadic_localization"]["counts"]["full_H7_commutators_closed"] == 0
+    assert all(
+        not any(lane["data_seals"].values())
+        for name, lane in recovery.items()
+        if name not in {"ordered_candidate_ids", "all_candidate_sets_equal"}
+    )
     topology = core["quartic_nonlinear_closure"]["fourth_jet_range_obligations"][
         "canonical_obstruction_certificate"
     ].pop("topology_changing_origin_classification")
@@ -2248,6 +2356,28 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     assert xyz["corrected_xyz_result"]["candidate_compatibilities"] == 12
     assert xyz["claims"]["all_five_declared_direction_certificates_closed"] is True
     assert xyz["claims"]["full_direction_sphere_D4_compatibility_proved"] is False
+    sixth = core["quartic_nonlinear_closure"]["fourth_jet_range_obligations"][
+        "canonical_obstruction_certificate"
+    ].pop("degree_three_sixth_frame_completion")
+    assert sixth["counts"]["prior_candidate_obstructions"] == 12
+    assert sixth["counts"]["normalized_target_rank"] == 4
+    assert sixth["counts"]["transverse_selector_rank"] == 22
+    assert sixth["counts"]["minimal_completion_rank"] == 2
+    assert sixth["counts"]["new_curl_channels"] == 2
+    assert sixth["counts"]["new_candidate_direction_compatibilities"] == 12
+    assert sixth["counts"]["new_candidate_direction_obstructions"] == 0
+    assert sixth["counts"]["prior_direction_certificates_preserved"] == 5
+    assert sixth["counts"]["total_certified_directions"] == 6
+    assert sixth["minimal_rank_two_completion"]["coordinate_pairs"] == [[11, 21], [15, 32]]
+    assert sixth["exact_range_classification"]["normalized_target_sha256"] == (
+        "8bf2ca4b022f46411344c1665879dbb60b71229572ec72d9b89867589af54abe"
+    )
+    assert sixth["exact_sphere_extension"]["envelope"] == (
+        "a6(n)=(3/2)*n3*(4*n1+n2-3*n3)"
+    )
+    assert sixth["corrected_result"]["candidate_compatibilities"] == 12
+    assert sixth["claims"]["all_six_selector_direction_certificates_closed"] is True
+    assert sixth["claims"]["full_direction_sphere_D4_compatibility_proved"] is False
     assert core["quartic_nonlinear_closure"] == {
         "candidate_count": 12,
         "coordinate_pair_partition": {
@@ -2510,11 +2640,9 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                     ),
                 },
                 "next_gate": (
-                    "Establish a rigorous finite generic-direction determining theorem or audit "
-                    "a larger exact sphere selector for the combined degree-three matrix-curl "
-                    "symbol, then prove pseudodifferential constraint, commutator, "
-                    "boundary-energy and local/covariant admission before any full-sphere or "
-                    "TC2 claim."
+                    "Audit the next deterministic exact rational sphere frame or prove a finite "
+                    "generic-direction determining theorem; then establish pseudodifferential "
+                    "constraint, commutator, boundary-energy and local/covariant admission."
                 ),
             },
             "full_fourth_jet_range_closed": False,
@@ -2529,7 +2657,7 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
             "lifespans_proved": 0,
         },
         "first_missing_premise": (
-            "finite_generic_direction_determining_theorem_or_larger_exact_sphere_selector_for_combined_degree_three_symbol"
+            "next_deterministic_exact_rational_sphere_frame_or_finite_generic_direction_determining_theorem"
         ),
     }
     assert core["cross_pipeline_total"]["status"] == "not_computed"
@@ -2623,6 +2751,63 @@ def test_xyz_completion_semantic_tamper_fails_closed_after_resealing(
 @pytest.mark.parametrize(
     "mutation",
     [
+        "remove_record",
+        "range_hash",
+        "completion_pair",
+        "term_record",
+        "extension_definition",
+        "negative_control_key",
+        "source_binding",
+        "config_hash",
+        "scope",
+        "full_sphere_claim",
+    ],
+)
+def test_sixth_frame_semantic_tamper_fails_closed_after_resealing(
+    tmp_path: Path, mutation: str
+) -> None:
+    root, config, _ = _fixture(tmp_path)
+    label = "quartic_tc2_d4_degree_three_sixth_frame_completion"
+    spec = next(source for source in config["sources"] if source["label"] == label)
+    target = root / spec["path"]
+    artifact = json.loads(target.read_text(encoding="utf-8"))
+    completion = artifact["exact_completion"]
+    if mutation == "remove_record":
+        completion["corrected_result"]["candidate_records"].pop()
+    elif mutation == "range_hash":
+        completion["exact_range_classification"]["normalized_target_sha256"] = "0" * 64
+    elif mutation == "completion_pair":
+        completion["minimal_rank_two_completion"]["coordinate_pairs"][0] = [10, 21]
+    elif mutation == "term_record":
+        completion["minimal_rank_two_completion"]["term_records"][0][
+            "linear_curl_sha256"
+        ] = "0" * 64
+    elif mutation == "extension_definition":
+        completion["exact_sphere_extension"]["definition"] = "mutated"
+    elif mutation == "negative_control_key":
+        control = artifact["negative_controls"].pop("rank_zero_completion")
+        artifact["negative_controls"]["invented_control"] = control
+    elif mutation == "source_binding":
+        artifact["source_bindings"]["campaign_test"]["file_sha256"] = "0" * 64
+    elif mutation == "config_hash":
+        artifact["config_sha256"] = "0" * 64
+    elif mutation == "scope":
+        artifact["scope"] = "full sphere proved"
+    else:
+        artifact["claims"]["full_direction_sphere_D4_compatibility_proved"] = True
+    body = {key: value for key, value in artifact.items() if key != "content_sha256"}
+    artifact["content_sha256"] = hashlib.sha256(_canonical(body)).hexdigest()
+    target.write_text(json.dumps(artifact, indent=2) + "\n", encoding="utf-8")
+    spec["file_sha256"] = hashlib.sha256(target.read_bytes()).hexdigest()
+    spec["content_sha256"] = artifact["content_sha256"]
+
+    with pytest.raises(ValueError, match="sixth-frame"):
+        build_unified_snapshot(root, config, physical_gpu={"availability": "unavailable"})
+
+
+@pytest.mark.parametrize(
+    "mutation",
+    [
         "missing_claim_key",
         "extra_data_key",
         "missing_source_binding",
@@ -2671,6 +2856,25 @@ def test_probability_bridge_semantic_tamper_fails_closed_after_resealing(
         build_unified_snapshot(root, config, physical_gpu={"availability": "unavailable"})
 
 
+def test_history_kernel_projective_tamper_fails_closed_after_resealing(
+    tmp_path: Path,
+) -> None:
+    root, config, _ = _fixture(tmp_path)
+    label = "kastner_schlatter_history_kernel_projective_admission"
+    spec = next(source for source in config["sources"] if source["label"] == label)
+    target = root / spec["path"]
+    artifact = json.loads(target.read_text(encoding="utf-8"))
+    artifact["scope"] = "proves the physical actualization law"
+    body = {key: value for key, value in artifact.items() if key != "content_sha256"}
+    artifact["content_sha256"] = hashlib.sha256(_canonical(body)).hexdigest()
+    target.write_text(json.dumps(artifact, indent=2) + "\n", encoding="utf-8")
+    spec["file_sha256"] = hashlib.sha256(target.read_bytes()).hexdigest()
+    spec["content_sha256"] = artifact["content_sha256"]
+
+    with pytest.raises(ValueError, match="history-kernel projective"):
+        build_unified_snapshot(root, config, physical_gpu={"availability": "unavailable"})
+
+
 def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     config = load_config(REPO / "configs/unified_engine_status.json")
     artifact = json.loads((REPO / "runs/engine/unified-engine-status.json").read_text())
@@ -2692,6 +2896,26 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
         REPO / "runs/engine/unified-engine-dashboard.html"
     ).stat().st_size < DEFAULT_MAXIMUM_OUTPUT_BYTES
     assert live["core_content_sha256"] in dashboard
+    static_recovery = artifact["core"]["quartic_nonlinear_closure"][
+        "recovery_operator_calculus"
+    ]
+    live_recovery = live["core"]["quartic_nonlinear_closure"][
+        "recovery_operator_calculus"
+    ]
+    assert static_recovery == live_recovery
+    assert static_recovery["all_candidate_sets_equal"] is True
+    assert len(static_recovery["ordered_candidate_ids"]) == 12
+    assert static_recovery["anti_wick_composition_prerequisite"]["artifact_binding"][
+        "content_sha256"
+    ] == "02c98ac16a6cd4bc3871003fb77918e21666a60fec65bc28c85484a6011c541d"
+    assert static_recovery["annular_k55_c6"]["counts"][
+        "principal_composition_constants_instantiated"
+    ] == 12
+    assert static_recovery["annular_k55_c6"]["counts"]["full_dyadic_energies_closed"] == 0
+    assert static_recovery["dyadic_localization"]["counts"][
+        "full_H7_commutators_closed"
+    ] == 0
+    assert "Quartic operator recovery" in dashboard
     assert live["core"]["followup_service"]["followup_decision_counts"] == {
         "blocked": 8,
         "pass": 2,
@@ -2781,6 +3005,13 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "Future new candidates" in dashboard
     assert "Every action has an exact human-readable master formula" in dashboard
     assert "Quartic nonlinear closure" in dashboard
+    assert "Quartic operator recovery" in dashboard
+    assert "Op_h^AW(K)=Op_h^W(exp((h/4)Delta)K)" in dashboard
+    assert "1/(8*pi)" in dashboard
+    assert "compact-frequency defect coefficient <code>4/3</code>" in dashboard
+    assert "2^-15" in dashboard
+    assert "targeted principal/local results only" in dashboard
+    assert "H6-versus-H7 wave-packet counterexample" in dashboard
     assert "Diagonal third jets" in dashboard
     assert "Reference mixed sector" in dashboard
     assert "Evidence rank" in dashboard
@@ -2869,6 +3100,11 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "Mecke absent" in dashboard
     assert "inhabits neither source-bound certificate" in dashboard
     assert "Minimal actualization-probability bridge" in dashboard
+    assert "Projective actualization-history kernel admission" in dashboard
+    assert "K=N_A+N_B~Pois(2)" in dashboard
+    assert "e^-1" in dashboard
+    assert "(1+e^-2)/2" in dashboard
+    assert "compiler-only two-cell control" in dashboard
     assert "Q:(g,phi)-&gt;Prob(H,Sigma_H)" in dashboard
     assert "P=C_*Q" in dashboard
     assert "compiler-only" in dashboard
@@ -2922,7 +3158,12 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "n=(1/3,2/3,2/3)" in dashboard
     assert "Rank one is impossible" in dashboard
     assert "two-wedge, rank-two" in dashboard
-    assert "declared five-direction selector" in dashboard
+    assert "five-direction predecessor" in dashboard
+    assert "TC2 sixth rational-frame completion" in dashboard
+    assert "n=(2/3,1/3,2/3)" in dashboard
+    assert "a6(n)=(3/2)n3(4n1+n2-3n3)" in dashboard
+    assert "Six exact directions are now certified" in dashboard
+    assert "does not determine the full sphere" in dashboard
     assert "finite determining theorem" in dashboard
     assert "DeltaB23(n)=(25/16)n3^2*w23*(n3 e21-n2 e32)^T" in dashboard
     assert "At this predecessor milestone four directions were certified" in dashboard

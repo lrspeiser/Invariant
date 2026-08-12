@@ -8,7 +8,23 @@ from typing import Any
 
 import sympy as sp
 
+from .recovery_artifact_validation import (
+    DATA_SEALS,
+    load_bound_inputs,
+    validate_bound_inputs,
+    validate_exact_rebuild,
+)
+
 SCHEMA_VERSION = "sigma-quartic-anti-wick-composition-campaign-1.0"
+CONFIG_KEYS = {
+    "schema_version",
+    "expected_candidate_count",
+    "spatial_dimension",
+    "state_dimension",
+    "current_mixed_total_order",
+    "required_mixed_total_order",
+    "annular_high_shell_index_minimum",
+}
 
 
 class QuarticAntiWickCompositionError(ValueError):
@@ -21,9 +37,9 @@ def _canonical_json(value: Any) -> str:
 
 def _content_hash_matches(campaign: dict[str, Any]) -> bool:
     body = {key: value for key, value in campaign.items() if key != "content_sha256"}
-    return campaign.get("content_sha256") == hashlib.sha256(
-        _canonical_json(body).encode()
-    ).hexdigest()
+    return (
+        campaign.get("content_sha256") == hashlib.sha256(_canonical_json(body).encode()).hexdigest()
+    )
 
 
 def _candidate_records(campaign: dict[str, Any]) -> dict[str, dict[str, Any]]:
@@ -49,12 +65,9 @@ def generic_anti_wick_composition_audit() -> tuple[bool, dict[str, Any]]:
         - 6006 * t**12
         + 924 * t**13
     )
-    derivative_factor_residual = sp.factor(
-        sp.diff(chi6, t) - 12012 * t**6 * (1 - t) ** 6
-    )
+    derivative_factor_residual = sp.factor(sp.diff(chi6, t) - 12012 * t**6 * (1 - t) ** 6)
     endpoint_residuals = {
-        f"d{order}_at_0": str(sp.diff(chi6, t, order).subs(t, 0))
-        for order in range(7)
+        f"d{order}_at_0": str(sp.diff(chi6, t, order).subs(t, 0)) for order in range(7)
     } | {
         f"d{order}_at_1_minus_target": str(
             sp.diff(chi6, t, order).subs(t, 1) - (1 if order == 0 else 0)
@@ -62,15 +75,10 @@ def generic_anti_wick_composition_audit() -> tuple[bool, dict[str, Any]]:
         for order in range(7)
     }
 
-    y, w, u, frequency_offset, separation = sp.symbols(
-        "y w u v s", real=True, finite=True
-    )
+    y, w, u, frequency_offset, separation = sp.symbols("y w u v s", real=True, finite=True)
     midpoint = (y + w) / 2
     projector_square_residual = sp.expand(
-        (y - x) ** 2
-        + (w - x) ** 2
-        - 2 * (midpoint - x) ** 2
-        - (y - w) ** 2 / 2
+        (y - x) ** 2 + (w - x) ** 2 - 2 * (midpoint - x) ** 2 - (y - w) ** 2 / 2
     )
     heat_kernel_normalization = sp.integrate(
         sp.exp(-(u**2) / h) / sp.sqrt(sp.pi * h), (u, -sp.oo, sp.oo)
@@ -86,24 +94,15 @@ def generic_anti_wick_composition_audit() -> tuple[bool, dict[str, Any]]:
     )
 
     h0 = sp.Rational(1, 16)
-    gaussian_mgf = sp.simplify(
-        (1 - 2 * (h / 2) * (1 / (2 * h))) ** (-sp.Rational(3, 2))
-    )
+    gaussian_mgf = sp.simplify((1 - 2 * (h / 2) * (1 / (2 * h))) ** (-sp.Rational(3, 2)))
     q0 = 1 - 2 * sp.sqrt(2) * sp.exp(-sp.Rational(1, 2) / h0)
-    radial_kernel_integral = sp.integrate(
-        4 * sp.pi * t**2 / (1 + t**2) ** 2, (t, 0, sp.oo)
-    )
-    amplitude_schur = sp.simplify(
-        radial_kernel_integral / (2 * sp.pi) ** 3
-    )
+    radial_kernel_integral = sp.integrate(4 * sp.pi * t**2 / (1 + t**2) ** 2, (t, 0, sp.oo))
+    amplitude_schur = sp.simplify(radial_kernel_integral / (2 * sp.pi) ** 3)
 
-    theta, q_variable, s_variable, xi = sp.symbols(
-        "theta q s xi", real=True, finite=True
-    )
+    theta, q_variable, s_variable, xi = sp.symbols("theta q s xi", real=True, finite=True)
     polynomial_coefficients = sp.symbols("a0:5", real=True, finite=True)
     coefficient_polynomial = sum(
-        coefficient * q_variable**order
-        for order, coefficient in enumerate(polynomial_coefficients)
+        coefficient * q_variable**order for order, coefficient in enumerate(polynomial_coefficients)
     )
     ftoc_residual = sp.expand(
         coefficient_polynomial.subs(q_variable, q_variable - s_variable / 2)
@@ -133,11 +132,7 @@ def generic_anti_wick_composition_audit() -> tuple[bool, dict[str, Any]]:
     smoothing_witness = sp.simplify((a * matrix_a - matrix_a.T * a) / h)
     expected_witness = sp.Matrix([[0, sp.Rational(1, 2)], [-sp.Rational(1, 2), 0]])
     corrupted_heat_witness = sp.simplify(
-        (
-            sp.diag(c + h, 1) * matrix_a
-            - matrix_a.T * sp.diag(c + h, 1)
-        )
-        / h
+        (sp.diag(c + h, 1) * matrix_a - matrix_a.T * sp.diag(c + h, 1)) / h
     )
     required_pairs = [[2, 4], [0, 6], [0, 5], [1, 4]]
     passed = bool(
@@ -162,9 +157,7 @@ def generic_anti_wick_composition_audit() -> tuple[bool, dict[str, Any]]:
             "identity": "Op_h^AW(b)=Op_h^W(a_h)",
             "weyl_symbol": "a_h=exp((h/4)Delta_(x,xi)) b",
             "heat_time": "h/4",
-            "coherent_projector_midpoint_square_residual": str(
-                projector_square_residual
-            ),
+            "coherent_projector_midpoint_square_residual": str(projector_square_residual),
             "heat_kernel_normalization": str(heat_kernel_normalization),
             "frequency_heat_transform": str(frequency_heat_transform),
             "frequency_heat_transform_residual": str(frequency_heat_residual),
@@ -187,9 +180,7 @@ def generic_anti_wick_composition_audit() -> tuple[bool, dict[str, Any]]:
             "positive": bool(q0.is_positive),
             "Gaussian_MGF_at_tail_parameter": str(gaussian_mgf),
             "Gaussian_MGF_residual": str(gaussian_mgf - 2 * sp.sqrt(2)),
-            "range_proof": (
-                "chi6'=12012*t^6*(1-t)^6>=0 with endpoint values 0 and 1"
-            ),
+            "range_proof": ("chi6'=12012*t^6*(1-t)^6>=0 with endpoint values 0 and 1"),
         },
         "exact_composition_amplitude": {
             "kernel_formula": (
@@ -255,9 +246,8 @@ def _audit_candidate(
 ) -> dict[str, Any]:
     candidate_id = str(low.get("candidate_id"))
     for item in (evolution, r3, time_atoms):
-        if (
-            item.get("candidate_id") != candidate_id
-            or item.get("coefficients") != low.get("coefficients")
+        if item.get("candidate_id") != candidate_id or item.get("coefficients") != low.get(
+            "coefficients"
         ):
             raise QuarticAntiWickCompositionError("candidate identity mismatch")
     expected = (
@@ -270,9 +260,7 @@ def _audit_candidate(
         raise QuarticAntiWickCompositionError("candidate prerequisite status mismatch")
     required_keys = {"2,4", "0,6", "0,5", "1,4"}
     available_keys = set(r3.get("spatialized_global_K55_bounds", {}))
-    available_total_order = max(
-        sum(int(part) for part in key.split(",")) for key in available_keys
-    )
+    available_total_order = max(sum(int(part) for part in key.split(",")) for key in available_keys)
     missing = sorted(required_keys - available_keys)
     return {
         "schema_version": "sigma-quartic-anti-wick-composition-audit-certificate-1.0",
@@ -283,12 +271,9 @@ def _audit_candidate(
         "required_mixed_total_order": 6,
         "required_pairs": sorted(required_keys),
         "missing_required_pairs": missing,
-        "time_K55_order_0_bound_available": "0,0" in time_atoms.get(
-            "closed_time_K55_bounds", {}
-        ),
+        "time_K55_order_0_bound_available": "0,0" in time_atoms.get("closed_time_K55_bounds", {}),
         "P55_A0_A1_bounds_available": all(
-            key in r3.get("spatialized_dyadic_P55_bounds", {})
-            for key in ("0,1", "1,1")
+            key in r3.get("spatialized_dyadic_P55_bounds", {}) for key in ("0,1", "1,1")
         ),
         "anti_wick_composition_closed": False,
         "required_next_gate": "quartic_C6_annular_symbol_moser_and_frequency_campaign",
@@ -318,6 +303,16 @@ def run_quartic_anti_wick_composition_campaign(
             r3_campaign,
             time_atom_campaign,
         )
+        validate_bound_inputs(
+            config,
+            {
+                "low_frequency": low_frequency_campaign,
+                "evolution": evolution_campaign,
+                "r3_sobolev": r3_campaign,
+                "time_atoms": time_atom_campaign,
+            },
+            CONFIG_KEYS,
+        )
         statuses = (
             "pass_all_12_global_C4_positive_K55_symbol_extensions",
             "pass_all_12_full_55_state_degree_one_evolution_symbol_C4_bounds",
@@ -332,20 +327,18 @@ def run_quartic_anti_wick_composition_campaign(
             "low_frequency"
         ) != low_frequency_campaign.get("content_sha256"):
             raise QuarticAntiWickCompositionError("low-frequency provenance mismatch")
-        if r3_campaign.get("upstream_sha256", {}).get(
-            "evolution"
-        ) != evolution_campaign.get("content_sha256"):
+        if r3_campaign.get("upstream_sha256", {}).get("evolution") != evolution_campaign.get(
+            "content_sha256"
+        ):
             raise QuarticAntiWickCompositionError("evolution provenance mismatch")
-        if time_atom_campaign.get("upstream_sha256", {}).get(
-            "r3_sobolev"
-        ) != r3_campaign.get("content_sha256"):
+        if time_atom_campaign.get("upstream_sha256", {}).get("r3_sobolev") != r3_campaign.get(
+            "content_sha256"
+        ):
             raise QuarticAntiWickCompositionError("time-atom provenance mismatch")
         if time_atom_campaign.get("upstream_sha256", {}).get(
             "low_frequency"
         ) != low_frequency_campaign.get("content_sha256"):
-            raise QuarticAntiWickCompositionError(
-                "time-atom low-frequency provenance mismatch"
-            )
+            raise QuarticAntiWickCompositionError("time-atom low-frequency provenance mismatch")
         if (
             int(config["spatial_dimension"]) != 3
             or int(config["state_dimension"]) != 55
@@ -394,6 +387,7 @@ def run_quartic_anti_wick_composition_campaign(
                 "fail-closed until the annular K55 calculus extends from C4 to C6."
             ),
             "scope": certificates[0]["scope"],
+            "data_seals": DATA_SEALS,
         }
     except (KeyError, TypeError, ValueError, QuarticAntiWickCompositionError) as error:
         errors.append(str(error))
@@ -409,6 +403,7 @@ def run_quartic_anti_wick_composition_campaign(
                 "C6_extensions_required": 0,
                 "rejected": 0,
             },
+            "data_seals": DATA_SEALS,
         }
     return {
         **body,
@@ -416,9 +411,23 @@ def run_quartic_anti_wick_composition_campaign(
     }
 
 
-def write_quartic_anti_wick_composition_campaign(
-    result: dict[str, Any], output: Path
-) -> Path:
+def validate_quartic_anti_wick_composition_artifact(
+    artifact: dict[str, Any], root: Path, config: dict[str, Any]
+) -> None:
+    loaded = load_bound_inputs(
+        root, config, ("low_frequency", "evolution", "r3_sobolev", "time_atoms")
+    )
+    rebuilt = run_quartic_anti_wick_composition_campaign(
+        loaded["low_frequency"],
+        loaded["evolution"],
+        loaded["r3_sobolev"],
+        loaded["time_atoms"],
+        config,
+    )
+    validate_exact_rebuild(artifact, rebuilt)
+
+
+def write_quartic_anti_wick_composition_campaign(result: dict[str, Any], output: Path) -> Path:
     output.mkdir(parents=True, exist_ok=True)
     path = output / "campaign.json"
     path.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")

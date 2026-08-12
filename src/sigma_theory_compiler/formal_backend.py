@@ -101,12 +101,18 @@ from .principal_symbol import (
 from .q_adm import projected_aether_q_3plus1_control
 from .q_dirac import projected_aether_q_aligned_auxiliary_dirac_control
 from .q_tilt import projected_aether_q_constant_tilt_root_audit
+from .quartic_annular_k55_c6_campaign import (
+    run_quartic_annular_k55_c6_campaign,
+    validate_quartic_annular_k55_c6_artifact,
+)
 from .quartic_anti_wick_composition_campaign import (
     run_quartic_anti_wick_composition_campaign,
+    validate_quartic_anti_wick_composition_artifact,
 )
 from .quartic_auxiliary_time_campaign import run_quartic_auxiliary_time_campaign
 from .quartic_bounded_frequency_defect_campaign import (
     run_quartic_bounded_frequency_defect_campaign,
+    validate_quartic_bounded_frequency_defect_artifact,
 )
 from .quartic_constraint_reconstruction_campaign import (
     run_quartic_constraint_reconstruction_campaign,
@@ -119,6 +125,7 @@ from .quartic_dirac_hamiltonian_campaign import (
 )
 from .quartic_dyadic_localization_campaign import (
     run_quartic_dyadic_localization_campaign,
+    validate_quartic_dyadic_localization_artifact,
 )
 from .quartic_euler_remainder_majorant_campaign import (
     run_quartic_euler_remainder_majorant_campaign,
@@ -3094,6 +3101,11 @@ def _quartic_bounded_frequency_defect_campaign_control(
     campaigns = {name: json.loads(path.read_text(encoding="utf-8")) for name, path in paths.items()}
     config = json.loads(config_path.read_text(encoding="utf-8"))
     artifact = json.loads(artifact_path.read_text(encoding="utf-8"))
+    artifact_valid = True
+    try:
+        validate_quartic_bounded_frequency_defect_artifact(artifact, root, config)
+    except ValueError:
+        artifact_valid = False
     result = run_quartic_bounded_frequency_defect_campaign(
         campaigns["low_frequency"], campaigns["evolution"], campaigns["first_order"], config
     )
@@ -3113,6 +3125,7 @@ def _quartic_bounded_frequency_defect_campaign_control(
         and control.get("physical_scale_contract", {}).get("high_shell_defect_zero") is True
         and all(item.get("physical_scale_contract_passed") is True for item in certificates)
         and artifact.get("content_sha256") == result.get("content_sha256")
+        and artifact_valid
         and negative.get("status") == "reject"
     )
     return passed, {
@@ -3122,6 +3135,7 @@ def _quartic_bounded_frequency_defect_campaign_control(
         "status": result.get("status"),
         "counts": result.get("counts"),
         "artifact_hash_matches_reexecution": artifact.get("content_sha256") == result.get("content_sha256"),
+        "standalone_artifact_validator_passed": artifact_valid,
         "generic_compact_frequency_defect_control": control,
         "representative_certificate": certificates[0] if certificates else None,
         "wrong_physical_scale_negative": {"status": negative.get("status"), "errors": negative.get("errors")},
@@ -3143,6 +3157,11 @@ def _quartic_dyadic_localization_campaign_control(
     campaigns = {name: json.loads(path.read_text(encoding="utf-8")) for name, path in paths.items()}
     config = json.loads(config_path.read_text(encoding="utf-8"))
     artifact = json.loads(artifact_path.read_text(encoding="utf-8"))
+    artifact_valid = True
+    try:
+        validate_quartic_dyadic_localization_artifact(artifact, root, config)
+    except ValueError:
+        artifact_valid = False
     result = run_quartic_dyadic_localization_campaign(
         campaigns["r3"], campaigns["evolution"], campaigns["first_order"], config
     )
@@ -3167,6 +3186,7 @@ def _quartic_dyadic_localization_campaign_control(
             for item in certificates
         )
         and artifact.get("content_sha256") == result.get("content_sha256")
+        and artifact_valid
         and negative.get("status") == "reject"
     )
     return passed, {
@@ -3176,6 +3196,7 @@ def _quartic_dyadic_localization_campaign_control(
         "status": result.get("status"),
         "counts": result.get("counts"),
         "artifact_hash_matches_reexecution": artifact.get("content_sha256") == result.get("content_sha256"),
+        "standalone_artifact_validator_passed": artifact_valid,
         "generic_dyadic_localization_control": control,
         "representative_certificate": certificates[0] if certificates else None,
         "incompatible_regularity_contract_negative": {
@@ -3201,6 +3222,11 @@ def _quartic_anti_wick_composition_campaign_control(
     campaigns = {name: json.loads(path.read_text(encoding="utf-8")) for name, path in paths.items()}
     config = json.loads(config_path.read_text(encoding="utf-8"))
     artifact = json.loads(artifact_path.read_text(encoding="utf-8"))
+    artifact_valid = True
+    try:
+        validate_quartic_anti_wick_composition_artifact(artifact, root, config)
+    except ValueError:
+        artifact_valid = False
     result = run_quartic_anti_wick_composition_campaign(
         campaigns["low_frequency"], campaigns["evolution"], campaigns["r3"], campaigns["time_atoms"], config
     )
@@ -3225,6 +3251,7 @@ def _quartic_anti_wick_composition_campaign_control(
         and control.get("amplitude_Schur_lemma", {}).get("exact_coefficient") == "1/(8*pi)"
         and all(item.get("anti_wick_composition_closed") is False for item in certificates)
         and artifact.get("content_sha256") == result.get("content_sha256")
+        and artifact_valid
         and negative.get("status") == "reject"
     )
     return passed, {
@@ -3234,9 +3261,58 @@ def _quartic_anti_wick_composition_campaign_control(
         "status": result.get("status"),
         "counts": result.get("counts"),
         "artifact_hash_matches_reexecution": artifact.get("content_sha256") == result.get("content_sha256"),
+        "standalone_artifact_validator_passed": artifact_valid,
         "generic_anti_wick_composition_audit": control,
         "representative_certificate": certificates[0] if certificates else None,
         "false_C4_closure_negative": {"status": negative.get("status"), "errors": negative.get("errors")},
+        "scope": result.get("scope"),
+    }
+
+
+def _quartic_annular_k55_c6_campaign_control(
+    root: Path,
+) -> tuple[bool, dict[str, Any]]:
+    config_path = root / "configs" / "backgrounds" / "quartic_annular_k55_c6_campaign.json"
+    artifact_path = root / "runs" / "physics-language" / "quartic-annular-k55-c6-campaign" / "campaign.json"
+    config = json.loads(config_path.read_text(encoding="utf-8"))
+    labels = ("symmetrizer", "moser", "pde", "tube", "solved", "full", "symbol_c4", "r3", "anti_wick")
+    campaigns = {
+        label: json.loads((root / config["predecessors"][label]["path"]).read_text(encoding="utf-8"))
+        for label in labels
+    }
+    artifact = json.loads(artifact_path.read_text(encoding="utf-8"))
+    artifact_valid = True
+    try:
+        validate_quartic_annular_k55_c6_artifact(artifact, root, config)
+    except ValueError:
+        artifact_valid = False
+    result = run_quartic_annular_k55_c6_campaign(*(campaigns[label] for label in labels), config)
+    wrong = dict(config)
+    wrong["maximum_total_derivative_order"] = 4
+    negative = run_quartic_annular_k55_c6_campaign(*(campaigns[label] for label in labels), wrong)
+    certificates = result.get("certificates", [])
+    passed = bool(
+        artifact_valid
+        and result.get("status") == "pass_all_12_targeted_annular_K55_C6_principal_composition_constants"
+        and result.get("counts", {}).get("targeted_C6_bounds_passed") == 12
+        and result.get("counts", {}).get("full_dyadic_energies_closed") == 0
+        and len(certificates) == 12
+        and all(
+            item.get("anti_wick_principal_composition_remainder_instantiated") is True
+            and item.get("full_dyadic_energy_closed") is False
+            for item in certificates
+        )
+        and negative.get("status") == "reject"
+    )
+    return passed, {
+        "campaigns": {label: config["predecessors"][label]["path"] for label in labels},
+        "config": config_path.relative_to(root).as_posix(),
+        "artifact": artifact_path.relative_to(root).as_posix(),
+        "status": result.get("status"),
+        "counts": result.get("counts"),
+        "standalone_artifact_validator_passed": artifact_valid,
+        "representative_certificate": certificates[0] if certificates else None,
+        "wrong_derivative_order_negative": {"status": negative.get("status"), "errors": negative.get("errors")},
         "scope": result.get("scope"),
     }
 
@@ -4512,6 +4588,12 @@ def run_formal_control_suite(
             "The exact anti-Wick/Weyl composition prerequisites are certified and all 12 candidates are correctly held fail-closed until the mixed annular symbol calculus reaches C6.",
             "Gaussian anti-Wick quantization has Weyl symbol exp((h/4)Delta)K, so pointwise KP=P^dagger K does not remove the smoothing defect. An exact annular positive energy, kernel-amplitude algebra, 1/(8pi) Schur coefficient, and 2x2 smoothing witness pass. The executable audit identifies only four missing pairs: (2,4), (0,6), (0,5), and (1,4).",
             lambda: _quartic_anti_wick_composition_campaign_control(root),
+        ),
+        _run_check(
+            "quartic_linear_x_annular_K55_C6_principal_composition",
+            "All 12 candidates have hash-bound targeted annular K55 C6 bounds and explicit principal anti-Wick composition constants.",
+            "A standalone deterministic validator binds every predecessor and exact data seal. This closes only the principal annular operator remainder; the full dyadic energy, nonlinear lifespan, matter, and observations remain fail-closed.",
+            lambda: _quartic_annular_k55_c6_campaign_control(root),
         ),
         _run_check(
             "quartic_horndeski_timelike_flat_physical_hamiltonian",

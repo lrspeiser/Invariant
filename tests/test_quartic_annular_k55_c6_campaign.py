@@ -2,9 +2,12 @@ import hashlib
 import json
 from pathlib import Path
 
+import pytest
+
 from sigma_theory_compiler.quartic_annular_k55_c6_campaign import (
     generic_annular_k55_c6_control,
     run_quartic_annular_k55_c6_campaign,
+    validate_quartic_annular_k55_c6_artifact,
 )
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -61,7 +64,8 @@ def test_all_candidates_receive_targeted_c6_bounds_and_principal_constants() -> 
         and item["anti_wick_principal_composition_remainder_instantiated"]
         and not item["full_dyadic_energy_closed"]
         and item["principal_anti_wick_composition_constant"]["numeric"] > 0
-        and set(item["required_spatial_frequency_K55_bounds"]) == {
+        and set(item["required_spatial_frequency_K55_bounds"])
+        == {
             "2,4",
             "0,6",
             "0,5",
@@ -90,4 +94,17 @@ def test_wrong_order_and_self_consistently_corrupt_provenance_reject() -> None:
     inputs[5] = corrupt
     result = run_quartic_annular_k55_c6_campaign(*inputs, config)
     assert result["status"] == "reject"
-    assert "full provenance mismatch" in result["errors"][0]
+    assert "not the registered artifact" in result["errors"][0]
+
+
+def test_public_validator_rejects_resealed_false_dyadic_closure() -> None:
+    artifact, config = _load(ARTIFACT), _load(CONFIG)
+    validate_quartic_annular_k55_c6_artifact(artifact, ROOT, config)
+    promoted = json.loads(json.dumps(artifact))
+    promoted["counts"]["full_dyadic_energies_closed"] = 12
+    body = {key: value for key, value in promoted.items() if key != "content_sha256"}
+    promoted["content_sha256"] = hashlib.sha256(
+        json.dumps(body, sort_keys=True, separators=(",", ":"), ensure_ascii=True).encode()
+    ).hexdigest()
+    with pytest.raises(ValueError, match="deterministic reconstruction"):
+        validate_quartic_annular_k55_c6_artifact(promoted, ROOT, config)

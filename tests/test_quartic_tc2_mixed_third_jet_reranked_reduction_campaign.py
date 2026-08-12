@@ -4,11 +4,9 @@ from pathlib import Path
 
 import pytest
 
+import sigma_theory_compiler.quartic_tc2_mixed_third_jet_reranked_reduction_campaign as campaign_module
 from sigma_theory_compiler.quartic_tc2_mixed_third_jet_basis_reduction_campaign import (
     _content_hash_matches,
-)
-from sigma_theory_compiler.quartic_tc2_mixed_third_jet_reranked_reduction_campaign import (
-    run_quartic_tc2_mixed_third_jet_reranked_reduction_campaign,
 )
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -25,12 +23,72 @@ ARTIFACT = (
     / "quartic-tc2-mixed-third-jet-reranked-reduction-campaign"
     / "campaign.json"
 )
+SUPERVISOR_CONTENT_SHA256 = {
+    "supervisor_state": "3b19200e7f2f7cf2f89f9f92bff4e44654f5895ec088072467da0f7867ae2ad1",
+    "supervisor_status": "08482014b6012bb2a28654c517a92090c7f43b3f9b119a61ebee62d446bf26ea",
+}
+
+
+def _run_with_portable_stopped_boundary(config: dict[str, object]) -> dict[str, object]:
+    """Exercise reranking without reading ignored supervisor runtime snapshots."""
+
+    bindings = {item["label"]: item for item in config["stopped_boundary_evidence"]}
+    claims = {
+        "B7_closed": False,
+        "CK1_closed": False,
+        "CK3_closed": False,
+        "TC2_closed": False,
+        "full_mixed_sector_closed": False,
+        "full_tube_Sylvester_identity": False,
+        "global_H7_closed": False,
+        "lifespan_proved": False,
+    }
+    common = {
+        "state": "stopped",
+        "stop_reason": "epoch_limit",
+        "pid": None,
+        "epochs_completed": 20,
+        "chunks_advanced": 20,
+        "next_offset": 1600,
+        "remaining_mixed_triples": 10_700,
+        "prior_resume_sha256": config["stable_predecessor_resume_tip_sha256"],
+        "claims": claims,
+    }
+    controls = {
+        "supervisor_state": {
+            **common,
+            "content_sha256": SUPERVISOR_CONTENT_SHA256["supervisor_state"],
+            "epoch_checkpoint_content_sha256": bindings["checkpoint"][
+                "content_sha256"
+            ],
+        },
+        "supervisor_status": {
+            **common,
+            "alive": False,
+            "content_sha256": SUPERVISOR_CONTENT_SHA256["supervisor_status"],
+        },
+    }
+    original_loader = campaign_module._load_bound_json
+
+    def portable_loader(root: Path, binding: dict[str, object]) -> dict[str, object]:
+        for label, control in controls.items():
+            if binding.get("path") == bindings[label]["path"]:
+                if binding.get("content_sha256") != SUPERVISOR_CONTENT_SHA256[label]:
+                    raise ValueError("bound artifact content hash mismatch")
+                return copy.deepcopy(control)
+        return original_loader(root, binding)
+
+    with pytest.MonkeyPatch.context() as monkeypatch:
+        monkeypatch.setattr(campaign_module, "_load_bound_json", portable_loader)
+        return campaign_module.run_quartic_tc2_mixed_third_jet_reranked_reduction_campaign(
+            ROOT, config
+        )
 
 
 @pytest.fixture(scope="module")
 def result() -> dict[str, object]:
     config = json.loads(CONFIG.read_text(encoding="utf-8"))
-    return run_quartic_tc2_mixed_third_jet_reranked_reduction_campaign(ROOT, config)
+    return _run_with_portable_stopped_boundary(config)
 
 
 def test_stopped_chain_reranking_is_exact_minimal_and_persisted(
@@ -109,7 +167,7 @@ def test_stopped_boundary_hash_tamper_is_rejected() -> None:
     config = json.loads(CONFIG.read_text(encoding="utf-8"))
     tampered = copy.deepcopy(config)
     tampered["stopped_boundary_evidence"][-1]["content_sha256"] = "0" * 64
-    result = run_quartic_tc2_mixed_third_jet_reranked_reduction_campaign(ROOT, tampered)
+    result = _run_with_portable_stopped_boundary(tampered)
     assert _content_hash_matches(result)
     assert result["status"] == "reject"
     assert result["errors"] == ["bound artifact content hash mismatch"]

@@ -743,6 +743,15 @@ of the three primitives completely (`0 complete / 1 partial / 2 absent`). The id
 compiler-only and has no paper or QED attribution. Both action branches remain blocked and
 unrejected, with zero physical bridges, observations, ontology passes, or dark-sector conclusions.
 
+The next projective-cylinder gate makes the missing history law sharper. Its six obligations are
+`0 complete / 1 partial / 5 absent` in the registered source. Conditionally on standard-Borel and
+local-tightness premises, a projectively consistent finite-partition family would construct
+`Q_g_phi` on the generated history sigma algebra. But two compiler-only laws can share
+`K=N_A+N_B~Pois(2)` and `E[N_A]=E[N_B]=1` while giving `P(N_B=0)=e^-1` versus
+`(1+e^-2)/2`, a positive separation of `(1-e^-1)^2/2`. Therefore a scalar total-count PMF plus
+cell means does not determine the history kernel. Both candidates remain blocked and unrejected;
+no paper/QED stochastic law, ontology, observation, or dark-sector conclusion is inferred.
+
 The next compiler boundary makes the observational bridge explicit. A latent event process is
 independently thinned by a calibrated acceptance, marked through a response kernel, and superposed
 with background. Four exact witnesses show that the observed mean cannot identify the latent rate
@@ -1376,6 +1385,22 @@ inequalities and the entire finite-low principal operator are consequently expli
 `H7` sum remains fail-closed on the localized Bony/Moser source remainder and the
 `H6`-coefficient versus `H7`-state derivative-loss gate.
 
+These four recovery artifacts are now independently fail-closed, unified-artifact bound, and
+registered-predecessor bound:
+anti-Wick prerequisite file/content `9a9cb443ee86a5b5d45ba29ea1287442b101f8c675681f6eedaa927d33f41f1e` /
+`02c98ac16a6cd4bc3871003fb77918e21666a60fec65bc28c85484a6011c541d`, annular C6
+`bcc2b4184e5bcfb64d9a8a24ca095aa4067c18502c0c2f4956dcd8ad6f7fc527` /
+`55fa580fb91e37f48a8e6bd39c4c172c9aa4b3960336d42b88ceb211331b4e2f`, compact-frequency
+defect `e2dd669e0a939558d7379ac3600032eb7bca22e550d6965816ceca5e2724187a` /
+`56ea95a21af505cf1a75f1fe757b947ee13039a241e91b1853e305fbfee7514a`, and dyadic localization
+`859b472f666cae9175aa7da8bc90ef175ca16f1987b967d65c71f5cc14139c94` /
+`ce7afcaf428144cc7149dfdd67be5139d09a2e33d3d2bb8a19b867799313f3b5`. Each validator reloads
+exact predecessor file/content hashes and requires deterministic reconstruction. All four retain
+twelve candidates and explicit closed observation, dark-sector, paid-call, formal/theory,
+global-H7, and lifespan seals; targeted principal constants are not promoted to a global dyadic
+energy theorem. The formal backend now registers the annular C6 principal-composition control and
+raises the exact suite to 118 controls.
+
 The component campaign now proves every entry of the principal identity
 `D_Y E55 J = i P55` for all 12 candidates and materializes the complete first source Jacobian.
 Its 1,089 principal and 594 lower entries form an exact arithmetic-only `11 x 153` manifest with
@@ -1581,9 +1606,15 @@ are therefore certified. The final `xyz_1_2_2` recurrence is now also exact: the
 symbol has a rank-four obstruction for all 12 candidates, the target lies in the rank-22 transverse
 curl range, and rank one is impossible. A sharp two-wedge rank-two degree-three extension closes
 all 12 XYZ systems while preserving the four earlier certificates, so all five declared directions
-are certified. This finite selector is not a determining theorem for the full sphere. A larger exact
-sphere audit plus pseudodifferential constraint, commutator, boundary-energy, local/covariant and
-PDE admission remain open. This is not an inferred pass for the unevaluated tail; full fourth-order range closure, full-tube,
+are certified. A sixth exact frame at `(2/3,1/3,2/3)` again begins with 12 rank-four
+obstructions in the rank-22 transverse range. Its sharp rank-two correction closes 12/12 systems,
+using the unique preserving envelope within the declared quadratic-even five-zero/one-normalization
+class, `a6(n)=(3/2)n3(4n1+n2-3n3)`; the resulting degree-three
+odd smooth bounded symbol annihilates the gradient lift and vanishes at all five prior frames.
+Six exact directions are now certified. This finite selector is not a determining theorem for the
+full sphere. Further exact sphere audits or a determining theorem, followed by pseudodifferential
+constraint, commutator, boundary-energy, local/covariant and PDE admission, remain open. This is
+not an inferred pass for the unevaluated tail; full fourth-order range closure, full-tube,
 CK1, CK3, TC2, B7, global-H7, and lifespan remain false.
 
 The tube bounds 153 normalized coordinate atoms: ten metric deviations, 44 first partials,

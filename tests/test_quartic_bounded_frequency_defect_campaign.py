@@ -1,9 +1,13 @@
+import hashlib
 import json
 from pathlib import Path
+
+import pytest
 
 from sigma_theory_compiler.quartic_bounded_frequency_defect_campaign import (
     generic_compact_frequency_defect_control,
     run_quartic_bounded_frequency_defect_campaign,
+    validate_quartic_bounded_frequency_defect_artifact,
 )
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -40,14 +44,10 @@ def test_all_candidates_receive_physical_low_frequency_operator_bounds() -> None
     result = run_quartic_bounded_frequency_defect_campaign(
         _load(LOW), _load(EVOLUTION), _load(FIRST_ORDER), _load(CONFIG)
     )
-    assert result["status"] == (
-        "pass_all_12_actual_P55_compact_frequency_defect_KN_L2_lemmas"
-    )
+    assert result["status"] == ("pass_all_12_actual_P55_compact_frequency_defect_KN_L2_lemmas")
     assert result["counts"]["compact_frequency_defect_lemmas_passed"] == 12
     assert all(
-        item["physical_pencil_provenance"][
-            "frequency_derivatives_order_2_and_higher_zero"
-        ]
+        item["physical_pencil_provenance"]["frequency_derivatives_order_2_and_higher_zero"]
         and item["physical_scale_contract_passed"]
         and not item["full_energy_closed"]
         for item in result["certificates"]
@@ -56,28 +56,33 @@ def test_all_candidates_receive_physical_low_frequency_operator_bounds() -> None
 
 
 def test_unscaled_radius_and_corrupt_provenance_reject() -> None:
-    low, evolution, first_order, config = map(
-        _load, (LOW, EVOLUTION, FIRST_ORDER, CONFIG)
-    )
+    low, evolution, first_order, config = map(_load, (LOW, EVOLUTION, FIRST_ORDER, CONFIG))
     wrong_scale = dict(config)
     wrong_scale["physical_frequency_radii"] = [1, 3]
-    result = run_quartic_bounded_frequency_defect_campaign(
-        low, evolution, first_order, wrong_scale
-    )
+    result = run_quartic_bounded_frequency_defect_campaign(low, evolution, first_order, wrong_scale)
     assert result["status"] == "reject"
 
     unscaled = dict(config)
     unscaled["semiclassical_symbol"] = "K_ext(U,x,eta)"
-    result = run_quartic_bounded_frequency_defect_campaign(
-        low, evolution, first_order, unscaled
-    )
+    result = run_quartic_bounded_frequency_defect_campaign(low, evolution, first_order, unscaled)
     assert result["status"] == "reject"
     assert "compact-defect domain" in result["errors"][0]
 
     corrupt = json.loads(json.dumps(first_order))
     corrupt["certificates"][0]["source_spatial_block_sha256"] = "corrupt"
-    result = run_quartic_bounded_frequency_defect_campaign(
-        low, evolution, corrupt, config
-    )
+    result = run_quartic_bounded_frequency_defect_campaign(low, evolution, corrupt, config)
     assert result["status"] == "reject"
     assert "content hash mismatch" in result["errors"][0]
+
+
+def test_public_validator_rejects_resealed_false_energy_closure() -> None:
+    artifact, config = _load(ARTIFACT), _load(CONFIG)
+    validate_quartic_bounded_frequency_defect_artifact(artifact, ROOT, config)
+    promoted = json.loads(json.dumps(artifact))
+    promoted["certificates"][0]["full_energy_closed"] = True
+    body = {key: value for key, value in promoted.items() if key != "content_sha256"}
+    promoted["content_sha256"] = hashlib.sha256(
+        json.dumps(body, sort_keys=True, separators=(",", ":"), ensure_ascii=True).encode()
+    ).hexdigest()
+    with pytest.raises(ValueError, match="deterministic reconstruction"):
+        validate_quartic_bounded_frequency_defect_artifact(promoted, ROOT, config)

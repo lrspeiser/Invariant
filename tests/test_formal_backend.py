@@ -58,8 +58,10 @@ def test_declared_gravitational_invariants_require_derived_static_dictionary() -
 def test_all_formal_known_answer_controls_pass(tmp_path) -> None:
     report = run_formal_control_suite(CONTRACT_PATH, PROJECT_ROOT)
     (tmp_path / "report.json").write_text(json.dumps(report), encoding="utf-8")
-    assert report["counts"]["total"] >= 6
-    assert report["counts"]["failed"] == 0
+    if report["backends"]["cadabra2"]["available"]:
+        assert report["counts"] == {"total": 118, "passed": 118, "failed": 0}
+    else:
+        assert report["counts"] == {"total": 106, "passed": 106, "failed": 0}
     checks = {item["name"]: item for item in report["checks"]}
     geometric_jet = checks[
         "quartic_linear_x_nonlinear_geometric_state_to_jet_map"
@@ -344,6 +346,7 @@ def test_all_formal_known_answer_controls_pass(tmp_path) -> None:
     bounded = checks["quartic_linear_x_compact_physical_frequency_defect"]
     assert bounded["status"] == "pass"
     assert bounded["evidence"]["artifact_hash_matches_reexecution"]
+    assert bounded["evidence"]["standalone_artifact_validator_passed"]
     bounded_control = bounded["evidence"]["generic_compact_frequency_defect_control"]
     assert bounded_control["compact_symbol_Schur_lemma"]["exact_coefficient"] == "4/3"
     assert bounded_control["physical_scale_contract"]["high_shell_defect_zero"]
@@ -352,6 +355,7 @@ def test_all_formal_known_answer_controls_pass(tmp_path) -> None:
     dyadic = checks["quartic_linear_x_H7_dyadic_localization_audit"]
     assert dyadic["status"] == "pass"
     assert dyadic["evidence"]["artifact_hash_matches_reexecution"]
+    assert dyadic["evidence"]["standalone_artifact_validator_passed"]
     dyadic_control = dyadic["evidence"]["generic_dyadic_localization_control"]
     assert dyadic_control["partition"]["maximum_nonzero_ordinary_multipliers"] == 2
     assert dyadic_control["partition"][
@@ -368,6 +372,7 @@ def test_all_formal_known_answer_controls_pass(tmp_path) -> None:
     composition = checks["quartic_linear_x_anti_wick_composition_derivative_audit"]
     assert composition["status"] == "pass"
     assert composition["evidence"]["artifact_hash_matches_reexecution"]
+    assert composition["evidence"]["standalone_artifact_validator_passed"]
     composition_control = composition["evidence"]["generic_anti_wick_composition_audit"]
     assert composition_control["anti_wick_to_weyl"]["heat_time"] == "h/4"
     assert composition_control["anti_wick_to_weyl"][
@@ -379,6 +384,12 @@ def test_all_formal_known_answer_controls_pass(tmp_path) -> None:
     assert composition_control["amplitude_Schur_lemma"]["exact_coefficient"] == "1/(8*pi)"
     assert composition_control["derivative_audit"]["required_maximum_mixed_total_order"] == 6
     assert composition["evidence"]["false_C4_closure_negative"]["status"] == "reject"
+    annular = checks["quartic_linear_x_annular_K55_C6_principal_composition"]
+    assert annular["status"] == "pass"
+    assert annular["evidence"]["standalone_artifact_validator_passed"]
+    assert annular["evidence"]["counts"]["targeted_C6_bounds_passed"] == 12
+    assert annular["evidence"]["counts"]["full_dyadic_energies_closed"] == 0
+    assert annular["evidence"]["wrong_derivative_order_negative"]["status"] == "reject"
     assert checks["projected_aether_q_fixed_metric_first_variation"]["status"] == "pass"
     assert checks["projected_aether_q_fixed_metric_first_variation"]["evidence"][
         "projector_and_B_first_variation_residual"

@@ -11,8 +11,26 @@ import sympy as sp
 from .quartic_low_frequency_symbol_extension_campaign import (
     generic_low_frequency_extension_control,
 )
+from .recovery_artifact_validation import (
+    DATA_SEALS,
+    load_bound_inputs,
+    validate_bound_inputs,
+    validate_exact_rebuild,
+)
 
 SCHEMA_VERSION = "sigma-quartic-bounded-frequency-defect-campaign-1.0"
+CONFIG_KEYS = {
+    "schema_version",
+    "expected_candidate_count",
+    "maximum_frequency_derivative_order",
+    "spatial_dimension",
+    "state_dimension",
+    "physical_frequency_radii",
+    "semiclassical_symbol",
+    "normalized_high_shell",
+    "high_shell_h_maximum",
+    "high_shell_physical_radius_minimum",
+}
 
 
 class QuarticBoundedFrequencyDefectError(ValueError):
@@ -25,9 +43,9 @@ def _canonical_json(value: Any) -> str:
 
 def _content_hash_matches(campaign: dict[str, Any]) -> bool:
     body = {key: value for key, value in campaign.items() if key != "content_sha256"}
-    return campaign.get("content_sha256") == hashlib.sha256(
-        _canonical_json(body).encode()
-    ).hexdigest()
+    return (
+        campaign.get("content_sha256") == hashlib.sha256(_canonical_json(body).encode()).hexdigest()
+    )
 
 
 def _candidate_records(campaign: dict[str, Any]) -> dict[str, dict[str, Any]]:
@@ -43,12 +61,9 @@ def generic_compact_frequency_defect_control() -> tuple[bool, dict[str, Any]]:
     """Prove the exact defect, C4 cutoff bounds, Schur constant, and scale gate."""
 
     t, h = sp.symbols("t h", positive=True, finite=True)
-    smoothstep = (
-        126 * t**5 - 420 * t**6 + 540 * t**7 - 315 * t**8 + 70 * t**9
-    )
+    smoothstep = 126 * t**5 - 420 * t**6 + 540 * t**7 - 315 * t**8 + 70 * t**9
     endpoint_residuals = {
-        f"d{order}_at_0": str(sp.diff(smoothstep, t, order).subs(t, 0))
-        for order in range(5)
+        f"d{order}_at_0": str(sp.diff(smoothstep, t, order).subs(t, 0)) for order in range(5)
     } | {
         f"d{order}_at_1_minus_target": str(
             sp.diff(smoothstep, t, order).subs(t, 1) - (1 if order == 0 else 0)
@@ -57,12 +72,10 @@ def generic_compact_frequency_defect_control() -> tuple[bool, dict[str, Any]]:
     }
     upstream_passed, upstream_control = generic_low_frequency_extension_control()
     radial_majorants = [
-        int(upstream_control["radial_cutoff_Frechet_majorants"][str(order)])
-        for order in range(5)
+        int(upstream_control["radial_cutoff_Frechet_majorants"][str(order)]) for order in range(5)
     ]
     defect_multipliers = [
-        4 * radial_majorants[order]
-        + (2 * order * radial_majorants[order - 1] if order else 0)
+        4 * radial_majorants[order] + (2 * order * radial_majorants[order - 1] if order else 0)
         for order in range(5)
     ]
     expected_radial_majorants = [1, 10080, 80640, 735840, 7650720]
@@ -71,30 +84,18 @@ def generic_compact_frequency_defect_control() -> tuple[bool, dict[str, Any]]:
     chi_symbol, q0_symbol, qdir_symbol = sp.symbols("chi Q0 Qdir")
     expanded_defect = (1 - chi_symbol) * q0_symbol + chi_symbol * qdir_symbol
     expected_defect = (1 - chi_symbol) * q0_symbol
-    defect_identity_residual = sp.expand(expanded_defect - expected_defect).subs(
-        qdir_symbol, 0
-    )
+    defect_identity_residual = sp.expand(expanded_defect - expected_defect).subs(qdir_symbol, 0)
 
-    radial_integral = sp.integrate(
-        4 * sp.pi * t**2 / (1 + t**2) ** 2, (t, 0, sp.oo)
-    )
+    radial_integral = sp.integrate(4 * sp.pi * t**2 / (1 + t**2) ** 2, (t, 0, sp.oo))
     ball_volume = sp.Rational(4, 3) * sp.pi * 2**3
-    schur_coefficient = sp.simplify(
-        ball_volume * radial_integral / (2 * sp.pi) ** 3
-    )
+    schur_coefficient = sp.simplify(ball_volume * radial_integral / (2 * sp.pi) ** 3)
     final_multiplier = sp.simplify(
         schur_coefficient
-        * (
-            defect_multipliers[0]
-            + 6 * defect_multipliers[2]
-            + 9 * defect_multipliers[4]
-        )
+        * (defect_multipliers[0] + 6 * defect_multipliers[2] + 9 * defect_multipliers[4])
     )
     rho_three_halves = sp.Rational(1, 2)
     corrupted_scale_defect = sp.simplify(rho_three_halves / h)
-    first_ibp_tail = sp.integrate(
-        4 * sp.pi * t**2 / (1 + t**2), (t, 0, sp.oo)
-    )
+    first_ibp_tail = sp.integrate(4 * sp.pi * t**2 / (1 + t**2), (t, 0, sp.oo))
 
     xi1, xi2 = sp.symbols("xi1 xi2")
     mixed_witness = xi1**2 * xi2**2
@@ -102,12 +103,11 @@ def generic_compact_frequency_defect_control() -> tuple[bool, dict[str, Any]]:
         sp.diff(mixed_witness, xi1, 2) + sp.diff(mixed_witness, xi2, 2)
     )
     laplacian_square_at_zero = sp.expand(
-        sp.diff(laplacian_square_at_zero, xi1, 2)
-        + sp.diff(laplacian_square_at_zero, xi2, 2)
+        sp.diff(laplacian_square_at_zero, xi1, 2) + sp.diff(laplacian_square_at_zero, xi2, 2)
     ).subs({xi1: 0, xi2: 0})
-    pure_fourth_at_zero = (
-        sp.diff(mixed_witness, xi1, 4) + sp.diff(mixed_witness, xi2, 4)
-    ).subs({xi1: 0, xi2: 0})
+    pure_fourth_at_zero = (sp.diff(mixed_witness, xi1, 4) + sp.diff(mixed_witness, xi2, 4)).subs(
+        {xi1: 0, xi2: 0}
+    )
 
     passed = bool(
         set(endpoint_residuals.values()) == {"0"}
@@ -125,13 +125,8 @@ def generic_compact_frequency_defect_control() -> tuple[bool, dict[str, Any]]:
     )
     return passed, {
         "control": "exact compact physical-frequency symmetrization defect",
-        "defect_identity": (
-            "D(U,x,xi)=rho(|xi|)[K0(U,x)P55(U,x,xi)-"
-            "P55(U,x,xi)^dagger K0(U,x)]"
-        ),
-        "defect_identity_residual_after_outer_symmetrization": str(
-            defect_identity_residual
-        ),
+        "defect_identity": ("D(U,x,xi)=rho(|xi|)[K0(U,x)P55(U,x,xi)-P55(U,x,xi)^dagger K0(U,x)]"),
+        "defect_identity_residual_after_outer_symmetrization": str(defect_identity_residual),
         "radial_majorant_provenance": {
             "source": "generic_low_frequency_extension_control",
             "upstream_control_passed": upstream_passed,
@@ -141,9 +136,7 @@ def generic_compact_frequency_defect_control() -> tuple[bool, dict[str, Any]]:
         "definitions": {
             "K0": "K55(U,x,e1)",
             "P55": "sum_(j=1)^3 A55^j(U,x) xi_j",
-            "rho": (
-                "1 for r<=1; 1-chi(r-1) for 1<r<2; 0 for r>=2"
-            ),
+            "rho": ("1 for r<=1; 1-chi(r-1) for 1<r<2; 0 for r>=2"),
             "chi": str(smoothstep),
         },
         "endpoint_residuals": endpoint_residuals,
@@ -202,21 +195,16 @@ def _certify_candidate(
     if first_order.get("status") != "pass_exact_55_variable_principal_first_order_reduction":
         raise QuarticBoundedFrequencyDefectError("physical first-order prerequisite failed")
     source_hash = first_order.get("source_spatial_block_sha256")
-    if evolution.get("exact_reduction_provenance", {}).get(
-        "source_spatial_block_sha256"
-    ) != source_hash:
+    if (
+        evolution.get("exact_reduction_provenance", {}).get("source_spatial_block_sha256")
+        != source_hash
+    ):
         raise QuarticBoundedFrequencyDefectError("physical pencil block hash mismatch")
-    kappa = int(
-        low["global_C4_frequency_derivative_integer_ceilings"]["0,0"][
-            "global_ceiling"
-        ]
-    )
+    kappa = int(low["global_C4_frequency_derivative_integer_ceilings"]["0,0"]["global_ceiling"])
     a = int(evolution["directional_M55_integer_ceilings"]["0,0"])
     multipliers = [4, 40322, 362880, 3427200, 36489600]
     bounds = [multiplier * kappa * a for multiplier in multipliers]
-    operator_bound = sp.Rational(4, 3) * (
-        bounds[0] + 6 * bounds[2] + 9 * bounds[4]
-    )
+    operator_bound = sp.Rational(4, 3) * (bounds[0] + 6 * bounds[2] + 9 * bounds[4])
     return {
         "schema_version": "sigma-quartic-bounded-frequency-defect-certificate-1.0",
         "status": "pass_actual_P55_compact_frequency_defect_KN_L2_lemma",
@@ -259,6 +247,15 @@ def run_quartic_bounded_frequency_defect_campaign(
         if config.get("schema_version") != SCHEMA_VERSION:
             raise QuarticBoundedFrequencyDefectError("unsupported campaign schema_version")
         campaigns = (low_frequency_campaign, evolution_campaign, first_order_campaign)
+        validate_bound_inputs(
+            config,
+            {
+                "low_frequency": low_frequency_campaign,
+                "evolution": evolution_campaign,
+                "first_order": first_order_campaign,
+            },
+            CONFIG_KEYS,
+        )
         expected_statuses = (
             "pass_all_12_global_C4_positive_K55_symbol_extensions",
             "pass_all_12_full_55_state_degree_one_evolution_symbol_C4_bounds",
@@ -324,6 +321,7 @@ def run_quartic_bounded_frequency_defect_campaign(
                 "rescaled high dyadic shells."
             ),
             "scope": certificates[0]["scope"],
+            "data_seals": DATA_SEALS,
         }
     except (KeyError, TypeError, ValueError, QuarticBoundedFrequencyDefectError) as error:
         errors.append(str(error))
@@ -337,6 +335,7 @@ def run_quartic_bounded_frequency_defect_campaign(
                 "compact_frequency_defect_lemmas_passed": 0,
                 "rejected": 0,
             },
+            "data_seals": DATA_SEALS,
         }
     return {
         **body,
@@ -344,9 +343,17 @@ def run_quartic_bounded_frequency_defect_campaign(
     }
 
 
-def write_quartic_bounded_frequency_defect_campaign(
-    result: dict[str, Any], output: Path
-) -> Path:
+def validate_quartic_bounded_frequency_defect_artifact(
+    artifact: dict[str, Any], root: Path, config: dict[str, Any]
+) -> None:
+    loaded = load_bound_inputs(root, config, ("low_frequency", "evolution", "first_order"))
+    rebuilt = run_quartic_bounded_frequency_defect_campaign(
+        loaded["low_frequency"], loaded["evolution"], loaded["first_order"], config
+    )
+    validate_exact_rebuild(artifact, rebuilt)
+
+
+def write_quartic_bounded_frequency_defect_campaign(result: dict[str, Any], output: Path) -> Path:
     output.mkdir(parents=True, exist_ok=True)
     path = output / "campaign.json"
     path.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")

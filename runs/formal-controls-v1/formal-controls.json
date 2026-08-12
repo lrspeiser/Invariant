@@ -7796,6 +7796,7 @@
           "status": "pass_actual_P55_compact_frequency_defect_KN_L2_lemma"
         },
         "scope": "This certifies the fixed physical low-frequency defect as a bounded L2 operator and proves it vanishes on correctly rescaled high shells. It does not close anti-Wick composition, the global H7 commutator, or lifespan.",
+        "standalone_artifact_validator_passed": true,
         "status": "pass_all_12_actual_P55_compact_frequency_defect_KN_L2_lemmas",
         "wrong_physical_scale_negative": {
           "errors": [
@@ -7970,6 +7971,7 @@
           "status": "pass_H7_dyadic_partition_and_shell_local_commutator_framework"
         },
         "scope": "This certifies the LP family, exact H7 equivalence, Bernstein constants, and an explicit shell-local commutator bound for the actual pencil. Dyadic summation is not applied, and global H7 closure from H6 coefficients is deliberately rejected.",
+        "standalone_artifact_validator_passed": true,
         "status": "pass_all_12_H7_dyadic_local_frameworks_global_commutator_fail_closed"
       },
       "name": "quartic_linear_x_H7_dyadic_localization_audit",
@@ -8163,10 +8165,178 @@
           "time_K55_order_0_bound_available": true
         },
         "scope": "The heat identity, amplitude algebra, Schur constant, and derivative requirements are certified prerequisites, but this candidate cannot receive a numerical composition remainder until the listed spatial/C6 K55 derivatives are generated.",
+        "standalone_artifact_validator_passed": true,
         "status": "pass_exact_anti_wick_composition_prerequisite_audit_C6_required"
       },
       "name": "quartic_linear_x_anti_wick_composition_derivative_audit",
       "scope": "Gaussian anti-Wick quantization has Weyl symbol exp((h/4)Delta)K, so pointwise KP=P^dagger K does not remove the smoothing defect. An exact annular positive energy, kernel-amplitude algebra, 1/(8pi) Schur coefficient, and 2x2 smoothing witness pass. The executable audit identifies only four missing pairs: (2,4), (0,6), (0,5), and (1,4).",
+      "status": "pass"
+    },
+    {
+      "claim": "All 12 candidates have hash-bound targeted annular K55 C6 bounds and explicit principal anti-Wick composition constants.",
+      "evidence": {
+        "artifact": "runs/physics-language/quartic-annular-k55-c6-campaign/campaign.json",
+        "campaigns": {
+          "anti_wick": "runs/physics-language/quartic-anti-wick-composition-campaign/campaign.json",
+          "full": "runs/physics-language/quartic-full-symmetrizer-moser-campaign/campaign.json",
+          "moser": "runs/physics-language/quartic-quasilinear-moser-campaign/campaign.json",
+          "pde": "runs/physics-language/quartic-nonquasilinear-pde-campaign/campaign.json",
+          "r3": "runs/physics-language/quartic-r3-sobolev-calculus-campaign/campaign.json",
+          "solved": "runs/physics-language/quartic-solved-source-moser-campaign/campaign.json",
+          "symbol_c4": "runs/physics-language/quartic-symmetrizer-symbol-moser-campaign/campaign.json",
+          "symmetrizer": "runs/physics-language/quartic-symmetrizer-uniform-domain-campaign/campaign.json",
+          "tube": "runs/physics-language/quartic-coordinate-jet-tube-campaign/campaign.json"
+        },
+        "config": "configs/backgrounds/quartic_annular_k55_c6_campaign.json",
+        "counts": {
+          "full_dyadic_energies_closed": 0,
+          "principal_composition_constants_instantiated": 12,
+          "rejected": 0,
+          "selected": 12,
+          "targeted_C6_bounds_passed": 12
+        },
+        "representative_certificate": {
+          "C4_reproduction_residuals": {
+            "0,0": "0",
+            "0,1": "0",
+            "0,2": "0",
+            "0,3": "0",
+            "0,4": "0",
+            "1,0": "0",
+            "1,1": "0",
+            "1,2": "0",
+            "1,3": "0",
+            "2,0": "0",
+            "2,1": "0",
+            "2,2": "0",
+            "3,0": "0",
+            "3,1": "0",
+            "4,0": "0"
+          },
+          "annular_cutoff": {
+            "Frechet_majorants": {
+              "0": "1",
+              "1": "1537536",
+              "2": "144528384/5",
+              "3": "12998329344/25",
+              "4": "1121860067328/125",
+              "5": "3731526070272/25",
+              "6": "1502222881775616/625"
+            },
+            "support": "5/2<=|xi|<=35/2",
+            "volume": "7125*pi"
+          },
+          "anti_wick_principal_composition_remainder_instantiated": true,
+          "candidate_id": "quartic-symbol-06e267a9215345b6",
+          "coefficients": {
+            "a01": "0",
+            "a10": "-1/2",
+            "a20": "0",
+            "c02": "0",
+            "c11": "0",
+            "c20": "-1",
+            "d01": "0",
+            "d10": "0",
+            "m2": "1"
+          },
+          "composition_inputs": {
+            "A0_P_0_1": "3370",
+            "A1_P_1_1": "46546851*sqrt(21)/17500000000000",
+            "C_m": {
+              "0": "23878534563*sqrt(21)*pi*(230001476046383435886057460*sqrt(6) + 32200207843221307787970708351)/140000000000",
+              "2": "23878534563*sqrt(21)*pi*(1817841019646594015190267113447*sqrt(6) + 255146351306911204499931413192944)/875000000000",
+              "4": "23878534563*sqrt(21)*pi*(873140665977738366217905459616860017531631062*sqrt(6) + 122239696742331931982125372148002839689300710255)/6835937500000"
+            },
+            "D_m": {
+              "0": "171*pi*(13065542229683991489910000000000000*sqrt(21) + 24214719438486915269644378651758960402072490035868260057)/22400000000000000000000000",
+              "1": "171*pi*(1167828868529071082368259630600000000000*sqrt(21) + 20359819420041853079154378692906869597054523469033134639)/280000000000000000000000",
+              "2": "513*pi*(185663813931445064831296721679810925000000000000*sqrt(21) + 2617401591998008581140006663031515288044873813539804648034843091)/17500000000000000000000000",
+              "3": "2223*pi*(932338841174253632672054416302100191572850000000000000*sqrt(21) + 15044885321462568896476741985034580160471714198724479776508252729517067)/43750000000000000000000000",
+              "4": "171*pi*(30864632107347196714986080854450378335730927834823000000000000*sqrt(21) + 572539893186901810396158009254561774566342784813859197427700328837669396205777)/10937500000000000000000000"
+            },
+            "Q": "sqrt(6)/8 + 35/2",
+            "R_m": {
+              "0": "171*pi*(6166566394778809223919100417390569990000000000000*sqrt(14) + 287773112683280594344290768326275545976000000000000*sqrt(21) + 24481081352310271337610466816928308966495287426262810917627*sqrt(6) + 3427351389323437987265465354369963255309340239676793528467780)/8960000000000000000000000",
+              "2": "171*pi*(7781618848951040713243792069111467195159000000000000*sqrt(14) + 366950596154269132188555720498182822509460000000000000*sqrt(21) + 7938579028529960026597640208974585868640102276466227497489679095003*sqrt(6) + 1111401070855453548277774116931467641119229372912646258712721446643420)/7000000000000000000000000",
+              "4": "171*pi*(327710052433909816240683670046173599357948684583160148120000000000*sqrt(14) + 15459558243415780643770540081715953849643378140120036527200000000000*sqrt(21) + 578837832011957730310515747356361954086572555446811648599405032454883759564040547*sqrt(6) + 81037297008967222990092319313607526663612123226766270040812271750744968003079840796)/4375000000000000000000000"
+            },
+            "S_m": {
+              "0": "172881*pi*(13065542229683991489910000000000000*sqrt(21) + 24214719438486915269644378651758960402072490035868260057)*(sqrt(6) + 140)/8960000000000000000000000",
+              "2": "57627*pi*(5012922976149016750445011485354894975000000000000*sqrt(14) + 233936406721449650216504951684821396100000000000000*sqrt(21) + 23556614327982077230260059967283637592403864321858241832313587819*sqrt(6) + 3297926026277310232278261474574087955843410602114677325557036933660)/7000000000000000000000000",
+              "4": "57627*pi*(277781688966124770434874727690053405021578350513407000000000000*sqrt(14) + 12963145582049062102416531756762818196425409614202060000000000000*sqrt(21) + 1717619679560705431188474027763685323699028354441577592283100986513008188617331*sqrt(6) + 240466756703166833798493529120497111761460306310879139586980034868679430276201308)/4375000000000000000000000"
+            },
+            "T_m": {
+              "0": "2721587304207699397347255182961*sqrt(21)*pi/40000000000",
+              "2": "32958180362480454489244394124430007642199*sqrt(21)*pi/437500000000",
+              "4": "555823868019800795984522818825199889844079293032145833*sqrt(21)*pi/85449218750"
+            },
+            "sufficient_H6_radius": "sqrt(7)*sqrt(pi)/2187500000000"
+          },
+          "full_dyadic_energy_closed": false,
+          "localized_symbol_L1_frequency_bounds": {
+            "0,0": "8526684340692948980650875*pi",
+            "0,1": "13110084134643855845505275220000*pi",
+            "0,2": "246471251427456101851726577938320*pi",
+            "0,3": "16578710099176937418535236074636640*pi",
+            "0,4": "511515053979039387250415664441312575001024*pi/5",
+            "0,5": "25481737195894316479703352933458442751643120913408*pi/25",
+            "0,6": "1491875378818441276011627802952157786051837880687514846208*pi/125",
+            "1,0": "74473590709198751492487*sqrt(21)*pi/560000000000",
+            "1,1": "332831227530785258474953994721*sqrt(21)*pi/350000000000",
+            "1,2": "1269940487291084243446069576289906727*sqrt(21)*pi/175000000000",
+            "1,3": "13817261626202438836199846449597124839109637*sqrt(21)*pi/218750000000",
+            "1,4": "1759284030118790212754206608703671565136662886584911*sqrt(21)*pi/2734375000000",
+            "1,5": "26149449077067188014638256251126677162169888611276414403819*sqrt(21)*pi/3417968750000",
+            "2,0": "741*sqrt(7)*pi*(81979346381569390191541220635389*sqrt(7) + 7035291969829841571490000000000000*sqrt(3))/39200000000000000000000000",
+            "2,1": "741*sqrt(7)*pi*(8386414386330805353619578728387164203*sqrt(7) + 628830929207961352044447493400000000000*sqrt(3))/490000000000000000000000",
+            "2,2": "171*sqrt(7)*pi*(20648113643229477258068873813539804648034843091*sqrt(7) + 1299646697520115453819077051758676475000000000000*sqrt(3))/30625000000000000000000000",
+            "2,3": "171*sqrt(7)*pi*(540462274283757632719682308898472745698202428494573957*sqrt(7) + 28280944848952360191052317294497039144376450000000000000*sqrt(3))/76562500000000000000000000",
+            "2,4": "57*sqrt(7)*pi*(4909239444525115255796448861304396263027700328837669396205777*sqrt(7) + 216052424751430377004902565981152648350116494843761000000000000*sqrt(3))/19140625000000000000000000"
+          },
+          "principal_anti_wick_composition_constant": {
+            "bound": "||(i/h)(OpAW(rho*K)OpW(P)-adjoint)||<=C_comp",
+            "exact": "171*(755043960807735687743450968132819839950987668461929582658480000000000*sqrt(14) + 35618822192830310911791271532050532976106367531130616487268800000000000*sqrt(21) + 1333642364955558231671298730805852514733980984660240048909835414265378054978845326543*sqrt(6) + 186709932308661548714201153352881753525862994306574256879636383921654730090875789349684)/8960000000000000000000000000",
+            "numeric": 3.625670929460894e+60
+          },
+          "remaining_gate": "insert_C_comp_into_frequency_localized_evolution_energy_with_projection_commutators_finite_low_modes_and_dyadic_sum",
+          "required_spatial_frequency_K55_bounds": {
+            "0,5": {
+              "at_sufficient_H6_radius": "7836894404514921374769493667038508866557831392",
+              "expression": "7836894404514921374769493667038508866557831392",
+              "numeric": 7.836894404514921e+45
+            },
+            "0,6": {
+              "at_sufficient_H6_radius": "228213592633187976133408950958157327163153277519961616",
+              "expression": "228213592633187976133408950958157327163153277519961616",
+              "numeric": 2.2821359263318796e+53
+            },
+            "1,4": {
+              "at_sufficient_H6_radius": "18980771598704648821300141380529874585149133687303*sqrt(21)/8750000000000",
+              "expression": "18980771598704648821300141380529874585149133687303*sqrt(3)*E/(4*sqrt(pi))",
+              "numeric": 9.940665439969374e+36
+            },
+            "2,4": {
+              "at_sufficient_H6_radius": "sqrt(7)*(3212865529076286854327070931546790098827853519874910718950321*sqrt(7)*pi/437500000000 + 303692345579274381140802262088477993362386138996848*sqrt(3)*pi)/(140000000000000*pi)",
+              "expression": "E*(16064327645381434271635354657733950494139267599374553594751605*sqrt(pi)*E + 303692345579274381140802262088477993362386138996848*sqrt(3)*pi)/(64*pi**(3/2))",
+              "numeric": 1.0307850071863807e+37
+            }
+          },
+          "schema_version": "sigma-quartic-annular-k55-c6-certificate-1.0",
+          "scope": "This instantiates only the high-frequency principal anti-Wick composition constant at the certified tube radius. It does not close projection commutators, bounded frequencies, lower-order sources, the dyadic sum, a nonlinear lifespan, matter, or observations.",
+          "status": "pass_targeted_annular_K55_C6_principal_composition_constant"
+        },
+        "scope": "This instantiates only the high-frequency principal anti-Wick composition constant at the certified tube radius. It does not close projection commutators, bounded frequencies, lower-order sources, the dyadic sum, a nonlinear lifespan, matter, or observations.",
+        "standalone_artifact_validator_passed": true,
+        "status": "pass_all_12_targeted_annular_K55_C6_principal_composition_constants",
+        "wrong_derivative_order_negative": {
+          "errors": [
+            "unsupported targeted C6 contract"
+          ],
+          "status": "reject"
+        }
+      },
+      "name": "quartic_linear_x_annular_K55_C6_principal_composition",
+      "scope": "A standalone deterministic validator binds every predecessor and exact data seal. This closes only the principal annular operator remainder; the full dyadic energy, nonlinear lifespan, matter, and observations remain fail-closed.",
       "status": "pass"
     },
     {
@@ -9721,10 +9891,10 @@
   ],
   "counts": {
     "failed": 0,
-    "passed": 117,
-    "total": 117
+    "passed": 118,
+    "total": 118
   },
-  "created_utc": "2026-08-10T16:03:29.849727+00:00",
+  "created_utc": "2026-08-11T23:45:38.321702+00:00",
   "field_contract": "C:\\Users\\henry\\Documents\\Codex\\2026-08-09\\sigma-theory-compiler-publish\\research\\sigma-theory-compiler\\configs\\covariant_field_contract.json",
   "interpretation": "Passing controls validates only the stated algebraic scopes. It is not evidence that a generated gravity candidate is healthy or empirically correct.",
   "schema_version": "sigma-formal-controls-1.0"

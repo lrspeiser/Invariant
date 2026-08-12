@@ -8,7 +8,23 @@ from typing import Any
 
 import sympy as sp
 
+from .recovery_artifact_validation import (
+    DATA_SEALS,
+    load_bound_inputs,
+    validate_bound_inputs,
+    validate_exact_rebuild,
+)
+
 SCHEMA_VERSION = "sigma-quartic-dyadic-localization-campaign-1.0"
+CONFIG_KEYS = {
+    "schema_version",
+    "expected_candidate_count",
+    "spatial_dimension",
+    "state_dimension",
+    "state_sobolev_order",
+    "coefficient_sobolev_order",
+    "cutoff_matching_order",
+}
 
 
 class QuarticDyadicLocalizationError(ValueError):
@@ -21,9 +37,9 @@ def _canonical_json(value: Any) -> str:
 
 def _content_hash_matches(campaign: dict[str, Any]) -> bool:
     body = {key: value for key, value in campaign.items() if key != "content_sha256"}
-    return campaign.get("content_sha256") == hashlib.sha256(
-        _canonical_json(body).encode()
-    ).hexdigest()
+    return (
+        campaign.get("content_sha256") == hashlib.sha256(_canonical_json(body).encode()).hexdigest()
+    )
 
 
 def _candidate_records(campaign: dict[str, Any]) -> dict[str, dict[str, Any]]:
@@ -39,21 +55,16 @@ def generic_dyadic_localization_control() -> tuple[bool, dict[str, Any]]:
     """Certify the LP partition, explicit constants, and derivative-loss witness."""
 
     t = sp.Symbol("t", real=True, finite=True)
-    smoothstep = (
-        126 * t**5 - 420 * t**6 + 540 * t**7 - 315 * t**8 + 70 * t**9
-    )
+    smoothstep = 126 * t**5 - 420 * t**6 + 540 * t**7 - 315 * t**8 + 70 * t**9
     endpoint_residuals = {
-        f"d{order}_at_0": str(sp.diff(smoothstep, t, order).subs(t, 0))
-        for order in range(5)
+        f"d{order}_at_0": str(sp.diff(smoothstep, t, order).subs(t, 0)) for order in range(5)
     } | {
         f"d{order}_at_1_minus_target": str(
             sp.diff(smoothstep, t, order).subs(t, 1) - (1 if order == 0 else 0)
         )
         for order in range(5)
     }
-    derivative_factor_residual = sp.factor(
-        sp.diff(smoothstep, t) - 630 * t**4 * (1 - t) ** 4
-    )
+    derivative_factor_residual = sp.factor(sp.diff(smoothstep, t) - 630 * t**4 * (1 - t) ** 4)
 
     r = sp.Symbol("r", positive=True, finite=True)
     phi_pieces = (
@@ -64,19 +75,11 @@ def generic_dyadic_localization_control() -> tuple[bool, dict[str, Any]]:
     i2_derived = sp.Integer(0)
     for phi_piece, lower, upper in phi_pieces:
         first_integrand = sp.expand(
-            r**2
-            * (
-                phi_piece
-                - sp.diff(phi_piece, r, 2)
-                - 2 * sp.diff(phi_piece, r) / r
-            )
-            ** 2
+            r**2 * (phi_piece - sp.diff(phi_piece, r, 2) - 2 * sp.diff(phi_piece, r) / r) ** 2
         )
 
         def radial_l4(value: sp.Expr) -> sp.Expr:
-            return sp.expand(
-                value - sp.diff(value, r, 2) - 4 * sp.diff(value, r) / r
-            )
+            return sp.expand(value - sp.diff(value, r, 2) - 4 * sp.diff(value, r) / r)
 
         second_integrand = sp.expand(r**4 * radial_l4(radial_l4(phi_piece)) ** 2)
         i1_derived += sp.integrate(first_integrand, (r, lower, upper))
@@ -87,8 +90,7 @@ def generic_dyadic_localization_control() -> tuple[bool, dict[str, Any]]:
     second_kernel_square = sp.Rational(4, 3) * sp.pi * i2_radial
     kernel_prefactor = sp.pi * (2 * sp.pi) ** (-sp.Rational(3, 2))
     kappa = sp.factor(
-        kernel_prefactor
-        * (sp.sqrt(first_kernel_square) + sp.sqrt(second_kernel_square))
+        kernel_prefactor * (sp.sqrt(first_kernel_square) + sp.sqrt(second_kernel_square))
     )
 
     cutoff_values = sp.symbols("c_m1 c0:7")
@@ -110,9 +112,7 @@ def generic_dyadic_localization_control() -> tuple[bool, dict[str, Any]]:
         sum(1 for shell in range(-8, 9) if shell - 2 < point < shell + 2)
         for point in (sp.Rational(k, 2) for k in range(-15, 16))
     )
-    ordinary_shells_interacting_with_enlarged = sum(
-        1 for shell in range(-8, 9) if -3 < shell < 3
-    )
+    ordinary_shells_interacting_with_enlarged = sum(1 for shell in range(-8, 9) if -3 < shell < 3)
     exponent = sp.Integer(7) - sp.Integer(6)
     n = sp.Symbol("N", positive=True, finite=True)
     loss_witness = n**exponent
@@ -139,9 +139,7 @@ def generic_dyadic_localization_control() -> tuple[bool, dict[str, Any]]:
     coefficient = sp.Function("A")(z)
     state = sp.Function("v")(z)
     coefficient_at_zero = sp.Symbol("A0")
-    product_derivative = sp.diff(
-        kernel * (coefficient - coefficient_at_zero) * state, z
-    )
+    product_derivative = sp.diff(kernel * (coefficient - coefficient_at_zero) * state, z)
     commutator_ibp_residual = sp.expand(
         kernel * (coefficient - coefficient_at_zero) * sp.diff(state, z)
         - product_derivative
@@ -156,8 +154,7 @@ def generic_dyadic_localization_control() -> tuple[bool, dict[str, Any]]:
         sp.Rational(1, 2) - (1 + packet_radius) / minimum_frequency
     )
     high_shell_upper_margin = sp.factor(
-        sp.Rational(3, 2)
-        - (minimum_frequency + 1 + 2 * packet_radius) / minimum_frequency
+        sp.Rational(3, 2) - (minimum_frequency + 1 + 2 * packet_radius) / minimum_frequency
     )
     high_shell_lower_margin = sp.factor(
         (minimum_frequency + 1 - 2 * packet_radius) / minimum_frequency - 1
@@ -170,10 +167,7 @@ def generic_dyadic_localization_control() -> tuple[bool, dict[str, Any]]:
         and i1_derived == i1_radial
         and i2_derived == i2_radial
         and telescoping_residual == 0
-        and sp.simplify(
-            square_lower_residual - 2 * (a - sp.Rational(1, 2)) ** 2
-        )
-        == 0
+        and sp.simplify(square_lower_residual - 2 * (a - sp.Rational(1, 2)) ** 2) == 0
         and sp.simplify(square_upper_residual - 2 * a * (1 - a)) == 0
         and h7_lower_base_residual == sp.Rational(3, 4)
         and h7_upper_base_residual == 3
@@ -187,10 +181,7 @@ def generic_dyadic_localization_control() -> tuple[bool, dict[str, Any]]:
         and low_shell_separation_margin > 0
         and high_shell_upper_margin > 0
         and high_shell_lower_margin > 0
-        and sp.simplify(
-            loss_lower / (packet_product_norm * n_integer) - sp.Rational(1, 2)
-        )
-        == 0
+        and sp.simplify(loss_lower / (packet_product_norm * n_integer) - sp.Rational(1, 2)) == 0
     )
     return passed, {
         "control": "exact R3 Littlewood-Paley localization and derivative audit",
@@ -201,9 +192,7 @@ def generic_dyadic_localization_control() -> tuple[bool, dict[str, Any]]:
             "low_multiplier": "m_-1(xi)=chi(2|xi|)",
             "ordinary_multiplier": "m_j(xi)=phi(2^-j|xi|), j>=0",
             "endpoint_residuals": endpoint_residuals,
-            "smoothstep_derivative_factor_residual": str(
-                derivative_factor_residual
-            ),
+            "smoothstep_derivative_factor_residual": str(derivative_factor_residual),
         },
         "partition": {
             "telescoping_identity": "m_-1+sum_(j>=0)m_j=1",
@@ -213,22 +202,16 @@ def generic_dyadic_localization_control() -> tuple[bool, dict[str, Any]]:
             "sum_of_squares_bounds": ["1/2", "1"],
             "sum_of_squares_lower_residual": str(square_lower_residual),
             "sum_of_squares_upper_residual": str(square_upper_residual),
-            "enlarged_multiplier": (
-                "mtilde_j=chi(2^(-j-1)|xi|)-chi(2^(2-j)|xi|)"
-            ),
+            "enlarged_multiplier": ("mtilde_j=chi(2^(-j-1)|xi|)-chi(2^(2-j)|xi|)"),
             "enlarged_support": "2^(j-2)<|xi|<2^(j+2)",
             "enlarged_equals_one_on_m_j_support": True,
-            "maximum_simultaneous_enlarged_multiplier_overlap": (
-                enlarged_simultaneous_overlap
-            ),
+            "maximum_simultaneous_enlarged_multiplier_overlap": (enlarged_simultaneous_overlap),
             "ordinary_shells_interacting_with_one_enlarged_shell": (
                 ordinary_shells_interacting_with_enlarged
             ),
         },
         "H7_equivalence": {
-            "dyadic_norm": (
-                "Q7=||Delta_-1 u||2^2+sum_j(1+2^(2j))^7||Delta_j u||2^2"
-            ),
+            "dyadic_norm": ("Q7=||Delta_-1 u||2^2+sum_j(1+2^(2j))^7||Delta_j u||2^2"),
             "lower": "2^-15",
             "upper": "2^14",
             "symmetrized_lower": "lambda*2^-15",
@@ -238,21 +221,14 @@ def generic_dyadic_localization_control() -> tuple[bool, dict[str, Any]]:
         },
         "Bernstein_constants_0_through_4": bernstein,
         "shell_local_commutator": {
-            "bound": (
-                "||[Delta_j,A^k]partial_k v||2<="
-                "kappa_k||nabla A^k||infinity||v||2"
-            ),
-            "kappa_definition": (
-                "||F^-1 phi||1+integral |z||partial_k F^-1 phi(z)|dz"
-            ),
+            "bound": ("||[Delta_j,A^k]partial_k v||2<=kappa_k||nabla A^k||infinity||v||2"),
+            "kappa_definition": ("||F^-1 phi||1+integral |z||partial_k F^-1 phi(z)|dz"),
             "first_radial_square_integral": str(first_kernel_square),
             "second_radial_square_integral": str(second_kernel_square),
             "first_radial_rational_derived": str(i1_derived),
             "second_radial_rational_derived": str(i2_derived),
             "explicit_common_kappa_upper": str(kappa),
-            "integration_by_parts_integrand_residual": str(
-                commutator_ibp_residual
-            ),
+            "integration_by_parts_integrand_residual": str(commutator_ibp_residual),
             "localized_state": "v=tildeDelta_j u",
         },
         "derivative_loss_negative": {
@@ -264,18 +240,13 @@ def generic_dyadic_localization_control() -> tuple[bool, dict[str, Any]]:
             "coefficient_family": "a_N=N^-6 exp(i N x1)a0, N=2^j>=4",
             "state": "u=u0 is fixed in H7(R3)",
             "coefficient_H6_bound": (
-                "||a_N||H6<=C_a=sum_(k=0)^6 binom(6,k)||D^(6-k)a0||2, "
-                "uniformly for N>=1"
+                "||a_N||H6<=C_a=sum_(k=0)^6 binom(6,k)||D^(6-k)a0||2, uniformly for N>=1"
             ),
             "high_product_Fourier_support": (
                 "B((N+1)e1,2*epsilon), contained in normalized radii [1,3/2]"
             ),
-            "low_state_Fourier_support": (
-                "B(e1,epsilon), contained below normalized radius 1/2"
-            ),
-            "low_shell_separation_margin_at_N4": str(
-                low_shell_separation_margin
-            ),
+            "low_state_Fourier_support": ("B(e1,epsilon), contained below normalized radius 1/2"),
+            "low_shell_separation_margin_at_N4": str(low_shell_separation_margin),
             "high_shell_lower_margin_at_N4": str(high_shell_lower_margin),
             "high_shell_upper_margin_at_N4": str(high_shell_upper_margin),
             "high_shell_multiplier_lower": "phi>=phi(3/2)=1/2",
@@ -283,9 +254,7 @@ def generic_dyadic_localization_control() -> tuple[bool, dict[str, Any]]:
             "commutator_H7_lower": str(loss_lower),
             "commutator_H7_scaling": str(loss_witness),
             "growth_exponent": int(exponent),
-            "rejected_claim": (
-                "ell2 H7 commutator <= C ||a||H6 ||u||H7 uniformly in N"
-            ),
+            "rejected_claim": ("ell2 H7 commutator <= C ||a||H6 ||u||H7 uniformly in N"),
             "rejected": bool(exponent > 0),
             "R3_Schwartz_Fourier_support_counterexample_encoded": True,
         },
@@ -310,22 +279,17 @@ def _certify_candidate(
     if first_order.get("status") != "pass_exact_55_variable_principal_first_order_reduction":
         raise QuarticDyadicLocalizationError("first-order prerequisite failed")
     source_hash = first_order.get("source_spatial_block_sha256")
-    if evolution.get("exact_reduction_provenance", {}).get(
-        "source_spatial_block_sha256"
-    ) != source_hash:
+    if (
+        evolution.get("exact_reduction_provenance", {}).get("source_spatial_block_sha256")
+        != source_hash
+    ):
         raise QuarticDyadicLocalizationError("physical pencil provenance mismatch")
     local_bound = r3["spatialized_dyadic_P55_bounds"]["1,1"]
     _, generic_control = generic_dyadic_localization_control()
-    kappa = sp.sympify(
-        generic_control["shell_local_commutator"]["explicit_common_kappa_upper"]
-    )
+    kappa = sp.sympify(generic_control["shell_local_commutator"]["explicit_common_kappa_upper"])
     radius = sp.Symbol("R", nonnegative=True, finite=True)
-    coefficient_expression = sp.sympify(
-        local_bound["expression"], locals={"R": radius}
-    )
-    shell_local_expression = sp.factor(
-        3 * sp.sqrt(3) * kappa * coefficient_expression
-    )
+    coefficient_expression = sp.sympify(local_bound["expression"], locals={"R": radius})
+    shell_local_expression = sp.factor(3 * sp.sqrt(3) * kappa * coefficient_expression)
     return {
         "schema_version": "sigma-quartic-dyadic-localization-certificate-1.0",
         "status": "pass_H7_dyadic_partition_and_shell_local_commutator_framework",
@@ -363,9 +327,7 @@ def _certify_candidate(
             "the coordinate-atom coefficient field is certified only in H6; the "
             "remote high-coefficient/low-state interaction loses one derivative"
         ),
-        "required_next_gate": (
-            "nonlinear_paradifferential_linearization_or_H8_C7_coefficients"
-        ),
+        "required_next_gate": ("nonlinear_paradifferential_linearization_or_H8_C7_coefficients"),
         "scope": (
             "This certifies the LP family, exact H7 equivalence, Bernstein constants, "
             "and an explicit shell-local commutator bound for the actual pencil. "
@@ -386,6 +348,15 @@ def run_quartic_dyadic_localization_campaign(
         if config.get("schema_version") != SCHEMA_VERSION:
             raise QuarticDyadicLocalizationError("unsupported campaign schema_version")
         campaigns = (r3_campaign, evolution_campaign, first_order_campaign)
+        validate_bound_inputs(
+            config,
+            {
+                "r3": r3_campaign,
+                "evolution": evolution_campaign,
+                "first_order": first_order_campaign,
+            },
+            CONFIG_KEYS,
+        )
         statuses = (
             "pass_all_12_R3_H6_spatialized_K55_P55_symbol_bounds",
             "pass_all_12_full_55_state_degree_one_evolution_symbol_C4_bounds",
@@ -395,9 +366,9 @@ def run_quartic_dyadic_localization_campaign(
             raise QuarticDyadicLocalizationError("campaign prerequisite status mismatch")
         if not all(_content_hash_matches(item) for item in campaigns):
             raise QuarticDyadicLocalizationError("campaign content hash mismatch")
-        if r3_campaign.get("upstream_sha256", {}).get(
-            "evolution"
-        ) != evolution_campaign.get("content_sha256"):
+        if r3_campaign.get("upstream_sha256", {}).get("evolution") != evolution_campaign.get(
+            "content_sha256"
+        ):
             raise QuarticDyadicLocalizationError("R3 evolution provenance mismatch")
         if evolution_campaign.get("first_order_campaign_sha256") != first_order_campaign.get(
             "content_sha256"
@@ -449,6 +420,7 @@ def run_quartic_dyadic_localization_campaign(
                 "commutator because only H6 coefficient regularity is certified."
             ),
             "scope": certificates[0]["scope"],
+            "data_seals": DATA_SEALS,
         }
     except (KeyError, TypeError, ValueError, QuarticDyadicLocalizationError) as error:
         errors.append(str(error))
@@ -463,6 +435,7 @@ def run_quartic_dyadic_localization_campaign(
                 "full_H7_commutators_closed": 0,
                 "rejected": 0,
             },
+            "data_seals": DATA_SEALS,
         }
     return {
         **body,
@@ -470,9 +443,17 @@ def run_quartic_dyadic_localization_campaign(
     }
 
 
-def write_quartic_dyadic_localization_campaign(
-    result: dict[str, Any], output: Path
-) -> Path:
+def validate_quartic_dyadic_localization_artifact(
+    artifact: dict[str, Any], root: Path, config: dict[str, Any]
+) -> None:
+    loaded = load_bound_inputs(root, config, ("r3", "evolution", "first_order"))
+    rebuilt = run_quartic_dyadic_localization_campaign(
+        loaded["r3"], loaded["evolution"], loaded["first_order"], config
+    )
+    validate_exact_rebuild(artifact, rebuilt)
+
+
+def write_quartic_dyadic_localization_campaign(result: dict[str, Any], output: Path) -> Path:
     output.mkdir(parents=True, exist_ok=True)
     path = output / "campaign.json"
     path.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
