@@ -616,51 +616,25 @@ The result proves the leaf's full Merkle path from the registered batch index an
 preserved receipt decisions and blockers to match their new evidence. Its 11,225 count is explicitly
 an immutable partition overlay; the original global queue root is not rewritten or mislabeled as a
 new cumulative ledger.
-The cumulative formal worker now replaces that overlay with a validated, gap-free two-partition
-prefix ledger. Partition 0002 deterministically selects the next hierarchy-reachable leaf, checks
-12 new candidates, and records 12 exact mapper rejects. Across partitions 0001 and 0002, 36
-candidates are formally checked: 34 newly processed plus two field-reconciled preserved receipts,
-all rejected at the reviewed mapping boundary. The pending count advances from 11,247 to 11,213,
-with disjoint ordinal roots and independent catalog, partition-summary, cumulative-receipt, and
-newly-processed-ordinal roots. This is still an incomplete prefix: complete global formal evidence,
-comparable evidence, formal passes, leaderboard rebuilds, ranks, promotions, GPU access, live
-campaign SQLite access, and observations remain false. The sealed result is
-`runs/engine/continuous-scientific-pipeline-epoch-003-cumulative-formal-receipt-worker/result.json`
-(`4c502662558421f03965be01a083ba4dbde8b8df68f88d2e1def10a2a8172efe`, content
-`0777f2eadedcaa76e53c1e1a85e466bf4242bc3a4903b0fc9a1ac76093e4a32b`).
-Partition 0003 extends the same immutable prefix with the deterministic next leaf at
-`[1,004,881,920,1,004,882,432)`. Its 29 pending candidates all hard-reject at the reviewed
-mapping boundary. The three-leaf ledger now contains 65 checked candidates—63 newly processed and
-two reconciled—with 11,184 receipts pending. The catalog root is unchanged, while the partition
-summary, cumulative receipt, and processed-ordinal roots advance without overlaps or gaps. The
-partition used one CPU child, zero GPU workers, and a cleanup-inclusive 120-second formal bound;
-global formal/comparable completeness, formal passes, ranks, promotions, live SQLite, observations,
-and theory-wide rejection remain false. Its sealed result is
-`runs/engine/continuous-scientific-pipeline-epoch-003-cumulative-formal-partition-0003/result.json`
-(`cdb30e56ea3b44f04bb2b0ec3f43dead57bba2cba07147e440df0196f912b5a4`, content
-`057ba51349337f4335ea4e4f15383e86b21af8d2a57fd0af0e177451ab211351`).
-Partition 0004 advances the same immutable prefix with the deterministic next leaf at
-`[1,004,882,432,1,004,883,456)`. All 15 pending candidates hard-reject at the reviewed mapping
-boundary. The four-leaf ledger now contains 80 checked candidatesâ€”78 newly processed and two
-reconciledâ€”with 11,169 receipts pending. Its catalog root remains fixed and its partition-summary,
-cumulative-receipt, and processed-ordinal roots advance without overlaps or gaps. One CPU child,
-zero GPU workers, and the cleanup-inclusive 120-second formal bound were used; global
-formal/comparable completeness, formal passes, ranks, promotions, live SQLite, observations, and
-theory-wide rejection remain false. Its sealed result is
-`runs/engine/continuous-scientific-pipeline-epoch-003-cumulative-formal-partition-0004/result.json`
-(`9f1444d4852273b6e63672f19351d76cd9b08c1b5093cdc8acc4162899180679`, content
-`aa853ceedac0359904a5e756e43b0c28163625c4938c5bf88095f794bf3fee7a`).
-Partition 0005 advances the immutable prefix with catalog index four at
-`[1,004,897,792,1,004,905,984)`. Its two pending candidates hard-reject at the reviewed mapping
-boundary. The five-leaf ledger now contains 82 checked candidates—80 newly processed and two
-reconciled—with 11,167 receipts pending. The catalog root remains fixed while the partition-summary,
-cumulative-receipt, and processed-ordinal roots advance without overlaps or gaps. One CPU child,
-zero GPU workers, and the cleanup-inclusive 120-second formal bound were used; global
-formal/comparable completeness, formal passes, ranks, promotions, live SQLite, observations, and
-theory-wide rejection remain false. Its sealed result is
-`runs/engine/continuous-scientific-pipeline-epoch-003-cumulative-formal-partition-0005/result.json`
-(`53bcff4d78db8eed6dd1489acec794a39731507cffc40f219a7e417ef646319b`, content
-`bf2f8c7b20053109750d6f703daa3e8d998a0fdc5c360b850e72f18ddcd00b41`).
+The cumulative formal-receipt cursor now points at immutable partition 0007 and proves a gap-free,
+nonoverlapping seven-leaf prefix. The immutable source history from the two-leaf cumulative worker
+through partitions 0003--0007 remains independently hash-bound and replayable; the compact cursor
+does not discard or rewrite any earlier ledger. The prefix contains 104 checked candidates: 102
+newly processed plus two field-reconciled preserved receipts, all exact mapper rejects at the
+reviewed boundary, with 11,145 candidate-specific receipts still pending. Partition 0006 added two
+rejects from `[1,004,905,984,1,004,908,032)` and is sealed at
+`runs/engine/continuous-scientific-pipeline-epoch-003-cumulative-formal-partition-0006/result.json`
+(`32d4e494cdbad2bd1ee894faf82ab1effc59db113251f1e2ac0f8c1a3d08bc35`, content
+`763b4f909520e231d7abc50eda63e69e17a1fe3481ef42c4c2d8ce1abc1b2e2a`). Partition 0007 then
+added 20 rejects from `[1,004,908,032,1,004,909,056)` and is sealed at
+`runs/engine/continuous-scientific-pipeline-epoch-003-cumulative-formal-partition-0007/result.json`
+(`7fce1ee021f694a19c2afc5300e6fb6e8f7a68d4daa9700275cec44cbb57f403`, content
+`8aae17e2a0fc13e645b6a63df9b8ccbd3d0cff6a03103ed3fed3f7a7eb63f069`). The catalog root remains
+fixed while every partition-summary, cumulative-receipt, and processed-ordinal root advances
+without overlaps or gaps. Each successor used one owned CPU child, zero GPU workers, and the
+cleanup-inclusive 120-second formal bound. Global formal/comparable completeness, theory-wide
+rejection, formal passes, leaderboard rebuilds, ranks, promotions, live SQLite access, observations,
+and GPU access remain false.
 The new candidate-bound formula stress lane drives the same RTX 5090 much harder on dense numerical
 work: all 163 materialized Euler projections were checked on 5,341,184 deterministic synthetic
 candidate-point pairs against CPU evaluation, with 5,216 additional exact-rational sentinels and zero
@@ -1682,6 +1656,22 @@ source/config/test hashes are `f1db73f06117de191568edb4a768c577f155acb30dfc367cb
 `a4d41f53c277f135f68a28f21b4360fdc38dfa77f15c770be49e34ba05d272ae` /
 `a5acb4340009d6a58194ac7dd8870abb67806f488c84779e3e1c6e6b46a34995`.
 
+The candidate-bound `Pother` one-form gate now projects the complete registered `11 x 153`
+source Jacobian onto an exact `11 x 90` slice for every candidate: 990 entries, rank 10, and
+93 nonzero values. The full two-sided reference problem has 8,910 equations in 11,979 connection
+unknowns, equal coefficient and augmented rank 1,870, and affine solution dimension 10,109. Its
+deterministic free-variable-zero witness uses 15 `Pother`-direction and seven `P10`-direction
+coefficients and has zero residual. This closes only the algebraic premise. The fitted output
+connection is not derived from the covariant action or a corrected source jet, so zero physical
+connections and zero cross-slice D2F entries are admitted; all 12 candidates remain blocked and
+none is rejected. The other 106,920 principal high-atom entries, full D2F, H7, PDE, lifespan, and
+observational claims remain fail-closed. Artifact file/content hashes are
+`f43b5623a46dc19541cd5a6323bd8b0c1ea7b63c7fbcfdb1e26bfe35a2f82bf6` /
+`c79256b901eb6e7b543938cae6e6cf4b41e9fe2778aa37077604cf39a869f93d`;
+source/config/test hashes are `cd00e604fa1f06a14f22790007f2ff54556dfb44dbe622f3e0094ace0b38139f` /
+`c5d8ec17f555f9380e890eaa444511b11c04059e32bdf3b5aa3ba38a9dd1e471` /
+`65beaefd420b521f9c21cb4acd6939a2211634c113974604c885ebfb350fe65c`.
+
 The component campaign now proves every entry of the principal identity
 `D_Y E55 J = i P55` for all 12 candidates and materializes the complete first source Jacobian.
 Its 1,089 principal and 594 lower entries form an exact arithmetic-only `11 x 153` manifest with
@@ -1940,16 +1930,31 @@ orders-one-through-four recurrence. All 12 revised eleven-frame systems are obst
 eta-normalized rank-two, 16-entry zero-speed target. Although that target lies in the exact
 rank-22 transverse-curl range, the preregistered preserving class is exhausted: degrees zero,
 two, and four with support at most 14 check all 32,766 nonempty degree-four supports and find
-zero feasible envelopes. No twelfth local certificate is constructed, and the signed
-height-one selector ends with eleven. This is only an exhaustion theorem for the declared
-bounded class. A broader preregistered rational selector or finite determining theorem, followed
-by pseudodifferential constraint, commutator, boundary-energy, local/covariant and PDE admission,
-remains open. Artifact file/content hashes are
+zero feasible envelopes. No twelfth local certificate is constructed in that class, and the signed
+height-one selector ends with eleven. The next bounded gate preregisters exactly the first primitive
+non-axis height-two point `(u,v)=(1,2)`, `n=(-2/3,1/3,2/3)`, together with the strictly broader
+finite even degree ladder `[0,2,4,6]` and its full 28-monomial degree-six ceiling. The complete
+orders-one-through-four recurrence again obstructs all 12 candidates by one eta-normalized
+rank-four, 56-entry zero-speed target, which lies in the rank-22 transverse-curl range. The broader
+class is feasible; deterministic RREF normalization is already first feasible at degree four, with
+support indices `[1,2,5,7,9,10]` and envelope
+`a_next(n)=-9*n1**2*n2*n3/2 + 9*n1**2*n3**2/2 + 27*n1*n2**2*n3/8 - 27*n1*n3**3/8 - 9*n2**2*n3**2/8 + 9*n2*n3**3/8`.
+A rank-two, two-curl repair closes all 12 local systems and preserves the eleven prior directions,
+giving twelve exact local direction certificates only. A next bounded selector or a finite
+full-sphere determining theorem, followed by pseudodifferential constraint, commutator,
+boundary-energy, local/covariant and PDE admission, remains open. The signed-height-one exhaustion
+artifact file/content hashes are
 `133adea5fa612afb4c80e7419674eb9f65f7a3dd7e1033c9d1c09553a9d52f36` /
 `5dac044360e2dbff204e1f762d90634f30c8005bddd85d11f1ad7308faa0a17a`;
 source/config/test hashes are `ff846e3c7b9412003ce628f84383acc2e859559f23025f407e74365ea03dd476` /
 `dd0b2d3448b2734ee6dd98350f0eac2d9d5f45ec0abeea47dfbcea2528534045` /
 `6d92015c6187cc7fe4907666c3a383844d1691589c80bad8646fc559852b8dc4`.
+The hardened height-two gate artifact file/content hashes are
+`ad5a6094aa963c8ce855d6954b32ac63ebb89e349128a258102b4e1b3d66a4c7` /
+`0c2b8ce7bd797a62111b824a892b3d1f3db075ad87271c3bb1a4b9f58a87418a`;
+source/config/test hashes are `50a2cdea20ed9614e8bfcc37d821aa48a97916af323e05d466c218e3aaf679d2` /
+`e92347af9109b78da76880ea7cf225541e1b166845843e9ec2c2d6c00c0d2287` /
+`7c5e581e3325d1ce4aab77178fb72cf1885348f712b6a57c4e6baf5019679d86`.
 This is not an inferred pass for the unevaluated tail; full fourth-order range closure, full-tube,
 CK1, CK3, TC2, B7, global-H7, and lifespan remain false.
 

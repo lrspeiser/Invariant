@@ -35,6 +35,8 @@ SOURCE_PATHS = [
     "runs/engine/continuous-scientific-pipeline-epoch-003-cumulative-formal-partition-0003/result.json",
     "runs/engine/continuous-scientific-pipeline-epoch-003-cumulative-formal-partition-0004/result.json",
     "runs/engine/continuous-scientific-pipeline-epoch-003-cumulative-formal-partition-0005/result.json",
+    "runs/engine/continuous-scientific-pipeline-epoch-003-cumulative-formal-partition-0006/result.json",
+    "runs/engine/continuous-scientific-pipeline-epoch-003-cumulative-formal-partition-0007/result.json",
     "runs/engine/composite-promotion-overlay-production-status.json",
     "runs/engine/grammar-v3-parameter-cell-execution-status.json",
     "runs/engine/grammar-v3-parameter-cell-expansion-service-status.json",
@@ -158,6 +160,7 @@ SOURCE_PATHS = [
     "runs/physics-language/quartic-reverse-principal-typed-map-curl-gate/campaign.json",
     "runs/physics-language/quartic-cross-slice-one-sided-output-connection-no-go-gate/campaign.json",
     "runs/physics-language/quartic-cross-slice-two-sided-connection-identifiability-gate/campaign.json",
+    "runs/physics-language/quartic-candidate-pother-one-form-connection-gate/campaign.json",
     "runs/physics-language/quartic-tc2-ck1-p55-tube-envelope-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-quadratic-deltak-extension-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-diagonal-third-jet-campaign/campaign.json",
@@ -198,6 +201,7 @@ SOURCE_PATHS = [
     "runs/physics-language/quartic-tc2-d4-revised-nine-frame-rational-counterexample-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-d4-revised-ten-frame-rational-counterexample-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-d4-revised-eleven-frame-rational-counterexample-campaign/campaign.json",
+    "runs/physics-language/quartic-tc2-d4-revised-eleven-frame-degree-six-envelope-gate/campaign.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000000.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000064.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000128.json",
@@ -257,6 +261,7 @@ RECOVERY_CONFIG_PATHS = (
     "configs/backgrounds/quartic_reverse_principal_typed_map_curl_gate.json",
     "configs/backgrounds/quartic_cross_slice_one_sided_output_connection_no_go_gate.json",
     "configs/backgrounds/quartic_cross_slice_two_sided_connection_identifiability_gate.json",
+    "configs/backgrounds/quartic_candidate_pother_one_form_connection_gate.json",
 )
 FINITE_SOBOLEV_DEPENDENCIES = (
     "src/sigma_theory_compiler/quartic_finite_sobolev_hierarchy_no_go_campaign.py",
@@ -308,6 +313,14 @@ TWO_SIDED_CONNECTION_IDENTIFIABILITY_DEPENDENCIES = (
     "src/sigma_theory_compiler/quartic_cross_slice_two_sided_connection_identifiability_gate.py",
     "tests/test_quartic_cross_slice_two_sided_connection_identifiability_gate.py",
 )
+CANDIDATE_POTHER_ONE_FORM_DEPENDENCIES = (
+    "src/sigma_theory_compiler/quartic_candidate_pother_one_form_connection_gate.py",
+    "tests/test_quartic_candidate_pother_one_form_connection_gate.py",
+    "configs/backgrounds/quartic_full_source_jacobian_arithmetic_campaign.json",
+    "src/sigma_theory_compiler/quartic_full_source_jacobian_arithmetic_campaign.py",
+    "tests/test_quartic_full_source_jacobian_arithmetic_campaign.py",
+    "runs/physics-language/quartic-full-source-jacobian-arithmetic-campaign/campaign.json",
+)
 SIXTH_FRAME_CONFIG_PATH = (
     "configs/backgrounds/quartic_tc2_d4_degree_three_sixth_frame_completion_campaign.json"
 )
@@ -349,6 +362,13 @@ REVISED_ELEVEN_FRAME_DEPENDENCIES = (
     "src/sigma_theory_compiler/quartic_tc2_d4_revised_eleven_frame_rational_counterexample_campaign.py",
     "tests/test_quartic_tc2_d4_revised_eleven_frame_rational_counterexample_campaign.py",
 )
+DEGREE_SIX_ENVELOPE_CONFIG_PATH = (
+    "configs/backgrounds/quartic_tc2_d4_revised_eleven_frame_degree_six_envelope_gate.json"
+)
+DEGREE_SIX_ENVELOPE_DEPENDENCIES = (
+    "src/sigma_theory_compiler/quartic_tc2_d4_revised_eleven_frame_degree_six_envelope_gate.py",
+    "tests/test_quartic_tc2_d4_revised_eleven_frame_degree_six_envelope_gate.py",
+)
 PORTABLE_FORMAL_DEPENDENCIES = (
     "configs/formal_controls_portable_report.json",
     "src/sigma_theory_compiler/formal_controls_portable_report.py",
@@ -357,6 +377,7 @@ PORTABLE_FORMAL_DEPENDENCIES = (
 )
 CONTINUOUS_PIPELINE_DEPENDENCIES = (
     "configs/continuous_scientific_pipeline_admission.json",
+    "runs/engine/unified-engine-live-service-safety-readiness.json",
     "src/sigma_theory_compiler/continuous_scientific_pipeline_admission.py",
     "tests/test_continuous_scientific_pipeline_admission.py",
     "configs/continuous_scientific_pipeline_service.json",
@@ -404,6 +425,12 @@ CONTINUOUS_PIPELINE_DEPENDENCIES = (
     "configs/continuous_scientific_pipeline_epoch_003_cumulative_formal_receipt_partition_0005.json",
     "src/sigma_theory_compiler/continuous_scientific_pipeline_cumulative_formal_partition_0005.py",
     "tests/test_continuous_scientific_pipeline_cumulative_formal_partition_0005.py",
+    "configs/continuous_scientific_pipeline_epoch_003_cumulative_formal_receipt_partition_0006.json",
+    "src/sigma_theory_compiler/continuous_scientific_pipeline_cumulative_formal_partition_0006.py",
+    "tests/test_continuous_scientific_pipeline_cumulative_formal_partition_0006.py",
+    "configs/continuous_scientific_pipeline_epoch_003_cumulative_formal_receipt_partition_0007.json",
+    "src/sigma_theory_compiler/continuous_scientific_pipeline_cumulative_formal_partition_0007.py",
+    "tests/test_continuous_scientific_pipeline_cumulative_formal_partition_0007.py",
     "runs/engine/continuous-scientific-pipeline-epoch-003-candidate-followup/batch-01.json",
     "runs/engine/continuous-scientific-pipeline-epoch-003-candidate-followup/batch-02.json",
     "runs/engine/continuous-scientific-pipeline-epoch-003-candidate-followup/batch-03.json",
@@ -427,6 +454,8 @@ LABELS = [
     "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0003",
     "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0004",
     "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0005",
+    "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0006",
+    "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0007",
     "promotion_overlay",
     "grammar_parameter_cells",
     "grammar_parameter_cell_expansion_service",
@@ -550,6 +579,7 @@ LABELS = [
     "quartic_reverse_principal_typed_map_curl_gate",
     "quartic_cross_slice_one_sided_output_connection_no_go_gate",
     "quartic_cross_slice_two_sided_connection_identifiability_gate",
+    "quartic_candidate_pother_one_form_connection_gate",
     "quartic_ck1_p55_tube_envelope",
     "quartic_tc2_quadratic_deltak_extension",
     "quartic_tc2_diagonal_third_jet",
@@ -590,6 +620,7 @@ LABELS = [
     "quartic_tc2_d4_revised_nine_frame_rational_counterexample",
     "quartic_tc2_d4_revised_ten_frame_rational_counterexample",
     "quartic_tc2_d4_revised_eleven_frame_rational_counterexample",
+    "quartic_tc2_d4_revised_eleven_frame_degree_six_envelope_gate",
     "quartic_tc2_reranked_obligation_chunk_0",
     "quartic_tc2_reranked_obligation_chunk_64",
     "quartic_tc2_reranked_obligation_chunk_128",
@@ -729,6 +760,16 @@ def _fixture(tmp_path: Path) -> tuple[Path, dict[str, object], Path]:
         tmp_path / cumulative_partition_0005_tree,
         dirs_exist_ok=True,
     )
+    for sequence in (6, 7):
+        cumulative_partition_tree = Path(
+            "runs/engine/continuous-scientific-pipeline-epoch-003-cumulative-"
+            f"formal-partition-{sequence:04d}"
+        )
+        shutil.copytree(
+            REPO / cumulative_partition_tree,
+            tmp_path / cumulative_partition_tree,
+            dirs_exist_ok=True,
+        )
     leaderboard_config = json.loads(
         (REPO / "configs/scientific_leaderboards.json").read_text(encoding="utf-8")
     )
@@ -794,6 +835,12 @@ def _fixture(tmp_path: Path) -> tuple[Path, dict[str, object], Path]:
         target = tmp_path / relative
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(source, target)
+    for relative in CANDIDATE_POTHER_ONE_FORM_DEPENDENCIES:
+        source = REPO / relative
+        target = tmp_path / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        if not target.exists():
+            shutil.copyfile(source, target)
     for relative in REVISED_SYMBOL_DEPENDENCIES:
         source = REPO / relative
         target = tmp_path / relative
@@ -823,6 +870,27 @@ def _fixture(tmp_path: Path) -> tuple[Path, dict[str, object], Path]:
         "fourth_campaign",
     ):
         binding = revised_eight_config[key]
+        relative = binding["path"]
+        source = REPO / relative
+        target = tmp_path / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        if not target.exists():
+            shutil.copyfile(source, target)
+    for relative in DEGREE_SIX_ENVELOPE_DEPENDENCIES:
+        source = REPO / relative
+        target = tmp_path / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(source, target)
+    degree_six_config_source = REPO / DEGREE_SIX_ENVELOPE_CONFIG_PATH
+    degree_six_config_target = tmp_path / DEGREE_SIX_ENVELOPE_CONFIG_PATH
+    degree_six_config_target.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copyfile(degree_six_config_source, degree_six_config_target)
+    degree_six_config = json.loads(
+        degree_six_config_source.read_text(encoding="utf-8")
+    )
+    for binding in degree_six_config.values():
+        if not isinstance(binding, dict) or "path" not in binding:
+            continue
         relative = binding["path"]
         source = REPO / relative
         target = tmp_path / relative
@@ -1709,202 +1777,85 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     }
     assert formal_partition["promotion_admitted"] is False
     assert formal_partition["excluded_state_seals_closed"] is True
-    cumulative_worker = core.pop(
-        "continuous_scientific_pipeline_epoch_003_cumulative_formal_receipt_worker"
+    formal_receipt_cursor = core.pop("formal_receipt_cursor")
+    assert formal_receipt_cursor["source_label"] == (
+        "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0007"
     )
-    assert cumulative_worker["artifact_binding"] == {
-        "path": (
-            "runs/engine/continuous-scientific-pipeline-epoch-003-cumulative-formal-"
-            "receipt-worker/result.json"
-        ),
-        "file_sha256": "4c502662558421f03965be01a083ba4dbde8b8df68f88d2e1def10a2a8172efe",
-        "content_sha256": "0777f2eadedcaa76e53c1e1a85e466bf4242bc3a4903b0fc9a1ac76093e4a32b",
-    }
-    assert cumulative_worker["decision"] == (
-        "cumulative_formal_receipt_prefix_advanced_global_queue_incomplete_no_promotion"
+    assert formal_receipt_cursor["decision"] == (
+        "cumulative_formal_receipt_prefix_advanced_to_partition_0007_no_promotion"
     )
-    assert cumulative_worker["counts"] == {
-        "candidate_promotions": 0,
-        "cumulative_candidate_blocks": 0,
-        "cumulative_candidate_passes": 0,
-        "cumulative_candidate_rejects": 36,
-        "cumulative_formal_passes": 0,
-        "cumulative_formally_checked_candidates": 36,
-        "cumulative_newly_processed_candidates": 34,
+    assert formal_receipt_cursor["counts"] == {
+        "processed_partition_prefix_length": 7,
+        "cumulative_formally_checked_candidates": 104,
+        "cumulative_newly_processed_candidates": 102,
         "cumulative_reconciled_preserved_candidates": 2,
-        "initial_pending_formal_receipts": 11_247,
-        "processed_leaf_pages": 2,
-        "processed_partition_prefix_length": 2,
-        "rank_assignments": 0,
-        "remaining_pending_formal_receipts": 11_213,
+        "cumulative_candidate_rejects": 104,
+        "remaining_pending_formal_receipts": 11_145,
     }
-    assert cumulative_worker["pending_leaf_catalog_root_sha256"] == (
-        "f4f7a85c8ad520ceec23eef86a31cd4d757524c0d8e0b96f94ca5507d2dfd7e7"
-    )
-    assert cumulative_worker["processed_partition_summaries_root_sha256"] == (
-        "2f426dfa75fee14b89ff35947932c844f501bf105cc4305ec2b304f0bd92c7d1"
-    )
-    assert cumulative_worker["cumulative_formal_receipt_ledger_root_sha256"] == (
-        "cc7c2d74d90e96ba2fc80bccc9a991ae91cd0e5225581d4f74d92c3a2ccb4527"
-    )
-    assert cumulative_worker["cumulative_newly_processed_ordinals_root_sha256"] == (
-        "1bc0e12bdb22709d63a46f90bc7923e41b7d587efda6e4f0dc408e24a8f2c223"
-    )
-    assert cumulative_worker["complete_processed_partition_prefix"] is True
-    assert cumulative_worker["complete_global_formal_receipts"] is False
-    assert cumulative_worker["complete_comparable_evidence"] is False
-    assert cumulative_worker["first_remaining_blocker"] == (
-        "11213_candidate_specific_formal_receipts_pending"
-    )
-    assert cumulative_worker["promotion_admitted"] is False
-    assert cumulative_worker["excluded_state_seals_closed"] is True
-    cumulative_partition_0003 = core.pop(
-        "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0003"
-    )
-    assert cumulative_partition_0003["artifact_binding"] == {
-        "path": (
-            "runs/engine/continuous-scientific-pipeline-epoch-003-cumulative-formal-"
-            "partition-0003/result.json"
+    assert formal_receipt_cursor["roots"] == {
+        "pending_leaf_catalog_root_sha256": (
+            "f4f7a85c8ad520ceec23eef86a31cd4d757524c0d8e0b96f94ca5507d2dfd7e7"
         ),
-        "file_sha256": "cdb30e56ea3b44f04bb2b0ec3f43dead57bba2cba07147e440df0196f912b5a4",
-        "content_sha256": "057ba51349337f4335ea4e4f15383e86b21af8d2a57fd0af0e177451ab211351",
-    }
-    assert cumulative_partition_0003["decision"] == (
-        "cumulative_formal_receipt_prefix_advanced_to_partition_0003_no_promotion"
-    )
-    assert cumulative_partition_0003["counts"] == {
-        "candidate_promotions": 0,
-        "cumulative_candidate_blocks": 0,
-        "cumulative_candidate_passes": 0,
-        "cumulative_candidate_rejects": 65,
-        "cumulative_formal_passes": 0,
-        "cumulative_formally_checked_candidates": 65,
-        "cumulative_newly_processed_candidates": 63,
-        "cumulative_reconciled_preserved_candidates": 2,
-        "initial_pending_formal_receipts": 11_247,
-        "processed_leaf_pages": 3,
-        "processed_partition_prefix_length": 3,
-        "rank_assignments": 0,
-        "remaining_pending_formal_receipts": 11_184,
-    }
-    assert cumulative_partition_0003["pending_leaf_catalog_root_sha256"] == (
-        "f4f7a85c8ad520ceec23eef86a31cd4d757524c0d8e0b96f94ca5507d2dfd7e7"
-    )
-    assert cumulative_partition_0003["processed_partition_summaries_root_sha256"] == (
-        "1bc99a12ba6d749b79c689ef0b48425cbf0f4b7977b673a5ef6038a7c0d0a2e7"
-    )
-    assert cumulative_partition_0003["cumulative_formal_receipt_ledger_root_sha256"] == (
-        "d6701c91f8f0fae29a1ee0d7c8616d19ec3e2ca42f485dd74db0c1ce7b382a8e"
-    )
-    assert cumulative_partition_0003["cumulative_newly_processed_ordinals_root_sha256"] == (
-        "9796a418cc15369d5e57734258572ac7e7c85c5c6d749538ead161cbb12065f8"
-    )
-    assert cumulative_partition_0003["complete_processed_partition_prefix"] is True
-    assert cumulative_partition_0003["complete_global_formal_receipts"] is False
-    assert cumulative_partition_0003["complete_comparable_evidence"] is False
-    assert cumulative_partition_0003["first_remaining_blocker"] == (
-        "11184_candidate_specific_formal_receipts_pending"
-    )
-    assert cumulative_partition_0003["promotion_admitted"] is False
-    assert cumulative_partition_0003["excluded_state_seals_closed"] is True
-    cumulative_partition_0004 = core.pop(
-        "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0004"
-    )
-    assert cumulative_partition_0004["artifact_binding"] == {
-        "path": (
-            "runs/engine/continuous-scientific-pipeline-epoch-003-cumulative-formal-"
-            "partition-0004/result.json"
+        "processed_partition_summaries_root_sha256": (
+            "5746d102a33719fbe87119ba11e1f0e503fa8d5682f325de152ef1e6613f2807"
         ),
-        "file_sha256": "9f1444d4852273b6e63672f19351d76cd9b08c1b5093cdc8acc4162899180679",
-        "content_sha256": "aa853ceedac0359904a5e756e43b0c28163625c4938c5bf88095f794bf3fee7a",
-    }
-    assert cumulative_partition_0004["decision"] == (
-        "cumulative_formal_receipt_prefix_advanced_to_partition_0004_no_promotion"
-    )
-    assert cumulative_partition_0004["counts"] == {
-        "candidate_promotions": 0,
-        "cumulative_candidate_blocks": 0,
-        "cumulative_candidate_passes": 0,
-        "cumulative_candidate_rejects": 80,
-        "cumulative_formal_passes": 0,
-        "cumulative_formally_checked_candidates": 80,
-        "cumulative_newly_processed_candidates": 78,
-        "cumulative_reconciled_preserved_candidates": 2,
-        "initial_pending_formal_receipts": 11_247,
-        "processed_leaf_pages": 4,
-        "processed_partition_prefix_length": 4,
-        "rank_assignments": 0,
-        "remaining_pending_formal_receipts": 11_169,
-    }
-    assert cumulative_partition_0004["pending_leaf_catalog_root_sha256"] == (
-        "f4f7a85c8ad520ceec23eef86a31cd4d757524c0d8e0b96f94ca5507d2dfd7e7"
-    )
-    assert cumulative_partition_0004["processed_partition_summaries_root_sha256"] == (
-        "2f9c9751cb9e9eb98425096fadedf1928214837e962e00e80c1a34f729609d9e"
-    )
-    assert cumulative_partition_0004["cumulative_formal_receipt_ledger_root_sha256"] == (
-        "8baf2a96b8dbbc68dd5fe6b76ee826068d1e8424e787a21a87250027909730c5"
-    )
-    assert cumulative_partition_0004["cumulative_newly_processed_ordinals_root_sha256"] == (
-        "8949b1560544abe3121a10d5cac2f8e83b3b6a98a64051ef9cebbb652fb533f0"
-    )
-    assert cumulative_partition_0004["complete_processed_partition_prefix"] is True
-    assert cumulative_partition_0004["complete_global_formal_receipts"] is False
-    assert cumulative_partition_0004["complete_comparable_evidence"] is False
-    assert cumulative_partition_0004["first_remaining_blocker"] == (
-        "11169_candidate_specific_formal_receipts_pending"
-    )
-    assert cumulative_partition_0004["promotion_admitted"] is False
-    assert cumulative_partition_0004["excluded_state_seals_closed"] is True
-    cumulative_partition_0005 = core.pop(
-        "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0005"
-    )
-    assert cumulative_partition_0005["artifact_binding"] == {
-        "path": (
-            "runs/engine/continuous-scientific-pipeline-epoch-003-cumulative-formal-"
-            "partition-0005/result.json"
+        "cumulative_formal_receipt_ledger_root_sha256": (
+            "a00b7bb8856ec9b7a35c49f9050ffecb5b38e9c8e45843e57c5af49b7836420c"
         ),
-        "file_sha256": "53bcff4d78db8eed6dd1489acec794a39731507cffc40f219a7e417ef646319b",
-        "content_sha256": "bf2f8c7b20053109750d6f703daa3e8d998a0fdc5c360b850e72f18ddcd00b41",
+        "cumulative_newly_processed_ordinals_root_sha256": (
+            "258c4469d3ced17745464edbe75a87f2874cae88d1a5a76e956b9fb3bc27c35c"
+        ),
     }
-    assert cumulative_partition_0005["decision"] == (
-        "cumulative_formal_receipt_prefix_advanced_to_partition_0005_no_promotion"
+    assert formal_receipt_cursor["complete_prefix"] is True
+    assert formal_receipt_cursor["complete_global"] is False
+    assert formal_receipt_cursor["complete_comparable"] is False
+    assert formal_receipt_cursor["blocker"] == (
+        "11145_candidate_specific_formal_receipts_pending"
     )
-    assert cumulative_partition_0005["counts"] == {
-        "candidate_promotions": 0,
-        "cumulative_candidate_blocks": 0,
-        "cumulative_candidate_passes": 0,
-        "cumulative_candidate_rejects": 82,
-        "cumulative_formal_passes": 0,
-        "cumulative_formally_checked_candidates": 82,
-        "cumulative_newly_processed_candidates": 80,
-        "cumulative_reconciled_preserved_candidates": 2,
-        "initial_pending_formal_receipts": 11_247,
-        "processed_leaf_pages": 5,
-        "processed_partition_prefix_length": 5,
-        "rank_assignments": 0,
-        "remaining_pending_formal_receipts": 11_167,
+    assert formal_receipt_cursor["promotion_admitted"] is False
+    assert formal_receipt_cursor["excluded_state_seals_closed"] is True
+    assert formal_receipt_cursor["history"] == {
+        "capacity": 3,
+        "truncated_before_partition_sequence": 4,
+        "entries": [
+            {
+                "source_label": (
+                    "continuous_scientific_pipeline_epoch_003_"
+                    "cumulative_formal_partition_0004"
+                ),
+                "checked": 80,
+                "new": 78,
+                "pending": 11_169,
+                "ledger_root_sha256": (
+                    "8baf2a96b8dbbc68dd5fe6b76ee826068d1e8424e787a21a87250027909730c5"
+                ),
+            },
+            {
+                "source_label": (
+                    "continuous_scientific_pipeline_epoch_003_"
+                    "cumulative_formal_partition_0005"
+                ),
+                "checked": 82,
+                "new": 80,
+                "pending": 11_167,
+                "ledger_root_sha256": (
+                    "7e8235553cbdfe6de79e826571322ff6e6f7f3947da659ccd791a5b48c7de211"
+                ),
+            },
+            {
+                "source_label": (
+                    "continuous_scientific_pipeline_epoch_003_"
+                    "cumulative_formal_partition_0006"
+                ),
+                "checked": 84,
+                "new": 82,
+                "pending": 11_165,
+                "ledger_root_sha256": (
+                    "ddc10d27dee3180365c2ed39d0e8bc7c4f9876ac28596b19fee18d189dfd8c43"
+                ),
+            },
+        ],
     }
-    assert cumulative_partition_0005["pending_leaf_catalog_root_sha256"] == (
-        "f4f7a85c8ad520ceec23eef86a31cd4d757524c0d8e0b96f94ca5507d2dfd7e7"
-    )
-    assert cumulative_partition_0005["processed_partition_summaries_root_sha256"] == (
-        "4c26614da55f74198c902d07e1dc4a1476e659adcbad7ddd5be1807db854d0fd"
-    )
-    assert cumulative_partition_0005["cumulative_formal_receipt_ledger_root_sha256"] == (
-        "7e8235553cbdfe6de79e826571322ff6e6f7f3947da659ccd791a5b48c7de211"
-    )
-    assert cumulative_partition_0005[
-        "cumulative_newly_processed_ordinals_root_sha256"
-    ] == "6702d562ba0049f78d5d33bada61837aeb92b90840a89f615250b4c54719578b"
-    assert cumulative_partition_0005["complete_processed_partition_prefix"] is True
-    assert cumulative_partition_0005["complete_global_formal_receipts"] is False
-    assert cumulative_partition_0005["complete_comparable_evidence"] is False
-    assert cumulative_partition_0005["first_remaining_blocker"] == (
-        "11167_candidate_specific_formal_receipts_pending"
-    )
-    assert cumulative_partition_0005["promotion_admitted"] is False
-    assert cumulative_partition_0005["excluded_state_seals_closed"] is True
     assert not any(service_result["seals"].values())
     aether_boundary = core["einstein_aether_coupling_boundary_kkt"]
     assert aether_boundary["decision_counts"] == {"blocked": 1, "pass": 0, "reject": 0}
@@ -3077,10 +3028,8 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
         "candidate_bound_full_tensor_paradifferential_cancellation_or_derivative_loss_"
         "evolution_theorem_for_the_coefficient_high_state_low_branch"
     )
-    assert all(row["decision"] == "blocked" for row in finite["candidate_records"])
-    assert all(not row["candidate_rejection_authorized"] for row in finite["candidate_records"])
-    assert not any(finite["claim_seals"].values())
-    assert not any(finite["data_seals"].values())
+    assert finite["true_claims"] == []
+    assert finite["all_data_seals_closed"] is True
     reconciliation = recovery["full_tensor_good_unknown_reconciliation"]
     assert reconciliation["artifact_binding"] == {
         "path": (
@@ -3102,15 +3051,8 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
         "complete_candidate_bound_ordered_D2F_component_manifest_and_full_high_atom_"
         "good_unknown_identity_not_registered"
     )
-    assert all(
-        row["two_channel_modified_slice"]["all_four_entries_cancelled"]
-        and not row["two_channel_modified_slice"]["residual_entries"]
-        and row["candidate_decision"] == "blocked"
-        and not row["candidate_rejection_authorized"]
-        for row in reconciliation["candidate_records"]
-    )
-    assert not any(reconciliation["claim_seals"].values())
-    assert not any(reconciliation["data_seals"].values())
+    assert reconciliation["true_claims"] == []
+    assert reconciliation["all_data_seals_closed"] is True
     scalar_d2 = recovery["scalar_hessian_d2_integrability"]
     assert scalar_d2["decision_counts"] == {"pass": 0, "reject": 0, "blocked": 12}
     assert scalar_d2["gate_counts"]["ordered_D2_entries_materialized_per_candidate"] == 9_801
@@ -3419,6 +3361,43 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
         "rank_six_minimal_in_zero_Pother_connection_subclass",
     }
     assert two_sided["all_data_seals_closed"] is True
+    pother = recovery["candidate_pother_one_form_connection"]
+    assert pother["artifact_binding"] == {
+        "path": (
+            "runs/physics-language/quartic-candidate-pother-one-form-connection-gate/"
+            "campaign.json"
+        ),
+        "file_sha256": "f43b5623a46dc19541cd5a6323bd8b0c1ea7b63c7fbcfdb1e26bfe35a2f82bf6",
+        "content_sha256": "c79256b901eb6e7b543938cae6e6cf4b41e9fe2778aa37077604cf39a869f93d",
+    }
+    assert pother["decision_counts"] == {"pass": 0, "reject": 0, "blocked": 12}
+    assert pother["gate_counts"] == {
+        "Pother_one_form_entries_per_candidate": 990,
+        "Pother_one_form_nonzero_entries_per_candidate": 93,
+        "Pother_one_form_rank_per_candidate": 10,
+        "two_sided_equations_per_candidate": 8_910,
+        "two_sided_connection_unknowns_per_candidate": 11_979,
+        "two_sided_coefficient_rank_per_candidate": 1_870,
+        "two_sided_augmented_rank_per_candidate": 1_870,
+        "two_sided_affine_solution_dimension_per_candidate": 10_109,
+        "algebraic_connection_nonzero_entries_per_candidate": 22,
+        "algebraic_connection_residual_nonzero_entries": 0,
+        "covariant_action_derived_connections": 0,
+        "cross_slice_entries_admitted": 0,
+        "principal_high_atom_entries_missing_per_candidate": 106_920,
+    }
+    assert pother["first_blocker"] == (
+        "covariant_action_derived_output_connection_or_corrected_source_jet_required_before_"
+        "cross_slice_D2F_admission_despite_reference_system_rank_1870_consistency"
+    )
+    assert set(pother["true_claims"]) == {
+        "algebraic_reference_connection_solution_constructed",
+        "algebraic_two_sided_residual_zero",
+        "candidate_bound_Pother_one_form_registered",
+        "full_source_Jacobian_Pother_slice_projected",
+        "two_sided_reference_connection_system_consistent",
+    }
+    assert pother["all_data_seals_closed"] is True
     assert all(
         not any(lane["data_seals"].values())
         for name, lane in recovery.items()
@@ -3427,6 +3406,7 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
             "ordered_candidate_ids",
             "all_candidate_sets_equal",
             "cross_slice_two_sided_connection_identifiability",
+            "candidate_pother_one_form_connection",
         }
     )
     topology = core["quartic_nonlinear_closure"]["fourth_jet_range_obligations"][
@@ -3970,6 +3950,71 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     }
     assert revised_eleven["claims"]["preregistered_signed_height_one_selector_exhausted"] is True
     assert revised_eleven["claims"]["full_direction_sphere_D4_compatibility_proved"] is False
+    degree_six = core["quartic_nonlinear_closure"]["fourth_jet_range_obligations"][
+        "canonical_obstruction_certificate"
+    ].pop("revised_eleven_frame_degree_six_envelope")
+    assert degree_six["counts"] == {
+        "bound_predecessors": 11,
+        "candidate_compatibilities": 0,
+        "candidate_conditions_checked": 12,
+        "candidate_obstructions": 12,
+        "directional_polarization_evaluations": 15,
+        "envelope_degrees_checked": 4,
+        "inferred_global_passes": 0,
+        "negative_controls": 8,
+        "new_local_direction_certificates": 1,
+        "prior_direction_constraints": 11,
+        "rational_SO3_charts": 2,
+        "recurrence_orders_checked": 4,
+        "regular_search_points_evaluated": 1,
+        "total_local_direction_certificates": 12,
+    }
+    assert degree_six["selector"]["chart_coordinates"] == ["1", "2"]
+    assert degree_six["selector"]["direction"] == ["-2/3", "1/3", "2/3"]
+    exact_height_two = degree_six["exact_rational_classification"]
+    assert exact_height_two["candidate_obstructions"] == 12
+    assert exact_height_two["eta_normalized_target_rank"] == 4
+    assert exact_height_two["eta_normalized_target_nonzero_entries"] == 56
+    assert exact_height_two["eta_normalized_target_sha256"] == (
+        "7e9d08c8b4b2df3f3027baec1d6f752735e83c141cdf237d7fca98240cad62f0"
+    )
+    height_two_envelope = degree_six["bounded_classification"]["envelope"]
+    assert height_two_envelope["declared_degree_ladder"] == [0, 2, 4, 6]
+    assert height_two_envelope["minimal_feasible_even_degree"] == 4
+    assert height_two_envelope["degree_six_full_support_ceiling"] == 28
+    assert height_two_envelope["deterministic_support_size"] == 6
+    assert height_two_envelope["deterministic_support_indices"] == [1, 2, 5, 7, 9, 10]
+    height_two_repair = degree_six["bounded_classification"]["repair"]
+    assert height_two_repair["constructed_completion_rank"] == 2
+    assert height_two_repair["coordinate_pairs"] == [[11, 21], [15, 32]]
+    assert height_two_repair["extension_sha256"] == (
+        "5625ccb9e40bc54fd89950f280d9eb72f0c89826b3584d53eae706d648f2529d"
+    )
+    assert height_two_repair["total_local_direction_certificates"] == 12
+    for claim in (
+        "B7_closed",
+        "CK1_closed",
+        "CK3_closed",
+        "TC2_closed",
+        "boundary_energy_admission_proved",
+        "corrected_candidate_family_registered",
+        "covariant_action_origin_proved",
+        "finite_selector_determines_full_direction_sphere",
+        "full_direction_sphere_D4_compatibility_proved",
+        "full_tube_Sylvester_identity",
+        "global_H7_closed",
+        "lifespan_proved",
+        "local_differential_operator_origin_proved",
+        "variable_coefficient_constraint_calculus_proved",
+    ):
+        assert degree_six["claims"][claim] is False
+    assert (
+        core["quartic_nonlinear_closure"]["fourth_jet_range_obligations"][
+            "canonical_obstruction_certificate"
+        ]["next_gate"]
+        == "Preregister another bounded point/class or prove a finite determining theorem; "
+        "do not infer global or PDE admission from this local gate."
+    )
     assert core["quartic_nonlinear_closure"] == {
         "candidate_count": 12,
         "coordinate_pair_partition": {
@@ -4232,9 +4277,8 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                     ),
                 },
                 "next_gate": (
-                    "The preregistered signed height-one selector is exhausted; preregister the "
-                    "next bounded exact rational selector for the revised twelve-frame symbol or "
-                    "prove a finite determining theorem before any PDE/global admission."
+                    "Preregister another bounded point/class or prove a finite determining "
+                    "theorem; do not infer global or PDE admission from this local gate."
                 ),
             },
             "full_fourth_jet_range_closed": False,
@@ -4249,8 +4293,8 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
             "lifespans_proved": 0,
         },
         "first_missing_premise": (
-            "preregister_next_bounded_exact_rational_selector_for_revised_twelve_frame_symbol_"
-            "or_prove_finite_determining_theorem"
+            "preregister_next_bounded_exact_rational_selector_or_prove_finite_direction_"
+            "sphere_determining_theorem_for_revised_twelve_frame_symbol"
         ),
     }
     assert core["cross_pipeline_total"]["status"] == "not_computed"
@@ -4707,23 +4751,15 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "proven reachable through the registered pagination hierarchy" in dashboard
     assert "partition overlay on the immutable 11,247-entry queue" in dashboard
     assert "global formal evidence and comparable evidence are not" in dashboard
-    assert "Epoch 003 cumulative formal-receipt prefix" in dashboard
-    assert "gap-free, disjoint prefix of two hierarchy-reachable leaves" in dashboard
-    assert "36 candidates are formally checked" in dashboard
-    assert "Exactly 11,213 candidate-specific receipts remain pending" in dashboard
+    assert "Epoch 003 formal-receipt cursor" in dashboard
+    assert "gap-free, nonoverlapping seven-partition prefix" in dashboard
+    assert "104 candidates are formally checked" in dashboard
+    assert "Exactly 11,145 candidate-specific receipts remain pending" in dashboard
+    assert "bounded three-entry P0004–P0006 history" in dashboard
     assert "no theory-wide rejection" in dashboard
-    assert "Epoch 003 cumulative partition 0003" in dashboard
-    assert "gap-free, nonoverlapping three-leaf prefix" in dashboard
-    assert "29 new candidates all hard-reject" in dashboard
-    assert "65 checked candidates and 11,184 pending receipts" in dashboard
-    assert "Epoch 003 cumulative partition 0004" in dashboard
-    assert "gap-free, nonoverlapping four-leaf prefix" in dashboard
-    assert "15 new candidates all hard-reject" in dashboard
-    assert "80 checked candidates and 11,169 pending receipts" in dashboard
-    assert "Epoch 003 cumulative partition 0005" in dashboard
-    assert "gap-free, nonoverlapping five-leaf prefix" in dashboard
-    assert "two new candidates hard-reject" in dashboard
-    assert "82 checked candidates and 11,167 pending receipts" in dashboard
+    assert "Epoch 003 cumulative partition 0003" not in dashboard
+    assert "Epoch 003 cumulative partition 0004" not in dashboard
+    assert "Epoch 003 cumulative partition 0005" not in dashboard
     assert "Scalar-Hessian curl invariance gate" in dashboard
     assert "12 independent antisymmetric pairs" in dashboard
     assert "corrected source Jacobian" in dashboard
@@ -4757,6 +4793,12 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "99x90 curl flattening has exact rank six" in dashboard
     assert "ranks 1,518/1,518 and zero residual" in dashboard
     assert "synthetic completion is not source-registered" in dashboard
+    assert "Candidate-bound Pother one-form connection audit" in dashboard
+    assert "11x90 <code>Pother</code> one-form" in dashboard
+    assert "8,910 equations and 11,979 unknowns" in dashboard
+    assert "equal coefficient and augmented rank 1,870" in dashboard
+    assert "22-coefficient free-variable-zero solution" in dashboard
+    assert "zero D2F entries are admitted" in dashboard
     assert "TC2 revised-symbol e3 counterexample and bounded escape" in dashboard
     assert "(u,v)=(0,1)" in dashboard
     assert "4,943" in dashboard
@@ -4788,6 +4830,12 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "zero feasible normalizations" in dashboard
     assert "No twelfth local certificate" in dashboard
     assert "signed height-one selector ends" in dashboard
+    assert "TC2 first height-two point and bounded degree-six classification" in dashboard
+    assert "(u,v)=(1,2)" in dashboard
+    assert "n=(-2/3,1/3,2/3)" in dashboard
+    assert "rank-four, 56-entry zero-speed target" in dashboard
+    assert "bounded even degree ladder <code>{0,2,4,6}</code>" in dashboard
+    assert "yielding twelve exact local direction certificates" in dashboard
     assert "never assign rank directly" in dashboard
     assert "22,478,848 unique candidate-grid evaluations" in dashboard
     assert "89.4% median and 100% peak device-wide CPU" in dashboard
@@ -5244,6 +5292,27 @@ def test_two_sided_connection_identifiability_unified_semantic_tamper_fails_clos
         build_unified_snapshot(root, config, physical_gpu={"availability": "unavailable"})
 
 
+def test_candidate_pother_one_form_unified_semantic_tamper_fails_closed(
+    tmp_path: Path,
+) -> None:
+    root, config, _ = _fixture(tmp_path)
+    label = "quartic_candidate_pother_one_form_connection_gate"
+    spec = next(source for source in config["sources"] if source["label"] == label)
+    target = root / spec["path"]
+    artifact = json.loads(target.read_text(encoding="utf-8"))
+    artifact["candidate_records"][0]["free_variable_zero_connection_witness"][
+        "nonzero_residuals"
+    ] = 1
+    body = {key: value for key, value in artifact.items() if key != "content_sha256"}
+    artifact["content_sha256"] = hashlib.sha256(_canonical(body)).hexdigest()
+    target.write_text(json.dumps(artifact, indent=2) + "\n", encoding="utf-8")
+    spec["file_sha256"] = hashlib.sha256(target.read_bytes()).hexdigest()
+    spec["content_sha256"] = artifact["content_sha256"]
+
+    with pytest.raises(ValueError, match="candidate Pother one-form result boundary changed"):
+        build_unified_snapshot(root, config, physical_gpu={"availability": "unavailable"})
+
+
 def test_revised_eleven_frame_unified_semantic_tamper_fails_closed(
     tmp_path: Path,
 ) -> None:
@@ -5265,6 +5334,27 @@ def test_revised_eleven_frame_unified_semantic_tamper_fails_closed(
         ValueError,
         match="revised eleven-frame rational campaign validation failed",
     ):
+        build_unified_snapshot(root, config, physical_gpu={"availability": "unavailable"})
+
+
+def test_degree_six_envelope_unified_semantic_tamper_fails_closed(
+    tmp_path: Path,
+) -> None:
+    root, config, _ = _fixture(tmp_path)
+    label = "quartic_tc2_d4_revised_eleven_frame_degree_six_envelope_gate"
+    spec = next(source for source in config["sources"] if source["label"] == label)
+    target = root / spec["path"]
+    artifact = json.loads(target.read_text(encoding="utf-8"))
+    artifact["exact_gate"]["bounded_classification"]["repair"][
+        "total_local_direction_certificates"
+    ] = 13
+    body = {key: value for key, value in artifact.items() if key != "content_sha256"}
+    artifact["content_sha256"] = hashlib.sha256(_canonical(body)).hexdigest()
+    target.write_text(json.dumps(artifact, indent=2) + "\n", encoding="utf-8")
+    spec["file_sha256"] = hashlib.sha256(target.read_bytes()).hexdigest()
+    spec["content_sha256"] = artifact["content_sha256"]
+
+    with pytest.raises(ValueError, match="degree-six gate validation failed"):
         build_unified_snapshot(root, config, physical_gpu={"availability": "unavailable"})
 
 
@@ -5349,4 +5439,28 @@ def test_cumulative_partition_0005_unified_semantic_tamper_fails_closed(
     spec["content_sha256"] = artifact["content_sha256"]
 
     with pytest.raises(ValueError, match="partition 0005 result contract mismatch"):
+        build_unified_snapshot(root, config, physical_gpu={"availability": "unavailable"})
+
+
+@pytest.mark.parametrize("sequence", [6, 7])
+def test_latest_formal_receipt_cursor_source_tamper_fails_closed(
+    tmp_path: Path,
+    sequence: int,
+) -> None:
+    root, config, _ = _fixture(tmp_path)
+    label = (
+        "continuous_scientific_pipeline_epoch_003_"
+        f"cumulative_formal_partition_{sequence:04d}"
+    )
+    spec = next(source for source in config["sources"] if source["label"] == label)
+    target = root / spec["path"]
+    artifact = json.loads(target.read_text(encoding="utf-8"))
+    artifact["counts"]["remaining_pending_formal_receipts"] = 0
+    body = {key: value for key, value in artifact.items() if key != "content_sha256"}
+    artifact["content_sha256"] = hashlib.sha256(_canonical(body)).hexdigest()
+    target.write_text(json.dumps(artifact, indent=2) + "\n", encoding="utf-8")
+    spec["file_sha256"] = hashlib.sha256(target.read_bytes()).hexdigest()
+    spec["content_sha256"] = artifact["content_sha256"]
+
+    with pytest.raises(ValueError, match=f"partition {sequence:04d} result contract mismatch"):
         build_unified_snapshot(root, config, physical_gpu={"availability": "unavailable"})

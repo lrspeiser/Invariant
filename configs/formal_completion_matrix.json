@@ -324,6 +324,20 @@
         ,"runs/engine/continuous-scientific-pipeline-epoch-003-cumulative-formal-partition-0005/partition-0005.json"
         ,"runs/engine/continuous-scientific-pipeline-epoch-003-cumulative-formal-partition-0005/cumulative-ledger.json"
         ,"runs/engine/continuous-scientific-pipeline-epoch-003-cumulative-formal-partition-0005/result.json"
+        ,"src/sigma_theory_compiler/continuous_scientific_pipeline_cumulative_formal_partition_0006.py"
+        ,"configs/continuous_scientific_pipeline_epoch_003_cumulative_formal_receipt_partition_0006.json"
+        ,"tests/test_continuous_scientific_pipeline_cumulative_formal_partition_0006.py"
+        ,"runs/engine/continuous-scientific-pipeline-epoch-003-cumulative-formal-partition-0006/preflight.json"
+        ,"runs/engine/continuous-scientific-pipeline-epoch-003-cumulative-formal-partition-0006/partition-0006.json"
+        ,"runs/engine/continuous-scientific-pipeline-epoch-003-cumulative-formal-partition-0006/cumulative-ledger.json"
+        ,"runs/engine/continuous-scientific-pipeline-epoch-003-cumulative-formal-partition-0006/result.json"
+        ,"src/sigma_theory_compiler/continuous_scientific_pipeline_cumulative_formal_partition_0007.py"
+        ,"configs/continuous_scientific_pipeline_epoch_003_cumulative_formal_receipt_partition_0007.json"
+        ,"tests/test_continuous_scientific_pipeline_cumulative_formal_partition_0007.py"
+        ,"runs/engine/continuous-scientific-pipeline-epoch-003-cumulative-formal-partition-0007/preflight.json"
+        ,"runs/engine/continuous-scientific-pipeline-epoch-003-cumulative-formal-partition-0007/partition-0007.json"
+        ,"runs/engine/continuous-scientific-pipeline-epoch-003-cumulative-formal-partition-0007/cumulative-ledger.json"
+        ,"runs/engine/continuous-scientific-pipeline-epoch-003-cumulative-formal-partition-0007/result.json"
       ],
       "implemented": [
         "restart-safe bounded SQLite queues, deterministic seeds, leases, checkpoints, crash recovery, periodic refill, and detached start/status/stop/resume/export lifecycle",
@@ -393,10 +407,7 @@
         ,"a bounded candidate-specific replay of the six Epoch 003 pass batches that confirms 11,439 survivors and durably evaluates 192 exact ordinals; every enumerated candidate hard-rejects at the covariant mapper for a forbidden baryonic atom, while the overall campaign remains blocked rather than globally rejected because all six manifests are incomplete and 11,247 survivors still require paginated evaluation"
         ,"a complete CPU-only pagination of all 11,439 sampled-static survivors into 649 sealed leaves of at most 32 records under 90 original worker roots, with one durable formal-receipt queue entry per survivor, 192 preserved hard rejects, 11,247 pending candidate-specific receipts and zero rank or promotion"
         ,"a bounded first formal-receipt partition that closes one complete 24-candidate leaf as 22 new plus two reconciled exact hard rejects, reduces the global pending queue from 11,247 to 11,225, and keeps global formal completeness, comparable evidence, leaderboard rebuild, rank and promotion false"
-        ,"a deterministic cumulative formal-receipt worker that proves a gap-free disjoint two-leaf prefix, adds 12 exact rejects from partition 0002, records 36 checked candidates in a durable cumulative ledger, reduces pending receipts from 11,247 to 11,213, and keeps global formal completeness, comparable evidence, formal pass, rank and promotion false"
-        ,"a deterministic partition-0003 successor that proves a gap-free nonoverlapping three-leaf prefix, adds 29 exact mapper rejects, records 65 checked candidates in the cumulative ledger, reduces pending receipts to 11,184, and keeps global formal completeness, comparable evidence, theory-wide rejection, formal pass, rank and promotion false"
-        ,"a deterministic partition-0004 successor that proves a gap-free nonoverlapping four-leaf prefix, adds 15 exact mapper rejects, records 80 checked candidates in the cumulative ledger, reduces pending receipts to 11,169, and keeps global formal completeness, comparable evidence, theory-wide rejection, formal pass, rank and promotion false"
-        ,"a deterministic partition-0005 successor that proves a gap-free nonoverlapping five-leaf prefix, adds two exact mapper rejects, records 82 checked candidates in the cumulative ledger, reduces pending receipts to 11,167, and keeps global formal completeness, comparable evidence, theory-wide rejection, formal pass, rank and promotion false"
+        ,"a compact cumulative formal-receipt cursor at immutable partition 0007 that validates the gap-free nonoverlapping seven-leaf prefix and retains the independently replayable partition-0002-through-0007 source history; it records 104 checked candidates as 102 new plus two reconciled exact mapper rejects, leaves 11,145 receipts pending, and keeps global formal completeness, comparable evidence, theory-wide rejection, formal pass, leaderboard rebuild, rank and promotion false"
       ],
       "scalable_formal_provenance_bindings": {
         "continuous_scientific_pipeline_admission": {
@@ -643,6 +654,82 @@
           "rank_assignments": 0,
           "candidate_promotions": 0,
           "first_blocker": "11167_candidate_specific_formal_receipts_pending"
+        },
+        "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0006": {
+          "path": "runs/engine/continuous-scientific-pipeline-epoch-003-cumulative-formal-partition-0006/result.json",
+          "file_sha256": "32d4e494cdbad2bd1ee894faf82ab1effc59db113251f1e2ac0f8c1a3d08bc35",
+          "content_sha256": "763b4f909520e231d7abc50eda63e69e17a1fe3481ef42c4c2d8ce1abc1b2e2a",
+          "processed_partition_prefix_length": 6,
+          "processed_leaf_pages": 6,
+          "cumulative_formally_checked_candidates": 84,
+          "cumulative_newly_processed_candidates": 82,
+          "cumulative_reconciled_preserved_candidates": 2,
+          "cumulative_candidate_rejects": 84,
+          "cumulative_candidate_blocks": 0,
+          "cumulative_candidate_passes": 0,
+          "initial_pending_formal_receipts": 11247,
+          "remaining_pending_formal_receipts": 11165,
+          "pending_leaf_catalog_root_sha256": "f4f7a85c8ad520ceec23eef86a31cd4d757524c0d8e0b96f94ca5507d2dfd7e7",
+          "processed_partition_summaries_root_sha256": "a26c2a7dbd97e7f7caf0b5ab7bf390642239af4f552d4201a71843d62c60ded7",
+          "cumulative_formal_receipt_ledger_root_sha256": "ddc10d27dee3180365c2ed39d0e8bc7c4f9876ac28596b19fee18d189dfd8c43",
+          "cumulative_newly_processed_ordinals_root_sha256": "13cd65e3087157c5cab9a3854aa7b48795f5f6baf71e9010e07ff58f0cea3464",
+          "complete_processed_partition_prefix": true,
+          "complete_global_formal_receipts": false,
+          "complete_comparable_evidence": false,
+          "formal_passes": 0,
+          "rank_assignments": 0,
+          "candidate_promotions": 0,
+          "first_blocker": "11165_candidate_specific_formal_receipts_pending"
+        },
+        "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0007": {
+          "path": "runs/engine/continuous-scientific-pipeline-epoch-003-cumulative-formal-partition-0007/result.json",
+          "file_sha256": "7fce1ee021f694a19c2afc5300e6fb6e8f7a68d4daa9700275cec44cbb57f403",
+          "content_sha256": "8aae17e2a0fc13e645b6a63df9b8ccbd3d0cff6a03103ed3fed3f7a7eb63f069",
+          "processed_partition_prefix_length": 7,
+          "processed_leaf_pages": 7,
+          "cumulative_formally_checked_candidates": 104,
+          "cumulative_newly_processed_candidates": 102,
+          "cumulative_reconciled_preserved_candidates": 2,
+          "cumulative_candidate_rejects": 104,
+          "cumulative_candidate_blocks": 0,
+          "cumulative_candidate_passes": 0,
+          "initial_pending_formal_receipts": 11247,
+          "remaining_pending_formal_receipts": 11145,
+          "pending_leaf_catalog_root_sha256": "f4f7a85c8ad520ceec23eef86a31cd4d757524c0d8e0b96f94ca5507d2dfd7e7",
+          "processed_partition_summaries_root_sha256": "5746d102a33719fbe87119ba11e1f0e503fa8d5682f325de152ef1e6613f2807",
+          "cumulative_formal_receipt_ledger_root_sha256": "a00b7bb8856ec9b7a35c49f9050ffecb5b38e9c8e45843e57c5af49b7836420c",
+          "cumulative_newly_processed_ordinals_root_sha256": "258c4469d3ced17745464edbe75a87f2874cae88d1a5a76e956b9fb3bc27c35c",
+          "complete_processed_partition_prefix": true,
+          "complete_global_formal_receipts": false,
+          "complete_comparable_evidence": false,
+          "formal_passes": 0,
+          "rank_assignments": 0,
+          "candidate_promotions": 0,
+          "first_blocker": "11145_candidate_specific_formal_receipts_pending"
+        },
+        "continuous_scientific_pipeline_epoch_003_formal_receipt_cursor": {
+          "current_source": "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0007",
+          "current_partition_sequence": 7,
+          "retained_history_sources": [
+            "continuous_scientific_pipeline_epoch_003_cumulative_formal_receipt_worker",
+            "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0003",
+            "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0004",
+            "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0005",
+            "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0006",
+            "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0007"
+          ],
+          "current_file_sha256": "7fce1ee021f694a19c2afc5300e6fb6e8f7a68d4daa9700275cec44cbb57f403",
+          "current_content_sha256": "8aae17e2a0fc13e645b6a63df9b8ccbd3d0cff6a03103ed3fed3f7a7eb63f069",
+          "cumulative_formally_checked_candidates": 104,
+          "cumulative_newly_processed_candidates": 102,
+          "cumulative_reconciled_preserved_candidates": 2,
+          "remaining_pending_formal_receipts": 11145,
+          "complete_global_formal_receipts": false,
+          "complete_comparable_evidence": false,
+          "formal_passes": 0,
+          "rank_assignments": 0,
+          "candidate_promotions": 0,
+          "first_blocker": "11145_candidate_specific_formal_receipts_pending"
         },
         "cpu_real_formula_overlap_benchmark": {
           "path": "runs/benchmarks/cpu-real-formula-overlap-15-16.json",
@@ -1667,6 +1754,10 @@
         "status": "implemented_two_sided_premise_nonidentifiability_source_registration_fail_closed",
         "scope": "For all 12 candidates, the exact 99x90 cross-slice curl flattening has rank six and 63 nonzero entries. The K=0 Pother one-form completion reproduces the inconsistent coefficient/augmented ranks 990/991, while an exact rank decomposition constructs a synthetic rank-six K with 54 nonzero entries and a nine-entry P10 connection variation that satisfies all 8910 equations with coefficient/augmented ranks 1518/1518 and zero residuals in the declared zero-Pother-connection-variation subclass. The synthetic K is not candidate-bound or source-registered, so zero physical completions and zero cross-slice D2F entries are admitted; all 12 candidates remain blocked without rejection. A candidate-bound Pother one-form or corrected source jet, the remaining 106920 principal high-atom entries, full D2F, H7, PDE and lifespan remain fail-closed."
       },
+      "candidate_pother_one_form_connection": {
+        "status": "implemented_candidate_bound_Pother_one_form_algebraic_connection_fit_covariant_origin_fail_closed",
+        "scope": "For all 12 candidates, the registered full 11x153 source Jacobian projects an exact 11x90 Pother one-form with 990 entries, rank 10 and 93 nonzero values. The complete 8910-equation/11979-unknown two-sided reference system has coefficient and augmented rank 1870, affine dimension 10109, and a deterministic 22-coefficient free-variable-zero witness with zero residual. The fitted output connection is not derived from the covariant action or a corrected source jet, so zero physical connections and zero cross-slice D2F entries are admitted; all candidates remain blocked without rejection. The remaining 106920 principal high-atom entries, full D2F, H7, PDE and lifespan remain fail-closed."
+      },
       "anti_wick_composition_derivative_audit": {
         "status": "implemented_targeted_annular_C6_principal_composition_global_H7_fail_closed",
         "scope": "The Gaussian anti-Wick operator is exactly the Weyl operator with symbol exp((h/4)Delta)K. A positive annular energy, exact composition-amplitude algebra, 1/(8*pi) Schur coefficient, heat-smoothing witness, and false-C4-closure negative all pass. The targeted C6 hierarchy supplies (x,xi) pairs (2,4), (0,6), (0,5), and (1,4), giving finite principal composition constants and high-shell/finite-low principal inequalities for all 12 candidates. Localized source remainders, the remote H6-coefficient/H7-state paraproduct, global dyadic summation, and lifespan remain fail-closed."
@@ -1677,7 +1768,7 @@
       },
       "global_H7_energy_ledger": {
         "status": "implemented_global_nonremainder_sum_full_D1_and_partial_TC2_correction_global_H7_fail_closed",
-        "scope_current": "The downstream C23, XYZ, sixth-frame and degree-five extensions close seven rational frames. Exact e3, (1,1), (1,-1), (-1,1), and (-1,-1) audits disprove full-sphere D4 compatibility of the corresponding revised symbols. Bounded repairs through (-1,1) give eleven local direction certificates. At (-1,-1), n=(-1/3,-2/3,-2/3), all 12 candidates share a rank-two, 16-entry zero-speed obstruction that lies in the transverse-curl range, but the complete declared degree-0/2/4 support-at-most-14 preserving-envelope class exhausts all 32,766 nonempty supports with zero feasible normalization. No twelfth certificate exists in that class and the signed height-one selector is exhausted. A broader preregistered rational selector or finite determining theorem, pseudodifferential constraint and variable-coefficient commutator calculus, boundary energy, local/covariant origin, corrected-candidate registration, and the 2,816 later obligations remain open; full D4, tube, CK1, CK3, TC2, B7, H7 and lifespan claims remain false. This field supersedes the historical endpoint sentence retained in scope for provenance.",
+        "scope_current": "The downstream C23, XYZ, sixth-frame and degree-five extensions close seven rational frames. Exact e3, (1,1), (1,-1), (-1,1), and (-1,-1) audits disprove full-sphere D4 compatibility of the corresponding revised symbols. Bounded repairs through (-1,1) give eleven local direction certificates. At (-1,-1), n=(-1/3,-2/3,-2/3), all 12 candidates share a rank-two, 16-entry zero-speed obstruction that lies in the transverse-curl range, but the complete declared degree-0/2/4 support-at-most-14 preserving-envelope class exhausts all 32,766 nonempty supports with zero feasible normalization. No twelfth certificate exists in that class and the signed height-one selector is exhausted. The next preregistered bounded gate evaluates only the first primitive non-axis height-two point (1,2), n=(-2/3,1/3,2/3), in the strictly broader finite degree-0/2/4/6 class. All 12 candidates share a rank-four, 56-entry zero-speed obstruction in the transverse-curl range; deterministic RREF normalization is already feasible at degree four with six monomials, and a rank-two two-curl repair closes all 12 local systems while preserving the eleven earlier directions. This gives twelve exact local direction certificates only. A next bounded selector or finite full-sphere determining theorem, pseudodifferential constraint and variable-coefficient commutator calculus, boundary energy, local/covariant origin, corrected-candidate registration, and the 2,816 later obligations remain open; full D4, tube, CK1, CK3, TC2, B7, H7 and lifespan claims remain false. This field supersedes the historical endpoint sentence retained in scope for provenance.",
         "scope": "For all 12 candidates, the fail-closed H7 ledger includes the complete reference quadratic deltaK two-jet and the full exact third-jet sector. The fourth-order service closed 244 of 3,060 obligations before finding a rank-two alpha^5 obstruction at offset 244. An exact homogeneous-freedom reduction covers all 15 polarization sums, 300 stationary-projector checks and 20,842 lower-jet kernel slots; its induced D4 zero-eigenspace map has rank zero, so no lower homogeneous completion can cancel the witness. A separate minimal one-parameter rank-one state-space TC2 ansatz spans the obstruction line and gives 12/12 exact candidate-specific D4 solutions after tuning eta=-(34816/15)alpha^5. Its downstream fixed-chart curl completion proves exact 33-definition/33-curl propagation and reference constraint-surface equivalence. The required axis-two companion has been audited on seven eigenspaces: only the zero-speed compression is nonzero, with rank two and ten entries. A 363-parameter pure-C23 completion class has projected rank 297 and cannot reach the companion target because the augmented rank is 298. The complete polarized base D4 right-hand side at axis two is exactly zero, so the unweighted fixed-chart C12 curl completion is obstructed for all 12 eta values. The minimal parity-preserving multiplier a(n)=n1^2 yields a bounded odd cubic angular symbol that preserves all 12 e1 solutions and converts the 12 axis-two obstructions into exact compatibilities. Its first rational generic-direction audit executes the full orders-one-through-four recurrence at n=(3/5,4/5,0), checks all seven eigenspaces, and finds exact obstructions for all 12 candidates. This rejects the scalar parity-cubic all-direction completion, not the full direction sphere or broader matrix-valued, local, or covariant operators. The complete fixed-frame matrix-curl range at the same direction has 22 transverse covectors, 1,210 raw parameters and wedge rank 473; the target-augmented rank is also 473. A minimal single-channel rank-one block cancels the target and gives 12/12 exact fixed-frame compatibilities with all nonzero-eigenspace compressions zero. Its minimal degree-three bounded smooth antipodally odd extension preserves the e1, e2 and original generic certificates but vanishes at n=(3/5,0,4/5), where all 12 candidates retain exact rank-two obstructions. This rejects the canonical fixed-output single-C12 even-envelope extension, not broader matrix-curl symbols. A channel or envelope nonvanishing on the n2=0 great circle, additional direction audits, pseudodifferential commutator and boundary-energy calculus, corrected-candidate registration, and the 2,816 later obligations remain open. Full fourth-order closure, all-order remainder control, variable TC3/high-derivative TC2/H7 TC5 bounds, global dyadic closure, tube preservation, and lifespan remain false.",
         "evidence": [
           "src/sigma_theory_compiler/recovery_artifact_validation.py",
@@ -1743,6 +1834,10 @@
           "configs/backgrounds/quartic_cross_slice_two_sided_connection_identifiability_gate.json",
           "tests/test_quartic_cross_slice_two_sided_connection_identifiability_gate.py",
           "runs/physics-language/quartic-cross-slice-two-sided-connection-identifiability-gate/campaign.json",
+          "src/sigma_theory_compiler/quartic_candidate_pother_one_form_connection_gate.py",
+          "configs/backgrounds/quartic_candidate_pother_one_form_connection_gate.json",
+          "tests/test_quartic_candidate_pother_one_form_connection_gate.py",
+          "runs/physics-language/quartic-candidate-pother-one-form-connection-gate/campaign.json",
           "src/sigma_theory_compiler/quartic_tc2_quadratic_deltak_extension_campaign.py",
           "configs/backgrounds/quartic_tc2_quadratic_deltak_extension_campaign.json",
           "tests/test_quartic_tc2_quadratic_deltak_extension_campaign.py",
@@ -1916,6 +2011,10 @@
           ,"configs/backgrounds/quartic_tc2_d4_revised_eleven_frame_rational_counterexample_campaign.json"
           ,"tests/test_quartic_tc2_d4_revised_eleven_frame_rational_counterexample_campaign.py"
           ,"runs/physics-language/quartic-tc2-d4-revised-eleven-frame-rational-counterexample-campaign/campaign.json"
+          ,"src/sigma_theory_compiler/quartic_tc2_d4_revised_eleven_frame_degree_six_envelope_gate.py"
+          ,"configs/backgrounds/quartic_tc2_d4_revised_eleven_frame_degree_six_envelope_gate.json"
+          ,"tests/test_quartic_tc2_d4_revised_eleven_frame_degree_six_envelope_gate.py"
+          ,"runs/physics-language/quartic-tc2-d4-revised-eleven-frame-degree-six-envelope-gate/campaign.json"
         ],
         "artifact_binding": {
           "file_sha256": "bb651cb099e409fff85d3354c69a88f667cd39453946a8affce00378b3c705bf",
@@ -2432,6 +2531,35 @@
             "lifespans_proved": 0,
             "first_blocker": "candidate_bound_Pother_one_form_or_corrected_source_jet_required_to_select_between_inconsistent_zero_completion_and_consistent_rank_six_completion"
           },
+          "candidate_pother_one_form_connection_binding": {
+            "file_sha256": "f43b5623a46dc19541cd5a6323bd8b0c1ea7b63c7fbcfdb1e26bfe35a2f82bf6",
+            "content_sha256": "c79256b901eb6e7b543938cae6e6cf4b41e9fe2778aa37077604cf39a869f93d",
+            "source_sha256": "cd00e604fa1f06a14f22790007f2ff54556dfb44dbe622f3e0094ace0b38139f",
+            "config_sha256": "c5d8ec17f555f9380e890eaa444511b11c04059e32bdf3b5aa3ba38a9dd1e471",
+            "test_sha256": "65beaefd420b521f9c21cb4acd6939a2211634c113974604c885ebfb350fe65c",
+            "candidate_count": 12,
+            "candidate_pass": 0,
+            "candidate_reject": 0,
+            "candidate_blocked": 12,
+            "Pother_one_form_entries_per_candidate": 990,
+            "Pother_one_form_rank_per_candidate": 10,
+            "Pother_one_form_nonzero_entries_per_candidate": 93,
+            "two_sided_equations_per_candidate": 8910,
+            "two_sided_connection_unknowns_per_candidate": 11979,
+            "two_sided_coefficient_rank_per_candidate": 1870,
+            "two_sided_augmented_rank_per_candidate": 1870,
+            "two_sided_affine_solution_dimension_per_candidate": 10109,
+            "algebraic_connection_nonzero_entries_per_candidate": 22,
+            "algebraic_connection_residual_nonzero_entries": 0,
+            "covariant_action_derived_connections": 0,
+            "cross_slice_entries_admitted": 0,
+            "principal_high_atom_entries_missing_per_candidate": 106920,
+            "complete_ordered_D2F_tensors_registered": 0,
+            "global_H7_closures": 0,
+            "nonlinear_PDE_closures": 0,
+            "lifespans_proved": 0,
+            "first_blocker": "covariant_action_derived_output_connection_or_corrected_source_jet_required_before_cross_slice_D2F_admission_despite_reference_system_rank_1870_consistency"
+          },
           "fourth_jet_degree_three_matrix_curl_sphere_extension_binding": {
             "file_sha256": "118ee8b29dc6ddc40099a5ad53a07f0d2692de52e22912f64dab85e8dfedd972",
             "content_sha256": "4c76c478f692bcacff5f7203fab42a7c1b5e667cf2df4169ae5ccbabeb1d79ed",
@@ -2669,9 +2797,45 @@
             "revised_eleven_frame_full_sphere_D4_compatibility_disproved": true,
             "revised_twelve_frame_full_sphere_D4_compatibility_proved": false,
             "inferred_global_passes": 0
+          },
+          "fourth_jet_revised_eleven_frame_degree_six_envelope_binding": {
+            "file_sha256": "ad5a6094aa963c8ce855d6954b32ac63ebb89e349128a258102b4e1b3d66a4c7",
+            "content_sha256": "0c2b8ce7bd797a62111b824a892b3d1f3db075ad87271c3bb1a4b9f58a87418a",
+            "config_file_sha256": "e92347af9109b78da76880ea7cf225541e1b166845843e9ec2c2d6c00c0d2287",
+            "config_content_sha256": "8b212698a11f5963f8f82acf66e30364a4bbf8622c177856798d8701d85aa6dc",
+            "source_file_sha256": "50a2cdea20ed9614e8bfcc37d821aa48a97916af323e05d466c218e3aaf679d2",
+            "test_file_sha256": "7c5e581e3325d1ce4aab77178fb72cf1885348f712b6a57c4e6baf5019679d86",
+            "exact_gate_sha256": "962c4014df740b9ac117a9c344354b73b6d36d74e09fd003625874c63f1f0a0d",
+            "chart_coordinates": ["1", "2"],
+            "direction": ["-2/3", "1/3", "2/3"],
+            "recurrence_orders": 4,
+            "directional_polarization_evaluations": 15,
+            "candidate_compatibilities": 0,
+            "candidate_obstructions": 12,
+            "zero_speed_compression_rank": 4,
+            "zero_speed_compression_nonzero_entries": 56,
+            "eta_normalized_target_sha256": "7e9d08c8b4b2df3f3027baec1d6f752735e83c141cdf237d7fca98240cad62f0",
+            "transverse_selector_rank": 22,
+            "target_plane_dimension": 4,
+            "target_plane_intersection_dimension": 4,
+            "quotient_target_zero": true,
+            "bounded_envelope_degrees": [0, 2, 4, 6],
+            "degree_six_full_support_ceiling": 28,
+            "minimal_feasible_even_degree": 4,
+            "deterministic_envelope_support_indices": [1, 2, 5, 7, 9, 10],
+            "deterministic_envelope_support_size": 6,
+            "local_completion_rank": 2,
+            "curl_channels": 2,
+            "coordinate_pairs": [[11, 21], [15, 32]],
+            "extension_sha256": "5625ccb9e40bc54fd89950f280d9eb72f0c89826b3584d53eae706d648f2529d",
+            "new_local_direction_certificates": 1,
+            "prior_direction_certificates_preserved": 11,
+            "total_local_direction_certificates": 12,
+            "full_direction_sphere_D4_compatibility_proved": false,
+            "inferred_global_passes": 0
           }
       },
-      "missing": ["preregister a broader bounded exact rational selector or prove a finite determining theorem for the revised eleven-frame symbol, followed by pseudodifferential constraint, variable-coefficient commutator, boundary-energy and local/covariant admission; the signed height-one selector is exhausted at (-1,-1), the declared degree-0/2/4 support-at-most-14 repair class has zero feasible envelope, no twelfth local certificate is constructed, and the permanently stopped service leaves 2,816 later obligations unevaluated", "fifth-and-higher remainder control or a nonlinear range theorem that upgrades the completed reference Taylor jets to a tube-uniform Hermitian positive full Sylvester solution", "the remaining variable TC3, high-derivative TC2 and H7 TC5 terms", "an executable component Frechet/Bony-good-unknown remainder bound supplying finite C_L and C_B", "an initial H7 energy bound and substitution into the conditional lifespan/tube formula", "new reduction adapters for future nonminimal action terms outside the bounded grammar", "exhaustive multi-seed connected-domain construction beyond the campaign's shared local FLRW seed", "nonlinear PDE evolution-invariant trapping regions inside the pointwise-certified cubic-Horndeski and quartic-Horndeski local-jet boxes", "new mixed/nonlinear principal and symmetrizer adapters for the remaining 114 G4_X sample assignments, followed by necessary-and-sufficient multi-field direction-sphere bounds", "generic nonlinear global reduced-Hamiltonian boundedness beyond the certified homogeneous Horndeski tensor and FLRW scalar blocks"]
+      "missing": ["preregister the next bounded exact rational selector for the revised twelve-frame local symbol or prove a finite full-sphere determining theorem, followed by pseudodifferential constraint, variable-coefficient commutator, boundary-energy and local/covariant admission; the first height-two point (1,2) has a bounded degree-0/2/4/6 local repair and raises the finite local certificate count to 12, but no full-sphere conclusion follows and the permanently stopped service leaves 2,816 later obligations unevaluated", "fifth-and-higher remainder control or a nonlinear range theorem that upgrades the completed reference Taylor jets to a tube-uniform Hermitian positive full Sylvester solution", "the remaining variable TC3, high-derivative TC2 and H7 TC5 terms", "an executable component Frechet/Bony-good-unknown remainder bound supplying finite C_L and C_B", "an initial H7 energy bound and substitution into the conditional lifespan/tube formula", "new reduction adapters for future nonminimal action terms outside the bounded grammar", "exhaustive multi-seed connected-domain construction beyond the campaign's shared local FLRW seed", "nonlinear PDE evolution-invariant trapping regions inside the pointwise-certified cubic-Horndeski and quartic-Horndeski local-jet boxes", "new mixed/nonlinear principal and symmetrizer adapters for the remaining 114 G4_X sample assignments, followed by necessary-and-sufficient multi-field direction-sphere bounds", "generic nonlinear global reduced-Hamiltonian boundedness beyond the certified homogeneous Horndeski tensor and FLRW scalar blocks"]
     },
     {
       "id": "solar_and_direct_observations",

@@ -35,6 +35,12 @@ from .continuous_scientific_pipeline_cumulative_formal_partition_0004 import (
 from .continuous_scientific_pipeline_cumulative_formal_partition_0005 import (
     validate_result as validate_cumulative_formal_partition_0005_result,
 )
+from .continuous_scientific_pipeline_cumulative_formal_partition_0006 import (
+    validate_result as validate_cumulative_formal_partition_0006_result,
+)
+from .continuous_scientific_pipeline_cumulative_formal_partition_0007 import (
+    validate_result as validate_cumulative_formal_partition_0007_result,
+)
 from .continuous_scientific_pipeline_cumulative_formal_receipt_worker import (
     validate_result as validate_cumulative_formal_receipt_worker_result,
 )
@@ -62,6 +68,9 @@ from .quartic_anti_wick_composition_campaign import (
 )
 from .quartic_bounded_frequency_defect_campaign import (
     validate_quartic_bounded_frequency_defect_artifact,
+)
+from .quartic_candidate_pother_one_form_connection_gate import (
+    _validate_result as validate_candidate_pother_one_form_connection,
 )
 from .quartic_cross_slice_one_sided_output_connection_no_go_gate import (
     _validate_result as validate_cross_slice_one_sided_output_connection_no_go,
@@ -108,6 +117,9 @@ from .quartic_tc2_d4_rational_chart_determining_gate import (
 )
 from .quartic_tc2_d4_revised_eight_frame_rational_counterexample_campaign import (
     validate_campaign as validate_revised_eight_frame_rational_counterexample,
+)
+from .quartic_tc2_d4_revised_eleven_frame_degree_six_envelope_gate import (
+    validate_campaign as validate_revised_eleven_frame_degree_six_envelope,
 )
 from .quartic_tc2_d4_revised_eleven_frame_rational_counterexample_campaign import (
     validate_campaign as validate_revised_eleven_frame_rational_counterexample,
@@ -809,6 +821,12 @@ def build_unified_snapshot(
     continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0005 = sources[
         "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0005"
     ]
+    continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0006 = sources[
+        "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0006"
+    ]
+    continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0007 = sources[
+        "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0007"
+    ]
     promotion = sources["promotion_overlay"]
     parameter = sources["grammar_parameter_cells"]
     parameter_expansion = sources["grammar_parameter_cell_expansion_service"]
@@ -1030,6 +1048,9 @@ def build_unified_snapshot(
     quartic_cross_slice_two_sided_connection_identifiability = sources[
         "quartic_cross_slice_two_sided_connection_identifiability_gate"
     ]
+    quartic_candidate_pother_one_form_connection = sources[
+        "quartic_candidate_pother_one_form_connection_gate"
+    ]
     validation_config_root = root
     validate_quartic_anti_wick_composition_artifact(
         quartic_anti_wick_recovery,
@@ -1114,6 +1135,10 @@ def build_unified_snapshot(
         quartic_cross_slice_two_sided_connection_identifiability,
         root=validation_config_root,
     )
+    validate_candidate_pother_one_form_connection(
+        quartic_candidate_pother_one_form_connection,
+        root=validation_config_root,
+    )
     quartic_tc2_quadratic_deltak = sources["quartic_tc2_quadratic_deltak_extension"]
     quartic_tc2_diagonal_third_jet = sources["quartic_tc2_diagonal_third_jet"]
     quartic_tc2_mixed_third_jet_basis_reduction = sources[
@@ -1190,6 +1215,9 @@ def build_unified_snapshot(
     ]
     quartic_tc2_d4_revised_eleven_frame_counterexample = sources[
         "quartic_tc2_d4_revised_eleven_frame_rational_counterexample"
+    ]
+    quartic_tc2_d4_revised_eleven_frame_degree_six_envelope = sources[
+        "quartic_tc2_d4_revised_eleven_frame_degree_six_envelope_gate"
     ]
     quartic_tc2_reranked_obligation_chunks = tuple(
         sources[f"quartic_tc2_reranked_obligation_chunk_{offset}"]
@@ -1371,6 +1399,24 @@ def build_unified_snapshot(
         root
         / "configs/continuous_scientific_pipeline_epoch_003_cumulative_formal_receipt_partition_0005.json",
     )
+    validate_cumulative_formal_partition_0006_result(
+        continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0006,
+        root,
+        root
+        / "configs/continuous_scientific_pipeline_epoch_003_cumulative_formal_receipt_partition_0006.json",
+    )
+    validate_cumulative_formal_partition_0007_result(
+        continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0007,
+        root,
+        root
+        / "configs/continuous_scientific_pipeline_epoch_003_cumulative_formal_receipt_partition_0007.json",
+    )
+    if continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0007[
+        "predecessor_cumulative_result_binding"
+    ] != source_specs[
+        "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0006"
+    ]:
+        raise ValueError("formal receipt cursor predecessor binding changed")
     if (
         scalable_structural_metrics.get("candidate_count") != 163
         or scalable_structural_metrics.get("alias_count") != 93
@@ -8947,6 +8993,50 @@ def build_unified_snapshot(
         or revised_eleven_counts["inferred_global_passes"] != 0
     ):
         raise ValueError("quartic TC2 revised-eleven-frame counterexample is inconsistent")
+    validate_revised_eleven_frame_degree_six_envelope(
+        quartic_tc2_d4_revised_eleven_frame_degree_six_envelope
+    )
+    degree_six_counts = quartic_tc2_d4_revised_eleven_frame_degree_six_envelope[
+        "counts"
+    ]
+    degree_six_gate = quartic_tc2_d4_revised_eleven_frame_degree_six_envelope[
+        "exact_gate"
+    ]
+    degree_six_bindings = quartic_tc2_d4_revised_eleven_frame_degree_six_envelope[
+        "source_bindings"
+    ]
+    degree_six_config_path = validation_config_root / (
+        "configs/backgrounds/quartic_tc2_d4_revised_eleven_frame_"
+        "degree_six_envelope_gate.json"
+    )
+    degree_six_config = json.loads(degree_six_config_path.read_text(encoding="utf-8"))
+    if (
+        hashlib.sha256(degree_six_config_path.read_bytes()).hexdigest()
+        != "e92347af9109b78da76880ea7cf225541e1b166845843e9ec2c2d6c00c0d2287"
+        or degree_six_config.get("content_sha256")
+        != "8b212698a11f5963f8f82acf66e30364a4bbf8622c177856798d8701d85aa6dc"
+        or quartic_tc2_d4_revised_eleven_frame_degree_six_envelope["config_sha256"]
+        != "8b212698a11f5963f8f82acf66e30364a4bbf8622c177856798d8701d85aa6dc"
+        or hashlib.sha256(
+            (validation_config_root / degree_six_bindings["campaign_source"]["path"])
+            .read_bytes()
+        ).hexdigest()
+        != "50a2cdea20ed9614e8bfcc37d821aa48a97916af323e05d466c218e3aaf679d2"
+        or hashlib.sha256(
+            (validation_config_root / degree_six_bindings["campaign_test"]["path"])
+            .read_bytes()
+        ).hexdigest()
+        != "7c5e581e3325d1ce4aab77178fb72cf1885348f712b6a57c4e6baf5019679d86"
+        or degree_six_bindings["exhaustion_predecessor"]
+        != source_specs["quartic_tc2_d4_revised_eleven_frame_rational_counterexample"]
+        or _sha(degree_six_gate)
+        != "962c4014df740b9ac117a9c344354b73b6d36d74e09fd003625874c63f1f0a0d"
+        or degree_six_counts["candidate_obstructions"] != 12
+        or degree_six_counts["new_local_direction_certificates"] != 1
+        or degree_six_counts["total_local_direction_certificates"] != 12
+        or degree_six_counts["inferred_global_passes"] != 0
+    ):
+        raise ValueError("quartic TC2 height-two degree-six envelope gate is inconsistent")
     if (
         unified_live_dashboard_service_readiness.get("decision")
         != "ready_enabled_read_only_bounded"
@@ -9497,249 +9587,113 @@ def build_unified_snapshot(
                 ].values()
             ),
         },
-        "continuous_scientific_pipeline_epoch_003_cumulative_formal_receipt_worker": {
-            "artifact_binding": source_specs[
-                "continuous_scientific_pipeline_epoch_003_cumulative_formal_receipt_worker"
-            ],
-            "decision": continuous_scientific_pipeline_epoch_003_cumulative_formal_receipt_worker[
+        "formal_receipt_cursor": {
+            "source_label": (
+                "continuous_scientific_pipeline_epoch_003_"
+                "cumulative_formal_partition_0007"
+            ),
+            "decision": continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0007[
                 "decision"
             ],
-            "counts": continuous_scientific_pipeline_epoch_003_cumulative_formal_receipt_worker[
-                "counts"
+            "counts": {
+                key: continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0007[
+                    "counts"
+                ][key]
+                for key in (
+                    "processed_partition_prefix_length",
+                    "cumulative_formally_checked_candidates",
+                    "cumulative_newly_processed_candidates",
+                    "cumulative_reconciled_preserved_candidates",
+                    "cumulative_candidate_rejects",
+                    "remaining_pending_formal_receipts",
+                )
+            },
+            "roots": {
+                "pending_leaf_catalog_root_sha256": (
+                    continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0007[
+                        "pending_leaf_catalog_root_sha256"
+                    ]
+                ),
+                "processed_partition_summaries_root_sha256": (
+                    continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0007[
+                        "processed_partition_summaries_root_sha256"
+                    ]
+                ),
+                "cumulative_formal_receipt_ledger_root_sha256": (
+                    continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0007[
+                        "cumulative_formal_receipt_ledger_root_sha256"
+                    ]
+                ),
+                "cumulative_newly_processed_ordinals_root_sha256": (
+                    continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0007[
+                        "cumulative_newly_processed_ordinals_root_sha256"
+                    ]
+                ),
+            },
+            "complete_prefix": continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0007[
+                "complete_processed_partition_prefix"
             ],
-            "pending_leaf_catalog_root_sha256": (
-                continuous_scientific_pipeline_epoch_003_cumulative_formal_receipt_worker[
-                    "pending_leaf_catalog_root_sha256"
-                ]
-            ),
-            "processed_partition_summaries_root_sha256": (
-                continuous_scientific_pipeline_epoch_003_cumulative_formal_receipt_worker[
-                    "processed_partition_summaries_root_sha256"
-                ]
-            ),
-            "cumulative_formal_receipt_ledger_root_sha256": (
-                continuous_scientific_pipeline_epoch_003_cumulative_formal_receipt_worker[
-                    "cumulative_formal_receipt_ledger_root_sha256"
-                ]
-            ),
-            "cumulative_newly_processed_ordinals_root_sha256": (
-                continuous_scientific_pipeline_epoch_003_cumulative_formal_receipt_worker[
-                    "cumulative_newly_processed_ordinals_root_sha256"
-                ]
-            ),
-            "complete_processed_partition_prefix": (
-                continuous_scientific_pipeline_epoch_003_cumulative_formal_receipt_worker[
-                    "complete_processed_partition_prefix"
-                ]
-            ),
-            "complete_global_formal_receipts": (
-                continuous_scientific_pipeline_epoch_003_cumulative_formal_receipt_worker[
-                    "complete_global_formal_receipts"
-                ]
-            ),
-            "complete_comparable_evidence": (
-                continuous_scientific_pipeline_epoch_003_cumulative_formal_receipt_worker[
-                    "complete_comparable_evidence"
-                ]
-            ),
-            "first_remaining_blocker": (
-                continuous_scientific_pipeline_epoch_003_cumulative_formal_receipt_worker[
-                    "first_remaining_blocker"
-                ]
-            ),
+            "complete_global": continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0007[
+                "complete_global_formal_receipts"
+            ],
+            "complete_comparable": continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0007[
+                "complete_comparable_evidence"
+            ],
+            "blocker": continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0007[
+                "first_remaining_blocker"
+            ],
             "promotion_admitted": any(
-                continuous_scientific_pipeline_epoch_003_cumulative_formal_receipt_worker[
+                continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0007[
                     "promotion_contract"
                 ].values()
             ),
             "excluded_state_seals_closed": not any(
-                continuous_scientific_pipeline_epoch_003_cumulative_formal_receipt_worker[
+                continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0007[
                     "seals"
                 ].values()
             ),
-        },
-        "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0003": {
-            "artifact_binding": source_specs[
-                "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0003"
-            ],
-            "decision": continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0003[
-                "decision"
-            ],
-            "counts": continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0003[
-                "counts"
-            ],
-            "pending_leaf_catalog_root_sha256": (
-                continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0003[
-                    "pending_leaf_catalog_root_sha256"
-                ]
-            ),
-            "processed_partition_summaries_root_sha256": (
-                continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0003[
-                    "processed_partition_summaries_root_sha256"
-                ]
-            ),
-            "cumulative_formal_receipt_ledger_root_sha256": (
-                continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0003[
-                    "cumulative_formal_receipt_ledger_root_sha256"
-                ]
-            ),
-            "cumulative_newly_processed_ordinals_root_sha256": (
-                continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0003[
-                    "cumulative_newly_processed_ordinals_root_sha256"
-                ]
-            ),
-            "complete_processed_partition_prefix": (
-                continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0003[
-                    "complete_processed_partition_prefix"
-                ]
-            ),
-            "complete_global_formal_receipts": (
-                continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0003[
-                    "complete_global_formal_receipts"
-                ]
-            ),
-            "complete_comparable_evidence": (
-                continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0003[
-                    "complete_comparable_evidence"
-                ]
-            ),
-            "first_remaining_blocker": (
-                continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0003[
-                    "first_remaining_blocker"
-                ]
-            ),
-            "promotion_admitted": any(
-                continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0003[
-                    "promotion_contract"
-                ].values()
-            ),
-            "excluded_state_seals_closed": not any(
-                continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0003[
-                    "seals"
-                ].values()
-            ),
-        },
-        "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0004": {
-            "artifact_binding": source_specs[
-                "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0004"
-            ],
-            "decision": continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0004[
-                "decision"
-            ],
-            "counts": continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0004[
-                "counts"
-            ],
-            "pending_leaf_catalog_root_sha256": (
-                continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0004[
-                    "pending_leaf_catalog_root_sha256"
-                ]
-            ),
-            "processed_partition_summaries_root_sha256": (
-                continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0004[
-                    "processed_partition_summaries_root_sha256"
-                ]
-            ),
-            "cumulative_formal_receipt_ledger_root_sha256": (
-                continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0004[
-                    "cumulative_formal_receipt_ledger_root_sha256"
-                ]
-            ),
-            "cumulative_newly_processed_ordinals_root_sha256": (
-                continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0004[
-                    "cumulative_newly_processed_ordinals_root_sha256"
-                ]
-            ),
-            "complete_processed_partition_prefix": (
-                continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0004[
-                    "complete_processed_partition_prefix"
-                ]
-            ),
-            "complete_global_formal_receipts": (
-                continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0004[
-                    "complete_global_formal_receipts"
-                ]
-            ),
-            "complete_comparable_evidence": (
-                continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0004[
-                    "complete_comparable_evidence"
-                ]
-            ),
-            "first_remaining_blocker": (
-                continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0004[
-                    "first_remaining_blocker"
-                ]
-            ),
-            "promotion_admitted": any(
-                continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0004[
-                    "promotion_contract"
-                ].values()
-            ),
-            "excluded_state_seals_closed": not any(
-                continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0004[
-                    "seals"
-                ].values()
-            ),
-        },
-        "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0005": {
-            "artifact_binding": source_specs[
-                "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0005"
-            ],
-            "decision": continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0005[
-                "decision"
-            ],
-            "counts": continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0005[
-                "counts"
-            ],
-            "pending_leaf_catalog_root_sha256": (
-                continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0005[
-                    "pending_leaf_catalog_root_sha256"
-                ]
-            ),
-            "processed_partition_summaries_root_sha256": (
-                continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0005[
-                    "processed_partition_summaries_root_sha256"
-                ]
-            ),
-            "cumulative_formal_receipt_ledger_root_sha256": (
-                continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0005[
-                    "cumulative_formal_receipt_ledger_root_sha256"
-                ]
-            ),
-            "cumulative_newly_processed_ordinals_root_sha256": (
-                continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0005[
-                    "cumulative_newly_processed_ordinals_root_sha256"
-                ]
-            ),
-            "complete_processed_partition_prefix": (
-                continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0005[
-                    "complete_processed_partition_prefix"
-                ]
-            ),
-            "complete_global_formal_receipts": (
-                continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0005[
-                    "complete_global_formal_receipts"
-                ]
-            ),
-            "complete_comparable_evidence": (
-                continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0005[
-                    "complete_comparable_evidence"
-                ]
-            ),
-            "first_remaining_blocker": (
-                continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0005[
-                    "first_remaining_blocker"
-                ]
-            ),
-            "promotion_admitted": any(
-                continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0005[
-                    "promotion_contract"
-                ].values()
-            ),
-            "excluded_state_seals_closed": not any(
-                continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0005[
-                    "seals"
-                ].values()
-            ),
+            "history": {
+                "capacity": 3,
+                "truncated_before_partition_sequence": 4,
+                "entries": [
+                    {
+                        "source_label": (
+                            "continuous_scientific_pipeline_epoch_003_"
+                            "cumulative_formal_partition_0004"
+                        ),
+                        "checked": 80,
+                        "new": 78,
+                        "pending": 11169,
+                        "ledger_root_sha256": (
+                            "8baf2a96b8dbbc68dd5fe6b76ee826068d1e8424e787a21a87250027909730c5"
+                        ),
+                    },
+                    {
+                        "source_label": (
+                            "continuous_scientific_pipeline_epoch_003_"
+                            "cumulative_formal_partition_0005"
+                        ),
+                        "checked": 82,
+                        "new": 80,
+                        "pending": 11167,
+                        "ledger_root_sha256": (
+                            "7e8235553cbdfe6de79e826571322ff6e6f7f3947da659ccd791a5b48c7de211"
+                        ),
+                    },
+                    {
+                        "source_label": (
+                            "continuous_scientific_pipeline_epoch_003_"
+                            "cumulative_formal_partition_0006"
+                        ),
+                        "checked": 84,
+                        "new": 82,
+                        "pending": 11165,
+                        "ledger_root_sha256": (
+                            "ddc10d27dee3180365c2ed39d0e8bc7c4f9876ac28596b19fee18d189dfd8c43"
+                        ),
+                    },
+                ],
+            },
         },
         "einstein_aether_coupling_boundary_kkt": {
             "decision": einstein_aether_coupling_boundary_kkt["decision"],
@@ -11147,14 +11101,14 @@ def build_unified_snapshot(
                     "decision_counts": quartic_finite_sobolev_no_go["decision_counts"],
                     "gate_counts": quartic_finite_sobolev_no_go["gate_counts"],
                     "first_blocker": quartic_finite_sobolev_no_go["first_blocker"],
-                    "theorem": quartic_finite_sobolev_no_go["theorem"],
-                    "recovery_chain_audit": quartic_finite_sobolev_no_go["recovery_chain_audit"],
-                    "exact_controls": quartic_finite_sobolev_no_go["exact_controls"],
-                    "candidate_records": quartic_finite_sobolev_no_go["candidate_records"],
-                    "secondary_blockers": quartic_finite_sobolev_no_go["secondary_blockers"],
-                    "claim_seals": quartic_finite_sobolev_no_go["claim_seals"],
-                    "data_seals": quartic_finite_sobolev_no_go["data_seals"],
-                    "scope": quartic_finite_sobolev_no_go["scope"],
+                    "true_claims": sorted(
+                        key
+                        for key, value in quartic_finite_sobolev_no_go["claim_seals"].items()
+                        if value
+                    ),
+                    "all_data_seals_closed": not any(
+                        quartic_finite_sobolev_no_go["data_seals"].values()
+                    ),
                 },
                 "full_tensor_good_unknown_reconciliation": {
                     "artifact_binding": source_specs[
@@ -11164,13 +11118,16 @@ def build_unified_snapshot(
                     "decision_counts": quartic_full_tensor_reconciliation["decision_counts"],
                     "gate_counts": quartic_full_tensor_reconciliation["gate_counts"],
                     "first_blocker": quartic_full_tensor_reconciliation["first_blocker"],
-                    "coverage_theorem": quartic_full_tensor_reconciliation["coverage_theorem"],
-                    "exact_controls": quartic_full_tensor_reconciliation["exact_controls"],
-                    "candidate_records": quartic_full_tensor_reconciliation["candidate_records"],
-                    "secondary_blockers": quartic_full_tensor_reconciliation["secondary_blockers"],
-                    "claim_seals": quartic_full_tensor_reconciliation["claim_seals"],
-                    "data_seals": quartic_full_tensor_reconciliation["data_seals"],
-                    "scope": quartic_full_tensor_reconciliation["scope"],
+                    "true_claims": sorted(
+                        key
+                        for key, value in quartic_full_tensor_reconciliation[
+                            "claim_seals"
+                        ].items()
+                        if value
+                    ),
+                    "all_data_seals_closed": not any(
+                        quartic_full_tensor_reconciliation["data_seals"].values()
+                    ),
                 },
                 "scalar_hessian_d2_integrability": {
                     "artifact_binding": source_specs[
@@ -11423,6 +11380,46 @@ def build_unified_snapshot(
                         ].values()
                     ),
                 },
+                "candidate_pother_one_form_connection": {
+                    "artifact_binding": source_specs[
+                        "quartic_candidate_pother_one_form_connection_gate"
+                    ],
+                    "decision": quartic_candidate_pother_one_form_connection["decision"],
+                    "decision_counts": quartic_candidate_pother_one_form_connection[
+                        "decision_counts"
+                    ],
+                    "gate_counts": {
+                        key: quartic_candidate_pother_one_form_connection["gate_counts"][key]
+                        for key in (
+                            "Pother_one_form_entries_per_candidate",
+                            "Pother_one_form_nonzero_entries_per_candidate",
+                            "Pother_one_form_rank_per_candidate",
+                            "two_sided_equations_per_candidate",
+                            "two_sided_connection_unknowns_per_candidate",
+                            "two_sided_coefficient_rank_per_candidate",
+                            "two_sided_augmented_rank_per_candidate",
+                            "two_sided_affine_solution_dimension_per_candidate",
+                            "algebraic_connection_nonzero_entries_per_candidate",
+                            "algebraic_connection_residual_nonzero_entries",
+                            "covariant_action_derived_connections",
+                            "cross_slice_entries_admitted",
+                            "principal_high_atom_entries_missing_per_candidate",
+                        )
+                    },
+                    "first_blocker": quartic_candidate_pother_one_form_connection[
+                        "first_blocker"
+                    ],
+                    "true_claims": sorted(
+                        key
+                        for key, value in quartic_candidate_pother_one_form_connection[
+                            "claim_seals"
+                        ].items()
+                        if value
+                    ),
+                    "all_data_seals_closed": not any(
+                        quartic_candidate_pother_one_form_connection["data_seals"].values()
+                    ),
+                },
                 "ordered_candidate_ids": [
                     row["candidate_id"] for row in quartic_anti_wick_recovery["certificates"]
                 ],
@@ -11483,6 +11480,12 @@ def build_unified_snapshot(
                     == [
                         row["candidate_id"]
                         for row in quartic_cross_slice_two_sided_connection_identifiability[
+                            "candidate_records"
+                        ]
+                    ]
+                    == [
+                        row["candidate_id"]
+                        for row in quartic_candidate_pother_one_form_connection[
                             "candidate_records"
                         ]
                     ]
@@ -11987,7 +11990,26 @@ def build_unified_snapshot(
                         "claims": quartic_tc2_d4_revised_eleven_frame_counterexample["claims"],
                         "scope": quartic_tc2_d4_revised_eleven_frame_counterexample["scope"],
                     },
-                    "next_gate": quartic_tc2_d4_revised_eleven_frame_counterexample[
+                    "revised_eleven_frame_degree_six_envelope": {
+                        "status": quartic_tc2_d4_revised_eleven_frame_degree_six_envelope[
+                            "status"
+                        ],
+                        "counts": degree_six_counts,
+                        "atlas": degree_six_gate["atlas"],
+                        "search_protocol": degree_six_gate["search_protocol"],
+                        "selector": degree_six_gate["selector"],
+                        "exact_rational_classification": degree_six_gate[
+                            "exact_rational_classification"
+                        ],
+                        "bounded_classification": degree_six_gate["bounded_classification"],
+                        "claims": quartic_tc2_d4_revised_eleven_frame_degree_six_envelope[
+                            "claims"
+                        ],
+                        "scope": quartic_tc2_d4_revised_eleven_frame_degree_six_envelope[
+                            "scope"
+                        ],
+                    },
+                    "next_gate": quartic_tc2_d4_revised_eleven_frame_degree_six_envelope[
                         "next_gate"
                     ],
                 },
@@ -12006,8 +12028,8 @@ def build_unified_snapshot(
                 )
             },
             "first_missing_premise": (
-                "preregister_next_bounded_exact_rational_selector_for_revised_twelve_frame_"
-                "symbol_or_prove_finite_determining_theorem"
+                "preregister_next_bounded_exact_rational_selector_or_prove_finite_"
+                "direction_sphere_determining_theorem_for_revised_twelve_frame_symbol"
             ),
         },
         "evidence_pareto": {
