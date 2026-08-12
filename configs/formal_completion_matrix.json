@@ -279,7 +279,11 @@
         "src/sigma_theory_compiler/continuous_scientific_pipeline_epoch.py",
         "configs/continuous_scientific_pipeline_epoch_003.json",
         "tests/test_continuous_scientific_pipeline_epoch.py",
-        "runs/engine/continuous-scientific-pipeline-epoch-003-genesis.json"
+        "runs/engine/continuous-scientific-pipeline-epoch-003-genesis.json",
+        "src/sigma_theory_compiler/continuous_scientific_pipeline_epoch_result.py",
+        "tests/test_continuous_scientific_pipeline_epoch_result.py",
+        "runs/engine/continuous-scientific-pipeline-epoch-003-preflight.json",
+        "runs/engine/continuous-scientific-pipeline-epoch-003-result.json"
       ],
       "implemented": [
         "restart-safe bounded SQLite queues, deterministic seeds, leases, checkpoints, crash recovery, periodic refill, and detached start/status/stop/resume/export lifecycle",
@@ -345,6 +349,7 @@
         ,"a bounded single-owner CPU service with an argv-bound O_EXCL lease, isolated self-hashed JSON queue/checkpoint, cooperative stop, 16-cycle/600-second service bound, 120-second owned-child deadline, 15 real evaluator workers and zero GPU workers; its candidate-bound backend reconstructs survivor identities, maps supported candidates to typed covariant actions, and runs the action-health ADM/Legendre/Dirac/principal/Hamiltonian chain without equating local controls to formal promotion"
         ,"a sealed bounded execution over eight 15-worker batches and 3,932,160 unique formulas: five sampled-static rejects and three survivor batches with exact formal-block receipts, producing zero formal passes, leaderboard rebuild requests, rank assignments, GPU use, live campaign SQLite access, or observational/theory promotion"
         ,"an immutable, non-executing Epoch 003 persistent-resume genesis over a disjoint 3,932,160-formula interval in eight future 15-worker batches; runtime materialization, evaluation, formal receipts, leaderboard requests, rank and promotion all remain false"
+        ,"a separately sealed Epoch 003 terminal execution over all 3,932,160 preregistered formulas in eight 15-worker CPU batches and 23 cycles; two batches were sampled-static rejects, six produced formal blocks, and formal passes, leaderboard rebuilds, ranks, promotions, GPU, live campaign SQLite, observations and theory claims remain zero"
       ],
       "scalable_formal_provenance_bindings": {
         "continuous_scientific_pipeline_admission": {
@@ -411,6 +416,24 @@
           "leaderboard_rebuild_requested": false,
           "rank_assignment_performed": false,
           "candidate_promotion_performed": false
+        },
+        "continuous_scientific_pipeline_epoch_003_result": {
+          "path": "runs/engine/continuous-scientific-pipeline-epoch-003-result.json",
+          "file_sha256": "0db57bec3577f8b99b845e522316d0a721e9f9bdc79d333f2897756df709e781",
+          "content_sha256": "bd84fc36bea021e8cc068bf0e737b5d1654e272bce14046c1c3e511978b20044",
+          "unique_formula_count": 3932160,
+          "real_CPU_batches": 8,
+          "workers_per_batch": 15,
+          "cycles": 23,
+          "sampled_static_reject_batches": 2,
+          "sampled_static_pass_batches": 6,
+          "formal_blocks": 6,
+          "formal_passes": 0,
+          "leaderboard_rebuild_requests": 0,
+          "rank_assignments": 0,
+          "terminal_state": "bounded_complete",
+          "queue_content_sha256": "71e36b97e1bb0a29b4dce9f812396b61e95aca3f0abfc8ccf31caf2266b15483",
+          "checkpoint_content_sha256": "4f8f56c22432fd029f2ef094327d2b74ec2b58191a9916859fd5486c9d4276f7"
         },
         "cpu_real_formula_overlap_benchmark": {
           "path": "runs/benchmarks/cpu-real-formula-overlap-15-16.json",
@@ -1404,6 +1427,10 @@
         "status": "implemented_coordinate_and_torsion_free_repair_no_go_corrected_source_fail_closed",
         "scope": "For all 12 candidates, 24 ordered and 30 nonzero curl entries reduce exactly to 12 independent antisymmetric pairs and 15 components. Pullback invariance and torsion-free antisymmetrization rule out coordinate-only and torsion-free-domain repairs of the registered naive one-form. Corrected source Jacobians, output-bundle connections, torsion, full D2, global H7, nonlinear PDE closure and lifespan remain fail-closed."
       },
+      "scalar_hessian_output_bundle_repair": {
+        "status": "implemented_reference_output_bundle_repair_complete_D2F_fail_closed",
+        "scope": "For all 12 candidates, arbitrary shared domain torsion cannot repair the registered rank-one 11x9 one-form, while a support-minimal six-coefficient output-bundle connection solves the exact 396-equation/99-unknown rank-88 system and registers a symmetric 891-entry high-field-10 D2 subslice. The covariant-action origin, remaining 256608 ordered D2 entries per candidate, full high-atom identity, global H7, nonlinear PDE closure and lifespan remain fail-closed."
+      },
       "anti_wick_composition_derivative_audit": {
         "status": "implemented_targeted_annular_C6_principal_composition_global_H7_fail_closed",
         "scope": "The Gaussian anti-Wick operator is exactly the Weyl operator with symbol exp((h/4)Delta)K. A positive annular energy, exact composition-amplitude algebra, 1/(8*pi) Schur coefficient, heat-smoothing witness, and false-C4-closure negative all pass. The targeted C6 hierarchy supplies (x,xi) pairs (2,4), (0,6), (0,5), and (1,4), giving finite principal composition constants and high-shell/finite-low principal inequalities for all 12 candidates. Localized source remainders, the remote H6-coefficient/H7-state paraproduct, global dyadic summation, and lifespan remain fail-closed."
@@ -1452,6 +1479,10 @@
           "configs/backgrounds/quartic_scalar_hessian_curl_invariance_gate.json",
           "tests/test_quartic_scalar_hessian_curl_invariance_gate.py",
           "runs/physics-language/quartic-scalar-hessian-curl-invariance-gate/campaign.json",
+          "src/sigma_theory_compiler/quartic_scalar_hessian_output_bundle_repair_gate.py",
+          "configs/backgrounds/quartic_scalar_hessian_output_bundle_repair_gate.json",
+          "tests/test_quartic_scalar_hessian_output_bundle_repair_gate.py",
+          "runs/physics-language/quartic-scalar-hessian-output-bundle-repair-gate/campaign.json",
           "src/sigma_theory_compiler/quartic_tc2_quadratic_deltak_extension_campaign.py",
           "configs/backgrounds/quartic_tc2_quadratic_deltak_extension_campaign.json",
           "tests/test_quartic_tc2_quadratic_deltak_extension_campaign.py",
@@ -1953,6 +1984,30 @@
             "nonlinear_PDE_closures": 0,
             "lifespans_proved": 0,
             "first_blocker": "candidate_bound_corrected_source_Jacobian_or_output_bundle_or_torsion_repair_restoring_integrability_not_registered"
+          },
+          "scalar_hessian_output_bundle_repair_binding": {
+            "file_sha256": "e1ae98ebcb3c2739f7c84938d61ce9e7d2d209d4025f54a7d1d499a8495acfdb",
+            "content_sha256": "688dcb478b86d44330f8a3623183e91c237bd91f31bd4e91bf5869098175973f",
+            "candidate_count": 12,
+            "candidate_pass": 0,
+            "candidate_reject": 0,
+            "candidate_blocked": 12,
+            "arbitrary_domain_torsion_pair_no_go_certificates": 144,
+            "output_connection_equations_per_candidate": 396,
+            "output_connection_unknowns_per_candidate": 99,
+            "output_connection_coefficient_rank": 88,
+            "output_connection_augmented_rank": 88,
+            "output_connection_affine_dimension": 11,
+            "sparse_output_connection_coefficients_per_candidate": 6,
+            "corrected_scalar_hessian_D2_entries_per_candidate": 891,
+            "corrected_scalar_hessian_D2_entries_total": 10692,
+            "corrected_curl_nonzero_components": 0,
+            "complete_ordered_D2_manifests_registered": 0,
+            "full_high_atom_good_unknown_identities_proved": 0,
+            "global_H7_closures": 0,
+            "nonlinear_PDE_closures": 0,
+            "lifespans_proved": 0,
+            "first_blocker": "complete_candidate_bound_11x153x153_ordered_D2F_manifest_and_full_high_atom_good_unknown_identity_not_registered"
           },
           "fourth_jet_degree_three_matrix_curl_sphere_extension_binding": {
             "file_sha256": "118ee8b29dc6ddc40099a5ad53a07f0d2692de52e22912f64dab85e8dfedd972",

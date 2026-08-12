@@ -27,6 +27,7 @@ SOURCE_PATHS = [
     "runs/engine/continuous-scientific-pipeline-service-readiness.json",
     "runs/engine/continuous-scientific-pipeline-service-result.json",
     "runs/engine/continuous-scientific-pipeline-epoch-003-genesis.json",
+    "runs/engine/continuous-scientific-pipeline-epoch-003-result.json",
     "runs/engine/composite-promotion-overlay-production-status.json",
     "runs/engine/grammar-v3-parameter-cell-execution-status.json",
     "runs/engine/grammar-v3-parameter-cell-expansion-service-status.json",
@@ -143,6 +144,7 @@ SOURCE_PATHS = [
     "runs/physics-language/quartic-full-tensor-good-unknown-reconciliation-gate/campaign.json",
     "runs/physics-language/quartic-scalar-hessian-d2-integrability-gate/campaign.json",
     "runs/physics-language/quartic-scalar-hessian-curl-invariance-gate/campaign.json",
+    "runs/physics-language/quartic-scalar-hessian-output-bundle-repair-gate/campaign.json",
     "runs/physics-language/quartic-tc2-ck1-p55-tube-envelope-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-quadratic-deltak-extension-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-diagonal-third-jet-campaign/campaign.json",
@@ -231,6 +233,7 @@ RECOVERY_CONFIG_PATHS = (
     "configs/backgrounds/quartic_full_tensor_good_unknown_reconciliation_gate.json",
     "configs/backgrounds/quartic_scalar_hessian_d2_integrability_gate.json",
     "configs/backgrounds/quartic_scalar_hessian_curl_invariance_gate.json",
+    "configs/backgrounds/quartic_scalar_hessian_output_bundle_repair_gate.json",
 )
 FINITE_SOBOLEV_DEPENDENCIES = (
     "src/sigma_theory_compiler/quartic_finite_sobolev_hierarchy_no_go_campaign.py",
@@ -247,6 +250,10 @@ SCALAR_HESSIAN_D2_DEPENDENCIES = (
 SCALAR_HESSIAN_CURL_DEPENDENCIES = (
     "src/sigma_theory_compiler/quartic_scalar_hessian_curl_invariance_gate.py",
     "tests/test_quartic_scalar_hessian_curl_invariance_gate.py",
+)
+SCALAR_HESSIAN_OUTPUT_BUNDLE_DEPENDENCIES = (
+    "src/sigma_theory_compiler/quartic_scalar_hessian_output_bundle_repair_gate.py",
+    "tests/test_quartic_scalar_hessian_output_bundle_repair_gate.py",
 )
 SIXTH_FRAME_CONFIG_PATH = (
     "configs/backgrounds/quartic_tc2_d4_degree_three_sixth_frame_completion_campaign.json"
@@ -280,6 +287,9 @@ CONTINUOUS_PIPELINE_DEPENDENCIES = (
     "configs/continuous_scientific_pipeline_epoch_003.json",
     "src/sigma_theory_compiler/continuous_scientific_pipeline_epoch.py",
     "tests/test_continuous_scientific_pipeline_epoch.py",
+    "src/sigma_theory_compiler/continuous_scientific_pipeline_epoch_result.py",
+    "tests/test_continuous_scientific_pipeline_epoch_result.py",
+    "runs/engine/continuous-scientific-pipeline-epoch-003-preflight.json",
     "configs/generator_v2_billion.json",
     "configs/covariant_action_grammar.json",
     "configs/covariant_field_contract.json",
@@ -301,6 +311,7 @@ LABELS = [
     "continuous_scientific_pipeline_service_readiness",
     "continuous_scientific_pipeline_service_result",
     "continuous_scientific_pipeline_epoch_003_genesis",
+    "continuous_scientific_pipeline_epoch_003_result",
     "promotion_overlay",
     "grammar_parameter_cells",
     "grammar_parameter_cell_expansion_service",
@@ -417,6 +428,7 @@ LABELS = [
     "quartic_full_tensor_good_unknown_reconciliation_gate",
     "quartic_scalar_hessian_d2_integrability_gate",
     "quartic_scalar_hessian_curl_invariance_gate",
+    "quartic_scalar_hessian_output_bundle_repair_gate",
     "quartic_ck1_p55_tube_envelope",
     "quartic_tc2_quadratic_deltak_extension",
     "quartic_tc2_diagonal_third_jet",
@@ -570,6 +582,11 @@ def _fixture(tmp_path: Path) -> tuple[Path, dict[str, object], Path]:
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(source, target)
     for relative in SCALAR_HESSIAN_CURL_DEPENDENCIES:
+        source = REPO / relative
+        target = tmp_path / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(source, target)
+    for relative in SCALAR_HESSIAN_OUTPUT_BUNDLE_DEPENDENCIES:
         source = REPO / relative
         target = tmp_path / relative
         target.parent.mkdir(parents=True, exist_ok=True)
@@ -1262,6 +1279,23 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     }
     assert not any(epoch_003["promotion_contract"].values())
     assert not any(epoch_003["seals"].values())
+    epoch_003_result = core.pop("continuous_scientific_pipeline_epoch_003_result")
+    assert epoch_003_result["decision"] == "bounded_epoch_complete_fail_closed_no_promotion"
+    assert epoch_003_result["coverage"]["unique_formula_count"] == 3_932_160
+    assert epoch_003_result["coverage"]["real_CPU_batches"] == 8
+    assert epoch_003_result["outcomes"] == {
+        "formal_blocks": 6,
+        "formal_passes": 0,
+        "formal_receipts": 6,
+        "leaderboard_rebuild_requests": 0,
+        "rank_assignments": 0,
+        "sampled_static_pass_batches": 6,
+        "sampled_static_reject_batches": 2,
+    }
+    assert epoch_003_result["runtime_binding"]["cycles"] == 23
+    assert epoch_003_result["runtime_binding"]["terminal_state"] == "bounded_complete"
+    assert not any(epoch_003_result["promotion_contract"].values())
+    assert not any(epoch_003_result["seals"].values())
     assert len(service_result["replay_dependencies"]["replay_dependency_root_sha256"]) == 64
     assert not any(service_result["seals"].values())
     aether_boundary = core["einstein_aether_coupling_boundary_kkt"]
@@ -2495,6 +2529,20 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     assert scalar_curl["gate_counts"]["corrected_source_repairs_registered"] == 0
     assert scalar_curl["gate_counts"]["full_ordered_D2_manifests_admitted"] == 0
     assert not any(scalar_curl["data_seals"].values())
+    output_repair = recovery["scalar_hessian_output_bundle_repair"]
+    assert output_repair["decision_counts"] == {"pass": 0, "reject": 0, "blocked": 12}
+    assert output_repair["gate_counts"]["registered_one_form_rank"] == 1
+    assert output_repair["gate_counts"]["arbitrary_domain_torsion_pair_no_go_certificates"] == 144
+    assert output_repair["gate_counts"]["output_connection_equations_per_candidate"] == 396
+    assert output_repair["gate_counts"]["output_connection_unknowns_per_candidate"] == 99
+    assert output_repair["gate_counts"]["output_connection_coefficient_rank"] == 88
+    assert output_repair["gate_counts"]["output_connection_augmented_rank"] == 88
+    assert output_repair["gate_counts"]["output_connection_affine_dimension"] == 11
+    assert output_repair["gate_counts"]["sparse_output_connection_coefficients_per_candidate"] == 6
+    assert output_repair["gate_counts"]["corrected_scalar_hessian_D2_entries_per_candidate"] == 891
+    assert output_repair["gate_counts"]["corrected_curl_nonzero_components"] == 0
+    assert output_repair["gate_counts"]["complete_ordered_D2_manifests_registered"] == 0
+    assert not any(output_repair["data_seals"].values())
     assert all(
         not any(lane["data_seals"].values())
         for name, lane in recovery.items()
@@ -3403,6 +3451,11 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
         == 0
     )
     assert "Quartic operator recovery" in dashboard
+    assert "Scalar-Hessian output-bundle repair" in dashboard
+    assert "396 exact equations in 99 unknowns" in dashboard
+    assert "symmetric 891-entry high-field-10 D2 subslice only" in dashboard
+    assert "Continuous CPU Epoch 003 terminal result" in dashboard
+    assert "six survivor batches" in dashboard
     assert live["core"]["followup_service"]["followup_decision_counts"] == {
         "blocked": 8,
         "pass": 2,
@@ -3807,7 +3860,7 @@ def test_standalone_refresh_and_dashboard_keep_watchdog_database_read_only(
                 "--dashboard-output",
                 "runs/engine/dashboard.html",
                 "--maximum-output-bytes",
-                "1048576",
+                "1200000",
                 "--disable-leaderboards",
                 "--disable-gpu-sample",
                 "--sampled-at-utc",

@@ -24,6 +24,7 @@ from .continuous_scientific_pipeline_admission import (
     validate_continuous_scientific_pipeline_readiness,
 )
 from .continuous_scientific_pipeline_epoch import validate_epoch_genesis
+from .continuous_scientific_pipeline_epoch_result import validate_epoch_result
 from .continuous_scientific_pipeline_service import (
     validate_execution_result as validate_pipeline_service_result,
 )
@@ -53,6 +54,9 @@ from .quartic_scalar_hessian_curl_invariance_gate import (
 )
 from .quartic_scalar_hessian_d2_integrability_gate import (
     _validate_result as validate_scalar_hessian_d2_integrability,
+)
+from .quartic_scalar_hessian_output_bundle_repair_gate import (
+    _validate_result as validate_scalar_hessian_output_bundle_repair,
 )
 from .quartic_tc2_d4_degree_five_counterexample_escape_campaign import (
     validate_campaign as validate_degree_five_counterexample_escape,
@@ -730,6 +734,9 @@ def build_unified_snapshot(
     continuous_scientific_pipeline_epoch_003_genesis = sources[
         "continuous_scientific_pipeline_epoch_003_genesis"
     ]
+    continuous_scientific_pipeline_epoch_003_result = sources[
+        "continuous_scientific_pipeline_epoch_003_result"
+    ]
     promotion = sources["promotion_overlay"]
     parameter = sources["grammar_parameter_cells"]
     parameter_expansion = sources["grammar_parameter_cell_expansion_service"]
@@ -932,6 +939,9 @@ def build_unified_snapshot(
         "quartic_scalar_hessian_d2_integrability_gate"
     ]
     quartic_scalar_hessian_curl_invariance = sources["quartic_scalar_hessian_curl_invariance_gate"]
+    quartic_scalar_hessian_output_bundle_repair = sources[
+        "quartic_scalar_hessian_output_bundle_repair_gate"
+    ]
     validation_config_root = root
     validate_quartic_anti_wick_composition_artifact(
         quartic_anti_wick_recovery,
@@ -986,6 +996,10 @@ def build_unified_snapshot(
     )
     validate_scalar_hessian_curl_invariance(
         quartic_scalar_hessian_curl_invariance,
+        root=validation_config_root,
+    )
+    validate_scalar_hessian_output_bundle_repair(
+        quartic_scalar_hessian_output_bundle_repair,
         root=validation_config_root,
     )
     quartic_tc2_quadratic_deltak = sources["quartic_tc2_quadratic_deltak_extension"]
@@ -1192,6 +1206,7 @@ def build_unified_snapshot(
         root,
         root / "configs/continuous_scientific_pipeline_epoch_003.json",
     )
+    validate_epoch_result(continuous_scientific_pipeline_epoch_003_result, root)
     if (
         scalable_structural_metrics.get("candidate_count") != 163
         or scalable_structural_metrics.get("alias_count") != 93
@@ -8930,6 +8945,28 @@ def build_unified_snapshot(
             "bindings": continuous_scientific_pipeline_epoch_003_genesis["bindings"],
             "seals": continuous_scientific_pipeline_epoch_003_genesis["seals"],
         },
+        "continuous_scientific_pipeline_epoch_003_result": {
+            "decision": continuous_scientific_pipeline_epoch_003_result["decision"],
+            "epoch_id": continuous_scientific_pipeline_epoch_003_result["epoch_id"],
+            "preflight_resource_evidence": continuous_scientific_pipeline_epoch_003_result[
+                "preflight_resource_evidence"
+            ],
+            "coverage": continuous_scientific_pipeline_epoch_003_result["coverage"],
+            "outcomes": continuous_scientific_pipeline_epoch_003_result["outcomes"],
+            "completed_receipt_bindings": continuous_scientific_pipeline_epoch_003_result[
+                "completed_receipt_bindings"
+            ],
+            "replay_dependencies": continuous_scientific_pipeline_epoch_003_result[
+                "replay_dependencies"
+            ],
+            "runtime_binding": continuous_scientific_pipeline_epoch_003_result["runtime_binding"],
+            "promotion_contract": continuous_scientific_pipeline_epoch_003_result[
+                "promotion_contract"
+            ],
+            "interpretation": continuous_scientific_pipeline_epoch_003_result["interpretation"],
+            "bindings": continuous_scientific_pipeline_epoch_003_result["bindings"],
+            "seals": continuous_scientific_pipeline_epoch_003_result["seals"],
+        },
         "einstein_aether_coupling_boundary_kkt": {
             "decision": einstein_aether_coupling_boundary_kkt["decision"],
             "decision_counts": einstein_aether_coupling_boundary_kkt["decision_counts"],
@@ -10439,6 +10476,48 @@ def build_unified_snapshot(
                     "data_seals": quartic_scalar_hessian_curl_invariance["data_seals"],
                     "scope": quartic_scalar_hessian_curl_invariance["scope"],
                 },
+                "scalar_hessian_output_bundle_repair": {
+                    "artifact_binding": source_specs[
+                        "quartic_scalar_hessian_output_bundle_repair_gate"
+                    ],
+                    "decision": quartic_scalar_hessian_output_bundle_repair["decision"],
+                    "decision_counts": quartic_scalar_hessian_output_bundle_repair[
+                        "decision_counts"
+                    ],
+                    "gate_counts": quartic_scalar_hessian_output_bundle_repair["gate_counts"],
+                    "first_blocker": quartic_scalar_hessian_output_bundle_repair["first_blocker"],
+                    "theorem": quartic_scalar_hessian_output_bundle_repair["theorem"],
+                    "exact_controls": quartic_scalar_hessian_output_bundle_repair["exact_controls"],
+                    "candidate_records": [
+                        {
+                            "candidate_id": row["candidate_id"],
+                            "candidate_decision": row["candidate_decision"],
+                            "candidate_rejection_authorized": row["candidate_rejection_authorized"],
+                            "registered_one_form": row["registered_one_form"],
+                            "torsion_no_go": {
+                                key: value
+                                for key, value in row["torsion_no_go"].items()
+                                if key != "independent_pair_certificates"
+                            },
+                            "output_bundle_connection_repair": row[
+                                "output_bundle_connection_repair"
+                            ],
+                            "corrected_D2_submanifest": {
+                                key: value
+                                for key, value in row["corrected_D2_submanifest"].items()
+                                if key != "entries"
+                            },
+                            "first_blocker": row["first_blocker"],
+                        }
+                        for row in quartic_scalar_hessian_output_bundle_repair["candidate_records"]
+                    ],
+                    "secondary_blockers": quartic_scalar_hessian_output_bundle_repair[
+                        "secondary_blockers"
+                    ],
+                    "claim_seals": quartic_scalar_hessian_output_bundle_repair["claim_seals"],
+                    "data_seals": quartic_scalar_hessian_output_bundle_repair["data_seals"],
+                    "scope": quartic_scalar_hessian_output_bundle_repair["scope"],
+                },
                 "ordered_candidate_ids": [
                     row["candidate_id"] for row in quartic_anti_wick_recovery["certificates"]
                 ],
@@ -10465,6 +10544,10 @@ def build_unified_snapshot(
                     == [
                         row["candidate_id"]
                         for row in quartic_scalar_hessian_curl_invariance["candidate_records"]
+                    ]
+                    == [
+                        row["candidate_id"]
+                        for row in quartic_scalar_hessian_output_bundle_repair["candidate_records"]
                     ]
                 ),
             },

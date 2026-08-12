@@ -1,0 +1,44 @@
+{
+  "schema_version": "sigma-quartic-scalar-hessian-output-bundle-repair-config-1.0",
+  "campaign_id": "quartic-scalar-hessian-output-bundle-repair-001",
+  "output_path": "runs/physics-language/quartic-scalar-hessian-output-bundle-repair-gate/campaign.json",
+  "predecessors": {
+    "scalar_hessian_d2": {
+      "path": "runs/physics-language/quartic-scalar-hessian-d2-integrability-gate/campaign.json",
+      "file_sha256": "654a0442e0d6ec0166eed1d15da163260658d6cd44192da9cbb4e4b2b88f105a",
+      "content_sha256": "66f680eec0ab93169163f7f1e2055aac7713f45fcc2abf2f12907183e701b45c"
+    },
+    "curl_invariance": {
+      "path": "runs/physics-language/quartic-scalar-hessian-curl-invariance-gate/campaign.json",
+      "file_sha256": "8e457a5e6812d36615c884a52cbece2469cf8ab27d3e76a78b01d99a919b3111",
+      "content_sha256": "b97ed68d0ec156bc5de16f45cfe177d999f8d974bc9403768690d9e629c47d42"
+    }
+  },
+  "repair_contract": {
+    "domain_directions": 9,
+    "output_dimension": 11,
+    "high_field": 10,
+    "domain_torsion_class": "arbitrary_pointwise_T^k_ij_shared_across_output_rows",
+    "output_connection_class": "pointwise_Omega_A^B_i_restricted_to_B=10",
+    "connection_sign": "D_i_J_Aj=partial_i_J_Aj+Omega_A^B_i_J_Bj",
+    "sparse_gauge": "one_nonzero_Omega_A^10_i_for_each_curl_output_row_A=4_through_9"
+  },
+  "policies": {
+    "torsion_no_go": "exact_column_space_rank_test",
+    "output_bundle_repair": "exact_shared_linear_system_and_dense_submanifest",
+    "full_D2_promotion": "fail_closed",
+    "full_high_atom_identity": "fail_closed",
+    "global_H7": "fail_closed",
+    "nonlinear_PDE": "fail_closed",
+    "lifespan": "fail_closed",
+    "candidate_rejection": "forbidden"
+  },
+  "seals": {
+    "observations_opened": false,
+    "solar_system_inputs_opened": false,
+    "cosmology_inputs_opened": false,
+    "paid_llm_calls": false,
+    "live_SQLite_opened": false,
+    "GPU_execution_used": false
+  }
+}

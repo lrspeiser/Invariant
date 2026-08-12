@@ -585,6 +585,14 @@ ordinals. This is not an execution result: its immutable artifact records
 `runtime_materialized=false`, zero formulas evaluated, zero formal receipts, and
 `epoch_complete=false`. It requested no leaderboard rebuild, assigned no rank, promoted no
 candidate, accessed no live campaign SQLite database, and used no GPU or CUDA resource.
+The separately sealed Epoch 003 terminal result now records the completed historical execution of
+that exact interval: eight real 15-worker CPU batches evaluated all 3,932,160 unique formulas in 23
+cycles. Two batches were sampled-static rejects and six produced survivor manifests whose
+candidate-bound formal receipts all blocked. A measured 95.8% CPU sample caused the required
+resource wait before the service resumed. Formal passes, leaderboard rebuild requests, rank
+assignments, promotions, GPU use, live campaign SQLite access, observations, and theory claims all
+remain zero. The result validates from its immutable terminal archive and replay/dependency roots,
+without reading the mutable Epoch 003 runtime.
 The new candidate-bound formula stress lane drives the same RTX 5090 much harder on dense numerical
 work: all 163 materialized Euler projections were checked on 5,341,184 deterministic synthetic
 candidate-point pairs against CPU evaluation, with 5,216 additional exact-rational sentinels and zero
@@ -1493,6 +1501,21 @@ The artifact file/content hash is
 source/config/test hashes are `fe6f9437f5b2a90424a195aa85ea268129faf506ded9839dd4426b1f6d891ee3` /
 `ca1efd1c1876d4b7f5dce03f9e4fac374372cd9aa9441f9cb91ccec1a7092ff0` /
 `d530547228b82a1e8a6b122a45614abd51dd206e2a7b2dd78d68a4f798f0da8f`.
+
+The output-bundle follow-up sharpens that boundary. The registered `11 x 9` one-form has rank one
+and image only in output row 10, whereas all 15 independent curl components lie in rows 4--9; this
+gives 144 exact certificates that arbitrary shared domain torsion cannot repair it. A restricted
+output connection does repair the registered reference subslice: 396 equations in 99 unknowns have
+equal coefficient and augmented rank 88, affine dimension 11, and a support-minimal six-coefficient
+solution. It cancels every curl component and registers a symmetric 891-entry high-field-10 D2
+subslice per candidate. All 12 candidates remain blocked and unrejected because no covariant-action
+origin, complete `11 x 153 x 153` D2F manifest, full high-atom identity, global H7 energy, nonlinear
+PDE closure, lifespan, or observation follows. Artifact file/content hashes are
+`e1ae98ebcb3c2739f7c84938d61ce9e7d2d209d4025f54a7d1d499a8495acfdb` /
+`688dcb478b86d44330f8a3623183e91c237bd91f31bd4e91bf5869098175973f`;
+source/config/test hashes are `f972d45c511604fdd7bbbf42e7ea8efe843260f9e1e689a8564589478c56fca2` /
+`934a62640555be9d170d3065489fa39e9972a2e7f7567d1203b51398b49e12b9` /
+`e5771d1c030455f5663bb856601befb9381c73eb034ee8e30f1eaaa4b93a7509`.
 
 The component campaign now proves every entry of the principal identity
 `D_Y E55 J = i P55` for all 12 candidates and materializes the complete first source Jacobian.

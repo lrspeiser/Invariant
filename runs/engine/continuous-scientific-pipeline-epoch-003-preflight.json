@@ -1,0 +1,55 @@
+{
+  "schema_version": "sigma-continuous-scientific-pipeline-epoch-preflight-1.0",
+  "decision": "exact_epoch_preflight_passed_before_start",
+  "sampling_contract": {
+    "source": "psutil_device_wide",
+    "sample_count": 12,
+    "sample_interval_seconds": 0.5,
+    "captured_immediately_before_service_start": true,
+    "historical_measurement_not_current_runtime_claim": true
+  },
+  "resource_contract": {
+    "cpu_backoff_at_or_above_percent": 92,
+    "minimum_available_ram_mib": 32768,
+    "cpu_workers": 15,
+    "gpu_workers": 0
+  },
+  "samples": [
+    {"cpu_percent": 33.8, "available_ram_mib": 49461},
+    {"cpu_percent": 36.6, "available_ram_mib": 49495},
+    {"cpu_percent": 38.5, "available_ram_mib": 49485},
+    {"cpu_percent": 48.2, "available_ram_mib": 49170},
+    {"cpu_percent": 74.1, "available_ram_mib": 49171},
+    {"cpu_percent": 48.7, "available_ram_mib": 49178},
+    {"cpu_percent": 25.7, "available_ram_mib": 49173},
+    {"cpu_percent": 30.8, "available_ram_mib": 49188},
+    {"cpu_percent": 30.1, "available_ram_mib": 49168},
+    {"cpu_percent": 31.4, "available_ram_mib": 49186},
+    {"cpu_percent": 32.1, "available_ram_mib": 49178},
+    {"cpu_percent": 67.7, "available_ram_mib": 49174}
+  ],
+  "summary": {
+    "maximum_cpu_percent": 74.1,
+    "minimum_available_ram_mib": 49168,
+    "all_resource_samples_admissible": true
+  },
+  "historical_path_state": {
+    "epoch_runtime_existed": false,
+    "epoch_lease_existed": false,
+    "epoch_stop_request_existed": false
+  },
+  "ownership_observations": {
+    "epoch_service_owner_active": false,
+    "other_service_leases_ignored": [
+      "runs/engine/unified-live-dashboard-cutover.lease.json",
+      "runs/engine/kastner-schlatter-set-indexed-gpu-scheduler-runtime/deferred-handoff-service/handoff-service.lease.json"
+    ]
+  },
+  "validator_preflight": {
+    "genesis_exact_reconstruction": true,
+    "predecessor_terminal_result_valid": true,
+    "interval_disjoint_and_contiguous": true,
+    "focused_epoch_service_backend_tests_passed": 28
+  },
+  "content_sha256": "36c45847ce8afa1bb1ef647e19bd27cb6ddc3cd5b6e18edb4248aa040e3fe1db"
+}
