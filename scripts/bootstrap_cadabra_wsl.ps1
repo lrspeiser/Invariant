@@ -5,11 +5,11 @@ param(
 $ErrorActionPreference = "Stop"
 $ProjectRoot = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
 if (-not $Destination) {
-    $Destination = (Join-Path (Split-Path (Split-Path $ProjectRoot -Parent) -Parent) "work\cadabra2-root")
+    $Destination = (Join-Path $ProjectRoot "tmp\cadabra2-root")
 }
 $Destination = [System.IO.Path]::GetFullPath($Destination)
-if (-not $Destination.StartsWith((Split-Path (Split-Path $ProjectRoot -Parent) -Parent), [System.StringComparison]::OrdinalIgnoreCase)) {
-    throw "Destination must remain inside the Codex task workspace."
+if (-not $Destination.StartsWith($ProjectRoot, [System.StringComparison]::OrdinalIgnoreCase)) {
+    throw "Destination must remain inside the Invariant repository."
 }
 New-Item -ItemType Directory -Force -Path $Destination | Out-Null
 $WslDestination = (wsl -d Ubuntu-24.04 -- wslpath -a ($Destination -replace '\\','/')).Trim()

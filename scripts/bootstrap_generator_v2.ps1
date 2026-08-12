@@ -4,8 +4,7 @@ param(
 
 $ErrorActionPreference = "Stop"
 $projectRoot = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
-$workspaceRoot = (Resolve-Path (Join-Path $projectRoot "..\..")).Path
-$toolRoot = Join-Path $workspaceRoot "work\rust-local"
+$toolRoot = Join-Path $projectRoot "tmp\rust-local"
 $cargoHome = Join-Path $toolRoot "cargo"
 $rustupHome = Join-Path $toolRoot "rustup"
 $rustupInit = Join-Path $toolRoot "rustup-init.exe"

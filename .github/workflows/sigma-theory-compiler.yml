@@ -1,15 +1,9 @@
-name: Sigma theory compiler
+name: Invariant formula discovery system
 
 on:
   push:
     branches: [main]
-    paths:
-      - ".github/workflows/sigma-theory-compiler.yml"
-      - "research/sigma-theory-compiler/**"
   pull_request:
-    paths:
-      - ".github/workflows/sigma-theory-compiler.yml"
-      - "research/sigma-theory-compiler/**"
   workflow_dispatch:
 
 permissions:
@@ -23,16 +17,13 @@ jobs:
   portable-continuous-and-gates:
     runs-on: ubuntu-24.04
     timeout-minutes: 60
-    defaults:
-      run:
-        working-directory: research/sigma-theory-compiler
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
           cache: pip
-          cache-dependency-path: research/sigma-theory-compiler/pyproject.toml
+          cache-dependency-path: pyproject.toml
       - name: Materialize registered LF and CRLF provenance bytes
         run: python scripts/materialize_hash_bound_worktree.py
       - name: Install the compiler and test tools
@@ -75,6 +66,47 @@ jobs:
           tests/test_materialize_hash_bound_worktree.py
           -vv --durations=20
 
+  isolated-post-anchor-lanes:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+      - name: Materialize registered LF and CRLF provenance bytes
+        run: python scripts/materialize_hash_bound_worktree.py
+      - name: Install the compiler and test tools
+        run: python -m pip install --editable ".[dev]"
+      - name: Check isolated lane source
+        run: >-
+          python -m ruff check
+          src/sigma_theory_compiler/continuous_scientific_pipeline_formal_receipt_batch_0002.py
+          src/sigma_theory_compiler/quartic_fitted_output_connection_action_feature_factorization_gate.py
+          tests/test_continuous_scientific_pipeline_formal_receipt_batch_0002.py
+          tests/test_quartic_fitted_output_connection_action_feature_factorization_gate.py
+      - name: Verify isolated lane artifacts
+        run: >-
+          python -m pytest
+          tests/test_continuous_scientific_pipeline_formal_receipt_batch_0002.py
+          tests/test_quartic_fitted_output_connection_action_feature_factorization_gate.py
+          -vv --durations=20
+
+  lfs-integrity:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+      - name: Verify all historical binary evidence is available
+        shell: bash
+        run: |
+          git lfs fsck
+          test "$(git lfs ls-files -n | wc -l)" -eq 294
+
   portable-unified-status:
     runs-on: ubuntu-24.04
     timeout-minutes: 75
@@ -82,16 +114,13 @@ jobs:
       fail-fast: false
       matrix:
         shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33]
-    defaults:
-      run:
-        working-directory: research/sigma-theory-compiler
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
           cache: pip
-          cache-dependency-path: research/sigma-theory-compiler/pyproject.toml
+          cache-dependency-path: pyproject.toml
       - name: Materialize registered LF and CRLF provenance bytes
         run: python scripts/materialize_hash_bound_worktree.py
       - name: Install the compiler and test tools

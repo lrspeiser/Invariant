@@ -93,7 +93,7 @@ Build Rust Generator v2, configure CuPy for CUDA, then run from the project root
 
 ```powershell
 scripts\run_priority_pipeline.ps1 `
-  -Repo C:\Users\henry\Documents\Codex\2026-07-18\sigmagravity-frontiers-main
+  -Repo <path-to-source-repository>
 ```
 
 The complete workflow takes about three minutes on this workstation. The script rebuilds the

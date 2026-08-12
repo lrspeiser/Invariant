@@ -1,4 +1,14 @@
-# Sigma Theory Compiler
+# Invariant
+
+Invariant is a falsification-first system for generating, rediscovering, and formally testing
+bounded families of mathematical and scientific formulas. The Python distribution and import
+namespace retain the historical `sigma-theory-compiler` / `sigma_theory_compiler` names for
+artifact and API compatibility.
+
+This repository is the canonical home of the former
+`research/sigma-theory-compiler` project. Its filtered history, immutable evidence, generator
+outputs, and Git LFS data were migrated from `lrspeiser/sigmagravity`; see
+[`docs/provenance/INVARIANT_MIGRATION.md`](docs/provenance/INVARIANT_MIGRATION.md).
 
 ## Billion-scale Generator v2 milestone
 

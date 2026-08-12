@@ -644,7 +644,8 @@ The formal harness uses two independent layers:
 - SymPy performs exact known-answer algebra, Hessians, reduced constraint matrices, mode formulas,
   and Fourier-space identities.
 - Cadabra 2 performs tensor algebra. The bootstrap script extracts Ubuntu's signed package into the
-  task workspace, so it does not need administrator access or alter the WSL system installation.
+  ignored repository-local `tmp/cadabra2-root/` directory, so it does not need administrator access
+  or alter the WSL system installation.
 
 Bootstrap or repair Cadabra with:
 

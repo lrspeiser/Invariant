@@ -77,7 +77,7 @@ python -m sigma_theory_compiler crosscheck-v2 `
   --output runs\generator-v2\reproduction-crosscheck.json
 ```
 
-The Rust bootstrap is project-local under the workspace `work/` directory and does not modify the global PATH.
+The Rust bootstrap is repository-local under the ignored `tmp/rust-local/` directory and does not modify the global PATH.
 
 The milestone was also compiled independently for `x86_64-pc-windows-gnu` and `x86_64-unknown-linux-gnu` under Ubuntu 24.04 WSL2. Their million-action basis hashes, hash-random samples, gate counts, and block commitment roots are identical.
 

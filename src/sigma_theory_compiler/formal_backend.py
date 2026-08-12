@@ -3747,7 +3747,7 @@ def _candidate_cadabra_roots(project_root: Path) -> list[Path]:
     if os.environ.get("SIGMA_CADABRA_ROOT"):
         roots.append(Path(os.environ["SIGMA_CADABRA_ROOT"]))
     # Default produced by scripts/bootstrap_cadabra_wsl.ps1.
-    roots.append(project_root.parent.parent / "work" / "cadabra2-root" / "root")
+    roots.append(project_root / "tmp" / "cadabra2-root" / "root")
     return roots
 
 
