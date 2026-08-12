@@ -124,6 +124,14 @@ The discovery engine sees only the visible subgraph. Scoring uses exact equivale
 verification against hidden ground truth after sealing. This controls for memorization more strongly
 than historical examples alone.
 
+The first implemented world is an anonymous order-seven finite algebra. Its 24-term grammar is
+evaluated on all 2,401 assignments per term (57,624 evaluations), producing 12 nontrivial theorem
+classes. Eleven classes are visible and one complete two-formulation class is withheld. The engine
+reconstructs and exhaustively verifies the single target candidate before unseal, then matches the
+withheld class post-seal. This is one bounded synthetic world—not evidence of general equational
+completeness—and its next gate is replication across independently generated worlds and an external
+proof kernel that cannot see the holdout.
+
 ## Scoring and promotion
 
 Scores are lexicographic and cannot compensate for a failed hard gate:
