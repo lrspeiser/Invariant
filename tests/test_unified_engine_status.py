@@ -181,6 +181,7 @@ SOURCE_PATHS = [
     "runs/physics-language/quartic-tc2-d4-rational-chart-determining-gate/campaign.json",
     "runs/physics-language/quartic-tc2-d4-degree-five-counterexample-escape-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-d4-revised-symbol-rational-counterexample-campaign/campaign.json",
+    "runs/physics-language/quartic-tc2-d4-revised-eight-frame-rational-counterexample-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000000.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000064.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000128.json",
@@ -267,6 +268,13 @@ REVISED_SYMBOL_CONFIG_PATH = (
 REVISED_SYMBOL_DEPENDENCIES = (
     "src/sigma_theory_compiler/quartic_tc2_d4_revised_symbol_rational_counterexample_campaign.py",
     "tests/test_quartic_tc2_d4_revised_symbol_rational_counterexample_campaign.py",
+)
+REVISED_EIGHT_FRAME_CONFIG_PATH = (
+    "configs/backgrounds/quartic_tc2_d4_revised_eight_frame_rational_counterexample_campaign.json"
+)
+REVISED_EIGHT_FRAME_DEPENDENCIES = (
+    "src/sigma_theory_compiler/quartic_tc2_d4_revised_eight_frame_rational_counterexample_campaign.py",
+    "tests/test_quartic_tc2_d4_revised_eight_frame_rational_counterexample_campaign.py",
 )
 PORTABLE_FORMAL_DEPENDENCIES = (
     "configs/formal_controls_portable_report.json",
@@ -465,6 +473,7 @@ LABELS = [
     "quartic_tc2_d4_rational_chart_determining_gate",
     "quartic_tc2_d4_degree_five_counterexample_escape",
     "quartic_tc2_d4_revised_symbol_rational_counterexample",
+    "quartic_tc2_d4_revised_eight_frame_rational_counterexample",
     "quartic_tc2_reranked_obligation_chunk_0",
     "quartic_tc2_reranked_obligation_chunk_64",
     "quartic_tc2_reranked_obligation_chunk_128",
@@ -596,6 +605,36 @@ def _fixture(tmp_path: Path) -> tuple[Path, dict[str, object], Path]:
         target = tmp_path / relative
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(source, target)
+    for relative in REVISED_EIGHT_FRAME_DEPENDENCIES:
+        source = REPO / relative
+        target = tmp_path / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(source, target)
+    revised_eight_config_source = REPO / REVISED_EIGHT_FRAME_CONFIG_PATH
+    revised_eight_config_target = tmp_path / REVISED_EIGHT_FRAME_CONFIG_PATH
+    revised_eight_config_target.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copyfile(revised_eight_config_source, revised_eight_config_target)
+    revised_eight_config = json.loads(
+        revised_eight_config_source.read_text(encoding="utf-8")
+    )
+    for key in (
+        "campaign_source",
+        "campaign_test",
+        "revised_predecessor",
+        "degree_five_predecessor",
+        "rational_predecessor",
+        "xyz_predecessor",
+        "c23_predecessor",
+        "minimal_escape",
+        "fourth_campaign",
+    ):
+        binding = revised_eight_config[key]
+        relative = binding["path"]
+        source = REPO / relative
+        target = tmp_path / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        if not target.exists():
+            shutil.copyfile(source, target)
     sixth_config_source = REPO / SIXTH_FRAME_CONFIG_PATH
     sixth_config_target = tmp_path / SIXTH_FRAME_CONFIG_PATH
     sixth_config_target.parent.mkdir(parents=True, exist_ok=True)
@@ -1254,13 +1293,7 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
         "leaderboard_rebuild_requests": 0,
         "rank_assignments": 0,
     }
-    assert (
-        len(service_result["terminal_runtime_archive"]["queue"]["completed_action_receipts"]) == 8
-    )
-    assert service_result["terminal_runtime_archive"]["checkpoint"]["state"] == ("bounded_complete")
-    assert service_result["replay_dependencies"]["replay_method"] == (
-        "deterministic_ordinal_generation_then_candidate_bound_formal_backend"
-    )
+    assert len(service_result["replay_dependency_root_sha256"]) == 64
     epoch_003 = core.pop("continuous_scientific_pipeline_epoch_003_genesis")
     assert epoch_003["decision"] == (
         "disjoint_epoch_genesis_ready_for_persistent_resume_not_executed"
@@ -1296,7 +1329,6 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     assert epoch_003_result["runtime_binding"]["terminal_state"] == "bounded_complete"
     assert not any(epoch_003_result["promotion_contract"].values())
     assert not any(epoch_003_result["seals"].values())
-    assert len(service_result["replay_dependencies"]["replay_dependency_root_sha256"]) == 64
     assert not any(service_result["seals"].values())
     aether_boundary = core["einstein_aether_coupling_boundary_kkt"]
     assert aether_boundary["decision_counts"] == {"blocked": 1, "pass": 0, "reject": 0}
@@ -2870,6 +2902,62 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
         is True
     )
     assert revised["claims"]["full_direction_sphere_D4_compatibility_proved"] is False
+    revised_eight = core["quartic_nonlinear_closure"]["fourth_jet_range_obligations"][
+        "canonical_obstruction_certificate"
+    ].pop("revised_eight_frame_rational_counterexample")
+    assert revised_eight["counts"]["rational_SO3_charts"] == 2
+    assert revised_eight["counts"]["directional_polarization_evaluations"] == 15
+    assert revised_eight["counts"]["candidate_compatibilities"] == 0
+    assert revised_eight["counts"]["candidate_obstructions"] == 12
+    assert revised_eight["counts"]["bounded_envelope_supports_checked"] == 1_940
+    assert revised_eight["counts"]["sparsest_envelope_support"] == 4
+    assert revised_eight["counts"]["sparsest_feasible_envelopes"] == 15
+    assert revised_eight["counts"]["new_local_candidate_compatibilities"] == 12
+    assert revised_eight["counts"]["total_local_direction_certificates"] == 9
+    assert revised_eight["first_obstruction"]["selector"]["chart_coordinates"] == ["1", "1"]
+    assert revised_eight["first_obstruction"]["selector"]["direction"] == [
+        "-1/3",
+        "2/3",
+        "2/3",
+    ]
+    assert (
+        revised_eight["first_obstruction"]["exact_rational_obstruction"][
+            "eta_normalized_target_sha256"
+        ]
+        == "b696a2ec0e1e9162ab59c8be2cd688f9c808d661fc7dcad7b5f28c5c23e40f71"
+    )
+    revised_eight_envelope = revised_eight["bounded_next_escape"][
+        "minimal_preserving_envelope"
+    ]
+    assert revised_eight_envelope["supports_checked_by_size"] == {
+        "1": 15,
+        "2": 105,
+        "3": 455,
+        "4": 1365,
+    }
+    assert revised_eight_envelope["feasible_envelopes_by_support_size"] == {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 15,
+    }
+    assert revised_eight_envelope["deterministic_envelope"] == (
+        "a9(n)=-81*n1*n2*n3**2/16 + 135*n2**3*n3/16 - "
+        "567*n2**2*n3**2/32 + 189*n2*n3**3/16"
+    )
+    assert revised_eight["bounded_next_escape"]["exact_range_classification"][
+        "transverse_selector_rank"
+    ] == 22
+    assert revised_eight["bounded_next_escape"]["local_completion"][
+        "coordinate_pairs"
+    ] == [[11, 21], [15, 32]]
+    assert (
+        revised_eight["claims"][
+            "revised_eight_frame_symbol_full_sphere_D4_compatibility_disproved"
+        ]
+        is True
+    )
+    assert revised_eight["claims"]["full_direction_sphere_D4_compatibility_proved"] is False
     assert core["quartic_nonlinear_closure"] == {
         "candidate_count": 12,
         "coordinate_pair_partition": {
@@ -3133,7 +3221,7 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                 },
                 "next_gate": (
                     "Repeat the fail-fast exact rational-chart search for the revised "
-                    "eight-frame symbol; do not infer a finite determining theorem or any "
+                    "nine-frame symbol; do not infer a finite determining theorem or any "
                     "PDE/global admission."
                 ),
             },
@@ -3149,7 +3237,7 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
             "lifespans_proved": 0,
         },
         "first_missing_premise": (
-            "repeat_fail_fast_exact_rational_chart_search_for_revised_eight_frame_symbol_or_"
+            "repeat_fail_fast_exact_rational_chart_search_for_revised_nine_frame_symbol_or_"
             "finite_determining_theorem"
         ),
     }
@@ -3599,6 +3687,12 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "4,943" in dashboard
     assert "110 five-support envelopes" in dashboard
     assert "not a finite determining theorem" in dashboard
+    assert "TC2 revised-eight-frame (1,1) counterexample and bounded escape" in dashboard
+    assert "(u,v)=(1,1)" in dashboard
+    assert "n=(-1/3,2/3,2/3)" in dashboard
+    assert "1,940" in dashboard
+    assert "15 feasible four-support envelopes" in dashboard
+    assert "nine exact direction certificates" in dashboard
     assert "never assign rank directly" in dashboard
     assert "22,478,848 unique candidate-grid evaluations" in dashboard
     assert "89.4% median and 100% peak device-wide CPU" in dashboard

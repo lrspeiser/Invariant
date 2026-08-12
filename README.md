@@ -1747,7 +1747,15 @@ five, finds 110 feasible five-support envelopes, and selects the deterministic f
 `a8(n)=n3^4+(49/18)n2*n3^3-(31/6)n2^2*n3^2+(19/9)n2^3*n3-(4/3)n1*n3^3`.
 A sharp rank-two, two-curl repair closes the 12 systems at e3 and preserves the seven earlier
 frames, yielding eight local direction certificates only. A repeat chart search for the revised
-eight-frame symbol, or a determining theorem, followed by pseudodifferential constraint,
+eight-frame symbol is now complete at `(u,v)=(1,1)`, `n=(-1/3,2/3,2/3)`: all 12 candidates
+again have one common rank-four, 56-entry zero-speed obstruction, disproving full-sphere
+compatibility of that symbol. Degrees zero and two cannot preserve the eight prior frames;
+degree four is first feasible. The bounded search checks 1,940 supports through size four and
+finds 15 feasible four-support envelopes. Its deterministic first is
+`a9(n)=-81*n1*n2*n3**2/16 + 135*n2**3*n3/16 - 567*n2**2*n3**2/32 + 189*n2*n3**3/16`.
+A sharp rank-two, two-curl repair closes the 12 local systems and preserves all eight earlier
+frames, yielding nine local direction certificates only. A repeat chart search for the revised
+nine-frame symbol, or a determining theorem, followed by pseudodifferential constraint,
 commutator, boundary-energy, local/covariant and PDE admission, remains open. This is
 not an inferred pass for the unevaluated tail; full fourth-order range closure, full-tube,
 CK1, CK3, TC2, B7, global-H7, and lifespan remain false.
