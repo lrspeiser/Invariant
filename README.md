@@ -1608,6 +1608,22 @@ source/config/test hashes are `c5146e3c39d2f79767eb5d219fc72632300ff624c4217de9d
 `53296133a9dfeb48ae2f52125eb32ec0defad713f309abca6c790e7f162e0498` /
 `7c1ba24672e37ec2a2ad808433ccbac186f12071bac688635e402ef2570dc470`.
 
+The constructive follow-up closes that identifiability blocker without overpromoting the result.
+It registers the exact flat-reference `153 -> 24` coordinate-to-covariant-jet packet from the
+variable-Sylvester campaign and materializes all 8,910 reverse `Pother x P10` entries per
+candidate, 75 of them nonzero. Comparing those values with the complete forward slice evaluates
+all 8,910 corrected ordered-curl entries and leaves exactly 63 nonzero entries for each of the 12
+candidates. Consequently zero cross-slice entries are admitted: a general output-bundle connection
+or corrected source extension is still required, and all candidates remain blocked but unrejected.
+This is a flat-reference typed-map result, not an arbitrary-background chain rule or a general
+covariant no-go; the remaining 106,920 principal high-atom entries, full D2F identity, H7, PDE,
+lifespan, and observational gates remain fail-closed. Artifact file/content hashes are
+`4e432566b16e44b7d5ca05a2ce6e60b5ebd849e2fe8c88fa6523297f1fc111b4` /
+`79d06514c1dd8fd7933bdc36b19622fc3cce8ddcaf14712f0b908fbe6c9f2664`;
+source/config/test hashes are `e63be1538452210ee432e45f9919793ea3077b855ae2b12a138bfb0a757d3516` /
+`016283509fcc921de382937db874b8e2f657076a64769fb3ecc8f64f99640121` /
+`426e52dd87b70f5a6587adb2b00ac68fb1bb19796414822a4f62cb09721986a3`.
+
 The component campaign now proves every entry of the principal identity
 `D_Y E55 J = i P55` for all 12 candidates and materializes the complete first source Jacobian.
 Its 1,089 principal and 594 lower entries form an exact arithmetic-only `11 x 153` manifest with

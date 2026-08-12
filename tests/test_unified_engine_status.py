@@ -153,6 +153,7 @@ SOURCE_PATHS = [
     "runs/physics-language/quartic-full-d2f-high-atom-coverage-gate/campaign.json",
     "runs/physics-language/quartic-principal-high-atom-connection-extension-gate/campaign.json",
     "runs/physics-language/quartic-reverse-principal-source-map-identifiability-gate/campaign.json",
+    "runs/physics-language/quartic-reverse-principal-typed-map-curl-gate/campaign.json",
     "runs/physics-language/quartic-tc2-ck1-p55-tube-envelope-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-quadratic-deltak-extension-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-diagonal-third-jet-campaign/campaign.json",
@@ -248,6 +249,7 @@ RECOVERY_CONFIG_PATHS = (
     "configs/backgrounds/quartic_full_d2f_high_atom_coverage_gate.json",
     "configs/backgrounds/quartic_principal_high_atom_connection_extension_gate.json",
     "configs/backgrounds/quartic_reverse_principal_source_map_identifiability_gate.json",
+    "configs/backgrounds/quartic_reverse_principal_typed_map_curl_gate.json",
 )
 FINITE_SOBOLEV_DEPENDENCIES = (
     "src/sigma_theory_compiler/quartic_finite_sobolev_hierarchy_no_go_campaign.py",
@@ -283,6 +285,13 @@ REVERSE_PRINCIPAL_SOURCE_MAP_DEPENDENCIES = (
     "src/sigma_theory_compiler/quartic_unspecialized_source_jacobian_campaign.py",
     "tests/test_quartic_unspecialized_source_jacobian_campaign.py",
     "runs/physics-language/quartic-unspecialized-source-jacobian-campaign/campaign.json",
+)
+REVERSE_PRINCIPAL_TYPED_MAP_DEPENDENCIES = (
+    "src/sigma_theory_compiler/quartic_reverse_principal_typed_map_curl_gate.py",
+    "tests/test_quartic_reverse_principal_typed_map_curl_gate.py",
+    "src/sigma_theory_compiler/quartic_tc2_variable_sylvester_campaign.py",
+    "tests/test_quartic_tc2_variable_sylvester_campaign.py",
+    "runs/physics-language/quartic-tc2-variable-sylvester-campaign/campaign.json",
 )
 SIXTH_FRAME_CONFIG_PATH = (
     "configs/backgrounds/quartic_tc2_d4_degree_three_sixth_frame_completion_campaign.json"
@@ -508,6 +517,7 @@ LABELS = [
     "quartic_full_d2f_high_atom_coverage_gate",
     "quartic_principal_high_atom_connection_extension_gate",
     "quartic_reverse_principal_source_map_identifiability_gate",
+    "quartic_reverse_principal_typed_map_curl_gate",
     "quartic_ck1_p55_tube_envelope",
     "quartic_tc2_quadratic_deltak_extension",
     "quartic_tc2_diagonal_third_jet",
@@ -716,6 +726,11 @@ def _fixture(tmp_path: Path) -> tuple[Path, dict[str, object], Path]:
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(source, target)
     for relative in REVERSE_PRINCIPAL_SOURCE_MAP_DEPENDENCIES:
+        source = REPO / relative
+        target = tmp_path / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(source, target)
+    for relative in REVERSE_PRINCIPAL_TYPED_MAP_DEPENDENCIES:
         source = REPO / relative
         target = tmp_path / relative
         target.parent.mkdir(parents=True, exist_ok=True)
@@ -3105,6 +3120,54 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
         "restricted_zero_extended_connection_reverse_correction_zero",
     }
     assert not any(reverse_source_map["data_seals"].values())
+    typed_map_curl = recovery["reverse_principal_typed_map_curl"]
+    assert typed_map_curl["artifact_binding"] == {
+        "path": "runs/physics-language/quartic-reverse-principal-typed-map-curl-gate/campaign.json",
+        "file_sha256": "4e432566b16e44b7d5ca05a2ce6e60b5ebd849e2fe8c88fa6523297f1fc111b4",
+        "content_sha256": "79d06514c1dd8fd7933bdc36b19622fc3cce8ddcaf14712f0b908fbe6c9f2664",
+    }
+    assert typed_map_curl["decision"] == (
+        "flat_typed_map_registers_reverse_values_nonzero_corrected_cross_slice_curl_"
+        "blocks_admission_candidates_blocked"
+    )
+    assert typed_map_curl["decision_counts"] == {"pass": 0, "reject": 0, "blocked": 12}
+    assert typed_map_curl["gate_counts"] == {
+        "selected": 12,
+        "typed_coordinate_maps_registered": 1,
+        "typed_map_coordinate_atoms": 153,
+        "typed_map_covariant_jet_symbols": 24,
+        "other_principal_atoms_mapped": 90,
+        "reverse_ordered_pair_cells_per_candidate": 810,
+        "reverse_entries_materialized_per_candidate": 8_910,
+        "reverse_nonzero_entries_per_candidate": 75,
+        "corrected_curl_entries_checked_per_candidate": 8_910,
+        "corrected_curl_nonzero_entries_per_candidate": 63,
+        "candidates_with_nonzero_corrected_curl": 12,
+        "cross_slice_entries_admitted": 0,
+        "principal_high_atom_entries_missing_per_candidate": 106_920,
+        "complete_ordered_D2F_tensors_registered": 0,
+        "full_high_atom_good_unknown_identities_proved": 0,
+        "global_H7_closures": 0,
+        "nonlinear_PDE_closures": 0,
+        "lifespans_proved": 0,
+    }
+    assert typed_map_curl["typed_map_theorem"]["map_schema"] == (
+        "sigma-flat-coordinate-153-to-covariant-24-Jacobian-1.0"
+    )
+    assert typed_map_curl["typed_map_theorem"]["map_content_sha256"] == (
+        "bbb9790adec7f1551945263bc6b7910204dcab3c51b0f6bc62e76553bf50246f"
+    )
+    assert typed_map_curl["first_blocker"] == (
+        "registered_flat_typed_map_leaves_63_nonzero_cross_slice_curl_entries_per_candidate_"
+        "requiring_general_output_connection_or_corrected_source_extension"
+    )
+    assert {key for key, value in typed_map_curl["claim_seals"].items() if value} == {
+        "flat_coordinate_to_covariant_jet_map_registered",
+        "other_principal_to_Einstein_submap_registered",
+        "reverse_Pother_by_P10_values_materialized",
+        "corrected_cross_slice_curl_completely_materialized",
+    }
+    assert not any(typed_map_curl["data_seals"].values())
     assert all(
         not any(lane["data_seals"].values())
         for name, lane in recovery.items()
@@ -4358,6 +4421,13 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "<code>0</code> and <code>-2*alpha</code>" in dashboard
     assert "current-evidence non-identifiability result" in dashboard
     assert "not a physical or covariant no-go" in dashboard
+    assert "Reverse principal typed-map and curl audit" in dashboard
+    assert "<code>153 -&gt; 24</code>" in dashboard
+    assert "all 8,910 reverse entries" in dashboard
+    assert "75 are nonzero" in dashboard
+    assert "exactly 63 nonzero entries" in dashboard
+    assert "zero entries advance into D2F" in dashboard
+    assert "not an arbitrary-background map" in dashboard
     assert "TC2 revised-symbol e3 counterexample and bounded escape" in dashboard
     assert "(u,v)=(0,1)" in dashboard
     assert "4,943" in dashboard
@@ -4774,6 +4844,25 @@ def test_reverse_source_map_unified_semantic_tamper_fails_closed(tmp_path: Path)
     spec["content_sha256"] = artifact["content_sha256"]
 
     with pytest.raises(ValueError, match="reverse source-map result boundary changed"):
+        build_unified_snapshot(root, config, physical_gpu={"availability": "unavailable"})
+
+
+def test_reverse_typed_map_curl_unified_semantic_tamper_fails_closed(
+    tmp_path: Path,
+) -> None:
+    root, config, _ = _fixture(tmp_path)
+    label = "quartic_reverse_principal_typed_map_curl_gate"
+    spec = next(source for source in config["sources"] if source["label"] == label)
+    target = root / spec["path"]
+    artifact = json.loads(target.read_text(encoding="utf-8"))
+    artifact["gate_counts"]["corrected_curl_nonzero_entries_per_candidate"] = 0
+    body = {key: value for key, value in artifact.items() if key != "content_sha256"}
+    artifact["content_sha256"] = hashlib.sha256(_canonical(body)).hexdigest()
+    target.write_text(json.dumps(artifact, indent=2) + "\n", encoding="utf-8")
+    spec["file_sha256"] = hashlib.sha256(target.read_bytes()).hexdigest()
+    spec["content_sha256"] = artifact["content_sha256"]
+
+    with pytest.raises(ValueError, match="reverse typed-map curl result boundary changed"):
         build_unified_snapshot(root, config, physical_gpu={"availability": "unavailable"})
 
 

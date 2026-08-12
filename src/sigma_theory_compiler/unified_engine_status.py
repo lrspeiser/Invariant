@@ -73,6 +73,9 @@ from .quartic_principal_high_atom_connection_extension_gate import (
 from .quartic_reverse_principal_source_map_identifiability_gate import (
     _validate_result as validate_reverse_principal_source_map_identifiability,
 )
+from .quartic_reverse_principal_typed_map_curl_gate import (
+    _validate_result as validate_reverse_principal_typed_map_curl,
+)
 from .quartic_scalar_hessian_curl_invariance_gate import (
     _validate_result as validate_scalar_hessian_curl_invariance,
 )
@@ -997,6 +1000,9 @@ def build_unified_snapshot(
     quartic_reverse_principal_source_map_identifiability = sources[
         "quartic_reverse_principal_source_map_identifiability_gate"
     ]
+    quartic_reverse_principal_typed_map_curl = sources[
+        "quartic_reverse_principal_typed_map_curl_gate"
+    ]
     validation_config_root = root
     validate_quartic_anti_wick_composition_artifact(
         quartic_anti_wick_recovery,
@@ -1067,6 +1073,10 @@ def build_unified_snapshot(
     )
     validate_reverse_principal_source_map_identifiability(
         quartic_reverse_principal_source_map_identifiability,
+        root=validation_config_root,
+    )
+    validate_reverse_principal_typed_map_curl(
+        quartic_reverse_principal_typed_map_curl,
         root=validation_config_root,
     )
     quartic_tc2_quadratic_deltak = sources["quartic_tc2_quadratic_deltak_extension"]
@@ -11081,6 +11091,24 @@ def build_unified_snapshot(
                         "data_seals"
                     ],
                 },
+                "reverse_principal_typed_map_curl": {
+                    "artifact_binding": source_specs[
+                        "quartic_reverse_principal_typed_map_curl_gate"
+                    ],
+                    "decision": quartic_reverse_principal_typed_map_curl["decision"],
+                    "decision_counts": quartic_reverse_principal_typed_map_curl[
+                        "decision_counts"
+                    ],
+                    "gate_counts": quartic_reverse_principal_typed_map_curl["gate_counts"],
+                    "typed_map_theorem": quartic_reverse_principal_typed_map_curl[
+                        "typed_map_theorem"
+                    ],
+                    "first_blocker": quartic_reverse_principal_typed_map_curl[
+                        "first_blocker"
+                    ],
+                    "claim_seals": quartic_reverse_principal_typed_map_curl["claim_seals"],
+                    "data_seals": quartic_reverse_principal_typed_map_curl["data_seals"],
+                },
                 "ordered_candidate_ids": [
                     row["candidate_id"] for row in quartic_anti_wick_recovery["certificates"]
                 ],
@@ -11127,6 +11155,10 @@ def build_unified_snapshot(
                         for row in quartic_reverse_principal_source_map_identifiability[
                             "candidate_records"
                         ]
+                    ]
+                    == [
+                        row["candidate_id"]
+                        for row in quartic_reverse_principal_typed_map_curl["candidate_records"]
                     ]
                 ),
             },
