@@ -985,6 +985,35 @@ massive Proca includes exact second-class elimination. Wrong-sign actions are re
 their family controls pass. Missing family support, unproved parameter signs, singular branches,
 or unproved nonlinear energy domains are `unresolved`; observational gates remain sealed.
 
+A separate chronological rediscovery benchmark tests whether the generator can recover that
+massive-vector structure without receiving the historical name, formula, or target coefficients.
+Inside the finite coefficient box `{-2,-1,0,1,2}` for an anonymous quadratic, two-derivative,
+single-rank-one field grammar, exhaustive generation produces 625 raw candidates and 179 classes
+after positive normalization, field relabeling, and flat quadratic integration by parts. Three
+healthy positive-mass representatives survive, with `m^2=1/2,1,2`; a blinded simplicity Pareto
+front of size one selects the unit-mass representative before its coefficients are unsealed.
+Post-unseal comparison recovers the conventional quadratic massive-vector representative. The
+independent certificate derives Euler and divergence equations, velocity Hessian
+`diag(0,1,1,1)`, a primary/secondary second-class pair with nonzero bracket determinant one, and
+three physical degrees of freedom. Wrong-sign, massless, propagating-longitudinal, and
+four-derivative controls all fail eligibility.
+
+The pre-unseal phase enforces an allowlist across `builtins.open`, `io.open`, and
+`pathlib.Path.open`: eight anonymous config/source reads are allowed and a deliberate verifier-test
+read is denied with zero bytes exposed. The dependency and lexical audit scans 34,955 bytes with no
+forbidden concept or unexpected import findings. This is an owned single-threaded Python code-path
+closure, not an operating-system sandbox. The benchmark proves neither a unique theory nor a free
+mass family, and it does not exhaust unbounded coefficients or classify curved, nonminimal, or
+interacting vector theories; it establishes no novelty or observational support. The next honest
+gate is to enlarge the grammar without introducing answer-bearing generation dependencies. The
+sealed artifact has file/content SHA-256
+`584265dd598e3560f215dd847d47419b08bdda381675501dd8ca6798db7cafaf` /
+`d72ec89affe99644f044d11c1abe9850f8261633f8510349ff93bb68cafe36eb`;
+source/config/test hashes are
+`2c771b9c650c9f7d3940639c29a574096e1f4dda4df429d869b3ae1298498607`,
+`584dee0b7919ac2c5cfb518109e5b891cc0234e458692d36d57de5053d83f3b8`, and
+`1d147ad5e13cd9089487dc9652b84cb0df12dfaa9d6162b2b0643ffca29022ce`.
+
 The static dictionary is now derived by exact tensor contraction rather than asserted. On the
 zero-shift static ansatz with `u^a=n^a`, it proves `K1/L_u^2=-a_i a^i`, `K2=K3=0`,
 `K4/L_u^2=+a_i a^i`, and the projected acceleration-gradient identity

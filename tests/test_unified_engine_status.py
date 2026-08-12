@@ -146,6 +146,7 @@ SOURCE_PATHS = [
     "runs/engine/g4-galaxy-prediction-contract-transform-registration.json",
     "runs/engine/g4-galaxy-manifest-bundle-tooling-readiness.json",
     "runs/engine/g4-galaxy-source-registry-admission-readiness.json",
+    "runs/physics-language/anonymous-massive-vector-chronological-rediscovery/campaign.json",
     "runs/physics-language/quartic-anti-wick-composition-campaign/campaign.json",
     "runs/physics-language/quartic-annular-k55-c6-campaign/campaign.json",
     "runs/physics-language/quartic-bounded-frequency-defect-campaign/campaign.json",
@@ -335,6 +336,11 @@ FITTED_OUTPUT_CONNECTION_ORIGIN_DEPENDENCIES = (
     "src/sigma_theory_compiler/quartic_full_source_jacobian_arithmetic_campaign.py",
     "tests/test_quartic_full_source_jacobian_arithmetic_campaign.py",
     "runs/physics-language/quartic-full-source-jacobian-arithmetic-campaign/campaign.json",
+)
+ANONYMOUS_MASSIVE_VECTOR_REDISCOVERY_DEPENDENCIES = (
+    "configs/backgrounds/anonymous_massive_vector_chronological_rediscovery.json",
+    "src/sigma_theory_compiler/anonymous_massive_vector_chronological_rediscovery.py",
+    "tests/test_anonymous_massive_vector_chronological_rediscovery.py",
 )
 SIXTH_FRAME_CONFIG_PATH = (
     "configs/backgrounds/quartic_tc2_d4_degree_three_sixth_frame_completion_campaign.json"
@@ -587,6 +593,7 @@ LABELS = [
     "g4_galaxy_prediction_contract_transform",
     "g4_galaxy_manifest_bundle_tooling",
     "g4_galaxy_source_registry_admission",
+    "anonymous_massive_vector_chronological_rediscovery",
     "quartic_anti_wick_composition_campaign",
     "quartic_annular_k55_c6_campaign",
     "quartic_bounded_frequency_defect_campaign",
@@ -871,6 +878,11 @@ def _fixture(tmp_path: Path) -> tuple[Path, dict[str, object], Path]:
         target.parent.mkdir(parents=True, exist_ok=True)
         if not target.exists():
             shutil.copyfile(source, target)
+    for relative in ANONYMOUS_MASSIVE_VECTOR_REDISCOVERY_DEPENDENCIES:
+        source = REPO / relative
+        target = tmp_path / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(source, target)
     for relative in REVISED_SYMBOL_DEPENDENCIES:
         source = REPO / relative
         target = tmp_path / relative
@@ -885,9 +897,7 @@ def _fixture(tmp_path: Path) -> tuple[Path, dict[str, object], Path]:
     revised_eight_config_target = tmp_path / REVISED_EIGHT_FRAME_CONFIG_PATH
     revised_eight_config_target.parent.mkdir(parents=True, exist_ok=True)
     shutil.copyfile(revised_eight_config_source, revised_eight_config_target)
-    revised_eight_config = json.loads(
-        revised_eight_config_source.read_text(encoding="utf-8")
-    )
+    revised_eight_config = json.loads(revised_eight_config_source.read_text(encoding="utf-8"))
     for key in (
         "campaign_source",
         "campaign_test",
@@ -915,9 +925,7 @@ def _fixture(tmp_path: Path) -> tuple[Path, dict[str, object], Path]:
     degree_six_config_target = tmp_path / DEGREE_SIX_ENVELOPE_CONFIG_PATH
     degree_six_config_target.parent.mkdir(parents=True, exist_ok=True)
     shutil.copyfile(degree_six_config_source, degree_six_config_target)
-    degree_six_config = json.loads(
-        degree_six_config_source.read_text(encoding="utf-8")
-    )
+    degree_six_config = json.loads(degree_six_config_source.read_text(encoding="utf-8"))
     for binding in degree_six_config.values():
         if not isinstance(binding, dict) or "path" not in binding:
             continue
@@ -936,9 +944,7 @@ def _fixture(tmp_path: Path) -> tuple[Path, dict[str, object], Path]:
     revised_nine_config_target = tmp_path / REVISED_NINE_FRAME_CONFIG_PATH
     revised_nine_config_target.parent.mkdir(parents=True, exist_ok=True)
     shutil.copyfile(revised_nine_config_source, revised_nine_config_target)
-    revised_nine_config = json.loads(
-        revised_nine_config_source.read_text(encoding="utf-8")
-    )
+    revised_nine_config = json.loads(revised_nine_config_source.read_text(encoding="utf-8"))
     for key in (
         "campaign_source",
         "campaign_test",
@@ -997,9 +1003,7 @@ def _fixture(tmp_path: Path) -> tuple[Path, dict[str, object], Path]:
     revised_eleven_config_target = tmp_path / REVISED_ELEVEN_FRAME_CONFIG_PATH
     revised_eleven_config_target.parent.mkdir(parents=True, exist_ok=True)
     shutil.copyfile(revised_eleven_config_source, revised_eleven_config_target)
-    revised_eleven_config = json.loads(
-        revised_eleven_config_source.read_text(encoding="utf-8")
-    )
+    revised_eleven_config = json.loads(revised_eleven_config_source.read_text(encoding="utf-8"))
     for key in (
         "campaign_source",
         "campaign_test",
@@ -1794,9 +1798,7 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     assert formal_partition["first_remaining_blocker"] == (
         "11225_candidate_specific_formal_receipts_pending"
     )
-    assert all(
-        len(value) == 64 for value in formal_partition["processed_partition_roots"].values()
-    )
+    assert all(len(value) == 64 for value in formal_partition["processed_partition_roots"].values())
     assert formal_partition["selected_leaf_page_binding"] == {
         "content_sha256": "747e6c4e420e383d198b49504739e3f93f3688e2099b064177fab15a746f72d3",
         "file_sha256": "6647f73606bd9873e797fba8104d2bcf2d750b7b0d327058b411d53b9b23763e",
@@ -1839,9 +1841,7 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     assert formal_receipt_cursor["complete_prefix"] is True
     assert formal_receipt_cursor["complete_global"] is False
     assert formal_receipt_cursor["complete_comparable"] is False
-    assert formal_receipt_cursor["blocker"] == (
-        "11114_candidate_specific_formal_receipts_pending"
-    )
+    assert formal_receipt_cursor["blocker"] == ("11114_candidate_specific_formal_receipts_pending")
     assert formal_receipt_cursor["promotion_admitted"] is False
     assert formal_receipt_cursor["excluded_state_seals_closed"] is True
     assert formal_receipt_cursor["history"] == {
@@ -1850,8 +1850,7 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
         "entries": [
             {
                 "source_label": (
-                    "continuous_scientific_pipeline_epoch_003_"
-                    "cumulative_formal_partition_0005"
+                    "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0005"
                 ),
                 "checked": 82,
                 "new": 80,
@@ -1862,8 +1861,7 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
             },
             {
                 "source_label": (
-                    "continuous_scientific_pipeline_epoch_003_"
-                    "cumulative_formal_partition_0006"
+                    "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0006"
                 ),
                 "checked": 84,
                 "new": 82,
@@ -1874,8 +1872,7 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
             },
             {
                 "source_label": (
-                    "continuous_scientific_pipeline_epoch_003_"
-                    "cumulative_formal_partition_0007"
+                    "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0007"
                 ),
                 "checked": 104,
                 "new": 102,
@@ -1886,6 +1883,114 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
             },
         ],
     }
+    rediscovery = core.pop("anonymous_massive_vector_chronological_rediscovery")
+    assert rediscovery["artifact_binding"] == {
+        "path": (
+            "runs/physics-language/anonymous-massive-vector-chronological-rediscovery/campaign.json"
+        ),
+        "file_sha256": "584265dd598e3560f215dd847d47419b08bdda381675501dd8ca6798db7cafaf",
+        "content_sha256": "d72ec89affe99644f044d11c1abe9850f8261633f8510349ff93bb68cafe36eb",
+    }
+    assert rediscovery["decision"] == (
+        "pass_blinded_unit_mass_pareto_representative_in_declared_bounded_grammar"
+    )
+    assert rediscovery["enumeration"]["raw_cartesian_candidates"] == 625
+    assert rediscovery["enumeration"]["canonical_equivalence_classes"] == 179
+    assert rediscovery["pre_unseal_io"]["attempted_access_count"] == 9
+    assert rediscovery["pre_unseal_io"]["allowed_access_count"] == 8
+    assert rediscovery["pre_unseal_io"]["denied_access_count"] == 1
+    assert rediscovery["pre_unseal_io"]["denied_content_bytes_exposed"] == 0
+    assert rediscovery["pre_unseal_io"]["denied_paths"] == [
+        "tests/test_anonymous_massive_vector_chronological_rediscovery.py"
+    ]
+    assert rediscovery["pre_unseal_io"]["enforcement_surfaces"] == [
+        "builtins.open",
+        "io.open",
+        "pathlib.Path.open",
+    ]
+    assert rediscovery["leakage_audit"]["bytes_scanned"] == 34_955
+    assert rediscovery["leakage_audit"]["forbidden_concept_count"] == 0
+    assert rediscovery["leakage_audit"]["unexpected_import_roots"] == []
+    assert rediscovery["leakage_audit"]["passed"] is True
+    assert rediscovery["leakage_audit"]["pre_unseal_dependency_root_sha256"] == (
+        "9644321702b7f3ea041969fb8658aabb23fdc792d8e474de1bf1407854bbf14f"
+    )
+    assert rediscovery["blinded_ranking"] == {
+        "eligible_candidate_count": 3,
+        "pareto_front_size": 1,
+        "pareto_root_sha256": ("df6897e9a1020b4946202aa3d33336480786b4d7e254bb893956710b88ea620e"),
+        "blinded_pre_unseal_root_sha256": (
+            "7a09020167c5834304898057dcf45e6e806665f26c33e5be455527163fbcf618"
+        ),
+        "coefficient_visibility_before_unseal": False,
+    }
+    post_unseal = rediscovery["post_unseal"]
+    assert [
+        row["mass_squared"] for row in post_unseal["eligible_positive_mass_representatives"]
+    ] == [
+        {"numerator": 1, "denominator": 2},
+        {"numerator": 1, "denominator": 1},
+        {"numerator": 2, "denominator": 1},
+    ]
+    assert post_unseal["canonical_representative"] == {"q0": -1, "qcross": 1, "qm": -1}
+    assert post_unseal["independent_euler_derivation"] == {
+        "box_rank_one_field": 1,
+        "gradient_of_divergence": -1,
+        "algebraic_rank_one_field": -1,
+    }
+    assert post_unseal["independent_divergence_derivation"] == {
+        "box_of_divergence": 0,
+        "algebraic_divergence": -1,
+    }
+    hamiltonian = post_unseal["canonical_hamiltonian_derivation"]
+    assert hamiltonian["velocity_hessian_diagonal"] == [0, 1, 1, 1]
+    assert hamiltonian["velocity_hessian_rank"] == 3
+    assert hamiltonian["primary_secondary_poisson_bracket"] == {
+        "algebraic_delta_coefficient": 1,
+        "laplacian_delta_coefficient": 0,
+        "nonzero": True,
+        "two_constraint_matrix_determinant": 1,
+    }
+    assert (
+        post_unseal["first_class_constraint_count"],
+        post_unseal["second_class_constraint_count"],
+    ) == (
+        0,
+        2,
+    )
+    assert post_unseal["phase_space_dimension"] == 8
+    assert post_unseal["physical_degrees_of_freedom"] == 3
+    assert [row["eligible"] for row in rediscovery["negative_controls"]] == [False] * 4
+    assert [row["control_id"] for row in rediscovery["negative_controls"]] == [
+        "kinetic_sign_reversal",
+        "zero_algebraic_scale",
+        "propagating_longitudinal_mode",
+        "four_derivative_intrusion",
+    ]
+    assert rediscovery["chronology"] == [
+        "generation_inputs_sealed",
+        "pre_unseal_file_reads_enforced",
+        "dependency_leakage_audited",
+        "bounded_grammar_enumerated",
+        "euler_divergence_hamiltonian_and_constraint_scores_derived",
+        "negative_controls_rejected",
+        "blinded_pareto_ranking_sealed",
+        "selected_structure_unsealed",
+    ]
+    assert set(rediscovery["true_claims"]) == {
+        "complete_for_declared_finite_coefficient_box",
+        "flat_integration_by_parts_only",
+        "post_unseal_reference_equivalence_check_defined",
+        "pre_unseal_file_reads_enforced",
+        "three_positive_mass_representatives_exposed",
+        "unique_blinded_pareto_winner",
+    }
+    assert "unique_massive_equivalence_class_proved" in rediscovery["false_claims"]
+    assert "unbounded_coefficient_space_exhausted" in rediscovery["false_claims"]
+    assert rediscovery["first_remaining_blocker"] == (
+        "extend_beyond_quadratic_two_derivative_single_rank_one_field_grammar_without_"
+        "introducing_answer_bearing_generation_dependencies"
+    )
     assert not any(service_result["seals"].values())
     aether_boundary = core["einstein_aether_coupling_boundary_kkt"]
     assert aether_boundary["decision_counts"] == {"blocked": 1, "pass": 0, "reject": 0}
@@ -3146,10 +3251,7 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     assert full_d2f["gate_counts"]["ordered_pair_cells_classified"] == 23_409
     assert full_d2f["gate_counts"]["ordered_D2F_entries_in_domain"] == 257_499
     assert full_d2f["gate_counts"]["corrected_entries_admitted_per_candidate"] == 891
-    assert (
-        full_d2f["gate_counts"]["principal_high_atom_entries_missing_per_candidate"]
-        == 106_920
-    )
+    assert full_d2f["gate_counts"]["principal_high_atom_entries_missing_per_candidate"] == 106_920
     assert full_d2f["gate_counts"]["full_ordered_D2F_entries_missing_per_candidate"] == 256_608
     assert full_d2f["gate_counts"]["complete_ordered_D2F_tensors_registered"] == 0
     assert full_d2f["gate_counts"]["full_high_atom_good_unknown_identities_proved"] == 0
@@ -3182,8 +3284,7 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     assert connection_extension["decision_counts"] == {"pass": 0, "reject": 0, "blocked": 12}
     assert connection_extension["gate_counts"]["ordered_pair_cells_audited_per_candidate"] == 810
     assert (
-        connection_extension["gate_counts"]["one_sided_values_materialized_per_candidate"]
-        == 8_910
+        connection_extension["gate_counts"]["one_sided_values_materialized_per_candidate"] == 8_910
     )
     assert connection_extension["gate_counts"]["one_sided_nonzero_values_per_candidate"] == 93
     assert (
@@ -3224,16 +3325,13 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     )
     assert reverse_source_map["decision_counts"] == {"pass": 0, "reject": 0, "blocked": 12}
     assert reverse_source_map["gate_counts"]["predecessor_schema_keys_audited"] == 285
-    assert (
-        reverse_source_map["gate_counts"]["registered_typed_coordinate_to_Einstein_maps"] == 0
-    )
+    assert reverse_source_map["gate_counts"]["registered_typed_coordinate_to_Einstein_maps"] == 0
     assert (
         reverse_source_map["gate_counts"]["reverse_ordered_pair_cells_targeted_per_candidate"]
         == 810
     )
     assert (
-        reverse_source_map["gate_counts"]["reverse_output_entries_targeted_per_candidate"]
-        == 8_910
+        reverse_source_map["gate_counts"]["reverse_output_entries_targeted_per_candidate"] == 8_910
     )
     assert reverse_source_map["gate_counts"]["reverse_output_entries_materialized"] == 0
     assert reverse_source_map["gate_counts"]["two_map_nonidentifiability_witnesses"] == 12
@@ -3250,9 +3348,7 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     assert reverse_source_map["generic_witness"] == {
         "einstein_component": "G_00",
         "generic_alternative_map_value": "-2*alpha",
-        "generic_nonzero_entries": [
-            {"output_row": 10, "right_field": 10, "value": "-2*alpha"}
-        ],
+        "generic_nonzero_entries": [{"output_row": 10, "right_field": 10, "value": "-2*alpha"}],
         "generic_zero_map_value": "0",
         "left_atom": "s11[0]",
         "output_row": 10,
@@ -3394,8 +3490,7 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     pother = recovery["candidate_pother_one_form_connection"]
     assert pother["artifact_binding"] == {
         "path": (
-            "runs/physics-language/quartic-candidate-pother-one-form-connection-gate/"
-            "campaign.json"
+            "runs/physics-language/quartic-candidate-pother-one-form-connection-gate/campaign.json"
         ),
         "file_sha256": "f43b5623a46dc19541cd5a6323bd8b0c1ea7b63c7fbcfdb1e26bfe35a2f82bf6",
         "content_sha256": "c79256b901eb6e7b543938cae6e6cf4b41e9fe2778aa37077604cf39a869f93d",
@@ -3471,16 +3566,13 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     }
     assert origin["all_data_seals_closed"] is True
     assert all(
-        not any(lane["data_seals"].values())
+        (
+            not any(lane["data_seals"].values())
+            if "data_seals" in lane
+            else lane.get("all_data_seals_closed") is True
+        )
         for name, lane in recovery.items()
-        if name
-        not in {
-            "ordered_candidate_ids",
-            "all_candidate_sets_equal",
-            "cross_slice_two_sided_connection_identifiability",
-            "candidate_pother_one_form_connection",
-            "fitted_output_connection_covariant_origin",
-        }
+        if name not in {"ordered_candidate_ids", "all_candidate_sets_equal"}
     )
     topology = core["quartic_nonlinear_closure"]["fourth_jet_range_obligations"][
         "canonical_obstruction_certificate"
@@ -3828,9 +3920,7 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
         ]
         == "b696a2ec0e1e9162ab59c8be2cd688f9c808d661fc7dcad7b5f28c5c23e40f71"
     )
-    revised_eight_envelope = revised_eight["bounded_next_escape"][
-        "minimal_preserving_envelope"
-    ]
+    revised_eight_envelope = revised_eight["bounded_next_escape"]["minimal_preserving_envelope"]
     assert revised_eight_envelope["supports_checked_by_size"] == {
         "1": 15,
         "2": 105,
@@ -3844,19 +3934,20 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
         "4": 15,
     }
     assert revised_eight_envelope["deterministic_envelope"] == (
-        "a9(n)=-81*n1*n2*n3**2/16 + 135*n2**3*n3/16 - "
-        "567*n2**2*n3**2/32 + 189*n2*n3**3/16"
+        "a9(n)=-81*n1*n2*n3**2/16 + 135*n2**3*n3/16 - 567*n2**2*n3**2/32 + 189*n2*n3**3/16"
     )
-    assert revised_eight["bounded_next_escape"]["exact_range_classification"][
-        "transverse_selector_rank"
-    ] == 22
-    assert revised_eight["bounded_next_escape"]["local_completion"][
-        "coordinate_pairs"
-    ] == [[11, 21], [15, 32]]
     assert (
-        revised_eight["claims"][
-            "revised_eight_frame_symbol_full_sphere_D4_compatibility_disproved"
+        revised_eight["bounded_next_escape"]["exact_range_classification"][
+            "transverse_selector_rank"
         ]
+        == 22
+    )
+    assert revised_eight["bounded_next_escape"]["local_completion"]["coordinate_pairs"] == [
+        [11, 21],
+        [15, 32],
+    ]
+    assert (
+        revised_eight["claims"]["revised_eight_frame_symbol_full_sphere_D4_compatibility_disproved"]
         is True
     )
     assert revised_eight["claims"]["full_direction_sphere_D4_compatibility_proved"] is False
@@ -3884,9 +3975,7 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
         ]
         == "406cb87033eb0946d053c46d076a5e97fb9157c848e3737950c24ba7fca0369f"
     )
-    revised_nine_envelope = revised_nine["bounded_next_escape"][
-        "minimal_preserving_envelope"
-    ]
+    revised_nine_envelope = revised_nine["bounded_next_escape"]["minimal_preserving_envelope"]
     assert revised_nine_envelope["supports_checked_by_size"] == {
         "1": 15,
         "2": 105,
@@ -3900,19 +3989,20 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
         "4": 2,
     }
     assert revised_nine_envelope["deterministic_envelope"] == (
-        "a10(n)=3*n1**2*n2*n3/8 - 21*n2**3*n3/16 + "
-        "81*n2**2*n3**2/32 - 21*n2*n3**3/16"
+        "a10(n)=3*n1**2*n2*n3/8 - 21*n2**3*n3/16 + 81*n2**2*n3**2/32 - 21*n2*n3**3/16"
     )
-    assert revised_nine["bounded_next_escape"]["exact_range_classification"][
-        "transverse_selector_rank"
-    ] == 22
-    assert revised_nine["bounded_next_escape"]["local_completion"][
-        "coordinate_pairs"
-    ] == [[11, 21], [15, 32]]
     assert (
-        revised_nine["claims"][
-            "revised_nine_frame_symbol_full_sphere_D4_compatibility_disproved"
+        revised_nine["bounded_next_escape"]["exact_range_classification"][
+            "transverse_selector_rank"
         ]
+        == 22
+    )
+    assert revised_nine["bounded_next_escape"]["local_completion"]["coordinate_pairs"] == [
+        [11, 21],
+        [15, 32],
+    ]
+    assert (
+        revised_nine["claims"]["revised_nine_frame_symbol_full_sphere_D4_compatibility_disproved"]
         is True
     )
     assert revised_nine["claims"]["full_direction_sphere_D4_compatibility_proved"] is False
@@ -3961,9 +4051,7 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
         [15, 32],
     ]
     assert (
-        revised_ten["claims"][
-            "revised_ten_frame_symbol_full_sphere_D4_compatibility_disproved"
-        ]
+        revised_ten["claims"]["revised_ten_frame_symbol_full_sphere_D4_compatibility_disproved"]
         is True
     )
     assert revised_ten["claims"]["full_direction_sphere_D4_compatibility_proved"] is False
@@ -3996,16 +4084,12 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
         "nonzero_equal_eigenspace_compressions": 12,
         "revised_eleven_frame_full_sphere_D4_compatibility_disproved": True,
     }
-    revised_eleven_range = revised_eleven["bounded_next_escape"][
-        "exact_range_classification"
-    ]
+    revised_eleven_range = revised_eleven["bounded_next_escape"]["exact_range_classification"]
     assert revised_eleven_range["transverse_selector_rank"] == 22
     assert revised_eleven_range["target_plane_dimension"] == 2
     assert revised_eleven_range["selector_target_plane_intersection_dimension"] == 2
     assert revised_eleven_range["quotient_target_zero"] is True
-    revised_eleven_envelope = revised_eleven["bounded_next_escape"][
-        "minimal_preserving_envelope"
-    ]
+    revised_eleven_envelope = revised_eleven["bounded_next_escape"]["minimal_preserving_envelope"]
     assert revised_eleven_envelope["support_search_maximum"] == 14
     assert revised_eleven_envelope["total_supports_checked"] == 32_766
     assert revised_eleven_envelope["bounded_class_exhausted"] is True
@@ -4798,6 +4882,13 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "Continuous scientific pipeline admission" in dashboard
     assert "generate → formal → rank" in dashboard
     assert "readiness only; no service or database was started" in dashboard
+    assert "Anonymous massive-vector chronological rediscovery" in dashboard
+    assert "625 raw candidates reduce to 179 classes" in dashboard
+    assert "Three healthy positive mass-ratio representatives" in dashboard
+    assert "selects the unit-mass representative before unseal" in dashboard
+    assert "not an operating-system sandbox" in dashboard
+    assert "does not prove a unique theory or free-mass family" in dashboard
+    assert "determinant one and three physical degrees of freedom" in dashboard
     assert "Bounded continuous CPU service" in dashboard
     assert "preexecution snapshot" in dashboard
     assert "cleanup-inclusive 120-second deadline" in dashboard
@@ -5273,9 +5364,7 @@ def test_formal_receipt_worker_unified_semantic_tamper_fails_closed(
     if mutation == "pending_after":
         artifact["counts"]["global_pending_formal_receipts_after_partition"] = 0
     elif mutation == "partition_root":
-        artifact["processed_partition_roots"]["candidate_formal_receipts_root_sha256"] = (
-            "0" * 64
-        )
+        artifact["processed_partition_roots"]["candidate_formal_receipts_root_sha256"] = "0" * 64
     elif mutation == "complete_global":
         artifact["complete_global_formal_receipts"] = True
     else:
@@ -5296,9 +5385,7 @@ def test_reverse_source_map_unified_semantic_tamper_fails_closed(tmp_path: Path)
     spec = next(source for source in config["sources"] if source["label"] == label)
     target = root / spec["path"]
     artifact = json.loads(target.read_text(encoding="utf-8"))
-    artifact["nonidentifiability_theorem"]["generic_witness"][
-        "generic_alternative_map_value"
-    ] = "0"
+    artifact["nonidentifiability_theorem"]["generic_witness"]["generic_alternative_map_value"] = "0"
     body = {key: value for key, value in artifact.items() if key != "content_sha256"}
     artifact["content_sha256"] = hashlib.sha256(_canonical(body)).hexdigest()
     target.write_text(json.dumps(artifact, indent=2) + "\n", encoding="utf-8")
@@ -5355,9 +5442,7 @@ def test_two_sided_connection_identifiability_unified_semantic_tamper_fails_clos
     spec = next(source for source in config["sources"] if source["label"] == label)
     target = root / spec["path"]
     artifact = json.loads(target.read_text(encoding="utf-8"))
-    artifact["candidate_records"][0]["rank_six_completion_witness"][
-        "nonzero_residuals"
-    ] = 1
+    artifact["candidate_records"][0]["rank_six_completion_witness"]["nonzero_residuals"] = 1
     body = {key: value for key, value in artifact.items() if key != "content_sha256"}
     artifact["content_sha256"] = hashlib.sha256(_canonical(body)).hexdigest()
     target.write_text(json.dumps(artifact, indent=2) + "\n", encoding="utf-8")
@@ -5527,10 +5612,7 @@ def test_latest_formal_receipt_cursor_source_tamper_fails_closed(
     sequence: int,
 ) -> None:
     root, config, _ = _fixture(tmp_path)
-    label = (
-        "continuous_scientific_pipeline_epoch_003_"
-        f"cumulative_formal_partition_{sequence:04d}"
-    )
+    label = f"continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_{sequence:04d}"
     spec = next(source for source in config["sources"] if source["label"] == label)
     target = root / spec["path"]
     artifact = json.loads(target.read_text(encoding="utf-8"))
@@ -5580,9 +5662,7 @@ def test_fitted_output_connection_origin_unified_semantic_tamper_fails_closed(
     spec = next(source for source in config["sources"] if source["label"] == label)
     target = root / spec["path"]
     artifact = json.loads(target.read_text(encoding="utf-8"))
-    artifact["candidate_records"][0][
-        "fitted_coefficients_with_action_root_provenance"
-    ] = 1
+    artifact["candidate_records"][0]["fitted_coefficients_with_action_root_provenance"] = 1
     body = {key: value for key, value in artifact.items() if key != "content_sha256"}
     artifact["content_sha256"] = hashlib.sha256(_canonical(body)).hexdigest()
     target.write_text(json.dumps(artifact, indent=2) + "\n", encoding="utf-8")
@@ -5590,4 +5670,29 @@ def test_fitted_output_connection_origin_unified_semantic_tamper_fails_closed(
     spec["content_sha256"] = artifact["content_sha256"]
 
     with pytest.raises(ValueError, match="fitted connection origin result boundary changed"):
+        build_unified_snapshot(root, config, physical_gpu={"availability": "unavailable"})
+
+
+@pytest.mark.parametrize(
+    ("field", "value"),
+    (("denied_access_count", 0), ("denied_content_bytes_exposed", 1)),
+)
+def test_anonymous_massive_vector_rediscovery_io_tamper_fails_closed(
+    tmp_path: Path,
+    field: str,
+    value: int,
+) -> None:
+    root, config, _ = _fixture(tmp_path)
+    label = "anonymous_massive_vector_chronological_rediscovery"
+    spec = next(source for source in config["sources"] if source["label"] == label)
+    target = root / spec["path"]
+    artifact = json.loads(target.read_text(encoding="utf-8"))
+    artifact["pre_unseal_phase_io_contract"][field] = value
+    body = {key: item for key, item in artifact.items() if key != "content_sha256"}
+    artifact["content_sha256"] = hashlib.sha256(_canonical(body)).hexdigest()
+    target.write_text(json.dumps(artifact, indent=2) + "\n", encoding="utf-8")
+    spec["file_sha256"] = hashlib.sha256(target.read_bytes()).hexdigest()
+    spec["content_sha256"] = artifact["content_sha256"]
+
+    with pytest.raises(ValueError, match="anonymous rediscovery result boundary changed"):
         build_unified_snapshot(root, config, physical_gpu={"availability": "unavailable"})

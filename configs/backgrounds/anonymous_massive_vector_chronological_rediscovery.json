@@ -1,0 +1,56 @@
+{
+  "schema_version": "sigma-anonymous-massive-vector-chronological-rediscovery-config-1.0",
+  "benchmark_id": "anonymous-massive-vector-chronological-rediscovery-001",
+  "output_path": "runs/physics-language/anonymous-massive-vector-chronological-rediscovery/campaign.json",
+  "anonymous_field_contract": {
+    "field_rank": 1,
+    "field_components": 4,
+    "spacetime_dimension": 4,
+    "background_signature": "minus_plus_plus_plus",
+    "coefficient_domain": [-2, -1, 0, 1, 2],
+    "primitive_order": ["q0", "q1", "q2", "qm"],
+    "primitives": {
+      "q0": "metric contraction of first-jet slots (mu,nu) with (mu,nu)",
+      "q1": "metric contraction of first-jet slots (mu,nu) with (nu,mu)",
+      "q2": "product of the two contracted first-jet traces",
+      "qm": "metric contraction of the two undifferentiated rank-one fields"
+    },
+    "quadratic_locality": true,
+    "maximum_action_derivative_count": 2,
+    "metric_coupling": "one universal metric contracts every spacetime index; no preferred tensor"
+  },
+  "discovery_constraints": {
+    "massive": true,
+    "physical_degrees_of_freedom": 3,
+    "algebraic_divergence_constraint": true,
+    "positive_spatial_kinetic_energy": true,
+    "positive_mass_squared": true
+  },
+  "equivalence_contract": {
+    "positive_overall_normalization": true,
+    "flat_quadratic_integration_by_parts": true,
+    "rank_one_field_sign_relabel": true,
+    "no_other_equivalences": true
+  },
+  "chronology_contract": {
+    "seal_generation_inputs_before_enumeration": true,
+    "audit_pre_unseal_dependency_closure": true,
+    "enforce_pre_unseal_file_reads": true,
+    "require_denied_post_unseal_verifier_probe": true,
+    "seal_blinded_pareto_ranking_before_unseal": true,
+    "post_unseal_reference_verification_only": true
+  },
+  "negative_controls": [
+    "kinetic_sign_reversal",
+    "zero_algebraic_scale",
+    "propagating_longitudinal_mode",
+    "four_derivative_intrusion"
+  ],
+  "policies": {
+    "candidate_generation": "deterministic_complete_bounded_cartesian_enumeration",
+    "scoring": "derive_constraints_without_reference_action",
+    "leakage": "fail_closed",
+    "observational_claims": "forbidden",
+    "novelty_claims": "forbidden"
+  }
+}

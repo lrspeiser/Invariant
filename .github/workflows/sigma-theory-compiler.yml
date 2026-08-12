@@ -43,6 +43,7 @@ jobs:
           src/sigma_theory_compiler/continuous_formula_formal_backend.py
           src/sigma_theory_compiler/continuous_scientific_pipeline_formal_receipt_batch_worker.py
           src/sigma_theory_compiler/continuous_scientific_pipeline_service.py
+          src/sigma_theory_compiler/anonymous_massive_vector_chronological_rediscovery.py
           src/sigma_theory_compiler/quartic_fitted_output_connection_covariant_origin_audit.py
           src/sigma_theory_compiler/quartic_scalar_hessian_d2_integrability_gate.py
           src/sigma_theory_compiler/quartic_tc2_d4_degree_five_counterexample_escape_campaign.py
@@ -51,6 +52,7 @@ jobs:
           tests/test_continuous_formula_formal_backend.py
           tests/test_continuous_scientific_pipeline_formal_receipt_batch_worker.py
           tests/test_continuous_scientific_pipeline_service.py
+          tests/test_anonymous_massive_vector_chronological_rediscovery.py
           tests/test_quartic_fitted_output_connection_covariant_origin_audit.py
           tests/test_quartic_scalar_hessian_d2_integrability_gate.py
           tests/test_quartic_tc2_d4_degree_five_counterexample_escape_campaign.py
@@ -63,6 +65,7 @@ jobs:
           tests/test_continuous_formula_formal_backend.py
           tests/test_continuous_scientific_pipeline_formal_receipt_batch_worker.py
           tests/test_continuous_scientific_pipeline_service.py
+          tests/test_anonymous_massive_vector_chronological_rediscovery.py
           tests/test_quartic_fitted_output_connection_covariant_origin_audit.py
           tests/test_quartic_scalar_hessian_d2_integrability_gate.py
           tests/test_quartic_tc2_d4_degree_five_counterexample_escape_campaign.py
@@ -71,11 +74,11 @@ jobs:
 
   portable-unified-status:
     runs-on: ubuntu-24.04
-    timeout-minutes: 60
+    timeout-minutes: 75
     strategy:
       fail-fast: false
       matrix:
-        shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]
+        shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33]
     defaults:
       run:
         working-directory: research/sigma-theory-compiler
@@ -102,4 +105,4 @@ jobs:
           python scripts/run_pytest_shard.py
           --test-file tests/test_unified_engine_status.py
           --shard-index ${{ matrix.shard }}
-          --shard-count 18
+          --shard-count 34
