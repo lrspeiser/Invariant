@@ -55,6 +55,9 @@ from .quartic_full_d2f_high_atom_coverage_gate import (
 from .quartic_full_tensor_good_unknown_reconciliation_gate import (
     _validate_result as validate_full_tensor_good_unknown_reconciliation,
 )
+from .quartic_principal_high_atom_connection_extension_gate import (
+    _validate_result as validate_principal_high_atom_connection_extension,
+)
 from .quartic_scalar_hessian_curl_invariance_gate import (
     _validate_result as validate_scalar_hessian_curl_invariance,
 )
@@ -958,6 +961,9 @@ def build_unified_snapshot(
         "quartic_scalar_hessian_output_bundle_repair_gate"
     ]
     quartic_full_d2f_high_atom_coverage = sources["quartic_full_d2f_high_atom_coverage_gate"]
+    quartic_principal_high_atom_connection_extension = sources[
+        "quartic_principal_high_atom_connection_extension_gate"
+    ]
     validation_config_root = root
     validate_quartic_anti_wick_composition_artifact(
         quartic_anti_wick_recovery,
@@ -1020,6 +1026,10 @@ def build_unified_snapshot(
     )
     validate_full_d2f_high_atom_coverage(
         quartic_full_d2f_high_atom_coverage,
+        root=validation_config_root,
+    )
+    validate_principal_high_atom_connection_extension(
+        quartic_principal_high_atom_connection_extension,
         root=validation_config_root,
     )
     quartic_tc2_quadratic_deltak = sources["quartic_tc2_quadratic_deltak_extension"]
@@ -10654,6 +10664,25 @@ def build_unified_snapshot(
                     "claim_seals": quartic_full_d2f_high_atom_coverage["claim_seals"],
                     "data_seals": quartic_full_d2f_high_atom_coverage["data_seals"],
                 },
+                "principal_high_atom_connection_extension": {
+                    "artifact_binding": source_specs[
+                        "quartic_principal_high_atom_connection_extension_gate"
+                    ],
+                    "decision": quartic_principal_high_atom_connection_extension["decision"],
+                    "decision_counts": quartic_principal_high_atom_connection_extension[
+                        "decision_counts"
+                    ],
+                    "gate_counts": quartic_principal_high_atom_connection_extension[
+                        "gate_counts"
+                    ],
+                    "first_blocker": quartic_principal_high_atom_connection_extension[
+                        "first_blocker"
+                    ],
+                    "claim_seals": quartic_principal_high_atom_connection_extension[
+                        "claim_seals"
+                    ],
+                    "data_seals": quartic_principal_high_atom_connection_extension["data_seals"],
+                },
                 "ordered_candidate_ids": [
                     row["candidate_id"] for row in quartic_anti_wick_recovery["certificates"]
                 ],
@@ -10688,6 +10717,12 @@ def build_unified_snapshot(
                     == [
                         row["candidate_id"]
                         for row in quartic_full_d2f_high_atom_coverage["candidate_records"]
+                    ]
+                    == [
+                        row["candidate_id"]
+                        for row in quartic_principal_high_atom_connection_extension[
+                            "candidate_records"
+                        ]
                     ]
                 ),
             },

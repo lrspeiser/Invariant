@@ -1540,6 +1540,20 @@ source/config/test hashes are `659df566bf12795612c61de7fa6448557b7fd0f56d9b920ab
 `53fe9a98831a76a701bf8d58aa968f4e6de6843619ce1ed7be6dc9944c15788f` /
 `adb39026e6216d2749ae60156dd5048dcaa9c62e4a643d3906f6db1a9a4856cd`.
 
+The first bounded connection extension now audits all 810 ordered `P10 x Pother` atom pairs per
+candidate. Extending the repaired sparse `Omega_A^10` connection by zero gives no help on this
+slice: every one of the 90 relevant `J_10j` source-row values vanishes, so all 8,910 connection
+corrections are exactly zero. The campaign nevertheless materializes the 8,910 one-sided values,
+93 of which are nonzero, but admits none because the reverse `Pother x P10` derivatives and the
+corrected cross-slice curl are not registered. All 12 candidates remain blocked and unrejected;
+106,920 principal high-atom entries remain missing, with full D2F, high-atom, H7, PDE, lifespan,
+and observation claims false. Artifact file/content hashes are
+`e4ffc8f0d82f3c4381703f338a03cc334e15268aaf5b0c7f0dd1305ee96f8b92` /
+`33942664dc481ae112650c1f9ad1c4834687161601b54348b55a82139816c028`;
+source/config/test hashes are `a0c54de525ee10d9aaa0b03bc66737b94cfada3f84155b6f43dac97997ee3df7` /
+`eb8d2b178e9c041466d3fd62ce9d47b1b10f907632129d739b8628cf9d7713c7` /
+`64ecb72d303e547ca090f93d0f14287e2c25b0c2f45d0279de0c3a34c237ca84`.
+
 The component campaign now proves every entry of the principal identity
 `D_Y E55 J = i P55` for all 12 candidates and materializes the complete first source Jacobian.
 Its 1,089 principal and 594 lower entries form an exact arithmetic-only `11 x 153` manifest with

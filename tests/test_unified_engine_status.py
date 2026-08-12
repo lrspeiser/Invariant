@@ -147,6 +147,7 @@ SOURCE_PATHS = [
     "runs/physics-language/quartic-scalar-hessian-curl-invariance-gate/campaign.json",
     "runs/physics-language/quartic-scalar-hessian-output-bundle-repair-gate/campaign.json",
     "runs/physics-language/quartic-full-d2f-high-atom-coverage-gate/campaign.json",
+    "runs/physics-language/quartic-principal-high-atom-connection-extension-gate/campaign.json",
     "runs/physics-language/quartic-tc2-ck1-p55-tube-envelope-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-quadratic-deltak-extension-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-diagonal-third-jet-campaign/campaign.json",
@@ -239,6 +240,7 @@ RECOVERY_CONFIG_PATHS = (
     "configs/backgrounds/quartic_scalar_hessian_curl_invariance_gate.json",
     "configs/backgrounds/quartic_scalar_hessian_output_bundle_repair_gate.json",
     "configs/backgrounds/quartic_full_d2f_high_atom_coverage_gate.json",
+    "configs/backgrounds/quartic_principal_high_atom_connection_extension_gate.json",
 )
 FINITE_SOBOLEV_DEPENDENCIES = (
     "src/sigma_theory_compiler/quartic_finite_sobolev_hierarchy_no_go_campaign.py",
@@ -263,6 +265,10 @@ SCALAR_HESSIAN_OUTPUT_BUNDLE_DEPENDENCIES = (
 FULL_D2F_HIGH_ATOM_DEPENDENCIES = (
     "src/sigma_theory_compiler/quartic_full_d2f_high_atom_coverage_gate.py",
     "tests/test_quartic_full_d2f_high_atom_coverage_gate.py",
+)
+PRINCIPAL_HIGH_ATOM_CONNECTION_DEPENDENCIES = (
+    "src/sigma_theory_compiler/quartic_principal_high_atom_connection_extension_gate.py",
+    "tests/test_quartic_principal_high_atom_connection_extension_gate.py",
 )
 SIXTH_FRAME_CONFIG_PATH = (
     "configs/backgrounds/quartic_tc2_d4_degree_three_sixth_frame_completion_campaign.json"
@@ -463,6 +469,7 @@ LABELS = [
     "quartic_scalar_hessian_curl_invariance_gate",
     "quartic_scalar_hessian_output_bundle_repair_gate",
     "quartic_full_d2f_high_atom_coverage_gate",
+    "quartic_principal_high_atom_connection_extension_gate",
     "quartic_ck1_p55_tube_envelope",
     "quartic_tc2_quadratic_deltak_extension",
     "quartic_tc2_diagonal_third_jet",
@@ -628,6 +635,11 @@ def _fixture(tmp_path: Path) -> tuple[Path, dict[str, object], Path]:
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(source, target)
     for relative in FULL_D2F_HIGH_ATOM_DEPENDENCIES:
+        source = REPO / relative
+        target = tmp_path / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(source, target)
+    for relative in PRINCIPAL_HIGH_ATOM_CONNECTION_DEPENDENCIES:
         source = REPO / relative
         target = tmp_path / relative
         target.parent.mkdir(parents=True, exist_ok=True)
@@ -2709,6 +2721,49 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
         "remaining_principal_high_atom_domain_exactly_classified",
     }
     assert not any(full_d2f["data_seals"].values())
+    connection_extension = recovery["principal_high_atom_connection_extension"]
+    assert connection_extension["artifact_binding"] == {
+        "path": (
+            "runs/physics-language/quartic-principal-high-atom-connection-extension-gate/"
+            "campaign.json"
+        ),
+        "file_sha256": "e4ffc8f0d82f3c4381703f338a03cc334e15268aaf5b0c7f0dd1305ee96f8b92",
+        "content_sha256": "33942664dc481ae112650c1f9ad1c4834687161601b54348b55a82139816c028",
+    }
+    assert connection_extension["decision"] == (
+        "restricted_B10_connection_extension_exactly_ineffective_one_sided_values_"
+        "materialized_cross_slice_not_admitted_candidates_blocked"
+    )
+    assert connection_extension["decision_counts"] == {"pass": 0, "reject": 0, "blocked": 12}
+    assert connection_extension["gate_counts"]["ordered_pair_cells_audited_per_candidate"] == 810
+    assert (
+        connection_extension["gate_counts"]["one_sided_values_materialized_per_candidate"]
+        == 8_910
+    )
+    assert connection_extension["gate_counts"]["one_sided_nonzero_values_per_candidate"] == 93
+    assert (
+        connection_extension["gate_counts"][
+            "restricted_connection_correction_entries_checked_per_candidate"
+        ]
+        == 8_910
+    )
+    assert connection_extension["gate_counts"]["restricted_connection_nonzero_corrections"] == 0
+    assert connection_extension["gate_counts"]["cross_slice_entries_admitted"] == 0
+    assert (
+        connection_extension["gate_counts"]["principal_high_atom_entries_missing_per_candidate"]
+        == 106_920
+    )
+    assert connection_extension["first_blocker"] == (
+        "reverse_Pother_by_P10_candidate_bound_source_derivatives_and_zero_corrected_curl_"
+        "for_810_ordered_pairs_not_registered"
+    )
+    assert {key for key, value in connection_extension["claim_seals"].items() if value} == {
+        "one_sided_P10_by_Pother_values_materialized",
+        "other_principal_atom_subset_exactly_registered",
+        "registered_B10_connection_correction_zero_on_P10_by_Pother",
+        "scalar_source_row_10_zero_on_other_principal_subset",
+    }
+    assert not any(connection_extension["data_seals"].values())
     assert all(
         not any(lane["data_seals"].values())
         for name, lane in recovery.items()
@@ -3882,6 +3937,11 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "153x153 ordered atom pairs" in dashboard
     assert "106,920 principal high-atom entries" in dashboard
     assert "256,608 total entries" in dashboard
+    assert "Principal high-atom connection extension audit" in dashboard
+    assert "8,910 one-sided values" in dashboard
+    assert "93 are nonzero" in dashboard
+    assert "reverse <code>Pother x P10</code> derivatives" in dashboard
+    assert "not a general connection no-go" in dashboard
     assert "TC2 revised-symbol e3 counterexample and bounded escape" in dashboard
     assert "(u,v)=(0,1)" in dashboard
     assert "4,943" in dashboard
