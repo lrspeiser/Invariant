@@ -26,6 +26,7 @@ SOURCE_PATHS = [
     "runs/engine/continuous-scientific-pipeline-admission-readiness.json",
     "runs/engine/continuous-scientific-pipeline-service-readiness.json",
     "runs/engine/continuous-scientific-pipeline-service-result.json",
+    "runs/engine/continuous-scientific-pipeline-epoch-003-genesis.json",
     "runs/engine/composite-promotion-overlay-production-status.json",
     "runs/engine/grammar-v3-parameter-cell-execution-status.json",
     "runs/engine/grammar-v3-parameter-cell-expansion-service-status.json",
@@ -141,6 +142,7 @@ SOURCE_PATHS = [
     "runs/physics-language/quartic-finite-sobolev-hierarchy-no-go-campaign/campaign.json",
     "runs/physics-language/quartic-full-tensor-good-unknown-reconciliation-gate/campaign.json",
     "runs/physics-language/quartic-scalar-hessian-d2-integrability-gate/campaign.json",
+    "runs/physics-language/quartic-scalar-hessian-curl-invariance-gate/campaign.json",
     "runs/physics-language/quartic-tc2-ck1-p55-tube-envelope-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-quadratic-deltak-extension-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-diagonal-third-jet-campaign/campaign.json",
@@ -176,6 +178,7 @@ SOURCE_PATHS = [
     "runs/physics-language/quartic-tc2-d4-degree-three-sixth-frame-completion-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-d4-rational-chart-determining-gate/campaign.json",
     "runs/physics-language/quartic-tc2-d4-degree-five-counterexample-escape-campaign/campaign.json",
+    "runs/physics-language/quartic-tc2-d4-revised-symbol-rational-counterexample-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000000.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000064.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000128.json",
@@ -227,6 +230,7 @@ RECOVERY_CONFIG_PATHS = (
     "configs/backgrounds/quartic_finite_sobolev_hierarchy_no_go_campaign.json",
     "configs/backgrounds/quartic_full_tensor_good_unknown_reconciliation_gate.json",
     "configs/backgrounds/quartic_scalar_hessian_d2_integrability_gate.json",
+    "configs/backgrounds/quartic_scalar_hessian_curl_invariance_gate.json",
 )
 FINITE_SOBOLEV_DEPENDENCIES = (
     "src/sigma_theory_compiler/quartic_finite_sobolev_hierarchy_no_go_campaign.py",
@@ -240,11 +244,22 @@ SCALAR_HESSIAN_D2_DEPENDENCIES = (
     "src/sigma_theory_compiler/quartic_scalar_hessian_d2_integrability_gate.py",
     "tests/test_quartic_scalar_hessian_d2_integrability_gate.py",
 )
+SCALAR_HESSIAN_CURL_DEPENDENCIES = (
+    "src/sigma_theory_compiler/quartic_scalar_hessian_curl_invariance_gate.py",
+    "tests/test_quartic_scalar_hessian_curl_invariance_gate.py",
+)
 SIXTH_FRAME_CONFIG_PATH = (
     "configs/backgrounds/quartic_tc2_d4_degree_three_sixth_frame_completion_campaign.json"
 )
 RATIONAL_CHART_CONFIG_PATH = (
     "configs/backgrounds/quartic_tc2_d4_rational_chart_determining_gate.json"
+)
+REVISED_SYMBOL_CONFIG_PATH = (
+    "configs/backgrounds/quartic_tc2_d4_revised_symbol_rational_counterexample_campaign.json"
+)
+REVISED_SYMBOL_DEPENDENCIES = (
+    "src/sigma_theory_compiler/quartic_tc2_d4_revised_symbol_rational_counterexample_campaign.py",
+    "tests/test_quartic_tc2_d4_revised_symbol_rational_counterexample_campaign.py",
 )
 PORTABLE_FORMAL_DEPENDENCIES = (
     "configs/formal_controls_portable_report.json",
@@ -262,6 +277,9 @@ CONTINUOUS_PIPELINE_DEPENDENCIES = (
     "configs/continuous_formula_formal_backend.json",
     "src/sigma_theory_compiler/continuous_formula_formal_backend.py",
     "tests/test_continuous_formula_formal_backend.py",
+    "configs/continuous_scientific_pipeline_epoch_003.json",
+    "src/sigma_theory_compiler/continuous_scientific_pipeline_epoch.py",
+    "tests/test_continuous_scientific_pipeline_epoch.py",
     "configs/generator_v2_billion.json",
     "configs/covariant_action_grammar.json",
     "configs/covariant_field_contract.json",
@@ -282,6 +300,7 @@ LABELS = [
     "continuous_scientific_pipeline_admission",
     "continuous_scientific_pipeline_service_readiness",
     "continuous_scientific_pipeline_service_result",
+    "continuous_scientific_pipeline_epoch_003_genesis",
     "promotion_overlay",
     "grammar_parameter_cells",
     "grammar_parameter_cell_expansion_service",
@@ -397,6 +416,7 @@ LABELS = [
     "quartic_finite_sobolev_hierarchy_no_go_campaign",
     "quartic_full_tensor_good_unknown_reconciliation_gate",
     "quartic_scalar_hessian_d2_integrability_gate",
+    "quartic_scalar_hessian_curl_invariance_gate",
     "quartic_ck1_p55_tube_envelope",
     "quartic_tc2_quadratic_deltak_extension",
     "quartic_tc2_diagonal_third_jet",
@@ -432,6 +452,7 @@ LABELS = [
     "quartic_tc2_d4_degree_three_sixth_frame_completion",
     "quartic_tc2_d4_rational_chart_determining_gate",
     "quartic_tc2_d4_degree_five_counterexample_escape",
+    "quartic_tc2_d4_revised_symbol_rational_counterexample",
     "quartic_tc2_reranked_obligation_chunk_0",
     "quartic_tc2_reranked_obligation_chunk_64",
     "quartic_tc2_reranked_obligation_chunk_128",
@@ -544,6 +565,16 @@ def _fixture(tmp_path: Path) -> tuple[Path, dict[str, object], Path]:
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(source, target)
     for relative in SCALAR_HESSIAN_D2_DEPENDENCIES:
+        source = REPO / relative
+        target = tmp_path / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(source, target)
+    for relative in SCALAR_HESSIAN_CURL_DEPENDENCIES:
+        source = REPO / relative
+        target = tmp_path / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(source, target)
+    for relative in REVISED_SYMBOL_DEPENDENCIES:
         source = REPO / relative
         target = tmp_path / relative
         target.parent.mkdir(parents=True, exist_ok=True)
@@ -1139,9 +1170,7 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     )
     assert not any(continuous["seals"].values())
     service = core.pop("continuous_scientific_pipeline_service")
-    assert service["decision"] == (
-        "preexecution_preregistration_snapshot_no_current_runtime_claim"
-    )
+    assert service["decision"] == ("preexecution_preregistration_snapshot_no_current_runtime_claim")
     assert service["service_contract"] == {
         "single_owner_O_EXCL_PID_argv_lease": True,
         "isolated_atomic_JSON_queue": True,
@@ -1208,13 +1237,31 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
         "leaderboard_rebuild_requests": 0,
         "rank_assignments": 0,
     }
-    assert len(service_result["terminal_runtime_archive"]["queue"]["completed_action_receipts"]) == 8
-    assert service_result["terminal_runtime_archive"]["checkpoint"]["state"] == (
-        "bounded_complete"
+    assert (
+        len(service_result["terminal_runtime_archive"]["queue"]["completed_action_receipts"]) == 8
     )
+    assert service_result["terminal_runtime_archive"]["checkpoint"]["state"] == ("bounded_complete")
     assert service_result["replay_dependencies"]["replay_method"] == (
         "deterministic_ordinal_generation_then_candidate_bound_formal_backend"
     )
+    epoch_003 = core.pop("continuous_scientific_pipeline_epoch_003_genesis")
+    assert epoch_003["decision"] == (
+        "disjoint_epoch_genesis_ready_for_persistent_resume_not_executed"
+    )
+    assert epoch_003["epoch_id"] == "continuous-scientific-pipeline-epoch-003"
+    assert epoch_003["predecessor"]["stop_ordinal_exclusive"] == 1_004_013_056
+    assert epoch_003["coverage"]["start_ordinal"] == 1_004_013_056
+    assert epoch_003["coverage"]["stop_ordinal_exclusive"] == 1_007_945_216
+    assert epoch_003["coverage"]["unique_formula_count"] == 3_932_160
+    assert len(epoch_003["coverage"]["intervals"]) == 8
+    assert epoch_003["execution_state"] == {
+        "runtime_materialized": False,
+        "formulas_evaluated": 0,
+        "formal_receipts": 0,
+        "epoch_complete": False,
+    }
+    assert not any(epoch_003["promotion_contract"].values())
+    assert not any(epoch_003["seals"].values())
     assert len(service_result["replay_dependencies"]["replay_dependency_root_sha256"]) == 64
     assert not any(service_result["seals"].values())
     aether_boundary = core["einstein_aether_coupling_boundary_kkt"]
@@ -2437,6 +2484,17 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
         "naive_chunk_extension_obstructed"
     }
     assert not any(scalar_d2["data_seals"].values())
+    scalar_curl = recovery["scalar_hessian_curl_invariance"]
+    assert scalar_curl["decision_counts"] == {"pass": 0, "reject": 0, "blocked": 12}
+    assert scalar_curl["gate_counts"]["ordered_nonzero_curl_pairs_per_candidate"] == 24
+    assert scalar_curl["gate_counts"]["independent_nonzero_curl_pairs_per_candidate"] == 12
+    assert scalar_curl["gate_counts"]["ordered_nonzero_curl_components_per_candidate"] == 30
+    assert scalar_curl["gate_counts"]["independent_nonzero_curl_components_per_candidate"] == 15
+    assert scalar_curl["gate_counts"]["coordinate_only_repairs_ruled_out"] == 12
+    assert scalar_curl["gate_counts"]["torsion_free_domain_connection_repairs_ruled_out"] == 12
+    assert scalar_curl["gate_counts"]["corrected_source_repairs_registered"] == 0
+    assert scalar_curl["gate_counts"]["full_ordered_D2_manifests_admitted"] == 0
+    assert not any(scalar_curl["data_seals"].values())
     assert all(
         not any(lane["data_seals"].values())
         for name, lane in recovery.items()
@@ -2734,6 +2792,36 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     assert degree_five["exact_completion"]["corrected_result"]["candidate_compatibilities"] == 12
     assert degree_five["claims"]["all_seven_selector_direction_certificates_closed"] is True
     assert degree_five["claims"]["revised_symbol_full_sphere_D4_compatibility_proved"] is False
+    revised = core["quartic_nonlinear_closure"]["fourth_jet_range_obligations"][
+        "canonical_obstruction_certificate"
+    ].pop("revised_symbol_rational_counterexample")
+    assert revised["counts"]["rational_SO3_charts"] == 2
+    assert revised["counts"]["directional_polarization_evaluations"] == 15
+    assert revised["counts"]["candidate_compatibilities"] == 0
+    assert revised["counts"]["candidate_obstructions"] == 12
+    assert revised["counts"]["bounded_envelope_supports_checked"] == 4_943
+    assert revised["counts"]["sparsest_envelope_support"] == 5
+    assert revised["counts"]["sparsest_feasible_envelopes"] == 110
+    assert revised["counts"]["new_local_candidate_compatibilities"] == 12
+    assert revised["counts"]["total_local_direction_certificates"] == 8
+    assert revised["first_obstruction"]["selector"]["chart_coordinates"] == ["0", "1"]
+    assert revised["first_obstruction"]["selector"]["direction"] == ["0", "0", "1"]
+    assert (
+        revised["first_obstruction"]["exact_rational_obstruction"]["eta_normalized_target_sha256"]
+        == "db67ad988b50a0966f05c71ac7fbe0da460888b1baca4f36fb6f4dd9f639409f"
+    )
+    envelope = revised["bounded_next_escape"]["minimal_preserving_envelope"]
+    assert envelope["total_supports_checked"] == 4_943
+    assert envelope["sparsest_support_feasible_envelopes"] == 110
+    assert revised["bounded_next_escape"]["local_completion"]["coordinate_pairs"] == [
+        [11, 21],
+        [15, 32],
+    ]
+    assert (
+        revised["claims"]["revised_seven_frame_symbol_full_sphere_D4_compatibility_disproved"]
+        is True
+    )
+    assert revised["claims"]["full_direction_sphere_D4_compatibility_proved"] is False
     assert core["quartic_nonlinear_closure"] == {
         "candidate_count": 12,
         "coordinate_pair_partition": {
@@ -2996,10 +3084,9 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                     ),
                 },
                 "next_gate": (
-                    "Repeat the exact two-chart rational counterexample search for the revised "
-                    "seven-frame symbol, or construct a determining theorem, before "
-                    "pseudodifferential constraint, commutator, boundary-energy and "
-                    "local/covariant admission."
+                    "Repeat the fail-fast exact rational-chart search for the revised "
+                    "eight-frame symbol; do not infer a finite determining theorem or any "
+                    "PDE/global admission."
                 ),
             },
             "full_fourth_jet_range_closed": False,
@@ -3014,7 +3101,8 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
             "lifespans_proved": 0,
         },
         "first_missing_premise": (
-            "repeat_rational_chart_search_or_determining_theorem_for_revised_seven_frame_degree_five_symbol"
+            "repeat_fail_fast_exact_rational_chart_search_for_revised_eight_frame_symbol_or_"
+            "finite_determining_theorem"
         ),
     }
     assert core["cross_pipeline_total"]["status"] == "not_computed"
@@ -3446,6 +3534,18 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "eight contiguous ordinal intervals" in dashboard
     assert "exactly 15 owned real-formula workers" in dashboard
     assert "Survivors are re-derived from ordinals" in dashboard
+    assert "Continuous CPU Epoch 003 genesis" in dashboard
+    assert "genesis / not started" in dashboard
+    assert "no formulas were evaluated" in dashboard
+    assert "preregistered future coverage only" in dashboard
+    assert "Scalar-Hessian curl invariance gate" in dashboard
+    assert "12 independent antisymmetric pairs" in dashboard
+    assert "corrected source Jacobian" in dashboard
+    assert "TC2 revised-symbol e3 counterexample and bounded escape" in dashboard
+    assert "(u,v)=(0,1)" in dashboard
+    assert "4,943" in dashboard
+    assert "110 five-support envelopes" in dashboard
+    assert "not a finite determining theorem" in dashboard
     assert "never assign rank directly" in dashboard
     assert "22,478,848 unique candidate-grid evaluations" in dashboard
     assert "89.4% median and 100% peak device-wide CPU" in dashboard

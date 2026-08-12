@@ -579,6 +579,12 @@ leaderboard rebuild requests, or rank assignments. No live campaign SQLite, GPU 
 observation, theory promotion, or direct rank mutation occurred. Result schema 2.0 preserves the
 sealed terminal queue/checkpoint, eight contiguous ordinal intervals, reconstructed receipts, and
 the exact dependency hashes needed to validate the historical run without mutable runtime files.
+Epoch 003 is separately preregistered as a disjoint persistent-resume genesis over
+`[1,004,013,056,1,007,945,216)`, comprising eight future 15-worker batches and 3,932,160 registered
+ordinals. This is not an execution result: its immutable artifact records
+`runtime_materialized=false`, zero formulas evaluated, zero formal receipts, and
+`epoch_complete=false`. It requested no leaderboard rebuild, assigned no rank, promoted no
+candidate, accessed no live campaign SQLite database, and used no GPU or CUDA resource.
 The new candidate-bound formula stress lane drives the same RTX 5090 much harder on dense numerical
 work: all 163 materialized Euler projections were checked on 5,341,184 deterministic synthetic
 candidate-point pairs against CPU evaluation, with 5,216 additional exact-rational sentinels and zero
@@ -1471,6 +1477,23 @@ source/config/test hashes are `bb570371bdf3a33bc0bb492b48cf642fcf1f950cd6a9576eb
 `4fbfeb98093600039ff751849a7d04b701960def756f7336b5b1766c81c3d607` /
 `d8b481596da39c006260fe3cdb90e288817bcbf58de3fd7ef011eb18f265c218`.
 
+The follow-on curl-invariance gate compresses those 24 ordered residual pairs and 30 nonzero
+entries exactly to 12 independent antisymmetric pairs and 15 components for every candidate.
+Treating each output row of the registered naive chunk Jacobian as a one-form `J_A` on the nine
+scalar-Hessian directions, exterior differentiation commutes with pullback and an invertible
+nine-dimensional coordinate Jacobian obeys `det(Lambda^2 P)=det(P)^8`. Hence a local C2 coordinate
+reparameterization cannot erase the nonzero curl. Antisymmetrizing a torsion-free domain covariant
+derivative likewise gives `dJ_A`, so that repair is excluded. This is only a no-go for those two
+repairs of the registered naive one-form: corrected source-Jacobian terms, output-bundle
+connections, torsion, the remaining ordered D2 tensor, full good-unknown identities, global H7,
+nonlinear PDE closure, lifespan, candidate rejection, and observations remain open or fail-closed.
+The artifact file/content hash is
+`8e457a5e6812d36615c884a52cbece2469cf8ab27d3e76a78b01d99a919b3111` /
+`b97ed68d0ec156bc5de16f45cfe177d999f8d974bc9403768690d9e629c47d42`;
+source/config/test hashes are `fe6f9437f5b2a90424a195aa85ea268129faf506ded9839dd4426b1f6d891ee3` /
+`ca1efd1c1876d4b7f5dce03f9e4fac374372cd9aa9441f9cb91ccec1a7092ff0` /
+`d530547228b82a1e8a6b122a45614abd51dd206e2a7b2dd78d68a4f798f0da8f`.
+
 The component campaign now proves every entry of the principal identity
 `D_Y E55 J = i P55` for all 12 candidates and materializes the complete first source Jacobian.
 Its 1,089 principal and 594 lower entries form an exact arithmetic-only `11 x 153` manifest with
@@ -1693,7 +1716,15 @@ first feasible. Exhaustive sparse support classification gives the unique two-mo
 `a7(n)=(81/14)n2*n3(2*n1*n2-n3^2)`. Its sharp rank-two, two-curl correction closes all 12 former
 counterexample systems and preserves the six prior frames, producing a degree-five odd smooth
 bounded gradient-annihilating symbol with seven exact direction certificates. A repeat two-chart
-search for this revised symbol, or a determining theorem, followed by pseudodifferential constraint,
+search then stops at the regular primary-chart point `(u,v)=(0,1)`, `n=e3`: all 12 candidates
+have a common rank-four, 56-entry zero-speed obstruction, rigorously disproving full-sphere
+compatibility of the seven-frame symbol. Degrees zero and two cannot preserve all seven prior
+frames; degree four is first feasible. The bounded enumeration checks 4,943 supports through size
+five, finds 110 feasible five-support envelopes, and selects the deterministic first
+`a8(n)=n3^4+(49/18)n2*n3^3-(31/6)n2^2*n3^2+(19/9)n2^3*n3-(4/3)n1*n3^3`.
+A sharp rank-two, two-curl repair closes the 12 systems at e3 and preserves the seven earlier
+frames, yielding eight local direction certificates only. A repeat chart search for the revised
+eight-frame symbol, or a determining theorem, followed by pseudodifferential constraint,
 commutator, boundary-energy, local/covariant and PDE admission, remains open. This is
 not an inferred pass for the unevaluated tail; full fourth-order range closure, full-tube,
 CK1, CK3, TC2, B7, global-H7, and lifespan remain false.

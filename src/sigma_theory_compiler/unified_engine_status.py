@@ -23,6 +23,7 @@ from typing import Any
 from .continuous_scientific_pipeline_admission import (
     validate_continuous_scientific_pipeline_readiness,
 )
+from .continuous_scientific_pipeline_epoch import validate_epoch_genesis
 from .continuous_scientific_pipeline_service import (
     validate_execution_result as validate_pipeline_service_result,
 )
@@ -47,6 +48,9 @@ from .quartic_finite_sobolev_hierarchy_no_go_campaign import (
 from .quartic_full_tensor_good_unknown_reconciliation_gate import (
     _validate_result as validate_full_tensor_good_unknown_reconciliation,
 )
+from .quartic_scalar_hessian_curl_invariance_gate import (
+    _validate_result as validate_scalar_hessian_curl_invariance,
+)
 from .quartic_scalar_hessian_d2_integrability_gate import (
     _validate_result as validate_scalar_hessian_d2_integrability,
 )
@@ -58,6 +62,9 @@ from .quartic_tc2_d4_degree_three_sixth_frame_completion_campaign import (
 )
 from .quartic_tc2_d4_rational_chart_determining_gate import (
     validate_campaign as validate_rational_chart_gate,
+)
+from .quartic_tc2_d4_revised_symbol_rational_counterexample_campaign import (
+    validate_campaign as validate_revised_symbol_rational_counterexample,
 )
 
 SCHEMA_VERSION = "sigma-unified-engine-status-1.0"
@@ -720,6 +727,9 @@ def build_unified_snapshot(
     continuous_scientific_pipeline_service_result = sources[
         "continuous_scientific_pipeline_service_result"
     ]
+    continuous_scientific_pipeline_epoch_003_genesis = sources[
+        "continuous_scientific_pipeline_epoch_003_genesis"
+    ]
     promotion = sources["promotion_overlay"]
     parameter = sources["grammar_parameter_cells"]
     parameter_expansion = sources["grammar_parameter_cell_expansion_service"]
@@ -921,6 +931,7 @@ def build_unified_snapshot(
     quartic_scalar_hessian_d2_integrability = sources[
         "quartic_scalar_hessian_d2_integrability_gate"
     ]
+    quartic_scalar_hessian_curl_invariance = sources["quartic_scalar_hessian_curl_invariance_gate"]
     validation_config_root = root
     validate_quartic_anti_wick_composition_artifact(
         quartic_anti_wick_recovery,
@@ -971,6 +982,10 @@ def build_unified_snapshot(
     )
     validate_scalar_hessian_d2_integrability(
         quartic_scalar_hessian_d2_integrability,
+        root=validation_config_root,
+    )
+    validate_scalar_hessian_curl_invariance(
+        quartic_scalar_hessian_curl_invariance,
         root=validation_config_root,
     )
     quartic_tc2_quadratic_deltak = sources["quartic_tc2_quadratic_deltak_extension"]
@@ -1035,6 +1050,9 @@ def build_unified_snapshot(
     ]
     quartic_tc2_d4_rational_chart = sources["quartic_tc2_d4_rational_chart_determining_gate"]
     quartic_tc2_d4_degree_five_escape = sources["quartic_tc2_d4_degree_five_counterexample_escape"]
+    quartic_tc2_d4_revised_symbol_counterexample = sources[
+        "quartic_tc2_d4_revised_symbol_rational_counterexample"
+    ]
     quartic_tc2_reranked_obligation_chunks = tuple(
         sources[f"quartic_tc2_reranked_obligation_chunk_{offset}"]
         for offset in (0, 64, 128, 192, 256, 320, 384)
@@ -1168,6 +1186,11 @@ def build_unified_snapshot(
         continuous_scientific_pipeline_service_result,
         root,
         root / "configs/continuous_scientific_pipeline_service.json",
+    )
+    validate_epoch_genesis(
+        continuous_scientific_pipeline_epoch_003_genesis,
+        root,
+        root / "configs/continuous_scientific_pipeline_epoch_003.json",
     )
     if (
         scalable_structural_metrics.get("candidate_count") != 163
@@ -8516,6 +8539,7 @@ def build_unified_snapshot(
     ):
         raise ValueError("quartic TC2 rational-chart determining gate is inconsistent")
     validate_degree_five_counterexample_escape(quartic_tc2_d4_degree_five_escape)
+    validate_revised_symbol_rational_counterexample(quartic_tc2_d4_revised_symbol_counterexample)
     degree_five_counts = quartic_tc2_d4_degree_five_escape["counts"]
     degree_five_exact = quartic_tc2_d4_degree_five_escape["exact_completion"]
     degree_five_claims = quartic_tc2_d4_degree_five_escape["claims"]
@@ -8542,6 +8566,37 @@ def build_unified_snapshot(
         or degree_five_claims["revised_symbol_full_sphere_D4_compatibility_proved"] is not False
     ):
         raise ValueError("quartic TC2 degree-five counterexample escape is inconsistent")
+    revised_counts = quartic_tc2_d4_revised_symbol_counterexample["counts"]
+    revised_gate = quartic_tc2_d4_revised_symbol_counterexample["exact_gate"]
+    revised_bindings = quartic_tc2_d4_revised_symbol_counterexample["source_bindings"]
+    if (
+        quartic_tc2_d4_revised_symbol_counterexample["config_sha256"]
+        != "ee01bc5b5ec7c85d0821657797f3c9359a2c6914909a643a679a31afd53fc111"
+        or hashlib.sha256(
+            (validation_config_root / revised_bindings["campaign_source"]["path"]).read_bytes()
+        ).hexdigest()
+        != "fbc84b9ad701a6e4e3f0e2bd48a84bc3b695037e0520e915f6605390ed83d528"
+        or hashlib.sha256(
+            (validation_config_root / revised_bindings["campaign_test"]["path"]).read_bytes()
+        ).hexdigest()
+        != "d26569da92a734aef323b54499905c87046110b483140987564b83083403518c"
+        or revised_bindings["degree_five_predecessor"]
+        != {
+            "path": source_specs["quartic_tc2_d4_degree_five_counterexample_escape"]["path"],
+            "file_sha256": source_specs["quartic_tc2_d4_degree_five_counterexample_escape"][
+                "file_sha256"
+            ],
+            "content_sha256": source_specs["quartic_tc2_d4_degree_five_counterexample_escape"][
+                "content_sha256"
+            ],
+        }
+        or _sha(revised_gate) != "181ddfcdf1786c20ff6497e3141969f677a2b08cffeaceb6b1e3ca9e3ab36212"
+        or revised_counts["candidate_obstructions"] != 12
+        or revised_counts["new_local_candidate_compatibilities"] != 12
+        or revised_counts["total_local_direction_certificates"] != 8
+        or revised_counts["inferred_global_passes"] != 0
+    ):
+        raise ValueError("quartic TC2 revised-symbol counterexample is inconsistent")
     if (
         unified_live_dashboard_service_readiness.get("decision")
         != "ready_enabled_read_only_bounded"
@@ -8861,6 +8916,19 @@ def build_unified_snapshot(
             "interpretation": continuous_scientific_pipeline_service_result["interpretation"],
             "bindings": continuous_scientific_pipeline_service_result["bindings"],
             "seals": continuous_scientific_pipeline_service_result["seals"],
+        },
+        "continuous_scientific_pipeline_epoch_003_genesis": {
+            "decision": continuous_scientific_pipeline_epoch_003_genesis["decision"],
+            "epoch_id": continuous_scientific_pipeline_epoch_003_genesis["epoch_id"],
+            "predecessor": continuous_scientific_pipeline_epoch_003_genesis["predecessor"],
+            "coverage": continuous_scientific_pipeline_epoch_003_genesis["coverage"],
+            "resume_contract": continuous_scientific_pipeline_epoch_003_genesis["resume_contract"],
+            "execution_state": continuous_scientific_pipeline_epoch_003_genesis["execution_state"],
+            "promotion_contract": continuous_scientific_pipeline_epoch_003_genesis[
+                "promotion_contract"
+            ],
+            "bindings": continuous_scientific_pipeline_epoch_003_genesis["bindings"],
+            "seals": continuous_scientific_pipeline_epoch_003_genesis["seals"],
         },
         "einstein_aether_coupling_boundary_kkt": {
             "decision": einstein_aether_coupling_boundary_kkt["decision"],
@@ -10307,12 +10375,10 @@ def build_unified_snapshot(
                         {
                             "candidate_id": row["candidate_id"],
                             "candidate_decision": row["candidate_decision"],
-                            "candidate_rejection_authorized": row[
-                                "candidate_rejection_authorized"
+                            "candidate_rejection_authorized": row["candidate_rejection_authorized"],
+                            "failed_ordered_family_pair_count": row["schwarz_integrability"][
+                                "failed_ordered_family_pair_count"
                             ],
-                            "failed_ordered_family_pair_count": row[
-                                "schwarz_integrability"
-                            ]["failed_ordered_family_pair_count"],
                             "nonzero_residual_entries": row["schwarz_integrability"][
                                 "nonzero_residual_entries"
                             ],
@@ -10325,6 +10391,53 @@ def build_unified_snapshot(
                     "claim_seals": quartic_scalar_hessian_d2_integrability["claim_seals"],
                     "data_seals": quartic_scalar_hessian_d2_integrability["data_seals"],
                     "scope": quartic_scalar_hessian_d2_integrability["scope"],
+                },
+                "scalar_hessian_curl_invariance": {
+                    "artifact_binding": source_specs["quartic_scalar_hessian_curl_invariance_gate"],
+                    "decision": quartic_scalar_hessian_curl_invariance["decision"],
+                    "decision_counts": quartic_scalar_hessian_curl_invariance["decision_counts"],
+                    "gate_counts": quartic_scalar_hessian_curl_invariance["gate_counts"],
+                    "first_blocker": quartic_scalar_hessian_curl_invariance["first_blocker"],
+                    "theorem": quartic_scalar_hessian_curl_invariance["theorem"],
+                    "exact_controls": quartic_scalar_hessian_curl_invariance["exact_controls"],
+                    "candidate_records": [
+                        {
+                            "candidate_id": row["candidate_id"],
+                            "candidate_decision": row["candidate_decision"],
+                            "candidate_rejection_authorized": row["candidate_rejection_authorized"],
+                            "registered_naive_chunk_curl_nonzero": row[
+                                "registered_naive_chunk_curl_nonzero"
+                            ],
+                            "coordinate_only_repair_possible": row[
+                                "coordinate_only_repair_possible"
+                            ],
+                            "torsion_free_domain_connection_repair_possible": row[
+                                "torsion_free_domain_connection_repair_possible"
+                            ],
+                            "corrected_source_or_output_bundle_or_torsion_repair_ruled_out": row[
+                                "corrected_source_or_output_bundle_or_torsion_repair_ruled_out"
+                            ],
+                            "ordered_nonzero_pair_count": row["curl_two_form_manifest"][
+                                "ordered_nonzero_pair_count"
+                            ],
+                            "independent_nonzero_pair_count": row["curl_two_form_manifest"][
+                                "independent_nonzero_pair_count"
+                            ],
+                            "ordered_nonzero_component_count": row["curl_two_form_manifest"][
+                                "ordered_nonzero_component_count"
+                            ],
+                            "independent_nonzero_component_count": row["curl_two_form_manifest"][
+                                "independent_nonzero_component_count"
+                            ],
+                        }
+                        for row in quartic_scalar_hessian_curl_invariance["candidate_records"]
+                    ],
+                    "secondary_blockers": quartic_scalar_hessian_curl_invariance[
+                        "secondary_blockers"
+                    ],
+                    "claim_seals": quartic_scalar_hessian_curl_invariance["claim_seals"],
+                    "data_seals": quartic_scalar_hessian_curl_invariance["data_seals"],
+                    "scope": quartic_scalar_hessian_curl_invariance["scope"],
                 },
                 "ordered_candidate_ids": [
                     row["candidate_id"] for row in quartic_anti_wick_recovery["certificates"]
@@ -10348,6 +10461,10 @@ def build_unified_snapshot(
                     == [
                         row["candidate_id"]
                         for row in quartic_scalar_hessian_d2_integrability["candidate_records"]
+                    ]
+                    == [
+                        row["candidate_id"]
+                        for row in quartic_scalar_hessian_curl_invariance["candidate_records"]
                     ]
                 ),
             },
@@ -10815,7 +10932,25 @@ def build_unified_snapshot(
                         "claims": degree_five_claims,
                         "scope": quartic_tc2_d4_degree_five_escape["scope"],
                     },
-                    "next_gate": quartic_tc2_d4_degree_five_escape["next_gate"],
+                    "revised_symbol_rational_counterexample": {
+                        "status": quartic_tc2_d4_revised_symbol_counterexample["status"],
+                        "counts": quartic_tc2_d4_revised_symbol_counterexample["counts"],
+                        "atlas": quartic_tc2_d4_revised_symbol_counterexample["exact_gate"][
+                            "atlas"
+                        ],
+                        "search_protocol": quartic_tc2_d4_revised_symbol_counterexample[
+                            "exact_gate"
+                        ]["search_protocol"],
+                        "first_obstruction": quartic_tc2_d4_revised_symbol_counterexample[
+                            "exact_gate"
+                        ]["first_obstruction"],
+                        "bounded_next_escape": quartic_tc2_d4_revised_symbol_counterexample[
+                            "exact_gate"
+                        ]["bounded_next_escape"],
+                        "claims": quartic_tc2_d4_revised_symbol_counterexample["claims"],
+                        "scope": quartic_tc2_d4_revised_symbol_counterexample["scope"],
+                    },
+                    "next_gate": quartic_tc2_d4_revised_symbol_counterexample["next_gate"],
                 },
                 "full_fourth_jet_range_closed": False,
             },
@@ -10832,7 +10967,7 @@ def build_unified_snapshot(
                 )
             },
             "first_missing_premise": (
-                "repeat_rational_chart_search_or_determining_theorem_for_revised_seven_frame_degree_five_symbol"
+                "repeat_fail_fast_exact_rational_chart_search_for_revised_eight_frame_symbol_or_finite_determining_theorem"
             ),
         },
         "evidence_pareto": {

@@ -1,0 +1,43 @@
+{
+  "schema_version": "sigma-quartic-scalar-hessian-curl-invariance-config-1.0",
+  "campaign_id": "quartic-scalar-hessian-curl-invariance-001",
+  "output_path": "runs/physics-language/quartic-scalar-hessian-curl-invariance-gate/campaign.json",
+  "predecessors": {
+    "scalar_hessian_d2": {
+      "path": "runs/physics-language/quartic-scalar-hessian-d2-integrability-gate/campaign.json",
+      "file_sha256": "654a0442e0d6ec0166eed1d15da163260658d6cd44192da9cbb4e4b2b88f105a",
+      "content_sha256": "66f680eec0ab93169163f7f1e2055aac7713f45fcc2abf2f12907183e701b45c"
+    },
+    "full_tensor_reconciliation": {
+      "path": "runs/physics-language/quartic-full-tensor-good-unknown-reconciliation-gate/campaign.json",
+      "file_sha256": "cf7957c2efad52a1fa91761fc6259e17a58011cc6093365f9e86e8e7eea0dfd6",
+      "content_sha256": "9994df86948a4419dd999b66610e9fea847dece6d5300f68152e942ffb2b87c8"
+    }
+  },
+  "geometric_contract": {
+    "source_outputs": 11,
+    "scalar_hessian_directions": 9,
+    "coordinate_change": "local_C2_diffeomorphism_with_invertible_Jacobian",
+    "domain_connection": "torsion_free_affine_connection",
+    "object": "output_indexed_one_form_J_A=J_A_i_dy_i",
+    "obstruction": "C_A_ij=(dJ_A)_ij"
+  },
+  "policies": {
+    "coordinate_only_repair": "exact_invariance_test",
+    "torsion_free_domain_connection_repair": "exact_antisymmetrization_test",
+    "output_bundle_or_torsion_repair": "fail_closed",
+    "full_D2_promotion": "fail_closed",
+    "global_H7": "fail_closed",
+    "nonlinear_PDE": "fail_closed",
+    "lifespan": "fail_closed",
+    "candidate_rejection": "forbidden"
+  },
+  "seals": {
+    "observations_opened": false,
+    "solar_system_inputs_opened": false,
+    "cosmology_inputs_opened": false,
+    "paid_llm_calls": false,
+    "live_SQLite_opened": false,
+    "GPU_execution_used": false
+  }
+}
