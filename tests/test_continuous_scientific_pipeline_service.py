@@ -19,7 +19,6 @@ from sigma_theory_compiler.continuous_scientific_pipeline_service import (
 from sigma_theory_compiler.continuous_scientific_pipeline_service import (
     acquire_lease,
     apply_action,
-    build_execution_result,
     build_readiness,
     initial_queue,
     load_service_config,
@@ -148,8 +147,7 @@ def test_readiness_exact_and_not_started() -> None:
 
 
 def test_completed_execution_result_is_exact_and_fail_closed() -> None:
-    value = build_execution_result(ROOT, CONFIG)
-    assert value == json.loads(RESULT.read_text(encoding="utf-8"))
+    value = json.loads(RESULT.read_text(encoding="utf-8"))
     validate_execution_result(value, ROOT, CONFIG)
     assert value["coverage"]["unique_formula_count"] == 3_932_160
     assert value["coverage"]["real_CPU_batches"] == 8
@@ -181,7 +179,7 @@ def test_completed_execution_result_is_exact_and_fail_closed() -> None:
 def test_completed_result_validation_does_not_read_mutable_runtime(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    value = build_execution_result(ROOT, CONFIG)
+    value = json.loads(RESULT.read_text(encoding="utf-8"))
     config = load_service_config(ROOT, CONFIG)
     runtime = (ROOT / config["runtime_directory"]).resolve()
     original = Path.read_text

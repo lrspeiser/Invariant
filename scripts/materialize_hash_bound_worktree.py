@@ -53,6 +53,22 @@ def materialize(root: Path, config_path: Path) -> dict[str, int]:
     root = root.resolve()
     config = json.loads(config_path.read_text(encoding="utf-8"))
     queue = deque(_bindings(config.get("sources", [])))
+    config_documents_scanned = 0
+    # Some deterministic validators load campaign configs directly instead of
+    # reaching them through an immutable source artifact.  Include those
+    # registered bindings so a clean LF checkout can reproduce the exact CRLF
+    # bytes sealed by the Windows-authored provenance records.
+    for candidate in sorted((root / "configs").rglob("*.json")):
+        if candidate.stat().st_size > MAX_BOUND_FILE_BYTES:
+            raise ValueError(
+                f"config exceeds bootstrap byte limit: {candidate.relative_to(root).as_posix()}"
+            )
+        try:
+            document = json.loads(candidate.read_text(encoding="utf-8"))
+        except (UnicodeDecodeError, json.JSONDecodeError):
+            continue
+        config_documents_scanned += 1
+        queue.extend(_bindings(document))
     visited: set[tuple[str, str]] = set()
     rewritten = 0
     matched = 0
@@ -91,6 +107,7 @@ def materialize(root: Path, config_path: Path) -> dict[str, int]:
             queue.extend(_bindings(document))
     return {
         "bindings_visited": len(visited),
+        "config_documents_scanned": config_documents_scanned,
         "files_matched": matched,
         "files_rewritten": rewritten,
         "missing_bound_paths": missing,
