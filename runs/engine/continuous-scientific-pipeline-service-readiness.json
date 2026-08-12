@@ -1,0 +1,73 @@
+{
+  "bindings": {
+    "admission_config": {
+      "file_sha256": "5999694d772bee9eeaced607cf4b7905ae45af9c3d133dc4d839a03c63ef7502",
+      "path": "configs/continuous_scientific_pipeline_admission.json"
+    },
+    "config": {
+      "file_sha256": "e4e9b46887a1a77892865779169f4d9f2080a97914be999b156426adad0922f2",
+      "path": "configs/continuous_scientific_pipeline_service.json"
+    },
+    "source": {
+      "file_sha256": "bfab7e78ba81607b9da3209911ca756f2023ee1104659df54b92683c289b844f",
+      "path": "src/sigma_theory_compiler/continuous_scientific_pipeline_service.py"
+    },
+    "test": {
+      "file_sha256": "a054d1df868300c9f828af4ce393bf603a90a24ec016ab0804503c4dd6fd22d8",
+      "path": "tests/test_continuous_scientific_pipeline_service.py"
+    }
+  },
+  "content_sha256": "813a92c582eeb828b1ee3921efa2a71e9be1b3f85e35ceffe7f97b761d017c87",
+  "decision": "bounded_single_owner_CPU_pipeline_service_implemented_not_started",
+  "execution_state": {
+    "cycles_executed": 0,
+    "live_SQLite_accessed": false,
+    "queue_created": false,
+    "service_started": false
+  },
+  "first_remaining_blocker": "register_a_candidate_specific_formal_backend_before_any_rank_rebuild_can_be_admitted",
+  "resource_contract": {
+    "CPU_backoff_percent": 92,
+    "cpu_workers": 15,
+    "gpu_workers": 0,
+    "minimum_RAM_MiB": 32768
+  },
+  "safe_start_criteria": [
+    "runtime path remains Git-ignored and contains no foreign lease",
+    "available RAM is at least 32768 MiB",
+    "device-wide CPU is below 92 percent",
+    "no other CPU generation owner is active",
+    "ordinal interval is unconsumed",
+    "formal blocks are expected until a reviewed candidate-specific backend is registered"
+  ],
+  "schema_version": "sigma-continuous-scientific-pipeline-service-readiness-1.0",
+  "scientific_contract": {
+    "direct_rank_assignment": false,
+    "formal_backend_available": false,
+    "formal_stage_fails_closed": true,
+    "ranking_is_request_only": true,
+    "real_formula_evaluator_allowlisted": true
+  },
+  "seals": {
+    "arbitrary_callable_or_subprocess_injection": false,
+    "campaign_live_sqlite_access": false,
+    "dark_matter_or_halo_inputs": false,
+    "direct_rank_assignment": false,
+    "existing_process_signaled": false,
+    "gpu_or_cuda_access": false,
+    "observations_opened": false,
+    "paid_llm_calls": false,
+    "redshift_or_cosmology_inputs": false
+  },
+  "service_contract": {
+    "checkpoint_resume": true,
+    "external_stop_request": true,
+    "hard_owned_child_action_timeout": true,
+    "isolated_atomic_JSON_queue": true,
+    "maximum_action_seconds": 120,
+    "maximum_actions_per_cycle": 1,
+    "maximum_cycles": 16,
+    "maximum_service_seconds": 600,
+    "single_owner_O_EXCL_PID_argv_lease": true
+  }
+}

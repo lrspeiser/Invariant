@@ -20,7 +20,12 @@ from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import Any
 
+from .continuous_scientific_pipeline_admission import (
+    validate_continuous_scientific_pipeline_readiness,
+)
+from .continuous_scientific_pipeline_service import validate_readiness as validate_pipeline_service
 from .cpu_symbolic_overlap_benchmark import EXPECTED_TOP_LEVEL_KEYS as CPU_OVERLAP_KEYS
+from .formal_controls_portable_report import validate_artifact as validate_portable_formal_report
 from .kastner_schlatter_history_kernel_projective_admission import (
     _validate_result as validate_history_kernel_projective_result,
 )
@@ -33,8 +38,17 @@ from .quartic_bounded_frequency_defect_campaign import (
     validate_quartic_bounded_frequency_defect_artifact,
 )
 from .quartic_dyadic_localization_campaign import validate_quartic_dyadic_localization_artifact
+from .quartic_finite_sobolev_hierarchy_no_go_campaign import (
+    _validate_result as validate_finite_sobolev_hierarchy_no_go,
+)
+from .quartic_full_tensor_good_unknown_reconciliation_gate import (
+    _validate_result as validate_full_tensor_good_unknown_reconciliation,
+)
 from .quartic_tc2_d4_degree_three_sixth_frame_completion_campaign import (
     validate_campaign as validate_sixth_frame_completion,
+)
+from .quartic_tc2_d4_rational_chart_determining_gate import (
+    validate_campaign as validate_rational_chart_gate,
 )
 
 SCHEMA_VERSION = "sigma-unified-engine-status-1.0"
@@ -689,6 +703,11 @@ def build_unified_snapshot(
 
     streaming = sources["billion_streaming"]
     cpu_real_formula_overlap = sources["cpu_real_formula_overlap_benchmark"]
+    formal_controls_portable = sources["formal_controls_portable_report"]
+    continuous_scientific_pipeline = sources["continuous_scientific_pipeline_admission"]
+    continuous_scientific_pipeline_service = sources[
+        "continuous_scientific_pipeline_service_readiness"
+    ]
     promotion = sources["promotion_overlay"]
     parameter = sources["grammar_parameter_cells"]
     parameter_expansion = sources["grammar_parameter_cell_expansion_service"]
@@ -881,10 +900,12 @@ def build_unified_snapshot(
     g4_galaxy_source_registry_admission = sources["g4_galaxy_source_registry_admission"]
     quartic_anti_wick_recovery = sources["quartic_anti_wick_composition_campaign"]
     quartic_annular_c6_recovery = sources["quartic_annular_k55_c6_campaign"]
-    quartic_bounded_frequency_recovery = sources[
-        "quartic_bounded_frequency_defect_campaign"
-    ]
+    quartic_bounded_frequency_recovery = sources["quartic_bounded_frequency_defect_campaign"]
     quartic_dyadic_recovery = sources["quartic_dyadic_localization_campaign"]
+    quartic_finite_sobolev_no_go = sources["quartic_finite_sobolev_hierarchy_no_go_campaign"]
+    quartic_full_tensor_reconciliation = sources[
+        "quartic_full_tensor_good_unknown_reconciliation_gate"
+    ]
     validation_config_root = root
     validate_quartic_anti_wick_composition_artifact(
         quartic_anti_wick_recovery,
@@ -893,9 +914,7 @@ def build_unified_snapshot(
             (
                 validation_config_root
                 / "configs/backgrounds/quartic_anti_wick_composition_campaign.json"
-            ).read_text(
-                encoding="utf-8"
-            )
+            ).read_text(encoding="utf-8")
         ),
     )
     validate_quartic_annular_k55_c6_artifact(
@@ -903,11 +922,8 @@ def build_unified_snapshot(
         validation_config_root,
         json.loads(
             (
-                validation_config_root
-                / "configs/backgrounds/quartic_annular_k55_c6_campaign.json"
-            ).read_text(
-                encoding="utf-8"
-            )
+                validation_config_root / "configs/backgrounds/quartic_annular_k55_c6_campaign.json"
+            ).read_text(encoding="utf-8")
         ),
     )
     validate_quartic_bounded_frequency_defect_artifact(
@@ -927,10 +943,16 @@ def build_unified_snapshot(
             (
                 validation_config_root
                 / "configs/backgrounds/quartic_dyadic_localization_campaign.json"
-            ).read_text(
-                encoding="utf-8"
-            )
+            ).read_text(encoding="utf-8")
         ),
+    )
+    validate_finite_sobolev_hierarchy_no_go(
+        quartic_finite_sobolev_no_go,
+        root=validation_config_root,
+    )
+    validate_full_tensor_good_unknown_reconciliation(
+        quartic_full_tensor_reconciliation,
+        root=validation_config_root,
     )
     quartic_tc2_quadratic_deltak = sources["quartic_tc2_quadratic_deltak_extension"]
     quartic_tc2_diagonal_third_jet = sources["quartic_tc2_diagonal_third_jet"]
@@ -992,6 +1014,7 @@ def build_unified_snapshot(
     quartic_tc2_d4_sixth_frame_completion = sources[
         "quartic_tc2_d4_degree_three_sixth_frame_completion"
     ]
+    quartic_tc2_d4_rational_chart = sources["quartic_tc2_d4_rational_chart_determining_gate"]
     quartic_tc2_reranked_obligation_chunks = tuple(
         sources[f"quartic_tc2_reranked_obligation_chunk_{offset}"]
         for offset in (0, 64, 128, 192, 256, 320, 384)
@@ -1106,6 +1129,21 @@ def build_unified_snapshot(
         or any(cpu_real_formula_overlap.get("seals", {}).values())
     ):
         raise ValueError("CPU real-formula overlap benchmark is inconsistent")
+    validate_portable_formal_report(
+        formal_controls_portable,
+        root,
+        root / "configs/formal_controls_portable_report.json",
+    )
+    validate_continuous_scientific_pipeline_readiness(
+        continuous_scientific_pipeline,
+        root,
+        root / "configs/continuous_scientific_pipeline_admission.json",
+    )
+    validate_pipeline_service(
+        continuous_scientific_pipeline_service,
+        root,
+        root / "configs/continuous_scientific_pipeline_service.json",
+    )
     if (
         scalable_structural_metrics.get("candidate_count") != 163
         or scalable_structural_metrics.get("alias_count") != 93
@@ -3144,29 +3182,20 @@ def build_unified_snapshot(
         "qed_actualization_audit": source_specs[
             "kastner_schlatter_qed_actualization_poisson_derivation"
         ],
-        "primary_pdf_sha256": (
-            "c2f671293d07b21397e745da00a3ce1a2193c00da647a2ebf4147612b76c1780"
-        ),
+        "primary_pdf_sha256": ("c2f671293d07b21397e745da00a3ce1a2193c00da647a2ebf4147612b76c1780"),
         "config": {
             "path": "configs/kastner_schlatter_history_kernel_projective_admission.json",
-            "file_sha256": (
-                "5aeac7dab53ec2a5af062ad78524620758f8b1defb1ad7017d7422e115609dca"
-            ),
+            "file_sha256": ("5aeac7dab53ec2a5af062ad78524620758f8b1defb1ad7017d7422e115609dca"),
         },
         "source": {
             "path": (
-                "src/sigma_theory_compiler/"
-                "kastner_schlatter_history_kernel_projective_admission.py"
+                "src/sigma_theory_compiler/kastner_schlatter_history_kernel_projective_admission.py"
             ),
-            "file_sha256": (
-                "0bc61efbeeb32bac02990de603adcdf622a928c7a56241a48877d384d2ac0824"
-            ),
+            "file_sha256": ("0bc61efbeeb32bac02990de603adcdf622a928c7a56241a48877d384d2ac0824"),
         },
         "test": {
             "path": "tests/test_kastner_schlatter_history_kernel_projective_admission.py",
-            "file_sha256": (
-                "1ecd1f5458246f4b3980afe47f473c5c4211a27ef9d72be2c40172c50aa36c43"
-            ),
+            "file_sha256": ("1ecd1f5458246f4b3980afe47f473c5c4211a27ef9d72be2c40172c50aa36c43"),
         },
     }
     if (
@@ -8031,8 +8060,7 @@ def build_unified_snapshot(
     sixth_config_claimed = sixth_config.pop("content_sha256", None)
     sixth_config["content_sha256"] = sixth_config_claimed
     sixth_source_bindings_on_disk = all(
-        hashlib.sha256((root / binding["path"]).read_bytes()).hexdigest()
-        == binding["file_sha256"]
+        hashlib.sha256((root / binding["path"]).read_bytes()).hexdigest() == binding["file_sha256"]
         for binding in (
             expected_sixth_bindings["campaign_source"],
             expected_sixth_bindings["campaign_test"],
@@ -8104,8 +8132,7 @@ def build_unified_snapshot(
             "prior_certified_directions": ["e1", "e2", "xy_3_4_5", "xz_3_4_5", "xyz_1_2_2"],
             "total_certified_directions": 6,
         }
-        or quartic_tc2_d4_sixth_frame_completion.get("source_bindings")
-        != expected_sixth_bindings
+        or quartic_tc2_d4_sixth_frame_completion.get("source_bindings") != expected_sixth_bindings
         or sixth_completion.get("selector")
         != {
             "deterministic_rational_orientation": True,
@@ -8226,10 +8253,243 @@ def build_unified_snapshot(
         }
         or any(
             control.get("rejected") is not True
-            for control in quartic_tc2_d4_sixth_frame_completion.get("negative_controls", {}).values()
+            for control in quartic_tc2_d4_sixth_frame_completion.get(
+                "negative_controls", {}
+            ).values()
         )
     ):
         raise ValueError("quartic TC2 sixth-frame completion is inconsistent")
+    validate_rational_chart_gate(quartic_tc2_d4_rational_chart)
+    rational_counts = quartic_tc2_d4_rational_chart.get("counts", {})
+    rational_gate = quartic_tc2_d4_rational_chart.get("exact_gate", {})
+    rational_atlas = rational_gate.get("atlas", {})
+    rational_selector = rational_gate.get("counterexample_selector", {})
+    rational_recurrence = rational_gate.get("full_recurrence", {})
+    rational_obstruction = rational_gate.get("exact_rational_obstruction", {})
+    rational_claims = quartic_tc2_d4_rational_chart.get("claims", {})
+    expected_rational_bindings = {
+        "c23_predecessor": {
+            key: value
+            for key, value in source_specs[
+                "quartic_tc2_d4_degree_three_c23_great_circle_escape"
+            ].items()
+            if key != "label"
+        },
+        "campaign_source": {
+            "file_sha256": "a2d6b14e3e84cc0add98a3fd5d653bd685bfb1817eb9a6931a1027c6dc935559",
+            "path": "src/sigma_theory_compiler/quartic_tc2_d4_rational_chart_determining_gate.py",
+        },
+        "campaign_test": {
+            "file_sha256": "b694afc8ae3946c0ddb484cb7fe7bc4c1b01dcdfb4ee5c7ea667a4820485cfe4",
+            "path": "tests/test_quartic_tc2_d4_rational_chart_determining_gate.py",
+        },
+        "fourth_campaign": {
+            key: value
+            for key, value in source_specs["quartic_tc2_fourth_jet_range_obligations"].items()
+            if key != "label"
+        },
+        "minimal_escape": {
+            key: value
+            for key, value in source_specs["quartic_tc2_d4_minimal_tc2_escape"].items()
+            if key != "label"
+        },
+        "sixth_predecessor": {
+            key: value
+            for key, value in source_specs[
+                "quartic_tc2_d4_degree_three_sixth_frame_completion"
+            ].items()
+            if key != "label"
+        },
+        "xyz_predecessor": {
+            key: value
+            for key, value in source_specs[
+                "quartic_tc2_d4_degree_three_rank_two_xyz_completion"
+            ].items()
+            if key != "label"
+        },
+    }
+    rational_true_claims = {
+        "current_combined_symbol_full_sphere_D4_compatibility_disproved",
+        "exact_rational_SO3_atlas_constructed",
+        "exact_regular_rational_counterexample_proved",
+        "full_orders_one_through_four_counterexample_recurrence_evaluated",
+        "only_zero_speed_eigenspace_obstructs_at_counterexample",
+        "point_compression_denominators_cleared_to_constant_numerator_polynomials",
+    }
+    rational_config_path = (
+        root / "configs/backgrounds/quartic_tc2_d4_rational_chart_determining_gate.json"
+    )
+    rational_config_raw = rational_config_path.read_bytes()
+    rational_config = json.loads(rational_config_raw)
+    rational_config_claimed = rational_config.get("content_sha256")
+    if (
+        set(quartic_tc2_d4_rational_chart)
+        != {
+            "claims",
+            "config_sha256",
+            "content_sha256",
+            "counts",
+            "errors",
+            "exact_gate",
+            "negative_controls",
+            "next_gate",
+            "schema_version",
+            "scope",
+            "source_bindings",
+            "status",
+        }
+        or quartic_tc2_d4_rational_chart.get("status")
+        != "pass_exact_rational_chart_counterexample_disproves_current_full_sphere_D4_compatibility"
+        or quartic_tc2_d4_rational_chart.get("errors") != []
+        or quartic_tc2_d4_rational_chart.get("scope")
+        != "Exact two-chart rational SO(3) atlas and full D4 recurrence at the regular chart point (u,v)=(2/5,1/5). All 12 candidates have a nonzero rank-four zero-speed cleared constant numerator, disproving full-sphere D4 compatibility of the current combined degree-three six-frame symbol. No PDE or global closure is inferred."
+        or quartic_tc2_d4_rational_chart.get("next_gate")
+        != "Construct a new topology-changing angular correction nonzero at n=(2/3,2/3,1/3) while preserving the six certified frames, or revise the current symbol class; then repeat rational-chart counterexample search before any PDE admission."
+        or set(rational_gate)
+        != {
+            "atlas",
+            "counterexample_selector",
+            "exact_rational_obstruction",
+            "full_recurrence",
+            "symbolic_chart_reduction",
+        }
+        or rational_gate.get("symbolic_chart_reduction")
+        != {
+            "full_polynomial_identity_reduction_required_after_counterexample": False,
+            "global_two_variable_numerator_polynomials_materialized": 0,
+            "singular_stratum_invoked": False,
+            "terminal_reason": "exact_regular_rational_counterexample_found",
+        }
+        or _sha(rational_obstruction)
+        != "a2c7d92b18704f8a8bbe0f91a9c9df835913d2a3f9738a636f69d8d5cd421ba3"
+        or quartic_tc2_d4_rational_chart.get("config_sha256")
+        != "0fa14a245d0c13e8539c997a299118f4e7c4457f43d8a6ecef036c535bdb32a1"
+        or hashlib.sha256(rational_config_raw).hexdigest()
+        != "6465d2acdca8015e3b0b52ee62bbe218e262889c8ab45b058423eb0588a62fb3"
+        or _sha({key: value for key, value in rational_config.items() if key != "content_sha256"})
+        != rational_config_claimed
+        or rational_config_claimed != quartic_tc2_d4_rational_chart.get("config_sha256")
+        or quartic_tc2_d4_rational_chart.get("source_bindings") != expected_rational_bindings
+        or any(
+            hashlib.sha256((root / binding["path"]).read_bytes()).hexdigest()
+            != binding["file_sha256"]
+            for binding in (
+                expected_rational_bindings["campaign_source"],
+                expected_rational_bindings["campaign_test"],
+            )
+        )
+        or rational_counts
+        != {
+            "bound_predecessors": 5,
+            "candidate_compatibilities": 0,
+            "candidate_conditions_checked": 12,
+            "candidate_obstructions": 12,
+            "cleared_constant_numerator_polynomials": 12,
+            "complex_chart_singular_strata": 1,
+            "directional_recurrence_evaluations": 15,
+            "eigenspace_compressions_checked": 84,
+            "global_chart_numerator_polynomials_materialized": 0,
+            "inferred_global_passes": 0,
+            "negative_controls": 8,
+            "nonzero_equal_eigenspace_compressions": 12,
+            "rational_SO3_charts": 2,
+            "rational_counterexample_points": 1,
+            "real_chart_singular_strata": 0,
+            "real_sphere_uncovered_points": 0,
+        }
+        or rational_atlas
+        != {
+            "SO3_identities_proved_after_denominator_clearing": True,
+            "antipodal_missing_point": "+e1",
+            "antipodal_rotation_sha256": "6ad2be23bdfeb268ea03f8fe39c6ea2737a665c295dac110806caaef602bbe33",
+            "chart_count": 2,
+            "common_denominator": "1+u^2+v^2",
+            "common_denominator_strictly_positive_on_R2": True,
+            "complex_singular_stratum": "1+u^2+v^2=0",
+            "primary_missing_point": "-e1",
+            "primary_rotation_sha256": "16eaf1d53436432dfe2d1024ac09748c9967e54b5f991754dd73cd34b2307700",
+            "real_singular_strata": 0,
+            "union_covers_real_S2": True,
+        }
+        or rational_selector
+        != {
+            "chart": "primary_e1_stereographic",
+            "chart_coordinates": ["2/5", "1/5"],
+            "chart_denominator_value": "6/5",
+            "direction": ["2/3", "2/3", "1/3"],
+            "frame_name": "stereographic_2_5_1_5",
+            "regular_real_chart_point": True,
+        }
+        or rational_recurrence
+        != {
+            "all_seven_eigenspaces_checked_per_candidate": True,
+            "base_D4_RHS_nonzero_entries": 116,
+            "base_D4_RHS_sha256": "fa14b03f231b6790ae610f31d9d4deafeb86ef060e2c5d580809e4d0752730c8",
+            "current_aligned_symbol_sha256": "2b6438fba2717ec28471f2ee2fb7bc59f789d783464b21b42b5d900d9097fa6d",
+            "current_global_symbol_rank": 5,
+            "current_global_symbol_sha256": "616d48e8339aacd4f7254c8c40c2052354237b882ea8d4d5a7d5afcab5f8f59b",
+            "directional_evaluations": 15,
+            "sixth_block_sha256": "a7290209e029b6a2d6ddcf5b09818711ef4a96687d2f188992be5a950da5dbe8",
+            "xyz_block_sha256": "7b7c840b90ffa0d18fea359f8c617fbf3c28ea15188732ee954827e092041849",
+        }
+        or rational_obstruction.get("candidate_conditions_checked") != 12
+        or rational_obstruction.get("candidate_compatibilities") != 0
+        or rational_obstruction.get("candidate_obstructions") != 12
+        or len(rational_obstruction.get("candidate_records", [])) != 12
+        or any(
+            row.get("D4_Sylvester_solvable") is not False
+            or set(row.get("nonzero_equal_eigenspace_compressions", {})) != {"0"}
+            or row["nonzero_equal_eigenspace_compressions"]["0"].get("rank") != 4
+            or row["nonzero_equal_eigenspace_compressions"]["0"].get("nonzero_entries") != 56
+            or row.get("zero_speed_cleared_numerator", {}).get("numerator_rank") != 4
+            or row.get("zero_speed_cleared_numerator", {}).get("numerator_nonzero_entries") != 56
+            or row.get("zero_speed_cleared_numerator", {}).get(
+                "numerator_polynomial_total_degree_uv"
+            )
+            != 0
+            for row in rational_obstruction.get("candidate_records", [])
+        )
+        or set(rational_claims)
+        != rational_true_claims
+        | {
+            "B7_closed",
+            "CK1_closed",
+            "CK3_closed",
+            "TC2_closed",
+            "boundary_energy_admission_proved",
+            "corrected_candidate_family_registered",
+            "covariant_action_origin_proved",
+            "finite_selector_determines_full_direction_sphere",
+            "full_direction_sphere_D4_compatibility_proved",
+            "full_tube_Sylvester_identity",
+            "global_H7_closed",
+            "lifespan_proved",
+            "local_differential_operator_origin_proved",
+            "remaining_D4_selector_closed",
+            "variable_coefficient_constraint_calculus_proved",
+        }
+        or any(rational_claims.get(key) is not True for key in rational_true_claims)
+        or any(
+            rational_claims.get(key) is not False
+            for key in set(rational_claims) - rational_true_claims
+        )
+        or set(quartic_tc2_d4_rational_chart.get("negative_controls", {}))
+        != {
+            "ignore_nonzero_zero_speed_numerator",
+            "infer_PDE_admission",
+            "infer_finite_determining_theorem",
+            "infer_full_sphere_compatibility",
+            "infer_global_closure",
+            "skip_antipodal_chart",
+            "skip_denominator_clearing",
+            "treat_complex_chart_stratum_as_real",
+        }
+        or any(
+            row.get("rejected") is not True
+            for row in quartic_tc2_d4_rational_chart.get("negative_controls", {}).values()
+        )
+    ):
+        raise ValueError("quartic TC2 rational-chart determining gate is inconsistent")
     if (
         unified_live_dashboard_service_readiness.get("decision")
         != "ready_enabled_read_only_bounded"
@@ -8495,6 +8755,41 @@ def build_unified_snapshot(
             "scientific_pass": cpu_real_formula_overlap["scientific_pass"],
             "interpretation": cpu_real_formula_overlap["interpretation"],
             "seals": cpu_real_formula_overlap["seals"],
+        },
+        "formal_controls_portable_report": {
+            "decision": formal_controls_portable["decision"],
+            "source_report": formal_controls_portable["source_report"],
+            "backend_identity": formal_controls_portable["backend_identity"],
+            "counts": formal_controls_portable["semantic_report"]["counts"],
+            "portability": formal_controls_portable["portability"],
+            "claim_seals": formal_controls_portable["claim_seals"],
+            "scope": formal_controls_portable["scope"],
+        },
+        "continuous_scientific_pipeline_admission": {
+            "decision": continuous_scientific_pipeline["decision"],
+            "counts": continuous_scientific_pipeline["counts"],
+            "stage_order": continuous_scientific_pipeline["stage_order"],
+            "resource_contract": continuous_scientific_pipeline["resource_contract"],
+            "scientific_contract": continuous_scientific_pipeline["scientific_contract"],
+            "scenario_controls": continuous_scientific_pipeline["scenario_controls"],
+            "first_remaining_blocker": continuous_scientific_pipeline["first_remaining_blocker"],
+            "runtime_observations_in_immutable_artifact": continuous_scientific_pipeline[
+                "runtime_observations_in_immutable_artifact"
+            ],
+            "seals": continuous_scientific_pipeline["seals"],
+        },
+        "continuous_scientific_pipeline_service": {
+            "decision": continuous_scientific_pipeline_service["decision"],
+            "service_contract": continuous_scientific_pipeline_service["service_contract"],
+            "resource_contract": continuous_scientific_pipeline_service["resource_contract"],
+            "scientific_contract": continuous_scientific_pipeline_service["scientific_contract"],
+            "execution_state": continuous_scientific_pipeline_service["execution_state"],
+            "safe_start_criteria": continuous_scientific_pipeline_service["safe_start_criteria"],
+            "first_remaining_blocker": continuous_scientific_pipeline_service[
+                "first_remaining_blocker"
+            ],
+            "bindings": continuous_scientific_pipeline_service["bindings"],
+            "seals": continuous_scientific_pipeline_service["seals"],
         },
         "einstein_aether_coupling_boundary_kkt": {
             "decision": einstein_aether_coupling_boundary_kkt["decision"],
@@ -8860,9 +9155,7 @@ def build_unified_snapshot(
                     "decision_counts"
                 ],
                 "gate_counts": transactional_gravity_history_kernel_projective["gate_counts"],
-                "first_blocker": transactional_gravity_history_kernel_projective[
-                    "first_blocker"
-                ],
+                "first_blocker": transactional_gravity_history_kernel_projective["first_blocker"],
                 "admission_domain": transactional_gravity_history_kernel_projective[
                     "admission_domain"
                 ],
@@ -8875,9 +9168,7 @@ def build_unified_snapshot(
                 "exact_nonidentifiability_witness": transactional_gravity_history_kernel_projective[
                     "exact_nonidentifiability_witness"
                 ],
-                "exact_controls": transactional_gravity_history_kernel_projective[
-                    "exact_controls"
-                ],
+                "exact_controls": transactional_gravity_history_kernel_projective["exact_controls"],
                 "candidate_records": transactional_gravity_history_kernel_projective[
                     "candidate_records"
                 ],
@@ -9855,9 +10146,7 @@ def build_unified_snapshot(
             "candidate_count": quartic_counts["selected"],
             "recovery_operator_calculus": {
                 "anti_wick_composition_prerequisite": {
-                    "artifact_binding": source_specs[
-                        "quartic_anti_wick_composition_campaign"
-                    ],
+                    "artifact_binding": source_specs["quartic_anti_wick_composition_campaign"],
                     "status": quartic_anti_wick_recovery["status"],
                     "counts": quartic_anti_wick_recovery["counts"],
                     "generic_control": quartic_anti_wick_recovery[
@@ -9879,9 +10168,7 @@ def build_unified_snapshot(
                     "data_seals": quartic_annular_c6_recovery["data_seals"],
                 },
                 "bounded_frequency_defect": {
-                    "artifact_binding": source_specs[
-                        "quartic_bounded_frequency_defect_campaign"
-                    ],
+                    "artifact_binding": source_specs["quartic_bounded_frequency_defect_campaign"],
                     "status": quartic_bounded_frequency_recovery["status"],
                     "counts": quartic_bounded_frequency_recovery["counts"],
                     "generic_control": quartic_bounded_frequency_recovery[
@@ -9902,6 +10189,39 @@ def build_unified_snapshot(
                     "scope": quartic_dyadic_recovery["scope"],
                     "data_seals": quartic_dyadic_recovery["data_seals"],
                 },
+                "finite_sobolev_hierarchy_no_go": {
+                    "artifact_binding": source_specs[
+                        "quartic_finite_sobolev_hierarchy_no_go_campaign"
+                    ],
+                    "decision": quartic_finite_sobolev_no_go["decision"],
+                    "decision_counts": quartic_finite_sobolev_no_go["decision_counts"],
+                    "gate_counts": quartic_finite_sobolev_no_go["gate_counts"],
+                    "first_blocker": quartic_finite_sobolev_no_go["first_blocker"],
+                    "theorem": quartic_finite_sobolev_no_go["theorem"],
+                    "recovery_chain_audit": quartic_finite_sobolev_no_go["recovery_chain_audit"],
+                    "exact_controls": quartic_finite_sobolev_no_go["exact_controls"],
+                    "candidate_records": quartic_finite_sobolev_no_go["candidate_records"],
+                    "secondary_blockers": quartic_finite_sobolev_no_go["secondary_blockers"],
+                    "claim_seals": quartic_finite_sobolev_no_go["claim_seals"],
+                    "data_seals": quartic_finite_sobolev_no_go["data_seals"],
+                    "scope": quartic_finite_sobolev_no_go["scope"],
+                },
+                "full_tensor_good_unknown_reconciliation": {
+                    "artifact_binding": source_specs[
+                        "quartic_full_tensor_good_unknown_reconciliation_gate"
+                    ],
+                    "decision": quartic_full_tensor_reconciliation["decision"],
+                    "decision_counts": quartic_full_tensor_reconciliation["decision_counts"],
+                    "gate_counts": quartic_full_tensor_reconciliation["gate_counts"],
+                    "first_blocker": quartic_full_tensor_reconciliation["first_blocker"],
+                    "coverage_theorem": quartic_full_tensor_reconciliation["coverage_theorem"],
+                    "exact_controls": quartic_full_tensor_reconciliation["exact_controls"],
+                    "candidate_records": quartic_full_tensor_reconciliation["candidate_records"],
+                    "secondary_blockers": quartic_full_tensor_reconciliation["secondary_blockers"],
+                    "claim_seals": quartic_full_tensor_reconciliation["claim_seals"],
+                    "data_seals": quartic_full_tensor_reconciliation["data_seals"],
+                    "scope": quartic_full_tensor_reconciliation["scope"],
+                },
                 "ordered_candidate_ids": [
                     row["candidate_id"] for row in quartic_anti_wick_recovery["certificates"]
                 ],
@@ -9913,6 +10233,14 @@ def build_unified_snapshot(
                         for row in quartic_bounded_frequency_recovery["certificates"]
                     ]
                     == [row["candidate_id"] for row in quartic_dyadic_recovery["certificates"]]
+                    == [
+                        row["candidate_id"]
+                        for row in quartic_finite_sobolev_no_go["candidate_records"]
+                    ]
+                    == [
+                        row["candidate_id"]
+                        for row in quartic_full_tensor_reconciliation["candidate_records"]
+                    ]
                 ),
             },
             "coordinate_pair_partition": quartic_pairs,
@@ -10361,7 +10689,17 @@ def build_unified_snapshot(
                         "claims": sixth_claims,
                         "scope": quartic_tc2_d4_sixth_frame_completion["scope"],
                     },
-                    "next_gate": quartic_tc2_d4_sixth_frame_completion["next_gate"],
+                    "rational_chart_determining_gate": {
+                        "status": quartic_tc2_d4_rational_chart["status"],
+                        "counts": rational_counts,
+                        "atlas": rational_atlas,
+                        "counterexample_selector": rational_selector,
+                        "full_recurrence": rational_recurrence,
+                        "exact_rational_obstruction": rational_obstruction,
+                        "claims": rational_claims,
+                        "scope": quartic_tc2_d4_rational_chart["scope"],
+                    },
+                    "next_gate": quartic_tc2_d4_rational_chart["next_gate"],
                 },
                 "full_fourth_jet_range_closed": False,
             },
@@ -10378,7 +10716,7 @@ def build_unified_snapshot(
                 )
             },
             "first_missing_premise": (
-                "next_deterministic_exact_rational_sphere_frame_or_finite_generic_direction_determining_theorem"
+                "new_topology_changing_angular_correction_preserving_six_certified_frames_and_nonzero_at_rational_counterexample"
             ),
         },
         "evidence_pareto": {

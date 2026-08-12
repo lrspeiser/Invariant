@@ -1,0 +1,196 @@
+{
+  "content_sha256": "eeccd079e35ac540213c9dcac96d307fbc89cf597062c2bf8498278c5dd3f6a9",
+  "contract_id": "continuous-scientific-generation-validation-ranking-001",
+  "counts": {
+    "GPU_owners_acquired": 0,
+    "databases_created_or_opened": 0,
+    "fail_closed_waits": 4,
+    "formal_validation_actions": 1,
+    "generation_actions": 1,
+    "ranking_rebuild_actions": 1,
+    "scenario_controls": 7,
+    "scientific_or_ranking_passes_promoted": 0,
+    "services_started": 0
+  },
+  "decision": "admission_state_machine_ready_continuous_service_loop_not_implemented_not_started",
+  "first_remaining_blocker": "implement_bounded_single_owner_service_loop_and_isolated_durable_queue_without_live_SQLite",
+  "implementation_bindings": {
+    "config": {
+      "file_sha256": "5999694d772bee9eeaced607cf4b7905ae45af9c3d133dc4d839a03c63ef7502",
+      "path": "configs/continuous_scientific_pipeline_admission.json"
+    },
+    "source": {
+      "file_sha256": "035cf82434b35c22f3c0ab62bfbd1a8d4854bfc72efdb96f72023afbe578a90a",
+      "path": "src/sigma_theory_compiler/continuous_scientific_pipeline_admission.py"
+    },
+    "test": {
+      "file_sha256": "70e03a67047545245322b83e0b032ee68ab3813fd14c0f72ff785927d62910e5",
+      "path": "tests/test_continuous_scientific_pipeline_admission.py"
+    }
+  },
+  "predecessor_bindings": {
+    "cpu_profile": {
+      "content_sha256": "7f341aa2f54ed0e060a93d5ce89a77faad6558f7971dea710cc324c313b94227",
+      "file_sha256": "385b15fa72159e4f808f8aedd9913f6e554f2d36751b29948c5bb34e08b16582",
+      "path": "runs/benchmarks/cpu-real-formula-overlap-15-16.json"
+    },
+    "dashboard_safety_readiness": {
+      "content_sha256": "a939007db8db6281699510cd0fa5788357032e7f3dce582f1577fd1e46b49915",
+      "file_sha256": "41fc1f1fbc1b8ba65e4260c9296a3de8a67d7da927e584d9b83adf9c5f4ec1c7",
+      "path": "runs/engine/unified-engine-live-service-safety-readiness.json"
+    },
+    "gpu_handoff_readiness": {
+      "content_sha256": "32673a4d31933d3c489949112b6bdabc4e42c9aa89c624d264b0a1ee2efa2f69",
+      "file_sha256": "30117b9ec880ed0fb163743c9bcb75d1a571486610169714105b56bca7fa5282",
+      "path": "runs/engine/kastner-schlatter-deferred-gpu-handoff-readiness.json"
+    },
+    "gpu_scheduler_readiness": {
+      "content_sha256": "a46af47035375083308cffea76ee1e0d9b9ef0a3c687a3bc51bd29b7f5a2ae4c",
+      "file_sha256": "b6b918dbeb7300d802b39ee012f001186dcba695829e0c349115fc195d14594f",
+      "path": "runs/engine/kastner-schlatter-set-indexed-gpu-scheduler-adapter-readiness.json"
+    },
+    "leaderboard_config": {
+      "content_sha256": "34a5c4de11dd3574e9cfd29798427b865701e59778842087c2674d355bd852b1",
+      "file_sha256": "eef4f63840e56710acba4af1be61bbbe0de5d5ccab3ba70a09c3fb89534e05dd",
+      "path": "configs/scientific_leaderboards.json"
+    },
+    "leaderboard_source": {
+      "file_sha256": "b84417e137b2da8ba3c263d8ef718bada38eb943ab578c46768a82e911caa677",
+      "path": "src/sigma_theory_compiler/scientific_leaderboards.py"
+    },
+    "persistent_search": {
+      "file_sha256": "234a39a593bcac07b6442c77ac029bf6239467d1f05c520a19054f766ab11201",
+      "path": "src/sigma_theory_compiler/persistent_parallel_search.py"
+    },
+    "persistent_supervisor": {
+      "file_sha256": "50e554539c85e260bbbbcdfc48377fddd5c0925eb4cf2dcc5b6fad40279b74cc",
+      "path": "src/sigma_theory_compiler/persistent_parallel_supervisor.py"
+    },
+    "real_formula_evaluator": {
+      "file_sha256": "0f39187b359a8ee428503ac8c19cedde14a8bd5c69d24033fab33171cf57df9a",
+      "path": "src/sigma_theory_compiler/real_formula_execution.py"
+    },
+    "resource_profile": {
+      "file_sha256": "7cefb93ee81f589bc4632e90900e5e67aa97c19b9b31ad3315b9114b5df14a26",
+      "path": "configs/resource_profile_5090.json"
+    }
+  },
+  "resource_contract": {
+    "CPU_backoff_at_or_above_percent": 92,
+    "CPU_generation_workers": 15,
+    "GPU_lane_independent_deferred_single_owner": true,
+    "maximum_actions_per_cycle": 1,
+    "minimum_available_ram_mib": 32768
+  },
+  "runtime_observations_in_immutable_artifact": false,
+  "scenario_controls": {
+    "cpu_overload_backoff": {
+      "action": "wait",
+      "action_count": 0,
+      "blocker": "CPU_backoff_threshold_reached",
+      "cpu_workers_if_generation": 0,
+      "dashboard_publication_admitted": false,
+      "direct_rank_assignment": false,
+      "gpu_lane_control_attempted": false,
+      "gpu_lane_observed_state": "waiting",
+      "gpu_workers_requested": 0,
+      "leaderboard_rebuild_admitted": false
+    },
+    "formal_complete_rebuild": {
+      "action": "rank_project",
+      "action_count": 1,
+      "blocker": null,
+      "cpu_workers_if_generation": 0,
+      "dashboard_publication_admitted": true,
+      "direct_rank_assignment": false,
+      "gpu_lane_control_attempted": false,
+      "gpu_lane_observed_state": "waiting",
+      "gpu_workers_requested": 0,
+      "leaderboard_rebuild_admitted": true
+    },
+    "generated_requires_formal": {
+      "action": "formal_validate",
+      "action_count": 1,
+      "blocker": null,
+      "cpu_workers_if_generation": 0,
+      "dashboard_publication_admitted": false,
+      "direct_rank_assignment": false,
+      "gpu_lane_control_attempted": false,
+      "gpu_lane_observed_state": "waiting",
+      "gpu_workers_requested": 0,
+      "leaderboard_rebuild_admitted": false
+    },
+    "root_mismatch_rejected": {
+      "action": "wait",
+      "action_count": 0,
+      "blocker": "formal_receipt_candidate_root_mismatch",
+      "cpu_workers_if_generation": 0,
+      "dashboard_publication_admitted": false,
+      "direct_rank_assignment": false,
+      "gpu_lane_control_attempted": false,
+      "gpu_lane_observed_state": "waiting",
+      "gpu_workers_requested": 0,
+      "leaderboard_rebuild_admitted": false
+    },
+    "safe_idle_generation": {
+      "action": "generate_and_screen",
+      "action_count": 1,
+      "blocker": null,
+      "cpu_workers_if_generation": 15,
+      "dashboard_publication_admitted": false,
+      "direct_rank_assignment": false,
+      "gpu_lane_control_attempted": false,
+      "gpu_lane_observed_state": "waiting",
+      "gpu_workers_requested": 0,
+      "leaderboard_rebuild_admitted": false
+    },
+    "sampled_static_reject_not_ranked": {
+      "action": "wait",
+      "action_count": 0,
+      "blocker": "sampled_static_screen_not_a_formal_or_ranking_pass",
+      "cpu_workers_if_generation": 0,
+      "dashboard_publication_admitted": false,
+      "direct_rank_assignment": false,
+      "gpu_lane_control_attempted": false,
+      "gpu_lane_observed_state": "waiting",
+      "gpu_workers_requested": 0,
+      "leaderboard_rebuild_admitted": false
+    },
+    "unchanged_root_no_rebuild": {
+      "action": "wait",
+      "action_count": 0,
+      "blocker": "candidate_root_already_rank_projected",
+      "cpu_workers_if_generation": 0,
+      "dashboard_publication_admitted": false,
+      "direct_rank_assignment": false,
+      "gpu_lane_control_attempted": false,
+      "gpu_lane_observed_state": "waiting",
+      "gpu_workers_requested": 0,
+      "leaderboard_rebuild_admitted": false
+    }
+  },
+  "schema_version": "sigma-continuous-scientific-pipeline-admission-readiness-1.0",
+  "scientific_contract": {
+    "complete_comparable_evidence_required_for_ranking": true,
+    "dashboard_publication_requires_healthy_core_parity": true,
+    "formal_candidate_root_must_match_generation_root": true,
+    "ranking_action_is_leaderboard_rebuild_not_direct_rank_assignment": true,
+    "sampled_static_screen_is_not_formal_or_ranking_pass": true
+  },
+  "seals": {
+    "dark_matter_or_halo_inputs": false,
+    "database_created_or_opened": false,
+    "existing_process_signaled": false,
+    "gpu_owner_acquired": false,
+    "observations_opened": false,
+    "paid_llm_calls": false,
+    "redshift_or_cosmology_inputs": false,
+    "scientific_or_ranking_pass_promoted": false,
+    "service_started": false
+  },
+  "stage_order": [
+    "generate_and_screen",
+    "formal_validate",
+    "rank_project"
+  ]
+}

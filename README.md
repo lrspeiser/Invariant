@@ -557,6 +557,21 @@ at 15 and 16 workers. Device-wide median CPU rose from 74.3% to 89.4%; the 16-wo
 Worker-only CPU capacity is reported separately because device-wide counters include concurrent
 work. All 65,536 outcomes were sampled-static screen rejects, not theory rejections, and no formal,
 ranking, observation, GPU, or SQLite claim is inferred.
+A new continuous-pipeline admission controller now joins real CPU generation, candidate-bound formal
+validation, and comparable-evidence leaderboard rebuilding in that exact order.  It admits at most
+one action per cycle, fixes generation at 15 CPU workers and zero GPU workers, backs off at 92% CPU
+or below 32,768 MiB available RAM, and waits behind an existing CPU owner.  Generated and formal
+receipts are self-hashed and share a candidate-root barrier; sampled-static results cannot rank, and
+ranking is a leaderboard rebuild rather than direct rank assignment.  Seven exact scenarios close
+one generation, one formal action, one ranking rebuild, and four fail-closed waits.  This is a
+readiness-only state machine. A downstream bounded service now implements the single-owner loop with
+an argv-bound exclusive lease, isolated self-hashed JSON queue/checkpoint, cooperative stop, at most
+16 cycles/600 seconds, and a hard 120-second deadline that may terminate only its own 15 evaluator
+children. Its immutable readiness artifact is unstarted; a later controlled runtime is reported only
+by the ignored service checkpoint/queue. The candidate-specific formal backend is intentionally
+`none_fail_closed`, so a real sampled-static batch cannot rank; even future valid formal evidence may
+request only a leaderboard rebuild, never assign rank directly. No service runtime, live campaign
+SQLite access, GPU owner, scientific pass, or ranking promotion was created by the readiness run.
 The new candidate-bound formula stress lane drives the same RTX 5090 much harder on dense numerical
 work: all 163 materialized Euler projections were checked on 5,341,184 deterministic synthetic
 candidate-point pairs against CPU evaluation, with 5,216 additional exact-rational sentinels and zero
@@ -1004,6 +1019,14 @@ $env:PYTHONPATH = "$PWD\src"
 python -m sigma_theory_compiler formal-controls --contract configs/covariant_field_contract.json --output runs/formal-controls-v1
 ```
 
+The registered 118/118 host-local formal run is also projected into
+`runs/formal-controls-v1/formal-controls-portable.json`.  That semantic report removes the
+execution timestamp, replaces repository paths with relative names, replaces the Cadabra
+executable/module paths with SHA-256 identities, and contains zero absolute Windows or WSL paths.
+Changing only the checkout root or receipt timestamp reproduces the same semantic hash.  The
+host-local receipt remains separate, and the portable projection does not promote any candidate,
+theory, scientific, or observational claim.
+
 Replay the 12-candidate quartic action-to-symbol-to-symmetrizer-to-Dirac/Hamiltonian chain with:
 
 ```powershell
@@ -1372,8 +1395,10 @@ simultaneous overlap is two, enlarged simultaneous overlap is four, one enlarged
 interacts with five ordinary shells, and the conservative `H7` equivalence is
 `2^-15 ||u||_H7^2 <= Q7(u) <= 2^14 ||u||_H7^2`. The full commutator is deliberately
 not marked closed: the current state gives only `H6` coefficient fields, and an exact
-compact-frequency Schwartz-packet family produces an `N`-growing `H7` commutator. The next valid
-step is a paradifferential/good-unknown theorem, or a larger regularity hierarchy.
+compact-frequency Schwartz-packet family produces an `N`-growing `H7` commutator. One extra
+derivative is only a conditional fixed-level remedy: restarting the same unmodified top-order
+hierarchy repeats the one-derivative loss. The next valid step is a candidate-bound full-tensor
+paradifferential cancellation or a derivative-loss evolution theorem.
 
 Finally, Gaussian anti-Wick quantization composes through the Weyl symbol
 `exp((h/4) Delta_(x,xi))K`, not through pointwise `K`. An exact annular construction,
@@ -1400,6 +1425,31 @@ twelve candidates and explicit closed observation, dark-sector, paid-call, forma
 global-H7, and lifespan seals; targeted principal constants are not promoted to a global dyadic
 energy theorem. The formal backend now registers the annular C6 principal-composition control and
 raises the exact suite to 118 controls.
+
+The finite-Sobolev hierarchy audit sharpens that boundary for every integer `s >= 4` and all 12
+candidates. For the unmodified variable, the exact packet `a_N=N^(1-s) exp(iNx_1)a_0` keeps
+`H^(s-1)` bounded while the high-low `H^s` output is at least `|-2a10| N c_packet/2`; all 12 candidates are blocked,
+none is passed or rejected, and autonomous finite-Sobolev, global-`H7`, and lifespan closures stay
+zero. This refutes only the unmodified componentwise hierarchy—not full-tensor cancellation,
+modified energies, Nash-Moser/derivative-loss evolution, or analytic/Gevrey closure. The artifact
+file/content hash is `404a869cd676fb57389535c74ff4fea73ec1ae3da43cad1ff74951f817ae1308` /
+`a74fb10a523cef935695d99fff595de7aa51a8ead322171373827c8b6db9288a`; source/config/test hashes
+are `8f8a8c1c222b570bb6f96f040b77cae85cd9d7e7beddd6f8b18317aea9ba99b1` /
+`970a5ac5d43262afb4be4c18a079136568e2310d8e1fbac56d25f77b682b7d1a` /
+`9079a032674b24ee825439616aaf066ca178c20d9b36a4ad2a5a8b3ef23abc2c`.
+
+The full-tensor reconciliation then proves that this representative slice is not itself a surviving
+modified-state obstruction: the registered rank-two two-channel correction cancels all four
+`s01[10]/H_01` principal entries with zero residual for all 12 candidates (48 entries replayed).
+Promotion remains blocked because the complete registered source is only the `11x153=1,683` D1
+manifest, whereas the closed-world ordered D2 target is `11x153x153=257,499` entries per candidate;
+zero complete D2 manifests, full high-atom families, or induced-term bound sets are registered. All
+12 candidates remain blocked and unrejected. The artifact file/content hash is
+`cf7957c2efad52a1fa91761fc6259e17a58011cc6093365f9e86e8e7eea0dfd6` /
+`9994df86948a4419dd999b66610e9fea847dece6d5300f68152e942ffb2b87c8`; source/config/test hashes
+are `77fd5565f57578e072e9ec7244bc844670a41decb34cb4ca423d39bea3df8afd` /
+`3e7e87efcb1f34c7f28a480e895ec118656b825e9762f6e8ee524cba4d552748` /
+`0cbab8c360e68036c4be70fe977994e4bab9287773a51a7e0e5dfdb6d3e6a460`.
 
 The component campaign now proves every entry of the principal identity
 `D_Y E55 J = i P55` for all 12 candidates and materializes the complete first source Jacobian.
@@ -1612,8 +1662,14 @@ using the unique preserving envelope within the declared quadratic-even five-zer
 class, `a6(n)=(3/2)n3(4n1+n2-3n3)`; the resulting degree-three
 odd smooth bounded symbol annihilates the gradient lift and vanishes at all five prior frames.
 Six exact directions are now certified. This finite selector is not a determining theorem for the
-full sphere. Further exact sphere audits or a determining theorem, followed by pseudodifferential
-constraint, commutator, boundary-energy, local/covariant and PDE admission, remain open. This is
+full sphere. The exact two-chart rational audit now settles that question negatively for the current
+symbol: at the regular stereographic point `(u,v)=(2/5,1/5)`, or
+`n=(2/3,2/3,1/3)`, all 12 candidates retain a rank-four, 56-entry zero-speed
+compression after the full orders-one-through-four recurrence. Each denominator clears to a
+nonzero constant numerator polynomial, so full-sphere D4 compatibility of the current combined
+symbol is rigorously disproved. A new topology-changing angular correction that preserves the six
+certificates, or a revised symbol class, followed by pseudodifferential constraint, commutator,
+boundary-energy, local/covariant and PDE admission, remains open. This is
 not an inferred pass for the unevaluated tail; full fourth-order range closure, full-tube,
 CK1, CK3, TC2, B7, global-H7, and lifespan remain false.
 

@@ -1,0 +1,55 @@
+{
+  "schema_version": "sigma-continuous-scientific-pipeline-admission-config-1.0",
+  "contract_id": "continuous-scientific-generation-validation-ranking-001",
+  "stage_order": ["generate_and_screen", "formal_validate", "rank_project"],
+  "stage_actions": {
+    "generate_and_screen": "real_formula_cpu_batch_evaluator",
+    "formal_validate": "candidate_specific_formal_receipt_gate",
+    "rank_project": "scientific_leaderboard_rebuild_only"
+  },
+  "cpu_resource_gate": {
+    "continuous_worker_count": 15,
+    "gpu_workers": 0,
+    "minimum_available_ram_mib": 32768,
+    "backoff_at_or_above_cpu_percent": 92,
+    "maximum_actions_per_cycle": 1
+  },
+  "gpu_lane_contract": {
+    "independent_deferred_owner": true,
+    "gpu_owner_count": 1,
+    "cpu_workers": 0,
+    "coordinator_may_start_or_stop_gpu_lane": false
+  },
+  "ranking_gate": {
+    "sampled_static_screen_rank_eligible": false,
+    "formal_pass_required": true,
+    "complete_comparable_evidence_required": true,
+    "candidate_root_must_match": true,
+    "unchanged_root_rebuild_allowed": false,
+    "direct_rank_assignment_allowed": false
+  },
+  "maximum_state_bytes": 65536,
+  "bindings": {
+    "persistent_search": {"path": "src/sigma_theory_compiler/persistent_parallel_search.py", "file_sha256": "234a39a593bcac07b6442c77ac029bf6239467d1f05c520a19054f766ab11201"},
+    "persistent_supervisor": {"path": "src/sigma_theory_compiler/persistent_parallel_supervisor.py", "file_sha256": "50e554539c85e260bbbbcdfc48377fddd5c0925eb4cf2dcc5b6fad40279b74cc"},
+    "real_formula_evaluator": {"path": "src/sigma_theory_compiler/real_formula_execution.py", "file_sha256": "0f39187b359a8ee428503ac8c19cedde14a8bd5c69d24033fab33171cf57df9a"},
+    "cpu_profile": {"path": "runs/benchmarks/cpu-real-formula-overlap-15-16.json", "file_sha256": "385b15fa72159e4f808f8aedd9913f6e554f2d36751b29948c5bb34e08b16582", "content_sha256": "7f341aa2f54ed0e060a93d5ce89a77faad6558f7971dea710cc324c313b94227"},
+    "resource_profile": {"path": "configs/resource_profile_5090.json", "file_sha256": "7cefb93ee81f589bc4632e90900e5e67aa97c19b9b31ad3315b9114b5df14a26"},
+    "gpu_scheduler_readiness": {"path": "runs/engine/kastner-schlatter-set-indexed-gpu-scheduler-adapter-readiness.json", "file_sha256": "b6b918dbeb7300d802b39ee012f001186dcba695829e0c349115fc195d14594f", "content_sha256": "a46af47035375083308cffea76ee1e0d9b9ef0a3c687a3bc51bd29b7f5a2ae4c"},
+    "gpu_handoff_readiness": {"path": "runs/engine/kastner-schlatter-deferred-gpu-handoff-readiness.json", "file_sha256": "30117b9ec880ed0fb163743c9bcb75d1a571486610169714105b56bca7fa5282", "content_sha256": "32673a4d31933d3c489949112b6bdabc4e42c9aa89c624d264b0a1ee2efa2f69"},
+    "leaderboard_source": {"path": "src/sigma_theory_compiler/scientific_leaderboards.py", "file_sha256": "b84417e137b2da8ba3c263d8ef718bada38eb943ab578c46768a82e911caa677"},
+    "leaderboard_config": {"path": "configs/scientific_leaderboards.json", "file_sha256": "eef4f63840e56710acba4af1be61bbbe0de5d5ccab3ba70a09c3fb89534e05dd", "content_sha256": "34a5c4de11dd3574e9cfd29798427b865701e59778842087c2674d355bd852b1"},
+    "dashboard_safety_readiness": {"path": "runs/engine/unified-engine-live-service-safety-readiness.json", "file_sha256": "41fc1f1fbc1b8ba65e4260c9296a3de8a67d7da927e584d9b83adf9c5f4ec1c7", "content_sha256": "a939007db8db6281699510cd0fa5788357032e7f3dce582f1577fd1e46b49915"}
+  },
+  "seals": {
+    "service_started": false,
+    "database_created_or_opened": false,
+    "existing_process_signaled": false,
+    "gpu_owner_acquired": false,
+    "observations_opened": false,
+    "dark_matter_or_halo_inputs": false,
+    "redshift_or_cosmology_inputs": false,
+    "paid_llm_calls": false,
+    "scientific_or_ranking_pass_promoted": false
+  }
+}

@@ -31,27 +31,27 @@
     },
     "campaign_watchdog": {
       "budget": {
-        "cycles_completed": 34,
+        "cycles_completed": 35,
         "maximum_cycles": 336,
         "maximum_tasks": 100000,
         "tasks_failed": 0,
-        "tasks_started": 376,
-        "tasks_succeeded": 337
+        "tasks_started": 381,
+        "tasks_succeeded": 341
       },
       "candidate_counts": {
         "active": 2,
-        "deferred": 33,
+        "deferred": 34,
         "rejected": 17
       },
       "deadline_utc": "2026-08-21T18:19:20.149898+00:00",
       "evidence_outcome_counts": {
-        "pass": 303,
+        "pass": 306,
         "reject": 22,
-        "unresolved": 89
+        "unresolved": 91
       },
       "normalized_evidence_outcomes": {
-        "block": 89,
-        "pass": 303,
+        "block": 91,
+        "pass": 306,
         "reject": 22
       },
       "read_contract": "sqlite_uri_mode_ro_plus_query_only_transaction",
@@ -63,9 +63,9 @@
       "state": "active",
       "stop_reason": null,
       "task_counts": {
-        "deferred": 39,
+        "deferred": 40,
         "queued": 2,
-        "succeeded": 337
+        "succeeded": 341
       }
     },
     "continuous_dashboard": {
@@ -123,6 +123,209 @@
         "service_started": false
       },
       "writes_live_campaign_database": false
+    },
+    "continuous_scientific_pipeline_admission": {
+      "counts": {
+        "GPU_owners_acquired": 0,
+        "databases_created_or_opened": 0,
+        "fail_closed_waits": 4,
+        "formal_validation_actions": 1,
+        "generation_actions": 1,
+        "ranking_rebuild_actions": 1,
+        "scenario_controls": 7,
+        "scientific_or_ranking_passes_promoted": 0,
+        "services_started": 0
+      },
+      "decision": "admission_state_machine_ready_continuous_service_loop_not_implemented_not_started",
+      "first_remaining_blocker": "implement_bounded_single_owner_service_loop_and_isolated_durable_queue_without_live_SQLite",
+      "resource_contract": {
+        "CPU_backoff_at_or_above_percent": 92,
+        "CPU_generation_workers": 15,
+        "GPU_lane_independent_deferred_single_owner": true,
+        "maximum_actions_per_cycle": 1,
+        "minimum_available_ram_mib": 32768
+      },
+      "runtime_observations_in_immutable_artifact": false,
+      "scenario_controls": {
+        "cpu_overload_backoff": {
+          "action": "wait",
+          "action_count": 0,
+          "blocker": "CPU_backoff_threshold_reached",
+          "cpu_workers_if_generation": 0,
+          "dashboard_publication_admitted": false,
+          "direct_rank_assignment": false,
+          "gpu_lane_control_attempted": false,
+          "gpu_lane_observed_state": "waiting",
+          "gpu_workers_requested": 0,
+          "leaderboard_rebuild_admitted": false
+        },
+        "formal_complete_rebuild": {
+          "action": "rank_project",
+          "action_count": 1,
+          "blocker": null,
+          "cpu_workers_if_generation": 0,
+          "dashboard_publication_admitted": true,
+          "direct_rank_assignment": false,
+          "gpu_lane_control_attempted": false,
+          "gpu_lane_observed_state": "waiting",
+          "gpu_workers_requested": 0,
+          "leaderboard_rebuild_admitted": true
+        },
+        "generated_requires_formal": {
+          "action": "formal_validate",
+          "action_count": 1,
+          "blocker": null,
+          "cpu_workers_if_generation": 0,
+          "dashboard_publication_admitted": false,
+          "direct_rank_assignment": false,
+          "gpu_lane_control_attempted": false,
+          "gpu_lane_observed_state": "waiting",
+          "gpu_workers_requested": 0,
+          "leaderboard_rebuild_admitted": false
+        },
+        "root_mismatch_rejected": {
+          "action": "wait",
+          "action_count": 0,
+          "blocker": "formal_receipt_candidate_root_mismatch",
+          "cpu_workers_if_generation": 0,
+          "dashboard_publication_admitted": false,
+          "direct_rank_assignment": false,
+          "gpu_lane_control_attempted": false,
+          "gpu_lane_observed_state": "waiting",
+          "gpu_workers_requested": 0,
+          "leaderboard_rebuild_admitted": false
+        },
+        "safe_idle_generation": {
+          "action": "generate_and_screen",
+          "action_count": 1,
+          "blocker": null,
+          "cpu_workers_if_generation": 15,
+          "dashboard_publication_admitted": false,
+          "direct_rank_assignment": false,
+          "gpu_lane_control_attempted": false,
+          "gpu_lane_observed_state": "waiting",
+          "gpu_workers_requested": 0,
+          "leaderboard_rebuild_admitted": false
+        },
+        "sampled_static_reject_not_ranked": {
+          "action": "wait",
+          "action_count": 0,
+          "blocker": "sampled_static_screen_not_a_formal_or_ranking_pass",
+          "cpu_workers_if_generation": 0,
+          "dashboard_publication_admitted": false,
+          "direct_rank_assignment": false,
+          "gpu_lane_control_attempted": false,
+          "gpu_lane_observed_state": "waiting",
+          "gpu_workers_requested": 0,
+          "leaderboard_rebuild_admitted": false
+        },
+        "unchanged_root_no_rebuild": {
+          "action": "wait",
+          "action_count": 0,
+          "blocker": "candidate_root_already_rank_projected",
+          "cpu_workers_if_generation": 0,
+          "dashboard_publication_admitted": false,
+          "direct_rank_assignment": false,
+          "gpu_lane_control_attempted": false,
+          "gpu_lane_observed_state": "waiting",
+          "gpu_workers_requested": 0,
+          "leaderboard_rebuild_admitted": false
+        }
+      },
+      "scientific_contract": {
+        "complete_comparable_evidence_required_for_ranking": true,
+        "dashboard_publication_requires_healthy_core_parity": true,
+        "formal_candidate_root_must_match_generation_root": true,
+        "ranking_action_is_leaderboard_rebuild_not_direct_rank_assignment": true,
+        "sampled_static_screen_is_not_formal_or_ranking_pass": true
+      },
+      "seals": {
+        "dark_matter_or_halo_inputs": false,
+        "database_created_or_opened": false,
+        "existing_process_signaled": false,
+        "gpu_owner_acquired": false,
+        "observations_opened": false,
+        "paid_llm_calls": false,
+        "redshift_or_cosmology_inputs": false,
+        "scientific_or_ranking_pass_promoted": false,
+        "service_started": false
+      },
+      "stage_order": [
+        "generate_and_screen",
+        "formal_validate",
+        "rank_project"
+      ]
+    },
+    "continuous_scientific_pipeline_service": {
+      "bindings": {
+        "admission_config": {
+          "file_sha256": "5999694d772bee9eeaced607cf4b7905ae45af9c3d133dc4d839a03c63ef7502",
+          "path": "configs/continuous_scientific_pipeline_admission.json"
+        },
+        "config": {
+          "file_sha256": "e4e9b46887a1a77892865779169f4d9f2080a97914be999b156426adad0922f2",
+          "path": "configs/continuous_scientific_pipeline_service.json"
+        },
+        "source": {
+          "file_sha256": "bfab7e78ba81607b9da3209911ca756f2023ee1104659df54b92683c289b844f",
+          "path": "src/sigma_theory_compiler/continuous_scientific_pipeline_service.py"
+        },
+        "test": {
+          "file_sha256": "a054d1df868300c9f828af4ce393bf603a90a24ec016ab0804503c4dd6fd22d8",
+          "path": "tests/test_continuous_scientific_pipeline_service.py"
+        }
+      },
+      "decision": "bounded_single_owner_CPU_pipeline_service_implemented_not_started",
+      "execution_state": {
+        "cycles_executed": 0,
+        "live_SQLite_accessed": false,
+        "queue_created": false,
+        "service_started": false
+      },
+      "first_remaining_blocker": "register_a_candidate_specific_formal_backend_before_any_rank_rebuild_can_be_admitted",
+      "resource_contract": {
+        "CPU_backoff_percent": 92,
+        "cpu_workers": 15,
+        "gpu_workers": 0,
+        "minimum_RAM_MiB": 32768
+      },
+      "safe_start_criteria": [
+        "runtime path remains Git-ignored and contains no foreign lease",
+        "available RAM is at least 32768 MiB",
+        "device-wide CPU is below 92 percent",
+        "no other CPU generation owner is active",
+        "ordinal interval is unconsumed",
+        "formal blocks are expected until a reviewed candidate-specific backend is registered"
+      ],
+      "scientific_contract": {
+        "direct_rank_assignment": false,
+        "formal_backend_available": false,
+        "formal_stage_fails_closed": true,
+        "ranking_is_request_only": true,
+        "real_formula_evaluator_allowlisted": true
+      },
+      "seals": {
+        "arbitrary_callable_or_subprocess_injection": false,
+        "campaign_live_sqlite_access": false,
+        "dark_matter_or_halo_inputs": false,
+        "direct_rank_assignment": false,
+        "existing_process_signaled": false,
+        "gpu_or_cuda_access": false,
+        "observations_opened": false,
+        "paid_llm_calls": false,
+        "redshift_or_cosmology_inputs": false
+      },
+      "service_contract": {
+        "checkpoint_resume": true,
+        "external_stop_request": true,
+        "hard_owned_child_action_timeout": true,
+        "isolated_atomic_JSON_queue": true,
+        "maximum_action_seconds": 120,
+        "maximum_actions_per_cycle": 1,
+        "maximum_cycles": 16,
+        "maximum_service_seconds": 600,
+        "single_owner_O_EXCL_PID_argv_lease": true
+      }
     },
     "cpu_real_formula_overlap_benchmark": {
       "contract": {
@@ -921,6 +1124,54 @@
         "succeeded": 10
       },
       "processed": 10
+    },
+    "formal_controls_portable_report": {
+      "backend_identity": {
+        "cadabra2": {
+          "available": true,
+          "executable_sha256": "b00e6d22aa8b0c397474172607c0a9806c9cbfb065f59e538a74ffae4a7ef3db",
+          "mode": "wsl-local",
+          "python_module_sha256": "f654f04a3f58ab377e525424bc478eac021d2d3ec630e4fe8f3477b586a8b68f",
+          "version": "2.4.5.4"
+        },
+        "sympy": {
+          "available": true,
+          "version": "1.14.0"
+        }
+      },
+      "claim_seals": {
+        "candidate_formal_pass_inferred": false,
+        "candidate_theory_validity_claimed": false,
+        "host_local_receipt_declared_portable": false,
+        "observational_gate_opened": false,
+        "scientific_result_inferred": false
+      },
+      "counts": {
+        "failed": 0,
+        "passed": 118,
+        "total": 118
+      },
+      "decision": "pass_portable_semantic_projection_118_controls",
+      "portability": {
+        "absolute_windows_paths": 0,
+        "absolute_wsl_paths": 0,
+        "backend_paths_replaced_by_binary_hashes": true,
+        "host_timestamps_in_semantic_projection": 0,
+        "project_paths_replaced_by_repository_relative_paths": true,
+        "same_semantics_reproduce_across_root_and_timestamp_changes": true
+      },
+      "scope": "portable semantic projection of the registered 118 formal controls; the host-local execution receipt remains separate and no candidate, theory or observation pass is inferred",
+      "source_report": {
+        "counts": {
+          "failed": 0,
+          "passed": 118,
+          "total": 118
+        },
+        "created_utc_excluded_from_semantic_projection": true,
+        "path": "runs/formal-controls-v1/formal-controls.json",
+        "schema_version": "sigma-formal-controls-1.0",
+        "semantic_sha256": "29e46fb1cb8b986ad0ffc54b310ef5ed173f22c69d1771a532153c0ba6c4b6d2"
+      }
     },
     "g4_galaxy_evaluator": {
       "candidate_id": "G3-f9c598b70a77ea54009d8f18",
@@ -4451,8 +4702,8 @@
       }
     },
     "llm": {
-      "calls_completed": 33,
-      "calls_started": 33,
+      "calls_completed": 34,
+      "calls_started": 34,
       "campaign_bridge": {
         "admission_callback_configured": false,
         "campaign_task_type": "reviewed_llm_formula_proposal",
@@ -4530,7 +4781,7 @@
         "grammar_parameter_cells": 0.0,
         "promotion_overlay": 0.0
       },
-      "spent_usd": 9.185448,
+      "spent_usd": 9.390977,
       "typed_dsl_admission": {
         "compiler_queue_task_type": "reviewed_covariant_compiler_admission",
         "default_execution_enabled": false,
@@ -4587,7 +4838,7 @@
         "mixed_third_jet_closures": 1600,
         "remaining_mixed_triples": 10700
       },
-      "first_missing_premise": "next_deterministic_exact_rational_sphere_frame_or_finite_generic_direction_determining_theorem",
+      "first_missing_premise": "new_topology_changing_angular_correction_preserving_six_certified_frames_and_nonzero_at_rational_counterexample",
       "fourth_jet_range_obligations": {
         "active_direction_rank": 15,
         "candidate_evaluations": 2940,
@@ -7146,7 +7397,7 @@
             "status": "pass_exact_minimal_rank_one_tc2_d4_escape_algebraic_only",
             "target_cokernel_line_dimension": 1
           },
-          "next_gate": "Audit the next deterministic exact rational sphere frame or prove a finite generic-direction determining theorem; then establish pseudodifferential constraint, commutator, boundary-energy and local/covariant admission.",
+          "next_gate": "Construct a new topology-changing angular correction nonzero at n=(2/3,2/3,1/3) while preserving the six certified frames, or revise the current symbol class; then repeat rational-chart counterexample search before any PDE admission.",
           "obligation_offset": 244,
           "parity_cubic_angular_escape": {
             "claims": {
@@ -7677,6 +7928,316 @@
               "obligation_offset": 244
             },
             "status": "pass_exact_generic_direction_obstruction_of_parity_cubic_escape"
+          },
+          "rational_chart_determining_gate": {
+            "atlas": {
+              "SO3_identities_proved_after_denominator_clearing": true,
+              "antipodal_missing_point": "+e1",
+              "antipodal_rotation_sha256": "6ad2be23bdfeb268ea03f8fe39c6ea2737a665c295dac110806caaef602bbe33",
+              "chart_count": 2,
+              "common_denominator": "1+u^2+v^2",
+              "common_denominator_strictly_positive_on_R2": true,
+              "complex_singular_stratum": "1+u^2+v^2=0",
+              "primary_missing_point": "-e1",
+              "primary_rotation_sha256": "16eaf1d53436432dfe2d1024ac09748c9967e54b5f991754dd73cd34b2307700",
+              "real_singular_strata": 0,
+              "union_covers_real_S2": true
+            },
+            "claims": {
+              "B7_closed": false,
+              "CK1_closed": false,
+              "CK3_closed": false,
+              "TC2_closed": false,
+              "boundary_energy_admission_proved": false,
+              "corrected_candidate_family_registered": false,
+              "covariant_action_origin_proved": false,
+              "current_combined_symbol_full_sphere_D4_compatibility_disproved": true,
+              "exact_rational_SO3_atlas_constructed": true,
+              "exact_regular_rational_counterexample_proved": true,
+              "finite_selector_determines_full_direction_sphere": false,
+              "full_direction_sphere_D4_compatibility_proved": false,
+              "full_orders_one_through_four_counterexample_recurrence_evaluated": true,
+              "full_tube_Sylvester_identity": false,
+              "global_H7_closed": false,
+              "lifespan_proved": false,
+              "local_differential_operator_origin_proved": false,
+              "only_zero_speed_eigenspace_obstructs_at_counterexample": true,
+              "point_compression_denominators_cleared_to_constant_numerator_polynomials": true,
+              "remaining_D4_selector_closed": false,
+              "variable_coefficient_constraint_calculus_proved": false
+            },
+            "counterexample_selector": {
+              "chart": "primary_e1_stereographic",
+              "chart_coordinates": [
+                "2/5",
+                "1/5"
+              ],
+              "chart_denominator_value": "6/5",
+              "direction": [
+                "2/3",
+                "2/3",
+                "1/3"
+              ],
+              "frame_name": "stereographic_2_5_1_5",
+              "regular_real_chart_point": true
+            },
+            "counts": {
+              "bound_predecessors": 5,
+              "candidate_compatibilities": 0,
+              "candidate_conditions_checked": 12,
+              "candidate_obstructions": 12,
+              "cleared_constant_numerator_polynomials": 12,
+              "complex_chart_singular_strata": 1,
+              "directional_recurrence_evaluations": 15,
+              "eigenspace_compressions_checked": 84,
+              "global_chart_numerator_polynomials_materialized": 0,
+              "inferred_global_passes": 0,
+              "negative_controls": 8,
+              "nonzero_equal_eigenspace_compressions": 12,
+              "rational_SO3_charts": 2,
+              "rational_counterexample_points": 1,
+              "real_chart_singular_strata": 0,
+              "real_sphere_uncovered_points": 0
+            },
+            "exact_rational_obstruction": {
+              "candidate_compatibilities": 0,
+              "candidate_conditions_checked": 12,
+              "candidate_obstructions": 12,
+              "candidate_records": [
+                {
+                  "D4_Sylvester_solvable": false,
+                  "candidate_id": "quartic-symbol-06e267a9215345b6",
+                  "nonzero_equal_eigenspace_compressions": {
+                    "0": {
+                      "nonzero_entries": 56,
+                      "rank": 4,
+                      "sha256": "0534ae9c62015441e9a6e563dc46430507476bbf5f29853e146150e75630bce1"
+                    }
+                  },
+                  "zero_speed_cleared_numerator": {
+                    "clearing_denominator": "7622254848248411132812500",
+                    "numerator_nonzero_entries": 56,
+                    "numerator_polynomial_total_degree_uv": 0,
+                    "numerator_rank": 4,
+                    "numerator_sha256": "fe9c19d37e2882037ee506765bdbb738323721407c5881521ad19475c0f10173"
+                  }
+                },
+                {
+                  "D4_Sylvester_solvable": false,
+                  "candidate_id": "quartic-symbol-076dc0ba965ab63a",
+                  "nonzero_equal_eigenspace_compressions": {
+                    "0": {
+                      "nonzero_entries": 56,
+                      "rank": 4,
+                      "sha256": "83e9a808dc2caadeeb6463dd245503b4f4fc64a5d020ec0dd3af73b7663a6345"
+                    }
+                  },
+                  "zero_speed_cleared_numerator": {
+                    "clearing_denominator": "7622254848248411132812500",
+                    "numerator_nonzero_entries": 56,
+                    "numerator_polynomial_total_degree_uv": 0,
+                    "numerator_rank": 4,
+                    "numerator_sha256": "c1db33261baa33c67957987bcbba43cdd61df8ce14dbbe83187ce2b97f505695"
+                  }
+                },
+                {
+                  "D4_Sylvester_solvable": false,
+                  "candidate_id": "quartic-symbol-317e5395817a432b",
+                  "nonzero_equal_eigenspace_compressions": {
+                    "0": {
+                      "nonzero_entries": 56,
+                      "rank": 4,
+                      "sha256": "28b13f16535184378357e35b3158e8368f603c53e8900c36e583086f966f41cb"
+                    }
+                  },
+                  "zero_speed_cleared_numerator": {
+                    "clearing_denominator": "1905563712062102783203125",
+                    "numerator_nonzero_entries": 56,
+                    "numerator_polynomial_total_degree_uv": 0,
+                    "numerator_rank": 4,
+                    "numerator_sha256": "2080403923b77fabc896e70e5fa9063e478309e9964dc584c1fcd7d3d29186fd"
+                  }
+                },
+                {
+                  "D4_Sylvester_solvable": false,
+                  "candidate_id": "quartic-symbol-50f184dfe1a814bf",
+                  "nonzero_equal_eigenspace_compressions": {
+                    "0": {
+                      "nonzero_entries": 56,
+                      "rank": 4,
+                      "sha256": "0534ae9c62015441e9a6e563dc46430507476bbf5f29853e146150e75630bce1"
+                    }
+                  },
+                  "zero_speed_cleared_numerator": {
+                    "clearing_denominator": "7622254848248411132812500",
+                    "numerator_nonzero_entries": 56,
+                    "numerator_polynomial_total_degree_uv": 0,
+                    "numerator_rank": 4,
+                    "numerator_sha256": "fe9c19d37e2882037ee506765bdbb738323721407c5881521ad19475c0f10173"
+                  }
+                },
+                {
+                  "D4_Sylvester_solvable": false,
+                  "candidate_id": "quartic-symbol-5455cad9e42a0dbc",
+                  "nonzero_equal_eigenspace_compressions": {
+                    "0": {
+                      "nonzero_entries": 56,
+                      "rank": 4,
+                      "sha256": "28b13f16535184378357e35b3158e8368f603c53e8900c36e583086f966f41cb"
+                    }
+                  },
+                  "zero_speed_cleared_numerator": {
+                    "clearing_denominator": "1905563712062102783203125",
+                    "numerator_nonzero_entries": 56,
+                    "numerator_polynomial_total_degree_uv": 0,
+                    "numerator_rank": 4,
+                    "numerator_sha256": "2080403923b77fabc896e70e5fa9063e478309e9964dc584c1fcd7d3d29186fd"
+                  }
+                },
+                {
+                  "D4_Sylvester_solvable": false,
+                  "candidate_id": "quartic-symbol-561de1410d6cb21f",
+                  "nonzero_equal_eigenspace_compressions": {
+                    "0": {
+                      "nonzero_entries": 56,
+                      "rank": 4,
+                      "sha256": "83e9a808dc2caadeeb6463dd245503b4f4fc64a5d020ec0dd3af73b7663a6345"
+                    }
+                  },
+                  "zero_speed_cleared_numerator": {
+                    "clearing_denominator": "7622254848248411132812500",
+                    "numerator_nonzero_entries": 56,
+                    "numerator_polynomial_total_degree_uv": 0,
+                    "numerator_rank": 4,
+                    "numerator_sha256": "c1db33261baa33c67957987bcbba43cdd61df8ce14dbbe83187ce2b97f505695"
+                  }
+                },
+                {
+                  "D4_Sylvester_solvable": false,
+                  "candidate_id": "quartic-symbol-8fd254934d778c28",
+                  "nonzero_equal_eigenspace_compressions": {
+                    "0": {
+                      "nonzero_entries": 56,
+                      "rank": 4,
+                      "sha256": "9d0461dc9d75d55b697617a92d67ff7acabb2015c984b47065cbe6e47d0515a1"
+                    }
+                  },
+                  "zero_speed_cleared_numerator": {
+                    "clearing_denominator": "1905563712062102783203125",
+                    "numerator_nonzero_entries": 56,
+                    "numerator_polynomial_total_degree_uv": 0,
+                    "numerator_rank": 4,
+                    "numerator_sha256": "b2dcce59c44d5bdad46d0e141544c7751002eda90db0cf4a4b326314a3344064"
+                  }
+                },
+                {
+                  "D4_Sylvester_solvable": false,
+                  "candidate_id": "quartic-symbol-9e65901e5299a514",
+                  "nonzero_equal_eigenspace_compressions": {
+                    "0": {
+                      "nonzero_entries": 56,
+                      "rank": 4,
+                      "sha256": "9d0461dc9d75d55b697617a92d67ff7acabb2015c984b47065cbe6e47d0515a1"
+                    }
+                  },
+                  "zero_speed_cleared_numerator": {
+                    "clearing_denominator": "1905563712062102783203125",
+                    "numerator_nonzero_entries": 56,
+                    "numerator_polynomial_total_degree_uv": 0,
+                    "numerator_rank": 4,
+                    "numerator_sha256": "b2dcce59c44d5bdad46d0e141544c7751002eda90db0cf4a4b326314a3344064"
+                  }
+                },
+                {
+                  "D4_Sylvester_solvable": false,
+                  "candidate_id": "quartic-symbol-e4a6a9193316a6ff",
+                  "nonzero_equal_eigenspace_compressions": {
+                    "0": {
+                      "nonzero_entries": 56,
+                      "rank": 4,
+                      "sha256": "83e9a808dc2caadeeb6463dd245503b4f4fc64a5d020ec0dd3af73b7663a6345"
+                    }
+                  },
+                  "zero_speed_cleared_numerator": {
+                    "clearing_denominator": "7622254848248411132812500",
+                    "numerator_nonzero_entries": 56,
+                    "numerator_polynomial_total_degree_uv": 0,
+                    "numerator_rank": 4,
+                    "numerator_sha256": "c1db33261baa33c67957987bcbba43cdd61df8ce14dbbe83187ce2b97f505695"
+                  }
+                },
+                {
+                  "D4_Sylvester_solvable": false,
+                  "candidate_id": "quartic-symbol-ef832e4c3b71ee42",
+                  "nonzero_equal_eigenspace_compressions": {
+                    "0": {
+                      "nonzero_entries": 56,
+                      "rank": 4,
+                      "sha256": "9d0461dc9d75d55b697617a92d67ff7acabb2015c984b47065cbe6e47d0515a1"
+                    }
+                  },
+                  "zero_speed_cleared_numerator": {
+                    "clearing_denominator": "1905563712062102783203125",
+                    "numerator_nonzero_entries": 56,
+                    "numerator_polynomial_total_degree_uv": 0,
+                    "numerator_rank": 4,
+                    "numerator_sha256": "b2dcce59c44d5bdad46d0e141544c7751002eda90db0cf4a4b326314a3344064"
+                  }
+                },
+                {
+                  "D4_Sylvester_solvable": false,
+                  "candidate_id": "quartic-symbol-f31a234e2bf7b97f",
+                  "nonzero_equal_eigenspace_compressions": {
+                    "0": {
+                      "nonzero_entries": 56,
+                      "rank": 4,
+                      "sha256": "0534ae9c62015441e9a6e563dc46430507476bbf5f29853e146150e75630bce1"
+                    }
+                  },
+                  "zero_speed_cleared_numerator": {
+                    "clearing_denominator": "7622254848248411132812500",
+                    "numerator_nonzero_entries": 56,
+                    "numerator_polynomial_total_degree_uv": 0,
+                    "numerator_rank": 4,
+                    "numerator_sha256": "fe9c19d37e2882037ee506765bdbb738323721407c5881521ad19475c0f10173"
+                  }
+                },
+                {
+                  "D4_Sylvester_solvable": false,
+                  "candidate_id": "quartic-symbol-fb5c20c15ce6d778",
+                  "nonzero_equal_eigenspace_compressions": {
+                    "0": {
+                      "nonzero_entries": 56,
+                      "rank": 4,
+                      "sha256": "28b13f16535184378357e35b3158e8368f603c53e8900c36e583086f966f41cb"
+                    }
+                  },
+                  "zero_speed_cleared_numerator": {
+                    "clearing_denominator": "1905563712062102783203125",
+                    "numerator_nonzero_entries": 56,
+                    "numerator_polynomial_total_degree_uv": 0,
+                    "numerator_rank": 4,
+                    "numerator_sha256": "2080403923b77fabc896e70e5fa9063e478309e9964dc584c1fcd7d3d29186fd"
+                  }
+                }
+              ],
+              "cleared_constant_numerator_polynomials": 12,
+              "current_full_sphere_D4_compatibility_disproved": true,
+              "nonzero_equal_eigenspace_compressions": 12
+            },
+            "full_recurrence": {
+              "all_seven_eigenspaces_checked_per_candidate": true,
+              "base_D4_RHS_nonzero_entries": 116,
+              "base_D4_RHS_sha256": "fa14b03f231b6790ae610f31d9d4deafeb86ef060e2c5d580809e4d0752730c8",
+              "current_aligned_symbol_sha256": "2b6438fba2717ec28471f2ee2fb7bc59f789d783464b21b42b5d900d9097fa6d",
+              "current_global_symbol_rank": 5,
+              "current_global_symbol_sha256": "616d48e8339aacd4f7254c8c40c2052354237b882ea8d4d5a7d5afcab5f8f59b",
+              "directional_evaluations": 15,
+              "sixth_block_sha256": "a7290209e029b6a2d6ddcf5b09818711ef4a96687d2f188992be5a950da5dbe8",
+              "xyz_block_sha256": "7b7c840b90ffa0d18fea359f8c617fbf3c28ea15188732ee954827e092041849"
+            },
+            "scope": "Exact two-chart rational SO(3) atlas and full D4 recurrence at the regular chart point (u,v)=(2/5,1/5). All 12 candidates have a nonzero rank-four zero-speed cleared constant numerator, disproving full-sphere D4 compatibility of the current combined degree-three six-frame symbol. No PDE or global closure is inferred.",
+            "status": "pass_exact_rational_chart_counterexample_disproves_current_full_sphere_D4_compatibility"
           },
           "registered_operator_origin_no_go": {
             "constraint_support_audit": {
@@ -9581,6 +10142,1395 @@
           },
           "scope": "This certifies the LP family, exact H7 equivalence, Bernstein constants, and an explicit shell-local commutator bound for the actual pencil. Dyadic summation is not applied, and global H7 closure from H6 coefficients is deliberately rejected.",
           "status": "pass_all_12_H7_dyadic_local_frameworks_global_commutator_fail_closed"
+        },
+        "finite_sobolev_hierarchy_no_go": {
+          "artifact_binding": {
+            "content_sha256": "a74fb10a523cef935695d99fff595de7aa51a8ead322171373827c8b6db9288a",
+            "file_sha256": "404a869cd676fb57389535c74ff4fea73ec1ae3da43cad1ff74951f817ae1308",
+            "path": "runs/physics-language/quartic-finite-sobolev-hierarchy-no-go-campaign/campaign.json"
+          },
+          "candidate_records": [
+            {
+              "absolute_growth_multiplier": "1",
+              "candidate_id": "quartic-symbol-06e267a9215345b6",
+              "candidate_rejection_authorized": false,
+              "coefficients": {
+                "a01": "0",
+                "a10": "-1/2",
+                "a20": "0",
+                "c02": "0",
+                "c11": "0",
+                "c20": "-1",
+                "d01": "0",
+                "d10": "0",
+                "m2": "1"
+              },
+              "decision": "blocked",
+              "direct_finite_Sobolev_hierarchy_closure": false,
+              "first_blocker": "candidate_bound_full_tensor_paradifferential_cancellation_or_derivative_loss_evolution_theorem_for_the_coefficient_high_state_low_branch",
+              "full_tensor_cancellation_proved": false,
+              "representative_D2_value": "1",
+              "uncancelled_slice_Hs_lower_bound": "1*N*c_packet/2 for every integer s>=4"
+            },
+            {
+              "absolute_growth_multiplier": "1",
+              "candidate_id": "quartic-symbol-076dc0ba965ab63a",
+              "candidate_rejection_authorized": false,
+              "coefficients": {
+                "a01": "0",
+                "a10": "1/2",
+                "a20": "0",
+                "c02": "0",
+                "c11": "0",
+                "c20": "1",
+                "d01": "0",
+                "d10": "0",
+                "m2": "1"
+              },
+              "decision": "blocked",
+              "direct_finite_Sobolev_hierarchy_closure": false,
+              "first_blocker": "candidate_bound_full_tensor_paradifferential_cancellation_or_derivative_loss_evolution_theorem_for_the_coefficient_high_state_low_branch",
+              "full_tensor_cancellation_proved": false,
+              "representative_D2_value": "-1",
+              "uncancelled_slice_Hs_lower_bound": "1*N*c_packet/2 for every integer s>=4"
+            },
+            {
+              "absolute_growth_multiplier": "2",
+              "candidate_id": "quartic-symbol-317e5395817a432b",
+              "candidate_rejection_authorized": false,
+              "coefficients": {
+                "a01": "0",
+                "a10": "-1",
+                "a20": "0",
+                "c02": "0",
+                "c11": "0",
+                "c20": "1",
+                "d01": "0",
+                "d10": "0",
+                "m2": "1"
+              },
+              "decision": "blocked",
+              "direct_finite_Sobolev_hierarchy_closure": false,
+              "first_blocker": "candidate_bound_full_tensor_paradifferential_cancellation_or_derivative_loss_evolution_theorem_for_the_coefficient_high_state_low_branch",
+              "full_tensor_cancellation_proved": false,
+              "representative_D2_value": "2",
+              "uncancelled_slice_Hs_lower_bound": "2*N*c_packet/2 for every integer s>=4"
+            },
+            {
+              "absolute_growth_multiplier": "1",
+              "candidate_id": "quartic-symbol-50f184dfe1a814bf",
+              "candidate_rejection_authorized": false,
+              "coefficients": {
+                "a01": "0",
+                "a10": "-1/2",
+                "a20": "0",
+                "c02": "0",
+                "c11": "0",
+                "c20": "0",
+                "d01": "0",
+                "d10": "0",
+                "m2": "1"
+              },
+              "decision": "blocked",
+              "direct_finite_Sobolev_hierarchy_closure": false,
+              "first_blocker": "candidate_bound_full_tensor_paradifferential_cancellation_or_derivative_loss_evolution_theorem_for_the_coefficient_high_state_low_branch",
+              "full_tensor_cancellation_proved": false,
+              "representative_D2_value": "1",
+              "uncancelled_slice_Hs_lower_bound": "1*N*c_packet/2 for every integer s>=4"
+            },
+            {
+              "absolute_growth_multiplier": "2",
+              "candidate_id": "quartic-symbol-5455cad9e42a0dbc",
+              "candidate_rejection_authorized": false,
+              "coefficients": {
+                "a01": "0",
+                "a10": "-1",
+                "a20": "0",
+                "c02": "0",
+                "c11": "0",
+                "c20": "-1",
+                "d01": "0",
+                "d10": "0",
+                "m2": "1"
+              },
+              "decision": "blocked",
+              "direct_finite_Sobolev_hierarchy_closure": false,
+              "first_blocker": "candidate_bound_full_tensor_paradifferential_cancellation_or_derivative_loss_evolution_theorem_for_the_coefficient_high_state_low_branch",
+              "full_tensor_cancellation_proved": false,
+              "representative_D2_value": "2",
+              "uncancelled_slice_Hs_lower_bound": "2*N*c_packet/2 for every integer s>=4"
+            },
+            {
+              "absolute_growth_multiplier": "1",
+              "candidate_id": "quartic-symbol-561de1410d6cb21f",
+              "candidate_rejection_authorized": false,
+              "coefficients": {
+                "a01": "0",
+                "a10": "1/2",
+                "a20": "0",
+                "c02": "0",
+                "c11": "0",
+                "c20": "-1",
+                "d01": "0",
+                "d10": "0",
+                "m2": "1"
+              },
+              "decision": "blocked",
+              "direct_finite_Sobolev_hierarchy_closure": false,
+              "first_blocker": "candidate_bound_full_tensor_paradifferential_cancellation_or_derivative_loss_evolution_theorem_for_the_coefficient_high_state_low_branch",
+              "full_tensor_cancellation_proved": false,
+              "representative_D2_value": "-1",
+              "uncancelled_slice_Hs_lower_bound": "1*N*c_packet/2 for every integer s>=4"
+            },
+            {
+              "absolute_growth_multiplier": "2",
+              "candidate_id": "quartic-symbol-8fd254934d778c28",
+              "candidate_rejection_authorized": false,
+              "coefficients": {
+                "a01": "0",
+                "a10": "1",
+                "a20": "0",
+                "c02": "0",
+                "c11": "0",
+                "c20": "1",
+                "d01": "0",
+                "d10": "0",
+                "m2": "1"
+              },
+              "decision": "blocked",
+              "direct_finite_Sobolev_hierarchy_closure": false,
+              "first_blocker": "candidate_bound_full_tensor_paradifferential_cancellation_or_derivative_loss_evolution_theorem_for_the_coefficient_high_state_low_branch",
+              "full_tensor_cancellation_proved": false,
+              "representative_D2_value": "-2",
+              "uncancelled_slice_Hs_lower_bound": "2*N*c_packet/2 for every integer s>=4"
+            },
+            {
+              "absolute_growth_multiplier": "2",
+              "candidate_id": "quartic-symbol-9e65901e5299a514",
+              "candidate_rejection_authorized": false,
+              "coefficients": {
+                "a01": "0",
+                "a10": "1",
+                "a20": "0",
+                "c02": "0",
+                "c11": "0",
+                "c20": "0",
+                "d01": "0",
+                "d10": "0",
+                "m2": "1"
+              },
+              "decision": "blocked",
+              "direct_finite_Sobolev_hierarchy_closure": false,
+              "first_blocker": "candidate_bound_full_tensor_paradifferential_cancellation_or_derivative_loss_evolution_theorem_for_the_coefficient_high_state_low_branch",
+              "full_tensor_cancellation_proved": false,
+              "representative_D2_value": "-2",
+              "uncancelled_slice_Hs_lower_bound": "2*N*c_packet/2 for every integer s>=4"
+            },
+            {
+              "absolute_growth_multiplier": "1",
+              "candidate_id": "quartic-symbol-e4a6a9193316a6ff",
+              "candidate_rejection_authorized": false,
+              "coefficients": {
+                "a01": "0",
+                "a10": "1/2",
+                "a20": "0",
+                "c02": "0",
+                "c11": "0",
+                "c20": "0",
+                "d01": "0",
+                "d10": "0",
+                "m2": "1"
+              },
+              "decision": "blocked",
+              "direct_finite_Sobolev_hierarchy_closure": false,
+              "first_blocker": "candidate_bound_full_tensor_paradifferential_cancellation_or_derivative_loss_evolution_theorem_for_the_coefficient_high_state_low_branch",
+              "full_tensor_cancellation_proved": false,
+              "representative_D2_value": "-1",
+              "uncancelled_slice_Hs_lower_bound": "1*N*c_packet/2 for every integer s>=4"
+            },
+            {
+              "absolute_growth_multiplier": "2",
+              "candidate_id": "quartic-symbol-ef832e4c3b71ee42",
+              "candidate_rejection_authorized": false,
+              "coefficients": {
+                "a01": "0",
+                "a10": "1",
+                "a20": "0",
+                "c02": "0",
+                "c11": "0",
+                "c20": "-1",
+                "d01": "0",
+                "d10": "0",
+                "m2": "1"
+              },
+              "decision": "blocked",
+              "direct_finite_Sobolev_hierarchy_closure": false,
+              "first_blocker": "candidate_bound_full_tensor_paradifferential_cancellation_or_derivative_loss_evolution_theorem_for_the_coefficient_high_state_low_branch",
+              "full_tensor_cancellation_proved": false,
+              "representative_D2_value": "-2",
+              "uncancelled_slice_Hs_lower_bound": "2*N*c_packet/2 for every integer s>=4"
+            },
+            {
+              "absolute_growth_multiplier": "1",
+              "candidate_id": "quartic-symbol-f31a234e2bf7b97f",
+              "candidate_rejection_authorized": false,
+              "coefficients": {
+                "a01": "0",
+                "a10": "-1/2",
+                "a20": "0",
+                "c02": "0",
+                "c11": "0",
+                "c20": "1",
+                "d01": "0",
+                "d10": "0",
+                "m2": "1"
+              },
+              "decision": "blocked",
+              "direct_finite_Sobolev_hierarchy_closure": false,
+              "first_blocker": "candidate_bound_full_tensor_paradifferential_cancellation_or_derivative_loss_evolution_theorem_for_the_coefficient_high_state_low_branch",
+              "full_tensor_cancellation_proved": false,
+              "representative_D2_value": "1",
+              "uncancelled_slice_Hs_lower_bound": "1*N*c_packet/2 for every integer s>=4"
+            },
+            {
+              "absolute_growth_multiplier": "2",
+              "candidate_id": "quartic-symbol-fb5c20c15ce6d778",
+              "candidate_rejection_authorized": false,
+              "coefficients": {
+                "a01": "0",
+                "a10": "-1",
+                "a20": "0",
+                "c02": "0",
+                "c11": "0",
+                "c20": "0",
+                "d01": "0",
+                "d10": "0",
+                "m2": "1"
+              },
+              "decision": "blocked",
+              "direct_finite_Sobolev_hierarchy_closure": false,
+              "first_blocker": "candidate_bound_full_tensor_paradifferential_cancellation_or_derivative_loss_evolution_theorem_for_the_coefficient_high_state_low_branch",
+              "full_tensor_cancellation_proved": false,
+              "representative_D2_value": "2",
+              "uncancelled_slice_Hs_lower_bound": "2*N*c_packet/2 for every integer s>=4"
+            }
+          ],
+          "claim_seals": {
+            "Nash_Moser_or_derivative_loss_wellposedness_proved": false,
+            "all_possible_modified_energies_refuted": false,
+            "analytic_or_Gevrey_closure_proved": false,
+            "autonomous_H7_energy_closed": false,
+            "autonomous_H8_energy_closed": false,
+            "candidate_theory_rejected": false,
+            "full_tensor_good_unknown_proved": false,
+            "global_dyadic_energy_closed": false,
+            "nonlinear_lifespan_proved": false,
+            "observational_claim_made": false
+          },
+          "data_seals": {
+            "GPU_execution_used": false,
+            "cosmology_inputs_opened": false,
+            "live_SQLite_opened": false,
+            "observations_opened": false,
+            "paid_llm_calls": false,
+            "solar_system_inputs_opened": false
+          },
+          "decision": "finite_unmodified_Sobolev_hierarchy_refuted_candidates_blocked",
+          "decision_counts": {
+            "blocked": 12,
+            "pass": 0,
+            "reject": 0
+          },
+          "exact_controls": {
+            "erase_candidate_D2_coupling": {
+              "registered_zero_D2_slices": 0,
+              "rejected": true
+            },
+            "positive_exponent_replay": {
+              "input_exponents_zero": true,
+              "orders": [
+                7,
+                8,
+                9,
+                12
+              ],
+              "output_exponents_one": true,
+              "restarted_output_exponents_one": true
+            },
+            "promote_annular_C6_to_spatial_smoothing": {
+              "registered_spatial_derivative_gain": 0,
+              "rejected": true
+            },
+            "promote_conditional_H8_to_autonomous_H8": {
+              "rejected": true,
+              "s8_restarted_growth_exponent": 1
+            },
+            "promote_slice_no_go_to_all_modified_energies": {
+              "full_tensor_identity_available": false,
+              "rejected": true
+            },
+            "use_compact_defect_to_cancel_high_shell": {
+              "defect_high_shell_value": 0,
+              "rejected": true
+            }
+          },
+          "first_blocker": "candidate_bound_full_tensor_paradifferential_cancellation_or_derivative_loss_evolution_theorem_for_the_coefficient_high_state_low_branch",
+          "gate_counts": {
+            "autonomous_finite_Sobolev_closures": 0,
+            "candidate_blocked": 12,
+            "candidate_pass": 0,
+            "candidate_reject": 0,
+            "conditional_one_derivative_remedies_replayed": 12,
+            "finite_order_direct_hierarchy_no_go_certificates": 12,
+            "full_tensor_cancellations_proved": 0,
+            "global_H7_closures": 0,
+            "lifespans_proved": 0,
+            "named_good_unknown_slice_cancellations_refuted": 12,
+            "nonzero_candidate_D2_slices": 12,
+            "selected": 12
+          },
+          "recovery_chain_audit": {
+            "annular_C6_constants": {
+              "full_dyadic_energy_closed": false,
+              "registered_effect": "finite principal composition constants on the annulus",
+              "spatial_derivative_gain": 0
+            },
+            "anti_Wick_composition": {
+              "can_cancel_candidate_D2_slice_without_identity": false,
+              "registered_effect": "finite order-zero energy-composition prerequisite",
+              "spatial_derivative_gain": 0
+            },
+            "bounded_frequency_defect": {
+              "can_cancel_high_shell_growth": false,
+              "high_shell_value_on_witness": 0,
+              "registered_effect": "compact physical low-frequency defect paid once"
+            },
+            "dyadic_localization": {
+              "global_commutator_closed": false,
+              "registered_effect": "selects the N=2^j packet with multiplier lower 1/2",
+              "witness_growth_exponent": 1
+            },
+            "net_conclusion": "the registered recovery operations multiply by finite shell-uniform constants or vanish on the high shell; none supplies a negative derivative or a bound cancelling the candidate D2 coefficient-high/state-low slice"
+          },
+          "scope": "exact candidate-bound obstruction to unmodified finite-order Sobolev closure of one coefficient-high/state-low slice; no full H7 energy, lifespan, theory rejection, or exclusion of structured remedies",
+          "secondary_blockers": [
+            "full_tensor_variable_TC2_constraint_compatibility_not_proved",
+            "initial_H7_energy_bound_not_registered",
+            "global_dyadic_summation_and_lifespan_substitution_not_closed"
+          ],
+          "theorem": {
+            "candidate_slice_lower_bound": "||D2_slice*Delta_j(a_N partial_1 u_0)||H^s >=abs(-2*a10)*N*c_packet/2",
+            "conclusion": "no N-uniform direct estimate of this uncancelled branch by ||a||H^(s-1)||u||H^s exists at any finite integer s>=4",
+            "domain": "R3 compact-frequency Schwartz packets; integer s>=4",
+            "exact_high_shell_lower_bound": "||Delta_j(a_N partial_1 u_0)||H^s >= N*c_packet/2",
+            "hierarchy_recurrence": "an a priori H^(s+1) state conditionally controls the H^s branch, but restarting the same unmodified energy at s+1 produces exponent +1 again",
+            "name": "finite_unmodified_Sobolev_hierarchy_derivative_loss_no_go",
+            "operator_class": "one spatial derivative in the coefficient, followed by the uncancelled coefficient-high/state-low component product or commutator branch",
+            "packet": "a_N=N^(1-s) exp(iNx_1)a_0, N=2^j>=4; u=u_0 fixed low packet",
+            "proof_ledger": [
+              {
+                "coefficient_H_order_minus_1_exponent": 0,
+                "coefficient_packet": "a_N=N^(-6) exp(iNx_1)a_0",
+                "conditional_coefficient_H_order_exponent": 0,
+                "conditional_next_order_state_packet": "U_N=N^(-8) exp(iNx_1)U_0",
+                "fixed_low_state_H_order_exponent": 0,
+                "high_low_output_H_order_exponent": 1,
+                "order": 7,
+                "restarted_high_low_output_exponent": 1,
+                "restarted_top_order": 8
+              },
+              {
+                "coefficient_H_order_minus_1_exponent": 0,
+                "coefficient_packet": "a_N=N^(-7) exp(iNx_1)a_0",
+                "conditional_coefficient_H_order_exponent": 0,
+                "conditional_next_order_state_packet": "U_N=N^(-9) exp(iNx_1)U_0",
+                "fixed_low_state_H_order_exponent": 0,
+                "high_low_output_H_order_exponent": 1,
+                "order": 8,
+                "restarted_high_low_output_exponent": 1,
+                "restarted_top_order": 9
+              },
+              {
+                "coefficient_H_order_minus_1_exponent": 0,
+                "coefficient_packet": "a_N=N^(-8) exp(iNx_1)a_0",
+                "conditional_coefficient_H_order_exponent": 0,
+                "conditional_next_order_state_packet": "U_N=N^(-10) exp(iNx_1)U_0",
+                "fixed_low_state_H_order_exponent": 0,
+                "high_low_output_H_order_exponent": 1,
+                "order": 9,
+                "restarted_high_low_output_exponent": 1,
+                "restarted_top_order": 10
+              },
+              {
+                "coefficient_H_order_minus_1_exponent": 0,
+                "coefficient_packet": "a_N=N^(-11) exp(iNx_1)a_0",
+                "conditional_coefficient_H_order_exponent": 0,
+                "conditional_next_order_state_packet": "U_N=N^(-13) exp(iNx_1)U_0",
+                "fixed_low_state_H_order_exponent": 0,
+                "high_low_output_H_order_exponent": 1,
+                "order": 12,
+                "restarted_high_low_output_exponent": 1,
+                "restarted_top_order": 13
+              }
+            ],
+            "scope_limit": "this does not rule out a full tensor cancellation, modified energy, Nash-Moser/derivative-loss evolution, or analytic/Gevrey closure",
+            "uniform_inputs": [
+              "||a_N||H^(s-1)<=C_(a,s-1) uniformly in N",
+              "||u_0||H^s<infinity"
+            ]
+          }
+        },
+        "full_tensor_good_unknown_reconciliation": {
+          "artifact_binding": {
+            "content_sha256": "9994df86948a4419dd999b66610e9fea847dece6d5300f68152e942ffb2b87c8",
+            "file_sha256": "cf7957c2efad52a1fa91761fc6259e17a58011cc6093365f9e86e8e7eea0dfd6",
+            "path": "runs/physics-language/quartic-full-tensor-good-unknown-reconciliation-gate/campaign.json"
+          },
+          "candidate_records": [
+            {
+              "a10": "-1/2",
+              "candidate_decision": "blocked",
+              "candidate_id": "quartic-symbol-06e267a9215345b6",
+              "candidate_rejection_authorized": false,
+              "coverage_boundary": {
+                "all_99_second_atom_families_cancelled": false,
+                "all_induced_terms_bounded": false,
+                "closed_world_ordered_D2_target": 257499,
+                "complete_ordered_D2_manifest_registered": false,
+                "full_D1_entries_registered": 1683
+              },
+              "first_blocker": "complete_candidate_bound_ordered_D2F_component_manifest_and_full_high_atom_good_unknown_identity_not_registered",
+              "two_channel_modified_slice": {
+                "all_four_entries_cancelled": true,
+                "correction_entries": [
+                  [
+                    0,
+                    10,
+                    "-1"
+                  ],
+                  [
+                    4,
+                    10,
+                    "4"
+                  ],
+                  [
+                    10,
+                    7,
+                    "-1"
+                  ],
+                  [
+                    10,
+                    9,
+                    "-1"
+                  ]
+                ],
+                "reference_s01_H01_slice_removed": true,
+                "residual_entries": [],
+                "source_entries": [
+                  [
+                    0,
+                    10,
+                    "1"
+                  ],
+                  [
+                    4,
+                    10,
+                    "-4"
+                  ],
+                  [
+                    10,
+                    7,
+                    "1"
+                  ],
+                  [
+                    10,
+                    9,
+                    "1"
+                  ]
+                ],
+                "source_matrix_rank": 2
+              },
+              "unmodified_slice": {
+                "direct_Hs_estimate_closed": false,
+                "finite_Sobolev_growth_multiplier": "1",
+                "representative_D2_value": "1"
+              }
+            },
+            {
+              "a10": "1/2",
+              "candidate_decision": "blocked",
+              "candidate_id": "quartic-symbol-076dc0ba965ab63a",
+              "candidate_rejection_authorized": false,
+              "coverage_boundary": {
+                "all_99_second_atom_families_cancelled": false,
+                "all_induced_terms_bounded": false,
+                "closed_world_ordered_D2_target": 257499,
+                "complete_ordered_D2_manifest_registered": false,
+                "full_D1_entries_registered": 1683
+              },
+              "first_blocker": "complete_candidate_bound_ordered_D2F_component_manifest_and_full_high_atom_good_unknown_identity_not_registered",
+              "two_channel_modified_slice": {
+                "all_four_entries_cancelled": true,
+                "correction_entries": [
+                  [
+                    0,
+                    10,
+                    "1"
+                  ],
+                  [
+                    4,
+                    10,
+                    "-4"
+                  ],
+                  [
+                    10,
+                    7,
+                    "1"
+                  ],
+                  [
+                    10,
+                    9,
+                    "1"
+                  ]
+                ],
+                "reference_s01_H01_slice_removed": true,
+                "residual_entries": [],
+                "source_entries": [
+                  [
+                    0,
+                    10,
+                    "-1"
+                  ],
+                  [
+                    4,
+                    10,
+                    "4"
+                  ],
+                  [
+                    10,
+                    7,
+                    "-1"
+                  ],
+                  [
+                    10,
+                    9,
+                    "-1"
+                  ]
+                ],
+                "source_matrix_rank": 2
+              },
+              "unmodified_slice": {
+                "direct_Hs_estimate_closed": false,
+                "finite_Sobolev_growth_multiplier": "1",
+                "representative_D2_value": "-1"
+              }
+            },
+            {
+              "a10": "-1",
+              "candidate_decision": "blocked",
+              "candidate_id": "quartic-symbol-317e5395817a432b",
+              "candidate_rejection_authorized": false,
+              "coverage_boundary": {
+                "all_99_second_atom_families_cancelled": false,
+                "all_induced_terms_bounded": false,
+                "closed_world_ordered_D2_target": 257499,
+                "complete_ordered_D2_manifest_registered": false,
+                "full_D1_entries_registered": 1683
+              },
+              "first_blocker": "complete_candidate_bound_ordered_D2F_component_manifest_and_full_high_atom_good_unknown_identity_not_registered",
+              "two_channel_modified_slice": {
+                "all_four_entries_cancelled": true,
+                "correction_entries": [
+                  [
+                    0,
+                    10,
+                    "-2"
+                  ],
+                  [
+                    4,
+                    10,
+                    "8"
+                  ],
+                  [
+                    10,
+                    7,
+                    "-2"
+                  ],
+                  [
+                    10,
+                    9,
+                    "-2"
+                  ]
+                ],
+                "reference_s01_H01_slice_removed": true,
+                "residual_entries": [],
+                "source_entries": [
+                  [
+                    0,
+                    10,
+                    "2"
+                  ],
+                  [
+                    4,
+                    10,
+                    "-8"
+                  ],
+                  [
+                    10,
+                    7,
+                    "2"
+                  ],
+                  [
+                    10,
+                    9,
+                    "2"
+                  ]
+                ],
+                "source_matrix_rank": 2
+              },
+              "unmodified_slice": {
+                "direct_Hs_estimate_closed": false,
+                "finite_Sobolev_growth_multiplier": "2",
+                "representative_D2_value": "2"
+              }
+            },
+            {
+              "a10": "-1/2",
+              "candidate_decision": "blocked",
+              "candidate_id": "quartic-symbol-50f184dfe1a814bf",
+              "candidate_rejection_authorized": false,
+              "coverage_boundary": {
+                "all_99_second_atom_families_cancelled": false,
+                "all_induced_terms_bounded": false,
+                "closed_world_ordered_D2_target": 257499,
+                "complete_ordered_D2_manifest_registered": false,
+                "full_D1_entries_registered": 1683
+              },
+              "first_blocker": "complete_candidate_bound_ordered_D2F_component_manifest_and_full_high_atom_good_unknown_identity_not_registered",
+              "two_channel_modified_slice": {
+                "all_four_entries_cancelled": true,
+                "correction_entries": [
+                  [
+                    0,
+                    10,
+                    "-1"
+                  ],
+                  [
+                    4,
+                    10,
+                    "4"
+                  ],
+                  [
+                    10,
+                    7,
+                    "-1"
+                  ],
+                  [
+                    10,
+                    9,
+                    "-1"
+                  ]
+                ],
+                "reference_s01_H01_slice_removed": true,
+                "residual_entries": [],
+                "source_entries": [
+                  [
+                    0,
+                    10,
+                    "1"
+                  ],
+                  [
+                    4,
+                    10,
+                    "-4"
+                  ],
+                  [
+                    10,
+                    7,
+                    "1"
+                  ],
+                  [
+                    10,
+                    9,
+                    "1"
+                  ]
+                ],
+                "source_matrix_rank": 2
+              },
+              "unmodified_slice": {
+                "direct_Hs_estimate_closed": false,
+                "finite_Sobolev_growth_multiplier": "1",
+                "representative_D2_value": "1"
+              }
+            },
+            {
+              "a10": "-1",
+              "candidate_decision": "blocked",
+              "candidate_id": "quartic-symbol-5455cad9e42a0dbc",
+              "candidate_rejection_authorized": false,
+              "coverage_boundary": {
+                "all_99_second_atom_families_cancelled": false,
+                "all_induced_terms_bounded": false,
+                "closed_world_ordered_D2_target": 257499,
+                "complete_ordered_D2_manifest_registered": false,
+                "full_D1_entries_registered": 1683
+              },
+              "first_blocker": "complete_candidate_bound_ordered_D2F_component_manifest_and_full_high_atom_good_unknown_identity_not_registered",
+              "two_channel_modified_slice": {
+                "all_four_entries_cancelled": true,
+                "correction_entries": [
+                  [
+                    0,
+                    10,
+                    "-2"
+                  ],
+                  [
+                    4,
+                    10,
+                    "8"
+                  ],
+                  [
+                    10,
+                    7,
+                    "-2"
+                  ],
+                  [
+                    10,
+                    9,
+                    "-2"
+                  ]
+                ],
+                "reference_s01_H01_slice_removed": true,
+                "residual_entries": [],
+                "source_entries": [
+                  [
+                    0,
+                    10,
+                    "2"
+                  ],
+                  [
+                    4,
+                    10,
+                    "-8"
+                  ],
+                  [
+                    10,
+                    7,
+                    "2"
+                  ],
+                  [
+                    10,
+                    9,
+                    "2"
+                  ]
+                ],
+                "source_matrix_rank": 2
+              },
+              "unmodified_slice": {
+                "direct_Hs_estimate_closed": false,
+                "finite_Sobolev_growth_multiplier": "2",
+                "representative_D2_value": "2"
+              }
+            },
+            {
+              "a10": "1/2",
+              "candidate_decision": "blocked",
+              "candidate_id": "quartic-symbol-561de1410d6cb21f",
+              "candidate_rejection_authorized": false,
+              "coverage_boundary": {
+                "all_99_second_atom_families_cancelled": false,
+                "all_induced_terms_bounded": false,
+                "closed_world_ordered_D2_target": 257499,
+                "complete_ordered_D2_manifest_registered": false,
+                "full_D1_entries_registered": 1683
+              },
+              "first_blocker": "complete_candidate_bound_ordered_D2F_component_manifest_and_full_high_atom_good_unknown_identity_not_registered",
+              "two_channel_modified_slice": {
+                "all_four_entries_cancelled": true,
+                "correction_entries": [
+                  [
+                    0,
+                    10,
+                    "1"
+                  ],
+                  [
+                    4,
+                    10,
+                    "-4"
+                  ],
+                  [
+                    10,
+                    7,
+                    "1"
+                  ],
+                  [
+                    10,
+                    9,
+                    "1"
+                  ]
+                ],
+                "reference_s01_H01_slice_removed": true,
+                "residual_entries": [],
+                "source_entries": [
+                  [
+                    0,
+                    10,
+                    "-1"
+                  ],
+                  [
+                    4,
+                    10,
+                    "4"
+                  ],
+                  [
+                    10,
+                    7,
+                    "-1"
+                  ],
+                  [
+                    10,
+                    9,
+                    "-1"
+                  ]
+                ],
+                "source_matrix_rank": 2
+              },
+              "unmodified_slice": {
+                "direct_Hs_estimate_closed": false,
+                "finite_Sobolev_growth_multiplier": "1",
+                "representative_D2_value": "-1"
+              }
+            },
+            {
+              "a10": "1",
+              "candidate_decision": "blocked",
+              "candidate_id": "quartic-symbol-8fd254934d778c28",
+              "candidate_rejection_authorized": false,
+              "coverage_boundary": {
+                "all_99_second_atom_families_cancelled": false,
+                "all_induced_terms_bounded": false,
+                "closed_world_ordered_D2_target": 257499,
+                "complete_ordered_D2_manifest_registered": false,
+                "full_D1_entries_registered": 1683
+              },
+              "first_blocker": "complete_candidate_bound_ordered_D2F_component_manifest_and_full_high_atom_good_unknown_identity_not_registered",
+              "two_channel_modified_slice": {
+                "all_four_entries_cancelled": true,
+                "correction_entries": [
+                  [
+                    0,
+                    10,
+                    "2"
+                  ],
+                  [
+                    4,
+                    10,
+                    "-8"
+                  ],
+                  [
+                    10,
+                    7,
+                    "2"
+                  ],
+                  [
+                    10,
+                    9,
+                    "2"
+                  ]
+                ],
+                "reference_s01_H01_slice_removed": true,
+                "residual_entries": [],
+                "source_entries": [
+                  [
+                    0,
+                    10,
+                    "-2"
+                  ],
+                  [
+                    4,
+                    10,
+                    "8"
+                  ],
+                  [
+                    10,
+                    7,
+                    "-2"
+                  ],
+                  [
+                    10,
+                    9,
+                    "-2"
+                  ]
+                ],
+                "source_matrix_rank": 2
+              },
+              "unmodified_slice": {
+                "direct_Hs_estimate_closed": false,
+                "finite_Sobolev_growth_multiplier": "2",
+                "representative_D2_value": "-2"
+              }
+            },
+            {
+              "a10": "1",
+              "candidate_decision": "blocked",
+              "candidate_id": "quartic-symbol-9e65901e5299a514",
+              "candidate_rejection_authorized": false,
+              "coverage_boundary": {
+                "all_99_second_atom_families_cancelled": false,
+                "all_induced_terms_bounded": false,
+                "closed_world_ordered_D2_target": 257499,
+                "complete_ordered_D2_manifest_registered": false,
+                "full_D1_entries_registered": 1683
+              },
+              "first_blocker": "complete_candidate_bound_ordered_D2F_component_manifest_and_full_high_atom_good_unknown_identity_not_registered",
+              "two_channel_modified_slice": {
+                "all_four_entries_cancelled": true,
+                "correction_entries": [
+                  [
+                    0,
+                    10,
+                    "2"
+                  ],
+                  [
+                    4,
+                    10,
+                    "-8"
+                  ],
+                  [
+                    10,
+                    7,
+                    "2"
+                  ],
+                  [
+                    10,
+                    9,
+                    "2"
+                  ]
+                ],
+                "reference_s01_H01_slice_removed": true,
+                "residual_entries": [],
+                "source_entries": [
+                  [
+                    0,
+                    10,
+                    "-2"
+                  ],
+                  [
+                    4,
+                    10,
+                    "8"
+                  ],
+                  [
+                    10,
+                    7,
+                    "-2"
+                  ],
+                  [
+                    10,
+                    9,
+                    "-2"
+                  ]
+                ],
+                "source_matrix_rank": 2
+              },
+              "unmodified_slice": {
+                "direct_Hs_estimate_closed": false,
+                "finite_Sobolev_growth_multiplier": "2",
+                "representative_D2_value": "-2"
+              }
+            },
+            {
+              "a10": "1/2",
+              "candidate_decision": "blocked",
+              "candidate_id": "quartic-symbol-e4a6a9193316a6ff",
+              "candidate_rejection_authorized": false,
+              "coverage_boundary": {
+                "all_99_second_atom_families_cancelled": false,
+                "all_induced_terms_bounded": false,
+                "closed_world_ordered_D2_target": 257499,
+                "complete_ordered_D2_manifest_registered": false,
+                "full_D1_entries_registered": 1683
+              },
+              "first_blocker": "complete_candidate_bound_ordered_D2F_component_manifest_and_full_high_atom_good_unknown_identity_not_registered",
+              "two_channel_modified_slice": {
+                "all_four_entries_cancelled": true,
+                "correction_entries": [
+                  [
+                    0,
+                    10,
+                    "1"
+                  ],
+                  [
+                    4,
+                    10,
+                    "-4"
+                  ],
+                  [
+                    10,
+                    7,
+                    "1"
+                  ],
+                  [
+                    10,
+                    9,
+                    "1"
+                  ]
+                ],
+                "reference_s01_H01_slice_removed": true,
+                "residual_entries": [],
+                "source_entries": [
+                  [
+                    0,
+                    10,
+                    "-1"
+                  ],
+                  [
+                    4,
+                    10,
+                    "4"
+                  ],
+                  [
+                    10,
+                    7,
+                    "-1"
+                  ],
+                  [
+                    10,
+                    9,
+                    "-1"
+                  ]
+                ],
+                "source_matrix_rank": 2
+              },
+              "unmodified_slice": {
+                "direct_Hs_estimate_closed": false,
+                "finite_Sobolev_growth_multiplier": "1",
+                "representative_D2_value": "-1"
+              }
+            },
+            {
+              "a10": "1",
+              "candidate_decision": "blocked",
+              "candidate_id": "quartic-symbol-ef832e4c3b71ee42",
+              "candidate_rejection_authorized": false,
+              "coverage_boundary": {
+                "all_99_second_atom_families_cancelled": false,
+                "all_induced_terms_bounded": false,
+                "closed_world_ordered_D2_target": 257499,
+                "complete_ordered_D2_manifest_registered": false,
+                "full_D1_entries_registered": 1683
+              },
+              "first_blocker": "complete_candidate_bound_ordered_D2F_component_manifest_and_full_high_atom_good_unknown_identity_not_registered",
+              "two_channel_modified_slice": {
+                "all_four_entries_cancelled": true,
+                "correction_entries": [
+                  [
+                    0,
+                    10,
+                    "2"
+                  ],
+                  [
+                    4,
+                    10,
+                    "-8"
+                  ],
+                  [
+                    10,
+                    7,
+                    "2"
+                  ],
+                  [
+                    10,
+                    9,
+                    "2"
+                  ]
+                ],
+                "reference_s01_H01_slice_removed": true,
+                "residual_entries": [],
+                "source_entries": [
+                  [
+                    0,
+                    10,
+                    "-2"
+                  ],
+                  [
+                    4,
+                    10,
+                    "8"
+                  ],
+                  [
+                    10,
+                    7,
+                    "-2"
+                  ],
+                  [
+                    10,
+                    9,
+                    "-2"
+                  ]
+                ],
+                "source_matrix_rank": 2
+              },
+              "unmodified_slice": {
+                "direct_Hs_estimate_closed": false,
+                "finite_Sobolev_growth_multiplier": "2",
+                "representative_D2_value": "-2"
+              }
+            },
+            {
+              "a10": "-1/2",
+              "candidate_decision": "blocked",
+              "candidate_id": "quartic-symbol-f31a234e2bf7b97f",
+              "candidate_rejection_authorized": false,
+              "coverage_boundary": {
+                "all_99_second_atom_families_cancelled": false,
+                "all_induced_terms_bounded": false,
+                "closed_world_ordered_D2_target": 257499,
+                "complete_ordered_D2_manifest_registered": false,
+                "full_D1_entries_registered": 1683
+              },
+              "first_blocker": "complete_candidate_bound_ordered_D2F_component_manifest_and_full_high_atom_good_unknown_identity_not_registered",
+              "two_channel_modified_slice": {
+                "all_four_entries_cancelled": true,
+                "correction_entries": [
+                  [
+                    0,
+                    10,
+                    "-1"
+                  ],
+                  [
+                    4,
+                    10,
+                    "4"
+                  ],
+                  [
+                    10,
+                    7,
+                    "-1"
+                  ],
+                  [
+                    10,
+                    9,
+                    "-1"
+                  ]
+                ],
+                "reference_s01_H01_slice_removed": true,
+                "residual_entries": [],
+                "source_entries": [
+                  [
+                    0,
+                    10,
+                    "1"
+                  ],
+                  [
+                    4,
+                    10,
+                    "-4"
+                  ],
+                  [
+                    10,
+                    7,
+                    "1"
+                  ],
+                  [
+                    10,
+                    9,
+                    "1"
+                  ]
+                ],
+                "source_matrix_rank": 2
+              },
+              "unmodified_slice": {
+                "direct_Hs_estimate_closed": false,
+                "finite_Sobolev_growth_multiplier": "1",
+                "representative_D2_value": "1"
+              }
+            },
+            {
+              "a10": "-1",
+              "candidate_decision": "blocked",
+              "candidate_id": "quartic-symbol-fb5c20c15ce6d778",
+              "candidate_rejection_authorized": false,
+              "coverage_boundary": {
+                "all_99_second_atom_families_cancelled": false,
+                "all_induced_terms_bounded": false,
+                "closed_world_ordered_D2_target": 257499,
+                "complete_ordered_D2_manifest_registered": false,
+                "full_D1_entries_registered": 1683
+              },
+              "first_blocker": "complete_candidate_bound_ordered_D2F_component_manifest_and_full_high_atom_good_unknown_identity_not_registered",
+              "two_channel_modified_slice": {
+                "all_four_entries_cancelled": true,
+                "correction_entries": [
+                  [
+                    0,
+                    10,
+                    "-2"
+                  ],
+                  [
+                    4,
+                    10,
+                    "8"
+                  ],
+                  [
+                    10,
+                    7,
+                    "-2"
+                  ],
+                  [
+                    10,
+                    9,
+                    "-2"
+                  ]
+                ],
+                "reference_s01_H01_slice_removed": true,
+                "residual_entries": [],
+                "source_entries": [
+                  [
+                    0,
+                    10,
+                    "2"
+                  ],
+                  [
+                    4,
+                    10,
+                    "-8"
+                  ],
+                  [
+                    10,
+                    7,
+                    "2"
+                  ],
+                  [
+                    10,
+                    9,
+                    "2"
+                  ]
+                ],
+                "source_matrix_rank": 2
+              },
+              "unmodified_slice": {
+                "direct_Hs_estimate_closed": false,
+                "finite_Sobolev_growth_multiplier": "2",
+                "representative_D2_value": "2"
+              }
+            }
+          ],
+          "claim_seals": {
+            "B7_replaced_by_closed_expression": false,
+            "all_99_second_atom_families_cancelled": false,
+            "all_induced_good_unknown_terms_bounded": false,
+            "all_low_direction_slices_cancelled": false,
+            "candidate_theory_rejected": false,
+            "full_ordered_D2_tensor_registered": false,
+            "global_H7_energy_closed": false,
+            "global_dyadic_summation_applied": false,
+            "nonlinear_lifespan_proved": false,
+            "observational_claim_made": false
+          },
+          "coverage_theorem": {
+            "closed_world_ordered_D2_entries_per_candidate": 257499,
+            "closed_world_ordered_D2_shape": [
+              11,
+              153,
+              153
+            ],
+            "complete_ordered_D2_entries_registered": 0,
+            "logical_reconciliation": "the N-growing finite-Sobolev witness is exact for the unmodified variable, while the registered two-channel modified variable cancels its complete four-entry principal s01/H01 slice",
+            "name": "D1_manifest_does_not_determine_full_D2_good_unknown_identity",
+            "non_promotion": "a complete D1 manifest and one cancelled D2 slice do not determine the remaining ordered D2 tensor, the other high-atom/low-direction identities, or the induced TC1/TC2/TC3/TC5 bounds",
+            "registered_D1_entries_per_candidate": 1683,
+            "registered_D1_shape": [
+              11,
+              153
+            ],
+            "representative_exact_slice": {
+              "candidate_cancellations": 12,
+              "high_atom": "s01[10]",
+              "low_direction": "H_01",
+              "nonzero_source_entries": 4,
+              "residual_entries": 0,
+              "source_matrix_rank": 2,
+              "two_channel_correction_rank": 2
+            },
+            "topology_lineage_audit": {
+              "bound_topology_snapshot_content_sha256": "c694af6a9d412cf587f3673fce802e0da0834561e38a2823daebc4a308b43c34",
+              "current_dyadic_binding_matches": false,
+              "current_finite_gate_dyadic_content_sha256": "ce7afcaf428144cc7149dfdd67be5139d09a2e33d3d2bb8a19b867799313f3b5",
+              "policy": "use the exact bound topology snapshot only; do not claim a regenerated current-dyadic topology lineage",
+              "topology_snapshot_dyadic_content_sha256": "43dcfcd4ab08a548175e6971f39bcd7c2dd3a15a8817689aa95f10dd2412bcb6"
+            }
+          },
+          "data_seals": {
+            "GPU_execution_used": false,
+            "cosmology_inputs_opened": false,
+            "live_SQLite_opened": false,
+            "observations_opened": false,
+            "paid_llm_calls": false,
+            "solar_system_inputs_opened": false
+          },
+          "decision": "representative_slice_cancelled_full_D2_identity_blocked",
+          "decision_counts": {
+            "blocked": 12,
+            "pass": 0,
+            "reject": 0
+          },
+          "exact_controls": {
+            "erase_unmodified_finite_Sobolev_no_go": {
+              "modified_variable_required_for_slice_cancellation": true,
+              "rejected": true,
+              "unmodified_growth_exponent": 1
+            },
+            "promote_full_D1_to_full_D2": {
+              "D1_entries": 1683,
+              "missing_complete_D2_manifest": true,
+              "ordered_D2_target": 257499,
+              "rejected": true
+            },
+            "promote_one_slice_to_99_second_atom_families": {
+              "full_high_atom_families_closed": 0,
+              "rejected": true,
+              "representative_slices_cancelled": 1
+            },
+            "promote_principal_slice_to_global_H7": {
+              "induced_terms_without_complete_bounds": [
+                "TC1",
+                "TC2",
+                "TC3",
+                "TC5"
+              ],
+              "rejected": true
+            },
+            "reverse_two_channel_sign": {
+              "rejected": true,
+              "residual_multiplier_of_source": 2,
+              "surviving_nonzero_entries_per_candidate": 4
+            }
+          },
+          "first_blocker": "complete_candidate_bound_ordered_D2F_component_manifest_and_full_high_atom_good_unknown_identity_not_registered",
+          "gate_counts": {
+            "all_induced_term_bounds_closed": 0,
+            "candidate_blocked": 12,
+            "candidate_pass": 0,
+            "candidate_reject": 0,
+            "closed_world_ordered_D2_target_per_candidate": 257499,
+            "complete_ordered_D2_manifests_registered": 0,
+            "full_D1_entries_per_candidate": 1683,
+            "full_high_atom_families_closed": 0,
+            "global_H7_closures": 0,
+            "lifespans_proved": 0,
+            "representative_D2_entries_replayed": 48,
+            "selected": 12,
+            "two_channel_four_entry_slice_cancellations_proved": 12,
+            "unmodified_slice_witnesses_reconciled": 12
+          },
+          "scope": "exact all-candidate cancellation of the complete four-entry s01/H01 principal slice and an exact D1-versus-D2 coverage obstruction; no full high-atom identity, global H7 closure, lifespan, or theory rejection",
+          "secondary_blockers": [
+            "H7_topology_snapshot_not_resealed_against_current_dyadic_artifact",
+            "other_high_atom_and_low_direction_good_unknown_identities_not_registered",
+            "induced_TC1_TC2_TC3_TC5_H7_bounds_not_all_closed",
+            "B7_global_dyadic_summation_and_lifespan_not_closed"
+          ]
         },
         "ordered_candidate_ids": [
           "quartic-symbol-06e267a9215345b6",
@@ -48793,6 +50743,18 @@
         "freshness_class": "immutable_completed_snapshot",
         "stale_source_reason": null
       },
+      "continuous_scientific_pipeline_admission": {
+        "content_sha256": "eeccd079e35ac540213c9dcac96d307fbc89cf597062c2bf8498278c5dd3f6a9",
+        "file_sha256": "0e740fb96f86d4fce0813225716e5c9734f0e83372a5e748a4bb2c1a3fff372a",
+        "freshness_class": "immutable_completed_snapshot",
+        "stale_source_reason": null
+      },
+      "continuous_scientific_pipeline_service_readiness": {
+        "content_sha256": "813a92c582eeb828b1ee3921efa2a71e9be1b3f85e35ceffe7f97b761d017c87",
+        "file_sha256": "4968b1f5b7656d6597450b1dc6f36321cdad85bb1b3766e1a1f1cceb7513a2f3",
+        "freshness_class": "immutable_completed_snapshot",
+        "stale_source_reason": null
+      },
       "cpu_real_formula_overlap_benchmark": {
         "content_sha256": "7f341aa2f54ed0e060a93d5ce89a77faad6558f7971dea710cc324c313b94227",
         "file_sha256": "385b15fa72159e4f808f8aedd9913f6e554f2d36751b29948c5bb34e08b16582",
@@ -48820,6 +50782,12 @@
       "followup_service": {
         "content_sha256": "782911a8ece838363fc2d1fc4ca470b2ecbef4c219cb2e4532a15801169c394d",
         "file_sha256": "b8d462a2bcb5fa82056e2aff1b98043eeaa5a91602e8a95ea2c2c00f832c6dfc",
+        "freshness_class": "immutable_completed_snapshot",
+        "stale_source_reason": null
+      },
+      "formal_controls_portable_report": {
+        "content_sha256": "0f5968bacfa6d15e823e28ccff4f0ef7f2ea9f5f24328cfecd4582fd94985a52",
+        "file_sha256": "12bddb642367cafa52925d2768306b89b5337841a18653e8803d44860eff0924",
         "freshness_class": "immutable_completed_snapshot",
         "stale_source_reason": null
       },
@@ -49417,6 +51385,18 @@
         "freshness_class": "immutable_completed_snapshot",
         "stale_source_reason": null
       },
+      "quartic_finite_sobolev_hierarchy_no_go_campaign": {
+        "content_sha256": "a74fb10a523cef935695d99fff595de7aa51a8ead322171373827c8b6db9288a",
+        "file_sha256": "404a869cd676fb57389535c74ff4fea73ec1ae3da43cad1ff74951f817ae1308",
+        "freshness_class": "immutable_completed_snapshot",
+        "stale_source_reason": null
+      },
+      "quartic_full_tensor_good_unknown_reconciliation_gate": {
+        "content_sha256": "9994df86948a4419dd999b66610e9fea847dece6d5300f68152e942ffb2b87c8",
+        "file_sha256": "cf7957c2efad52a1fa91761fc6259e17a58011cc6093365f9e86e8e7eea0dfd6",
+        "freshness_class": "immutable_completed_snapshot",
+        "stale_source_reason": null
+      },
       "quartic_tc2_d4_axis2_base_rhs": {
         "content_sha256": "d2fdd65e23574d2f7f65fb328b69764d21073af67ff293622a4735cec26eb451",
         "file_sha256": "43f85f50b5a5f8f07e1b5f99cf824c9b574df4ec1899de267ff8f0f855c5e252",
@@ -49498,6 +51478,12 @@
       "quartic_tc2_d4_parity_cubic_generic_direction": {
         "content_sha256": "d0ba78316e17d363236adec58e1877ee85af9c9d24f098071b5f4564b46fa9b6",
         "file_sha256": "831b03c0bb469462cae64d365695bfdcc21c7cc6dd243e90e8af897eecd044d6",
+        "freshness_class": "immutable_completed_snapshot",
+        "stale_source_reason": null
+      },
+      "quartic_tc2_d4_rational_chart_determining_gate": {
+        "content_sha256": "48b8ecfe63336071721baeb90a41f379ac1b4235629b380abdf0124e7008152c",
+        "file_sha256": "aafe337f5f8a49585038065a4d232cef9fe335c68106b4371a8dc5710fc83536",
         "freshness_class": "immutable_completed_snapshot",
         "stale_source_reason": null
       },
@@ -54017,13 +56003,13 @@
       }
     }
   },
-  "core_content_sha256": "b1142015e2ae46ae66ba21337afc7089bc4de033bca90c47f8608298f7769dfd",
+  "core_content_sha256": "8193a916c63ca14d474291fc04af125103d38019eaff42eed2dac2bb5ff73935",
   "volatile": {
     "campaign_watchdog_freshness": {
-      "age_seconds": 2586.544957,
-      "expected_next_event_not_before_utc": "2026-08-12T00:34:26.278006+00:00",
-      "freshness_deadline_utc": "2026-08-12T01:04:26.278006+00:00",
-      "latest_event_utc": "2026-08-11T23:34:26.285461+00:00",
+      "age_seconds": 2040.365459,
+      "expected_next_event_not_before_utc": "2026-08-12T01:36:11.971596+00:00",
+      "freshness_deadline_utc": "2026-08-12T02:06:11.971596+00:00",
+      "latest_event_utc": "2026-08-12T00:36:11.978640+00:00",
       "stale": false,
       "stale_source_reason": null,
       "state": "scheduled_idle"
@@ -54031,10 +56017,10 @@
     "deadline_state": "open",
     "deferred_gpu_handoff_service": {
       "alive": true,
-      "attempted_cycles": 2,
+      "attempted_cycles": 3,
       "availability": "available",
-      "checkpoint_content_sha256": "a0c42619ef9ea8b2c85b4e41999a78090c8613bd8a04caa13edad37827de5ed3",
-      "checkpoint_file_sha256": "3c2b038abac9713918bbe3ab9017475d9d22906f8a9a3743a8a2d19159659dc8",
+      "checkpoint_content_sha256": "185dd35a92b3448dcff4c26de41c48eaab4e237fa933e4c5a53631309c74f66d",
+      "checkpoint_file_sha256": "fc08687edf4e14e9e033d558f510cd7c666acef89623b5d1af65d8f0376b4469",
       "config_current": true,
       "consecutive_safe_samples": 0,
       "error_kind": null,
@@ -54042,18 +56028,18 @@
       "last_nvml_sample": {
         "device_index": 0,
         "device_name": "NVIDIA GeForce RTX 5090",
-        "gpu_utilization_percent": 99,
-        "memory_free_mib": 7902,
+        "gpu_utilization_percent": 100,
+        "memory_free_mib": 7890,
         "memory_total_mib": 32607,
-        "memory_used_mib": 24704,
-        "power_watts": 555.579,
-        "sampled_utc": "2026-08-12T00:17:28.351374+00:00",
+        "memory_used_mib": 24716,
+        "power_watts": 439.009,
+        "sampled_utc": "2026-08-12T01:25:42.500898+00:00",
         "scope": "device-wide instantaneous NVML sample; no CUDA context and no process signal"
       },
       "lease_valid": true,
       "pid": 13176,
       "pid_identity_verified": true,
-      "polls_in_cycle": 165,
+      "polls_in_cycle": 260,
       "required_consecutive_safe_samples": 3,
       "safe_now": false,
       "scheduler_receipt": null,
@@ -54088,16 +56074,16 @@
       "availability": "available",
       "logical_processors": 24,
       "memory_total_bytes": 102771290112,
-      "memory_used_bytes": 44169191424,
+      "memory_used_bytes": 45084712960,
       "physical_cores": 24,
       "source": "psutil_host_sample",
-      "utilization_percent": 7.1
+      "utilization_percent": 100.0
     },
     "physical_gpu": {
       "availability": "disabled",
       "source": "disabled_by_operator"
     },
-    "sampled_at_utc": "2026-08-12T00:17:32.830418+00:00",
+    "sampled_at_utc": "2026-08-12T01:10:12.344099+00:00",
     "scheduler_readiness": {
       "cpu_symbolic": {
         "delayed_until_not_before": 0,
@@ -54113,13 +56099,13 @@
       },
       "housekeeping": {
         "delayed_until_not_before": 1,
-        "earliest_future_not_before_utc": "2026-08-12T00:34:26.278006+00:00",
+        "earliest_future_not_before_utc": "2026-08-12T01:36:11.971596+00:00",
         "queued_total": 1,
         "runnable_now": 0
       },
       "llm_research": {
         "delayed_until_not_before": 1,
-        "earliest_future_not_before_utc": "2026-08-12T00:34:26.278006+00:00",
+        "earliest_future_not_before_utc": "2026-08-12T01:36:11.971596+00:00",
         "queued_total": 1,
         "runnable_now": 0
       },
@@ -54133,18 +56119,18 @@
     "unified_live_dashboard_service": {
       "alive": true,
       "availability": "available",
-      "checkpoint_content_sha256": "da6e4c684540b449d2c7c4e15d597e031896350fe35c558786e4b1b98a6f2208",
-      "checkpoint_file_sha256": "12b084f44a90db9b69fbc7057ec14aa4c4693e05b7dbdf8618eafb260a9bbe03",
+      "checkpoint_content_sha256": "77c68a689a6cfcb93910702adb16730e63b9eca16445a0560077ffba57ae423f",
+      "checkpoint_file_sha256": "da70b8621b5f052c752f20e1297b87a45b466c2e4f1ce9afb6e2d2c07b370876",
       "config_current": true,
       "consecutive_failures": 0,
       "implementation": "hardened_safety",
       "last_error_kind": null,
       "last_refresh": {
-        "core_content_sha256": "efb5ea5c27674e970bc7dbe1c2b28edcfc727f24b3366decf5353b8145ccd692",
-        "dashboard_file_sha256": "cc326ed91f3fae3dd2d2b20c7b669b44c8b4cf132a3ba90471cd8253480feaf6",
+        "core_content_sha256": "ac70d90bf81ec5522c6d9827abf20a88e7e8cdbca5b62b211adbb2ef8bf09c54",
+        "dashboard_file_sha256": "feec3deb048defc46b0b455b7b95e7dc8b812eb11312c7d8315bfb5e19ed097f",
         "leaderboard_history_seed": {
-          "core_content_sha256": "efb5ea5c27674e970bc7dbe1c2b28edcfc727f24b3366decf5353b8145ccd692",
-          "file_sha256": "298742254beeaba95f1dee8d361d7b9b494575e057270a060246d4c0c94282ab",
+          "core_content_sha256": "4f0ae221d0b57d155b50ff66341be35fafee00690c745fc4108feab4baaae2c0",
+          "file_sha256": "53a356137d3310abd38d378a16affbfbe2e75fc32db80cd30bae80ff6795ecdf",
           "history_entry_count": 8,
           "history_sha256": "103442c8a287790e495b61c3b52d6f0f5edf8f337fd50c179451cd2632265e5c",
           "leaderboard_content_sha256": "69477c58bf51b7ba8f8619bc6603cc7eb48e70083e9d7110bb7c94c6ea20400f",
@@ -54152,12 +56138,12 @@
           "path": "runs/engine/unified-live-dashboard-safety-service/unified-engine-status-live.json",
           "source_kind": "runtime_snapshot"
         },
-        "projection_input_manifest_sha256": "bd4269335935d3c24bb4806bce0a9df98efda202412f2265ee8b9373f5070d7e",
-        "snapshot_file_sha256": "b364b274dfbfbe6c30a07e3747ddc3e59ba3acd5b9ddaa5aad20330cc67293dd"
+        "projection_input_manifest_sha256": "9c50f5dd374d9a7e10a108c3e36aeca726d4b90c9bc6577c8a6b0d6dde3b987d",
+        "snapshot_file_sha256": "f38bff054366bb68c4c4ac5ee76d629cc782d38ed47218cb581baeb3137121ae"
       },
-      "pid": 27148,
+      "pid": 29568,
       "pid_identity_verified": true,
-      "refresh_count": 53,
+      "refresh_count": 63,
       "state": "running",
       "stop_reason": null
     }

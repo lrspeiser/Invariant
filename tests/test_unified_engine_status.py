@@ -22,6 +22,9 @@ REPO = Path(__file__).resolve().parents[1]
 SOURCE_PATHS = [
     "runs/engine/rust-streaming-billion-status.json",
     "runs/benchmarks/cpu-real-formula-overlap-15-16.json",
+    "runs/formal-controls-v1/formal-controls-portable.json",
+    "runs/engine/continuous-scientific-pipeline-admission-readiness.json",
+    "runs/engine/continuous-scientific-pipeline-service-readiness.json",
     "runs/engine/composite-promotion-overlay-production-status.json",
     "runs/engine/grammar-v3-parameter-cell-execution-status.json",
     "runs/engine/grammar-v3-parameter-cell-expansion-service-status.json",
@@ -134,6 +137,8 @@ SOURCE_PATHS = [
     "runs/physics-language/quartic-annular-k55-c6-campaign/campaign.json",
     "runs/physics-language/quartic-bounded-frequency-defect-campaign/campaign.json",
     "runs/physics-language/quartic-dyadic-localization-campaign/campaign.json",
+    "runs/physics-language/quartic-finite-sobolev-hierarchy-no-go-campaign/campaign.json",
+    "runs/physics-language/quartic-full-tensor-good-unknown-reconciliation-gate/campaign.json",
     "runs/physics-language/quartic-tc2-ck1-p55-tube-envelope-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-quadratic-deltak-extension-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-diagonal-third-jet-campaign/campaign.json",
@@ -167,6 +172,7 @@ SOURCE_PATHS = [
     "runs/physics-language/quartic-tc2-d4-degree-three-c23-great-circle-escape-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-d4-degree-three-rank-two-xyz-completion-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-d4-degree-three-sixth-frame-completion-campaign/campaign.json",
+    "runs/physics-language/quartic-tc2-d4-rational-chart-determining-gate/campaign.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000000.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000064.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000128.json",
@@ -215,13 +221,48 @@ RECOVERY_CONFIG_PATHS = (
     "configs/backgrounds/quartic_annular_k55_c6_campaign.json",
     "configs/backgrounds/quartic_bounded_frequency_defect_campaign.json",
     "configs/backgrounds/quartic_dyadic_localization_campaign.json",
+    "configs/backgrounds/quartic_finite_sobolev_hierarchy_no_go_campaign.json",
+    "configs/backgrounds/quartic_full_tensor_good_unknown_reconciliation_gate.json",
+)
+FINITE_SOBOLEV_DEPENDENCIES = (
+    "src/sigma_theory_compiler/quartic_finite_sobolev_hierarchy_no_go_campaign.py",
+    "tests/test_quartic_finite_sobolev_hierarchy_no_go_campaign.py",
+)
+FULL_TENSOR_RECONCILIATION_DEPENDENCIES = (
+    "src/sigma_theory_compiler/quartic_full_tensor_good_unknown_reconciliation_gate.py",
+    "tests/test_quartic_full_tensor_good_unknown_reconciliation_gate.py",
 )
 SIXTH_FRAME_CONFIG_PATH = (
     "configs/backgrounds/quartic_tc2_d4_degree_three_sixth_frame_completion_campaign.json"
 )
+RATIONAL_CHART_CONFIG_PATH = (
+    "configs/backgrounds/quartic_tc2_d4_rational_chart_determining_gate.json"
+)
+PORTABLE_FORMAL_DEPENDENCIES = (
+    "configs/formal_controls_portable_report.json",
+    "src/sigma_theory_compiler/formal_controls_portable_report.py",
+    "tests/test_formal_controls_portable_report.py",
+    "runs/formal-controls-v1/formal-controls.json",
+)
+CONTINUOUS_PIPELINE_DEPENDENCIES = (
+    "configs/continuous_scientific_pipeline_admission.json",
+    "src/sigma_theory_compiler/continuous_scientific_pipeline_admission.py",
+    "tests/test_continuous_scientific_pipeline_admission.py",
+    "configs/continuous_scientific_pipeline_service.json",
+    "src/sigma_theory_compiler/continuous_scientific_pipeline_service.py",
+    "tests/test_continuous_scientific_pipeline_service.py",
+    "src/sigma_theory_compiler/persistent_parallel_search.py",
+    "src/sigma_theory_compiler/persistent_parallel_supervisor.py",
+    "src/sigma_theory_compiler/real_formula_execution.py",
+    "src/sigma_theory_compiler/scientific_leaderboards.py",
+    "configs/scientific_leaderboards.json",
+)
 LABELS = [
     "billion_streaming",
     "cpu_real_formula_overlap_benchmark",
+    "formal_controls_portable_report",
+    "continuous_scientific_pipeline_admission",
+    "continuous_scientific_pipeline_service_readiness",
     "promotion_overlay",
     "grammar_parameter_cells",
     "grammar_parameter_cell_expansion_service",
@@ -334,6 +375,8 @@ LABELS = [
     "quartic_annular_k55_c6_campaign",
     "quartic_bounded_frequency_defect_campaign",
     "quartic_dyadic_localization_campaign",
+    "quartic_finite_sobolev_hierarchy_no_go_campaign",
+    "quartic_full_tensor_good_unknown_reconciliation_gate",
     "quartic_ck1_p55_tube_envelope",
     "quartic_tc2_quadratic_deltak_extension",
     "quartic_tc2_diagonal_third_jet",
@@ -367,6 +410,7 @@ LABELS = [
     "quartic_tc2_d4_degree_three_c23_great_circle_escape",
     "quartic_tc2_d4_degree_three_rank_two_xyz_completion",
     "quartic_tc2_d4_degree_three_sixth_frame_completion",
+    "quartic_tc2_d4_rational_chart_determining_gate",
     "quartic_tc2_reranked_obligation_chunk_0",
     "quartic_tc2_reranked_obligation_chunk_64",
     "quartic_tc2_reranked_obligation_chunk_128",
@@ -448,6 +492,36 @@ def _fixture(tmp_path: Path) -> tuple[Path, dict[str, object], Path]:
             predecessor_target.parent.mkdir(parents=True, exist_ok=True)
             if not predecessor_target.exists():
                 shutil.copyfile(predecessor_source, predecessor_target)
+    for relative in PORTABLE_FORMAL_DEPENDENCIES:
+        source = REPO / relative
+        target = tmp_path / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(source, target)
+    for relative in CONTINUOUS_PIPELINE_DEPENDENCIES:
+        source = REPO / relative
+        target = tmp_path / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(source, target)
+    leaderboard_config = json.loads(
+        (REPO / "configs/scientific_leaderboards.json").read_text(encoding="utf-8")
+    )
+    for binding in leaderboard_config["sources"].values():
+        relative = binding["path"]
+        source = REPO / relative
+        target = tmp_path / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        if not target.exists():
+            shutil.copyfile(source, target)
+    for relative in FINITE_SOBOLEV_DEPENDENCIES:
+        source = REPO / relative
+        target = tmp_path / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(source, target)
+    for relative in FULL_TENSOR_RECONCILIATION_DEPENDENCIES:
+        source = REPO / relative
+        target = tmp_path / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(source, target)
     sixth_config_source = REPO / SIXTH_FRAME_CONFIG_PATH
     sixth_config_target = tmp_path / SIXTH_FRAME_CONFIG_PATH
     sixth_config_target.parent.mkdir(parents=True, exist_ok=True)
@@ -462,6 +536,26 @@ def _fixture(tmp_path: Path) -> tuple[Path, dict[str, object], Path]:
         "xyz_predecessor",
     ):
         relative = sixth_config[key]["path"]
+        source = REPO / relative
+        target = tmp_path / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        if not target.exists():
+            shutil.copyfile(source, target)
+    rational_config_source = REPO / RATIONAL_CHART_CONFIG_PATH
+    rational_config_target = tmp_path / RATIONAL_CHART_CONFIG_PATH
+    rational_config_target.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copyfile(rational_config_source, rational_config_target)
+    rational_config = json.loads(rational_config_source.read_text(encoding="utf-8"))
+    for key in (
+        "campaign_source",
+        "campaign_test",
+        "c23_predecessor",
+        "fourth_campaign",
+        "minimal_escape",
+        "sixth_predecessor",
+        "xyz_predecessor",
+    ):
+        relative = rational_config[key]["path"]
         source = REPO / relative
         target = tmp_path / relative
         target.parent.mkdir(parents=True, exist_ok=True)
@@ -973,6 +1067,89 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     assert cpu_overlap["resource_policy_promoted"] is False
     assert cpu_overlap["scientific_pass"] is False
     assert not any(cpu_overlap["seals"].values())
+    portable_formal = core.pop("formal_controls_portable_report")
+    assert portable_formal["decision"] == "pass_portable_semantic_projection_118_controls"
+    assert portable_formal["counts"] == {"total": 118, "passed": 118, "failed": 0}
+    assert portable_formal["portability"] == {
+        "absolute_windows_paths": 0,
+        "absolute_wsl_paths": 0,
+        "host_timestamps_in_semantic_projection": 0,
+        "backend_paths_replaced_by_binary_hashes": True,
+        "project_paths_replaced_by_repository_relative_paths": True,
+        "same_semantics_reproduce_across_root_and_timestamp_changes": True,
+    }
+    assert not any(portable_formal["claim_seals"].values())
+    continuous = core.pop("continuous_scientific_pipeline_admission")
+    assert continuous["decision"] == (
+        "admission_state_machine_ready_continuous_service_loop_not_implemented_not_started"
+    )
+    assert continuous["stage_order"] == [
+        "generate_and_screen",
+        "formal_validate",
+        "rank_project",
+    ]
+    assert continuous["resource_contract"] == {
+        "CPU_backoff_at_or_above_percent": 92,
+        "CPU_generation_workers": 15,
+        "GPU_lane_independent_deferred_single_owner": True,
+        "maximum_actions_per_cycle": 1,
+        "minimum_available_ram_mib": 32_768,
+    }
+    assert continuous["counts"] == {
+        "GPU_owners_acquired": 0,
+        "databases_created_or_opened": 0,
+        "fail_closed_waits": 4,
+        "formal_validation_actions": 1,
+        "generation_actions": 1,
+        "ranking_rebuild_actions": 1,
+        "scenario_controls": 7,
+        "scientific_or_ranking_passes_promoted": 0,
+        "services_started": 0,
+    }
+    assert continuous["scenario_controls"]["formal_complete_rebuild"]["action"] == ("rank_project")
+    assert (
+        continuous["scenario_controls"]["formal_complete_rebuild"]["direct_rank_assignment"]
+        is False
+    )
+    assert not any(continuous["seals"].values())
+    service = core.pop("continuous_scientific_pipeline_service")
+    assert service["decision"] == (
+        "bounded_single_owner_CPU_pipeline_service_implemented_not_started"
+    )
+    assert service["service_contract"] == {
+        "single_owner_O_EXCL_PID_argv_lease": True,
+        "isolated_atomic_JSON_queue": True,
+        "checkpoint_resume": True,
+        "external_stop_request": True,
+        "maximum_actions_per_cycle": 1,
+        "hard_owned_child_action_timeout": True,
+        "maximum_cycles": 16,
+        "maximum_service_seconds": 600,
+        "maximum_action_seconds": 120,
+    }
+    assert service["resource_contract"] == {
+        "cpu_workers": 15,
+        "gpu_workers": 0,
+        "CPU_backoff_percent": 92,
+        "minimum_RAM_MiB": 32_768,
+    }
+    assert service["scientific_contract"] == {
+        "real_formula_evaluator_allowlisted": True,
+        "formal_backend_available": False,
+        "formal_stage_fails_closed": True,
+        "ranking_is_request_only": True,
+        "direct_rank_assignment": False,
+    }
+    assert service["execution_state"] == {
+        "service_started": False,
+        "cycles_executed": 0,
+        "queue_created": False,
+        "live_SQLite_accessed": False,
+    }
+    assert service["first_remaining_blocker"] == (
+        "register_a_candidate_specific_formal_backend_before_any_rank_rebuild_can_be_admitted"
+    )
+    assert not any(service["seals"].values())
     aether_boundary = core["einstein_aether_coupling_boundary_kkt"]
     assert aether_boundary["decision_counts"] == {"blocked": 1, "pass": 0, "reject": 0}
     assert aether_boundary["gate_counts"] == {
@@ -1351,7 +1528,9 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
         "eq35_middle_h",
         "eq35_printed_planck",
     ]
-    assert all(record["candidate_decision"] == "blocked" for record in projective["candidate_records"])
+    assert all(
+        record["candidate_decision"] == "blocked" for record in projective["candidate_records"]
+    )
     assert not any(projective["claim_seals"].values())
     assert not any(projective["data_seals"].values())
     observable = transactional["transaction_event_observable_exposure"]
@@ -2115,11 +2294,67 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
         "rejected": 0,
         "selected": 12,
     }
-    assert recovery["annular_k55_c6"]["counts"]["principal_composition_constants_instantiated"] == 12
+    assert (
+        recovery["annular_k55_c6"]["counts"]["principal_composition_constants_instantiated"] == 12
+    )
     assert recovery["annular_k55_c6"]["counts"]["full_dyadic_energies_closed"] == 0
-    assert recovery["bounded_frequency_defect"]["counts"]["compact_frequency_defect_lemmas_passed"] == 12
+    assert (
+        recovery["bounded_frequency_defect"]["counts"]["compact_frequency_defect_lemmas_passed"]
+        == 12
+    )
     assert recovery["dyadic_localization"]["counts"]["dyadic_local_frameworks_passed"] == 12
     assert recovery["dyadic_localization"]["counts"]["full_H7_commutators_closed"] == 0
+    finite = recovery["finite_sobolev_hierarchy_no_go"]
+    assert finite["artifact_binding"] == {
+        "path": (
+            "runs/physics-language/quartic-finite-sobolev-hierarchy-no-go-campaign/campaign.json"
+        ),
+        "file_sha256": "404a869cd676fb57389535c74ff4fea73ec1ae3da43cad1ff74951f817ae1308",
+        "content_sha256": "a74fb10a523cef935695d99fff595de7aa51a8ead322171373827c8b6db9288a",
+    }
+    assert finite["decision_counts"] == {"pass": 0, "reject": 0, "blocked": 12}
+    assert finite["gate_counts"]["nonzero_candidate_D2_slices"] == 12
+    assert finite["gate_counts"]["autonomous_finite_Sobolev_closures"] == 0
+    assert finite["gate_counts"]["global_H7_closures"] == 0
+    assert finite["gate_counts"]["lifespans_proved"] == 0
+    assert finite["first_blocker"] == (
+        "candidate_bound_full_tensor_paradifferential_cancellation_or_derivative_loss_"
+        "evolution_theorem_for_the_coefficient_high_state_low_branch"
+    )
+    assert all(row["decision"] == "blocked" for row in finite["candidate_records"])
+    assert all(not row["candidate_rejection_authorized"] for row in finite["candidate_records"])
+    assert not any(finite["claim_seals"].values())
+    assert not any(finite["data_seals"].values())
+    reconciliation = recovery["full_tensor_good_unknown_reconciliation"]
+    assert reconciliation["artifact_binding"] == {
+        "path": (
+            "runs/physics-language/quartic-full-tensor-good-unknown-reconciliation-gate/"
+            "campaign.json"
+        ),
+        "file_sha256": "cf7957c2efad52a1fa91761fc6259e17a58011cc6093365f9e86e8e7eea0dfd6",
+        "content_sha256": "9994df86948a4419dd999b66610e9fea847dece6d5300f68152e942ffb2b87c8",
+    }
+    assert reconciliation["decision"] == "representative_slice_cancelled_full_D2_identity_blocked"
+    assert reconciliation["decision_counts"] == {"pass": 0, "reject": 0, "blocked": 12}
+    assert reconciliation["gate_counts"]["two_channel_four_entry_slice_cancellations_proved"] == 12
+    assert reconciliation["gate_counts"]["representative_D2_entries_replayed"] == 48
+    assert reconciliation["gate_counts"]["full_D1_entries_per_candidate"] == 1683
+    assert reconciliation["gate_counts"]["closed_world_ordered_D2_target_per_candidate"] == 257499
+    assert reconciliation["gate_counts"]["complete_ordered_D2_manifests_registered"] == 0
+    assert reconciliation["gate_counts"]["full_high_atom_families_closed"] == 0
+    assert reconciliation["first_blocker"] == (
+        "complete_candidate_bound_ordered_D2F_component_manifest_and_full_high_atom_"
+        "good_unknown_identity_not_registered"
+    )
+    assert all(
+        row["two_channel_modified_slice"]["all_four_entries_cancelled"]
+        and not row["two_channel_modified_slice"]["residual_entries"]
+        and row["candidate_decision"] == "blocked"
+        and not row["candidate_rejection_authorized"]
+        for row in reconciliation["candidate_records"]
+    )
+    assert not any(reconciliation["claim_seals"].values())
+    assert not any(reconciliation["data_seals"].values())
     assert all(
         not any(lane["data_seals"].values())
         for name, lane in recovery.items()
@@ -2372,12 +2607,34 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     assert sixth["exact_range_classification"]["normalized_target_sha256"] == (
         "8bf2ca4b022f46411344c1665879dbb60b71229572ec72d9b89867589af54abe"
     )
-    assert sixth["exact_sphere_extension"]["envelope"] == (
-        "a6(n)=(3/2)*n3*(4*n1+n2-3*n3)"
-    )
+    assert sixth["exact_sphere_extension"]["envelope"] == ("a6(n)=(3/2)*n3*(4*n1+n2-3*n3)")
     assert sixth["corrected_result"]["candidate_compatibilities"] == 12
     assert sixth["claims"]["all_six_selector_direction_certificates_closed"] is True
     assert sixth["claims"]["full_direction_sphere_D4_compatibility_proved"] is False
+    rational = core["quartic_nonlinear_closure"]["fourth_jet_range_obligations"][
+        "canonical_obstruction_certificate"
+    ].pop("rational_chart_determining_gate")
+    assert rational["counts"]["rational_SO3_charts"] == 2
+    assert rational["counts"]["real_sphere_uncovered_points"] == 0
+    assert rational["counts"]["directional_recurrence_evaluations"] == 15
+    assert rational["counts"]["eigenspace_compressions_checked"] == 84
+    assert rational["counts"]["candidate_compatibilities"] == 0
+    assert rational["counts"]["candidate_obstructions"] == 12
+    assert rational["counts"]["cleared_constant_numerator_polynomials"] == 12
+    assert rational["atlas"]["common_denominator"] == "1+u^2+v^2"
+    assert rational["atlas"]["union_covers_real_S2"] is True
+    assert rational["counterexample_selector"]["chart_coordinates"] == ["2/5", "1/5"]
+    assert rational["counterexample_selector"]["direction"] == ["2/3", "2/3", "1/3"]
+    assert rational["full_recurrence"]["current_global_symbol_rank"] == 5
+    assert rational["exact_rational_obstruction"]["candidate_obstructions"] == 12
+    assert all(
+        row["zero_speed_cleared_numerator"]["numerator_polynomial_total_degree_uv"] == 0
+        for row in rational["exact_rational_obstruction"]["candidate_records"]
+    )
+    assert (
+        rational["claims"]["current_combined_symbol_full_sphere_D4_compatibility_disproved"] is True
+    )
+    assert rational["claims"]["full_direction_sphere_D4_compatibility_proved"] is False
     assert core["quartic_nonlinear_closure"] == {
         "candidate_count": 12,
         "coordinate_pair_partition": {
@@ -2640,9 +2897,10 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                     ),
                 },
                 "next_gate": (
-                    "Audit the next deterministic exact rational sphere frame or prove a finite "
-                    "generic-direction determining theorem; then establish pseudodifferential "
-                    "constraint, commutator, boundary-energy and local/covariant admission."
+                    "Construct a new topology-changing angular correction nonzero at "
+                    "n=(2/3,2/3,1/3) while preserving the six certified frames, or revise the "
+                    "current symbol class; then repeat rational-chart counterexample search "
+                    "before any PDE admission."
                 ),
             },
             "full_fourth_jet_range_closed": False,
@@ -2657,7 +2915,7 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
             "lifespans_proved": 0,
         },
         "first_missing_premise": (
-            "next_deterministic_exact_rational_sphere_frame_or_finite_generic_direction_determining_theorem"
+            "new_topology_changing_angular_correction_preserving_six_certified_frames_and_nonzero_at_rational_counterexample"
         ),
     }
     assert core["cross_pipeline_total"]["status"] == "not_computed"
@@ -2779,9 +3037,9 @@ def test_sixth_frame_semantic_tamper_fails_closed_after_resealing(
     elif mutation == "completion_pair":
         completion["minimal_rank_two_completion"]["coordinate_pairs"][0] = [10, 21]
     elif mutation == "term_record":
-        completion["minimal_rank_two_completion"]["term_records"][0][
-            "linear_curl_sha256"
-        ] = "0" * 64
+        completion["minimal_rank_two_completion"]["term_records"][0]["linear_curl_sha256"] = (
+            "0" * 64
+        )
     elif mutation == "extension_definition":
         completion["exact_sphere_extension"]["definition"] = "mutated"
     elif mutation == "negative_control_key":
@@ -2802,6 +3060,41 @@ def test_sixth_frame_semantic_tamper_fails_closed_after_resealing(
     spec["content_sha256"] = artifact["content_sha256"]
 
     with pytest.raises(ValueError, match="sixth-frame"):
+        build_unified_snapshot(root, config, physical_gpu={"availability": "unavailable"})
+
+
+@pytest.mark.parametrize(
+    "mutation",
+    ["candidate_id", "compression_hash", "numerator_hash", "symbolic_reduction", "scope"],
+)
+def test_rational_chart_semantic_tamper_fails_closed_after_resealing(
+    tmp_path: Path, mutation: str
+) -> None:
+    root, config, _ = _fixture(tmp_path)
+    label = "quartic_tc2_d4_rational_chart_determining_gate"
+    spec = next(source for source in config["sources"] if source["label"] == label)
+    target = root / spec["path"]
+    artifact = json.loads(target.read_text(encoding="utf-8"))
+    record = artifact["exact_gate"]["exact_rational_obstruction"]["candidate_records"][0]
+    if mutation == "candidate_id":
+        record["candidate_id"] = "invented-candidate"
+    elif mutation == "compression_hash":
+        record["nonzero_equal_eigenspace_compressions"]["0"]["sha256"] = "0" * 64
+    elif mutation == "numerator_hash":
+        record["zero_speed_cleared_numerator"]["numerator_sha256"] = "0" * 64
+    elif mutation == "symbolic_reduction":
+        artifact["exact_gate"]["symbolic_chart_reduction"][
+            "full_polynomial_identity_reduction_required_after_counterexample"
+        ] = True
+    else:
+        artifact["scope"] = "all PDE and global claims proved"
+    body = {key: value for key, value in artifact.items() if key != "content_sha256"}
+    artifact["content_sha256"] = hashlib.sha256(_canonical(body)).hexdigest()
+    target.write_text(json.dumps(artifact, indent=2) + "\n", encoding="utf-8")
+    spec["file_sha256"] = hashlib.sha256(target.read_bytes()).hexdigest()
+    spec["content_sha256"] = artifact["content_sha256"]
+
+    with pytest.raises(ValueError, match="rational-chart"):
         build_unified_snapshot(root, config, physical_gpu={"availability": "unavailable"})
 
 
@@ -2896,25 +3189,32 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
         REPO / "runs/engine/unified-engine-dashboard.html"
     ).stat().st_size < DEFAULT_MAXIMUM_OUTPUT_BYTES
     assert live["core_content_sha256"] in dashboard
-    static_recovery = artifact["core"]["quartic_nonlinear_closure"][
-        "recovery_operator_calculus"
-    ]
-    live_recovery = live["core"]["quartic_nonlinear_closure"][
-        "recovery_operator_calculus"
-    ]
+    static_recovery = artifact["core"]["quartic_nonlinear_closure"]["recovery_operator_calculus"]
+    live_recovery = live["core"]["quartic_nonlinear_closure"]["recovery_operator_calculus"]
     assert static_recovery == live_recovery
     assert static_recovery["all_candidate_sets_equal"] is True
     assert len(static_recovery["ordered_candidate_ids"]) == 12
-    assert static_recovery["anti_wick_composition_prerequisite"]["artifact_binding"][
-        "content_sha256"
-    ] == "02c98ac16a6cd4bc3871003fb77918e21666a60fec65bc28c85484a6011c541d"
-    assert static_recovery["annular_k55_c6"]["counts"][
-        "principal_composition_constants_instantiated"
-    ] == 12
+    assert (
+        static_recovery["anti_wick_composition_prerequisite"]["artifact_binding"]["content_sha256"]
+        == "02c98ac16a6cd4bc3871003fb77918e21666a60fec65bc28c85484a6011c541d"
+    )
+    assert (
+        static_recovery["annular_k55_c6"]["counts"]["principal_composition_constants_instantiated"]
+        == 12
+    )
     assert static_recovery["annular_k55_c6"]["counts"]["full_dyadic_energies_closed"] == 0
-    assert static_recovery["dyadic_localization"]["counts"][
-        "full_H7_commutators_closed"
-    ] == 0
+    assert static_recovery["dyadic_localization"]["counts"]["full_H7_commutators_closed"] == 0
+    assert static_recovery["finite_sobolev_hierarchy_no_go"]["decision_counts"] == {
+        "pass": 0,
+        "reject": 0,
+        "blocked": 12,
+    }
+    assert (
+        static_recovery["finite_sobolev_hierarchy_no_go"]["gate_counts"][
+            "autonomous_finite_Sobolev_closures"
+        ]
+        == 0
+    )
     assert "Quartic operator recovery" in dashboard
     assert live["core"]["followup_service"]["followup_decision_counts"] == {
         "blocked": 8,
@@ -3011,7 +3311,13 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "compact-frequency defect coefficient <code>4/3</code>" in dashboard
     assert "2^-15" in dashboard
     assert "targeted principal/local results only" in dashboard
-    assert "H6-versus-H7 wave-packet counterexample" in dashboard
+    assert "exact finite-hierarchy witness" in dashboard
+    assert "a_N=N^(1-s) exp(iNx_1)a_0" in dashboard
+    assert "unmodified variable" in dashboard
+    assert "Two-channel slice cancellations" in dashboard
+    assert "s01[10]/H_01" in dashboard
+    assert "257499" in dashboard
+    assert "four-entry principal slice" in dashboard
     assert "Diagonal third jets" in dashboard
     assert "Reference mixed sector" in dashboard
     assert "Evidence rank" in dashboard
@@ -3029,6 +3335,17 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "24/24" in dashboard
     assert "coefficient normalization only" in dashboard
     assert "CPU real-formula overlap benchmark" in dashboard
+    assert "Portable formal-control evidence" in dashboard
+    assert "118 / 118" in dashboard
+    assert "host-local execution receipt remains separate" in dashboard
+    assert "Continuous scientific pipeline admission" in dashboard
+    assert "generate → formal → rank" in dashboard
+    assert "readiness only; no service or database was started" in dashboard
+    assert "Bounded continuous CPU service" in dashboard
+    assert "implemented / not started" in dashboard
+    assert "exactly 15 owned real-formula workers" in dashboard
+    assert "none_fail_closed" in dashboard
+    assert "never assign rank directly" in dashboard
     assert "22,478,848 unique candidate-grid evaluations" in dashboard
     assert "89.4% median and 100% peak device-wide CPU" in dashboard
     assert "triggering backoff and no persistent resource-policy change" in dashboard
@@ -3164,7 +3481,12 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "a6(n)=(3/2)n3(4n1+n2-3n3)" in dashboard
     assert "Six exact directions are now certified" in dashboard
     assert "does not determine the full sphere" in dashboard
-    assert "finite determining theorem" in dashboard
+    assert "TC2 rational-chart full-sphere counterexample" in dashboard
+    assert "(u,v)=(2/5,1/5)" in dashboard
+    assert "n=(2/3,2/3,1/3)" in dashboard
+    assert "rank-four, 56-entry zero-speed compression" in dashboard
+    assert "disproves full-sphere D4 compatibility of the current combined symbol" in dashboard
+    assert "does not rule out a new preserving topology-changing angular correction" in dashboard
     assert "DeltaB23(n)=(25/16)n3^2*w23*(n3 e21-n2 e32)^T" in dashboard
     assert "At this predecessor milestone four directions were certified" in dashboard
     assert "the next certificate resolves that frame" in dashboard
@@ -3282,6 +3604,7 @@ def test_standalone_refresh_and_dashboard_keep_watchdog_database_read_only(
                 "runs/engine/dashboard.html",
                 "--maximum-output-bytes",
                 "1048576",
+                "--disable-leaderboards",
                 "--disable-gpu-sample",
                 "--sampled-at-utc",
                 "2026-08-10T20:10:00+00:00",
