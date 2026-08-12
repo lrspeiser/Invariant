@@ -3731,8 +3731,12 @@ def test_standalone_refresh_and_dashboard_keep_watchdog_database_read_only(
     assert len(dashboard_path.read_bytes()) < 1048576
     assert "Scheduler lanes" in dashboard
     assert "Physical hardware sample" in dashboard
-    assert "Physical CPU utilization" in dashboard
-    assert "CPU topology" in dashboard
+    if snapshot["volatile"]["physical_cpu"]["availability"] == "available":
+        assert "Physical CPU utilization" in dashboard
+        assert "CPU topology" in dashboard
+    else:
+        assert "Physical CPU telemetry" in dashboard
+        assert snapshot["volatile"]["physical_cpu"]["reason"] in dashboard
     assert "C:\\" not in dashboard
 
     assert (
