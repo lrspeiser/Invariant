@@ -616,25 +616,25 @@ The result proves the leaf's full Merkle path from the registered batch index an
 preserved receipt decisions and blockers to match their new evidence. Its 11,225 count is explicitly
 an immutable partition overlay; the original global queue root is not rewritten or mislabeled as a
 new cumulative ledger.
-The cumulative formal-receipt cursor now points at immutable partition 0007 and proves a gap-free,
-nonoverlapping seven-leaf prefix. The immutable source history from the two-leaf cumulative worker
-through partitions 0003--0007 remains independently hash-bound and replayable; the compact cursor
-does not discard or rewrite any earlier ledger. The prefix contains 104 checked candidates: 102
-newly processed plus two field-reconciled preserved receipts, all exact mapper rejects at the
-reviewed boundary, with 11,145 candidate-specific receipts still pending. Partition 0006 added two
-rejects from `[1,004,905,984,1,004,908,032)` and is sealed at
-`runs/engine/continuous-scientific-pipeline-epoch-003-cumulative-formal-partition-0006/result.json`
-(`32d4e494cdbad2bd1ee894faf82ab1effc59db113251f1e2ac0f8c1a3d08bc35`, content
-`763b4f909520e231d7abc50eda63e69e17a1fe3481ef42c4c2d8ce1abc1b2e2a`). Partition 0007 then
-added 20 rejects from `[1,004,908,032,1,004,909,056)` and is sealed at
-`runs/engine/continuous-scientific-pipeline-epoch-003-cumulative-formal-partition-0007/result.json`
-(`7fce1ee021f694a19c2afc5300e6fb6e8f7a68d4daa9700275cec44cbb57f403`, content
-`8aae17e2a0fc13e645b6a63df9b8ccbd3d0cff6a03103ed3fed3f7a7eb63f069`). The catalog root remains
-fixed while every partition-summary, cumulative-receipt, and processed-ordinal root advances
-without overlaps or gaps. Each successor used one owned CPU child, zero GPU workers, and the
-cleanup-inclusive 120-second formal bound. Global formal/comparable completeness, theory-wide
-rejection, formal passes, leaderboard rebuilds, ranks, promotions, live SQLite access, observations,
-and GPU access remain false.
+The cumulative formal-receipt cursor now points at the immutable generalized batch result and proves
+a gap-free, nonoverlapping nine-leaf prefix. The independently replayable partition history remains
+registered through P0007, while one owned CPU child advanced leaves 8 and 9 together over intervals
+`[1,004,909,056,1,004,910,080)` and `[1,004,910,080,1,004,914,176)`. Those leaves add 31 exact
+mapper rejects, taking the compact cursor to 135 checked candidates: 133 newly processed plus two
+field-reconciled preserved receipts, with 11,114 candidate-specific receipts still pending. The
+checked core retains only the bounded P0005--P0007 cursor history; every older immutable ledger and
+the batch artifacts remain independently registered and replayable rather than being copied into
+the projection. The batch result is sealed at
+`runs/engine/continuous-scientific-pipeline-epoch-003-formal-receipt-batch-0001/result.json`
+(`2a5efdd8d0a27cde333f32c562ad9f5d65915731d637b09690dfcac53235fcd9`, content
+`1da334a6d14944f9cdf9a5cdacf55480c5440dbd9ae970825f232399785c782d`); config/source/test hashes
+are `5783d7835114dc820077eee7eee7b5bf2d8da569de42d621fcade07bd73ab18b` /
+`dafcdeca518a03f3f23c378893aee41a2b4750bae4f8d916c1be495a214eed9f` /
+`5bb96d1b4094d23647b98fe38c8943f92eb391adba3eeaaa822d0e712dd43713`.
+The catalog root remains fixed while the partition-summary, cumulative-receipt, and processed-ordinal
+roots advance without overlaps or gaps. The batch uses zero GPU workers and the cleanup-inclusive
+120-second formal bound. Global formal/comparable completeness, theory-wide rejection, formal passes,
+leaderboard rebuilds, ranks, promotions, live SQLite access, observations, and GPU access remain false.
 The new candidate-bound formula stress lane drives the same RTX 5090 much harder on dense numerical
 work: all 163 materialized Euler projections were checked on 5,341,184 deterministic synthetic
 candidate-point pairs against CPU evaluation, with 5,216 additional exact-rational sentinels and zero
@@ -1671,6 +1671,24 @@ observational claims remain fail-closed. Artifact file/content hashes are
 source/config/test hashes are `cd00e604fa1f06a14f22790007f2ff54556dfb44dbe622f3e0094ace0b38139f` /
 `c5d8ec17f555f9380e890eaa444511b11c04059e32bdf3b5aa3ba38a9dd1e471` /
 `65beaefd420b521f9c21cb4acd6939a2211634c113974604c885ebfb350fe65c`.
+
+The fitted output-connection covariant-origin audit then binds all 12 registered covariant-action
+specializations and all 12 complete 1,683-entry D1 source Jacobians. Their closed-world certificate
+schemas have exactly 13 and 18 keys. Across the 22 fitted connection coefficients per candidate,
+all 264 coefficients are audited, but zero carry an action/source arithmetic-root provenance edge;
+the registered schemas also contain zero output-bundle connection functors, zero corrected
+second-source entries, and zero complete component Frechet D2--D4 tensors. The numerical reference
+fit is retained, but its covariant origin is not identified by the registered action plus D1 evidence.
+This is an evidence-provenance boundary, not a physical or covariant nonexistence theorem: all 12
+candidates remain blocked, none is rejected, zero D2F entries are admitted, and the remaining
+106,920 principal high-atom entries, H7, PDE, lifespan, and observational claims remain fail-closed.
+The first blocker is a registered covariant second-source jet or explicit output-bundle connection
+functor with 22-coefficient action-root provenance. Artifact file/content hashes are
+`828b3a128031011d7628745c22b75a828f98288392f16d32ae2354b589cb9728` /
+`1e96b08e8d451a6a8baed04757c9c6ee85b886ffbfeffadf526678ed27a2007f`;
+source/config/test hashes are `ff6f11a7b4b5bbc90b418fcee90e5025c7e4bb8f78769243f0307193aa659443` /
+`692846027fce5beb7ac212a710c15e212507ce8670f99decbfbfe13233a79670` /
+`05c358de6991e4abf5d452feb4852a8fbca36cb55ed121bbd17bf93bb2d4b977`.
 
 The component campaign now proves every entry of the principal identity
 `D_Y E55 J = i P55` for all 12 candidates and materializes the complete first source Jacobian.

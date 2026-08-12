@@ -20,7 +20,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  portable-fail-closed-core:
+  portable-continuous-and-gates:
     runs-on: ubuntu-24.04
     timeout-minutes: 60
     defaults:
@@ -41,24 +41,65 @@ jobs:
         run: >-
           python -m ruff check
           src/sigma_theory_compiler/continuous_formula_formal_backend.py
+          src/sigma_theory_compiler/continuous_scientific_pipeline_formal_receipt_batch_worker.py
           src/sigma_theory_compiler/continuous_scientific_pipeline_service.py
+          src/sigma_theory_compiler/quartic_fitted_output_connection_covariant_origin_audit.py
           src/sigma_theory_compiler/quartic_scalar_hessian_d2_integrability_gate.py
           src/sigma_theory_compiler/quartic_tc2_d4_degree_five_counterexample_escape_campaign.py
           src/sigma_theory_compiler/unified_engine_status.py
           src/sigma_theory_compiler/unified_engine_dashboard.py
           tests/test_continuous_formula_formal_backend.py
+          tests/test_continuous_scientific_pipeline_formal_receipt_batch_worker.py
           tests/test_continuous_scientific_pipeline_service.py
+          tests/test_quartic_fitted_output_connection_covariant_origin_audit.py
           tests/test_quartic_scalar_hessian_d2_integrability_gate.py
           tests/test_quartic_tc2_d4_degree_five_counterexample_escape_campaign.py
           tests/test_materialize_hash_bound_worktree.py
           tests/test_unified_engine_status.py
+          scripts/run_pytest_shard.py
       - name: Verify continuous execution and exact gate artifacts
         run: >-
           python -m pytest
           tests/test_continuous_formula_formal_backend.py
+          tests/test_continuous_scientific_pipeline_formal_receipt_batch_worker.py
           tests/test_continuous_scientific_pipeline_service.py
+          tests/test_quartic_fitted_output_connection_covariant_origin_audit.py
           tests/test_quartic_scalar_hessian_d2_integrability_gate.py
           tests/test_quartic_tc2_d4_degree_five_counterexample_escape_campaign.py
           tests/test_materialize_hash_bound_worktree.py
+          -vv --durations=20
+
+  portable-unified-status:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]
+    defaults:
+      run:
+        working-directory: research/sigma-theory-compiler
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: research/sigma-theory-compiler/pyproject.toml
+      - name: Materialize registered LF and CRLF provenance bytes
+        run: python scripts/materialize_hash_bound_worktree.py
+      - name: Install the compiler and test tools
+        run: python -m pip install --editable ".[dev]"
+      - name: Check unified source
+        run: >-
+          python -m ruff check
+          src/sigma_theory_compiler/unified_engine_status.py
+          src/sigma_theory_compiler/unified_engine_dashboard.py
           tests/test_unified_engine_status.py
-          -q
+          scripts/run_pytest_shard.py
+      - name: Verify portable unified status and dashboard
+        run: >-
+          python scripts/run_pytest_shard.py
+          --test-file tests/test_unified_engine_status.py
+          --shard-index ${{ matrix.shard }}
+          --shard-count 18

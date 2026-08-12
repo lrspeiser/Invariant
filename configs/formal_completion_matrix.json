@@ -338,6 +338,14 @@
         ,"runs/engine/continuous-scientific-pipeline-epoch-003-cumulative-formal-partition-0007/partition-0007.json"
         ,"runs/engine/continuous-scientific-pipeline-epoch-003-cumulative-formal-partition-0007/cumulative-ledger.json"
         ,"runs/engine/continuous-scientific-pipeline-epoch-003-cumulative-formal-partition-0007/result.json"
+        ,"src/sigma_theory_compiler/continuous_scientific_pipeline_formal_receipt_batch_worker.py"
+        ,"configs/continuous_scientific_pipeline_epoch_003_formal_receipt_batch_0001.json"
+        ,"tests/test_continuous_scientific_pipeline_formal_receipt_batch_worker.py"
+        ,"runs/engine/continuous-scientific-pipeline-epoch-003-formal-receipt-batch-0001/preflight.json"
+        ,"runs/engine/continuous-scientific-pipeline-epoch-003-formal-receipt-batch-0001/leaf-000008.json"
+        ,"runs/engine/continuous-scientific-pipeline-epoch-003-formal-receipt-batch-0001/leaf-000009.json"
+        ,"runs/engine/continuous-scientific-pipeline-epoch-003-formal-receipt-batch-0001/cumulative-cursor.json"
+        ,"runs/engine/continuous-scientific-pipeline-epoch-003-formal-receipt-batch-0001/result.json"
       ],
       "implemented": [
         "restart-safe bounded SQLite queues, deterministic seeds, leases, checkpoints, crash recovery, periodic refill, and detached start/status/stop/resume/export lifecycle",
@@ -407,7 +415,7 @@
         ,"a bounded candidate-specific replay of the six Epoch 003 pass batches that confirms 11,439 survivors and durably evaluates 192 exact ordinals; every enumerated candidate hard-rejects at the covariant mapper for a forbidden baryonic atom, while the overall campaign remains blocked rather than globally rejected because all six manifests are incomplete and 11,247 survivors still require paginated evaluation"
         ,"a complete CPU-only pagination of all 11,439 sampled-static survivors into 649 sealed leaves of at most 32 records under 90 original worker roots, with one durable formal-receipt queue entry per survivor, 192 preserved hard rejects, 11,247 pending candidate-specific receipts and zero rank or promotion"
         ,"a bounded first formal-receipt partition that closes one complete 24-candidate leaf as 22 new plus two reconciled exact hard rejects, reduces the global pending queue from 11,247 to 11,225, and keeps global formal completeness, comparable evidence, leaderboard rebuild, rank and promotion false"
-        ,"a compact cumulative formal-receipt cursor at immutable partition 0007 that validates the gap-free nonoverlapping seven-leaf prefix and retains the independently replayable partition-0002-through-0007 source history; it records 104 checked candidates as 102 new plus two reconciled exact mapper rejects, leaves 11,145 receipts pending, and keeps global formal completeness, comparable evidence, theory-wide rejection, formal pass, leaderboard rebuild, rank and promotion false"
+        ,"a compact cumulative formal-receipt cursor at immutable batch 0001 that validates the gap-free nonoverlapping nine-leaf prefix after one generalized two-leaf owned-child execution and retains independently replayable immutable predecessor history; it records 135 checked candidates as 133 new plus two reconciled exact mapper rejects, leaves 11,114 receipts pending, and keeps global formal completeness, comparable evidence, theory-wide rejection, formal pass, leaderboard rebuild, rank and promotion false"
       ],
       "scalable_formal_provenance_bindings": {
         "continuous_scientific_pipeline_admission": {
@@ -707,29 +715,64 @@
           "candidate_promotions": 0,
           "first_blocker": "11145_candidate_specific_formal_receipts_pending"
         },
+        "continuous_scientific_pipeline_epoch_003_formal_receipt_batch_0001": {
+          "path": "runs/engine/continuous-scientific-pipeline-epoch-003-formal-receipt-batch-0001/result.json",
+          "file_sha256": "2a5efdd8d0a27cde333f32c562ad9f5d65915731d637b09690dfcac53235fcd9",
+          "content_sha256": "1da334a6d14944f9cdf9a5cdacf55480c5440dbd9ae970825f232399785c782d",
+          "config_sha256": "5783d7835114dc820077eee7eee7b5bf2d8da569de42d621fcade07bd73ab18b",
+          "source_sha256": "dafcdeca518a03f3f23c378893aee41a2b4750bae4f8d916c1be495a214eed9f",
+          "test_sha256": "5bb96d1b4094d23647b98fe38c8943f92eb391adba3eeaaa822d0e712dd43713",
+          "preflight_file_sha256": "71207553f77fb98b95882c838a0b3a6365b33cd55582835ab9cbbb3c44305452",
+          "leaf_000008_file_sha256": "beab52b0f01513fb0cbabdbcbec5b75cd211afe789f558dcafa2528cc19f6dfa",
+          "leaf_000009_file_sha256": "be1968ec5ae02719f1261f31cc350434d617a88508bf8bd4845dc299bb6792ca",
+          "cumulative_cursor_file_sha256": "7b499139ec0646f9e815de07c385eee3b0b4642f21d894c628542ed07cc2514d",
+          "processed_partition_prefix_length": 9,
+          "processed_leaf_pages": 9,
+          "batch_leaf_catalog_indices": [7, 8],
+          "cumulative_formally_checked_candidates": 135,
+          "cumulative_newly_processed_candidates": 133,
+          "cumulative_reconciled_preserved_candidates": 2,
+          "cumulative_candidate_rejects": 135,
+          "cumulative_candidate_blocks": 0,
+          "cumulative_candidate_passes": 0,
+          "initial_pending_formal_receipts": 11247,
+          "remaining_pending_formal_receipts": 11114,
+          "pending_leaf_catalog_root_sha256": "f4f7a85c8ad520ceec23eef86a31cd4d757524c0d8e0b96f94ca5507d2dfd7e7",
+          "processed_partition_summaries_root_sha256": "5d8d5b40e4f1b5b69ec55ce2b62c23d6f6d7459956dca93d4e951c0f9cde4f4e",
+          "cumulative_formal_receipt_ledger_root_sha256": "1c7c2b923ac1f99d50c49ba7362987f71dc5588182be58a17fe3cb87ee156ff9",
+          "cumulative_newly_processed_ordinals_root_sha256": "e26dfd86223a9ffd78df4ff4aa333c277816d9e72e95aacd3a4e282eb17c4e1c",
+          "complete_processed_partition_prefix": true,
+          "complete_global_formal_receipts": false,
+          "complete_comparable_evidence": false,
+          "formal_passes": 0,
+          "rank_assignments": 0,
+          "candidate_promotions": 0,
+          "first_blocker": "11114_candidate_specific_formal_receipts_pending"
+        },
         "continuous_scientific_pipeline_epoch_003_formal_receipt_cursor": {
-          "current_source": "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0007",
-          "current_partition_sequence": 7,
+          "current_source": "continuous_scientific_pipeline_epoch_003_formal_receipt_batch_0001",
+          "current_partition_sequence": 9,
           "retained_history_sources": [
             "continuous_scientific_pipeline_epoch_003_cumulative_formal_receipt_worker",
             "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0003",
             "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0004",
             "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0005",
             "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0006",
-            "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0007"
+            "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0007",
+            "continuous_scientific_pipeline_epoch_003_formal_receipt_batch_0001"
           ],
-          "current_file_sha256": "7fce1ee021f694a19c2afc5300e6fb6e8f7a68d4daa9700275cec44cbb57f403",
-          "current_content_sha256": "8aae17e2a0fc13e645b6a63df9b8ccbd3d0cff6a03103ed3fed3f7a7eb63f069",
-          "cumulative_formally_checked_candidates": 104,
-          "cumulative_newly_processed_candidates": 102,
+          "current_file_sha256": "2a5efdd8d0a27cde333f32c562ad9f5d65915731d637b09690dfcac53235fcd9",
+          "current_content_sha256": "1da334a6d14944f9cdf9a5cdacf55480c5440dbd9ae970825f232399785c782d",
+          "cumulative_formally_checked_candidates": 135,
+          "cumulative_newly_processed_candidates": 133,
           "cumulative_reconciled_preserved_candidates": 2,
-          "remaining_pending_formal_receipts": 11145,
+          "remaining_pending_formal_receipts": 11114,
           "complete_global_formal_receipts": false,
           "complete_comparable_evidence": false,
           "formal_passes": 0,
           "rank_assignments": 0,
           "candidate_promotions": 0,
-          "first_blocker": "11145_candidate_specific_formal_receipts_pending"
+          "first_blocker": "11114_candidate_specific_formal_receipts_pending"
         },
         "cpu_real_formula_overlap_benchmark": {
           "path": "runs/benchmarks/cpu-real-formula-overlap-15-16.json",
@@ -1758,6 +1801,10 @@
         "status": "implemented_candidate_bound_Pother_one_form_algebraic_connection_fit_covariant_origin_fail_closed",
         "scope": "For all 12 candidates, the registered full 11x153 source Jacobian projects an exact 11x90 Pother one-form with 990 entries, rank 10 and 93 nonzero values. The complete 8910-equation/11979-unknown two-sided reference system has coefficient and augmented rank 1870, affine dimension 10109, and a deterministic 22-coefficient free-variable-zero witness with zero residual. The fitted output connection is not derived from the covariant action or a corrected source jet, so zero physical connections and zero cross-slice D2F entries are admitted; all candidates remain blocked without rejection. The remaining 106920 principal high-atom entries, full D2F, H7, PDE and lifespan remain fail-closed."
       },
+      "fitted_output_connection_covariant_origin": {
+        "status": "implemented_registered_action_D1_source_origin_nonidentifiability_D2F_fail_closed",
+        "scope": "For all 12 candidates, exact binding of 12 covariant-action specializations and 12 complete 1683-entry D1 source Jacobians audits all 264 fitted output-connection coefficients. The closed action/source schemas have 13/18 keys but contain zero arithmetic-root provenance edges for the fitted coefficients, zero output-bundle connection functors, zero corrected second-source entries and zero complete component Frechet D2-D4 tensors. The numerical 22-coefficient fit is retained, but its covariant origin is not identified by the registered action plus D1 evidence. This is not a physical nonexistence theorem; 12 candidates remain blocked without rejection, zero D2F entries are admitted, and 106920 principal high-atom entries, full D2F, H7, PDE and lifespan remain fail-closed."
+      },
       "anti_wick_composition_derivative_audit": {
         "status": "implemented_targeted_annular_C6_principal_composition_global_H7_fail_closed",
         "scope": "The Gaussian anti-Wick operator is exactly the Weyl operator with symbol exp((h/4)Delta)K. A positive annular energy, exact composition-amplitude algebra, 1/(8*pi) Schur coefficient, heat-smoothing witness, and false-C4-closure negative all pass. The targeted C6 hierarchy supplies (x,xi) pairs (2,4), (0,6), (0,5), and (1,4), giving finite principal composition constants and high-shell/finite-low principal inequalities for all 12 candidates. Localized source remainders, the remote H6-coefficient/H7-state paraproduct, global dyadic summation, and lifespan remain fail-closed."
@@ -1838,6 +1885,10 @@
           "configs/backgrounds/quartic_candidate_pother_one_form_connection_gate.json",
           "tests/test_quartic_candidate_pother_one_form_connection_gate.py",
           "runs/physics-language/quartic-candidate-pother-one-form-connection-gate/campaign.json",
+          "src/sigma_theory_compiler/quartic_fitted_output_connection_covariant_origin_audit.py",
+          "configs/backgrounds/quartic_fitted_output_connection_covariant_origin_audit.json",
+          "tests/test_quartic_fitted_output_connection_covariant_origin_audit.py",
+          "runs/physics-language/quartic-fitted-output-connection-covariant-origin-audit/campaign.json",
           "src/sigma_theory_compiler/quartic_tc2_quadratic_deltak_extension_campaign.py",
           "configs/backgrounds/quartic_tc2_quadratic_deltak_extension_campaign.json",
           "tests/test_quartic_tc2_quadratic_deltak_extension_campaign.py",
@@ -2559,6 +2610,35 @@
             "nonlinear_PDE_closures": 0,
             "lifespans_proved": 0,
             "first_blocker": "covariant_action_derived_output_connection_or_corrected_source_jet_required_before_cross_slice_D2F_admission_despite_reference_system_rank_1870_consistency"
+          },
+          "fitted_output_connection_covariant_origin_binding": {
+            "file_sha256": "828b3a128031011d7628745c22b75a828f98288392f16d32ae2354b589cb9728",
+            "content_sha256": "1e96b08e8d451a6a8baed04757c9c6ee85b886ffbfeffadf526678ed27a2007f",
+            "source_sha256": "ff6f11a7b4b5bbc90b418fcee90e5025c7e4bb8f78769243f0307193aa659443",
+            "config_sha256": "692846027fce5beb7ac212a710c15e212507ce8670f99decbfbfe13233a79670",
+            "test_sha256": "05c358de6991e4abf5d452feb4852a8fbca36cb55ed121bbd17bf93bb2d4b977",
+            "candidate_count": 12,
+            "candidate_pass": 0,
+            "candidate_reject": 0,
+            "candidate_blocked": 12,
+            "action_record_schema_keys": 13,
+            "source_record_schema_keys": 18,
+            "covariant_action_specializations_bound": 12,
+            "full_source_D1_jacobians_bound": 12,
+            "full_source_D1_entries_per_candidate": 1683,
+            "fitted_connection_coefficients_per_candidate": 22,
+            "fitted_connection_coefficients_audited": 264,
+            "fitted_coefficients_with_action_root_provenance": 0,
+            "registered_output_connection_functors": 0,
+            "registered_corrected_second_source_jet_entries": 0,
+            "complete_component_Frechet_D2_to_D4_tensors": 0,
+            "covariant_action_derived_connections": 0,
+            "cross_slice_entries_admitted": 0,
+            "principal_high_atom_entries_missing_per_candidate": 106920,
+            "global_H7_closures": 0,
+            "nonlinear_PDE_closures": 0,
+            "lifespans_proved": 0,
+            "first_blocker": "registered_covariant_second_source_jet_or_explicit_output_bundle_connection_functor_with_22_coefficient_action_root_provenance_not_available"
           },
           "fourth_jet_degree_three_matrix_curl_sphere_extension_binding": {
             "file_sha256": "118ee8b29dc6ddc40099a5ad53a07f0d2692de52e22912f64dab85e8dfedd972",

@@ -31,27 +31,27 @@
     },
     "campaign_watchdog": {
       "budget": {
-        "cycles_completed": 49,
+        "cycles_completed": 51,
         "maximum_cycles": 336,
         "maximum_tasks": 100000,
         "tasks_failed": 0,
-        "tasks_started": 451,
-        "tasks_succeeded": 397
+        "tasks_started": 461,
+        "tasks_succeeded": 405
       },
       "candidate_counts": {
         "active": 2,
-        "deferred": 48,
+        "deferred": 50,
         "rejected": 17
       },
       "deadline_utc": "2026-08-21T18:19:20.149898+00:00",
       "evidence_outcome_counts": {
-        "pass": 348,
+        "pass": 354,
         "reject": 22,
-        "unresolved": 119
+        "unresolved": 123
       },
       "normalized_evidence_outcomes": {
-        "block": 119,
-        "pass": 348,
+        "block": 123,
+        "pass": 354,
         "reject": 22
       },
       "read_contract": "sqlite_uri_mode_ro_plus_query_only_transaction",
@@ -63,9 +63,9 @@
       "state": "active",
       "stop_reason": null,
       "task_counts": {
-        "deferred": 54,
+        "deferred": 56,
         "queued": 2,
-        "succeeded": 397
+        "succeeded": 405
       }
     },
     "continuous_dashboard": {
@@ -1414,30 +1414,23 @@
       }
     },
     "formal_receipt_cursor": {
-      "blocker": "11145_candidate_specific_formal_receipts_pending",
+      "blocker": "11114_candidate_specific_formal_receipts_pending",
       "complete_comparable": false,
       "complete_global": false,
       "complete_prefix": true,
       "counts": {
-        "cumulative_candidate_rejects": 104,
-        "cumulative_formally_checked_candidates": 104,
-        "cumulative_newly_processed_candidates": 102,
+        "cumulative_candidate_rejects": 135,
+        "cumulative_formally_checked_candidates": 135,
+        "cumulative_newly_processed_candidates": 133,
         "cumulative_reconciled_preserved_candidates": 2,
-        "processed_partition_prefix_length": 7,
-        "remaining_pending_formal_receipts": 11145
+        "processed_partition_prefix_length": 9,
+        "remaining_pending_formal_receipts": 11114
       },
-      "decision": "cumulative_formal_receipt_prefix_advanced_to_partition_0007_no_promotion",
+      "decision": "formal_receipt_cursor_advanced_by_bounded_multi_leaf_batch_no_promotion",
       "excluded_state_seals_closed": true,
       "history": {
         "capacity": 3,
         "entries": [
-          {
-            "checked": 80,
-            "ledger_root_sha256": "8baf2a96b8dbbc68dd5fe6b76ee826068d1e8424e787a21a87250027909730c5",
-            "new": 78,
-            "pending": 11169,
-            "source_label": "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0004"
-          },
           {
             "checked": 82,
             "ledger_root_sha256": "7e8235553cbdfe6de79e826571322ff6e6f7f3947da659ccd791a5b48c7de211",
@@ -1451,18 +1444,25 @@
             "new": 82,
             "pending": 11165,
             "source_label": "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0006"
+          },
+          {
+            "checked": 104,
+            "ledger_root_sha256": "a00b7bb8856ec9b7a35c49f9050ffecb5b38e9c8e45843e57c5af49b7836420c",
+            "new": 102,
+            "pending": 11145,
+            "source_label": "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0007"
           }
         ],
-        "truncated_before_partition_sequence": 4
+        "truncated_before_partition_sequence": 5
       },
       "promotion_admitted": false,
       "roots": {
-        "cumulative_formal_receipt_ledger_root_sha256": "a00b7bb8856ec9b7a35c49f9050ffecb5b38e9c8e45843e57c5af49b7836420c",
-        "cumulative_newly_processed_ordinals_root_sha256": "258c4469d3ced17745464edbe75a87f2874cae88d1a5a76e956b9fb3bc27c35c",
+        "cumulative_formal_receipt_ledger_root_sha256": "1c7c2b923ac1f99d50c49ba7362987f71dc5588182be58a17fe3cb87ee156ff9",
+        "cumulative_newly_processed_ordinals_root_sha256": "e26dfd86223a9ffd78df4ff4aa333c277816d9e72e95aacd3a4e282eb17c4e1c",
         "pending_leaf_catalog_root_sha256": "f4f7a85c8ad520ceec23eef86a31cd4d757524c0d8e0b96f94ca5507d2dfd7e7",
-        "processed_partition_summaries_root_sha256": "5746d102a33719fbe87119ba11e1f0e503fa8d5682f325de152ef1e6613f2807"
+        "processed_partition_summaries_root_sha256": "5d8d5b40e4f1b5b69ec55ce2b62c23d6f6d7459956dca93d4e951c0f9cde4f4e"
       },
-      "source_label": "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0007"
+      "source_label": "continuous_scientific_pipeline_epoch_003_formal_receipt_batch_0001"
     },
     "g4_galaxy_evaluator": {
       "candidate_id": "G3-f9c598b70a77ea54009d8f18",
@@ -4993,8 +4993,8 @@
       }
     },
     "llm": {
-      "calls_completed": 48,
-      "calls_started": 48,
+      "calls_completed": 50,
+      "calls_started": 50,
       "campaign_bridge": {
         "admission_callback_configured": false,
         "campaign_task_type": "reviewed_llm_formula_proposal",
@@ -5072,7 +5072,7 @@
         "grammar_parameter_cells": 0.0,
         "promotion_overlay": 0.0
       },
-      "spent_usd": 13.593875,
+      "spent_usd": 14.242216,
       "typed_dsl_admission": {
         "compiler_queue_task_type": "reviewed_covariant_compiler_admission",
         "default_execution_enabled": false,
@@ -12652,6 +12652,44 @@
             "selected": 12
           },
           "true_claims": []
+        },
+        "fitted_output_connection_covariant_origin": {
+          "all_data_seals_closed": true,
+          "artifact_binding": {
+            "content_sha256": "1e96b08e8d451a6a8baed04757c9c6ee85b886ffbfeffadf526678ed27a2007f",
+            "file_sha256": "828b3a128031011d7628745c22b75a828f98288392f16d32ae2354b589cb9728",
+            "path": "runs/physics-language/quartic-fitted-output-connection-covariant-origin-audit/campaign.json"
+          },
+          "decision": "registered_action_and_D1_source_schemas_do_not_identify_covariant_origin_of_22_coefficient_fit_candidates_blocked",
+          "decision_counts": {
+            "blocked": 12,
+            "pass": 0,
+            "reject": 0
+          },
+          "first_blocker": "registered_covariant_second_source_jet_or_explicit_output_bundle_connection_functor_with_22_coefficient_action_root_provenance_not_available",
+          "gate_counts": {
+            "action_record_schema_keys": 13,
+            "complete_component_Frechet_D2_to_D4_tensors": 0,
+            "covariant_action_derived_connections": 0,
+            "covariant_action_specializations_bound": 12,
+            "cross_slice_entries_admitted": 0,
+            "fitted_coefficients_with_action_root_provenance": 0,
+            "fitted_connection_coefficients_audited": 264,
+            "fitted_connection_coefficients_per_candidate": 22,
+            "full_source_D1_entries_per_candidate": 1683,
+            "full_source_D1_jacobians_bound": 12,
+            "principal_high_atom_entries_missing_per_candidate": 106920,
+            "registered_corrected_second_source_jet_entries": 0,
+            "registered_output_connection_functors": 0,
+            "selected": 12,
+            "source_record_schema_keys": 18
+          },
+          "true_claims": [
+            "fitted_connection_origin_schema_audited",
+            "fitted_connection_value_solution_retained",
+            "registered_covariant_action_specializations_bound",
+            "registered_full_source_D1_jacobians_bound"
+          ]
         },
         "full_d2f_high_atom_coverage": {
           "artifact_binding": {
@@ -52798,6 +52836,12 @@
         "freshness_class": "immutable_completed_snapshot",
         "stale_source_reason": null
       },
+      "continuous_scientific_pipeline_epoch_003_formal_receipt_batch_0001": {
+        "content_sha256": "1da334a6d14944f9cdf9a5cdacf55480c5440dbd9ae970825f232399785c782d",
+        "file_sha256": "2a5efdd8d0a27cde333f32c562ad9f5d65915731d637b09690dfcac53235fcd9",
+        "freshness_class": "immutable_completed_snapshot",
+        "stale_source_reason": null
+      },
       "continuous_scientific_pipeline_epoch_003_formal_receipt_worker_partition_0001": {
         "content_sha256": "172e4e922d8689b5d0afcaf80d4cf93cc01c2e0d4faa8d9ebed1134cdf7f93ae",
         "file_sha256": "29c2ef3f66281162ab2db101830ff56d19581a3ce19da8ab280135e14bdfe72a",
@@ -53485,6 +53529,12 @@
       "quartic_finite_sobolev_hierarchy_no_go_campaign": {
         "content_sha256": "a74fb10a523cef935695d99fff595de7aa51a8ead322171373827c8b6db9288a",
         "file_sha256": "404a869cd676fb57389535c74ff4fea73ec1ae3da43cad1ff74951f817ae1308",
+        "freshness_class": "immutable_completed_snapshot",
+        "stale_source_reason": null
+      },
+      "quartic_fitted_output_connection_covariant_origin_audit": {
+        "content_sha256": "1e96b08e8d451a6a8baed04757c9c6ee85b886ffbfeffadf526678ed27a2007f",
+        "file_sha256": "828b3a128031011d7628745c22b75a828f98288392f16d32ae2354b589cb9728",
         "freshness_class": "immutable_completed_snapshot",
         "stale_source_reason": null
       },
@@ -58184,13 +58234,13 @@
       }
     }
   },
-  "core_content_sha256": "34582885fa145d45e482f6b8e39f48a903fe2311d8833bfb2c557373bb85da1a",
+  "core_content_sha256": "786d1a06ed5283a34ff36163e119c9a157cb61ff16649e40eb20ea5719fd054f",
   "volatile": {
     "campaign_watchdog_freshness": {
-      "age_seconds": 1933.739392,
-      "expected_next_event_not_before_utc": "2026-08-12T16:11:22.401710+00:00",
-      "freshness_deadline_utc": "2026-08-12T16:41:22.401710+00:00",
-      "latest_event_utc": "2026-08-12T15:11:22.410937+00:00",
+      "age_seconds": 2774.82841,
+      "expected_next_event_not_before_utc": "2026-08-12T18:16:38.340391+00:00",
+      "freshness_deadline_utc": "2026-08-12T18:46:38.340391+00:00",
+      "latest_event_utc": "2026-08-12T17:16:38.347398+00:00",
       "stale": false,
       "stale_source_reason": null,
       "state": "scheduled_idle"
@@ -58255,16 +58305,16 @@
       "availability": "available",
       "logical_processors": 24,
       "memory_total_bytes": 102771290112,
-      "memory_used_bytes": 42719043584,
+      "memory_used_bytes": 43124719616,
       "physical_cores": 24,
       "source": "psutil_host_sample",
-      "utilization_percent": 18.8
+      "utilization_percent": 13.0
     },
     "physical_gpu": {
       "availability": "disabled",
       "source": "disabled_by_operator"
     },
-    "sampled_at_utc": "2026-08-12T15:43:36.150329+00:00",
+    "sampled_at_utc": "2026-08-12T18:02:53.175808+00:00",
     "scheduler_readiness": {
       "cpu_symbolic": {
         "delayed_until_not_before": 0,
@@ -58280,13 +58330,13 @@
       },
       "housekeeping": {
         "delayed_until_not_before": 1,
-        "earliest_future_not_before_utc": "2026-08-12T16:11:22.401710+00:00",
+        "earliest_future_not_before_utc": "2026-08-12T18:16:38.340391+00:00",
         "queued_total": 1,
         "runnable_now": 0
       },
       "llm_research": {
         "delayed_until_not_before": 1,
-        "earliest_future_not_before_utc": "2026-08-12T16:11:22.401710+00:00",
+        "earliest_future_not_before_utc": "2026-08-12T18:16:38.340391+00:00",
         "queued_total": 1,
         "runnable_now": 0
       },
@@ -58300,18 +58350,18 @@
     "unified_live_dashboard_service": {
       "alive": true,
       "availability": "available",
-      "checkpoint_content_sha256": "b19bfda74bd0dd555087fdd21f603ad687828a896216678049cc0ec741971d6c",
-      "checkpoint_file_sha256": "459f398c8a9db7bb782ef2c44cbf3b76bc718f96bef21f5b75fec079aa96c159",
+      "checkpoint_content_sha256": "2b54951421cd652f22bc9791f39a09e187c3e908ec6eab46b289c8a2b037685e",
+      "checkpoint_file_sha256": "fe463df503a3d50f74ca630a2b682e05525702320ef4d1b0f0b13b201bfb240d",
       "config_current": true,
       "consecutive_failures": 0,
       "implementation": "hardened_safety",
       "last_error_kind": null,
       "last_refresh": {
-        "core_content_sha256": "34582885fa145d45e482f6b8e39f48a903fe2311d8833bfb2c557373bb85da1a",
-        "dashboard_file_sha256": "0ffc5f56a600f4278ea11488226c1b5264e54493da291b2e38c756d16a3fe0c4",
+        "core_content_sha256": "786d1a06ed5283a34ff36163e119c9a157cb61ff16649e40eb20ea5719fd054f",
+        "dashboard_file_sha256": "9383abbd7fd93156a6ed809064a8f87cd3b1d8e3fd39c9fe84ed9638bc40bbfb",
         "leaderboard_history_seed": {
-          "core_content_sha256": "5989653fb71055c3d83ef35115da9f0b266a4b434988a248a170ebbe9f5919c0",
-          "file_sha256": "e590ac214f9b1c919f1008c908742ec23e3906c0c4e8a460ca156398828c872b",
+          "core_content_sha256": "34582885fa145d45e482f6b8e39f48a903fe2311d8833bfb2c557373bb85da1a",
+          "file_sha256": "90d6612834587f1f8bfb80025827b90509f357904a1fb3af5e2e1cfd01ed14d2",
           "history_entry_count": 8,
           "history_sha256": "103442c8a287790e495b61c3b52d6f0f5edf8f337fd50c179451cd2632265e5c",
           "leaderboard_content_sha256": "69477c58bf51b7ba8f8619bc6603cc7eb48e70083e9d7110bb7c94c6ea20400f",
@@ -58319,12 +58369,12 @@
           "path": "runs/engine/unified-live-dashboard-safety-service/unified-engine-status-live.json",
           "source_kind": "runtime_snapshot"
         },
-        "projection_input_manifest_sha256": "a34a8fe6f1558d531140a9aaa937f4a654d3c84baaa8b19159ea363b2e6248f2",
-        "snapshot_file_sha256": "e33debadff89d9cb6cb1014bd27f2ceda2467fa093edad88dfb8c7ab6b95747d"
+        "projection_input_manifest_sha256": "cc250774e5dde5783dceb1dd8508ca3ce4148cb6b1cf34de47a6ac423fcaa011",
+        "snapshot_file_sha256": "ec985d34cb988b4247d5f324404e8d1b3078da7caadc8dd49ccea60bb06051bb"
       },
-      "pid": 23468,
+      "pid": 31932,
       "pid_identity_verified": true,
-      "refresh_count": 143,
+      "refresh_count": 147,
       "state": "running",
       "stop_reason": null
     }
