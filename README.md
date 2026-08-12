@@ -1635,6 +1635,23 @@ source/config/test hashes are `e63be1538452210ee432e45f9919793ea3077b855ae2b12a1
 `016283509fcc921de382937db874b8e2f657076a64769fb3ecc8f64f99640121` /
 `426e52dd87b70f5a6587adb2b00ac68fb1bb19796414822a4f62cb09721986a3`.
 
+The one-sided connection audit then allows arbitrary `Omega_A^B_i` on every one of the 90
+`Pother` directions while holding the nine registered `P10`-direction values fixed. For each
+candidate the resulting 8,910-equation, 10,890-unknown system has coefficient rank 990 and
+augmented rank 991, so it is inconsistent in that declared class. Eighteen active groups hit
+zero one-form directions and 15 require incompatible values across the three diagonal directions.
+Only the three groups `s12[5]`, `s13[6]`, and `s23[8]` in output row 10 are compatible, repairing
+nine pair entries in the maximal compatible subdomain; zero cross-slice entries are admitted.
+All 12 candidates remain blocked and unrejected. This is not a general or two-sided connection
+no-go: varying the `P10` connection or registering a corrected source extension remains open,
+along with the other 106,920 principal high-atom entries, full D2F, H7, PDE, lifespan, and
+observations. Artifact file/content hashes are
+`2a6823b9dda087b1a336b85b559305850dd2a9b9c987aa274bcd9ec0d08a55ba` /
+`250bec41dafd002930516c250ca5bbda3eb35c633a53d3e397d8040f1ead6554`;
+source/config/test hashes are `ec6a29c6b6f1cd4b5082e0c75097f874097aa0c5b199dca8a3d979b3efbde03b` /
+`37498ac6aa3776c9ff87686dbf58869153e46c1d0306cec800413fabd9c7c2f3` /
+`7e8577755884b798c911d732c440a41589a013e9d34def9bb31a03f27b5909d6`.
+
 The component campaign now proves every entry of the principal identity
 `D_Y E55 J = i P55` for all 12 candidates and materializes the complete first source Jacobian.
 Its 1,089 principal and 594 lower entries form an exact arithmetic-only `11 x 153` manifest with
@@ -1888,9 +1905,22 @@ checks 9,948 supports through size six and finds one feasible six-support envelo
 `a11(n)=3*n1**2*n2*n3/16 - 81*n1*n2**2*n3/32 + 81*n1*n2*n3**2/32 + 33*n2**3*n3/32 + 81*n2**2*n3**2/64 - 75*n2*n3**3/32`.
 A rank-two, two-curl repair closes the 12 local systems and preserves all ten earlier frames,
 yielding eleven local direction certificates only. The final signed selector point
-`(u,v)=(-1,-1)` for the revised eleven-frame symbol, a determining theorem, pseudodifferential
-constraint, commutator, boundary-energy, local/covariant and PDE admission remain open. This is
-not an inferred pass for the unevaluated tail; full fourth-order range closure, full-tube,
+`(u,v)=(-1,-1)`, `n=(-1/3,-2/3,-2/3)`, has now also been evaluated through the complete
+orders-one-through-four recurrence. All 12 revised eleven-frame systems are obstructed by one
+eta-normalized rank-two, 16-entry zero-speed target. Although that target lies in the exact
+rank-22 transverse-curl range, the preregistered preserving class is exhausted: degrees zero,
+two, and four with support at most 14 check all 32,766 nonempty degree-four supports and find
+zero feasible envelopes. No twelfth local certificate is constructed, and the signed
+height-one selector ends with eleven. This is only an exhaustion theorem for the declared
+bounded class. A broader preregistered rational selector or finite determining theorem, followed
+by pseudodifferential constraint, commutator, boundary-energy, local/covariant and PDE admission,
+remains open. Artifact file/content hashes are
+`133adea5fa612afb4c80e7419674eb9f65f7a3dd7e1033c9d1c09553a9d52f36` /
+`5dac044360e2dbff204e1f762d90634f30c8005bddd85d11f1ad7308faa0a17a`;
+source/config/test hashes are `ff846e3c7b9412003ce628f84383acc2e859559f23025f407e74365ea03dd476` /
+`dd0b2d3448b2734ee6dd98350f0eac2d9d5f45ec0abeea47dfbcea2528534045` /
+`6d92015c6187cc7fe4907666c3a383844d1691589c80bad8646fc559852b8dc4`.
+This is not an inferred pass for the unevaluated tail; full fourth-order range closure, full-tube,
 CK1, CK3, TC2, B7, global-H7, and lifespan remain false.
 
 The tube bounds 153 normalized coordinate atoms: ten metric deviations, 44 first partials,

@@ -155,6 +155,7 @@ SOURCE_PATHS = [
     "runs/physics-language/quartic-principal-high-atom-connection-extension-gate/campaign.json",
     "runs/physics-language/quartic-reverse-principal-source-map-identifiability-gate/campaign.json",
     "runs/physics-language/quartic-reverse-principal-typed-map-curl-gate/campaign.json",
+    "runs/physics-language/quartic-cross-slice-one-sided-output-connection-no-go-gate/campaign.json",
     "runs/physics-language/quartic-tc2-ck1-p55-tube-envelope-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-quadratic-deltak-extension-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-diagonal-third-jet-campaign/campaign.json",
@@ -194,6 +195,7 @@ SOURCE_PATHS = [
     "runs/physics-language/quartic-tc2-d4-revised-eight-frame-rational-counterexample-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-d4-revised-nine-frame-rational-counterexample-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-d4-revised-ten-frame-rational-counterexample-campaign/campaign.json",
+    "runs/physics-language/quartic-tc2-d4-revised-eleven-frame-rational-counterexample-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000000.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000064.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000128.json",
@@ -251,6 +253,7 @@ RECOVERY_CONFIG_PATHS = (
     "configs/backgrounds/quartic_principal_high_atom_connection_extension_gate.json",
     "configs/backgrounds/quartic_reverse_principal_source_map_identifiability_gate.json",
     "configs/backgrounds/quartic_reverse_principal_typed_map_curl_gate.json",
+    "configs/backgrounds/quartic_cross_slice_one_sided_output_connection_no_go_gate.json",
 )
 FINITE_SOBOLEV_DEPENDENCIES = (
     "src/sigma_theory_compiler/quartic_finite_sobolev_hierarchy_no_go_campaign.py",
@@ -294,6 +297,10 @@ REVERSE_PRINCIPAL_TYPED_MAP_DEPENDENCIES = (
     "tests/test_quartic_tc2_variable_sylvester_campaign.py",
     "runs/physics-language/quartic-tc2-variable-sylvester-campaign/campaign.json",
 )
+ONE_SIDED_OUTPUT_CONNECTION_DEPENDENCIES = (
+    "src/sigma_theory_compiler/quartic_cross_slice_one_sided_output_connection_no_go_gate.py",
+    "tests/test_quartic_cross_slice_one_sided_output_connection_no_go_gate.py",
+)
 SIXTH_FRAME_CONFIG_PATH = (
     "configs/backgrounds/quartic_tc2_d4_degree_three_sixth_frame_completion_campaign.json"
 )
@@ -327,6 +334,13 @@ REVISED_TEN_FRAME_CONFIG_PATH = (
 REVISED_TEN_FRAME_DEPENDENCIES = (
     "src/sigma_theory_compiler/quartic_tc2_d4_revised_ten_frame_rational_counterexample_campaign.py",
     "tests/test_quartic_tc2_d4_revised_ten_frame_rational_counterexample_campaign.py",
+)
+REVISED_ELEVEN_FRAME_CONFIG_PATH = (
+    "configs/backgrounds/quartic_tc2_d4_revised_eleven_frame_rational_counterexample_campaign.json"
+)
+REVISED_ELEVEN_FRAME_DEPENDENCIES = (
+    "src/sigma_theory_compiler/quartic_tc2_d4_revised_eleven_frame_rational_counterexample_campaign.py",
+    "tests/test_quartic_tc2_d4_revised_eleven_frame_rational_counterexample_campaign.py",
 )
 PORTABLE_FORMAL_DEPENDENCIES = (
     "configs/formal_controls_portable_report.json",
@@ -523,6 +537,7 @@ LABELS = [
     "quartic_principal_high_atom_connection_extension_gate",
     "quartic_reverse_principal_source_map_identifiability_gate",
     "quartic_reverse_principal_typed_map_curl_gate",
+    "quartic_cross_slice_one_sided_output_connection_no_go_gate",
     "quartic_ck1_p55_tube_envelope",
     "quartic_tc2_quadratic_deltak_extension",
     "quartic_tc2_diagonal_third_jet",
@@ -562,6 +577,7 @@ LABELS = [
     "quartic_tc2_d4_revised_eight_frame_rational_counterexample",
     "quartic_tc2_d4_revised_nine_frame_rational_counterexample",
     "quartic_tc2_d4_revised_ten_frame_rational_counterexample",
+    "quartic_tc2_d4_revised_eleven_frame_rational_counterexample",
     "quartic_tc2_reranked_obligation_chunk_0",
     "quartic_tc2_reranked_obligation_chunk_64",
     "quartic_tc2_reranked_obligation_chunk_128",
@@ -748,6 +764,11 @@ def _fixture(tmp_path: Path) -> tuple[Path, dict[str, object], Path]:
         target = tmp_path / relative
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(source, target)
+    for relative in ONE_SIDED_OUTPUT_CONNECTION_DEPENDENCIES:
+        source = REPO / relative
+        target = tmp_path / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(source, target)
     for relative in REVISED_SYMBOL_DEPENDENCIES:
         source = REPO / relative
         target = tmp_path / relative
@@ -838,6 +859,39 @@ def _fixture(tmp_path: Path) -> tuple[Path, dict[str, object], Path]:
         "fourth_campaign",
     ):
         binding = revised_ten_config[key]
+        relative = binding["path"]
+        source = REPO / relative
+        target = tmp_path / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        if not target.exists():
+            shutil.copyfile(source, target)
+    for relative in REVISED_ELEVEN_FRAME_DEPENDENCIES:
+        source = REPO / relative
+        target = tmp_path / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(source, target)
+    revised_eleven_config_source = REPO / REVISED_ELEVEN_FRAME_CONFIG_PATH
+    revised_eleven_config_target = tmp_path / REVISED_ELEVEN_FRAME_CONFIG_PATH
+    revised_eleven_config_target.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copyfile(revised_eleven_config_source, revised_eleven_config_target)
+    revised_eleven_config = json.loads(
+        revised_eleven_config_source.read_text(encoding="utf-8")
+    )
+    for key in (
+        "campaign_source",
+        "campaign_test",
+        "eleven_frame_predecessor",
+        "ten_frame_predecessor",
+        "nine_frame_predecessor",
+        "revised_predecessor",
+        "degree_five_predecessor",
+        "rational_predecessor",
+        "xyz_predecessor",
+        "c23_predecessor",
+        "minimal_escape",
+        "fourth_campaign",
+    ):
+        binding = revised_eleven_config[key]
         relative = binding["path"]
         source = REPO / relative
         target = tmp_path / relative
@@ -3230,6 +3284,50 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
         "corrected_cross_slice_curl_completely_materialized",
     }
     assert not any(typed_map_curl["data_seals"].values())
+    one_sided_connection = recovery["cross_slice_one_sided_output_connection_no_go"]
+    assert one_sided_connection["artifact_binding"] == {
+        "path": (
+            "runs/physics-language/quartic-cross-slice-one-sided-output-connection-no-go-gate/"
+            "campaign.json"
+        ),
+        "file_sha256": "2a6823b9dda087b1a336b85b559305850dd2a9b9c987aa274bcd9ec0d08a55ba",
+        "content_sha256": "250bec41dafd002930516c250ca5bbda3eb35c633a53d3e397d8040f1ead6554",
+    }
+    assert one_sided_connection["decision_counts"] == {"pass": 0, "reject": 0, "blocked": 12}
+    assert one_sided_connection["gate_counts"] == {
+        "selected": 12,
+        "connection_system_equations_per_candidate": 8_910,
+        "connection_system_unknowns_per_candidate": 10_890,
+        "connection_system_coefficient_rank": 990,
+        "connection_system_augmented_rank": 991,
+        "consistent_connection_systems": 0,
+        "zero_one_form_direction_obstruction_groups_per_candidate": 18,
+        "inconsistent_diagonal_groups_per_candidate": 15,
+        "compatible_groups_per_candidate": 3,
+        "compatible_pair_entries_repaired_per_candidate": 9,
+        "corrected_curl_nonzero_entries_per_candidate": 63,
+        "cross_slice_entries_admitted": 0,
+        "principal_high_atom_entries_missing_per_candidate": 106_920,
+        "complete_ordered_D2F_tensors_registered": 0,
+        "full_high_atom_good_unknown_identities_proved": 0,
+        "global_H7_closures": 0,
+        "nonlinear_PDE_closures": 0,
+        "lifespans_proved": 0,
+    }
+    assert one_sided_connection["no_go_theorem"]["declared_class"] == (
+        "Omega_A^B_i arbitrary for all 90 Pother directions and B=0..10, while the registered "
+        "connection on all nine P10 directions is held fixed"
+    )
+    assert one_sided_connection["first_blocker"] == (
+        "connection_variations_on_P10_directions_or_corrected_source_extension_needed_for_"
+        "one_sided_system_augmented_rank_991_over_coefficient_rank_990"
+    )
+    assert {key for key, value in one_sided_connection["claim_seals"].items() if value} == {
+        "maximal_declared_compatible_subdomain_repair_constructed",
+        "one_sided_arbitrary_output_row_connection_system_classified",
+        "one_sided_connection_system_inconsistent",
+    }
+    assert not any(one_sided_connection["data_seals"].values())
     assert all(
         not any(lane["data_seals"].values())
         for name, lane in recovery.items()
@@ -3720,6 +3818,62 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
         is True
     )
     assert revised_ten["claims"]["full_direction_sphere_D4_compatibility_proved"] is False
+    revised_eleven = core["quartic_nonlinear_closure"]["fourth_jet_range_obligations"][
+        "canonical_obstruction_certificate"
+    ].pop("revised_eleven_frame_rational_counterexample")
+    assert revised_eleven["counts"]["directional_polarization_evaluations"] == 15
+    assert revised_eleven["counts"]["candidate_compatibilities"] == 0
+    assert revised_eleven["counts"]["candidate_obstructions"] == 12
+    assert revised_eleven["counts"]["bounded_envelope_supports_checked"] == 32_766
+    assert revised_eleven["counts"]["feasible_preserving_envelopes"] == 0
+    assert revised_eleven["counts"]["new_local_direction_certificates"] == 0
+    assert revised_eleven["counts"]["total_local_direction_certificates"] == 11
+    assert revised_eleven["first_obstruction"]["selector"]["chart_coordinates"] == ["-1", "-1"]
+    assert revised_eleven["first_obstruction"]["selector"]["direction"] == [
+        "-1/3",
+        "-2/3",
+        "-2/3",
+    ]
+    assert revised_eleven["first_obstruction"]["exact_rational_obstruction"] == {
+        "candidate_compatibilities": 0,
+        "candidate_conditions_checked": 12,
+        "candidate_obstructions": 12,
+        "distinct_eta_normalized_targets": 1,
+        "eta_normalized_target_nonzero_entries": 16,
+        "eta_normalized_target_rank": 2,
+        "eta_normalized_target_sha256": (
+            "c6f8ec3483c663fb9619cdd50dec1f61881932c65eb25a72a6bd24ef027a19d4"
+        ),
+        "nonzero_equal_eigenspace_compressions": 12,
+        "revised_eleven_frame_full_sphere_D4_compatibility_disproved": True,
+    }
+    revised_eleven_range = revised_eleven["bounded_next_escape"][
+        "exact_range_classification"
+    ]
+    assert revised_eleven_range["transverse_selector_rank"] == 22
+    assert revised_eleven_range["target_plane_dimension"] == 2
+    assert revised_eleven_range["selector_target_plane_intersection_dimension"] == 2
+    assert revised_eleven_range["quotient_target_zero"] is True
+    revised_eleven_envelope = revised_eleven["bounded_next_escape"][
+        "minimal_preserving_envelope"
+    ]
+    assert revised_eleven_envelope["support_search_maximum"] == 14
+    assert revised_eleven_envelope["total_supports_checked"] == 32_766
+    assert revised_eleven_envelope["bounded_class_exhausted"] is True
+    assert revised_eleven_envelope["repair_constructed"] is False
+    assert all(
+        value == 0
+        for value in revised_eleven_envelope["feasible_envelopes_by_support_size"].values()
+    )
+    assert revised_eleven["bounded_next_escape"]["bounded_repair_classification"] == {
+        "preserving_envelope_exists_in_declared_class": False,
+        "prior_eleven_direction_certificates_unchanged": True,
+        "total_local_direction_certificates": 11,
+        "transverse_curl_target_range_compatible": True,
+        "twelfth_local_certificate_constructed": False,
+    }
+    assert revised_eleven["claims"]["preregistered_signed_height_one_selector_exhausted"] is True
+    assert revised_eleven["claims"]["full_direction_sphere_D4_compatibility_proved"] is False
     assert core["quartic_nonlinear_closure"] == {
         "candidate_count": 12,
         "coordinate_pair_partition": {
@@ -3982,9 +4136,9 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                     ),
                 },
                 "next_gate": (
-                    "Continue the preregistered signed height-one selector at (u,v)=(-1,-1) "
-                    "for the revised eleven-frame symbol; do not infer a finite determining "
-                    "theorem or PDE/global admission."
+                    "The preregistered signed height-one selector is exhausted; preregister the "
+                    "next bounded exact rational selector for the revised twelve-frame symbol or "
+                    "prove a finite determining theorem before any PDE/global admission."
                 ),
             },
             "full_fourth_jet_range_closed": False,
@@ -3999,8 +4153,8 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
             "lifespans_proved": 0,
         },
         "first_missing_premise": (
-            "continue_preregistered_signed_height_one_selector_at_minus_one_minus_one_for_"
-            "revised_eleven_frame_symbol"
+            "preregister_next_bounded_exact_rational_selector_for_revised_twelve_frame_symbol_"
+            "or_prove_finite_determining_theorem"
         ),
     }
     assert core["cross_pipeline_total"]["status"] == "not_computed"
@@ -4494,6 +4648,11 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "exactly 63 nonzero entries" in dashboard
     assert "zero entries advance into D2F" in dashboard
     assert "not an arbitrary-background map" in dashboard
+    assert "One-sided output-connection rank audit" in dashboard
+    assert "8,910 equations in 10,890 nominal unknowns" in dashboard
+    assert "coefficient rank is 990 while the augmented rank is 991" in dashboard
+    assert "repair nine pair entries" in dashboard
+    assert "not a general or two-sided connection no-go" in dashboard
     assert "TC2 revised-symbol e3 counterexample and bounded escape" in dashboard
     assert "(u,v)=(0,1)" in dashboard
     assert "4,943" in dashboard
@@ -4519,6 +4678,12 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "one feasible six-support envelope" in dashboard
     assert "a11(n)=3*n1**2*n2*n3/16" in dashboard
     assert "eleven exact direction certificates" in dashboard
+    assert "TC2 revised-eleven-frame (-1,-1) obstruction" in dashboard
+    assert "n=(-1/3,-2/3,-2/3)" in dashboard
+    assert "32,766" in dashboard
+    assert "zero feasible normalizations" in dashboard
+    assert "No twelfth local certificate" in dashboard
+    assert "signed height-one selector ends" in dashboard
     assert "never assign rank directly" in dashboard
     assert "22,478,848 unique candidate-grid evaluations" in dashboard
     assert "89.4% median and 100% peak device-wide CPU" in dashboard
@@ -4929,6 +5094,49 @@ def test_reverse_typed_map_curl_unified_semantic_tamper_fails_closed(
     spec["content_sha256"] = artifact["content_sha256"]
 
     with pytest.raises(ValueError, match="reverse typed-map curl result boundary changed"):
+        build_unified_snapshot(root, config, physical_gpu={"availability": "unavailable"})
+
+
+def test_one_sided_output_connection_unified_semantic_tamper_fails_closed(
+    tmp_path: Path,
+) -> None:
+    root, config, _ = _fixture(tmp_path)
+    label = "quartic_cross_slice_one_sided_output_connection_no_go_gate"
+    spec = next(source for source in config["sources"] if source["label"] == label)
+    target = root / spec["path"]
+    artifact = json.loads(target.read_text(encoding="utf-8"))
+    artifact["gate_counts"]["connection_system_augmented_rank"] = 990
+    body = {key: value for key, value in artifact.items() if key != "content_sha256"}
+    artifact["content_sha256"] = hashlib.sha256(_canonical(body)).hexdigest()
+    target.write_text(json.dumps(artifact, indent=2) + "\n", encoding="utf-8")
+    spec["file_sha256"] = hashlib.sha256(target.read_bytes()).hexdigest()
+    spec["content_sha256"] = artifact["content_sha256"]
+
+    with pytest.raises(ValueError, match="one-sided output connection result boundary changed"):
+        build_unified_snapshot(root, config, physical_gpu={"availability": "unavailable"})
+
+
+def test_revised_eleven_frame_unified_semantic_tamper_fails_closed(
+    tmp_path: Path,
+) -> None:
+    root, config, _ = _fixture(tmp_path)
+    label = "quartic_tc2_d4_revised_eleven_frame_rational_counterexample"
+    spec = next(source for source in config["sources"] if source["label"] == label)
+    target = root / spec["path"]
+    artifact = json.loads(target.read_text(encoding="utf-8"))
+    artifact["exact_gate"]["bounded_next_escape"]["minimal_preserving_envelope"][
+        "total_supports_checked"
+    ] = 0
+    body = {key: value for key, value in artifact.items() if key != "content_sha256"}
+    artifact["content_sha256"] = hashlib.sha256(_canonical(body)).hexdigest()
+    target.write_text(json.dumps(artifact, indent=2) + "\n", encoding="utf-8")
+    spec["file_sha256"] = hashlib.sha256(target.read_bytes()).hexdigest()
+    spec["content_sha256"] = artifact["content_sha256"]
+
+    with pytest.raises(
+        ValueError,
+        match="revised eleven-frame rational campaign validation failed",
+    ):
         build_unified_snapshot(root, config, physical_gpu={"availability": "unavailable"})
 
 
