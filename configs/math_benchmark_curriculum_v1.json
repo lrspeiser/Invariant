@@ -1,0 +1,74 @@
+{
+  "schema_version": "invariant-math-benchmark-curriculum-config-1.0",
+  "curriculum_id": "math-benchmark-curriculum-v1",
+  "slot_registry": {
+    "slot_kind": "blind_holdout",
+    "cohorts": ["historical", "synthetic"],
+    "domains": ["algebra", "arithmetic", "combinatorics", "geometry", "number_theory"],
+    "artifact_types": ["counterexample_construction", "theorem_rediscovery"],
+    "levels": [1, 2, 3, 4, 5],
+    "slots_per_partition": 2,
+    "slot_id_format": "{cohort}.{domain}.{artifact_type}.l{level}.{ordinal:03d}"
+  },
+  "immutable_manifest_contract": {
+    "registered_slot_count": 200,
+    "historical_slot_count": 100,
+    "synthetic_slot_count": 100,
+    "require_exact_file_sha256": true,
+    "require_self_sealed_content_sha256": true,
+    "unregistered_results_forbidden": true,
+    "missing_results_are_not_ready": true,
+    "curriculum_success_requires_all_slots_ready": true
+  },
+  "implemented_controls": [
+    {
+      "slot_id": "historical.arithmetic.theorem_rediscovery.l1.001",
+      "artifact_path": "runs/math-language/anonymous-natural-sum-blind-rediscovery/campaign.json",
+      "file_sha256": "3158d6031ad0dbf1c3cb955c956af319f39c58d50982d2193a07b0f46c83e685",
+      "content_sha256": "05b7ab12f3876513216394dd578258ea6af242d0b8e6a4911e281a4d713bd5be",
+      "benchmark_id": "anonymous-natural-sum-blind-rediscovery-001",
+      "schema_version": "invariant-anonymous-natural-sum-blind-rediscovery-result-1.0",
+      "decision": "pass_blind_bounded_grammar_rediscovery_independently_proved_before_unseal",
+      "outcome_counts": {"pass": 1, "reject": 0, "blocked": 0},
+      "required_claims": {
+        "bounded_grammar_exhausted": true,
+        "universal_identity_proved_by_induction": true,
+        "winner_sealed_before_reference_access": true,
+        "withheld_theorem_matched_post_seal": true,
+        "unbounded_formula_space_exhausted": false,
+        "novel_theorem_claimed": false
+      }
+    },
+    {
+      "slot_id": "synthetic.algebra.theorem_rediscovery.l1.001",
+      "artifact_path": "runs/math/synthetic-finite-algebra-holdout-world/campaign.json",
+      "file_sha256": "187080e5f54667ddced7363f96ef644f61d1486464526f086c814ea9970b1ca7",
+      "content_sha256": "e28058a491cf3f73f2c1b661599e640fb12a9d723ae26f6b478c613a33e4e4b6",
+      "benchmark_id": "synthetic-finite-algebra-holdout-world-001",
+      "schema_version": "sigma-synthetic-finite-algebra-holdout-result-1.0",
+      "decision": "pass_one_of_one_synthetic_finite_algebra_holdout_rediscovered_and_proved",
+      "outcome_counts": {"pass": 1, "reject": 0, "blocked": 0},
+      "required_claims": {
+        "complete_declared_term_grammar_enumerated": true,
+        "exhaustive_finite_semantics_proof_completed": true,
+        "post_unseal_equivalence_confirmed": true,
+        "withheld_class_independently_rediscovered": true,
+        "unbounded_algebra_discovery_established": false,
+        "historical_novelty_established": false
+      }
+    }
+  ],
+  "aggregate_metrics_schema": {
+    "count_fields": [
+      "registered_slots",
+      "implemented_controls",
+      "ready_slots",
+      "missing_slots",
+      "invalid_slots"
+    ],
+    "partition_dimensions": ["cohort", "domain", "artifact_type", "level"],
+    "outcome_fields": ["pass", "reject", "blocked"],
+    "rate_fields": ["coverage_numerator", "coverage_denominator"]
+  },
+  "output_path": "runs/math/math-benchmark-curriculum-v1/readiness.json"
+}

@@ -1,0 +1,34 @@
+{
+  "benchmark_id": "synthetic-graph-cut-holdout-world-001",
+  "holdout_contract": {
+    "eligible_holdouts": 1,
+    "equivalent_formulations_hidden": true,
+    "post_unseal_comparison_only": true,
+    "selection": "minimum_seeded_class_score_after_reference_graph_seal"
+  },
+  "output_path": "runs/math/synthetic-graph-cut-holdout-world/campaign.json",
+  "policies": {
+    "candidate_rejection_from_missing_evidence": "forbidden",
+    "discovery_file_reads": "deny_owned_python_open_surfaces",
+    "exact_proof": "exhaustive_edge_incidence_replay",
+    "network_access": "forbidden",
+    "promotion": "sigma_core_exact_receipts_only",
+    "target_access_before_proof_seal": "forbidden"
+  },
+  "schema_version": "sigma-synthetic-graph-cut-holdout-config-1.0",
+  "seals": {
+    "external_data_opened": false,
+    "gpu_execution_used": false,
+    "live_sqlite_opened": false,
+    "network_opened": false,
+    "paid_llm_calls": false
+  },
+  "world_generator": {
+    "edge_count": 16,
+    "generation_epoch": "2026-08-12",
+    "graph_model": "seeded_anonymous_cycle_plus_ranked_chords",
+    "invariant_grammar": "canonical_nontrivial_vertex_cuts_modulo_complement",
+    "namespace": "invariant.synthetic.graph.posttraining.002",
+    "vertex_count": 9
+  }
+}

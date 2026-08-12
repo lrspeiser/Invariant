@@ -72,6 +72,18 @@ registered base case and the symbolic successor after recurrence and induction-h
 substitution. Higher-order induction, denominator nonvanishing, limits, and analytic branch claims
 remain unsupported and therefore blocked.
 
+`math_proof_strategy.py` separates heuristic strategy proposals from deterministic execution.
+Exact algebra and first-order induction have registered executors; contradiction, substitution,
+factorization, generating functions, bijection, invariant, symmetry, extremal arguments, descent,
+and change of variables are typed proposal families that remain blocked until executors exist. LLM
+proposals require a bound source receipt and carry no authority to promote themselves.
+
+`math_lean_adapter.py` provides a bounded, no-shell Lean execution boundary and an allowed-premise
+manifest. Missing Lean is an explicit block. Tagged dependency output is rejected if it reaches the
+target, an equivalent theorem, any forbidden namespace, or anything outside the declared closure.
+This is adapter readiness: no Lean or Mathlib corpus is downloaded, and the dependency audit is only
+as trustworthy as the registered Lean-side emitter and source harness.
+
 Computational agreement is never proof. A million successful evaluations can advance a candidate
 to a proof attempt, but cannot produce a `proved` receipt.
 
@@ -132,6 +144,13 @@ withheld class post-seal. This is one bounded synthetic world—not evidence of 
 completeness—and its next gate is replication across independently generated worlds and an external
 proof kernel that cannot see the holdout.
 
+A second, structurally different world uses a connected anonymous nine-vertex, sixteen-edge graph.
+All 255 nontrivial cuts modulo complement are checked through 4,080 edge-incidence evaluations and
+partitioned into 11 exact cut-size theorem classes. One entire 40-member class is hidden; one class
+candidate is rediscovered and every member is exhaustively proved before unseal. Two successful
+worlds are evidence that the mechanism crosses representations, but still fall far short of the
+100-world cohort and do not establish general theorem discovery.
+
 ## Scoring and promotion
 
 Scores are lexicographic and cannot compensate for a failed hard gate:
@@ -165,6 +184,11 @@ The planned historical suite progresses through arithmetic and geometric sequenc
 recurrences, binomial and generating-function identities, trigonometric and calculus identities,
 number theory, combinatorial constructions, and historically nontrivial machine-checkable theorems.
 The first release target is 100 historical holdouts and 100 synthetic holdouts.
+
+That target is now preregistered as a closed 200-slot curriculum spanning five domains, two artifact
+types, five levels, and two ordinals per cell in each historical/synthetic cohort. Only the two
+implemented controls are ready; 198 slots are explicitly missing. The aggregate decision remains
+`not_ready_missing_or_invalid_benchmarks`, so registration is not misreported as benchmark success.
 
 No benchmark-wide success is claimed until every holdout has an immutable manifest, an isolated
 generation closure, deterministic replay, negative controls, and independently validated proof and

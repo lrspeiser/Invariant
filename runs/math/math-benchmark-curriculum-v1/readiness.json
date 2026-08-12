@@ -1,0 +1,5220 @@
+{
+  "aggregate_metrics": {
+    "counts": {
+      "implemented_controls": 2,
+      "invalid_slots": 0,
+      "missing_slots": 198,
+      "ready_slots": 2,
+      "registered_slots": 200
+    },
+    "coverage": {
+      "coverage_denominator": 200,
+      "coverage_numerator": 2
+    },
+    "outcomes_from_validated_controls_only": {
+      "blocked": 0,
+      "pass": 2,
+      "reject": 0
+    },
+    "partitions": {
+      "artifact_type": [
+        {
+          "invalid": 0,
+          "missing": 100,
+          "ready": 0,
+          "registered": 100,
+          "value": "counterexample_construction"
+        },
+        {
+          "invalid": 0,
+          "missing": 98,
+          "ready": 2,
+          "registered": 100,
+          "value": "theorem_rediscovery"
+        }
+      ],
+      "cohort": [
+        {
+          "invalid": 0,
+          "missing": 99,
+          "ready": 1,
+          "registered": 100,
+          "value": "historical"
+        },
+        {
+          "invalid": 0,
+          "missing": 99,
+          "ready": 1,
+          "registered": 100,
+          "value": "synthetic"
+        }
+      ],
+      "domain": [
+        {
+          "invalid": 0,
+          "missing": 39,
+          "ready": 1,
+          "registered": 40,
+          "value": "algebra"
+        },
+        {
+          "invalid": 0,
+          "missing": 39,
+          "ready": 1,
+          "registered": 40,
+          "value": "arithmetic"
+        },
+        {
+          "invalid": 0,
+          "missing": 40,
+          "ready": 0,
+          "registered": 40,
+          "value": "combinatorics"
+        },
+        {
+          "invalid": 0,
+          "missing": 40,
+          "ready": 0,
+          "registered": 40,
+          "value": "geometry"
+        },
+        {
+          "invalid": 0,
+          "missing": 40,
+          "ready": 0,
+          "registered": 40,
+          "value": "number_theory"
+        }
+      ],
+      "level": [
+        {
+          "invalid": 0,
+          "missing": 38,
+          "ready": 2,
+          "registered": 40,
+          "value": 1
+        },
+        {
+          "invalid": 0,
+          "missing": 40,
+          "ready": 0,
+          "registered": 40,
+          "value": 2
+        },
+        {
+          "invalid": 0,
+          "missing": 40,
+          "ready": 0,
+          "registered": 40,
+          "value": 3
+        },
+        {
+          "invalid": 0,
+          "missing": 40,
+          "ready": 0,
+          "registered": 40,
+          "value": 4
+        },
+        {
+          "invalid": 0,
+          "missing": 40,
+          "ready": 0,
+          "registered": 40,
+          "value": 5
+        }
+      ]
+    }
+  },
+  "aggregate_metrics_schema": {
+    "count_fields": [
+      "registered_slots",
+      "implemented_controls",
+      "ready_slots",
+      "missing_slots",
+      "invalid_slots"
+    ],
+    "outcome_fields": [
+      "pass",
+      "reject",
+      "blocked"
+    ],
+    "partition_dimensions": [
+      "cohort",
+      "domain",
+      "artifact_type",
+      "level"
+    ],
+    "rate_fields": [
+      "coverage_numerator",
+      "coverage_denominator"
+    ]
+  },
+  "bindings": {
+    "config": {
+      "file_sha256": "c58ef6b52c68729152767bf8b995d0cf3010875bf8f05d77f74b599f9cf1c8d0",
+      "path": "configs/math_benchmark_curriculum_v1.json"
+    },
+    "source": {
+      "file_sha256": "298fc389c19fdd4106b3a019b9796bd209ca62f3c0fb250037983e8dbfdf084b",
+      "path": "src/sigma_theory_compiler/math_benchmark_runner.py"
+    },
+    "test": {
+      "file_sha256": "6c5452f81ed2d02fd5615084c375277247b53ac73f0353aa51cbbe278a1232e5",
+      "path": "tests/test_math_benchmark_runner.py"
+    }
+  },
+  "claims": {
+    "all_registered_benchmarks_implemented": false,
+    "closed_unique_registry_validated": true,
+    "curriculum_complete": false,
+    "missing_benchmarks_count_as_success": false,
+    "only_implemented_validated_benchmarks_marked_ready": true,
+    "unregistered_results_admitted": false
+  },
+  "content_sha256": "398e657a0c4808e75cf23c482ae43898d9fb70d455d8ef1a6bd02daa3d4bdc15",
+  "curriculum_id": "math-benchmark-curriculum-v1",
+  "curriculum_success": false,
+  "decision": "not_ready_missing_or_invalid_benchmarks",
+  "immutable_manifest_contract": {
+    "curriculum_success_requires_all_slots_ready": true,
+    "historical_slot_count": 100,
+    "missing_results_are_not_ready": true,
+    "registered_slot_count": 200,
+    "require_exact_file_sha256": true,
+    "require_self_sealed_content_sha256": true,
+    "synthetic_slot_count": 100,
+    "unregistered_results_forbidden": true
+  },
+  "registry_root_sha256": "29214c352b0494e23cd1c0d597a4f6b8c337ed5e30a7b244193b2fd3db7ebebf",
+  "schema_version": "invariant-math-benchmark-curriculum-readiness-1.0",
+  "slots": [
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "historical",
+      "domain": "algebra",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 1,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.algebra.counterexample_construction.l1.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "historical",
+      "domain": "algebra",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 1,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.algebra.counterexample_construction.l1.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "historical",
+      "domain": "algebra",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 2,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.algebra.counterexample_construction.l2.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "historical",
+      "domain": "algebra",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 2,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.algebra.counterexample_construction.l2.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "historical",
+      "domain": "algebra",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 3,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.algebra.counterexample_construction.l3.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "historical",
+      "domain": "algebra",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 3,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.algebra.counterexample_construction.l3.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "historical",
+      "domain": "algebra",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 4,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.algebra.counterexample_construction.l4.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "historical",
+      "domain": "algebra",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 4,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.algebra.counterexample_construction.l4.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "historical",
+      "domain": "algebra",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 5,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.algebra.counterexample_construction.l5.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "historical",
+      "domain": "algebra",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 5,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.algebra.counterexample_construction.l5.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "historical",
+      "domain": "algebra",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 1,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.algebra.theorem_rediscovery.l1.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "historical",
+      "domain": "algebra",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 1,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.algebra.theorem_rediscovery.l1.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "historical",
+      "domain": "algebra",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 2,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.algebra.theorem_rediscovery.l2.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "historical",
+      "domain": "algebra",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 2,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.algebra.theorem_rediscovery.l2.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "historical",
+      "domain": "algebra",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 3,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.algebra.theorem_rediscovery.l3.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "historical",
+      "domain": "algebra",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 3,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.algebra.theorem_rediscovery.l3.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "historical",
+      "domain": "algebra",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 4,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.algebra.theorem_rediscovery.l4.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "historical",
+      "domain": "algebra",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 4,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.algebra.theorem_rediscovery.l4.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "historical",
+      "domain": "algebra",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 5,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.algebra.theorem_rediscovery.l5.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "historical",
+      "domain": "algebra",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 5,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.algebra.theorem_rediscovery.l5.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "historical",
+      "domain": "arithmetic",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 1,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.arithmetic.counterexample_construction.l1.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "historical",
+      "domain": "arithmetic",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 1,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.arithmetic.counterexample_construction.l1.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "historical",
+      "domain": "arithmetic",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 2,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.arithmetic.counterexample_construction.l2.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "historical",
+      "domain": "arithmetic",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 2,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.arithmetic.counterexample_construction.l2.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "historical",
+      "domain": "arithmetic",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 3,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.arithmetic.counterexample_construction.l3.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "historical",
+      "domain": "arithmetic",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 3,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.arithmetic.counterexample_construction.l3.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "historical",
+      "domain": "arithmetic",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 4,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.arithmetic.counterexample_construction.l4.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "historical",
+      "domain": "arithmetic",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 4,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.arithmetic.counterexample_construction.l4.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "historical",
+      "domain": "arithmetic",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 5,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.arithmetic.counterexample_construction.l5.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "historical",
+      "domain": "arithmetic",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 5,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.arithmetic.counterexample_construction.l5.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "historical",
+      "domain": "arithmetic",
+      "immutable_manifest_expectation": {
+        "artifact_path": "runs/math-language/anonymous-natural-sum-blind-rediscovery/campaign.json",
+        "benchmark_id": "anonymous-natural-sum-blind-rediscovery-001",
+        "content_sha256": "05b7ab12f3876513216394dd578258ea6af242d0b8e6a4911e281a4d713bd5be",
+        "decision": "pass_blind_bounded_grammar_rediscovery_independently_proved_before_unseal",
+        "file_sha256": "3158d6031ad0dbf1c3cb955c956af319f39c58d50982d2193a07b0f46c83e685",
+        "outcome_counts": {
+          "blocked": 0,
+          "pass": 1,
+          "reject": 0
+        },
+        "required_claims": {
+          "bounded_grammar_exhausted": true,
+          "novel_theorem_claimed": false,
+          "unbounded_formula_space_exhausted": false,
+          "universal_identity_proved_by_induction": true,
+          "winner_sealed_before_reference_access": true,
+          "withheld_theorem_matched_post_seal": true
+        },
+        "schema_version": "invariant-anonymous-natural-sum-blind-rediscovery-result-1.0"
+      },
+      "implemented": true,
+      "level": 1,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 1,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "immutable_artifact_validated",
+      "slot_id": "historical.arithmetic.theorem_rediscovery.l1.001",
+      "slot_kind": "blind_holdout",
+      "status": "ready",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "historical",
+      "domain": "arithmetic",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 1,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.arithmetic.theorem_rediscovery.l1.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "historical",
+      "domain": "arithmetic",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 2,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.arithmetic.theorem_rediscovery.l2.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "historical",
+      "domain": "arithmetic",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 2,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.arithmetic.theorem_rediscovery.l2.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "historical",
+      "domain": "arithmetic",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 3,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.arithmetic.theorem_rediscovery.l3.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "historical",
+      "domain": "arithmetic",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 3,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.arithmetic.theorem_rediscovery.l3.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "historical",
+      "domain": "arithmetic",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 4,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.arithmetic.theorem_rediscovery.l4.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "historical",
+      "domain": "arithmetic",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 4,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.arithmetic.theorem_rediscovery.l4.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "historical",
+      "domain": "arithmetic",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 5,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.arithmetic.theorem_rediscovery.l5.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "historical",
+      "domain": "arithmetic",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 5,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.arithmetic.theorem_rediscovery.l5.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "historical",
+      "domain": "combinatorics",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 1,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.combinatorics.counterexample_construction.l1.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "historical",
+      "domain": "combinatorics",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 1,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.combinatorics.counterexample_construction.l1.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "historical",
+      "domain": "combinatorics",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 2,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.combinatorics.counterexample_construction.l2.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "historical",
+      "domain": "combinatorics",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 2,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.combinatorics.counterexample_construction.l2.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "historical",
+      "domain": "combinatorics",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 3,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.combinatorics.counterexample_construction.l3.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "historical",
+      "domain": "combinatorics",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 3,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.combinatorics.counterexample_construction.l3.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "historical",
+      "domain": "combinatorics",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 4,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.combinatorics.counterexample_construction.l4.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "historical",
+      "domain": "combinatorics",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 4,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.combinatorics.counterexample_construction.l4.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "historical",
+      "domain": "combinatorics",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 5,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.combinatorics.counterexample_construction.l5.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "historical",
+      "domain": "combinatorics",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 5,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.combinatorics.counterexample_construction.l5.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "historical",
+      "domain": "combinatorics",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 1,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.combinatorics.theorem_rediscovery.l1.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "historical",
+      "domain": "combinatorics",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 1,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.combinatorics.theorem_rediscovery.l1.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "historical",
+      "domain": "combinatorics",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 2,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.combinatorics.theorem_rediscovery.l2.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "historical",
+      "domain": "combinatorics",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 2,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.combinatorics.theorem_rediscovery.l2.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "historical",
+      "domain": "combinatorics",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 3,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.combinatorics.theorem_rediscovery.l3.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "historical",
+      "domain": "combinatorics",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 3,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.combinatorics.theorem_rediscovery.l3.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "historical",
+      "domain": "combinatorics",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 4,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.combinatorics.theorem_rediscovery.l4.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "historical",
+      "domain": "combinatorics",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 4,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.combinatorics.theorem_rediscovery.l4.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "historical",
+      "domain": "combinatorics",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 5,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.combinatorics.theorem_rediscovery.l5.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "historical",
+      "domain": "combinatorics",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 5,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.combinatorics.theorem_rediscovery.l5.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "historical",
+      "domain": "geometry",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 1,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.geometry.counterexample_construction.l1.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "historical",
+      "domain": "geometry",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 1,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.geometry.counterexample_construction.l1.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "historical",
+      "domain": "geometry",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 2,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.geometry.counterexample_construction.l2.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "historical",
+      "domain": "geometry",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 2,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.geometry.counterexample_construction.l2.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "historical",
+      "domain": "geometry",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 3,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.geometry.counterexample_construction.l3.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "historical",
+      "domain": "geometry",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 3,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.geometry.counterexample_construction.l3.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "historical",
+      "domain": "geometry",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 4,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.geometry.counterexample_construction.l4.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "historical",
+      "domain": "geometry",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 4,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.geometry.counterexample_construction.l4.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "historical",
+      "domain": "geometry",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 5,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.geometry.counterexample_construction.l5.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "historical",
+      "domain": "geometry",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 5,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.geometry.counterexample_construction.l5.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "historical",
+      "domain": "geometry",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 1,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.geometry.theorem_rediscovery.l1.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "historical",
+      "domain": "geometry",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 1,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.geometry.theorem_rediscovery.l1.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "historical",
+      "domain": "geometry",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 2,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.geometry.theorem_rediscovery.l2.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "historical",
+      "domain": "geometry",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 2,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.geometry.theorem_rediscovery.l2.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "historical",
+      "domain": "geometry",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 3,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.geometry.theorem_rediscovery.l3.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "historical",
+      "domain": "geometry",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 3,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.geometry.theorem_rediscovery.l3.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "historical",
+      "domain": "geometry",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 4,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.geometry.theorem_rediscovery.l4.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "historical",
+      "domain": "geometry",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 4,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.geometry.theorem_rediscovery.l4.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "historical",
+      "domain": "geometry",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 5,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.geometry.theorem_rediscovery.l5.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "historical",
+      "domain": "geometry",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 5,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.geometry.theorem_rediscovery.l5.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "historical",
+      "domain": "number_theory",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 1,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.number_theory.counterexample_construction.l1.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "historical",
+      "domain": "number_theory",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 1,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.number_theory.counterexample_construction.l1.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "historical",
+      "domain": "number_theory",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 2,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.number_theory.counterexample_construction.l2.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "historical",
+      "domain": "number_theory",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 2,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.number_theory.counterexample_construction.l2.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "historical",
+      "domain": "number_theory",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 3,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.number_theory.counterexample_construction.l3.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "historical",
+      "domain": "number_theory",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 3,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.number_theory.counterexample_construction.l3.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "historical",
+      "domain": "number_theory",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 4,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.number_theory.counterexample_construction.l4.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "historical",
+      "domain": "number_theory",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 4,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.number_theory.counterexample_construction.l4.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "historical",
+      "domain": "number_theory",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 5,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.number_theory.counterexample_construction.l5.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "historical",
+      "domain": "number_theory",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 5,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.number_theory.counterexample_construction.l5.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "historical",
+      "domain": "number_theory",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 1,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.number_theory.theorem_rediscovery.l1.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "historical",
+      "domain": "number_theory",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 1,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.number_theory.theorem_rediscovery.l1.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "historical",
+      "domain": "number_theory",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 2,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.number_theory.theorem_rediscovery.l2.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "historical",
+      "domain": "number_theory",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 2,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.number_theory.theorem_rediscovery.l2.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "historical",
+      "domain": "number_theory",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 3,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.number_theory.theorem_rediscovery.l3.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "historical",
+      "domain": "number_theory",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 3,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.number_theory.theorem_rediscovery.l3.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "historical",
+      "domain": "number_theory",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 4,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.number_theory.theorem_rediscovery.l4.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "historical",
+      "domain": "number_theory",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 4,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.number_theory.theorem_rediscovery.l4.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "historical",
+      "domain": "number_theory",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 5,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.number_theory.theorem_rediscovery.l5.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "historical",
+      "domain": "number_theory",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 5,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "historical.number_theory.theorem_rediscovery.l5.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "synthetic",
+      "domain": "algebra",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 1,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.algebra.counterexample_construction.l1.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "synthetic",
+      "domain": "algebra",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 1,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.algebra.counterexample_construction.l1.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "synthetic",
+      "domain": "algebra",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 2,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.algebra.counterexample_construction.l2.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "synthetic",
+      "domain": "algebra",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 2,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.algebra.counterexample_construction.l2.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "synthetic",
+      "domain": "algebra",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 3,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.algebra.counterexample_construction.l3.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "synthetic",
+      "domain": "algebra",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 3,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.algebra.counterexample_construction.l3.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "synthetic",
+      "domain": "algebra",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 4,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.algebra.counterexample_construction.l4.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "synthetic",
+      "domain": "algebra",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 4,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.algebra.counterexample_construction.l4.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "synthetic",
+      "domain": "algebra",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 5,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.algebra.counterexample_construction.l5.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "synthetic",
+      "domain": "algebra",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 5,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.algebra.counterexample_construction.l5.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "synthetic",
+      "domain": "algebra",
+      "immutable_manifest_expectation": {
+        "artifact_path": "runs/math/synthetic-finite-algebra-holdout-world/campaign.json",
+        "benchmark_id": "synthetic-finite-algebra-holdout-world-001",
+        "content_sha256": "e28058a491cf3f73f2c1b661599e640fb12a9d723ae26f6b478c613a33e4e4b6",
+        "decision": "pass_one_of_one_synthetic_finite_algebra_holdout_rediscovered_and_proved",
+        "file_sha256": "187080e5f54667ddced7363f96ef644f61d1486464526f086c814ea9970b1ca7",
+        "outcome_counts": {
+          "blocked": 0,
+          "pass": 1,
+          "reject": 0
+        },
+        "required_claims": {
+          "complete_declared_term_grammar_enumerated": true,
+          "exhaustive_finite_semantics_proof_completed": true,
+          "historical_novelty_established": false,
+          "post_unseal_equivalence_confirmed": true,
+          "unbounded_algebra_discovery_established": false,
+          "withheld_class_independently_rediscovered": true
+        },
+        "schema_version": "sigma-synthetic-finite-algebra-holdout-result-1.0"
+      },
+      "implemented": true,
+      "level": 1,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 1,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "immutable_artifact_validated",
+      "slot_id": "synthetic.algebra.theorem_rediscovery.l1.001",
+      "slot_kind": "blind_holdout",
+      "status": "ready",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "synthetic",
+      "domain": "algebra",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 1,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.algebra.theorem_rediscovery.l1.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "synthetic",
+      "domain": "algebra",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 2,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.algebra.theorem_rediscovery.l2.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "synthetic",
+      "domain": "algebra",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 2,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.algebra.theorem_rediscovery.l2.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "synthetic",
+      "domain": "algebra",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 3,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.algebra.theorem_rediscovery.l3.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "synthetic",
+      "domain": "algebra",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 3,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.algebra.theorem_rediscovery.l3.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "synthetic",
+      "domain": "algebra",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 4,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.algebra.theorem_rediscovery.l4.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "synthetic",
+      "domain": "algebra",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 4,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.algebra.theorem_rediscovery.l4.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "synthetic",
+      "domain": "algebra",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 5,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.algebra.theorem_rediscovery.l5.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "synthetic",
+      "domain": "algebra",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 5,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.algebra.theorem_rediscovery.l5.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "synthetic",
+      "domain": "arithmetic",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 1,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.arithmetic.counterexample_construction.l1.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "synthetic",
+      "domain": "arithmetic",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 1,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.arithmetic.counterexample_construction.l1.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "synthetic",
+      "domain": "arithmetic",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 2,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.arithmetic.counterexample_construction.l2.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "synthetic",
+      "domain": "arithmetic",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 2,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.arithmetic.counterexample_construction.l2.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "synthetic",
+      "domain": "arithmetic",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 3,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.arithmetic.counterexample_construction.l3.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "synthetic",
+      "domain": "arithmetic",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 3,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.arithmetic.counterexample_construction.l3.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "synthetic",
+      "domain": "arithmetic",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 4,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.arithmetic.counterexample_construction.l4.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "synthetic",
+      "domain": "arithmetic",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 4,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.arithmetic.counterexample_construction.l4.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "synthetic",
+      "domain": "arithmetic",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 5,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.arithmetic.counterexample_construction.l5.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "synthetic",
+      "domain": "arithmetic",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 5,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.arithmetic.counterexample_construction.l5.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "synthetic",
+      "domain": "arithmetic",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 1,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.arithmetic.theorem_rediscovery.l1.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "synthetic",
+      "domain": "arithmetic",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 1,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.arithmetic.theorem_rediscovery.l1.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "synthetic",
+      "domain": "arithmetic",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 2,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.arithmetic.theorem_rediscovery.l2.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "synthetic",
+      "domain": "arithmetic",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 2,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.arithmetic.theorem_rediscovery.l2.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "synthetic",
+      "domain": "arithmetic",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 3,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.arithmetic.theorem_rediscovery.l3.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "synthetic",
+      "domain": "arithmetic",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 3,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.arithmetic.theorem_rediscovery.l3.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "synthetic",
+      "domain": "arithmetic",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 4,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.arithmetic.theorem_rediscovery.l4.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "synthetic",
+      "domain": "arithmetic",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 4,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.arithmetic.theorem_rediscovery.l4.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "synthetic",
+      "domain": "arithmetic",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 5,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.arithmetic.theorem_rediscovery.l5.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "synthetic",
+      "domain": "arithmetic",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 5,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.arithmetic.theorem_rediscovery.l5.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "synthetic",
+      "domain": "combinatorics",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 1,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.combinatorics.counterexample_construction.l1.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "synthetic",
+      "domain": "combinatorics",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 1,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.combinatorics.counterexample_construction.l1.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "synthetic",
+      "domain": "combinatorics",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 2,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.combinatorics.counterexample_construction.l2.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "synthetic",
+      "domain": "combinatorics",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 2,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.combinatorics.counterexample_construction.l2.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "synthetic",
+      "domain": "combinatorics",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 3,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.combinatorics.counterexample_construction.l3.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "synthetic",
+      "domain": "combinatorics",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 3,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.combinatorics.counterexample_construction.l3.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "synthetic",
+      "domain": "combinatorics",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 4,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.combinatorics.counterexample_construction.l4.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "synthetic",
+      "domain": "combinatorics",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 4,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.combinatorics.counterexample_construction.l4.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "synthetic",
+      "domain": "combinatorics",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 5,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.combinatorics.counterexample_construction.l5.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "synthetic",
+      "domain": "combinatorics",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 5,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.combinatorics.counterexample_construction.l5.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "synthetic",
+      "domain": "combinatorics",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 1,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.combinatorics.theorem_rediscovery.l1.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "synthetic",
+      "domain": "combinatorics",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 1,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.combinatorics.theorem_rediscovery.l1.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "synthetic",
+      "domain": "combinatorics",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 2,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.combinatorics.theorem_rediscovery.l2.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "synthetic",
+      "domain": "combinatorics",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 2,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.combinatorics.theorem_rediscovery.l2.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "synthetic",
+      "domain": "combinatorics",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 3,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.combinatorics.theorem_rediscovery.l3.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "synthetic",
+      "domain": "combinatorics",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 3,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.combinatorics.theorem_rediscovery.l3.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "synthetic",
+      "domain": "combinatorics",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 4,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.combinatorics.theorem_rediscovery.l4.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "synthetic",
+      "domain": "combinatorics",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 4,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.combinatorics.theorem_rediscovery.l4.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "synthetic",
+      "domain": "combinatorics",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 5,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.combinatorics.theorem_rediscovery.l5.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "synthetic",
+      "domain": "combinatorics",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 5,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.combinatorics.theorem_rediscovery.l5.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "synthetic",
+      "domain": "geometry",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 1,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.geometry.counterexample_construction.l1.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "synthetic",
+      "domain": "geometry",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 1,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.geometry.counterexample_construction.l1.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "synthetic",
+      "domain": "geometry",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 2,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.geometry.counterexample_construction.l2.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "synthetic",
+      "domain": "geometry",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 2,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.geometry.counterexample_construction.l2.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "synthetic",
+      "domain": "geometry",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 3,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.geometry.counterexample_construction.l3.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "synthetic",
+      "domain": "geometry",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 3,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.geometry.counterexample_construction.l3.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "synthetic",
+      "domain": "geometry",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 4,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.geometry.counterexample_construction.l4.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "synthetic",
+      "domain": "geometry",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 4,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.geometry.counterexample_construction.l4.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "synthetic",
+      "domain": "geometry",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 5,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.geometry.counterexample_construction.l5.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "synthetic",
+      "domain": "geometry",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 5,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.geometry.counterexample_construction.l5.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "synthetic",
+      "domain": "geometry",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 1,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.geometry.theorem_rediscovery.l1.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "synthetic",
+      "domain": "geometry",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 1,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.geometry.theorem_rediscovery.l1.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "synthetic",
+      "domain": "geometry",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 2,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.geometry.theorem_rediscovery.l2.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "synthetic",
+      "domain": "geometry",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 2,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.geometry.theorem_rediscovery.l2.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "synthetic",
+      "domain": "geometry",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 3,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.geometry.theorem_rediscovery.l3.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "synthetic",
+      "domain": "geometry",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 3,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.geometry.theorem_rediscovery.l3.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "synthetic",
+      "domain": "geometry",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 4,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.geometry.theorem_rediscovery.l4.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "synthetic",
+      "domain": "geometry",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 4,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.geometry.theorem_rediscovery.l4.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "synthetic",
+      "domain": "geometry",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 5,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.geometry.theorem_rediscovery.l5.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "synthetic",
+      "domain": "geometry",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 5,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.geometry.theorem_rediscovery.l5.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "synthetic",
+      "domain": "number_theory",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 1,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.number_theory.counterexample_construction.l1.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "synthetic",
+      "domain": "number_theory",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 1,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.number_theory.counterexample_construction.l1.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "synthetic",
+      "domain": "number_theory",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 2,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.number_theory.counterexample_construction.l2.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "synthetic",
+      "domain": "number_theory",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 2,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.number_theory.counterexample_construction.l2.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "synthetic",
+      "domain": "number_theory",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 3,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.number_theory.counterexample_construction.l3.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "synthetic",
+      "domain": "number_theory",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 3,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.number_theory.counterexample_construction.l3.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "synthetic",
+      "domain": "number_theory",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 4,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.number_theory.counterexample_construction.l4.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "synthetic",
+      "domain": "number_theory",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 4,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.number_theory.counterexample_construction.l4.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "synthetic",
+      "domain": "number_theory",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 5,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.number_theory.counterexample_construction.l5.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "counterexample_construction",
+      "cohort": "synthetic",
+      "domain": "number_theory",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 5,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.number_theory.counterexample_construction.l5.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "synthetic",
+      "domain": "number_theory",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 1,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.number_theory.theorem_rediscovery.l1.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "synthetic",
+      "domain": "number_theory",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 1,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.number_theory.theorem_rediscovery.l1.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "synthetic",
+      "domain": "number_theory",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 2,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.number_theory.theorem_rediscovery.l2.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "synthetic",
+      "domain": "number_theory",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 2,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.number_theory.theorem_rediscovery.l2.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "synthetic",
+      "domain": "number_theory",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 3,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.number_theory.theorem_rediscovery.l3.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "synthetic",
+      "domain": "number_theory",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 3,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.number_theory.theorem_rediscovery.l3.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "synthetic",
+      "domain": "number_theory",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 4,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.number_theory.theorem_rediscovery.l4.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "synthetic",
+      "domain": "number_theory",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 4,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.number_theory.theorem_rediscovery.l4.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "synthetic",
+      "domain": "number_theory",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 5,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 1,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.number_theory.theorem_rediscovery.l5.001",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    },
+    {
+      "artifact_type": "theorem_rediscovery",
+      "cohort": "synthetic",
+      "domain": "number_theory",
+      "immutable_manifest_expectation": {
+        "artifact_path": null,
+        "content_sha256": null,
+        "file_sha256": null,
+        "registration_status": "missing",
+        "required": true
+      },
+      "implemented": false,
+      "level": 5,
+      "outcome_counts": {
+        "blocked": 0,
+        "pass": 0,
+        "reject": 0
+      },
+      "partition_ordinal": 2,
+      "reason": "no_immutable_result_registered",
+      "slot_id": "synthetic.number_theory.theorem_rediscovery.l5.002",
+      "slot_kind": "blind_holdout",
+      "status": "missing",
+      "validation_errors": []
+    }
+  ]
+}
