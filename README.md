@@ -1569,6 +1569,22 @@ source/config/test hashes are `a0c54de525ee10d9aaa0b03bc66737b94cfada3f84155b6f4
 `eb8d2b178e9c041466d3fd62ce9d47b1b10f907632129d739b8628cf9d7713c7` /
 `64ecb72d303e547ca090f93d0f14287e2c25b0c2f45d0279de0c3a34c237ca84`.
 
+The reverse-slice identifiability audit sharpens that blocker without overclaiming a physical
+no-go. Across 285 exact predecessor schema keys, no typed coordinate-to-Einstein derivative map
+is registered for the 90 other principal atoms. At the same reverse coordinate, two unregistered
+schema-compatible maps give `0` and `-2*alpha`; because every candidate has nonzero `alpha`, the
+values differ for all 12 candidates. Therefore none of the 810 reverse pairs or 8,910 reverse
+entries is identifiable or materialized, corrected cross-slice curl certificates remain zero, and
+all 12 candidates stay blocked but unrejected. This is non-identifiability from the current
+registered evidence—not a covariant impossibility theorem—and the remaining 106,920 principal
+high-atom entries, full D2F identity, H7, PDE, lifespan, and observational gates remain open.
+Artifact file/content hashes are
+`683b0e62afb0bbbcaf9cf8237749a7c97c48b1075e01832a5a73682657210cfd` /
+`6882a6899a83c9551a6a2443847480e254a00e26cf29539bab318966af26b9fd`;
+source/config/test hashes are `c5146e3c39d2f79767eb5d219fc72632300ff624c4217de9dd04ecb856cbcc8e` /
+`53296133a9dfeb48ae2f52125eb32ec0defad713f309abca6c790e7f162e0498` /
+`7c1ba24672e37ec2a2ad808433ccbac186f12071bac688635e402ef2570dc470`.
+
 The component campaign now proves every entry of the principal identity
 `D_Y E55 J = i P55` for all 12 candidates and materializes the complete first source Jacobian.
 Its 1,089 principal and 594 lower entries form an exact arithmetic-only `11 x 153` manifest with

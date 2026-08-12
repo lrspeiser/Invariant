@@ -150,6 +150,7 @@ SOURCE_PATHS = [
     "runs/physics-language/quartic-scalar-hessian-output-bundle-repair-gate/campaign.json",
     "runs/physics-language/quartic-full-d2f-high-atom-coverage-gate/campaign.json",
     "runs/physics-language/quartic-principal-high-atom-connection-extension-gate/campaign.json",
+    "runs/physics-language/quartic-reverse-principal-source-map-identifiability-gate/campaign.json",
     "runs/physics-language/quartic-tc2-ck1-p55-tube-envelope-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-quadratic-deltak-extension-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-diagonal-third-jet-campaign/campaign.json",
@@ -244,6 +245,7 @@ RECOVERY_CONFIG_PATHS = (
     "configs/backgrounds/quartic_scalar_hessian_output_bundle_repair_gate.json",
     "configs/backgrounds/quartic_full_d2f_high_atom_coverage_gate.json",
     "configs/backgrounds/quartic_principal_high_atom_connection_extension_gate.json",
+    "configs/backgrounds/quartic_reverse_principal_source_map_identifiability_gate.json",
 )
 FINITE_SOBOLEV_DEPENDENCIES = (
     "src/sigma_theory_compiler/quartic_finite_sobolev_hierarchy_no_go_campaign.py",
@@ -272,6 +274,13 @@ FULL_D2F_HIGH_ATOM_DEPENDENCIES = (
 PRINCIPAL_HIGH_ATOM_CONNECTION_DEPENDENCIES = (
     "src/sigma_theory_compiler/quartic_principal_high_atom_connection_extension_gate.py",
     "tests/test_quartic_principal_high_atom_connection_extension_gate.py",
+)
+REVERSE_PRINCIPAL_SOURCE_MAP_DEPENDENCIES = (
+    "src/sigma_theory_compiler/quartic_reverse_principal_source_map_identifiability_gate.py",
+    "tests/test_quartic_reverse_principal_source_map_identifiability_gate.py",
+    "src/sigma_theory_compiler/quartic_unspecialized_source_jacobian_campaign.py",
+    "tests/test_quartic_unspecialized_source_jacobian_campaign.py",
+    "runs/physics-language/quartic-unspecialized-source-jacobian-campaign/campaign.json",
 )
 SIXTH_FRAME_CONFIG_PATH = (
     "configs/backgrounds/quartic_tc2_d4_degree_three_sixth_frame_completion_campaign.json"
@@ -488,6 +497,7 @@ LABELS = [
     "quartic_scalar_hessian_output_bundle_repair_gate",
     "quartic_full_d2f_high_atom_coverage_gate",
     "quartic_principal_high_atom_connection_extension_gate",
+    "quartic_reverse_principal_source_map_identifiability_gate",
     "quartic_ck1_p55_tube_envelope",
     "quartic_tc2_quadratic_deltak_extension",
     "quartic_tc2_diagonal_third_jet",
@@ -675,6 +685,11 @@ def _fixture(tmp_path: Path) -> tuple[Path, dict[str, object], Path]:
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(source, target)
     for relative in PRINCIPAL_HIGH_ATOM_CONNECTION_DEPENDENCIES:
+        source = REPO / relative
+        target = tmp_path / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(source, target)
+    for relative in REVERSE_PRINCIPAL_SOURCE_MAP_DEPENDENCIES:
         source = REPO / relative
         target = tmp_path / relative
         target.parent.mkdir(parents=True, exist_ok=True)
@@ -2895,6 +2910,67 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
         "scalar_source_row_10_zero_on_other_principal_subset",
     }
     assert not any(connection_extension["data_seals"].values())
+    reverse_source_map = recovery["reverse_principal_source_map_identifiability"]
+    assert reverse_source_map["artifact_binding"] == {
+        "path": (
+            "runs/physics-language/quartic-reverse-principal-source-map-identifiability-gate/"
+            "campaign.json"
+        ),
+        "file_sha256": "683b0e62afb0bbbcaf9cf8237749a7c97c48b1075e01832a5a73682657210cfd",
+        "content_sha256": "6882a6899a83c9551a6a2443847480e254a00e26cf29539bab318966af26b9fd",
+    }
+    assert reverse_source_map["decision"] == (
+        "reverse_Pother_by_P10_values_not_identifiable_from_registered_source_map_"
+        "schemas_candidates_blocked"
+    )
+    assert reverse_source_map["decision_counts"] == {"pass": 0, "reject": 0, "blocked": 12}
+    assert reverse_source_map["gate_counts"]["predecessor_schema_keys_audited"] == 285
+    assert (
+        reverse_source_map["gate_counts"]["registered_typed_coordinate_to_Einstein_maps"] == 0
+    )
+    assert (
+        reverse_source_map["gate_counts"]["reverse_ordered_pair_cells_targeted_per_candidate"]
+        == 810
+    )
+    assert (
+        reverse_source_map["gate_counts"]["reverse_output_entries_targeted_per_candidate"]
+        == 8_910
+    )
+    assert reverse_source_map["gate_counts"]["reverse_output_entries_materialized"] == 0
+    assert reverse_source_map["gate_counts"]["two_map_nonidentifiability_witnesses"] == 12
+    assert reverse_source_map["gate_counts"]["witnesses_with_distinct_values"] == 12
+    assert reverse_source_map["gate_counts"]["corrected_cross_slice_curl_certificates"] == 0
+    assert (
+        reverse_source_map["gate_counts"]["principal_high_atom_entries_missing_per_candidate"]
+        == 106_920
+    )
+    assert reverse_source_map["schema_audit"]["exact_map_keys_found"] == []
+    assert reverse_source_map["schema_audit"]["audit_result"] == (
+        "typed_coordinate_to_Einstein_derivative_map_absent"
+    )
+    assert reverse_source_map["generic_witness"] == {
+        "einstein_component": "G_00",
+        "generic_alternative_map_value": "-2*alpha",
+        "generic_nonzero_entries": [
+            {"output_row": 10, "right_field": 10, "value": "-2*alpha"}
+        ],
+        "generic_zero_map_value": "0",
+        "left_atom": "s11[0]",
+        "output_row": 10,
+        "right_atom": "s11[10]",
+        "unspecialized_block_sha256": (
+            "695ff2a5fd45fa3fba21d4ce25ab2f62bd168df187c8e931bc9b5803a9cd4aed"
+        ),
+    }
+    assert reverse_source_map["first_blocker"] == (
+        "typed_coordinate_to_Einstein_derivative_map_for_90_other_principal_atoms_not_registered"
+    )
+    assert {key for key, value in reverse_source_map["claim_seals"].items() if value} == {
+        "current_predecessor_schemas_audited_for_typed_source_map",
+        "explicit_two_map_ambiguity_witness_constructed",
+        "restricted_zero_extended_connection_reverse_correction_zero",
+    }
+    assert not any(reverse_source_map["data_seals"].values())
     assert all(
         not any(lane["data_seals"].values())
         for name, lane in recovery.items()
@@ -4134,6 +4210,11 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "93 are nonzero" in dashboard
     assert "reverse <code>Pother x P10</code> derivatives" in dashboard
     assert "not a general connection no-go" in dashboard
+    assert "Reverse principal source-map identifiability audit" in dashboard
+    assert "285 distinct keys" in dashboard
+    assert "<code>0</code> and <code>-2*alpha</code>" in dashboard
+    assert "current-evidence non-identifiability result" in dashboard
+    assert "not a physical or covariant no-go" in dashboard
     assert "TC2 revised-symbol e3 counterexample and bounded escape" in dashboard
     assert "(u,v)=(0,1)" in dashboard
     assert "4,943" in dashboard
@@ -4531,4 +4612,23 @@ def test_formal_receipt_worker_unified_semantic_tamper_fails_closed(
     spec["content_sha256"] = artifact["content_sha256"]
 
     with pytest.raises(ValueError, match="formal receipt worker result contract mismatch"):
+        build_unified_snapshot(root, config, physical_gpu={"availability": "unavailable"})
+
+
+def test_reverse_source_map_unified_semantic_tamper_fails_closed(tmp_path: Path) -> None:
+    root, config, _ = _fixture(tmp_path)
+    label = "quartic_reverse_principal_source_map_identifiability_gate"
+    spec = next(source for source in config["sources"] if source["label"] == label)
+    target = root / spec["path"]
+    artifact = json.loads(target.read_text(encoding="utf-8"))
+    artifact["nonidentifiability_theorem"]["generic_witness"][
+        "generic_alternative_map_value"
+    ] = "0"
+    body = {key: value for key, value in artifact.items() if key != "content_sha256"}
+    artifact["content_sha256"] = hashlib.sha256(_canonical(body)).hexdigest()
+    target.write_text(json.dumps(artifact, indent=2) + "\n", encoding="utf-8")
+    spec["file_sha256"] = hashlib.sha256(target.read_bytes()).hexdigest()
+    spec["content_sha256"] = artifact["content_sha256"]
+
+    with pytest.raises(ValueError, match="reverse source-map result boundary changed"):
         build_unified_snapshot(root, config, physical_gpu={"availability": "unavailable"})
