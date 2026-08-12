@@ -597,9 +597,11 @@ The candidate-specific follow-up now replays all six sampled-static pass batches
 11,439 survivor candidates. Its reviewed 32-record-per-batch bound durably enumerates 192 exact
 ordinals; all 192 hard-reject at the covariant mapper because their action payload contains the
 forbidden baryonic atom, including 26 that passed the earlier symbolic-local preflight. This is not
-a rejection of the remaining 11,247 survivors: all six manifests are bounded and incomplete. The
-next engineering gate is a resumable paginated survivor-manifest contract with exact page roots and
-durable per-candidate receipts. Complete comparable evidence, formal passes, leaderboard rebuilds,
+a rejection of the remaining 11,247 survivors. The complete pagination gate now binds all 11,439
+survivors beneath 90 original worker roots and 649 complete leaf pages of at most 32 records, and
+creates one durable formal-receipt queue entry per survivor. It preserves the 192 prior mapper
+rejects and leaves exactly 11,247 candidate-specific formal receipts pending. Complete survivor
+identity is therefore closed, but complete comparable evidence, formal passes, leaderboard rebuilds,
 ranks, promotions, GPU access, live campaign SQLite access, and observations remain zero.
 The new candidate-bound formula stress lane drives the same RTX 5090 much harder on dense numerical
 work: all 163 materialized Euler projections were checked on 5,341,184 deterministic synthetic
@@ -1800,8 +1802,15 @@ through size four and finds two feasible four-support envelopes. Its determinist
 `a10(n)=3*n1**2*n2*n3/8 - 21*n2**3*n3/16 + 81*n2**2*n3**2/32 - 21*n2*n3**3/16`.
 A sharp rank-two, two-curl repair closes the 12 local systems and preserves all nine earlier
 frames, yielding ten local direction certificates only. The signed selector continues at
-`(u,v)=(-1,1)` for the revised ten-frame symbol; a determining theorem, pseudodifferential constraint,
-commutator, boundary-energy, local/covariant and PDE admission, remains open. This is
+`(u,v)=(-1,1)`, `n=(-1/3,-2/3,2/3)`, where the revised ten-frame symbol is likewise
+obstructed for all 12 candidates by a common rank-four, 56-entry zero-speed target. Degrees zero
+and two cannot preserve the ten prior frames; degree four is first feasible. The declared search
+checks 9,948 supports through size six and finds one feasible six-support envelope,
+`a11(n)=3*n1**2*n2*n3/16 - 81*n1*n2**2*n3/32 + 81*n1*n2*n3**2/32 + 33*n2**3*n3/32 + 81*n2**2*n3**2/64 - 75*n2*n3**3/32`.
+A rank-two, two-curl repair closes the 12 local systems and preserves all ten earlier frames,
+yielding eleven local direction certificates only. The final signed selector point
+`(u,v)=(-1,-1)` for the revised eleven-frame symbol, a determining theorem, pseudodifferential
+constraint, commutator, boundary-energy, local/covariant and PDE admission remain open. This is
 not an inferred pass for the unevaluated tail; full fourth-order range closure, full-tube,
 CK1, CK3, TC2, B7, global-H7, and lifespan remain false.
 

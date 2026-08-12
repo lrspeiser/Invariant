@@ -32,6 +32,9 @@ from .continuous_scientific_pipeline_service import (
     validate_execution_result as validate_pipeline_service_result,
 )
 from .continuous_scientific_pipeline_service import validate_readiness as validate_pipeline_service
+from .continuous_scientific_pipeline_survivor_pagination import (
+    validate_result as validate_survivor_pagination_result,
+)
 from .cpu_symbolic_overlap_benchmark import EXPECTED_TOP_LEVEL_KEYS as CPU_OVERLAP_KEYS
 from .formal_controls_portable_report import validate_artifact as validate_portable_formal_report
 from .kastner_schlatter_history_kernel_projective_admission import (
@@ -84,6 +87,9 @@ from .quartic_tc2_d4_revised_nine_frame_rational_counterexample_campaign import 
 )
 from .quartic_tc2_d4_revised_symbol_rational_counterexample_campaign import (
     validate_campaign as validate_revised_symbol_rational_counterexample,
+)
+from .quartic_tc2_d4_revised_ten_frame_rational_counterexample_campaign import (
+    validate_campaign as validate_revised_ten_frame_rational_counterexample,
 )
 
 SCHEMA_VERSION = "sigma-unified-engine-status-1.0"
@@ -755,6 +761,9 @@ def build_unified_snapshot(
     continuous_scientific_pipeline_epoch_003_candidate_followup = sources[
         "continuous_scientific_pipeline_epoch_003_candidate_followup"
     ]
+    continuous_scientific_pipeline_epoch_003_survivor_pagination = sources[
+        "continuous_scientific_pipeline_epoch_003_survivor_pagination"
+    ]
     promotion = sources["promotion_overlay"]
     parameter = sources["grammar_parameter_cells"]
     parameter_expansion = sources["grammar_parameter_cell_expansion_service"]
@@ -1103,6 +1112,9 @@ def build_unified_snapshot(
     quartic_tc2_d4_revised_nine_frame_counterexample = sources[
         "quartic_tc2_d4_revised_nine_frame_rational_counterexample"
     ]
+    quartic_tc2_d4_revised_ten_frame_counterexample = sources[
+        "quartic_tc2_d4_revised_ten_frame_rational_counterexample"
+    ]
     quartic_tc2_reranked_obligation_chunks = tuple(
         sources[f"quartic_tc2_reranked_obligation_chunk_{offset}"]
         for offset in (0, 64, 128, 192, 256, 320, 384)
@@ -1247,6 +1259,11 @@ def build_unified_snapshot(
         continuous_scientific_pipeline_epoch_003_candidate_followup,
         root,
         root / "configs/continuous_scientific_pipeline_epoch_003_candidate_followup.json",
+    )
+    validate_survivor_pagination_result(
+        continuous_scientific_pipeline_epoch_003_survivor_pagination,
+        root,
+        root / "configs/continuous_scientific_pipeline_epoch_003_survivor_pagination.json",
     )
     if (
         scalable_structural_metrics.get("candidate_count") != 163
@@ -8741,6 +8758,44 @@ def build_unified_snapshot(
         or revised_nine_counts["inferred_global_passes"] != 0
     ):
         raise ValueError("quartic TC2 revised-nine-frame counterexample is inconsistent")
+    validate_revised_ten_frame_rational_counterexample(
+        quartic_tc2_d4_revised_ten_frame_counterexample
+    )
+    revised_ten_counts = quartic_tc2_d4_revised_ten_frame_counterexample["counts"]
+    revised_ten_gate = quartic_tc2_d4_revised_ten_frame_counterexample["exact_gate"]
+    revised_ten_bindings = quartic_tc2_d4_revised_ten_frame_counterexample["source_bindings"]
+    revised_ten_config_path = validation_config_root / (
+        "configs/backgrounds/quartic_tc2_d4_revised_ten_frame_"
+        "rational_counterexample_campaign.json"
+    )
+    revised_ten_config = json.loads(revised_ten_config_path.read_text(encoding="utf-8"))
+    if (
+        hashlib.sha256(revised_ten_config_path.read_bytes()).hexdigest()
+        != "8afc5b68d8677d9e45197c7aa62f84a7af4285f8976ca1b1d409f3a82e6f8608"
+        or revised_ten_config.get("content_sha256")
+        != "1e5aa2cd610e6153b32762495819edaff5260b9c7e841fd2fb73111ff328becf"
+        or quartic_tc2_d4_revised_ten_frame_counterexample["config_sha256"]
+        != "1e5aa2cd610e6153b32762495819edaff5260b9c7e841fd2fb73111ff328becf"
+        or hashlib.sha256(
+            (validation_config_root / revised_ten_bindings["campaign_source"]["path"])
+            .read_bytes()
+        ).hexdigest()
+        != "9c02fe156f8d133bd430004d92229291be4765a09a53bef589d9bbffa871dff7"
+        or hashlib.sha256(
+            (validation_config_root / revised_ten_bindings["campaign_test"]["path"])
+            .read_bytes()
+        ).hexdigest()
+        != "edf5c845cd75873de83f4e5c8ea65dddea5c525b7c6cdced7f694a964f8e378e"
+        or revised_ten_bindings["ten_frame_predecessor"]
+        != source_specs["quartic_tc2_d4_revised_nine_frame_rational_counterexample"]
+        or _sha(revised_ten_gate)
+        != "172cf7a3d659fad3158e6ecc0f0685c5d99a091e486fc29f80e7fbb33ad015ad"
+        or revised_ten_counts["candidate_obstructions"] != 12
+        or revised_ten_counts["new_local_candidate_compatibilities"] != 12
+        or revised_ten_counts["total_local_direction_certificates"] != 11
+        or revised_ten_counts["inferred_global_passes"] != 0
+    ):
+        raise ValueError("quartic TC2 revised-ten-frame counterexample is inconsistent")
     if (
         unified_live_dashboard_service_readiness.get("decision")
         != "ready_enabled_read_only_bounded"
@@ -8884,6 +8939,42 @@ def build_unified_snapshot(
             "status": local_formula_service["status"],
         },
     }
+    def compact_revised_gate(gate: Mapping[str, Any]) -> dict[str, Any]:
+        """Project exact summaries after the full source artifact has validated."""
+        obstruction = gate["first_obstruction"]
+        escape = gate["bounded_next_escape"]
+        exact_obstruction = {
+            key: value
+            for key, value in obstruction["exact_rational_obstruction"].items()
+            if key != "candidate_records"
+        }
+        local_completion = {
+            key: value
+            for key, value in escape["local_completion"].items()
+            if key != "candidate_records"
+        }
+        return {
+            "atlas": gate["atlas"],
+            "search_protocol": gate["search_protocol"],
+            "first_obstruction": {
+                "selector": obstruction["selector"],
+                "full_recurrence": obstruction["full_recurrence"],
+                "exact_rational_obstruction": exact_obstruction,
+            },
+            "bounded_next_escape": {
+                "exact_range_classification": escape["exact_range_classification"],
+                "minimal_preserving_envelope": escape["minimal_preserving_envelope"],
+                "local_completion": local_completion,
+            },
+        }
+
+    revised_symbol_projection = compact_revised_gate(
+        quartic_tc2_d4_revised_symbol_counterexample["exact_gate"]
+    )
+    revised_eight_projection = compact_revised_gate(revised_eight_gate)
+    revised_nine_projection = compact_revised_gate(revised_nine_gate)
+    revised_ten_projection = compact_revised_gate(revised_ten_gate)
+
     core = {
         "schema_version": SCHEMA_VERSION,
         "source_revisions": {
@@ -9115,6 +9206,53 @@ def build_unified_snapshot(
                 "promotion_contract"
             ],
             "seals": continuous_scientific_pipeline_epoch_003_candidate_followup["seals"],
+        },
+        "continuous_scientific_pipeline_epoch_003_survivor_pagination": {
+            "artifact_binding": source_specs[
+                "continuous_scientific_pipeline_epoch_003_survivor_pagination"
+            ],
+            "decision": continuous_scientific_pipeline_epoch_003_survivor_pagination["decision"],
+            "counts": continuous_scientific_pipeline_epoch_003_survivor_pagination["counts"],
+            "ordered_batch_content_root_sha256": (
+                continuous_scientific_pipeline_epoch_003_survivor_pagination[
+                    "ordered_batch_content_root_sha256"
+                ]
+            ),
+            "ordered_complete_survivor_roots_sha256": (
+                continuous_scientific_pipeline_epoch_003_survivor_pagination[
+                    "ordered_complete_survivor_roots_sha256"
+                ]
+            ),
+            "formal_receipt_queue_hierarchy_root_sha256": (
+                continuous_scientific_pipeline_epoch_003_survivor_pagination[
+                    "formal_receipt_queue_hierarchy_root_sha256"
+                ]
+            ),
+            "complete_survivor_pagination": (
+                continuous_scientific_pipeline_epoch_003_survivor_pagination[
+                    "complete_survivor_pagination"
+                ]
+            ),
+            "complete_formal_receipts": continuous_scientific_pipeline_epoch_003_survivor_pagination[
+                "complete_formal_receipts"
+            ],
+            "complete_comparable_evidence": (
+                continuous_scientific_pipeline_epoch_003_survivor_pagination[
+                    "complete_comparable_evidence"
+                ]
+            ),
+            "first_remaining_blocker": (
+                continuous_scientific_pipeline_epoch_003_survivor_pagination[
+                    "first_remaining_blocker"
+                ]
+            ),
+            "execution_contract": continuous_scientific_pipeline_epoch_003_survivor_pagination[
+                "execution_contract"
+            ],
+            "promotion_contract": continuous_scientific_pipeline_epoch_003_survivor_pagination[
+                "promotion_contract"
+            ],
+            "seals": continuous_scientific_pipeline_epoch_003_survivor_pagination["seals"],
         },
         "einstein_aether_coupling_boundary_kkt": {
             "decision": einstein_aether_coupling_boundary_kkt["decision"],
@@ -11193,42 +11331,32 @@ def build_unified_snapshot(
                     "revised_symbol_rational_counterexample": {
                         "status": quartic_tc2_d4_revised_symbol_counterexample["status"],
                         "counts": quartic_tc2_d4_revised_symbol_counterexample["counts"],
-                        "atlas": quartic_tc2_d4_revised_symbol_counterexample["exact_gate"][
-                            "atlas"
-                        ],
-                        "search_protocol": quartic_tc2_d4_revised_symbol_counterexample[
-                            "exact_gate"
-                        ]["search_protocol"],
-                        "first_obstruction": quartic_tc2_d4_revised_symbol_counterexample[
-                            "exact_gate"
-                        ]["first_obstruction"],
-                        "bounded_next_escape": quartic_tc2_d4_revised_symbol_counterexample[
-                            "exact_gate"
-                        ]["bounded_next_escape"],
+                        **revised_symbol_projection,
                         "claims": quartic_tc2_d4_revised_symbol_counterexample["claims"],
                         "scope": quartic_tc2_d4_revised_symbol_counterexample["scope"],
                     },
                     "revised_eight_frame_rational_counterexample": {
                         "status": quartic_tc2_d4_revised_eight_frame_counterexample["status"],
                         "counts": revised_eight_counts,
-                        "atlas": revised_eight_gate["atlas"],
-                        "search_protocol": revised_eight_gate["search_protocol"],
-                        "first_obstruction": revised_eight_gate["first_obstruction"],
-                        "bounded_next_escape": revised_eight_gate["bounded_next_escape"],
+                        **revised_eight_projection,
                         "claims": quartic_tc2_d4_revised_eight_frame_counterexample["claims"],
                         "scope": quartic_tc2_d4_revised_eight_frame_counterexample["scope"],
                     },
                     "revised_nine_frame_rational_counterexample": {
                         "status": quartic_tc2_d4_revised_nine_frame_counterexample["status"],
                         "counts": revised_nine_counts,
-                        "atlas": revised_nine_gate["atlas"],
-                        "search_protocol": revised_nine_gate["search_protocol"],
-                        "first_obstruction": revised_nine_gate["first_obstruction"],
-                        "bounded_next_escape": revised_nine_gate["bounded_next_escape"],
+                        **revised_nine_projection,
                         "claims": quartic_tc2_d4_revised_nine_frame_counterexample["claims"],
                         "scope": quartic_tc2_d4_revised_nine_frame_counterexample["scope"],
                     },
-                    "next_gate": quartic_tc2_d4_revised_nine_frame_counterexample["next_gate"],
+                    "revised_ten_frame_rational_counterexample": {
+                        "status": quartic_tc2_d4_revised_ten_frame_counterexample["status"],
+                        "counts": revised_ten_counts,
+                        **revised_ten_projection,
+                        "claims": quartic_tc2_d4_revised_ten_frame_counterexample["claims"],
+                        "scope": quartic_tc2_d4_revised_ten_frame_counterexample["scope"],
+                    },
+                    "next_gate": quartic_tc2_d4_revised_ten_frame_counterexample["next_gate"],
                 },
                 "full_fourth_jet_range_closed": False,
             },
@@ -11245,7 +11373,7 @@ def build_unified_snapshot(
                 )
             },
             "first_missing_premise": (
-                "continue_preregistered_signed_height_one_selector_at_minus_one_plus_one_for_revised_ten_frame_symbol"
+                "continue_preregistered_signed_height_one_selector_at_minus_one_minus_one_for_revised_eleven_frame_symbol"
             ),
         },
         "evidence_pareto": {

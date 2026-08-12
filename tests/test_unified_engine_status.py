@@ -29,6 +29,7 @@ SOURCE_PATHS = [
     "runs/engine/continuous-scientific-pipeline-epoch-003-genesis.json",
     "runs/engine/continuous-scientific-pipeline-epoch-003-result.json",
     "runs/engine/continuous-scientific-pipeline-epoch-003-candidate-followup/result.json",
+    "runs/engine/continuous-scientific-pipeline-epoch-003-survivor-pagination/result.json",
     "runs/engine/composite-promotion-overlay-production-status.json",
     "runs/engine/grammar-v3-parameter-cell-execution-status.json",
     "runs/engine/grammar-v3-parameter-cell-expansion-service-status.json",
@@ -186,6 +187,7 @@ SOURCE_PATHS = [
     "runs/physics-language/quartic-tc2-d4-revised-symbol-rational-counterexample-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-d4-revised-eight-frame-rational-counterexample-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-d4-revised-nine-frame-rational-counterexample-campaign/campaign.json",
+    "runs/physics-language/quartic-tc2-d4-revised-ten-frame-rational-counterexample-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000000.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000064.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000128.json",
@@ -297,6 +299,13 @@ REVISED_NINE_FRAME_DEPENDENCIES = (
     "src/sigma_theory_compiler/quartic_tc2_d4_revised_nine_frame_rational_counterexample_campaign.py",
     "tests/test_quartic_tc2_d4_revised_nine_frame_rational_counterexample_campaign.py",
 )
+REVISED_TEN_FRAME_CONFIG_PATH = (
+    "configs/backgrounds/quartic_tc2_d4_revised_ten_frame_rational_counterexample_campaign.json"
+)
+REVISED_TEN_FRAME_DEPENDENCIES = (
+    "src/sigma_theory_compiler/quartic_tc2_d4_revised_ten_frame_rational_counterexample_campaign.py",
+    "tests/test_quartic_tc2_d4_revised_ten_frame_rational_counterexample_campaign.py",
+)
 PORTABLE_FORMAL_DEPENDENCIES = (
     "configs/formal_controls_portable_report.json",
     "src/sigma_theory_compiler/formal_controls_portable_report.py",
@@ -334,6 +343,9 @@ CONTINUOUS_PIPELINE_DEPENDENCIES = (
     "configs/continuous_scientific_pipeline_epoch_003_candidate_followup.json",
     "src/sigma_theory_compiler/continuous_scientific_pipeline_candidate_followup.py",
     "tests/test_continuous_scientific_pipeline_candidate_followup.py",
+    "configs/continuous_scientific_pipeline_epoch_003_survivor_pagination.json",
+    "src/sigma_theory_compiler/continuous_scientific_pipeline_survivor_pagination.py",
+    "tests/test_continuous_scientific_pipeline_survivor_pagination.py",
     "runs/engine/continuous-scientific-pipeline-epoch-003-candidate-followup/batch-01.json",
     "runs/engine/continuous-scientific-pipeline-epoch-003-candidate-followup/batch-02.json",
     "runs/engine/continuous-scientific-pipeline-epoch-003-candidate-followup/batch-03.json",
@@ -351,6 +363,7 @@ LABELS = [
     "continuous_scientific_pipeline_epoch_003_genesis",
     "continuous_scientific_pipeline_epoch_003_result",
     "continuous_scientific_pipeline_epoch_003_candidate_followup",
+    "continuous_scientific_pipeline_epoch_003_survivor_pagination",
     "promotion_overlay",
     "grammar_parameter_cells",
     "grammar_parameter_cell_expansion_service",
@@ -508,6 +521,7 @@ LABELS = [
     "quartic_tc2_d4_revised_symbol_rational_counterexample",
     "quartic_tc2_d4_revised_eight_frame_rational_counterexample",
     "quartic_tc2_d4_revised_nine_frame_rational_counterexample",
+    "quartic_tc2_d4_revised_ten_frame_rational_counterexample",
     "quartic_tc2_reranked_obligation_chunk_0",
     "quartic_tc2_reranked_obligation_chunk_64",
     "quartic_tc2_reranked_obligation_chunk_128",
@@ -599,6 +613,14 @@ def _fixture(tmp_path: Path) -> tuple[Path, dict[str, object], Path]:
         target = tmp_path / relative
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(source, target)
+    pagination_tree = Path(
+        "runs/engine/continuous-scientific-pipeline-epoch-003-survivor-pagination"
+    )
+    shutil.copytree(
+        REPO / pagination_tree,
+        tmp_path / pagination_tree,
+        dirs_exist_ok=True,
+    )
     leaderboard_config = json.loads(
         (REPO / "configs/scientific_leaderboards.json").read_text(encoding="utf-8")
     )
@@ -704,6 +726,36 @@ def _fixture(tmp_path: Path) -> tuple[Path, dict[str, object], Path]:
         "fourth_campaign",
     ):
         binding = revised_nine_config[key]
+        relative = binding["path"]
+        source = REPO / relative
+        target = tmp_path / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        if not target.exists():
+            shutil.copyfile(source, target)
+    for relative in REVISED_TEN_FRAME_DEPENDENCIES:
+        source = REPO / relative
+        target = tmp_path / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(source, target)
+    revised_ten_config_source = REPO / REVISED_TEN_FRAME_CONFIG_PATH
+    revised_ten_config_target = tmp_path / REVISED_TEN_FRAME_CONFIG_PATH
+    revised_ten_config_target.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copyfile(revised_ten_config_source, revised_ten_config_target)
+    revised_ten_config = json.loads(revised_ten_config_source.read_text(encoding="utf-8"))
+    for key in (
+        "campaign_source",
+        "campaign_test",
+        "ten_frame_predecessor",
+        "nine_frame_predecessor",
+        "revised_predecessor",
+        "degree_five_predecessor",
+        "rational_predecessor",
+        "xyz_predecessor",
+        "c23_predecessor",
+        "minimal_escape",
+        "fourth_campaign",
+    ):
+        binding = revised_ten_config[key]
         relative = binding["path"]
         source = REPO / relative
         target = tmp_path / relative
@@ -1432,6 +1484,30 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     assert len(candidate_followup["candidate_decision_records_root_sha256"]) == 64
     assert not any(candidate_followup["promotion_contract"].values())
     assert not any(candidate_followup["seals"].values())
+    pagination = core.pop("continuous_scientific_pipeline_epoch_003_survivor_pagination")
+    assert pagination["decision"] == (
+        "complete_survivor_pagination_formal_queue_incomplete_no_promotion"
+    )
+    assert pagination["counts"] == {
+        "candidate_promotions": 0,
+        "durable_formal_receipt_queue_entries": 11_439,
+        "leaf_pages": 649,
+        "pending_formal_receipts": 11_247,
+        "preserved_completed_formal_receipts": 192,
+        "rank_assignments": 0,
+        "source_pass_batches": 6,
+        "source_survivors": 11_439,
+        "worker_roots": 90,
+    }
+    assert pagination["complete_survivor_pagination"] is True
+    assert pagination["complete_formal_receipts"] is False
+    assert pagination["complete_comparable_evidence"] is False
+    assert pagination["first_remaining_blocker"] == "candidate_specific_formal_receipts_pending"
+    assert len(pagination["ordered_batch_content_root_sha256"]) == 64
+    assert len(pagination["ordered_complete_survivor_roots_sha256"]) == 64
+    assert len(pagination["formal_receipt_queue_hierarchy_root_sha256"]) == 64
+    assert not any(pagination["promotion_contract"].values())
+    assert not any(pagination["seals"].values())
     assert not any(service_result["seals"].values())
     aether_boundary = core["einstein_aether_coupling_boundary_kkt"]
     assert aether_boundary["decision_counts"] == {"blocked": 1, "pass": 0, "reject": 0}
@@ -3203,6 +3279,57 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
         is True
     )
     assert revised_nine["claims"]["full_direction_sphere_D4_compatibility_proved"] is False
+    revised_ten = core["quartic_nonlinear_closure"]["fourth_jet_range_obligations"][
+        "canonical_obstruction_certificate"
+    ].pop("revised_ten_frame_rational_counterexample")
+    assert revised_ten["counts"]["directional_polarization_evaluations"] == 15
+    assert revised_ten["counts"]["candidate_compatibilities"] == 0
+    assert revised_ten["counts"]["candidate_obstructions"] == 12
+    assert revised_ten["counts"]["bounded_envelope_supports_checked"] == 9_948
+    assert revised_ten["counts"]["sparsest_envelope_support"] == 6
+    assert revised_ten["counts"]["sparsest_feasible_envelopes"] == 1
+    assert revised_ten["counts"]["new_local_candidate_compatibilities"] == 12
+    assert revised_ten["counts"]["total_local_direction_certificates"] == 11
+    assert revised_ten["first_obstruction"]["selector"]["chart_coordinates"] == ["-1", "1"]
+    assert revised_ten["first_obstruction"]["selector"]["direction"] == [
+        "-1/3",
+        "-2/3",
+        "2/3",
+    ]
+    assert (
+        revised_ten["first_obstruction"]["exact_rational_obstruction"][
+            "eta_normalized_target_sha256"
+        ]
+        == "6f05c62c3a4f8d90b13901a43db4109acac8865477f433d9437c3fea310edb01"
+    )
+    revised_ten_envelope = revised_ten["bounded_next_escape"]["minimal_preserving_envelope"]
+    assert revised_ten_envelope["supports_checked_by_size"] == {
+        "1": 15,
+        "2": 105,
+        "3": 455,
+        "4": 1365,
+        "5": 3003,
+        "6": 5005,
+    }
+    assert revised_ten_envelope["feasible_envelopes_by_support_size"] == {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 1,
+    }
+    assert revised_ten["bounded_next_escape"]["local_completion"]["coordinate_pairs"] == [
+        [11, 21],
+        [15, 32],
+    ]
+    assert (
+        revised_ten["claims"][
+            "revised_ten_frame_symbol_full_sphere_D4_compatibility_disproved"
+        ]
+        is True
+    )
+    assert revised_ten["claims"]["full_direction_sphere_D4_compatibility_proved"] is False
     assert core["quartic_nonlinear_closure"] == {
         "candidate_count": 12,
         "coordinate_pair_partition": {
@@ -3465,8 +3592,8 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                     ),
                 },
                 "next_gate": (
-                    "Continue the preregistered signed height-one selector at (u,v)=(-1,1) "
-                    "for the revised ten-frame symbol; do not infer a finite determining "
+                    "Continue the preregistered signed height-one selector at (u,v)=(-1,-1) "
+                    "for the revised eleven-frame symbol; do not infer a finite determining "
                     "theorem or PDE/global admission."
                 ),
             },
@@ -3482,8 +3609,8 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
             "lifespans_proved": 0,
         },
         "first_missing_premise": (
-            "continue_preregistered_signed_height_one_selector_at_minus_one_plus_one_for_"
-            "revised_ten_frame_symbol"
+            "continue_preregistered_signed_height_one_selector_at_minus_one_minus_one_for_"
+            "revised_eleven_frame_symbol"
         ),
     }
     assert core["cross_pipeline_total"]["status"] == "not_computed"
@@ -3930,6 +4057,11 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "forbidden baryonic atom" in dashboard
     assert "other 11,247 survivors" in dashboard
     assert "resumable paginated survivor-manifest contract" in dashboard
+    assert "Epoch 003 complete survivor pagination" in dashboard
+    assert "90 original worker roots" in dashboard
+    assert "649 complete leaf pages" in dashboard
+    assert "11,247 candidate-specific formal receipts remain pending" in dashboard
+    assert "does not provide complete formal or comparable evidence" in dashboard
     assert "Scalar-Hessian curl invariance gate" in dashboard
     assert "12 independent antisymmetric pairs" in dashboard
     assert "corrected source Jacobian" in dashboard
@@ -3960,6 +4092,13 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "a10(n)=3*n1**2*n2*n3/8" in dashboard
     assert "ten exact direction certificates" in dashboard
     assert "remaining signed selector points" in dashboard
+    assert "TC2 revised-ten-frame (-1,1) counterexample and bounded escape" in dashboard
+    assert "(u,v)=(-1,1)" in dashboard
+    assert "n=(-1/3,-2/3,2/3)" in dashboard
+    assert "9,948" in dashboard
+    assert "one feasible six-support envelope" in dashboard
+    assert "a11(n)=3*n1**2*n2*n3/16" in dashboard
+    assert "eleven exact direction certificates" in dashboard
     assert "never assign rank directly" in dashboard
     assert "22,478,848 unique candidate-grid evaluations" in dashboard
     assert "89.4% median and 100% peak device-wide CPU" in dashboard
