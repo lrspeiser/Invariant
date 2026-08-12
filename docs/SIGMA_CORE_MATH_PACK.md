@@ -60,6 +60,18 @@ counterexample search may pass its screening stage but cannot satisfy exact veri
 exact verifier accepts rational-function equations that SymPy reduces identically to zero; other
 formula and proof classes remain blocked until an explicit verifier is registered.
 
+`math_benchmark.py` provides the first closed Mathematical Knowledge Graph and blind-holdout
+manifest. It rejects cyclic or missing dependencies, requires the target and every downstream node
+to remain forbidden before unseal, expands the dependency closure of every proof receipt, and
+places all truth and provenance gates ahead of simplicity in a lexicographic score.
+
+`math_proof.py` emits independently replayable exact certificates for rational identities and
+first-order induction. Identity certificates bind the raw and canonical statements and a cleared
+numerator witness on the regular denominator domain. Induction certificates independently verify a
+registered base case and the symbolic successor after recurrence and induction-hypothesis
+substitution. Higher-order induction, denominator nonvanishing, limits, and analytic branch claims
+remain unsupported and therefore blocked.
+
 Computational agreement is never proof. A million successful evaluations can advance a candidate
 to a proof attempt, but cannot produce a `proved` receipt.
 
