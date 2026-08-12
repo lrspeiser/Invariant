@@ -157,6 +157,7 @@ SOURCE_PATHS = [
     "runs/physics-language/quartic-reverse-principal-source-map-identifiability-gate/campaign.json",
     "runs/physics-language/quartic-reverse-principal-typed-map-curl-gate/campaign.json",
     "runs/physics-language/quartic-cross-slice-one-sided-output-connection-no-go-gate/campaign.json",
+    "runs/physics-language/quartic-cross-slice-two-sided-connection-identifiability-gate/campaign.json",
     "runs/physics-language/quartic-tc2-ck1-p55-tube-envelope-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-quadratic-deltak-extension-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-diagonal-third-jet-campaign/campaign.json",
@@ -255,6 +256,7 @@ RECOVERY_CONFIG_PATHS = (
     "configs/backgrounds/quartic_reverse_principal_source_map_identifiability_gate.json",
     "configs/backgrounds/quartic_reverse_principal_typed_map_curl_gate.json",
     "configs/backgrounds/quartic_cross_slice_one_sided_output_connection_no_go_gate.json",
+    "configs/backgrounds/quartic_cross_slice_two_sided_connection_identifiability_gate.json",
 )
 FINITE_SOBOLEV_DEPENDENCIES = (
     "src/sigma_theory_compiler/quartic_finite_sobolev_hierarchy_no_go_campaign.py",
@@ -301,6 +303,10 @@ REVERSE_PRINCIPAL_TYPED_MAP_DEPENDENCIES = (
 ONE_SIDED_OUTPUT_CONNECTION_DEPENDENCIES = (
     "src/sigma_theory_compiler/quartic_cross_slice_one_sided_output_connection_no_go_gate.py",
     "tests/test_quartic_cross_slice_one_sided_output_connection_no_go_gate.py",
+)
+TWO_SIDED_CONNECTION_IDENTIFIABILITY_DEPENDENCIES = (
+    "src/sigma_theory_compiler/quartic_cross_slice_two_sided_connection_identifiability_gate.py",
+    "tests/test_quartic_cross_slice_two_sided_connection_identifiability_gate.py",
 )
 SIXTH_FRAME_CONFIG_PATH = (
     "configs/backgrounds/quartic_tc2_d4_degree_three_sixth_frame_completion_campaign.json"
@@ -543,6 +549,7 @@ LABELS = [
     "quartic_reverse_principal_source_map_identifiability_gate",
     "quartic_reverse_principal_typed_map_curl_gate",
     "quartic_cross_slice_one_sided_output_connection_no_go_gate",
+    "quartic_cross_slice_two_sided_connection_identifiability_gate",
     "quartic_ck1_p55_tube_envelope",
     "quartic_tc2_quadratic_deltak_extension",
     "quartic_tc2_diagonal_third_jet",
@@ -778,6 +785,11 @@ def _fixture(tmp_path: Path) -> tuple[Path, dict[str, object], Path]:
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(source, target)
     for relative in ONE_SIDED_OUTPUT_CONNECTION_DEPENDENCIES:
+        source = REPO / relative
+        target = tmp_path / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(source, target)
+    for relative in TWO_SIDED_CONNECTION_IDENTIFIABILITY_DEPENDENCIES:
         source = REPO / relative
         target = tmp_path / relative
         target.parent.mkdir(parents=True, exist_ok=True)
@@ -3378,10 +3390,44 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
         "one_sided_connection_system_inconsistent",
     }
     assert not any(one_sided_connection["data_seals"].values())
+    two_sided = recovery["cross_slice_two_sided_connection_identifiability"]
+    assert two_sided["artifact_binding"] == {
+        "path": (
+            "runs/physics-language/quartic-cross-slice-two-sided-connection-"
+            "identifiability-gate/campaign.json"
+        ),
+        "file_sha256": "c3ecb5b65a716d5c55ede9d165880e04614f525dce43d49a0f3d9b996a6a9a5a",
+        "content_sha256": "71876e080a30eb3ec3f1b066c4107911a344d9f5005a2f480a7a35275101e17e",
+    }
+    assert two_sided["decision_counts"] == {"pass": 0, "reject": 0, "blocked": 12}
+    assert two_sided["gate_counts"]["curl_flattening_rank_per_candidate"] == 6
+    assert two_sided["gate_counts"]["zero_completion_coefficient_rank"] == 990
+    assert two_sided["gate_counts"]["zero_completion_augmented_rank"] == 991
+    assert two_sided["gate_counts"]["rank_six_completion_coefficient_rank"] == 1_518
+    assert two_sided["gate_counts"]["rank_six_completion_augmented_rank"] == 1_518
+    assert two_sided["gate_counts"]["rank_six_completion_residual_nonzero_entries"] == 0
+    assert two_sided["gate_counts"]["physically_registered_completions"] == 0
+    assert two_sided["gate_counts"]["cross_slice_entries_admitted"] == 0
+    assert two_sided["first_blocker"] == (
+        "candidate_bound_Pother_one_form_or_corrected_source_jet_required_to_select_between_"
+        "inconsistent_zero_completion_and_consistent_rank_six_completion"
+    )
+    assert set(two_sided["true_claims"]) == {
+        "two_sided_connection_premise_identifiability_classified",
+        "zero_Pother_one_form_completion_inconsistent",
+        "rank_six_synthetic_completion_constructed",
+        "rank_six_minimal_in_zero_Pother_connection_subclass",
+    }
+    assert two_sided["all_data_seals_closed"] is True
     assert all(
         not any(lane["data_seals"].values())
         for name, lane in recovery.items()
-        if name not in {"ordered_candidate_ids", "all_candidate_sets_equal"}
+        if name
+        not in {
+            "ordered_candidate_ids",
+            "all_candidate_sets_equal",
+            "cross_slice_two_sided_connection_identifiability",
+        }
     )
     topology = core["quartic_nonlinear_closure"]["fourth_jet_range_obligations"][
         "canonical_obstruction_certificate"
@@ -4707,6 +4753,10 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "coefficient rank is 990 while the augmented rank is 991" in dashboard
     assert "repair nine pair entries" in dashboard
     assert "not a general or two-sided connection no-go" in dashboard
+    assert "Two-sided connection premise identifiability" in dashboard
+    assert "99x90 curl flattening has exact rank six" in dashboard
+    assert "ranks 1,518/1,518 and zero residual" in dashboard
+    assert "synthetic completion is not source-registered" in dashboard
     assert "TC2 revised-symbol e3 counterexample and bounded escape" in dashboard
     assert "(u,v)=(0,1)" in dashboard
     assert "4,943" in dashboard
@@ -5167,6 +5217,30 @@ def test_one_sided_output_connection_unified_semantic_tamper_fails_closed(
     spec["content_sha256"] = artifact["content_sha256"]
 
     with pytest.raises(ValueError, match="one-sided output connection result boundary changed"):
+        build_unified_snapshot(root, config, physical_gpu={"availability": "unavailable"})
+
+
+def test_two_sided_connection_identifiability_unified_semantic_tamper_fails_closed(
+    tmp_path: Path,
+) -> None:
+    root, config, _ = _fixture(tmp_path)
+    label = "quartic_cross_slice_two_sided_connection_identifiability_gate"
+    spec = next(source for source in config["sources"] if source["label"] == label)
+    target = root / spec["path"]
+    artifact = json.loads(target.read_text(encoding="utf-8"))
+    artifact["candidate_records"][0]["rank_six_completion_witness"][
+        "nonzero_residuals"
+    ] = 1
+    body = {key: value for key, value in artifact.items() if key != "content_sha256"}
+    artifact["content_sha256"] = hashlib.sha256(_canonical(body)).hexdigest()
+    target.write_text(json.dumps(artifact, indent=2) + "\n", encoding="utf-8")
+    spec["file_sha256"] = hashlib.sha256(target.read_bytes()).hexdigest()
+    spec["content_sha256"] = artifact["content_sha256"]
+
+    with pytest.raises(
+        ValueError,
+        match="two-sided connection identifiability result boundary changed",
+    ):
         build_unified_snapshot(root, config, physical_gpu={"availability": "unavailable"})
 
 

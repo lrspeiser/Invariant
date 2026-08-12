@@ -1663,6 +1663,25 @@ source/config/test hashes are `ec6a29c6b6f1cd4b5082e0c75097f874097aa0c5b199dca8a
 `37498ac6aa3776c9ff87686dbf58869153e46c1d0306cec800413fabd9c7c2f3` /
 `7e8577755884b798c911d732c440a41589a013e9d34def9bb31a03f27b5909d6`.
 
+The two-sided premise audit next studies
+`C_Aij + Omega_A^B_i J_Bj - Omega_A^B_j K_Bi = 0` without inventing a
+source-derived `Pother` one-form `K`. For every candidate the exact `99 x 90` curl flattening has
+rank 6 and 63 nonzero entries. The registered-data-compatible completion `K = 0` reproduces the
+one-sided coefficient/augmented ranks 990/991 and is inconsistent. An exact rank decomposition
+also gives a synthetic rank-6 `K` with 54 nonzero entries and a `P10` connection variation with
+nine nonzero entries; in the declared subclass with zero `Pother` connection variation, this
+synthetic witness satisfies all 8,910 equations with coefficient/augmented ranks 1,518/1,518 and
+zero residuals. The witness is not source-registered and admits no physical connection or D2F
+entry: all 12 candidates remain blocked, none are rejected, and the other 106,920 principal
+high-atom entries, full D2F, H7, PDE, lifespan, and observational claims remain fail-closed. The
+first blocker is a candidate-bound `Pother` one-form or corrected source jet that selects between
+the inconsistent zero completion and consistent synthetic completion. Artifact file/content hashes
+are `c3ecb5b65a716d5c55ede9d165880e04614f525dce43d49a0f3d9b996a6a9a5a` /
+`71876e080a30eb3ec3f1b066c4107911a344d9f5005a2f480a7a35275101e17e`;
+source/config/test hashes are `f1db73f06117de191568edb4a768c577f155acb30dfc367cb063333a6ec83ac9` /
+`a4d41f53c277f135f68a28f21b4360fdc38dfa77f15c770be49e34ba05d272ae` /
+`a5acb4340009d6a58194ac7dd8870abb67806f488c84779e3e1c6e6b46a34995`.
+
 The component campaign now proves every entry of the principal identity
 `D_Y E55 J = i P55` for all 12 candidates and materializes the complete first source Jacobian.
 Its 1,089 principal and 594 lower entries form an exact arithmetic-only `11 x 153` manifest with

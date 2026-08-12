@@ -1660,6 +1660,10 @@
         "status": "implemented_one_sided_declared_connection_rank_no_go_two_sided_fail_closed",
         "scope": "For all 12 candidates, fixing the nine registered P10-direction connection values while allowing arbitrary output rows on the 90 Pother directions produces an 8910-equation/10890-unknown system with coefficient rank 990 and augmented rank 991. Eighteen groups hit zero one-form directions and 15 impose incompatible diagonal values; only three groups repair nine pair entries in the maximal compatible subdomain. Zero cross-slice entries are admitted and 106920 principal high-atom entries remain missing. This is not a general or two-sided connection no-go; P10-direction variations, corrected sources, full D2F, H7, PDE and lifespan remain fail-closed."
       },
+      "cross_slice_two_sided_connection_identifiability": {
+        "status": "implemented_two_sided_premise_nonidentifiability_source_registration_fail_closed",
+        "scope": "For all 12 candidates, the exact 99x90 cross-slice curl flattening has rank six and 63 nonzero entries. The K=0 Pother one-form completion reproduces the inconsistent coefficient/augmented ranks 990/991, while an exact rank decomposition constructs a synthetic rank-six K with 54 nonzero entries and a nine-entry P10 connection variation that satisfies all 8910 equations with coefficient/augmented ranks 1518/1518 and zero residuals in the declared zero-Pother-connection-variation subclass. The synthetic K is not candidate-bound or source-registered, so zero physical completions and zero cross-slice D2F entries are admitted; all 12 candidates remain blocked without rejection. A candidate-bound Pother one-form or corrected source jet, the remaining 106920 principal high-atom entries, full D2F, H7, PDE and lifespan remain fail-closed."
+      },
       "anti_wick_composition_derivative_audit": {
         "status": "implemented_targeted_annular_C6_principal_composition_global_H7_fail_closed",
         "scope": "The Gaussian anti-Wick operator is exactly the Weyl operator with symbol exp((h/4)Delta)K. A positive annular energy, exact composition-amplitude algebra, 1/(8*pi) Schur coefficient, heat-smoothing witness, and false-C4-closure negative all pass. The targeted C6 hierarchy supplies (x,xi) pairs (2,4), (0,6), (0,5), and (1,4), giving finite principal composition constants and high-shell/finite-low principal inequalities for all 12 candidates. Localized source remainders, the remote H6-coefficient/H7-state paraproduct, global dyadic summation, and lifespan remain fail-closed."
@@ -1732,6 +1736,10 @@
           "configs/backgrounds/quartic_cross_slice_one_sided_output_connection_no_go_gate.json",
           "tests/test_quartic_cross_slice_one_sided_output_connection_no_go_gate.py",
           "runs/physics-language/quartic-cross-slice-one-sided-output-connection-no-go-gate/campaign.json",
+          "src/sigma_theory_compiler/quartic_cross_slice_two_sided_connection_identifiability_gate.py",
+          "configs/backgrounds/quartic_cross_slice_two_sided_connection_identifiability_gate.json",
+          "tests/test_quartic_cross_slice_two_sided_connection_identifiability_gate.py",
+          "runs/physics-language/quartic-cross-slice-two-sided-connection-identifiability-gate/campaign.json",
           "src/sigma_theory_compiler/quartic_tc2_quadratic_deltak_extension_campaign.py",
           "configs/backgrounds/quartic_tc2_quadratic_deltak_extension_campaign.json",
           "tests/test_quartic_tc2_quadratic_deltak_extension_campaign.py",
@@ -2388,6 +2396,38 @@
             "nonlinear_PDE_closures": 0,
             "lifespans_proved": 0,
             "first_blocker": "connection_variations_on_P10_directions_or_corrected_source_extension_needed_for_one_sided_system_augmented_rank_991_over_coefficient_rank_990"
+          },
+          "cross_slice_two_sided_connection_identifiability_binding": {
+            "file_sha256": "c3ecb5b65a716d5c55ede9d165880e04614f525dce43d49a0f3d9b996a6a9a5a",
+            "content_sha256": "71876e080a30eb3ec3f1b066c4107911a344d9f5005a2f480a7a35275101e17e",
+            "source_sha256": "f1db73f06117de191568edb4a768c577f155acb30dfc367cb063333a6ec83ac9",
+            "config_sha256": "a4d41f53c277f135f68a28f21b4360fdc38dfa77f15c770be49e34ba05d272ae",
+            "test_sha256": "a5acb4340009d6a58194ac7dd8870abb67806f488c84779e3e1c6e6b46a34995",
+            "candidate_count": 12,
+            "candidate_pass": 0,
+            "candidate_reject": 0,
+            "candidate_blocked": 12,
+            "two_sided_equations_per_candidate": 8910,
+            "two_sided_connection_unknowns_per_candidate": 11979,
+            "missing_Pother_one_form_entries_per_candidate": 990,
+            "curl_flattening_rank_per_candidate": 6,
+            "curl_nonzero_entries_per_candidate": 63,
+            "zero_completion_coefficient_rank": 990,
+            "zero_completion_augmented_rank": 991,
+            "synthetic_completion_one_form_rank": 6,
+            "synthetic_completion_one_form_nonzero_entries_per_candidate": 54,
+            "synthetic_completion_connection_nonzero_entries_per_candidate": 9,
+            "synthetic_completion_coefficient_rank": 1518,
+            "synthetic_completion_augmented_rank": 1518,
+            "synthetic_completion_residual_nonzero_entries": 0,
+            "physically_registered_completions": 0,
+            "cross_slice_entries_admitted": 0,
+            "principal_high_atom_entries_missing_per_candidate": 106920,
+            "complete_ordered_D2F_tensors_registered": 0,
+            "global_H7_closures": 0,
+            "nonlinear_PDE_closures": 0,
+            "lifespans_proved": 0,
+            "first_blocker": "candidate_bound_Pother_one_form_or_corrected_source_jet_required_to_select_between_inconsistent_zero_completion_and_consistent_rank_six_completion"
           },
           "fourth_jet_degree_three_matrix_curl_sphere_extension_binding": {
             "file_sha256": "118ee8b29dc6ddc40099a5ad53a07f0d2692de52e22912f64dab85e8dfedd972",

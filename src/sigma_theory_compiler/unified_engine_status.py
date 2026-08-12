@@ -66,6 +66,9 @@ from .quartic_bounded_frequency_defect_campaign import (
 from .quartic_cross_slice_one_sided_output_connection_no_go_gate import (
     _validate_result as validate_cross_slice_one_sided_output_connection_no_go,
 )
+from .quartic_cross_slice_two_sided_connection_identifiability_gate import (
+    _validate_result as validate_cross_slice_two_sided_connection_identifiability,
+)
 from .quartic_dyadic_localization_campaign import validate_quartic_dyadic_localization_artifact
 from .quartic_finite_sobolev_hierarchy_no_go_campaign import (
     _validate_result as validate_finite_sobolev_hierarchy_no_go,
@@ -1024,6 +1027,9 @@ def build_unified_snapshot(
     quartic_cross_slice_one_sided_output_connection_no_go = sources[
         "quartic_cross_slice_one_sided_output_connection_no_go_gate"
     ]
+    quartic_cross_slice_two_sided_connection_identifiability = sources[
+        "quartic_cross_slice_two_sided_connection_identifiability_gate"
+    ]
     validation_config_root = root
     validate_quartic_anti_wick_composition_artifact(
         quartic_anti_wick_recovery,
@@ -1102,6 +1108,10 @@ def build_unified_snapshot(
     )
     validate_cross_slice_one_sided_output_connection_no_go(
         quartic_cross_slice_one_sided_output_connection_no_go,
+        root=validation_config_root,
+    )
+    validate_cross_slice_two_sided_connection_identifiability(
+        quartic_cross_slice_two_sided_connection_identifiability,
         root=validation_config_root,
     )
     quartic_tc2_quadratic_deltak = sources["quartic_tc2_quadratic_deltak_extension"]
@@ -11369,6 +11379,50 @@ def build_unified_snapshot(
                         "data_seals"
                     ],
                 },
+                "cross_slice_two_sided_connection_identifiability": {
+                    "artifact_binding": source_specs[
+                        "quartic_cross_slice_two_sided_connection_identifiability_gate"
+                    ],
+                    "decision": quartic_cross_slice_two_sided_connection_identifiability[
+                        "decision"
+                    ],
+                    "decision_counts": quartic_cross_slice_two_sided_connection_identifiability[
+                        "decision_counts"
+                    ],
+                    "gate_counts": {
+                        key: quartic_cross_slice_two_sided_connection_identifiability[
+                            "gate_counts"
+                        ][key]
+                        for key in (
+                            "curl_flattening_rank_per_candidate",
+                            "zero_completion_coefficient_rank",
+                            "zero_completion_augmented_rank",
+                            "rank_six_completion_one_form_nonzero_entries_per_candidate",
+                            "rank_six_completion_connection_nonzero_entries_per_candidate",
+                            "rank_six_completion_coefficient_rank",
+                            "rank_six_completion_augmented_rank",
+                            "rank_six_completion_residual_nonzero_entries",
+                            "physically_registered_completions",
+                            "cross_slice_entries_admitted",
+                            "principal_high_atom_entries_missing_per_candidate",
+                        )
+                    },
+                    "first_blocker": quartic_cross_slice_two_sided_connection_identifiability[
+                        "first_blocker"
+                    ],
+                    "true_claims": sorted(
+                        key
+                        for key, value in quartic_cross_slice_two_sided_connection_identifiability[
+                            "claim_seals"
+                        ].items()
+                        if value
+                    ),
+                    "all_data_seals_closed": not any(
+                        quartic_cross_slice_two_sided_connection_identifiability[
+                            "data_seals"
+                        ].values()
+                    ),
+                },
                 "ordered_candidate_ids": [
                     row["candidate_id"] for row in quartic_anti_wick_recovery["certificates"]
                 ],
@@ -11423,6 +11477,12 @@ def build_unified_snapshot(
                     == [
                         row["candidate_id"]
                         for row in quartic_cross_slice_one_sided_output_connection_no_go[
+                            "candidate_records"
+                        ]
+                    ]
+                    == [
+                        row["candidate_id"]
+                        for row in quartic_cross_slice_two_sided_connection_identifiability[
                             "candidate_records"
                         ]
                     ]
