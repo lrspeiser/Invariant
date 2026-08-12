@@ -31,6 +31,7 @@ SOURCE_PATHS = [
     "runs/engine/continuous-scientific-pipeline-epoch-003-candidate-followup/result.json",
     "runs/engine/continuous-scientific-pipeline-epoch-003-survivor-pagination/result.json",
     "runs/engine/continuous-scientific-pipeline-epoch-003-formal-receipt-worker-partition-0001/result.json",
+    "runs/engine/continuous-scientific-pipeline-epoch-003-cumulative-formal-receipt-worker/result.json",
     "runs/engine/composite-promotion-overlay-production-status.json",
     "runs/engine/grammar-v3-parameter-cell-execution-status.json",
     "runs/engine/grammar-v3-parameter-cell-expansion-service-status.json",
@@ -359,6 +360,9 @@ CONTINUOUS_PIPELINE_DEPENDENCIES = (
     "configs/continuous_scientific_pipeline_epoch_003_formal_receipt_worker_partition_0001.json",
     "src/sigma_theory_compiler/continuous_scientific_pipeline_formal_receipt_worker.py",
     "tests/test_continuous_scientific_pipeline_formal_receipt_worker.py",
+    "configs/continuous_scientific_pipeline_epoch_003_cumulative_formal_receipt_worker.json",
+    "src/sigma_theory_compiler/continuous_scientific_pipeline_cumulative_formal_receipt_worker.py",
+    "tests/test_continuous_scientific_pipeline_cumulative_formal_receipt_worker.py",
     "runs/engine/continuous-scientific-pipeline-epoch-003-candidate-followup/batch-01.json",
     "runs/engine/continuous-scientific-pipeline-epoch-003-candidate-followup/batch-02.json",
     "runs/engine/continuous-scientific-pipeline-epoch-003-candidate-followup/batch-03.json",
@@ -378,6 +382,7 @@ LABELS = [
     "continuous_scientific_pipeline_epoch_003_candidate_followup",
     "continuous_scientific_pipeline_epoch_003_survivor_pagination",
     "continuous_scientific_pipeline_epoch_003_formal_receipt_worker_partition_0001",
+    "continuous_scientific_pipeline_epoch_003_cumulative_formal_receipt_worker",
     "promotion_overlay",
     "grammar_parameter_cells",
     "grammar_parameter_cell_expansion_service",
@@ -642,6 +647,14 @@ def _fixture(tmp_path: Path) -> tuple[Path, dict[str, object], Path]:
     shutil.copytree(
         REPO / formal_worker_tree,
         tmp_path / formal_worker_tree,
+        dirs_exist_ok=True,
+    )
+    cumulative_worker_tree = Path(
+        "runs/engine/continuous-scientific-pipeline-epoch-003-cumulative-formal-receipt-worker"
+    )
+    shutil.copytree(
+        REPO / cumulative_worker_tree,
+        tmp_path / cumulative_worker_tree,
         dirs_exist_ok=True,
     )
     leaderboard_config = json.loads(
@@ -1578,6 +1591,65 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     )
     assert not any(formal_partition["promotion_contract"].values())
     assert not any(formal_partition["seals"].values())
+    cumulative_worker = core.pop(
+        "continuous_scientific_pipeline_epoch_003_cumulative_formal_receipt_worker"
+    )
+    assert cumulative_worker["artifact_binding"] == {
+        "path": (
+            "runs/engine/continuous-scientific-pipeline-epoch-003-cumulative-formal-"
+            "receipt-worker/result.json"
+        ),
+        "file_sha256": "4c502662558421f03965be01a083ba4dbde8b8df68f88d2e1def10a2a8172efe",
+        "content_sha256": "0777f2eadedcaa76e53c1e1a85e466bf4242bc3a4903b0fc9a1ac76093e4a32b",
+    }
+    assert cumulative_worker["decision"] == (
+        "cumulative_formal_receipt_prefix_advanced_global_queue_incomplete_no_promotion"
+    )
+    assert cumulative_worker["counts"] == {
+        "candidate_promotions": 0,
+        "cumulative_candidate_blocks": 0,
+        "cumulative_candidate_passes": 0,
+        "cumulative_candidate_rejects": 36,
+        "cumulative_formal_passes": 0,
+        "cumulative_formally_checked_candidates": 36,
+        "cumulative_newly_processed_candidates": 34,
+        "cumulative_reconciled_preserved_candidates": 2,
+        "initial_pending_formal_receipts": 11_247,
+        "processed_leaf_pages": 2,
+        "processed_partition_prefix_length": 2,
+        "rank_assignments": 0,
+        "remaining_pending_formal_receipts": 11_213,
+    }
+    assert cumulative_worker["pending_leaf_catalog_root_sha256"] == (
+        "f4f7a85c8ad520ceec23eef86a31cd4d757524c0d8e0b96f94ca5507d2dfd7e7"
+    )
+    assert cumulative_worker["processed_partition_summaries_root_sha256"] == (
+        "2f426dfa75fee14b89ff35947932c844f501bf105cc4305ec2b304f0bd92c7d1"
+    )
+    assert cumulative_worker["cumulative_formal_receipt_ledger_root_sha256"] == (
+        "cc7c2d74d90e96ba2fc80bccc9a991ae91cd0e5225581d4f74d92c3a2ccb4527"
+    )
+    assert cumulative_worker["cumulative_newly_processed_ordinals_root_sha256"] == (
+        "1bc0e12bdb22709d63a46f90bc7923e41b7d587efda6e4f0dc408e24a8f2c223"
+    )
+    assert cumulative_worker["complete_processed_partition_prefix"] is True
+    assert cumulative_worker["complete_global_formal_receipts"] is False
+    assert cumulative_worker["complete_comparable_evidence"] is False
+    assert cumulative_worker["first_remaining_blocker"] == (
+        "11213_candidate_specific_formal_receipts_pending"
+    )
+    assert cumulative_worker["execution_contract"] == {
+        "cpu_workers": 1,
+        "deadline": "campaign_owned_child_cleanup_inclusive_hard_wall_clock_bound",
+        "gpu_workers": 0,
+        "maximum_formal_seconds": 120,
+        "maximum_partition_candidates": 32,
+        "maximum_partitions_per_invocation": 1,
+        "maximum_total_seconds": 180,
+        "resume": "validate_immutable_partition_prefix_and_reuse_completed_successor",
+    }
+    assert not any(cumulative_worker["promotion_contract"].values())
+    assert not any(cumulative_worker["seals"].values())
     assert not any(service_result["seals"].values())
     aether_boundary = core["einstein_aether_coupling_boundary_kkt"]
     assert aether_boundary["decision_counts"] == {"blocked": 1, "pass": 0, "reject": 0}
@@ -4198,6 +4270,11 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "proven reachable through the registered pagination hierarchy" in dashboard
     assert "partition overlay on the immutable 11,247-entry queue" in dashboard
     assert "global formal evidence and comparable evidence are not" in dashboard
+    assert "Epoch 003 cumulative formal-receipt prefix" in dashboard
+    assert "gap-free, disjoint prefix of two hierarchy-reachable leaves" in dashboard
+    assert "36 candidates are formally checked" in dashboard
+    assert "Exactly 11,213 candidate-specific receipts remain pending" in dashboard
+    assert "no theory-wide rejection" in dashboard
     assert "Scalar-Hessian curl invariance gate" in dashboard
     assert "12 independent antisymmetric pairs" in dashboard
     assert "corrected source Jacobian" in dashboard
@@ -4631,4 +4708,31 @@ def test_reverse_source_map_unified_semantic_tamper_fails_closed(tmp_path: Path)
     spec["content_sha256"] = artifact["content_sha256"]
 
     with pytest.raises(ValueError, match="reverse source-map result boundary changed"):
+        build_unified_snapshot(root, config, physical_gpu={"availability": "unavailable"})
+
+
+@pytest.mark.parametrize("mutation", ["pending", "ledger_root", "global", "promotion"])
+def test_cumulative_formal_worker_unified_semantic_tamper_fails_closed(
+    tmp_path: Path, mutation: str
+) -> None:
+    root, config, _ = _fixture(tmp_path)
+    label = "continuous_scientific_pipeline_epoch_003_cumulative_formal_receipt_worker"
+    spec = next(source for source in config["sources"] if source["label"] == label)
+    target = root / spec["path"]
+    artifact = json.loads(target.read_text(encoding="utf-8"))
+    if mutation == "pending":
+        artifact["counts"]["remaining_pending_formal_receipts"] = 0
+    elif mutation == "ledger_root":
+        artifact["cumulative_formal_receipt_ledger_root_sha256"] = "0" * 64
+    elif mutation == "global":
+        artifact["complete_global_formal_receipts"] = True
+    else:
+        artifact["promotion_contract"]["leaderboard_rebuild_requested"] = True
+    body = {key: value for key, value in artifact.items() if key != "content_sha256"}
+    artifact["content_sha256"] = hashlib.sha256(_canonical(body)).hexdigest()
+    target.write_text(json.dumps(artifact, indent=2) + "\n", encoding="utf-8")
+    spec["file_sha256"] = hashlib.sha256(target.read_bytes()).hexdigest()
+    spec["content_sha256"] = artifact["content_sha256"]
+
+    with pytest.raises(ValueError, match="cumulative formal result contract mismatch"):
         build_unified_snapshot(root, config, physical_gpu={"availability": "unavailable"})

@@ -317,6 +317,60 @@
         7
       ]
     },
+    "continuous_scientific_pipeline_epoch_003_cumulative_formal_receipt_worker": {
+      "artifact_binding": {
+        "content_sha256": "0777f2eadedcaa76e53c1e1a85e466bf4242bc3a4903b0fc9a1ac76093e4a32b",
+        "file_sha256": "4c502662558421f03965be01a083ba4dbde8b8df68f88d2e1def10a2a8172efe",
+        "path": "runs/engine/continuous-scientific-pipeline-epoch-003-cumulative-formal-receipt-worker/result.json"
+      },
+      "complete_comparable_evidence": false,
+      "complete_global_formal_receipts": false,
+      "complete_processed_partition_prefix": true,
+      "counts": {
+        "candidate_promotions": 0,
+        "cumulative_candidate_blocks": 0,
+        "cumulative_candidate_passes": 0,
+        "cumulative_candidate_rejects": 36,
+        "cumulative_formal_passes": 0,
+        "cumulative_formally_checked_candidates": 36,
+        "cumulative_newly_processed_candidates": 34,
+        "cumulative_reconciled_preserved_candidates": 2,
+        "initial_pending_formal_receipts": 11247,
+        "processed_leaf_pages": 2,
+        "processed_partition_prefix_length": 2,
+        "rank_assignments": 0,
+        "remaining_pending_formal_receipts": 11213
+      },
+      "cumulative_formal_receipt_ledger_root_sha256": "cc7c2d74d90e96ba2fc80bccc9a991ae91cd0e5225581d4f74d92c3a2ccb4527",
+      "cumulative_newly_processed_ordinals_root_sha256": "1bc0e12bdb22709d63a46f90bc7923e41b7d587efda6e4f0dc408e24a8f2c223",
+      "decision": "cumulative_formal_receipt_prefix_advanced_global_queue_incomplete_no_promotion",
+      "execution_contract": {
+        "cpu_workers": 1,
+        "deadline": "campaign_owned_child_cleanup_inclusive_hard_wall_clock_bound",
+        "gpu_workers": 0,
+        "maximum_formal_seconds": 120,
+        "maximum_partition_candidates": 32,
+        "maximum_partitions_per_invocation": 1,
+        "maximum_total_seconds": 180,
+        "resume": "validate_immutable_partition_prefix_and_reuse_completed_successor"
+      },
+      "first_remaining_blocker": "11213_candidate_specific_formal_receipts_pending",
+      "pending_leaf_catalog_root_sha256": "f4f7a85c8ad520ceec23eef86a31cd4d757524c0d8e0b96f94ca5507d2dfd7e7",
+      "processed_partition_summaries_root_sha256": "2f426dfa75fee14b89ff35947932c844f501bf105cc4305ec2b304f0bd92c7d1",
+      "promotion_contract": {
+        "candidate_promotion_performed": false,
+        "formal_pass_claimed": false,
+        "leaderboard_rebuild_requested": false,
+        "rank_assignment_performed": false
+      },
+      "seals": {
+        "external_process_signals": false,
+        "gpu_or_cuda_access": false,
+        "leaderboard_or_rank_writes": false,
+        "live_campaign_SQLite_access": false,
+        "observations_opened": false
+      }
+    },
     "continuous_scientific_pipeline_epoch_003_formal_receipt_worker_partition_0001": {
       "artifact_binding": {
         "content_sha256": "172e4e922d8689b5d0afcaf80d4cf93cc01c2e0d4faa8d9ebed1134cdf7f93ae",
@@ -53348,6 +53402,12 @@
         "freshness_class": "immutable_completed_snapshot",
         "stale_source_reason": null
       },
+      "continuous_scientific_pipeline_epoch_003_cumulative_formal_receipt_worker": {
+        "content_sha256": "0777f2eadedcaa76e53c1e1a85e466bf4242bc3a4903b0fc9a1ac76093e4a32b",
+        "file_sha256": "4c502662558421f03965be01a083ba4dbde8b8df68f88d2e1def10a2a8172efe",
+        "freshness_class": "immutable_completed_snapshot",
+        "stale_source_reason": null
+      },
       "continuous_scientific_pipeline_epoch_003_formal_receipt_worker_partition_0001": {
         "content_sha256": "172e4e922d8689b5d0afcaf80d4cf93cc01c2e0d4faa8d9ebed1134cdf7f93ae",
         "file_sha256": "29c2ef3f66281162ab2db101830ff56d19581a3ce19da8ab280135e14bdfe72a",
@@ -58698,10 +58758,10 @@
       }
     }
   },
-  "core_content_sha256": "62c8bb44ef41e53e5d4d667a329fc0c57712a8fe6e391b5f0df25d03eb2fc0c3",
+  "core_content_sha256": "b76bc4d2fb1d202f91e581d79903017293846f2bcce4e6f5e387101484769a82",
   "volatile": {
     "campaign_watchdog_freshness": {
-      "age_seconds": 1257.604262,
+      "age_seconds": 2382.199169,
       "expected_next_event_not_before_utc": "2026-08-12T10:59:23.612415+00:00",
       "freshness_deadline_utc": "2026-08-12T11:29:23.612415+00:00",
       "latest_event_utc": "2026-08-12T09:59:23.619837+00:00",
@@ -58714,8 +58774,8 @@
       "alive": true,
       "attempted_cycles": 12,
       "availability": "available",
-      "checkpoint_content_sha256": "84b02414428bdf1550cff7ccad160e3b3fa5b0b0fb17ecb0d2835ff98fd34fc7",
-      "checkpoint_file_sha256": "4261e7034e3d26e9cbbe7e0b88757bc3405b2338097828c0c2435fc7c2b07e60",
+      "checkpoint_content_sha256": "844589a2e27c93f1e00c2d30278b92b914fcb38d41f90b080a4846e51953b24f",
+      "checkpoint_file_sha256": "78bc3e0ae1050de6a48c81ec60ab2319721c746da7745b5d4b6dc0f92bf412a3",
       "config_current": true,
       "consecutive_safe_samples": 0,
       "error_kind": null,
@@ -58723,18 +58783,18 @@
       "last_nvml_sample": {
         "device_index": 0,
         "device_name": "NVIDIA GeForce RTX 5090",
-        "gpu_utilization_percent": 3,
-        "memory_free_mib": 2745,
+        "gpu_utilization_percent": 99,
+        "memory_free_mib": 2756,
         "memory_total_mib": 32607,
-        "memory_used_mib": 29861,
-        "power_watts": 273.372,
-        "sampled_utc": "2026-08-12T10:20:16.877328+00:00",
+        "memory_used_mib": 29850,
+        "power_watts": 575.53,
+        "sampled_utc": "2026-08-12T10:39:02.316238+00:00",
         "scope": "device-wide instantaneous NVML sample; no CUDA context and no process signal"
       },
       "lease_valid": true,
       "pid": 13176,
       "pid_identity_verified": true,
-      "polls_in_cycle": 152,
+      "polls_in_cycle": 376,
       "required_consecutive_safe_samples": 3,
       "safe_now": false,
       "scheduler_receipt": null,
@@ -58769,21 +58829,21 @@
       "availability": "available",
       "logical_processors": 24,
       "memory_total_bytes": 102771290112,
-      "memory_used_bytes": 49217048576,
+      "memory_used_bytes": 49975926784,
       "physical_cores": 24,
       "source": "psutil_host_sample",
-      "utilization_percent": 10.2
+      "utilization_percent": 21.9
     },
     "physical_gpu": {
       "availability": "available",
       "device_class": "NVIDIA GeForce RTX 5090",
       "memory_total_mib": 32607.0,
-      "memory_used_mib": 29335.0,
-      "power_draw_watts": 576.74,
+      "memory_used_mib": 29346.0,
+      "power_draw_watts": 380.59,
       "source": "nvidia-smi_nvml",
       "utilization_percent": 99.0
     },
-    "sampled_at_utc": "2026-08-12T10:20:21.224099+00:00",
+    "sampled_at_utc": "2026-08-12T10:39:05.819006+00:00",
     "scheduler_readiness": {
       "cpu_symbolic": {
         "delayed_until_not_before": 0,
@@ -58819,18 +58879,18 @@
     "unified_live_dashboard_service": {
       "alive": true,
       "availability": "available",
-      "checkpoint_content_sha256": "93801e941e3f40630c23ad8331057f73f94ce58dd01b84d6f674b22d3c761b5a",
-      "checkpoint_file_sha256": "5d52456c4c435ff34b6c355fc2c0658b8c101ffb292a60542710ff527eb2a8ea",
+      "checkpoint_content_sha256": "f51b32e136657deea9b38084a0543d7fc4fffa65750653baefc8c8c4b5e15e1b",
+      "checkpoint_file_sha256": "be4a33e1a17807e82bcfab64729716b5b116d3c950439cb5677789ff984cc6fd",
       "config_current": true,
       "consecutive_failures": 0,
       "implementation": "hardened_safety",
       "last_error_kind": null,
       "last_refresh": {
-        "core_content_sha256": "8d88fa03b535d0e2991500f84008699b87100181c2bab6805bbe23171ce37143",
-        "dashboard_file_sha256": "54d334820490665cd49f00acd91dd57e7695e6747884da12e67c9ea33e89a80d",
+        "core_content_sha256": "15881eb0e57db25031d4445d8dd31b0f91b2b4f89feb1ab5540fcd5d1b9d9057",
+        "dashboard_file_sha256": "6681c1111e031cf76a2f299a1ada1da423c5b97150211aec274a22dbf2a84727",
         "leaderboard_history_seed": {
-          "core_content_sha256": "6e88ef880e7143f6f05c114a8833652f3b6ef04ca7756c419dcb3b69a0cb4bab",
-          "file_sha256": "b8bf1cb3807a2e542ef0ebe258ba23a277554b0b98688babb55884e902eefe18",
+          "core_content_sha256": "15881eb0e57db25031d4445d8dd31b0f91b2b4f89feb1ab5540fcd5d1b9d9057",
+          "file_sha256": "6647a1f64c8864d87b2a272a6b02500a4c7aed25b658d8d26a4af0a3e6f9fcd7",
           "history_entry_count": 8,
           "history_sha256": "103442c8a287790e495b61c3b52d6f0f5edf8f337fd50c179451cd2632265e5c",
           "leaderboard_content_sha256": "69477c58bf51b7ba8f8619bc6603cc7eb48e70083e9d7110bb7c94c6ea20400f",
@@ -58838,12 +58898,12 @@
           "path": "runs/engine/unified-live-dashboard-safety-service/unified-engine-status-live.json",
           "source_kind": "runtime_snapshot"
         },
-        "projection_input_manifest_sha256": "a80bce8e74cafdf2b33926a08c072330ef29efe905998b15b726b14864433f83",
-        "snapshot_file_sha256": "789b5f3f309828734a59a279155385191036583a3d47eb0b976679f72cdba87b"
+        "projection_input_manifest_sha256": "92e0c5055d5a70c1cf0e47e30a4c3d6868bebe720eb4d5aeea859548c1308153",
+        "snapshot_file_sha256": "af5be618e4b1087f53d1ddd80ca20982bd0fdec12df46213628d90a4614cccfa"
       },
-      "pid": 31960,
+      "pid": 28964,
       "pid_identity_verified": true,
-      "refresh_count": 125,
+      "refresh_count": 129,
       "state": "running",
       "stop_reason": null
     }

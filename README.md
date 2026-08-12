@@ -616,6 +616,18 @@ The result proves the leaf's full Merkle path from the registered batch index an
 preserved receipt decisions and blockers to match their new evidence. Its 11,225 count is explicitly
 an immutable partition overlay; the original global queue root is not rewritten or mislabeled as a
 new cumulative ledger.
+The cumulative formal worker now replaces that overlay with a validated, gap-free two-partition
+prefix ledger. Partition 0002 deterministically selects the next hierarchy-reachable leaf, checks
+12 new candidates, and records 12 exact mapper rejects. Across partitions 0001 and 0002, 36
+candidates are formally checked: 34 newly processed plus two field-reconciled preserved receipts,
+all rejected at the reviewed mapping boundary. The pending count advances from 11,247 to 11,213,
+with disjoint ordinal roots and independent catalog, partition-summary, cumulative-receipt, and
+newly-processed-ordinal roots. This is still an incomplete prefix: complete global formal evidence,
+comparable evidence, formal passes, leaderboard rebuilds, ranks, promotions, GPU access, live
+campaign SQLite access, and observations remain false. The sealed result is
+`runs/engine/continuous-scientific-pipeline-epoch-003-cumulative-formal-receipt-worker/result.json`
+(`4c502662558421f03965be01a083ba4dbde8b8df68f88d2e1def10a2a8172efe`, content
+`0777f2eadedcaa76e53c1e1a85e466bf4242bc3a4903b0fc9a1ac76093e4a32b`).
 The new candidate-bound formula stress lane drives the same RTX 5090 much harder on dense numerical
 work: all 163 materialized Euler projections were checked on 5,341,184 deterministic synthetic
 candidate-point pairs against CPU evaluation, with 5,216 additional exact-rational sentinels and zero
