@@ -566,8 +566,9 @@ ranking is a leaderboard rebuild rather than direct rank assignment.  Seven exac
 one generation, one formal action, one ranking rebuild, and four fail-closed waits.  This is a
 readiness-only state machine. A downstream bounded service implements the single-owner loop with an
 argv-bound exclusive lease, isolated self-hashed JSON queue/checkpoint, cooperative stop, at most 16
-cycles/600 seconds, and a hard 120-second deadline that may terminate only its own 15 evaluator
-children. Its immutable readiness artifact remains design-time evidence; the separately sealed
+cycles/600 seconds, and a cleanup-inclusive hard 120-second deadline for both generation and formal
+validation that may terminate only campaign-owned children. Its immutable readiness artifact is a
+preexecution preregistration snapshot; the separately sealed
 execution result records a completed disjoint interval `[1,000,080,896,1,004,013,056)`: eight real
 15-worker CPU batches evaluated 3,932,160 unique formulas. Five batches were sampled-static rejects;
 three produced bounded survivor manifests and candidate-bound covariant-action health receipts, all
@@ -575,7 +576,9 @@ three formally blocked. The backend reconstructs survivor identities, maps suppo
 typed covariant actions, and runs the ADM/Legendre/Dirac/principal/Hamiltonian health pipeline, but it
 never equates a local control pass with a candidate pass. The result contains zero formal passes,
 leaderboard rebuild requests, or rank assignments. No live campaign SQLite, GPU ownership,
-observation, theory promotion, or direct rank mutation occurred.
+observation, theory promotion, or direct rank mutation occurred. Result schema 2.0 preserves the
+sealed terminal queue/checkpoint, eight contiguous ordinal intervals, reconstructed receipts, and
+the exact dependency hashes needed to validate the historical run without mutable runtime files.
 The new candidate-bound formula stress lane drives the same RTX 5090 much harder on dense numerical
 work: all 163 materialized Euler projections were checked on 5,341,184 deterministic synthetic
 candidate-point pairs against CPU evaluation, with 5,216 additional exact-rational sentinels and zero

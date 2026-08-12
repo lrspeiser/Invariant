@@ -13,29 +13,30 @@
       "path": "configs/continuous_formula_formal_backend.json"
     },
     "formal_backend_source": {
-      "file_sha256": "252ea5916253a38ece55fe6ef0456d95ebae95b82526443ce0af9c77de20fa5d",
+      "file_sha256": "9964149975b8c0f21736731985d2368e39ff65057042d05f25cf3410c05ac21d",
       "path": "src/sigma_theory_compiler/continuous_formula_formal_backend.py"
     },
     "formal_backend_test": {
-      "file_sha256": "b33fb6a5ad83c25aedf77f17310f8221c6ee4c84b87b114e89e4a24e4f9b901d",
+      "file_sha256": "d4a1b6626eac3d033faf8d8c445c106749f2a9541b842c9912c7c00d66add0f2",
       "path": "tests/test_continuous_formula_formal_backend.py"
     },
     "source": {
-      "file_sha256": "ab2a898b17172c77dd4e643157e4f9e735269efbde29d0c7fa121a8bc2c8f004",
+      "file_sha256": "38118feaf0617ba31b0f4098de8e329bb45b900f0000af8f5e35a6a52697a4f9",
       "path": "src/sigma_theory_compiler/continuous_scientific_pipeline_service.py"
     },
     "test": {
-      "file_sha256": "2ba5fd9b8825cc84368405bab58caca386e85677dc0e1e3beb34372a68a12635",
+      "file_sha256": "488e5b58723bfe9f5f6182c0dbe5013e41e1cc1c820cca42ae3a55921472eda6",
       "path": "tests/test_continuous_scientific_pipeline_service.py"
     }
   },
-  "content_sha256": "8e6e6ff3c1075e7b8de6f0c1c386b0a5b4c7dd68836582bed23a80bee6d51a9d",
-  "decision": "bounded_single_owner_CPU_pipeline_service_implemented_not_started",
+  "content_sha256": "811199f3533e789f54fd2aa933a140697ede89e68367f1b34aa0a66c36c850ba",
+  "decision": "preexecution_preregistration_snapshot_no_current_runtime_claim",
   "execution_state": {
-    "cycles_executed": 0,
+    "current_runtime_status_claimed": false,
+    "cycles_executed_at_preregistration": 0,
     "live_SQLite_accessed": false,
-    "queue_created": false,
-    "service_started": false
+    "queue_created_at_preregistration": false,
+    "service_started_at_preregistration": false
   },
   "first_remaining_blocker": "complete_candidate_specific_comparable_evidence_after_covariant_action_health_before_any_rank_rebuild_can_be_admitted",
   "resource_contract": {
@@ -78,12 +79,20 @@
   "service_contract": {
     "checkpoint_resume": true,
     "external_stop_request": true,
-    "hard_owned_child_action_timeout": true,
+    "hard_owned_child_formal_timeout": true,
+    "hard_owned_child_generation_timeout": true,
     "isolated_atomic_JSON_queue": true,
     "maximum_action_seconds": 120,
     "maximum_actions_per_cycle": 1,
     "maximum_cycles": 16,
     "maximum_service_seconds": 600,
-    "single_owner_O_EXCL_PID_argv_lease": true
+    "single_owner_O_EXCL_PID_argv_lease": true,
+    "timeout_cleanup_is_campaign_owned_child_only": true
+  },
+  "snapshot_scope": {
+    "artifact_role": "preexecution_preregistration",
+    "completed_execution_reported_separately": true,
+    "completed_execution_result_path": "runs/engine/continuous-scientific-pipeline-service-result.json",
+    "runtime_status_asserted": false
   }
 }

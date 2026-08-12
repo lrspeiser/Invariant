@@ -8836,6 +8836,7 @@ def build_unified_snapshot(
             "resource_contract": continuous_scientific_pipeline_service["resource_contract"],
             "scientific_contract": continuous_scientific_pipeline_service["scientific_contract"],
             "execution_state": continuous_scientific_pipeline_service["execution_state"],
+            "snapshot_scope": continuous_scientific_pipeline_service["snapshot_scope"],
             "safe_start_criteria": continuous_scientific_pipeline_service["safe_start_criteria"],
             "first_remaining_blocker": continuous_scientific_pipeline_service[
                 "first_remaining_blocker"
@@ -8851,6 +8852,12 @@ def build_unified_snapshot(
                 "completed_receipt_bindings"
             ],
             "runtime_binding": continuous_scientific_pipeline_service_result["runtime_binding"],
+            "terminal_runtime_archive": continuous_scientific_pipeline_service_result[
+                "terminal_runtime_archive"
+            ],
+            "replay_dependencies": continuous_scientific_pipeline_service_result[
+                "replay_dependencies"
+            ],
             "interpretation": continuous_scientific_pipeline_service_result["interpretation"],
             "bindings": continuous_scientific_pipeline_service_result["bindings"],
             "seals": continuous_scientific_pipeline_service_result["seals"],

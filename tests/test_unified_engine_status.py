@@ -270,6 +270,8 @@ CONTINUOUS_PIPELINE_DEPENDENCIES = (
     "src/sigma_theory_compiler/persistent_parallel_search.py",
     "src/sigma_theory_compiler/persistent_parallel_supervisor.py",
     "src/sigma_theory_compiler/real_formula_execution.py",
+    "src/sigma_theory_compiler/high_throughput.py",
+    "src/sigma_theory_compiler/gpu_screen.py",
     "src/sigma_theory_compiler/scientific_leaderboards.py",
     "configs/scientific_leaderboards.json",
 )
@@ -1138,7 +1140,7 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     assert not any(continuous["seals"].values())
     service = core.pop("continuous_scientific_pipeline_service")
     assert service["decision"] == (
-        "bounded_single_owner_CPU_pipeline_service_implemented_not_started"
+        "preexecution_preregistration_snapshot_no_current_runtime_claim"
     )
     assert service["service_contract"] == {
         "single_owner_O_EXCL_PID_argv_lease": True,
@@ -1146,7 +1148,9 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
         "checkpoint_resume": True,
         "external_stop_request": True,
         "maximum_actions_per_cycle": 1,
-        "hard_owned_child_action_timeout": True,
+        "hard_owned_child_formal_timeout": True,
+        "hard_owned_child_generation_timeout": True,
+        "timeout_cleanup_is_campaign_owned_child_only": True,
         "maximum_cycles": 16,
         "maximum_service_seconds": 600,
         "maximum_action_seconds": 120,
@@ -1168,10 +1172,19 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
         "direct_rank_assignment": False,
     }
     assert service["execution_state"] == {
-        "service_started": False,
-        "cycles_executed": 0,
-        "queue_created": False,
+        "service_started_at_preregistration": False,
+        "cycles_executed_at_preregistration": 0,
+        "queue_created_at_preregistration": False,
+        "current_runtime_status_claimed": False,
         "live_SQLite_accessed": False,
+    }
+    assert service["snapshot_scope"] == {
+        "artifact_role": "preexecution_preregistration",
+        "completed_execution_reported_separately": True,
+        "completed_execution_result_path": (
+            "runs/engine/continuous-scientific-pipeline-service-result.json"
+        ),
+        "runtime_status_asserted": False,
     }
     assert service["first_remaining_blocker"] == (
         "complete_candidate_specific_comparable_evidence_after_covariant_action_health_before_any_rank_rebuild_can_be_admitted"
@@ -1195,6 +1208,14 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
         "leaderboard_rebuild_requests": 0,
         "rank_assignments": 0,
     }
+    assert len(service_result["terminal_runtime_archive"]["queue"]["completed_action_receipts"]) == 8
+    assert service_result["terminal_runtime_archive"]["checkpoint"]["state"] == (
+        "bounded_complete"
+    )
+    assert service_result["replay_dependencies"]["replay_method"] == (
+        "deterministic_ordinal_generation_then_candidate_bound_formal_backend"
+    )
+    assert len(service_result["replay_dependencies"]["replay_dependency_root_sha256"]) == 64
     assert not any(service_result["seals"].values())
     aether_boundary = core["einstein_aether_coupling_boundary_kkt"]
     assert aether_boundary["decision_counts"] == {"blocked": 1, "pass": 0, "reject": 0}
@@ -3420,9 +3441,11 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "generate → formal → rank" in dashboard
     assert "readiness only; no service or database was started" in dashboard
     assert "Bounded continuous CPU service" in dashboard
-    assert "implemented / not started" in dashboard
+    assert "preexecution snapshot" in dashboard
+    assert "cleanup-inclusive 120-second deadline" in dashboard
+    assert "eight contiguous ordinal intervals" in dashboard
     assert "exactly 15 owned real-formula workers" in dashboard
-    assert "v2 formal backend reconstructs exact ordinal manifests" in dashboard
+    assert "Survivors are re-derived from ordinals" in dashboard
     assert "never assign rank directly" in dashboard
     assert "22,478,848 unique candidate-grid evaluations" in dashboard
     assert "89.4% median and 100% peak device-wide CPU" in dashboard

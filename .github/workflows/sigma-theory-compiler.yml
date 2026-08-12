@@ -1,0 +1,60 @@
+name: Sigma theory compiler
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/sigma-theory-compiler.yml"
+      - "research/sigma-theory-compiler/**"
+  pull_request:
+    paths:
+      - ".github/workflows/sigma-theory-compiler.yml"
+      - "research/sigma-theory-compiler/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sigma-theory-compiler-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  portable-fail-closed-core:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: research/sigma-theory-compiler
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: research/sigma-theory-compiler/pyproject.toml
+      - name: Install the compiler and test tools
+        run: python -m pip install --editable ".[dev]"
+      - name: Check continuous and unified source
+        run: >-
+          python -m ruff check
+          src/sigma_theory_compiler/continuous_formula_formal_backend.py
+          src/sigma_theory_compiler/continuous_scientific_pipeline_service.py
+          src/sigma_theory_compiler/quartic_scalar_hessian_d2_integrability_gate.py
+          src/sigma_theory_compiler/quartic_tc2_d4_degree_five_counterexample_escape_campaign.py
+          src/sigma_theory_compiler/unified_engine_status.py
+          src/sigma_theory_compiler/unified_engine_dashboard.py
+          tests/test_continuous_formula_formal_backend.py
+          tests/test_continuous_scientific_pipeline_service.py
+          tests/test_quartic_scalar_hessian_d2_integrability_gate.py
+          tests/test_quartic_tc2_d4_degree_five_counterexample_escape_campaign.py
+          tests/test_unified_engine_status.py
+      - name: Verify continuous execution and exact gate artifacts
+        run: >-
+          python -m pytest
+          tests/test_continuous_formula_formal_backend.py
+          tests/test_continuous_scientific_pipeline_service.py
+          tests/test_quartic_scalar_hessian_d2_integrability_gate.py
+          tests/test_quartic_tc2_d4_degree_five_counterexample_escape_campaign.py
+          tests/test_unified_engine_status.py
+          -q

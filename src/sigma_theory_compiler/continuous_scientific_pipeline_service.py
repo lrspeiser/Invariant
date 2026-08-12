@@ -2,11 +2,15 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import itertools
 import json
 import multiprocessing
 import os
 import queue as queue_module
+import re
+import shutil
 import sys
+import tempfile
 import time
 from collections.abc import Callable, Mapping
 from pathlib import Path
@@ -32,13 +36,18 @@ CHECKPOINT_SCHEMA = "sigma-continuous-scientific-pipeline-service-checkpoint-2.0
 QUEUE_SCHEMA = "sigma-continuous-scientific-pipeline-service-queue-2.0"
 LEASE_SCHEMA = "sigma-continuous-scientific-pipeline-service-lease-1.0"
 ARTIFACT_SCHEMA = "sigma-continuous-scientific-pipeline-service-readiness-2.0"
-RESULT_SCHEMA = "sigma-continuous-scientific-pipeline-service-result-1.0"
+RESULT_SCHEMA = "sigma-continuous-scientific-pipeline-service-result-2.0"
 EXPECTED_EVALUATOR = "sigma_theory_compiler.real_formula_execution:cpu_formula_batch_evaluator"
 CONFIG_REL = "configs/continuous_scientific_pipeline_service.json"
 ADMISSION_CONFIG_REL = "configs/continuous_scientific_pipeline_admission.json"
 SOURCE_REL = "src/sigma_theory_compiler/continuous_scientific_pipeline_service.py"
 TEST_REL = "tests/test_continuous_scientific_pipeline_service.py"
 RESULT_REL = "runs/engine/continuous-scientific-pipeline-service-result.json"
+EXPECTED_COMPLETED_RECEIPTS_SHA256 = (
+    "223ede8c98e414d5bb71905b8ddc72ac1818adb742e544bccc456e18f09ae960"
+)
+RESULT_DECISION = "bounded_interval_complete_survivor_batches_formally_blocked_no_rank"
+_SHA256 = re.compile(r"[0-9a-f]{64}")
 
 
 def _canonical(value: Any) -> bytes:
@@ -62,6 +71,45 @@ def _validate_sealed(value: Mapping[str, Any]) -> None:
     claimed = body.pop("content_sha256", None)
     if claimed != _sha(body):
         raise ValueError("state content hash mismatch")
+
+
+def _validate_completed_receipt_binding(value: Mapping[str, Any]) -> None:
+    expected = {
+        "candidate_root_sha256",
+        "generated_receipt_sha256",
+        "candidate_manifest_sha256",
+        "screen_decision",
+        "formal_receipt_sha256",
+        "formal_evidence_sha256",
+        "formal_decision",
+    }
+    formal_values = (
+        value.get("formal_receipt_sha256"),
+        value.get("formal_evidence_sha256"),
+        value.get("formal_decision"),
+    )
+    if (
+        set(value) != expected
+        or value.get("screen_decision") not in {"reject", "pass", "ambiguous"}
+        or any(
+            not _SHA256.fullmatch(str(value.get(key, "")))
+            for key in (
+                "candidate_root_sha256",
+                "generated_receipt_sha256",
+                "candidate_manifest_sha256",
+            )
+        )
+        or (all(item is None for item in formal_values) != (value["screen_decision"] != "pass"))
+        or (
+            value["screen_decision"] == "pass"
+            and (
+                value["formal_decision"] not in {"block", "reject"}
+                or not _SHA256.fullmatch(str(value["formal_receipt_sha256"]))
+                or not _SHA256.fullmatch(str(value["formal_evidence_sha256"]))
+            )
+        )
+    ):
+        raise ValueError("completed receipt binding contract mismatch")
 
 
 def _validate_queue(value: Mapping[str, Any]) -> None:
@@ -93,6 +141,8 @@ def _validate_queue(value: Mapping[str, Any]) -> None:
         raise TypeError("queue rebuild request contract mismatch")
     if not isinstance(value["completed_action_receipts"], list):
         raise TypeError("queue completed receipt contract mismatch")
+    for completed_receipt in value["completed_action_receipts"]:
+        _validate_completed_receipt_binding(completed_receipt)
     generated = value["generated_receipt"]
     manifest = value["generation_manifest"]
     formal = value["formal_receipt"]
@@ -145,6 +195,70 @@ def _validate_checkpoint(value: Mapping[str, Any], queue: Mapping[str, Any]) -> 
         raise ValueError("checkpoint key contract mismatch")
     if value["queue_content_sha256"] != queue["content_sha256"]:
         raise ValueError("checkpoint/queue root mismatch")
+
+
+def _close_process_queue(output: Any) -> None:
+    output.close()
+    output.cancel_join_thread()
+
+
+def _run_owned_child(
+    target: Callable[..., None],
+    args: tuple[Any, ...],
+    *,
+    maximum_seconds: float,
+    action_name: str,
+) -> Mapping[str, Any]:
+    """Run one campaign-owned spawn child inside a cleanup-inclusive wall-clock bound."""
+    if not 0 < maximum_seconds <= 120:
+        raise ValueError("owned child deadline contract mismatch")
+    context = multiprocessing.get_context("spawn")
+    output = context.Queue(maxsize=1)
+    child = context.Process(target=target, args=(*args, output))
+    started = time.monotonic()
+    final_deadline = started + maximum_seconds
+    cleanup_reserve = min(2.0, max(0.1, maximum_seconds / 4.0))
+    work_deadline = final_deadline - cleanup_reserve
+    payload: Mapping[str, Any] | None = None
+    try:
+        child.start()
+        while time.monotonic() < work_deadline:
+            remaining = work_deadline - time.monotonic()
+            try:
+                payload = output.get(timeout=min(0.1, max(0.0, remaining)))
+                break
+            except queue_module.Empty:
+                if not child.is_alive():
+                    break
+        if payload is not None:
+            child.join(max(0.0, final_deadline - time.monotonic()))
+        if child.is_alive():
+            child.terminate()
+            child.join(max(0.0, final_deadline - time.monotonic()))
+        if child.is_alive():
+            child.kill()
+            child.join(max(0.0, final_deadline - time.monotonic()))
+        if child.is_alive():
+            raise TimeoutError(f"{action_name} child could not be terminated by hard deadline")
+        if payload is None:
+            if time.monotonic() >= work_deadline:
+                raise TimeoutError(f"{action_name} exceeded hard action deadline")
+            raise RuntimeError(f"{action_name} child exited without a result")
+        if child.exitcode != 0:
+            raise RuntimeError(f"{action_name} child exited unsuccessfully")
+        if set(payload) != {"ok", "result"} and set(payload) != {"ok", "error"}:
+            raise RuntimeError(f"{action_name} child result contract mismatch")
+        if payload["ok"] is not True:
+            raise RuntimeError(f"{action_name} child failed closed: {payload['error']}")
+        result = payload["result"]
+        if not isinstance(result, Mapping):
+            raise TypeError(f"{action_name} child returned a non-mapping result")
+        return result
+    finally:
+        if child.is_alive():
+            child.kill()
+            child.join(max(0.0, final_deadline - time.monotonic()))
+        _close_process_queue(output)
 
 
 def load_service_config(root: Path, path: Path) -> dict[str, Any]:
@@ -571,36 +685,81 @@ def execute_real_generation(
     return {"receipt": receipt, "manifest": manifest}
 
 
+def _real_formal_worker(
+    root_text: str,
+    output_root_text: str,
+    generated: Mapping[str, Any],
+    manifest: Mapping[str, Any],
+    config: Mapping[str, Any],
+    output: Any,
+) -> None:
+    """Execute the formal backend only inside the service-owned isolation child."""
+    try:
+        root = Path(root_text)
+        backend = load_backend_config(root, root / str(config["formal_backend_config_path"]))
+        receipt, evidence = build_formal_evidence(
+            generated,
+            manifest,
+            backend,
+            root=root,
+            output_root=Path(output_root_text),
+        )
+        output.put({"ok": True, "result": {"receipt": receipt, "evidence": evidence}})
+    except Exception as error:  # noqa: BLE001 - child returns bounded failure receipt
+        output.put({"ok": False, "error": f"{type(error).__name__}: {error}"})
+
+
 def execute_real_formal(
     root: Path, queue: Mapping[str, Any], config: Mapping[str, Any]
 ) -> Mapping[str, Any]:
+    """Run formal validation in one owned spawn child with a hard wall-clock bound."""
     generated = queue["generated_receipt"]
     manifest = queue["generation_manifest"]
     if generated is None or manifest is None:
         raise ValueError("formal execution requires generated receipt and manifest")
-    backend = load_backend_config(root, root / config["formal_backend_config_path"])
-    receipt, evidence = build_formal_evidence(
-        generated,
-        manifest,
-        backend,
-        root=root,
-        output_root=(root / config["runtime_directory"] / "candidate-evidence"),
-    )
-    return {"receipt": receipt, "evidence": evidence}
+    runtime = (root / str(config["runtime_directory"])).resolve()
+    runtime.relative_to(root.resolve())
+    attempts = runtime / "formal-attempts"
+    attempts.mkdir(parents=True, exist_ok=True)
+    attempt = Path(tempfile.mkdtemp(prefix="owned-", dir=attempts))
+    try:
+        return _run_owned_child(
+            _real_formal_worker,
+            (
+                str(root.resolve()),
+                str(attempt),
+                dict(generated),
+                dict(manifest),
+                dict(config),
+            ),
+            maximum_seconds=float(config["maximum_action_seconds"]),
+            action_name="formal validation",
+        )
+    finally:
+        attempt.resolve().relative_to(attempts.resolve())
+        shutil.rmtree(attempt)
 
 
 def build_readiness(root: Path, config_path: Path) -> dict[str, Any]:
     config = load_service_config(root, config_path)
     body = {
         "schema_version": ARTIFACT_SCHEMA,
-        "decision": "bounded_single_owner_CPU_pipeline_service_implemented_not_started",
+        "decision": "preexecution_preregistration_snapshot_no_current_runtime_claim",
+        "snapshot_scope": {
+            "artifact_role": "preexecution_preregistration",
+            "runtime_status_asserted": False,
+            "completed_execution_reported_separately": True,
+            "completed_execution_result_path": RESULT_REL,
+        },
         "service_contract": {
             "single_owner_O_EXCL_PID_argv_lease": True,
             "isolated_atomic_JSON_queue": True,
             "checkpoint_resume": True,
             "external_stop_request": True,
             "maximum_actions_per_cycle": 1,
-            "hard_owned_child_action_timeout": True,
+            "hard_owned_child_generation_timeout": True,
+            "hard_owned_child_formal_timeout": True,
+            "timeout_cleanup_is_campaign_owned_child_only": True,
             "maximum_cycles": config["maximum_cycles"],
             "maximum_service_seconds": config["maximum_service_seconds"],
             "maximum_action_seconds": config["maximum_action_seconds"],
@@ -622,9 +781,10 @@ def build_readiness(root: Path, config_path: Path) -> dict[str, Any]:
             "direct_rank_assignment": False,
         },
         "execution_state": {
-            "service_started": False,
-            "cycles_executed": 0,
-            "queue_created": False,
+            "service_started_at_preregistration": False,
+            "cycles_executed_at_preregistration": 0,
+            "queue_created_at_preregistration": False,
+            "current_runtime_status_claimed": False,
             "live_SQLite_accessed": False,
         },
         "safe_start_criteria": [
@@ -669,6 +829,148 @@ def validate_readiness(value: Mapping[str, Any], root: Path, config_path: Path) 
         raise ValueError("readiness differs from reconstruction")
 
 
+def _result_bindings(root: Path, config: Mapping[str, Any]) -> dict[str, Any]:
+    return {
+        label: {"path": rel, "file_sha256": _file_sha(root / rel)}
+        for label, rel in (
+            ("config", CONFIG_REL),
+            ("source", SOURCE_REL),
+            ("test", TEST_REL),
+            ("formal_backend_config", str(config["formal_backend_config_path"])),
+        )
+    }
+
+
+def _replay_dependencies(root: Path, config: Mapping[str, Any]) -> dict[str, Any]:
+    backend = json.loads(
+        (root / str(config["formal_backend_config_path"])).read_text(encoding="utf-8")
+    )
+    paths = (
+        ("service_config", CONFIG_REL),
+        ("admission_config", ADMISSION_CONFIG_REL),
+        ("service_source", SOURCE_REL),
+        ("service_test", TEST_REL),
+        ("generator_config", str(config["generator_config_path"])),
+        ("formal_backend_config", str(config["formal_backend_config_path"])),
+        ("grammar", str(backend["grammar_path"])),
+        ("field_contract", str(backend["field_contract_path"])),
+        ("formal_controls", str(backend["formal_controls_path"])),
+        ("candidate_mapper_source", str(backend["candidate_mapper_source_path"])),
+        ("action_health_source", str(backend["action_health_source_path"])),
+    )
+    source_file_hashes = {
+        "formal_backend_source": _file_sha(
+            root / "src/sigma_theory_compiler/continuous_formula_formal_backend.py"
+        ),
+        "real_formula_execution_source": _file_sha(
+            root / "src/sigma_theory_compiler/real_formula_execution.py"
+        ),
+        "high_throughput_source": _file_sha(root / "src/sigma_theory_compiler/high_throughput.py"),
+        "gpu_screen_source": _file_sha(root / "src/sigma_theory_compiler/gpu_screen.py"),
+    }
+    files = {
+        label: {"path": relative, "file_sha256": _file_sha(root / relative)}
+        for label, relative in paths
+    }
+    dependency_body = {"files": files, "source_file_hashes": source_file_hashes}
+    return {
+        "replay_method": "deterministic_ordinal_generation_then_candidate_bound_formal_backend",
+        "files": files,
+        "source_file_hashes": source_file_hashes,
+        "replay_dependency_root_sha256": _sha(dependency_body),
+    }
+
+
+def _completed_replay_records(
+    completed: list[Mapping[str, Any]],
+    config: Mapping[str, Any],
+    replay_dependencies: Mapping[str, Any],
+) -> list[dict[str, Any]]:
+    batch_size = int(config["cpu_workers"]) * int(config["batch_candidates_per_worker"])
+    records = []
+    for index, archived in enumerate(completed):
+        _validate_completed_receipt_binding(archived)
+        start = int(config["start_ordinal"]) + index * batch_size
+        stop = start + batch_size
+        generated_receipt = _sealed(
+            {
+                "candidate_root_sha256": archived["candidate_root_sha256"],
+                "screen_decision": archived["screen_decision"],
+                "unique_formula_count": batch_size,
+                "theory_pass_claimed": False,
+                "observations_opened": False,
+                "rank_eligible": False,
+            }
+        )
+        if generated_receipt["content_sha256"] != archived["generated_receipt_sha256"]:
+            raise ValueError("completed generated receipt is not independently reconstructable")
+        formal_receipt = None
+        formal_evidence_binding = None
+        if archived["formal_receipt_sha256"] is not None:
+            formal_receipt = _sealed(
+                {
+                    "candidate_root_sha256": archived["candidate_root_sha256"],
+                    "generated_receipt_sha256": generated_receipt["content_sha256"],
+                    "decision": archived["formal_decision"],
+                    "complete_comparable_evidence": False,
+                    "observations_opened": False,
+                    "forbidden_target_inputs_opened": False,
+                }
+            )
+            if formal_receipt["content_sha256"] != archived["formal_receipt_sha256"]:
+                raise ValueError("completed formal receipt is not independently reconstructable")
+            formal_evidence_binding = {
+                "content_sha256": archived["formal_evidence_sha256"],
+                "candidate_manifest_sha256": archived["candidate_manifest_sha256"],
+                "formal_receipt_sha256": formal_receipt["content_sha256"],
+                "decision": archived["formal_decision"],
+            }
+        records.append(
+            {
+                "batch_index": index,
+                "ordinal_interval": {
+                    "start_ordinal": start,
+                    "stop_ordinal_exclusive": stop,
+                    "unique_formula_count": batch_size,
+                },
+                "generated_receipt": generated_receipt,
+                "candidate_manifest_binding": {
+                    "content_sha256": archived["candidate_manifest_sha256"],
+                    "candidate_root_sha256": archived["candidate_root_sha256"],
+                    "replay_dependency_root_sha256": replay_dependencies[
+                        "replay_dependency_root_sha256"
+                    ],
+                },
+                "formal_receipt": formal_receipt,
+                "formal_evidence_binding": formal_evidence_binding,
+            }
+        )
+    return records
+
+
+def _execution_outcomes(completed: list[Mapping[str, Any]]) -> dict[str, int]:
+    return {
+        "sampled_static_reject_batches": sum(
+            row["screen_decision"] == "reject" for row in completed
+        ),
+        "sampled_static_pass_batches": sum(row["screen_decision"] == "pass" for row in completed),
+        "formal_receipts": sum(row["formal_receipt_sha256"] is not None for row in completed),
+        "formal_blocks": sum(row["formal_decision"] == "block" for row in completed),
+        "formal_passes": 0,
+        "leaderboard_rebuild_requests": 0,
+        "rank_assignments": 0,
+    }
+
+
+def _execution_interpretation(outcomes: Mapping[str, int]) -> str:
+    return (
+        f"{outcomes['sampled_static_reject_batches']} batches failed the sampled-static screen; "
+        f"{outcomes['sampled_static_pass_batches']} batches produced bounded survivor manifests, "
+        f"and {outcomes['formal_blocks']} were formally blocked. No formal pass, theory verdict, "
+        "ranking change, or observational claim follows."
+    )
+
+
 def build_execution_result(root: Path, config_path: Path) -> dict[str, Any]:
     config = load_service_config(root, config_path)
     runtime = root / config["runtime_directory"]
@@ -686,15 +988,15 @@ def build_execution_result(root: Path, config_path: Path) -> dict[str, Any]:
         or queue["formal_evidence"] is not None
         or queue["leaderboard_rebuild_requests"] != []
         or any(row["formal_decision"] == "pass" for row in completed)
+        or _sha(completed) != EXPECTED_COMPLETED_RECEIPTS_SHA256
     ):
-        raise ValueError("service result is not a completed fail-closed run")
-    screen_rejects = sum(row["screen_decision"] == "reject" for row in completed)
-    screen_passes = sum(row["screen_decision"] == "pass" for row in completed)
-    formal_receipts = sum(row["formal_receipt_sha256"] is not None for row in completed)
-    formal_blocks = sum(row["formal_decision"] == "block" for row in completed)
+        raise ValueError("service result is not the registered completed fail-closed run")
+    replay_dependencies = _replay_dependencies(root, config)
+    replay_records = _completed_replay_records(completed, config, replay_dependencies)
+    outcomes = _execution_outcomes(completed)
     body = {
         "schema_version": RESULT_SCHEMA,
-        "decision": "bounded_interval_complete_survivor_batches_formally_blocked_no_rank",
+        "decision": RESULT_DECISION,
         "coverage": {
             "start_ordinal": config["start_ordinal"],
             "stop_ordinal_exclusive": config["stop_ordinal_exclusive"],
@@ -703,35 +1005,19 @@ def build_execution_result(root: Path, config_path: Path) -> dict[str, Any]:
             "workers_per_batch": config["cpu_workers"],
             "formulas_per_worker": config["batch_candidates_per_worker"],
         },
-        "outcomes": {
-            "sampled_static_reject_batches": screen_rejects,
-            "sampled_static_pass_batches": screen_passes,
-            "formal_receipts": formal_receipts,
-            "formal_blocks": formal_blocks,
-            "formal_passes": 0,
-            "leaderboard_rebuild_requests": 0,
-            "rank_assignments": 0,
-        },
-        "completed_receipt_bindings": completed,
+        "outcomes": outcomes,
+        "completed_receipt_bindings": replay_records,
+        "replay_dependencies": replay_dependencies,
+        "terminal_runtime_archive": {"queue": queue, "checkpoint": checkpoint},
         "runtime_binding": {
             "queue_content_sha256": queue["content_sha256"],
             "checkpoint_content_sha256": checkpoint["content_sha256"],
+            "completed_receipts_sha256": _sha(completed),
+            "completed_replay_records_sha256": _sha(replay_records),
             "terminal_state": checkpoint["state"],
         },
-        "interpretation": (
-            "Five batches failed the sampled-static screen. Three batches produced bounded "
-            "survivor manifests and candidate-specific formal block receipts. No formal pass, "
-            "theory verdict, ranking change, or observational claim follows."
-        ),
-        "bindings": {
-            label: {"path": rel, "file_sha256": _file_sha(root / rel)}
-            for label, rel in (
-                ("config", CONFIG_REL),
-                ("source", SOURCE_REL),
-                ("test", TEST_REL),
-                ("formal_backend_config", config["formal_backend_config_path"]),
-            )
-        },
+        "interpretation": _execution_interpretation(outcomes),
+        "bindings": _result_bindings(root, config),
         "seals": config["seals"],
     }
     return _sealed(body)
@@ -746,63 +1032,83 @@ def validate_execution_result(value: Mapping[str, Any], root: Path, config_path:
         "coverage",
         "outcomes",
         "completed_receipt_bindings",
+        "replay_dependencies",
+        "terminal_runtime_archive",
         "runtime_binding",
         "interpretation",
         "bindings",
         "seals",
         "content_sha256",
     }
-    completed = value.get("completed_receipt_bindings", [])
-    screen_rejects = sum(row.get("screen_decision") == "reject" for row in completed)
-    screen_passes = sum(row.get("screen_decision") == "pass" for row in completed)
-    formal_receipts = sum(row.get("formal_receipt_sha256") is not None for row in completed)
-    formal_blocks = sum(row.get("formal_decision") == "block" for row in completed)
-    expected_bindings = {
-        label: {"path": rel, "file_sha256": _file_sha(root / rel)}
-        for label, rel in (
-            ("config", CONFIG_REL),
-            ("source", SOURCE_REL),
-            ("test", TEST_REL),
-            ("formal_backend_config", config["formal_backend_config_path"]),
-        )
+    terminal = value.get("terminal_runtime_archive", {})
+    queue = terminal.get("queue", {})
+    checkpoint = terminal.get("checkpoint", {})
+    try:
+        _validate_queue(queue)
+        _validate_checkpoint(checkpoint, queue)
+    except (KeyError, TypeError, ValueError) as error:
+        raise ValueError("service execution result terminal archive mismatch") from error
+    completed = queue["completed_action_receipts"]
+    replay_dependencies = _replay_dependencies(root, config)
+    try:
+        replay_records = _completed_replay_records(completed, config, replay_dependencies)
+    except (KeyError, TypeError, ValueError) as error:
+        raise ValueError("service execution result replay archive mismatch") from error
+    outcomes = _execution_outcomes(completed)
+    expected_coverage = {
+        "start_ordinal": config["start_ordinal"],
+        "stop_ordinal_exclusive": config["stop_ordinal_exclusive"],
+        "unique_formula_count": config["stop_ordinal_exclusive"] - config["start_ordinal"],
+        "real_CPU_batches": len(completed),
+        "workers_per_batch": config["cpu_workers"],
+        "formulas_per_worker": config["batch_candidates_per_worker"],
     }
+    expected_runtime_binding = {
+        "queue_content_sha256": queue["content_sha256"],
+        "checkpoint_content_sha256": checkpoint["content_sha256"],
+        "completed_receipts_sha256": _sha(completed),
+        "completed_replay_records_sha256": _sha(replay_records),
+        "terminal_state": checkpoint["state"],
+    }
+    intervals = [row["ordinal_interval"] for row in replay_records]
+    interval_contract = (
+        bool(intervals)
+        and intervals[0]["start_ordinal"] == config["start_ordinal"]
+        and intervals[-1]["stop_ordinal_exclusive"] == config["stop_ordinal_exclusive"]
+        and all(
+            left["stop_ordinal_exclusive"] == right["start_ordinal"]
+            for left, right in itertools.pairwise(intervals)
+        )
+        and sum(row["unique_formula_count"] for row in intervals)
+        == expected_coverage["unique_formula_count"]
+    )
     if (
         set(value) != expected_keys
         or value.get("schema_version") != RESULT_SCHEMA
-        or value.get("decision")
-        != "bounded_interval_complete_survivor_batches_formally_blocked_no_rank"
-        or value.get("coverage")
-        != {
-            "start_ordinal": config["start_ordinal"],
-            "stop_ordinal_exclusive": config["stop_ordinal_exclusive"],
-            "unique_formula_count": config["stop_ordinal_exclusive"] - config["start_ordinal"],
-            "real_CPU_batches": len(completed),
-            "workers_per_batch": config["cpu_workers"],
-            "formulas_per_worker": config["batch_candidates_per_worker"],
-        }
-        or value.get("outcomes")
-        != {
-            "sampled_static_reject_batches": screen_rejects,
-            "sampled_static_pass_batches": screen_passes,
-            "formal_receipts": formal_receipts,
-            "formal_blocks": formal_blocks,
-            "formal_passes": 0,
-            "leaderboard_rebuild_requests": 0,
-            "rank_assignments": 0,
-        }
-        or len(completed) != 8
-        or _sha(completed) != "223ede8c98e414d5bb71905b8ddc72ac1818adb742e544bccc456e18f09ae960"
-        or any(row.get("formal_decision") == "pass" for row in completed)
-        or value.get("runtime_binding", {}).get("terminal_state") != "bounded_complete"
-        or _sha(value.get("runtime_binding", {}))
-        != "db469fd1f52b5479baa5029179bc4428e1dcb75946da96227c07dda132ef3602"
-        or any(
-            len(str(value.get("runtime_binding", {}).get(key, ""))) != 64
-            for key in ("queue_content_sha256", "checkpoint_content_sha256")
-        )
-        or value.get("bindings") != expected_bindings
+        or value.get("decision") != RESULT_DECISION
+        or value.get("coverage") != expected_coverage
+        or value.get("outcomes") != outcomes
+        or value.get("completed_receipt_bindings") != replay_records
+        or value.get("replay_dependencies") != replay_dependencies
+        or value.get("runtime_binding") != expected_runtime_binding
+        or value.get("interpretation") != _execution_interpretation(outcomes)
+        or value.get("bindings") != _result_bindings(root, config)
         or value.get("seals") != config["seals"]
         or any(value["seals"].values())
+        or not interval_contract
+        or len(completed) != 8
+        or _sha(completed) != EXPECTED_COMPLETED_RECEIPTS_SHA256
+        or checkpoint["state"] != "bounded_complete"
+        or queue["next_ordinal"] != queue["stop_ordinal_exclusive"]
+        or queue["next_ordinal"] != config["stop_ordinal_exclusive"]
+        or queue["service_config_sha256"] != _sha(config)
+        or queue["generated_receipt"] is not None
+        or queue["generation_manifest"] is not None
+        or queue["formal_receipt"] is not None
+        or queue["formal_evidence"] is not None
+        or queue["leaderboard_rebuild_requests"] != []
+        or queue["last_ranked_candidate_root"] is not None
+        or any(row["formal_decision"] == "pass" for row in completed)
     ):
         raise ValueError("service execution result contract mismatch")
 
