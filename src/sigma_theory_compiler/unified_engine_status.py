@@ -28,6 +28,9 @@ from .continuous_scientific_pipeline_candidate_followup import (
 )
 from .continuous_scientific_pipeline_epoch import validate_epoch_genesis
 from .continuous_scientific_pipeline_epoch_result import validate_epoch_result
+from .continuous_scientific_pipeline_formal_receipt_worker import (
+    validate_result as validate_formal_receipt_worker_result,
+)
 from .continuous_scientific_pipeline_service import (
     validate_execution_result as validate_pipeline_service_result,
 )
@@ -764,6 +767,9 @@ def build_unified_snapshot(
     continuous_scientific_pipeline_epoch_003_survivor_pagination = sources[
         "continuous_scientific_pipeline_epoch_003_survivor_pagination"
     ]
+    continuous_scientific_pipeline_epoch_003_formal_receipt_worker_partition_0001 = sources[
+        "continuous_scientific_pipeline_epoch_003_formal_receipt_worker_partition_0001"
+    ]
     promotion = sources["promotion_overlay"]
     parameter = sources["grammar_parameter_cells"]
     parameter_expansion = sources["grammar_parameter_cell_expansion_service"]
@@ -1264,6 +1270,12 @@ def build_unified_snapshot(
         continuous_scientific_pipeline_epoch_003_survivor_pagination,
         root,
         root / "configs/continuous_scientific_pipeline_epoch_003_survivor_pagination.json",
+    )
+    validate_formal_receipt_worker_result(
+        continuous_scientific_pipeline_epoch_003_formal_receipt_worker_partition_0001,
+        root,
+        root
+        / "configs/continuous_scientific_pipeline_epoch_003_formal_receipt_worker_partition_0001.json",
     )
     if (
         scalable_structural_metrics.get("candidate_count") != 163
@@ -9253,6 +9265,65 @@ def build_unified_snapshot(
                 "promotion_contract"
             ],
             "seals": continuous_scientific_pipeline_epoch_003_survivor_pagination["seals"],
+        },
+        "continuous_scientific_pipeline_epoch_003_formal_receipt_worker_partition_0001": {
+            "artifact_binding": source_specs[
+                "continuous_scientific_pipeline_epoch_003_formal_receipt_worker_partition_0001"
+            ],
+            "decision": continuous_scientific_pipeline_epoch_003_formal_receipt_worker_partition_0001[
+                "decision"
+            ],
+            "counts": continuous_scientific_pipeline_epoch_003_formal_receipt_worker_partition_0001[
+                "counts"
+            ],
+            "complete_partition_formal_receipts": (
+                continuous_scientific_pipeline_epoch_003_formal_receipt_worker_partition_0001[
+                    "complete_partition_formal_receipts"
+                ]
+            ),
+            "complete_global_formal_receipts": (
+                continuous_scientific_pipeline_epoch_003_formal_receipt_worker_partition_0001[
+                    "complete_global_formal_receipts"
+                ]
+            ),
+            "complete_comparable_evidence": (
+                continuous_scientific_pipeline_epoch_003_formal_receipt_worker_partition_0001[
+                    "complete_comparable_evidence"
+                ]
+            ),
+            "first_remaining_blocker": (
+                continuous_scientific_pipeline_epoch_003_formal_receipt_worker_partition_0001[
+                    "first_remaining_blocker"
+                ]
+            ),
+            "processed_partition_roots": (
+                continuous_scientific_pipeline_epoch_003_formal_receipt_worker_partition_0001[
+                    "processed_partition_roots"
+                ]
+            ),
+            "selected_leaf_hierarchy_path": (
+                continuous_scientific_pipeline_epoch_003_formal_receipt_worker_partition_0001[
+                    "selected_leaf_hierarchy_path"
+                ]
+            ),
+            "pending_count_semantics": (
+                continuous_scientific_pipeline_epoch_003_formal_receipt_worker_partition_0001[
+                    "pending_count_semantics"
+                ]
+            ),
+            "execution_contract": (
+                continuous_scientific_pipeline_epoch_003_formal_receipt_worker_partition_0001[
+                    "execution_contract"
+                ]
+            ),
+            "promotion_contract": (
+                continuous_scientific_pipeline_epoch_003_formal_receipt_worker_partition_0001[
+                    "promotion_contract"
+                ]
+            ),
+            "seals": continuous_scientific_pipeline_epoch_003_formal_receipt_worker_partition_0001[
+                "seals"
+            ],
         },
         "einstein_aether_coupling_boundary_kkt": {
             "decision": einstein_aether_coupling_boundary_kkt["decision"],

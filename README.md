@@ -603,6 +603,19 @@ creates one durable formal-receipt queue entry per survivor. It preserves the 19
 rejects and leaves exactly 11,247 candidate-specific formal receipts pending. Complete survivor
 identity is therefore closed, but complete comparable evidence, formal passes, leaderboard rebuilds,
 ranks, promotions, GPU access, live campaign SQLite access, and observations remain zero.
+The first bounded formal-receipt worker partition now closes one complete 24-candidate leaf. It
+reconciles two preserved receipts, executes 22 new candidate-specific checks, and records 24 exact
+hard rejects at the reviewed covariant-mapping boundary. The global pending queue therefore falls
+from 11,247 to 11,225 receipts. This is a complete partition result, not complete global formal or
+comparable evidence: formal passes, leaderboard rebuilds, ranks, promotions, GPU access, live
+campaign SQLite access, and observations remain zero. The sealed result is
+`runs/engine/continuous-scientific-pipeline-epoch-003-formal-receipt-worker-partition-0001/result.json`
+(`29c2ef3f66281162ab2db101830ff56d19581a3ce19da8ab280135e14bdfe72a`, content
+`172e4e922d8689b5d0afcaf80d4cf93cc01c2e0d4faa8d9ebed1134cdf7f93ae`).
+The result proves the leaf's full Merkle path from the registered batch index and requires the two
+preserved receipt decisions and blockers to match their new evidence. Its 11,225 count is explicitly
+an immutable partition overlay; the original global queue root is not rewritten or mislabeled as a
+new cumulative ledger.
 The new candidate-bound formula stress lane drives the same RTX 5090 much harder on dense numerical
 work: all 163 materialized Euler projections were checked on 5,341,184 deterministic synthetic
 candidate-point pairs against CPU evaluation, with 5,216 additional exact-rational sentinels and zero

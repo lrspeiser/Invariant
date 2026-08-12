@@ -30,6 +30,7 @@ SOURCE_PATHS = [
     "runs/engine/continuous-scientific-pipeline-epoch-003-result.json",
     "runs/engine/continuous-scientific-pipeline-epoch-003-candidate-followup/result.json",
     "runs/engine/continuous-scientific-pipeline-epoch-003-survivor-pagination/result.json",
+    "runs/engine/continuous-scientific-pipeline-epoch-003-formal-receipt-worker-partition-0001/result.json",
     "runs/engine/composite-promotion-overlay-production-status.json",
     "runs/engine/grammar-v3-parameter-cell-execution-status.json",
     "runs/engine/grammar-v3-parameter-cell-expansion-service-status.json",
@@ -346,6 +347,9 @@ CONTINUOUS_PIPELINE_DEPENDENCIES = (
     "configs/continuous_scientific_pipeline_epoch_003_survivor_pagination.json",
     "src/sigma_theory_compiler/continuous_scientific_pipeline_survivor_pagination.py",
     "tests/test_continuous_scientific_pipeline_survivor_pagination.py",
+    "configs/continuous_scientific_pipeline_epoch_003_formal_receipt_worker_partition_0001.json",
+    "src/sigma_theory_compiler/continuous_scientific_pipeline_formal_receipt_worker.py",
+    "tests/test_continuous_scientific_pipeline_formal_receipt_worker.py",
     "runs/engine/continuous-scientific-pipeline-epoch-003-candidate-followup/batch-01.json",
     "runs/engine/continuous-scientific-pipeline-epoch-003-candidate-followup/batch-02.json",
     "runs/engine/continuous-scientific-pipeline-epoch-003-candidate-followup/batch-03.json",
@@ -364,6 +368,7 @@ LABELS = [
     "continuous_scientific_pipeline_epoch_003_result",
     "continuous_scientific_pipeline_epoch_003_candidate_followup",
     "continuous_scientific_pipeline_epoch_003_survivor_pagination",
+    "continuous_scientific_pipeline_epoch_003_formal_receipt_worker_partition_0001",
     "promotion_overlay",
     "grammar_parameter_cells",
     "grammar_parameter_cell_expansion_service",
@@ -619,6 +624,14 @@ def _fixture(tmp_path: Path) -> tuple[Path, dict[str, object], Path]:
     shutil.copytree(
         REPO / pagination_tree,
         tmp_path / pagination_tree,
+        dirs_exist_ok=True,
+    )
+    formal_worker_tree = Path(
+        "runs/engine/continuous-scientific-pipeline-epoch-003-formal-receipt-worker-partition-0001"
+    )
+    shutil.copytree(
+        REPO / formal_worker_tree,
+        tmp_path / formal_worker_tree,
         dirs_exist_ok=True,
     )
     leaderboard_config = json.loads(
@@ -1508,6 +1521,48 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     assert len(pagination["formal_receipt_queue_hierarchy_root_sha256"]) == 64
     assert not any(pagination["promotion_contract"].values())
     assert not any(pagination["seals"].values())
+    formal_partition = core.pop(
+        "continuous_scientific_pipeline_epoch_003_formal_receipt_worker_partition_0001"
+    )
+    assert formal_partition["decision"] == (
+        "bounded_partition_formal_receipts_complete_global_queue_incomplete_no_promotion"
+    )
+    assert formal_partition["counts"] == {
+        "candidate_blocks": 0,
+        "candidate_passes": 0,
+        "candidate_promotions": 0,
+        "candidate_rejects": 24,
+        "formal_passes": 0,
+        "global_pending_formal_receipts_after_partition": 11_225,
+        "global_pending_formal_receipts_before_partition": 11_247,
+        "global_survivor_candidates": 11_439,
+        "newly_processed_candidates": 22,
+        "partition_candidates": 24,
+        "rank_assignments": 0,
+        "reconciled_preserved_candidates": 2,
+    }
+    assert formal_partition["complete_partition_formal_receipts"] is True
+    assert formal_partition["complete_global_formal_receipts"] is False
+    assert formal_partition["complete_comparable_evidence"] is False
+    assert formal_partition["first_remaining_blocker"] == (
+        "11225_candidate_specific_formal_receipts_pending"
+    )
+    assert all(
+        len(value) == 64 for value in formal_partition["processed_partition_roots"].values()
+    )
+    assert formal_partition["selected_leaf_hierarchy_path"][-1] == {
+        "content_sha256": "747e6c4e420e383d198b49504739e3f93f3688e2099b064177fab15a746f72d3",
+        "file_sha256": "6647f73606bd9873e797fba8104d2bcf2d750b7b0d327058b411d53b9b23763e",
+        "path": (
+            "runs/engine/continuous-scientific-pipeline-epoch-003-survivor-pagination/"
+            "batch-01/node-1004881408-1004881664.json"
+        ),
+    }
+    assert formal_partition["pending_count_semantics"] == (
+        "partition_overlay_no_updated_global_queue_root"
+    )
+    assert not any(formal_partition["promotion_contract"].values())
+    assert not any(formal_partition["seals"].values())
     assert not any(service_result["seals"].values())
     aether_boundary = core["einstein_aether_coupling_boundary_kkt"]
     assert aether_boundary["decision_counts"] == {"blocked": 1, "pass": 0, "reject": 0}
@@ -4056,12 +4111,17 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "192 exact ordinals" in dashboard
     assert "forbidden baryonic atom" in dashboard
     assert "other 11,247 survivors" in dashboard
-    assert "resumable paginated survivor-manifest contract" in dashboard
+    assert "following pagination panel resolves complete survivor identity" in dashboard
     assert "Epoch 003 complete survivor pagination" in dashboard
     assert "90 original worker roots" in dashboard
     assert "649 complete leaf pages" in dashboard
     assert "11,247 candidate-specific formal receipts remain pending" in dashboard
     assert "does not provide complete formal or comparable evidence" in dashboard
+    assert "Epoch 003 formal-receipt partition 0001" in dashboard
+    assert "22 new receipts plus two field-reconciled prior receipts" in dashboard
+    assert "proven reachable through the registered pagination hierarchy" in dashboard
+    assert "partition overlay on the immutable 11,247-entry queue" in dashboard
+    assert "global formal evidence and comparable evidence are not" in dashboard
     assert "Scalar-Hessian curl invariance gate" in dashboard
     assert "12 independent antisymmetric pairs" in dashboard
     assert "corrected source Jacobian" in dashboard
@@ -4440,3 +4500,35 @@ def test_standalone_output_budget_and_path_escape_fail_closed(tmp_path: Path) ->
                 "--disable-gpu-sample",
             ]
         )
+
+
+@pytest.mark.parametrize(
+    "mutation",
+    ["pending_after", "partition_root", "complete_global", "promotion"],
+)
+def test_formal_receipt_worker_unified_semantic_tamper_fails_closed(
+    tmp_path: Path, mutation: str
+) -> None:
+    root, config, _ = _fixture(tmp_path)
+    label = "continuous_scientific_pipeline_epoch_003_formal_receipt_worker_partition_0001"
+    spec = next(source for source in config["sources"] if source["label"] == label)
+    target = root / spec["path"]
+    artifact = json.loads(target.read_text(encoding="utf-8"))
+    if mutation == "pending_after":
+        artifact["counts"]["global_pending_formal_receipts_after_partition"] = 0
+    elif mutation == "partition_root":
+        artifact["processed_partition_roots"]["candidate_formal_receipts_root_sha256"] = (
+            "0" * 64
+        )
+    elif mutation == "complete_global":
+        artifact["complete_global_formal_receipts"] = True
+    else:
+        artifact["promotion_contract"]["leaderboard_rebuild_requested"] = True
+    body = {key: value for key, value in artifact.items() if key != "content_sha256"}
+    artifact["content_sha256"] = hashlib.sha256(_canonical(body)).hexdigest()
+    target.write_text(json.dumps(artifact, indent=2) + "\n", encoding="utf-8")
+    spec["file_sha256"] = hashlib.sha256(target.read_bytes()).hexdigest()
+    spec["content_sha256"] = artifact["content_sha256"]
+
+    with pytest.raises(ValueError, match="formal receipt worker result contract mismatch"):
+        build_unified_snapshot(root, config, physical_gpu={"availability": "unavailable"})

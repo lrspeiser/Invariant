@@ -291,7 +291,11 @@
         "src/sigma_theory_compiler/continuous_scientific_pipeline_survivor_pagination.py",
         "configs/continuous_scientific_pipeline_epoch_003_survivor_pagination.json",
         "tests/test_continuous_scientific_pipeline_survivor_pagination.py",
-        "runs/engine/continuous-scientific-pipeline-epoch-003-survivor-pagination/result.json"
+        "runs/engine/continuous-scientific-pipeline-epoch-003-survivor-pagination/result.json",
+        "src/sigma_theory_compiler/continuous_scientific_pipeline_formal_receipt_worker.py",
+        "configs/continuous_scientific_pipeline_epoch_003_formal_receipt_worker_partition_0001.json",
+        "tests/test_continuous_scientific_pipeline_formal_receipt_worker.py",
+        "runs/engine/continuous-scientific-pipeline-epoch-003-formal-receipt-worker-partition-0001/result.json"
       ],
       "implemented": [
         "restart-safe bounded SQLite queues, deterministic seeds, leases, checkpoints, crash recovery, periodic refill, and detached start/status/stop/resume/export lifecycle",
@@ -359,6 +363,8 @@
         ,"an immutable, non-executing Epoch 003 persistent-resume genesis over a disjoint 3,932,160-formula interval in eight future 15-worker batches; runtime materialization, evaluation, formal receipts, leaderboard requests, rank and promotion all remain false"
         ,"a separately sealed Epoch 003 terminal execution over all 3,932,160 preregistered formulas in eight 15-worker CPU batches and 23 cycles; two batches were sampled-static rejects, six produced formal blocks, and formal passes, leaderboard rebuilds, ranks, promotions, GPU, live campaign SQLite, observations and theory claims remain zero"
         ,"a bounded candidate-specific replay of the six Epoch 003 pass batches that confirms 11,439 survivors and durably evaluates 192 exact ordinals; every enumerated candidate hard-rejects at the covariant mapper for a forbidden baryonic atom, while the overall campaign remains blocked rather than globally rejected because all six manifests are incomplete and 11,247 survivors still require paginated evaluation"
+        ,"a complete CPU-only pagination of all 11,439 sampled-static survivors into 649 sealed leaves of at most 32 records under 90 original worker roots, with one durable formal-receipt queue entry per survivor, 192 preserved hard rejects, 11,247 pending candidate-specific receipts and zero rank or promotion"
+        ,"a bounded first formal-receipt partition that closes one complete 24-candidate leaf as 22 new plus two reconciled exact hard rejects, reduces the global pending queue from 11,247 to 11,225, and keeps global formal completeness, comparable evidence, leaderboard rebuild, rank and promotion false"
       ],
       "scalable_formal_provenance_bindings": {
         "continuous_scientific_pipeline_admission": {
@@ -478,6 +484,29 @@
           "rank_assignments": 0,
           "candidate_promotions": 0,
           "first_blocker": "candidate_specific_formal_receipts_pending"
+        },
+        "continuous_scientific_pipeline_epoch_003_formal_receipt_worker_partition_0001": {
+          "path": "runs/engine/continuous-scientific-pipeline-epoch-003-formal-receipt-worker-partition-0001/result.json",
+          "file_sha256": "29c2ef3f66281162ab2db101830ff56d19581a3ce19da8ab280135e14bdfe72a",
+          "content_sha256": "172e4e922d8689b5d0afcaf80d4cf93cc01c2e0d4faa8d9ebed1134cdf7f93ae",
+          "global_survivor_candidates": 11439,
+          "partition_candidates": 24,
+          "newly_processed_candidates": 22,
+          "reconciled_preserved_candidates": 2,
+          "candidate_rejects": 24,
+          "candidate_blocks": 0,
+          "candidate_passes": 0,
+          "global_pending_before": 11247,
+          "global_pending_after": 11225,
+          "complete_partition_formal_receipts": true,
+          "complete_global_formal_receipts": false,
+          "complete_comparable_evidence": false,
+          "selected_leaf_hierarchy_reachability_proved": true,
+          "preserved_receipts_reconciled": 2,
+          "pending_count_semantics": "partition_overlay_no_updated_global_queue_root",
+          "rank_assignments": 0,
+          "candidate_promotions": 0,
+          "first_blocker": "11225_candidate_specific_formal_receipts_pending"
         },
         "cpu_real_formula_overlap_benchmark": {
           "path": "runs/benchmarks/cpu-real-formula-overlap-15-16.json",
