@@ -23,6 +23,9 @@ from typing import Any
 from .continuous_scientific_pipeline_admission import (
     validate_continuous_scientific_pipeline_readiness,
 )
+from .continuous_scientific_pipeline_candidate_followup import (
+    validate_result as validate_candidate_followup_result,
+)
 from .continuous_scientific_pipeline_epoch import validate_epoch_genesis
 from .continuous_scientific_pipeline_epoch_result import validate_epoch_result
 from .continuous_scientific_pipeline_service import (
@@ -45,6 +48,9 @@ from .quartic_bounded_frequency_defect_campaign import (
 from .quartic_dyadic_localization_campaign import validate_quartic_dyadic_localization_artifact
 from .quartic_finite_sobolev_hierarchy_no_go_campaign import (
     _validate_result as validate_finite_sobolev_hierarchy_no_go,
+)
+from .quartic_full_d2f_high_atom_coverage_gate import (
+    _validate_result as validate_full_d2f_high_atom_coverage,
 )
 from .quartic_full_tensor_good_unknown_reconciliation_gate import (
     _validate_result as validate_full_tensor_good_unknown_reconciliation,
@@ -69,6 +75,9 @@ from .quartic_tc2_d4_rational_chart_determining_gate import (
 )
 from .quartic_tc2_d4_revised_eight_frame_rational_counterexample_campaign import (
     validate_campaign as validate_revised_eight_frame_rational_counterexample,
+)
+from .quartic_tc2_d4_revised_nine_frame_rational_counterexample_campaign import (
+    validate_campaign as validate_revised_nine_frame_rational_counterexample,
 )
 from .quartic_tc2_d4_revised_symbol_rational_counterexample_campaign import (
     validate_campaign as validate_revised_symbol_rational_counterexample,
@@ -740,6 +749,9 @@ def build_unified_snapshot(
     continuous_scientific_pipeline_epoch_003_result = sources[
         "continuous_scientific_pipeline_epoch_003_result"
     ]
+    continuous_scientific_pipeline_epoch_003_candidate_followup = sources[
+        "continuous_scientific_pipeline_epoch_003_candidate_followup"
+    ]
     promotion = sources["promotion_overlay"]
     parameter = sources["grammar_parameter_cells"]
     parameter_expansion = sources["grammar_parameter_cell_expansion_service"]
@@ -945,6 +957,7 @@ def build_unified_snapshot(
     quartic_scalar_hessian_output_bundle_repair = sources[
         "quartic_scalar_hessian_output_bundle_repair_gate"
     ]
+    quartic_full_d2f_high_atom_coverage = sources["quartic_full_d2f_high_atom_coverage_gate"]
     validation_config_root = root
     validate_quartic_anti_wick_composition_artifact(
         quartic_anti_wick_recovery,
@@ -1003,6 +1016,10 @@ def build_unified_snapshot(
     )
     validate_scalar_hessian_output_bundle_repair(
         quartic_scalar_hessian_output_bundle_repair,
+        root=validation_config_root,
+    )
+    validate_full_d2f_high_atom_coverage(
+        quartic_full_d2f_high_atom_coverage,
         root=validation_config_root,
     )
     quartic_tc2_quadratic_deltak = sources["quartic_tc2_quadratic_deltak_extension"]
@@ -1072,6 +1089,9 @@ def build_unified_snapshot(
     ]
     quartic_tc2_d4_revised_eight_frame_counterexample = sources[
         "quartic_tc2_d4_revised_eight_frame_rational_counterexample"
+    ]
+    quartic_tc2_d4_revised_nine_frame_counterexample = sources[
+        "quartic_tc2_d4_revised_nine_frame_rational_counterexample"
     ]
     quartic_tc2_reranked_obligation_chunks = tuple(
         sources[f"quartic_tc2_reranked_obligation_chunk_{offset}"]
@@ -1213,6 +1233,11 @@ def build_unified_snapshot(
         root / "configs/continuous_scientific_pipeline_epoch_003.json",
     )
     validate_epoch_result(continuous_scientific_pipeline_epoch_003_result, root)
+    validate_candidate_followup_result(
+        continuous_scientific_pipeline_epoch_003_candidate_followup,
+        root,
+        root / "configs/continuous_scientific_pipeline_epoch_003_candidate_followup.json",
+    )
     if (
         scalable_structural_metrics.get("candidate_count") != 163
         or scalable_structural_metrics.get("alias_count") != 93
@@ -8564,6 +8589,9 @@ def build_unified_snapshot(
     validate_revised_eight_frame_rational_counterexample(
         quartic_tc2_d4_revised_eight_frame_counterexample
     )
+    validate_revised_nine_frame_rational_counterexample(
+        quartic_tc2_d4_revised_nine_frame_counterexample
+    )
     degree_five_counts = quartic_tc2_d4_degree_five_escape["counts"]
     degree_five_exact = quartic_tc2_d4_degree_five_escape["exact_completion"]
     degree_five_claims = quartic_tc2_d4_degree_five_escape["claims"]
@@ -8668,6 +8696,41 @@ def build_unified_snapshot(
         or revised_eight_counts["inferred_global_passes"] != 0
     ):
         raise ValueError("quartic TC2 revised-eight-frame counterexample is inconsistent")
+    revised_nine_counts = quartic_tc2_d4_revised_nine_frame_counterexample["counts"]
+    revised_nine_gate = quartic_tc2_d4_revised_nine_frame_counterexample["exact_gate"]
+    revised_nine_bindings = quartic_tc2_d4_revised_nine_frame_counterexample["source_bindings"]
+    revised_nine_config_path = validation_config_root / (
+        "configs/backgrounds/quartic_tc2_d4_revised_nine_frame_"
+        "rational_counterexample_campaign.json"
+    )
+    revised_nine_config = json.loads(revised_nine_config_path.read_text(encoding="utf-8"))
+    if (
+        hashlib.sha256(revised_nine_config_path.read_bytes()).hexdigest()
+        != "c839232d5028dbafeac95fc6f62ea85de10e245dab8d6eaf286411f8032e1398"
+        or revised_nine_config.get("content_sha256")
+        != "f42f6bac81f79a60e9104434a50f0359a6ec6c68cb152ab34f75de6922dc1175"
+        or quartic_tc2_d4_revised_nine_frame_counterexample["config_sha256"]
+        != "f42f6bac81f79a60e9104434a50f0359a6ec6c68cb152ab34f75de6922dc1175"
+        or hashlib.sha256(
+            (validation_config_root / revised_nine_bindings["campaign_source"]["path"])
+            .read_bytes()
+        ).hexdigest()
+        != "463cacce692c1241d37010f88be903a0beceee2735db90172f1f899cb46670fc"
+        or hashlib.sha256(
+            (validation_config_root / revised_nine_bindings["campaign_test"]["path"])
+            .read_bytes()
+        ).hexdigest()
+        != "bb630e1314ccc11406d97637249d235feda98e402452fa940e28ac0716fffa07"
+        or revised_nine_bindings["nine_frame_predecessor"]
+        != source_specs["quartic_tc2_d4_revised_eight_frame_rational_counterexample"]
+        or _sha(revised_nine_gate)
+        != "d393b2c2f9968fcea094cd1125d5124aa78a7dd5a89339afabd1f9e91c545d4c"
+        or revised_nine_counts["candidate_obstructions"] != 12
+        or revised_nine_counts["new_local_candidate_compatibilities"] != 12
+        or revised_nine_counts["total_local_direction_certificates"] != 10
+        or revised_nine_counts["inferred_global_passes"] != 0
+    ):
+        raise ValueError("quartic TC2 revised-nine-frame counterexample is inconsistent")
     if (
         unified_live_dashboard_service_readiness.get("decision")
         != "ready_enabled_read_only_bounded"
@@ -9012,6 +9075,36 @@ def build_unified_snapshot(
                 "promotion_contract"
             ],
             "seals": continuous_scientific_pipeline_epoch_003_result["seals"],
+        },
+        "continuous_scientific_pipeline_epoch_003_candidate_followup": {
+            "artifact_binding": source_specs[
+                "continuous_scientific_pipeline_epoch_003_candidate_followup"
+            ],
+            "decision": continuous_scientific_pipeline_epoch_003_candidate_followup["decision"],
+            "source_pass_batch_indices": continuous_scientific_pipeline_epoch_003_candidate_followup[
+                "source_pass_batch_indices"
+            ],
+            "counts": continuous_scientific_pipeline_epoch_003_candidate_followup["counts"],
+            "candidate_decision_records_root_sha256": (
+                continuous_scientific_pipeline_epoch_003_candidate_followup[
+                    "candidate_decision_records_root_sha256"
+                ]
+            ),
+            "first_remaining_blocker": continuous_scientific_pipeline_epoch_003_candidate_followup[
+                "first_remaining_blocker"
+            ],
+            "complete_comparable_evidence": (
+                continuous_scientific_pipeline_epoch_003_candidate_followup[
+                    "complete_comparable_evidence"
+                ]
+            ),
+            "execution_contract": continuous_scientific_pipeline_epoch_003_candidate_followup[
+                "execution_contract"
+            ],
+            "promotion_contract": continuous_scientific_pipeline_epoch_003_candidate_followup[
+                "promotion_contract"
+            ],
+            "seals": continuous_scientific_pipeline_epoch_003_candidate_followup["seals"],
         },
         "einstein_aether_coupling_boundary_kkt": {
             "decision": einstein_aether_coupling_boundary_kkt["decision"],
@@ -10549,6 +10642,18 @@ def build_unified_snapshot(
                     "first_blocker": quartic_scalar_hessian_output_bundle_repair["first_blocker"],
                     "data_seals": quartic_scalar_hessian_output_bundle_repair["data_seals"],
                 },
+                "full_d2f_high_atom_coverage": {
+                    "artifact_binding": source_specs["quartic_full_d2f_high_atom_coverage_gate"],
+                    "decision": quartic_full_d2f_high_atom_coverage["decision"],
+                    "decision_counts": quartic_full_d2f_high_atom_coverage["decision_counts"],
+                    "gate_counts": quartic_full_d2f_high_atom_coverage["gate_counts"],
+                    "pair_status_counts": quartic_full_d2f_high_atom_coverage[
+                        "ordered_coverage_ledger"
+                    ]["pair_status_counts"],
+                    "first_blocker": quartic_full_d2f_high_atom_coverage["first_blocker"],
+                    "claim_seals": quartic_full_d2f_high_atom_coverage["claim_seals"],
+                    "data_seals": quartic_full_d2f_high_atom_coverage["data_seals"],
+                },
                 "ordered_candidate_ids": [
                     row["candidate_id"] for row in quartic_anti_wick_recovery["certificates"]
                 ],
@@ -10579,6 +10684,10 @@ def build_unified_snapshot(
                     == [
                         row["candidate_id"]
                         for row in quartic_scalar_hessian_output_bundle_repair["candidate_records"]
+                    ]
+                    == [
+                        row["candidate_id"]
+                        for row in quartic_full_d2f_high_atom_coverage["candidate_records"]
                     ]
                 ),
             },
@@ -11074,7 +11183,17 @@ def build_unified_snapshot(
                         "claims": quartic_tc2_d4_revised_eight_frame_counterexample["claims"],
                         "scope": quartic_tc2_d4_revised_eight_frame_counterexample["scope"],
                     },
-                    "next_gate": quartic_tc2_d4_revised_eight_frame_counterexample["next_gate"],
+                    "revised_nine_frame_rational_counterexample": {
+                        "status": quartic_tc2_d4_revised_nine_frame_counterexample["status"],
+                        "counts": revised_nine_counts,
+                        "atlas": revised_nine_gate["atlas"],
+                        "search_protocol": revised_nine_gate["search_protocol"],
+                        "first_obstruction": revised_nine_gate["first_obstruction"],
+                        "bounded_next_escape": revised_nine_gate["bounded_next_escape"],
+                        "claims": quartic_tc2_d4_revised_nine_frame_counterexample["claims"],
+                        "scope": quartic_tc2_d4_revised_nine_frame_counterexample["scope"],
+                    },
+                    "next_gate": quartic_tc2_d4_revised_nine_frame_counterexample["next_gate"],
                 },
                 "full_fourth_jet_range_closed": False,
             },
@@ -11091,7 +11210,7 @@ def build_unified_snapshot(
                 )
             },
             "first_missing_premise": (
-                "repeat_fail_fast_exact_rational_chart_search_for_revised_nine_frame_symbol_or_finite_determining_theorem"
+                "continue_preregistered_signed_height_one_selector_at_minus_one_plus_one_for_revised_ten_frame_symbol"
             ),
         },
         "evidence_pareto": {

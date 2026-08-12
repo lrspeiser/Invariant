@@ -593,6 +593,14 @@ resource wait before the service resumed. Formal passes, leaderboard rebuild req
 assignments, promotions, GPU use, live campaign SQLite access, observations, and theory claims all
 remain zero. The result validates from its immutable terminal archive and replay/dependency roots,
 without reading the mutable Epoch 003 runtime.
+The candidate-specific follow-up now replays all six sampled-static pass batches and confirms
+11,439 survivor candidates. Its reviewed 32-record-per-batch bound durably enumerates 192 exact
+ordinals; all 192 hard-reject at the covariant mapper because their action payload contains the
+forbidden baryonic atom, including 26 that passed the earlier symbolic-local preflight. This is not
+a rejection of the remaining 11,247 survivors: all six manifests are bounded and incomplete. The
+next engineering gate is a resumable paginated survivor-manifest contract with exact page roots and
+durable per-candidate receipts. Complete comparable evidence, formal passes, leaderboard rebuilds,
+ranks, promotions, GPU access, live campaign SQLite access, and observations remain zero.
 The new candidate-bound formula stress lane drives the same RTX 5090 much harder on dense numerical
 work: all 163 materialized Euler projections were checked on 5,341,184 deterministic synthetic
 candidate-point pairs against CPU evaluation, with 5,216 additional exact-rational sentinels and zero
@@ -1517,6 +1525,21 @@ source/config/test hashes are `f972d45c511604fdd7bbbf42e7ea8efe843260f9e1e689a85
 `934a62640555be9d170d3065489fa39e9972a2e7f7567d1203b51398b49e12b9` /
 `e5771d1c030455f5663bb856601befb9381c73eb034ee8e30f1eaaa4b93a7509`.
 
+The complete ordered-domain ledger now removes any ambiguity about that partial repair. For each
+candidate it classifies all `153 x 153 = 23,409` ordered atom pairs and all
+`11 x 153 x 153 = 257,499` D2F output entries. Exactly the repaired 81 pair cells, or 891 entries,
+are admitted. The other 106,920 principal high-atom entries and 256,608 total entries remain
+unregistered: classification is not materialization. All 12 candidates therefore remain blocked
+and unrejected on candidate-bound covariant source derivatives and an output-bundle connection
+extension for the missing principal pairs, followed by the complete high-atom good-unknown identity
+and induced TC1/TC2/TC3/TC5 estimates. Global H7, nonlinear PDE closure, lifespan, and observations
+remain false. Artifact file/content hashes are
+`b9ce34960b766a6fe74a36a13190b0f050a1447884d599fad1eebfe189b32590` /
+`e7e4e4171aed90d07d68791183c58a696e77b9bed745f1018da2c5ee9438c38a`;
+source/config/test hashes are `659df566bf12795612c61de7fa6448557b7fd0f56d9b920ab5fdf77330f4979b` /
+`53fe9a98831a76a701bf8d58aa968f4e6de6843619ce1ed7be6dc9944c15788f` /
+`adb39026e6216d2749ae60156dd5048dcaa9c62e4a643d3906f6db1a9a4856cd`.
+
 The component campaign now proves every entry of the principal identity
 `D_Y E55 J = i P55` for all 12 candidates and materializes the complete first source Jacobian.
 Its 1,089 principal and 594 lower entries form an exact arithmetic-only `11 x 153` manifest with
@@ -1754,8 +1777,16 @@ degree four is first feasible. The bounded search checks 1,940 supports through 
 finds 15 feasible four-support envelopes. Its deterministic first is
 `a9(n)=-81*n1*n2*n3**2/16 + 135*n2**3*n3/16 - 567*n2**2*n3**2/32 + 189*n2*n3**3/16`.
 A sharp rank-two, two-curl repair closes the 12 local systems and preserves all eight earlier
-frames, yielding nine local direction certificates only. A repeat chart search for the revised
-nine-frame symbol, or a determining theorem, followed by pseudodifferential constraint,
+frames, yielding nine local direction certificates only. The next preregistered signed
+height-one point `(u,v)=(1,-1)`, `n=(-1/3,2/3,-2/3)`, now also gives a common
+rank-four, 56-entry zero-speed obstruction for all 12 candidates, disproving full-sphere
+compatibility of the revised nine-frame symbol. Degrees zero and two again cannot preserve the
+nine prior frames; degree four is first feasible. The bounded search checks 1,940 supports
+through size four and finds two feasible four-support envelopes. Its deterministic first is
+`a10(n)=3*n1**2*n2*n3/8 - 21*n2**3*n3/16 + 81*n2**2*n3**2/32 - 21*n2*n3**3/16`.
+A sharp rank-two, two-curl repair closes the 12 local systems and preserves all nine earlier
+frames, yielding ten local direction certificates only. The signed selector continues at
+`(u,v)=(-1,1)` for the revised ten-frame symbol; a determining theorem, pseudodifferential constraint,
 commutator, boundary-energy, local/covariant and PDE admission, remains open. This is
 not an inferred pass for the unevaluated tail; full fourth-order range closure, full-tube,
 CK1, CK3, TC2, B7, global-H7, and lifespan remain false.

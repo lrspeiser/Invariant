@@ -28,6 +28,7 @@ SOURCE_PATHS = [
     "runs/engine/continuous-scientific-pipeline-service-result.json",
     "runs/engine/continuous-scientific-pipeline-epoch-003-genesis.json",
     "runs/engine/continuous-scientific-pipeline-epoch-003-result.json",
+    "runs/engine/continuous-scientific-pipeline-epoch-003-candidate-followup/result.json",
     "runs/engine/composite-promotion-overlay-production-status.json",
     "runs/engine/grammar-v3-parameter-cell-execution-status.json",
     "runs/engine/grammar-v3-parameter-cell-expansion-service-status.json",
@@ -145,6 +146,7 @@ SOURCE_PATHS = [
     "runs/physics-language/quartic-scalar-hessian-d2-integrability-gate/campaign.json",
     "runs/physics-language/quartic-scalar-hessian-curl-invariance-gate/campaign.json",
     "runs/physics-language/quartic-scalar-hessian-output-bundle-repair-gate/campaign.json",
+    "runs/physics-language/quartic-full-d2f-high-atom-coverage-gate/campaign.json",
     "runs/physics-language/quartic-tc2-ck1-p55-tube-envelope-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-quadratic-deltak-extension-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-diagonal-third-jet-campaign/campaign.json",
@@ -182,6 +184,7 @@ SOURCE_PATHS = [
     "runs/physics-language/quartic-tc2-d4-degree-five-counterexample-escape-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-d4-revised-symbol-rational-counterexample-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-d4-revised-eight-frame-rational-counterexample-campaign/campaign.json",
+    "runs/physics-language/quartic-tc2-d4-revised-nine-frame-rational-counterexample-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000000.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000064.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000128.json",
@@ -235,6 +238,7 @@ RECOVERY_CONFIG_PATHS = (
     "configs/backgrounds/quartic_scalar_hessian_d2_integrability_gate.json",
     "configs/backgrounds/quartic_scalar_hessian_curl_invariance_gate.json",
     "configs/backgrounds/quartic_scalar_hessian_output_bundle_repair_gate.json",
+    "configs/backgrounds/quartic_full_d2f_high_atom_coverage_gate.json",
 )
 FINITE_SOBOLEV_DEPENDENCIES = (
     "src/sigma_theory_compiler/quartic_finite_sobolev_hierarchy_no_go_campaign.py",
@@ -256,6 +260,10 @@ SCALAR_HESSIAN_OUTPUT_BUNDLE_DEPENDENCIES = (
     "src/sigma_theory_compiler/quartic_scalar_hessian_output_bundle_repair_gate.py",
     "tests/test_quartic_scalar_hessian_output_bundle_repair_gate.py",
 )
+FULL_D2F_HIGH_ATOM_DEPENDENCIES = (
+    "src/sigma_theory_compiler/quartic_full_d2f_high_atom_coverage_gate.py",
+    "tests/test_quartic_full_d2f_high_atom_coverage_gate.py",
+)
 SIXTH_FRAME_CONFIG_PATH = (
     "configs/backgrounds/quartic_tc2_d4_degree_three_sixth_frame_completion_campaign.json"
 )
@@ -275,6 +283,13 @@ REVISED_EIGHT_FRAME_CONFIG_PATH = (
 REVISED_EIGHT_FRAME_DEPENDENCIES = (
     "src/sigma_theory_compiler/quartic_tc2_d4_revised_eight_frame_rational_counterexample_campaign.py",
     "tests/test_quartic_tc2_d4_revised_eight_frame_rational_counterexample_campaign.py",
+)
+REVISED_NINE_FRAME_CONFIG_PATH = (
+    "configs/backgrounds/quartic_tc2_d4_revised_nine_frame_rational_counterexample_campaign.json"
+)
+REVISED_NINE_FRAME_DEPENDENCIES = (
+    "src/sigma_theory_compiler/quartic_tc2_d4_revised_nine_frame_rational_counterexample_campaign.py",
+    "tests/test_quartic_tc2_d4_revised_nine_frame_rational_counterexample_campaign.py",
 )
 PORTABLE_FORMAL_DEPENDENCIES = (
     "configs/formal_controls_portable_report.json",
@@ -310,6 +325,15 @@ CONTINUOUS_PIPELINE_DEPENDENCIES = (
     "src/sigma_theory_compiler/gpu_screen.py",
     "src/sigma_theory_compiler/scientific_leaderboards.py",
     "configs/scientific_leaderboards.json",
+    "configs/continuous_scientific_pipeline_epoch_003_candidate_followup.json",
+    "src/sigma_theory_compiler/continuous_scientific_pipeline_candidate_followup.py",
+    "tests/test_continuous_scientific_pipeline_candidate_followup.py",
+    "runs/engine/continuous-scientific-pipeline-epoch-003-candidate-followup/batch-01.json",
+    "runs/engine/continuous-scientific-pipeline-epoch-003-candidate-followup/batch-02.json",
+    "runs/engine/continuous-scientific-pipeline-epoch-003-candidate-followup/batch-03.json",
+    "runs/engine/continuous-scientific-pipeline-epoch-003-candidate-followup/batch-05.json",
+    "runs/engine/continuous-scientific-pipeline-epoch-003-candidate-followup/batch-06.json",
+    "runs/engine/continuous-scientific-pipeline-epoch-003-candidate-followup/batch-07.json",
 )
 LABELS = [
     "billion_streaming",
@@ -320,6 +344,7 @@ LABELS = [
     "continuous_scientific_pipeline_service_result",
     "continuous_scientific_pipeline_epoch_003_genesis",
     "continuous_scientific_pipeline_epoch_003_result",
+    "continuous_scientific_pipeline_epoch_003_candidate_followup",
     "promotion_overlay",
     "grammar_parameter_cells",
     "grammar_parameter_cell_expansion_service",
@@ -437,6 +462,7 @@ LABELS = [
     "quartic_scalar_hessian_d2_integrability_gate",
     "quartic_scalar_hessian_curl_invariance_gate",
     "quartic_scalar_hessian_output_bundle_repair_gate",
+    "quartic_full_d2f_high_atom_coverage_gate",
     "quartic_ck1_p55_tube_envelope",
     "quartic_tc2_quadratic_deltak_extension",
     "quartic_tc2_diagonal_third_jet",
@@ -474,6 +500,7 @@ LABELS = [
     "quartic_tc2_d4_degree_five_counterexample_escape",
     "quartic_tc2_d4_revised_symbol_rational_counterexample",
     "quartic_tc2_d4_revised_eight_frame_rational_counterexample",
+    "quartic_tc2_d4_revised_nine_frame_rational_counterexample",
     "quartic_tc2_reranked_obligation_chunk_0",
     "quartic_tc2_reranked_obligation_chunk_64",
     "quartic_tc2_reranked_obligation_chunk_128",
@@ -600,6 +627,11 @@ def _fixture(tmp_path: Path) -> tuple[Path, dict[str, object], Path]:
         target = tmp_path / relative
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(source, target)
+    for relative in FULL_D2F_HIGH_ATOM_DEPENDENCIES:
+        source = REPO / relative
+        target = tmp_path / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(source, target)
     for relative in REVISED_SYMBOL_DEPENDENCIES:
         source = REPO / relative
         target = tmp_path / relative
@@ -629,6 +661,37 @@ def _fixture(tmp_path: Path) -> tuple[Path, dict[str, object], Path]:
         "fourth_campaign",
     ):
         binding = revised_eight_config[key]
+        relative = binding["path"]
+        source = REPO / relative
+        target = tmp_path / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        if not target.exists():
+            shutil.copyfile(source, target)
+    for relative in REVISED_NINE_FRAME_DEPENDENCIES:
+        source = REPO / relative
+        target = tmp_path / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(source, target)
+    revised_nine_config_source = REPO / REVISED_NINE_FRAME_CONFIG_PATH
+    revised_nine_config_target = tmp_path / REVISED_NINE_FRAME_CONFIG_PATH
+    revised_nine_config_target.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copyfile(revised_nine_config_source, revised_nine_config_target)
+    revised_nine_config = json.loads(
+        revised_nine_config_source.read_text(encoding="utf-8")
+    )
+    for key in (
+        "campaign_source",
+        "campaign_test",
+        "nine_frame_predecessor",
+        "revised_predecessor",
+        "degree_five_predecessor",
+        "rational_predecessor",
+        "xyz_predecessor",
+        "c23_predecessor",
+        "minimal_escape",
+        "fourth_campaign",
+    ):
+        binding = revised_nine_config[key]
         relative = binding["path"]
         source = REPO / relative
         target = tmp_path / relative
@@ -1329,6 +1392,34 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     assert epoch_003_result["runtime_binding"]["terminal_state"] == "bounded_complete"
     assert not any(epoch_003_result["promotion_contract"].values())
     assert not any(epoch_003_result["seals"].values())
+    candidate_followup = core.pop("continuous_scientific_pipeline_epoch_003_candidate_followup")
+    assert candidate_followup["decision"] == (
+        "candidate_specific_followup_blocked_no_comparable_evidence_no_promotion"
+    )
+    assert candidate_followup["source_pass_batch_indices"] == [1, 2, 3, 5, 6, 7]
+    assert candidate_followup["counts"] == {
+        "source_pass_batches": 6,
+        "source_survivor_candidates": 11_439,
+        "durably_recorded_candidates": 192,
+        "sample_complete_batches": 0,
+        "symbolic_local_preflight_passes": 26,
+        "covariant_action_mapped_candidates": 0,
+        "action_health_executions": 0,
+        "candidate_blocks": 0,
+        "candidate_rejects": 192,
+        "candidate_passes": 0,
+        "formal_passes": 0,
+        "leaderboard_rebuild_requests": 0,
+        "rank_assignments": 0,
+        "candidate_promotions": 0,
+    }
+    assert candidate_followup["first_remaining_blocker"] == (
+        "candidate_manifest_is_bounded_not_complete"
+    )
+    assert candidate_followup["complete_comparable_evidence"] is False
+    assert len(candidate_followup["candidate_decision_records_root_sha256"]) == 64
+    assert not any(candidate_followup["promotion_contract"].values())
+    assert not any(candidate_followup["seals"].values())
     assert not any(service_result["seals"].values())
     aether_boundary = core["einstein_aether_coupling_boundary_kkt"]
     assert aether_boundary["decision_counts"] == {"blocked": 1, "pass": 0, "reject": 0}
@@ -2575,6 +2666,49 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
     assert output_repair["gate_counts"]["corrected_curl_nonzero_components"] == 0
     assert output_repair["gate_counts"]["complete_ordered_D2_manifests_registered"] == 0
     assert not any(output_repair["data_seals"].values())
+    full_d2f = recovery["full_d2f_high_atom_coverage"]
+    assert full_d2f["artifact_binding"] == {
+        "path": "runs/physics-language/quartic-full-d2f-high-atom-coverage-gate/campaign.json",
+        "file_sha256": "b9ce34960b766a6fe74a36a13190b0f050a1447884d599fad1eebfe189b32590",
+        "content_sha256": "e7e4e4171aed90d07d68791183c58a696e77b9bed745f1018da2c5ee9438c38a",
+    }
+    assert full_d2f["decision"] == (
+        "complete_ordered_D2F_domain_classified_values_and_full_high_atom_identity_blocked"
+    )
+    assert full_d2f["decision_counts"] == {"pass": 0, "reject": 0, "blocked": 12}
+    assert full_d2f["pair_status_counts"] == {
+        "corrected_admitted": 81,
+        "naive_evaluated_not_admitted": 810,
+        "reverse_principal_not_registered": 810,
+        "other_principal_pair_not_registered": 8_100,
+        "principal_lower_not_registered": 5_346,
+        "lower_principal_not_registered": 5_346,
+        "lower_lower_not_registered": 2_916,
+    }
+    assert full_d2f["gate_counts"]["coordinate_atoms"] == 153
+    assert full_d2f["gate_counts"]["ordered_pair_cells_classified"] == 23_409
+    assert full_d2f["gate_counts"]["ordered_D2F_entries_in_domain"] == 257_499
+    assert full_d2f["gate_counts"]["corrected_entries_admitted_per_candidate"] == 891
+    assert (
+        full_d2f["gate_counts"]["principal_high_atom_entries_missing_per_candidate"]
+        == 106_920
+    )
+    assert full_d2f["gate_counts"]["full_ordered_D2F_entries_missing_per_candidate"] == 256_608
+    assert full_d2f["gate_counts"]["complete_ordered_D2F_tensors_registered"] == 0
+    assert full_d2f["gate_counts"]["full_high_atom_good_unknown_identities_proved"] == 0
+    assert full_d2f["gate_counts"]["global_H7_closures"] == 0
+    assert full_d2f["gate_counts"]["nonlinear_PDE_closures"] == 0
+    assert full_d2f["gate_counts"]["lifespans_proved"] == 0
+    assert full_d2f["first_blocker"] == (
+        "candidate_bound_covariant_source_derivatives_and_output_bundle_connection_extension_"
+        "for_remaining_106920_principal_high_atom_D2F_entries_not_registered"
+    )
+    assert {key for key, value in full_d2f["claim_seals"].items() if value} == {
+        "complete_ordered_D2F_coverage_domain_classified",
+        "corrected_scalar_hessian_high_field10_submanifest_admitted",
+        "remaining_principal_high_atom_domain_exactly_classified",
+    }
+    assert not any(full_d2f["data_seals"].values())
     assert all(
         not any(lane["data_seals"].values())
         for name, lane in recovery.items()
@@ -2958,6 +3092,62 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
         is True
     )
     assert revised_eight["claims"]["full_direction_sphere_D4_compatibility_proved"] is False
+    revised_nine = core["quartic_nonlinear_closure"]["fourth_jet_range_obligations"][
+        "canonical_obstruction_certificate"
+    ].pop("revised_nine_frame_rational_counterexample")
+    assert revised_nine["counts"]["rational_SO3_charts"] == 2
+    assert revised_nine["counts"]["directional_polarization_evaluations"] == 15
+    assert revised_nine["counts"]["candidate_compatibilities"] == 0
+    assert revised_nine["counts"]["candidate_obstructions"] == 12
+    assert revised_nine["counts"]["bounded_envelope_supports_checked"] == 1_940
+    assert revised_nine["counts"]["sparsest_envelope_support"] == 4
+    assert revised_nine["counts"]["sparsest_feasible_envelopes"] == 2
+    assert revised_nine["counts"]["new_local_candidate_compatibilities"] == 12
+    assert revised_nine["counts"]["total_local_direction_certificates"] == 10
+    assert revised_nine["first_obstruction"]["selector"]["chart_coordinates"] == ["1", "-1"]
+    assert revised_nine["first_obstruction"]["selector"]["direction"] == [
+        "-1/3",
+        "2/3",
+        "-2/3",
+    ]
+    assert (
+        revised_nine["first_obstruction"]["exact_rational_obstruction"][
+            "eta_normalized_target_sha256"
+        ]
+        == "406cb87033eb0946d053c46d076a5e97fb9157c848e3737950c24ba7fca0369f"
+    )
+    revised_nine_envelope = revised_nine["bounded_next_escape"][
+        "minimal_preserving_envelope"
+    ]
+    assert revised_nine_envelope["supports_checked_by_size"] == {
+        "1": 15,
+        "2": 105,
+        "3": 455,
+        "4": 1365,
+    }
+    assert revised_nine_envelope["feasible_envelopes_by_support_size"] == {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 2,
+    }
+    assert revised_nine_envelope["deterministic_envelope"] == (
+        "a10(n)=3*n1**2*n2*n3/8 - 21*n2**3*n3/16 + "
+        "81*n2**2*n3**2/32 - 21*n2*n3**3/16"
+    )
+    assert revised_nine["bounded_next_escape"]["exact_range_classification"][
+        "transverse_selector_rank"
+    ] == 22
+    assert revised_nine["bounded_next_escape"]["local_completion"][
+        "coordinate_pairs"
+    ] == [[11, 21], [15, 32]]
+    assert (
+        revised_nine["claims"][
+            "revised_nine_frame_symbol_full_sphere_D4_compatibility_disproved"
+        ]
+        is True
+    )
+    assert revised_nine["claims"]["full_direction_sphere_D4_compatibility_proved"] is False
     assert core["quartic_nonlinear_closure"] == {
         "candidate_count": 12,
         "coordinate_pair_partition": {
@@ -3220,9 +3410,9 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                     ),
                 },
                 "next_gate": (
-                    "Repeat the fail-fast exact rational-chart search for the revised "
-                    "nine-frame symbol; do not infer a finite determining theorem or any "
-                    "PDE/global admission."
+                    "Continue the preregistered signed height-one selector at (u,v)=(-1,1) "
+                    "for the revised ten-frame symbol; do not infer a finite determining "
+                    "theorem or PDE/global admission."
                 ),
             },
             "full_fourth_jet_range_closed": False,
@@ -3237,8 +3427,8 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
             "lifespans_proved": 0,
         },
         "first_missing_premise": (
-            "repeat_fail_fast_exact_rational_chart_search_for_revised_nine_frame_symbol_or_"
-            "finite_determining_theorem"
+            "continue_preregistered_signed_height_one_selector_at_minus_one_plus_one_for_"
+            "revised_ten_frame_symbol"
         ),
     }
     assert core["cross_pipeline_total"]["status"] == "not_computed"
@@ -3679,9 +3869,19 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "genesis / not started" in dashboard
     assert "no formulas were evaluated" in dashboard
     assert "preregistered future coverage only" in dashboard
+    assert "Epoch 003 candidate-specific survivor follow-up" in dashboard
+    assert "11,439 survivors" in dashboard
+    assert "192 exact ordinals" in dashboard
+    assert "forbidden baryonic atom" in dashboard
+    assert "other 11,247 survivors" in dashboard
+    assert "resumable paginated survivor-manifest contract" in dashboard
     assert "Scalar-Hessian curl invariance gate" in dashboard
     assert "12 independent antisymmetric pairs" in dashboard
     assert "corrected source Jacobian" in dashboard
+    assert "Full ordered D2F coverage ledger" in dashboard
+    assert "153x153 ordered atom pairs" in dashboard
+    assert "106,920 principal high-atom entries" in dashboard
+    assert "256,608 total entries" in dashboard
     assert "TC2 revised-symbol e3 counterexample and bounded escape" in dashboard
     assert "(u,v)=(0,1)" in dashboard
     assert "4,943" in dashboard
@@ -3693,6 +3893,13 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "1,940" in dashboard
     assert "15 feasible four-support envelopes" in dashboard
     assert "nine exact direction certificates" in dashboard
+    assert "TC2 revised-nine-frame (1,-1) counterexample and bounded escape" in dashboard
+    assert "(u,v)=(1,-1)" in dashboard
+    assert "n=(-1/3,2/3,-2/3)" in dashboard
+    assert "two feasible four-support envelopes" in dashboard
+    assert "a10(n)=3*n1**2*n2*n3/8" in dashboard
+    assert "ten exact direction certificates" in dashboard
+    assert "remaining signed selector points" in dashboard
     assert "never assign rank directly" in dashboard
     assert "22,478,848 unique candidate-grid evaluations" in dashboard
     assert "89.4% median and 100% peak device-wide CPU" in dashboard

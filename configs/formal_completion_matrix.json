@@ -283,7 +283,11 @@
         "src/sigma_theory_compiler/continuous_scientific_pipeline_epoch_result.py",
         "tests/test_continuous_scientific_pipeline_epoch_result.py",
         "runs/engine/continuous-scientific-pipeline-epoch-003-preflight.json",
-        "runs/engine/continuous-scientific-pipeline-epoch-003-result.json"
+        "runs/engine/continuous-scientific-pipeline-epoch-003-result.json",
+        "src/sigma_theory_compiler/continuous_scientific_pipeline_candidate_followup.py",
+        "configs/continuous_scientific_pipeline_epoch_003_candidate_followup.json",
+        "tests/test_continuous_scientific_pipeline_candidate_followup.py",
+        "runs/engine/continuous-scientific-pipeline-epoch-003-candidate-followup/result.json"
       ],
       "implemented": [
         "restart-safe bounded SQLite queues, deterministic seeds, leases, checkpoints, crash recovery, periodic refill, and detached start/status/stop/resume/export lifecycle",
@@ -350,6 +354,7 @@
         ,"a sealed bounded execution over eight 15-worker batches and 3,932,160 unique formulas: five sampled-static rejects and three survivor batches with exact formal-block receipts, producing zero formal passes, leaderboard rebuild requests, rank assignments, GPU use, live campaign SQLite access, or observational/theory promotion"
         ,"an immutable, non-executing Epoch 003 persistent-resume genesis over a disjoint 3,932,160-formula interval in eight future 15-worker batches; runtime materialization, evaluation, formal receipts, leaderboard requests, rank and promotion all remain false"
         ,"a separately sealed Epoch 003 terminal execution over all 3,932,160 preregistered formulas in eight 15-worker CPU batches and 23 cycles; two batches were sampled-static rejects, six produced formal blocks, and formal passes, leaderboard rebuilds, ranks, promotions, GPU, live campaign SQLite, observations and theory claims remain zero"
+        ,"a bounded candidate-specific replay of the six Epoch 003 pass batches that confirms 11,439 survivors and durably evaluates 192 exact ordinals; every enumerated candidate hard-rejects at the covariant mapper for a forbidden baryonic atom, while the overall campaign remains blocked rather than globally rejected because all six manifests are incomplete and 11,247 survivors still require paginated evaluation"
       ],
       "scalable_formal_provenance_bindings": {
         "continuous_scientific_pipeline_admission": {
@@ -434,6 +439,23 @@
           "terminal_state": "bounded_complete",
           "queue_content_sha256": "71e36b97e1bb0a29b4dce9f812396b61e95aca3f0abfc8ccf31caf2266b15483",
           "checkpoint_content_sha256": "4f8f56c22432fd029f2ef094327d2b74ec2b58191a9916859fd5486c9d4276f7"
+        },
+        "continuous_scientific_pipeline_epoch_003_candidate_followup": {
+          "path": "runs/engine/continuous-scientific-pipeline-epoch-003-candidate-followup/result.json",
+          "file_sha256": "d8c4d367e635ebe5a31c8b0eb722be56aac61a428e6c96c83b123f8d5760869c",
+          "content_sha256": "f6109d1532f46fd4ff04b89694d98da4a23e446b8f90ffb0d91ac548002a05f9",
+          "source_pass_batches": 6,
+          "source_survivor_candidates": 11439,
+          "durably_recorded_candidates": 192,
+          "sample_complete_batches": 0,
+          "symbolic_local_preflight_passes": 26,
+          "candidate_rejects": 192,
+          "covariant_action_mapped_candidates": 0,
+          "formal_passes": 0,
+          "leaderboard_rebuild_requests": 0,
+          "rank_assignments": 0,
+          "candidate_promotions": 0,
+          "first_blocker": "candidate_manifest_is_bounded_not_complete"
         },
         "cpu_real_formula_overlap_benchmark": {
           "path": "runs/benchmarks/cpu-real-formula-overlap-15-16.json",
@@ -1431,6 +1453,10 @@
         "status": "implemented_reference_output_bundle_repair_complete_D2F_fail_closed",
         "scope": "For all 12 candidates, arbitrary shared domain torsion cannot repair the registered rank-one 11x9 one-form, while a support-minimal six-coefficient output-bundle connection solves the exact 396-equation/99-unknown rank-88 system and registers a symmetric 891-entry high-field-10 D2 subslice. The covariant-action origin, remaining 256608 ordered D2 entries per candidate, full high-atom identity, global H7, nonlinear PDE closure and lifespan remain fail-closed."
       },
+      "full_D2F_high_atom_coverage": {
+        "status": "implemented_complete_ordered_domain_classification_values_and_identity_fail_closed",
+        "scope": "For all 12 candidates, every one of 23409 ordered pairs over the 153-atom source basis and all 257499 output entries is classified. Only the corrected 81 pair cells/891 entries are admitted; 106920 principal high-atom entries and 256608 total entries remain unregistered. Candidate-bound covariant source derivatives, output-bundle connection extensions, the full high-atom good-unknown identity, induced TC1/TC2/TC3/TC5 bounds, B7, global H7, nonlinear PDE closure and lifespan remain fail-closed."
+      },
       "anti_wick_composition_derivative_audit": {
         "status": "implemented_targeted_annular_C6_principal_composition_global_H7_fail_closed",
         "scope": "The Gaussian anti-Wick operator is exactly the Weyl operator with symbol exp((h/4)Delta)K. A positive annular energy, exact composition-amplitude algebra, 1/(8*pi) Schur coefficient, heat-smoothing witness, and false-C4-closure negative all pass. The targeted C6 hierarchy supplies (x,xi) pairs (2,4), (0,6), (0,5), and (1,4), giving finite principal composition constants and high-shell/finite-low principal inequalities for all 12 candidates. Localized source remainders, the remote H6-coefficient/H7-state paraproduct, global dyadic summation, and lifespan remain fail-closed."
@@ -1441,7 +1467,7 @@
       },
       "global_H7_energy_ledger": {
         "status": "implemented_global_nonremainder_sum_full_D1_and_partial_TC2_correction_global_H7_fail_closed",
-        "scope_current": "The downstream C23, XYZ, sixth-frame and degree-five extensions close seven rational frames. The e3 audit disproves full-sphere D4 compatibility of that seven-frame symbol and a bounded rank-two repair gives an eighth local certificate. The next exact chart audit at (u,v)=(1,1), n=(-1/3,2/3,2/3), finds a common rank-four, 56-entry zero-speed obstruction for all 12 candidates, disproving full-sphere D4 compatibility of the revised eight-frame symbol. Degrees zero and two cannot preserve all eight frames; degree four is first feasible. Among 1,940 supports through size four, 15 work; the deterministic first envelope and a sharp rank-two two-curl correction close the local systems while preserving the eight earlier frames, giving nine local direction certificates. A repeat chart audit or determining theorem for the revised nine-frame symbol, pseudodifferential constraint and variable-coefficient commutator calculus, boundary energy, local/covariant origin, corrected-candidate registration, and the 2,816 later obligations remain open; full D4, tube, CK1, CK3, TC2, B7, H7 and lifespan claims remain false. This field supersedes the historical endpoint sentence retained in scope for provenance.",
+        "scope_current": "The downstream C23, XYZ, sixth-frame and degree-five extensions close seven rational frames. Exact e3 and (1,1) audits disprove full-sphere D4 compatibility of the corresponding seven- and eight-frame symbols, while bounded rank-two repairs give the eighth and ninth local certificates. The next preregistered signed height-one point (u,v)=(1,-1), n=(-1/3,2/3,-2/3), finds a common rank-four, 56-entry zero-speed obstruction for all 12 candidates, disproving full-sphere D4 compatibility of the revised nine-frame symbol. Degrees zero and two cannot preserve all nine frames; degree four is first feasible. Among 1,940 supports through size four, two work; the deterministic first envelope and a sharp rank-two two-curl correction close the local systems while preserving the nine earlier frames, giving ten local direction certificates. The signed selector continues at (-1,1) for the revised ten-frame symbol. A finite determining theorem, pseudodifferential constraint and variable-coefficient commutator calculus, boundary energy, local/covariant origin, corrected-candidate registration, and the 2,816 later obligations remain open; full D4, tube, CK1, CK3, TC2, B7, H7 and lifespan claims remain false. This field supersedes the historical endpoint sentence retained in scope for provenance.",
         "scope": "For all 12 candidates, the fail-closed H7 ledger includes the complete reference quadratic deltaK two-jet and the full exact third-jet sector. The fourth-order service closed 244 of 3,060 obligations before finding a rank-two alpha^5 obstruction at offset 244. An exact homogeneous-freedom reduction covers all 15 polarization sums, 300 stationary-projector checks and 20,842 lower-jet kernel slots; its induced D4 zero-eigenspace map has rank zero, so no lower homogeneous completion can cancel the witness. A separate minimal one-parameter rank-one state-space TC2 ansatz spans the obstruction line and gives 12/12 exact candidate-specific D4 solutions after tuning eta=-(34816/15)alpha^5. Its downstream fixed-chart curl completion proves exact 33-definition/33-curl propagation and reference constraint-surface equivalence. The required axis-two companion has been audited on seven eigenspaces: only the zero-speed compression is nonzero, with rank two and ten entries. A 363-parameter pure-C23 completion class has projected rank 297 and cannot reach the companion target because the augmented rank is 298. The complete polarized base D4 right-hand side at axis two is exactly zero, so the unweighted fixed-chart C12 curl completion is obstructed for all 12 eta values. The minimal parity-preserving multiplier a(n)=n1^2 yields a bounded odd cubic angular symbol that preserves all 12 e1 solutions and converts the 12 axis-two obstructions into exact compatibilities. Its first rational generic-direction audit executes the full orders-one-through-four recurrence at n=(3/5,4/5,0), checks all seven eigenspaces, and finds exact obstructions for all 12 candidates. This rejects the scalar parity-cubic all-direction completion, not the full direction sphere or broader matrix-valued, local, or covariant operators. The complete fixed-frame matrix-curl range at the same direction has 22 transverse covectors, 1,210 raw parameters and wedge rank 473; the target-augmented rank is also 473. A minimal single-channel rank-one block cancels the target and gives 12/12 exact fixed-frame compatibilities with all nonzero-eigenspace compressions zero. Its minimal degree-three bounded smooth antipodally odd extension preserves the e1, e2 and original generic certificates but vanishes at n=(3/5,0,4/5), where all 12 candidates retain exact rank-two obstructions. This rejects the canonical fixed-output single-C12 even-envelope extension, not broader matrix-curl symbols. A channel or envelope nonvanishing on the n2=0 great circle, additional direction audits, pseudodifferential commutator and boundary-energy calculus, corrected-candidate registration, and the 2,816 later obligations remain open. Full fourth-order closure, all-order remainder control, variable TC3/high-derivative TC2/H7 TC5 bounds, global dyadic closure, tube preservation, and lifespan remain false.",
         "evidence": [
           "src/sigma_theory_compiler/recovery_artifact_validation.py",
@@ -1483,6 +1509,10 @@
           "configs/backgrounds/quartic_scalar_hessian_output_bundle_repair_gate.json",
           "tests/test_quartic_scalar_hessian_output_bundle_repair_gate.py",
           "runs/physics-language/quartic-scalar-hessian-output-bundle-repair-gate/campaign.json",
+          "src/sigma_theory_compiler/quartic_full_d2f_high_atom_coverage_gate.py",
+          "configs/backgrounds/quartic_full_d2f_high_atom_coverage_gate.json",
+          "tests/test_quartic_full_d2f_high_atom_coverage_gate.py",
+          "runs/physics-language/quartic-full-d2f-high-atom-coverage-gate/campaign.json",
           "src/sigma_theory_compiler/quartic_tc2_quadratic_deltak_extension_campaign.py",
           "configs/backgrounds/quartic_tc2_quadratic_deltak_extension_campaign.json",
           "tests/test_quartic_tc2_quadratic_deltak_extension_campaign.py",
@@ -1644,6 +1674,10 @@
           ,"configs/backgrounds/quartic_tc2_d4_revised_eight_frame_rational_counterexample_campaign.json"
           ,"tests/test_quartic_tc2_d4_revised_eight_frame_rational_counterexample_campaign.py"
           ,"runs/physics-language/quartic-tc2-d4-revised-eight-frame-rational-counterexample-campaign/campaign.json"
+          ,"src/sigma_theory_compiler/quartic_tc2_d4_revised_nine_frame_rational_counterexample_campaign.py"
+          ,"configs/backgrounds/quartic_tc2_d4_revised_nine_frame_rational_counterexample_campaign.json"
+          ,"tests/test_quartic_tc2_d4_revised_nine_frame_rational_counterexample_campaign.py"
+          ,"runs/physics-language/quartic-tc2-d4-revised-nine-frame-rational-counterexample-campaign/campaign.json"
         ],
         "artifact_binding": {
           "file_sha256": "bb651cb099e409fff85d3354c69a88f667cd39453946a8affce00378b3c705bf",
@@ -2013,6 +2047,22 @@
             "lifespans_proved": 0,
             "first_blocker": "complete_candidate_bound_11x153x153_ordered_D2F_manifest_and_full_high_atom_good_unknown_identity_not_registered"
           },
+          "full_D2F_high_atom_coverage_binding": {
+            "file_sha256": "b9ce34960b766a6fe74a36a13190b0f050a1447884d599fad1eebfe189b32590",
+            "content_sha256": "e7e4e4171aed90d07d68791183c58a696e77b9bed745f1018da2c5ee9438c38a",
+            "candidate_count": 12,
+            "ordered_pair_cells_classified": 23409,
+            "ordered_D2F_entries_in_domain": 257499,
+            "corrected_entries_admitted_per_candidate": 891,
+            "principal_high_atom_entries_missing_per_candidate": 106920,
+            "full_ordered_D2F_entries_missing_per_candidate": 256608,
+            "complete_ordered_D2F_tensors_registered": 0,
+            "full_high_atom_good_unknown_identities_proved": 0,
+            "global_H7_closures": 0,
+            "nonlinear_PDE_closures": 0,
+            "lifespans_proved": 0,
+            "first_blocker": "candidate_bound_covariant_source_derivatives_and_output_bundle_connection_extension_for_remaining_106920_principal_high_atom_D2F_entries_not_registered"
+          },
           "fourth_jet_degree_three_matrix_curl_sphere_extension_binding": {
             "file_sha256": "118ee8b29dc6ddc40099a5ad53a07f0d2692de52e22912f64dab85e8dfedd972",
             "content_sha256": "4c76c478f692bcacff5f7203fab42a7c1b5e667cf2df4169ae5ccbabeb1d79ed",
@@ -2161,9 +2211,39 @@
             "revised_eight_frame_full_sphere_D4_compatibility_disproved": true,
             "revised_nine_frame_full_sphere_D4_compatibility_proved": false,
             "inferred_global_passes": 0
+          },
+          "fourth_jet_revised_nine_frame_rational_counterexample_binding": {
+            "file_sha256": "fcf0d1bcb8436dce574a2ea58048168368df3f4d9901f27fd8b2f50da3838b76",
+            "content_sha256": "e556ef1716683882598e4d9a4b9ea550ca1d8a7945b0d96913ab84a0da3b57d5",
+            "exact_gate_sha256": "d393b2c2f9968fcea094cd1125d5124aa78a7dd5a89339afabd1f9e91c545d4c",
+            "chart_coordinates": ["1", "-1"],
+            "direction": ["-1/3", "2/3", "-2/3"],
+            "recurrence_orders": 4,
+            "directional_polarization_evaluations": 15,
+            "candidate_compatibilities": 0,
+            "candidate_obstructions": 12,
+            "zero_speed_compression_rank": 4,
+            "zero_speed_compression_nonzero_entries": 56,
+            "eta_normalized_target_sha256": "406cb87033eb0946d053c46d076a5e97fb9157c848e3737950c24ba7fca0369f",
+            "revised_global_symbol_rank": 5,
+            "revised_global_symbol_sha256": "a332d1a0486f94e61245b12eba22be90fc8facb9732aee3a82fa86bf32fba734",
+            "transverse_selector_rank": 22,
+            "bounded_envelope_degrees": [0, 2, 4],
+            "bounded_envelope_supports_checked": 1940,
+            "sparsest_envelope_support": 4,
+            "sparsest_feasible_envelopes": 2,
+            "local_completion_rank": 2,
+            "curl_channels": 2,
+            "new_local_candidate_compatibilities": 12,
+            "prior_direction_certificates_preserved": 9,
+            "total_local_direction_certificates": 10,
+            "revised_nine_frame_full_sphere_D4_compatibility_disproved": true,
+            "revised_ten_frame_full_sphere_D4_compatibility_proved": false,
+            "remaining_signed_height_one_selector_points": 2,
+            "inferred_global_passes": 0
           }
       },
-      "missing": ["a repeat fail-fast rational-chart search or determining theorem for the revised nine-frame symbol, followed by pseudodifferential constraint, variable-coefficient commutator, boundary-energy and local/covariant admission; the revised eight-frame symbol's full-sphere D4 compatibility was disproved at (u,v)=(1,1), its counterexample is repaired only locally, and the permanently stopped service leaves 2,816 later obligations unevaluated", "fifth-and-higher remainder control or a nonlinear range theorem that upgrades the completed reference Taylor jets to a tube-uniform Hermitian positive full Sylvester solution", "the remaining variable TC3, high-derivative TC2 and H7 TC5 terms", "an executable component Frechet/Bony-good-unknown remainder bound supplying finite C_L and C_B", "an initial H7 energy bound and substitution into the conditional lifespan/tube formula", "new reduction adapters for future nonminimal action terms outside the bounded grammar", "exhaustive multi-seed connected-domain construction beyond the campaign's shared local FLRW seed", "nonlinear PDE evolution-invariant trapping regions inside the pointwise-certified cubic-Horndeski and quartic-Horndeski local-jet boxes", "new mixed/nonlinear principal and symmetrizer adapters for the remaining 114 G4_X sample assignments, followed by necessary-and-sufficient multi-field direction-sphere bounds", "generic nonlinear global reduced-Hamiltonian boundedness beyond the certified homogeneous Horndeski tensor and FLRW scalar blocks"]
+      "missing": ["continue the preregistered signed height-one selector at (u,v)=(-1,1) for the revised ten-frame symbol or prove a finite determining theorem, followed by pseudodifferential constraint, variable-coefficient commutator, boundary-energy and local/covariant admission; the revised nine-frame symbol's full-sphere D4 compatibility was disproved at (1,-1), its counterexample is repaired only locally, and the permanently stopped service leaves 2,816 later obligations unevaluated", "fifth-and-higher remainder control or a nonlinear range theorem that upgrades the completed reference Taylor jets to a tube-uniform Hermitian positive full Sylvester solution", "the remaining variable TC3, high-derivative TC2 and H7 TC5 terms", "an executable component Frechet/Bony-good-unknown remainder bound supplying finite C_L and C_B", "an initial H7 energy bound and substitution into the conditional lifespan/tube formula", "new reduction adapters for future nonminimal action terms outside the bounded grammar", "exhaustive multi-seed connected-domain construction beyond the campaign's shared local FLRW seed", "nonlinear PDE evolution-invariant trapping regions inside the pointwise-certified cubic-Horndeski and quartic-Horndeski local-jet boxes", "new mixed/nonlinear principal and symmetrizer adapters for the remaining 114 G4_X sample assignments, followed by necessary-and-sufficient multi-field direction-sphere bounds", "generic nonlinear global reduced-Hamiltonian boundedness beyond the certified homogeneous Horndeski tensor and FLRW scalar blocks"]
     },
     {
       "id": "solar_and_direct_observations",
