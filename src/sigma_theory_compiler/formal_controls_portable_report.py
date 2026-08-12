@@ -8,7 +8,7 @@ import json
 import re
 from collections.abc import Mapping
 from copy import deepcopy
-from pathlib import Path
+from pathlib import Path, PureWindowsPath
 from typing import Any
 
 CONFIG_SCHEMA = "sigma-formal-controls-portable-report-config-1.0"
@@ -70,8 +70,12 @@ def _windows_to_wsl_text(path: str) -> str | None:
 
 def _substitutions(report: Mapping[str, Any], project_root: Path) -> list[tuple[str, str]]:
     cadabra = report.get("backends", {}).get("cadabra2", {})
-    contract_path = Path(str(report.get("field_contract", "")))
-    reported_root = contract_path.parent.parent if contract_path.is_absolute() else project_root
+    contract_text = str(report.get("field_contract", ""))
+    contract_path = Path(contract_text)
+    if WINDOWS_ABSOLUTE.search(contract_text):
+        reported_root: str | Path = str(PureWindowsPath(contract_text).parent.parent)
+    else:
+        reported_root = contract_path.parent.parent if contract_path.is_absolute() else project_root
     roots = [
         (str(project_root.resolve()), "{PROJECT_ROOT}"),
         (str(reported_root), "{PROJECT_ROOT}"),
