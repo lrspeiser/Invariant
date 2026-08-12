@@ -238,7 +238,7 @@ SOURCE_PATHS = [
     "runs/physics-language/quartic-tc2-mixed-third-jet-parallel-continuation-service/service-status.json",
     "runs/engine/quartic-tc2-mixed-third-jet-parallel-supervisor-readiness.json",
     "runs/engine/unified-engine-live-service-readiness.json",
-    "runs/engine/unified-engine-live-service-safety-readiness.json",
+    "runs/engine/unified-engine-live-service-safety-readiness-v2.json",
 ]
 
 RECOVERY_CONFIG_PATHS = (

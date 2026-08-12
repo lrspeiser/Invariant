@@ -12,7 +12,7 @@ import sigma_theory_compiler.unified_engine_live_service_safety as safety
 
 ROOT = Path(__file__).resolve().parents[1]
 CONFIG = ROOT / "configs/unified_engine_live_service_safety.json"
-ARTIFACT = ROOT / "runs/engine/unified-engine-live-service-safety-readiness.json"
+ARTIFACT = ROOT / "runs/engine/unified-engine-live-service-safety-readiness-v2.json"
 
 
 def _config() -> dict:
