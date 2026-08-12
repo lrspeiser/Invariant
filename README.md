@@ -1987,9 +1987,18 @@ class is feasible; deterministic RREF normalization is already first feasible at
 support indices `[1,2,5,7,9,10]` and envelope
 `a_next(n)=-9*n1**2*n2*n3/2 + 9*n1**2*n3**2/2 + 27*n1*n2**2*n3/8 - 27*n1*n3**3/8 - 9*n2**2*n3**2/8 + 9*n2*n3**3/8`.
 A rank-two, two-curl repair closes all 12 local systems and preserves the eleven prior directions,
-giving twelve exact local direction certificates only. A next bounded selector or a finite
-full-sphere determining theorem, followed by pseudodifferential constraint, commutator,
-boundary-energy, local/covariant and PDE admission, remains open. The signed-height-one exhaustion
+giving twelve exact local direction certificates only. The next isolated audit evaluates the
+second primitive height-two point `(u,v)=(1,-2)`, `n=(-2/3,1/3,-2/3)`, through the same complete
+orders-one-through-four recurrence and the same finite degree `[0,2,4,6]` envelope class. All 12
+revised twelve-frame systems are obstructed by one eta-normalized rank-four, 56-entry zero-speed
+target in the exact rank-22 transverse-curl range. Deterministic RREF normalization is first
+feasible at degree four with support indices `[1,2,3,5,6,7,8,9,10,11]` and envelope
+`a_next(n)=27*n1**2*n2**2/4 - 81*n1**2*n2*n3/8 + 27*n1**2*n3**2/8 - 81*n1*n2**3/16 + 81*n1*n2**2*n3/32 + 81*n1*n2*n3**2/16 - 81*n1*n3**3/32 + 27*n2**3*n3/16 - 81*n2**2*n3**2/32 + 27*n2*n3**3/32`.
+A rank-two, two-channel transverse-curl repair closes all 12 local systems while preserving the
+twelve prior directions, giving thirteen exact local direction certificates only. One further
+bounded rational selector/class or a finite full-sphere determining theorem, followed by
+pseudodifferential constraint, commutator, boundary-energy, local/covariant and PDE admission,
+remains open. The signed-height-one exhaustion
 artifact file/content hashes are
 `133adea5fa612afb4c80e7419674eb9f65f7a3dd7e1033c9d1c09553a9d52f36` /
 `5dac044360e2dbff204e1f762d90634f30c8005bddd85d11f1ad7308faa0a17a`;
@@ -2002,6 +2011,12 @@ The hardened height-two gate artifact file/content hashes are
 source/config/test hashes are `50a2cdea20ed9614e8bfcc37d821aa48a97916af323e05d466c218e3aaf679d2` /
 `e92347af9109b78da76880ea7cf225541e1b166845843e9ec2c2d6c00c0d2287` /
 `7c5e581e3325d1ce4aab77178fb72cf1885348f712b6a57c4e6baf5019679d86`.
+The hardened second height-two gate artifact file/content hashes are
+`7235da9603f970e25b5852a5d4b5b4957855a5e0c2958d84e24891228c35eb23` /
+`55a68d34961739728a6ae111ea1c76f83f51524614712d7e960f4f37a1139267`;
+source/config/test hashes are `48fffe56d1062f82ef0f6eb1360f1dd30dd58b7c64052f6b2f4ae1355e37c1be` /
+`97fc9ff7b761361b5c31edeb350b96908dae87eed974bf5f62139736827531c5` /
+`8bcc2eec9787beca35c12967a036d9c0092f87260d86b5760ae438c391ba0b75`.
 This is not an inferred pass for the unevaluated tail; full fourth-order range closure, full-tube,
 CK1, CK3, TC2, B7, global-H7, and lifespan remain false.
 

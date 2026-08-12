@@ -142,6 +142,9 @@ from .quartic_tc2_d4_revised_symbol_rational_counterexample_campaign import (
 from .quartic_tc2_d4_revised_ten_frame_rational_counterexample_campaign import (
     validate_campaign as validate_revised_ten_frame_rational_counterexample,
 )
+from .quartic_tc2_d4_revised_twelve_frame_height_two_rational_gate import (
+    validate_campaign as validate_revised_twelve_frame_height_two_rational_gate,
+)
 
 SCHEMA_VERSION = "sigma-unified-engine-status-1.0"
 DEFAULT_MAXIMUM_OUTPUT_BYTES = 4_194_304
@@ -1244,6 +1247,9 @@ def build_unified_snapshot(
     ]
     quartic_tc2_d4_revised_eleven_frame_degree_six_envelope = sources[
         "quartic_tc2_d4_revised_eleven_frame_degree_six_envelope_gate"
+    ]
+    quartic_tc2_d4_revised_twelve_frame_height_two_rational = sources[
+        "quartic_tc2_d4_revised_twelve_frame_height_two_rational_gate"
     ]
     quartic_tc2_reranked_obligation_chunks = tuple(
         sources[f"quartic_tc2_reranked_obligation_chunk_{offset}"]
@@ -9054,6 +9060,85 @@ def build_unified_snapshot(
         or degree_six_counts["inferred_global_passes"] != 0
     ):
         raise ValueError("quartic TC2 height-two degree-six envelope gate is inconsistent")
+    validate_revised_twelve_frame_height_two_rational_gate(
+        quartic_tc2_d4_revised_twelve_frame_height_two_rational
+    )
+    revised_twelve_counts = quartic_tc2_d4_revised_twelve_frame_height_two_rational["counts"]
+    revised_twelve_gate = quartic_tc2_d4_revised_twelve_frame_height_two_rational["exact_gate"]
+    revised_twelve_bindings = quartic_tc2_d4_revised_twelve_frame_height_two_rational[
+        "source_bindings"
+    ]
+    revised_twelve_config_path = validation_config_root / (
+        "configs/backgrounds/quartic_tc2_d4_revised_twelve_frame_height_two_rational_gate.json"
+    )
+    revised_twelve_config = json.loads(revised_twelve_config_path.read_text(encoding="utf-8"))
+    revised_twelve_classification = revised_twelve_gate["exact_rational_classification"]
+    revised_twelve_bounded = revised_twelve_gate["bounded_classification"]
+    revised_twelve_envelope = revised_twelve_bounded["envelope"]
+    revised_twelve_range = revised_twelve_bounded["range"]
+    revised_twelve_repair = revised_twelve_bounded["repair"]
+    if (
+        hashlib.sha256(revised_twelve_config_path.read_bytes()).hexdigest()
+        != "97fc9ff7b761361b5c31edeb350b96908dae87eed974bf5f62139736827531c5"
+        or revised_twelve_config.get("content_sha256")
+        != "67509d0ab44fdbd9b51fe63bbbc78fcb87b6d3681280dcdf5f819444d6e248c0"
+        or quartic_tc2_d4_revised_twelve_frame_height_two_rational["config_file_sha256"]
+        != "97fc9ff7b761361b5c31edeb350b96908dae87eed974bf5f62139736827531c5"
+        or quartic_tc2_d4_revised_twelve_frame_height_two_rational["config_sha256"]
+        != "67509d0ab44fdbd9b51fe63bbbc78fcb87b6d3681280dcdf5f819444d6e248c0"
+        or hashlib.sha256(
+            (
+                validation_config_root / revised_twelve_bindings["campaign_source"]["path"]
+            ).read_bytes()
+        ).hexdigest()
+        != "48fffe56d1062f82ef0f6eb1360f1dd30dd58b7c64052f6b2f4ae1355e37c1be"
+        or hashlib.sha256(
+            (validation_config_root / revised_twelve_bindings["campaign_test"]["path"]).read_bytes()
+        ).hexdigest()
+        != "8bcc2eec9787beca35c12967a036d9c0092f87260d86b5760ae438c391ba0b75"
+        or revised_twelve_bindings["degree_six_predecessor"]
+        != source_specs["quartic_tc2_d4_revised_eleven_frame_degree_six_envelope_gate"]
+        or _sha(revised_twelve_gate)
+        != "6edb5a24475fb5e86b6b320da071f7435120cf313c805cbbc9cec0bc09db025a"
+        or revised_twelve_counts
+        != {
+            "bound_predecessors": 1,
+            "candidate_compatibilities": 0,
+            "candidate_conditions_checked": 12,
+            "candidate_obstructions": 12,
+            "directional_polarization_evaluations": 15,
+            "envelope_degrees_checked": 4,
+            "inferred_global_passes": 0,
+            "inherited_bound_artifacts_verified": 11,
+            "negative_controls": 8,
+            "new_local_direction_certificates": 1,
+            "prior_direction_constraints": 12,
+            "rational_SO3_charts": 2,
+            "recurrence_orders_checked": 4,
+            "regular_search_points_evaluated": 1,
+            "total_local_direction_certificates": 13,
+        }
+        or revised_twelve_gate["selector"]["chart_coordinates"] != ["1", "-2"]
+        or revised_twelve_gate["selector"]["direction"] != ["-2/3", "1/3", "-2/3"]
+        or revised_twelve_classification["eta_normalized_target_rank"] != 4
+        or revised_twelve_classification["eta_normalized_target_nonzero_entries"] != 56
+        or revised_twelve_classification["eta_normalized_target_sha256"]
+        != "d15ad031088553092f1d6f6901d4c6dfe1fb97265c24e8d8ecb993ff62a7d372"
+        or revised_twelve_envelope["minimal_feasible_even_degree"] != 4
+        or revised_twelve_envelope["deterministic_support_size"] != 10
+        or revised_twelve_envelope["deterministic_support_indices"]
+        != [1, 2, 3, 5, 6, 7, 8, 9, 10, 11]
+        or revised_twelve_range["transverse_selector_rank"] != 22
+        or revised_twelve_range["selector_target_plane_intersection_dimension"] != 4
+        or revised_twelve_range["quotient_target_zero"] is not True
+        or revised_twelve_repair["constructed_completion_rank"] != 2
+        or revised_twelve_repair["elementary_curl_channels"] != 2
+        or revised_twelve_repair["coordinate_pairs"] != [[11, 21], [15, 32]]
+        or revised_twelve_repair["extension_sha256"]
+        != "8bfbede45b170df495d3e5073bc4874277fed1e06e04cd66533383ba791cc6fa"
+        or revised_twelve_counts["inferred_global_passes"] != 0
+    ):
+        raise ValueError("quartic TC2 revised-twelve-frame height-two gate is inconsistent")
     if (
         unified_live_dashboard_service_readiness.get("decision")
         != "ready_enabled_read_only_bounded"
@@ -12125,7 +12210,34 @@ def build_unified_snapshot(
                         "claims": quartic_tc2_d4_revised_eleven_frame_degree_six_envelope["claims"],
                         "scope": quartic_tc2_d4_revised_eleven_frame_degree_six_envelope["scope"],
                     },
-                    "next_gate": quartic_tc2_d4_revised_eleven_frame_degree_six_envelope[
+                    "revised_twelve_frame_height_two_rational_gate": {
+                        "status": quartic_tc2_d4_revised_twelve_frame_height_two_rational["status"],
+                        "counts": revised_twelve_counts,
+                        "atlas": revised_twelve_gate["atlas"],
+                        "search_protocol": revised_twelve_gate["search_protocol"],
+                        "selector": revised_twelve_gate["selector"],
+                        "full_recurrence": revised_twelve_gate["full_recurrence"],
+                        "exact_rational_classification": {
+                            key: value
+                            for key, value in revised_twelve_classification.items()
+                            if key != "candidate_records"
+                        },
+                        "bounded_classification": {
+                            **{
+                                key: value
+                                for key, value in revised_twelve_bounded.items()
+                                if key != "repair"
+                            },
+                            "repair": {
+                                key: value
+                                for key, value in revised_twelve_repair.items()
+                                if key != "candidate_records"
+                            },
+                        },
+                        "claims": quartic_tc2_d4_revised_twelve_frame_height_two_rational["claims"],
+                        "scope": quartic_tc2_d4_revised_twelve_frame_height_two_rational["scope"],
+                    },
+                    "next_gate": quartic_tc2_d4_revised_twelve_frame_height_two_rational[
                         "next_gate"
                     ],
                 },
@@ -12145,7 +12257,7 @@ def build_unified_snapshot(
             },
             "first_missing_premise": (
                 "preregister_next_bounded_exact_rational_selector_or_prove_finite_"
-                "direction_sphere_determining_theorem_for_revised_twelve_frame_symbol"
+                "direction_sphere_determining_theorem_for_revised_thirteen_frame_symbol"
             ),
         },
         "evidence_pareto": {

@@ -205,6 +205,7 @@ SOURCE_PATHS = [
     "runs/physics-language/quartic-tc2-d4-revised-ten-frame-rational-counterexample-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-d4-revised-eleven-frame-rational-counterexample-campaign/campaign.json",
     "runs/physics-language/quartic-tc2-d4-revised-eleven-frame-degree-six-envelope-gate/campaign.json",
+    "runs/physics-language/quartic-tc2-d4-revised-twelve-frame-height-two-rational-gate/campaign.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000000.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000064.json",
     "runs/physics-language/quartic-tc2-mixed-third-jet-reranked-obligation-service/chunks/obligation-offset-000128.json",
@@ -389,6 +390,13 @@ DEGREE_SIX_ENVELOPE_CONFIG_PATH = (
 DEGREE_SIX_ENVELOPE_DEPENDENCIES = (
     "src/sigma_theory_compiler/quartic_tc2_d4_revised_eleven_frame_degree_six_envelope_gate.py",
     "tests/test_quartic_tc2_d4_revised_eleven_frame_degree_six_envelope_gate.py",
+)
+REVISED_TWELVE_FRAME_CONFIG_PATH = (
+    "configs/backgrounds/quartic_tc2_d4_revised_twelve_frame_height_two_rational_gate.json"
+)
+REVISED_TWELVE_FRAME_DEPENDENCIES = (
+    "src/sigma_theory_compiler/quartic_tc2_d4_revised_twelve_frame_height_two_rational_gate.py",
+    "tests/test_quartic_tc2_d4_revised_twelve_frame_height_two_rational_gate.py",
 )
 PORTABLE_FORMAL_DEPENDENCIES = (
     "configs/formal_controls_portable_report.json",
@@ -652,6 +660,7 @@ LABELS = [
     "quartic_tc2_d4_revised_ten_frame_rational_counterexample",
     "quartic_tc2_d4_revised_eleven_frame_rational_counterexample",
     "quartic_tc2_d4_revised_eleven_frame_degree_six_envelope_gate",
+    "quartic_tc2_d4_revised_twelve_frame_height_two_rational_gate",
     "quartic_tc2_reranked_obligation_chunk_0",
     "quartic_tc2_reranked_obligation_chunk_64",
     "quartic_tc2_reranked_obligation_chunk_128",
@@ -929,6 +938,24 @@ def _fixture(tmp_path: Path) -> tuple[Path, dict[str, object], Path]:
     for binding in degree_six_config.values():
         if not isinstance(binding, dict) or "path" not in binding:
             continue
+        relative = binding["path"]
+        source = REPO / relative
+        target = tmp_path / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        if not target.exists():
+            shutil.copyfile(source, target)
+    for relative in REVISED_TWELVE_FRAME_DEPENDENCIES:
+        source = REPO / relative
+        target = tmp_path / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(source, target)
+    revised_twelve_config_source = REPO / REVISED_TWELVE_FRAME_CONFIG_PATH
+    revised_twelve_config_target = tmp_path / REVISED_TWELVE_FRAME_CONFIG_PATH
+    revised_twelve_config_target.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copyfile(revised_twelve_config_source, revised_twelve_config_target)
+    revised_twelve_config = json.loads(revised_twelve_config_source.read_text(encoding="utf-8"))
+    for key in ("campaign_source", "campaign_test", "degree_six_predecessor"):
+        binding = revised_twelve_config[key]
         relative = binding["path"]
         source = REPO / relative
         target = tmp_path / relative
@@ -4165,12 +4192,90 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
         "variable_coefficient_constraint_calculus_proved",
     ):
         assert degree_six["claims"][claim] is False
+    revised_twelve = core["quartic_nonlinear_closure"]["fourth_jet_range_obligations"][
+        "canonical_obstruction_certificate"
+    ].pop("revised_twelve_frame_height_two_rational_gate")
+    assert revised_twelve["counts"] == {
+        "bound_predecessors": 1,
+        "candidate_compatibilities": 0,
+        "candidate_conditions_checked": 12,
+        "candidate_obstructions": 12,
+        "directional_polarization_evaluations": 15,
+        "envelope_degrees_checked": 4,
+        "inferred_global_passes": 0,
+        "inherited_bound_artifacts_verified": 11,
+        "negative_controls": 8,
+        "new_local_direction_certificates": 1,
+        "prior_direction_constraints": 12,
+        "rational_SO3_charts": 2,
+        "recurrence_orders_checked": 4,
+        "regular_search_points_evaluated": 1,
+        "total_local_direction_certificates": 13,
+    }
+    assert revised_twelve["selector"]["chart_coordinates"] == ["1", "-2"]
+    assert revised_twelve["selector"]["direction"] == ["-2/3", "1/3", "-2/3"]
+    assert revised_twelve["full_recurrence"]["orders_checked"] == [1, 2, 3, 4]
+    revised_twelve_exact = revised_twelve["exact_rational_classification"]
+    assert revised_twelve_exact["candidate_compatibilities"] == 0
+    assert revised_twelve_exact["candidate_obstructions"] == 12
+    assert revised_twelve_exact["eta_normalized_target_rank"] == 4
+    assert revised_twelve_exact["eta_normalized_target_nonzero_entries"] == 56
+    assert revised_twelve_exact["eta_normalized_target_sha256"] == (
+        "d15ad031088553092f1d6f6901d4c6dfe1fb97265c24e8d8ecb993ff62a7d372"
+    )
+    revised_twelve_envelope = revised_twelve["bounded_classification"]["envelope"]
+    assert revised_twelve_envelope["declared_degree_ladder"] == [0, 2, 4, 6]
+    assert revised_twelve_envelope["minimal_feasible_even_degree"] == 4
+    assert revised_twelve_envelope["degree_six_full_support_ceiling"] == 28
+    assert revised_twelve_envelope["deterministic_support_size"] == 10
+    assert revised_twelve_envelope["deterministic_support_indices"] == [
+        1,
+        2,
+        3,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+    ]
+    revised_twelve_range = revised_twelve["bounded_classification"]["range"]
+    assert revised_twelve_range["transverse_selector_rank"] == 22
+    assert revised_twelve_range["target_plane_dimension"] == 4
+    assert revised_twelve_range["selector_target_plane_intersection_dimension"] == 4
+    assert revised_twelve_range["quotient_target_zero"] is True
+    revised_twelve_repair = revised_twelve["bounded_classification"]["repair"]
+    assert revised_twelve_repair["constructed_completion_rank"] == 2
+    assert revised_twelve_repair["elementary_curl_channels"] == 2
+    assert revised_twelve_repair["coordinate_pairs"] == [[11, 21], [15, 32]]
+    assert revised_twelve_repair["extension_sha256"] == (
+        "8bfbede45b170df495d3e5073bc4874277fed1e06e04cd66533383ba791cc6fa"
+    )
+    assert revised_twelve_repair["total_local_direction_certificates"] == 13
+    for claim in (
+        "B7_closed",
+        "CK1_closed",
+        "CK3_closed",
+        "TC2_closed",
+        "boundary_energy_admission_proved",
+        "corrected_candidate_family_registered",
+        "covariant_action_origin_proved",
+        "finite_selector_determines_full_direction_sphere",
+        "full_direction_sphere_D4_compatibility_proved",
+        "full_tube_Sylvester_identity",
+        "global_H7_closed",
+        "lifespan_proved",
+        "local_differential_operator_origin_proved",
+        "variable_coefficient_constraint_calculus_proved",
+    ):
+        assert revised_twelve["claims"][claim] is False
     assert (
         core["quartic_nonlinear_closure"]["fourth_jet_range_obligations"][
             "canonical_obstruction_certificate"
         ]["next_gate"]
-        == "Preregister another bounded point/class or prove a finite determining theorem; "
-        "do not infer global or PDE admission from this local gate."
+        == "Preregister exactly one further bounded rational selector/class or prove a finite "
+        "direction-sphere determining theorem for the revised thirteen-frame symbol."
     )
     assert core["quartic_nonlinear_closure"] == {
         "candidate_count": 12,
@@ -4434,8 +4539,9 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
                     ),
                 },
                 "next_gate": (
-                    "Preregister another bounded point/class or prove a finite determining "
-                    "theorem; do not infer global or PDE admission from this local gate."
+                    "Preregister exactly one further bounded rational selector/class or prove "
+                    "a finite direction-sphere determining theorem for the revised "
+                    "thirteen-frame symbol."
                 ),
             },
             "full_fourth_jet_range_closed": False,
@@ -4451,7 +4557,7 @@ def test_stage_counts_and_missing_evaluator_blockers_are_not_collapsed(tmp_path:
         },
         "first_missing_premise": (
             "preregister_next_bounded_exact_rational_selector_or_prove_finite_direction_"
-            "sphere_determining_theorem_for_revised_twelve_frame_symbol"
+            "sphere_determining_theorem_for_revised_thirteen_frame_symbol"
         ),
     }
     assert core["cross_pipeline_total"]["status"] == "not_computed"
@@ -5001,6 +5107,14 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "No twelfth local certificate" in dashboard
     assert "signed height-one selector ends" in dashboard
     assert "TC2 first height-two point and bounded degree-six classification" in dashboard
+    assert "TC2 second height-two point and bounded degree-six repair" in dashboard
+    assert "(u,v)=(1,-2)" in dashboard
+    assert "n=(-2/3,1/3,-2/3)" in dashboard
+    assert "rank-four, 56-entry zero-speed target" in dashboard
+    assert "[1,2,3,5,6,7,8,9,10,11]" in dashboard
+    assert "rank-two, two-channel transverse-curl repair" in dashboard
+    assert "thirteen local direction certificates" in dashboard
+    assert "not a finite direction-sphere determining theorem" in dashboard
     assert "(u,v)=(1,2)" in dashboard
     assert "n=(-2/3,1/3,2/3)" in dashboard
     assert "rank-four, 56-entry zero-speed target" in dashboard
@@ -5519,6 +5633,28 @@ def test_degree_six_envelope_unified_semantic_tamper_fails_closed(
     spec["content_sha256"] = artifact["content_sha256"]
 
     with pytest.raises(ValueError, match="degree-six gate validation failed"):
+        build_unified_snapshot(root, config, physical_gpu={"availability": "unavailable"})
+
+
+def test_revised_twelve_frame_height_two_unified_semantic_tamper_fails_closed(
+    tmp_path: Path,
+) -> None:
+    root, config, _ = _fixture(tmp_path)
+    label = "quartic_tc2_d4_revised_twelve_frame_height_two_rational_gate"
+    spec = next(source for source in config["sources"] if source["label"] == label)
+    target = root / spec["path"]
+    artifact = json.loads(target.read_text(encoding="utf-8"))
+    artifact["exact_gate"]["bounded_classification"]["repair"]["extension_sha256"] = "0" * 64
+    body = {key: value for key, value in artifact.items() if key != "content_sha256"}
+    artifact["content_sha256"] = hashlib.sha256(_canonical(body)).hexdigest()
+    target.write_text(json.dumps(artifact, indent=2) + "\n", encoding="utf-8")
+    spec["file_sha256"] = hashlib.sha256(target.read_bytes()).hexdigest()
+    spec["content_sha256"] = artifact["content_sha256"]
+
+    with pytest.raises(
+        ValueError,
+        match="revised-twelve-frame height-two gate validation failed",
+    ):
         build_unified_snapshot(root, config, physical_gpu={"availability": "unavailable"})
 
 
