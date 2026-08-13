@@ -1,0 +1,34 @@
+{
+  "schema_version": "sigma-quartic-tc2-d4-flat-reference-p55-spatial-pencil-registration-config-1.0",
+  "global_claim_policy": "fail_closed",
+  "registration_policy": "only_live_exact_symbol_construction_may_register_P55_entries",
+  "target": {
+    "state_dimension": 55,
+    "spatial_axes": 3,
+    "required_matrix_packets": 3,
+    "expected_nonzero_entries_each_validation_only": 48,
+    "pencil_formula": "P(n)=n1*P1+n2*P2+n3*P3",
+    "sphere_relation": "n1^2+n2^2+n3^2-1",
+    "minimal_polynomial": "P*(P^2-I)*(P^2-I/4)*(P^2-I/9)"
+  },
+  "resource_caps": {
+    "maximum_matrix_entries": 9075,
+    "maximum_sparse_entries": 512,
+    "maximum_polynomial_matrix_entries": 3025,
+    "maximum_sphere_reductions": 3025
+  },
+  "predecessor": {
+    "path": "runs/physics-language/quartic-tc2-d4-coordinate-free-symbolic-recurrence-emitter-readiness/campaign.json",
+    "content_sha256": "893b5b5daacc749a593d4eddd709e0e61f63f9f7954f46f02c0fd6970f48badb"
+  },
+  "live_construction": {
+    "source_path": "src/sigma_theory_compiler/quartic_first_order_reduction_campaign.py",
+    "source_file_sha256": "a94b2886dc0edd228735ad3e06d10f43717ccff93d861f8672010db0c7296130",
+    "required_functions": ["_symbol_data", "_extract_spatial_blocks", "_full_first_order_pencil"],
+    "flat_substitutions": {"alpha": "0", "M2": "1", "gradient_lower": "0", "hessian_lower": "0", "einstein_upper": "0"},
+    "ordered_state": "z=(q,w2,w3), y=(v,w1)",
+    "ordered_indices": "0:11,33:55,11:33"
+  },
+  "input_packet": null,
+  "content_sha256": "ecfc90cd9d4786db4c9e7c8bb66868064bd3cdf2c91e72ce4aa7d7927a8f9bea"
+}
