@@ -1,0 +1,132 @@
+{
+  "schema_version": "constraint_conditioned_semantic_recovery_tournament_config_v1",
+  "campaign_id": "constraint-conditioned-semantic-recovery-tournament",
+  "preregistration_status": "sealed_before_generation",
+  "generator_families": [
+    "bayesian",
+    "cross_domain",
+    "egraph",
+    "evolutionary",
+    "grammar",
+    "llm",
+    "symbolic"
+  ],
+  "generic_grammar": {
+    "coefficient_domain": "rationals",
+    "expression_form": "linear_combination_of_declared_basis",
+    "solver": "exact_rank_classification_and_unique_linear_solve",
+    "target_blind": true,
+    "outcomes": {
+      "inconsistent": "REJECT",
+      "malformed": "BLOCK",
+      "underdetermined": "BLOCK",
+      "unique": "CANDIDATE"
+    }
+  },
+  "budgets": {
+    "generator_families_per_world": 7,
+    "max_basis_terms": 8,
+    "max_constraint_rows": 16,
+    "max_exact_solver_rows": 32,
+    "max_expression_nodes": 128,
+    "max_worlds": 3
+  },
+  "policies": {
+    "all_generation_before_unseal": true,
+    "atomic_unseal_count": 1,
+    "constraints_are_public_target_derived_semantic_conditions": true,
+    "constraints_are_not_answer_formulas_or_coefficients": true,
+    "generator_role": "lineage_and_seed_proposal_only",
+    "no_post_unseal_tuning": true,
+    "novelty_claim": false,
+    "promotion_claim": false,
+    "truth_claim": false
+  },
+  "controls": [
+    {
+      "control_id": "malformed_unknown_symbol",
+      "expected_outcome": "BLOCK",
+      "variable": "x",
+      "basis": ["1", "y"],
+      "constraints": {
+        "kind": "evaluations",
+        "rows": [
+          {"point": 0, "value": {"denominator": 1, "numerator": 1}},
+          {"point": 1, "value": {"denominator": 1, "numerator": 2}}
+        ]
+      }
+    },
+    {
+      "control_id": "underdetermined_rank_deficient",
+      "expected_outcome": "BLOCK",
+      "variable": "x",
+      "basis": ["1", "x", "x**2"],
+      "constraints": {
+        "kind": "evaluations",
+        "rows": [
+          {"point": 0, "value": {"denominator": 1, "numerator": 1}}
+        ]
+      }
+    },
+    {
+      "control_id": "noisy_inconsistent_duplicate",
+      "expected_outcome": "REJECT",
+      "variable": "x",
+      "basis": ["1", "x"],
+      "constraints": {
+        "kind": "evaluations",
+        "rows": [
+          {"point": 0, "value": {"denominator": 1, "numerator": 0}},
+          {"point": 1, "value": {"denominator": 1, "numerator": 1}},
+          {"point": 1, "value": {"denominator": 1, "numerator": 2}}
+        ]
+      }
+    }
+  ],
+  "worlds": [
+    {
+      "world_id": "constraint.hidden_quartic",
+      "public_seed": "constraint-recovery-quartic-91021",
+      "variable": "x",
+      "basis": ["1", "x", "x**2", "x**3", "x**4"],
+      "target_commitment_sha256": "aea59fcba66d2aba34e4bb65c15165485af270adc3edf35aeafc34d323805453",
+      "constraints": {
+        "kind": "evaluations",
+        "rows": [
+          {"point": -2, "value": {"denominator": 1, "numerator": -28}},
+          {"point": -1, "value": {"denominator": 1, "numerator": -30}},
+          {"point": 0, "value": {"denominator": 1, "numerator": -30}},
+          {"point": 1, "value": {"denominator": 1, "numerator": -28}},
+          {"point": 2, "value": {"denominator": 1, "numerator": 0}}
+        ]
+      }
+    },
+    {
+      "world_id": "constraint.hidden_partial_fraction",
+      "public_seed": "constraint-recovery-partial-fraction-91033",
+      "variable": "x",
+      "basis": ["1/(x + 2)", "1/(x + 5)", "1/(x + 7)"],
+      "target_commitment_sha256": "6a18b31a806fe44ca1b48474495be125ed2e9c460b571cccd65d2d4c97cc4b49",
+      "constraints": {
+        "kind": "evaluations",
+        "rows": [
+          {"point": 0, "value": {"denominator": 70, "numerator": 127}},
+          {"point": 1, "value": {"denominator": 24, "numerator": 31}},
+          {"point": 3, "value": {"denominator": 20, "numerator": 17}}
+        ]
+      }
+    },
+    {
+      "world_id": "constraint.hidden_recurrence",
+      "public_seed": "constraint-recovery-recurrence-91079",
+      "variable": "n",
+      "basis": ["1", "n", "n**2", "n**3"],
+      "target_commitment_sha256": "1c8acf0d0019fa64ca681b987d4a56a7881b4e978a697a3354d0d2e64fcd67b8",
+      "constraints": {
+        "kind": "recurrence",
+        "base": {"index": 0, "value": {"denominator": 1, "numerator": 7}},
+        "successor_increment": "6*n**2 + 10*n + 5"
+      }
+    }
+  ]
+}
