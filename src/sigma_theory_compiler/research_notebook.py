@@ -1494,6 +1494,207 @@ def build_ordered_mixed_d2_differentiability_notebook(root: Path) -> ResearchNot
     )
 
 
+def build_flat_factorized_leaf_jet_d2_notebook(root: Path) -> ResearchNotebook:
+    receipt_path = (
+        "runs/physics-language/"
+        "quartic-flat-factorized-leaf-jet-d2-specialization-gate/campaign.json"
+    )
+    result, binding = _load_sealed_receipt(root, receipt_path)
+    expected_counts = {
+        "complete_ordered_D2F_tensors_registered": 0,
+        "factorized_target_roots_per_candidate": 20,
+        "flat_D2_nonzero_roots": 72,
+        "flat_D2_roots_materialized": 264,
+        "flat_D2_zero_roots": 192,
+        "flat_unique_exact_values": 5,
+        "general_background_D2_roots_blocked": 264,
+        "general_background_D2_roots_registered": 0,
+        "general_background_leaf_derivative_roots_registered": 0,
+        "global_H7_closures": 0,
+        "lifespans_proved": 0,
+        "nonlinear_PDE_closures": 0,
+        "predecessor_leaf_obligations_factorized": 31680,
+        "selected_candidates": 12,
+    }
+    dag = result["flat_specialized_D2_arithmetic_DAG"]
+    factorized = result["factorized_leaf_derivative_manifest"]
+    candidates = result["candidate_manifests"]
+    all_records = [record for candidate in candidates for record in candidate["flat_D2_records"]]
+    value_counts = {
+        value: sum(record["flat_D2_value"] == value for record in all_records)
+        for value in ("-1", "-1/2", "0", "1/2", "1")
+    }
+    if (
+        result["decision"] != "pass_264_flat_factorized_D2_roots_general_background_roots_blocked"
+        or result["decision_counts"] != {"blocked": 0, "pass": 12, "reject": 0}
+        or result["general_background_admission_counts"] != {"blocked": 12, "pass": 0, "reject": 0}
+        or result["gate_counts"] != expected_counts
+        or result["factorized_manifest_sha256"]
+        != "ee74d20c1fea767007f4c200d6c46a3c6288e6f01901b52eef64f06333c27f5d"
+        or len(factorized) != 20
+        or len({item["coordinate_atom"] for item in factorized}) != 20
+        or any(
+            item["typed_jet_support_size"] != len(item["typed_jet_sparse_map"])
+            or item["generic_flat_D2_row10_value"] not in {"0", "alpha"}
+            for item in factorized
+        )
+        or dag
+        != {
+            "allowed_operations": ["exact_constant"],
+            "content_sha256": ("3cb9bf3fa06f94698cb7140f24611d95a756679d100158459b6ab5239c694b04"),
+            "node_count": 5,
+            "nodes": [
+                {"op": "exact_constant", "value": "-1"},
+                {"op": "exact_constant", "value": "-1/2"},
+                {"op": "exact_constant", "value": "0"},
+                {"op": "exact_constant", "value": "1/2"},
+                {"op": "exact_constant", "value": "1"},
+            ],
+            "schema_version": "sigma-flat-specialized-exact-constant-D2-DAG-1.0",
+        }
+        or len(candidates) != 12
+        or len(all_records) != 264
+        or value_counts != {"-1": 18, "-1/2": 18, "0": 192, "1/2": 18, "1": 18}
+        or any(
+            candidate["candidate_decision"] != "pass_flat_specialization_general_background_blocked"
+            or candidate["candidate_rejection_authorized"] is not False
+            or candidate["flat_D2_roots_materialized"] != 22
+            or candidate["flat_D2_nonzero_roots"] != 6
+            or candidate["general_background_D2_roots_registered"] != 0
+            or len(candidate["flat_D2_records"]) != 22
+            or any(
+                record["general_background_D2_root_registered"] is not False
+                or record["flat_D2_arithmetic_dag_sha256"]
+                != "3cb9bf3fa06f94698cb7140f24611d95a756679d100158459b6ab5239c694b04"
+                for record in candidate["flat_D2_records"]
+            )
+            for candidate in candidates
+        )
+    ):
+        raise NotebookValidationError("flat factorized leaf-jet D2 receipt boundary changed")
+    claim_seals = result["claim_seals"]
+    if {key for key, value in claim_seals.items() if value} != {
+        "all_264_flat_D2_values_materialized",
+        "flat_A_B_C_leaf_derivative_factorization_replayed",
+        "flat_typed_coordinate_map_replayed",
+    } or any(control != {"rejected": True} for control in result["exact_controls"].values()):
+        raise NotebookValidationError("flat factorized leaf-jet D2 claim boundary changed")
+    theorem = result["factorization_theorem"]
+    if (
+        theorem["name"]
+        != "flat_coordinate_to_covariant_jet_factorization_of_target_leaf_derivatives"
+        or "31,680 records" not in theorem["exact_result"]
+        or "192 are zero" not in theorem["exact_result"]
+        or "split evenly among -1, -1/2, 1/2, and 1" not in theorem["exact_result"]
+        or "no general D2 root" not in theorem["boundary"]
+    ):
+        raise NotebookValidationError("flat factorization theorem boundary changed")
+    evidence = (receipt_path,)
+    cells = (
+        NotebookCell(
+            "The specialization question",
+            "The predecessor audit exposed 31,680 candidate-bound derivatives of reachable "
+            "$A/B/C$ input leaves. This receipt asks whether those obligations can be discharged "
+            "without enumerating them individually after restricting to the registered flat "
+            "reference and its typed 153-to-24 coordinate map.",
+            evidence,
+        ),
+        NotebookCell(
+            "Factor through the live block formulas",
+            "On the flat reference, each target coordinate has a sealed sparse map into typed "
+            "covariant jets. Differentiate the live $A/B/C$ block formulas once with respect to "
+            "those typed jets, then contract with the sparse coordinate map. Symbolically,\n\n"
+            "$$D_{s_i}F=\\sum_a\\frac{\\partial F}{\\partial J_a}"
+            "\\frac{\\partial J_a}{\\partial s_i}.$$\n\n"
+            "This common chain-rule factorization replaces the 31,680 expanded leaf records by "
+            "20 target formulas per candidate. It is a compressed exact derivation, not a "
+            "default assignment for the missing leaves.",
+            evidence,
+        ),
+        NotebookCell(
+            "Materialize the 264 flat values",
+            "There are 12 candidates and 22 target coordinates, hence\n\n"
+            "$$12\\cdot22=264$$\n\n"
+            "flat-specialized values. Their exact census is:\n\n"
+            "| value | count |\n"
+            "|---:|---:|\n"
+            "| $0$ | 192 |\n"
+            "| $-1$ | 18 |\n"
+            "| $-1/2$ | 18 |\n"
+            "| $1/2$ | 18 |\n"
+            "| $1$ | 18 |\n\n"
+            "Thus 72 values are nonzero, with the four nonzero values occurring equally often.",
+            evidence,
+        ),
+        NotebookCell(
+            "The five-node arithmetic DAG",
+            "Every specialized result belongs to the exact set\n\n"
+            "$$\\{-1,-\\tfrac12,0,\\tfrac12,1\\}.$$\n\n"
+            "The receipt therefore materializes a five-node DAG consisting only of exact "
+            "constant nodes, one for each value. Every one of the 264 records points to one of "
+            "these nodes. No floating-point approximation or invented general-background root "
+            "is used.",
+            evidence,
+        ),
+        NotebookCell(
+            "What the flat theorem establishes",
+            "The registered flat coordinate map and exact derivatives of the live block formulas "
+            "successfully discharge the predecessor leaf obligations in factorized form. All "
+            "264 flat target values are admitted, while all 12 candidates remain eligible at "
+            "this specialization gate. This is a genuine positive exact result at the declared "
+            "flat reference.",
+            evidence,
+        ),
+        NotebookCell(
+            "Why flat success does not globalize",
+            "The sparse flat map is not a nonlinear arbitrary-background chain rule. Away from "
+            "the reference, the coordinate-to-covariant-jet map and candidate-bound $A/B/C$ leaf "
+            "derivatives remain unregistered. Accordingly zero of 264 general-background $D^2$ "
+            "roots is admitted, and all 12 general-background admissions remain blocked. The "
+            "flat result cannot be promoted to complete $D^2F$, the high-atom identity, global "
+            "$H^7$, nonlinear PDE closure, lifespan, candidate rejection, observation, or a "
+            "physical no-go. The first blocker is\n\n"
+            f"{result['first_blocker']}.",
+            evidence,
+        ),
+    )
+    return ResearchNotebook(
+        notebook_id="quartic-flat-factorized-leaf-jet-d2-reconstruction-001",
+        title="Factorized ordered mixed-D2 values on the quartic flat reference",
+        verdict="proved",
+        source_bindings=(binding,),
+        claims=(
+            NotebookClaim(
+                "proved",
+                "The flat typed coordinate map factorizes 31,680 predecessor leaf obligations into 20 target formulas per candidate.",
+                evidence,
+            ),
+            NotebookClaim(
+                "proved",
+                "All 264 flat-specialized D2 values are exact and materialized in a five-node constant DAG.",
+                evidence,
+            ),
+            NotebookClaim(
+                "blocked",
+                "Zero general-background D2 roots are admitted without the nonlinear arbitrary-background coordinate-to-jet map and leaf derivatives.",
+                evidence,
+            ),
+            NotebookClaim(
+                "scope_limit",
+                "Flat-reference success does not establish arbitrary-background D2F, H7, PDE, lifespan, physical no-go, or candidate rejection.",
+                evidence,
+            ),
+        ),
+        cells=cells,
+        limits=(
+            "the notebook is a derived presentation of one sealed receipt, not an independent proof kernel",
+            "the factorization and five-node DAG apply only to the registered flat specialization",
+            "no arbitrary-background coordinate-to-covariant-jet chain rule is registered",
+            "general D2F, high-atom, global H7, nonlinear PDE, lifespan, rejection, observation, and physical no-go claims remain fail-closed",
+        ),
+    )
+
+
 def write_notebook_pair(notebook: ResearchNotebook, output_stem: Path) -> tuple[Path, Path]:
     output_stem.parent.mkdir(parents=True, exist_ok=True)
     markdown_path = output_stem.with_suffix(".md")
@@ -1526,6 +1727,10 @@ def materialize_example_notebooks(root: Path, output: Path) -> tuple[Path, ...]:
         (
             "quartic-ordered-mixed-d2-differentiability",
             build_ordered_mixed_d2_differentiability_notebook(root),
+        ),
+        (
+            "quartic-flat-factorized-leaf-jet-d2",
+            build_flat_factorized_leaf_jet_d2_notebook(root),
         ),
     )
     paths: list[Path] = []

@@ -70,6 +70,12 @@ The
 then follows the registered arithmetic DAGs down to 31,680 candidate-bound leaf-jet obligations.
 It writes out the exact chain, product, and quotient rules and makes the fail-closed boundary
 explicit: an unregistered leaf derivative is unknown, never silently replaced by zero.
+The companion
+[flat-reference D2 notebook](docs/notebooks/generated/quartic-flat-factorized-leaf-jet-d2.md)
+shows the positive side of the same boundary: a registered flat coordinate map factorizes those
+31,680 obligations into 20 formulas per candidate and exactly materializes all 264 requested flat
+D2 values. Its value census is 192 zeros and 72 nonzeros, while the notebook still refuses to
+generalize that success to an arbitrary background.
 Their claim
 ledgers distinguish universal proof from local certification and unresolved global blockers; the
 Jupyter `.ipynb` versions sit beside the Markdown files. The complete design and fail-closed
@@ -665,35 +671,24 @@ The result proves the leaf's full Merkle path from the registered batch index an
 preserved receipt decisions and blockers to match their new evidence. Its 11,225 count is explicitly
 an immutable partition overlay; the original global queue root is not rewritten or mislabeled as a
 new cumulative ledger.
-The cumulative formal-receipt cursor now points at the immutable generalized batch result and proves
-a gap-free, nonoverlapping nine-leaf prefix. The independently replayable partition history remains
-registered through P0007, while one owned CPU child advanced leaves 8 and 9 together over intervals
-`[1,004,909,056,1,004,910,080)` and `[1,004,910,080,1,004,914,176)`. Those leaves add 31 exact
-mapper rejects, taking the compact cursor to 135 checked candidates: 133 newly processed plus two
-field-reconciled preserved receipts, with 11,114 candidate-specific receipts still pending. The
-checked core retains only the bounded P0005--P0007 cursor history; every older immutable ledger and
-the batch artifacts remain independently registered and replayable rather than being copied into
-the projection. The batch result is sealed at
-`runs/engine/continuous-scientific-pipeline-epoch-003-formal-receipt-batch-0001/result.json`
-(`2a5efdd8d0a27cde333f32c562ad9f5d65915731d637b09690dfcac53235fcd9`, content
-`1da334a6d14944f9cdf9a5cdacf55480c5440dbd9ae970825f232399785c782d`); config/source/test hashes
-are `5783d7835114dc820077eee7eee7b5bf2d8da569de42d621fcade07bd73ab18b` /
-`dafcdeca518a03f3f23c378893aee41a2b4750bae4f8d916c1be495a214eed9f` /
-`5bb96d1b4094d23647b98fe38c8943f92eb391adba3eeaaa822d0e712dd43713`.
-The catalog root remains fixed while the partition-summary, cumulative-receipt, and processed-ordinal
-roots advance without overlaps or gaps. The batch uses zero GPU workers and the cleanup-inclusive
-120-second formal bound. Global formal/comparable completeness, theory-wide rejection, formal passes,
-leaderboard rebuilds, ranks, promotions, live SQLite access, observations, and GPU access remain false.
-The next immutable two-leaf batch advances catalog indices 9 and 10, processing 45 additional
-candidate receipts and moving the gap-free cursor to prefix 11: 180 checked, 178 newly processed,
-two preserved, 180 hard rejects, and 11,069 receipts still pending. It used one owned CPU child and
-zero GPU workers under the same 120/180-second formal/total bounds. Its result is
+The cumulative formal-receipt cursor now points at the second immutable generalized batch and proves
+a gap-free, nonoverlapping eleven-leaf prefix. Independently replayable history remains registered
+through P0007 and batch 0001; batch 0002 advances catalog indices 9 and 10 together, processing 45
+additional candidate receipts. The compact cursor therefore records 180 checked candidates: 178
+newly processed plus two field-reconciled preserved receipts, all hard rejects at the reviewed
+mapping boundary, with 11,069 candidate-specific receipts still pending. The checked core retains a
+bounded P0007--batch0002 history while every older immutable ledger remains independently registered
+and replayable instead of being copied into the projection. The latest result is
 `runs/engine/continuous-scientific-pipeline-epoch-003-formal-receipt-batch-0002/result.json`
 (`6841c7bcee914fd7839026155109179262d428ff606d7aa3494bff6f14acf73e`, content
 `aa83076b30dc0eceac491997ccca8aacae635551765c00a20eb4d2836e331cd3`); config/source/test hashes
 are `8f203420d9255d7dc06102241943b7c239bb79d94a5e9781733f7582c37e3c92` /
 `353fa546be7448e1d5460ce29bced3db57f20be758be37dec1337b92cd758ded` /
 `f1623ceac6bf71b01a8c677e07df7eecb10348fd715701763b49186b39606e23`.
+The catalog root remains fixed while the partition-summary, cumulative-receipt, and processed-ordinal
+roots advance without overlaps or gaps. The batch used one owned CPU child, zero GPU workers, and the
+same 120/180-second formal/total bounds. Global formal/comparable completeness, theory-wide rejection,
+formal passes, leaderboard rebuilds, ranks, promotions, live SQLite access, and observations remain false.
 Batch 0003 is implemented but did not execute: its separate blocked-readiness artifact records three
 device-wide CPU samples of 100% against the strict `<92%` admission threshold, with 49,454--50,133
 MiB RAM available. It seals `execution_started=false` and confirms that no result, leaf, cursor, GPU,
@@ -978,6 +973,20 @@ one block, zero passes, and zero rejections with first blocker
 hashes are `933ff2ab1a7a95cea1efc6946160de4e9f4a458793b7e8040b41ff74c028d0bf`,
 `ea9882ae7a4f1d9a60e22c546e57513a755d4ecf2e547c232fd185f5dd3b88ae`, and
 `7fe7c761735c22cdf5d5d181b7f7ee4dcb6ccec10dec86bf8e8e5c2e34e86fa1`.
+
+A separate cluster direct-observable readiness evaluator applies the same public fail-closed design
+without borrowing the lensing target. It registers two raw/calibrated classes, eight cluster
+channels, five calibration roles, two covariance roles, and rejects 24 latent, halo, inferred, or
+formula-selection fields. Both synthetic schema controls pass, but zero authorized real cluster
+packets are registered or opened. The result is therefore one scientific block, zero passes, zero
+rejections, and zero rank writes—not a failed theory and not observational evidence. Its first
+blocker is `no_authorized_real_cluster_source_packet_registered`. The artifact is
+`runs/engine/cluster-direct-observable-evaluator-readiness.json` (file SHA-256
+`ebb18630a3d4a879bb5cca2722653ac782a90397c76efcb65a8c2fe74c57574a`, content SHA-256
+`139c4ecec652701b62918c68a5e4eab867a0ca51659ea5241c20f54d7a9911d2`); source/config/test
+hashes are `54d346a8062848533df8ef56e1575383b9abd68271d772dbe272857b898302e7`,
+`f13f015f1e842d3d3bf930555d474acbe96056be8e0d7589d595cbf7bba11c78`, and
+`83219aead70d661e2000769d086d4d8b494300e431271789761a8afcfa88ef0b`.
 
 A matching sealed Solar-System protocol predicts held-out round-trip light-time, coherent
 frequency/phase ratios, and angular separation from admitted tracking and calibration records. It
@@ -1926,6 +1935,21 @@ source/config/test hashes are `ad86b9611ac869b491bc83d9a4966209184e5bd7fd4eacb6a
 `feb8da4e94aebdf8713b998383945d1540ef4cbd852ab4a6bdaed5fe67fa92fa` /
 `3348c7f8895851d65d220128ce46c20927bcc57f7c26923a697496bcbc023363`;
 the factorization-manifest root is `ee74d20c1fea767007f4c200d6c46a3c6288e6f01901b52eef64f06333c27f5d`.
+
+The first arbitrary-background continuation now closes a strict subset of that next blocker. The
+exact nonlinear geometric map determines five scalar-second-partial tangents, and differentiating
+the live unspecialized A/source block registers 660 P10 leaf roots per candidate: 7,920 total, of
+which 240 are nonzero and 7,680 vanish. An 11-node exact DAG seals those values. This is constructive
+progress, not a completed ordered-D2 theorem: P10 ordered roots remain 0/84 and the full target
+remains 0/264. Pother derivatives, complete D2F, H7, PDE, lifespan, observation, rejection, and
+physical no-go claims remain false. Artifact file/content hashes are
+`c74171c48d7fc4f80de8f0c51b2b2700a1ce33de8795c3a999cee7c957b35869` /
+`51f76fa7ebc81ab2f570bfe5ad920215420e005687d0c861b24ea6da766c37e0`;
+source/config/test hashes are `6bb9ab72854d74e21a120f41fc9299712d5d64d0c9c9aeb243d5c3948b689239` /
+`2a769692f4b263c6d05cefa5b486e1e401a358be996b159c40a5634025bdf196` /
+`e909f5d6e9638a5c7b11268d4555b153598399ed4da22dccadc93cd9495a023c`.
+The next blocker is to replay the bound inverse-product D1 DAG with these P10 roots and then register
+the Pother leaf derivatives.
 
 The component campaign now proves every entry of the principal identity
 `D_Y E55 J = i P55` for all 12 candidates and materializes the complete first source Jacobian.

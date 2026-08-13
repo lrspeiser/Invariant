@@ -185,6 +185,39 @@ The focused test suite independently checks the immutable replay, successful pro
 counterexample path, skipped formal work, ranking exclusion, closed scientific claims, and several
 resealed semantic tamper attempts.
 
+## The same presentation pattern on an open research problem
+
+The natural-sum control is intentionally familiar, so its right answer is easy to recognize. The
+same notebook machinery is also used where the answer is not known in advance. Two adjacent
+quartic-field notebooks show what that looks like.
+
+The
+[`quartic-ordered-mixed-d2-differentiability.md`](notebooks/generated/quartic-ordered-mixed-d2-differentiability.md)
+notebook follows 20 registered first-derivative roots per candidate through exact sum, product, and
+quotient rules. It reaches 31,680 candidate-bound leaf-derivative obligations—but the needed leaf
+jets are absent from the registered schema. The notebook therefore records a block. It does not
+replace an unknown derivative by zero, reject the candidate, or call the missing schema a physical
+no-go.
+
+The
+[`quartic-flat-factorized-leaf-jet-d2.md`](notebooks/generated/quartic-flat-factorized-leaf-jet-d2.md)
+notebook then adds a legitimate flat-reference coordinate map. Under that declared specialization,
+the same obligations factor into 20 formulas per candidate and all 264 requested D2 values are
+materialized exactly: 192 are zero and 72 are nonzero. This is a real success, but only at the flat
+reference. The arbitrary-background theorem remains open.
+
+Placed side by side, these notebooks expose three states that a useful research system must keep
+distinct:
+
+| Receipt state | Plain-language meaning | What Invariant may say |
+|---|---|---|
+| `reject` | A concrete check disproved the candidate | Show the counterexample and stop downstream work |
+| `block` | Required evidence or a registered operation is missing | Name the missing premise and preserve the candidate |
+| `pass` at a declared scope | Every obligation in that scope closed | Show the derivation and state exactly where it stops |
+
+That distinction is the core product behavior. A block is not softened into a pass, and a bounded
+pass is not inflated into a global theorem.
+
 ## What this demonstration establishes—and what it does not
 
 It establishes that, for this registered Math Pack and these bound inputs, Invariant can:

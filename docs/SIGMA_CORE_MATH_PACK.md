@@ -152,6 +152,14 @@ the claim ledger distinguishes `proved`, `certified_local`, `blocked`, and `scop
 notebooks are explicitly modern historical-style reconstructions and derived views, never authentic
 historical manuscripts, private model reasoning, or replacement proof kernels.
 
+The later mixed-D2 pair is deliberately pedagogical. The differentiability notebook records a
+useful block: 31,680 exact leaf-jet obligations are known, but their derivatives are not registered,
+so the system writes “unknown” rather than substituting zero. The flat-factorized notebook records a
+bounded success: the registered flat map discharges all 264 target values exactly, with a sealed
+192-zero/72-nonzero census. Reading the two together shows how the product presents failure and
+success in the same mathematical style while preserving the difference between a flat-reference
+certificate and an arbitrary-background theorem.
+
 Computational agreement is never proof. A million successful evaluations can advance a candidate
 to a proof attempt, but cannot produce a `proved` receipt.
 

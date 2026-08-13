@@ -11,6 +11,7 @@ from sigma_theory_compiler.research_notebook import (
     NotebookValidationError,
     build_action_jet_nonidentifiability_notebook,
     build_component_map_schema_ambiguity_notebook,
+    build_flat_factorized_leaf_jet_d2_notebook,
     build_natural_sum_notebook,
     build_ordered_mixed_d2_differentiability_notebook,
     build_quartic_survivor_notebook,
@@ -37,6 +38,9 @@ COMPONENT_MAP_RECEIPT = (
 ORDERED_MIXED_D2_RECEIPT = (
     "runs/physics-language/"
     "quartic-ordered-mixed-d2-arithmetic-dag-differentiability-gate/campaign.json"
+)
+FLAT_FACTORIZED_D2_RECEIPT = (
+    "runs/physics-language/quartic-flat-factorized-leaf-jet-d2-specialization-gate/campaign.json"
 )
 EXISTING_NOTEBOOK_SHA256 = {
     "natural-sum-rediscovery.ipynb": (
@@ -68,6 +72,12 @@ EXISTING_NOTEBOOK_SHA256 = {
     ),
     "quartic-component-map-schema-ambiguity.md": (
         "4bc82c9ecfc46b3f0df6dcead9eef51b90f575432607c86148918598108cb90a"
+    ),
+    "quartic-ordered-mixed-d2-differentiability.ipynb": (
+        "088962cc63283ab0f28f9f3d7c452fb1047b81a020f3d28a85ea2cee00e53add"
+    ),
+    "quartic-ordered-mixed-d2-differentiability.md": (
+        "b2128f2c12d2e6ee4d8b048a866b0c0a677f878d7ac0276f1710fca3c505e366"
     ),
 }
 
@@ -245,6 +255,42 @@ def test_ordered_mixed_d2_notebook_marks_missing_leaf_jets_unknown() -> None:
     ]
     rendered = render_ipynb(notebook)
     assert all(cell["cell_type"] == "markdown" for cell in rendered["cells"])
+
+
+def test_flat_factorized_d2_notebook_preserves_specialization_boundary() -> None:
+    notebook = build_flat_factorized_leaf_jet_d2_notebook(ROOT)
+    value = notebook.to_dict()
+    validate_notebook(value)
+    markdown = render_markdown(notebook)
+    assert notebook.verdict == "proved"
+    assert "31,680 candidate-bound derivatives" in markdown
+    assert "20 target formulas per candidate" in markdown
+    assert "D_{s_i}F=\\sum_a\\frac{\\partial F}{\\partial J_a}" in markdown
+    assert "12\\cdot22=264" in markdown
+    assert "| $0$ | 192 |" in markdown
+    assert "| $-1$ | 18 |" in markdown
+    assert "| $-1/2$ | 18 |" in markdown
+    assert "| $1/2$ | 18 |" in markdown
+    assert "| $1$ | 18 |" in markdown
+    assert "72 values are nonzero" in markdown
+    assert "\\{-1,-\\tfrac12,0,\\tfrac12,1\\}" in markdown
+    assert "five-node DAG" in markdown
+    assert "zero of 264 general-background $D^2$ roots" in markdown
+    assert "not a nonlinear arbitrary-background chain rule" in markdown
+    assert "complete $D^2F$" in markdown
+    assert "global $H^7$, nonlinear PDE closure, lifespan" in markdown
+    assert (
+        "register_the_nonlinear_arbitrary_background_coordinate_to_covariant_jet_map_and_"
+        "candidate_bound_A_B_C_leaf_derivatives" in markdown
+    )
+    assert value["source_bindings"] == [
+        {
+            "path": FLAT_FACTORIZED_D2_RECEIPT,
+            "file_sha256": ("7f433906323391a8b84179d2abb63b0b107fadad2667a8f6350d3add357a7d1c"),
+            "content_sha256": ("be94d39348864e642a0b4460c35f845e21f7cd093792f0ce97eab152505bfd2a"),
+        }
+    ]
+    assert all(cell["cell_type"] == "markdown" for cell in render_ipynb(notebook)["cells"])
 
 
 def test_preexisting_checked_notebooks_remain_byte_identical() -> None:
