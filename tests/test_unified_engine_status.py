@@ -4945,8 +4945,9 @@ def test_portable_artifact_core_and_config_are_hash_bound() -> None:
     assert "never overwrites the immutable checked snapshot" in dashboard
     assert "Safety readiness artifact" in dashboard
     assert "hardened_service_ready_not_started" in dashboard
-    assert "hardened_safety" in dashboard
-    assert "<span>Alive</span><strong>True</strong>" in dashboard
+    assert "configured_not_started" in dashboard
+    assert "<span>Implementation</span><strong>None</strong>" in dashboard
+    assert "<span>Alive</span><strong>False</strong>" in dashboard
     assert "PID identity" in dashboard
     assert "Config current" in dashboard
     assert "individually atomic, not one cross-file transaction" in dashboard
