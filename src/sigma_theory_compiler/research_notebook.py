@@ -1695,6 +1695,234 @@ def build_flat_factorized_leaf_jet_d2_notebook(root: Path) -> ResearchNotebook:
     )
 
 
+def build_p10_arbitrary_background_leaf_derivative_notebook(
+    root: Path,
+) -> ResearchNotebook:
+    receipt_path = (
+        "runs/physics-language/quartic-p10-arbitrary-background-leaf-derivative-gate/campaign.json"
+    )
+    result, binding = _load_sealed_receipt(root, receipt_path)
+    expected_counts = {
+        "P10_ordered_D2_roots_blocked": 84,
+        "P10_ordered_D2_roots_registered": 0,
+        "P10_target_records": 84,
+        "Pother_leaf_derivative_roots_registered": 0,
+        "Pother_leaf_derivative_roots_remaining": 23760,
+        "all_target_ordered_D2_roots_blocked": 264,
+        "all_target_ordered_D2_roots_registered": 0,
+        "complete_ordered_D2F_tensors_registered": 0,
+        "global_H7_closures": 0,
+        "lifespans_proved": 0,
+        "nonlinear_PDE_closures": 0,
+        "nonzero_leaf_derivative_roots": 240,
+        "registered_arbitrary_background_leaf_derivative_roots": 7920,
+        "selected_candidates": 12,
+        "unique_P10_directions_per_candidate": 5,
+        "zero_leaf_derivative_roots": 7680,
+    }
+    packets = result["generic_derivative_packets"]
+    candidates = result["candidate_manifests"]
+    dag = result["leaf_derivative_arithmetic_DAG"]
+    expected_tangents = [
+        ("s11[10]", {"H_11": "1"}, [0, 5]),
+        ("s12[10]", {"H_12": "1"}, [1]),
+        ("s13[10]", {"H_13": "1"}, [2]),
+        ("s22[10]", {"H_22": "1"}, [3, 6]),
+        ("s23[10]", {"H_23": "1"}, [4]),
+    ]
+    if (
+        result["decision"]
+        != "pass_7920_P10_arbitrary_background_leaf_derivative_roots_D2_propagation_blocked"
+        or result["decision_counts"] != {"blocked": 0, "pass": 12, "reject": 0}
+        or result["downstream_admission_counts"] != {"blocked": 12, "pass": 0, "reject": 0}
+        or result["gate_counts"] != expected_counts
+        or result["manifest_sha256"]
+        != "4f8e8db41a27d2a4c89c1c8c38669adbba3c3ab8c84c61ff2b6ec0d85d24dc32"
+        or [
+            (
+                packet["coordinate_atom"],
+                packet["covariant_tangent"],
+                packet["coordinate_ordinals"],
+            )
+            for packet in packets
+        ]
+        != expected_tangents
+        or any(
+            packet["covariant_tangent_background_independent"] is not True
+            or packet["total_leaf_derivatives"] != 132
+            or packet["nonzero_leaf_derivatives"] != 4
+            or packet["zero_leaf_derivatives"] != 128
+            for packet in packets
+        )
+        or result["nonlinear_geometric_map_binding"]
+        != {
+            "P10_coordinate_rule": (
+                "scalar_hessian_ij=partial_ij_phi-Gamma^rho_ij_partial_rho_phi_so_"
+                "partial_scalar_hessian_ij_over_partial_sij_scalar_equals_one"
+            ),
+            "arbitrary_background_scope": True,
+            "formula_contract_sha256": (
+                "9d0a41e02f3a86b4f6351240d57078e859dd9b6ce047bcaf1b08b71e2296cb11"
+            ),
+            "status": "pass_all_12_exact_nonlinear_geometric_state_to_jet_maps",
+        }
+        or len(candidates) != 12
+        or any(
+            candidate["candidate_decision"] != "pass_P10_leaf_derivatives_D2_propagation_blocked"
+            or candidate["candidate_rejection_authorized"] is not False
+            or candidate["unique_P10_directions"] != 5
+            or candidate["P10_target_records"] != 7
+            or candidate["registered_leaf_derivative_roots"] != 660
+            or candidate["nonzero_leaf_derivative_roots"] != 20
+            or candidate["zero_leaf_derivative_roots"] != 640
+            or candidate["P10_ordered_D2_roots_registered"] != 0
+            or len(candidate["direction_packets"]) != 5
+            or any(
+                packet["arbitrary_background_valid"] is not True
+                or packet["total_leaf_derivative_roots"] != 132
+                or packet["nonzero_leaf_derivative_roots"] != 4
+                for packet in candidate["direction_packets"]
+            )
+            for candidate in candidates
+        )
+    ):
+        raise NotebookValidationError("P10 arbitrary-background leaf receipt boundary changed")
+    expected_values = [
+        "-2",
+        "-sqrt(2)",
+        "-1",
+        "-sqrt(2)/2",
+        "-1/2",
+        "0",
+        "1/2",
+        "sqrt(2)/2",
+        "1",
+        "sqrt(2)",
+        "2",
+    ]
+    if (
+        dag["allowed_operations"] != ["exact_constant"]
+        or dag["content_sha256"]
+        != "9ca74cce6a55717342c031e86b6dc7b6129dcbf22a38aa82b21cc049d18f8422"
+        or dag["node_count"] != 11
+        or dag["nodes"] != [{"op": "exact_constant", "value": value} for value in expected_values]
+        or {key for key, value in result["claim_seals"].items() if value}
+        != {
+            "P10_coordinate_to_Hessian_tangents_arbitrary_background_registered",
+            "all_7920_P10_leaf_derivative_roots_registered",
+            "nonlinear_geometric_map_directly_bound",
+        }
+        or any(control != {"rejected": True} for control in result["exact_controls"].values())
+    ):
+        raise NotebookValidationError("P10 leaf DAG or claim boundary changed")
+    theorem = result["leaf_derivative_theorem"]
+    if (
+        theorem["name"]
+        != "background_independent_scalar_Hessian_coordinate_tangents_and_A_B_C_leaf_derivatives"
+        or "20 nonzero and 640 zero" not in theorem["exact_result"]
+        or "7,920 roots total" not in theorem["exact_result"]
+        or "does not yet propagate" not in theorem["boundary"]
+    ):
+        raise NotebookValidationError("P10 leaf derivative theorem changed")
+    evidence = (receipt_path,)
+    cells = (
+        NotebookCell(
+            "The P10 arbitrary-background question",
+            "The flat gate computed all target values only at one reference. This gate instead "
+            "binds the nonlinear geometric map for the five unique scalar-second-partial P10 "
+            "directions on every nonsingular background and differentiates the live $A/B/C$ "
+            "input formulas along them.",
+            evidence,
+        ),
+        NotebookCell(
+            "Derive the five scalar-Hessian tangents",
+            "For a scalar field,\n\n"
+            "$$H_{ij}=\\nabla_i\\nabla_j\\phi="
+            "\\partial_i\\partial_j\\phi-\\Gamma^\\rho_{ij}\\partial_\\rho\\phi.$$\n\n"
+            "Varying the scalar second-partial coordinate $s_{ij}[10]$ while holding the "
+            "background connection and first derivatives fixed gives\n\n"
+            "$$\\frac{\\partial H_{ij}}{\\partial s_{ij}[10]}=1.$$\n\n"
+            "The five registered tangents are $H_{11}$, $H_{12}$, $H_{13}$, $H_{22}$, and "
+            "$H_{23}$, each with unit coefficient. This identity retains the connection term; "
+            "it does not assume a flat background.",
+            evidence,
+        ),
+        NotebookCell(
+            "Differentiate the live A/B/C leaves",
+            "Each direction reaches 132 component-input leaves. Exact differentiation of the "
+            "unspecialized block formulas gives four nonzero roots and 128 zero roots per "
+            "direction. Thus one candidate has\n\n"
+            "$$5\\cdot132=660,\\qquad 5\\cdot4=20\\text{ nonzero},\\qquad "
+            "5\\cdot128=640\\text{ zero}.$$\n\n"
+            "Across 12 candidates the exact census is 7,920 roots: 240 nonzero and 7,680 zero.",
+            evidence,
+        ),
+        NotebookCell(
+            "The eleven-node exact DAG",
+            "All registered leaf derivatives take values in\n\n"
+            "$$\\{-2,-\\sqrt2,-1,-\\tfrac{\\sqrt2}{2},-\\tfrac12,0,"
+            "\\tfrac12,\\tfrac{\\sqrt2}{2},1,\\sqrt2,2\\}.$$\n\n"
+            "The receipt stores exactly eleven constant nodes, one per value, and all 7,920 "
+            "candidate-bound leaf roots point into this DAG. No floating-point value is used.",
+            evidence,
+        ),
+        NotebookCell(
+            "Constructive progress without a propagated D2 root",
+            "The gate has supplied the formerly missing P10 input derivatives, but a leaf root "
+            "is not yet the derivative of the full source expression. The bound inverse/product "
+            "$D^1$ DAG must still be differentiated and replayed with these leaves. Consequently "
+            "zero of 84 P10 ordered-$D^2$ targets is registered. This is constructive partial "
+            "progress: the input domain is now closed for P10, while composition remains open.",
+            evidence,
+        ),
+        NotebookCell(
+            "The scientific boundary",
+            "The Pother nonlinear coordinate map and its 23,760 leaf roots remain unregistered, "
+            "and zero of all 264 ordered-$D^2$ targets is admitted. Therefore the P10 subset "
+            "does not establish complete $D^2F$, the high-atom identity, global $H^7$, nonlinear "
+            "PDE closure, lifespan, observation, candidate rejection, or a physical no-go. All "
+            "12 downstream candidates remain blocked. The first blocker is\n\n"
+            f"{result['first_blocker']}.",
+            evidence,
+        ),
+    )
+    return ResearchNotebook(
+        notebook_id="quartic-p10-arbitrary-background-leaf-derivative-reconstruction-001",
+        title="Arbitrary-background P10 leaf derivatives before D2 propagation",
+        verdict="proved",
+        source_bindings=(binding,),
+        claims=(
+            NotebookClaim(
+                "proved",
+                "Five background-independent scalar-Hessian coordinate tangents register all 7,920 reachable P10 input-leaf derivative roots.",
+                evidence,
+            ),
+            NotebookClaim(
+                "proved",
+                "The exact leaf census is 240 nonzero and 7,680 zero roots represented by an eleven-node constant DAG.",
+                evidence,
+            ),
+            NotebookClaim(
+                "blocked",
+                "Zero of 84 P10 ordered-D2 roots is registered until the inverse/product D1 DAG is differentiated and replayed.",
+                evidence,
+            ),
+            NotebookClaim(
+                "scope_limit",
+                "P10 input-leaf progress is not complete D2F, a global PDE theorem, candidate rejection, or a physical no-go.",
+                evidence,
+            ),
+        ),
+        cells=cells,
+        limits=(
+            "the notebook is a derived presentation of one sealed receipt, not an independent proof kernel",
+            "the arbitrary-background result registers input-leaf derivatives, not propagated ordered-D2 roots",
+            "Pother coordinate tangents and leaf derivatives remain unregistered",
+            "complete D2F, high-atom, global H7, nonlinear PDE, lifespan, rejection, observation, and physical no-go remain fail-closed",
+        ),
+    )
+
+
 def write_notebook_pair(notebook: ResearchNotebook, output_stem: Path) -> tuple[Path, Path]:
     output_stem.parent.mkdir(parents=True, exist_ok=True)
     markdown_path = output_stem.with_suffix(".md")
@@ -1731,6 +1959,10 @@ def materialize_example_notebooks(root: Path, output: Path) -> tuple[Path, ...]:
         (
             "quartic-flat-factorized-leaf-jet-d2",
             build_flat_factorized_leaf_jet_d2_notebook(root),
+        ),
+        (
+            "quartic-p10-arbitrary-background-leaf-derivatives",
+            build_p10_arbitrary_background_leaf_derivative_notebook(root),
         ),
     )
     paths: list[Path] = []

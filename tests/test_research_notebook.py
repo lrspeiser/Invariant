@@ -14,6 +14,7 @@ from sigma_theory_compiler.research_notebook import (
     build_flat_factorized_leaf_jet_d2_notebook,
     build_natural_sum_notebook,
     build_ordered_mixed_d2_differentiability_notebook,
+    build_p10_arbitrary_background_leaf_derivative_notebook,
     build_quartic_survivor_notebook,
     build_registered_variation_selection_notebook,
     materialize_example_notebooks,
@@ -41,6 +42,9 @@ ORDERED_MIXED_D2_RECEIPT = (
 )
 FLAT_FACTORIZED_D2_RECEIPT = (
     "runs/physics-language/quartic-flat-factorized-leaf-jet-d2-specialization-gate/campaign.json"
+)
+P10_ARBITRARY_BACKGROUND_RECEIPT = (
+    "runs/physics-language/quartic-p10-arbitrary-background-leaf-derivative-gate/campaign.json"
 )
 EXISTING_NOTEBOOK_SHA256 = {
     "natural-sum-rediscovery.ipynb": (
@@ -78,6 +82,12 @@ EXISTING_NOTEBOOK_SHA256 = {
     ),
     "quartic-ordered-mixed-d2-differentiability.md": (
         "b2128f2c12d2e6ee4d8b048a866b0c0a677f878d7ac0276f1710fca3c505e366"
+    ),
+    "quartic-flat-factorized-leaf-jet-d2.ipynb": (
+        "dac43280b961ab73878336b0f741a4f88058f34a5649f59097f763da04c4c97a"
+    ),
+    "quartic-flat-factorized-leaf-jet-d2.md": (
+        "f2ed5111a1b888b446b71407692ce60acbd2e99fddcf0cd03f02b8f00d0fc4c6"
     ),
 }
 
@@ -288,6 +298,40 @@ def test_flat_factorized_d2_notebook_preserves_specialization_boundary() -> None
             "path": FLAT_FACTORIZED_D2_RECEIPT,
             "file_sha256": ("7f433906323391a8b84179d2abb63b0b107fadad2667a8f6350d3add357a7d1c"),
             "content_sha256": ("be94d39348864e642a0b4460c35f845e21f7cd093792f0ce97eab152505bfd2a"),
+        }
+    ]
+    assert all(cell["cell_type"] == "markdown" for cell in render_ipynb(notebook)["cells"])
+
+
+def test_p10_arbitrary_background_notebook_stops_before_d2_propagation() -> None:
+    notebook = build_p10_arbitrary_background_leaf_derivative_notebook(ROOT)
+    value = notebook.to_dict()
+    validate_notebook(value)
+    markdown = render_markdown(notebook)
+    assert notebook.verdict == "proved"
+    assert "H_{ij}=\\nabla_i\\nabla_j\\phi" in markdown
+    assert "\\frac{\\partial H_{ij}}{\\partial s_{ij}[10]}=1" in markdown
+    for tangent in ("H_{11}", "H_{12}", "H_{13}", "H_{22}", "H_{23}"):
+        assert tangent in markdown
+    assert "5\\cdot132=660" in markdown
+    assert "5\\cdot4=20\\text{ nonzero}" in markdown
+    assert "5\\cdot128=640\\text{ zero}" in markdown
+    assert "7,920 roots: 240 nonzero and 7,680 zero" in markdown
+    assert "exactly eleven constant nodes" in markdown
+    assert "zero of 84 P10 ordered-$D^2$ targets" in markdown
+    assert "constructive partial progress" in markdown
+    assert "23,760 leaf roots remain unregistered" in markdown
+    assert "complete $D^2F$" in markdown
+    assert "global $H^7$, nonlinear PDE closure, lifespan" in markdown
+    assert (
+        "differentiate_and_replay_the_bound_inverse_product_D1_DAG_using_the_7920_registered_"
+        "P10_leaf_roots_then_register_Pother_leaf_derivatives" in markdown
+    )
+    assert value["source_bindings"] == [
+        {
+            "path": P10_ARBITRARY_BACKGROUND_RECEIPT,
+            "file_sha256": ("c74171c48d7fc4f80de8f0c51b2b2700a1ce33de8795c3a999cee7c957b35869"),
+            "content_sha256": ("51f76fa7ebc81ab2f570bfe5ad920215420e005687d0c861b24ea6da766c37e0"),
         }
     ]
     assert all(cell["cell_type"] == "markdown" for cell in render_ipynb(notebook)["cells"])

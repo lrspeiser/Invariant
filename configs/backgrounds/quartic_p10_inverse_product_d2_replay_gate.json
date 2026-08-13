@@ -1,0 +1,53 @@
+{
+  "campaign_id": "quartic-p10-inverse-product-d2-replay-001",
+  "derivative_contract": {
+    "candidate_count": 12,
+    "ordered_P10_D2_records": 84,
+    "registered_leaf_derivative_roots": 7920,
+    "unique_P10_directions_per_candidate": 5,
+    "unique_replay_roots": 60
+  },
+  "direct_D1_artifact": {
+    "content_sha256": "1707b7258fd434f68b06c7af6bc447b4136624b9916992df8b412e048ab6538a",
+    "file_sha256": "e893ebcaef464b958516279c557382fb76ecdb0fd542b3e3fed6a347076fcdae",
+    "path": "runs/physics-language/quartic-full-source-jacobian-arithmetic-campaign/campaign.json"
+  },
+  "output_path": "runs/physics-language/quartic-p10-inverse-product-d2-replay-gate/campaign.json",
+  "policies": {
+    "candidate_rejection": "forbidden",
+    "derivative_replay": "closed_exact_forward_mode_over_bound_D1_DAG",
+    "full_D2F": "fail_closed",
+    "global_H7": "fail_closed",
+    "lifespan": "fail_closed",
+    "nonlinear_PDE": "fail_closed",
+    "Pother_roots": "blocked_until_leaf_derivatives_registered"
+  },
+  "predecessor": {
+    "artifact": {
+      "content_sha256": "51f76fa7ebc81ab2f570bfe5ad920215420e005687d0c861b24ea6da766c37e0",
+      "file_sha256": "c74171c48d7fc4f80de8f0c51b2b2700a1ce33de8795c3a999cee7c957b35869",
+      "path": "runs/physics-language/quartic-p10-arbitrary-background-leaf-derivative-gate/campaign.json"
+    },
+    "config": {
+      "file_sha256": "2a769692f4b263c6d05cefa5b486e1e401a358be996b159c40a5634025bdf196",
+      "path": "configs/backgrounds/quartic_p10_arbitrary_background_leaf_derivative_gate.json"
+    },
+    "source": {
+      "file_sha256": "6bb9ab72854d74e21a120f41fc9299712d5d64d0c9c9aeb243d5c3948b689239",
+      "path": "src/sigma_theory_compiler/quartic_p10_arbitrary_background_leaf_derivative_gate.py"
+    },
+    "test": {
+      "file_sha256": "e909f5d6e9638a5c7b11268d4555b153598399ed4da22dccadc93cd9495a023c",
+      "path": "tests/test_quartic_p10_arbitrary_background_leaf_derivative_gate.py"
+    }
+  },
+  "schema_version": "sigma-quartic-p10-inverse-product-d2-replay-config-1.0",
+  "seals": {
+    "GPU_execution_used": false,
+    "cosmology_inputs_opened": false,
+    "live_SQLite_opened": false,
+    "observations_opened": false,
+    "paid_llm_calls": false,
+    "solar_system_inputs_opened": false
+  }
+}
