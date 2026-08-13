@@ -1873,6 +1873,22 @@ source/config/test hashes are `9d42fee2340a1c284c8b4a17cb74ced5386e2cb41e50f54ee
 `79fef8c850eff976fdd47347534c33e0635129c7fab9649b591fbb853329ed2a`;
 the embedding-manifest root is `3f915d0f214159df6049362de5d837585c566a40fbf2e37cd16e78445c4d3d2e`.
 
+The D1-DAG differentiability gate then replays the exact arithmetic closure beneath the 20 distinct
+target roots per candidate. Its constant/input/add/negate/multiply/divide calculus is closed on the
+declared nonzero-determinant domain, but the reachable input leaves expose only A/B/C labels and
+provenance—not their coordinate derivatives. The union contains 13,983 DAG nodes and 341 unique
+input labels; every target root reaches 132 component-input leaves. After eliminating repeated root
+references, the exact missing interface is 2,640 candidate-bound leaf jets per candidate, or 31,680
+total obligations. Zero leaf-derivative roots and zero ordered mixed-D2 roots are registered, so all
+264 outputs remain blocked. This is an input-jet schema obstruction, not evidence that a derivative
+vanishes or a physical no-go. Artifact file/content hashes are
+`2992571c544846efc96142e2e4a74efe280a7bb025efadb1ff945ab9515bafcc` /
+`d8afd9f91c090ad1c07e4bb22257baa8c61c095f8d434e02a27082b5591abb6a`;
+source/config/test hashes are `f8cd296240dba457caaf058a8cebabf8e728e35b9170360a96fe042574e08cc7` /
+`30a51cf13934379c627fe557aec85607b419e80ba5708cde6867c53ac488dbf0` /
+`baf4316beccb1fc09232bb9354fbaa485f9ffcdb2c888210f434d83af9d53cd9`;
+the leaf-obligation root is `1898f8f871a0a78c2384993f788fa74723e8e9da0d8a88c02977310d8c7023c2`.
+
 The component campaign now proves every entry of the principal identity
 `D_Y E55 J = i P55` for all 12 candidates and materializes the complete first source Jacobian.
 Its 1,089 principal and 594 lower entries form an exact arithmetic-only `11 x 153` manifest with
