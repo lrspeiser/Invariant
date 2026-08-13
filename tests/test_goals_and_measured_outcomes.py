@@ -14,12 +14,20 @@ P55_RECEIPT = ROOT / (
 P55_RESULT = ROOT / (
     "runs/physics-language/quartic-tc2-d4-p55-checkpointable-materializer/result.json"
 )
+P55_RECURRENCE_RECEIPT = ROOT / (
+    "runs/physics-language/"
+    "quartic-tc2-d4-coordinate-free-symbolic-recurrence-emitter-p55-registration/"
+    "campaign.json"
+)
 BATCH_RECEIPT = ROOT / (
     "runs/engine/continuous-scientific-pipeline-epoch-003-formal-receipt-batch-0003/result.json"
 )
 NATIVE_RECEIPT = ROOT / "runs/math/native-newton-blind-polynomial-tournament/receipt.json"
 MAXWELL_RECEIPT = ROOT / "runs/math/maxwell-hilbert-noether-interface-gate/receipt.json"
 FLUID_RECEIPT = ROOT / "runs/math/barotropic-irrotational-action-gate/receipt.json"
+FLUID_STRESS_RECEIPT = ROOT / (
+    "runs/math/barotropic-irrotational-stress-conservation-gate/receipt.json"
+)
 
 
 def _load(path: Path) -> dict:
@@ -62,7 +70,7 @@ def test_matter_and_p55_counts_are_projected_from_checked_receipts() -> None:
     assert p55["counts"]["required_dense_entries"] == 9_075
     assert p55["counts"]["registered_sparse_entries"] == 0
     assert p55["counts"]["minimal_polynomial_entries_reduced"] == 0
-    assert "prior BLOCK receipt is retained as historical evidence" in text
+    assert "prior BLOCK receipt remains historical evidence" in text
 
     p55_result = _load(P55_RESULT)
     assert p55_result["counts"]["matrix_packets"] == 3
@@ -71,8 +79,21 @@ def test_matter_and_p55_counts_are_projected_from_checked_receipts() -> None:
     assert p55_result["counts"]["minimal_polynomial_entries_reduced"] == 3_025
     assert p55_result["counts"]["minimal_polynomial_nonzero_remainders"] == 0
     assert p55_result["claims"]["full_direction_sphere_D4_compatibility_proved"] is False
-    assert "3/3 exact 55x55 axis matrices" in text
-    assert "zero nonzero remainders" in text
+    assert "3/3 exact 55x55 P55 axis matrices" in text
+
+    recurrence = _load(P55_RECURRENCE_RECEIPT)
+    assert recurrence["status"] == (
+        "block_coordinate_free_D4_recurrence_emitter_missing_298_symbolic_packets"
+    )
+    assert recurrence["counts"]["required_symbolic_input_packets"] == 304
+    assert recurrence["counts"]["registered_symbolic_input_packets"] == 6
+    assert recurrence["counts"]["missing_symbolic_input_packets"] == 298
+    assert recurrence["counts"]["required_output_rows"] == 117_180
+    assert recurrence["counts"]["emitted_output_rows"] == 0
+    assert recurrence["counts"]["phase_two_solve_attempts"] == 0
+    assert recurrence["claims"]["full_direction_sphere_D4_compatibility_proved"] is False
+    assert "3/304 to 6/304 registered" in text
+    assert "0/117,180 coefficient rows" in text
 
 
 def test_continuous_cursor_counts_and_product_milestones_are_current() -> None:
@@ -130,7 +151,7 @@ def test_maxwell_followup_records_profile_success_and_arbitrary_background_block
     assert "arbitrary curved metric/profile closure remains one typed BLOCK" in text
 
 
-def test_fluid_followup_closes_only_the_irrotational_action_gate() -> None:
+def test_fluid_followups_close_action_and_stress_only() -> None:
     text = DOCUMENT.read_text(encoding="utf-8")
     fluid = _load(FLUID_RECEIPT)
     assert fluid["decision"] == "PASS_EARLIEST_GATE_ONLY"
@@ -143,5 +164,29 @@ def test_fluid_followup_closes_only_the_irrotational_action_gate() -> None:
     assert fluid["exact_replay"]["equation_of_state"] == "p=rho/3"
     assert fluid["claims"]["vortical_flows_covered"] is False
     assert fluid["claims"]["universal_matter_closure_established"] is False
-    assert "three later PDE gates remain NOT_EVALUATED" in text
     assert "vortical flow is excluded" in text
+
+    stress = _load(FLUID_STRESS_RECEIPT)
+    assert stress["decision"] == "PASS_SECOND_GATE_ONLY"
+    assert stress["counts"] == {
+        "blocks": 0,
+        "gates_not_evaluated": 2,
+        "negative_controls": 2,
+        "new_gates_passed": 1,
+        "predecessor_gates": 1,
+        "registered_exact_residuals": 4,
+        "rejects": 0,
+        "sectors": 1,
+        "specialized_exact_residual_coefficients": 3,
+    }
+    assert [item["outcome"] for item in stress["gate_results"]] == [
+        "PREDECESSOR_PASS",
+        "PASS",
+        "NOT_EVALUATED",
+        "NOT_EVALUATED",
+    ]
+    assert stress["claims"]["stress_conservation_gate_closed"] is True
+    assert stress["claims"]["hyperbolicity_gate_closed"] is False
+    assert stress["claims"]["constraint_propagation_gate_closed"] is False
+    assert "second receipt now passes the on-shell stress-energy conservation gate" in text
+    assert "Hyperbolicity and constraint propagation remain NOT_EVALUATED" in text

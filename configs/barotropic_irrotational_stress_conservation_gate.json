@@ -1,0 +1,40 @@
+{
+  "schema_version": "invariant-barotropic-irrotational-stress-conservation-config-1.0",
+  "campaign_id": "barotropic-irrotational-stress-conservation-gate-001",
+  "output_path": "runs/math/barotropic-irrotational-stress-conservation-gate/receipt.json",
+  "predecessor": {
+    "path": "runs/math/barotropic-irrotational-action-gate/receipt.json",
+    "file_sha256": "e5de3a3fb81f845707e38e27c1d687d10e898992daf5770935008d837e2c03ee",
+    "content_sha256": "997e8bcca0f4afae12428500098e6be970c4cf203070dd9fd1ccded81c950da0",
+    "required_decision": "PASS_EARLIEST_GATE_ONLY"
+  },
+  "evidence_bindings": {
+    "formal_controls": {
+      "path": "runs/formal-controls-v1/formal-controls-portable.json",
+      "file_sha256": "1a121c66365e70aed1ee9b5e5803829b824ca57c4671ee61b6fa6bad1a1dd8e1",
+      "content_sha256": "cbf2f085198ac29afce473ca39ac7f39681d5ec6b781ef67cfed9313c0a8a420"
+    },
+    "variation_source": {
+      "path": "src/sigma_theory_compiler/scalar_tensor_pack.py",
+      "file_sha256": "156fc763674fda9b8503f3234e4f1c6005af93d5639e28b27a11eef8199c8eaf"
+    }
+  },
+  "required_control": "generic_g2_variation_noether_identity",
+  "specialization": {
+    "field": "tau",
+    "kinetic_scalar": "X=-nabla_mu(tau)nabla^mu(tau)/2",
+    "pressure": "P(X)=kappa X^2",
+    "field_euler": "E_tau=nabla_mu(P_X nabla^mu(tau))",
+    "hilbert_stress": "T_mu_nu=P_X nabla_mu(tau)nabla_nu(tau)+P g_mu_nu",
+    "domain": ["kappa>0", "X>0", "nabla_mu(tau) future-directed timelike"]
+  },
+  "claims_policy": {
+    "close_stress_conservation_only": true,
+    "hyperbolicity": false,
+    "constraint_propagation": false,
+    "vortical_fluid": false,
+    "gravity_h7": false,
+    "universal_matter": false,
+    "promotion": false
+  }
+}
