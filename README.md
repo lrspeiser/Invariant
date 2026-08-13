@@ -56,6 +56,10 @@ immutable receipts rather than maintained as unbound prose. See the
 [action-jet identifiability notebook](docs/notebooks/generated/quartic-action-jet-nonidentifiability.md)
 derives the exact degree-four null polynomial that makes four registered action values insufficient
 to determine first or second jets, without misreporting that evidence limit as a physical no-go.
+The companion
+[registered-variation selection notebook](docs/notebooks/generated/quartic-registered-variation-selection-audit.md)
+shows why the four currently bound action/source evidence bundles still generate an exact
+`0 x 22` selector matrix rather than choosing one of those jet extensions.
 Their claim
 ledgers distinguish universal proof from local certification and unresolved global blockers; the
 Jupyter `.ipynb` versions sit beside the Markdown files. The complete design and fail-closed

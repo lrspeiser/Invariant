@@ -738,6 +738,266 @@ def build_action_jet_nonidentifiability_notebook(root: Path) -> ResearchNotebook
     )
 
 
+def build_registered_variation_selection_notebook(root: Path) -> ResearchNotebook:
+    receipt_path = (
+        "runs/physics-language/"
+        "quartic-fitted-output-connection-registered-variation-selection-audit/"
+        "campaign.json"
+    )
+    result, binding = _load_sealed_receipt(root, receipt_path)
+    expected_capabilities = [
+        {
+            "candidate_bound_to_quartic_grid": False,
+            "corrected_second_source_jet_values": 0,
+            "evidence": "generic_G4_metric_variation",
+            "map_to_22_output_connection_coordinates": False,
+            "registered_unit_type": "generic_metric_Euler_tensor_contractions",
+            "registered_units": 24,
+            "selector_equations_contributed": 0,
+        },
+        {
+            "candidate_backend_variations_executed": 0,
+            "candidate_bound_to_quartic_grid": False,
+            "corrected_second_source_jet_values": 0,
+            "evidence": "generated_candidate_metric_variation",
+            "map_to_22_output_connection_coordinates": False,
+            "quartic_G4_X_grid_candidate_overlap": 0,
+            "registered_unit_type": "candidate_specialized_metric_Euler_expressions",
+            "registered_units": 163,
+            "selector_equations_contributed": 0,
+        },
+        {
+            "candidate_bound_to_quartic_grid": True,
+            "candidate_count": 12,
+            "corrected_second_source_jet_values": 0,
+            "evidence": "universal_source_DAG",
+            "full_component_Frechet_tensors_complete": False,
+            "map_to_22_output_connection_coordinates": False,
+            "registered_unit_type": "pure_derivative_component_roots",
+            "registered_units": 1056,
+            "selector_equations_contributed": 0,
+        },
+        {
+            "candidate_bound_to_quartic_grid": True,
+            "candidate_count": 12,
+            "complete_orders_2_to_4": False,
+            "corrected_second_source_jet_values": 0,
+            "evidence": "full_source_D1",
+            "map_to_22_output_connection_coordinates": False,
+            "registered_unit_type": "first_source_Jacobian_entries",
+            "registered_units": 20196,
+            "selector_equations_contributed": 0,
+            "source_Jacobian_shape": [11, 153],
+        },
+    ]
+    expected_counts = {
+        "ambiguity_parameters_remaining": 22,
+        "ambiguity_parameters_selected": 0,
+        "complete_ordered_D2F_tensors_registered": 0,
+        "cross_slice_D2F_entries_admitted": 0,
+        "eligible_selector_equations_registered": 0,
+        "full_high_atom_good_unknown_identities_proved": 0,
+        "full_source_D1_entries": 20196,
+        "generated_metric_variation_candidates": 163,
+        "generated_quartic_G4_X_grid_candidate_overlap": 0,
+        "generic_G4_metric_Euler_terms": 24,
+        "global_H7_closures": 0,
+        "lifespans_proved": 0,
+        "nonlinear_PDE_closures": 0,
+        "registered_corrected_second_source_jet_entries": 0,
+        "registered_evidence_bundles": 4,
+        "selected_candidates": 12,
+        "universal_source_DAG_pure_derivative_roots": 1056,
+    }
+    theorem = result["registered_selection_theorem"]
+    records = result["coordinate_selection_records"]
+    claim_seals = result["claim_seals"]
+    exact_controls = result["exact_controls"]
+    if (
+        result["decision"]
+        != "registered_variation_and_source_inventory_has_rank_zero_for_22_jet_selectors"
+        or result["predecessor_decision"]
+        != "pass_exact_finite_grid_first_and_second_jet_nonidentifiability"
+        or result["decision_counts"] != {"blocked": 0, "pass": 12, "reject": 0}
+        or result["downstream_admission_counts"] != {"blocked": 12, "pass": 0, "reject": 0}
+        or result["evidence_capabilities"] != expected_capabilities
+        or result["gate_counts"] != expected_counts
+        or result["selection_matrix"]
+        != {
+            "columns": 22,
+            "nullity": 22,
+            "rank": 0,
+            "rows": 0,
+            "selected_parameters": 0,
+            "unselected_parameters": 22,
+        }
+        or len(records) != 22
+        or [record["coordinate_ordinal"] for record in records] != list(range(22))
+        or [record["ambiguity_parameter"] for record in records]
+        != [f"lambda_{ordinal}" for ordinal in range(22)]
+        or any(
+            record["eligible_selector_equations_registered"] != 0
+            or record["parameter_selected"] is not False
+            for record in records
+        )
+        or {key for key, value in claim_seals.items() if value}
+        != {
+            "all_22_ambiguity_parameters_remain_unselected",
+            "eligible_selector_schema_applied",
+            "registered_selector_rank_zero",
+            "registered_variation_source_inventory_bound",
+        }
+        or not exact_controls
+        or any(control != {"rejected": True} for control in exact_controls.values())
+    ):
+        raise NotebookValidationError("registered variation selection receipt boundary changed")
+    expected_theorem = {
+        "boundary": (
+            "This is a closed-world result for the four explicitly bound registered evidence "
+            "bundles. It is neither a physical no-go nor evidence that a covariant variation "
+            "rule cannot exist; adding a candidate-bound component map or corrected second "
+            "source-jet values invalidates the premise and requires a new gate."
+        ),
+        "exact_result": (
+            "The generic metric theorem has no output-coordinate map; the 163 generated "
+            "specializations have zero overlap with the quartic G4_X grid; the source DAGs "
+            "leave complete component Frechet tensors open; and the materialized source "
+            "tensors are D1 only. Thus the registered selector matrix has shape 0-by-22, "
+            "rank zero, and nullity 22. No lambda_i is selected."
+        ),
+        "name": "closed_inventory_rank_zero_for_action_jet_ambiguity_selection",
+        "premises": (
+            "The declared registered inventory contains the 24-term generic G4 metric Euler "
+            "normalization, 163 generated candidate metric-Euler specializations, twelve "
+            "candidate-aligned universal source DAGs, and twelve complete first source "
+            "Jacobians. Eligible selectors must be candidate-bound first/second G4_X jet "
+            "values or explicit maps into the matching 22 output-connection coordinates."
+        ),
+    }
+    broad_false = {
+        "candidate_theory_rejected",
+        "complete_ordered_D2F_tensor_registered",
+        "corrected_second_source_jet_registered",
+        "covariant_output_connection_derivation_registered",
+        "cross_slice_D2F_entries_admitted",
+        "full_high_atom_good_unknown_identity_proved",
+        "global_H7_energy_closed",
+        "nonlinear_PDE_closed",
+        "nonlinear_lifespan_proved",
+        "observational_claim_made",
+        "physical_covariant_variation_no_go_proved",
+    }
+    if theorem != expected_theorem or any(claim_seals[key] for key in broad_false):
+        raise NotebookValidationError("registered variation theorem boundary changed")
+    evidence = (receipt_path,)
+    bundle_table = (
+        "| Registered evidence bundle | Units | Candidate-bound | Matching 22-coordinate map | "
+        "Eligible rows | Recorded limitation |\n"
+        "|---|---:|:---:|:---:|---:|---|\n"
+        "| Generic $G_4$ metric variation | 24 | no | no | 0 | generic Euler contractions |\n"
+        "| Generated metric variations | 163 | no | no | 0 | zero quartic-grid overlap |\n"
+        "| Universal source DAG | 1,056 | yes | no | 0 | component Fréchet tensors incomplete |\n"
+        "| Full source $D^1$ | 20,196 | yes | no | 0 | first Jacobian only; no corrected second jet |"
+    )
+    cells = (
+        NotebookCell(
+            "The selection question",
+            "The preceding receipt exhibited 22 independent ambiguity parameters "
+            "$\\lambda=(\\lambda_0,\\ldots,\\lambda_{21})$. This audit asks a narrower "
+            "question: does the declared, sealed inventory contain an equation that selects "
+            "any of them? The answer applies only to the four registered bundles below.",
+            evidence,
+        ),
+        NotebookCell(
+            "The four registered evidence bundles",
+            bundle_table
+            + "\n\nEvery bundle is substantive evidence, but eligibility requires more than "
+            "quantity: it must connect candidate-bound first/second $G_{4,X}$ jet data to "
+            "the matching fitted output-connection coordinate.",
+            evidence,
+        ),
+        NotebookCell(
+            "Define an eligible selector equation",
+            "Over the exact coefficient field $\\mathbb K$, an eligible row has the form\n\n"
+            "$$\\sum_{i=0}^{21} a_{ri}\\lambda_i=b_r,$$\n\n"
+            "where the coefficients and right-hand side come from candidate-bound first- or "
+            "second-$G_{4,X}$ jet values, or from an explicit component map into the same 22 "
+            "output-connection coordinates. Generic contractions, unmatched candidates, pure "
+            "DAG roots without the component map, and $D^1$ source entries are not silently "
+            "promoted into selector rows.",
+            evidence,
+        ),
+        NotebookCell(
+            "Assemble and reduce the exact system",
+            "All four row counts are zero, so stacking the eligible equations gives\n\n"
+            "$$A\\lambda=b,\\qquad A\\in\\mathbb K^{0\\times22},\\qquad "
+            "b\\in\\mathbb K^0.$$\n\n"
+            "The empty matrix has no pivots. Hence\n\n"
+            "$$\\operatorname{rank}(A)=0,\\qquad "
+            "\\operatorname{nullity}(A)=22-0=22,$$\n\n"
+            "and $\\ker A=\\mathbb K^{22}$. Thus zero parameters are selected and all 22 "
+            "remain free in this inventory. In particular, absence of a row does not justify "
+            "setting $\\lambda_i=0$.",
+            evidence,
+        ),
+        NotebookCell(
+            "The exact closed-inventory conclusion",
+            "The registered selector matrix is exactly $0\\times22$, rank zero, and nullity "
+            "22. The result is an inventory obstruction: none of the four bound evidence "
+            "bundles supplies an eligible equation under the declared schema. All 12 "
+            "downstream candidates remain blocked, not rejected.",
+            evidence,
+        ),
+        NotebookCell(
+            "Why this is not a physical no-go",
+            "The conclusion quantifies over four registered bundles, not over all possible "
+            "covariant variations. A candidate-bound component map from the $G_4$ variation "
+            "or source DAG into the 22 coordinates, or exact corrected second-source jet "
+            "values, would add rows and require a new rank audit. Therefore no physical "
+            "covariant-variation no-go, candidate rejection, complete $D^2F$ tensor, "
+            "high-atom identity, global $H^7$ estimate, nonlinear PDE closure, or lifespan "
+            "follows here. The first blocker is\n\n"
+            f"`{result['first_blocker']}`.",
+            evidence,
+        ),
+    )
+    return ResearchNotebook(
+        notebook_id="quartic-registered-variation-selection-audit-reconstruction-001",
+        title="A rank-zero audit of registered action-jet selectors",
+        verdict="proved",
+        source_bindings=(binding,),
+        claims=(
+            NotebookClaim(
+                "proved",
+                "The four registered evidence bundles contribute zero eligible equations to the 22-column selector system.",
+                evidence,
+            ),
+            NotebookClaim(
+                "proved",
+                "The exact registered matrix is 0-by-22 with rank zero and nullity 22, so no ambiguity parameter is selected.",
+                evidence,
+            ),
+            NotebookClaim(
+                "blocked",
+                "A candidate-bound component map or corrected second-source jet is still required before a nonempty selector system can be audited.",
+                evidence,
+            ),
+            NotebookClaim(
+                "scope_limit",
+                "Closed-inventory rank zero is not a physical covariant-variation no-go and does not reject any candidate.",
+                evidence,
+            ),
+        ),
+        cells=cells,
+        limits=(
+            "the notebook is a derived presentation of one sealed receipt, not an independent proof kernel",
+            "the rank computation ranges only over the four explicitly registered evidence bundles",
+            "new candidate-bound component maps or corrected second-source jets invalidate the empty-row premise",
+            "covariant no-go, complete D2F, high-atom, global H7, nonlinear PDE, lifespan, rejection, and observational claims remain fail-closed",
+        ),
+    )
+
+
 def write_notebook_pair(notebook: ResearchNotebook, output_stem: Path) -> tuple[Path, Path]:
     output_stem.parent.mkdir(parents=True, exist_ok=True)
     markdown_path = output_stem.with_suffix(".md")
@@ -758,6 +1018,10 @@ def materialize_example_notebooks(root: Path, output: Path) -> tuple[Path, ...]:
         (
             "quartic-action-jet-nonidentifiability",
             build_action_jet_nonidentifiability_notebook(root),
+        ),
+        (
+            "quartic-registered-variation-selection-audit",
+            build_registered_variation_selection_notebook(root),
         ),
     )
     paths: list[Path] = []

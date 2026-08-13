@@ -145,7 +145,9 @@ truth, novelty, or promotion authority.
 `research_notebook.py` renders sealed receipts as deterministic Markdown and Jupyter notebooks. The
 first notebooks present the anonymous natural-sum rediscovery as a complete induction proof, one
 quartic scalar-tensor candidate as a formal local survivor, and the fitted action-jet result as an
-exact finite-data nonidentifiability derivation. Every cell cites immutable receipt paths;
+exact finite-data nonidentifiability derivation. A fourth notebook derives the registered
+variation/source selector system as a `0 x 22` rank-zero matrix and keeps the missing component map
+explicit. Every cell cites immutable receipt paths;
 the claim ledger distinguishes `proved`, `certified_local`, `blocked`, and `scope_limit`. The
 notebooks are explicitly modern historical-style reconstructions and derived views, never authentic
 historical manuscripts, private model reasoning, or replacement proof kernels.

@@ -12,6 +12,7 @@ from sigma_theory_compiler.research_notebook import (
     build_action_jet_nonidentifiability_notebook,
     build_natural_sum_notebook,
     build_quartic_survivor_notebook,
+    build_registered_variation_selection_notebook,
     materialize_example_notebooks,
     render_ipynb,
     render_markdown,
@@ -22,6 +23,10 @@ ROOT = Path(__file__).resolve().parents[1]
 ACTION_JET_RECEIPT = (
     "runs/physics-language/"
     "quartic-fitted-output-connection-action-jet-nonidentifiability-gate/campaign.json"
+)
+REGISTERED_VARIATION_RECEIPT = (
+    "runs/physics-language/"
+    "quartic-fitted-output-connection-registered-variation-selection-audit/campaign.json"
 )
 EXISTING_NOTEBOOK_SHA256 = {
     "natural-sum-rediscovery.ipynb": (
@@ -35,6 +40,12 @@ EXISTING_NOTEBOOK_SHA256 = {
     ),
     "quartic-local-survivor.md": (
         "d4f09ae04dad567f001e871ccaf587125282ffd560ebfa58c515269dc67632af"
+    ),
+    "quartic-action-jet-nonidentifiability.ipynb": (
+        "6330f947b56625566b5d98016ae71f4f2551e48ea874c9d540939e6ed8f37098"
+    ),
+    "quartic-action-jet-nonidentifiability.md": (
+        "5e2180b69ec5cd9a72a45c6f17f2b0f67af757224d73e9250915195f097aaeca"
     ),
 }
 
@@ -98,6 +109,41 @@ def test_action_jet_notebook_proves_only_finite_data_nonidentifiability() -> Non
             "path": ACTION_JET_RECEIPT,
             "file_sha256": ("e0b87eb270d73f1fa7acb1ff31e0f234a545cf80c383fac21ffa0abc390a902b"),
             "content_sha256": ("b73d3bb175cf008f080ac900c0aed7f463f341d8efc8ebd4cdc4a8fbc3b6de21"),
+        }
+    ]
+    rendered = render_ipynb(notebook)
+    assert all(cell["cell_type"] == "markdown" for cell in rendered["cells"])
+
+
+def test_registered_variation_notebook_proves_only_closed_inventory_rank_zero() -> None:
+    notebook = build_registered_variation_selection_notebook(ROOT)
+    value = notebook.to_dict()
+    validate_notebook(value)
+    markdown = render_markdown(notebook)
+    assert notebook.verdict == "proved"
+    assert "The four registered evidence bundles" in markdown
+    assert "| Generic $G_4$ metric variation | 24 | no | no | 0 |" in markdown
+    assert "| Generated metric variations | 163 | no | no | 0 |" in markdown
+    assert "| Universal source DAG | 1,056 | yes | no | 0 |" in markdown
+    assert "| Full source $D^1$ | 20,196 | yes | no | 0 |" in markdown
+    assert "\\sum_{i=0}^{21} a_{ri}\\lambda_i=b_r" in markdown
+    assert "A\\in\\mathbb K^{0\\times22}" in markdown
+    assert "\\operatorname{rank}(A)=0" in markdown
+    assert "\\operatorname{nullity}(A)=22-0=22" in markdown
+    assert "zero parameters are selected and all 22 remain free" in markdown
+    assert "absence of a row does not justify setting $\\lambda_i=0$" in markdown
+    assert "not a physical no-go" in markdown
+    assert "All 12 downstream candidates remain blocked, not rejected" in markdown
+    assert (
+        "candidate_bound_component_map_from_the_registered_G4_variation_or_source_DAG_into_"
+        "the_22_output_connection_coordinates_or_exact_corrected_second_source_jet_values_"
+        "required" in markdown
+    )
+    assert value["source_bindings"] == [
+        {
+            "path": REGISTERED_VARIATION_RECEIPT,
+            "file_sha256": ("dfc8940a6f092de73da5641afd95c6cbf997b73ad63f8fa6f4ea3eaa8f395a20"),
+            "content_sha256": ("6de93ca6700b21ff9f858a2b7f01d1a9d103271de1dde3f75385faaaa4a377d6"),
         }
     ]
     rendered = render_ipynb(notebook)

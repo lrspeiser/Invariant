@@ -160,7 +160,7 @@ def test_hard_gates_precede_metrics_and_failed_candidates_remain_unranked() -> N
         assert row["explanation_sha256"] is None
         assert row["exclusion_reason"] == "did_not_pass_all_required_hard_gates"
     assert result["claims"] == {
-        "soft_metrics_opened_before_all_hard_gates_passed": False,
+        "soft_metric_receipts_admitted_before_all_hard_gates_passed": False,
         "failed_hard_gate_compensated_by_soft_metric": False,
         "unranked_candidate_omitted": False,
         "truth_established": False,
@@ -290,6 +290,30 @@ def test_resealed_semantic_tampering_fails_closed() -> None:
     unsigned = {key: value for key, value in broken.items() if key != "content_sha256"}
     broken["content_sha256"] = canonical_sha256(unsigned)
     with pytest.raises(CandidateDiscoveryPipelineError, match="boundary changed"):
+        validate_candidate_discovery_result(broken)
+
+
+def test_resealed_pareto_transplant_is_rejected_against_batch_evidence() -> None:
+    candidates, metrics = fixture()
+    result = run_candidate_discovery_pipeline(
+        FixturePack(),
+        candidates,
+        ladder(),
+        metrics,
+        metric_directions={"simplicity": "minimize"},
+    )
+    alternate = run_candidate_discovery_pipeline(
+        FixturePack(),
+        candidates,
+        ladder(),
+        (receipt(candidates[0], 3), metrics[1]),
+        metric_directions={"simplicity": "minimize"},
+    )
+    broken = copy.deepcopy(result)
+    broken["pareto_result"] = alternate["pareto_result"]
+    unsigned = {key: value for key, value in broken.items() if key != "content_sha256"}
+    broken["content_sha256"] = canonical_sha256(unsigned)
+    with pytest.raises(CandidateDiscoveryPipelineError, match="not bound"):
         validate_candidate_discovery_result(broken)
 
 

@@ -1,7 +1,7 @@
 """End-to-end fail-closed evaluation and Pareto-ranking boundary for Sigma candidates.
 
 The pipeline deliberately does not generate evidence. It sequences a registered evaluation
-ladder, opens soft metrics only for candidates that pass every hard gate, and delegates exact
+ladder, admits supplied soft-metric receipts only for candidates that pass every hard gate, and delegates exact
 Pareto explanations to the typed ranking engine. A blocked, rejected, or errored candidate is
 retained in the batch ledger with a null front and can never be rescued by a metric.
 """
@@ -35,7 +35,7 @@ from .sigma_core import (
 
 RESULT_SCHEMA = "sigma-candidate-discovery-pipeline-1.0"
 _CLAIMS = {
-    "soft_metrics_opened_before_all_hard_gates_passed": False,
+    "soft_metric_receipts_admitted_before_all_hard_gates_passed": False,
     "failed_hard_gate_compensated_by_soft_metric": False,
     "unranked_candidate_omitted": False,
     "truth_established": False,
@@ -221,7 +221,7 @@ def run_candidate_discovery_pipeline(
     limits: DiscoveryPipelineLimits | None = None,
     pareto_limits: ParetoLimits | None = None,
 ) -> dict[str, Any]:
-    """Evaluate a batch, open metrics only after all gates, then rank exact survivors."""
+    """Evaluate a batch, admit metrics only after all gates, then rank exact survivors."""
 
     limits = DiscoveryPipelineLimits() if limits is None else limits
     pareto_limits = ParetoLimits() if pareto_limits is None else pareto_limits
@@ -338,6 +338,25 @@ def validate_candidate_discovery_result(value: Mapping[str, Any]) -> None:
         if not isinstance(pareto, Mapping):
             raise CandidateDiscoveryPipelineError("eligible candidates lack a Pareto result")
         validate_pareto_result(pareto)
+        eligible_ids = {item.artifact_id for item in eligible}
+        gates = tuple(
+            GateOutcome.from_dict(row)
+            for evaluation in evaluations
+            if evaluation["artifact"]["artifact_id"] in eligible_ids
+            for row in evaluation["gate_outcomes"]
+        )
+        rebuilt_pareto = build_pareto_explanations(
+            eligible,
+            gates,
+            receipts,
+            required_gate_ids=tuple(step.gate_id for step in ladder.steps),
+            metric_directions=dict(registry),
+            limits=pareto_limits,
+        )
+        if dict(pareto) != rebuilt_pareto:
+            raise CandidateDiscoveryPipelineError(
+                "Pareto result is not bound to the batch evaluations and metrics"
+            )
     elif pareto is not None:
         raise CandidateDiscoveryPipelineError("Pareto result exists without eligible candidates")
     expected_body = _body(
