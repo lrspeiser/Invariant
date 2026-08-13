@@ -1,0 +1,206 @@
+{
+  "campaign_id": "native-newton-blind-polynomial-tournament-001",
+  "candidate_results": [
+    {
+      "candidate": {
+        "changed_from_seed": true,
+        "coefficients_constant_first": [
+          11,
+          -3,
+          0,
+          2,
+          -1
+        ],
+        "family": "symbolic_newton",
+        "forward_difference_first_column": [
+          11,
+          -2,
+          -2,
+          -24,
+          -24
+        ],
+        "generic_exact_solver_used": false,
+        "method": "native_forward_difference_to_newton_basis_to_monomial_coefficients",
+        "public_rows_used": 5,
+        "seed_coefficients_constant_first": [
+          11
+        ],
+        "target_fields_read": []
+      },
+      "candidate_content_sha256": "9c67af648b60072a7ac8bb7cbe7f1cab0c55b28614faadd8c7e3f8fdcb25152c",
+      "counterexample": null,
+      "proof_certificate": {
+        "candidate_coefficients_constant_first": [
+          11,
+          -3,
+          0,
+          2,
+          -1
+        ],
+        "cleared_coefficient_residuals": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "content_sha256": "738ac90f002bc090cf994f65bec24720b1a688cb98545ee7c12381235e4adfac",
+        "decision": "proved_exact_integer_polynomial_identity",
+        "method": "exact_integer_coefficient_vector_equality",
+        "schema_version": "invariant-native-integer-polynomial-identity-certificate-1.0",
+        "target_coefficients_constant_first": [
+          11,
+          -3,
+          0,
+          2,
+          -1
+        ]
+      },
+      "reason_codes": [],
+      "status": "PASS"
+    },
+    {
+      "candidate": {
+        "changed_from_seed": false,
+        "coefficients_constant_first": [
+          11
+        ],
+        "family": "grammar",
+        "generic_exact_solver_used": false,
+        "method": "fixed_constant_from_first_public_value",
+        "public_rows_used": 1,
+        "target_fields_read": []
+      },
+      "candidate_content_sha256": "9ede87230b1bba1a7e45c28fa7ed5f42511584e126692abeffbc9120d9233bcc",
+      "counterexample": {
+        "candidate_value": 11,
+        "point": 1,
+        "residual": 2,
+        "target_value": 9
+      },
+      "proof_certificate": null,
+      "reason_codes": [
+        "exact_integer_counterexample"
+      ],
+      "status": "REJECT"
+    },
+    {
+      "candidate": {
+        "changed_from_seed": true,
+        "coefficients_constant_first": [
+          11,
+          -2
+        ],
+        "family": "egraph",
+        "generic_exact_solver_used": false,
+        "method": "fixed_affine_first_forward_difference_normal_form",
+        "public_rows_used": 2,
+        "target_fields_read": []
+      },
+      "candidate_content_sha256": "a03214ee5dbfc2fc9dc48ceafa09d6232f4826af38719ff3828c073549aaff64",
+      "counterexample": {
+        "candidate_value": 7,
+        "point": 2,
+        "residual": 2,
+        "target_value": 5
+      },
+      "proof_certificate": null,
+      "reason_codes": [
+        "exact_integer_counterexample"
+      ],
+      "status": "REJECT"
+    }
+  ],
+  "claims": {
+    "general_formula_discovery_established": false,
+    "generic_exact_solver_used": false,
+    "native_constructor_used_public_constraints": true,
+    "native_non_bayesian_generator_constructed_formula": true,
+    "novelty_established": false,
+    "one_exact_identity_certificate_emitted": true,
+    "promotion_authorized": false,
+    "scientific_or_physics_truth_inferred": false,
+    "target_access_before_generation_freeze": false,
+    "two_exact_counterexamples_emitted": true
+  },
+  "content_sha256": "85b72eb0b27f6c3aea2bbb40ade36d959980caffbb0bc818e597b6bca30a983e",
+  "counts": {
+    "candidate_blocks": 0,
+    "candidate_passes": 1,
+    "candidate_rejects": 2,
+    "candidates": 3,
+    "exact_counterexamples": 2,
+    "exact_identity_certificates": 1,
+    "floating_point_operations": 0,
+    "generator_families": 3,
+    "generic_exact_solver_invocations": 0,
+    "native_formula_constructions": 1,
+    "worlds": 1
+  },
+  "decision": "pass_native_newton_one_of_three_exact_two_rejected",
+  "first_blocker": "none_for_native_newton_candidate",
+  "phase_ledger": {
+    "atomic_unseal_batches": 1,
+    "candidate_set_frozen_before_unseal": true,
+    "frozen_candidates_sha256": "0b4c6b7d0eee0c9b68c023454e560165f7aa6b5d632693816935b9a8e36ae465",
+    "generation_events_before_unseal": 3,
+    "post_unseal_generation_count": 0,
+    "post_unseal_tuning_events": 0,
+    "pre_unseal_target_access_count": 0,
+    "target_records_unsealed": 1
+  },
+  "schema_version": "invariant-native-newton-blind-polynomial-tournament-result-1.0",
+  "scope": "one preregistered synthetic integer-polynomial world and three fixed non-Bayesian candidate constructors; one native Newton constructor recovers a formula from public rows without a generic exact solver; no generality, novelty, science, or promotion claim",
+  "source_bindings": {
+    "config": {
+      "file_sha256": "b35c1b0f31d80196c40b854bd9d4033724ebec787df92260dc2777c436aa0c57",
+      "path": "configs/native_newton_blind_polynomial_tournament.json"
+    },
+    "source": {
+      "file_sha256": "22814aff82ac347d142fac67538beb5e08b82e709580abd9d3c765c865e30374",
+      "path": "src/sigma_theory_compiler/native_newton_blind_polynomial_tournament.py"
+    },
+    "test": {
+      "file_sha256": "c8218e3dcd29c9961e59fa0114e97c37713735ec3aa7a7ee256f0bb0eec2367e",
+      "path": "tests/test_native_newton_blind_polynomial_tournament.py"
+    }
+  },
+  "unsealed_target": {
+    "coefficients": [
+      11,
+      -3,
+      0,
+      2,
+      -1
+    ],
+    "kind": "integer_polynomial",
+    "variable": "x"
+  },
+  "world": {
+    "public_rows": [
+      {
+        "value": 11,
+        "x": 0
+      },
+      {
+        "value": 9,
+        "x": 1
+      },
+      {
+        "value": 5,
+        "x": 2
+      },
+      {
+        "value": -25,
+        "x": 3
+      },
+      {
+        "value": -129,
+        "x": 4
+      }
+    ],
+    "public_rows_sha256": "d614727389b3514b7497f7bf7b0044b176ecf2316cfd0ace8d2b77acbcee2ffc",
+    "target_commitment_sha256": "727f1c8820c79467ce299001eae8b2ce3ecf61ee205c4d6016c7464549ce370d",
+    "world_id": "native.blind_polynomial.41041"
+  }
+}
