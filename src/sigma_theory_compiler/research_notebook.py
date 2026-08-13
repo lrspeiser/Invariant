@@ -2107,6 +2107,191 @@ def build_p10_inverse_product_replay_notebook(root: Path) -> ResearchNotebook:
     )
 
 
+def build_pother_arbitrary_background_leaf_derivative_notebook(
+    root: Path,
+) -> ResearchNotebook:
+    receipt_path = (
+        "runs/physics-language/"
+        "quartic-pother-arbitrary-background-leaf-derivative-gate/campaign.json"
+    )
+    result, binding = _load_sealed_receipt(root, receipt_path)
+    expected_counts = {
+        "P10_ordered_D2_roots_previously_sealed": 84,
+        "Pother_ordered_D2_roots_blocked_on_replay": 180,
+        "Pother_ordered_D2_roots_registered": 0,
+        "Pother_ordered_D2_roots_replay_ready": 180,
+        "Pother_target_records": 180,
+        "all_target_ordered_D2_roots_blocked": 180,
+        "all_target_ordered_D2_roots_registered": 84,
+        "complete_ordered_D2F_tensors_registered": 0,
+        "global_H7_closures": 0,
+        "lifespans_proved": 0,
+        "nonlinear_PDE_closures": 0,
+        "nonzero_Pother_leaf_derivative_roots": 156,
+        "registered_Pother_leaf_derivative_roots": 23760,
+        "selected_candidates": 12,
+        "unique_Pother_directions_per_candidate": 15,
+        "zero_Pother_leaf_derivative_roots": 23604,
+    }
+    packets = result["generic_tangent_packets"]
+    candidates = result["candidate_manifests"]
+    zero_directions = [
+        packet["coordinate_atom"] for packet in packets if packet["nonzero_leaf_derivatives"] == 0
+    ]
+    if (
+        result["decision"] != "pass_23760_Pother_leaf_roots_all_180_D2_records_replay_ready"
+        or result["decision_counts"] != {"blocked": 0, "pass": 12, "reject": 0}
+        or result["downstream_admission_counts"] != {"blocked": 12, "pass": 0, "reject": 0}
+        or result["gate_counts"] != expected_counts
+        or result["manifest_sha256"]
+        != "bda5fa2f03cee1f60e28a2be89ea8095d165999446ffd46ee55967a2717f1d43"
+        or len(packets) != 15
+        or zero_directions != ["s11[4]", "s22[7]"]
+        or sum(packet["total_leaf_derivatives"] for packet in packets) != 1980
+        or sum(packet["nonzero_leaf_derivatives"] for packet in packets) != 13
+        or sum(packet["zero_leaf_derivatives"] for packet in packets) != 1967
+        or any(
+            packet["total_leaf_derivatives"] != 132
+            or packet["nonzero_leaf_derivatives"] + packet["zero_leaf_derivatives"] != 132
+            for packet in packets
+        )
+        or result["registered_formula_bindings"]["metric_inverse_domain"]
+        != "g_is_nonsingular_and_gu_is_its_exact_inverse"
+        or result["registered_formula_bindings"]["registered_symbolic_principal_block_scope"]
+        is not True
+        or len(candidates) != 12
+        or any(
+            candidate["candidate_decision"] != "pass_Pother_leaf_derivatives_D2_replay_ready"
+            or candidate["candidate_rejection_authorized"] is not False
+            or candidate["unique_Pother_directions"] != 15
+            or candidate["registered_leaf_derivative_roots"] != 1980
+            or candidate["nonzero_leaf_derivative_roots"] != 13
+            or candidate["zero_leaf_derivative_roots"] != 1967
+            or candidate["Pother_target_records"] != 15
+            or candidate["Pother_ordered_D2_roots_replay_ready"] != 15
+            or candidate["Pother_ordered_D2_roots_registered"] != 0
+            or len(candidate["direction_packets"]) != 15
+            for candidate in candidates
+        )
+    ):
+        raise NotebookValidationError("Pother leaf derivative receipt boundary changed")
+    dag = result["leaf_derivative_arithmetic_DAG"]
+    if (
+        dag["node_count"] != 11
+        or dag["content_sha256"]
+        != "b91251c5cc660ec3444cd96750925eed814dba25d739b95cb618f97928ec1f5a"
+        or dag["allowed_operations"] != ["exact_sympy_rational_expression"]
+        or len(dag["nodes"]) != 11
+        or {key for key, value in result["claim_seals"].items() if value}
+        != {
+            "all_180_Pother_ordered_D2_records_replay_ready",
+            "all_23760_Pother_leaf_derivative_roots_registered",
+        }
+        or any(control != {"rejected": True} for control in result["exact_controls"].values())
+    ):
+        raise NotebookValidationError("Pother leaf DAG or claim boundary changed")
+    theorem = result["leaf_derivative_theorem"]
+    if (
+        theorem["name"]
+        != "coordinate_second_metric_to_Einstein_upper_to_registered_A_B_C_leaf_chain"
+        or theorem["zero_directions"] != ["s11[4]", "s22[7]"]
+        or "13 nonzero and 1,967 zero" not in theorem["exact_result"]
+        or "does not yet emit the 180 D2 replay roots" not in theorem["boundary"]
+    ):
+        raise NotebookValidationError("Pother leaf derivative theorem changed")
+    evidence = (receipt_path,)
+    cells = (
+        NotebookCell(
+            "The Pother composition question",
+            "After P10 replay, 15 Pother coordinate-second-metric directions per candidate "
+            "remained. This gate composes the registered nonlinear geometric map with the live "
+            "symbolic principal-block $A/B/C$ formulas where $g$ is nonsingular and $g^{-1}$ "
+            "is its exact inverse.",
+            evidence,
+        ),
+        NotebookCell(
+            "Register all fifteen direction chains",
+            "For each Pother direction, the receipt differentiates the metric-to-Ricci map, "
+            "raises indices to obtain the Einstein-upper tangent with the exact diagonal or "
+            "$\\sqrt2$ off-diagonal component weight, and applies the chain rule to the "
+            "registered $A/B/C$ block. Lower and upper Einstein components are not identified, "
+            "and inverse-metric dependence is retained.",
+            evidence,
+        ),
+        NotebookCell(
+            "Count the exact leaf roots",
+            "Each direction supplies 132 reachable leaf derivatives. Therefore one candidate has\n\n"
+            "$$15\\cdot132=1{,}980$$\n\n"
+            "registered roots: 13 nonzero and 1,967 zero. Across 12 candidates,\n\n"
+            "$$12\\cdot1{,}980=23{,}760,$$\n\n"
+            "with exactly 156 nonzero and 23,604 zero roots.",
+            evidence,
+        ),
+        NotebookCell(
+            "Two all-zero directions",
+            "The directions s11[4] and s22[7] each have zero Einstein-upper tangent in the "
+            "registered composition and consequently all 132 reachable leaf derivatives are "
+            "zero. These are exact derived zeros inside the bound formula scope, not defaults "
+            "for missing data.",
+            evidence,
+        ),
+        NotebookCell(
+            "Replay-ready is not replayed",
+            "Every candidate now has complete leaf inputs for all 15 Pother directions, so all "
+            "15 records per candidate—and all 180 records globally—are replay-ready. However, "
+            "the inverse/product $D^1$ DAG has not yet been replayed along these roots. Thus zero "
+            "of the 180 Pother ordered-$D^2$ roots is emitted. Readiness certifies the composition "
+            "input domain; it is not an arithmetic replay certificate.",
+            evidence,
+        ),
+        NotebookCell(
+            "The remaining boundary",
+            "The result is exact for the registered symbolic principal-block formula and inverse-"
+            "metric domain, but it is not a separately covariantized principal block. The total "
+            "ordered inventory remains 84 admitted P10 roots and 180 blocked Pother roots. "
+            "Complete $D^2F$, high-atom, global $H^7$, nonlinear PDE, lifespan, rejection, "
+            "observation, and physical no-go claims remain unavailable. The first blocker is\n\n"
+            f"{result['first_blocker']}.",
+            evidence,
+        ),
+    )
+    return ResearchNotebook(
+        notebook_id="quartic-pother-arbitrary-background-leaf-derivative-reconstruction-001",
+        title="Pother leaf derivatives close the remaining composition inputs",
+        verdict="proved",
+        source_bindings=(binding,),
+        claims=(
+            NotebookClaim(
+                "proved",
+                "Fifteen registered Pother directions yield 23,760 exact leaf roots: 156 nonzero and 23,604 zero.",
+                evidence,
+            ),
+            NotebookClaim(
+                "proved",
+                "All 180 Pother records are replay-ready, including two directions whose bound leaf derivatives are identically zero.",
+                evidence,
+            ),
+            NotebookClaim(
+                "blocked",
+                "Zero Pother ordered-D2 roots are emitted until the inverse-product D1 DAG is replayed.",
+                evidence,
+            ),
+            NotebookClaim(
+                "scope_limit",
+                "Composition readiness is not complete D2F, a global theorem, candidate rejection, or physical no-go.",
+                evidence,
+            ),
+        ),
+        cells=cells,
+        limits=(
+            "the notebook is a derived presentation of one sealed receipt, not an independent proof kernel",
+            "the formula chain is bound to the registered symbolic principal-block model and inverse-metric domain",
+            "replay-ready records are not ordered-D2 replay roots",
+            "complete D2F, high-atom, global H7, nonlinear PDE, lifespan, rejection, observation, and physical no-go remain fail-closed",
+        ),
+    )
+
+
 def write_notebook_pair(notebook: ResearchNotebook, output_stem: Path) -> tuple[Path, Path]:
     output_stem.parent.mkdir(parents=True, exist_ok=True)
     markdown_path = output_stem.with_suffix(".md")
@@ -2151,6 +2336,10 @@ def materialize_example_notebooks(root: Path, output: Path) -> tuple[Path, ...]:
         (
             "quartic-p10-inverse-product-d2-replay",
             build_p10_inverse_product_replay_notebook(root),
+        ),
+        (
+            "quartic-pother-arbitrary-background-leaf-derivatives",
+            build_pother_arbitrary_background_leaf_derivative_notebook(root),
         ),
     )
     paths: list[Path] = []

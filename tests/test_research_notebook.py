@@ -16,6 +16,7 @@ from sigma_theory_compiler.research_notebook import (
     build_ordered_mixed_d2_differentiability_notebook,
     build_p10_arbitrary_background_leaf_derivative_notebook,
     build_p10_inverse_product_replay_notebook,
+    build_pother_arbitrary_background_leaf_derivative_notebook,
     build_quartic_survivor_notebook,
     build_registered_variation_selection_notebook,
     materialize_example_notebooks,
@@ -49,6 +50,9 @@ P10_ARBITRARY_BACKGROUND_RECEIPT = (
 )
 P10_REPLAY_RECEIPT = (
     "runs/physics-language/quartic-p10-inverse-product-d2-replay-gate/campaign.json"
+)
+POTHER_LEAF_RECEIPT = (
+    "runs/physics-language/quartic-pother-arbitrary-background-leaf-derivative-gate/campaign.json"
 )
 EXISTING_NOTEBOOK_SHA256 = {
     "natural-sum-rediscovery.ipynb": (
@@ -98,6 +102,12 @@ EXISTING_NOTEBOOK_SHA256 = {
     ),
     "quartic-p10-arbitrary-background-leaf-derivatives.md": (
         "be34aa6eb7e3af80942db64a92bc1644f44fb0dfcb536bca0efef03132fbeb52"
+    ),
+    "quartic-p10-inverse-product-d2-replay.ipynb": (
+        "5372e1079ebc68f3227842e37539ed7f2e6bcd054a610144c69742cc06383e16"
+    ),
+    "quartic-p10-inverse-product-d2-replay.md": (
+        "9cf0ecbd0b42508af860918241f566085f486bfcd098b73310164e9a0074dfe1"
     ),
 }
 
@@ -375,6 +385,36 @@ def test_p10_replay_notebook_closes_subset_without_promoting_full_d2() -> None:
             "path": P10_REPLAY_RECEIPT,
             "file_sha256": ("2a9814a27123099b9e942bde72fa45fe8783e3ddde0743d080b17008dbb9318c"),
             "content_sha256": ("e02949cb28f43851483d2b0b6cb06c6710ac53a16f210150449d85ceb0ec92ba"),
+        }
+    ]
+    assert all(cell["cell_type"] == "markdown" for cell in render_ipynb(notebook)["cells"])
+
+
+def test_pother_leaf_notebook_marks_records_ready_but_not_replayed() -> None:
+    notebook = build_pother_arbitrary_background_leaf_derivative_notebook(ROOT)
+    value = notebook.to_dict()
+    validate_notebook(value)
+    markdown = render_markdown(notebook)
+    assert notebook.verdict == "proved"
+    assert "15 Pother coordinate-second-metric directions" in markdown
+    assert "15\\cdot132=1{,}980" in markdown
+    assert "12\\cdot1{,}980=23{,}760" in markdown
+    assert "156 nonzero and 23,604 zero" in markdown
+    assert "s11[4] and s22[7]" in markdown
+    assert "all 132 reachable leaf derivatives are zero" in markdown
+    assert "all 180 records globally—are replay-ready" in markdown
+    assert "zero of the 180 Pother ordered-$D^2$ roots is emitted" in markdown
+    assert "Readiness certifies the composition input domain" in markdown
+    assert "84 admitted P10 roots and 180 blocked Pother roots" in markdown
+    assert (
+        "replay_the_bound_inverse_product_D1_DAG_along_the_23760_registered_Pother_leaf_"
+        "roots_to_seal_the_remaining_180_ordered_D2_roots" in markdown
+    )
+    assert value["source_bindings"] == [
+        {
+            "path": POTHER_LEAF_RECEIPT,
+            "file_sha256": ("c687e15839628dcca3480740ea8ee568576461c200ce8937ab5499a71e9e49c2"),
+            "content_sha256": ("b2f4eacd73026bc92a057be0ad5340d487ef0ff3b18353e3412d7aea5475b670"),
         }
     ]
     assert all(cell["cell_type"] == "markdown" for cell in render_ipynb(notebook)["cells"])
