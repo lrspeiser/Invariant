@@ -467,6 +467,9 @@ def _run_theorem(executable: Path, root: Path) -> dict[str, Any]:
     with tempfile.TemporaryDirectory(prefix="invariant-lean-quartic-") as temp:
         path = Path(temp) / "ConstraintRecoveredQuarticIdentity.lean"
         path.write_text(source, encoding="utf-8", newline="\n")
+        (path.parent / "lean-toolchain").write_text(
+            "leanprover/lean4:v4.33.0\n", encoding="utf-8", newline="\n"
+        )
         return run_lean_adapter(_adapter_config(executable), path, environment={})
 
 
@@ -488,6 +491,9 @@ def _run_false_control(executable: Path) -> dict[str, Any]:
     with tempfile.TemporaryDirectory(prefix="invariant-lean-quartic-false-") as temp:
         path = Path(temp) / "FalseControl.lean"
         path.write_text(source, encoding="utf-8", newline="\n")
+        (path.parent / "lean-toolchain").write_text(
+            "leanprover/lean4:v4.33.0\n", encoding="utf-8", newline="\n"
+        )
         result = run_lean_adapter(
             _adapter_config(executable, target=FALSE_TARGET), path, environment={}
         )

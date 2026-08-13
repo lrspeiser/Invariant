@@ -5,7 +5,7 @@
 
 ## Evidence binding
 
-The source receipt is `runs/math/constraint-recovered-identity-breadth-lean-bridge/receipt.json` with content SHA-256 `e3283f0beae2bdfdacd2d5b0566915edcd40896b5766a2ac3bdef682e851bfd2` and canonical file SHA-256 `f21146124702a7f36faf7f3a3499ad07941348fcffedc7ed06bf3682b3fdd68c`. Its terminal decision is `pass_two_recovered_identities_replayed_and_quartic_checked_by_real_lean_kernel`.
+The source receipt is `runs/math/constraint-recovered-identity-breadth-lean-bridge/receipt.json` with content SHA-256 `9dd811f41264f98dd733b57d7feea580699990bf00c5208fa8adc0e5a913cec4` and canonical file SHA-256 `b5077b15dfff126c6db4e87b86d3a9cf65d15475098f43ac8b99ec5fc7d4b03a`. Its terminal decision is `pass_two_recovered_identities_replayed_and_quartic_checked_by_real_lean_kernel`.
 
 The receipt binds two recovered worlds, 14 lineage candidates, two exact symbolic certificates, two integer replays, one successful kernel theorem, and one rejected false control.
 
@@ -49,4 +49,4 @@ The negative control changed the constant coefficient from `-30` to `-29`. Lean 
 
 These are two synthetic identities recovered inside a preregistered exact grammar. The evidence establishes exact replay for both and a real Lean check for the quartic. It does not establish general formula discovery, mathematical novelty, scientific truth, physics truth, or promotion eligibility.
 
-Report content SHA-256: `1330166716fc95e8c32b19ce68324a73dadbfe45b9a4f843816c2ef6d544f963`.
+Report content SHA-256: `1be3f5355747cd749ccd14e1632aef73cb1a3446e9395075ba9e16b8836b4773`.

@@ -196,6 +196,9 @@ def test_optional_generated_sources_execute_in_real_lean(tmp_path: Path) -> None
         source_path = write_lean_source(
             translation, tmp_path / f"{translation['translation_kind']}.lean"
         )
+        (tmp_path / "lean-toolchain").write_text(
+            "leanprover/lean4:v4.33.0\n", encoding="utf-8", newline="\n"
+        )
         manifest = translation["premise_manifest"]
         config = LeanAdapterConfig(
             target=translation["target"],
