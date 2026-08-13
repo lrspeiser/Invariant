@@ -1,19 +1,19 @@
 {
   "aggregate_metrics": {
     "counts": {
-      "implemented_controls": 4,
+      "implemented_controls": 5,
       "invalid_slots": 0,
-      "missing_slots": 196,
-      "ready_slots": 4,
+      "missing_slots": 195,
+      "ready_slots": 5,
       "registered_slots": 200
     },
     "coverage": {
       "coverage_denominator": 200,
-      "coverage_numerator": 4
+      "coverage_numerator": 5
     },
     "outcomes_from_validated_controls_only": {
       "blocked": 0,
-      "pass": 4,
+      "pass": 5,
       "reject": 0
     },
     "partitions": {
@@ -27,8 +27,8 @@
         },
         {
           "invalid": 0,
-          "missing": 96,
-          "ready": 4,
+          "missing": 95,
+          "ready": 5,
           "registered": 100,
           "value": "theorem_rediscovery"
         }
@@ -43,8 +43,8 @@
         },
         {
           "invalid": 0,
-          "missing": 97,
-          "ready": 3,
+          "missing": 96,
+          "ready": 4,
           "registered": 100,
           "value": "synthetic"
         }
@@ -73,8 +73,8 @@
         },
         {
           "invalid": 0,
-          "missing": 40,
-          "ready": 0,
+          "missing": 39,
+          "ready": 1,
           "registered": 40,
           "value": "geometry"
         },
@@ -89,8 +89,8 @@
       "level": [
         {
           "invalid": 0,
-          "missing": 37,
-          "ready": 3,
+          "missing": 36,
+          "ready": 4,
           "registered": 40,
           "value": 1
         },
@@ -151,15 +151,15 @@
   },
   "bindings": {
     "config": {
-      "file_sha256": "a819f5914a71dd92b007dd57898962685c8d88c51d2aaded60a12af3981afe8a",
+      "file_sha256": "4d723df8d11944cf8dfbad375a4c886e893f2bbcc8768a4b2c8bd60e0407f7ff",
       "path": "configs/math_benchmark_curriculum_v1.json"
     },
     "source": {
-      "file_sha256": "8d148eae44cbcfd32b248beb115d89520d1cc4b6299f1dba68ef9cf215ca1d7b",
+      "file_sha256": "30e073617d7669dfeee847a4a64d9ddd7ed4cf1a2cf622db61dd53ac8947b9a6",
       "path": "src/sigma_theory_compiler/math_benchmark_runner.py"
     },
     "test": {
-      "file_sha256": "0b90c765c3f7ed88b63e71be319fe854e56b72fe00e635d5dba7d37d2771abdc",
+      "file_sha256": "80e000456c755a3b4853d85dc2ed90a9773129b88c5ea828f84461ba6859b632",
       "path": "tests/test_math_benchmark_runner.py"
     }
   },
@@ -171,7 +171,7 @@
     "only_implemented_validated_benchmarks_marked_ready": true,
     "unregistered_results_admitted": false
   },
-  "content_sha256": "66d3a9cf619e20ce7d5c04cd4250953a4f295ce7a59b3e2195334bfd082395c8",
+  "content_sha256": "0e0e4d6d063fd094487289da7205a11972c9873e705ffb3fbee99c9c5bcfcefc",
   "curriculum_id": "math-benchmark-curriculum-v1",
   "curriculum_success": false,
   "decision": "not_ready_missing_or_invalid_benchmarks",
@@ -4485,24 +4485,40 @@
       "cohort": "synthetic",
       "domain": "geometry",
       "immutable_manifest_expectation": {
-        "artifact_path": null,
-        "content_sha256": null,
-        "file_sha256": null,
-        "registration_status": "missing",
-        "required": true
+        "artifact_path": "runs/math/synthetic-affine-geometry-holdout-world/campaign.json",
+        "benchmark_id": "synthetic-affine-geometry-holdout-world-001",
+        "content_sha256": "3a8d8e00e88debee66c8bb1cda747b1d9815cf88740b1b5bdeab2bf5c377ce4c",
+        "decision": "pass_one_of_one_synthetic_affine_geometry_holdout_rediscovered_and_proved",
+        "file_sha256": "566c71fc5cccdd26395f677ddf5fe64f0e77fadf8391d5b89172a10d5a9b2b49",
+        "outcome_counts": {
+          "blocked": 0,
+          "pass": 1,
+          "reject": 0
+        },
+        "required_claims": {
+          "complete_declared_intersection_bound_grammar_enumerated": true,
+          "exhaustive_distinct_line_pair_proof_completed": true,
+          "general_geometry_completeness_established": false,
+          "historical_novelty_established": false,
+          "post_unseal_equivalence_confirmed": true,
+          "reference_identity_absent_from_pre_unseal_payload": true,
+          "reference_payload_supplied_to_discovery": false,
+          "withheld_incidence_theorem_independently_rediscovered": true
+        },
+        "schema_version": "sigma-synthetic-affine-geometry-holdout-result-1.0"
       },
-      "implemented": false,
+      "implemented": true,
       "level": 1,
       "outcome_counts": {
         "blocked": 0,
-        "pass": 0,
+        "pass": 1,
         "reject": 0
       },
       "partition_ordinal": 1,
-      "reason": "no_immutable_result_registered",
+      "reason": "immutable_artifact_validated",
       "slot_id": "synthetic.geometry.theorem_rediscovery.l1.001",
       "slot_kind": "blind_holdout",
-      "status": "missing",
+      "status": "ready",
       "validation_errors": []
     },
     {

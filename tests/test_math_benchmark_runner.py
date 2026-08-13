@@ -48,25 +48,25 @@ def test_closed_registry_has_exactly_one_hundred_slots_per_cohort() -> None:
     assert all(slot["partition_ordinal"] in {1, 2} for slot in slots)
 
 
-def test_only_four_validated_controls_are_ready_and_196_are_explicitly_missing(
+def test_only_five_validated_controls_are_ready_and_195_are_explicitly_missing(
     checked: dict[str, object],
 ) -> None:
     metrics = checked["aggregate_metrics"]
     assert metrics["counts"] == {
         "registered_slots": 200,
-        "implemented_controls": 4,
-        "ready_slots": 4,
-        "missing_slots": 196,
+        "implemented_controls": 5,
+        "ready_slots": 5,
+        "missing_slots": 195,
         "invalid_slots": 0,
     }
-    assert metrics["coverage"] == {"coverage_numerator": 4, "coverage_denominator": 200}
+    assert metrics["coverage"] == {"coverage_numerator": 5, "coverage_denominator": 200}
     assert metrics["outcomes_from_validated_controls_only"] == {
-        "pass": 4,
+        "pass": 5,
         "reject": 0,
         "blocked": 0,
     }
     status_counts = Counter(slot["status"] for slot in checked["slots"])
-    assert status_counts == {"missing": 196, "ready": 4}
+    assert status_counts == {"missing": 195, "ready": 5}
     assert all(
         slot["reason"] == "no_immutable_result_registered"
         and slot["immutable_manifest_expectation"]
@@ -86,6 +86,7 @@ def test_only_four_validated_controls_are_ready_and_196_are_explicitly_missing(
         "synthetic.algebra.theorem_rediscovery.l1.001",
         "synthetic.combinatorics.theorem_rediscovery.l2.001",
         "synthetic.number_theory.theorem_rediscovery.l1.001",
+        "synthetic.geometry.theorem_rediscovery.l1.001",
     }
 
 
