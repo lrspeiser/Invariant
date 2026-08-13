@@ -1,0 +1,141 @@
+{
+  "arbitrary_background_certificate": {
+    "coordinate_device": "Riemann normal coordinates at an arbitrary point; tensorial vanishing then holds in every coordinate system on every smooth metric background",
+    "curvature_commutators_required": false,
+    "differential_bianchi_all_zero": true,
+    "differential_bianchi_residuals": 64,
+    "dimension": 4,
+    "field_strength_antisymmetry_all_zero": true,
+    "field_strength_antisymmetry_residuals": 16,
+    "identity": "nabla^mu T_mu_nu-F_nu_rho E^rho=0",
+    "identity_component_residual_monomials": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "identity_components_all_zero": true,
+    "independent_field_strength_components": 6,
+    "independent_symmetric_potential_second_jets": 40,
+    "metric_compatibility_use": "nabla g=0 removes metric-derivative terms and permits index movement",
+    "negative_control": {
+      "first_witness": {
+        "coefficient": "2",
+        "monomial": "F_01*S_0_01"
+      },
+      "mutation": "reverse the Hilbert stress trace-term sign",
+      "nonzero_components": 4,
+      "nonzero_monomials": 48,
+      "rejected": true
+    },
+    "signature": [
+      -1,
+      1,
+      1,
+      1
+    ]
+  },
+  "campaign_id": "maxwell-arbitrary-background-stress-divergence-gate-001",
+  "claims": {
+    "arbitrary_background_maxwell_hilbert_stress_divergence_closed": true,
+    "boundary_or_charge_control_established": false,
+    "coupled_gravity_matter_pde_closed": false,
+    "external_current_interface_closed": false,
+    "gravity_h7_theorem_established": false,
+    "promotion_authorized": false,
+    "registered_profile_controls_remain_corroboration_only": true,
+    "universal_matter_closure_established": false
+  },
+  "content_sha256": "1498bcf3654f052ce1b1cb41922915f15e1432bc8c7a220f6e01400d67a8018a",
+  "counts": {
+    "action_terms_specialized": 2,
+    "antisymmetry_residuals": 16,
+    "bianchi_residuals": 64,
+    "blocks": 0,
+    "dimensions": 4,
+    "independent_field_strength_components": 6,
+    "independent_potential_second_jets": 40,
+    "negative_controls": 1,
+    "negative_residual_components": 4,
+    "registered_controls": 4,
+    "rejects": 0,
+    "stress_identity_components": 4,
+    "stress_identity_residual_monomials": 0
+  },
+  "decision": "PASS_ARBITRARY_BACKGROUND_MAXWELL_STRESS_DIVERGENCE",
+  "gate_id": "dedicated_maxwell_hilbert_stress_noether_identity",
+  "massless_specialization": {
+    "dimension": 4,
+    "field_strength": "F_mu_nu=2 nabla_[mu A_nu]",
+    "hilbert_stress": "T_mu_nu=F_mu_rho F_nu^rho-g_mu_nu F_rho_sigma F^rho_sigma/4",
+    "mass_parameter": "m_A",
+    "mass_value": 0,
+    "removed_action_term": "PROCA_MASS",
+    "retained_action_term": "PROCA_F2",
+    "signature": [
+      -1,
+      1,
+      1,
+      1
+    ],
+    "vector_euler": "E^rho=nabla_mu F^(mu rho)"
+  },
+  "on_shell_conclusion": "nabla^mu T_mu_nu=0 for source-free Maxwell solutions E^rho=0",
+  "registered_controls": [
+    {
+      "name": "cadabra_proca_variation",
+      "scope": "Exact vector-field variation in flat derivative notation; metric variation is not included.",
+      "status": "pass"
+    },
+    {
+      "name": "cadabra_proca_metric_variation",
+      "scope": "Exact nonlinear matter metric variation; F_ab is connection independent by antisymmetry.",
+      "status": "pass"
+    },
+    {
+      "name": "proca_stress_noether_identity",
+      "scope": "Exact 4D Minkowski component identity for arbitrary smooth A_mu; curved-background executable reduction remains separate.",
+      "status": "pass"
+    },
+    {
+      "name": "proca_curved_background_noether_identity",
+      "scope": "Exact FLRW homogeneous-vector and static-spherical radial-vector controls; not every metric/profile.",
+      "status": "pass"
+    }
+  ],
+  "schema_version": "invariant-maxwell-arbitrary-background-stress-divergence-result-1.0",
+  "scope": "exact source-free Maxwell Hilbert-stress divergence identity on every smooth four-dimensional metric background and arbitrary local Maxwell potential jet; external currents, boundary charges, coupled gravity-matter PDE closure, H7, universal matter, and promotion remain outside scope",
+  "source_bindings": {
+    "config": {
+      "file_sha256": "dfcfabc3e8cc3d1062c8493940177c51963aeffe836af8b06f228d1b714dcb26",
+      "path": "configs/maxwell_arbitrary_background_hilbert_stress_divergence_gate.json"
+    },
+    "formal_controls": {
+      "content_sha256": "cbf2f085198ac29afce473ca39ac7f39681d5ec6b781ef67cfed9313c0a8a420",
+      "file_sha256": "1a121c66365e70aed1ee9b5e5803829b824ca57c4671ee61b6fa6bad1a1dd8e1",
+      "path": "runs/formal-controls-v1/formal-controls-portable.json"
+    },
+    "predecessor": {
+      "content_sha256": "9f432461209ee109ee85b9c493f96501ebb0b2f4ed45e2918a495007a9638ea3",
+      "file_sha256": "62a7f1f58fe1f1cc9cfdd17519ac875349b64831e9c2e6d7d2c24499ef7be0c4",
+      "path": "runs/math/maxwell-hilbert-noether-interface-gate/receipt.json"
+    },
+    "proca_action_ir": {
+      "content_sha256": "0ec3fd6c233855e1cabf767d35ea12729b1b75dbfb29d409066f4266004c7c0b",
+      "file_sha256": "951044da278d8a0f3aa53c2e1550a9bfc16618989d209e770b08e44b2b9cacf3",
+      "path": "runs/formal-controls-v1/action-health/proca_control/action-ir.json"
+    },
+    "registered_covariant_identity_source": {
+      "file_sha256": "ed05fe41d43ec606fa406d236e08c72c8702fa01f2e812a302d5edadba0d86b6",
+      "path": "src/sigma_theory_compiler/covariant_identities.py"
+    },
+    "source": {
+      "file_sha256": "34c5f74795d3056efed33a7d0f236e4ea1176d4a62b4140ffb6e931bc703e671",
+      "path": "src/sigma_theory_compiler/maxwell_arbitrary_background_hilbert_stress_divergence_gate.py"
+    },
+    "test": {
+      "file_sha256": "4d16cecc97560b4f1d14d1d5cd13536721331e1b5b47f73abd35ee5fc2f0fa74",
+      "path": "tests/test_maxwell_arbitrary_background_hilbert_stress_divergence_gate.py"
+    }
+  }
+}

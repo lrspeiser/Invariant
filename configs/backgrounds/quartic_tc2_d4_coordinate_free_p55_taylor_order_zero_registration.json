@@ -1,0 +1,43 @@
+{
+  "schema_version": "sigma-quartic-tc2-d4-coordinate-free-p55-taylor-order-zero-registration-config-1.0",
+  "policy": "register_only_exactly_derivable_P55_Taylor_orders_fail_closed",
+  "target": {
+    "required_symbolic_input_packets": 304,
+    "predecessor_registered_packets": 19,
+    "P55_Taylor_packets_required": 75,
+    "P55_order_zero_packets_expected": 15,
+    "expected_registered_packets": 34,
+    "expected_missing_packets": 270,
+    "required_output_rows": 117180
+  },
+  "upstreams": {
+    "predecessor": {
+      "path": "runs/physics-language/quartic-tc2-d4-coordinate-free-sphere-normal-form-reducer-registration/campaign.json",
+      "file_sha256": "03b399ed6817dbea87ab561ab70ef6c7e0a2fc7065fcf9e11108af667f116d7c",
+      "content_sha256": "2feafb6dfb1eb3a65035b337e780892ee36550f411be014492e9e3b89604c418"
+    },
+    "P55_checkpoint": {
+      "path": "runs/physics-language/quartic-tc2-d4-p55-checkpointable-materializer/result.json",
+      "file_sha256": "9e79245d45c248d5abf1b2fd11b12bb7ca0c857286d31f8bf46b7ec7c43490b2",
+      "content_sha256": "25ced42ac83bd592332f3d3a8bc97eeaac9c55b32ba4bb2be3e3da1fa6b503b7"
+    },
+    "polarization_selector": {
+      "path": "runs/physics-language/quartic-tc2-fourth-jet-range-obligation-campaign/campaign.json",
+      "file_sha256": "1bcdad6095cdb6ca483748da2ed08196ad8f5d73e4782586cd0c505991c03b05",
+      "content_sha256": "b87e76db34c828fe2d9ec1623c34af4ead33cd9f627140bc4dd776999ee9462e"
+    }
+  },
+  "polarization_source": {
+    "path": "src/sigma_theory_compiler/quartic_tc2_d4_parity_cubic_generic_direction_campaign.py",
+    "file_sha256": "02e10e12db83fd6120ae13f441f025598401aa5037ef7a53fbd43361c9cbfd4b",
+    "active_indices": [0, 2, 3, 9],
+    "required_functions": ["_generic_directional_packet", "_polarized_payload"]
+  },
+  "resource_caps": {
+    "maximum_axis_sparse_entries": 144,
+    "maximum_polarization_evaluations": 15,
+    "maximum_registered_Taylor_order": 0,
+    "maximum_output_rows_emitted": 0
+  },
+  "content_sha256": "5d51db14f2bb300216839daa544342a13348b4779d5332fa802603716106102c"
+}

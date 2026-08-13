@@ -29,11 +29,19 @@ P55_SPHERE_REDUCER_RECEIPT = ROOT / (
     "quartic-tc2-d4-coordinate-free-sphere-normal-form-reducer-registration/"
     "campaign.json"
 )
+P55_TAYLOR_ZERO_RECEIPT = ROOT / (
+    "runs/physics-language/"
+    "quartic-tc2-d4-coordinate-free-p55-taylor-order-zero-registration/"
+    "campaign.json"
+)
 BATCH_RECEIPT = ROOT / (
     "runs/engine/continuous-scientific-pipeline-epoch-003-formal-receipt-batch-0003/result.json"
 )
 NATIVE_RECEIPT = ROOT / "runs/math/native-newton-blind-polynomial-tournament/receipt.json"
 MAXWELL_RECEIPT = ROOT / "runs/math/maxwell-hilbert-noether-interface-gate/receipt.json"
+MAXWELL_ARBITRARY_RECEIPT = ROOT / (
+    "runs/math/maxwell-arbitrary-background-stress-divergence-gate/receipt.json"
+)
 FLUID_RECEIPT = ROOT / "runs/math/barotropic-irrotational-action-gate/receipt.json"
 FLUID_STRESS_RECEIPT = ROOT / (
     "runs/math/barotropic-irrotational-stress-conservation-gate/receipt.json"
@@ -46,6 +54,9 @@ FLUID_CONSTRAINT_RECEIPT = ROOT / (
 )
 CURRENT_OPERATIONAL_RECEIPT = ROOT / (
     "runs/engine/current-operational-scratch-recovery-campaign/result.json"
+)
+COMBINED_MATTER_RECEIPT = ROOT / (
+    "runs/math/combined-scalar-maxwell-fluid-gravity-interface-gate/receipt.json"
 )
 
 
@@ -83,7 +94,7 @@ def test_matter_and_p55_counts_are_projected_from_checked_receipts() -> None:
         "sector_rejects": 0,
         "sectors": 3,
     }
-    assert "7 PASS, 5 BLOCK, 0 REJECT" in text
+    assert "three-sector gate passes four interfaces" in text
 
     p55 = _load(P55_RECEIPT)
     assert p55["counts"]["required_matrix_packets"] == 3
@@ -127,7 +138,7 @@ def test_matter_and_p55_counts_are_projected_from_checked_receipts() -> None:
     assert normalization["counts"]["common_shape_factorization_nonzero_residuals"] == 0
     assert normalization["counts"]["emitted_output_rows"] == 0
     assert normalization["claims"]["full_direction_sphere_D4_compatibility_proved"] is False
-    assert "reached 18/304" in text
+    assert "candidate normalization and the sphere reducer reached 19/304" in text
     sphere = _load(P55_SPHERE_REDUCER_RECEIPT)
     assert sphere["status"] == (
         "block_coordinate_free_D4_recurrence_emitter_missing_285_symbolic_packets"
@@ -139,8 +150,19 @@ def test_matter_and_p55_counts_are_projected_from_checked_receipts() -> None:
     assert sphere["counts"]["sphere_generator_multiple_replays"] == 615
     assert sphere["counts"]["nonzero_replay_remainders"] == 0
     assert sphere["claims"]["full_direction_sphere_D4_compatibility_proved"] is False
-    assert "reaching 19/304" in text
-    assert "BLOCKED on 285" in text
+    assert "reached 19/304" in text
+    taylor_zero = _load(P55_TAYLOR_ZERO_RECEIPT)
+    assert taylor_zero["status"] == (
+        "block_coordinate_free_D4_recurrence_emitter_missing_270_symbolic_packets"
+    )
+    assert taylor_zero["counts"]["P55_axis_sparse_entries_consumed"] == 144
+    assert taylor_zero["counts"]["new_P55_Taylor_order_zero_packets_registered"] == 15
+    assert taylor_zero["counts"]["registered_symbolic_input_packets"] == 34
+    assert taylor_zero["counts"]["missing_symbolic_input_packets"] == 270
+    assert taylor_zero["counts"]["P55_Taylor_orders_missing"] == 4
+    assert taylor_zero["claims"]["P55_Taylor_orders_one_through_four_registered"] is False
+    assert "reaching 34/304" in text
+    assert "BLOCKED on 270" in text
 
 
 def test_continuous_cursor_counts_and_product_milestones_are_current() -> None:
@@ -194,8 +216,20 @@ def test_maxwell_followup_records_profile_success_and_arbitrary_background_block
     assert maxwell["counts"]["blocks"] == 1
     assert maxwell["claims"]["dedicated_maxwell_registered_profile_interface_closed"] is True
     assert maxwell["claims"]["dedicated_maxwell_arbitrary_background_interface_closed"] is False
-    assert "12 exact Noether residuals" in text
-    assert "arbitrary curved metric/profile closure remains one typed BLOCK" in text
+    assert "Maxwell now has an arbitrary-background Hilbert-stress identity" in text
+
+    arbitrary = _load(MAXWELL_ARBITRARY_RECEIPT)
+    assert arbitrary["decision"] == "PASS_ARBITRARY_BACKGROUND_MAXWELL_STRESS_DIVERGENCE"
+    assert arbitrary["counts"]["independent_field_strength_components"] == 6
+    assert arbitrary["counts"]["independent_potential_second_jets"] == 40
+    assert arbitrary["counts"]["stress_identity_components"] == 4
+    assert arbitrary["counts"]["stress_identity_residual_monomials"] == 0
+    assert arbitrary["counts"]["negative_residual_components"] == 4
+    assert (
+        arbitrary["claims"]["arbitrary_background_maxwell_hilbert_stress_divergence_closed"] is True
+    )
+    assert arbitrary["claims"]["coupled_gravity_matter_pde_closed"] is False
+    assert "48-monomial wrong-sign negative" in text
 
 
 def test_fluid_followups_close_action_and_stress_only() -> None:
@@ -235,8 +269,8 @@ def test_fluid_followups_close_action_and_stress_only() -> None:
     assert stress["claims"]["stress_conservation_gate_closed"] is True
     assert stress["claims"]["hyperbolicity_gate_closed"] is False
     assert stress["claims"]["constraint_propagation_gate_closed"] is False
-    assert "on-shell stress conservation" in text
-    assert "positive reduced Hamiltonian" in text
+    assert "pass their four bounded gates" in text
+    assert "one acoustic block" in text
 
     hyperbolicity = _load(FLUID_HYPERBOLICITY_RECEIPT)
     assert hyperbolicity["decision"] == "PASS_THIRD_GATE_ONLY"
@@ -255,7 +289,7 @@ def test_fluid_followups_close_action_and_stress_only() -> None:
     assert hyperbolicity["claims"]["irrotational_matter_hyperbolicity_gate_closed"] is True
     assert hyperbolicity["claims"]["constraint_propagation_gate_closed"] is False
     assert hyperbolicity["claims"]["coupled_gravity_matter_hyperbolicity_established"] is False
-    assert "`c_s^2=1/3`" in text
+    assert "`(|k|^2-omega^2)^5(|k|^2-3 omega^2)`" in text
 
     constraint = _load(FLUID_CONSTRAINT_RECEIPT)
     assert constraint["decision"] == "PASS_FOURTH_GATE_ZERO_INDEPENDENT_CONSTRAINTS"
@@ -264,7 +298,26 @@ def test_fluid_followups_close_action_and_stress_only() -> None:
     assert constraint["counts"]["definitional_identities_replayed"] == 3
     assert constraint["claims"]["matter_constraint_propagation_gate_closed_not_applicable"] is True
     assert constraint["claims"]["coupled_gravity_matter_constraint_algebra_established"] is False
-    assert "complete local irrotational-fluid matter ladder" in text
+    assert "irrotational `P(X)=kappa X^2` sector pass" in text
+
+    combined = _load(COMBINED_MATTER_RECEIPT)
+    assert combined["decision"] == "BOUNDED_PASS_MATTER_INTERFACE_WITH_TYPED_GRAVITY_BLOCK"
+    assert combined["counts"] == {
+        "acoustic_cone_components": 1,
+        "combined_interface_passes": 4,
+        "exact_combined_residuals": 4,
+        "gravity_interface_blocks": 1,
+        "internal_matter_constraints": 1,
+        "light_cone_components": 5,
+        "matter_second_order_components": 6,
+        "matter_sectors": 3,
+        "negative_controls": 2,
+        "rejects": 0,
+    }
+    assert combined["claims"]["combined_three_sector_matter_interface_closed"] is True
+    assert combined["claims"]["full_coupled_gravity_matter_principal_system_closed"] is False
+    assert combined["claims"]["gravity_constraint_propagation_closed"] is False
+    assert "six exact registrations" in text
 
 
 def test_current_scratch_recovery_is_measured_without_production_freshness_claim() -> None:

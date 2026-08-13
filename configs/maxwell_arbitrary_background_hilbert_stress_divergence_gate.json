@@ -1,0 +1,53 @@
+{
+  "schema_version": "invariant-maxwell-arbitrary-background-stress-divergence-config-1.0",
+  "campaign_id": "maxwell-arbitrary-background-stress-divergence-gate-001",
+  "output_path": "runs/math/maxwell-arbitrary-background-stress-divergence-gate/receipt.json",
+  "predecessor": {
+    "path": "runs/math/maxwell-hilbert-noether-interface-gate/receipt.json",
+    "file_sha256": "62a7f1f58fe1f1cc9cfdd17519ac875349b64831e9c2e6d7d2c24499ef7be0c4",
+    "content_sha256": "9f432461209ee109ee85b9c493f96501ebb0b2f4ed45e2918a495007a9638ea3",
+    "required_blocker": "missing_arbitrary_background_maxwell_stress_divergence_derivation"
+  },
+  "evidence_bindings": {
+    "formal_controls": {
+      "path": "runs/formal-controls-v1/formal-controls-portable.json",
+      "file_sha256": "1a121c66365e70aed1ee9b5e5803829b824ca57c4671ee61b6fa6bad1a1dd8e1",
+      "content_sha256": "cbf2f085198ac29afce473ca39ac7f39681d5ec6b781ef67cfed9313c0a8a420"
+    },
+    "proca_action_ir": {
+      "path": "runs/formal-controls-v1/action-health/proca_control/action-ir.json",
+      "file_sha256": "951044da278d8a0f3aa53c2e1550a9bfc16618989d209e770b08e44b2b9cacf3",
+      "content_sha256": "0ec3fd6c233855e1cabf767d35ea12729b1b75dbfb29d409066f4266004c7c0b"
+    },
+    "registered_covariant_identity_source": {
+      "path": "src/sigma_theory_compiler/covariant_identities.py",
+      "file_sha256": "ed05fe41d43ec606fa406d236e08c72c8702fa01f2e812a302d5edadba0d86b6"
+    }
+  },
+  "required_controls": [
+    "cadabra_proca_variation",
+    "cadabra_proca_metric_variation",
+    "proca_stress_noether_identity",
+    "proca_curved_background_noether_identity"
+  ],
+  "specialization": {
+    "dimension": 4,
+    "signature": [-1, 1, 1, 1],
+    "mass_parameter": "m_A",
+    "mass_value": 0,
+    "retained_action_term": "PROCA_F2",
+    "removed_action_term": "PROCA_MASS",
+    "field_strength": "F_mu_nu=2 nabla_[mu A_nu]",
+    "hilbert_stress": "T_mu_nu=F_mu_rho F_nu^rho-g_mu_nu F_rho_sigma F^rho_sigma/4",
+    "vector_euler": "E^rho=nabla_mu F^(mu rho)"
+  },
+  "claims_policy": {
+    "close_arbitrary_background_maxwell_stress_divergence": true,
+    "external_current": false,
+    "boundary_or_charge_control": false,
+    "coupled_gravity_matter_pde": false,
+    "gravity_h7": false,
+    "universal_matter": false,
+    "promotion": false
+  }
+}
