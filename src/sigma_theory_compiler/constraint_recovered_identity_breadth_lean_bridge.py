@@ -40,7 +40,7 @@ OUTPUT_PATH = "runs/math/constraint-recovered-identity-breadth-lean-bridge/recei
 TARGET = "Invariant.constraintRecoveredQuarticIdentity"
 FALSE_TARGET = "Invariant.constraintRecoveredQuarticFalseControl"
 CONFIG_SHA256 = "b60ae885dc5383dd2da5568b724168a84075d916cbc690fde152a7e0c3dab613"
-THEOREM_SHA256 = "a69db90b13c5d9acc63d0afbae0ab78fc520fa4e66910d533d3888a9441ea79e"
+THEOREM_SHA256 = "0f60af0e1bcc19e33d978ac35c2c56f35951195542163b17a2ca923beab19830"
 
 ALLOWED_PREMISES = (
     "Invariant.recoveredPolyAdd",
@@ -478,7 +478,7 @@ namespace Invariant
 
 theorem constraintRecoveredQuarticFalseControl :
     ([-30, -1, 0, 2, 1] : List Int) = [-29, -1, 0, 2, 1] := by
-  native_decide
+  decide
 
 end Invariant
 """
@@ -558,7 +558,7 @@ def build_live_receipt(
             "target": TARGET,
             "statement": "coefficient convolution of (x-2)(x+3)(x^2+x+5) equals [-30,-1,0,2,1]",
             "domain": "closed finite lists of integer coefficients in constant-first order",
-            "proof_method": "executable List Int coefficient convolution plus native_decide",
+            "proof_method": "executable List Int coefficient convolution plus decide",
             "source_sha256": _file_sha(theorem),
             "source_bytes_canonical_lf": len(_canonical_theorem_source(root).encode()),
             "sorry_or_axiom_used": False,

@@ -5,7 +5,7 @@
 
 ## Evidence binding
 
-The source receipt is `runs/math/constraint-recovered-identity-breadth-lean-bridge/receipt.json` with content SHA-256 `71aa8f2cbead7f0e292a4c4f0a3600acbc6501b16a692b5c9f32833286df15d7` and canonical file SHA-256 `73c22ad1ed32d6e7dd6e9756fac8768a27c5f2f40fa745f71cf37f7cebee2115`. Its terminal decision is `pass_two_recovered_identities_replayed_and_quartic_checked_by_real_lean_kernel`.
+The source receipt is `runs/math/constraint-recovered-identity-breadth-lean-bridge/receipt.json` with content SHA-256 `0fa4daf8321aed1a9d7c6b8924b1ca2c6b3d363daba5ad3f4497b8b11f99ed3b` and canonical file SHA-256 `17b1a85bc763247193db513a250144291d72f329fd0472451d304299808eb6f5`. Its terminal decision is `pass_two_recovered_identities_replayed_and_quartic_checked_by_real_lean_kernel`.
 
 The receipt binds two recovered worlds, 14 lineage candidates, two exact symbolic certificates, two integer replays, one successful kernel theorem, and one rejected false control.
 
@@ -37,7 +37,7 @@ The exact integer replay produced numerator coefficients `[127, 53, 6]` and deno
 
 ## 3. Independent Lean kernel check
 
-Lean 4.33.0 checked `Invariant.constraintRecoveredQuarticIdentity` with exit code 0. The theorem executes the same constant-first `List Int` convolution and proves the result with `native_decide`. The dependency audit closed over `Invariant.recoveredPolyAdd, Invariant.recoveredPolyMul, Invariant.recoveredPolyScale, of_decide_eq_true`; no `sorry` or user axiom was admitted.
+Lean 4.33.0 checked `Invariant.constraintRecoveredQuarticIdentity` with exit code 0. The theorem executes the same constant-first `List Int` convolution and proves the result with `decide`. The dependency audit closed over `Invariant.recoveredPolyAdd, Invariant.recoveredPolyMul, Invariant.recoveredPolyScale, of_decide_eq_true`; no `sorry` or user axiom was admitted.
 
 This Lean theorem checks the quartic coefficient identity independently of the recovery campaign's SymPy certificate. The partial-fraction identity is independently replayed by the bridge's closed integer arithmetic, but is not claimed here as a second Lean theorem.
 
@@ -49,4 +49,4 @@ The negative control changed the constant coefficient from `-30` to `-29`. Lean 
 
 These are two synthetic identities recovered inside a preregistered exact grammar. The evidence establishes exact replay for both and a real Lean check for the quartic. It does not establish general formula discovery, mathematical novelty, scientific truth, physics truth, or promotion eligibility.
 
-Report content SHA-256: `aae2191df48f90b0cafff5136c1aa786b14d170390eac068d5fb38a43ae4f4e1`.
+Report content SHA-256: `a97fe961ddf87f6075d63b3d00180947beef4d413219ef2ad2b2bf770d1dbf2b`.

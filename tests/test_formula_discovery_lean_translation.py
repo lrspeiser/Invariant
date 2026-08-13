@@ -188,6 +188,8 @@ def test_optional_generated_sources_execute_in_real_lean(tmp_path: Path) -> None
     environment = _lean_environment()
     if environment is None:
         pytest.skip("Lean unavailable; deterministic source checks remain active")
+    executable = environment.get("INVARIANT_LEAN_EXECUTABLE") or shutil.which("lean")
+    assert executable is not None
     for problem in (_integer_polynomial_problem(), _nat_recurrence_problem()):
         result = _pass(problem)
         translation = translate_formula_discovery_pass(result, problem)
@@ -202,7 +204,7 @@ def test_optional_generated_sources_execute_in_real_lean(tmp_path: Path) -> None
             forbidden_prefixes=[
                 value.removesuffix(".") for value in manifest["forbidden_prefixes"]
             ],
-            executable=Path(environment["INVARIANT_LEAN_EXECUTABLE"]),
+            executable=Path(executable),
             timeout_seconds=30,
         )
         adapter = run_lean_adapter(config, source_path, environment={})

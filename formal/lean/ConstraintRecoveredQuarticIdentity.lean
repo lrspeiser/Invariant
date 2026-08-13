@@ -19,7 +19,7 @@ def recoveredPolyMul : List Int -> List Int -> List Int
 theorem constraintRecoveredQuarticIdentity :
     recoveredPolyMul (recoveredPolyMul [-2, 1] [3, 1]) [5, 1, 1] =
       [-30, -1, 0, 2, 1] := by
-  native_decide
+  decide
 
 end Invariant
 
