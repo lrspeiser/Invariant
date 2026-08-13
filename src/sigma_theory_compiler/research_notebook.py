@@ -2454,6 +2454,201 @@ def build_pother_inverse_product_replay_notebook(root: Path) -> ResearchNotebook
     )
 
 
+def build_full_d2f_typed_partition_row_extension_notebook(
+    root: Path,
+) -> ResearchNotebook:
+    receipt_path = (
+        "runs/physics-language/quartic-full-d2f-typed-partition-row-extension-gate/campaign.json"
+    )
+    result, binding = _load_sealed_receipt(root, receipt_path)
+    expected_partition = [
+        {
+            "block": "previous_row10_diagonal_slots",
+            "per_candidate": 22,
+            "status": "registered",
+        },
+        {
+            "block": "selected_rows0_to9_diagonal_slots",
+            "per_candidate": 220,
+            "status": "registered_here",
+        },
+        {
+            "block": "registered_direction_off_diagonal_pairs",
+            "per_candidate": 5082,
+            "status": "blocked_missing_cross_direction_leaf_jets",
+        },
+        {
+            "block": "registered_D1_unregistered_derivative",
+            "per_candidate": 31702,
+            "status": "blocked",
+        },
+        {
+            "block": "unregistered_D1_registered_derivative",
+            "per_candidate": 31702,
+            "status": "blocked",
+        },
+        {
+            "block": "both_directions_unregistered",
+            "per_candidate": 188771,
+            "status": "blocked",
+        },
+    ]
+    expected_counts = {
+        "H7_closures": 0,
+        "PDE_closures": 0,
+        "complete_D2F_tensors": 0,
+        "full_entries_per_candidate": 257499,
+        "newly_registered_all_candidates": 2640,
+        "newly_registered_per_candidate": 220,
+        "previously_registered_per_candidate": 22,
+        "registered_per_candidate": 242,
+        "remaining_per_candidate": 257257,
+    }
+    candidates = result["candidate_manifests"]
+    records = [
+        record for candidate in candidates for record in candidate["new_row_extension_records"]
+    ]
+    if (
+        result["decision"] != "pass_220_additional_records_per_candidate_full_D2F_blocked"
+        or result["decision_counts"] != {"blocked": 0, "pass": 12, "reject": 0}
+        or result["downstream_admission_counts"] != {"blocked": 12, "pass": 0, "reject": 0}
+        or result["gate_counts"] != expected_counts
+        or result["typed_full_domain_partition"] != expected_partition
+        or result["partition_sha256"]
+        != "d48ae51a4b886e6ec9f4db6eec3f2db60ccba2bdbba64c228846815a566f0166"
+        or result["manifest_sha256"]
+        != "18d58e116acda8f33996b1b26945c7b785ca616548e229d4d5dff12d45b76a28"
+        or sum(block["per_candidate"] for block in expected_partition) != 257499
+        or len(candidates) != 12
+        or len(records) != 2640
+        or any(
+            candidate["candidate_rejection_authorized"] is not False
+            or candidate["new_records"] != 220
+            or candidate["bounded_records_total"] != 242
+            or len(candidate["new_row_extension_records"]) != 220
+            for candidate in candidates
+        )
+        or any(
+            record["source_row"] not in range(10) or record["direction_slot"] not in range(22)
+            for record in records
+        )
+    ):
+        raise NotebookValidationError("full-D2F typed partition receipt boundary changed")
+    if {key for key, value in result["claim_seals"].items() if value} != {
+        "maximal_same_direction_row_extension_registered",
+        "typed_full_domain_partition_complete",
+    } or any(
+        result["claim_seals"][key]
+        for key in (
+            "candidate_rejected",
+            "complete_D2F",
+            "full_high_atom_identity",
+            "physical_no_go",
+        )
+    ):
+        raise NotebookValidationError("full-D2F typed partition claim boundary changed")
+    evidence = (receipt_path,)
+    table = (
+        "| Exact typed block | Entries/candidate | Status |\n"
+        "|---|---:|---|\n"
+        "| Prior row-10 diagonal slots | 22 | registered |\n"
+        "| Selected rows 0–9 diagonal slots | 220 | registered here |\n"
+        "| Registered-direction off-diagonal pairs | 5,082 | cross-direction jets missing |\n"
+        "| Registered $D^1$, derivative direction unregistered | 31,702 | blocked |\n"
+        "| Unregistered $D^1$, derivative direction registered | 31,702 | blocked |\n"
+        "| Both directions unregistered | 188,771 | blocked |"
+    )
+    cells = (
+        NotebookCell(
+            "The extension question",
+            "The previous theorem sealed 22 bounded row-10 entries per candidate. This gate "
+            "builds an exact typed partition of the entire ordered $11\\times153\\times153$ "
+            "domain, then admits the maximal same-direction extension available from the "
+            "already registered leaf derivatives.",
+            evidence,
+        ),
+        NotebookCell(
+            "Partition the full ordered domain",
+            table
+            + "\n\nThe six blocks are disjoint and exhaustive. Their counts sum exactly to\n\n"
+            "$$22+220+5{,}082+31{,}702+31{,}702+188{,}771=257{,}499"
+            "=11\\cdot153^2.$$",
+            evidence,
+        ),
+        NotebookCell(
+            "Extend the same-direction rows",
+            "Each of the 22 registered direction slots has an exact derivative along itself. "
+            "Applying those same-direction leaf jets to source rows 0 through 9 adds\n\n"
+            "$$22\\text{ directions}\\cdot10\\text{ rows}=220$$\n\n"
+            "sealed entries per candidate. Across 12 candidates the gate adds 2,640 exact "
+            "records.",
+            evidence,
+        ),
+        NotebookCell(
+            "Update the registered inventory",
+            "The 220 new records join the 22 previously sealed row-10 diagonal records:\n\n"
+            "$$22+220=242$$\n\n"
+            "registered entries per candidate. Hence the exact remaining inventory is\n\n"
+            "$$257{,}499-242=257{,}257.$$",
+            evidence,
+        ),
+        NotebookCell(
+            "The next bounded block",
+            "The next preregistered extension is the 5,082 ordered off-diagonal pairs among "
+            "already registered directions. Their primal $D^1$ roots and both direction labels "
+            "are known, but differentiation along the other direction requires cross-direction "
+            "leaf jets. Registering those jets would make this whole block replayable without "
+            "opening the larger unregistered-direction blocks.",
+            evidence,
+        ),
+        NotebookCell(
+            "The fail-closed boundary",
+            "A complete typed partition is an accounting theorem, not a complete $D^2F$ tensor. "
+            "Exactly 257,257 entries per candidate remain blocked, beginning with the 5,082 "
+            "cross-direction entries. Therefore the full high-atom identity, global $H^7$, "
+            "nonlinear PDE closure, lifespan, physical no-go, and candidate rejection all "
+            "remain unavailable. The first blocker is\n\n"
+            f"{result['first_blocker']}.",
+            evidence,
+        ),
+    )
+    return ResearchNotebook(
+        notebook_id="quartic-full-d2f-typed-partition-row-extension-reconstruction-001",
+        title="Typed full-D2F partition and maximal same-direction row extension",
+        verdict="proved",
+        source_bindings=(binding,),
+        claims=(
+            NotebookClaim(
+                "proved",
+                "Six exact typed blocks partition all 257,499 ordered D2F entries per candidate.",
+                evidence,
+            ),
+            NotebookClaim(
+                "proved",
+                "The same-direction rows 0–9 extension adds 220 entries per candidate, reaching 242 registered.",
+                evidence,
+            ),
+            NotebookClaim(
+                "blocked",
+                "The next 5,082 cross-direction entries require registered cross-direction leaf derivatives.",
+                evidence,
+            ),
+            NotebookClaim(
+                "scope_limit",
+                "Typed partition and row extension do not establish complete D2F, high-atom closure, a global theorem, or rejection.",
+                evidence,
+            ),
+        ),
+        cells=cells,
+        limits=(
+            "the notebook is a derived presentation of one sealed receipt, not an independent proof kernel",
+            "the registered extension uses only same-direction leaf jets for source rows 0 through 9",
+            "257,257 ordered entries per candidate remain outside the admitted inventory",
+            "complete D2F, high-atom, global H7, nonlinear PDE, lifespan, physical no-go, and rejection remain fail-closed",
+        ),
+    )
+
+
 def write_notebook_pair(notebook: ResearchNotebook, output_stem: Path) -> tuple[Path, Path]:
     output_stem.parent.mkdir(parents=True, exist_ok=True)
     markdown_path = output_stem.with_suffix(".md")
@@ -2506,6 +2701,10 @@ def materialize_example_notebooks(root: Path, output: Path) -> tuple[Path, ...]:
         (
             "quartic-pother-inverse-product-d2-replay",
             build_pother_inverse_product_replay_notebook(root),
+        ),
+        (
+            "quartic-full-d2f-typed-partition-row-extension",
+            build_full_d2f_typed_partition_row_extension_notebook(root),
         ),
     )
     paths: list[Path] = []

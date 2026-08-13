@@ -12,6 +12,7 @@ from sigma_theory_compiler.research_notebook import (
     build_action_jet_nonidentifiability_notebook,
     build_component_map_schema_ambiguity_notebook,
     build_flat_factorized_leaf_jet_d2_notebook,
+    build_full_d2f_typed_partition_row_extension_notebook,
     build_natural_sum_notebook,
     build_ordered_mixed_d2_differentiability_notebook,
     build_p10_arbitrary_background_leaf_derivative_notebook,
@@ -57,6 +58,9 @@ POTHER_LEAF_RECEIPT = (
 )
 POTHER_REPLAY_RECEIPT = (
     "runs/physics-language/quartic-pother-inverse-product-d2-replay-gate/campaign.json"
+)
+TYPED_PARTITION_RECEIPT = (
+    "runs/physics-language/quartic-full-d2f-typed-partition-row-extension-gate/campaign.json"
 )
 EXISTING_NOTEBOOK_SHA256 = {
     "natural-sum-rediscovery.ipynb": (
@@ -118,6 +122,12 @@ EXISTING_NOTEBOOK_SHA256 = {
     ),
     "quartic-pother-arbitrary-background-leaf-derivatives.md": (
         "9f16253d23f3d36257ab3e6b359b59c24108842ea9be9dd410d3ec9c25649351"
+    ),
+    "quartic-pother-inverse-product-d2-replay.ipynb": (
+        "abdc4af6715d3bf5f6b7b54d933b907b73de882585e2bbd3afd022832dee8ad6"
+    ),
+    "quartic-pother-inverse-product-d2-replay.md": (
+        "112c71281a09231e8c6456d2eed4e0d57636f0303f1a7691bc1d985e54f9e2a6"
     ),
 }
 
@@ -459,6 +469,41 @@ def test_pother_replay_notebook_closes_bounded_family_only() -> None:
             "path": POTHER_REPLAY_RECEIPT,
             "file_sha256": ("f29f10dacec37a235c3a8de5755876ab2a05b9bcb21f4e90a1b5d27f46fba6b8"),
             "content_sha256": ("8190747a51531a6debdbca68a63e9ebfc932ba2e5ebe6770d2a1d51f1514f472"),
+        }
+    ]
+    assert all(cell["cell_type"] == "markdown" for cell in render_ipynb(notebook)["cells"])
+
+
+def test_typed_partition_notebook_accounts_exact_row_extension() -> None:
+    notebook = build_full_d2f_typed_partition_row_extension_notebook(ROOT)
+    value = notebook.to_dict()
+    validate_notebook(value)
+    markdown = render_markdown(notebook)
+    assert notebook.verdict == "proved"
+    assert "six blocks are disjoint and exhaustive" in markdown
+    assert "| Prior row-10 diagonal slots | 22 | registered |" in markdown
+    assert "| Selected rows 0–9 diagonal slots | 220 | registered here |" in markdown
+    assert "| Registered-direction off-diagonal pairs | 5,082 |" in markdown
+    assert "| Registered $D^1$, derivative direction unregistered | 31,702 |" in markdown
+    assert "| Unregistered $D^1$, derivative direction registered | 31,702 |" in markdown
+    assert "| Both directions unregistered | 188,771 |" in markdown
+    assert "=11\\cdot153^2" in markdown
+    assert "22\\text{ directions}\\cdot10\\text{ rows}=220" in markdown
+    assert "gate adds 2,640 exact records" in markdown
+    assert "22+220=242" in markdown
+    assert "257{,}499-242=257{,}257" in markdown
+    assert "next preregistered extension is the 5,082 ordered off-diagonal" in markdown
+    assert "cross-direction leaf jets" in markdown
+    assert "full high-atom identity" in markdown
+    assert (
+        "register_cross_direction_leaf_derivatives_for_the_5082_registered_direction_off_"
+        "diagonal_entries_per_candidate" in markdown
+    )
+    assert value["source_bindings"] == [
+        {
+            "path": TYPED_PARTITION_RECEIPT,
+            "file_sha256": ("9502843234509a4ddd21631acdfe412d0f17fe3552d7c9cac0daf7fb1475190a"),
+            "content_sha256": ("76eff324a16396dfbeee91552220b26dd745b3c22aa5dd6fb9538fffa843bece"),
         }
     ]
     assert all(cell["cell_type"] == "markdown" for cell in render_ipynb(notebook)["cells"])
