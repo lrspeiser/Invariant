@@ -1742,6 +1742,23 @@ source/config/test hashes are `ff6f11a7b4b5bbc90b418fcee90e5025c7e4bb8f78769243f
 `692846027fce5beb7ac212a710c15e212507ce8670f99decbfbfe13233a79670` /
 `05c358de6991e4abf5d452feb4852a8fbca36cb55ed121bbd17bf93bb2d4b977`.
 
+The action-jet nonidentifiability gate now sharpens that boundary. Each of the 22 fitted coordinates
+has registered values `beta*g` only at `g in {-1,-1/2,1/2,1}`. For every coordinate,
+`beta*g + lambda_i*(g+1)*(g+1/2)*(g-1/2)*(g-1)` agrees at all four registered values for every
+`lambda_i`, while both its first and second derivatives change at every grid point. The gate replays
+88 value equalities and certifies 88 nonidentified first-jet plus 88 nonidentified second-jet
+samples, giving an exact 22-parameter ambiguity family. The finite-grid theorem passes for all 12
+candidates, but downstream admission remains blocked for all 12: it selects no covariant functor,
+registers no corrected second-source jet, admits no D2F entry, and proves no H7/PDE/lifespan claim.
+This is an identifiability obstruction in the registered evidence, not a physical no-go or candidate
+rejection. The first blocker is a registered local covariant variation rule or corrected
+second-source jet values that select one extension. Artifact file/content hashes are
+`e0b87eb270d73f1fa7acb1ff31e0f234a545cf80c383fac21ffa0abc390a902b` /
+`b73d3bb175cf008f080ac900c0aed7f463f341d8efc8ebd4cdc4a8fbc3b6de21`;
+source/config/test hashes are `fbcce952946ae272e220f69fb63d774fd01a765a8e4d9ab44d3f161635b24d6e` /
+`98ee61d5938dbef6dfabcbd536dc1f29409c6805b8a9e0648fedde1c0d46d5f5` /
+`3d8e781b2e164b3634094217fd58bffe39945ed733ed4650f6ebbca8afb978ea`.
+
 The component campaign now proves every entry of the principal identity
 `D_Y E55 J = i P55` for all 12 candidates and materializes the complete first source Jacobian.
 Its 1,089 principal and 594 lower entries form an exact arithmetic-only `11 x 153` manifest with

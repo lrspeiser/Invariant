@@ -49,6 +49,7 @@ jobs:
           src/sigma_theory_compiler/cross_domain_candidate_generator.py
           src/sigma_theory_compiler/llm_candidate_generator.py
           src/sigma_theory_compiler/candidate_knowledge_graph.py
+          src/sigma_theory_compiler/equation_universe_knowledge_adapter.py
           src/sigma_theory_compiler/candidate_pareto_explanations.py
           src/sigma_theory_compiler/candidate_evaluation_ladder.py
           src/sigma_theory_compiler/anonymous_natural_sum_blind_rediscovery.py
@@ -74,6 +75,7 @@ jobs:
           tests/test_cross_domain_candidate_generator.py
           tests/test_llm_candidate_generator.py
           tests/test_candidate_knowledge_graph.py
+          tests/test_equation_universe_knowledge_adapter.py
           tests/test_candidate_pareto_explanations.py
           tests/test_candidate_evaluation_ladder.py
           tests/test_anonymous_natural_sum_blind_rediscovery.py
@@ -102,6 +104,7 @@ jobs:
           tests/test_cross_domain_candidate_generator.py
           tests/test_llm_candidate_generator.py
           tests/test_candidate_knowledge_graph.py
+          tests/test_equation_universe_knowledge_adapter.py
           tests/test_candidate_pareto_explanations.py
           tests/test_candidate_evaluation_ladder.py
           tests/test_anonymous_natural_sum_blind_rediscovery.py
@@ -183,13 +186,16 @@ jobs:
           python -m ruff check
           src/sigma_theory_compiler/continuous_scientific_pipeline_formal_receipt_batch_0002.py
           src/sigma_theory_compiler/quartic_fitted_output_connection_action_feature_factorization_gate.py
+          src/sigma_theory_compiler/quartic_fitted_output_connection_action_jet_nonidentifiability_gate.py
           tests/test_continuous_scientific_pipeline_formal_receipt_batch_0002.py
           tests/test_quartic_fitted_output_connection_action_feature_factorization_gate.py
+          tests/test_quartic_fitted_output_connection_action_jet_nonidentifiability_gate.py
       - name: Verify isolated lane artifacts
         run: >-
           python -m pytest
           tests/test_continuous_scientific_pipeline_formal_receipt_batch_0002.py
           tests/test_quartic_fitted_output_connection_action_feature_factorization_gate.py
+          tests/test_quartic_fitted_output_connection_action_jet_nonidentifiability_gate.py
           -vv --durations=20
 
   lfs-integrity:

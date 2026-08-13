@@ -251,3 +251,13 @@ implemented controls are ready; 198 slots are explicitly missing. The aggregate 
 No benchmark-wide success is claimed until every holdout has an immutable manifest, an isolated
 generation closure, deterministic replay, negative controls, and independently validated proof and
 dependency receipts.
+
+## Equation-corpus bridge
+
+The production Equation Universe now has a read-only JSON bridge into the Sigma Core candidate
+knowledge graph. It imports the audited seed, source policy, and audit report—never SQLite—and
+materializes nine source definitions, 18 identity artifacts, three derivations, one semantic
+equivalence witness, 31 graph nodes, and 36 edges. All artifacts retain exact `ProvenanceRecord`
+bindings. Lookup results are limited to presence or absence in this registered corpus; they do not
+claim novelty, proof, validity, or promotion. This makes the prior-art check usable by the candidate
+generator and notebook layers without weakening Sigma Core's fail-closed boundary.
