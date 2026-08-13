@@ -1,0 +1,127 @@
+{
+  "schema_version": "sigma-prospective-non-bayesian-recovery-config-1.0",
+  "campaign_id": "prospective-non-bayesian-recovery-audit-001",
+  "source_bindings": {
+    "ablation_artifact": {
+      "path": "runs/math/prospective-tournament-robustness-ablation/campaign.json",
+      "file_sha256": "0660c4fa383e422888803da6751dedde1326155cb3bc959c0dd46e5909c55160",
+      "content_sha256": "8f735fd9f196c25928d30165e7bf1f9d40f270178ed93546de7614ec2fa5f6d4"
+    },
+    "ablation_config": {
+      "path": "configs/prospective_tournament_robustness_ablation.json",
+      "file_sha256": "30f094d557d5a7029c99a7e8ad3cf63fb24a3a2963256173871fd26ebf94640c",
+      "content_sha256": null
+    },
+    "ablation_source": {
+      "path": "src/sigma_theory_compiler/prospective_tournament_robustness_ablation.py",
+      "file_sha256": "8a022622ca17b6bd89b791f9cbd01466f4677f9e3be6b5caac62a33979b5df6c",
+      "content_sha256": null
+    },
+    "ablation_test": {
+      "path": "tests/test_prospective_tournament_robustness_ablation.py",
+      "file_sha256": "a9fdfa65cb6a6ad07f7c99387ad097821628548dddc124b437e21ea162238758",
+      "content_sha256": null
+    },
+    "tournament_artifact": {
+      "path": "runs/math/prospective-blind-cross-generator-tournament/campaign.json",
+      "file_sha256": "6f8b26b4d8bb9b088df6ef8f640f6fab775da1f9e0acc35dd9927eab10922339",
+      "content_sha256": "2e4a49cc192cfbeba2b66ae616bd817b70034752581a9f2058826a552f1a315a"
+    },
+    "tournament_config": {
+      "path": "configs/prospective_blind_cross_generator_tournament.json",
+      "file_sha256": "bdeb2a109c649aaddbb77d58807e340f32ebaf9865a7a28a1d3c8f21c4d45b01",
+      "content_sha256": null
+    },
+    "tournament_source": {
+      "path": "src/sigma_theory_compiler/prospective_blind_cross_generator_tournament.py",
+      "file_sha256": "000f06368d80d451f3ad6cb678a2f3321130b32de300ba9b0ca274d0537ad8cc",
+      "content_sha256": null
+    },
+    "tournament_test": {
+      "path": "tests/test_prospective_blind_cross_generator_tournament.py",
+      "file_sha256": "b8236bfa96d5a3fdf3e3084c8ce5018cbf3a25523bbd7350b56e72a6248159b3",
+      "content_sha256": null
+    }
+  },
+  "excluded_families": [
+    "bayesian"
+  ],
+  "repair_families": {
+    "cross_domain": "sha256_counter_inventory_breadth_v1",
+    "egraph": "sha256_counter_inventory_breadth_v1",
+    "evolutionary": "sha256_counter_inventory_breadth_v1",
+    "grammar": "sha256_counter_inventory_breadth_v1",
+    "llm": "sha256_counter_inventory_breadth_v1",
+    "symbolic": "sha256_counter_inventory_breadth_v1"
+  },
+  "repair_contract": {
+    "repair_id": "sha256_counter_inventory_breadth_v1",
+    "input_fields": [
+      "family",
+      "frozen_candidate_ref",
+      "ordinal",
+      "public_world_sha256",
+      "repair_id"
+    ],
+    "target_fields": [],
+    "ordinals": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "hypothesis_inventory_size": 11,
+    "digest_prefix_hex_chars": 16
+  },
+  "frozen_worlds": [
+    {
+      "world_id": "prospective.graph_parity",
+      "public_seed": "prospective-world-weave-20260813",
+      "public_world_sha256": "71163a4ff6aabb81ebb8881976183bcb757a43cc08e43668e3344000293aa869",
+      "sealed_target_sha256": "a2464946dbc725622418a0871e03b4acb88da9737c3f1f4e70a9250c9f367ba7",
+      "candidates": [
+        {"family": "bayesian", "artifact_id": "sig-3d3cf3f6630080ae90fd28ef", "content_sha256": "3d3cf3f6630080ae90fd28efc57c0a4500b5a48316fcdb872f7874bdaa175ba0", "hypothesis": 6},
+        {"family": "cross_domain", "artifact_id": "sig-bfba88f7c0f251c0577b5c70", "content_sha256": "bfba88f7c0f251c0577b5c70bea14508fa3ab0582695f9034d3104374ccaff82", "hypothesis": 2},
+        {"family": "egraph", "artifact_id": "sig-3a59a8072c914a05a96c1b36", "content_sha256": "3a59a8072c914a05a96c1b366cd164593117296944114df86b61d61a6a22965b", "hypothesis": 0},
+        {"family": "evolutionary", "artifact_id": "sig-a4e915bc27eea9e7133f8f31", "content_sha256": "a4e915bc27eea9e7133f8f31575afa10dc4539de7ffb30ec15a15aecf8ecdc40", "hypothesis": 1},
+        {"family": "grammar", "artifact_id": "sig-cdbb678fdbff0e82e67d92b4", "content_sha256": "cdbb678fdbff0e82e67d92b47571e90f2599e21d5e03d6f3e3a3aa8c8d039ed8", "hypothesis": 1},
+        {"family": "llm", "artifact_id": "sig-3535af12b1610e37662b550d", "content_sha256": "3535af12b1610e37662b550d4edb38752034ff6ddd9a3995b6d7bf6d0558e090", "hypothesis": 0},
+        {"family": "symbolic", "artifact_id": "sig-4e62ce286c6e5d9a0a6bf04b", "content_sha256": "4e62ce286c6e5d9a0a6bf04bf335c578aa83a212b0ade048a73484f509a85dd9", "hypothesis": 4}
+      ]
+    },
+    {
+      "world_id": "prospective.modular_affine",
+      "public_seed": "prospective-world-arc-20260813",
+      "public_world_sha256": "9780d9d65b9c1c60c7d1a216996c19d1113285a1668aabd5f52beeefa5e948a0",
+      "sealed_target_sha256": "6dc10af7a574e74b07051e2c87975fae9abcba277fb7825aa620dd74c2358709",
+      "candidates": [
+        {"family": "bayesian", "artifact_id": "sig-7cc2f35d0be2ea2aef649927", "content_sha256": "7cc2f35d0be2ea2aef649927bccc5132df82241d5f53fb638befadca3a1e5410", "hypothesis": 7},
+        {"family": "cross_domain", "artifact_id": "sig-499004aca9b71cae7ac4fc97", "content_sha256": "499004aca9b71cae7ac4fc97423f0263e608ca0ee887b25c4b828f01c645eab1", "hypothesis": 6},
+        {"family": "egraph", "artifact_id": "sig-90d7aa29f9be588fa0b20ebc", "content_sha256": "90d7aa29f9be588fa0b20ebcbdb4cb58c37555708f60b2dd39d3ceb7872b46c9", "hypothesis": 6},
+        {"family": "evolutionary", "artifact_id": "sig-125af7ba6fc9c27fa82fa66a", "content_sha256": "125af7ba6fc9c27fa82fa66a29032436456ef81a82d5292fd87cabe5ffdcc9ca", "hypothesis": 2},
+        {"family": "grammar", "artifact_id": "sig-02d15b9381e1c6199aa39282", "content_sha256": "02d15b9381e1c6199aa39282c32b6a7bb97c98b830af948d9ed3dd61578e1a04", "hypothesis": 9},
+        {"family": "llm", "artifact_id": "sig-fbca552790a8608dccbcb9db", "content_sha256": "fbca552790a8608dccbcb9dbb476edacf7dfd665769fc13b6aa612e9c073b585", "hypothesis": 0},
+        {"family": "symbolic", "artifact_id": "sig-76e4650eda8939f2da798fd2", "content_sha256": "76e4650eda8939f2da798fd213ec9857f164fe64da81a8a48e212c836180b026", "hypothesis": 6}
+      ]
+    }
+  ],
+  "budgets": {
+    "maximum_repaired_candidates_per_family_world": 4,
+    "maximum_repaired_candidates_total": 48,
+    "maximum_gate_checks": 96,
+    "required_pass_worlds": 2
+  },
+  "policies": {
+    "new_target_access": "forbidden_frozen_receipt_only",
+    "post_design_tuning": "forbidden",
+    "network_access": "forbidden",
+    "live_sqlite_access": "forbidden",
+    "runtime_process_control": "forbidden",
+    "bayesian_repair": "excluded",
+    "repair_establishes_prospective_success": false,
+    "repair_establishes_truth": false,
+    "repair_establishes_novelty": false,
+    "repair_authorizes_promotion": false
+  },
+  "snapshot_sha256": "de7cbef5bfe9014796004f5342e3a217265425661f412decab17f789daf98bd0"
+}
