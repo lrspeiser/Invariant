@@ -10,6 +10,12 @@ This repository is the canonical home of the former
 outputs, and Git LFS data were migrated from `lrspeiser/sigmagravity`; see
 [`docs/provenance/INVARIANT_MIGRATION.md`](docs/provenance/INVARIANT_MIGRATION.md).
 
+Current development is organized around a breadth-first
+[`comprehensive alpha`](docs/COMPREHENSIVE_ALPHA.md): one replayable vertical slice for every major
+generator, verifier, scheduler, accelerator, and observational adapter before deeper domain
+exhaustion resumes. The milestone distinguishes implementation, end-to-end exercise, and scientific
+validation so systems progress cannot be mistaken for a theorem or empirical claim.
+
 ## Billion-scale Generator v2 milestone
 
 The compiled Generator v2 has now traversed the complete frozen space of **1,088,651,720 sparse actions** in 94.1 seconds, applying deterministic action-level structural and sampled-static Hessian gates to every action. The 4.07 MB manifest accounts for every candidate through fixed SHA-256 block commitments. Independent Python/SymPy checks pass.
