@@ -56,6 +56,8 @@ jobs:
           src/sigma_theory_compiler/anonymous_natural_sum_blind_rediscovery.py
           src/sigma_theory_compiler/synthetic_finite_algebra_holdout_world.py
           src/sigma_theory_compiler/synthetic_graph_cut_holdout_world.py
+          src/sigma_theory_compiler/synthetic_modular_exponent_holdout_world.py
+          src/sigma_theory_compiler/synthetic_affine_geometry_holdout_world.py
           tests/test_sigma_core.py
           tests/test_math_types.py
           tests/test_math_expression_ir.py
@@ -83,6 +85,8 @@ jobs:
           tests/test_anonymous_natural_sum_blind_rediscovery.py
           tests/test_synthetic_finite_algebra_holdout_world.py
           tests/test_synthetic_graph_cut_holdout_world.py
+          tests/test_synthetic_modular_exponent_holdout_world.py
+          tests/test_synthetic_affine_geometry_holdout_world.py
       - name: Verify Sigma Core, Math Pack, and blind rediscovery
         run: >-
           python -m pytest
@@ -113,6 +117,57 @@ jobs:
           tests/test_anonymous_natural_sum_blind_rediscovery.py
           tests/test_synthetic_finite_algebra_holdout_world.py
           tests/test_synthetic_graph_cut_holdout_world.py
+          tests/test_synthetic_modular_exponent_holdout_world.py
+          tests/test_synthetic_affine_geometry_holdout_world.py
+          -q --durations=20
+
+  comprehensive-alpha:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: true
+          test: false
+          lint: false
+          use-github-cache: false
+      - name: Materialize registered provenance bytes
+        run: python scripts/materialize_hash_bound_worktree.py
+      - name: Install Invariant and test tools
+        run: python -m pip install --editable ".[dev]"
+      - name: Verify live Lean kernel and dependency closure
+        run: >-
+          python -m sigma_theory_compiler.lean_production_kernel_vertical_slice
+          --mode emit-live
+          --output "$RUNNER_TEMP/lean-live-receipt.json"
+      - name: Check comprehensive-alpha source
+        run: >-
+          python -m ruff check
+          src/sigma_theory_compiler/comprehensive_alpha_cross_generator_campaign.py
+          src/sigma_theory_compiler/alpha_operational_rehearsal.py
+          src/sigma_theory_compiler/alpha_observational_rehearsal.py
+          src/sigma_theory_compiler/lean_production_kernel_vertical_slice.py
+          src/sigma_theory_compiler/comprehensive_alpha_coverage_report.py
+          tests/test_comprehensive_alpha_cross_generator_campaign.py
+          tests/test_alpha_operational_rehearsal.py
+          tests/test_alpha_observational_rehearsal.py
+          tests/test_lean_production_kernel_vertical_slice.py
+          tests/test_comprehensive_alpha_coverage_report.py
+      - name: Verify comprehensive-alpha vertical slices
+        run: >-
+          python -m pytest
+          tests/test_comprehensive_alpha_cross_generator_campaign.py
+          tests/test_alpha_operational_rehearsal.py
+          tests/test_alpha_observational_rehearsal.py
+          tests/test_lean_production_kernel_vertical_slice.py
+          tests/test_comprehensive_alpha_coverage_report.py
           -q --durations=20
 
   portable-continuous-and-gates:

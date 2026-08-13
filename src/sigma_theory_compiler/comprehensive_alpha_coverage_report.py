@@ -29,7 +29,9 @@ from .generated_candidate_formula_gpu_stress_campaign import (
     validate_campaign as validate_gpu_campaign,
 )
 from .lean_production_kernel_vertical_slice import OUTPUT_PATH as LEAN_RECEIPT_PATH
-from .lean_production_kernel_vertical_slice import validate_receipt as validate_lean_receipt
+from .lean_production_kernel_vertical_slice import (
+    validate_checked_receipt as validate_lean_receipt,
+)
 from .math_benchmark_runner import OUTPUT_PATH as CURRICULUM_PATH
 from .math_benchmark_runner import validate_readiness
 from .math_known_identity_pipeline_control import OUTPUT_PATH as IDENTITY_PATH

@@ -56,7 +56,7 @@ The native known-identity result, deterministically rebuilt natural-sum Markdown
 | --- | --- | --- | --- |
 | `cross_generator` | `runs/math/comprehensive-alpha-cross-generator/campaign.json` | `914f289d9aec412fe87c2c282439dbacbf8b2337e0de56db6514271b06dbbf0c` | `f9a230c9658f4b795ae788e1d20d3d53bdd7f97c869d5d43a469ac8a2318e68a` |
 | `curriculum` | `runs/math/math-benchmark-curriculum-v1/readiness.json` | `7bd328b1ecd09959fc2985e4ec3bf1c52f72cb9d347fee1a4841176f7b5eb84b` | `0e0e4d6d063fd094487289da7205a11972c9873e705ffb3fbee99c9c5bcfcefc` |
-| `lean_kernel` | `runs/math/lean-production-kernel-vertical-slice/receipt.json` | `4015a690737bf0ee19d05f5096bc8cde5d673f0b6474886af9cc9bd0a74147fe` | `540e7348a77dc75719c4a1c92513459906d5981adaab7e53e05f2dce612430f0` |
+| `lean_kernel` | `runs/math/lean-production-kernel-vertical-slice/receipt.json` | `f34d10c772282ca8a832d848d29d90ee354a98371922d660daa38b4b105f530a` | `2ab97edf548703abfe05e03e606fbbd6842384f57ff82a5d306cbf15ac51bc55` |
 | `gpu_stress` | `runs/engine/generated-candidate-formula-gpu-stress-campaign.json` | `790a2b2cded482a4e3a564cfe7b97784e1f0955f3c5a2fc9a19d9a4a1fd8d779` | `2b86cb969e777999a104e1ae58020015056208a0db90b58c0a25b233ca062f65` |
 | `operational_rehearsal` | `sigma-alpha-operational-rehearsal-1.0` | n/a (owned ephemeral receipt) | `c129d4ed253695f8c31cc48ebe1ff414a70667b727391a52524896a1d80a5f55` |
 | `observational_rehearsal` | `sigma-alpha-observational-rehearsal-1.0` | n/a (in-memory synthetic receipt) | `a6f3237a917a99407ad0dd78ab78634a55b6ab4fdc134944af13989bb0831f8d` |
@@ -69,4 +69,4 @@ The native known-identity result, deterministically rebuilt natural-sum Markdown
 
 All eight bounded vertical slices are exercised, but the comprehensive-alpha exit gate is **not reached** by these receipts because a clean current CI/full-coverage test is not evidenced here. The 195 missing curriculum slots are a post-alpha limitation rather than an alpha-exit criterion. Synthetic observational controls do not admit real data or establish scientific support.
 
-Projection content SHA-256: `10adc23f0baf426d7beaaf3572f807adc28cfb9eb9688d29679c5011baf972db`.
+Projection content SHA-256: `fa849b40f64103fe7bcb0b2511a93048a52b4fa8d34b8699039af2541860a3cb`.
