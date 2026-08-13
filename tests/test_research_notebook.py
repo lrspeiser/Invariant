@@ -17,6 +17,7 @@ from sigma_theory_compiler.research_notebook import (
     build_p10_arbitrary_background_leaf_derivative_notebook,
     build_p10_inverse_product_replay_notebook,
     build_pother_arbitrary_background_leaf_derivative_notebook,
+    build_pother_inverse_product_replay_notebook,
     build_quartic_survivor_notebook,
     build_registered_variation_selection_notebook,
     materialize_example_notebooks,
@@ -53,6 +54,9 @@ P10_REPLAY_RECEIPT = (
 )
 POTHER_LEAF_RECEIPT = (
     "runs/physics-language/quartic-pother-arbitrary-background-leaf-derivative-gate/campaign.json"
+)
+POTHER_REPLAY_RECEIPT = (
+    "runs/physics-language/quartic-pother-inverse-product-d2-replay-gate/campaign.json"
 )
 EXISTING_NOTEBOOK_SHA256 = {
     "natural-sum-rediscovery.ipynb": (
@@ -108,6 +112,12 @@ EXISTING_NOTEBOOK_SHA256 = {
     ),
     "quartic-p10-inverse-product-d2-replay.md": (
         "9cf0ecbd0b42508af860918241f566085f486bfcd098b73310164e9a0074dfe1"
+    ),
+    "quartic-pother-arbitrary-background-leaf-derivatives.ipynb": (
+        "83f98fd725f2501aa69b42ac53c8fb62e81d506e493a9044f7a1dba1164ef77c"
+    ),
+    "quartic-pother-arbitrary-background-leaf-derivatives.md": (
+        "9f16253d23f3d36257ab3e6b359b59c24108842ea9be9dd410d3ec9c25649351"
     ),
 }
 
@@ -415,6 +425,40 @@ def test_pother_leaf_notebook_marks_records_ready_but_not_replayed() -> None:
             "path": POTHER_LEAF_RECEIPT,
             "file_sha256": ("c687e15839628dcca3480740ea8ee568576461c200ce8937ab5499a71e9e49c2"),
             "content_sha256": ("b2f4eacd73026bc92a057be0ad5340d487ef0ff3b18353e3412d7aea5475b670"),
+        }
+    ]
+    assert all(cell["cell_type"] == "markdown" for cell in render_ipynb(notebook)["cells"])
+
+
+def test_pother_replay_notebook_closes_bounded_family_only() -> None:
+    notebook = build_pother_inverse_product_replay_notebook(ROOT)
+    value = notebook.to_dict()
+    validate_notebook(value)
+    markdown = render_markdown(notebook)
+    assert notebook.verdict == "proved"
+    assert "121 entries from the common $A$ block" in markdown
+    assert "11 entries from one source column" in markdown
+    assert "$B_i$ leaf is matched only to $B_i$" in markdown
+    assert "$C_{ij}$ leaf only to the same $C_{ij}$" in markdown
+    assert "23,760 presented roots" in markdown
+    assert "15\\cdot12=180" in markdown
+    assert "156 replay roots are nonzero and 24" in markdown
+    assert "Pother result is 180 of 180" in markdown
+    assert "84+180=264" in markdown
+    assert "All 264 bounded row-10 ordered-$D^2$ targets" in markdown
+    assert "11\\cdot153\\cdot153=257{,}499" in markdown
+    assert "257{,}499-22=257{,}477" in markdown
+    assert "full high-atom identity" in markdown
+    assert "global $H^7$, nonlinear PDE closure" in markdown
+    assert (
+        "extend_beyond_the_22_bounded_row10_targets_to_the_remaining_257477_ordered_D2F_"
+        "entries_per_candidate_and_reconcile_the_full_high_atom_identity" in markdown
+    )
+    assert value["source_bindings"] == [
+        {
+            "path": POTHER_REPLAY_RECEIPT,
+            "file_sha256": ("f29f10dacec37a235c3a8de5755876ab2a05b9bcb21f4e90a1b5d27f46fba6b8"),
+            "content_sha256": ("8190747a51531a6debdbca68a63e9ebfc932ba2e5ebe6770d2a1d51f1514f472"),
         }
     ]
     assert all(cell["cell_type"] == "markdown" for cell in render_ipynb(notebook)["cells"])

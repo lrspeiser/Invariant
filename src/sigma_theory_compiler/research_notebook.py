@@ -2292,6 +2292,168 @@ def build_pother_arbitrary_background_leaf_derivative_notebook(
     )
 
 
+def build_pother_inverse_product_replay_notebook(root: Path) -> ResearchNotebook:
+    receipt_path = (
+        "runs/physics-language/quartic-pother-inverse-product-d2-replay-gate/campaign.json"
+    )
+    result, binding = _load_sealed_receipt(root, receipt_path)
+    expected_counts = {
+        "P10_ordered_D2_roots_previously_sealed": 84,
+        "Pother_direction_packets_replayed": 180,
+        "Pother_ordered_D2_roots_registered": 180,
+        "Pother_ordered_D2_roots_replayed": 180,
+        "all_bounded_target_ordered_D2_roots_blocked": 0,
+        "all_bounded_target_ordered_D2_roots_registered": 264,
+        "complete_ordered_D2F_tensors_registered": 0,
+        "global_H7_closures": 0,
+        "lifespans_proved": 0,
+        "nonlinear_PDE_closures": 0,
+        "nonzero_Pother_ordered_D2_roots": 156,
+        "presented_Pother_leaf_derivative_roots": 23760,
+        "selected_candidates": 12,
+        "zero_Pother_ordered_D2_roots": 24,
+    }
+    candidates = result["candidate_manifests"]
+    packets = [packet for candidate in candidates for packet in candidate["replay_packets"]]
+    records = [
+        record for candidate in candidates for record in candidate["ordered_Pother_D2_records"]
+    ]
+    if (
+        result["decision"] != "pass_all_180_Pother_roots_all_264_bounded_targets_sealed"
+        or result["decision_counts"] != {"blocked": 0, "pass": 12, "reject": 0}
+        or result["downstream_admission_counts"] != {"blocked": 12, "pass": 0, "reject": 0}
+        or result["gate_counts"] != expected_counts
+        or result["manifest_sha256"]
+        != "ac5975d648f52c8e2b6a8e3aa525ffea97f8ea81583e9c5e12f22b0d611d678a"
+        or len(candidates) != 12
+        or len(packets) != 180
+        or len(records) != 180
+        or sum(packet["nonzero_bound_leaf_derivative_count"] for packet in packets) != 156
+        or sum(record["D2_root_exactly_zero"] for record in records) != 24
+        or any(
+            candidate["candidate_decision"] != "pass_all_15_Pother_D2_roots_bounded_target_complete"
+            or candidate["candidate_rejection_authorized"] is not False
+            or candidate["Pother_ordered_D2_roots_registered"] != 15
+            or candidate["nonzero_Pother_ordered_D2_roots"] != 13
+            or candidate["zero_Pother_ordered_D2_roots"] != 2
+            or len(candidate["replay_packets"]) != 15
+            or len(candidate["ordered_Pother_D2_records"]) != 15
+            for candidate in candidates
+        )
+        or any(
+            record["root_status"] != "sealed_exact_registered_symbolic_background_merkle_replay"
+            for record in records
+        )
+    ):
+        raise NotebookValidationError("Pother replay receipt boundary changed")
+    if {key for key, value in result["claim_seals"].items() if value} != {
+        "Pother_ordered_D2_roots_registered",
+        "all_264_bounded_target_ordered_D2_roots_registered",
+        "exact_leaf_label_alignment_proved",
+    } or any(control != {"rejected": True} for control in result["exact_controls"].values()):
+        raise NotebookValidationError("Pother replay claim boundary changed")
+    theorem = result["replay_theorem"]
+    if (
+        theorem["name"] != "typed_B_i_C_ij_leaf_alignment_and_closed_forward_D1_replay"
+        or "121 A entries plus 11 typed B_i or C_ij" not in theorem["exact_result"]
+        or "156 are nonzero and 24" not in theorem["exact_result"]
+        or "all 264 bounded targets are sealed" not in theorem["exact_result"]
+        or "not the complete ordered 11x153x153 D2F tensor" not in theorem["boundary"]
+    ):
+        raise NotebookValidationError("Pother replay theorem changed")
+    evidence = (receipt_path,)
+    cells = (
+        NotebookCell(
+            "The completion question",
+            "The preceding gate supplied exact leaf roots for every Pother direction. This gate "
+            "checks their typed alignment against each live $D^1$ closure and performs the same "
+            "closed forward inverse/product replay that already sealed P10.",
+            evidence,
+        ),
+        NotebookCell(
+            "Align the typed leaf labels",
+            "Every Pother closure contains exactly 132 leaves: 121 entries from the common "
+            "$A$ block and 11 entries from one source column. The column label must preserve its "
+            "type: a $B_i$ leaf is matched only to $B_i$, and a $C_{ij}$ leaf only to the same "
+            "$C_{ij}$. These names are not interchangeable. Exact label equality aligns all "
+            "23,760 presented roots without inserting a zero or relabeling a component.",
+            evidence,
+        ),
+        NotebookCell(
+            "Replay all 180 Pother targets",
+            "There are 15 typed packets per candidate and 12 candidates, so\n\n"
+            "$$15\\cdot12=180.$$\n\n"
+            "Closed forward differentiation of the bound sum, negation, product, and quotient "
+            "DAG seals every packet. Exactly 156 replay roots are nonzero and 24 are the "
+            "canonical zero root, corresponding to two zero directions per candidate. Thus the "
+            "Pother result is 180 of 180.",
+            evidence,
+        ),
+        NotebookCell(
+            "Combine P10 and Pother",
+            "P10 previously contributed 84 sealed records. Adding the 180 Pother records gives\n\n"
+            "$$84+180=264.$$\n\n"
+            "All 264 bounded row-10 ordered-$D^2$ targets—22 per candidate—are now exactly "
+            "sealed, with zero bounded-target blockers. This is the completion theorem for the "
+            "declared target family.",
+            evidence,
+        ),
+        NotebookCell(
+            "Why bounded closure is not full D2F",
+            "A complete ordered tensor has $11\\cdot153\\cdot153=257{,}499$ entries per "
+            "candidate. Only the 22 bounded row-10 targets belong to this theorem, leaving\n\n"
+            "$$257{,}499-22=257{,}477$$\n\n"
+            "entries per candidate outside the admitted inventory. Their leaf alignments and "
+            "replay roots have not been established.",
+            evidence,
+        ),
+        NotebookCell(
+            "The remaining analytic boundary",
+            "The bounded closure does not register a complete ordered $D^2F$ tensor or reconcile "
+            "the full high-atom identity. Therefore global $H^7$, nonlinear PDE closure, "
+            "lifespan, observation, candidate rejection, and physical no-go claims remain "
+            "blocked for all 12 candidates. The first blocker is\n\n"
+            f"{result['first_blocker']}.",
+            evidence,
+        ),
+    )
+    return ResearchNotebook(
+        notebook_id="quartic-pother-inverse-product-d2-replay-reconstruction-001",
+        title="Exact Pother replay completes the bounded row-10 D2 family",
+        verdict="proved",
+        source_bindings=(binding,),
+        claims=(
+            NotebookClaim(
+                "proved",
+                "Exact typed B_i/C_ij alignment consumes all 23,760 Pother leaf roots and seals 180 of 180 replay targets.",
+                evidence,
+            ),
+            NotebookClaim(
+                "proved",
+                "Together with P10, all 264 bounded row-10 ordered-D2 targets are sealed.",
+                evidence,
+            ),
+            NotebookClaim(
+                "blocked",
+                "The remaining 257,477 ordered D2F entries per candidate and full high-atom identity are unregistered.",
+                evidence,
+            ),
+            NotebookClaim(
+                "scope_limit",
+                "Bounded row-10 closure is not complete D2F, a global theorem, candidate rejection, or physical no-go.",
+                evidence,
+            ),
+        ),
+        cells=cells,
+        limits=(
+            "the notebook is a derived presentation of one sealed receipt, not an independent proof kernel",
+            "typed B_i and C_ij source-column labels are preserved exactly during replay",
+            "the completion theorem covers only 22 bounded row-10 targets per candidate",
+            "complete D2F, full high-atom, global H7, nonlinear PDE, lifespan, rejection, observation, and physical no-go remain fail-closed",
+        ),
+    )
+
+
 def write_notebook_pair(notebook: ResearchNotebook, output_stem: Path) -> tuple[Path, Path]:
     output_stem.parent.mkdir(parents=True, exist_ok=True)
     markdown_path = output_stem.with_suffix(".md")
@@ -2340,6 +2502,10 @@ def materialize_example_notebooks(root: Path, output: Path) -> tuple[Path, ...]:
         (
             "quartic-pother-arbitrary-background-leaf-derivatives",
             build_pother_arbitrary_background_leaf_derivative_notebook(root),
+        ),
+        (
+            "quartic-pother-inverse-product-d2-replay",
+            build_pother_inverse_product_replay_notebook(root),
         ),
     )
     paths: list[Path] = []
