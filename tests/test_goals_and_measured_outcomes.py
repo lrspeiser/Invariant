@@ -34,6 +34,11 @@ P55_TAYLOR_ZERO_RECEIPT = ROOT / (
     "quartic-tc2-d4-coordinate-free-p55-taylor-order-zero-registration/"
     "campaign.json"
 )
+K55_SERIALIZATION_AUDIT_RECEIPT = ROOT / (
+    "runs/physics-language/"
+    "quartic-tc2-d4-coordinate-free-k55-taylor-order-zero-serialization-audit/"
+    "campaign.json"
+)
 BATCH_RECEIPT = ROOT / (
     "runs/engine/continuous-scientific-pipeline-epoch-003-formal-receipt-batch-0003/result.json"
 )
@@ -57,6 +62,9 @@ CURRENT_OPERATIONAL_RECEIPT = ROOT / (
 )
 COMBINED_MATTER_RECEIPT = ROOT / (
     "runs/math/combined-scalar-maxwell-fluid-gravity-interface-gate/receipt.json"
+)
+MATTER_COUPLING_CENSUS_RECEIPT = ROOT / (
+    "runs/math/quartic-twelve-candidate-matter-coupling-registration-census/receipt.json"
 )
 
 
@@ -94,7 +102,7 @@ def test_matter_and_p55_counts_are_projected_from_checked_receipts() -> None:
         "sector_rejects": 0,
         "sectors": 3,
     }
-    assert "three-sector gate passes four interfaces" in text
+    assert "combined three-sector gate passes" in text
 
     p55 = _load(P55_RECEIPT)
     assert p55["counts"]["required_matrix_packets"] == 3
@@ -124,7 +132,7 @@ def test_matter_and_p55_counts_are_projected_from_checked_receipts() -> None:
     assert recurrence["counts"]["emitted_output_rows"] == 0
     assert recurrence["counts"]["phase_two_solve_attempts"] == 0
     assert recurrence["claims"]["full_direction_sphere_D4_compatibility_proved"] is False
-    assert "advanced 3/304 to 6/304" in text
+    assert "recurrence manifest to 34/304" in text
     assert "0/117,180 coefficient rows" in text
 
     normalization = _load(P55_NORMALIZATION_RECEIPT)
@@ -138,7 +146,7 @@ def test_matter_and_p55_counts_are_projected_from_checked_receipts() -> None:
     assert normalization["counts"]["common_shape_factorization_nonzero_residuals"] == 0
     assert normalization["counts"]["emitted_output_rows"] == 0
     assert normalization["claims"]["full_direction_sphere_D4_compatibility_proved"] is False
-    assert "candidate normalization and the sphere reducer reached 19/304" in text
+    assert "Candidate normalization, sphere reduction" in text
     sphere = _load(P55_SPHERE_REDUCER_RECEIPT)
     assert sphere["status"] == (
         "block_coordinate_free_D4_recurrence_emitter_missing_285_symbolic_packets"
@@ -150,7 +158,7 @@ def test_matter_and_p55_counts_are_projected_from_checked_receipts() -> None:
     assert sphere["counts"]["sphere_generator_multiple_replays"] == 615
     assert sphere["counts"]["nonzero_replay_remainders"] == 0
     assert sphere["claims"]["full_direction_sphere_D4_compatibility_proved"] is False
-    assert "reached 19/304" in text
+    assert "Candidate normalization, sphere reduction" in text
     taylor_zero = _load(P55_TAYLOR_ZERO_RECEIPT)
     assert taylor_zero["status"] == (
         "block_coordinate_free_D4_recurrence_emitter_missing_270_symbolic_packets"
@@ -161,8 +169,16 @@ def test_matter_and_p55_counts_are_projected_from_checked_receipts() -> None:
     assert taylor_zero["counts"]["missing_symbolic_input_packets"] == 270
     assert taylor_zero["counts"]["P55_Taylor_orders_missing"] == 4
     assert taylor_zero["claims"]["P55_Taylor_orders_one_through_four_registered"] is False
-    assert "reaching 34/304" in text
+    assert "advance the recurrence manifest to 34/304" in text
     assert "BLOCKED on 270" in text
+    k55 = _load(K55_SERIALIZATION_AUDIT_RECEIPT)
+    assert k55["status"] == "block_K55_Taylor_order_zero_missing_exact_reference_action_metric"
+    assert k55["counts"]["K55_named_paths_audited"] == 66
+    assert k55["counts"]["exact_sparse_55x55_K55_packets_found"] == 0
+    assert k55["counts"]["exact_sparse_22x22_action_metric_packets_found"] == 0
+    assert k55["counts"]["registered_symbolic_input_packets"] == 34
+    assert k55["claims"]["minimal_K55_order_zero_serialization_contract_closed"] is True
+    assert "one symmetric 22x22 flat action metric" in text
 
 
 def test_continuous_cursor_counts_and_product_milestones_are_current() -> None:
@@ -216,7 +232,7 @@ def test_maxwell_followup_records_profile_success_and_arbitrary_background_block
     assert maxwell["counts"]["blocks"] == 1
     assert maxwell["claims"]["dedicated_maxwell_registered_profile_interface_closed"] is True
     assert maxwell["claims"]["dedicated_maxwell_arbitrary_background_interface_closed"] is False
-    assert "Maxwell now has an arbitrary-background Hilbert-stress identity" in text
+    assert "Maxwell has an arbitrary-background Hilbert-stress identity" in text
 
     arbitrary = _load(MAXWELL_ARBITRARY_RECEIPT)
     assert arbitrary["decision"] == "PASS_ARBITRARY_BACKGROUND_MAXWELL_STRESS_DIVERGENCE"
@@ -229,7 +245,7 @@ def test_maxwell_followup_records_profile_success_and_arbitrary_background_block
         arbitrary["claims"]["arbitrary_background_maxwell_hilbert_stress_divergence_closed"] is True
     )
     assert arbitrary["claims"]["coupled_gravity_matter_pde_closed"] is False
-    assert "48-monomial wrong-sign negative" in text
+    assert "Maxwell has an arbitrary-background Hilbert-stress identity" in text
 
 
 def test_fluid_followups_close_action_and_stress_only() -> None:
@@ -270,7 +286,7 @@ def test_fluid_followups_close_action_and_stress_only() -> None:
     assert stress["claims"]["hyperbolicity_gate_closed"] is False
     assert stress["claims"]["constraint_propagation_gate_closed"] is False
     assert "pass their four bounded gates" in text
-    assert "one acoustic block" in text
+    assert "six-component polynomial" in text
 
     hyperbolicity = _load(FLUID_HYPERBOLICITY_RECEIPT)
     assert hyperbolicity["decision"] == "PASS_THIRD_GATE_ONLY"
@@ -317,7 +333,21 @@ def test_fluid_followups_close_action_and_stress_only() -> None:
     assert combined["claims"]["combined_three_sector_matter_interface_closed"] is True
     assert combined["claims"]["full_coupled_gravity_matter_principal_system_closed"] is False
     assert combined["claims"]["gravity_constraint_propagation_closed"] is False
-    assert "six exact registrations" in text
+    census = _load(MATTER_COUPLING_CENSUS_RECEIPT)
+    assert census["decision"] == "TYPED_BLOCK_CENSUS_NO_CANDIDATE_COUPLED_REGISTRATION"
+    assert census["counts"] == {
+        "candidates_audited": 12,
+        "candidates_blocked_at_first_item": 12,
+        "candidates_fully_registered": 0,
+        "contract_items_audited": 72,
+        "contract_passes": 0,
+        "prerequisite_passes": 72,
+        "rejects": 0,
+        "typed_blocks": 72,
+    }
+    assert census["claims"]["any_candidate_coupled_registration_complete"] is False
+    assert "72/72 vacuum and matter-side prerequisites" in text
+    assert "0/72 coupled contract registrations" in text
 
 
 def test_current_scratch_recovery_is_measured_without_production_freshness_claim() -> None:
