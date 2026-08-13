@@ -2,6 +2,14 @@
 
 The compiler has two separate accuracy questions.
 
+The domain-independent implementation of this ordering is
+`candidate_evaluation_ladder.py`. A domain pack must register every stage and its consecutive
+admission gate; the ladder labels them cheap, symbolic, formal, or observational. A non-pass is
+terminal and all later stages are recorded as skipped. In particular, an observational evaluator is
+not invoked until an earlier formal phase has passed. This immutable in-memory receipt complements
+the older durable SQLite promotion service; neither runner can turn a generator proposal or soft
+metric into a gate pass.
+
 ## 1. Is the compiler mechanically correct?
 
 The `validate` command checks the finite static grammar, dimensional controls, deterministic

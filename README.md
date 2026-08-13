@@ -46,8 +46,9 @@ gravity term. See [`docs/PHYSICS_CONCEPT_LANGUAGE.md`](docs/PHYSICS_CONCEPT_LANG
 
 The domain-independent Sigma Core now has seven bounded candidate generators (grammar,
 evolutionary, Bayesian, symbolic, e-graph, cross-domain, and quarantined LLM), a typed candidate
-knowledge graph, and a hard-gate-first exact Pareto explanation engine. Human-readable research
-records are generated from immutable receipts rather than maintained as unbound prose. See the
+knowledge graph, a fail-closed cheap-to-formal-to-observational evaluation ladder, and a
+hard-gate-first exact Pareto explanation engine. Human-readable research records are generated from
+immutable receipts rather than maintained as unbound prose. See the
 [natural-sum proof notebook](docs/notebooks/generated/natural-sum-rediscovery.md) and the
 [quartic local-survivor analysis](docs/notebooks/generated/quartic-local-survivor.md). Their claim
 ledgers distinguish universal proof from local certification and unresolved global blockers; the

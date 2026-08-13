@@ -128,6 +128,13 @@ errored candidates receive no front, however attractive their simplicity or fit 
 Every explanation binds the contributing gate, check, evidence, and metric-receipt hashes and grants
 no promotion authority.
 
+`candidate_evaluation_ladder.py` is the Sigma-Core-native orchestration contract. It binds every
+domain-pack stage to exactly one consecutive admission gate and one nondecreasing phase: cheap,
+symbolic, formal, then observational. Execution stops on the first block, rejection, or error.
+Observational code is never called unless every earlier stage and gate, including a formal phase,
+has passed. Results retain exact stage/gate receipts, phase and status counts, a terminal outcome,
+all skipped steps, and an explicit observation-opening flag; the runner itself never promotes.
+
 `research_notebook.py` renders sealed receipts as deterministic Markdown and Jupyter notebooks. The
 first pair presents the anonymous natural-sum rediscovery as a complete induction proof and one
 quartic scalar-tensor candidate as a formal local survivor. Every cell cites immutable receipt paths;
