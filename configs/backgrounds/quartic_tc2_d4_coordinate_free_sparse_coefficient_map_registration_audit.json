@@ -1,0 +1,45 @@
+{
+  "schema_version": "sigma-quartic-tc2-d4-coordinate-free-sparse-coefficient-map-registration-config-1.0",
+  "global_claim_policy": "fail_closed",
+  "registration_policy": "exact_symbolic_coefficients_only_no_point_sample_inference",
+  "target_map": {
+    "unknown_columns": 33880,
+    "equal_eigenspace_cokernel_coordinates": 558,
+    "odd_sphere_modes": 210,
+    "required_coefficient_rows": 117180,
+    "required_rhs_rows": 117180,
+    "sphere_polynomial_degree_ceiling": 19,
+    "recurrence_orders": [1, 2, 3, 4]
+  },
+  "resource_caps": {
+    "maximum_registered_rows": 117180,
+    "maximum_registered_sparse_entries": 2000000,
+    "maximum_checkpoint_bytes": 16777216,
+    "maximum_point_evidence_packets": 16
+  },
+  "phase_two_admission": {
+    "require_complete_coefficient_rows": 117180,
+    "require_complete_rhs_rows": 117180,
+    "require_missing_rows": 0,
+    "require_exact_row_replay": true
+  },
+  "upstream_bindings": {
+    "full_sphere_readiness_gate": {
+      "path": "runs/physics-language/quartic-tc2-d4-full-sphere-degree-seven-transverse-curl-gate/campaign.json",
+      "content_sha256": "07ba08c8057823b03733d39bf8c2d1c04ce3d506d4dd4103c18d195943a1724b"
+    },
+    "revised_thirteen_frame_predecessor": {
+      "path": "runs/physics-language/quartic-tc2-d4-revised-twelve-frame-height-two-rational-gate/campaign.json",
+      "content_sha256": "55a68d34961739728a6ae111ea1c76f83f51524614712d7e960f4f37a1139267"
+    },
+    "canonical_D4_obstruction_certificate": {
+      "path": "runs/physics-language/quartic-tc2-d4-obstruction-cokernel-certificate/campaign.json",
+      "content_sha256": "bef3246a17942c74e8f3cdb09bc14a36c6bdc44d030a9a70ce833c30ec04bc65"
+    },
+    "rational_chart_counterexample_gate": {
+      "path": "runs/physics-language/quartic-tc2-d4-rational-chart-determining-gate/campaign.json",
+      "content_sha256": "48b8ecfe63336071721baeb90a41f379ac1b4235629b380abdf0124e7008152c"
+    }
+  },
+  "content_sha256": "92163a42d8e643ab0d2ce635a6d069b7000d07408e50567f5e5ae921f1731da2"
+}
