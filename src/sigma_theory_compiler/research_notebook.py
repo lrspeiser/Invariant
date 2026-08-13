@@ -1923,6 +1923,190 @@ def build_p10_arbitrary_background_leaf_derivative_notebook(
     )
 
 
+def build_p10_inverse_product_replay_notebook(root: Path) -> ResearchNotebook:
+    receipt_path = "runs/physics-language/quartic-p10-inverse-product-d2-replay-gate/campaign.json"
+    result, binding = _load_sealed_receipt(root, receipt_path)
+    expected_counts = {
+        "D1_dependency_nodes_replayed_across_packets": 811296,
+        "Pother_leaf_derivative_roots_registered": 0,
+        "Pother_ordered_D2_roots_blocked": 180,
+        "Pother_ordered_D2_roots_registered": 0,
+        "all_target_ordered_D2_roots_blocked": 180,
+        "all_target_ordered_D2_roots_registered": 84,
+        "blocked_P10_ordered_D2_roots": 0,
+        "complete_ordered_D2F_tensors_registered": 0,
+        "derived_merkle_nodes_across_packets": 786396,
+        "global_H7_closures": 0,
+        "lifespans_proved": 0,
+        "nonlinear_PDE_closures": 0,
+        "registered_P10_leaf_derivative_roots_consumed": 7920,
+        "sealed_P10_ordered_D2_roots": 84,
+        "selected_candidates": 12,
+        "unique_P10_replay_roots": 60,
+    }
+    contract = result["replay_contract"]
+    candidates = result["candidate_manifests"]
+    all_records = [
+        record for candidate in candidates for record in candidate["ordered_P10_D2_records"]
+    ]
+    all_packets = [packet for candidate in candidates for packet in candidate["replay_packets"]]
+    if (
+        result["decision"] != "pass_all_84_P10_ordered_D2_roots_exactly_replayed_Pother_blocked"
+        or result["decision_counts"] != {"blocked": 0, "pass": 12, "reject": 0}
+        or result["downstream_admission_counts"] != {"blocked": 12, "pass": 0, "reject": 0}
+        or result["gate_counts"] != expected_counts
+        or result["manifest_sha256"]
+        != "fdcb58a0357ee65d404061b432b907f81ae1744ba9c31cad98aa5d9f7ba320a4"
+        or contract["bound_D1_arithmetic_dag_sha256"]
+        != "4a227fcf136d440c4dd55e4c5525eef8e5b73681339062d7ca44cb000944ec5c"
+        or contract["bound_leaf_derivative_arithmetic_dag_sha256"]
+        != "9ca74cce6a55717342c031e86b6dc7b6129dcbf22a38aa82b21cc049d18f8422"
+        or contract["closed_derivative_rules"]
+        != [
+            "D(constant)=0",
+            "D(input)=bound_leaf_root",
+            "D(add)=add(D(arguments))",
+            "D(negate)=negate(D(argument))",
+            "D(multiply)=add(multiply(D(left),right),multiply(left,D(right)))",
+            (
+                "D(divide)=divide(add(multiply(D(numerator),denominator),"
+                "negate(multiply(numerator,D(denominator)))),multiply(denominator,denominator))"
+            ),
+        ]
+        or contract["quotient_domain_assumption"] != "c11=(-1)^11 det(A) is nonzero"
+        or contract["full_trace_recomputed_during_validation"] is not True
+        or len(candidates) != 12
+        or len(all_packets) != 60
+        or len(all_records) != 84
+        or sum(packet["bound_leaf_derivative_count"] for packet in all_packets) != 7920
+        or sum(packet["D1_dependency_closure_nodes"] for packet in all_packets) != 811296
+        or sum(packet["D2_merkle_replay_node_count"] for packet in all_packets) != 786396
+        or len({packet["D2_merkle_replay_root_sha256"] for packet in all_packets}) != 60
+        or any(
+            candidate["candidate_decision"] != "pass_7_P10_D2_roots_Pother_blocked"
+            or candidate["candidate_rejection_authorized"] is not False
+            or candidate["sealed_ordered_P10_D2_roots"] != 7
+            or candidate["unique_P10_replay_roots"] != 5
+            or candidate["blocked_ordered_Pother_D2_roots"] != 15
+            or len(candidate["replay_packets"]) != 5
+            or len(candidate["ordered_P10_D2_records"]) != 7
+            for candidate in candidates
+        )
+        or any(
+            record["root_status"] != "sealed_exact_arbitrary_background_merkle_replay"
+            or record["candidate_rejection_authorized"] is not False
+            for record in all_records
+        )
+    ):
+        raise NotebookValidationError("P10 inverse-product replay receipt boundary changed")
+    if {key for key, value in result["claim_seals"].items() if value} != {
+        "all_84_P10_ordered_D2_roots_exactly_replayed"
+    } or any(control != {"rejected": True} for control in result["exact_controls"].values()):
+        raise NotebookValidationError("P10 replay claim boundary changed")
+    theorem = result["replay_theorem"]
+    if (
+        theorem["name"] != "closed_forward_derivative_replay_of_bound_inverse_product_D1_DAG"
+        or "all 84 P10 records" not in theorem["exact_result"]
+        or "remaining 180 ordered root" not in theorem["boundary"]
+        or "canonical Merkle root" not in theorem["representation"]
+    ):
+        raise NotebookValidationError("P10 replay theorem changed")
+    evidence = (receipt_path,)
+    cells = (
+        NotebookCell(
+            "The replay question",
+            "The preceding gate registered all 7,920 candidate-bound P10 leaf derivatives but "
+            "stopped before differentiating the complete source expression. This gate asks "
+            "whether those roots close the exact forward replay of the bound inverse/product "
+            "$D^1$ arithmetic DAG.",
+            evidence,
+        ),
+        NotebookCell(
+            "Forward-mode operator calculus",
+            "Associate each primal node $x$ with its tangent $\\dot x$. Constants and inputs obey "
+            "$\\dot c=0$ and $\\dot x=$ the bound leaf root. Sums and negations are linear, while\n\n"
+            "$$\\dot{(xy)}=\\dot x\\,y+x\\,\\dot y,$$\n\n"
+            "$$\\dot{(x/y)}=\\frac{\\dot x\\,y-x\\,\\dot y}{y^2}.$$\n\n"
+            "The quotient rule is used only on the registered domain where "
+            "$c_{11}=(-1)^{11}\\det(A)$ is nonzero. Exact zero additions, products, and "
+            "numerators are simplified without dropping any nonzero term.",
+            evidence,
+        ),
+        NotebookCell(
+            "Replay the full dependency traces",
+            "Across 12 candidates and five P10 packets per candidate, the replay consumes all "
+            "7,920 bound input roots. It visits 811,296 nodes in the primal dependency closures "
+            "and constructs 786,396 exact derived Merkle nodes. The validator recomputes the "
+            "full per-primal-node trace rather than trusting a summarized root.",
+            evidence,
+        ),
+        NotebookCell(
+            "Seal 60 roots and expand to 84 records",
+            "There are five unique P10 directions per candidate, hence\n\n"
+            "$$12\\cdot5=60$$\n\n"
+            "unique replay roots. Repeated coordinate ordinals for $s_{11}[10]$ and $s_{22}[10]$ "
+            "expand five roots to seven ordered records per candidate, so\n\n"
+            "$$12\\cdot7=84.$$\n\n"
+            "Every one of the 84 P10 ordered-$D^2$ records is sealed by an exact canonical "
+            "Merkle replay root: the P10 subset is now complete.",
+            evidence,
+        ),
+        NotebookCell(
+            "A genuine subset success",
+            "This gate advances from registered leaf data to derivatives of the full bound "
+            "inverse/product expression. It registers 84 of 84 arbitrary-background P10 ordered "
+            "$D^2$ targets, with zero P10 blockers. That is a constructive exact success, not "
+            "merely a list of remaining obligations.",
+            evidence,
+        ),
+        NotebookCell(
+            "The remaining Pother and full-D2 boundary",
+            "Pother leaf derivatives are still absent, so its 180 ordered targets remain blocked. "
+            "The total admitted inventory is therefore 84 of 264 targets, not a complete ordered "
+            "$D^2F$ tensor. No high-atom identity, global $H^7$, nonlinear PDE closure, lifespan, "
+            "observation, candidate rejection, or physical no-go follows. All 12 downstream "
+            "candidates remain blocked. The first blocker is\n\n"
+            f"{result['first_blocker']}.",
+            evidence,
+        ),
+    )
+    return ResearchNotebook(
+        notebook_id="quartic-p10-inverse-product-d2-replay-reconstruction-001",
+        title="Exact inverse-product replay closes all P10 ordered-D2 roots",
+        verdict="proved",
+        source_bindings=(binding,),
+        claims=(
+            NotebookClaim(
+                "proved",
+                "Exact forward replay consumes 7,920 bound P10 leaf roots across 811,296 primal visits and 786,396 derived nodes.",
+                evidence,
+            ),
+            NotebookClaim(
+                "proved",
+                "All 60 unique replay roots and all 84 ordered P10 D2 records are exactly sealed.",
+                evidence,
+            ),
+            NotebookClaim(
+                "blocked",
+                "The remaining 180 Pother ordered-D2 roots require candidate-bound Pother leaf derivatives and replay.",
+                evidence,
+            ),
+            NotebookClaim(
+                "scope_limit",
+                "P10 closure is not complete D2F, a global analytic theorem, candidate rejection, or physical no-go.",
+                evidence,
+            ),
+        ),
+        cells=cells,
+        limits=(
+            "the notebook is a derived presentation of one sealed receipt, not an independent proof kernel",
+            "the quotient replay applies on the declared nonzero-determinant domain",
+            "Pother leaf derivatives and 180 ordered roots remain unregistered",
+            "complete D2F, high-atom, global H7, nonlinear PDE, lifespan, rejection, observation, and physical no-go remain fail-closed",
+        ),
+    )
+
+
 def write_notebook_pair(notebook: ResearchNotebook, output_stem: Path) -> tuple[Path, Path]:
     output_stem.parent.mkdir(parents=True, exist_ok=True)
     markdown_path = output_stem.with_suffix(".md")
@@ -1963,6 +2147,10 @@ def materialize_example_notebooks(root: Path, output: Path) -> tuple[Path, ...]:
         (
             "quartic-p10-arbitrary-background-leaf-derivatives",
             build_p10_arbitrary_background_leaf_derivative_notebook(root),
+        ),
+        (
+            "quartic-p10-inverse-product-d2-replay",
+            build_p10_inverse_product_replay_notebook(root),
         ),
     )
     paths: list[Path] = []

@@ -15,6 +15,7 @@ from sigma_theory_compiler.research_notebook import (
     build_natural_sum_notebook,
     build_ordered_mixed_d2_differentiability_notebook,
     build_p10_arbitrary_background_leaf_derivative_notebook,
+    build_p10_inverse_product_replay_notebook,
     build_quartic_survivor_notebook,
     build_registered_variation_selection_notebook,
     materialize_example_notebooks,
@@ -45,6 +46,9 @@ FLAT_FACTORIZED_D2_RECEIPT = (
 )
 P10_ARBITRARY_BACKGROUND_RECEIPT = (
     "runs/physics-language/quartic-p10-arbitrary-background-leaf-derivative-gate/campaign.json"
+)
+P10_REPLAY_RECEIPT = (
+    "runs/physics-language/quartic-p10-inverse-product-d2-replay-gate/campaign.json"
 )
 EXISTING_NOTEBOOK_SHA256 = {
     "natural-sum-rediscovery.ipynb": (
@@ -88,6 +92,12 @@ EXISTING_NOTEBOOK_SHA256 = {
     ),
     "quartic-flat-factorized-leaf-jet-d2.md": (
         "f2ed5111a1b888b446b71407692ce60acbd2e99fddcf0cd03f02b8f00d0fc4c6"
+    ),
+    "quartic-p10-arbitrary-background-leaf-derivatives.ipynb": (
+        "338ed5643c459599dc42afd4e68cc7ef3d1a68328bf0fa8f82a6422f79bb17ef"
+    ),
+    "quartic-p10-arbitrary-background-leaf-derivatives.md": (
+        "be34aa6eb7e3af80942db64a92bc1644f44fb0dfcb536bca0efef03132fbeb52"
     ),
 }
 
@@ -332,6 +342,39 @@ def test_p10_arbitrary_background_notebook_stops_before_d2_propagation() -> None
             "path": P10_ARBITRARY_BACKGROUND_RECEIPT,
             "file_sha256": ("c74171c48d7fc4f80de8f0c51b2b2700a1ce33de8795c3a999cee7c957b35869"),
             "content_sha256": ("51f76fa7ebc81ab2f570bfe5ad920215420e005687d0c861b24ea6da766c37e0"),
+        }
+    ]
+    assert all(cell["cell_type"] == "markdown" for cell in render_ipynb(notebook)["cells"])
+
+
+def test_p10_replay_notebook_closes_subset_without_promoting_full_d2() -> None:
+    notebook = build_p10_inverse_product_replay_notebook(ROOT)
+    value = notebook.to_dict()
+    validate_notebook(value)
+    markdown = render_markdown(notebook)
+    assert notebook.verdict == "proved"
+    assert "all 7,920 bound input roots" in markdown
+    assert "811,296 nodes" in markdown
+    assert "786,396 exact derived Merkle nodes" in markdown
+    assert "\\dot{(xy)}=\\dot x\\,y+x\\,\\dot y" in markdown
+    assert "\\dot x\\,y-x\\,\\dot y" in markdown
+    assert "\\det(A)$ is nonzero" in markdown
+    assert "12\\cdot5=60" in markdown
+    assert "12\\cdot7=84" in markdown
+    assert "84 of 84 arbitrary-background P10" in markdown
+    assert "180 ordered targets remain blocked" in markdown
+    assert "84 of 264 targets" in markdown
+    assert "not a complete ordered $D^2F$ tensor" in markdown
+    assert "global $H^7$, nonlinear PDE closure, lifespan" in markdown
+    assert (
+        "register_candidate_bound_Pother_A_B_C_leaf_derivatives_then_replay_the_remaining_"
+        "180_ordered_mixed_D2_roots" in markdown
+    )
+    assert value["source_bindings"] == [
+        {
+            "path": P10_REPLAY_RECEIPT,
+            "file_sha256": ("2a9814a27123099b9e942bde72fa45fe8783e3ddde0743d080b17008dbb9318c"),
+            "content_sha256": ("e02949cb28f43851483d2b0b6cb06c6710ac53a16f210150449d85ceb0ec92ba"),
         }
     ]
     assert all(cell["cell_type"] == "markdown" for cell in render_ipynb(notebook)["cells"])
