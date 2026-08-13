@@ -1794,6 +1794,25 @@ source/config/test hashes are `8fcc218572a65e67763560fad62b1e129a67f29c6d2bdda5d
 `469927c84962e56f50223769dbaf6713ca3a236bd7d8c8f823e06bd1f15184da` /
 `4ed939ce4c4d6f92b95000e9d9f659268b2ad1e9a3480ca868f3fc6c3614d5da`.
 
+The component-map schema audit makes that missing bridge constructive. All 22 fitted target
+coordinates are present in the registered D1 manifest, covering 20 unique row/atom entries, but
+the inventory still has no typed map from the 24 generic `G4` terms into those source components,
+no `P10`/`Pother` embedding into the 153-state tangent basis, and no ordered mixed-D2 arithmetic
+root for any target coordinate. Two distinct exact `22 x 24` projections nevertheless reproduce
+the same fitted coefficient vector: the system has 528 unknown entries, rank 22, and affine
+dimension 506. Independently, 22 free mixed-D2 extension parameters give 23 explicit completions
+that preserve every registered D1 value. This proves nonuniqueness under the current schemas, not
+a physical covariant-component-map no-go. The finite premise passes for all 12 candidates, while
+downstream admission blocks all 12 without rejection; zero cross-slice D2F entries are admitted and
+full D2F, high-atom, H7, PDE, lifespan, observation, and promotion claims remain false. The first
+blocker is to register the typed generic-term-to-source-component projection, the direction-to-state
+tangent embedding, and the 22 ordered mixed-D2 roots. Artifact file/content hashes are
+`0256f64acb53f38c0cada5e43a58c974b7f9bebe2529bdf7c3f08e65b9d2563f` /
+`3a3da9ecef30e596ae18cb8e76687338a9fe1bf8e7284ee009287420ce5613ec`;
+source/config/test hashes are `599ce6c6069bf79b6e5bab1c5f0f3504c8c6775eb2cce0c5d76918acd56a36b1` /
+`63a914832a26029279e806b470609e3a76857fe55382ee53c90f5ea46c6605e8` /
+`05c6d4ce0c36bcd8689744407f54c6c912f518fcf4e61c123c96a27bb1b8b794`.
+
 The component campaign now proves every entry of the principal identity
 `D_Y E55 J = i P55` for all 12 candidates and materializes the complete first source Jacobian.
 Its 1,089 principal and 594 lower entries form an exact arithmetic-only `11 x 153` manifest with
