@@ -1,0 +1,58 @@
+{
+  "budgets": {
+    "candidates_per_family_per_world": 1,
+    "generator_work_items_per_world": 128,
+    "hypothesis_inventory_size": 11,
+    "llm_calls_per_world": 1,
+    "llm_maximum_micro_usd_per_world": 1000,
+    "maximum_pareto_work_units_per_world": 512
+  },
+  "campaign_id": "prospective-blind-cross-generator-tournament-001",
+  "common_domain_contract": {
+    "hard_gates": [
+      "hard_exact",
+      "hard_holdout"
+    ],
+    "stages": [
+      "typed",
+      "generated"
+    ]
+  },
+  "generator_families": [
+    "bayesian",
+    "cross_domain",
+    "egraph",
+    "evolutionary",
+    "grammar",
+    "llm",
+    "symbolic"
+  ],
+  "policies": {
+    "generator_target_access": "forbidden",
+    "heuristic_truth_inference": "forbidden",
+    "live_sqlite_access": "forbidden",
+    "metrics_before_all_hard_gates_pass": "forbidden",
+    "network_access": "forbidden",
+    "post_unseal_tuning": "forbidden",
+    "target_records_per_unseal": 3,
+    "target_unseal_batches": 1
+  },
+  "schema_version": "sigma-prospective-blind-cross-generator-config-1.0",
+  "worlds": [
+    {
+      "public_seed": "prospective-world-arc-20260813",
+      "sealed_target_sha256": "6dc10af7a574e74b07051e2c87975fae9abcba277fb7825aa620dd74c2358709",
+      "world_id": "prospective.modular_affine"
+    },
+    {
+      "public_seed": "prospective-world-lattice-20260813",
+      "sealed_target_sha256": "a5957f0ff438192b6a29c3201e1888472d4f21d1f57b1a83016119e33dfe6c70",
+      "world_id": "prospective.finite_difference"
+    },
+    {
+      "public_seed": "prospective-world-weave-20260813",
+      "sealed_target_sha256": "a2464946dbc725622418a0871e03b4acb88da9737c3f1f4e70a9250c9f367ba7",
+      "world_id": "prospective.graph_parity"
+    }
+  ]
+}
