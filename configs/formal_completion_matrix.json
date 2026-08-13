@@ -346,6 +346,18 @@
         ,"runs/engine/continuous-scientific-pipeline-epoch-003-formal-receipt-batch-0001/leaf-000009.json"
         ,"runs/engine/continuous-scientific-pipeline-epoch-003-formal-receipt-batch-0001/cumulative-cursor.json"
         ,"runs/engine/continuous-scientific-pipeline-epoch-003-formal-receipt-batch-0001/result.json"
+        ,"src/sigma_theory_compiler/continuous_scientific_pipeline_formal_receipt_batch_0002.py"
+        ,"configs/continuous_scientific_pipeline_epoch_003_formal_receipt_batch_0002.json"
+        ,"tests/test_continuous_scientific_pipeline_formal_receipt_batch_0002.py"
+        ,"runs/engine/continuous-scientific-pipeline-epoch-003-formal-receipt-batch-0002/preflight.json"
+        ,"runs/engine/continuous-scientific-pipeline-epoch-003-formal-receipt-batch-0002/leaf-000010.json"
+        ,"runs/engine/continuous-scientific-pipeline-epoch-003-formal-receipt-batch-0002/leaf-000011.json"
+        ,"runs/engine/continuous-scientific-pipeline-epoch-003-formal-receipt-batch-0002/cumulative-cursor.json"
+        ,"runs/engine/continuous-scientific-pipeline-epoch-003-formal-receipt-batch-0002/result.json"
+        ,"src/sigma_theory_compiler/continuous_scientific_pipeline_formal_receipt_batch_0003_blocked_readiness.py"
+        ,"configs/continuous_scientific_pipeline_epoch_003_formal_receipt_batch_0003_blocked_readiness.json"
+        ,"tests/test_continuous_scientific_pipeline_formal_receipt_batch_0003_blocked_readiness.py"
+        ,"runs/engine/continuous-scientific-pipeline-epoch-003-formal-receipt-batch-0003-blocked-readiness.json"
       ],
       "implemented": [
         "restart-safe bounded SQLite queues, deterministic seeds, leases, checkpoints, crash recovery, periodic refill, and detached start/status/stop/resume/export lifecycle",
@@ -750,8 +762,8 @@
           "first_blocker": "11114_candidate_specific_formal_receipts_pending"
         },
         "continuous_scientific_pipeline_epoch_003_formal_receipt_cursor": {
-          "current_source": "continuous_scientific_pipeline_epoch_003_formal_receipt_batch_0001",
-          "current_partition_sequence": 9,
+          "current_source": "continuous_scientific_pipeline_epoch_003_formal_receipt_batch_0002",
+          "current_partition_sequence": 11,
           "retained_history_sources": [
             "continuous_scientific_pipeline_epoch_003_cumulative_formal_receipt_worker",
             "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0003",
@@ -759,20 +771,72 @@
             "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0005",
             "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0006",
             "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0007",
-            "continuous_scientific_pipeline_epoch_003_formal_receipt_batch_0001"
+            "continuous_scientific_pipeline_epoch_003_formal_receipt_batch_0001",
+            "continuous_scientific_pipeline_epoch_003_formal_receipt_batch_0002"
           ],
-          "current_file_sha256": "2a5efdd8d0a27cde333f32c562ad9f5d65915731d637b09690dfcac53235fcd9",
-          "current_content_sha256": "1da334a6d14944f9cdf9a5cdacf55480c5440dbd9ae970825f232399785c782d",
-          "cumulative_formally_checked_candidates": 135,
-          "cumulative_newly_processed_candidates": 133,
+          "current_file_sha256": "6841c7bcee914fd7839026155109179262d428ff606d7aa3494bff6f14acf73e",
+          "current_content_sha256": "aa83076b30dc0eceac491997ccca8aacae635551765c00a20eb4d2836e331cd3",
+          "cumulative_formally_checked_candidates": 180,
+          "cumulative_newly_processed_candidates": 178,
           "cumulative_reconciled_preserved_candidates": 2,
-          "remaining_pending_formal_receipts": 11114,
+          "remaining_pending_formal_receipts": 11069,
           "complete_global_formal_receipts": false,
           "complete_comparable_evidence": false,
           "formal_passes": 0,
           "rank_assignments": 0,
           "candidate_promotions": 0,
-          "first_blocker": "11114_candidate_specific_formal_receipts_pending"
+          "first_blocker": "11069_candidate_specific_formal_receipts_pending"
+        },
+        "continuous_scientific_pipeline_epoch_003_formal_receipt_batch_0002": {
+          "path": "runs/engine/continuous-scientific-pipeline-epoch-003-formal-receipt-batch-0002/result.json",
+          "file_sha256": "6841c7bcee914fd7839026155109179262d428ff606d7aa3494bff6f14acf73e",
+          "content_sha256": "aa83076b30dc0eceac491997ccca8aacae635551765c00a20eb4d2836e331cd3",
+          "config_sha256": "8f203420d9255d7dc06102241943b7c239bb79d94a5e9781733f7582c37e3c92",
+          "source_sha256": "353fa546be7448e1d5460ce29bced3db57f20be758be37dec1337b92cd758ded",
+          "test_sha256": "f1623ceac6bf71b01a8c677e07df7eecb10348fd715701763b49186b39606e23",
+          "processed_partition_prefix_length": 11,
+          "processed_leaf_pages": 11,
+          "batch_leaf_catalog_indices": [9, 10],
+          "cumulative_formally_checked_candidates": 180,
+          "cumulative_newly_processed_candidates": 178,
+          "cumulative_reconciled_preserved_candidates": 2,
+          "cumulative_candidate_rejects": 180,
+          "cumulative_candidate_blocks": 0,
+          "cumulative_candidate_passes": 0,
+          "remaining_pending_formal_receipts": 11069,
+          "pending_leaf_catalog_root_sha256": "f4f7a85c8ad520ceec23eef86a31cd4d757524c0d8e0b96f94ca5507d2dfd7e7",
+          "processed_partition_summaries_root_sha256": "ca060e17e5b707ad73b635c2ff0e9e37877e7e73c3e69a45416f0924ededd8a1",
+          "cumulative_formal_receipt_ledger_root_sha256": "94e98f34b4659d1e1ff078b915bc85ee1b19286e1c0aeb7b722a8035934af73e",
+          "cumulative_newly_processed_ordinals_root_sha256": "96405c620ed68908f22ab20ce78d99993d23617767d1757da266f3decff7eb1e",
+          "complete_global_formal_receipts": false,
+          "complete_comparable_evidence": false,
+          "formal_passes": 0,
+          "rank_assignments": 0,
+          "candidate_promotions": 0,
+          "first_blocker": "11069_candidate_specific_formal_receipts_pending"
+        },
+        "continuous_scientific_pipeline_epoch_003_formal_receipt_batch_0003_blocked_readiness": {
+          "path": "runs/engine/continuous-scientific-pipeline-epoch-003-formal-receipt-batch-0003-blocked-readiness.json",
+          "file_sha256": "d5a7113024cc346242e4fc8b9cfe2f3a07e482a8393cd8d6ad399e914de70c59",
+          "content_sha256": "2a83a0895276dba1951baacd6aba5fad930fdd4f2998c59572e894e9cf35f6ca",
+          "config_sha256": "ed95ebdb54f812625113b19bfeaacba1ffca2b923cd01033fabd443909ef4cc7",
+          "source_sha256": "a97807ce09c503ca36267dd0e49e85a7305727c2c5dc8c816aa0b9507995a2ba",
+          "test_sha256": "960080a22eb78f99d17a7e7ef0cbe105bc30c2dbee89aee8fc24e0ac4010aa1d",
+          "decision": "blocked_readiness_resource_not_admitted_execution_not_started",
+          "resource_sample_count": 3,
+          "cpu_samples_percent": [100.0, 100.0, 100.0],
+          "minimum_available_ram_mib": 49454,
+          "cpu_admission_strictly_below_percent": 92,
+          "admitted_samples": 0,
+          "execution_started": false,
+          "result_artifact_created": false,
+          "leaf_artifacts_created": false,
+          "cursor_artifact_created": false,
+          "complete_global_formal_receipts": false,
+          "complete_comparable_evidence": false,
+          "rank_assignments": 0,
+          "candidate_promotions": 0,
+          "first_blocker": "cpu_utilization_not_strictly_below_92_percent"
         },
         "cpu_real_formula_overlap_benchmark": {
           "path": "runs/benchmarks/cpu-real-formula-overlap-15-16.json",
@@ -1863,6 +1927,14 @@
         "status": "implemented_constructive_cross_registry_projection_and_mixed_D2_schema_nonidentifiability_fail_closed",
         "scope": "All 22 fitted target coordinates are present in the complete registered D1 manifest, covering 20 unique row-atom entries, but no typed generic-term-to-source-component projection, P10/Pother direction-to-153-state tangent embedding, ordered mixed-D2 arithmetic root, or corrected-source output projection is registered. Two distinct exact 22x24 projection witnesses reproduce the same fitted beta vector; the 528-unknown system has rank 22 and affine dimension 506. Independently, 22 mixed-D2 extension parameters and 23 explicit completions preserve every registered D1 value. This is constructive nonidentifiability under the current schemas, not a physical covariant-map no-go. The finite premise passes for all 12 candidates while downstream admission blocks all 12 without rejection; zero D2F entries are admitted and complete D2F, high-atom, H7, PDE, lifespan and observation claims remain fail-closed."
       },
+      "fitted_output_connection_mixed_D2_registration_contract": {
+        "status": "implemented_complete_264_slot_ordered_mixed_D2_registration_manifest_values_fail_closed",
+        "scope": "A complete Cartesian registration manifest binds 12 candidates by 22 fitted coordinates into 264 unique candidate-bound ordered mixed-D2 obligations, all anchored to registered D1 arithmetic roots and 20 unique row-atom anchors per candidate. Each slot requires exact source-coordinate identity, P10/Pother 153-basis tangent coefficients and digest, ordered D2 arithmetic root and DAG hash, generic-term component projection rule, and output-bundle rule. Current schemas register zero such component maps, tangent embeddings, or ordered roots; therefore all 264 obligations remain blocked and none is reported as D2F admission. This is a minimal registration contract, not a physical no-go or an invented projection. All 12 candidates pass the finite inventory audit while downstream admission blocks all 12 without rejection; high-atom, H7, PDE, lifespan and observation claims remain fail-closed."
+      },
+      "P10_Pother_coordinate_tangent_embedding": {
+        "status": "implemented_all_264_candidate_bound_coordinate_unit_tangents_ordered_mixed_D2_values_fail_closed",
+        "scope": "The sealed full-D1 registry bijectively orders 153 coordinate atoms by columns 0 through 152, determining the canonical unit tangent e_j for each target obligation. All 264 candidate-coordinate embeddings are registered: 84 P10 and 180 Pother records, representing 20 unique unit vectors per candidate. This proves only coordinate-chart tangent embeddings; no generic-G4 component projection, arithmetic-DAG differentiation, mixed-D2 value, covariant physical map or physical no-go is inferred. Ordered roots remain 0 registered and 264 blocked, and all 12 candidates remain downstream blocked without rejection; D2F, high-atom, H7, PDE, lifespan and observation claims remain fail-closed."
+      },
       "anti_wick_composition_derivative_audit": {
         "status": "implemented_targeted_annular_C6_principal_composition_global_H7_fail_closed",
         "scope": "The Gaussian anti-Wick operator is exactly the Weyl operator with symbol exp((h/4)Delta)K. A positive annular energy, exact composition-amplitude algebra, 1/(8*pi) Schur coefficient, heat-smoothing witness, and false-C4-closure negative all pass. The targeted C6 hierarchy supplies (x,xi) pairs (2,4), (0,6), (0,5), and (1,4), giving finite principal composition constants and high-shell/finite-low principal inequalities for all 12 candidates. Localized source remainders, the remote H6-coefficient/H7-state paraproduct, global dyadic summation, and lifespan remain fail-closed."
@@ -1959,6 +2031,14 @@
           "configs/backgrounds/quartic_fitted_output_connection_component_map_schema_ambiguity_gate.json",
           "tests/test_quartic_fitted_output_connection_component_map_schema_ambiguity_gate.py",
           "runs/physics-language/quartic-fitted-output-connection-component-map-schema-ambiguity-gate/campaign.json",
+          "src/sigma_theory_compiler/quartic_ordered_mixed_d2_root_minimal_registration_contract.py",
+          "configs/backgrounds/quartic_ordered_mixed_d2_root_minimal_registration_contract.json",
+          "tests/test_quartic_ordered_mixed_d2_root_minimal_registration_contract.py",
+          "runs/physics-language/quartic-ordered-mixed-d2-root-minimal-registration-contract/campaign.json",
+          "src/sigma_theory_compiler/quartic_p10_pother_coordinate_tangent_embedding_gate.py",
+          "configs/backgrounds/quartic_p10_pother_coordinate_tangent_embedding_gate.json",
+          "tests/test_quartic_p10_pother_coordinate_tangent_embedding_gate.py",
+          "runs/physics-language/quartic-p10-pother-coordinate-tangent-embedding-gate/campaign.json",
           "src/sigma_theory_compiler/quartic_tc2_quadratic_deltak_extension_campaign.py",
           "configs/backgrounds/quartic_tc2_quadratic_deltak_extension_campaign.json",
           "tests/test_quartic_tc2_quadratic_deltak_extension_campaign.py",
@@ -2812,6 +2892,62 @@
             "observational_claims": 0,
             "physical_covariant_component_map_no_go_proved": false,
             "first_blocker": "register_the_typed_generic_term_to_source_component_projection_P10_Pother_state_tangent_embedding_and_22_ordered_mixed_D2F_roots"
+          },
+          "fitted_output_connection_mixed_D2_registration_contract_binding": {
+            "file_sha256": "d74c889619e25abe7c6672a391bdc1209d03079ba8b245ccc94e2f4f79aa6365",
+            "content_sha256": "90ec881410d7a9dcbf94114b8fa52d73aa4963f2baf8a7430f78b817f1fabc25",
+            "source_sha256": "0216f6ca9d6ee5b181a4447d59f7ebd1b9feb90f967545bf4a3ae046cc66d8fd",
+            "config_sha256": "b9baf6225e7700a062b05a292e882f84d763b206d75daf8ee614a65f113e953e",
+            "test_sha256": "13c702bd6567cf046b4c3c47cd576c7264345d1d995b8fb0eedcb575402473fa",
+            "candidate_count": 12,
+            "coordinate_count_per_candidate": 22,
+            "required_candidate_bound_ordered_mixed_D2_roots": 264,
+            "registered_candidate_bound_ordered_mixed_D2_roots": 0,
+            "blocked_candidate_bound_ordered_mixed_D2_roots": 264,
+            "obligation_manifest_root_sha256": "2bf6f64c039b466d3c4d7ec62541d6d8ff25c497d067a5d8f938bf5d60ae91d1",
+            "unique_D1_row_atom_anchors_per_candidate": 20,
+            "target_D1_memberships_found_per_candidate": 22,
+            "typed_generic_term_component_maps_registered": 0,
+            "candidate_bound_direction_tangent_embeddings_registered": 0,
+            "registered_corrected_second_source_jet_entries": 0,
+            "cross_slice_D2F_entries_admitted": 0,
+            "complete_ordered_D2F_tensors_registered": 0,
+            "full_high_atom_good_unknown_identities_proved": 0,
+            "global_H7_closures": 0,
+            "nonlinear_PDE_closures": 0,
+            "lifespans_proved": 0,
+            "finite_inventory_pass": 12,
+            "downstream_blocked": 12,
+            "candidate_rejects": 0,
+            "first_blocker": "register_candidate_bound_P10_Pother_153_basis_tangent_embeddings_then_materialize_and_replay_the_264_ordered_mixed_D2_roots"
+          },
+          "P10_Pother_coordinate_tangent_embedding_binding": {
+            "file_sha256": "d393050c41d58308a28a29a5b72b9da6f5ea0797b30ba97b885c3da8ca20efaa",
+            "content_sha256": "fb4a55d74a8bfbe1009f13373883b5553c778441a04af143ad031f45de50e271",
+            "source_sha256": "9d42fee2340a1c284c8b4a17cb74ced5386e2cb41e50f54ee92f0c41cc5fe201",
+            "config_sha256": "82362de865c1f13032c2cb346589262f2963408cf0794cc1fa6dfc3a37abc2d9",
+            "test_sha256": "79fef8c850eff976fdd47347534c33e0635129c7fab9649b591fbb853329ed2a",
+            "candidate_count": 12,
+            "coordinate_tangent_embeddings_registered": 264,
+            "P10_embedding_records": 84,
+            "Pother_embedding_records": 180,
+            "unique_coordinate_unit_vectors_per_candidate": 20,
+            "embedding_manifest_sha256": "3f915d0f214159df6049362de5d837585c566a40fbf2e37cd16e78445c4d3d2e",
+            "registered_generic_term_component_projections": 0,
+            "registered_ordered_mixed_D2_roots": 0,
+            "blocked_ordered_mixed_D2_roots": 264,
+            "cross_slice_D2F_entries_admitted": 0,
+            "complete_ordered_D2F_tensors_registered": 0,
+            "full_high_atom_good_unknown_identities_proved": 0,
+            "global_H7_closures": 0,
+            "nonlinear_PDE_closures": 0,
+            "lifespans_proved": 0,
+            "finite_inventory_pass": 12,
+            "downstream_blocked": 12,
+            "candidate_rejects": 0,
+            "physical_covariant_component_map_proved": false,
+            "physical_covariant_component_map_no_go_proved": false,
+            "first_blocker": "differentiate_the_candidate_bound_D1_arithmetic_DAGs_along_the_264_registered_unit_tangents_and_seal_exact_ordered_mixed_D2_roots"
           },
           "fourth_jet_degree_three_matrix_curl_sphere_extension_binding": {
             "file_sha256": "118ee8b29dc6ddc40099a5ad53a07f0d2692de52e22912f64dab85e8dfedd972",

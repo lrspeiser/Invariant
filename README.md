@@ -60,6 +60,11 @@ The companion
 [registered-variation selection notebook](docs/notebooks/generated/quartic-registered-variation-selection-audit.md)
 shows why the four currently bound action/source evidence bundles still generate an exact
 `0 x 22` selector matrix rather than choosing one of those jet extensions.
+The next
+[component-map schema notebook](docs/notebooks/generated/quartic-component-map-schema-ambiguity.md)
+constructs two distinct exact `22 x 24` projections with the same registered values and the full
+22-parameter mixed-D2 extension family, making the missing typed bridge visible without turning a
+schema nonidentifiability result into a physical no-go claim.
 Their claim
 ledgers distinguish universal proof from local certification and unresolved global blockers; the
 Jupyter `.ipynb` versions sit beside the Markdown files. The complete design and fail-closed
@@ -674,6 +679,26 @@ The catalog root remains fixed while the partition-summary, cumulative-receipt, 
 roots advance without overlaps or gaps. The batch uses zero GPU workers and the cleanup-inclusive
 120-second formal bound. Global formal/comparable completeness, theory-wide rejection, formal passes,
 leaderboard rebuilds, ranks, promotions, live SQLite access, observations, and GPU access remain false.
+The next immutable two-leaf batch advances catalog indices 9 and 10, processing 45 additional
+candidate receipts and moving the gap-free cursor to prefix 11: 180 checked, 178 newly processed,
+two preserved, 180 hard rejects, and 11,069 receipts still pending. It used one owned CPU child and
+zero GPU workers under the same 120/180-second formal/total bounds. Its result is
+`runs/engine/continuous-scientific-pipeline-epoch-003-formal-receipt-batch-0002/result.json`
+(`6841c7bcee914fd7839026155109179262d428ff606d7aa3494bff6f14acf73e`, content
+`aa83076b30dc0eceac491997ccca8aacae635551765c00a20eb4d2836e331cd3`); config/source/test hashes
+are `8f203420d9255d7dc06102241943b7c239bb79d94a5e9781733f7582c37e3c92` /
+`353fa546be7448e1d5460ce29bced3db57f20be758be37dec1337b92cd758ded` /
+`f1623ceac6bf71b01a8c677e07df7eecb10348fd715701763b49186b39606e23`.
+Batch 0003 is implemented but did not execute: its separate blocked-readiness artifact records three
+device-wide CPU samples of 100% against the strict `<92%` admission threshold, with 49,454--50,133
+MiB RAM available. It seals `execution_started=false` and confirms that no result, leaf, cursor, GPU,
+runtime, SQLite, rank, or promotion artifact was created. This is operational refusal evidence, not
+a batch result or scientific failure. The readiness artifact file/content hashes are
+`d5a7113024cc346242e4fc8b9cfe2f3a07e482a8393cd8d6ad399e914de70c59` /
+`2a83a0895276dba1951baacd6aba5fad930fdd4f2998c59572e894e9cf35f6ca`;
+config/source/test hashes are `ed95ebdb54f812625113b19bfeaacba1ffca2b923cd01033fabd443909ef4cc7` /
+`a97807ce09c503ca36267dd0e49e85a7305727c2c5dc8c816aa0b9507995a2ba` /
+`960080a22eb78f99d17a7e7ef0cbe105bc30c2dbee89aee8fc24e0ac4010aa1d`.
 The new candidate-bound formula stress lane drives the same RTX 5090 much harder on dense numerical
 work: all 163 materialized Euler projections were checked on 5,341,184 deterministic synthetic
 candidate-point pairs against CPU evaluation, with 5,216 additional exact-rational sentinels and zero
@@ -1812,6 +1837,41 @@ tangent embedding, and the 22 ordered mixed-D2 roots. Artifact file/content hash
 source/config/test hashes are `599ce6c6069bf79b6e5bab1c5f0f3504c8c6775eb2cce0c5d76918acd56a36b1` /
 `63a914832a26029279e806b470609e3a76857fe55382ee53c90f5ea46c6605e8` /
 `05c6d4ce0c36bcd8689744407f54c6c912f518fcf4e61c123c96a27bb1b8b794`.
+
+The ordered mixed-D2 registration contract turns the abstract missing bridge into a complete finite
+work manifest without fabricating derivative values. It binds all 12 candidates and 22 fitted
+coordinates into 264 unique candidate-bound obligations, each anchored to an already registered D1
+arithmetic root. Every slot requires the candidate and coordinate identities, source row and atom,
+153-basis tangent coefficients and digest, ordered D2 arithmetic root and DAG hash, generic-component
+projection rule, and output-bundle rule. Current registered counts remain zero for the component maps,
+typed tangents, and ordered roots, so all 264 obligations are blocked and none is presented as a
+completed D2F entry. The finite registration audit passes for all 12 candidates while downstream
+admission blocks all 12 without rejection; high-atom, H7, PDE, lifespan, observation, and promotion
+claims remain false. The next blocker is to register candidate-bound P10/Pother tangent embeddings
+and then materialize and replay the 264 ordered roots. Artifact file/content hashes are
+`d74c889619e25abe7c6672a391bdc1209d03079ba8b245ccc94e2f4f79aa6365` /
+`90ec881410d7a9dcbf94114b8fa52d73aa4963f2baf8a7430f78b817f1fabc25`;
+source/config/test hashes are `0216f6ca9d6ee5b181a4447d59f7ebd1b9feb90f967545bf4a3ae046cc66d8fd` /
+`b9baf6225e7700a062b05a292e882f84d763b206d75daf8ee614a65f113e953e` /
+`13c702bd6567cf046b4c3c47cd576c7264345d1d995b8fb0eedcb575402473fa`;
+the obligation-manifest root is `2bf6f64c039b466d3c4d7ec62541d6d8ff25c497d067a5d8f938bf5d60ae91d1`.
+
+The coordinate-tangent embedding gate closes the first field in every one of those obligations.
+The live full-D1 atom registry bijectively orders all 153 coordinate atoms, so each target direction
+has the exact sparse unit tangent `e_j` at its registered column. All 264 candidate-bound embeddings
+are sealed: 84 P10 records and 180 Pother records, representing 20 unique coordinate unit vectors
+per candidate. This is a coordinate-chart result only; it does not invent the generic-G4 component
+projection, differentiate an arithmetic DAG, supply a mixed-D2 value, or prove a physical covariant
+map. Ordered roots remain 0 registered/264 blocked, all 12 candidates remain downstream blocked and
+unrejected, and D2F, high-atom, H7, PDE, lifespan, observation, and promotion claims remain false.
+The next blocker is exact arithmetic differentiation of the candidate-bound D1 DAGs along these
+unit tangents. Artifact file/content hashes are
+`d393050c41d58308a28a29a5b72b9da6f5ea0797b30ba97b885c3da8ca20efaa` /
+`fb4a55d74a8bfbe1009f13373883b5553c778441a04af143ad031f45de50e271`;
+source/config/test hashes are `9d42fee2340a1c284c8b4a17cb74ced5386e2cb41e50f54ee92f0c41cc5fe201` /
+`82362de865c1f13032c2cb346589262f2963408cf0794cc1fa6dfc3a37abc2d9` /
+`79fef8c850eff976fdd47347534c33e0635129c7fab9649b591fbb853329ed2a`;
+the embedding-manifest root is `3f915d0f214159df6049362de5d837585c566a40fbf2e37cd16e78445c4d3d2e`.
 
 The component campaign now proves every entry of the principal identity
 `D_Y E55 J = i P55` for all 12 candidates and materializes the complete first source Jacobian.
