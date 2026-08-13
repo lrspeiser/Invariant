@@ -1,0 +1,35 @@
+{
+  "budgets": {
+    "cpu_exact_replays": 8,
+    "leave_one_family_out_ablations": 7,
+    "maximum_candidates_per_replay": 21,
+    "maximum_evaluation_replays": 168,
+    "maximum_pareto_recomputations": 32
+  },
+  "campaign_id": "prospective-tournament-robustness-ablation-001",
+  "inputs": {
+    "gpu_stress_config": "configs/generated_candidate_formula_gpu_stress_campaign.json",
+    "gpu_stress_receipt": "runs/engine/generated-candidate-formula-gpu-stress-campaign.json",
+    "operational_rehearsal_source": "src/sigma_theory_compiler/alpha_operational_rehearsal.py",
+    "tournament_receipt": "runs/math/prospective-blind-cross-generator-tournament/campaign.json"
+  },
+  "policies": {
+    "gpu_runtime_access": "forbidden_historical_receipt_only",
+    "live_sqlite_access": "forbidden",
+    "network_access": "forbidden",
+    "operational_rehearsal_execution": "forbidden_interface_binding_only",
+    "process_control": "forbidden",
+    "stability_establishes_truth": false
+  },
+  "schema_version": "sigma-prospective-tournament-robustness-ablation-config-1.0",
+  "seeds": [
+    "robustness-order-01-20260813",
+    "robustness-order-02-20260813",
+    "robustness-order-03-20260813",
+    "robustness-order-04-20260813",
+    "robustness-order-05-20260813",
+    "robustness-order-06-20260813",
+    "robustness-order-07-20260813",
+    "robustness-order-08-20260813"
+  ]
+}

@@ -1,0 +1,705 @@
+"""Fixed-corpus prior-art boundary for the comprehensive-alpha Pareto survivors.
+
+This module proves only membership or non-membership in the exact bound JSON corpus under a
+small registered equivalence relation.  In particular, absence is not a novelty result.
+"""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+import re
+from collections import defaultdict
+from collections.abc import Mapping, Sequence
+from pathlib import Path
+from typing import Any
+
+from sigma_theory_compiler.equation_universe_knowledge_adapter import (
+    import_equation_universe_files,
+)
+from sigma_theory_compiler.sigma_core import (
+    CandidateArtifact,
+    SchemaViolation,
+    canonical_json_bytes,
+    canonical_sha256,
+)
+
+CONFIG_SCHEMA = "sigma-comprehensive-alpha-prior-art-boundary-config-1.0"
+RESULT_SCHEMA = "sigma-comprehensive-alpha-prior-art-boundary-result-1.0"
+BOUNDARY_ID = "comprehensive-alpha-prior-art-boundary-001"
+CONFIG_PATH = "configs/math/comprehensive_alpha_prior_art_boundary.json"
+SOURCE_PATH = "src/sigma_theory_compiler/comprehensive_alpha_prior_art_boundary.py"
+TEST_PATH = "tests/test_comprehensive_alpha_prior_art_boundary.py"
+OUTPUT_PATH = "runs/math/comprehensive-alpha-prior-art-boundary/receipt.json"
+STATUSES = ("absent_from_this_corpus", "ambiguous", "present_in_corpus")
+SCOPE = (
+    "Exact membership in the bound Equation Universe JSON and scalable dossier snapshots, under "
+    "the registered affine-x equivalence rules only. Absence is not novelty, exhaustive external "
+    "search, truth, proof, scientific validity, or promotion authorization."
+)
+_SHA256 = re.compile(r"^[0-9a-f]{64}$")
+_CROSS_ROLES = {
+    "cross_campaign_artifact",
+    "cross_campaign_config",
+    "cross_campaign_source",
+    "cross_campaign_test",
+}
+_EQUATION_ROLES = {
+    "equation_adapter_source",
+    "equation_adapter_test",
+    "equation_audit",
+    "equation_graph_source",
+    "equation_graph_test",
+    "equation_seed",
+    "equation_source_policy",
+}
+_DOSSIER_ROLES = {
+    "dossier_artifact",
+    "dossier_config",
+    "dossier_source",
+    "dossier_test",
+}
+_ALL_ROLES = _CROSS_ROLES | _EQUATION_ROLES | _DOSSIER_ROLES
+_CONFIG_KEYS = {
+    "boundary_id",
+    "canonicalizer",
+    "claims",
+    "expected_equation_import",
+    "expected_survivors",
+    "limits",
+    "schema_version",
+    "snapshot_sha256",
+    "source_bindings",
+}
+_BINDING_KEYS = {"content_sha256", "file_sha256", "path"}
+_CANONICALIZER_KEYS = {
+    "allowed_integer_offset_maximum",
+    "allowed_integer_offset_minimum",
+    "canonicalizer_id",
+    "equivalence_rules",
+    "forbidden_rules",
+    "variable",
+}
+_EXPECTED_EQ_KEYS = {"content_sha256", "equations", "graph_content_sha256"}
+_LIMIT_KEYS = {
+    "maximum_corpus_records",
+    "maximum_source_bytes",
+    "required_survivor_count",
+}
+_CLAIMS = {
+    "absence_means_novelty": False,
+    "corpus_presence_establishes_truth": False,
+    "equivalence_extends_beyond_registered_rules": False,
+    "external_search_complete": False,
+    "promotion_authorized": False,
+    "prospective_tournament_used": False,
+}
+
+
+class PriorArtBoundaryError(ValueError):
+    """The fixed-corpus boundary or its provenance failed closed."""
+
+
+def _exact_keys(value: Mapping[str, Any], expected: set[str], label: str) -> None:
+    if not isinstance(value, Mapping) or set(value) != expected:
+        raise PriorArtBoundaryError(f"{label} keys changed")
+
+
+def _file_sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def _resolve(root: Path, relative: str) -> Path:
+    if not isinstance(relative, str) or not relative or "\\" in relative:
+        raise PriorArtBoundaryError("bound path must be portable and relative")
+    path = (root / relative).resolve()
+    try:
+        path.relative_to(root.resolve())
+    except ValueError as error:
+        raise PriorArtBoundaryError("bound path escapes project root") from error
+    return path
+
+
+def _load_json(
+    path: Path, *, maximum_bytes: int, allow_legacy_float: bool = False
+) -> dict[str, Any]:
+    if path.stat().st_size > maximum_bytes:
+        raise PriorArtBoundaryError(f"bound JSON exceeds byte limit: {path.name}")
+
+    def reject_float(value: str) -> float:
+        raise PriorArtBoundaryError(f"floating JSON number is forbidden: {value}")
+
+    try:
+        value = json.loads(
+            path.read_text(encoding="utf-8"),
+            parse_float=None if allow_legacy_float else reject_float,
+        )
+    except PriorArtBoundaryError:
+        raise
+    except (OSError, UnicodeError, json.JSONDecodeError) as error:
+        raise PriorArtBoundaryError(f"cannot read exact JSON: {path.name}") from error
+    if not isinstance(value, dict):
+        raise PriorArtBoundaryError(f"JSON root is not an object: {path.name}")
+    if allow_legacy_float:
+        return json.loads(json.dumps(value, sort_keys=True, separators=(",", ":")))
+    try:
+        return json.loads(canonical_json_bytes(value))
+    except (SchemaViolation, TypeError, ValueError) as error:
+        raise PriorArtBoundaryError(f"JSON is not canonical exact data: {path.name}") from error
+
+
+def _sealed_content(value: Mapping[str, Any], label: str) -> str:
+    content = value.get("content_sha256")
+    if not isinstance(content, str) or _SHA256.fullmatch(content) is None:
+        raise PriorArtBoundaryError(f"{label} content_sha256 is invalid")
+    body = {key: item for key, item in value.items() if key != "content_sha256"}
+    if canonical_sha256(body) != content:
+        raise PriorArtBoundaryError(f"{label} content seal changed")
+    return content
+
+
+def _legacy_sealed_content(value: Mapping[str, Any], label: str) -> str:
+    content = value.get("content_sha256")
+    if not isinstance(content, str) or _SHA256.fullmatch(content) is None:
+        raise PriorArtBoundaryError(f"{label} content_sha256 is invalid")
+    body = {key: item for key, item in value.items() if key != "content_sha256"}
+    encoded = json.dumps(body, sort_keys=True, separators=(",", ":")).encode()
+    if hashlib.sha256(encoded).hexdigest() != content:
+        raise PriorArtBoundaryError(f"{label} content seal changed")
+    return content
+
+
+def _snapshot_body(config: Mapping[str, Any]) -> dict[str, Any]:
+    return {
+        "source_bindings": config["source_bindings"],
+        "expected_survivors": config["expected_survivors"],
+        "canonicalizer": config["canonicalizer"],
+        "expected_equation_import": config["expected_equation_import"],
+    }
+
+
+def _validate_config(config: Mapping[str, Any]) -> None:
+    _exact_keys(config, _CONFIG_KEYS, "config")
+    if config["schema_version"] != CONFIG_SCHEMA or config["boundary_id"] != BOUNDARY_ID:
+        raise PriorArtBoundaryError("config identity changed")
+    bindings = config["source_bindings"]
+    _exact_keys(bindings, _ALL_ROLES, "source_bindings")
+    for role, descriptor in bindings.items():
+        _exact_keys(descriptor, _BINDING_KEYS, f"source binding {role}")
+        if not isinstance(descriptor["path"], str) or not descriptor["path"]:
+            raise PriorArtBoundaryError(f"source binding path changed: {role}")
+        if _SHA256.fullmatch(str(descriptor["file_sha256"])) is None:
+            raise PriorArtBoundaryError(f"source binding hash changed: {role}")
+        content = descriptor["content_sha256"]
+        if content is not None and _SHA256.fullmatch(str(content)) is None:
+            raise PriorArtBoundaryError(f"source content hash changed: {role}")
+    survivors = config["expected_survivors"]
+    if not isinstance(survivors, list) or len(survivors) != 4:
+        raise PriorArtBoundaryError("expected survivor cardinality changed")
+    survivor_ids: list[str] = []
+    for item in survivors:
+        _exact_keys(item, {"artifact_id", "content_sha256"}, "expected survivor")
+        if not isinstance(item["artifact_id"], str) or not item["artifact_id"].startswith("sig-"):
+            raise PriorArtBoundaryError("expected survivor artifact_id changed")
+        if _SHA256.fullmatch(str(item["content_sha256"])) is None:
+            raise PriorArtBoundaryError("expected survivor hash changed")
+        survivor_ids.append(item["artifact_id"])
+    if survivor_ids != sorted(set(survivor_ids)):
+        raise PriorArtBoundaryError("expected survivors must be unique and sorted")
+    canonicalizer = config["canonicalizer"]
+    _exact_keys(canonicalizer, _CANONICALIZER_KEYS, "canonicalizer")
+    if canonicalizer != {
+        "canonicalizer_id": "comprehensive-alpha-affine-x-integer-v1",
+        "variable": "x",
+        "allowed_integer_offset_minimum": -32,
+        "allowed_integer_offset_maximum": 32,
+        "equivalence_rules": [
+            "exact_symbol_leaf",
+            "exact_integer_addition",
+            "additive_identity",
+        ],
+        "forbidden_rules": [
+            "approximate_numeric_equality",
+            "field_relabeling",
+            "integration_by_parts",
+            "physical_family_aliasing",
+            "statement_text_similarity",
+        ],
+    }:
+        raise PriorArtBoundaryError("canonicalizer registry changed")
+    _exact_keys(config["expected_equation_import"], _EXPECTED_EQ_KEYS, "equation import")
+    expected_import = config["expected_equation_import"]
+    if (
+        _SHA256.fullmatch(str(expected_import["content_sha256"])) is None
+        or _SHA256.fullmatch(str(expected_import["graph_content_sha256"])) is None
+        or isinstance(expected_import["equations"], bool)
+        or not isinstance(expected_import["equations"], int)
+        or expected_import["equations"] <= 0
+    ):
+        raise PriorArtBoundaryError("expected equation import changed")
+    _exact_keys(config["limits"], _LIMIT_KEYS, "limits")
+    limits = config["limits"]
+    if limits != {
+        "maximum_source_bytes": 2_000_000,
+        "maximum_corpus_records": 512,
+        "required_survivor_count": 4,
+    }:
+        raise PriorArtBoundaryError("resource limits changed")
+    if config["claims"] != _CLAIMS:
+        raise PriorArtBoundaryError("claim boundary changed")
+    expected_snapshot = canonical_sha256(_snapshot_body(config))
+    if config["snapshot_sha256"] != expected_snapshot:
+        raise PriorArtBoundaryError("corpus snapshot seal changed")
+
+
+def _load_bound_sources(
+    config: Mapping[str, Any], root: Path
+) -> tuple[dict[str, Path], dict[str, dict[str, Any]]]:
+    paths: dict[str, Path] = {}
+    json_values: dict[str, dict[str, Any]] = {}
+    maximum = int(config["limits"]["maximum_source_bytes"])
+    for role, descriptor in sorted(config["source_bindings"].items()):
+        path = _resolve(root, descriptor["path"])
+        if not path.is_file() or path.stat().st_size > maximum:
+            raise PriorArtBoundaryError(f"bound source missing or oversized: {role}")
+        if _file_sha256(path) != descriptor["file_sha256"]:
+            raise PriorArtBoundaryError(f"bound source file hash changed: {role}")
+        paths[role] = path
+        if path.suffix == ".json":
+            value = _load_json(
+                path,
+                maximum_bytes=maximum,
+                allow_legacy_float=role in {"dossier_artifact", "dossier_config"},
+            )
+            json_values[role] = value
+            if descriptor["content_sha256"] is not None:
+                content = (
+                    _legacy_sealed_content(value, role)
+                    if role == "dossier_artifact"
+                    else _sealed_content(value, role)
+                )
+                if content != descriptor["content_sha256"]:
+                    raise PriorArtBoundaryError(f"bound source content hash changed: {role}")
+    return paths, json_values
+
+
+def _validate_cross_campaign(
+    campaign: Mapping[str, Any], config: Mapping[str, Any]
+) -> tuple[CandidateArtifact, ...]:
+    _sealed_content(campaign, "cross campaign")
+    if (
+        campaign.get("decision")
+        != "completed_cross_generator_hard_gate_pareto_replay_with_fail_closed_exclusions"
+        or campaign.get("claims", {}).get("novelty_established") is not False
+    ):
+        raise PriorArtBoundaryError("cross campaign decision or novelty boundary changed")
+    if campaign.get("claims", {}).get("pareto_rank_establishes_truth") is not False:
+        raise PriorArtBoundaryError("cross campaign truth boundary changed")
+    raw = campaign.get("pareto", {}).get("candidates")
+    if not isinstance(raw, list) or len(raw) != config["limits"]["required_survivor_count"]:
+        raise PriorArtBoundaryError("Pareto survivor set changed")
+    try:
+        candidates = tuple(CandidateArtifact.from_dict(item) for item in raw)
+    except (SchemaViolation, TypeError, ValueError) as error:
+        raise PriorArtBoundaryError("Pareto candidate failed Sigma Core replay") from error
+    candidates = tuple(sorted(candidates, key=lambda item: item.artifact_id))
+    expected = [
+        (item["artifact_id"], item["content_sha256"]) for item in config["expected_survivors"]
+    ]
+    actual = [(item.artifact_id, item.content_sha256) for item in candidates]
+    if actual != expected:
+        raise PriorArtBoundaryError("Pareto survivor identity changed")
+    fronts = campaign.get("pareto", {}).get("pareto_fronts")
+    if not isinstance(fronts, list):
+        raise PriorArtBoundaryError("Pareto fronts changed")
+    front_refs = sorted(
+        (str(item.get("artifact_id")), str(item.get("content_sha256")))
+        for front in fronts
+        if isinstance(front, list)
+        for item in front
+        if isinstance(item, Mapping)
+    )
+    if front_refs != expected:
+        raise PriorArtBoundaryError("Pareto front coverage changed")
+    campaign_bindings = campaign.get("source_bindings")
+    if not isinstance(campaign_bindings, Mapping):
+        raise PriorArtBoundaryError("cross campaign bindings changed")
+    for role in ("config", "source", "test"):
+        expected_binding = config["source_bindings"][f"cross_campaign_{role}"]
+        if campaign_bindings.get(role) != {
+            "path": expected_binding["path"],
+            "file_sha256": expected_binding["file_sha256"],
+        }:
+            raise PriorArtBoundaryError(f"cross campaign {role} binding changed")
+    return candidates
+
+
+def _canonicalize_survivor(candidate: CandidateArtifact) -> dict[str, Any]:
+    if candidate.kind.value != "formula":
+        raise PriorArtBoundaryError("Pareto survivor is not a formula")
+    representation = candidate.representation
+    offset: int | None = None
+    form: str | None = None
+    if set(representation) == {"expression", "family", "variant"}:
+        expression = representation["expression"]
+        if (
+            isinstance(expression, list)
+            and len(expression) == 3
+            and expression[:2] == ["x", "+"]
+            and isinstance(expression[2], int)
+            and not isinstance(expression[2], bool)
+            and representation["variant"] == expression[2]
+            and representation["family"] in {"bayesian", "evolutionary"}
+        ):
+            offset = expression[2]
+            form = str(representation["family"])
+    elif set(representation) == {
+        "canonical_sympy",
+        "complexity",
+        "expression",
+        "grammar_spec_sha256",
+        "ordinal",
+    }:
+        if (
+            representation["canonical_sympy"] == "Symbol('x', nonnegative=True, finite=True)"
+            and representation["expression"] == "x"
+            and representation["complexity"] == 1
+            and representation["ordinal"] == 0
+        ):
+            offset = 0
+            form = "grammar"
+    elif set(representation) == {
+        "canonical_expression",
+        "canonical_expression_sha256",
+        "canonicalizer",
+        "generator",
+        "math_expression_sha256",
+        "origin_count",
+        "typed_variables",
+    }:
+        expression = representation["canonical_expression"]
+        if (
+            isinstance(expression, Mapping)
+            and expression.get("arguments") == []
+            and expression.get("operation") == "symbol"
+            and expression.get("value") == "x"
+            and representation["canonicalizer"] == "math-pack-exact-rational-1.0"
+            and representation["generator"] == "bounded_exact_symbolic"
+            and representation["origin_count"] == 1
+        ):
+            offset = 0
+            form = "symbolic"
+    if offset is None or form is None or not -32 <= offset <= 32:
+        raise PriorArtBoundaryError(
+            f"survivor representation is outside registered canonicalizer: {candidate.artifact_id}"
+        )
+    normal_form = {"coefficient": 1, "integer_offset": offset, "variable": "x"}
+    return {
+        "canonicalizer_id": "comprehensive-alpha-affine-x-integer-v1",
+        "input_form": form,
+        "normal_form": normal_form,
+        "normal_form_sha256": canonical_sha256(normal_form),
+    }
+
+
+def _validate_dossier(dossier: Mapping[str, Any], maximum_records: int) -> dict[str, Any]:
+    content = _legacy_sealed_content(dossier, "dossier corpus")
+    rows = dossier.get("dossiers")
+    if (
+        dossier.get("schema_version") != "sigma-scalable-candidate-explanation-dossier-bridge-1.0"
+        or not isinstance(rows, list)
+        or dossier.get("candidate_count") != len(rows)
+        or len(rows) > maximum_records
+        or dossier.get("observational_data_opened") is not False
+        or dossier.get("observational_authorization") is not False
+    ):
+        raise PriorArtBoundaryError("dossier corpus boundary changed")
+    registry: list[tuple[str, str, str]] = []
+    for row in rows:
+        if not isinstance(row, Mapping):
+            raise PriorArtBoundaryError("dossier row is not an object")
+        row_content = _legacy_sealed_content(row, "dossier row")
+        candidate_id = row.get("candidate_id")
+        family_id = row.get("family_id")
+        action = row.get("action")
+        if (
+            not isinstance(candidate_id, str)
+            or not candidate_id
+            or not isinstance(family_id, str)
+            or not family_id
+            or not isinstance(action, Mapping)
+            or _SHA256.fullmatch(str(action.get("action_sha256"))) is None
+        ):
+            raise PriorArtBoundaryError("dossier row identity changed")
+        registry.append((candidate_id, row_content, str(action["action_sha256"])))
+    if len({item[0] for item in registry}) != len(registry):
+        raise PriorArtBoundaryError("dossier candidate IDs are not unique")
+    claimed_root = dossier.get("provenance", {}).get("dossier_registry_root_sha256")
+    computed_root = canonical_sha256([[item[0], item[1]] for item in registry])
+    if claimed_root != computed_root:
+        raise PriorArtBoundaryError("dossier registry root changed")
+    return {
+        "content_sha256": content,
+        "dossier_registry_root_sha256": computed_root,
+        "record_count": len(registry),
+        "unique_action_count": len({item[2] for item in registry}),
+        "canonical_namespace": "physical_action_dossier/action_sha256",
+    }
+
+
+def _leakage_hits(
+    paths: Mapping[str, Path], candidates: Sequence[CandidateArtifact]
+) -> list[dict[str, str]]:
+    tokens = [(candidate.artifact_id, "artifact_id") for candidate in candidates] + [
+        (candidate.content_sha256, "content_sha256") for candidate in candidates
+    ]
+    hits: list[dict[str, str]] = []
+    for role in sorted(_EQUATION_ROLES | _DOSSIER_ROLES):
+        raw = paths[role].read_bytes()
+        for token, token_kind in tokens:
+            if token.encode("ascii") in raw:
+                hits.append(
+                    {
+                        "candidate_artifact_id": (
+                            token
+                            if token_kind == "artifact_id"
+                            else next(
+                                item.artifact_id
+                                for item in candidates
+                                if item.content_sha256 == token
+                            )
+                        ),
+                        "corpus_role": role,
+                        "token_kind": token_kind,
+                    }
+                )
+    return sorted(
+        hits,
+        key=lambda item: (
+            item["candidate_artifact_id"],
+            item["corpus_role"],
+            item["token_kind"],
+        ),
+    )
+
+
+def _lane_bindings(root: Path, config_path: Path) -> dict[str, dict[str, str]]:
+    files = {
+        "config": config_path,
+        "source": _resolve(root, SOURCE_PATH),
+        "test": _resolve(root, TEST_PATH),
+    }
+    return {
+        role: {
+            "path": path.resolve().relative_to(root.resolve()).as_posix(),
+            "file_sha256": _file_sha256(path),
+        }
+        for role, path in sorted(files.items())
+    }
+
+
+def build_boundary(
+    config_path: str | Path = CONFIG_PATH, *, root: str | Path = "."
+) -> dict[str, Any]:
+    """Build the exact prior-art boundary receipt without using SQLite or a network."""
+
+    project_root = Path(root).resolve()
+    resolved_config = _resolve(project_root, Path(config_path).as_posix())
+    config = _load_json(resolved_config, maximum_bytes=2_000_000)
+    _validate_config(config)
+    paths, values = _load_bound_sources(config, project_root)
+    candidates = _validate_cross_campaign(values["cross_campaign_artifact"], config)
+    canonical = {
+        candidate.artifact_id: _canonicalize_survivor(candidate) for candidate in candidates
+    }
+
+    equation_import = import_equation_universe_files(
+        paths["equation_seed"],
+        paths["equation_source_policy"],
+        paths["equation_audit"],
+        project_root=project_root,
+    )
+    expected_import = config["expected_equation_import"]
+    if (
+        equation_import.content_sha256 != expected_import["content_sha256"]
+        or equation_import.graph.content_sha256 != expected_import["graph_content_sha256"]
+        or equation_import.counts["equations"] != expected_import["equations"]
+    ):
+        raise PriorArtBoundaryError("Equation Universe import replay changed")
+    dossier_snapshot = _validate_dossier(
+        values["dossier_artifact"], int(config["limits"]["maximum_corpus_records"])
+    )
+    equation_count = int(equation_import.counts["equations"])
+    corpus_record_count = equation_count + int(dossier_snapshot["record_count"])
+    if corpus_record_count > config["limits"]["maximum_corpus_records"]:
+        raise PriorArtBoundaryError("combined corpus exceeds record limit")
+
+    leakage = _leakage_hits(paths, candidates)
+    leaked_ids = {item["candidate_artifact_id"] for item in leakage}
+    groups: dict[str, list[str]] = defaultdict(list)
+    for candidate in candidates:
+        groups[canonical[candidate.artifact_id]["normal_form_sha256"]].append(candidate.artifact_id)
+    equivalence_classes = [
+        {
+            "normal_form_sha256": digest,
+            "survivor_artifact_ids": sorted(ids),
+            "cardinality": len(ids),
+        }
+        for digest, ids in sorted(groups.items())
+    ]
+
+    survivor_rows: list[dict[str, Any]] = []
+    for candidate in candidates:
+        artifact_id = candidate.artifact_id
+        ambiguous = artifact_id in leaked_ids
+        status = "ambiguous" if ambiguous else "absent_from_this_corpus"
+        survivor_rows.append(
+            {
+                "artifact_id": artifact_id,
+                "content_sha256": candidate.content_sha256,
+                "canonical_form": canonical[artifact_id],
+                "status": status,
+                "matched_corpus_records": [],
+                "equivalent_survivor_artifact_ids": sorted(
+                    item
+                    for item in groups[canonical[artifact_id]["normal_form_sha256"]]
+                    if item != artifact_id
+                ),
+                "ambiguity_reasons": (
+                    ["survivor_identity_occurs_in_bound_prior_art_dependency_closure"]
+                    if ambiguous
+                    else []
+                ),
+                "absence_is_novelty": False,
+            }
+        )
+    status_counts = {status: 0 for status in STATUSES}
+    for row in survivor_rows:
+        status_counts[row["status"]] += 1
+    decision = "block" if status_counts["ambiguous"] else "pass"
+    first_blocker = (
+        "ambiguous_survivor_identity_leakage_in_prior_art_dependency_closure"
+        if decision == "block"
+        else None
+    )
+    corpus_snapshot = {
+        "snapshot_sha256": config["snapshot_sha256"],
+        "equation_universe": {
+            "content_sha256": equation_import.content_sha256,
+            "graph_content_sha256": equation_import.graph.content_sha256,
+            "record_count": equation_count,
+            "equivalence_edge_count": equation_import.counts["equivalence_edges"],
+            "canonical_namespace": "equation_universe/domain/semantic_hash",
+        },
+        "scalable_dossier": dossier_snapshot,
+        "compatibility_boundary": {
+            "survivor_namespace": "synthetic.comprehensive_alpha/formula/affine-x-integer",
+            "comparable_corpus_record_count": 0,
+            "reason": (
+                "The bound corpus contains typed physical equations and physical-action dossiers; "
+                "the registered rules do not erase domain or artifact-kind boundaries."
+            ),
+        },
+    }
+    body = {
+        "schema_version": RESULT_SCHEMA,
+        "boundary_id": BOUNDARY_ID,
+        "scope": SCOPE,
+        "decision": decision,
+        "first_blocker": first_blocker,
+        "source_bindings": {
+            "lane": _lane_bindings(project_root, resolved_config),
+            "snapshot": config["source_bindings"],
+        },
+        "corpus_snapshot": corpus_snapshot,
+        "canonicalizer": config["canonicalizer"],
+        "survivors": survivor_rows,
+        "survivor_equivalence_classes": equivalence_classes,
+        "leakage_audit": {
+            "scanned_roles": sorted(_EQUATION_ROLES | _DOSSIER_ROLES),
+            "hit_count": len(leakage),
+            "hits": leakage,
+            "ambiguous_leakage_fails_closed": True,
+        },
+        "counts": {
+            "survivors": len(survivor_rows),
+            "present_in_corpus": status_counts["present_in_corpus"],
+            "absent_from_this_corpus": status_counts["absent_from_this_corpus"],
+            "ambiguous": status_counts["ambiguous"],
+            "survivor_equivalence_classes": len(equivalence_classes),
+            "equation_universe_records": equation_count,
+            "scalable_dossier_records": dossier_snapshot["record_count"],
+            "total_corpus_records": corpus_record_count,
+            "comparable_corpus_records": 0,
+            "leakage_hits": len(leakage),
+        },
+        "claims": _CLAIMS,
+    }
+    return {**body, "content_sha256": canonical_sha256(body)}
+
+
+def validate_boundary(
+    result: Mapping[str, Any],
+    *,
+    config_path: str | Path = CONFIG_PATH,
+    root: str | Path = ".",
+) -> None:
+    """Replay every live binding and require exact byte-independent receipt equality."""
+
+    if not isinstance(result, Mapping):
+        raise PriorArtBoundaryError("boundary result must be an object")
+    expected = build_boundary(config_path, root=root)
+    try:
+        actual_bytes = canonical_json_bytes(result)
+        expected_bytes = canonical_json_bytes(expected)
+    except (SchemaViolation, TypeError, ValueError) as error:
+        raise PriorArtBoundaryError("boundary result is not exact canonical JSON") from error
+    if actual_bytes != expected_bytes:
+        raise PriorArtBoundaryError("boundary result does not match exact live replay")
+
+
+def write_boundary(
+    config_path: str | Path = CONFIG_PATH,
+    output_path: str | Path = OUTPUT_PATH,
+    *,
+    root: str | Path = ".",
+) -> dict[str, Any]:
+    """Build, validate, and write a canonical checked receipt."""
+
+    project_root = Path(root).resolve()
+    result = build_boundary(config_path, root=project_root)
+    validate_boundary(result, config_path=config_path, root=project_root)
+    output = _resolve(project_root, Path(output_path).as_posix())
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_bytes(canonical_json_bytes(result) + b"\n")
+    return result
+
+
+def main(argv: Sequence[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--root", default=".")
+    parser.add_argument("--config", default=CONFIG_PATH)
+    parser.add_argument("--output", default=OUTPUT_PATH)
+    args = parser.parse_args(argv)
+    result = write_boundary(args.config, args.output, root=args.root)
+    print(json.dumps(result, indent=2, sort_keys=True))
+    return 0
+
+
+if __name__ == "__main__":  # pragma: no cover
+    raise SystemExit(main())
+
+
+__all__ = [
+    "BOUNDARY_ID",
+    "CONFIG_PATH",
+    "OUTPUT_PATH",
+    "RESULT_SCHEMA",
+    "SOURCE_PATH",
+    "TEST_PATH",
+    "PriorArtBoundaryError",
+    "build_boundary",
+    "validate_boundary",
+    "write_boundary",
+]
