@@ -11,10 +11,15 @@ P55_RECEIPT = ROOT / (
     "runs/physics-language/"
     "quartic-tc2-d4-flat-reference-p55-spatial-pencil-registration-gate/campaign.json"
 )
+P55_RESULT = ROOT / (
+    "runs/physics-language/quartic-tc2-d4-p55-checkpointable-materializer/result.json"
+)
 BATCH_RECEIPT = ROOT / (
     "runs/engine/continuous-scientific-pipeline-epoch-003-formal-receipt-batch-0003/result.json"
 )
 NATIVE_RECEIPT = ROOT / "runs/math/native-newton-blind-polynomial-tournament/receipt.json"
+MAXWELL_RECEIPT = ROOT / "runs/math/maxwell-hilbert-noether-interface-gate/receipt.json"
+FLUID_RECEIPT = ROOT / "runs/math/barotropic-irrotational-action-gate/receipt.json"
 
 
 def _load(path: Path) -> dict:
@@ -57,10 +62,17 @@ def test_matter_and_p55_counts_are_projected_from_checked_receipts() -> None:
     assert p55["counts"]["required_dense_entries"] == 9_075
     assert p55["counts"]["registered_sparse_entries"] == 0
     assert p55["counts"]["minimal_polynomial_entries_reduced"] == 0
-    assert "three absent 55x55 sparse pencil matrices" in text
-    assert "0/3 packets, 0/144 sparse entries" in text
-    assert "0/3,025 minimal-polynomial reductions" in text
-    assert "30–45 minute `_symbol_data()`" in text
+    assert "prior BLOCK receipt is retained as historical evidence" in text
+
+    p55_result = _load(P55_RESULT)
+    assert p55_result["counts"]["matrix_packets"] == 3
+    assert p55_result["counts"]["sparse_entries"] == 144
+    assert p55_result["counts"]["linearity_entries_certified"] == 3_025
+    assert p55_result["counts"]["minimal_polynomial_entries_reduced"] == 3_025
+    assert p55_result["counts"]["minimal_polynomial_nonzero_remainders"] == 0
+    assert p55_result["claims"]["full_direction_sphere_D4_compatibility_proved"] is False
+    assert "3/3 exact 55x55 axis matrices" in text
+    assert "zero nonzero remainders" in text
 
 
 def test_continuous_cursor_counts_and_product_milestones_are_current() -> None:
@@ -103,3 +115,33 @@ def test_native_independent_construction_result_is_measured_and_narrow() -> None
     assert winner["status"] == "PASS"
     assert "1 PASS, 2 REJECT" in text
     assert "Multi-world, non-polynomial" in text
+
+
+def test_maxwell_followup_records_profile_success_and_arbitrary_background_block() -> None:
+    text = DOCUMENT.read_text(encoding="utf-8")
+    maxwell = _load(MAXWELL_RECEIPT)
+    assert maxwell["decision"] == "BOUNDED_PASS_WITH_TYPED_BLOCK"
+    assert maxwell["counts"]["exact_noether_residuals"] == 12
+    assert maxwell["counts"]["exact_structural_residuals"] == 1
+    assert maxwell["counts"]["blocks"] == 1
+    assert maxwell["claims"]["dedicated_maxwell_registered_profile_interface_closed"] is True
+    assert maxwell["claims"]["dedicated_maxwell_arbitrary_background_interface_closed"] is False
+    assert "12 exact Noether residuals" in text
+    assert "arbitrary curved metric/profile closure remains one typed BLOCK" in text
+
+
+def test_fluid_followup_closes_only_the_irrotational_action_gate() -> None:
+    text = DOCUMENT.read_text(encoding="utf-8")
+    fluid = _load(FLUID_RECEIPT)
+    assert fluid["decision"] == "PASS_EARLIEST_GATE_ONLY"
+    assert [item["outcome"] for item in fluid["gate_results"]] == [
+        "PASS",
+        "NOT_EVALUATED",
+        "NOT_EVALUATED",
+        "NOT_EVALUATED",
+    ]
+    assert fluid["exact_replay"]["equation_of_state"] == "p=rho/3"
+    assert fluid["claims"]["vortical_flows_covered"] is False
+    assert fluid["claims"]["universal_matter_closure_established"] is False
+    assert "three later PDE gates remain NOT_EVALUATED" in text
+    assert "vortical flow is excluded" in text

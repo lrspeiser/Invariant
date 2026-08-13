@@ -1,0 +1,47 @@
+{
+  "schema_version": "invariant-barotropic-irrotational-action-gate-config-1.0",
+  "campaign_id": "barotropic-irrotational-action-gate-001",
+  "output_path": "runs/math/barotropic-irrotational-action-gate/receipt.json",
+  "predecessors": {
+    "universal_matter": {
+      "path": "runs/math/universal-matter-coupled-pde-control-pack/receipt.json",
+      "file_sha256": "d6bbbf8bdf3958219c3cbccee1408513623cafb84d30dd688317d422c52f57fd",
+      "content_sha256": "9d6ca5bf43ca5677eb482959d65525ceb12c3faf46bbb3510a5c0ef3c3616489"
+    },
+    "maxwell_followup": {
+      "path": "runs/math/maxwell-hilbert-noether-interface-gate/receipt.json",
+      "file_sha256": "9dd08c19aa1241868505716b15e7a969463f6a5a33556d4d4b4a0ca21eda62f8",
+      "content_sha256": "840e0a183c78067c9c5f961fd484d4f5f37068752f4cfe065fa8754c86010d05"
+    }
+  },
+  "evidence_bindings": {
+    "formal_controls": {
+      "path": "runs/formal-controls-v1/formal-controls-portable.json",
+      "file_sha256": "1a121c66365e70aed1ee9b5e5803829b824ca57c4671ee61b6fa6bad1a1dd8e1",
+      "content_sha256": "cbf2f085198ac29afce473ca39ac7f39681d5ec6b781ef67cfed9313c0a8a420"
+    }
+  },
+  "required_control": "generic_g2_variation_noether_identity",
+  "sector": {
+    "sector_id": "barotropic_perfect_fluid_irrotational_patch",
+    "physical_metric": "g_mu_nu",
+    "velocity_potential": "tau",
+    "kinetic_scalar": "X=-g^mu_nu nabla_mu(tau)nabla_nu(tau)/2",
+    "pressure_function": "P(X)=kappa X^2",
+    "action_density": "sqrt(-g) P(X)",
+    "dependencies": ["g_mu_nu", "tau", "kappa"],
+    "domain": ["kappa>0", "X>0", "nabla_mu(tau) future-directed timelike"],
+    "equation_of_state": "p=rho/3",
+    "scope_restriction": "irrotational isentropic potential-flow patch; vortical fluids excluded"
+  },
+  "claims_policy": {
+    "close_only_action_level_gate": true,
+    "stress_conservation_gate": "NOT_EVALUATED",
+    "hyperbolicity_gate": "NOT_EVALUATED",
+    "constraint_propagation_gate": "NOT_EVALUATED",
+    "arbitrary_background_closure": false,
+    "gravity_h7": false,
+    "universal_matter": false,
+    "promotion": false
+  }
+}

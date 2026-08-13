@@ -1,0 +1,45 @@
+{
+  "campaign_id": "maxwell-hilbert-noether-interface-gate-001",
+  "schema_version": "invariant-maxwell-hilbert-noether-interface-config-1.0",
+  "output_path": "runs/math/maxwell-hilbert-noether-interface-gate/receipt.json",
+  "predecessor": {
+    "path": "runs/math/universal-matter-coupled-pde-control-pack/receipt.json",
+    "file_sha256": "d6bbbf8bdf3958219c3cbccee1408513623cafb84d30dd688317d422c52f57fd",
+    "content_sha256": "9d6ca5bf43ca5677eb482959d65525ceb12c3faf46bbb3510a5c0ef3c3616489",
+    "required_first_blocker": "dedicated_maxwell_hilbert_stress_noether_identity"
+  },
+  "evidence_bindings": {
+    "formal_controls": {
+      "path": "runs/formal-controls-v1/formal-controls-portable.json",
+      "file_sha256": "1a121c66365e70aed1ee9b5e5803829b824ca57c4671ee61b6fa6bad1a1dd8e1"
+    },
+    "covariant_identity_source": {
+      "path": "src/sigma_theory_compiler/covariant_identities.py",
+      "file_sha256": "ed05fe41d43ec606fa406d236e08c72c8702fa01f2e812a302d5edadba0d86b6"
+    },
+    "proca_action_ir": {
+      "path": "runs/formal-controls-v1/action-health/proca_control/action-ir.json",
+      "file_sha256": "bf57ab5230354acfcc65d7cad1ca04f4f5d55a8c72ce9531c6b1c57a4699c362",
+      "content_sha256": "0ec3fd6c233855e1cabf767d35ea12729b1b75dbfb29d409066f4266004c7c0b"
+    }
+  },
+  "required_controls": [
+    "cadabra_proca_variation",
+    "cadabra_proca_metric_variation",
+    "proca_stress_noether_identity",
+    "proca_curved_background_noether_identity"
+  ],
+  "massless_specialization": {
+    "mass_parameter": "m_A",
+    "value": "0",
+    "retained_term_id": "PROCA_F2",
+    "removed_term_id": "PROCA_MASS"
+  },
+  "claims_policy": {
+    "allow_bounded_maxwell_interface_pass": true,
+    "allow_universal_matter_claim": false,
+    "allow_gravity_h7_claim": false,
+    "allow_global_or_boundary_claim": false,
+    "allow_promotion": false
+  }
+}
