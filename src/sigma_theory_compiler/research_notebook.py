@@ -524,6 +524,220 @@ def build_quartic_survivor_notebook(root: Path) -> ResearchNotebook:
     )
 
 
+def build_action_jet_nonidentifiability_notebook(root: Path) -> ResearchNotebook:
+    receipt_path = (
+        "runs/physics-language/"
+        "quartic-fitted-output-connection-action-jet-nonidentifiability-gate/campaign.json"
+    )
+    result, binding = _load_sealed_receipt(root, receipt_path)
+    expected_counts = {
+        "complete_ordered_D2F_tensors_registered": 0,
+        "cross_slice_D2F_entries_admitted": 0,
+        "fitted_connection_coordinates": 22,
+        "full_high_atom_good_unknown_identities_proved": 0,
+        "global_H7_closures": 0,
+        "independent_ambiguity_parameters": 22,
+        "lifespans_proved": 0,
+        "nonidentified_first_jet_samples": 88,
+        "nonidentified_second_jet_samples": 88,
+        "nonlinear_PDE_closures": 0,
+        "registered_G4_X_grid_points": 4,
+        "registered_corrected_second_source_jet_entries": 0,
+        "registered_covariant_derivation_functors": 0,
+        "registered_value_equalities_replayed": 88,
+        "selected": 12,
+    }
+    expected_samples = [
+        {
+            "G4_X": "-1",
+            "first_jet_lambda_coefficient": "-3/2",
+            "null_value": "0",
+            "second_jet_lambda_coefficient": "19/2",
+        },
+        {
+            "G4_X": "-1/2",
+            "first_jet_lambda_coefficient": "3/4",
+            "null_value": "0",
+            "second_jet_lambda_coefficient": "1/2",
+        },
+        {
+            "G4_X": "1/2",
+            "first_jet_lambda_coefficient": "-3/4",
+            "null_value": "0",
+            "second_jet_lambda_coefficient": "1/2",
+        },
+        {
+            "G4_X": "1",
+            "first_jet_lambda_coefficient": "3/2",
+            "null_value": "0",
+            "second_jet_lambda_coefficient": "19/2",
+        },
+    ]
+    certificate = result["null_polynomial_certificate"]
+    records = result["coordinate_ambiguity_records"]
+    claim_seals = result["claim_seals"]
+    if (
+        result["decision"] != "pass_exact_finite_grid_first_and_second_jet_nonidentifiability"
+        or result["decision_counts"] != {"blocked": 0, "pass": 12, "reject": 0}
+        or result["downstream_admission_counts"] != {"blocked": 12, "pass": 0, "reject": 0}
+        or result["gate_counts"] != expected_counts
+        or certificate
+        != {
+            "expanded_null_polynomial": "g^4-5/4*g^2+1/4",
+            "first_derivative": "4*g^3-5/2*g",
+            "grid_samples": expected_samples,
+            "second_derivative": "12*g^2-5/2",
+        }
+        or len(records) != 22
+        or [record["coordinate_ordinal"] for record in records] != list(range(22))
+        or any(
+            record["registered_value_equalities"] != 4
+            or record["first_jet_ambiguities"] != 4
+            or record["second_jet_ambiguities"] != 4
+            or record["jet_identified"] is not False
+            for record in records
+        )
+        or {key for key, value in claim_seals.items() if value}
+        != {
+            "all_22_coordinate_value_extensions_nonunique",
+            "all_88_first_jet_samples_nonidentified",
+            "all_88_second_jet_samples_nonidentified",
+            "degree_four_null_polynomial_constructed",
+            "finite_grid_value_factorization_bound",
+            "independent_22_parameter_ambiguity_family_constructed",
+        }
+    ):
+        raise NotebookValidationError("action-jet nonidentifiability receipt boundary changed")
+    broad_false = {
+        "candidate_theory_rejected",
+        "complete_ordered_D2F_tensor_registered",
+        "corrected_second_source_jet_registered",
+        "covariant_output_connection_derivation_registered",
+        "cross_slice_D2F_entries_admitted",
+        "full_high_atom_good_unknown_identity_proved",
+        "global_H7_energy_closed",
+        "nonlinear_PDE_closed",
+        "nonlinear_lifespan_proved",
+        "observational_claim_made",
+    }
+    if any(claim_seals[key] for key in broad_false):
+        raise NotebookValidationError("action-jet broad false-claim boundary changed")
+    evidence = (receipt_path,)
+    table = (
+        "| $g$ | $p(g)$ | $p'(g)$ | $p''(g)$ |\n"
+        "|---:|---:|---:|---:|\n"
+        "| $-1$ | $0$ | $-3/2$ | $19/2$ |\n"
+        "| $-1/2$ | $0$ | $3/4$ | $1/2$ |\n"
+        "| $1/2$ | $0$ | $-3/4$ | $1/2$ |\n"
+        "| $1$ | $0$ | $3/2$ | $19/2$ |"
+    )
+    cells = (
+        NotebookCell(
+            "The finite-data question",
+            "For each of 22 fitted connection coordinates, the receipt registers only four "
+            "values of a function of $g=G_{4,X}$, at\n\n"
+            "$$g\\in\\{-1,-\\tfrac{1}{2},\\tfrac{1}{2},1\\},\\qquad "
+            "f_i(g)=\\beta_i g.\n$$\n\n"
+            "Can these four values determine the first and second $g$ derivatives of the "
+            "underlying extension? No derivative functor or polynomial degree bound below four "
+            "is among the registered premises.",
+            evidence,
+        ),
+        NotebookCell(
+            "Derive the null polynomial",
+            "A polynomial that vanishes at all four registered values is obtained by taking "
+            "one factor for each point:\n\n"
+            "$$\\begin{aligned}\n"
+            "p(g)&=(g+1)(g+\\tfrac{1}{2})(g-\\tfrac{1}{2})(g-1)\\\\\n"
+            "&=(g^2-1)(g^2-\\tfrac{1}{4})\\\\\n"
+            "&=g^4-\\tfrac{5}{4}g^2+\\tfrac{1}{4}.\n"
+            "\\end{aligned}$$\n\n"
+            "Exact differentiation gives\n\n"
+            "$$p'(g)=4g^3-\\tfrac{5}{2}g,\\qquad "
+            "p''(g)=12g^2-\\tfrac{5}{2}.$$\n",
+            evidence,
+        ),
+        NotebookCell(
+            "Evaluate values and jets at all four points",
+            table + "\n\nThus $p$ is invisible to every registered value sample, while both "
+            "$p'$ and $p''$ are nonzero at every sampled point. The table is exact rational "
+            "arithmetic, not a numerical fit.",
+            evidence,
+        ),
+        NotebookCell(
+            "The 22-parameter ambiguity family",
+            "For coordinate $i\\in\\{0,\\ldots,21\\}$ introduce an independent parameter "
+            "$\\lambda_i$ and set\n\n"
+            "$$F_i(g)=\\beta_i g+\\lambda_i p(g).$$\n\n"
+            "At each registered grid point, $F_i(g)=\\beta_i g$ for every $\\lambda_i$. "
+            "But\n\n"
+            "$$F_i'(g)=\\beta_i+\\lambda_i p'(g),\\qquad "
+            "F_i''(g)=\\lambda_i p''(g),$$\n\n"
+            "and the table shows that both jets vary nontrivially with $\\lambda_i$ at all four "
+            "points. Because the parameters are coordinate-wise independent, their product "
+            "gives a 22-parameter family. Equivalently, the four values leave all 88 recorded "
+            "first-jet samples and all 88 second-jet samples unidentified.",
+            evidence,
+        ),
+        NotebookCell(
+            "What is proved",
+            "The registered four-point value map is not injective on first or second action "
+            "feature jets within the displayed degree-four extension class. Therefore those "
+            "finite values alone cannot select the affine extension $\\beta_i g$ over the "
+            "alternatives $\\beta_i g+\\lambda_i p(g)$. This is an exact identifiability "
+            "obstruction, and it holds independently in all 22 coordinates.",
+            evidence,
+        ),
+        NotebookCell(
+            "What remains open",
+            "This obstruction is **not** a no-go theorem for a covariant action derivation. A "
+            "registered local variation rule, derivative samples, a justified degree bound, or "
+            "corrected second-source jet values could select one extension. In the sealed "
+            "receipt, zero corrected second-source entries and zero cross-slice $D^2F$ entries "
+            "are admitted; complete ordered $D^2F$, the high-atom identity, global $H^7$, "
+            "nonlinear PDE closure, and lifespan all remain open. All 12 downstream candidates "
+            "remain blocked rather than rejected. The first blocker is\n\n"
+            f"`{result['first_blocker']}`.",
+            evidence,
+        ),
+    )
+    return ResearchNotebook(
+        notebook_id="quartic-action-jet-nonidentifiability-reconstruction-001",
+        title="Exact action-jet nonidentifiability from four registered values",
+        verdict="proved",
+        source_bindings=(binding,),
+        claims=(
+            NotebookClaim(
+                "proved",
+                "Four registered values do not identify the first or second G4_X jets in the displayed degree-four extension class.",
+                evidence,
+            ),
+            NotebookClaim(
+                "proved",
+                "The product construction supplies 22 independent ambiguity parameters and leaves 88 first-jet and 88 second-jet samples unidentified.",
+                evidence,
+            ),
+            NotebookClaim(
+                "blocked",
+                "No covariant variation functor, corrected second-source jet, cross-slice D2F admission, complete D2F tensor, H7 closure, nonlinear PDE closure, or lifespan is established.",
+                evidence,
+            ),
+            NotebookClaim(
+                "scope_limit",
+                "The proved finite-data obstruction neither rejects the 12 candidates nor proves that no covariant action derivation exists.",
+                evidence,
+            ),
+        ),
+        cells=cells,
+        limits=(
+            "the notebook is a derived presentation of one sealed receipt, not an independent proof kernel",
+            "the obstruction concerns the registered four-point value data and displayed degree-four null direction",
+            "a registered variation rule, derivative evidence, or corrected second-source jet may remove the ambiguity",
+            "complete covariant D2F, high-atom, global H7, nonlinear PDE, lifespan, and observational claims remain fail-closed",
+        ),
+    )
+
+
 def write_notebook_pair(notebook: ResearchNotebook, output_stem: Path) -> tuple[Path, Path]:
     output_stem.parent.mkdir(parents=True, exist_ok=True)
     markdown_path = output_stem.with_suffix(".md")
@@ -541,6 +755,10 @@ def materialize_example_notebooks(root: Path, output: Path) -> tuple[Path, ...]:
     notebooks: Sequence[tuple[str, ResearchNotebook]] = (
         ("natural-sum-rediscovery", build_natural_sum_notebook(root)),
         ("quartic-local-survivor", build_quartic_survivor_notebook(root)),
+        (
+            "quartic-action-jet-nonidentifiability",
+            build_action_jet_nonidentifiability_notebook(root),
+        ),
     )
     paths: list[Path] = []
     for name, notebook in notebooks:

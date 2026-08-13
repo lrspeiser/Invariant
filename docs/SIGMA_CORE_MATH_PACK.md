@@ -135,9 +135,17 @@ Observational code is never called unless every earlier stage and gate, includin
 has passed. Results retain exact stage/gate receipts, phase and status counts, a terminal outcome,
 all skipped steps, and an explicit observation-opening flag; the runner itself never promotes.
 
+`candidate_discovery_pipeline.py` composes the ladder with the exact Pareto engine without opening
+a loophole between them. All candidates receive complete evaluation ledgers. Metric receipts are
+accepted only for candidates whose ladder reports every required gate at `PASS`; all other
+candidates remain visible with null fronts and explicit exclusion reasons. The sealed batch can be
+replayed from the domain pack, candidate artifacts, and typed metric receipts, but it grants no
+truth, novelty, or promotion authority.
+
 `research_notebook.py` renders sealed receipts as deterministic Markdown and Jupyter notebooks. The
-first pair presents the anonymous natural-sum rediscovery as a complete induction proof and one
-quartic scalar-tensor candidate as a formal local survivor. Every cell cites immutable receipt paths;
+first notebooks present the anonymous natural-sum rediscovery as a complete induction proof, one
+quartic scalar-tensor candidate as a formal local survivor, and the fitted action-jet result as an
+exact finite-data nonidentifiability derivation. Every cell cites immutable receipt paths;
 the claim ledger distinguishes `proved`, `certified_local`, `blocked`, and `scope_limit`. The
 notebooks are explicitly modern historical-style reconstructions and derived views, never authentic
 historical manuscripts, private model reasoning, or replacement proof kernels.

@@ -47,10 +47,16 @@ gravity term. See [`docs/PHYSICS_CONCEPT_LANGUAGE.md`](docs/PHYSICS_CONCEPT_LANG
 The domain-independent Sigma Core now has seven bounded candidate generators (grammar,
 evolutionary, Bayesian, symbolic, e-graph, cross-domain, and quarantined LLM), a typed candidate
 knowledge graph, a fail-closed cheap-to-formal-to-observational evaluation ladder, and a
-hard-gate-first exact Pareto explanation engine. Human-readable research records are generated from
+hard-gate-first exact Pareto explanation engine. The batch pipeline now admits soft metric receipts
+only after every required hard gate passes and retains every failure as an unranked null-front row.
+Human-readable research records are generated from
 immutable receipts rather than maintained as unbound prose. See the
 [natural-sum proof notebook](docs/notebooks/generated/natural-sum-rediscovery.md) and the
-[quartic local-survivor analysis](docs/notebooks/generated/quartic-local-survivor.md). Their claim
+[quartic local-survivor analysis](docs/notebooks/generated/quartic-local-survivor.md). A third
+[action-jet identifiability notebook](docs/notebooks/generated/quartic-action-jet-nonidentifiability.md)
+derives the exact degree-four null polynomial that makes four registered action values insufficient
+to determine first or second jets, without misreporting that evidence limit as a physical no-go.
+Their claim
 ledgers distinguish universal proof from local certification and unresolved global blockers; the
 Jupyter `.ipynb` versions sit beside the Markdown files. The complete design and fail-closed
 boundaries are documented in [`docs/SIGMA_CORE_MATH_PACK.md`](docs/SIGMA_CORE_MATH_PACK.md).
