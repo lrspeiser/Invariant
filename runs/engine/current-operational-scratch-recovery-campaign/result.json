@@ -1,0 +1,174 @@
+{
+  "bindings": {
+    "config": {
+      "file_sha256": "ece017df74bfb54140d3b142c28590babbcc4d73a53db84867b6c6203a9e72e7",
+      "path": "configs/current_operational_scratch_recovery_campaign.json"
+    },
+    "source": {
+      "file_sha256": "2bad9cbaac3d2c6764290c3d3908a34c058cdef5eb6e0f9298eb5bf14c185eb7",
+      "path": "src/sigma_theory_compiler/current_operational_scratch_recovery_campaign.py"
+    },
+    "test": {
+      "file_sha256": "186b6509c489f9e494556aca9c931859d459b1bcd75b518123498a8ed6c1c2a4",
+      "path": "tests/test_current_operational_scratch_recovery_campaign.py"
+    }
+  },
+  "campaign_id": "current-operational-scratch-recovery-campaign-v1",
+  "claims": {
+    "external_process_signals": false,
+    "gpu_or_cuda_access": false,
+    "live_sqlite_opened": false,
+    "network_access": false,
+    "observations_opened": false,
+    "production_namespace_written": false,
+    "production_scheduler_freshness_established": false,
+    "promotion_or_rank_write": false,
+    "scientific_pass": false,
+    "synthetic_control_only": true
+  },
+  "content_sha256": "4fd4b895225301a19b66cfad336c8d7c0933ad6356a7d499a143f1940e2fa708",
+  "decision": "pass_current_resources_admitted_isolated_three_task_recovery_complete",
+  "operational_audit": {
+    "batch0003": {
+      "binding": {
+        "content_sha256": "2e7a9c197a23428cebc3ab5fc1b89bb286511d1fb16b3a34824249d4746f9713",
+        "file_sha256": "d978ffd639651cd7dd0f7c00eb239a672537c7dba1dcd0db9ea6715dab680bcb",
+        "modified_utc": "2026-08-13T17:14:21.093648+00:00",
+        "path": "runs/engine/continuous-scientific-pipeline-epoch-003-formal-receipt-batch-0003/result.json",
+        "size_bytes": 4725
+      },
+      "complete_comparable_evidence": false,
+      "counts": {
+        "candidate_promotions": 0,
+        "cumulative_candidate_blocks": 0,
+        "cumulative_candidate_passes": 0,
+        "cumulative_candidate_rejects": 226,
+        "cumulative_formal_passes": 0,
+        "cumulative_formally_checked_candidates": 226,
+        "cumulative_newly_processed_candidates": 224,
+        "cumulative_reconciled_preserved_candidates": 2,
+        "initial_pending_formal_receipts": 11247,
+        "processed_leaf_pages": 13,
+        "processed_partition_prefix_length": 13,
+        "rank_assignments": 0,
+        "remaining_pending_formal_receipts": 11023
+      },
+      "cursor_binding": {
+        "content_sha256": "74c94d87b34322081f94e04f589b4c4fb6f5b164c1e117f4bfbd0407ecefe1fe",
+        "file_sha256": "ba70ddd5bdeb010b0f749cf0fe9b6722da2b0c4b208a3be413b276d96f1f41c9",
+        "modified_utc": "2026-08-13T17:13:40.064609+00:00",
+        "path": "runs/engine/continuous-scientific-pipeline-epoch-003-formal-receipt-batch-0003/cumulative-cursor.json",
+        "size_bytes": 235776
+      },
+      "decision": "formal_receipt_cursor_advanced_by_bounded_multi_leaf_batch_no_promotion",
+      "executed_leaf_indices": [
+        11,
+        12
+      ],
+      "first_remaining_blocker": "11023_candidate_specific_formal_receipts_pending"
+    },
+    "live_scheduler_metadata_only": {
+      "age_seconds_at_observation": 25152,
+      "fresh_live_lease_claimed": false,
+      "interpretation": "metadata_only_cannot_establish_current_lease_freshness",
+      "lease_rows_read": false,
+      "modified_utc": "2026-08-13T16:00:01.244238+00:00",
+      "path": "runs/campaigns/campaign-v1-live.sqlite",
+      "size_bytes": 1392640,
+      "sqlite_opened": false,
+      "wal_or_shm_opened": false
+    },
+    "observed_at": "2026-08-13T22:59:13.740943+00:00",
+    "terminal_service": {
+      "binding": {
+        "content_sha256": "265110725748d885e55be8153b7cf744c8b97f15d839b70ab77945eba16f0c33",
+        "file_sha256": "316c582d3e9ddbb29891d75c227b0cadc80802f42608dc0fefe329e9dd2924a0",
+        "modified_utc": "2026-08-13T16:00:01.620146+00:00",
+        "path": "runs/engine/continuous-scientific-pipeline-service-result.json",
+        "size_bytes": 22038
+      },
+      "decision": "bounded_interval_complete_survivor_batches_formally_blocked_no_rank",
+      "terminal_state": "bounded_complete",
+      "unique_formula_count": 3932160
+    }
+  },
+  "resource_admission": {
+    "all_samples_admitted": true,
+    "contract": {
+      "cpu_utilization_strictly_below_percent": 92,
+      "minimum_available_ram_mib": 32768,
+      "require_every_sample_admitted": true,
+      "sample_count": 3
+    },
+    "maximum_cpu_utilization_percent": "5.7",
+    "minimum_available_ram_mib": 73443,
+    "samples": [
+      {
+        "admitted": true,
+        "available_ram_mib": 73446,
+        "cpu_utilization_percent": "5.7",
+        "sampled_at": "2026-08-13T22:58:00+00:00",
+        "sequence": 0
+      },
+      {
+        "admitted": true,
+        "available_ram_mib": 73443,
+        "cpu_utilization_percent": "4.6",
+        "sampled_at": "2026-08-13T22:58:01+00:00",
+        "sequence": 1
+      },
+      {
+        "admitted": true,
+        "available_ram_mib": 73448,
+        "cpu_utilization_percent": "5.1",
+        "sampled_at": "2026-08-13T22:58:02+00:00",
+        "sequence": 2
+      }
+    ]
+  },
+  "schema_version": "sigma-current-operational-scratch-recovery-result-1.0",
+  "scope": "current resource and immutable operational-state audit plus a caller-owned scratch three-task lease recovery control; no production scheduler or scientific result claim",
+  "scratch_recovery": {
+    "checkpoint": {
+      "config_sha256": "74096adc9b3991223cbd54f319c7e2f1f8725d7fce791468f2429ddf026fb8eb",
+      "sequence": 1,
+      "work_state_root": "a576b73e95877686657488380dda7da7f4f40bfcfa946a7f67c70b227195da26"
+    },
+    "completed": [
+      {
+        "attempt": 2,
+        "ordinal": 0,
+        "work_id": "PSW-a74255ace722c8a605e0ddf2"
+      },
+      {
+        "attempt": 1,
+        "ordinal": 1,
+        "work_id": "PSW-bc79f9c15c83b2e8bbf4ab75"
+      },
+      {
+        "attempt": 1,
+        "ordinal": 2,
+        "work_id": "PSW-529ab08c10218fd4182a611f"
+      }
+    ],
+    "database_inside_repository_runs": false,
+    "database_name": "caller-owned-recovery.sqlite",
+    "recovery": {
+      "failed": 0,
+      "recovered": 1
+    },
+    "tasks_admitted": {
+      "accepted": 3,
+      "backpressured": 0,
+      "budget_rejected": 0,
+      "duplicate": 0
+    },
+    "terminal_counts": {
+      "succeeded": 3
+    },
+    "workers": {
+      "cpu": 1,
+      "gpu": 0
+    }
+  }
+}

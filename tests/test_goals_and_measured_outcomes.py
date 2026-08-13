@@ -19,6 +19,16 @@ P55_RECURRENCE_RECEIPT = ROOT / (
     "quartic-tc2-d4-coordinate-free-symbolic-recurrence-emitter-p55-registration/"
     "campaign.json"
 )
+P55_NORMALIZATION_RECEIPT = ROOT / (
+    "runs/physics-language/"
+    "quartic-tc2-d4-coordinate-free-candidate-normalization-registration/"
+    "campaign.json"
+)
+P55_SPHERE_REDUCER_RECEIPT = ROOT / (
+    "runs/physics-language/"
+    "quartic-tc2-d4-coordinate-free-sphere-normal-form-reducer-registration/"
+    "campaign.json"
+)
 BATCH_RECEIPT = ROOT / (
     "runs/engine/continuous-scientific-pipeline-epoch-003-formal-receipt-batch-0003/result.json"
 )
@@ -27,6 +37,15 @@ MAXWELL_RECEIPT = ROOT / "runs/math/maxwell-hilbert-noether-interface-gate/recei
 FLUID_RECEIPT = ROOT / "runs/math/barotropic-irrotational-action-gate/receipt.json"
 FLUID_STRESS_RECEIPT = ROOT / (
     "runs/math/barotropic-irrotational-stress-conservation-gate/receipt.json"
+)
+FLUID_HYPERBOLICITY_RECEIPT = ROOT / (
+    "runs/math/barotropic-irrotational-hyperbolicity-gate/receipt.json"
+)
+FLUID_CONSTRAINT_RECEIPT = ROOT / (
+    "runs/math/barotropic-irrotational-constraint-propagation-gate/receipt.json"
+)
+CURRENT_OPERATIONAL_RECEIPT = ROOT / (
+    "runs/engine/current-operational-scratch-recovery-campaign/result.json"
 )
 
 
@@ -43,7 +62,9 @@ def test_registry_contains_each_goal_once_and_retains_incomplete_boundary() -> N
     assert "strong alpha; not yet scientifically or operationally complete" in text
     assert "It is not yet a comprehensive theorem-discovery\nsystem" in text
     assert "39/39 successful jobs" in text
-    assert "A terminal 39/39 successful run remains required" in text
+    assert "31746356515" in text
+    assert "zero failures, zero cancellations, and zero timeouts" in text
+    assert "any subsequent change must earn a new terminal 39/39 receipt" in text
 
 
 def test_matter_and_p55_counts_are_projected_from_checked_receipts() -> None:
@@ -92,8 +113,34 @@ def test_matter_and_p55_counts_are_projected_from_checked_receipts() -> None:
     assert recurrence["counts"]["emitted_output_rows"] == 0
     assert recurrence["counts"]["phase_two_solve_attempts"] == 0
     assert recurrence["claims"]["full_direction_sphere_D4_compatibility_proved"] is False
-    assert "3/304 to 6/304 registered" in text
+    assert "advanced 3/304 to 6/304" in text
     assert "0/117,180 coefficient rows" in text
+
+    normalization = _load(P55_NORMALIZATION_RECEIPT)
+    assert normalization["status"] == (
+        "block_coordinate_free_D4_recurrence_emitter_missing_286_symbolic_packets"
+    )
+    assert normalization["counts"]["new_candidate_normalization_packets_registered"] == 12
+    assert normalization["counts"]["registered_symbolic_input_packets"] == 18
+    assert normalization["counts"]["missing_symbolic_input_packets"] == 286
+    assert normalization["counts"]["common_shape_factorization_residuals_checked"] == 12
+    assert normalization["counts"]["common_shape_factorization_nonzero_residuals"] == 0
+    assert normalization["counts"]["emitted_output_rows"] == 0
+    assert normalization["claims"]["full_direction_sphere_D4_compatibility_proved"] is False
+    assert "reached 18/304" in text
+    sphere = _load(P55_SPHERE_REDUCER_RECEIPT)
+    assert sphere["status"] == (
+        "block_coordinate_free_D4_recurrence_emitter_missing_285_symbolic_packets"
+    )
+    assert sphere["counts"]["registered_symbolic_input_packets"] == 19
+    assert sphere["counts"]["missing_symbolic_input_packets"] == 285
+    assert sphere["counts"]["odd_sphere_remainder_modes"] == 210
+    assert sphere["counts"]["basis_unit_replays"] == 210
+    assert sphere["counts"]["sphere_generator_multiple_replays"] == 615
+    assert sphere["counts"]["nonzero_replay_remainders"] == 0
+    assert sphere["claims"]["full_direction_sphere_D4_compatibility_proved"] is False
+    assert "reaching 19/304" in text
+    assert "BLOCKED on 285" in text
 
 
 def test_continuous_cursor_counts_and_product_milestones_are_current() -> None:
@@ -164,7 +211,7 @@ def test_fluid_followups_close_action_and_stress_only() -> None:
     assert fluid["exact_replay"]["equation_of_state"] == "p=rho/3"
     assert fluid["claims"]["vortical_flows_covered"] is False
     assert fluid["claims"]["universal_matter_closure_established"] is False
-    assert "vortical flow is excluded" in text
+    assert "vortical matter" in text
 
     stress = _load(FLUID_STRESS_RECEIPT)
     assert stress["decision"] == "PASS_SECOND_GATE_ONLY"
@@ -188,5 +235,53 @@ def test_fluid_followups_close_action_and_stress_only() -> None:
     assert stress["claims"]["stress_conservation_gate_closed"] is True
     assert stress["claims"]["hyperbolicity_gate_closed"] is False
     assert stress["claims"]["constraint_propagation_gate_closed"] is False
-    assert "second receipt now passes the on-shell stress-energy conservation gate" in text
-    assert "Hyperbolicity and constraint propagation remain NOT_EVALUATED" in text
+    assert "on-shell stress conservation" in text
+    assert "positive reduced Hamiltonian" in text
+
+    hyperbolicity = _load(FLUID_HYPERBOLICITY_RECEIPT)
+    assert hyperbolicity["decision"] == "PASS_THIRD_GATE_ONLY"
+    assert hyperbolicity["counts"] == {
+        "blocks": 0,
+        "exact_registered_residuals": 4,
+        "exact_specialized_residuals": 2,
+        "gates_not_evaluated": 1,
+        "new_gates_passed": 1,
+        "predecessor_gates": 2,
+        "registered_negative_controls": 4,
+        "rejects": 0,
+        "sectors": 1,
+        "specialized_negative_controls": 2,
+    }
+    assert hyperbolicity["claims"]["irrotational_matter_hyperbolicity_gate_closed"] is True
+    assert hyperbolicity["claims"]["constraint_propagation_gate_closed"] is False
+    assert hyperbolicity["claims"]["coupled_gravity_matter_hyperbolicity_established"] is False
+    assert "`c_s^2=1/3`" in text
+
+    constraint = _load(FLUID_CONSTRAINT_RECEIPT)
+    assert constraint["decision"] == "PASS_FOURTH_GATE_ZERO_INDEPENDENT_CONSTRAINTS"
+    assert constraint["counts"]["independent_primary_matter_constraints"] == 0
+    assert constraint["counts"]["independent_matter_gauge_generators"] == 0
+    assert constraint["counts"]["definitional_identities_replayed"] == 3
+    assert constraint["claims"]["matter_constraint_propagation_gate_closed_not_applicable"] is True
+    assert constraint["claims"]["coupled_gravity_matter_constraint_algebra_established"] is False
+    assert "complete local irrotational-fluid matter ladder" in text
+
+
+def test_current_scratch_recovery_is_measured_without_production_freshness_claim() -> None:
+    text = DOCUMENT.read_text(encoding="utf-8")
+    receipt = _load(CURRENT_OPERATIONAL_RECEIPT)
+    assert receipt["decision"] == (
+        "pass_current_resources_admitted_isolated_three_task_recovery_complete"
+    )
+    assert receipt["resource_admission"]["all_samples_admitted"] is True
+    assert receipt["resource_admission"]["maximum_cpu_utilization_percent"] == "5.7"
+    assert receipt["resource_admission"]["minimum_available_ram_mib"] == 73_443
+    assert receipt["scratch_recovery"]["tasks_admitted"]["accepted"] == 3
+    assert receipt["scratch_recovery"]["recovery"] == {"failed": 0, "recovered": 1}
+    assert receipt["scratch_recovery"]["terminal_counts"] == {"succeeded": 3}
+    assert [item["attempt"] for item in receipt["scratch_recovery"]["completed"]] == [2, 1, 1]
+    assert receipt["scratch_recovery"]["checkpoint"]["sequence"] == 1
+    assert receipt["claims"]["live_sqlite_opened"] is False
+    assert receipt["claims"]["production_scheduler_freshness_established"] is False
+    assert "attempts `[2,1,1]`" in text
+    assert "production freshness still open" in text

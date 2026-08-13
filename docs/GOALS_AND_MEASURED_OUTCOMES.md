@@ -1,10 +1,11 @@
 # Invariant goals and measured outcomes
 
 This is the release-facing goal registry for the Invariant formula and proof discovery
-system. It distinguishes bounded engineering success from mathematical, scientific, and
-operational completion. Counts below come from checked receipts and tests in this
-repository; absence from a corpus is never treated as novelty, and a bounded proof is
-never promoted into a broader scientific claim.
+system, current through **2026-08-13**. It distinguishes bounded engineering success
+from mathematical, scientific, and operational completion. Counts below come from
+checked receipts, tests, and the terminal workflow linked in the release section;
+absence from a corpus is never treated as novelty, and a bounded proof is never
+promoted into a broader scientific claim.
 
 Overall status: **strong alpha; not yet scientifically or operationally complete**.
 
@@ -51,8 +52,8 @@ Overall status: **strong alpha; not yet scientifically or operationally complete
 | 22 | Nonlinear second-variation coverage | 242 of 257,499 ordered D2F entries per candidate are registered; 257,257 remain. | Far from complete. |
 | 23 | H6/H7 commutator closure | Finite hierarchy remains 12 BLOCK, 0 PASS. Representative slices cancel some terms, but the full high-atom identity and variable Bony remainder remain unclosed. | Major scientific blocker. |
 | 24 | Nonlinear energy and lifespan | No closed global H7 inequality, quantitative lifespan, or dynamically preserved tube bootstrap. | Major scientific blocker. |
-| 25 | Fourth-jet/full-direction closure | Thirteen local direction certificates exist. The checkpointable materializer sealed 3/3 exact 55x55 P55 axis matrices with 144 total sparse entries and zero residuals in 3,025 linearity and 3,025 sphere minimal-polynomial checks. A follow-up recurrence-emitter receipt natively validates those committed packets and advances the exact input manifest from 3/304 to 6/304 registered, leaving 298 missing; it emits 0/117,180 coefficient rows and admits zero phase-two solves. The prior BLOCK receipt remains historical evidence. | Flat-reference P55 registration is consumed, but the coordinate-free recurrence remains BLOCKED on 298 Taylor/operator/normal-form packets. Full direction-sphere D4, nonlinear H7, PDE closure, and lifespan remain open. |
-| 26 | Universal matter PDE coupling | Three representative sectors x four gates = 12 gates: 7 PASS, 5 BLOCK, 0 REJECT. The minimally coupled scalar passes 4/4. The Maxwell follow-up passes 12 exact Noether residuals and one structural residual on its registered profiles while arbitrary curved metric/profile closure remains one typed BLOCK. For the admitted irrotational `P(X)=kappa X^2`, `kappa>0`, `X>0` fluid patch, the action gate derives `rho=3 kappa X^2`, `p=rho/3`, and the perfect-fluid Hilbert stress form; a second receipt now passes the on-shell stress-energy conservation gate with four registered exact residuals and three specialized residual coefficients. Hyperbolicity and constraint propagation remain NOT_EVALUATED, and vortical flow is excluded. | Bounded scalar, registered-profile Maxwell, and the first two irrotational-fluid gates are achieved. Arbitrary-background Maxwell, fluid hyperbolicity/constraints, vortical matter, universal all-matter, and coupled H7 theorems remain open. |
+| 25 | Fourth-jet/full-direction closure | Thirteen local direction certificates exist. The prior BLOCK receipt remains historical evidence. The checkpointable materializer sealed 3/3 exact 55x55 P55 axis matrices with 144 total sparse entries and zero residuals in 3,025 linearity and 3,025 sphere minimal-polynomial checks. The recurrence-emitter chain advanced 3/304 to 6/304; candidate normalization added 12 exact packets and reached 18/304. A sphere normal-form receipt then registered one exact reducer, replayed 210 odd canonical modes through degree 19, and reduced 615 sphere-generator multiples to zero, reaching 19/304. It still emits 0/117,180 coefficient rows and admits zero phase-two solves. | The coordinate-free recurrence remains BLOCKED on 285 packets: 75 P55 Taylor, 75 K55 Taylor, 75 TC2 Taylor, and 60 lower-Sylvester recurrence packets. These need serialized exact coordinate-free 55x55 matrices. Full direction-sphere D4, nonlinear H7, PDE closure, and lifespan remain open. |
+| 26 | Universal matter PDE coupling | Three representative sectors x four gates = 12 gates in the original control pack: 7 PASS, 5 BLOCK, 0 REJECT. The minimally coupled scalar passes 4/4. The Maxwell follow-up passes 12 exact Noether residuals and one structural residual on registered profiles while arbitrary curved metric/profile closure remains one typed BLOCK. The admitted irrotational `P(X)=kappa X^2`, `kappa>0`, `X>0` patch now passes all four bounded matter gates: action, on-shell stress conservation, local hyperbolicity, and constraint propagation. The acoustic gate gives `c_s^2=1/3` and a positive reduced Hamiltonian. The fourth gate finds a rank-one Legendre Hessian with one canonical pair, zero primary matter constraints, zero matter gauge generators, and therefore an empty matter constraint-propagation system; three identities are replayed as definitions rather than constraints. | Bounded scalar, registered-profile Maxwell, and the complete local irrotational-fluid matter ladder are achieved. Arbitrary-background Maxwell, vortical matter, coupled gravity-matter constraint algebra/hyperbolicity, universal all-matter, global evolution, and H7 estimates remain open. |
 
 ## E. Observational validation
 
@@ -68,34 +69,48 @@ Overall status: **strong alpha; not yet scientifically or operationally complete
 
 | # | Goal | Current measured outcome | Status |
 |---:|---|---|---|
-| 32 | Persistent scheduler | Historical CPU campaigns processed 7,864,320 formulas. Recovery rehearsal expired, recovered, and completed one scratch task on attempt two. | Mechanics demonstrated. |
+| 32 | Persistent scheduler | Historical CPU campaigns processed 7,864,320 formulas. A current isolated rehearsal admitted three CPU tasks, deliberately expired one attempt-one lease, recovered it once with zero recovery failures, completed all three tasks with attempts `[2,1,1]`, and sealed checkpoint sequence 1. | Current scratch mechanics demonstrated without production-state access. |
 | 33 | Current continuous operation | Formal batch 0003 advanced the cumulative cursor to prefix 13: 226 checked, 224 new, two reconciled, 226 REJECT, zero PASS/BLOCK/promotion, and 11,023 pending. | A bounded batch ran successfully; sustained operation is not established. |
 | 34 | GPU acceleration | 163 candidates; 87,509,958,656 measured formula evaluations; 5,341,184 GPU/CPU comparisons and 5,216 exact checks with zero violations. | Strong synthetic acceleration control. |
 | 35 | LLM safety and spending | Adapter is secret-safe and quarantined. Alpha runs made zero network calls. Historical aggregate: 51 calls and about $14.60 spent under the $500 cap. | Safety controls achieved; discovery value unproven. |
-| 36 | Dashboard and recovery | Dashboard, immutable checkpoints, leases, and replay exist; current live process/lease freshness is not established. | Historical evidence only. |
+| 36 | Dashboard and recovery | Dashboard, immutable checkpoints, leases, and replay exist. Current samples admitted at 5.7%, 4.6%, and 5.1% CPU with at least 73,443 MiB available RAM, and the scratch recovery passed. Production SQLite/WAL/SHM was not opened, so current live process/lease freshness remains unestablished. | Current resource and scratch evidence; production freshness still open. |
 
 ## G. Reproducibility and release
 
 | # | Goal | Current measured outcome | Status |
 |---:|---|---|---|
-| 37 | Focused alpha CI | The previous clean-clone alpha job passed 196/196. The expanded suite now also includes Formula Job/CLI/Lean translation, matter controls, and the P55 registration boundary; its current run must finish before a new green claim is made. | Previous PASS; expanded run pending. |
-| 38 | Full workflow CI | Earlier evidence reached 38 successful jobs, one cancelled isolated job, and zero failures. Recent superseded runs were cancelled while Lean portability was corrected. | A terminal 39/39 successful run remains required. |
+| 37 | Focused alpha CI | The terminal clean-clone workflow exercised the expanded Formula Job/CLI/Lean translation, matter-control, P55 registration, native discovery, and proof-breadth surfaces without a failing focused shard. | PASS at release head `bb76e8e`; retain as a required merge check. |
+| 38 | Full workflow CI | [Run 31746356515](https://github.com/lrspeiser/Invariant/actions/runs/31746356515) completed at head `bb76e8ec60325d72db69caf6d65d70ae4337f6d3`: 39/39 successful jobs, zero failures, zero cancellations, and zero timeouts. | Achieved for the current release head; any subsequent change must earn a new terminal 39/39 receipt. |
 | 39 | Human-readable evidence | Deterministic Markdown/Jupyter reports cover successful derivations, exact blockers, prospective tournaments, semantic 0/21 vs 21/21 contrast, identity breadth, and a public CLI PASS/REJECT walkthrough. | Strong auditability. |
-| 40 | Repository migration | Development, evidence, CI, and draft PR #1 live in `lrspeiser/Invariant`; the branch is synchronized and currently mergeable. | Migrated; merge readiness depends on terminal CI and review. |
+| 40 | Repository migration | Development, evidence, CI, and [draft PR #1](https://github.com/lrspeiser/Invariant/pull/1) live in `lrspeiser/Invariant`. At head `bb76e8e`, the PR is synchronized, mergeable, and reports 39/39 successful checks. | Migration achieved; remaining release step is human review and intentionally leaving draft state. |
 | 41 | Release hygiene | Exact-path commits are clean. The materialized Windows worktree reports 1,935 line-ending/stat modifications, while both tracked and staged semantic diffs are empty. Live runtime/SQLite state remains outside the release boundary. | Use clean-clone CI and exact-path staging; do not bulk-stage the materialized worktree. |
 
 ## Current priority order
 
-1. Obtain one terminal full workflow with 39/39 successful jobs.
-2. Extend the native-construction result beyond one consecutive-grid polynomial world and isolate future target material outside the generator process.
-3. Register the remaining 298 coordinate-free recurrence Taylor/operator/normal-form packets, emit the 117,180 exact rows, and resume the full-sphere D4/H7 chain.
-4. Close the arbitrary-background Maxwell stress divergence and the remaining two irrotational-fluid PDE gates; add a separate vortical-fluid model if universal matter remains the target.
-5. Complete one authorized, sealed, no-refit Solar observation trial.
-6. Extend exact D2F coverage beyond 242/257,499 entries per candidate.
-7. Run and archive a fresh sustained scheduler/recovery campaign.
-8. Expand the 5/200 benchmark curriculum and the prior-art corpus with independent sources.
-9. Close the global H7 energy, tube-bootstrap, and quantitative-lifespan chain or produce a decisive obstruction.
-10. Convert draft PR #1 into a reviewed, terminal-green, merge-ready release.
+1. Preserve the 39/39 release baseline on every integrated change; never trade a
+   scientific increment for an unverified release head.
+2. Register the remaining 285 coordinate-free recurrence
+   Taylor/operator/normal-form packets, emit the 117,180 exact rows, and resume the
+   full-sphere D4/H7 chain.
+3. Close the global H7 energy, tube-bootstrap, and quantitative-lifespan chain, or
+   produce a decisive exact obstruction that terminates the candidate family honestly.
+4. Close arbitrary-background Maxwell stress divergence, couple the completed local
+   irrotational-fluid ladder to the gravity constraint/hyperbolicity system, and add a
+   separate vortical-fluid model if universal matter remains the target.
+5. Complete one authorized, sealed, no-refit Solar observation trial. Until the four
+   opening commitments exist for each candidate, the correct result remains BLOCK
+   with zero target reads.
+6. Extend exact D2F coverage beyond 242/257,499 entries per candidate, with every new
+   block carrying replayable leaf/root provenance.
+7. Run and archive a fresh sustained scheduler/recovery campaign with current lease,
+   checkpoint, resource-admission, and terminal queue evidence.
+8. Extend native construction beyond one consecutive-grid polynomial world and test
+   non-polynomial discovery without delegating the mathematical solve to the generic
+   exact solver.
+9. Expand the 5/200 benchmark curriculum and the 181-record prior-art snapshot using
+   independent sources and externally checked proofs.
+10. Resolve review feedback, reproduce the release from a clean checkout, and convert
+    draft PR #1 into an intentionally reviewed merge-ready release.
 
 The system is credible as an exact, auditable formula-recovery and proof pipeline with
 documented success and failure modes. It is not yet a comprehensive theorem-discovery

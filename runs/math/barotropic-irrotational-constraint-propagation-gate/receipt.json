@@ -1,0 +1,158 @@
+{
+  "campaign_id": "barotropic-irrotational-constraint-propagation-gate-001",
+  "claims": {
+    "coupled_gravity_matter_constraint_algebra_established": false,
+    "first_three_gates_closed_by_predecessors": true,
+    "global_evolution_established": false,
+    "gravity_constraint_propagation_established": false,
+    "gravity_h7_theorem_established": false,
+    "matter_constraint_propagation_gate_closed_not_applicable": true,
+    "promotion_authorized": false,
+    "universal_matter_closure_established": false,
+    "vortical_fluid_covered": false
+  },
+  "constraint_certificate": {
+    "definitional_identities_not_constraints": {
+      "barotropic_equation_of_state": {
+        "identity": "rho-3p=0",
+        "residual": 0
+      },
+      "irrotationality": {
+        "hessian_exchange_coefficients": [
+          1,
+          -1
+        ],
+        "identity": "nabla_[mu nabla_nu](tau)=0",
+        "residual": 0
+      },
+      "velocity_normalization": {
+        "identity": "u_mu u^mu=-1 from u_mu=nabla_mu(tau)/sqrt(2X)",
+        "numerator_residual": 0
+      }
+    },
+    "legendre_map": {
+      "canonical_pairs": 1,
+      "coefficient_basis": [
+        "v_n^2",
+        "s_squared"
+      ],
+      "direct_coefficients": [
+        3,
+        -1
+      ],
+      "hessian_rank": 1,
+      "identity_residual": [
+        0,
+        0
+      ],
+      "independent_matter_gauge_generators": 0,
+      "independent_primary_matter_constraints": 0,
+      "jacobian": "d pi_tau/d v_n=sqrt(q) kappa(3v_n^2-s_squared)",
+      "momentum": "pi_tau=sqrt(q) P_X v_n",
+      "positive_decomposition": "sqrt(q) kappa[(v_n^2-s_squared)+2v_n^2]>0",
+      "positive_decomposition_coefficients": [
+        3,
+        -1
+      ]
+    },
+    "negative_control": {
+      "legendre_jacobian": 0,
+      "mutation": "open the excluded X=0 singular boundary",
+      "rejected": true
+    },
+    "propagation_system": {
+      "closure_residuals": [],
+      "evolution_matrix": [],
+      "independent_constraint_vector": [],
+      "status": "not_applicable_zero_independent_matter_constraints"
+    }
+  },
+  "content_sha256": "62c5a01f7644bb39e10dde5c61c75508b44b035a9e0f1a61ffc05f287e7025af",
+  "counts": {
+    "blocks": 0,
+    "definitional_identities_replayed": 3,
+    "exact_specialized_residuals": 5,
+    "independent_matter_gauge_generators": 0,
+    "independent_primary_matter_constraints": 0,
+    "new_gates_passed_not_applicable": 1,
+    "predecessor_gates": 3,
+    "registered_negative_controls": 3,
+    "rejects": 0,
+    "sectors": 1,
+    "specialized_negative_controls": 1
+  },
+  "decision": "PASS_FOURTH_GATE_ZERO_INDEPENDENT_CONSTRAINTS",
+  "gate_results": [
+    {
+      "gate_id": "action_level_universal_metric_coupling",
+      "outcome": "PREDECESSOR_PASS"
+    },
+    {
+      "gate_id": "stress_energy_conservation_interface",
+      "outcome": "PREDECESSOR_PASS"
+    },
+    {
+      "gate_id": "principal_symbol_hyperbolicity",
+      "outcome": "PREDECESSOR_PASS"
+    },
+    {
+      "gate_id": "constraint_propagation",
+      "outcome": "PASS_NOT_APPLICABLE",
+      "reason_codes": [
+        "zero_independent_matter_constraints_on_regular_branch"
+      ]
+    }
+  ],
+  "registered_control": {
+    "name": "generic_kessence_nonlinear_adm_legendre",
+    "registered_negative_controls": [
+      "nonconvex_G2_equals_X_minus_X_squared",
+      "singular_legendre_surface",
+      "wrong_sign_scalar"
+    ],
+    "scope": "Exact arbitrary-G2 jet theorem for the nonlinear momentum, Legendre Jacobian, Hamiltonian density, and inverse Hessian, with canonical, wrong-sign, nonconvex, and singular controls. Candidate energy nonnegativity remains an explicit inequality; gravitational boundary charges and a global positive-energy theorem remain unresolved.",
+    "status": "pass"
+  },
+  "schema_version": "invariant-barotropic-irrotational-constraint-propagation-result-1.0",
+  "scope": "regular one-potential irrotational P(X)=kappa X^2 matter branch only: the positive rank-one Legendre map has zero independent primary or gauge matter constraints, so the matter propagation system is empty; gravity constraints, coupled algebra, vortical flow, global evolution, H7, universal matter, and promotion remain outside scope",
+  "sector_id": "barotropic_perfect_fluid_irrotational_patch",
+  "source_bindings": {
+    "config": {
+      "file_sha256": "11323152619f8c7299d85796def86f1edfc44af9e054129d5b89cf60544f4fff",
+      "path": "configs/barotropic_irrotational_constraint_propagation_gate.json"
+    },
+    "formal_controls": {
+      "content_sha256": "cbf2f085198ac29afce473ca39ac7f39681d5ec6b781ef67cfed9313c0a8a420",
+      "file_sha256": "1a121c66365e70aed1ee9b5e5803829b824ca57c4671ee61b6fa6bad1a1dd8e1",
+      "path": "runs/formal-controls-v1/formal-controls-portable.json"
+    },
+    "hyperbolicity_predecessor": {
+      "content_sha256": "203241214720947318109e6aabcb91d986fa683f2199d3b632127e84f05259c4",
+      "file_sha256": "ad283e6b34463364bceb507d3377308ec98e000ff9fd7a8cac336cbc2617ae5e",
+      "path": "runs/math/barotropic-irrotational-hyperbolicity-gate/receipt.json"
+    },
+    "legendre_source": {
+      "file_sha256": "d108ed635851bb57fdeffcf23d02e4f66021e45591dbffd3b62e7983bb468d19",
+      "path": "src/sigma_theory_compiler/horndeski.py"
+    },
+    "source": {
+      "file_sha256": "583f140e5586949fa3079b4d214aac6c3f45d7e546aa7a2785dabf89d97d9120",
+      "path": "src/sigma_theory_compiler/barotropic_irrotational_constraint_propagation_gate.py"
+    },
+    "test": {
+      "file_sha256": "a8ad8d558d3e597c8934c2bb809722dc1e7326d4402fe4b6d2f8d950dabe8484",
+      "path": "tests/test_barotropic_irrotational_constraint_propagation_gate.py"
+    }
+  },
+  "specialization": {
+    "X_adm": "(v_n^2-s_squared)/2",
+    "domain": [
+      "kappa>0",
+      "v_n^2-s_squared=2X>0",
+      "v_n future-directed"
+    ],
+    "matter_field": "tau",
+    "matter_legendre_jacobian": "kappa(3 v_n^2-s_squared)",
+    "pressure": "P(X)=kappa X^2"
+  }
+}
