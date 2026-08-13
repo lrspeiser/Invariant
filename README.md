@@ -1765,6 +1765,25 @@ source/config/test hashes are `fbcce952946ae272e220f69fb63d774fd01a765a8e4d9ab44
 `98ee61d5938dbef6dfabcbd536dc1f29409c6805b8a9e0648fedde1c0d46d5f5` /
 `3d8e781b2e164b3634094217fd58bffe39945ed733ed4650f6ebbca8afb978ea`.
 
+The registered-variation selection audit then asks whether any existing action/source evidence
+selects one member of that ambiguity family. It binds four closed evidence bundles: 24 generic
+`G4` metric-Euler terms; 163 generated metric-Euler candidates, with zero overlap with the quartic
+`G4_X` grid and zero backend variations; 1,056 candidate-aligned pure source-DAG derivative roots,
+without complete component Frechet tensors; and 20,196 entries from 12 complete D1 source
+Jacobians, with D2--D4 explicitly incomplete. None supplies a candidate-bound map into the 22
+fitted output coordinates or corrected second-source jet values. The registered selector matrix is
+therefore exactly `0 x 22`, rank zero and nullity 22, selecting zero ambiguity parameters. This
+closed-inventory theorem passes for all 12 candidates, while downstream admission blocks all 12
+without rejection and admits no D2F/H7/PDE/lifespan claim. It is not evidence that a physical
+covariant variation rule cannot exist. The first blocker is a candidate-bound component map from
+the registered `G4` variation/source DAG into the 22 output coordinates, or exact corrected
+second-source jet values. Artifact file/content hashes are
+`dfc8940a6f092de73da5641afd95c6cbf997b73ad63f8fa6f4ea3eaa8f395a20` /
+`6de93ca6700b21ff9f858a2b7f01d1a9d103271de1dde3f75385faaaa4a377d6`;
+source/config/test hashes are `8fcc218572a65e67763560fad62b1e129a67f29c6d2bdda5d977ade44714f5f1` /
+`469927c84962e56f50223769dbaf6713ca3a236bd7d8c8f823e06bd1f15184da` /
+`4ed939ce4c4d6f92b95000e9d9f659268b2ad1e9a3480ca868f3fc6c3614d5da`.
+
 The component campaign now proves every entry of the principal identity
 `D_Y E55 J = i P55` for all 12 candidates and materializes the complete first source Jacobian.
 Its 1,089 principal and 594 lower entries form an exact arithmetic-only `11 x 153` manifest with
