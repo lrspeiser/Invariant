@@ -65,6 +65,12 @@ ledgers distinguish universal proof from local certification and unresolved glob
 Jupyter `.ipynb` versions sit beside the Markdown files. The complete design and fail-closed
 boundaries are documented in [`docs/SIGMA_CORE_MATH_PACK.md`](docs/SIGMA_CORE_MATH_PACK.md).
 
+For a product-facing account of the same mechanics, read
+[*A Formula Walks Into a Falsification Engine*](docs/KNOWN_ANSWER_SUCCESS_FAILURE_WALKTHROUGH.md).
+It follows one exact identity and one plausible false formula through typing, canonicalization,
+counterexample search, proof, prior-art comparison, and hard-gate-first Pareto admission, with links
+to the immutable receipts behind every reported success and failure.
+
 The first reusable operator-family pack compiles normalized symbolic `G2(phi,X)`, `G3(phi,X)`, and
 `G4(phi,X)` functions, derives `G4_X` instead of allowing an inconsistent independent completion,
 and represents coefficient mutation spaces without enumerating them. Its arbitrary-`G2` and
