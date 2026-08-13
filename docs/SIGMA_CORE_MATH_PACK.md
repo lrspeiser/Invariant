@@ -86,7 +86,7 @@ as trustworthy as the registered Lean-side emitter and source harness.
 
 ## Candidate-generator portfolio
 
-Three additional search strategies now operate directly on Sigma Core candidate artifacts:
+Seven search strategies now operate directly on Sigma Core candidate artifacts:
 
 - `evolutionary_candidate_generator.py` performs deterministic, bounded mutation and crossover.
   Every child binds its exact parent artifact references, canonical content hashes remove duplicate
@@ -104,11 +104,36 @@ Three additional search strategies now operate directly on Sigma Core candidate 
 - `cross_domain_candidate_generator.py` transfers structural summaries through three closed
   templates across distinct source packs into an explicit target pack. Transfer never establishes
   that source semantics hold in the target domain.
+- `llm_candidate_generator.py` accepts only a caller-injected, provider-neutral callback. It
+  reserves exact integer micro-dollar and token exposure before each call, persists neither prompts,
+  raw responses, nor credential values, and quarantines every deduplicated Sigma Core candidate
+  behind the ordinary downstream gates. The module itself performs no network access.
 
 `candidate_generator_portfolio.py` seals this capability boundary. Evolutionary, Bayesian,
-e-graph, grammar, symbolic, and cross-domain generation are implemented and candidate-artifact
-native. The LLM adapter remains disabled and quarantined, so the requested generator set is not yet
-complete. Generator registration proves neither scientific truth nor novelty.
+e-graph, grammar, symbolic, cross-domain, and LLM generation are implemented and
+candidate-artifact native. This completes the requested generator mechanism set, not the scientific
+evaluation program: every proposal still has to traverse preregistered domain gates and held-out
+benchmarks. Generator registration proves neither scientific truth nor novelty.
+
+## Knowledge, ranking, and readable research records
+
+`candidate_knowledge_graph.py` stores exact Sigma Core artifacts beside typed definition, axiom,
+lemma, theorem, conjecture, proof, derivation, equivalence, and dependency relations. It computes
+deterministic dependency closures and holdout cuts. A lookup can report only `present_in_this_corpus`
+or `absent_from_this_corpus`; corpus absence is never novelty.
+
+`candidate_pareto_explanations.py` enforces hard gates before soft objectives. Only candidates with
+every required gate receipt at `PASS` enter exact rational Pareto fronts. Blocked, rejected, and
+errored candidates receive no front, however attractive their simplicity or fit metrics may be.
+Every explanation binds the contributing gate, check, evidence, and metric-receipt hashes and grants
+no promotion authority.
+
+`research_notebook.py` renders sealed receipts as deterministic Markdown and Jupyter notebooks. The
+first pair presents the anonymous natural-sum rediscovery as a complete induction proof and one
+quartic scalar-tensor candidate as a formal local survivor. Every cell cites immutable receipt paths;
+the claim ledger distinguishes `proved`, `certified_local`, `blocked`, and `scope_limit`. The
+notebooks are explicitly modern historical-style reconstructions and derived views, never authentic
+historical manuscripts, private model reasoning, or replacement proof kernels.
 
 Computational agreement is never proof. A million successful evaluations can advance a candidate
 to a proof attempt, but cannot produce a `proved` receipt.

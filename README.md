@@ -42,6 +42,18 @@ adapter. The included coherence-plus-gravity example is expressible but delibera
 coherence is treated as a state/correlation concept rather than silently inserted as a classical
 gravity term. See [`docs/PHYSICS_CONCEPT_LANGUAGE.md`](docs/PHYSICS_CONCEPT_LANGUAGE.md).
 
+## Sigma Core research notebooks
+
+The domain-independent Sigma Core now has seven bounded candidate generators (grammar,
+evolutionary, Bayesian, symbolic, e-graph, cross-domain, and quarantined LLM), a typed candidate
+knowledge graph, and a hard-gate-first exact Pareto explanation engine. Human-readable research
+records are generated from immutable receipts rather than maintained as unbound prose. See the
+[natural-sum proof notebook](docs/notebooks/generated/natural-sum-rediscovery.md) and the
+[quartic local-survivor analysis](docs/notebooks/generated/quartic-local-survivor.md). Their claim
+ledgers distinguish universal proof from local certification and unresolved global blockers; the
+Jupyter `.ipynb` versions sit beside the Markdown files. The complete design and fail-closed
+boundaries are documented in [`docs/SIGMA_CORE_MATH_PACK.md`](docs/SIGMA_CORE_MATH_PACK.md).
+
 The first reusable operator-family pack compiles normalized symbolic `G2(phi,X)`, `G3(phi,X)`, and
 `G4(phi,X)` functions, derives `G4_X` instead of allowing an inconsistent independent completion,
 and represents coefficient mutation spaces without enumerating them. Its arbitrary-`G2` and

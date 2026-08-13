@@ -132,15 +132,15 @@ def _capabilities() -> tuple[GeneratorCapability, ...]:
         ),
         GeneratorCapability(
             "llm",
-            None,
-            "disabled",
-            False,
-            False,
-            False,
-            False,
-            False,
+            "sigma_theory_compiler.llm_candidate_generator",
+            "implemented",
             True,
-            "proposal adapter remains quarantined with network and spend disabled",
+            True,
+            True,
+            True,
+            True,
+            True,
+            "provider-neutral, cost-capped, secret-safe proposals quarantined behind downstream gates",
         ),
         GeneratorCapability(
             "symbolic",
@@ -176,12 +176,12 @@ def build_generator_portfolio() -> dict[str, Any]:
         "claims": {
             "generator_registration_establishes_scientific_truth": False,
             "generator_registration_authorizes_promotion": False,
-            "all_requested_generator_strategies_complete": False,
+            "all_requested_generator_strategies_complete": True,
             "implemented_strategies_use_sigma_core_candidate_artifacts": True,
         },
         "first_remaining_blocker": (
-            "make_llm_proposals_sigma_core_candidate_artifact_native_while_preserving_"
-            "quarantine_cost_caps_secret_safety_and_zero_self_promotion_authority"
+            "exercise_all_generator_strategies_through_preregistered_domain_gates_and_"
+            "held_out_benchmarks_without_granting_generator_self_promotion_authority"
         ),
     }
     return {**body, "content_sha256": canonical_sha256(body)}

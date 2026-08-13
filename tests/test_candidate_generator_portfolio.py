@@ -18,9 +18,9 @@ def test_portfolio_records_exact_current_capability_boundary() -> None:
     validate_generator_portfolio(portfolio)
     assert portfolio["counts"] == {
         "registered": 7,
-        "implemented": 6,
+        "implemented": 7,
         "partial": 0,
-        "disabled": 1,
+        "disabled": 0,
         "missing": 0,
     }
     capabilities = {item["strategy_id"]: item for item in portfolio["capabilities"]}
@@ -39,6 +39,7 @@ def test_portfolio_records_exact_current_capability_boundary() -> None:
         "egraph",
         "evolutionary",
         "grammar",
+        "llm",
         "symbolic",
     ):
         assert capabilities[strategy]["implementation_status"] == "implemented"
@@ -55,19 +56,21 @@ def test_registration_never_claims_truth_promotion_or_completion() -> None:
     assert portfolio["claims"] == {
         "generator_registration_establishes_scientific_truth": False,
         "generator_registration_authorizes_promotion": False,
-        "all_requested_generator_strategies_complete": False,
+        "all_requested_generator_strategies_complete": True,
         "implemented_strategies_use_sigma_core_candidate_artifacts": True,
     }
-    assert portfolio["first_remaining_blocker"].startswith("make_llm_proposals_sigma_core")
+    assert portfolio["first_remaining_blocker"].startswith(
+        "exercise_all_generator_strategies_through_preregistered_domain_gates"
+    )
 
 
 @pytest.mark.parametrize(
     ("path", "replacement"),
     [
         (("claims", "generator_registration_authorizes_promotion"), True),
-        (("claims", "all_requested_generator_strategies_complete"), True),
+        (("claims", "all_requested_generator_strategies_complete"), False),
         (("capabilities", 1, "implementation_status"), "partial"),
-        (("counts", "implemented"), 7),
+        (("counts", "implemented"), 6),
     ],
 )
 def test_resealed_semantic_tampering_fails_closed(
