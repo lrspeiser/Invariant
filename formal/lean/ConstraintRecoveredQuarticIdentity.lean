@@ -19,7 +19,7 @@ def recoveredPolyMul : List Int -> List Int -> List Int
 theorem constraintRecoveredQuarticIdentity :
     recoveredPolyMul (recoveredPolyMul [-2, 1] [3, 1]) [5, 1, 1] =
       [-30, -1, 0, 2, 1] := by
-  decide
+  rfl
 
 end Invariant
 
@@ -28,6 +28,5 @@ end Invariant
 #eval IO.println "dependency=Invariant.recoveredPolyAdd"
 #eval IO.println "dependency=Invariant.recoveredPolyScale"
 #eval IO.println "dependency=Invariant.recoveredPolyMul"
-#eval IO.println "dependency=of_decide_eq_true"
 #eval IO.println "result=checked"
 #eval IO.println "INVARIANT_LEAN_DEPENDENCY_AUDIT_V1_END"

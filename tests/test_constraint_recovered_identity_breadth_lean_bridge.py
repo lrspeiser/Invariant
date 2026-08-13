@@ -101,7 +101,7 @@ def test_real_lean_quartic_proof_is_executable_coefficient_arithmetic(checked: d
     assert "def recoveredPolyMul" in source
     assert "recoveredPolyMul (recoveredPolyMul [-2, 1] [3, 1]) [5, 1, 1]" in source
     assert "[-30, -1, 0, 2, 1]" in source
-    assert "decide" in source
+    assert "rfl" in source
     assert f"target={TARGET}" in source
     assert "sorry" not in source.lower()
     assert "axiom " not in source.lower()

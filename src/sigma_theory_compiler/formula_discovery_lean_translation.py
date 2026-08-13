@@ -217,7 +217,6 @@ def _polynomial_source(
         f"Invariant.{add_name}",
         f"Invariant.{scale_name}",
         f"Invariant.{combine_name}",
-        "of_decide_eq_true",
     )
     basis_lean = "[" + ", ".join(_lean_list(row) for row in basis_vectors) + "]"
     source = f"""import Std.Tactic
@@ -242,7 +241,7 @@ def {combine_name} : List Int → List (List Int) → List Int
 theorem formulaDiscovery{suffix} :
     {combine_name} {_lean_list(multipliers)} {basis_lean} =
       {_lean_list(candidate.coefficients)} := by
-  native_decide
+  rfl
 
 end Invariant
 

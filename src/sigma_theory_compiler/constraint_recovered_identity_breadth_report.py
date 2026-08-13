@@ -282,7 +282,7 @@ def render_markdown(report: Mapping[str, Any]) -> str:
             "",
             "## 3. Independent Lean kernel check",
             "",
-            f"Lean {lean['toolchain_version']} checked `{lean['target']}` with exit code {lean['exit_code']}. The theorem executes the same constant-first `List Int` convolution and proves the result with `decide`. The dependency audit closed over `{', '.join(lean['dependencies'])}`; no `sorry` or user axiom was admitted.",
+            f"Lean {lean['toolchain_version']} checked `{lean['target']}` with exit code {lean['exit_code']}. The theorem executes the same constant-first `List Int` convolution and closes by kernel reduction with `rfl`. The dependency audit closed over `{', '.join(lean['dependencies'])}`; no `sorry` or user axiom was admitted.",
             "",
             "This Lean theorem checks the quartic coefficient identity independently of the recovery campaign's SymPy certificate. The partial-fraction identity is independently replayed by the bridge's closed integer arithmetic, but is not claimed here as a second Lean theorem.",
             "",

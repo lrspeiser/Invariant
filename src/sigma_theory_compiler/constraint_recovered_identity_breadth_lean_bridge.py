@@ -39,14 +39,13 @@ THEOREM_PATH = "formal/lean/ConstraintRecoveredQuarticIdentity.lean"
 OUTPUT_PATH = "runs/math/constraint-recovered-identity-breadth-lean-bridge/receipt.json"
 TARGET = "Invariant.constraintRecoveredQuarticIdentity"
 FALSE_TARGET = "Invariant.constraintRecoveredQuarticFalseControl"
-CONFIG_SHA256 = "b60ae885dc5383dd2da5568b724168a84075d916cbc690fde152a7e0c3dab613"
-THEOREM_SHA256 = "0f60af0e1bcc19e33d978ac35c2c56f35951195542163b17a2ca923beab19830"
+CONFIG_SHA256 = "f8d525d57d9a89df85481bd884f2976b05119aa1bad807ee60f69c7b0fa8a88a"
+THEOREM_SHA256 = "75721bd58a7d23c55449d114b0f6f97381410f1b23bad6a02acb14ccba02aa6f"
 
 ALLOWED_PREMISES = (
     "Invariant.recoveredPolyAdd",
     "Invariant.recoveredPolyScale",
     "Invariant.recoveredPolyMul",
-    "of_decide_eq_true",
 )
 FORBIDDEN_PREMISES = ("Classical.choice", "False.elim")
 FORBIDDEN_PREFIXES = ("KnownAnswer", "Unsafe")
@@ -478,7 +477,7 @@ namespace Invariant
 
 theorem constraintRecoveredQuarticFalseControl :
     ([-30, -1, 0, 2, 1] : List Int) = [-29, -1, 0, 2, 1] := by
-  decide
+  rfl
 
 end Invariant
 """
@@ -558,7 +557,7 @@ def build_live_receipt(
             "target": TARGET,
             "statement": "coefficient convolution of (x-2)(x+3)(x^2+x+5) equals [-30,-1,0,2,1]",
             "domain": "closed finite lists of integer coefficients in constant-first order",
-            "proof_method": "executable List Int coefficient convolution plus decide",
+            "proof_method": "kernel reduction of executable List Int coefficient convolution by rfl",
             "source_sha256": _file_sha(theorem),
             "source_bytes_canonical_lf": len(_canonical_theorem_source(root).encode()),
             "sorry_or_axiom_used": False,

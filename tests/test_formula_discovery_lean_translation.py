@@ -143,7 +143,7 @@ def test_integer_polynomial_pass_translates_without_embedded_benchmark_logic() -
     assert translation["proof_certificate_content_sha256"] is None
     assert translation["counts"]["candidate_polynomial_degree"] == 3
     assert "[-11, 4, 0, 3]" in translation["source"]
-    assert "native_decide" in translation["source"]
+    assert "rfl" in translation["source"]
     assert "sorry" not in translation["source"].lower()
     assert "axiom " not in translation["source"].lower()
     assert (
