@@ -48,6 +48,7 @@ def load_config(root: Path, path: Path | None = None) -> dict[str, Any]:
     if set(value) != {
         "campaign_id",
         "live_state_audit",
+        "metadata_snapshot",
         "resource_admission",
         "schema_version",
         "scratch_contract",
@@ -82,6 +83,23 @@ def load_config(root: Path, path: Path | None = None) -> dict[str, Any]:
     }
     if value["live_state_audit"] != expected_live:
         raise ValueError("live-state audit inventory changed")
+    expected_snapshot_keys = set(expected_live)
+    snapshot = value["metadata_snapshot"]
+    if not isinstance(snapshot, dict) or set(snapshot) != expected_snapshot_keys:
+        raise ValueError("metadata snapshot inventory changed")
+    for label, relative in expected_live.items():
+        row = snapshot[label]
+        if (
+            not isinstance(row, dict)
+            or set(row) != {"modified_utc", "path", "size_bytes"}
+            or row["path"] != relative
+            or not isinstance(row["size_bytes"], int)
+            or row["size_bytes"] <= 0
+        ):
+            raise ValueError("metadata snapshot schema changed")
+        parsed = datetime.fromisoformat(row["modified_utc"])
+        if parsed.tzinfo is None or parsed.utcoffset() != UTC.utcoffset(parsed):
+            raise ValueError("metadata snapshot timestamp is not explicit UTC")
     return value
 
 
@@ -149,35 +167,49 @@ def capture_resource_samples(config: Mapping[str, Any]) -> list[dict[str, Any]]:
     return rows
 
 
-def _json_binding(path: Path, relative: str) -> tuple[dict[str, Any], dict[str, Any]]:
+def _json_binding(
+    path: Path, relative: str, snapshot: Mapping[str, Any]
+) -> tuple[dict[str, Any], dict[str, Any]]:
     value = _load(path)
     claimed = value.get("content_sha256")
     if claimed != canonical_sha256(
         {key: item for key, item in value.items() if key != "content_sha256"}
     ):
         raise ValueError(f"live-state JSON content seal changed: {relative}")
+    if path.stat().st_size != snapshot["size_bytes"]:
+        raise ValueError(f"live-state JSON size changed: {relative}")
     return value, {
         "path": relative,
         "file_sha256": _file_sha(path),
         "content_sha256": claimed,
-        "modified_utc": datetime.fromtimestamp(path.stat().st_mtime, UTC).isoformat(),
-        "size_bytes": path.stat().st_size,
+        "modified_utc": snapshot["modified_utc"],
+        "size_bytes": snapshot["size_bytes"],
     }
 
 
 def _audit_live_state(root: Path, config: Mapping[str, Any], observed_at: str) -> dict[str, Any]:
     inventory = config["live_state_audit"]
+    snapshots = config["metadata_snapshot"]
     cursor, cursor_binding = _json_binding(
-        _resolve(root, inventory["batch_cursor"]), inventory["batch_cursor"]
+        _resolve(root, inventory["batch_cursor"]),
+        inventory["batch_cursor"],
+        snapshots["batch_cursor"],
     )
     batch, batch_binding = _json_binding(
-        _resolve(root, inventory["batch_result"]), inventory["batch_result"]
+        _resolve(root, inventory["batch_result"]),
+        inventory["batch_result"],
+        snapshots["batch_result"],
     )
     service, service_binding = _json_binding(
-        _resolve(root, inventory["terminal_service_result"]), inventory["terminal_service_result"]
+        _resolve(root, inventory["terminal_service_result"]),
+        inventory["terminal_service_result"],
+        snapshots["terminal_service_result"],
     )
     database_path = _resolve(root, inventory["live_database"])
     database_stat = database_path.stat()
+    database_snapshot = snapshots["live_database"]
+    if database_stat.st_size != database_snapshot["size_bytes"]:
+        raise ValueError("live scheduler database size changed since the metadata snapshot")
     counts = cursor["counts"]
     if (
         batch["cumulative_ledger_binding"]["content_sha256"] != cursor["content_sha256"]
@@ -191,7 +223,7 @@ def _audit_live_state(root: Path, config: Mapping[str, Any], observed_at: str) -
     ):
         raise ValueError("authoritative operational state changed")
     observed = datetime.fromisoformat(observed_at)
-    live_modified = datetime.fromtimestamp(database_stat.st_mtime, UTC)
+    live_modified = datetime.fromisoformat(database_snapshot["modified_utc"])
     return {
         "observed_at": observed_at,
         "batch0003": {
@@ -211,7 +243,7 @@ def _audit_live_state(root: Path, config: Mapping[str, Any], observed_at: str) -
         },
         "live_scheduler_metadata_only": {
             "path": inventory["live_database"],
-            "size_bytes": database_stat.st_size,
+            "size_bytes": database_snapshot["size_bytes"],
             "modified_utc": live_modified.isoformat(),
             "age_seconds_at_observation": int((observed - live_modified).total_seconds()),
             "sqlite_opened": False,
@@ -375,6 +407,21 @@ def validate_campaign(value: Mapping[str, Any], root: Path) -> None:
     ):
         raise ValueError("scratch recovery decision changed")
     config = load_config(root.resolve())
+    expected_bindings = {
+        label: {"path": relative, "file_sha256": _file_sha(_resolve(root, relative))}
+        for label, relative in (
+            ("config", CONFIG_REL),
+            ("source", SOURCE_REL),
+            ("test", TEST_REL),
+        )
+    }
+    if value.get("bindings") != expected_bindings:
+        raise ValueError("scratch recovery source binding changed")
+    expected_audit = _audit_live_state(
+        root.resolve(), config, value["operational_audit"]["observed_at"]
+    )
+    if value.get("operational_audit") != expected_audit:
+        raise ValueError("scratch recovery operational snapshot changed")
     _normalize_samples(
         [
             {key: item for key, item in row.items() if key != "admitted"}

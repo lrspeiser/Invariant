@@ -39,6 +39,9 @@ K55_SERIALIZATION_AUDIT_RECEIPT = ROOT / (
     "quartic-tc2-d4-coordinate-free-k55-taylor-order-zero-serialization-audit/"
     "campaign.json"
 )
+FLAT_ACTION_METRIC_RECEIPT = ROOT / (
+    "runs/physics-language/quartic-tc2-d4-flat-action-metric-registration/campaign.json"
+)
 BATCH_RECEIPT = ROOT / (
     "runs/engine/continuous-scientific-pipeline-epoch-003-formal-receipt-batch-0003/result.json"
 )
@@ -65,6 +68,9 @@ COMBINED_MATTER_RECEIPT = ROOT / (
 )
 MATTER_COUPLING_CENSUS_RECEIPT = ROOT / (
     "runs/math/quartic-twelve-candidate-matter-coupling-registration-census/receipt.json"
+)
+TOTAL_MATTER_ACTION_RECEIPT = ROOT / (
+    "runs/math/quartic-twelve-candidate-total-matter-action-binding/receipt.json"
 )
 
 
@@ -178,7 +184,15 @@ def test_matter_and_p55_counts_are_projected_from_checked_receipts() -> None:
     assert k55["counts"]["exact_sparse_22x22_action_metric_packets_found"] == 0
     assert k55["counts"]["registered_symbolic_input_packets"] == 34
     assert k55["claims"]["minimal_K55_order_zero_serialization_contract_closed"] is True
-    assert "one symmetric 22x22 flat action metric" in text
+    flat_metric = _load(FLAT_ACTION_METRIC_RECEIPT)
+    assert flat_metric["status"] == "pass_exact_flat_action_metric_h_plus_0_registration"
+    assert flat_metric["counts"]["A_0_nonzero_entries"] == 10
+    assert flat_metric["counts"]["B_0_nonzero_entries"] == 8
+    assert flat_metric["counts"]["h_plus_0_nonzero_entries"] == 28
+    assert flat_metric["counts"]["full_symbol_build_calls"] == 0
+    assert flat_metric["claims"]["flat_action_metric_h_plus_0_registered"] is True
+    assert flat_metric["claims"]["K55_Taylor_order_zero_packets_registered"] is False
+    assert "symmetric 22x22 `h_plus_0` with 28 nonzero entries" in text
 
 
 def test_continuous_cursor_counts_and_product_milestones_are_current() -> None:
@@ -347,7 +361,17 @@ def test_fluid_followups_close_action_and_stress_only() -> None:
     }
     assert census["claims"]["any_candidate_coupled_registration_complete"] is False
     assert "72/72 vacuum and matter-side prerequisites" in text
-    assert "0/72 coupled contract registrations" in text
+    total_action = _load(TOTAL_MATTER_ACTION_RECEIPT)
+    assert total_action["decision"] == "PASS_TOTAL_ACTION_HASH_BINDING_ALL_TWELVE_ONLY"
+    assert total_action["counts"]["total_action_hash_bindings_passed"] == 12
+    assert total_action["counts"]["unique_gravity_action_hashes"] == 12
+    assert total_action["counts"]["unique_total_action_hashes"] == 12
+    assert total_action["counts"]["omitted_fluid_hash_negatives_passed"] == 12
+    assert total_action["counts"]["sourced_euler_bindings_passed"] == 0
+    assert total_action["claims"]["all_twelve_total_actions_compositionally_hash_bound"] is True
+    assert total_action["claims"]["sourced_gauge_fixed_euler_bound_to_total_action"] is False
+    assert "12 unique total-action hashes" in text
+    assert "Sourced Euler insertion is the next typed BLOCK" in text
 
 
 def test_current_scratch_recovery_is_measured_without_production_freshness_claim() -> None:
