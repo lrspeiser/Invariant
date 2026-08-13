@@ -1951,6 +1951,57 @@ source/config/test hashes are `6bb9ab72854d74e21a120f41fc9299712d5d64d0c9c9aeb24
 The next blocker is to replay the bound inverse-product D1 DAG with these P10 roots and then register
 the Pother leaf derivatives.
 
+That bounded replay is now sealed for the `P10` sector. Across all 12 candidates, 7,920 registered
+leaf-derivative roots feed 60 distinct direction packets and replay 811,296 D1 dependency nodes plus
+786,396 derived Merkle nodes. All 84 candidate-bound `P10` ordered mixed-D2 roots are exact and
+registered; the 180 `Pother` roots remain blocked. This is not a complete D2F tensor or physical
+no-go: no candidate is rejected, and global H7, PDE, lifespan, and observational claims remain
+false. Evidence is
+`runs/physics-language/quartic-p10-inverse-product-d2-replay-gate/campaign.json`; artifact
+file/content hashes are `2a9814a27123099b9e942bde72fa45fe8783e3ddde0743d080b17008dbb9318c` /
+`e02949cb28f43851483d2b0b6cb06c6710ac53a16f210150449d85ceb0ec92ba`, and
+source/config/test hashes are `1da3a2d205d44331024ebe839301b50e99b93e8f1bb859ebe988039af553562a` /
+`3c4090b2cfd7b8d2f0cee68a2ce40c09dcf0d487c4be1a79e77942b1dedc394e` /
+`451762264627a58ad1bd8e5a5e8c92b981717a270326408fbed2723abdf8792b`.
+
+The arbitrary-background continuation then registers the missing `Pother` leaf derivatives without
+claiming their D2 replay prematurely. It seals 23,760 roots across the 12 candidates, with 156
+nonzero and 23,604 zero roots, making all 180 `Pother` ordered-D2 records replay-ready. The already
+sealed 84 `P10` roots are preserved, but `Pother` roots remain 0/180 registered at this stage and
+all 12 candidates remain downstream blocked without rejection. Evidence is
+`runs/physics-language/quartic-pother-arbitrary-background-leaf-derivative-gate/campaign.json`;
+artifact file/content hashes are `c687e15839628dcca3480740ea8ee568576461c200ce8937ab5499a71e9e49c2` /
+`b2f4eacd73026bc92a057be0ad5340d487ef0ff3b18353e3412d7aea5475b670`, and
+source/config/test hashes are `7e34d374df437075f040b40f7435cb0ab07a4ca60ccf696a1730f6153761f2a0` /
+`d11e40b85836c2d858d03e242f3df50d8751e965b81f6b0d5a44399006c48af2` /
+`d51fa61d4bcd12defa6f5f84fb308890b378bb2e01ff6866aea2c05642e3df69`.
+
+The subsequent inverse-product replay closes the complete bounded row-10 target: all 180 `Pother`
+direction packets replay exactly, including 156 nonzero and 24 zero roots, so all 264 bounded roots
+globally (22 per candidate) are registered. This is a complete bounded target only. The remaining
+257,477 ordered D2F entries per candidate, full high-atom identity, global H7, PDE, lifespan, and
+observational claims remain open; no candidate is rejected or promoted. Evidence is
+`runs/physics-language/quartic-pother-inverse-product-d2-replay-gate/campaign.json`; artifact
+file/content hashes are `f29f10dacec37a235c3a8de5755876ab2a05b9bcb21f4e90a1b5d27f46fba6b8` /
+`8190747a51531a6debdbca68a63e9ebfc932ba2e5ebe6770d2a1d51f1514f472`, and
+source/config/test hashes are `d92c8ad16c677ce42a47ad2cf8fed09eb04b073f7667e7c3dc59fde208c50144` /
+`4cbc0c3806360b8dab384d6e9f94f9fd3ea0e15315b79199b0c93412b4a18718` /
+`d3300eec715b6ad1265c66d7b0aa85dd2185aa2f83494f7f983f3e86db7a54e3`.
+
+The typed full-domain partition makes the next extension exact and conservative. Per candidate it
+partitions all 257,499 ordered D2F entries, preserves the 22 bounded row-10 diagonal slots, and
+registers 220 additional same-direction slots across selected rows 0--9. Thus 2,640 new records are
+sealed globally, 242 entries per candidate are registered in this typed ledger, and 257,257 remain.
+The next finite blocker is the 5,082 registered-direction off-diagonal entries per candidate, which
+still lack cross-direction leaf jets. Complete D2F, the full high-atom identity, H7, PDE, and
+physical no-go claims remain false. Evidence is
+`runs/physics-language/quartic-full-d2f-typed-partition-row-extension-gate/campaign.json`; artifact
+file/content hashes are `9502843234509a4ddd21631acdfe412d0f17fe3552d7c9cac0daf7fb1475190a` /
+`76eff324a16396dfbeee91552220b26dd745b3c22aa5dd6fb9538fffa843bece`, and
+source/config/test hashes are `e149f1f0f30986dc452efce5b0f9f1fea363124555def7f98782d47590563e19` /
+`e83b5eb803dc2c5ccdf33c0e5637ae5d5a3d64b6fbf4645b8251331831fcb0ba` /
+`f72f5d9223dff6356c713adc381dc27eca06d8034dbea2627b1ec7d70666db44`.
+
 The component campaign now proves every entry of the principal identity
 `D_Y E55 J = i P55` for all 12 candidates and materializes the complete first source Jacobian.
 Its 1,089 principal and 594 lower entries form an exact arithmetic-only `11 x 153` manifest with
