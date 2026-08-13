@@ -65,6 +65,11 @@ The next
 constructs two distinct exact `22 x 24` projections with the same registered values and the full
 22-parameter mixed-D2 extension family, making the missing typed bridge visible without turning a
 schema nonidentifiability result into a physical no-go claim.
+The
+[mixed-D2 differentiability notebook](docs/notebooks/generated/quartic-ordered-mixed-d2-differentiability.md)
+then follows the registered arithmetic DAGs down to 31,680 candidate-bound leaf-jet obligations.
+It writes out the exact chain, product, and quotient rules and makes the fail-closed boundary
+explicit: an unregistered leaf derivative is unknown, never silently replaced by zero.
 Their claim
 ledgers distinguish universal proof from local certification and unresolved global blockers; the
 Jupyter `.ipynb` versions sit beside the Markdown files. The complete design and fail-closed
@@ -958,6 +963,21 @@ zero object-specific gravity parameters, and no halo or redshift-distance labels
 must then face raw lensing geometry as an independent falsification channel. The protocol passes its
 structural audit but opens no data; see
 [`docs/GALAXY_OBSERVABLE_DISCOVERY.md`](docs/GALAXY_OBSERVABLE_DISCOVERY.md).
+
+A dedicated lensing direct-observable readiness evaluator now makes that independent channel
+machine-checkable without opening a dataset. It permits only raw or calibrated direct observables
+across six registered channels and requires four calibration/provenance roles. Nineteen halo,
+dark-matter, GR-derived-map, latent-component, redshift-distance, supernova, object-specific,
+lensing-only-parameter, and formula-selection fields are rejected. Both synthetic schema controls
+pass, but zero authorized real source packets are registered or opened, so the scientific outcome is
+one block, zero passes, and zero rejections with first blocker
+`no_authorized_real_lensing_source_packet_registered`. The artifact is
+`runs/engine/lensing-direct-observable-evaluator-readiness.json` (file SHA-256
+`ea30903d306a7379b409a1e0205cd2c2c1ccbb6b353b453644b8970421470fa4`, content SHA-256
+`2a261efd867436f60d695d96218e6bf0fd13734b8fea8d9a911bc1dc430ab82e`); source/config/test
+hashes are `933ff2ab1a7a95cea1efc6946160de4e9f4a458793b7e8040b41ff74c028d0bf`,
+`ea9882ae7a4f1d9a60e22c546e57513a755d4ecf2e547c232fd185f5dd3b88ae`, and
+`7fe7c761735c22cdf5d5d181b7f7ee4dcb6ccec10dec86bf8e8e5c2e34e86fa1`.
 
 A matching sealed Solar-System protocol predicts held-out round-trip light-time, coherent
 frequency/phase ratios, and angular separation from admitted tracking and calibration records. It
@@ -1888,6 +1908,24 @@ source/config/test hashes are `f8cd296240dba457caaf058a8cebabf8e728e35b9170360a9
 `30a51cf13934379c627fe557aec85607b419e80ba5708cde6867c53ac488dbf0` /
 `baf4316beccb1fc09232bb9354fbaa485f9ffcdb2c888210f434d83af9d53cd9`;
 the leaf-obligation root is `1898f8f871a0a78c2384993f788fa74723e8e9da0d8a88c02977310d8c7023c2`.
+
+The flat factorized specialization gate then finds that a registered bounded subset really is
+computable. The exact flat `153 -> 24` coordinate map and live factorized A/B/C block formulas
+collapse the 31,680 leaf obligations into 20 target formulas per candidate and materialize all 264
+candidate-coordinate flat-reference D2 values. Exactly 192 are zero; the remaining 72 are split
+evenly among `-1`, `-1/2`, `1/2`, and `1`, matching the candidate coefficient. This is a genuine
+local success, but it is not promoted beyond its evidence: the flat result DAG has five exact
+constant nodes, while arbitrary-background leaf derivatives and general D2 roots remain 0
+registered/264 blocked. All 12 candidates pass the flat specialization and remain downstream
+blocked without rejection; physical no-go, complete D2F, H7, PDE, lifespan, observation, and
+promotion claims remain false. The next blocker is the nonlinear arbitrary-background
+coordinate-to-covariant-jet map plus candidate-bound A/B/C leaf derivatives. Artifact file/content
+hashes are `7f433906323391a8b84179d2abb63b0b107fadad2667a8f6350d3add357a7d1c` /
+`be94d39348864e642a0b4460c35f845e21f7cd093792f0ce97eab152505bfd2a`;
+source/config/test hashes are `ad86b9611ac869b491bc83d9a4966209184e5bd7fd4eacb6a98739ec9191549e` /
+`feb8da4e94aebdf8713b998383945d1540ef4cbd852ab4a6bdaed5fe67fa92fa` /
+`3348c7f8895851d65d220128ce46c20927bcc57f7c26923a697496bcbc023363`;
+the factorization-manifest root is `ee74d20c1fea767007f4c200d6c46a3c6288e6f01901b52eef64f06333c27f5d`.
 
 The component campaign now proves every entry of the principal identity
 `D_Y E55 J = i P55` for all 12 candidates and materializes the complete first source Jacobian.

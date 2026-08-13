@@ -12,6 +12,7 @@ from sigma_theory_compiler.research_notebook import (
     build_action_jet_nonidentifiability_notebook,
     build_component_map_schema_ambiguity_notebook,
     build_natural_sum_notebook,
+    build_ordered_mixed_d2_differentiability_notebook,
     build_quartic_survivor_notebook,
     build_registered_variation_selection_notebook,
     materialize_example_notebooks,
@@ -32,6 +33,10 @@ REGISTERED_VARIATION_RECEIPT = (
 COMPONENT_MAP_RECEIPT = (
     "runs/physics-language/"
     "quartic-fitted-output-connection-component-map-schema-ambiguity-gate/campaign.json"
+)
+ORDERED_MIXED_D2_RECEIPT = (
+    "runs/physics-language/"
+    "quartic-ordered-mixed-d2-arithmetic-dag-differentiability-gate/campaign.json"
 )
 EXISTING_NOTEBOOK_SHA256 = {
     "natural-sum-rediscovery.ipynb": (
@@ -57,6 +62,12 @@ EXISTING_NOTEBOOK_SHA256 = {
     ),
     "quartic-registered-variation-selection-audit.md": (
         "75b918bfc2d7598f4b76c59af5eec118a04bcd78715f5968eed9631c0557cba6"
+    ),
+    "quartic-component-map-schema-ambiguity.ipynb": (
+        "d8bd61397bd8bb0b20af5fb8b7e986e57b1ba28494ecef036f4d4f207f370e1c"
+    ),
+    "quartic-component-map-schema-ambiguity.md": (
+        "4bc82c9ecfc46b3f0df6dcead9eef51b90f575432607c86148918598108cb90a"
     ),
 }
 
@@ -193,6 +204,43 @@ def test_component_map_notebook_constructs_only_schema_ambiguity() -> None:
             "path": COMPONENT_MAP_RECEIPT,
             "file_sha256": ("0256f64acb53f38c0cada5e43a58c974b7f9bebe2529bdf7c3f08e65b9d2563f"),
             "content_sha256": ("3a3da9ecef30e596ae18cb8e76687338a9fe1bf8e7284ee009287420ce5613ec"),
+        }
+    ]
+    rendered = render_ipynb(notebook)
+    assert all(cell["cell_type"] == "markdown" for cell in rendered["cells"])
+
+
+def test_ordered_mixed_d2_notebook_marks_missing_leaf_jets_unknown() -> None:
+    notebook = build_ordered_mixed_d2_differentiability_notebook(ROOT)
+    value = notebook.to_dict()
+    validate_notebook(value)
+    markdown = render_markdown(notebook)
+    assert notebook.verdict == "proved"
+    assert "13,983 arithmetic-DAG nodes" in markdown
+    assert "341 distinct component-input labels" in markdown
+    assert "exactly 132 component-input leaves" in markdown
+    assert "D(c)=0" in markdown
+    assert "D(xy)=D(x)y+xD(y)" in markdown
+    assert "D(x)y-xD(y)" in markdown
+    assert "20\\cdot132=2{,}640" in markdown
+    assert "12\\cdot2{,}640=31{,}680" in markdown
+    assert "34,848" in markdown
+    assert "zero registered leaf-derivative roots" in markdown
+    assert "zero registered ordered mixed-$D^2$ roots out of 264 targets" in markdown
+    assert "not the equation $D(x)=0$" in markdown
+    assert "not a vanishing theorem" in markdown
+    assert "do not prove a physical no-go" in markdown
+    assert "complete $D^2F$" in markdown
+    assert "global $H^7$, nonlinear PDE closure, or lifespan" in markdown
+    assert (
+        "register_candidate_bound_coordinate_derivatives_for_the_31680_reachable_A_B_C_"
+        "component_input_leaf_obligations" in markdown
+    )
+    assert value["source_bindings"] == [
+        {
+            "path": ORDERED_MIXED_D2_RECEIPT,
+            "file_sha256": ("2992571c544846efc96142e2e4a74efe280a7bb025efadb1ff945ab9515bafcc"),
+            "content_sha256": ("d8afd9f91c090ad1c07e4bb22257baa8c61c095f8d434e02a27082b5591abb6a"),
         }
     ]
     rendered = render_ipynb(notebook)

@@ -1,0 +1,146 @@
+{
+  "authorized_real_source_packet_bindings": [],
+  "bindings": {
+    "config": {
+      "file_sha256": "ea9882ae7a4f1d9a60e22c546e57513a755d4ecf2e547c232fd185f5dd3b88ae",
+      "path": "configs/lensing_direct_observable_evaluator_readiness.json"
+    },
+    "source": {
+      "file_sha256": "933ff2ab1a7a95cea1efc6946160de4e9f4a458793b7e8040b41ff74c028d0bf",
+      "path": "src/sigma_theory_compiler/lensing_direct_observable_evaluator_readiness.py"
+    },
+    "test": {
+      "file_sha256": "7fe7c761735c22cdf5d5d181b7f7ee4dcb6ccec10dec86bf8e8e5c2e34e86fa1",
+      "path": "tests/test_lensing_direct_observable_evaluator_readiness.py"
+    }
+  },
+  "blocker_ledger": [
+    {
+      "blocker": "no_authorized_real_lensing_source_packet_registered",
+      "decision": "blocked",
+      "gate_id": "authorized_real_source_packet"
+    },
+    {
+      "blocker": "observational_authorization_is_false",
+      "decision": "blocked",
+      "gate_id": "observational_opening_authorization"
+    }
+  ],
+  "campaign_id": "lensing-direct-observable-evaluator-readiness-2026-08-12",
+  "candidate_use_authorized": false,
+  "complete_comparable_evidence": false,
+  "content_sha256": "2a261efd867436f60d695d96218e6bf0fd13734b8fea8d9a911bc1dc430ab82e",
+  "contract": {
+    "allowed_data_classes": [
+      "calibrated_direct_observable",
+      "raw_direct_observable"
+    ],
+    "allowed_observable_channels": [
+      "calibrated_image_pixels",
+      "directly_measured_time_delay",
+      "image_parity_and_topology",
+      "raw_detector_counts",
+      "relative_arc_positions",
+      "relative_multiple_image_positions"
+    ],
+    "forbidden_fields": [
+      "abundance_matched_mass",
+      "cosmological_distance",
+      "dark_matter_label",
+      "dark_matter_map",
+      "distance_modulus",
+      "environment_from_redshift",
+      "formula_selection_target",
+      "gr_derived_convergence",
+      "gr_derived_mass_map",
+      "halo_concentration",
+      "halo_mass",
+      "halo_profile",
+      "halo_radius",
+      "latent_gravitating_component",
+      "lensing_only_gravity_parameter",
+      "nfw_fit",
+      "object_specific_gravity_parameter",
+      "redshift_derived_distance",
+      "supernova_standardization"
+    ],
+    "formula_selection_use": false,
+    "required_calibration_roles": [
+      "background_provenance",
+      "detector_or_instrument_calibration",
+      "point_spread_function",
+      "uncertainty_or_covariance"
+    ],
+    "target_role": "post_freeze_independent_falsification"
+  },
+  "counts": {
+    "allowed_data_classes": 2,
+    "allowed_observable_channels": 6,
+    "authorized_real_source_packets": 0,
+    "forbidden_fields": 19,
+    "positive_schema_control_passes": 2,
+    "positive_schema_controls": 2,
+    "real_source_packets_opened": 0,
+    "required_calibration_roles": 4,
+    "scientific_blocks": 1,
+    "scientific_passes": 0,
+    "scientific_rejects": 0
+  },
+  "data_eligibility": {
+    "dark_matter_or_halo_inputs": false,
+    "latent_component_inputs": false,
+    "model_dependent_targets": false,
+    "observational_data_opened": false,
+    "redshift_distance_inputs": false,
+    "supernova_inference_inputs": false
+  },
+  "decision": "blocked_missing_authorized_real_lensing_source_packet",
+  "first_blocker": "no_authorized_real_lensing_source_packet_registered",
+  "interpretation": "Two synthetic packets pass structural schema controls only. No authorized real lensing source packet exists or opens, so this readiness contract records zero scientific passes and no candidate conclusion.",
+  "observational_authorization": false,
+  "observational_data_opened": false,
+  "positive_schema_controls": [
+    {
+      "control_id": "positive_raw_direct_observable",
+      "decision": "schema_pass",
+      "observational_data_opened": false,
+      "packet_content_sha256": "cb05fda284f82fb78264ad3ab62feb4d06a5605407e3663c96204fdb79048da9",
+      "scientific_pass": false,
+      "synthetic_only": true
+    },
+    {
+      "control_id": "positive_calibrated_direct_observable",
+      "decision": "schema_pass",
+      "observational_data_opened": false,
+      "packet_content_sha256": "f98071765a697a039360ac715bb2855a46a562bfd3cb089940c7b31c541d25da",
+      "scientific_pass": false,
+      "synthetic_only": true
+    }
+  ],
+  "schema_version": "sigma-lensing-direct-observable-evaluator-readiness-1.0",
+  "scientific_pass_claimed": false,
+  "seals": {
+    "external_process_signals": false,
+    "gpu_or_cuda_access": false,
+    "leaderboard_or_rank_writes": false,
+    "live_campaign_SQLite_access": false,
+    "network_access": false,
+    "observational_data_opened": false,
+    "runtime_access": false,
+    "secret_access": false,
+    "source_packet_opened": false
+  },
+  "source_bindings": {
+    "evidence_policy": {
+      "content_sha256": "2071047feb62c89b555ab1d418dd27e080417a075066b1e03aa9a8d0e9394615",
+      "file_sha256": "e58cbd2ec2a8a83f100136f1408eac9f9672fd65ce5c6f26d9f3f231f4bf478d",
+      "path": "configs/observational_evidence_policy.json"
+    },
+    "galaxy_protocol": {
+      "content_sha256": "2092512cf1ab5758add274e87e5c6b88a40086b462c1200efd2b7c8d5c5c2fe8",
+      "file_sha256": "5a6a836467c528e5b77f5ca735dbb212e07cbc579e2b4466176aa535cfad6c84",
+      "path": "configs/galaxy_observable_protocol.json"
+    }
+  },
+  "source_packet_opened": false
+}

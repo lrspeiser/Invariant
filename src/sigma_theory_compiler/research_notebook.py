@@ -1261,6 +1261,239 @@ def build_component_map_schema_ambiguity_notebook(root: Path) -> ResearchNoteboo
     )
 
 
+def build_ordered_mixed_d2_differentiability_notebook(root: Path) -> ResearchNotebook:
+    receipt_path = (
+        "runs/physics-language/"
+        "quartic-ordered-mixed-d2-arithmetic-dag-differentiability-gate/campaign.json"
+    )
+    result, binding = _load_sealed_receipt(root, receipt_path)
+    expected_counts = {
+        "blocked_ordered_mixed_D2_roots": 264,
+        "complete_ordered_D2F_tensors_registered": 0,
+        "component_input_leaves_per_target_root": 132,
+        "deduplicated_leaf_derivative_obligations": 31680,
+        "full_high_atom_good_unknown_identities_proved": 0,
+        "global_H7_closures": 0,
+        "lifespans_proved": 0,
+        "nonlinear_PDE_closures": 0,
+        "raw_leaf_derivative_references": 34848,
+        "reachable_D1_DAG_nodes": 13983,
+        "reachable_component_input_labels": 341,
+        "registered_leaf_derivative_roots": 0,
+        "registered_ordered_mixed_D2_roots": 0,
+        "selected_candidates": 12,
+        "target_coordinate_records": 264,
+        "unique_target_D1_roots_per_candidate": 20,
+    }
+    closure = result["union_dependency_closure"]
+    rules = result["operator_derivative_rules"]
+    templates = result["target_root_templates"]
+    candidates = result["candidate_manifests"]
+    claim_seals = result["claim_seals"]
+    expected_rules = {
+        "closed_noninput_operator_rules": 5,
+        "derivative_DAG_emitted": False,
+        "exact_add": "D(sum_i x_i)=sum_i D(x_i)",
+        "exact_component_input": "requires_registered_candidate_coordinate_derivative_leaf",
+        "exact_constant": "D(c)=0",
+        "exact_divide": ("D(x/y)=(D(x)*y-x*D(y))/(y*y)_on_registered_nonzero_denominator_domain"),
+        "exact_multiply": "D(x*y)=D(x)*y+x*D(y)",
+        "exact_negate": "D(-x)=-D(x)",
+        "unbound_input_operator_kinds": 1,
+    }
+    if (
+        result["decision"]
+        != "pass_exact_D1_DAG_differentiability_boundary_31680_leaf_jets_missing_D2_blocked"
+        or result["decision_counts"] != {"blocked": 0, "pass": 12, "reject": 0}
+        or result["downstream_admission_counts"] != {"blocked": 12, "pass": 0, "reject": 0}
+        or result["gate_counts"] != expected_counts
+        or closure
+        != {
+            "closure_sha256": ("da53e2fd8d83d49213717d98b0011b674096b0cc8d0849a330ac2b626ff12501"),
+            "component_input_family_counts": {
+                "A": 121,
+                "B_1": 11,
+                "B_2": 11,
+                "C_11": 55,
+                "C_12": 22,
+                "C_13": 22,
+                "C_22": 55,
+                "C_23": 22,
+                "C_33": 22,
+            },
+            "operation_counts": {
+                "exact_add": 1241,
+                "exact_component_input": 341,
+                "exact_constant": 11,
+                "exact_divide": 22,
+                "exact_multiply": 12326,
+                "exact_negate": 42,
+            },
+            "reachable_component_input_labels": 341,
+            "reachable_nodes": 13983,
+        }
+        or rules != expected_rules
+        or len(templates) != 20
+        or len({template["D1_arithmetic_root"] for template in templates}) != 20
+        or any(
+            template["reachable_component_input_count"] != 132
+            or len(template["reachable_component_input_labels"]) != 132
+            or sum(template["operation_counts"].values()) != template["reachable_nodes"]
+            for template in templates
+        )
+        or len(candidates) != 12
+        or any(
+            candidate["candidate_decision"] != "blocked_missing_component_input_leaf_derivatives"
+            or candidate["candidate_rejection_authorized"] is not False
+            or candidate["unique_target_D1_roots"] != 20
+            or candidate["required_leaf_derivative_obligations"] != 2640
+            or candidate["registered_leaf_derivative_roots"] != 0
+            or candidate["ordered_mixed_D2_roots_registered"] != 0
+            or len(candidate["derivative_packets"]) != 20
+            or sum(
+                packet["required_leaf_derivatives"] for packet in candidate["derivative_packets"]
+            )
+            != 2640
+            or sum(
+                packet["registered_leaf_derivatives"] for packet in candidate["derivative_packets"]
+            )
+            != 0
+            or any(
+                packet["required_leaf_derivatives"] != 132
+                or len(packet["leaf_derivative_obligations"]) != 132
+                for packet in candidate["derivative_packets"]
+            )
+            for candidate in candidates
+        )
+        or result["leaf_derivative_obligation_manifest_sha256"]
+        != "1898f8f871a0a78c2384993f788fa74723e8e9da0d8a88c02977310d8c7023c2"
+    ):
+        raise NotebookValidationError("ordered mixed-D2 differentiability receipt boundary changed")
+    if {key for key, value in claim_seals.items() if value} != {
+        "exact_noninput_operator_derivative_rules_closed",
+        "minimal_31680_leaf_derivative_obligations_materialized",
+        "target_D1_DAG_dependency_closure_replayed",
+    } or any(control != {"rejected": True} for control in result["exact_controls"].values()):
+        raise NotebookValidationError("ordered mixed-D2 differentiability claim boundary changed")
+    theorem = result["differentiability_theorem"]
+    if (
+        theorem["name"] != "closed_operator_calculus_with_unbound_component_input_leaf_jets"
+        or "13,983 nodes and 341 A/B/C input labels" not in theorem["premises"]
+        or "2,640 required leaf jets per candidate" not in theorem["exact_result"]
+        or "31,680 candidate-bound obligations" not in theorem["exact_result"]
+        or "not a physical no-go" not in theorem["boundary"]
+    ):
+        raise NotebookValidationError("ordered mixed-D2 differentiability theorem changed")
+    evidence = (receipt_path,)
+    cells = (
+        NotebookCell(
+            "The differentiation question",
+            "For each of 12 candidates and 22 target coordinate tangents, the desired ordered "
+            "mixed derivative begins from a registered first-derivative arithmetic root. This "
+            "audit asks whether those exact $D^1$ DAGs can be differentiated using only the "
+            "registered operator and leaf data.",
+            evidence,
+        ),
+        NotebookCell(
+            "Replay the dependency closure",
+            "The 20 distinct target $D^1$ roots per candidate have a union closure of exactly "
+            "13,983 arithmetic-DAG nodes. Those nodes contain 341 distinct component-input "
+            "labels from the $A$, $B_1$, $B_2$, and six $C$ families. Every target-root closure "
+            "contains exactly 132 component-input leaves. This is a dependency result: it says "
+            "which inputs a derivative must know before any derivative DAG can be emitted.",
+            evidence,
+        ),
+        NotebookCell(
+            "Close the non-input operator calculus",
+            "Let $D$ denote differentiation along one registered coordinate tangent. The five "
+            "non-input operators obey exact rules:\n\n"
+            "$$D(c)=0,\\qquad D(-x)=-D(x),\\qquad "
+            "D\\!\\left(\\sum_i x_i\\right)=\\sum_iD(x_i),$$\n\n"
+            "$$D(xy)=D(x)y+xD(y),$$\n\n"
+            "$$D(x/y)=\\frac{D(x)y-xD(y)}{y^2},$$\n\n"
+            "with the quotient rule restricted to the registered nonzero-denominator domain. "
+            "Thus constants, sums, negations, products, and quotients are closed under the "
+            "operator calculus. Only an exact_component_input leaf needs new data.",
+            evidence,
+        ),
+        NotebookCell(
+            "Count the leaf-jet obligations",
+            "For one candidate there are 20 distinct target roots and 132 required input-leaf "
+            "jets per root, hence\n\n"
+            "$$20\\cdot132=2{,}640$$\n\n"
+            "deduplicated candidate-bound obligations. Across 12 candidates this gives\n\n"
+            "$$12\\cdot2{,}640=31{,}680.$$\n\n"
+            "The unreduced coordinate references total 34,848 because repeated target roots "
+            "share packets. Deduplication removes those repeats; it does not remove any distinct "
+            "candidate, tangent, root, and input-label obligation.",
+            evidence,
+        ),
+        NotebookCell(
+            "Why no ordered mixed-D2 root is emitted",
+            "Each input leaf has a registered value label and provenance hash, but none has a "
+            "registered coordinate-derivative root. Therefore all 31,680 leaf-jet obligations "
+            "remain unbound. The exact tally is zero registered leaf-derivative roots and zero "
+            "registered ordered mixed-$D^2$ roots out of 264 targets. Emitting a formal skeleton "
+            "would not create an arithmetic certificate, so the derivative DAG remains blocked.",
+            evidence,
+        ),
+        NotebookCell(
+            "Missing data are not zero data",
+            "An absent leaf jet is an unknown required input, not the equation $D(x)=0$. "
+            "Defaulting it to zero would select an unregistered completion and could change the "
+            "chain-rule result. The audit therefore establishes a differentiability-domain "
+            "boundary, not a vanishing theorem. Registering the candidate-bound coordinate "
+            "derivatives of the reachable $A/B/C$ leaves would discharge the present blocker "
+            "and require a fresh derivative audit.",
+            evidence,
+        ),
+        NotebookCell(
+            "The scientific boundary",
+            "No candidate is rejected: all 12 downstream admissions remain blocked. Missing "
+            "leaf jets do not prove a physical no-go, any derivative zero, a corrected "
+            "second-source jet, complete $D^2F$, the high-atom identity, global $H^7$, nonlinear "
+            "PDE closure, or lifespan. The first blocker is\n\n"
+            f"{result['first_blocker']}.",
+            evidence,
+        ),
+    )
+    return ResearchNotebook(
+        notebook_id="quartic-ordered-mixed-d2-differentiability-reconstruction-001",
+        title="Exact differentiability boundary for the ordered mixed-D2 arithmetic DAG",
+        verdict="proved",
+        source_bindings=(binding,),
+        claims=(
+            NotebookClaim(
+                "proved",
+                "The 20 target D1 roots have a 13,983-node union closure with 341 component-input labels and 132 leaves per root.",
+                evidence,
+            ),
+            NotebookClaim(
+                "proved",
+                "Exact chain rules reduce the derivative problem to 31,680 deduplicated candidate-bound input-leaf jet obligations.",
+                evidence,
+            ),
+            NotebookClaim(
+                "blocked",
+                "Zero of 264 ordered mixed-D2 roots can be emitted while all required component-input leaf derivatives remain unregistered.",
+                evidence,
+            ),
+            NotebookClaim(
+                "scope_limit",
+                "Missing input jets imply neither zero derivatives nor a physical no-go, D2F admission, global theorem, or candidate rejection.",
+                evidence,
+            ),
+        ),
+        cells=cells,
+        limits=(
+            "the notebook is a derived presentation of one sealed receipt, not an independent proof kernel",
+            "the operator calculus is closed only on the declared nonzero-denominator domain",
+            "unregistered component-input derivatives are unknown and are never defaulted to zero",
+            "physical no-go, D2F, high-atom, global H7, nonlinear PDE, lifespan, rejection, and observational claims remain fail-closed",
+        ),
+    )
+
+
 def write_notebook_pair(notebook: ResearchNotebook, output_stem: Path) -> tuple[Path, Path]:
     output_stem.parent.mkdir(parents=True, exist_ok=True)
     markdown_path = output_stem.with_suffix(".md")
@@ -1289,6 +1522,10 @@ def materialize_example_notebooks(root: Path, output: Path) -> tuple[Path, ...]:
         (
             "quartic-component-map-schema-ambiguity",
             build_component_map_schema_ambiguity_notebook(root),
+        ),
+        (
+            "quartic-ordered-mixed-d2-differentiability",
+            build_ordered_mixed_d2_differentiability_notebook(root),
         ),
     )
     paths: list[Path] = []
