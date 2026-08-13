@@ -10,6 +10,7 @@ import pytest
 from sigma_theory_compiler.research_notebook import (
     NotebookValidationError,
     build_action_jet_nonidentifiability_notebook,
+    build_component_map_schema_ambiguity_notebook,
     build_natural_sum_notebook,
     build_quartic_survivor_notebook,
     build_registered_variation_selection_notebook,
@@ -27,6 +28,10 @@ ACTION_JET_RECEIPT = (
 REGISTERED_VARIATION_RECEIPT = (
     "runs/physics-language/"
     "quartic-fitted-output-connection-registered-variation-selection-audit/campaign.json"
+)
+COMPONENT_MAP_RECEIPT = (
+    "runs/physics-language/"
+    "quartic-fitted-output-connection-component-map-schema-ambiguity-gate/campaign.json"
 )
 EXISTING_NOTEBOOK_SHA256 = {
     "natural-sum-rediscovery.ipynb": (
@@ -46,6 +51,12 @@ EXISTING_NOTEBOOK_SHA256 = {
     ),
     "quartic-action-jet-nonidentifiability.md": (
         "5e2180b69ec5cd9a72a45c6f17f2b0f67af757224d73e9250915195f097aaeca"
+    ),
+    "quartic-registered-variation-selection-audit.ipynb": (
+        "84c988dfe42f82f5ecaec6a302c2d8f276d1ff21251020e42ce3111db68e36f2"
+    ),
+    "quartic-registered-variation-selection-audit.md": (
+        "75b918bfc2d7598f4b76c59af5eec118a04bcd78715f5968eed9631c0557cba6"
     ),
 }
 
@@ -144,6 +155,44 @@ def test_registered_variation_notebook_proves_only_closed_inventory_rank_zero() 
             "path": REGISTERED_VARIATION_RECEIPT,
             "file_sha256": ("dfc8940a6f092de73da5641afd95c6cbf997b73ad63f8fa6f4ea3eaa8f395a20"),
             "content_sha256": ("6de93ca6700b21ff9f858a2b7f01d1a9d103271de1dde3f75385faaaa4a377d6"),
+        }
+    ]
+    rendered = render_ipynb(notebook)
+    assert all(cell["cell_type"] == "markdown" for cell in rendered["cells"])
+
+
+def test_component_map_notebook_constructs_only_schema_ambiguity() -> None:
+    notebook = build_component_map_schema_ambiguity_notebook(ROOT)
+    value = notebook.to_dict()
+    validate_notebook(value)
+    markdown = render_markdown(notebook)
+    assert notebook.verdict == "proved"
+    assert "22-by-24 projection problem" in markdown
+    assert "M\\in\\mathbb K^{22\\times24}" in markdown
+    assert "22\\cdot24=528" in markdown
+    assert "constraint rank is exactly 22" in markdown
+    assert "\\dim\\{M:Mc=\\beta\\}=528-22=506" in markdown
+    assert "M_{00}=1/2" in markdown
+    assert "M_{01}=-1" in markdown
+    assert "\\tfrac12(1)+(-1)(-\\tfrac12)=1=\\beta_0" in markdown
+    assert "two distinct exact $22\\times24$ maps" in markdown
+    assert "D^2_{\\mathrm{mixed}}F_i=\\mu_i" in markdown
+    assert "22 unit vectors $e_0,\\ldots,e_{21}$" in markdown
+    assert "23 explicit, pairwise distinct completions" in markdown
+    assert "22 independent parameters" in markdown
+    assert "not** a physical no-go" in markdown
+    assert "not certified covariant physical maps" in markdown
+    assert "complete $D^2F$" in markdown
+    assert "global $H^7$, nonlinear PDE closure, or lifespan" in markdown
+    assert (
+        "register_the_typed_generic_term_to_source_component_projection_P10_Pother_state_"
+        "tangent_embedding_and_22_ordered_mixed_D2F_roots" in markdown
+    )
+    assert value["source_bindings"] == [
+        {
+            "path": COMPONENT_MAP_RECEIPT,
+            "file_sha256": ("0256f64acb53f38c0cada5e43a58c974b7f9bebe2529bdf7c3f08e65b9d2563f"),
+            "content_sha256": ("3a3da9ecef30e596ae18cb8e76687338a9fe1bf8e7284ee009287420ce5613ec"),
         }
     ]
     rendered = render_ipynb(notebook)

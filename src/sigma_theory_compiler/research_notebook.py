@@ -998,6 +998,269 @@ def build_registered_variation_selection_notebook(root: Path) -> ResearchNoteboo
     )
 
 
+def build_component_map_schema_ambiguity_notebook(root: Path) -> ResearchNotebook:
+    receipt_path = (
+        "runs/physics-language/"
+        "quartic-fitted-output-connection-component-map-schema-ambiguity-gate/"
+        "campaign.json"
+    )
+    result, binding = _load_sealed_receipt(root, receipt_path)
+    expected_counts = {
+        "complete_ordered_D2F_tensors_registered": 0,
+        "cross_slice_D2F_entries_admitted": 0,
+        "distinct_projection_witnesses": 2,
+        "full_high_atom_good_unknown_identities_proved": 0,
+        "generic_projection_affine_dimension": 506,
+        "generic_projection_unknowns": 528,
+        "generic_projection_value_constraints": 22,
+        "generic_term_basis_dimension": 24,
+        "global_H7_closures": 0,
+        "lifespans_proved": 0,
+        "mixed_D2_extension_ambiguity_parameters": 22,
+        "mixed_multi_index_components_completed": 0,
+        "nonlinear_PDE_closures": 0,
+        "output_connection_basis_dimension": 22,
+        "registered_corrected_second_source_jet_entries": 0,
+        "selected_candidates": 12,
+        "target_D1_memberships_found": 22,
+        "target_direction_tangent_embeddings_registered": 0,
+        "target_ordered_mixed_D2F_roots_registered": 0,
+        "target_pure_DAG_checkpoint_overlaps": 0,
+        "unique_target_D1_row_atom_entries": 20,
+    }
+    projection = result["generic_term_projection_ambiguity"]
+    mixed = result["mixed_D2_extension_ambiguity"]
+    records = result["coordinate_records"]
+    claim_seals = result["claim_seals"]
+    exact_controls = result["exact_controls"]
+    beta = projection["target_beta_vector"]
+    base = projection["base_sparse_entries"]
+    alternate = projection["alternate_sparse_entries"]
+    expected_base = [
+        {"generic_term": 0, "output_coordinate": ordinal, "value": value}
+        for ordinal, value in enumerate(beta)
+    ]
+    expected_alternate = [
+        {"generic_term": 0, "output_coordinate": 0, "value": "1/2"},
+        {"generic_term": 1, "output_coordinate": 0, "value": "-1"},
+        *expected_base[1:],
+    ]
+    if (
+        result["decision"] != "pass_constructive_component_map_and_mixed_D2_schema_ambiguity"
+        or result["predecessor_decision"]
+        != "registered_variation_and_source_inventory_has_rank_zero_for_22_jet_selectors"
+        or result["decision_counts"] != {"blocked": 0, "pass": 12, "reject": 0}
+        or result["downstream_admission_counts"] != {"blocked": 12, "pass": 0, "reject": 0}
+        or result["gate_counts"] != expected_counts
+        or projection["matrix_shape"] != [22, 24]
+        or projection["unknown_entries"] != 528
+        or projection["value_constraints"] != 22
+        or projection["constraint_rank"] != 22
+        or projection["affine_solution_dimension"] != 506
+        or projection["base_residual_nonzero_count"] != 0
+        or projection["alternate_residual_nonzero_count"] != 0
+        or projection["maps_distinct"] is not True
+        or projection["covariance_or_index_equivariance_certified"] is not False
+        or len(projection["generic_term_ids"]) != 24
+        or len(projection["generic_coefficient_vector"]) != 24
+        or projection["generic_coefficient_vector"][:2] != ["1", "-1/2"]
+        or len(beta) != 22
+        or base != expected_base
+        or alternate != expected_alternate
+        or len(records) != 22
+        or mixed["target_coordinate_records"] != records
+        or [record["coordinate_ordinal"] for record in records] != list(range(22))
+        or any(
+            record["both_extensions_preserve_registered_D1_value"] is not True
+            or record["direction_state_tangent_registered"] is not False
+            or record["ordered_mixed_D2F_root_registered"] is not False
+            or record["zero_extension_D2_value"] != "0"
+            or record["unit_extension_D2_value"] != "1"
+            for record in records
+        )
+    ):
+        raise NotebookValidationError("component-map schema ambiguity receipt boundary changed")
+    expected_mixed = {
+        "candidate_count": 12,
+        "coordinate_atom_basis_sha256": (
+            "cdb30c510a24bc6e64bc78245ac6f69d9dfc207e7812fd2d8abeba8e03cb2525"
+        ),
+        "direction_tangent_embeddings_registered": 0,
+        "explicit_witness_completions": 23,
+        "full_component_Frechet_tensors_complete": False,
+        "independent_mixed_D2_extension_parameters": 22,
+        "mixed_multi_index_components_completed": 0,
+        "pure_checkpoint_atoms": ["q[0]", "p0[10]"],
+        "pure_derivative_roots": 1056,
+        "target_D1_memberships_found": 22,
+        "target_atom_overlap_with_pure_DAG_checkpoints": 0,
+        "target_coordinates": 22,
+        "target_ordered_mixed_D2F_roots_registered": 0,
+        "unique_target_D1_row_atom_entries": 20,
+    }
+    if (
+        {key: value for key, value in mixed.items() if key != "target_coordinate_records"}
+        != expected_mixed
+        or result["missing_schema"]
+        != {
+            "P10_Pother_direction_to_153_state_tangent": False,
+            "corrected_source_jet_to_output_bundle_connection": False,
+            "generic_term_id_to_source_component": False,
+            "ordered_mixed_D2F_root_for_each_output_coordinate": False,
+            "required_fields": [
+                "generic_term_id",
+                "source_row",
+                "coordinate_atom",
+                "direction_tangent_coefficients_in_153_basis",
+                "ordered_D2_arithmetic_root",
+                "ordered_D2_arithmetic_dag_sha256",
+                "output_bundle_projection_rule_id",
+                "candidate_id",
+            ],
+        }
+        or {key for key, value in claim_seals.items() if value}
+        != {
+            "all_22_target_D1_row_atom_entries_registered",
+            "mixed_D2_22_parameter_ambiguity_constructed",
+            "term_projection_affine_dimension_506_proved",
+            "two_exact_term_projection_witnesses_constructed",
+        }
+        or not exact_controls
+        or any(control != {"rejected": True} for control in exact_controls.values())
+    ):
+        raise NotebookValidationError("component-map schema completion boundary changed")
+    theorem = result["component_map_schema_theorem"]
+    broad_false = {
+        "candidate_theory_rejected",
+        "complete_ordered_D2F_tensor_registered",
+        "corrected_second_source_jet_registered",
+        "covariant_output_connection_derivation_registered",
+        "cross_slice_D2F_entries_admitted",
+        "full_high_atom_good_unknown_identity_proved",
+        "global_H7_energy_closed",
+        "nonlinear_PDE_closed",
+        "nonlinear_lifespan_proved",
+        "observational_claim_made",
+        "physical_covariant_component_map_no_go_proved",
+        "registered_cross_registry_component_map_unique",
+    }
+    if (
+        theorem["name"]
+        != "registered_tensor_and_index_conventions_do_not_determine_the_cross_registry_map"
+        or "affine dimension 506" not in theorem["exact_result"]
+        or "22-parameter source-jet ambiguity" not in theorem["exact_result"]
+        or "not a no-go" not in theorem["boundary"]
+        or any(claim_seals[key] for key in broad_false)
+    ):
+        raise NotebookValidationError("component-map schema theorem boundary changed")
+    evidence = (receipt_path,)
+    cells = (
+        NotebookCell(
+            "The cross-registry question",
+            "The registered generic $G_4$ variation has 24 exact abstract term coefficients, "
+            "while the fitted output connection has 22 coordinates. The source inventory also "
+            "contains the target $D^1$ row-atom values. The question is whether those registered "
+            "values uniquely determine a component projection and the corresponding mixed "
+            "second jets.",
+            evidence,
+        ),
+        NotebookCell(
+            "Set up the 22-by-24 projection problem",
+            "Let $c\\in\\mathbb K^{24}$ be the generic coefficient vector over "
+            "$\\mathbb K=\\mathbb Q(\\sqrt2)$, let "
+            "$M\\in\\mathbb K^{22\\times24}$ be a proposed cross-registry map, and let "
+            "$\\beta\\in\\mathbb K^{22}$ be the fitted value vector. Registered value "
+            "agreement imposes\n\n"
+            "$$Mc=\\beta.$$\n\n"
+            "There are $22\\cdot24=528$ entries of $M$. Because $c_0=1\\ne0$, each output "
+            "row contributes one independent scalar equation, and different rows use disjoint "
+            "unknowns. Therefore the constraint rank is exactly 22 and\n\n"
+            "$$\\dim\\{M:Mc=\\beta\\}=528-22=506.$$",
+            evidence,
+        ),
+        NotebookCell(
+            "Construct two maps with identical registered values",
+            "A base witness puts $\\beta_j$ in column zero of row $j$ and zeros elsewhere. "
+            "Since $c_0=1$, it sends $c$ to $\\beta$. The alternate witness changes only row "
+            "zero: it sets $M_{00}=1/2$ and $M_{01}=-1$. Since $c_1=-1/2$,\n\n"
+            "$$M_{00}c_0+M_{01}c_1=\\tfrac12(1)+(-1)(-\\tfrac12)=1=\\beta_0.$$\n\n"
+            "Every other row is unchanged. Thus two distinct exact $22\\times24$ maps have "
+            "zero residual against the same registered value vector. This is a constructive "
+            "failure of schema identification, not an approximate fit.",
+            evidence,
+        ),
+        NotebookCell(
+            "Construct the mixed-second-jet ambiguity",
+            "For each typed target coordinate introduce an independent exact parameter "
+            "$\\mu_i$ and retain its registered first derivative:\n\n"
+            "$$D^1F_i=\\beta_i,\\qquad D^2_{\\mathrm{mixed}}F_i=\\mu_i,\\qquad "
+            "i=0,\\ldots,21.$$\n\n"
+            "The receipt registers every target $D^1$ membership but no direction-to-state "
+            "tangent embedding and no ordered mixed-$D^2F$ root. Hence changing any $\\mu_i$ "
+            "preserves all registered values. The zero vector and the 22 unit vectors "
+            "$e_0,\\ldots,e_{21}$ give 23 explicit, pairwise distinct completions. More "
+            "generally, the mixed-jet ambiguity has 22 independent parameters.",
+            evidence,
+        ),
+        NotebookCell(
+            "What identical values do not determine",
+            "The first construction holds $Mc=\\beta$ fixed while changing the projection "
+            "schema through a 506-dimensional affine family. The second holds all 22 registered "
+            "$D^1$ values fixed while changing 22 mixed-$D^2$ entries. Together they show "
+            "constructively that equality of the registered values alone does not select the "
+            "map or its action jets.",
+            evidence,
+        ),
+        NotebookCell(
+            "The scientific boundary",
+            "These witnesses are schema completions, not certified covariant physical maps. "
+            "Tensor equivariance, the typed generic-term-to-source-component projection, the "
+            "$P10/Pother$ state-tangent embedding, and the 22 ordered mixed-$D^2F$ roots remain "
+            "unregistered. Therefore schema nonidentifiability is **not** a physical no-go, a "
+            "candidate rejection, or an admission of corrected source jets, complete $D^2F$, "
+            "the high-atom identity, global $H^7$, nonlinear PDE closure, or lifespan. All 12 "
+            "candidates remain blocked. The first blocker is\n\n"
+            f"{result['first_blocker']}.",
+            evidence,
+        ),
+    )
+    return ResearchNotebook(
+        notebook_id="quartic-component-map-schema-ambiguity-reconstruction-001",
+        title="Constructive nonidentifiability of a quartic component-map schema",
+        verdict="proved",
+        source_bindings=(binding,),
+        claims=(
+            NotebookClaim(
+                "proved",
+                "The exact 22-by-24 registered value system has rank 22 and a 506-dimensional affine family of projection completions.",
+                evidence,
+            ),
+            NotebookClaim(
+                "proved",
+                "Twenty-two independent mixed-D2 parameters admit at least 23 explicit completions preserving every registered target D1 value.",
+                evidence,
+            ),
+            NotebookClaim(
+                "blocked",
+                "The typed cross-registry projection, state-tangent embedding, and 22 ordered mixed-D2F roots remain unregistered.",
+                evidence,
+            ),
+            NotebookClaim(
+                "scope_limit",
+                "Schema nonidentifiability is not a physical component-map no-go, D2F admission, global theorem, or candidate rejection.",
+                evidence,
+            ),
+        ),
+        cells=cells,
+        limits=(
+            "the notebook is a derived presentation of one sealed receipt, not an independent proof kernel",
+            "the two projection witnesses satisfy registered values but are not certified covariant maps",
+            "the 23 mixed-D2 witnesses are schema completions, not admitted corrected second-source jets",
+            "physical no-go, D2F, high-atom, global H7, nonlinear PDE, lifespan, rejection, and observational claims remain fail-closed",
+        ),
+    )
+
+
 def write_notebook_pair(notebook: ResearchNotebook, output_stem: Path) -> tuple[Path, Path]:
     output_stem.parent.mkdir(parents=True, exist_ok=True)
     markdown_path = output_stem.with_suffix(".md")
@@ -1022,6 +1285,10 @@ def materialize_example_notebooks(root: Path, output: Path) -> tuple[Path, ...]:
         (
             "quartic-registered-variation-selection-audit",
             build_registered_variation_selection_notebook(root),
+        ),
+        (
+            "quartic-component-map-schema-ambiguity",
+            build_component_map_schema_ambiguity_notebook(root),
         ),
     )
     paths: list[Path] = []
