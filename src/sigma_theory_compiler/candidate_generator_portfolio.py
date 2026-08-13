@@ -84,15 +84,15 @@ def _capabilities() -> tuple[GeneratorCapability, ...]:
         ),
         GeneratorCapability(
             "cross_domain",
-            None,
-            "missing",
-            False,
-            False,
-            False,
-            False,
-            False,
+            "sigma_theory_compiler.cross_domain_candidate_generator",
+            "implemented",
             True,
-            "no native cross-domain synthesis engine is registered",
+            True,
+            True,
+            True,
+            True,
+            True,
+            "bounded structural transfer through three closed templates across distinct packs",
         ),
         GeneratorCapability(
             "egraph",
@@ -120,15 +120,15 @@ def _capabilities() -> tuple[GeneratorCapability, ...]:
         ),
         GeneratorCapability(
             "grammar",
-            None,
-            "partial",
-            False,
-            False,
-            False,
-            False,
-            False,
+            "sigma_theory_compiler.grammar_candidate_generator",
+            "implemented",
             True,
-            "legacy bounded physics grammar predates the Sigma Core candidate-artifact contract",
+            True,
+            True,
+            True,
+            True,
+            True,
+            "bounded exact registered grammar enumeration with typed manifests",
         ),
         GeneratorCapability(
             "llm",
@@ -144,15 +144,15 @@ def _capabilities() -> tuple[GeneratorCapability, ...]:
         ),
         GeneratorCapability(
             "symbolic",
-            None,
-            "partial",
-            False,
-            False,
-            False,
-            False,
-            False,
+            "sigma_theory_compiler.symbolic_candidate_generator",
+            "implemented",
             True,
-            "legacy SymPy enumeration is bounded but not Sigma Core candidate-artifact native",
+            True,
+            True,
+            True,
+            True,
+            True,
+            "bounded exact rational template and coefficient enumeration",
         ),
     )
 
@@ -180,8 +180,8 @@ def build_generator_portfolio() -> dict[str, Any]:
             "implemented_strategies_use_sigma_core_candidate_artifacts": True,
         },
         "first_remaining_blocker": (
-            "make_grammar_symbolic_llm_and_cross_domain_generation_sigma_core_native_with_"
-            "deterministic_lineage_deduplication_and_bounded_replay"
+            "make_llm_proposals_sigma_core_candidate_artifact_native_while_preserving_"
+            "quarantine_cost_caps_secret_safety_and_zero_self_promotion_authority"
         ),
     }
     return {**body, "content_sha256": canonical_sha256(body)}

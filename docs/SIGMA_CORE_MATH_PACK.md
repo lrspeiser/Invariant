@@ -97,13 +97,18 @@ Three additional search strategies now operate directly on Sigma Core candidate 
 - `egraph_candidate_generator.py` performs deterministic equality saturation using a closed registry
   of 14 exact rational-algebra rewrites. Its equivalence claim extends only to those rules and
   congruence. Unknown or caller-supplied rewrites are rejected.
+- `grammar_candidate_generator.py` re-expresses the registered bounded grammar as typed Sigma Core
+  artifacts, with exact work accounting and a replayable manifest.
+- `symbolic_candidate_generator.py` enumerates exact rational coefficient grids over caller-built,
+  bounded SymPy templates and rejects string parsing, floats, unsafe functions, and unknown symbols.
+- `cross_domain_candidate_generator.py` transfers structural summaries through three closed
+  templates across distinct source packs into an explicit target pack. Transfer never establishes
+  that source semantics hold in the target domain.
 
-`candidate_generator_portfolio.py` seals this capability boundary. Evolutionary, Bayesian, and
-e-graph generation are implemented and candidate-artifact native. Legacy grammar and symbolic
-enumeration remain partial, the LLM adapter remains disabled and quarantined, and native
-cross-domain synthesis remains missing. Consequently the portfolio explicitly reports that the
-requested generator set is not complete and that generator registration proves neither scientific
-truth nor novelty.
+`candidate_generator_portfolio.py` seals this capability boundary. Evolutionary, Bayesian,
+e-graph, grammar, symbolic, and cross-domain generation are implemented and candidate-artifact
+native. The LLM adapter remains disabled and quarantined, so the requested generator set is not yet
+complete. Generator registration proves neither scientific truth nor novelty.
 
 Computational agreement is never proof. A million successful evaluations can advance a candidate
 to a proof attempt, but cannot produce a `proved` receipt.
