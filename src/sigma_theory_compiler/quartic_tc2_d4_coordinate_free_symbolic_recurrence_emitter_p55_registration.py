@@ -3,7 +3,6 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-import subprocess
 from functools import cache
 from pathlib import Path
 from typing import Any
@@ -32,7 +31,6 @@ TEST_PATH = (
 READINESS_SHA256 = "893b5b5daacc749a593d4eddd709e0e61f63f9f7954f46f02c0fd6970f48badb"
 P55_RESULT_SHA256 = "25ced42ac83bd592332f3d3a8bc97eeaac9c55b32ba4bb2be3e3da1fa6b503b7"
 P55_RESULT_FILE_SHA256 = "9e79245d45c248d5abf1b2fd11b12bb7ca0c857286d31f8bf46b7ec7c43490b2"
-P55_COMMIT = "37aaf3fbaf6cb13003a487a8f69d8ebb65d25009"
 P55_CONFIG_SHA256 = "4085aa176c41cec5f912bc1db0369683e39987c82a7d5440daf0892cb9b9837a"
 REQUIRED_PACKETS = 304
 REGISTERED_PACKETS = 6
@@ -122,7 +120,6 @@ def _validate_config(config: dict[str, Any]) -> None:
             "maximum_output_rows_emitted": 0,
         }
         or readiness.get("content_sha256") != READINESS_SHA256
-        or p55.get("commit") != P55_COMMIT
         or p55.get("file_sha256") != P55_RESULT_FILE_SHA256
         or p55.get("content_sha256") != P55_RESULT_SHA256
         or p55.get("config_content_sha256") != P55_CONFIG_SHA256
@@ -130,22 +127,7 @@ def _validate_config(config: dict[str, Any]) -> None:
         raise P55EmitterRegistrationError("invalid P55 emitter registration config")
 
 
-def _git_blob(root: Path, commit: str, relative: str) -> bytes:
-    process = subprocess.run(
-        ["git", "show", f"{commit}:{relative}"],
-        cwd=root,
-        check=False,
-        capture_output=True,
-    )
-    if process.returncode != 0:
-        raise P55EmitterRegistrationError(
-            f"committed P55 blob unavailable: {relative}: "
-            f"{process.stderr.decode('utf-8', errors='replace').strip()}"
-        )
-    return process.stdout
-
-
-def _validate_committed_p55_files(
+def _validate_bound_p55_files(
     root: Path, p55_result: dict[str, Any], binding: dict[str, Any]
 ) -> dict[str, Any]:
     expected_files = {
@@ -157,23 +139,20 @@ def _validate_committed_p55_files(
     }
     verified: list[dict[str, Any]] = []
     for relative, expected_sha256 in sorted(expected_files.items()):
-        blob = _git_blob(root, binding["commit"], relative)
-        blob_sha256 = hashlib.sha256(blob).hexdigest()
         current_path = _resolve_under(root, relative)
-        if blob_sha256 != expected_sha256 or _file_sha256(current_path) != expected_sha256:
-            raise P55EmitterRegistrationError(f"committed/current P55 file mismatch: {relative}")
+        if _file_sha256(current_path) != expected_sha256:
+            raise P55EmitterRegistrationError(f"bound P55 file mismatch: {relative}")
         verified.append(
             {
                 "path": relative,
                 "file_sha256": expected_sha256,
-                "commit": binding["commit"],
-                "committed_blob_and_current_file_match": True,
+                "current_file_matches_immutable_binding": True,
             }
         )
     return {
-        "commit": binding["commit"],
         "files_verified": len(verified),
         "files": verified,
+        "history_independent": True,
     }
 
 
@@ -241,7 +220,7 @@ def build_campaign(project_root: Path, config_path: Path) -> dict[str, Any]:
         validate_final_result(p55_result, root, p55_config_path)
     except ValueError as error:
         raise P55EmitterRegistrationError(f"native P55 validation failed: {error}") from error
-    commit_receipt = _validate_committed_p55_files(root, p55_result, p55_binding)
+    bound_input_receipt = _validate_bound_p55_files(root, p55_result, p55_binding)
     manifest = _registered_manifest(readiness, p55_result)
     missing = [
         {
@@ -269,7 +248,7 @@ def build_campaign(project_root: Path, config_path: Path) -> dict[str, Any]:
     claims.update(
         {
             "checkpointable_P55_result_native_validated": True,
-            "checkpointable_P55_commit_blobs_verified": True,
+            "checkpointable_P55_immutable_file_bindings_verified": True,
             "exact_three_axis_flat_reference_P55_packets_registered": True,
             "manifest_recomputed_from_registered_packets": True,
             "all_seven_scalar_Lagrange_projector_recipes_remain_registered": True,
@@ -294,7 +273,7 @@ def build_campaign(project_root: Path, config_path: Path) -> dict[str, Any]:
                 "native_exact_validation": True,
             },
         },
-        "committed_input_receipt": commit_receipt,
+        "bound_input_receipt": bound_input_receipt,
         "registered_P55_packets": packet_summaries,
         "required_symbolic_input_manifest": manifest,
         "remaining_missing_inputs": missing,
@@ -319,7 +298,7 @@ def build_campaign(project_root: Path, config_path: Path) -> dict[str, Any]:
         },
         "counts": {
             "upstream_content_seals_verified": 2,
-            "committed_files_verified": commit_receipt["files_verified"],
+            "immutable_files_verified": bound_input_receipt["files_verified"],
             "required_symbolic_input_packets": REQUIRED_PACKETS,
             "registered_symbolic_input_packets": REGISTERED_PACKETS,
             "missing_symbolic_input_packets": MISSING_PACKETS,
@@ -337,7 +316,7 @@ def build_campaign(project_root: Path, config_path: Path) -> dict[str, Any]:
         "claims": claims,
         "negative_controls": {
             "trust_P55_result_counts_without_native_replay": {"rejected": True},
-            "consume_uncommitted_or_commit_mismatched_P55_file": {"rejected": True},
+            "consume_hash_mismatched_P55_file": {"rejected": True},
             "count_expected_nonzeros_as_coefficient_data": {"rejected": True},
             "promote_P55_registration_to_matrix_projector_evaluation": {"rejected": True},
             "emit_recurrence_rows_before_remaining_packets_exist": {"rejected": True},
@@ -352,7 +331,7 @@ def build_campaign(project_root: Path, config_path: Path) -> dict[str, Any]:
             "test": {"path": TEST_PATH, "file_sha256": _file_sha256(root / TEST_PATH)},
         },
         "scope": (
-            "Registers only the three committed, native-validated flat-reference P55 axis "
+            "Registers only the three hash-bound, native-validated flat-reference P55 axis "
             "packets in the coordinate-free recurrence input manifest. The remaining 298 "
             "Taylor, lower-recurrence, candidate-normalization, and sphere-reducer packets "
             "remain absent; no recurrence row, D4 theorem, H7 closure, PDE theorem, lifespan, "

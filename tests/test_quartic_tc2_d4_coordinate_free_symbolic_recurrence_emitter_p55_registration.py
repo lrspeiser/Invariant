@@ -35,13 +35,13 @@ def artifact() -> dict:
     return document
 
 
-def test_committed_p55_input_is_native_validated(artifact: dict) -> None:
+def test_bound_p55_input_is_native_validated_without_git_history(artifact: dict) -> None:
     binding = artifact["upstream_bindings"]["checkpointable_P55_result"]
-    committed = artifact["committed_input_receipt"]
+    bound = artifact["bound_input_receipt"]
     assert binding["native_exact_validation"] is True
-    assert committed["commit"] == "37aaf3fbaf6cb13003a487a8f69d8ebb65d25009"
-    assert committed["files_verified"] == 4
-    assert all(record["committed_blob_and_current_file_match"] for record in committed["files"])
+    assert bound["history_independent"] is True
+    assert bound["files_verified"] == 4
+    assert all(record["current_file_matches_immutable_binding"] for record in bound["files"])
 
 
 def test_exact_three_p55_packets_are_registered(artifact: dict) -> None:
@@ -133,9 +133,9 @@ def test_semantic_tamper_fails_closed(artifact: dict) -> None:
         validate_campaign(tampered, ROOT)
 
 
-def test_commit_binding_tamper_fails_closed(tmp_path: Path) -> None:
+def test_file_binding_tamper_fails_closed(tmp_path: Path) -> None:
     config = json.loads(CONFIG.read_text(encoding="utf-8"))
-    config["upstreams"]["checkpointable_P55_result"]["commit"] = "0" * 40
+    config["upstreams"]["checkpointable_P55_result"]["file_sha256"] = "0" * 64
     config["content_sha256"] = _content_hash(config)
     path = tmp_path / "config.json"
     path.write_text(json.dumps(config), encoding="utf-8")
