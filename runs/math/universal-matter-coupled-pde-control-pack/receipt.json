@@ -1,0 +1,324 @@
+{
+  "audit": {
+    "dark_matter_or_halo_targets": false,
+    "formal_control_snapshot_counts": {
+      "failed": 0,
+      "passed": 118,
+      "total": 118
+    },
+    "normative_action_split": "S = S_grav[g_mu_nu, gravitational_fields] + S_m[g_mu_nu, psi_m]",
+    "normative_on_shell_identity": "nabla_mu T_m^{mu nu} = 0 when the matter equations hold",
+    "physical_metric": "g_mu_nu",
+    "redshift_distance_or_supernova_inputs": false,
+    "runtime_or_observational_data_accesses": 0
+  },
+  "campaign_id": "universal-matter-coupled-pde-control-pack-001",
+  "claims": {
+    "barotropic_fluid_control_pack_complete": false,
+    "gravity_h7_theorem_established": false,
+    "maxwell_action_and_lorenz_principal_controls_pass": true,
+    "maxwell_full_stress_conservation_interface_complete": false,
+    "nonlinear_coupled_gravity_matter_pde_closure_established": false,
+    "promotion_authorized": false,
+    "representative_matter_sectors_registered": 3,
+    "scalar_control_pack_complete_within_local_scope": true,
+    "scientific_or_physics_truth_inferred": false,
+    "universal_all_matter_closure_established": false
+  },
+  "content_sha256": "9d6ca5bf43ca5677eb482959d65525ceb12c3faf46bbb3510a5c0ef3c3616489",
+  "counts": {
+    "exact_symbolic_replays": 1,
+    "floating_point_operations": 0,
+    "formal_controls_bound": 6,
+    "gate_blocks": 5,
+    "gate_passes": 7,
+    "gate_rejects": 0,
+    "gates": 12,
+    "sector_blocks": 2,
+    "sector_passes": 1,
+    "sector_rejects": 0,
+    "sectors": 3
+  },
+  "decision": "bounded_pass_one_sector_two_blocked_no_rejections",
+  "first_blocker": {
+    "gate_id": "stress_energy_conservation_interface",
+    "outcome": "BLOCK",
+    "reason_codes": [
+      "dedicated_maxwell_hilbert_stress_noether_identity"
+    ],
+    "sector_id": "maxwell_lorenz_gauge"
+  },
+  "schema_version": "invariant-universal-matter-coupled-pde-control-pack-result-1.0",
+  "scope": "three representative matter-sector controls on registered local backgrounds: a complete canonical scalar control, a source-free local Lorenz-gauge Maxwell principal/constraint control blocked at the dedicated stress Noether interface, and a barotropic-fluid placeholder blocked for lack of an admitted variational action and domain certificates; no H7 or universal all-matter closure claim",
+  "sector_results": [
+    {
+      "first_blocker": null,
+      "gates": [
+        {
+          "evidence": {
+            "action_density": "sqrt(-g)[-g^mu_nu nabla_mu(chi_m)nabla_nu(chi_m)/2-m_chi^2 chi_m^2/2]",
+            "action_schema": "invariant-bounded-matter-action-ir-1.0",
+            "candidate_gravitational_field_dependencies": [],
+            "diagnostic_dependencies": [],
+            "first_derivative_matter_action": true,
+            "matter_dependencies": [
+              "chi_m",
+              "g_mu_nu",
+              "m_chi"
+            ],
+            "matter_field": "chi_m",
+            "metric_matter_cross_second_derivative_principal_terms": 0,
+            "physical_metric": "g_mu_nu",
+            "universal_minimal_split_enforced": true
+          },
+          "gate_id": "action_level_universal_metric_coupling",
+          "outcome": "PASS",
+          "reason_codes": []
+        },
+        {
+          "evidence": {
+            "hilbert_metric_variation_control": "cadabra_canonical_scalar_metric_variation",
+            "hilbert_metric_variation_return_code": 0,
+            "identity_residuals": [
+              "0",
+              "0",
+              "0",
+              "0"
+            ],
+            "matter_euler_equation_receives_metric_connection": true,
+            "off_shell_identity": "nabla^mu T_mu_nu = E_phi nabla_nu(phi)",
+            "on_shell_conservation": "nabla^mu T_mu_nu=0 when E_chi=0",
+            "stress_source_enters_gravity_equation": true,
+            "stress_tensor": "T_mu_nu=nabla_mu(chi_m)nabla_nu(chi_m)-g_mu_nu[(nabla chi_m)^2+m_chi^2 chi_m^2]/2"
+          },
+          "gate_id": "stress_energy_conservation_interface",
+          "outcome": "PASS",
+          "reason_codes": []
+        },
+        {
+          "evidence": {
+            "background": "frozen local physical frame on the executable Minkowski, FLRW, and static-spherical control backgrounds",
+            "coupled_principal_structure": "block_diagonal_at_second_derivative_order",
+            "exact_diagonal_physical_eigenbasis": true,
+            "gravity_h7_used": false,
+            "principal_polynomial": "M_Pl**4*(k - omega)**3*(k + omega)**3/4",
+            "scalar_speed_squared": "1",
+            "uniform_direction_scope": "isotropic reduced symbol; the displayed eigenbasis covers every nonzero spatial covector direction"
+          },
+          "gate_id": "principal_symbol_hyperbolicity",
+          "outcome": "PASS",
+          "reason_codes": []
+        },
+        {
+          "evidence": {
+            "gravity_constraint_propagation_claimed": false,
+            "independent_internal_constraints": 0,
+            "propagation_check": "not_applicable_no_internal_gauge_or_primary_matter_constraint"
+          },
+          "gate_id": "constraint_propagation",
+          "outcome": "PASS",
+          "reason_codes": []
+        }
+      ],
+      "promotion_allowed": false,
+      "sector_id": "minimally_coupled_scalar",
+      "status": "PASS"
+    },
+    {
+      "first_blocker": {
+        "gate_id": "stress_energy_conservation_interface",
+        "outcome": "BLOCK",
+        "reason_codes": [
+          "dedicated_maxwell_hilbert_stress_noether_identity"
+        ]
+      },
+      "gates": [
+        {
+          "evidence": {
+            "action_density": "-sqrt(-g) H_mu_nu H^mu_nu/4, H_mu_nu=2 nabla_[mu B_nu]",
+            "action_schema": "invariant-bounded-matter-action-ir-1.0",
+            "candidate_gravitational_field_dependencies": [],
+            "diagnostic_dependencies": [],
+            "first_derivative_matter_action": true,
+            "kinetic_term_id": "PROCA_F2",
+            "mass_term_removed_before_maxwell_use": true,
+            "matter_dependencies": [
+              "B_mu",
+              "g_mu_nu"
+            ],
+            "matter_field": "B_mu",
+            "metric_matter_cross_second_derivative_principal_terms": 0,
+            "physical_metric": "g_mu_nu",
+            "proca_physical_mode_count_not_reused_for_maxwell": true,
+            "proca_template_reduction_passed": true,
+            "universal_minimal_split_enforced": true
+          },
+          "gate_id": "action_level_universal_metric_coupling",
+          "outcome": "PASS",
+          "reason_codes": []
+        },
+        {
+          "evidence": {
+            "dedicated_massless_off_shell_noether_identity_available": false,
+            "metric_variation_template_available": true,
+            "on_shell_conservation_promoted": false,
+            "stress_tensor_target": "T_mu_nu=H_mu_rho H_nu^rho-g_mu_nu H_rho_sigma H^rho_sigma/4"
+          },
+          "gate_id": "stress_energy_conservation_interface",
+          "outcome": "BLOCK",
+          "reason_codes": [
+            "dedicated_maxwell_hilbert_stress_noether_identity"
+          ]
+        },
+        {
+          "evidence": {
+            "characteristic_roots_for_unit_spatial_covector": [
+              "-1",
+              "1"
+            ],
+            "exact_diagonal_eigenbasis": true,
+            "formulation": "source-free Maxwell potential in Lorenz gauge on a frozen local Minkowski frame",
+            "physical_maxwell_dirac_reduction_proved_here": false,
+            "principal_determinant": "(k - omega)**4*(k + omega)**4",
+            "principal_matrix_diagonal": [
+              "k**2 - omega**2",
+              "k**2 - omega**2",
+              "k**2 - omega**2",
+              "k**2 - omega**2"
+            ],
+            "principal_scalar": "k**2 - omega**2",
+            "strong_hyperbolicity": true
+          },
+          "gate_id": "principal_symbol_hyperbolicity",
+          "outcome": "PASS",
+          "reason_codes": []
+        },
+        {
+          "evidence": {
+            "constraint": "C=partial_mu B^mu",
+            "constraint_wave_principal": "k**2 - omega**2",
+            "divergence_commutation_residual": "0",
+            "formulation": "source-free Maxwell potential in Lorenz gauge on a frozen local Minkowski frame",
+            "nonlinear_curved_boundary_propagation_claimed": false,
+            "propagation_scope": "local source-free Lorenz-gauge subsidiary system only"
+          },
+          "gate_id": "constraint_propagation",
+          "outcome": "PASS",
+          "reason_codes": []
+        }
+      ],
+      "promotion_allowed": false,
+      "sector_id": "maxwell_lorenz_gauge",
+      "status": "BLOCK"
+    },
+    {
+      "first_blocker": {
+        "gate_id": "action_level_universal_metric_coupling",
+        "outcome": "BLOCK",
+        "reason_codes": [
+          "missing_admitted_variational_matter_action"
+        ]
+      },
+      "gates": [
+        {
+          "evidence": {
+            "matter_action_present": false,
+            "physical_metric": "g_mu_nu"
+          },
+          "gate_id": "action_level_universal_metric_coupling",
+          "outcome": "BLOCK",
+          "reason_codes": [
+            "missing_admitted_variational_matter_action"
+          ]
+        },
+        {
+          "evidence": {
+            "conservation_equations_are_not_independent_variational_evidence": true,
+            "stress_tensor_target": "T_mu_nu=(rho+p)v_mu v_nu+p g_mu_nu (declared target form only; not variationally admitted here)"
+          },
+          "gate_id": "stress_energy_conservation_interface",
+          "outcome": "BLOCK",
+          "reason_codes": [
+            "admitted_barotropic_fluid_action",
+            "variational_perfect_fluid_stress_tensor"
+          ]
+        },
+        {
+          "evidence": {
+            "conditional_hyperbolicity_not_promoted": true,
+            "eos_assumption": "p=w rho with no admitted variational fluid action or exact interval for w in this repository snapshot"
+          },
+          "gate_id": "principal_symbol_hyperbolicity",
+          "outcome": "BLOCK",
+          "reason_codes": [
+            "positive_enthalpy_domain",
+            "exact_sound_speed_interval"
+          ]
+        },
+        {
+          "evidence": {
+            "all_registered_missing_evidence": [
+              "admitted_barotropic_fluid_action",
+              "variational_perfect_fluid_stress_tensor",
+              "positive_enthalpy_domain",
+              "exact_sound_speed_interval",
+              "fluid_constraint_propagation_certificate"
+            ]
+          },
+          "gate_id": "constraint_propagation",
+          "outcome": "BLOCK",
+          "reason_codes": [
+            "fluid_constraint_propagation_certificate"
+          ]
+        }
+      ],
+      "promotion_allowed": false,
+      "sector_id": "barotropic_perfect_fluid",
+      "status": "BLOCK"
+    }
+  ],
+  "source_bindings": {
+    "config": {
+      "file_sha256": "f201bfce53435807ae2eec0255c0f43979e2740828bb8567987fdcac3c9073ca",
+      "path": "configs/universal_matter_coupled_pde_control_pack.json"
+    },
+    "registered_evidence": {
+      "canonical_scalar_action_ir": {
+        "content_sha256": "463c663b6a57c6e9cbf4002c66f965797578cbe73a6f6c1072cf0e74f91934e7",
+        "file_sha256": "f9b65cf3542515999187ec3b80d55b4ad325a0d61f178bc3419a72d0d33a018e",
+        "path": "runs/formal-controls-v1/action-health/canonical_scalar_control/action-ir.json"
+      },
+      "canonical_scalar_principal_ir": {
+        "content_sha256": "36fe9043eea2e31f88c2d1c3cffce301050ef1e8da5606a786f15568073be813",
+        "file_sha256": "f198cba94a6e157f95a9e03ed966b23e76a4d7f6765b98dc6ce96beef98d42f1",
+        "path": "runs/formal-controls-v1/action-health/canonical_scalar_control/principal-ir.json"
+      },
+      "covariant_field_contract": {
+        "file_sha256": "c31e42645fd6b7b9bd834cd77254451704946e6f6385517011343a74eb692c7c",
+        "path": "configs/covariant_field_contract.json"
+      },
+      "formal_controls": {
+        "file_sha256": "90f7c6786e8914c4d87674879ccc89ad55784e567d9246d9dcf6c6f0fabbe43a",
+        "path": "runs/formal-controls-v1/formal-controls.json"
+      },
+      "proca_action_ir": {
+        "content_sha256": "0ec3fd6c233855e1cabf767d35ea12729b1b75dbfb29d409066f4266004c7c0b",
+        "file_sha256": "951044da278d8a0f3aa53c2e1550a9bfc16618989d209e770b08e44b2b9cacf3",
+        "path": "runs/formal-controls-v1/action-health/proca_control/action-ir.json"
+      },
+      "proca_principal_ir": {
+        "content_sha256": "7134b66fc45c3ba84cb3c5ee43948b88fb4bb03e971a7f2f687c1bfd7758b475",
+        "file_sha256": "096b0c99a74f0b0f46747028d7b8d39c8927ac213bba8a0a603153b4ba7ce654",
+        "path": "runs/formal-controls-v1/action-health/proca_control/principal-ir.json"
+      }
+    },
+    "source": {
+      "file_sha256": "6b36156a2d8d3ca134cbb3aa8b4b29077fe1061e1ce3c85d1312c59efc2676e5",
+      "path": "src/sigma_theory_compiler/universal_matter_coupled_pde_control_pack.py"
+    },
+    "test": {
+      "file_sha256": "0e039591bc83d0c9ddea543fdcad99b40a73c0c704ff2d989232408c73f395b5",
+      "path": "tests/test_universal_matter_coupled_pde_control_pack.py"
+    }
+  }
+}
