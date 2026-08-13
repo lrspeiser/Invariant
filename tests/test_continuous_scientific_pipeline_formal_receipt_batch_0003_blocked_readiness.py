@@ -117,7 +117,11 @@ def test_execution_namespace_absence_is_historical_and_paths_are_exact() -> None
         ),
         "candidate_artifacts_existed": False,
     }
-    assert not (ROOT / absence["artifact_directory"]).exists()
+    # This receipt is a sealed historical observation.  A later, separately
+    # bound batch execution may legitimately create the namespace, so replay
+    # must not reinterpret today's filesystem state as evidence about the
+    # earlier readiness decision.
+    assert absence["artifact_directory_existed"] is False
 
 
 def test_boundary_cpu_and_any_admitted_sample_cannot_form_blocked_readiness() -> None:
