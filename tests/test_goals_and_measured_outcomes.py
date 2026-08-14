@@ -149,7 +149,10 @@ D2_LEAF_SUCCESSOR_CHAIN = (
     ),
     ("runs/physics-language/quartic-p0-metric-lower-abc-leaf-authority-gate/campaign.json", 115),
     ("runs/physics-language/quartic-p1-metric-lower-abc-leaf-authority-gate/campaign.json", 125),
+    ("runs/physics-language/quartic-p2-metric-lower-abc-leaf-authority-gate/campaign.json", 135),
+    ("runs/physics-language/quartic-p3-metric-lower-abc-leaf-authority-gate/campaign.json", 145),
 )
+FORMAL_LOWER_DIRECTION_ALIASES = ("s11[10]", "s22[10]")
 SYSTEM11_SOLAR_AUTHORIZATION_RECEIPT = ROOT / (
     "runs/math/system11-g2-solar-authorization-closure/receipt.json"
 )
@@ -269,6 +272,22 @@ SYSTEM10_GRAVITY_SCALAR_AW_INVERTIBILITY_RECEIPT = ROOT / (
 )
 SYSTEM10_GRAVITY_SCALAR_AW_TUBE_RECEIPT = ROOT / (
     "runs/math/system10-cylindrical-r-positive-gravity-scalar-aw-nonsingular-tube/receipt.json"
+)
+SYSTEM10_TWELVE_CANDIDATE_AW_PACKETS = tuple(
+    ROOT
+    / f"runs/math/system10-cylindrical-r-positive-twelve-candidate-aw/candidate-{candidate:02d}.json"
+    for candidate in range(12)
+)
+SYSTEM10_TWELVE_CANDIDATE_AW_RECEIPT = ROOT / (
+    "runs/math/system10-cylindrical-r-positive-twelve-candidate-aw/receipt.json"
+)
+SYSTEM10_TWELVE_CANDIDATE_AW_TUBE_SOLUTIONS = tuple(
+    ROOT
+    / f"runs/math/system10-cylindrical-r-positive-twelve-candidate-aw-tube-solve/solution-{candidate:02d}.json"
+    for candidate in range(12)
+)
+SYSTEM10_TWELVE_CANDIDATE_AW_TUBE_RECEIPT = ROOT / (
+    "runs/math/system10-cylindrical-r-positive-twelve-candidate-aw-tube-solve/receipt.json"
 )
 
 
@@ -633,12 +652,14 @@ def test_matter_and_p55_counts_are_projected_from_checked_receipts() -> None:
         assert counts["registered_D2_entries_per_candidate_after"] == 5_324
         assert successor["claim_seals"]["D2_entry_count_advanced"] is False
         previous = expected_after
-    assert previous == 125
-    assert "125 of 153 coordinate columns" in text
-    assert "125/153 A/B/C leaf columns" in text
-    assert "lower-`p1` successor adds another 10 columns and 316,800 exact roots" in text
+    assert previous == 145
+    assert previous - len(FORMAL_LOWER_DIRECTION_ALIASES) == 143
+    assert "145 formal coordinate registrations" in text
+    assert "143/153 unique A/B/C leaf columns" in text
+    assert "`s11[10]` and `s22[10]` are duplicate aliases" in text
+    assert "all ten `q[0..9]` columns" in text
     assert "D2 remains 5,324/257,499" in text
-    assert "open for 28 coordinate columns" in text
+    assert "open for the 10 unique `q[0..9]` columns" in text
 
 
 def test_system11_authorization_closure_is_current_and_target_free() -> None:
@@ -1055,6 +1076,38 @@ def test_fluid_followups_close_action_and_stress_only() -> None:
     assert tube["claims"]["representative_tube_all_11_accelerations_solved"] is True
     assert tube["claims"]["representative_tube_all_11_residuals_replayed"] is True
     assert tube["claims"]["other_candidates_solved"] is False
+    all_aw = _load(SYSTEM10_TWELVE_CANDIDATE_AW_RECEIPT)
+    assert all_aw["decision"] == "BOUNDED_PASS_ALL_TWELVE_A_W_PACKETS_AND_COMMON_LOCAL_TUBE"
+    assert all_aw["counts"] == {
+        "A_entries": 1452,
+        "W_entries": 132,
+        "candidate_packets": 12,
+        "rows": 132,
+        "tube_admitted_candidates": 12,
+    }
+    assert all_aw["claims"]["all_twelve_candidate_A_W_packets_materialized"] is True
+    assert all_aw["claims"]["common_local_tube_admitted"] is True
+    assert all_aw["claims"]["global_candidate_domains_invertible"] is False
+    assert all_aw["claims"]["full_rhs"] is False
+    assert len([_load(path) for path in SYSTEM10_TWELVE_CANDIDATE_AW_PACKETS]) == 12
+    all_tube = _load(SYSTEM10_TWELVE_CANDIDATE_AW_TUBE_RECEIPT)
+    assert all_tube["decision"] == (
+        "BOUNDED_PASS_ALL_TWELVE_COMMON_TUBE_ACCELERATION_SOLVES_AND_RESIDUALS"
+    )
+    assert all_tube["counts"] == {
+        "accelerations_solved": 132,
+        "candidate_blocks": 0,
+        "candidate_passes": 12,
+        "candidate_solution_packets": 12,
+        "zero_residuals_replayed": 132,
+    }
+    assert all_tube["common_tube"]["r"] == "1"
+    assert all_tube["common_tube"]["real_v_10_interval"] == ["-1/4", "1/4"]
+    assert all_tube["claims"]["all_twelve_common_tube_accelerations_solved"] is True
+    assert all_tube["claims"]["all_twelve_common_tube_residuals_replayed"] is True
+    assert all_tube["claims"]["all_twelve_global_domains_solved"] is False
+    assert all_tube["claims"]["full_rhs"] is False
+    assert len([_load(path) for path in SYSTEM10_TWELVE_CANDIDATE_AW_TUBE_SOLUTIONS]) == 12
     assert "max|B_mu| <= 8/38505" in text
     assert "all 96 physical gravity rows" in text
     assert "all 96 physical gravity rows over `r>0`" in text
@@ -1072,7 +1125,11 @@ def test_fluid_followups_close_action_and_stress_only() -> None:
     assert "rank-10 singular witness" in text
     assert "exact absolute lower bound `3486784401/268435456`" in text
     assert "all 11 accelerations solve with 11/11 zero residuals" in text
-    assert "all-candidate 132-row promotion remain blocked" in text
+    assert "12 candidate A/W packets with 132 rows" in text
+    assert "132 exact acceleration formulas" in text
+    assert "132/132 zero residuals" in text
+    assert "global count stays 74/85" in text
+    assert "full RHS remain false" in text
     assert "physical Jordan no-go" in text
 
 
