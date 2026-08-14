@@ -67,7 +67,9 @@ only after every required hard gate passes and retains every failure as an unran
 Human-readable research records are generated from
 immutable receipts rather than maintained as unbound prose. See the
 [natural-sum proof notebook](docs/notebooks/generated/natural-sum-rediscovery.md) and the
-[quartic local-survivor analysis](docs/notebooks/generated/quartic-local-survivor.md). A third
+[quartic local-survivor analysis](docs/notebooks/generated/quartic-local-survivor.md). The
+[Formula Discovery Proof/Lean v2 contract](docs/FORMULA_DISCOVERY_PROOF_V2.md) documents three
+generated real-kernel checks and their one-token rejected controls. A third
 [action-jet identifiability notebook](docs/notebooks/generated/quartic-action-jet-nonidentifiability.md)
 derives the exact degree-four null polynomial that makes four registered action values insufficient
 to determine first or second jets, without misreporting that evidence limit as a physical no-go.

@@ -1,8 +1,9 @@
 """Bounded file API and CLI for Formula Discovery Job v1/v2 orchestration.
 
-Run with ``python -m sigma_theory_compiler.formula_discovery_cli``.  This module performs no
-network, subprocess, runtime, database, or secret access. Outputs are exclusively published at
-caller-selected new paths and existing files are never overwritten.
+Run with ``python -m sigma_theory_compiler.formula_discovery_cli``. Formula-job commands perform no
+network, subprocess, database, or secret access. Proof-v2 commands launch only the registered,
+owned Lean 4.33 child process. Outputs are exclusively published at caller-selected new paths and
+existing files are never overwritten.
 """
 
 from __future__ import annotations
@@ -22,6 +23,13 @@ from .formula_discovery_job_v2 import run_formula_discovery_job_v2
 from .formula_discovery_orchestration import (
     build_formula_discovery_orchestration,
     validate_formula_discovery_orchestration,
+)
+from .formula_discovery_proof_v2 import (
+    FormulaDiscoveryProofV2Error,
+    build_proof_v2_receipt,
+    load_proof_v2_receipt,
+    validate_live_proof_v2_receipt,
+    write_proof_v2_receipt,
 )
 from .sigma_core import SchemaViolation, canonical_sha256
 
@@ -391,13 +399,23 @@ def _parser() -> argparse.ArgumentParser:
         child.add_argument("--problem", type=Path, required=True)
         child.add_argument("--result", type=Path, required=True)
         child.add_argument("--report", type=Path, required=True)
+    for command in ("proof-v2-run", "proof-v2-validate"):
+        child = subparsers.add_parser(command)
+        child.add_argument("--result", type=Path, required=True)
+        child.add_argument("--lean", type=Path)
     return parser
 
 
 def main(argv: Sequence[str] | None = None) -> int:
     arguments = _parser().parse_args(argv)
     try:
-        if arguments.command == "run":
+        if arguments.command == "proof-v2-run":
+            result = build_proof_v2_receipt(executable=arguments.lean)
+            write_proof_v2_receipt(result, arguments.result)
+        elif arguments.command == "proof-v2-validate":
+            result = load_proof_v2_receipt(arguments.result)
+            validate_live_proof_v2_receipt(result, executable=arguments.lean)
+        elif arguments.command == "run":
             result = run_formula_discovery_files(
                 arguments.problem, arguments.result, arguments.report
             )
@@ -408,7 +426,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     except ProblemFileError as error:
         print(json.dumps({"decision": "SCHEMA_ERROR", "error": str(error)}))
         return EXIT_SCHEMA_ERROR
-    except PublicFormulaDiscoveryError as error:
+    except (PublicFormulaDiscoveryError, FormulaDiscoveryProofV2Error) as error:
         print(json.dumps({"decision": "OPERATIONAL_ERROR", "error": str(error)}))
         return EXIT_OPERATIONAL_ERROR
     print(

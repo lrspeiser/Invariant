@@ -70,10 +70,11 @@ V2 is a coherent bounded architecture, not the final universal formula finder:
 1. Nonlinear algebraic synthesis is exhaustive only over a caller-declared finite rational grid;
    general polynomial-system solving, positive-dimensional solution varieties, and branch/domain
    decomposition remain unsupported.
-2. Rational candidates carry exact nonzero premises and exact holdout evidence, but v2 rational
-   and higher-order-recurrence candidates do not yet translate into the real Lean kernel. The
-   existing translator remains limited to v1 integer polynomial identities and first-order
-   nonnegative natural recurrences.
+2. The bounded Proof/Lean v2 acceptance suite now generates and checks one rational identity with an
+   explicit nonzero-denominator premise and one genuine order-two recurrence theorem in real Lean
+   4.33, with single-coefficient false controls rejected. General translation of arbitrary v2
+   rational candidates and higher-order closed forms remains open; see
+   [`FORMULA_DISCOVERY_PROOF_V2.md`](FORMULA_DISCOVERY_PROOF_V2.md).
 3. Recurrence coefficients and forcing may be rational expressions whose cleared residual is
    polynomial in one integer index. Multisequence, nonlinear, variable-order, and partial
    recurrences remain unsupported.

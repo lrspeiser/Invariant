@@ -41,7 +41,7 @@ Overall status: **strong alpha; not yet scientifically or operationally complete
 | 16 | Known-formula rediscovery proof | The natural-number sum was blindly rediscovered and proved by induction in Lean. | PASS. |
 | 17 | Bounded number-theory proof | For nonzero elements of `Fin 11`, the recovered exponent-10 identity was checked by Lean. | PASS; bounded finite theorem. |
 | 18 | Generated-formula proof | Recovered recurrence `u(n)=2n^3+2n^2+n+7` was proved by Lean induction; a false base case was rejected. | PASS. |
-| 19 | Proof-strategy breadth | Quartic and partial-fraction identities are independently replayed with exact integer coefficient arithmetic; the quartic convolution is checked by Lean and a `-30` to `-29` false control is rejected. Formula Job translation executes generated polynomial and recurrence sources in real Lean. | Bounded breadth achieved; general rational-domain Lean translation and additional proof strategies remain open. |
+| 19 | Proof-strategy breadth | Quartic and partial-fraction identities are independently replayed with exact integer coefficient arithmetic; the quartic convolution is checked by Lean and a `-30` to `-29` false control is rejected. Formula Job translation executes generated polynomial and recurrence sources in real Lean. Proof/Lean v2 adds three generated Lean 4.33 cases: a rational identity with an explicit nonzero premise, a two-prior-term recurrence, and a quantified non-identity proved by order contradiction. All 3/3 positive sources pass and all 3/3 single-token false controls are rejected. | Bounded multi-strategy acceptance achieved; general rational-domain translation and arbitrary higher-order closed-form proof synthesis remain open. |
 
 ## D. Gravity-theory science
 
