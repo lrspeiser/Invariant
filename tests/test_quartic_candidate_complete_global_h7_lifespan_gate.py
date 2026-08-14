@@ -195,7 +195,9 @@ def test_config_completion_policy_tamper_rejects(tmp_path: Path) -> None:
         build_gate(ROOT, changed)
 
 
-def test_bindings_are_path_free_and_materializer_stable(rebuilt: dict[str, object]) -> None:
+def test_bindings_are_path_free_and_materializer_stable(
+    rebuilt: dict[str, object],
+) -> None:
     for binding in rebuilt["source_bindings"].values():
         assert not Path(binding["path"]).is_absolute()
         assert binding["content_sha256"] == binding["semantic_sha256"]
