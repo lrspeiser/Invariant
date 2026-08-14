@@ -664,11 +664,12 @@ def test_fluid_followups_close_action_and_stress_only() -> None:
     assert scalar_expansion["claims"]["exact_flat_reference_scalar_coefficient_rows_closed"]
     assert scalar_expansion["claims"]["general_external_jet_scalar_expansion_closed"] is False
     assert "max|B_mu| <= 8/38505" in text
-    assert "0/96 general rows" in text
+    assert "48/96 candidate-bound gauge rows" in text
+    assert "General expansion remains blocked" in text
     assert "all 780 readiness slots in 48 chained packets" in text
     assert "17 exact indexed tensor templates" in text
     assert "four gravity rows into 112 exact coefficients" in text
-    assert "1,010 scalar jet values" in text
+    assert "complete 1,010-value packet" in text
     assert "This is not a physical Jordan no-go" in text
 
 
