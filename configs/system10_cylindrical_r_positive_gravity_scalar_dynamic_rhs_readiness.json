@@ -1,0 +1,74 @@
+{
+  "schema_version": "invariant-system10-cylindrical-r-positive-gravity-scalar-readiness-config-1.0",
+  "campaign_id": "system10-cylindrical-r-positive-gravity-scalar-dynamic-rhs-readiness-001",
+  "output_path": "runs/math/system10-cylindrical-r-positive-gravity-scalar-dynamic-rhs-readiness/receipt.json",
+  "bindings": {
+    "maxwell_rhs": {
+      "path": "runs/math/system10-cylindrical-r-positive-maxwell-dynamic-rhs-materializer/receipt.json",
+      "canonical_lf_sha256": "650286304e15d989a66540d928f34a3637fd2b8f81152b20e8ec277e3a424602",
+      "content_sha256": "2723020e6a0553d7d0733478b0577d04e5ce0ed2c4d2a1296d32e6847096ac9d"
+    },
+    "scalar_row_lowering": {
+      "path": "runs/physics-language/quartic-scalar-row-lowering-campaign/campaign.json",
+      "canonical_lf_sha256": "bf8f0ffb515879cbdb24fc8ce0768496077b648f4e5f61e98d82c714eb9f5b97",
+      "content_sha256": "fa1015ff5b3bd9df73667ef5652ccdcd0b39b244ddcd80d8dbbdb9188704e869"
+    },
+    "local_acceleration_solve": {
+      "path": "runs/physics-language/quartic-nonlinear-evolution-campaign/campaign.json",
+      "canonical_lf_sha256": "b5323e853ea2f3f48ff454d78904b83e6fb406e1a84d3d795db08857dce7942c",
+      "content_sha256": "426c7407a1839a63ebd022ee17676a202ad31a22ea5c8eb017f8ca625698f40c"
+    },
+    "metric_tensor_dag": {
+      "path": "runs/physics-language/quartic-metric-rows-tensor-dag-campaign/campaign.json",
+      "canonical_lf_sha256": "98b609280358d81c58f2c5043f2a542aacd8e39c7d32f48176b6ac6204c5e99a",
+      "content_sha256": "7ba01524145e368a2ba62abf63e3068dac21e134a9d3a0adecb35cbd0d908c1d"
+    },
+    "lower_row_arithmetic": {
+      "path": "runs/physics-language/quartic-rows5-10-arithmetic-expansion-campaign/campaign.json",
+      "canonical_lf_sha256": "d9aecbcc4fc9d24e2523f2d0581d40e0dc69325c49ab423031d23c1d6b25a900",
+      "content_sha256": "94001ed39c05232b0cc1d1ddd01ca1d3f5ba47a35badea4d05524608c6085ec2"
+    },
+    "r_positive_domain": {
+      "path": "runs/math/system10-cylindrical-r-positive-domain-lift/receipt.json",
+      "canonical_lf_sha256": "3b5764b3d88ff6572558ced31d72f7c9c3906ac79079e06b39c60ec88542ac9a",
+      "content_sha256": "a843afaaa4cacdf63a0382f97705f133cdb351560313cdd9e63e05c3da77f690"
+    }
+  },
+  "source_evidence": {
+    "source": {
+      "path": "src/sigma_theory_compiler/system10_cylindrical_r_positive_gravity_scalar_dynamic_rhs_readiness.py",
+      "canonical_lf_sha256": "257a5c965d7bcec9a20caab439a39729ed9ef28014bf2d3a6ce9e6e123ffc87e"
+    },
+    "test": {
+      "path": "tests/test_system10_cylindrical_r_positive_gravity_scalar_dynamic_rhs_readiness.py",
+      "canonical_lf_sha256": "1c7e62d931f369697510cfd09b4127944492af9479f0ef2e9bfdd17f6541fe11"
+    }
+  },
+  "frozen_expectations": {
+    "candidate_blocks": 12,
+    "exact_ambiguity_witnesses": 12,
+    "witness_set_sha256": "69dc8187ce6337b67b2fd3efad87238bf643b78cdb78eb9aba343131d99b73d1",
+    "rhs_rows_closed_per_candidate": 74,
+    "remaining_dynamic_rows_per_candidate": 11,
+    "source_replay_sha256": "b0fa217c07fbb6e6ddf9970f7e8a3c35c0533c6f3c8cb0fa1575492bb90a5691"
+  },
+  "caps": {
+    "candidates": 12,
+    "state_dimension": 85,
+    "predecessor_rows": 74,
+    "target_candidate_rows": 12,
+    "metric_rows_after_target": 0,
+    "maximum_output_bytes": 262144
+  },
+  "claims_policy": {
+    "gravity_scalar_dynamic_row": false,
+    "candidate_specific_block": true,
+    "fixed_cylindrical_r_positive": true,
+    "metric_dynamic_rows": false,
+    "full_85_state_rhs": false,
+    "constraint_propagation": false,
+    "hyperbolicity": false,
+    "global_theorem": false,
+    "promotion": false
+  }
+}
