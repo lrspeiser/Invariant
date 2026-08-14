@@ -1,0 +1,68 @@
+{
+  "campaign_id": "system10-open-r-representative-rhs-jets-001",
+  "claims": {
+    "all_twelve_open_r_radial_rhs_jet_primitive_closed": false,
+    "constraint_propagation_closed": false,
+    "hyperbolicity_closed": false,
+    "promotion_authorized": false,
+    "representative_open_r_radial_rhs_jet_primitive_closed": true
+  },
+  "content_sha256": "b2ddb1a51a382fb96717c38dd2d04288c74ed0f79594f447b7f3a74be95cbd7d",
+  "counts": {
+    "candidate_blocks": 0,
+    "candidate_packets": 1,
+    "candidate_passes": 1,
+    "constraint_propagation_proofs": 0,
+    "open_r_radial_rhs_jets": 11,
+    "open_r_rhs_rows": 11,
+    "open_r_zero_residuals": 11,
+    "r1_rhs_replays": 11,
+    "radially_differentiated_zero_residuals": 11,
+    "remaining_candidate_packets": 11
+  },
+  "decision": "BOUNDED_PASS_REPRESENTATIVE_11_OPEN_R_RHS_ROWS_AND_RADIAL_JETS",
+  "scaling_plan": {
+    "all_twelve_completion_claim_deferred": true,
+    "atomic_outputs_per_candidate": {
+      "A_entries": 121,
+      "W_entries": 11,
+      "radial_rhs_jets": 11,
+      "rhs_rows": 11
+    },
+    "candidate_order": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "checkpoint_boundaries": [
+      "load_and_seal_candidate_A_W",
+      "slice_and_factor_determinant",
+      "solve_and_replay_11_rhs_rows",
+      "classify_11_W_radial_derivative_DAGs",
+      "differentiate_and_replay_11_radial_rhs_rows",
+      "atomic_candidate_packet"
+    ],
+    "stop_conditions": [
+      "determinant_zero_or_unbounded_below_on_registered_neighborhood",
+      "unclassified_W_atom",
+      "open_r_Euler_residual_nonzero",
+      "radially_differentiated_Euler_residual_nonzero",
+      "r1_replay_mismatch",
+      "output_cap_exceeded"
+    ]
+  },
+  "schema_version": "invariant-system10-open-r-representative-rhs-jets-receipt-1.0",
+  "scope": "Exact checkpointable linked-DAG open-r solve for representative candidate 0 on 1/2<=r<=3/2 and real |v_10|<=1/4. Eleven RHS rows and their eleven total radial derivative rows replay the Euler residuals and the r=1 authority. This closes the prior radial-jet primitive for one candidate only; it does not prove all-twelve closure, constraint propagation, or hyperbolicity.",
+  "source_bindings": {
+    "receipt_authority_sha256": "776c771961b6487e99781bfbf64e036539979eba455724bc5041605bf7fc0fd7",
+    "representative_packet_content_sha256": "2760e257939e3ef6dec83056b4e11ee6a96e394efca9b6a20812bc64cd702766"
+  }
+}
