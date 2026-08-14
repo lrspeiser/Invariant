@@ -542,11 +542,26 @@ jobs:
       - uses: actions/checkout@v4
         with:
           lfs: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: pyproject.toml
       - name: Verify all historical binary evidence is available
         shell: bash
         run: |
           git lfs fsck
           test "$(git lfs ls-files -n | wc -l)" -eq 294
+      - name: Install standalone-release test tools
+        run: python -m pip install --editable ".[dev]"
+      - name: Check standalone-release source
+        run: >-
+          python -m ruff check
+          src/sigma_theory_compiler/standalone_release.py
+          scripts/build_standalone_release.py
+          tests/test_standalone_source_release.py
+      - name: Build and verify the standalone release in isolation
+        run: python -m pytest tests/test_standalone_source_release.py -q --durations=10
 
   portable-unified-status:
     runs-on: ubuntu-24.04

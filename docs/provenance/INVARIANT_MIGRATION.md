@@ -45,9 +45,11 @@ preserved byte-for-byte because other artifacts bind their hashes. Portable proj
 for current validation; historical receipts must be superseded through a new provenance-linked
 artifact rather than edited in place.
 
-## Source-checkout contract
+## Standalone distribution contract
 
-The Python package can be installed editable from this repository. Top-level configs, runs, formal
-assets, and scripts are repository assets and are not currently embedded in a wheel. Reproduction
-therefore uses a source checkout unless a future version introduces an explicit packaged-resource
-layout.
+Top-level configs, runs, formal assets, and scripts remain intentionally outside the Python wheel.
+They are now distributed with the wheel in the versioned standalone source-release ZIP described
+in [`docs/STANDALONE_DISTRIBUTION.md`](../STANDALONE_DISTRIBUTION.md). Its complete manifest binds
+every tracked resource and all 294 hydrated Git LFS objects. Consumers install the bundled wheel
+normally and use the adjacent extracted tree as the resource root; neither an editable checkout
+nor Git metadata is required after extraction.

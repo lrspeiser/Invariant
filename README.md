@@ -20,6 +20,11 @@ The current requirement-by-requirement status, receipt-backed measurements, unre
 and release priorities are maintained in
 [`docs/GOALS_AND_MEASURED_OUTCOMES.md`](docs/GOALS_AND_MEASURED_OUTCOMES.md).
 
+The supported shareable distribution is a versioned standalone source-release ZIP containing a
+normal non-editable wheel, the complete tracked resource surface, and hydrated hash-bound Git LFS
+evidence. Build, install, verification, public PASS/REJECT examples, and isolated acceptance are
+documented in [`docs/STANDALONE_DISTRIBUTION.md`](docs/STANDALONE_DISTRIBUTION.md).
+
 ## Billion-scale Generator v2 milestone
 
 The compiled Generator v2 has now traversed the complete frozen space of **1,088,651,720 sparse actions** in 94.1 seconds, applying deterministic action-level structural and sampled-static Hessian gates to every action. The 4.07 MB manifest accounts for every candidate through fixed SHA-256 block commitments. Independent Python/SymPy checks pass.
