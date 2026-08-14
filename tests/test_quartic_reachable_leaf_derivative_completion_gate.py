@@ -7,9 +7,15 @@ from pathlib import Path
 import pytest
 
 from sigma_theory_compiler.quartic_reachable_leaf_derivative_completion_gate import (
+    CONFIG_PATH,
     OUTPUT_PATH,
+    SOURCE_PATH,
+    TEST_PATH,
     ReachableLeafCompletionError,
     _content_sha,
+    _file_sha,
+    _legacy_text_sha,
+    _production_text_sha,
     build_campaign,
     validate_campaign,
 )
@@ -101,6 +107,31 @@ def test_scope_seals_block_full_tensor_and_H7_claims() -> None:
     assert seals["complete_D2F"] is False
     assert seals["global_H7"] is False
     assert seals["candidate_theory_rejected"] is False
+
+
+def test_production_materializer_and_legacy_authority_hash_modes_are_explicit() -> None:
+    checked = _load()
+    bindings = checked["source_bindings"]
+    for role, path in (
+        ("source", SOURCE_PATH),
+        ("config", CONFIG_PATH),
+        ("test", TEST_PATH),
+    ):
+        assert bindings[role]["production_file_sha256"] == _production_text_sha(ROOT / path)
+    evidence = bindings["evidence"]
+    for role in ("differentiability", "p10_leaf", "pother_leaf", "p10_replay", "pother_replay"):
+        bundle = evidence[role]
+        stem = bundle["stem"]
+        assert bundle["source_sha256"] == _legacy_text_sha(
+            ROOT / f"src/sigma_theory_compiler/{stem}.py"
+        )
+        assert bundle["config_sha256"] == _legacy_text_sha(
+            ROOT / f"configs/backgrounds/{stem}.json"
+        )
+        assert bundle["test_sha256"] == _legacy_text_sha(ROOT / f"tests/test_{stem}.py")
+    coordinate = evidence["coordinate_projection"]
+    stem = coordinate["stem"]
+    assert coordinate["source_sha256"] == _file_sha(ROOT / f"src/sigma_theory_compiler/{stem}.py")
 
 
 def test_resealed_leaf_zero_D2_or_scope_tamper_fails_closed() -> None:

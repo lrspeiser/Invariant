@@ -19,7 +19,7 @@ TEST_PATH = "tests/test_quartic_reachable_leaf_derivative_completion_gate.py"
 OUTPUT_PATH = (
     "runs/physics-language/quartic-reachable-leaf-derivative-completion-gate/campaign.json"
 )
-CONFIG_FILE_SHA256 = "313660b6f573a52de848225dac244bb6c0d7040aaa562caca36473a29581768c"
+CONFIG_FILE_SHA256 = "6acfe7ab5506a6cd55f86107d816815ccc244fce4f54f722c0c0e9ac89b907da"
 BUNDLE_ROLES = (
     "differentiability",
     "p10_leaf",
@@ -76,6 +76,17 @@ def _file_sha(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def _legacy_text_sha(path: Path) -> str:
+    """Hash the five legacy authorities in their registered LF byte form."""
+    return hashlib.sha256(path.read_bytes().replace(b"\r\n", b"\n")).hexdigest()
+
+
+def _production_text_sha(path: Path) -> str:
+    """Hash this gate's text as emitted by the production CRLF materializer."""
+    lf_bytes = path.read_bytes().replace(b"\r\n", b"\n")
+    return hashlib.sha256(lf_bytes.replace(b"\n", b"\r\n")).hexdigest()
+
+
 def _content_sha(value: Mapping[str, Any]) -> str:
     return _sha({key: item for key, item in value.items() if key != "content_sha256"})
 
@@ -94,7 +105,7 @@ def _copy(value: Any) -> Any:
 
 
 def _validate_config(value: Mapping[str, Any], config_path: Path) -> None:
-    if _file_sha(config_path) != CONFIG_FILE_SHA256:
+    if _production_text_sha(config_path) != CONFIG_FILE_SHA256:
         raise ReachableLeafCompletionError("leaf completion config bytes changed")
     if (
         value.get("schema_version") != CONFIG_SCHEMA
@@ -123,7 +134,7 @@ def _validate_config(value: Mapping[str, Any], config_path: Path) -> None:
             raise ReachableLeafCompletionError("leaf completion source bundle changed")
 
 
-def _load_bundle(root: Path, bundle: Mapping[str, Any]) -> dict[str, Any]:
+def _load_bundle(root: Path, role: str, bundle: Mapping[str, Any]) -> dict[str, Any]:
     stem, slug = str(bundle["stem"]), str(bundle["slug"])
     paths = {
         "source_sha256": f"src/sigma_theory_compiler/{stem}.py",
@@ -133,7 +144,14 @@ def _load_bundle(root: Path, bundle: Mapping[str, Any]) -> dict[str, Any]:
     }
     for key, relative in paths.items():
         path = _inside(root, relative)
-        if not path.is_file() or _file_sha(path) != bundle[key]:
+        if not path.is_file():
+            raise ReachableLeafCompletionError("leaf completion source authority changed")
+        actual = (
+            _file_sha(path)
+            if key == "artifact_sha256" or role == "coordinate_projection"
+            else _legacy_text_sha(path)
+        )
+        if actual != bundle[key]:
             raise ReachableLeafCompletionError("leaf completion source authority changed")
     artifact_path = _inside(root, paths["artifact_sha256"])
     artifact = json.loads(artifact_path.read_text(encoding="utf-8"))
@@ -145,7 +163,9 @@ def _load_bundle(root: Path, bundle: Mapping[str, Any]) -> dict[str, Any]:
 
 
 def _load_inputs(root: Path, config: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
-    values = {role: _load_bundle(root, config["source_bundles"][role]) for role in BUNDLE_ROLES}
+    values = {
+        role: _load_bundle(root, role, config["source_bundles"][role]) for role in BUNDLE_ROLES
+    }
     diff = values["differentiability"]
     p10 = values["p10_leaf"]
     pother = values["pother_leaf"]
@@ -485,9 +505,18 @@ def _expected_body(
         },
         "data_seals": dict(SEALS),
         "source_bindings": {
-            "source": {"path": SOURCE_PATH, "file_sha256": _file_sha(_inside(root, SOURCE_PATH))},
-            "config": {"path": CONFIG_PATH, "file_sha256": _file_sha(config_path)},
-            "test": {"path": TEST_PATH, "file_sha256": _file_sha(_inside(root, TEST_PATH))},
+            "source": {
+                "path": SOURCE_PATH,
+                "production_file_sha256": _production_text_sha(_inside(root, SOURCE_PATH)),
+            },
+            "config": {
+                "path": CONFIG_PATH,
+                "production_file_sha256": _production_text_sha(config_path),
+            },
+            "test": {
+                "path": TEST_PATH,
+                "production_file_sha256": _production_text_sha(_inside(root, TEST_PATH)),
+            },
             "evidence": _copy(config["source_bundles"]),
         },
         "scope": (
