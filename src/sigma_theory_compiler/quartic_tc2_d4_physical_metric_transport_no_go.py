@@ -26,11 +26,15 @@ class PhysicalMetricTransportNoGoError(ValueError):
 
 
 def _canonical_bytes(value: Any) -> bytes:
-    return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=True).encode("ascii")
+    return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=True).encode(
+        "ascii"
+    )
 
 
 def _content_hash(value: dict[str, Any]) -> str:
-    return hashlib.sha256(_canonical_bytes({key: item for key, item in value.items() if key != "content_sha256"})).hexdigest()
+    return hashlib.sha256(
+        _canonical_bytes({key: item for key, item in value.items() if key != "content_sha256"})
+    ).hexdigest()
 
 
 def _hash_matches(value: dict[str, Any]) -> bool:
@@ -53,7 +57,11 @@ def _load_bound(root: Path, binding: dict[str, str]) -> dict[str, Any]:
     if root != path and root not in path.parents:
         raise PhysicalMetricTransportNoGoError("bound path escaped root")
     value = _load_json(path)
-    if _file_sha256(path) != binding["file_sha256"] or value.get("content_sha256") != binding["content_sha256"] or not _hash_matches(value):
+    if (
+        _file_sha256(path) != binding["file_sha256"]
+        or value.get("content_sha256") != binding["content_sha256"]
+        or not _hash_matches(value)
+    ):
         raise PhysicalMetricTransportNoGoError(f"upstream mismatch: {binding['path']}")
     return value
 
@@ -61,9 +69,26 @@ def _load_bound(root: Path, binding: dict[str, str]) -> dict[str, Any]:
 def _validate_config(config: dict[str, Any]) -> None:
     if (
         config.get("schema_version") != CONFIG_SCHEMA
-        or config.get("policy") != "prove_or_refute_symmetric_physical_metric_transport_at_exact_unit_direction"
-        or set(config.get("upstreams", {})) != {"Sylvester_obstruction", "K55_frontier", "higher_H_star", "P55_order_one", "flat_P55", "flat_action_metric", "projector_recipes"}
-        or config.get("target") != {"evaluation_id": "subset_2", "Taylor_order": 3, "metric_transport_order": 2, "symmetric_domain_dimension": 253, "witness_direction": ["3/5", "4/5", "0"]}
+        or config.get("policy")
+        != "prove_or_refute_symmetric_physical_metric_transport_at_exact_unit_direction"
+        or set(config.get("upstreams", {}))
+        != {
+            "Sylvester_obstruction",
+            "K55_frontier",
+            "higher_H_star",
+            "P55_order_one",
+            "flat_P55",
+            "flat_action_metric",
+            "projector_recipes",
+        }
+        or config.get("target")
+        != {
+            "evaluation_id": "subset_2",
+            "Taylor_order": 3,
+            "metric_transport_order": 2,
+            "symmetric_domain_dimension": 253,
+            "witness_direction": ["3/5", "4/5", "0"],
+        }
         or not _hash_matches(config)
     ):
         raise PhysicalMetricTransportNoGoError("invalid physical metric-transport config")
@@ -91,14 +116,22 @@ def build_campaign(project_root: Path, config_path: Path) -> dict[str, Any]:
     frontier = upstreams["K55_frontier"]
     higher_h = upstreams["higher_H_star"]
     if (
-        obstruction.get("counts", {}).get("equal_plus_one_projection_nonzero_polynomial_entries") != 192
-        or obstruction.get("counts", {}).get("equal_minus_one_projection_nonzero_polynomial_entries") != 192
+        obstruction.get("counts", {}).get("equal_plus_one_projection_nonzero_polynomial_entries")
+        != 192
+        or obstruction.get("counts", {}).get(
+            "equal_minus_one_projection_nonzero_polynomial_entries"
+        )
+        != 192
         or frontier.get("failure_checkpoint", {}).get("evaluation_id") != "subset_2"
         or higher_h.get("counts", {}).get("authoritative_action_derivative_nonzero_entries") != 0
     ):
         raise PhysicalMetricTransportNoGoError("physical metric-transport predecessor changed")
-    p_axes = [k1.exact._matrix_from_packet(packet) for packet in upstreams["flat_P55"]["matrix_packets"]]
-    h_plus = k1.exact._matrix_from_packet(upstreams["flat_action_metric"]["exact_construction"]["h_plus_0"])
+    p_axes = [
+        k1.exact._matrix_from_packet(packet) for packet in upstreams["flat_P55"]["matrix_packets"]
+    ]
+    h_plus = k1.exact._matrix_from_packet(
+        upstreams["flat_action_metric"]["exact_construction"]["h_plus_0"]
+    )
     recipes = upstreams["projector_recipes"]["exact_Lagrange_projector_recipes"]["recipes"]
     base = k1._base_data(p_axes, h_plus, recipes)
     p1_record = next(
@@ -111,13 +144,9 @@ def build_campaign(project_root: Path, config_path: Path) -> dict[str, Any]:
     full_residual = k1._sphere_packet(
         frontier["failure_checkpoint"]["sphere_symmetrizer_residual"], [55, 55]
     )
-    companion_residual = poly._multiply(
-        poly._multiply(base["JT"], full_residual), base["J"]
-    )
+    companion_residual = poly._multiply(poly._multiply(base["JT"], full_residual), base["J"])
     c1 = _sympy_matrix(poly._evaluate(companion1, WITNESS_DIRECTION, 22, 22))
-    residual = _sympy_matrix(
-        poly._evaluate(companion_residual, WITNESS_DIRECTION, 22, 22)
-    )
+    residual = _sympy_matrix(poly._evaluate(companion_residual, WITNESS_DIRECTION, 22, 22))
     witnesses = []
     for eigenvalue in (Fraction(1), Fraction(-1)):
         projector = _sympy_matrix(
@@ -131,7 +160,11 @@ def build_campaign(project_root: Path, config_path: Path) -> dict[str, Any]:
             for column in range(22)
             if target[row, column] != 0
         ]
-        if not diagonal_companion1.is_zero_matrix or len(nonzero) != 32 or nonzero[0] != (4, 10, "4096/46875"):
+        if (
+            not diagonal_companion1.is_zero_matrix
+            or len(nonzero) != 32
+            or nonzero[0] != (4, 10, "4096/46875")
+        ):
             raise PhysicalMetricTransportNoGoError("metric-transport witness changed")
         witnesses.append(
             {
@@ -156,7 +189,9 @@ def build_campaign(project_root: Path, config_path: Path) -> dict[str, Any]:
         "decision": "BLOCK_SERIALIZATION",
         "errors": [],
         "config_sha256": config["content_sha256"],
-        "upstream_bindings": {name: {**binding, "verified": True} for name, binding in config["upstreams"].items()},
+        "upstream_bindings": {
+            name: {**binding, "verified": True} for name, binding in config["upstreams"].items()
+        },
         "exact_unit_direction_witness": {
             "direction": ["3/5", "4/5", "0"],
             "unit_sphere_residual": "(3/5)^2+(4/5)^2-1=0",
@@ -180,9 +215,23 @@ def build_campaign(project_root: Path, config_path: Path) -> dict[str, Any]:
             "manifest_registered_after": 154,
             "emitted_output_rows": 0,
         },
-        "claims": {"higher_K55_registered": False, "higher_TC2_registered": False, "lower_Sylvester_registered": False, "rows_emitted": False},
-        "negative_controls": {"sample_nonunit_direction": {"rejected": True}, "allow_nonsymmetric_metric_transport": {"rejected": True}, "ignore_left_nullspace_coordinate": {"rejected": True}, "advance_manifest_after_no_go": {"rejected": True}},
-        "source_bindings": {"config": {"path": CONFIG_PATH, "file_sha256": _file_sha256(config_path)}, "source": {"path": SOURCE_PATH, "file_sha256": _file_sha256(root / SOURCE_PATH)}, "test": {"path": TEST_PATH, "file_sha256": _file_sha256(root / TEST_PATH)}},
+        "claims": {
+            "higher_K55_registered": False,
+            "higher_TC2_registered": False,
+            "lower_Sylvester_registered": False,
+            "rows_emitted": False,
+        },
+        "negative_controls": {
+            "sample_nonunit_direction": {"rejected": True},
+            "allow_nonsymmetric_metric_transport": {"rejected": True},
+            "ignore_left_nullspace_coordinate": {"rejected": True},
+            "advance_manifest_after_no_go": {"rejected": True},
+        },
+        "source_bindings": {
+            "config": {"path": CONFIG_PATH, "file_sha256": _file_sha256(config_path)},
+            "source": {"path": SOURCE_PATH, "file_sha256": _file_sha256(root / SOURCE_PATH)},
+            "test": {"path": TEST_PATH, "file_sha256": _file_sha256(root / TEST_PATH)},
+        },
         "scope": "Provides an exact rational-unit-direction left-nullspace witness against the smallest symmetric physical metric-transport repair. It does not exclude changes to earlier P55/action authority, nonsymmetric forms, cross-cluster metrics, or a different symmetrizer construction.",
     }
     return {**body, "content_sha256": _content_hash(body)}

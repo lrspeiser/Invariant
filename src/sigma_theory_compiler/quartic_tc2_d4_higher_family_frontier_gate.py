@@ -20,11 +20,15 @@ class HigherFamilyFrontierError(ValueError):
 
 
 def _canonical_bytes(value: Any) -> bytes:
-    return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=True).encode("ascii")
+    return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=True).encode(
+        "ascii"
+    )
 
 
 def _content_hash(value: dict[str, Any]) -> str:
-    return hashlib.sha256(_canonical_bytes({key: item for key, item in value.items() if key != "content_sha256"})).hexdigest()
+    return hashlib.sha256(
+        _canonical_bytes({key: item for key, item in value.items() if key != "content_sha256"})
+    ).hexdigest()
 
 
 def _hash_matches(value: dict[str, Any]) -> bool:
@@ -47,7 +51,11 @@ def _load_bound(root: Path, binding: dict[str, str]) -> dict[str, Any]:
     if root != path and root not in path.parents:
         raise HigherFamilyFrontierError("bound path escaped root")
     value = _load_json(path)
-    if _file_sha256(path) != binding["file_sha256"] or value.get("content_sha256") != binding["content_sha256"] or not _hash_matches(value):
+    if (
+        _file_sha256(path) != binding["file_sha256"]
+        or value.get("content_sha256") != binding["content_sha256"]
+        or not _hash_matches(value)
+    ):
         raise HigherFamilyFrontierError(f"upstream seal mismatch: {binding['path']}")
     return value
 
@@ -55,9 +63,17 @@ def _load_bound(root: Path, binding: dict[str, str]) -> dict[str, Any]:
 def _validate_config(config: dict[str, Any]) -> None:
     if (
         config.get("schema_version") != CONFIG_SCHEMA
-        or config.get("policy") != "advance_no_downstream_family_without_every_exact_physical_primitive"
-        or set(config.get("upstreams", {})) != {"predecessor", "higher_P55", "K55_order_one", "H_star_order_one"}
-        or config.get("target") != {"registered_before": 109, "registered_after_P55": 154, "required_total": 304, "required_rows": 117180}
+        or config.get("policy")
+        != "advance_no_downstream_family_without_every_exact_physical_primitive"
+        or set(config.get("upstreams", {}))
+        != {"predecessor", "higher_P55", "K55_order_one", "H_star_order_one"}
+        or config.get("target")
+        != {
+            "registered_before": 109,
+            "registered_after_P55": 154,
+            "required_total": 304,
+            "required_rows": 117180,
+        }
         or not _hash_matches(config)
     ):
         raise HigherFamilyFrontierError("invalid higher-family frontier config")
@@ -91,7 +107,10 @@ def build_campaign(project_root: Path, config_path: Path) -> dict[str, Any]:
     ):
         raise HigherFamilyFrontierError("154-packet manifest boundary changed")
     first_evaluation = h1["packets"][0]
-    if first_evaluation.get("evaluation_id") != "subset_0" or first_evaluation.get("H_star_plus_order_one_matrix", {}).get("Taylor_order") != 1:
+    if (
+        first_evaluation.get("evaluation_id") != "subset_0"
+        or first_evaluation.get("H_star_plus_order_one_matrix", {}).get("Taylor_order") != 1
+    ):
         raise HigherFamilyFrontierError("H-star evaluation ordering changed")
     claims = {
         "all_45_higher_P55_packets_registered": True,
@@ -106,7 +125,9 @@ def build_campaign(project_root: Path, config_path: Path) -> dict[str, Any]:
         "decision": "BLOCK_SERIALIZATION",
         "errors": [],
         "config_sha256": config["content_sha256"],
-        "upstream_bindings": {name: {**binding, "verified": True} for name, binding in config["upstreams"].items()},
+        "upstream_bindings": {
+            name: {**binding, "verified": True} for name, binding in config["upstreams"].items()
+        },
         "required_symbolic_input_manifest": manifest,
         "first_missing_primitive": {
             "family": "physical_H_star_plus_Taylor_packets",
@@ -163,7 +184,9 @@ def build_campaign(project_root: Path, config_path: Path) -> dict[str, Any]:
 
 
 def validate_campaign(document: dict[str, Any], project_root: Path) -> None:
-    if not _hash_matches(document) or document != build_campaign(project_root, project_root / CONFIG_PATH):
+    if not _hash_matches(document) or document != build_campaign(
+        project_root, project_root / CONFIG_PATH
+    ):
         raise HigherFamilyFrontierError("frontier campaign replay mismatch")
 
 

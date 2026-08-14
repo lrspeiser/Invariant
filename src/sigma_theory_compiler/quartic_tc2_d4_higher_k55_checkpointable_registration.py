@@ -14,8 +14,12 @@ from . import quartic_tc2_d4_coordinate_free_k55_order_one_registration as k1
 CONFIG_PATH = "configs/backgrounds/quartic_tc2_d4_higher_k55_checkpointable_registration.json"
 SOURCE_PATH = "src/sigma_theory_compiler/quartic_tc2_d4_higher_k55_checkpointable_registration.py"
 TEST_PATH = "tests/test_quartic_tc2_d4_higher_k55_checkpointable_registration.py"
-OUTPUT_PATH = "runs/physics-language/quartic-tc2-d4-higher-k55-checkpointable-registration/campaign.json"
-CHECKPOINT_PATH = "runs/physics-language/quartic-tc2-d4-higher-k55-checkpointable-registration/checkpoints"
+OUTPUT_PATH = (
+    "runs/physics-language/quartic-tc2-d4-higher-k55-checkpointable-registration/campaign.json"
+)
+CHECKPOINT_PATH = (
+    "runs/physics-language/quartic-tc2-d4-higher-k55-checkpointable-registration/checkpoints"
+)
 CONFIG_SCHEMA = "sigma-quartic-tc2-d4-higher-k55-registration-config-1.0"
 CHECKPOINT_SCHEMA = "sigma-quartic-tc2-d4-higher-k55-evaluation-checkpoint-1.0"
 RESULT_SCHEMA = "sigma-quartic-tc2-d4-higher-k55-registration-1.0"
@@ -31,11 +35,15 @@ class HigherK55RegistrationError(ValueError):
 
 
 def _canonical_bytes(value: Any) -> bytes:
-    return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=True).encode("ascii")
+    return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=True).encode(
+        "ascii"
+    )
 
 
 def _content_hash(value: dict[str, Any]) -> str:
-    return hashlib.sha256(_canonical_bytes({key: item for key, item in value.items() if key != "content_sha256"})).hexdigest()
+    return hashlib.sha256(
+        _canonical_bytes({key: item for key, item in value.items() if key != "content_sha256"})
+    ).hexdigest()
 
 
 def _with_hash(body: dict[str, Any]) -> dict[str, Any]:
@@ -67,7 +75,11 @@ def _resolve_under(root: Path, relative: str) -> Path:
 def _load_bound(root: Path, binding: dict[str, str]) -> dict[str, Any]:
     path = _resolve_under(root, binding["path"])
     value = _load_json(path)
-    if _file_sha256(path) != binding["file_sha256"] or value.get("content_sha256") != binding["content_sha256"] or not _hash_matches(value):
+    if (
+        _file_sha256(path) != binding["file_sha256"]
+        or value.get("content_sha256") != binding["content_sha256"]
+        or not _hash_matches(value)
+    ):
         raise HigherK55RegistrationError(f"upstream mismatch: {binding['path']}")
     return value
 
@@ -77,8 +89,28 @@ def _load_config(root: Path, config_path: Path) -> dict[str, Any]:
     if (
         config.get("schema_version") != CONFIG_SCHEMA
         or config.get("policy") != "register_all_45_K55_packets_after_exact_Riesz_and_sphere_replay"
-        or set(config.get("upstreams", {})) != {"predecessor", "higher_P55", "P55_order_one", "higher_H_star", "H_star_order_one", "K55_order_one", "flat_P55", "flat_action_metric", "projector_recipes", "K0_polynomial"}
-        or config.get("target") != {"Taylor_orders": [2, 3, 4], "polarization_evaluations": 15, "packets": 45, "shape_each": [55, 55], "manifest_before": 154, "manifest_after": 199}
+        or set(config.get("upstreams", {}))
+        != {
+            "predecessor",
+            "higher_P55",
+            "P55_order_one",
+            "higher_H_star",
+            "H_star_order_one",
+            "K55_order_one",
+            "flat_P55",
+            "flat_action_metric",
+            "projector_recipes",
+            "K0_polynomial",
+        }
+        or config.get("target")
+        != {
+            "Taylor_orders": [2, 3, 4],
+            "polarization_evaluations": 15,
+            "packets": 45,
+            "shape_each": [55, 55],
+            "manifest_before": 154,
+            "manifest_after": 199,
+        }
         or not _hash_matches(config)
     ):
         raise HigherK55RegistrationError("invalid higher K55 config")
@@ -109,7 +141,9 @@ def _series_multiply(left: Series, right: Series) -> Series:
     result = _zero_series()
     for order in range(MAX_ORDER + 1):
         for index in range(order + 1):
-            result[order] = poly._add(result[order], poly._multiply(left[index], right[order - index]))
+            result[order] = poly._add(
+                result[order], poly._multiply(left[index], right[order - index])
+            )
     return result
 
 
@@ -121,7 +155,9 @@ def _coefficient_product(left: Series, right: Series, order: int) -> Sparse:
 
 
 def _projector_series(base: dict[str, Any], companion: Series) -> dict[Fraction, Series]:
-    result = {eigenvalue: [projector, {}, {}, {}, {}] for eigenvalue, projector in base["Pi0"].items()}
+    result = {
+        eigenvalue: [projector, {}, {}, {}, {}] for eigenvalue, projector in base["Pi0"].items()
+    }
     identity = poly._identity(22)
     for order in range(1, MAX_ORDER + 1):
         for eigenvalue, series in result.items():
@@ -142,15 +178,23 @@ def _projector_series(base: dict[str, Any], companion: Series) -> dict[Fraction,
                     continue
                 off_diagonal = poly._add(
                     off_diagonal,
-                    poly._scale(poly._multiply(poly._multiply(other_projector, commutator), projector0), 1 / (eigenvalue - other)),
+                    poly._scale(
+                        poly._multiply(poly._multiply(other_projector, commutator), projector0),
+                        1 / (eigenvalue - other),
+                    ),
                 )
                 off_diagonal = poly._add(
                     off_diagonal,
-                    poly._scale(poly._multiply(poly._multiply(projector0, commutator), other_projector), 1 / (other - eigenvalue)),
+                    poly._scale(
+                        poly._multiply(poly._multiply(projector0, commutator), other_projector),
+                        1 / (other - eigenvalue),
+                    ),
                 )
             quadratic: Sparse = {}
             for index in range(1, order):
-                quadratic = poly._add(quadratic, poly._multiply(series[index], series[order - index]))
+                quadratic = poly._add(
+                    quadratic, poly._multiply(series[index], series[order - index])
+                )
             diagonal = poly._add(
                 poly._scale(poly._multiply(poly._multiply(projector0, quadratic), projector0), -1),
                 poly._multiply(poly._multiply(complement, quadratic), complement),
@@ -160,15 +204,21 @@ def _projector_series(base: dict[str, Any], companion: Series) -> dict[Fraction,
         completeness: Sparse = {}
         for series in result.values():
             completeness = poly._add(completeness, series[order])
-            idempotence = poly._add(_coefficient_product(series, series, order), poly._scale(series[order], -1))
+            idempotence = poly._add(
+                _coefficient_product(series, series, order), poly._scale(series[order], -1)
+            )
             commutation = poly._add(
                 _coefficient_product(companion, series, order),
                 poly._scale(_coefficient_product(series, companion, order), -1),
             )
             if idempotence or commutation:
-                raise HigherK55RegistrationError(f"Riesz projector recurrence failed at order {order}")
+                raise HigherK55RegistrationError(
+                    f"Riesz projector recurrence failed at order {order}"
+                )
         if completeness:
-            raise HigherK55RegistrationError(f"Riesz projector completeness failed at order {order}")
+            raise HigherK55RegistrationError(
+                f"Riesz projector completeness failed at order {order}"
+            )
     return result
 
 
@@ -180,7 +230,9 @@ def _inverse_series(companion: Series, inverse0: Sparse) -> Series:
             forcing = poly._add(forcing, poly._multiply(companion[index], result[order - index]))
         result[order] = poly._scale(poly._multiply(inverse0, forcing), -1)
         if _coefficient_product(companion, result, order):
-            raise HigherK55RegistrationError(f"companion inverse recurrence failed at order {order}")
+            raise HigherK55RegistrationError(
+                f"companion inverse recurrence failed at order {order}"
+            )
     return result
 
 
@@ -193,8 +245,17 @@ def _construct_series(base: dict[str, Any], p_series: Series, h_series: Series) 
     projectors = _projector_series(base, companion)
     energy = _zero_series()
     for eigenvalue, projector in projectors.items():
-        metric = h_series if eigenvalue == 1 else _series_scale(h_series, -1) if eigenvalue == -1 else _constant_series(poly._identity(22))
-        energy = _series_add(energy, _series_multiply(_series_multiply(_series_transpose(projector), metric), projector))
+        metric = (
+            h_series
+            if eigenvalue == 1
+            else _series_scale(h_series, -1)
+            if eigenvalue == -1
+            else _constant_series(poly._identity(22))
+        )
+        energy = _series_add(
+            energy,
+            _series_multiply(_series_multiply(_series_transpose(projector), metric), projector),
+        )
     inverse = _inverse_series(companion, base["N0"])
     cross = _series_multiply(_series_multiply(_series_transpose(lift), energy), inverse)
     return _series_add(
@@ -211,7 +272,9 @@ def _sphere_equal(left: Sparse, right: Sparse) -> bool:
 
 
 def _packet_path(directory: Path, evaluation_id: str) -> Path:
-    if not evaluation_id.startswith("subset_") or any(character not in "abcdefghijklmnopqrstuvwxyz_0123" for character in evaluation_id):
+    if not evaluation_id.startswith("subset_") or any(
+        character not in "abcdefghijklmnopqrstuvwxyz_0123" for character in evaluation_id
+    ):
         raise HigherK55RegistrationError("unsafe evaluation id")
     return directory / f"{evaluation_id}.json"
 
@@ -241,14 +304,28 @@ def materialize(root: Path, config_path: Path, checkpoint_dir: Path) -> None:
     root = root.resolve()
     config = _load_config(root, config_path)
     upstreams = {name: _load_bound(root, binding) for name, binding in config["upstreams"].items()}
-    p_axes = [k1.exact._matrix_from_packet(packet) for packet in upstreams["flat_P55"]["matrix_packets"]]
-    h_plus = k1.exact._matrix_from_packet(upstreams["flat_action_metric"]["exact_construction"]["h_plus_0"])
+    p_axes = [
+        k1.exact._matrix_from_packet(packet) for packet in upstreams["flat_P55"]["matrix_packets"]
+    ]
+    h_plus = k1.exact._matrix_from_packet(
+        upstreams["flat_action_metric"]["exact_construction"]["h_plus_0"]
+    )
     recipes = upstreams["projector_recipes"]["exact_Lagrange_projector_recipes"]["recipes"]
     base = k1._base_data(p_axes, h_plus, recipes)
-    base["K0"] = k1._sphere_packet(upstreams["K0_polynomial"]["exact_K0_polynomial_packet"], [55, 55])
-    p1_by_id = {row["evaluation_id"]: row for row in upstreams["P55_order_one"]["registered_P55_Taylor_order_one_packets"]}
+    base["K0"] = k1._sphere_packet(
+        upstreams["K0_polynomial"]["exact_K0_polynomial_packet"], [55, 55]
+    )
+    p1_by_id = {
+        row["evaluation_id"]: row
+        for row in upstreams["P55_order_one"]["registered_P55_Taylor_order_one_packets"]
+    }
     h1_by_id = {row["evaluation_id"]: row for row in upstreams["H_star_order_one"]["packets"]}
-    k1_by_id = {row["evaluation_id"]: row for row in upstreams["K55_order_one"]["registered_coordinate_free_K55_Taylor_order_one_packets"]}
+    k1_by_id = {
+        row["evaluation_id"]: row
+        for row in upstreams["K55_order_one"][
+            "registered_coordinate_free_K55_Taylor_order_one_packets"
+        ]
+    }
     ph_by_id: dict[str, dict[int, dict[str, Any]]] = {}
     for packet in upstreams["higher_P55"]["registered_P55_Taylor_orders_two_through_four_packets"]:
         ph_by_id.setdefault(packet["evaluation_id"], {})[packet["Taylor_order"]] = packet
@@ -256,22 +333,43 @@ def materialize(root: Path, config_path: Path, checkpoint_dir: Path) -> None:
     for packet in upstreams["higher_H_star"]["packets"]:
         hh_by_id.setdefault(packet["evaluation_id"], {})[packet["Taylor_order"]] = packet
     evaluation_ids = list(p1_by_id)
-    if set(p1_by_id) != set(h1_by_id) or set(p1_by_id) != set(k1_by_id) or set(p1_by_id) != set(ph_by_id) or set(p1_by_id) != set(hh_by_id):
+    if (
+        set(p1_by_id) != set(h1_by_id)
+        or set(p1_by_id) != set(k1_by_id)
+        or set(p1_by_id) != set(ph_by_id)
+        or set(p1_by_id) != set(hh_by_id)
+    ):
         raise HigherK55RegistrationError("evaluation authority mismatch")
-    if any(_failure_path(checkpoint_dir, evaluation_id).exists() for evaluation_id in evaluation_ids):
+    if any(
+        _failure_path(checkpoint_dir, evaluation_id).exists() for evaluation_id in evaluation_ids
+    ):
         return
     maximum = config["caps"]["maximum_checkpoint_bytes"]
     for evaluation_id in evaluation_ids:
         path = _packet_path(checkpoint_dir, evaluation_id)
         if path.exists():
             continue
-        p_series = [base["P0"], k1._linear_packet(p1_by_id[evaluation_id]["P55_Taylor_order_one_matrix"], [55, 55])]
-        p_series.extend(k1._linear_packet(ph_by_id[evaluation_id][order], [55, 55]) for order in ORDERS)
-        h_series = [base["H0"], k1._linear_packet(h1_by_id[evaluation_id]["H_star_plus_order_one_matrix"], [22, 22])]
-        h_series.extend(k1._linear_packet(hh_by_id[evaluation_id][order], [22, 22]) for order in ORDERS)
+        p_series = [
+            base["P0"],
+            k1._linear_packet(p1_by_id[evaluation_id]["P55_Taylor_order_one_matrix"], [55, 55]),
+        ]
+        p_series.extend(
+            k1._linear_packet(ph_by_id[evaluation_id][order], [55, 55]) for order in ORDERS
+        )
+        h_series = [
+            base["H0"],
+            k1._linear_packet(h1_by_id[evaluation_id]["H_star_plus_order_one_matrix"], [22, 22]),
+        ]
+        h_series.extend(
+            k1._linear_packet(hh_by_id[evaluation_id][order], [22, 22]) for order in ORDERS
+        )
         k_series = _construct_series(base, p_series, h_series)
-        expected_k1 = k1._sphere_packet(k1_by_id[evaluation_id]["K55_Taylor_order_one_matrix"], [55, 55])
-        if not _sphere_equal(k_series[0], base["K0"]) or not _sphere_equal(k_series[1], expected_k1):
+        expected_k1 = k1._sphere_packet(
+            k1_by_id[evaluation_id]["K55_Taylor_order_one_matrix"], [55, 55]
+        )
+        if not _sphere_equal(k_series[0], base["K0"]) or not _sphere_equal(
+            k_series[1], expected_k1
+        ):
             raise HigherK55RegistrationError("K55 order-zero/one replay mismatch")
         packets = []
         for order in ORDERS:
@@ -301,7 +399,9 @@ def materialize(root: Path, config_path: Path, checkpoint_dir: Path) -> None:
                     }
                 )
                 _atomic_write(_failure_path(checkpoint_dir, evaluation_id), failure, maximum)
-                raise HigherK55RegistrationError(f"K55 order-{order} sphere identity failed: symmetry={len(symmetry)} residual={len(residual)}")
+                raise HigherK55RegistrationError(
+                    f"K55 order-{order} sphere identity failed: symmetry={len(symmetry)} residual={len(residual)}"
+                )
             matrix = poly._packet(f"K55_{order}_{evaluation_id}(n)", k_series[order], [55, 55])
             packets.append(
                 _with_hash(
@@ -422,9 +522,20 @@ def build_campaign(root: Path, config_path: Path, checkpoint_dir: Path) -> dict[
     for evaluation_id in evaluation_ids:
         path = _packet_path(checkpoint_dir, evaluation_id)
         if not path.exists():
-            raise HigherK55RegistrationError(f"first missing primitive: {evaluation_id} K55 Taylor order 2")
+            raise HigherK55RegistrationError(
+                f"first missing primitive: {evaluation_id} K55 Taylor order 2"
+            )
         checkpoint = _load_json(path)
-        if checkpoint.get("schema_version") != CHECKPOINT_SCHEMA or not _hash_matches(checkpoint) or [packet.get("Taylor_order") for packet in checkpoint.get("packets", [])] != list(ORDERS) or any(not _hash_matches(packet) or not _hash_matches(packet["K55_matrix"]) for packet in checkpoint["packets"]):
+        if (
+            checkpoint.get("schema_version") != CHECKPOINT_SCHEMA
+            or not _hash_matches(checkpoint)
+            or [packet.get("Taylor_order") for packet in checkpoint.get("packets", [])]
+            != list(ORDERS)
+            or any(
+                not _hash_matches(packet) or not _hash_matches(packet["K55_matrix"])
+                for packet in checkpoint["packets"]
+            )
+        ):
             raise HigherK55RegistrationError(f"checkpoint tamper: {path.name}")
         packets.extend(checkpoint["packets"])
         checkpoint_hashes.append(checkpoint["content_sha256"])
@@ -439,7 +550,10 @@ def build_campaign(root: Path, config_path: Path, checkpoint_dir: Path) -> dict[
     family["missing_Taylor_orders"] = []
     family["packet_content_sha256"].extend(packet["content_sha256"] for packet in packets)
     family["status"] = "registered_all_15_packets_at_Taylor_orders_zero_through_four"
-    if sum(row["registered_packets"] for row in manifest) != 199 or predecessor.get("counts", {}).get("manifest_registered_after") != 109:
+    if (
+        sum(row["registered_packets"] for row in manifest) != 199
+        or predecessor.get("counts", {}).get("manifest_registered_after") != 109
+    ):
         raise HigherK55RegistrationError("manifest did not advance atomically to 199")
     body = {
         "schema_version": RESULT_SCHEMA,
@@ -449,17 +563,42 @@ def build_campaign(root: Path, config_path: Path, checkpoint_dir: Path) -> dict[
         "checkpoint_content_sha256": checkpoint_hashes,
         "registered_higher_K55_packets": packets,
         "required_symbolic_input_manifest": manifest,
-        "counts": {"higher_K55_packets": 45, "Riesz_recurrence_nonzero_remainders": 0, "companion_inverse_recurrence_nonzero_remainders": 0, "sphere_identity_nonzero_remainders": 0, "manifest_registered_before": 154, "manifest_registered_after": 199, "manifest_missing_after": 105, "emitted_output_rows": 0},
-        "claims": {"all_45_higher_K55_packets_registered": True, "higher_TC2_registered": False, "lower_Sylvester_registered": False, "rows_emitted": False},
-        "negative_controls": {"reuse_fixed_eigenvalue_inverse_beyond_order_one": {"rejected": True}, "accept_failed_Riesz_recurrence": {"rejected": True}, "accept_failed_sphere_identity": {"rejected": True}, "partially_advance_K55_family": {"rejected": True}},
-        "source_bindings": {"config": {"path": CONFIG_PATH, "file_sha256": _file_sha256(config_path)}, "source": {"path": SOURCE_PATH, "file_sha256": _file_sha256(root / SOURCE_PATH)}, "test": {"path": TEST_PATH, "file_sha256": _file_sha256(root / TEST_PATH)}},
+        "counts": {
+            "higher_K55_packets": 45,
+            "Riesz_recurrence_nonzero_remainders": 0,
+            "companion_inverse_recurrence_nonzero_remainders": 0,
+            "sphere_identity_nonzero_remainders": 0,
+            "manifest_registered_before": 154,
+            "manifest_registered_after": 199,
+            "manifest_missing_after": 105,
+            "emitted_output_rows": 0,
+        },
+        "claims": {
+            "all_45_higher_K55_packets_registered": True,
+            "higher_TC2_registered": False,
+            "lower_Sylvester_registered": False,
+            "rows_emitted": False,
+        },
+        "negative_controls": {
+            "reuse_fixed_eigenvalue_inverse_beyond_order_one": {"rejected": True},
+            "accept_failed_Riesz_recurrence": {"rejected": True},
+            "accept_failed_sphere_identity": {"rejected": True},
+            "partially_advance_K55_family": {"rejected": True},
+        },
+        "source_bindings": {
+            "config": {"path": CONFIG_PATH, "file_sha256": _file_sha256(config_path)},
+            "source": {"path": SOURCE_PATH, "file_sha256": _file_sha256(root / SOURCE_PATH)},
+            "test": {"path": TEST_PATH, "file_sha256": _file_sha256(root / TEST_PATH)},
+        },
         "scope": "Registers all 45 coordinate-free K55 Taylor packets at orders two through four after exact Riesz, inverse, symmetry, and unit-sphere symmetrizer recurrences. TC2, lower-Sylvester packets, rows, D4, and H7 remain open.",
     }
     return _with_hash(body)
 
 
 def validate_campaign(document: dict[str, Any], root: Path) -> None:
-    if not _hash_matches(document) or document != build_campaign(root, root / CONFIG_PATH, root / CHECKPOINT_PATH):
+    if not _hash_matches(document) or document != build_campaign(
+        root, root / CONFIG_PATH, root / CHECKPOINT_PATH
+    ):
         raise HigherK55RegistrationError("higher K55 campaign replay mismatch")
 
 

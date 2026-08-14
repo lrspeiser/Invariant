@@ -8,9 +8,7 @@ from pathlib import Path
 from typing import Any
 
 CONFIG_PATH = "configs/backgrounds/quartic_tc2_d4_higher_p55_checkpointable_materializer.json"
-SOURCE_PATH = (
-    "src/sigma_theory_compiler/quartic_tc2_d4_higher_p55_checkpointable_materializer.py"
-)
+SOURCE_PATH = "src/sigma_theory_compiler/quartic_tc2_d4_higher_p55_checkpointable_materializer.py"
 TEST_PATH = "tests/test_quartic_tc2_d4_higher_p55_checkpointable_materializer.py"
 OUTPUT_PATH = (
     "runs/physics-language/quartic-tc2-d4-higher-p55-checkpointable-materializer/result.json"
@@ -118,8 +116,13 @@ def _matrix_record(name: str, matrix: Any) -> dict[str, Any]:
         if matrix[row, column] != 0
     ]
     return _with_hash(
-        {"schema_version": "sigma-exact-sparse-matrix-1.0", "name": name,
-         "shape": [matrix.rows, matrix.cols], "entries": entries, "nonzero_count": len(entries)}
+        {
+            "schema_version": "sigma-exact-sparse-matrix-1.0",
+            "name": name,
+            "shape": [matrix.rows, matrix.cols],
+            "entries": entries,
+            "nonzero_count": len(entries),
+        }
     )
 
 
@@ -224,15 +227,13 @@ def materialize(root: Path, config_path: Path, checkpoint_dir: Path) -> None:
     flat = _load_bound(root, config["upstreams"]["flat_P55"])
     p55_order_one = _load_bound(root, config["upstreams"]["P55_order_one"])
     polarization = _load_bound(root, config["upstreams"]["polarization"])
-    p1_by_id = {
-        packet["evaluation_id"]: packet
-        for packet in p55_order_one["packets"]
-    }
+    p1_by_id = {packet["evaluation_id"]: packet for packet in p55_order_one["packets"]}
     evaluations = polarization["polarization_evaluations"]
     if len(evaluations) != 15 or set(p1_by_id) != {row["evaluation_id"] for row in evaluations}:
         raise HigherP55MaterializerError("evaluation authority mismatch")
     missing = [
-        row for row in evaluations
+        row
+        for row in evaluations
         if not _evaluation_path(checkpoint_dir, row["evaluation_id"]).exists()
     ]
     if not missing:
@@ -323,12 +324,13 @@ def materialize(root: Path, config_path: Path, checkpoint_dir: Path) -> None:
                 residual = (mass0 * current + mass1 * previous).applyfunc(sp.factor)
                 if not residual.is_zero_matrix:
                     raise HigherP55MaterializerError(f"P55 order-{order} recurrence residual")
-                order_axes[order].append(
-                    current.extract(ORDERING, ORDERING).applyfunc(sp.factor)
-                )
+                order_axes[order].append(current.extract(ORDERING, ORDERING).applyfunc(sp.factor))
                 previous = current
                 recurrences += 55 * 55
-        packets = [_polynomial_packet(evaluation["evaluation_id"], order, order_axes[order]) for order in ORDERS]
+        packets = [
+            _polynomial_packet(evaluation["evaluation_id"], order, order_axes[order])
+            for order in ORDERS
+        ]
         checkpoint = _with_hash(
             {
                 "schema_version": CHECKPOINT_SCHEMA,
@@ -436,7 +438,9 @@ def build_result(root: Path, config_path: Path, checkpoint_dir: Path) -> dict[st
 def validate_result(document: dict[str, Any], root: Path) -> None:
     if not _hash_matches(document):
         raise HigherP55MaterializerError("result content hash mismatch")
-    expected = build_result(root.resolve(), root.resolve() / CONFIG_PATH, root.resolve() / CHECKPOINT_PATH)
+    expected = build_result(
+        root.resolve(), root.resolve() / CONFIG_PATH, root.resolve() / CHECKPOINT_PATH
+    )
     if document != expected:
         raise HigherP55MaterializerError("result replay mismatch")
 
