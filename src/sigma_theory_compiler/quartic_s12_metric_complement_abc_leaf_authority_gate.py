@@ -30,7 +30,7 @@ CONFIG_PATH = f"configs/backgrounds/{STEM}.json"
 SOURCE_PATH = f"src/sigma_theory_compiler/{STEM}.py"
 TEST_PATH = f"tests/test_{STEM}.py"
 OUTPUT_PATH = f"runs/physics-language/{SLUG}/campaign.json"
-CONFIG_PRODUCTION_SHA256 = "9fa5ced02a4a25920f79c24310c154b187261296e4446545b7dedfdd40c9c777"
+CONFIG_PRODUCTION_SHA256 = "7b2d6e18b31740ab8d3bfd63a906e16ed1df7f01eeadfc1d41510a85ab9bc71c"
 S12_FULL = tuple((f"s12[{field}]", 98 + field) for field in range(10))
 S12_EXISTING = "s12[5]"
 S12_NEW = tuple(row for row in S12_FULL if row[0] != S12_EXISTING)
