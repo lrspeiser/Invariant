@@ -171,6 +171,9 @@ DIFFERENTIATED_GAUGE_MATERIALIZER_RECEIPT = ROOT / (
 GAUGE_SCALAR_EXPANSION_RECEIPT = ROOT / (
     "runs/math/quartic-85-state-gauge-map-scalar-coefficient-expansion-gate/receipt.json"
 )
+SYSTEM10_CYLINDRICAL_ROWS_RECEIPT = ROOT / (
+    "runs/math/system10-cylindrical-sourced-constraint-row-materializer/receipt.json"
+)
 
 
 def _load(path: Path) -> dict:
@@ -763,8 +766,31 @@ def test_fluid_followups_close_action_and_stress_only() -> None:
     assert scalar_expansion["counts"]["required_general_scalar_values_before_domain"] == 1_010
     assert scalar_expansion["claims"]["exact_flat_reference_scalar_coefficient_rows_closed"]
     assert scalar_expansion["claims"]["general_external_jet_scalar_expansion_closed"] is False
+    cylindrical_rows = _load(SYSTEM10_CYLINDRICAL_ROWS_RECEIPT)
+    assert cylindrical_rows["decision"] == (
+        "BOUNDED_PASS_48_EXACT_CYLINDRICAL_HAMILTONIAN_MOMENTUM_ROWS_NO_PROPAGATION_CLAIM"
+    )
+    assert cylindrical_rows["counts"]["candidates"] == 12
+    assert cylindrical_rows["counts"]["hamiltonian_rows_closed"] == 12
+    assert cylindrical_rows["counts"]["momentum_rows_closed"] == 36
+    assert cylindrical_rows["counts"]["hamiltonian_momentum_rows_closed"] == 48
+    assert cylindrical_rows["counts"]["specialized_physical_gravity_rows_closed"] == 96
+    assert (
+        cylindrical_rows["materialization"]["acceleration_and_integrability_proof"][
+            "partial_0_v_nonzero_coefficients"
+        ]
+        == 0
+    )
+    assert (
+        cylindrical_rows["materialization"]["acceleration_and_integrability_proof"][
+            "forbidden_time_differential_atoms_after_replacement"
+        ]
+        == 0
+    )
+    assert cylindrical_rows["claims"]["sourced_constraint_propagation_closed"] is False
     assert "max|B_mu| <= 8/38505" in text
-    assert "48/96 candidate-bound gauge rows" in text
+    assert "96/96 specialized physical gravity rows" in text
+    assert "30,884 exact sparse-polynomial terms" in text
     assert "General expansion remains blocked" in text
     assert "all 780 readiness slots in 48 chained packets" in text
     assert "17 exact indexed tensor templates" in text
