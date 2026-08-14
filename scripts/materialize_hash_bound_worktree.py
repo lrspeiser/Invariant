@@ -49,7 +49,7 @@ def _registered_bytes(raw: bytes, expected_sha256: str) -> bytes | None:
     return None
 
 
-def materialize(root: Path, config_path: Path) -> dict[str, int]:
+def _materialize_pass(root: Path, config_path: Path) -> dict[str, int]:
     root = root.resolve()
     config = json.loads(config_path.read_text(encoding="utf-8"))
     queue = deque(_bindings(config.get("sources", [])))
@@ -70,6 +70,7 @@ def materialize(root: Path, config_path: Path) -> dict[str, int]:
         config_documents_scanned += 1
         queue.extend(_bindings(document))
     visited: set[tuple[str, str]] = set()
+    selected_by_path: dict[str, str] = {}
     rewritten = 0
     matched = 0
     missing = 0
@@ -95,6 +96,16 @@ def materialize(root: Path, config_path: Path) -> dict[str, int]:
             # superseded binding is admissible for the artifact that contains it.
             superseded += 1
             continue
+        selected = selected_by_path.get(relative)
+        if selected is not None and selected != expected:
+            # Multiple historical receipts can legitimately bind opposite line-ending
+            # representations of the same semantic file.  Let the first reachable,
+            # currently materializable registration claim the path for this pass.
+            # Without this guard, later queue entries can toggle the file back and
+            # make fixed-point materialization oscillate forever.
+            superseded += 1
+            continue
+        selected_by_path[relative] = expected
         matched += 1
         if registered != raw:
             path.write_bytes(registered)
@@ -113,6 +124,36 @@ def materialize(root: Path, config_path: Path) -> dict[str, int]:
         "missing_bound_paths": missing,
         "superseded_bindings_skipped": superseded,
     }
+
+
+def materialize(root: Path, config_path: Path) -> dict[str, int]:
+    """Materialize the transitive registered-byte closure to a fixed point.
+
+    Some immutable JSON artifacts are themselves line-ending-normalized during
+    the first pass. Their nested source bindings are only visible after those
+    registered bytes have been restored, so repeat bounded full passes until a
+    pass performs no writes. Every successful rewrite changes a finite checked
+    file to one of its registered byte forms; the cap guards against cycles or
+    conflicting live registrations.
+    """
+
+    aggregate = {
+        "bindings_visited": 0,
+        "config_documents_scanned": 0,
+        "files_matched": 0,
+        "files_rewritten": 0,
+        "missing_bound_paths": 0,
+        "superseded_bindings_skipped": 0,
+        "materialization_passes": 0,
+    }
+    for pass_number in range(1, 9):
+        current = _materialize_pass(root, config_path)
+        aggregate["materialization_passes"] = pass_number
+        for key, value in current.items():
+            aggregate[key] += value
+        if current["files_rewritten"] == 0:
+            return aggregate
+    raise ValueError("registered-byte materialization did not converge within 8 passes")
 
 
 def main() -> int:

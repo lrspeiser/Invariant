@@ -45,6 +45,9 @@ FLAT_ACTION_METRIC_RECEIPT = ROOT / (
 K55_TAYLOR_ZERO_RECEIPT = ROOT / (
     "runs/physics-language/quartic-tc2-d4-k55-taylor-order-zero-registration/campaign.json"
 )
+TC2_TAYLOR_ZERO_RECEIPT = ROOT / (
+    "runs/physics-language/quartic-tc2-d4-tc2-taylor-order-zero-registration/campaign.json"
+)
 D2_CROSS_DIRECTION_RECEIPT = ROOT / (
     "runs/physics-language/quartic-registered-direction-cross-leaf-d2-replay-gate/campaign.json"
 )
@@ -92,6 +95,9 @@ FIRST_ORDER_85_RECEIPT = ROOT / (
 )
 COMMON_TIME_SYMMETRIZER_RECEIPT = ROOT / (
     "runs/math/quartic-twelve-candidate-85-state-common-time-symmetrizer-gate/receipt.json"
+)
+RESONANT_COMPATIBILITY_RECEIPT = ROOT / (
+    "runs/math/quartic-85-state-resonant-projector-compatibility-gate/receipt.json"
 )
 
 
@@ -197,7 +203,7 @@ def test_matter_and_p55_counts_are_projected_from_checked_receipts() -> None:
     assert taylor_zero["counts"]["P55_Taylor_orders_missing"] == 4
     assert taylor_zero["claims"]["P55_Taylor_orders_one_through_four_registered"] is False
     assert "first advanced the recurrence manifest to 34/304" in text
-    assert "BLOCKED on 255 packets" in text
+    assert "registered all 15 K55 order-zero packets" in text
     k55 = _load(K55_SERIALIZATION_AUDIT_RECEIPT)
     assert k55["status"] == "block_K55_Taylor_order_zero_missing_exact_reference_action_metric"
     assert k55["counts"]["K55_named_paths_audited"] == 66
@@ -225,8 +231,19 @@ def test_matter_and_p55_counts_are_projected_from_checked_receipts() -> None:
     assert k55_zero["counts"]["K0_sparse_entries"] == 131
     assert k55_zero["counts"]["full_symbol_build_calls"] == 0
     assert k55_zero["claims"]["all_15_K55_Taylor_order_zero_packets_registered"] is True
-    assert "manifest is now 49/304" in text
-    assert "BLOCKED on 255 packets" in text
+    tc2_zero = _load(TC2_TAYLOR_ZERO_RECEIPT)
+    assert (
+        tc2_zero["status"]
+        == "block_coordinate_free_D4_recurrence_emitter_missing_240_symbolic_packets"
+    )
+    assert tc2_zero["counts"]["new_TC2_Taylor_order_zero_packets_registered"] == 15
+    assert tc2_zero["counts"]["registered_symbolic_input_packets"] == 64
+    assert tc2_zero["counts"]["missing_symbolic_input_packets"] == 240
+    assert tc2_zero["counts"]["unit_TC2_sparse_linear_coefficients"] == 8
+    assert tc2_zero["claims"]["all_15_TC2_Taylor_order_zero_packets_registered"] is True
+    assert tc2_zero["claims"]["full_direction_sphere_D4_compatibility_proved"] is False
+    assert "manifest is now 64/304" in text
+    assert "BLOCKED on 240 packets" in text
 
     d2_cross = _load(D2_CROSS_DIRECTION_RECEIPT)
     assert d2_cross["gate_counts"]["new_off_diagonal_records_all_candidates"] == 60_984
@@ -462,6 +479,15 @@ def test_fluid_followups_close_action_and_stress_only() -> None:
     assert symmetrizer["counts"]["typed_blocks"] == 12
     assert symmetrizer["claims"]["nonzero_coupling_witness_diagonalizable"] is True
     assert symmetrizer["claims"]["physical_jordan_obstruction_established"] is False
+    resonant = _load(RESONANT_COMPATIBILITY_RECEIPT)
+    assert resonant["decision"] == "PASS_EXACT_FLAT_E1_RESONANT_COMPATIBILITY_ALL_B_COMPONENTS"
+    assert resonant["counts"]["resonant_component_checks"] == 8
+    assert resonant["counts"]["resonant_projection_entries_checked"] == 13_200
+    assert resonant["counts"]["resonant_projection_nonzero_entries"] == 0
+    assert resonant["counts"]["full_coupled_symmetrizers"] == 0
+    assert resonant["claims"]["exact_resonant_compatibility_all_four_potential_components"] is True
+    assert resonant["claims"]["all_spatial_directions_closed"] is False
+    assert "13,200/13,200 zero entries" in text
     assert "Coupled symmetrizers remain a typed BLOCK" in text
     assert "This is not a physical Jordan no-go" in text
 
