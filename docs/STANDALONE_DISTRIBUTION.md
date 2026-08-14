@@ -18,6 +18,7 @@ provenance boundary. Git metadata and Git LFS are not required after extraction.
 Build only from a clean, fully hydrated checkout:
 
 ```powershell
+python -m pip install --editable ".[release]"
 git lfs pull
 git lfs fsck
 git status --short

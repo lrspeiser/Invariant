@@ -558,7 +558,7 @@ jobs:
           git lfs fsck
           test "$(git lfs ls-files -n | wc -l)" -eq 294
       - name: Install standalone-release test tools
-        run: python -m pip install --editable ".[dev]"
+        run: python -m pip install --editable ".[dev,release]"
       - name: Check standalone-release source
         run: >-
           python -m ruff check

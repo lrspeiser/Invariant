@@ -236,3 +236,4 @@ def test_script_wrapper_and_project_entry_points_are_registered() -> None:
         'sigma-formula-discovery = "sigma_theory_compiler.formula_discovery_cli:main"' in pyproject
     )
     assert 'sigma-release = "sigma_theory_compiler.standalone_release:main"' in pyproject
+    assert 'release = ["setuptools>=75", "wheel"]' in pyproject
