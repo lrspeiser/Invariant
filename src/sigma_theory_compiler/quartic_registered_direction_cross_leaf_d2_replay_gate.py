@@ -69,6 +69,17 @@ PREDECESSOR = {
         "content_sha256": "76eff324a16396dfbeee91552220b26dd745b3c22aa5dd6fb9538fffa843bece",
     },
 }
+PREDECESSOR_BYTE_AUTHORITY = {
+    "path": (
+        "configs/backgrounds/"
+        "quartic_full_d2f_typed_partition_row_extension_gate_byte_authority.json"
+    ),
+    "file_sha256": "2af83c25745f387153af7905a7246b279becf62cd516b2af0adfb1086665609d",
+}
+HISTORICAL_REPLAY_SOURCE_BINDING = {
+    "path": SOURCE_PATH,
+    "file_sha256": "3b77a3ff2071dc401dd3fcdcab172567e92bd9e3ada49e81668636feaf8f4629",
+}
 DIRECT_EVIDENCE = {
     "D1_artifact": {
         "path": (
@@ -199,11 +210,58 @@ def _validate_config(value: Mapping[str, Any]) -> None:
         raise ValueError("cross-direction replay config boundary changed")
 
 
+def _load_predecessor_live_self_bindings(root: Path) -> dict[str, dict[str, str]]:
+    authority_path = _inside(root, PREDECESSOR_BYTE_AUTHORITY["path"])
+    if _file_sha(authority_path) != PREDECESSOR_BYTE_AUTHORITY["file_sha256"]:
+        raise ValueError("cross-direction replay predecessor byte authority changed")
+    authority = json.loads(authority_path.read_text(encoding="utf-8"))
+    if (
+        set(authority)
+        != {
+            "schema_version",
+            "authority_id",
+            "checked_artifact",
+            "direct_self_bindings",
+            "authority_contract",
+        }
+        or authority.get("schema_version") != "sigma-portable-checked-artifact-byte-authority-1.0"
+        or authority.get("authority_id")
+        != "quartic-full-d2f-typed-partition-row-extension-gate-byte-authority-001"
+        or authority.get("checked_artifact") != PREDECESSOR["artifact"]
+        or authority.get("authority_contract")
+        != {
+            "scope": "line_ending_representation_only",
+            "scientific_payload_changed": False,
+            "checked_artifact_resealed": False,
+            "downstream_artifact_resealed": False,
+            "selection": (
+                "checked_artifact_direct_self_bindings_precede_copied_downstream_"
+                "predecessor_bindings"
+            ),
+        }
+    ):
+        raise ValueError("cross-direction replay predecessor byte authority boundary changed")
+    bindings = authority.get("direct_self_bindings")
+    if not isinstance(bindings, dict) or set(bindings) != {"config", "source", "test"}:
+        raise ValueError("cross-direction replay predecessor byte authority bindings changed")
+    for label in ("config", "source", "test"):
+        binding = bindings[label]
+        if (
+            not isinstance(binding, dict)
+            or set(binding) != {"path", "file_sha256"}
+            or binding.get("path") != PREDECESSOR[label]["path"]
+            or binding.get("file_sha256") == PREDECESSOR[label]["file_sha256"]
+        ):
+            raise ValueError("cross-direction replay predecessor byte authority bindings changed")
+    return _copy(bindings)
+
+
 def _load_inputs(
     root: Path,
 ) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any], dict[str, Any]]:
+    live_predecessor_bindings = _load_predecessor_live_self_bindings(root)
     for binding in [
-        *[PREDECESSOR[label] for label in ("source", "config", "test")],
+        *[live_predecessor_bindings[label] for label in ("source", "config", "test")],
         *[
             DIRECT_EVIDENCE[label]
             for label in (
@@ -765,7 +823,10 @@ def _expected_body(
             "candidate_rejected": False,
         },
         "source_bindings": {
-            "source": {"path": SOURCE_PATH, "file_sha256": _file_sha(_inside(root, SOURCE_PATH))},
+            # This checked artifact records the science-producing source bytes.  The live
+            # replay wrapper may gain byte-authority compatibility without rewriting the
+            # 47 MB scientific payload or pretending that its historical provenance changed.
+            "source": _copy(HISTORICAL_REPLAY_SOURCE_BINDING),
             "config": {"path": CONFIG_PATH, "file_sha256": _file_sha(config_path)},
             "test": {"path": TEST_PATH, "file_sha256": _file_sha(_inside(root, TEST_PATH))},
             "predecessor": _copy(PREDECESSOR),

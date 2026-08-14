@@ -5,6 +5,14 @@ import json
 from pathlib import Path
 
 from scripts.materialize_hash_bound_worktree import materialize
+from sigma_theory_compiler.quartic_registered_direction_cross_leaf_d2_replay_gate import (
+    HISTORICAL_REPLAY_SOURCE_BINDING,
+    PREDECESSOR,
+    _load_predecessor_live_self_bindings,
+)
+from sigma_theory_compiler.quartic_registered_direction_cross_leaf_d2_replay_gate import (
+    OUTPUT_PATH as CROSS_DIRECTION_OUTPUT_PATH,
+)
 
 ROOT = Path(__file__).resolve().parents[1]
 AUTHORITY_REL = Path(
@@ -94,3 +102,18 @@ def test_downstream_crlf_bytes_materialize_back_to_checked_lf_self_bytes(
     assert result["files_rewritten"] >= 3
     for binding in checked.values():
         assert _sha((tmp_path / binding["path"]).read_bytes()) == binding["file_sha256"]
+
+
+def test_cross_direction_replay_uses_checked_live_bytes_without_resealing_payload() -> None:
+    authority = _load(AUTHORITY_REL)
+    live_bindings = _load_predecessor_live_self_bindings(ROOT)
+    artifact = json.loads((ROOT / CROSS_DIRECTION_OUTPUT_PATH).read_text(encoding="utf-8"))
+
+    assert live_bindings == authority["direct_self_bindings"]
+    for label, binding in live_bindings.items():
+        assert binding["path"] == PREDECESSOR[label]["path"]
+        assert binding["file_sha256"] != PREDECESSOR[label]["file_sha256"]
+        assert _sha((ROOT / binding["path"]).read_bytes()) == binding["file_sha256"]
+    assert artifact["source_bindings"]["predecessor"] == PREDECESSOR
+    assert artifact["source_bindings"]["source"] == HISTORICAL_REPLAY_SOURCE_BINDING
+    assert authority["authority_contract"]["downstream_artifact_resealed"] is False
