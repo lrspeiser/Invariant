@@ -256,7 +256,9 @@ novelty, and can register a hash-only candidate before the reviewed `policy_vali
 The composed local proposal-to-policy epoch now also has a restart-safe bounded
 start/status/stop/resume/export service with exact checkpoint/config/callback roots. Checked-in
 execution remains disabled, offline, body-free, and at zero spend; no real provider callback epoch
-has admitted an LLM proposal. The
-engine also does not yet distribute work across multiple machines or enforce a
-separate byte quota on the SQLite file. SQLite growth is nevertheless bounded by configured task
-and wall limits, while the whole service directory is monitored against the service disk cap.
+has admitted an LLM proposal. The engine still does not establish distribution across multiple
+physical machines. The separate
+[`DURABLE_TWO_HOST_CAMPAIGN.md`](DURABLE_TWO_HOST_CAMPAIGN.md) contract now demonstrates two
+generation-fenced logical hosts, dead-host recovery, and an application-enforced combined
+SQLite/WAL/SHM byte ceiling. It explicitly does not promote those mechanics into a physical-host
+claim, and it ships no simulated six-hour receipt.

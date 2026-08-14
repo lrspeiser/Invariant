@@ -234,7 +234,12 @@ The APIs and bounded configs live in `persistent_parallel_search.py`,
 and `bounded_survivor_corpus.py`. The `engine-start`, `engine-status`, `engine-stop`,
 `engine-resume`, `engine-export`, and `engine-corpus-build` CLI commands now provide a continuously
 refilled, restart-safe local service, bounded utilization telemetry, and a local status dashboard.
-See [`docs/PERSISTENT_GRAVITY_ENGINE.md`](docs/PERSISTENT_GRAVITY_ENGINE.md). The separate
+See [`docs/PERSISTENT_GRAVITY_ENGINE.md`](docs/PERSISTENT_GRAVITY_ENGINE.md). A separate
+two-logical-host durability contract adds generation-fenced sessions, dead-host and expired-lease
+recovery, a tamper-evident event chain, and an explicit combined SQLite/WAL/SHM byte ceiling. Its
+receipt cannot be emitted before 21,600 seconds of unioned, clean-session wall time; no six-hour
+receipt is checked in. See
+[`docs/DURABLE_TWO_HOST_CAMPAIGN.md`](docs/DURABLE_TWO_HOST_CAMPAIGN.md). The separate
 `rust_streaming_search.py` adapter and `rust_streaming_service.py` lifecycle overlap restart-safe
 Rust `SGSURV2` chunk production with one cached CUDA consumer, eliminating Python ordinal decoding
 from the hot path. The production template is bounded to one billion formulas, 1,000 independently

@@ -1,0 +1,32 @@
+{
+  "campaign_id": "formula-discovery-durable-two-host-001",
+  "duration": {
+    "default_run_slice_seconds": 3600,
+    "heartbeat_interval_seconds": 5,
+    "maximum_run_slice_seconds": 21600,
+    "minimum_each_host_credited_seconds": 60,
+    "poll_interval_seconds": 0.25,
+    "required_credited_seconds": 21600
+  },
+  "evaluator": "sha256_payload_v1",
+  "logical_hosts": [
+    "host-a",
+    "host-b"
+  ],
+  "queue": {
+    "dead_host_seconds": 90,
+    "lease_seconds": 30,
+    "maximum_attempts": 3,
+    "maximum_payload_bytes": 65536,
+    "maximum_pending_work": 100000,
+    "maximum_result_bytes": 131072
+  },
+  "schema_version": "sigma-durable-two-host-campaign-config-1.0",
+  "storage": {
+    "busy_timeout_ms": 30000,
+    "maximum_sqlite_family_bytes": 536870912,
+    "maximum_transaction_reserve_bytes": 1048576,
+    "page_size_bytes": 4096,
+    "wal_autocheckpoint_pages": 16
+  }
+}
