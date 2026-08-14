@@ -1,0 +1,66 @@
+{
+  "schema_version": "invariant-system10-cylindrical-r-positive-domain-lift-config-1.0",
+  "campaign_id": "system10-cylindrical-r-positive-domain-lift-001",
+  "output_path": "runs/math/system10-cylindrical-r-positive-domain-lift/receipt.json",
+  "bindings": {
+    "r1_gauge_receipt": {
+      "path": "runs/math/system10-cylindrical-gauge-row-specialization-materializer/receipt.json",
+      "file_sha256": "4eb502de02054ef69f2e8ddbf4f724884b88c51a1f156a9a99ab98f011038250",
+      "content_sha256": "b95c209c934aa9948e9b16f3e290a37a131b2d0b3eb91f17069b7b79d9fe3b44"
+    },
+    "r1_sourced_row_receipt": {
+      "path": "runs/math/system10-cylindrical-sourced-constraint-row-materializer/receipt.json",
+      "file_sha256": "a5955db088396bcba0f0980c5ea6883e8d565e659437c74911ad4e9bbd6a6c92",
+      "content_sha256": "3083a642a9dcefff5ed7841fdcde15ce9159ab97b42fc8e9a76c4f5a8692fa5f"
+    }
+  },
+  "source_evidence": {
+    "r1_gauge_source": {
+      "path": "src/sigma_theory_compiler/system10_cylindrical_gauge_row_specialization_materializer.py",
+      "file_sha256": "d426929e966662a84a6e8c2b3a28530b8bbaf1e93466c6eead88b6cebd335983"
+    },
+    "r1_row_source": {
+      "path": "src/sigma_theory_compiler/system10_cylindrical_sourced_constraint_row_materializer.py",
+      "file_sha256": "7549200a0a93232288cc55734c744dd3ac2eb544d0a70d9df1a57f4f81a58b2b"
+    },
+    "source": {
+      "path": "src/sigma_theory_compiler/system10_cylindrical_r_positive_domain_lift.py",
+      "file_sha256": "5c8df38869e83c589705de37e1763311510cfa2cd2a3e70bb0882bd35f57438d"
+    },
+    "test": {
+      "path": "tests/test_system10_cylindrical_r_positive_domain_lift.py",
+      "file_sha256": "c50f8f14278aaff412381f4a602b291700263c5da021501fe4e799de3e3dc608"
+    }
+  },
+  "domain_contract": {
+    "coordinate": "r",
+    "predicate": "r>0",
+    "excluded_axis": "r=0",
+    "physical_metric": "diag(-1,1,r^2,1)",
+    "tilde_inverse_metric": "diag(-4,1,r^-2,1)",
+    "hat_inverse_metric": "diag(-9,1,r^-2,1)",
+    "reference_connection": "Levi-Civita(physical_metric)",
+    "gauge_source": "zero",
+    "sourced_row_fiber": "metric value fixed by r; first and second jet atoms remain free"
+  },
+  "caps": {
+    "candidates": 12,
+    "rows_per_candidate": 8,
+    "formulation_jet_slots": 1010,
+    "maximum_terms_per_row": 24000,
+    "maximum_output_bytes": 33554432
+  },
+  "claims_policy": {
+    "fixed_cylindrical_profile_r_positive": true,
+    "exact_1010_rational_jet_functions": true,
+    "all_96_physical_gravity_rows_r_positive": true,
+    "exact_r1_replay": true,
+    "arbitrary_formulation_functions": false,
+    "sourced_constraint_propagation": false,
+    "general_hyperbolicity": false,
+    "general_common_time_positivity": false,
+    "gravity_h7": false,
+    "universal_all_matter": false,
+    "promotion": false
+  }
+}
