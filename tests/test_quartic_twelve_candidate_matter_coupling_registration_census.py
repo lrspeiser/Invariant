@@ -99,15 +99,18 @@ def test_candidate_dropout_fails_closed(tmp_path: Path) -> None:
     source = ROOT / config["evidence_bindings"]["vacuum_euler"]["path"]
     altered = json.loads(source.read_text(encoding="utf-8"))
     altered["certificates"] = altered["certificates"][:-1]
-    artifact = tmp_path / "altered.json"
+    artifact = ROOT / ".pytest-census-altered.json"
     artifact.write_text(json.dumps(altered), encoding="utf-8")
-    binding = config["evidence_bindings"]["vacuum_euler"]
-    binding["path"] = artifact.relative_to(ROOT).as_posix()
-    binding["file_sha256"] = _sha(artifact)
-    candidate = tmp_path / "config.json"
-    candidate.write_text(json.dumps(config), encoding="utf-8")
-    with pytest.raises(QuarticMatterCouplingCensusError, match="candidate set mismatch"):
-        build_receipt(candidate, root=ROOT)
+    try:
+        binding = config["evidence_bindings"]["vacuum_euler"]
+        binding["path"] = artifact.relative_to(ROOT).as_posix()
+        binding["file_sha256"] = _sha(artifact)
+        candidate = tmp_path / "config.json"
+        candidate.write_text(json.dumps(config), encoding="utf-8")
+        with pytest.raises(QuarticMatterCouplingCensusError, match="candidate set mismatch"):
+            build_receipt(candidate, root=ROOT)
+    finally:
+        artifact.unlink(missing_ok=True)
 
 
 def test_broadened_claim_fails_closed(tmp_path: Path) -> None:

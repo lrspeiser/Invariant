@@ -42,6 +42,12 @@ K55_SERIALIZATION_AUDIT_RECEIPT = ROOT / (
 FLAT_ACTION_METRIC_RECEIPT = ROOT / (
     "runs/physics-language/quartic-tc2-d4-flat-action-metric-registration/campaign.json"
 )
+K55_TAYLOR_ZERO_RECEIPT = ROOT / (
+    "runs/physics-language/quartic-tc2-d4-k55-taylor-order-zero-registration/campaign.json"
+)
+D2_CROSS_DIRECTION_RECEIPT = ROOT / (
+    "runs/physics-language/quartic-registered-direction-cross-leaf-d2-replay-gate/campaign.json"
+)
 BATCH_RECEIPT = ROOT / (
     "runs/engine/continuous-scientific-pipeline-epoch-003-formal-receipt-batch-0003/result.json"
 )
@@ -71,6 +77,21 @@ MATTER_COUPLING_CENSUS_RECEIPT = ROOT / (
 )
 TOTAL_MATTER_ACTION_RECEIPT = ROOT / (
     "runs/math/quartic-twelve-candidate-total-matter-action-binding/receipt.json"
+)
+SOURCED_METRIC_EULER_RECEIPT = ROOT / (
+    "runs/math/quartic-twelve-candidate-sourced-metric-euler-binding/receipt.json"
+)
+COUPLED_PRINCIPAL_RECEIPT = ROOT / (
+    "runs/math/quartic-twelve-candidate-coupled-principal-matrix-gate/receipt.json"
+)
+MAXWELL_MIXED_PRINCIPAL_RECEIPT = ROOT / (
+    "runs/math/quartic-maxwell-metric-mixed-principal-completion-gate/receipt.json"
+)
+FIRST_ORDER_85_RECEIPT = ROOT / (
+    "runs/math/quartic-twelve-candidate-85-state-first-order-reduction/receipt.json"
+)
+COMMON_TIME_SYMMETRIZER_RECEIPT = ROOT / (
+    "runs/math/quartic-twelve-candidate-85-state-common-time-symmetrizer-gate/receipt.json"
 )
 
 
@@ -108,7 +129,7 @@ def test_matter_and_p55_counts_are_projected_from_checked_receipts() -> None:
         "sector_rejects": 0,
         "sectors": 3,
     }
-    assert "combined three-sector gate passes" in text
+    assert "combined three-sector gate passes four matter-interface checks" in text
 
     p55 = _load(P55_RECEIPT)
     assert p55["counts"]["required_matrix_packets"] == 3
@@ -175,8 +196,8 @@ def test_matter_and_p55_counts_are_projected_from_checked_receipts() -> None:
     assert taylor_zero["counts"]["missing_symbolic_input_packets"] == 270
     assert taylor_zero["counts"]["P55_Taylor_orders_missing"] == 4
     assert taylor_zero["claims"]["P55_Taylor_orders_one_through_four_registered"] is False
-    assert "advance the recurrence manifest to 34/304" in text
-    assert "BLOCKED on 270" in text
+    assert "first advanced the recurrence manifest to 34/304" in text
+    assert "BLOCKED on 255 packets" in text
     k55 = _load(K55_SERIALIZATION_AUDIT_RECEIPT)
     assert k55["status"] == "block_K55_Taylor_order_zero_missing_exact_reference_action_metric"
     assert k55["counts"]["K55_named_paths_audited"] == 66
@@ -192,7 +213,29 @@ def test_matter_and_p55_counts_are_projected_from_checked_receipts() -> None:
     assert flat_metric["counts"]["full_symbol_build_calls"] == 0
     assert flat_metric["claims"]["flat_action_metric_h_plus_0_registered"] is True
     assert flat_metric["claims"]["K55_Taylor_order_zero_packets_registered"] is False
-    assert "symmetric 22x22 `h_plus_0` with 28 nonzero entries" in text
+    assert "symmetric 22x22 `h_plus_0`" in text
+    k55_zero = _load(K55_TAYLOR_ZERO_RECEIPT)
+    assert (
+        k55_zero["status"]
+        == "block_coordinate_free_D4_recurrence_emitter_missing_255_symbolic_packets"
+    )
+    assert k55_zero["counts"]["new_K55_Taylor_order_zero_packets_registered"] == 15
+    assert k55_zero["counts"]["registered_symbolic_input_packets"] == 49
+    assert k55_zero["counts"]["missing_symbolic_input_packets"] == 255
+    assert k55_zero["counts"]["K0_sparse_entries"] == 131
+    assert k55_zero["counts"]["full_symbol_build_calls"] == 0
+    assert k55_zero["claims"]["all_15_K55_Taylor_order_zero_packets_registered"] is True
+    assert "manifest is now 49/304" in text
+    assert "BLOCKED on 255 packets" in text
+
+    d2_cross = _load(D2_CROSS_DIRECTION_RECEIPT)
+    assert d2_cross["gate_counts"]["new_off_diagonal_records_all_candidates"] == 60_984
+    assert d2_cross["gate_counts"]["new_off_diagonal_records_per_candidate"] == 5_082
+    assert d2_cross["gate_counts"]["registered_per_candidate"] == 5_324
+    assert d2_cross["gate_counts"]["remaining_per_candidate"] == 252_175
+    assert d2_cross["claim_seals"]["complete_D2F"] is False
+    assert "5,324 of 257,499" in text
+    assert "other 131 directions" in text
 
 
 def test_continuous_cursor_counts_and_product_milestones_are_current() -> None:
@@ -370,8 +413,57 @@ def test_fluid_followups_close_action_and_stress_only() -> None:
     assert total_action["counts"]["sourced_euler_bindings_passed"] == 0
     assert total_action["claims"]["all_twelve_total_actions_compositionally_hash_bound"] is True
     assert total_action["claims"]["sourced_gauge_fixed_euler_bound_to_total_action"] is False
-    assert "12 unique total-action hashes" in text
-    assert "Sourced Euler insertion is the next typed BLOCK" in text
+    assert "All 12 candidates have unique total-action hashes" in text
+    sourced = _load(SOURCED_METRIC_EULER_RECEIPT)
+    assert sourced["decision"] == "PASS_SOURCED_METRIC_EULER_BINDING_ALL_TWELVE_ONLY"
+    assert sourced["counts"]["sourced_metric_euler_bindings_passed"] == 12
+    assert sourced["counts"]["unique_sourced_metric_euler_hashes"] == 12
+    assert sourced["counts"]["total_registered_gravity_rows"] == 132
+    assert sourced["counts"]["sourced_acceleration_solutions"] == 0
+    assert sourced["claims"]["all_twelve_sourced_metric_euler_equations_hash_bound"] is True
+    assert sourced["claims"]["full_coupled_principal_system_closed"] is False
+    assert "covering 132 gravity rows" in text
+    principal = _load(COUPLED_PRINCIPAL_RECEIPT)
+    assert principal["decision"] == "TYPED_BLOCK_MISSING_MAXWELL_METRIC_MIXED_PRINCIPAL_BLOCK"
+    assert principal["counts"]["determined_entries_per_candidate"] == 249
+    assert principal["counts"]["unresolved_entries_per_candidate"] == 40
+    assert principal["counts"]["determined_entries_total"] == 2_988
+    assert principal["counts"]["unresolved_entries_total"] == 480
+    assert principal["counts"]["full_matrices_passed"] == 0
+    assert principal["claims"]["full_coupled_principal_matrix_any_candidate"] is False
+    assert principal["minimal_registration_contract"]["required_shape"] == [4, 10]
+    mixed = _load(MAXWELL_MIXED_PRINCIPAL_RECEIPT)
+    assert mixed["decision"] == "PASS_EXACT_NONZERO_MAXWELL_MIXED_BLOCK_AND_17_FIELD_PRINCIPAL"
+    assert mixed["counts"]["mixed_block_entries"] == 40
+    assert mixed["counts"]["completed_17_field_principal_matrices"] == 12
+    assert mixed["counts"]["determined_entries_total"] == 3_468
+    assert mixed["counts"]["unresolved_entries_total"] == 0
+    assert mixed["claims"]["all_twelve_17_field_second_order_principal_matrices_closed"] is True
+    assert mixed["claims"]["full_85_state_first_order_reduction_closed"] is False
+    assert "completing all 12 coupled 17-field principal matrices" in text
+    assert "3,468 globally, zero unresolved" in text
+    first_order = _load(FIRST_ORDER_85_RECEIPT)
+    assert first_order["decision"] == "PASS_EXACT_85_STATE_FIRST_ORDER_REDUCTION_ALL_TWELVE"
+    assert first_order["counts"]["reductions_passed"] == 12
+    assert first_order["counts"]["first_order_states_per_candidate"] == 85
+    assert first_order["counts"]["first_order_state_entries_total"] == 1_020
+    assert first_order["counts"]["lift_residual_entries"] == 0
+    assert first_order["claims"]["all_twelve_exact_85_state_first_order_reductions_closed"] is True
+    assert first_order["claims"]["full_coupled_symmetrizer_closed"] is False
+    assert "closes all 12 exact first-order reductions at 85 states each" in text
+    symmetrizer = _load(COMMON_TIME_SYMMETRIZER_RECEIPT)
+    assert symmetrizer["decision"] == (
+        "TYPED_BLOCK_RESONANT_SYLVESTER_AND_SCHUR_DOMAIN_UNREGISTERED"
+    )
+    assert symmetrizer["counts"]["vacuum_K55_prerequisites_passed"] == 12
+    assert symmetrizer["counts"]["matter_common_time_prerequisites_passed"] == 12
+    assert symmetrizer["counts"]["sylvester_unknown_entries_per_candidate"] == 1_650
+    assert symmetrizer["counts"]["coupled_symmetrizers_passed"] == 0
+    assert symmetrizer["counts"]["typed_blocks"] == 12
+    assert symmetrizer["claims"]["nonzero_coupling_witness_diagonalizable"] is True
+    assert symmetrizer["claims"]["physical_jordan_obstruction_established"] is False
+    assert "Coupled symmetrizers remain a typed BLOCK" in text
+    assert "This is not a physical Jordan no-go" in text
 
 
 def test_current_scratch_recovery_is_measured_without_production_freshness_claim() -> None:
