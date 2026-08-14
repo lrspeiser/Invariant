@@ -1,0 +1,110 @@
+{
+  "campaign_id": "system10-cylindrical-common-tube-propagation-audit-001",
+  "claims": {
+    "all_inputs_hash_bound": true,
+    "candidate_bound_subsidiary_system_closed": false,
+    "constraint_propagation_closed_on_common_tube": false,
+    "fixed_r_positive_constraint_propagation_closed": false,
+    "full_85_state_rhs_closed_on_common_tube": true,
+    "global_theorem_established": false,
+    "hyperbolicity_closed": false,
+    "promotion_authorized": false,
+    "radial_rhs_first_jet_identifiable": false,
+    "subsidiary_energy_estimate_closed": false
+  },
+  "content_sha256": "fe70e013cf27ff8de41309cf13a5a0c3782164f9140d63d71e8d105c0db7109c",
+  "counts": {
+    "candidate_subsidiary_systems_closed": 0,
+    "candidates": 12,
+    "constraint_propagation_proofs": 0,
+    "divQ_rows_bound": 4,
+    "exact_nonidentifiability_witnesses": 1,
+    "full_rhs_candidate_packets_bound": 12,
+    "full_rhs_rows_bound_per_candidate": 85,
+    "physical_gravity_rows_bound": 96,
+    "subsidiary_energy_estimates": 0
+  },
+  "decision": "BLOCK_COMMON_TUBE_RHS_HAS_NO_RADIAL_JET_FOR_CONSTRAINT_PROPAGATION",
+  "materialization": {
+    "closed_inputs": {
+      "divQ_row_count": 4,
+      "full_rhs_domain": "r=1, real |v_10|<=1/4",
+      "full_rhs_row_instances": 1020,
+      "off_shell_identity_closed": true,
+      "physical_constraint_row_count": 96
+    },
+    "first_missing_primitive": {
+      "primitive": "candidate_bound_radial_first_jet_of_all_11_solved_dynamic_rhs_rows",
+      "primitive_sha256": "ea1487295c5a329840b41768158569c743a62ebc359879fb8e39d0ebb896aef3",
+      "reason": "a point-slice RHS determines F_A at r=1 but cannot determine partial_1 F_A; constraint chain-rule differentiation contains partial_1 F_A atoms",
+      "required_domain": "an open radial neighborhood of r=1 with the same state tube",
+      "required_outputs": [
+        "partial_1 F_0",
+        "partial_1 F_1",
+        "partial_1 F_2",
+        "partial_1 F_3",
+        "partial_1 F_4",
+        "partial_1 F_5",
+        "partial_1 F_6",
+        "partial_1 F_7",
+        "partial_1 F_8",
+        "partial_1 F_9",
+        "partial_1 F_10"
+      ],
+      "status": "BLOCK_RADIAL_RHS_JET_UNREGISTERED",
+      "witness_sha256": "9ae5630ffc4e7ecfe85cf41ed45dd4e59392cfb7c5d279cc1cfe8ba2f471d4f8"
+    },
+    "negative_controls": {
+      "claim_propagation_from_85_rows": {
+        "registered_rhs_domain": "r=1 point slice",
+        "rejected": true,
+        "required_operation": "radial differentiation"
+      },
+      "differentiate_point_value_as_constant": {
+        "exact_missed_delta": "1/128",
+        "mutation": "set partial_1 F_7=0 because only F_7(r=1) is registered",
+        "rejected": true
+      }
+    },
+    "radial_jet_nonidentifiability_witness": {
+      "candidate_id": "quartic-symbol-06e267a9215345b6",
+      "candidate_index": 0,
+      "constraint_row": "momentum_E_n1",
+      "constraint_row_sha256": "1ce134ffde3d207fc08a0a99724de07704c79001174d726c9f6d8d2e83b23e6f",
+      "constraint_time_derivative_rule": "partial_0(partial_1 v_7)=partial_1 F_7; the displayed constraint term therefore contributes (v_10**2/8)*partial_1 F_7 at r=1",
+      "dynamic_row": "evolution_v[7]",
+      "dynamic_row_sha256": "a33ab8fa0bb02569c3cd3f0251954fff5158038141df83c360e00af5d400491c",
+      "evaluation": {
+        "r": "1",
+        "v_10": "1/4"
+      },
+      "exact_constraint_time_derivative_delta": "1/128",
+      "extension_0": "F_7^(0)(r)=F_7^tube",
+      "extension_1": "F_7^(1)(r)=F_7^tube+(r-1)",
+      "nonzero": true,
+      "radial_derivative_delta_at_r_1": "1",
+      "same_registered_tube_value": true,
+      "sensitive_term": {
+        "coefficient": "1/(8*r**2)",
+        "denominator_r_power": 2,
+        "factors": [
+          {
+            "atom": "v_10",
+            "power": 2
+          },
+          {
+            "atom": "partial_1_v_7",
+            "power": 1
+          }
+        ]
+      },
+      "sensitive_term_sha256": "3e668525f13f269b674bd04ab91f35c6a9834ad52719099f18ebc6e80d58d098",
+      "witness_sha256": "9ae5630ffc4e7ecfe85cf41ed45dd4e59392cfb7c5d279cc1cfe8ba2f471d4f8"
+    }
+  },
+  "schema_version": "invariant-system10-cylindrical-common-tube-propagation-audit-1.0",
+  "scope": "Exact fail-closed propagation audit combining the four r>0 divQ rows, the 96 physical gravity constraint rows, the off-shell identity, and all twelve 85/85 RHS packets. The RHS is complete only on the r=1 tube. Constraint time differentiation requires a radial RHS jet not determined by point data, so no subsidiary system or propagation claim is made.",
+  "source_bindings": {
+    "audit_authority_sha256": "c6ff1a83132d8483b79f9a886be5531792ad450748c1f64068eaedb976f1f388"
+  }
+}
