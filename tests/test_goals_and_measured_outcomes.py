@@ -69,6 +69,15 @@ COORDINATE_FREE_K55_ORDER_ONE_RECEIPT = ROOT / (
 COORDINATE_FREE_TC2_ORDER_ONE_RECEIPT = ROOT / (
     "runs/physics-language/quartic-tc2-d4-coordinate-free-tc2-order-one-registration/campaign.json"
 )
+HIGHER_P55_RESULT = ROOT / (
+    "runs/physics-language/quartic-tc2-d4-higher-p55-checkpointable-materializer/result.json"
+)
+HIGHER_H_STAR_RESULT = ROOT / (
+    "runs/physics-language/quartic-tc2-d4-higher-h-star-checkpointable-materializer/result.json"
+)
+ALTERNATIVE_SYMMETRIZER_RECEIPT = ROOT / (
+    "runs/physics-language/quartic-tc2-d4-alternative-symmetrizer-recurrence-audit/campaign.json"
+)
 D2_CROSS_DIRECTION_RECEIPT = ROOT / (
     "runs/physics-language/quartic-registered-direction-cross-leaf-d2-replay-gate/campaign.json"
 )
@@ -364,8 +373,24 @@ def test_matter_and_p55_counts_are_projected_from_checked_receipts() -> None:
     assert tc2_order_one["counts"]["manifest_registered_after"] == 109
     assert tc2_order_one["counts"]["manifest_missing_after"] == 195
     assert tc2_order_one["claims"]["all_15_coordinate_free_TC2_Taylor_order_one_packets_registered"]
-    assert "The manifest is now 109/304" in text
-    assert "BLOCKED on 195 packets" in text
+    higher_p55 = _load(HIGHER_P55_RESULT)
+    assert higher_p55["counts"]["P55_higher_packets_registered"] == 45
+    assert higher_p55["counts"]["exact_recurrence_matrix_entries_reduced"] == 408_375
+    assert higher_p55["counts"]["exact_recurrence_nonzero_remainders"] == 0
+    assert higher_p55["counts"]["manifest_registered_after"] == 154
+    assert higher_p55["counts"]["manifest_missing_after"] == 150
+    higher_h_star = _load(HIGHER_H_STAR_RESULT)
+    assert higher_h_star["counts"]["H_star_plus_higher_packets"] == 45
+    assert higher_h_star["counts"]["zero_packets_exactly_derived"] == 45
+    assert higher_h_star["counts"]["symmetry_remainder_entries"] == 0
+    alternative = _load(ALTERNATIVE_SYMMETRIZER_RECEIPT)
+    assert alternative["decision"] == "BLOCK_SERIALIZATION"
+    assert alternative["counts"]["constructive_witness_local_alternatives"] == 1
+    assert alternative["counts"]["global_coordinate_free_alternatives"] == 0
+    assert alternative["counts"]["remaining_packets"] == 150
+    assert alternative["counts"]["remaining_rows"] == 117_180
+    assert "manifest atomically to 154/304" in text
+    assert "BLOCKED on 150 packets" in text
 
     d2_cross = _load(D2_CROSS_DIRECTION_RECEIPT)
     assert d2_cross["gate_counts"]["new_off_diagonal_records_all_candidates"] == 60_984
