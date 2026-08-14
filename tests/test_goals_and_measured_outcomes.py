@@ -93,6 +93,9 @@ D2_LOWER_PROJECTION_RECEIPT = ROOT / (
 SYSTEM11_SOLAR_AUTHORIZATION_RECEIPT = ROOT / (
     "runs/math/system11-g2-solar-authorization-closure/receipt.json"
 )
+SYSTEM11_SOLAR_LIKELIHOOD_RECEIPT = ROOT / (
+    "runs/math/system11-g2-solar-likelihood-executor-contract/receipt.json"
+)
 BATCH_RECEIPT = ROOT / (
     "runs/engine/continuous-scientific-pipeline-epoch-003-formal-receipt-batch-0005/result.json"
 )
@@ -452,7 +455,17 @@ def test_system11_authorization_closure_is_current_and_target_free() -> None:
         == "block_not_registered"
     )
     assert "audits 10 bound metadata artifacts" in text
-    assert "action-bound real-record likelihood executor" in text
+    executor = _load(SYSTEM11_SOLAR_LIKELIHOOD_RECEIPT)
+    assert executor["counts"]["missing_external_opening_obligations"] == 8
+    assert executor["counts"]["primary_record_accesses"] == 0
+    assert executor["counts"]["real_data_evaluations"] == 0
+    assert executor["counts"]["synthetic_controls"] == 4
+    assert executor["counts"]["synthetic_pass_controls"] == 2
+    assert executor["counts"]["synthetic_reject_controls"] == 2
+    assert executor["claims"]["observation_opened"] is False
+    assert executor["claims"]["observational_result_exists"] is False
+    assert "action-bound real-record likelihood executor contract" in text
+    assert "remaining blocker is exactly the eight external opening obligations" in text
 
 
 def test_continuous_cursor_counts_and_product_milestones_are_current() -> None:
