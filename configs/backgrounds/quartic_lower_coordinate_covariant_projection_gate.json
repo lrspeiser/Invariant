@@ -1,0 +1,53 @@
+{
+  "schema_version": "sigma-quartic-lower-coordinate-covariant-projection-config-1.0",
+  "campaign_id": "quartic-lower-coordinate-covariant-projection-001",
+  "output_path": "runs/physics-language/quartic-lower-coordinate-covariant-projection-gate/campaign.json",
+  "source_bindings": {
+    "principal_projection": {
+      "path": "runs/physics-language/quartic-principal-second-jet-covariant-projection-gate/campaign.json",
+      "file_sha256": "727b1902b32f369ad82803b5f1cc5e57a8643bb7f5b0aec1f8d934c0cc51efaa",
+      "content_sha256": "f4343d2a7b4418694b96c088a22795983168451e948035875557bc726385c7b7"
+    },
+    "geometric_map": {
+      "path": "runs/physics-language/quartic-geometric-jet-campaign/campaign.json",
+      "file_sha256": "aa18e643877f4eb7224891e70e929b8d9574a83309aac9007e9f635689d82b65",
+      "content_sha256": "3878728a11df567606c18d37cd683ff222a5de20f87248394f7ce75a618562a4"
+    },
+    "full_source_D1": {
+      "path": "runs/physics-language/quartic-full-source-jacobian-arithmetic-campaign/campaign.json",
+      "file_sha256": "e893ebcaef464b958516279c557382fb76ecdb0fd542b3e3fed6a347076fcdae",
+      "content_sha256": "1707b7258fd434f68b06c7af6bc447b4136624b9916992df8b412e048ab6538a"
+    },
+    "D1_DAG_differentiability": {
+      "path": "runs/physics-language/quartic-ordered-mixed-d2-arithmetic-dag-differentiability-gate/campaign.json",
+      "file_sha256": "2992571c544846efc96142e2e4a74efe280a7bb025efadb1ff945ab9515bafcc",
+      "content_sha256": "d8afd9f91c090ad1c07e4bb22257baa8c61c095f8d434e02a27082b5591abb6a"
+    }
+  },
+  "projection_contract": {
+    "candidate_count": 12,
+    "coordinate_dimension": 153,
+    "previous_principal_directions": 99,
+    "lower_directions": 54,
+    "q_metric_directions": 10,
+    "p_metric_directions": 40,
+    "p_scalar_gradient_directions": 4,
+    "covariant_output_dimension": 24,
+    "registered_D2_entries_per_candidate": 5324,
+    "full_D2_entries_per_candidate": 257499
+  },
+  "policies": {
+    "arbitrary_background_lower_projection": "exact_indexed_tangent_formula_required",
+    "alias_handling": "coordinate_columns_not_formal_slot_ordinals",
+    "D2_entry_promotion": "forbidden_until_all_reachable_D1_component_input_leaf_derivatives_are_registered",
+    "complete_D2F": "fail_closed",
+    "H7": "fail_closed",
+    "candidate_rejection": "forbidden"
+  },
+  "seals": {
+    "observations_opened": false,
+    "live_SQLite_opened": false,
+    "GPU_execution_used": false,
+    "paid_llm_calls": false
+  }
+}
