@@ -1,4 +1,4 @@
-"""Bounded file API and CLI for Formula Discovery Job v1 orchestration.
+"""Bounded file API and CLI for Formula Discovery Job v1/v2 orchestration.
 
 Run with ``python -m sigma_theory_compiler.formula_discovery_cli``.  This module performs no
 network, subprocess, runtime, database, or secret access. Outputs are exclusively published at
@@ -16,6 +16,9 @@ from pathlib import Path
 from typing import Any
 
 from .formula_discovery_job import SYSTEM_CAPS, run_formula_discovery_job
+from .formula_discovery_job_v2 import PROBLEM_SCHEMA as PROBLEM_SCHEMA_V2
+from .formula_discovery_job_v2 import SYSTEM_CAPS as SYSTEM_CAPS_V2
+from .formula_discovery_job_v2 import run_formula_discovery_job_v2
 from .formula_discovery_orchestration import (
     build_formula_discovery_orchestration,
     validate_formula_discovery_orchestration,
@@ -23,7 +26,10 @@ from .formula_discovery_orchestration import (
 from .sigma_core import SchemaViolation, canonical_sha256
 
 PUBLIC_RESULT_SCHEMA = "sigma-formula-discovery-public-result-1.0"
-MAXIMUM_PROBLEM_FILE_BYTES = SYSTEM_CAPS["max_problem_bytes"]
+PUBLIC_RESULT_SCHEMA_V2 = "sigma-formula-discovery-public-result-2.0"
+MAXIMUM_PROBLEM_FILE_BYTES = max(
+    SYSTEM_CAPS["max_problem_bytes"], SYSTEM_CAPS_V2["max_problem_bytes"]
+)
 MAXIMUM_RESULT_FILE_BYTES = 16 * 1024 * 1024
 
 EXIT_PASS = 0
@@ -119,7 +125,10 @@ def _load_json_object(path: Path, *, maximum_bytes: int, label: str) -> dict[str
 def run_public_formula_discovery(problem: Mapping[str, Any]) -> dict[str, Any]:
     """Run the job and, when it emits a candidate, the hard-gate/Pareto adapter."""
 
-    discovery = run_formula_discovery_job(problem)
+    is_v2 = problem.get("schema_version") == PROBLEM_SCHEMA_V2
+    discovery = (
+        run_formula_discovery_job_v2(problem) if is_v2 else run_formula_discovery_job(problem)
+    )
     if not discovery["problem_schema_valid"]:
         decision = "SCHEMA_ERROR"
     else:
@@ -130,7 +139,7 @@ def run_public_formula_discovery(problem: Mapping[str, Any]) -> dict[str, Any]:
         orchestration = build_formula_discovery_orchestration((problem,), batch_id=batch_id)
         validate_formula_discovery_orchestration(orchestration, (problem,))
     body = {
-        "schema_version": PUBLIC_RESULT_SCHEMA,
+        "schema_version": PUBLIC_RESULT_SCHEMA_V2 if is_v2 else PUBLIC_RESULT_SCHEMA,
         "problem_sha256": discovery["problem_sha256"],
         "decision": decision,
         "reason_codes": list(discovery["reason_codes"]),
@@ -138,7 +147,8 @@ def run_public_formula_discovery(problem: Mapping[str, Any]) -> dict[str, Any]:
         "orchestration": orchestration,
         "claims": dict(CLAIMS),
         "scope": (
-            "bounded exact Formula Discovery Job v1 plus hard-gate evaluation and Pareto when a "
+            f"bounded exact Formula Discovery Job {'v2' if is_v2 else 'v1'} plus hard-gate "
+            "evaluation and Pareto when a "
             "candidate exists; this receipt does not establish truth, novelty, or promotion"
         ),
     }
@@ -150,7 +160,12 @@ def validate_public_formula_discovery(
 ) -> None:
     """Validate the closed envelope and deterministically replay every nested layer."""
 
-    if set(result) != _RESULT_KEYS or result.get("schema_version") != PUBLIC_RESULT_SCHEMA:
+    expected_schema = (
+        PUBLIC_RESULT_SCHEMA_V2
+        if problem.get("schema_version") == PROBLEM_SCHEMA_V2
+        else PUBLIC_RESULT_SCHEMA
+    )
+    if set(result) != _RESULT_KEYS or result.get("schema_version") != expected_schema:
         raise PublicReplayError("public result schema changed")
     body = {key: value for key, value in result.items() if key != "content_sha256"}
     try:
@@ -171,6 +186,14 @@ def _markdown_rational(value: Mapping[str, Any] | None) -> str:
     return str(numerator) if denominator == 1 else f"{numerator}/{denominator}"
 
 
+def _markdown_point(value: Mapping[str, Any]) -> str:
+    if set(value) == {"numerator", "denominator"}:
+        return _markdown_rational(value)
+    return ", ".join(
+        f"{name}={_markdown_rational(coordinate)}" for name, coordinate in sorted(value.items())
+    )
+
+
 def render_formula_discovery_markdown(result: Mapping[str, Any]) -> str:
     """Render a deterministic human-readable report from one validated result."""
 
@@ -180,6 +203,7 @@ def render_formula_discovery_markdown(result: Mapping[str, Any]) -> str:
         "",
         f"- Decision: **{result['decision']}**",
         f"- Job: `{job['job_id']}`",
+        f"- Discovery class: `{job.get('class_id') or 'linear_basis_v1'}`",
         f"- Problem SHA-256: `{result['problem_sha256'] or 'unavailable'}`",
         f"- Result SHA-256: `{result['content_sha256']}`",
         "",
@@ -196,7 +220,11 @@ def render_formula_discovery_markdown(result: Mapping[str, Any]) -> str:
         lines.extend(
             (
                 f"- Synthesis classification: `{synthesis['outcome']}`",
-                f"- Exact rank: {synthesis['rank']} / {synthesis['column_count']}",
+                (
+                    "- Exact rank: not applicable (finite exact enumeration)"
+                    if synthesis["rank"] is None
+                    else f"- Exact rank: {synthesis['rank']} / {synthesis['column_count']}"
+                ),
             )
         )
         if synthesis["expression"] is not None:
@@ -210,7 +238,7 @@ def render_formula_discovery_markdown(result: Mapping[str, Any]) -> str:
                 "## Exact counterexample",
                 "",
                 f"- Validation row: {witness['row_index']}",
-                f"- Point: `{_markdown_rational(witness['point'])}`",
+                f"- Point: `{_markdown_point(witness['point'])}`",
                 f"- Expected: `{_markdown_rational(witness['expected'])}`",
                 f"- Observed: `{_markdown_rational(witness['observed'])}`",
                 f"- Residual: `{_markdown_rational(witness['residual'])}`",
@@ -406,6 +434,7 @@ __all__ = [
     "EXIT_REJECT",
     "EXIT_SCHEMA_ERROR",
     "PUBLIC_RESULT_SCHEMA",
+    "PUBLIC_RESULT_SCHEMA_V2",
     "ImmutableOutputError",
     "ProblemFileError",
     "PublicFormulaDiscoveryError",

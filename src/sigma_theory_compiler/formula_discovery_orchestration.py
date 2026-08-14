@@ -27,6 +27,16 @@ from .formula_discovery_job import (
     run_formula_discovery_job,
     validate_formula_discovery_result,
 )
+from .formula_discovery_job_v2 import (
+    PROBLEM_SCHEMA as DISCOVERY_PROBLEM_SCHEMA_V2,
+)
+from .formula_discovery_job_v2 import (
+    RESULT_SCHEMA as DISCOVERY_RESULT_SCHEMA_V2,
+)
+from .formula_discovery_job_v2 import (
+    run_formula_discovery_job_v2,
+    validate_formula_discovery_result_v2,
+)
 from .sigma_core import (
     ArtifactKind,
     CandidateArtifact,
@@ -85,6 +95,19 @@ class FormulaDiscoveryOrchestrationError(ValueError):
     """An orchestration input or sealed report crossed a closed boundary."""
 
 
+def _run_discovery(problem: Mapping[str, Any]) -> dict[str, Any]:
+    if problem.get("schema_version") == DISCOVERY_PROBLEM_SCHEMA_V2:
+        return run_formula_discovery_job_v2(problem)
+    return run_formula_discovery_job(problem)
+
+
+def _validate_discovery(result: Mapping[str, Any], problem: Mapping[str, Any]) -> None:
+    if problem.get("schema_version") == DISCOVERY_PROBLEM_SCHEMA_V2:
+        validate_formula_discovery_result_v2(result, problem)
+    else:
+        validate_formula_discovery_result(result, problem)
+
+
 def _descriptor() -> DomainPackDescriptor:
     kinds = (ArtifactKind.FORMULA,)
     return DomainPackDescriptor(
@@ -128,7 +151,7 @@ def _embedded(artifact: CandidateArtifact) -> tuple[Mapping[str, Any], Mapping[s
     problem, result = representation["problem"], representation["discovery_result"]
     if not isinstance(problem, Mapping) or not isinstance(result, Mapping):
         raise FormulaDiscoveryOrchestrationError("embedded job values must be objects")
-    validate_formula_discovery_result(result, problem)
+    _validate_discovery(result, problem)
     source = CandidateArtifact.from_dict(result["candidate"])
     if (
         representation["source_candidate"] != source.ref.to_dict()
@@ -152,7 +175,7 @@ class _FormulaJobPack:
     ) -> StageOutcome:
         _, result = _embedded(artifact)
         valid = (
-            result.get("schema_version") == DISCOVERY_RESULT_SCHEMA
+            result.get("schema_version") in {DISCOVERY_RESULT_SCHEMA, DISCOVERY_RESULT_SCHEMA_V2}
             and result.get("candidate") is not None
             and result.get("decision") in {"PASS", "REJECT"}
         )
@@ -273,7 +296,7 @@ def build_formula_discovery_orchestration(
         not isinstance(problem, Mapping) for problem in problem_rows
     ):
         raise FormulaDiscoveryOrchestrationError("job batch size or type is invalid")
-    results = [(problem, run_formula_discovery_job(problem)) for problem in problem_rows]
+    results = [(problem, _run_discovery(problem)) for problem in problem_rows]
     job_ids = [result["job_id"] for _, result in results]
     if len(set(job_ids)) != len(job_ids) or "unbound" in job_ids:
         raise FormulaDiscoveryOrchestrationError("job IDs must be unique and bound")
@@ -350,7 +373,7 @@ def build_formula_discovery_orchestration(
         "decision": "completed_formula_jobs_then_hard_gates_then_exact_pareto",
         "claims": dict(CLAIMS),
         "scope": (
-            "domain-neutral orchestration of caller-supplied Formula Discovery Job v1 records; "
+            "domain-neutral orchestration of caller-supplied Formula Discovery Job v1/v2 records; "
             "only candidates passing every registered hard gate enter exact Pareto fronts"
         ),
     }

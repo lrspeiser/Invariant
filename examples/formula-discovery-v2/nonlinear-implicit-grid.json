@@ -1,0 +1,25 @@
+{
+  "constraints": {"kind": "evaluations", "rows": [
+    {"point": {"x": {"denominator": 1, "numerator": 0}}, "value": {"denominator": 1, "numerator": 3}},
+    {"point": {"x": {"denominator": 1, "numerator": 1}}, "value": {"denominator": 1, "numerator": 7}}
+  ]},
+  "job_id": "example.v2.nonlinear",
+  "limits": {"max_basis_terms": 8, "max_constraint_rows": 16, "max_expression_nodes": 64, "max_integer_bits": 64, "max_parameter_combinations": 64, "max_parameters": 3, "max_recurrence_order": 3, "max_validation_rows": 8, "max_variables": 3},
+  "premises": [],
+  "proof": {"kind": "none"},
+  "schema_version": "sigma-formula-discovery-problem-2.0",
+  "solver": {
+    "expression": "a**2*x + b",
+    "kind": "exact_nonlinear_parameter_grid_v2",
+    "parameter_relations": ["a**2 - 4"],
+    "parameters": [
+      {"name": "a", "values": [{"denominator": 1, "numerator": -2}, {"denominator": 1, "numerator": -1}, {"denominator": 1, "numerator": 1}, {"denominator": 1, "numerator": 2}]},
+      {"name": "b", "values": [{"denominator": 1, "numerator": 2}, {"denominator": 1, "numerator": 3}, {"denominator": 1, "numerator": 4}]}
+    ]
+  },
+  "validation": {"kind": "evaluations", "rows": [
+    {"point": {"x": {"denominator": 1, "numerator": -3}}, "value": {"denominator": 1, "numerator": -9}},
+    {"point": {"x": {"denominator": 1, "numerator": 5}}, "value": {"denominator": 1, "numerator": 23}}
+  ]},
+  "variables": [{"domain": "rational", "name": "x"}]
+}
