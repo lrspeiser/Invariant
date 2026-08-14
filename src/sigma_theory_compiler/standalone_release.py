@@ -58,9 +58,7 @@ def _sha256_file(path: Path) -> str:
 
 
 def _json_bytes(value: Mapping[str, Any]) -> bytes:
-    return (json.dumps(value, indent=2, sort_keys=True, ensure_ascii=False) + "\n").encode(
-        "utf-8"
-    )
+    return (json.dumps(value, indent=2, sort_keys=True, ensure_ascii=False) + "\n").encode("utf-8")
 
 
 def _run_git(root: Path, *arguments: str) -> str:
@@ -199,16 +197,18 @@ def _zip_write(archive: zipfile.ZipFile, arcname: str, source: Path, mode: int) 
     info = zipfile.ZipInfo(arcname, FIXED_ZIP_TIMESTAMP)
     info.compress_type = zipfile.ZIP_STORED
     info.create_system = 3
-    info.external_attr = ((stat.S_IFREG | (mode & 0o777)) << 16)
+    info.external_attr = (stat.S_IFREG | (mode & 0o777)) << 16
     with source.open("rb") as handle, archive.open(info, "w") as target:
         shutil.copyfileobj(handle, target, length=1024 * 1024)
 
 
-def _zip_write_bytes(archive: zipfile.ZipFile, arcname: str, payload: bytes, mode: int = 0o644) -> None:
+def _zip_write_bytes(
+    archive: zipfile.ZipFile, arcname: str, payload: bytes, mode: int = 0o644
+) -> None:
     info = zipfile.ZipInfo(arcname, FIXED_ZIP_TIMESTAMP)
     info.compress_type = zipfile.ZIP_STORED
     info.create_system = 3
-    info.external_attr = ((stat.S_IFREG | mode) << 16)
+    info.external_attr = (stat.S_IFREG | mode) << 16
     archive.writestr(info, payload)
 
 

@@ -74,12 +74,11 @@ def test_built_bundle_is_complete_tamper_evident_and_runs_isolated_examples(
     archive_path = build_standalone_release(ROOT, artifacts, allow_dirty=True)
     assert archive_path.name == "invariant-0.1.0-source-release.zip"
     assert zipfile.ZipFile(archive_path).testzip() is None
-    repeated = build_standalone_release(
-        ROOT, tmp_path / "artifacts-repeat", allow_dirty=True
+    repeated = build_standalone_release(ROOT, tmp_path / "artifacts-repeat", allow_dirty=True)
+    assert (
+        hashlib.sha256(repeated.read_bytes()).digest()
+        == hashlib.sha256(archive_path.read_bytes()).digest()
     )
-    assert hashlib.sha256(repeated.read_bytes()).digest() == hashlib.sha256(
-        archive_path.read_bytes()
-    ).digest()
 
     extracted = tmp_path / "extracted"
     with zipfile.ZipFile(archive_path) as archive:
@@ -233,5 +232,7 @@ def test_script_wrapper_and_project_entry_points_are_registered() -> None:
     source = (ROOT / "scripts/build_standalone_release.py").read_text(encoding="utf-8")
     pyproject = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
     assert "sigma_theory_compiler.standalone_release" in source
-    assert 'sigma-formula-discovery = "sigma_theory_compiler.formula_discovery_cli:main"' in pyproject
+    assert (
+        'sigma-formula-discovery = "sigma_theory_compiler.formula_discovery_cli:main"' in pyproject
+    )
     assert 'sigma-release = "sigma_theory_compiler.standalone_release:main"' in pyproject
