@@ -24,14 +24,14 @@ Overall status: **strong alpha; not yet scientifically or operationally complete
 
 | # | Goal | Current measured outcome | Status / interpretation |
 |---:|---|---|---|
-| 7 | Basic benchmark curriculum | 5/200 registered slots ready; 195 explicitly missing. | Early coverage only. |
+| 7 | Complete blind benchmark curriculum | The superseding current receipt registers 200/200 slots with zero missing or invalid: 100 historical and 100 synthetic, split into 100 proof artifacts and 100 exact counterexamples. All 200 candidates were sealed before one atomic target-rule opening; all eight preregistered thresholds pass. The former 5/200 receipt remains bound as superseded historical evidence. | Bounded curriculum build-out achieved; performance outside the registered curriculum remains unclaimed. |
 | 8 | Cross-generator alpha | Seven candidates: 4 PASS, 1 BLOCK, 1 REJECT, 1 ERROR; four entered exact Pareto ranking. | End-to-end pipeline exercised. |
 | 9 | Prospective blind tournament | Three unseen worlds x seven families = 21 candidates; two worlds passed and one rejected. Both passes depended on Bayesian proposals. | Genuine bounded success; weak portfolio robustness. |
 | 10 | Robustness and ablation | 8/8 CPU replay seeds exact; 168 evaluations and 336 gate comparisons stable. Removing Bayesian flipped both successful worlds; removing any other family changed none. | Reproducible but Bayesian-dependent. |
 | 11 | Non-Bayesian recovery | Retrospective repair generated 48 candidates and recovered both frozen worlds. A prospective repaired tournament generated 72 candidates: 12 PASS, 60 REJECT, all three worlds recovered. | Breadth improved; worlds remain bounded and simple. |
 | 12 | Blind semantic formula guessing | Three structured worlds x seven families: 0 PASS, 21 REJECT, 21 exact counterexamples. | Honest failure: hidden formulas were not learnable from the public input. |
 | 13 | Constraint-conditioned semantic recovery | Quartic polynomial, partial fraction, and recurrence worlds: 21/21 candidates passed with exact certificates. Controls: 2 BLOCK, 1 REJECT. | Major bounded success. |
-| 14 | Native independent discovery | A preregistered integer-polynomial world produced three non-Bayesian candidates before one target unseal. A native Newton forward-difference constructor recovered `[11,-3,0,2,-1]` and passed exact coefficient identity; fixed grammar and e-graph baselines were exactly rejected. Counts: 1 PASS, 2 REJECT, one identity certificate, two counterexamples, zero generic-solver calls, and zero floating-point operations. | Bounded native-construction goal achieved for one consecutive-grid polynomial world. Multi-world, non-polynomial, and independently isolated target trials remain open. |
+| 14 | Native independent discovery | The polynomial control remains 1 PASS, 2 REJECT. A second target-sealed tournament adds two non-polynomial worlds—linear-fractional rational and shifted exponential—across three native non-Bayesian families: 4 PASS, 2 REJECT, four exact certificates, two counterexamples, one denied pre-unseal probe exposing zero bytes, one atomic target read, and zero generic-solver, Formula Job, Bayesian, or post-unseal tuning calls. Every leave-one-family-out row retains a PASS for both classes. | Multi-world, non-polynomial isolation is achieved for these bounded classes; broader mathematics and open-ended discovery remain unclaimed. |
 
 ## C. Independent proof checking
 
@@ -104,11 +104,10 @@ Overall status: **strong alpha; not yet scientifically or operationally complete
    block carrying replayable leaf/root provenance.
 7. Run and archive a fresh sustained scheduler/recovery campaign with current lease,
    checkpoint, resource-admission, and terminal queue evidence.
-8. Extend native construction beyond one consecutive-grid polynomial world and test
-   non-polynomial discovery without delegating the mathematical solve to the generic
-   exact solver.
-9. Expand the 5/200 benchmark curriculum and the 181-record prior-art snapshot using
-   independent sources and externally checked proofs.
+8. Extend the now-complete 200/200 bounded curriculum with genuinely external,
+   independently sourced targets while preserving the frozen isolation and proof rules.
+9. Expand the 181-record prior-art snapshot using independently sourced corpora and
+   externally checked equivalence controls; corpus absence must remain non-novelty.
 10. Resolve review feedback, reproduce the release from a clean checkout, and convert
     draft PR #1 into an intentionally reviewed merge-ready release.
 
