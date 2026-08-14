@@ -93,6 +93,9 @@ D2_PRINCIPAL_PROJECTION_RECEIPT = ROOT / (
 D2_LOWER_PROJECTION_RECEIPT = ROOT / (
     "runs/physics-language/quartic-lower-coordinate-covariant-projection-gate/campaign.json"
 )
+D2_REACHABLE_LEAF_COMPLETION_RECEIPT = ROOT / (
+    "runs/physics-language/quartic-reachable-leaf-derivative-completion-gate/campaign.json"
+)
 SYSTEM11_SOLAR_AUTHORIZATION_RECEIPT = ROOT / (
     "runs/math/system11-g2-solar-authorization-closure/receipt.json"
 )
@@ -460,7 +463,18 @@ def test_matter_and_p55_counts_are_projected_from_checked_receipts() -> None:
     assert lower_projection["claim_seals"]["all_54_lower_coordinate_directions_projected"]
     assert lower_projection["claim_seals"]["D2_entry_count_advanced"] is False
     assert "remaining 54 q/p directions" in text
-    assert "31,680 reachable A/B/C" in text
+    leaf_completion = _load(D2_REACHABLE_LEAF_COMPLETION_RECEIPT)
+    leaf_counts = leaf_completion["gate_counts"]
+    assert leaf_counts["reachable_leaf_derivative_obligations"] == 31_680
+    assert leaf_counts["registered_exact_leaf_derivative_roots"] == 31_680
+    assert leaf_counts["nonzero_leaf_derivative_roots"] == 396
+    assert leaf_counts["exact_zero_leaf_derivative_roots"] == 31_284
+    assert leaf_counts["bounded_ordered_D2_roots_registered"] == 264
+    assert leaf_counts["remaining_coordinate_columns_without_A_B_C_leaf_authority"] == 131
+    assert leaf_completion["claim_seals"]["all_31680_reachable_leaf_derivative_roots_registered"]
+    assert leaf_completion["claim_seals"]["D2_entry_count_advanced"] is False
+    assert "all 31,680 A/B/C component-input roots" in text
+    assert "remaining 131 coordinate columns" in text
 
 
 def test_system11_authorization_closure_is_current_and_target_free() -> None:
