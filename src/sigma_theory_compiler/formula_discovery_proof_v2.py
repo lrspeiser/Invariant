@@ -177,7 +177,7 @@ def _rational_source(spec: Mapping[str, Any], *, false: bool) -> tuple[str, str,
 
 namespace Invariant
 
-theorem {target.rsplit('.', 1)[1]} (x : Rat) (denominator_nonzero : x - {denominator} ≠ 0) :
+theorem {target.rsplit(".", 1)[1]} (x : Rat) (denominator_nonzero : x - {denominator} ≠ 0) :
     ((x + {numerator}) * (x - {denominator})) / (x - {denominator}) = x + {rhs} := by
   exact Rat.mul_div_cancel denominator_nonzero
 
@@ -203,11 +203,11 @@ def _recurrence_source(spec: Mapping[str, Any], *, false: bool) -> tuple[str, st
 namespace Invariant
 
 def {sequence} : Nat -> Nat
-  | 0 => {spec['base_zero']}
-  | 1 => {spec['base_one']}
+  | 0 => {spec["base_zero"]}
+  | 1 => {spec["base_one"]}
   | n + 2 => {left} * {sequence} (n + 1) + {actual_right} * {sequence} n
 
-theorem {target.rsplit('.', 1)[1]} (n : Nat) :
+theorem {target.rsplit(".", 1)[1]} (n : Nat) :
     {sequence} (n + 2) =
       {left} * {sequence} (n + 1) + {stated_right} * {sequence} n := by
   rfl
@@ -230,8 +230,8 @@ def _nonidentity_source(spec: Mapping[str, Any], *, false: bool) -> tuple[str, s
 
 namespace Invariant
 
-theorem {target.rsplit('.', 1)[1]} (n : Nat) :
-    {spec['slope']} * n + {spec['left_offset']} ≠ {spec['slope']} * n + {right} := by
+theorem {target.rsplit(".", 1)[1]} (n : Nat) :
+    {spec["slope"]} * n + {spec["left_offset"]} ≠ {spec["slope"]} * n + {right} := by
   omega
 
 end Invariant{audit}
@@ -267,8 +267,10 @@ def _resolve_executable(
     executable: str | Path | None, environment: Mapping[str, str] | None
 ) -> Path:
     environment = os.environ if environment is None else environment
-    raw = os.fspath(executable) if executable is not None else environment.get(
-        "INVARIANT_LEAN_EXECUTABLE"
+    raw = (
+        os.fspath(executable)
+        if executable is not None
+        else environment.get("INVARIANT_LEAN_EXECUTABLE")
     )
     if not raw:
         raw = shutil.which("lean")
@@ -314,9 +316,7 @@ def _run_source(
         (root / "lean-toolchain").write_text(
             "leanprover/lean4:v4.33.0\n", encoding="utf-8", newline="\n"
         )
-        return run_lean_adapter(
-            _config(spec, executable, false=false), source_path, environment={}
-        )
+        return run_lean_adapter(_config(spec, executable, false=false), source_path, environment={})
 
 
 def _assert_execution(
@@ -456,16 +456,12 @@ def _validate_adapter_static(
         raise FormulaDiscoveryProofV2Error("proof-v2 adapter receipt seal changed")
     executable = receipt.get("executable", {})
     manifest = build_allowed_premise_manifest(_config(spec, Path("lean"), false=false))
-    if (
-        receipt.get("manifest_sha256") != manifest["content_sha256"]
-        or executable
-        != {
-            "configured": True,
-            "discovered": True,
-            "discovery_source": "explicit",
-            "identity_sha256": toolchain_sha,
-        }
-    ):
+    if receipt.get("manifest_sha256") != manifest["content_sha256"] or executable != {
+        "configured": True,
+        "discovered": True,
+        "discovery_source": "explicit",
+        "identity_sha256": toolchain_sha,
+    }:
         raise FormulaDiscoveryProofV2Error("proof-v2 adapter identity or premise seal changed")
     _assert_execution(receipt, spec, source, false=false)
 
@@ -556,9 +552,7 @@ def validate_proof_v2_receipt(value: Mapping[str, Any]) -> None:
             or false.get("source_sha256") != _sha_text(false_source)
         ):
             raise FormulaDiscoveryProofV2Error("proof-v2 generated case binding changed")
-        _validate_adapter_static(
-            case["adapter_receipt"], spec, source, executable_sha, false=False
-        )
+        _validate_adapter_static(case["adapter_receipt"], spec, source, executable_sha, false=False)
         _validate_rejection_static(false["adapter_receipt"], spec, false_source, executable_sha)
 
 
@@ -586,7 +580,9 @@ def write_proof_v2_receipt(receipt: Mapping[str, Any], output_path: Path) -> Pat
         with output_path.open("x", encoding="utf-8", newline="\n") as handle:
             handle.write(payload)
     except OSError as error:
-        raise FormulaDiscoveryProofV2Error("proof-v2 receipt could not be published immutably") from error
+        raise FormulaDiscoveryProofV2Error(
+            "proof-v2 receipt could not be published immutably"
+        ) from error
     return output_path
 
 

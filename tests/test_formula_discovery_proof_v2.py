@@ -185,9 +185,8 @@ def test_public_cli_emits_pass_and_visible_reject_controls(tmp_path: Path, capsy
         "REJECT",
         "REJECT",
     ]
-    assert (
-        main(["proof-v2-validate", "--result", str(path), "--lean", str(lean)])
-        == EXIT_PASS
-    )
+    assert main(["proof-v2-validate", "--result", str(path), "--lean", str(lean)]) == EXIT_PASS
     assert json.loads(capsys.readouterr().out)["decision"] == "PASS"
-    assert main(["proof-v2-run", "--result", str(path), "--lean", str(lean)]) == EXIT_OPERATIONAL_ERROR
+    assert (
+        main(["proof-v2-run", "--result", str(path), "--lean", str(lean)]) == EXIT_OPERATIONAL_ERROR
+    )
