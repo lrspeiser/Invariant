@@ -57,9 +57,7 @@ class System11SolarAuthorizationError(ValueError):
 def _load_json(path: Path, *, size_limit: int = 2_000_000) -> dict[str, Any]:
     try:
         if not path.is_file() or path.stat().st_size > size_limit:
-            raise System11SolarAuthorizationError(
-                f"JSON source missing or oversized: {path.name}"
-            )
+            raise System11SolarAuthorizationError(f"JSON source missing or oversized: {path.name}")
         value = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, UnicodeError, json.JSONDecodeError) as error:
         raise System11SolarAuthorizationError(f"cannot read JSON: {path.name}") from error
@@ -80,9 +78,9 @@ def _resolve(root: Path, relative: str) -> Path:
 
 
 def _semantic_sha256(value: Mapping[str, Any]) -> str:
-    encoded = json.dumps(
-        value, sort_keys=True, separators=(",", ":"), ensure_ascii=False
-    ).encode("utf-8")
+    encoded = json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode(
+        "utf-8"
+    )
     return hashlib.sha256(encoded).hexdigest()
 
 
@@ -140,9 +138,7 @@ def _validate_config(config: Mapping[str, Any]) -> None:
         _require_sha(descriptor["semantic_sha256"], f"binding {role}")
 
 
-def _load_bound_values(
-    root: Path, config: Mapping[str, Any]
-) -> dict[str, dict[str, Any]]:
+def _load_bound_values(root: Path, config: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
     values: dict[str, dict[str, Any]] = {}
     for role, descriptor in sorted(config["source_bindings"].items()):
         value = _load_json(_resolve(root, descriptor["path"]))
@@ -275,8 +271,7 @@ def build_receipt(root: Path) -> dict[str, Any]:
             "candidates": 2,
             "bound_metadata_artifacts_audited": len(values),
             "unique_missing_external_opening_fields": len(_OBLIGATIONS),
-            "missing_external_opening_obligations": len(_CANDIDATES)
-            * len(_OBLIGATIONS),
+            "missing_external_opening_obligations": len(_CANDIDATES) * len(_OBLIGATIONS),
             "already_authorized_observational_artifacts": 0,
             "primary_record_accesses": 0,
             "held_out_target_accesses": 0,
@@ -313,9 +308,7 @@ def build_receipt(root: Path) -> dict[str, Any]:
     return result
 
 
-def _descriptor_document(
-    root: Path, descriptor: object, label: str
-) -> tuple[dict[str, Any], str]:
+def _descriptor_document(root: Path, descriptor: object, label: str) -> tuple[dict[str, Any], str]:
     if not isinstance(descriptor, Mapping) or set(descriptor) != {
         "path",
         "semantic_sha256",

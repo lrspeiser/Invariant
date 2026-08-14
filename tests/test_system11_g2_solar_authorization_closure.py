@@ -39,8 +39,7 @@ def _read(path: Path) -> dict[str, object]:
 def _write(path: Path, value: dict[str, object]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(
-        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
-        + "\n",
+        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n",
         encoding="utf-8",
         newline="\n",
     )
@@ -168,9 +167,7 @@ def test_no_target_or_primary_payload_was_read() -> None:
         "primary_record_access_count": 0,
         "real_data_evaluation_count": 0,
     }
-    assert result["authorization_inventory"][
-        "already_authorized_observational_artifacts"
-    ] == 0
+    assert result["authorization_inventory"]["already_authorized_observational_artifacts"] == 0
 
 
 def test_one_shot_budget_and_launch_command_are_frozen() -> None:
@@ -186,9 +183,7 @@ def test_one_shot_budget_and_launch_command_are_frozen() -> None:
     assert launch["target_data_read_by_preflight"] is False
     assert "--consume-once-output" in launch["command"]
     audit = result["execution_implementation_audit"]
-    assert audit["action_bound_real_record_likelihood_executor"] == (
-        "block_not_registered"
-    )
+    assert audit["action_bound_real_record_likelihood_executor"] == ("block_not_registered")
     assert audit["preflight_command_executes_observational_evaluation"] is False
 
 
@@ -207,8 +202,8 @@ def test_resealed_false_local_authorization_fails_closed(tmp_path: Path) -> None
     transfer = _read(root / relative)
     transfer["observational_authorization"] = True
     _write(root / relative, transfer)
-    config["source_bindings"]["transfer_registration"]["semantic_sha256"] = (
-        _semantic_sha256(transfer)
+    config["source_bindings"]["transfer_registration"]["semantic_sha256"] = _semantic_sha256(
+        transfer
     )
     _write(root / CONFIG_PATH, config)
     with pytest.raises(System11SolarAuthorizationError, match="sealed boundary changed"):
@@ -239,14 +234,10 @@ def test_authorization_sign_corruption_fails(tmp_path: Path) -> None:
     authorization = _read(authorization_path)
     authorization["refits_after_open"] = 1
     _write(authorization_path, authorization)
-    packet["independent_authorization"]["semantic_sha256"] = canonical_sha256(
-        authorization
-    )
+    packet["independent_authorization"]["semantic_sha256"] = canonical_sha256(authorization)
     _write(packet_path, packet)
     with pytest.raises(System11SolarAuthorizationError, match="refits_after_open"):
-        validate_and_consume_opening_packet(
-            tmp_path, packet_path, tmp_path / "opening/result.json"
-        )
+        validate_and_consume_opening_packet(tmp_path, packet_path, tmp_path / "opening/result.json")
 
 
 def test_empty_primary_root_manifest_fails(tmp_path: Path) -> None:
@@ -260,14 +251,10 @@ def test_empty_primary_root_manifest_fails(tmp_path: Path) -> None:
     authorization = _read(authorization_path)
     authorization["selected_primary_record_roots_sha256"] = canonical_sha256(roots)
     _write(authorization_path, authorization)
-    packet["independent_authorization"]["semantic_sha256"] = canonical_sha256(
-        authorization
-    )
+    packet["independent_authorization"]["semantic_sha256"] = canonical_sha256(authorization)
     _write(packet_path, packet)
     with pytest.raises(System11SolarAuthorizationError, match="not admissible"):
-        validate_and_consume_opening_packet(
-            tmp_path, packet_path, tmp_path / "opening/result.json"
-        )
+        validate_and_consume_opening_packet(tmp_path, packet_path, tmp_path / "opening/result.json")
 
 
 def test_opening_descriptor_cannot_escape_root(tmp_path: Path) -> None:
@@ -275,6 +262,4 @@ def test_opening_descriptor_cannot_escape_root(tmp_path: Path) -> None:
     packet["held_out_split_commitment"]["path"] = "../split.json"
     _write(packet_path, packet)
     with pytest.raises(System11SolarAuthorizationError, match="escapes project root"):
-        validate_and_consume_opening_packet(
-            tmp_path, packet_path, tmp_path / "opening/result.json"
-        )
+        validate_and_consume_opening_packet(tmp_path, packet_path, tmp_path / "opening/result.json")

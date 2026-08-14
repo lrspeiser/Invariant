@@ -75,6 +75,12 @@ D2_CROSS_DIRECTION_RECEIPT = ROOT / (
 D2_COORDINATE_COMPLEMENT_RECEIPT = ROOT / (
     "runs/physics-language/quartic-full-coordinate-tangent-complement-checkpoint-gate/campaign.json"
 )
+D2_PRINCIPAL_PROJECTION_RECEIPT = ROOT / (
+    "runs/physics-language/quartic-principal-second-jet-covariant-projection-gate/campaign.json"
+)
+SYSTEM11_SOLAR_AUTHORIZATION_RECEIPT = ROOT / (
+    "runs/math/system11-g2-solar-authorization-closure/receipt.json"
+)
 BATCH_RECEIPT = ROOT / (
     "runs/engine/continuous-scientific-pipeline-epoch-003-formal-receipt-batch-0005/result.json"
 )
@@ -380,7 +386,36 @@ def test_matter_and_p55_counts_are_projected_from_checked_receipts() -> None:
     assert complement["gate_counts"]["new_D2_entries_registered_per_candidate"] == 0
     assert complement["claim_seals"]["physical_covariant_component_projection_registered"] is False
     assert "all 153 unique coordinate directions are now sealed" in text
-    assert "physical coordinate-to-covariant projection" in text
+    projection = _load(D2_PRINCIPAL_PROJECTION_RECEIPT)
+    assert projection["gate_counts"]["principal_second_jet_projection_directions"] == 99
+    assert (
+        projection["gate_counts"]["new_unique_projection_directions_registered_per_candidate"] == 79
+    )
+    assert projection["gate_counts"]["remaining_lower_jet_projection_directions"] == 54
+    assert projection["gate_counts"]["D2_entries_registered_per_candidate"] == 5_324
+    assert projection["claim_seals"]["formal_22_slot_to_20_unique_alias_reconciled"] is True
+    assert projection["claim_seals"]["D2_entry_count_advanced"] is False
+    assert "all 99 principal second-jet directions" in text
+    assert "54 lower q/p directions" in text
+
+
+def test_system11_authorization_closure_is_current_and_target_free() -> None:
+    text = DOCUMENT.read_text(encoding="utf-8")
+    receipt = _load(SYSTEM11_SOLAR_AUTHORIZATION_RECEIPT)
+    counts = receipt["counts"]
+    assert receipt["decision"] == "block"
+    assert counts["bound_metadata_artifacts_audited"] == 10
+    assert counts["already_authorized_observational_artifacts"] == 0
+    assert counts["missing_external_opening_obligations"] == 8
+    assert counts["primary_record_accesses"] == 0
+    assert counts["held_out_target_accesses"] == 0
+    assert counts["real_data_evaluations"] == 0
+    assert (
+        receipt["execution_implementation_audit"]["action_bound_real_record_likelihood_executor"]
+        == "block_not_registered"
+    )
+    assert "audits 10 bound metadata artifacts" in text
+    assert "action-bound real-record likelihood executor" in text
 
 
 def test_continuous_cursor_counts_and_product_milestones_are_current() -> None:
