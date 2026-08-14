@@ -48,11 +48,20 @@ K55_TAYLOR_ZERO_RECEIPT = ROOT / (
 TC2_TAYLOR_ZERO_RECEIPT = ROOT / (
     "runs/physics-language/quartic-tc2-d4-tc2-taylor-order-zero-registration/campaign.json"
 )
+ORDER_ONE_FRONTIER_RECEIPT = ROOT / (
+    "runs/physics-language/quartic-tc2-d4-order-one-serialization-frontier-gate/campaign.json"
+)
+P55_ORDER_ONE_MATERIALIZER_RESULT = ROOT / (
+    "runs/physics-language/quartic-tc2-d4-order-one-p55-checkpointable-materializer/result.json"
+)
+P55_ORDER_ONE_RECEIPT = ROOT / (
+    "runs/physics-language/quartic-tc2-d4-p55-taylor-order-one-registration/campaign.json"
+)
 D2_CROSS_DIRECTION_RECEIPT = ROOT / (
     "runs/physics-language/quartic-registered-direction-cross-leaf-d2-replay-gate/campaign.json"
 )
 BATCH_RECEIPT = ROOT / (
-    "runs/engine/continuous-scientific-pipeline-epoch-003-formal-receipt-batch-0003/result.json"
+    "runs/engine/continuous-scientific-pipeline-epoch-003-formal-receipt-batch-0005/result.json"
 )
 NATIVE_RECEIPT = ROOT / "runs/math/native-newton-blind-polynomial-tournament/receipt.json"
 MAXWELL_RECEIPT = ROOT / "runs/math/maxwell-hilbert-noether-interface-gate/receipt.json"
@@ -98,6 +107,12 @@ COMMON_TIME_SYMMETRIZER_RECEIPT = ROOT / (
 )
 RESONANT_COMPATIBILITY_RECEIPT = ROOT / (
     "runs/math/quartic-85-state-resonant-projector-compatibility-gate/receipt.json"
+)
+FULL_SPHERE_RESONANT_RECEIPT = ROOT / (
+    "runs/math/quartic-85-state-full-sphere-resonant-compatibility-gate/receipt.json"
+)
+NONRESONANT_SYLVESTER_RECEIPT = ROOT / (
+    "runs/math/quartic-85-state-nonresonant-sylvester-complement-gate/receipt.json"
 )
 
 
@@ -242,8 +257,31 @@ def test_matter_and_p55_counts_are_projected_from_checked_receipts() -> None:
     assert tc2_zero["counts"]["unit_TC2_sparse_linear_coefficients"] == 8
     assert tc2_zero["claims"]["all_15_TC2_Taylor_order_zero_packets_registered"] is True
     assert tc2_zero["claims"]["full_direction_sphere_D4_compatibility_proved"] is False
-    assert "manifest is now 64/304" in text
-    assert "BLOCKED on 240 packets" in text
+    assert "manifest to 79/304" in text
+    assert "BLOCKED on 225 packets" in text
+    frontier = _load(ORDER_ONE_FRONTIER_RECEIPT)
+    assert frontier["status"] == "block_coordinate_free_P55_Taylor_order_one_serialization_absent"
+    assert frontier["counts"]["target_P55_Taylor_order_one_packets"] == 15
+    assert frontier["counts"]["serialized_P55_Taylor_order_one_packets"] == 0
+    assert frontier["counts"]["serialized_M0_inverse_packets"] == 0
+    assert frontier["counts"]["serialized_M1_packets"] == 0
+    assert frontier["counts"]["serialized_E1_packets"] == 0
+    assert frontier["counts"]["admissible_coordinate_free_deltaK_order_zero_packets"] == 0
+    assert frontier["claims"]["order_one_serialization_frontier_exactly_measured"] is True
+    assert frontier["claims"]["P55_Taylor_order_one_registered"] is False
+    assert "P_1=M_0^-1(E_1-M_1P_0)" in text
+    materializer = _load(P55_ORDER_ONE_MATERIALIZER_RESULT)
+    assert materializer["status"] == "pass_exact_15_P55_Taylor_order_one_packets_materialized"
+    assert materializer["counts"]["basis_jet_packets"] == 4
+    assert materializer["counts"]["basis_axis_matrices"] == 12
+    assert materializer["counts"]["P55_Taylor_order_one_packets"] == 15
+    assert materializer["counts"]["manifest_registered_after"] == 79
+    order_one = _load(P55_ORDER_ONE_RECEIPT)
+    assert order_one["counts"]["new_P55_Taylor_order_one_packets_registered"] == 15
+    assert order_one["counts"]["registered_symbolic_input_packets"] == 79
+    assert order_one["counts"]["missing_symbolic_input_packets"] == 225
+    assert order_one["counts"]["P55_Taylor_order_one_distinct_matrix_cells"] == 440
+    assert order_one["claims"]["all_15_P55_Taylor_order_one_packets_registered"] is True
 
     d2_cross = _load(D2_CROSS_DIRECTION_RECEIPT)
     assert d2_cross["gate_counts"]["new_off_diagonal_records_all_candidates"] == 60_984
@@ -259,13 +297,13 @@ def test_continuous_cursor_counts_and_product_milestones_are_current() -> None:
     text = DOCUMENT.read_text(encoding="utf-8")
     batch = _load(BATCH_RECEIPT)
     counts = batch["counts"]
-    assert counts["cumulative_formally_checked_candidates"] == 226
-    assert counts["cumulative_newly_processed_candidates"] == 224
+    assert counts["cumulative_formally_checked_candidates"] == 314
+    assert counts["cumulative_newly_processed_candidates"] == 312
     assert counts["cumulative_reconciled_preserved_candidates"] == 2
-    assert counts["cumulative_candidate_rejects"] == 226
-    assert counts["remaining_pending_formal_receipts"] == 11_023
-    assert "226 checked, 224 new, two reconciled" in text
-    assert "11,023 pending" in text
+    assert counts["cumulative_candidate_rejects"] == 314
+    assert counts["remaining_pending_formal_receipts"] == 10_935
+    assert "314 checked, 312 new, two reconciled" in text
+    assert "10,935 pending" in text
 
     assert (ROOT / "src/sigma_theory_compiler/formula_discovery_job.py").is_file()
     assert (ROOT / "src/sigma_theory_compiler/formula_discovery_cli.py").is_file()
@@ -487,8 +525,31 @@ def test_fluid_followups_close_action_and_stress_only() -> None:
     assert resonant["counts"]["full_coupled_symmetrizers"] == 0
     assert resonant["claims"]["exact_resonant_compatibility_all_four_potential_components"] is True
     assert resonant["claims"]["all_spatial_directions_closed"] is False
-    assert "13,200/13,200 zero entries" in text
-    assert "Coupled symmetrizers remain a typed BLOCK" in text
+    sphere_resonant = _load(FULL_SPHERE_RESONANT_RECEIPT)
+    assert (
+        sphere_resonant["decision"]
+        == "PASS_EXACT_FULL_SPHERE_RESONANT_COMPATIBILITY_FLAT_REFERENCE"
+    )
+    assert sphere_resonant["counts"]["full_vacuum_projectors"] == 2
+    assert sphere_resonant["counts"]["full_maxwell_cross_coefficients"] == 12
+    assert sphere_resonant["counts"]["resonant_sphere_reductions"] == 8
+    assert sphere_resonant["counts"]["resonant_normal_form_nonzero_entries"] == 0
+    assert sphere_resonant["counts"]["nonresonant_sylvester_solutions"] == 0
+    assert sphere_resonant["claims"]["exact_unit_sphere_resonant_compatibility_closed"] is True
+    assert sphere_resonant["claims"]["full_coupled_symmetrizer_closed"] is False
+    nonresonant = _load(NONRESONANT_SYLVESTER_RECEIPT)
+    assert nonresonant["decision"] == "PASS_EXACT_FLAT_SPHERE_NONRESONANT_SYLVESTER_COMPLEMENT"
+    assert nonresonant["counts"]["potential_component_solutions"] == 4
+    assert nonresonant["counts"]["spectral_block_records"] == 48
+    assert nonresonant["counts"]["exact_sylvester_residual_nonzero_entries"] == 0
+    assert nonresonant["counts"]["uniform_solution_bounds"] == 4
+    assert nonresonant["counts"]["bounded_B_schur_domains"] == 0
+    assert nonresonant["claims"]["exact_flat_sphere_nonresonant_sylvester_solution_closed"] is True
+    assert nonresonant["claims"]["full_coupled_symmetrizer_closed"] is False
+    assert "592 polynomial entries and 1,918 normal-form terms each" in text
+    assert "companion-restricted packet serialization is explicitly non-authoritative" in text
+    assert "resonant and nonresonant Sylvester equations are closed" in text
+    assert "Schur-complement positivity remains a typed BLOCK" in text
     assert "This is not a physical Jordan no-go" in text
 
 

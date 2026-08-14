@@ -105,10 +105,8 @@ def test_conflicting_line_endings_choose_first_reachable_registration(tmp_path: 
     (configs / "a-authoritative.json").write_text(
         json.dumps(
             {
-                "source": {
-                    "path": "src/example.py",
-                    "file_sha256": hashlib.sha256(source_crlf).hexdigest(),
-                }
+                "source_path": "src/example.py",
+                "source_file_sha256": hashlib.sha256(source_crlf).hexdigest(),
             }
         ),
         encoding="utf-8",

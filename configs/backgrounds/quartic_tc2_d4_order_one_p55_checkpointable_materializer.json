@@ -1,0 +1,61 @@
+{
+  "schema_version": "sigma-quartic-tc2-d4-order-one-p55-checkpointable-materializer-config-1.0",
+  "policy": "exact_basis_jet_P55_order_one_materialization_fail_closed",
+  "upstreams": {
+    "order_one_frontier": {
+      "path": "runs/physics-language/quartic-tc2-d4-order-one-serialization-frontier-gate/campaign.json",
+      "file_sha256": "af2234aa94ecc1140ab8d44d0ae5f680e3341ba3eb36b2ce1d220695e5bc2da3",
+      "content_sha256": "583f7dc976a90a3311d755a89b824708a6a3bf17fd0a9b9f45e34943aae82776"
+    },
+    "flat_P55_checkpoint": {
+      "path": "runs/physics-language/quartic-tc2-d4-p55-checkpointable-materializer/result.json",
+      "file_sha256": "9e79245d45c248d5abf1b2fd11b12bb7ca0c857286d31f8bf46b7ec7c43490b2",
+      "content_sha256": "25ced42ac83bd592332f3d3a8bc97eeaac9c55b32ba4bb2be3e3da1fa6b503b7"
+    },
+    "polarization_registration": {
+      "path": "runs/physics-language/quartic-tc2-d4-coordinate-free-p55-taylor-order-zero-registration/campaign.json",
+      "file_sha256": "e0814fa3fd8a046fec4cbd85c230faa652260dc934d4096f6e3c38b73381d091",
+      "content_sha256": "71bbd9966e3212440ef92952eab7f06d860de3f59dfaa861753f03dd53850273"
+    }
+  },
+  "live_source": {
+    "path": "src/sigma_theory_compiler/quartic_first_order_reduction_campaign.py",
+    "file_sha256": "a94b2886dc0edd228735ad3e06d10f43717ccff93d861f8672010db0c7296130",
+    "required_functions": [
+      "_symbol_data",
+      "_extract_spatial_blocks",
+      "_full_first_order_pencil"
+    ]
+  },
+  "basis_jet_directions": ["G_12", "G_01", "H_01", "H_11"],
+  "target": {
+    "state_dimension": 55,
+    "spatial_axes": 3,
+    "basis_jet_packets": 4,
+    "basis_axis_matrices": 12,
+    "polarization_evaluations": 15,
+    "Taylor_order": 1,
+    "factorial_normalization": "1/1!=1",
+    "registered_manifest_before": 64,
+    "registered_manifest_after_complete": 79,
+    "required_manifest_packets": 304
+  },
+  "caps": {
+    "C1": {
+      "wall_seconds": 2700,
+      "rss_bytes": 8589934592
+    },
+    "C2": {
+      "wall_seconds": 300,
+      "rss_bytes": 2147483648
+    },
+    "poll_seconds": 1,
+    "maximum_checkpoint_bytes": 8388608
+  },
+  "seals": {
+    "live_SQLite_opened": false,
+    "GPU_execution_used": false,
+    "observations_opened": false
+  },
+  "content_sha256": "b42a15cb7c9ed27058cc064be660c99aa080d678372b9662bcacf1cd25d005c8"
+}

@@ -28,6 +28,20 @@ def _bindings(value: Any) -> list[tuple[str, str]]:
         file_sha = value.get("file_sha256")
         if isinstance(path, str) and isinstance(file_sha, str) and len(file_sha) == 64:
             found.append((path, file_sha))
+        # Some active runtime configs use flat named pairs rather than a nested
+        # binding object, for example ``formal_controls_path`` together with
+        # ``formal_controls_file_sha256``.  Treat those as first-class bindings
+        # so live config contracts take precedence over later historical
+        # artifact registrations for the same semantic file.
+        for key, candidate_path in value.items():
+            if not key.endswith("_path") or not isinstance(candidate_path, str):
+                continue
+            prefix = key.removesuffix("_path")
+            for digest_key in (f"{prefix}_file_sha256", f"{prefix}_sha256"):
+                digest = value.get(digest_key)
+                if isinstance(digest, str) and len(digest) == 64:
+                    found.append((candidate_path, digest))
+                    break
         for child in value.values():
             found.extend(_bindings(child))
     elif isinstance(value, list):
