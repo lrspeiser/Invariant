@@ -166,7 +166,7 @@ def test_registry_contains_each_goal_once_and_retains_incomplete_boundary() -> N
     assert "one typed-partition byte-authority failure" in text
     assert "one 30-minute shard timeout" in text
     assert "A new 39/39 clean-clone receipt is mandatory before merge" in text
-    assert "72 exact paths" in text
+    assert "75 exact paths" in text
 
 
 def test_matter_and_p55_counts_are_projected_from_checked_receipts() -> None:
