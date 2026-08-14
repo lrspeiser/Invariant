@@ -1,0 +1,18 @@
+{
+  "schema_version": "sigma-quartic-tc2-d4-higher-h-star-materializer-config-1.0",
+  "policy": "differentiate_authoritative_action_symbol_never_infer_zero_packets",
+  "upstreams": {
+    "higher_P55": {"path": "runs/physics-language/quartic-tc2-d4-higher-p55-checkpointable-materializer/result.json", "file_sha256": "8aca37673e05e611618c595a5246aee40c9fe6d0f7dcdae396b09dd1aa4b6afc", "content_sha256": "93ae332485d8718311125b1ed16ad5e7006520c9d5fcf87f40461898f4a9e284"},
+    "H_star_order_one": {"path": "runs/physics-language/quartic-tc2-d4-h-star-order-one-checkpointable-materializer/result.json", "file_sha256": "f6e4a590a1b63e53b8a440a66a4db4c124f4c069eca17392d537139da73907dd", "content_sha256": "404ac846b580dff90e168f5d24e1314ef0480716a7771d5b6ab8b48cd8b755ee"},
+    "polarization": {"path": "runs/physics-language/quartic-tc2-d4-coordinate-free-p55-taylor-order-zero-registration/campaign.json", "file_sha256": "e0814fa3fd8a046fec4cbd85c230faa652260dc934d4096f6e3c38b73381d091", "content_sha256": "71bbd9966e3212440ef92952eab7f06d860de3f59dfaa861753f03dd53850273"},
+    "flat_action_metric": {"path": "runs/physics-language/quartic-tc2-d4-flat-action-metric-registration/campaign.json", "file_sha256": "ef0e7bb964947e4b19b6b62aa1e7e571abe66c17c23e60070956098d8e101941", "content_sha256": "82b89bb823c0382e6a80918dd03bc7a1d46f059845a41ced86922dd79c30fd73"}
+  },
+  "live_sources": {
+    "symbol_builder": {"path": "src/sigma_theory_compiler/quartic_first_order_reduction_campaign.py", "file_sha256": "f8582a16f3f629c2b4d220362b48e3582efa1e07cf21941a0bd0e4bf7f40e574"},
+    "generalized_pencil": {"path": "src/sigma_theory_compiler/horndeski_principal.py", "file_sha256": "aa6163c32ec125fa35c860832605927801a3101fe570e6d88edc20668b4348f3"}
+  },
+  "basis_jet_directions": ["G_12", "G_01", "H_01", "H_11"],
+  "target": {"Taylor_orders": [2, 3, 4], "polarization_evaluations": 15, "packets": 45, "shape_each": [22, 22]},
+  "caps": {"maximum_checkpoint_bytes": 8388608},
+  "content_sha256": "e635bcb7d8469d88a15f4ef05976206a5715bd12153f38c491beafb3b6c4c864"
+}
