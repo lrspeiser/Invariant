@@ -1,0 +1,59 @@
+{
+  "schema_version": "system5-counterexample-guided-repair-config-1.0",
+  "repair_id": "system5.quadratic.counterexample.repair",
+  "max_rounds": 2,
+  "repair_basis_append": [
+    "x**2"
+  ],
+  "initial_problem": {
+    "schema_version": "sigma-formula-discovery-problem-1.0",
+    "job_id": "system5.quadratic.round1",
+    "variable": "x",
+    "variable_domain": "integer",
+    "solver": {
+      "kind": "exact_linear_basis_v1",
+      "basis": [
+        "1",
+        "x"
+      ]
+    },
+    "constraints": {
+      "kind": "evaluations",
+      "rows": [
+        {
+          "point": {"numerator": 0, "denominator": 1},
+          "value": {"numerator": 1, "denominator": 1}
+        },
+        {
+          "point": {"numerator": 1, "denominator": 1},
+          "value": {"numerator": 3, "denominator": 1}
+        }
+      ]
+    },
+    "validation": {
+      "kind": "evaluations",
+      "rows": [
+        {
+          "point": {"numerator": 2, "denominator": 1},
+          "value": {"numerator": 7, "denominator": 1}
+        },
+        {
+          "point": {"numerator": 3, "denominator": 1},
+          "value": {"numerator": 13, "denominator": 1}
+        },
+        {
+          "point": {"numerator": 4, "denominator": 1},
+          "value": {"numerator": 21, "denominator": 1}
+        }
+      ]
+    },
+    "proof": {"kind": "none"},
+    "limits": {
+      "max_basis_terms": 8,
+      "max_constraint_rows": 16,
+      "max_expression_nodes": 128,
+      "max_integer_bits": 128,
+      "max_validation_rows": 16
+    }
+  }
+}
