@@ -19,7 +19,7 @@ TEST_PATH = "tests/test_quartic_reachable_leaf_derivative_completion_gate.py"
 OUTPUT_PATH = (
     "runs/physics-language/quartic-reachable-leaf-derivative-completion-gate/campaign.json"
 )
-CONFIG_FILE_SHA256 = "6acfe7ab5506a6cd55f86107d816815ccc244fce4f54f722c0c0e9ac89b907da"
+CONFIG_FILE_SHA256 = "2e29c29d55fda3f56ecc1e747e9717a25a96a16b295c7fc8faf120a5944f0a65"
 BUNDLE_ROLES = (
     "differentiability",
     "p10_leaf",
