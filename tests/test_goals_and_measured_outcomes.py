@@ -57,6 +57,18 @@ P55_ORDER_ONE_MATERIALIZER_RESULT = ROOT / (
 P55_ORDER_ONE_RECEIPT = ROOT / (
     "runs/physics-language/quartic-tc2-d4-p55-taylor-order-one-registration/campaign.json"
 )
+COORDINATE_FREE_K0_RECEIPT = ROOT / (
+    "runs/physics-language/quartic-tc2-d4-coordinate-free-k0-directional-lift/campaign.json"
+)
+COORDINATE_FREE_K0_POLYNOMIAL_RECEIPT = ROOT / (
+    "runs/physics-language/quartic-tc2-d4-coordinate-free-k0-polynomial-packet/campaign.json"
+)
+COORDINATE_FREE_K55_ORDER_ONE_RECEIPT = ROOT / (
+    "runs/physics-language/quartic-tc2-d4-coordinate-free-k55-order-one-registration/campaign.json"
+)
+COORDINATE_FREE_TC2_ORDER_ONE_RECEIPT = ROOT / (
+    "runs/physics-language/quartic-tc2-d4-coordinate-free-tc2-order-one-registration/campaign.json"
+)
 D2_CROSS_DIRECTION_RECEIPT = ROOT / (
     "runs/physics-language/quartic-registered-direction-cross-leaf-d2-replay-gate/campaign.json"
 )
@@ -114,6 +126,27 @@ FULL_SPHERE_RESONANT_RECEIPT = ROOT / (
 NONRESONANT_SYLVESTER_RECEIPT = ROOT / (
     "runs/math/quartic-85-state-nonresonant-sylvester-complement-gate/receipt.json"
 )
+BOUNDED_B_SYMMETRIZER_RECEIPT = ROOT / (
+    "runs/math/quartic-85-state-bounded-B-schur-symmetrizer-gate/receipt.json"
+)
+SOURCED_GRAVITY_CONSTRAINT_RECEIPT = ROOT / (
+    "runs/math/quartic-85-state-sourced-gravity-constraint-propagation-gate/receipt.json"
+)
+GRAVITY_CONSTRAINT_BASIS_RECEIPT = ROOT / (
+    "runs/math/quartic-85-state-candidate-gravity-constraint-basis-gate/receipt.json"
+)
+OFF_SHELL_EULER_DIVERGENCE_RECEIPT = ROOT / (
+    "runs/math/quartic-85-state-off-shell-gauge-fixed-euler-divergence-gate/receipt.json"
+)
+DIFFERENTIATED_GAUGE_READINESS_RECEIPT = ROOT / (
+    "runs/math/quartic-85-state-differentiated-gauge-map-readiness/receipt.json"
+)
+DIFFERENTIATED_GAUGE_MATERIALIZER_RECEIPT = ROOT / (
+    "runs/math/quartic-85-state-differentiated-gauge-map-materializer/receipt.json"
+)
+GAUGE_SCALAR_EXPANSION_RECEIPT = ROOT / (
+    "runs/math/quartic-85-state-gauge-map-scalar-coefficient-expansion-gate/receipt.json"
+)
 
 
 def _load(path: Path) -> dict:
@@ -130,8 +163,10 @@ def test_registry_contains_each_goal_once_and_retains_incomplete_boundary() -> N
     assert "It is not yet a comprehensive theorem-discovery\nsystem" in text
     assert "39/39 successful jobs" in text
     assert "31746356515" in text
-    assert "zero failures, zero cancellations, and zero timeouts" in text
-    assert "any subsequent change must earn a new terminal 39/39 receipt" in text
+    assert "one typed-partition byte-authority failure" in text
+    assert "one 30-minute shard timeout" in text
+    assert "A new 39/39 clean-clone receipt is mandatory before merge" in text
+    assert "72 exact paths" in text
 
 
 def test_matter_and_p55_counts_are_projected_from_checked_receipts() -> None:
@@ -258,7 +293,7 @@ def test_matter_and_p55_counts_are_projected_from_checked_receipts() -> None:
     assert tc2_zero["claims"]["all_15_TC2_Taylor_order_zero_packets_registered"] is True
     assert tc2_zero["claims"]["full_direction_sphere_D4_compatibility_proved"] is False
     assert "manifest to 79/304" in text
-    assert "BLOCKED on 225 packets" in text
+    assert "BLOCKED on 195 packets" in text
     frontier = _load(ORDER_ONE_FRONTIER_RECEIPT)
     assert frontier["status"] == "block_coordinate_free_P55_Taylor_order_one_serialization_absent"
     assert frontier["counts"]["target_P55_Taylor_order_one_packets"] == 15
@@ -282,6 +317,46 @@ def test_matter_and_p55_counts_are_projected_from_checked_receipts() -> None:
     assert order_one["counts"]["missing_symbolic_input_packets"] == 225
     assert order_one["counts"]["P55_Taylor_order_one_distinct_matrix_cells"] == 440
     assert order_one["claims"]["all_15_P55_Taylor_order_one_packets_registered"] is True
+    k0_directional = _load(COORDINATE_FREE_K0_RECEIPT)
+    assert k0_directional["status"] == "pass_exact_coordinate_free_K0_directional_lift_formula"
+    assert k0_directional["counts"]["e1_reference_matrix_entries_compared"] == 3_025
+    assert k0_directional["counts"]["e1_reference_matrix_mismatches"] == 0
+    assert k0_directional["counts"]["exact_direction_controls_passed"] == 6
+    assert k0_directional["claims"]["coordinate_free_K0_directional_lift_formula_constructed"]
+    assert k0_directional["claims"]["expanded_55x55_polynomial_K0_packet_emitted"] is False
+    assert "basis-free directional lift reproduces all 3,025 sealed e1 entries" in text
+    k0_polynomial = _load(COORDINATE_FREE_K0_POLYNOMIAL_RECEIPT)
+    assert k0_polynomial["counts"]["K0_polynomial_nonzero_entries"] == 847
+    assert k0_polynomial["counts"]["K0_polynomial_normal_form_terms"] == 2_732
+    assert k0_polynomial["counts"]["K0_polynomial_maximum_total_degree"] == 6
+    assert k0_polynomial["counts"]["sphere_identity_entries_reduced"] == 3_025
+    assert k0_polynomial["counts"]["sphere_identity_nonzero_remainders"] == 0
+    assert (
+        k0_polynomial["claims"]["all_15_K55_order_one_packets_authorized_for_construction"] is True
+    )
+    assert k0_polynomial["claims"]["K55_Taylor_order_one_registered"] is False
+    assert "847 nonzero polynomial entries, 2,732 exact terms" in text
+    k55_order_one = _load(COORDINATE_FREE_K55_ORDER_ONE_RECEIPT)
+    assert k55_order_one["counts"]["K55_order_one_packets_registered"] == 15
+    assert k55_order_one["counts"]["K55_order_one_nonzero_polynomial_entries_total"] == 2_688
+    assert k55_order_one["counts"]["K55_order_one_normal_form_terms_total"] == 17_704
+    assert k55_order_one["counts"]["differentiated_identity_matrix_entries_reduced"] == 45_375
+    assert k55_order_one["counts"]["differentiated_identity_nonzero_remainders"] == 0
+    assert k55_order_one["counts"]["manifest_registered_after"] == 94
+    assert k55_order_one["counts"]["manifest_missing_after"] == 210
+    assert (
+        k55_order_one["claims"]["all_15_coordinate_free_K55_Taylor_order_one_packets_registered"]
+        is True
+    )
+    tc2_order_one = _load(COORDINATE_FREE_TC2_ORDER_ONE_RECEIPT)
+    assert tc2_order_one["counts"]["TC2_order_one_packets_registered"] == 15
+    assert tc2_order_one["counts"]["TC2_order_one_zero_packets"] == 15
+    assert tc2_order_one["counts"]["product_rule_nonzero_remainders"] == 0
+    assert tc2_order_one["counts"]["manifest_registered_after"] == 109
+    assert tc2_order_one["counts"]["manifest_missing_after"] == 195
+    assert tc2_order_one["claims"]["all_15_coordinate_free_TC2_Taylor_order_one_packets_registered"]
+    assert "The manifest is now 109/304" in text
+    assert "BLOCKED on 195 packets" in text
 
     d2_cross = _load(D2_CROSS_DIRECTION_RECEIPT)
     assert d2_cross["gate_counts"]["new_off_diagonal_records_all_candidates"] == 60_984
@@ -549,7 +624,51 @@ def test_fluid_followups_close_action_and_stress_only() -> None:
     assert "592 polynomial entries and 1,918 normal-form terms each" in text
     assert "companion-restricted packet serialization is explicitly non-authoritative" in text
     assert "resonant and nonresonant Sylvester equations are closed" in text
-    assert "Schur-complement positivity remains a typed BLOCK" in text
+    bounded = _load(BOUNDED_B_SYMMETRIZER_RECEIPT)
+    assert bounded["decision"] == "PASS_EXACT_FLAT_SPHERE_FULL_SYMMETRIZER_BOUNDED_B"
+    assert bounded["counts"]["bounded_nonzero_potential_domains"] == 1
+    assert bounded["counts"]["flat_reference_full_symmetrizers"] == 1
+    assert bounded["counts"]["full_85_state_symmetry_residual_nonzero_entries"] == 0
+    assert bounded["claims"]["bounded_B_uniform_positive_lower_bound_closed"] is True
+    assert bounded["claims"]["candidate_jet_uniformity_closed"] is False
+    sourced_constraint = _load(SOURCED_GRAVITY_CONSTRAINT_RECEIPT)
+    assert sourced_constraint["counts"]["candidates_with_exact_matter_source_cancellation"] == 12
+    assert sourced_constraint["counts"]["sourced_gravity_constraint_propagation_passes"] == 0
+    basis = _load(GRAVITY_CONSTRAINT_BASIS_RECEIPT)
+    assert basis["counts"]["state_coordinates"] == 85
+    assert basis["counts"]["physical_gravity_constraint_rows_registered"] == 0
+    assert basis["counts"]["physical_gravity_constraint_rows_required"] == 96
+    divergence = _load(OFF_SHELL_EULER_DIVERGENCE_RECEIPT)
+    assert divergence["counts"]["candidate_common_formula_hashes"] == 12
+    assert divergence["claims"]["common_off_shell_covariant_sourced_identity_closed"] is True
+    readiness = _load(DIFFERENTIATED_GAUGE_READINESS_RECEIPT)
+    assert readiness["counts"]["missing_primitive_jet_families"] == 5
+    assert readiness["counts"]["missing_primitive_slots"] == 780
+    assert readiness["counts"]["primitive_resume_chunks"] == 48
+    assert readiness["claims"]["differentiated_gauge_map_in_85_state_coordinates_closed"] is False
+    gauge_materializer = _load(DIFFERENTIATED_GAUGE_MATERIALIZER_RECEIPT)
+    assert gauge_materializer["decision"] == (
+        "PASS_EXACT_INDEXED_GAUGE_MAP_WITH_FORMAL_EXTERNAL_JET_PACKETS"
+    )
+    assert gauge_materializer["counts"]["total_primitive_slots"] == 780
+    assert gauge_materializer["counts"]["checkpoint_packets"] == 48
+    assert gauge_materializer["counts"]["indexed_formula_templates"] == 17
+    assert gauge_materializer["counts"]["fully_expanded_85_state_coefficient_rows"] == 0
+    assert gauge_materializer["claims"]["exact_indexed_differentiated_gauge_map_closed"]
+    assert gauge_materializer["claims"]["external_formulation_jet_values_certified"] is False
+    scalar_expansion = _load(GAUGE_SCALAR_EXPANSION_RECEIPT)
+    assert scalar_expansion["counts"]["flat_gravity_constraint_rows_expanded"] == 4
+    assert scalar_expansion["counts"]["nonzero_scalar_coefficients_total"] == 112
+    assert scalar_expansion["counts"]["candidate_flat_row_manifests"] == 12
+    assert scalar_expansion["counts"]["required_general_scalar_values_before_domain"] == 1_010
+    assert scalar_expansion["claims"]["exact_flat_reference_scalar_coefficient_rows_closed"]
+    assert scalar_expansion["claims"]["general_external_jet_scalar_expansion_closed"] is False
+    assert "max|B_mu| <= 8/38505" in text
+    assert "0/96 general rows" in text
+    assert "all 780 readiness slots in 48 chained packets" in text
+    assert "17 exact indexed tensor templates" in text
+    assert "four gravity rows into 112 exact coefficients" in text
+    assert "1,010 scalar jet values" in text
     assert "This is not a physical Jordan no-go" in text
 
 

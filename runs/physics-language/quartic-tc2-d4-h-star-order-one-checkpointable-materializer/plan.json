@@ -1,0 +1,85 @@
+{
+  "caps": {
+    "C1": {
+      "rss_bytes": 17179869184,
+      "wall_seconds": 3600
+    },
+    "C2": {
+      "rss_bytes": 2147483648,
+      "wall_seconds": 300
+    },
+    "maximum_checkpoint_bytes": 16777216,
+    "poll_seconds": 2
+  },
+  "checkpoint_directory": "caller_owned_scratch",
+  "claims": {
+    "H_star_plus_Taylor_order_one_packets_materialized": false,
+    "K55_Taylor_order_one_registered": false,
+    "full_direction_sphere_D4_compatibility_proved": false,
+    "global_H7_closed": false,
+    "lifespan_proved": false,
+    "manifest_advanced_beyond_79": false,
+    "nonlinear_PDE_closure_proved": false
+  },
+  "config_sha256": "98b27a7a1de20b08119258b984f40aea297f5219e62cf464b8b0569360f01961",
+  "content_sha256": "0c23d94c6de997ac221e4cbf6b894e1416ff3693e59a9d1c24ed4a390072d93f",
+  "next_units": [
+    "C0"
+  ],
+  "observed_state": {
+    "C0": false,
+    "C1_atoms": [],
+    "C2_evaluations": []
+  },
+  "phases": [
+    {
+      "output": "c0-seals.json",
+      "phase": "C0",
+      "units": 1
+    },
+    {
+      "A_star_matrices_per_unit": 1,
+      "B_star_axis_matrices_per_unit": 3,
+      "cold_dependency": "one _symbol_data call per worker invocation",
+      "durability": "each completed basis atom is sealed immediately",
+      "phase": "C1",
+      "unit_key": "basis_jet_direction",
+      "units": 4
+    },
+    {
+      "cold_dependency": null,
+      "phase": "C2",
+      "unit_key": "polarization_evaluation",
+      "units": 15
+    },
+    {
+      "output": "portable result.json",
+      "phase": "C3",
+      "units": 1
+    }
+  ],
+  "progress": {
+    "basis_action_matrices_complete": 0,
+    "basis_action_matrices_required": 16,
+    "basis_jet_packets_complete": 0,
+    "basis_jet_packets_required": 4,
+    "evaluation_packets_complete": 0,
+    "evaluation_packets_required": 15
+  },
+  "schema_version": "sigma-quartic-tc2-d4-h-star-order-one-materializer-plan-1.0",
+  "source_bindings": {
+    "config": {
+      "file_sha256": "b1313bb15c682f20570f57aaef7ae6bcd9143881f2f50c528b90fc4c009a4152",
+      "path": "configs/backgrounds/quartic_tc2_d4_h_star_order_one_checkpointable_materializer.json"
+    },
+    "source": {
+      "file_sha256": "9dca543a04c2af7d8a2364b8d333589b43719abf686c0edd61bf6170ac99c54b",
+      "path": "src/sigma_theory_compiler/quartic_tc2_d4_h_star_order_one_checkpointable_materializer.py"
+    },
+    "test": {
+      "file_sha256": "f896ee664a2045d4be47ad25dce54813684760f97041f59d5c44be2a083860c3",
+      "path": "tests/test_quartic_tc2_d4_h_star_order_one_checkpointable_materializer.py"
+    }
+  },
+  "status": "ready_checkpointable_exact_H_star_plus_Taylor_order_one_materialization"
+}

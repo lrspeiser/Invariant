@@ -1,0 +1,56 @@
+{
+  "schema_version": "sigma-quartic-tc2-d4-h-star-order-one-checkpoint-readiness-gate-config-1.0",
+  "policy": "reuse_only_sealed_exact_action_derivatives_or_emit_checkpointable_contract",
+  "upstreams": {
+    "K55_order_one_blocker": {
+      "path": "runs/physics-language/quartic-tc2-d4-k55-taylor-order-one-construction-gate/campaign.json",
+      "file_sha256": "b120cf9205109a7d6125ce836dc6ce4ece53124aae3d3d2ab755d681b0f8fb4e",
+      "content_sha256": "020754d7eb2de69ed61b23629efa7dc0bc6c8facc60414c16c152c76cad4d630"
+    },
+    "P55_order_one_materializer": {
+      "path": "runs/physics-language/quartic-tc2-d4-order-one-p55-checkpointable-materializer/result.json",
+      "file_sha256": "6fb986b13c878060a902e9813b9cf47b3e9138425e521051ffe7481f1e8dfeec",
+      "content_sha256": "f4a68e54f9a1977c6dec2ffb0da24cebd6e30c3abde15c095e0d2c5e2f490a4a"
+    },
+    "flat_action_metric": {
+      "path": "runs/physics-language/quartic-tc2-d4-flat-action-metric-registration/campaign.json",
+      "file_sha256": "ef0e7bb964947e4b19b6b62aa1e7e571abe66c17c23e60070956098d8e101941",
+      "content_sha256": "82b89bb823c0382e6a80918dd03bc7a1d46f059845a41ced86922dd79c30fd73"
+    },
+    "H_star_envelopes": {
+      "path": "runs/physics-language/quartic-symmetrizer-symbol-moser-campaign/campaign.json",
+      "file_sha256": "77bf3ac7b77ff8a00e20a33fb524cdc3e64bdc4da7ecbeee5d01432ff8633558",
+      "content_sha256": "222793a432fbbc2b343ef86f05e4e6d5ec0290c0759ba60941a430adb7e9bb09"
+    }
+  },
+  "formula_sources": {
+    "symbol_builder": {
+      "path": "src/sigma_theory_compiler/quartic_first_order_reduction_campaign.py",
+      "file_sha256": "a94b2886dc0edd228735ad3e06d10f43717ccff93d861f8672010db0c7296130",
+      "required_functions": ["_symbol_data", "_extract_spatial_blocks"]
+    },
+    "action_pencil": {
+      "path": "src/sigma_theory_compiler/horndeski_principal.py",
+      "file_sha256": "aa6163c32ec125fa35c860832605927801a3101fe570e6d88edc20668b4348f3",
+      "required_functions": ["_metric_action_block", "_first_order_generalized_pencil"]
+    }
+  },
+  "target": {
+    "basis_jet_directions": ["G_12", "G_01", "H_01", "H_11"],
+    "basis_A_star_order_one_matrices": 4,
+    "basis_B_star_order_one_axis_matrices": 12,
+    "polarized_H_star_plus_order_one_packets": 15,
+    "matrix_dimension": 22,
+    "manifest_registered_before": 79,
+    "manifest_registered_after_readiness": 79
+  },
+  "caps": {
+    "maximum_symbol_builder_calls_per_C1_worker": 1,
+    "maximum_basis_packets": 4,
+    "maximum_basis_matrix_packets": 16,
+    "maximum_polarized_packets": 15,
+    "maximum_sparse_entries_per_H_star_packet": 484,
+    "maximum_output_rows_emitted": 0
+  },
+  "content_sha256": "c0773e67c6102911a6bbde86eb08192a5ce3b9fc2d3c13da28b46a9178d32063"
+}
