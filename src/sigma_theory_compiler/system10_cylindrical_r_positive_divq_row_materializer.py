@@ -58,12 +58,32 @@ def _resolve(root: Path, relative: str) -> Path:
 
 def _load_binding(root: Path, binding: dict[str, Any]) -> tuple[Path, dict[str, Any]]:
     path = _resolve(root, str(binding.get("path", "")))
-    if _file_sha(path) != binding.get("file_sha256"):
+    raw_expected = binding.get("file_sha256")
+    canonical_lf_expected = binding.get("canonical_lf_sha256")
+    if (isinstance(raw_expected, str)) == (isinstance(canonical_lf_expected, str)):
+        raise System10CylindricalDivQError("binding must select exactly one byte representation")
+    actual = _file_sha(path) if isinstance(raw_expected, str) else _portable_text_sha(path)
+    expected = raw_expected if isinstance(raw_expected, str) else canonical_lf_expected
+    if actual != expected:
         raise System10CylindricalDivQError(f"bound file hash mismatch: {path}")
     value = _load_json(path)
     if value.get("content_sha256") != binding.get("content_sha256"):
         raise System10CylindricalDivQError(f"bound content hash mismatch: {path}")
     return path, value
+
+
+def _reported_binding(
+    path: Path, value: dict[str, Any], binding: dict[str, Any], repository: Path
+) -> dict[str, Any]:
+    body = {
+        "path": path.relative_to(repository).as_posix(),
+        "content_sha256": value["content_sha256"],
+    }
+    if "canonical_lf_sha256" in binding:
+        body["canonical_lf_sha256"] = _portable_text_sha(path)
+    else:
+        body["file_sha256"] = _file_sha(path)
+    return body
 
 
 def _load_source(root: Path, binding: dict[str, Any]) -> Path:
@@ -561,11 +581,7 @@ def build_receipt(config_path: Path, *, root: Path | None = None) -> dict[str, A
                 "canonical_json_sha256": _canonical_sha(config),
             },
             **{
-                name: {
-                    "path": path.relative_to(repository).as_posix(),
-                    "file_sha256": _file_sha(path),
-                    "content_sha256": value["content_sha256"],
-                }
+                name: _reported_binding(path, value, config["bindings"][name], repository)
                 for name, (path, value) in bound.items()
             },
             **{

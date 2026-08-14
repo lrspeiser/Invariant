@@ -11,6 +11,7 @@ import sympy as sp
 from sigma_theory_compiler.system10_cylindrical_r_positive_divq_row_materializer import (
     R,
     System10CylindricalDivQError,
+    _load_binding,
     _physical_tensors,
     _portable_text_sha,
     build_receipt,
@@ -133,6 +134,31 @@ def test_line_endings_are_normalized_but_non_line_tamper_is_rejected(
     assert _portable_text_sha(alternate) == expected
     alternate.write_bytes(crlf + b"# scientific tamper\r\n")
     assert _portable_text_sha(alternate) != expected
+
+
+def test_production_crlf_predecessor_uses_canonical_lf_authority(
+    tmp_path: Path,
+) -> None:
+    config = json.loads(CONFIG.read_text(encoding="utf-8"))
+    binding = config["bindings"]["propagation_attempt"]
+    assert set(binding) == {"path", "canonical_lf_sha256", "content_sha256"}
+    predecessor = ROOT / binding["path"]
+    lf = predecessor.read_bytes().replace(b"\r\n", b"\n").replace(b"\r", b"\n")
+    crlf = lf.replace(b"\n", b"\r\n")
+    assert hashlib.sha256(lf).hexdigest() == binding["canonical_lf_sha256"]
+    assert hashlib.sha256(crlf).hexdigest() == (
+        "447c50fa38206e6946f97f23c0151f3c25cc983a3d30ac2523e2a2e7ff627916"
+    )
+
+    copied_binding = {**binding, "path": "production-predecessor.json"}
+    copied = tmp_path / copied_binding["path"]
+    copied.write_bytes(crlf)
+    _, loaded = _load_binding(tmp_path, copied_binding)
+    assert loaded["content_sha256"] == binding["content_sha256"]
+
+    copied.write_bytes(crlf + b" ")
+    with pytest.raises(System10CylindricalDivQError, match="hash mismatch"):
+        _load_binding(tmp_path, copied_binding)
 
 
 def test_binding_expectation_claim_and_output_tamper_fail_closed(tmp_path: Path) -> None:
