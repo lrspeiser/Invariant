@@ -153,6 +153,15 @@ D2_LEAF_SUCCESSOR_CHAIN = (
     ("runs/physics-language/quartic-p3-metric-lower-abc-leaf-authority-gate/campaign.json", 145),
 )
 FORMAL_LOWER_DIRECTION_ALIASES = ("s11[10]", "s22[10]")
+Q_LEAF_RECEIPTS = tuple(
+    ROOT / path
+    for path in (
+        "runs/physics-language/quartic-q-metric-lower-abc-leaf-authority-gate/campaign.json",
+        "runs/physics-language/quartic-q-metric-leaf-unit-000-gate/campaign.json",
+        "runs/physics-language/quartic-q-metric-leaf-candidate0-batch-gate/campaign.json",
+        "runs/physics-language/quartic-q-metric-leaf-candidate1-batch-gate/campaign.json",
+    )
+)
 SYSTEM11_SOLAR_AUTHORIZATION_RECEIPT = ROOT / (
     "runs/math/system11-g2-solar-authorization-closure/receipt.json"
 )
@@ -302,6 +311,17 @@ SYSTEM10_COMMON_TUBE_FULL_RHS_RECEIPT = ROOT / (
 SYSTEM10_COMMON_TUBE_PROPAGATION_RECEIPT = ROOT / (
     "runs/math/system10-cylindrical-common-tube-propagation-audit/receipt.json"
 )
+SYSTEM10_OPEN_R_RECEIPTS = {
+    name: ROOT / f"runs/math/{slug}/receipt.json"
+    for name, slug in {
+        "radial": "system10-cylindrical-open-r-twelve-candidate-rhs-jets",
+        "tangential": "system10-cylindrical-open-r-tangential-rhs-jets",
+        "decomposition": "system10-cylindrical-open-r-coordinate-decomposition",
+        "normalization": "system10-cylindrical-open-r-euler-normalization-bridge",
+        "factorization": "system10-cylindrical-open-r-divq-c-factorization",
+        "initial_data": "system10-cylindrical-open-r-subsidiary-initial-data-map",
+    }.items()
+}
 
 
 def _load(path: Path) -> dict:
@@ -672,7 +692,30 @@ def test_matter_and_p55_counts_are_projected_from_checked_receipts() -> None:
     assert "`s11[10]` and `s22[10]` are duplicate aliases" in text
     assert "all ten `q[0..9]` columns" in text
     assert "D2 remains 5,324/257,499" in text
-    assert "open for the 10 unique `q[0..9]` columns" in text
+    checkpoint, unit_000, candidate_0, candidate_1 = [_load(path) for path in Q_LEAF_RECEIPTS]
+    assert checkpoint["gate_counts"]["materialized_q_tangent_scalar_values"] == 200
+    assert checkpoint["gate_counts"]["planned_leaf_roots_all_candidates"] == 316_800
+    assert checkpoint["gate_counts"]["unique_registered_coordinate_columns_after"] == 143
+    assert unit_000["gate_counts"]["materialized_leaf_roots"] == 2_640
+    assert unit_000["gate_counts"]["nonzero_leaf_derivative_roots"] == 311
+    assert unit_000["gate_counts"]["exact_zero_leaf_derivative_roots"] == 2_329
+    assert candidate_0["gate_counts"]["new_leaf_roots"] == 23_760
+    assert candidate_0["gate_counts"]["nonzero_leaf_roots"] == 2_799
+    assert candidate_0["gate_counts"]["exact_zero_leaf_roots"] == 20_961
+    final_q_counts = candidate_1["gate_counts"]
+    assert final_q_counts["new_leaf_roots"] == 26_400
+    assert final_q_counts["nonzero_leaf_roots"] == 3_110
+    assert final_q_counts["exact_zero_leaf_roots"] == 23_290
+    assert final_q_counts["cumulative_leaf_roots"] == 52_800
+    assert final_q_counts["cumulative_completed_units"] == 20
+    assert final_q_counts["remaining_leaf_roots"] == 264_000
+    assert final_q_counts["remaining_units"] == 100
+    assert final_q_counts["unique_registered_coordinate_columns_after"] == 143
+    assert final_q_counts["registered_D2_entries_per_candidate_after"] == 5_324
+    assert "52,800 of 316,800 exact q-family leaf roots" in text
+    assert "20 of 120 checkpoint units" in text
+    assert "264,000 roots and 100 checkpoint units remaining" in text
+    assert "no q column is yet promoted" in text
 
 
 def test_system11_authorization_closure_is_current_and_target_free() -> None:
@@ -1161,6 +1204,57 @@ def test_fluid_followups_close_action_and_stress_only() -> None:
     assert propagation["claims"]["full_85_state_rhs_closed_on_common_tube"] is True
     assert propagation["claims"]["constraint_propagation_closed_on_common_tube"] is False
     assert propagation["claims"]["global_theorem_established"] is False
+    radial = _load(SYSTEM10_OPEN_R_RECEIPTS["radial"])
+    assert radial["counts"]["candidate_passes"] == 12
+    assert radial["counts"]["open_r_rhs_rows"] == 132
+    assert radial["counts"]["open_r_radial_rhs_jets"] == 132
+    assert radial["counts"]["open_r_zero_residuals"] == 132
+    assert radial["counts"]["radially_differentiated_zero_residuals"] == 132
+    assert radial["counts"]["r1_rhs_replays"] == 132
+    assert radial["claims"]["constraint_propagation_closed"] is False
+    tangential = _load(SYSTEM10_OPEN_R_RECEIPTS["tangential"])
+    assert tangential["counts"]["tangential_rhs_jets"] == 264
+    assert tangential["counts"]["direction_2_rhs_jets"] == 132
+    assert tangential["counts"]["direction_3_rhs_jets"] == 132
+    assert tangential["counts"]["differentiated_zero_residuals"] == 264
+    assert tangential["counts"]["base_rhs_row_replays"] == 132
+    assert tangential["counts"]["unclassified_W_atoms"] == 0
+    decomposition = _load(SYSTEM10_OPEN_R_RECEIPTS["decomposition"])
+    assert decomposition["counts"]["coordinate_decomposition_rows_closed"] == 48
+    assert decomposition["counts"]["symbolic_coordinate_zero_residuals"] == 48
+    assert decomposition["counts"]["physical_constraint_rows_bound"] == 96
+    assert decomposition["counts"]["all_first_spatial_rhs_jets_bound"] == 396
+    assert decomposition["counts"]["full_rhs_rows_bound"] == 1020
+    normalization = _load(SYSTEM10_OPEN_R_RECEIPTS["normalization"])
+    assert normalization["counts"]["normalization_bridges_closed"] == 12
+    assert normalization["counts"]["spatial_metric_euler_normalizations"] == 72
+    assert normalization["counts"]["gravity_scalar_euler_normalizations"] == 12
+    assert normalization["counts"]["matter_force_sector_normalizations"] == 36
+    assert normalization["counts"]["divQ_normalizations"] == 48
+    factorization = _load(SYSTEM10_OPEN_R_RECEIPTS["factorization"])
+    assert factorization["counts"]["divQ_to_C_factorization_rows_closed"] == 4
+    assert factorization["counts"]["exact_termwise_replays"] == 4
+    assert factorization["counts"]["expanded_operator_terms"] == 191
+    assert factorization["claims"]["constraint_propagation_closed"] is False
+    initial_data = _load(SYSTEM10_OPEN_R_RECEIPTS["initial_data"])
+    assert initial_data["counts"]["candidate_subsidiary_initial_data_maps_closed"] == 12
+    assert initial_data["counts"]["gravity_normal_derivative_maps_closed"] == 48
+    assert initial_data["counts"]["maxwell_normal_derivative_maps_closed"] == 12
+    assert initial_data["counts"]["homogeneous_gravity_subsidiary_equations_closed"] == 4
+    assert initial_data["counts"]["homogeneous_maxwell_subsidiary_equations_closed"] == 1
+    gravity_map = initial_data["materialization"]["gravity_normal_derivative_map"]
+    assert gravity_map["det_A"] == "-6561/(256*r**2)"
+    assert gravity_map["det_A_nonzero_on_r_positive"] is True
+    current_missing = initial_data["materialization"]["propagation_audit"][
+        "first_missing_primitive"
+    ]
+    assert current_missing["primitive"] == (
+        "common_tube_homogeneous_subsidiary_cauchy_uniqueness_certificate"
+    )
+    assert current_missing["registered_energy_estimates"] == 0
+    assert initial_data["claims"]["all_twelve_subsidiary_initial_data_maps_closed"] is True
+    assert initial_data["claims"]["subsidiary_energy_or_uniqueness_closed"] is False
+    assert initial_data["claims"]["constraint_propagation_closed"] is False
     assert "max|B_mu| <= 8/38505" in text
     assert "all 96 physical gravity rows" in text
     assert "all 96 physical gravity rows over `r>0`" in text
@@ -1185,9 +1279,14 @@ def test_fluid_followups_close_action_and_stress_only() -> None:
     assert "1,020 row instances and equation-origin seals" in text
     assert "132 new dynamic row instances with 132 exact zero-residual replays" in text
     assert "Fixed-`r` positive and global-domain full RHS remain false" in text
-    assert "radial first jets of the 11 solved dynamic RHS rows" in text
-    assert "constraint time derivative by exactly `1/128`" in text
-    assert "zero candidate subsidiary systems, propagation proofs" in text
+    assert "396/396 first spatial jets total" in text
+    assert "48/48 candidate-by-lower-`nu` coordinate decompositions" in text
+    assert "12/12 Euler-normalization bridges" in text
+    assert "43, 55, 50, and 43 terms (191 total)" in text
+    assert "subsidiary initial-data successor closes 12/12 candidate maps" in text
+    assert "determinant `-6561/(256r^2)`" in text
+    assert "checked coercive energy/Cauchy-uniqueness estimate" in text
+    assert "No propagation, hyperbolicity, or global theorem" in text
     assert "physical Jordan no-go" in text
 
 
