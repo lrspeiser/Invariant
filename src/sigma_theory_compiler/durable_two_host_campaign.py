@@ -140,8 +140,7 @@ def validate_config(config: Mapping[str, Any]) -> None:
         not 256 * 1024 <= maximum <= 64 * 1024**3
         or not 16 * 1024 <= reserve < maximum // 2
         or reserve
-        < max(int(queue["maximum_payload_bytes"]), int(queue["maximum_result_bytes"]))
-        + 64 * 1024
+        < max(int(queue["maximum_payload_bytes"]), int(queue["maximum_result_bytes"])) + 64 * 1024
         or page_size not in {4096, 8192, 16384, 32768, 65536}
         or not 1 <= int(storage["wal_autocheckpoint_pages"]) <= 65536
         or not 100 <= int(storage["busy_timeout_ms"]) <= 300_000
@@ -154,7 +153,8 @@ def validate_config(config: Mapping[str, Any]) -> None:
     if (
         required < 6 * 60 * 60
         or not 1 <= per_host <= required
-        or not 0 < float(duration["heartbeat_interval_seconds"])
+        or not 0
+        < float(duration["heartbeat_interval_seconds"])
         < min(float(queue["lease_seconds"]), float(queue["dead_host_seconds"])) / 2
         or not 0 < float(duration["poll_interval_seconds"]) <= 60
         or not 0 < float(duration["default_run_slice_seconds"]) <= maximum_slice
@@ -377,7 +377,9 @@ class DurableTwoHostCampaign:
                 yield connection
         except sqlite3.DatabaseError as error:
             if "full" in str(error).lower():
-                raise StorageCeilingError("SQLite main-file page ceiling blocked the write") from error
+                raise StorageCeilingError(
+                    "SQLite main-file page ceiling blocked the write"
+                ) from error
             raise
         self._post_write_storage_check()
 
@@ -422,7 +424,9 @@ class DurableTwoHostCampaign:
 
     def register_host(self, host_id: str, session_id: str) -> dict[str, Any]:
         if host_id not in self.config["logical_hosts"] or not session_id or len(session_id) > 128:
-            raise DurableCampaignError("host or session is outside the registered two-host contract")
+            raise DurableCampaignError(
+                "host or session is outside the registered two-host contract"
+            )
         self.recover_dead_hosts()
         with self._write() as connection:
             row = connection.execute("SELECT * FROM hosts WHERE host_id=?", (host_id,)).fetchone()
@@ -622,7 +626,10 @@ class DurableTwoHostCampaign:
                     "work_succeeded",
                     lease.host_id,
                     lease.work_id,
-                    {"attempt": lease.attempt, "result_sha256": hashlib.sha256(result_raw).hexdigest()},
+                    {
+                        "attempt": lease.attempt,
+                        "result_sha256": hashlib.sha256(result_raw).hexdigest(),
+                    },
                 )
             return bool(cursor.rowcount)
 
@@ -714,9 +721,7 @@ class DurableTwoHostCampaign:
             "failed": failed,
         }
 
-    def _recover_row(
-        self, connection: sqlite3.Connection, row: sqlite3.Row, reason: str
-    ) -> bool:
+    def _recover_row(self, connection: sqlite3.Connection, row: sqlite3.Row, reason: str) -> bool:
         retry = int(row["attempt"]) < int(row["max_attempts"])
         state = "queued" if retry else "failed"
         connection.execute(
@@ -875,8 +880,7 @@ class DurableTwoHostCampaign:
                 raise DurableCampaignError("durable work payload changed") from error
             payload_sha = hashlib.sha256(raw).hexdigest()
             expected_id = (
-                "DHC-"
-                + hashlib.sha256(f"{ordinal}:{payload_sha}".encode()).hexdigest()[:24]
+                "DHC-" + hashlib.sha256(f"{ordinal}:{payload_sha}".encode()).hexdigest()[:24]
             )
             if (
                 ordinal != int(row["ordinal"])
@@ -1163,9 +1167,7 @@ def _parser() -> argparse.ArgumentParser:
 def main(argv: Sequence[str] | None = None) -> int:
     arguments = _parser().parse_args(argv)
     try:
-        campaign = DurableTwoHostCampaign(
-            arguments.state_directory, load_config(arguments.config)
-        )
+        campaign = DurableTwoHostCampaign(arguments.state_directory, load_config(arguments.config))
         if arguments.command == "init":
             result = campaign.status()
         elif arguments.command == "enqueue":
