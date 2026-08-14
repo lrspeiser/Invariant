@@ -148,6 +148,7 @@ D2_LEAF_SUCCESSOR_CHAIN = (
         105,
     ),
     ("runs/physics-language/quartic-p0-metric-lower-abc-leaf-authority-gate/campaign.json", 115),
+    ("runs/physics-language/quartic-p1-metric-lower-abc-leaf-authority-gate/campaign.json", 125),
 )
 SYSTEM11_SOLAR_AUTHORIZATION_RECEIPT = ROOT / (
     "runs/math/system11-g2-solar-authorization-closure/receipt.json"
@@ -257,6 +258,17 @@ SYSTEM10_GRAVITY_SCALAR_RHS_RECEIPT = ROOT / (
 )
 SYSTEM10_GRAVITY_SCALAR_AW_RECEIPT = ROOT / (
     "runs/math/system10-cylindrical-r-positive-gravity-scalar-aw-readiness/receipt.json"
+)
+SYSTEM10_GRAVITY_SCALAR_AW_ROWS = tuple(
+    ROOT
+    / f"runs/math/system10-cylindrical-r-positive-gravity-scalar-aw-materializer/row-{row:02d}.json"
+    for row in range(11)
+)
+SYSTEM10_GRAVITY_SCALAR_AW_INVERTIBILITY_RECEIPT = ROOT / (
+    "runs/math/system10-cylindrical-r-positive-gravity-scalar-aw-invertibility/receipt.json"
+)
+SYSTEM10_GRAVITY_SCALAR_AW_TUBE_RECEIPT = ROOT / (
+    "runs/math/system10-cylindrical-r-positive-gravity-scalar-aw-nonsingular-tube/receipt.json"
 )
 
 
@@ -621,12 +633,12 @@ def test_matter_and_p55_counts_are_projected_from_checked_receipts() -> None:
         assert counts["registered_D2_entries_per_candidate_after"] == 5_324
         assert successor["claim_seals"]["D2_entry_count_advanced"] is False
         previous = expected_after
-    assert previous == 115
-    assert "115 of 153 coordinate columns" in text
-    assert "115/153 A/B/C leaf columns" in text
-    assert "lower-`p0` gate adds 10 columns and 316,800 exact" in text
+    assert previous == 125
+    assert "125 of 153 coordinate columns" in text
+    assert "125/153 A/B/C leaf columns" in text
+    assert "lower-`p1` successor adds another 10 columns and 316,800 exact roots" in text
     assert "D2 remains 5,324/257,499" in text
-    assert "open for 38 coordinate columns" in text
+    assert "open for 28 coordinate columns" in text
 
 
 def test_system11_authorization_closure_is_current_and_target_free() -> None:
@@ -1018,6 +1030,31 @@ def test_fluid_followups_close_action_and_stress_only() -> None:
     assert aw["counts"]["coordinate_arithmetic_W_entries"] == 0
     assert aw["counts"]["candidate_dynamic_rows_remaining"] == 132
     assert aw["claims"]["coordinate_arithmetic_A_W_materialized"] is False
+    aw_rows = [_load(path) for path in SYSTEM10_GRAVITY_SCALAR_AW_ROWS]
+    assert [row["row"] for row in aw_rows] == list(range(11))
+    assert sum(len(row["A_entries"]) for row in aw_rows) == 121
+    assert sum(1 for row in aw_rows if row["W_entry"]) == 11
+    assert all(row["certificates"]["affine_residual"] == "0" for row in aw_rows)
+    assert all(row["claims"]["solved_acceleration_row"] is False for row in aw_rows)
+    invertibility = _load(SYSTEM10_GRAVITY_SCALAR_AW_INVERTIBILITY_RECEIPT)
+    assert invertibility["decision"] == "BLOCK_GLOBAL_ACCELERATION_SOLVE_EXACT_SINGULAR_A_WITNESS"
+    assert invertibility["exact_singular_witness"]["rank"] == 10
+    assert invertibility["exact_singular_witness"]["domain_certificate"] == "r=1>0"
+    assert (
+        invertibility["conclusion"]["global_invertibility_over_fixed_r_positive_state_domain"]
+        is False
+    )
+    tube = _load(SYSTEM10_GRAVITY_SCALAR_AW_TUBE_RECEIPT)
+    assert tube["decision"] == (
+        "BOUNDED_PASS_REPRESENTATIVE_A_W_SOLVE_ON_PREREGISTERED_NONSINGULAR_TUBE"
+    )
+    assert tube["preregistered_tube"]["real_v_10_interval"] == ["-1/2", "1/2"]
+    assert tube["invertibility_certificate"]["exact_absolute_lower_bound"] == (
+        "3486784401/268435456"
+    )
+    assert tube["claims"]["representative_tube_all_11_accelerations_solved"] is True
+    assert tube["claims"]["representative_tube_all_11_residuals_replayed"] is True
+    assert tube["claims"]["other_candidates_solved"] is False
     assert "max|B_mu| <= 8/38505" in text
     assert "all 96 physical gravity rows" in text
     assert "all 96 physical gravity rows over `r>0`" in text
@@ -1031,7 +1068,11 @@ def test_fluid_followups_close_action_and_stress_only() -> None:
     assert "11 gravity/scalar rows remain" in text
     assert "closes 4/4 rows with 191 nonzero operator terms" in text
     assert "132 semantic A/W roots (121 A and 11 W)" in text
-    assert "all 132 candidate-row instances remain blocked" in text
+    assert "all 121 A and 11 W entries across 11 exact rows" in text
+    assert "rank-10 singular witness" in text
+    assert "exact absolute lower bound `3486784401/268435456`" in text
+    assert "all 11 accelerations solve with 11/11 zero residuals" in text
+    assert "all-candidate 132-row promotion remain blocked" in text
     assert "physical Jordan no-go" in text
 
 
