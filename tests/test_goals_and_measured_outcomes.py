@@ -289,6 +289,16 @@ SYSTEM10_TWELVE_CANDIDATE_AW_TUBE_SOLUTIONS = tuple(
 SYSTEM10_TWELVE_CANDIDATE_AW_TUBE_RECEIPT = ROOT / (
     "runs/math/system10-cylindrical-r-positive-twelve-candidate-aw-tube-solve/receipt.json"
 )
+SYSTEM10_COMMON_TUBE_FULL_RHS_PACKETS = tuple(
+    ROOT / f"runs/math/system10-cylindrical-common-tube-full-rhs/candidate-{candidate:02d}.json"
+    for candidate in range(12)
+)
+SYSTEM10_COMMON_TUBE_FULL_RHS_RECEIPT = ROOT / (
+    "runs/math/system10-cylindrical-common-tube-full-rhs/receipt.json"
+)
+SYSTEM10_COMMON_TUBE_PROPAGATION_RECEIPT = ROOT / (
+    "runs/math/system10-cylindrical-common-tube-propagation-audit/receipt.json"
+)
 
 
 def _load(path: Path) -> dict:
@@ -1108,6 +1118,46 @@ def test_fluid_followups_close_action_and_stress_only() -> None:
     assert all_tube["claims"]["all_twelve_global_domains_solved"] is False
     assert all_tube["claims"]["full_rhs"] is False
     assert len([_load(path) for path in SYSTEM10_TWELVE_CANDIDATE_AW_TUBE_SOLUTIONS]) == 12
+    full_rhs = _load(SYSTEM10_COMMON_TUBE_FULL_RHS_RECEIPT)
+    assert full_rhs["decision"] == (
+        "BOUNDED_PASS_12_CANDIDATES_EXACT_85_OF_85_LINKED_RHS_ON_COMMON_TUBE"
+    )
+    assert full_rhs["counts"]["candidate_passes"] == 12
+    assert full_rhs["counts"]["total_rhs_rows_per_candidate"] == 85
+    assert full_rhs["counts"]["total_rhs_row_instances"] == 1020
+    assert full_rhs["counts"]["equation_origin_seals"] == 1020
+    assert full_rhs["counts"]["new_dynamic_row_instances"] == 132
+    assert full_rhs["counts"]["new_exact_zero_residual_replays"] == 132
+    assert full_rhs["common_tube"]["r"] == "1"
+    assert full_rhs["common_tube"]["real_v_10_interval"] == ["-1/4", "1/4"]
+    assert full_rhs["claims"]["all_twelve_common_tube_exact_85_state_rhs_closed"] is True
+    assert full_rhs["claims"]["fixed_r_positive_domain_full_rhs_closed"] is False
+    assert full_rhs["claims"]["global_domain_full_rhs_closed"] is False
+    assert full_rhs["claims"]["constraint_propagation_closed"] is False
+    assert len([_load(path) for path in SYSTEM10_COMMON_TUBE_FULL_RHS_PACKETS]) == 12
+    propagation = _load(SYSTEM10_COMMON_TUBE_PROPAGATION_RECEIPT)
+    assert propagation["decision"] == (
+        "BLOCK_COMMON_TUBE_RHS_HAS_NO_RADIAL_JET_FOR_CONSTRAINT_PROPAGATION"
+    )
+    assert propagation["counts"]["full_rhs_candidate_packets_bound"] == 12
+    assert propagation["counts"]["full_rhs_rows_bound_per_candidate"] == 85
+    assert propagation["counts"]["constraint_propagation_proofs"] == 0
+    assert propagation["counts"]["candidate_subsidiary_systems_closed"] == 0
+    assert propagation["counts"]["subsidiary_energy_estimates"] == 0
+    missing = propagation["materialization"]["first_missing_primitive"]
+    assert missing["primitive"] == (
+        "candidate_bound_radial_first_jet_of_all_11_solved_dynamic_rhs_rows"
+    )
+    assert missing["required_domain"] == (
+        "an open radial neighborhood of r=1 with the same state tube"
+    )
+    witness = propagation["materialization"]["radial_jet_nonidentifiability_witness"]
+    assert witness["same_registered_tube_value"] is True
+    assert witness["radial_derivative_delta_at_r_1"] == "1"
+    assert witness["exact_constraint_time_derivative_delta"] == "1/128"
+    assert propagation["claims"]["full_85_state_rhs_closed_on_common_tube"] is True
+    assert propagation["claims"]["constraint_propagation_closed_on_common_tube"] is False
+    assert propagation["claims"]["global_theorem_established"] is False
     assert "max|B_mu| <= 8/38505" in text
     assert "all 96 physical gravity rows" in text
     assert "all 96 physical gravity rows over `r>0`" in text
@@ -1128,8 +1178,13 @@ def test_fluid_followups_close_action_and_stress_only() -> None:
     assert "12 candidate A/W packets with 132 rows" in text
     assert "132 exact acceleration formulas" in text
     assert "132/132 zero residuals" in text
-    assert "global count stays 74/85" in text
-    assert "full RHS remain false" in text
+    assert "exact 85/85 rows for all 12 candidates on that same narrow tube" in text
+    assert "1,020 row instances and equation-origin seals" in text
+    assert "132 new dynamic row instances with 132 exact zero-residual replays" in text
+    assert "Fixed-`r` positive and global-domain full RHS remain false" in text
+    assert "radial first jets of the 11 solved dynamic RHS rows" in text
+    assert "constraint time derivative by exactly `1/128`" in text
+    assert "zero candidate subsidiary systems, propagation proofs" in text
     assert "physical Jordan no-go" in text
 
 
