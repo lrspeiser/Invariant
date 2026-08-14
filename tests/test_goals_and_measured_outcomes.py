@@ -81,8 +81,15 @@ ALTERNATIVE_SYMMETRIZER_RECEIPT = ROOT / (
 ALL_POLARIZATION_ALTERNATIVE_RECEIPT = ROOT / (
     "runs/physics-language/quartic-tc2-d4-all-polarization-alternative-k55-recurrence/campaign.json"
 )
+INDEPENDENT_G2_ALTERNATIVE_RECEIPT = ROOT / (
+    "runs/physics-language/quartic-tc2-d4-independent-g2-alternative-k55-recurrence/campaign.json"
+)
 SYSTEM9_GLOBAL_H7_RECEIPT = ROOT / (
     "runs/physics-language/quartic-candidate-complete-global-h7-lifespan-gate/campaign.json"
+)
+SYSTEM9_SUCCESSOR_RECEIPT = ROOT / (
+    "runs/physics-language/"
+    "quartic-candidate-complete-global-h7-lifespan-system8-successor-gate/campaign.json"
 )
 D2_CROSS_DIRECTION_RECEIPT = ROOT / (
     "runs/physics-language/quartic-registered-direction-cross-leaf-d2-replay-gate/campaign.json"
@@ -101,6 +108,46 @@ D2_REACHABLE_LEAF_COMPLETION_RECEIPT = ROOT / (
 )
 D2_PGRADIENT_LEAF_RECEIPT = ROOT / (
     "runs/physics-language/quartic-pgradient-abc-leaf-authority-gate/campaign.json"
+)
+D2_LEAF_SUCCESSOR_CHAIN = (
+    (
+        "runs/physics-language/quartic-remaining-scalar-hessian-abc-leaf-authority-gate/campaign.json",
+        30,
+    ),
+    ("runs/physics-language/quartic-s03-metric-abc-leaf-authority-gate/campaign.json", 40),
+    (
+        "runs/physics-language/quartic-s01-metric-complement-abc-leaf-authority-gate/campaign.json",
+        49,
+    ),
+    (
+        "runs/physics-language/quartic-s02-metric-complement-abc-leaf-authority-gate/campaign.json",
+        58,
+    ),
+    (
+        "runs/physics-language/quartic-s12-metric-complement-abc-leaf-authority-gate/campaign.json",
+        67,
+    ),
+    (
+        "runs/physics-language/quartic-s13-metric-complement-abc-leaf-authority-gate/campaign.json",
+        76,
+    ),
+    (
+        "runs/physics-language/quartic-s23-metric-complement-abc-leaf-authority-gate/campaign.json",
+        85,
+    ),
+    (
+        "runs/physics-language/quartic-s33-metric-complement-abc-leaf-authority-gate/campaign.json",
+        93,
+    ),
+    (
+        "runs/physics-language/quartic-s11-metric-complement-abc-leaf-authority-gate/campaign.json",
+        99,
+    ),
+    (
+        "runs/physics-language/quartic-s22-metric-complement-abc-leaf-authority-gate/campaign.json",
+        105,
+    ),
+    ("runs/physics-language/quartic-p0-metric-lower-abc-leaf-authority-gate/campaign.json", 115),
 )
 SYSTEM11_SOLAR_AUTHORIZATION_RECEIPT = ROOT / (
     "runs/math/system11-g2-solar-authorization-closure/receipt.json"
@@ -129,6 +176,7 @@ FLUID_CONSTRAINT_RECEIPT = ROOT / (
 CURRENT_OPERATIONAL_RECEIPT = ROOT / (
     "runs/engine/current-operational-scratch-recovery-campaign/result.json"
 )
+DURABLE_TWO_HOST_CONFIG = ROOT / "configs/durable_two_host_campaign.json"
 COMBINED_MATTER_RECEIPT = ROOT / (
     "runs/math/combined-scalar-maxwell-fluid-gravity-interface-gate/receipt.json"
 )
@@ -188,6 +236,27 @@ SYSTEM10_CYLINDRICAL_ROWS_RECEIPT = ROOT / (
 )
 SYSTEM10_R_POSITIVE_RECEIPT = ROOT / (
     "runs/math/system10-cylindrical-r-positive-domain-lift/receipt.json"
+)
+SYSTEM10_PROPAGATION_ATTEMPT_RECEIPT = ROOT / (
+    "runs/math/system10-cylindrical-r-positive-constraint-propagation-attempt/receipt.json"
+)
+SYSTEM10_DIVQ_RECEIPT = ROOT / (
+    "runs/math/system10-cylindrical-r-positive-divq-row-materializer/receipt.json"
+)
+SYSTEM10_KINEMATIC_RHS_RECEIPT = ROOT / (
+    "runs/math/system10-cylindrical-r-positive-kinematic-rhs-materializer/receipt.json"
+)
+SYSTEM10_MATTER_RHS_RECEIPT = ROOT / (
+    "runs/math/system10-cylindrical-r-positive-matter-dynamic-rhs-materializer/receipt.json"
+)
+SYSTEM10_MAXWELL_RHS_RECEIPT = ROOT / (
+    "runs/math/system10-cylindrical-r-positive-maxwell-dynamic-rhs-materializer/receipt.json"
+)
+SYSTEM10_GRAVITY_SCALAR_RHS_RECEIPT = ROOT / (
+    "runs/math/system10-cylindrical-r-positive-gravity-scalar-dynamic-rhs-readiness/receipt.json"
+)
+SYSTEM10_GRAVITY_SCALAR_AW_RECEIPT = ROOT / (
+    "runs/math/system10-cylindrical-r-positive-gravity-scalar-aw-readiness/receipt.json"
 )
 
 
@@ -423,7 +492,28 @@ def test_matter_and_p55_counts_are_projected_from_checked_receipts() -> None:
     assert all_polarization["first_exact_incompatibility"]["joint_augmented_rank"] == 5
     assert all_polarization["counts"]["manifest_registered_after"] == 154
     assert all_polarization["claims"]["manifest_advanced"] is False
+    independent_g2 = _load(INDEPENDENT_G2_ALTERNATIVE_RECEIPT)
+    assert independent_g2["decision"] == "BLOCK_SERIALIZATION"
+    assert independent_g2["counts"]["required_evaluations"] == 15
+    assert independent_g2["counts"]["transport_evaluations_audited"] == 15
+    assert independent_g2["counts"]["transport_evaluations_solved"] == 15
+    assert independent_g2["counts"]["55_state_lifts_passed"] == 2
+    assert independent_g2["counts"]["positive_tubes_proved"] == 0
+    assert independent_g2["counts"]["manifest_registered_after"] == 154
+    assert independent_g2["counts"]["remaining_packets"] == 150
+    assert independent_g2["claims"]["all_15_broader_transports_proved"]
+    assert independent_g2["claims"]["all_15_exact_55_state_lifts_proved"] is False
+    assert independent_g2["first_exact_55_state_lift_failure"] == {
+        "K55_symmetrizer_remainder_entries": [0, 0, 72],
+        "K55_symmetry_remainder_entries": [0, 0, 0],
+        "evaluation_id": "subset_2",
+        "first_missing_primitive": (
+            "exact_55_state_transverse_cross_lift_of_independent_G2_metric"
+        ),
+    }
     assert "manifest atomically to 154/304" in text
+    assert "all 15/15 transport systems exactly" in text
+    assert "symmetrizer remainders are `[0,0,72]`" in text
     assert "BLOCKED on 150 packets" in text
     system9 = _load(SYSTEM9_GLOBAL_H7_RECEIPT)
     assert system9["decision"] == "BLOCK_SYSTEM9"
@@ -441,8 +531,22 @@ def test_matter_and_p55_counts_are_projected_from_checked_receipts() -> None:
         system9["exact_remaining_contract"]["first_missing_primitive"]
         == "candidate_bound_full_tensor_source_good_unknown_B7_bound_or_completion_grade_full_direction_obstruction"
     )
-    assert "12/12 candidates are terminally classified" in text
-    assert "not completion-grade" in text
+    assert "All 12 candidates remain honestly BLOCKED" in text
+    assert "not candidate-bound" in text
+    system9_successor = _load(SYSTEM9_SUCCESSOR_RECEIPT)
+    assert system9_successor["decision"] == "BLOCK_SYSTEM9"
+    assert system9_successor["counts"]["selected_candidates"] == 12
+    assert system9_successor["counts"]["candidate_blocks"] == 12
+    assert system9_successor["counts"]["proved_independent_G2_transport_evaluations"] == 15
+    assert system9_successor["counts"]["exact_55_state_lifts_passed"] == 2
+    assert system9_successor["counts"]["candidates_upgraded_to_completion_grade"] == 0
+    assert system9_successor["counts"]["completion_grade_obstructions_after"] == 0
+    assert system9_successor["claims"]["completion_grade_obstruction_proved"] is False
+    assert (
+        system9_successor["exact_remaining_contract"]["first_System9_completion_primitive"]
+        == "candidate_bound_full_tensor_source_good_unknown_B7_bound_or_all_closure_strategy_completion_grade_obstruction"
+    )
+    assert "upgrades 0/12 candidates to completion-grade" in text
 
     d2_cross = _load(D2_CROSS_DIRECTION_RECEIPT)
     assert d2_cross["gate_counts"]["new_off_diagonal_records_all_candidates"] == 60_984
@@ -504,8 +608,25 @@ def test_matter_and_p55_counts_are_projected_from_checked_receipts() -> None:
     assert pgradient_counts["remaining_coordinate_columns_without_A_B_C_leaf_authority"] == 127
     assert pgradient_counts["potential_candidate_bound_D2_records_blocked"] == 1_056
     assert pgradient["claim_seals"]["D2_entry_count_advanced"] is False
-    assert "126,720 exact scalar-gradient leaf roots" in text
-    assert "remaining 127 coordinate columns" in text
+    previous = 26
+    for relative_path, expected_after in D2_LEAF_SUCCESSOR_CHAIN:
+        successor = _load(ROOT / relative_path)
+        counts = successor["gate_counts"]
+        assert counts["previous_registered_coordinate_columns"] == previous
+        assert counts["registered_coordinate_columns_after"] == expected_after
+        assert counts["remaining_coordinate_columns_without_A_B_C_leaf_authority"] == (
+            153 - expected_after
+        )
+        assert counts["registered_D2_entries_per_candidate_before"] == 5_324
+        assert counts["registered_D2_entries_per_candidate_after"] == 5_324
+        assert successor["claim_seals"]["D2_entry_count_advanced"] is False
+        previous = expected_after
+    assert previous == 115
+    assert "115 of 153 coordinate columns" in text
+    assert "115/153 A/B/C leaf columns" in text
+    assert "lower-`p0` gate adds 10 columns and 316,800 exact" in text
+    assert "D2 remains 5,324/257,499" in text
+    assert "open for 38 coordinate columns" in text
 
 
 def test_system11_authorization_closure_is_current_and_target_free() -> None:
@@ -617,7 +738,7 @@ def test_fluid_followups_close_action_and_stress_only() -> None:
     assert fluid["exact_replay"]["equation_of_state"] == "p=rho/3"
     assert fluid["claims"]["vortical_flows_covered"] is False
     assert fluid["claims"]["universal_matter_closure_established"] is False
-    assert "vortical matter" in text
+    assert "irrotational `P(X)=kappa X^2` sector" in text
 
     stress = _load(FLUID_STRESS_RECEIPT)
     assert stress["decision"] == "PASS_SECOND_GATE_ONLY"
@@ -863,17 +984,66 @@ def test_fluid_followups_close_action_and_stress_only() -> None:
     assert r_positive["counts"]["exact_r1_replays"] == 1_062
     assert r_positive["claims"]["fixed_cylindrical_profile_r_positive_closed"]
     assert r_positive["claims"]["sourced_constraint_propagation_closed"] is False
+    propagation = _load(SYSTEM10_PROPAGATION_ATTEMPT_RECEIPT)
+    assert propagation["counts"]["fully_expanded_divQ_rows_required"] == 4
+    assert propagation["counts"]["fully_expanded_divQ_rows_registered"] == 0
+    assert propagation["counts"]["sourced_constraint_propagation_proofs"] == 0
+    divq = _load(SYSTEM10_DIVQ_RECEIPT)
+    assert divq["counts"]["divq_rows_required"] == 4
+    assert divq["counts"]["divq_rows_registered"] == 4
+    assert divq["counts"]["total_nonzero_operator_terms"] == 191
+    assert divq["claims"]["four_divq_rows_closed"]
+    assert divq["claims"]["constraint_propagation_closed"] is False
+    kinematic = _load(SYSTEM10_KINEMATIC_RHS_RECEIPT)
+    assert kinematic["counts"]["common_kinematic_rows_registered"] == 68
+    assert kinematic["counts"]["full_85_state_rhs_candidates_closed"] == 0
+    matter_rhs = _load(SYSTEM10_MATTER_RHS_RECEIPT)
+    assert matter_rhs["counts"]["matter_dynamic_rows_registered"] == 2
+    assert matter_rhs["counts"]["total_rhs_rows_closed_per_candidate"] == 70
+    maxwell_rhs = _load(SYSTEM10_MAXWELL_RHS_RECEIPT)
+    assert maxwell_rhs["counts"]["maxwell_dynamic_rows_registered"] == 4
+    assert maxwell_rhs["counts"]["total_rhs_rows_closed_per_candidate"] == 74
+    assert maxwell_rhs["counts"]["candidate_dynamic_rows_remaining"] == 132
+    gravity_scalar = _load(SYSTEM10_GRAVITY_SCALAR_RHS_RECEIPT)
+    assert gravity_scalar["counts"]["predecessor_rhs_rows_per_candidate"] == 74
+    assert gravity_scalar["counts"]["total_rhs_rows_closed_per_candidate"] == 74
+    assert gravity_scalar["counts"]["dynamic_rows_remaining_per_candidate"] == 11
+    assert gravity_scalar["counts"]["candidate_dynamic_rows_remaining"] == 132
+    assert gravity_scalar["claims"]["full_85_state_rhs_closed"] is False
+    aw = _load(SYSTEM10_GRAVITY_SCALAR_AW_RECEIPT)
+    assert aw["counts"]["rhs_rows_closed_per_candidate"] == 74
+    assert aw["counts"]["semantic_A_entries_manifested"] == 121
+    assert aw["counts"]["semantic_W_entries_manifested"] == 11
+    assert aw["counts"]["coordinate_arithmetic_A_entries"] == 0
+    assert aw["counts"]["coordinate_arithmetic_W_entries"] == 0
+    assert aw["counts"]["candidate_dynamic_rows_remaining"] == 132
+    assert aw["claims"]["coordinate_arithmetic_A_W_materialized"] is False
     assert "max|B_mu| <= 8/38505" in text
     assert "all 96 physical gravity rows" in text
-    assert "fixed cylindrical profile over the full domain `r>0`" in text
-    assert "1,062 exact `r=1` replays" in text
+    assert "all 96 physical gravity rows over `r>0`" in text
     assert "30,884 exact sparse-polynomial terms" in text
     assert "Arbitrary formulation functions" in text
     assert "all 780 readiness slots in 48 chained packets" in text
     assert "17 exact indexed tensor templates" in text
     assert "four gravity rows into 112 exact coefficients" in text
     assert "complete 1,010-value packet" in text
-    assert "This is not a physical Jordan no-go" in text
+    assert "74/85 RHS rows per candidate" in text
+    assert "11 gravity/scalar rows remain" in text
+    assert "closes 4/4 rows with 191 nonzero operator terms" in text
+    assert "132 semantic A/W roots (121 A and 11 W)" in text
+    assert "all 132 candidate-row instances remain blocked" in text
+    assert "physical Jordan no-go" in text
+
+
+def test_system12_live_campaign_remains_honestly_receiptless() -> None:
+    text = DOCUMENT.read_text(encoding="utf-8")
+    config = _load(DURABLE_TWO_HOST_CONFIG)
+    assert config["duration"]["required_credited_seconds"] == 21_600
+    assert config["logical_hosts"] == ["host-a", "host-b"]
+    assert config["storage"]["maximum_sqlite_family_bytes"] == 536_870_912
+    assert "actual >=6-hour campaign is currently running" in text
+    assert "no terminal six-hour receipt is checked in" in text
+    assert "honestly reaches 21,600 credited seconds" in text
 
 
 def test_current_scratch_recovery_is_measured_without_production_freshness_claim() -> None:
@@ -893,4 +1063,4 @@ def test_current_scratch_recovery_is_measured_without_production_freshness_claim
     assert receipt["claims"]["live_sqlite_opened"] is False
     assert receipt["claims"]["production_scheduler_freshness_established"] is False
     assert "attempts `[2,1,1]`" in text
-    assert "production freshness still open" in text
+    assert "legacy production freshness remain open" in text
