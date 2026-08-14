@@ -78,6 +78,9 @@ HIGHER_H_STAR_RESULT = ROOT / (
 ALTERNATIVE_SYMMETRIZER_RECEIPT = ROOT / (
     "runs/physics-language/quartic-tc2-d4-alternative-symmetrizer-recurrence-audit/campaign.json"
 )
+SYSTEM9_GLOBAL_H7_RECEIPT = ROOT / (
+    "runs/physics-language/quartic-candidate-complete-global-h7-lifespan-gate/campaign.json"
+)
 D2_CROSS_DIRECTION_RECEIPT = ROOT / (
     "runs/physics-language/quartic-registered-direction-cross-leaf-d2-replay-gate/campaign.json"
 )
@@ -400,6 +403,24 @@ def test_matter_and_p55_counts_are_projected_from_checked_receipts() -> None:
     assert alternative["counts"]["remaining_rows"] == 117_180
     assert "manifest atomically to 154/304" in text
     assert "BLOCKED on 150 packets" in text
+    system9 = _load(SYSTEM9_GLOBAL_H7_RECEIPT)
+    assert system9["decision"] == "BLOCK_SYSTEM9"
+    assert system9["counts"]["selected_candidates"] == 12
+    assert system9["counts"]["candidate_blocks"] == 12
+    assert system9["counts"]["closed_global_H7_proofs"] == 0
+    assert system9["counts"]["closed_bootstraps"] == 0
+    assert system9["counts"]["positive_lifespans"] == 0
+    assert system9["counts"]["finite_unmodified_Sobolev_obstructions"] == 12
+    assert system9["counts"]["completion_grade_obstructions"] == 0
+    assert system9["counts"]["accepted_full_direction_recurrence_evaluations"] == 0
+    assert system9["counts"]["missing_full_direction_alternative_evaluations"] == 14
+    assert system9["claims"]["completion_grade_obstruction_proved"] is False
+    assert (
+        system9["exact_remaining_contract"]["first_missing_primitive"]
+        == "candidate_bound_full_tensor_source_good_unknown_B7_bound_or_completion_grade_full_direction_obstruction"
+    )
+    assert "12/12 candidates are now terminally classified" in text
+    assert "not completion-grade" in text
 
     d2_cross = _load(D2_CROSS_DIRECTION_RECEIPT)
     assert d2_cross["gate_counts"]["new_off_diagonal_records_all_candidates"] == 60_984
