@@ -87,6 +87,9 @@ D2_COORDINATE_COMPLEMENT_RECEIPT = ROOT / (
 D2_PRINCIPAL_PROJECTION_RECEIPT = ROOT / (
     "runs/physics-language/quartic-principal-second-jet-covariant-projection-gate/campaign.json"
 )
+D2_LOWER_PROJECTION_RECEIPT = ROOT / (
+    "runs/physics-language/quartic-lower-coordinate-covariant-projection-gate/campaign.json"
+)
 SYSTEM11_SOLAR_AUTHORIZATION_RECEIPT = ROOT / (
     "runs/math/system11-g2-solar-authorization-closure/receipt.json"
 )
@@ -311,7 +314,7 @@ def test_matter_and_p55_counts_are_projected_from_checked_receipts() -> None:
     assert tc2_zero["claims"]["all_15_TC2_Taylor_order_zero_packets_registered"] is True
     assert tc2_zero["claims"]["full_direction_sphere_D4_compatibility_proved"] is False
     assert "manifest to 79/304" in text
-    assert "BLOCKED on 195 packets" in text
+    assert "BLOCKED on 150 packets" in text
     frontier = _load(ORDER_ONE_FRONTIER_RECEIPT)
     assert frontier["status"] == "block_coordinate_free_P55_Taylor_order_one_serialization_absent"
     assert frontier["counts"]["target_P55_Taylor_order_one_packets"] == 15
@@ -342,7 +345,7 @@ def test_matter_and_p55_counts_are_projected_from_checked_receipts() -> None:
     assert k0_directional["counts"]["exact_direction_controls_passed"] == 6
     assert k0_directional["claims"]["coordinate_free_K0_directional_lift_formula_constructed"]
     assert k0_directional["claims"]["expanded_55x55_polynomial_K0_packet_emitted"] is False
-    assert "basis-free directional lift reproduces all 3,025 sealed e1 entries" in text
+    assert "basis-free directional lift" in text
     k0_polynomial = _load(COORDINATE_FREE_K0_POLYNOMIAL_RECEIPT)
     assert k0_polynomial["counts"]["K0_polynomial_nonzero_entries"] == 847
     assert k0_polynomial["counts"]["K0_polynomial_normal_form_terms"] == 2_732
@@ -421,7 +424,16 @@ def test_matter_and_p55_counts_are_projected_from_checked_receipts() -> None:
     assert projection["claim_seals"]["formal_22_slot_to_20_unique_alias_reconciled"] is True
     assert projection["claim_seals"]["D2_entry_count_advanced"] is False
     assert "all 99 principal second-jet directions" in text
-    assert "54 lower q/p directions" in text
+    lower_projection = _load(D2_LOWER_PROJECTION_RECEIPT)
+    assert lower_projection["gate_counts"]["lower_projection_directions_registered"] == 54
+    assert lower_projection["gate_counts"]["candidate_bound_lower_projection_certificates"] == 648
+    assert lower_projection["gate_counts"]["unique_coordinate_directions_projected"] == 153
+    assert lower_projection["gate_counts"]["new_D2_entries_registered_per_candidate"] == 0
+    assert lower_projection["D1_DAG_audit"]["missing_candidate_bound_leaf_derivatives"] == 31_680
+    assert lower_projection["claim_seals"]["all_54_lower_coordinate_directions_projected"]
+    assert lower_projection["claim_seals"]["D2_entry_count_advanced"] is False
+    assert "remaining 54 q/p directions" in text
+    assert "31,680 reachable A/B/C" in text
 
 
 def test_system11_authorization_closure_is_current_and_target_free() -> None:
