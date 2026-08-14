@@ -72,6 +72,9 @@ COORDINATE_FREE_TC2_ORDER_ONE_RECEIPT = ROOT / (
 D2_CROSS_DIRECTION_RECEIPT = ROOT / (
     "runs/physics-language/quartic-registered-direction-cross-leaf-d2-replay-gate/campaign.json"
 )
+D2_COORDINATE_COMPLEMENT_RECEIPT = ROOT / (
+    "runs/physics-language/quartic-full-coordinate-tangent-complement-checkpoint-gate/campaign.json"
+)
 BATCH_RECEIPT = ROOT / (
     "runs/engine/continuous-scientific-pipeline-epoch-003-formal-receipt-batch-0005/result.json"
 )
@@ -365,7 +368,19 @@ def test_matter_and_p55_counts_are_projected_from_checked_receipts() -> None:
     assert d2_cross["gate_counts"]["remaining_per_candidate"] == 252_175
     assert d2_cross["claim_seals"]["complete_D2F"] is False
     assert "5,324 of 257,499" in text
-    assert "other 131 directions" in text
+    complement = _load(D2_COORDINATE_COMPLEMENT_RECEIPT)
+    assert complement["gate_counts"]["existing_formal_direction_records_per_candidate"] == 22
+    assert complement["gate_counts"]["existing_unique_coordinate_vectors_per_candidate"] == 20
+    assert complement["gate_counts"]["new_coordinate_tangent_certificates_per_candidate"] == 133
+    assert complement["gate_counts"]["new_coordinate_tangent_certificates_all_candidates"] == 1_596
+    assert complement["gate_counts"]["checkpoint_receipts"] == 96
+    assert (
+        complement["gate_counts"]["unique_coordinate_vectors_per_candidate_after_extension"] == 153
+    )
+    assert complement["gate_counts"]["new_D2_entries_registered_per_candidate"] == 0
+    assert complement["claim_seals"]["physical_covariant_component_projection_registered"] is False
+    assert "all 153 unique coordinate directions are now sealed" in text
+    assert "physical coordinate-to-covariant projection" in text
 
 
 def test_continuous_cursor_counts_and_product_milestones_are_current() -> None:
