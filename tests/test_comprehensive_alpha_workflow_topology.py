@@ -82,6 +82,12 @@ def test_common_gate_and_parallel_slices_keep_actionable_diagnostics() -> None:
     assert "needs: comprehensive_alpha_common" in matrix
     assert "timeout-minutes: 75" in matrix
     assert "fail-fast: false" in matrix
+    assert "uses: leanprover/lean-action@v1" in matrix
+    assert (
+        matrix.index("uses: actions/setup-python@v5")
+        < matrix.index("uses: leanprover/lean-action@v1")
+        < matrix.index("python scripts/materialize_hash_bound_worktree.py")
+    )
     assert "python scripts/materialize_hash_bound_worktree.py" in matrix
     assert 'python -m pip install --editable ".[dev]"' in matrix
     assert "${{ matrix.test_files }}" in matrix
