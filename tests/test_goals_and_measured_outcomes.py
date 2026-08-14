@@ -78,6 +78,9 @@ HIGHER_H_STAR_RESULT = ROOT / (
 ALTERNATIVE_SYMMETRIZER_RECEIPT = ROOT / (
     "runs/physics-language/quartic-tc2-d4-alternative-symmetrizer-recurrence-audit/campaign.json"
 )
+ALL_POLARIZATION_ALTERNATIVE_RECEIPT = ROOT / (
+    "runs/physics-language/quartic-tc2-d4-all-polarization-alternative-k55-recurrence/campaign.json"
+)
 SYSTEM9_GLOBAL_H7_RECEIPT = ROOT / (
     "runs/physics-language/quartic-candidate-complete-global-h7-lifespan-gate/campaign.json"
 )
@@ -95,6 +98,9 @@ D2_LOWER_PROJECTION_RECEIPT = ROOT / (
 )
 D2_REACHABLE_LEAF_COMPLETION_RECEIPT = ROOT / (
     "runs/physics-language/quartic-reachable-leaf-derivative-completion-gate/campaign.json"
+)
+D2_PGRADIENT_LEAF_RECEIPT = ROOT / (
+    "runs/physics-language/quartic-pgradient-abc-leaf-authority-gate/campaign.json"
 )
 SYSTEM11_SOLAR_AUTHORIZATION_RECEIPT = ROOT / (
     "runs/math/system11-g2-solar-authorization-closure/receipt.json"
@@ -179,6 +185,9 @@ GAUGE_SCALAR_EXPANSION_RECEIPT = ROOT / (
 )
 SYSTEM10_CYLINDRICAL_ROWS_RECEIPT = ROOT / (
     "runs/math/system10-cylindrical-sourced-constraint-row-materializer/receipt.json"
+)
+SYSTEM10_R_POSITIVE_RECEIPT = ROOT / (
+    "runs/math/system10-cylindrical-r-positive-domain-lift/receipt.json"
 )
 
 
@@ -404,6 +413,16 @@ def test_matter_and_p55_counts_are_projected_from_checked_receipts() -> None:
     assert alternative["counts"]["global_coordinate_free_alternatives"] == 0
     assert alternative["counts"]["remaining_packets"] == 150
     assert alternative["counts"]["remaining_rows"] == 117_180
+    all_polarization = _load(ALL_POLARIZATION_ALTERNATIVE_RECEIPT)
+    assert all_polarization["decision"] == "BLOCK_SERIALIZATION"
+    assert all_polarization["counts"]["required_evaluations"] == 15
+    assert all_polarization["counts"]["evaluations_audited"] == 6
+    assert all_polarization["counts"]["evaluations_solved"] == 5
+    assert all_polarization["first_exact_incompatibility"]["evaluation_id"] == "subset_02"
+    assert all_polarization["first_exact_incompatibility"]["joint_coefficient_rank"] == 4
+    assert all_polarization["first_exact_incompatibility"]["joint_augmented_rank"] == 5
+    assert all_polarization["counts"]["manifest_registered_after"] == 154
+    assert all_polarization["claims"]["manifest_advanced"] is False
     assert "manifest atomically to 154/304" in text
     assert "BLOCKED on 150 packets" in text
     system9 = _load(SYSTEM9_GLOBAL_H7_RECEIPT)
@@ -422,7 +441,7 @@ def test_matter_and_p55_counts_are_projected_from_checked_receipts() -> None:
         system9["exact_remaining_contract"]["first_missing_primitive"]
         == "candidate_bound_full_tensor_source_good_unknown_B7_bound_or_completion_grade_full_direction_obstruction"
     )
-    assert "12/12 candidates are now terminally classified" in text
+    assert "12/12 candidates are terminally classified" in text
     assert "not completion-grade" in text
 
     d2_cross = _load(D2_CROSS_DIRECTION_RECEIPT)
@@ -474,7 +493,19 @@ def test_matter_and_p55_counts_are_projected_from_checked_receipts() -> None:
     assert leaf_completion["claim_seals"]["all_31680_reachable_leaf_derivative_roots_registered"]
     assert leaf_completion["claim_seals"]["D2_entry_count_advanced"] is False
     assert "all 31,680 A/B/C component-input roots" in text
-    assert "remaining 131 coordinate columns" in text
+    assert "checks all 264 bounded ordered-D2 Merkle records" in text
+    pgradient = _load(D2_PGRADIENT_LEAF_RECEIPT)
+    pgradient_counts = pgradient["gate_counts"]
+    assert pgradient_counts["new_leaf_derivative_roots_all_candidates"] == 126_720
+    assert pgradient_counts["nonzero_leaf_derivative_roots"] == 13_728
+    assert pgradient_counts["exact_zero_leaf_derivative_roots"] == 112_992
+    assert pgradient_counts["new_scalar_gradient_coordinate_columns"] == 4
+    assert pgradient_counts["registered_coordinate_columns_after"] == 26
+    assert pgradient_counts["remaining_coordinate_columns_without_A_B_C_leaf_authority"] == 127
+    assert pgradient_counts["potential_candidate_bound_D2_records_blocked"] == 1_056
+    assert pgradient["claim_seals"]["D2_entry_count_advanced"] is False
+    assert "126,720 exact scalar-gradient leaf roots" in text
+    assert "remaining 127 coordinate columns" in text
 
 
 def test_system11_authorization_closure_is_current_and_target_free() -> None:
@@ -823,10 +854,21 @@ def test_fluid_followups_close_action_and_stress_only() -> None:
         == 0
     )
     assert cylindrical_rows["claims"]["sourced_constraint_propagation_closed"] is False
+    r_positive = _load(SYSTEM10_R_POSITIVE_RECEIPT)
+    assert r_positive["decision"] == (
+        "BOUNDED_PASS_FIXED_CYLINDRICAL_R_POSITIVE_1010_JETS_AND_96_ROWS_NO_PROPAGATION_CLAIM"
+    )
+    assert r_positive["counts"]["formulation_jet_rational_functions"] == 1_010
+    assert r_positive["counts"]["physical_gravity_rows_closed"] == 96
+    assert r_positive["counts"]["exact_r1_replays"] == 1_062
+    assert r_positive["claims"]["fixed_cylindrical_profile_r_positive_closed"]
+    assert r_positive["claims"]["sourced_constraint_propagation_closed"] is False
     assert "max|B_mu| <= 8/38505" in text
-    assert "96/96 specialized physical gravity rows" in text
+    assert "all 96 physical gravity rows" in text
+    assert "fixed cylindrical profile over the full domain `r>0`" in text
+    assert "1,062 exact `r=1` replays" in text
     assert "30,884 exact sparse-polynomial terms" in text
-    assert "General expansion remains blocked" in text
+    assert "Arbitrary formulation functions" in text
     assert "all 780 readiness slots in 48 chained packets" in text
     assert "17 exact indexed tensor templates" in text
     assert "four gravity rows into 112 exact coefficients" in text
