@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import sqlite3
 from concurrent.futures import ThreadPoolExecutor
@@ -20,6 +21,9 @@ from sigma_theory_compiler.durable_two_host_campaign import (
 
 ROOT = Path(__file__).resolve().parents[1]
 CONFIG = ROOT / "configs" / "durable_two_host_campaign.json"
+TERMINAL_RECEIPT = (
+    ROOT / "runs" / "engine" / "formula-discovery-durable-two-host-001" / "duration-receipt.json"
+)
 
 
 class MutableClock:
@@ -222,3 +226,25 @@ def test_production_config_has_no_fast_duration_escape_hatch() -> None:
     shortened["duration"]["required_credited_seconds"] = 1
     with pytest.raises(DurableCampaignError, match="real-duration contract"):
         DurableTwoHostCampaign(Path.cwd() / ".must-not-create", shortened)
+
+
+def test_terminal_receipt_has_canonical_seal_and_no_physical_machine_claim() -> None:
+    receipt = json.loads(TERMINAL_RECEIPT.read_text(encoding="utf-8"))
+    body = {key: value for key, value in receipt.items() if key != "content_sha256"}
+    canonical = json.dumps(body, sort_keys=True, separators=(",", ":"), ensure_ascii=True)
+    assert hashlib.sha256(canonical.encode("utf-8")).hexdigest() == receipt["content_sha256"]
+    assert receipt["decision"] == "PASS"
+    assert receipt["duration"]["credited_wall_seconds"] >= 21_600
+    assert receipt["claims"]["two_logical_hosts_observed"] is True
+    assert receipt["claims"]["two_physical_machines_established"] is False
+    assert receipt["claims"]["scientific_result_inferred"] is False
+
+    tampered = json.loads(json.dumps(receipt))
+    tampered["duration"]["credited_wall_seconds"] += 1
+    tampered_body = {key: value for key, value in tampered.items() if key != "content_sha256"}
+    tampered_canonical = json.dumps(
+        tampered_body, sort_keys=True, separators=(",", ":"), ensure_ascii=True
+    )
+    assert (
+        hashlib.sha256(tampered_canonical.encode("utf-8")).hexdigest() != receipt["content_sha256"]
+    )

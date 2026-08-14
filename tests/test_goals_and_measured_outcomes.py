@@ -181,6 +181,9 @@ CURRENT_OPERATIONAL_RECEIPT = ROOT / (
     "runs/engine/current-operational-scratch-recovery-campaign/result.json"
 )
 DURABLE_TWO_HOST_CONFIG = ROOT / "configs/durable_two_host_campaign.json"
+DURABLE_TWO_HOST_RECEIPT = ROOT / (
+    "runs/engine/formula-discovery-durable-two-host-001/duration-receipt.json"
+)
 COMBINED_MATTER_RECEIPT = ROOT / (
     "runs/math/combined-scalar-maxwell-fluid-gravity-interface-gate/receipt.json"
 )
@@ -1188,15 +1191,37 @@ def test_fluid_followups_close_action_and_stress_only() -> None:
     assert "physical Jordan no-go" in text
 
 
-def test_system12_live_campaign_remains_honestly_receiptless() -> None:
+def test_system12_real_duration_receipt_preserves_its_honest_scope() -> None:
     text = DOCUMENT.read_text(encoding="utf-8")
     config = _load(DURABLE_TWO_HOST_CONFIG)
+    receipt = _load(DURABLE_TWO_HOST_RECEIPT)
     assert config["duration"]["required_credited_seconds"] == 21_600
     assert config["logical_hosts"] == ["host-a", "host-b"]
     assert config["storage"]["maximum_sqlite_family_bytes"] == 536_870_912
-    assert "actual >=6-hour campaign is currently running" in text
-    assert "no terminal six-hour receipt is checked in" in text
-    assert "honestly reaches 21,600 credited seconds" in text
+    assert receipt["decision"] == "PASS"
+    assert receipt["duration"]["credited_wall_seconds"] == 21_600.000388
+    assert receipt["duration"]["credited_seconds_by_host"] == {
+        "host-a": 17_227.661285,
+        "host-b": 21_600.000388,
+    }
+    assert len(receipt["duration"]["cleanly_closed_sessions"]) == 2
+    assert receipt["event_count"] == 16
+    assert receipt["event_chain_root_sha256"] == (
+        "e082114afebb223e154633416691c7c896e900052869c50d2789c47eace4eed6"
+    )
+    assert receipt["storage"]["total_sqlite_family_bytes"] == 53_248
+    assert receipt["storage"]["maximum_sqlite_family_bytes"] == 536_870_912
+    assert receipt["storage"]["within_ceiling"] is True
+    assert receipt["work_counts"] == {"succeeded": 2}
+    assert receipt["claims"]["real_credited_wall_seconds_at_least_six_hours"] is True
+    assert receipt["claims"]["dead_session_runtime_credited"] is False
+    assert receipt["claims"]["overlapping_host_runtime_double_counted"] is False
+    assert receipt["claims"]["two_logical_hosts_observed"] is True
+    assert receipt["claims"]["two_physical_machines_established"] is False
+    assert receipt["claims"]["scientific_result_inferred"] is False
+    assert "21,600.000388 credited union seconds" in text
+    assert "two cleanly stopped logical-host sessions" in text
+    assert "no physical two-machine or scientific-validity claim" in text
 
 
 def test_current_scratch_recovery_is_measured_without_production_freshness_claim() -> None:

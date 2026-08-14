@@ -58,10 +58,17 @@ python -m sigma_theory_compiler.durable_two_host_campaign --config $config --sta
 
 ## Honest duration gate
 
-The repository contains no manufactured six-hour receipt. Only cleanly closed sessions receive
-credit, using the smaller of monotonic elapsed time and UTC wall elapsed time. Dead sessions receive
-zero. Overlapping intervals from the two hosts are unioned rather than added, each logical host must
-contribute at least 60 seconds, at least one work packet must succeed, and no queued, running, or
-failed work may remain. `receipt` exits 20 with `BLOCK` until real credited union time reaches
-21,600 seconds and all gates close. Short tests validate the mechanics and the premature-receipt
-block; the real-duration campaign must actually run to promote the operational claim.
+Only cleanly closed sessions receive credit, using the smaller of monotonic elapsed time and UTC
+wall elapsed time. Dead sessions receive zero. Overlapping intervals from the two hosts are unioned
+rather than added, each logical host must contribute at least 60 seconds, at least one work packet
+must succeed, and no queued, running, or failed work may remain. `receipt` exits 20 with `BLOCK`
+until real credited union time reaches 21,600 seconds and all gates close.
+
+The completed campaign receipt is checked in at
+`runs/engine/formula-discovery-durable-two-host-001/duration-receipt.json`. It replays 21,600.000388
+credited union seconds, credits `host-a` with 17,227.661285 seconds and `host-b` with 21,600.000388
+seconds, binds 16 chained events at root `e082114afebb223e154633416691c7c896e900052869c50d2789c47eace4eed6`,
+and records two succeeded work packets. Its SQLite-family measurement is 53,248 bytes under the
+536,870,912-byte ceiling. This is evidence for two logical host sessions and durable recovery only:
+the receipt explicitly does not establish two physical machines, scientific validity, or a
+production-scale workload.
