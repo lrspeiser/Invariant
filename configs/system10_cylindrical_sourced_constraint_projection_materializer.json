@@ -1,0 +1,59 @@
+{
+  "schema_version": "invariant-system10-cylindrical-sourced-constraint-projection-config-1.0",
+  "campaign_id": "system10-cylindrical-sourced-constraint-projection-materializer-001",
+  "output_path": "runs/math/system10-cylindrical-sourced-constraint-projection-materializer/receipt.json",
+  "bindings": {
+    "cylindrical_gauge_specialization": {
+      "path": "runs/math/system10-cylindrical-gauge-row-specialization-materializer/receipt.json",
+      "file_sha256": "4eb502de02054ef69f2e8ddbf4f724884b88c51a1f156a9a99ab98f011038250",
+      "content_sha256": "b95c209c934aa9948e9b16f3e290a37a131b2d0b3eb91f17069b7b79d9fe3b44"
+    },
+    "sourced_metric_euler": {
+      "path": "runs/math/quartic-twelve-candidate-sourced-metric-euler-binding/receipt.json",
+      "file_sha256": "63a4b876718b12518f4c2ceb6fac153dabc443ed36524a3594a184c5fd14b9ea",
+      "content_sha256": "fe485cc343a729573a3ca2d422c74e3f59b296ceb4453fdb14ed4e396b40ebdd"
+    },
+    "constraint_basis": {
+      "path": "runs/math/quartic-85-state-candidate-gravity-constraint-basis-gate/receipt.json",
+      "file_sha256": "4e8b1f3774b6ee6267ee2f809c46dbdaf73bddf755969a4b6654ea1e73901303",
+      "content_sha256": "00c853654ea2c635156662e89615befc249f55c6a9030a7457ece451135a6a9e"
+    }
+  },
+  "source_evidence": {
+    "geometric_euler": {
+      "path": "src/sigma_theory_compiler/quartic_nonlinear_evolution_campaign.py",
+      "file_sha256": "5ffa57365f9bb74a7699719d3b6548d2d9a79155be028757940375c2b91659a8"
+    },
+    "coordinate_jet": {
+      "path": "src/sigma_theory_compiler/quartic_geometric_jet_campaign.py",
+      "file_sha256": "d0600d6475d32d06a00140ab230aa41b3c057aef7a968163989fc5028d6acd21"
+    },
+    "source": {
+      "path": "src/sigma_theory_compiler/system10_cylindrical_sourced_constraint_projection_materializer.py",
+      "file_sha256": "6bd34f439fa1f61ab8519268699f48958f3e2f59439baf95fc498086551468ec"
+    },
+    "test": {
+      "path": "tests/test_system10_cylindrical_sourced_constraint_projection_materializer.py",
+      "file_sha256": "104662e13b61ea5bf4e17c5cd422af5b1b2fd3bab5c821ea0646a5165afb10f6"
+    }
+  },
+  "specialization": {
+    "coordinates": ["t", "r", "theta", "z"],
+    "evaluation_point": {"t": "0", "r": "1", "theta": "0", "z": "0"},
+    "physical_metric": "diag(-1,1,r^2,1)",
+    "future_unit_normal_covector_at_point": ["-1", "0", "0", "0"],
+    "orthonormal_symmetric_metric_row_order": ["00", "01", "02", "03", "11", "12", "13", "22", "23", "33"]
+  },
+  "claims_policy": {
+    "cylindrical_r1_only": true,
+    "normal_tangential_projection_operator": true,
+    "candidate_projection_skeletons": true,
+    "hamiltonian_momentum_coordinate_rows": false,
+    "sourced_acceleration_cancellation": false,
+    "general_domain": false,
+    "sourced_constraint_propagation": false,
+    "gravity_h7": false,
+    "universal_all_matter": false,
+    "promotion": false
+  }
+}

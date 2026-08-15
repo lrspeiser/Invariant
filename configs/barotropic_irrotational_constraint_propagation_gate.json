@@ -1,0 +1,40 @@
+{
+  "schema_version": "invariant-barotropic-irrotational-constraint-propagation-config-1.0",
+  "campaign_id": "barotropic-irrotational-constraint-propagation-gate-001",
+  "output_path": "runs/math/barotropic-irrotational-constraint-propagation-gate/receipt.json",
+  "predecessor": {
+    "path": "runs/math/barotropic-irrotational-hyperbolicity-gate/receipt.json",
+    "file_sha256": "ad283e6b34463364bceb507d3377308ec98e000ff9fd7a8cac336cbc2617ae5e",
+    "content_sha256": "203241214720947318109e6aabcb91d986fa683f2199d3b632127e84f05259c4",
+    "required_decision": "PASS_THIRD_GATE_ONLY"
+  },
+  "evidence_bindings": {
+    "formal_controls": {
+      "path": "runs/formal-controls-v1/formal-controls-portable.json",
+      "file_sha256": "1a121c66365e70aed1ee9b5e5803829b824ca57c4671ee61b6fa6bad1a1dd8e1",
+      "content_sha256": "cbf2f085198ac29afce473ca39ac7f39681d5ec6b781ef67cfed9313c0a8a420"
+    },
+    "legendre_source": {
+      "path": "src/sigma_theory_compiler/horndeski.py",
+      "file_sha256": "d108ed635851bb57fdeffcf23d02e4f66021e45591dbffd3b62e7983bb468d19"
+    }
+  },
+  "required_control": "generic_kessence_nonlinear_adm_legendre",
+  "specialization": {
+    "matter_field": "tau",
+    "pressure": "P(X)=kappa X^2",
+    "X_adm": "(v_n^2-s_squared)/2",
+    "domain": ["kappa>0", "v_n^2-s_squared=2X>0", "v_n future-directed"],
+    "matter_legendre_jacobian": "kappa(3 v_n^2-s_squared)"
+  },
+  "claims_policy": {
+    "close_matter_constraint_gate_only": true,
+    "gravity_constraint_propagation": false,
+    "coupled_gravity_matter_constraint_algebra": false,
+    "vortical_fluid": false,
+    "global_evolution": false,
+    "gravity_h7": false,
+    "universal_matter": false,
+    "promotion": false
+  }
+}

@@ -1,0 +1,338 @@
+{
+  "campaign_id": "system10-open-r-propagation-decomposition-audit-001",
+  "claims": {
+    "all_first_spatial_rhs_jets_closed": true,
+    "candidate_bound_subsidiary_system_closed": false,
+    "constraint_propagation_closed": false,
+    "coordinate_off_shell_decomposition_closed": false,
+    "global_theorem_established": false,
+    "hyperbolicity_closed": false,
+    "promotion_authorized": false,
+    "subsidiary_energy_estimate_closed": false
+  },
+  "content_sha256": "e2521ec0b7b3b4f3e205e6e446aa0a4606192364fa2dbf3e293fc7c3b192682a",
+  "counts": {
+    "all_first_spatial_rhs_jets_bound": 396,
+    "candidate_subsidiary_systems_closed": 0,
+    "candidates": 12,
+    "constraint_propagation_proofs": 0,
+    "coordinate_decomposition_rows_bound": 0,
+    "coordinate_decomposition_rows_required": 48,
+    "divQ_rows_bound": 4,
+    "equation_origin_seals_bound": 1020,
+    "full_rhs_rows_bound": 1020,
+    "physical_gravity_rows_bound": 96,
+    "radial_rhs_jets_bound": 132,
+    "tangential_rhs_jets_bound": 264
+  },
+  "decision": "BLOCK_COORDINATE_OFF_SHELL_DECOMPOSITION_UNREGISTERED_AFTER_ALL_SPATIAL_RHS_JETS",
+  "materialization": {
+    "closed_predecessor_block": {
+      "closed_candidate_instances": 264,
+      "source_receipt_content_sha256": "1bc89fac009454e280967105546e5997a72cdb797c52ffc6bfcbbc0514cf9a80",
+      "status": "PASS_ALL_TWELVE_TANGENTIAL_RHS_JETS"
+    },
+    "coordinate_decomposition_witness": {
+      "available_coordinate_rows": {
+        "constraint_rows": [
+          "Hamiltonian_E_nn",
+          "momentum_E_n1",
+          "momentum_E_n2",
+          "momentum_E_n3"
+        ],
+        "divQ_rows": [
+          "divQ_lower[0]",
+          "divQ_lower[1]",
+          "divQ_lower[2]",
+          "divQ_lower[3]"
+        ],
+        "first_spatial_rhs_jets_per_candidate": 33,
+        "rhs_rows_per_candidate": 85
+      },
+      "covariant_identity": "2*nabla^mu E_sourced_mu_nu+E_phi_g*nabla_nu(phi_g)+F_total_nu-2*nabla^mu Q_mu_nu=0",
+      "missing_link": "No sealed row expands each lower-nu covariant divergence into partial_0 of the Hamiltonian/momentum projections, spatial derivatives of spatial metric Euler components, connection lower-order terms, matter Euler-force terms, and divQ_lower[nu].",
+      "why_hash_matching_is_not_a_derivation": "Equation-origin and row seals identify inputs but do not supply projection signs, normalization coefficients, index lowering, or connection terms.",
+      "witness_sha256": "e52c5dc42e446cd038b667fda5b9676447a2a10c793416dcfe9300313f37b283"
+    },
+    "first_missing_primitive": {
+      "acceptance": "For every candidate and lower_nu=0..3, expand the registered covariant identity in the fixed cylindrical coordinate basis; substitute all 85 equation-origin rows and all 33 first spatial F jets; replay an exact zero residual; only then solve for a closed subsidiary row.",
+      "primitive": "candidate_bound_coordinate_off_shell_identity_decomposition_rows",
+      "primitive_sha256": "d56644c582f09e0b5598d39266a755f7c958f9e6cc703079c8f9d6bf9877cdc8",
+      "required_row_count": 48,
+      "required_rows": [
+        {
+          "candidate_index": 0,
+          "lower_nu": 0,
+          "required_output": "coordinate_off_shell_decomposition_candidate_00_nu_0"
+        },
+        {
+          "candidate_index": 0,
+          "lower_nu": 1,
+          "required_output": "coordinate_off_shell_decomposition_candidate_00_nu_1"
+        },
+        {
+          "candidate_index": 0,
+          "lower_nu": 2,
+          "required_output": "coordinate_off_shell_decomposition_candidate_00_nu_2"
+        },
+        {
+          "candidate_index": 0,
+          "lower_nu": 3,
+          "required_output": "coordinate_off_shell_decomposition_candidate_00_nu_3"
+        },
+        {
+          "candidate_index": 1,
+          "lower_nu": 0,
+          "required_output": "coordinate_off_shell_decomposition_candidate_01_nu_0"
+        },
+        {
+          "candidate_index": 1,
+          "lower_nu": 1,
+          "required_output": "coordinate_off_shell_decomposition_candidate_01_nu_1"
+        },
+        {
+          "candidate_index": 1,
+          "lower_nu": 2,
+          "required_output": "coordinate_off_shell_decomposition_candidate_01_nu_2"
+        },
+        {
+          "candidate_index": 1,
+          "lower_nu": 3,
+          "required_output": "coordinate_off_shell_decomposition_candidate_01_nu_3"
+        },
+        {
+          "candidate_index": 2,
+          "lower_nu": 0,
+          "required_output": "coordinate_off_shell_decomposition_candidate_02_nu_0"
+        },
+        {
+          "candidate_index": 2,
+          "lower_nu": 1,
+          "required_output": "coordinate_off_shell_decomposition_candidate_02_nu_1"
+        },
+        {
+          "candidate_index": 2,
+          "lower_nu": 2,
+          "required_output": "coordinate_off_shell_decomposition_candidate_02_nu_2"
+        },
+        {
+          "candidate_index": 2,
+          "lower_nu": 3,
+          "required_output": "coordinate_off_shell_decomposition_candidate_02_nu_3"
+        },
+        {
+          "candidate_index": 3,
+          "lower_nu": 0,
+          "required_output": "coordinate_off_shell_decomposition_candidate_03_nu_0"
+        },
+        {
+          "candidate_index": 3,
+          "lower_nu": 1,
+          "required_output": "coordinate_off_shell_decomposition_candidate_03_nu_1"
+        },
+        {
+          "candidate_index": 3,
+          "lower_nu": 2,
+          "required_output": "coordinate_off_shell_decomposition_candidate_03_nu_2"
+        },
+        {
+          "candidate_index": 3,
+          "lower_nu": 3,
+          "required_output": "coordinate_off_shell_decomposition_candidate_03_nu_3"
+        },
+        {
+          "candidate_index": 4,
+          "lower_nu": 0,
+          "required_output": "coordinate_off_shell_decomposition_candidate_04_nu_0"
+        },
+        {
+          "candidate_index": 4,
+          "lower_nu": 1,
+          "required_output": "coordinate_off_shell_decomposition_candidate_04_nu_1"
+        },
+        {
+          "candidate_index": 4,
+          "lower_nu": 2,
+          "required_output": "coordinate_off_shell_decomposition_candidate_04_nu_2"
+        },
+        {
+          "candidate_index": 4,
+          "lower_nu": 3,
+          "required_output": "coordinate_off_shell_decomposition_candidate_04_nu_3"
+        },
+        {
+          "candidate_index": 5,
+          "lower_nu": 0,
+          "required_output": "coordinate_off_shell_decomposition_candidate_05_nu_0"
+        },
+        {
+          "candidate_index": 5,
+          "lower_nu": 1,
+          "required_output": "coordinate_off_shell_decomposition_candidate_05_nu_1"
+        },
+        {
+          "candidate_index": 5,
+          "lower_nu": 2,
+          "required_output": "coordinate_off_shell_decomposition_candidate_05_nu_2"
+        },
+        {
+          "candidate_index": 5,
+          "lower_nu": 3,
+          "required_output": "coordinate_off_shell_decomposition_candidate_05_nu_3"
+        },
+        {
+          "candidate_index": 6,
+          "lower_nu": 0,
+          "required_output": "coordinate_off_shell_decomposition_candidate_06_nu_0"
+        },
+        {
+          "candidate_index": 6,
+          "lower_nu": 1,
+          "required_output": "coordinate_off_shell_decomposition_candidate_06_nu_1"
+        },
+        {
+          "candidate_index": 6,
+          "lower_nu": 2,
+          "required_output": "coordinate_off_shell_decomposition_candidate_06_nu_2"
+        },
+        {
+          "candidate_index": 6,
+          "lower_nu": 3,
+          "required_output": "coordinate_off_shell_decomposition_candidate_06_nu_3"
+        },
+        {
+          "candidate_index": 7,
+          "lower_nu": 0,
+          "required_output": "coordinate_off_shell_decomposition_candidate_07_nu_0"
+        },
+        {
+          "candidate_index": 7,
+          "lower_nu": 1,
+          "required_output": "coordinate_off_shell_decomposition_candidate_07_nu_1"
+        },
+        {
+          "candidate_index": 7,
+          "lower_nu": 2,
+          "required_output": "coordinate_off_shell_decomposition_candidate_07_nu_2"
+        },
+        {
+          "candidate_index": 7,
+          "lower_nu": 3,
+          "required_output": "coordinate_off_shell_decomposition_candidate_07_nu_3"
+        },
+        {
+          "candidate_index": 8,
+          "lower_nu": 0,
+          "required_output": "coordinate_off_shell_decomposition_candidate_08_nu_0"
+        },
+        {
+          "candidate_index": 8,
+          "lower_nu": 1,
+          "required_output": "coordinate_off_shell_decomposition_candidate_08_nu_1"
+        },
+        {
+          "candidate_index": 8,
+          "lower_nu": 2,
+          "required_output": "coordinate_off_shell_decomposition_candidate_08_nu_2"
+        },
+        {
+          "candidate_index": 8,
+          "lower_nu": 3,
+          "required_output": "coordinate_off_shell_decomposition_candidate_08_nu_3"
+        },
+        {
+          "candidate_index": 9,
+          "lower_nu": 0,
+          "required_output": "coordinate_off_shell_decomposition_candidate_09_nu_0"
+        },
+        {
+          "candidate_index": 9,
+          "lower_nu": 1,
+          "required_output": "coordinate_off_shell_decomposition_candidate_09_nu_1"
+        },
+        {
+          "candidate_index": 9,
+          "lower_nu": 2,
+          "required_output": "coordinate_off_shell_decomposition_candidate_09_nu_2"
+        },
+        {
+          "candidate_index": 9,
+          "lower_nu": 3,
+          "required_output": "coordinate_off_shell_decomposition_candidate_09_nu_3"
+        },
+        {
+          "candidate_index": 10,
+          "lower_nu": 0,
+          "required_output": "coordinate_off_shell_decomposition_candidate_10_nu_0"
+        },
+        {
+          "candidate_index": 10,
+          "lower_nu": 1,
+          "required_output": "coordinate_off_shell_decomposition_candidate_10_nu_1"
+        },
+        {
+          "candidate_index": 10,
+          "lower_nu": 2,
+          "required_output": "coordinate_off_shell_decomposition_candidate_10_nu_2"
+        },
+        {
+          "candidate_index": 10,
+          "lower_nu": 3,
+          "required_output": "coordinate_off_shell_decomposition_candidate_10_nu_3"
+        },
+        {
+          "candidate_index": 11,
+          "lower_nu": 0,
+          "required_output": "coordinate_off_shell_decomposition_candidate_11_nu_0"
+        },
+        {
+          "candidate_index": 11,
+          "lower_nu": 1,
+          "required_output": "coordinate_off_shell_decomposition_candidate_11_nu_1"
+        },
+        {
+          "candidate_index": 11,
+          "lower_nu": 2,
+          "required_output": "coordinate_off_shell_decomposition_candidate_11_nu_2"
+        },
+        {
+          "candidate_index": 11,
+          "lower_nu": 3,
+          "required_output": "coordinate_off_shell_decomposition_candidate_11_nu_3"
+        }
+      ],
+      "required_terms": [
+        "partial_0 Hamiltonian_or_momentum_projection",
+        "partial_i spatial_metric_Euler_components",
+        "connection_times_metric_Euler_components",
+        "E_phi_g times partial_nu_phi_g",
+        "F_total_lower_nu",
+        "minus_2_divQ_lower_nu"
+      ],
+      "status": "BLOCK_48_COORDINATE_DECOMPOSITION_ROWS_UNREGISTERED",
+      "witness_sha256": "e52c5dc42e446cd038b667fda5b9676447a2a10c793416dcfe9300313f37b283"
+    },
+    "negative_controls": {
+      "flip_normal_projection_sign": {
+        "mutation": "reverse the normal projection sign without a coordinate replay",
+        "reason": "changes partial_0 constraint coefficient and the subsidiary row",
+        "rejected": true
+      },
+      "infer_decomposition_from_origin_hashes": {
+        "mutation": "treat equation-origin hashes as coordinate projection coefficients",
+        "reason": "hash equality contains no tensor normalization or connection data",
+        "rejected": true
+      },
+      "omit_spatial_euler_divergence": {
+        "mutation": "drop partial_i E_sourced_i_nu before applying evolution equations",
+        "reason": "the covariant divergence contains independently registered spatial components",
+        "rejected": true
+      }
+    }
+  },
+  "schema_version": "invariant-system10-open-r-propagation-decomposition-audit-1.0",
+  "scope": "Exact propagation re-audit after closing all 396 first spatial derivatives of the 11 candidate-bound dynamic RHS rows. The time derivative of every registered constraint row is now chain-rule formable, but the covariant off-shell identity has not been decomposed into the registered coordinate projections and equation origins. No subsidiary, propagation, energy, or hyperbolicity claim is made.",
+  "source_bindings": {
+    "audit_authority_sha256": "7af1ea4c3dbe0378b3e98702068aa46a49c3b403aa335da8e2485c75c3494aa3"
+  }
+}

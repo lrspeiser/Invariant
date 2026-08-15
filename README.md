@@ -10,6 +10,21 @@ This repository is the canonical home of the former
 outputs, and Git LFS data were migrated from `lrspeiser/sigmagravity`; see
 [`docs/provenance/INVARIANT_MIGRATION.md`](docs/provenance/INVARIANT_MIGRATION.md).
 
+Current development is organized around a breadth-first
+[`comprehensive alpha`](docs/COMPREHENSIVE_ALPHA.md): one replayable vertical slice for every major
+generator, verifier, scheduler, accelerator, and observational adapter before deeper domain
+exhaustion resumes. The milestone distinguishes implementation, end-to-end exercise, and scientific
+validation so systems progress cannot be mistaken for a theorem or empirical claim.
+
+The current requirement-by-requirement status, receipt-backed measurements, unresolved blockers,
+and release priorities are maintained in
+[`docs/GOALS_AND_MEASURED_OUTCOMES.md`](docs/GOALS_AND_MEASURED_OUTCOMES.md).
+
+The supported shareable distribution is a versioned standalone source-release ZIP containing a
+normal non-editable wheel, the complete tracked resource surface, and hydrated hash-bound Git LFS
+evidence. Build, install, verification, public PASS/REJECT examples, and isolated acceptance are
+documented in [`docs/STANDALONE_DISTRIBUTION.md`](docs/STANDALONE_DISTRIBUTION.md).
+
 ## Billion-scale Generator v2 milestone
 
 The compiled Generator v2 has now traversed the complete frozen space of **1,088,651,720 sparse actions** in 94.1 seconds, applying deterministic action-level structural and sampled-static Hessian gates to every action. The 4.07 MB manifest accounts for every candidate through fixed SHA-256 block commitments. Independent Python/SymPy checks pass.
@@ -41,6 +56,53 @@ without enumerating it, enforces one universal matter metric, and fails closed o
 adapter. The included coherence-plus-gravity example is expressible but deliberately unresolved;
 coherence is treated as a state/correlation concept rather than silently inserted as a classical
 gravity term. See [`docs/PHYSICS_CONCEPT_LANGUAGE.md`](docs/PHYSICS_CONCEPT_LANGUAGE.md).
+
+## Sigma Core research notebooks
+
+The domain-independent Sigma Core now has seven bounded candidate generators (grammar,
+evolutionary, Bayesian, symbolic, e-graph, cross-domain, and quarantined LLM), a typed candidate
+knowledge graph, a fail-closed cheap-to-formal-to-observational evaluation ladder, and a
+hard-gate-first exact Pareto explanation engine. The batch pipeline now admits soft metric receipts
+only after every required hard gate passes and retains every failure as an unranked null-front row.
+Human-readable research records are generated from
+immutable receipts rather than maintained as unbound prose. See the
+[natural-sum proof notebook](docs/notebooks/generated/natural-sum-rediscovery.md) and the
+[quartic local-survivor analysis](docs/notebooks/generated/quartic-local-survivor.md). The
+[Formula Discovery Proof/Lean v2 contract](docs/FORMULA_DISCOVERY_PROOF_V2.md) documents three
+generated real-kernel checks and their one-token rejected controls. A third
+[action-jet identifiability notebook](docs/notebooks/generated/quartic-action-jet-nonidentifiability.md)
+derives the exact degree-four null polynomial that makes four registered action values insufficient
+to determine first or second jets, without misreporting that evidence limit as a physical no-go.
+The companion
+[registered-variation selection notebook](docs/notebooks/generated/quartic-registered-variation-selection-audit.md)
+shows why the four currently bound action/source evidence bundles still generate an exact
+`0 x 22` selector matrix rather than choosing one of those jet extensions.
+The next
+[component-map schema notebook](docs/notebooks/generated/quartic-component-map-schema-ambiguity.md)
+constructs two distinct exact `22 x 24` projections with the same registered values and the full
+22-parameter mixed-D2 extension family, making the missing typed bridge visible without turning a
+schema nonidentifiability result into a physical no-go claim.
+The
+[mixed-D2 differentiability notebook](docs/notebooks/generated/quartic-ordered-mixed-d2-differentiability.md)
+then follows the registered arithmetic DAGs down to 31,680 candidate-bound leaf-jet obligations.
+It writes out the exact chain, product, and quotient rules and makes the fail-closed boundary
+explicit: an unregistered leaf derivative is unknown, never silently replaced by zero.
+The companion
+[flat-reference D2 notebook](docs/notebooks/generated/quartic-flat-factorized-leaf-jet-d2.md)
+shows the positive side of the same boundary: a registered flat coordinate map factorizes those
+31,680 obligations into 20 formulas per candidate and exactly materializes all 264 requested flat
+D2 values. Its value census is 192 zeros and 72 nonzeros, while the notebook still refuses to
+generalize that success to an arbitrary background.
+Their claim
+ledgers distinguish universal proof from local certification and unresolved global blockers; the
+Jupyter `.ipynb` versions sit beside the Markdown files. The complete design and fail-closed
+boundaries are documented in [`docs/SIGMA_CORE_MATH_PACK.md`](docs/SIGMA_CORE_MATH_PACK.md).
+
+For a product-facing account of the same mechanics, read
+[*A Formula Walks Into a Falsification Engine*](docs/KNOWN_ANSWER_SUCCESS_FAILURE_WALKTHROUGH.md).
+It follows one exact identity and one plausible false formula through typing, canonicalization,
+counterexample search, proof, prior-art comparison, and hard-gate-first Pareto admission, with links
+to the immutable receipts behind every reported success and failure.
 
 The first reusable operator-family pack compiles normalized symbolic `G2(phi,X)`, `G3(phi,X)`, and
 `G4(phi,X)` functions, derives `G4_X` instead of allowing an inconsistent independent completion,
@@ -172,7 +234,12 @@ The APIs and bounded configs live in `persistent_parallel_search.py`,
 and `bounded_survivor_corpus.py`. The `engine-start`, `engine-status`, `engine-stop`,
 `engine-resume`, `engine-export`, and `engine-corpus-build` CLI commands now provide a continuously
 refilled, restart-safe local service, bounded utilization telemetry, and a local status dashboard.
-See [`docs/PERSISTENT_GRAVITY_ENGINE.md`](docs/PERSISTENT_GRAVITY_ENGINE.md). The separate
+See [`docs/PERSISTENT_GRAVITY_ENGINE.md`](docs/PERSISTENT_GRAVITY_ENGINE.md). A separate
+two-logical-host durability contract adds generation-fenced sessions, dead-host and expired-lease
+recovery, a tamper-evident event chain, and an explicit combined SQLite/WAL/SHM byte ceiling. Its
+receipt cannot be emitted before 21,600 seconds of unioned, clean-session wall time; no six-hour
+receipt is checked in. See
+[`docs/DURABLE_TWO_HOST_CAMPAIGN.md`](docs/DURABLE_TWO_HOST_CAMPAIGN.md). The separate
 `rust_streaming_search.py` adapter and `rust_streaming_service.py` lifecycle overlap restart-safe
 Rust `SGSURV2` chunk production with one cached CUDA consumer, eliminating Python ordinal decoding
 from the hot path. The production template is bounded to one billion formulas, 1,000 independently
@@ -626,25 +693,34 @@ The result proves the leaf's full Merkle path from the registered batch index an
 preserved receipt decisions and blockers to match their new evidence. Its 11,225 count is explicitly
 an immutable partition overlay; the original global queue root is not rewritten or mislabeled as a
 new cumulative ledger.
-The cumulative formal-receipt cursor now points at the immutable generalized batch result and proves
-a gap-free, nonoverlapping nine-leaf prefix. The independently replayable partition history remains
-registered through P0007, while one owned CPU child advanced leaves 8 and 9 together over intervals
-`[1,004,909,056,1,004,910,080)` and `[1,004,910,080,1,004,914,176)`. Those leaves add 31 exact
-mapper rejects, taking the compact cursor to 135 checked candidates: 133 newly processed plus two
-field-reconciled preserved receipts, with 11,114 candidate-specific receipts still pending. The
-checked core retains only the bounded P0005--P0007 cursor history; every older immutable ledger and
-the batch artifacts remain independently registered and replayable rather than being copied into
-the projection. The batch result is sealed at
-`runs/engine/continuous-scientific-pipeline-epoch-003-formal-receipt-batch-0001/result.json`
-(`2a5efdd8d0a27cde333f32c562ad9f5d65915731d637b09690dfcac53235fcd9`, content
-`1da334a6d14944f9cdf9a5cdacf55480c5440dbd9ae970825f232399785c782d`); config/source/test hashes
-are `5783d7835114dc820077eee7eee7b5bf2d8da569de42d621fcade07bd73ab18b` /
-`dafcdeca518a03f3f23c378893aee41a2b4750bae4f8d916c1be495a214eed9f` /
-`5bb96d1b4094d23647b98fe38c8943f92eb391adba3eeaaa822d0e712dd43713`.
+The cumulative formal-receipt cursor now points at the second immutable generalized batch and proves
+a gap-free, nonoverlapping eleven-leaf prefix. Independently replayable history remains registered
+through P0007 and batch 0001; batch 0002 advances catalog indices 9 and 10 together, processing 45
+additional candidate receipts. The compact cursor therefore records 180 checked candidates: 178
+newly processed plus two field-reconciled preserved receipts, all hard rejects at the reviewed
+mapping boundary, with 11,069 candidate-specific receipts still pending. The checked core retains a
+bounded P0007--batch0002 history while every older immutable ledger remains independently registered
+and replayable instead of being copied into the projection. The latest result is
+`runs/engine/continuous-scientific-pipeline-epoch-003-formal-receipt-batch-0002/result.json`
+(`6841c7bcee914fd7839026155109179262d428ff606d7aa3494bff6f14acf73e`, content
+`aa83076b30dc0eceac491997ccca8aacae635551765c00a20eb4d2836e331cd3`); config/source/test hashes
+are `8f203420d9255d7dc06102241943b7c239bb79d94a5e9781733f7582c37e3c92` /
+`353fa546be7448e1d5460ce29bced3db57f20be758be37dec1337b92cd758ded` /
+`f1623ceac6bf71b01a8c677e07df7eecb10348fd715701763b49186b39606e23`.
 The catalog root remains fixed while the partition-summary, cumulative-receipt, and processed-ordinal
-roots advance without overlaps or gaps. The batch uses zero GPU workers and the cleanup-inclusive
-120-second formal bound. Global formal/comparable completeness, theory-wide rejection, formal passes,
-leaderboard rebuilds, ranks, promotions, live SQLite access, observations, and GPU access remain false.
+roots advance without overlaps or gaps. The batch used one owned CPU child, zero GPU workers, and the
+same 120/180-second formal/total bounds. Global formal/comparable completeness, theory-wide rejection,
+formal passes, leaderboard rebuilds, ranks, promotions, live SQLite access, and observations remain false.
+Batch 0003 is implemented but did not execute: its separate blocked-readiness artifact records three
+device-wide CPU samples of 100% against the strict `<92%` admission threshold, with 49,454--50,133
+MiB RAM available. It seals `execution_started=false` and confirms that no result, leaf, cursor, GPU,
+runtime, SQLite, rank, or promotion artifact was created. This is operational refusal evidence, not
+a batch result or scientific failure. The readiness artifact file/content hashes are
+`d5a7113024cc346242e4fc8b9cfe2f3a07e482a8393cd8d6ad399e914de70c59` /
+`2a83a0895276dba1951baacd6aba5fad930fdd4f2998c59572e894e9cf35f6ca`;
+config/source/test hashes are `ed95ebdb54f812625113b19bfeaacba1ffca2b923cd01033fabd443909ef4cc7` /
+`a97807ce09c503ca36267dd0e49e85a7305727c2c5dc8c816aa0b9507995a2ba` /
+`960080a22eb78f99d17a7e7ef0cbe105bc30c2dbee89aee8fc24e0ac4010aa1d`.
 The new candidate-bound formula stress lane drives the same RTX 5090 much harder on dense numerical
 work: all 163 materialized Euler projections were checked on 5,341,184 deterministic synthetic
 candidate-point pairs against CPU evaluation, with 5,216 additional exact-rational sentinels and zero
@@ -904,6 +980,35 @@ zero object-specific gravity parameters, and no halo or redshift-distance labels
 must then face raw lensing geometry as an independent falsification channel. The protocol passes its
 structural audit but opens no data; see
 [`docs/GALAXY_OBSERVABLE_DISCOVERY.md`](docs/GALAXY_OBSERVABLE_DISCOVERY.md).
+
+A dedicated lensing direct-observable readiness evaluator now makes that independent channel
+machine-checkable without opening a dataset. It permits only raw or calibrated direct observables
+across six registered channels and requires four calibration/provenance roles. Nineteen halo,
+dark-matter, GR-derived-map, latent-component, redshift-distance, supernova, object-specific,
+lensing-only-parameter, and formula-selection fields are rejected. Both synthetic schema controls
+pass, but zero authorized real source packets are registered or opened, so the scientific outcome is
+one block, zero passes, and zero rejections with first blocker
+`no_authorized_real_lensing_source_packet_registered`. The artifact is
+`runs/engine/lensing-direct-observable-evaluator-readiness.json` (file SHA-256
+`ea30903d306a7379b409a1e0205cd2c2c1ccbb6b353b453644b8970421470fa4`, content SHA-256
+`2a261efd867436f60d695d96218e6bf0fd13734b8fea8d9a911bc1dc430ab82e`); source/config/test
+hashes are `933ff2ab1a7a95cea1efc6946160de4e9f4a458793b7e8040b41ff74c028d0bf`,
+`ea9882ae7a4f1d9a60e22c546e57513a755d4ecf2e547c232fd185f5dd3b88ae`, and
+`7fe7c761735c22cdf5d5d181b7f7ee4dcb6ccec10dec86bf8e8e5c2e34e86fa1`.
+
+A separate cluster direct-observable readiness evaluator applies the same public fail-closed design
+without borrowing the lensing target. It registers two raw/calibrated classes, eight cluster
+channels, five calibration roles, two covariance roles, and rejects 24 latent, halo, inferred, or
+formula-selection fields. Both synthetic schema controls pass, but zero authorized real cluster
+packets are registered or opened. The result is therefore one scientific block, zero passes, zero
+rejections, and zero rank writes—not a failed theory and not observational evidence. Its first
+blocker is `no_authorized_real_cluster_source_packet_registered`. The artifact is
+`runs/engine/cluster-direct-observable-evaluator-readiness.json` (file SHA-256
+`ebb18630a3d4a879bb5cca2722653ac782a90397c76efcb65a8c2fe74c57574a`, content SHA-256
+`139c4ecec652701b62918c68a5e4eab867a0ca51659ea5241c20f54d7a9911d2`); source/config/test
+hashes are `54d346a8062848533df8ef56e1575383b9abd68271d772dbe272857b898302e7`,
+`f13f015f1e842d3d3bf930555d474acbe96056be8e0d7589d595cbf7bba11c78`, and
+`83219aead70d661e2000769d086d4d8b494300e431271789761a8afcfa88ef0b`.
 
 A matching sealed Solar-System protocol predicts held-out round-trip light-time, coherent
 frequency/phase ratios, and angular separation from admitted tracking and calibration records. It
@@ -1728,6 +1833,196 @@ functor with 22-coefficient action-root provenance. Artifact file/content hashes
 source/config/test hashes are `ff6f11a7b4b5bbc90b418fcee90e5025c7e4bb8f78769243f0307193aa659443` /
 `692846027fce5beb7ac212a710c15e212507ce8670f99decbfbfe13233a79670` /
 `05c358de6991e4abf5d452feb4852a8fbca36cb55ed121bbd17bf93bb2d4b977`.
+
+The action-jet nonidentifiability gate now sharpens that boundary. Each of the 22 fitted coordinates
+has registered values `beta*g` only at `g in {-1,-1/2,1/2,1}`. For every coordinate,
+`beta*g + lambda_i*(g+1)*(g+1/2)*(g-1/2)*(g-1)` agrees at all four registered values for every
+`lambda_i`, while both its first and second derivatives change at every grid point. The gate replays
+88 value equalities and certifies 88 nonidentified first-jet plus 88 nonidentified second-jet
+samples, giving an exact 22-parameter ambiguity family. The finite-grid theorem passes for all 12
+candidates, but downstream admission remains blocked for all 12: it selects no covariant functor,
+registers no corrected second-source jet, admits no D2F entry, and proves no H7/PDE/lifespan claim.
+This is an identifiability obstruction in the registered evidence, not a physical no-go or candidate
+rejection. The first blocker is a registered local covariant variation rule or corrected
+second-source jet values that select one extension. Artifact file/content hashes are
+`e0b87eb270d73f1fa7acb1ff31e0f234a545cf80c383fac21ffa0abc390a902b` /
+`b73d3bb175cf008f080ac900c0aed7f463f341d8efc8ebd4cdc4a8fbc3b6de21`;
+source/config/test hashes are `fbcce952946ae272e220f69fb63d774fd01a765a8e4d9ab44d3f161635b24d6e` /
+`98ee61d5938dbef6dfabcbd536dc1f29409c6805b8a9e0648fedde1c0d46d5f5` /
+`3d8e781b2e164b3634094217fd58bffe39945ed733ed4650f6ebbca8afb978ea`.
+
+The registered-variation selection audit then asks whether any existing action/source evidence
+selects one member of that ambiguity family. It binds four closed evidence bundles: 24 generic
+`G4` metric-Euler terms; 163 generated metric-Euler candidates, with zero overlap with the quartic
+`G4_X` grid and zero backend variations; 1,056 candidate-aligned pure source-DAG derivative roots,
+without complete component Frechet tensors; and 20,196 entries from 12 complete D1 source
+Jacobians, with D2--D4 explicitly incomplete. None supplies a candidate-bound map into the 22
+fitted output coordinates or corrected second-source jet values. The registered selector matrix is
+therefore exactly `0 x 22`, rank zero and nullity 22, selecting zero ambiguity parameters. This
+closed-inventory theorem passes for all 12 candidates, while downstream admission blocks all 12
+without rejection and admits no D2F/H7/PDE/lifespan claim. It is not evidence that a physical
+covariant variation rule cannot exist. The first blocker is a candidate-bound component map from
+the registered `G4` variation/source DAG into the 22 output coordinates, or exact corrected
+second-source jet values. Artifact file/content hashes are
+`dfc8940a6f092de73da5641afd95c6cbf997b73ad63f8fa6f4ea3eaa8f395a20` /
+`6de93ca6700b21ff9f858a2b7f01d1a9d103271de1dde3f75385faaaa4a377d6`;
+source/config/test hashes are `8fcc218572a65e67763560fad62b1e129a67f29c6d2bdda5d977ade44714f5f1` /
+`469927c84962e56f50223769dbaf6713ca3a236bd7d8c8f823e06bd1f15184da` /
+`4ed939ce4c4d6f92b95000e9d9f659268b2ad1e9a3480ca868f3fc6c3614d5da`.
+
+The component-map schema audit makes that missing bridge constructive. All 22 fitted target
+coordinates are present in the registered D1 manifest, covering 20 unique row/atom entries, but
+the inventory still has no typed map from the 24 generic `G4` terms into those source components,
+no `P10`/`Pother` embedding into the 153-state tangent basis, and no ordered mixed-D2 arithmetic
+root for any target coordinate. Two distinct exact `22 x 24` projections nevertheless reproduce
+the same fitted coefficient vector: the system has 528 unknown entries, rank 22, and affine
+dimension 506. Independently, 22 free mixed-D2 extension parameters give 23 explicit completions
+that preserve every registered D1 value. This proves nonuniqueness under the current schemas, not
+a physical covariant-component-map no-go. The finite premise passes for all 12 candidates, while
+downstream admission blocks all 12 without rejection; zero cross-slice D2F entries are admitted and
+full D2F, high-atom, H7, PDE, lifespan, observation, and promotion claims remain false. The first
+blocker is to register the typed generic-term-to-source-component projection, the direction-to-state
+tangent embedding, and the 22 ordered mixed-D2 roots. Artifact file/content hashes are
+`0256f64acb53f38c0cada5e43a58c974b7f9bebe2529bdf7c3f08e65b9d2563f` /
+`3a3da9ecef30e596ae18cb8e76687338a9fe1bf8e7284ee009287420ce5613ec`;
+source/config/test hashes are `599ce6c6069bf79b6e5bab1c5f0f3504c8c6775eb2cce0c5d76918acd56a36b1` /
+`63a914832a26029279e806b470609e3a76857fe55382ee53c90f5ea46c6605e8` /
+`05c6d4ce0c36bcd8689744407f54c6c912f518fcf4e61c123c96a27bb1b8b794`.
+
+The ordered mixed-D2 registration contract turns the abstract missing bridge into a complete finite
+work manifest without fabricating derivative values. It binds all 12 candidates and 22 fitted
+coordinates into 264 unique candidate-bound obligations, each anchored to an already registered D1
+arithmetic root. Every slot requires the candidate and coordinate identities, source row and atom,
+153-basis tangent coefficients and digest, ordered D2 arithmetic root and DAG hash, generic-component
+projection rule, and output-bundle rule. Current registered counts remain zero for the component maps,
+typed tangents, and ordered roots, so all 264 obligations are blocked and none is presented as a
+completed D2F entry. The finite registration audit passes for all 12 candidates while downstream
+admission blocks all 12 without rejection; high-atom, H7, PDE, lifespan, observation, and promotion
+claims remain false. The next blocker is to register candidate-bound P10/Pother tangent embeddings
+and then materialize and replay the 264 ordered roots. Artifact file/content hashes are
+`d74c889619e25abe7c6672a391bdc1209d03079ba8b245ccc94e2f4f79aa6365` /
+`90ec881410d7a9dcbf94114b8fa52d73aa4963f2baf8a7430f78b817f1fabc25`;
+source/config/test hashes are `0216f6ca9d6ee5b181a4447d59f7ebd1b9feb90f967545bf4a3ae046cc66d8fd` /
+`b9baf6225e7700a062b05a292e882f84d763b206d75daf8ee614a65f113e953e` /
+`13c702bd6567cf046b4c3c47cd576c7264345d1d995b8fb0eedcb575402473fa`;
+the obligation-manifest root is `2bf6f64c039b466d3c4d7ec62541d6d8ff25c497d067a5d8f938bf5d60ae91d1`.
+
+The coordinate-tangent embedding gate closes the first field in every one of those obligations.
+The live full-D1 atom registry bijectively orders all 153 coordinate atoms, so each target direction
+has the exact sparse unit tangent `e_j` at its registered column. All 264 candidate-bound embeddings
+are sealed: 84 P10 records and 180 Pother records, representing 20 unique coordinate unit vectors
+per candidate. This is a coordinate-chart result only; it does not invent the generic-G4 component
+projection, differentiate an arithmetic DAG, supply a mixed-D2 value, or prove a physical covariant
+map. Ordered roots remain 0 registered/264 blocked, all 12 candidates remain downstream blocked and
+unrejected, and D2F, high-atom, H7, PDE, lifespan, observation, and promotion claims remain false.
+The next blocker is exact arithmetic differentiation of the candidate-bound D1 DAGs along these
+unit tangents. Artifact file/content hashes are
+`d393050c41d58308a28a29a5b72b9da6f5ea0797b30ba97b885c3da8ca20efaa` /
+`fb4a55d74a8bfbe1009f13373883b5553c778441a04af143ad031f45de50e271`;
+source/config/test hashes are `9d42fee2340a1c284c8b4a17cb74ced5386e2cb41e50f54ee92f0c41cc5fe201` /
+`82362de865c1f13032c2cb346589262f2963408cf0794cc1fa6dfc3a37abc2d9` /
+`79fef8c850eff976fdd47347534c33e0635129c7fab9649b591fbb853329ed2a`;
+the embedding-manifest root is `3f915d0f214159df6049362de5d837585c566a40fbf2e37cd16e78445c4d3d2e`.
+
+The D1-DAG differentiability gate then replays the exact arithmetic closure beneath the 20 distinct
+target roots per candidate. Its constant/input/add/negate/multiply/divide calculus is closed on the
+declared nonzero-determinant domain, but the reachable input leaves expose only A/B/C labels and
+provenance—not their coordinate derivatives. The union contains 13,983 DAG nodes and 341 unique
+input labels; every target root reaches 132 component-input leaves. After eliminating repeated root
+references, the exact missing interface is 2,640 candidate-bound leaf jets per candidate, or 31,680
+total obligations. Zero leaf-derivative roots and zero ordered mixed-D2 roots are registered, so all
+264 outputs remain blocked. This is an input-jet schema obstruction, not evidence that a derivative
+vanishes or a physical no-go. Artifact file/content hashes are
+`2992571c544846efc96142e2e4a74efe280a7bb025efadb1ff945ab9515bafcc` /
+`d8afd9f91c090ad1c07e4bb22257baa8c61c095f8d434e02a27082b5591abb6a`;
+source/config/test hashes are `f8cd296240dba457caaf058a8cebabf8e728e35b9170360a96fe042574e08cc7` /
+`30a51cf13934379c627fe557aec85607b419e80ba5708cde6867c53ac488dbf0` /
+`baf4316beccb1fc09232bb9354fbaa485f9ffcdb2c888210f434d83af9d53cd9`;
+the leaf-obligation root is `1898f8f871a0a78c2384993f788fa74723e8e9da0d8a88c02977310d8c7023c2`.
+
+The flat factorized specialization gate then finds that a registered bounded subset really is
+computable. The exact flat `153 -> 24` coordinate map and live factorized A/B/C block formulas
+collapse the 31,680 leaf obligations into 20 target formulas per candidate and materialize all 264
+candidate-coordinate flat-reference D2 values. Exactly 192 are zero; the remaining 72 are split
+evenly among `-1`, `-1/2`, `1/2`, and `1`, matching the candidate coefficient. This is a genuine
+local success, but it is not promoted beyond its evidence: the flat result DAG has five exact
+constant nodes, while arbitrary-background leaf derivatives and general D2 roots remain 0
+registered/264 blocked. All 12 candidates pass the flat specialization and remain downstream
+blocked without rejection; physical no-go, complete D2F, H7, PDE, lifespan, observation, and
+promotion claims remain false. The next blocker is the nonlinear arbitrary-background
+coordinate-to-covariant-jet map plus candidate-bound A/B/C leaf derivatives. Artifact file/content
+hashes are `7f433906323391a8b84179d2abb63b0b107fadad2667a8f6350d3add357a7d1c` /
+`be94d39348864e642a0b4460c35f845e21f7cd093792f0ce97eab152505bfd2a`;
+source/config/test hashes are `ad86b9611ac869b491bc83d9a4966209184e5bd7fd4eacb6a98739ec9191549e` /
+`feb8da4e94aebdf8713b998383945d1540ef4cbd852ab4a6bdaed5fe67fa92fa` /
+`3348c7f8895851d65d220128ce46c20927bcc57f7c26923a697496bcbc023363`;
+the factorization-manifest root is `ee74d20c1fea767007f4c200d6c46a3c6288e6f01901b52eef64f06333c27f5d`.
+
+The first arbitrary-background continuation now closes a strict subset of that next blocker. The
+exact nonlinear geometric map determines five scalar-second-partial tangents, and differentiating
+the live unspecialized A/source block registers 660 P10 leaf roots per candidate: 7,920 total, of
+which 240 are nonzero and 7,680 vanish. An 11-node exact DAG seals those values. This is constructive
+progress, not a completed ordered-D2 theorem: P10 ordered roots remain 0/84 and the full target
+remains 0/264. Pother derivatives, complete D2F, H7, PDE, lifespan, observation, rejection, and
+physical no-go claims remain false. Artifact file/content hashes are
+`c74171c48d7fc4f80de8f0c51b2b2700a1ce33de8795c3a999cee7c957b35869` /
+`51f76fa7ebc81ab2f570bfe5ad920215420e005687d0c861b24ea6da766c37e0`;
+source/config/test hashes are `6bb9ab72854d74e21a120f41fc9299712d5d64d0c9c9aeb243d5c3948b689239` /
+`2a769692f4b263c6d05cefa5b486e1e401a358be996b159c40a5634025bdf196` /
+`e909f5d6e9638a5c7b11268d4555b153598399ed4da22dccadc93cd9495a023c`.
+The next blocker is to replay the bound inverse-product D1 DAG with these P10 roots and then register
+the Pother leaf derivatives.
+
+That bounded replay is now sealed for the `P10` sector. Across all 12 candidates, 7,920 registered
+leaf-derivative roots feed 60 distinct direction packets and replay 811,296 D1 dependency nodes plus
+786,396 derived Merkle nodes. All 84 candidate-bound `P10` ordered mixed-D2 roots are exact and
+registered; the 180 `Pother` roots remain blocked. This is not a complete D2F tensor or physical
+no-go: no candidate is rejected, and global H7, PDE, lifespan, and observational claims remain
+false. Evidence is
+`runs/physics-language/quartic-p10-inverse-product-d2-replay-gate/campaign.json`; artifact
+file/content hashes are `2a9814a27123099b9e942bde72fa45fe8783e3ddde0743d080b17008dbb9318c` /
+`e02949cb28f43851483d2b0b6cb06c6710ac53a16f210150449d85ceb0ec92ba`, and
+source/config/test hashes are `1da3a2d205d44331024ebe839301b50e99b93e8f1bb859ebe988039af553562a` /
+`3c4090b2cfd7b8d2f0cee68a2ce40c09dcf0d487c4be1a79e77942b1dedc394e` /
+`451762264627a58ad1bd8e5a5e8c92b981717a270326408fbed2723abdf8792b`.
+
+The arbitrary-background continuation then registers the missing `Pother` leaf derivatives without
+claiming their D2 replay prematurely. It seals 23,760 roots across the 12 candidates, with 156
+nonzero and 23,604 zero roots, making all 180 `Pother` ordered-D2 records replay-ready. The already
+sealed 84 `P10` roots are preserved, but `Pother` roots remain 0/180 registered at this stage and
+all 12 candidates remain downstream blocked without rejection. Evidence is
+`runs/physics-language/quartic-pother-arbitrary-background-leaf-derivative-gate/campaign.json`;
+artifact file/content hashes are `c687e15839628dcca3480740ea8ee568576461c200ce8937ab5499a71e9e49c2` /
+`b2f4eacd73026bc92a057be0ad5340d487ef0ff3b18353e3412d7aea5475b670`, and
+source/config/test hashes are `7e34d374df437075f040b40f7435cb0ab07a4ca60ccf696a1730f6153761f2a0` /
+`d11e40b85836c2d858d03e242f3df50d8751e965b81f6b0d5a44399006c48af2` /
+`d51fa61d4bcd12defa6f5f84fb308890b378bb2e01ff6866aea2c05642e3df69`.
+
+The subsequent inverse-product replay closes the complete bounded row-10 target: all 180 `Pother`
+direction packets replay exactly, including 156 nonzero and 24 zero roots, so all 264 bounded roots
+globally (22 per candidate) are registered. This is a complete bounded target only. The remaining
+257,477 ordered D2F entries per candidate, full high-atom identity, global H7, PDE, lifespan, and
+observational claims remain open; no candidate is rejected or promoted. Evidence is
+`runs/physics-language/quartic-pother-inverse-product-d2-replay-gate/campaign.json`; artifact
+file/content hashes are `f29f10dacec37a235c3a8de5755876ab2a05b9bcb21f4e90a1b5d27f46fba6b8` /
+`8190747a51531a6debdbca68a63e9ebfc932ba2e5ebe6770d2a1d51f1514f472`, and
+source/config/test hashes are `d92c8ad16c677ce42a47ad2cf8fed09eb04b073f7667e7c3dc59fde208c50144` /
+`4cbc0c3806360b8dab384d6e9f94f9fd3ea0e15315b79199b0c93412b4a18718` /
+`d3300eec715b6ad1265c66d7b0aa85dd2185aa2f83494f7f983f3e86db7a54e3`.
+
+The typed full-domain partition makes the next extension exact and conservative. Per candidate it
+partitions all 257,499 ordered D2F entries, preserves the 22 bounded row-10 diagonal slots, and
+registers 220 additional same-direction slots across selected rows 0--9. Thus 2,640 new records are
+sealed globally, 242 entries per candidate are registered in this typed ledger, and 257,257 remain.
+The next finite blocker is the 5,082 registered-direction off-diagonal entries per candidate, which
+still lack cross-direction leaf jets. Complete D2F, the full high-atom identity, H7, PDE, and
+physical no-go claims remain false. Evidence is
+`runs/physics-language/quartic-full-d2f-typed-partition-row-extension-gate/campaign.json`; artifact
+file/content hashes are `9502843234509a4ddd21631acdfe412d0f17fe3552d7c9cac0daf7fb1475190a` /
+`76eff324a16396dfbeee91552220b26dd745b3c22aa5dd6fb9538fffa843bece`, and
+source/config/test hashes are `e149f1f0f30986dc452efce5b0f9f1fea363124555def7f98782d47590563e19` /
+`e83b5eb803dc2c5ccdf33c0e5637ae5d5a3d64b6fbf4645b8251331831fcb0ba` /
+`f72f5d9223dff6356c713adc381dc27eca06d8034dbea2627b1ec7d70666db44`.
 
 The component campaign now proves every entry of the principal identity
 `D_Y E55 J = i P55` for all 12 candidates and materializes the complete first source Jacobian.

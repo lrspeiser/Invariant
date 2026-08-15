@@ -1,0 +1,121 @@
+{
+  "campaign_id": "system10-open-r-propagation-reaudit-001",
+  "claims": {
+    "all_twelve_radial_rhs_jets_closed": true,
+    "all_twelve_tangential_rhs_jets_closed": false,
+    "candidate_bound_subsidiary_system_closed": false,
+    "constraint_propagation_closed": false,
+    "global_theorem_established": false,
+    "hyperbolicity_closed": false,
+    "promotion_authorized": false,
+    "subsidiary_energy_estimate_closed": false
+  },
+  "content_sha256": "bd7b7d1e057b2ae7de5480402046cb9140d2a0bc3508b584804e77d31117198c",
+  "counts": {
+    "candidate_subsidiary_systems_closed": 0,
+    "candidates": 12,
+    "constraint_propagation_proofs": 0,
+    "divQ_rows_bound": 4,
+    "open_r_rhs_rows_bound": 132,
+    "physical_gravity_rows_bound": 96,
+    "radial_rhs_jets_bound": 132,
+    "tangential_rhs_jets_bound": 0,
+    "tangential_rhs_jets_required": 264
+  },
+  "decision": "BLOCK_TANGENTIAL_RHS_JETS_UNREGISTERED_AFTER_RADIAL_JET_CLOSURE",
+  "materialization": {
+    "closed_predecessor_block": {
+      "closed_candidate_instances": 132,
+      "old_missing_primitive": "candidate_bound_radial_first_jet_of_all_11_solved_dynamic_rhs_rows",
+      "source_receipt_content_sha256": "f9ba5ef3398a250515dcf4f0d85fd3807d13d889b2a599cfa70fd73d6b164ac9",
+      "status": "PASS_ALL_TWELVE_RADIAL_RHS_JETS"
+    },
+    "first_missing_primitive": {
+      "primitive": "all_twelve_candidate_bound_tangential_total_derivative_rhs_DAGs",
+      "primitive_sha256": "0418029d2981d600475e352f639c132e4296aeb684c6ad9daf6e7e481dfa2f1c",
+      "required_W_derivative_nodes": [
+        "D2_W_0..D2_W_10",
+        "D3_W_0..D3_W_10"
+      ],
+      "required_candidate_instances": 264,
+      "required_directions": [
+        2,
+        3
+      ],
+      "required_outputs": [
+        "partial_2 F_0",
+        "partial_2 F_1",
+        "partial_2 F_2",
+        "partial_2 F_3",
+        "partial_2 F_4",
+        "partial_2 F_5",
+        "partial_2 F_6",
+        "partial_2 F_7",
+        "partial_2 F_8",
+        "partial_2 F_9",
+        "partial_2 F_10",
+        "partial_3 F_0",
+        "partial_3 F_1",
+        "partial_3 F_2",
+        "partial_3 F_3",
+        "partial_3 F_4",
+        "partial_3 F_5",
+        "partial_3 F_6",
+        "partial_3 F_7",
+        "partial_3 F_8",
+        "partial_3 F_9",
+        "partial_3 F_10"
+      ],
+      "status": "BLOCK_TANGENTIAL_TOTAL_DERIVATIVE_DAGS_UNREGISTERED",
+      "witness_sha256": "4f8d69006aad312c75c4534b878db0ef61da54582ecf8bfb2f6cac7f07744137"
+    },
+    "negative_controls": {
+      "reuse_partial_1_as_partial_2": {
+        "mutation": "identify partial_2 F_5 with registered partial_1 F_5",
+        "reason": "coordinate derivative directions are independent",
+        "rejected": true
+      },
+      "zero_fill_tangential_jets": {
+        "mutation": "set all unregistered partial_2 F and partial_3 F rows to zero",
+        "nonzero_witness_coefficient": "-sqrt(2)/256",
+        "rejected": true
+      }
+    },
+    "tangential_chain_rule_witness": {
+      "candidate_id": "quartic-symbol-06e267a9215345b6",
+      "candidate_index": 0,
+      "chain_rule": "partial_0(partial_2 v_5)=partial_2 F_5",
+      "constraint_row": "momentum_E_n1",
+      "constraint_row_sha256": "1ce134ffde3d207fc08a0a99724de07704c79001174d726c9f6d8d2e83b23e6f",
+      "evaluation": {
+        "r": "1",
+        "v_10": "1/4"
+      },
+      "exact_unreplayed_partial_2_F_5_coefficient": "-sqrt(2)/256",
+      "nonzero": true,
+      "registered_partial_1_F_5": true,
+      "registered_partial_2_F_5": false,
+      "sensitive_term": {
+        "coefficient": "-sqrt(2)/(16*r**2)",
+        "denominator_r_power": 2,
+        "factors": [
+          {
+            "atom": "v_10",
+            "power": 2
+          },
+          {
+            "atom": "partial_2_v_5",
+            "power": 1
+          }
+        ]
+      },
+      "sensitive_term_sha256": "3978f337f4cda6f1b4745cc03a5614115db7ca36701b120b9a50e08483eb091d",
+      "witness_sha256": "4f8d69006aad312c75c4534b878db0ef61da54582ecf8bfb2f6cac7f07744137"
+    }
+  },
+  "schema_version": "invariant-system10-open-r-propagation-reaudit-1.0",
+  "scope": "Propagation re-audit after exact all-twelve open-r radial RHS-jet closure. The old partial_1 F blocker is closed, but the 96 physical constraint rows also contain tangential partial_2 v and partial_3 v atoms. Their time derivatives require partial_2 F and partial_3 F linked derivative DAGs, which are not registered. No subsidiary, propagation, energy, or hyperbolicity claim is made.",
+  "source_bindings": {
+    "reaudit_authority_sha256": "4de5fd60a6b911ec4de6857f84d9f3e905538ec74a81bb58218642982b6cde31"
+  }
+}

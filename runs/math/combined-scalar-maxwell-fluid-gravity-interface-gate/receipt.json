@@ -1,0 +1,209 @@
+{
+  "campaign_id": "combined-scalar-maxwell-fluid-gravity-interface-gate-001",
+  "claims": {
+    "candidate_specific_gravity_source_closure_closed": false,
+    "combined_three_sector_matter_interface_closed": true,
+    "common_time_matter_principal_compatibility_closed": true,
+    "external_maxwell_current_covered": false,
+    "full_coupled_gravity_matter_principal_system_closed": false,
+    "gravity_constraint_propagation_closed": false,
+    "gravity_h7_theorem_established": false,
+    "internal_matter_constraint_source_closure_closed": true,
+    "promotion_authorized": false,
+    "total_matter_stress_conserved_on_shell": true,
+    "universal_all_matter_closure_established": false,
+    "vortical_fluid_covered": false
+  },
+  "combined_matter_certificate": {
+    "combined_matter_principal_compatibility": {
+      "characteristic_roots": {
+        "acoustic": [
+          "-|k|/sqrt(3)",
+          "+|k|/sqrt(3)"
+        ],
+        "acoustic_multiplicity": 1,
+        "light": [
+          "-|k|",
+          "+|k|"
+        ],
+        "light_multiplicity": 5
+      },
+      "combined_characteristic_polynomial": "(|k|^2-omega^2)^5 (|k|^2-3 omega^2)",
+      "common_time_basis": "X>0 makes nabla(tau) timelike for g; scalar and Lorenz-Maxwell use the g cone, and the acoustic inverse metric also makes it timelike",
+      "common_time_covector": "nabla_mu(tau)",
+      "principal_block_coefficients": [
+        [
+          -1,
+          1
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          -1,
+          1
+        ],
+        [
+          -3,
+          1
+        ]
+      ],
+      "second_derivative_cross_sector_blocks": 0,
+      "second_order_components": 6,
+      "spatial_gradient_coefficients": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "strongly_hyperbolic_matter_direct_sum": true,
+      "time_kinetic_coefficients": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        3
+      ]
+    },
+    "combined_stress_conservation": {
+      "conclusion": "nabla^mu T_total_mu_nu=0 on all three matter equations",
+      "negative_control": {
+        "coefficient_residual": [
+          0,
+          0,
+          1
+        ],
+        "mutation": "omit the fluid stress from T_total",
+        "rejected": true
+      },
+      "on_shell_field_equation_values": [
+        0,
+        0,
+        0
+      ],
+      "on_shell_total_residual": [
+        0,
+        0,
+        0
+      ],
+      "sector_euler_force_coefficients": [
+        1,
+        1,
+        1
+      ],
+      "total_stress": "T_total=T_scalar+T_Maxwell+T_fluid"
+    },
+    "internal_matter_constraint_closure": {
+      "corrupted_ricci_symmetry_negative": {
+        "first_witness": "R_01 F_01",
+        "rejected": true,
+        "residual_terms": 1
+      },
+      "fluid_internal_constraints": 0,
+      "maxwell_constraint": "C=nabla_mu A^mu",
+      "maxwell_gauge_identity": "nabla_rho E^rho=R_rho_nu F^(rho nu)=0",
+      "maxwell_internal_constraints": 1,
+      "ricci_field_contraction_residual_terms": 0,
+      "scalar_internal_constraints": 0,
+      "subsidiary_equation": "box_g C=0 for the source-free Lorenz-gauge system"
+    }
+  },
+  "content_sha256": "0c0a66a22fb972ef70ea68f99d5e86aaa49fc45eb00c5411b1d2ed62559b8cfc",
+  "counts": {
+    "acoustic_cone_components": 1,
+    "combined_interface_passes": 4,
+    "exact_combined_residuals": 4,
+    "gravity_interface_blocks": 1,
+    "internal_matter_constraints": 1,
+    "light_cone_components": 5,
+    "matter_second_order_components": 6,
+    "matter_sectors": 3,
+    "negative_controls": 2,
+    "rejects": 0
+  },
+  "decision": "BOUNDED_PASS_MATTER_INTERFACE_WITH_TYPED_GRAVITY_BLOCK",
+  "gate_results": [
+    {
+      "gate_id": "single_physical_metric_and_action_split",
+      "outcome": "PASS"
+    },
+    {
+      "gate_id": "combined_matter_stress_conservation",
+      "outcome": "PASS"
+    },
+    {
+      "gate_id": "combined_matter_principal_compatibility",
+      "outcome": "PASS"
+    },
+    {
+      "gate_id": "internal_matter_constraint_source_closure",
+      "outcome": "PASS"
+    },
+    {
+      "gate_id": "candidate_specific_gravity_matter_source_closure",
+      "outcome": "BLOCK",
+      "reason_codes": [
+        "missing_candidate_specific_gravity_matter_coupled_registration"
+      ]
+    }
+  ],
+  "gravity_block": {
+    "minimal_registration_contract": [
+      "one selected gravitational action and gauge-fixed Euler system bound to the same physical-metric and total-matter action hash",
+      "exact insertion of T_scalar+T_Maxwell+T_fluid into the registered metric equation with normalization and sign conventions",
+      "candidate-specific full coupled principal matrix including every gravity field, gauge block, and all three matter sectors",
+      "one common time covector and exact symmetrizer/diagonalizer with uniform domain bounds for the full coupled matrix",
+      "exact gravitational Hamiltonian/momentum and gauge-constraint propagation with total matter sources and Maxwell subsidiary constraint",
+      "corrupted source sign or omitted-sector negative with a nonzero constraint-propagation residual"
+    ],
+    "outcome": "BLOCK",
+    "reason_code": "missing_candidate_specific_gravity_matter_coupled_registration"
+  },
+  "schema_version": "invariant-combined-matter-gravity-interface-result-1.0",
+  "scope": "three-sector matter-side interface for one canonical scalar, source-free Lorenz-Maxwell, and the admitted irrotational P(X)=kappa X^2 fluid on their shared physical metric and common-time domain; candidate-specific gravitational source equations, full coupled principal/constraint closure, vortical fluids, external currents, H7, universal all-matter closure, and promotion remain blocked",
+  "source_bindings": {
+    "config": {
+      "file_sha256": "c7539f774d1b08a66d4a258e7bc3be7cd2bd20053cee5e7bbfa6ec37adf9f7d6",
+      "path": "configs/combined_scalar_maxwell_fluid_gravity_interface_gate.json"
+    },
+    "covariant_field_contract": {
+      "file_sha256": "c31e42645fd6b7b9bd834cd77254451704946e6f6385517011343a74eb692c7c",
+      "path": "configs/covariant_field_contract.json"
+    },
+    "fluid_constraint_complete": {
+      "content_sha256": "62c5a01f7644bb39e10dde5c61c75508b44b035a9e0f1a61ffc05f287e7025af",
+      "file_sha256": "2af402e97f2db3e5df27ecf2c5d4f05050337b9f15e6ba5faf6c93c9315ae459",
+      "path": "runs/math/barotropic-irrotational-constraint-propagation-gate/receipt.json"
+    },
+    "maxwell_arbitrary_background": {
+      "content_sha256": "1498bcf3654f052ce1b1cb41922915f15e1432bc8c7a220f6e01400d67a8018a",
+      "file_sha256": "fb0029ce0ef2ad50280a6b62bee3b583b3f0d4771e7b74aa7c771d151618ac77",
+      "path": "runs/math/maxwell-arbitrary-background-stress-divergence-gate/receipt.json"
+    },
+    "source": {
+      "file_sha256": "4fd910503bcc2d7c48d0093a93485280154e91cab57c0c77314e2f67019e8d09",
+      "path": "src/sigma_theory_compiler/combined_scalar_maxwell_fluid_gravity_interface_gate.py"
+    },
+    "test": {
+      "file_sha256": "c9d98a01be6f6f143a1f029929cfdca2ebb362e99e76684894b05d6ad9ea1d7f",
+      "path": "tests/test_combined_scalar_maxwell_fluid_gravity_interface_gate.py"
+    },
+    "universal_matter": {
+      "content_sha256": "9d6ca5bf43ca5677eb482959d65525ceb12c3faf46bbb3510a5c0ef3c3616489",
+      "file_sha256": "d6bbbf8bdf3958219c3cbccee1408513623cafb84d30dd688317d422c52f57fd",
+      "path": "runs/math/universal-matter-coupled-pde-control-pack/receipt.json"
+    }
+  }
+}

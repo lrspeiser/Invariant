@@ -1,0 +1,35 @@
+{
+  "schema_version": "sigma-synthetic-affine-geometry-holdout-config-1.0",
+  "benchmark_id": "synthetic-affine-geometry-holdout-world-001",
+  "world_generator": {
+    "namespace": "invariant.synthetic.geometry.posttraining.001",
+    "generation_epoch": "2026-08-12",
+    "prime_order_candidates": [3, 5, 7],
+    "selection": "minimum_seeded_candidate_score",
+    "coordinate_dimension": 2,
+    "line_model": "affine_y_equals_mx_plus_b_with_verticals"
+  },
+  "holdout_contract": {
+    "eligible_holdouts": 1,
+    "target": "least_universal_distinct_line_intersection_bound",
+    "reference_theorem_sealed_before_discovery": true,
+    "reference_payload_supplied_to_discovery": false,
+    "post_unseal_comparison_only": true
+  },
+  "policies": {
+    "network_access": "forbidden",
+    "live_sqlite_access": "forbidden",
+    "discovery_input": "generated_public_incidence_world_only",
+    "exact_proof": "exhaustive_unordered_distinct_line_pair_replay",
+    "unsupported_or_empty_candidate_set": "block",
+    "promotion": "bounded_control_result_only"
+  },
+  "seals": {
+    "network_opened": false,
+    "live_sqlite_opened": false,
+    "external_data_opened": false,
+    "paid_llm_calls": false,
+    "gpu_execution_used": false
+  },
+  "output_path": "runs/math/synthetic-affine-geometry-holdout-world/campaign.json"
+}

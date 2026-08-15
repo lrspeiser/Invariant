@@ -1,0 +1,81 @@
+{
+  "schema_version": "invariant-system10-cylindrical-r-positive-matter-dynamic-rhs-config-1.0",
+  "campaign_id": "system10-cylindrical-r-positive-matter-dynamic-rhs-materializer-001",
+  "output_path": "runs/math/system10-cylindrical-r-positive-matter-dynamic-rhs-materializer/receipt.json",
+  "bindings": {
+    "common_rhs": {
+      "path": "runs/math/system10-cylindrical-r-positive-kinematic-rhs-materializer/receipt.json",
+      "canonical_lf_sha256": "8299464c115da394c2532f8e15c75cf84f3844882dd497753bf390aeda9d7d8c",
+      "content_sha256": "b5328deebb244a900c74df83b1bf193379986d933ef1106a25b6dd381f856bdf"
+    },
+    "first_order_reduction": {
+      "path": "runs/math/quartic-twelve-candidate-85-state-first-order-reduction/receipt.json",
+      "canonical_lf_sha256": "d83166afd9485615c4c66aa4d06b255aedae53276caf7206baff2b848731f168",
+      "content_sha256": "d52438c7e293fbb57efa411924cf63a90e96278095e44b5e9448395a62249bb2"
+    },
+    "r_positive_domain": {
+      "path": "runs/math/system10-cylindrical-r-positive-domain-lift/receipt.json",
+      "canonical_lf_sha256": "3b5764b3d88ff6572558ced31d72f7c9c3906ac79079e06b39c60ec88542ac9a",
+      "content_sha256": "a843afaaa4cacdf63a0382f97705f133cdb351560313cdd9e63e05c3da77f690"
+    },
+    "total_matter_action": {
+      "path": "runs/math/quartic-twelve-candidate-total-matter-action-binding/receipt.json",
+      "canonical_lf_sha256": "9e971252cf956d96db75d648dd8a57b805a51cf13fda23f805b333d9f0749798",
+      "content_sha256": "4894453c6b3d29580f4e813be9dc980db06744234a29725c9c760e6c785ab182"
+    },
+    "matter_interface": {
+      "path": "runs/math/combined-scalar-maxwell-fluid-gravity-interface-gate/receipt.json",
+      "canonical_lf_sha256": "6ad28dcf20e24e80abf3fca5bda4a9524662ab2b3a132e8cf757e0e0d3e01dd1",
+      "content_sha256": "0c0a66a22fb972ef70ea68f99d5e86aaa49fc45eb00c5411b1d2ed62559b8cfc"
+    },
+    "sourced_metric_euler": {
+      "path": "runs/math/quartic-twelve-candidate-sourced-metric-euler-binding/receipt.json",
+      "canonical_lf_sha256": "fd85f740be56e89c02641f1e92d5b500b8d36c15008abf142a653ad050baf887",
+      "content_sha256": "fe485cc343a729573a3ca2d422c74e3f59b296ceb4453fdb14ed4e396b40ebdd"
+    }
+  },
+  "source_evidence": {
+    "field_order_source": {
+      "path": "src/sigma_theory_compiler/quartic_twelve_candidate_85_state_first_order_reduction.py",
+      "canonical_lf_sha256": "5275d1f5d6dbe2ae09f3058d703c3d43368b6a54ee547ee4b0643b52f6773966"
+    },
+    "source": {
+      "path": "src/sigma_theory_compiler/system10_cylindrical_r_positive_matter_dynamic_rhs_materializer.py",
+      "canonical_lf_sha256": "379bdd4fce4bc9f35e505cd020c9d558ff50605019cbc9c2188c499afa93eff3"
+    },
+    "test": {
+      "path": "tests/test_system10_cylindrical_r_positive_matter_dynamic_rhs_materializer.py",
+      "canonical_lf_sha256": "c7579dd8810d138ce52bcef0bf25c980949839c5475e592e174651dd20fbbd4e"
+    }
+  },
+  "frozen_expectations": {
+    "dynamic_rows_registered": 2,
+    "registered_field_indices": [11, 16],
+    "row_set_sha256": "072db5b92b3c6275a68f39a253a27cff121122504ea38a3357a54cbeaebede0b",
+    "equation_origin_set_sha256": "1f96b2cfb52c910e26a91958e7045465994a62c727ad363daa04ef735c4c690e",
+    "missing_rows": 15,
+    "missing_row_block_set_sha256": "200bc700125e1b6d0526b7a68b15dbb44956625db0f61161ce4293dca70f266c"
+  },
+  "caps": {
+    "candidates": 12,
+    "state_dimension": 85,
+    "predecessor_common_rows": 68,
+    "matter_dynamic_rows": 2,
+    "candidate_dynamic_row_instances": 24,
+    "candidate_dynamic_rows_remaining": 180,
+    "maximum_output_bytes": 524288
+  },
+  "claims_policy": {
+    "canonical_scalar_dynamic_row": true,
+    "irrotational_fluid_dynamic_row": true,
+    "solved_acceleration_and_equation_origin": true,
+    "fixed_cylindrical_r_positive": true,
+    "maxwell_dynamic_rows": false,
+    "gravity_dynamic_rows": false,
+    "full_85_state_rhs": false,
+    "constraint_propagation": false,
+    "hyperbolicity": false,
+    "global_theorem": false,
+    "promotion": false
+  }
+}

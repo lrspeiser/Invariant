@@ -1,0 +1,143 @@
+{
+  "campaign_id": "barotropic-irrotational-hyperbolicity-gate-001",
+  "claims": {
+    "action_and_stress_gates_closed_by_predecessors": true,
+    "constraint_propagation_gate_closed": false,
+    "coupled_gravity_matter_hyperbolicity_established": false,
+    "global_evolution_established": false,
+    "gravity_h7_theorem_established": false,
+    "irrotational_matter_hyperbolicity_gate_closed": true,
+    "promotion_authorized": false,
+    "universal_matter_closure_established": false,
+    "vortical_fluid_covered": false
+  },
+  "content_sha256": "203241214720947318109e6aabcb91d986fa683f2199d3b632127e84f05259c4",
+  "counts": {
+    "blocks": 0,
+    "exact_registered_residuals": 4,
+    "exact_specialized_residuals": 2,
+    "gates_not_evaluated": 1,
+    "new_gates_passed": 1,
+    "predecessor_gates": 2,
+    "registered_negative_controls": 4,
+    "rejects": 0,
+    "sectors": 1,
+    "specialized_negative_controls": 2
+  },
+  "decision": "PASS_THIRD_GATE_ONLY",
+  "gate_results": [
+    {
+      "gate_id": "action_level_universal_metric_coupling",
+      "outcome": "PREDECESSOR_PASS"
+    },
+    {
+      "gate_id": "stress_energy_conservation_interface",
+      "outcome": "PREDECESSOR_PASS"
+    },
+    {
+      "gate_id": "principal_symbol_hyperbolicity",
+      "outcome": "PASS"
+    },
+    {
+      "gate_id": "constraint_propagation",
+      "outcome": "NOT_EVALUATED"
+    }
+  ],
+  "principal_certificate": {
+    "aligned_effective_inverse_metric": "kappa X diag(-6,2,2,2)",
+    "aligned_integer_coefficients": [
+      -6,
+      2,
+      2,
+      2
+    ],
+    "characteristic_roots": [
+      "-|k|/sqrt(3)",
+      "+|k|/sqrt(3)"
+    ],
+    "common_time_check": "nabla(tau) is timelike for g by X>0 and timelike for the acoustic inverse metric because its aligned time coefficient is -6 kappa X",
+    "common_time_covector": "nabla_mu(tau)",
+    "cone_residual": 0,
+    "determinant": "-48 (kappa X)^4",
+    "determinant_coefficient": -48,
+    "determinant_residual": 0,
+    "negative_controls": {
+      "X_zero_cone_collapse": {
+        "determinant": "0",
+        "rejected": true
+      },
+      "wrong_sign_kappa_ghost": {
+        "kinetic_coefficient": -6,
+        "rejected": true
+      }
+    },
+    "positive_common_factor": "kappa X",
+    "positive_rescaled_hamiltonian_coefficients": [
+      12,
+      1
+    ],
+    "principal_polynomial": "2 kappa X (|k|^2-3 omega^2)",
+    "reduced_hamiltonian": "kappa X |k|^2 q^2 + p^2/(12 kappa X)",
+    "scalar_gradient": "2 kappa X > 0",
+    "scalar_kinetic": "6 kappa X > 0",
+    "sound_speed_squared": "1/3"
+  },
+  "registered_control": {
+    "healthy_domain": [
+      "G2_X > 0",
+      "G2_X+2 X G2_XX > 0"
+    ],
+    "name": "generic_kessence_timelike_principal_hamiltonian",
+    "registered_negative_controls": [
+      "ghost",
+      "gradient_instability",
+      "kinetic_cone_collapse",
+      "spatial_cone_collapse"
+    ],
+    "scope": "Exact arbitrary-G2 aligned timelike-gradient principal polynomial, effective-metric determinant, Legendre transform, and four pathology controls, source-bound to the Papallo generic weak-field generalized-harmonic subclass theorem. Common-time and uniform arbitrary-background bounds remain candidate-specific.",
+    "status": "pass"
+  },
+  "schema_version": "invariant-barotropic-irrotational-hyperbolicity-result-1.0",
+  "scope": "local strong hyperbolicity and positive reduced quadratic energy of the irrotational P(X)=kappa X^2 matter equation at every arbitrary-background point satisfying kappa>0, X>0 and the common-time assumption; coupled gravity, constraint propagation, vortical flow, global evolution, H7, and universal matter remain outside scope",
+  "sector_id": "barotropic_perfect_fluid_irrotational_patch",
+  "source_bindings": {
+    "config": {
+      "file_sha256": "a28e57930f05c0a4ccba874c72d6108355484d511fdb34e609608c75edf54ae9",
+      "path": "configs/barotropic_irrotational_hyperbolicity_gate.json"
+    },
+    "formal_controls": {
+      "content_sha256": "cbf2f085198ac29afce473ca39ac7f39681d5ec6b781ef67cfed9313c0a8a420",
+      "file_sha256": "1a121c66365e70aed1ee9b5e5803829b824ca57c4671ee61b6fa6bad1a1dd8e1",
+      "path": "runs/formal-controls-v1/formal-controls-portable.json"
+    },
+    "principal_source": {
+      "file_sha256": "d108ed635851bb57fdeffcf23d02e4f66021e45591dbffd3b62e7983bb468d19",
+      "path": "src/sigma_theory_compiler/horndeski.py"
+    },
+    "source": {
+      "file_sha256": "96f71ef6daeda338f86879b4a724c3ac2a701cb9a8307861bc3181aa9e74b655",
+      "path": "src/sigma_theory_compiler/barotropic_irrotational_hyperbolicity_gate.py"
+    },
+    "stress_predecessor": {
+      "content_sha256": "23c2566a1aa4313848272050226ad328d7eb4908d421baeb086e3d3dfcd20489",
+      "file_sha256": "6905ea0fd6fb1b80602716c3902421a667827edce6d033fb7805f31f8512381b",
+      "path": "runs/math/barotropic-irrotational-stress-conservation-gate/receipt.json"
+    },
+    "test": {
+      "file_sha256": "49bc1d3128ccfbc5c527572a8884b70684b578ce66e254e6e9a650996a1787dc",
+      "path": "tests/test_barotropic_irrotational_hyperbolicity_gate.py"
+    }
+  },
+  "specialization": {
+    "P_X": "2 kappa X",
+    "P_XX": "2 kappa",
+    "background_scope": "arbitrary smooth physical metric and irrotational field jet point satisfying the declared domain",
+    "domain": [
+      "kappa>0",
+      "X>0",
+      "nabla_mu(tau) future-directed timelike",
+      "use tau as a local common-time function for the matter and physical metric cones"
+    ],
+    "pressure": "P(X)=kappa X^2"
+  }
+}

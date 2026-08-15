@@ -1,0 +1,140 @@
+{
+  "adapter_receipt": {
+    "claims": {
+      "formal_target_checked": true,
+      "lean_available": true,
+      "scientific_truth_inferred": false
+    },
+    "content_sha256": "2cb0e571a138a7493b729e363d16169c1fa922e3a862a4c3b344b26207d4281e",
+    "decision": "pass_lean_checked_closed_premise",
+    "dependency_audit": {
+      "closure_valid": true,
+      "dependencies": [
+        "Eq.refl"
+      ],
+      "protocol_version": "INVARIANT_LEAN_DEPENDENCY_AUDIT_V1",
+      "reported_target": "Invariant.kernelSmoke"
+    },
+    "executable": {
+      "configured": true,
+      "discovered": true,
+      "discovery_source": "explicit",
+      "identity_sha256": "dd86e9b24990b1da425ea4af910f016e4db8f9a25c9ddad27bc6bee3690e677f"
+    },
+    "execution": {
+      "attempted": true,
+      "exit_code": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "ec631ecef87e6d5b524f51591bd5c24908824b65f7c26954563386611f1e10d5",
+      "timed_out": false
+    },
+    "manifest_sha256": "b97fe56af6f0f3ad02c5e62f7e8c68ba0fcadd822d909f1788b657ad7a3cec5f",
+    "reason": "Lean checked the target and reported only allowed premises",
+    "schema_version": "invariant-lean-adapter-result-1.0",
+    "source_sha256": "9b193b4ea056cacfc0ea9066ab0c8f088906f404084a936caa75581102804f78",
+    "status": "pass",
+    "target": "Invariant.kernelSmoke"
+  },
+  "campaign_id": "lean-production-kernel-vertical-slice-001",
+  "claim_seals": {
+    "bounded_theorem_kernel_checked": true,
+    "dependency_closure_validated": true,
+    "general_formal_completion_claimed": false,
+    "lean_executable_discovered": true,
+    "physics_claimed": false,
+    "scientific_truth_inferred": false
+  },
+  "content_sha256": "2ab97edf548703abfe05e03e606fbbd6842384f57ff82a5d306cbf15ac51bc55",
+  "decision": "pass_real_lean_kernel_vertical_slice",
+  "dependency_closure": {
+    "allowed_premise_manifest": {
+      "allowed_premises": [
+        "Eq.refl"
+      ],
+      "content_sha256": "b97fe56af6f0f3ad02c5e62f7e8c68ba0fcadd822d909f1788b657ad7a3cec5f",
+      "equivalent_targets": [],
+      "forbidden_prefixes": [
+        "KnownAnswer.",
+        "Unsafe."
+      ],
+      "forbidden_premises": [
+        "Classical.choice",
+        "False.elim"
+      ],
+      "schema_version": "invariant-lean-allowed-premise-manifest-1.0",
+      "target": "Invariant.kernelSmoke"
+    },
+    "closure_checked_by_adapter": true,
+    "declared_dependencies": [
+      "Eq.refl"
+    ],
+    "out_of_manifest_dependency_allowed": false,
+    "target_or_equivalent_allowed_as_dependency": false
+  },
+  "first_blocker": "none_for_bounded_kernel_smoke_theorem",
+  "readiness_counts": {
+    "blocked_theorems": 0,
+    "kernel_checked_theorems": 1,
+    "kernel_executions_attempted": 1,
+    "rejected_theorems": 0,
+    "theorems_presented": 1
+  },
+  "receipt_role": "checked_windows_historical",
+  "schema_version": "invariant-lean-production-kernel-vertical-slice-result-2.0",
+  "scope": "one known-answer Nat reflexivity theorem and its declared Eq.refl premise closure; no scientific truth, general theorem-proving, production availability, or physics claim",
+  "source_bindings": {
+    "adapter": {
+      "source": {
+        "file_sha256": "18380105b3e5549593450c04f79deb1f2384635d43822988af702f638be356d5",
+        "path": "src/sigma_theory_compiler/math_lean_adapter.py"
+      },
+      "test": {
+        "file_sha256": "03ffc05ec5e439d5743bd64dacc76c8b7e53365f209226cf3495bbfcd53f2878",
+        "path": "tests/test_math_lean_adapter.py"
+      }
+    },
+    "config": {
+      "file_sha256": "dd1c183ff0ace9be3c5688e029ead3bc34a7cf6cb16370cc989c243c26a39a0d",
+      "path": "configs/math/lean_production_kernel_vertical_slice.json"
+    },
+    "source": {
+      "file_sha256": "06db4e93bd277019f8c5f803a3b676f1953a909862e458a137da5ad868ae3d36",
+      "path": "src/sigma_theory_compiler/lean_production_kernel_vertical_slice.py"
+    },
+    "test": {
+      "file_sha256": "bdc5264da89ec86434478b7f0c54581ab915a897c498b2264b693979a9c9a039",
+      "path": "tests/test_lean_production_kernel_vertical_slice.py"
+    },
+    "theorem": {
+      "file_sha256": "9b193b4ea056cacfc0ea9066ab0c8f088906f404084a936caa75581102804f78",
+      "path": "formal/lean/InvariantKernelSmoke.lean"
+    }
+  },
+  "theorem_contract": {
+    "known_answer_role": "bounded_kernel_and_dependency_protocol_smoke_theorem_only",
+    "proof_term": "Eq.refl n",
+    "source_bytes": 326,
+    "source_sha256": "9b193b4ea056cacfc0ea9066ab0c8f088906f404084a936caa75581102804f78",
+    "statement": "for every natural number n, n = n",
+    "target": "Invariant.kernelSmoke"
+  },
+  "toolchain_receipt": {
+    "archive_and_binary_outside_git_history": true,
+    "commit": "d8b18978322de05a8f3dba51ef03cf5461676c17",
+    "executable_path_persisted": false,
+    "executable_sha256": "dd86e9b24990b1da425ea4af910f016e4db8f9a25c9ddad27bc6bee3690e677f",
+    "official_release": "leanprover/lean4:v4.33.0",
+    "platform": "windows-x86_64",
+    "platform_asset": {
+      "archive_bytes": 583425362,
+      "archive_sha256": "60d045a2ef45fca55a620b7d55be682e8439ec8d1fc9a8bcd2615da7dffba26a",
+      "asset_url": "https://github.com/leanprover/lean4/releases/download/v4.33.0/lean-4.33.0-windows.tar.zst",
+      "executable_sha256": "dd86e9b24990b1da425ea4af910f016e4db8f9a25c9ddad27bc6bee3690e677f"
+    },
+    "registered_executable_sha256_matched": true,
+    "resolution_source": "environment",
+    "version": "4.33.0",
+    "version_output": "Lean (version 4.33.0, x86_64-w64-windows-gnu, commit d8b18978322de05a8f3dba51ef03cf5461676c17, Release)",
+    "version_probe_exit_code": 0
+  }
+}

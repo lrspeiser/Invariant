@@ -153,8 +153,8 @@ def _load_config(root: Path, config_path: Path | None = None) -> dict[str, Any]:
     ):
         raise ValueError("curriculum closed contract changed")
     controls = config["implemented_controls"]
-    if not isinstance(controls, list) or len(controls) != 2:
-        raise ValueError("curriculum must bind exactly two implemented controls")
+    if not isinstance(controls, list) or len(controls) != 5:
+        raise ValueError("curriculum must bind exactly five implemented controls")
     expected_keys = {
         "slot_id",
         "artifact_path",
@@ -418,9 +418,9 @@ def validate_readiness(
         or value.get("aggregate_metrics", {}).get("counts")
         != {
             "registered_slots": 200,
-            "implemented_controls": 2,
-            "ready_slots": 2,
-            "missing_slots": 198,
+            "implemented_controls": 5,
+            "ready_slots": 5,
+            "missing_slots": 195,
             "invalid_slots": 0,
         }
         or value.get("claims", {}).get("missing_benchmarks_count_as_success") is not False

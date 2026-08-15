@@ -1,0 +1,48 @@
+{
+  "schema_version": "sigma-comprehensive-alpha-cross-generator-config-1.0",
+  "campaign_id": "comprehensive-alpha-cross-generator-001",
+  "generator_families": [
+    "bayesian",
+    "cross_domain",
+    "egraph",
+    "evolutionary",
+    "grammar",
+    "llm",
+    "symbolic"
+  ],
+  "common_domain_pack": {
+    "pack_id": "synthetic.comprehensive_alpha",
+    "pack_version": "1.0.0",
+    "stages": ["typed", "exact"],
+    "hard_gates": ["hard_exact", "hard_structure"]
+  },
+  "preregistered_gate_outcomes": {
+    "bayesian": {"hard_exact": "pass", "hard_structure": "pass"},
+    "cross_domain": {"hard_exact": "pass", "hard_structure": "block"},
+    "egraph": {"hard_exact": "reject", "hard_structure": "pass"},
+    "evolutionary": {"hard_exact": "pass", "hard_structure": "pass"},
+    "grammar": {"hard_exact": "pass", "hard_structure": "pass"},
+    "llm": {"hard_exact": "error", "hard_structure": "pass"},
+    "symbolic": {"hard_exact": "pass", "hard_structure": "pass"}
+  },
+  "exact_soft_metrics": {
+    "provenance_inputs": "maximize",
+    "representation_bytes": "minimize"
+  },
+  "budgets": {
+    "maximum_candidates": 7,
+    "maximum_generator_work_items": 128,
+    "maximum_pareto_work_units": 128,
+    "llm_calls": 1,
+    "llm_maximum_micro_usd": 1000
+  },
+  "policies": {
+    "network_access": "forbidden",
+    "live_sqlite_access": "forbidden",
+    "llm_provider": "deterministic_offline_fixture",
+    "metrics_before_all_hard_gates_pass": "forbidden",
+    "generator_self_promotion": "forbidden",
+    "heuristic_truth_inference": "forbidden"
+  },
+  "output_path": "runs/math/comprehensive-alpha-cross-generator/campaign.json"
+}

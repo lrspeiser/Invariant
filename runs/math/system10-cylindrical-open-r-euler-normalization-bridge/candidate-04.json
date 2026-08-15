@@ -1,0 +1,206 @@
+{
+  "campaign_id": "system10-open-r-euler-normalization-bridge-001",
+  "candidate_id": "quartic-symbol-5455cad9e42a0dbc",
+  "candidate_index": 4,
+  "claims": {
+    "constraint_propagation_closed": false,
+    "divQ_to_modified_harmonic_C_factorization_closed": false,
+    "equation_origin_to_off_shell_normalization_closed": true,
+    "subsidiary_system_closed": false
+  },
+  "coefficients": {
+    "a10": "-1",
+    "c20": "-1",
+    "m2": "1"
+  },
+  "content_sha256": "2b4c085cfd1befbaf0867c833e5808132a9199e79d27bdaa9ecb49ceed5eb859",
+  "counts": {
+    "divQ_normalizations": 4,
+    "gravity_scalar_euler_normalizations": 1,
+    "matter_force_sector_normalizations": 3,
+    "spatial_metric_euler_normalizations": 6
+  },
+  "divQ_normalization": {
+    "all_candidate_M2_values": "1",
+    "mapping_sha256": "a2f933d51b7f5f3dc97adcde4d02d090bb9a9a546b8ea0d1e4326785995612d6",
+    "mappings": [
+      {
+        "bridge_coefficient": "1",
+        "candidate_M2": "1",
+        "lower_nu": 0,
+        "mapping_sha256": "a420846569cfb507cf7604117249571b5de068e595f7ba2175db86a75dc9bdf7",
+        "off_shell_atom": "divQ_lower[0]",
+        "registered_row": "divQ_lower[0]/M2",
+        "source_row_sha256": "c8339febf372c4ed84f0d45dc0f4935d73375765843df6bed2cd0376e53f0ef5"
+      },
+      {
+        "bridge_coefficient": "1",
+        "candidate_M2": "1",
+        "lower_nu": 1,
+        "mapping_sha256": "8348582b3e86b492cc8b97108eb7f01920198e3abaf6207bdcdb57831f8a40ba",
+        "off_shell_atom": "divQ_lower[1]",
+        "registered_row": "divQ_lower[1]/M2",
+        "source_row_sha256": "2be1dd0f9cd9badec6e6b6367b5df600510487565d08fe49e217cbc093679622"
+      },
+      {
+        "bridge_coefficient": "1",
+        "candidate_M2": "1",
+        "lower_nu": 2,
+        "mapping_sha256": "daf17e2d726f1470ba9bbba6a0d45f95911b497295a05895fdc044a73ae47cd5",
+        "off_shell_atom": "divQ_lower[2]",
+        "registered_row": "divQ_lower[2]/M2",
+        "source_row_sha256": "7005ca34c0ac327a2fa55b0ec87571962a6351e12a543c191ce02bdf9f6b0b7c"
+      },
+      {
+        "bridge_coefficient": "1",
+        "candidate_M2": "1",
+        "lower_nu": 3,
+        "mapping_sha256": "7c955b085e571014fe71814cbce583af141adde96d41e45eaed3189cd639df2f",
+        "off_shell_atom": "divQ_lower[3]",
+        "registered_row": "divQ_lower[3]/M2",
+        "source_row_sha256": "b578a2172a877ead93ac4403e6042319565be4ee5ba5ce6e904ddd304c1789f2"
+      }
+    ]
+  },
+  "gravity_scalar_euler_normalization": {
+    "bridge": "E_phi_g=-AW_equation[10]",
+    "mapping_sha256": "77ee9c957309cd8e148f5b4d53e21eff1376f36fe190b580e3b7ad756ee8b0c2",
+    "off_shell_atom": "E_phi_g",
+    "source_authority": "quartic_nonlinear_evolution_campaign._assemble_equations",
+    "source_equation_row": 10,
+    "source_field_pair": "gravity_scalar",
+    "source_to_off_shell_coefficient": "-1",
+    "source_variational_convention": "symmetric_11_field_row_is_minus_E_phi_g"
+  },
+  "matter_euler_force_normalization": {
+    "mapping_sha256": "6b75da9b7c7e1a569c59ae270e0c92e4c4875667efe069b70f5e89403177f1fa",
+    "maxwell_augmented_premise": "E_L=0 and vanishing C_Maxwell subsidiary data imply E_Maxwell=0",
+    "on_shell_cancellation": "F_total_nu=0 when E_chi=E_Maxwell=E_tau=0",
+    "sector_euler_force_coefficients": [
+      "1",
+      "1",
+      "1"
+    ],
+    "sectors": [
+      {
+        "dynamic_origin_sha256": "196765270303cbb8f37bc15a3fd67813f93cc09db0674dd95b3d37a6c67626d0",
+        "dynamic_to_covariant_euler": "E_chi=unsolved_dynamic_equation[11]",
+        "force_atom": "E_chi*partial_nu(chi_m)",
+        "mapping_sha256": "aee26f4b94f1de04e80ec545f7c9ac33446bfd700c82b0f6c3ca2b5932a4b860",
+        "sector": "canonical_minimally_coupled_scalar",
+        "sector_force_coefficient": "1"
+      },
+      {
+        "dynamic_origin_sha256s": [
+          "f517d4907548d749c54aff8fdb6f90a6feb658654dda6ea48be85694af24d2b5",
+          "7ed86f8f366216cd2edbc4cba2256af4c5fa7add0b842b149089f804fb30634b",
+          "8b797d436e5332af72f2c74187bd6afc016b753006d6eed1de4c2c3c44635be0",
+          "e38e80e9dc51276204fb49ec9ab622e7f64c589a84034acecd78efdcc30972a4"
+        ],
+        "dynamic_to_covariant_euler": "E_Maxwell_mu=E_L_mu-nabla_mu(C_Maxwell), E_L_mu=unsolved_dynamic_equation[12+mu]",
+        "force_atom": "F_nu_rho*E_Maxwell^rho",
+        "lorenz_constraint": "C_Maxwell=nabla^rho B_rho",
+        "lorenz_subsidiary": "box_g C_Maxwell=0",
+        "mapping_sha256": "d10f9016488b3e05c9febfd932a7fbb2ccce8b52f2ddfa5a3f539357bbae183f",
+        "sector": "source_free_maxwell",
+        "sector_force_coefficient": "1"
+      },
+      {
+        "dynamic_origin_sha256": "68375b118cd721f8d99e11ac9c0cb03a4a3eb798acb9bc73a89c548d0feea286",
+        "dynamic_to_covariant_euler": "E_tau=2*kappa*reduced_unsolved_dynamic_equation[16]",
+        "force_atom": "E_tau*partial_nu(tau)",
+        "legal_division_premise": "kappa>0",
+        "mapping_sha256": "b6664ac719ea47ec7b9d02820554f850a50f8e6c48ba089f120632b6316b5ba4",
+        "sector": "barotropic_irrotational_fluid",
+        "sector_force_coefficient": "1"
+      }
+    ],
+    "total_force": "F_total_nu=E_chi*partial_nu(chi_m)+F_nu_rho*E_Maxwell^rho+E_tau*partial_nu(tau)"
+  },
+  "schema_version": "invariant-system10-open-r-euler-normalization-bridge-packet-1.0",
+  "source_bindings": {
+    "aw_packet_content_sha256": "e5d989310f1fdcf41734002901d4080b77e4eed3f8c160ac6a1cfd4371bbca6b",
+    "coordinate_row_set_sha256": "4f16c1abe02581bf2716dd6feb6c4c31ba6bbb5c52bc898b995e13c0c17e3e82",
+    "full_rhs_equation_origin_set_sha256": "29d41948ac1bc456b73b1a13e69ed323c2a818f64c31de0c7c1b29fe2f2d89c2"
+  },
+  "spatial_metric_euler_normalizations": [
+    {
+      "bridge": "E_sourced^11=1*AW_equation[4]",
+      "mapping_sha256": "a1b06c4f338d23f2347ae967d0a315766141b3e00198adf33806f61c7ae9e6e3",
+      "off_shell_atom": "E_sourced^11",
+      "off_shell_to_source_coefficient": "1",
+      "source_equation_row": 4,
+      "source_field_pair": [
+        1,
+        1
+      ],
+      "source_symmetric_row_weight": "1",
+      "source_to_off_shell_coefficient": "1"
+    },
+    {
+      "bridge": "E_sourced^12=1/sqrt(2)*AW_equation[5]",
+      "mapping_sha256": "a1474a4847d002bf1b73aec40c26918911f48e929b7908e02c4b656ab91fcdbc",
+      "off_shell_atom": "E_sourced^12",
+      "off_shell_to_source_coefficient": "sqrt(2)",
+      "source_equation_row": 5,
+      "source_field_pair": [
+        1,
+        2
+      ],
+      "source_symmetric_row_weight": "sqrt(2)",
+      "source_to_off_shell_coefficient": "1/sqrt(2)"
+    },
+    {
+      "bridge": "E_sourced^13=1/sqrt(2)*AW_equation[6]",
+      "mapping_sha256": "7bc951cd3d3e6d9eee771e3c440573fb2c2985cea6ad1b8fdb2d516d53bc9c8b",
+      "off_shell_atom": "E_sourced^13",
+      "off_shell_to_source_coefficient": "sqrt(2)",
+      "source_equation_row": 6,
+      "source_field_pair": [
+        1,
+        3
+      ],
+      "source_symmetric_row_weight": "sqrt(2)",
+      "source_to_off_shell_coefficient": "1/sqrt(2)"
+    },
+    {
+      "bridge": "E_sourced^22=1*AW_equation[7]",
+      "mapping_sha256": "9cb95f2daaafd5f78301237695c005ea3530c09c363fe1aa5d7997045f784209",
+      "off_shell_atom": "E_sourced^22",
+      "off_shell_to_source_coefficient": "1",
+      "source_equation_row": 7,
+      "source_field_pair": [
+        2,
+        2
+      ],
+      "source_symmetric_row_weight": "1",
+      "source_to_off_shell_coefficient": "1"
+    },
+    {
+      "bridge": "E_sourced^23=1/sqrt(2)*AW_equation[8]",
+      "mapping_sha256": "4c5d660ab691aafbe8c1e5ee8404c73f4567b5f855dd3cc884d8b0a9d62905bd",
+      "off_shell_atom": "E_sourced^23",
+      "off_shell_to_source_coefficient": "sqrt(2)",
+      "source_equation_row": 8,
+      "source_field_pair": [
+        2,
+        3
+      ],
+      "source_symmetric_row_weight": "sqrt(2)",
+      "source_to_off_shell_coefficient": "1/sqrt(2)"
+    },
+    {
+      "bridge": "E_sourced^33=1*AW_equation[9]",
+      "mapping_sha256": "b7902ce1974d1f38e4d9b47afa71114ac15a76e1a4d34f5f4a25a740d8de61d6",
+      "off_shell_atom": "E_sourced^33",
+      "off_shell_to_source_coefficient": "1",
+      "source_equation_row": 9,
+      "source_field_pair": [
+        3,
+        3
+      ],
+      "source_symmetric_row_weight": "1",
+      "source_to_off_shell_coefficient": "1"
+    }
+  ]
+}

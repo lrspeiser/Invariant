@@ -1,0 +1,1593 @@
+{
+  "candidate_roles": {
+    "correct": {
+      "artifact_id": "sig-522092801d108ee92d093f22",
+      "content_sha256": "522092801d108ee92d093f226c2417e5af0ab5e092fb66ff5829637b53441bfd"
+    },
+    "wrong": {
+      "artifact_id": "sig-06099d25141d45f0714a4205",
+      "content_sha256": "06099d25141d45f0714a42053e1ef4c6104d3488ea3f436c7d5358daf18e703e"
+    }
+  },
+  "claims": {
+    "blind_rediscovery_proved": false,
+    "general_formula_discovery_proved": false,
+    "known_answer_control_passed": true,
+    "novelty_established": false,
+    "promotion_authorized": false,
+    "soft_metric_admitted_only_after_all_hard_gates": true,
+    "wrong_formula_rejected_by_counterexample": true
+  },
+  "content_sha256": "c658cfe6e0e6f2146f7c109c7ae262561933f6fbd10e3780a7bd9a7549f639fd",
+  "control_id": "natural_sum_identity_success_and_wrong_square_failure",
+  "correct_candidate": {
+    "all_required_gates_passed": true,
+    "pareto_front": 1,
+    "status": "pass"
+  },
+  "decision": "pass_known_identity_and_reject_wrong_formula_end_to_end_control",
+  "exact_counts": {
+    "candidates": 2,
+    "counterexample_reject": 1,
+    "formal_proofs": 1,
+    "hard_gate_pass": 1,
+    "metric_receipts": 1,
+    "pareto_fronts": 1,
+    "prior_art_checks_after_proof": 1,
+    "promotion_authorized": 0,
+    "ranked_candidates": 1
+  },
+  "pipeline_result": {
+    "candidate_rows": [
+      {
+        "all_required_gates_passed": false,
+        "candidate": {
+          "artifact_id": "sig-06099d25141d45f0714a4205",
+          "content_sha256": "06099d25141d45f0714a42053e1ef4c6104d3488ea3f436c7d5358daf18e703e"
+        },
+        "evaluation_content_sha256": "82e06ebe2d8b27d31de8c2cfa5d4656aaf0b7e99b2ab4a4ae3ac61902b5e1696",
+        "exclusion_reason": "did_not_pass_all_required_hard_gates",
+        "explanation_sha256": null,
+        "observational_phase_opened": false,
+        "pareto_front": null,
+        "promotion_authorized": false,
+        "ranking_eligible": false,
+        "status": "reject"
+      },
+      {
+        "all_required_gates_passed": true,
+        "candidate": {
+          "artifact_id": "sig-522092801d108ee92d093f22",
+          "content_sha256": "522092801d108ee92d093f226c2417e5af0ab5e092fb66ff5829637b53441bfd"
+        },
+        "evaluation_content_sha256": "007185d4848409dc6ab26f5bae12d3a445e392ae89849b353d4956aba9546496",
+        "exclusion_reason": null,
+        "explanation_sha256": "6694dc0f4e6546e853c6e95b74de7340b29e33ea69c28f245ca37b2fcae511a8",
+        "observational_phase_opened": false,
+        "pareto_front": 1,
+        "promotion_authorized": false,
+        "ranking_eligible": true,
+        "status": "pass"
+      }
+    ],
+    "candidates": [
+      {
+        "artifact_id": "sig-06099d25141d45f0714a4205",
+        "assumptions": [
+          "n is an integer in the closed interval [0,100]"
+        ],
+        "claims": [
+          "known_answer_pipeline_control"
+        ],
+        "content_sha256": "06099d25141d45f0714a42053e1ef4c6104d3488ea3f436c7d5358daf18e703e",
+        "kind": "identity",
+        "provenance": {
+          "domain_pack": {
+            "descriptor_sha256": "8ff8c7e3d72ef953f5bbf5527d8e2a55a4672972663aaa6b3f57974d4cc2ac71",
+            "pack_id": "sigma.math",
+            "pack_version": "1.0.0"
+          },
+          "inputs": [],
+          "parameters_sha256": "fdc23a635fa0a86626e18b047bca8d0e2b81ebed36282a14f34a50a5ae290499",
+          "schema_version": "sigma-core-provenance-1.0",
+          "sources": [
+            {
+              "file_sha256": "3158d6031ad0dbf1c3cb955c956af319f39c58d50982d2193a07b0f46c83e685",
+              "path": "runs/math-language/anonymous-natural-sum-blind-rediscovery/campaign.json",
+              "role": "prior_art_receipt"
+            }
+          ]
+        },
+        "representation": {
+          "canonical_formula_sha256": "06c6b69f3756f1716b5057a06eff30b9644856b5cfd3939ff88e2914ee8f38a3",
+          "counterexample_plan": {
+            "adversarial_limit": 16,
+            "exact_assignments": [
+              {
+                "n": 0
+              },
+              {
+                "n": 1
+              },
+              {
+                "n": 2
+              },
+              {
+                "n": 10
+              }
+            ],
+            "random_trials": 32,
+            "seed": 20260812,
+            "strategies": [
+              "exact",
+              "adversarial",
+              "random"
+            ]
+          },
+          "formula": {
+            "kind": "equation",
+            "left": {
+              "arguments": [
+                {
+                  "arguments": [
+                    {
+                      "arguments": [],
+                      "operation": "symbol",
+                      "value": "n"
+                    },
+                    {
+                      "arguments": [
+                        {
+                          "arguments": [],
+                          "operation": "symbol",
+                          "value": "n"
+                        },
+                        {
+                          "arguments": [],
+                          "operation": "literal",
+                          "value": {
+                            "kind": "integer",
+                            "value": 1
+                          }
+                        }
+                      ],
+                      "operation": "add"
+                    }
+                  ],
+                  "operation": "multiply"
+                },
+                {
+                  "arguments": [
+                    {
+                      "arguments": [],
+                      "operation": "literal",
+                      "value": {
+                        "kind": "integer",
+                        "value": 2
+                      }
+                    },
+                    {
+                      "arguments": [],
+                      "operation": "literal",
+                      "value": {
+                        "kind": "integer",
+                        "value": -1
+                      }
+                    }
+                  ],
+                  "operation": "power"
+                }
+              ],
+              "operation": "multiply"
+            },
+            "right": {
+              "arguments": [
+                {
+                  "arguments": [],
+                  "operation": "symbol",
+                  "value": "n"
+                },
+                {
+                  "arguments": [],
+                  "operation": "literal",
+                  "value": {
+                    "kind": "integer",
+                    "value": 2
+                  }
+                }
+              ],
+              "operation": "power"
+            }
+          },
+          "prior_art_contract": {
+            "comparison_after_proof_only": true,
+            "receipt_sha256": "3158d6031ad0dbf1c3cb955c956af319f39c58d50982d2193a07b0f46c83e685"
+          },
+          "proof_contract": {
+            "method": "sympy_exact_identity"
+          },
+          "schema_version": "sigma-math-candidate-1.0",
+          "variables": {
+            "n": {
+              "kind": "integer",
+              "maximum": 100,
+              "minimum": 0
+            }
+          }
+        },
+        "schema_version": "sigma-core-candidate-artifact-1.0",
+        "statement": "Known-answer pipeline control: deliberately wrong square formula."
+      },
+      {
+        "artifact_id": "sig-522092801d108ee92d093f22",
+        "assumptions": [
+          "n is an integer in the closed interval [0,100]"
+        ],
+        "claims": [
+          "known_answer_pipeline_control"
+        ],
+        "content_sha256": "522092801d108ee92d093f226c2417e5af0ab5e092fb66ff5829637b53441bfd",
+        "kind": "identity",
+        "provenance": {
+          "domain_pack": {
+            "descriptor_sha256": "8ff8c7e3d72ef953f5bbf5527d8e2a55a4672972663aaa6b3f57974d4cc2ac71",
+            "pack_id": "sigma.math",
+            "pack_version": "1.0.0"
+          },
+          "inputs": [],
+          "parameters_sha256": "35fb4948282fa8f9177edd4183eea7dc947eaa72a7a6447deef489f0ca0b8827",
+          "schema_version": "sigma-core-provenance-1.0",
+          "sources": [
+            {
+              "file_sha256": "3158d6031ad0dbf1c3cb955c956af319f39c58d50982d2193a07b0f46c83e685",
+              "path": "runs/math-language/anonymous-natural-sum-blind-rediscovery/campaign.json",
+              "role": "prior_art_receipt"
+            }
+          ]
+        },
+        "representation": {
+          "canonical_formula_sha256": "a02f170a45ecff4376cce6b91cb19f497fdbef95c0c578657fb125df298dde4d",
+          "counterexample_plan": {
+            "adversarial_limit": 16,
+            "exact_assignments": [
+              {
+                "n": 0
+              },
+              {
+                "n": 1
+              },
+              {
+                "n": 2
+              },
+              {
+                "n": 10
+              }
+            ],
+            "random_trials": 32,
+            "seed": 20260812,
+            "strategies": [
+              "exact",
+              "adversarial",
+              "random"
+            ]
+          },
+          "formula": {
+            "kind": "equation",
+            "left": {
+              "arguments": [
+                {
+                  "arguments": [
+                    {
+                      "arguments": [],
+                      "operation": "symbol",
+                      "value": "n"
+                    },
+                    {
+                      "arguments": [
+                        {
+                          "arguments": [],
+                          "operation": "symbol",
+                          "value": "n"
+                        },
+                        {
+                          "arguments": [],
+                          "operation": "literal",
+                          "value": {
+                            "kind": "integer",
+                            "value": 1
+                          }
+                        }
+                      ],
+                      "operation": "add"
+                    }
+                  ],
+                  "operation": "multiply"
+                },
+                {
+                  "arguments": [
+                    {
+                      "arguments": [],
+                      "operation": "literal",
+                      "value": {
+                        "kind": "integer",
+                        "value": 2
+                      }
+                    },
+                    {
+                      "arguments": [],
+                      "operation": "literal",
+                      "value": {
+                        "kind": "integer",
+                        "value": -1
+                      }
+                    }
+                  ],
+                  "operation": "power"
+                }
+              ],
+              "operation": "multiply"
+            },
+            "right": {
+              "arguments": [
+                {
+                  "arguments": [
+                    {
+                      "arguments": [
+                        {
+                          "arguments": [],
+                          "operation": "symbol",
+                          "value": "n"
+                        },
+                        {
+                          "arguments": [],
+                          "operation": "literal",
+                          "value": {
+                            "kind": "integer",
+                            "value": 2
+                          }
+                        }
+                      ],
+                      "operation": "power"
+                    },
+                    {
+                      "arguments": [],
+                      "operation": "symbol",
+                      "value": "n"
+                    }
+                  ],
+                  "operation": "add"
+                },
+                {
+                  "arguments": [
+                    {
+                      "arguments": [],
+                      "operation": "literal",
+                      "value": {
+                        "kind": "integer",
+                        "value": 2
+                      }
+                    },
+                    {
+                      "arguments": [],
+                      "operation": "literal",
+                      "value": {
+                        "kind": "integer",
+                        "value": -1
+                      }
+                    }
+                  ],
+                  "operation": "power"
+                }
+              ],
+              "operation": "multiply"
+            }
+          },
+          "prior_art_contract": {
+            "comparison_after_proof_only": true,
+            "receipt_sha256": "3158d6031ad0dbf1c3cb955c956af319f39c58d50982d2193a07b0f46c83e685"
+          },
+          "proof_contract": {
+            "method": "sympy_exact_identity"
+          },
+          "schema_version": "sigma-math-candidate-1.0",
+          "variables": {
+            "n": {
+              "kind": "integer",
+              "maximum": 100,
+              "minimum": 0
+            }
+          }
+        },
+        "schema_version": "sigma-core-candidate-artifact-1.0",
+        "statement": "Known-answer pipeline control: algebraically identical natural-sum forms."
+      }
+    ],
+    "claims": {
+      "failed_hard_gate_compensated_by_soft_metric": false,
+      "novelty_established": false,
+      "promotion_authorized": false,
+      "soft_metric_receipts_admitted_before_all_hard_gates_passed": false,
+      "truth_established": false,
+      "unranked_candidate_omitted": false
+    },
+    "content_sha256": "9024dee0a2166039f5ff1024c33c15b7fff3279a49352384ccb943b1f786246c",
+    "counts": {
+      "all_required_gates_passed": 1,
+      "candidates": 2,
+      "evaluation_statuses": {
+        "block": 0,
+        "error": 0,
+        "pass": 1,
+        "reject": 1
+      },
+      "metric_receipts": 1,
+      "observational_phase_opened": 0,
+      "pareto_fronts": 1,
+      "ranked_candidates": 1,
+      "unranked_candidates": 1
+    },
+    "decision": "completed_with_hard_gate_admitted_pareto_candidates",
+    "evaluations": [
+      {
+        "all_required_gates_passed": false,
+        "artifact": {
+          "artifact_id": "sig-06099d25141d45f0714a4205",
+          "content_sha256": "06099d25141d45f0714a42053e1ef4c6104d3488ea3f436c7d5358daf18e703e"
+        },
+        "claims": {
+          "failed_hard_gate_compensated_by_soft_metric": false,
+          "generator_output_treated_as_truth": false,
+          "novelty_established": false,
+          "observations_opened_before_formal_admission": false,
+          "promotion_authorized_by_this_runner": false
+        },
+        "content_sha256": "82e06ebe2d8b27d31de8c2cfa5d4656aaf0b7e99b2ab4a4ae3ac61902b5e1696",
+        "counts": {
+          "attempted_by_phase": {
+            "cheap": 2,
+            "formal": 0,
+            "observational": 0,
+            "symbolic": 1
+          },
+          "attempted_gates": 2,
+          "attempted_stages": 3,
+          "gate_statuses": {
+            "block": 0,
+            "error": 0,
+            "pass": 2,
+            "reject": 0
+          },
+          "registered_steps": 5,
+          "skipped_steps": 2,
+          "stage_statuses": {
+            "block": 0,
+            "error": 0,
+            "pass": 2,
+            "reject": 1
+          }
+        },
+        "gate_outcomes": [
+          {
+            "artifact": {
+              "artifact_id": "sig-06099d25141d45f0714a4205",
+              "content_sha256": "06099d25141d45f0714a42053e1ef4c6104d3488ea3f436c7d5358daf18e703e"
+            },
+            "checks": [
+              {
+                "check_id": "stage_receipts_bound",
+                "details_sha256": "5b15cf44bf30b97ef5d17300deecce2f5e97f5f5f92612e16352c273e7774fbc",
+                "passed": true
+              }
+            ],
+            "evidence": [],
+            "gate_id": "admit_typed",
+            "outcome_sha256": "93ca8844605cc2e5070fa198c02660c7a3913995df787d954c88290e731b7a50",
+            "reason_codes": [],
+            "schema_version": "sigma-core-gate-outcome-1.0",
+            "stage_outcomes": [
+              {
+                "outcome_id": "typed",
+                "outcome_sha256": "0aca7f01c7ef35823fe5490513b2ee3fc78af8b81d87c2c5e336fe7b6567abb1"
+              }
+            ],
+            "status": "pass"
+          },
+          {
+            "artifact": {
+              "artifact_id": "sig-06099d25141d45f0714a4205",
+              "content_sha256": "06099d25141d45f0714a42053e1ef4c6104d3488ea3f436c7d5358daf18e703e"
+            },
+            "checks": [
+              {
+                "check_id": "stage_receipts_bound",
+                "details_sha256": "a8a403b229f8982df246b0a3174cbc2a4463b0c359cf09798e6966b039fbe3fa",
+                "passed": true
+              }
+            ],
+            "evidence": [],
+            "gate_id": "admit_canonicalized",
+            "outcome_sha256": "d37ee11cc9579651a30c9c583e74f1571de187bb4bf323cc276995df89f7fc24",
+            "reason_codes": [],
+            "schema_version": "sigma-core-gate-outcome-1.0",
+            "stage_outcomes": [
+              {
+                "outcome_id": "canonicalized",
+                "outcome_sha256": "975e81d4d871ca078acde0411d45b42bfbd5e3ade8a1038aacb138fdfe4d28d8"
+              },
+              {
+                "outcome_id": "typed",
+                "outcome_sha256": "0aca7f01c7ef35823fe5490513b2ee3fc78af8b81d87c2c5e336fe7b6567abb1"
+              }
+            ],
+            "status": "pass"
+          }
+        ],
+        "ladder": {
+          "content_sha256": "0a49ddecad8c38eec981aea1c0e92f81cf8de05a8e195521c0eda6e1e32cbba4",
+          "domain_pack": {
+            "descriptor_sha256": "8ff8c7e3d72ef953f5bbf5527d8e2a55a4672972663aaa6b3f57974d4cc2ac71",
+            "pack_id": "sigma.math",
+            "pack_version": "1.0.0"
+          },
+          "schema_version": "sigma-candidate-evaluation-ladder-1.0",
+          "steps": [
+            {
+              "gate_id": "admit_typed",
+              "phase": "cheap",
+              "stage_id": "typed"
+            },
+            {
+              "gate_id": "admit_canonicalized",
+              "phase": "cheap",
+              "stage_id": "canonicalized"
+            },
+            {
+              "gate_id": "admit_counterexample_screened",
+              "phase": "symbolic",
+              "stage_id": "counterexample_screened"
+            },
+            {
+              "gate_id": "admit_exactly_verified",
+              "phase": "formal",
+              "stage_id": "exactly_verified"
+            },
+            {
+              "gate_id": "admit_prior_art_checked",
+              "phase": "formal",
+              "stage_id": "prior_art_checked"
+            }
+          ]
+        },
+        "observational_phase_opened": false,
+        "schema_version": "sigma-candidate-evaluation-result-1.0",
+        "skipped_steps": [
+          "exactly_verified",
+          "prior_art_checked"
+        ],
+        "stage_outcomes": [
+          {
+            "artifact": {
+              "artifact_id": "sig-06099d25141d45f0714a4205",
+              "content_sha256": "06099d25141d45f0714a42053e1ef4c6104d3488ea3f436c7d5358daf18e703e"
+            },
+            "checks": [
+              {
+                "check_id": "typed_formula",
+                "details_sha256": "a9fd50130196520d42f3618c4e147d249501a93d7906595fa3f4f363424c095a",
+                "passed": true
+              }
+            ],
+            "evidence": [],
+            "outcome_sha256": "0aca7f01c7ef35823fe5490513b2ee3fc78af8b81d87c2c5e336fe7b6567abb1",
+            "reason_codes": [],
+            "schema_version": "sigma-core-stage-outcome-1.0",
+            "stage_id": "typed",
+            "status": "pass"
+          },
+          {
+            "artifact": {
+              "artifact_id": "sig-06099d25141d45f0714a4205",
+              "content_sha256": "06099d25141d45f0714a42053e1ef4c6104d3488ea3f436c7d5358daf18e703e"
+            },
+            "checks": [
+              {
+                "check_id": "canonical_formula_identity",
+                "details_sha256": "297d0753e0d3ed80a38961b3e76dc481477cff2452eff05fcae0cf646794f934",
+                "passed": true
+              }
+            ],
+            "evidence": [],
+            "outcome_sha256": "975e81d4d871ca078acde0411d45b42bfbd5e3ade8a1038aacb138fdfe4d28d8",
+            "reason_codes": [],
+            "schema_version": "sigma-core-stage-outcome-1.0",
+            "stage_id": "canonicalized",
+            "status": "pass"
+          },
+          {
+            "artifact": {
+              "artifact_id": "sig-06099d25141d45f0714a4205",
+              "content_sha256": "06099d25141d45f0714a42053e1ef4c6104d3488ea3f436c7d5358daf18e703e"
+            },
+            "checks": [
+              {
+                "check_id": "bounded_counterexample_search",
+                "details_sha256": "99af8625d1fab596e0f21acaa1cab7697a9355e9d4a33c83de17412b9fb8ab41",
+                "passed": false
+              }
+            ],
+            "evidence": [],
+            "outcome_sha256": "c4772d87880301d6338c73dc40b9bd1c2b3bfed59b99b4cbe16150c2c9bcb456",
+            "reason_codes": [
+              "counterexample_found"
+            ],
+            "schema_version": "sigma-core-stage-outcome-1.0",
+            "stage_id": "counterexample_screened",
+            "status": "reject"
+          }
+        ],
+        "status": "reject",
+        "terminal": {
+          "kind": "stage",
+          "outcome_id": "counterexample_screened"
+        }
+      },
+      {
+        "all_required_gates_passed": true,
+        "artifact": {
+          "artifact_id": "sig-522092801d108ee92d093f22",
+          "content_sha256": "522092801d108ee92d093f226c2417e5af0ab5e092fb66ff5829637b53441bfd"
+        },
+        "claims": {
+          "failed_hard_gate_compensated_by_soft_metric": false,
+          "generator_output_treated_as_truth": false,
+          "novelty_established": false,
+          "observations_opened_before_formal_admission": false,
+          "promotion_authorized_by_this_runner": false
+        },
+        "content_sha256": "007185d4848409dc6ab26f5bae12d3a445e392ae89849b353d4956aba9546496",
+        "counts": {
+          "attempted_by_phase": {
+            "cheap": 2,
+            "formal": 2,
+            "observational": 0,
+            "symbolic": 1
+          },
+          "attempted_gates": 5,
+          "attempted_stages": 5,
+          "gate_statuses": {
+            "block": 0,
+            "error": 0,
+            "pass": 5,
+            "reject": 0
+          },
+          "registered_steps": 5,
+          "skipped_steps": 0,
+          "stage_statuses": {
+            "block": 0,
+            "error": 0,
+            "pass": 5,
+            "reject": 0
+          }
+        },
+        "gate_outcomes": [
+          {
+            "artifact": {
+              "artifact_id": "sig-522092801d108ee92d093f22",
+              "content_sha256": "522092801d108ee92d093f226c2417e5af0ab5e092fb66ff5829637b53441bfd"
+            },
+            "checks": [
+              {
+                "check_id": "stage_receipts_bound",
+                "details_sha256": "5b15cf44bf30b97ef5d17300deecce2f5e97f5f5f92612e16352c273e7774fbc",
+                "passed": true
+              }
+            ],
+            "evidence": [],
+            "gate_id": "admit_typed",
+            "outcome_sha256": "a4216775ecd81e444450a8fc3a763c2cc4123840b2514cc9a3f9d824032b06ed",
+            "reason_codes": [],
+            "schema_version": "sigma-core-gate-outcome-1.0",
+            "stage_outcomes": [
+              {
+                "outcome_id": "typed",
+                "outcome_sha256": "7a69b22153c863809a67d6d3b74eee0ac2bc8b5de03194d0244f44724a271f56"
+              }
+            ],
+            "status": "pass"
+          },
+          {
+            "artifact": {
+              "artifact_id": "sig-522092801d108ee92d093f22",
+              "content_sha256": "522092801d108ee92d093f226c2417e5af0ab5e092fb66ff5829637b53441bfd"
+            },
+            "checks": [
+              {
+                "check_id": "stage_receipts_bound",
+                "details_sha256": "a8a403b229f8982df246b0a3174cbc2a4463b0c359cf09798e6966b039fbe3fa",
+                "passed": true
+              }
+            ],
+            "evidence": [],
+            "gate_id": "admit_canonicalized",
+            "outcome_sha256": "84cb751c35bedccb83c07f363a581a22f4c91c8f541763d263ed97b54654f76b",
+            "reason_codes": [],
+            "schema_version": "sigma-core-gate-outcome-1.0",
+            "stage_outcomes": [
+              {
+                "outcome_id": "canonicalized",
+                "outcome_sha256": "932ec938caebad375e174e0171393ca34adabb483f202bf539836bdaf09527e8"
+              },
+              {
+                "outcome_id": "typed",
+                "outcome_sha256": "7a69b22153c863809a67d6d3b74eee0ac2bc8b5de03194d0244f44724a271f56"
+              }
+            ],
+            "status": "pass"
+          },
+          {
+            "artifact": {
+              "artifact_id": "sig-522092801d108ee92d093f22",
+              "content_sha256": "522092801d108ee92d093f226c2417e5af0ab5e092fb66ff5829637b53441bfd"
+            },
+            "checks": [
+              {
+                "check_id": "stage_receipts_bound",
+                "details_sha256": "d8618e63070cb030ca32c0e3ddb0a8ccacf7948fb1403ff1bad76048c5bfa9a8",
+                "passed": true
+              }
+            ],
+            "evidence": [],
+            "gate_id": "admit_counterexample_screened",
+            "outcome_sha256": "86411cb28355184d08ec5927d047d1df611c540d8a6f2677aa5540fdf4b5552e",
+            "reason_codes": [],
+            "schema_version": "sigma-core-gate-outcome-1.0",
+            "stage_outcomes": [
+              {
+                "outcome_id": "canonicalized",
+                "outcome_sha256": "932ec938caebad375e174e0171393ca34adabb483f202bf539836bdaf09527e8"
+              },
+              {
+                "outcome_id": "counterexample_screened",
+                "outcome_sha256": "7f0deb90d48098dc504d4da1b9c043a5f53dbd96993c8cce6b90ca7918cfc7d4"
+              },
+              {
+                "outcome_id": "typed",
+                "outcome_sha256": "7a69b22153c863809a67d6d3b74eee0ac2bc8b5de03194d0244f44724a271f56"
+              }
+            ],
+            "status": "pass"
+          },
+          {
+            "artifact": {
+              "artifact_id": "sig-522092801d108ee92d093f22",
+              "content_sha256": "522092801d108ee92d093f226c2417e5af0ab5e092fb66ff5829637b53441bfd"
+            },
+            "checks": [
+              {
+                "check_id": "stage_receipts_bound",
+                "details_sha256": "6b3ad9866fe664d95a1734b3e0d8f795f7777d4d9c8e5e40a61392a798a00421",
+                "passed": true
+              }
+            ],
+            "evidence": [],
+            "gate_id": "admit_exactly_verified",
+            "outcome_sha256": "49b804e96dec03091d47ab484dd52f23bd323d33ce1341612febf59631900c67",
+            "reason_codes": [],
+            "schema_version": "sigma-core-gate-outcome-1.0",
+            "stage_outcomes": [
+              {
+                "outcome_id": "canonicalized",
+                "outcome_sha256": "932ec938caebad375e174e0171393ca34adabb483f202bf539836bdaf09527e8"
+              },
+              {
+                "outcome_id": "counterexample_screened",
+                "outcome_sha256": "7f0deb90d48098dc504d4da1b9c043a5f53dbd96993c8cce6b90ca7918cfc7d4"
+              },
+              {
+                "outcome_id": "exactly_verified",
+                "outcome_sha256": "73a81709d126bd9549fd6eb66b0978e90499df2eb2036edddb93fd3d1276c800"
+              },
+              {
+                "outcome_id": "typed",
+                "outcome_sha256": "7a69b22153c863809a67d6d3b74eee0ac2bc8b5de03194d0244f44724a271f56"
+              }
+            ],
+            "status": "pass"
+          },
+          {
+            "artifact": {
+              "artifact_id": "sig-522092801d108ee92d093f22",
+              "content_sha256": "522092801d108ee92d093f226c2417e5af0ab5e092fb66ff5829637b53441bfd"
+            },
+            "checks": [
+              {
+                "check_id": "stage_receipts_bound",
+                "details_sha256": "d73affad8d5379b84a41928b3e4d629ebc1b670e798d55e7df73085bc59fad55",
+                "passed": true
+              }
+            ],
+            "evidence": [],
+            "gate_id": "admit_prior_art_checked",
+            "outcome_sha256": "7f02b89d819520622087a7792fb0d971593c9169f235cbea5a206d03583e2b12",
+            "reason_codes": [],
+            "schema_version": "sigma-core-gate-outcome-1.0",
+            "stage_outcomes": [
+              {
+                "outcome_id": "canonicalized",
+                "outcome_sha256": "932ec938caebad375e174e0171393ca34adabb483f202bf539836bdaf09527e8"
+              },
+              {
+                "outcome_id": "counterexample_screened",
+                "outcome_sha256": "7f0deb90d48098dc504d4da1b9c043a5f53dbd96993c8cce6b90ca7918cfc7d4"
+              },
+              {
+                "outcome_id": "exactly_verified",
+                "outcome_sha256": "73a81709d126bd9549fd6eb66b0978e90499df2eb2036edddb93fd3d1276c800"
+              },
+              {
+                "outcome_id": "prior_art_checked",
+                "outcome_sha256": "d3778afd14d66955eb1b1d1b61644b3ee558b948365066690ebe2212d2e0068e"
+              },
+              {
+                "outcome_id": "typed",
+                "outcome_sha256": "7a69b22153c863809a67d6d3b74eee0ac2bc8b5de03194d0244f44724a271f56"
+              }
+            ],
+            "status": "pass"
+          }
+        ],
+        "ladder": {
+          "content_sha256": "0a49ddecad8c38eec981aea1c0e92f81cf8de05a8e195521c0eda6e1e32cbba4",
+          "domain_pack": {
+            "descriptor_sha256": "8ff8c7e3d72ef953f5bbf5527d8e2a55a4672972663aaa6b3f57974d4cc2ac71",
+            "pack_id": "sigma.math",
+            "pack_version": "1.0.0"
+          },
+          "schema_version": "sigma-candidate-evaluation-ladder-1.0",
+          "steps": [
+            {
+              "gate_id": "admit_typed",
+              "phase": "cheap",
+              "stage_id": "typed"
+            },
+            {
+              "gate_id": "admit_canonicalized",
+              "phase": "cheap",
+              "stage_id": "canonicalized"
+            },
+            {
+              "gate_id": "admit_counterexample_screened",
+              "phase": "symbolic",
+              "stage_id": "counterexample_screened"
+            },
+            {
+              "gate_id": "admit_exactly_verified",
+              "phase": "formal",
+              "stage_id": "exactly_verified"
+            },
+            {
+              "gate_id": "admit_prior_art_checked",
+              "phase": "formal",
+              "stage_id": "prior_art_checked"
+            }
+          ]
+        },
+        "observational_phase_opened": false,
+        "schema_version": "sigma-candidate-evaluation-result-1.0",
+        "skipped_steps": [],
+        "stage_outcomes": [
+          {
+            "artifact": {
+              "artifact_id": "sig-522092801d108ee92d093f22",
+              "content_sha256": "522092801d108ee92d093f226c2417e5af0ab5e092fb66ff5829637b53441bfd"
+            },
+            "checks": [
+              {
+                "check_id": "typed_formula",
+                "details_sha256": "a9fd50130196520d42f3618c4e147d249501a93d7906595fa3f4f363424c095a",
+                "passed": true
+              }
+            ],
+            "evidence": [],
+            "outcome_sha256": "7a69b22153c863809a67d6d3b74eee0ac2bc8b5de03194d0244f44724a271f56",
+            "reason_codes": [],
+            "schema_version": "sigma-core-stage-outcome-1.0",
+            "stage_id": "typed",
+            "status": "pass"
+          },
+          {
+            "artifact": {
+              "artifact_id": "sig-522092801d108ee92d093f22",
+              "content_sha256": "522092801d108ee92d093f226c2417e5af0ab5e092fb66ff5829637b53441bfd"
+            },
+            "checks": [
+              {
+                "check_id": "canonical_formula_identity",
+                "details_sha256": "543471a499030f9869698627e48dec3a0f6c5c10f510aeefdfef2d8ac903a6d6",
+                "passed": true
+              }
+            ],
+            "evidence": [],
+            "outcome_sha256": "932ec938caebad375e174e0171393ca34adabb483f202bf539836bdaf09527e8",
+            "reason_codes": [],
+            "schema_version": "sigma-core-stage-outcome-1.0",
+            "stage_id": "canonicalized",
+            "status": "pass"
+          },
+          {
+            "artifact": {
+              "artifact_id": "sig-522092801d108ee92d093f22",
+              "content_sha256": "522092801d108ee92d093f226c2417e5af0ab5e092fb66ff5829637b53441bfd"
+            },
+            "checks": [
+              {
+                "check_id": "bounded_counterexample_search",
+                "details_sha256": "170eb606f4d2a99641140044b6ab660a359ea86e23b1fc902a317f0c5bd9f43e",
+                "passed": true
+              }
+            ],
+            "evidence": [],
+            "outcome_sha256": "7f0deb90d48098dc504d4da1b9c043a5f53dbd96993c8cce6b90ca7918cfc7d4",
+            "reason_codes": [],
+            "schema_version": "sigma-core-stage-outcome-1.0",
+            "stage_id": "counterexample_screened",
+            "status": "pass"
+          },
+          {
+            "artifact": {
+              "artifact_id": "sig-522092801d108ee92d093f22",
+              "content_sha256": "522092801d108ee92d093f226c2417e5af0ab5e092fb66ff5829637b53441bfd"
+            },
+            "checks": [
+              {
+                "check_id": "exact_proof",
+                "details_sha256": "be454aae59c6f0dca9703d500c49b2f539644a11016ff93a3b80c23c875f7c89",
+                "passed": true
+              }
+            ],
+            "evidence": [],
+            "outcome_sha256": "73a81709d126bd9549fd6eb66b0978e90499df2eb2036edddb93fd3d1276c800",
+            "reason_codes": [],
+            "schema_version": "sigma-core-stage-outcome-1.0",
+            "stage_id": "exactly_verified",
+            "status": "pass"
+          },
+          {
+            "artifact": {
+              "artifact_id": "sig-522092801d108ee92d093f22",
+              "content_sha256": "522092801d108ee92d093f226c2417e5af0ab5e092fb66ff5829637b53441bfd"
+            },
+            "checks": [
+              {
+                "check_id": "post_proof_prior_art_receipt",
+                "details_sha256": "0ec0b5d4aa81ff2b87db96b29b435fa9263ee802112f14ffe74efb4e1af05ded",
+                "passed": true
+              }
+            ],
+            "evidence": [
+              {
+                "file_sha256": "3158d6031ad0dbf1c3cb955c956af319f39c58d50982d2193a07b0f46c83e685",
+                "path": "runs/math-language/anonymous-natural-sum-blind-rediscovery/campaign.json",
+                "role": "prior_art_receipt"
+              }
+            ],
+            "outcome_sha256": "d3778afd14d66955eb1b1d1b61644b3ee558b948365066690ebe2212d2e0068e",
+            "reason_codes": [],
+            "schema_version": "sigma-core-stage-outcome-1.0",
+            "stage_id": "prior_art_checked",
+            "status": "pass"
+          }
+        ],
+        "status": "pass",
+        "terminal": {
+          "kind": "complete",
+          "outcome_id": "admit_prior_art_checked"
+        }
+      }
+    ],
+    "ladder": {
+      "content_sha256": "0a49ddecad8c38eec981aea1c0e92f81cf8de05a8e195521c0eda6e1e32cbba4",
+      "domain_pack": {
+        "descriptor_sha256": "8ff8c7e3d72ef953f5bbf5527d8e2a55a4672972663aaa6b3f57974d4cc2ac71",
+        "pack_id": "sigma.math",
+        "pack_version": "1.0.0"
+      },
+      "schema_version": "sigma-candidate-evaluation-ladder-1.0",
+      "steps": [
+        {
+          "gate_id": "admit_typed",
+          "phase": "cheap",
+          "stage_id": "typed"
+        },
+        {
+          "gate_id": "admit_canonicalized",
+          "phase": "cheap",
+          "stage_id": "canonicalized"
+        },
+        {
+          "gate_id": "admit_counterexample_screened",
+          "phase": "symbolic",
+          "stage_id": "counterexample_screened"
+        },
+        {
+          "gate_id": "admit_exactly_verified",
+          "phase": "formal",
+          "stage_id": "exactly_verified"
+        },
+        {
+          "gate_id": "admit_prior_art_checked",
+          "phase": "formal",
+          "stage_id": "prior_art_checked"
+        }
+      ]
+    },
+    "limits": {
+      "maximum_candidates": 2
+    },
+    "metric_receipts": [
+      {
+        "candidate": {
+          "artifact_id": "sig-522092801d108ee92d093f22",
+          "content_sha256": "522092801d108ee92d093f226c2417e5af0ab5e092fb66ff5829637b53441bfd"
+        },
+        "direction": "minimize",
+        "evidence_sha256": "7c5568f3301dffbc43aa15f42d5b3eee6ae3db943cd2fec9280ba4c76a17f3e2",
+        "metric_id": "canonical_formula_bytes",
+        "receipt_sha256": "060b692493da2212e3b71658bf9ddbfec5cf8f5161fc9dd48710d6867d88a17d",
+        "schema_version": "sigma-exact-metric-receipt-1.0",
+        "value": {
+          "denominator": 1,
+          "numerator": 985
+        }
+      }
+    ],
+    "metric_registry": [
+      {
+        "direction": "minimize",
+        "metric_id": "canonical_formula_bytes"
+      }
+    ],
+    "pareto_limits": {
+      "maximum_candidates": 2,
+      "maximum_hard_gates": 5,
+      "maximum_metrics": 1,
+      "maximum_work_units": 4
+    },
+    "pareto_result": {
+      "candidates": [
+        {
+          "artifact_id": "sig-522092801d108ee92d093f22",
+          "assumptions": [
+            "n is an integer in the closed interval [0,100]"
+          ],
+          "claims": [
+            "known_answer_pipeline_control"
+          ],
+          "content_sha256": "522092801d108ee92d093f226c2417e5af0ab5e092fb66ff5829637b53441bfd",
+          "kind": "identity",
+          "provenance": {
+            "domain_pack": {
+              "descriptor_sha256": "8ff8c7e3d72ef953f5bbf5527d8e2a55a4672972663aaa6b3f57974d4cc2ac71",
+              "pack_id": "sigma.math",
+              "pack_version": "1.0.0"
+            },
+            "inputs": [],
+            "parameters_sha256": "35fb4948282fa8f9177edd4183eea7dc947eaa72a7a6447deef489f0ca0b8827",
+            "schema_version": "sigma-core-provenance-1.0",
+            "sources": [
+              {
+                "file_sha256": "3158d6031ad0dbf1c3cb955c956af319f39c58d50982d2193a07b0f46c83e685",
+                "path": "runs/math-language/anonymous-natural-sum-blind-rediscovery/campaign.json",
+                "role": "prior_art_receipt"
+              }
+            ]
+          },
+          "representation": {
+            "canonical_formula_sha256": "a02f170a45ecff4376cce6b91cb19f497fdbef95c0c578657fb125df298dde4d",
+            "counterexample_plan": {
+              "adversarial_limit": 16,
+              "exact_assignments": [
+                {
+                  "n": 0
+                },
+                {
+                  "n": 1
+                },
+                {
+                  "n": 2
+                },
+                {
+                  "n": 10
+                }
+              ],
+              "random_trials": 32,
+              "seed": 20260812,
+              "strategies": [
+                "exact",
+                "adversarial",
+                "random"
+              ]
+            },
+            "formula": {
+              "kind": "equation",
+              "left": {
+                "arguments": [
+                  {
+                    "arguments": [
+                      {
+                        "arguments": [],
+                        "operation": "symbol",
+                        "value": "n"
+                      },
+                      {
+                        "arguments": [
+                          {
+                            "arguments": [],
+                            "operation": "symbol",
+                            "value": "n"
+                          },
+                          {
+                            "arguments": [],
+                            "operation": "literal",
+                            "value": {
+                              "kind": "integer",
+                              "value": 1
+                            }
+                          }
+                        ],
+                        "operation": "add"
+                      }
+                    ],
+                    "operation": "multiply"
+                  },
+                  {
+                    "arguments": [
+                      {
+                        "arguments": [],
+                        "operation": "literal",
+                        "value": {
+                          "kind": "integer",
+                          "value": 2
+                        }
+                      },
+                      {
+                        "arguments": [],
+                        "operation": "literal",
+                        "value": {
+                          "kind": "integer",
+                          "value": -1
+                        }
+                      }
+                    ],
+                    "operation": "power"
+                  }
+                ],
+                "operation": "multiply"
+              },
+              "right": {
+                "arguments": [
+                  {
+                    "arguments": [
+                      {
+                        "arguments": [
+                          {
+                            "arguments": [],
+                            "operation": "symbol",
+                            "value": "n"
+                          },
+                          {
+                            "arguments": [],
+                            "operation": "literal",
+                            "value": {
+                              "kind": "integer",
+                              "value": 2
+                            }
+                          }
+                        ],
+                        "operation": "power"
+                      },
+                      {
+                        "arguments": [],
+                        "operation": "symbol",
+                        "value": "n"
+                      }
+                    ],
+                    "operation": "add"
+                  },
+                  {
+                    "arguments": [
+                      {
+                        "arguments": [],
+                        "operation": "literal",
+                        "value": {
+                          "kind": "integer",
+                          "value": 2
+                        }
+                      },
+                      {
+                        "arguments": [],
+                        "operation": "literal",
+                        "value": {
+                          "kind": "integer",
+                          "value": -1
+                        }
+                      }
+                    ],
+                    "operation": "power"
+                  }
+                ],
+                "operation": "multiply"
+              }
+            },
+            "prior_art_contract": {
+              "comparison_after_proof_only": true,
+              "receipt_sha256": "3158d6031ad0dbf1c3cb955c956af319f39c58d50982d2193a07b0f46c83e685"
+            },
+            "proof_contract": {
+              "method": "sympy_exact_identity"
+            },
+            "schema_version": "sigma-math-candidate-1.0",
+            "variables": {
+              "n": {
+                "kind": "integer",
+                "maximum": 100,
+                "minimum": 0
+              }
+            }
+          },
+          "schema_version": "sigma-core-candidate-artifact-1.0",
+          "statement": "Known-answer pipeline control: algebraically identical natural-sum forms."
+        }
+      ],
+      "claims": {
+        "absence_established": false,
+        "equivalence_established": false,
+        "novelty_established": false,
+        "promotion_authorized": false,
+        "truth_established": false
+      },
+      "content_sha256": "31b35c0a70d6c296639a3fcb5682d896b2346ed6743b7470efeb8f6ae72c2416",
+      "counts": {
+        "candidates": 1,
+        "hard_gate_eligible": 1,
+        "hard_gate_ineligible": 0,
+        "metrics": 1,
+        "pareto_fronts": 1,
+        "required_gates": 5,
+        "work_units_consumed": 0
+      },
+      "decision": "completed_hard_gates_then_exact_pareto",
+      "display_order": [
+        {
+          "artifact_id": "sig-522092801d108ee92d093f22",
+          "content_sha256": "522092801d108ee92d093f226c2417e5af0ab5e092fb66ff5829637b53441bfd"
+        }
+      ],
+      "explanations": [
+        {
+          "candidate": {
+            "artifact_id": "sig-522092801d108ee92d093f22",
+            "content_sha256": "522092801d108ee92d093f226c2417e5af0ab5e092fb66ff5829637b53441bfd"
+          },
+          "dominance_evidence": [],
+          "dominated_by": [],
+          "evidence_binding_sha256": "29c5c493ccb1172c46fc7c890f72c5d5c9f909aaf6c81024deddca3cfcb822c8",
+          "explanation_sha256": "6694dc0f4e6546e853c6e95b74de7340b29e33ea69c28f245ca37b2fcae511a8",
+          "hard_gate_key": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "hard_gate_outcomes": [
+            {
+              "check_details_sha256s": [
+                "a8a403b229f8982df246b0a3174cbc2a4463b0c359cf09798e6966b039fbe3fa"
+              ],
+              "gate_id": "admit_canonicalized",
+              "outcome_sha256": "84cb751c35bedccb83c07f363a581a22f4c91c8f541763d263ed97b54654f76b",
+              "reason_codes": [],
+              "source_evidence_sha256s": [],
+              "status": "pass"
+            },
+            {
+              "check_details_sha256s": [
+                "d8618e63070cb030ca32c0e3ddb0a8ccacf7948fb1403ff1bad76048c5bfa9a8"
+              ],
+              "gate_id": "admit_counterexample_screened",
+              "outcome_sha256": "86411cb28355184d08ec5927d047d1df611c540d8a6f2677aa5540fdf4b5552e",
+              "reason_codes": [],
+              "source_evidence_sha256s": [],
+              "status": "pass"
+            },
+            {
+              "check_details_sha256s": [
+                "6b3ad9866fe664d95a1734b3e0d8f795f7777d4d9c8e5e40a61392a798a00421"
+              ],
+              "gate_id": "admit_exactly_verified",
+              "outcome_sha256": "49b804e96dec03091d47ab484dd52f23bd323d33ce1341612febf59631900c67",
+              "reason_codes": [],
+              "source_evidence_sha256s": [],
+              "status": "pass"
+            },
+            {
+              "check_details_sha256s": [
+                "d73affad8d5379b84a41928b3e4d629ebc1b670e798d55e7df73085bc59fad55"
+              ],
+              "gate_id": "admit_prior_art_checked",
+              "outcome_sha256": "7f02b89d819520622087a7792fb0d971593c9169f235cbea5a206d03583e2b12",
+              "reason_codes": [],
+              "source_evidence_sha256s": [],
+              "status": "pass"
+            },
+            {
+              "check_details_sha256s": [
+                "5b15cf44bf30b97ef5d17300deecce2f5e97f5f5f92612e16352c273e7774fbc"
+              ],
+              "gate_id": "admit_typed",
+              "outcome_sha256": "a4216775ecd81e444450a8fc3a763c2cc4123840b2514cc9a3f9d824032b06ed",
+              "reason_codes": [],
+              "source_evidence_sha256s": [],
+              "status": "pass"
+            }
+          ],
+          "metric_values": [
+            {
+              "direction": "minimize",
+              "evidence_sha256": "7c5568f3301dffbc43aa15f42d5b3eee6ae3db943cd2fec9280ba4c76a17f3e2",
+              "metric_id": "canonical_formula_bytes",
+              "receipt_sha256": "060b692493da2212e3b71658bf9ddbfec5cf8f5161fc9dd48710d6867d88a17d",
+              "value": {
+                "denominator": 1,
+                "numerator": 985
+              }
+            }
+          ],
+          "pareto_front": 1,
+          "promotion_authorized": false,
+          "soft_metric_eligible": true
+        }
+      ],
+      "gate_outcomes": [
+        {
+          "artifact": {
+            "artifact_id": "sig-522092801d108ee92d093f22",
+            "content_sha256": "522092801d108ee92d093f226c2417e5af0ab5e092fb66ff5829637b53441bfd"
+          },
+          "checks": [
+            {
+              "check_id": "stage_receipts_bound",
+              "details_sha256": "a8a403b229f8982df246b0a3174cbc2a4463b0c359cf09798e6966b039fbe3fa",
+              "passed": true
+            }
+          ],
+          "evidence": [],
+          "gate_id": "admit_canonicalized",
+          "outcome_sha256": "84cb751c35bedccb83c07f363a581a22f4c91c8f541763d263ed97b54654f76b",
+          "reason_codes": [],
+          "schema_version": "sigma-core-gate-outcome-1.0",
+          "stage_outcomes": [
+            {
+              "outcome_id": "canonicalized",
+              "outcome_sha256": "932ec938caebad375e174e0171393ca34adabb483f202bf539836bdaf09527e8"
+            },
+            {
+              "outcome_id": "typed",
+              "outcome_sha256": "7a69b22153c863809a67d6d3b74eee0ac2bc8b5de03194d0244f44724a271f56"
+            }
+          ],
+          "status": "pass"
+        },
+        {
+          "artifact": {
+            "artifact_id": "sig-522092801d108ee92d093f22",
+            "content_sha256": "522092801d108ee92d093f226c2417e5af0ab5e092fb66ff5829637b53441bfd"
+          },
+          "checks": [
+            {
+              "check_id": "stage_receipts_bound",
+              "details_sha256": "d8618e63070cb030ca32c0e3ddb0a8ccacf7948fb1403ff1bad76048c5bfa9a8",
+              "passed": true
+            }
+          ],
+          "evidence": [],
+          "gate_id": "admit_counterexample_screened",
+          "outcome_sha256": "86411cb28355184d08ec5927d047d1df611c540d8a6f2677aa5540fdf4b5552e",
+          "reason_codes": [],
+          "schema_version": "sigma-core-gate-outcome-1.0",
+          "stage_outcomes": [
+            {
+              "outcome_id": "canonicalized",
+              "outcome_sha256": "932ec938caebad375e174e0171393ca34adabb483f202bf539836bdaf09527e8"
+            },
+            {
+              "outcome_id": "counterexample_screened",
+              "outcome_sha256": "7f0deb90d48098dc504d4da1b9c043a5f53dbd96993c8cce6b90ca7918cfc7d4"
+            },
+            {
+              "outcome_id": "typed",
+              "outcome_sha256": "7a69b22153c863809a67d6d3b74eee0ac2bc8b5de03194d0244f44724a271f56"
+            }
+          ],
+          "status": "pass"
+        },
+        {
+          "artifact": {
+            "artifact_id": "sig-522092801d108ee92d093f22",
+            "content_sha256": "522092801d108ee92d093f226c2417e5af0ab5e092fb66ff5829637b53441bfd"
+          },
+          "checks": [
+            {
+              "check_id": "stage_receipts_bound",
+              "details_sha256": "6b3ad9866fe664d95a1734b3e0d8f795f7777d4d9c8e5e40a61392a798a00421",
+              "passed": true
+            }
+          ],
+          "evidence": [],
+          "gate_id": "admit_exactly_verified",
+          "outcome_sha256": "49b804e96dec03091d47ab484dd52f23bd323d33ce1341612febf59631900c67",
+          "reason_codes": [],
+          "schema_version": "sigma-core-gate-outcome-1.0",
+          "stage_outcomes": [
+            {
+              "outcome_id": "canonicalized",
+              "outcome_sha256": "932ec938caebad375e174e0171393ca34adabb483f202bf539836bdaf09527e8"
+            },
+            {
+              "outcome_id": "counterexample_screened",
+              "outcome_sha256": "7f0deb90d48098dc504d4da1b9c043a5f53dbd96993c8cce6b90ca7918cfc7d4"
+            },
+            {
+              "outcome_id": "exactly_verified",
+              "outcome_sha256": "73a81709d126bd9549fd6eb66b0978e90499df2eb2036edddb93fd3d1276c800"
+            },
+            {
+              "outcome_id": "typed",
+              "outcome_sha256": "7a69b22153c863809a67d6d3b74eee0ac2bc8b5de03194d0244f44724a271f56"
+            }
+          ],
+          "status": "pass"
+        },
+        {
+          "artifact": {
+            "artifact_id": "sig-522092801d108ee92d093f22",
+            "content_sha256": "522092801d108ee92d093f226c2417e5af0ab5e092fb66ff5829637b53441bfd"
+          },
+          "checks": [
+            {
+              "check_id": "stage_receipts_bound",
+              "details_sha256": "d73affad8d5379b84a41928b3e4d629ebc1b670e798d55e7df73085bc59fad55",
+              "passed": true
+            }
+          ],
+          "evidence": [],
+          "gate_id": "admit_prior_art_checked",
+          "outcome_sha256": "7f02b89d819520622087a7792fb0d971593c9169f235cbea5a206d03583e2b12",
+          "reason_codes": [],
+          "schema_version": "sigma-core-gate-outcome-1.0",
+          "stage_outcomes": [
+            {
+              "outcome_id": "canonicalized",
+              "outcome_sha256": "932ec938caebad375e174e0171393ca34adabb483f202bf539836bdaf09527e8"
+            },
+            {
+              "outcome_id": "counterexample_screened",
+              "outcome_sha256": "7f0deb90d48098dc504d4da1b9c043a5f53dbd96993c8cce6b90ca7918cfc7d4"
+            },
+            {
+              "outcome_id": "exactly_verified",
+              "outcome_sha256": "73a81709d126bd9549fd6eb66b0978e90499df2eb2036edddb93fd3d1276c800"
+            },
+            {
+              "outcome_id": "prior_art_checked",
+              "outcome_sha256": "d3778afd14d66955eb1b1d1b61644b3ee558b948365066690ebe2212d2e0068e"
+            },
+            {
+              "outcome_id": "typed",
+              "outcome_sha256": "7a69b22153c863809a67d6d3b74eee0ac2bc8b5de03194d0244f44724a271f56"
+            }
+          ],
+          "status": "pass"
+        },
+        {
+          "artifact": {
+            "artifact_id": "sig-522092801d108ee92d093f22",
+            "content_sha256": "522092801d108ee92d093f226c2417e5af0ab5e092fb66ff5829637b53441bfd"
+          },
+          "checks": [
+            {
+              "check_id": "stage_receipts_bound",
+              "details_sha256": "5b15cf44bf30b97ef5d17300deecce2f5e97f5f5f92612e16352c273e7774fbc",
+              "passed": true
+            }
+          ],
+          "evidence": [],
+          "gate_id": "admit_typed",
+          "outcome_sha256": "a4216775ecd81e444450a8fc3a763c2cc4123840b2514cc9a3f9d824032b06ed",
+          "reason_codes": [],
+          "schema_version": "sigma-core-gate-outcome-1.0",
+          "stage_outcomes": [
+            {
+              "outcome_id": "typed",
+              "outcome_sha256": "7a69b22153c863809a67d6d3b74eee0ac2bc8b5de03194d0244f44724a271f56"
+            }
+          ],
+          "status": "pass"
+        }
+      ],
+      "limits": {
+        "maximum_candidates": 2,
+        "maximum_hard_gates": 5,
+        "maximum_metrics": 1,
+        "maximum_work_units": 4
+      },
+      "metric_receipts": [
+        {
+          "candidate": {
+            "artifact_id": "sig-522092801d108ee92d093f22",
+            "content_sha256": "522092801d108ee92d093f226c2417e5af0ab5e092fb66ff5829637b53441bfd"
+          },
+          "direction": "minimize",
+          "evidence_sha256": "7c5568f3301dffbc43aa15f42d5b3eee6ae3db943cd2fec9280ba4c76a17f3e2",
+          "metric_id": "canonical_formula_bytes",
+          "receipt_sha256": "060b692493da2212e3b71658bf9ddbfec5cf8f5161fc9dd48710d6867d88a17d",
+          "schema_version": "sigma-exact-metric-receipt-1.0",
+          "value": {
+            "denominator": 1,
+            "numerator": 985
+          }
+        }
+      ],
+      "metric_registry": [
+        {
+          "direction": "minimize",
+          "metric_id": "canonical_formula_bytes"
+        }
+      ],
+      "pareto_fronts": [
+        [
+          {
+            "artifact_id": "sig-522092801d108ee92d093f22",
+            "content_sha256": "522092801d108ee92d093f226c2417e5af0ab5e092fb66ff5829637b53441bfd"
+          }
+        ]
+      ],
+      "required_gate_ids": [
+        "admit_canonicalized",
+        "admit_counterexample_screened",
+        "admit_exactly_verified",
+        "admit_prior_art_checked",
+        "admit_typed"
+      ],
+      "schema_version": "sigma-candidate-pareto-explanations-1.0"
+    },
+    "schema_version": "sigma-candidate-discovery-pipeline-1.0"
+  },
+  "schema_version": "sigma-math-known-identity-pipeline-control-1.0",
+  "scope": "known-answer mechanics control over one exact rational identity and one deliberately wrong formula; not blind rediscovery, general proof capability, novelty, or promotion",
+  "source_bindings": {
+    "config": {
+      "file_sha256": "24d22f8fa9ce771c3e1e7384fed0131311613f89169b4c07776bd66aba17e927",
+      "path": "configs/math_known_identity_pipeline_control.json"
+    },
+    "prior_art": {
+      "file_sha256": "3158d6031ad0dbf1c3cb955c956af319f39c58d50982d2193a07b0f46c83e685",
+      "path": "runs/math-language/anonymous-natural-sum-blind-rediscovery/campaign.json"
+    },
+    "source": {
+      "file_sha256": "81f221f8bef51fece6ef062194ea6a5da4c167d5fb6a3ac6b83f5fd20e986145",
+      "path": "src/sigma_theory_compiler/math_known_identity_pipeline_control.py"
+    },
+    "test": {
+      "file_sha256": "9b903abaa74a60559b9a111fc3683018b02d63133e25c317b6aeb7fc6f6d9df2",
+      "path": "tests/test_math_known_identity_pipeline_control.py"
+    }
+  },
+  "wrong_candidate": {
+    "exclusion_reason": "did_not_pass_all_required_hard_gates",
+    "formal_phase_attempted": false,
+    "pareto_front": null,
+    "status": "reject"
+  }
+}

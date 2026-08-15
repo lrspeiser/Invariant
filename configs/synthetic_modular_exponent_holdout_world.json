@@ -1,0 +1,35 @@
+{
+  "schema_version": "sigma-synthetic-modular-exponent-holdout-config-1.0",
+  "benchmark_id": "synthetic-modular-exponent-holdout-world-001",
+  "world_generator": {
+    "namespace": "invariant.synthetic.number_theory.posttraining.001",
+    "generation_epoch": "2026-08-12",
+    "prime_candidates": [11, 13, 17, 19],
+    "selection": "minimum_seeded_candidate_score",
+    "candidate_exponent_floor": 1,
+    "candidate_exponent_ceiling": "modulus_minus_one"
+  },
+  "holdout_contract": {
+    "eligible_holdouts": 1,
+    "target": "least_positive_universal_nonzero_residue_exponent",
+    "reference_theorem_sealed_before_discovery": true,
+    "reference_payload_supplied_to_discovery": false,
+    "post_unseal_comparison_only": true
+  },
+  "policies": {
+    "network_access": "forbidden",
+    "live_sqlite_access": "forbidden",
+    "discovery_input": "generated_public_modular_world_only",
+    "exact_proof": "exhaustive_nonzero_residue_replay",
+    "unsupported_or_empty_candidate_set": "block",
+    "promotion": "bounded_control_result_only"
+  },
+  "seals": {
+    "network_opened": false,
+    "live_sqlite_opened": false,
+    "external_data_opened": false,
+    "paid_llm_calls": false,
+    "gpu_execution_used": false
+  },
+  "output_path": "runs/math/synthetic-modular-exponent-holdout-world/campaign.json"
+}

@@ -1,0 +1,131 @@
+{
+  "campaign_id": "universal-matter-coupled-pde-control-pack-001",
+  "evidence_bindings": {
+    "canonical_scalar_action_ir": {
+      "content_sha256": "463c663b6a57c6e9cbf4002c66f965797578cbe73a6f6c1072cf0e74f91934e7",
+      "file_sha256": "f9b65cf3542515999187ec3b80d55b4ad325a0d61f178bc3419a72d0d33a018e",
+      "path": "runs/formal-controls-v1/action-health/canonical_scalar_control/action-ir.json"
+    },
+    "canonical_scalar_principal_ir": {
+      "content_sha256": "36fe9043eea2e31f88c2d1c3cffce301050ef1e8da5606a786f15568073be813",
+      "file_sha256": "f198cba94a6e157f95a9e03ed966b23e76a4d7f6765b98dc6ce96beef98d42f1",
+      "path": "runs/formal-controls-v1/action-health/canonical_scalar_control/principal-ir.json"
+    },
+    "covariant_field_contract": {
+      "file_sha256": "c31e42645fd6b7b9bd834cd77254451704946e6f6385517011343a74eb692c7c",
+      "path": "configs/covariant_field_contract.json"
+    },
+    "formal_controls": {
+      "file_sha256": "90f7c6786e8914c4d87674879ccc89ad55784e567d9246d9dcf6c6f0fabbe43a",
+      "path": "runs/formal-controls-v1/formal-controls.json"
+    },
+    "proca_action_ir": {
+      "content_sha256": "0ec3fd6c233855e1cabf767d35ea12729b1b75dbfb29d409066f4266004c7c0b",
+      "file_sha256": "951044da278d8a0f3aa53c2e1550a9bfc16618989d209e770b08e44b2b9cacf3",
+      "path": "runs/formal-controls-v1/action-health/proca_control/action-ir.json"
+    },
+    "proca_principal_ir": {
+      "content_sha256": "7134b66fc45c3ba84cb3c5ee43948b88fb4bb03e971a7f2f687c1bfd7758b475",
+      "file_sha256": "096b0c99a74f0b0f46747028d7b8d39c8927ac213bba8a0a603153b4ba7ce654",
+      "path": "runs/formal-controls-v1/action-health/proca_control/principal-ir.json"
+    }
+  },
+  "output_path": "runs/math/universal-matter-coupled-pde-control-pack/receipt.json",
+  "policies": {
+    "allowed_gate_outcomes": [
+      "PASS",
+      "BLOCK",
+      "REJECT"
+    ],
+    "forbidden_matter_action_dependencies": [
+      "phi",
+      "u_mu",
+      "A_mu",
+      "J_b_mu",
+      "z_b",
+      "T2_m"
+    ],
+    "gravity_h7_theorem_required_for_sector_control": false,
+    "missing_evidence_outcome": "BLOCK",
+    "physical_metric": "g_mu_nu",
+    "require_action_before_dependent_gates": true,
+    "require_exact_or_symbolic_residuals": true
+  },
+  "schema_version": "invariant-universal-matter-coupled-pde-control-pack-config-1.0",
+  "sectors": [
+    {
+      "action": {
+        "dependencies": [
+          "g_mu_nu",
+          "chi_m",
+          "m_chi"
+        ],
+        "density": "sqrt(-g)[-g^mu_nu nabla_mu(chi_m)nabla_nu(chi_m)/2-m_chi^2 chi_m^2/2]",
+        "field": "chi_m",
+        "metric": "g_mu_nu",
+        "schema_version": "invariant-bounded-matter-action-ir-1.0"
+      },
+      "formal_control_names": [
+        "canonical_scalar",
+        "canonical_scalar_noether_identity",
+        "cadabra_canonical_scalar_variation",
+        "cadabra_canonical_scalar_metric_variation"
+      ],
+      "required_gates": [
+        "action_level_universal_metric_coupling",
+        "stress_energy_conservation_interface",
+        "principal_symbol_hyperbolicity",
+        "constraint_propagation"
+      ],
+      "sector_id": "minimally_coupled_scalar",
+      "stress_tensor": "T_mu_nu=nabla_mu(chi_m)nabla_nu(chi_m)-g_mu_nu[(nabla chi_m)^2+m_chi^2 chi_m^2]/2"
+    },
+    {
+      "action": {
+        "dependencies": [
+          "g_mu_nu",
+          "B_mu"
+        ],
+        "density": "-sqrt(-g) H_mu_nu H^mu_nu/4, H_mu_nu=2 nabla_[mu B_nu]",
+        "field": "B_mu",
+        "metric": "g_mu_nu",
+        "schema_version": "invariant-bounded-matter-action-ir-1.0"
+      },
+      "formal_control_names": [
+        "cadabra_proca_variation",
+        "cadabra_proca_metric_variation"
+      ],
+      "missing_evidence": [
+        "dedicated_maxwell_hilbert_stress_noether_identity"
+      ],
+      "required_gates": [
+        "action_level_universal_metric_coupling",
+        "stress_energy_conservation_interface",
+        "principal_symbol_hyperbolicity",
+        "constraint_propagation"
+      ],
+      "sector_id": "maxwell_lorenz_gauge",
+      "stress_tensor": "T_mu_nu=H_mu_rho H_nu^rho-g_mu_nu H_rho_sigma H^rho_sigma/4"
+    },
+    {
+      "action": null,
+      "eos_assumption": "p=w rho with no admitted variational fluid action or exact interval for w in this repository snapshot",
+      "formal_control_names": [],
+      "missing_evidence": [
+        "admitted_barotropic_fluid_action",
+        "variational_perfect_fluid_stress_tensor",
+        "positive_enthalpy_domain",
+        "exact_sound_speed_interval",
+        "fluid_constraint_propagation_certificate"
+      ],
+      "required_gates": [
+        "action_level_universal_metric_coupling",
+        "stress_energy_conservation_interface",
+        "principal_symbol_hyperbolicity",
+        "constraint_propagation"
+      ],
+      "sector_id": "barotropic_perfect_fluid",
+      "stress_tensor": "T_mu_nu=(rho+p)v_mu v_nu+p g_mu_nu (declared target form only; not variationally admitted here)"
+    }
+  ]
+}

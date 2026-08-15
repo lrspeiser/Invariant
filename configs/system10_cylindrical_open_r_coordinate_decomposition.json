@@ -1,0 +1,67 @@
+{
+  "schema_version": "invariant-system10-open-r-coordinate-off-shell-decomposition-receipt-1.0-config",
+  "campaign_id": "system10-open-r-coordinate-off-shell-decomposition-001",
+  "bindings": {
+    "predecessor_block": {
+      "path": "runs/math/system10-cylindrical-open-r-propagation-decomposition-audit/receipt.json",
+      "canonical_lf_sha256": "ab425df1d32df038f370e4305bbfb940bb7c7b982dba71ed1e9ddb47d4e960f7",
+      "content_sha256": "e2521ec0b7b3b4f3e205e6e446aa0a4606192364fa2dbf3e293fc7c3b192682a"
+    },
+    "off_shell_identity": {
+      "path": "runs/math/quartic-85-state-off-shell-gauge-fixed-euler-divergence-gate/receipt.json",
+      "canonical_lf_sha256": "2ee0928ea1e62df2cacecf6eb84af20162dc00525183959e2708697bae9fd345",
+      "content_sha256": "8c49a63b1bbefff61d50a1cfe583463056f8349eb6fb8b6ff150c5abaecef819"
+    },
+    "physical_constraint_rows": {
+      "path": "runs/math/system10-cylindrical-r-positive-domain-lift/receipt.json",
+      "canonical_lf_sha256": "3b5764b3d88ff6572558ced31d72f7c9c3906ac79079e06b39c60ec88542ac9a",
+      "content_sha256": "a843afaaa4cacdf63a0382f97705f133cdb351560313cdd9e63e05c3da77f690"
+    },
+    "projection_skeletons": {
+      "path": "runs/math/system10-cylindrical-sourced-constraint-projection-materializer/receipt.json",
+      "canonical_lf_sha256": "f64370fdbffd5e3fae1dcc95488e6714c3a388b8e20b61126407621444dc69db",
+      "content_sha256": "52fbc4bccab992fa4d3bbcec619925d728dea3f519abe83600d2b45efbd06c42"
+    },
+    "divQ_rows": {
+      "path": "runs/math/system10-cylindrical-r-positive-divq-row-materializer/receipt.json",
+      "canonical_lf_sha256": "8689667f521dedb7a5fcaaad1e8f12508e87000a9e004ebd0acda032e2a5de91",
+      "content_sha256": "1e44651c3c77e3cae1cfa66d34de43f77e14c88990ff55404a30194ccc8b042d"
+    },
+    "full_rhs": {
+      "path": "runs/math/system10-cylindrical-common-tube-full-rhs/receipt.json",
+      "canonical_lf_sha256": "069eb9853d430a5f5905df86cd25146e0054d9511d5c596395a88f1a21eff5df",
+      "content_sha256": "ffd8ef70f68e6dc93a86b8f286dd257e5d6ee254be96c6c0dee041549695fcfe"
+    },
+    "all_spatial_rhs_jets": {
+      "path": "runs/math/system10-cylindrical-open-r-tangential-rhs-jets/receipt.json",
+      "canonical_lf_sha256": "2e0abbac728549b5903207d92d52dd66bcfae2c983fa2a2bae9fa001a2b2582f",
+      "content_sha256": "1bc89fac009454e280967105546e5997a72cdb797c52ffc6bfcbbc0514cf9a80"
+    }
+  },
+  "source_evidence": {
+    "source": {
+      "path": "src/sigma_theory_compiler/system10_cylindrical_open_r_coordinate_decomposition.py",
+      "canonical_lf_sha256": "8078fc758b0382ed7db3fe09b6869697e9506778fde8b4e47ec13cc16ff62999"
+    },
+    "test": {
+      "path": "tests/test_system10_cylindrical_open_r_coordinate_decomposition.py",
+      "canonical_lf_sha256": "99709242d6335e16f3bc6698281b3d5c80c06e4449d527e17d9be22fb13d6c94"
+    }
+  },
+  "domain": {
+    "coordinates": ["t", "r", "theta", "z"],
+    "physical_metric": "diag(-1,1,r^2,1)",
+    "predicate": "1/2<=r<=3/2 and real |v_10|<=1/4",
+    "coordinate_partials_commute": true
+  },
+  "caps": {
+    "candidate_indices": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+    "lower_nu_components": [0, 1, 2, 3],
+    "coordinate_decomposition_rows": 48,
+    "physical_constraint_rows": 96,
+    "all_first_spatial_rhs_jets": 396,
+    "full_rhs_rows": 1020,
+    "maximum_packet_bytes": 131072,
+    "maximum_receipt_bytes": 262144
+  }
+}

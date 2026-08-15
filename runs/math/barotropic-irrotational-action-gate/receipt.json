@@ -1,0 +1,139 @@
+{
+  "admitted_action": {
+    "density": "sqrt(-g) P(X)",
+    "dependencies": [
+      "g_mu_nu",
+      "kappa",
+      "tau"
+    ],
+    "domain": [
+      "kappa>0",
+      "X>0",
+      "nabla_mu(tau) future-directed timelike"
+    ],
+    "forbidden_gravitational_or_species_dependencies": [],
+    "kinetic_scalar": "X=-g^mu_nu nabla_mu(tau)nabla_nu(tau)/2",
+    "maximum_derivatives_per_matter_field": 1,
+    "physical_metric": "g_mu_nu",
+    "pressure_function": "P(X)=kappa X^2",
+    "scope_restriction": "irrotational isentropic potential-flow patch; vortical fluids excluded"
+  },
+  "campaign_id": "barotropic-irrotational-action-gate-001",
+  "claims": {
+    "all_barotropic_flows_covered": false,
+    "arbitrary_background_closure_established": false,
+    "constraint_propagation_gate_closed": false,
+    "earliest_action_level_gate_closed": true,
+    "gravity_h7_theorem_established": false,
+    "hyperbolicity_gate_closed": false,
+    "promotion_authorized": false,
+    "stress_conservation_gate_closed": false,
+    "universal_matter_closure_established": false,
+    "vortical_flows_covered": false
+  },
+  "content_sha256": "997e8bcca0f4afae12428500098e6be970c4cf203070dd9fd1ccded81c950da0",
+  "counts": {
+    "blocks": 0,
+    "exact_integer_residuals": 2,
+    "exact_registered_variation_residuals": 4,
+    "gates_not_evaluated": 3,
+    "gates_passed": 1,
+    "negative_controls": 1,
+    "registered_formal_controls": 1,
+    "rejects": 0,
+    "sectors": 1
+  },
+  "decision": "PASS_EARLIEST_GATE_ONLY",
+  "exact_replay": {
+    "P_coefficient": 1,
+    "X_P_X_coefficient": 2,
+    "equation_of_state": "p=rho/3",
+    "equation_of_state_residual": "0",
+    "formal_unit": "kappa X^2",
+    "hilbert_stress": "T_mu_nu=P_X nabla_mu(tau)nabla_nu(tau)+P g_mu_nu",
+    "negative_control": {
+      "equation_of_state_residual": "-2",
+      "mutation": "omit one factor of X P_X in rho",
+      "rejected": true
+    },
+    "normalized_velocity": "u_mu=nabla_mu(tau)/sqrt(2X)",
+    "p": "kappa X^2",
+    "perfect_fluid_stress": "T_mu_nu=(rho+p)u_mu u_nu+p g_mu_nu",
+    "rho": "3 kappa X^2",
+    "rho_coefficient_from_2X_P_X_minus_P": 3,
+    "stress_decomposition_residual": "0"
+  },
+  "gate_results": [
+    {
+      "gate_id": "action_level_universal_metric_coupling",
+      "outcome": "PASS",
+      "reason_codes": []
+    },
+    {
+      "gate_id": "stress_energy_conservation_interface",
+      "outcome": "NOT_EVALUATED",
+      "reason_codes": [
+        "outside_single_gate_scope"
+      ]
+    },
+    {
+      "gate_id": "principal_symbol_hyperbolicity",
+      "outcome": "NOT_EVALUATED",
+      "reason_codes": [
+        "outside_single_gate_scope"
+      ]
+    },
+    {
+      "gate_id": "constraint_propagation",
+      "outcome": "NOT_EVALUATED",
+      "reason_codes": [
+        "outside_single_gate_scope"
+      ]
+    }
+  ],
+  "registered_variation_control": {
+    "corrupted_sign_rejected": true,
+    "local_jet_residuals": [
+      "0",
+      "0",
+      "0",
+      "0"
+    ],
+    "metric_stress_tensor": "T_mu_nu=g2_x nabla_mu(phi)nabla_nu(phi)+g2 g_mu_nu",
+    "name": "generic_g2_variation_noether_identity",
+    "scope": "Exact arbitrary local scalar-gradient/Hessian jet with independent G2 derivative coefficients and a corrupted metric-pressure-sign negative control; the G3 and scoped G4 controls are separate, as is constraint analysis.",
+    "status": "pass"
+  },
+  "schema_version": "invariant-barotropic-irrotational-action-gate-result-1.0",
+  "scope": "standard first-derivative shift-symmetric velocity-potential action for an irrotational isentropic radiation-like barotrope on kappa>0, X>0 only; no later fluid gate, vortical sector, H7, or universal-matter claim",
+  "sector_id": "barotropic_perfect_fluid_irrotational_patch",
+  "source_bindings": {
+    "config": {
+      "file_sha256": "b68b5fe2a4839a7d969c9f9460da5ec7f0dcb62cbeff594d353fbd2bf7d8ca84",
+      "path": "configs/barotropic_irrotational_action_gate.json"
+    },
+    "formal_controls": {
+      "content_sha256": "cbf2f085198ac29afce473ca39ac7f39681d5ec6b781ef67cfed9313c0a8a420",
+      "file_sha256": "1a121c66365e70aed1ee9b5e5803829b824ca57c4671ee61b6fa6bad1a1dd8e1",
+      "path": "runs/formal-controls-v1/formal-controls-portable.json"
+    },
+    "maxwell_predecessor": {
+      "content_sha256": "9f432461209ee109ee85b9c493f96501ebb0b2f4ed45e2918a495007a9638ea3",
+      "file_sha256": "62a7f1f58fe1f1cc9cfdd17519ac875349b64831e9c2e6d7d2c24499ef7be0c4",
+      "path": "runs/math/maxwell-hilbert-noether-interface-gate/receipt.json"
+    },
+    "source": {
+      "file_sha256": "6c4bffa33670267f449335e311ad9c49725a63190334ac6a569c77da21b8cabc",
+      "path": "src/sigma_theory_compiler/barotropic_irrotational_action_gate.py"
+    },
+    "test": {
+      "file_sha256": "fb2e176336f39be92d0eedd9f5305d479d116af5bb97df368367ddef245e3a9d",
+      "path": "tests/test_barotropic_irrotational_action_gate.py"
+    },
+    "universal_predecessor": {
+      "content_sha256": "9d6ca5bf43ca5677eb482959d65525ceb12c3faf46bbb3510a5c0ef3c3616489",
+      "file_sha256": "d6bbbf8bdf3958219c3cbccee1408513623cafb84d30dd688317d422c52f57fd",
+      "path": "runs/math/universal-matter-coupled-pde-control-pack/receipt.json"
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "schema_version": "invariant-system10-cylindrical-gauge-row-specialization-config-1.0",
+  "campaign_id": "system10-cylindrical-gauge-row-specialization-materializer-001",
+  "output_path": "runs/math/system10-cylindrical-gauge-row-specialization-materializer/receipt.json",
+  "bindings": {
+    "system10_general_blocker": {
+      "path": "runs/math/system10-general-matter-pde-completion-gate/receipt.json",
+      "file_sha256": "ba4cdc2d9623a66fb23a5d316b6d08d786c955cf03adb2bde67dee2b348b3101",
+      "content_sha256": "4bd066565626334ae2fc98b6918859a0126b9ddb65525576d8e5b65fe6352709"
+    },
+    "curvilinear_source_control": {
+      "path": "runs/physics-language/quartic-nonlinear-evolution-campaign/campaign.json",
+      "file_sha256": "9553e58c8f4a9b0676b20331ca5bec58719bdeb495e2273084a2e5349fca65f0",
+      "content_sha256": "426c7407a1839a63ebd022ee17676a202ad31a22ea5c8eb017f8ca625698f40c"
+    },
+    "constraint_basis": {
+      "path": "runs/math/quartic-85-state-candidate-gravity-constraint-basis-gate/receipt.json",
+      "file_sha256": "4e8b1f3774b6ee6267ee2f809c46dbdaf73bddf755969a4b6654ea1e73901303",
+      "content_sha256": "00c853654ea2c635156662e89615befc249f55c6a9030a7457ece451135a6a9e"
+    },
+    "indexed_gauge_map": {
+      "path": "runs/math/quartic-85-state-differentiated-gauge-map-materializer/receipt.json",
+      "file_sha256": "f9fb0398b08ec3a86ce46f5c970a7b04a9de421755f9602164b92b33b5db73d9",
+      "content_sha256": "208ec52f0a20ffcc09b16b01c58fb21cb361dde735679aa7a0bcd14e40e74c27"
+    }
+  },
+  "specialization": {
+    "coordinates": ["t", "r", "theta", "z"],
+    "evaluation_point": {"t": "0", "r": "1", "theta": "0", "z": "0"},
+    "physical_metric": "diag(-1,1,r^2,1)",
+    "tilde_inverse_metric": "diag(-4,1,r^-2,1)",
+    "hat_inverse_metric": "diag(-9,1,r^-2,1)",
+    "reference_connection": "Levi-Civita(physical_metric)",
+    "gauge_source": "zero",
+    "metric_component_basis": "orthonormal_symmetric",
+    "state_ordering": "q,v,w_1,w_2,w_3 over 17 fields"
+  },
+  "claims_policy": {
+    "specialized_1010_value_packet": true,
+    "specialized_modified_harmonic_gauge_rows": true,
+    "all_twelve_candidate_gauge_row_hashes": true,
+    "hamiltonian_momentum_rows": false,
+    "general_value_packet": false,
+    "general_common_domain": false,
+    "general_hyperbolicity": false,
+    "general_common_time_positivity": false,
+    "sourced_constraint_propagation": false,
+    "candidate_jet_uniformity": false,
+    "nonlinear_global_closure": false,
+    "gravity_h7": false,
+    "universal_all_matter": false,
+    "promotion": false
+  }
+}

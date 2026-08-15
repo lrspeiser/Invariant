@@ -1,0 +1,83 @@
+{
+  "schema_version": "invariant-system10-cylindrical-r-positive-constraint-propagation-attempt-config-1.0",
+  "campaign_id": "system10-cylindrical-r-positive-constraint-propagation-attempt-001",
+  "output_path": "runs/math/system10-cylindrical-r-positive-constraint-propagation-attempt/receipt.json",
+  "bindings": {
+    "r_positive_rows": {
+      "path": "runs/math/system10-cylindrical-r-positive-domain-lift/receipt.json",
+      "file_sha256": "3b5764b3d88ff6572558ced31d72f7c9c3906ac79079e06b39c60ec88542ac9a",
+      "content_sha256": "a843afaaa4cacdf63a0382f97705f133cdb351560313cdd9e63e05c3da77f690"
+    },
+    "off_shell_identity": {
+      "path": "runs/math/quartic-85-state-off-shell-gauge-fixed-euler-divergence-gate/receipt.json",
+      "file_sha256": "7befec10ee5640468619839710cc86feca69d717ec139e1613ef6b959d16ab1a",
+      "content_sha256": "8c49a63b1bbefff61d50a1cfe583463056f8349eb6fb8b6ff150c5abaecef819"
+    },
+    "indexed_divergence_map": {
+      "path": "runs/math/quartic-85-state-differentiated-gauge-map-materializer/receipt.json",
+      "file_sha256": "f9fb0398b08ec3a86ce46f5c970a7b04a9de421755f9602164b92b33b5db73d9",
+      "content_sha256": "208ec52f0a20ffcc09b16b01c58fb21cb361dde735679aa7a0bcd14e40e74c27"
+    },
+    "principal_85_state_reduction": {
+      "path": "runs/math/quartic-twelve-candidate-85-state-first-order-reduction/receipt.json",
+      "file_sha256": "d486f1912d2f47bb283bd2ec9d1ef97cea3251bb98d87ca46daf56a6939e5790",
+      "content_sha256": "d52438c7e293fbb57efa411924cf63a90e96278095e44b5e9448395a62249bb2"
+    },
+    "historical_propagation_block": {
+      "path": "runs/math/quartic-85-state-sourced-gravity-constraint-propagation-gate/receipt.json",
+      "file_sha256": "ea764af845e6e949f063e65473bcc94970c9e75896972e4644f2a1aa9f50cd41",
+      "content_sha256": "41a3f021e99f602f90f76f47ed7fa39fa636a4d9c079c44d6a0241fa2af70f48"
+    }
+  },
+  "source_evidence": {
+    "r_positive_source": {
+      "path": "src/sigma_theory_compiler/system10_cylindrical_r_positive_domain_lift.py",
+      "file_sha256": "5c8df38869e83c589705de37e1763311510cfa2cd2a3e70bb0882bd35f57438d"
+    },
+    "off_shell_source": {
+      "path": "src/sigma_theory_compiler/quartic_85_state_off_shell_gauge_fixed_euler_divergence_gate.py",
+      "file_sha256": "fc9e81f29ab2ec24ee426750c931176685378071f981ca10a16a4c72ba81db5e"
+    },
+    "indexed_divergence_source": {
+      "path": "src/sigma_theory_compiler/quartic_85_state_differentiated_gauge_map_materializer.py",
+      "file_sha256": "4e0d766f2a9fdaa13df93997bd09c8385de7592eb9f582a3cfcce282a90578ca"
+    },
+    "principal_reduction_source": {
+      "path": "src/sigma_theory_compiler/quartic_twelve_candidate_85_state_first_order_reduction.py",
+      "file_sha256": "5275d1f5d6dbe2ae09f3058d703c3d43368b6a54ee547ee4b0643b52f6773966"
+    },
+    "source": {
+      "path": "src/sigma_theory_compiler/system10_cylindrical_r_positive_constraint_propagation_attempt.py",
+      "file_sha256": "741df260e00965b788c72573f5baa614c7f3ed84e6354c1dde9adebf528d7cf8"
+    },
+    "test": {
+      "path": "tests/test_system10_cylindrical_r_positive_constraint_propagation_attempt.py",
+      "file_sha256": "d97f8023d50e4dca39a4513ad9cf8fb0f849570d99a401342aebf87b25e26b2f"
+    }
+  },
+  "domain_contract": {
+    "predicate": "r>0",
+    "excluded_axis": "r=0",
+    "fixed_physical_metric": "diag(-1,1,r^2,1)",
+    "arbitrary_formulation_functions": false
+  },
+  "caps": {
+    "candidates": 12,
+    "state_dimension": 85,
+    "physical_gravity_rows": 96,
+    "external_jet_slots": 580,
+    "physical_metric_third_operator_slots": 200,
+    "maximum_output_bytes": 1048576
+  },
+  "claims_policy": {
+    "r_positive_input_rows": true,
+    "external_formulation_jet_values": true,
+    "candidate_bound_subsidiary_system": false,
+    "sourced_constraint_propagation": false,
+    "subsidiary_energy_estimate": false,
+    "arbitrary_formulation_functions": false,
+    "general_hyperbolicity": false,
+    "global_theorem": false,
+    "promotion": false
+  }
+}

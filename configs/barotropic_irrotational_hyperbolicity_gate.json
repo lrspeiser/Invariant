@@ -1,0 +1,45 @@
+{
+  "schema_version": "invariant-barotropic-irrotational-hyperbolicity-config-1.0",
+  "campaign_id": "barotropic-irrotational-hyperbolicity-gate-001",
+  "output_path": "runs/math/barotropic-irrotational-hyperbolicity-gate/receipt.json",
+  "predecessor": {
+    "path": "runs/math/barotropic-irrotational-stress-conservation-gate/receipt.json",
+    "file_sha256": "6905ea0fd6fb1b80602716c3902421a667827edce6d033fb7805f31f8512381b",
+    "content_sha256": "23c2566a1aa4313848272050226ad328d7eb4908d421baeb086e3d3dfcd20489",
+    "required_decision": "PASS_SECOND_GATE_ONLY"
+  },
+  "evidence_bindings": {
+    "formal_controls": {
+      "path": "runs/formal-controls-v1/formal-controls-portable.json",
+      "file_sha256": "1a121c66365e70aed1ee9b5e5803829b824ca57c4671ee61b6fa6bad1a1dd8e1",
+      "content_sha256": "cbf2f085198ac29afce473ca39ac7f39681d5ec6b781ef67cfed9313c0a8a420"
+    },
+    "principal_source": {
+      "path": "src/sigma_theory_compiler/horndeski.py",
+      "file_sha256": "d108ed635851bb57fdeffcf23d02e4f66021e45591dbffd3b62e7983bb468d19"
+    }
+  },
+  "required_control": "generic_kessence_timelike_principal_hamiltonian",
+  "specialization": {
+    "pressure": "P(X)=kappa X^2",
+    "P_X": "2 kappa X",
+    "P_XX": "2 kappa",
+    "domain": [
+      "kappa>0",
+      "X>0",
+      "nabla_mu(tau) future-directed timelike",
+      "use tau as a local common-time function for the matter and physical metric cones"
+    ],
+    "background_scope": "arbitrary smooth physical metric and irrotational field jet point satisfying the declared domain"
+  },
+  "claims_policy": {
+    "close_matter_hyperbolicity_only": true,
+    "coupled_gravity_matter_hyperbolicity": false,
+    "constraint_propagation": false,
+    "vortical_fluid": false,
+    "global_evolution": false,
+    "gravity_h7": false,
+    "universal_matter": false,
+    "promotion": false
+  }
+}

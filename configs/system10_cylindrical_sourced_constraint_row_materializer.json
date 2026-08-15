@@ -1,0 +1,39 @@
+{
+  "schema_version": "invariant-system10-cylindrical-sourced-constraint-row-config-1.0",
+  "campaign_id": "system10-cylindrical-sourced-constraint-row-materializer-001",
+  "output_path": "runs/math/system10-cylindrical-sourced-constraint-row-materializer/receipt.json",
+  "bindings": {
+    "projection_receipt": {"path": "runs/math/system10-cylindrical-sourced-constraint-projection-materializer/receipt.json", "file_sha256": "0acdaee453b865dca61b3f80118eb2399cdc60a16b54ba1a1463aaecdb065d47", "content_sha256": "52fbc4bccab992fa4d3bbcec619925d728dea3f519abe83600d2b45efbd06c42"},
+    "nonlinear_candidate_authority": {"path": "runs/physics-language/quartic-nonlinear-evolution-campaign/campaign.json", "file_sha256": "9553e58c8f4a9b0676b20331ca5bec58719bdeb495e2273084a2e5349fca65f0", "content_sha256": "426c7407a1839a63ebd022ee17676a202ad31a22ea5c8eb017f8ca625698f40c"},
+    "sourced_metric_euler": {"path": "runs/math/quartic-twelve-candidate-sourced-metric-euler-binding/receipt.json", "file_sha256": "63a4b876718b12518f4c2ceb6fac153dabc443ed36524a3594a184c5fd14b9ea", "content_sha256": "fe485cc343a729573a3ca2d422c74e3f59b296ceb4453fdb14ed4e396b40ebdd"},
+    "constraint_basis": {"path": "runs/math/quartic-85-state-candidate-gravity-constraint-basis-gate/receipt.json", "file_sha256": "4e8b1f3774b6ee6267ee2f809c46dbdaf73bddf755969a4b6654ea1e73901303", "content_sha256": "00c853654ea2c635156662e89615befc249f55c6a9030a7457ece451135a6a9e"}
+  },
+  "source_evidence": {
+    "geometric_jet": {"path": "src/sigma_theory_compiler/quartic_geometric_jet_campaign.py", "file_sha256": "d0600d6475d32d06a00140ab230aa41b3c057aef7a968163989fc5028d6acd21"},
+    "action_euler": {"path": "src/sigma_theory_compiler/quartic_nonlinear_evolution_campaign.py", "file_sha256": "5ffa57365f9bb74a7699719d3b6548d2d9a79155be028757940375c2b91659a8"},
+    "source": {"path": "src/sigma_theory_compiler/system10_cylindrical_sourced_constraint_row_materializer.py", "file_sha256": "7549200a0a93232288cc55734c744dd3ac2eb544d0a70d9df1a57f4f81a58b2b"},
+    "test": {"path": "tests/test_system10_cylindrical_sourced_constraint_row_materializer.py", "file_sha256": "3f00282c6f514f112516cf8d10b5315505edca3b283be52713a252969089b9ae"}
+  },
+  "specialization": {
+    "coordinates": ["t", "r", "theta", "z"],
+    "evaluation_point": {"t": "0", "r": "1", "theta": "0", "z": "0"},
+    "metric_value": "diag(-1,1,1,1)",
+    "metric_jet_fiber": "q_metric fixed at the cylindrical r=1 value; v,w,partial_i(v),partial_i(w_j) remain exact atoms",
+    "state_order": ["q_A", "v_A", "w_1A", "w_2A", "w_3A"],
+    "field_count": 17,
+    "fluid_parameter": "kappa>0"
+  },
+  "caps": {"candidates": 12, "rows_per_candidate": 4, "maximum_polynomial_terms_per_row": 20000, "maximum_output_bytes": 16777216},
+  "claims_policy": {
+    "cylindrical_r1_spatial_differential_rows": true,
+    "partial_0_v_cancellation": true,
+    "partial_0_w_integrability_replacement": true,
+    "all_twelve_atomic_hamiltonian_momentum_packets": true,
+    "general_domain": false,
+    "sourced_constraint_propagation": false,
+    "general_hyperbolicity": false,
+    "gravity_h7": false,
+    "universal_all_matter": false,
+    "promotion": false
+  }
+}

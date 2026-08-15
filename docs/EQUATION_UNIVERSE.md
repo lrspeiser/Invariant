@@ -34,6 +34,20 @@ appropriate survivor block. It does not need one SQLite row per generated formul
 
 This generator history is screening provenance, not evidence that a formula is physically valid.
 
+### Sigma Core knowledge-graph projection
+
+The audited JSON seed, source policy, and audit report can now be imported directly into the
+Sigma Core `CandidateKnowledgeGraph` without opening SQLite. The exact projection contains nine
+source-definition nodes, 18 provenance-bound `IDENTITY` candidate artifacts, three declared
+derivation nodes, one canonical semantic-equivalence witness, 31 total nodes, 36 edges, and five
+`DERIVES` edges. The import and graph content hashes are
+`184a77ab27dd95d34a26c592ab4cce20cfb485c7ac4c1151ca57faf7d7791a92` and
+`3cc26065d80f543e59619b8945dfb6ed94640a35e9cde9eab807f24ac5dbd558`.
+
+This adapter deliberately reports only `present_in_this_corpus` or `absent_from_this_corpus`.
+It does not treat corpus absence as novelty, and the imported derivation/equivalence edges retain
+their exact audit provenance rather than becoming independent truth or promotion certificates.
+
 ## Data model
 
 The SQLite schema has these layers:

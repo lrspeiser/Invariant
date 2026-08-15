@@ -1,0 +1,82 @@
+{
+  "schema_version": "invariant-system10-open-r-euler-normalization-bridge-receipt-1.0-config",
+  "campaign_id": "system10-open-r-euler-normalization-bridge-001",
+  "bindings": {
+    "coordinate_decomposition": {
+      "path": "runs/math/system10-cylindrical-open-r-coordinate-decomposition/receipt.json",
+      "canonical_lf_sha256": "fed5c6abcc9fbe66ee76f75f73fc3b667220d3b209088b62635669f3d678b8da",
+      "content_sha256": "d6db67d2b5d591357e6b58962e698101c5a8b9f1e6824e7e43deab8e618f746f"
+    },
+    "all_candidate_aw": {
+      "path": "runs/math/system10-cylindrical-r-positive-twelve-candidate-aw/receipt.json",
+      "canonical_lf_sha256": "6c53d39f0db9e8063866c061cea11efa5f66525a2fef7b0e5488639827ebf4a8",
+      "content_sha256": "d35d010b5bd526b9e95ce3690dc6f5177f974042059a998d602e11512c416fe2"
+    },
+    "full_rhs": {
+      "path": "runs/math/system10-cylindrical-common-tube-full-rhs/receipt.json",
+      "canonical_lf_sha256": "069eb9853d430a5f5905df86cd25146e0054d9511d5c596395a88f1a21eff5df",
+      "content_sha256": "ffd8ef70f68e6dc93a86b8f286dd257e5d6ee254be96c6c0dee041549695fcfe"
+    },
+    "matter_dynamic_rhs": {
+      "path": "runs/math/system10-cylindrical-r-positive-matter-dynamic-rhs-materializer/receipt.json",
+      "canonical_lf_sha256": "b3f578602637a2a2bdd091d1930b4e8cfa3e9130c95ac1624fa86d6cc6bcb561",
+      "content_sha256": "6472854a3b44304fea433fc686c5889a8f6edcca32632e0b79832985ae18bc08"
+    },
+    "maxwell_dynamic_rhs": {
+      "path": "runs/math/system10-cylindrical-r-positive-maxwell-dynamic-rhs-materializer/receipt.json",
+      "canonical_lf_sha256": "650286304e15d989a66540d928f34a3637fd2b8f81152b20e8ec277e3a424602",
+      "content_sha256": "2723020e6a0553d7d0733478b0577d04e5ce0ed2c4d2a1296d32e6847096ac9d"
+    },
+    "matter_interface": {
+      "path": "runs/math/combined-scalar-maxwell-fluid-gravity-interface-gate/receipt.json",
+      "canonical_lf_sha256": "6ad28dcf20e24e80abf3fca5bda4a9524662ab2b3a132e8cf757e0e0d3e01dd1",
+      "content_sha256": "0c0a66a22fb972ef70ea68f99d5e86aaa49fc45eb00c5411b1d2ed62559b8cfc"
+    },
+    "sourced_constraint_control": {
+      "path": "runs/math/quartic-85-state-sourced-gravity-constraint-propagation-gate/receipt.json",
+      "canonical_lf_sha256": "b1a601319c9b87d7b5a27310fb815dceaf8ead3cf47ddd64c94a7956c2e8a865",
+      "content_sha256": "41a3f021e99f602f90f76f47ed7fa39fa636a4d9c079c44d6a0241fa2af70f48"
+    },
+    "divQ_rows": {
+      "path": "runs/math/system10-cylindrical-r-positive-divq-row-materializer/receipt.json",
+      "canonical_lf_sha256": "8689667f521dedb7a5fcaaad1e8f12508e87000a9e004ebd0acda032e2a5de91",
+      "content_sha256": "1e44651c3c77e3cae1cfa66d34de43f77e14c88990ff55404a30194ccc8b042d"
+    }
+  },
+  "source_evidence": {
+    "source": {
+      "path": "src/sigma_theory_compiler/system10_cylindrical_open_r_euler_normalization_bridge.py",
+      "canonical_lf_sha256": "1209b3c8acf872f6c8e1c22a0fc4f9b95bf9170716bd70b1aa1d8292b70d72b3"
+    },
+    "test": {
+      "path": "tests/test_system10_cylindrical_open_r_euler_normalization_bridge.py",
+      "canonical_lf_sha256": "bc9f7406add8dd6aaefb02a7841e6c1cd0c5755095d4c68c0976d3a3166725e1"
+    },
+    "aw_source": {
+      "path": "src/sigma_theory_compiler/system10_cylindrical_r_positive_gravity_scalar_aw_materializer.py",
+      "canonical_lf_sha256": "5bead13140c9b21fd0a750991cee45818b765e99eb8f9add52bc7f059a26f883"
+    },
+    "nonlinear_source": {
+      "path": "src/sigma_theory_compiler/quartic_nonlinear_evolution_campaign.py",
+      "canonical_lf_sha256": "826ff1b9163e6d59f3c465ab1a0c0d12d3a93a0fdfc8cbcbf07576c9a01ad249"
+    },
+    "matter_source": {
+      "path": "src/sigma_theory_compiler/system10_cylindrical_r_positive_matter_dynamic_rhs_materializer.py",
+      "canonical_lf_sha256": "379bdd4fce4bc9f35e505cd020c9d558ff50605019cbc9c2188c499afa93eff3"
+    },
+    "maxwell_source": {
+      "path": "src/sigma_theory_compiler/system10_cylindrical_r_positive_maxwell_dynamic_rhs_materializer.py",
+      "canonical_lf_sha256": "c2db44b3308d002e05c579d93ec0119fc326720d5ddc29a0b55ecdfd26a561d7"
+    }
+  },
+  "caps": {
+    "candidate_indices": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+    "spatial_metric_euler_components_per_candidate": 6,
+    "gravity_scalar_euler_components_per_candidate": 1,
+    "matter_force_sectors_per_candidate": 3,
+    "divQ_normalizations_per_candidate": 4,
+    "normalization_bridges": 12,
+    "maximum_packet_bytes": 131072,
+    "maximum_receipt_bytes": 262144
+  }
+}

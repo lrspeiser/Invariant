@@ -1,0 +1,262 @@
+{
+  "campaign_id": "quartic-85-state-differentiated-gauge-map-readiness-001",
+  "claims": {
+    "candidate_jet_uniformity_closed": false,
+    "constraint_propagation_closed": false,
+    "constructible_subset_inventory_closed": true,
+    "differentiated_gauge_map_in_85_state_coordinates_closed": false,
+    "differentiated_gauge_map_readiness_contract_closed": true,
+    "gravity_h7_theorem_established": false,
+    "nonlinear_global_closure_established": false,
+    "primitive_differentiated_formulation_jets_registered": false,
+    "promotion_authorized": false,
+    "universal_all_matter_closure_established": false
+  },
+  "content_sha256": "b4d9a0d3c91fb183eb59d9011a0f1647687182978da65a497ba86fa72a52c938",
+  "counts": {
+    "cold_symbolic_runs": 0,
+    "constraint_propagation_claims": 0,
+    "constructible_algebraic_reductions": 4,
+    "constructible_source_packet_families": 3,
+    "differentiated_gauge_maps_constructed": 0,
+    "metric_compatibility_zero_branches": 1,
+    "missing_primitive_jet_families": 5,
+    "missing_primitive_slots": 780,
+    "primitive_resume_chunks": 48,
+    "product_rule_branches": 3,
+    "resume_units": 9
+  },
+  "decision": "PASS_RESUMABLE_READINESS_CONTRACT_FIVE_PRIMITIVE_JET_BLOCKERS",
+  "materialization": {
+    "checkpoint_rule": "each primitive chunk is canonical JSON with family, slot interval, convention hash, payload hash, and predecessor hashes; assembly refuses gaps, overlaps, or zero-fill",
+    "constructible_subset": {
+      "cold_symbolic_work_executed": false,
+      "coordinate_two_jet_evidence": {
+        "acceleration_free_second_partial_atoms": 99,
+        "bounded_coordinate_atoms": 153,
+        "third_partial_atoms": 0
+      },
+      "exact_algebraic_reductions": [
+        "nabla_mu g^(alpha beta)=0",
+        "constant M2 has zero derivative",
+        "all connection corrections using registered metric two-jet, C, and nabla C",
+        "all first-tilde times first-Delta-Gamma product terms in partial^2 C"
+      ],
+      "exact_source_packets": [
+        "C_beta (4 components)",
+        "nabla_gamma C_beta (16 components)",
+        "Q_mu_nu (10 symmetric components)"
+      ]
+    },
+    "primitive_inventory": [
+      {
+        "chunk_count": 4,
+        "chunk_size": 10,
+        "derivative_multi_indices": 4,
+        "family": "hat_inverse_first",
+        "missing_slots": 40,
+        "needed_for": "nabla_mu hat_P_alpha^(gamma mu nu)",
+        "status": "BLOCK_MISSING_REGISTRATION",
+        "tensor_components": 10
+      },
+      {
+        "chunk_count": 10,
+        "chunk_size": 10,
+        "derivative_multi_indices": 10,
+        "family": "tilde_inverse_second",
+        "missing_slots": 100,
+        "needed_for": "partial_(mu gamma) C_beta",
+        "status": "BLOCK_MISSING_REGISTRATION",
+        "tensor_components": 10
+      },
+      {
+        "chunk_count": 20,
+        "chunk_size": 20,
+        "derivative_multi_indices": 10,
+        "family": "reference_connection_second",
+        "missing_slots": 400,
+        "needed_for": "partial_(mu gamma) Delta_Gamma",
+        "status": "BLOCK_MISSING_REGISTRATION",
+        "tensor_components": 40
+      },
+      {
+        "chunk_count": 4,
+        "chunk_size": 10,
+        "derivative_multi_indices": 10,
+        "family": "gauge_source_second",
+        "missing_slots": 40,
+        "needed_for": "partial_(mu gamma) H_beta",
+        "status": "BLOCK_MISSING_REGISTRATION",
+        "tensor_components": 4
+      },
+      {
+        "chunk_count": 10,
+        "chunk_size": 20,
+        "derivative_multi_indices": 20,
+        "family": "physical_metric_third",
+        "missing_slots": 200,
+        "needed_for": "partial_(mu gamma) Gamma and the second derivative of C_beta",
+        "status": "BLOCK_MISSING_REGISTRATION",
+        "tensor_components": 10
+      }
+    ],
+    "product_rule_shell": {
+      "branches": [
+        {
+          "branch": "projector_derivative",
+          "constructible_subset": "connection action on registered order-zero hat metric",
+          "formula": "(nabla hat_P)*g^-1*(nabla C)",
+          "missing": "partial hat_inverse_metric"
+        },
+        {
+          "branch": "physical_inverse_derivative",
+          "constructible_subset": "exactly zero by physical metric compatibility",
+          "formula": "hat_P*(nabla g^-1)*(nabla C)",
+          "missing": null
+        },
+        {
+          "branch": "constraint_hessian",
+          "constructible_subset": "connection and first-connection corrections using C and nabla C",
+          "formula": "hat_P*g^-1*(nabla nabla C)",
+          "missing": "raw second C derivative from tilde2, reference2, H2, and metric3"
+        }
+      ],
+      "input": "Q^mu_nu=-(M2/2) hat_P_alpha^(gamma mu nu) g^(alpha beta) nabla_gamma C_beta",
+      "output": "nabla_mu Q^(mu)_nu",
+      "status": "PASS_DEPENDENCY_SHELL_ONLY"
+    },
+    "readiness_contract_sha256": "895170c05192810875f2a78fca91e643a2b992d5239416a53494ad3cf57d5f0a",
+    "resume_order": [
+      "R0",
+      "R1",
+      "R2",
+      "R3",
+      "R4",
+      "R5",
+      "R6",
+      "R7",
+      "R8"
+    ],
+    "resume_units": [
+      {
+        "bounded_output": "one canonical convention manifest",
+        "depends_on": [],
+        "operation": "seal index, sign, field-order, and formula conventions",
+        "status": "PASS_REGISTERED",
+        "unit_id": "R0"
+      },
+      {
+        "bounded_output": "4 C entries, 16 nabla-C entries, 10 symmetric Q entries",
+        "depends_on": [
+          "R0"
+        ],
+        "operation": "reuse exact C_beta, nabla_gamma C_beta, and Q_mu_nu source packets",
+        "status": "PASS_CONSTRUCTIBLE_NO_COLD_RUN",
+        "unit_id": "R1"
+      },
+      {
+        "bounded_output": "two nonzero branches plus one metric-compatibility zero branch",
+        "depends_on": [
+          "R1"
+        ],
+        "operation": "emit covariant product-rule dependency shell for nabla^mu Q_mu_nu",
+        "status": "PASS_CONSTRUCTIBLE_NO_COLD_RUN",
+        "unit_id": "R2"
+      },
+      {
+        "bounded_output": "780 slots in 48 resumable chunks",
+        "depends_on": [
+          "R0"
+        ],
+        "operation": "register five primitive differentiated formulation-field packets",
+        "status": "BLOCK_PRIMITIVE_PACKETS_ABSENT",
+        "unit_id": "R3"
+      },
+      {
+        "bounded_output": "40 independent symmetric partial-pair entries and 64 ordered covariant Hessian entries",
+        "depends_on": [
+          "R1",
+          "R3"
+        ],
+        "operation": "assemble second coordinate derivative and full covariant Hessian of C_beta",
+        "status": "BLOCKED_BY_R3",
+        "unit_id": "R4"
+      },
+      {
+        "bounded_output": "one hashed sparse coefficient packet",
+        "depends_on": [
+          "R1",
+          "R3"
+        ],
+        "operation": "assemble covariant derivative of the hat projector",
+        "status": "BLOCKED_BY_R3",
+        "unit_id": "R5"
+      },
+      {
+        "bounded_output": "4 exact covector components",
+        "depends_on": [
+          "R2",
+          "R4",
+          "R5"
+        ],
+        "operation": "contract the two product-rule branches into nabla^mu Q_mu_nu",
+        "status": "BLOCKED_BY_R4_R5",
+        "unit_id": "R6"
+      },
+      {
+        "bounded_output": "4 common rows and 12 candidate binding manifests",
+        "depends_on": [
+          "R6"
+        ],
+        "operation": "lower the four divergence components into 85-state differential rows",
+        "status": "BLOCKED_BY_R6",
+        "unit_id": "R7"
+      },
+      {
+        "bounded_output": "at least 4 exact nonzero residual witnesses",
+        "depends_on": [
+          "R7"
+        ],
+        "operation": "run omission, sign, field-order, and zero-fill corruption controls",
+        "status": "BLOCKED_BY_R7",
+        "unit_id": "R8"
+      }
+    ]
+  },
+  "schema_version": "invariant-quartic-85-state-differentiated-gauge-map-readiness-result-1.0",
+  "scope": "A deterministic, resumable readiness contract for differentiating the registered modified-harmonic gauge completion. It inventories the exact constructible source packets and product-rule branches, seals five absent primitive jet families as 780 slots in 48 chunks, and orders nine bounded resume units. It performs no cold symbolic contraction and does not construct nabla Q, constraint propagation, candidate-jet uniformity, nonlinear/global closure, H7, universal matter, or promotion.",
+  "source_bindings": {
+    "config": {
+      "file_sha256": "70abe49c09fc25b06aebd70ab0ae436b979d7ac7a774aa292393e0d4e81fa201",
+      "path": "configs/quartic_85_state_differentiated_gauge_map_readiness.json"
+    },
+    "constraint_coordinate_basis": {
+      "content_sha256": "00c853654ea2c635156662e89615befc249f55c6a9030a7457ece451135a6a9e",
+      "file_sha256": "4e8b1f3774b6ee6267ee2f809c46dbdaf73bddf755969a4b6654ea1e73901303",
+      "path": "runs/math/quartic-85-state-candidate-gravity-constraint-basis-gate/receipt.json"
+    },
+    "coordinate_two_jet_tube": {
+      "content_sha256": "f95ddf3262d9a5eb58d8425e296901ba940d63721a78fb5ac9f339336171b1ec",
+      "file_sha256": "a453b04a20734f477c0bbc0b02b206c156160f227be61c6c81df56b2d0c06861",
+      "path": "runs/physics-language/quartic-coordinate-jet-tube-campaign/campaign.json"
+    },
+    "gauge_source_formula": {
+      "content_sha256": "426c7407a1839a63ebd022ee17676a202ad31a22ea5c8eb017f8ca625698f40c",
+      "file_sha256": "9553e58c8f4a9b0676b20331ca5bec58719bdeb495e2273084a2e5349fca65f0",
+      "path": "runs/physics-language/quartic-nonlinear-evolution-campaign/campaign.json"
+    },
+    "off_shell_divergence_gate": {
+      "content_sha256": "8c49a63b1bbefff61d50a1cfe583463056f8349eb6fb8b6ff150c5abaecef819",
+      "file_sha256": "7befec10ee5640468619839710cc86feca69d717ec139e1613ef6b959d16ab1a",
+      "path": "runs/math/quartic-85-state-off-shell-gauge-fixed-euler-divergence-gate/receipt.json"
+    },
+    "source": {
+      "file_sha256": "45003a44078d2a60f9d8fd16429e0cd63494817a12c0aa39b6c0e369366cdf50",
+      "path": "src/sigma_theory_compiler/quartic_85_state_differentiated_gauge_map_readiness.py"
+    },
+    "test": {
+      "file_sha256": "55f96de946ddfecd99959595d5daba36ae64c927bee330e1ec3ab24cd631299c",
+      "path": "tests/test_quartic_85_state_differentiated_gauge_map_readiness.py"
+    }
+  }
+}

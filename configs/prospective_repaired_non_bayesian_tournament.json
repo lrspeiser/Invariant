@@ -1,0 +1,73 @@
+{
+  "budgets": {
+    "candidates_per_family_per_world": 4,
+    "generator_work_items_per_world": 128,
+    "hypothesis_inventory_size": 11,
+    "maximum_gate_checks": 144,
+    "maximum_pareto_work_units_per_world": 4096
+  },
+  "campaign_id": "prospective-repaired-non-bayesian-tournament-001",
+  "generator_families": [
+    "cross_domain",
+    "egraph",
+    "evolutionary",
+    "grammar",
+    "llm",
+    "symbolic"
+  ],
+  "policies": {
+    "bayesian_generation": "excluded",
+    "generator_target_access": "forbidden",
+    "network_access": "forbidden",
+    "post_unseal_generation": "forbidden",
+    "post_unseal_tuning": "forbidden",
+    "target_records_per_unseal": 3,
+    "target_unseal_batches": 1
+  },
+  "repair_contract": {
+    "digest_prefix_hex_chars": 16,
+    "hypothesis_inventory_size": 11,
+    "input_fields": [
+      "family",
+      "native_candidate_ref",
+      "ordinal",
+      "public_world_sha256",
+      "repair_id"
+    ],
+    "ordinals": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "repair_id": "sha256_counter_inventory_breadth_v1",
+    "target_fields": []
+  },
+  "retrospective_predecessor": {
+    "content_sha256": "18bde0a4ef3a5a41055283adc923bf9214f07f754593dca50cd6f260c8679c46",
+    "file_sha256": "aabfa842037a4c5f42b743f795063304090d8d5452684203d86814efabf54b52",
+    "path": "runs/math/prospective-non-bayesian-recovery-audit/campaign.json"
+  },
+  "schema_version": "sigma-prospective-repaired-non-bayesian-config-1.0",
+  "target_fixture": {
+    "content_sha256": "24b52db04b89ca8aa7ca345133c6f892d5738cd37f3c1710ec6e6ea56024814c",
+    "path": "configs/prospective_repaired_non_bayesian_targets.json"
+  },
+  "worlds": [
+    {
+      "public_seed": "repair-orbit-public-20260813",
+      "sealed_target_sha256": "ca217aabd9fc6b3d8aa2435328b33eac294df6527fda54ceee574bb90376c14e",
+      "world_id": "prospective_repair.modular_orbit"
+    },
+    {
+      "public_seed": "repair-curvature-public-20260813",
+      "sealed_target_sha256": "eab4c21bd4d849a0c5c1c9e6abffff62c8a8d038e4258b5460ffac9c14355338",
+      "world_id": "prospective_repair.discrete_curvature"
+    },
+    {
+      "public_seed": "repair-walk-public-20260813",
+      "sealed_target_sha256": "604aca90b1ee81f1d0db62a7a9dcdf083e82f9346006e88c8762a460e5f0775d",
+      "world_id": "prospective_repair.graph_walk"
+    }
+  ]
+}

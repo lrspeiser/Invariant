@@ -1,0 +1,55 @@
+{
+  "adapter_binding": {
+    "source": {
+      "file_sha256": "18380105b3e5549593450c04f79deb1f2384635d43822988af702f638be356d5",
+      "path": "src/sigma_theory_compiler/math_lean_adapter.py"
+    },
+    "test": {
+      "file_sha256": "03ffc05ec5e439d5743bd64dacc76c8b7e53365f209226cf3495bbfcd53f2878",
+      "path": "tests/test_math_lean_adapter.py"
+    }
+  },
+  "campaign_id": "lean-production-kernel-vertical-slice-001",
+  "executable_resolution": {
+    "environment_variable": "INVARIANT_LEAN_EXECUTABLE",
+    "path_fallback": "lean"
+  },
+  "output_path": "runs/math/lean-production-kernel-vertical-slice/receipt.json",
+  "premise_policy": {
+    "allowed_premises": [
+      "Eq.refl"
+    ],
+    "equivalent_targets": [],
+    "forbidden_prefixes": [
+      "KnownAnswer",
+      "Unsafe"
+    ],
+    "forbidden_premises": [
+      "Classical.choice",
+      "False.elim"
+    ]
+  },
+  "schema_version": "invariant-lean-production-kernel-vertical-slice-config-2.0",
+  "target": "Invariant.kernelSmoke",
+  "theorem_source_path": "formal/lean/InvariantKernelSmoke.lean",
+  "timeout_seconds": 30,
+  "toolchain": {
+    "commit": "d8b18978322de05a8f3dba51ef03cf5461676c17",
+    "official_release": "leanprover/lean4:v4.33.0",
+    "platform_assets": {
+      "linux-x86_64": {
+        "archive_bytes": 574882764,
+        "archive_sha256": "4b3fb03c29a1e0a253fb1d11f9bae3725f19a0dc6fc09b3ea16d2c9df3349e2c",
+        "asset_url": "https://github.com/leanprover/lean4/releases/download/v4.33.0/lean-4.33.0-linux.tar.zst",
+        "executable_sha256": null
+      },
+      "windows-x86_64": {
+        "archive_bytes": 583425362,
+        "archive_sha256": "60d045a2ef45fca55a620b7d55be682e8439ec8d1fc9a8bcd2615da7dffba26a",
+        "asset_url": "https://github.com/leanprover/lean4/releases/download/v4.33.0/lean-4.33.0-windows.tar.zst",
+        "executable_sha256": "dd86e9b24990b1da425ea4af910f016e4db8f9a25c9ddad27bc6bee3690e677f"
+      }
+    },
+    "version": "4.33.0"
+  }
+}

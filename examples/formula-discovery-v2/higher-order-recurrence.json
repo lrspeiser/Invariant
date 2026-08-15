@@ -1,0 +1,24 @@
+{
+  "constraints": {
+    "coefficients": ["-1", "2"],
+    "forcing": "2",
+    "initial_values": [
+      {"index": 0, "value": {"denominator": 1, "numerator": 1}},
+      {"index": 1, "value": {"denominator": 1, "numerator": 2}}
+    ],
+    "kind": "linear_recurrence",
+    "order": 2,
+    "sequence": "u"
+  },
+  "job_id": "example.v2.recurrence",
+  "limits": {"max_basis_terms": 8, "max_constraint_rows": 16, "max_expression_nodes": 64, "max_integer_bits": 64, "max_parameter_combinations": 32, "max_parameters": 3, "max_recurrence_order": 3, "max_validation_rows": 8, "max_variables": 3},
+  "premises": [],
+  "proof": {"kind": "recurrence_identity"},
+  "schema_version": "sigma-formula-discovery-problem-2.0",
+  "solver": {"basis": ["1", "n", "n**2"], "kind": "exact_polynomial_basis_v2"},
+  "validation": {"kind": "evaluations", "rows": [
+    {"point": {"n": {"denominator": 1, "numerator": 3}}, "value": {"denominator": 1, "numerator": 10}},
+    {"point": {"n": {"denominator": 1, "numerator": 5}}, "value": {"denominator": 1, "numerator": 26}}
+  ]},
+  "variables": [{"domain": "integer", "name": "n"}]
+}

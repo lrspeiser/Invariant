@@ -1,19 +1,19 @@
 {
   "aggregate_metrics": {
     "counts": {
-      "implemented_controls": 2,
+      "implemented_controls": 5,
       "invalid_slots": 0,
-      "missing_slots": 198,
-      "ready_slots": 2,
+      "missing_slots": 195,
+      "ready_slots": 5,
       "registered_slots": 200
     },
     "coverage": {
       "coverage_denominator": 200,
-      "coverage_numerator": 2
+      "coverage_numerator": 5
     },
     "outcomes_from_validated_controls_only": {
       "blocked": 0,
-      "pass": 2,
+      "pass": 5,
       "reject": 0
     },
     "partitions": {
@@ -27,8 +27,8 @@
         },
         {
           "invalid": 0,
-          "missing": 98,
-          "ready": 2,
+          "missing": 95,
+          "ready": 5,
           "registered": 100,
           "value": "theorem_rediscovery"
         }
@@ -43,8 +43,8 @@
         },
         {
           "invalid": 0,
-          "missing": 99,
-          "ready": 1,
+          "missing": 96,
+          "ready": 4,
           "registered": 100,
           "value": "synthetic"
         }
@@ -66,22 +66,22 @@
         },
         {
           "invalid": 0,
-          "missing": 40,
-          "ready": 0,
+          "missing": 39,
+          "ready": 1,
           "registered": 40,
           "value": "combinatorics"
         },
         {
           "invalid": 0,
-          "missing": 40,
-          "ready": 0,
+          "missing": 39,
+          "ready": 1,
           "registered": 40,
           "value": "geometry"
         },
         {
           "invalid": 0,
-          "missing": 40,
-          "ready": 0,
+          "missing": 39,
+          "ready": 1,
           "registered": 40,
           "value": "number_theory"
         }
@@ -89,15 +89,15 @@
       "level": [
         {
           "invalid": 0,
-          "missing": 38,
-          "ready": 2,
+          "missing": 36,
+          "ready": 4,
           "registered": 40,
           "value": 1
         },
         {
           "invalid": 0,
-          "missing": 40,
-          "ready": 0,
+          "missing": 39,
+          "ready": 1,
           "registered": 40,
           "value": 2
         },
@@ -151,15 +151,15 @@
   },
   "bindings": {
     "config": {
-      "file_sha256": "c58ef6b52c68729152767bf8b995d0cf3010875bf8f05d77f74b599f9cf1c8d0",
+      "file_sha256": "4d723df8d11944cf8dfbad375a4c886e893f2bbcc8768a4b2c8bd60e0407f7ff",
       "path": "configs/math_benchmark_curriculum_v1.json"
     },
     "source": {
-      "file_sha256": "298fc389c19fdd4106b3a019b9796bd209ca62f3c0fb250037983e8dbfdf084b",
+      "file_sha256": "30e073617d7669dfeee847a4a64d9ddd7ed4cf1a2cf622db61dd53ac8947b9a6",
       "path": "src/sigma_theory_compiler/math_benchmark_runner.py"
     },
     "test": {
-      "file_sha256": "6c5452f81ed2d02fd5615084c375277247b53ac73f0353aa51cbbe278a1232e5",
+      "file_sha256": "80e000456c755a3b4853d85dc2ed90a9773129b88c5ea828f84461ba6859b632",
       "path": "tests/test_math_benchmark_runner.py"
     }
   },
@@ -171,7 +171,7 @@
     "only_implemented_validated_benchmarks_marked_ready": true,
     "unregistered_results_admitted": false
   },
-  "content_sha256": "398e657a0c4808e75cf23c482ae43898d9fb70d455d8ef1a6bd02daa3d4bdc15",
+  "content_sha256": "0e0e4d6d063fd094487289da7205a11972c9873e705ffb3fbee99c9c5bcfcefc",
   "curriculum_id": "math-benchmark-curriculum-v1",
   "curriculum_success": false,
   "decision": "not_ready_missing_or_invalid_benchmarks",
@@ -4021,24 +4021,38 @@
       "cohort": "synthetic",
       "domain": "combinatorics",
       "immutable_manifest_expectation": {
-        "artifact_path": null,
-        "content_sha256": null,
-        "file_sha256": null,
-        "registration_status": "missing",
-        "required": true
+        "artifact_path": "runs/math/synthetic-graph-cut-holdout-world/campaign.json",
+        "benchmark_id": "synthetic-graph-cut-holdout-world-001",
+        "content_sha256": "0cb024e276636b9fbeaa656542460372539eae77f2e00c6d165b088b889744e7",
+        "decision": "pass_one_of_one_synthetic_graph_cut_holdout_rediscovered_and_proved",
+        "file_sha256": "943140202a4259281491638672c9c48a0df39afbc46f1f8d089b185cd302782d",
+        "outcome_counts": {
+          "blocked": 0,
+          "pass": 1,
+          "reject": 0
+        },
+        "required_claims": {
+          "complete_declared_canonical_cut_grammar_enumerated": true,
+          "exhaustive_edge_incidence_proof_completed": true,
+          "general_graph_invariant_completeness_established": false,
+          "historical_novelty_established": false,
+          "post_unseal_equivalence_confirmed": true,
+          "withheld_cut_class_independently_rediscovered": true
+        },
+        "schema_version": "sigma-synthetic-graph-cut-holdout-result-1.0"
       },
-      "implemented": false,
+      "implemented": true,
       "level": 2,
       "outcome_counts": {
         "blocked": 0,
-        "pass": 0,
+        "pass": 1,
         "reject": 0
       },
       "partition_ordinal": 1,
-      "reason": "no_immutable_result_registered",
+      "reason": "immutable_artifact_validated",
       "slot_id": "synthetic.combinatorics.theorem_rediscovery.l2.001",
       "slot_kind": "blind_holdout",
-      "status": "missing",
+      "status": "ready",
       "validation_errors": []
     },
     {
@@ -4471,24 +4485,40 @@
       "cohort": "synthetic",
       "domain": "geometry",
       "immutable_manifest_expectation": {
-        "artifact_path": null,
-        "content_sha256": null,
-        "file_sha256": null,
-        "registration_status": "missing",
-        "required": true
+        "artifact_path": "runs/math/synthetic-affine-geometry-holdout-world/campaign.json",
+        "benchmark_id": "synthetic-affine-geometry-holdout-world-001",
+        "content_sha256": "3a8d8e00e88debee66c8bb1cda747b1d9815cf88740b1b5bdeab2bf5c377ce4c",
+        "decision": "pass_one_of_one_synthetic_affine_geometry_holdout_rediscovered_and_proved",
+        "file_sha256": "566c71fc5cccdd26395f677ddf5fe64f0e77fadf8391d5b89172a10d5a9b2b49",
+        "outcome_counts": {
+          "blocked": 0,
+          "pass": 1,
+          "reject": 0
+        },
+        "required_claims": {
+          "complete_declared_intersection_bound_grammar_enumerated": true,
+          "exhaustive_distinct_line_pair_proof_completed": true,
+          "general_geometry_completeness_established": false,
+          "historical_novelty_established": false,
+          "post_unseal_equivalence_confirmed": true,
+          "reference_identity_absent_from_pre_unseal_payload": true,
+          "reference_payload_supplied_to_discovery": false,
+          "withheld_incidence_theorem_independently_rediscovered": true
+        },
+        "schema_version": "sigma-synthetic-affine-geometry-holdout-result-1.0"
       },
-      "implemented": false,
+      "implemented": true,
       "level": 1,
       "outcome_counts": {
         "blocked": 0,
-        "pass": 0,
+        "pass": 1,
         "reject": 0
       },
       "partition_ordinal": 1,
-      "reason": "no_immutable_result_registered",
+      "reason": "immutable_artifact_validated",
       "slot_id": "synthetic.geometry.theorem_rediscovery.l1.001",
       "slot_kind": "blind_holdout",
-      "status": "missing",
+      "status": "ready",
       "validation_errors": []
     },
     {
@@ -4971,24 +5001,39 @@
       "cohort": "synthetic",
       "domain": "number_theory",
       "immutable_manifest_expectation": {
-        "artifact_path": null,
-        "content_sha256": null,
-        "file_sha256": null,
-        "registration_status": "missing",
-        "required": true
+        "artifact_path": "runs/math/synthetic-modular-exponent-holdout-world/campaign.json",
+        "benchmark_id": "synthetic-modular-exponent-holdout-world-001",
+        "content_sha256": "fdb89f7499e44ae6979a94a31fc84a5e1bf4790e4ed5605ae1130f611d9479f5",
+        "decision": "pass_one_of_one_synthetic_modular_exponent_holdout_rediscovered_and_proved",
+        "file_sha256": "bbf3c93295400c313997cbeacc865371dac720c5cf142c67eb4311c8d5aeffc3",
+        "outcome_counts": {
+          "blocked": 0,
+          "pass": 1,
+          "reject": 0
+        },
+        "required_claims": {
+          "complete_declared_exponent_grammar_enumerated": true,
+          "exhaustive_nonzero_residue_proof_completed": true,
+          "general_number_theory_completeness_established": false,
+          "historical_novelty_established": false,
+          "post_unseal_equivalence_confirmed": true,
+          "reference_payload_supplied_to_discovery": false,
+          "withheld_theorem_independently_rediscovered": true
+        },
+        "schema_version": "sigma-synthetic-modular-exponent-holdout-result-1.0"
       },
-      "implemented": false,
+      "implemented": true,
       "level": 1,
       "outcome_counts": {
         "blocked": 0,
-        "pass": 0,
+        "pass": 1,
         "reject": 0
       },
       "partition_ordinal": 1,
-      "reason": "no_immutable_result_registered",
+      "reason": "immutable_artifact_validated",
       "slot_id": "synthetic.number_theory.theorem_rediscovery.l1.001",
       "slot_kind": "blind_holdout",
-      "status": "missing",
+      "status": "ready",
       "validation_errors": []
     },
     {

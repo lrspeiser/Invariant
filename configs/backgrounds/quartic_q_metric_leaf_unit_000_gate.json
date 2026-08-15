@@ -1,0 +1,54 @@
+{
+  "schema_version": "sigma-quartic-q-metric-leaf-unit-config-1.0",
+  "campaign_id": "quartic-q-metric-leaf-unit-000",
+  "output_path": "runs/physics-language/quartic-q-metric-leaf-unit-000-gate/campaign.json",
+  "self_bindings": {
+    "test_path": "tests/test_quartic_q_metric_leaf_unit_000_gate.py",
+    "test_sha256": "d21433c00dfeafa58cf99acef872455d65b5e177f64c78d62a0de652abbe2792"
+  },
+  "predecessor": {
+    "stem": "quartic_q_metric_lower_abc_leaf_authority_gate",
+    "slug": "quartic-q-metric-lower-abc-leaf-authority-gate",
+    "source_sha256": "aa2a7de4cb0097608af3b9eccf115db533fcdfe09e541988e36a3d831bbfe544",
+    "config_sha256": "10824a48596334e2fc35c3d45b4f6918d6bf61285bee5d13ae4af753bbd37c81",
+    "test_sha256": "48bb9283da77dfb8d9223cea1cad39f7bb30fd3ab8303e17372a2672bbaf5b8a",
+    "artifact_sha256": "1d1ca59ec66c978c8beb04a3e92c77437a2f89163d774dcfaaa90d41aa554ca3",
+    "content_sha256": "bfc76b1c2d043e03e8c154059727e549e0055294553a79f9e036b90edc166dce"
+  },
+  "candidate_authority": {
+    "stem": "quartic_p3_metric_lower_abc_leaf_authority_gate",
+    "slug": "quartic-p3-metric-lower-abc-leaf-authority-gate",
+    "source_sha256": "a9ee5181936299fd9b70fb715314ab6cfbef2abd109bc1d671511de38d11f66a",
+    "config_sha256": "5b0c721ad7063b3755c14100fec9d4dfbbb731476e4797a59b8f299ed05b6f31",
+    "test_sha256": "e94b83a8ec331e6c9f56d583d0e6ce4130086b2124a0ebaf012ebc5ad7ea751b",
+    "artifact_sha256": "119722329068551b77964416306924fd5679497f0c9d24fa33dc44f4e35d5498",
+    "content_sha256": "efa5011e8e213d089eb2a92a3e2f46a137854dadc7c8741b95f89f8d8b5c8302"
+  },
+  "unit_contract": {
+    "unit_index": 0,
+    "total_checkpoint_units": 120,
+    "q_atom": "q[0]",
+    "q_column": 0,
+    "candidate_ordinal": 0,
+    "target_atoms": 20,
+    "leaf_roots_per_target": 132,
+    "materialized_leaf_roots": 2640,
+    "planned_leaf_roots_all_candidates": 316800,
+    "registered_D2_entries_per_candidate": 5324
+  },
+  "policies": {
+    "unit_order": "candidate_major_then_q_atom_ascending",
+    "canonicalization": "exact_sympy_expand_mul_then_srepr_hash",
+    "factor_terms": "forbidden",
+    "root_admission": "only_materialized_sparse_live_A_B_C_composition",
+    "q_family_promotion": "forbidden_until_all_120_units_replay",
+    "D2_promotion": "forbidden_without_separate_closed_D1_arithmetic_DAG_replay",
+    "global_H7": "fail_closed"
+  },
+  "seals": {
+    "observations_opened": false,
+    "live_SQLite_opened": false,
+    "GPU_execution_used": false,
+    "paid_llm_calls": false
+  }
+}

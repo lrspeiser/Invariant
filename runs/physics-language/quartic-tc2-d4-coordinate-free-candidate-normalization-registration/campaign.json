@@ -1,0 +1,483 @@
+{
+  "bounded_emitter_checkpoint": {
+    "complete": false,
+    "emitted_output_rows": 0,
+    "emitted_rhs_rows": 0,
+    "emitted_sparse_entries": 0,
+    "first_missing_input": "polarized_P55_Taylor_packets",
+    "required_output_rows": 117180
+  },
+  "claims": {
+    "B7_closed": false,
+    "CK1_closed": false,
+    "CK3_closed": false,
+    "TC2_closed": false,
+    "all_12_candidate_normalization_packets_registered": true,
+    "all_12_common_shape_factorization_residuals_zero": true,
+    "complete_coordinate_free_coefficient_map_emitted": false,
+    "complete_coordinate_free_rhs_emitted": false,
+    "full_direction_sphere_D4_compatibility_proved": false,
+    "full_high_atom_identity_proved": false,
+    "global_H7_closed": false,
+    "largest_complete_serialized_missing_family_selected": true,
+    "lifespan_proved": false,
+    "manifest_recomputed_from_exact_packets": true,
+    "matrix_projectors_evaluated": false,
+    "nonlinear_PDE_closure_proved": false,
+    "phase_two_exact_solve_admitted": false,
+    "theory_candidate_rejected": false
+  },
+  "config_sha256": "e78e89ed1f84b4955e4dba9cb4afcdb99a7bae1e79cea6062dfa0a08c5bae6be",
+  "content_sha256": "86db0809fe94476aa9774d8d2eea12adc1af4d14488056961a73bfe76cd3c3ee",
+  "counts": {
+    "common_shape_factorization_nonzero_residuals": 0,
+    "common_shape_factorization_residuals_checked": 12,
+    "complete_constructive_families_found": 1,
+    "emitted_output_rows": 0,
+    "emitted_rhs_rows": 0,
+    "missing_families_audited": 6,
+    "missing_symbolic_input_packets": 286,
+    "new_candidate_normalization_packets_registered": 12,
+    "phase_two_solve_attempts": 0,
+    "predecessor_registered_symbolic_input_packets": 6,
+    "registered_symbolic_input_packets": 18,
+    "required_output_rows": 117180,
+    "required_symbolic_input_packets": 304,
+    "upstream_seals_verified": 3
+  },
+  "errors": [],
+  "missing_family_evidence_audit": [
+    {
+      "blocker": "five state-Taylor orders at 15 polarization evaluations are not serialized as exact 55x55 matrices",
+      "exact_complete_packets_found": 0,
+      "input_id": "polarized_P55_Taylor_packets",
+      "required_packets": 75
+    },
+    {
+      "blocker": "available K55 reference matrices and derivative envelopes do not serialize the 75 exact 55x55 Taylor matrices",
+      "exact_complete_packets_found": 0,
+      "input_id": "polarized_K55_Taylor_packets",
+      "required_packets": 75
+    },
+    {
+      "blocker": "directional recurrence evaluations do not expose the 75 coordinate-free TC2 Taylor matrices",
+      "exact_complete_packets_found": 0,
+      "input_id": "polarized_TC2_Taylor_packets",
+      "required_packets": 75
+    },
+    {
+      "blocker": "pointwise lower-order corrections are not a 15-polarization by four-order coordinate-free matrix packet family",
+      "exact_complete_packets_found": 0,
+      "input_id": "lower_Sylvester_correction_recurrence",
+      "required_packets": 60
+    },
+    {
+      "decision": "REGISTER_LARGEST_COMPLETE_DERIVABLE_FAMILY",
+      "exact_complete_packets_found": 12,
+      "input_id": "candidate_normalization_table",
+      "required_packets": 12
+    },
+    {
+      "blocker": "degree-19 odd-mode ordering and replay certificate remain unregistered",
+      "exact_complete_packets_found": 0,
+      "input_id": "sphere_mode_normal_form_reducer",
+      "required_packets": 1
+    }
+  ],
+  "negative_controls": {
+    "emit_rows_with_286_missing_packets": {
+      "rejected": true
+    },
+    "infer_Taylor_matrices_from_directional_evaluation_counts": {
+      "rejected": true
+    },
+    "promote_normalization_table_to_full_D4_or_H7": {
+      "rejected": true
+    },
+    "register_candidate_without_matching_a10_across_upstreams": {
+      "rejected": true
+    },
+    "register_nonzero_common_shape_residual": {
+      "rejected": true
+    },
+    "substitute_operator_norm_envelopes_for_exact_matrix_packets": {
+      "rejected": true
+    }
+  },
+  "phase_two": {
+    "admitted": false,
+    "attempted": false,
+    "blocker": "286 required symbolic input packets remain unregistered",
+    "decision": "BLOCK"
+  },
+  "registered_candidate_normalization_packets": [
+    {
+      "a10": "-1/2",
+      "c20": "-1",
+      "candidate_id": "quartic-symbol-06e267a9215345b6",
+      "common_shape_factorization_residual": "0",
+      "common_shape_factorization_residual_zero": true,
+      "common_shape_formula": "eta=-(34816/15)*a10^5",
+      "content_sha256": "c945c01351b7bdf28fa329f5496246e161309496bae5937fff9c2579289b8b85",
+      "eta": "1088/15",
+      "obstruction_compression_sha256": "5988648c9ccc7feefb28428b03795eb87e19b0e3e4431e67e48ed2eba8f189ce",
+      "reference_direction_deltaK_sha256": "dd980f4500438246e5b58822dd2fdbe066cb0a1679e7afbad25d77d0d5bdd338",
+      "schema_version": "sigma-D4-common-shape-candidate-normalization-1.0"
+    },
+    {
+      "a10": "1/2",
+      "c20": "1",
+      "candidate_id": "quartic-symbol-076dc0ba965ab63a",
+      "common_shape_factorization_residual": "0",
+      "common_shape_factorization_residual_zero": true,
+      "common_shape_formula": "eta=-(34816/15)*a10^5",
+      "content_sha256": "9912feb7ffcba4061590669a48ac85886589fd587273af18a4fe9efbd42e410f",
+      "eta": "-1088/15",
+      "obstruction_compression_sha256": "d39ed0a639e6a85d74cacd94a370f2f19eb9988e8c016874e7014098be110783",
+      "reference_direction_deltaK_sha256": "6435012a1778ed41ba9e6ad90ade7a7caebac57bf21eabd6309a29cf1c947a37",
+      "schema_version": "sigma-D4-common-shape-candidate-normalization-1.0"
+    },
+    {
+      "a10": "-1",
+      "c20": "1",
+      "candidate_id": "quartic-symbol-317e5395817a432b",
+      "common_shape_factorization_residual": "0",
+      "common_shape_factorization_residual_zero": true,
+      "common_shape_formula": "eta=-(34816/15)*a10^5",
+      "content_sha256": "33b83a07b14622439c50586352ef4e28b23b3cc7ebe110c6aaed0d7a057747f2",
+      "eta": "34816/15",
+      "obstruction_compression_sha256": "e03a81da200375e9058446c494409461dbedea0fbc4f5545fd83d401f954430e",
+      "reference_direction_deltaK_sha256": "8a7d4874498255aa47acc68492a5bfe477bbad4eedd2a34ec2a0b15d1c5ad3a0",
+      "schema_version": "sigma-D4-common-shape-candidate-normalization-1.0"
+    },
+    {
+      "a10": "-1/2",
+      "c20": "0",
+      "candidate_id": "quartic-symbol-50f184dfe1a814bf",
+      "common_shape_factorization_residual": "0",
+      "common_shape_factorization_residual_zero": true,
+      "common_shape_formula": "eta=-(34816/15)*a10^5",
+      "content_sha256": "bca21ec454309a4adc81298f73ab3faa177196d97a6c5448793bfe8cfa55e1f1",
+      "eta": "1088/15",
+      "obstruction_compression_sha256": "5988648c9ccc7feefb28428b03795eb87e19b0e3e4431e67e48ed2eba8f189ce",
+      "reference_direction_deltaK_sha256": "dd980f4500438246e5b58822dd2fdbe066cb0a1679e7afbad25d77d0d5bdd338",
+      "schema_version": "sigma-D4-common-shape-candidate-normalization-1.0"
+    },
+    {
+      "a10": "-1",
+      "c20": "-1",
+      "candidate_id": "quartic-symbol-5455cad9e42a0dbc",
+      "common_shape_factorization_residual": "0",
+      "common_shape_factorization_residual_zero": true,
+      "common_shape_formula": "eta=-(34816/15)*a10^5",
+      "content_sha256": "967e1ed0440314bbce1decbc118aa125ced1b657ff5614fb618247c3e14d6fff",
+      "eta": "34816/15",
+      "obstruction_compression_sha256": "e03a81da200375e9058446c494409461dbedea0fbc4f5545fd83d401f954430e",
+      "reference_direction_deltaK_sha256": "8a7d4874498255aa47acc68492a5bfe477bbad4eedd2a34ec2a0b15d1c5ad3a0",
+      "schema_version": "sigma-D4-common-shape-candidate-normalization-1.0"
+    },
+    {
+      "a10": "1/2",
+      "c20": "-1",
+      "candidate_id": "quartic-symbol-561de1410d6cb21f",
+      "common_shape_factorization_residual": "0",
+      "common_shape_factorization_residual_zero": true,
+      "common_shape_formula": "eta=-(34816/15)*a10^5",
+      "content_sha256": "97092aa7564ad85f8d62f73d47e8eebe0c0a9afd786ab10175df0320575b2270",
+      "eta": "-1088/15",
+      "obstruction_compression_sha256": "d39ed0a639e6a85d74cacd94a370f2f19eb9988e8c016874e7014098be110783",
+      "reference_direction_deltaK_sha256": "6435012a1778ed41ba9e6ad90ade7a7caebac57bf21eabd6309a29cf1c947a37",
+      "schema_version": "sigma-D4-common-shape-candidate-normalization-1.0"
+    },
+    {
+      "a10": "1",
+      "c20": "1",
+      "candidate_id": "quartic-symbol-8fd254934d778c28",
+      "common_shape_factorization_residual": "0",
+      "common_shape_factorization_residual_zero": true,
+      "common_shape_formula": "eta=-(34816/15)*a10^5",
+      "content_sha256": "eef73d4107744e3e01b9ff0bc9e9490f19bfc31f5e6077ba7e59e2660a921125",
+      "eta": "-34816/15",
+      "obstruction_compression_sha256": "3f3728ac7c1618847dd2a33d32fbd53a5346d10fa58ef371317a5d6988b509af",
+      "reference_direction_deltaK_sha256": "79a59d7a622e296ef5db98d8b116a2140acf1a8f5a29b9187829d3b7cab2040a",
+      "schema_version": "sigma-D4-common-shape-candidate-normalization-1.0"
+    },
+    {
+      "a10": "1",
+      "c20": "0",
+      "candidate_id": "quartic-symbol-9e65901e5299a514",
+      "common_shape_factorization_residual": "0",
+      "common_shape_factorization_residual_zero": true,
+      "common_shape_formula": "eta=-(34816/15)*a10^5",
+      "content_sha256": "1f1a91e9443084456ef85443fba64f5780714647a8109c14aab2f47d6cbcf62f",
+      "eta": "-34816/15",
+      "obstruction_compression_sha256": "3f3728ac7c1618847dd2a33d32fbd53a5346d10fa58ef371317a5d6988b509af",
+      "reference_direction_deltaK_sha256": "79a59d7a622e296ef5db98d8b116a2140acf1a8f5a29b9187829d3b7cab2040a",
+      "schema_version": "sigma-D4-common-shape-candidate-normalization-1.0"
+    },
+    {
+      "a10": "1/2",
+      "c20": "0",
+      "candidate_id": "quartic-symbol-e4a6a9193316a6ff",
+      "common_shape_factorization_residual": "0",
+      "common_shape_factorization_residual_zero": true,
+      "common_shape_formula": "eta=-(34816/15)*a10^5",
+      "content_sha256": "d079db6956b941c2a58b3ab62169b0bcafcbf35e983879f2ace1a0368a6b7102",
+      "eta": "-1088/15",
+      "obstruction_compression_sha256": "d39ed0a639e6a85d74cacd94a370f2f19eb9988e8c016874e7014098be110783",
+      "reference_direction_deltaK_sha256": "6435012a1778ed41ba9e6ad90ade7a7caebac57bf21eabd6309a29cf1c947a37",
+      "schema_version": "sigma-D4-common-shape-candidate-normalization-1.0"
+    },
+    {
+      "a10": "1",
+      "c20": "-1",
+      "candidate_id": "quartic-symbol-ef832e4c3b71ee42",
+      "common_shape_factorization_residual": "0",
+      "common_shape_factorization_residual_zero": true,
+      "common_shape_formula": "eta=-(34816/15)*a10^5",
+      "content_sha256": "2cd693ba4100c933a313c6d3899261ef80ff6f8b7c3269ebfb5e2030ca8a4157",
+      "eta": "-34816/15",
+      "obstruction_compression_sha256": "3f3728ac7c1618847dd2a33d32fbd53a5346d10fa58ef371317a5d6988b509af",
+      "reference_direction_deltaK_sha256": "79a59d7a622e296ef5db98d8b116a2140acf1a8f5a29b9187829d3b7cab2040a",
+      "schema_version": "sigma-D4-common-shape-candidate-normalization-1.0"
+    },
+    {
+      "a10": "-1/2",
+      "c20": "1",
+      "candidate_id": "quartic-symbol-f31a234e2bf7b97f",
+      "common_shape_factorization_residual": "0",
+      "common_shape_factorization_residual_zero": true,
+      "common_shape_formula": "eta=-(34816/15)*a10^5",
+      "content_sha256": "312947a10d46033b9f6e77afef6f04cfd9c2d1bc77625f8a63529ff38ab7ccdc",
+      "eta": "1088/15",
+      "obstruction_compression_sha256": "5988648c9ccc7feefb28428b03795eb87e19b0e3e4431e67e48ed2eba8f189ce",
+      "reference_direction_deltaK_sha256": "dd980f4500438246e5b58822dd2fdbe066cb0a1679e7afbad25d77d0d5bdd338",
+      "schema_version": "sigma-D4-common-shape-candidate-normalization-1.0"
+    },
+    {
+      "a10": "-1",
+      "c20": "0",
+      "candidate_id": "quartic-symbol-fb5c20c15ce6d778",
+      "common_shape_factorization_residual": "0",
+      "common_shape_factorization_residual_zero": true,
+      "common_shape_formula": "eta=-(34816/15)*a10^5",
+      "content_sha256": "193f319fc6f32549a4333794bf94ddbb9cfd0d6b46a8a27d45965a9aeebbfa95",
+      "eta": "34816/15",
+      "obstruction_compression_sha256": "e03a81da200375e9058446c494409461dbedea0fbc4f5545fd83d401f954430e",
+      "reference_direction_deltaK_sha256": "8a7d4874498255aa47acc68492a5bfe477bbad4eedd2a34ec2a0b15d1c5ad3a0",
+      "schema_version": "sigma-D4-common-shape-candidate-normalization-1.0"
+    }
+  ],
+  "remaining_missing_inputs": [
+    {
+      "input_id": "polarized_P55_Taylor_packets",
+      "missing_packets": 75,
+      "registered_packets": 0,
+      "required_packets": 75
+    },
+    {
+      "input_id": "polarized_K55_Taylor_packets",
+      "missing_packets": 75,
+      "registered_packets": 0,
+      "required_packets": 75
+    },
+    {
+      "input_id": "polarized_TC2_Taylor_packets",
+      "missing_packets": 75,
+      "registered_packets": 0,
+      "required_packets": 75
+    },
+    {
+      "input_id": "lower_Sylvester_correction_recurrence",
+      "missing_packets": 60,
+      "registered_packets": 0,
+      "required_packets": 60
+    },
+    {
+      "input_id": "sphere_mode_normal_form_reducer",
+      "missing_packets": 1,
+      "registered_packets": 0,
+      "required_packets": 1
+    }
+  ],
+  "required_symbolic_input_manifest": [
+    {
+      "exact_linearity_entries_certified": 3025,
+      "exact_sphere_minimal_polynomial_entries_reduced": 3025,
+      "exact_sphere_minimal_polynomial_nonzero_remainders": 0,
+      "input_id": "physical_spatial_pencil_coefficients",
+      "matrix_packet_content_sha256": [
+        "98186c4ccb835acaee4ba5cd1f591c3d06a8627e5792703ccb426ff7cb4923e1",
+        "b1b846cb1b8fd247f0eecb59bc8b6b1ec7d407415a45d9b7c80e6efe922b4e17",
+        "56c915c51f2223bf081ac78aa78e969987edfb80df7a5718793d47c817420ee7"
+      ],
+      "registered_nonzero_entries": 144,
+      "registered_packets": 3,
+      "registered_shape_each": [
+        55,
+        55
+      ],
+      "registration_receipt_content_sha256": "25ced42ac83bd592332f3d3a8bc97eeaac9c55b32ba4bb2be3e3da1fa6b503b7",
+      "required_fields": [
+        "spatial_axis",
+        "sparse_rational_or_radical_entries",
+        "matrix_sha256",
+        "exact_linearity_residual_zero",
+        "minimal_polynomial_on_unit_sphere_certificate"
+      ],
+      "required_packets": 3,
+      "required_shape_each": [
+        55,
+        55
+      ],
+      "schema_version": "sigma-exact-sparse-linear-P55-pencil-1.0",
+      "status": "registered_exact_flat_reference_P55_packets"
+    },
+    {
+      "input_id": "physical_gradient_lift_coefficients",
+      "registered_nonzero_entries": 33,
+      "registered_packets": 3,
+      "required_fields": [
+        "spatial_axis",
+        "sparse_exact_entries",
+        "gradient_definition_constraint_residual_zero"
+      ],
+      "required_packets": 3,
+      "required_shape_each": [
+        55,
+        11
+      ],
+      "schema_version": "sigma-exact-sparse-gradient-lift-pencil-1.0",
+      "status": "registered_in_this_emitter"
+    },
+    {
+      "count_identity": "15 polarization evaluations * 5 Taylor orders",
+      "input_id": "polarized_P55_Taylor_packets",
+      "registered_packets": 0,
+      "required_packets": 75,
+      "required_shape_each": [
+        55,
+        55
+      ],
+      "schema_version": "sigma-coordinate-free-P55-Taylor-polarization-packet-1.0",
+      "status": "missing"
+    },
+    {
+      "count_identity": "15 polarization evaluations * 5 Taylor orders",
+      "input_id": "polarized_K55_Taylor_packets",
+      "registered_packets": 0,
+      "required_packets": 75,
+      "required_shape_each": [
+        55,
+        55
+      ],
+      "schema_version": "sigma-coordinate-free-K55-Taylor-polarization-packet-1.0",
+      "status": "missing"
+    },
+    {
+      "count_identity": "15 polarization evaluations * 5 Taylor orders",
+      "input_id": "polarized_TC2_Taylor_packets",
+      "registered_packets": 0,
+      "required_packets": 75,
+      "required_shape_each": [
+        55,
+        55
+      ],
+      "schema_version": "sigma-coordinate-free-TC2-Taylor-polarization-packet-1.0",
+      "status": "missing"
+    },
+    {
+      "count_identity": "15 polarization evaluations * 4 lower recurrence orders",
+      "input_id": "lower_Sylvester_correction_recurrence",
+      "registered_packets": 0,
+      "required_packets": 60,
+      "required_shape_each": [
+        55,
+        55
+      ],
+      "schema_version": "sigma-coordinate-free-deltaK-orders-zero-through-three-1.0",
+      "status": "missing"
+    },
+    {
+      "all_common_shape_factorization_residuals_zero": true,
+      "input_id": "candidate_normalization_table",
+      "normalization_identity": "eta=-(34816/15)*a10^5",
+      "packet_content_sha256": [
+        "c945c01351b7bdf28fa329f5496246e161309496bae5937fff9c2579289b8b85",
+        "9912feb7ffcba4061590669a48ac85886589fd587273af18a4fe9efbd42e410f",
+        "33b83a07b14622439c50586352ef4e28b23b3cc7ebe110c6aaed0d7a057747f2",
+        "bca21ec454309a4adc81298f73ab3faa177196d97a6c5448793bfe8cfa55e1f1",
+        "967e1ed0440314bbce1decbc118aa125ced1b657ff5614fb618247c3e14d6fff",
+        "97092aa7564ad85f8d62f73d47e8eebe0c0a9afd786ab10175df0320575b2270",
+        "eef73d4107744e3e01b9ff0bc9e9490f19bfc31f5e6077ba7e59e2660a921125",
+        "1f1a91e9443084456ef85443fba64f5780714647a8109c14aab2f47d6cbcf62f",
+        "d079db6956b941c2a58b3ab62169b0bcafcbf35e983879f2ace1a0368a6b7102",
+        "2cd693ba4100c933a313c6d3899261ef80ff6f8b7c3269ebfb5e2030ca8a4157",
+        "312947a10d46033b9f6e77afef6f04cfd9c2d1bc77625f8a63529ff38ab7ccdc",
+        "193f319fc6f32549a4333794bf94ddbb9cfd0d6b46a8a27d45965a9aeebbfa95"
+      ],
+      "registered_packets": 12,
+      "required_fields": [
+        "candidate_id",
+        "a10",
+        "c20",
+        "eta",
+        "common_shape_factorization_residual_zero"
+      ],
+      "required_packets": 12,
+      "schema_version": "sigma-D4-common-shape-candidate-normalization-1.0",
+      "status": "registered_exact_common_shape_candidate_normalizations"
+    },
+    {
+      "input_id": "sphere_mode_normal_form_reducer",
+      "registered_packets": 0,
+      "required_fields": [
+        "degree_ceiling_19",
+        "mode_ordering_210",
+        "sphere_ideal_reduction",
+        "exact_coefficient_extractor",
+        "replay_certificate"
+      ],
+      "required_packets": 1,
+      "schema_version": "sigma-exact-odd-sphere-harmonic-normal-form-1.0",
+      "status": "missing"
+    }
+  ],
+  "schema_version": "sigma-quartic-tc2-d4-coordinate-free-candidate-normalization-registration-1.0",
+  "scope": "Registers the 12 exact common-shape candidate normalization packets already determined by sealed D4 obstruction and curl-admission artifacts. The 225 Taylor packets, 60 lower-recurrence packets, and one sphere reducer remain missing; no coefficient row, D4 theorem, H7 closure, PDE theorem, lifespan, or candidate rejection follows.",
+  "source_bindings": {
+    "config": {
+      "file_sha256": "db68f71817800a3f3d664d114c0a7bff7fcb590a0c1c3634de7a2cfef415fcf9",
+      "path": "configs/backgrounds/quartic_tc2_d4_coordinate_free_candidate_normalization_registration.json"
+    },
+    "source": {
+      "file_sha256": "9a851da0acc06f55ae04472ee282d40d7111c676446900e81e11f89eb4ce0abd",
+      "path": "src/sigma_theory_compiler/quartic_tc2_d4_coordinate_free_candidate_normalization_registration.py"
+    },
+    "test": {
+      "file_sha256": "fed77d927f5c2e8f47ec95eb0164b7bc8f918f10110489dbc2a7bb439c9f9ca8",
+      "path": "tests/test_quartic_tc2_d4_coordinate_free_candidate_normalization_registration.py"
+    }
+  },
+  "status": "block_coordinate_free_D4_recurrence_emitter_missing_286_symbolic_packets",
+  "upstream_bindings": {
+    "P55_recurrence_registration": {
+      "content_sha256": "2dfab5867211cf5052b4b43df2179cb71d9bdc239daa4f522343fea42b09dc73",
+      "file_sha256": "4a940de0726fa319a311d3a1d311c912afe09d00e2f6dfc62eeef1a2b6d5f149",
+      "path": "runs/physics-language/quartic-tc2-d4-coordinate-free-symbolic-recurrence-emitter-p55-registration/campaign.json",
+      "verified": true
+    },
+    "canonical_D4_obstruction": {
+      "content_sha256": "bef3246a17942c74e8f3cdb09bc14a36c6bdc44d030a9a70ce833c30ec04bc65",
+      "file_sha256": "73cb76e16153b1f7f781b6fa1bdc6659a03553b583456f7aebbd46516f9abfe5",
+      "path": "runs/physics-language/quartic-tc2-d4-obstruction-cokernel-certificate/campaign.json",
+      "verified": true
+    },
+    "curl_constraint_admission": {
+      "content_sha256": "df37680b05b3d6da32e107bee16397a1a37b77d97c3da5a26c0bd49ad194cb6a",
+      "file_sha256": "61beec6a3be333eba6858e04339cd978acb42dfb049b055ddcbf3e5edb732401",
+      "path": "runs/physics-language/quartic-tc2-d4-curl-constraint-admission-campaign/campaign.json",
+      "verified": true
+    }
+  }
+}

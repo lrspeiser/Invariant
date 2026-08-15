@@ -1,0 +1,695 @@
+{
+  "bounded_emitter_checkpoint": {
+    "complete": false,
+    "emitted_output_rows": 0,
+    "emitted_rhs_rows": 0,
+    "emitted_sparse_entries": 0,
+    "required_output_rows": 117180
+  },
+  "claims": {
+    "B7_closed": false,
+    "CK1_closed": false,
+    "CK3_closed": false,
+    "K55_Taylor_order_one_registered": false,
+    "K55_Taylor_orders_one_through_four_registered": false,
+    "P55_Taylor_order_one_registered": false,
+    "P55_Taylor_orders_one_through_four_registered": false,
+    "TC2_Taylor_order_one_registered": false,
+    "TC2_Taylor_orders_one_through_four_registered": false,
+    "TC2_closed": false,
+    "cold_full_symbol_build_used": false,
+    "complete_coordinate_free_coefficient_map_emitted": false,
+    "complete_coordinate_free_rhs_emitted": false,
+    "coordinate_free_deltaK_order_zero_registered": false,
+    "full_direction_sphere_D4_compatibility_proved": false,
+    "full_high_atom_identity_proved": false,
+    "global_H7_closed": false,
+    "lifespan_proved": false,
+    "matrix_projectors_evaluated": false,
+    "nonlinear_PDE_closure_proved": false,
+    "order_one_serialization_frontier_exactly_measured": true,
+    "phase_two_exact_solve_admitted": false,
+    "theory_candidate_rejected": false
+  },
+  "config_sha256": "19b5f3d02f6feb5f05aa06e46cea33dd388a730f7bc6203328365ce381a7bc8a",
+  "content_sha256": "583f7dc976a90a3311d755a89b824708a6a3bf17fd0a9b9f45e34943aae82776",
+  "counts": {
+    "admissible_coordinate_free_deltaK_order_zero_packets": 0,
+    "emitted_output_rows": 0,
+    "full_symbol_build_calls": 0,
+    "missing_symbolic_input_packets": 240,
+    "new_symbolic_input_packets_registered": 0,
+    "phase_two_solve_attempts": 0,
+    "predecessor_registered_symbolic_input_packets": 64,
+    "reference_deltaK_packets_seen": 1,
+    "registered_symbolic_input_packets": 64,
+    "required_output_rows": 117180,
+    "required_symbolic_input_packets": 304,
+    "serialized_E1_packets": 0,
+    "serialized_M0_inverse_packets": 0,
+    "serialized_M1_packets": 0,
+    "serialized_P55_Taylor_order_one_packets": 0,
+    "target_P55_Taylor_order_one_packets": 15,
+    "upstream_seals_verified": 3,
+    "variable_coefficient_Sylvester_proofs": 0
+  },
+  "data_seals": {
+    "GPU_execution_used": false,
+    "cold_full_symbol_build_used": false,
+    "live_SQLite_opened": false,
+    "observations_opened": false
+  },
+  "decision": "BLOCK_SERIALIZATION",
+  "dependency_frontier": [
+    {
+      "admissible_serialized_packets": 0,
+      "blocked_dependents": [
+        "polarized_K55_Taylor_packets/order_1",
+        "polarized_TC2_Taylor_packets/order_1"
+      ],
+      "family": "polarized_P55_Taylor_packets/order_1",
+      "required_packets": 15
+    },
+    {
+      "admissible_serialized_packets": 0,
+      "family": "lower_Sylvester_correction_recurrence/order_0",
+      "inadmissible_reference_packets": 1,
+      "reason": "the only serialized deltaK is direction-e1 reference data",
+      "required_packets": 15
+    }
+  ],
+  "errors": [],
+  "first_blocker": "serialize_all_15_exact_coordinate_free_P55_Taylor_order_one_packets_or_the_equivalent_M0_inverse_M1_E1_recurrence_inputs",
+  "minimal_serialization_contract": {
+    "direct_packet_required_fields": [
+      "evaluation_content_sha256",
+      "Taylor_order",
+      "factorial_normalization_1_over_1_factorial",
+      "exact_sparse_polynomial_entries_in_n1_n2_n3",
+      "ordered_state_indices",
+      "matrix_content_sha256",
+      "entrywise_recurrence_residual_zero"
+    ],
+    "equivalent_recurrence_inputs": {
+      "identity": "P1=M0^{-1}*(E1-M1*P0)",
+      "per_evaluation": [
+        "exact_M0_inverse",
+        "exact_M1(n)",
+        "exact_E1(n)"
+      ],
+      "required_residual": "M0*P1+M1*P0-E1=0 entrywise"
+    },
+    "inherited_four_order_contract_content": {
+      "evaluation_content_sha256": [
+        "f5c39bcfab0a211431bb1be8e8585a7bbb3b0b4abb7c004c371feb87d0663409",
+        "eb50270ed3019b6555fae036861bb5d58f265a41af912c8189ed60f998ffc959",
+        "4590ae363960c6a1100fcfdf5fff4cdb50ad53fdc0a346e30108c88dca7e889e",
+        "55db2359b6278209097685e7e12c30f5443fd5b37f13abf879a4221ca13a005e",
+        "d54371e0ba7f3aefddb5124ee483d8cb85a1f8cccdc7276998fcbb9d612ec769",
+        "be913283d84acbf3915fb8c344bcffd2fc194832a2c29a2c7776b57d2a7ae515",
+        "70915e43b71b343ac7eae27f234a3e2f7f402817353984d15066dd882a988ec5",
+        "21e1be43338509f5e68885f898fd414f9d8d5f7c0ebade77279e44c0c908bec7",
+        "2098ab0df90d7a428a15bdf21ee142542cfffe47b467dda90eec701aa1f8b07b",
+        "f23d0cb288a57cd2e8ed606ef41bdf4128da58993dbf0c39397d3e7c956a5b93",
+        "92113914259b93b9c2c9669b24f02bca4241a3bd8b2ebe314b14106095b0f5f1",
+        "a37c0abe9e08390bd8fcb469cf402fb515f15bdc7c2f59f88d77198cc35d586e",
+        "a3bd3719a127856252dc1ff976ae697c10ffb4c755abef935e97c451047fb4d2",
+        "62d8ccedf83e7c91d27f6571e44ff687a8b0a974a6731adf63420d1ba7251c6c",
+        "726cd959747ca3ead421163d83c54928b16fec8b35c0d81635b07d6f10e0efe6"
+      ],
+      "forbidden_inferences": [
+        "infer any order 1..4 packet as zero",
+        "differentiate the spatial direction n instead of the state jets",
+        "treat 15 order-zero copies as evidence for a higher Taylor order",
+        "recover M_k or E_k from P_1,P_2,P_3"
+      ],
+      "minimal_direct_contract": {
+        "matrix_packets": 60,
+        "required_fields": [
+          "evaluation_content_sha256",
+          "Taylor_order",
+          "factorial_normalization_1_over_k_factorial",
+          "exact_sparse_polynomial_entries_in_n1_n2_n3",
+          "ordered_state_indices",
+          "matrix_content_sha256"
+        ],
+        "shape_each": [
+          55,
+          55
+        ]
+      },
+      "required_Taylor_orders": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "required_output_packets": 60,
+      "schema_version": "sigma-coordinate-free-P55-Taylor-orders-one-through-four-input-contract-1.0",
+      "status": "MISSING_REQUIRED_SERIALIZATION",
+      "sufficient_recurrence_input_alternative": {
+        "per_evaluation": "exact M_0 inverse and exact Taylor coefficients M_k(n), E_k(n) for k=1..4",
+        "recurrence": "P_k=M_0^{-1}*(E_k-sum_{i=1}^k M_i*P_{k-i})",
+        "required_residual": "M_0*P_k+sum_{i=1}^k M_i*P_{k-i}-E_k=0 entrywise"
+      },
+      "why_current_checkpoint_is_insufficient": "the checkpoint stores only the flat-substituted three axis matrices P_j; flat substitution erased every state-jet derivative needed for orders 1..4"
+    },
+    "registered_packets": 0,
+    "required_packets": 15,
+    "required_shape_each": [
+      55,
+      55
+    ],
+    "schema_version": "sigma-coordinate-free-P55-Taylor-order-one-input-contract-1.0"
+  },
+  "negative_controls": {
+    "count_required_schema_as_serialized_packet": {
+      "rejected": true
+    },
+    "differentiate_spatial_n_instead_of_state_jets": {
+      "rejected": true
+    },
+    "emit_rows_with_240_missing_packets": {
+      "rejected": true
+    },
+    "infer_P55_order_one_as_zero": {
+      "rejected": true
+    },
+    "promote_direction_e1_deltaK_to_coordinate_free_deltaK": {
+      "rejected": true
+    },
+    "promote_serialization_audit_to_D4_or_H7": {
+      "rejected": true
+    }
+  },
+  "phase_two": {
+    "admitted": false,
+    "attempted": false,
+    "blocker": "240 required symbolic input packets remain unregistered",
+    "decision": "BLOCK"
+  },
+  "recurrence_source_binding": {
+    "file_sha256": "71e3cec9a1739860bf26250f1936159b3c6b47ea21e4c1025c22537ee4e950fa",
+    "path": "src/sigma_theory_compiler/quartic_tc2_d4_coordinate_free_p55_taylor_order_zero_registration.py",
+    "verified": true
+  },
+  "reference_only_deltaK_audit": {
+    "admissible_coordinate_free_deltaK_packets": 0,
+    "missing_derivative_schema": "D_Y of the eigenspace-diagonal solvability blocks and of deltaK",
+    "reference_packet_content_sha256": "6e86629939487ba0239cd1ea0d28af27ccdcd46cdf7ea823241a1fc09514d0dc",
+    "reference_promotion_rejected": true,
+    "serialized_deltaK_entries": 24,
+    "serialized_reference_direction": "e1",
+    "serialized_reference_packets": 1,
+    "variable_coefficient_solvability_proofs": 0
+  },
+  "remaining_missing_inputs": [
+    {
+      "input_id": "polarized_P55_Taylor_packets",
+      "missing_packets": 60,
+      "registered_packets": 15,
+      "required_packets": 75
+    },
+    {
+      "input_id": "polarized_K55_Taylor_packets",
+      "missing_packets": 60,
+      "registered_packets": 15,
+      "required_packets": 75
+    },
+    {
+      "input_id": "polarized_TC2_Taylor_packets",
+      "missing_packets": 60,
+      "registered_packets": 15,
+      "required_packets": 75
+    },
+    {
+      "input_id": "lower_Sylvester_correction_recurrence",
+      "missing_packets": 60,
+      "registered_packets": 0,
+      "required_packets": 60
+    }
+  ],
+  "required_P55_Taylor_order_one_packets": [
+    {
+      "Taylor_order": 1,
+      "content_sha256": "04dc7ee28ba6190071ec3b61ea4c42668b7ae0b114ffc794c0b0dd93cb5879c4",
+      "evaluation_content_sha256": "f5c39bcfab0a211431bb1be8e8585a7bbb3b0b4abb7c004c371feb87d0663409",
+      "evaluation_id": "subset_0",
+      "factorial_normalization": "1/1!=1",
+      "packet_id": "subset_0:P55:Taylor_order_1",
+      "required_shape": [
+        55,
+        55
+      ],
+      "status": "MISSING_REQUIRED_SERIALIZATION"
+    },
+    {
+      "Taylor_order": 1,
+      "content_sha256": "bd20cfc025e77d1ca83db198c93680713d5ca30ce57809ca1528640a54947fe2",
+      "evaluation_content_sha256": "eb50270ed3019b6555fae036861bb5d58f265a41af912c8189ed60f998ffc959",
+      "evaluation_id": "subset_1",
+      "factorial_normalization": "1/1!=1",
+      "packet_id": "subset_1:P55:Taylor_order_1",
+      "required_shape": [
+        55,
+        55
+      ],
+      "status": "MISSING_REQUIRED_SERIALIZATION"
+    },
+    {
+      "Taylor_order": 1,
+      "content_sha256": "aab201b5954b9cf6a1afc916c8e7f89a71e0ec2db8d2e072c4b7f8511deb5444",
+      "evaluation_content_sha256": "4590ae363960c6a1100fcfdf5fff4cdb50ad53fdc0a346e30108c88dca7e889e",
+      "evaluation_id": "subset_2",
+      "factorial_normalization": "1/1!=1",
+      "packet_id": "subset_2:P55:Taylor_order_1",
+      "required_shape": [
+        55,
+        55
+      ],
+      "status": "MISSING_REQUIRED_SERIALIZATION"
+    },
+    {
+      "Taylor_order": 1,
+      "content_sha256": "acd653e849e63b93975037255c43545135072f317d6247aae605f959dc3e58d0",
+      "evaluation_content_sha256": "55db2359b6278209097685e7e12c30f5443fd5b37f13abf879a4221ca13a005e",
+      "evaluation_id": "subset_3",
+      "factorial_normalization": "1/1!=1",
+      "packet_id": "subset_3:P55:Taylor_order_1",
+      "required_shape": [
+        55,
+        55
+      ],
+      "status": "MISSING_REQUIRED_SERIALIZATION"
+    },
+    {
+      "Taylor_order": 1,
+      "content_sha256": "c6826ccd858b7c36cd464c75ee4e7aee9cf39570bfc9182c8cf86309914eec27",
+      "evaluation_content_sha256": "d54371e0ba7f3aefddb5124ee483d8cb85a1f8cccdc7276998fcbb9d612ec769",
+      "evaluation_id": "subset_01",
+      "factorial_normalization": "1/1!=1",
+      "packet_id": "subset_01:P55:Taylor_order_1",
+      "required_shape": [
+        55,
+        55
+      ],
+      "status": "MISSING_REQUIRED_SERIALIZATION"
+    },
+    {
+      "Taylor_order": 1,
+      "content_sha256": "624dffc51fe83d6a11651a3b61acdd483535aeaa5dc4d9bfa64624edab3b5770",
+      "evaluation_content_sha256": "be913283d84acbf3915fb8c344bcffd2fc194832a2c29a2c7776b57d2a7ae515",
+      "evaluation_id": "subset_02",
+      "factorial_normalization": "1/1!=1",
+      "packet_id": "subset_02:P55:Taylor_order_1",
+      "required_shape": [
+        55,
+        55
+      ],
+      "status": "MISSING_REQUIRED_SERIALIZATION"
+    },
+    {
+      "Taylor_order": 1,
+      "content_sha256": "d0919ffb8eb77c58275298c6ae1107ef07e5a5e47cf0817fd1ea3752af51895a",
+      "evaluation_content_sha256": "70915e43b71b343ac7eae27f234a3e2f7f402817353984d15066dd882a988ec5",
+      "evaluation_id": "subset_03",
+      "factorial_normalization": "1/1!=1",
+      "packet_id": "subset_03:P55:Taylor_order_1",
+      "required_shape": [
+        55,
+        55
+      ],
+      "status": "MISSING_REQUIRED_SERIALIZATION"
+    },
+    {
+      "Taylor_order": 1,
+      "content_sha256": "3903486e628fdce3099e34aecbca49d9b04f873cbfea7dd6a75a2bafced48ca9",
+      "evaluation_content_sha256": "21e1be43338509f5e68885f898fd414f9d8d5f7c0ebade77279e44c0c908bec7",
+      "evaluation_id": "subset_12",
+      "factorial_normalization": "1/1!=1",
+      "packet_id": "subset_12:P55:Taylor_order_1",
+      "required_shape": [
+        55,
+        55
+      ],
+      "status": "MISSING_REQUIRED_SERIALIZATION"
+    },
+    {
+      "Taylor_order": 1,
+      "content_sha256": "b796b7752875e454a9a7db071e146c11494b9aacdfd5870ea8c16c125f542244",
+      "evaluation_content_sha256": "2098ab0df90d7a428a15bdf21ee142542cfffe47b467dda90eec701aa1f8b07b",
+      "evaluation_id": "subset_13",
+      "factorial_normalization": "1/1!=1",
+      "packet_id": "subset_13:P55:Taylor_order_1",
+      "required_shape": [
+        55,
+        55
+      ],
+      "status": "MISSING_REQUIRED_SERIALIZATION"
+    },
+    {
+      "Taylor_order": 1,
+      "content_sha256": "598cb3853ab9787221f7b9206b5a503ee3050da7e262784e78616a420504e2d8",
+      "evaluation_content_sha256": "f23d0cb288a57cd2e8ed606ef41bdf4128da58993dbf0c39397d3e7c956a5b93",
+      "evaluation_id": "subset_23",
+      "factorial_normalization": "1/1!=1",
+      "packet_id": "subset_23:P55:Taylor_order_1",
+      "required_shape": [
+        55,
+        55
+      ],
+      "status": "MISSING_REQUIRED_SERIALIZATION"
+    },
+    {
+      "Taylor_order": 1,
+      "content_sha256": "398652740d8ba70824ed6cec80b1fe205b15fb94d9b04fe1947458bb22c10261",
+      "evaluation_content_sha256": "92113914259b93b9c2c9669b24f02bca4241a3bd8b2ebe314b14106095b0f5f1",
+      "evaluation_id": "subset_012",
+      "factorial_normalization": "1/1!=1",
+      "packet_id": "subset_012:P55:Taylor_order_1",
+      "required_shape": [
+        55,
+        55
+      ],
+      "status": "MISSING_REQUIRED_SERIALIZATION"
+    },
+    {
+      "Taylor_order": 1,
+      "content_sha256": "bab296d478e061a3dbdb745afcbc0fa4c152e8972220222a49becd0f470155be",
+      "evaluation_content_sha256": "a37c0abe9e08390bd8fcb469cf402fb515f15bdc7c2f59f88d77198cc35d586e",
+      "evaluation_id": "subset_013",
+      "factorial_normalization": "1/1!=1",
+      "packet_id": "subset_013:P55:Taylor_order_1",
+      "required_shape": [
+        55,
+        55
+      ],
+      "status": "MISSING_REQUIRED_SERIALIZATION"
+    },
+    {
+      "Taylor_order": 1,
+      "content_sha256": "0d2907d03c69f08c681db9a1d61f92b4620a29901fd87aaa74e693f7a138a133",
+      "evaluation_content_sha256": "a3bd3719a127856252dc1ff976ae697c10ffb4c755abef935e97c451047fb4d2",
+      "evaluation_id": "subset_023",
+      "factorial_normalization": "1/1!=1",
+      "packet_id": "subset_023:P55:Taylor_order_1",
+      "required_shape": [
+        55,
+        55
+      ],
+      "status": "MISSING_REQUIRED_SERIALIZATION"
+    },
+    {
+      "Taylor_order": 1,
+      "content_sha256": "0e280b572cebca80d4b1c57dc90b0c2250167b445b4371ec57cdd61f0a329ed9",
+      "evaluation_content_sha256": "62d8ccedf83e7c91d27f6571e44ff687a8b0a974a6731adf63420d1ba7251c6c",
+      "evaluation_id": "subset_123",
+      "factorial_normalization": "1/1!=1",
+      "packet_id": "subset_123:P55:Taylor_order_1",
+      "required_shape": [
+        55,
+        55
+      ],
+      "status": "MISSING_REQUIRED_SERIALIZATION"
+    },
+    {
+      "Taylor_order": 1,
+      "content_sha256": "777f21c3600f360289c8960772cb6b735a2eecaeaa131a1a5e49f74e4c6081a5",
+      "evaluation_content_sha256": "726cd959747ca3ead421163d83c54928b16fec8b35c0d81635b07d6f10e0efe6",
+      "evaluation_id": "subset_0123",
+      "factorial_normalization": "1/1!=1",
+      "packet_id": "subset_0123:P55:Taylor_order_1",
+      "required_shape": [
+        55,
+        55
+      ],
+      "status": "MISSING_REQUIRED_SERIALIZATION"
+    }
+  ],
+  "required_symbolic_input_manifest": [
+    {
+      "exact_linearity_entries_certified": 3025,
+      "exact_sphere_minimal_polynomial_entries_reduced": 3025,
+      "exact_sphere_minimal_polynomial_nonzero_remainders": 0,
+      "input_id": "physical_spatial_pencil_coefficients",
+      "matrix_packet_content_sha256": [
+        "98186c4ccb835acaee4ba5cd1f591c3d06a8627e5792703ccb426ff7cb4923e1",
+        "b1b846cb1b8fd247f0eecb59bc8b6b1ec7d407415a45d9b7c80e6efe922b4e17",
+        "56c915c51f2223bf081ac78aa78e969987edfb80df7a5718793d47c817420ee7"
+      ],
+      "registered_nonzero_entries": 144,
+      "registered_packets": 3,
+      "registered_shape_each": [
+        55,
+        55
+      ],
+      "registration_receipt_content_sha256": "25ced42ac83bd592332f3d3a8bc97eeaac9c55b32ba4bb2be3e3da1fa6b503b7",
+      "required_fields": [
+        "spatial_axis",
+        "sparse_rational_or_radical_entries",
+        "matrix_sha256",
+        "exact_linearity_residual_zero",
+        "minimal_polynomial_on_unit_sphere_certificate"
+      ],
+      "required_packets": 3,
+      "required_shape_each": [
+        55,
+        55
+      ],
+      "schema_version": "sigma-exact-sparse-linear-P55-pencil-1.0",
+      "status": "registered_exact_flat_reference_P55_packets"
+    },
+    {
+      "input_id": "physical_gradient_lift_coefficients",
+      "registered_nonzero_entries": 33,
+      "registered_packets": 3,
+      "required_fields": [
+        "spatial_axis",
+        "sparse_exact_entries",
+        "gradient_definition_constraint_residual_zero"
+      ],
+      "required_packets": 3,
+      "required_shape_each": [
+        55,
+        11
+      ],
+      "schema_version": "sigma-exact-sparse-gradient-lift-pencil-1.0",
+      "status": "registered_in_this_emitter"
+    },
+    {
+      "coordinate_free_matrix_content_sha256": "9845ed1c36251c3483130b506d3cdd705b9ec23b7299a8f281b81c301b143af6",
+      "count_identity": "15 polarization evaluations * 5 Taylor orders",
+      "input_id": "polarized_P55_Taylor_packets",
+      "missing_Taylor_orders": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "packet_content_sha256": [
+        "e370f2ee42c1878d88d91b79f4705f9c3c8474ac190f2c9edcd19a7094b2be74",
+        "86caa51a172e29973561cabc828996b04f2af2f1f9ced84d70a423884f5d055a",
+        "a5f7015ccc4c1537ca7a1290cb87f66064fe8ea339c4b71ef3fee7e2f898ba2a",
+        "673845218578db3e5dc260a9885f383754acc0f83f1054b01e22359747ddd655",
+        "46864ca863fc28f4023ac613de0f43bf1c55c07846c96ebe421ebd6645498359",
+        "afb818ba7315080428d11cbf441e0849d3a16faba37e1b337cb0e8219f186101",
+        "b6b7586eff9071de0d0dcf6ac29551792f94be76231aea7e6a61558c43e0540e",
+        "270d437ddf7a1b9a48320ce0e9f2e8ab2212677203acf7a796fd6473d44b121f",
+        "cc965fd83871cd72197973c1957068deed60d068791a1b5e31c2592cafd2664b",
+        "cb2c6a3682f1ee6e4949a8cb572f7aa01b4ff7f2bc8e7c5fe7cbbaa5e976c56e",
+        "f99901a9f84ed0f86cc1c145a621d040349c58bd4d2681bbb473759cebd4480c",
+        "60ade0bb6e59ce357d86f5626ae39a7d00b6b6f3eade7c333ce52271e2f58301",
+        "dfe44edb5516ce58c87fa0323d6ce3ba06fa70f00b9e88aa6af4c095fcdcaa98",
+        "fbdae9fb9d331ff4d6b53003467ea9eb0861e932279887a2caee465d1def4e92",
+        "7390b84253ac51c3abe9fcc384514ad1fd8cd82b7ff37c671e4fe0010a668cdc"
+      ],
+      "registered_Taylor_orders": [
+        0
+      ],
+      "registered_packets": 15,
+      "required_packets": 75,
+      "required_shape_each": [
+        55,
+        55
+      ],
+      "schema_version": "sigma-coordinate-free-P55-Taylor-polarization-packet-1.0",
+      "status": "partially_registered_all_15_Taylor_order_zero_packets"
+    },
+    {
+      "K0_content_sha256": "50e6586b8a444e0f092857db7efe9c938eb80c1b315bbdd97a0cdaa390c42115",
+      "count_identity": "15 polarization evaluations * 5 Taylor orders",
+      "input_id": "polarized_K55_Taylor_packets",
+      "missing_Taylor_orders": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "packet_content_sha256": [
+        "f19596efe19e5e806d8ee20473102ea6a18c2dec597b326966009107e7202167",
+        "1a2889e596262e6d8e9fed1f748a91b050c71afc8ba6cb87c4bcbcdd3d2f8bd5",
+        "01080aa56ed4705583585bc002f2573f8de51bb98a1f96397e2a72c4204d9b7c",
+        "0813bae592c786a1282de4342e929dc18dd57afe40dcaa501bf861e31925e069",
+        "c6585c588e93a59c16ef67d8939c8d5f79c08b4e56bfd50343cebfd4a7e537e2",
+        "2ee9b799e04956ec976cf0d3494b1a5dabab3c9e370b8c972bb64e0738052b01",
+        "eaa93ae1549a7dafbda8e99c3e0211ea1898f3c3d8d1e91fa239ad9b8a363bf5",
+        "f663ac738903e422d6bdd8ffe36140d2de896ee285075048804e1ad2e53969b4",
+        "a6d6b969d231863e7972d6ae89778a53a5850956c67c444e3159a3acc2b822d2",
+        "da18ea20a6ab3d332306017fd10b8a6a7aaba7fb97e0da292821286bdb75481d",
+        "65769fd9bf87db6747a77b59c5826d5a3ebdd5e3bdc21e6221ca7c7277b6dd95",
+        "9d3a461bc84ae6346dfe6c1aa6b766ef9faeb37b95cff741b4a2dc938421d8ba",
+        "5e67061e268b9a17a25fb45a1e4acc293f0f9ab47f5e395972276fcaa3e3da2e",
+        "df430dc0b3bf24d7fe4b8e0ce8520eb9761d1b7e30367dcf8a928634a2669f16",
+        "072455b17bbaee7b2a2766571871a3165b98776e24063e62dee49f789b3e4c0a"
+      ],
+      "registered_Taylor_orders": [
+        0
+      ],
+      "registered_packets": 15,
+      "required_packets": 75,
+      "required_shape_each": [
+        55,
+        55
+      ],
+      "schema_version": "sigma-coordinate-free-K55-Taylor-polarization-packet-1.0",
+      "status": "partially_registered_all_15_Taylor_order_zero_packets"
+    },
+    {
+      "count_identity": "15 polarization evaluations * 5 Taylor orders",
+      "input_id": "polarized_TC2_Taylor_packets",
+      "missing_Taylor_orders": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "packet_content_sha256": [
+        "fc4ae3e41c0f6ed1a4736ca3dc97e9b68bf0ec0bedb7acde76b2569d00808039",
+        "847575fafbc07fa4849cb7fe6964fdf64a8692ab34592307cf82ed67733d74e8",
+        "3fb8f266f09738e49f8b7fba03f03345d3da1aacb7ce525fa125b2177c012eef",
+        "b9f4e1bff8c666d111393ad147ee90e0f670ca764f9f16d1c2849e2dda8a87f0",
+        "ab1384fcec83e944a0d84f8724a8ee3dc12fcf27dbebb6d0e5b69d14de3c5df3",
+        "976cb8f74c0d7ff6675c7d762514b57d394308a9759169c047b1a51836a07a61",
+        "88303541206d9bbfc7ff8e22bebcdb1ede39be2dbdd7cf9206ebd5eecc27ac6c",
+        "ef8f84fad48ce083723065eb960dc3392a8ee073fbaa58ecbddd7c2b11bc3b75",
+        "cc7ba6e3f68ee7c7b71510c19f0abda1ed66f2d24c6312e45703364494b4cc75",
+        "62b0a83e0e5f0b5f5915857788bf3ecfe111cefd63fa20fdcbecdb0f23616261",
+        "4f0283ccec0e12a75d0851c52e864303df75854de425c596c065eb6f240253c1",
+        "5600a4e2d630b07ab16494ca937ed5083cd082cf2ab35520952b4d063ba46671",
+        "8f5840a44a4b2c8a6775843c8289726ff769d4bdfb0fe8b549fb2dafe6c31683",
+        "5d7f050372e04e9deeb17f0353fca2bccca60654fbf027c9355d7e66828a6768",
+        "3a4638fe4d36362cf3523846d66598cca181c4295adefeb44081fa3d918853b9"
+      ],
+      "registered_Taylor_orders": [
+        0
+      ],
+      "registered_packets": 15,
+      "required_packets": 75,
+      "required_shape_each": [
+        55,
+        55
+      ],
+      "scalar_prefactor": "a10",
+      "schema_version": "sigma-coordinate-free-TC2-Taylor-polarization-packet-1.0",
+      "status": "partially_registered_all_15_Taylor_order_zero_packets",
+      "unit_TC2_order_zero_content_sha256": "c3ec51377c91439910f24df8e33efc18ad1562a2664093c4bf3ff5105494ca47"
+    },
+    {
+      "count_identity": "15 polarization evaluations * 4 lower recurrence orders",
+      "input_id": "lower_Sylvester_correction_recurrence",
+      "registered_packets": 0,
+      "required_packets": 60,
+      "required_shape_each": [
+        55,
+        55
+      ],
+      "schema_version": "sigma-coordinate-free-deltaK-orders-zero-through-three-1.0",
+      "status": "missing"
+    },
+    {
+      "all_common_shape_factorization_residuals_zero": true,
+      "input_id": "candidate_normalization_table",
+      "normalization_identity": "eta=-(34816/15)*a10^5",
+      "packet_content_sha256": [
+        "c945c01351b7bdf28fa329f5496246e161309496bae5937fff9c2579289b8b85",
+        "9912feb7ffcba4061590669a48ac85886589fd587273af18a4fe9efbd42e410f",
+        "33b83a07b14622439c50586352ef4e28b23b3cc7ebe110c6aaed0d7a057747f2",
+        "bca21ec454309a4adc81298f73ab3faa177196d97a6c5448793bfe8cfa55e1f1",
+        "967e1ed0440314bbce1decbc118aa125ced1b657ff5614fb618247c3e14d6fff",
+        "97092aa7564ad85f8d62f73d47e8eebe0c0a9afd786ab10175df0320575b2270",
+        "eef73d4107744e3e01b9ff0bc9e9490f19bfc31f5e6077ba7e59e2660a921125",
+        "1f1a91e9443084456ef85443fba64f5780714647a8109c14aab2f47d6cbcf62f",
+        "d079db6956b941c2a58b3ab62169b0bcafcbf35e983879f2ace1a0368a6b7102",
+        "2cd693ba4100c933a313c6d3899261ef80ff6f8b7c3269ebfb5e2030ca8a4157",
+        "312947a10d46033b9f6e77afef6f04cfd9c2d1bc77625f8a63529ff38ab7ccdc",
+        "193f319fc6f32549a4333794bf94ddbb9cfd0d6b46a8a27d45965a9aeebbfa95"
+      ],
+      "registered_packets": 12,
+      "required_fields": [
+        "candidate_id",
+        "a10",
+        "c20",
+        "eta",
+        "common_shape_factorization_residual_zero"
+      ],
+      "required_packets": 12,
+      "schema_version": "sigma-D4-common-shape-candidate-normalization-1.0",
+      "status": "registered_exact_common_shape_candidate_normalizations"
+    },
+    {
+      "input_id": "sphere_mode_normal_form_reducer",
+      "maximum_total_degree": 19,
+      "mode_ordering_sha256": "4c76e2540b243b9b88399d7d91398540d3df1b7d95b49c0f8ffc64ace1a23983",
+      "quotient_witness_identity": "P=Q*(n1^2+n2^2+n3^2-1)+R",
+      "registered_packets": 1,
+      "remainder_modes": 210,
+      "required_fields": [
+        "degree_ceiling_19",
+        "mode_ordering_210",
+        "sphere_ideal_reduction",
+        "exact_coefficient_extractor",
+        "replay_certificate"
+      ],
+      "required_packets": 1,
+      "schema_version": "sigma-exact-odd-sphere-harmonic-normal-form-1.0",
+      "status": "registered_exact_odd_sphere_normal_form_reducer"
+    }
+  ],
+  "schema_version": "sigma-quartic-tc2-d4-order-one-serialization-frontier-gate-1.0",
+  "scope": "Exact readiness obstruction for the 15 coordinate-free P55 Taylor-order-one packets and their K55/TC2 dependents. No coefficients are inferred from the flat order-zero pencil or the single e1 Sylvester reference. The manifest stays at 64/304 and no recurrence row, D4 theorem, TC2 closure, H7 closure, PDE theorem, lifespan, physical no-go, or candidate rejection follows.",
+  "source_bindings": {
+    "config": {
+      "file_sha256": "f908f5ef0ee8a7893c10f68d25d1d41884df9369df02515b63e735e649ad41b3",
+      "path": "configs/backgrounds/quartic_tc2_d4_order_one_serialization_frontier_gate.json"
+    },
+    "source": {
+      "file_sha256": "a92f3d4f0555d43672e7aa5727fb9372fd8ad89d2f54a0b87d2a54bc14c3d1de",
+      "path": "src/sigma_theory_compiler/quartic_tc2_d4_order_one_serialization_frontier_gate.py"
+    },
+    "test": {
+      "file_sha256": "ec27f8a9ac4822d4a5275c0c32cdb1a816c5ae6d8010250b9afdf3f1cc455fee",
+      "path": "tests/test_quartic_tc2_d4_order_one_serialization_frontier_gate.py"
+    }
+  },
+  "status": "block_coordinate_free_P55_Taylor_order_one_serialization_absent",
+  "upstream_bindings": {
+    "P55_order_zero_registration": {
+      "content_sha256": "71bbd9966e3212440ef92952eab7f06d860de3f59dfaa861753f03dd53850273",
+      "file_sha256": "e0814fa3fd8a046fec4cbd85c230faa652260dc934d4096f6e3c38b73381d091",
+      "path": "runs/physics-language/quartic-tc2-d4-coordinate-free-p55-taylor-order-zero-registration/campaign.json",
+      "verified": true
+    },
+    "full_reference_Sylvester": {
+      "content_sha256": "61af809a74e50cf379375512fca61559ff3fb3df63faef51a3640d727fea8523",
+      "file_sha256": "8a0bcb1614c1caacbeac90786789c9a5de0d6bcce991d8d300a09e2609a3b044",
+      "path": "runs/physics-language/quartic-tc2-full-sylvester-reference-campaign/campaign.json",
+      "verified": true
+    },
+    "manifest_predecessor": {
+      "content_sha256": "d9401b946ec6daa601f6e5f7c7c96ad5dff94c840f1219486d7ba30b00c65b12",
+      "file_sha256": "592bba8663386ab944b104d7998bc208d68d178fb29a33d6139b80bd78e2fb57",
+      "path": "runs/physics-language/quartic-tc2-d4-tc2-taylor-order-zero-registration/campaign.json",
+      "verified": true
+    }
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "schema_version": "invariant-combined-matter-gravity-interface-config-1.0",
+  "campaign_id": "combined-scalar-maxwell-fluid-gravity-interface-gate-001",
+  "output_path": "runs/math/combined-scalar-maxwell-fluid-gravity-interface-gate/receipt.json",
+  "predecessors": {
+    "universal_matter": {
+      "path": "runs/math/universal-matter-coupled-pde-control-pack/receipt.json",
+      "file_sha256": "d6bbbf8bdf3958219c3cbccee1408513623cafb84d30dd688317d422c52f57fd",
+      "content_sha256": "9d6ca5bf43ca5677eb482959d65525ceb12c3faf46bbb3510a5c0ef3c3616489"
+    },
+    "maxwell_arbitrary_background": {
+      "path": "runs/math/maxwell-arbitrary-background-stress-divergence-gate/receipt.json",
+      "file_sha256": "fb0029ce0ef2ad50280a6b62bee3b583b3f0d4771e7b74aa7c771d151618ac77",
+      "content_sha256": "1498bcf3654f052ce1b1cb41922915f15e1432bc8c7a220f6e01400d67a8018a"
+    },
+    "fluid_constraint_complete": {
+      "path": "runs/math/barotropic-irrotational-constraint-propagation-gate/receipt.json",
+      "file_sha256": "2af402e97f2db3e5df27ecf2c5d4f05050337b9f15e6ba5faf6c93c9315ae459",
+      "content_sha256": "62c5a01f7644bb39e10dde5c61c75508b44b035a9e0f1a61ffc05f287e7025af"
+    }
+  },
+  "evidence_bindings": {
+    "covariant_field_contract": {
+      "path": "configs/covariant_field_contract.json",
+      "file_sha256": "c31e42645fd6b7b9bd834cd77254451704946e6f6385517011343a74eb692c7c"
+    }
+  },
+  "sectors": [
+    {
+      "sector_id": "canonical_minimally_coupled_scalar",
+      "second_order_components": 1,
+      "principal_time_space_coefficients": [-1, 1],
+      "internal_constraints": 0
+    },
+    {
+      "sector_id": "source_free_maxwell_lorenz_gauge",
+      "second_order_components": 4,
+      "principal_time_space_coefficients": [-1, 1],
+      "internal_constraints": 1
+    },
+    {
+      "sector_id": "barotropic_irrotational_P_equals_kappa_X_squared",
+      "second_order_components": 1,
+      "principal_time_space_coefficients": [-3, 1],
+      "internal_constraints": 0,
+      "domain": ["kappa>0", "X>0", "nabla_mu(tau) future-directed timelike"]
+    }
+  ],
+  "claims_policy": {
+    "pass_combined_matter_interface": true,
+    "pass_candidate_specific_gravity_source_closure": false,
+    "pass_full_coupled_principal_system": false,
+    "pass_gravity_constraint_propagation": false,
+    "vortical_fluid": false,
+    "external_maxwell_current": false,
+    "gravity_h7": false,
+    "universal_all_matter": false,
+    "promotion": false
+  }
+}

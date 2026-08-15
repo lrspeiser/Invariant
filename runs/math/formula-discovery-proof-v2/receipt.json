@@ -1,0 +1,299 @@
+{
+  "case_spec_sha256": "e980a4a0f34527e3e4fc8e64fedb288568d6acc5e436da534fce2e0d1e1586b3",
+  "cases": [
+    {
+      "adapter_receipt": {
+        "claims": {
+          "formal_target_checked": true,
+          "lean_available": true,
+          "scientific_truth_inferred": false
+        },
+        "content_sha256": "637f3c29125fb575f1ac1129390f01f9611ee98afde325c4aa2e6f4d19867ca1",
+        "decision": "pass_lean_checked_closed_premise",
+        "dependency_audit": {
+          "closure_valid": true,
+          "dependencies": [
+            "Rat.mul_div_cancel"
+          ],
+          "protocol_version": "INVARIANT_LEAN_DEPENDENCY_AUDIT_V1",
+          "reported_target": "Invariant.formulaDiscoveryRationalIdentityV2"
+        },
+        "executable": {
+          "configured": true,
+          "discovered": true,
+          "discovery_source": "explicit",
+          "identity_sha256": "dd86e9b24990b1da425ea4af910f016e4db8f9a25c9ddad27bc6bee3690e677f"
+        },
+        "execution": {
+          "attempted": true,
+          "exit_code": 0,
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_sha256": "6acfc37961039f13a90ddfe94345ee9f82919378af662da2283d90de3a27d920",
+          "timed_out": false
+        },
+        "manifest_sha256": "a80780055b7a2120028bb38067f79e87fcf769e4d61ca450eb573e05669ebb75",
+        "reason": "Lean checked the target and reported only allowed premises",
+        "schema_version": "invariant-lean-adapter-result-1.0",
+        "source_sha256": "3569ceb1b2c8cc09fe58ce5028eaf7b766e2aaa9d761e0af0a381bf1f66550f6",
+        "status": "pass",
+        "target": "Invariant.formulaDiscoveryRationalIdentityV2"
+      },
+      "allowed_premise_manifest": {
+        "allowed_premises": [
+          "Rat.mul_div_cancel"
+        ],
+        "content_sha256": "a80780055b7a2120028bb38067f79e87fcf769e4d61ca450eb573e05669ebb75",
+        "equivalent_targets": [],
+        "forbidden_prefixes": [
+          "KnownAnswer.",
+          "Unsafe."
+        ],
+        "forbidden_premises": [
+          "Classical.choice",
+          "False.elim"
+        ],
+        "schema_version": "invariant-lean-allowed-premise-manifest-1.0",
+        "target": "Invariant.formulaDiscoveryRationalIdentityV2"
+      },
+      "case_id": "rational_regular_domain_identity",
+      "false_control": {
+        "adapter_receipt": {
+          "content_sha256": "106cd255e9610368ee324ed03ca38b642e2eaa28a26e3521727d9cba5f9e4325",
+          "decision": "block_lean_process_failure",
+          "diagnostic_bytes_persisted": false,
+          "executable_identity_sha256": "dd86e9b24990b1da425ea4af910f016e4db8f9a25c9ddad27bc6bee3690e677f",
+          "execution": {
+            "attempted": true,
+            "nonzero_exit_code": true,
+            "timed_out": false
+          },
+          "schema_version": "sigma-formula-discovery-proof-v2-kernel-rejection-1.0",
+          "source_sha256": "3f2ead31c334272731a3f24ed59560c2d92a0354c9628290716234c24bfbdc2b",
+          "status": "block",
+          "target": "Invariant.formulaDiscoveryRationalIdentityV2"
+        },
+        "alteration": "right-side offset 3 changed to 4",
+        "outcome": "REJECT",
+        "source": "import Std.Tactic\n\nnamespace Invariant\n\ntheorem formulaDiscoveryRationalIdentityV2 (x : Rat) (denominator_nonzero : x - 2 \u2260 0) :\n    ((x + 3) * (x - 2)) / (x - 2) = x + 4 := by\n  exact Rat.mul_div_cancel denominator_nonzero\n\nend Invariant\n\n#eval IO.println \"INVARIANT_LEAN_DEPENDENCY_AUDIT_V1_BEGIN\"\n#eval IO.println \"target=Invariant.formulaDiscoveryRationalIdentityV2\"\n#eval IO.println \"dependency=Rat.mul_div_cancel\"\n#eval IO.println \"result=checked\"\n#eval IO.println \"INVARIANT_LEAN_DEPENDENCY_AUDIT_V1_END\"\n",
+        "source_sha256": "3f2ead31c334272731a3f24ed59560c2d92a0354c9628290716234c24bfbdc2b",
+        "target": "Invariant.formulaDiscoveryRationalIdentityV2"
+      },
+      "source": "import Std.Tactic\n\nnamespace Invariant\n\ntheorem formulaDiscoveryRationalIdentityV2 (x : Rat) (denominator_nonzero : x - 2 \u2260 0) :\n    ((x + 3) * (x - 2)) / (x - 2) = x + 3 := by\n  exact Rat.mul_div_cancel denominator_nonzero\n\nend Invariant\n\n#eval IO.println \"INVARIANT_LEAN_DEPENDENCY_AUDIT_V1_BEGIN\"\n#eval IO.println \"target=Invariant.formulaDiscoveryRationalIdentityV2\"\n#eval IO.println \"dependency=Rat.mul_div_cancel\"\n#eval IO.println \"result=checked\"\n#eval IO.println \"INVARIANT_LEAN_DEPENDENCY_AUDIT_V1_END\"\n",
+      "source_sha256": "3569ceb1b2c8cc09fe58ce5028eaf7b766e2aaa9d761e0af0a381bf1f66550f6",
+      "strategy": "rational_cancellation_with_explicit_nonzero_denominator",
+      "target": "Invariant.formulaDiscoveryRationalIdentityV2",
+      "theorem_statement": "forall x : Rat, x - 2 != 0 -> ((x + 3) * (x - 2)) / (x - 2) = x + 3"
+    },
+    {
+      "adapter_receipt": {
+        "claims": {
+          "formal_target_checked": true,
+          "lean_available": true,
+          "scientific_truth_inferred": false
+        },
+        "content_sha256": "d30ff588736df163fe964ab24f2cd2ffaf95bc67b0cfff4dd17a360e3e5c3e95",
+        "decision": "pass_lean_checked_closed_premise",
+        "dependency_audit": {
+          "closure_valid": true,
+          "dependencies": [
+            "Invariant.formulaDiscoverySecondOrderSequenceV2"
+          ],
+          "protocol_version": "INVARIANT_LEAN_DEPENDENCY_AUDIT_V1",
+          "reported_target": "Invariant.formulaDiscoverySecondOrderRecurrenceV2"
+        },
+        "executable": {
+          "configured": true,
+          "discovered": true,
+          "discovery_source": "explicit",
+          "identity_sha256": "dd86e9b24990b1da425ea4af910f016e4db8f9a25c9ddad27bc6bee3690e677f"
+        },
+        "execution": {
+          "attempted": true,
+          "exit_code": 0,
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_sha256": "3fb4ec2c904307abdbcef21d30d692a998ff224915ada5caa2ff5c933fab4ce5",
+          "timed_out": false
+        },
+        "manifest_sha256": "369fb27bdfa615f00cddb0294e778c524ffdf1c4a54f28561664bfea622d56bd",
+        "reason": "Lean checked the target and reported only allowed premises",
+        "schema_version": "invariant-lean-adapter-result-1.0",
+        "source_sha256": "75150a734ea68bb071ef8facc35360c0f9be5e2abe650b809281496b1e0d8080",
+        "status": "pass",
+        "target": "Invariant.formulaDiscoverySecondOrderRecurrenceV2"
+      },
+      "allowed_premise_manifest": {
+        "allowed_premises": [
+          "Invariant.formulaDiscoverySecondOrderSequenceV2"
+        ],
+        "content_sha256": "369fb27bdfa615f00cddb0294e778c524ffdf1c4a54f28561664bfea622d56bd",
+        "equivalent_targets": [],
+        "forbidden_prefixes": [
+          "KnownAnswer.",
+          "Unsafe."
+        ],
+        "forbidden_premises": [
+          "Classical.choice",
+          "False.elim"
+        ],
+        "schema_version": "invariant-lean-allowed-premise-manifest-1.0",
+        "target": "Invariant.formulaDiscoverySecondOrderRecurrenceV2"
+      },
+      "case_id": "second_order_recurrence",
+      "false_control": {
+        "adapter_receipt": {
+          "content_sha256": "a302f379809fe8e001d16ab0d1ea2aa6f3d4a7cf390bbc55f19609a83c0dc184",
+          "decision": "block_lean_process_failure",
+          "diagnostic_bytes_persisted": false,
+          "executable_identity_sha256": "dd86e9b24990b1da425ea4af910f016e4db8f9a25c9ddad27bc6bee3690e677f",
+          "execution": {
+            "attempted": true,
+            "nonzero_exit_code": true,
+            "timed_out": false
+          },
+          "schema_version": "sigma-formula-discovery-proof-v2-kernel-rejection-1.0",
+          "source_sha256": "905be6f894cc05982a3f0f186e06e22fcbf25fe55c1e79913e7de6b2c35136b6",
+          "status": "block",
+          "target": "Invariant.formulaDiscoverySecondOrderRecurrenceV2"
+        },
+        "alteration": "right recurrence coefficient 1 changed to 2",
+        "outcome": "REJECT",
+        "source": "import Std.Tactic\n\nnamespace Invariant\n\ndef formulaDiscoverySecondOrderSequenceV2 : Nat -> Nat\n  | 0 => 2\n  | 1 => 5\n  | n + 2 => 1 * formulaDiscoverySecondOrderSequenceV2 (n + 1) + 1 * formulaDiscoverySecondOrderSequenceV2 n\n\ntheorem formulaDiscoverySecondOrderRecurrenceV2 (n : Nat) :\n    formulaDiscoverySecondOrderSequenceV2 (n + 2) =\n      1 * formulaDiscoverySecondOrderSequenceV2 (n + 1) + 2 * formulaDiscoverySecondOrderSequenceV2 n := by\n  rfl\n\nend Invariant\n\n#eval IO.println \"INVARIANT_LEAN_DEPENDENCY_AUDIT_V1_BEGIN\"\n#eval IO.println \"target=Invariant.formulaDiscoverySecondOrderRecurrenceV2\"\n#eval IO.println \"dependency=Invariant.formulaDiscoverySecondOrderSequenceV2\"\n#eval IO.println \"result=checked\"\n#eval IO.println \"INVARIANT_LEAN_DEPENDENCY_AUDIT_V1_END\"\n",
+        "source_sha256": "905be6f894cc05982a3f0f186e06e22fcbf25fe55c1e79913e7de6b2c35136b6",
+        "target": "Invariant.formulaDiscoverySecondOrderRecurrenceV2"
+      },
+      "source": "import Std.Tactic\n\nnamespace Invariant\n\ndef formulaDiscoverySecondOrderSequenceV2 : Nat -> Nat\n  | 0 => 2\n  | 1 => 5\n  | n + 2 => 1 * formulaDiscoverySecondOrderSequenceV2 (n + 1) + 1 * formulaDiscoverySecondOrderSequenceV2 n\n\ntheorem formulaDiscoverySecondOrderRecurrenceV2 (n : Nat) :\n    formulaDiscoverySecondOrderSequenceV2 (n + 2) =\n      1 * formulaDiscoverySecondOrderSequenceV2 (n + 1) + 1 * formulaDiscoverySecondOrderSequenceV2 n := by\n  rfl\n\nend Invariant\n\n#eval IO.println \"INVARIANT_LEAN_DEPENDENCY_AUDIT_V1_BEGIN\"\n#eval IO.println \"target=Invariant.formulaDiscoverySecondOrderRecurrenceV2\"\n#eval IO.println \"dependency=Invariant.formulaDiscoverySecondOrderSequenceV2\"\n#eval IO.println \"result=checked\"\n#eval IO.println \"INVARIANT_LEAN_DEPENDENCY_AUDIT_V1_END\"\n",
+      "source_sha256": "75150a734ea68bb071ef8facc35360c0f9be5e2abe650b809281496b1e0d8080",
+      "strategy": "definitional_second_order_recurrence",
+      "target": "Invariant.formulaDiscoverySecondOrderRecurrenceV2",
+      "theorem_statement": "forall n : Nat, formulaDiscoverySecondOrderSequenceV2 (n + 2) = 1 * formulaDiscoverySecondOrderSequenceV2 (n + 1) + 1 * formulaDiscoverySecondOrderSequenceV2 n"
+    },
+    {
+      "adapter_receipt": {
+        "claims": {
+          "formal_target_checked": true,
+          "lean_available": true,
+          "scientific_truth_inferred": false
+        },
+        "content_sha256": "14ddc1e87b84e74f633c1266e048e1e3ed42e2951aa80a8cf968f4c2ecad6b8b",
+        "decision": "pass_lean_checked_closed_premise",
+        "dependency_audit": {
+          "closure_valid": true,
+          "dependencies": [
+            "Lean.Parser.Tactic.omega"
+          ],
+          "protocol_version": "INVARIANT_LEAN_DEPENDENCY_AUDIT_V1",
+          "reported_target": "Invariant.formulaDiscoveryQuantifiedNonIdentityV2"
+        },
+        "executable": {
+          "configured": true,
+          "discovered": true,
+          "discovery_source": "explicit",
+          "identity_sha256": "dd86e9b24990b1da425ea4af910f016e4db8f9a25c9ddad27bc6bee3690e677f"
+        },
+        "execution": {
+          "attempted": true,
+          "exit_code": 0,
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_sha256": "99959c7c1fb63076d949bb4bea00691f501d7ac445f9ffd5c6104e9609eedaf4",
+          "timed_out": false
+        },
+        "manifest_sha256": "4e81adb506c5494c073b858458146276b80c66498f8c1dad345ac0b74d480066",
+        "reason": "Lean checked the target and reported only allowed premises",
+        "schema_version": "invariant-lean-adapter-result-1.0",
+        "source_sha256": "a893c105f02fc8687a0912194ec9182b3829d4be69e381b2bf8982259b9b7014",
+        "status": "pass",
+        "target": "Invariant.formulaDiscoveryQuantifiedNonIdentityV2"
+      },
+      "allowed_premise_manifest": {
+        "allowed_premises": [
+          "Lean.Parser.Tactic.omega"
+        ],
+        "content_sha256": "4e81adb506c5494c073b858458146276b80c66498f8c1dad345ac0b74d480066",
+        "equivalent_targets": [],
+        "forbidden_prefixes": [
+          "KnownAnswer.",
+          "Unsafe."
+        ],
+        "forbidden_premises": [
+          "Classical.choice",
+          "False.elim"
+        ],
+        "schema_version": "invariant-lean-allowed-premise-manifest-1.0",
+        "target": "Invariant.formulaDiscoveryQuantifiedNonIdentityV2"
+      },
+      "case_id": "quantified_non_identity",
+      "false_control": {
+        "adapter_receipt": {
+          "content_sha256": "869e4f8402b7c0e6269f34501bfebaed9f387a776f3e87b2910f1bb24a0859d2",
+          "decision": "block_lean_process_failure",
+          "diagnostic_bytes_persisted": false,
+          "executable_identity_sha256": "dd86e9b24990b1da425ea4af910f016e4db8f9a25c9ddad27bc6bee3690e677f",
+          "execution": {
+            "attempted": true,
+            "nonzero_exit_code": true,
+            "timed_out": false
+          },
+          "schema_version": "sigma-formula-discovery-proof-v2-kernel-rejection-1.0",
+          "source_sha256": "58e52255dbeb9114ba6d4a5b46edc2b4970d8b204d9a3274fa93a73afe76d6eb",
+          "status": "block",
+          "target": "Invariant.formulaDiscoveryQuantifiedNonIdentityV2"
+        },
+        "alteration": "right offset 3 changed to 2",
+        "outcome": "REJECT",
+        "source": "import Std.Tactic\n\nnamespace Invariant\n\ntheorem formulaDiscoveryQuantifiedNonIdentityV2 (n : Nat) :\n    3 * n + 2 \u2260 3 * n + 2 := by\n  omega\n\nend Invariant\n\n#eval IO.println \"INVARIANT_LEAN_DEPENDENCY_AUDIT_V1_BEGIN\"\n#eval IO.println \"target=Invariant.formulaDiscoveryQuantifiedNonIdentityV2\"\n#eval IO.println \"dependency=Lean.Parser.Tactic.omega\"\n#eval IO.println \"result=checked\"\n#eval IO.println \"INVARIANT_LEAN_DEPENDENCY_AUDIT_V1_END\"\n",
+        "source_sha256": "58e52255dbeb9114ba6d4a5b46edc2b4970d8b204d9a3274fa93a73afe76d6eb",
+        "target": "Invariant.formulaDiscoveryQuantifiedNonIdentityV2"
+      },
+      "source": "import Std.Tactic\n\nnamespace Invariant\n\ntheorem formulaDiscoveryQuantifiedNonIdentityV2 (n : Nat) :\n    3 * n + 2 \u2260 3 * n + 3 := by\n  omega\n\nend Invariant\n\n#eval IO.println \"INVARIANT_LEAN_DEPENDENCY_AUDIT_V1_BEGIN\"\n#eval IO.println \"target=Invariant.formulaDiscoveryQuantifiedNonIdentityV2\"\n#eval IO.println \"dependency=Lean.Parser.Tactic.omega\"\n#eval IO.println \"result=checked\"\n#eval IO.println \"INVARIANT_LEAN_DEPENDENCY_AUDIT_V1_END\"\n",
+      "source_sha256": "a893c105f02fc8687a0912194ec9182b3829d4be69e381b2bf8982259b9b7014",
+      "strategy": "strict_order_contradiction_via_presburger_arithmetic",
+      "target": "Invariant.formulaDiscoveryQuantifiedNonIdentityV2",
+      "theorem_statement": "forall n : Nat, 3 * n + 2 != 3 * n + 3"
+    }
+  ],
+  "claims": {
+    "general_formula_discovery_established": false,
+    "higher_order_recurrence_checked": true,
+    "host_path_persisted": false,
+    "novelty_established": false,
+    "one_false_control_per_case_rejected": true,
+    "quantified_non_identity_checked_by_distinct_strategy": true,
+    "rational_denominator_premise_explicit": true,
+    "scientific_truth_inferred": false,
+    "sorry_axiom_or_admit_used": false,
+    "three_generated_kernel_cases_checked": true
+  },
+  "content_sha256": "df4702073046170e01a535b271c924c3ebc0cdc295ce7b29c6022a82d915a2f7",
+  "counts": {
+    "blocked": 0,
+    "distinct_proof_strategies": 3,
+    "explicit_nonzero_denominator_premises": 1,
+    "false_controls_rejected": 3,
+    "generated_theorems": 3,
+    "kernel_executions": 6,
+    "kernel_passes": 3
+  },
+  "decision": "PASS",
+  "schema_version": "sigma-formula-discovery-proof-v2-receipt-1.0",
+  "scope": "three bounded generated Formula Discovery proof shapes checked by registered portable Lean 4.33 with one minimally false rejected control each; no general discovery, novelty, or scientific-truth claim",
+  "suite_id": "formula-discovery-proof-v2-001",
+  "toolchain_receipt": {
+    "archive_and_binary_outside_git_history": true,
+    "commit": "d8b18978322de05a8f3dba51ef03cf5461676c17",
+    "executable_path_persisted": false,
+    "executable_sha256": "dd86e9b24990b1da425ea4af910f016e4db8f9a25c9ddad27bc6bee3690e677f",
+    "official_release": "leanprover/lean4:v4.33.0",
+    "platform": "windows-x86_64",
+    "platform_asset": {
+      "archive_bytes": 583425362,
+      "archive_sha256": "60d045a2ef45fca55a620b7d55be682e8439ec8d1fc9a8bcd2615da7dffba26a",
+      "asset_url": "https://github.com/leanprover/lean4/releases/download/v4.33.0/lean-4.33.0-windows.tar.zst",
+      "executable_sha256": "dd86e9b24990b1da425ea4af910f016e4db8f9a25c9ddad27bc6bee3690e677f"
+    },
+    "registered_executable_sha256_matched": true,
+    "resolution_source": "registered_portable_lean",
+    "version": "4.33.0",
+    "version_output": "Lean (version 4.33.0, x86_64-w64-windows-gnu, commit d8b18978322de05a8f3dba51ef03cf5461676c17, Release)",
+    "version_probe_exit_code": 0
+  }
+}

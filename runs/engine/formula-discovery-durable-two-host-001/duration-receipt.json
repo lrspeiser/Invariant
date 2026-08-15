@@ -1,0 +1,61 @@
+{
+  "campaign_id": "formula-discovery-durable-two-host-001",
+  "claims": {
+    "dead_session_runtime_credited": false,
+    "overlapping_host_runtime_double_counted": false,
+    "real_credited_wall_seconds_at_least_six_hours": true,
+    "scientific_result_inferred": false,
+    "two_logical_hosts_observed": true,
+    "two_physical_machines_established": false
+  },
+  "config_sha256": "ffaa3d9ed10abe9d0b28b88cb1989a9a3b1e0777c4d049daf775d9268750d23b",
+  "content_sha256": "74b95e2d0f0c78c7ab1726467cada051926634cf20350bdab7d3d7b243aca150",
+  "decision": "PASS",
+  "duration": {
+    "cleanly_closed_sessions": [
+      {
+        "credited_seconds": 17227.661285399998,
+        "ended_utc": "2026-08-14T12:21:54.640949+00:00",
+        "generation": 2,
+        "host_id": "host-a",
+        "session_id_sha256": "49fb050cbff71ecf6983270c53d30671054db95b527cacec9acb2319d14747cb",
+        "started_utc": "2026-08-14T07:34:45.959297+00:00",
+        "stop_reason": "slice_duration_reached"
+      },
+      {
+        "credited_seconds": 21600.000387699998,
+        "ended_utc": "2026-08-14T13:07:24.405304+00:00",
+        "generation": 1,
+        "host_id": "host-b",
+        "session_id_sha256": "fa652f73a14c1ca7cc0342aff1d9fa02eff15b66e52b077e3765fd2599573603",
+        "started_utc": "2026-08-14T07:07:23.069795+00:00",
+        "stop_reason": "slice_duration_reached"
+      }
+    ],
+    "credit_policy": "min_monotonic_elapsed_and_wall_elapsed",
+    "credited_seconds_by_host": {
+      "host-a": 17227.661285,
+      "host-b": 21600.000388
+    },
+    "credited_wall_seconds": 21600.000388,
+    "dead_session_credit_policy": "zero_seconds",
+    "overlap_policy": "union_not_sum"
+  },
+  "event_chain_root_sha256": "e082114afebb223e154633416691c7c896e900052869c50d2789c47eace4eed6",
+  "event_count": 16,
+  "schema_version": "sigma-durable-two-host-campaign-duration-receipt-1.0",
+  "scope": "operational two-logical-host durability and storage-ceiling campaign only; not evidence of two physical machines or scientific validity",
+  "storage": {
+    "database_bytes": 53248,
+    "maximum_sqlite_family_bytes": 536870912,
+    "measurement_scope": "campaign.sqlite + campaign.sqlite-wal + campaign.sqlite-shm",
+    "paths_persisted": false,
+    "shm_bytes": 0,
+    "total_sqlite_family_bytes": 53248,
+    "wal_bytes": 0,
+    "within_ceiling": true
+  },
+  "work_counts": {
+    "succeeded": 2
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "campaign_id": "system10-open-r-coordinate-off-shell-decomposition-001",
+  "candidate_id": "quartic-symbol-5455cad9e42a0dbc",
+  "candidate_index": 4,
+  "claims": {
+    "constraint_propagation_closed": false,
+    "equation_origin_to_off_shell_normalization_closed": false,
+    "four_coordinate_decomposition_rows_closed": true,
+    "subsidiary_system_closed": false
+  },
+  "content_sha256": "6c601c42782680e754d11f910c9a3d1e707f203462684a23a86d5a9a1d1c6ff8",
+  "counts": {
+    "coordinate_decomposition_rows": 4,
+    "full_rhs_rows_bound": 85,
+    "spatial_rhs_jets_bound": 33,
+    "symbolic_zero_residuals": 4
+  },
+  "domain": "1/2<=r<=3/2 and real |v_10|<=1/4",
+  "geometry_certificate": {
+    "axis_excluded": true,
+    "derived_lower_divergence_components": 4,
+    "exact_symbolic_zero_residuals": 4,
+    "geometry_sha256": "aedc5806e995cf78a9b2090ca77e3b8a3819e3549ab992854ebbe4fa300d1f8d",
+    "metric": "diag(-1,1,r^2,1)",
+    "nonzero_christoffels": {
+      "Gamma^1_22": "-r",
+      "Gamma^2_12": "1/r",
+      "Gamma^2_21": "1/r"
+    }
+  },
+  "rows": [
+    {
+      "constraint_row": "Hamiltonian_E_nn",
+      "constraint_tensor_atom": "C0=E_sourced^00",
+      "constraint_time_coefficient": "-1",
+      "coordinate_basis": "(t,r,theta,z), g=diag(-1,1,r^2,1)",
+      "covariant_divergence_expression": "-Derivative(C0(t, r, theta, z), t) - Derivative(C1(t, r, theta, z), r) - Derivative(C2(t, r, theta, z), theta) - Derivative(C3(t, r, theta, z), z) - C1(t, r, theta, z)/r",
+      "domain": "r>0",
+      "lower_nu": 0,
+      "off_shell_substitution": "D_lower_0=divQ_lower[0]-(E_phi_g*partial_0(phi_g)+F_total_lower[0])/2",
+      "row_sha256": "5064755d5b56653000454f3eee5b2feee6786f8c95fd6ac1104b81e933de96ad",
+      "solved_constraint_time_expression": "-(D_lower_0*r + r*Derivative(C1(t, r, theta, z), r) + r*Derivative(C2(t, r, theta, z), theta) + r*Derivative(C3(t, r, theta, z), z) + C1(t, r, theta, z))/r"
+    },
+    {
+      "constraint_row": "momentum_E_n1",
+      "constraint_tensor_atom": "C1=E_sourced^01",
+      "constraint_time_coefficient": "1",
+      "coordinate_basis": "(t,r,theta,z), g=diag(-1,1,r^2,1)",
+      "covariant_divergence_expression": "-r*S22(t, r, theta, z) + Derivative(C1(t, r, theta, z), t) + Derivative(S11(t, r, theta, z), r) + Derivative(S12(t, r, theta, z), theta) + Derivative(S13(t, r, theta, z), z) + S11(t, r, theta, z)/r",
+      "domain": "r>0",
+      "lower_nu": 1,
+      "off_shell_substitution": "D_lower_1=divQ_lower[1]-(E_phi_g*partial_1(phi_g)+F_total_lower[1])/2",
+      "row_sha256": "fe800c2d42fa9b786cb17e6ee3baddd94680149b77eec94bcfb38724487720d6",
+      "solved_constraint_time_expression": "(D_lower_1*r + r**2*S22(t, r, theta, z) - r*Derivative(S11(t, r, theta, z), r) - r*Derivative(S12(t, r, theta, z), theta) - r*Derivative(S13(t, r, theta, z), z) - S11(t, r, theta, z))/r"
+    },
+    {
+      "constraint_row": "momentum_E_n2",
+      "constraint_tensor_atom": "C2=E_sourced^02",
+      "constraint_time_coefficient": "r**2",
+      "coordinate_basis": "(t,r,theta,z), g=diag(-1,1,r^2,1)",
+      "covariant_divergence_expression": "r**2*(Derivative(C2(t, r, theta, z), t) + Derivative(S12(t, r, theta, z), r) + Derivative(S22(t, r, theta, z), theta) + Derivative(S23(t, r, theta, z), z)) + 3*r*S12(t, r, theta, z)",
+      "domain": "r>0",
+      "lower_nu": 2,
+      "off_shell_substitution": "D_lower_2=divQ_lower[2]-(E_phi_g*partial_2(phi_g)+F_total_lower[2])/2",
+      "row_sha256": "883a03e53be815cba9964fb3b2aa38d355cad91d36e5f93970de0ed289bd448a",
+      "solved_constraint_time_expression": "-(-D_lower_2 + r**2*Derivative(S12(t, r, theta, z), r) + r**2*Derivative(S22(t, r, theta, z), theta) + r**2*Derivative(S23(t, r, theta, z), z) + 3*r*S12(t, r, theta, z))/r**2"
+    },
+    {
+      "constraint_row": "momentum_E_n3",
+      "constraint_tensor_atom": "C3=E_sourced^03",
+      "constraint_time_coefficient": "1",
+      "coordinate_basis": "(t,r,theta,z), g=diag(-1,1,r^2,1)",
+      "covariant_divergence_expression": "Derivative(C3(t, r, theta, z), t) + Derivative(S13(t, r, theta, z), r) + Derivative(S23(t, r, theta, z), theta) + Derivative(S33(t, r, theta, z), z) + S13(t, r, theta, z)/r",
+      "domain": "r>0",
+      "lower_nu": 3,
+      "off_shell_substitution": "D_lower_3=divQ_lower[3]-(E_phi_g*partial_3(phi_g)+F_total_lower[3])/2",
+      "row_sha256": "cf70fc95769ca3cbfb92bb897d74fd27cc56b4e369e8c20f1da04249aaebe407",
+      "solved_constraint_time_expression": "(D_lower_3*r - r*Derivative(S13(t, r, theta, z), r) - r*Derivative(S23(t, r, theta, z), theta) - r*Derivative(S33(t, r, theta, z), z) - S13(t, r, theta, z))/r"
+    }
+  ],
+  "schema_version": "invariant-system10-open-r-coordinate-off-shell-decomposition-packet-1.0",
+  "source_bindings": {
+    "constraint_manifest_sha256": "016d3cb0ebb31f26914c6cdf2e418ca519858f2cf86bb2985d762db9e1ea9376",
+    "full_rhs_equation_origin_set_sha256": "29d41948ac1bc456b73b1a13e69ed323c2a818f64c31de0c7c1b29fe2f2d89c2",
+    "spatial_rhs_jet_packet_content_sha256": "b4093cf6a7ed932ae1221244abe5831328c5f888299ff865e0e0e89a34fea279"
+  }
+}

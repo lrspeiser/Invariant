@@ -1,0 +1,71 @@
+{
+  "campaign_id": "anonymous-natural-sum-lean-kernel-bridge-001",
+  "lean_runtime_binding": {
+    "config": {
+      "file_sha256": "dd1c183ff0ace9be3c5688e029ead3bc34a7cf6cb16370cc989c243c26a39a0d",
+      "path": "configs/math/lean_production_kernel_vertical_slice.json"
+    },
+    "receipt": {
+      "content_sha256": "2ab97edf548703abfe05e03e606fbbd6842384f57ff82a5d306cbf15ac51bc55",
+      "file_sha256": "f34d10c772282ca8a832d848d29d90ee354a98371922d660daa38b4b105f530a",
+      "path": "runs/math/lean-production-kernel-vertical-slice/receipt.json"
+    },
+    "source": {
+      "file_sha256": "06db4e93bd277019f8c5f803a3b676f1953a909862e458a137da5ad868ae3d36",
+      "path": "src/sigma_theory_compiler/lean_production_kernel_vertical_slice.py"
+    },
+    "test": {
+      "file_sha256": "bdc5264da89ec86434478b7f0c54581ab915a897c498b2264b693979a9c9a039",
+      "path": "tests/test_lean_production_kernel_vertical_slice.py"
+    }
+  },
+  "output_path": "runs/math/anonymous-natural-sum-lean-kernel-bridge/receipt.json",
+  "premise_policy": {
+    "allowed_premises": [
+      "Invariant.anonymousNaturalSum",
+      "Nat.add_mul",
+      "Nat.mul_add",
+      "Nat.mul_comm",
+      "Nat.rec"
+    ],
+    "equivalent_targets": [],
+    "forbidden_prefixes": [
+      "KnownAnswer",
+      "Unsafe"
+    ],
+    "forbidden_premises": [
+      "Classical.choice",
+      "False.elim"
+    ]
+  },
+  "rediscovery_binding": {
+    "artifact": {
+      "content_sha256": "05b7ab12f3876513216394dd578258ea6af242d0b8e6a4911e281a4d713bd5be",
+      "file_sha256": "3158d6031ad0dbf1c3cb955c956af319f39c58d50982d2193a07b0f46c83e685",
+      "path": "runs/math-language/anonymous-natural-sum-blind-rediscovery/campaign.json"
+    },
+    "config": {
+      "file_sha256": "46a982033c92636a11293fec4cf4266ce99915f07a6fc47349269ff5551d8656",
+      "path": "configs/backgrounds/anonymous_natural_sum_blind_rediscovery.json"
+    },
+    "source": {
+      "file_sha256": "0a965887d1b604d0b15ac9b60c766b567890a6089c9e52343f3e0479f67a023d",
+      "path": "src/sigma_theory_compiler/anonymous_natural_sum_blind_rediscovery.py"
+    },
+    "test": {
+      "file_sha256": "a0544115a5b40ea732259196e7024dce267784bd08e1c0f5e780f0b2acae5f13",
+      "path": "tests/test_anonymous_natural_sum_blind_rediscovery.py"
+    }
+  },
+  "schema_version": "invariant-anonymous-natural-sum-lean-kernel-bridge-config-1.0",
+  "target": "Invariant.anonymousNaturalSumClosedForm",
+  "theorem_source_path": "formal/lean/AnonymousNaturalSumClosedForm.lean",
+  "timeout_seconds": 30,
+  "winner_contract": {
+    "candidate_id": "f48406b1add8e3e88d5b86c0",
+    "constant": "0",
+    "linear": "1/2",
+    "scaled_lean_identity": "2*S(n)=n*(n+1)",
+    "square": "1/2"
+  }
+}

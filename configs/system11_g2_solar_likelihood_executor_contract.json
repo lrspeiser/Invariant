@@ -1,0 +1,85 @@
+{
+  "schema_version": "sigma-system11-g2-solar-likelihood-executor-config-1.0",
+  "contract_id": "system11-g2-solar-likelihood-executor-001",
+  "source_bindings": {
+    "authorization_config": {
+      "path": "configs/system11_g2_solar_authorization_closure.json",
+      "semantic_sha256": "195e70a828b737433d0d5f5574885378f2c2308974d7bd8d28b2835c984d2522"
+    },
+    "authorization_receipt": {
+      "path": "runs/math/system11-g2-solar-authorization-closure/receipt.json",
+      "semantic_sha256": "bf4af53821134f99f05d50ec2ba24f91b3eb3e7887e94236d7b4fc4ceb2e6641"
+    },
+    "one_shot_config": {
+      "path": "configs/g2_solar_one_shot_observation_boundary.json",
+      "semantic_sha256": "8dbebd0f692e72b39c7584979ef70bdf71cf6d47ebe0e02652c8190ed9ec9a2c"
+    },
+    "one_shot_receipt": {
+      "path": "runs/math/g2-solar-one-shot-observation-boundary/receipt.json",
+      "semantic_sha256": "488c83b0b94f37daff5679f464264a35ff5bd1a4bfd976e1a233283d852bacc6"
+    },
+    "bundle_G3A_2f8983": {
+      "path": "runs/engine/g2-solar-action-bound-prediction-bundles/G3A-2f8983c88f504150381064f2.json",
+      "semantic_sha256": "52d9d81157b8405fb3f16dcec13b42ae878e0d12722169ed5d80f7b270d89540"
+    },
+    "bundle_G3A_58e594": {
+      "path": "runs/engine/g2-solar-action-bound-prediction-bundles/G3A-58e59412e5fe77cd54caf863.json",
+      "semantic_sha256": "87d903faf01ecce79534762536b1698ede25107884bc5e54b1620221a88c82a2"
+    },
+    "parser_readiness": {
+      "path": "runs/engine/solar-pds-parser-readiness.json",
+      "semantic_sha256": "2f5c7b2a30f73c9941899cb743ae24bcacb4d7b9c79993f181cd8054a75b7a7b"
+    },
+    "calibration_readiness": {
+      "path": "runs/engine/solar-direct-signal-calibration-readiness.json",
+      "semantic_sha256": "ba274758374e4d2d7e04eb2742a0dde9e07d028bb8dddcbb0b338a5efef11c4d"
+    }
+  },
+  "candidates": [
+    {
+      "candidate_id": "G3A-2f8983c88f504150381064f2",
+      "action_sha256": "19f36a7c814ca11ace6de1270802a542872c35c27c7e64542eea672e16cbae88",
+      "prediction_bundle_content_sha256": "a060b82bd0c377e0b1a4186119efc0c3791208f99516fdd029192dcea5d68c2b",
+      "source_contract_sha256": "cd4097d96255d6f1ba15ea062d202021ed4324715869def8d0aa8cb2faa2fd95"
+    },
+    {
+      "candidate_id": "G3A-58e59412e5fe77cd54caf863",
+      "action_sha256": "9457ba1ff99ecfdabc08200dda3ff15b8656b025d106fe2c2cd4abd77a01c3b5",
+      "prediction_bundle_content_sha256": "60b926ea6fd15041f71fd6366b3b9facb8fd0e27cf1882bdb486a5d2d7383938",
+      "source_contract_sha256": "84ca7bc3d02c30fd90f5731a01bfd84811cce9215c1f90a7db524d09c8e12825"
+    }
+  ],
+  "schema_bindings": {
+    "authorized_calibrated_record_packet": "sigma-system11-authorized-calibrated-record-packet-1.0",
+    "source_domain": "sigma-system11-g2-solar-source-domain-1.0",
+    "split_commitment": "sigma-system11-g2-solar-split-commitment-1.0",
+    "primary_record_roots": "sigma-system11-g2-solar-primary-record-roots-1.0",
+    "independent_authorization": "sigma-system11-g2-solar-record-authorization-1.0",
+    "parser_readiness": "sigma-solar-pds-parser-readiness-1.0",
+    "calibration_readiness": "sigma-solar-direct-signal-calibration-readiness-1.0"
+  },
+  "implementation_bindings": {
+    "verified_ATDF_TDF_parser_sha256": "7251db8d1e8edf33f2d66876f96e1392a8e79fde73839769075ccf1e8c736c20",
+    "verified_RSR_parser_sha256": "ddae01e336e1f19902e4552aaef36ce23b5abb5717cf776905e2f00d078180fe",
+    "raw_to_calibrated_transform_and_covariance_implementation_sha256": "b937071e25547df52ffac9f99b7879f171bf6901c08ef1cc1d6cd8fdfc38d27e",
+    "transformation_contract_sha256": "fd7db0529fbeb4f6b943e6e5f48fa6055f11e3a10b1335f637ca2911da65d45e"
+  },
+  "opening_obligations": [
+    "source_branch_domain_instantiation_sha256",
+    "held_out_split_commitment_sha256",
+    "selected_primary_record_roots_sha256",
+    "observation_opening_authorization_sha256"
+  ],
+  "score_contract": {
+    "name": "exact_relative_gaussian_log_likelihood_without_candidate_independent_normalization",
+    "accepted_channels": [
+      "two_way_round_trip_light_time",
+      "coherent_carrier_frequency_or_phase_ratio",
+      "relative_angular_separation"
+    ],
+    "accepted_quantity_class": "calibrated",
+    "accept_if_chi_square_lte": "2/1",
+    "arithmetic": "exact_rational",
+    "record_order": "lexicographic_record_id"
+  }
+}

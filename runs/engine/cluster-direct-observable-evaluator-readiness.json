@@ -1,0 +1,166 @@
+{
+  "authorized_real_source_packet_bindings": [],
+  "bindings": {
+    "config": {
+      "file_sha256": "f13f015f1e842d3d3bf930555d474acbe96056be8e0d7589d595cbf7bba11c78",
+      "path": "configs/cluster_direct_observable_evaluator_readiness.json"
+    },
+    "source": {
+      "file_sha256": "54d346a8062848533df8ef56e1575383b9abd68271d772dbe272857b898302e7",
+      "path": "src/sigma_theory_compiler/cluster_direct_observable_evaluator_readiness.py"
+    },
+    "test": {
+      "file_sha256": "83219aead70d661e2000769d086d4d8b494300e431271789761a8afcfa88ef0b",
+      "path": "tests/test_cluster_direct_observable_evaluator_readiness.py"
+    }
+  },
+  "blocker_ledger": [
+    {
+      "blocker": "no_authorized_real_cluster_source_packet_registered",
+      "decision": "blocked",
+      "gate_id": "authorized_real_source_packet"
+    },
+    {
+      "blocker": "observational_authorization_is_false",
+      "decision": "blocked",
+      "gate_id": "observational_opening_authorization"
+    }
+  ],
+  "campaign_id": "cluster-direct-observable-evaluator-readiness-2026-08-12",
+  "candidate_use_authorized": false,
+  "complete_comparable_evidence": false,
+  "content_sha256": "139c4ecec652701b62918c68a5e4eab867a0ca51659ea5241c20f54d7a9911d2",
+  "contract": {
+    "allowed_data_classes": [
+      "calibrated_direct_observable",
+      "raw_direct_observable"
+    ],
+    "allowed_observable_channels": [
+      "angular_positions_separations_and_shapes",
+      "calibrated_member_light_or_spectra",
+      "calibrated_sunyaev_zeldovich_intensity_or_temperature_decrement",
+      "calibrated_xray_surface_brightness_or_spectrum",
+      "directly_measured_spectral_wavelength_ratios",
+      "raw_optical_or_infrared_detector_counts",
+      "raw_sunyaev_zeldovich_detector_counts",
+      "raw_xray_detector_counts"
+    ],
+    "forbidden_fields": [
+      "abundance_matched_mass",
+      "cluster_halo_concentration",
+      "cluster_halo_mass",
+      "cluster_halo_profile",
+      "cluster_halo_radius",
+      "cosmological_distance",
+      "dark_matter_fraction",
+      "dark_matter_label",
+      "dark_matter_map",
+      "distance_modulus",
+      "environment_from_redshift",
+      "formula_selection_target",
+      "gr_derived_dynamical_mass",
+      "gr_derived_lensing_mass",
+      "hydrostatic_equilibrium_mass",
+      "hydrostatic_mass",
+      "latent_gravitating_component",
+      "latent_nonthermal_pressure",
+      "mass_bias_calibration_target",
+      "nfw_fit",
+      "object_specific_gravity_parameter",
+      "redshift_derived_distance",
+      "supernova_standardization",
+      "total_mass_profile"
+    ],
+    "formula_selection_use": false,
+    "hydrostatic_or_gr_derived_mass_is_raw_truth": false,
+    "required_calibration_roles": [
+      "background_provenance",
+      "detector_or_instrument_calibration",
+      "point_spread_or_beam_response",
+      "selection_or_mask_provenance",
+      "spectral_or_bandpass_response"
+    ],
+    "required_covariance_roles": [
+      "calibration_covariance",
+      "measurement_uncertainty_or_covariance"
+    ],
+    "target_role": "post_freeze_independent_cluster_falsification"
+  },
+  "counts": {
+    "allowed_data_classes": 2,
+    "allowed_observable_channels": 8,
+    "authorized_real_source_packets": 0,
+    "forbidden_fields": 24,
+    "positive_schema_control_passes": 2,
+    "positive_schema_controls": 2,
+    "rank_writes": 0,
+    "real_source_packets_opened": 0,
+    "required_calibration_roles": 5,
+    "required_covariance_roles": 2,
+    "scientific_blocks": 1,
+    "scientific_passes": 0,
+    "scientific_rejects": 0
+  },
+  "data_eligibility": {
+    "dark_matter_or_halo_inputs": false,
+    "formula_selection_inputs": false,
+    "hydrostatic_or_gr_derived_mass_truth": false,
+    "latent_component_inputs": false,
+    "model_dependent_targets": false,
+    "observational_data_opened": false,
+    "redshift_distance_inputs": false,
+    "supernova_inference_inputs": false
+  },
+  "decision": "blocked_missing_authorized_real_cluster_source_packet",
+  "first_blocker": "no_authorized_real_cluster_source_packet_registered",
+  "interpretation": "Two synthetic packets pass structural schema controls only. No authorized real cluster source packet exists or opens; no hydrostatic, GR-derived, halo, or latent mass is accepted as raw truth, and no scientific conclusion or rank is emitted.",
+  "observational_authorization": false,
+  "observational_data_opened": false,
+  "positive_schema_controls": [
+    {
+      "control_id": "positive_raw_direct_observable",
+      "decision": "schema_pass",
+      "observational_data_opened": false,
+      "packet_content_sha256": "db5ae52a4dd574c1166667e5267d44c72a9e7b104b0b7c8d43b74b9dc1138708",
+      "scientific_pass": false,
+      "synthetic_only": true
+    },
+    {
+      "control_id": "positive_calibrated_direct_observable",
+      "decision": "schema_pass",
+      "observational_data_opened": false,
+      "packet_content_sha256": "beb1f5bb99b4c6d226da62f8ad3ea7391345f178b7a04bcd51d8c8ec2ba5a329",
+      "scientific_pass": false,
+      "synthetic_only": true
+    }
+  ],
+  "rank_claimed": false,
+  "schema_version": "sigma-cluster-direct-observable-evaluator-readiness-1.0",
+  "scientific_pass_claimed": false,
+  "scientific_reject_claimed": false,
+  "seals": {
+    "external_process_signals": false,
+    "gpu_or_cuda_access": false,
+    "leaderboard_or_rank_writes": false,
+    "live_campaign_SQLite_access": false,
+    "network_access": false,
+    "observational_data_opened": false,
+    "runtime_access": false,
+    "secret_access": false,
+    "source_packet_opened": false
+  },
+  "source_bindings": {
+    "evidence_policy": {
+      "content_sha256": "2071047feb62c89b555ab1d418dd27e080417a075066b1e03aa9a8d0e9394615",
+      "file_sha256": "e58cbd2ec2a8a83f100136f1408eac9f9672fd65ce5c6f26d9f3f231f4bf478d",
+      "path": "configs/observational_evidence_policy.json"
+    },
+    "shared_galaxy_policy": {
+      "applicability": "shared observational exclusions only; no galaxy split or lensing target is imported",
+      "content_sha256": "2092512cf1ab5758add274e87e5c6b88a40086b462c1200efd2b7c8d5c5c2fe8",
+      "file_sha256": "5a6a836467c528e5b77f5ca735dbb212e07cbc579e2b4466176aa535cfad6c84",
+      "path": "configs/galaxy_observable_protocol.json"
+    }
+  },
+  "source_packet_opened": false
+}

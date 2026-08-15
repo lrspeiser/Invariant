@@ -1,0 +1,145 @@
+{
+  "claims": {
+    "higher_K55_registered": false,
+    "higher_TC2_registered": false,
+    "lower_Sylvester_registered": false,
+    "rows_emitted": false
+  },
+  "config_sha256": "49803608370a0b3667ddbc5e52311f1885b8e37ec43419db609824b81a0bce5f",
+  "content_sha256": "8a163d612a0840ed03e62958385d00aa387a0a5112e53288811b782fc317b3f0",
+  "counts": {
+    "augmented_rank_each": 1,
+    "emitted_output_rows": 0,
+    "manifest_registered_after": 154,
+    "manifest_registered_before": 154,
+    "physical_signs_checked": 2,
+    "projected_target_nonzero_entries_each": 32,
+    "symmetric_metric_variables_per_sign": 253,
+    "transport_map_rank_each": 0
+  },
+  "decision": "BLOCK_SERIALIZATION",
+  "errors": [],
+  "exact_unit_direction_witness": {
+    "candidate_metric_transport_order": 2,
+    "direction": [
+      "3/5",
+      "4/5",
+      "0"
+    ],
+    "evaluation_id": "subset_2",
+    "failed_K55_Taylor_order": 3,
+    "physical_sign_witnesses": [
+      {
+        "augmented_rank": 1,
+        "consistent": false,
+        "eigenvalue": "1",
+        "left_nullspace_coordinate_witness": {
+          "column": 10,
+          "linear_map_value_for_every_symmetric_metric": "0",
+          "required_target_value": "4096/46875",
+          "row": 4
+        },
+        "physical_diagonal_companion1_nonzero_entries": 0,
+        "projected_target_nonzero_entries": 32,
+        "symmetric_metric_domain_dimension": 253,
+        "transport_linear_map_rank": 0
+      },
+      {
+        "augmented_rank": 1,
+        "consistent": false,
+        "eigenvalue": "-1",
+        "left_nullspace_coordinate_witness": {
+          "column": 10,
+          "linear_map_value_for_every_symmetric_metric": "0",
+          "required_target_value": "4096/46875",
+          "row": 4
+        },
+        "physical_diagonal_companion1_nonzero_entries": 0,
+        "projected_target_nonzero_entries": 32,
+        "symmetric_metric_domain_dimension": 253,
+        "transport_linear_map_rank": 0
+      }
+    ],
+    "unit_sphere_residual": "(3/5)^2+(4/5)^2-1=0"
+  },
+  "negative_controls": {
+    "advance_manifest_after_no_go": {
+      "rejected": true
+    },
+    "allow_nonsymmetric_metric_transport": {
+      "rejected": true
+    },
+    "ignore_left_nullspace_coordinate": {
+      "rejected": true
+    },
+    "sample_nonunit_direction": {
+      "rejected": true
+    }
+  },
+  "schema_version": "sigma-quartic-tc2-d4-physical-metric-transport-no-go-1.0",
+  "scope": "Provides an exact rational-unit-direction left-nullspace witness against the smallest symmetric physical metric-transport repair. It does not exclude changes to earlier P55/action authority, nonsymmetric forms, cross-cluster metrics, or a different symmetrizer construction.",
+  "source_bindings": {
+    "config": {
+      "file_sha256": "5ae9073646a1071f1e46418a642bbebcc8c02c7a166730ab6af70b0d1181426a",
+      "path": "configs/backgrounds/quartic_tc2_d4_physical_metric_transport_no_go.json"
+    },
+    "source": {
+      "file_sha256": "069b0fd1fc34540b756db9956f0284209e1bcadadd3b3e27860138a24e76f365",
+      "path": "src/sigma_theory_compiler/quartic_tc2_d4_physical_metric_transport_no_go.py"
+    },
+    "test": {
+      "file_sha256": "6809a46affe157358e32268f3e06fafb35d591229ce0e74fd47c770d389da0a0",
+      "path": "tests/test_quartic_tc2_d4_physical_metric_transport_no_go.py"
+    }
+  },
+  "status": "no_go_source_bound_symmetric_physical_metric_transport_cannot_cancel_K55_obstruction",
+  "theorem": {
+    "conclusion": "no source-bound symmetric within-physical-eigenspace order-two metric transport can cancel the subset_2 order-three K55 obstruction",
+    "contradiction": "the required projected order-three target has 32 nonzero entries for each s in {+1,-1}",
+    "identity": "Pi_s*C1*Pi_s=0 implies Pi_s^T[(Pi_s^T H2 Pi_s)C1-C1^T(Pi_s^T H2 Pi_s)]Pi_s=0 for every symmetric H2"
+  },
+  "upstream_bindings": {
+    "K55_frontier": {
+      "content_sha256": "41fd0982e24a5f7a69bc2394b4c46866424482a325f062baeb3dc68f5dc8101a",
+      "file_sha256": "531bd186859372fc7fd2785d558e5435f9c6e87cad38a77bdce678662f032f50",
+      "path": "runs/physics-language/quartic-tc2-d4-higher-k55-checkpointable-registration/campaign.json",
+      "verified": true
+    },
+    "P55_order_one": {
+      "content_sha256": "23fcfcef003f0fff5ab764400b2430fd9d9b684f04f8f19c34ffc4b77883701c",
+      "file_sha256": "239213ba033b4e3685e42b3326414d97b5987a415f320b78c9f120b2625f722a",
+      "path": "runs/physics-language/quartic-tc2-d4-p55-taylor-order-one-registration/campaign.json",
+      "verified": true
+    },
+    "Sylvester_obstruction": {
+      "content_sha256": "58eb5baea6f15d705e134181358991b43def6b19b38653c1d3811c27c35ec80d",
+      "file_sha256": "7ebfd45402e36635c082e87f94d85431625548bbd37eee303b40f6b48d633160",
+      "path": "runs/physics-language/quartic-tc2-d4-higher-k55-sylvester-obstruction/campaign.json",
+      "verified": true
+    },
+    "flat_P55": {
+      "content_sha256": "25ced42ac83bd592332f3d3a8bc97eeaac9c55b32ba4bb2be3e3da1fa6b503b7",
+      "file_sha256": "9e79245d45c248d5abf1b2fd11b12bb7ca0c857286d31f8bf46b7ec7c43490b2",
+      "path": "runs/physics-language/quartic-tc2-d4-p55-checkpointable-materializer/result.json",
+      "verified": true
+    },
+    "flat_action_metric": {
+      "content_sha256": "82b89bb823c0382e6a80918dd03bc7a1d46f059845a41ced86922dd79c30fd73",
+      "file_sha256": "ef0e7bb964947e4b19b6b62aa1e7e571abe66c17c23e60070956098d8e101941",
+      "path": "runs/physics-language/quartic-tc2-d4-flat-action-metric-registration/campaign.json",
+      "verified": true
+    },
+    "higher_H_star": {
+      "content_sha256": "cacf96bd867f1f423af68db844eef375581dd2e35e1a1880af96921bb4e64ac2",
+      "file_sha256": "6f80bbc9129b8adfbed435dfeb6bdd5f326a7c93f33e90ae5f601ee16b3879b1",
+      "path": "runs/physics-language/quartic-tc2-d4-higher-h-star-checkpointable-materializer/result.json",
+      "verified": true
+    },
+    "projector_recipes": {
+      "content_sha256": "893b5b5daacc749a593d4eddd709e0e61f63f9f7954f46f02c0fd6970f48badb",
+      "file_sha256": "f8846ef19ba340c24622839beedcf25547974c64a68ab9d7cb3490e979198001",
+      "path": "runs/physics-language/quartic-tc2-d4-coordinate-free-symbolic-recurrence-emitter-readiness/campaign.json",
+      "verified": true
+    }
+  }
+}
