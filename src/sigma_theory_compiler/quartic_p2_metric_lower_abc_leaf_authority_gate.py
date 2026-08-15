@@ -29,7 +29,7 @@ CONFIG_PATH = f"configs/backgrounds/{STEM}.json"
 SOURCE_PATH = f"src/sigma_theory_compiler/{STEM}.py"
 TEST_PATH = f"tests/test_{STEM}.py"
 OUTPUT_PATH = f"runs/physics-language/{SLUG}/campaign.json"
-CONFIG_PRODUCTION_SHA256 = "c1bdd3fcd1429709d4fd14ba541525b5e20bc241d4655d4e4f70f9b9e5dc01a3"
+CONFIG_PRODUCTION_SHA256 = "4d11a30189f1d570b97d18d9b3e511c9d3f3b2e0db95edd6d181d916f2ed1466"
 TEST_PRODUCTION_SHA256 = "059801a2ff073bcfd4117ce550065e46c9a9a350a965497e10ae0f9da24f5e13"
 P2_METRIC = tuple(
     (f"p2[{field}]", 32 + field, pair) for field, pair in enumerate(base.SYMMETRIC_PAIRS)
