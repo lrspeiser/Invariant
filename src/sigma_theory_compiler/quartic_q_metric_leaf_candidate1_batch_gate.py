@@ -24,7 +24,7 @@ CONFIG_PATH = f"configs/backgrounds/{STEM}.json"
 SOURCE_PATH = f"src/sigma_theory_compiler/{STEM}.py"
 TEST_PATH = f"tests/test_{STEM}.py"
 OUTPUT_PATH = f"runs/physics-language/{SLUG}/campaign.json"
-CONFIG_SHA = "7c8c424f76798fa02ba0ae3e1265176dd8dd83784ee70ff7303b10f1177d16d5"
+CONFIG_SHA = "de338bf5e93084ca0aec61fba15d51c0b5831a50362507565619bbe268897b66"
 TEST_SHA = "381829903b66ac341d779cec5b6ee2d6ad63159ea67178de4c31974853c0cdc8"
 
 
