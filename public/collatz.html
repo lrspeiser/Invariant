@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Collatz · Invariant — an exact, auditable discovery engine</title>
+<style>
+:root { color-scheme: dark; }
+* { box-sizing: border-box; }
+body { margin: 0; background: #0b0e14; color: #c9d3e0;
+  font: 15px/1.55 system-ui, "Segoe UI", Roboto, sans-serif; }
+a { color: #6cb1e1; text-decoration: none; }
+a:hover { text-decoration: underline; }
+code, pre, .mono { font-family: ui-monospace, "Cascadia Code", Consolas, Menlo, monospace; }
+header { border-bottom: 1px solid #1e2633; padding: 0.65rem 1.25rem; display: flex;
+  flex-wrap: wrap; gap: 0.4rem 1.5rem; align-items: baseline; }
+header .brand a { color: #e8eef6; font-weight: 700; letter-spacing: 0.02em; }
+header .tag { color: #7f8b9e; font-size: 0.8rem; }
+nav a { color: #7f8b9e; margin-right: 0.9rem; font-size: 0.86rem; }
+nav a.on { color: #e8eef6; }
+main { max-width: 1100px; margin: 0 auto; padding: 1.4rem 1.25rem 3rem; }
+h1 { font-size: 1.45rem; margin: 0.4rem 0 0.6rem; }
+h2 { font-size: 1.12rem; margin: 2rem 0 0.5rem; border-bottom: 1px solid #1e2633;
+  padding-bottom: 0.25rem; }
+h3 { font-size: 0.98rem; margin: 1.2rem 0 0.4rem; }
+p { margin: 0.5rem 0; }
+.sub { color: #7f8b9e; }
+.small { font-size: 0.82rem; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
+  gap: 0.6rem; margin: 0.9rem 0; }
+.tile { background: #10151f; border: 1px solid #1e2633; border-radius: 6px;
+  padding: 0.6rem 0.75rem; }
+.tile .v { font-family: ui-monospace, Consolas, monospace; font-size: 1.3rem;
+  font-weight: 600; line-height: 1.25; }
+.tile .k { color: #aeb9c9; font-size: 0.8rem; margin-top: 0.1rem; }
+.tile .r { color: #7f8b9e; font-family: ui-monospace, Consolas, monospace;
+  font-size: 0.68rem; margin-top: 0.3rem; word-break: break-all; }
+.tile.neg .v { color: #d8a03d; }
+.tile.fail .v { color: #e0655a; }
+.tile.pass .v { color: #4cb964; }
+.scroll { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 0.8rem; margin: 0.7rem 0; }
+th, td { border: 1px solid #1e2633; padding: 0.26rem 0.5rem; text-align: left;
+  vertical-align: top; }
+th { background: #10151f; font-weight: 600; }
+td.num, th.num { text-align: right; font-family: ui-monospace, Consolas, monospace;
+  white-space: nowrap; }
+td.mono { font-family: ui-monospace, Consolas, monospace; white-space: nowrap; }
+pre { background: #0e1219; border: 1px solid #1e2633; border-radius: 6px;
+  padding: 0.75rem 0.9rem; overflow-x: auto; font-size: 0.78rem; line-height: 1.45; }
+blockquote { border-left: 3px solid #2a3648; margin: 0.7rem 0; padding: 0.15rem 0.9rem;
+  color: #9daabb; font-size: 0.88rem; }
+.missing { border: 1px dashed #8a6d1f; background: rgba(216, 160, 61, 0.07);
+  border-radius: 6px; padding: 0.65rem 0.9rem; color: #d8b04a; margin: 0.8rem 0;
+  font-size: 0.88rem; }
+.neg-block { border: 1px solid #8a6d1f; background: rgba(216, 160, 61, 0.06);
+  border-radius: 6px; padding: 0.8rem 1rem; margin: 0.9rem 0; }
+.badge { display: inline-block; border: 1px solid; border-radius: 4px;
+  font: 600 0.68rem ui-monospace, Consolas, monospace; padding: 0.06rem 0.4rem;
+  margin-left: 0.4rem; vertical-align: middle; }
+.badge.pass { color: #4cb964; border-color: #4cb964; }
+.badge.fail { color: #e0655a; border-color: #e0655a; }
+.badge.neg { color: #d8a03d; border-color: #d8a03d; }
+.badge.ctl { color: #8caff5; border-color: #8caff5; }
+details.card { background: #10151f; border: 1px solid #1e2633; border-radius: 6px;
+  margin: 0.45rem 0; }
+details.card > summary { cursor: pointer; padding: 0.5rem 0.8rem; font-size: 0.82rem;
+  font-family: ui-monospace, Consolas, monospace; }
+details.card > div { padding: 0.1rem 0.9rem 0.7rem; border-top: 1px solid #1e2633; }
+ul { margin: 0.4rem 0 0.4rem 1.2rem; padding: 0; }
+li { margin: 0.22rem 0; }
+.form-grid { display: grid; grid-template-columns: 13rem 1fr; gap: 0.5rem 0.8rem;
+  align-items: start; margin: 0.8rem 0; }
+.form-grid label { color: #aeb9c9; font-size: 0.84rem; padding-top: 0.3rem; }
+input[type="text"], select, textarea { width: 100%; background: #0e1219;
+  color: #c9d3e0; border: 1px solid #2a3648; border-radius: 4px;
+  padding: 0.35rem 0.5rem; font: 0.84rem ui-monospace, Consolas, monospace; }
+textarea { min-height: 4.4rem; resize: vertical; }
+button { background: #1b2536; color: #dfe7f1; border: 1px solid #2a3648;
+  border-radius: 4px; padding: 0.4rem 0.9rem; font-size: 0.85rem; cursor: pointer; }
+button:hover { background: #24314a; }
+#errors { color: #e0655a; font-size: 0.85rem; }
+fieldset { border: 1px solid #1e2633; border-radius: 6px; margin: 0.6rem 0;
+  padding: 0.5rem 0.9rem 0.8rem; }
+legend { color: #aeb9c9; font-size: 0.8rem; padding: 0 0.4rem; }
+footer { border-top: 1px solid #1e2633; margin-top: 2.5rem; padding: 1.1rem 1.25rem 2rem;
+  color: #7f8b9e; font-size: 0.79rem; text-align: center; }
+footer p { max-width: 62rem; margin: 0.3rem auto; }
+</style>
+</head>
+<body>
+<header><div class="brand"><a href="/">Invariant</a> <span class="tag">an exact, auditable discovery engine</span></div><nav><a href="/">Overview</a><a href="/problems">Problems</a><a href="/gravity">Gravity</a><a href="/collatz" class="on">Collatz</a><a href="/evidence">Evidence</a><a href="/method">Method</a><a href="/submit">Submit</a></nav></header>
+<main>
+<h1>Collatz: a math notebook that starts with silence</h1>
+<p>Queue problem: <a href="/problems/collatz_stopping_time"><code>collatz_stopping_time</code></a> — the total stopping time sigma(n) of the Collatz map, a documented open problem. No progress on the conjecture itself is claimed anywhere on this page, and nothing below says anything about termination.</p>
+<h2 id="silence">The engine-silence story</h2>
+<p>Pointed at the raw stopping times with no declared target, the engine&rsquo;s first run failed completely: the basis-synthesis and structural-repair stages blocked, and the conjecture generator proposed nothing at all — zero conjectures, zero refutations — while two elementary true statements sat unseen in the same data. The silence was the finding. It exposed two structural blind spots, both general rather than Collatz-specific: sub-domains were dense-only, so structure living in a transformed index was invisible; and no statement kind could relate a(n) to a(c&middot;n). Both were fixed as general capabilities, and the same data then yielded two exact identities. Documented in repository docs (INDEPENDENT_DISCOVERY_TRIAL.md).</p>
+<h2 id="identities">The two discovered identities</h2>
+<details class="card" open><summary>sigma(2^k) = k &nbsp;<span class="badge ctl">RESTRICTED INDEX FAMILY</span></summary><div><p>On the reindexed sub-domain n = 2^k the stopping time is exactly k: pure halving descent. Found only after sparse geometric reindexing existed; holdout-confirmed on held-out rows. Documented in repository docs (INDEPENDENT_DISCOVERY_TRIAL.md).</p></div></details>
+<details class="card" open><summary>sigma(2n) = sigma(n) + 1 &nbsp;<span class="badge ctl">INDEX SCALING RELATION</span></summary><div><p>The halving relation, proposed from a prefix and confirmed on 26 holdout confirmations — the discovery that closed the loop from raw data to a kernel-checkable statement. Documented in repository docs (INDEPENDENT_DISCOVERY_TRIAL.md).</p></div></details>
+<h2 id="sweep">The exhaustive counterexample sweep</h2>
+<div class="tiles"><div class="tile pass" data-key="sweep_decision" data-value="NO_COUNTEREXAMPLE_IN_RANGE"><div class="v">NO COUNTEREXAMPLE IN RANGE</div><div class="k">decision, verbatim from the receipt</div><div class="r">runs/math/counterexample-sweeps/collatz-halving-1e8.json</div></div><div class="tile" data-key="sweep_hi" data-value="100000000"><div class="v">[1, 100,000,000 (10^8))</div><div class="k">half-open range swept</div><div class="r">runs/math/counterexample-sweeps/collatz-halving-1e8.json</div></div><div class="tile" data-key="sweep_checked" data-value="99999999"><div class="v">99,999,999</div><div class="k">instances checked</div><div class="r">runs/math/counterexample-sweeps/collatz-halving-1e8.json</div></div><div class="tile" data-key="sweep_undecided" data-value="0"><div class="v">0</div><div class="k">undecided (step-cap bucket — fail-closed, never pass or fail)</div><div class="r">runs/math/counterexample-sweeps/collatz-halving-1e8.json</div></div><div class="tile"><div class="v">574,016,230/s</div><div class="k">throughput on NVIDIA GeForce RTX 5090, 0.174 s wall</div><div class="r">runs/math/counterexample-sweeps/collatz-halving-1e8.json</div></div></div>
+<p>Statement swept, verbatim: <code>for all n in the declared range: a(2*n) = (1)*a(n) + (1), where a(n) = total stopping time of the Collatz map from n (step cap 10000)</code></p>
+<p>A finite sweep proves nothing outside its range — the receipt&rsquo;s scope field says so itself:</p><blockquote>Exhaustive counterexample sweep of one declared universally quantified integer statement over the half-open range [lo, hi). The GPU (or vectorized CPU) layer is a screen only: every reported witness is re-verified with exact pure-Python integer arithmetic (sympy for primality) before it enters the receipt, and a screen violation the exact layer cannot reproduce raises instead of being dropped. Bounded-iteration sequences run under a declared step cap and any lane exceeding it lands in a fail-closed third bucket (UNDECIDED_STEP_CAP_HIT), never in pass or fail. A finite sweep proves nothing outside the range; for statements with a literature bound (Goldbach: 4e18) a sweep below that bound adds no new bound and this receipt is a mechanism receipt. The new-knowledge lane is the engine&#x27;s own surviving conjectures, which carry no literature bound.</blockquote>
+<h2 id="lean">The formal artifact, in full</h2>
+<p>The halving relation&rsquo;s honest conditional form is provable with no termination assumption: if n reaches 1 in exactly k steps, then 2n reaches 1 in exactly k + 1 steps, with reachability stated inductively. The file below is rendered verbatim from <code>formal/lean/CollatzHalvingRelation.lean</code> (<a href="https://github.com/lrspeiser/Invariant/blob/main/formal/lean/CollatzHalvingRelation.lean" rel="noopener">view on GitHub</a>).</p>
+<pre><code>import Std.Tactic
+
+/-!
+Engine-discovered Collatz halving relation, in its honest conditional form.
+
+The Invariant conjecture engine, given only the raw total stopping times
+`sigma(1..64)`, proposed `sigma(2n) = sigma(n) + 1` and confirmed it on 26 held-out
+rows.  That empirical statement presupposes both stopping times exist, which is the
+open part of the Collatz conjecture and is NOT claimed here.
+
+What IS provable without any termination assumption is the conditional form: if `n`
+reaches 1 in exactly `k` steps, then `2 * n` reaches 1 in exactly `k + 1` steps.
+Reachability is stated inductively, so no partial function and no well-founded
+recursion on the open conjecture is needed.
+
+This file proves nothing about whether any `n` reaches 1 at all.
+-/
+
+namespace Invariant
+
+/-- One Collatz step: halve when even, otherwise `3n + 1`. -/
+def collatzStep (n : Nat) : Nat :=
+  if n % 2 = 0 then n / 2 else 3 * n + 1
+
+/-- `CollatzReaches n k`: starting from `n`, exactly `k` steps arrive at 1. -/
+inductive CollatzReaches : Nat → Nat → Prop
+  | done : CollatzReaches 1 0
+  | step {n k : Nat} (ne_one : n ≠ 1)
+      (tail : CollatzReaches (collatzStep n) k) : CollatzReaches n (k + 1)
+
+/-- Doubling then stepping returns to the start: `collatzStep (2n) = n`. -/
+theorem collatzStep_double (n : Nat) : collatzStep (2 * n) = n := by
+  unfold collatzStep
+  rw [if_pos (Nat.mul_mod_right 2 n)]
+  omega
+
+/-- The engine-discovered relation, conditionally: reaching 1 from `n` in `k`
+    steps forces reaching 1 from `2 * n` in `k + 1` steps. -/
+theorem collatzReaches_double {n k : Nat} (pos : 1 ≤ n)
+    (reaches : CollatzReaches n k) : CollatzReaches (2 * n) (k + 1) := by
+  have ne_one : 2 * n ≠ 1 := by omega
+  have back : collatzStep (2 * n) = n := collatzStep_double n
+  exact CollatzReaches.step ne_one (back ▸ reaches)
+
+/-- Corollary chain at a concrete point: 1 -&gt; 2 -&gt; 4 reach 1 in 0, 1, 2 steps. -/
+theorem collatzReaches_four : CollatzReaches 4 2 := by
+  have one : CollatzReaches 1 0 := CollatzReaches.done
+  have two : CollatzReaches 2 1 := by
+    simpa using collatzReaches_double (Nat.le_refl 1) one
+  simpa using collatzReaches_double (by omega : 1 ≤ 2) two
+
+end Invariant
+
+#eval IO.println &quot;INVARIANT_LEAN_DEPENDENCY_AUDIT_V1_BEGIN&quot;
+#eval IO.println &quot;target=Invariant.collatzReaches_double&quot;
+#eval IO.println &quot;dependency=Invariant.collatzStep&quot;
+#eval IO.println &quot;dependency=Invariant.CollatzReaches&quot;
+#eval IO.println &quot;dependency=Invariant.collatzStep_double&quot;
+#eval IO.println &quot;dependency=Nat.mul_mod_right&quot;
+#eval IO.println &quot;dependency=Lean.Parser.Tactic.omega&quot;
+#eval IO.println &quot;result=checked&quot;
+#eval IO.println &quot;INVARIANT_LEAN_DEPENDENCY_AUDIT_V1_END&quot;
+</code></pre>
+<p><strong>Claim boundary.</strong> The empirical identity presupposes both stopping times exist, which is the open part of the Collatz conjecture and is not claimed. The Lean theorem proves only the conditional statement; it proves nothing about whether any n reaches 1 at all, and the case-study tests include a check that no statement the engine emits can even express a termination claim.</p>
+</main>
+<footer><p>Every number on this page is read from a sealed receipt at build time. Corpus absence is never novelty; survival is never proof; negative receipts are deliverables.</p><p>Site content as of <code>2c2b60eac348ef6b4ee352768bdba987595d914a</code>. Generated deterministically by <code>src/sigma_theory_compiler/static_site_generator.py</code>; re-run with <code>--validate</code> to byte-compare.</p></footer>
+</body>
+</html>

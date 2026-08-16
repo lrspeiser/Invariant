@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Submit · Invariant — an exact, auditable discovery engine</title>
+<style>
+:root { color-scheme: dark; }
+* { box-sizing: border-box; }
+body { margin: 0; background: #0b0e14; color: #c9d3e0;
+  font: 15px/1.55 system-ui, "Segoe UI", Roboto, sans-serif; }
+a { color: #6cb1e1; text-decoration: none; }
+a:hover { text-decoration: underline; }
+code, pre, .mono { font-family: ui-monospace, "Cascadia Code", Consolas, Menlo, monospace; }
+header { border-bottom: 1px solid #1e2633; padding: 0.65rem 1.25rem; display: flex;
+  flex-wrap: wrap; gap: 0.4rem 1.5rem; align-items: baseline; }
+header .brand a { color: #e8eef6; font-weight: 700; letter-spacing: 0.02em; }
+header .tag { color: #7f8b9e; font-size: 0.8rem; }
+nav a { color: #7f8b9e; margin-right: 0.9rem; font-size: 0.86rem; }
+nav a.on { color: #e8eef6; }
+main { max-width: 1100px; margin: 0 auto; padding: 1.4rem 1.25rem 3rem; }
+h1 { font-size: 1.45rem; margin: 0.4rem 0 0.6rem; }
+h2 { font-size: 1.12rem; margin: 2rem 0 0.5rem; border-bottom: 1px solid #1e2633;
+  padding-bottom: 0.25rem; }
+h3 { font-size: 0.98rem; margin: 1.2rem 0 0.4rem; }
+p { margin: 0.5rem 0; }
+.sub { color: #7f8b9e; }
+.small { font-size: 0.82rem; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
+  gap: 0.6rem; margin: 0.9rem 0; }
+.tile { background: #10151f; border: 1px solid #1e2633; border-radius: 6px;
+  padding: 0.6rem 0.75rem; }
+.tile .v { font-family: ui-monospace, Consolas, monospace; font-size: 1.3rem;
+  font-weight: 600; line-height: 1.25; }
+.tile .k { color: #aeb9c9; font-size: 0.8rem; margin-top: 0.1rem; }
+.tile .r { color: #7f8b9e; font-family: ui-monospace, Consolas, monospace;
+  font-size: 0.68rem; margin-top: 0.3rem; word-break: break-all; }
+.tile.neg .v { color: #d8a03d; }
+.tile.fail .v { color: #e0655a; }
+.tile.pass .v { color: #4cb964; }
+.scroll { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 0.8rem; margin: 0.7rem 0; }
+th, td { border: 1px solid #1e2633; padding: 0.26rem 0.5rem; text-align: left;
+  vertical-align: top; }
+th { background: #10151f; font-weight: 600; }
+td.num, th.num { text-align: right; font-family: ui-monospace, Consolas, monospace;
+  white-space: nowrap; }
+td.mono { font-family: ui-monospace, Consolas, monospace; white-space: nowrap; }
+pre { background: #0e1219; border: 1px solid #1e2633; border-radius: 6px;
+  padding: 0.75rem 0.9rem; overflow-x: auto; font-size: 0.78rem; line-height: 1.45; }
+blockquote { border-left: 3px solid #2a3648; margin: 0.7rem 0; padding: 0.15rem 0.9rem;
+  color: #9daabb; font-size: 0.88rem; }
+.missing { border: 1px dashed #8a6d1f; background: rgba(216, 160, 61, 0.07);
+  border-radius: 6px; padding: 0.65rem 0.9rem; color: #d8b04a; margin: 0.8rem 0;
+  font-size: 0.88rem; }
+.neg-block { border: 1px solid #8a6d1f; background: rgba(216, 160, 61, 0.06);
+  border-radius: 6px; padding: 0.8rem 1rem; margin: 0.9rem 0; }
+.badge { display: inline-block; border: 1px solid; border-radius: 4px;
+  font: 600 0.68rem ui-monospace, Consolas, monospace; padding: 0.06rem 0.4rem;
+  margin-left: 0.4rem; vertical-align: middle; }
+.badge.pass { color: #4cb964; border-color: #4cb964; }
+.badge.fail { color: #e0655a; border-color: #e0655a; }
+.badge.neg { color: #d8a03d; border-color: #d8a03d; }
+.badge.ctl { color: #8caff5; border-color: #8caff5; }
+details.card { background: #10151f; border: 1px solid #1e2633; border-radius: 6px;
+  margin: 0.45rem 0; }
+details.card > summary { cursor: pointer; padding: 0.5rem 0.8rem; font-size: 0.82rem;
+  font-family: ui-monospace, Consolas, monospace; }
+details.card > div { padding: 0.1rem 0.9rem 0.7rem; border-top: 1px solid #1e2633; }
+ul { margin: 0.4rem 0 0.4rem 1.2rem; padding: 0; }
+li { margin: 0.22rem 0; }
+.form-grid { display: grid; grid-template-columns: 13rem 1fr; gap: 0.5rem 0.8rem;
+  align-items: start; margin: 0.8rem 0; }
+.form-grid label { color: #aeb9c9; font-size: 0.84rem; padding-top: 0.3rem; }
+input[type="text"], select, textarea { width: 100%; background: #0e1219;
+  color: #c9d3e0; border: 1px solid #2a3648; border-radius: 4px;
+  padding: 0.35rem 0.5rem; font: 0.84rem ui-monospace, Consolas, monospace; }
+textarea { min-height: 4.4rem; resize: vertical; }
+button { background: #1b2536; color: #dfe7f1; border: 1px solid #2a3648;
+  border-radius: 4px; padding: 0.4rem 0.9rem; font-size: 0.85rem; cursor: pointer; }
+button:hover { background: #24314a; }
+#errors { color: #e0655a; font-size: 0.85rem; }
+fieldset { border: 1px solid #1e2633; border-radius: 6px; margin: 0.6rem 0;
+  padding: 0.5rem 0.9rem 0.8rem; }
+legend { color: #aeb9c9; font-size: 0.8rem; padding: 0 0.4rem; }
+footer { border-top: 1px solid #1e2633; margin-top: 2.5rem; padding: 1.1rem 1.25rem 2rem;
+  color: #7f8b9e; font-size: 0.79rem; text-align: center; }
+footer p { max-width: 62rem; margin: 0.3rem auto; }
+</style>
+</head>
+<body>
+<header><div class="brand"><a href="/">Invariant</a> <span class="tag">an exact, auditable discovery engine</span></div><nav><a href="/">Overview</a><a href="/problems">Problems</a><a href="/gravity">Gravity</a><a href="/collatz">Collatz</a><a href="/evidence">Evidence</a><a href="/method">Method</a><a href="/submit" class="on">Submit</a></nav></header>
+<main>
+<h1>Submit a problem for the sealed queue</h1>
+<p><strong>Submissions are reviewed by a human and, if accepted, sealed into the queue with a new content hash. Nothing on this site writes to the repository.</strong></p>
+<p>The queue schema has exactly 9 keys per entry: <code>id</code>, <code>domain</code>, <code>statement</code>, <code>source_citation</code>, <code>believed_open_because</code>, <code>machine_form</code>, <code>progress_definition</code>, <code>control_rediscovery</code>, <code>synthetic</code>. Floats are forbidden everywhere. &ldquo;Believed open&rdquo; must point at cited literature — or say plainly that the entry is a control or synthetic world; those two labels are schema booleans, not prose. Define progress in advance, including what a sealed negative would look like.</p>
+<div class="form-grid">
+<label for="f-id">id</label>
+<input type="text" id="f-id" placeholder="lowercase-kebab-or_snake" pattern="[a-z][a-z0-9_.-]{0,127}">
+<label for="f-domain">domain</label>
+<select id="f-domain"><option value="math">math</option><option value="physics">physics</option></select>
+<label for="f-subdomain">subdomain (optional)</label>
+<input type="text" id="f-subdomain" placeholder="number_theory">
+<label for="f-statement">statement</label>
+<textarea id="f-statement"></textarea>
+<label for="f-citation">source_citation</label>
+<textarea id="f-citation"></textarea>
+<label for="f-open">believed_open_because</label>
+<textarea id="f-open"></textarea>
+<label for="f-progress">progress_definition</label>
+<textarea id="f-progress"></textarea>
+<label for="f-kind">machine_form.kind</label>
+<select id="f-kind"><option value="dataset_law_fit">dataset_law_fit</option><option value="diophantine_family">diophantine_family</option><option value="integer_trajectory">integer_trajectory</option><option value="module_target">module_target</option><option value="sequence_rows">sequence_rows</option></select>
+<label for="f-control">control_rediscovery</label>
+<div><input type="checkbox" id="f-control"> <span class="small sub">the answer is known; this entry calibrates the method (default false)</span></div>
+<label for="f-synthetic">synthetic</label>
+<div><input type="checkbox" id="f-synthetic"> <span class="small sub">a sealed synthetic world; openness is operational, not epistemic (default false)</span></div>
+</div>
+<fieldset class="mf-fields" data-kind="dataset_law_fit" hidden><legend>machine_form: dataset_law_fit</legend><div class="form-grid"><label for="f-mf-dataset_law_fit-dataset">dataset <span class="sub">(string)</span></label><input type="text" id="f-mf-dataset_law_fit-dataset"><label for="f-mf-dataset_law_fit-target_relation">target_relation <span class="sub">(string)</span></label><input type="text" id="f-mf-dataset_law_fit-target_relation"></div></fieldset>
+<fieldset class="mf-fields" data-kind="diophantine_family" hidden><legend>machine_form: diophantine_family</legend><div class="form-grid"><label for="f-mf-diophantine_family-equation">equation <span class="sub">(string)</span></label><input type="text" id="f-mf-diophantine_family-equation"><label for="f-mf-diophantine_family-parameter">parameter <span class="sub">(string)</span></label><input type="text" id="f-mf-diophantine_family-parameter"><label for="f-mf-diophantine_family-parameter_min">parameter_min <span class="sub">(integer)</span></label><input type="text" id="f-mf-diophantine_family-parameter_min"></div></fieldset>
+<fieldset class="mf-fields" data-kind="integer_trajectory" hidden><legend>machine_form: integer_trajectory</legend><div class="form-grid"><label for="f-mf-integer_trajectory-map">map <span class="sub">(string)</span></label><input type="text" id="f-mf-integer_trajectory-map"><label for="f-mf-integer_trajectory-max_steps">max_steps <span class="sub">(integer)</span></label><input type="text" id="f-mf-integer_trajectory-max_steps"><label for="f-mf-integer_trajectory-seed">seed <span class="sub">(integer)</span></label><input type="text" id="f-mf-integer_trajectory-seed"></div></fieldset>
+<fieldset class="mf-fields" data-kind="module_target" hidden><legend>machine_form: module_target</legend><div class="form-grid"><label for="f-mf-module_target-decomposition_module">decomposition_module <span class="sub">(string)</span></label><input type="text" id="f-mf-module_target-decomposition_module"><label for="f-mf-module_target-proof_module">proof_module <span class="sub">(string)</span></label><input type="text" id="f-mf-module_target-proof_module"></div></fieldset>
+<fieldset class="mf-fields" data-kind="sequence_rows" hidden><legend>machine_form: sequence_rows</legend><div class="form-grid"><label for="f-mf-sequence_rows-generator">generator <span class="sub">(string)</span></label><input type="text" id="f-mf-sequence_rows-generator"><label for="f-mf-sequence_rows-max_point">max_point <span class="sub">(integer)</span></label><input type="text" id="f-mf-sequence_rows-max_point"></div></fieldset>
+<p><button type="button" id="build">Validate and build the entry</button></p><ul id="errors"></ul><div id="result" hidden><h2>Entry JSON</h2><textarea id="out" readonly rows="18"></textarea><p><button type="button" id="copy">Copy JSON</button> <a id="issue-link" href="https://github.com/lrspeiser/Invariant/issues/new" rel="noopener">Open a prefilled GitHub issue with this entry</a></p><p class="small sub">Submissions are reviewed by a human and, if accepted, sealed into the queue with a new content hash. Nothing on this site writes to the repository.</p></div>
+<script>var KINDS = {"dataset_law_fit": {"dataset": "str", "target_relation": "str"}, "diophantine_family": {"equation": "str", "parameter": "str", "parameter_min": "int"}, "integer_trajectory": {"map": "str", "max_steps": "int", "seed": "int"}, "module_target": {"decomposition_module": "str", "proof_module": "str"}, "sequence_rows": {"generator": "str", "max_point": "int"}};
+var CAPS = {"max_entries": 64, "max_machine_form_int": 1000000000, "max_text_chars": 1200};
+var ISSUE_URL = "https://github.com/lrspeiser/Invariant/issues/new";
+
+function byId(id) { return document.getElementById(id); }
+var ID_RE = /^[a-z][a-z0-9_.-]{0,127}$/;
+var SUB_RE = /^[a-z][a-z0-9_]*$/;
+var INT_RE = /^\d+$/;
+function sortKeys(obj) {
+  var out = {};
+  Object.keys(obj).sort().forEach(function (key) { out[key] = obj[key]; });
+  return out;
+}
+function showKind() {
+  var kind = byId("f-kind").value;
+  var blocks = document.querySelectorAll(".mf-fields");
+  for (var i = 0; i < blocks.length; i += 1) {
+    blocks[i].hidden = blocks[i].getAttribute("data-kind") !== kind;
+  }
+}
+function collect() {
+  var errors = [];
+  var idv = byId("f-id").value.trim();
+  if (!ID_RE.test(idv)) {
+    errors.push("id must be lowercase kebab/snake case matching " + String(ID_RE) + ".");
+  }
+  var sub = byId("f-subdomain").value.trim();
+  if (sub && !SUB_RE.test(sub)) {
+    errors.push("subdomain must match " + String(SUB_RE) + ".");
+  }
+  var domain = byId("f-domain").value + (sub ? "/" + sub : "");
+  var textFields = {
+    believed_open_because: "f-open",
+    progress_definition: "f-progress",
+    source_citation: "f-citation",
+    statement: "f-statement"
+  };
+  var texts = {};
+  Object.keys(textFields).sort().forEach(function (key) {
+    var value = byId(textFields[key]).value.trim();
+    if (!value) { errors.push(key + " must be nonempty."); }
+    if (value.length > CAPS.max_text_chars) {
+      errors.push(key + " exceeds the " + CAPS.max_text_chars + "-character cap.");
+    }
+    texts[key] = value;
+  });
+  var kind = byId("f-kind").value;
+  var machineForm = { kind: kind };
+  Object.keys(KINDS[kind]).sort().forEach(function (name) {
+    var raw = byId("f-mf-" + kind + "-" + name).value.trim();
+    if (KINDS[kind][name] === "int") {
+      if (!INT_RE.test(raw)) {
+        errors.push("machine_form." + name +
+          " must be a nonnegative integer; floats are forbidden everywhere in the queue.");
+        return;
+      }
+      var num = parseInt(raw, 10);
+      if (num > CAPS.max_machine_form_int) {
+        errors.push("machine_form." + name + " exceeds the integer cap " +
+          CAPS.max_machine_form_int + ".");
+      }
+      machineForm[name] = num;
+    } else {
+      if (!raw) { errors.push("machine_form." + name + " must be nonempty."); }
+      machineForm[name] = raw;
+    }
+  });
+  var entry = sortKeys({
+    id: idv,
+    domain: domain,
+    statement: texts.statement,
+    source_citation: texts.source_citation,
+    believed_open_because: texts.believed_open_because,
+    machine_form: sortKeys(machineForm),
+    progress_definition: texts.progress_definition,
+    control_rediscovery: byId("f-control").checked,
+    synthetic: byId("f-synthetic").checked
+  });
+  return { errors: errors, entry: entry };
+}
+function buildEntry() {
+  var result = collect();
+  var list = byId("errors");
+  list.textContent = "";
+  if (result.errors.length) {
+    result.errors.forEach(function (message) {
+      var item = document.createElement("li");
+      item.textContent = message;
+      list.appendChild(item);
+    });
+    byId("result").hidden = true;
+    return;
+  }
+  var jsonText = JSON.stringify(result.entry, null, 1);
+  byId("out").value = jsonText;
+  var title = "Problem-queue submission: " + result.entry.id;
+  var fence = String.fromCharCode(96, 96, 96);
+  var issueBody = "Proposed A2 problem-queue entry (client-validated; floats forbidden; " +
+    "the seal is recomputed on acceptance):\n\n" + fence + "json\n" + jsonText +
+    "\n" + fence + "\n";
+  byId("issue-link").href = ISSUE_URL + "?title=" + encodeURIComponent(title) +
+    "&body=" + encodeURIComponent(issueBody);
+  byId("result").hidden = false;
+}
+function copyOut() {
+  var out = byId("out");
+  out.select();
+  if (navigator.clipboard) { navigator.clipboard.writeText(out.value); }
+}
+document.addEventListener("DOMContentLoaded", function () {
+  byId("f-kind").addEventListener("change", showKind);
+  byId("build").addEventListener("click", buildEntry);
+  byId("copy").addEventListener("click", copyOut);
+  showKind();
+});
+</script>
+</main>
+<footer><p>Every number on this page is read from a sealed receipt at build time. Corpus absence is never novelty; survival is never proof; negative receipts are deliverables.</p><p>Site content as of <code>2c2b60eac348ef6b4ee352768bdba987595d914a</code>. Generated deterministically by <code>src/sigma_theory_compiler/static_site_generator.py</code>; re-run with <code>--validate</code> to byte-compare.</p></footer>
+</body>
+</html>
