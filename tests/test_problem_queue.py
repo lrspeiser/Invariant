@@ -303,3 +303,107 @@ def test_cli_exits_nonzero_on_invalid_or_missing_queue(queue, tmp_path, capsys):
     assert main(("--queue", str(tmp_path / "absent.json"), "--validate")) == 1
     with pytest.raises(SystemExit):
         main(())
+
+
+# ---------------------------------------------------------------------------
+# Queue v2: the unsolved dozen
+# ---------------------------------------------------------------------------
+
+QUEUE_V2_PATH = Path(__file__).resolve().parents[1] / "configs" / "problem_queue_v2.json"
+PINNED_V2_CONTENT_SHA256 = "6109e436a97b97b798257adee590ce3ed7200d8eeaf21451d971ce67a19414db"
+
+DOZEN_IDS = (
+    "lychrel_196",
+    "brocard_problem",
+    "erdos_moser",
+    "lehmer_totient",
+    "giuga_conjecture",
+    "odd_perfect_number",
+    "odd_untouchable",
+    "twin_prime_infinitude",
+    "gilbreath_conjecture",
+    "ulam_sequence_structure",
+    "recaman_coverage",
+    "singmaster_conjecture",
+)
+
+
+class TestProblemQueueV2:
+    """The v2 queue: all ten v1 entries unchanged plus the twelve-problem dozen."""
+
+    @pytest.fixture()
+    def queue_v2(self) -> dict[str, object]:
+        return load_queue(QUEUE_V2_PATH)
+
+    def test_loads_seals_and_is_pinned_with_22_entries(self, queue_v2):
+        assert queue_v2["schema_version"] == QUEUE_SCHEMA
+        assert len(queue_v2["entries"]) == 22
+        validate_queue(queue_v2)
+        assert queue_v2["content_sha256"] == PINNED_V2_CONTENT_SHA256
+        assert QUEUE_V2_PATH.read_bytes() == canonical_json_bytes(queue_v2) + b"\n"
+        assert seal_queue(queue_v2["entries"]) == queue_v2
+
+    def test_v1_entries_are_carried_over_unchanged(self, queue, queue_v2):
+        assert queue_v2["entries"][:10] == queue["entries"]
+
+    def test_domain_counts_are_nineteen_math_three_physics(self, queue_v2):
+        summary = summarize_queue(queue_v2)
+        assert summary["counts"] == {
+            "control_rediscovery": 1,
+            "entries": 22,
+            "math": 19,
+            "physics": 3,
+            "synthetic": 1,
+        }
+        assert summary["entry_ids"][10:] == list(DOZEN_IDS)
+
+    def test_every_new_entry_cites_real_literature(self, queue_v2):
+        for entry_id in DOZEN_IDS:
+            entry = _entry(queue_v2, entry_id)
+            assert len(entry["source_citation"]) > 40, entry_id
+            assert any(char.isdigit() for char in entry["source_citation"]), entry_id
+            assert len(entry["believed_open_because"]) > 40, entry_id
+            assert "2026" in entry["believed_open_because"], entry_id
+            assert entry["progress_definition"], entry_id
+
+    def test_named_citations_are_present_verbatim(self, queue_v2):
+        expectations = {
+            "lychrel_196": ("A023108", "VanLandingham"),
+            "brocard_problem": ("Brocard", "Ramanujan", "Berndt", "Galway"),
+            "erdos_moser": ("Moser", "Gallot", "Moree", "Zudilin", "2011"),
+            "lehmer_totient": ("Lehmer", "1932", "B37"),
+            "giuga_conjecture": ("Giuga", "1950", "Borwein", "1996"),
+            "odd_perfect_number": ("Ochem", "Rao", "2012"),
+            "odd_untouchable": ("B10", "Erdos", "1973"),
+            "twin_prime_infinitude": ("A8", "Zhang", "Polymath", "A007508"),
+            "gilbreath_conjecture": ("Gilbreath", "Odlyzko", "1993"),
+            "ulam_sequence_structure": ("Ulam", "1964", "Steinerberger", "A002858"),
+            "recaman_coverage": ("A005132",),
+            "singmaster_conjecture": ("Singmaster", "1971", "Kane", "2007"),
+        }
+        for entry_id, needles in expectations.items():
+            citation = _entry(queue_v2, entry_id)["source_citation"]
+            for needle in needles:
+                assert needle in citation, (entry_id, needle)
+
+    def test_all_twelve_flags_are_false(self, queue_v2):
+        for entry_id in DOZEN_IDS:
+            entry = _entry(queue_v2, entry_id)
+            assert entry["control_rediscovery"] is False, entry_id
+            assert entry["synthetic"] is False, entry_id
+
+    def test_machine_forms_reuse_only_registered_kinds(self, queue_v2):
+        kinds = {}
+        for entry_id in DOZEN_IDS:
+            form = _entry(queue_v2, entry_id)["machine_form"]
+            assert form["kind"] in MACHINE_FORM_KINDS, entry_id
+            assert set(form) == {"kind"} | set(MACHINE_FORM_KINDS[form["kind"]]), entry_id
+            kinds.setdefault(form["kind"], []).append(entry_id)
+        assert sorted(kinds) == [
+            "diophantine_family",
+            "integer_trajectory",
+            "sequence_rows",
+        ]
+        assert len(kinds["diophantine_family"]) == 6
+        assert len(kinds["integer_trajectory"]) == 2
+        assert len(kinds["sequence_rows"]) == 4
