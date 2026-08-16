@@ -131,6 +131,41 @@ footer { border-top: 3px double #2a2418; margin-top: 2.6rem; padding-top: 0.9rem
   text-align: center; font-size: 0.7rem; color: #6b6353; }
 footer .orn { letter-spacing: 0.7em; margin: 0 0 0.4rem; }
 footer p { max-width: 62ch; margin: 0.3rem auto; }
+:root { --funnel-bar: rgba(49,87,126,0.30); --funnel-hit: rgba(46,107,58,0.38);
+  --funnel-edge: #31577e; --funnel-hit-edge: #2e6b3a; }
+figure.funnel-figure { margin: 1.1rem 0 1.3rem; padding: 0; }
+figure.funnel-figure svg { width: 100%; height: auto; display: block; }
+svg.funnel text { font-family: inherit; font-size: 12px; fill: currentColor; }
+svg.funnel text.num { font-weight: 700; }
+svg.funnel text.lbl { fill-opacity: 0.82; }
+svg.funnel rect.bar { fill: var(--funnel-bar); stroke: var(--funnel-edge);
+  stroke-width: 1; }
+svg.funnel rect.bar.hit { fill: var(--funnel-hit); stroke: var(--funnel-hit-edge); }
+svg.funnel line.axis { stroke: currentColor; stroke-opacity: 0.5; stroke-width: 1; }
+svg.funnel line.rule { stroke: currentColor; stroke-opacity: 0.16;
+  stroke-dasharray: 2 3; }
+figure.funnel-figure figcaption { font-size: 0.74rem; color: #57503f;
+  margin-top: 0.35rem; }
+.duo { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 0.7rem; margin: 0.9rem 0; }
+.duo .half { background: #fdfcf6; border: 1px solid #cfc8b6; padding: 0.6rem 0.8rem;
+  box-shadow: 1px 2px 0 rgba(64,58,42,0.08); }
+.duo .half .hd { font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: #57503f; margin-bottom: 0.35rem; }
+.aside-box { border: 2px solid #31577e; background: rgba(49,87,126,0.06);
+  padding: 0.75rem 1rem; margin: 1rem 0; }
+.aside-box .hd { font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  font-size: 0.78rem; color: #31577e; margin-bottom: 0.3rem; }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
+  gap: 0.7rem; margin: 1rem 0; }
+.cards a.card-link { display: block; background: #fdfcf6; border: 1px solid #cfc8b6;
+  padding: 0.55rem 0.75rem; text-decoration: none; color: inherit;
+  box-shadow: 1px 2px 0 rgba(64,58,42,0.08); }
+.cards a.card-link:hover { border-color: #8b3a2e; color: inherit; }
+.cards a.card-link .t { font-weight: 700; }
+.cards a.card-link .d { font-size: 0.74rem; color: #57503f; margin-top: 0.2rem; }
+.cards a.card-link .f { font-size: 0.68rem; color: #8a8171; margin-top: 0.3rem;
+  word-break: break-all; }
 @media (max-width: 640px) {
   .sheet { margin: 0 auto; border-left: 0; border-right: 0; }
 }
@@ -191,12 +226,23 @@ footer p { max-width: 62ch; margin: 0.3rem auto; }
   .receipt-form { color: #7b776b; }
   fieldset { border-color: #3f4046; }
   legend { color: #a49f90; }
+  :root { --funnel-bar: rgba(143,179,217,0.28); --funnel-hit: rgba(134,196,147,0.30);
+    --funnel-edge: #8fb3d9; --funnel-hit-edge: #86c493; }
+  figure.funnel-figure figcaption { color: #a49f90; }
+  .duo .half { background: #2b2c31; border-color: #3f4046; }
+  .duo .half .hd { color: #a49f90; }
+  .aside-box { border-color: #8fb3d9; background: rgba(143,179,217,0.07); }
+  .aside-box .hd { color: #8fb3d9; }
+  .cards a.card-link { background: #2b2c31; border-color: #3f4046; }
+  .cards a.card-link:hover { border-color: #d99a82; }
+  .cards a.card-link .d { color: #a49f90; }
+  .cards a.card-link .f { color: #7b776b; }
 }
 </style>
 </head>
 <body>
 <div class="sheet">
-<header><div class="brand"><a href="/">Invariant</a></div><p class="tag">a machine that guesses patterns, tries its hardest to break them, and files paperwork for every attempt &mdash; the failures included</p><nav><a href="/">Home</a><a href="/paper">The write-up</a><a href="/problems" class="on">Problems</a><a href="/gravity">Gravity</a><a href="/collatz">Collatz</a><a href="/evidence">Evidence</a><a href="/method">Method</a><a href="/submit">Submit</a></nav></header>
+<header><div class="brand"><a href="/">Invariant</a></div><p class="tag">a machine that guesses patterns, tries its hardest to break them, and files paperwork for every attempt &mdash; the failures included</p><nav><a href="/">Home</a><a href="/paper">The write-up</a><a href="/problems" class="on">Problems</a><a href="/papers">Papers</a><a href="/gravity">Gravity</a><a href="/collatz">Collatz</a><a href="/evidence">Evidence</a><a href="/method">Method</a><a href="/submit">Submit</a></nav></header>
 <main>
 <p class="kicker">From the sealed problem ledger</p>
 <h1><code>erdos_straus</code> <span class="badge neg">BELIEVED OPEN</span></h1>
@@ -218,7 +264,7 @@ footer p { max-width: 62ch; margin: 0.3rem auto; }
 <p>No sealed receipt in this repository references this problem yet. When one lands, it will be linked here and listed on the <a href="/evidence">evidence</a> page.</p>
 <p class="small"><a href="/problems">&larr; back to the full ledger</a></p>
 </main>
-<footer><p class="orn">* * *</p><p>Every number on this page is read from a sealed receipt at build time. Corpus absence is never novelty; survival is never proof; negative receipts are deliverables.</p><p>Site content as of <code>277903bec581ec64eb071227a3e290c597ecf9e9</code>. Composed deterministically by <code>src/sigma_theory_compiler/static_site_generator.py</code>; re-run with <code>--validate</code> to byte-compare. Set in typewriter type on grid paper; no page requests any external resource.</p></footer>
+<footer><p class="orn">* * *</p><p>Every number on this page is read from a sealed receipt at build time. Corpus absence is never novelty; survival is never proof; negative receipts are deliverables.</p><p>Site content as of <code>6e740a2a570a3f4b06312deb27d0c2b44e622a3e</code>. Composed deterministically by <code>src/sigma_theory_compiler/static_site_generator.py</code>; re-run with <code>--validate</code> to byte-compare. Set in typewriter type on grid paper; no page requests any external resource.</p></footer>
 </div>
 </body>
 </html>

@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blind rediscovery 6: the tetrahedral numbers · Invariant — a pattern-hunting machine and its public logbook</title>
+<style>
+:root { color-scheme: light; }
+* { box-sizing: border-box; }
+body { margin: 0; color: #2a2418; font-size: 17px; line-height: 1.65;
+  font-family: "Courier Prime","American Typewriter","Courier New",Courier,monospace;
+  background-color: #fbfaf6;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(148,160,178,0.42) 0, rgba(148,160,178,0.42) 1px,
+      transparent 1px, transparent 95px),
+    repeating-linear-gradient(90deg, rgba(148,160,178,0.42) 0, rgba(148,160,178,0.42) 1px,
+      transparent 1px, transparent 95px),
+    repeating-linear-gradient(0deg, rgba(215,219,226,0.5) 0, rgba(215,219,226,0.5) 1px,
+      transparent 1px, transparent 19px),
+    repeating-linear-gradient(90deg, rgba(215,219,226,0.5) 0, rgba(215,219,226,0.5) 1px,
+      transparent 1px, transparent 19px); }
+a { color: #27506d; text-decoration: underline; text-underline-offset: 2px; }
+a:hover { color: #8b3a2e; }
+code, pre { font-family: inherit; }
+code { font-size: 0.92em; background: rgba(42,36,24,0.06); padding: 0 0.14em; }
+.sheet { max-width: 76ch; margin: 2.1rem auto 2.6rem; background: #fffefa;
+  border: 1px solid #d9d3c4; padding: 2.2rem clamp(1.1rem, 4.5vw, 3.1rem) 1.9rem;
+  box-shadow: 0 1px 3px rgba(64,58,42,0.18), 0 12px 30px rgba(64,58,42,0.12); }
+header { text-align: center; border-bottom: 3px double #2a2418; padding-bottom: 0.9rem; }
+header .brand a { font-size: 1.5rem; font-weight: 700; letter-spacing: 0.42em;
+  text-transform: uppercase; color: inherit; text-decoration: none; padding-left: 0.42em; }
+header .tag { margin: 0.35rem auto 0; max-width: 56ch; font-size: 0.76rem;
+  font-style: italic; color: #6b6353; }
+nav { margin-top: 0.7rem; font-size: 0.72rem; letter-spacing: 0.16em;
+  text-transform: uppercase; }
+nav a { color: #6b6353; margin: 0 0.5rem; text-decoration: none; white-space: nowrap; }
+nav a.on { color: #2a2418; border-bottom: 2px solid #8b3a2e; }
+nav a:hover { color: #2a2418; }
+main { margin-top: 1.7rem; }
+h1 { font-size: 1.42rem; line-height: 1.32; margin: 0.3rem 0 1rem; }
+h2 { font-size: 0.94rem; letter-spacing: 0.18em; text-transform: uppercase;
+  border-bottom: 3px double #2a2418; padding-bottom: 0.3rem; margin: 2.3rem 0 0.9rem; }
+h3 { font-size: 1rem; margin: 1.5rem 0 0.5rem; }
+p { margin: 0.55rem 0; }
+.kicker { font-size: 0.72rem; letter-spacing: 0.24em; text-transform: uppercase;
+  color: #8b3a2e; margin: 0 0 0.1rem; }
+.lede { font-size: 1.01rem; }
+.byline { letter-spacing: 0.1em; }
+.sub { color: #6b6353; }
+.small { font-size: 0.79rem; }
+.status-banner { border: 2px solid #2a2418; padding: 0.8rem 1rem; margin: 1.3rem 0 0.9rem;
+  transform: rotate(-0.5deg); font-size: 0.9rem; background: rgba(255,255,255,0.6);
+  box-shadow: 2px 2px 0 rgba(42,36,24,0.08); }
+.status-banner .stamp { font-weight: 700; letter-spacing: 0.13em; }
+.status-open { border-color: #8b3a2e; }
+.status-open .stamp { color: #8b3a2e; }
+.status-rediscovered { border-color: #31577e; }
+.status-rediscovered .stamp { color: #31577e; }
+.status-range, .status-proved { border-color: #2e6b3a; }
+.status-range .stamp, .status-proved .stamp { color: #2e6b3a; }
+.status-negative { border-color: #44505e; }
+.status-negative .stamp { color: #44505e; }
+.status-key { border: 1px dashed #a99f8a; padding: 0.55rem 0.85rem 0.6rem;
+  margin: 0 0 1.5rem; font-size: 0.74rem; color: #57503f; }
+.status-key p { margin: 0 0 0.25rem; letter-spacing: 0.12em; text-transform: uppercase; }
+.status-key dl { margin: 0; }
+.status-key dt { font-weight: 700; float: left; clear: left; margin-right: 0.45rem; }
+.status-key dd { margin: 0 0 0.12rem 0; overflow: hidden; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
+  gap: 0.7rem; margin: 1rem 0; }
+.tile { background: #fdfcf6; border: 1px solid #cfc8b6; padding: 0.55rem 0.7rem;
+  box-shadow: 1px 2px 0 rgba(64,58,42,0.08); }
+.tile .v { font-size: 1.22rem; font-weight: 700; line-height: 1.3; }
+.tile .k { font-size: 0.76rem; color: #57503f; margin-top: 0.15rem; }
+.tile .r { font-size: 0.64rem; color: #8a8171; margin-top: 0.35rem; word-break: break-all; }
+.tile.neg .v { color: #7a5b21; }
+.tile.fail .v { color: #8b3a2e; }
+.tile.pass .v { color: #2e6b3a; }
+.scroll { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 0.76rem; margin: 0.8rem 0; }
+th, td { border: 1px solid #cfc8b6; padding: 0.28rem 0.5rem; text-align: left;
+  vertical-align: top; }
+th { background: #f6f3ea; border-bottom: 3px double #2a2418; font-weight: 700;
+  letter-spacing: 0.05em; }
+td.num, th.num { text-align: right; white-space: nowrap; }
+td.mono { white-space: nowrap; }
+pre { background: #f6f3ea; border: 1px solid #cfc8b6; padding: 0.75rem 0.9rem;
+  overflow-x: auto; font-size: 0.72rem; line-height: 1.5; }
+pre code { background: none; padding: 0; }
+blockquote { border-left: 3px solid #a99f8a; margin: 0.7rem 0; padding: 0.15rem 0.9rem;
+  color: #57503f; font-size: 0.86rem; font-style: italic; }
+.missing { border: 1px dashed #8a6d1f; background: rgba(158,120,32,0.07);
+  padding: 0.65rem 0.9rem; color: #7a5b21; margin: 0.8rem 0; font-size: 0.85rem; }
+.neg-block { border: 2px solid #44505e; background: rgba(68,80,94,0.05);
+  padding: 0.8rem 1rem; margin: 0.9rem 0; }
+.badge { display: inline-block; border: 1px solid; font-size: 0.62rem; font-weight: 700;
+  letter-spacing: 0.08em; padding: 0.05rem 0.4rem; margin-left: 0.4rem;
+  vertical-align: middle; }
+.badge.pass { color: #2e6b3a; border-color: #2e6b3a; }
+.badge.fail { color: #8b3a2e; border-color: #8b3a2e; }
+.badge.neg { color: #7a5b21; border-color: #7a5b21; }
+.badge.ctl { color: #31577e; border-color: #31577e; }
+details.card { background: #fdfcf6; border: 1px solid #cfc8b6; margin: 0.5rem 0; }
+details.card > summary { cursor: pointer; padding: 0.5rem 0.8rem; font-size: 0.8rem; }
+details.card > div { padding: 0.15rem 0.9rem 0.7rem; border-top: 1px solid #e2dccc; }
+details.methods { background: #f9f7f0; border: 1px solid #cfc8b6; margin: 0.6rem 0 1rem; }
+details.methods > summary { cursor: pointer; padding: 0.6rem 0.9rem; font-size: 0.74rem;
+  letter-spacing: 0.14em; text-transform: uppercase; }
+details.methods > div { padding: 0.15rem 1rem 0.9rem; border-top: 1px solid #e2dccc; }
+ul, ol { margin: 0.5rem 0 0.5rem 1.3rem; padding: 0; }
+li { margin: 0.28rem 0; }
+.math math { font-size: 1.08em; }
+.math-block { display: block; margin: 0.75rem 0 0.75rem 1.4rem; }
+.receipt-form { display: block; font-size: 0.66rem; color: #8a8171; background: none;
+  padding: 0; margin-top: 0.2rem; }
+.form-grid { display: grid; grid-template-columns: 13rem 1fr; gap: 0.5rem 0.8rem;
+  align-items: start; margin: 0.8rem 0; }
+.form-grid label { color: #57503f; font-size: 0.8rem; padding-top: 0.3rem; }
+input[type="text"], select, textarea { width: 100%; background: #fffefa; color: #2a2418;
+  border: 1px solid #a99f8a; padding: 0.35rem 0.5rem; font-size: 0.8rem;
+  font-family: inherit; }
+textarea { min-height: 4.4rem; resize: vertical; }
+button { background: #f6f3ea; color: #2a2418; border: 1px solid #6b6353;
+  padding: 0.4rem 0.9rem; font-size: 0.82rem; font-family: inherit; cursor: pointer;
+  box-shadow: 1px 2px 0 rgba(64,58,42,0.15); }
+button:hover { background: #efeadb; }
+#errors { color: #8b3a2e; font-size: 0.82rem; }
+fieldset { border: 1px solid #cfc8b6; margin: 0.6rem 0; padding: 0.5rem 0.9rem 0.8rem; }
+legend { color: #57503f; font-size: 0.76rem; padding: 0 0.4rem; letter-spacing: 0.1em; }
+footer { border-top: 3px double #2a2418; margin-top: 2.6rem; padding-top: 0.9rem;
+  text-align: center; font-size: 0.7rem; color: #6b6353; }
+footer .orn { letter-spacing: 0.7em; margin: 0 0 0.4rem; }
+footer p { max-width: 62ch; margin: 0.3rem auto; }
+:root { --funnel-bar: rgba(49,87,126,0.30); --funnel-hit: rgba(46,107,58,0.38);
+  --funnel-edge: #31577e; --funnel-hit-edge: #2e6b3a; }
+figure.funnel-figure { margin: 1.1rem 0 1.3rem; padding: 0; }
+figure.funnel-figure svg { width: 100%; height: auto; display: block; }
+svg.funnel text { font-family: inherit; font-size: 12px; fill: currentColor; }
+svg.funnel text.num { font-weight: 700; }
+svg.funnel text.lbl { fill-opacity: 0.82; }
+svg.funnel rect.bar { fill: var(--funnel-bar); stroke: var(--funnel-edge);
+  stroke-width: 1; }
+svg.funnel rect.bar.hit { fill: var(--funnel-hit); stroke: var(--funnel-hit-edge); }
+svg.funnel line.axis { stroke: currentColor; stroke-opacity: 0.5; stroke-width: 1; }
+svg.funnel line.rule { stroke: currentColor; stroke-opacity: 0.16;
+  stroke-dasharray: 2 3; }
+figure.funnel-figure figcaption { font-size: 0.74rem; color: #57503f;
+  margin-top: 0.35rem; }
+.duo { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 0.7rem; margin: 0.9rem 0; }
+.duo .half { background: #fdfcf6; border: 1px solid #cfc8b6; padding: 0.6rem 0.8rem;
+  box-shadow: 1px 2px 0 rgba(64,58,42,0.08); }
+.duo .half .hd { font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: #57503f; margin-bottom: 0.35rem; }
+.aside-box { border: 2px solid #31577e; background: rgba(49,87,126,0.06);
+  padding: 0.75rem 1rem; margin: 1rem 0; }
+.aside-box .hd { font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  font-size: 0.78rem; color: #31577e; margin-bottom: 0.3rem; }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
+  gap: 0.7rem; margin: 1rem 0; }
+.cards a.card-link { display: block; background: #fdfcf6; border: 1px solid #cfc8b6;
+  padding: 0.55rem 0.75rem; text-decoration: none; color: inherit;
+  box-shadow: 1px 2px 0 rgba(64,58,42,0.08); }
+.cards a.card-link:hover { border-color: #8b3a2e; color: inherit; }
+.cards a.card-link .t { font-weight: 700; }
+.cards a.card-link .d { font-size: 0.74rem; color: #57503f; margin-top: 0.2rem; }
+.cards a.card-link .f { font-size: 0.68rem; color: #8a8171; margin-top: 0.3rem;
+  word-break: break-all; }
+@media (max-width: 640px) {
+  .sheet { margin: 0 auto; border-left: 0; border-right: 0; }
+}
+@media (prefers-color-scheme: dark) {
+  :root { color-scheme: dark; }
+  body { color: #d8d5c8; background-color: #1e1f22;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(150,160,178,0.11) 0, rgba(150,160,178,0.11) 1px,
+        transparent 1px, transparent 95px),
+      repeating-linear-gradient(90deg, rgba(150,160,178,0.11) 0, rgba(150,160,178,0.11) 1px,
+        transparent 1px, transparent 95px),
+      repeating-linear-gradient(0deg, rgba(150,160,178,0.055) 0, rgba(150,160,178,0.055) 1px,
+        transparent 1px, transparent 19px),
+      repeating-linear-gradient(90deg, rgba(150,160,178,0.055) 0, rgba(150,160,178,0.055) 1px,
+        transparent 1px, transparent 19px); }
+  a { color: #9db8d6; }
+  a:hover { color: #d99a82; }
+  code { background: rgba(216,213,200,0.09); }
+  .sheet { background: #26272b; border-color: #3a3b41;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.55), 0 12px 30px rgba(0,0,0,0.35); }
+  header, h2, footer { border-color: #d8d5c8; }
+  header .tag, nav a, .sub, .status-key, footer { color: #a49f90; }
+  nav a.on { color: #d8d5c8; border-bottom-color: #d99a82; }
+  nav a:hover { color: #d8d5c8; }
+  .kicker { color: #d99a82; }
+  .status-banner { background: rgba(0,0,0,0.25); box-shadow: 2px 2px 0 rgba(0,0,0,0.35); }
+  .status-open { border-color: #d99a82; }
+  .status-open .stamp { color: #d99a82; }
+  .status-rediscovered { border-color: #8fb3d9; }
+  .status-rediscovered .stamp { color: #8fb3d9; }
+  .status-range, .status-proved { border-color: #86c493; }
+  .status-range .stamp, .status-proved .stamp { color: #86c493; }
+  .status-negative { border-color: #a7b4c2; }
+  .status-negative .stamp { color: #a7b4c2; }
+  .status-key { border-color: #57503f; }
+  .tile, details.card, details.methods, pre { background: #2b2c31; border-color: #3f4046; }
+  .tile .k { color: #a49f90; }
+  .tile .r { color: #7b776b; }
+  .tile.neg .v { color: #cfa658; }
+  .tile.fail .v { color: #d99a82; }
+  .tile.pass .v { color: #86c493; }
+  th { background: #2c2d33; border-color: #3f4046; border-bottom-color: #d8d5c8; }
+  td { border-color: #3f4046; }
+  details.card > div, details.methods > div { border-top-color: #3f4046; }
+  blockquote { border-left-color: #57503f; color: #a49f90; }
+  .missing { border-color: #8a6d1f; background: rgba(207,166,88,0.08); color: #cfa658; }
+  .neg-block { border-color: #a7b4c2; background: rgba(167,180,194,0.06); }
+  .badge.pass { color: #86c493; border-color: #86c493; }
+  .badge.fail { color: #d99a82; border-color: #d99a82; }
+  .badge.neg { color: #cfa658; border-color: #cfa658; }
+  .badge.ctl { color: #8fb3d9; border-color: #8fb3d9; }
+  input[type="text"], select, textarea { background: #1e1f22; color: #d8d5c8;
+    border-color: #57503f; }
+  button { background: #2b2c31; color: #d8d5c8; border-color: #57503f;
+    box-shadow: 1px 2px 0 rgba(0,0,0,0.4); }
+  button:hover { background: #33343a; }
+  #errors { color: #d99a82; }
+  .receipt-form { color: #7b776b; }
+  fieldset { border-color: #3f4046; }
+  legend { color: #a49f90; }
+  :root { --funnel-bar: rgba(143,179,217,0.28); --funnel-hit: rgba(134,196,147,0.30);
+    --funnel-edge: #8fb3d9; --funnel-hit-edge: #86c493; }
+  figure.funnel-figure figcaption { color: #a49f90; }
+  .duo .half { background: #2b2c31; border-color: #3f4046; }
+  .duo .half .hd { color: #a49f90; }
+  .aside-box { border-color: #8fb3d9; background: rgba(143,179,217,0.07); }
+  .aside-box .hd { color: #8fb3d9; }
+  .cards a.card-link { background: #2b2c31; border-color: #3f4046; }
+  .cards a.card-link:hover { border-color: #d99a82; }
+  .cards a.card-link .d { color: #a49f90; }
+  .cards a.card-link .f { color: #7b776b; }
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+<header><div class="brand"><a href="/">Invariant</a></div><p class="tag">a machine that guesses patterns, tries its hardest to break them, and files paperwork for every attempt &mdash; the failures included</p><nav><a href="/">Home</a><a href="/paper">The write-up</a><a href="/problems">Problems</a><a href="/papers" class="on">Papers</a><a href="/gravity">Gravity</a><a href="/collatz">Collatz</a><a href="/evidence">Evidence</a><a href="/method">Method</a><a href="/submit">Submit</a></nav></header>
+<main>
+<p class="kicker">Blinded rediscovery papers</p>
+<h1>Blind rediscovery 6: the tetrahedral numbers</h1>
+<p class="byline">The Invariant Project</p>
+<p class="sub small">content as of <code>6e740a2a570a3f4b06312deb27d0c2b44e622a3e</code> &mdash; dated by content, not by clock; every number on this page is read from the campaign's sealed receipts at build time.</p>
+<div class="status-banner status-rediscovered"><span class="stamp">STATUS: REDISCOVERED.</span> Nothing here is unsolved: this question was settled long ago, and the write-up says so in its title. The machine&#x27;s contribution is provenance — it reached the classical answer unaided, from anonymized rows, under a sealed blind protocol — and every number below is read from the campaign&#x27;s receipts at build time.</div>
+<div class="status-key"><p>The five status words used on this site</p><dl><dt>OPEN</dt><dd>the famous question is unsolved, by us and by everyone.</dd><dt>REDISCOVERED</dt><dd>the engine independently found facts already known to mathematics (the news is the machine, not the math).</dd><dt>RANGE-VERIFIED</dt><dd>checked exhaustively up to an exact bound; says nothing beyond the bound.</dd><dt>PROVED (CONDITIONAL)</dt><dd>machine-checked proof of a limited statement, stated exactly.</dd><dt>SEALED NEGATIVE</dt><dd>an exhaustive search that found nothing, published with margins.</dd></dl></div>
+<h2>Abstract</h2>
+<p>Hidden behind this world's opaque label was the tetrahedral numbers — the count of ways to choose three things. The machine saw <span data-key="paper_rows" data-value="16">16</span> anonymized value pairs under the neutral alias <code>a</code> — no name, no story, no hint of a source. Working blind, it recovered the exact closed form and confirmed it on <span data-key="paper_holdout" data-value="14">14</span> held-out rows it had never used. After the single unseal the discovered statement matched the classical answer exactly: Tetrahedral numbers C(n,3); binomial identity (hockey-stick) lineage. A proof-kernel source was emitted for the result; its independent kernel check is pending CI. This is a rediscovery of a classical result under a sealed blind protocol; no novelty is claimed.</p>
+<h2>The question</h2>
+<p>Strip the story away and this table is the entire Phase A input for this world: an opaque world id, values under the neutral alias <code>a</code>, and nothing else — no name, no source, no hint.</p>
+<div class="scroll"><table><thead><tr><th class="num">point</th><th class="num">a(point)</th></tr></thead><tbody><tr><td class="num">1</td><td class="num">0</td></tr><tr><td class="num">2</td><td class="num">0</td></tr><tr><td class="num">3</td><td class="num">1</td></tr><tr><td class="num">4</td><td class="num">4</td></tr><tr><td class="num">5</td><td class="num">10</td></tr><tr><td class="num">6</td><td class="num">20</td></tr><tr><td class="num">7</td><td class="num">35</td></tr><tr><td class="num">8</td><td class="num">56</td></tr><tr><td class="num">9</td><td class="num">84</td></tr><tr><td class="num">10</td><td class="num">120</td></tr><tr><td class="num">11</td><td class="num">165</td></tr><tr><td class="num">12</td><td class="num">220</td></tr><tr><td class="num">13</td><td class="num">286</td></tr><tr><td class="num">14</td><td class="num">364</td></tr><tr><td class="num">15</td><td class="num">455</td></tr><tr><td class="num">16</td><td class="num">560</td></tr></tbody></table></div>
+<p class="small sub">The machine saw only this.</p>
+<h2>Methods</h2>
+<p>Before anything was searched, the anonymized rows, the frozen stage ladder, and the full Phase A record for every world were committed under a single root hash, <code>91b3d567eaf6e166&hellip;</code>, while the classical answers sat in a separate sealed fixture. During the blind phase the campaign deliberately attempted <span data-key="chron_attempted_reads" data-value="1">1</span> in-process read of that fixture, and <span data-key="chron_denied_reads" data-value="1">1</span> was denied with <span data-key="chron_denied_bytes" data-value="0">0</span> bytes of content exposed. The receipt states the enforcement's own boundary: it covers this process's Python file-read surfaces, and is not an operating-system sandbox. Exactly <span data-key="chron_reads_before_freeze" data-value="0">0</span> target records were read before the candidate freeze. The seal opened <span data-key="chron_unseal_batches" data-value="1">1</span> time, in one atomic batch, after which the discovered and classical statements were compared by exact symbolic equivalence. And <span data-key="chron_post_unseal" data-value="0">0</span> post-unseal candidate-generation events are recorded: nothing was generated, tuned, or repaired after the answers became visible.</p>
+<h3>Why <span data-key="ladder_families" data-value="21">21</span> families and not a billion formulas</h3><p>Every family on the declared ladder is linear in its unknown coefficients, so no family is searched by trying formulas one at a time: a single exact linear solve either pins down the one member that fits the rows or proves that no member of that family can. That is why the funnel counts <span data-key="ladder_families_body" data-value="21">21</span> declared families rather than individual formulas — each family is an infinite space of formulas, searched perfectly in one step. The ladder itself is a hand-declared, frozen list ordered by simplicity, which makes &ldquo;simplest surviving family&rdquo; a checkable claim relative to the declaration rather than a matter of taste. Anything outside the ladder is invisible to this search, and when the rows demand such a shape the system emits a typed blocker instead of an answer — the abstention worlds in this campaign are exactly that, receipted. The contrast is the gravity screen elsewhere in this logbook, which enumerates all <span data-key="gravity_contrast_processed" data-value="1129900996">1,129,900,996</span> of its candidate laws one by one precisely because those laws are nonlinear in their unknowns and admit no per-family solve: solve what you can, enumerate what you cannot.</p>
+<h2>The elimination funnel</h2>
+<p>The path below is this world's actual narrowing, stage by stage, derived only from the receipt trail — no stage is drawn that the receipt does not record.</p>
+<figure class="funnel-figure"><svg class="funnel" viewBox="0 0 640 290" role="img" aria-label="Elimination funnel: one bar per recorded stage, widths linear in the receipt counts"><line class="axis" x1="16" y1="14" x2="16" y2="276"></line><text class="lbl" x="20" y="20">21 declared families (each an infinite space of formulas)</text><rect class="bar" x="16" y="25" width="452" height="16" data-key="funnel_declared_families" data-value="21"></rect><line class="rule" x1="16" y1="41" x2="468" y2="41"></line><text class="num" x="476" y="38">21</text><text class="lbl" x="20" y="66">10 families examined before acceptance</text><rect class="bar" x="16" y="71" width="215" height="16" data-key="funnel_families_examined" data-value="10"></rect><line class="rule" x1="16" y1="87" x2="468" y2="87"></line><text class="num" x="239" y="84">10</text><text class="lbl" x="20" y="112">9 families rejected on the way</text><rect class="bar" x="16" y="117" width="193" height="16" data-key="funnel_families_rejected" data-value="9"></rect><line class="rule" x1="16" y1="133" x2="468" y2="133"></line><text class="num" x="217" y="130">9</text><text class="lbl" x="20" y="158">1 family accepted</text><rect class="bar hit" x="16" y="163" width="21" height="16" data-key="funnel_family_accepted" data-value="1"></rect><line class="rule" x1="16" y1="179" x2="468" y2="179"></line><text class="num" x="45" y="176">1</text><text class="lbl" x="20" y="204">14 holdout confirmations of the accepted form</text><rect class="bar" x="16" y="209" width="301" height="16" data-key="funnel_holdout_confirmations" data-value="14"></rect><line class="rule" x1="16" y1="225" x2="468" y2="225"></line><text class="num" x="325" y="222">14</text><text class="lbl" x="20" y="250">3/3 proof obligations discharged</text><rect class="bar" x="16" y="255" width="64" height="16" data-key="funnel_proof_obligations" data-value="3/3"></rect><line class="rule" x1="16" y1="271" x2="468" y2="271"></line><text class="num" x="88" y="268">3/3</text></svg><figcaption>Every count is read from the sealed receipt trail, and bar widths are linear in the counts, narrowing from the declared families (each an infinite space of formulas). Within each family, exact linear algebra jumps to the single best member in one step — the funnel counts families examined, not formulas tried.</figcaption></figure><h3>Why the simpler families died</h3><div class="scroll"><table><thead><tr><th>rejection reason, verbatim</th><th class="num">count</th></tr></thead><tbody><tr><td class="mono">holdout_counterexample</td><td class="num" data-key="funnel_b1_reason_holdout_counterexample" data-value="9">9</td></tr></tbody></table></div>
+
+
+<h2>What else survived</h2>
+<p>The conjecture stage proposed from a prefix of the rows and attacked every proposal on held-out rows. Besides the principal result, these statements survived, listed with their holdout support:</p>
+<ul><li><span class="math"><math xmlns="http://www.w3.org/1998/Math/MathML" display="inline"><mrow><mi>a</mi><mo stretchy="false">&#x00028;</mo><mi>n</mi><mo stretchy="false">&#x00029;</mo><mo>&#x0003D;</mo><mn>3</mn><mspace width="0.167em" /><mi>a</mi><mo stretchy="false">&#x00028;</mo><mi>n</mi><mo>&#x02212;</mo><mn>1</mn><mo stretchy="false">&#x00029;</mo><mo>&#x0002B;</mo><mrow><mo stretchy="true" fence="true" form="prefix">&#x00028;</mo><mo>&#x02212;</mo><mn>3</mn><mo stretchy="true" fence="true" form="postfix">&#x00029;</mo></mrow><mspace width="0.167em" /><mi>a</mi><mo stretchy="false">&#x00028;</mo><mi>n</mi><mo>&#x02212;</mo><mn>2</mn><mo stretchy="false">&#x00029;</mo><mo>&#x0002B;</mo><mn>1</mn><mspace width="0.167em" /><mi>a</mi><mo stretchy="false">&#x00028;</mo><mi>n</mi><mo>&#x02212;</mo><mn>3</mn><mo stretchy="false">&#x00029;</mo><mo>&#x0002B;</mo><mn>1</mn></mrow></math></span><code class="receipt-form">a(n) = (3)*a(n-1) + (-3)*a(n-2) + (1)*a(n-3) + (1)</code><span class="small sub"> &mdash; kind <code>linear_recurrence</code>, <span data-key="alt_support_linear_recurrence" data-value="7">7</span> holdout confirmations</span></li><li><span class="math"><math xmlns="http://www.w3.org/1998/Math/MathML" display="inline"><mrow><msub><mo>&#x02211;</mo><mrow><mi>i</mi><mo>&#x02264;</mo><mi>n</mi></mrow></msub><mi>a</mi><mo stretchy="false">&#x00028;</mo><mi>i</mi><mo stretchy="false">&#x00029;</mo><mo>&#x0003D;</mo><mfrac><mrow><mn>1</mn></mrow><mrow><mn>12</mn></mrow></mfrac><mspace width="0.167em" /><msup><mi>n</mi><mrow><mn>1</mn></mrow></msup><mo>&#x02212;</mo><mfrac><mrow><mn>1</mn></mrow><mrow><mn>24</mn></mrow></mfrac><mspace width="0.167em" /><msup><mi>n</mi><mrow><mn>2</mn></mrow></msup><mo>&#x02212;</mo><mfrac><mrow><mn>1</mn></mrow><mrow><mn>12</mn></mrow></mfrac><mspace width="0.167em" /><msup><mi>n</mi><mrow><mn>3</mn></mrow></msup><mo>&#x0002B;</mo><mfrac><mrow><mn>1</mn></mrow><mrow><mn>24</mn></mrow></mfrac><mspace width="0.167em" /><msup><mi>n</mi><mrow><mn>4</mn></mrow></msup></mrow></math></span><code class="receipt-form">sum_(i&lt;=n) a(i) = 1/12*n^1 - 1/24*n^2 - 1/12*n^3 + 1/24*n^4</code><span class="small sub"> &mdash; kind <code>partial_sum_closed_form</code>, <span data-key="alt_support_partial_sum_closed_form" data-value="7">7</span> holdout confirmations</span></li></ul>
+<p>The principal result is principal because it is the most specific survivor — the receipt records its specificity as <code>1/1</code> with <code>2</code> confirmed parameters, the top of this world's list; an exact defining law pins down every value, while sign, monotonicity, and congruence facts each admit many sequences. The selection rule was fixed before the run, verbatim: <code>first_of[b1_closed_form, declared_transformation_b2_law, b3_linear_recurrence_survivor, b7_repaired_statement]</code>.</p>
+<h2>Result</h2>
+<p>Side by side: the closed form the machine wrote down blind, and the classical form that sat in the sealed fixture.</p>
+<div class="duo"><div class="half"><div class="hd">Discovered, blind</div><span class="math"><math xmlns="http://www.w3.org/1998/Math/MathML" display="inline"><mrow><mi>a</mi><mo stretchy="false">&#x00028;</mo><mi>n</mi><mo stretchy="false">&#x00029;</mo><mo>&#x0003D;</mo><mo minsize="2.047em" maxsize="2.047em">&#x00028;</mo><mfrac linethickness="0"><mrow><mi>n</mi></mrow><mrow><mn>3</mn></mrow></mfrac><mo minsize="2.047em" maxsize="2.047em">&#x00029;</mo></mrow></math></span><code class="receipt-form">a(n) = C(n,3)</code></div><div class="half"><div class="hd">The classical form</div><span class="math"><math xmlns="http://www.w3.org/1998/Math/MathML" display="inline"><mrow><mi>a</mi><mo stretchy="false">&#x00028;</mo><mi>n</mi><mo stretchy="false">&#x00029;</mo><mo>&#x0003D;</mo><mo minsize="2.047em" maxsize="2.047em">&#x00028;</mo><mfrac linethickness="0"><mrow><mi>n</mi></mrow><mrow><mn>3</mn></mrow></mfrac><mo minsize="2.047em" maxsize="2.047em">&#x00029;</mo></mrow></math></span><code class="receipt-form">a(n) = binomial(n, 3)</code></div></div>
+<p>The receipt's comparison method, verbatim: <code>sympy_exact_equivalence_over_declared_domain</code> &mdash; equivalent: <code>True</code> with residual <span data-key="result_residual" data-value="0">0</span>. Verdict, verbatim: <code>REDISCOVERED_WITH_PROOF</code>.</p>
+<p><strong>Attribution.</strong> Tetrahedral numbers C(n,3); binomial identity (hockey-stick) lineage.</p>
+<h2>Verification</h2>
+<p>The principal statement was confirmed on <span data-key="verify_holdout" data-value="14">14</span> held-out rows that no proposing stage ever saw. Survival is never proof; the holdout is a falsifier that happened to find nothing.</p>
+<p>The prover emitted the Lean source below, rendered verbatim from the receipt. Each file was checked exactly, locally, in rational arithmetic; independent kernel verification pending CI, and <code>kernel_verified</code> is <code>false</code> in every receipt on this page.</p>
+<blockquote>The generated Lean must be checked by the pinned Lean 4.33 kernel in CI. This receipt records only the exact local check, which is a different and weaker statement.</blockquote>
+<h3>Route <code>b5_lemma_decomposition</code>, decision <code>DECOMPOSED</code> &mdash; <span data-key="lean_obligations" data-value="3/3">3/3</span> obligations discharged in the exact local check</h3>
+<pre><code>import Std.Tactic
+
+namespace SolvedDozenWorld06
+
+def companion : Nat → Nat
+  | 0 =&gt; 0
+  | n + 1 =&gt; companion n + (3 * n ^ 2 + 9 * n + 6)
+
+/-- Obligation 1 of 3: the base case, isolated from all algebra. -/
+theorem companionBaseCase : companion 0 = 0 ^ 3 + 3 * 0 ^ 2 + 2 * 0 := by
+  rfl
+
+/-- Obligation 2 of 3: a pure polynomial identity. No induction appears here. -/
+theorem companionSuccessorIdentity (n : Nat) :
+    (n ^ 3 + 3 * n ^ 2 + 2 * n) + (3 * n ^ 2 + 9 * n + 6) = ((n + 1) ^ 3 + 3 * (n + 1) ^ 2 + 2 * (n + 1)) := by
+  simp only [
+    Nat.pow_succ,
+    Nat.pow_zero,
+    Nat.one_mul,
+    Nat.mul_one,
+    Nat.mul_assoc,
+    Nat.add_mul,
+    Nat.mul_add,
+  ]
+  omega
+
+/-- Obligation 3 of 3: the induction skeleton. It cites the two lemmas above and
+    performs no algebra of its own. -/
+theorem companionClosedForm (n : Nat) :
+    companion n = (n ^ 3 + 3 * n ^ 2 + 2 * n) := by
+  induction n with
+  | zero =&gt; rfl
+  | succ n ih =&gt;
+      rw [companion, ih]
+      exact companionSuccessorIdentity n
+
+end SolvedDozenWorld06
+
+#eval IO.println &quot;INVARIANT_LEAN_DEPENDENCY_AUDIT_V1_BEGIN&quot;
+#eval IO.println &quot;target=SolvedDozenWorld06.companionClosedForm&quot;
+#eval IO.println &quot;dependency=SolvedDozenWorld06.companion&quot;
+#eval IO.println &quot;dependency=SolvedDozenWorld06.companionBaseCase&quot;
+#eval IO.println &quot;dependency=SolvedDozenWorld06.companionSuccessorIdentity&quot;
+#eval IO.println &quot;dependency=Nat.rec&quot;
+#eval IO.println &quot;dependency=Nat.pow_succ&quot;
+#eval IO.println &quot;dependency=Nat.pow_zero&quot;
+#eval IO.println &quot;dependency=Nat.one_mul&quot;
+#eval IO.println &quot;dependency=Nat.mul_one&quot;
+#eval IO.println &quot;dependency=Nat.mul_assoc&quot;
+#eval IO.println &quot;dependency=Nat.add_mul&quot;
+#eval IO.println &quot;dependency=Nat.mul_add&quot;
+#eval IO.println &quot;dependency=Lean.Parser.Tactic.omega&quot;
+#eval IO.println &quot;result=checked&quot;
+#eval IO.println &quot;INVARIANT_LEAN_DEPENDENCY_AUDIT_V1_END&quot;
+</code></pre>
+<h2>What this does not show</h2>
+<ul><li>The binomial identity behind this world is classical; no combinatorial novelty is on offer.</li><li>No novelty of any kind is claimed. The campaign receipt records <code>novelty_claimed: False</code> and <code>rediscovery_of_classical_results: True</code>, and the house rules forbid treating corpus absence as novelty.</li><li>Survival on held-out rows is never proof, and the exact local check of any emitted Lean is never kernel verification; the campaign receipt records <code>kernel_verified_lean: False</code> pending the CI kernel run.</li><li>The blind enforcement guards this process's own file-read surfaces; the receipt names its scope verbatim and does not claim an operating-system sandbox.</li></ul>
+<h2>References</h2>
+<h3>Receipts rendered on this page</h3>
+<ul><li><a href="https://github.com/lrspeiser/Invariant/blob/main/runs/math/solved-dozen/hockey_stick_c3.json" rel="noopener">runs/math/solved-dozen/hockey_stick_c3.json</a> &mdash; seal <code title="65b682f58c1bee2001689e54c5a5580874ccc634b5bf37216f1b05a7fbde8c25">65b682f58c1bee20&hellip;</code></li><li><a href="https://github.com/lrspeiser/Invariant/blob/main/runs/math/solved-dozen/campaign.json" rel="noopener">runs/math/solved-dozen/campaign.json</a> &mdash; campaign receipt, seal <code title="2a258d4453c8ab1ee256cf2d46b2a59a439289592f62b2e10bfff39b6e272e2a">2a258d4453c8ab1e&hellip;</code></li><li><a href="https://github.com/lrspeiser/Invariant/blob/main/configs/backgrounds/dozen_blind_targets_v1.json" rel="noopener">configs/backgrounds/dozen_blind_targets_v1.json</a> &mdash; the sealed target fixture the blind phase was denied from reading, file hash <code title="54d627d7c0169c17c8316d1109f920532865ff8194930f66d21a67822829b029">54d627d7c0169c17&hellip;</code>&dagger;</li></ul>
+<h3>Classical citation</h3>
+<p>Tetrahedral numbers C(n,3); binomial identity (hockey-stick) lineage.</p>
+<p class="small sub">&dagger; file-byte hash (the fixture is not a sealed JSON receipt).</p>
+<p class="small"><a href="/papers">&larr; back to all twelve papers</a></p>
+</main>
+<footer><p class="orn">* * *</p><p>Every number on this page is read from a sealed receipt at build time. Corpus absence is never novelty; survival is never proof; negative receipts are deliverables.</p><p>Site content as of <code>6e740a2a570a3f4b06312deb27d0c2b44e622a3e</code>. Composed deterministically by <code>src/sigma_theory_compiler/static_site_generator.py</code>; re-run with <code>--validate</code> to byte-compare. Set in typewriter type on grid paper; no page requests any external resource.</p></footer>
+</div>
+</body>
+</html>

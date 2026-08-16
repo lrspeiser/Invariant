@@ -107,10 +107,19 @@ ARTIFACT_PATHS = {
     "lensing": "runs/gpu-baryonic-screen/lensing-cluster-v1.json",
     "sweep": "runs/math/counterexample-sweeps/collatz-halving-1e8.json",
     "lean": "formal/lean/CollatzHalvingRelation.lean",
+    "dozen": "runs/math/solved-dozen/campaign.json",
     "goals_doc": "docs/GOALS_AND_MEASURED_OUTCOMES.md",
     "idt_doc": "docs/INDEPENDENT_DISCOVERY_TRIAL.md",
     "roadmap_doc": "docs/CONTINUOUS_DISCOVERY_ROADMAP.md",
 }
+
+#: The unsolved-dozen campaign is expected but may not exist yet; it is loaded
+#: fail-soft under its own key and is deliberately not in ARTIFACT_PATHS so that
+#: fixtures which copy the artifact set do not require a file that may be absent.
+UNSOLVED_CAMPAIGN_PATH = "runs/math/unsolved-dozen/campaign.json"
+
+#: Prefix for the dynamically loaded per-world rediscovery receipts.
+DOZEN_WORLD_PREFIX = "dozen_world:"
 
 _DOC_NAMES = {
     "goals_doc": "GOALS_AND_MEASURED_OUTCOMES.md",
@@ -133,12 +142,32 @@ NAV = (
     ("index", "/", "Home"),
     ("paper", "/paper", "The write-up"),
     ("problems", "/problems", "Problems"),
+    ("papers", "/papers", "Papers"),
     ("gravity", "/gravity", "Gravity"),
     ("collatz", "/collatz", "Collatz"),
     ("evidence", "/evidence", "Evidence"),
     ("method", "/method", "Method"),
     ("submit", "/submit", "Submit"),
 )
+
+#: Required, verbatim, in every rediscovery paper's abstract (tests pin it).
+REDISCOVERY_SENTENCE = (
+    "This is a rediscovery of a classical result under a sealed blind protocol; "
+    "no novelty is claimed."
+)
+
+#: Caption under every anonymized-rows table (tests pin it).
+ROWS_CAPTION = "The machine saw only this."
+
+#: Second sentence of every elimination-funnel caption (tests pin it).
+FUNNEL_FAMILY_NOTE = (
+    "Within each family, exact linear algebra jumps to the single best member in one step "
+    "— the funnel counts families examined, not formulas tried."
+)
+
+#: Every funnel's first bar carries this phrase after its count (tests pin it);
+#: the first bar never counts candidates, because a family is not a candidate.
+DECLARED_FAMILIES_PHRASE = "declared families (each an infinite space of formulas)"
 
 #: Which sealed receipts / notebook pages reference which queue problems.
 EVIDENCE_TIMELINES: dict[str, tuple[tuple[str, str], ...]] = {
@@ -327,6 +356,41 @@ footer { border-top: 3px double #2a2418; margin-top: 2.6rem; padding-top: 0.9rem
   text-align: center; font-size: 0.7rem; color: #6b6353; }
 footer .orn { letter-spacing: 0.7em; margin: 0 0 0.4rem; }
 footer p { max-width: 62ch; margin: 0.3rem auto; }
+:root { --funnel-bar: rgba(49,87,126,0.30); --funnel-hit: rgba(46,107,58,0.38);
+  --funnel-edge: #31577e; --funnel-hit-edge: #2e6b3a; }
+figure.funnel-figure { margin: 1.1rem 0 1.3rem; padding: 0; }
+figure.funnel-figure svg { width: 100%; height: auto; display: block; }
+svg.funnel text { font-family: inherit; font-size: 12px; fill: currentColor; }
+svg.funnel text.num { font-weight: 700; }
+svg.funnel text.lbl { fill-opacity: 0.82; }
+svg.funnel rect.bar { fill: var(--funnel-bar); stroke: var(--funnel-edge);
+  stroke-width: 1; }
+svg.funnel rect.bar.hit { fill: var(--funnel-hit); stroke: var(--funnel-hit-edge); }
+svg.funnel line.axis { stroke: currentColor; stroke-opacity: 0.5; stroke-width: 1; }
+svg.funnel line.rule { stroke: currentColor; stroke-opacity: 0.16;
+  stroke-dasharray: 2 3; }
+figure.funnel-figure figcaption { font-size: 0.74rem; color: #57503f;
+  margin-top: 0.35rem; }
+.duo { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 0.7rem; margin: 0.9rem 0; }
+.duo .half { background: #fdfcf6; border: 1px solid #cfc8b6; padding: 0.6rem 0.8rem;
+  box-shadow: 1px 2px 0 rgba(64,58,42,0.08); }
+.duo .half .hd { font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: #57503f; margin-bottom: 0.35rem; }
+.aside-box { border: 2px solid #31577e; background: rgba(49,87,126,0.06);
+  padding: 0.75rem 1rem; margin: 1rem 0; }
+.aside-box .hd { font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  font-size: 0.78rem; color: #31577e; margin-bottom: 0.3rem; }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
+  gap: 0.7rem; margin: 1rem 0; }
+.cards a.card-link { display: block; background: #fdfcf6; border: 1px solid #cfc8b6;
+  padding: 0.55rem 0.75rem; text-decoration: none; color: inherit;
+  box-shadow: 1px 2px 0 rgba(64,58,42,0.08); }
+.cards a.card-link:hover { border-color: #8b3a2e; color: inherit; }
+.cards a.card-link .t { font-weight: 700; }
+.cards a.card-link .d { font-size: 0.74rem; color: #57503f; margin-top: 0.2rem; }
+.cards a.card-link .f { font-size: 0.68rem; color: #8a8171; margin-top: 0.3rem;
+  word-break: break-all; }
 @media (max-width: 640px) {
   .sheet { margin: 0 auto; border-left: 0; border-right: 0; }
 }
@@ -387,6 +451,17 @@ footer p { max-width: 62ch; margin: 0.3rem auto; }
   .receipt-form { color: #7b776b; }
   fieldset { border-color: #3f4046; }
   legend { color: #a49f90; }
+  :root { --funnel-bar: rgba(143,179,217,0.28); --funnel-hit: rgba(134,196,147,0.30);
+    --funnel-edge: #8fb3d9; --funnel-hit-edge: #86c493; }
+  figure.funnel-figure figcaption { color: #a49f90; }
+  .duo .half { background: #2b2c31; border-color: #3f4046; }
+  .duo .half .hd { color: #a49f90; }
+  .aside-box { border-color: #8fb3d9; background: rgba(143,179,217,0.07); }
+  .aside-box .hd { color: #8fb3d9; }
+  .cards a.card-link { background: #2b2c31; border-color: #3f4046; }
+  .cards a.card-link:hover { border-color: #d99a82; }
+  .cards a.card-link .d { color: #a49f90; }
+  .cards a.card-link .f { color: #7b776b; }
 }
 """
 
@@ -449,7 +524,30 @@ def _load_artifact(root: Path, key: str, rel_path: str) -> Artifact:
 
 
 def _load_artifacts(root: Path) -> dict[str, Artifact]:
-    return {key: _load_artifact(root, key, rel) for key, rel in ARTIFACT_PATHS.items()}
+    artifacts = {key: _load_artifact(root, key, rel) for key, rel in ARTIFACT_PATHS.items()}
+    artifacts["unsolved"] = _load_artifact(root, "unsolved", UNSOLVED_CAMPAIGN_PATH)
+    dozen = artifacts["dozen"]
+    if dozen.present:
+        for world in dozen.data.get("world_results", []):
+            key = DOZEN_WORLD_PREFIX + str(world.get("classical_id", ""))
+            artifact = _load_artifact(root, key, str(world.get("world_receipt_path", "")))
+            expected_seal = world.get("world_receipt_sha256")
+            if (
+                artifact.present
+                and isinstance(expected_seal, str)
+                and artifact.sha256 != expected_seal
+            ):
+                artifact = Artifact(
+                    key,
+                    artifact.path,
+                    None,
+                    None,
+                    None,
+                    False,
+                    "present but does not match the campaign receipt's recorded seal",
+                )
+            artifacts[key] = artifact
+    return artifacts
 
 
 # ---------------------------------------------------------------------------
@@ -1013,6 +1111,9 @@ def _index_page(
         " carefully measured zero, published with margins like any triumph.</li>"
         '<li><a href="/problems">Problems</a> — the ledger of declared targets: what each one'
         " is, why it is believed open, and what would count as progress.</li>"
+        '<li><a href="/papers">Papers</a> — twelve blinded rediscoveries of long-settled'
+        " results, written up one by one, each with the elimination funnel its receipts"
+        " actually record.</li>"
         '<li><a href="/evidence">Evidence</a> — every file this site reads, with its seal.</li>'
         '<li><a href="/method">Method</a> — the assembly line of checks, and the measured'
         " failures that made each one necessary.</li>"
@@ -1108,6 +1209,12 @@ def _problem_detail_page(
             '<p class="small sub">Schema-labeled synthetic world: openness here is operational'
             " (a sealed holdout), not epistemic, and the label cannot be dropped in prose.</p>"
         )
+    if (entry["control_rediscovery"] or entry["synthetic"]) and artifacts["dozen"].present:
+        body.append(
+            '<p class="small sub">Related reading — separate from this entry: a sealed'
+            " campaign of twelve blinded rediscoveries of the same calibration character is"
+            ' written up, funnel by funnel, under <a href="/papers">Papers</a>.</p>'
+        )
     body.append("<h2>What counts as progress</h2>")
     body.append(f"<p>{_esc(entry['progress_definition'])}</p>")
     body.append("<h2>Machine form</h2>")
@@ -1148,6 +1255,13 @@ def _problems_index_page(queue: Artifact, artifacts: dict[str, Artifact], commit
         " be dressed up as a discovery by dropping a sentence. Queue membership asserts"
         " provenance, nothing more: not importance, not tractability, not solvability.</p>"
     )
+    if artifacts["dozen"].present:
+        body.append(
+            "<p>Calibration of exactly this character has been run at scale once already: a"
+            " sealed campaign of twelve blinded rediscoveries, written up paper by paper —"
+            ' each with its receipt-derived elimination funnel — under <a href="/papers">'
+            "Papers</a>.</p>"
+        )
     if not queue.present:
         body.append(_missing_block(queue, "problem queue"))
         return _page("problems", f"Problems · {SITE_TITLE}", "\n".join(body), commit)
@@ -2060,6 +2174,9 @@ def _artifact_summary(artifact: Artifact) -> str:
         return f"VALID — {len(artifact.data['entries'])} sealed entries"
     if artifact.key == "lean":
         return "Conditional halving relation, Std-only tactics; proves nothing about termination"
+    if artifact.key.startswith(DOZEN_WORLD_PREFIX):
+        verdict = artifact.data.get("unseal", {}).get("verdict", "sealed receipt")
+        return f"{verdict} — blinded rediscovery world receipt"
     if artifact.key in _DOC_NAMES:
         titles = {
             "goals_doc": "Release-facing goal registry: measured outcomes, including failures",
@@ -2763,6 +2880,1430 @@ def _paper_page(
 
 
 # ---------------------------------------------------------------------------
+# Rediscovery papers: deterministic statement mathematics
+# ---------------------------------------------------------------------------
+
+#: Tokenizer for the sealed integer-sequence statement grammar.  The alternation
+#: order matters: the summation head and ``**`` must win before letters and ``*``.
+_SEQ_TOKEN = re.compile(r"\s*(sum_\(i<=n\)|\*\*|\d+|[A-Za-z]+|[()+\-*/^,])")
+
+_INT_LATEX = re.compile(r"^-?\d+$")
+
+
+class _SeqExprParser:
+    """Recursive-descent parser for receipt sequence expressions -> LaTeX.
+
+    Nodes are ``(kind, latex, inner)`` tuples; ``inner`` carries the unwrapped
+    body of parenthesized groups so fractions and exponents can drop redundant
+    parentheses without ever guessing.  Anything outside the grammar raises.
+    """
+
+    def __init__(self, text: str) -> None:
+        self.text = text
+        self.tokens: list[str] = []
+        position = 0
+        while position < len(text):
+            match = _SEQ_TOKEN.match(text, position)
+            if match is None:
+                if text[position:].strip() == "":
+                    break
+                raise SiteGenerationError(f"statement outside the receipt grammar: {text!r}")
+            self.tokens.append(match.group(1))
+            position = match.end()
+        self.index = 0
+
+    def _peek(self) -> str | None:
+        return self.tokens[self.index] if self.index < len(self.tokens) else None
+
+    def _take(self) -> str:
+        token = self._peek()
+        if token is None:
+            raise SiteGenerationError(f"statement outside the receipt grammar: {self.text!r}")
+        self.index += 1
+        return token
+
+    def _expect(self, token: str) -> None:
+        if self._take() != token:
+            raise SiteGenerationError(f"statement outside the receipt grammar: {self.text!r}")
+
+    def parse(self) -> str:
+        node = self._add()
+        if self._peek() is not None:
+            raise SiteGenerationError(f"statement outside the receipt grammar: {self.text!r}")
+        return node[1]
+
+    def _add(self) -> tuple[str, str, str]:
+        leading = ""
+        if self._peek() == "-":
+            self._take()
+            leading = "-"
+        first = self._mul()
+        rendered = leading + first[1]
+        count = 1
+        while self._peek() in {"+", "-"}:
+            operator = self._take()
+            term = self._mul()
+            rendered += f" {operator} {term[1]}"
+            count += 1
+        if count == 1 and leading == "":
+            return first
+        if count == 1 and _INT_LATEX.fullmatch(rendered):
+            return ("neg", rendered, rendered)
+        return ("add", rendered, rendered)
+
+    def _mul(self) -> tuple[str, str, str]:
+        factors = [self._pow()]
+        while self._peek() in {"*", "/"}:
+            operator = self._take()
+            right = self._pow()
+            if operator == "*":
+                factors.append(right)
+            else:
+                numerator = self._join(factors)
+                rendered = (
+                    "\\frac{" + self._unwrap(numerator) + "}{" + self._unwrap(right) + "}"
+                )
+                factors = [("frac", rendered, rendered)]
+        return self._join(factors)
+
+    @staticmethod
+    def _unwrap(node: tuple[str, str, str]) -> str:
+        return node[2] if node[0] == "paren" else node[1]
+
+    @staticmethod
+    def _join(factors: list[tuple[str, str, str]]) -> tuple[str, str, str]:
+        if len(factors) == 1:
+            return factors[0]
+        rendered = factors[0][1]
+        for factor in factors[1:]:
+            separator = " \\cdot " if factor[1][:1].isdigit() else "\\,"
+            rendered += separator + factor[1]
+        return ("mul", rendered, rendered)
+
+    def _pow(self) -> tuple[str, str, str]:
+        base = self._atom()
+        if self._peek() in {"**", "^"}:
+            self._take()
+            exponent = self._pow()
+            rendered = base[1] + "^{" + self._unwrap(exponent) + "}"
+            return ("pow", rendered, rendered)
+        return base
+
+    def _atom(self) -> tuple[str, str, str]:
+        token = self._take()
+        if token == "sum_(i<=n)":
+            return ("sum", "\\sum_{i \\le n}", "\\sum_{i \\le n}")
+        if token.isdigit():
+            return ("int", token, token)
+        if token == "(":
+            inner = self._add()
+            self._expect(")")
+            if inner[0] == "int":
+                return inner
+            rendered = "\\left(" + inner[1] + "\\right)"
+            return ("paren", rendered, inner[1])
+        if token.isalpha():
+            if self._peek() == "(":
+                self._take()
+                arguments = [self._add()]
+                while self._peek() == ",":
+                    self._take()
+                    arguments.append(self._add())
+                self._expect(")")
+                if token in {"C", "binomial"} and len(arguments) == 2:
+                    rendered = "\\binom{" + arguments[0][1] + "}{" + arguments[1][1] + "}"
+                    return ("call", rendered, rendered)
+                if token == "a" and len(arguments) == 1:
+                    rendered = "a(" + arguments[0][1] + ")"
+                    return ("call", rendered, rendered)
+                raise SiteGenerationError(
+                    f"statement outside the receipt grammar: {self.text!r}"
+                )
+            if token in {"n", "i"}:
+                return ("name", token, token)
+        raise SiteGenerationError(f"statement outside the receipt grammar: {self.text!r}")
+
+
+def _seq_expr_to_latex(text: str) -> str:
+    return _SeqExprParser(text).parse()
+
+
+_DIVIDES_SHAPE = re.compile(r"^(\d+) divides (.+)$")
+_CONGRUENCE_SHAPE = re.compile(r"^(.+?) = (.+?) \(mod (\d+)\)$")
+_SUM_HEAD = "sum_(i<=n) "
+
+
+def _relation_to_latex(text: str) -> str:
+    match = _DIVIDES_SHAPE.fullmatch(text)
+    if match is not None:
+        return match.group(1) + " \\mid " + _seq_expr_to_latex(match.group(2))
+    match = _CONGRUENCE_SHAPE.fullmatch(text)
+    if match is not None:
+        return (
+            _seq_expr_to_latex(match.group(1))
+            + " \\equiv "
+            + _seq_expr_to_latex(match.group(2))
+            + " \\pmod{"
+            + match.group(3)
+            + "}"
+        )
+    for operator, symbol in ((" = ", "="), (" < ", "<"), (" > ", ">")):
+        if operator in text:
+            sides = text.split(operator)
+            if len(sides) != 2:
+                raise SiteGenerationError(f"statement outside the receipt grammar: {text!r}")
+            left, right = sides
+            if left.startswith(_SUM_HEAD):
+                left_latex = "\\sum_{i \\le n} " + _seq_expr_to_latex(left[len(_SUM_HEAD):])
+            else:
+                left_latex = _seq_expr_to_latex(left)
+            return left_latex + f" {symbol} " + _seq_expr_to_latex(right)
+    raise SiteGenerationError(f"statement outside the receipt grammar: {text!r}")
+
+
+def statement_ascii_to_latex(statement: str) -> str:
+    """Translate a sealed sequence-statement string into LaTeX, deterministically.
+
+    Handles every statement shape the solved-dozen receipts emit: closed forms,
+    recurrences (with optional seed clauses after ``;``), ratio laws, partial
+    sums, congruences, divisibility, sign, and monotonicity.  Anything outside
+    the grammar raises rather than degrading silently.
+    """
+
+    if "; " in statement:
+        main, seeds = statement.split("; ", 1)
+        seed_latexes = [_relation_to_latex(seed) for seed in seeds.split(", ")]
+        return _relation_to_latex(main) + ",\\quad " + ",\\; ".join(seed_latexes)
+    return _relation_to_latex(statement)
+
+
+def _statement_html(statement: str) -> str:
+    """A sequence statement as proper mathematics, with the receipt string underneath."""
+
+    rendered = latex_to_mathml(statement_ascii_to_latex(statement))
+    return (
+        f'<span class="math">{rendered}</span>'
+        f'<code class="receipt-form">{_esc(statement)}</code>'
+    )
+
+
+# ---------------------------------------------------------------------------
+# Rediscovery papers: the elimination funnel, derived only from the trail
+# ---------------------------------------------------------------------------
+
+
+def _reason_breakdown(entries: Any, reason_scope: str) -> list[tuple[str, int]]:
+    """Sorted (reason, count) pairs over a minimality certificate's rejections."""
+
+    if not isinstance(entries, list):
+        raise SiteGenerationError(f"minimality certificate without rejections: {reason_scope}")
+    counts: dict[str, int] = {}
+    for entry in entries:
+        reason = str(entry.get("reason", "unrecorded"))
+        counts[reason] = counts.get(reason, 0) + 1
+    return sorted(counts.items())
+
+
+def _funnel_model(data: dict[str, Any]) -> dict[str, Any]:
+    """Derive the elimination-funnel bars for one world from its receipt trail.
+
+    A stage whose count the receipt does not record is omitted — never estimated
+    — and the omission is footnoted.  Bar counts are the receipt values; the one
+    derived value (``family accepted``) is the receipt's examined-minus-rejected
+    difference, which the tests re-derive independently.
+    """
+
+    phase = data.get("phase_a", {})
+    bars: list[dict[str, Any]] = []
+    reason_tables: list[tuple[str, str, list[tuple[str, int]]]] = []
+    footnotes: list[str] = []
+
+    def bar(key: str, label: str, count: Any, display: str | None = None, accent: bool = False):
+        if not isinstance(count, int):
+            footnotes.append(f"{label}: stage counts not recorded in receipt")
+            return
+        bars.append(
+            {
+                "key": key,
+                "label": label,
+                "count": count,
+                "display": display if display is not None else str(count),
+                "accent": accent,
+            }
+        )
+
+    stages = phase.get("stages", [])
+    b1_passed = False
+    for stage in stages:
+        stage_id = stage.get("stage_id")
+        receipt = stage.get("receipt") or {}
+        counts = receipt.get("counts", {})
+        if stage_id == "b1_basis_synthesis":
+            if stage.get("decision") == "PASS":
+                b1_passed = True
+                bar("declared_families", DECLARED_FAMILIES_PHRASE, counts.get("ladder_entries"))
+                bar(
+                    "families_examined",
+                    "families examined before acceptance",
+                    counts.get("entries_examined"),
+                )
+                bar(
+                    "families_rejected",
+                    "families rejected on the way",
+                    counts.get("entries_rejected_before_acceptance"),
+                )
+                examined = counts.get("entries_examined")
+                rejected = counts.get("entries_rejected_before_acceptance")
+                accepted = (
+                    examined - rejected
+                    if isinstance(examined, int) and isinstance(rejected, int)
+                    else None
+                )
+                bar("family_accepted", "family accepted", accepted, accent=True)
+                result = receipt.get("result") or {}
+                bar(
+                    "holdout_confirmations",
+                    "holdout confirmations of the accepted form",
+                    result.get("confirmations"),
+                )
+                certificate = receipt.get("minimality_certificate") or {}
+                reason_tables.append(
+                    (
+                        "b1_reason",
+                        "Why the simpler families died",
+                        _reason_breakdown(
+                            certificate.get("strictly_simpler_entries_rejected"), "b1"
+                        ),
+                    )
+                )
+            else:
+                bar(
+                    "declared_families",
+                    DECLARED_FAMILIES_PHRASE + " — all rejected",
+                    counts.get("ladder_entries"),
+                )
+        elif stage_id == "b7_structural_repair":
+            attempted = counts.get("strategies_attempted")
+            strategy_word = (
+                _plural(attempted, "repair strategy", "repair strategies")
+                if isinstance(attempted, int)
+                else "repair strategies"
+            )
+            bar(
+                "repair_strategies",
+                f"{strategy_word} attempted — all rejected",
+                attempted,
+            )
+        elif stage_id == "b3_conjecture_generation" and not b1_passed:
+            bar(
+                "statement_kinds",
+                "statement kinds considered",
+                counts.get("declared_statement_kinds"),
+            )
+            proposed = counts.get("proposed")
+            survived = counts.get("survived")
+            proposed_word = (
+                _plural(proposed, "statement", "statements")
+                if isinstance(proposed, int)
+                else "statements"
+            )
+            survived_word = (
+                _plural(survived, "statement", "statements")
+                if isinstance(survived, int)
+                else "statements"
+            )
+            bar("proposed", f"{proposed_word} proposed from the prefix", proposed)
+            bar("survived", f"{survived_word} surviving the holdout", survived)
+        elif stage_id == "b2_nonlinear_coefficient_search" and stage.get("decision") == "PASS":
+            bar(
+                "ratio_models",
+                "declared ratio-law models over the derived rows",
+                counts.get("declared_models"),
+            )
+            bar(
+                "ratio_models_rejected",
+                "models rejected on the way",
+                counts.get("models_rejected_before_acceptance"),
+            )
+            result = receipt.get("result") or {}
+            bar(
+                "ratio_model_accepted",
+                "model accepted",
+                1 if result.get("status") == "PASS" else None,
+                accent=True,
+            )
+            bar(
+                "ratio_confirmations",
+                "holdout confirmations of the accepted law",
+                result.get("confirmations"),
+            )
+            certificate = receipt.get("minimality_certificate") or {}
+            reason_tables.append(
+                (
+                    "b2_reason",
+                    "Why the simpler ratio models died",
+                    _reason_breakdown(
+                        certificate.get("strictly_simpler_models_rejected"), "b2"
+                    ),
+                )
+            )
+    if b1_passed:
+        route = next(
+            (
+                route
+                for route in phase.get("prover_routes", [])
+                if route.get("route") == "b5_lemma_decomposition"
+                and isinstance(route.get("receipt"), dict)
+            ),
+            None,
+        )
+        if route is not None:
+            route_counts = route["receipt"].get("counts", {})
+            obligations = route_counts.get("obligations")
+            failing = route_counts.get("obligations_failing_exact_local_check")
+            if isinstance(obligations, int) and isinstance(failing, int):
+                discharged = obligations - failing
+                bar(
+                    "proof_obligations",
+                    "proof obligations discharged",
+                    discharged,
+                    display=f"{discharged}/{obligations}",
+                )
+            else:
+                footnotes.append(
+                    "proof obligations discharged: stage counts not recorded in receipt"
+                )
+    else:
+        bar(
+            "principal_result",
+            "principal result",
+            1 if isinstance(phase.get("candidate"), dict) else None,
+            accent=True,
+        )
+    return {"bars": bars, "reason_tables": reason_tables, "footnotes": footnotes}
+
+
+def _funnel_svg(bars: list[dict[str, Any]]) -> str:
+    top, row_pitch, bar_height, left, plot = 10, 46, 16, 16, 452
+    max_count = max(entry["count"] for entry in bars)
+    height = top + row_pitch * len(bars) + 4
+    parts = [
+        (
+            f'<svg class="funnel" viewBox="0 0 640 {height}" role="img"'
+            ' aria-label="Elimination funnel: one bar per recorded stage, widths linear in the'
+            ' receipt counts">'
+        )
+    ]
+    axis_bottom = top + row_pitch * len(bars) - 10
+    parts.append(
+        f'<line class="axis" x1="{left}" y1="{top + 4}" x2="{left}" y2="{axis_bottom}"></line>'
+    )
+    for index, entry in enumerate(bars):
+        y = top + index * row_pitch
+        width = max((entry["count"] * plot) // max_count, 1)
+        css = "bar hit" if entry["accent"] else "bar"
+        parts.append(
+            f'<text class="lbl" x="{left + 4}" y="{y + 10}">'
+            f"{_esc(entry['display'])} {_esc(entry['label'])}</text>"
+        )
+        parts.append(
+            f'<rect class="{css}" x="{left}" y="{y + 15}" width="{width}"'
+            f' height="{bar_height}" data-key="funnel_{_esc(entry["key"])}"'
+            f' data-value="{_esc(entry["display"])}"></rect>'
+        )
+        parts.append(
+            f'<line class="rule" x1="{left}" y1="{y + 15 + bar_height}" x2="{left + plot}"'
+            f' y2="{y + 15 + bar_height}"></line>'
+        )
+        parts.append(
+            f'<text class="num" x="{left + width + 8}" y="{y + 15 + 13}">'
+            f"{_esc(entry['display'])}</text>"
+        )
+    parts.append("</svg>")
+    return "".join(parts)
+
+
+def _funnel_figure(model: dict[str, Any]) -> str:
+    caption = (
+        "Every count is read from the sealed receipt trail, and bar widths are linear in the"
+        " counts, narrowing from the declared families (each an infinite space of formulas). "
+        + FUNNEL_FAMILY_NOTE
+    )
+    footnote_html = ""
+    if model["footnotes"]:
+        notes = "; ".join(sorted(set(model["footnotes"])))
+        footnote_html = f' <span class="sub">[{_esc(notes)}]</span>'
+    tables: list[str] = []
+    for key_prefix, heading, breakdown in model["reason_tables"]:
+        rows = "".join(
+            "<tr>"
+            f'<td class="mono">{_esc(reason)}</td>'
+            f'<td class="num" data-key="funnel_{_esc(key_prefix)}_{_esc(reason)}"'
+            f' data-value="{count}">{count}</td>'
+            "</tr>"
+            for reason, count in breakdown
+        )
+        tables.append(
+            f"<h3>{_esc(heading)}</h3>"
+            '<div class="scroll"><table><thead><tr><th>rejection reason, verbatim</th>'
+            '<th class="num">count</th></tr></thead><tbody>' + rows + "</tbody></table></div>"
+        )
+    return (
+        '<figure class="funnel-figure">'
+        + _funnel_svg(model["bars"])
+        + f"<figcaption>{_esc(caption)}{footnote_html}</figcaption></figure>"
+        + "".join(tables)
+    )
+
+
+# ---------------------------------------------------------------------------
+# Rediscovery papers: prose registry (words only — every number is receipt-read)
+# ---------------------------------------------------------------------------
+
+#: Hand-written prose per world: names and framing sentences, no quantities.
+WORLD_PROSE: dict[str, dict[str, str]] = {
+    "gauss_triangular": {
+        "name": "the triangular numbers",
+        "hidden": "the running totals of the counting numbers — the triangular numbers",
+        "boundary": (
+            "The schoolroom sum is among the oldest facts in arithmetic; finding it is"
+            " evidence about the finder, not the found."
+        ),
+    },
+    "square_pyramidal": {
+        "name": "the square-pyramidal numbers",
+        "hidden": "the totals of stacked squares — cannonball-pyramid counts",
+        "boundary": (
+            "The closed form has been known since antiquity; nothing about the mathematics"
+            " is new here."
+        ),
+    },
+    "nicomachus_cubes": {
+        "name": "the sum of cubes",
+        "hidden": "the running totals of the cubes",
+        "boundary": (
+            "That the cubes sum to a perfect square is a two-thousand-year-old theorem;"
+            " the machine merely met it blind."
+        ),
+    },
+    "hanoi_mersenne": {
+        "name": "the Tower of Hanoi count",
+        "hidden": "the minimal move counts of the Tower of Hanoi puzzle",
+        "boundary": (
+            "The doubling-less-one law is the textbook first example of a settled recurrence;"
+            " rediscovery is the entire content of the result."
+        ),
+    },
+    "handshake": {
+        "name": "the handshake numbers",
+        "hidden": "the handshake counts — how many pairs a room of people can form",
+        "boundary": (
+            "Counting pairs is elementary combinatorics; the point is the sealed protocol,"
+            " not the theorem."
+        ),
+    },
+    "hockey_stick_c3": {
+        "name": "the tetrahedral numbers",
+        "hidden": "the tetrahedral numbers — the count of ways to choose three things",
+        "boundary": (
+            "The binomial identity behind this world is classical; no combinatorial novelty"
+            " is on offer."
+        ),
+    },
+    "fibonacci": {
+        "name": "the Fibonacci rule",
+        "hidden": "the rabbit-problem numbers, each term the sum of the previous two",
+        "boundary": (
+            "The recurrence is eight centuries old, and the machine's refusal to name a"
+            " closed form is a statement about its declared grammar, not about the"
+            " mathematics."
+        ),
+        "abstain": (
+            "The true closed form here is Binet's: a growth law built from the square root"
+            " of five, an irrational number that no family on the declared rational ladder"
+            " can express — so declining to claim a closed form was the correct answer,"
+            " not a failure."
+        ),
+    },
+    "lucas": {
+        "name": "the Lucas sequence",
+        "hidden": "Lucas's companion sequence, the Fibonacci rule started from different doors",
+        "boundary": (
+            "The recurrence and its lineage are nineteenth-century classics; only the blind"
+            " provenance is new."
+        ),
+        "abstain": (
+            "The exact closed form again runs through the square root of five — the same"
+            " irrational growth law as Binet's formula — which no rational-coefficient"
+            " family on the declared ladder can express, so abstaining from a closed-form"
+            " claim was correct."
+        ),
+    },
+    "pell": {
+        "name": "the Pell sequence",
+        "hidden": "the Pell numbers, the arithmetic of approximating the square root of two",
+        "boundary": (
+            "Pell arithmetic long predates this machine; the sealed protocol is the only"
+            " novelty."
+        ),
+        "abstain": (
+            "The exact closed form is built from powers of one plus the square root of two"
+            " — an irrational number outside every family on the declared rational ladder —"
+            " so refusing to claim a closed form was the correct move."
+        ),
+    },
+    "catalan_ratio": {
+        "name": "the Catalan ratio",
+        "hidden": "the Catalan numbers, which count balanced arrangements of many kinds",
+        "boundary": (
+            "The term-to-term ratio of the Catalan numbers is a classical identity; the"
+            " derived-row route to it is declared in the public config, not improvised."
+        ),
+    },
+    "geometric_sum3": {
+        "name": "the geometric sum",
+        "hidden": "the running totals of the powers of three",
+        "boundary": (
+            "Summing a geometric series is ancient; the receipt trail, not the theorem,"
+            " is the exhibit."
+        ),
+    },
+    "weighted_geometric": {
+        "name": "the weighted geometric sum",
+        "hidden": "the weighted doubling totals — each power of two counted with its weight",
+        "boundary": (
+            "The arithmetico-geometric summation identity is classical textbook material;"
+            " nothing new is claimed about it."
+        ),
+    },
+}
+
+_KIND_WORDS = {
+    "closed_form": "closed form",
+    "linear_recurrence": "linear recurrence",
+    "ratio_law": "term-to-term ratio law",
+}
+
+
+def _world_number(world_id: str) -> int:
+    match = re.search(r"(\d+)$", world_id)
+    if match is None:
+        raise SiteGenerationError(f"world id outside the receipt grammar: {world_id!r}")
+    return int(match.group(1))
+
+
+def _plural(count: int, singular: str, plural: str) -> str:
+    return singular if count == 1 else plural
+
+
+def _data_value(key: str, value: Any, shown: str | None = None) -> str:
+    display = shown if shown is not None else _fmt_int(value) if isinstance(value, int) else value
+    return (
+        f'<span data-key="{_esc(key)}" data-value="{_esc(value)}">' f"{_esc(display)}</span>"
+    )
+
+
+def _families_explainer(
+    ladder_count: int | None, billion: Artifact, heading_tag: str
+) -> str:
+    """The families-not-formulas explainer, shared by every paper and the index."""
+
+    if ladder_count is not None:
+        heading = (
+            f"Why {_data_value('ladder_families', ladder_count)} families and not a billion"
+            " formulas"
+        )
+    else:
+        heading = "Why declared families and not a billion formulas"
+    if billion.present:
+        processed = billion.data["counts"]["processed"]
+        contrast = (
+            "The contrast is the gravity screen elsewhere in this logbook, which enumerates"
+            f" all {_data_value('gravity_contrast_processed', processed)} of its candidate"
+            " laws one by one precisely because those laws are nonlinear in their unknowns"
+            " and admit no per-family solve: solve what you can, enumerate what you cannot."
+        )
+    else:
+        contrast = (
+            "The contrast is the gravity screen elsewhere in this logbook, which enumerates"
+            " its whole declared family member by member precisely because those laws are"
+            " nonlinear in their unknowns and admit no per-family solve: solve what you can,"
+            " enumerate what you cannot."
+        )
+    count_phrase = (
+        _data_value("ladder_families_body", ladder_count) + " declared families"
+        if ladder_count is not None
+        else "its declared families"
+    )
+    return (
+        f"<{heading_tag}>{heading}</{heading_tag}>"
+        "<p>Every family on the declared ladder is linear in its unknown coefficients, so no"
+        " family is searched by trying formulas one at a time: a single exact linear solve"
+        " either pins down the one member that fits the rows or proves that no member of that"
+        " family can. That is why the funnel counts"
+        f" {count_phrase} rather than individual formulas — each family is"
+        " an infinite space of formulas, searched perfectly in one step. The ladder itself is"
+        " a hand-declared, frozen list ordered by simplicity, which makes &ldquo;simplest"
+        " surviving family&rdquo; a checkable claim relative to the declaration rather than a"
+        " matter of taste. Anything outside the ladder is invisible to this search, and when"
+        " the rows demand such a shape the system emits a typed blocker instead of an answer"
+        " — the abstention worlds in this campaign are exactly that, receipted."
+        f" {contrast}</p>"
+    )
+
+
+# ---------------------------------------------------------------------------
+# Rediscovery papers: page assembly
+# ---------------------------------------------------------------------------
+
+
+def _paper_status_banner() -> str:
+    return _status_banner(
+        "REDISCOVERED",
+        (
+            "Nothing here is unsolved: this question was settled long ago, and the write-up"
+            " says so in its title. The machine's contribution is provenance — it reached the"
+            " classical answer unaided, from anonymized rows, under a sealed blind protocol —"
+            " and every number below is read from the campaign's receipts at build time."
+        ),
+    )
+
+
+def _paper_rows_section(data: dict[str, Any], alias: str) -> str:
+    rows = data.get("public_rows")
+    parts: list[str] = []
+    parts.append(
+        "<p>Strip the story away and this table is the entire Phase A input for this world:"
+        " an opaque world id, values under the neutral alias"
+        f" <code>{_esc(alias)}</code>, and nothing else — no name, no source, no hint.</p>"
+    )
+    if not isinstance(rows, list):
+        parts.append(
+            f'<div class="missing"><strong>{_esc(MISSING_NOTE)}.</strong> The anonymized rows'
+            " are rendered from the world receipt, which does not record them.</div>"
+        )
+        return "\n".join(parts)
+    body_rows = "".join(
+        "<tr>"
+        f'<td class="num">{_esc(row.get("point"))}</td>'
+        f'<td class="num">{_esc(row.get("value"))}</td>'
+        "</tr>"
+        for row in rows
+    )
+    parts.append(
+        '<div class="scroll"><table><thead><tr><th class="num">point</th>'
+        f'<th class="num">{_esc(alias)}(point)</th></tr></thead>'
+        f"<tbody>{body_rows}</tbody></table></div>"
+    )
+    parts.append(f'<p class="small sub">{_esc(ROWS_CAPTION)}</p>')
+    transformations = data.get("declared_transformations") or []
+    for transformation in transformations:
+        parts.append(
+            "<p>One derived-row construction was declared in the public config before the"
+            " run and logged in the receipt, verbatim:"
+            f" <code>{_esc(transformation.get('statement', ''))}</code> (transformation id"
+            f" <code>{_esc(transformation.get('transformation_id', ''))}</code>). The blind"
+            " stages saw those derived rows under the same seal discipline.</p>"
+        )
+    return "\n".join(parts)
+
+
+def _paper_methods_section(
+    campaign: dict[str, Any], data: dict[str, Any], billion: Artifact
+) -> str:
+    chronology = campaign.get("chronology", {})
+    probe = chronology.get("denied_probe", {})
+    claims = campaign.get("claims", {})
+    counts = campaign.get("counts", {})
+    attempted = probe.get("attempted_target_reads")
+    denied = probe.get("denied_target_reads")
+    exposed = probe.get("denied_content_bytes_exposed")
+    before_freeze = claims.get("target_records_read_before_candidate_freeze")
+    batches = chronology.get("unseal_batches")
+    post_unseal = counts.get("post_unseal_generation_events")
+    root = data.get("phase_a_root") or chronology.get("phase_a_root") or ""
+    parts: list[str] = []
+    sentences: list[str] = []
+    sentences.append(
+        "Before anything was searched, the anonymized rows, the frozen stage ladder, and the"
+        " full Phase A record for every world were committed under a single root hash,"
+        f" <code>{_esc(str(root)[:16])}&hellip;</code>, while the classical answers sat in a"
+        " separate sealed fixture."
+    )
+    if isinstance(attempted, int) and isinstance(denied, int) and isinstance(exposed, int):
+        sentences.append(
+            "During the blind phase the campaign deliberately attempted"
+            f" {_data_value('chron_attempted_reads', attempted)} in-process"
+            f" {_plural(attempted, 'read', 'reads')} of that fixture, and"
+            f" {_data_value('chron_denied_reads', denied)}"
+            f" {_plural(denied, 'was', 'were')} denied with"
+            f" {_data_value('chron_denied_bytes', exposed)} bytes of content exposed."
+        )
+        sentences.append(
+            "The receipt states the enforcement's own boundary: it covers this process's"
+            " Python file-read surfaces, and is not an operating-system sandbox."
+        )
+    else:
+        sentences.append(
+            f"[{_esc(MISSING_NOTE)}: the campaign receipt does not record the denied-probe"
+            " counts.]"
+        )
+    if isinstance(before_freeze, int):
+        sentences.append(
+            f"Exactly {_data_value('chron_reads_before_freeze', before_freeze)} target"
+            f" {_plural(before_freeze, 'record was', 'records were')} read before the"
+            " candidate freeze."
+        )
+    if isinstance(batches, int):
+        sentences.append(
+            f"The seal opened {_data_value('chron_unseal_batches', batches)}"
+            f" {_plural(batches, 'time', 'times')}, in one atomic batch, after which the"
+            " discovered and classical statements were compared by exact symbolic"
+            " equivalence."
+        )
+    if isinstance(post_unseal, int):
+        sentences.append(
+            f"And {_data_value('chron_post_unseal', post_unseal)} post-unseal candidate-"
+            f"generation {_plural(post_unseal, 'event is', 'events are')} recorded: nothing"
+            " was generated, tuned, or repaired after the answers became visible."
+        )
+    parts.append("<p>" + " ".join(sentences) + "</p>")
+    b1_counts = {}
+    for stage in data.get("phase_a", {}).get("stages", []):
+        if stage.get("stage_id") == "b1_basis_synthesis":
+            b1_counts = (stage.get("receipt") or {}).get("counts", {})
+            break
+    ladder = b1_counts.get("ladder_entries")
+    parts.append(
+        _families_explainer(ladder if isinstance(ladder, int) else None, billion, "h3")
+    )
+    return "\n".join(parts)
+
+
+def _paper_abstention_box(data: dict[str, Any], prose: dict[str, str]) -> str:
+    """The honest-abstention sidebar, rendered only when the trail records it."""
+
+    phase = data.get("phase_a", {})
+    stages = {stage.get("stage_id"): stage for stage in phase.get("stages", [])}
+    b1 = stages.get("b1_basis_synthesis")
+    b7 = stages.get("b7_structural_repair")
+    b3 = stages.get("b3_conjecture_generation")
+    if b1 is None or b7 is None or b3 is None:
+        return ""
+    if b1.get("decision") != "BLOCK" or b7.get("decision") != "BLOCK":
+        return ""
+    if any(stage.get("decision") == "PASS" for stage in phase.get("stages", [])):
+        return ""  # some later declared route found an exact law — that is not abstention
+    closed_form = next(
+        (
+            conjecture
+            for conjecture in (b3.get("receipt") or {}).get("conjectures", [])
+            if conjecture.get("kind") == "closed_form"
+        ),
+        None,
+    )
+    if closed_form is None or closed_form.get("status") != "NOT_PROPOSED":
+        return ""
+    b1_counts = (b1.get("receipt") or {}).get("counts", {})
+    strategies = (b7.get("receipt") or {}).get("rejected_strategies", [])
+    strategy_items = "".join(
+        f"<li><code>{_esc(strategy.get('strategy'))}</code> &mdash;"
+        f" <code>{_esc(strategy.get('status'))}</code>, reason"
+        f" <code>{_esc(strategy.get('reason'))}</code></li>"
+        for strategy in strategies
+    )
+    abstain_sentence = prose.get("abstain", "")
+    return (
+        '<div class="aside-box"><p class="hd">An honest abstention</p>'
+        "<p>This world's trail is a refusal, quoted from the receipts: every one of the"
+        f" {_data_value('abstain_families', b1_counts.get('ladder_entries'))} declared basis"
+        " families was rejected (stage <code>b1_basis_synthesis</code>, decision"
+        f" <code>{_esc(b1.get('decision'))}</code>, first blocker"
+        f" <code>{_esc((b1.get('receipt') or {}).get('first_blocker'))}</code>); every"
+        " declared repair was rejected too (stage <code>b7_structural_repair</code>,"
+        f" decision <code>{_esc(b7.get('decision'))}</code>):</p>"
+        f"<ul>{strategy_items}</ul>"
+        "<p>And the conjecture stage declined to guess: kind <code>closed_form</code> is"
+        f" recorded as <code>{_esc(closed_form.get('status'))}</code>, reason"
+        f" <code>{_esc(closed_form.get('reason'))}</code>."
+        f" {_esc(abstain_sentence)}</p></div>"
+    )
+
+
+def _paper_killed_by_row_box(data: dict[str, Any]) -> str:
+    """The killed-by-one-row sidebar — only if the trail records a refuted recurrence."""
+
+    for stage in data.get("phase_a", {}).get("stages", []):
+        if stage.get("stage_id") != "b3_conjecture_generation":
+            continue
+        for conjecture in (stage.get("receipt") or {}).get("conjectures", []):
+            if (
+                conjecture.get("kind") == "linear_recurrence"
+                and conjecture.get("status") == "REFUTED"
+                and conjecture.get("refutation_witness") is not None
+            ):
+                witness = conjecture.get("refutation_witness")
+                return (
+                    '<div class="aside-box"><p class="hd">Killed by one row</p>'
+                    "<p>The trail records a recurrence that fit the visible prefix and died"
+                    " on held-out data, verbatim:"
+                    f" <code>{_esc(conjecture.get('statement'))}</code>, status"
+                    f" <code>{_esc(conjecture.get('status'))}</code>, refutation witness"
+                    f" <code>{_esc(json.dumps(witness, sort_keys=True))}</code>. One row was"
+                    " enough; no partial credit is awarded anywhere in the pipeline.</p>"
+                    "</div>"
+                )
+    return ""
+
+
+def _b3_survivors(data: dict[str, Any]) -> list[dict[str, Any]]:
+    for stage in data.get("phase_a", {}).get("stages", []):
+        if stage.get("stage_id") == "b3_conjecture_generation":
+            return [
+                conjecture
+                for conjecture in (stage.get("receipt") or {}).get("conjectures", [])
+                if conjecture.get("status") == "SURVIVED"
+            ]
+    return []
+
+
+def _paper_survivors_section(data: dict[str, Any]) -> str:
+    candidate = data.get("phase_a", {}).get("candidate") or {}
+    principal_statement = candidate.get("statement")
+    survivors = _b3_survivors(data)
+    alternates = [
+        conjecture
+        for conjecture in survivors
+        if conjecture.get("statement") != principal_statement
+    ]
+    parts: list[str] = []
+    if not alternates:
+        parts.append(
+            "<p>Exactly one statement survived the holdout in this world — the principal"
+            " result above. Nothing else was proposed and confirmed, so there is no"
+            " alternates ledger to show.</p>"
+        )
+        return "\n".join(parts)
+    parts.append(
+        "<p>The conjecture stage proposed from a prefix of the rows and attacked every"
+        " proposal on held-out rows. Besides the principal result, these statements"
+        " survived, listed with their holdout support:</p>"
+    )
+    items = []
+    for conjecture in alternates:
+        support = conjecture.get("support")
+        support_html = (
+            _data_value(f"alt_support_{conjecture.get('kind')}", support)
+            if isinstance(support, int)
+            else "&mdash;"
+        )
+        items.append(
+            "<li>"
+            + _statement_html(str(conjecture.get("statement")))
+            + f'<span class="small sub"> &mdash; kind <code>{_esc(conjecture.get("kind"))}'
+            f"</code>, {support_html} holdout confirmations</span></li>"
+        )
+    parts.append("<ul>" + "".join(items) + "</ul>")
+    principal_twin = next(
+        (
+            conjecture
+            for conjecture in survivors
+            if conjecture.get("statement") == principal_statement
+        ),
+        None,
+    )
+    specificity_note = ""
+    if principal_twin is not None:
+        specificity = principal_twin.get("specificity", {})
+        specificity_note = (
+            " the receipt records its specificity as"
+            f" <code>{_esc(specificity.get('numerator'))}/"
+            f"{_esc(specificity.get('denominator'))}</code> with"
+            f" <code>{_esc(principal_twin.get('parameters'))}</code> confirmed parameters,"
+            " the top of this world's list;"
+        )
+    parts.append(
+        "<p>The principal result is principal because it is the most specific survivor —"
+        + specificity_note
+        + " an exact defining law pins down every value, while sign, monotonicity, and"
+        " congruence facts each admit many sequences. The selection rule was fixed before"
+        " the run, verbatim:"
+        f" <code>{_esc(data.get('phase_a', {}).get('candidate_selection_rule'))}</code>.</p>"
+    )
+    return "\n".join(parts)
+
+
+def _paper_result_section(data: dict[str, Any], summary: dict[str, Any]) -> str:
+    candidate = data.get("phase_a", {}).get("candidate") or {}
+    unseal = data.get("unseal", {})
+    comparison = unseal.get("comparison", {})
+    discovered = str(summary.get("discovered_statement"))
+    target = str(summary.get("target_statement"))
+    parts: list[str] = []
+    kind_word = _KIND_WORDS.get(str(candidate.get("kind")), "statement")
+    parts.append(
+        f"<p>Side by side: the {_esc(kind_word)} the machine wrote down blind, and the"
+        " classical form that sat in the sealed fixture.</p>"
+    )
+    parts.append(
+        '<div class="duo">'
+        '<div class="half"><div class="hd">Discovered, blind</div>'
+        + _statement_html(discovered)
+        + '</div><div class="half"><div class="hd">The classical form</div>'
+        + _statement_html(target)
+        + "</div></div>"
+    )
+    detail = comparison.get("detail", {})
+    residual = detail.get("residual")
+    residual_html = (
+        " with residual " + _data_value("result_residual", residual)
+        if isinstance(residual, str)
+        else ""
+    )
+    parts.append(
+        "<p>The receipt's comparison method, verbatim:"
+        f" <code>{_esc(comparison.get('method'))}</code> &mdash; equivalent:"
+        f" <code>{_esc(comparison.get('equivalent'))}</code>{residual_html}."
+        f" Verdict, verbatim: <code>{_esc(summary.get('verdict'))}</code>.</p>"
+    )
+    parts.append(
+        f"<p><strong>Attribution.</strong> {_esc(summary.get('attribution'))}</p>"
+    )
+    return "\n".join(parts)
+
+
+def _paper_verification_section(
+    data: dict[str, Any], summary: dict[str, Any]
+) -> str:
+    parts: list[str] = []
+    holdout = summary.get("holdout_confirmations")
+    if isinstance(holdout, int):
+        parts.append(
+            "<p>The principal statement was confirmed on"
+            f" {_data_value('verify_holdout', holdout)} held-out"
+            f" {_plural(holdout, 'row', 'rows')} that no proposing stage ever saw. Survival"
+            " is never proof; the holdout is a falsifier that happened to find nothing.</p>"
+        )
+    routes = [
+        route
+        for route in data.get("phase_a", {}).get("prover_routes", [])
+        if isinstance(route.get("receipt"), dict) and route.get("lean_source_emitted")
+    ]
+    if not routes:
+        parts.append(
+            "<p>No proof-kernel source was emitted for this world: the receipt's prover"
+            " trail records no applicable route, and the campaign receipt counts this world"
+            " among the exact rediscoveries without proof. That boundary is stated rather"
+            " than papered over.</p>"
+        )
+        return "\n".join(parts)
+    parts.append(
+        "<p>The prover emitted the Lean source below, rendered verbatim from the receipt."
+        " Each file was checked exactly, locally, in rational arithmetic; independent"
+        " kernel verification pending CI, and <code>kernel_verified</code> is"
+        " <code>false</code> in every receipt on this page.</p>"
+    )
+    requirement = routes[0]["receipt"].get("kernel_verification_requirement")
+    if requirement:
+        parts.append(f"<blockquote>{_esc(requirement)}</blockquote>")
+    for route in routes:
+        receipt = route["receipt"]
+        counts = receipt.get("counts", {})
+        obligations = counts.get("obligations")
+        failing = counts.get("obligations_failing_exact_local_check")
+        obligation_note = ""
+        if isinstance(obligations, int) and isinstance(failing, int):
+            discharged = obligations - failing
+            obligation_note = (
+                " &mdash; "
+                + _data_value("lean_obligations", f"{discharged}/{obligations}")
+                + " obligations discharged in the exact local check"
+            )
+        parts.append(
+            f"<h3>Route <code>{_esc(route.get('route'))}</code>, decision"
+            f" <code>{_esc(route.get('decision'))}</code>{obligation_note}</h3>"
+        )
+        survivor = route.get("survivor_statement")
+        if survivor:
+            parts.append(
+                f"<p class=\"small sub\">Proves the survivor statement"
+                f" <code>{_esc(survivor)}</code>.</p>"
+            )
+        note = route.get("note")
+        if note:
+            parts.append(f'<p class="small sub">Receipt note, verbatim: {_esc(note)}.</p>')
+        parts.append(f"<pre><code>{_esc(receipt.get('lean_source', ''))}</code></pre>")
+    return "\n".join(parts)
+
+
+def _paper_not_shown_section(
+    summary: dict[str, Any], prose: dict[str, str], campaign: dict[str, Any]
+) -> str:
+    claims = campaign.get("claims", {})
+    items = [
+        f"<li>{_esc(prose.get('boundary', ''))}</li>",
+        (
+            "<li>No novelty of any kind is claimed. The campaign receipt records"
+            f" <code>novelty_claimed: {_esc(claims.get('novelty_claimed'))}</code> and"
+            " <code>rediscovery_of_classical_results:"
+            f" {_esc(claims.get('rediscovery_of_classical_results'))}</code>, and the house"
+            " rules forbid treating corpus absence as novelty.</li>"
+        ),
+        (
+            "<li>Survival on held-out rows is never proof, and the exact local check of any"
+            " emitted Lean is never kernel verification; the campaign receipt records"
+            f" <code>kernel_verified_lean: {_esc(claims.get('kernel_verified_lean'))}</code>"
+            " pending the CI kernel run.</li>"
+        ),
+        (
+            "<li>The blind enforcement guards this process's own file-read surfaces; the"
+            " receipt names its scope verbatim and does not claim an operating-system"
+            " sandbox.</li>"
+        ),
+    ]
+    note = summary.get("note")
+    if note:
+        items.append(
+            f"<li>Receipt note, verbatim: <code>{_esc(note)}</code>.</li>"
+        )
+    return "<ul>" + "".join(items) + "</ul>"
+
+
+def _paper_references_section(
+    artifact: Artifact, dozen: Artifact, summary: dict[str, Any], campaign: dict[str, Any]
+) -> str:
+    parts: list[str] = ["<h3>Receipts rendered on this page</h3>"]
+    items: list[str] = []
+    if artifact.present:
+        items.append(
+            f"<li>{_github(artifact.path)} &mdash; seal {_sha_abbrev(artifact.sha256)}</li>"
+        )
+    else:
+        items.append(f"<li><code>{_esc(artifact.path)}</code> &mdash; {_esc(MISSING_NOTE)}</li>")
+    if dozen.present:
+        items.append(
+            f"<li>{_github(dozen.path)} &mdash; campaign receipt, seal"
+            f" {_sha_abbrev(dozen.sha256)}</li>"
+        )
+    fixture = campaign.get("source_bindings", {}).get("target_fixture", {})
+    if fixture.get("path"):
+        items.append(
+            f"<li>{_github(str(fixture['path']))} &mdash; the sealed target fixture the"
+            f" blind phase was denied from reading, file hash"
+            f" {_sha_abbrev(fixture.get('file_sha256'))}&dagger;</li>"
+        )
+    parts.append("<ul>" + "".join(items) + "</ul>")
+    parts.append("<h3>Classical citation</h3>")
+    parts.append(f"<p>{_esc(summary.get('attribution'))}</p>")
+    parts.append(
+        '<p class="small sub">&dagger; file-byte hash (the fixture is not a sealed JSON'
+        " receipt).</p>"
+    )
+    return "\n".join(parts)
+
+
+def _paper_world_page(
+    summary: dict[str, Any],
+    artifact: Artifact,
+    dozen: Artifact,
+    artifacts: dict[str, Artifact],
+    commit: str,
+) -> bytes:
+    campaign = dozen.data if dozen.present else {}
+    classical_id = str(summary.get("classical_id"))
+    prose = WORLD_PROSE.get(classical_id, {"name": classical_id, "hidden": classical_id})
+    number = _world_number(str(summary.get("world_id", "")))
+    alias = str(campaign.get("sequence_alias", "a"))
+    body: list[str] = []
+    body.append('<p class="kicker">Blinded rediscovery papers</p>')
+    body.append(f"<h1>Blind rediscovery {number}: {_esc(prose['name'])}</h1>")
+    body.append('<p class="byline">The Invariant Project</p>')
+    body.append(
+        f'<p class="sub small">content as of <code>{_esc(commit)}</code> &mdash; dated by'
+        " content, not by clock; every number on this page is read from the campaign's"
+        " sealed receipts at build time.</p>"
+    )
+    body.append(_paper_status_banner())
+    body.append(_status_key())
+    holdout = summary.get("holdout_confirmations")
+    data = artifact.data if artifact.present else {}
+    rows = data.get("public_rows") if artifact.present else None
+    row_count_html = (
+        _data_value("paper_rows", len(rows)) if isinstance(rows, list) else "a table of"
+    )
+    body.append("<h2>Abstract</h2>")
+    abstract: list[str] = []
+    abstract.append(
+        f"Hidden behind this world's opaque label was {_esc(prose['hidden'])}."
+    )
+    abstract.append(
+        f"The machine saw {row_count_html} anonymized value pairs under the neutral alias"
+        f" <code>{_esc(alias)}</code> — no name, no story, no hint of a source."
+    )
+    kind_word = _KIND_WORDS.get(
+        str((data.get("phase_a", {}).get("candidate") or {}).get("kind")), "exact statement"
+    )
+    if isinstance(holdout, int):
+        abstract.append(
+            f"Working blind, it recovered the exact {_esc(kind_word)} and confirmed it on"
+            f" {_data_value('paper_holdout', holdout)} held-out"
+            f" {_plural(holdout, 'row', 'rows')} it had never used."
+        )
+    else:
+        abstract.append(f"Working blind, it recovered the exact {_esc(kind_word)}.")
+    abstract.append(
+        "After the single unseal the discovered statement matched the classical answer"
+        f" exactly: {_esc(summary.get('attribution'))}"
+    )
+    if summary.get("lean_emitted"):
+        abstract.append(
+            "A proof-kernel source was emitted for the result; its independent kernel check"
+            " is pending CI."
+        )
+    elif "abstain" in prose:
+        abstract.append(
+            "It also declined, correctly, to claim a closed form that would have required"
+            " irrational numbers outside its declared grammar."
+        )
+    abstract.append(_esc(REDISCOVERY_SENTENCE))
+    body.append("<p>" + " ".join(abstract) + "</p>")
+    body.append("<h2>The question</h2>")
+    if artifact.present:
+        body.append(_paper_rows_section(data, alias))
+    else:
+        body.append(_missing_block(artifact, "anonymized rows"))
+    body.append("<h2>Methods</h2>")
+    if dozen.present and artifact.present:
+        body.append(_paper_methods_section(campaign, data, artifacts["billion"]))
+    elif dozen.present:
+        body.append(_paper_methods_section(campaign, {}, artifacts["billion"]))
+    else:
+        body.append(_missing_block(dozen, "sealed-blind chronology"))
+    body.append("<h2>The elimination funnel</h2>")
+    if artifact.present:
+        model = _funnel_model(data)
+        if model["bars"]:
+            body.append(
+                "<p>The path below is this world's actual narrowing, stage by stage,"
+                " derived only from the receipt trail — no stage is drawn that the receipt"
+                " does not record.</p>"
+            )
+            body.append(_funnel_figure(model))
+        else:
+            body.append(
+                f'<p class="sub">[{_esc(MISSING_NOTE)}: the receipt trail records no stage'
+                " counts, so no funnel is drawn]</p>"
+            )
+        body.append(_paper_abstention_box(data, prose))
+        body.append(_paper_killed_by_row_box(data))
+    else:
+        body.append(_missing_block(artifact, "elimination funnel"))
+    body.append("<h2>What else survived</h2>")
+    if artifact.present:
+        body.append(_paper_survivors_section(data))
+    else:
+        body.append(_missing_block(artifact, "surviving statements"))
+    body.append("<h2>Result</h2>")
+    if artifact.present:
+        body.append(_paper_result_section(data, summary))
+    else:
+        body.append(_missing_block(artifact, "result comparison"))
+    body.append("<h2>Verification</h2>")
+    if artifact.present:
+        body.append(_paper_verification_section(data, summary))
+    else:
+        body.append(_missing_block(artifact, "verification"))
+    body.append("<h2>What this does not show</h2>")
+    body.append(_paper_not_shown_section(summary, prose, campaign))
+    body.append("<h2>References</h2>")
+    body.append(_paper_references_section(artifact, dozen, summary, campaign))
+    body.append('<p class="small"><a href="/papers">&larr; back to all twelve papers</a></p>')
+    title = f"Blind rediscovery {number}: {prose['name']} · {SITE_TITLE}"
+    return _page("papers", title, "\n".join(body), commit)
+
+
+def _papers_progress_block(unsolved: Artifact) -> str:
+    parts: list[str] = ["<h2>Progress reports (unsolved dozen)</h2>"]
+    if not unsolved.present:
+        parts.append(
+            f'<div class="missing"><strong>{_esc(MISSING_NOTE)}.</strong> A companion'
+            " campaign over questions without known answers is planned at"
+            f" <code>{_esc(UNSOLVED_CAMPAIGN_PATH)}</code>; that campaign not yet published"
+            " in this repository. When its receipts land, progress reports — including"
+            " honest failures — will be listed here with the same ceremony as the papers"
+            " above.</div>"
+        )
+        return "\n".join(parts)
+    parts.append(
+        "<p>The companion unsolved-dozen campaign has published receipts. Full progress-"
+        "report pages are not built yet; the evidence is linked directly:</p>"
+    )
+    worlds = unsolved.data.get("world_results")
+    items: list[str] = []
+    if isinstance(worlds, list) and worlds:
+        for world in worlds:
+            label = str(
+                world.get("classical_id") or world.get("world_id") or "unnamed world"
+            )
+            receipt_path = world.get("world_receipt_path")
+            if isinstance(receipt_path, str) and receipt_path:
+                items.append(f"<li><code>{_esc(label)}</code>: {_github(receipt_path)}</li>")
+            else:
+                items.append(f"<li><code>{_esc(label)}</code></li>")
+    items.append(
+        f"<li>Campaign receipt: {_github(unsolved.path)} &mdash; seal"
+        f" {_sha_abbrev(unsolved.sha256)}</li>"
+    )
+    parts.append("<ul>" + "".join(items) + "</ul>")
+    return "\n".join(parts)
+
+
+def _papers_index_page(artifacts: dict[str, Artifact], commit: str) -> bytes:
+    dozen = artifacts["dozen"]
+    body: list[str] = []
+    body.append('<p class="kicker">Blinded rediscovery papers</p>')
+    body.append("<h1>Twelve old truths, found blind</h1>")
+    body.append(
+        "<p>Each page below is a short publication-style write-up of one blinded"
+        " rediscovery: a classical, long-settled result was hidden behind an opaque label,"
+        " the machine saw only anonymized rows, and the sealed protocol opened exactly once"
+        " at the end to compare answers. The centerpiece of every paper is its elimination"
+        " funnel — the world's actual narrowing path, drawn from the receipt trail and"
+        " nothing else. Nothing here is new mathematics, every page says so, and the"
+        " abstentions are written up with the same ceremony as the finds.</p>"
+    )
+    if not dozen.present:
+        body.append(_missing_block(dozen, "rediscovery campaign"))
+        body.append(_papers_progress_block(artifacts["unsolved"]))
+        return _page("papers", f"Papers · {SITE_TITLE}", "\n".join(body), commit)
+    campaign = dozen.data
+    worlds = campaign.get("world_results", [])
+    ladder = None
+    for world in worlds:
+        artifact = artifacts.get(DOZEN_WORLD_PREFIX + str(world.get("classical_id")))
+        if artifact is not None and artifact.present:
+            for stage in artifact.data.get("phase_a", {}).get("stages", []):
+                if stage.get("stage_id") == "b1_basis_synthesis":
+                    candidate = (stage.get("receipt") or {}).get("counts", {}).get(
+                        "ladder_entries"
+                    )
+                    if isinstance(candidate, int):
+                        ladder = candidate
+                    break
+        if ladder is not None:
+            break
+    body.append(_families_explainer(ladder, artifacts["billion"], "h2"))
+    counts = campaign.get("counts", {})
+    tiles = [
+        _tile(
+            _esc(_fmt_int(counts.get("worlds", 0))),
+            "sealed worlds in the campaign",
+            dozen.path,
+            data_key="papers_worlds",
+            data_value=str(counts.get("worlds", 0)),
+        ),
+        _tile(
+            _esc(_fmt_int(counts.get("rediscovered_total", 0))),
+            "classical results rediscovered under the blind",
+            dozen.path,
+            data_key="papers_rediscovered",
+            data_value=str(counts.get("rediscovered_total", 0)),
+        ),
+        _tile(
+            _esc(_fmt_int(counts.get("rediscovered_with_proof", 0))),
+            "with an emitted proof-kernel source (kernel check pending CI)",
+            dozen.path,
+            data_key="papers_with_proof",
+            data_value=str(counts.get("rediscovered_with_proof", 0)),
+        ),
+        _tile(
+            _esc(_fmt_int(counts.get("holdout_confirmations_total", 0))),
+            "holdout confirmations across all twelve principal results",
+            dozen.path,
+            data_key="papers_holdout_total",
+            data_value=str(counts.get("holdout_confirmations_total", 0)),
+        ),
+        _tile(
+            _esc(_fmt_int(counts.get("missed", 0))),
+            "worlds missed — the count the protocol exists to keep honest",
+            dozen.path,
+            kind="neg",
+            data_key="papers_missed",
+            data_value=str(counts.get("missed", 0)),
+        ),
+    ]
+    body.append('<div class="tiles">' + "".join(tiles) + "</div>")
+    body.append(
+        f'<p class="small sub">Campaign decision, verbatim:'
+        f" <code>{_esc(campaign.get('decision'))}</code> &middot; content seal"
+        f" {_sha_abbrev(dozen.sha256)} &middot; "
+        + _github(dozen.path, "view the campaign receipt on GitHub")
+        + "</p>"
+    )
+    body.append("<h2>The ledger</h2>")
+    rows: list[str] = []
+    cards: list[str] = []
+    for world in worlds:
+        classical_id = str(world.get("classical_id"))
+        prose = WORLD_PROSE.get(classical_id, {"name": classical_id})
+        artifact = artifacts.get(DOZEN_WORLD_PREFIX + classical_id)
+        one_liner = "&mdash;"
+        if artifact is not None and artifact.present:
+            model = _funnel_model(artifact.data)
+            if model["bars"]:
+                one_liner = _esc(
+                    "→".join(entry["display"] for entry in model["bars"])
+                )
+        number = _world_number(str(world.get("world_id", "")))
+        href = f"/papers/{classical_id}"
+        rows.append(
+            "<tr>"
+            f'<td class="num">{number}</td>'
+            f'<td class="mono"><a href="{_esc(href)}"><code>{_esc(classical_id)}</code></a></td>'
+            f"<td>{_esc(prose['name'])}</td>"
+            f'<td class="mono">{_esc(world.get("verdict"))}</td>'
+            f'<td class="mono">{"yes" if world.get("lean_emitted") else "no"}</td>'
+            f'<td class="mono">{one_liner}</td>'
+            "</tr>"
+        )
+        cards.append(
+            f'<a class="card-link" href="{_esc(href)}">'
+            f'<div class="t">Blind rediscovery {number}: {_esc(prose["name"])}</div>'
+            f'<div class="d">{_esc(world.get("verdict"))}</div>'
+            f'<div class="f">{one_liner}</div></a>'
+        )
+    body.append(
+        '<div class="scroll"><table><thead><tr><th class="num">#</th><th>world</th>'
+        "<th>classical name</th><th>verdict</th><th>proof</th><th>funnel</th></tr></thead>"
+        "<tbody>" + "".join(rows) + "</tbody></table></div>"
+    )
+    body.append(
+        '<p class="small sub">The funnel column is each paper\'s elimination funnel in one'
+        " line — every number in it is read from that world's receipt trail; the papers"
+        " draw the same numbers as labeled bars.</p>"
+    )
+    body.append("<h2>The papers</h2>")
+    body.append('<div class="cards">' + "".join(cards) + "</div>")
+    body.append("<h2>The claims block, verbatim</h2>")
+    claims = campaign.get("claims", {})
+    claim_rows = "".join(
+        "<tr>"
+        f'<td class="mono">{_esc(key)}</td>'
+        f'<td class="mono">{_esc(claims[key])}</td>'
+        "</tr>"
+        for key in sorted(claims)
+    )
+    body.append(
+        "<p>Copied key for key from the campaign receipt's <code>claims</code> block —"
+        " the boundary travels with the evidence:</p>"
+        '<div class="scroll"><table><thead><tr><th>claim key</th><th>value</th></tr>'
+        f"</thead><tbody>{claim_rows}</tbody></table></div>"
+    )
+    body.append(_papers_progress_block(artifacts["unsolved"]))
+    return _page("papers", f"Papers · {SITE_TITLE}", "\n".join(body), commit)
+
+
+# ---------------------------------------------------------------------------
 # Assembly, CLI
 # ---------------------------------------------------------------------------
 
@@ -2778,6 +4319,7 @@ def render_site(root: Path | str, commit: str) -> dict[str, bytes]:
         "index.html": _index_page(artifacts, facts, commit),
         "paper.html": _paper_page(artifacts, facts, commit),
         "problems.html": _problems_index_page(artifacts["queue"], artifacts, commit),
+        "papers.html": _papers_index_page(artifacts, commit),
         "gravity.html": _gravity_page(artifacts, commit),
         "collatz.html": _collatz_page(artifacts, facts, commit),
         "evidence.html": _evidence_page(artifacts, commit),
@@ -2789,6 +4331,14 @@ def render_site(root: Path | str, commit: str) -> dict[str, bytes]:
         for entry in queue.data["entries"]:
             pages[f"problems/{entry['id']}.html"] = _problem_detail_page(
                 entry, queue, artifacts, commit
+            )
+    dozen = artifacts["dozen"]
+    if dozen.present:
+        for world in dozen.data.get("world_results", []):
+            classical_id = str(world.get("classical_id"))
+            world_artifact = artifacts[DOZEN_WORLD_PREFIX + classical_id]
+            pages[f"papers/{classical_id}.html"] = _paper_world_page(
+                world, world_artifact, dozen, artifacts, commit
             )
     return pages
 
