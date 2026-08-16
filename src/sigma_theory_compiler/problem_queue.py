@@ -66,6 +66,13 @@ MACHINE_FORM_KINDS: dict[str, dict[str, type]] = {
     "diophantine_family": {"equation": str, "parameter": str, "parameter_min": int},
     "dataset_law_fit": {"dataset": str, "target_relation": str},
     "module_target": {"proof_module": str, "decomposition_module": str},
+    # Routing note: served by the M10 SAT certificate lane
+    # (sat_certificate_lane.statement_from_machine_form -> decide).  statement_kind names
+    # a lane registry statement (ramsey_edge_coloring, vdw_arithmetic_progression,
+    # pythagorean_triple_coloring); k is 0 for kinds that take no k.  The discovery
+    # scheduler derives no stages for this kind yet — see the routing note in the lane
+    # module docstring for the intended single sat_certificate stage.
+    "bounded_combinatorial_coloring": {"statement_kind": str, "n": int, "k": int},
 }
 
 #: Hard bounds.  Exceeding any of these is an error, never a silent truncation.
