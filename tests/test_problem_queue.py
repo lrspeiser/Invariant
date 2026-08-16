@@ -407,3 +407,118 @@ class TestProblemQueueV2:
         assert len(kinds["diophantine_family"]) == 6
         assert len(kinds["integer_trajectory"]) == 2
         assert len(kinds["sequence_rows"]) == 4
+
+
+# ---------------------------------------------------------------------------
+# Queue v3: the FLT-adjacent exponent-Diophantine targets
+# ---------------------------------------------------------------------------
+
+QUEUE_V3_PATH = Path(__file__).resolve().parents[1] / "configs" / "problem_queue_v3.json"
+PINNED_V3_CONTENT_SHA256 = "76f3d3e9ec639c63da86de995b938439414c79d93eda1374770dff9212ccc299"
+
+FLT_ADJACENT_IDS = ("beal_conjecture", "fermat_catalan", "erdos_straus_sweeper_target")
+
+
+class TestProblemQueueV3:
+    """The v3 queue: all 22 v2 entries unchanged plus the three sweeper targets."""
+
+    @pytest.fixture()
+    def queue_v2(self) -> dict[str, object]:
+        return load_queue(QUEUE_V2_PATH)
+
+    @pytest.fixture()
+    def queue_v3(self) -> dict[str, object]:
+        return load_queue(QUEUE_V3_PATH)
+
+    def test_loads_seals_and_is_pinned_with_25_entries(self, queue_v3):
+        assert queue_v3["schema_version"] == QUEUE_SCHEMA
+        assert len(queue_v3["entries"]) == 25
+        validate_queue(queue_v3)
+        assert queue_v3["content_sha256"] == PINNED_V3_CONTENT_SHA256
+        assert QUEUE_V3_PATH.read_bytes() == canonical_json_bytes(queue_v3) + b"\n"
+        assert seal_queue(queue_v3["entries"]) == queue_v3
+
+    def test_v2_entries_are_carried_over_byte_unchanged(self, queue_v2, queue_v3):
+        assert queue_v3["entries"][:22] == queue_v2["entries"]
+        assert canonical_json_bytes(queue_v2["entries"])[1:-1] in canonical_json_bytes(
+            queue_v3["entries"]
+        )
+
+    def test_domain_counts_are_twenty_two_math_three_physics(self, queue_v3):
+        summary = summarize_queue(queue_v3)
+        assert summary["counts"] == {
+            "control_rediscovery": 1,
+            "entries": 25,
+            "math": 22,
+            "physics": 3,
+            "synthetic": 1,
+        }
+        assert summary["entry_ids"][22:] == list(FLT_ADJACENT_IDS)
+
+    def test_every_new_entry_cites_real_literature(self, queue_v3):
+        for entry_id in FLT_ADJACENT_IDS:
+            entry = _entry(queue_v3, entry_id)
+            assert entry["domain"] == "math/number_theory", entry_id
+            assert len(entry["source_citation"]) > 40, entry_id
+            assert any(char.isdigit() for char in entry["source_citation"]), entry_id
+            assert len(entry["believed_open_because"]) > 40, entry_id
+            assert "2026" in entry["believed_open_because"], entry_id
+            assert entry["progress_definition"], entry_id
+            assert entry["control_rediscovery"] is False, entry_id
+            assert entry["synthetic"] is False, entry_id
+
+    def test_named_citations_are_present_verbatim(self, queue_v3):
+        expectations = {
+            "beal_conjecture": ("Mauldin", "1997", "Notices", "1,000,000", "Norvig"),
+            "fermat_catalan": ("Darmon", "Granville", "1995", "Poonen", "2007"),
+            "erdos_straus_sweeper_target": (
+                "Elsholtz",
+                "Tao",
+                "1107.1010",
+                "Salez",
+                "1406.6307",
+            ),
+        }
+        for entry_id, needles in expectations.items():
+            citation = _entry(queue_v3, entry_id)["source_citation"]
+            for needle in needles:
+                assert needle in citation, (entry_id, needle)
+
+    def test_all_three_are_diophantine_family_machine_forms(self, queue_v3):
+        for entry_id in FLT_ADJACENT_IDS:
+            form = _entry(queue_v3, entry_id)["machine_form"]
+            assert form["kind"] == "diophantine_family", entry_id
+            assert set(form) == {"kind"} | set(MACHINE_FORM_KINDS["diophantine_family"])
+        assert _entry(queue_v3, "beal_conjecture")["machine_form"]["parameter"] == "base_bound"
+        assert _entry(queue_v3, "fermat_catalan")["machine_form"]["parameter_min"] == 1
+
+    def test_sweeper_reentry_cross_references_the_v1_entry(self, queue_v3):
+        """The Erdos-Straus re-entry must point at the original entry, keep its
+        parameterization compatible, and claim no separate mathematical target."""
+
+        original = _entry(queue_v3, "erdos_straus")
+        reentry = _entry(queue_v3, "erdos_straus_sweeper_target")
+        assert reentry["id"] != original["id"]
+        assert "erdos_straus" in reentry["statement"]
+        assert "erdos_straus" in reentry["progress_definition"]
+        assert reentry["machine_form"]["parameter"] == original["machine_form"]["parameter"]
+        assert (
+            reentry["machine_form"]["parameter_min"]
+            == original["machine_form"]["parameter_min"]
+        )
+        assert "4/n = 1/x + 1/y + 1/z" in reentry["machine_form"]["equation"]
+        assert "10^17" in reentry["believed_open_because"]
+
+    def test_beal_landscape_is_phrased_as_documented_report(self, queue_v3):
+        """The verification landscape is Norvig's documented report, not our claim."""
+
+        entry = _entry(queue_v3, "beal_conjecture")
+        assert "Norvig" in entry["believed_open_because"]
+        assert "report" in entry["believed_open_because"]
+        assert "250,000" in entry["believed_open_because"]
+
+    def test_ten_known_fermat_catalan_solutions_are_stated(self, queue_v3):
+        statement = _entry(queue_v3, "fermat_catalan")["statement"]
+        assert "ten solutions" in statement
+        for known in ("2^5 + 7^2 = 3^4", "7^3 + 13^2 = 2^9", "2^7 + 17^3 = 71^2"):
+            assert known in statement
