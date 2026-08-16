@@ -208,3 +208,46 @@ Corpus absence is never novelty.  Survival is never proof.  A restricted domain 
 never a global claim.  Kernel verification happens only in the kernel.  No invisible
 mass as target or rescue.  Sealed data opens once, no refit.  Negative receipts are
 deliverables.
+
+---
+
+## The trillion track (physics scale-up, added 2026-08-16)
+
+The billion-candidate screen saturated its own family: wider coefficient ranges in the
+same pointwise shape add nothing, and the sealed cluster negative killed the class, not
+the corner. A 10^12-candidate campaign is therefore justified only as a **product of new
+structural dimensions**, not a wider grid.
+
+**P3a. Environment grammar (EFE lane).**  Laws whose boost depends on declared
+environment features (external field strength, system scale, coherence-like source
+kinematics).  Output: grammar ordinal space with environment axes and the measured
+pass structure separating environment-aware from pointwise families.
+
+**P3b. Interaction-kernel grammar (QED-inspired lane).**  Running-coupling forms
+(scale-drifting G, log families), modified propagators (Yukawa and power-law
+corrections), and parameterized nonlocal kernels g_obs(r) = Int K(r,r'; params)
+rho_b(r') dr' — linear in matter, enumerated in parameters.  The Sigma-Gravity
+neighborhood negative motivates exactly this: the boost's *shape* must know the
+system, not only the local acceleration.  Output: kernel-lane ordinal space wired
+into the standard gauntlet.
+
+**P9. Residual-field gates (the "halo as data" reframing).**  Fitted dark-matter
+halos are model-laden costumes on direct kinematic residuals g_obs - g_bar.  The
+evidence policy forbids halo parameters as ground truth; the residual field itself is
+direct measurement.  New gates: predict the residual catalog's universal regularities
+from baryons alone — near-constant halo central surface density across the luminosity
+range, and the radial-acceleration relation with its observed scatter structure —
+synthetic controls first, sealed real-data protocol at P8.  Output: residual-gate
+columns in the screen receipts with named margins.
+
+**P10. Trillion-scale infrastructure.**  Measured basis: 61.1M cand/s at ~3% GPU
+utilization (memory-bound) — a fused CUDA kernel targets 10-50x, putting a 10^12
+first pass in the minutes-to-hours range; the full gauntlet stays funnel-gated so
+expensive gates see survivors only.  Reuse the restart-safe chunk architecture
+(1,000-chunk production template scales by multiplication) driven by the A1 scheduler
+(GPU lease, ledger, watchdog caps); D4 two-host sharding when a second machine
+exists.  Output: a sealed 10^12 campaign receipt with per-chunk lineage, or the
+honest measured reason why not.
+
+Order: P3a/P3b grammars first (structure), P9 gates second (targets), P10 scale last
+(volume).  Volume without new structure is a receipt for zero, purchased slowly.
