@@ -1,0 +1,266 @@
+{
+  "schema_version": "invariant-dozen-blind-targets-1.0",
+  "targets": [
+    {
+      "attribution": "Triangular-number closed form; classical (Pythagorean school), popularly attributed to Carl Friedrich Gauss via the schoolroom summation anecdote.",
+      "classical_id": "gauss_triangular",
+      "domain": {
+        "start": 1,
+        "variable": "n"
+      },
+      "expression": "n*(n + 1)/2",
+      "expression_ast": "Expression(body=BinOp(left=BinOp(left=Name(id='n', ctx=Load()), op=Mult(), right=BinOp(left=Name(id='n', ctx=Load()), op=Add(), right=Constant(value=1))), op=Div(), right=Constant(value=2)))",
+      "kind": "closed_form",
+      "parameters": {
+        "family": "polynomial_2",
+        "rational_coefficients_ascending": [
+          "0",
+          "1/2",
+          "1/2"
+        ]
+      },
+      "salt": "8c4f7a1de2b9034657c8a1f0d3e6b592",
+      "world_id": "world_01"
+    },
+    {
+      "attribution": "Square-pyramidal-number closed form; Archimedes (On Conoids and Spheroids) and the Fibonacci (Liber Abaci) lineage.",
+      "classical_id": "square_pyramidal",
+      "domain": {
+        "start": 1,
+        "variable": "n"
+      },
+      "expression": "n*(n + 1)*(2*n + 1)/6",
+      "expression_ast": "Expression(body=BinOp(left=BinOp(left=BinOp(left=Name(id='n', ctx=Load()), op=Mult(), right=BinOp(left=Name(id='n', ctx=Load()), op=Add(), right=Constant(value=1))), op=Mult(), right=BinOp(left=BinOp(left=Constant(value=2), op=Mult(), right=Name(id='n', ctx=Load())), op=Add(), right=Constant(value=1))), op=Div(), right=Constant(value=6)))",
+      "kind": "closed_form",
+      "parameters": {
+        "family": "polynomial_3",
+        "rational_coefficients_ascending": [
+          "0",
+          "1/6",
+          "1/2",
+          "1/3"
+        ]
+      },
+      "salt": "1a9e5b7c33d20f8846ab91c7e05d2f64",
+      "world_id": "world_02"
+    },
+    {
+      "attribution": "Sum of the first n cubes equals the square of the nth triangular number; Nicomachus of Gerasa, Introductio Arithmetica (~100 CE).",
+      "classical_id": "nicomachus_cubes",
+      "domain": {
+        "start": 1,
+        "variable": "n"
+      },
+      "expression": "(n*(n + 1)/2)**2",
+      "expression_ast": "Expression(body=BinOp(left=BinOp(left=BinOp(left=Name(id='n', ctx=Load()), op=Mult(), right=BinOp(left=Name(id='n', ctx=Load()), op=Add(), right=Constant(value=1))), op=Div(), right=Constant(value=2)), op=Pow(), right=Constant(value=2)))",
+      "kind": "closed_form",
+      "parameters": {
+        "family": "polynomial_4",
+        "rational_coefficients_ascending": [
+          "0",
+          "0",
+          "1/4",
+          "1/2",
+          "1/4"
+        ]
+      },
+      "salt": "e7d2c94a0b6f18355f4e0a9d81c72b06",
+      "world_id": "world_03"
+    },
+    {
+      "attribution": "Minimal Tower of Hanoi move count; Edouard Lucas (1883); Mersenne-number closed form.",
+      "classical_id": "hanoi_mersenne",
+      "domain": {
+        "start": 1,
+        "variable": "n"
+      },
+      "expression": "2**n - 1",
+      "expression_ast": "Expression(body=BinOp(left=BinOp(left=Constant(value=2), op=Pow(), right=Name(id='n', ctx=Load())), op=Sub(), right=Constant(value=1)))",
+      "kind": "closed_form",
+      "parameters": {
+        "family": "geometric_2",
+        "rational_coefficients_ascending": [
+          "-1",
+          "1"
+        ]
+      },
+      "salt": "5b08f3c6a91d247790e6b5a2c4d81f37",
+      "world_id": "world_04"
+    },
+    {
+      "attribution": "Handshake count C(n,2); classical combinatorics.",
+      "classical_id": "handshake",
+      "domain": {
+        "start": 1,
+        "variable": "n"
+      },
+      "expression": "binomial(n, 2)",
+      "expression_ast": "Expression(body=Call(func=Name(id='binomial', ctx=Load()), args=[Name(id='n', ctx=Load()), Constant(value=2)]))",
+      "kind": "closed_form",
+      "parameters": {
+        "family": "binomial_2",
+        "rational_coefficients_ascending": [
+          "0",
+          "1"
+        ]
+      },
+      "salt": "c39a61e08d5b72f4418f2c7b9a0e6d53",
+      "world_id": "world_05"
+    },
+    {
+      "attribution": "Tetrahedral numbers C(n,3); binomial identity (hockey-stick) lineage.",
+      "classical_id": "hockey_stick_c3",
+      "domain": {
+        "start": 1,
+        "variable": "n"
+      },
+      "expression": "binomial(n, 3)",
+      "expression_ast": "Expression(body=Call(func=Name(id='binomial', ctx=Load()), args=[Name(id='n', ctx=Load()), Constant(value=3)]))",
+      "kind": "closed_form",
+      "parameters": {
+        "family": "binomial_3",
+        "rational_coefficients_ascending": [
+          "0",
+          "1"
+        ]
+      },
+      "salt": "2f7d0b5e9c4a836612d9f0a4b7c3e185",
+      "world_id": "world_06"
+    },
+    {
+      "attribution": "Fibonacci recurrence; Leonardo of Pisa, Liber Abaci (1202). The Binet closed form is irrational and outside the declared rational grammar.",
+      "classical_id": "fibonacci",
+      "domain": {
+        "start": 0,
+        "variable": "n"
+      },
+      "expression": "a(n - 1) + a(n - 2)",
+      "expression_ast": "Expression(body=BinOp(left=Call(func=Name(id='a', ctx=Load()), args=[BinOp(left=Name(id='n', ctx=Load()), op=Sub(), right=Constant(value=1))]), op=Add(), right=Call(func=Name(id='a', ctx=Load()), args=[BinOp(left=Name(id='n', ctx=Load()), op=Sub(), right=Constant(value=2))])))",
+      "kind": "linear_recurrence",
+      "parameters": {
+        "coefficients": [
+          1,
+          1
+        ],
+        "inhomogeneous_constant": 0,
+        "order": 2,
+        "seeds": [
+          0,
+          1
+        ]
+      },
+      "salt": "a05c8e2b71f4d69324c7e1b8f5a09d46",
+      "world_id": "world_07"
+    },
+    {
+      "attribution": "Lucas sequence; Edouard Lucas (19th century). Shares the Fibonacci recurrence with seeds 2, 1; the closed form is irrational and outside the declared rational grammar.",
+      "classical_id": "lucas",
+      "domain": {
+        "start": 0,
+        "variable": "n"
+      },
+      "expression": "a(n - 1) + a(n - 2)",
+      "expression_ast": "Expression(body=BinOp(left=Call(func=Name(id='a', ctx=Load()), args=[BinOp(left=Name(id='n', ctx=Load()), op=Sub(), right=Constant(value=1))]), op=Add(), right=Call(func=Name(id='a', ctx=Load()), args=[BinOp(left=Name(id='n', ctx=Load()), op=Sub(), right=Constant(value=2))])))",
+      "kind": "linear_recurrence",
+      "parameters": {
+        "coefficients": [
+          1,
+          1
+        ],
+        "inhomogeneous_constant": 0,
+        "order": 2,
+        "seeds": [
+          2,
+          1
+        ]
+      },
+      "salt": "6e1b9f4d82c507a3559a3d0c6e8b2f71",
+      "world_id": "world_08"
+    },
+    {
+      "attribution": "Pell recurrence; Pell/Lagrange lineage via the continued fraction of sqrt(2).",
+      "classical_id": "pell",
+      "domain": {
+        "start": 0,
+        "variable": "n"
+      },
+      "expression": "2*a(n - 1) + a(n - 2)",
+      "expression_ast": "Expression(body=BinOp(left=BinOp(left=Constant(value=2), op=Mult(), right=Call(func=Name(id='a', ctx=Load()), args=[BinOp(left=Name(id='n', ctx=Load()), op=Sub(), right=Constant(value=1))])), op=Add(), right=Call(func=Name(id='a', ctx=Load()), args=[BinOp(left=Name(id='n', ctx=Load()), op=Sub(), right=Constant(value=2))])))",
+      "kind": "linear_recurrence",
+      "parameters": {
+        "coefficients": [
+          2,
+          1
+        ],
+        "inhomogeneous_constant": 0,
+        "order": 2,
+        "seeds": [
+          0,
+          1
+        ]
+      },
+      "salt": "d48a2c7f19e6b035683e5f9a1d0c47b2",
+      "world_id": "world_09"
+    },
+    {
+      "attribution": "Catalan-number term ratio C(n+1)/C(n) = (4n+2)/(n+2); Euler/Segner/Catalan lineage.",
+      "classical_id": "catalan_ratio",
+      "domain": {
+        "start": 0,
+        "variable": "n"
+      },
+      "expression": "(4*n + 2)/(n + 2)",
+      "expression_ast": "Expression(body=BinOp(left=BinOp(left=BinOp(left=Constant(value=4), op=Mult(), right=Name(id='n', ctx=Load())), op=Add(), right=Constant(value=2)), op=Div(), right=BinOp(left=Name(id='n', ctx=Load()), op=Add(), right=Constant(value=2))))",
+      "kind": "ratio_law",
+      "parameters": {
+        "a": 4,
+        "b": 2,
+        "d": 2,
+        "model": "linear_fractional"
+      },
+      "salt": "97f3e60a4c8d1b52427b8d3e6f0a19c5",
+      "world_id": "world_10"
+    },
+    {
+      "attribution": "Finite geometric series sum 1 + 3 + ... + 3^(n-1) = (3^n - 1)/2; classical summation.",
+      "classical_id": "geometric_sum3",
+      "domain": {
+        "start": 1,
+        "variable": "n"
+      },
+      "expression": "(3**n - 1)/2",
+      "expression_ast": "Expression(body=BinOp(left=BinOp(left=BinOp(left=Constant(value=3), op=Pow(), right=Name(id='n', ctx=Load())), op=Sub(), right=Constant(value=1)), op=Div(), right=Constant(value=2)))",
+      "kind": "closed_form",
+      "parameters": {
+        "family": "geometric_3",
+        "rational_coefficients_ascending": [
+          "-1/2",
+          "1/2"
+        ]
+      },
+      "salt": "40b6d9e17a2f5c8891c4a7f2d5e08b63",
+      "world_id": "world_11"
+    },
+    {
+      "attribution": "Weighted geometric sum sum_(k=1..n) k*2^k = (n-1)*2^(n+1) + 2; classical arithmetico-geometric summation identity.",
+      "classical_id": "weighted_geometric",
+      "domain": {
+        "start": 1,
+        "variable": "n"
+      },
+      "expression": "(n - 1)*2**(n + 1) + 2",
+      "expression_ast": "Expression(body=BinOp(left=BinOp(left=BinOp(left=Name(id='n', ctx=Load()), op=Sub(), right=Constant(value=1)), op=Mult(), right=BinOp(left=Constant(value=2), op=Pow(), right=BinOp(left=Name(id='n', ctx=Load()), op=Add(), right=Constant(value=1)))), op=Add(), right=Constant(value=2)))",
+      "kind": "closed_form",
+      "parameters": {
+        "family": "geometric_linear_2",
+        "rational_coefficients_ascending": [
+          "2",
+          "-2",
+          "2"
+        ]
+      },
+      "salt": "f21e8b5c60d3a974a6d0c3f8b1e57a29",
+      "world_id": "world_12"
+    }
+  ]
+}
