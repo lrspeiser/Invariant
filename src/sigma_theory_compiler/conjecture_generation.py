@@ -7,9 +7,17 @@ question and finding one, and it is the gap this module closes.
 
 The input is raw observations with no declared target.  The output is a set of typed,
 falsifiable **conjectures** across several statement kinds — closed form, linear
-recurrence, divisibility, congruence, sign, monotonicity, partial-sum closed form.
-These are different *kinds* of theorem, not variations on one formula, so the module
-proposes what sort of thing might be true rather than only fitting a curve.
+recurrence, divisibility, congruence, sign, monotonicity, partial-sum closed form,
+spectral bias, holonomic recurrence.  These are different *kinds* of theorem, not
+variations on one formula, so the module proposes what sort of thing might be true
+rather than only fitting a curve.
+
+Statement kinds are versioned in frozen profiles.  The original eight kinds are
+`STATEMENT_KINDS_V1`; the current default adds `spectral_bias` (the Fourier-form
+statement the Ulam progress receipt named as its own blocker) and
+`holonomic_recurrence` (polynomial-coefficient recurrences).  A sealed receipt
+declares the profile it was scanned with and replays under exactly that profile, so
+extending the engine never invalidates receipts that were honest when written.
 
 Two rules keep this from degenerating into pattern-matching noise.
 
@@ -61,7 +69,9 @@ CLAIMS = {
     "survival_on_holdout_establishes_truth": False,
 }
 
-STATEMENT_KINDS = (
+#: The original frozen statement-kind profile.  Receipts sealed before the spectral
+#: and holonomic kinds existed declare exactly this list and replay under it.
+STATEMENT_KINDS_V1 = (
     "closed_form",
     "linear_recurrence",
     "index_scaling_relation",
@@ -71,6 +81,23 @@ STATEMENT_KINDS = (
     "monotonicity",
     "partial_sum_closed_form",
 )
+
+#: The current default profile: v1 plus the spectral-bias kind (the statement form
+#: the Ulam progress receipt named as its own blocker) and the holonomic-recurrence
+#: kind (P-finite: polynomial-coefficient recurrences).
+STATEMENT_KINDS = STATEMENT_KINDS_V1 + ("spectral_bias", "holonomic_recurrence")
+
+#: Every profile a receipt may declare.  A receipt whose statement_kinds list is not
+#: exactly one of these fails validation: profiles are frozen, never free-form.
+STATEMENT_KIND_PROFILES = (STATEMENT_KINDS_V1, STATEMENT_KINDS)
+
+#: Caps added by the v2 kinds.  Kept out of the v1 receipt body so that v1 receipts
+#: replay byte-identically.
+V2_EXTRA_CAPS = {
+    "holonomic_min_prefix_rows": 8,
+    "holonomic_min_term_holdout": 2,
+    "spectral_min_prefix_rows": 16,
+}
 
 
 class ConjectureGenerationError(ValueError):
@@ -325,6 +352,98 @@ def _conjecture_partial_sum(prefix, holdout) -> dict[str, Any] | None:
     }
 
 
+def _spectral_dps(values: Sequence[Fraction]) -> int:
+    """Declared cos-sign precision for exact rational holdout values."""
+
+    from .spectral_signal_scan import SYSTEM_CAPS as SPECTRAL_CAPS
+
+    magnitude = max((abs(int(value)) for value in values), default=1)
+    return SPECTRAL_CAPS["base_dps"] + len(str(max(magnitude, 1)))
+
+
+def _conjecture_spectral_bias(prefix, holdout) -> dict[str, Any] | None:
+    """Steinerberger-form hidden-frequency bias: `cos(lambda* a_n) < 0` often.
+
+    This is the statement kind the Ulam progress receipt named as its own blocker
+    (`statement_kinds_too_weak`): a quasi-periodic signal is invisible to every
+    algebraic kind above.  The scan runs on the prefix only; the float grid sweep is
+    a pre-filter and every reported number is exact or mpmath-adjudicated.
+    """
+
+    from .spectral_signal_scan import PROFILES, propose_bias_from_prefix
+
+    values = _integers(prefix)
+    if values is None or len(values) < V2_EXTRA_CAPS["spectral_min_prefix_rows"]:
+        return None
+    profile = PROFILES["engine"]
+    for entry in propose_bias_from_prefix(values, "engine"):
+        threshold = entry["threshold_fraction"]
+        if threshold is None:
+            continue
+        return {
+            "kind": "spectral_bias",
+            "statement": entry["statement"],
+            "parameters": 2,
+            "specificity": threshold,
+            "lambda": entry["lambda"],
+            "magnitude_at_lambda": entry["magnitude_at_lambda"],
+            "refinement": entry["refinement"],
+            "grid": {
+                "denominator": profile["grid_denominator"],
+                "start_k": profile["start_k"],
+                "stop_k": profile["stop_k"],
+            },
+            "peak_is_not_proof": True,
+            "prefix_negative_terms": entry["prefix_negative_terms"],
+            "prefix_ambiguous_terms": entry["prefix_ambiguous_terms"],
+            "prefix_terms": entry["prefix_terms"],
+            "_lambda": entry["lambda_fraction"],
+            "_threshold": threshold,
+        }
+    return None
+
+
+def _conjecture_holonomic(prefix, holdout) -> dict[str, Any] | None:
+    """P-finite recurrence: `sum_i P_i(n) a(n+i) = 0` with polynomial `P_i`.
+
+    Fitted on the minimum prefix rows by exact rational nullspace, verified on the
+    remaining prefix rows, then confronted with the held-out suffix like every other
+    kind.  Catalan-style sequences get a direct recurrence here instead of only the
+    derived-ratio route.
+    """
+
+    from .holonomic_guesser import guess_recurrence
+
+    points = [point for point, _ in prefix]
+    if len(points) < V2_EXTRA_CAPS["holonomic_min_prefix_rows"]:
+        return None
+    if any(right - left != 1 for left, right in pairwise(points)):
+        return None
+    result = guess_recurrence(
+        [value for _, value in prefix],
+        start_index=points[0],
+        min_term_holdout=V2_EXTRA_CAPS["holonomic_min_term_holdout"],
+    )
+    if result["decision"] != "OPERATOR_FOUND":
+        return None
+    operator = result["operator"]
+    return {
+        "kind": "holonomic_recurrence",
+        "statement": operator["statement"],
+        "parameters": operator["parameter_count"],
+        "specificity": Fraction(1),
+        "operator": {
+            "order": operator["order"],
+            "degree": operator["degree"],
+            "coefficients": operator["coefficients"],
+            "start_point": operator["start_point"],
+        },
+        "latex": operator["latex"],
+        "_order": operator["order"],
+        "_coefficients": operator["coefficients"],
+    }
+
+
 PROPOSERS = (
     ("closed_form", _conjecture_closed_form),
     ("linear_recurrence", _conjecture_recurrence),
@@ -334,6 +453,8 @@ PROPOSERS = (
     ("congruence", _conjecture_congruence),
     ("monotonicity", _conjecture_monotonicity),
     ("sign", _conjecture_sign),
+    ("spectral_bias", _conjecture_spectral_bias),
+    ("holonomic_recurrence", _conjecture_holonomic),
 )
 
 
@@ -350,6 +471,34 @@ def _test_conjecture(
     """Confront a prefix-derived conjecture with rows it has never seen."""
 
     kind = conjecture["kind"]
+    if kind == "spectral_bias":
+        # The claim is a fraction over the whole suffix, not a per-row law: count
+        # exact cos signs at the stated quantized lambda, failing closed on any
+        # numerically ambiguous sign.
+        from .spectral_signal_scan import cos_sign
+
+        dps = _spectral_dps([value for _, value in prefix] + [value for _, value in holdout])
+        negative = 0
+        ambiguous = 0
+        for _, value in holdout:
+            sign = cos_sign(conjecture["_lambda"], value, dps)
+            if sign < 0:
+                negative += 1
+            elif sign == 0:
+                ambiguous += 1
+        threshold = conjecture["_threshold"]
+        if Fraction(negative, len(holdout)) >= threshold:
+            return {"status": "SURVIVED", "support": negative, "refutation_witness": None}
+        return {
+            "status": "REFUTED",
+            "support": negative,
+            "refutation_witness": {
+                "holdout_rows": len(holdout),
+                "negative_terms": negative,
+                "ambiguous_terms": ambiguous,
+                "required_fraction": _fraction_data(threshold),
+            },
+        }
     support = 0
     for index, (point, value) in enumerate(holdout):
         ok = True
@@ -411,6 +560,25 @@ def _test_conjecture(
             previous = (list(prefix) + list(holdout))[len(prefix) + index - 1][1]
             ok = previous < value if conjecture["_direction"] == "increasing" else previous > value
             witness = None if ok else {"point": point, "observed": _fraction_data(value)}
+        elif kind == "holonomic_recurrence":
+            from .holonomic_guesser import _poly_eval_int
+
+            history = dict(list(prefix) + list(holdout))
+            order = conjecture["_order"]
+            base = point - order
+            if all(base + shift in history for shift in range(order + 1)):
+                residual = Fraction(0)
+                for shift, coefficients in enumerate(conjecture["_coefficients"]):
+                    residual += _poly_eval_int(coefficients, base) * history[base + shift]
+                ok = residual == 0
+                if not ok:
+                    witness = {
+                        "point": point,
+                        "base_point": base,
+                        "residual": _fraction_data(residual),
+                    }
+            else:
+                ok = True  # vacuous where the recurrence window is not in the data
         elif kind == "partial_sum_closed_form":
             # Extend the running-sum series one holdout row at a time; the recovered
             # closed form must keep holding as each new row is admitted.
@@ -468,9 +636,19 @@ def _pareto_front(entries: Sequence[Mapping[str, Any]]) -> list[str]:
     return front
 
 
-def generate_conjectures(rows: Any) -> dict[str, Any]:
-    """Propose typed falsifiable statements from data with no declared target."""
+def generate_conjectures(
+    rows: Any, statement_kinds: Sequence[str] | None = None
+) -> dict[str, Any]:
+    """Propose typed falsifiable statements from data with no declared target.
 
+    `statement_kinds` selects one of the frozen declared profiles (default: the
+    current full profile).  Passing anything that is not exactly a frozen profile is
+    an error: the scan surface is versioned, never free-form.
+    """
+
+    active = STATEMENT_KINDS if statement_kinds is None else tuple(statement_kinds)
+    if active not in STATEMENT_KIND_PROFILES:
+        raise ConjectureGenerationError("statement_kinds is not a declared frozen profile")
     try:
         parsed = _parse_rows(rows)
     except BasisSynthesisError as error:
@@ -479,6 +657,8 @@ def generate_conjectures(rows: Any) -> dict[str, Any]:
 
     proposed: list[dict[str, Any]] = []
     for kind, proposer in PROPOSERS:
+        if kind not in active:
+            continue
         conjecture = proposer(prefix, holdout)
         if conjecture is None:
             proposed.append({"kind": kind, "status": "NOT_PROPOSED", "reason": "no_pattern_in_prefix"})
@@ -500,11 +680,12 @@ def generate_conjectures(rows: Any) -> dict[str, Any]:
         )
 
     survivors = [entry for entry in proposed if entry.get("status") == "SURVIVED"]
+    caps = SYSTEM_CAPS if active == STATEMENT_KINDS_V1 else {**SYSTEM_CAPS, **V2_EXTRA_CAPS}
     body: dict[str, Any] = {
         "claims": CLAIMS,
         "conjectures": proposed,
         "counts": {
-            "declared_statement_kinds": len(STATEMENT_KINDS),
+            "declared_statement_kinds": len(active),
             "holdout_rows": len(holdout),
             "prefix_rows": len(prefix),
             "proposed": sum(1 for entry in proposed if entry.get("status") != "NOT_PROPOSED"),
@@ -522,8 +703,8 @@ def generate_conjectures(rows: Any) -> dict[str, Any]:
             "until an external certificate exists. Ranking is a Pareto front over support, "
             "simplicity, and specificity; no scalar truth or probability score is produced."
         ),
-        "statement_kinds": list(STATEMENT_KINDS),
-        "system_caps": SYSTEM_CAPS,
+        "statement_kinds": list(active),
+        "system_caps": caps,
     }
     return {**body, "content_sha256": canonical_sha256(body)}
 
@@ -534,10 +715,13 @@ def validate_result(value: Mapping[str, Any]) -> None:
     body = {key: item for key, item in value.items() if key != "content_sha256"}
     if value.get("content_sha256") != canonical_sha256(body):
         raise ConjectureGenerationError("result seal changed")
+    declared = tuple(value.get("statement_kinds", ()))
+    if declared not in STATEMENT_KIND_PROFILES:
+        raise ConjectureGenerationError("result declares an unknown statement-kind profile")
     rows = [
         {"point": row["point"], "value": row["value"]} for row in value.get("public_rows", [])
     ]
-    if dict(value) != generate_conjectures(rows):
+    if dict(value) != generate_conjectures(rows, statement_kinds=declared):
         raise ConjectureGenerationError("result exact replay changed")
 
 

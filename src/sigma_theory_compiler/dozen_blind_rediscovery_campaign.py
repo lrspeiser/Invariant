@@ -44,7 +44,7 @@ from typing import Any, Self
 import sympy as sp
 
 from .basis_synthesis import LADDER, Term, _solve_unique, synthesize_basis
-from .conjecture_generation import generate_conjectures
+from .conjecture_generation import STATEMENT_KINDS_V1, generate_conjectures
 from .lemma_decomposition import decompose_closed_form_proof
 from .nonlinear_coefficient_search import search_nonlinear
 from .quantified_inequality_proofs import prove_quantified_inequality
@@ -743,7 +743,9 @@ def _run_world_phase_a(world: Mapping[str, Any]) -> dict[str, Any]:
     if b1["decision"] != "PASS":
         b7 = repair_structure(rows)
         stages.append(_stage("b7_structural_repair", "repair_structure", b7))
-    b3 = generate_conjectures(rows)
+    # This campaign is sealed: it was run, unsealed, and shipped under the v1
+    # statement-kind profile, so its deterministic replay pins that profile.
+    b3 = generate_conjectures(rows, statement_kinds=STATEMENT_KINDS_V1)
     stages.append(_stage("b3_conjecture_generation", "generate_conjectures", b3))
     transformation_records: list[dict[str, Any]] = []
     b2: dict[str, Any] | None = None
