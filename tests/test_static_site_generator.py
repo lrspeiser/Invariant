@@ -13,6 +13,14 @@ defined on the same page), the Collatz page must open with the mandated OPEN tex
 no page may contain a standalone "solved" claim, receipt formulas must round-trip
 through the ASCII->LaTeX translator into build-time MathML, and the site must stay
 fully self-contained (no external resources beyond documented link targets).
+
+The rediscovery papers add their own gates: a paper exists for exactly the worlds
+in the sealed campaign receipt, every elimination-funnel number equals the value
+re-derived here from that world's receipt trail (via the data-key mechanism, with
+one SVG bar per recorded stage), the abstention and killed-by-one-row sidebars
+appear exactly where the trail supports them, the alternates section lists exactly
+the trail's survivors, and both the discovered and classical statements render as
+build-time MathML on every paper.
 """
 
 from __future__ import annotations
@@ -31,20 +39,26 @@ from sigma_theory_compiler.problem_queue import ENTRY_KEYS, MACHINE_FORM_KINDS
 from sigma_theory_compiler.static_site_generator import (
     ARTIFACT_PATHS,
     COLLATZ_STATUS_TEXT,
+    DECLARED_FAMILIES_PHRASE,
     FOOTER_CREED,
+    FUNNEL_FAMILY_NOTE,
     GARDNER_OPENING,
     LATEX_RAR_LAW,
     LATEX_SIGMA_HALVING,
     LATEX_SIGMA_POW2,
     MISSING_NOTE,
+    REDISCOVERY_SENTENCE,
+    ROWS_CAPTION,
     STATUS_DEFINITIONS,
     SUBMIT_NOTICE,
+    UNSOLVED_CAMPAIGN_PATH,
     SiteGenerationError,
     build_site,
     formula_ascii_to_latex,
     latex_to_mathml,
     main,
     render_site,
+    statement_ascii_to_latex,
 )
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -54,6 +68,11 @@ TEST_COMMIT = "deadbeef" * 5
 BANNED_SCORE_TERMS = ("truth score", "probability", "confidence", "% true", "likelihood")
 
 CASE_STUDY_PAGES = ("collatz.html", "gravity.html")
+
+#: The sealed rediscovery directory name contains the letters "solved"; the path is
+#: a filename, not a claim, so the standalone-"solved" gate strips exactly this
+#: substring (and nothing else) before scanning.
+DOZEN_DIR = "runs/math/solved-dozen"
 
 _TAGS = re.compile(r"<[^>]+>")
 
@@ -66,8 +85,17 @@ def pages() -> dict[str, bytes]:
 @pytest.fixture(scope="module")
 def receipts() -> dict[str, dict]:
     loaded = {}
-    for key in ("queue", "billion", "lensing", "sweep"):
+    for key in ("queue", "billion", "lensing", "sweep", "dozen"):
         loaded[key] = json.loads((ROOT / ARTIFACT_PATHS[key]).read_text(encoding="utf-8"))
+    return loaded
+
+
+@pytest.fixture(scope="module")
+def world_receipts(receipts) -> dict[str, dict]:
+    loaded = {}
+    for world in receipts["dozen"]["world_results"]:
+        path = ROOT / world["world_receipt_path"]
+        loaded[world["classical_id"]] = json.loads(path.read_text(encoding="utf-8"))
     return loaded
 
 
@@ -89,7 +117,9 @@ def _stamped_pages(pages: dict[str, bytes]) -> list[str]:
     """Every page that must carry exactly one status banner."""
 
     return sorted(
-        name for name in pages if name.startswith("problems/") or name in CASE_STUDY_PAGES
+        name
+        for name in pages
+        if name.startswith(("problems/", "papers/")) or name in CASE_STUDY_PAGES
     )
 
 
@@ -107,11 +137,12 @@ def test_two_builds_are_byte_identical(tmp_path):
         assert (tmp_path / "a" / name).read_bytes() == first[name], name
 
 
-def test_page_set_covers_every_queue_entry(pages, receipts):
+def test_page_set_covers_every_queue_entry_and_campaign_world(pages, receipts):
     expected = {
         "index.html",
         "paper.html",
         "problems.html",
+        "papers.html",
         "gravity.html",
         "collatz.html",
         "evidence.html",
@@ -119,6 +150,9 @@ def test_page_set_covers_every_queue_entry(pages, receipts):
         "method.html",
     }
     expected |= {f"problems/{entry['id']}.html" for entry in receipts["queue"]["entries"]}
+    expected |= {
+        f"papers/{world['classical_id']}.html" for world in receipts["dozen"]["world_results"]
+    }
     assert set(pages) == expected
 
 
@@ -156,7 +190,7 @@ def test_sweep_range_and_decision_rendered(pages, receipts):
     assert html_module.escape(sweep["statement"]["text"], quote=True) in collatz_text
 
 
-def test_generator_source_contains_no_headline_numerals(receipts):
+def test_generator_source_contains_no_headline_numerals(receipts, world_receipts):
     source = GENERATOR_SOURCE.read_text(encoding="utf-8")
     closest = receipts["lensing"]["cluster_negative"]["closest_cluster_approach"]
     banned = {
@@ -175,12 +209,21 @@ def test_generator_source_contains_no_headline_numerals(receipts):
         receipts["lensing"]["content_sha256"],
         receipts["sweep"]["content_sha256"],
         receipts["queue"]["content_sha256"],
+        receipts["dozen"]["content_sha256"],
+        receipts["dozen"]["chronology"]["phase_a_root"],
         "0/21",
         "21/21",
         "70/70",
         "118/118",
         "200/200",
     }
+    for world in receipts["dozen"]["world_results"]:
+        banned.add(world["discovered_statement"])
+        banned.add(world["target_statement"])
+        banned.add(world["attribution"])
+        banned.add(world["world_receipt_sha256"])
+    for world_receipt in world_receipts.values():
+        banned.add(world_receipt["content_sha256"])
     for numeral in sorted(banned):
         assert numeral not in source, f"generator source hard-codes {numeral!r}"
 
@@ -579,10 +622,13 @@ def test_no_standalone_solved_claim_anywhere(pages):
     """The word "solved" may appear only inside "unsolved"/"resolved" forms.
 
     This is deliberately stronger than "no OPEN problem is called solved": nothing
-    on the site is solved, so no page gets to use the bare word at all."""
+    on the site is solved, so no page gets to use the bare word at all.  The one
+    carve-out is the sealed rediscovery directory name, which contains the letters
+    "solved" as a path component; the exact path substring is stripped before the
+    scan because a filename is a citation, not a claim."""
 
     for name in sorted(pages):
-        flat = _flat(_text(pages, name)).lower()
+        flat = _flat(_text(pages, name)).lower().replace(DOZEN_DIR, "")
         assert re.search(r"\bsolved\b", flat) is None, name
 
 
@@ -700,3 +746,449 @@ def test_grid_paper_and_typewriter_styling_on_every_page(pages):
         assert "prefers-color-scheme: dark" in page_text, name
         assert "rotate(-0.5deg)" in page_text, name
         assert "font-size: 17px" in page_text, name
+
+
+# ---------------------------------------------------------------------------
+# Rediscovery papers: receipt-derived funnels, sidebars, alternates, MathML
+# ---------------------------------------------------------------------------
+
+_FUNNEL_RECT = re.compile(
+    r'<rect class="bar(?: hit)?"[^>]*data-key="funnel_([^"]+)" data-value="([^"]+)"'
+)
+
+
+def _paper_text(pages: dict[str, bytes], classical_id: str) -> str:
+    return _text(pages, f"papers/{classical_id}.html")
+
+
+def _section(page_text: str, heading: str, next_heading: str) -> str:
+    start = page_text.index(f"<h2>{heading}</h2>")
+    end = page_text.index(f"<h2>{next_heading}</h2>")
+    assert start < end
+    return page_text[start:end]
+
+
+def _expected_funnel(world_receipt: dict) -> list[tuple[str, str]]:
+    """Independently re-derive the funnel bars from a world receipt's trail."""
+
+    phase = world_receipt["phase_a"]
+    bars: list[tuple[str, str]] = []
+    b1 = next(s for s in phase["stages"] if s["stage_id"] == "b1_basis_synthesis")
+    if b1["decision"] == "PASS":
+        counts = b1["receipt"]["counts"]
+        examined = counts["entries_examined"]
+        rejected = counts["entries_rejected_before_acceptance"]
+        bars += [
+            ("declared_families", str(counts["ladder_entries"])),
+            ("families_examined", str(examined)),
+            ("families_rejected", str(rejected)),
+            ("family_accepted", str(examined - rejected)),
+            ("holdout_confirmations", str(b1["receipt"]["result"]["confirmations"])),
+        ]
+        for route in phase["prover_routes"]:
+            if route.get("route") == "b5_lemma_decomposition" and route.get("receipt"):
+                route_counts = route["receipt"]["counts"]
+                discharged = (
+                    route_counts["obligations"]
+                    - route_counts["obligations_failing_exact_local_check"]
+                )
+                bars.append(
+                    ("proof_obligations", f"{discharged}/{route_counts['obligations']}")
+                )
+                break
+        return bars
+    for stage in phase["stages"]:
+        stage_id = stage["stage_id"]
+        receipt = stage.get("receipt") or {}
+        counts = receipt.get("counts", {})
+        if stage_id == "b1_basis_synthesis":
+            bars.append(("declared_families", str(counts["ladder_entries"])))
+        elif stage_id == "b7_structural_repair":
+            bars.append(("repair_strategies", str(counts["strategies_attempted"])))
+        elif stage_id == "b3_conjecture_generation":
+            bars += [
+                ("statement_kinds", str(counts["declared_statement_kinds"])),
+                ("proposed", str(counts["proposed"])),
+                ("survived", str(counts["survived"])),
+            ]
+        elif stage_id == "b2_nonlinear_coefficient_search" and stage["decision"] == "PASS":
+            bars += [
+                ("ratio_models", str(counts["declared_models"])),
+                ("ratio_models_rejected", str(counts["models_rejected_before_acceptance"])),
+                ("ratio_model_accepted", "1"),
+                ("ratio_confirmations", str(receipt["result"]["confirmations"])),
+            ]
+    bars.append(("principal_result", "1"))
+    return bars
+
+
+def _b3_conjectures(world_receipt: dict) -> list[dict]:
+    for stage in world_receipt["phase_a"]["stages"]:
+        if stage["stage_id"] == "b3_conjecture_generation":
+            return stage["receipt"]["conjectures"]
+    return []
+
+
+def _abstention_expected(world_receipt: dict) -> bool:
+    stages = {s["stage_id"]: s for s in world_receipt["phase_a"]["stages"]}
+    if "b1_basis_synthesis" not in stages or "b7_structural_repair" not in stages:
+        return False
+    if stages["b1_basis_synthesis"]["decision"] != "BLOCK":
+        return False
+    if stages["b7_structural_repair"]["decision"] != "BLOCK":
+        return False
+    if any(s["decision"] == "PASS" for s in world_receipt["phase_a"]["stages"]):
+        return False
+    closed_form = next(
+        (c for c in _b3_conjectures(world_receipt) if c["kind"] == "closed_form"), None
+    )
+    return closed_form is not None and closed_form["status"] == "NOT_PROPOSED"
+
+
+def _killed_by_row_expected(world_receipt: dict) -> bool:
+    return any(
+        conjecture["kind"] == "linear_recurrence"
+        and conjecture["status"] == "REFUTED"
+        and conjecture.get("refutation_witness") is not None
+        for conjecture in _b3_conjectures(world_receipt)
+    )
+
+
+def test_papers_exist_for_exactly_the_campaign_worlds(pages, receipts):
+    worlds = [world["classical_id"] for world in receipts["dozen"]["world_results"]]
+    assert sorted(name for name in pages if name.startswith("papers/")) == sorted(
+        f"papers/{world}.html" for world in worlds
+    )
+    assert "papers.html" in pages
+    for name in sorted(pages):
+        assert 'href="/papers"' in _text(pages, name), name
+
+
+def test_paper_headings_and_masthead(pages, receipts):
+    expected = [
+        "Abstract",
+        "The question",
+        "Methods",
+        "The elimination funnel",
+        "What else survived",
+        "Result",
+        "Verification",
+        "What this does not show",
+        "References",
+    ]
+    for world in receipts["dozen"]["world_results"]:
+        page_text = _paper_text(pages, world["classical_id"])
+        headings = re.findall(r"<h2>([^<]+)</h2>", page_text)
+        assert headings == expected, (world["classical_id"], headings)
+        number = int(world["world_id"].rsplit("_", 1)[1])
+        assert f"<h1>Blind rediscovery {number}: " in page_text
+        assert "The Invariant Project" in page_text
+        assert f"content as of <code>{TEST_COMMIT}</code>" in page_text
+        assert REDISCOVERY_SENTENCE in _flat(page_text)
+        assert html_module.escape(world["attribution"], quote=True) in page_text
+
+
+def test_paper_rows_table_is_the_receipt_rows(pages, receipts, world_receipts):
+    for world in receipts["dozen"]["world_results"]:
+        classical_id = world["classical_id"]
+        page_text = _paper_text(pages, classical_id)
+        rows = world_receipts[classical_id]["public_rows"]
+        section = _section(page_text, "The question", "Methods")
+        assert ROWS_CAPTION in section
+        assert section.count("<tr>") == len(rows) + 1  # header row + one per receipt row
+        for row in rows:
+            assert f'<td class="num">{row["point"]}</td>' in section
+        tiles = _tile_values(page_text)
+        assert tiles["paper_rows"] == str(len(rows))
+
+
+def test_funnel_numbers_equal_receipt_derived_values(pages, receipts, world_receipts):
+    for world in receipts["dozen"]["world_results"]:
+        classical_id = world["classical_id"]
+        page_text = _paper_text(pages, classical_id)
+        expected = _expected_funnel(world_receipts[classical_id])
+        rendered = _FUNNEL_RECT.findall(page_text)
+        assert rendered == expected, classical_id
+        assert page_text.count('<rect class="bar') == len(expected), classical_id
+        assert page_text.count("<svg") == 1, classical_id
+
+
+def test_funnel_first_bar_counts_declared_families_never_candidates(
+    pages, receipts, world_receipts
+):
+    for world in receipts["dozen"]["world_results"]:
+        classical_id = world["classical_id"]
+        page_text = _paper_text(pages, classical_id)
+        flat = _flat(page_text)
+        b1 = next(
+            s
+            for s in world_receipts[classical_id]["phase_a"]["stages"]
+            if s["stage_id"] == "b1_basis_synthesis"
+        )
+        ladder = b1["receipt"]["counts"]["ladder_entries"]
+        assert f"{ladder} {DECLARED_FAMILIES_PHRASE}" in flat, classical_id
+        assert f"{ladder} candidates" not in flat, classical_id
+        caption = re.search(r"<figcaption>(.*?)</figcaption>", page_text, re.DOTALL)
+        assert caption is not None, classical_id
+        assert "declared families" in caption.group(1), classical_id
+        assert html_module.escape(FUNNEL_FAMILY_NOTE, quote=True) in caption.group(1)
+
+
+def test_funnel_rejection_reasons_match_certificates(pages, receipts, world_receipts):
+    for world in receipts["dozen"]["world_results"]:
+        classical_id = world["classical_id"]
+        tiles = _tile_values(_paper_text(pages, classical_id))
+        phase = world_receipts[classical_id]["phase_a"]
+        for stage in phase["stages"]:
+            certificate_key, field = {
+                "b1_basis_synthesis": ("b1", "strictly_simpler_entries_rejected"),
+                "b2_nonlinear_coefficient_search": ("b2", "strictly_simpler_models_rejected"),
+            }.get(stage["stage_id"], (None, None))
+            if certificate_key is None or stage["decision"] != "PASS":
+                continue
+            rejected = stage["receipt"]["minimality_certificate"][field]
+            reasons: dict[str, int] = {}
+            for entry in rejected:
+                reasons[entry["reason"]] = reasons.get(entry["reason"], 0) + 1
+            for reason, count in reasons.items():
+                assert tiles[f"funnel_{certificate_key}_reason_{reason}"] == str(count), (
+                    classical_id,
+                    reason,
+                )
+
+
+def test_abstention_box_present_exactly_where_the_trail_supports_it(
+    pages, receipts, world_receipts
+):
+    supported = {
+        world["classical_id"]
+        for world in receipts["dozen"]["world_results"]
+        if _abstention_expected(world_receipts[world["classical_id"]])
+    }
+    assert supported == {"fibonacci", "lucas", "pell"}
+    for world in receipts["dozen"]["world_results"]:
+        classical_id = world["classical_id"]
+        page_text = _paper_text(pages, classical_id)
+        has_box = "An honest abstention" in page_text
+        assert has_box == (classical_id in supported), classical_id
+        if has_box:
+            assert "NOT_PROPOSED" in page_text
+            assert "square root of" in _flat(page_text)
+            b1 = next(
+                s
+                for s in world_receipts[classical_id]["phase_a"]["stages"]
+                if s["stage_id"] == "b1_basis_synthesis"
+            )
+            tiles = _tile_values(page_text)
+            assert tiles["abstain_families"] == str(b1["receipt"]["counts"]["ladder_entries"])
+            for strategy in next(
+                s
+                for s in world_receipts[classical_id]["phase_a"]["stages"]
+                if s["stage_id"] == "b7_structural_repair"
+            )["receipt"]["rejected_strategies"]:
+                assert strategy["strategy"] in page_text
+                assert strategy["reason"] in page_text
+
+
+def test_catalan_killed_by_row_box_matches_receipt_truth(pages, receipts, world_receipts):
+    for world in receipts["dozen"]["world_results"]:
+        classical_id = world["classical_id"]
+        expected = _killed_by_row_expected(world_receipts[classical_id])
+        present = "Killed by one row" in _paper_text(pages, classical_id)
+        assert present == expected, classical_id
+    assert "catalan_ratio" in world_receipts  # the box's subject world is in the campaign
+
+
+def test_alternates_section_lists_exactly_the_trail_survivors(
+    pages, receipts, world_receipts
+):
+    for world in receipts["dozen"]["world_results"]:
+        classical_id = world["classical_id"]
+        page_text = _paper_text(pages, classical_id)
+        section = _section(page_text, "What else survived", "Result")
+        principal = world_receipts[classical_id]["phase_a"]["candidate"]["statement"]
+        survivors = [
+            conjecture
+            for conjecture in _b3_conjectures(world_receipts[classical_id])
+            if conjecture["status"] == "SURVIVED"
+        ]
+        alternates = [c for c in survivors if c["statement"] != principal]
+        if not alternates:
+            assert "Exactly one statement survived" in section, classical_id
+            assert 'class="receipt-form"' not in section, classical_id
+            continue
+        assert section.count('class="receipt-form"') == len(alternates), classical_id
+        tiles = _tile_values(section)
+        for conjecture in alternates:
+            escaped = html_module.escape(conjecture["statement"], quote=True)
+            assert escaped in section, (classical_id, conjecture["statement"])
+            assert tiles[f"alt_support_{conjecture['kind']}"] == str(conjecture["support"])
+
+
+def test_mathml_for_both_result_statements_on_every_paper(pages, receipts):
+    for world in receipts["dozen"]["world_results"]:
+        classical_id = world["classical_id"]
+        page_text = _paper_text(pages, classical_id)
+        section = _section(page_text, "Result", "Verification")
+        for statement in (world["discovered_statement"], world["target_statement"]):
+            mathml = latex_to_mathml(statement_ascii_to_latex(statement))
+            assert mathml in section, (classical_id, statement)
+            assert html_module.escape(statement, quote=True) in section
+        assert section.count("<math") >= 2, classical_id
+
+
+def test_paper_verification_renders_lean_in_full_or_says_none(
+    pages, receipts, world_receipts
+):
+    for world in receipts["dozen"]["world_results"]:
+        classical_id = world["classical_id"]
+        page_text = _paper_text(pages, classical_id)
+        section = _section(page_text, "Verification", "What this does not show")
+        routes = [
+            route
+            for route in world_receipts[classical_id]["phase_a"]["prover_routes"]
+            if route.get("lean_source_emitted") and route.get("receipt")
+        ]
+        assert world["lean_emitted"] == bool(routes), classical_id
+        if routes:
+            assert "independent kernel verification pending CI" in section, classical_id
+            for route in routes:
+                escaped = html_module.escape(route["receipt"]["lean_source"], quote=True)
+                assert escaped in section, (classical_id, route["route"])
+        else:
+            assert "No proof-kernel source was emitted" in section, classical_id
+            assert "<pre>" not in section, classical_id
+        tiles = _tile_values(page_text)
+        assert tiles["verify_holdout"] == str(world["holdout_confirmations"]), classical_id
+
+
+def test_paper_chronology_numbers_are_receipt_backed(pages, receipts):
+    chronology = receipts["dozen"]["chronology"]
+    probe = chronology["denied_probe"]
+    claims = receipts["dozen"]["claims"]
+    counts = receipts["dozen"]["counts"]
+    for world in receipts["dozen"]["world_results"]:
+        tiles = _tile_values(_paper_text(pages, world["classical_id"]))
+        assert tiles["chron_attempted_reads"] == str(probe["attempted_target_reads"])
+        assert tiles["chron_denied_reads"] == str(probe["denied_target_reads"])
+        assert tiles["chron_denied_bytes"] == str(probe["denied_content_bytes_exposed"])
+        assert tiles["chron_reads_before_freeze"] == str(
+            claims["target_records_read_before_candidate_freeze"]
+        )
+        assert tiles["chron_unseal_batches"] == str(chronology["unseal_batches"])
+        assert tiles["chron_post_unseal"] == str(counts["post_unseal_generation_events"])
+
+
+def test_families_explainer_on_every_paper_and_the_index(pages, receipts, world_receipts):
+    ladder_values = set()
+    for world_receipt in world_receipts.values():
+        for stage in world_receipt["phase_a"]["stages"]:
+            if stage["stage_id"] == "b1_basis_synthesis":
+                ladder_values.add(stage["receipt"]["counts"]["ladder_entries"])
+    assert len(ladder_values) == 1
+    ladder = ladder_values.pop()
+    heading = f"Why {ladder} families and not a billion formulas"
+    processed = receipts["billion"]["counts"]["processed"]
+    for world in receipts["dozen"]["world_results"]:
+        page_text = _paper_text(pages, world["classical_id"])
+        assert heading in _flat(page_text), world["classical_id"]
+        tiles = _tile_values(page_text)
+        assert tiles["ladder_families"] == str(ladder)
+        assert tiles["gravity_contrast_processed"] == str(processed)
+    index_text = _text(pages, "papers.html")
+    assert heading in _flat(index_text)
+    assert index_text.index("billion formulas") < index_text.index("<h2>The ledger</h2>")
+
+
+def test_papers_index_ledger_matches_campaign_and_funnels(
+    pages, receipts, world_receipts
+):
+    index_text = _text(pages, "papers.html")
+    tiles = _tile_values(index_text)
+    counts = receipts["dozen"]["counts"]
+    assert tiles["papers_worlds"] == str(counts["worlds"])
+    assert tiles["papers_rediscovered"] == str(counts["rediscovered_total"])
+    assert tiles["papers_with_proof"] == str(counts["rediscovered_with_proof"])
+    assert tiles["papers_holdout_total"] == str(counts["holdout_confirmations_total"])
+    assert tiles["papers_missed"] == str(counts["missed"])
+    for world in receipts["dozen"]["world_results"]:
+        classical_id = world["classical_id"]
+        assert f'href="/papers/{classical_id}"' in index_text
+        assert world["verdict"] in index_text
+        one_liner = "→".join(
+            display for _key, display in _expected_funnel(world_receipts[classical_id])
+        )
+        assert one_liner in _flat(index_text), classical_id
+    flat = _flat(index_text)
+    assert "21 candidates" not in flat
+
+
+def test_papers_progress_report_block_tracks_unsolved_campaign(pages):
+    index_text = _text(pages, "papers.html")
+    assert "Progress reports (unsolved dozen)" in index_text
+    if (ROOT / UNSOLVED_CAMPAIGN_PATH).is_file():
+        assert "campaign not yet published" not in index_text
+        assert UNSOLVED_CAMPAIGN_PATH in index_text
+    else:
+        assert "campaign not yet published" in index_text
+        assert UNSOLVED_CAMPAIGN_PATH in index_text
+
+
+def test_unsolved_campaign_listing_when_receipt_lands(tmp_path):
+    root = _fixture_root(tmp_path)
+    target = root / UNSOLVED_CAMPAIGN_PATH
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(
+        json.dumps(
+            {
+                "content_sha256": "ab" * 32,
+                "world_results": [
+                    {
+                        "classical_id": "sample_open_world",
+                        "world_receipt_path": "runs/math/unsolved-dozen/sample.json",
+                    }
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+    pages = render_site(root, TEST_COMMIT)
+    index_text = _text(pages, "papers.html")
+    assert "campaign not yet published" not in index_text
+    assert "sample_open_world" in index_text
+    assert "runs/math/unsolved-dozen/sample.json" in index_text
+
+
+def test_papers_fail_soft_without_world_receipts(tmp_path):
+    root = _fixture_root(tmp_path)  # copies the campaign but not the world receipts
+    pages = render_site(root, TEST_COMMIT)
+    campaign = json.loads((ROOT / ARTIFACT_PATHS["dozen"]).read_text(encoding="utf-8"))
+    for world in campaign["world_results"]:
+        page_text = _text(pages, f"papers/{world['classical_id']}.html")
+        assert MISSING_NOTE in page_text, world["classical_id"]
+        assert '<rect class="bar' not in page_text, world["classical_id"]
+        assert REDISCOVERY_SENTENCE in _flat(page_text)
+    index_text = _text(pages, "papers.html")
+    assert "papers.html" in pages
+    assert "The ledger" in index_text
+
+
+def test_papers_fail_soft_without_campaign(tmp_path):
+    root = _fixture_root(tmp_path)
+    (root / ARTIFACT_PATHS["dozen"]).unlink()
+    pages = render_site(root, TEST_COMMIT)
+    assert not any(name.startswith("papers/") for name in pages)
+    assert MISSING_NOTE in _text(pages, "papers.html")
+
+
+def test_world_receipt_seals_match_the_campaign_ledger(receipts, world_receipts):
+    for world in receipts["dozen"]["world_results"]:
+        world_receipt = world_receipts[world["classical_id"]]
+        assert world_receipt["content_sha256"] == world["world_receipt_sha256"]
+        assert world_receipt["phase_a_root"] == receipts["dozen"]["chronology"]["phase_a_root"]
+
+
+def test_statement_translator_rejects_out_of_grammar_text():
+    for bad in ("a(n) = exp(n)", "a(n) := n", "a(n) = n!", "a(n) = 1 & 2"):
+        with pytest.raises(SiteGenerationError):
+            statement_ascii_to_latex(bad)
