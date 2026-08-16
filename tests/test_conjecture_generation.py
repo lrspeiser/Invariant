@@ -14,6 +14,7 @@ import pytest
 from sigma_theory_compiler.conjecture_generation import (
     CLAIMS,
     STATEMENT_KINDS,
+    STATEMENT_KINDS_V1,
     SYSTEM_CAPS,
     ConjectureGenerationError,
     generate_conjectures,
@@ -180,6 +181,116 @@ def test_declared_statement_kinds_are_finite_and_bound():
     result = generate_conjectures(_rows(lambda n: 6 * n + 12, range(14)))
     assert result["statement_kinds"] == list(STATEMENT_KINDS)
     assert result["counts"]["declared_statement_kinds"] == len(STATEMENT_KINDS)
+
+
+def test_statement_kind_count_extended_deliberately():
+    """v1 froze eight kinds; the current profile adds spectral_bias and
+    holonomic_recurrence.  This count moves only by deliberate extension here."""
+
+    assert len(STATEMENT_KINDS_V1) == 8
+    assert len(STATEMENT_KINDS) == 10
+    assert STATEMENT_KINDS[:8] == STATEMENT_KINDS_V1
+    assert STATEMENT_KINDS[8:] == ("spectral_bias", "holonomic_recurrence")
+
+
+# ---------------------------------------------------------------------------
+# The v2 statement kinds: spectral bias and holonomic recurrence
+# ---------------------------------------------------------------------------
+
+
+def test_holonomic_recurrence_is_found_where_no_closed_form_exists():
+    """Catalan numbers have no basis-ladder closed form and no constant-coefficient
+    recurrence; the polynomial-coefficient recurrence is the real statement, found
+    directly instead of only through the derived-ratio route."""
+
+    from math import comb
+
+    catalan = [comb(2 * n, n) // (n + 1) for n in range(24)]
+    result = generate_conjectures(_rows(lambda n: catalan[n], range(24)))
+    kinds = _kinds(result, "SURVIVED")
+    assert "holonomic_recurrence" in kinds
+    assert "closed_form" not in kinds
+    assert "linear_recurrence" not in kinds
+    entry = next(
+        item for item in result["conjectures"] if item["kind"] == "holonomic_recurrence"
+    )
+    assert entry["statement"] == "(n + 2)*a(n+1) - (4*n + 2)*a(n) = 0 for n >= 0"
+    assert entry["proved"] is False
+    assert entry["support"] == result["counts"]["holdout_rows"]
+
+
+def test_holonomic_conjecture_is_refuted_by_a_broken_suffix():
+    from math import comb
+
+    catalan = [comb(2 * n, n) // (n + 1) for n in range(24)]
+    catalan[22] += 1  # deep inside the holdout
+    result = generate_conjectures(_rows(lambda n: catalan[n], range(24)))
+    entry = next(
+        item for item in result["conjectures"] if item["kind"] == "holonomic_recurrence"
+    )
+    assert entry["status"] == "REFUTED"
+    assert entry["refutation_witness"]["residual"]["numerator"] != 0
+
+
+def test_spectral_bias_needs_a_wide_enough_prefix():
+    """Fourteen rows leave an eight-row prefix: far below the declared spectral
+    floor, so the kind must abstain rather than read tea leaves."""
+
+    result = generate_conjectures(_rows(lambda n: 6 * n + 12, range(14)))
+    entry = next(item for item in result["conjectures"] if item["kind"] == "spectral_bias")
+    assert entry["status"] == "NOT_PROPOSED"
+
+
+@pytest.mark.empirical_validation
+def test_spectral_bias_survives_on_the_ulam_window():
+    """The exact 64-row Ulam window whose shipped receipt declared
+    statement_kinds_too_weak now yields a surviving Steinerberger-form statement."""
+
+    from sigma_theory_compiler.dozen_unsolved_progress_campaign import _ulam_terms
+
+    terms = _ulam_terms(64)
+    result = generate_conjectures(
+        [{"point": index + 1, "value": value} for index, value in enumerate(terms)]
+    )
+    entry = next(item for item in result["conjectures"] if item["kind"] == "spectral_bias")
+    assert entry["status"] == "SURVIVED"
+    assert entry["peak_is_not_proof"] is True
+    assert entry["statement"].startswith("cos(2.56")
+    holonomic = next(
+        item for item in result["conjectures"] if item["kind"] == "holonomic_recurrence"
+    )
+    assert holonomic["status"] == "NOT_PROPOSED"  # honest: Ulam is not known holonomic
+
+
+# ---------------------------------------------------------------------------
+# Frozen statement-kind profiles
+# ---------------------------------------------------------------------------
+
+
+def test_v1_profile_still_generates_and_replays():
+    rows = _rows(lambda n: 6 * n + 12, range(14))
+    result = generate_conjectures(rows, statement_kinds=STATEMENT_KINDS_V1)
+    assert result["statement_kinds"] == list(STATEMENT_KINDS_V1)
+    assert result["counts"]["declared_statement_kinds"] == 8
+    assert {entry["kind"] for entry in result["conjectures"]} == set(STATEMENT_KINDS_V1)
+    assert "spectral_min_prefix_rows" not in result["system_caps"]
+    validate_result(result)
+
+
+def test_free_form_statement_kind_subsets_are_refused():
+    rows = _rows(lambda n: 6 * n + 12, range(14))
+    with pytest.raises(ConjectureGenerationError):
+        generate_conjectures(rows, statement_kinds=("sign", "monotonicity"))
+
+
+def test_receipt_declaring_an_unknown_profile_fails_closed():
+    from sigma_theory_compiler.sigma_core import canonical_sha256
+
+    result = generate_conjectures(_rows(lambda n: 6 * n + 12, range(14)))
+    body = {key: value for key, value in result.items() if key != "content_sha256"}
+    body["statement_kinds"] = list(STATEMENT_KINDS) + ["astrology"]
+    with pytest.raises(ConjectureGenerationError):
+        validate_result({**body, "content_sha256": canonical_sha256(body)})
 
 
 # ---------------------------------------------------------------------------
