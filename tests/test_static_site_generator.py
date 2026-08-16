@@ -6,6 +6,13 @@ contain the headline numerals (they are read from receipts at build time), the
 emitted HTML must contain no scalar-score vocabulary, failures must get equal
 billing with their real numbers, and a missing optional receipt must produce an
 explicit not-yet-published block rather than a crash or a silent omission.
+
+The redesign adds equal-or-stronger gates: every problem page and case study must
+carry exactly one status banner from the five-word vocabulary (with the vocabulary
+defined on the same page), the Collatz page must open with the mandated OPEN text,
+no page may contain a standalone "solved" claim, receipt formulas must round-trip
+through the ASCII->LaTeX translator into build-time MathML, and the site must stay
+fully self-contained (no external resources beyond documented link targets).
 """
 
 from __future__ import annotations
@@ -23,10 +30,19 @@ import pytest
 from sigma_theory_compiler.problem_queue import ENTRY_KEYS, MACHINE_FORM_KINDS
 from sigma_theory_compiler.static_site_generator import (
     ARTIFACT_PATHS,
+    COLLATZ_STATUS_TEXT,
     FOOTER_CREED,
+    GARDNER_OPENING,
+    LATEX_RAR_LAW,
+    LATEX_SIGMA_HALVING,
+    LATEX_SIGMA_POW2,
     MISSING_NOTE,
+    STATUS_DEFINITIONS,
     SUBMIT_NOTICE,
+    SiteGenerationError,
     build_site,
+    formula_ascii_to_latex,
+    latex_to_mathml,
     main,
     render_site,
 )
@@ -36,6 +52,10 @@ GENERATOR_SOURCE = ROOT / "src" / "sigma_theory_compiler" / "static_site_generat
 TEST_COMMIT = "deadbeef" * 5
 
 BANNED_SCORE_TERMS = ("truth score", "probability", "confidence", "% true", "likelihood")
+
+CASE_STUDY_PAGES = ("collatz.html", "gravity.html")
+
+_TAGS = re.compile(r"<[^>]+>")
 
 
 @pytest.fixture(scope="module")
@@ -55,8 +75,22 @@ def _text(pages: dict[str, bytes], name: str) -> str:
     return pages[name].decode("utf-8")
 
 
+def _flat(page_text: str) -> str:
+    """The rendered text content: tags stripped, entities resolved."""
+
+    return html_module.unescape(_TAGS.sub("", page_text))
+
+
 def _tile_values(page_text: str) -> dict[str, str]:
     return dict(re.findall(r'data-key="([^"]+)" data-value="([^"]+)"', page_text))
+
+
+def _stamped_pages(pages: dict[str, bytes]) -> list[str]:
+    """Every page that must carry exactly one status banner."""
+
+    return sorted(
+        name for name in pages if name.startswith("problems/") or name in CASE_STUDY_PAGES
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -76,6 +110,7 @@ def test_two_builds_are_byte_identical(tmp_path):
 def test_page_set_covers_every_queue_entry(pages, receipts):
     expected = {
         "index.html",
+        "paper.html",
         "problems.html",
         "gravity.html",
         "collatz.html",
@@ -247,6 +282,7 @@ def test_missing_optional_receipts_fail_soft(tmp_path):
     assert ARTIFACT_PATHS["lean"] in collatz_text
     assert MISSING_NOTE in _text(pages, "method.html")
     assert MISSING_NOTE in _text(pages, "evidence.html")
+    assert MISSING_NOTE in _text(pages, "paper.html")
     assert "index.html" in pages
 
 
@@ -334,6 +370,25 @@ def test_internal_links_resolve_and_pages_are_self_contained(pages):
             assert target in names, (name, href)
 
 
+def test_no_external_resources_beyond_documented_targets(pages):
+    """Belt and braces on self-containment: no url()/@import in CSS, and every
+
+    absolute URL on every page is either a GitHub link target or the (non-fetched)
+    MathML namespace identifier."""
+
+    allowed = (
+        "https://github.com/lrspeiser/Invariant",
+        "http://www.w3.org/1998/Math/MathML",
+    )
+    url_pattern = re.compile(r"https?://[^\s\"'<>]+")
+    for name in sorted(pages):
+        page_text = _text(pages, name)
+        assert "@import" not in page_text, name
+        assert "url(" not in page_text.lower(), name
+        for url in url_pattern.findall(page_text):
+            assert url.startswith(allowed), (name, url)
+
+
 # ---------------------------------------------------------------------------
 # Footer, vercel.json, committed output
 # ---------------------------------------------------------------------------
@@ -344,6 +399,7 @@ def test_footer_present_on_every_page(pages):
         page_text = _text(pages, name)
         assert FOOTER_CREED in page_text, name
         assert f"Site content as of <code>{TEST_COMMIT}</code>" in page_text, name
+        assert "src/sigma_theory_compiler/static_site_generator.py" in page_text, name
 
 
 def test_vercel_json_exact():
@@ -449,7 +505,11 @@ def test_problem_pages_are_honest_about_flags_and_link_evidence(pages, receipts)
         if entry["synthetic"]:
             assert "SYNTHETIC" in page_text
     assert "/collatz" in _text(pages, "problems/collatz_stopping_time.html")
-    for problem_id in ("baryonic_rotation_law", "lensing_dynamics_consistency", "cluster_missing_mass"):
+    for problem_id in (
+        "baryonic_rotation_law",
+        "lensing_dynamics_consistency",
+        "cluster_missing_mass",
+    ):
         assert "/gravity" in _text(pages, f"problems/{problem_id}.html")
 
 
@@ -475,3 +535,168 @@ def test_submit_page_mirrors_the_sealed_schema(pages):
             assert f"f-mf-{kind}-{field}" in submit_text
     assert "issues/new" in submit_text
     assert "floats are forbidden" in submit_text.lower()
+
+
+# ---------------------------------------------------------------------------
+# The status system: five words, one banner per problem page and case study
+# ---------------------------------------------------------------------------
+
+
+def test_status_banners_exactly_one_per_problem_and_case_study(pages):
+    stamped = set(_stamped_pages(pages))
+    assert stamped, "expected stamped pages"
+    for name in sorted(pages):
+        count = _text(pages, name).count('class="status-banner')
+        expected = 1 if name in stamped else 0
+        assert count == expected, (name, count)
+
+
+def test_status_vocabulary_is_defined_wherever_stamped(pages):
+    for name in _stamped_pages(pages):
+        page_text = _text(pages, name)
+        for word, _css, definition in STATUS_DEFINITIONS:
+            assert word in page_text, (name, word)
+            assert html_module.escape(definition, quote=True) in page_text, (name, word)
+        stamps = re.findall(r'<span class="stamp">STATUS: ([^<]+)\.</span>', page_text)
+        assert len(stamps) == 1, (name, stamps)
+        assert stamps[0] in {word for word, _css, _definition in STATUS_DEFINITIONS}, name
+
+
+def test_collatz_banner_is_the_mandated_open_text(pages):
+    collatz_text = _text(pages, "collatz.html")
+    assert "unsolved" in collatz_text
+    assert "well known to mathematicians" in collatz_text
+    assert ("STATUS: OPEN. " + COLLATZ_STATUS_TEXT) in _flat(collatz_text)
+
+
+def test_gravity_banner_is_the_sealed_negative(pages):
+    gravity_text = _text(pages, "gravity.html")
+    assert 'class="status-banner status-negative"' in gravity_text
+    assert "STATUS: SEALED NEGATIVE." in _flat(gravity_text)
+
+
+def test_no_standalone_solved_claim_anywhere(pages):
+    """The word "solved" may appear only inside "unsolved"/"resolved" forms.
+
+    This is deliberately stronger than "no OPEN problem is called solved": nothing
+    on the site is solved, so no page gets to use the bare word at all."""
+
+    for name in sorted(pages):
+        flat = _flat(_text(pages, name)).lower()
+        assert re.search(r"\bsolved\b", flat) is None, name
+
+
+def test_problem_status_banners_are_receipt_aware(tmp_path):
+    root = _fixture_root(tmp_path)
+    with_receipts = render_site(root, TEST_COMMIT)
+    cluster_flat = _flat(_text(with_receipts, "problems/cluster_missing_mass.html"))
+    assert "STATUS: SEALED NEGATIVE." in cluster_flat
+    (root / ARTIFACT_PATHS["lensing"]).unlink()
+    without = render_site(root, TEST_COMMIT)
+    cluster_flat = _flat(_text(without, "problems/cluster_missing_mass.html"))
+    assert "STATUS: OPEN." in cluster_flat
+    assert "not yet published" in cluster_flat
+    assert "STATUS: OPEN." in _flat(_text(without, "gravity.html"))
+
+
+# ---------------------------------------------------------------------------
+# Mathematics: ASCII -> LaTeX -> MathML, at build time, or fail loudly
+# ---------------------------------------------------------------------------
+
+
+def test_formula_translator_roundtrips_every_receipt_formula(pages, receipts):
+    formulas = {entry["formula"] for entry in receipts["billion"]["pareto_front"]}
+    assert len(formulas) >= 60
+    for entry in receipts["lensing"]["exact_verification"]:
+        formulas.add(entry["formula"])
+    for control in receipts["lensing"]["controls"].values():
+        formulas.add(control["formula"])
+    formulas.add(
+        receipts["lensing"]["cluster_negative"]["closest_cluster_approach"]["formula"]
+    )
+    for formula in sorted(formulas):
+        latex = formula_ascii_to_latex(formula)
+        assert "\\frac" in latex, formula
+        assert latex.endswith("u = y^{-1/2}"), formula
+        assert "<math" in latex_to_mathml(latex), formula
+    example = "nu(y) = [(1 + 3u^5) / (1 + u^4)]^1,  u = y^(-1/2)"
+    assert formula_ascii_to_latex(example) == (
+        r"\nu(y) = \left[\frac{1 + 3u^{5}}{1 + u^{4}}\right]^{1}, \quad u = y^{-1/2}"
+    )
+    with pytest.raises(SiteGenerationError):
+        formula_ascii_to_latex("nu(y) = exp(u)")
+    gravity_text = _text(pages, "gravity.html")
+    assert gravity_text.count("<math") >= len(receipts["billion"]["pareto_front"])
+
+
+def test_mathml_present_for_both_sigma_identities_on_collatz(pages):
+    collatz_text = _text(pages, "collatz.html")
+    for latex in (LATEX_SIGMA_HALVING, LATEX_SIGMA_POW2):
+        assert latex_to_mathml(latex) in collatz_text, latex
+    assert collatz_text.count("<math") >= 2
+    assert latex_to_mathml(LATEX_RAR_LAW, display="block") in _text(pages, "gravity.html")
+
+
+# ---------------------------------------------------------------------------
+# Voice and aesthetic: the Gardner opening, paper sections, grid-paper CSS
+# ---------------------------------------------------------------------------
+
+
+def test_index_opens_with_the_gardner_passage(pages):
+    index_text = _text(pages, "index.html")
+    assert GARDNER_OPENING in index_text
+    assert index_text.index(GARDNER_OPENING) < index_text.index("<h2>")
+
+
+def test_case_study_pages_use_the_paper_sections_in_order(pages):
+    expected = [
+        "Abstract",
+        "The question",
+        "What we did",
+        "What we found",
+        "What this does not show",
+        "Methods",
+        "References",
+    ]
+    for name in CASE_STUDY_PAGES:
+        headings = re.findall(r"<h2>([^<]+)</h2>", _text(pages, name))
+        assert headings == expected, (name, headings)
+        assert '<details class="methods">' in _text(pages, name)
+
+
+def test_paper_page_structure_numbers_and_frankness(pages, receipts):
+    paper_text = _text(pages, "paper.html")
+    headings = re.findall(r"<h2>([^<]+)</h2>", paper_text)
+    assert headings == [
+        "Abstract",
+        "Introduction",
+        "Methods",
+        "Results",
+        "Limitations",
+        "References",
+    ]
+    assert "The Invariant Project" in paper_text
+    assert "Why this is not a mathematics-journal submission" in paper_text
+    assert TEST_COMMIT in paper_text
+    assert re.search(r"\d{4}-\d{2}-\d{2}", _flat(paper_text)) is None, "wall-clock date leaked"
+    assert f"{receipts['billion']['counts']['processed']:,}" in paper_text
+    assert f"{receipts['lensing']['counts']['lensing_pass']:,}" in paper_text
+    closest = receipts["lensing"]["cluster_negative"]["closest_cluster_approach"]
+    assert closest["max_deviation"] in paper_text
+    assert "0/21" in paper_text
+    assert "21/21" in paper_text
+    goals = (ROOT / ARTIFACT_PATHS["goals_doc"]).read_text(encoding="utf-8")
+    prior_art = re.search(r"Prior-art audit: (\d+) records", goals)
+    assert prior_art is not None
+    assert f"{int(prior_art.group(1)):,}-record" in paper_text
+    assert 'href="/paper"' in _text(pages, "index.html")
+
+
+def test_grid_paper_and_typewriter_styling_on_every_page(pages):
+    for name in sorted(pages):
+        page_text = _text(pages, name)
+        assert page_text.count("repeating-linear-gradient") >= 4, name
+        assert '"Courier New"' in page_text, name
+        assert "prefers-color-scheme: dark" in page_text, name
+        assert "rotate(-0.5deg)" in page_text, name
+        assert "font-size: 17px" in page_text, name
