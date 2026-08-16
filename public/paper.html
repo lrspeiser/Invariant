@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The write-up · Invariant — a pattern-hunting machine and its public logbook</title>
+<style>
+:root { color-scheme: light; }
+* { box-sizing: border-box; }
+body { margin: 0; color: #2a2418; font-size: 17px; line-height: 1.65;
+  font-family: "Courier Prime","American Typewriter","Courier New",Courier,monospace;
+  background-color: #fbfaf6;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(148,160,178,0.42) 0, rgba(148,160,178,0.42) 1px,
+      transparent 1px, transparent 95px),
+    repeating-linear-gradient(90deg, rgba(148,160,178,0.42) 0, rgba(148,160,178,0.42) 1px,
+      transparent 1px, transparent 95px),
+    repeating-linear-gradient(0deg, rgba(215,219,226,0.5) 0, rgba(215,219,226,0.5) 1px,
+      transparent 1px, transparent 19px),
+    repeating-linear-gradient(90deg, rgba(215,219,226,0.5) 0, rgba(215,219,226,0.5) 1px,
+      transparent 1px, transparent 19px); }
+a { color: #27506d; text-decoration: underline; text-underline-offset: 2px; }
+a:hover { color: #8b3a2e; }
+code, pre { font-family: inherit; }
+code { font-size: 0.92em; background: rgba(42,36,24,0.06); padding: 0 0.14em; }
+.sheet { max-width: 76ch; margin: 2.1rem auto 2.6rem; background: #fffefa;
+  border: 1px solid #d9d3c4; padding: 2.2rem clamp(1.1rem, 4.5vw, 3.1rem) 1.9rem;
+  box-shadow: 0 1px 3px rgba(64,58,42,0.18), 0 12px 30px rgba(64,58,42,0.12); }
+header { text-align: center; border-bottom: 3px double #2a2418; padding-bottom: 0.9rem; }
+header .brand a { font-size: 1.5rem; font-weight: 700; letter-spacing: 0.42em;
+  text-transform: uppercase; color: inherit; text-decoration: none; padding-left: 0.42em; }
+header .tag { margin: 0.35rem auto 0; max-width: 56ch; font-size: 0.76rem;
+  font-style: italic; color: #6b6353; }
+nav { margin-top: 0.7rem; font-size: 0.72rem; letter-spacing: 0.16em;
+  text-transform: uppercase; }
+nav a { color: #6b6353; margin: 0 0.5rem; text-decoration: none; white-space: nowrap; }
+nav a.on { color: #2a2418; border-bottom: 2px solid #8b3a2e; }
+nav a:hover { color: #2a2418; }
+main { margin-top: 1.7rem; }
+h1 { font-size: 1.42rem; line-height: 1.32; margin: 0.3rem 0 1rem; }
+h2 { font-size: 0.94rem; letter-spacing: 0.18em; text-transform: uppercase;
+  border-bottom: 3px double #2a2418; padding-bottom: 0.3rem; margin: 2.3rem 0 0.9rem; }
+h3 { font-size: 1rem; margin: 1.5rem 0 0.5rem; }
+p { margin: 0.55rem 0; }
+.kicker { font-size: 0.72rem; letter-spacing: 0.24em; text-transform: uppercase;
+  color: #8b3a2e; margin: 0 0 0.1rem; }
+.lede { font-size: 1.01rem; }
+.byline { letter-spacing: 0.1em; }
+.sub { color: #6b6353; }
+.small { font-size: 0.79rem; }
+.status-banner { border: 2px solid #2a2418; padding: 0.8rem 1rem; margin: 1.3rem 0 0.9rem;
+  transform: rotate(-0.5deg); font-size: 0.9rem; background: rgba(255,255,255,0.6);
+  box-shadow: 2px 2px 0 rgba(42,36,24,0.08); }
+.status-banner .stamp { font-weight: 700; letter-spacing: 0.13em; }
+.status-open { border-color: #8b3a2e; }
+.status-open .stamp { color: #8b3a2e; }
+.status-rediscovered { border-color: #31577e; }
+.status-rediscovered .stamp { color: #31577e; }
+.status-range, .status-proved { border-color: #2e6b3a; }
+.status-range .stamp, .status-proved .stamp { color: #2e6b3a; }
+.status-negative { border-color: #44505e; }
+.status-negative .stamp { color: #44505e; }
+.status-key { border: 1px dashed #a99f8a; padding: 0.55rem 0.85rem 0.6rem;
+  margin: 0 0 1.5rem; font-size: 0.74rem; color: #57503f; }
+.status-key p { margin: 0 0 0.25rem; letter-spacing: 0.12em; text-transform: uppercase; }
+.status-key dl { margin: 0; }
+.status-key dt { font-weight: 700; float: left; clear: left; margin-right: 0.45rem; }
+.status-key dd { margin: 0 0 0.12rem 0; overflow: hidden; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
+  gap: 0.7rem; margin: 1rem 0; }
+.tile { background: #fdfcf6; border: 1px solid #cfc8b6; padding: 0.55rem 0.7rem;
+  box-shadow: 1px 2px 0 rgba(64,58,42,0.08); }
+.tile .v { font-size: 1.22rem; font-weight: 700; line-height: 1.3; }
+.tile .k { font-size: 0.76rem; color: #57503f; margin-top: 0.15rem; }
+.tile .r { font-size: 0.64rem; color: #8a8171; margin-top: 0.35rem; word-break: break-all; }
+.tile.neg .v { color: #7a5b21; }
+.tile.fail .v { color: #8b3a2e; }
+.tile.pass .v { color: #2e6b3a; }
+.scroll { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 0.76rem; margin: 0.8rem 0; }
+th, td { border: 1px solid #cfc8b6; padding: 0.28rem 0.5rem; text-align: left;
+  vertical-align: top; }
+th { background: #f6f3ea; border-bottom: 3px double #2a2418; font-weight: 700;
+  letter-spacing: 0.05em; }
+td.num, th.num { text-align: right; white-space: nowrap; }
+td.mono { white-space: nowrap; }
+pre { background: #f6f3ea; border: 1px solid #cfc8b6; padding: 0.75rem 0.9rem;
+  overflow-x: auto; font-size: 0.72rem; line-height: 1.5; }
+pre code { background: none; padding: 0; }
+blockquote { border-left: 3px solid #a99f8a; margin: 0.7rem 0; padding: 0.15rem 0.9rem;
+  color: #57503f; font-size: 0.86rem; font-style: italic; }
+.missing { border: 1px dashed #8a6d1f; background: rgba(158,120,32,0.07);
+  padding: 0.65rem 0.9rem; color: #7a5b21; margin: 0.8rem 0; font-size: 0.85rem; }
+.neg-block { border: 2px solid #44505e; background: rgba(68,80,94,0.05);
+  padding: 0.8rem 1rem; margin: 0.9rem 0; }
+.badge { display: inline-block; border: 1px solid; font-size: 0.62rem; font-weight: 700;
+  letter-spacing: 0.08em; padding: 0.05rem 0.4rem; margin-left: 0.4rem;
+  vertical-align: middle; }
+.badge.pass { color: #2e6b3a; border-color: #2e6b3a; }
+.badge.fail { color: #8b3a2e; border-color: #8b3a2e; }
+.badge.neg { color: #7a5b21; border-color: #7a5b21; }
+.badge.ctl { color: #31577e; border-color: #31577e; }
+details.card { background: #fdfcf6; border: 1px solid #cfc8b6; margin: 0.5rem 0; }
+details.card > summary { cursor: pointer; padding: 0.5rem 0.8rem; font-size: 0.8rem; }
+details.card > div { padding: 0.15rem 0.9rem 0.7rem; border-top: 1px solid #e2dccc; }
+details.methods { background: #f9f7f0; border: 1px solid #cfc8b6; margin: 0.6rem 0 1rem; }
+details.methods > summary { cursor: pointer; padding: 0.6rem 0.9rem; font-size: 0.74rem;
+  letter-spacing: 0.14em; text-transform: uppercase; }
+details.methods > div { padding: 0.15rem 1rem 0.9rem; border-top: 1px solid #e2dccc; }
+ul, ol { margin: 0.5rem 0 0.5rem 1.3rem; padding: 0; }
+li { margin: 0.28rem 0; }
+.math math { font-size: 1.08em; }
+.math-block { display: block; margin: 0.75rem 0 0.75rem 1.4rem; }
+.receipt-form { display: block; font-size: 0.66rem; color: #8a8171; background: none;
+  padding: 0; margin-top: 0.2rem; }
+.form-grid { display: grid; grid-template-columns: 13rem 1fr; gap: 0.5rem 0.8rem;
+  align-items: start; margin: 0.8rem 0; }
+.form-grid label { color: #57503f; font-size: 0.8rem; padding-top: 0.3rem; }
+input[type="text"], select, textarea { width: 100%; background: #fffefa; color: #2a2418;
+  border: 1px solid #a99f8a; padding: 0.35rem 0.5rem; font-size: 0.8rem;
+  font-family: inherit; }
+textarea { min-height: 4.4rem; resize: vertical; }
+button { background: #f6f3ea; color: #2a2418; border: 1px solid #6b6353;
+  padding: 0.4rem 0.9rem; font-size: 0.82rem; font-family: inherit; cursor: pointer;
+  box-shadow: 1px 2px 0 rgba(64,58,42,0.15); }
+button:hover { background: #efeadb; }
+#errors { color: #8b3a2e; font-size: 0.82rem; }
+fieldset { border: 1px solid #cfc8b6; margin: 0.6rem 0; padding: 0.5rem 0.9rem 0.8rem; }
+legend { color: #57503f; font-size: 0.76rem; padding: 0 0.4rem; letter-spacing: 0.1em; }
+footer { border-top: 3px double #2a2418; margin-top: 2.6rem; padding-top: 0.9rem;
+  text-align: center; font-size: 0.7rem; color: #6b6353; }
+footer .orn { letter-spacing: 0.7em; margin: 0 0 0.4rem; }
+footer p { max-width: 62ch; margin: 0.3rem auto; }
+@media (max-width: 640px) {
+  .sheet { margin: 0 auto; border-left: 0; border-right: 0; }
+}
+@media (prefers-color-scheme: dark) {
+  :root { color-scheme: dark; }
+  body { color: #d8d5c8; background-color: #1e1f22;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(150,160,178,0.11) 0, rgba(150,160,178,0.11) 1px,
+        transparent 1px, transparent 95px),
+      repeating-linear-gradient(90deg, rgba(150,160,178,0.11) 0, rgba(150,160,178,0.11) 1px,
+        transparent 1px, transparent 95px),
+      repeating-linear-gradient(0deg, rgba(150,160,178,0.055) 0, rgba(150,160,178,0.055) 1px,
+        transparent 1px, transparent 19px),
+      repeating-linear-gradient(90deg, rgba(150,160,178,0.055) 0, rgba(150,160,178,0.055) 1px,
+        transparent 1px, transparent 19px); }
+  a { color: #9db8d6; }
+  a:hover { color: #d99a82; }
+  code { background: rgba(216,213,200,0.09); }
+  .sheet { background: #26272b; border-color: #3a3b41;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.55), 0 12px 30px rgba(0,0,0,0.35); }
+  header, h2, footer { border-color: #d8d5c8; }
+  header .tag, nav a, .sub, .status-key, footer { color: #a49f90; }
+  nav a.on { color: #d8d5c8; border-bottom-color: #d99a82; }
+  nav a:hover { color: #d8d5c8; }
+  .kicker { color: #d99a82; }
+  .status-banner { background: rgba(0,0,0,0.25); box-shadow: 2px 2px 0 rgba(0,0,0,0.35); }
+  .status-open { border-color: #d99a82; }
+  .status-open .stamp { color: #d99a82; }
+  .status-rediscovered { border-color: #8fb3d9; }
+  .status-rediscovered .stamp { color: #8fb3d9; }
+  .status-range, .status-proved { border-color: #86c493; }
+  .status-range .stamp, .status-proved .stamp { color: #86c493; }
+  .status-negative { border-color: #a7b4c2; }
+  .status-negative .stamp { color: #a7b4c2; }
+  .status-key { border-color: #57503f; }
+  .tile, details.card, details.methods, pre { background: #2b2c31; border-color: #3f4046; }
+  .tile .k { color: #a49f90; }
+  .tile .r { color: #7b776b; }
+  .tile.neg .v { color: #cfa658; }
+  .tile.fail .v { color: #d99a82; }
+  .tile.pass .v { color: #86c493; }
+  th { background: #2c2d33; border-color: #3f4046; border-bottom-color: #d8d5c8; }
+  td { border-color: #3f4046; }
+  details.card > div, details.methods > div { border-top-color: #3f4046; }
+  blockquote { border-left-color: #57503f; color: #a49f90; }
+  .missing { border-color: #8a6d1f; background: rgba(207,166,88,0.08); color: #cfa658; }
+  .neg-block { border-color: #a7b4c2; background: rgba(167,180,194,0.06); }
+  .badge.pass { color: #86c493; border-color: #86c493; }
+  .badge.fail { color: #d99a82; border-color: #d99a82; }
+  .badge.neg { color: #cfa658; border-color: #cfa658; }
+  .badge.ctl { color: #8fb3d9; border-color: #8fb3d9; }
+  input[type="text"], select, textarea { background: #1e1f22; color: #d8d5c8;
+    border-color: #57503f; }
+  button { background: #2b2c31; color: #d8d5c8; border-color: #57503f;
+    box-shadow: 1px 2px 0 rgba(0,0,0,0.4); }
+  button:hover { background: #33343a; }
+  #errors { color: #d99a82; }
+  .receipt-form { color: #7b776b; }
+  fieldset { border-color: #3f4046; }
+  legend { color: #a49f90; }
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+<header><div class="brand"><a href="/">Invariant</a></div><p class="tag">a machine that guesses patterns, tries its hardest to break them, and files paperwork for every attempt &mdash; the failures included</p><nav><a href="/">Home</a><a href="/paper" class="on">The write-up</a><a href="/problems">Problems</a><a href="/gravity">Gravity</a><a href="/collatz">Collatz</a><a href="/evidence">Evidence</a><a href="/method">Method</a><a href="/submit">Submit</a></nav></header>
+<main>
+<p class="kicker">The write-up</p>
+<h1>Guess, attack, file: what a discovery machine actually established</h1>
+<p class="byline">The Invariant Project</p>
+<p class="sub small">Dated by content, not by clock: this article describes the repository exactly as of commit <code>d22b7e179076401d12c2bb6583fd97168fe5b10e</code>, and it changes only when the repository does.</p>
+<h2>Abstract</h2>
+<p>We describe a machine that proposes exact mathematical patterns, attacks its own proposals with counterexample searches and proof checkers, and publishes a sealed, tamper-evident receipt for every attempt — including the failures. We report two campaigns in full. In mathematics, the machine was pointed at the Collatz problem: its first run produced silence, the silence located two design gaps, and after general repairs it found two classical identities unaided, checked one exhaustively to an exact bound, and proved a conditional form in a proof kernel. In physics, it enumerated over a billion candidate gravity laws and tested every one against synthetic galaxy, lensing, and cluster gates; none survived all of them — a sealed negative, published with exact margins, that was predicted in advance. No famous problem was settled, no observational data was opened, and no result here is new to mathematics; the contribution is the auditable machinery, demonstrated end to end.</p>
+<h2>Introduction</h2>
+<p>Machines that claim to do science have an honesty problem: it is cheap to announce a discovery and expensive to check one. This project inverts the expense. Every claim is born inside a receipt — a hash-sealed file recording exactly what was computed, under what thresholds, with what outcome — and the public site, including this article, is generated by reading those receipts at build time. The generator contains none of the numbers you are about to read. If a receipt were deleted, its numbers would vanish from this page rather than be remembered.</p>
+<p>Results are described with a five-word status vocabulary — OPEN, REDISCOVERED, RANGE-VERIFIED, PROVED (CONDITIONAL), SEALED NEGATIVE — each defined where used, so that a reader can always distinguish an unsolved question from a bounded check and a rediscovered classic from news. Two further rules bind every page: no scalar scores of any kind, and equal billing for failures.</p>
+<h2>Methods</h2>
+<p>Candidates are never free-form. Each campaign declares a finite, numbered family in advance — polynomial-ratio acceleration laws in the gravity campaign; statement kinds over integer sequences in the mathematics campaign — so &ldquo;we tested them all&rdquo; is a checkable sentence. Testing proceeds down a ladder: a fast GPU screen in single precision, a double-precision confirmation, an exact or 50-digit replay of every shortlisted survivor, and, where a statement admits one, a machine-checked proof in the Lean kernel. Screen-versus-exact crosschecks ride in every receipt with their disagreement counts. Bounded iteration runs under declared step caps, and a lane that hits its cap lands in a fail-closed undecided bucket — never in pass or fail. Receipts are canonical JSON, float-free, sealed with <code>content_sha256</code>, and carry their own scope and claims fields so the boundary travels with the evidence.</p>
+<p>The site itself is part of the method. Pages are rendered deterministically from the receipts and the sealed problem queue; a validation mode rebuilds everything and byte-compares. Headline numbers are annotated in the HTML with their receipt keys, and the test suite greps the generator source to prove the numerals are not hard-coded.</p>
+<h2>Results</h2>
+<h3>Campaign one: the Collatz probe</h3>
+<p>Handed the raw stopping times with no declared target, the engine&rsquo;s first run proposed nothing: zero conjectures, zero refutations. The silence exposed two general capability gaps — no sparse reindexing, no statement kind relating a(n) to a(c&middot;n) — and after both were built as general abilities, the same data yielded two exact identities, <span class="math"><math xmlns="http://www.w3.org/1998/Math/MathML" display="inline"><mrow><mi>&#x003C3;</mi><mo stretchy="false">&#x00028;</mo><msup><mn>2</mn><mrow><mi>k</mi></mrow></msup><mo stretchy="false">&#x00029;</mo><mo>&#x0003D;</mo><mi>k</mi></mrow></math></span> on powers of two and the halving relation <span class="math"><math xmlns="http://www.w3.org/1998/Math/MathML" display="inline"><mrow><mi>&#x003C3;</mi><mo stretchy="false">&#x00028;</mo><mn>2</mn><mi>n</mi><mo stretchy="false">&#x00029;</mo><mo>&#x0003D;</mo><mi>&#x003C3;</mi><mo stretchy="false">&#x00028;</mo><mi>n</mi><mo stretchy="false">&#x00029;</mo><mo>&#x0002B;</mo><mn>1</mn></mrow></math></span>, the latter confirmed on 26 held-out rows. Both are well known to mathematicians. Documented in repository docs (INDEPENDENT_DISCOVERY_TRIAL.md).</p>
+<p>The halving relation was then attacked exhaustively on the GPU: 99,999,999 instances checked over [1, 100,000,000 (10^8)), decision <code>NO_COUNTEREXAMPLE_IN_RANGE</code>, with 0 instances in the fail-closed undecided bucket, at 574,016,230 instances per second on NVIDIA GeForce RTX 5090. A finite sweep says nothing beyond its bound, and this one claims nothing beyond it.</p>
+<p>Finally, the relation&rsquo;s honest conditional form — if n reaches 1 in exactly k steps, then 2n reaches 1 in exactly k + 1 — was proved in the Lean proof checker with no termination assumption, and the source is rendered in full on the <a href="/collatz">Collatz page</a>. The proof says nothing about whether any number reaches 1 at all.</p>
+<h3>Campaign two: the gravity screen</h3>
+<p>The declared family of candidate acceleration laws — <span class="math"><math xmlns="http://www.w3.org/1998/Math/MathML" display="inline"><mrow><mi>&#x003BD;</mi><mo stretchy="false">&#x00028;</mo><mi>y</mi><mo stretchy="false">&#x00029;</mo><mo>&#x0003D;</mo><msup><mrow><mo stretchy="true" fence="true" form="prefix">[</mo><mfrac><mrow><mi>P</mi><mo stretchy="false">&#x00028;</mo><mi>u</mi><mo stretchy="false">&#x00029;</mo></mrow><mrow><mi>Q</mi><mo stretchy="false">&#x00028;</mo><mi>u</mi><mo stretchy="false">&#x00029;</mo></mrow></mfrac><mo stretchy="true" fence="true" form="postfix">]</mo></mrow><mrow><mi>&#x003B2;</mi></mrow></msup><mo>&#x0002C;</mo><mspace width="1em" /><mi>u</mi><mo>&#x0003D;</mo><msup><mi>y</mi><mrow><mo>&#x02212;</mo><mn>1</mn><mo>&#x0002F;</mo><mn>2</mn></mrow></msup></mrow></math></span> with small integer coefficients and one shared constant — contains 1,129,900,996 members, and every one was tested: five synthetic-galaxy gates at 61,090,471 candidates per second on NVIDIA GeForce RTX 5090, 18.496 seconds wall clock. 4,478,916 candidates survived at double precision; the 64-entry shortlist was re-confirmed in 50-digit arithmetic with 0 refutations. Survivors are search priorities, not validated theories.</p>
+<p>Two harder gates followed: P1, dynamics&ndash;lensing consistency, and P2, a hydrostatic model cluster. 9,445,515 candidates passed P1 alone; 0 passed P2, and 0 passed both — the sealed negative the cluster queue entry predicted in advance, decision <code>SCREENED-SEALED-NEGATIVE: no processed candidate passes the lensing and cluster gates jointly; closest cluster approach deviation 1.698465275e-01 against tolerance 15e-2</code>. The nearest miss deviated by 0.1698 against a tolerance of 0.15 (receipt strings <code>1.698465275e-01</code> vs <code>15e-2</code>). No observational data was opened at any point in either campaign.</p>
+<h3>The measured record behind the design</h3><p>Blind formula guessing scored 0/21: hidden formulas were not learnable from public rows alone. The same worlds with public constraints scored 21/21 — which is why recovery under constraints is credited to the solver plus the constraints, never to discovery. One production epoch died 70/70 at the formal tier with zero rotation curves computed, which is why the cheap screen tier exists. A 200/200 blind benchmark curriculum was registered and sealed before one atomic opening, and 118/118 known-answer formal controls pass. Documented in repository docs (INDEPENDENT_DISCOVERY_TRIAL.md; GOALS_AND_MEASURED_OUTCOMES.md).</p>
+<h2>Limitations</h2>
+<ul><li>Every control in both campaigns is synthetic and analytic. Zero real observations have ever been opened, and the sealed protocol for opening one remains unused — documented in repository docs (GOALS_AND_MEASURED_OUTCOMES.md).</li><li>The exhaustive sweep is bounded, and claims nothing beyond its bound. The Lean theorem is conditional, and claims nothing about termination.</li><li>The gravity zero is family-shaped: laws outside the declared grammar are not addressed, and no dark-matter conclusion follows in either direction.</li><li>Both identities the engine found are classical. Machine performance outside the declared families and registered curricula is unclaimed.</li></ul>
+<h3>Why this is not a mathematics-journal submission</h3>
+<p>Because its mathematical findings are not new. The two Collatz identities are classical facts, stated in textbooks and known to any specialist; what is new is only the provenance — a machine reached them unaided from raw data. Novelty could not honestly be claimed even if we suspected it: our prior-art corpus is a 181-record snapshot, far too small to support any absence-based statement, and the house rules forbid treating corpus absence as novelty. Documented in repository docs (GOALS_AND_MEASURED_OUTCOMES.md; INDEPENDENT_DISCOVERY_TRIAL.md).</p>
+<p>What would have to change first: targets authored outside this system, certified in advance to lie outside the machine&rsquo;s declared basis; a prior-art corpus grown by orders of magnitude with externally checked equivalence controls; and then a genuinely new theorem — kernel-checked, surviving expert review — rather than a rediscovered one. That ladder is specified in the Independent Discovery Trial document, and none of its upper rungs has been climbed. Until they are, the right venue for this work is exactly this: a public logbook with its receipts showing.</p>
+<h2>References</h2>
+<h3>Receipts and formal sources</h3>
+<ul><li><a href="https://github.com/lrspeiser/Invariant/blob/main/runs/gpu-baryonic-screen/billion-v1.json" rel="noopener">runs/gpu-baryonic-screen/billion-v1.json</a> &mdash; <code title="5eb036f4280406bf47eb283f2f53949363c0b22a754d776e2efc6e380efd9fc0">5eb036f4280406bf&hellip;</code></li><li><a href="https://github.com/lrspeiser/Invariant/blob/main/runs/gpu-baryonic-screen/lensing-cluster-v1.json" rel="noopener">runs/gpu-baryonic-screen/lensing-cluster-v1.json</a> &mdash; <code title="2db3edaa6a4c7a407a1db7067351d030d73956b7e0f4b887c7851c23cbfd222f">2db3edaa6a4c7a40&hellip;</code></li><li><a href="https://github.com/lrspeiser/Invariant/blob/main/runs/math/counterexample-sweeps/collatz-halving-1e8.json" rel="noopener">runs/math/counterexample-sweeps/collatz-halving-1e8.json</a> &mdash; <code title="5d4052b8d3e8b15c34befdfc46cb70b33b28984958f1acfff7c801662b724739">5d4052b8d3e8b15c&hellip;</code></li><li><a href="https://github.com/lrspeiser/Invariant/blob/main/formal/lean/CollatzHalvingRelation.lean" rel="noopener">formal/lean/CollatzHalvingRelation.lean</a> &mdash; <code title="c7fbb9d1f4a60d64aa7186891e979b65c24202bcc85558e7c57687e473e37d52">c7fbb9d1f4a60d64&hellip;</code>&dagger;</li><li><a href="https://github.com/lrspeiser/Invariant/blob/main/configs/problem_queue_v1.json" rel="noopener">configs/problem_queue_v1.json</a> &mdash; <code title="d1d5a724ff698640d235d17cbcba994b17e30ee7832f7bf9a2234d6325690eb5">d1d5a724ff698640&hellip;</code></li></ul>
+<h3>Literature cited by the queue entries behind both campaigns</h3>
+<ul><li>J. C. Lagarias (ed.), The Ultimate Challenge: The 3x+1 Problem, American Mathematical Society, 2010.</li><li>S. S. McGaugh, F. Lelli, J. M. Schombert, Radial Acceleration Relation in Rotationally Supported Galaxies, Phys. Rev. Lett. 117, 201101 (2016).</li><li>M. M. Brouwer et al., The weak lensing radial acceleration relation: Constraining modified gravity and cold dark matter theories with KiDS-1000, Astron. Astrophys. 650, A113 (2021).</li><li>R. H. Sanders, The Virial Discrepancy in Clusters of Galaxies in the Context of Modified Newtonian Dynamics, Astrophys. J. 512, L23 (1999).</li></ul>
+<h3>Repository documents</h3>
+<ul><li><a href="https://github.com/lrspeiser/Invariant/blob/main/docs/GOALS_AND_MEASURED_OUTCOMES.md" rel="noopener">docs/GOALS_AND_MEASURED_OUTCOMES.md</a></li><li><a href="https://github.com/lrspeiser/Invariant/blob/main/docs/INDEPENDENT_DISCOVERY_TRIAL.md" rel="noopener">docs/INDEPENDENT_DISCOVERY_TRIAL.md</a></li><li><a href="https://github.com/lrspeiser/Invariant/blob/main/docs/CONTINUOUS_DISCOVERY_ROADMAP.md" rel="noopener">docs/CONTINUOUS_DISCOVERY_ROADMAP.md</a></li></ul>
+<p class="small sub">&dagger; file-byte hash (the artifact is not a sealed JSON receipt).</p>
+</main>
+<footer><p class="orn">* * *</p><p>Every number on this page is read from a sealed receipt at build time. Corpus absence is never novelty; survival is never proof; negative receipts are deliverables.</p><p>Site content as of <code>d22b7e179076401d12c2bb6583fd97168fe5b10e</code>. Composed deterministically by <code>src/sigma_theory_compiler/static_site_generator.py</code>; re-run with <code>--validate</code> to byte-compare. Set in typewriter type on grid paper; no page requests any external resource.</p></footer>
+</div>
+</body>
+</html>
