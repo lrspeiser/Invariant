@@ -1,0 +1,235 @@
+{
+ "provenance": {
+  "anchors": [
+   {
+    "body": "Mercury",
+    "eccentricity": "0.20563069",
+    "quantized_root_of_semi_major_axis": "0.622172749323",
+    "semi_major_axis_au": "0.38709893",
+    "sidereal_orbit_period_yr": "0.2408467"
+   },
+   {
+    "body": "Venus",
+    "eccentricity": "0.00677323",
+    "quantized_root_of_semi_major_axis": "0.850489265070",
+    "semi_major_axis_au": "0.72333199",
+    "sidereal_orbit_period_yr": "0.61519726"
+   },
+   {
+    "body": "Earth",
+    "eccentricity": "0.01671022",
+    "quantized_root_of_semi_major_axis": "1.000000055000",
+    "semi_major_axis_au": "1.00000011",
+    "sidereal_orbit_period_yr": "1.0000174"
+   },
+   {
+    "body": "Mars",
+    "eccentricity": "0.09341233",
+    "quantized_root_of_semi_major_axis": "1.234367169849",
+    "semi_major_axis_au": "1.52366231",
+    "sidereal_orbit_period_yr": "1.8808476"
+   },
+   {
+    "body": "1 Ceres",
+    "eccentricity": "0.0785",
+    "quantized_root_of_semi_major_axis": "1.663069451346",
+    "semi_major_axis_au": "2.7658",
+    "sidereal_orbit_period_yr": "4.60"
+   },
+   {
+    "body": "Jupiter",
+    "eccentricity": "0.04839266",
+    "quantized_root_of_semi_major_axis": "2.281088119736",
+    "semi_major_axis_au": "5.20336301",
+    "sidereal_orbit_period_yr": "11.862615"
+   },
+   {
+    "body": "Saturn",
+    "eccentricity": "0.05415060",
+    "quantized_root_of_semi_major_axis": "3.088214746419",
+    "semi_major_axis_au": "9.53707032",
+    "sidereal_orbit_period_yr": "29.447498"
+   },
+   {
+    "body": "Uranus",
+    "eccentricity": "0.04716771",
+    "quantized_root_of_semi_major_axis": "4.380783483579",
+    "semi_major_axis_au": "19.19126393",
+    "sidereal_orbit_period_yr": "84.016846"
+   },
+   {
+    "body": "Neptune",
+    "eccentricity": "0.00858587",
+    "quantized_root_of_semi_major_axis": "5.483517436828",
+    "semi_major_axis_au": "30.06896348",
+    "sidereal_orbit_period_yr": "164.79132"
+   },
+   {
+    "body": "134340 Pluto",
+    "eccentricity": "0.24880766",
+    "quantized_root_of_semi_major_axis": "6.283445453730",
+    "semi_major_axis_au": "39.48168677",
+    "sidereal_orbit_period_yr": "247.92065"
+   }
+  ],
+  "benchmark_boundary": "This is a rediscovery benchmark, not an observation claim. Public rows are computed from the declared generative model below at exact rational precision; they are not raw measurements, and no observational dataset is opened at run time. Published values are used only as anchors for the construction, and the residual between the constructed rows and the published values is reported under 'fidelity'.",
+  "declared_constants": {
+   "astronomical_unit_m": "149597870700",
+   "four_pi_squared_50dp": "39.47841760435743447533796399950460454125479762896316",
+   "heliocentric_gravitational_constant_m3_s2": "1.32712440018e20",
+   "perihelion_advance_coefficient_arcsec_au_50dp": "0.03837700444433907282894334633103990867750732238791",
+   "perihelion_advance_coefficient_formula": "3888000*G*M/(c^2*au); the 6*pi radian-per-revolution factor times the 648000/pi arcseconds-per-radian factor leaves 3888000 with no pi remaining",
+   "pi_60dp": "3.141592653589793238462643383279502884197169399375105820974945",
+   "speed_of_light_m_s": "299792458"
+  },
+  "fidelity": {
+   "max_relative_deviation_semi_major_axis": "0.00000000000095568550",
+   "max_relative_deviation_sidereal_period": "0.00066565285660801145",
+   "note": "The semi-major-axis deviation is pure quantization. The period deviation is the physical residual of the two-body point-mass idealization against published sidereal periods (planet-mass and epoch-convention effects); it is reported, not hidden."
+  },
+  "generative_model": {
+   "root_quantization_decimal_places": 12,
+   "world_01": "x1 = s^2, x2 = s^3, where s is the published semi-major axis square root rounded to 12 decimal places",
+   "world_02": "x1 = s^2, x2 = four_pi_squared*x1/(s^3)^2, computed from the world_01 columns",
+   "world_03": "x1 = s^2, x2 = published eccentricity, x3 = advance_coefficient/(x1*(1 - x2^2))",
+   "world_04": "identical to world_02"
+  },
+  "sources": [
+   {
+    "accessed": "values as published in the cited tables",
+    "identifier": "Keplerian Elements for Approximate Positions of the Major Planets (J2000 elements, 1800-2050)",
+    "publisher": "Jet Propulsion Laboratory, Solar System Dynamics (E. M. Standish)",
+    "url": "https://ssd.jpl.nasa.gov/planets/approx_pos.html",
+    "used_for": "semi-major axes and eccentricities of the eight planets and Pluto"
+   },
+   {
+    "accessed": "values as published in the cited tables",
+    "identifier": "Planetary Fact Sheet",
+    "publisher": "NASA Goddard Space Flight Center, NSSDCA",
+    "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/",
+    "used_for": "sidereal orbit periods used only as fidelity anchors"
+   },
+   {
+    "accessed": "osculating elements as published; rounded",
+    "identifier": "1 Ceres, a = 2.7658 au, e = 0.0785",
+    "publisher": "JPL Small-Body Database",
+    "url": "https://ssd.jpl.nasa.gov/tools/sbdb_lookup.html",
+    "used_for": "one extra anchor row"
+   },
+   {
+    "accessed": "defining values",
+    "identifier": "IAU 2009 System of Astronomical Constants (GM_sun); IAU 2012 Resolution B2 (au = 149597870700 m exactly); SI definition (c = 299792458 m/s exactly)",
+    "publisher": "International Astronomical Union / BIPM",
+    "url": "https://www.iau.org/static/resolutions/IAU2012_English.pdf",
+    "used_for": "the declared constants used to build world_03"
+   }
+  ]
+ },
+ "schema_version": "invariant-blind-planetary-targets-1.0",
+ "targets": [
+  {
+   "attribution": "Johannes Kepler, Harmonices Mundi (Linz, 1619), Liber V, Caput III - the harmonic (third) law: the square of a planet's orbital period is proportional to the cube of its semi-major axis.",
+   "attribution_year": 1619,
+   "classical_id": "kepler_harmonic_law",
+   "column_meanings": {
+    "x1": "orbital semi-major axis a, in astronomical units",
+    "x2": "sidereal orbital period T, in Julian years"
+   },
+   "expression": "x1**Rational(3, 2)",
+   "invariant_expression": "x2**2/x1**3",
+   "kind": "power_law",
+   "parameters": {
+    "constant": "1",
+    "exponent": "3/2",
+    "view_exponents": {
+     "u": 3,
+     "v": 2
+    },
+    "view_family": "power_pair"
+   },
+   "salt": "a51ad7215edc19f87ea49654c7d9bd91",
+   "statement": "T = a^(3/2); equivalently T^2/a^3 = 1 in units of years and astronomical units",
+   "world_id": "world_01",
+   "world_label": "K"
+  },
+  {
+   "attribution": "Isaac Newton, Philosophiae Naturalis Principia Mathematica (London, 1687), Book I Propositions 1-4 and Book III Propositions 1-8 - the inverse-square law of universal gravitation: the centripetal acceleration of an orbiting body falls off as 1/r^2.",
+   "attribution_year": 1687,
+   "classical_id": "newton_inverse_square_law",
+   "column_meanings": {
+    "x1": "orbital radius r, in astronomical units",
+    "x2": "centripetal acceleration g = 4*pi^2*a/T^2, in au/yr^2"
+   },
+   "expression": "Rational(986960440108935861883449099987615113531369940724079, 25000000000000000000000000000000000000000000000000)*x1**(-2)",
+   "invariant_expression": "x2*x1**2",
+   "kind": "power_law",
+   "parameters": {
+    "constant": "986960440108935861883449099987615113531369940724079/25000000000000000000000000000000000000000000000000",
+    "exponent": "-2",
+    "view_exponents": {
+     "u": -2,
+     "v": 1
+    },
+    "view_family": "power_pair"
+   },
+   "salt": "dc04e15ffe4333ee208a7badc8308e37",
+   "statement": "g = 4*pi^2/r^2; equivalently g*r^2 = 4*pi^2 (au^3/yr^2)",
+   "world_id": "world_02",
+   "world_label": "N"
+  },
+  {
+   "attribution": "Albert Einstein, 'Erklaerung der Perihelbewegung des Merkur aus der allgemeinen Relativitaetstheorie', Sitzungsberichte der Koeniglich Preussischen Akademie der Wissenschaften (Berlin), 18 November 1915, pp. 831-839 - the anomalous perihelion advance per revolution, 6*pi*G*M/(c^2*a*(1-e^2)).",
+   "attribution_year": 1915,
+   "classical_id": "einstein_perihelion_advance",
+   "column_meanings": {
+    "x1": "orbital semi-major axis a, in astronomical units",
+    "x2": "orbital eccentricity e, dimensionless",
+    "x3": "anomalous perihelion advance per revolution, in arcseconds"
+   },
+   "expression": "Rational(3837700444433907282894334633103990867750732238791, 100000000000000000000000000000000000000000000000000)/(x1*(1 - x2**2))",
+   "invariant_expression": "x3*x1*(1 - x2**2)",
+   "kind": "derived_power_law",
+   "parameters": {
+    "constant": "3837700444433907282894334633103990867750732238791/100000000000000000000000000000000000000000000000000",
+    "derived_column": "x3*x1*(1 - x2**2)",
+    "required_derived_variable": "a*(1 - e^2), the semi-latus rectum in units of a",
+    "view_exponents": {
+     "i": 1,
+     "j": 1,
+     "k": 0,
+     "v": 1
+    },
+    "view_family": "power_triple"
+   },
+   "salt": "64dcf4a26a4c135dd61df62c6afd63dc",
+   "statement": "dphi = 6*pi*G*M/(c^2*a*(1-e^2)) per revolution; equivalently dphi*a*(1-e^2) is constant across bodies",
+   "world_id": "world_03",
+   "world_label": "G"
+  },
+  {
+   "attribution": "Isaac Newton, Philosophiae Naturalis Principia Mathematica (London, 1687) - the same inverse-square law as world_02. This world is a deliberate duplicate reserved for the sibling alternative-exclusion task, which asks whether competing exponents can be excluded rather than whether the law can be found; nothing new is claimed here.",
+   "attribution_year": 1687,
+   "classical_id": "alternative_exclusion_reference",
+   "column_meanings": {
+    "x1": "orbital radius r, in astronomical units",
+    "x2": "centripetal acceleration g = 4*pi^2*a/T^2, in au/yr^2"
+   },
+   "expression": "Rational(986960440108935861883449099987615113531369940724079, 25000000000000000000000000000000000000000000000000)*x1**(-2)",
+   "invariant_expression": "x2*x1**2",
+   "kind": "power_law",
+   "parameters": {
+    "constant": "986960440108935861883449099987615113531369940724079/25000000000000000000000000000000000000000000000000",
+    "exponent": "-2",
+    "view_exponents": {
+     "u": -2,
+     "v": 1
+    },
+    "view_family": "power_pair"
+   },
+   "salt": "7b284457c972f8e60855473788a9ff2e",
+   "statement": "g = 4*pi^2/r^2; equivalently g*r^2 = 4*pi^2 (au^3/yr^2)",
+   "world_id": "world_04",
+   "world_label": "A"
+  }
+ ]
+}
