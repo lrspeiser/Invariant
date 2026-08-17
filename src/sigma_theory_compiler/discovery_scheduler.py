@@ -28,6 +28,17 @@ a recorded epoch outcome, never a crash.  After the guarded block the A3 dashboa
 rebuilt from the real sources and an epoch summary receipt binds the watchdog receipt,
 the dashboard hash, and the event-chain root.
 
+**Fan-out: every applicable lane, or a recorded reason it was skipped.**  With
+``--fanout`` an epoch derives work from the A5 lane registry — the cross product of
+(problem x applicable lane) — instead of the fixed :data:`STAGES_BY_KIND` list, honoring
+each lane's declared resource (CPU pool or the single GPU lease).  The epoch summary
+records the lanes planned *and* the typed reason every other lane was not attempted, so
+"nobody ever tried X on Y" is a fact in the receipt rather than an absence.  The end of
+every epoch regenerates the A6 capability gap ledger from the whole corpus and binds its
+top open gaps into the summary, so an epoch that produced new blockers cannot leave the
+build queue stale.  ``--fanout`` is opt-in: without it the historical stage graph, and
+every receipt already sealed against it, is byte-for-byte unchanged.
+
 Claim boundary: the scheduler asserts orchestration facts only — what ran, what it
 produced, what blocked it, and under what budgets.  Completion of an epoch establishes
 no novelty, correctness, or significance beyond what each embedded receipt itself
@@ -53,11 +64,15 @@ from math import comb
 from pathlib import Path
 from typing import Any
 
+from .capability_gap_ledger import build_ledger as build_gap_ledger
+from .capability_gap_ledger import render_markdown as render_gap_markdown
+from .capability_gap_ledger import top_open_gaps
 from .conjecture_generation import generate_conjectures
 from .discovery_dashboard import build_dashboard, render_html
 from .epoch_budget_watchdog import LEDGER_SCHEMA as LLM_LEDGER_SCHEMA
 from .epoch_budget_watchdog import run_epoch
 from .gpu_counterexample_sweep import sweep as run_counterexample_sweep
+from .lane_registry import REGISTRY_CONTENT_SHA256, lane, lane_decisions, lane_for_stage
 from .lemma_decomposition import decompose_closed_form_proof
 from .problem_queue import load_queue
 from .quantified_inequality_proofs import prove_quantified_inequality
@@ -765,6 +780,275 @@ def _stage_note_campaigns(
     )
 
 
+# ---------------------------------------------------------------------------
+# Fan-out lanes: one stage per declared lane in the A5 registry
+# ---------------------------------------------------------------------------
+
+#: Declared bounds for the fan-out lanes that take a finite box.  The scheduler never
+#: invents a search range: every number here is a declared cap that lands in the lane's
+#: own receipt, and the same boxes were used for the standalone campaigns already sealed
+#: under ``runs/math/exponent-diophantine``.
+FANOUT_BOXES: dict[str, dict[str, int]] = {
+    "beal_conjecture": {"base_max": 2000, "exp_max": 9},
+    "erdos_straus": {"n_max": 10**7},
+    "erdos_straus_sweeper_target": {"n_max": 10**7},
+    "fermat_catalan": {"base_max": 2000, "pq_max": 7, "r_max": 12},
+}
+
+#: Bounds for the unsolved-progress lane inside a fan-out epoch.  Every key already
+#: exists in ``dozen_unsolved_progress_campaign.DEFAULT_BOUNDS``; these are strictly
+#: smaller so an epoch stays inside its wall cap.  The lane's receipt records the bounds
+#: it actually ran at, so a smaller box is stated, never hidden.
+FANOUT_UNSOLVED_BOUNDS: dict[str, dict[str, int]] = {
+    "brocard_problem": {"parameter_max": 500},
+    "erdos_moser": {"m_max": 100000, "k_max": 10},
+    "gilbreath_conjecture": {"rows": 200, "prime_limit": 200000},
+    "giuga_conjecture": {"n_max": 200000, "direct_sum_max": 2000},
+    "lehmer_totient": {"n_max": 200000},
+    "lychrel_196": {"max_iterations": 1000},
+    "odd_perfect_number": {"n_max": 1000000, "segment": 1000000},
+    "odd_untouchable": {"limit": 50000},
+    "recaman_coverage": {"steps": 200000},
+    "singmaster_conjecture": {"value_max": 200000},
+    # exponent_max 7 gives exactly the seven rows B3 needs for a prefix/holdout split;
+    # 6 makes the campaign refuse the conjecture lane outright, which is the module
+    # failing closed rather than silently conjecturing from too little data.
+    "twin_prime_infinitude": {"exponent_max": 7},
+    "ulam_sequence_structure": {"terms": 2000},
+}
+
+#: Spectral profile used by the fan-out.  ``engine`` is the same finite grid B3 uses.
+FANOUT_SPECTRAL_PROFILE = "engine"
+
+#: Stage -> the upstream stage whose COMPLETED receipt it consumes.
+FANOUT_PREREQ: dict[str, str] = {
+    "basis_synthesis": "generate_rows",
+    "conjecture": "generate_rows",
+    "holonomic_guess": "generate_rows",
+    "lemma_decomposition": "conjecture",
+    "nonlinear_search": "generate_rows",
+    "quantified_inequality": "conjecture",
+    "spectral_scan": "generate_rows",
+    "structural_repair": "generate_rows",
+    "sweep": "conjecture",
+}
+
+
+def _rows_from_upstream(upstream: Mapping[str, Any]) -> list[dict[str, int]] | None:
+    receipt = _load_json(Path(upstream["rows_receipt_path"]))
+    if receipt["status"] != "COMPLETED":
+        return None
+    return receipt["payload"]["rows"]
+
+
+def _rows_lane_receipt(
+    entry: Mapping[str, Any],
+    upstream: Mapping[str, Any],
+    input_hash: str,
+    stage: str,
+    runner: Callable[[list[dict[str, int]]], dict[str, Any]],
+) -> dict[str, Any]:
+    """Run one row-consuming lane, or record the typed upstream blocker."""
+
+    rows = _rows_from_upstream(upstream)
+    if rows is None:
+        return _upstream_blocked_receipt(entry["id"], stage, input_hash, "generate_rows")
+    result = runner(rows)
+    payload = {
+        "lane_decision": result.get("decision"),
+        "lane_receipt": result,
+        "row_count": len(rows),
+        "rows_receipt_sha256": _load_json(Path(upstream["rows_receipt_path"]))["content_sha256"],
+    }
+    return _item_receipt(entry["id"], stage, input_hash, "COMPLETED", payload, [])
+
+
+def _stage_basis_synthesis(
+    entry: Mapping[str, Any], upstream: Mapping[str, Any], input_hash: str
+) -> dict[str, Any]:
+    from .basis_synthesis import synthesize_basis
+
+    return _rows_lane_receipt(entry, upstream, input_hash, "basis_synthesis", synthesize_basis)
+
+
+def _stage_nonlinear_search(
+    entry: Mapping[str, Any], upstream: Mapping[str, Any], input_hash: str
+) -> dict[str, Any]:
+    from .nonlinear_coefficient_search import search_nonlinear
+
+    return _rows_lane_receipt(entry, upstream, input_hash, "nonlinear_search", search_nonlinear)
+
+
+def _stage_structural_repair(
+    entry: Mapping[str, Any], upstream: Mapping[str, Any], input_hash: str
+) -> dict[str, Any]:
+    from .structural_repair import repair_structure
+
+    return _rows_lane_receipt(entry, upstream, input_hash, "structural_repair", repair_structure)
+
+
+def _stage_holonomic_guess(
+    entry: Mapping[str, Any], upstream: Mapping[str, Any], input_hash: str
+) -> dict[str, Any]:
+    from .holonomic_guesser import guess_receipt
+
+    return _rows_lane_receipt(
+        entry,
+        upstream,
+        input_hash,
+        "holonomic_guess",
+        lambda rows: guess_receipt(rows, entry["id"]),
+    )
+
+
+def _stage_spectral_scan(
+    entry: Mapping[str, Any], upstream: Mapping[str, Any], input_hash: str, *, use_gpu: bool
+) -> dict[str, Any]:
+    from .spectral_signal_scan import scan_receipt
+
+    return _rows_lane_receipt(
+        entry,
+        upstream,
+        input_hash,
+        "spectral_scan",
+        lambda rows: scan_receipt(
+            rows, entry["id"], profile_name=FANOUT_SPECTRAL_PROFILE, use_gpu=use_gpu
+        ),
+    )
+
+
+def _stage_prover_lane(
+    entry: Mapping[str, Any],
+    upstream: Mapping[str, Any],
+    input_hash: str,
+    stage: str,
+    kinds: tuple[str, ...],
+) -> dict[str, Any]:
+    """Route only the conjecture kinds this prover lane owns, blockers included."""
+
+    if entry["machine_form"]["kind"] == "module_target":
+        sources = upstream["family_sources"]
+    else:
+        sources = [{"problem_id": entry["id"], "conjecture_receipt_path": None}]
+        terminal = _load_json(Path(upstream["conjecture_receipt_path"]))
+        if terminal["status"] != "COMPLETED":
+            return _upstream_blocked_receipt(entry["id"], stage, input_hash, "conjecture")
+        sources[0]["conjecture_receipt_path"] = upstream["conjecture_receipt_path"]
+
+    routes: list[dict[str, Any]] = []
+    blockers: list[dict[str, str]] = []
+    examined = 0
+    for source in sources:
+        if source["conjecture_receipt_path"] is None:
+            blockers.append(
+                _blocker(
+                    "upstream_blocked:conjecture",
+                    f"problem {source['problem_id']} has no completed conjecture receipt",
+                )
+            )
+            continue
+        conjecture_receipt = _load_json(Path(source["conjecture_receipt_path"]))
+        polynomial = _polynomial_closed_form(
+            conjecture_receipt["payload"]["result"]["public_rows"]
+        )
+        for conjecture in _survivors(conjecture_receipt):
+            if conjecture["kind"] not in kinds:
+                continue
+            examined += 1
+            route, blocker = _route_one_conjecture(
+                source["problem_id"], conjecture, polynomial
+            )
+            if route is not None:
+                routes.append({**route, "problem_id": source["problem_id"]})
+            if blocker is not None:
+                blockers.append(blocker)
+    payload = {
+        "routed_kinds": list(kinds),
+        "routes": routes,
+        "survivors_examined": examined,
+    }
+    return _item_receipt(entry["id"], stage, input_hash, "COMPLETED", payload, blockers)
+
+
+def _stage_diophantine_sweep(
+    entry: Mapping[str, Any], input_hash: str, *, use_gpu: bool, queue_path: str
+) -> dict[str, Any]:
+    from .exponent_diophantine_sweeper import (
+        run_beal_sweep,
+        run_erdos_straus_sweep,
+        run_fermat_catalan_sweep,
+    )
+
+    problem_id = entry["id"]
+    box = FANOUT_BOXES[problem_id]
+    if problem_id == "beal_conjecture":
+        receipt = run_beal_sweep(
+            box["base_max"], box["exp_max"], use_gpu=use_gpu, queue_path=queue_path
+        )
+    elif problem_id == "fermat_catalan":
+        receipt = run_fermat_catalan_sweep(
+            box["base_max"], box["pq_max"], box["r_max"], use_gpu=use_gpu, queue_path=queue_path
+        )
+    else:
+        receipt = run_erdos_straus_sweep(box["n_max"], use_gpu=use_gpu, queue_path=queue_path)
+    payload = {
+        "declared_box": box,
+        "lane_decision": receipt["decision"],
+        "lane_receipt_sha256": receipt["content_sha256"],
+        "lane_receipt": receipt,
+    }
+    return _item_receipt(problem_id, "diophantine_sweep", input_hash, "COMPLETED", payload, [])
+
+
+def _stage_unsolved_progress(
+    entry: Mapping[str, Any], input_hash: str, *, queue: Mapping[str, Any], use_gpu: bool
+) -> dict[str, Any]:
+    from .dozen_unsolved_progress_campaign import build_receipt as build_progress_receipt
+
+    problem_id = entry["id"]
+    receipt = build_progress_receipt(
+        queue, problem_id, FANOUT_UNSOLVED_BOUNDS.get(problem_id), use_gpu
+    )
+    blocker = _blocker(
+        receipt["first_blocker"]["code"], receipt["first_blocker"]["detail"]
+    )
+    payload = {
+        "declared_bounds": FANOUT_UNSOLVED_BOUNDS.get(problem_id),
+        "lane_receipt_sha256": receipt["content_sha256"],
+        "lanes_run": receipt["lanes_run"],
+        "lane_receipt": receipt,
+    }
+    return _item_receipt(
+        problem_id, "unsolved_progress", input_hash, "COMPLETED", payload, [blocker]
+    )
+
+
+def _stage_sat_certificate(entry: Mapping[str, Any], input_hash: str) -> dict[str, Any]:
+    from .sat_certificate_lane import decide, statement_from_machine_form
+
+    statement = statement_from_machine_form(entry["machine_form"])
+    receipt = decide(statement)
+    blockers = (
+        [_blocker(receipt["decision"], "the SAT lane tripped a declared cap")]
+        if str(receipt["decision"]).startswith("CAP_TRIPPED:")
+        else []
+    )
+    payload = {"lane_decision": receipt["decision"], "lane_receipt": receipt}
+    return _item_receipt(
+        entry["id"], "sat_certificate", input_hash, "COMPLETED", payload, blockers
+    )
+
+
+def _stage_inverse_symbolic(entry: Mapping[str, Any], input_hash: str) -> dict[str, Any]:
+    from .inverse_symbolic_engine import run_pslq_lane
+
+    receipt = run_pslq_lane()
+    payload = {"lane": "pslq", "lane_receipt_sha256": receipt["content_sha256"]}
+    return _item_receipt(
+        entry["id"], "inverse_symbolic", input_hash, "COMPLETED", payload, []
+    )
+
+
 def execute_stage(
     stage: str,
     entry: Mapping[str, Any],
@@ -790,6 +1074,44 @@ def execute_stage(
         )
     if stage == "note_gpu_campaign_receipts":
         return _stage_note_campaigns(entry, input_hash, repo_root=Path(options["repo_root"]))
+    if stage == "basis_synthesis":
+        return _stage_basis_synthesis(entry, upstream, input_hash)
+    if stage == "nonlinear_search":
+        return _stage_nonlinear_search(entry, upstream, input_hash)
+    if stage == "structural_repair":
+        return _stage_structural_repair(entry, upstream, input_hash)
+    if stage == "holonomic_guess":
+        return _stage_holonomic_guess(entry, upstream, input_hash)
+    if stage == "spectral_scan":
+        return _stage_spectral_scan(
+            entry, upstream, input_hash, use_gpu=bool(options["use_gpu"])
+        )
+    if stage == "lemma_decomposition":
+        return _stage_prover_lane(
+            entry, upstream, input_hash, stage, ("closed_form", "linear_recurrence")
+        )
+    if stage == "quantified_inequality":
+        return _stage_prover_lane(
+            entry, upstream, input_hash, stage, ("monotonicity", "sign")
+        )
+    if stage == "diophantine_sweep":
+        return _stage_diophantine_sweep(
+            entry,
+            input_hash,
+            use_gpu=bool(options["use_gpu"]),
+            queue_path=str(options["queue_path"]),
+        )
+    if stage == "unsolved_progress":
+        return _stage_unsolved_progress(
+            entry,
+            input_hash,
+            queue=load_queue(options["queue_path"]),
+            use_gpu=bool(options["use_gpu"]),
+        )
+    if stage == "sat_certificate":
+        return _stage_sat_certificate(entry, input_hash)
+    if stage == "inverse_symbolic":
+        return _stage_inverse_symbolic(entry, input_hash)
     raise DiscoverySchedulerError(f"unknown stage: {stage}")
 
 
@@ -1304,6 +1626,13 @@ class SchedulerConfig:
     sweep_hi_cpu: int = SWEEP_HI_CPU_DEFAULT
     sweep_hi_gpu: int = SWEEP_HI_GPU_DEFAULT
     probes: dict[str, Any] | None = None
+    #: When true, an epoch fans out over (problem x applicable lane) from the A5
+    #: registry instead of the fixed :data:`STAGES_BY_KIND` list.  Default false so the
+    #: legacy stage graph, and every receipt already sealed against it, is unchanged.
+    fanout: bool = False
+    #: When true, the end of every epoch rebuilds the A6 capability gap ledger and binds
+    #: its top open gaps into the epoch summary.
+    gap_ledger: bool = True
 
     def resolved_workers(self) -> int:
         if self.workers > 0:
@@ -1324,14 +1653,26 @@ def _input_hash(stage: str, binding: Mapping[str, Any]) -> str:
     return canonical_sha256({"stage": stage, "binding": dict(binding)})
 
 
+#: Fan-out stages that consume the ledger-wide conjecture corpus rather than one problem.
+_MODULE_TARGET_STAGES = ("route_provers", "lemma_decomposition", "quantified_inequality")
+
+#: Fan-out stages that take the queue entry alone and need no upstream artifact.
+_STANDALONE_FANOUT_STAGES = (
+    "diophantine_sweep",
+    "inverse_symbolic",
+    "sat_certificate",
+    "unsolved_progress",
+)
+
+
 def _stage_prereq(kind: str, stage: str) -> str | None:
-    if stage == "conjecture":
-        return "generate_rows"
-    if stage == "route_provers" and kind != "module_target":
+    if stage in _MODULE_TARGET_STAGES and kind == "module_target":
+        return None
+    if stage == "sweep" and kind == "diophantine_family":
+        return None
+    if stage == "route_provers":
         return "conjecture"
-    if stage == "sweep" and kind != "diophantine_family":
-        return "conjecture"
-    return None
+    return FANOUT_PREREQ.get(stage)
 
 
 def derive_work(ledger: WorkLedger, queue: Mapping[str, Any], config: SchedulerConfig) -> list[WorkItem]:
@@ -1349,7 +1690,10 @@ def derive_work(ledger: WorkLedger, queue: Mapping[str, Any], config: SchedulerC
     for entry_id in sorted(entries):
         entry = entries[entry_id]
         kind = entry["machine_form"]["kind"]
-        for stage in STAGES_BY_KIND[kind]:
+        stages = (
+            fanout_stages(entry) if config.fanout else STAGES_BY_KIND[kind]
+        )
+        for stage in stages:
             derived = _derive_stage(
                 ledger, entry, stage, conjecture_problems,
                 effective_gpu=effective_gpu, sweep_hi=sweep_hi,
@@ -1358,6 +1702,24 @@ def derive_work(ledger: WorkLedger, queue: Mapping[str, Any], config: SchedulerC
             if derived is not None:
                 items.append(derived)
     return items
+
+
+def fanout_stages(entry: Mapping[str, Any]) -> tuple[str, ...]:
+    """The stages of every A5 lane applicable to this entry, in declaration order."""
+
+    return tuple(
+        lane(decision.lane_id).stage
+        for decision in lane_decisions(entry)
+        if decision.applicable
+    )
+
+
+def fanout_skips(entry: Mapping[str, Any]) -> list[dict[str, Any]]:
+    """The recorded skips for this entry: every lane not attempted, with a typed reason."""
+
+    return [
+        decision.as_record() for decision in lane_decisions(entry) if not decision.applicable
+    ]
 
 
 def _derive_stage(
@@ -1373,9 +1735,10 @@ def _derive_stage(
     kind = entry["machine_form"]["kind"]
     problem_id = entry["id"]
     upstream: dict[str, Any] = {}
+    spec = lane_for_stage(stage)
     gpu = False
 
-    if kind == "module_target" and stage == "route_provers":
+    if kind == "module_target" and stage in _MODULE_TARGET_STAGES:
         sources = []
         binding_sources = []
         for other_id in conjecture_problems:
@@ -1403,16 +1766,31 @@ def _derive_stage(
         )
     elif stage == "sweep" and kind == "diophantine_family":
         input_hash = _input_hash(stage, {"machine_form": entry["machine_form"]})
+    elif stage in _STANDALONE_FANOUT_STAGES:
+        binding = {"machine_form": entry["machine_form"], "problem_id": problem_id}
+        if stage == "diophantine_sweep":
+            binding["box"] = FANOUT_BOXES[problem_id]
+        if stage == "unsolved_progress":
+            binding["bounds"] = FANOUT_UNSOLVED_BOUNDS.get(problem_id)
+        if spec is not None and spec.resource == "gpu":
+            binding["use_gpu"] = effective_gpu
+            gpu = effective_gpu
+        input_hash = _input_hash(stage, binding)
     else:
         prereq = _stage_prereq(kind, stage)
+        if prereq is None:
+            raise DiscoverySchedulerError(f"stage {stage!r} declares no prerequisite")
         terminal = ledger.terminal_item(problem_id, prereq)
         if terminal is None:
             return None
         key = "rows_receipt_path" if prereq == "generate_rows" else "conjecture_receipt_path"
         upstream[key] = terminal["receipt_path"]
-        binding: dict[str, Any] = {"upstream_receipt_sha256": terminal["receipt_sha256"]}
+        binding = {"upstream_receipt_sha256": terminal["receipt_sha256"]}
         if stage == "sweep":
             binding.update({"use_gpu": effective_gpu, "lo": SWEEP_LO, "hi": sweep_hi})
+            gpu = effective_gpu
+        elif spec is not None and spec.resource == "gpu":
+            binding["use_gpu"] = effective_gpu
             gpu = effective_gpu
         input_hash = _input_hash(stage, binding)
 
@@ -1446,6 +1824,7 @@ def _worker_payload(item: WorkItem, config: SchedulerConfig, sweep_hi: int) -> d
             "use_gpu": item.gpu,
             "sweep_hi": sweep_hi,
             "repo_root": str(config.repo_root),
+            "queue_path": str(config.queue_path),
         },
     }
 
@@ -1465,6 +1844,63 @@ def _record_outcome(
         "status": receipt["status"],
         "receipt_sha256": receipt["content_sha256"],
         "blockers": [blocker["type"] for blocker in receipt["blockers"]],
+    }
+
+
+def _fanout_record(queue: Mapping[str, Any], config: SchedulerConfig) -> dict[str, Any]:
+    """What the fan-out planned this epoch, skips included.  A skip is never silent."""
+
+    if not config.fanout:
+        return {
+            "enabled": False,
+            "registry_content_sha256": REGISTRY_CONTENT_SHA256,
+            "stage_source": "STAGES_BY_KIND",
+        }
+    planned: dict[str, list[str]] = {}
+    skipped: dict[str, list[dict[str, Any]]] = {}
+    for entry in queue["entries"]:
+        planned[entry["id"]] = list(fanout_stages(entry))
+        skipped[entry["id"]] = fanout_skips(entry)
+    return {
+        "enabled": True,
+        "lanes_planned_per_problem": planned,
+        "lanes_skipped_per_problem": skipped,
+        "registry_content_sha256": REGISTRY_CONTENT_SHA256,
+        "stage_source": "lane_registry.applicable_lanes",
+        "totals": {
+            "attempts_planned": sum(len(item) for item in planned.values()),
+            "problems": len(planned),
+            "skips_recorded": sum(len(item) for item in skipped.values()),
+        },
+    }
+
+
+def _rebuild_gap_ledger(config: SchedulerConfig) -> dict[str, Any]:
+    """Regenerate the A6 gap ledger from the whole corpus and return its top open gaps.
+
+    An epoch that produced new blockers must not leave the build queue stale, so the
+    ledger is rebuilt from the real corpus at the end of every epoch and the summary
+    binds its seal.  A failure here is reported in the summary, never raised into the
+    epoch: the scheduler's own honesty machinery cannot be allowed to end a run.
+    """
+
+    if not config.gap_ledger:
+        return {"built": False, "reason": "gap_ledger disabled by configuration"}
+    try:
+        gap_ledger = build_gap_ledger(config.repo_root)
+        receipt_path = config.repo_root / "runs" / "discovery-engine" / "capability-gap-ledger.json"
+        receipt_path.parent.mkdir(parents=True, exist_ok=True)
+        receipt_path.write_bytes(canonical_json_bytes(gap_ledger) + b"\n")
+        markdown_path = config.repo_root / "docs" / "CAPABILITY_GAPS.md"
+        markdown_path.parent.mkdir(parents=True, exist_ok=True)
+        markdown_path.write_bytes(render_gap_markdown(gap_ledger).encode("utf-8"))
+    except Exception as error:  # noqa: BLE001 - reported, never fatal to the epoch
+        return {"built": False, "reason": f"{type(error).__name__}: {error}"}
+    return {
+        "built": True,
+        "counts": gap_ledger["counts"],
+        "ledger_content_sha256": gap_ledger["content_sha256"],
+        "top_open_gaps": top_open_gaps(gap_ledger, 5),
     }
 
 
@@ -1602,7 +2038,9 @@ def run_discovery_epoch(
         1 for problem in outcomes.values() for out in problem.values()
         if out["status"] == "BLOCKED"
     )
+    capability_gaps = _rebuild_gap_ledger(config)
     summary_body = {
+        "capability_gaps": capability_gaps,
         "claims": {
             "corpus_absence_establishes_novelty": False,
             "scalar_truth_or_probability_score": False,
@@ -1612,6 +2050,7 @@ def run_discovery_epoch(
         "decision": watchdog_receipt["decision"],
         "epoch_id": epoch_id,
         "event_chain_root": ledger.chain_head(),
+        "fanout": _fanout_record(queue, config),
         "items": {
             "attempted": len(leased),
             "blocked": blocked,
@@ -1801,6 +2240,17 @@ def _build_parser() -> argparse.ArgumentParser:
     start.add_argument("--soak-minutes", type=int, default=None)
     start.add_argument("--sweep-hi-cpu", type=int, default=SWEEP_HI_CPU_DEFAULT)
     start.add_argument("--sweep-hi-gpu", type=int, default=SWEEP_HI_GPU_DEFAULT)
+    start.add_argument(
+        "--fanout",
+        action="store_true",
+        help="fan out over (problem x applicable lane) from the A5 registry instead of "
+        "the fixed per-kind stage list",
+    )
+    start.add_argument(
+        "--no-gap-ledger",
+        action="store_true",
+        help="skip the end-of-epoch capability gap ledger rebuild",
+    )
 
     status = commands.add_parser("status", help="print ledger counts and chain state")
     status.add_argument("--ledger", required=True)
@@ -1842,6 +2292,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         soak_minutes=args.soak_minutes,
         sweep_hi_cpu=args.sweep_hi_cpu,
         sweep_hi_gpu=args.sweep_hi_gpu,
+        fanout=args.fanout,
+        gap_ledger=not args.no_gap_ledger,
     )
     result = run_scheduler(config)
     print(
