@@ -428,7 +428,11 @@ jobs:
     name: comprehensive-alpha (${{ matrix.slice }})
     needs: comprehensive_alpha_common
     runs-on: ubuntu-24.04
-    timeout-minutes: 75
+    # The pde-controls-and-85-state slice measured 72m31s green and 75m00s
+    # cancelled on consecutive runs -- it sits at 97% of a 75-minute cap, so a
+    # normal runner-speed fluctuation reads as a red board. Headroom, not a
+    # scope change: no test was skipped or split to earn it.
+    timeout-minutes: 120
     strategy:
       fail-fast: false
       matrix:

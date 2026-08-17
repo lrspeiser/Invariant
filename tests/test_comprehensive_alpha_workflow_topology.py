@@ -80,7 +80,7 @@ def test_common_gate_and_parallel_slices_keep_actionable_diagnostics() -> None:
     assert "tests/test_comprehensive_alpha_workflow_topology.py" in common
 
     assert "needs: comprehensive_alpha_common" in matrix
-    assert "timeout-minutes: 75" in matrix
+    assert "timeout-minutes: 120" in matrix
     assert "fail-fast: false" in matrix
     assert "uses: leanprover/lean-action@v1" in matrix
     assert (
