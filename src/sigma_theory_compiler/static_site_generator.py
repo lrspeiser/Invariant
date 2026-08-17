@@ -111,6 +111,8 @@ ARTIFACT_PATHS = {
     "goals_doc": "docs/GOALS_AND_MEASURED_OUTCOMES.md",
     "idt_doc": "docs/INDEPENDENT_DISCOVERY_TRIAL.md",
     "roadmap_doc": "docs/CONTINUOUS_DISCOVERY_ROADMAP.md",
+    "case_study": "runs/math/case-studies/balmer-bohr-v1.json",
+    "case_study_runtime": "runs/math/case-studies/balmer-bohr-v1-runtime.json",
 }
 
 #: The unsolved-dozen campaign is expected but may not exist yet; it is loaded
@@ -143,6 +145,7 @@ NAV = (
     ("paper", "/paper", "The write-up"),
     ("problems", "/problems", "Problems"),
     ("papers", "/papers", "Papers"),
+    ("case-studies", "/case-studies", "Case studies"),
     ("gravity", "/gravity", "Gravity"),
     ("collatz", "/collatz", "Collatz"),
     ("evidence", "/evidence", "Evidence"),
@@ -228,6 +231,11 @@ LATEX_BTFR = r"v_{\mathrm{flat}}^{4} \propto M\,a_{0}"
 LATEX_SIGMA_HALVING = r"\sigma(2n) = \sigma(n) + 1"
 LATEX_SIGMA_POW2 = r"\sigma(2^{k}) = k"
 LATEX_NU_FAMILY = r"\nu(y) = \left[\frac{P(u)}{Q(u)}\right]^{\beta}, \quad u = y^{-1/2}"
+
+LATEX_CASE_VIEW_GRAMMAR = (
+    r"z = v\,\left(m + s\right)^{i}\,"
+    r"\left(\left(m + s\right)^{2} - c\right)^{j}"
+)
 
 _CSS = """
 :root { color-scheme: light; }
@@ -2172,6 +2180,8 @@ def _artifact_summary(artifact: Artifact) -> str:
         return f"{MISSING_NOTE} ({artifact.missing_reason})"
     if artifact.key == "queue":
         return f"VALID — {len(artifact.data['entries'])} sealed entries"
+    if artifact.key == "case_study_runtime":
+        return "One-time host wall-clock measurement; outside every sealed hash"
     if artifact.key == "lean":
         return "Conditional halving relation, Std-only tactics; proves nothing about termination"
     if artifact.key.startswith(DOZEN_WORLD_PREFIX):
@@ -4304,6 +4314,812 @@ def _papers_index_page(artifacts: dict[str, Artifact], commit: str) -> bytes:
 
 
 # ---------------------------------------------------------------------------
+# Case studies: head-to-head against a real historical discovery
+# ---------------------------------------------------------------------------
+
+#: The case-study index and its detail pages, in publication order.
+CASE_STUDIES = (
+    {
+        "slug": "balmer-bohr",
+        "artifact": "case_study",
+        "kicker": "Case study III &middot; physics",
+        "name": "Balmer 1885 and Bohr 1913",
+        "title": "Balmer 1885, Bohr 1913, and a machine that ran both races",
+        "card": (
+            "Four numbers from an 1868 table, anonymized, with the ordinal withheld. Then the "
+            "same relation derived a second time from two postulates and no data at all."
+        ),
+    },
+)
+
+CASE_STUDY_BANNER = (
+    "Nothing here is open. Both results were settled long ago, one in 1885 and one in 1913,"
+    " and the write-up says so in its title. What is being measured is the machine: whether,"
+    " given only what the historical actors had, it reaches the same place under a sealed"
+    " blind protocol with every rejected alternative published. The news is the finder, not"
+    " the finding."
+)
+
+#: Caption under the head-to-head table (tests pin it).
+HEAD_TO_HEAD_CAPTION = (
+    "Human durations in this table are intervals between publications, cited, never"
+    " estimates of anyone's working time."
+)
+
+#: How many of the closest-fitting rejected views the methods section prints.
+NEAR_MISS_VIEW_ROWS = 8
+
+
+def _case_study_receipt(artifacts: dict[str, Artifact]) -> Artifact:
+    return artifacts["case_study"]
+
+
+def _cs_rows_section(blind: dict[str, Any]) -> str:
+    rows = blind.get("public_rows")
+    parts: list[str] = []
+    parts.append(
+        "<p>Strip the story away and this table is the entire input to the empirical race:"
+        " a bare label <code>m</code>, a value <code>v</code>, and nothing else &mdash; no"
+        " name, no unit, no source, no hint that the label is offset from anything.</p>"
+    )
+    if not isinstance(rows, list):
+        parts.append(
+            f'<div class="missing"><strong>{_esc(MISSING_NOTE)}.</strong> The anonymized rows'
+            " render from the case-study receipt, which does not record them.</div>"
+        )
+        return "\n".join(parts)
+    body = "".join(
+        "<tr>"
+        f'<td class="num">{_data_value("cs_row_m_" + str(row["m"]), row["m"])}</td>'
+        f'<td class="num">{_data_value("cs_row_v_" + str(row["m"]), row["v_decimal"])}</td>'
+        "</tr>"
+        for row in rows
+    )
+    parts.append(
+        '<div class="scroll"><table><thead><tr><th class="num">m</th>'
+        '<th class="num">v</th></tr></thead>'
+        f"<tbody>{body}</tbody></table></div>"
+    )
+    parts.append(f'<p class="small sub">{_esc(ROWS_CAPTION)}</p>')
+    holdout = blind.get("holdout_indices")
+    if isinstance(holdout, list):
+        labels = ", ".join(
+            _data_value(f"cs_holdout_label_{index}", index) for index in holdout
+        )
+        parts.append(
+            f"<p>{_data_value('cs_holdout_count', len(holdout))} further rows exist, at labels"
+            f" {labels}. The engine was given those"
+            " labels and nothing else: their values sit behind the same seal as the answer,"
+            " so the predictions below were written down before the numbers they are scored"
+            " against could be read at all.</p>"
+        )
+    return "\n".join(parts)
+
+
+def _cs_grammar_section(blind: dict[str, Any]) -> str:
+    family = blind.get("declared_view_family", {})
+    space = blind.get("search_space", {})
+    ranges = [
+        ("s", "shift_range"),
+        ("i", "index_exponent_range"),
+        ("j", "quadratic_exponent_range"),
+        ("c", "offset_range"),
+    ]
+    items = []
+    for symbol, key in ranges:
+        bound = family.get(key)
+        if not isinstance(bound, list) or len(bound) != 2:
+            continue
+        low = _data_value(f"cs_bound_{key}_low", bound[0])
+        high = _data_value(f"cs_bound_{key}_high", bound[1])
+        items.append(f"<li><code>{_esc(symbol)}</code> from {low} to {high}</li>")
+    total = space.get("total_declared_views")
+    return (
+        "<p>One transformation lane was declared in the public config before the run. A view"
+        " is any member of this finite grammar:</p>"
+        f"{_math_block(LATEX_CASE_VIEW_GRAMMAR)}"
+        "<ul>" + "".join(items) + "</ul>"
+        "<p>with <code>c</code> pinned to zero whenever <code>j</code> is zero, because the"
+        " trailing factor is then identically one. That is"
+        f" {_data_value('cs_total_views', total)} declared views, and the ordering is"
+        f" declared too, verbatim: <code>{_esc(family.get('ordering'))}</code>.</p>"
+    )
+
+
+def _cs_search_section(blind: dict[str, Any]) -> str:
+    space = blind.get("search_space", {})
+    reasons = space.get("rejection_reasons", {})
+    legend = space.get("rejection_reason_legend", {})
+    candidate = blind.get("candidate") or {}
+    tiles = "".join(
+        [
+            _tile(
+                _data_value("cs_views_declared", space.get("total_declared_views")),
+                "views in the declared grammar",
+                "search_space.total_declared_views",
+            ),
+            _tile(
+                _data_value("cs_views_evaluated", space.get("views_evaluated")),
+                "evaluated on the fit rows",
+                "search_space.views_evaluated",
+            ),
+            _tile(
+                _data_value("cs_views_rejected", space.get("views_rejected")),
+                "rejected: column not constant",
+                "search_space.views_rejected",
+                kind="fail",
+            ),
+            _tile(
+                _data_value("cs_views_admitted", space.get("views_admitted")),
+                "admitted",
+                "search_space.views_admitted",
+                kind="pass",
+            ),
+        ]
+    )
+    reason_rows = "".join(
+        "<tr>"
+        f'<td class="mono">{_esc(reason)}</td>'
+        f'<td class="num">{_data_value("cs_reason_" + reason, count)}</td>'
+        f"<td>{_esc(legend.get(reason, ''))}</td>"
+        "</tr>"
+        for reason, count in sorted(reasons.items())
+    )
+    return (
+        f'<div class="tiles">{tiles}</div>'
+        "<p>Every declared view was evaluated in exact rational arithmetic and logged with"
+        " the number that decided it. The whole log is in the receipt, one entry per view,"
+        " and the breakdown of why views died is this:</p>"
+        '<div class="scroll"><table><thead><tr><th>reason</th><th class="num">views</th>'
+        f"<th>what the receipt means by it</th></tr></thead><tbody>{reason_rows}"
+        "</tbody></table></div>"
+        "<p>The winner was reached only after"
+        f" {_data_value('cs_rejected_earlier', candidate.get('rejected_earlier_views'))}"
+        " strictly earlier views in the declared ordering had been examined and thrown out,"
+        " so &ldquo;simplest surviving view&rdquo; is a checkable statement about a published"
+        " list rather than a matter of taste.</p>"
+    )
+
+
+def _cs_tolerance_section(blind: dict[str, Any]) -> str:
+    ladder = blind.get("tolerance_robustness") or []
+    if not ladder:
+        return ""
+    rows = "".join(
+        "<tr>"
+        f'<td class="mono">{_esc(rung.get("relative_tolerance"))}'
+        + (" &larr; declared" if rung.get("is_the_declared_tolerance") else "")
+        + "</td>"
+        f'<td class="num">'
+        f'{_data_value("cs_ladder_" + str(rung.get("relative_tolerance")), rung.get("views_admitted"))}'
+        "</td>"
+        f'<td class="mono">{_esc(", ".join(rung.get("admitted_view_ids") or []) or "—")}</td>'
+        "</tr>"
+        for rung in ladder
+    )
+    return (
+        "<p>Admission is a tolerance test, so the obvious objection is that the tolerance was"
+        " chosen to make it work. The receipt answers that by recomputing the admitted set at"
+        " every rung of a declared ladder:</p>"
+        '<div class="scroll"><table><thead><tr><th>relative tolerance</th>'
+        '<th class="num">views admitted</th><th>which ones</th></tr></thead>'
+        f"<tbody>{rows}</tbody></table></div>"
+        "<p>The admitted set is the same single view across two orders of magnitude of"
+        " tolerance, empty below that range, and the right view is still in the set even when"
+        " the test is loosened a thousandfold. The verdict does not turn on the choice.</p>"
+    )
+
+
+def _cs_result_section(blind: dict[str, Any]) -> str:
+    candidate = blind.get("candidate") or {}
+    unseal = blind.get("unseal", {})
+    if not candidate or not unseal:
+        return ""
+    parts: list[str] = []
+    parts.append(
+        "<p>Side by side: the relation the machine wrote down blind, from labels it was told"
+        " were arbitrary, and the relation that sat sealed in the fixture.</p>"
+    )
+    parts.append(
+        '<div class="duo">'
+        '<div class="half"><div class="hd">Recovered, blind</div>'
+        + _math_block(str(candidate.get("latex")))
+        + f'<code class="receipt-form">{_esc(candidate.get("statement"))}</code>'
+        + "<p class=\"small\">constant "
+        + _data_value("cs_found_constant", candidate.get("constant_decimal"))
+        + "</p></div>"
+        '<div class="half"><div class="hd">Balmer, 1885</div>'
+        + _math_block(str(unseal.get("classical_latex")))
+        + f'<code class="receipt-form">{_esc(unseal.get("target_statement"))}</code>'
+        + "<p class=\"small\">constant "
+        + _data_value("cs_sealed_constant", unseal.get("sealed_constant_decimal"))
+        + f", with {_esc(unseal.get('classical_upper_index_note'))}</p></div>"
+        "</div>"
+    )
+    parts.append(
+        "<p>The engine was not given the ordinal. It recovered the offset"
+        f" {_data_value('cs_offset', candidate.get('recovered_index_offset'))} as part of the"
+        " view, which is why its <code>m</code> and Balmer&rsquo;s differ by exactly that"
+        " much. The invariant it isolated &mdash; the derived column that stops depending on"
+        " the label &mdash; is</p>"
+    )
+    parts.append(_math_block(str(candidate.get("invariant_latex"))))
+    column = blind.get("derived_column_of_the_winning_view") or []
+    places = unseal.get("constant_published_decimal_places")
+    parts.append(
+        "<p>and the "
+        + _data_value("cs_column_count", len(column))
+        + " values of that column, recomputed from the rows above, are "
+        + ", ".join(
+            _data_value(f"cs_column_{index}", value)
+            for index, value in enumerate(column)
+        )
+        + " &mdash; agreeing to a relative spread of"
+        f" {_data_value('cs_spread', candidate.get('relative_spread'))}, against a declared"
+        f" fit tolerance of {_data_value('cs_fit_tolerance', blind.get('fit_relative_tolerance'))}."
+        " Their exact rational mean is the constant on the left above; rounded to the"
+        + f" {_data_value('cs_published_places', places)}"
+        + f" {_plural(places if isinstance(places, int) else 0, 'decimal place', 'decimal places')}"
+        " at which Balmer published his, it is"
+        f" {_data_value('cs_rounded_constant', unseal.get('constant_rounded_to_published_places'))},"
+        f" and the receipt's verdict is <code>{_esc(unseal.get('verdict'))}</code>"
+        f" {_badge(unseal.get('verdict') == 'REDISCOVERED_EXACT', 'MATCH', 'NO MATCH')}.</p>"
+    )
+    return "\n".join(parts)
+
+
+def _cs_holdout_section(blind: dict[str, Any]) -> str:
+    unseal = blind.get("unseal", {})
+    holdout = unseal.get("holdout") or []
+    if not holdout:
+        return ""
+    offset = (blind.get("candidate") or {}).get("recovered_index_offset")
+    upper_header = "M = m + " + _data_value("cs_upper_header_offset", offset)
+    rows = "".join(
+        "<tr>"
+        f'<td class="num">{_cell(row.get("m"))}</td>'
+        f'<td class="num">{_cell(row.get("shifted_index"))}</td>'
+        f'<td class="num">'
+        f'{_data_value("cs_hold_pred_" + str(row.get("m")), row.get("predicted_decimal"))}</td>'
+        f'<td class="num">'
+        f'{_data_value("cs_hold_meas_" + str(row.get("m")), row.get("measured_decimal"))}</td>'
+        f'<td class="num">'
+        f'{_data_value("cs_hold_res_" + str(row.get("m")), row.get("residual_decimal"))}</td>'
+        f'<td class="num">'
+        f'{_data_value("cs_hold_rel_" + str(row.get("m")), row.get("relative_residual"))}</td>'
+        f"<td>{_badge(bool(row.get('within_declared_tolerance')), 'WITHIN', 'OUTSIDE')}</td>"
+        "</tr>"
+        for row in holdout
+    )
+    return (
+        "<p>Balmer computed further members of the series from his formula before they were"
+        " confirmed. So did the machine: it froze three predictions while the values were"
+        " still sealed, and only then was the seal opened. These are those three rows.</p>"
+        '<div class="scroll"><table><thead><tr><th class="num">m</th>'
+        f'<th class="num">{upper_header}</th><th class="num">predicted</th>'
+        '<th class="num">measured</th><th class="num">residual</th>'
+        '<th class="num">relative</th><th>declared tolerance</th></tr></thead>'
+        f"<tbody>{rows}</tbody></table></div>"
+        "<p>Every one lands inside the declared holdout tolerance of"
+        f" {_data_value('cs_holdout_tolerance', unseal.get('holdout_relative_tolerance'))},"
+        " with a worst case of"
+        f" {_data_value('cs_holdout_worst', unseal.get('holdout_max_relative_residual'))}."
+        " The residuals are one-signed and nearly equal, which is what a scale offset looks"
+        " like rather than what noise looks like: the fit rows come from an 1868 table whose"
+        " wavelength standard was later found to be systematically off by about one part in"
+        " seven thousand, and the holdout rows are modern values. That mismatch was declared"
+        " in the sealed fixture before the run, not discovered in the residuals afterwards.</p>"
+    )
+
+
+def _cs_derivation_section(derivation: dict[str, Any]) -> str:
+    steps = derivation.get("steps") or []
+    postulates = derivation.get("postulates") or []
+    parts: list[str] = []
+    parts.append(
+        "<p>The second race starts over with no data at all. Two postulates are declared, and"
+        " everything after them is derived symbolically and recomputed on every build:</p>"
+    )
+    parts.append(
+        "<ul>"
+        + "".join(
+            f"<li><strong>{_esc(postulate.get('id'))}</strong> &mdash;"
+            f" {_esc(postulate.get('statement'))}</li>"
+            for postulate in postulates
+        )
+        + "</ul>"
+    )
+    for step in steps:
+        parts.append(
+            f"<h3>Step {_data_value('cs_step_' + str(step.get('step')), step.get('step'))}"
+            f" &mdash; {_esc(step.get('statement'))}</h3>"
+        )
+        parts.append(_math_block(str(step.get("latex"))))
+        parts.append(
+            f'<p class="small sub">Check, verbatim: {_esc(step.get("check"))} &mdash;'
+            f" <code>{_esc(step.get('check_status'))}</code>, from"
+            f" <code>{_esc(step.get('derived_from'))}</code>.</p>"
+        )
+    return "\n".join(parts)
+
+
+def _cs_rydberg_section(derivation: dict[str, Any]) -> str:
+    numerics = derivation.get("rydberg_numerics", {})
+    loop = derivation.get("loop_closure", {})
+    tiles = "".join(
+        [
+            _tile(
+                _data_value("cs_rydberg_derived", numerics.get("derived_rydberg_per_m")),
+                "derived from the postulates, per m",
+                "derivation.rydberg_numerics.derived_rydberg_per_m",
+            ),
+            _tile(
+                _data_value("cs_rydberg_measured", numerics.get("measured_rydberg_per_m")),
+                "measured value, cited not fitted",
+                "derivation.rydberg_numerics.measured_rydberg_per_m",
+            ),
+            _tile(
+                _data_value("cs_rydberg_error", numerics.get("relative_error_vs_measured")),
+                "relative error against measurement",
+                "derivation.rydberg_numerics.relative_error_vs_measured",
+                kind="pass",
+            ),
+        ]
+    )
+    corrections = "".join(
+        "<tr>"
+        f'<td class="mono">{_esc(correction.get("id"))}</td>'
+        f'<td class="num">'
+        f'{_data_value("cs_corr_" + str(correction.get("id")), correction.get("relative_size"))}'
+        "</td>"
+        f'<td class="num">'
+        f'{_data_value("cs_corrval_" + str(correction.get("id")), correction.get("resulting_constant_1e-10_m"))}'
+        "</td>"
+        f"<td>{_esc(correction.get('statement'))}</td>"
+        "</tr>"
+        for correction in loop.get("corrections") or []
+    )
+    return (
+        "<p>The prefactor that falls out of the derivation is a number built entirely from"
+        " constants measured in other experiments. No wavelength enters it anywhere. Put the"
+        " cited values in and compare with the measured constant:</p>"
+        f'<div class="tiles">{tiles}</div>'
+        f"<p>{_esc(numerics.get('note'))}</p>"
+        "<p>Then the loop closes. Setting the lower index to two turns the derived relation"
+        " into exactly the shape the blind race recovered, with</p>"
+        f"{_math_block(str(loop.get('constant_identity_latex')))}"
+        "<p>and the sympy residual of that identity is"
+        f" <code>{_esc(loop.get('residual_of_the_identity'))}</code>. Evaluating it gives"
+        f" {_data_value('cs_b_from_r', loop.get('constant_from_rydberg_1e-10_m'))} against"
+        f" Balmer&rsquo;s published"
+        f" {_data_value('cs_b_published', loop.get('published_balmer_constant_1e-10_m'))} &mdash;"
+        " a relative gap of"
+        f" {_data_value('cs_b_gap', loop.get('relative_gap_vacuum_infinite_mass'))}. Two known"
+        " effects, both cited and neither fitted, account for a gap of that size:</p>"
+        '<div class="scroll"><table><thead><tr><th>effect</th><th class="num">relative size</th>'
+        '<th class="num">resulting constant</th><th>what it is</th></tr></thead>'
+        f"<tbody>{corrections}</tbody></table></div>"
+        f"<p>{_esc(loop.get('note'))}</p>"
+    )
+
+
+def _cs_controls_section(derivation: dict[str, Any]) -> str:
+    controls = derivation.get("negative_controls") or []
+    items = "".join(
+        f"<li><code>{_esc(control.get('id'))}</code> &mdash;"
+        f" {_esc(control.get('perturbation'))}. {_esc(control.get('why_it_must_fail'))}."
+        f" {_badge(bool(control.get('detected')), 'FIRED', 'DID NOT FIRE')}</li>"
+        for control in controls
+    )
+    return (
+        "<p>A derivation that cannot fail is not a derivation. Two controls break the chain on"
+        " purpose, and the build aborts if either fails to notice:</p>"
+        f"<ul>{items}</ul>"
+    )
+
+
+def _cs_head_to_head_section(head: dict[str, Any], runtime: Artifact) -> str:
+    order = (
+        ("balmer_1885", "Balmer, 1885"),
+        ("bohr_1913", "Bohr, 1913"),
+        ("engine_empirical", "This engine, empirical race"),
+        ("engine_derivation", "This engine, derivation race"),
+    )
+    rows: list[str] = []
+    for key, label in order:
+        entry = head.get(key, {})
+        if key.startswith("engine"):
+            seconds = None
+            if runtime.present and isinstance(runtime.data, dict):
+                measured = runtime.data.get("measured_seconds", {})
+                seconds = measured.get(
+                    "blind_race" if key == "engine_empirical" else "derivation"
+                )
+            if seconds is None:
+                timescale = (
+                    f'<span class="sub">[{_esc(MISSING_NOTE)}: the one-time host measurement'
+                    " is not in the repository]</span>"
+                )
+            else:
+                timescale = (
+                    _data_value(f"cs_wall_{key}", seconds) + " s measured wall-clock"
+                )
+            size = entry.get("search_space_size")
+            if size is not None:
+                timescale += (
+                    f", over {_data_value('cs_head_space', size)} declared views"
+                )
+        else:
+            human = entry.get("human_timescale", {})
+            timescale = (
+                f"{_data_value('cs_years_' + key, human.get('documented_interval_years'))}"
+                f" years between publications; personal effort"
+                f" {_esc(human.get('personal_effort_duration'))}"
+            )
+        rows.append(
+            "<tr>"
+            f"<th scope=\"row\">{_esc(label)}</th>"
+            f"<td>{_esc(entry.get('inputs_available'))}</td>"
+            f"<td>{_esc(entry.get('method'))}</td>"
+            f"<td>{_esc(entry.get('result'))}</td>"
+            f"<td>{timescale}</td>"
+            "</tr>"
+        )
+    return (
+        '<div class="scroll"><table><thead><tr><th>who</th><th>what was available</th>'
+        "<th>method</th><th>result</th><th>time</th></tr></thead>"
+        f"<tbody>{''.join(rows)}</tbody></table></div>"
+        f'<p class="small sub">{_esc(HEAD_TO_HEAD_CAPTION)}</p>'
+    )
+
+
+def _cs_not_shown_section(receipt: dict[str, Any]) -> str:
+    head = receipt.get("head_to_head", {})
+    claims = receipt.get("claims", {})
+    notes = head.get("comparison_notes") or []
+    items = "".join(f"<li>{_esc(note)}</li>" for note in notes)
+    items += (
+        "<li>The receipt records"
+        f" <code>novelty_claimed: {_esc(claims.get('novelty_claimed'))}</code> and"
+        " <code>rediscovery_of_classical_results:"
+        f" {_esc(claims.get('rediscovery_of_classical_results'))}</code>. No priority and no"
+        " empirical significance is asserted anywhere.</li>"
+        "<li>No observational dataset is opened at run time:"
+        " <code>real_observational_data_opened:"
+        f" {_esc(claims.get('real_observational_data_opened'))}</code>. The transcribed values"
+        " are published table entries carried in the sealed fixture.</li>"
+        "<li>The blind enforcement guards this process&rsquo;s own file-read surfaces. The"
+        " receipt names that scope verbatim and does not claim an operating-system"
+        " sandbox.</li>"
+    )
+    return (
+        f"<ul>{items}</ul>"
+        f"<blockquote>{_esc(receipt.get('scope'))}</blockquote>"
+    )
+
+
+def _cs_near_miss_rows(blind: dict[str, Any]) -> str:
+    log = blind.get("search_log") or []
+    scored = [
+        (Decimal(entry["relative_spread"]), entry)
+        for entry in log
+        if entry.get("status") == "REJECTED" and isinstance(entry.get("relative_spread"), str)
+    ]
+    scored.sort(key=lambda pair: (pair[0], pair[1]["rank"]))
+    rows = "".join(
+        "<tr>"
+        f'<td class="mono">{_esc(entry["view_id"])}</td>'
+        f'<td class="num">{_data_value("cs_near_rank_" + entry["view_id"], entry["rank"])}</td>'
+        f'<td class="num">'
+        f'{_data_value("cs_near_spread_" + entry["view_id"], entry["relative_spread"])}</td>'
+        f'<td class="mono">{_esc(entry.get("b1_decision"))}</td>'
+        "</tr>"
+        for _spread, entry in scored[:NEAR_MISS_VIEW_ROWS]
+    )
+    return (
+        "<p>The nearest misses, taken from the published log and sorted by how nearly constant"
+        " their derived column was. None of them is close to the admitted view, and every one"
+        " of them was refused by the same exact-arithmetic check:</p>"
+        '<div class="scroll"><table><thead><tr><th>view</th><th class="num">rank</th>'
+        '<th class="num">relative spread</th><th>exact-arithmetic decision</th></tr></thead>'
+        f"<tbody>{rows}</tbody></table></div>"
+    )
+
+
+def _cs_methods_section(receipt: dict[str, Any], blind: dict[str, Any]) -> str:
+    chronology = receipt.get("chronology", {})
+    probe = chronology.get("denied_probe", {})
+    counts = receipt.get("counts", {})
+    events = "".join(
+        f"<li><code>{_esc(event.get('event'))}</code> &mdash; reads of the sealed fixture so"
+        f" far: {_data_value('cs_event_' + str(event.get('sequence')), event.get('target_reads'))}"
+        "</li>"
+        for event in chronology.get("events") or []
+    )
+    stages = "".join(
+        "<tr>"
+        f'<td class="mono">{_esc(stage.get("stage_id"))}</td>'
+        f'<td class="mono">{_esc(stage.get("tool"))}</td>'
+        f'<td class="mono">{_esc(stage.get("decision"))}</td>'
+        f"<td>{_esc(stage.get('reason') or '')}</td>"
+        "</tr>"
+        for stage in blind.get("stages") or []
+    )
+    exact = blind.get("b1_on_the_winning_column") or {}
+    parts: list[str] = ["<h3>The seal, event by event</h3>"]
+    parts.append(
+        "<p>Each event below is recorded in the receipt with a running count of how many"
+        " times the sealed fixture had been read at that point:</p>"
+    )
+    parts.append(f"<ol>{events}</ol>")
+    parts.append(
+        "<p>The denied probe is the evidence, not the promise:"
+        f" {_data_value('cs_probe_attempted', probe.get('attempted_target_reads'))}"
+        " in-process read of the sealed fixture was attempted before the unseal,"
+        f" {_data_value('cs_probe_denied', probe.get('denied_target_reads'))} was denied,"
+        f" and {_data_value('cs_probe_bytes', probe.get('denied_content_bytes_exposed'))}"
+        " bytes of its content were exposed. The seal then opened"
+        f" {_data_value('cs_probe_batches', chronology.get('unseal_batches'))} time, and"
+        f" {_data_value('cs_probe_post', counts.get('post_unseal_generation_events'))}"
+        " candidates were generated afterwards. The enforcement scope is stated in the"
+        f" receipt verbatim: <code>{_esc(probe.get('enforcement_scope'))}</code>.</p>"
+    )
+    parts.append("<h3>The stage ladder on the raw rows</h3>")
+    parts.append(
+        "<p>Before the transformation lane ran at all, the declared ladder was tried on the"
+        " raw rows and got nowhere &mdash; which is the correct outcome, because a"
+        " statement about the raw label is exactly what the config forbids selecting:</p>"
+    )
+    parts.append(
+        '<div class="scroll"><table><thead><tr><th>stage</th><th>tool</th>'
+        "<th>decision</th><th>reason, where the tool gave one</th></tr></thead>"
+        f"<tbody>{stages}</tbody></table></div>"
+    )
+    parts.append("<h3>Why the tolerance test exists at all</h3>")
+    parts.append(
+        f"<p>{_esc(exact.get('note'))} The exact-arithmetic stage returned"
+        f" <code>{_esc(exact.get('decision'))}</code> on the winning column, with first"
+        f" blocker <code>{_esc(exact.get('first_blocker'))}</code>.</p>"
+    )
+    parts.append(_cs_near_miss_rows(blind))
+    parts.append("<h3>Selection rule, verbatim</h3>")
+    parts.append(f"<blockquote>{_esc(blind.get('candidate_selection_rule'))}</blockquote>")
+    parts.append("<h3>Verdict rule, verbatim</h3>")
+    parts.append(
+        f"<blockquote>{_esc((blind.get('unseal') or {}).get('verdict_rule'))}</blockquote>"
+    )
+    return "\n".join(parts)
+
+
+def _cs_references_section(
+    receipt: dict[str, Any], artifact: Artifact, runtime: Artifact
+) -> str:
+    items: list[str] = []
+    if artifact.present:
+        items.append(
+            f"<li>{_github(artifact.path)} &mdash; the case-study receipt, seal"
+            f" {_sha_abbrev(artifact.sha256)}</li>"
+        )
+    else:
+        items.append(f"<li><code>{_esc(artifact.path)}</code> &mdash; {_esc(MISSING_NOTE)}</li>")
+    if runtime.present:
+        items.append(
+            f"<li>{_github(runtime.path)} &mdash; the one-time host wall-clock measurement,"
+            f" file hash {_sha_abbrev(runtime.sha256)}&dagger;. Deliberately outside every"
+            " sealed hash.</li>"
+        )
+    for key, note in (
+        ("config", "the public config the blind phase read"),
+        ("target_fixture", "the sealed fixture the blind phase was denied from reading"),
+        ("source", "the module that runs both races"),
+        ("test", "the gates"),
+        ("doc", "the protocol write-up"),
+    ):
+        binding = receipt.get("source_bindings", {}).get(key, {})
+        path = binding.get("path")
+        if path:
+            items.append(
+                f"<li>{_github(str(path))} &mdash; {_esc(note)}, file hash"
+                f" {_sha_abbrev(binding.get('file_sha256'))}&dagger;</li>"
+            )
+    head = receipt.get("head_to_head", {})
+    citations = "".join(
+        f"<li>{_esc(head.get(key, {}).get('human_timescale', {}).get('citation'))}</li>"
+        for key in ("balmer_1885", "bohr_1913")
+    )
+    cited = receipt.get("derivation", {}).get("cited_measurement", {})
+    for entry in cited.values():
+        citations += f"<li>{_esc(entry.get('citation'))}</li>"
+    return (
+        "<h3>Receipts rendered on this page</h3>"
+        "<ul>" + "".join(items) + "</ul>"
+        "<h3>Classical citations</h3>"
+        f"<ul>{citations}</ul>"
+        '<p class="small sub">&dagger; file-byte hash (the artifact is not a sealed JSON'
+        " receipt).</p>"
+    )
+
+
+def _cs_abstract(receipt: dict[str, Any], blind: dict[str, Any]) -> str:
+    space = blind.get("search_space", {})
+    candidate = blind.get("candidate") or {}
+    unseal = blind.get("unseal", {})
+    numerics = receipt.get("derivation", {}).get("rydberg_numerics", {})
+    sentences: list[str] = []
+    sentences.append(
+        "In 1885 a Swiss schoolteacher stared at four measured numbers until a formula fell"
+        " out of them. In 1913 a Danish physicist derived the same formula from two"
+        " assumptions about how an atom is put together. This page is what happened when a"
+        " machine was pointed at both problems."
+    )
+    sentences.append(
+        "For the first race it was handed those four numbers with everything else stripped"
+        " away &mdash; no names, no units, no subject matter anywhere in its input, and the"
+        " row labels shifted so that even the index convention had to be recovered. It"
+        f" searched {_data_value('cs_abs_views', space.get('total_declared_views'))} declared"
+        " views, published the whole log, admitted"
+        f" {_data_value('cs_abs_admitted', space.get('views_admitted'))} of them, and froze"
+        " three predictions for rows whose values were sealed."
+    )
+    sentences.append(
+        "Then the seal was opened once. The frozen relation is Balmer&rsquo;s, its constant"
+        " rounds to Balmer&rsquo;s at the precision Balmer published, and all three"
+        " predictions land inside the declared tolerance:"
+        f" <code>{_esc(unseal.get('verdict'))}</code>."
+    )
+    sentences.append(
+        "For the second race it was given no data at all &mdash; two postulates and sympy"
+        " &mdash; and it derived the Rydberg constant in closed form. Evaluated on cited"
+        " constants it misses the measured value by"
+        f" {_data_value('cs_abs_error', numerics.get('relative_error_vs_measured'))}, and"
+        " Balmer&rsquo;s empirical constant then follows as four divided by it."
+    )
+    sentences.append(_esc(REDISCOVERY_SENTENCE))
+    del candidate
+    return "<p>" + " ".join(sentences) + "</p>"
+
+
+def _balmer_bohr_page(artifacts: dict[str, Artifact], commit: str) -> bytes:
+    artifact = _case_study_receipt(artifacts)
+    runtime = artifacts["case_study_runtime"]
+    entry = CASE_STUDIES[0]
+    body: list[str] = []
+    body.append(f'<p class="kicker">{entry["kicker"]}</p>')
+    body.append(f"<h1>{_esc(entry['title'])}</h1>")
+    body.append('<p class="byline">The Invariant Project</p>')
+    body.append(
+        f'<p class="sub small">content as of <code>{_esc(commit)}</code> &mdash; dated by'
+        " content, not by clock; every number on this page is read from the case-study"
+        " receipt at build time.</p>"
+    )
+    body.append(_status_banner("REDISCOVERED", CASE_STUDY_BANNER))
+    body.append(_status_key())
+    if not artifact.present:
+        for heading in (
+            "Abstract",
+            "The question",
+            "What we did",
+            "What we found",
+            "What this does not show",
+        ):
+            body.append(f"<h2>{heading}</h2>")
+            body.append(_missing_block(artifact, "case study"))
+        body.append("<h2>Methods</h2>")
+        body.append(
+            '<details class="methods"><summary>Technical detail &mdash; open to expand'
+            "</summary><div>" + _missing_block(artifact, "protocol") + "</div></details>"
+        )
+        body.append("<h2>References</h2>")
+        body.append(f"<ul><li><code>{_esc(artifact.path)}</code> &mdash;"
+                    f" {_esc(MISSING_NOTE)}</li></ul>")
+        return _page("case-studies", f"{entry['name']} · {SITE_TITLE}", "\n".join(body), commit)
+
+    receipt = artifact.data
+    blind = receipt.get("blind_race", {})
+    derivation = receipt.get("derivation", {})
+    body.append("<h2>Abstract</h2>")
+    body.append(_cs_abstract(receipt, blind))
+    body.append("<h2>The question</h2>")
+    body.append(_cs_rows_section(blind))
+    body.append("<h2>What we did</h2>")
+    body.append(_cs_grammar_section(blind))
+    body.append(_cs_search_section(blind))
+    body.append(_cs_tolerance_section(blind))
+    body.append("<h2>What we found</h2>")
+    body.append("<h3>The empirical race, against Balmer</h3>")
+    body.append(_cs_result_section(blind))
+    body.append("<h3>The three rows it predicted before it could read them</h3>")
+    body.append(_cs_holdout_section(blind))
+    body.append("<h3>The derivation race, against Bohr</h3>")
+    body.append(_cs_derivation_section(derivation))
+    body.append("<h3>The Rydberg constant, and the loop closing</h3>")
+    body.append(_cs_rydberg_section(derivation))
+    body.append("<h3>The controls that had to fire</h3>")
+    body.append(_cs_controls_section(derivation))
+    body.append("<h3>Head to head</h3>")
+    body.append(_cs_head_to_head_section(receipt.get("head_to_head", {}), runtime))
+    body.append("<h2>What this does not show</h2>")
+    body.append(_cs_not_shown_section(receipt))
+    body.append("<h2>Methods</h2>")
+    body.append(
+        '<details class="methods"><summary>Technical detail &mdash; open to expand</summary>'
+        "<div>" + _cs_methods_section(receipt, blind) + "</div></details>"
+    )
+    body.append("<h2>References</h2>")
+    body.append(_cs_references_section(receipt, artifact, runtime))
+    body.append('<p class="small"><a href="/case-studies">&larr; back to the case studies</a></p>')
+    return _page("case-studies", f"{entry['name']} · {SITE_TITLE}", "\n".join(body), commit)
+
+
+def _case_studies_index_page(artifacts: dict[str, Artifact], commit: str) -> bytes:
+    body: list[str] = []
+    body.append('<p class="kicker">Case studies</p>')
+    body.append("<h1>Case studies: the machine against problems with known answers</h1>")
+    body.append(
+        "<p class=\"lede\">A case study here is a question whose answer already exists in the"
+        " literature, handed to the engine with the answer sealed away, so that what it does"
+        " can be graded rather than admired. Three of them live in this logbook. Two are"
+        " elsewhere in the navigation because they came first; the third is below.</p>"
+    )
+    cards: list[str] = []
+    for entry in CASE_STUDIES:
+        artifact = artifacts[entry["artifact"]]
+        if artifact.present and isinstance(artifact.data, dict):
+            verdict = str(artifact.data.get("verdict", "sealed receipt"))
+            footer = f"verdict {verdict} &middot; seal {_esc(str(artifact.sha256)[:16])}&hellip;"
+        else:
+            footer = _esc(MISSING_NOTE)
+        cards.append(
+            f'<a class="card-link" href="/case-studies/{_esc(entry["slug"])}">'
+            f'<div class="t">{_esc(entry["name"])}</div>'
+            f'<div class="d">{_esc(entry["card"])}</div>'
+            f'<div class="f">{footer}</div></a>'
+        )
+    cards.append(
+        '<a class="card-link" href="/collatz">'
+        '<div class="t">Collatz</div>'
+        '<div class="d">A question nobody has settled. What the engine established about it,'
+        " which is far short of an answer, plus the silence that preceded it.</div>"
+        '<div class="f">status OPEN</div></a>'
+    )
+    cards.append(
+        '<a class="card-link" href="/gravity">'
+        '<div class="t">Rotation curves and lensing</div>'
+        '<div class="d">A billion-candidate screen of one declared family, and the sealed'
+        " negative verdict it returned on clusters.</div>"
+        '<div class="f">status SEALED NEGATIVE</div></a>'
+    )
+    body.append('<div class="cards">' + "".join(cards) + "</div>")
+    artifact = _case_study_receipt(artifacts)
+    body.append("<h2>What a head-to-head is for</h2>")
+    if artifact.present and isinstance(artifact.data, dict):
+        receipt = artifact.data
+        space = receipt.get("blind_race", {}).get("search_space", {})
+        head = receipt.get("head_to_head", {})
+        body.append(
+            "<p>An engine that reaches a known answer is only interesting if the grading was"
+            " real. So the Balmer&ndash;Bohr study publishes the whole search: every one of"
+            f" {_data_value('csi_views', space.get('total_declared_views'))} declared views"
+            " with the number that killed it,"
+            f" {_data_value('csi_admitted', space.get('views_admitted'))} admitted, and three"
+            " predictions frozen while the values they would be scored against were still"
+            " sealed. It also publishes what the humans had, which is the part that keeps the"
+            " comparison honest:</p>"
+        )
+        notes = head.get("comparison_notes") or []
+        body.append("<ul>" + "".join(f"<li>{_esc(note)}</li>" for note in notes[:3]) + "</ul>")
+    else:
+        body.append(_missing_block(artifact, "head-to-head summary"))
+    body.append("<h2>House rules on every case study</h2>")
+    body.append(
+        "<ul>"
+        + "".join(f"<li>{_esc(rule)}</li>" for rule in CLAIM_DISCIPLINE)
+        + "</ul>"
+    )
+    return _page("case-studies", f"Case studies · {SITE_TITLE}", "\n".join(body), commit)
+
+
+# ---------------------------------------------------------------------------
 # Assembly, CLI
 # ---------------------------------------------------------------------------
 
@@ -4320,6 +5136,8 @@ def render_site(root: Path | str, commit: str) -> dict[str, bytes]:
         "paper.html": _paper_page(artifacts, facts, commit),
         "problems.html": _problems_index_page(artifacts["queue"], artifacts, commit),
         "papers.html": _papers_index_page(artifacts, commit),
+        "case-studies.html": _case_studies_index_page(artifacts, commit),
+        "case-studies/balmer-bohr.html": _balmer_bohr_page(artifacts, commit),
         "gravity.html": _gravity_page(artifacts, commit),
         "collatz.html": _collatz_page(artifacts, facts, commit),
         "evidence.html": _evidence_page(artifacts, commit),

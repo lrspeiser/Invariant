@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Balmer 1885 and Bohr 1913 · Invariant — a pattern-hunting machine and its public logbook</title>
+<style>
+:root { color-scheme: light; }
+* { box-sizing: border-box; }
+body { margin: 0; color: #2a2418; font-size: 17px; line-height: 1.65;
+  font-family: "Courier Prime","American Typewriter","Courier New",Courier,monospace;
+  background-color: #fbfaf6;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(148,160,178,0.42) 0, rgba(148,160,178,0.42) 1px,
+      transparent 1px, transparent 95px),
+    repeating-linear-gradient(90deg, rgba(148,160,178,0.42) 0, rgba(148,160,178,0.42) 1px,
+      transparent 1px, transparent 95px),
+    repeating-linear-gradient(0deg, rgba(215,219,226,0.5) 0, rgba(215,219,226,0.5) 1px,
+      transparent 1px, transparent 19px),
+    repeating-linear-gradient(90deg, rgba(215,219,226,0.5) 0, rgba(215,219,226,0.5) 1px,
+      transparent 1px, transparent 19px); }
+a { color: #27506d; text-decoration: underline; text-underline-offset: 2px; }
+a:hover { color: #8b3a2e; }
+code, pre { font-family: inherit; }
+code { font-size: 0.92em; background: rgba(42,36,24,0.06); padding: 0 0.14em; }
+.sheet { max-width: 76ch; margin: 2.1rem auto 2.6rem; background: #fffefa;
+  border: 1px solid #d9d3c4; padding: 2.2rem clamp(1.1rem, 4.5vw, 3.1rem) 1.9rem;
+  box-shadow: 0 1px 3px rgba(64,58,42,0.18), 0 12px 30px rgba(64,58,42,0.12); }
+header { text-align: center; border-bottom: 3px double #2a2418; padding-bottom: 0.9rem; }
+header .brand a { font-size: 1.5rem; font-weight: 700; letter-spacing: 0.42em;
+  text-transform: uppercase; color: inherit; text-decoration: none; padding-left: 0.42em; }
+header .tag { margin: 0.35rem auto 0; max-width: 56ch; font-size: 0.76rem;
+  font-style: italic; color: #6b6353; }
+nav { margin-top: 0.7rem; font-size: 0.72rem; letter-spacing: 0.16em;
+  text-transform: uppercase; }
+nav a { color: #6b6353; margin: 0 0.5rem; text-decoration: none; white-space: nowrap; }
+nav a.on { color: #2a2418; border-bottom: 2px solid #8b3a2e; }
+nav a:hover { color: #2a2418; }
+main { margin-top: 1.7rem; }
+h1 { font-size: 1.42rem; line-height: 1.32; margin: 0.3rem 0 1rem; }
+h2 { font-size: 0.94rem; letter-spacing: 0.18em; text-transform: uppercase;
+  border-bottom: 3px double #2a2418; padding-bottom: 0.3rem; margin: 2.3rem 0 0.9rem; }
+h3 { font-size: 1rem; margin: 1.5rem 0 0.5rem; }
+p { margin: 0.55rem 0; }
+.kicker { font-size: 0.72rem; letter-spacing: 0.24em; text-transform: uppercase;
+  color: #8b3a2e; margin: 0 0 0.1rem; }
+.lede { font-size: 1.01rem; }
+.byline { letter-spacing: 0.1em; }
+.sub { color: #6b6353; }
+.small { font-size: 0.79rem; }
+.status-banner { border: 2px solid #2a2418; padding: 0.8rem 1rem; margin: 1.3rem 0 0.9rem;
+  transform: rotate(-0.5deg); font-size: 0.9rem; background: rgba(255,255,255,0.6);
+  box-shadow: 2px 2px 0 rgba(42,36,24,0.08); }
+.status-banner .stamp { font-weight: 700; letter-spacing: 0.13em; }
+.status-open { border-color: #8b3a2e; }
+.status-open .stamp { color: #8b3a2e; }
+.status-rediscovered { border-color: #31577e; }
+.status-rediscovered .stamp { color: #31577e; }
+.status-range, .status-proved { border-color: #2e6b3a; }
+.status-range .stamp, .status-proved .stamp { color: #2e6b3a; }
+.status-negative { border-color: #44505e; }
+.status-negative .stamp { color: #44505e; }
+.status-key { border: 1px dashed #a99f8a; padding: 0.55rem 0.85rem 0.6rem;
+  margin: 0 0 1.5rem; font-size: 0.74rem; color: #57503f; }
+.status-key p { margin: 0 0 0.25rem; letter-spacing: 0.12em; text-transform: uppercase; }
+.status-key dl { margin: 0; }
+.status-key dt { font-weight: 700; float: left; clear: left; margin-right: 0.45rem; }
+.status-key dd { margin: 0 0 0.12rem 0; overflow: hidden; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
+  gap: 0.7rem; margin: 1rem 0; }
+.tile { background: #fdfcf6; border: 1px solid #cfc8b6; padding: 0.55rem 0.7rem;
+  box-shadow: 1px 2px 0 rgba(64,58,42,0.08); }
+.tile .v { font-size: 1.22rem; font-weight: 700; line-height: 1.3; }
+.tile .k { font-size: 0.76rem; color: #57503f; margin-top: 0.15rem; }
+.tile .r { font-size: 0.64rem; color: #8a8171; margin-top: 0.35rem; word-break: break-all; }
+.tile.neg .v { color: #7a5b21; }
+.tile.fail .v { color: #8b3a2e; }
+.tile.pass .v { color: #2e6b3a; }
+.scroll { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 0.76rem; margin: 0.8rem 0; }
+th, td { border: 1px solid #cfc8b6; padding: 0.28rem 0.5rem; text-align: left;
+  vertical-align: top; }
+th { background: #f6f3ea; border-bottom: 3px double #2a2418; font-weight: 700;
+  letter-spacing: 0.05em; }
+td.num, th.num { text-align: right; white-space: nowrap; }
+td.mono { white-space: nowrap; }
+pre { background: #f6f3ea; border: 1px solid #cfc8b6; padding: 0.75rem 0.9rem;
+  overflow-x: auto; font-size: 0.72rem; line-height: 1.5; }
+pre code { background: none; padding: 0; }
+blockquote { border-left: 3px solid #a99f8a; margin: 0.7rem 0; padding: 0.15rem 0.9rem;
+  color: #57503f; font-size: 0.86rem; font-style: italic; }
+.missing { border: 1px dashed #8a6d1f; background: rgba(158,120,32,0.07);
+  padding: 0.65rem 0.9rem; color: #7a5b21; margin: 0.8rem 0; font-size: 0.85rem; }
+.neg-block { border: 2px solid #44505e; background: rgba(68,80,94,0.05);
+  padding: 0.8rem 1rem; margin: 0.9rem 0; }
+.badge { display: inline-block; border: 1px solid; font-size: 0.62rem; font-weight: 700;
+  letter-spacing: 0.08em; padding: 0.05rem 0.4rem; margin-left: 0.4rem;
+  vertical-align: middle; }
+.badge.pass { color: #2e6b3a; border-color: #2e6b3a; }
+.badge.fail { color: #8b3a2e; border-color: #8b3a2e; }
+.badge.neg { color: #7a5b21; border-color: #7a5b21; }
+.badge.ctl { color: #31577e; border-color: #31577e; }
+details.card { background: #fdfcf6; border: 1px solid #cfc8b6; margin: 0.5rem 0; }
+details.card > summary { cursor: pointer; padding: 0.5rem 0.8rem; font-size: 0.8rem; }
+details.card > div { padding: 0.15rem 0.9rem 0.7rem; border-top: 1px solid #e2dccc; }
+details.methods { background: #f9f7f0; border: 1px solid #cfc8b6; margin: 0.6rem 0 1rem; }
+details.methods > summary { cursor: pointer; padding: 0.6rem 0.9rem; font-size: 0.74rem;
+  letter-spacing: 0.14em; text-transform: uppercase; }
+details.methods > div { padding: 0.15rem 1rem 0.9rem; border-top: 1px solid #e2dccc; }
+ul, ol { margin: 0.5rem 0 0.5rem 1.3rem; padding: 0; }
+li { margin: 0.28rem 0; }
+.math math { font-size: 1.08em; }
+.math-block { display: block; margin: 0.75rem 0 0.75rem 1.4rem; }
+.receipt-form { display: block; font-size: 0.66rem; color: #8a8171; background: none;
+  padding: 0; margin-top: 0.2rem; }
+.form-grid { display: grid; grid-template-columns: 13rem 1fr; gap: 0.5rem 0.8rem;
+  align-items: start; margin: 0.8rem 0; }
+.form-grid label { color: #57503f; font-size: 0.8rem; padding-top: 0.3rem; }
+input[type="text"], select, textarea { width: 100%; background: #fffefa; color: #2a2418;
+  border: 1px solid #a99f8a; padding: 0.35rem 0.5rem; font-size: 0.8rem;
+  font-family: inherit; }
+textarea { min-height: 4.4rem; resize: vertical; }
+button { background: #f6f3ea; color: #2a2418; border: 1px solid #6b6353;
+  padding: 0.4rem 0.9rem; font-size: 0.82rem; font-family: inherit; cursor: pointer;
+  box-shadow: 1px 2px 0 rgba(64,58,42,0.15); }
+button:hover { background: #efeadb; }
+#errors { color: #8b3a2e; font-size: 0.82rem; }
+fieldset { border: 1px solid #cfc8b6; margin: 0.6rem 0; padding: 0.5rem 0.9rem 0.8rem; }
+legend { color: #57503f; font-size: 0.76rem; padding: 0 0.4rem; letter-spacing: 0.1em; }
+footer { border-top: 3px double #2a2418; margin-top: 2.6rem; padding-top: 0.9rem;
+  text-align: center; font-size: 0.7rem; color: #6b6353; }
+footer .orn { letter-spacing: 0.7em; margin: 0 0 0.4rem; }
+footer p { max-width: 62ch; margin: 0.3rem auto; }
+:root { --funnel-bar: rgba(49,87,126,0.30); --funnel-hit: rgba(46,107,58,0.38);
+  --funnel-edge: #31577e; --funnel-hit-edge: #2e6b3a; }
+figure.funnel-figure { margin: 1.1rem 0 1.3rem; padding: 0; }
+figure.funnel-figure svg { width: 100%; height: auto; display: block; }
+svg.funnel text { font-family: inherit; font-size: 12px; fill: currentColor; }
+svg.funnel text.num { font-weight: 700; }
+svg.funnel text.lbl { fill-opacity: 0.82; }
+svg.funnel rect.bar { fill: var(--funnel-bar); stroke: var(--funnel-edge);
+  stroke-width: 1; }
+svg.funnel rect.bar.hit { fill: var(--funnel-hit); stroke: var(--funnel-hit-edge); }
+svg.funnel line.axis { stroke: currentColor; stroke-opacity: 0.5; stroke-width: 1; }
+svg.funnel line.rule { stroke: currentColor; stroke-opacity: 0.16;
+  stroke-dasharray: 2 3; }
+figure.funnel-figure figcaption { font-size: 0.74rem; color: #57503f;
+  margin-top: 0.35rem; }
+.duo { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 0.7rem; margin: 0.9rem 0; }
+.duo .half { background: #fdfcf6; border: 1px solid #cfc8b6; padding: 0.6rem 0.8rem;
+  box-shadow: 1px 2px 0 rgba(64,58,42,0.08); }
+.duo .half .hd { font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: #57503f; margin-bottom: 0.35rem; }
+.aside-box { border: 2px solid #31577e; background: rgba(49,87,126,0.06);
+  padding: 0.75rem 1rem; margin: 1rem 0; }
+.aside-box .hd { font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  font-size: 0.78rem; color: #31577e; margin-bottom: 0.3rem; }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
+  gap: 0.7rem; margin: 1rem 0; }
+.cards a.card-link { display: block; background: #fdfcf6; border: 1px solid #cfc8b6;
+  padding: 0.55rem 0.75rem; text-decoration: none; color: inherit;
+  box-shadow: 1px 2px 0 rgba(64,58,42,0.08); }
+.cards a.card-link:hover { border-color: #8b3a2e; color: inherit; }
+.cards a.card-link .t { font-weight: 700; }
+.cards a.card-link .d { font-size: 0.74rem; color: #57503f; margin-top: 0.2rem; }
+.cards a.card-link .f { font-size: 0.68rem; color: #8a8171; margin-top: 0.3rem;
+  word-break: break-all; }
+@media (max-width: 640px) {
+  .sheet { margin: 0 auto; border-left: 0; border-right: 0; }
+}
+@media (prefers-color-scheme: dark) {
+  :root { color-scheme: dark; }
+  body { color: #d8d5c8; background-color: #1e1f22;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(150,160,178,0.11) 0, rgba(150,160,178,0.11) 1px,
+        transparent 1px, transparent 95px),
+      repeating-linear-gradient(90deg, rgba(150,160,178,0.11) 0, rgba(150,160,178,0.11) 1px,
+        transparent 1px, transparent 95px),
+      repeating-linear-gradient(0deg, rgba(150,160,178,0.055) 0, rgba(150,160,178,0.055) 1px,
+        transparent 1px, transparent 19px),
+      repeating-linear-gradient(90deg, rgba(150,160,178,0.055) 0, rgba(150,160,178,0.055) 1px,
+        transparent 1px, transparent 19px); }
+  a { color: #9db8d6; }
+  a:hover { color: #d99a82; }
+  code { background: rgba(216,213,200,0.09); }
+  .sheet { background: #26272b; border-color: #3a3b41;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.55), 0 12px 30px rgba(0,0,0,0.35); }
+  header, h2, footer { border-color: #d8d5c8; }
+  header .tag, nav a, .sub, .status-key, footer { color: #a49f90; }
+  nav a.on { color: #d8d5c8; border-bottom-color: #d99a82; }
+  nav a:hover { color: #d8d5c8; }
+  .kicker { color: #d99a82; }
+  .status-banner { background: rgba(0,0,0,0.25); box-shadow: 2px 2px 0 rgba(0,0,0,0.35); }
+  .status-open { border-color: #d99a82; }
+  .status-open .stamp { color: #d99a82; }
+  .status-rediscovered { border-color: #8fb3d9; }
+  .status-rediscovered .stamp { color: #8fb3d9; }
+  .status-range, .status-proved { border-color: #86c493; }
+  .status-range .stamp, .status-proved .stamp { color: #86c493; }
+  .status-negative { border-color: #a7b4c2; }
+  .status-negative .stamp { color: #a7b4c2; }
+  .status-key { border-color: #57503f; }
+  .tile, details.card, details.methods, pre { background: #2b2c31; border-color: #3f4046; }
+  .tile .k { color: #a49f90; }
+  .tile .r { color: #7b776b; }
+  .tile.neg .v { color: #cfa658; }
+  .tile.fail .v { color: #d99a82; }
+  .tile.pass .v { color: #86c493; }
+  th { background: #2c2d33; border-color: #3f4046; border-bottom-color: #d8d5c8; }
+  td { border-color: #3f4046; }
+  details.card > div, details.methods > div { border-top-color: #3f4046; }
+  blockquote { border-left-color: #57503f; color: #a49f90; }
+  .missing { border-color: #8a6d1f; background: rgba(207,166,88,0.08); color: #cfa658; }
+  .neg-block { border-color: #a7b4c2; background: rgba(167,180,194,0.06); }
+  .badge.pass { color: #86c493; border-color: #86c493; }
+  .badge.fail { color: #d99a82; border-color: #d99a82; }
+  .badge.neg { color: #cfa658; border-color: #cfa658; }
+  .badge.ctl { color: #8fb3d9; border-color: #8fb3d9; }
+  input[type="text"], select, textarea { background: #1e1f22; color: #d8d5c8;
+    border-color: #57503f; }
+  button { background: #2b2c31; color: #d8d5c8; border-color: #57503f;
+    box-shadow: 1px 2px 0 rgba(0,0,0,0.4); }
+  button:hover { background: #33343a; }
+  #errors { color: #d99a82; }
+  .receipt-form { color: #7b776b; }
+  fieldset { border-color: #3f4046; }
+  legend { color: #a49f90; }
+  :root { --funnel-bar: rgba(143,179,217,0.28); --funnel-hit: rgba(134,196,147,0.30);
+    --funnel-edge: #8fb3d9; --funnel-hit-edge: #86c493; }
+  figure.funnel-figure figcaption { color: #a49f90; }
+  .duo .half { background: #2b2c31; border-color: #3f4046; }
+  .duo .half .hd { color: #a49f90; }
+  .aside-box { border-color: #8fb3d9; background: rgba(143,179,217,0.07); }
+  .aside-box .hd { color: #8fb3d9; }
+  .cards a.card-link { background: #2b2c31; border-color: #3f4046; }
+  .cards a.card-link:hover { border-color: #d99a82; }
+  .cards a.card-link .d { color: #a49f90; }
+  .cards a.card-link .f { color: #7b776b; }
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+<header><div class="brand"><a href="/">Invariant</a></div><p class="tag">a machine that guesses patterns, tries its hardest to break them, and files paperwork for every attempt &mdash; the failures included</p><nav><a href="/">Home</a><a href="/paper">The write-up</a><a href="/problems">Problems</a><a href="/papers">Papers</a><a href="/case-studies" class="on">Case studies</a><a href="/gravity">Gravity</a><a href="/collatz">Collatz</a><a href="/evidence">Evidence</a><a href="/method">Method</a><a href="/submit">Submit</a></nav></header>
+<main>
+<p class="kicker">Case study III &middot; physics</p>
+<h1>Balmer 1885, Bohr 1913, and a machine that ran both races</h1>
+<p class="byline">The Invariant Project</p>
+<p class="sub small">content as of <code>bba7b3a46fa6c0f66a6547a09fea4290c92eae82</code> &mdash; dated by content, not by clock; every number on this page is read from the case-study receipt at build time.</p>
+<div class="status-banner status-rediscovered"><span class="stamp">STATUS: REDISCOVERED.</span> Nothing here is open. Both results were settled long ago, one in 1885 and one in 1913, and the write-up says so in its title. What is being measured is the machine: whether, given only what the historical actors had, it reaches the same place under a sealed blind protocol with every rejected alternative published. The news is the finder, not the finding.</div>
+<div class="status-key"><p>The five status words used on this site</p><dl><dt>OPEN</dt><dd>the famous question is unsolved, by us and by everyone.</dd><dt>REDISCOVERED</dt><dd>the engine independently found facts already known to mathematics (the news is the machine, not the math).</dd><dt>RANGE-VERIFIED</dt><dd>checked exhaustively up to an exact bound; says nothing beyond the bound.</dd><dt>PROVED (CONDITIONAL)</dt><dd>machine-checked proof of a limited statement, stated exactly.</dd><dt>SEALED NEGATIVE</dt><dd>an exhaustive search that found nothing, published with margins.</dd></dl></div>
+<h2>Abstract</h2>
+<p>In 1885 a Swiss schoolteacher stared at four measured numbers until a formula fell out of them. In 1913 a Danish physicist derived the same formula from two assumptions about how an atom is put together. This page is what happened when a machine was pointed at both problems. For the first race it was handed those four numbers with everything else stripped away &mdash; no names, no units, no subject matter anywhere in its input, and the row labels shifted so that even the index convention had to be recovered. It searched <span data-key="cs_abs_views" data-value="2916">2,916</span> declared views, published the whole log, admitted <span data-key="cs_abs_admitted" data-value="1">1</span> of them, and froze three predictions for rows whose values were sealed. Then the seal was opened once. The frozen relation is Balmer&rsquo;s, its constant rounds to Balmer&rsquo;s at the precision Balmer published, and all three predictions land inside the declared tolerance: <code>REDISCOVERED_EXACT</code>. For the second race it was given no data at all &mdash; two postulates and sympy &mdash; and it derived the Rydberg constant in closed form. Evaluated on cited constants it misses the measured value by <span data-key="cs_abs_error" data-value="7.96655e-12">7.96655e-12</span>, and Balmer&rsquo;s empirical constant then follows as four divided by it. This is a rediscovery of a classical result under a sealed blind protocol; no novelty is claimed.</p>
+<h2>The question</h2>
+<p>Strip the story away and this table is the entire input to the empirical race: a bare label <code>m</code>, a value <code>v</code>, and nothing else &mdash; no name, no unit, no source, no hint that the label is offset from anything.</p>
+<div class="scroll"><table><thead><tr><th class="num">m</th><th class="num">v</th></tr></thead><tbody><tr><td class="num"><span data-key="cs_row_m_1" data-value="1">1</span></td><td class="num"><span data-key="cs_row_v_1" data-value="6562.10">6562.10</span></td></tr><tr><td class="num"><span data-key="cs_row_m_2" data-value="2">2</span></td><td class="num"><span data-key="cs_row_v_2" data-value="4860.74">4860.74</span></td></tr><tr><td class="num"><span data-key="cs_row_m_3" data-value="3">3</span></td><td class="num"><span data-key="cs_row_v_3" data-value="4340.10">4340.10</span></td></tr><tr><td class="num"><span data-key="cs_row_m_4" data-value="4">4</span></td><td class="num"><span data-key="cs_row_v_4" data-value="4101.20">4101.20</span></td></tr></tbody></table></div>
+<p class="small sub">The machine saw only this.</p>
+<p><span data-key="cs_holdout_count" data-value="3">3</span> further rows exist, at labels <span data-key="cs_holdout_label_5" data-value="5">5</span>, <span data-key="cs_holdout_label_6" data-value="6">6</span>, <span data-key="cs_holdout_label_7" data-value="7">7</span>. The engine was given those labels and nothing else: their values sit behind the same seal as the answer, so the predictions below were written down before the numbers they are scored against could be read at all.</p>
+<h2>What we did</h2>
+<p>One transformation lane was declared in the public config before the run. A view is any member of this finite grammar:</p><span class="math math-block"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><mi>z</mi><mo>&#x0003D;</mo><mi>v</mi><mspace width="0.167em" /><msup><mrow><mo stretchy="true" fence="true" form="prefix">&#x00028;</mo><mi>m</mi><mo>&#x0002B;</mo><mi>s</mi><mo stretchy="true" fence="true" form="postfix">&#x00029;</mo></mrow><mrow><mi>i</mi></mrow></msup><mspace width="0.167em" /><msup><mrow><mo stretchy="true" fence="true" form="prefix">&#x00028;</mo><msup><mrow><mo stretchy="true" fence="true" form="prefix">&#x00028;</mo><mi>m</mi><mo>&#x0002B;</mo><mi>s</mi><mo stretchy="true" fence="true" form="postfix">&#x00029;</mo></mrow><mrow><mn>2</mn></mrow></msup><mo>&#x02212;</mo><mi>c</mi><mo stretchy="true" fence="true" form="postfix">&#x00029;</mo></mrow><mrow><mi>j</mi></mrow></msup></mrow></math></span><ul><li><code>s</code> from <span data-key="cs_bound_shift_range_low" data-value="0">0</span> to <span data-key="cs_bound_shift_range_high" data-value="3">3</span></li><li><code>i</code> from <span data-key="cs_bound_index_exponent_range_low" data-value="-4">-4</span> to <span data-key="cs_bound_index_exponent_range_high" data-value="4">4</span></li><li><code>j</code> from <span data-key="cs_bound_quadratic_exponent_range_low" data-value="-4">-4</span> to <span data-key="cs_bound_quadratic_exponent_range_high" data-value="4">4</span></li><li><code>c</code> from <span data-key="cs_bound_offset_range_low" data-value="0">0</span> to <span data-key="cs_bound_offset_range_high" data-value="9">9</span></li></ul><p>with <code>c</code> pinned to zero whenever <code>j</code> is zero, because the trailing factor is then identically one. That is <span data-key="cs_total_views" data-value="2916">2,916</span> declared views, and the ordering is declared too, verbatim: <code>by total weight abs(i) + 2*abs(j), then s, then c, then i, then j; the first admitted view in this order is frozen and nothing later is considered</code>.</p>
+<div class="tiles"><div class="tile"><div class="v"><span data-key="cs_views_declared" data-value="2916">2,916</span></div><div class="k">views in the declared grammar</div><div class="r">search_space.total_declared_views</div></div><div class="tile"><div class="v"><span data-key="cs_views_evaluated" data-value="2484">2,484</span></div><div class="k">evaluated on the fit rows</div><div class="r">search_space.views_evaluated</div></div><div class="tile fail"><div class="v"><span data-key="cs_views_rejected" data-value="2483">2,483</span></div><div class="k">rejected: column not constant</div><div class="r">search_space.views_rejected</div></div><div class="tile pass"><div class="v"><span data-key="cs_views_admitted" data-value="1">1</span></div><div class="k">admitted</div><div class="r">search_space.views_admitted</div></div></div><p>Every declared view was evaluated in exact rational arithmetic and logged with the number that decided it. The whole log is in the receipt, one entry per view, and the breakdown of why views died is this:</p><div class="scroll"><table><thead><tr><th>reason</th><th class="num">views</th><th>what the receipt means by it</th></tr></thead><tbody><tr><td class="mono">not_constant</td><td class="num"><span data-key="cs_reason_not_constant" data-value="2483">2,483</span></td><td>the derived column&#x27;s relative spread about its exact rational mean exceeded the declared fit tolerance</td></tr><tr><td class="mono">undefined</td><td class="num"><span data-key="cs_reason_undefined" data-value="432">432</span></td><td>the view is undefined on at least one fit row (a zero base under a factor)</td></tr></tbody></table></div><p>The winner was reached only after <span data-key="cs_rejected_earlier" data-value="419">419</span> strictly earlier views in the declared ordering had been examined and thrown out, so &ldquo;simplest surviving view&rdquo; is a checkable statement about a published list rather than a matter of taste.</p>
+<p>Admission is a tolerance test, so the obvious objection is that the tolerance was chosen to make it work. The receipt answers that by recomputing the admitted set at every rung of a declared ladder:</p><div class="scroll"><table><thead><tr><th>relative tolerance</th><th class="num">views admitted</th><th>which ones</th></tr></thead><tbody><tr><td class="mono">1e-6</td><td class="num"><span data-key="cs_ladder_1e-6" data-value="0">0</span></td><td class="mono">—</td></tr><tr><td class="mono">1e-5</td><td class="num"><span data-key="cs_ladder_1e-5" data-value="0">0</span></td><td class="mono">—</td></tr><tr><td class="mono">1e-4 &larr; declared</td><td class="num"><span data-key="cs_ladder_1e-4" data-value="1">1</span></td><td class="mono">s=2;i=-2;j=1;c=4</td></tr><tr><td class="mono">3e-4</td><td class="num"><span data-key="cs_ladder_3e-4" data-value="1">1</span></td><td class="mono">s=2;i=-2;j=1;c=4</td></tr><tr><td class="mono">1e-3</td><td class="num"><span data-key="cs_ladder_1e-3" data-value="1">1</span></td><td class="mono">s=2;i=-2;j=1;c=4</td></tr><tr><td class="mono">1e-2</td><td class="num"><span data-key="cs_ladder_1e-2" data-value="1">1</span></td><td class="mono">s=2;i=-2;j=1;c=4</td></tr><tr><td class="mono">1e-1</td><td class="num"><span data-key="cs_ladder_1e-1" data-value="18">18</span></td><td class="mono">s=3;i=1;j=0;c=0, s=3;i=-1;j=1;c=0, s=2;i=-2;j=1;c=4, s=3;i=-2;j=1;c=6, s=3;i=-2;j=1;c=7, s=3;i=-2;j=1;c=8, s=3;i=-2;j=1;c=9, s=2;i=3;j=-1;c=2, s=3;i=3;j=-1;c=0, s=3;i=3;j=-1;c=1, s=3;i=3;j=-1;c=2, s=3;i=3;j=-1;c=3, s=3;i=-3;j=2;c=0, s=1;i=-4;j=2;c=1, s=2;i=-4;j=2;c=2, s=2;i=-4;j=2;c=3, s=3;i=-4;j=2;c=4, s=3;i=-4;j=2;c=5</td></tr></tbody></table></div><p>The admitted set is the same single view across two orders of magnitude of tolerance, empty below that range, and the right view is still in the set even when the test is loosened a thousandfold. The verdict does not turn on the choice.</p>
+<h2>What we found</h2>
+<h3>The empirical race, against Balmer</h3>
+<p>Side by side: the relation the machine wrote down blind, from labels it was told were arbitrary, and the relation that sat sealed in the fixture.</p>
+<div class="duo"><div class="half"><div class="hd">Recovered, blind</div><span class="math math-block"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><mi>v</mi><mo>&#x0003D;</mo><mfrac><mrow><mi>B</mi><msup><mrow><mo stretchy="true" fence="true" form="prefix">&#x00028;</mo><mi>m</mi><mo>&#x0002B;</mo><mn>2</mn><mo stretchy="true" fence="true" form="postfix">&#x00029;</mo></mrow><mrow><mn>2</mn></mrow></msup></mrow><mrow><msup><mrow><mo stretchy="true" fence="true" form="prefix">&#x00028;</mo><mi>m</mi><mo>&#x0002B;</mo><mn>2</mn><mo stretchy="true" fence="true" form="postfix">&#x00029;</mo></mrow><mrow><mn>2</mn></mrow></msup><mo>&#x02212;</mo><mn>4</mn></mrow></mfrac></mrow></math></span><code class="receipt-form">v = B*(m + 2)^(2)*((m + 2)^2 - 4)^(-1) with B = 3645.5903</code><p class="small">constant <span data-key="cs_found_constant" data-value="3645.5903055556">3645.5903055556</span></p></div><div class="half"><div class="hd">Balmer, 1885</div><span class="math math-block"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><mi>&#x003BB;</mi><mo>&#x0003D;</mo><mfrac><mrow><mi>B</mi><msup><mi>M</mi><mrow><mn>2</mn></mrow></msup></mrow><mrow><msup><mi>M</mi><mrow><mn>2</mn></mrow></msup><mo>&#x02212;</mo><mn>4</mn></mrow></mfrac></mrow></math></span><code class="receipt-form">v = B*(m + 2)^2/((m + 2)^2 - 4) with B = 3645.6</code><p class="small">constant <span data-key="cs_sealed_constant" data-value="3645.6">3645.6</span>, with M = m + 2, the ordinal the public rows did not carry</p></div></div>
+<p>The engine was not given the ordinal. It recovered the offset <span data-key="cs_offset" data-value="2">2</span> as part of the view, which is why its <code>m</code> and Balmer&rsquo;s differ by exactly that much. The invariant it isolated &mdash; the derived column that stops depending on the label &mdash; is</p>
+<span class="math math-block"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><mi>z</mi><mo>&#x0003D;</mo><mfrac><mrow><mi>v</mi><mrow><mo stretchy="true" fence="true" form="prefix">&#x00028;</mo><msup><mrow><mo stretchy="true" fence="true" form="prefix">&#x00028;</mo><mi>m</mi><mo>&#x0002B;</mo><mn>2</mn><mo stretchy="true" fence="true" form="postfix">&#x00029;</mo></mrow><mrow><mn>2</mn></mrow></msup><mo>&#x02212;</mo><mn>4</mn><mo stretchy="true" fence="true" form="postfix">&#x00029;</mo></mrow></mrow><mrow><msup><mrow><mo stretchy="true" fence="true" form="prefix">&#x00028;</mo><mi>m</mi><mo>&#x0002B;</mo><mn>2</mn><mo stretchy="true" fence="true" form="postfix">&#x00029;</mo></mrow><mrow><mn>2</mn></mrow></msup></mrow></mfrac></mrow></math></span>
+<p>and the <span data-key="cs_column_count" data-value="4">4</span> values of that column, recomputed from the rows above, are <span data-key="cs_column_0" data-value="3645.611111">3645.611111</span>, <span data-key="cs_column_1" data-value="3645.555000">3645.555000</span>, <span data-key="cs_column_2" data-value="3645.684000">3645.684000</span>, <span data-key="cs_column_3" data-value="3645.511111">3645.511111</span> &mdash; agreeing to a relative spread of <span data-key="cs_spread" data-value="0.000025700761">0.000025700761</span>, against a declared fit tolerance of <span data-key="cs_fit_tolerance" data-value="1e-4">1e-4</span>. Their exact rational mean is the constant on the left above; rounded to the <span data-key="cs_published_places" data-value="1">1</span> decimal place at which Balmer published his, it is <span data-key="cs_rounded_constant" data-value="3645.6">3645.6</span>, and the receipt's verdict is <code>REDISCOVERED_EXACT</code> <span class="badge pass">MATCH</span>.</p>
+<h3>The three rows it predicted before it could read them</h3>
+<p>Balmer computed further members of the series from his formula before they were confirmed. So did the machine: it froze three predictions while the values were still sealed, and only then was the seal opened. These are those three rows.</p><div class="scroll"><table><thead><tr><th class="num">m</th><th class="num">M = m + <span data-key="cs_upper_header_offset" data-value="2">2</span></th><th class="num">predicted</th><th class="num">measured</th><th class="num">residual</th><th class="num">relative</th><th>declared tolerance</th></tr></thead><tbody><tr><td class="num">5</td><td class="num">7</td><td class="num"><span data-key="cs_hold_pred_5" data-value="3969.642777">3969.642777</span></td><td class="num"><span data-key="cs_hold_meas_5" data-value="3970.070000">3970.070000</span></td><td class="num"><span data-key="cs_hold_res_5" data-value="-0.427223">-0.427223</span></td><td class="num"><span data-key="cs_hold_rel_5" data-value="0.000107610908">0.000107610908</span></td><td><span class="badge pass">WITHIN</span></td></tr><tr><td class="num">6</td><td class="num">8</td><td class="num"><span data-key="cs_hold_pred_6" data-value="3888.629659">3888.629659</span></td><td class="num"><span data-key="cs_hold_meas_6" data-value="3889.050000">3889.050000</span></td><td class="num"><span data-key="cs_hold_res_6" data-value="-0.420341">-0.420341</span></td><td class="num"><span data-key="cs_hold_rel_6" data-value="0.000108083141">0.000108083141</span></td><td><span class="badge pass">WITHIN</span></td></tr><tr><td class="num">7</td><td class="num">9</td><td class="num"><span data-key="cs_hold_pred_7" data-value="3834.971620">3834.971620</span></td><td class="num"><span data-key="cs_hold_meas_7" data-value="3835.380000">3835.380000</span></td><td class="num"><span data-key="cs_hold_res_7" data-value="-0.408380">-0.408380</span></td><td class="num"><span data-key="cs_hold_rel_7" data-value="0.000106477030">0.000106477030</span></td><td><span class="badge pass">WITHIN</span></td></tr></tbody></table></div><p>Every one lands inside the declared holdout tolerance of <span data-key="cs_holdout_tolerance" data-value="3e-4">3e-4</span>, with a worst case of <span data-key="cs_holdout_worst" data-value="0.000108083141">0.000108083141</span>. The residuals are one-signed and nearly equal, which is what a scale offset looks like rather than what noise looks like: the fit rows come from an 1868 table whose wavelength standard was later found to be systematically off by about one part in seven thousand, and the holdout rows are modern values. That mismatch was declared in the sealed fixture before the run, not discovered in the residuals afterwards.</p>
+<h3>The derivation race, against Bohr</h3>
+<p>The second race starts over with no data at all. Two postulates are declared, and everything after them is derived symbolically and recomputed on every build:</p>
+<ul><li><strong>P1</strong> &mdash; The negative charge moves in a circular orbit about the positive charge under the Coulomb attraction k*e^2/r^2, and its angular momentum is restricted to integer multiples of hbar: L = m_e*v*r = n*hbar.</li><li><strong>P2</strong> &mdash; A change between two such states is accompanied by a single quantum of radiation carrying the whole difference: h*nu = E(n_2) - E(n_1).</li></ul>
+<h3>Step <span data-key="cs_step_1" data-value="1">1</span> &mdash; Solve the postulate-P1 pair for the orbit: Coulomb attraction supplies the centripetal force and the angular momentum is n*hbar.</h3>
+<span class="math math-block"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><msub><mi>r</mi><mrow><mi>n</mi></mrow></msub><mo>&#x0003D;</mo><mfrac><mrow><msup><mi>&#x0210F;</mi><mrow><mn>2</mn></mrow></msup><msup><mi>n</mi><mrow><mn>2</mn></mrow></msup></mrow><mrow><msup><mi>e</mi><mrow><mn>2</mn></mrow></msup><mi>k</mi><msub><mi>m</mi><mrow><mi>e</mi></mrow></msub></mrow></mfrac></mrow></math></span>
+<p class="small sub">Check, verbatim: the radius returned by the simultaneous solve equals n^2*hbar^2/(m_e*k*e^2) &mdash; <code>pass</code>, from <code>P1</code>.</p>
+<h3>Step <span data-key="cs_step_2" data-value="2">2</span> &mdash; Add the kinetic and potential terms at that orbit; the total is negative and falls as 1/n^2, so the states are bound and ordered.</h3>
+<span class="math math-block"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><msub><mi>E</mi><mrow><mi>n</mi></mrow></msub><mo>&#x0003D;</mo><mo>&#x02212;</mo><mfrac><mrow><msup><mi>e</mi><mrow><mn>4</mn></mrow></msup><msup><mi>k</mi><mrow><mn>2</mn></mrow></msup><msub><mi>m</mi><mrow><mi>e</mi></mrow></msub></mrow><mrow><mn>2</mn><msup><mi>&#x0210F;</mi><mrow><mn>2</mn></mrow></msup><msup><mi>n</mi><mrow><mn>2</mn></mrow></msup></mrow></mfrac></mrow></math></span>
+<p class="small sub">Check, verbatim: the total equals -m_e*k^2*e^4/(2*hbar^2*n^2) symbolically &mdash; <code>pass</code>, from <code>P1</code>.</p>
+<h3>Step <span data-key="cs_step_3" data-value="3">3</span> &mdash; Apply postulate P2: the whole difference leaves as one quantum, so 1/lambda = (E(n_2) - E(n_1))/(h*c). Substituting hbar = h/(2*pi) collects the constants into a single prefactor.</h3>
+<span class="math math-block"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><mfrac><mrow><mn>1</mn></mrow><mrow><mi>&#x003BB;</mi></mrow></mfrac><mo>&#x0003D;</mo><mfrac><mrow><mn>2</mn><msup><mi>&#x003C0;</mi><mrow><mn>2</mn></mrow></msup><msup><mi>e</mi><mrow><mn>4</mn></mrow></msup><msup><mi>k</mi><mrow><mn>2</mn></mrow></msup><msub><mi>m</mi><mrow><mi>e</mi></mrow></msub><mrow><mo stretchy="true" fence="true" form="prefix">&#x00028;</mo><mo>&#x02212;</mo><msubsup><mi>n</mi><mrow><mn>1</mn></mrow><mrow><mn>2</mn></mrow></msubsup><mo>&#x0002B;</mo><msubsup><mi>n</mi><mrow><mn>2</mn></mrow><mrow><mn>2</mn></mrow></msubsup><mo stretchy="true" fence="true" form="postfix">&#x00029;</mo></mrow></mrow><mrow><mi>c</mi><msup><mi>h</mi><mrow><mn>3</mn></mrow></msup><msubsup><mi>n</mi><mrow><mn>1</mn></mrow><mrow><mn>2</mn></mrow></msubsup><msubsup><mi>n</mi><mrow><mn>2</mn></mrow><mrow><mn>2</mn></mrow></msubsup></mrow></mfrac></mrow></math></span>
+<p class="small sub">Check, verbatim: the prefactor of (1/n_1^2 - 1/n_2^2) is 2*pi^2*m_e*e^4*k^2/(h^3*c) &mdash; <code>pass</code>, from <code>P2</code>.</p>
+<h3>Step <span data-key="cs_step_4" data-value="4">4</span> &mdash; Read off the Rydberg constant. It is now an expression in constants that were measured in entirely different experiments -- no wavelength was used anywhere above.</h3>
+<span class="math math-block"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><mi>R</mi><mo>&#x0003D;</mo><mfrac><mrow><mn>2</mn><msup><mi>&#x003C0;</mi><mrow><mn>2</mn></mrow></msup><msup><mi>e</mi><mrow><mn>4</mn></mrow></msup><msup><mi>k</mi><mrow><mn>2</mn></mrow></msup><msub><mi>m</mi><mrow><mi>e</mi></mrow></msub></mrow><mrow><mi>c</mi><msup><mi>h</mi><mrow><mn>3</mn></mrow></msup></mrow></mfrac></mrow></math></span>
+<p class="small sub">Check, verbatim: R factorises out of 1/lambda exactly, leaving (1/n_1^2 - 1/n_2^2) &mdash; <code>pass</code>, from <code>P1+P2</code>.</p>
+<h3>The Rydberg constant, and the loop closing</h3>
+<p>The prefactor that falls out of the derivation is a number built entirely from constants measured in other experiments. No wavelength enters it anywhere. Put the cited values in and compare with the measured constant:</p><div class="tiles"><div class="tile"><div class="v"><span data-key="cs_rydberg_derived" data-value="10973731.568073">10973731.568073</span></div><div class="k">derived from the postulates, per m</div><div class="r">derivation.rydberg_numerics.derived_rydberg_per_m</div></div><div class="tile"><div class="v"><span data-key="cs_rydberg_measured" data-value="1.0973731568160e7">1.0973731568160e7</span></div><div class="k">measured value, cited not fitted</div><div class="r">derivation.rydberg_numerics.measured_rydberg_per_m</div></div><div class="tile pass"><div class="v"><span data-key="cs_rydberg_error" data-value="7.96655e-12">7.96655e-12</span></div><div class="k">relative error against measurement</div><div class="r">derivation.rydberg_numerics.relative_error_vs_measured</div></div></div><p>The residual is at the level of the cited input constants&#x27; own uncertainties, which is the most this comparison can show: nothing here measures anything, it recomputes a published number from other published numbers.</p><p>Then the loop closes. Setting the lower index to two turns the derived relation into exactly the shape the blind race recovered, with</p><span class="math math-block"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><mi>B</mi><mo>&#x0003D;</mo><mfrac><mrow><mn>4</mn></mrow><mrow><mi>R</mi></mrow></mfrac></mrow></math></span><p>and the sympy residual of that identity is <code>0</code>. Evaluating it gives <span data-key="cs_b_from_r" data-value="3645.0682023584">3645.0682023584</span> against Balmer&rsquo;s published <span data-key="cs_b_published" data-value="3645.6">3645.6</span> &mdash; a relative gap of <span data-key="cs_b_gap" data-value="0.000145874">0.000145874</span>. Two known effects, both cited and neither fitted, account for a gap of that size:</p><div class="scroll"><table><thead><tr><th>effect</th><th class="num">relative size</th><th class="num">resulting constant</th><th>what it is</th></tr></thead><tbody><tr><td class="mono">finite_nuclear_mass</td><td class="num"><span data-key="cs_corr_finite_nuclear_mass" data-value="0.000544617">0.000544617</span></td><td class="num"><span data-key="cs_corrval_finite_nuclear_mass" data-value="3647.0533685459">3647.0533685459</span></td><td>R_infinity assumes an infinitely heavy nucleus. Replacing the electron mass by the reduced mass multiplies B by (1 + m_e/m_p).</td></tr><tr><td class="mono">air_versus_vacuum_frame</td><td class="num"><span data-key="cs_corr_air_versus_vacuum_frame" data-value="0.000277000">0.000277000</span></td><td class="num"><span data-key="cs_corrval_air_versus_vacuum_frame" data-value="3646.0434145201">3646.0434145201</span></td><td>The derived constant is a vacuum quantity; the nineteenth-century table is air wavelengths, which are smaller by the refractive index.</td></tr></tbody></table></div><p>The remaining gap after both corrections is of the same order as the systematic error later found in the wavelength standard the 1868 table was built on -- roughly one part in seven thousand. That is stated as context, not as a fit: no parameter anywhere in this chain was adjusted to close it.</p>
+<h3>The controls that had to fire</h3>
+<p>A derivation that cannot fail is not a derivation. Two controls break the chain on purpose, and the build aborts if either fails to notice:</p><ul><li><code>wrong_quantization_exponent</code> &mdash; the angular-momentum condition is set to L = n^2*hbar. the power of n in the radius is fixed by the quantization rule, so a wrong exponent changes the whole ladder of orbits. <span class="badge pass">FIRED</span></li><li><code>wrong_power_of_hbar</code> &mdash; the level formula is given hbar^3 instead of hbar^2. hbar carries dimensions, so a wrong power cannot be absorbed by any constant and the number misses the measurement by tens of orders of magnitude. <span class="badge pass">FIRED</span></li></ul>
+<h3>Head to head</h3>
+<div class="scroll"><table><thead><tr><th>who</th><th>what was available</th><th>method</th><th>result</th><th>time</th></tr></thead><tbody><tr><th scope="row">Balmer, 1885</th><td>four measured wavelengths of the visible hydrogen lines, quoted to 0.01 in units of 1e-10 m; no theory of atomic structure, no independent reason to believe the indices began at three, and no second series to cross-check against</td><td>hand arithmetic on four numbers, searching for a rational relation between the wavelengths and a small integer index</td><td>lambda = B*m^2/(m^2 - 4) with B = 3645.6 in units of 1e-10 m and m = 3, 4, 5, 6; further members were then computed from the formula and compared with the measurements available at the time</td><td><span data-key="cs_years_balmer_1885" data-value="17">17</span> years between publications; personal effort not precisely documented</td></tr><tr><th scope="row">Bohr, 1913</th><td>no wavelength data were needed for the derivation itself: two postulates, plus the separately measured values of the electron mass, the elementary charge, the Planck constant and the speed of light</td><td>Coulomb force balance with angular momentum restricted to integer multiples of hbar, then a single-quantum emission rule</td><td>1/lambda = R*(1/n_1^2 - 1/n_2^2) with R = 2*pi^2*m_e*e^4*k^2/(h^3*c); Balmer&#x27;s series is the n_1 = 2 branch and Balmer&#x27;s constant is 4/R</td><td><span data-key="cs_years_bohr_1913" data-value="28">28</span> years between publications; personal effort not precisely documented</td></tr><tr><th scope="row">This engine, empirical race</th><td>the same four numbers, anonymized: rows (m, v) with m running 1..4 under a config that contains no name, no unit and no subject-matter word, checked by a runtime guard over a declared forbidden vocabulary. The true ordinal was withheld, so the offset had to be recovered. The three further rows were given as bare labels with their values sealed.</td><td>a declared, finite, published grammar of derived views, every one evaluated and logged, admitted only by a declared relative-spread test, with the first admitted view in declared Occam order frozen and nothing later considered</td><td>v = B*(m + 2)^(2)*((m + 2)^2 - 4)^(-1) with B = 3645.5903 -- recovered index offset 2, verdict REDISCOVERED_EXACT</td><td><span data-key="cs_wall_engine_empirical" data-value="3.376">3.376</span> s measured wall-clock, over <span data-key="cs_head_space" data-value="2916">2,916</span> declared views</td></tr><tr><th scope="row">This engine, derivation race</th><td>the two postulates as declarations, and the cited CODATA constants for the numeric evaluation only; no data file is opened and no wavelength is used anywhere in the symbolic chain</td><td>sympy solves the postulate equations, composes the level formula, applies the emission rule, and factors out the constant; two negative controls break the chain on purpose and must fire</td><td>R = 2*pi**2*e**4*k**2*m_e/(c*h**3), evaluating to 10973731.568073 per m, a relative error of 7.96655e-12 against the measured constant; B = 4/R gives 3645.0682023584 in units of 1e-10 m</td><td><span data-key="cs_wall_engine_derivation" data-value="0.235">0.235</span> s measured wall-clock</td></tr></tbody></table></div><p class="small sub">Human durations in this table are intervals between publications, cited, never estimates of anyone&#x27;s working time.</p>
+<h2>What this does not show</h2>
+<ul><li>The engine was handed the grammar. Balmer was not. The shape v*(m+s)^i*((m+s)^2-c)^j is a human declaration written before the run; what is measured here is exhaustive, receipted selection inside that space, not the invention of the space. A MISSED would have meant &#x27;outside the declared grammar&#x27;, never &#x27;impossible&#x27;.</li><li>The engine was told which rows to fit and which to predict, and it was told that the row label might be offset from the meaningful ordinal. Balmer had to decide both for himself, from four numbers, with no assurance that any relation existed at all.</li><li>Bohr&#x27;s postulates are supplied to the engine as declarations. The engine derives their consequences and checks them; it did not propose them, and proposing them is the part that was hard.</li><li>Wall-clock against human years is not a comparison of difficulty. It is a comparison of two different activities, and it is reported only because a head-to-head with an empty column on our side would be less honest, not more.</li><li>Every historical duration below is either a cited interval between publications or the words &#x27;not precisely documented&#x27;. No estimate of anyone&#x27;s personal working time appears anywhere in this receipt.</li><li>The receipt records <code>novelty_claimed: False</code> and <code>rediscovery_of_classical_results: True</code>. No priority and no empirical significance is asserted anywhere.</li><li>No observational dataset is opened at run time: <code>real_observational_data_opened: False</code>. The transcribed values are published table entries carried in the sealed fixture.</li><li>The blind enforcement guards this process&rsquo;s own file-read surfaces. The receipt names that scope verbatim and does not claim an operating-system sandbox.</li></ul><blockquote>A head-to-head against one real discovery, run twice. The empirical race gives the engine the four anonymized numbers Balmer had, with the true ordinal withheld, and asks it to find the relation and then predict three rows whose values are sealed until after the prediction is frozen. The derivation race gives it two declared postulates and no data, and asks it to reach the Rydberg constant symbolically. Both halves rediscover settled physics: no novelty, priority, or empirical significance is asserted anywhere. The view grammar and the postulates are human declarations, so a MISSED would mean &#x27;outside the declared grammar&#x27;, never &#x27;impossible&#x27;, and a hit means exhaustive receipted selection inside a declared space, not invention of the space. The transcribed historical values are published table entries, not a dataset opened at run time, and the measured wall-clock reported in the head-to-head is a one-time host measurement kept outside every sealed hash.</blockquote>
+<h2>Methods</h2>
+<details class="methods"><summary>Technical detail &mdash; open to expand</summary><div><h3>The seal, event by event</h3>
+<p>Each event below is recorded in the receipt with a running count of how many times the sealed fixture had been read at that point:</p>
+<ol><li><code>config_and_public_rows_loaded</code> &mdash; reads of the sealed fixture so far: <span data-key="cs_event_0" data-value="0">0</span></li><li><code>forbidden_vocabulary_guard_cleared</code> &mdash; reads of the sealed fixture so far: <span data-key="cs_event_1" data-value="0">0</span></li><li><code>sealed_targets_guard_entered</code> &mdash; reads of the sealed fixture so far: <span data-key="cs_event_2" data-value="0">0</span></li><li><code>stage_ladder_and_declared_view_search_completed</code> &mdash; reads of the sealed fixture so far: <span data-key="cs_event_3" data-value="0">0</span></li><li><code>candidate_frozen</code> &mdash; reads of the sealed fixture so far: <span data-key="cs_event_4" data-value="0">0</span></li><li><code>holdout_predictions_frozen</code> &mdash; reads of the sealed fixture so far: <span data-key="cs_event_5" data-value="0">0</span></li><li><code>instrumented_denied_probe_recorded</code> &mdash; reads of the sealed fixture so far: <span data-key="cs_event_6" data-value="0">0</span></li><li><code>phase_a_root_sealed</code> &mdash; reads of the sealed fixture so far: <span data-key="cs_event_7" data-value="0">0</span></li><li><code>atomic_target_unseal</code> &mdash; reads of the sealed fixture so far: <span data-key="cs_event_8" data-value="1">1</span></li><li><code>sealed_rule_replayed_on_every_row</code> &mdash; reads of the sealed fixture so far: <span data-key="cs_event_9" data-value="1">1</span></li><li><code>commitments_opened_and_scored</code> &mdash; reads of the sealed fixture so far: <span data-key="cs_event_10" data-value="1">1</span></li><li><code>derivation_race_run_with_no_data</code> &mdash; reads of the sealed fixture so far: <span data-key="cs_event_11" data-value="1">1</span></li></ol>
+<p>The denied probe is the evidence, not the promise: <span data-key="cs_probe_attempted" data-value="1">1</span> in-process read of the sealed fixture was attempted before the unseal, <span data-key="cs_probe_denied" data-value="1">1</span> was denied, and <span data-key="cs_probe_bytes" data-value="0">0</span> bytes of its content were exposed. The seal then opened <span data-key="cs_probe_batches" data-value="1">1</span> time, and <span data-key="cs_probe_post" data-value="0">0</span> candidates were generated afterwards. The enforcement scope is stated in the receipt verbatim: <code>owned_single_threaded_python_file_read_surfaces_not_an_operating_system_sandbox</code>.</p>
+<h3>The stage ladder on the raw rows</h3>
+<p>Before the transformation lane ran at all, the declared ladder was tried on the raw rows and got nowhere &mdash; which is the correct outcome, because a statement about the raw label is exactly what the config forbids selecting:</p>
+<div class="scroll"><table><thead><tr><th>stage</th><th>tool</th><th>decision</th><th>reason, where the tool gave one</th></tr></thead><tbody><tr><td class="mono">b1_basis_synthesis</td><td class="mono">synthesize_basis</td><td class="mono">BLOCK</td><td></td></tr><tr><td class="mono">b7_structural_repair</td><td class="mono">repair_structure</td><td class="mono">BLOCK</td><td></td></tr><tr><td class="mono">b3_conjecture_generation</td><td class="mono">generate_conjectures</td><td class="mono">NOT_APPLICABLE</td><td>insufficient rows for a prefix/holdout split</td></tr><tr><td class="mono">b4_declared_view_search</td><td class="mono">synthesize_basis_over_declared_views_plus_declared_spread_test</td><td class="mono">PASS</td><td></td></tr><tr><td class="mono">b2_nonlinear_coefficient_search</td><td class="mono">search_nonlinear</td><td class="mono">BLOCK</td><td></td></tr></tbody></table></div>
+<h3>Why the tolerance test exists at all</h3>
+<p>B1 basis synthesis is run in exact rational arithmetic on every one of the declared views, and it refuses all of them -- including the winning one -- because measured rows are never exactly constant. The tolerance-aware spread test is the entire concession this case study makes to real measurement, it is declared in the public config before the run, and its sensitivity is published as a robustness ladder. The exact-arithmetic stage returned <code>BLOCK</code> on the winning column, with first blocker <code>no_qualifying_basis_in_declared_ladder</code>.</p>
+<p>The nearest misses, taken from the published log and sorted by how nearly constant their derived column was. None of them is close to the admitted view, and every one of them was refused by the same exact-arithmetic check:</p><div class="scroll"><table><thead><tr><th>view</th><th class="num">rank</th><th class="num">relative spread</th><th>exact-arithmetic decision</th></tr></thead><tbody><tr><td class="mono">s=1;i=-4;j=2;c=1</td><td class="num"><span data-key="cs_near_rank_s=1;i=-4;j=2;c=1" data-value="1667">1,667</span></td><td class="num"><span data-key="cs_near_spread_s=1;i=-4;j=2;c=1" data-value="0.023882620967">0.023882620967</span></td><td class="mono">BLOCK</td></tr><tr><td class="mono">s=3;i=-2;j=1;c=8</td><td class="num"><span data-key="cs_near_rank_s=3;i=-2;j=1;c=8" data-value="505">505</span></td><td class="num"><span data-key="cs_near_spread_s=3;i=-2;j=1;c=8" data-value="0.024852345537">0.024852345537</span></td><td class="mono">BLOCK</td></tr><tr><td class="mono">s=3;i=-4;j=2;c=5</td><td class="num"><span data-key="cs_near_rank_s=3;i=-4;j=2;c=5" data-value="1907">1,907</span></td><td class="num"><span data-key="cs_near_spread_s=3;i=-4;j=2;c=5" data-value="0.038471880242">0.038471880242</span></td><td class="mono">BLOCK</td></tr><tr><td class="mono">s=3;i=-2;j=1;c=7</td><td class="num"><span data-key="cs_near_rank_s=3;i=-2;j=1;c=7" data-value="499">499</span></td><td class="num"><span data-key="cs_near_spread_s=3;i=-2;j=1;c=7" data-value="0.039592196085">0.039592196085</span></td><td class="mono">BLOCK</td></tr><tr><td class="mono">s=3;i=-4;j=2;c=4</td><td class="num"><span data-key="cs_near_rank_s=3;i=-4;j=2;c=4" data-value="1897">1,897</span></td><td class="num"><span data-key="cs_near_spread_s=3;i=-4;j=2;c=4" data-value="0.053939622933">0.053939622933</span></td><td class="mono">BLOCK</td></tr><tr><td class="mono">s=2;i=-4;j=2;c=2</td><td class="num"><span data-key="cs_near_rank_s=2;i=-4;j=2;c=2" data-value="1777">1,777</span></td><td class="num"><span data-key="cs_near_spread_s=2;i=-4;j=2;c=2" data-value="0.056970904196">0.056970904196</span></td><td class="mono">BLOCK</td></tr><tr><td class="mono">s=3;i=3;j=-1;c=2</td><td class="num"><span data-key="cs_near_rank_s=3;i=3;j=-1;c=2" data-value="778">778</span></td><td class="num"><span data-key="cs_near_spread_s=3;i=3;j=-1;c=2" data-value="0.072415541584">0.072415541584</span></td><td class="mono">BLOCK</td></tr><tr><td class="mono">s=3;i=3;j=-1;c=1</td><td class="num"><span data-key="cs_near_rank_s=3;i=3;j=-1;c=1" data-value="770">770</span></td><td class="num"><span data-key="cs_near_spread_s=3;i=3;j=-1;c=1" data-value="0.074405039711">0.074405039711</span></td><td class="mono">BLOCK</td></tr></tbody></table></div>
+<h3>Selection rule, verbatim</h3>
+<blockquote>the first derived view whose column is constant to within the declared fit tolerance, in the declared ordering (total weight abs(i) + 2*abs(j), then s, then c, then i, then j); every index-dependent statement -- a B1 raw closed form, a B7 repair, or a B3 conjecture over the raw rows -- is recorded in the stage trail and never selected, because the config declares the row label arbitrary; nothing after the first admitted view is considered, and nothing is generated after the unseal</blockquote>
+<h3>Verdict rule, verbatim</h3>
+<blockquote>REDISCOVERED_EXACT requires all three of: the frozen view exponents (s, i, j, c) equal the sealed ones exactly; the engine&#x27;s constant, rounded in exact rational arithmetic to the precision at which the classical constant was published, equals the sealed constant exactly; and every sealed holdout row is predicted within the declared holdout tolerance. PARTIAL is an exact structure match that fails one of the other two. MISSED is anything else, including no admitted view at all.</blockquote></div></details>
+<h2>References</h2>
+<h3>Receipts rendered on this page</h3><ul><li><a href="https://github.com/lrspeiser/Invariant/blob/main/runs/math/case-studies/balmer-bohr-v1.json" rel="noopener">runs/math/case-studies/balmer-bohr-v1.json</a> &mdash; the case-study receipt, seal <code title="0153897879637419c5adf387e71e2c90643598f1271513cdcdfa0c719387e9bd">0153897879637419&hellip;</code></li><li><a href="https://github.com/lrspeiser/Invariant/blob/main/runs/math/case-studies/balmer-bohr-v1-runtime.json" rel="noopener">runs/math/case-studies/balmer-bohr-v1-runtime.json</a> &mdash; the one-time host wall-clock measurement, file hash <code title="b255e2da6a46c439cfa979623c2a29370825b401a7f03086c6f8de45ad27d867">b255e2da6a46c439&hellip;</code>&dagger;. Deliberately outside every sealed hash.</li><li><a href="https://github.com/lrspeiser/Invariant/blob/main/configs/backgrounds/blind_indexed_value_rows_v1.json" rel="noopener">configs/backgrounds/blind_indexed_value_rows_v1.json</a> &mdash; the public config the blind phase read, file hash <code title="4b1a1b0ae9ef326e74beb49ebe801e8a004c18bb4d9a5ba720e46c4387f53698">4b1a1b0ae9ef326e&hellip;</code>&dagger;</li><li><a href="https://github.com/lrspeiser/Invariant/blob/main/configs/backgrounds/blind_indexed_value_targets_v1.json" rel="noopener">configs/backgrounds/blind_indexed_value_targets_v1.json</a> &mdash; the sealed fixture the blind phase was denied from reading, file hash <code title="65458077e772eec0182b25c726948ecad4dd9f301c75da75e095e9359088af70">65458077e772eec0&hellip;</code>&dagger;</li><li><a href="https://github.com/lrspeiser/Invariant/blob/main/src/sigma_theory_compiler/balmer_bohr_case_study.py" rel="noopener">src/sigma_theory_compiler/balmer_bohr_case_study.py</a> &mdash; the module that runs both races, file hash <code title="6e8daf1d28c39f4dcf9c6cb9260b9c2b299aa1726b541e4b4c1149eea81d06c9">6e8daf1d28c39f4d&hellip;</code>&dagger;</li><li><a href="https://github.com/lrspeiser/Invariant/blob/main/tests/test_balmer_bohr_case_study.py" rel="noopener">tests/test_balmer_bohr_case_study.py</a> &mdash; the gates, file hash <code title="79a71bedbcd16ec4c0c26b3358490fd6e1a5eb1c7d9b9d1efc67e8c83555142f">79a71bedbcd16ec4&hellip;</code>&dagger;</li><li><a href="https://github.com/lrspeiser/Invariant/blob/main/docs/BALMER_BOHR_CASE_STUDY.md" rel="noopener">docs/BALMER_BOHR_CASE_STUDY.md</a> &mdash; the protocol write-up, file hash <code title="872ed8ca8674b566478a1aee748b2c31a8d9ba162d78711e2ec148dd0b403922">872ed8ca8674b566&hellip;</code>&dagger;</li></ul><h3>Classical citations</h3><ul><li>A. J. Angstrom, Recherches sur le spectre solaire (Uppsala, 1868); J. J. Balmer, &#x27;Notiz uber die Spectrallinien des Wasserstoffs&#x27;, Annalen der Physik und Chemie 261(5):80-87 (1885).</li><li>N. Bohr, &#x27;On the Constitution of Atoms and Molecules, Part I&#x27;, Philosophical Magazine Series 6, 26(151):1-25 (July 1913).</li><li>CODATA 2018 recommended value of the Rydberg constant, R_infinity = 10973731.568160(21) m^-1; the value most often quoted to ten figures is 1.0973731568e7 m^-1 and is reported alongside.</li><li>The same constant truncated to the ten figures usually quoted.</li></ul><p class="small sub">&dagger; file-byte hash (the artifact is not a sealed JSON receipt).</p>
+<p class="small"><a href="/case-studies">&larr; back to the case studies</a></p>
+</main>
+<footer><p class="orn">* * *</p><p>Every number on this page is read from a sealed receipt at build time. Corpus absence is never novelty; survival is never proof; negative receipts are deliverables.</p><p>Site content as of <code>bba7b3a46fa6c0f66a6547a09fea4290c92eae82</code>. Composed deterministically by <code>src/sigma_theory_compiler/static_site_generator.py</code>; re-run with <code>--validate</code> to byte-compare. Set in typewriter type on grid paper; no page requests any external resource.</p></footer>
+</div>
+</body>
+</html>
