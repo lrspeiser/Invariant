@@ -102,6 +102,27 @@ GENERATOR_CAPS = {
     "collatz_step_cap": 10000,
 }
 
+#: Per-generator declared row caps.  ``GENERATOR_CAPS["max_rows"]`` is the *engine*
+#: emission budget — how many rows one scheduler item may seal — and a generator with no
+#: entry here still hard-blocks a larger request, exactly as before.  A generator listed
+#: here declares how far its own exact arithmetic is willing to run; a request beyond
+#: either bound is served with the exact prefix plus a typed ``generator_cap_truncated``
+#: record, never a silent stop.
+GENERATOR_ROW_CAPS: dict[str, int] = {
+    "gilbreath_leading_terms": 500,
+    "pascal_interior_multiplicity": 8192,
+    "recaman": 10**6,
+    "reverse_and_add_base10": 10000,
+    "twin_prime_count_pi2_10_pow_k": 7,
+    "ulam_u_1_2": 5000,
+}
+
+#: Fixed inputs the six DG5 generators sieve or scan over, declared once here so the
+#: numbers in a receipt are readable without opening the campaign module.
+GILBREATH_PRIME_LIMIT = 10**6
+PASCAL_ENTRY_MAX = 10**6
+TWIN_PRIME_MAX_EXPONENT = 7
+
 #: Conjecture kinds M7 can sweep, and the M7 sequence spec per known generator.
 SWEEPABLE_KINDS = ("divisibility", "congruence", "index_scaling_relation")
 SWEEP_SEQUENCES: dict[str, dict[str, Any]] = {
@@ -311,6 +332,155 @@ class _GeneratorBlocked(Exception):
     """Internal: a generator refused its input; carried as a typed blocker."""
 
 
+# ---------------------------------------------------------------------------
+# DG5 generators.  Eight queue problems declared a row generator nobody had
+# built, so every downstream lane on them recorded `upstream_blocked:generate_rows`
+# and the corpus could not say whether the instruments had anything to find.  The
+# exact arithmetic already existed inside the unsolved-dozen campaign, verified there
+# against published anchors; these are thin adapters onto the scheduler's row
+# contract, so the sequence is computed in exactly one place in this repository.
+# ---------------------------------------------------------------------------
+
+
+def _rows_from_terms(terms: Sequence[int], start_point: int = 1) -> list[dict[str, int]]:
+    """Consecutive-point rows, the shape every row-consuming lane parses."""
+
+    return [
+        {"point": start_point + offset, "value": int(value)}
+        for offset, value in enumerate(terms)
+    ]
+
+
+def _refuse_below(count: int, floor: int, name: str) -> None:
+    if count < floor:
+        raise _GeneratorBlocked(f"generator_cap_exceeded:{name}")
+
+
+def _generate_ulam(
+    machine_form: Mapping[str, Any],
+) -> tuple[list[dict[str, int]], list[dict[str, str]]]:
+    """Ulam numbers U(1,2) — OEIS A002858, anchor-checked inside the campaign lane."""
+
+    from .dozen_unsolved_progress_campaign import _ulam_lane
+
+    count = machine_form["max_point"]
+    _refuse_below(count, 8, "ulam_u_1_2")
+    return _rows_from_terms(_ulam_lane(count)["b3_values"]), []
+
+
+def _generate_twin_prime_counts(
+    machine_form: Mapping[str, Any],
+) -> tuple[list[dict[str, int]], list[dict[str, str]]]:
+    """pi_2(10^k) by sieve for k = 1..max_point — OEIS A007508, anchor-checked."""
+
+    from .dozen_unsolved_progress_campaign import _twin_prime_lane
+
+    exponent_max = machine_form["max_point"]
+    _refuse_below(exponent_max, 1, "twin_prime_count_pi2_10_pow_k")
+    if exponent_max > TWIN_PRIME_MAX_EXPONENT:
+        raise _GeneratorBlocked("generator_cap_exceeded:twin_prime_count_pi2_10_pow_k")
+    return _rows_from_terms(_twin_prime_lane(exponent_max)["b3_values"]), []
+
+
+def _generate_gilbreath(
+    machine_form: Mapping[str, Any],
+) -> tuple[list[dict[str, int]], list[dict[str, str]]]:
+    """Leading term of the k-th iterated absolute difference row of the primes."""
+
+    from .dozen_unsolved_progress_campaign import _gilbreath_lane
+
+    rows = machine_form["max_point"]
+    _refuse_below(rows, 8, "gilbreath_leading_terms")
+    lane = _gilbreath_lane(rows, GILBREATH_PRIME_LIMIT)
+    return _rows_from_terms(lane["b3_values"]), []
+
+
+def _generate_pascal_multiplicity(
+    machine_form: Mapping[str, Any],
+) -> tuple[list[dict[str, int]], list[dict[str, str]]]:
+    """N(t), the multiplicity of t in Pascal's triangle — OEIS A003016, offset 2.
+
+    The interior table is built once over every entry at most
+    :data:`PASCAL_ENTRY_MAX`, so each emitted N(t) counts *all* occurrences of t and
+    not merely those inside the emitted window.
+
+    Rows are indexed from 1 like every other generator here — row ``n`` carries
+    ``N(n + 1)`` — because the downstream ladder caps the absolute point value and an
+    offset-2 index would push a full row budget past it.  The offset lives in this
+    docstring and in the survey's sequence label, never in a silent index shift.
+    """
+
+    from .dozen_unsolved_progress_campaign import (
+        _pascal_multiplicities,
+        _singmaster_multiplicity,
+    )
+
+    count = machine_form["max_point"]
+    _refuse_below(count, 1, "pascal_interior_multiplicity")
+    if count + 1 > PASCAL_ENTRY_MAX:
+        raise _GeneratorBlocked("generator_cap_exceeded:pascal_interior_multiplicity")
+    interior = _pascal_multiplicities(PASCAL_ENTRY_MAX)
+    terms = [_singmaster_multiplicity(t, interior) for t in range(2, count + 2)]
+    return _rows_from_terms(terms), []
+
+
+def _recaman_terms(count: int) -> list[int]:
+    """a(0) = 0; a(n) = a(n-1) - n when that is positive and unvisited, else a(n-1) + n."""
+
+    terms = [0]
+    seen = {0}
+    current = 0
+    for step in range(1, count):
+        back = current - step
+        current = back if back > 0 and back not in seen else current + step
+        seen.add(current)
+        terms.append(current)
+    return terms
+
+
+def _generate_recaman(
+    machine_form: Mapping[str, Any],
+) -> tuple[list[dict[str, int]], list[dict[str, str]]]:
+    """Recaman's sequence — OEIS A005132, head-anchored against the campaign table."""
+
+    from .dozen_unsolved_progress_campaign import RECAMAN_HEAD_ANCHOR, _anchor_check
+
+    count = machine_form["max_steps"]
+    _refuse_below(count, 1, "recaman")
+    terms = _recaman_terms(count)
+    _anchor_check(terms, RECAMAN_HEAD_ANCHOR, "recaman")
+    return _rows_from_terms(terms), []
+
+
+def _generate_reverse_and_add(
+    machine_form: Mapping[str, Any],
+) -> tuple[list[dict[str, int]], list[dict[str, str]]]:
+    """Digit lengths of the base-10 reverse-and-add trajectory, exact bigint."""
+
+    from .dozen_unsolved_progress_campaign import _lychrel_trajectory
+
+    steps = machine_form["max_steps"]
+    seed = machine_form["seed"]
+    _refuse_below(steps, 8, "reverse_and_add_base10")
+    if not 1 <= seed <= GENERATOR_CAPS["max_seed"]:
+        raise _GeneratorBlocked("generator_cap_exceeded:reverse_and_add_base10")
+    trajectory = _lychrel_trajectory(seed, steps)
+    rows = _rows_from_terms(trajectory["digit_lengths"])
+    if trajectory["palindrome_found"]:
+        # Reaching a palindrome ends the declared row sequence before the request does.
+        # It is not a resource cap, but it is the same obligation: say so, in the lane's
+        # declared vocabulary, rather than returning a short list in silence.
+        return rows, [
+            _blocker(
+                "generator_cap_truncated:reverse_and_add_base10",
+                f"seed {seed} reached a palindrome at iteration "
+                f"{trajectory['palindrome_at']}, which terminates the declared row "
+                f"sequence; {len(rows)} exact rows were emitted",
+            )
+        ]
+    return rows, []
+
+
 #: Registry keys cover both the roadmap names and the queue's machine-form names.
 #: Each generator returns (exact rows, typed truncation records).
 GENERATOR_REGISTRY: dict[
@@ -322,6 +492,12 @@ GENERATOR_REGISTRY: dict[
     "e_continued_fraction_terms": _generate_contfrac_e,
     "aliquot_step_sum": _generate_aliquot,
     "aliquot_sum": _generate_aliquot,
+    "gilbreath_leading_terms": _generate_gilbreath,
+    "pascal_interior_multiplicity": _generate_pascal_multiplicity,
+    "recaman": _generate_recaman,
+    "reverse_and_add_base10": _generate_reverse_and_add,
+    "twin_prime_count_pi2_10_pow_k": _generate_twin_prime_counts,
+    "ulam_u_1_2": _generate_ulam,
 }
 
 
@@ -381,17 +557,39 @@ def _stage_generate_rows(entry: Mapping[str, Any], input_hash: str) -> dict[str,
             entry["id"], "generate_rows", input_hash, "BLOCKED",
             {"generator": name, "machine_form": dict(machine_form)}, [blocker],
         )
-    if _row_count_request(machine_form) > GENERATOR_CAPS["max_rows"]:
-        blocker = _blocker(
-            f"generator_cap_exceeded:{name}",
-            f"requested rows exceed the declared cap {GENERATOR_CAPS['max_rows']}",
-        )
-        return _item_receipt(
-            entry["id"], "generate_rows", input_hash, "BLOCKED",
-            {"generator": name, "machine_form": dict(machine_form)}, [blocker],
-        )
+    request = _row_count_request(machine_form)
+    engine_cap = GENERATOR_CAPS["max_rows"]
+    declared_cap = GENERATOR_ROW_CAPS.get(name)
+    requested_form: Mapping[str, Any] = machine_form
+    truncation: list[dict[str, str]] = []
+    if declared_cap is None:
+        # Legacy contract, byte-for-byte: a generator that declares no cap of its own
+        # cannot serve a request beyond the shared engine budget, so it blocks.
+        if request > engine_cap:
+            blocker = _blocker(
+                f"generator_cap_exceeded:{name}",
+                f"requested rows exceed the declared cap {engine_cap}",
+            )
+            return _item_receipt(
+                entry["id"], "generate_rows", input_hash, "BLOCKED",
+                {"generator": name, "machine_form": dict(machine_form)}, [blocker],
+            )
+    elif request > min(declared_cap, engine_cap):
+        emit = min(declared_cap, engine_cap)
+        bound = "generator" if declared_cap <= engine_cap else "engine emission budget"
+        key = "max_point" if machine_form["kind"] == "sequence_rows" else "max_steps"
+        requested_form = {**machine_form, key: emit}
+        truncation = [
+            _blocker(
+                f"generator_cap_truncated:{name}",
+                f"{request} rows were requested; the {bound} cap binds at {emit} "
+                f"(declared generator cap {declared_cap}, engine emission budget "
+                f"{engine_cap}), so {emit} exact rows were emitted",
+            )
+        ]
     try:
-        rows, truncations = generator(machine_form)
+        rows, truncations = generator(requested_form)
+        truncations = [*truncation, *truncations]
     except _GeneratorBlocked as refused:
         blocker = _blocker(str(refused), "generator refused its declared input caps")
         return _item_receipt(

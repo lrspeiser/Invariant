@@ -404,11 +404,18 @@ def test_live_corpus_reports_the_real_gaps_and_discharges() -> None:
         assert by_id[gap_id]["status"] == "discharged", gap_id
         assert module in by_id[gap_id]["discharged_by"]
 
-    # The known real blast radius of the sign prover.
+    # The known real blast radius of the sign prover.  It grew when the six DG5 row
+    # generators landed: problems that used to stop at `missing_generator` now reach the
+    # prover lane and record what it cannot prove.  Unblocking a stage moves the gap
+    # downstream, it does not remove it.
     assert by_id["missing_prover:sign"]["blocked_problems"] == [
         "aliquot_276",
         "continued_fraction_e_pattern",
+        "lychrel_196",
         "prime_gap_polynomial",
         "quantified_inequality_families",
+        "singmaster_conjecture",
+        "twin_prime_infinitude",
+        "ulam_sequence_structure",
     ]
     assert {rule["gap_id"] for rule in DISCHARGE_RULES} <= set(by_id)
