@@ -77,6 +77,44 @@ rediscovered as controls (e.g. the Basel series, Wallis product).
 
 **Discovery condition:** `NOT_IN_BUILTIN_TABLE` survivors that also clear DG1 screening.
 
+**Status (receipts `runs/math/inverse-symbolic/families-v1.json`,
+`families-screen-v1.json`, `families-proof-v1.json`): completed, discovery condition NOT
+met.**  Three families were declared and enumerated exhaustively on the GPU for a total of
+3,248,663,112 ordinals in 67 s: hypergeometric-type series `c0·Σ t_k` with a rational term
+ratio (1.55×10^9 ordinals over 1.29×10^8 distinct series, 184M ordinals/s), infinite
+products `c0·Π A(k)/B(k)` (1.55×10^9 ordinals over 1.29×10^8 distinct products, the exact
+convergence test rejecting 99.6% before evaluation), and definite integrals
+`c0·∫₀¹ x^a (1-x)^b K(x)^c dx` (1.49×10^8 ordinals over 1.24×10^7 quadratures).  Every
+family rediscovered its declared classics — Basel, Gregory–Leibniz and `e = Σ 1/k!`; the
+Wallis product in two grammar forms; the arctangent integral, `∫₀¹ -ln x/(1-x) dx = ζ(2)`
+and a Beta instance — and a fabricated near-miss planted 10^-14 from `π` cleared the fp64
+window and died at 60 digits, as it must.
+
+1,626 fp64 matches all survived the 60- and 120-digit holdout, collapsing to **106 distinct
+objects** once the declared grammar degeneracies are quotiented out.  Screening against a
+69-seed corpus (45 independently encoded classical identities plus 24 cited parametric
+theorems, expanded to 123 records with a closed provenance forest) adjudicated the 98 that
+the built-in table did not already carry: 67 `KNOWN`, 15 `INCONCLUSIVE_VALUE_MATCH` and 16
+`NOT_FOUND_IN_CORPUS`, with all 8 already-known controls recovered (100%).  Proof routing
+then settled all 31 remaining candidates: **31
+`PROVED`, 0 `REFUTED`, 0 `MISSING_TECHNIQUE`**, by six declared techniques — `hyperexpand`
+on the candidate's own `pFq` parameters, the Weierstrass–Gauss Gamma product, a Hurwitz-zeta
+log-power reduction whose quasi-polynomial fit is re-verified on extra coefficients, the
+differentiated Beta integral, the cyclotomic substitution `1+x+…+x^{m-1} = (1-x^m)/(1-x)`,
+and Euler's `2F1` integral representation.
+
+**The count that matters is therefore zero.**  Every survivor is exhibited as an instance of
+a cited classical family, so each is reclassified `KNOWN_BY_PROOF_FAMILY` rather than
+counted; the intersection *absent from the corpus and not reducible by any declared
+technique* is empty.  Two defects found along the way are worth recording because both would
+have produced false results silently: `mpmath.quad` truncates its abscissa range and loses
+seventy digits on an `x^(-11/12)` endpoint, which was killing true identities at the
+verification stages until the integral evaluator was replaced by an exact Beta shortcut plus
+a tanh-sinh rule whose range is solved from the requested precision; and a "terminating
+series" test written against fp64 underflow rather than against a structural root of `P`
+was discarding the exponential series.  None of these proofs is kernel-verified; the receipt
+names the obstruction.
+
 ## DG4 — Spectral survey of every eligible sequence
 
 The spectral instrument recovered Steinerberger's Ulam frequency to seven decimals and
