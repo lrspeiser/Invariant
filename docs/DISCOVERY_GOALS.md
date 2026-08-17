@@ -49,6 +49,22 @@ as controls, and every one of the 32 candidates receives `PROVED`, `REFUTED`, or
 found, machine-proved, literature-screened identity.  This is the project's primary
 target for "one new result".
 
+**Status (receipt `runs/math/prior-art/cf-proof-routing-v1.json`): completed, discovery
+condition NOT met.**  All 32 candidates are `PROVED`, none `REFUTED`, none left with a
+missing technique.  The twenty already-`KNOWN` are re-proved by the equivalence chain as
+controls; five cited classical identities are proved end to end from the analytic
+techniques alone; a deliberately perturbed coefficient is refuted at the second decimal;
+and Lambert's `coth` continued fraction — Bessel's recurrence, whose solutions are not
+hypergeometric terms — returns the typed blocker instead of a proof.  Of the twelve that
+were `INCONCLUSIVE_VALUE_MATCH`, two fall to Euler's series correspondence and ten to
+Pincherle's theorem via a rational solution of the recurrence's Riccati equation; every one
+of them lands on a `2F1`, `3F2` or `1F1` at a rational argument.  **That is exactly why the
+count that matters is zero:** each proof exhibits its subject as an instance of a cited
+classical family the corpus already carries, so all twelve are reclassified
+`KNOWN_BY_PROOF_FAMILY`, and the intersection *proved and still absent* is empty.  Proof by
+a classical family is prior art, not novelty.  None of these proofs is kernel-verified; the
+receipt names the obstruction.
+
 ## DG3 — Widen the inverse-symbolic search
 
 The 32 came from one family (continued fractions) at 1.19×10^8 ordinals.  Add
