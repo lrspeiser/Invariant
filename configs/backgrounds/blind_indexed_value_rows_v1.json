@@ -1,0 +1,87 @@
+{
+ "data_declaration": {
+  "boundary": "Every row below is a recorded observation carried at exact rational precision, not a computed row: the figures are transcribed from a published table and carry that table's own error. Because of that, admission is a declared relative-spread test rather than exact equality, and the tolerances are fixed here, before the run, from the transcribed table's stated resolution and its known scale offset. Recovering the sealed rule from these rows is the whole exercise.",
+  "fit_relative_tolerance": "1e-4",
+  "holdout_relative_tolerance": "3e-4",
+  "provenance_commitment_sha256": "a9eb8f959d0743c55d8b9e746ed78805486096f02e2cc94c2067e3d3ea59cec9",
+  "quoted_precision_relative_bound": "2e-6",
+  "row_index_meaning": "rows are labelled by consecutive integers from one and the label is arbitrary; a statement that depends on the raw label is never admitted, and any offset between the label and a meaningful ordinal must be recovered by the declared search",
+  "scale_systematic_relative_bound": "2e-4",
+  "values_are_exact_rationals": true,
+  "values_carry_declared_measurement_uncertainty": true
+ },
+ "policies": {
+  "candidate_generation_after_unseal": 0,
+  "holdout_reads_before_candidate_freeze": 0,
+  "minimum_rediscoveries_for_pass": 1,
+  "target_reads_before_candidate_freeze": 0,
+  "target_unseal_batches": 1
+ },
+ "rows": {
+  "case_id": "case_01",
+  "columns": [
+   "m",
+   "v"
+  ],
+  "fit_rows": [
+   {
+    "m": 1,
+    "v": {
+     "denominator": 100,
+     "numerator": 656210
+    }
+   },
+   {
+    "m": 2,
+    "v": {
+     "denominator": 100,
+     "numerator": 486074
+    }
+   },
+   {
+    "m": 3,
+    "v": {
+     "denominator": 100,
+     "numerator": 434010
+    }
+   },
+   {
+    "m": 4,
+    "v": {
+     "denominator": 100,
+     "numerator": 410120
+    }
+   }
+  ],
+  "holdout_indices": [
+   5,
+   6,
+   7
+  ],
+  "sealed_holdout_commitment_sha256": "5b0ef4a7489910932edf87bce692cc5b8f0140a24880f91d1b8666dd9091a6c4",
+  "sealed_target_sha256": "4142edc49e8c33ebb9afe57179eb572623dad2d9041c6753bf18eaab697c2a6e"
+ },
+ "schema_version": "invariant-blind-indexed-value-config-1.0",
+ "target_fixture_commitment_sha256": "85081aa10bc765e365f5fb540a12f8757d008fd3e7b87e3d65f27f8102b5ddb8",
+ "view_family": {
+  "index_exponent_range": [
+   -4,
+   4
+  ],
+  "offset_range": [
+   0,
+   9
+  ],
+  "ordering": "by total weight abs(i) + 2*abs(j), then s, then c, then i, then j; the first admitted view in this order is frozen and nothing later is considered",
+  "quadratic_exponent_range": [
+   -4,
+   4
+  ],
+  "shift_range": [
+   0,
+   3
+  ],
+  "template": "z = v * (m + s)^i * ((m + s)^2 - c)^j; when j is zero the offset c is pinned to zero, because the trailing factor is then identically one",
+  "total_declared_views": 2916
+ }
+}

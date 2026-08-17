@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Submit · Invariant — a pattern-hunting machine and its public logbook</title>
+<title>Case studies · Invariant — a pattern-hunting machine and its public logbook</title>
 <style>
 :root { color-scheme: light; }
 * { box-sizing: border-box; }
@@ -242,156 +242,17 @@ figure.funnel-figure figcaption { font-size: 0.74rem; color: #57503f;
 </head>
 <body>
 <div class="sheet">
-<header><div class="brand"><a href="/">Invariant</a></div><p class="tag">a machine that guesses patterns, tries its hardest to break them, and files paperwork for every attempt &mdash; the failures included</p><nav><a href="/">Home</a><a href="/paper">The write-up</a><a href="/problems">Problems</a><a href="/papers">Papers</a><a href="/case-studies">Case studies</a><a href="/gravity">Gravity</a><a href="/collatz">Collatz</a><a href="/evidence">Evidence</a><a href="/method">Method</a><a href="/submit" class="on">Submit</a></nav></header>
+<header><div class="brand"><a href="/">Invariant</a></div><p class="tag">a machine that guesses patterns, tries its hardest to break them, and files paperwork for every attempt &mdash; the failures included</p><nav><a href="/">Home</a><a href="/paper">The write-up</a><a href="/problems">Problems</a><a href="/papers">Papers</a><a href="/case-studies" class="on">Case studies</a><a href="/gravity">Gravity</a><a href="/collatz">Collatz</a><a href="/evidence">Evidence</a><a href="/method">Method</a><a href="/submit">Submit</a></nav></header>
 <main>
-<h1>Propose a problem for the ledger</h1>
-<p><strong>Submissions are reviewed by a human and, if accepted, sealed into the queue with a new content hash. Nothing on this site writes to the repository.</strong></p>
-<p>Anyone can nominate a question. The form below builds a queue entry in the exact sealed format — the schema has exactly 9 keys per entry: <code>id</code>, <code>domain</code>, <code>statement</code>, <code>source_citation</code>, <code>believed_open_because</code>, <code>machine_form</code>, <code>progress_definition</code>, <code>control_rediscovery</code>, <code>synthetic</code>. Floats are forbidden everywhere. &ldquo;Believed open&rdquo; must point at cited literature — or say plainly that the entry is a control or synthetic world; those two labels are schema booleans, not prose. Define progress in advance, including what a sealed negative would look like.</p>
-<div class="form-grid">
-<label for="f-id">id</label>
-<input type="text" id="f-id" placeholder="lowercase-kebab-or_snake" pattern="[a-z][a-z0-9_.-]{0,127}">
-<label for="f-domain">domain</label>
-<select id="f-domain"><option value="math">math</option><option value="physics">physics</option></select>
-<label for="f-subdomain">subdomain (optional)</label>
-<input type="text" id="f-subdomain" placeholder="number_theory">
-<label for="f-statement">statement</label>
-<textarea id="f-statement"></textarea>
-<label for="f-citation">source_citation</label>
-<textarea id="f-citation"></textarea>
-<label for="f-open">believed_open_because</label>
-<textarea id="f-open"></textarea>
-<label for="f-progress">progress_definition</label>
-<textarea id="f-progress"></textarea>
-<label for="f-kind">machine_form.kind</label>
-<select id="f-kind"><option value="bounded_combinatorial_coloring">bounded_combinatorial_coloring</option><option value="dataset_law_fit">dataset_law_fit</option><option value="diophantine_family">diophantine_family</option><option value="integer_trajectory">integer_trajectory</option><option value="module_target">module_target</option><option value="sequence_rows">sequence_rows</option></select>
-<label for="f-control">control_rediscovery</label>
-<div><input type="checkbox" id="f-control"> <span class="small sub">the answer is known; this entry calibrates the method (default false)</span></div>
-<label for="f-synthetic">synthetic</label>
-<div><input type="checkbox" id="f-synthetic"> <span class="small sub">a sealed synthetic world; openness is operational, not epistemic (default false)</span></div>
-</div>
-<fieldset class="mf-fields" data-kind="bounded_combinatorial_coloring" hidden><legend>machine_form: bounded_combinatorial_coloring</legend><div class="form-grid"><label for="f-mf-bounded_combinatorial_coloring-k">k <span class="sub">(integer)</span></label><input type="text" id="f-mf-bounded_combinatorial_coloring-k"><label for="f-mf-bounded_combinatorial_coloring-n">n <span class="sub">(integer)</span></label><input type="text" id="f-mf-bounded_combinatorial_coloring-n"><label for="f-mf-bounded_combinatorial_coloring-statement_kind">statement_kind <span class="sub">(string)</span></label><input type="text" id="f-mf-bounded_combinatorial_coloring-statement_kind"></div></fieldset>
-<fieldset class="mf-fields" data-kind="dataset_law_fit" hidden><legend>machine_form: dataset_law_fit</legend><div class="form-grid"><label for="f-mf-dataset_law_fit-dataset">dataset <span class="sub">(string)</span></label><input type="text" id="f-mf-dataset_law_fit-dataset"><label for="f-mf-dataset_law_fit-target_relation">target_relation <span class="sub">(string)</span></label><input type="text" id="f-mf-dataset_law_fit-target_relation"></div></fieldset>
-<fieldset class="mf-fields" data-kind="diophantine_family" hidden><legend>machine_form: diophantine_family</legend><div class="form-grid"><label for="f-mf-diophantine_family-equation">equation <span class="sub">(string)</span></label><input type="text" id="f-mf-diophantine_family-equation"><label for="f-mf-diophantine_family-parameter">parameter <span class="sub">(string)</span></label><input type="text" id="f-mf-diophantine_family-parameter"><label for="f-mf-diophantine_family-parameter_min">parameter_min <span class="sub">(integer)</span></label><input type="text" id="f-mf-diophantine_family-parameter_min"></div></fieldset>
-<fieldset class="mf-fields" data-kind="integer_trajectory" hidden><legend>machine_form: integer_trajectory</legend><div class="form-grid"><label for="f-mf-integer_trajectory-map">map <span class="sub">(string)</span></label><input type="text" id="f-mf-integer_trajectory-map"><label for="f-mf-integer_trajectory-max_steps">max_steps <span class="sub">(integer)</span></label><input type="text" id="f-mf-integer_trajectory-max_steps"><label for="f-mf-integer_trajectory-seed">seed <span class="sub">(integer)</span></label><input type="text" id="f-mf-integer_trajectory-seed"></div></fieldset>
-<fieldset class="mf-fields" data-kind="module_target" hidden><legend>machine_form: module_target</legend><div class="form-grid"><label for="f-mf-module_target-decomposition_module">decomposition_module <span class="sub">(string)</span></label><input type="text" id="f-mf-module_target-decomposition_module"><label for="f-mf-module_target-proof_module">proof_module <span class="sub">(string)</span></label><input type="text" id="f-mf-module_target-proof_module"></div></fieldset>
-<fieldset class="mf-fields" data-kind="sequence_rows" hidden><legend>machine_form: sequence_rows</legend><div class="form-grid"><label for="f-mf-sequence_rows-generator">generator <span class="sub">(string)</span></label><input type="text" id="f-mf-sequence_rows-generator"><label for="f-mf-sequence_rows-max_point">max_point <span class="sub">(integer)</span></label><input type="text" id="f-mf-sequence_rows-max_point"></div></fieldset>
-<p><button type="button" id="build">Validate and build the entry</button></p><ul id="errors"></ul><div id="result" hidden><h2>Entry JSON</h2><textarea id="out" readonly rows="18"></textarea><p><button type="button" id="copy">Copy JSON</button> <a id="issue-link" href="https://github.com/lrspeiser/Invariant/issues/new" rel="noopener">Open a prefilled GitHub issue with this entry</a></p><p class="small sub">Submissions are reviewed by a human and, if accepted, sealed into the queue with a new content hash. Nothing on this site writes to the repository.</p></div>
-<script>var KINDS = {"bounded_combinatorial_coloring": {"k": "int", "n": "int", "statement_kind": "str"}, "dataset_law_fit": {"dataset": "str", "target_relation": "str"}, "diophantine_family": {"equation": "str", "parameter": "str", "parameter_min": "int"}, "integer_trajectory": {"map": "str", "max_steps": "int", "seed": "int"}, "module_target": {"decomposition_module": "str", "proof_module": "str"}, "sequence_rows": {"generator": "str", "max_point": "int"}};
-var CAPS = {"max_entries": 64, "max_machine_form_int": 1000000000, "max_text_chars": 1200};
-var ISSUE_URL = "https://github.com/lrspeiser/Invariant/issues/new";
-
-function byId(id) { return document.getElementById(id); }
-var ID_RE = /^[a-z][a-z0-9_.-]{0,127}$/;
-var SUB_RE = /^[a-z][a-z0-9_]*$/;
-var INT_RE = /^\d+$/;
-function sortKeys(obj) {
-  var out = {};
-  Object.keys(obj).sort().forEach(function (key) { out[key] = obj[key]; });
-  return out;
-}
-function showKind() {
-  var kind = byId("f-kind").value;
-  var blocks = document.querySelectorAll(".mf-fields");
-  for (var i = 0; i < blocks.length; i += 1) {
-    blocks[i].hidden = blocks[i].getAttribute("data-kind") !== kind;
-  }
-}
-function collect() {
-  var errors = [];
-  var idv = byId("f-id").value.trim();
-  if (!ID_RE.test(idv)) {
-    errors.push("id must be lowercase kebab/snake case matching " + String(ID_RE) + ".");
-  }
-  var sub = byId("f-subdomain").value.trim();
-  if (sub && !SUB_RE.test(sub)) {
-    errors.push("subdomain must match " + String(SUB_RE) + ".");
-  }
-  var domain = byId("f-domain").value + (sub ? "/" + sub : "");
-  var textFields = {
-    believed_open_because: "f-open",
-    progress_definition: "f-progress",
-    source_citation: "f-citation",
-    statement: "f-statement"
-  };
-  var texts = {};
-  Object.keys(textFields).sort().forEach(function (key) {
-    var value = byId(textFields[key]).value.trim();
-    if (!value) { errors.push(key + " must be nonempty."); }
-    if (value.length > CAPS.max_text_chars) {
-      errors.push(key + " exceeds the " + CAPS.max_text_chars + "-character cap.");
-    }
-    texts[key] = value;
-  });
-  var kind = byId("f-kind").value;
-  var machineForm = { kind: kind };
-  Object.keys(KINDS[kind]).sort().forEach(function (name) {
-    var raw = byId("f-mf-" + kind + "-" + name).value.trim();
-    if (KINDS[kind][name] === "int") {
-      if (!INT_RE.test(raw)) {
-        errors.push("machine_form." + name +
-          " must be a nonnegative integer; floats are forbidden everywhere in the queue.");
-        return;
-      }
-      var num = parseInt(raw, 10);
-      if (num > CAPS.max_machine_form_int) {
-        errors.push("machine_form." + name + " exceeds the integer cap " +
-          CAPS.max_machine_form_int + ".");
-      }
-      machineForm[name] = num;
-    } else {
-      if (!raw) { errors.push("machine_form." + name + " must be nonempty."); }
-      machineForm[name] = raw;
-    }
-  });
-  var entry = sortKeys({
-    id: idv,
-    domain: domain,
-    statement: texts.statement,
-    source_citation: texts.source_citation,
-    believed_open_because: texts.believed_open_because,
-    machine_form: sortKeys(machineForm),
-    progress_definition: texts.progress_definition,
-    control_rediscovery: byId("f-control").checked,
-    synthetic: byId("f-synthetic").checked
-  });
-  return { errors: errors, entry: entry };
-}
-function buildEntry() {
-  var result = collect();
-  var list = byId("errors");
-  list.textContent = "";
-  if (result.errors.length) {
-    result.errors.forEach(function (message) {
-      var item = document.createElement("li");
-      item.textContent = message;
-      list.appendChild(item);
-    });
-    byId("result").hidden = true;
-    return;
-  }
-  var jsonText = JSON.stringify(result.entry, null, 1);
-  byId("out").value = jsonText;
-  var title = "Problem-queue submission: " + result.entry.id;
-  var fence = String.fromCharCode(96, 96, 96);
-  var issueBody = "Proposed A2 problem-queue entry (client-validated; floats forbidden; " +
-    "the seal is recomputed on acceptance):\n\n" + fence + "json\n" + jsonText +
-    "\n" + fence + "\n";
-  byId("issue-link").href = ISSUE_URL + "?title=" + encodeURIComponent(title) +
-    "&body=" + encodeURIComponent(issueBody);
-  byId("result").hidden = false;
-}
-function copyOut() {
-  var out = byId("out");
-  out.select();
-  if (navigator.clipboard) { navigator.clipboard.writeText(out.value); }
-}
-document.addEventListener("DOMContentLoaded", function () {
-  byId("f-kind").addEventListener("change", showKind);
-  byId("build").addEventListener("click", buildEntry);
-  byId("copy").addEventListener("click", copyOut);
-  showKind();
-});
-</script>
+<p class="kicker">Case studies</p>
+<h1>Case studies: the machine against problems with known answers</h1>
+<p class="lede">A case study here is a question whose answer already exists in the literature, handed to the engine with the answer sealed away, so that what it does can be graded rather than admired. Three of them live in this logbook. Two are elsewhere in the navigation because they came first; the third is below.</p>
+<div class="cards"><a class="card-link" href="/case-studies/balmer-bohr"><div class="t">Balmer 1885 and Bohr 1913</div><div class="d">Four numbers from an 1868 table, anonymized, with the ordinal withheld. Then the same relation derived a second time from two postulates and no data at all.</div><div class="f">verdict REDISCOVERED_EXACT &middot; seal 0153897879637419&hellip;</div></a><a class="card-link" href="/collatz"><div class="t">Collatz</div><div class="d">A question nobody has settled. What the engine established about it, which is far short of an answer, plus the silence that preceded it.</div><div class="f">status OPEN</div></a><a class="card-link" href="/gravity"><div class="t">Rotation curves and lensing</div><div class="d">A billion-candidate screen of one declared family, and the sealed negative verdict it returned on clusters.</div><div class="f">status SEALED NEGATIVE</div></a></div>
+<h2>What a head-to-head is for</h2>
+<p>An engine that reaches a known answer is only interesting if the grading was real. So the Balmer&ndash;Bohr study publishes the whole search: every one of <span data-key="csi_views" data-value="2916">2,916</span> declared views with the number that killed it, <span data-key="csi_admitted" data-value="1">1</span> admitted, and three predictions frozen while the values they would be scored against were still sealed. It also publishes what the humans had, which is the part that keeps the comparison honest:</p>
+<ul><li>The engine was handed the grammar. Balmer was not. The shape v*(m+s)^i*((m+s)^2-c)^j is a human declaration written before the run; what is measured here is exhaustive, receipted selection inside that space, not the invention of the space. A MISSED would have meant &#x27;outside the declared grammar&#x27;, never &#x27;impossible&#x27;.</li><li>The engine was told which rows to fit and which to predict, and it was told that the row label might be offset from the meaningful ordinal. Balmer had to decide both for himself, from four numbers, with no assurance that any relation existed at all.</li><li>Bohr&#x27;s postulates are supplied to the engine as declarations. The engine derives their consequences and checks them; it did not propose them, and proposing them is the part that was hard.</li></ul>
+<h2>House rules on every case study</h2>
+<ul><li>Corpus absence is never novelty.</li><li>Survival is never proof.</li><li>A restricted domain is never a global claim.</li><li>Kernel verification happens only in the kernel.</li><li>No invisible mass as target or rescue.</li><li>Sealed data opens once, no refit.</li><li>Negative receipts are deliverables.</li></ul>
 </main>
 <footer><p class="orn">* * *</p><p>Every number on this page is read from a sealed receipt at build time. Corpus absence is never novelty; survival is never proof; negative receipts are deliverables.</p><p>Site content as of <code>bba7b3a46fa6c0f66a6547a09fea4290c92eae82</code>. Composed deterministically by <code>src/sigma_theory_compiler/static_site_generator.py</code>; re-run with <code>--validate</code> to byte-compare. Set in typewriter type on grid paper; no page requests any external resource.</p></footer>
 </div>

@@ -43,6 +43,8 @@ from sigma_theory_compiler.static_site_generator import (
     FOOTER_CREED,
     FUNNEL_FAMILY_NOTE,
     GARDNER_OPENING,
+    HEAD_TO_HEAD_CAPTION,
+    LATEX_CASE_VIEW_GRAMMAR,
     LATEX_RAR_LAW,
     LATEX_SIGMA_HALVING,
     LATEX_SIGMA_POW2,
@@ -67,7 +69,11 @@ TEST_COMMIT = "deadbeef" * 5
 
 BANNED_SCORE_TERMS = ("truth score", "probability", "confidence", "% true", "likelihood")
 
-CASE_STUDY_PAGES = ("collatz.html", "gravity.html")
+CASE_STUDY_PAGES = (
+    "collatz.html",
+    "gravity.html",
+    "case-studies/balmer-bohr.html",
+)
 
 #: The sealed rediscovery directory name contains the letters "solved"; the path is
 #: a filename, not a claim, so the standalone-"solved" gate strips exactly this
@@ -85,7 +91,7 @@ def pages() -> dict[str, bytes]:
 @pytest.fixture(scope="module")
 def receipts() -> dict[str, dict]:
     loaded = {}
-    for key in ("queue", "billion", "lensing", "sweep", "dozen"):
+    for key in ("queue", "billion", "lensing", "sweep", "dozen", "case_study"):
         loaded[key] = json.loads((ROOT / ARTIFACT_PATHS[key]).read_text(encoding="utf-8"))
     return loaded
 
@@ -148,6 +154,8 @@ def test_page_set_covers_every_queue_entry_and_campaign_world(pages, receipts):
         "evidence.html",
         "submit.html",
         "method.html",
+        "case-studies.html",
+        "case-studies/balmer-bohr.html",
     }
     expected |= {f"problems/{entry['id']}.html" for entry in receipts["queue"]["entries"]}
     expected |= {
@@ -211,6 +219,21 @@ def test_generator_source_contains_no_headline_numerals(receipts, world_receipts
         receipts["queue"]["content_sha256"],
         receipts["dozen"]["content_sha256"],
         receipts["dozen"]["chronology"]["phase_a_root"],
+        receipts["case_study"]["content_sha256"],
+        receipts["case_study"]["chronology"]["phase_a_root"],
+        str(receipts["case_study"]["counts"]["total_declared_views"]),
+        str(receipts["case_study"]["counts"]["views_rejected"]),
+        receipts["case_study"]["blind_race"]["candidate"]["constant_decimal"],
+        receipts["case_study"]["blind_race"]["candidate"]["relative_spread"],
+        receipts["case_study"]["blind_race"]["unseal"][
+            "holdout_max_relative_residual"
+        ],
+        receipts["case_study"]["derivation"]["rydberg_numerics"][
+            "derived_rydberg_per_m"
+        ],
+        receipts["case_study"]["derivation"]["rydberg_numerics"][
+            "relative_error_vs_measured"
+        ],
         "0/21",
         "21/21",
         "70/70",
@@ -1192,3 +1215,220 @@ def test_statement_translator_rejects_out_of_grammar_text():
     for bad in ("a(n) = exp(n)", "a(n) := n", "a(n) = n!", "a(n) = 1 & 2"):
         with pytest.raises(SiteGenerationError):
             statement_ascii_to_latex(bad)
+
+
+# ---------------------------------------------------------------------------
+# Case studies: the Balmer/Bohr head-to-head
+# ---------------------------------------------------------------------------
+
+CASE_STUDY_PAGE = "case-studies/balmer-bohr.html"
+
+
+@pytest.fixture(scope="module")
+def case_runtime() -> dict:
+    return json.loads(
+        (ROOT / ARTIFACT_PATHS["case_study_runtime"]).read_text(encoding="utf-8")
+    )
+
+
+def test_case_study_pages_exist_and_are_reachable_from_the_nav(pages):
+    assert "case-studies.html" in pages
+    assert CASE_STUDY_PAGE in pages
+    for name in sorted(pages):
+        assert 'href="/case-studies"' in _text(pages, name), name
+    index_text = _text(pages, "case-studies.html")
+    assert 'href="/case-studies/balmer-bohr"' in index_text
+    assert 'href="/case-studies"' in _text(pages, CASE_STUDY_PAGE)
+
+
+def test_case_study_index_carries_no_banner_and_lists_the_study(pages, receipts):
+    index_text = _text(pages, "case-studies.html")
+    assert index_text.count('class="status-banner') == 0
+    assert "Balmer 1885 and Bohr 1913" in index_text
+    tiles = _tile_values(index_text)
+    space = receipts["case_study"]["blind_race"]["search_space"]
+    assert tiles["csi_views"] == str(space["total_declared_views"])
+    assert tiles["csi_admitted"] == str(space["views_admitted"])
+    assert receipts["case_study"]["verdict"] in index_text
+    assert receipts["case_study"]["content_sha256"][:16] in index_text
+
+
+def test_case_study_numbers_are_read_from_the_receipt(pages, receipts):
+    page_text = _text(pages, CASE_STUDY_PAGE)
+    values = _tile_values(page_text)
+    receipt = receipts["case_study"]
+    blind = receipt["blind_race"]
+    space = blind["search_space"]
+    candidate = blind["candidate"]
+    unseal = blind["unseal"]
+    numerics = receipt["derivation"]["rydberg_numerics"]
+
+    assert values["cs_views_declared"] == str(space["total_declared_views"])
+    assert values["cs_views_evaluated"] == str(space["views_evaluated"])
+    assert values["cs_views_rejected"] == str(space["views_rejected"])
+    assert values["cs_views_admitted"] == str(space["views_admitted"])
+    assert values["cs_total_views"] == str(space["total_declared_views"])
+    assert values["cs_abs_views"] == str(space["total_declared_views"])
+    assert values["cs_rejected_earlier"] == str(candidate["rejected_earlier_views"])
+    assert values["cs_found_constant"] == candidate["constant_decimal"]
+    assert values["cs_spread"] == candidate["relative_spread"]
+    assert values["cs_offset"] == str(candidate["recovered_index_offset"])
+    assert values["cs_sealed_constant"] == unseal["sealed_constant_decimal"]
+    assert values["cs_rounded_constant"] == unseal["constant_rounded_to_published_places"]
+    assert values["cs_holdout_worst"] == unseal["holdout_max_relative_residual"]
+    assert values["cs_holdout_tolerance"] == unseal["holdout_relative_tolerance"]
+    assert values["cs_rydberg_derived"] == numerics["derived_rydberg_per_m"]
+    assert values["cs_rydberg_measured"] == numerics["measured_rydberg_per_m"]
+    assert values["cs_rydberg_error"] == numerics["relative_error_vs_measured"]
+    assert values["cs_abs_error"] == numerics["relative_error_vs_measured"]
+
+    family = blind["declared_view_family"]
+    for key in (
+        "shift_range",
+        "index_exponent_range",
+        "quadratic_exponent_range",
+        "offset_range",
+    ):
+        assert values[f"cs_bound_{key}_low"] == str(family[key][0])
+        assert values[f"cs_bound_{key}_high"] == str(family[key][1])
+
+    for row in blind["public_rows"]:
+        assert values[f"cs_row_m_{row['m']}"] == str(row["m"])
+        assert values[f"cs_row_v_{row['m']}"] == row["v_decimal"]
+
+    probe = receipt["chronology"]["denied_probe"]
+    assert values["cs_probe_attempted"] == str(probe["attempted_target_reads"])
+    assert values["cs_probe_denied"] == str(probe["denied_target_reads"])
+    assert values["cs_probe_bytes"] == str(probe["denied_content_bytes_exposed"])
+    assert values["cs_probe_post"] == str(receipt["counts"]["post_unseal_generation_events"])
+
+
+def test_case_study_pages_resolve_every_receipt_value(pages):
+    """A missing receipt key must fail the build, never render as an empty slot."""
+
+    for name in ("case-studies.html", CASE_STUDY_PAGE):
+        page_text = _text(pages, name)
+        assert 'data-value="None"' not in page_text, name
+        assert 'data-value=""' not in page_text, name
+        assert ">None<" not in page_text, name
+        assert "&mdash;</td>" not in page_text or name == "case-studies.html"
+
+
+def test_case_study_holdout_table_matches_the_receipt(pages, receipts):
+    values = _tile_values(_text(pages, CASE_STUDY_PAGE))
+    holdout = receipts["case_study"]["blind_race"]["unseal"]["holdout"]
+    assert len(holdout) == 3
+    for row in holdout:
+        label = row["m"]
+        assert values[f"cs_hold_pred_{label}"] == row["predicted_decimal"]
+        assert values[f"cs_hold_meas_{label}"] == row["measured_decimal"]
+        assert values[f"cs_hold_res_{label}"] == row["residual_decimal"]
+        assert values[f"cs_hold_rel_{label}"] == row["relative_residual"]
+        assert row["within_declared_tolerance"] is True
+    flat = _flat(_text(pages, CASE_STUDY_PAGE))
+    assert "before the numbers they are scored against could be read" in flat
+
+
+def test_case_study_tolerance_ladder_is_rendered_in_full(pages, receipts):
+    values = _tile_values(_text(pages, CASE_STUDY_PAGE))
+    ladder = receipts["case_study"]["blind_race"]["tolerance_robustness"]
+    assert len(ladder) >= 5
+    for rung in ladder:
+        assert values[f"cs_ladder_{rung['relative_tolerance']}"] == str(rung["views_admitted"])
+    page_text = _text(pages, CASE_STUDY_PAGE)
+    declared = [rung for rung in ladder if rung["is_the_declared_tolerance"]]
+    assert len(declared) == 1
+    assert declared[0]["relative_tolerance"] in page_text
+
+
+def test_case_study_renders_receipt_latex_as_build_time_mathml(pages, receipts):
+    page_text = _text(pages, CASE_STUDY_PAGE)
+    receipt = receipts["case_study"]
+    blind = receipt["blind_race"]
+    expected = [
+        blind["candidate"]["latex"],
+        blind["candidate"]["invariant_latex"],
+        blind["unseal"]["classical_latex"],
+        receipt["derivation"]["loop_closure"]["constant_identity_latex"],
+    ]
+    expected += [step["latex"] for step in receipt["derivation"]["steps"]]
+    for latex in expected:
+        assert latex_to_mathml(latex, display="block") in page_text, latex
+    assert latex_to_mathml(LATEX_CASE_VIEW_GRAMMAR, display="block") in page_text
+    assert page_text.count("<math") >= len(expected) + 1
+    assert blind["candidate"]["statement"] in _flat(page_text)
+    assert blind["unseal"]["target_statement"] in _flat(page_text)
+
+
+def test_case_study_head_to_head_cites_intervals_and_never_estimates_effort(
+    pages, receipts, case_runtime
+):
+    page_text = _text(pages, CASE_STUDY_PAGE)
+    flat = _flat(page_text)
+    values = _tile_values(page_text)
+    head = receipts["case_study"]["head_to_head"]
+    assert HEAD_TO_HEAD_CAPTION in flat
+    for key in ("balmer_1885", "bohr_1913"):
+        human = head[key]["human_timescale"]
+        assert values[f"cs_years_{key}"] == str(human["documented_interval_years"])
+        assert human["personal_effort_duration"] == "not precisely documented"
+    assert flat.count("not precisely documented") >= 2
+    assert values["cs_head_space"] == str(head["engine_empirical"]["search_space_size"])
+    measured = case_runtime["measured_seconds"]
+    assert values["cs_wall_engine_empirical"] == measured["blind_race"]
+    assert values["cs_wall_engine_derivation"] == measured["derivation"]
+    for note in head["comparison_notes"]:
+        assert html_module.escape(note, quote=True) in page_text
+
+
+def test_case_study_states_the_exact_arithmetic_refusal(pages, receipts):
+    flat = _flat(_text(pages, CASE_STUDY_PAGE))
+    blind = receipts["case_study"]["blind_race"]
+    exact = blind["b1_on_the_winning_column"]
+    assert exact["note"] in flat
+    assert exact["decision"] == "BLOCK"
+    assert exact["first_blocker"] in flat
+    assert blind["candidate_selection_rule"] in flat
+    assert blind["unseal"]["verdict_rule"] in flat
+    assert receipts["case_study"]["scope"] in flat
+
+
+def test_case_study_pages_fail_soft_without_the_receipt(tmp_path):
+    root = _fixture_root(tmp_path)
+    (root / ARTIFACT_PATHS["case_study"]).unlink()
+    (root / ARTIFACT_PATHS["case_study_runtime"]).unlink()
+    pages = render_site(root, TEST_COMMIT)
+    detail = _text(pages, CASE_STUDY_PAGE)
+    assert MISSING_NOTE in detail
+    assert ARTIFACT_PATHS["case_study"] in detail
+    assert detail.count('class="status-banner') == 1
+    assert MISSING_NOTE in _text(pages, "case-studies.html")
+    headings = re.findall(r"<h2>([^<]+)</h2>", detail)
+    assert headings == [
+        "Abstract",
+        "The question",
+        "What we did",
+        "What we found",
+        "What this does not show",
+        "Methods",
+        "References",
+    ]
+
+
+def test_case_study_reproducibility_round_trip(tmp_path, receipts):
+    """Build, write, re-render from disk, and byte-compare the case-study pages."""
+
+    output = tmp_path / "site"
+    first = build_site(ROOT, output, TEST_COMMIT)
+    on_disk = {
+        path.relative_to(output).as_posix(): path.read_bytes()
+        for path in sorted(output.rglob("*.html"))
+    }
+    assert on_disk[CASE_STUDY_PAGE] == first[CASE_STUDY_PAGE]
+    assert on_disk["case-studies.html"] == first["case-studies.html"]
+    second = render_site(ROOT, TEST_COMMIT)
+    assert second[CASE_STUDY_PAGE] == first[CASE_STUDY_PAGE]
+    assert second["case-studies.html"] == first["case-studies.html"]
+    assert receipts["case_study"]["content_sha256"] not in GENERATOR_SOURCE.read_text(
+        encoding="utf-8"
+    )
