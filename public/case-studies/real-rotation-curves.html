@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Real rotation curves · Invariant — a pattern-hunting machine and its public logbook</title>
+<style>
+:root { color-scheme: light; }
+* { box-sizing: border-box; }
+body { margin: 0; color: #2a2418; font-size: 17px; line-height: 1.65;
+  font-family: "Courier Prime","American Typewriter","Courier New",Courier,monospace;
+  background-color: #fbfaf6;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(148,160,178,0.42) 0, rgba(148,160,178,0.42) 1px,
+      transparent 1px, transparent 95px),
+    repeating-linear-gradient(90deg, rgba(148,160,178,0.42) 0, rgba(148,160,178,0.42) 1px,
+      transparent 1px, transparent 95px),
+    repeating-linear-gradient(0deg, rgba(215,219,226,0.5) 0, rgba(215,219,226,0.5) 1px,
+      transparent 1px, transparent 19px),
+    repeating-linear-gradient(90deg, rgba(215,219,226,0.5) 0, rgba(215,219,226,0.5) 1px,
+      transparent 1px, transparent 19px); }
+a { color: #27506d; text-decoration: underline; text-underline-offset: 2px; }
+a:hover { color: #8b3a2e; }
+code, pre { font-family: inherit; }
+code { font-size: 0.92em; background: rgba(42,36,24,0.06); padding: 0 0.14em; }
+.sheet { max-width: 76ch; margin: 2.1rem auto 2.6rem; background: #fffefa;
+  border: 1px solid #d9d3c4; padding: 2.2rem clamp(1.1rem, 4.5vw, 3.1rem) 1.9rem;
+  box-shadow: 0 1px 3px rgba(64,58,42,0.18), 0 12px 30px rgba(64,58,42,0.12); }
+header { text-align: center; border-bottom: 3px double #2a2418; padding-bottom: 0.9rem; }
+header .brand a { font-size: 1.5rem; font-weight: 700; letter-spacing: 0.42em;
+  text-transform: uppercase; color: inherit; text-decoration: none; padding-left: 0.42em; }
+header .tag { margin: 0.35rem auto 0; max-width: 56ch; font-size: 0.76rem;
+  font-style: italic; color: #6b6353; }
+nav { margin-top: 0.7rem; font-size: 0.72rem; letter-spacing: 0.16em;
+  text-transform: uppercase; }
+nav a { color: #6b6353; margin: 0 0.5rem; text-decoration: none; white-space: nowrap; }
+nav a.on { color: #2a2418; border-bottom: 2px solid #8b3a2e; }
+nav a:hover { color: #2a2418; }
+main { margin-top: 1.7rem; }
+h1 { font-size: 1.42rem; line-height: 1.32; margin: 0.3rem 0 1rem; }
+h2 { font-size: 0.94rem; letter-spacing: 0.18em; text-transform: uppercase;
+  border-bottom: 3px double #2a2418; padding-bottom: 0.3rem; margin: 2.3rem 0 0.9rem; }
+h3 { font-size: 1rem; margin: 1.5rem 0 0.5rem; }
+p { margin: 0.55rem 0; }
+.kicker { font-size: 0.72rem; letter-spacing: 0.24em; text-transform: uppercase;
+  color: #8b3a2e; margin: 0 0 0.1rem; }
+.lede { font-size: 1.01rem; }
+.byline { letter-spacing: 0.1em; }
+.sub { color: #6b6353; }
+.small { font-size: 0.79rem; }
+.status-banner { border: 2px solid #2a2418; padding: 0.8rem 1rem; margin: 1.3rem 0 0.9rem;
+  transform: rotate(-0.5deg); font-size: 0.9rem; background: rgba(255,255,255,0.6);
+  box-shadow: 2px 2px 0 rgba(42,36,24,0.08); }
+.status-banner .stamp { font-weight: 700; letter-spacing: 0.13em; }
+.status-open { border-color: #8b3a2e; }
+.status-open .stamp { color: #8b3a2e; }
+.status-rediscovered { border-color: #31577e; }
+.status-rediscovered .stamp { color: #31577e; }
+.status-range, .status-proved { border-color: #2e6b3a; }
+.status-range .stamp, .status-proved .stamp { color: #2e6b3a; }
+.status-negative { border-color: #44505e; }
+.status-negative .stamp { color: #44505e; }
+.status-key { border: 1px dashed #a99f8a; padding: 0.55rem 0.85rem 0.6rem;
+  margin: 0 0 1.5rem; font-size: 0.74rem; color: #57503f; }
+.status-key p { margin: 0 0 0.25rem; letter-spacing: 0.12em; text-transform: uppercase; }
+.status-key dl { margin: 0; }
+.status-key dt { font-weight: 700; float: left; clear: left; margin-right: 0.45rem; }
+.status-key dd { margin: 0 0 0.12rem 0; overflow: hidden; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
+  gap: 0.7rem; margin: 1rem 0; }
+.tile { background: #fdfcf6; border: 1px solid #cfc8b6; padding: 0.55rem 0.7rem;
+  box-shadow: 1px 2px 0 rgba(64,58,42,0.08); }
+.tile .v { font-size: 1.22rem; font-weight: 700; line-height: 1.3; }
+.tile .k { font-size: 0.76rem; color: #57503f; margin-top: 0.15rem; }
+.tile .r { font-size: 0.64rem; color: #8a8171; margin-top: 0.35rem; word-break: break-all; }
+.tile.neg .v { color: #7a5b21; }
+.tile.fail .v { color: #8b3a2e; }
+.tile.pass .v { color: #2e6b3a; }
+.scroll { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 0.76rem; margin: 0.8rem 0; }
+th, td { border: 1px solid #cfc8b6; padding: 0.28rem 0.5rem; text-align: left;
+  vertical-align: top; }
+th { background: #f6f3ea; border-bottom: 3px double #2a2418; font-weight: 700;
+  letter-spacing: 0.05em; }
+td.num, th.num { text-align: right; white-space: nowrap; }
+td.mono { white-space: nowrap; }
+pre { background: #f6f3ea; border: 1px solid #cfc8b6; padding: 0.75rem 0.9rem;
+  overflow-x: auto; font-size: 0.72rem; line-height: 1.5; }
+pre code { background: none; padding: 0; }
+blockquote { border-left: 3px solid #a99f8a; margin: 0.7rem 0; padding: 0.15rem 0.9rem;
+  color: #57503f; font-size: 0.86rem; font-style: italic; }
+.missing { border: 1px dashed #8a6d1f; background: rgba(158,120,32,0.07);
+  padding: 0.65rem 0.9rem; color: #7a5b21; margin: 0.8rem 0; font-size: 0.85rem; }
+.neg-block { border: 2px solid #44505e; background: rgba(68,80,94,0.05);
+  padding: 0.8rem 1rem; margin: 0.9rem 0; }
+.badge { display: inline-block; border: 1px solid; font-size: 0.62rem; font-weight: 700;
+  letter-spacing: 0.08em; padding: 0.05rem 0.4rem; margin-left: 0.4rem;
+  vertical-align: middle; }
+.badge.pass { color: #2e6b3a; border-color: #2e6b3a; }
+.badge.fail { color: #8b3a2e; border-color: #8b3a2e; }
+.badge.neg { color: #7a5b21; border-color: #7a5b21; }
+.badge.ctl { color: #31577e; border-color: #31577e; }
+details.card { background: #fdfcf6; border: 1px solid #cfc8b6; margin: 0.5rem 0; }
+details.card > summary { cursor: pointer; padding: 0.5rem 0.8rem; font-size: 0.8rem; }
+details.card > div { padding: 0.15rem 0.9rem 0.7rem; border-top: 1px solid #e2dccc; }
+details.methods { background: #f9f7f0; border: 1px solid #cfc8b6; margin: 0.6rem 0 1rem; }
+details.methods > summary { cursor: pointer; padding: 0.6rem 0.9rem; font-size: 0.74rem;
+  letter-spacing: 0.14em; text-transform: uppercase; }
+details.methods > div { padding: 0.15rem 1rem 0.9rem; border-top: 1px solid #e2dccc; }
+ul, ol { margin: 0.5rem 0 0.5rem 1.3rem; padding: 0; }
+li { margin: 0.28rem 0; }
+.math math { font-size: 1.08em; }
+.math-block { display: block; margin: 0.75rem 0 0.75rem 1.4rem; }
+.receipt-form { display: block; font-size: 0.66rem; color: #8a8171; background: none;
+  padding: 0; margin-top: 0.2rem; }
+.form-grid { display: grid; grid-template-columns: 13rem 1fr; gap: 0.5rem 0.8rem;
+  align-items: start; margin: 0.8rem 0; }
+.form-grid label { color: #57503f; font-size: 0.8rem; padding-top: 0.3rem; }
+input[type="text"], select, textarea { width: 100%; background: #fffefa; color: #2a2418;
+  border: 1px solid #a99f8a; padding: 0.35rem 0.5rem; font-size: 0.8rem;
+  font-family: inherit; }
+textarea { min-height: 4.4rem; resize: vertical; }
+button { background: #f6f3ea; color: #2a2418; border: 1px solid #6b6353;
+  padding: 0.4rem 0.9rem; font-size: 0.82rem; font-family: inherit; cursor: pointer;
+  box-shadow: 1px 2px 0 rgba(64,58,42,0.15); }
+button:hover { background: #efeadb; }
+#errors { color: #8b3a2e; font-size: 0.82rem; }
+fieldset { border: 1px solid #cfc8b6; margin: 0.6rem 0; padding: 0.5rem 0.9rem 0.8rem; }
+legend { color: #57503f; font-size: 0.76rem; padding: 0 0.4rem; letter-spacing: 0.1em; }
+footer { border-top: 3px double #2a2418; margin-top: 2.6rem; padding-top: 0.9rem;
+  text-align: center; font-size: 0.7rem; color: #6b6353; }
+footer .orn { letter-spacing: 0.7em; margin: 0 0 0.4rem; }
+footer p { max-width: 62ch; margin: 0.3rem auto; }
+:root { --funnel-bar: rgba(49,87,126,0.30); --funnel-hit: rgba(46,107,58,0.38);
+  --funnel-edge: #31577e; --funnel-hit-edge: #2e6b3a; }
+figure.funnel-figure { margin: 1.1rem 0 1.3rem; padding: 0; }
+figure.funnel-figure svg { width: 100%; height: auto; display: block; }
+svg.funnel text { font-family: inherit; font-size: 12px; fill: currentColor; }
+svg.funnel text.num { font-weight: 700; }
+svg.funnel text.lbl { fill-opacity: 0.82; }
+svg.funnel rect.bar { fill: var(--funnel-bar); stroke: var(--funnel-edge);
+  stroke-width: 1; }
+svg.funnel rect.bar.hit { fill: var(--funnel-hit); stroke: var(--funnel-hit-edge); }
+svg.funnel line.axis { stroke: currentColor; stroke-opacity: 0.5; stroke-width: 1; }
+svg.funnel line.rule { stroke: currentColor; stroke-opacity: 0.16;
+  stroke-dasharray: 2 3; }
+figure.funnel-figure figcaption { font-size: 0.74rem; color: #57503f;
+  margin-top: 0.35rem; }
+.duo { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 0.7rem; margin: 0.9rem 0; }
+.duo .half { background: #fdfcf6; border: 1px solid #cfc8b6; padding: 0.6rem 0.8rem;
+  box-shadow: 1px 2px 0 rgba(64,58,42,0.08); }
+.duo .half .hd { font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: #57503f; margin-bottom: 0.35rem; }
+.aside-box { border: 2px solid #31577e; background: rgba(49,87,126,0.06);
+  padding: 0.75rem 1rem; margin: 1rem 0; }
+.aside-box .hd { font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  font-size: 0.78rem; color: #31577e; margin-bottom: 0.3rem; }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
+  gap: 0.7rem; margin: 1rem 0; }
+.cards a.card-link { display: block; background: #fdfcf6; border: 1px solid #cfc8b6;
+  padding: 0.55rem 0.75rem; text-decoration: none; color: inherit;
+  box-shadow: 1px 2px 0 rgba(64,58,42,0.08); }
+.cards a.card-link:hover { border-color: #8b3a2e; color: inherit; }
+.cards a.card-link .t { font-weight: 700; }
+.cards a.card-link .d { font-size: 0.74rem; color: #57503f; margin-top: 0.2rem; }
+.cards a.card-link .f { font-size: 0.68rem; color: #8a8171; margin-top: 0.3rem;
+  word-break: break-all; }
+@media (max-width: 640px) {
+  .sheet { margin: 0 auto; border-left: 0; border-right: 0; }
+}
+@media (prefers-color-scheme: dark) {
+  :root { color-scheme: dark; }
+  body { color: #d8d5c8; background-color: #1e1f22;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(150,160,178,0.11) 0, rgba(150,160,178,0.11) 1px,
+        transparent 1px, transparent 95px),
+      repeating-linear-gradient(90deg, rgba(150,160,178,0.11) 0, rgba(150,160,178,0.11) 1px,
+        transparent 1px, transparent 95px),
+      repeating-linear-gradient(0deg, rgba(150,160,178,0.055) 0, rgba(150,160,178,0.055) 1px,
+        transparent 1px, transparent 19px),
+      repeating-linear-gradient(90deg, rgba(150,160,178,0.055) 0, rgba(150,160,178,0.055) 1px,
+        transparent 1px, transparent 19px); }
+  a { color: #9db8d6; }
+  a:hover { color: #d99a82; }
+  code { background: rgba(216,213,200,0.09); }
+  .sheet { background: #26272b; border-color: #3a3b41;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.55), 0 12px 30px rgba(0,0,0,0.35); }
+  header, h2, footer { border-color: #d8d5c8; }
+  header .tag, nav a, .sub, .status-key, footer { color: #a49f90; }
+  nav a.on { color: #d8d5c8; border-bottom-color: #d99a82; }
+  nav a:hover { color: #d8d5c8; }
+  .kicker { color: #d99a82; }
+  .status-banner { background: rgba(0,0,0,0.25); box-shadow: 2px 2px 0 rgba(0,0,0,0.35); }
+  .status-open { border-color: #d99a82; }
+  .status-open .stamp { color: #d99a82; }
+  .status-rediscovered { border-color: #8fb3d9; }
+  .status-rediscovered .stamp { color: #8fb3d9; }
+  .status-range, .status-proved { border-color: #86c493; }
+  .status-range .stamp, .status-proved .stamp { color: #86c493; }
+  .status-negative { border-color: #a7b4c2; }
+  .status-negative .stamp { color: #a7b4c2; }
+  .status-key { border-color: #57503f; }
+  .tile, details.card, details.methods, pre { background: #2b2c31; border-color: #3f4046; }
+  .tile .k { color: #a49f90; }
+  .tile .r { color: #7b776b; }
+  .tile.neg .v { color: #cfa658; }
+  .tile.fail .v { color: #d99a82; }
+  .tile.pass .v { color: #86c493; }
+  th { background: #2c2d33; border-color: #3f4046; border-bottom-color: #d8d5c8; }
+  td { border-color: #3f4046; }
+  details.card > div, details.methods > div { border-top-color: #3f4046; }
+  blockquote { border-left-color: #57503f; color: #a49f90; }
+  .missing { border-color: #8a6d1f; background: rgba(207,166,88,0.08); color: #cfa658; }
+  .neg-block { border-color: #a7b4c2; background: rgba(167,180,194,0.06); }
+  .badge.pass { color: #86c493; border-color: #86c493; }
+  .badge.fail { color: #d99a82; border-color: #d99a82; }
+  .badge.neg { color: #cfa658; border-color: #cfa658; }
+  .badge.ctl { color: #8fb3d9; border-color: #8fb3d9; }
+  input[type="text"], select, textarea { background: #1e1f22; color: #d8d5c8;
+    border-color: #57503f; }
+  button { background: #2b2c31; color: #d8d5c8; border-color: #57503f;
+    box-shadow: 1px 2px 0 rgba(0,0,0,0.4); }
+  button:hover { background: #33343a; }
+  #errors { color: #d99a82; }
+  .receipt-form { color: #7b776b; }
+  fieldset { border-color: #3f4046; }
+  legend { color: #a49f90; }
+  :root { --funnel-bar: rgba(143,179,217,0.28); --funnel-hit: rgba(134,196,147,0.30);
+    --funnel-edge: #8fb3d9; --funnel-hit-edge: #86c493; }
+  figure.funnel-figure figcaption { color: #a49f90; }
+  .duo .half { background: #2b2c31; border-color: #3f4046; }
+  .duo .half .hd { color: #a49f90; }
+  .aside-box { border-color: #8fb3d9; background: rgba(143,179,217,0.07); }
+  .aside-box .hd { color: #8fb3d9; }
+  .cards a.card-link { background: #2b2c31; border-color: #3f4046; }
+  .cards a.card-link:hover { border-color: #d99a82; }
+  .cards a.card-link .d { color: #a49f90; }
+  .cards a.card-link .f { color: #7b776b; }
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+<header><div class="brand"><a href="/">Invariant</a></div><p class="tag">a machine that guesses patterns, tries its hardest to break them, and files paperwork for every attempt &mdash; the failures included</p><nav><a href="/">Home</a><a href="/paper">The write-up</a><a href="/problems">Problems</a><a href="/papers">Papers</a><a href="/case-studies" class="on">Case studies</a><a href="/gravity">Gravity</a><a href="/collatz">Collatz</a><a href="/evidence">Evidence</a><a href="/method">Method</a><a href="/submit">Submit</a></nav></header>
+<main>
+<p class="kicker">Case study IV &middot; physics</p>
+<h1>Twelve surviving gravity candidates, and six real galaxies</h1>
+<p class="byline">The Invariant Project</p>
+<p class="sub small">content as of <code>3518af4f50a59648a1ddf117835d69bc631b7cf4</code> &mdash; dated by content, not by clock; every number on this page is read from the sealed receipt at build time.</p>
+<div class="status-banner status-negative"><span class="stamp">STATUS: SEALED NEGATIVE.</span> An exhaustive search over a declared grid of universal constants that found nothing, published with its certificates. The receipt is sealed and the search was exhaustive over what was declared, but this was an exploratory confrontation and not a sealed no-refit trial: the constants were scanned against the same galaxies the verdict is read from. Nothing here may be cited as a confirmation.</div>
+<div class="status-key"><p>The five status words used on this site</p><dl><dt>OPEN</dt><dd>the famous question is unsolved, by us and by everyone.</dd><dt>REDISCOVERED</dt><dd>the engine independently found facts already known to mathematics (the news is the machine, not the math).</dd><dt>RANGE-VERIFIED</dt><dd>checked exhaustively up to an exact bound; says nothing beyond the bound.</dd><dt>PROVED (CONDITIONAL)</dt><dd>machine-checked proof of a limited statement, stated exactly.</dd><dt>SEALED NEGATIVE</dt><dd>an exhaustive search that found nothing, published with margins.</dd></dl></div>
+<h2>Abstract</h2>
+<p>Two earlier gravity receipts screened a declared grammar of modified-gravity laws against frozen synthetic geometries and left <span data-key="rd_candidates" data-value="23">23</span> candidates in <span data-key="rd_families" data-value="12">12</span> equivalence families standing. Both said in their own claims block that no observational data had been opened. This one opens it. Each surviving family&rsquo;s law, its covariant action, and the rotation speed that follows from that action were written out in closed form, and the prediction was built from published photometry and gas columns alone &mdash; no dark halo, no unseen component, and no quantity anywhere that is free to differ from one galaxy to the next. Against <span data-key="rd_rows" data-value="214">214</span> published measurements from <span data-key="rd_galaxies" data-value="6">6</span> galaxies, <span data-key="rd_surviving" data-value="0">0</span> of the <span data-key="rd_families_b" data-value="12">12</span> families reach every published error bar with one universal parameter set. The published baryons alone do not reach them either, which is the control that had to fire and did.</p><p class="small">Data: Lelli F., McGaugh S. S., Schombert J. M., 2016, AJ 152, 157 (2016AJ....152..157L), &#x27;SPARC: Mass Models for 175 Disk Galaxies with Spitzer Photometry and Accurate Rotation Curves&#x27; (doi:10.26093/cds/vizier.51520157).</p>
+<h2>The question</h2>
+<p>A rotation curve is the plainest evidence for the missing-mass problem: the gas and stars you can see do not have enough gravity to hold the outer disk at the speed it is measured to move. A modified-gravity candidate earns the right to be taken seriously only if it closes that gap without inventing the mass, and without a knob that can be turned differently for each galaxy. So the question asked here is narrow and answerable:</p><blockquote><p>Is the predicted rotation speed reachable inside the published uncertainties, when the only free quantities are universal constants shared by every galaxy at once?</p></blockquote><p>a declared set of six long-studied galaxies chosen before any fit was run, to span the widest available baryonic mass range in the catalogue: one gas-rich dwarf, three intermediate disks, one bulge-dominated spiral, one giant spiral V_obs from 13.80 km/s (DDO154 innermost) to 305.00 km/s (UGC02885 innermost); flat velocities span roughly 47 to 298 km/s, a factor above 6 in velocity and above 1000 in baryonic mass</p><p>The stellar mass-to-light ratios are the usual place a per-galaxy knob hides. Here they are fixed at their published values &mdash; <span data-key="rd_upsilon_d" data-value="1/2">1/2</span> for the disk and <span data-key="rd_upsilon_b" data-value="7/10">7/10</span> for the bulge, in M_Sun/L_Sun at 3.6 micron &mdash; identical for every galaxy and never fitted.</p>
+<h2>What we did</h2>
+<h3>The rule that had to change, and the rule that did not</h3><p>Every surviving candidate is a scalar field coupled to matter, and the field contract as written forbade every direct scalar-matter coupling. That single prohibition was doing two different jobs, so it was split in two and only one half was relaxed.</p><p>Version 1.0 forbade every direct scalar-matter coupling, which is the clause that blocks each surviving screened-gravity lift (recorded as residual blocker &#x27;missing_adapter:direct_scalar_matter_coupling&#x27; on all twelve STABLE_PASS families in runs/gpu-baryonic-screen/nonlocal-localization-v1.json). That single prohibition conflates two different things. Hidden mass is unfalsifiable bookkeeping: a per-object free mass parameter or an unseen component can absorb any residual, so it is forbidden absolutely and remains so. A declared scalar field carrying a declared coupling that is universal -- one and the same function for every matter species and every object, with no per-object freedom -- is not hidden mass. It is a modification of gravity, it preserves the weak equivalence principle because every species still falls along geodesics of one common metric, and it is falsifiable: the same coupling that fits a galaxy also fixes the Solar-System and cluster predictions, so it can be killed by measurement. Version 1.1 therefore distinguishes the two and permits only the second, under declaration.</p><p>The half that did not move is the one that matters: No invisible or unseen mass component, and no per-object free mass parameter, may appear anywhere in the action, the solution, or the fit. A candidate that needs one is rejected, never rescued.</p><p>Two probe actions are run through that clause on every build, and the receipt records what fired:</p><div class="scroll"><table><thead><tr><th>probe action</th><th>what it is</th><th>clause (a)</th></tr></thead><tbody><tr><td class="mono">per_object_halo_mass</td><td>a dark halo with a mass free per galaxy: the thing clause (a) exists to kill</td><td>rejected</td></tr><tr><td class="mono">universal_scalar_coupling</td><td>the K-mouflage lift: one declared coupling, universal, no unseen mass</td><td>permitted</td></tr></tbody></table></div>
+<h3>The law, the action, and the observable &mdash; generated, not authored</h3><p>No one wrote these laws down. They are what survived an enumeration, and each family carries its own exponents and weights. Here is the largest surviving family, ordinal <span data-key="rd_best_ordinal" data-value="673869399">673,869,399</span>, in all three forms. First the screened kernel law:</p><span class="math math-block"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><msub><mi>g</mi><mrow><mrow><mi mathvariant="normal">o</mi><mi mathvariant="normal">b</mi><mi mathvariant="normal">s</mi></mrow></mrow></msub><mo stretchy="false">&#x00028;</mo><mi>r</mi><mo stretchy="false">&#x00029;</mo><mo>&#x0003D;</mo><msqrt><mrow><mn>1</mn><mo>&#x0002B;</mo><mfrac><mrow><msub><mi>a</mi><mn>0</mn></msub></mrow><mrow><msub><mi>g</mi><mi>N</mi></msub><mo stretchy="false">&#x00028;</mo><mi>r</mi><mo stretchy="false">&#x00029;</mo></mrow></mfrac></mrow></msqrt><mspace width="0.278em" /><msub><mi>g</mi><mi>N</mi></msub><mo stretchy="false">&#x00028;</mo><mi>r</mi><mo stretchy="false">&#x00029;</mo><mo>&#x0002B;</mo><mi>S</mi><mo stretchy="false">&#x00028;</mo><mi>r</mi><mo stretchy="false">&#x00029;</mo><mo>&#x0222B;</mo><msub><mi>&#x003C1;</mi><mi>b</mi></msub><mo stretchy="false">&#x00028;</mo><msup><mi>&#x1D42B;</mi><mi>&#x02032;</mi></msup><mo stretchy="false">&#x00029;</mo><mspace width="0.167em" /><mi>K</mi><mspace width="negativethinmathspace" /><mrow><mo stretchy="true" fence="true" form="prefix">&#x00028;</mo><mo stretchy="false">&#x0007C;</mo><mi>&#x1D42B;</mi><mo>&#x02212;</mo><msup><mi>&#x1D42B;</mi><mi>&#x02032;</mi></msup><mo stretchy="false">&#x0007C;</mo><mo stretchy="true" fence="true" form="postfix">&#x00029;</mo></mrow><mspace width="0.167em" /><msup><mi>d</mi><mn>3</mn></msup><msup><mi>r</mi><mi>&#x02032;</mi></msup><mo>&#x0002C;</mo><mspace width="2em" /><mi>K</mi><mo stretchy="false">&#x00028;</mo><mi>s</mi><mo stretchy="false">&#x00029;</mo><mo>&#x0003D;</mo><mfrac><mrow><mn>1</mn></mrow><mrow><msup><mi>s</mi><mrow><mn>2</mn></mrow></msup></mrow></mfrac><mrow><mo stretchy="true" fence="true" form="prefix">[</mo><mn>6</mn><mspace width="0.167em" /><msup><mi>e</mi><mrow><mo>&#x02212;</mo><mi>s</mi><mo>&#x0002F;</mo><mn>2</mn></mrow></msup><mo>&#x0002B;</mo><mstyle displaystyle="false" scriptlevel="0"><mfrac><mrow><mn>9</mn></mrow><mrow><mn>2</mn></mrow></mfrac></mstyle><msup><mrow><mo stretchy="true" fence="true" form="prefix">&#x00028;</mo><mfrac><mrow><mi>s</mi></mrow><mrow><mn>1</mn></mrow></mfrac><mo stretchy="true" fence="true" form="postfix">&#x00029;</mo></mrow><mrow><mn>4</mn></mrow></msup><msup><mrow><mo stretchy="true" fence="true" form="prefix">&#x00028;</mo><mn>1</mn><mo>&#x0002B;</mo><mfrac><mrow><mi>s</mi></mrow><mrow><mn>1</mn></mrow></mfrac><mo stretchy="true" fence="true" form="postfix">&#x00029;</mo></mrow><mrow><mo>&#x02212;</mo><mrow><mo stretchy="true" fence="true" form="prefix">&#x00028;</mo><mn>4</mn><mo>&#x0002B;</mo><mn>1</mn><mo stretchy="true" fence="true" form="postfix">&#x00029;</mo></mrow></mrow></msup><mo stretchy="true" fence="true" form="postfix">]</mo></mrow><mo>&#x0002C;</mo><mspace width="2em" /><mi>S</mi><mo stretchy="false">&#x00028;</mo><mi>r</mi><mo stretchy="false">&#x00029;</mo><mo>&#x0003D;</mo><msup><mrow><mo stretchy="true" fence="true" form="prefix">[</mo><mn>1</mn><mo>&#x0002B;</mo><msup><mrow><mo stretchy="true" fence="true" form="prefix">&#x00028;</mo><mn>1</mn><mo>&#x000D7;</mo><msup><mn>10</mn><mrow><mo>&#x02212;</mo><mn>1</mn></mrow></msup><mspace width="0.167em" /><mfrac><mrow><mo stretchy="false">&#x0007C;</mo><mo>&#x02207;</mo><msub><mi>g</mi><mi>N</mi></msub><mo stretchy="false">&#x0007C;</mo></mrow><mrow><msub><mi>g</mi><mi>N</mi></msub></mrow></mfrac><mo stretchy="true" fence="true" form="postfix">&#x00029;</mo></mrow><mrow><mn>4</mn></mrow></msup><mo stretchy="true" fence="true" form="postfix">]</mo></mrow><mrow><mo>&#x02212;</mo><mn>1</mn></mrow></msup></mrow></math></span><p>Then the covariant action it is lifted to &mdash; a K-mouflage scalar with one declared universal coupling to matter, which is exactly what the amended contract permits and no more:</p><span class="math math-block"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><mi>S</mi><mo>&#x0003D;</mo><mo>&#x0222B;</mo><msup><mi>d</mi><mn>4</mn></msup><mi>x</mi><msqrt><mrow><mo>&#x02212;</mo><mi>g</mi></mrow></msqrt><mrow><mo stretchy="true" fence="true" form="prefix">[</mo><mfrac><mrow><msubsup><mi>M</mi><mrow><mi mathvariant="normal">P</mi><mi mathvariant="normal">l</mi></mrow><mrow><mn>2</mn></mrow></msubsup></mrow><mrow><mn>2</mn></mrow></mfrac><mi>R</mi><mo>&#x0002B;</mo><msup><mi>&#x02133;</mi><mrow><mn>4</mn></mrow></msup><mi>K</mi><mo stretchy="false">&#x00028;</mo><mi>X</mi><mo stretchy="false">&#x00029;</mo><mo stretchy="true" fence="true" form="postfix">]</mo></mrow><mo>&#x0002B;</mo><msub><mi>S</mi><mi>m</mi></msub><mspace width="negativethinmathspace" /><mrow><mo stretchy="true" fence="true" form="prefix">[</mo><msub><mover><mi>g</mi><mo stretchy="false">&#x0007E;</mo></mover><mrow><mi>&#x003BC;</mi><mi>&#x003BD;</mi></mrow></msub><mo>&#x0003D;</mo><msup><mi>A</mi><mrow><mn>2</mn></mrow></msup><mo stretchy="false">&#x00028;</mo><mi>&#x003D5;</mi><mo stretchy="false">&#x00029;</mo><mspace width="0.167em" /><msub><mi>g</mi><mrow><mi>&#x003BC;</mi><mi>&#x003BD;</mi></mrow></msub><mo>&#x0002C;</mo><msub><mi>&#x003C8;</mi><mi>m</mi></msub><mo stretchy="true" fence="true" form="postfix">]</mo></mrow><mo>&#x0002C;</mo><mspace width="2em" /><mi>X</mi><mo>&#x0003D;</mo><mo>&#x02212;</mo><mfrac><mrow><msup><mi>g</mi><mrow><mi>&#x003BC;</mi><mi>&#x003BD;</mi></mrow></msup><msub><mo>&#x02202;</mo><mi>&#x003BC;</mi></msub><mi>&#x003D5;</mi><mspace width="0.167em" /><msub><mo>&#x02202;</mo><mi>&#x003BD;</mi></msub><mi>&#x003D5;</mi></mrow><mrow><mn>2</mn><msup><mi>&#x02133;</mi><mrow><mn>4</mn></mrow></msup></mrow></mfrac><mo>&#x0002C;</mo><mspace width="2em" /><mi>A</mi><mo stretchy="false">&#x00028;</mo><mi>&#x003D5;</mi><mo stretchy="false">&#x00029;</mo><mo>&#x0003D;</mo><msup><mi>e</mi><mrow><mi>&#x003B2;</mi><mi>&#x003D5;</mi><mo>&#x0002F;</mo><msub><mi>M</mi><mrow><mi mathvariant="normal">P</mi><mi mathvariant="normal">l</mi></mrow></msub></mrow></msup><mo>&#x0002C;</mo><mspace width="2em" /><mi>K</mi><mo stretchy="false">&#x00028;</mo><mi>X</mi><mo stretchy="false">&#x00029;</mo><mo>&#x0003D;</mo><mi>X</mi><mo>&#x0002B;</mo><munder><mo>&#x02211;</mo><mrow><mi>n</mi><mo>&#x02265;</mo><mn>2</mn></mrow></munder><msub><mi>c</mi><mi>n</mi></msub><msup><mi>X</mi><mrow><mi>n</mi></mrow></msup><mo>&#x0002C;</mo><mspace width="2em" /><msub><mi>L</mi><mi>c</mi></msub><mo>&#x0003D;</mo><mn>1</mn><mo>&#x000D7;</mo><msup><mn>10</mn><mrow><mo>&#x02212;</mo><mn>1</mn></mrow></msup><mspace width="0.167em" /><mi>&#x02113;</mi></mrow></math></span><p>And then the observable the action implies, built from the published baryonic columns with nothing free per galaxy:</p><span class="math math-block"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mrow><msubsup><mi>v</mi><mrow><mi mathvariant="normal">p</mi><mi mathvariant="normal">r</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">d</mi></mrow><mrow><mn>2</mn></mrow></msubsup><mo stretchy="false">&#x00028;</mo><mi>r</mi><mo stretchy="false">&#x00029;</mo><mo>&#x0003D;</mo><mi>r</mi><mspace width="0.167em" /><msub><mi>g</mi><mrow><mi mathvariant="normal">o</mi><mi mathvariant="normal">b</mi><mi mathvariant="normal">s</mi></mrow></msub><mo stretchy="false">&#x00028;</mo><mi>r</mi><mo stretchy="false">&#x00029;</mo><mo>&#x0003D;</mo><msubsup><mi>V</mi><mrow><mi mathvariant="normal">b</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">r</mi></mrow><mrow><mn>2</mn></mrow></msubsup><mo stretchy="false">&#x00028;</mo><mi>r</mi><mo stretchy="false">&#x00029;</mo><msqrt><mrow><mn>1</mn><mo>&#x0002B;</mo><mfrac><mrow><msub><mi>a</mi><mn>0</mn></msub><mi>r</mi></mrow><mrow><msubsup><mi>V</mi><mrow><mi mathvariant="normal">b</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">r</mi></mrow><mrow><mn>2</mn></mrow></msubsup><mo stretchy="false">&#x00028;</mo><mi>r</mi><mo stretchy="false">&#x00029;</mo></mrow></mfrac></mrow></msqrt><mo>&#x0002B;</mo><mi>r</mi><mspace width="0.167em" /><mi>S</mi><mo stretchy="false">&#x00028;</mo><mi>r</mi><mo stretchy="false">&#x00029;</mo><mrow><mo stretchy="true" fence="true" form="prefix">[</mo><msub><mi>w</mi><mi>Y</mi></msub><msub><mi>B</mi><mi>Y</mi></msub><mo stretchy="false">&#x00028;</mo><mi>r</mi><mo stretchy="false">&#x00029;</mo><mo>&#x0002B;</mo><msub><mi>w</mi><mi>P</mi></msub><msub><mi>B</mi><mi>P</mi></msub><mo stretchy="false">&#x00028;</mo><mi>r</mi><mo stretchy="false">&#x00029;</mo><mo stretchy="true" fence="true" form="postfix">]</mo></mrow><mo>&#x0002C;</mo><mspace width="2em" /><msubsup><mi>V</mi><mrow><mi mathvariant="normal">b</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">r</mi></mrow><mrow><mn>2</mn></mrow></msubsup><mo>&#x0003D;</mo><msub><mi>V</mi><mrow><mi mathvariant="normal">g</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">s</mi></mrow></msub><mo stretchy="false">&#x0007C;</mo><msub><mi>V</mi><mrow><mi mathvariant="normal">g</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">s</mi></mrow></msub><mo stretchy="false">&#x0007C;</mo><mo>&#x0002B;</mo><msub><mi>&#x003A5;</mi><mrow><mi>d</mi></mrow></msub><msubsup><mi>V</mi><mrow><mi mathvariant="normal">d</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">s</mi><mi mathvariant="normal">k</mi></mrow><mrow><mn>2</mn></mrow></msubsup><mo>&#x0002B;</mo><msub><mi>&#x003A5;</mi><mrow><mi>b</mi></mrow></msub><msubsup><mi>V</mi><mrow><mi mathvariant="normal">b</mi><mi mathvariant="normal">u</mi><mi mathvariant="normal">l</mi></mrow><mrow><mn>2</mn></mrow></msubsup></mrow></math></span><p class="small">Selection rule for which family is written out in full: the STABLE_PASS family with the largest equivalence-class size, ties broken by the smaller representative ordinal; a structural rule fixed before any galaxy was read, using no residual, no margin, and no property of the measured data</p>
+<h3>The derivation, recomputed on every build</h3><p>The law above is a static kernel. The chain below goes from the action to that kernel&rsquo;s observable, symbolically, with every step recomputed rather than quoted &mdash; the receipt stores no transcript, only the checks.</p><div class="scroll"><table><thead><tr><th>#</th><th>step</th><th>statement</th><th>how it is checked</th><th>result</th></tr></thead><tbody><tr><td>1</td><td class="mono">declared_action</td><td>S = Int d^4x sqrt(-g) [ M_Pl^2 R/2 + M^4 K(X) ] + S_m[ A^2(phi) g_mu_nu, psi_m ],  X = -(dphi)^2/(2 M^4),  A = exp(beta phi/M_Pl)</td><td>the matter sector couples to one universal metric A^2(phi) g_mu_nu</td><td>checked</td></tr><tr><td>2</td><td class="mono">scalar_field_equation</td><td>nabla_mu ( K&#x27;(X) nabla^mu phi ) = beta T/M_Pl -&gt; = -beta rho/M_Pl</td><td>dL/d(dphi) recomputed by sympy equals -K&#x27;(X) dphi, for two independent concrete kinetic functions so the identity is not a functional-form artifact</td><td>checked</td></tr><tr><td>3</td><td class="mono">quasistatic_spherical_solution</td><td>r^2 K&#x27;(X) phi&#x27;(r) = beta M(r)/(4 pi M_Pl)</td><td>solving the first integral for phi&#x27; and substituting it back into the spherical divergence (1/r^2) d/dr [ r^2 K&#x27; phi&#x27; ] returns exactly zero, which is the vacuum equation the first integral must satisfy outside the enclosed mass</td><td>checked</td></tr><tr><td>4</td><td class="mono">effective_acceleration</td><td>g_eff = g_N [ 1 + 2 beta^2 / K&#x27;(X) ] with 8 pi G M_Pl^2 = 1</td><td>the recomputed fifth-force ratio equals beta^2/(4 pi G M_Pl^2 K&#x27;)</td><td>checked</td></tr><tr><td>5</td><td class="mono">observable_rotation_speed</td><td>v(r) = sqrt( r g_eff(r) )</td><td>with the fifth force switched off, v^2 collapses to the Kepler value GM/r</td><td>checked</td></tr><tr><td>6</td><td class="mono">general_relativity_limit_control</td><td>beta -&gt; 0 and K&#x27; -&gt; infinity both return g_eff = g_N exactly</td><td>both limits recomputed symbolically and compared with g_N</td><td>checked</td></tr><tr><td>7</td><td class="mono">deep_regime_behaviour</td><td>K = X gives g_eff = (1 + 2 beta^2) g_N, a constant renormalization of G; K ~ X^m at large X gives phi&#x27; ~ g_N^(1/(2m-1)), so the fifth force is suppressed by a power of the Newtonian source whenever m &gt; 1</td><td>the weak-regime rescale and the large-X power 1/(2m-1) are both verified symbolically rather than asserted</td><td>checked</td></tr></tbody></table></div><p>Two negative controls exist so that the chain can fail. If a derivation cannot be broken on purpose, its passing means nothing:</p><div class="scroll"><table><thead><tr><th>control</th><th>required</th><th>mechanism</th><th>outcome</th></tr></thead><tbody><tr><td class="mono">screening_factor_omitted</td><td>the Solar-System limit must break</td><td>with S removed the fractional modification is 2 beta^2, of order unity at every acceleration including the Solar System, which exceeds the cited bound by roughly five orders of magnitude</td><td>broke, as required</td></tr><tr><td class="mono">wrong_sign_kinetic_term</td><td>the derivation must break</td><td>the recomputed second derivative of the kinetic Lagrangian with respect to the field gradient changes sign, so the scalar is a ghost and the Hamiltonian is unbounded below; the same substitution K&#x27; -&gt; -1 turns the fifth force repulsive, so the enhancement that the galaxy fit needs becomes a suppression</td><td>broke, as required</td></tr></tbody></table></div>
+<h2>What we found</h2>
+<h3>The controls that decide whether any of this may be believed</h3><p>Before any candidate is graded, the pipeline has to prove it can still fail. The first row below is the dark-matter problem itself, measured in exact arithmetic on these very rows: if the published baryons alone ever came back reachable, every other verdict on this page would be void.</p><div class="scroll"><table><thead><tr><th>control</th><th>what it tests</th><th>verdict</th></tr></thead><tbody><tr><td class="mono">newtonian_baryons_only</td><td>the published baryons alone cannot reach the published velocities on these galaxies; this infeasibility, certified in exact arithmetic, is the dark-matter problem, and if it ever returns FEASIBLE every verdict in this receipt is void</td><td>INFEASIBLE</td></tr><tr><td class="mono">deliberately_wrong_law</td><td>the best family&#x27;s law with the local factor inverted: sqrt(1 + g_N/a0) instead of sqrt(1 + a0/g_N), so the modification grows where gravity is strong and vanishes where it is weak -- the same complexity, the wrong asymptotics</td><td>INFEASIBLE</td></tr><tr><td class="mono">newtonian_baryons_with_one_universal_rescale</td><td>even a single universal mass-to-light rescale, shared by every galaxy, cannot save Newtonian baryons; the failure is not a calibration error</td><td>INFEASIBLE</td></tr><tr><td class="mono">newtonian_limit_of_the_law</td><td>setting the universal acceleration scale a0 to zero must return v^2 = V_bar^2 identically, which is the general-relativistic limit at the level of the observable rather than of the action</td><td>FEASIBLE</td></tr></tbody></table></div>
+<p>EXPLORATORY NEGATIVE: no surviving screened-gravity family reaches every published interval across 6 galaxies and 214 points with one universal parameter set, at any declared coverage factor up to the instrument&#x27;s cap, each failure carrying a re-verified Farkas certificate naming the radius that breaks it. Newtonian baryons alone are INFEASIBLE on the same rows, as they must be, and a deliberately wrong law is INFEASIBLE too. The search was exploratory and was therefore given every advantage the declared grid allows; a negative found under those conditions is not weakened by the exploratory framing, because no amount of further searching on this declared grid could have produced a survivor. It remains a statement about these declared intervals, this declared grid, and these six galaxies, and it is not a sealed no-refit trial.</p><h3>Family by family</h3><p>Every family is asked the same question with the same rows. A family that cannot reach the published intervals is not merely marked failed: the linear program hands back a Farkas certificate, a set of the declared inequalities and nonnegative multipliers that add up to a contradiction, and the certificate names the radius. The last column is read off those certificates &mdash; below that coverage factor the family is certified unreachable everywhere on the declared grid. A larger number there is not a better theory; it is a theory excluded over a wider range of declared tolerances.</p><div class="scroll"><table><thead><tr><th>family ordinal</th><th>candidates</th><th>screening length</th><th>verdict</th><th>whole curves reached</th><th>points reached</th><th>radius most often unreachable</th><th>excluded below coverage</th></tr></thead><tbody><tr><td class="mono">650512563</td><td>1</td><td class="mono">3e-2</td><td>INFEASIBLE</td><td>0/6</td><td>66/214</td><td class="mono">DDO154@r=2.96kpc</td><td>6.08485001e+00</td></tr><tr><td class="mono">650751823</td><td>2</td><td class="mono">3e-2</td><td>INFEASIBLE</td><td>0/6</td><td>62/214</td><td class="mono">DDO154@r=2.96kpc</td><td>6.12537292e+00</td></tr><tr><td class="mono">650829399</td><td>2</td><td class="mono">3e-2</td><td>INFEASIBLE</td><td>0/6</td><td>62/214</td><td class="mono">DDO154@r=2.96kpc</td><td>6.14491921e+00</td></tr><tr><td class="mono">650830559</td><td>1</td><td class="mono">3e-2</td><td>INFEASIBLE</td><td>0/6</td><td>62/214</td><td class="mono">DDO154@r=2.96kpc</td><td>6.13511799e+00</td></tr><tr><td class="mono">673552563</td><td>2</td><td class="mono">1e-1</td><td>INFEASIBLE</td><td>0/6</td><td>65/214</td><td class="mono">DDO154@r=0.99kpc</td><td>6.08689663e+00</td></tr><tr><td class="mono">673791823</td><td>3</td><td class="mono">1e-1</td><td>INFEASIBLE</td><td>0/6</td><td>64/214</td><td class="mono">DDO154@r=2.96kpc</td><td>6.12538949e+00</td></tr><tr><td class="mono">673867699</td><td>2</td><td class="mono">1e-1</td><td>INFEASIBLE</td><td>0/6</td><td>64/214</td><td class="mono">DDO154@r=0.99kpc</td><td>6.01899303e+00</td></tr><tr><td class="mono">673869399</td><td>4</td><td class="mono">1e-1</td><td>INFEASIBLE</td><td>0/6</td><td>64/214</td><td class="mono">DDO154@r=2.96kpc</td><td>6.14491877e+00</td></tr><tr><td class="mono">673870559</td><td>2</td><td class="mono">1e-1</td><td>INFEASIBLE</td><td>0/6</td><td>64/214</td><td class="mono">DDO154@r=2.96kpc</td><td>6.13511799e+00</td></tr><tr><td class="mono">696674310</td><td>1</td><td class="mono">3e-1</td><td>INFEASIBLE</td><td>0/6</td><td>64/214</td><td class="mono">DDO154@r=0.99kpc</td><td>6.02463104e+00</td></tr><tr><td class="mono">696903229</td><td>1</td><td class="mono">3e-1</td><td>INFEASIBLE</td><td>0/6</td><td>64/214</td><td class="mono">UGC02885@r=58.46kpc</td><td>6.00758567e+00</td></tr><tr><td class="mono">696904523</td><td>2</td><td class="mono">3e-1</td><td>INFEASIBLE</td><td>0/6</td><td>64/214</td><td class="mono">DDO154@r=1.97kpc</td><td>6.10498895e+00</td></tr></tbody></table></div><h3>Widening the error bars does not rescue anything</h3><p>The coverage factor multiplies every published uncertainty. It is declared in advance, and every value on the declared ladder is reported, so it cannot be chosen after seeing an answer:</p><div class="scroll"><table><thead><tr><th>coverage factor</th><th>families reachable</th></tr></thead><tbody><tr><td>1</td><td>0</td></tr><tr><td>2</td><td>0</td></tr><tr><td>3</td><td>0</td></tr><tr><td>6</td><td>0</td></tr></tbody></table></div>
+<h2>What this does not show</h2>
+<p><strong>This was exploratory.</strong> The universal constants were scanned over a declared grid against the same galaxies the verdict is read from, so fitting and testing used the same data. That is declared, not hidden, and it is why no result here may be cited as a confirmation.</p><p>Reusing the data can only make a theory look better, never worse. A FEASIBLE verdict obtained this way would be provisional. An INFEASIBLE verdict obtained this way is the opposite: the family was handed the full declared grid and still could not reach the published intervals, so the exploratory framing strengthens rather than weakens the negative.</p><p>A sealed no-refit trial would fix the universal constants first and then open galaxies withheld from this scan. It is reserved and out of scope here.</p><p>A verdict here is a statement about these declared intervals, this declared grid, and these six galaxies. It is not a statement about modified gravity in general, it is not a statement about the wider catalogue, and it does not touch the many formal blockers these families still carry from the receipt that produced them. The declared assumptions the result rests on:</p><ul><li><strong>code unit map.</strong> The screen&#x27;s kernel lengths L1 and L2 and its screening length Lc are pure code numbers sharing one code unit system across all systems. Confronting metres therefore needs exactly two universal constants -- one length unit and one acceleration scale -- both scanned on declared finite ladders and both shared by every galaxy. Declared assumption, not a derivation.</li><li><strong>gas sign convention.</strong> V_gas is published signed, negative where a central HI hole makes the gas contribution point outward. The signed square V_gas|V_gas| preserves that published convention; no absolute value is taken.</li><li><strong>mass truncated at the last measured radius.</strong> No baryonic mass is assumed beyond the outermost published radius. That under-counts the nonlocal source and can only make a family look worse, never better, so it is the conservative direction. Declared assumption, not a derivation.</li><li><strong>published sigma is a floor.</strong> The published e_Vobs is the random error from non-circular motions and kinematic asymmetries and explicitly excludes systematic inclination uncertainty, so the declared interval is narrower than the total observational uncertainty. Verdicts are therefore about the published random interval and are stated as such.</li><li><strong>screening is phenomenological.</strong> S = [1 + (Lc |grad g_N|/g_N)^k]^(-1) is the screen&#x27;s declared stand-in for K-mouflage gradient screening, carried over verbatim from the generating receipt. The derivation chain below derives the K-mouflage suppression from the action and shows that it has this shape; it does not prove this exact algebraic form.</li><li><strong>spherical reduction.</strong> The published columns give each baryonic component&#x27;s Newtonian circular-speed contribution. The nonlocal kernel needs a mass distribution, so the enclosed spherically-equivalent baryonic mass M(r) = r V_bar^2(r)/G is reconstructed from those columns and the mass between two published radii is spread uniformly in r. This is a declared reduction of a disk to a spherical profile, not a derivation, and it is the only geometric liberty taken.</li></ul>
+<h2>Methods</h2>
+<details class="methods"><summary>Technical detail &mdash; open to expand</summary><div><p><strong>Instrument.</strong> Each published measurement becomes an exact rational interval and the question asked is feasibility: does one parameter vector pass through every interval at once? For a reachable answer the witness is re-checked against every pooled row in exact rational arithmetic. For an unreachable one the Farkas certificate is re-verified before it is recorded. No residual is minimised, nothing is ranked by how well it fits, and no fit statistic is computed anywhere.</p><p><strong>No per-object freedom, structurally.</strong> Every galaxy&rsquo;s rows enter one pooled linear system whose width is the number of universal parameters. The width does not grow when galaxies are added, which is asserted in the tests by building the same system over one, two, and six galaxies. A per-galaxy parameter would have to widen it, and cannot. The baryonic term&rsquo;s coefficient is pinned to exactly one by a structural constraint carried inside the instrument, so it appears by name in any certificate that uses it.</p><p><strong>Uncertainties.</strong> Sigma comes from the published error column and is propagated outward into velocity-squared in closed form. The instrument re-derives sigma from the published decimal string wherever its rule permits and refuses any value the rule does not, so widening a tolerance until the answer changes is not expressible.</p><p><strong>Universal constants.</strong> The kernel&rsquo;s lengths are pure code numbers, so exactly two universal constants convert them to physical units: an acceleration scale and a length unit. Both are scanned on declared finite ladders &mdash; 1e2, 3e2, 1e3, 2e3, 3e3, 5e3, 7e3, 1e4, 2e4, 3e4 in (km/s)&sup2;/kpc and 1e-1, 3e-1, 1, 3, 1e1 in kpc &mdash; and both are shared by every galaxy.</p><p><strong>The nonlocal term.</strong> The kernel is a convolution over the baryonic mass, so the published columns are reduced to a spherically equivalent mass profile and the shell average is integrated in closed form in the radial variable. Its endpoint logarithm is handled by a graded mesh; refining the quadrature moves the result by at most <span data-key="rd_quad" data-value="6.13598964e-05">6.13598964e-05</span> relative, against a declared tolerance of <span data-key="rd_quad_tol" data-value="1e-3">1e-3</span>. Design columns computed in double precision are cross-checked against a <span data-key="rd_dps" data-value="50">50</span>-digit recomputation, agreeing to <span data-key="rd_xcheck" data-value="2.66137700e-16">2.66137700e-16</span>.</p><p><strong>Provenance.</strong> VizieR/7.5.8 ASU tab-separated query, retrieved 2026-08-18. the published decimal strings are carried verbatim; no value was re-derived, re-rounded, or averaged</p></div></details>
+<h2>References</h2>
+<ul><li>Lelli F., McGaugh S. S., Schombert J. M., 2016, AJ 152, 157 (2016AJ....152..157L), &#x27;SPARC: Mass Models for 175 Disk Galaxies with Spitzer Photometry and Accurate Rotation Curves&#x27; &mdash; table2 (Mass models), catalogue J/AJ/152/157, doi:10.26093/cds/vizier.51520157. Retrieval details, including the query addresses, are recorded in the sealed receipt.</li><li>McGaugh S. S., Schombert J. M., 2014, AJ 148, 77 (stellar population synthesis mass-to-light ratios at 3.6 micron); adopted as the fiducial SPARC values Upsilon_disk = 0.5 and Upsilon_bulge = 0.7 by Lelli, McGaugh &amp; Schombert 2016 (AJ 152, 157) and by McGaugh, Lelli &amp; Schombert 2016 (Phys. Rev. Lett. 117, 201101)</li><li>B. Bertotti, L. Iess, P. Tortora, &#x27;A test of general relativity using radio links with the Cassini spacecraft&#x27;, Nature 425, 374 (2003): the measured Eddington parameter satisfies gamma - 1 = (2.1 +/- 2.3) x 10^-5.</li><li><a href="https://github.com/lrspeiser/Invariant/blob/main/runs/gpu-baryonic-screen/real-data-exploratory-v1.json" rel="noopener">runs/gpu-baryonic-screen/real-data-exploratory-v1.json</a> &mdash; the sealed receipt this page renders, seal <code title="61d574991fc8790c5c774c6f22fb51c24dc905c4c95b1ccfce23f09bc77d7172">61d574991fc8790c&hellip;</code>.</li><li><a href="https://github.com/lrspeiser/Invariant/blob/main/configs/sparc_rotation_curves_v1.json" rel="noopener">configs/sparc_rotation_curves_v1.json</a> &mdash; the declared rows, carried verbatim from the published table.</li><li><a href="https://github.com/lrspeiser/Invariant/blob/main/configs/covariant_field_contract.json" rel="noopener">configs/covariant_field_contract.json</a> &mdash; the amended field contract, with the amendment and its rationale recorded in place.</li><li><a href="https://github.com/lrspeiser/Invariant/blob/main/src/sigma_theory_compiler/real_data_gravity_confrontation.py" rel="noopener">src/sigma_theory_compiler/real_data_gravity_confrontation.py</a> &mdash; the module, and <a href="https://github.com/lrspeiser/Invariant/blob/main/tests/test_real_data_gravity_confrontation.py" rel="noopener">tests/test_real_data_gravity_confrontation.py</a> its tests.</li></ul>
+<p class="small"><a href="/case-studies">&larr; back to the case studies</a></p>
+</main>
+<footer><p class="orn">* * *</p><p>Every number on this page is read from a sealed receipt at build time. Corpus absence is never novelty; survival is never proof; negative receipts are deliverables.</p><p>Site content as of <code>3518af4f50a59648a1ddf117835d69bc631b7cf4</code>. Composed deterministically by <code>src/sigma_theory_compiler/static_site_generator.py</code>; re-run with <code>--validate</code> to byte-compare. Set in typewriter type on grid paper; no page requests any external resource.</p></footer>
+</div>
+</body>
+</html>
