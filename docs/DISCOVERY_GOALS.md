@@ -17,7 +17,7 @@ kernel verification happens only in the kernel; negative receipts are deliverabl
 |---|---:|---|
 | Continued fractions not in the builtin table | 32 | Survived 13 → 120 digits; screened only against a 15-entry table |
 | Ulam spectral sidebands | 2 | Survived holdout; never screened against literature |
-| Screened-gravity candidates | 23 (12 families) | Passed four synthetic gates + ghost/stability; K-mouflage class; no real data |
+| Screened-gravity candidates | 23 (12 families) | Passed four synthetic gates + ghost/stability; K-mouflage class; **exploratory** confrontation with real rotation curves returned INFEASIBLE for all 12 (`runs/gpu-baryonic-screen/real-data-exploratory-v1.json`); the sealed no-refit trial is still unspent |
 | Sealed negatives | 3 major | Genuine measured facts; modest as results |
 
 ---
@@ -150,16 +150,28 @@ P-finite recurrence.
 ## DG7 — Gravity: reach a decision on the 23
 
 Two blocking adapters remain buildable (`uv_form_factor_operator`,
-`aqual_nu_to_kessence_inversion`); one requires an operator decision
-(`direct_scalar_matter_coupling` conflicts with the covariant field contract).
+`aqual_nu_to_kessence_inversion`).  The third, `direct_scalar_matter_coupling`, is
+**resolved**: covariant field contract amendment A1 (version 1.1) distinguishes a declared
+*universal* scalar-matter coupling, which is permitted, from unseen mass and per-object mass
+parameters, which remain forbidden absolutely and are still refused by clause (a).
 
 **Completion test:** every one of the 23 candidates carries a terminal verdict —
 `FORMAL_PASS`, `FORMAL_REJECT:<rung>`, or a blocker naming the exact missing primitive.
 
 **Discovery condition:** a surviving family that (a) passes the formal ladder complete,
 (b) is derivable rather than posited, and (c) survives contact with real rotation-curve
-and cluster data under the sealed no-refit protocol.  (c) requires opening data — an
-operator decision, not a build.
+and cluster data under the sealed no-refit protocol.
+
+**Status of (c), 2026-08-18.**  Data has been opened, but *exploratorily*, not under the
+sealed protocol.  `runs/gpu-baryonic-screen/real-data-exploratory-v1.json` confronts all 12
+families with 214 published points from 6 SPARC galaxies (Lelli, McGaugh & Schombert 2016,
+AJ 152, 157), with no halo, no unseen component, and no per-object parameter, scanning only
+universal constants on a declared grid.  All 12 are INFEASIBLE at every declared coverage
+factor, each with a re-verified Farkas certificate naming the radius.  The mandatory
+controls fired: Newtonian baryons alone are INFEASIBLE on the same rows, and so is a
+deliberately wrong law.  That receipt is exploratory by construction — fitting and testing
+used the same galaxies — so it may not be cited as confirmation; the sealed no-refit trial
+remains unspent and is the only thing that could establish (c) affirmatively.
 
 ---
 

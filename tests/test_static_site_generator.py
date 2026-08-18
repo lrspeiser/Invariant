@@ -73,6 +73,7 @@ CASE_STUDY_PAGES = (
     "collatz.html",
     "gravity.html",
     "case-studies/balmer-bohr.html",
+    "case-studies/real-rotation-curves.html",
 )
 
 #: The sealed rediscovery directory name contains the letters "solved"; the path is
@@ -156,6 +157,7 @@ def test_page_set_covers_every_queue_entry_and_campaign_world(pages, receipts):
         "method.html",
         "case-studies.html",
         "case-studies/balmer-bohr.html",
+        "case-studies/real-rotation-curves.html",
     }
     expected |= {f"problems/{entry['id']}.html" for entry in receipts["queue"]["entries"]}
     expected |= {

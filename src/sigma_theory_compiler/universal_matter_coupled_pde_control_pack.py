@@ -33,6 +33,25 @@ SECTOR_IDS = (
     "maxwell_lorenz_gauge",
     "barotropic_perfect_fluid",
 )
+#: The normative ``matter_rule`` text this control accepts, keyed by contract version.
+#: The pin stays exact -- an *undeclared* edit to the matter rule still fails closed --
+#: but contract amendment A1 (version 1.1) is a declared change, so its text is listed
+#: here beside 1.0's rather than silently accepted.  1.1 generalizes the rule to one
+#: universal coupling metric; it does not relax the ban on unseen mass or per-object
+#: mass parameters, which 1.1 states separately and absolutely.
+NORMATIVE_MATTER_RULE_BY_VERSION = {
+    "sigma-covariant-field-contract-1.0": (
+        "Every matter species is minimally coupled to the same metric g_mu_nu and to no "
+        "candidate gravitational field."
+    ),
+    "sigma-covariant-field-contract-1.1": (
+        "Every matter species is minimally coupled to one and the same coupling metric "
+        "g~_mu_nu, and to no candidate gravitational field beyond that one metric. By "
+        "default g~_mu_nu = g_mu_nu. A candidate may instead declare g~_mu_nu = A^2(phi) "
+        "g_mu_nu with a single declared coupling function A shared by every species and "
+        "every object; that declaration is governed by coupling_policy and by nothing else."
+    ),
+}
 CLAIMS = {
     "representative_matter_sectors_registered": 3,
     "scalar_control_pack_complete_within_local_scope": True,
@@ -571,11 +590,11 @@ def build_universal_matter_control_pack(config: Mapping[str, Any], root: Path) -
     bindings = config["evidence_bindings"]
     loaded = {name: _load_bound(root, binding) for name, binding in bindings.items()}
     contract = loaded["covariant_field_contract"]
+    expected_matter_rule = NORMATIVE_MATTER_RULE_BY_VERSION.get(contract.get("schema_version"))
     if (
-        contract.get("schema_version") != "sigma-covariant-field-contract-1.0"
+        expected_matter_rule is None
         or contract.get("status") != "normative"
-        or contract.get("action_contract", {}).get("matter_rule")
-        != "Every matter species is minimally coupled to the same metric g_mu_nu and to no candidate gravitational field."
+        or contract.get("action_contract", {}).get("matter_rule") != expected_matter_rule
         or contract.get("action_contract", {}).get("on_shell_identity")
         != "nabla_mu T_m^{mu nu} = 0 when the matter equations hold"
     ):

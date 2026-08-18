@@ -1,6 +1,23 @@
 {
-  "schema_version": "sigma-covariant-field-contract-1.0",
+  "schema_version": "sigma-covariant-field-contract-1.1",
   "status": "normative",
+  "amendments": [
+    {
+      "id": "A1_declared_universal_scalar_matter_coupling",
+      "version": "1.1",
+      "supersedes": "sigma-covariant-field-contract-1.0",
+      "reversible": "delete this entry, restore matter_rule to its recorded prior_text, and drop coupling_policy; nothing else in the contract changed",
+      "changed": [
+        "schema_version 1.0 -> 1.1",
+        "action_contract.matter_rule generalized to allow one declared universal coupling metric",
+        "action_contract.coupling_policy added",
+        "action_contract.forbidden entries unchanged in text and still normative"
+      ],
+      "matter_rule_prior_text": "Every matter species is minimally coupled to the same metric g_mu_nu and to no candidate gravitational field.",
+      "rationale": "Version 1.0 forbade every direct scalar-matter coupling, which is the clause that blocks each surviving screened-gravity lift (recorded as residual blocker 'missing_adapter:direct_scalar_matter_coupling' on all twelve STABLE_PASS families in runs/gpu-baryonic-screen/nonlocal-localization-v1.json). That single prohibition conflates two different things. Hidden mass is unfalsifiable bookkeeping: a per-object free mass parameter or an unseen component can absorb any residual, so it is forbidden absolutely and remains so. A declared scalar field carrying a declared coupling that is universal -- one and the same function for every matter species and every object, with no per-object freedom -- is not hidden mass. It is a modification of gravity, it preserves the weak equivalence principle because every species still falls along geodesics of one common metric, and it is falsifiable: the same coupling that fits a galaxy also fixes the Solar-System and cluster predictions, so it can be killed by measurement. Version 1.1 therefore distinguishes the two and permits only the second, under declaration.",
+      "not_weakened": "The absolute prohibitions of clause (a) are unchanged and are now stated explicitly and separately, so a per-object mass parameter still fails the contract; the lensing-only-coupling, on-shell-substitution, and species-selected-dependence prohibitions are carried over verbatim."
+    }
+  ],
   "conventions": {
     "spacetime_dimension": 4,
     "metric_signature": "-+++",
@@ -11,9 +28,41 @@
   "action_contract": {
     "action": "S = S_grav[g_mu_nu, gravitational_fields] + S_m[g_mu_nu, psi_m]",
     "physical_metric": "g_mu_nu",
-    "matter_rule": "Every matter species is minimally coupled to the same metric g_mu_nu and to no candidate gravitational field.",
+    "matter_rule": "Every matter species is minimally coupled to one and the same coupling metric g~_mu_nu, and to no candidate gravitational field beyond that one metric. By default g~_mu_nu = g_mu_nu. A candidate may instead declare g~_mu_nu = A^2(phi) g_mu_nu with a single declared coupling function A shared by every species and every object; that declaration is governed by coupling_policy and by nothing else.",
     "stress_tensor": "T_m^{mu nu} = (2/sqrt(-g)) delta S_m/delta g_{mu nu}",
     "on_shell_identity": "nabla_mu T_m^{mu nu} = 0 when the matter equations hold",
+    "coupling_policy": {
+      "status": "normative",
+      "absolutely_forbidden": {
+        "clause": "a",
+        "rule": "No invisible or unseen mass component, and no per-object free mass parameter, may appear anywhere in the action, the solution, or the fit. A candidate that needs one is rejected, never rescued.",
+        "instances": [
+          "a dark halo, of any profile, fitted per object",
+          "any mass, density, or mass-to-light quantity that is free to differ between objects",
+          "any unseen component introduced to absorb a residual",
+          "any per-object metric, per-object coupling, or per-object screening scale"
+        ],
+        "test": "if removing every parameter that is not shared identically by all objects changes the prediction for any object, the candidate violates clause (a)",
+        "overridable": false
+      },
+      "permitted_with_declaration": {
+        "clause": "b",
+        "rule": "A declared gravitational-sector scalar phi may carry a declared matter coupling, provided the coupling is universal: one declared function A(phi), identical for every matter species and every object, entering only through the single coupling metric g~_mu_nu = A^2(phi) g_mu_nu of matter_rule.",
+        "why_this_is_not_hidden_mass": "The coupling adds no mass and no per-object freedom. It modifies how one common metric responds to the baryons that are already counted, every species still follows geodesics of g~_mu_nu so the weak equivalence principle is preserved, and the one universal coupling that shapes a galaxy simultaneously fixes the Solar-System and cluster predictions. It is therefore a falsifiable modification of gravity rather than unfalsifiable bookkeeping.",
+        "declaration_requirements": [
+          "A(phi) is written explicitly in the action",
+          "the same A(phi) is used for every species and every object",
+          "the coupling strength is a universal constant, never fitted per object",
+          "the Solar-System and weak-field limits are reported under the same declaration"
+        ],
+        "does_not_permit": [
+          "a coupling that depends on which matter species it acts on",
+          "a coupling whose strength or scale varies between objects",
+          "a coupling introduced only in the lensing sector"
+        ]
+      },
+      "precedence": "clause (a) overrides clause (b) whenever they conflict"
+    },
     "forbidden": [
       "object-specific parameters or metrics",
       "a lensing-only metric or coupling",

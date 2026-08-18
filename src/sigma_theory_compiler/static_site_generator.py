@@ -113,6 +113,8 @@ ARTIFACT_PATHS = {
     "roadmap_doc": "docs/CONTINUOUS_DISCOVERY_ROADMAP.md",
     "case_study": "runs/math/case-studies/balmer-bohr-v1.json",
     "case_study_runtime": "runs/math/case-studies/balmer-bohr-v1-runtime.json",
+    "real_data": "runs/gpu-baryonic-screen/real-data-exploratory-v1.json",
+    "rotation_curves": "configs/sparc_rotation_curves_v1.json",
 }
 
 #: The unsolved-dozen campaign is expected but may not exist yet; it is loaded
@@ -4317,6 +4319,16 @@ def _papers_index_page(artifacts: dict[str, Artifact], commit: str) -> bytes:
 # Case studies: head-to-head against a real historical discovery
 # ---------------------------------------------------------------------------
 
+#: The banner for the real-data confrontation.  The receipt is sealed; the *trial* is not.
+#: Saying both, in the stamp line itself, is the whole point of the sentence.
+REAL_DATA_BANNER = (
+    "An exhaustive search over a declared grid of universal constants that found nothing, "
+    "published with its certificates. The receipt is sealed and the search was exhaustive "
+    "over what was declared, but this was an exploratory confrontation and not a sealed "
+    "no-refit trial: the constants were scanned against the same galaxies the verdict is "
+    "read from. Nothing here may be cited as a confirmation."
+)
+
 #: The case-study index and its detail pages, in publication order.
 CASE_STUDIES = (
     {
@@ -4328,6 +4340,18 @@ CASE_STUDIES = (
         "card": (
             "Four numbers from an 1868 table, anonymized, with the ordinal withheld. Then the "
             "same relation derived a second time from two postulates and no data at all."
+        ),
+    },
+    {
+        "slug": "real-rotation-curves",
+        "artifact": "real_data",
+        "kicker": "Case study IV &middot; physics",
+        "name": "Real rotation curves",
+        "title": "Twelve surviving gravity candidates, and six real galaxies",
+        "card": (
+            "The gravity screens had never opened measured data. These twelve survivors were "
+            "handed published rotation curves, denied every halo and every per-object knob, "
+            "and asked whether one universal parameter set reaches the published error bars."
         ),
     },
 )
@@ -5051,15 +5075,442 @@ def _balmer_bohr_page(artifacts: dict[str, Artifact], commit: str) -> bytes:
     return _page("case-studies", f"{entry['name']} · {SITE_TITLE}", "\n".join(body), commit)
 
 
+def _rd_abstract(receipt: dict[str, Any]) -> str:
+    counts = receipt.get("counts", {})
+    provenance = receipt.get("data_provenance", {})
+    headline = receipt.get("results_by_coverage_factor", {}).get(
+        receipt.get("headline_coverage_factor", "1"), {}
+    )
+    return (
+        "<p>Two earlier gravity receipts screened a declared grammar of modified-gravity laws"
+        " against frozen synthetic geometries and left"
+        f" {_data_value('rd_candidates', counts.get('candidates_represented'))} candidates in"
+        f" {_data_value('rd_families', counts.get('families_confronted'))} equivalence"
+        " families standing. Both said in their own claims block that no observational data"
+        " had been opened. This one opens it. Each surviving family&rsquo;s law, its covariant"
+        " action, and the rotation speed that follows from that action were written out in"
+        " closed form, and the prediction was built from published photometry and gas columns"
+        " alone &mdash; no dark halo, no unseen component, and no quantity anywhere that is"
+        " free to differ from one galaxy to the next. Against"
+        f" {_data_value('rd_rows', counts.get('measured_rows'))} published measurements from"
+        f" {_data_value('rd_galaxies', counts.get('galaxies'))} galaxies,"
+        f" {_data_value('rd_surviving', headline.get('surviving_family_count'))} of the"
+        f" {_data_value('rd_families_b', counts.get('families_confronted'))} families reach"
+        " every published error bar with one universal parameter set. The published baryons"
+        " alone do not reach them either, which is the control that had to fire and did.</p>"
+        f"<p class=\"small\">Data: {_esc(str(provenance.get('source', {}).get('primary_citation')))}"
+        f" ({_esc(str(provenance.get('source', {}).get('dataset_doi')))}).</p>"
+    )
+
+
+def _rd_question_section(receipt: dict[str, Any]) -> str:
+    provenance = receipt.get("data_provenance", {})
+    selection = provenance.get("selection", {})
+    convention = provenance.get("mass_to_light_convention", {})
+    return (
+        "<p>A rotation curve is the plainest evidence for the missing-mass problem: the gas"
+        " and stars you can see do not have enough gravity to hold the outer disk at the speed"
+        " it is measured to move. A modified-gravity candidate earns the right to be taken"
+        " seriously only if it closes that gap without inventing the mass, and without a knob"
+        " that can be turned differently for each galaxy. So the question asked here is"
+        " narrow and answerable:</p>"
+        "<blockquote><p>Is the predicted rotation speed reachable inside the published"
+        " uncertainties, when the only free quantities are universal constants shared by every"
+        " galaxy at once?</p></blockquote>"
+        f"<p>{_esc(str(selection.get('rule')))}"
+        f" {_esc(str(selection.get('spanned_range')))}</p>"
+        "<p>The stellar mass-to-light ratios are the usual place a per-galaxy knob hides. Here"
+        " they are fixed at their published values &mdash;"
+        f" {_data_value('rd_upsilon_d', convention.get('disk_3_6um'))} for the disk and"
+        f" {_data_value('rd_upsilon_b', convention.get('bulge_3_6um'))} for the bulge, in"
+        f" {_esc(str(convention.get('unit')))} &mdash; identical for every galaxy and never"
+        " fitted.</p>"
+    )
+
+
+def _rd_contract_section(receipt: dict[str, Any]) -> str:
+    amendment = receipt.get("contract_amendment", {})
+    probes = receipt.get("contract_probe_actions", {})
+    rows = []
+    for name in sorted(probes):
+        entry = probes[name]
+        rows.append(
+            "<tr>"
+            f'<td class="mono">{_esc(name)}</td>'
+            f"<td>{_esc(str(entry.get('why')))}</td>"
+            f"<td>{'rejected' if entry.get('rejected_by_clause_a') else 'permitted'}</td>"
+            "</tr>"
+        )
+    return (
+        "<h3>The rule that had to change, and the rule that did not</h3>"
+        "<p>Every surviving candidate is a scalar field coupled to matter, and the field"
+        " contract as written forbade every direct scalar-matter coupling. That single"
+        " prohibition was doing two different jobs, so it was split in two and only one half"
+        " was relaxed.</p>"
+        f"<p>{_esc(str(amendment.get('rationale')))}</p>"
+        "<p>The half that did not move is the one that matters:"
+        f" {_esc(str(amendment.get('clause_a_rule')))}</p>"
+        "<p>Two probe actions are run through that clause on every build, and the receipt"
+        " records what fired:</p>"
+        '<div class="scroll"><table><thead><tr><th>probe action</th><th>what it is</th>'
+        "<th>clause (a)</th></tr></thead><tbody>" + "".join(rows) + "</tbody></table></div>"
+    )
+
+
+def _rd_formulas_section(receipt: dict[str, Any]) -> str:
+    families = receipt.get("families", {})
+    best = str(receipt.get("best_family_ordinal"))
+    entry = families.get(best, {})
+    body = [
+        "<h3>The law, the action, and the observable &mdash; generated, not authored</h3>",
+        (
+            "<p>No one wrote these laws down. They are what survived an enumeration, and each"
+            " family carries its own exponents and weights. Here is the largest surviving"
+            " family, ordinal"
+            f" {_data_value('rd_best_ordinal', receipt.get('best_family_ordinal'))}, in all"
+            " three forms. First the screened kernel law:</p>"
+        ),
+    ]
+    if entry.get("law_latex"):
+        body.append(_math_block(entry["law_latex"]))
+    body.append(
+        "<p>Then the covariant action it is lifted to &mdash; a K-mouflage scalar with one"
+        " declared universal coupling to matter, which is exactly what the amended contract"
+        " permits and no more:</p>"
+    )
+    if entry.get("action_latex"):
+        body.append(_math_block(entry["action_latex"]))
+    body.append(
+        "<p>And then the observable the action implies, built from the published baryonic"
+        " columns with nothing free per galaxy:</p>"
+    )
+    if entry.get("observable_latex"):
+        body.append(_math_block(entry["observable_latex"]))
+    body.append(
+        f"<p class=\"small\">Selection rule for which family is written out in full:"
+        f" {_esc(str(receipt.get('family_selection_rule')))}</p>"
+    )
+    return "".join(body)
+
+
+def _rd_derivation_section(receipt: dict[str, Any]) -> str:
+    chain = receipt.get("derivation_chain", {})
+    rows = []
+    for step in chain.get("steps", []):
+        rows.append(
+            "<tr>"
+            f"<td>{_cell(step.get('step'))}</td>"
+            f'<td class="mono">{_esc(str(step.get("name")))}</td>'
+            f"<td>{_esc(str(step.get('statement')))}</td>"
+            f"<td>{_esc(str(step.get('check')))}</td>"
+            f"<td>{'checked' if step.get('checked') else 'FAILED'}</td>"
+            "</tr>"
+        )
+    controls = []
+    for name in sorted(chain.get("negative_controls", {})):
+        control = chain["negative_controls"][name]
+        controls.append(
+            "<tr>"
+            f'<td class="mono">{_esc(name)}</td>'
+            f"<td>{_esc(str(control.get('expected')))}</td>"
+            f"<td>{_esc(str(control.get('how')))}</td>"
+            f"<td>{'broke, as required' if control.get('broke') else 'DID NOT BREAK'}</td>"
+            "</tr>"
+        )
+    return (
+        "<h3>The derivation, recomputed on every build</h3>"
+        "<p>The law above is a static kernel. The chain below goes from the action to that"
+        " kernel&rsquo;s observable, symbolically, with every step recomputed rather than"
+        " quoted &mdash; the receipt stores no transcript, only the checks.</p>"
+        '<div class="scroll"><table><thead><tr><th>#</th><th>step</th><th>statement</th>'
+        "<th>how it is checked</th><th>result</th></tr></thead><tbody>"
+        + "".join(rows)
+        + "</tbody></table></div>"
+        "<p>Two negative controls exist so that the chain can fail. If a derivation cannot be"
+        " broken on purpose, its passing means nothing:</p>"
+        '<div class="scroll"><table><thead><tr><th>control</th><th>required</th>'
+        "<th>mechanism</th><th>outcome</th></tr></thead><tbody>"
+        + "".join(controls)
+        + "</tbody></table></div>"
+    )
+
+
+def _rd_controls_section(receipt: dict[str, Any]) -> str:
+    coverage = str(receipt.get("headline_coverage_factor", "1"))
+    controls = (
+        receipt.get("results_by_coverage_factor", {}).get(coverage, {}).get("controls", {})
+    )
+    # The dark-matter control leads, because the prose below points at it as the first row.
+    lead = "newtonian_baryons_only"
+    order = [lead] + [name for name in sorted(controls) if name != lead]
+    rows = []
+    for name in order:
+        control = controls.get(name)
+        if control is None:
+            continue
+        note = control.get("meaning") or control.get("law") or control.get("expected")
+        rows.append(
+            "<tr>"
+            f'<td class="mono">{_esc(name)}</td>'
+            f"<td>{_esc(str(note))}</td>"
+            f"<td>{_cell(control.get('verdict'))}</td>"
+            "</tr>"
+        )
+    return (
+        "<h3>The controls that decide whether any of this may be believed</h3>"
+        "<p>Before any candidate is graded, the pipeline has to prove it can still fail. The"
+        " first row below is the dark-matter problem itself, measured in exact arithmetic on"
+        " these very rows: if the published baryons alone ever came back reachable, every"
+        " other verdict on this page would be void.</p>"
+        '<div class="scroll"><table><thead><tr><th>control</th><th>what it tests</th>'
+        "<th>verdict</th></tr></thead><tbody>" + "".join(rows) + "</tbody></table></div>"
+    )
+
+
+def _rd_results_section(receipt: dict[str, Any]) -> str:
+    coverage = str(receipt.get("headline_coverage_factor", "1"))
+    families = receipt.get("families", {})
+    block = receipt.get("results_by_coverage_factor", {}).get(coverage, {})
+    per_family = block.get("per_family", {})
+    rows = []
+    for ordinal in sorted(per_family, key=lambda item: int(item)):
+        entry = per_family[ordinal]["universal_arms"]
+        meta = families.get(ordinal, {})
+        reach = meta.get("published_interval_reach", {})
+        breaking = entry.get("most_frequently_unreachable_rows") or []
+        named = breaking[0]["row"] if breaking else "&mdash;"
+        bound = entry.get("certified_infeasible_below_coverage_factor") or {}
+        rows.append(
+            "<tr>"
+            f'<td class="mono">{_cell(ordinal)}</td>'
+            f"<td>{_cell(meta.get('size'))}</td>"
+            f'<td class="mono">{_cell(meta.get("screening_length_code_units"))}</td>'
+            f"<td>{_cell(entry.get('verdict'))}</td>"
+            f"<td>{_cell(reach.get('galaxies_fully_reached'))}"
+            f"/{_cell(reach.get('galaxies_offered'))}</td>"
+            f"<td>{_cell(reach.get('intervals_reached'))}"
+            f"/{_cell(reach.get('published_intervals'))}</td>"
+            f'<td class="mono">{_esc(str(named))}</td>'
+            f"<td>{_cell(bound.get('decimal'))}</td>"
+            "</tr>"
+        )
+    ladder = []
+    for factor in receipt.get("coverage_factors", []):
+        entry = receipt.get("results_by_coverage_factor", {}).get(factor, {})
+        ladder.append(
+            "<tr>"
+            f"<td>{_cell(factor)}</td>"
+            f"<td>{_cell(entry.get('surviving_family_count'))}</td>"
+            "</tr>"
+        )
+    return (
+        f"<p>{_esc(str(receipt.get('decision')))}</p>"
+        "<h3>Family by family</h3>"
+        "<p>Every family is asked the same question with the same rows. A family that cannot"
+        " reach the published intervals is not merely marked failed: the linear program hands"
+        " back a Farkas certificate, a set of the declared inequalities and nonnegative"
+        " multipliers that add up to a contradiction, and the certificate names the radius."
+        " The last column is read off those certificates &mdash; below that coverage factor"
+        " the family is certified unreachable everywhere on the declared grid. A larger number"
+        " there is not a better theory; it is a theory excluded over a wider range of declared"
+        " tolerances.</p>"
+        '<div class="scroll"><table><thead><tr><th>family ordinal</th><th>candidates</th>'
+        "<th>screening length</th><th>verdict</th><th>whole curves reached</th>"
+        "<th>points reached</th><th>radius most often unreachable</th>"
+        "<th>excluded below coverage</th>"
+        "</tr></thead><tbody>" + "".join(rows) + "</tbody></table></div>"
+        "<h3>Widening the error bars does not rescue anything</h3>"
+        "<p>The coverage factor multiplies every published uncertainty. It is declared in"
+        " advance, and every value on the declared ladder is reported, so it cannot be chosen"
+        " after seeing an answer:</p>"
+        '<div class="scroll"><table><thead><tr><th>coverage factor</th>'
+        "<th>families reachable</th></tr></thead><tbody>"
+        + "".join(ladder)
+        + "</tbody></table></div>"
+    )
+
+
+def _rd_not_shown_section(receipt: dict[str, Any]) -> str:
+    caveat = receipt.get("exploratory_caveat", {})
+    assumptions = receipt.get("assumptions", {})
+    items = "".join(
+        f"<li><strong>{_esc(name.replace('_', ' '))}.</strong> {_esc(str(text))}</li>"
+        for name, text in sorted(assumptions.items())
+    )
+    return (
+        f"<p><strong>This was exploratory.</strong> {_esc(str(caveat.get('statement')))}</p>"
+        f"<p>{_esc(str(caveat.get('why_a_negative_is_not_weakened_by_it')))}</p>"
+        f"<p>{_esc(str(caveat.get('what_a_sealed_trial_would_add')))}</p>"
+        "<p>A verdict here is a statement about these declared intervals, this declared grid,"
+        " and these six galaxies. It is not a statement about modified gravity in general, it"
+        " is not a statement about the wider catalogue, and it does not touch the many formal"
+        " blockers these families still carry from the receipt that produced them. The"
+        " declared assumptions the result rests on:</p>"
+        f"<ul>{items}</ul>"
+    )
+
+
+def _rd_methods_section(receipt: dict[str, Any]) -> str:
+    grids = receipt.get("universal_constant_grids", {})
+    convergence = receipt.get("quadrature_convergence", {})
+    crosscheck = receipt.get("design_crosscheck", {})
+    provenance = receipt.get("data_provenance", {})
+    retrieval = provenance.get("source", {}).get("retrieval", {})
+    return (
+        "<p><strong>Instrument.</strong> Each published measurement becomes an exact rational"
+        " interval and the question asked is feasibility: does one parameter vector pass"
+        " through every interval at once? For a reachable answer the witness is re-checked"
+        " against every pooled row in exact rational arithmetic. For an unreachable one the"
+        " Farkas certificate is re-verified before it is recorded. No residual is minimised,"
+        " nothing is ranked by how well it fits, and no fit statistic is computed anywhere.</p>"
+        "<p><strong>No per-object freedom, structurally.</strong> Every galaxy&rsquo;s rows"
+        " enter one pooled linear system whose width is the number of universal parameters."
+        " The width does not grow when galaxies are added, which is asserted in the tests by"
+        " building the same system over one, two, and six galaxies. A per-galaxy parameter"
+        " would have to widen it, and cannot. The baryonic term&rsquo;s coefficient is pinned"
+        " to exactly one by a structural constraint carried inside the instrument, so it"
+        " appears by name in any certificate that uses it.</p>"
+        "<p><strong>Uncertainties.</strong> Sigma comes from the published error column and is"
+        " propagated outward into velocity-squared in closed form. The instrument re-derives"
+        " sigma from the published decimal string wherever its rule permits and refuses any"
+        " value the rule does not, so widening a tolerance until the answer changes is not"
+        " expressible.</p>"
+        "<p><strong>Universal constants.</strong> The kernel&rsquo;s lengths are pure code"
+        " numbers, so exactly two universal constants convert them to physical units: an"
+        " acceleration scale and a length unit. Both are scanned on declared finite ladders"
+        f" &mdash; {_esc(', '.join(grids.get('a0_kms2_per_kpc', [])))} in (km/s)&sup2;/kpc and"
+        f" {_esc(', '.join(grids.get('length_unit_kpc', [])))} in kpc &mdash; and both are"
+        " shared by every galaxy.</p>"
+        "<p><strong>The nonlocal term.</strong> The kernel is a convolution over the baryonic"
+        " mass, so the published columns are reduced to a spherically equivalent mass profile"
+        " and the shell average is integrated in closed form in the radial variable. Its"
+        " endpoint logarithm is handled by a graded mesh; refining the quadrature moves the"
+        " result by at most"
+        f" {_data_value('rd_quad', convergence.get('worst_relative_move'))} relative, against a"
+        f" declared tolerance of {_data_value('rd_quad_tol', convergence.get('tolerance'))}."
+        " Design columns computed in double precision are cross-checked against a"
+        f" {_data_value('rd_dps', crosscheck.get('working_precision_digits'))}-digit"
+        " recomputation, agreeing to"
+        f" {_data_value('rd_xcheck', crosscheck.get('worst_relative_disagreement'))}.</p>"
+        f"<p><strong>Provenance.</strong> {_esc(str(retrieval.get('service')))},"
+        f" retrieved {_esc(str(retrieval.get('date_utc')))}."
+        f" {_esc(str(retrieval.get('note')))}</p>"
+    )
+
+
+def _rd_references_section(receipt: dict[str, Any], artifact: Artifact) -> str:
+    provenance = receipt.get("data_provenance", {})
+    source = provenance.get("source", {})
+    convention = provenance.get("mass_to_light_convention", {})
+    solar = (
+        receipt.get("derivation_chain", {})
+        .get("negative_controls", {})
+        .get("screening_factor_omitted", {})
+        .get("cited_bound", {})
+    )
+    items = [
+        # The archive and query URLs live in the receipt, which is where provenance belongs.
+        # The page cites the catalogue and its DOI instead, so that every page on this site
+        # stays free of external addresses.
+        (
+            f"<li>{_esc(str(source.get('primary_citation')))}"
+            f" &mdash; {_esc(str(source.get('table')))},"
+            f" {_esc(str(source.get('dataset_doi')))}. Retrieval details, including the"
+            " query addresses, are recorded in the sealed receipt.</li>"
+        ),
+        f"<li>{_esc(str(convention.get('citation')))}</li>",
+        f"<li>{_esc(str(solar.get('citation')))}</li>",
+        (
+            f"<li>{_github(artifact.path)} &mdash; the sealed receipt this page renders,"
+            f" seal {_sha_abbrev(artifact.sha256)}.</li>"
+        ),
+        (
+            f"<li>{_github(ARTIFACT_PATHS['rotation_curves'])} &mdash; the declared rows,"
+            " carried verbatim from the published table.</li>"
+        ),
+        (
+            f"<li>{_github('configs/covariant_field_contract.json')} &mdash; the amended"
+            " field contract, with the amendment and its rationale recorded in place.</li>"
+        ),
+        (
+            f"<li>{_github('src/sigma_theory_compiler/real_data_gravity_confrontation.py')}"
+            " &mdash; the module, and"
+            f" {_github('tests/test_real_data_gravity_confrontation.py')} its tests.</li>"
+        ),
+    ]
+    return "<ul>" + "".join(items) + "</ul>"
+
+
+def _real_data_page(artifacts: dict[str, Artifact], commit: str) -> bytes:
+    artifact = artifacts["real_data"]
+    entry = CASE_STUDIES[1]
+    body: list[str] = []
+    body.append(f'<p class="kicker">{entry["kicker"]}</p>')
+    body.append(f"<h1>{_esc(entry['title'])}</h1>")
+    body.append('<p class="byline">The Invariant Project</p>')
+    body.append(
+        f'<p class="sub small">content as of <code>{_esc(commit)}</code> &mdash; dated by'
+        " content, not by clock; every number on this page is read from the sealed receipt at"
+        " build time.</p>"
+    )
+    body.append(_status_banner("SEALED NEGATIVE", REAL_DATA_BANNER))
+    body.append(_status_key())
+    if not artifact.present or not isinstance(artifact.data, dict):
+        for heading in (
+            "Abstract",
+            "The question",
+            "What we did",
+            "What we found",
+            "What this does not show",
+        ):
+            body.append(f"<h2>{heading}</h2>")
+            body.append(_missing_block(artifact, "real-data confrontation"))
+        body.append("<h2>Methods</h2>")
+        body.append(
+            '<details class="methods"><summary>Technical detail &mdash; open to expand'
+            "</summary><div>" + _missing_block(artifact, "protocol") + "</div></details>"
+        )
+        body.append("<h2>References</h2>")
+        body.append(
+            f"<ul><li><code>{_esc(artifact.path)}</code> &mdash; {_esc(MISSING_NOTE)}</li></ul>"
+        )
+        return _page("case-studies", f"{entry['name']} · {SITE_TITLE}", "\n".join(body), commit)
+
+    receipt = artifact.data
+    body.append("<h2>Abstract</h2>")
+    body.append(_rd_abstract(receipt))
+    body.append("<h2>The question</h2>")
+    body.append(_rd_question_section(receipt))
+    body.append("<h2>What we did</h2>")
+    body.append(_rd_contract_section(receipt))
+    body.append(_rd_formulas_section(receipt))
+    body.append(_rd_derivation_section(receipt))
+    body.append("<h2>What we found</h2>")
+    body.append(_rd_controls_section(receipt))
+    body.append(_rd_results_section(receipt))
+    body.append("<h2>What this does not show</h2>")
+    body.append(_rd_not_shown_section(receipt))
+    body.append("<h2>Methods</h2>")
+    body.append(
+        '<details class="methods"><summary>Technical detail &mdash; open to expand</summary>'
+        "<div>" + _rd_methods_section(receipt) + "</div></details>"
+    )
+    body.append("<h2>References</h2>")
+    body.append(_rd_references_section(receipt, artifact))
+    body.append('<p class="small"><a href="/case-studies">&larr; back to the case studies</a></p>')
+    return _page("case-studies", f"{entry['name']} · {SITE_TITLE}", "\n".join(body), commit)
+
+
 def _case_studies_index_page(artifacts: dict[str, Artifact], commit: str) -> bytes:
     body: list[str] = []
     body.append('<p class="kicker">Case studies</p>')
     body.append("<h1>Case studies: the machine against problems with known answers</h1>")
     body.append(
-        "<p class=\"lede\">A case study here is a question whose answer already exists in the"
-        " literature, handed to the engine with the answer sealed away, so that what it does"
-        " can be graded rather than admired. Three of them live in this logbook. Two are"
-        " elsewhere in the navigation because they came first; the third is below.</p>"
+        "<p class=\"lede\">A case study here is a question the engine can be graded on rather"
+        " than admired for: either the answer already exists in the literature and is sealed"
+        " away before the engine sees it, or the engine&rsquo;s own candidates are taken"
+        " outside and made to meet measurement. Two of the cards below lead to studies"
+        " elsewhere in the navigation, because those came first.</p>"
     )
     cards: list[str] = []
     for entry in CASE_STUDIES:
@@ -5138,6 +5589,7 @@ def render_site(root: Path | str, commit: str) -> dict[str, bytes]:
         "papers.html": _papers_index_page(artifacts, commit),
         "case-studies.html": _case_studies_index_page(artifacts, commit),
         "case-studies/balmer-bohr.html": _balmer_bohr_page(artifacts, commit),
+        "case-studies/real-rotation-curves.html": _real_data_page(artifacts, commit),
         "gravity.html": _gravity_page(artifacts, commit),
         "collatz.html": _collatz_page(artifacts, facts, commit),
         "evidence.html": _evidence_page(artifacts, commit),

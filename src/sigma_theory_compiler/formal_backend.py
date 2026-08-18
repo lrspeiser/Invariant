@@ -203,9 +203,20 @@ class FormalCheck:
         }
 
 
+#: Field-contract versions this backend accepts.  1.1 adds the declared universal
+#: scalar-matter coupling (contract amendment A1) and weakens nothing: every 1.0
+#: prohibition, including the absolute ban on unseen mass and per-object mass
+#: parameters, is carried over and is re-checked by
+#: :func:`validate_field_contract`.
+SUPPORTED_FIELD_CONTRACT_VERSIONS = (
+    "sigma-covariant-field-contract-1.0",
+    "sigma-covariant-field-contract-1.1",
+)
+
+
 def load_field_contract(path: str | Path) -> dict[str, Any]:
     payload = json.loads(Path(path).read_text(encoding="utf-8"))
-    if payload.get("schema_version") != "sigma-covariant-field-contract-1.0":
+    if payload.get("schema_version") not in SUPPORTED_FIELD_CONTRACT_VERSIONS:
         raise ValueError("Unsupported or missing covariant field-contract version")
     return payload
 
