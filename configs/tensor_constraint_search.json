@@ -1,0 +1,93 @@
+{
+  "schema_version": "invariant-tensor-constraint-search-config-1.0",
+  "campaign_id": "tensor-constraint-lovelock-001",
+  "declared_framework": {
+    "geometry": "pseudo-Riemannian manifold with a symmetric non-degenerate metric g, its Levi-Civita connection, and the Riemann curvature tensor",
+    "field_content": ["metric"],
+    "tensor_rank": 2,
+    "tensor_symmetry": "symmetric",
+    "concomitant_class": "polynomial in the Riemann tensor and its covariant derivatives, with constant coefficients, contracted with g and its inverse",
+    "conservation_motivation": "the matter stress tensor is divergence-free, so whatever geometric tensor is equated to it must be divergence-free identically",
+    "provenance": "EVERY item in this block was DECLARED by the operator. None of it was discovered by the search. The search derives only what these declarations force.",
+    "not_declared_and_therefore_derived": [
+      "which contraction patterns survive at a given derivative order",
+      "the dimension of the coefficient space after each constraint",
+      "that the divergence-free space in d = 4 at order 2 is exactly two-dimensional",
+      "that it is spanned by R_mn - (1/2) R g_mn and g_mn",
+      "the value of the constant the Newtonian limit fixes",
+      "that the Gauss-Bonnet combination contributes nothing in d = 4 and one extra dimension above it"
+    ]
+  },
+  "arithmetic": {
+    "primes": [1048573, 1048571],
+    "jet_seed": "invariant-tensor-constraint-search-v1",
+    "bank_samples": 9,
+    "holdout_samples": 3,
+    "control_samples": 3,
+    "sample_count_rationale": "The scalar-carrier terms of the order-4 basis -- g_mn, R g_mn, R^2 g_mn, R_ab R^ab g_mn, R_abcd R^abcd g_mn and box R g_mn -- all share the same tensor structure at the base point, so each metric jet contributes exactly one independent constraint to that six-dimensional block. Six samples is therefore the hard floor and nine carries the margin. Every reported dimension is stable from seven samples upward, and the sampling error is one-sided in any case: too few samples can only report the surviving space too LARGE."
+  },
+  "gauss_bonnet_dimensions": [4, 5, 6],
+  "searches": [
+    {
+      "search_id": "d4-order2-einstein",
+      "purpose": "the headline: what four dimensions, two derivatives, symmetry and conservation force",
+      "dimension": 4,
+      "derivative_order": 2,
+      "constraints": [
+        "generally_covariant",
+        "derivative_order",
+        "symmetric",
+        "divergence_free",
+        "newtonian_limit"
+      ],
+      "enumerate_basis": true
+    },
+    {
+      "search_id": "d4-order2-no-conservation",
+      "purpose": "deliberately wrong constraint set: drop divergence_free and the space must grow",
+      "dimension": 4,
+      "derivative_order": 2,
+      "constraints": ["generally_covariant", "derivative_order", "symmetric"],
+      "enumerate_basis": true
+    },
+    {
+      "search_id": "d4-order4-relaxed",
+      "purpose": "relax derivative_order from 2 to 4 in d = 4; the higher-curvature families must appear",
+      "dimension": 4,
+      "derivative_order": 4,
+      "constraints": [
+        "generally_covariant",
+        "derivative_order",
+        "symmetric",
+        "divergence_free"
+      ],
+      "enumerate_basis": true
+    },
+    {
+      "search_id": "d5-order4-gaussbonnet",
+      "purpose": "five dimensions at order 4: Gauss-Bonnet must appear as an additional divergence-free contribution",
+      "dimension": 5,
+      "derivative_order": 4,
+      "constraints": [
+        "generally_covariant",
+        "derivative_order",
+        "symmetric",
+        "divergence_free"
+      ],
+      "enumerate_basis": true
+    },
+    {
+      "search_id": "d6-order4-gaussbonnet",
+      "purpose": "six dimensions at order 4: the same additional contribution, confirming it is a d > 4 effect and not a d = 5 accident",
+      "dimension": 6,
+      "derivative_order": 4,
+      "constraints": [
+        "generally_covariant",
+        "derivative_order",
+        "symmetric",
+        "divergence_free"
+      ],
+      "enumerate_basis": true
+    }
+  ]
+}
