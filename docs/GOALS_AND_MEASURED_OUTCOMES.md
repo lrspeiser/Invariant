@@ -85,6 +85,19 @@ Overall status: **strong alpha; not yet scientifically or operationally complete
 | 40 | Repository migration | Development, evidence, CI, and [draft PR #1](https://github.com/lrspeiser/Invariant/pull/1) live in `lrspeiser/Invariant`. The PR remains open, draft, mergeable, and currently unstable while this release candidate is validated. | Migration achieved; upload, terminal CI, review, draft conversion, and merge remain release work. |
 | 41 | Release hygiene | The Goal 25/26 release boundary contains 75 exact paths and about 5.5 MB of ordinary-Git content, including three historical receipt byte-authority repairs. Git LFS tracks 294 historical objects with no object pending upload and no new file large enough to require LFS. Test basetemps, runtime state, and the 115-file D2 checkpoint tree are excluded; the remaining apparent tracked changes are materializer/line-ending noise. | Stage only the enumerated paths; never bulk-stage this materialized worktree. |
 
+## H. First-principles derivation (added 2026-08-18)
+
+Registers the 2026-08-15..18 sprint, which post-dates the 2026-08-14 boundary above.
+Forward-looking claims, tests, and falsifiers for this section live in
+[`FIRST_PRINCIPLES_DISCOVERY_GOALS.md`](FIRST_PRINCIPLES_DISCOVERY_GOALS.md).
+
+| # | Goal | Current measured outcome | Status / missing work |
+|---:|---|---|---|
+| 42 | Derivation from declared constraints | Tensor-space constraint search derives the Einstein tensor by exhaustion: 10 enumerated contraction patterns at `d=4` order 2 (595 at order 4), collapsed by the Riemann symmetries and first Bianchi identity to a final family dimension of 2, `alpha G_mn + Lambda g_mn`. The Newtonian limit fixes `alpha = c^4/(8 pi G)`; `Lambda` comes out unforced and is reported rather than hidden. Jets are carried exactly over a prime field and replayed under a second prime; sampling error is one-sided, so uniqueness is closed from below by exhibiting `g_mn` and `G_mn` on held-out jets. Gauss-Bonnet appears as an additional divergence-free contribution for `d > 4` (dimension 4 in `d=4`, 5 in `d=5` and `d=6`). Receipt carries `novelty_claimed: false` and `framework_was_declared_not_discovered: true`. | Lovelock rediscovery achieved as an engine capability demonstration. The framework was declared, not discovered; uniqueness holds within the declared basis and derivative order. Domain transfer to a non-gravitational system is unattempted. |
+| 43 | Inverse variational engine | Derives Lagrangians from equations of motion, 1,910 source lines with 941 lines of tests. Landed 2026-08-18. | Engine exists; a Helmholtz-condition control battery and false-negative controls are not yet registered. |
+| 44 | LLM program synthesis under sandbox | FunSearch-style loop over executed programs, 2,949 source lines and 54 tests. The proposer is asked only for source, never for a result. `guard_prompt` refuses any prompt containing declared forbidden vocabulary, and the sealed answer table is unreachable from the prompt path. Sandbox containment is now kernel-enforced on both platforms: `RLIMIT_AS` on Linux, `JOB_OBJECT_LIMIT_PROCESS_MEMORY` on Windows. Measured LLM spend to date: 600 hundredths ($6.00). | Containment and blindness achieved. Discovery value is unproven: the LLM lane has never been ablated, so its contribution is unmeasured. |
+| 45 | Platform-invariant receipt replay | An AST scan of all pinned source hashes on 2026-08-18 found 262 resolvable pins: **125 sealed against LF bytes** (portable) and **137 sealed against CRLF bytes** (Windows-locked). The portable set correlates with the ~123 `eol=lf` entries in `.gitattributes`; the intended workflow is pin-then-seal, and the 137 were sealed without the pin. Affected files read clean in `git status` because Git normalizes on read, while the receipts layer hashes raw disk bytes. | **Failing.** No single checkout satisfies both sets: Windows fails the 125, Linux fails the 137. The fix is to add the missing `eol=lf` pins and **re-run the campaigns** so receipts are regenerated, not edited — mass-patching the 137 SHAs to match current bytes is precisely the tamper `test_resealed_leaf_zero_D2_or_scope_tamper_fails_closed` exists to detect. Adding pins without resealing breaks the 137 on Windows too. Scope: ~40 modules. |
+
 ## Current priority order
 
 1. Preserve the 39/39 release baseline on every integrated change; never trade a
@@ -110,6 +123,15 @@ Overall status: **strong alpha; not yet scientifically or operationally complete
    externally checked equivalence controls; corpus absence must remain non-novelty.
 10. Resolve review feedback, reproduce the release from a clean checkout, and convert
     draft PR #1 into an intentionally reviewed merge-ready release.
+11. Restore platform-invariant replay (Goal 45): pin the missing paths `eol=lf` and
+    regenerate the 137 CRLF-sealed receipts by re-running their campaigns. Until this
+    closes, every receipt's provenance is weaker than claimed, because verification
+    depends on which operating system runs it.
+12. Ablate the LLM lane (Goal 44). If removing it does not measurably degrade yield,
+    it is decoration and should be deleted rather than funded.
+13. Build the declaration layer from `LANGUAGE_PROPOSAL.md`, so a new capability is a
+    declaration rather than a hand-written module. 122 of 125 capability gaps are open,
+    and each currently costs one module; this is the throughput bottleneck.
 
 The system is credible as an exact, auditable formula-recovery and proof pipeline with
 documented success and failure modes. It is not yet a comprehensive theorem-discovery
