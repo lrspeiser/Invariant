@@ -931,6 +931,7 @@ class ProblemSpec:
     known_solution_grammar: tuple[KnownFamily, ...] = ()
     mutation_bank: tuple[str, ...] = ()
     output_width: int = 1
+    observed_outputs: tuple[str, ...] = ()
     takes_point_argument: bool = True
 
     def __post_init__(self) -> None:
@@ -998,6 +999,14 @@ RESPONSE_METRIC = "log_relative_rms"
 RESPONSE_POINTS: tuple[float, ...] = tuple(
     10.0 ** (-12.0 + 0.25 * index) for index in range(25)
 )
+
+#: The observations for the blinded response problem, rendered once.  These are the numbers the
+#: proposer must fit; the law that generated them stays sealed.
+RESPONSE_OBSERVATIONS: tuple[str, ...] = tuple(
+    format(value, ".9e") for value in _sealed_response_targets(RESPONSE_POINTS)
+)
+
+
 SEQUENCE_FIT_POINTS: tuple[float, ...] = tuple(float(n) for n in range(32))
 SEQUENCE_HOLDOUT_POINTS: tuple[float, ...] = tuple(float(n) for n in range(32, 48))
 
@@ -1036,7 +1045,13 @@ def _evaluate_response(problem: ProblemSpec, outputs: Sequence[str]) -> dict[str
     targets = _sealed_response_targets(problem.probe_points)
     values = [float(item) for item in outputs]
     distance = distance_between(RESPONSE_METRIC, targets, values)
-    quality = 0.0 if not math.isfinite(distance) else max(0.0, 1.0 - distance)
+    # exp(-distance), not max(0, 1 - distance).  The clipped ramp sent every candidate worse than
+    # distance 1 to exactly zero, so a search could not tell a near miss from nonsense and had no
+    # direction to climb: a measured live run put 16 programs on one value and 15 on zero, with
+    # nothing in between.  exp(-d) agrees with 1-d to first order as d -> 0, so an exact match
+    # still scores exactly 1.0 and the 0.99 high-quality threshold keeps its meaning, while the
+    # ordering now survives all the way down.
+    quality = 0.0 if not math.isfinite(distance) else math.exp(-distance)
     return {
         "quality": quality,
         "detail": {"metric": RESPONSE_METRIC, "distance": format(distance, ".6g")},
@@ -1432,6 +1447,17 @@ def build_prompt(problem: ProblemSpec, examples: Sequence[ScoredProgram]) -> str
         f"wall clock limit: {problem.sandbox.wall_seconds} seconds",
         "",
     ]
+    if problem.observed_outputs:
+        # The measurements the program must reproduce.  Withholding these was not blindness, it
+        # was an impossible task: the proposer was asked to invent a function fitting 25 numbers
+        # it had never seen, and duly returned textbook dimensionless shapes that are the identity
+        # map over this range.  Showing the observations leaks no domain identity -- it is exactly
+        # the unlabelled table a person would be handed -- while the sealed law, its parameter and
+        # its grammar stay hidden.
+        lines.append("# observations to reproduce, as (argument, value) pairs:")
+        for point, value in zip(problem.probe_points, problem.observed_outputs):
+            lines.append(f"#   {point:.6e}  ->  {value}")
+        lines.append("")
     for index, example in enumerate(examples):
         lines.append(f"# example {index} scored {format(example.final_score, '.6f')}")
         lines.append(example.source)
@@ -2146,6 +2172,7 @@ def declared_problems() -> dict[str, ProblemSpec]:
         seed_program="def rule(u):\n    return u",
         evaluator_id="bounded_relative_accuracy",
         probe_points=RESPONSE_POINTS,
+        observed_outputs=RESPONSE_OBSERVATIONS,
         novelty_channel="known_solution_grammar",
         forbidden_vocabulary=FORBIDDEN_RESPONSE_VOCABULARY,
         sandbox=SandboxBudget(wall_seconds=4.0, import_allowlist=("math",)),
@@ -2170,6 +2197,7 @@ def declared_problems() -> dict[str, ProblemSpec]:
         seed_program="def rule(u):\n    return u",
         evaluator_id="bounded_relative_accuracy",
         probe_points=RESPONSE_POINTS,
+        observed_outputs=RESPONSE_OBSERVATIONS,
         novelty_channel="known_solution_grammar",
         forbidden_vocabulary=FORBIDDEN_RESPONSE_VOCABULARY,
         sandbox=SandboxBudget(wall_seconds=4.0, import_allowlist=("math",)),
