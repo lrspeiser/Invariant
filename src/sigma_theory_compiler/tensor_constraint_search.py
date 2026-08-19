@@ -38,6 +38,25 @@ side by exhibiting explicit members -- ``g_mn`` and ``G_mn`` -- and verifying ea
 held-out jets that took no part in the rank computation.  When the exhibited count meets the sampled
 nullity the sandwich is tight and the dimension is exact within the declared basis.
 
+Keeping that guarantee across the subtraction
+---------------------------------------------
+The reported dimension is a *distinct-tensor* dimension, so a coefficient nullity has to have the
+identically-vanishing directions taken out of it.  That subtraction is where a one-sided guarantee
+goes to die: the sampled identically-vanishing dimension is itself an upper bound, so subtracting it
+pushes the answer *down*, and the difference of two upper bounds has no guaranteed sign at all.  On
+a one-jet bank in ``d = 4`` at order 2 that difference used to report 1 while the same call
+exhibited 2 independent members -- below its own lower bound.
+
+So nothing sampled is ever subtracted.  The only directions removed are **witnessed** ones:
+declared vectors, each written from the literature and then confronted with the bank *and* the
+holdout.  A witness is a lower bound on the true vanishing dimension, so taking it out leaves the
+error still running upward.  If the sampled vanishing space is larger than the witnessed one there
+is a direction nobody can name, and the search reports an open upper bound and refuses to publish a
+dimension.  Every consumer of a dimension -- the reduction tables, the Gauss-Bonnet verdict, the
+relaxation controls, the headline counts -- goes through :func:`published_dimension` and is refused
+there rather than being handed a number that looks like a measurement and is not one.  Two open
+upper bounds must never be differenced into a verdict.
+
 What is emphatically NOT claimed
 --------------------------------
 1. Nothing here is novel.  Vermeil (1917), Weyl (1921), Cartan (1922), Lanczos (1938) and Lovelock
@@ -141,6 +160,16 @@ class ConstraintOutOfScope(TensorConstraintSearchError):
     """
 
 
+class SandwichNotTight(TensorConstraintSearchError):
+    """Typed blocker: a dimension was asked for that the run could only bound from one side.
+
+    A search whose sandwich did not close reports an *open upper bound*, not a dimension.  Two open
+    upper bounds cannot be subtracted, compared or differenced into a verdict, so every consumer of
+    a search dimension goes through :func:`published_dimension` and is refused here rather than
+    being handed a number that looks like a measurement and is not one.
+    """
+
+
 # ---------------------------------------------------------------------------
 # Declared basis of admissible terms, and the classification that makes it complete.
 # ---------------------------------------------------------------------------
@@ -197,7 +226,58 @@ DECLARED_VECTORS: dict[str, dict[str, str]] = {
         "DDR": "-2",
         "BoxRg": "2",
     },
+    # E2_mn: the metric Euler-Lagrange derivative of sqrt(-g) R_ab R^ab, written from the standard
+    # variation and NOT read back off this engine.  Deriving it needs only the Palatini identity,
+    # the contracted Bianchi identity nabla_a R^ab = (1/2) nabla^b R, and the Ricci commutator
+    # [nabla_a, nabla_m] R^a_n = R_mb R^b_n - R_manb R^ab:
+    #     E2_mn = -(1/2) R_ab R^ab g_mn + 2 R_manb R^ab + box R_mn + (1/2) box R g_mn
+    #             - nabla_m nabla_n R
+    # The R_ma R^a_n contributions from varying the two inverse metrics and from the commutator
+    # cancel exactly, which is the well-known feature of this particular Euler-Lagrange derivative.
+    "quadratic_ricci_squared_euler_lagrange": {
+        "RicSqg": "-1/2",
+        "RiemRic": "2",
+        "DDR": "-1",
+        "BoxRg": "1/2",
+        "BoxRic": "1",
+    },
+    # E3_mn: the metric Euler-Lagrange derivative of sqrt(-g) R_abcd R^abcd, likewise written from
+    # the standard variation:
+    #     E3_mn = -(1/2) R_abcd R^abcd g_mn + 2 R_mabc R_n^abc - 4 R_ma R^a_n + 4 R_manb R^ab
+    #             + 4 box R_mn - 2 nabla_m nabla_n R
+    "quadratic_riemann_squared_euler_lagrange": {
+        "RicRic": "-4",
+        "RiemRic": "4",
+        "RiemSqg": "-1/2",
+        "RiemRiem": "2",
+        "DDR": "-2",
+        "BoxRic": "4",
+    },
 }
+
+#: Declared vectors the search tries to exhibit, in receipt order.  These are the LOWER bound: each
+#: is confronted with the bank and the holdout before it is credited, and their rank is what the
+#: sampled nullity has to meet before any dimension is published.
+EXHIBITED_LABELS: tuple[str, ...] = (
+    "cosmological",
+    "einstein",
+    "gauss_bonnet_lanczos",
+    "quadratic_r_squared_euler_lagrange",
+    "quadratic_ricci_squared_euler_lagrange",
+    "quadratic_riemann_squared_euler_lagrange",
+)
+
+#: The Gauss-Bonnet density is ``R^2 - 4 R_ab R^ab + R_abcd R^abcd``, so the Euler-Lagrange
+#: operator -- which is linear -- must send it to the same combination of the three quadratic
+#: Euler-Lagrange derivatives.  ``E1 - 4 E2 + E3`` must therefore equal the declared Lanczos vector
+#: *exactly*, with all six derivative-carrying coefficients cancelling.  Each of the four vectors
+#: was written independently from the literature, so this is a genuine cross-check of all four at
+#: once and it is run as an abort-on-failure control in :func:`gauss_bonnet_decomposition`.
+GAUSS_BONNET_DECOMPOSITION: tuple[tuple[str, str], ...] = (
+    ("quadratic_r_squared_euler_lagrange", "1"),
+    ("quadratic_ricci_squared_euler_lagrange", "-4"),
+    ("quadratic_riemann_squared_euler_lagrange", "1"),
+)
 
 #: Cited classification results.  The enumeration below is mechanical, but the statement that the
 #: enumerated polynomial basis exhausts the wider class of *non-polynomial* metric concomitants is
@@ -925,6 +1005,94 @@ def _in_span(vector: Sequence[int], basis: Sequence[Sequence[int]], modulus: int
     return _rank(list(basis), modulus) == _rank([*list(basis), list(vector)], modulus)
 
 
+def _sample_rows(
+    pairs: Sequence[tuple[_Geometry, Mapping[str, np.ndarray]]],
+    names: Sequence[str],
+    *,
+    divergence: bool,
+    full_jet: bool = False,
+) -> list[list[int]]:
+    """One row per named term, holding that term (or its divergence) over every sampled jet.
+
+    ``full_jet`` keeps the whole truncated Taylor jet rather than only its value at the base point.
+    A divergence already lives one jet degree lower, so for ``divergence=True`` the base point IS
+    the whole jet and the flag makes no difference.  For the terms themselves it does: the linear
+    Taylor coefficients say what the tensor is at neighbouring points of the same metric, and an
+    identity has to hold there too.  Keeping them shrinks the sampled identically-vanishing space
+    towards the true one, which is the safe direction for a quantity that gets subtracted.
+    """
+
+    rows: list[list[int]] = []
+    for name in names:
+        values: list[int] = []
+        for geometry, terms in pairs:
+            tensor = geometry.divergence(terms[name], 1) if divergence else terms[name]
+            block = tensor if full_jet else tensor[..., 0]
+            values.extend(int(value) for value in block.ravel())
+        rows.append(values)
+    return rows
+
+
+def _vanishing_witnesses(
+    pairs: Sequence[tuple[_Geometry, Mapping[str, np.ndarray]]],
+    names: Sequence[str],
+    modulus: int,
+) -> list[tuple[str, list[int]]]:
+    """Declared vectors that vanish componentwise on every sampled jet, bank and holdout alike.
+
+    This is the ONLY thing the search is ever allowed to subtract from a nullity.  A sampled
+    vanishing dimension is an upper bound and subtracting it tips the reported dimension below the
+    truth; a witness is a named vector with a literature provenance, so crediting it is a lower
+    bound on the true vanishing dimension and subtracting it keeps the error running upward.
+    """
+
+    witnesses: list[tuple[str, list[int]]] = []
+    for label, spec in DECLARED_VECTORS.items():
+        if label == "fabricated_third" or not set(spec) <= set(names):
+            continue
+        vector = _declared_vector(label, names, modulus)
+        if all(not np.any(_combine(vector, terms, names, modulus) % modulus) for _, terms in pairs):
+            witnesses.append((label, vector))
+    return witnesses
+
+
+def _vanishing_blocker(sampled: int, witnessed: int) -> dict[str, Any]:
+    return {
+        "type": "SandwichNotTight",
+        "reason": "unwitnessed_identically_vanishing_directions",
+        "sampled_identically_vanishing_dimension": sampled,
+        "witnessed_identically_vanishing_dimension": witnessed,
+        "detail": (
+            f"the jet sample says {sampled} coefficient direction(s) vanish identically but only "
+            f"{witnessed} of them are witnessed by a declared member.  A sampled vanishing "
+            "dimension is an UPPER bound, so subtracting it would report the space too small.  "
+            "Refusing to publish a dimension."
+        ),
+    }
+
+
+def _sandwich_blocker(
+    *,
+    coefficient_nullity: int,
+    exhibited_rank: int,
+    sampled_vanishing: int,
+    witnessed_vanishing: int,
+) -> dict[str, Any]:
+    if sampled_vanishing != witnessed_vanishing:
+        return _vanishing_blocker(sampled_vanishing, witnessed_vanishing)
+    return {
+        "type": "SandwichNotTight",
+        "reason": "exhibited_members_do_not_span_the_sampled_nullspace",
+        "coefficient_nullity": coefficient_nullity,
+        "exhibited_coefficient_rank": exhibited_rank,
+        "detail": (
+            f"the sampled coefficient nullspace has dimension {coefficient_nullity} but the "
+            f"exhibited members span only {exhibited_rank} of it, so the reported dimension is an "
+            "OPEN UPPER BOUND and not a measurement.  Refusing to publish it."
+        ),
+    }
+
+
 # ---------------------------------------------------------------------------
 # The search itself.
 # ---------------------------------------------------------------------------
@@ -1009,22 +1177,27 @@ def run_search(
             "named basis it reduced to is reused, with the reuse recorded rather than hidden"
         )
 
-    # -- named basis over the bank ----------------------------------------
-    term_rows: list[list[int]] = []
-    divergence_rows: list[list[int]] = []
-    bank_terms: list[dict[str, np.ndarray]] = []
-    for geometry in bank:
-        bank_terms.append(named_tensors(geometry, order))
-    for name in names:
-        values: list[int] = []
-        divergences: list[int] = []
-        for geometry, terms in zip(bank, bank_terms, strict=True):
-            values.extend(int(v) for v in terms[name][..., 0].ravel())
-            divergences.extend(
-                int(v) for v in geometry.divergence(terms[name], 1)[..., 0].ravel()
-            )
-        term_rows.append(values)
-        divergence_rows.append(divergences)
+    # -- named basis over the bank, then over bank AND holdout -------------
+    #
+    # Both sampled spaces below -- the identically-vanishing space and the divergence-free space --
+    # are computed on the SAME jet set, and both are re-verified on the holdout.  That symmetry is
+    # the whole point.  A finite jet set imposes a subset of the identical constraints, so each
+    # sampled space comes out too LARGE.  The old code differenced a holdout-verified nullity
+    # against a bank-only vanishing dimension, so the two errors ran in opposite directions and the
+    # difference could land BELOW the truth -- the exact opposite of the advertised guarantee.
+    bank_terms: list[dict[str, np.ndarray]] = [named_tensors(geometry, order) for geometry in bank]
+    holdout_terms: list[dict[str, np.ndarray]] = [
+        named_tensors(geometry, order) for geometry in holdout
+    ]
+    bank_pairs = list(zip(bank, bank_terms, strict=True))
+    holdout_pairs = list(zip(holdout, holdout_terms, strict=True))
+    sample_pairs = [*bank_pairs, *holdout_pairs]
+
+    term_rows = _sample_rows(bank_pairs, names, divergence=False)
+    divergence_rows = _sample_rows(bank_pairs, names, divergence=True)
+    vanishing_rows = _sample_rows(bank_pairs, names, divergence=False, full_jet=True)
+    vanishing_rows_all = _sample_rows(sample_pairs, names, divergence=False, full_jet=True)
+    divergence_rows_all = _sample_rows(sample_pairs, names, divergence=True)
 
     if enumerate_basis:
         named_rank = _rank(term_rows, modulus)
@@ -1039,8 +1212,25 @@ def run_search(
                 "incomplete at this order and the search refuses to report a dimension"
             )
 
-    identically_vanishing = _nullspace(term_rows, modulus)
-    independent_dimension = len(names) - len(identically_vanishing)
+    vanishing_bank = _nullspace(vanishing_rows, modulus)
+    identically_vanishing = _nullspace(vanishing_rows_all, modulus)
+    for vector in identically_vanishing:
+        for _, terms in holdout_pairs:
+            if np.any(_combine(vector, terms, names, modulus) % modulus):  # pragma: no cover
+                raise TensorConstraintSearchError(
+                    "a member of the reported identically-vanishing space failed on a held-out jet"
+                )
+
+    # The subtracted quantity has to be bounded from BELOW, and no amount of sampling bounds an
+    # identity from below.  So the only directions ever subtracted are *witnessed* ones: declared
+    # vectors, written from the literature, each confronted with the bank and the holdout.  If the
+    # sampled vanishing space is bigger than the witnessed one there is an unexplained direction in
+    # it and the run refuses to publish a dimension rather than subtracting a sampled number.
+    witnesses = _vanishing_witnesses(sample_pairs, names, modulus)
+    witnessed_vectors = [vector for _, vector in witnesses]
+    witnessed_dimension = _rank(witnessed_vectors, modulus) if witnessed_vectors else 0
+    fully_witnessed = bool(witnessed_dimension == len(identically_vanishing))
+    independent_dimension = len(names) - witnessed_dimension
 
     result: dict[str, Any] = {
         "dimension": dimension,
@@ -1054,6 +1244,12 @@ def run_search(
         "enumeration": enumeration,
         "identically_vanishing": {
             "dimension": len(identically_vanishing),
+            "bank_only_dimension": len(vanishing_bank),
+            "holdout_refuted_dimensions": len(vanishing_bank) - len(identically_vanishing),
+            "holdout_samples_verified": len(holdout),
+            "witnessed_dimension": witnessed_dimension,
+            "witnesses": [label for label, _ in witnesses],
+            "fully_witnessed": fully_witnessed,
             "vectors": [
                 _vector_text(_normalise(vector, modulus), names)
                 for vector in identically_vanishing
@@ -1064,46 +1260,50 @@ def run_search(
 
     if "divergence_free" not in declared:
         result["divergence_free_applied"] = False
-        result["surviving_dimension"] = independent_dimension
+        result["dimension_published"] = fully_witnessed
+        result["surviving_dimension"] = independent_dimension if fully_witnessed else None
+        if not fully_witnessed:
+            result["blocker"] = _vanishing_blocker(
+                len(identically_vanishing), witnessed_dimension
+            )
         result["surviving_family"] = (
             "the full symmetric basis, no conservation constraint imposed: "
             + ", ".join(_TERM_TEXT[name] for name in names)
         )
         return result
 
-    raw_nullspace = _nullspace(divergence_rows, modulus)
-    effective = len(raw_nullspace) - len(identically_vanishing)
+    nullspace_bank = _nullspace(divergence_rows, modulus)
+    raw_nullspace = _nullspace(divergence_rows_all, modulus)
 
     # Held-out verification: every reported member must stay divergence-free on jets that took no
-    # part in the rank computation.  This is what turns a sampled nullspace into a claim.
+    # part in the bank rank computation.  Members the holdout refutes are *dropped*, which is what
+    # recomputing the nullspace over bank+holdout already does -- the loop below is the assertion
+    # that nothing survived it, and the count of refuted directions is published.
     for vector in raw_nullspace:
-        for geometry in holdout:
-            terms = named_tensors(geometry, order)
+        for geometry, terms in holdout_pairs:
             tensor = _combine(vector, terms, names, modulus)
-            if np.any(geometry.divergence(tensor, 1) % modulus):
+            if np.any(geometry.divergence(tensor, 1) % modulus):  # pragma: no cover
                 raise TensorConstraintSearchError(
                     "a member of the reported divergence-free space failed on a held-out metric jet"
                 )
 
     exhibited: list[dict[str, Any]] = []
-    for label in (
-        "cosmological",
-        "einstein",
-        "gauss_bonnet_lanczos",
-        "quadratic_r_squared_euler_lagrange",
-    ):
-        spec = DECLARED_VECTORS[label]
-        if not set(spec) <= set(names):
+    for label in EXHIBITED_LABELS:
+        spec = DECLARED_VECTORS.get(label)
+        if spec is None or not set(spec) <= set(names):
             continue
         vector = _declared_vector(label, names, modulus)
+        # Both flags are decided on the bank AND the holdout.  An exhibited member is a LOWER
+        # bound, so over-crediting it is the dangerous direction and the holdout is what stops it.
         vanishes = all(
-            not np.any(_combine(vector, terms, names, modulus) % modulus) for terms in bank_terms
+            not np.any(_combine(vector, terms, names, modulus) % modulus)
+            for _, terms in sample_pairs
         )
         divergence_free = all(
             not np.any(
                 geometry.divergence(_combine(vector, terms, names, modulus), 1) % modulus
             )
-            for geometry, terms in zip(bank, bank_terms, strict=True)
+            for geometry, terms in sample_pairs
         )
         exhibited.append(
             {
@@ -1118,45 +1318,100 @@ def run_search(
         )
 
     reduced, _ = _rref(raw_nullspace, modulus)
-    independent_exhibited = [
+    # Coefficient-space sandwich.  The sampled nullity is an upper bound on dim D_true (a finite
+    # jet set imposes a subset of the constraints).  The exhibited members are genuinely
+    # divergence-free, so their span sits inside D_true and their rank is a lower bound.  When the
+    # two meet, the coefficient space is pinned EXACTLY -- no sampling error is left in it at all.
+    exhibited_vectors = [
         _declared_vector(item["name"], names, modulus)
         for item in exhibited
-        if item["in_reported_space"] and not item["identically_zero"]
+        if item["in_reported_space"] and item["divergence_free"]
     ]
+    exhibited_rank = _rank(exhibited_vectors, modulus) if exhibited_vectors else 0
+    coefficient_tight = bool(exhibited_rank == len(raw_nullspace))
+
+    # Distinct-tensor sandwich.  Only witnessed vanishing directions are ever subtracted, so the
+    # upper bound is (upper bound on the nullity) - (lower bound on the vanishing dimension) and
+    # therefore still errs upward.  The lower bound is the rank of the exhibited members modulo
+    # those same witnessed directions.
+    joint = [*exhibited_vectors, *witnessed_vectors]
+    distinct_upper = len(raw_nullspace) - witnessed_dimension
+    distinct_lower = (_rank(joint, modulus) if joint else 0) - witnessed_dimension
+    tight = bool(coefficient_tight and fully_witnessed and distinct_upper == distinct_lower)
+
     result["divergence_free_applied"] = True
     result["divergence_free_space"] = {
         "coefficient_nullity": len(raw_nullspace),
+        "coefficient_nullity_bank_only": len(nullspace_bank),
+        "holdout_refuted_dimensions": len(nullspace_bank) - len(raw_nullspace),
         "identically_vanishing_inside": len(identically_vanishing),
-        "distinct_tensor_dimension": effective,
+        "witnessed_vanishing_inside": witnessed_dimension,
+        "distinct_tensor_dimension": distinct_upper,
         "basis": [_vector_text(_normalise(vector, modulus), names) for vector in reduced],
         "holdout_samples_verified": len(holdout),
     }
     result["exhibited_members"] = exhibited
     result["uniqueness_certificate"] = {
         "upper_bound": (
-            "EXACT.  A finite bank of metric jets imposes a subset of the identical constraints, "
-            "so the reported nullspace contains the true one: the dimension can only be reported "
-            "too large, never too small.  No uniqueness claim can be manufactured by sampling."
+            "ONE-SIDED UPWARD.  A finite jet set imposes a subset of the identical constraints, so "
+            "the sampled coefficient nullspace CONTAINS the true one and its dimension can only be "
+            "reported too large.  The distinct-tensor upper bound subtracts only WITNESSED "
+            "identically-vanishing directions -- declared vectors confronted with the bank and the "
+            "holdout -- never the sampled vanishing dimension, which is itself an upper bound and "
+            "would tip the error the other way.  No uniqueness claim can be manufactured by "
+            "sampling."
         ),
         "lower_bound": (
-            "Every reported member was re-verified on held-out metric jets that took no part in "
-            "the rank computation, and independently exhibited members are listed above.  For the "
+            "Every reported member was re-verified on held-out metric jets, and every exhibited "
+            "member was confronted with the bank and the holdout before it was credited.  For the "
             "order-2 case the lower bound is additionally ALGEBRAIC: g_mn is divergence-free by "
             "metric compatibility and G_mn by the contracted Bianchi identity, which this run "
             "re-derives on the bank and which is hash-bound to "
             "formal/cadabra/contracted_bianchi.cdb."
         ),
-        "independently_exhibited_dimension": _rank(independent_exhibited, modulus)
-        if independent_exhibited
-        else 0,
-        "sampled_dimension": effective,
-        "sandwich_tight": bool(
-            independent_exhibited and _rank(independent_exhibited, modulus) == effective
-        ),
+        "coefficient_nullity": len(raw_nullspace),
+        "exhibited_coefficient_rank": exhibited_rank,
+        "coefficient_sandwich_tight": coefficient_tight,
+        "sampled_identically_vanishing_dimension": len(identically_vanishing),
+        "witnessed_identically_vanishing_dimension": witnessed_dimension,
+        "vanishing_fully_witnessed": fully_witnessed,
+        "independently_exhibited_dimension": distinct_lower,
+        "sampled_dimension": distinct_upper,
+        "sandwich_tight": tight,
         "algebraic_lower_bound_available": bool(order == 2),
     }
-    result["surviving_dimension"] = effective
+    result["dimension_published"] = tight
+    result["surviving_dimension"] = distinct_upper if tight else None
+    if not tight:
+        result["blocker"] = _sandwich_blocker(
+            coefficient_nullity=len(raw_nullspace),
+            exhibited_rank=exhibited_rank,
+            sampled_vanishing=len(identically_vanishing),
+            witnessed_vanishing=witnessed_dimension,
+        )
     return result
+
+
+def published_dimension(search: Mapping[str, Any]) -> int:
+    """The certified distinct-tensor dimension of a search, or a refusal.
+
+    Every consumer of a search dimension -- the reduction tables, the Gauss-Bonnet verdict, the
+    relaxation controls, the headline counts -- goes through here.  A search whose sandwich did not
+    close reported an OPEN UPPER BOUND, and an open upper bound is not a dimension: it cannot be
+    compared, differenced or published.  Refusing is the whole fix.
+    """
+
+    if not search.get("dimension_published", False):
+        blocker = search.get("blocker") or {}
+        raise SandwichNotTight(
+            f"search {search.get('search_id', '(unnamed)')} did not close its uniqueness "
+            f"sandwich, so it has no publishable dimension: "
+            f"{blocker.get('detail', 'sandwich not tight')}"
+        )
+    value = search.get("surviving_dimension")
+    if not isinstance(value, int):  # pragma: no cover - defensive
+        raise SandwichNotTight("a published search carried no integer dimension")
+    return value
 
 
 # ---------------------------------------------------------------------------
@@ -1310,6 +1565,131 @@ def newtonian_limit_chain() -> dict[str, Any]:
 # ---------------------------------------------------------------------------
 # Controls.
 # ---------------------------------------------------------------------------
+
+
+def gauss_bonnet_decomposition() -> dict[str, Any]:
+    """Confront the three quadratic Euler-Lagrange vectors with the declared Lanczos tensor.
+
+    The Euler-Lagrange operator is linear and the Gauss-Bonnet density is ``R^2 - 4 R_ab R^ab +
+    R_abcd R^abcd``, so ``E1 - 4 E2 + E3`` must reproduce the Lanczos vector exactly -- including
+    the cancellation of every derivative-carrying coefficient, since the Lanczos tensor is second
+    order.  All four vectors were written independently from the literature, so this is a check of
+    all four at once and it runs in exact rational arithmetic, no field, no sampling.
+    """
+
+    names = named_term_names(4)
+    combination = {name: Fraction(0) for name in names}
+    for label, weight in GAUSS_BONNET_DECOMPOSITION:
+        scale = Fraction(weight)
+        for term, value in DECLARED_VECTORS[label].items():
+            combination[term] += scale * Fraction(value)
+    lanczos = DECLARED_VECTORS["gauss_bonnet_lanczos"]
+    target = {name: Fraction(lanczos.get(name, "0")) for name in names}
+    if combination != target:
+        raise TensorConstraintSearchError(
+            "control failure: E1 - 4 E2 + E3 did not reproduce the declared Lanczos tensor"
+        )
+    derivative_terms = [name for name in ("DDR", "BoxRg", "BoxRic") if combination[name] != 0]
+    if derivative_terms:  # pragma: no cover - implied by the equality above
+        raise TensorConstraintSearchError(
+            "control failure: the Gauss-Bonnet combination kept a derivative-carrying term"
+        )
+    return {
+        "control": "gauss_bonnet_is_the_1_minus4_1_combination_of_the_quadratic_variations",
+        "claim_under_test": (
+            "the three quadratic Euler-Lagrange vectors were fitted to this engine's output rather "
+            "than written from the literature"
+        ),
+        "verdict": "REJECTED",
+        "combination": " ".join(
+            f"{weight}*{label}" for label, weight in GAUSS_BONNET_DECOMPOSITION
+        ),
+        "evidence": (
+            "E1 - 4 E2 + E3 equals the declared Lanczos vector coefficient for coefficient in "
+            "exact rational arithmetic, and all three derivative-carrying coefficients cancel to "
+            "zero as they must for a second-order tensor.  Four independently written vectors "
+            "cannot agree on ten rational coefficients by accident."
+        ),
+        "checked_coefficients": len(names),
+        "status": "pass",
+    }
+
+
+def one_sided_guarantee_control(*, modulus: int) -> dict[str, Any]:
+    """The reproduced defect, kept as a control: the old arithmetic must FAIL on a starved bank.
+
+    The old code reported ``len(divergence_nullspace) - len(sampled_vanishing_space)``.  Both are
+    upper bounds, so their difference has no guaranteed sign, and on a one-jet bank in d=4 at order
+    2 it lands at 1 while the same call exhibits 2 independent members -- below the exhibited lower
+    bound, the opposite of the documented direction.  This control re-runs that starved cell and
+    demands that the OLD quantity violate the guarantee and the NEW one honour it.  If the naive
+    difference ever stops violating it, the control fails and the receipt does not build: a control
+    that cannot fail is not a control.
+    """
+
+    constraints = ["generally_covariant", "derivative_order", "symmetric", "divergence_free"]
+    names = named_term_names(2)
+    cases: list[dict[str, Any]] = []
+    naive_violations = 0
+    for bank_samples in (1, 2, 3):
+        bank = build_bank(4, 2, modulus, "7", bank_samples)
+        bank_pairs = [(geometry, named_tensors(geometry, 2)) for geometry in bank]
+        naive_vanishing = len(
+            _nullspace(_sample_rows(bank_pairs, names, divergence=False), modulus)
+        )
+        naive_nullity = len(_nullspace(_sample_rows(bank_pairs, names, divergence=True), modulus))
+        naive = naive_nullity - naive_vanishing
+        search = run_search(
+            dimension=4,
+            order=2,
+            constraints=constraints,
+            modulus=modulus,
+            seed="7",
+            bank_samples=bank_samples,
+            holdout_samples=3,
+            enumerate_basis=False,
+        )
+        exhibited = search["uniqueness_certificate"]["independently_exhibited_dimension"]
+        fixed = published_dimension(search)
+        if fixed < exhibited:
+            raise TensorConstraintSearchError(
+                "control failure: the repaired search reported a dimension BELOW the number of "
+                "members it exhibits, which is the defect this control exists to catch"
+            )
+        if naive < exhibited:
+            naive_violations += 1
+        cases.append(
+            {
+                "bank_samples": bank_samples,
+                "naive_difference": naive,
+                "repaired_dimension": fixed,
+                "independently_exhibited_dimension": exhibited,
+                "naive_violates_the_guarantee": bool(naive < exhibited),
+            }
+        )
+    if not naive_violations:
+        raise TensorConstraintSearchError(
+            "control failure: the naive nullity difference did not violate the one-sided "
+            "guarantee on any starved bank, so this control is not testing anything"
+        )
+    return {
+        "control": "naive_nullity_difference_violates_the_one_sided_sampling_guarantee",
+        "claim_under_test": (
+            "subtracting the SAMPLED identically-vanishing dimension from the sampled nullity "
+            "preserves the documented direction, that a dimension can only be reported too large"
+        ),
+        "verdict": "REJECTED",
+        "seed": "7",
+        "cases": cases,
+        "evidence": (
+            "On a starved bank the naive difference falls BELOW the number of independent members "
+            "the same call exhibits, because both terms are upper bounds and their errors run in "
+            "opposite directions.  The repaired search subtracts only witnessed vanishing "
+            "directions and stays at or above the exhibited lower bound at every bank size."
+        ),
+        "naive_violations": naive_violations,
+        "status": "pass",
+    }
 
 
 def negative_controls(
@@ -1549,7 +1929,7 @@ def _reduction_table(search: Mapping[str, Any], newtonian: bool) -> list[dict[st
                 "constraint": "divergence_free",
                 "space": "nabla^m T_mn = 0 identically (contracted Bianchi does the work)",
                 "formal_terms": str(search["divergence_free_space"]["coefficient_nullity"]),
-                "dimension": str(search["surviving_dimension"]),
+                "dimension": str(published_dimension(search)),
             }
         )
     if newtonian:
@@ -1559,7 +1939,7 @@ def _reduction_table(search: Mapping[str, Any], newtonian: bool) -> list[dict[st
                 "constraint": "newtonian_limit",
                 "space": "weak-field slow-motion limit reproduces Poisson's equation",
                 "formal_terms": "1 constant fixed",
-                "dimension": str(search["surviving_dimension"] - 1),
+                "dimension": str(published_dimension(search) - 1),
             }
         )
     return rows
@@ -1616,7 +1996,7 @@ def run_tensor_constraint_search(config: Mapping[str, Any], root: Path) -> dict[
         raise TensorConstraintSearchError(
             "the exhibited members did not close the uniqueness sandwich in d=4 at order 2"
         )
-    if headline["surviving_dimension"] != 2:
+    if published_dimension(headline) != 2:
         raise TensorConstraintSearchError(
             "the d=4 order-2 divergence-free space is not two-dimensional"
         )
@@ -1639,6 +2019,11 @@ def run_tensor_constraint_search(config: Mapping[str, Any], root: Path) -> dict[
             "contribution once d > 4?"
         ),
         "by_dimension": [],
+        "verdict_depends_on": (
+            "a DIFFERENCE of three dimensions.  Differencing open upper bounds is not a "
+            "measurement, so each of the three searches must have closed its own sandwich before "
+            "this verdict is computed at all; otherwise the verdict is refused, not published."
+        ),
     }
     for search_id in ("d4-order4-relaxed", "d5-order4-gaussbonnet", "d6-order4-gaussbonnet"):
         item = by_id[search_id]
@@ -1647,7 +2032,9 @@ def run_tensor_constraint_search(config: Mapping[str, Any], root: Path) -> dict[
                 "dimension": item["dimension"],
                 "identically_vanishing_dimension": item["identically_vanishing"]["dimension"],
                 "identically_vanishing_vectors": item["identically_vanishing"]["vectors"],
-                "divergence_free_distinct_dimension": item["surviving_dimension"],
+                "identically_vanishing_witnesses": item["identically_vanishing"]["witnesses"],
+                "sandwich_tight": item["uniqueness_certificate"]["sandwich_tight"],
+                "divergence_free_distinct_dimension": published_dimension(item),
                 "gauss_bonnet_member": next(
                     (
                         member
@@ -1658,9 +2045,9 @@ def run_tensor_constraint_search(config: Mapping[str, Any], root: Path) -> dict[
                 ),
             }
         )
-    d4_order4 = by_id["d4-order4-relaxed"]["surviving_dimension"]
-    d5_order4 = by_id["d5-order4-gaussbonnet"]["surviving_dimension"]
-    d6_order4 = by_id["d6-order4-gaussbonnet"]["surviving_dimension"]
+    d4_order4 = published_dimension(by_id["d4-order4-relaxed"])
+    d5_order4 = published_dimension(by_id["d5-order4-gaussbonnet"])
+    d6_order4 = published_dimension(by_id["d6-order4-gaussbonnet"])
     if not (d5_order4 == d6_order4 == d4_order4 + 1):
         raise TensorConstraintSearchError(
             "the Gauss-Bonnet generalization did not add exactly one dimension for d>4"
@@ -1668,7 +2055,9 @@ def run_tensor_constraint_search(config: Mapping[str, Any], root: Path) -> dict[
     gauss_bonnet["verdict"] = (
         f"YES.  The distinct-tensor divergence-free space at derivative order 4 is {d4_order4} in "
         f"d=4 and {d5_order4} in d=5 and d=6.  The extra direction is exactly the Lanczos-Lovelock "
-        "Gauss-Bonnet tensor, which is identically zero in four dimensions and non-zero above."
+        "Gauss-Bonnet tensor, which is identically zero in four dimensions and non-zero above.  "
+        "All three dimensions are two-sided: each is an exhibited lower bound that met its sampled "
+        "upper bound, so the difference is a difference of measurements and not of open bounds."
     )
 
     candidates = _load_json(_resolve(root, "runs/gpu-baryonic-screen/nonlocal-localization-v1.json"))
@@ -1683,7 +2072,7 @@ def run_tensor_constraint_search(config: Mapping[str, Any], root: Path) -> dict[
         ),
         "axis_1_derivative_order": {
             "relaxation": "derivative_order <= 2 relaxed to <= 4, d = 4, all else unchanged",
-            "dimension_before": by_id["d4-order2-einstein"]["surviving_dimension"],
+            "dimension_before": published_dimension(by_id["d4-order2-einstein"]),
             "dimension_after": d4_order4,
             "new_directions": by_id["d4-order4-relaxed"]["divergence_free_space"]["basis"],
             "interpretation": (
@@ -1738,11 +2127,11 @@ def run_tensor_constraint_search(config: Mapping[str, Any], root: Path) -> dict[
 
     relaxation_controls = {
         "dropping_divergence_free_enlarges_the_space": {
-            "with_constraint": by_id["d4-order2-einstein"]["surviving_dimension"],
-            "without_constraint": by_id["d4-order2-no-conservation"]["surviving_dimension"],
+            "with_constraint": published_dimension(by_id["d4-order2-einstein"]),
+            "without_constraint": published_dimension(by_id["d4-order2-no-conservation"]),
             "strictly_larger": bool(
-                by_id["d4-order2-no-conservation"]["surviving_dimension"]
-                > by_id["d4-order2-einstein"]["surviving_dimension"]
+                published_dimension(by_id["d4-order2-no-conservation"])
+                > published_dimension(by_id["d4-order2-einstein"])
             ),
             "surviving_family_without_it": by_id["d4-order2-no-conservation"]["surviving_family"],
         },
@@ -1762,6 +2151,8 @@ def run_tensor_constraint_search(config: Mapping[str, Any], root: Path) -> dict[
         samples=int(arithmetic["control_samples"]),
         dimensions=[int(value) for value in config["gauss_bonnet_dimensions"]],
     )
+    controls.append(gauss_bonnet_decomposition())
+    controls.append(one_sided_guarantee_control(modulus=primes[0]))
     controls.append(schwarzschild_crosscheck())
 
     bindings = {
@@ -1799,7 +2190,17 @@ def run_tensor_constraint_search(config: Mapping[str, Any], root: Path) -> dict[
                 " The sampling error is one-sided: a finite bank can only report the solution "
                 "space too LARGE, never too small, so uniqueness is never manufactured by "
                 "sampling.  It is closed from below by exhibiting members and verifying them on "
-                "held-out jets."
+                "held-out jets.  The direction of that guarantee survives the SUBTRACTION only "
+                "because the subtracted identically-vanishing dimension is never the sampled one "
+                "-- which is itself an upper bound and would tip the error downward -- but the "
+                "WITNESSED one: declared vectors, each confronted with the bank and the holdout.  "
+                "When the sampled vanishing dimension exceeds the witnessed one, or when the "
+                "exhibited members fail to span the sampled nullspace, the search reports an open "
+                "upper bound and refuses to publish a dimension at all."
+            ),
+            "one_sided_guarantee": (
+                "reported distinct-tensor dimension >= true dimension, always; and no dimension is "
+                "published unless an independently exhibited lower bound meets it exactly"
             ),
         },
         "basis_completeness_citations": [dict(item) for item in BASIS_COMPLETENESS_CITATIONS],
@@ -1818,8 +2219,11 @@ def run_tensor_constraint_search(config: Mapping[str, Any], root: Path) -> dict[
             "enumerated_patterns_d4_order4": by_id["d4-order4-relaxed"]["enumeration"][
                 "formal_pattern_count"
             ],
-            "final_family_dimension": headline["surviving_dimension"],
-            "free_parameters_after_newtonian_limit": headline["surviving_dimension"] - 1,
+            "final_family_dimension": published_dimension(headline),
+            "free_parameters_after_newtonian_limit": published_dimension(headline) - 1,
+            "searches_with_a_closed_sandwich": sum(
+                1 for item in searches if item.get("dimension_published")
+            ),
             "screened_gravity_candidates_referenced": candidate_total,
         },
         "decision": (
