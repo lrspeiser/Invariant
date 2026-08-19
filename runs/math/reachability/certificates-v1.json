@@ -1,0 +1,1579 @@
+{
+  "certificates": [
+    {
+      "content_sha256": "dadf763b258532f99133055aebbf16738735246f3cec2714c7c06db9bd13e55e",
+      "derivation": {
+        "binary_count": 2,
+        "codec_roundtrip": true,
+        "equals_target": true,
+        "exact_value": "355/113",
+        "infix": "(3 + (1/(2 + (1/((2/3)^2)^2))))",
+        "max_stack_depth": 3,
+        "node_count": 9,
+        "ordinal": 1446378214776,
+        "ordinal_space_size": 1801152661463,
+        "program_status": "ok",
+        "rpn": "3 2 2/3 sqr sqr recip add recip add",
+        "terminal_count": 3,
+        "tokens": [
+          2,
+          1,
+          7,
+          12,
+          12,
+          11,
+          19,
+          11,
+          19
+        ],
+        "trace": [
+          {
+            "arity": 0,
+            "stack": [
+              "3"
+            ],
+            "step": 0,
+            "token": "3"
+          },
+          {
+            "arity": 0,
+            "stack": [
+              "3",
+              "2"
+            ],
+            "step": 1,
+            "token": "2"
+          },
+          {
+            "arity": 0,
+            "stack": [
+              "3",
+              "2",
+              "2/3"
+            ],
+            "step": 2,
+            "token": "2/3"
+          },
+          {
+            "arity": 1,
+            "stack": [
+              "3",
+              "2",
+              "4/9"
+            ],
+            "step": 3,
+            "token": "sqr"
+          },
+          {
+            "arity": 1,
+            "stack": [
+              "3",
+              "2",
+              "16/81"
+            ],
+            "step": 4,
+            "token": "sqr"
+          },
+          {
+            "arity": 1,
+            "stack": [
+              "3",
+              "2",
+              "81/16"
+            ],
+            "step": 5,
+            "token": "recip"
+          },
+          {
+            "arity": 2,
+            "stack": [
+              "3",
+              "113/16"
+            ],
+            "step": 6,
+            "token": "add"
+          },
+          {
+            "arity": 1,
+            "stack": [
+              "3",
+              "16/113"
+            ],
+            "step": 7,
+            "token": "recip"
+          },
+          {
+            "arity": 2,
+            "stack": [
+              "355/113"
+            ],
+            "step": 8,
+            "token": "add"
+          }
+        ],
+        "unary_count": 4
+      },
+      "exact_image": {
+        "budget": 9,
+        "depth_lemma_holds": true,
+        "exactness_ground": "the declared stack cap is vacuous at this program length, so n-token programs and n-node trees are the same objects and A_L is the whole image",
+        "level_sizes": [
+          9,
+          25,
+          97,
+          378,
+          1446,
+          6352,
+          29574,
+          137586,
+          701726
+        ],
+        "recurrence": "A_1 = terminals; A_n = {u(x) : x in A_{n-1}} union {b(x, y) : x in A_i, y in A_j, i + j = n - 1}"
+      },
+      "field_closure": {
+        "declaration_supported": true,
+        "declared_field": "Q",
+        "escape_witnesses": [
+          {
+            "image": "atan(1)",
+            "in_fragment": false,
+            "proves_escape": true,
+            "rational_inputs": [
+              "1"
+            ],
+            "sympy_is_rational": false,
+            "token": "atan"
+          },
+          {
+            "image": "cos(1)",
+            "in_fragment": false,
+            "proves_escape": true,
+            "rational_inputs": [
+              "1"
+            ],
+            "sympy_is_rational": false,
+            "token": "cos"
+          },
+          {
+            "image": "exp(1)",
+            "in_fragment": false,
+            "proves_escape": true,
+            "rational_inputs": [
+              "1"
+            ],
+            "sympy_is_rational": false,
+            "token": "exp"
+          },
+          {
+            "image": "log(2)",
+            "in_fragment": false,
+            "proves_escape": true,
+            "rational_inputs": [
+              "2"
+            ],
+            "sympy_is_rational": false,
+            "token": "ln"
+          },
+          {
+            "image": "2**Rational(1,2)",
+            "in_fragment": false,
+            "proves_escape": true,
+            "rational_inputs": [
+              "2",
+              "1/2"
+            ],
+            "sympy_is_rational": false,
+            "token": "pow"
+          },
+          {
+            "image": "sin(1)",
+            "in_fragment": false,
+            "proves_escape": true,
+            "rational_inputs": [
+              "1"
+            ],
+            "sympy_is_rational": false,
+            "token": "sin"
+          },
+          {
+            "image": "sqrt(2)",
+            "in_fragment": false,
+            "proves_escape": true,
+            "rational_inputs": [
+              "2"
+            ],
+            "sympy_is_rational": false,
+            "token": "sqrt"
+          }
+        ],
+        "escaping_tokens_in_fragment": [],
+        "rationally_closed": true,
+        "tokens_with_exact_rational_transfer": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "1/2",
+          "1/3",
+          "2/3",
+          "3/2",
+          "neg",
+          "recip",
+          "sqr",
+          "add",
+          "sub",
+          "mul",
+          "div"
+        ],
+        "tokens_without_exact_rational_transfer": []
+      },
+      "fragment": {
+        "binary": [
+          "add",
+          "sub",
+          "mul",
+          "div"
+        ],
+        "declared_stack_depth": 6,
+        "mode": "C",
+        "name": "mode_c_rational",
+        "program_length": 9,
+        "terminals": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "1/2",
+          "1/3",
+          "2/3",
+          "3/2"
+        ],
+        "token_names": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "1/2",
+          "1/3",
+          "2/3",
+          "3/2",
+          "neg",
+          "recip",
+          "sqr",
+          "add",
+          "sub",
+          "mul",
+          "div"
+        ],
+        "unary": [
+          "neg",
+          "recip",
+          "sqr"
+        ],
+        "value_field": "Q"
+      },
+      "height_bound_ladder": [
+        "5",
+        "25",
+        "625",
+        "390625",
+        "152587890625",
+        "23283064365386962890625",
+        "542101086242752217003726400434970855712890625",
+        "293873587705571876992184134305561419454666389193021880377187926569604314863681793212890625",
+        "86361685550944446253863518628003995711160003644362813850237034701685918031624270579715075034722882265605472939461496635969950989468319466936530037770580747746862471103668212890625"
+      ],
+      "lane": "exact_rational",
+      "schema_version": "invariant-reachability-certificate-1.0",
+      "structural_profile": {
+        "admissible_shapes": [
+          {
+            "binary": 0,
+            "terminals": 1,
+            "unary": 8
+          },
+          {
+            "binary": 1,
+            "terminals": 2,
+            "unary": 6
+          },
+          {
+            "binary": 2,
+            "terminals": 3,
+            "unary": 4
+          },
+          {
+            "binary": 3,
+            "terminals": 4,
+            "unary": 2
+          },
+          {
+            "binary": 4,
+            "terminals": 5,
+            "unary": 0
+          }
+        ],
+        "arity_identity": "terminals == binary + 1, so length == 2*binary + unary + 1",
+        "declared_stack_depth": 6,
+        "depth_lemma_holds": true,
+        "max_terminals": 5,
+        "mode": "C",
+        "program_length": 9,
+        "stack_depth_constraint_binds": false,
+        "stack_depth_upper_bound": 5,
+        "tree_counts_depth_capped": [
+          9,
+          27,
+          405,
+          3159,
+          41553,
+          439587,
+          5649021,
+          67807935,
+          879652953
+        ],
+        "tree_counts_depth_free": [
+          9,
+          27,
+          405,
+          3159,
+          41553,
+          439587,
+          5649021,
+          67807935,
+          879652953
+        ],
+        "unary_parity": 0
+      },
+      "target": {
+        "denominator": 113,
+        "exact": "355/113",
+        "height": 355,
+        "kind": "rational",
+        "numerator": 355
+      },
+      "value_cap_exact": "10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104",
+      "verdict": "REACHABLE"
+    },
+    {
+      "argument": {
+        "height_argument_would_suffice": false,
+        "height_bound_at_budget": "86361685550944446253863518628003995711160003644362813850237034701685918031624270579715075034722882265605472939461496635969950989468319466936530037770580747746862471103668212890625",
+        "image_size_at_budget": 701726,
+        "kind": "exact_image_exhaustion",
+        "level_sizes": [
+          9,
+          25,
+          97,
+          378,
+          1446,
+          6352,
+          29574,
+          137586,
+          701726
+        ],
+        "node_budget": 9,
+        "scope": "fragment mode_c_rational",
+        "statement": "the complete image of the fragment at the declared program length was computed in exact rational arithmetic and the target is not an element; this is a closed set, not a search that stopped",
+        "target_height": 9973
+      },
+      "content_sha256": "af443b145741548264774bcb0815fae344528fb6140130d8bbeed832dd0acc19",
+      "exact_image": {
+        "budget": 9,
+        "depth_lemma_holds": true,
+        "exactness_ground": "the declared stack cap is vacuous at this program length, so n-token programs and n-node trees are the same objects and A_L is the whole image",
+        "level_sizes": [
+          9,
+          25,
+          97,
+          378,
+          1446,
+          6352,
+          29574,
+          137586,
+          701726
+        ],
+        "recurrence": "A_1 = terminals; A_n = {u(x) : x in A_{n-1}} union {b(x, y) : x in A_i, y in A_j, i + j = n - 1}"
+      },
+      "field_closure": {
+        "declaration_supported": true,
+        "declared_field": "Q",
+        "escape_witnesses": [
+          {
+            "image": "atan(1)",
+            "in_fragment": false,
+            "proves_escape": true,
+            "rational_inputs": [
+              "1"
+            ],
+            "sympy_is_rational": false,
+            "token": "atan"
+          },
+          {
+            "image": "cos(1)",
+            "in_fragment": false,
+            "proves_escape": true,
+            "rational_inputs": [
+              "1"
+            ],
+            "sympy_is_rational": false,
+            "token": "cos"
+          },
+          {
+            "image": "exp(1)",
+            "in_fragment": false,
+            "proves_escape": true,
+            "rational_inputs": [
+              "1"
+            ],
+            "sympy_is_rational": false,
+            "token": "exp"
+          },
+          {
+            "image": "log(2)",
+            "in_fragment": false,
+            "proves_escape": true,
+            "rational_inputs": [
+              "2"
+            ],
+            "sympy_is_rational": false,
+            "token": "ln"
+          },
+          {
+            "image": "2**Rational(1,2)",
+            "in_fragment": false,
+            "proves_escape": true,
+            "rational_inputs": [
+              "2",
+              "1/2"
+            ],
+            "sympy_is_rational": false,
+            "token": "pow"
+          },
+          {
+            "image": "sin(1)",
+            "in_fragment": false,
+            "proves_escape": true,
+            "rational_inputs": [
+              "1"
+            ],
+            "sympy_is_rational": false,
+            "token": "sin"
+          },
+          {
+            "image": "sqrt(2)",
+            "in_fragment": false,
+            "proves_escape": true,
+            "rational_inputs": [
+              "2"
+            ],
+            "sympy_is_rational": false,
+            "token": "sqrt"
+          }
+        ],
+        "escaping_tokens_in_fragment": [],
+        "rationally_closed": true,
+        "tokens_with_exact_rational_transfer": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "1/2",
+          "1/3",
+          "2/3",
+          "3/2",
+          "neg",
+          "recip",
+          "sqr",
+          "add",
+          "sub",
+          "mul",
+          "div"
+        ],
+        "tokens_without_exact_rational_transfer": []
+      },
+      "fragment": {
+        "binary": [
+          "add",
+          "sub",
+          "mul",
+          "div"
+        ],
+        "declared_stack_depth": 6,
+        "mode": "C",
+        "name": "mode_c_rational",
+        "program_length": 9,
+        "terminals": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "1/2",
+          "1/3",
+          "2/3",
+          "3/2"
+        ],
+        "token_names": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "1/2",
+          "1/3",
+          "2/3",
+          "3/2",
+          "neg",
+          "recip",
+          "sqr",
+          "add",
+          "sub",
+          "mul",
+          "div"
+        ],
+        "unary": [
+          "neg",
+          "recip",
+          "sqr"
+        ],
+        "value_field": "Q"
+      },
+      "height_bound_ladder": [
+        "5",
+        "25",
+        "625",
+        "390625",
+        "152587890625",
+        "23283064365386962890625",
+        "542101086242752217003726400434970855712890625",
+        "293873587705571876992184134305561419454666389193021880377187926569604314863681793212890625",
+        "86361685550944446253863518628003995711160003644362813850237034701685918031624270579715075034722882265605472939461496635969950989468319466936530037770580747746862471103668212890625"
+      ],
+      "lane": "exact_rational",
+      "schema_version": "invariant-reachability-certificate-1.0",
+      "structural_profile": {
+        "admissible_shapes": [
+          {
+            "binary": 0,
+            "terminals": 1,
+            "unary": 8
+          },
+          {
+            "binary": 1,
+            "terminals": 2,
+            "unary": 6
+          },
+          {
+            "binary": 2,
+            "terminals": 3,
+            "unary": 4
+          },
+          {
+            "binary": 3,
+            "terminals": 4,
+            "unary": 2
+          },
+          {
+            "binary": 4,
+            "terminals": 5,
+            "unary": 0
+          }
+        ],
+        "arity_identity": "terminals == binary + 1, so length == 2*binary + unary + 1",
+        "declared_stack_depth": 6,
+        "depth_lemma_holds": true,
+        "max_terminals": 5,
+        "mode": "C",
+        "program_length": 9,
+        "stack_depth_constraint_binds": false,
+        "stack_depth_upper_bound": 5,
+        "tree_counts_depth_capped": [
+          9,
+          27,
+          405,
+          3159,
+          41553,
+          439587,
+          5649021,
+          67807935,
+          879652953
+        ],
+        "tree_counts_depth_free": [
+          9,
+          27,
+          405,
+          3159,
+          41553,
+          439587,
+          5649021,
+          67807935,
+          879652953
+        ],
+        "unary_parity": 0
+      },
+      "target": {
+        "denominator": 9973,
+        "exact": "1/9973",
+        "height": 9973,
+        "kind": "rational",
+        "numerator": 1
+      },
+      "value_cap_exact": "10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104",
+      "verdict": "OUTSIDE_FRAGMENT"
+    },
+    {
+      "argument": {
+        "bound": "86361685550944446253863518628003995711160003644362813850237034701685918031624270579715075034722882265605472939461496635969950989468319466936530037770580747746862471103668212890625",
+        "kind": "height_bound",
+        "node_budget": 9,
+        "scope": "fragment mode_c_rational",
+        "statement": "an exact integer ladder bounds the height of every value an n-node program in this fragment can hold; the target exceeds the bound at the full budget",
+        "target_height": 431808427754722231269317593140019978555800018221814069251185173508429590158121352898575375173614411328027364697307483179849754947341597334682650188852903738734312355518341064453125
+      },
+      "content_sha256": "eb60cfcd88b560b8991e37fc738671382b977cf88524a0015ec6e113595ee213",
+      "field_closure": {
+        "declaration_supported": true,
+        "declared_field": "Q",
+        "escape_witnesses": [
+          {
+            "image": "atan(1)",
+            "in_fragment": false,
+            "proves_escape": true,
+            "rational_inputs": [
+              "1"
+            ],
+            "sympy_is_rational": false,
+            "token": "atan"
+          },
+          {
+            "image": "cos(1)",
+            "in_fragment": false,
+            "proves_escape": true,
+            "rational_inputs": [
+              "1"
+            ],
+            "sympy_is_rational": false,
+            "token": "cos"
+          },
+          {
+            "image": "exp(1)",
+            "in_fragment": false,
+            "proves_escape": true,
+            "rational_inputs": [
+              "1"
+            ],
+            "sympy_is_rational": false,
+            "token": "exp"
+          },
+          {
+            "image": "log(2)",
+            "in_fragment": false,
+            "proves_escape": true,
+            "rational_inputs": [
+              "2"
+            ],
+            "sympy_is_rational": false,
+            "token": "ln"
+          },
+          {
+            "image": "2**Rational(1,2)",
+            "in_fragment": false,
+            "proves_escape": true,
+            "rational_inputs": [
+              "2",
+              "1/2"
+            ],
+            "sympy_is_rational": false,
+            "token": "pow"
+          },
+          {
+            "image": "sin(1)",
+            "in_fragment": false,
+            "proves_escape": true,
+            "rational_inputs": [
+              "1"
+            ],
+            "sympy_is_rational": false,
+            "token": "sin"
+          },
+          {
+            "image": "sqrt(2)",
+            "in_fragment": false,
+            "proves_escape": true,
+            "rational_inputs": [
+              "2"
+            ],
+            "sympy_is_rational": false,
+            "token": "sqrt"
+          }
+        ],
+        "escaping_tokens_in_fragment": [],
+        "rationally_closed": true,
+        "tokens_with_exact_rational_transfer": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "1/2",
+          "1/3",
+          "2/3",
+          "3/2",
+          "neg",
+          "recip",
+          "sqr",
+          "add",
+          "sub",
+          "mul",
+          "div"
+        ],
+        "tokens_without_exact_rational_transfer": []
+      },
+      "fragment": {
+        "binary": [
+          "add",
+          "sub",
+          "mul",
+          "div"
+        ],
+        "declared_stack_depth": 6,
+        "mode": "C",
+        "name": "mode_c_rational",
+        "program_length": 9,
+        "terminals": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "1/2",
+          "1/3",
+          "2/3",
+          "3/2"
+        ],
+        "token_names": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "1/2",
+          "1/3",
+          "2/3",
+          "3/2",
+          "neg",
+          "recip",
+          "sqr",
+          "add",
+          "sub",
+          "mul",
+          "div"
+        ],
+        "unary": [
+          "neg",
+          "recip",
+          "sqr"
+        ],
+        "value_field": "Q"
+      },
+      "height_bound_ladder": [
+        "5",
+        "25",
+        "625",
+        "390625",
+        "152587890625",
+        "23283064365386962890625",
+        "542101086242752217003726400434970855712890625",
+        "293873587705571876992184134305561419454666389193021880377187926569604314863681793212890625",
+        "86361685550944446253863518628003995711160003644362813850237034701685918031624270579715075034722882265605472939461496635969950989468319466936530037770580747746862471103668212890625"
+      ],
+      "lane": "exact_rational",
+      "schema_version": "invariant-reachability-certificate-1.0",
+      "structural_profile": {
+        "admissible_shapes": [
+          {
+            "binary": 0,
+            "terminals": 1,
+            "unary": 8
+          },
+          {
+            "binary": 1,
+            "terminals": 2,
+            "unary": 6
+          },
+          {
+            "binary": 2,
+            "terminals": 3,
+            "unary": 4
+          },
+          {
+            "binary": 3,
+            "terminals": 4,
+            "unary": 2
+          },
+          {
+            "binary": 4,
+            "terminals": 5,
+            "unary": 0
+          }
+        ],
+        "arity_identity": "terminals == binary + 1, so length == 2*binary + unary + 1",
+        "declared_stack_depth": 6,
+        "depth_lemma_holds": true,
+        "max_terminals": 5,
+        "mode": "C",
+        "program_length": 9,
+        "stack_depth_constraint_binds": false,
+        "stack_depth_upper_bound": 5,
+        "tree_counts_depth_capped": [
+          9,
+          27,
+          405,
+          3159,
+          41553,
+          439587,
+          5649021,
+          67807935,
+          879652953
+        ],
+        "tree_counts_depth_free": [
+          9,
+          27,
+          405,
+          3159,
+          41553,
+          439587,
+          5649021,
+          67807935,
+          879652953
+        ],
+        "unary_parity": 0
+      },
+      "target": {
+        "denominator": 431808427754722231269317593140019978555800018221814069251185173508429590158121352898575375173614411328027364697307483179849754947341597334682650188852903738734312355518341064453125,
+        "exact": "1/431808427754722231269317593140019978555800018221814069251185173508429590158121352898575375173614411328027364697307483179849754947341597334682650188852903738734312355518341064453125",
+        "height": 431808427754722231269317593140019978555800018221814069251185173508429590158121352898575375173614411328027364697307483179849754947341597334682650188852903738734312355518341064453125,
+        "kind": "rational",
+        "numerator": 1
+      },
+      "value_cap_exact": "10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104",
+      "verdict": "OUTSIDE_FRAGMENT"
+    },
+    {
+      "argument": {
+        "kind": "value_cap",
+        "scope": "every fragment of every mode, including the full alphabet",
+        "statement": "the grammar kills any intermediate whose magnitude exceeds VALUE_CAP, so no program in the declared space can hold this value",
+        "target_abs": "100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "value_cap_exact": "10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104"
+      },
+      "content_sha256": "47eacb3e019a6ac68f1c44d68fe7548109bf93f0d18cac311bd22f43d3197adb",
+      "field_closure": {
+        "declaration_supported": true,
+        "declared_field": "Q",
+        "escape_witnesses": [
+          {
+            "image": "atan(1)",
+            "in_fragment": false,
+            "proves_escape": true,
+            "rational_inputs": [
+              "1"
+            ],
+            "sympy_is_rational": false,
+            "token": "atan"
+          },
+          {
+            "image": "cos(1)",
+            "in_fragment": false,
+            "proves_escape": true,
+            "rational_inputs": [
+              "1"
+            ],
+            "sympy_is_rational": false,
+            "token": "cos"
+          },
+          {
+            "image": "exp(1)",
+            "in_fragment": false,
+            "proves_escape": true,
+            "rational_inputs": [
+              "1"
+            ],
+            "sympy_is_rational": false,
+            "token": "exp"
+          },
+          {
+            "image": "log(2)",
+            "in_fragment": false,
+            "proves_escape": true,
+            "rational_inputs": [
+              "2"
+            ],
+            "sympy_is_rational": false,
+            "token": "ln"
+          },
+          {
+            "image": "2**Rational(1,2)",
+            "in_fragment": false,
+            "proves_escape": true,
+            "rational_inputs": [
+              "2",
+              "1/2"
+            ],
+            "sympy_is_rational": false,
+            "token": "pow"
+          },
+          {
+            "image": "sin(1)",
+            "in_fragment": false,
+            "proves_escape": true,
+            "rational_inputs": [
+              "1"
+            ],
+            "sympy_is_rational": false,
+            "token": "sin"
+          },
+          {
+            "image": "sqrt(2)",
+            "in_fragment": false,
+            "proves_escape": true,
+            "rational_inputs": [
+              "2"
+            ],
+            "sympy_is_rational": false,
+            "token": "sqrt"
+          }
+        ],
+        "escaping_tokens_in_fragment": [],
+        "rationally_closed": true,
+        "tokens_with_exact_rational_transfer": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "1/2",
+          "1/3",
+          "2/3",
+          "3/2",
+          "neg",
+          "recip",
+          "sqr",
+          "add",
+          "sub",
+          "mul",
+          "div"
+        ],
+        "tokens_without_exact_rational_transfer": []
+      },
+      "fragment": {
+        "binary": [
+          "add",
+          "sub",
+          "mul",
+          "div"
+        ],
+        "declared_stack_depth": 6,
+        "mode": "C",
+        "name": "mode_c_rational",
+        "program_length": 9,
+        "terminals": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "1/2",
+          "1/3",
+          "2/3",
+          "3/2"
+        ],
+        "token_names": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "1/2",
+          "1/3",
+          "2/3",
+          "3/2",
+          "neg",
+          "recip",
+          "sqr",
+          "add",
+          "sub",
+          "mul",
+          "div"
+        ],
+        "unary": [
+          "neg",
+          "recip",
+          "sqr"
+        ],
+        "value_field": "Q"
+      },
+      "height_bound_ladder": [
+        "5",
+        "25",
+        "625",
+        "390625",
+        "152587890625",
+        "23283064365386962890625",
+        "542101086242752217003726400434970855712890625",
+        "293873587705571876992184134305561419454666389193021880377187926569604314863681793212890625",
+        "86361685550944446253863518628003995711160003644362813850237034701685918031624270579715075034722882265605472939461496635969950989468319466936530037770580747746862471103668212890625"
+      ],
+      "lane": "exact_rational",
+      "schema_version": "invariant-reachability-certificate-1.0",
+      "structural_profile": {
+        "admissible_shapes": [
+          {
+            "binary": 0,
+            "terminals": 1,
+            "unary": 8
+          },
+          {
+            "binary": 1,
+            "terminals": 2,
+            "unary": 6
+          },
+          {
+            "binary": 2,
+            "terminals": 3,
+            "unary": 4
+          },
+          {
+            "binary": 3,
+            "terminals": 4,
+            "unary": 2
+          },
+          {
+            "binary": 4,
+            "terminals": 5,
+            "unary": 0
+          }
+        ],
+        "arity_identity": "terminals == binary + 1, so length == 2*binary + unary + 1",
+        "declared_stack_depth": 6,
+        "depth_lemma_holds": true,
+        "max_terminals": 5,
+        "mode": "C",
+        "program_length": 9,
+        "stack_depth_constraint_binds": false,
+        "stack_depth_upper_bound": 5,
+        "tree_counts_depth_capped": [
+          9,
+          27,
+          405,
+          3159,
+          41553,
+          439587,
+          5649021,
+          67807935,
+          879652953
+        ],
+        "tree_counts_depth_free": [
+          9,
+          27,
+          405,
+          3159,
+          41553,
+          439587,
+          5649021,
+          67807935,
+          879652953
+        ],
+        "unary_parity": 0
+      },
+      "target": {
+        "denominator": 1,
+        "exact": "100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "height": 100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,
+        "kind": "rational",
+        "numerator": 100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+      },
+      "value_cap_exact": "10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104",
+      "verdict": "OUTSIDE_FRAGMENT"
+    }
+  ],
+  "content_sha256": "3d2cbafe46f2f991ce96b56705840e5706fb6e29135b61170fd89b570160fea5",
+  "controls": {
+    "all_honest_accepted": true,
+    "all_probes_rejected": true,
+    "honest": [
+      {
+        "accepted": true,
+        "case": "reachable_355_113",
+        "expected_verdict": "REACHABLE",
+        "reason": null,
+        "verdict": "REACHABLE"
+      },
+      {
+        "accepted": true,
+        "case": "outside_1_9973_by_exhaustion",
+        "expected_verdict": "OUTSIDE_FRAGMENT",
+        "reason": null,
+        "verdict": "OUTSIDE_FRAGMENT"
+      },
+      {
+        "accepted": true,
+        "case": "outside_by_height_bound",
+        "expected_verdict": "OUTSIDE_FRAGMENT",
+        "reason": null,
+        "verdict": "OUTSIDE_FRAGMENT"
+      },
+      {
+        "accepted": true,
+        "case": "outside_by_value_cap",
+        "expected_verdict": "OUTSIDE_FRAGMENT",
+        "reason": null,
+        "verdict": "OUTSIDE_FRAGMENT"
+      },
+      {
+        "accepted": true,
+        "case": "symbolic_pi_reachable",
+        "expected_verdict": "REACHABLE",
+        "reason": null,
+        "verdict": "REACHABLE"
+      },
+      {
+        "accepted": true,
+        "case": "symbolic_pi_impostor_refuted",
+        "expected_verdict": "PROGRAM_REFUTED",
+        "reason": null,
+        "verdict": "PROGRAM_REFUTED"
+      },
+      {
+        "accepted": true,
+        "case": "sqrt2_outside_rational_fragment",
+        "expected_verdict": "OUTSIDE_FRAGMENT",
+        "reason": null,
+        "verdict": "OUTSIDE_FRAGMENT"
+      },
+      {
+        "accepted": true,
+        "case": "catalan_irrationality_open_so_unresolved",
+        "expected_verdict": "UNRESOLVED",
+        "reason": null,
+        "verdict": "UNRESOLVED"
+      }
+    ],
+    "probes": [
+      {
+        "probe": "forged_reachability_for_unreachable_target",
+        "reason": "certificate rejected: derivation evaluates to 355/113, not to the declared target 1/9973",
+        "rejected": true
+      },
+      {
+        "probe": "forged_reachability_doctored_trace",
+        "reason": "certificate rejected: declared trace does not match an exact re-execution",
+        "rejected": true
+      },
+      {
+        "probe": "forged_reachability_wrong_ordinal",
+        "reason": "certificate rejected: declared ordinal is not the encoding of the declared tokens",
+        "rejected": true
+      },
+      {
+        "probe": "forged_reachability_out_of_alphabet",
+        "reason": "certificate rejected: derivation uses tokens outside the fragment: ['sqrt']",
+        "rejected": true
+      },
+      {
+        "probe": "forged_unreachability_for_reachable_target",
+        "reason": "certificate rejected: exhaustion argument does not hold: the target IS in the exact image at 9 nodes",
+        "rejected": true
+      },
+      {
+        "probe": "forged_height_argument",
+        "reason": "certificate rejected: height_bound argument does not hold: height 355 is within the ladder bound 86361685550944446253863518628003995711160003644362813850237034701685918031624270579715075034722882265605472939461496635969950989468319466936530037770580747746862471103668212890625",
+        "rejected": true
+      },
+      {
+        "probe": "forged_value_cap_argument",
+        "reason": "certificate rejected: value_cap argument does not hold: |355/113| does not exceed the cap",
+        "rejected": true
+      },
+      {
+        "probe": "forged_field_closure_declaration",
+        "reason": "certificate rejected: declared fragment block does not match a recomputation from its token list",
+        "rejected": true
+      },
+      {
+        "probe": "forged_exact_image_size",
+        "reason": "certificate rejected: declared exact-image level sizes do not match a recomputation",
+        "rejected": true
+      },
+      {
+        "probe": "unsealed_verdict_flip",
+        "reason": "certificate rejected: seal does not match the body",
+        "rejected": true
+      },
+      {
+        "probe": "forged_symbolic_identity_for_the_pi_impostor",
+        "reason": "certificate rejected: claimed symbolic identity does not replay: no exact tactic closes the gap",
+        "rejected": true
+      },
+      {
+        "probe": "forged_exclusion_of_an_open_constant",
+        "reason": "certificate rejected: field_closure exclusion needs a target proved irrational; sympy says is_rational=None for catalan",
+        "rejected": true
+      },
+      {
+        "probe": "forged_exclusion_with_a_leaky_fragment",
+        "reason": "certificate rejected: declared fragment block does not match a recomputation from its token list",
+        "rejected": true
+      },
+      {
+        "probe": "forged_fragment_name_drift",
+        "reason": "certificate rejected: fragment named 'mode_c_rational' does not match the built-in fragment of that name",
+        "rejected": true
+      },
+      {
+        "probe": "forged_structural_profile",
+        "reason": "certificate rejected: declared structural profile does not match a recomputation",
+        "rejected": true
+      }
+    ]
+  },
+  "decision": "CERTIFIED",
+  "rational_fragment": {
+    "binary": [
+      "add",
+      "sub",
+      "mul",
+      "div"
+    ],
+    "declared_stack_depth": 6,
+    "mode": "C",
+    "name": "mode_c_rational",
+    "program_length": 9,
+    "terminals": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "1/2",
+      "1/3",
+      "2/3",
+      "3/2"
+    ],
+    "token_names": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "1/2",
+      "1/3",
+      "2/3",
+      "3/2",
+      "neg",
+      "recip",
+      "sqr",
+      "add",
+      "sub",
+      "mul",
+      "div"
+    ],
+    "unary": [
+      "neg",
+      "recip",
+      "sqr"
+    ],
+    "value_field": "Q"
+  },
+  "schema_version": "invariant-reachability-certificate-1.0",
+  "structural_profile": {
+    "admissible_shapes": [
+      {
+        "binary": 0,
+        "terminals": 1,
+        "unary": 8
+      },
+      {
+        "binary": 1,
+        "terminals": 2,
+        "unary": 6
+      },
+      {
+        "binary": 2,
+        "terminals": 3,
+        "unary": 4
+      },
+      {
+        "binary": 3,
+        "terminals": 4,
+        "unary": 2
+      },
+      {
+        "binary": 4,
+        "terminals": 5,
+        "unary": 0
+      }
+    ],
+    "arity_identity": "terminals == binary + 1, so length == 2*binary + unary + 1",
+    "declared_stack_depth": 6,
+    "depth_lemma_holds": true,
+    "matches_search_module_count": true,
+    "max_terminals": 5,
+    "mode": "C",
+    "program_length": 9,
+    "search_module_structurally_valid": 32971249179,
+    "stack_depth_constraint_binds": false,
+    "stack_depth_upper_bound": 5,
+    "tree_counts_depth_capped": [
+      9,
+      81,
+      1134,
+      17496,
+      292329,
+      5124141,
+      93028419,
+      1733619591,
+      32971249179
+    ],
+    "tree_counts_depth_free": [
+      9,
+      81,
+      1134,
+      17496,
+      292329,
+      5124141,
+      93028419,
+      1733619591,
+      32971249179
+    ],
+    "unary_parity": 0
+  },
+  "symbolic_certificates": [
+    {
+      "content_sha256": "5f01d7061033115a0dc3dbcd6f48ab92117dbdc637412672cc2b76328b25f1ba",
+      "fragment": {
+        "binary": [
+          "add",
+          "sub",
+          "mul",
+          "div",
+          "pow"
+        ],
+        "declared_stack_depth": 6,
+        "mode": "C",
+        "name": "mode_c_full",
+        "program_length": 9,
+        "terminals": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "1/2",
+          "1/3",
+          "2/3",
+          "3/2"
+        ],
+        "token_names": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "1/2",
+          "1/3",
+          "2/3",
+          "3/2",
+          "neg",
+          "recip",
+          "sqr",
+          "sqrt",
+          "exp",
+          "ln",
+          "sin",
+          "cos",
+          "atan",
+          "add",
+          "sub",
+          "mul",
+          "div",
+          "pow"
+        ],
+        "unary": [
+          "neg",
+          "recip",
+          "sqr",
+          "sqrt",
+          "exp",
+          "ln",
+          "sin",
+          "cos",
+          "atan"
+        ],
+        "value_field": "R"
+      },
+      "lane": "symbolic",
+      "program": {
+        "codec_roundtrip": true,
+        "infix": "(((atan(1) * (2)^2) * 1) * 1)",
+        "length_matches_mode": true,
+        "ordinal": 1569186154977,
+        "printed": "pi",
+        "program_status": "ok",
+        "rpn": "1 atan 2 sqr mul 1 mul 1 mul",
+        "sympy": "pi",
+        "tokens": [
+          0,
+          18,
+          1,
+          12,
+          21,
+          0,
+          21,
+          0,
+          21
+        ]
+      },
+      "proof": {
+        "attempts": [
+          {
+            "proved": true,
+            "tactic": "simplify"
+          }
+        ],
+        "kind": "symbolic_identity",
+        "statement": "the program is exactly equal to the target, proved symbolically",
+        "tactic": "simplify"
+      },
+      "schema_version": "invariant-reachability-certificate-1.0",
+      "target": {
+        "kind": "symbolic",
+        "name": "pi",
+        "sympy": "pi"
+      },
+      "verdict": "REACHABLE"
+    },
+    {
+      "content_sha256": "38a34c60c30c9cff1b34ef7eb854284c532438de9407d741778fb8706cc58671",
+      "fragment": {
+        "binary": [
+          "add",
+          "sub",
+          "mul",
+          "div",
+          "pow"
+        ],
+        "declared_stack_depth": 6,
+        "mode": "C",
+        "name": "mode_c_full",
+        "program_length": 9,
+        "terminals": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "1/2",
+          "1/3",
+          "2/3",
+          "3/2"
+        ],
+        "token_names": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "1/2",
+          "1/3",
+          "2/3",
+          "3/2",
+          "neg",
+          "recip",
+          "sqr",
+          "sqrt",
+          "exp",
+          "ln",
+          "sin",
+          "cos",
+          "atan",
+          "add",
+          "sub",
+          "mul",
+          "div",
+          "pow"
+        ],
+        "unary": [
+          "neg",
+          "recip",
+          "sqr",
+          "sqrt",
+          "exp",
+          "ln",
+          "sin",
+          "cos",
+          "atan"
+        ],
+        "value_field": "R"
+      },
+      "lane": "symbolic",
+      "program": {
+        "codec_roundtrip": true,
+        "infix": "((atan(exp(exp(exp(3/2)))) * 2) * 1)",
+        "length_matches_mode": true,
+        "ordinal": 1569191782395,
+        "printed": "2*atan(exp(exp(exp(3/2))))",
+        "program_status": "ok",
+        "rpn": "3/2 exp exp exp atan 2 mul 1 mul",
+        "sympy": "Mul(Integer(2), atan(exp(exp(exp(Rational(3, 2))))))",
+        "tokens": [
+          8,
+          14,
+          14,
+          14,
+          18,
+          1,
+          21,
+          0,
+          21
+        ]
+      },
+      "proof": {
+        "attempts": [
+          {
+            "proved": false,
+            "tactic": "simplify"
+          },
+          {
+            "proved": false,
+            "tactic": "expand_simplify"
+          },
+          {
+            "proved": false,
+            "tactic": "rewrite_log_simplify"
+          },
+          {
+            "proved": false,
+            "tactic": "tangent_with_bound"
+          }
+        ],
+        "kind": "strict_inequality",
+        "relation": "strictly_below",
+        "scope": "this derivation only",
+        "statement": "the program is proved strictly unequal to the target, so this derivation is refuted; the grammar may still reach the target by another program"
+      },
+      "schema_version": "invariant-reachability-certificate-1.0",
+      "target": {
+        "kind": "symbolic",
+        "name": "pi",
+        "sympy": "pi"
+      },
+      "verdict": "PROGRAM_REFUTED"
+    }
+  ]
+}
