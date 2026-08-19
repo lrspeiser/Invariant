@@ -1436,6 +1436,40 @@ _BLIND_INSTRUCTION = (
 )
 
 
+#: Failure text that means "try again": the call did not reach a verdict, so retrying is not
+#: papering over an answer.  Matched case-insensitively against the recorded detail.
+TRANSIENT_FAILURE_MARKERS: tuple[str, ...] = (
+    "timed out", "timeout", "rate limit", "rate_limit", "429", "too many requests",
+    "overloaded", "529", "502", "503", "504", "connection reset", "connection aborted",
+    "connection refused", "temporarily unavailable", "broken pipe", "eof occurred",
+)
+
+#: Failure text that will not improve by asking again.  These halt immediately, whatever the
+#: retry budget says.
+PERSISTENT_FAILURE_MARKERS: tuple[str, ...] = (
+    "authenticate", "oauth", "unauthorized", "401", "403", "invalid api key", "invalid x-api-key",
+    "no such file", "cannot find the file", "not recognized as an internal",
+    "credit balance", "permission denied",
+)
+
+
+def classify_failure(call: ProposalCall) -> str:
+    """``"persistent"`` or ``"transient"``, from the recorded reason and detail.
+
+    Unknown failures are treated as persistent.  Retrying something we do not understand is how a
+    loop ends up quietly grinding against a wall it should have reported.
+    """
+
+    text = f"{call.reason} {call.detail}".lower()
+    if any(marker in text for marker in PERSISTENT_FAILURE_MARKERS):
+        return "persistent"
+    if any(marker in text for marker in TRANSIENT_FAILURE_MARKERS):
+        return "transient"
+    if call.reason == "malformed_provider_response":
+        return "transient"
+    return "persistent"
+
+
 def build_prompt(problem: ProblemSpec, examples: Sequence[ScoredProgram]) -> str:
     """Assemble the blind prompt, then refuse it if a forbidden term got in."""
 
@@ -1808,6 +1842,10 @@ class LoopConfig:
     reset_period: int = 12
     temperature: float = 0.12
     seed: int = 20260818
+    #: Retries for a TRANSIENT proposal failure before the run stops.  A dropped packet or a
+    #: rate limit should not cost a twenty-minute campaign; a dead session still must.
+    transient_retries: int = 3
+    retry_backoff_seconds: float = 2.0
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -1818,6 +1856,8 @@ class LoopConfig:
             "proposals_per_call": self.proposals_per_call,
             "reset_period": self.reset_period,
             "temperature": format(self.temperature, ".6g"),
+            "transient_retries": self.transient_retries,
+            "retry_backoff_seconds": format(self.retry_backoff_seconds, ".6g"),
             "seed": self.seed,
         }
 
@@ -1914,12 +1954,23 @@ def run_problem(
         governor.charge()
         call = proposer.propose(prompt, examples, config.proposals_per_call)
         calls.append(call)
-        if not call.ok:
-            raise ProposerCallFailed(
-                f"proposal call failed at generation {generation}, island {index}: "
-                f"{call.reason} / {call.detail[:200]}.  Stopping the run rather than continuing "
-                "with an empty generation and sealing a receipt that looks like a full campaign."
-            )
+        attempt = 0
+        while not call.ok:
+            kind = classify_failure(call)
+            if kind == "persistent" or attempt >= config.transient_retries:
+                raise ProposerCallFailed(
+                    f"proposal call failed at generation {generation}, island {index}: "
+                    f"{call.reason} / {call.detail[:200]}.  Classified {kind}"
+                    + (
+                        f" after {attempt} retries" if kind == "transient" else ""
+                    )
+                    + ".  Stopping the run rather than continuing with an empty generation and "
+                    "sealing a receipt that looks like a full campaign."
+                )
+            attempt += 1
+            time.sleep(config.retry_backoff_seconds * attempt)
+            call = proposer.propose(prompt, examples, config.proposals_per_call)
+            calls.append(call)
         produced: list[ScoredProgram] = []
         for source in proposer.programs():
             scored = score_program(

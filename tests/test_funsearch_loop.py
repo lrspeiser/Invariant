@@ -888,3 +888,92 @@ def test_no_credential_anywhere_is_reported_not_crashed(tmp_path: Path, monkeypa
     monkeypatch.setattr(fl, "CREDENTIAL_FILES", (".env",))
     record = fl.load_api_credential(root=tmp_path)
     assert record == {"present": False, "source": "none", "key_sha256_prefix": ""}
+
+
+def test_a_transient_failure_is_retried_not_fatal(tmp_path: Path) -> None:
+    """A dropped packet must not cost a whole campaign; a dead session still must."""
+
+    class FlakyOnce:
+        proposer_id = "flaky_once"
+
+        def __init__(self) -> None:
+            self.calls = 0
+
+        def propose(self, prompt, examples, count):
+            self.calls += 1
+            if self.calls == 1:
+                return fl.ProposalCall(
+                    self.proposer_id, "0" * 64, 1, 0, False,
+                    "provider_unavailable", "Command timed out after 180 seconds",
+                )
+            return fl.ProposalCall(
+                self.proposer_id, "0" * 64, 1, 1, True, "returned_programs", "")
+
+        def programs(self):
+            return ("def rule(u):" + chr(10) + "    return u",) if self.calls > 1 else ()
+
+    problem = fl.declared_problems()["blinded_sequence_rule"]
+    config = fl.LoopConfig(generations=1, islands=1, proposals_per_call=1, seed=3,
+                           retry_backoff_seconds=0.0)
+    governor = fl.SpendGovernor(tmp_path / "ledger.json", 500, 5000, 1)
+    proposer = FlakyOnce()
+    block = fl.run_problem(problem, config, proposer, governor)
+    assert proposer.calls == 2, "the transient failure was not retried"
+    assert block["generations_run"] == 1
+
+
+def test_a_persistent_failure_is_not_retried(tmp_path: Path) -> None:
+    """An expired session halts on the first failure however large the retry budget."""
+
+    class DeadSession:
+        proposer_id = "dead_session"
+
+        def __init__(self) -> None:
+            self.calls = 0
+
+        def propose(self, prompt, examples, count):
+            self.calls += 1
+            return fl.ProposalCall(
+                self.proposer_id, "0" * 64, 1, 0, False,
+                "provider_error", "Failed to authenticate: OAuth session expired",
+            )
+
+        def programs(self):
+            return ()
+
+    problem = fl.declared_problems()["blinded_sequence_rule"]
+    config = fl.LoopConfig(generations=3, islands=1, proposals_per_call=1, seed=3,
+                           transient_retries=9, retry_backoff_seconds=0.0)
+    governor = fl.SpendGovernor(tmp_path / "ledger.json", 500, 5000, 1)
+    proposer = DeadSession()
+    with pytest.raises(fl.ProposerCallFailed) as caught:
+        fl.run_problem(problem, config, proposer, governor)
+    assert proposer.calls == 1, "a persistent failure must not be retried"
+    assert "persistent" in str(caught.value)
+
+
+def test_retries_are_bounded(tmp_path: Path) -> None:
+    """A proposer that is always transiently broken stops after the declared budget."""
+
+    class AlwaysTimingOut:
+        proposer_id = "always_timing_out"
+
+        def __init__(self) -> None:
+            self.calls = 0
+
+        def propose(self, prompt, examples, count):
+            self.calls += 1
+            return fl.ProposalCall(
+                self.proposer_id, "0" * 64, 1, 0, False, "provider_unavailable", "timed out")
+
+        def programs(self):
+            return ()
+
+    problem = fl.declared_problems()["blinded_sequence_rule"]
+    config = fl.LoopConfig(generations=3, islands=1, proposals_per_call=1, seed=3,
+                           transient_retries=2, retry_backoff_seconds=0.0)
+    governor = fl.SpendGovernor(tmp_path / "ledger.json", 500, 5000, 1)
+    proposer = AlwaysTimingOut()
+    with pytest.raises(fl.ProposerCallFailed):
+        fl.run_problem(problem, config, proposer, governor)
+    assert proposer.calls == 3, "expected the initial call plus two retries"
