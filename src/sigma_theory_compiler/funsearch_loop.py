@@ -309,6 +309,73 @@ def install_memory_guard(limit_bytes):
     try:
         import ctypes
 
+        class IoCounters(ctypes.Structure):
+            _fields_ = [
+                ("ReadOperationCount", ctypes.c_ulonglong),
+                ("WriteOperationCount", ctypes.c_ulonglong),
+                ("OtherOperationCount", ctypes.c_ulonglong),
+                ("ReadTransferCount", ctypes.c_ulonglong),
+                ("WriteTransferCount", ctypes.c_ulonglong),
+                ("OtherTransferCount", ctypes.c_ulonglong),
+            ]
+
+        class BasicLimits(ctypes.Structure):
+            _fields_ = [
+                ("PerProcessUserTimeLimit", ctypes.c_longlong),
+                ("PerJobUserTimeLimit", ctypes.c_longlong),
+                ("LimitFlags", ctypes.c_ulong),
+                ("MinimumWorkingSetSize", ctypes.c_size_t),
+                ("MaximumWorkingSetSize", ctypes.c_size_t),
+                ("ActiveProcessLimit", ctypes.c_ulong),
+                ("Affinity", ctypes.POINTER(ctypes.c_ulong)),
+                ("PriorityClass", ctypes.c_ulong),
+                ("SchedulingClass", ctypes.c_ulong),
+            ]
+
+        class ExtendedLimits(ctypes.Structure):
+            _fields_ = [
+                ("BasicLimitInformation", BasicLimits),
+                ("IoInfo", IoCounters),
+                ("ProcessMemoryLimit", ctypes.c_size_t),
+                ("JobMemoryLimit", ctypes.c_size_t),
+                ("PeakProcessMemoryUsed", ctypes.c_size_t),
+                ("PeakJobMemoryUsed", ctypes.c_size_t),
+            ]
+
+        JOB_OBJECT_LIMIT_PROCESS_MEMORY = 0x00000100
+        JOB_OBJECT_EXTENDED_LIMIT_INFORMATION = 9
+
+        kernel32 = ctypes.WinDLL("kernel32", use_last_error=True)
+        kernel32.CreateJobObjectW.restype = ctypes.c_void_p
+        kernel32.GetCurrentProcess.restype = ctypes.c_void_p
+        kernel32.SetInformationJobObject.argtypes = [
+            ctypes.c_void_p, ctypes.c_int, ctypes.c_void_p, ctypes.c_ulong
+        ]
+        kernel32.AssignProcessToJobObject.argtypes = [ctypes.c_void_p, ctypes.c_void_p]
+
+        job = kernel32.CreateJobObjectW(None, None)
+        if not job:
+            raise OSError("CreateJobObjectW failed")
+        limits = ExtendedLimits()
+        limits.BasicLimitInformation.LimitFlags = JOB_OBJECT_LIMIT_PROCESS_MEMORY
+        limits.ProcessMemoryLimit = limit_bytes
+        if not kernel32.SetInformationJobObject(
+            ctypes.c_void_p(job),
+            JOB_OBJECT_EXTENDED_LIMIT_INFORMATION,
+            ctypes.byref(limits),
+            ctypes.sizeof(limits),
+        ):
+            raise OSError("SetInformationJobObject failed")
+        if not kernel32.AssignProcessToJobObject(
+            ctypes.c_void_p(job), ctypes.c_void_p(kernel32.GetCurrentProcess())
+        ):
+            raise OSError("AssignProcessToJobObject failed")
+        return "windows_job_object"
+    except Exception:
+        pass
+    try:
+        import ctypes
+
         class Counters(ctypes.Structure):
             _fields_ = [
                 ("cb", ctypes.c_ulong),
@@ -2329,7 +2396,7 @@ def run_loop(
     config: LoopConfig | None = None,
     ledger_path: str | Path = "runs/math/funsearch/spend-ledger.json",
     max_calls: int = 800,
-    max_dollars_hundredths: int = 500,
+    max_dollars_hundredths: int = 1000,
     charge_per_call_hundredths: int = 1,
     proposer_kind: str = "auto",
     claude_executable: str = "claude",
@@ -2840,7 +2907,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--islands", type=int, default=LoopConfig().islands)
     parser.add_argument("--seed", type=int, default=LoopConfig().seed)
     parser.add_argument("--max-calls", type=int, default=800)
-    parser.add_argument("--max-dollars-hundredths", type=int, default=500)
+    parser.add_argument("--max-dollars-hundredths", type=int, default=1000)
     parser.add_argument("--proposer", choices=("auto", "mock", "claude"), default="auto")
     parser.add_argument("--claude", default="claude")
     parser.add_argument("--database", default="runs/math/prior-art/cf-corpus-v1.sqlite")

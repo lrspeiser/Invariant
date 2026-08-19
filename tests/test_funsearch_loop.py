@@ -78,7 +78,9 @@ def test_hostile_suite_contains_every_program() -> None:
 def test_hostile_reasons_are_the_expected_ones() -> None:
     reasons = {item["program"]: item["reason"] for item in fl.run_hostile_suite(FAST_SANDBOX)}
     assert reasons["infinite_loop"] == "timeout"
-    assert reasons["memory_bomb_incremental"] == "memory_cap_exceeded"
+    # A hard limit (RLIMIT_AS, or a Windows job object) fails the allocation itself and
+    # surfaces as MemoryError; only the polling fallback can report memory_cap_exceeded.
+    assert reasons["memory_bomb_incremental"] in {"memory_cap_exceeded", "runtime_error"}
     assert reasons["memory_bomb_single_allocation"] in {"memory_cap_exceeded", "runtime_error"}
     assert reasons["import_socket"] == "static_screen_denied"
     assert reasons["file_write"] == "static_screen_denied"
@@ -556,7 +558,25 @@ def test_receipt_seal_detects_tamper(receipt: dict) -> None:
         fl.validate_receipt(tampered)
 
 
+def _reseal(value: dict) -> dict:
+    """Re-derive both seals, so a tamper test reaches the check it is aiming at."""
+
+    from sigma_theory_compiler.sigma_core import canonical_sha256
+
+    core_body = {
+        key: item
+        for key, item in value.items()
+        if key not in {"content_sha256", "result_core_sha256", "measurement"}
+    }
+    value["result_core_sha256"] = canonical_sha256(core_body)
+    body = {key: item for key, item in value.items() if key != "content_sha256"}
+    value["content_sha256"] = canonical_sha256(body)
+    return value
+
+
 def test_receipt_rejects_a_forged_score(receipt: dict) -> None:
+    """A restored zero, resealed end to end, must still fail on the score arithmetic."""
+
     tampered = json.loads(json.dumps(receipt))
     block = next(
         item for item in tampered["problems"] if item["run_label"] == "blinded_response_law"
@@ -568,12 +588,37 @@ def test_receipt_rejects_a_forged_score(receipt: dict) -> None:
         and float(item["quality"]) > 0.5
     )
     victim["final_score"] = victim["quality"]
-    body = {key: value for key, value in tampered.items() if key != "content_sha256"}
-    from sigma_theory_compiler.sigma_core import canonical_sha256
-
-    tampered["content_sha256"] = canonical_sha256(body)
     with pytest.raises(fl.FunSearchError, match="quality"):
-        fl.validate_receipt(tampered)
+        fl.validate_receipt(_reseal(tampered))
+
+
+def test_receipt_rejects_a_control_that_moved_a_quality(receipt: dict) -> None:
+    """If emptying the grammar changed a quality, the control would prove nothing."""
+
+    tampered = json.loads(json.dumps(receipt))
+    control = next(
+        item
+        for item in tampered["problems"]
+        if item["run_label"] == "blinded_response_law_control"
+    )
+    live = {
+        item["program_sha256"]
+        for item in next(
+            block for block in tampered["problems"] if block["run_label"] == "blinded_response_law"
+        )["sealed_programs"]
+    }
+    victim = next(item for item in control["sealed_programs"] if item["program_sha256"] in live)
+    victim["quality"] = "0.123456789"
+    victim["final_score"] = "0.123456789"
+    with pytest.raises(fl.FunSearchError, match="control changed a quality"):
+        fl.validate_receipt(_reseal(tampered))
+
+
+def test_receipt_rejects_an_undeclared_run_label(receipt: dict) -> None:
+    tampered = json.loads(json.dumps(receipt))
+    tampered["problems"][0]["run_label"] = "something_else"
+    with pytest.raises(fl.FunSearchError):
+        fl.validate_receipt(_reseal(tampered))
 
 
 def test_receipt_records_every_multiplier_with_a_reason(receipt: dict) -> None:
