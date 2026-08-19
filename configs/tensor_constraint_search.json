@@ -1,7 +1,17 @@
 {
-  "schema_version": "invariant-tensor-constraint-search-config-1.0",
+  "schema_version": "invariant-tensor-constraint-search-config-1.1",
   "campaign_id": "tensor-constraint-lovelock-001",
   "declared_framework": {
+    "machine_checkable": {
+      "metric_signature": "lorentzian",
+      "curvature": "generic",
+      "primary_field_indices": 2,
+      "primary_field_symmetric": true,
+      "tensor_rank": 2,
+      "tensor_symmetry": "symmetric",
+      "concomitant_generator": "riemann_tensor"
+    },
+    "machine_checkable_note": "This sub-block is the part of the declaration the engine can confront with the computation. It SELECTS the basis generator and is then re-measured off the arrays that generator actually built; any disagreement raises FrameworkMismatch and no receipt is sealed. The free-text keys below are prose for a reader and are never trusted.",
     "geometry": "pseudo-Riemannian manifold with a symmetric non-degenerate metric g, its Levi-Civita connection, and the Riemann curvature tensor",
     "field_content": ["metric"],
     "tensor_rank": 2,
