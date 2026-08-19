@@ -11,6 +11,7 @@ no closed form can never survive.  GPU tests skip cleanly when no CUDA device is
 
 from __future__ import annotations
 
+import functools
 import json
 import math
 import os
@@ -632,6 +633,15 @@ def test_prior_art_value_hit_is_about_the_constant_not_the_expression():
 # ---------------------------------------------------------------------------
 
 
+@functools.lru_cache(maxsize=1)
+def _null_reachability_block() -> str:
+    """The C1 block a receipt reporting a null must now carry.  Built once; it is not cheap."""
+
+    from sigma_theory_compiler.certified_null_search import campaign_reachability_block
+
+    return json.dumps(campaign_reachability_block({"C": {}, "F": {}}))
+
+
 def _minimal_receipt() -> dict:
     body = {
         "schema_version": RESULT_SCHEMA,
@@ -653,12 +663,25 @@ def _minimal_receipt() -> dict:
                 "decoy_post_gate_survivors": 0,
             }
         },
+        # A receipt reporting zero headline candidates is a negative result, and under C1 a
+        # negative result without a reachability certificate is not publishable at all.
+        "reachability": json.loads(_null_reachability_block()),
         "headline": {"count": 0, "entries": []},
     }
     core = canonical_sha256(body)
     body["result_core_sha256"] = core
     body["measurement"] = {"elapsed_seconds": "1.000"}
     return {**body, "content_sha256": canonical_sha256(body)}
+
+
+def test_a_null_receipt_without_a_reachability_certificate_is_refused():
+    """The C1 falsifier, at the receipt level: an uninformative null is not a result."""
+
+    receipt = _minimal_receipt()
+    del receipt["reachability"]
+    _reseal(receipt)
+    with pytest.raises(CompositionalSearchError, match="C1"):
+        validate_receipt(receipt)
 
 
 def _reseal(receipt: dict) -> dict:
@@ -687,6 +710,8 @@ def test_tamper_control_rejects_every_declared_probe():
         "flipped_claim_with_a_fresh_seal",
         "surviving_decoy_with_a_fresh_seal",
         "reduced_candidate_promoted_to_the_headline",
+        "null_published_after_stripping_the_reachability_block",
+        "unresolved_reachability_upgraded_to_a_real_negative",
     }
 
 

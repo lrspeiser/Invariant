@@ -76,6 +76,17 @@ the classical basis and a symbolic identity proof).  A survivor that reduces to 
 family is ``KNOWN_BY_PROOF_FAMILY``.  The headline is the count that survives the chance gate
 **and** the corpus **and** classical reduction -- and an explicit zero is an honest headline.
 
+**And a null here is not allowed to be silent about itself.**  A headline of zero used to be
+one word covering two facts -- the object does not exist, or this grammar cannot spell it --
+and no amount of scale separates them.  Every receipt this module seals now carries a
+``reachability`` block built by :mod:`sigma_theory_compiler.certified_null_search`: one row per
+declared target per mode, each either an explicit witness program in the real ordinal space
+proved *exactly* equal to the target, or an honest ``UNRESOLVED``.  A target with a witness
+whose sweep found nothing is a ``REAL_NEGATIVE`` and publishable under I6; a target without one
+is an ``UNINFORMATIVE_NULL`` and is not a result.  :func:`validate_receipt` refuses a receipt
+that reports zero candidates and carries no such block, and the in-campaign
+:func:`tamper_control` probes that refusal on every run.
+
 Nothing here is a novelty claim.  ``unreduced_is_not_novel_it_is_unreviewed`` is a sealed claim
 of every receipt this module writes.
 """
@@ -2970,13 +2981,46 @@ def reachability_controls() -> list[dict[str, Any]]:
     return rows
 
 
+def _forge_reachability_upgrade(candidate: dict[str, Any]) -> None:
+    """Relabel one unresolved reachability cell as a publishable negative, in place.
+
+    This is the forgery the C1 gate exists to stop, expressed at the receipt level: the sweep
+    found nothing for a target whose reachability was never established, and the receipt claims
+    that silence as a result anyway.
+    """
+
+    from .certified_null_search import OUTCOME_REAL_NEGATIVE
+    from .reachability_certificate import VERDICT_UNRESOLVED, seal_certificate
+
+    block = candidate.get("reachability")
+    if not block:  # pragma: no cover - defensive
+        raise CompositionalSearchError("tamper probe needs a reachability block to forge")
+    row = next(
+        item
+        for item in block["null_adjudication"]
+        if item["certificate_verdict"] == VERDICT_UNRESOLVED
+    )
+    row["outcome"] = OUTCOME_REAL_NEGATIVE
+    row["publishable_as_a_negative"] = True
+    row["uninformative_reason"] = None
+    candidate["reachability"] = seal_certificate(block)
+
+
 def tamper_control() -> dict[str, Any]:
     """The seal must reject a silently edited receipt and a re-sealed dishonest one.
 
     Run in-campaign rather than only in the tests, because a receipt whose seal does not bite
     is worth nothing and the run should not finish pretending otherwise.
+
+    The synthetic receipt reports a null, so it also exercises the C1 gate on every run: it
+    carries a real reachability block, and two of the probes below try to publish that null
+    without one -- by stripping the block, and by upgrading an unresolved cell to a real
+    negative.  Both must be refused, or the gate is decoration.
     """
 
+    from .certified_null_search import campaign_reachability_block
+
+    reachability = campaign_reachability_block({"C": {}, "F": {}})
     body = {
         "schema_version": RESULT_SCHEMA,
         "claims": dict(CLAIMS),
@@ -2990,6 +3034,7 @@ def tamper_control() -> dict[str, Any]:
             "cpu_gpu_crosscheck": [{"passes": True}],
         },
         "decoy_calibration": {"totals": {"decoy_post_gate_survivors": 0}},
+        "reachability": reachability,
         "headline": {"count": 0, "entries": []},
     }
     body["result_core_sha256"] = canonical_sha256(body)
@@ -3054,6 +3099,14 @@ def tamper_control() -> dict[str, Any]:
             ),
             reseal(c),
         ),
+    )
+    probe(
+        "null_published_after_stripping_the_reachability_block",
+        lambda c: (c.pop("reachability", None), reseal(c)),
+    )
+    probe(
+        "unresolved_reachability_upgraded_to_a_real_negative",
+        lambda c: (_forge_reachability_upgrade(c), reseal(c)),
     )
     honest = True
     try:
@@ -3678,6 +3731,21 @@ def run_campaign(
         if record["verdict"] == "UNREDUCED_AND_UNREVIEWED":
             headline.append(record)
 
+    # --- C1: no null leaves this function without a reachability certificate ---
+    # A headline of zero for a target is two different facts wearing one word -- the object does
+    # not exist, or the grammar cannot spell it -- and until this block is attached the receipt
+    # cannot tell a reader which one the sweep just produced.  The import is deferred because
+    # the certifier reads this module's grammar; it is a hard dependency all the same, and a
+    # campaign that cannot certify its own nulls does not finish.
+    from .certified_null_search import campaign_reachability_block
+
+    findings: dict[str, dict[str, int]] = {"C": {}, "F": {}}
+    for record in headline:
+        mode = str(record["mode"])
+        target = str(record["target"])
+        findings[mode][target] = findings[mode].get(target, 0) + 1
+    reachability = campaign_reachability_block(findings)
+
     elapsed = time.perf_counter() - started
     enumerated_total = sum(totals.values())
     sweep_seconds = sum(
@@ -3921,6 +3989,7 @@ def run_campaign(
             "headline_unreduced_and_unreviewed": len(headline),
         },
         "downstream": downstream,
+        "reachability": reachability,
         "headline": {
             "count": len(headline),
             "meaning": (
@@ -4093,6 +4162,77 @@ def validate_receipt(value: Mapping[str, Any]) -> None:
             raise CompositionalSearchError("a headline entry did not survive the chance gate")
         if entry.get("classical_reduction", {}).get("verdict") == "KNOWN_BY_PROOF_FAMILY":
             raise CompositionalSearchError("a reduced candidate is in the headline")
+    _validate_reachability(value)
+
+
+def _validate_reachability(value: Mapping[str, Any]) -> None:
+    """The C1 gate: a null may not be published without a reachability certificate.
+
+    Two jobs.  A receipt that reports nothing and carries no certificate is refused outright --
+    "we searched 1.9e12 expressions and found nothing" is indistinguishable from "we searched
+    the wrong 1.9e12 expressions" until something proves the target was in the space.  And a
+    receipt that *does* carry a block has that block re-verified from scratch: every certificate
+    re-proved, every outcome re-derived, the block regenerated and hash-compared, and the
+    block's own findings reconciled against the receipt's own headline entries, so a block
+    cannot be attached that adjudicates a campaign other than the one it is stapled to.
+    """
+
+    # The import is deferred for the same reason it is deferred in ``run_campaign``: the
+    # certifier is a consumer of this module's grammar.
+    from .certified_null_search import (
+        OUTCOME_INCONSISTENT,
+        OUTCOME_REAL_NEGATIVE,
+        verify_campaign_reachability_block,
+    )
+
+    block = value.get("reachability")
+    headline_count = int(value.get("headline", {}).get("count", 0))
+    if block is None:
+        if headline_count == 0:
+            raise CompositionalSearchError(
+                "C1: this receipt reports a null -- zero headline candidates -- and carries no "
+                "reachability certificate, so it cannot distinguish 'no such object exists' "
+                "from 'the grammar could not express it'. An uninformative null is not a result"
+            )
+        return
+
+    verify_campaign_reachability_block(block)
+    rows = {
+        (str(row["mode"]), str(row["target"])): row
+        for row in block.get("null_adjudication", [])
+    }
+    searched = {
+        (mode, str(row["target"]))
+        for mode in ("C", "F")
+        for row in value.get("chance_gate", {}).get(mode, {}).get("per_target", [])
+        if row.get("role") == "real"
+    }
+    missing = sorted(f"{mode}/{target}" for mode, target in searched - set(rows))
+    if missing:
+        raise CompositionalSearchError(
+            f"C1: these targets were searched but carry no reachability adjudication: {missing}"
+        )
+    counted: dict[tuple[str, str], int] = {}
+    for entry in value.get("headline", {}).get("entries", []):
+        key = (str(entry.get("mode")), str(entry.get("target")))
+        counted[key] = counted.get(key, 0) + 1
+    for key, row in rows.items():
+        if int(row["findings"]) != counted.get(key, 0):
+            raise CompositionalSearchError(
+                f"C1: the reachability block reports {row['findings']} finding(s) for "
+                f"{key[0]}/{key[1]} but the receipt's own headline carries "
+                f"{counted.get(key, 0)}"
+            )
+        if row["outcome"] == OUTCOME_INCONSISTENT:
+            raise CompositionalSearchError(
+                f"C1: the reachability certificate for {key[0]}/{key[1]} disagrees with the "
+                "campaign's own finding count"
+            )
+        if row["outcome"] == OUTCOME_REAL_NEGATIVE and not row.get("certificate_verified"):
+            raise CompositionalSearchError(
+                f"C1: {key[0]}/{key[1]} is published as a real negative on an unverified "
+                "certificate"
+            )
 
 
 def _write_receipt(result: Mapping[str, Any], output: str) -> None:
