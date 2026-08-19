@@ -26,6 +26,7 @@ score exactly from the sealed programs.
 
 from __future__ import annotations
 
+import hashlib
 import json
 import math
 import os
@@ -444,7 +445,36 @@ def test_ledger_shape_is_enforced(tmp_path: Path) -> None:
         fl.read_ledger(bad)
 
 
-def test_a_broken_proposer_does_not_take_the_loop_down(tmp_path: Path) -> None:
+def test_garbage_programs_do_not_take_the_loop_down(tmp_path: Path) -> None:
+    """A SUCCESSFUL call returning unusable source is normal: the sandbox classifies it.
+
+    Programs are model output, so nonsense is expected traffic and must never halt a campaign.
+    This is deliberately distinct from a failed CALL, which does halt -- see
+    ``test_a_failed_call_stops_the_run``.  Conflating the two is what let an expired session run
+    silent for a day.
+    """
+
+    class ReturnsGarbage:
+        proposer_id = "returns_garbage"
+
+        def propose(self, prompt, examples, count):
+            return fl.ProposalCall(self.proposer_id, "0" * 64, 1, 3, True, "returned_programs", "")
+
+        def programs(self):
+            bad = "def rule(n):" + chr(10) + "    return zzz" + chr(10)
+            return (bad, "not python at all {", "")
+
+    problem = fl.declared_problems()["blinded_sequence_rule"]
+    config = fl.LoopConfig(generations=3, islands=2, proposals_per_call=2, seed=3)
+    governor = fl.SpendGovernor(tmp_path / "ledger.json", 500, 5000, 1)
+    block = fl.run_problem(problem, config, ReturnsGarbage(), governor)
+    assert block["generations_run"] == 3
+    assert block["sandbox_incidents"]
+
+
+def test_a_failed_call_stops_the_run(tmp_path: Path) -> None:
+    """A call that fails halts the campaign instead of yielding an empty generation."""
+
     class Exploding:
         proposer_id = "exploding"
 
@@ -452,14 +482,14 @@ def test_a_broken_proposer_does_not_take_the_loop_down(tmp_path: Path) -> None:
             return fl.ProposalCall(self.proposer_id, "0" * 64, 1, 0, False, "provider_error", "")
 
         def programs(self):
-            return ("def rule(n):\n    return zzz\n", "not python at all {", "")
+            return ()
 
     problem = fl.declared_problems()["blinded_sequence_rule"]
     config = fl.LoopConfig(generations=3, islands=2, proposals_per_call=2, seed=3)
     governor = fl.SpendGovernor(tmp_path / "ledger.json", 500, 5000, 1)
-    block = fl.run_problem(problem, config, Exploding(), governor)
-    assert block["generations_run"] == 3
-    assert block["sandbox_incidents"]
+    with pytest.raises(fl.ProposerCallFailed) as caught:
+        fl.run_problem(problem, config, Exploding(), governor)
+    assert "provider_error" in str(caught.value)
 
 
 def test_the_model_is_never_asked_to_adjudicate() -> None:
@@ -763,19 +793,60 @@ def test_a_dead_live_proposer_fails_closed(tmp_path: Path) -> None:
     assert "unreachable" in str(caught.value)
 
 
-def test_degrading_on_purpose_is_allowed_but_marked(tmp_path: Path) -> None:
-    """Opting into the mock still stamps the receipt so it cannot be read as a live run."""
-    result = fl.run_loop(
-        config=fl.LoopConfig(islands=2, island_capacity=4, generations=1),
-        ledger_path=tmp_path / "ledger.json",
-        proposer_kind="auto",
-        allow_mock_fallback=True,
-        claude_executable="claude-executable-that-does-not-exist",
-        include_corpus_problem=False,
-    )
-    assert result["proposer"]["degraded"] is True
-    assert result["proposer"]["used"] == "deterministic_mock_mutator"
-    assert "NOT a live discovery campaign" in result["proposer"]["degraded_note"]
+def test_there_is_no_degraded_mode(tmp_path: Path) -> None:
+    """An unreachable proposer always stops the run. There is no opt-in fallback any more."""
+    for kind in ("auto", "claude"):
+        with pytest.raises(fl.ProposerUnavailable) as caught:
+            fl.run_loop(
+                config=fl.LoopConfig(islands=2, island_capacity=4, generations=1),
+                ledger_path=tmp_path / f"ledger-{kind}.json",
+                proposer_kind=kind,
+                claude_executable="claude-executable-that-does-not-exist",
+                include_corpus_problem=False,
+            )
+        assert "no degraded mode" in str(caught.value)
+
+
+def test_a_call_that_fails_mid_run_stops_the_run(tmp_path: Path, monkeypatch) -> None:
+    """The preflight only proves the proposer was up at the START. Later failures must halt.
+
+    Before this, a failed call was appended to the log and stepped over: the generation came up
+    empty and the campaign ran to completion, sealing a receipt that looked entirely normal.
+    """
+
+    class DiesAfterPreflight:
+        proposer_id = "test_dies_after_preflight"
+
+        def __init__(self, *args, **kwargs) -> None:
+            self._first = True
+
+        def propose(self, prompt, examples, count):
+            ok, reason = (True, "returned_programs") if self._first else (False, "provider_error")
+            self._first = False
+            return fl.ProposalCall(
+                self.proposer_id,
+                hashlib.sha256(prompt.encode("utf-8")).hexdigest(),
+                len(prompt.encode("utf-8")),
+                1 if ok else 0,
+                ok,
+                reason,
+                "" if ok else "session expired half way through the campaign",
+            )
+
+        def programs(self):
+            src = "def rule(u):" + chr(10) + "    return u"
+            return (src,) if not self._first else ()
+
+    monkeypatch.setattr(fl, "ClaudeCliProposer", DiesAfterPreflight)
+    with pytest.raises(fl.ProposerCallFailed) as caught:
+        fl.run_loop(
+            config=fl.LoopConfig(islands=2, island_capacity=4, generations=4),
+            ledger_path=tmp_path / "ledger.json",
+            proposer_kind="claude",
+            include_corpus_problem=False,
+        )
+    assert "provider_error" in str(caught.value)
+    assert "Stopping the run" in str(caught.value)
 
 
 def test_explicit_mock_is_not_degraded_and_probes_nothing(tmp_path: Path) -> None:

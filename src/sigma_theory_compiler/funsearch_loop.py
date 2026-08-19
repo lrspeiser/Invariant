@@ -110,6 +110,17 @@ class ProposerUnavailable(Exception):
     """
 
 
+class ProposerCallFailed(Exception):
+    """Typed blocker: a proposal call failed part-way through a campaign.
+
+    The preflight only proves the proposer was reachable when the run STARTED.  A session that
+    expires, a rate limit, or a network fault mid-campaign used to be appended to the call log and
+    stepped over: ``proposer.programs()`` simply returned nothing, the generation came up empty,
+    and the loop ran to completion and sealed a receipt that looked like a full campaign.  Every
+    proposal call is now checked, and the first failure stops the run.
+    """
+
+
 class FunSearchError(ValueError):
     """Raised on malformed declarations, guard violations, or receipt tamper."""
 
@@ -1877,6 +1888,12 @@ def run_problem(
         governor.charge()
         call = proposer.propose(prompt, examples, config.proposals_per_call)
         calls.append(call)
+        if not call.ok:
+            raise ProposerCallFailed(
+                f"proposal call failed at generation {generation}, island {index}: "
+                f"{call.reason} / {call.detail[:200]}.  Stopping the run rather than continuing "
+                "with an empty generation and sealing a receipt that looks like a full campaign."
+            )
         produced: list[ScoredProgram] = []
         for source in proposer.programs():
             scored = score_program(
@@ -2411,7 +2428,6 @@ def run_loop(
     max_dollars_hundredths: int = 1000,
     charge_per_call_hundredths: int = 1,
     proposer_kind: str = "auto",
-    allow_mock_fallback: bool = False,
     claude_executable: str = "claude",
     corpus_database: str | Path = "runs/math/prior-art/cf-corpus-v1.sqlite",
     corpus_manifest: str | Path = "runs/math/prior-art/cf-corpus-v1-manifest.json",
@@ -2430,23 +2446,16 @@ def run_loop(
         credential = load_api_credential()
         live_attempt = _attempt_live_model(problems["blinded_sequence_rule"], claude_executable)
         live_attempt = dict(live_attempt, credential=credential)
-        if live_attempt["ok"]:
-            use_live = True
-            degraded = False
-        elif allow_mock_fallback:
-            # Explicitly requested degradation.  Still recorded as degraded so no reader of the
-            # receipt can mistake a mock campaign for a live one.
-            use_live = False
-            degraded = True
-        else:
+        if not live_attempt["ok"]:
             raise ProposerUnavailable(
                 f"requested proposer {proposer_kind!r} is unreachable: "
                 f"{live_attempt.get('reason')} / {str(live_attempt.get('detail'))[:200]}.  "
-                "Refusing to silently fall back to the deterministic mock mutator, which would "
-                "seal a receipt that looks like a discovery campaign and is not.  Pass "
-                "proposer_kind='mock' to run the mock deliberately, or allow_mock_fallback=True "
-                "to degrade on purpose."
+                "There is no degraded mode: a run either has the proposer it declared or it does "
+                "not run at all.  Pass proposer_kind='mock' to run the deterministic mutator "
+                "deliberately, which is a different experiment and is labelled as one."
             )
+        use_live = True
+        degraded = False
 
     corpus = None
     corpus_binding: dict[str, Any] = {"bound": False, "reason": "not requested"}
@@ -2553,12 +2562,6 @@ def run_loop(
             "requested": proposer_kind,
             "used": "claude_cli_oauth" if use_live else "deterministic_mock_mutator",
             "degraded": degraded,
-            "degraded_note": (
-                "the requested live proposer was unreachable and the caller opted into the mock; "
-                "this receipt is NOT a live discovery campaign"
-                if degraded
-                else ""
-            ),
             "live_model_attempt": live_attempt,
             "note": (
                 "the proposer supplies source code only; it never scores, ranks, or "
@@ -2996,12 +2999,6 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--max-calls", type=int, default=800)
     parser.add_argument("--max-dollars-hundredths", type=int, default=1000)
     parser.add_argument("--proposer", choices=("auto", "mock", "claude"), default="auto")
-    parser.add_argument(
-        "--allow-mock-fallback",
-        action="store_true",
-        help="degrade to the deterministic mock mutator when the live proposer is "
-             "unreachable, instead of failing closed",
-    )
     parser.add_argument("--claude", default="claude")
     parser.add_argument("--database", default="runs/math/prior-art/cf-corpus-v1.sqlite")
     parser.add_argument("--manifest", default="runs/math/prior-art/cf-corpus-v1-manifest.json")
@@ -3031,7 +3028,6 @@ def main(argv: Sequence[str] | None = None) -> int:
         max_calls=args.max_calls,
         max_dollars_hundredths=args.max_dollars_hundredths,
         proposer_kind=args.proposer,
-        allow_mock_fallback=args.allow_mock_fallback,
         claude_executable=args.claude,
         corpus_database=args.database,
         corpus_manifest=args.manifest,
