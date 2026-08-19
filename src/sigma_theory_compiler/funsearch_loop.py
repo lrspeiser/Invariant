@@ -64,6 +64,7 @@ import copy
 import hashlib
 import json
 import math
+import os
 import random
 import re
 import subprocess
@@ -96,6 +97,17 @@ SCOPE = (
     "is outside the declared known-solution grammar and absent from a finite prior-art "
     "corpus; it is never a novelty claim."
 )
+
+
+class ProposerUnavailable(Exception):
+    """Typed blocker: the requested proposer could not be reached.
+
+    Before this existed, ``proposer_kind="auto"`` silently degraded to the deterministic mock
+    mutator whenever the live adapter was unreachable.  The receipt recorded the failed attempt
+    but the run completed and looked entirely normal, so an expired OAuth session turned every
+    "discovery" campaign into a ten-token recombination without anything surfacing it.  A dead
+    proposer is now a loud failure unless the caller explicitly asks to degrade.
+    """
 
 
 class FunSearchError(ValueError):
@@ -2399,6 +2411,7 @@ def run_loop(
     max_dollars_hundredths: int = 1000,
     charge_per_call_hundredths: int = 1,
     proposer_kind: str = "auto",
+    allow_mock_fallback: bool = False,
     claude_executable: str = "claude",
     corpus_database: str | Path = "runs/math/prior-art/cf-corpus-v1.sqlite",
     corpus_manifest: str | Path = "runs/math/prior-art/cf-corpus-v1-manifest.json",
@@ -2409,10 +2422,31 @@ def run_loop(
     started = time.perf_counter()
     settings = config or LoopConfig()
     problems = declared_problems()
-    live_attempt = _attempt_live_model(problems["blinded_sequence_rule"], claude_executable)
-    use_live = proposer_kind == "claude" or (proposer_kind == "auto" and live_attempt["ok"])
     if proposer_kind == "mock":
+        live_attempt = {"ok": False, "reason": "not_probed", "detail": "proposer_kind=mock"}
         use_live = False
+        degraded = False
+    else:
+        credential = load_api_credential()
+        live_attempt = _attempt_live_model(problems["blinded_sequence_rule"], claude_executable)
+        live_attempt = dict(live_attempt, credential=credential)
+        if live_attempt["ok"]:
+            use_live = True
+            degraded = False
+        elif allow_mock_fallback:
+            # Explicitly requested degradation.  Still recorded as degraded so no reader of the
+            # receipt can mistake a mock campaign for a live one.
+            use_live = False
+            degraded = True
+        else:
+            raise ProposerUnavailable(
+                f"requested proposer {proposer_kind!r} is unreachable: "
+                f"{live_attempt.get('reason')} / {str(live_attempt.get('detail'))[:200]}.  "
+                "Refusing to silently fall back to the deterministic mock mutator, which would "
+                "seal a receipt that looks like a discovery campaign and is not.  Pass "
+                "proposer_kind='mock' to run the mock deliberately, or allow_mock_fallback=True "
+                "to degrade on purpose."
+            )
 
     corpus = None
     corpus_binding: dict[str, Any] = {"bound": False, "reason": "not requested"}
@@ -2518,6 +2552,13 @@ def run_loop(
         "proposer": {
             "requested": proposer_kind,
             "used": "claude_cli_oauth" if use_live else "deterministic_mock_mutator",
+            "degraded": degraded,
+            "degraded_note": (
+                "the requested live proposer was unreachable and the caller opted into the mock; "
+                "this receipt is NOT a live discovery campaign"
+                if degraded
+                else ""
+            ),
             "live_model_attempt": live_attempt,
             "note": (
                 "the proposer supplies source code only; it never scores, ranks, or "
@@ -2566,6 +2607,52 @@ def _incident_log(blocks: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
         "every_reason_is_declared": all(name in SANDBOX_FAILURE_REASONS for name in counts),
         "loop_survived_every_incident": True,
     }
+
+
+#: Files searched for ``ANTHROPIC_API_KEY`` when it is not already in the environment, in order.
+#: A repository-local ``.env`` wins; ``~/.invariant.env`` is the machine-wide fallback that every
+#: worktree shares, so one credential serves all of them and no secret is duplicated per checkout.
+CREDENTIAL_FILES: tuple[str, ...] = (".env", "~/.invariant.env")
+
+
+def load_api_credential(root: str | Path | None = None) -> dict[str, Any]:
+    """Put ``ANTHROPIC_API_KEY`` into the environment if a credential file supplies one.
+
+    Returns a typed provenance record naming WHERE the credential came from and a short digest
+    of it, never the credential itself.  The digest is enough to tell two keys apart in a receipt
+    and is not reversible.  An already-set environment variable always wins and is never
+    overwritten.
+    """
+
+    existing = os.environ.get("ANTHROPIC_API_KEY", "").strip()
+    if existing:
+        return {
+            "present": True,
+            "source": "environment",
+            "key_sha256_prefix": hashlib.sha256(existing.encode("utf-8")).hexdigest()[:12],
+        }
+    base = Path(root) if root is not None else Path(__file__).resolve().parents[2]
+    for name in CREDENTIAL_FILES:
+        candidate = Path(name).expanduser() if name.startswith("~") else base / name
+        if not candidate.is_file():
+            continue
+        for line in candidate.read_text(encoding="utf-8").splitlines():
+            line = line.strip()
+            if not line or line.startswith("#") or "=" not in line:
+                continue
+            name_part, _, value = line.partition("=")
+            if name_part.strip() != "ANTHROPIC_API_KEY":
+                continue
+            value = value.strip().strip('"').strip("'")
+            if not value:
+                continue
+            os.environ["ANTHROPIC_API_KEY"] = value
+            return {
+                "present": True,
+                "source": str(candidate).replace("\\", "/"),
+                "key_sha256_prefix": hashlib.sha256(value.encode("utf-8")).hexdigest()[:12],
+            }
+    return {"present": False, "source": "none", "key_sha256_prefix": ""}
 
 
 def _attempt_live_model(problem: ProblemSpec, executable: str) -> dict[str, Any]:
@@ -2909,6 +2996,12 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--max-calls", type=int, default=800)
     parser.add_argument("--max-dollars-hundredths", type=int, default=1000)
     parser.add_argument("--proposer", choices=("auto", "mock", "claude"), default="auto")
+    parser.add_argument(
+        "--allow-mock-fallback",
+        action="store_true",
+        help="degrade to the deterministic mock mutator when the live proposer is "
+             "unreachable, instead of failing closed",
+    )
     parser.add_argument("--claude", default="claude")
     parser.add_argument("--database", default="runs/math/prior-art/cf-corpus-v1.sqlite")
     parser.add_argument("--manifest", default="runs/math/prior-art/cf-corpus-v1-manifest.json")
@@ -2938,6 +3031,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         max_calls=args.max_calls,
         max_dollars_hundredths=args.max_dollars_hundredths,
         proposer_kind=args.proposer,
+        allow_mock_fallback=args.allow_mock_fallback,
         claude_executable=args.claude,
         corpus_database=args.database,
         corpus_manifest=args.manifest,

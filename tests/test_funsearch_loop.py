@@ -739,3 +739,81 @@ def test_cli_hostile_suite() -> None:
     assert completed.returncode == 0, completed.stderr
     results = json.loads(completed.stdout)
     assert all(item["contained"] for item in results)
+
+
+# ---------------------------------------------------------------------------
+# The proposer must not degrade silently
+# ---------------------------------------------------------------------------
+
+
+def test_a_dead_live_proposer_fails_closed(tmp_path: Path) -> None:
+    """An unreachable live proposer raises instead of quietly running the mock.
+
+    This is the regression that mattered: an expired OAuth session turned every campaign into
+    a ten-token recombination while the receipt still looked like a discovery run.
+    """
+    with pytest.raises(fl.ProposerUnavailable) as caught:
+        fl.run_loop(
+            config=fl.LoopConfig(islands=2, island_capacity=4, generations=1),
+            ledger_path=tmp_path / "ledger.json",
+            proposer_kind="auto",
+            claude_executable="claude-executable-that-does-not-exist",
+            include_corpus_problem=False,
+        )
+    assert "unreachable" in str(caught.value)
+
+
+def test_degrading_on_purpose_is_allowed_but_marked(tmp_path: Path) -> None:
+    """Opting into the mock still stamps the receipt so it cannot be read as a live run."""
+    result = fl.run_loop(
+        config=fl.LoopConfig(islands=2, island_capacity=4, generations=1),
+        ledger_path=tmp_path / "ledger.json",
+        proposer_kind="auto",
+        allow_mock_fallback=True,
+        claude_executable="claude-executable-that-does-not-exist",
+        include_corpus_problem=False,
+    )
+    assert result["proposer"]["degraded"] is True
+    assert result["proposer"]["used"] == "deterministic_mock_mutator"
+    assert "NOT a live discovery campaign" in result["proposer"]["degraded_note"]
+
+
+def test_explicit_mock_is_not_degraded_and_probes_nothing(tmp_path: Path) -> None:
+    """``proposer_kind='mock'`` is a deliberate choice, not a failure, and skips the probe."""
+    result = fl.run_loop(
+        config=fl.LoopConfig(islands=2, island_capacity=4, generations=1),
+        ledger_path=tmp_path / "ledger.json",
+        proposer_kind="mock",
+        claude_executable="claude-executable-that-does-not-exist",
+        include_corpus_problem=False,
+    )
+    assert result["proposer"]["degraded"] is False
+    assert result["proposer"]["live_model_attempt"]["reason"] == "not_probed"
+
+
+def test_credential_loads_from_a_file_and_never_exposes_the_key(tmp_path: Path, monkeypatch) -> None:
+    """A credential file populates the environment; the provenance record carries no secret."""
+    monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
+    (tmp_path / ".env").write_text("# comment\nANTHROPIC_API_KEY=sk-ant-test-not-a-real-key\n", encoding="utf-8")
+    record = fl.load_api_credential(root=tmp_path)
+    assert record["present"] is True
+    assert record["source"].endswith(".env")
+    assert os.environ["ANTHROPIC_API_KEY"] == "sk-ant-test-not-a-real-key"
+    serialized = json.dumps(record)
+    assert "sk-ant-test-not-a-real-key" not in serialized
+    assert len(record["key_sha256_prefix"]) == 12
+
+
+def test_an_existing_environment_credential_is_never_overwritten(tmp_path: Path, monkeypatch) -> None:
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "sk-ant-already-set")
+    (tmp_path / ".env").write_text("ANTHROPIC_API_KEY=sk-ant-from-file\n", encoding="utf-8")
+    record = fl.load_api_credential(root=tmp_path)
+    assert record["source"] == "environment"
+    assert os.environ["ANTHROPIC_API_KEY"] == "sk-ant-already-set"
+
+
+def test_no_credential_anywhere_is_reported_not_crashed(tmp_path: Path, monkeypatch) -> None:
+    monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
+    monkeypatch.setattr(fl, "CREDENTIAL_FILES", (".env",))
+    record = fl.load_api_credential(root=tmp_path)
+    assert record == {"present": False, "source": "none", "key_sha256_prefix": ""}
