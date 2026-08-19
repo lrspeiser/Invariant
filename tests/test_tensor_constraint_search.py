@@ -330,6 +330,300 @@ def test_screened_gravity_candidate_count_is_derived_from_its_own_receipt(receip
 
 
 # ---------------------------------------------------------------------------
+# The one-sided sampling guarantee.
+#
+# The module's central promise is that a dimension "can only be reported too large, never too
+# small".  That promise is about the SAMPLE SIZE, so the only way to test it is to vary the sample
+# size, and these are the tests that do.  Every one of them holds the exhibited lower bound fixed
+# and starves the bank underneath it.
+# ---------------------------------------------------------------------------
+
+DIVERGENCE_FREE = ["generally_covariant", "derivative_order", "symmetric", "divergence_free"]
+
+
+def _starved(bank_samples: int, *, dimension: int = 4, order: int = 2, seed: str = "7") -> dict:
+    return tcs.run_search(
+        dimension=dimension,
+        order=order,
+        constraints=DIVERGENCE_FREE,
+        modulus=PRIME,
+        seed=seed,
+        bank_samples=bank_samples,
+        holdout_samples=3,
+        enumerate_basis=False,
+    )
+
+
+def test_the_reproduced_defect_is_fixed() -> None:
+    """The exact call from the bug report: it used to report 1 while exhibiting 2."""
+
+    search = tcs.run_search(
+        dimension=4,
+        order=2,
+        constraints=DIVERGENCE_FREE,
+        modulus=1048573,
+        seed=7,
+        bank_samples=1,
+        holdout_samples=3,
+        enumerate_basis=True,
+    )
+    certificate = search["uniqueness_certificate"]
+    assert certificate["independently_exhibited_dimension"] == 2
+    assert certificate["sampled_dimension"] == 2
+    assert tcs.published_dimension(search) == 2
+
+
+@pytest.mark.parametrize("bank_samples", [1, 2, 3, 5, 9])
+def test_reported_dimension_never_falls_below_what_the_same_call_exhibits(
+    bank_samples: int,
+) -> None:
+    """The guarantee, stated as a direction and checked at five sample sizes.
+
+    A member the search exhibits is a member the space contains, so the reported dimension is
+    forbidden from sitting below the exhibited rank no matter how starved the bank is.  This is the
+    assertion the defect violated.
+    """
+
+    search = _starved(bank_samples)
+    certificate = search["uniqueness_certificate"]
+    assert certificate["sampled_dimension"] >= certificate["independently_exhibited_dimension"]
+    assert tcs.published_dimension(search) == 2
+
+
+@pytest.mark.parametrize("bank_samples", [1, 3, 9])
+def test_the_guarantee_direction_holds_at_order_four_too(bank_samples: int) -> None:
+    """d=4 order 4 is the cell with a genuine identically-vanishing direction to subtract."""
+
+    search = _starved(bank_samples, order=4)
+    certificate = search["uniqueness_certificate"]
+    assert certificate["sampled_dimension"] >= certificate["independently_exhibited_dimension"]
+    assert certificate["witnessed_identically_vanishing_dimension"] == 1
+    assert tcs.published_dimension(search) == 4
+
+
+def test_naive_nullity_difference_violates_the_guarantee_on_a_starved_bank() -> None:
+    """The control that must FAIL.  Rebuilt here with this test's own linear algebra.
+
+    ``len(divergence_nullspace) - len(sampled_vanishing_space)`` is the arithmetic the module used
+    to publish.  Both terms are upper bounds, so the difference has no guaranteed sign.  On a
+    one-jet bank it lands at 1 while the same cell exhibits 2 members.  If this assertion ever
+    stops holding, the repair has stopped being load-bearing and the test should be deleted, not
+    relaxed.
+    """
+
+    names = tcs.named_term_names(2)
+    bank = tcs.build_bank(4, 2, PRIME, "7", 1)
+    pairs = [(geometry, tcs.named_tensors(geometry, 2)) for geometry in bank]
+    vanishing = tcs._nullspace(tcs._sample_rows(pairs, names, divergence=False), PRIME)
+    nullity = tcs._nullspace(tcs._sample_rows(pairs, names, divergence=True), PRIME)
+    naive = len(nullity) - len(vanishing)
+    assert len(vanishing) == 1 and len(nullity) == 2
+    assert naive == 1
+
+    search = _starved(1)
+    assert search["uniqueness_certificate"]["independently_exhibited_dimension"] == 2
+    assert naive < search["uniqueness_certificate"]["independently_exhibited_dimension"]
+    assert tcs.published_dimension(search) == 2
+
+
+def test_the_holdout_actually_refutes_bank_only_directions() -> None:
+    """A holdout that never refutes anything is decoration.  On a starved bank it refutes plenty."""
+
+    search = _starved(1, order=4)
+    vanishing = search["identically_vanishing"]
+    assert vanishing["bank_only_dimension"] > vanishing["dimension"]
+    assert vanishing["holdout_refuted_dimensions"] == (
+        vanishing["bank_only_dimension"] - vanishing["dimension"]
+    )
+    space = search["divergence_free_space"]
+    assert space["coefficient_nullity_bank_only"] > space["coefficient_nullity"]
+    assert space["holdout_refuted_dimensions"] > 0
+
+
+def test_bank_size_does_not_move_the_published_dimension(receipt: dict) -> None:
+    """Every configured cell, rerun on a one-jet bank, must land on the sealed dimension."""
+
+    for search in receipt["searches"]:
+        if not search.get("divergence_free_applied"):
+            continue
+        starved = _starved(
+            1,
+            dimension=search["dimension"],
+            order=search["derivative_order"],
+            seed=CONFIG["arithmetic"]["jet_seed"],
+        )
+        assert tcs.published_dimension(starved) == tcs.published_dimension(search)
+
+
+# ---------------------------------------------------------------------------
+# Fail closed: an untight sandwich is not a dimension.
+# ---------------------------------------------------------------------------
+
+
+def test_published_dimension_refuses_an_untight_search() -> None:
+    with pytest.raises(tcs.SandwichNotTight, match="did not close"):
+        tcs.published_dimension(
+            {"search_id": "synthetic", "dimension_published": False, "surviving_dimension": 7}
+        )
+    assert tcs.published_dimension({"dimension_published": True, "surviving_dimension": 7}) == 7
+
+
+def test_an_unspanned_nullspace_refuses_to_publish(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Withdraw an exhibited direction and d=5 at order 4 must stop reporting a dimension.
+
+    ``E3`` and the Lanczos vector both have to go, because in d=5 either one recovers the other
+    from ``E1`` and ``E2`` -- which is itself a nice check that the six exhibited members really do
+    span only five directions.  What is left is a five-dimensional sampled nullspace with four
+    exhibited directions inside it.  Four is a lower bound and five is an upper bound; the honest
+    answer is that the dimension is not known, and the search has to say so.
+    """
+
+    withdrawn = {"quadratic_riemann_squared_euler_lagrange", "gauss_bonnet_lanczos"}
+    monkeypatch.setattr(
+        tcs,
+        "EXHIBITED_LABELS",
+        tuple(label for label in tcs.EXHIBITED_LABELS if label not in withdrawn),
+    )
+    search = _starved(3, dimension=5, order=4, seed=CONFIG["arithmetic"]["jet_seed"])
+    certificate = search["uniqueness_certificate"]
+    assert certificate["coefficient_nullity"] == 5
+    assert certificate["exhibited_coefficient_rank"] == 4
+    assert certificate["coefficient_sandwich_tight"] is False
+    assert search["dimension_published"] is False
+    assert search["surviving_dimension"] is None
+    assert search["blocker"]["reason"] == "exhibited_members_do_not_span_the_sampled_nullspace"
+    with pytest.raises(tcs.SandwichNotTight):
+        tcs.published_dimension(search)
+
+
+def test_an_unwitnessed_vanishing_direction_refuses_to_publish(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Withdraw the Lanczos witness and d=4 at order 4 must refuse rather than subtract a sample.
+
+    The sampled vanishing dimension is still 1, but with no declared member to name it there is
+    nothing that bounds the true vanishing dimension from below, and subtracting the sampled 1
+    would report the space too small.  Refusing is the fix.
+    """
+
+    reduced = {
+        label: spec
+        for label, spec in tcs.DECLARED_VECTORS.items()
+        if label != "gauss_bonnet_lanczos"
+    }
+    monkeypatch.setattr(tcs, "DECLARED_VECTORS", reduced)
+    search = _starved(3, dimension=4, order=4, seed=CONFIG["arithmetic"]["jet_seed"])
+    assert search["identically_vanishing"]["dimension"] == 1
+    assert search["identically_vanishing"]["witnessed_dimension"] == 0
+    assert search["identically_vanishing"]["fully_witnessed"] is False
+    assert search["dimension_published"] is False
+    assert search["blocker"]["reason"] == "unwitnessed_identically_vanishing_directions"
+    with pytest.raises(tcs.SandwichNotTight):
+        tcs.published_dimension(search)
+
+
+def test_every_sealed_search_closed_its_own_sandwich(receipt: dict) -> None:
+    assert receipt["counts"]["searches_with_a_closed_sandwich"] == len(receipt["searches"])
+    for search in receipt["searches"]:
+        assert search["dimension_published"] is True
+        assert isinstance(search["surviving_dimension"], int)
+        assert "blocker" not in search
+        assert search["identically_vanishing"]["fully_witnessed"] is True
+
+
+def test_the_gauss_bonnet_verdict_rests_on_three_closed_sandwiches(receipt: dict) -> None:
+    """The d>4 verdict is a DIFFERENCE of dimensions, so each one has to be two-sided."""
+
+    rows = receipt["generalizations"]["gauss_bonnet"]["by_dimension"]
+    assert len(rows) == 3
+    for row in rows:
+        assert row["sandwich_tight"] is True
+    for search_id in ("d4-order4-relaxed", "d5-order4-gaussbonnet", "d6-order4-gaussbonnet"):
+        certificate = _search(receipt, search_id)["uniqueness_certificate"]
+        assert certificate["coefficient_sandwich_tight"] is True
+        assert certificate["vanishing_fully_witnessed"] is True
+        assert (
+            certificate["independently_exhibited_dimension"] == certificate["sampled_dimension"]
+        )
+
+
+# ---------------------------------------------------------------------------
+# The two new exhibited members that close the order-four sandwich.
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.parametrize(
+    "label",
+    ["quadratic_ricci_squared_euler_lagrange", "quadratic_riemann_squared_euler_lagrange"],
+)
+@pytest.mark.parametrize("dimension", [4, 5])
+def test_the_quadratic_variations_are_divergence_free_independently(
+    label: str, dimension: int
+) -> None:
+    """Recompute conservation here, on a jet the search never touched."""
+
+    names = tcs.named_term_names(4)
+    vector = tcs._declared_vector(label, names, PRIME)
+    geometry = tcs._Geometry(
+        dimension,
+        tcs.metric_jet(dimension, 5, PRIME, f"test-quadratic-{label}-{dimension}", 0),
+        PRIME,
+        5,
+    )
+    terms = tcs.named_tensors(geometry, 4)
+    tensor = tcs._combine(vector, terms, names, PRIME)
+    assert np.any(tensor % PRIME), "the member is identically zero and certifies nothing"
+    assert not np.any(geometry.divergence(tensor, 1) % PRIME)
+
+
+@pytest.mark.parametrize("term", ["RiemRic", "BoxRic", "DDR"])
+def test_a_perturbed_quadratic_variation_is_rejected(term: str) -> None:
+    """The control that must FAIL: flip one coefficient and conservation must break.
+
+    Without this, "the declared vector is divergence-free" would be a statement about the checker
+    rather than about the vector.
+    """
+
+    names = tcs.named_term_names(4)
+    spec = dict(tcs.DECLARED_VECTORS["quadratic_ricci_squared_euler_lagrange"])
+    spec[term] = str(-Fraction(spec[term]))
+    vector = [
+        (Fraction(spec.get(name, "0")).numerator
+         * pow(Fraction(spec.get(name, "0")).denominator, PRIME - 2, PRIME))
+        % PRIME
+        for name in names
+    ]
+    geometry = tcs._Geometry(
+        5, tcs.metric_jet(5, 5, PRIME, f"test-perturbed-{term}", 0), PRIME, 5
+    )
+    terms = tcs.named_tensors(geometry, 4)
+    tensor = tcs._combine(vector, terms, names, PRIME)
+    assert np.any(geometry.divergence(tensor, 1) % PRIME)
+
+
+def test_gauss_bonnet_is_the_one_minus_four_one_combination_of_the_variations() -> None:
+    """E1 - 4 E2 + E3 must be the declared Lanczos vector, exactly, in rational arithmetic.
+
+    Four vectors written independently from the literature agreeing on ten rational coefficients --
+    with all three derivative-carrying coefficients cancelling, as they must for a second-order
+    tensor -- is what makes them cross-checks of each other rather than four separate assertions.
+    """
+
+    names = tcs.named_term_names(4)
+    combination = {name: Fraction(0) for name in names}
+    for label, weight in tcs.GAUSS_BONNET_DECOMPOSITION:
+        for term, value in tcs.DECLARED_VECTORS[label].items():
+            combination[term] += Fraction(weight) * Fraction(value)
+    target = {
+        name: Fraction(tcs.DECLARED_VECTORS["gauss_bonnet_lanczos"].get(name, "0"))
+        for name in names
+    }
+    assert combination == target
+    assert all(combination[name] == 0 for name in ("DDR", "BoxRg", "BoxRic"))
+    assert tcs.gauss_bonnet_decomposition()["status"] == "pass"
+
+
+# ---------------------------------------------------------------------------
 # Controls.
 # ---------------------------------------------------------------------------
 
@@ -416,10 +710,17 @@ def test_negative_controls_all_pass(receipt: dict) -> None:
         "fabricated_divergence_free_tensor_is_rejected",
         "gauss_bonnet_is_topological_in_four_dimensions",
         "dropping_general_covariance_is_refused",
+        "gauss_bonnet_is_the_1_minus4_1_combination_of_the_quadratic_variations",
+        "naive_nullity_difference_violates_the_one_sided_sampling_guarantee",
         "schwarzschild_crosscheck_against_repository_relativity_module",
     }
     assert all(item["status"] == "pass" for item in receipt["negative_controls"])
     assert controls["fabricated_divergence_free_tensor_is_rejected"]["verdict"] == "REJECTED"
+    guarantee = controls["naive_nullity_difference_violates_the_one_sided_sampling_guarantee"]
+    assert guarantee["naive_violations"] >= 1
+    for case in guarantee["cases"]:
+        assert case["repaired_dimension"] >= case["independently_exhibited_dimension"]
+    assert any(case["naive_violates_the_guarantee"] for case in guarantee["cases"])
 
 
 def test_schwarzschild_crosscheck_reuses_the_repository_control(receipt: dict) -> None:
