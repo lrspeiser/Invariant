@@ -1152,6 +1152,10 @@ def run_loop(
             "objects are polynomial partial sums; the pool is elementary by construction",
             "PROVED is a statement about a self-generated object, never a novelty claim",
             "the statement schema lattice is declared and finite; absence means absent here",
+            (
+                "the declared box contains degenerate members (f(k) = k - k + 0 is the zero "
+                "sequence), so a share of the proved relations are trivial once unfolded"
+            ),
             "relation refutation is complete only for degrees within the declared search bound",
         ],
     }
