@@ -1,0 +1,106 @@
+{
+  "schema_version": "invariant-tensor-constraint-search-config-1.1",
+  "campaign_id": "tensor-constraint-elasticity-001",
+  "declared_framework": {
+    "machine_checkable": {
+      "metric_signature": "euclidean",
+      "curvature": "flat",
+      "primary_field_indices": 1,
+      "primary_field_symmetric": false,
+      "tensor_rank": 4,
+      "tensor_symmetry": "symmetric",
+      "concomitant_generator": "linear_strain_tensor"
+    },
+    "machine_checkable_note": "This sub-block is the part of the declaration the engine can confront with the computation. It SELECTS the basis generator -- concomitant_generator = linear_strain_tensor routes to the elasticity generator, riemann_tensor routes to the curvature generator -- and every field is then re-measured off the arrays that generator actually built. Any disagreement raises FrameworkMismatch and no receipt is sealed. The free-text keys below are prose for a reader and are never trusted. tensor_symmetry refers to the Cauchy stress the law produces, which is measured on the bank; the minor and major symmetries of the elasticity tensor itself are declared as CONSTRAINTS below, because whether they bind is a thing the search is supposed to find out.",
+    "geometry": "flat Euclidean d-space in Cartesian coordinates: the metric is the constant Kronecker delta, the connection and the Riemann tensor of that metric are computed and come out identically zero, and partial derivatives are covariant derivatives",
+    "field_content": ["displacement"],
+    "tensor_rank": 4,
+    "tensor_symmetry": "the elasticity tensor C_ijkl; its minor and major symmetries are declared as constraints, not as part of the framework",
+    "concomitant_class": "linear in the linear strain tensor eps_ij = (d_i u_j + d_j u_i)/2, with constant coefficients built from the Kronecker delta alone",
+    "conservation_motivation": "angular momentum balance forces the Cauchy stress to be symmetric; the existence of a strain-energy function forces the major symmetry of C",
+    "provenance": "EVERY item in this block was DECLARED by the operator. None of it was discovered by the search. The search derives only what these declarations force.",
+    "not_declared_and_therefore_derived": [
+      "how many independent rank-4 tensors flat isotropic space offers",
+      "how far the declared symmetries collapse that count",
+      "that the surviving space in d >= 2 is exactly two-dimensional",
+      "that it is spanned by d_ij d_kl and d_ik d_jl + d_il d_jk, the Lame constants",
+      "that the minor symmetry of C did not need declaring because a symmetric Cauchy stress already forces it",
+      "that d_ik d_jl - d_il d_jk is a non-zero rank-4 tensor that is invisible to elasticity",
+      "the coefficients of the static equilibrium operator those constants force",
+      "that d = 1 collapses to a single elastic constant"
+    ]
+  },
+  "arithmetic": {
+    "primes": [1048573, 1048571],
+    "jet_seed": "invariant-tensor-constraint-elasticity-v1",
+    "bank_samples": 5,
+    "holdout_samples": 3,
+    "control_samples": 3,
+    "sample_count_rationale": "The rank-4 pattern space has three members and the collapse is measured by their action on the strain of each displacement jet, which contributes d*d*(jet size) independent constraints per sample -- far more than the three needed to separate three patterns. Five samples is therefore already generous, and the sampling error is one-sided in any case: too few samples can only report the admissible space too LARGE. The equilibrium fit needs the two operator rows to be independent, which one generic jet already delivers for d >= 2."
+  },
+  "headline_search_id": "d3-isotropic-lame",
+  "dimension_sweep": [1, 2, 3, 4],
+  "sweep_constraints": [
+    "flat_euclidean",
+    "material_isotropy",
+    "minor_symmetry",
+    "stress_symmetry",
+    "major_symmetry"
+  ],
+  "searches": [
+    {
+      "search_id": "d3-isotropic-lame",
+      "purpose": "the headline: what flat isotropic three-space, a rank-4 law linear in the strain, and a symmetric stress force",
+      "dimension": 3,
+      "constraints": [
+        "flat_euclidean",
+        "material_isotropy",
+        "minor_symmetry",
+        "stress_symmetry",
+        "major_symmetry"
+      ]
+    },
+    {
+      "search_id": "d3-major-symmetry-only",
+      "purpose": "deliberately wrong constraint set: let the law contract the raw displacement gradient and drop the stress symmetry, and the space must grow",
+      "dimension": 3,
+      "constraints": ["flat_euclidean", "material_isotropy", "major_symmetry"]
+    },
+    {
+      "search_id": "d3-stress-symmetry-only",
+      "purpose": "declare only that the Cauchy stress is symmetric, keep the raw gradient as the argument, and find out whether the minor symmetry had to be declared at all",
+      "dimension": 3,
+      "constraints": [
+        "flat_euclidean",
+        "material_isotropy",
+        "stress_symmetry",
+        "major_symmetry"
+      ]
+    },
+    {
+      "search_id": "d3-cauchy-relation",
+      "purpose": "the historically wrong rari-constant hypothesis lambda = mu; the space must shrink to a single constant",
+      "dimension": 3,
+      "constraints": [
+        "flat_euclidean",
+        "material_isotropy",
+        "minor_symmetry",
+        "stress_symmetry",
+        "major_symmetry",
+        "cauchy_relation"
+      ]
+    },
+    {
+      "search_id": "d2-isotropic-lame",
+      "purpose": "two dimensions: the same two constants, confirming the count is not a three-space accident",
+      "dimension": 2,
+      "constraints": [
+        "flat_euclidean",
+        "material_isotropy",
+        "minor_symmetry",
+        "stress_symmetry",
+        "major_symmetry"
+      ]
+    }
+  ]
+}

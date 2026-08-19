@@ -64,7 +64,8 @@ What is emphatically NOT claimed
 2. The *framework was declared, not discovered*.  The engine did not invent Riemannian geometry,
    did not decide the source should be conserved, and did not choose the Newtonian limit.  It was
    handed all four inputs and worked out what they force.  That is the boundary of the result and
-   it is carried as a frozen claim in every receipt.
+   it is carried as a frozen claim in every receipt.  The declaration is now load-bearing rather
+   than decorative -- see below.
 3. Uniqueness is uniqueness *within the declared basis and derivative order*.  That the enumerated
    polynomial basis also exhausts the wider class of non-polynomial concomitants is a cited theorem
    (Lovelock 1972), not an output of this search.
@@ -83,6 +84,37 @@ Sharp tests the search has to survive
   componentwise and contribute nothing to the field equations.  In ``d = 5`` and ``d = 6`` the same
   tensor must be non-zero and divergence-free, adding exactly one dimension.  That pair is the
   classic trap and it runs as an abort-on-failure control.
+
+The declared framework drives the computation
+---------------------------------------------
+``declared_framework`` used to be inert.  It appeared at exactly two places in this file -- a key
+name in the receipt key set, and ``dict(config["declared_framework"])``, which copied it verbatim
+into the receipt -- and at zero places in the test file.  Handing the module a config that declared
+flat Euclidean 3-space, a displacement field and "polynomial in the linear strain tensor" returned
+``['g_mn', 'R_mn - (1/2) R g_mn']``, the general-relativity answer, because the basis was generated
+from the Riemann tensor regardless of what had been declared.  A receipt could therefore carry an
+elasticity framework claim over a general-relativity computation, and the paragraph above presented
+that block as the boundary of the claim.  Two things now close that:
+
+1. **The declaration selects the generator.**  ``declared_framework.machine_checkable`` is a typed
+   sub-block, and its ``concomitant_generator`` field routes the run.  ``riemann_tensor`` runs the
+   curvature search that derives ``a G_mn + L g_mn``.  ``linear_strain_tensor`` runs a genuinely
+   different search on flat Euclidean space with a displacement field, which derives the
+   two-dimensional isotropic elasticity tensor -- the Lame constants -- and the Navier-Cauchy
+   equilibrium operator ``mu lap u + (lambda + mu) grad div u`` those constants force.  Neither
+   answer is reachable from the other's declaration.  A framework block of prose alone, or one
+   naming a generator this module does not implement, is REFUSED rather than served by whichever
+   generator happens to be wired in.
+
+2. **The declaration is then confronted with the computation.**  ``measure_realized_framework`` and
+   ``measure_realized_elastic_framework`` read the framework back off the arrays the generator
+   actually built: the signature of the base-point metric, whether the Riemann tensor of the
+   sampled jets is identically zero, the index count and pair symmetry of the primary field jet,
+   the rank and symmetry of the produced terms, and -- for the generator identity itself -- which
+   terms die on an *exactly flat* metric jet, or whether the produced stress vanishes on an
+   infinitesimal *rigid motion*.  Those two probes are what make the generator identity a
+   measurement instead of a label.  Any field-level disagreement raises ``FrameworkMismatch`` and
+   no receipt is sealed.  The original false declaration is pinned as an abort-on-failure control.
 """
 
 from __future__ import annotations
@@ -104,24 +136,29 @@ import sympy as sp
 from .sigma_core import canonical_json_bytes, canonical_sha256
 
 #: Schemas.  Bump only with a receipt-shape change.
-CONFIG_SCHEMA = "invariant-tensor-constraint-search-config-1.0"
-RESULT_SCHEMA = "invariant-tensor-constraint-search-result-1.0"
+CONFIG_SCHEMA = "invariant-tensor-constraint-search-config-1.1"
+RESULT_SCHEMA = "invariant-tensor-constraint-search-result-1.1"
 
 #: Repository-relative paths this module binds to itself.
 CONFIG_PATH = "configs/tensor_constraint_search.json"
+ELASTICITY_CONFIG_PATH = "configs/tensor_constraint_elasticity.json"
 SOURCE_PATH = "src/sigma_theory_compiler/tensor_constraint_search.py"
 TEST_PATH = "tests/test_tensor_constraint_search.py"
+FRAMEWORK_TEST_PATH = "tests/test_tensor_constraint_framework.py"
 OUTPUT_PATH = "runs/math/tensor-constraint/lovelock-v1.json"
+ELASTICITY_OUTPUT_PATH = "runs/math/tensor-constraint/elasticity-v1.json"
 
 #: Claims block.  Frozen; any change changes the receipt hash and therefore the claim.
 CLAIMS: dict[str, bool] = {
+    "declared_framework_selects_the_basis_generator": True,
+    "declared_framework_is_gated_against_the_measured_computation": True,
     "derivation_is_symbolic_and_checked": True,
     "framework_was_declared_not_discovered": True,
     "novelty_claimed": False,
     "uniqueness_is_within_declared_basis_and_order": True,
 }
 
-#: Exact top-level receipt key set.
+#: Exact top-level receipt key set for the Riemann-generator (Lovelock) framework.
 _TOP_KEYS = {
     "arithmetic",
     "basis_completeness_citations",
@@ -131,9 +168,33 @@ _TOP_KEYS = {
     "counts",
     "decision",
     "declared_framework",
+    "framework_consistency",
     "generalizations",
     "negative_controls",
     "newtonian_limit",
+    "reduction_tables",
+    "relaxation_controls",
+    "reused_repository_machinery",
+    "schema_version",
+    "scope",
+    "searches",
+    "source_bindings",
+}
+
+#: Exact top-level receipt key set for the linear-strain-generator (elasticity) framework.
+_TOP_KEYS_STRAIN = {
+    "arithmetic",
+    "basis_completeness_citations",
+    "claims",
+    "config_sha256",
+    "content_sha256",
+    "counts",
+    "decision",
+    "declared_framework",
+    "equilibrium_operator",
+    "framework_consistency",
+    "generalizations",
+    "negative_controls",
     "reduction_tables",
     "relaxation_controls",
     "reused_repository_machinery",
@@ -168,6 +229,38 @@ class SandwichNotTight(TensorConstraintSearchError):
     a search dimension goes through :func:`published_dimension` and is refused here rather than
     being handed a number that looks like a measurement and is not one.
     """
+
+
+class FrameworkMismatch(TensorConstraintSearchError):
+    """Typed blocker: the declared framework is not the framework the basis generator ran.
+
+    Before this gate existed the ``declared_framework`` block was inert prose: it was copied
+    verbatim into the receipt and referenced nowhere else, so a receipt could carry an elasticity
+    framework claim over a general-relativity computation and nothing in the module would notice.
+    The gate closes that hole by *measuring* the framework off the arrays the search actually
+    built -- the signature of the base-point metric, whether the curvature of the sampled jets is
+    identically zero, the index structure of the primary field jet, the rank and the pair symmetry
+    of the produced basis terms, and whether the produced terms are curvature-driven -- and
+    refusing to assemble a receipt when any measured field disagrees with what was declared.
+    """
+
+
+#: The typed, machine-checkable half of a ``declared_framework`` block.  Every one of these is
+#: MEASURED off the running computation and compared; free-text keys alongside them are prose and
+#: are carried but never trusted.
+FRAMEWORK_FIELDS: tuple[str, ...] = (
+    "metric_signature",
+    "curvature",
+    "primary_field_indices",
+    "primary_field_symmetric",
+    "tensor_rank",
+    "tensor_symmetry",
+    "concomitant_generator",
+)
+
+#: Generators this module can actually run.  A declaration naming anything else is refused rather
+#: than silently served by whichever generator happens to be wired in.
+SUPPORTED_GENERATORS: tuple[str, ...] = ("riemann_tensor", "linear_strain_tensor")
 
 
 # ---------------------------------------------------------------------------
@@ -333,6 +426,35 @@ BASIS_COMPLETENESS_CITATIONS: tuple[dict[str, str], ...] = (
     },
 )
 
+#: Completeness citations for the SECOND declared framework.  Same discipline: the enumeration is
+#: mechanical, but the claim that the enumeration exhausts the invariant class is cited.
+ELASTICITY_COMPLETENESS_CITATIONS: tuple[dict[str, str], ...] = (
+    {
+        "citation": "H. Weyl, The Classical Groups (1939), first fundamental theorem for O(n)",
+        "statement": (
+            "Every O(n)-invariant tensor is a linear combination of products of Kronecker deltas.  "
+            "For rank 4 that is exactly the three delta pairings this search enumerates, so the "
+            "enumeration is complete for isotropic materials.  CITED, not derived here."
+        ),
+    },
+    {
+        "citation": "A. L. Cauchy, Exercices de mathematiques 3 (1828) 160",
+        "statement": (
+            "The isotropic linear elastic law is sigma_ij = lambda d_ij tr(eps) + 2 mu eps_ij, and "
+            "the static equilibrium operator it forces is mu lap u + (lambda + mu) grad div u -- "
+            "the Navier-Cauchy equation.  This is what the elasticity search re-derives."
+        ),
+    },
+    {
+        "citation": "W. Voigt, Lehrbuch der Kristallphysik (1910), on the Cauchy relations",
+        "statement": (
+            "The rari-constant reduction lambda = mu is an additional hypothesis, not a "
+            "consequence, and it is contradicted by measurement.  Imposing it here shrinks the "
+            "space from two constants to one, which the search reports as a relaxation control."
+        ),
+    },
+)
+
 #: Repository machinery this module reuses rather than reimplementing.
 REUSED_MACHINERY: tuple[dict[str, str], ...] = (
     {
@@ -441,30 +563,18 @@ def _ring(dim: int, degree: int, modulus: int) -> _JetRing:
     return _JetRing(dim, degree, modulus)
 
 
-class _Geometry:
-    """Curvature of one metric jet, carried exactly over a prime field.
+class _JetCalculus:
+    """Ring plumbing shared by every field carried as a truncated Taylor jet.
 
-    Every tensor is a numpy ``int64`` array of shape ``(d,) * rank + (jet_size,)``.  Each derivative
-    costs one jet degree, so the rings shrink as the pipeline advances and the expensive high-degree
-    arithmetic stays confined to the metric itself.
+    Factored out so the elasticity generator can carry a displacement field with exactly the same
+    exact arithmetic as the curvature generator carries a metric, *without* inheriting a
+    connection or a Riemann tensor it never uses.  That separation is what makes the framework
+    measurement meaningful: the two generators genuinely share only the arithmetic.
     """
 
-    def __init__(self, dim: int, metric_jet: np.ndarray, modulus: int, degree: int) -> None:
-        if degree < 3:
-            raise TensorConstraintSearchError("a divergence needs at least a 3-jet of the metric")
-        self.dim = dim
-        self.modulus = modulus
-        self.half = pow(2, modulus - 2, modulus)
-        self.rings = [_ring(dim, level, modulus) for level in range(degree + 1)]
-        self.metric = metric_jet
-        self.metric_level = degree
-        self.inverse = self._invert_metric()
-        self.gamma_level = degree - 1
-        self.gamma = self._christoffel()
-        self.riemann_level = degree - 2
-        self.riemann, self.ricci, self.scalar = self._curvature()
-
-    # -- ring plumbing ----------------------------------------------------
+    dim: int
+    modulus: int
+    rings: list[_JetRing]
 
     def ring(self, level: int) -> _JetRing:
         return self.rings[level]
@@ -503,6 +613,37 @@ class _Geometry:
                     tensor[..., source] * (exponent[axis] + 1)
                 ) % self.modulus
         return out
+
+
+class _Geometry(_JetCalculus):
+    """Curvature of one metric jet, carried exactly over a prime field.
+
+    Every tensor is a numpy ``int64`` array of shape ``(d,) * rank + (jet_size,)``.  Each derivative
+    costs one jet degree, so the rings shrink as the pipeline advances and the expensive high-degree
+    arithmetic stays confined to the metric itself.
+    """
+
+    def __init__(self, dim: int, metric_jet: np.ndarray, modulus: int, degree: int) -> None:
+        if degree < 3:
+            raise TensorConstraintSearchError("a divergence needs at least a 3-jet of the metric")
+        self.dim = dim
+        self.modulus = modulus
+        # Facts about the primary field jet, READ OFF the array that was handed in rather than
+        # asserted.  The framework gate consumes these, so they must never become declarations.
+        self.primary_field_indices = int(metric_jet.ndim - 1)
+        self.primary_field_symmetric = bool(
+            self.primary_field_indices == 2
+            and np.array_equal(metric_jet % modulus, np.einsum("abj->baj", metric_jet) % modulus)
+        )
+        self.half = pow(2, modulus - 2, modulus)
+        self.rings = [_ring(dim, level, modulus) for level in range(degree + 1)]
+        self.metric = metric_jet
+        self.metric_level = degree
+        self.inverse = self._invert_metric()
+        self.gamma_level = degree - 1
+        self.gamma = self._christoffel()
+        self.riemann_level = degree - 2
+        self.riemann, self.ricci, self.scalar = self._curvature()
 
     # -- curvature --------------------------------------------------------
 
@@ -697,6 +838,172 @@ def named_tensors(geometry: _Geometry, order: int, level: int = 1) -> dict[str, 
     return {
         name: ((tensor + np.einsum("mnj->nmj", tensor)) * geometry.half) % geometry.modulus
         for name, tensor in terms.items()
+    }
+
+
+# ---------------------------------------------------------------------------
+# Framework measurement and the declared-vs-realized consistency gate.
+# ---------------------------------------------------------------------------
+
+
+def flat_metric_jet(dim: int, degree: int, modulus: int) -> np.ndarray:
+    """The exactly flat jet: ``eta`` at the base point and every higher coefficient zero.
+
+    Its Riemann tensor vanishes identically, so evaluating the named basis on it *separates* the
+    terms that need curvature from the terms that do not.  That separation is the measurement the
+    framework gate uses to decide which generator actually drove the basis, and it is a
+    computation on real arrays rather than a label attached at the call site.
+    """
+
+    ring = _ring(dim, degree, modulus)
+    jet = np.zeros((dim, dim, ring.size), dtype=np.int64)
+    jet[0, 0, 0] = modulus - 1
+    for axis in range(1, dim):
+        jet[axis, axis, 0] = 1
+    return jet
+
+
+def _signature_name(diagonal: Sequence[int], modulus: int) -> str:
+    negatives = sum(1 for value in diagonal if value == modulus - 1)
+    positives = sum(1 for value in diagonal if value == 1)
+    if negatives + positives != len(diagonal):
+        return "non-normalised"
+    if negatives == 0:
+        return "euclidean"
+    if negatives == 1:
+        return "lorentzian"
+    return f"indefinite-{negatives}-{positives}"
+
+
+def measure_realized_framework(
+    bank: Sequence[_Geometry],
+    bank_terms: Sequence[Mapping[str, np.ndarray]],
+    *,
+    dimension: int,
+    order: int,
+    modulus: int,
+) -> dict[str, Any]:
+    """Measure the framework the basis generator actually ran, off its own arrays.
+
+    Nothing in here reads the config.  Every reported field is a property of the metric jets that
+    were sampled and the basis terms that were produced, so the record can be compared against the
+    declaration without the comparison degenerating into a declaration checked against itself.
+    """
+
+    reference = bank[0]
+    base = reference.metric[..., 0] % modulus
+    diagonal = [int(base[axis, axis]) for axis in range(dimension)]
+    off_diagonal = base.copy()
+    np.fill_diagonal(off_diagonal, 0)
+    signature = (
+        _signature_name(diagonal, modulus) if not np.any(off_diagonal) else "non-normalised"
+    )
+
+    curved = any(bool(np.any(geometry.riemann % modulus)) for geometry in bank)
+
+    names = named_term_names(order)
+    ranks = {int(bank_terms[0][name].ndim - 1) for name in names}
+    if len(ranks) != 1:
+        raise FrameworkMismatch("the basis generator produced terms of mixed tensor rank")
+    tensor_rank = ranks.pop()
+
+    symmetric = True
+    any_nonzero = False
+    for terms in bank_terms:
+        for name in names:
+            tensor = terms[name] % modulus
+            any_nonzero = any_nonzero or bool(np.any(tensor))
+            if not np.array_equal(tensor, np.einsum("mnj->nmj", tensor) % modulus):
+                symmetric = False
+    tensor_symmetry = "symmetric" if (symmetric and any_nonzero) else "none"
+
+    flat = _Geometry(
+        dimension, flat_metric_jet(dimension, order + 1, modulus), modulus, order + 1
+    )
+    flat_terms = named_tensors(flat, order)
+    curvature_driven: list[str] = []
+    curvature_free: list[str] = []
+    for name in names:
+        zero_on_flat = not bool(np.any(flat_terms[name] % modulus))
+        nonzero_on_bank = any(bool(np.any(terms[name] % modulus)) for terms in bank_terms)
+        (curvature_driven if (zero_on_flat and nonzero_on_bank) else curvature_free).append(name)
+
+    generator = "riemann_tensor" if curvature_driven else "curvature_free_unidentified"
+
+    return {
+        "metric_signature": signature,
+        "curvature": "generic" if curved else "flat",
+        "primary_field_indices": int(reference.primary_field_indices),
+        "primary_field_symmetric": bool(reference.primary_field_symmetric),
+        "tensor_rank": int(tensor_rank),
+        "tensor_symmetry": tensor_symmetry,
+        "concomitant_generator": generator,
+        "measurement_evidence": {
+            "base_point_metric_diagonal_is_pm_one": bool(signature != "non-normalised"),
+            "riemann_nonzero_on_sampled_jets": bool(curved),
+            "terms_vanishing_on_the_exactly_flat_jet": curvature_driven,
+            "terms_surviving_on_the_exactly_flat_jet": curvature_free,
+            "how_generator_was_identified": (
+                "the named basis was evaluated on an exactly flat jet whose Riemann tensor is "
+                "identically zero; terms that die there and live on the curved bank are driven by "
+                "the Riemann tensor, and a non-empty set of them identifies the generator"
+            ),
+        },
+    }
+
+
+def check_framework_consistency(
+    declared: Mapping[str, Any], realized: Mapping[str, Any], *, context: str
+) -> dict[str, Any]:
+    """Compare a typed declaration against a measured realization; refuse on any disagreement.
+
+    Fails closed three ways: an absent typed block (a free-text framework cannot be checked, so it
+    is refused rather than waved through), an unsupported generator name, and any field-level
+    disagreement.  The mismatch report names every offending field with both values, because a
+    blocker that does not say what is wrong is only marginally better than no blocker.
+    """
+
+    missing = [field for field in FRAMEWORK_FIELDS if field not in declared]
+    if missing:
+        raise FrameworkMismatch(
+            f"[{context}] the declared framework carries no machine-checkable value for "
+            f"{sorted(missing)}; a framework that cannot be checked against the computation is "
+            "refused rather than copied into a receipt"
+        )
+    if declared["concomitant_generator"] not in SUPPORTED_GENERATORS:
+        raise FrameworkMismatch(
+            f"[{context}] declared concomitant_generator "
+            f"{declared['concomitant_generator']!r} is not one this module implements "
+            f"{list(SUPPORTED_GENERATORS)}; refusing to serve it with a different generator"
+        )
+
+    mismatches = [
+        {
+            "field": field,
+            "declared": declared[field],
+            "realized": realized[field],
+        }
+        for field in FRAMEWORK_FIELDS
+        if declared[field] != realized[field]
+    ]
+    if mismatches:
+        detail = "; ".join(
+            f"{item['field']}: declared {item['declared']!r} but the computation realized "
+            f"{item['realized']!r}"
+            for item in mismatches
+        )
+        raise FrameworkMismatch(
+            f"[{context}] the declared framework is not the framework the basis generator ran -- "
+            f"{detail}.  Refusing to seal a receipt whose framework block describes a different "
+            "computation from the one that produced its numbers."
+        )
+    return {
+        "context": context,
+        "checked_fields": list(FRAMEWORK_FIELDS),
+        "declared": {field: declared[field] for field in FRAMEWORK_FIELDS},
+        "realized": {field: realized[field] for field in FRAMEWORK_FIELDS},
+        "measurement_evidence": dict(realized.get("measurement_evidence", {})),
+        "agreed": True,
     }
 
 
@@ -1091,6 +1398,660 @@ def _sandwich_blocker(
             "OPEN UPPER BOUND and not a measurement.  Refusing to publish it."
         ),
     }
+def _solve_exact(
+    columns: Sequence[Sequence[int]], target: Sequence[int], modulus: int
+) -> list[Fraction] | None:
+    """Solve ``sum_c x_c columns[c] == target`` exactly over the prime field.
+
+    Returns ``None`` when the system has no solution or the solution is not unique, which is the
+    honest answer for a degenerate operator basis rather than a coefficient picked out of an
+    underdetermined family.  Residues are lifted to rationals by the same balanced-lift the rest
+    of the module uses, so no float ever appears.
+    """
+
+    rows = [list(column) for column in columns] + [list(target)]
+    kernel = _nullspace(rows, modulus)
+    solutions: list[list[Fraction]] = []
+    for vector in kernel:
+        tail = vector[-1] % modulus
+        if tail == 0:
+            continue
+        scale = (-pow(tail, modulus - 2, modulus)) % modulus
+        solutions.append(
+            [_rational((value * scale) % modulus, modulus) for value in vector[:-1]]
+        )
+    if len(solutions) != 1 or len(kernel) != 1:
+        return None
+    return solutions[0]
+
+
+# ---------------------------------------------------------------------------
+# A SECOND declared framework: linear elasticity on flat Euclidean space.
+#
+# Everything below shares the exact prime-field jet arithmetic with the curvature engine above and
+# shares nothing else.  It never builds a connection, never builds a Riemann tensor, and consumes a
+# displacement field rather than a metric, which is precisely why the framework measurement can
+# tell the two apart by looking at arrays instead of at labels.
+# ---------------------------------------------------------------------------
+
+#: Rank-4 pattern labels, in enumeration order.  These index every elasticity coefficient vector.
+ELASTICITY_PATTERN_TEXT: dict[str, str] = {
+    "delta_ij_delta_kl": "d_ij d_kl",
+    "delta_ik_delta_jl": "d_ik d_jl",
+    "delta_il_delta_jk": "d_il d_jk",
+}
+
+#: Declared elasticity coefficient vectors that the search must *exhibit*, plus the traps.
+DECLARED_ELASTIC_VECTORS: dict[str, dict[str, str]] = {
+    # C = d_ij d_kl.  Acting on strain this is d_ij tr(eps): the Lame lambda direction.
+    "lame_lambda": {"delta_ij_delta_kl": "1"},
+    # C = d_ik d_jl + d_il d_jk.  Acting on strain this is 2 eps_ij: the Lame mu direction.
+    "lame_mu": {"delta_ik_delta_jl": "1", "delta_il_delta_jk": "1"},
+    # The minor-ANTIsymmetric combination.  It is a perfectly good rank-4 tensor and it annihilates
+    # every symmetric strain, which is why the search must report it as identically zero rather
+    # than as an extra elastic constant.
+    "fabricated_minor_antisymmetric": {
+        "delta_ik_delta_jl": "1",
+        "delta_il_delta_jk": "-1",
+    },
+    # Cauchy / rari-constant relation lambda = mu: the historically WRONG 19th-century reduction.
+    "cauchy_rari_constant": {
+        "delta_ij_delta_kl": "1",
+        "delta_ik_delta_jl": "1",
+        "delta_il_delta_jk": "1",
+    },
+}
+
+SUPPORTED_ELASTIC_CONSTRAINTS = (
+    "flat_euclidean",
+    "material_isotropy",
+    "minor_symmetry",
+    "stress_symmetry",
+    "major_symmetry",
+    "cauchy_relation",
+)
+
+
+def enumerate_elasticity_patterns(dim: int, modulus: int) -> list[dict[str, Any]]:
+    """Every rank-4 tensor flat isotropic space offers: the perfect matchings of four slots.
+
+    With no field content at all the only invariant available is the flat metric ``d_ab``, so a
+    rank-4 concomitant with constant coefficients is a sum over ways of pairing the four free
+    indices.  Nothing about elasticity is used here; the collapse under the declared symmetries is
+    *measured* afterwards, exactly as the curvature side measures the Riemann collapse.
+    """
+
+    delta = np.eye(dim, dtype=np.int64) % modulus
+    letters = "ijkl"
+    out: list[dict[str, Any]] = []
+    for matching in _perfect_matchings([0, 1, 2, 3]):
+        specs = [letters[left] + letters[right] for left, right in matching]
+        array = np.einsum(f"{specs[0]},{specs[1]}->ijkl", delta, delta) % modulus
+        out.append(
+            {
+                "label": "delta_" + "_delta_".join(specs),
+                "matching": [list(pair) for pair in matching],
+                "array": array,
+            }
+        )
+    if [item["label"] for item in out] != list(ELASTICITY_PATTERN_TEXT):
+        raise TensorConstraintSearchError(
+            "the enumerated pattern labels do not match the declared coefficient coordinate "
+            "system; every elasticity vector in every receipt is indexed by that order"
+        )
+    return out
+
+
+def displacement_jet(dim: int, degree: int, modulus: int, seed: str, sample: int) -> np.ndarray:
+    """A random displacement jet: ``d`` free component functions, no symmetry, unconstrained.
+
+    The jet of a displacement field is as unconstrained as the jet of a metric, so a random jet
+    probes an elasticity identity fully and the same one-sided sampling argument applies.
+    """
+
+    ring = _ring(dim, degree, modulus)
+    jet = np.zeros((dim, ring.size), dtype=np.int64)
+    label = f"{seed}|elastic|d{dim}|j{degree}|s{sample}"
+    counter = 0
+    for axis in range(dim):
+        for position in range(ring.size):
+            counter += 1
+            jet[axis, position] = _stream(label, counter) % modulus
+    return jet
+
+
+def rigid_motion_jet(dim: int, degree: int, modulus: int, seed: str) -> np.ndarray:
+    """``u_i = c_i + w_ij x_j`` with ``w`` antisymmetric: an infinitesimal rigid motion.
+
+    Its linear strain vanishes identically while its displacement gradient does not.  Evaluating
+    the generator on it therefore *separates* a law built from the strain from a law built from
+    the raw gradient, which is how the framework measurement identifies the strain generator
+    without being told.
+    """
+
+    ring = _ring(dim, degree, modulus)
+    jet = np.zeros((dim, ring.size), dtype=np.int64)
+    counter = 0
+    for axis in range(dim):
+        counter += 1
+        jet[axis, 0] = _stream(f"{seed}|rigid|translate|d{dim}", counter) % modulus
+    for left in range(dim):
+        for right in range(left + 1, dim):
+            counter += 1
+            value = _stream(f"{seed}|rigid|rotate|d{dim}", counter) % modulus
+            jet[left, 1 + right] = value
+            jet[right, 1 + left] = (-value) % modulus
+    return jet
+
+
+class _ElasticJet(_JetCalculus):
+    """One displacement jet on flat Euclidean space, carried exactly over a prime field.
+
+    Cartesian coordinates, so the metric is the constant Kronecker delta and partial derivatives
+    *are* covariant derivatives.  The connection and curvature of that metric are computed rather
+    than asserted to be zero, because the framework measurement reports the curvature it measured
+    and an asserted zero would put the honesty hole straight back.
+    """
+
+    def __init__(self, dim: int, jet: np.ndarray, modulus: int, degree: int) -> None:
+        if degree < 2:
+            raise TensorConstraintSearchError(
+                "the equilibrium operator needs at least a 2-jet of the displacement"
+            )
+        self.dim = dim
+        self.modulus = modulus
+        self.half = pow(2, modulus - 2, modulus)
+        self.rings = [_ring(dim, level, modulus) for level in range(degree + 1)]
+        self.displacement = jet % modulus
+        self.displacement_level = degree
+        self.primary_field_indices = int(jet.ndim - 1)
+        self.primary_field_symmetric = bool(
+            self.primary_field_indices == 2
+            and np.array_equal(jet % modulus, np.einsum("abj->baj", jet) % modulus)
+        )
+        metric = np.zeros((dim, dim, self.rings[degree].size), dtype=np.int64)
+        metric[..., 0] = np.eye(dim, dtype=np.int64)
+        self.metric = metric
+        self.inverse = metric.copy()
+        self.gradient_level = degree - 1
+        self.gradient = self.diff(self.displacement, degree)  # gradient[i, k] = d_k u_i
+        self.strain = (
+            (self.gradient + np.einsum("ikj->kij", self.gradient)) * self.half
+        ) % modulus
+        self.christoffel, self.riemann = self._curvature()
+
+    def _curvature(self) -> tuple[np.ndarray, np.ndarray]:
+        """Connection and Riemann tensor of the metric this generator actually uses."""
+
+        level = self.displacement_level - 1
+        partial = self.diff(self.metric, self.displacement_level)  # partial[i, j, k]
+        combo = (
+            np.einsum("dcbj->dbcj", partial)
+            + np.einsum("bdcj->dbcj", partial)
+            - np.einsum("bcdj->dbcj", partial)
+        ) % self.modulus
+        gamma = (self.mul("adj,dbcj->abcj", self.inverse, combo, level) * self.half) % self.modulus
+        d_gamma = self.diff(gamma, level)
+        quad = self.mul("acej,edbj->abcdj", gamma, gamma, level - 1)
+        riemann = (
+            np.einsum("adbcj->abcdj", self.cut(d_gamma, level - 1))
+            - np.einsum("acbdj->abcdj", self.cut(d_gamma, level - 1))
+            + quad
+            - np.einsum("abdcj->abcdj", quad)
+        ) % self.modulus
+        return gamma, riemann
+
+    def stress(self, tensor: np.ndarray, argument: np.ndarray) -> np.ndarray:
+        """``sigma_ij = C_ijkl arg_kl`` for a constant-coefficient rank-4 ``C``."""
+
+        return np.einsum("ijkl,klr->ijr", tensor, argument, optimize=True) % self.modulus
+
+    def equilibrium(self, sigma: np.ndarray) -> np.ndarray:
+        """``L_i = d_j sigma_ij``: the static equilibrium operator, one jet degree lower."""
+
+        divided = self.diff(sigma, self.gradient_level)  # divided[i, j, k] = d_k sigma_ij
+        return np.einsum("ijjr->ir", divided) % self.modulus
+
+    def laplacian(self) -> np.ndarray:
+        second = self.diff(self.gradient, self.gradient_level)  # second[i, k, m] = d_m d_k u_i
+        return np.einsum("ikkr->ir", second) % self.modulus
+
+    def gradient_of_divergence(self) -> np.ndarray:
+        second = self.diff(self.gradient, self.gradient_level)
+        return np.einsum("kkir->ir", second) % self.modulus
+
+
+def _elastic_bank(
+    dim: int, modulus: int, seed: str, samples: int, degree: int = 3
+) -> list[_ElasticJet]:
+    return [
+        _ElasticJet(dim, displacement_jet(dim, degree, modulus, seed, sample), modulus, degree)
+        for sample in range(samples)
+    ]
+
+
+def _elastic_combination(
+    vector: Sequence[int], patterns: Sequence[Mapping[str, Any]], modulus: int
+) -> np.ndarray:
+    total = np.zeros_like(patterns[0]["array"])
+    for coefficient, pattern in zip(vector, patterns, strict=True):
+        total = (total + int(coefficient) * pattern["array"]) % modulus
+    return total
+
+
+def _declared_elastic_vector(name: str, labels: Sequence[str], modulus: int) -> list[int]:
+    spec = DECLARED_ELASTIC_VECTORS[name]
+    out: list[int] = []
+    for label in labels:
+        value = Fraction(spec.get(label, "0"))
+        out.append(
+            (int(value.numerator) * pow(int(value.denominator), modulus - 2, modulus)) % modulus
+        )
+    return out
+
+
+def measure_realized_elastic_framework(
+    bank: Sequence[_ElasticJet],
+    patterns: Sequence[Mapping[str, Any]],
+    *,
+    dimension: int,
+    modulus: int,
+    seed: str,
+) -> dict[str, Any]:
+    """Measure the framework the elasticity generator actually ran, off its own arrays."""
+
+    reference = bank[0]
+    base = reference.metric[..., 0] % modulus
+    diagonal = [int(base[axis, axis]) for axis in range(dimension)]
+    off_diagonal = base.copy()
+    np.fill_diagonal(off_diagonal, 0)
+    signature = (
+        _signature_name(diagonal, modulus) if not np.any(off_diagonal) else "non-normalised"
+    )
+
+    curved = any(bool(np.any(jet.riemann % modulus)) for jet in bank)
+
+    ranks = {int(pattern["array"].ndim) for pattern in patterns}
+    if len(ranks) != 1:
+        raise FrameworkMismatch("the elasticity generator produced patterns of mixed rank")
+    tensor_rank = ranks.pop()
+
+    symmetric = True
+    any_nonzero = False
+    for jet in bank:
+        for pattern in patterns:
+            sigma = jet.stress(pattern["array"], jet.strain) % modulus
+            any_nonzero = any_nonzero or bool(np.any(sigma))
+            if not np.array_equal(sigma, np.einsum("ijr->jir", sigma) % modulus):
+                symmetric = False
+    tensor_symmetry = "symmetric" if (symmetric and any_nonzero) else "none"
+
+    rigid = _ElasticJet(
+        dimension,
+        rigid_motion_jet(dimension, reference.displacement_level, modulus, seed),
+        modulus,
+        reference.displacement_level,
+    )
+    rigid_gradient_nonzero = bool(np.any(rigid.gradient % modulus))
+    rigid_stress_zero = all(
+        not bool(np.any(rigid.stress(pattern["array"], rigid.strain) % modulus))
+        for pattern in patterns
+    )
+    rigid_gradient_stress_nonzero = any(
+        bool(np.any(rigid.stress(pattern["array"], rigid.gradient) % modulus))
+        for pattern in patterns
+    )
+    generator = (
+        "linear_strain_tensor"
+        if (rigid_stress_zero and rigid_gradient_nonzero and any_nonzero)
+        else "strain_free_unidentified"
+    )
+
+    return {
+        "metric_signature": signature,
+        "curvature": "generic" if curved else "flat",
+        "primary_field_indices": int(reference.primary_field_indices),
+        "primary_field_symmetric": bool(reference.primary_field_symmetric),
+        "tensor_rank": int(tensor_rank),
+        "tensor_symmetry": tensor_symmetry,
+        "concomitant_generator": generator,
+        "measurement_evidence": {
+            "base_point_metric_diagonal_is_pm_one": bool(signature != "non-normalised"),
+            "riemann_of_the_metric_actually_used_is_zero": bool(not curved),
+            "rigid_motion_has_nonzero_displacement_gradient": rigid_gradient_nonzero,
+            "rigid_motion_produces_zero_stress": bool(rigid_stress_zero),
+            "same_patterns_on_the_raw_gradient_would_stress_a_rigid_motion": bool(
+                rigid_gradient_stress_nonzero
+            ),
+            "how_generator_was_identified": (
+                "the patterns were evaluated on an infinitesimal rigid motion, whose linear strain "
+                "vanishes identically while its displacement gradient does not.  Zero stress there "
+                "and non-zero stress on the generic bank identifies the argument as the LINEAR "
+                "STRAIN tensor; a law built from the raw gradient would stress a rigid rotation, "
+                "and the same patterns on that argument are checked to confirm it would"
+            ),
+        },
+    }
+
+
+def run_elasticity_search(
+    *,
+    dimension: int,
+    constraints: Sequence[str],
+    modulus: int,
+    seed: str,
+    bank_samples: int,
+    holdout_samples: int,
+) -> dict[str, Any]:
+    """Enumerate rank-4 isotropic patterns, measure the collapse, report the elastic constants."""
+
+    declared = list(constraints)
+    unknown = [name for name in declared if name not in SUPPORTED_ELASTIC_CONSTRAINTS]
+    if unknown:
+        raise TensorConstraintSearchError(
+            f"unsupported elasticity constraints declared: {sorted(unknown)}"
+        )
+    for required in ("flat_euclidean", "material_isotropy"):
+        if required not in declared:
+            raise ConstraintOutOfScope(
+                f"{required} is not optional in this search: the rank-4 basis is enumerated as "
+                "pairings of the flat metric, and without a flat isotropic background that "
+                "enumeration is not the admissible basis.  Refusing rather than returning an "
+                "answer over an unjustified basis."
+            )
+
+    degree = 3
+    bank = _elastic_bank(dimension, modulus, seed, bank_samples, degree)
+    holdout = _elastic_bank(dimension, modulus, f"{seed}|holdout", holdout_samples, degree)
+    patterns = enumerate_elasticity_patterns(dimension, modulus)
+    labels = [str(pattern["label"]) for pattern in patterns]
+
+    realized = measure_realized_elastic_framework(
+        bank, patterns, dimension=dimension, modulus=modulus, seed=seed
+    )
+
+    minor = "minor_symmetry" in declared
+    argument_name = "linear strain eps_kl" if minor else "raw displacement gradient d_l u_k"
+
+    # -- what the patterns are, before any declared symmetry ---------------
+    array_rows = [
+        [int(value) for value in pattern["array"].ravel() % modulus] for pattern in patterns
+    ]
+    rank_as_arrays = _rank(array_rows, modulus)
+
+    # -- each declared symmetry as its OWN block of linear conditions on the coefficients --
+    per_constraint: dict[str, list[list[int]]] = {}
+    if minor:
+        rows: list[list[int]] = []
+        for pattern in patterns:
+            array = pattern["array"]
+            first = (array - np.einsum("ijkl->jikl", array)) % modulus
+            second = (array - np.einsum("ijkl->ijlk", array)) % modulus
+            rows.append(
+                [int(value) for value in first.ravel()]
+                + [int(value) for value in second.ravel()]
+            )
+        per_constraint["minor_symmetry"] = rows
+    if "stress_symmetry" in declared:
+        rows = []
+        for pattern in patterns:
+            entry: list[int] = []
+            for jet in bank:
+                argument = jet.strain if minor else jet.gradient
+                sigma = jet.stress(pattern["array"], argument) % modulus
+                residual = (sigma - np.einsum("ijr->jir", sigma)) % modulus
+                entry.extend(int(value) for value in residual.ravel())
+            rows.append(entry)
+        per_constraint["stress_symmetry"] = rows
+    if "major_symmetry" in declared:
+        rows = []
+        for pattern in patterns:
+            array = pattern["array"]
+            major = (array - np.einsum("ijkl->klij", array)) % modulus
+            rows.append([int(value) for value in major.ravel()])
+        per_constraint["major_symmetry"] = rows
+    if "cauchy_relation" in declared:
+        # The rari-constant hypothesis lambda = mu, written in pattern coordinates.  lambda is the
+        # coefficient of d_ij d_kl and mu the shared coefficient of the two remaining pairings.
+        functional = {
+            "delta_ij_delta_kl": 1,
+            "delta_ik_delta_jl": modulus - 1,
+            "delta_il_delta_jk": 0,
+        }
+        per_constraint["cauchy_relation"] = [
+            [int(functional[label]) % modulus] for label in labels
+        ]
+
+    # -- collapse measured by ACTION on the declared argument ---------------
+    def action_row(vector: Sequence[int]) -> list[int]:
+        array = _elastic_combination(vector, patterns, modulus)
+        out: list[int] = []
+        for jet in bank:
+            argument = jet.strain if minor else jet.gradient
+            out.extend(int(value) for value in jet.stress(array, argument).ravel())
+        return out
+
+    identity = [
+        [1 if a == b else 0 for b in range(len(patterns))] for a in range(len(patterns))
+    ]
+    pattern_actions = [action_row(vector) for vector in identity]
+    rank_after_argument = _rank(pattern_actions, modulus)
+    identically_vanishing = _nullspace(pattern_actions, modulus)
+
+    # Each declared constraint is applied on top of the ones before it and the surviving dimension
+    # is MEASURED after each, so the reduction table reports what each constraint actually cost
+    # rather than repeating the final number once per row.
+    applied: list[str] = []
+    accumulated: list[list[int]] = [[] for _ in patterns]
+    admissible = identity
+    cascade: list[dict[str, Any]] = []
+    for name in ("minor_symmetry", "stress_symmetry", "major_symmetry", "cauchy_relation"):
+        if name not in per_constraint:
+            continue
+        applied.append(name)
+        for index, segment in enumerate(per_constraint[name]):
+            accumulated[index].extend(segment)
+        admissible = _nullspace(accumulated, modulus)
+        cascade.append(
+            {
+                "constraint": name,
+                "coefficient_dimension": len(admissible),
+                "distinct_law_dimension": _rank(
+                    [action_row(vector) for vector in admissible], modulus
+                ),
+            }
+        )
+
+    admissible_actions = [action_row(vector) for vector in admissible]
+    distinct_dimension = _rank(admissible_actions, modulus)
+
+    # -- held-out verification ---------------------------------------------
+    for vector in admissible:
+        array = _elastic_combination(vector, patterns, modulus)
+        for jet in holdout:
+            argument = jet.strain if minor else jet.gradient
+            sigma = jet.stress(array, argument) % modulus
+            if "stress_symmetry" in declared and np.any(
+                (sigma - np.einsum("ijr->jir", sigma)) % modulus
+            ):
+                raise TensorConstraintSearchError(
+                    "a member of the reported elasticity space produced an asymmetric stress on a "
+                    "held-out displacement jet"
+                )
+        if minor:
+            array_minor = (array - np.einsum("ijkl->jikl", array)) % modulus
+            if np.any(array_minor):
+                raise TensorConstraintSearchError(
+                    "a member of the reported elasticity space is not minor-symmetric"
+                )
+
+    reduced, _ = _rref(admissible, modulus)
+    exhibited: list[dict[str, Any]] = []
+    for label in ("lame_lambda", "lame_mu", "fabricated_minor_antisymmetric",
+                  "cauchy_rari_constant"):
+        vector = _declared_elastic_vector(label, labels, modulus)
+        array = _elastic_combination(vector, patterns, modulus)
+        acts_as_zero = all(
+            not bool(np.any(jet.stress(array, jet.strain) % modulus)) for jet in bank
+        )
+        minor_symmetric = not bool(np.any((array - np.einsum("ijkl->jikl", array)) % modulus))
+        major_symmetric = not bool(np.any((array - np.einsum("ijkl->klij", array)) % modulus))
+        exhibited.append(
+            {
+                "name": label,
+                "expression": _vector_text(
+                    [Fraction(DECLARED_ELASTIC_VECTORS[label].get(item, "0")) for item in labels],
+                    labels,
+                ),
+                "acts_as_zero_on_every_symmetric_strain": bool(acts_as_zero),
+                "minor_symmetric": bool(minor_symmetric),
+                "major_symmetric": bool(major_symmetric),
+                "in_reported_space": bool(_in_span(vector, admissible, modulus)),
+            }
+        )
+
+    return {
+        "dimension": dimension,
+        "declared_constraints": declared,
+        "constraints_applied": applied,
+        "declared_argument": argument_name,
+        "realized_framework": realized,
+        "basis_patterns": [
+            {"name": label, "expression": ELASTICITY_PATTERN_TEXT[label]} for label in labels
+        ],
+        "enumeration": {
+            "formal_pattern_count": len(patterns),
+            "rank_as_rank4_arrays": rank_as_arrays,
+            "rank_of_actions_on_declared_argument": rank_after_argument,
+            "identically_vanishing": {
+                "dimension": len(identically_vanishing),
+                "vectors": [
+                    _vector_text(_normalise(vector, modulus), labels)
+                    for vector in identically_vanishing
+                ],
+            },
+            "constraint_cascade": cascade,
+        },
+        "admissible_space": {
+            "coefficient_dimension": len(admissible),
+            "distinct_law_dimension": distinct_dimension,
+            "basis": [_vector_text(_normalise(vector, modulus), labels) for vector in reduced],
+            "holdout_samples_verified": len(holdout),
+        },
+        "exhibited_members": exhibited,
+        "surviving_dimension": distinct_dimension,
+    }
+
+
+def navier_cauchy_derivation(
+    *, dimension: int, modulus: int, seed: str, bank_samples: int, holdout_samples: int
+) -> dict[str, Any]:
+    """Derive the static equilibrium operator of the surviving elastic family, exactly.
+
+    For each surviving direction of the elasticity tensor the divergence of the stress it produces
+    is *fitted* on a bank of random displacement jets against the only two second-order isotropic
+    vector operators available, ``lap u_i`` and ``d_i (div u)``, by exact linear algebra over the
+    prime field.  The coefficients are an output, not an input, and the fit is re-verified on
+    held-out jets.  The two directions together assemble the Navier-Cauchy operator.
+    """
+
+    degree = 3
+    bank = _elastic_bank(dimension, modulus, seed, bank_samples, degree)
+    holdout = _elastic_bank(dimension, modulus, f"{seed}|holdout", holdout_samples, degree)
+    patterns = enumerate_elasticity_patterns(dimension, modulus)
+    labels = [str(pattern["label"]) for pattern in patterns]
+
+    def stack(jets: Sequence[_ElasticJet], pick: str, array: np.ndarray | None = None
+              ) -> list[int]:
+        out: list[int] = []
+        for jet in jets:
+            if pick == "laplacian":
+                values = jet.laplacian()
+            elif pick == "graddiv":
+                values = jet.gradient_of_divergence()
+            else:
+                assert array is not None
+                values = jet.equilibrium(jet.stress(array, jet.strain))
+            out.extend(int(value) for value in values.ravel())
+        return out
+
+    laplacian = stack(bank, "laplacian")
+    graddiv = stack(bank, "graddiv")
+    operators_independent = _rank([laplacian, graddiv], modulus) == 2
+
+    directions: list[dict[str, Any]] = []
+    for name in ("lame_lambda", "lame_mu"):
+        vector = _declared_elastic_vector(name, labels, modulus)
+        array = _elastic_combination(vector, patterns, modulus)
+        target = stack(bank, "equilibrium", array)
+        solution = _solve_exact([laplacian, graddiv], target, modulus) if operators_independent \
+            else None
+        verified = False
+        if solution is not None:
+            held_lap = stack(holdout, "laplacian")
+            held_grad = stack(holdout, "graddiv")
+            held_target = stack(holdout, "equilibrium", array)
+            verified = all(
+                (
+                    solution[0].numerator
+                    * pow(int(solution[0].denominator), modulus - 2, modulus)
+                    * a
+                    + solution[1].numerator
+                    * pow(int(solution[1].denominator), modulus - 2, modulus)
+                    * b
+                    - t
+                )
+                % modulus
+                == 0
+                for a, b, t in zip(held_lap, held_grad, held_target, strict=True)
+            )
+        directions.append(
+            {
+                "direction": name,
+                "elasticity_tensor": _vector_text(
+                    [Fraction(DECLARED_ELASTIC_VECTORS[name].get(item, "0")) for item in labels],
+                    labels,
+                ),
+                "laplacian_coefficient": str(solution[0]) if solution else None,
+                "grad_div_coefficient": str(solution[1]) if solution else None,
+                "unique_solution": bool(solution is not None),
+                "verified_on_holdout": bool(verified),
+            }
+        )
+
+    lam = next(item for item in directions if item["direction"] == "lame_lambda")
+    mu = next(item for item in directions if item["direction"] == "lame_mu")
+    assembled = None
+    if lam["unique_solution"] and mu["unique_solution"]:
+        lap_coefficient = (
+            f"{mu['laplacian_coefficient']} mu"
+            if lam["laplacian_coefficient"] == "0"
+            else f"{lam['laplacian_coefficient']} lambda + {mu['laplacian_coefficient']} mu"
+        )
+        assembled = (
+            f"d_j sigma_ij = ({lap_coefficient}) lap u_i + "
+            f"({lam['grad_div_coefficient']} lambda + {mu['grad_div_coefficient']} mu) "
+            "d_i (div u)"
+        )
+    return {
+        "question": (
+            "what static equilibrium operator does the surviving elasticity family force on the "
+            "displacement field?"
+        ),
+        "operator_basis": ["lap u_i", "d_i (div u)"],
+        "operator_basis_independent_on_the_bank": bool(operators_independent),
+        "directions": directions,
+        "assembled": assembled,
+        "identification": (
+            "Navier-Cauchy: mu lap u + (lambda + mu) grad div u.  The coefficients above were "
+            "SOLVED for on random displacement jets over a prime field and re-verified on held-out "
+            "jets; they were not transcribed."
+        )
+        if assembled
+        else None,
+        "bank_samples": bank_samples,
+        "holdout_samples": holdout_samples,
+    }
 
 
 # ---------------------------------------------------------------------------
@@ -1232,10 +2193,15 @@ def run_search(
     fully_witnessed = bool(witnessed_dimension == len(identically_vanishing))
     independent_dimension = len(names) - witnessed_dimension
 
+    realized_framework = measure_realized_framework(
+        bank, bank_terms, dimension=dimension, order=order, modulus=modulus
+    )
+
     result: dict[str, Any] = {
         "dimension": dimension,
         "derivative_order": order,
         "declared_constraints": declared,
+        "realized_framework": realized_framework,
         "basis_terms": [
             {"name": name, "expression": _TERM_TEXT[name], "metric_derivatives": weight}
             for name, weight, _ in NAMED_TERMS
@@ -1825,6 +2791,360 @@ def negative_controls(
             "status": "pass",
         }
     )
+    controls.extend(framework_gate_controls(modulus=modulus, seed=seed, samples=samples))
+    return controls
+
+
+#: The exact false declaration this gate exists to catch: an elasticity framework claimed over a
+#: general-relativity computation.  Before the gate this block was copied verbatim into the receipt
+#: and the search still returned ['g_mn', 'R_mn - (1/2) R g_mn'].
+ELASTICITY_DECLARATION_OVER_CURVATURE = {
+    "metric_signature": "euclidean",
+    "curvature": "flat",
+    "primary_field_indices": 1,
+    "primary_field_symmetric": False,
+    "tensor_rank": 4,
+    "tensor_symmetry": "symmetric",
+    "concomitant_generator": "linear_strain_tensor",
+}
+
+CURVATURE_DECLARATION_OVER_ELASTICITY = {
+    "metric_signature": "lorentzian",
+    "curvature": "generic",
+    "primary_field_indices": 2,
+    "primary_field_symmetric": True,
+    "tensor_rank": 2,
+    "tensor_symmetry": "symmetric",
+    "concomitant_generator": "riemann_tensor",
+}
+
+
+def framework_gate_controls(
+    *, modulus: int, seed: str, samples: int
+) -> list[dict[str, Any]]:
+    """Controls for the declared-vs-realized framework gate.  Each must be REFUSED."""
+
+    controls: list[dict[str, Any]] = []
+
+    bank = build_bank(4, 2, modulus, f"{seed}|framework-control", max(2, samples))
+    bank_terms = [named_tensors(geometry, 2) for geometry in bank]
+    realized_curvature = measure_realized_framework(
+        bank, bank_terms, dimension=4, order=2, modulus=modulus
+    )
+    blocked: str | None = None
+    try:
+        check_framework_consistency(
+            ELASTICITY_DECLARATION_OVER_CURVATURE,
+            realized_curvature,
+            context="control:elasticity-declared-over-curvature",
+        )
+    except FrameworkMismatch as error:
+        blocked = str(error)
+    if blocked is None:
+        raise TensorConstraintSearchError(
+            "control failure: an elasticity framework declared over the curvature computation was "
+            "NOT refused"
+        )
+    controls.append(
+        {
+            "control": "elasticity_framework_declared_over_a_curvature_computation_is_refused",
+            "claim_under_test": (
+                "flat Euclidean space, a displacement field and a linear-strain concomitant class "
+                "describe the computation that returned g_mn and R_mn - (1/2) R g_mn"
+            ),
+            "verdict": "REFUSED",
+            "blocker_type": "FrameworkMismatch",
+            "blocker_message": blocked,
+            "mismatched_fields": sorted(
+                field
+                for field in FRAMEWORK_FIELDS
+                if ELASTICITY_DECLARATION_OVER_CURVATURE[field] != realized_curvature[field]
+            ),
+            "history": (
+                "This is the defect the gate was built for.  The declared_framework block used to "
+                "appear at exactly one place in the computation -- a verbatim copy into the "
+                "receipt -- so this false declaration produced a sealed receipt claiming "
+                "elasticity over the Einstein-tensor derivation and nothing objected."
+            ),
+            "status": "pass",
+        }
+    )
+
+    elastic_bank = _elastic_bank(3, modulus, f"{seed}|framework-control", max(2, samples))
+    patterns = enumerate_elasticity_patterns(3, modulus)
+    realized_elastic = measure_realized_elastic_framework(
+        elastic_bank, patterns, dimension=3, modulus=modulus, seed=f"{seed}|framework-control"
+    )
+    blocked = None
+    try:
+        check_framework_consistency(
+            CURVATURE_DECLARATION_OVER_ELASTICITY,
+            realized_elastic,
+            context="control:curvature-declared-over-elasticity",
+        )
+    except FrameworkMismatch as error:
+        blocked = str(error)
+    if blocked is None:
+        raise TensorConstraintSearchError(
+            "control failure: a curvature framework declared over the elasticity computation was "
+            "NOT refused"
+        )
+    controls.append(
+        {
+            "control": "curvature_framework_declared_over_an_elasticity_computation_is_refused",
+            "claim_under_test": (
+                "pseudo-Riemannian geometry with a metric field and a Riemann-tensor concomitant "
+                "class describes the computation that returned the two Lame constants"
+            ),
+            "verdict": "REFUSED",
+            "blocker_type": "FrameworkMismatch",
+            "blocker_message": blocked,
+            "mismatched_fields": sorted(
+                field
+                for field in FRAMEWORK_FIELDS
+                if CURVATURE_DECLARATION_OVER_ELASTICITY[field] != realized_elastic[field]
+            ),
+            "status": "pass",
+        }
+    )
+
+    blocked = None
+    try:
+        check_framework_consistency(
+            {**CURVATURE_DECLARATION_OVER_ELASTICITY, "concomitant_generator": "spinor_bilinear"},
+            realized_curvature,
+            context="control:unsupported-generator",
+        )
+    except FrameworkMismatch as error:
+        blocked = str(error)
+    if blocked is None:
+        raise TensorConstraintSearchError(
+            "control failure: an unsupported generator declaration was NOT refused"
+        )
+    controls.append(
+        {
+            "control": "unsupported_generator_declaration_is_refused",
+            "claim_under_test": (
+                "a framework naming a generator this module does not implement can still be served"
+            ),
+            "verdict": "REFUSED",
+            "blocker_type": "FrameworkMismatch",
+            "blocker_message": blocked,
+            "status": "pass",
+        }
+    )
+
+    blocked = None
+    try:
+        check_framework_consistency(
+            {"geometry": "free text only, no machine-checkable fields"},
+            realized_curvature,
+            context="control:untyped-declaration",
+        )
+    except FrameworkMismatch as error:
+        blocked = str(error)
+    if blocked is None:
+        raise TensorConstraintSearchError(
+            "control failure: an untyped free-text framework declaration was NOT refused"
+        )
+    controls.append(
+        {
+            "control": "untyped_free_text_framework_declaration_is_refused",
+            "claim_under_test": (
+                "a framework block of prose alone is a sufficient declaration for a sealed receipt"
+            ),
+            "verdict": "REFUSED",
+            "blocker_type": "FrameworkMismatch",
+            "blocker_message": blocked,
+            "status": "pass",
+        }
+    )
+    return controls
+
+
+def elasticity_negative_controls(
+    *, modulus: int, seed: str, samples: int
+) -> list[dict[str, Any]]:
+    """Abort-on-failure controls for the elasticity framework."""
+
+    controls: list[dict[str, Any]] = []
+    bank = _elastic_bank(3, modulus, f"{seed}|elastic-control", samples)
+    patterns = enumerate_elasticity_patterns(3, modulus)
+    labels = [str(pattern["label"]) for pattern in patterns]
+
+    # -- a fabricated Navier-Cauchy operator with the wrong grad-div coefficient --------------
+    lam_value, mu_value = 3, 5
+    vector = [
+        (lam_value * a + mu_value * b) % modulus
+        for a, b in zip(
+            _declared_elastic_vector("lame_lambda", labels, modulus),
+            _declared_elastic_vector("lame_mu", labels, modulus),
+            strict=True,
+        )
+    ]
+    array = _elastic_combination(vector, patterns, modulus)
+    truthful_wrong: list[bool] = []
+    truthful_right: list[bool] = []
+    for jet in bank:
+        actual = jet.equilibrium(jet.stress(array, jet.strain)) % modulus
+        right = (
+            mu_value * jet.laplacian() + (lam_value + mu_value) * jet.gradient_of_divergence()
+        ) % modulus
+        wrong = (
+            mu_value * jet.laplacian()
+            + (lam_value + 2 * mu_value) * jet.gradient_of_divergence()
+        ) % modulus
+        truthful_right.append(not bool(np.any((actual - right) % modulus)))
+        truthful_wrong.append(bool(np.any((actual - wrong) % modulus)))
+    if not all(truthful_right):
+        raise TensorConstraintSearchError(
+            "control failure: the derived Navier-Cauchy operator did not reproduce the stress "
+            "divergence it was derived from"
+        )
+    if not all(truthful_wrong):
+        raise TensorConstraintSearchError(
+            "control failure: the fabricated (lambda + 2 mu) operator was NOT rejected"
+        )
+    controls.append(
+        {
+            "control": "fabricated_navier_cauchy_coefficient_is_rejected",
+            "operator": "mu lap u_i + (lambda + 2 mu) d_i (div u)",
+            "claim_under_test": "this is the equilibrium operator of an isotropic elastic solid",
+            "verdict": "REJECTED",
+            "evidence": (
+                "with lambda = 3 and mu = 5 the fabricated operator differs from d_j sigma_ij on "
+                "every displacement jet in the control bank, while mu lap u + (lambda + mu) grad "
+                "div u matches it identically on the same bank"
+            ),
+            "samples": len(bank),
+            "status": "pass",
+        }
+    )
+
+    # -- rigid motions carry no stress ---------------------------------------------------------
+    rigid = _ElasticJet(
+        3, rigid_motion_jet(3, 3, modulus, f"{seed}|elastic-control"), modulus, 3
+    )
+    if not bool(np.any(rigid.gradient % modulus)):
+        raise TensorConstraintSearchError(
+            "control failure: the rigid-motion probe has a zero displacement gradient and proves "
+            "nothing"
+        )
+    if bool(np.any(rigid.strain % modulus)):
+        raise TensorConstraintSearchError(
+            "control failure: the rigid-motion probe has a non-zero linear strain"
+        )
+    if not all(
+        not bool(np.any(rigid.stress(pattern["array"], rigid.strain) % modulus))
+        for pattern in patterns
+    ):
+        raise TensorConstraintSearchError(
+            "control failure: a rigid motion produced a non-zero stress"
+        )
+    controls.append(
+        {
+            "control": "a_rigid_motion_produces_no_stress",
+            "claim_under_test": (
+                "the enumerated laws could be built from the raw displacement gradient rather than "
+                "the linear strain"
+            ),
+            "verdict": "REJECTED",
+            "evidence": (
+                "the infinitesimal rigid motion u_i = c_i + w_ij x_j has a non-zero displacement "
+                "gradient and an identically zero linear strain; every enumerated pattern returns "
+                "zero stress on it, and the same patterns applied to its raw gradient do not"
+            ),
+            "status": "pass",
+        }
+    )
+
+    # -- the minor-antisymmetric trap ------------------------------------------------------------
+    trap = _elastic_combination(
+        _declared_elastic_vector("fabricated_minor_antisymmetric", labels, modulus),
+        patterns,
+        modulus,
+    )
+    kills_strain = all(
+        not bool(np.any(jet.stress(trap, jet.strain) % modulus)) for jet in bank
+    )
+    lives_on_gradient = any(
+        bool(np.any(jet.stress(trap, jet.gradient) % modulus)) for jet in bank
+    )
+    if not (kills_strain and lives_on_gradient):
+        raise TensorConstraintSearchError(
+            "control failure: the minor-antisymmetric combination did not behave as the trap it is"
+        )
+    controls.append(
+        {
+            "control": "minor_antisymmetric_combination_is_not_an_extra_elastic_constant",
+            "tensor": "d_ik d_jl - d_il d_jk",
+            "claim_under_test": "this is a third independent isotropic elastic constant",
+            "verdict": "REJECTED",
+            "evidence": (
+                "it is a non-zero rank-4 tensor that annihilates every symmetric strain in the "
+                "control bank while acting non-trivially on the raw displacement gradient, so it "
+                "is invisible to elasticity and the search reports it as identically vanishing "
+                "rather than as a constant"
+            ),
+            "status": "pass",
+        }
+    )
+
+    # -- one dimension collapses to a single constant ---------------------------------------------
+    one_d = run_elasticity_search(
+        dimension=1,
+        constraints=list(SUPPORTED_ELASTIC_CONSTRAINTS),
+        modulus=modulus,
+        seed=f"{seed}|elastic-control",
+        bank_samples=max(2, samples),
+        holdout_samples=1,
+    )
+    if one_d["surviving_dimension"] != 1:
+        raise TensorConstraintSearchError(
+            "control failure: the one-dimensional elastic space is not one-dimensional"
+        )
+    controls.append(
+        {
+            "control": "one_dimension_collapses_to_a_single_elastic_constant",
+            "claim_under_test": "the two Lame constants are a dimension-independent count",
+            "verdict": "REJECTED",
+            "evidence": (
+                "in d = 1 all three delta pairings coincide and the surviving space is "
+                "one-dimensional: a rod has one elastic constant, not two.  The count of two is "
+                "derived per dimension, not assumed"
+            ),
+            "status": "pass",
+        }
+    )
+
+    # -- the operator basis degenerates in one dimension ------------------------------------------
+    degenerate = navier_cauchy_derivation(
+        dimension=1,
+        modulus=modulus,
+        seed=f"{seed}|elastic-control",
+        bank_samples=max(2, samples),
+        holdout_samples=1,
+    )
+    if degenerate["operator_basis_independent_on_the_bank"] or degenerate["assembled"] is not None:
+        raise TensorConstraintSearchError(
+            "control failure: the d=1 equilibrium fit reported coefficients from a degenerate "
+            "operator basis"
+        )
+    controls.append(
+        {
+            "control": "degenerate_operator_basis_reports_no_coefficients",
+            "claim_under_test": (
+                "the equilibrium fit will always return a lap / grad-div split"
+            ),
+            "verdict": "REFUSED",
+            "evidence": (
+                "in d = 1 the two operators lap u and grad div u are the same operator, the fit is "
+                "underdetermined, and the derivation returns no coefficients rather than one "
+                "member of an underdetermined family"
+            ),
+            "status": "pass",
+        }
+    )
     return controls
 
 
@@ -1945,11 +3265,145 @@ def _reduction_table(search: Mapping[str, Any], newtonian: bool) -> list[dict[st
     return rows
 
 
+def _elastic_reduction_table(search: Mapping[str, Any]) -> list[dict[str, Any]]:
+    """The constraint-by-constraint collapse for the elasticity framework."""
+
+    enumeration = search["enumeration"]
+    declared = search["declared_constraints"]
+    rows: list[dict[str, Any]] = [
+        {
+            "step": 0,
+            "constraint": "(declared framework only)",
+            "space": "rank-4 tensor fields on flat Euclidean space",
+            "formal_terms": "not enumerable",
+            "dimension": "infinite",
+        },
+        {
+            "step": 1,
+            "constraint": "flat_euclidean + material_isotropy",
+            "space": "constant-coefficient rank-4 tensors built from the Kronecker delta alone",
+            "formal_terms": enumeration["formal_pattern_count"],
+            "dimension": enumeration["rank_as_rank4_arrays"],
+        },
+    ]
+    step = 2
+    space_text = {
+        "minor_symmetry": "tensors contracting the LINEAR STRAIN, not the raw gradient",
+        "stress_symmetry": "laws whose Cauchy stress is symmetric on every jet in the bank",
+        "major_symmetry": "laws admitting a strain-energy function",
+        "cauchy_relation": "laws additionally obeying the rari-constant hypothesis lambda = mu",
+    }
+    for entry in enumeration["constraint_cascade"]:
+        if entry["constraint"] not in declared:
+            raise TensorConstraintSearchError(
+                "the constraint cascade reports a constraint that was never declared"
+            )
+        rows.append(
+            {
+                "step": step,
+                "constraint": entry["constraint"],
+                "space": space_text[entry["constraint"]],
+                "formal_terms": enumeration["formal_pattern_count"],
+                "dimension": entry["distinct_law_dimension"],
+            }
+        )
+        step += 1
+    rows.append(
+        {
+            "step": step,
+            "constraint": "(final)",
+            "space": search["admissible_space"]["basis"],
+            "formal_terms": enumeration["formal_pattern_count"],
+            "dimension": search["surviving_dimension"],
+        }
+    )
+    return rows
+
+
+def _framework_consistency_block(
+    typed: Mapping[str, Any], searches: Sequence[Mapping[str, Any]]
+) -> dict[str, Any]:
+    """Confront the typed declaration with every search's measured framework, or refuse."""
+
+    per_search = [
+        check_framework_consistency(
+            typed,
+            item["realized_framework"],
+            context=str(item.get("search_id", "search")),
+        )
+        for item in searches
+    ]
+    return {
+        "gate": "declared_framework vs the framework measured off the computation",
+        "typed_declaration": {field: typed[field] for field in FRAMEWORK_FIELDS},
+        "searches_checked": [str(item.get("search_id", "search")) for item in searches],
+        "per_search": per_search,
+        "all_searches_agree": True,
+        "blocker_type_on_disagreement": "FrameworkMismatch",
+        "what_this_closes": (
+            "Before this gate the declared_framework block was inert: it was copied verbatim into "
+            "the receipt and referenced nowhere in the computation, so a receipt could carry a "
+            "framework claim describing a completely different theory from the one that produced "
+            "its numbers.  Every field above is now MEASURED off the arrays the basis generator "
+            "built -- the signature of the base-point metric, whether the sampled curvature is "
+            "identically zero, the index structure of the primary field jet, the rank and pair "
+            "symmetry of the produced terms, and which terms die on an exactly flat jet -- and a "
+            "receipt is refused when any of them disagrees with what was declared."
+        ),
+    }
+
+
+def declared_generator(config: Mapping[str, Any]) -> str:
+    """Read the typed generator out of the declared framework, failing closed on prose.
+
+    This is the one function that turns ``declared_framework`` from a receipt decoration into an
+    input to the computation: the value it returns selects which basis generator runs.
+    """
+
+    declared = config.get("declared_framework")
+    if not isinstance(declared, Mapping):
+        raise FrameworkMismatch("the config carries no declared_framework block")
+    typed = declared.get("machine_checkable")
+    if not isinstance(typed, Mapping):
+        raise FrameworkMismatch(
+            "the declared_framework block carries no machine_checkable sub-block.  A framework "
+            "stated only in prose cannot be checked against the computation it claims to describe, "
+            f"so it is refused.  Required fields: {list(FRAMEWORK_FIELDS)}"
+        )
+    missing = [field for field in FRAMEWORK_FIELDS if field not in typed]
+    if missing:
+        raise FrameworkMismatch(
+            f"the machine_checkable framework block is missing {sorted(missing)}"
+        )
+    generator = typed["concomitant_generator"]
+    if generator not in SUPPORTED_GENERATORS:
+        raise FrameworkMismatch(
+            f"declared concomitant_generator {generator!r} is not one this module implements "
+            f"{list(SUPPORTED_GENERATORS)}"
+        )
+    return str(generator)
+
+
 def run_tensor_constraint_search(config: Mapping[str, Any], root: Path) -> dict[str, Any]:
-    """Run every declared search, control and generalization, and assemble the receipt."""
+    """Dispatch on the DECLARED framework and assemble the receipt for whichever it selects.
+
+    The declaration is load-bearing twice over: it chooses the basis generator here, and it is
+    re-checked field by field against the framework measured off the generator's own arrays before
+    a receipt is sealed.
+    """
 
     if config.get("schema_version") != CONFIG_SCHEMA:
         raise TensorConstraintSearchError("unexpected config schema")
+    generator = declared_generator(config)
+    if generator == "linear_strain_tensor":
+        return _run_elasticity_campaign(config, root)
+    return _run_curvature_campaign(config, root)
+
+
+def _run_curvature_campaign(config: Mapping[str, Any], root: Path) -> dict[str, Any]:
+    """Run every declared search, control and generalization, and assemble the receipt."""
+
+    typed_framework = dict(config["declared_framework"]["machine_checkable"])
     arithmetic = config["arithmetic"]
     primes = [int(value) for value in arithmetic["primes"]]
     seed = str(arithmetic["jet_seed"])
@@ -1983,6 +3437,10 @@ def run_tensor_constraint_search(config: Mapping[str, Any], root: Path) -> dict[
         primary["purpose"] = spec["purpose"]
         primary["prime_replays"] = len(primes)
         searches.append(primary)
+
+    # -- THE GATE.  Nothing downstream runs until the declared framework is confronted with the
+    # framework measured off the arrays each search actually built.
+    framework_consistency = _framework_consistency_block(typed_framework, searches)
 
     by_id = {item["search_id"]: item for item in searches}
     headline = by_id["d4-order2-einstein"]
@@ -2159,6 +3617,10 @@ def run_tensor_constraint_search(config: Mapping[str, Any], root: Path) -> dict[
         "config": {"path": CONFIG_PATH, "file_sha256": _file_sha(_resolve(root, CONFIG_PATH))},
         "source": {"path": SOURCE_PATH, "file_sha256": _file_sha(_resolve(root, SOURCE_PATH))},
         "test": {"path": TEST_PATH, "file_sha256": _file_sha(_resolve(root, TEST_PATH))},
+        "framework_test": {
+            "path": FRAMEWORK_TEST_PATH,
+            "file_sha256": _file_sha(_resolve(root, FRAMEWORK_TEST_PATH)),
+        },
     }
     for entry in REUSED_MACHINERY:
         if entry["kind"] == "text":
@@ -2177,6 +3639,7 @@ def run_tensor_constraint_search(config: Mapping[str, Any], root: Path) -> dict[
         "schema_version": RESULT_SCHEMA,
         "claims": dict(CLAIMS),
         "declared_framework": dict(config["declared_framework"]),
+        "framework_consistency": framework_consistency,
         "arithmetic": {
             "primes": [str(value) for value in primes],
             "jet_seed": seed,
@@ -2251,6 +3714,301 @@ def run_tensor_constraint_search(config: Mapping[str, Any], root: Path) -> dict[
     return {**body, "content_sha256": canonical_sha256(body)}
 
 
+def _run_elasticity_campaign(config: Mapping[str, Any], root: Path) -> dict[str, Any]:
+    """The SECOND declared framework, run end to end: linear elasticity on flat Euclidean space.
+
+    Same engine, same exact prime-field arithmetic, same sandwich discipline -- and a genuinely
+    different answer, because the declaration selected a genuinely different basis generator.  The
+    curvature search returns ``g_mn`` and ``R_mn - (1/2) R g_mn``; this one returns the two Lame
+    constants and the Navier-Cauchy operator, and neither can be reached from the other's config.
+    """
+
+    typed_framework = dict(config["declared_framework"]["machine_checkable"])
+    arithmetic = config["arithmetic"]
+    primes = [int(value) for value in arithmetic["primes"]]
+    seed = str(arithmetic["jet_seed"])
+    bank_samples = int(arithmetic["bank_samples"])
+    holdout_samples = int(arithmetic["holdout_samples"])
+
+    searches: list[dict[str, Any]] = []
+    for spec in config["searches"]:
+        replays = [
+            run_elasticity_search(
+                dimension=int(spec["dimension"]),
+                constraints=list(spec["constraints"]),
+                modulus=modulus,
+                seed=seed,
+                bank_samples=bank_samples,
+                holdout_samples=holdout_samples,
+            )
+            for modulus in primes
+        ]
+        primary = replays[0]
+        for replay in replays[1:]:
+            if replay != primary:
+                raise TensorConstraintSearchError(
+                    f"search {spec['search_id']} disagreed between prime replays"
+                )
+        primary = dict(primary)
+        primary["search_id"] = spec["search_id"]
+        primary["purpose"] = spec["purpose"]
+        primary["prime_replays"] = len(primes)
+        searches.append(primary)
+
+    # -- THE GATE, on this framework too -----------------------------------
+    framework_consistency = _framework_consistency_block(typed_framework, searches)
+
+    by_id = {item["search_id"]: item for item in searches}
+    headline_id = str(config["headline_search_id"])
+    headline = by_id[headline_id]
+    if headline["surviving_dimension"] != 2:
+        raise TensorConstraintSearchError(
+            "the isotropic linear-elastic space is not two-dimensional in the headline cell"
+        )
+    lame = [item for item in headline["exhibited_members"] if item["name"] in
+            ("lame_lambda", "lame_mu")]
+    if not all(item["in_reported_space"] for item in lame):
+        raise TensorConstraintSearchError(
+            "the two Lame directions are not both in the reported space"
+        )
+    if _rank(
+        [
+            _declared_elastic_vector(item["name"], list(ELASTICITY_PATTERN_TEXT), primes[0])
+            for item in lame
+        ],
+        primes[0],
+    ) != headline["surviving_dimension"]:
+        raise TensorConstraintSearchError(
+            "the exhibited Lame members did not close the uniqueness sandwich"
+        )
+
+    equilibrium = navier_cauchy_derivation(
+        dimension=headline["dimension"],
+        modulus=primes[0],
+        seed=seed,
+        bank_samples=bank_samples,
+        holdout_samples=holdout_samples,
+    )
+    if equilibrium["assembled"] is None:
+        raise TensorConstraintSearchError(
+            "the equilibrium operator did not solve uniquely in the headline cell"
+        )
+    for item in equilibrium["directions"]:
+        if not item["verified_on_holdout"]:
+            raise TensorConstraintSearchError(
+                "a derived equilibrium coefficient failed on held-out displacement jets"
+            )
+
+    reduction_tables = {item["search_id"]: _elastic_reduction_table(item) for item in searches}
+
+    sweep: list[dict[str, Any]] = []
+    for dimension in [int(value) for value in config["dimension_sweep"]]:
+        item = run_elasticity_search(
+            dimension=dimension,
+            constraints=list(config["sweep_constraints"]),
+            modulus=primes[0],
+            seed=seed,
+            bank_samples=bank_samples,
+            holdout_samples=holdout_samples,
+        )
+        sweep.append(
+            {
+                "dimension": dimension,
+                "elastic_constants": item["surviving_dimension"],
+                "basis": item["admissible_space"]["basis"],
+            }
+        )
+    if not (
+        sweep[0]["elastic_constants"] == 1
+        and all(entry["elastic_constants"] == 2 for entry in sweep[1:])
+    ):
+        raise TensorConstraintSearchError(
+            "the elastic-constant count is not 1 in d=1 and 2 in every higher dimension swept"
+        )
+
+    grown = by_id["d3-major-symmetry-only"]["surviving_dimension"]
+    shrunk = by_id["d3-cauchy-relation"]["surviving_dimension"]
+    stress_only = by_id["d3-stress-symmetry-only"]["surviving_dimension"]
+    relaxation_controls = {
+        "dropping_the_symmetry_of_the_argument_enlarges_the_space": {
+            "with_constraint": headline["surviving_dimension"],
+            "without_constraint": grown,
+            "strictly_larger": bool(grown > headline["surviving_dimension"]),
+            "surviving_family_without_it": by_id["d3-major-symmetry-only"]["admissible_space"][
+                "basis"
+            ],
+        },
+        "imposing_the_cauchy_relation_shrinks_the_space": {
+            "with_constraint": shrunk,
+            "without_constraint": headline["surviving_dimension"],
+            "strictly_smaller": bool(shrunk < headline["surviving_dimension"]),
+            "reading": (
+                "lambda = mu is the 19th-century rari-constant hypothesis.  It is an extra "
+                "declaration, it collapses the space to a single constant, and it is contradicted "
+                "by measurement -- so the search reports it as a constraint that costs a "
+                "dimension, not as a result."
+            ),
+        },
+        "dropping_general_isotropy_is_refused": {
+            "blocker_type": "ConstraintOutOfScope",
+            "reported_in": "negative_controls",
+        },
+    }
+    if not relaxation_controls["dropping_the_symmetry_of_the_argument_enlarges_the_space"][
+        "strictly_larger"
+    ]:
+        raise TensorConstraintSearchError(
+            "dropping the argument-symmetry constraint did not enlarge the space"
+        )
+    if not relaxation_controls["imposing_the_cauchy_relation_shrinks_the_space"][
+        "strictly_smaller"
+    ]:
+        raise TensorConstraintSearchError("the Cauchy relation did not shrink the space")
+
+    generalizations = {
+        "dimension_sweep": {
+            "question": "is the count of two elastic constants a dimension-independent fact?",
+            "by_dimension": sweep,
+            "verdict": (
+                "NO.  In d = 1 all three delta pairings coincide and a rod has ONE elastic "
+                "constant; from d = 2 upward the count is exactly two.  The count is derived per "
+                "dimension by the same enumeration, not carried over."
+            ),
+        },
+        "minor_symmetry_is_not_an_independent_declaration": {
+            "question": (
+                "is the minor symmetry of the elasticity tensor an extra assumption, or is it "
+                "forced by the symmetry of the Cauchy stress?"
+            ),
+            "dimension_with_minor_symmetry_declared": headline["surviving_dimension"],
+            "dimension_with_only_stress_symmetry_declared": stress_only,
+            "basis_with_only_stress_symmetry_declared": by_id["d3-stress-symmetry-only"][
+                "admissible_space"
+            ]["basis"],
+            "verdict": (
+                "FORCED.  Declaring only that the Cauchy stress is symmetric -- angular momentum "
+                "balance -- and letting the law contract the RAW displacement gradient still "
+                "collapses the space onto the same two directions.  The minor symmetry did not "
+                "need to be declared separately; it was already implied."
+            )
+            if stress_only == headline["surviving_dimension"]
+            else "NOT FORCED at the sampled dimension",
+        },
+    }
+
+    controls = elasticity_negative_controls(
+        modulus=primes[0], seed=seed, samples=int(arithmetic["control_samples"])
+    )
+    blocked: str | None = None
+    try:
+        run_elasticity_search(
+            dimension=3,
+            constraints=["minor_symmetry", "stress_symmetry", "major_symmetry"],
+            modulus=primes[0],
+            seed=seed,
+            bank_samples=2,
+            holdout_samples=1,
+        )
+    except ConstraintOutOfScope as error:
+        blocked = str(error)
+    if blocked is None:
+        raise TensorConstraintSearchError(
+            "control failure: dropping flat_euclidean was not refused"
+        )
+    controls.append(
+        {
+            "control": "dropping_the_flat_isotropic_background_is_refused",
+            "claim_under_test": (
+                "the search will answer a constraint set that omits the flat isotropic background"
+            ),
+            "verdict": "REFUSED",
+            "blocker_type": "ConstraintOutOfScope",
+            "blocker_message": blocked,
+            "status": "pass",
+        }
+    )
+    controls.extend(
+        framework_gate_controls(
+            modulus=primes[0], seed=seed, samples=int(arithmetic["control_samples"])
+        )
+    )
+
+    bindings = {
+        "config": {
+            "path": ELASTICITY_CONFIG_PATH,
+            "file_sha256": _file_sha(_resolve(root, ELASTICITY_CONFIG_PATH)),
+        },
+        "source": {"path": SOURCE_PATH, "file_sha256": _file_sha(_resolve(root, SOURCE_PATH))},
+        "test": {"path": TEST_PATH, "file_sha256": _file_sha(_resolve(root, TEST_PATH))},
+        "framework_test": {
+            "path": FRAMEWORK_TEST_PATH,
+            "file_sha256": _file_sha(_resolve(root, FRAMEWORK_TEST_PATH)),
+        },
+    }
+
+    body: dict[str, Any] = {
+        "schema_version": RESULT_SCHEMA,
+        "claims": dict(CLAIMS),
+        "declared_framework": dict(config["declared_framework"]),
+        "framework_consistency": framework_consistency,
+        "arithmetic": {
+            "primes": [str(value) for value in primes],
+            "jet_seed": seed,
+            "bank_samples": bank_samples,
+            "holdout_samples": holdout_samples,
+            "control_samples": int(arithmetic["control_samples"]),
+            "method": (
+                "Every elasticity identity is evaluated on random displacement jets over a prime "
+                "field.  The jet of a displacement field is unconstrained, so a random jet probes "
+                "the identity fully, and the sampling error is one-sided in exactly the same way "
+                "as on the curvature side: a finite bank can only report the admissible space too "
+                "LARGE.  It is closed from below by exhibiting the two Lame directions and "
+                "re-verifying them on held-out jets."
+            ),
+        },
+        "basis_completeness_citations": [
+            dict(item) for item in ELASTICITY_COMPLETENESS_CITATIONS
+        ],
+        "reused_repository_machinery": [dict(item) for item in REUSED_MACHINERY],
+        "searches": searches,
+        "reduction_tables": reduction_tables,
+        "equilibrium_operator": equilibrium,
+        "generalizations": generalizations,
+        "relaxation_controls": relaxation_controls,
+        "negative_controls": controls,
+        "counts": {
+            "searches": len(searches),
+            "negative_controls": len(controls),
+            "prime_replays": len(primes),
+            "enumerated_patterns": headline["enumeration"]["formal_pattern_count"],
+            "final_family_dimension": headline["surviving_dimension"],
+            "dimensions_swept": len(sweep),
+        },
+        "decision": (
+            "DERIVED: with flat Euclidean 3-space, a displacement field, a rank-4 concomitant "
+            "linear in the LINEAR STRAIN tensor, material isotropy and a symmetric Cauchy stress "
+            "declared, the surviving space is exactly two-dimensional and is spanned by "
+            "d_ij d_kl and d_ik d_jl + d_il d_jk -- the Lame constants lambda and mu.  The static "
+            "equilibrium operator those force is "
+            f"{equilibrium['assembled']}, the Navier-Cauchy equation.  This is the SAME engine "
+            "that returns g_mn and R_mn - (1/2) R g_mn from the curvature declaration; the "
+            "different answer comes from the different declaration, which is the point."
+        ),
+        "scope": (
+            "One declared framework (flat Euclidean space with a displacement field), one declared "
+            "concomitant class (rank-4, constant-coefficient, linear in the linear strain), one "
+            "declared material symmetry (isotropy) and four declared dimension cells.  That the "
+            "delta pairings exhaust the O(n)-invariant rank-4 tensors is Weyl's first fundamental "
+            "theorem, CITED and not derived.  Nothing here is novel: Cauchy (1828) and Navier "
+            "(1821) are the mathematics.  No observational data is opened."
+        ),
+        "config_sha256": canonical_sha256(config),
+        "source_bindings": bindings,
+    }
+    _no_floats(body)
+    return {**body, "content_sha256": canonical_sha256(body)}
+
+
 def _no_floats(value: Any, path: str = "$") -> None:
     if isinstance(value, float):
         raise TensorConstraintSearchError(f"floating value forbidden at {path}")
@@ -2265,8 +4023,18 @@ def _no_floats(value: Any, path: str = "$") -> None:
 def validate_receipt(value: Mapping[str, Any], config: Mapping[str, Any], root: Path) -> None:
     """Fail closed on schema drift, seal drift, claim drift, host paths, or replay drift."""
 
-    if set(value) != _TOP_KEYS:
+    generator = declared_generator(config)
+    expected_keys = _TOP_KEYS_STRAIN if generator == "linear_strain_tensor" else _TOP_KEYS
+    if set(value) != expected_keys:
         raise TensorConstraintSearchError("tensor-constraint receipt schema changed")
+    realized = value.get("framework_consistency", {}).get("per_search", [{}])
+    if not realized or any(
+        item.get("realized", {}).get("concomitant_generator") != generator for item in realized
+    ):
+        raise TensorConstraintSearchError(
+            "tensor-constraint receipt was produced by a different generator than the config "
+            "declares"
+        )
     if value.get("schema_version") != RESULT_SCHEMA:
         raise TensorConstraintSearchError("tensor-constraint receipt schema version changed")
     body = {key: item for key, item in value.items() if key != "content_sha256"}
@@ -2305,12 +4073,23 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--config", type=Path, default=None)
     parser.add_argument("--output", type=Path, default=None)
     parser.add_argument("--root", type=Path, default=Path("."))
+    parser.add_argument(
+        "--framework",
+        choices=["riemann_tensor", "linear_strain_tensor"],
+        default="riemann_tensor",
+        help="which declared framework to run; selects the default config and receipt path",
+    )
     parser.add_argument("--validate-checked", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
     arguments = parser.parse_args(argv)
     root = arguments.root.resolve()
-    config_path = arguments.config or _resolve(root, CONFIG_PATH)
-    output_path = arguments.output or _resolve(root, OUTPUT_PATH)
+    strain = arguments.framework == "linear_strain_tensor"
+    config_path = arguments.config or _resolve(
+        root, ELASTICITY_CONFIG_PATH if strain else CONFIG_PATH
+    )
+    output_path = arguments.output or _resolve(
+        root, ELASTICITY_OUTPUT_PATH if strain else OUTPUT_PATH
+    )
     config = _load_json(config_path)
     if arguments.validate_checked:
         validate_receipt(_load_json(output_path), config, root)
@@ -2319,26 +4098,43 @@ def main(argv: Sequence[str] | None = None) -> int:
     receipt = run_tensor_constraint_search(config, root)
     if not arguments.dry_run:
         write_receipt(receipt, output_path)
-    headline = next(
-        item for item in receipt["searches"] if item["search_id"] == "d4-order2-einstein"
-    )
-    print(
-        json.dumps(
-            {
-                "enumerated_patterns": headline["enumeration"]["formal_pattern_count"],
-                "reduction_table": [
-                    {"constraint": row["constraint"], "dimension": row["dimension"]}
-                    for row in receipt["reduction_tables"]["d4-order2-einstein"]
-                ],
-                "family": headline["divergence_free_space"]["basis"],
-                "coupling_constant_kappa": receipt["newtonian_limit"]["coupling_constant_kappa"],
-                "lambda_status": "free (unforced by the Newtonian limit)",
-                "gauss_bonnet_verdict": receipt["generalizations"]["gauss_bonnet"]["verdict"],
-                "decision": receipt["decision"],
-            },
-            indent=2,
+    if declared_generator(config) == "linear_strain_tensor":
+        headline_id = str(config["headline_search_id"])
+        headline = next(
+            item for item in receipt["searches"] if item["search_id"] == headline_id
         )
-    )
+        summary = {
+            "declared_generator": "linear_strain_tensor",
+            "enumerated_patterns": headline["enumeration"]["formal_pattern_count"],
+            "reduction_table": [
+                {"constraint": row["constraint"], "dimension": row["dimension"]}
+                for row in receipt["reduction_tables"][headline_id]
+            ],
+            "family": headline["admissible_space"]["basis"],
+            "equilibrium_operator": receipt["equilibrium_operator"]["assembled"],
+            "dimension_sweep": receipt["generalizations"]["dimension_sweep"]["by_dimension"],
+            "framework_gate": receipt["framework_consistency"]["all_searches_agree"],
+            "decision": receipt["decision"],
+        }
+    else:
+        headline = next(
+            item for item in receipt["searches"] if item["search_id"] == "d4-order2-einstein"
+        )
+        summary = {
+            "declared_generator": "riemann_tensor",
+            "enumerated_patterns": headline["enumeration"]["formal_pattern_count"],
+            "reduction_table": [
+                {"constraint": row["constraint"], "dimension": row["dimension"]}
+                for row in receipt["reduction_tables"]["d4-order2-einstein"]
+            ],
+            "family": headline["divergence_free_space"]["basis"],
+            "coupling_constant_kappa": receipt["newtonian_limit"]["coupling_constant_kappa"],
+            "lambda_status": "free (unforced by the Newtonian limit)",
+            "gauss_bonnet_verdict": receipt["generalizations"]["gauss_bonnet"]["verdict"],
+            "framework_gate": receipt["framework_consistency"]["all_searches_agree"],
+            "decision": receipt["decision"],
+        }
+    print(json.dumps(summary, indent=2))
     return 0
 
 

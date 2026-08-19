@@ -712,6 +712,10 @@ def test_negative_controls_all_pass(receipt: dict) -> None:
         "dropping_general_covariance_is_refused",
         "gauss_bonnet_is_the_1_minus4_1_combination_of_the_quadratic_variations",
         "naive_nullity_difference_violates_the_one_sided_sampling_guarantee",
+        "elasticity_framework_declared_over_a_curvature_computation_is_refused",
+        "curvature_framework_declared_over_an_elasticity_computation_is_refused",
+        "unsupported_generator_declaration_is_refused",
+        "untyped_free_text_framework_declaration_is_refused",
         "schwarzschild_crosscheck_against_repository_relativity_module",
     }
     assert all(item["status"] == "pass" for item in receipt["negative_controls"])
@@ -721,6 +725,61 @@ def test_negative_controls_all_pass(receipt: dict) -> None:
     for case in guarantee["cases"]:
         assert case["repaired_dimension"] >= case["independently_exhibited_dimension"]
     assert any(case["naive_violates_the_guarantee"] for case in guarantee["cases"])
+    assert (
+        controls["elasticity_framework_declared_over_a_curvature_computation_is_refused"][
+            "blocker_type"
+        ]
+        == "FrameworkMismatch"
+    )
+
+
+def test_declared_framework_is_confronted_with_the_computation(receipt: dict) -> None:
+    """The declared_framework block is an INPUT, not a decoration.
+
+    It used to be referenced nowhere in this file, which is exactly how a receipt could carry a
+    framework claim describing a different theory from the one that produced its numbers.
+    """
+
+    declared = receipt["declared_framework"]["machine_checkable"]
+    consistency = receipt["framework_consistency"]
+    assert consistency["all_searches_agree"] is True
+    assert consistency["typed_declaration"] == {
+        field: declared[field] for field in tcs.FRAMEWORK_FIELDS
+    }
+    assert consistency["searches_checked"] == [
+        item["search_id"] for item in receipt["searches"]
+    ]
+    for item in receipt["searches"]:
+        realized = item["realized_framework"]
+        assert realized["concomitant_generator"] == "riemann_tensor"
+        assert realized["curvature"] == "generic"
+        assert realized["metric_signature"] == "lorentzian"
+        for field in tcs.FRAMEWORK_FIELDS:
+            assert realized[field] == declared[field]
+
+
+def test_lying_about_the_declared_framework_is_refused() -> None:
+    """The defect this gate closes, pinned against the shipped config."""
+
+    bogus = copy.deepcopy(CONFIG)
+    bogus["declared_framework"]["machine_checkable"] = dict(
+        tcs.ELASTICITY_DECLARATION_OVER_CURVATURE
+    )
+    bogus["declared_framework"]["geometry"] = "flat Euclidean 3-space"
+    bogus["declared_framework"]["concomitant_class"] = (
+        "polynomial in the linear strain tensor"
+    )
+    # It no longer even reaches the curvature generator: the declaration routes elsewhere, and
+    # were it forced through the gate, the gate refuses it.
+    assert tcs.declared_generator(bogus) == "linear_strain_tensor"
+    bank = tcs.build_bank(4, 2, PRIME, "lie", 2)
+    realized = tcs.measure_realized_framework(
+        bank, [tcs.named_tensors(item, 2) for item in bank], dimension=4, order=2, modulus=PRIME
+    )
+    with pytest.raises(tcs.FrameworkMismatch):
+        tcs.check_framework_consistency(
+            bogus["declared_framework"]["machine_checkable"], realized, context="lie"
+        )
 
 
 def test_schwarzschild_crosscheck_reuses_the_repository_control(receipt: dict) -> None:
@@ -771,6 +830,8 @@ def test_two_primes_agree(receipt: dict) -> None:
 
 def test_claims_block_is_frozen(receipt: dict) -> None:
     assert receipt["claims"] == {
+        "declared_framework_selects_the_basis_generator": True,
+        "declared_framework_is_gated_against_the_measured_computation": True,
         "derivation_is_symbolic_and_checked": True,
         "framework_was_declared_not_discovered": True,
         "novelty_claimed": False,
