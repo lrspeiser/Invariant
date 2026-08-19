@@ -116,6 +116,36 @@ by ablation, not asserted.**
 
 ---
 
+## Tier 6 — Construction and yield
+
+**Why this tier exists.** Tiers 0 and 3 are guards, and Tier 1 is a filter. A system built
+only from those converges on the safest possible output, which is nothing at all. The
+measured record shows this drift already: the repository carries roughly 132 gate, audit,
+and control modules against roughly 26 search, generator, and synthesis modules — about
+5:1 toward refutation — and every PASS in the retrospective ledger is a rediscovery of a
+known result or a bounded synthetic world. Not one is a novel discovery. That is an honest
+record, and it is also a warning: refutation is cheap and decidable, construction is
+expensive and open-ended, so an unbalanced system will spend its compute on the cheap side
+and call the result rigour.
+
+This tier is the counterweight. Its goals are generative, and they are falsifiable in the
+same way the guards are.
+
+| # | Goal | Test | Falsifier | Lane | Current |
+|---|---|---|---|---|---|
+| **C1** | **Reachability certificates.** Before a search runs, prove the target class is *inside* the declared space. A null result must distinguish "no such object exists" from "our grammar could not express it". | For a declared space and a declared target class, emit a certificate: either an explicit embedding of the class into the space, or a proof that the class is outside it. Control: plant a known answer in the space and confirm the certificate finds it reachable. | Any exhaustive search reported as a negative result without a reachability certificate for what it was looking for. | CPU | **Not built — the single most important gap in this document** |
+| **C2** | **Yield is measured.** Discovery rate is a tracked metric with a floor, not an emergent accident. | Track sealed novel positives per unit of GPU-hour and per unit of LLM-dollar, per campaign. Publish the number whether or not it is zero. | A reporting period with zero new sealed positives *and* no reachability certificate explaining the null — that combination means the engine cannot tell whether it is working. | all | Not tracked |
+| **C3** | **The engine proposes the statement.** Conjecture generation, not just conjecture checking. | The engine emits candidate statements with their own verification obligations, and at least some are proved without a human having named the target. | Every proved statement traceable to a human-supplied target. Then the engine is a checker, not a discoverer. | LLM + CPU | `conjecture` extractor exists at pipeline depth 2 — shallow |
+| **C4** | **Partial credit and gradient.** A near-miss must score differently from noise. | Every gate that returns BLOCK also returns a distance: which obligations were met, which failed, and by how much. Rank by it. | A candidate meeting all but one obligation scoring identically to one meeting none — that destroys the signal a search needs to steer. | CPU | Binary PASS/BLOCK/REJECT on the gravity side |
+| **C5** | **Symmetric resourcing of blockers.** Every BLOCK gets construction effort, not only sharper characterisation. | For each blocked target, resource an explicit attempt to *build* the missing primitive, with at least the compute spent on describing the obstruction. Track both numbers. | A blocker whose entire work product over a reporting period is a more precise account of why it is blocked. Characterising an obstruction is refutation wearing a lab coat. | mixed | U1 has 12 BLOCK and a growing obstruction literature |
+| **C6** | **The search learns.** A 10^12 sweep must be steered by what survived the last one. | Compare the proposal distribution at the start and end of a campaign; survivors must shift it measurably. | Enumeration whose distribution is identical at both ends — that is a lottery with extra steps, not a search. | GPU + LLM | FunSearch loop exists but is not wired to the hard targets |
+| **C7** | **Exploration budget.** A declared fraction of compute goes to low-probability, high-payoff regions. | Reserve and report a fixed share of each campaign for candidates the current scoring would reject; measure what it returns. | An exploration budget of zero, or one that is silently reallocated to exploitation when results are thin. | GPU | Not declared |
+
+**The governing ratio.** Report refutation-compute against construction-compute every period.
+The number is currently unmeasured and the module count suggests it is badly skewed. A
+verification tier that costs more than the search it verifies is not rigour; it is a system
+protecting itself from the possibility of being interesting.
+
 ## How the tiers compose
 
 A discovery counts only when it has cleared every tier it touches:
@@ -136,9 +166,32 @@ A discovery counts only when it has cleared every tier it touches:
     sealed CONFRONTATION           (I5, U3)
 ```
 
-Each arrow is a filter that can only remove candidates, never add them. That is what
-makes the output meaningful: the only way to reach the bottom is to survive every lane,
-and no lane can rescue a candidate the previous one killed.
+The right-hand column can only remove candidates. That is what makes surviving it mean
+something -- no lane can rescue a candidate the previous one killed. But a funnel with no
+pump outputs nothing, and reports that as success.
+
+So the loop must close backwards as well:
+
+```
+    reachability certificate  (C1) --> is the answer even IN this space?
+              |                             |
+              | yes: search is meaningful   | no: WIDEN THE SPACE first (D3, D4, C3)
+              v                             v
+      filters run                    the null result was about the grammar,
+      (S1-S4, V1-V4)                 not about nature -- and says nothing
+              |
+              v
+    survivors + near-misses (C4) --> steer the next sweep (C6)
+              |
+    zero survivors + valid reachability certificate
+              = a REAL negative, and publishable (I6)
+    zero survivors + no certificate
+              = an uninformative null, and must not be reported as a result
+```
+
+That distinction is the whole point of C1. Without it, "we searched 10^12 expressions and
+found nothing" is indistinguishable from "we searched the wrong 10^12 expressions", and the
+engine cannot tell which of those it just did.
 
 ## What would make this document wrong
 
@@ -151,3 +204,6 @@ Stated plainly, so it can be checked:
    collapses: scale would be producing artifacts, not candidates.
 4. If a receipt verifies on one platform and not another (I4), every prior receipt's
    provenance is weaker than claimed. **This is currently true and unfixed.**
+5. If the engine runs a full reporting period with zero new sealed positives and cannot
+   produce a reachability certificate explaining the null (C1, C2), then it has become a
+   very expensive way of declining to answer, and the balance in Tier 6 is wrong.
