@@ -658,6 +658,43 @@ def vocabulary_violations(text: str, forbidden: Sequence[str]) -> list[str]:
     return sorted(tokens & {item.lower() for item in forbidden})
 
 
+#: The only parameter names a declared problem may use.  This is an **allowlist**, and that is
+#: the point: :func:`vocabulary_violations` screens against a finite list of terms someone had
+#: to think of in advance, so a concept nobody listed walks straight through it.  A channel
+#: called ``w`` cannot leak a concept because it does not carry one, whatever the concept turns
+#: out to be.  Extra channels beyond the three named here are addressed as ``c3``, ``c4``, ...
+OPAQUE_CHANNEL_NAMES = ("n", "u", "w", "x")
+
+
+def is_opaque_channel_name(name: str) -> bool:
+    """``True`` for a placeholder, ``False`` for anything that could be a concept."""
+
+    if name in OPAQUE_CHANNEL_NAMES:
+        return True
+    return bool(re.fullmatch(r"c(?:[3-9]|1[0-5])", name))
+
+
+def signature_parameter_names(signature_text: str, entry: str) -> tuple[str, ...] | None:
+    """The parameter names a signature declares for ``entry``, or ``None`` if it declares none."""
+
+    match = re.search(rf"\b{re.escape(entry)}\s*\(([^)]*)\)", signature_text)
+    if match is None:
+        return None
+    inner = match.group(1).strip()
+    if not inner:
+        return ()
+    return tuple(part.split(":")[0].strip() for part in inner.split(","))
+
+
+def channel_name_violations(signature_text: str, entry: str) -> list[str]:
+    """Parameter names outside the placeholder allowlist.  A nonempty list is a refusal."""
+
+    names = signature_parameter_names(signature_text, entry)
+    if names is None:
+        return []
+    return [name for name in names if not is_opaque_channel_name(name)]
+
+
 def guard_prompt(text: str, forbidden: Sequence[str]) -> str:
     """Return ``text`` unchanged, or refuse.  The refusal is the point of the guard."""
 
@@ -916,6 +953,14 @@ class ProblemSpec:
 
     The model sees ``signature_text``, ``entry`` and the seed program.  It does not see
     ``evaluator_id``'s hidden data, the problem's real subject, or any target value.
+
+    A problem declares its input either as ``probe_points`` -- one number per call, the
+    original shape -- or as ``channel_points``, a table of rows whose width is the number of
+    **unlabelled channels** the entry point receives.  The two are mutually exclusive, and the
+    channel form is what makes a dependence on something other than the first reading a thing
+    the search can express at all.  The channels are addressed positionally and named from
+    :data:`OPAQUE_CHANNEL_NAMES`; a declaration whose parameters carry meaning is refused here
+    rather than caught downstream, because a named channel hands the proposer the concept.
     """
 
     problem_id: str
@@ -933,6 +978,7 @@ class ProblemSpec:
     output_width: int = 1
     observed_outputs: tuple[str, ...] = ()
     takes_point_argument: bool = True
+    channel_points: tuple[tuple[float, ...], ...] = ()
 
     def __post_init__(self) -> None:
         if self.novelty_channel not in ("known_solution_grammar", "prior_art_corpus"):
@@ -945,8 +991,46 @@ class ProblemSpec:
         leaks = vocabulary_violations(self.signature_text, self.forbidden_vocabulary)
         if leaks:
             raise FunSearchError(f"signature leaks forbidden vocabulary: {leaks}")
+        named = channel_name_violations(self.signature_text, self.entry)
+        if named:
+            raise FunSearchError(
+                f"channel names must be placeholders, not concepts: {sorted(named)}"
+            )
+        if self.channel_points:
+            self._check_channel_declaration()
+
+    def _check_channel_declaration(self) -> None:
+        if self.probe_points:
+            raise FunSearchError("a problem declares probe_points or channel_points, not both")
+        if not self.takes_point_argument:
+            raise FunSearchError("a channel problem passes its channels as arguments")
+        widths = {len(row) for row in self.channel_points}
+        if len(widths) != 1:
+            raise FunSearchError(f"channel rows have inconsistent widths: {sorted(widths)}")
+        width = widths.pop()
+        if width < 2:
+            raise FunSearchError("channel_points declares two or more channels; use probe_points")
+        if width > len(OPAQUE_CHANNEL_NAMES) + 13:
+            raise FunSearchError(f"channel count outside the declared placeholder set: {width}")
+        declared = signature_parameter_names(self.signature_text, self.entry)
+        if declared is None or len(declared) != width:
+            raise FunSearchError(
+                f"signature declares {declared} but the table carries {width} channels"
+            )
+        if len(set(self.channel_points)) != len(self.channel_points):
+            raise FunSearchError("a channel row is declared twice")
+
+    @property
+    def channel_count(self) -> int:
+        """How many numbers the entry point receives per call."""
+
+        if self.channel_points:
+            return len(self.channel_points[0])
+        return 1 if self.takes_point_argument else 0
 
     def sandbox_inputs(self) -> tuple[tuple[float, ...], ...]:
+        if self.channel_points:
+            return self.channel_points
         if not self.takes_point_argument:
             return ((),)
         return tuple((point,) for point in self.probe_points)
@@ -959,6 +1043,14 @@ class ProblemSpec:
             "seed_program": self.seed_program,
             "evaluator_id": self.evaluator_id,
             "probe_points": [format(item, ".17g") for item in self.probe_points],
+            "channel_points": [
+                [format(item, ".17g") for item in row] for row in self.channel_points
+            ],
+            "channel_count": self.channel_count,
+            "channel_names": [
+                name
+                for name in (signature_parameter_names(self.signature_text, self.entry) or ())
+            ],
             "novelty_channel": self.novelty_channel,
             "novelty_policy": self.novelty_policy.to_dict(),
             "known_solution_grammar": [item.to_dict() for item in self.known_solution_grammar],
@@ -984,11 +1076,45 @@ def _sealed_response_targets(points: Sequence[float]) -> tuple[float, ...]:
     return tuple(_mond_simple_nu(1.2e-10, point) for point in points)
 
 
+def _sealed_channel_targets(rows: Sequence[Sequence[float]]) -> tuple[float, ...]:
+    """The hidden law for the widened problem: it reads the second channel and not the third.
+
+    Written in channel positions, because that is all the problem has.  Which of the three
+    readings matters is exactly what the search is not told, and the third channel is present
+    and varying so that "there is an extra column" cannot stand in for "the extra column is
+    the one that counts".
+    """
+
+    return tuple(row[0] * (2.0 + row[1]) for row in rows)
+
+
 SEALED_ANSWERS: dict[str, Any] = {
     "blinded_sequence_rule": "3*n*n + 2*n + 1 + (n % 4)",
     "blinded_response_law": "y = (u/2)*(1 + sqrt(1 + 4a/u)), a = 1.2e-10",
     "blinded_ratio_expansion": "target constant e",
+    "blinded_channel_response": "y = u * (2 + w); the third channel is inert",
 }
+
+#: Dyadic levels, so the float a program receives is the exact rational
+#: :mod:`.unlabelled_channel_mdl` certifies against and the two lanes cannot drift apart.
+CHANNEL_LEVELS: tuple[tuple[float, ...], ...] = (
+    tuple(0.25 * (1 + index) for index in range(8)),
+    tuple(0.5 * index for index in range(5)),
+    tuple(0.25 * index for index in range(4)),
+)
+
+
+def _channel_rows() -> tuple[tuple[float, ...], ...]:
+    rows: list[tuple[float, ...]] = [()]
+    for column in CHANNEL_LEVELS:
+        rows = [row + (value,) for row in rows for value in column]
+    return tuple(sorted(rows))
+
+
+CHANNEL_POINTS: tuple[tuple[float, ...], ...] = _channel_rows()
+
+#: One decade of dynamic range, so a plain relative RMS is the honest metric here.
+CHANNEL_METRIC = "relative_rms"
 
 #: The response problem spans six decades, so its quality and its novelty distance are
 #: both measured scale-free.  With a plain relative RMS the identity program scores
@@ -1077,9 +1203,28 @@ def _evaluate_ratio_expansion(problem: ProblemSpec, outputs: Sequence[str]) -> d
     }
 
 
+def _evaluate_channel_response(problem: ProblemSpec, outputs: Sequence[str]) -> dict[str, Any]:
+    """The widened evaluator.  It scores a row table, and it never says which column matters."""
+
+    targets = _sealed_channel_targets(problem.channel_points)
+    values = [float(item) for item in outputs]
+    distance = distance_between(CHANNEL_METRIC, targets, values)
+    quality = 0.0 if not math.isfinite(distance) else max(0.0, 1.0 - distance)
+    return {
+        "quality": quality,
+        "detail": {
+            "metric": CHANNEL_METRIC,
+            "distance": format(distance, ".6g"),
+            "rows": len(targets),
+            "channels": problem.channel_count,
+        },
+    }
+
+
 EVALUATORS: dict[str, Callable[[ProblemSpec, Sequence[str]], dict[str, Any]]] = {
     "exact_match_fraction": _evaluate_sequence,
     "bounded_relative_accuracy": _evaluate_response,
+    "bounded_relative_accuracy_over_channels": _evaluate_channel_response,
     "digits_of_agreement": _evaluate_ratio_expansion,
 }
 
@@ -2218,7 +2363,21 @@ RUN_LABEL_PROBLEM = {
     "blinded_response_law_free_search": "blinded_response_law_control",
     "blinded_response_law_control": "blinded_response_law_control",
     "blinded_ratio_expansion": "blinded_ratio_expansion",
+    "blinded_channel_response": "blinded_channel_response",
 }
+
+#: Concepts, not structural words.  "channel" and "row" are how the declaration talks about its
+#: own shape and leak nothing; what must never reach a prompt is a word that says what a reading
+#: *is*.  The allowlist on parameter names in :func:`channel_name_violations` is the primary
+#: guard here, because it catches the concept nobody thought to list.
+FORBIDDEN_CHANNEL_VOCABULARY = FORBIDDEN_RESPONSE_VOCABULARY + (
+    "density",
+    "environment",
+    "gradient",
+    "history",
+    "radius",
+    "temperature",
+)
 
 
 def declared_problems() -> dict[str, ProblemSpec]:
@@ -2302,11 +2461,43 @@ def declared_problems() -> dict[str, ProblemSpec]:
         output_width=8,
         takes_point_argument=False,
     )
+    channel = ProblemSpec(
+        problem_id="blinded_channel_response",
+        entry="rule",
+        signature_text=(
+            "rule(u: float, w: float, x: float) -> float, for 160 declared rows of (u, w, x)"
+        ),
+        seed_program="def rule(u, w, x):\n    return u",
+        evaluator_id="bounded_relative_accuracy_over_channels",
+        probe_points=(),
+        novelty_channel="known_solution_grammar",
+        forbidden_vocabulary=FORBIDDEN_CHANNEL_VOCABULARY,
+        sandbox=SandboxBudget(wall_seconds=8.0, import_allowlist=("math",)),
+        known_solution_grammar=(),
+        # The bank offers all three channels on equal terms.  Nothing in it says which one is
+        # worth reaching for, and the two that are not load bearing are offered just as often.
+        mutation_bank=(
+            "u",
+            "w",
+            "x",
+            "u * w",
+            "u * x",
+            "u + w",
+            "u + x",
+            "u * u",
+            "2.0",
+            "3.0",
+            "0.5",
+            "1.0",
+        ),
+        channel_points=CHANNEL_POINTS,
+    )
     return {
         "blinded_sequence_rule": sequence,
         "blinded_response_law": response,
         "blinded_response_law_control": control,
         "blinded_ratio_expansion": expansion,
+        "blinded_channel_response": channel,
     }
 
 
@@ -2433,6 +2624,53 @@ EXPANSION_PROBE_PROGRAMS: tuple[tuple[str, str], ...] = (
     ),
 )
 
+#: Declared probes for the widened problem.  Two of them are the same function of the first
+#: channel written differently, one writes the second channel down and then cancels it, and one
+#: reads the third channel, which is present and varying and carries nothing.  They exist so a
+#: receipt can show the widening is behaviour-preserving: a program that ignores the extra
+#: channels must be scored exactly as if the extra channels were not there.
+CHANNEL_PROBE_PROGRAMS: tuple[tuple[str, str], ...] = (
+    (
+        "probe_channel_zero_linear",
+        _program("def rule(u, w, x):", "    return 3.0 * u"),
+    ),
+    (
+        "probe_channel_zero_via_a_loop",
+        _program(
+            "def rule(u, w, x):",
+            "    total = 0.0",
+            "    for _ in range(3):",
+            "        total = total + u",
+            "    return total",
+        ),
+    ),
+    (
+        "probe_channel_zero_with_an_inert_second_channel",
+        _program("def rule(u, w, x):", "    return 3.0 * u + 0.0 * w"),
+    ),
+    (
+        "probe_reads_the_second_channel",
+        _program("def rule(u, w, x):", "    return u * (2.0 + w)"),
+    ),
+    (
+        "probe_reads_the_second_channel_via_a_root",
+        _program(
+            "import math",
+            "",
+            "def rule(u, w, x):",
+            "    return math.sqrt(u * u * (2.0 + w) * (2.0 + w))",
+        ),
+    ),
+    (
+        "probe_reads_the_third_channel",
+        _program("def rule(u, w, x):", "    return u * (2.0 + x)"),
+    ),
+    (
+        "probe_reads_every_channel",
+        _program("def rule(u, w, x):", "    return u * (2.0 + w) + 0.0009765625 * x"),
+    ),
+)
+
 #: Deliberately hostile programs, run to prove the sandbox classifies rather than crashes.
 HOSTILE_PROGRAMS: tuple[tuple[str, str], ...] = (
     (
@@ -2519,6 +2757,117 @@ def run_hostile_suite(budget: SandboxBudget | None = None) -> list[dict[str, Any
 # ---------------------------------------------------------------------------
 # 11. The run
 # ---------------------------------------------------------------------------
+
+
+def sealed_channel_table():
+    """The exact rational table the widened problem's float rows stand for.
+
+    The search lane runs on floats because it executes untrusted programs; the certificate
+    lane runs on exact rationals because a certificate may not contain a float.  Every declared
+    level is dyadic, so the two are the *same numbers*, and this function refuses rather than
+    reconciles if they ever stop being.
+    """
+
+    from .unlabelled_channel_mdl import declared_tables
+
+    table = declared_tables()["main"]
+    expected = tuple(tuple(format(float(item), ".17g") for item in row) for row in table.rows)
+    observed = tuple(tuple(format(item, ".17g") for item in row) for row in CHANNEL_POINTS)
+    if expected != observed:
+        raise FunSearchError("the search table and the certificate table disagree row for row")
+    sealed = tuple(format(item, ".17g") for item in _sealed_channel_targets(CHANNEL_POINTS))
+    certified = tuple(format(float(item), ".17g") for item in table.observations)
+    if sealed != certified:
+        raise FunSearchError("the search targets and the certificate observations disagree")
+    return table
+
+
+def channel_discovery_report(
+    problem: ProblemSpec,
+    records: Sequence[Mapping[str, Any]],
+    policy: Any = None,
+) -> dict[str, Any]:
+    """Ask, of a population the search actually produced, which channels are load bearing.
+
+    Every channel is interrogated, including the first: nothing here is told which column is
+    the interesting one, and an answer that named exactly one channel because it was only ever
+    asked about one channel would be worth nothing.  The verdicts come back in exact integer
+    arithmetic from :mod:`.unlabelled_channel_mdl`, against an obstruction floor that is a
+    property of the table rather than of the population.
+    """
+
+    from .unlabelled_channel_mdl import (
+        ADOPTED,
+        CERTIFIED,
+        DECLARED_POLICY,
+        ChannelMDLError,
+        adjudicate_programs,
+        channel_symbol,
+        exact_predictions_from_outputs,
+    )
+
+    if not problem.channel_points:
+        raise FunSearchError(f"{problem.problem_id} declares no channels to adjudicate")
+    table = sealed_channel_table()
+    executed: dict[str, tuple[str, tuple[Any, ...]]] = {}
+    skipped: list[str] = []
+    for record in records:
+        outputs = tuple(record.get("outputs") or ())
+        identifier = str(record.get("program_sha256", ""))[:16]
+        if len(outputs) != len(table.rows) or not identifier:
+            skipped.append(identifier or "unidentified")
+            continue
+        try:
+            predictions = exact_predictions_from_outputs(outputs)
+        except (ChannelMDLError, ArithmeticError, ValueError):
+            skipped.append(identifier)
+            continue
+        executed[identifier] = (str(record.get("source", "")), predictions)
+    if not executed:
+        return {
+            "adjudicated": False,
+            "reason": "no executed program answered every declared row",
+            "population": 0,
+            "skipped": len(skipped),
+        }
+    verdicts = []
+    for index in range(table.arity):
+        verdict = adjudicate_programs(table, executed, index, policy or DECLARED_POLICY)
+        if verdict["adoption"]["net_bits"] is None:
+            # One of the two families is empty, so there is nothing to compare.  That is a
+            # limit of the population in hand, not a finding about the channel, and it is
+            # reported as its own outcome rather than folded into a refusal.
+            verdict["channel_status"] = "UNDETERMINED"
+        elif (
+            verdict["obstruction"]["verdict"] == CERTIFIED
+            and verdict["adoption"]["verdict"] == ADOPTED
+        ):
+            verdict["channel_status"] = "LOAD_BEARING"
+        else:
+            verdict["channel_status"] = "NOT_LOAD_BEARING"
+        verdicts.append(verdict)
+
+    def _with(status: str) -> list[str]:
+        return [item["channel_symbol"] for item in verdicts if item["channel_status"] == status]
+
+    return {
+        "adjudicated": True,
+        "population": len(executed),
+        "skipped": len(skipped),
+        "table_id": table.table_id,
+        "table_sha256": table.content_sha256(),
+        "channels_interrogated": [channel_symbol(index) for index in range(table.arity)],
+        "load_bearing_channels": _with("LOAD_BEARING"),
+        "not_load_bearing_channels": _with("NOT_LOAD_BEARING"),
+        "undetermined_channels": _with("UNDETERMINED"),
+        "verdicts": verdicts,
+        "note": (
+            "adoption is a decision under the sealed price list; the obstruction floor is not, "
+            "and a channel is reported load bearing only when both agree. An UNDETERMINED "
+            "channel is one this population cannot answer for, because it holds no program on "
+            "one side of the comparison"
+        ),
+    }
 
 
 def run_loop(
@@ -2609,6 +2958,14 @@ def run_loop(
             (),
             True,
         ),
+        (
+            3,
+            "blinded_channel_response",
+            "blinded_channel_response",
+            CHANNEL_PROBE_PROGRAMS,
+            (),
+            False,
+        ),
     ]
     for salt, label, key, extras, founders, needs_corpus in order:
         if needs_corpus and corpus is None:
@@ -2624,6 +2981,10 @@ def run_loop(
             seeded_programs=founders,
         )
         block["run_label"] = label
+        if problem.channel_points:
+            block["channel_discovery"] = channel_discovery_report(
+                problem, block["sealed_programs"]
+            )
         blocks.append(block)
 
     # The control.  It searches nothing: it re-scores the anti-recall run's *entire* sealed
@@ -3025,7 +3386,42 @@ def validate_receipt(value: Mapping[str, Any]) -> None:
                 )
             if multiplier == 0.0 and final != 0.0:
                 raise FunSearchError("a zeroed candidate kept a nonzero score")
+        if "channel_discovery" in block:
+            _validate_channel_discovery(block["channel_discovery"])
     _validate_anti_recall_control(value)
+
+
+def _validate_channel_discovery(report: Mapping[str, Any]) -> None:
+    """A channel may be called load bearing only when it paid and only when it was forced."""
+
+    if not report.get("adjudicated"):
+        return
+    for verdict in report["verdicts"]:
+        adoption = verdict["adoption"]
+        obstruction = verdict["obstruction"]
+        status = verdict["channel_status"]
+        if status == "LOAD_BEARING":
+            if adoption["verdict"] != "ADOPTED" or obstruction["verdict"] != "CERTIFIED":
+                raise FunSearchError("a channel was called load bearing without both verdicts")
+            if adoption["net_bits"] < (
+                adoption["admission_bits"] + adoption["adoption_margin_bits"]
+            ):
+                raise FunSearchError("a load-bearing channel did not repay its declared price")
+            if (
+                obstruction["exhibited_data_bits_using_the_channel"]
+                >= obstruction["floor_data_bits"]
+            ):
+                raise FunSearchError("a load-bearing channel cleared no obstruction floor")
+        elif status not in ("NOT_LOAD_BEARING", "UNDETERMINED"):
+            raise FunSearchError(f"undeclared channel status: {status}")
+    reported = set(report["load_bearing_channels"])
+    measured = {
+        verdict["channel_symbol"]
+        for verdict in report["verdicts"]
+        if verdict["channel_status"] == "LOAD_BEARING"
+    }
+    if reported != measured:
+        raise FunSearchError("the channel headline disagrees with the per-channel verdicts")
 
 
 def _validate_anti_recall_control(value: Mapping[str, Any]) -> None:
