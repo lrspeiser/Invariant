@@ -146,6 +146,43 @@ The number is currently unmeasured and the module count suggests it is badly ske
 verification tier that costs more than the search it verifies is not rigour; it is a system
 protecting itself from the possibility of being interesting.
 
+## Tier 7 - Per-object decomposition and reconciliation
+
+**The idea.** Fit every galaxy and every cluster *independently*, with its own free
+parameters, and keep the whole population of local solutions rather than one global fit.
+Then run a second pass that searches for a single universal law able to reproduce that
+entire population with no per-object freedom left.
+
+**Why it is worth doing.** A global fit that fails tells you only that it failed. A
+population of per-object fits tells you *which parameter refused to stay constant, and by
+how much* - and that is a measurement, not a null. If a per-object parameter is constant
+within its uncertainty, the universal law is already in hand. If it varies, the variation
+is either tracked by something measurable, which is the discovery of a new dependence, or
+it is irreducible, which refutes the family far more sharply than a global INFEASIBLE.
+
+**The discipline this requires, stated first because it is the whole risk.** Pass 1 is a
+refit machine. Per-object knobs are exactly what the sealed SPARC trial forbade, and a
+population of per-object fits can absorb almost any data. So Tier 7 is *hypothesis
+generation only*. The exploration set and the confirmation set are split and sealed
+BEFORE pass 1 runs; passes 1 and 2 never touch the confirmation set; and the reconciled
+universal law is the hypothesis that then goes to a sealed no-refit trial under I5. A
+reconciliation result reported without that split is worthless and must not be published.
+
+| # | Goal | Test | Falsifier | Lane | Current |
+|---|---|---|---|---|---|
+| **R1** | **Per-object decomposition.** Every object is fitted independently and the whole population of solutions is kept, not just the best. | Fit each galaxy/cluster with its own parameters over the declared law space; seal the population as an exploratory receipt with the exploration/confirmation split recorded. | Any per-object fit that touched a confirmation-set object, or a population reported without its split. | GPU + CPU | Not built |
+| **R2** | **Parameter-variation diagnosis.** Report which per-object parameters are constant within uncertainty and which are not. | For each parameter, an exact interval per object; test whether a single value lies in every interval. A constant parameter means the universal law already exists. | Declaring a parameter constant when no single value lies in all intervals, or variable when one does. | CPU | Not built |
+| **R3** | **Channel discovery.** Ask whether the variation is tracked by a measured but *unlabelled* channel. | Give the reconciliation search extra unlabelled channels plus an MDL cost for using one. A channel earns its place only by beating every law that ignores it. | A channel declared explanatory without paying the MDL cost, or a named channel - naming it before it is measured leaks the concept. | GPU + CPU | Not built |
+| **R4** | **Reconciliation search.** Find one law that reproduces the entire population with zero per-object freedom. | Search the law space for a candidate whose per-object residuals are inside the intervals from R2, with no free parameter left per object. Report the best candidate AND the exact obstruction if none exists. | A reconciled law that quietly retains a per-object parameter, or a claimed reconciliation whose residuals are not checked against R2's intervals. | GPU + CPU | Not built |
+| **R5** | **Held-out confirmation.** The reconciled law is tried once, on objects that took no part in R1-R4. | A sealed no-refit evaluation on the confirmation set, PASS or REJECT, both publishable under I6. | Any tuning of the reconciled law after the confirmation set is opened. That spends the trial and voids the result. | CPU | Not built |
+
+**How this answers a question the global fit cannot.** The sealed SPARC run returned
+INFEASIBLE for all 12 candidates *and* for Newtonian baryons alone. That is two very
+different failures reported as one word. Under Tier 7 they separate: baryons-only would
+show a per-object parameter that varies wildly and tracks nothing, while a screened-gravity
+family would show a parameter that is nearly constant with a structured residual. The
+second is a lead. The first is a dead end. Today they are indistinguishable.
+
 ## How the tiers compose
 
 A discovery counts only when it has cleared every tier it touches:
