@@ -1,0 +1,1142 @@
+{
+  "ablation": {
+    "field": "selection_pressure",
+    "removed_paths": [
+      "example sampling weighted by final_score becomes uniform",
+      "island truncation by final_score becomes truncation by program_sha256",
+      "the periodic island reset that reseeds weak islands from strong is skipped"
+    ],
+    "unchanged": [
+      "the problem, its evaluator and its sealed answer",
+      "the sandbox and its budget",
+      "the proposer, its seed and its mutation grammar",
+      "scoring itself, which still runs and is still sealed"
+    ]
+  },
+  "arms": [
+    {
+      "arm": "selection_on",
+      "best_final_score": "0.652892249",
+      "fires_under_every_admissible_null": false,
+      "generations_observed": 60,
+      "null_calibration": [
+        {
+          "alpha": "1/20",
+          "false_positive_rate": "7/25",
+          "false_positive_rate_decimal_not_certificate": "0.280000000",
+          "fired": 28,
+          "null_id": "n1_generation_permutation",
+          "trials": 100
+        },
+        {
+          "alpha": "1/20",
+          "false_positive_rate": "7/100",
+          "false_positive_rate_decimal_not_certificate": "0.070000000",
+          "fired": 7,
+          "null_id": "n2_pole_randomisation",
+          "trials": 100
+        },
+        {
+          "alpha": "1/20",
+          "false_positive_rate": "0/1",
+          "false_positive_rate_decimal_not_certificate": "0.000000000",
+          "fired": 0,
+          "null_id": "n3_stratified_pole_randomisation",
+          "trials": 100
+        }
+      ],
+      "nulls": [
+        {
+          "admissible": false,
+          "alpha": "1/20",
+          "at_least_as_extreme": 0,
+          "draws": 999,
+          "fires": true,
+          "null_id": "n1_generation_permutation",
+          "p_value": "1/1000",
+          "p_value_decimal_not_certificate": "0.001000000",
+          "randomises": "which generations count as early and which as late, holding the axis fixed",
+          "statistic": "50683/910800",
+          "statistic_decimal_not_certificate": "0.055646684"
+        },
+        {
+          "admissible": true,
+          "alpha": "1/20",
+          "at_least_as_extreme": 121,
+          "draws": 998,
+          "fires": false,
+          "null_id": "n2_pole_randomisation",
+          "p_value": "122/999",
+          "p_value_decimal_not_certificate": "0.122122122",
+          "randomises": "the final_score labels over the mid-campaign pool, holding the windows fixed",
+          "statistic": "50683/910800",
+          "statistic_decimal_not_certificate": "0.055646684"
+        },
+        {
+          "admissible": true,
+          "alpha": "1/20",
+          "at_least_as_extreme": 962,
+          "draws": 999,
+          "fires": false,
+          "null_id": "n3_stratified_pole_randomisation",
+          "p_value": "963/1000",
+          "p_value_decimal_not_certificate": "0.963000000",
+          "randomises": "the final_score labels within each generation, so the drawn poles carry the observed poles' temporal profile",
+          "statistic": "50683/910800",
+          "statistic_decimal_not_certificate": "0.055646684"
+        }
+      ],
+      "poles": {
+        "drawn_from": "mid-campaign proposals, disjoint from both windows",
+        "elite_mean_final_score": "0.579196403",
+        "foil_mean_final_score": "0.000000000",
+        "pole_programs_each": 12,
+        "pool_programs": 197,
+        "separation_total_variation": "4/25"
+      },
+      "power": {
+        "control": "early-window programs replaced by foil-pole programs and late-window programs by elite-pole programs, count per generation; poles, axis and both null reference distributions unchanged",
+        "detection_floor_found": true,
+        "detection_floor_planted_per_generation": 5,
+        "ladder": [
+          {
+            "both_admissible_nulls_fire": false,
+            "p_n2": "122/999",
+            "p_n3": "963/1000",
+            "planted_per_generation": 0,
+            "statistic": "50683/910800"
+          },
+          {
+            "both_admissible_nulls_fire": false,
+            "p_n2": "2/37",
+            "p_n3": "457/500",
+            "planted_per_generation": 1,
+            "statistic": "807059/15008832"
+          },
+          {
+            "both_admissible_nulls_fire": false,
+            "p_n2": "31/999",
+            "p_n3": "649/1000",
+            "planted_per_generation": 2,
+            "statistic": "5791/109728"
+          },
+          {
+            "both_admissible_nulls_fire": false,
+            "p_n2": "10/999",
+            "p_n3": "81/250",
+            "planted_per_generation": 3,
+            "statistic": "63101/1281168"
+          },
+          {
+            "both_admissible_nulls_fire": false,
+            "p_n2": "4/999",
+            "p_n3": "77/1000",
+            "planted_per_generation": 4,
+            "statistic": "235331/5007600"
+          },
+          {
+            "both_admissible_nulls_fire": true,
+            "p_n2": "1/333",
+            "p_n3": "9/1000",
+            "planted_per_generation": 5,
+            "statistic": "22461/463232"
+          }
+        ],
+        "max_programs_per_generation": 5
+      },
+      "problem_id": "blinded_response_law",
+      "seed": 7,
+      "selection_pressure": true,
+      "statistic": "50683/910800",
+      "statistic_decimal_not_certificate": "0.055646684",
+      "window_end": {
+        "distribution": {
+          "attr:sqrt": "5/759",
+          "const:float": "141/759",
+          "name:math": "5/759",
+          "name:u": "231/759",
+          "node:Call": "5/759",
+          "node:Return": "50/759",
+          "op:Add": "202/759",
+          "op:Mult": "120/759"
+        },
+        "feature_tokens": 759,
+        "generations": [
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59
+        ],
+        "label": "campaign_end",
+        "programs_measured": 50,
+        "programs_without_declared_features": 0
+      },
+      "window_start": {
+        "distribution": {
+          "attr:sqrt": "5/175",
+          "const:float": "29/175",
+          "name:math": "5/175",
+          "name:u": "51/175",
+          "node:Call": "5/175",
+          "node:Return": "40/175",
+          "op:Add": "17/175",
+          "op:Mult": "23/175"
+        },
+        "feature_tokens": 175,
+        "generations": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "label": "campaign_start",
+        "programs_measured": 40,
+        "programs_without_declared_features": 0
+      }
+    },
+    {
+      "arm": "selection_off_ablation",
+      "best_final_score": "0.280146904",
+      "fires_under_every_admissible_null": false,
+      "generations_observed": 60,
+      "null_calibration": [
+        {
+          "alpha": "1/20",
+          "false_positive_rate": "8/25",
+          "false_positive_rate_decimal_not_certificate": "0.320000000",
+          "fired": 32,
+          "null_id": "n1_generation_permutation",
+          "trials": 100
+        },
+        {
+          "alpha": "1/20",
+          "false_positive_rate": "7/100",
+          "false_positive_rate_decimal_not_certificate": "0.070000000",
+          "fired": 7,
+          "null_id": "n2_pole_randomisation",
+          "trials": 100
+        },
+        {
+          "alpha": "1/20",
+          "false_positive_rate": "3/50",
+          "false_positive_rate_decimal_not_certificate": "0.060000000",
+          "fired": 6,
+          "null_id": "n3_stratified_pole_randomisation",
+          "trials": 100
+        }
+      ],
+      "nulls": [
+        {
+          "admissible": false,
+          "alpha": "1/20",
+          "at_least_as_extreme": 493,
+          "draws": 999,
+          "fires": false,
+          "null_id": "n1_generation_permutation",
+          "p_value": "247/500",
+          "p_value_decimal_not_certificate": "0.494000000",
+          "randomises": "which generations count as early and which as late, holding the axis fixed",
+          "statistic": "211/569140",
+          "statistic_decimal_not_certificate": "0.000370735"
+        },
+        {
+          "admissible": true,
+          "alpha": "1/20",
+          "at_least_as_extreme": 494,
+          "draws": 999,
+          "fires": false,
+          "null_id": "n2_pole_randomisation",
+          "p_value": "99/200",
+          "p_value_decimal_not_certificate": "0.495000000",
+          "randomises": "the final_score labels over the mid-campaign pool, holding the windows fixed",
+          "statistic": "211/569140",
+          "statistic_decimal_not_certificate": "0.000370735"
+        },
+        {
+          "admissible": true,
+          "alpha": "1/20",
+          "at_least_as_extreme": 73,
+          "draws": 999,
+          "fires": false,
+          "null_id": "n3_stratified_pole_randomisation",
+          "p_value": "37/500",
+          "p_value_decimal_not_certificate": "0.074000000",
+          "randomises": "the final_score labels within each generation, so the drawn poles carry the observed poles' temporal profile",
+          "statistic": "211/569140",
+          "statistic_decimal_not_certificate": "0.000370735"
+        }
+      ],
+      "poles": {
+        "drawn_from": "mid-campaign proposals, disjoint from both windows",
+        "elite_mean_final_score": "0.241323371",
+        "foil_mean_final_score": "0.000000000",
+        "pole_programs_each": 12,
+        "pool_programs": 186,
+        "separation_total_variation": "11/89"
+      },
+      "power": {
+        "control": "early-window programs replaced by foil-pole programs and late-window programs by elite-pole programs, count per generation; poles, axis and both null reference distributions unchanged",
+        "detection_floor_found": true,
+        "detection_floor_planted_per_generation": 5,
+        "ladder": [
+          {
+            "both_admissible_nulls_fire": false,
+            "p_n2": "99/200",
+            "p_n3": "37/500",
+            "planted_per_generation": 0,
+            "statistic": "211/569140"
+          },
+          {
+            "both_admissible_nulls_fire": false,
+            "p_n2": "93/200",
+            "p_n3": "63/1000",
+            "planted_per_generation": 1,
+            "statistic": "348761/145247388"
+          },
+          {
+            "both_admissible_nulls_fire": false,
+            "p_n2": "27/100",
+            "p_n3": "7/125",
+            "planted_per_generation": 2,
+            "statistic": "307421/39680784"
+          },
+          {
+            "both_admissible_nulls_fire": false,
+            "p_n2": "77/1000",
+            "p_n3": "2/25",
+            "planted_per_generation": 3,
+            "statistic": "193649/14811108"
+          },
+          {
+            "both_admissible_nulls_fire": false,
+            "p_n2": "3/100",
+            "p_n3": "47/500",
+            "planted_per_generation": 4,
+            "statistic": "126395/5266404"
+          },
+          {
+            "both_admissible_nulls_fire": true,
+            "p_n2": "1/500",
+            "p_n3": "9/1000",
+            "planted_per_generation": 5,
+            "statistic": "53699/1534104"
+          }
+        ],
+        "max_programs_per_generation": 5
+      },
+      "problem_id": "blinded_response_law",
+      "seed": 7,
+      "selection_pressure": false,
+      "statistic": "211/569140",
+      "statistic_decimal_not_certificate": "0.000370735",
+      "window_end": {
+        "distribution": {
+          "attr:sqrt": "14/398",
+          "const:float": "80/398",
+          "name:math": "15/398",
+          "name:u": "97/398",
+          "node:Call": "24/398",
+          "node:Return": "48/398",
+          "op:Add": "51/398",
+          "op:Mult": "69/398"
+        },
+        "feature_tokens": 398,
+        "generations": [
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59
+        ],
+        "label": "campaign_end",
+        "programs_measured": 48,
+        "programs_without_declared_features": 0
+      },
+      "window_start": {
+        "distribution": {
+          "attr:sqrt": "8/190",
+          "const:float": "25/190",
+          "name:math": "8/190",
+          "name:u": "58/190",
+          "node:Call": "10/190",
+          "node:Return": "40/190",
+          "op:Add": "10/190",
+          "op:Mult": "31/190"
+        },
+        "feature_tokens": 190,
+        "generations": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "label": "campaign_start",
+        "programs_measured": 40,
+        "programs_without_declared_features": 0
+      }
+    }
+  ],
+  "claims": {
+    "a_negative_is_reported_only_with_a_measured_detection_floor": true,
+    "a_shift_under_the_ablation_would_void_the_result": true,
+    "an_open_score_channel_is_not_the_same_as_learning": true,
+    "distribution_distance_is_exact_rational_arithmetic": true,
+    "generation_permutation_alone_can_support_a_positive_verdict": false,
+    "null_false_positive_rates_are_measured_not_assumed": true,
+    "proposal_distribution_is_measured_not_modelled": true
+  },
+  "config": {
+    "alpha": "1/20",
+    "calibration_draws": 199,
+    "calibration_trials": 100,
+    "draws": 999,
+    "feature_alphabet_sha256": "697aaa92d1a4f917ae681bfcba74c45f1a3da05ef00d67342d1ef86562c79289",
+    "feature_alphabet_size": 68,
+    "generations": 60,
+    "islands": 4,
+    "null_seed": 20260819,
+    "pole_size": 12,
+    "problem_id": "blinded_response_law",
+    "proposals_per_call": 5,
+    "sandbox_wall_seconds": "4.000",
+    "seed": 7,
+    "sweep_seeds": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12
+    ],
+    "window_generations_each_end": 10
+  },
+  "config_sha256": "41c6a91ab1aa9be4566312e6c4f2577fbd112fd9018fc97245d39e2829743111",
+  "content_sha256": "46cdedec412ef7ada79ddd7a10044a151a655922cfb939e0ba8df43e972984b0",
+  "finding": "The v1 generation-permutation null is anti-conservative and is demoted to inadmissible. Under the two pole-randomised nulls the shift the v1 receipt reported is not established. A campaign where the instrument is separately shown able to see a planted score-aligned shift and does not see one is a real negative; a campaign where it is not is reported as an uninformative null and not as a negative.",
+  "headline": {
+    "ablation_best_final_score": "0.280146904",
+    "ablation_detection_floor": 5,
+    "ablation_p_n1_inadmissible": "247/500",
+    "ablation_p_n2": "99/200",
+    "ablation_p_n3": "37/500",
+    "ablation_statistic": "211/569140",
+    "selection_on_best_final_score": "0.652892249",
+    "selection_on_detection_floor": 5,
+    "selection_on_p_n1_inadmissible": "1/1000",
+    "selection_on_p_n2": "122/999",
+    "selection_on_p_n3": "963/1000",
+    "selection_on_statistic": "50683/910800",
+    "sweep_campaigns_with_a_detection_floor_selection_on": "5/12",
+    "sweep_n1_fires_selection_on_inadmissible": "6/12",
+    "sweep_n2_fires_ablated": "0/12",
+    "sweep_n2_fires_selection_on": "1/12",
+    "sweep_n3_fires_ablated": "0/12",
+    "sweep_n3_fires_selection_on": "0/12",
+    "sweep_verdict_counts": {
+      "learned": 0,
+      "no_measurable_shift": 5,
+      "statistic_is_measuring_drift": 0,
+      "uninformative_null": 7
+    },
+    "verdict": "no_measurable_shift"
+  },
+  "lane": "funsearch-learning-measurement",
+  "schema_version": "invariant-funsearch-learning-measurement-2.0",
+  "scope": "Two campaigns of the declared FunSearch loop that differ in exactly one field: whether final_score is allowed to reach the proposer. For each, the drift of the pooled feature-count distribution from the first window of generations to the last is projected onto the axis separating the top-scoring from the bottom-scoring pole of the mid-campaign population, and that projection is tested against three nulls: a permutation of generations (inadmissible, retained only because it is the null the first version of this measurement shipped with), a permutation of the score labels over the mid-campaign pool, and the same permutation stratified so each drawn pole matches the real pole's per-generation composition. A positive verdict requires the live arm to clear both admissible nulls and the ablated arm to clear none. It would be a statement about this loop, this proposer, this problem and this seed; it is not a claim that the programs found are correct, novel, or good.",
+  "seed_sweep": {
+    "campaigns": 24,
+    "rows": [
+      {
+        "arm": "selection_on",
+        "detection_floor_planted_per_generation": 4,
+        "fires": {
+          "n1": true,
+          "n2": false,
+          "n3": false
+        },
+        "null_false_positive_rates": {
+          "n1": "37/100",
+          "n2": "7/100",
+          "n3": "1/20"
+        },
+        "p_values": {
+          "n1": "1/1000",
+          "n2": "73/250",
+          "n3": "481/500"
+        },
+        "power_qualified": true,
+        "problem_id": "blinded_response_law",
+        "seed": 1,
+        "selection_pressure": true,
+        "statistic": "4991561/112238256"
+      },
+      {
+        "arm": "selection_off_ablation",
+        "detection_floor_planted_per_generation": 5,
+        "fires": {
+          "n1": false,
+          "n2": false,
+          "n3": false
+        },
+        "null_false_positive_rates": {
+          "n1": "1/5",
+          "n2": "0/1",
+          "n3": "1/25"
+        },
+        "p_values": {
+          "n1": "79/500",
+          "n2": "381/1000",
+          "n3": "33/250"
+        },
+        "power_qualified": true,
+        "problem_id": "blinded_response_law",
+        "seed": 1,
+        "selection_pressure": false,
+        "statistic": "13349/875710"
+      },
+      {
+        "arm": "selection_on",
+        "detection_floor_planted_per_generation": 3,
+        "fires": {
+          "n1": false,
+          "n2": false,
+          "n3": false
+        },
+        "null_false_positive_rates": {
+          "n1": "2/5",
+          "n2": "1/50",
+          "n3": "7/100"
+        },
+        "p_values": {
+          "n1": "99/1000",
+          "n2": "449/1000",
+          "n3": "181/500"
+        },
+        "power_qualified": true,
+        "problem_id": "blinded_response_law",
+        "seed": 2,
+        "selection_pressure": true,
+        "statistic": "222433/12938120"
+      },
+      {
+        "arm": "selection_off_ablation",
+        "detection_floor_planted_per_generation": null,
+        "fires": {
+          "n1": false,
+          "n2": false,
+          "n3": false
+        },
+        "null_false_positive_rates": {
+          "n1": "3/20",
+          "n2": "3/50",
+          "n3": "1/20"
+        },
+        "p_values": {
+          "n1": "129/500",
+          "n2": "33/100",
+          "n3": "47/100"
+        },
+        "power_qualified": false,
+        "problem_id": "blinded_response_law",
+        "seed": 2,
+        "selection_pressure": false,
+        "statistic": "320/24863"
+      },
+      {
+        "arm": "selection_on",
+        "detection_floor_planted_per_generation": null,
+        "fires": {
+          "n1": false,
+          "n2": false,
+          "n3": false
+        },
+        "null_false_positive_rates": {
+          "n1": "13/50",
+          "n2": "1/20",
+          "n3": "3/50"
+        },
+        "p_values": {
+          "n1": "54/125",
+          "n2": "47/100",
+          "n3": "357/1000"
+        },
+        "power_qualified": false,
+        "problem_id": "blinded_response_law",
+        "seed": 3,
+        "selection_pressure": true,
+        "statistic": "21389/6917295"
+      },
+      {
+        "arm": "selection_off_ablation",
+        "detection_floor_planted_per_generation": 5,
+        "fires": {
+          "n1": false,
+          "n2": false,
+          "n3": false
+        },
+        "null_false_positive_rates": {
+          "n1": "23/100",
+          "n2": "1/20",
+          "n3": "1/25"
+        },
+        "p_values": {
+          "n1": "123/125",
+          "n2": "833/1000",
+          "n3": "821/1000"
+        },
+        "power_qualified": true,
+        "problem_id": "blinded_response_law",
+        "seed": 3,
+        "selection_pressure": false,
+        "statistic": "-5667/177074"
+      },
+      {
+        "arm": "selection_on",
+        "detection_floor_planted_per_generation": null,
+        "fires": {
+          "n1": false,
+          "n2": false,
+          "n3": false
+        },
+        "null_false_positive_rates": {
+          "n1": "1/4",
+          "n2": "3/25",
+          "n3": "3/100"
+        },
+        "p_values": {
+          "n1": "217/1000",
+          "n2": "3/10",
+          "n3": "27/200"
+        },
+        "power_qualified": false,
+        "problem_id": "blinded_response_law",
+        "seed": 4,
+        "selection_pressure": true,
+        "statistic": "18575/862544"
+      },
+      {
+        "arm": "selection_off_ablation",
+        "detection_floor_planted_per_generation": 3,
+        "fires": {
+          "n1": false,
+          "n2": false,
+          "n3": false
+        },
+        "null_false_positive_rates": {
+          "n1": "9/100",
+          "n2": "7/100",
+          "n3": "3/100"
+        },
+        "p_values": {
+          "n1": "67/125",
+          "n2": "484/999",
+          "n3": "9/50"
+        },
+        "power_qualified": true,
+        "problem_id": "blinded_response_law",
+        "seed": 4,
+        "selection_pressure": false,
+        "statistic": "-14941/12343806"
+      },
+      {
+        "arm": "selection_on",
+        "detection_floor_planted_per_generation": 5,
+        "fires": {
+          "n1": true,
+          "n2": false,
+          "n3": false
+        },
+        "null_false_positive_rates": {
+          "n1": "1/4",
+          "n2": "2/25",
+          "n3": "7/100"
+        },
+        "p_values": {
+          "n1": "11/1000",
+          "n2": "81/500",
+          "n3": "187/250"
+        },
+        "power_qualified": true,
+        "problem_id": "blinded_response_law",
+        "seed": 5,
+        "selection_pressure": true,
+        "statistic": "9533/282532"
+      },
+      {
+        "arm": "selection_off_ablation",
+        "detection_floor_planted_per_generation": null,
+        "fires": {
+          "n1": false,
+          "n2": false,
+          "n3": false
+        },
+        "null_false_positive_rates": {
+          "n1": "3/20",
+          "n2": "3/100",
+          "n3": "1/20"
+        },
+        "p_values": {
+          "n1": "49/200",
+          "n2": "95/333",
+          "n3": "69/125"
+        },
+        "power_qualified": false,
+        "problem_id": "blinded_response_law",
+        "seed": 5,
+        "selection_pressure": false,
+        "statistic": "568699/35325430"
+      },
+      {
+        "arm": "selection_on",
+        "detection_floor_planted_per_generation": null,
+        "fires": {
+          "n1": true,
+          "n2": false,
+          "n3": false
+        },
+        "null_false_positive_rates": {
+          "n1": "51/100",
+          "n2": "1/20",
+          "n3": "1/25"
+        },
+        "p_values": {
+          "n1": "1/1000",
+          "n2": "33/250",
+          "n3": "411/500"
+        },
+        "power_qualified": false,
+        "problem_id": "blinded_response_law",
+        "seed": 6,
+        "selection_pressure": true,
+        "statistic": "3251486/68191665"
+      },
+      {
+        "arm": "selection_off_ablation",
+        "detection_floor_planted_per_generation": 4,
+        "fires": {
+          "n1": false,
+          "n2": false,
+          "n3": false
+        },
+        "null_false_positive_rates": {
+          "n1": "9/50",
+          "n2": "1/20",
+          "n3": "1/20"
+        },
+        "p_values": {
+          "n1": "651/1000",
+          "n2": "13/20",
+          "n3": "687/1000"
+        },
+        "power_qualified": true,
+        "problem_id": "blinded_response_law",
+        "seed": 6,
+        "selection_pressure": false,
+        "statistic": "-46277/4936032"
+      },
+      {
+        "arm": "selection_on",
+        "detection_floor_planted_per_generation": 5,
+        "fires": {
+          "n1": true,
+          "n2": false,
+          "n3": false
+        },
+        "null_false_positive_rates": {
+          "n1": "7/25",
+          "n2": "7/100",
+          "n3": "0/1"
+        },
+        "p_values": {
+          "n1": "1/1000",
+          "n2": "122/999",
+          "n3": "963/1000"
+        },
+        "power_qualified": true,
+        "problem_id": "blinded_response_law",
+        "seed": 7,
+        "selection_pressure": true,
+        "statistic": "50683/910800"
+      },
+      {
+        "arm": "selection_off_ablation",
+        "detection_floor_planted_per_generation": 5,
+        "fires": {
+          "n1": false,
+          "n2": false,
+          "n3": false
+        },
+        "null_false_positive_rates": {
+          "n1": "8/25",
+          "n2": "7/100",
+          "n3": "3/50"
+        },
+        "p_values": {
+          "n1": "247/500",
+          "n2": "99/200",
+          "n3": "37/500"
+        },
+        "power_qualified": true,
+        "problem_id": "blinded_response_law",
+        "seed": 7,
+        "selection_pressure": false,
+        "statistic": "211/569140"
+      },
+      {
+        "arm": "selection_on",
+        "detection_floor_planted_per_generation": null,
+        "fires": {
+          "n1": true,
+          "n2": true,
+          "n3": false
+        },
+        "null_false_positive_rates": {
+          "n1": "29/100",
+          "n2": "3/100",
+          "n3": "1/25"
+        },
+        "p_values": {
+          "n1": "1/1000",
+          "n2": "11/1000",
+          "n3": "323/1000"
+        },
+        "power_qualified": false,
+        "problem_id": "blinded_response_law",
+        "seed": 8,
+        "selection_pressure": true,
+        "statistic": "3892117/47404544"
+      },
+      {
+        "arm": "selection_off_ablation",
+        "detection_floor_planted_per_generation": null,
+        "fires": {
+          "n1": false,
+          "n2": false,
+          "n3": false
+        },
+        "null_false_positive_rates": {
+          "n1": "2/25",
+          "n2": "3/100",
+          "n3": "0/1"
+        },
+        "p_values": {
+          "n1": "879/1000",
+          "n2": "843/1000",
+          "n3": "569/1000"
+        },
+        "power_qualified": false,
+        "problem_id": "blinded_response_law",
+        "seed": 8,
+        "selection_pressure": false,
+        "statistic": "-619143/24892114"
+      },
+      {
+        "arm": "selection_on",
+        "detection_floor_planted_per_generation": null,
+        "fires": {
+          "n1": false,
+          "n2": false,
+          "n3": false
+        },
+        "null_false_positive_rates": {
+          "n1": "7/25",
+          "n2": "1/20",
+          "n3": "3/50"
+        },
+        "p_values": {
+          "n1": "413/1000",
+          "n2": "233/500",
+          "n3": "909/1000"
+        },
+        "power_qualified": false,
+        "problem_id": "blinded_response_law",
+        "seed": 9,
+        "selection_pressure": true,
+        "statistic": "410377/91564200"
+      },
+      {
+        "arm": "selection_off_ablation",
+        "detection_floor_planted_per_generation": 3,
+        "fires": {
+          "n1": false,
+          "n2": false,
+          "n3": false
+        },
+        "null_false_positive_rates": {
+          "n1": "13/100",
+          "n2": "1/25",
+          "n3": "7/100"
+        },
+        "p_values": {
+          "n1": "93/250",
+          "n2": "239/500",
+          "n3": "343/500"
+        },
+        "power_qualified": true,
+        "problem_id": "blinded_response_law",
+        "seed": 9,
+        "selection_pressure": false,
+        "statistic": "124433/32658912"
+      },
+      {
+        "arm": "selection_on",
+        "detection_floor_planted_per_generation": 4,
+        "fires": {
+          "n1": false,
+          "n2": false,
+          "n3": false
+        },
+        "null_false_positive_rates": {
+          "n1": "17/100",
+          "n2": "1/50",
+          "n3": "11/100"
+        },
+        "p_values": {
+          "n1": "9/10",
+          "n2": "604/999",
+          "n3": "101/125"
+        },
+        "power_qualified": true,
+        "problem_id": "blinded_response_law",
+        "seed": 10,
+        "selection_pressure": true,
+        "statistic": "-186115/17504832"
+      },
+      {
+        "arm": "selection_off_ablation",
+        "detection_floor_planted_per_generation": null,
+        "fires": {
+          "n1": false,
+          "n2": false,
+          "n3": false
+        },
+        "null_false_positive_rates": {
+          "n1": "7/50",
+          "n2": "1/25",
+          "n3": "1/50"
+        },
+        "p_values": {
+          "n1": "122/125",
+          "n2": "47/50",
+          "n3": "393/500"
+        },
+        "power_qualified": false,
+        "problem_id": "blinded_response_law",
+        "seed": 10,
+        "selection_pressure": false,
+        "statistic": "-51017/727272"
+      },
+      {
+        "arm": "selection_on",
+        "detection_floor_planted_per_generation": null,
+        "fires": {
+          "n1": true,
+          "n2": false,
+          "n3": false
+        },
+        "null_false_positive_rates": {
+          "n1": "21/100",
+          "n2": "1/20",
+          "n3": "3/50"
+        },
+        "p_values": {
+          "n1": "23/500",
+          "n2": "103/1000",
+          "n3": "687/1000"
+        },
+        "power_qualified": false,
+        "problem_id": "blinded_response_law",
+        "seed": 11,
+        "selection_pressure": true,
+        "statistic": "2002057/46710379"
+      },
+      {
+        "arm": "selection_off_ablation",
+        "detection_floor_planted_per_generation": null,
+        "fires": {
+          "n1": false,
+          "n2": false,
+          "n3": false
+        },
+        "null_false_positive_rates": {
+          "n1": "7/25",
+          "n2": "1/50",
+          "n3": "3/100"
+        },
+        "p_values": {
+          "n1": "1/1",
+          "n2": "47/50",
+          "n3": "679/999"
+        },
+        "power_qualified": false,
+        "problem_id": "blinded_response_law",
+        "seed": 11,
+        "selection_pressure": false,
+        "statistic": "-3485/50268"
+      },
+      {
+        "arm": "selection_on",
+        "detection_floor_planted_per_generation": null,
+        "fires": {
+          "n1": false,
+          "n2": false,
+          "n3": false
+        },
+        "null_false_positive_rates": {
+          "n1": "9/25",
+          "n2": "3/100",
+          "n3": "3/50"
+        },
+        "p_values": {
+          "n1": "153/1000",
+          "n2": "443/1000",
+          "n3": "707/1000"
+        },
+        "power_qualified": false,
+        "problem_id": "blinded_response_law",
+        "seed": 12,
+        "selection_pressure": true,
+        "statistic": "73453/5208896"
+      },
+      {
+        "arm": "selection_off_ablation",
+        "detection_floor_planted_per_generation": null,
+        "fires": {
+          "n1": false,
+          "n2": false,
+          "n3": false
+        },
+        "null_false_positive_rates": {
+          "n1": "17/50",
+          "n2": "1/20",
+          "n3": "3/100"
+        },
+        "p_values": {
+          "n1": "891/1000",
+          "n2": "361/500",
+          "n3": "89/100"
+        },
+        "power_qualified": false,
+        "problem_id": "blinded_response_law",
+        "seed": 12,
+        "selection_pressure": false,
+        "statistic": "-507736/18708655"
+      }
+    ],
+    "totals": {
+      "selection_off_ablation": {
+        "campaigns": 12,
+        "n1": 0,
+        "n2": 0,
+        "n3": 0,
+        "power_qualified": 6
+      },
+      "selection_on": {
+        "campaigns": 12,
+        "n1": 6,
+        "n2": 1,
+        "n3": 0,
+        "power_qualified": 5
+      }
+    },
+    "verdict_counts": {
+      "learned": 0,
+      "no_measurable_shift": 5,
+      "statistic_is_measuring_drift": 0,
+      "uninformative_null": 7
+    },
+    "verdicts": [
+      {
+        "seed": 1,
+        "verdict": "no_measurable_shift"
+      },
+      {
+        "seed": 2,
+        "verdict": "no_measurable_shift"
+      },
+      {
+        "seed": 3,
+        "verdict": "uninformative_null"
+      },
+      {
+        "seed": 4,
+        "verdict": "uninformative_null"
+      },
+      {
+        "seed": 5,
+        "verdict": "no_measurable_shift"
+      },
+      {
+        "seed": 6,
+        "verdict": "uninformative_null"
+      },
+      {
+        "seed": 7,
+        "verdict": "no_measurable_shift"
+      },
+      {
+        "seed": 8,
+        "verdict": "uninformative_null"
+      },
+      {
+        "seed": 9,
+        "verdict": "uninformative_null"
+      },
+      {
+        "seed": 10,
+        "verdict": "no_measurable_shift"
+      },
+      {
+        "seed": 11,
+        "verdict": "uninformative_null"
+      },
+      {
+        "seed": 12,
+        "verdict": "uninformative_null"
+      }
+    ]
+  },
+  "statistic": {
+    "bound": "|T| <= max_s |p(end)_s - p(start)_s| <= 1",
+    "definition": "T = <p(end) - p(start), p(elite) - p(foil)> / ||p(elite) - p(foil)||_1",
+    "evaluated_as": "sum_s d_s a_s / (S*E*sum_s |a_s|) with d_s = end_s*S - start_s*E and a_s = elite_s*Q - foil_s*P",
+    "float_on_certificate_path": false,
+    "name": "normalised projection of proposal drift onto the score axis"
+  },
+  "supersedes": {
+    "reason": "its only null permuted generations while holding the score axis fixed, so it tested whether the proposal distribution drifted and never put the score axis at risk; that null is retained here as n1 and marked inadmissible, and its measured false-positive rate on a score-blind axis is sealed in every arm's null_calibration block",
+    "receipt": "runs/math/funsearch/learning-v1.json",
+    "schema_version": "invariant-funsearch-learning-measurement-1.0"
+  },
+  "verdict": "no_measurable_shift",
+  "verdict_rule": "learned requires a positive statistic clearing every admissible null on the selection_on arm and no admissible null firing on the ablated arm; the n1_generation_permutation null is inadmissible and cannot support a positive verdict; a live arm that clears no admissible null and has no detection floor is uninformative_null, not no_measurable_shift"
+}

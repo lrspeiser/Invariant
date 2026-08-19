@@ -2047,6 +2047,25 @@ def _sample_examples(
     return chosen
 
 
+def _sample_examples_blind(
+    island: Sequence[ScoredProgram], count: int, rng: random.Random
+) -> list[ScoredProgram]:
+    """The ablation of :func:`_sample_examples`: uniform, with ``final_score`` never read.
+
+    It draws the same number of examples from the same island by the same RNG protocol.  The
+    single difference is that the weights are gone, which is what makes the pair a one-field
+    ablation rather than two different algorithms.
+    """
+
+    if not island:
+        return []
+    pool = list(island)
+    chosen: list[ScoredProgram] = []
+    for _ in range(min(count, len(pool))):
+        chosen.append(pool.pop(rng.randrange(len(pool))))
+    return chosen
+
+
 def run_problem(
     problem: ProblemSpec,
     config: LoopConfig,
@@ -2056,6 +2075,8 @@ def run_problem(
     corpus: Any = None,
     extra_programs: Sequence[tuple[str, str]] = (),
     seeded_programs: Sequence[tuple[str, str]] = (),
+    selection_pressure: bool = True,
+    observer: Callable[[Mapping[str, Any]], None] | None = None,
 ) -> dict[str, Any]:
     """One problem, start to finish.  Returns the problem's block of the receipt.
 
@@ -2064,6 +2085,21 @@ def run_problem(
     perfect-quality reproduction sitting in the population with a zero multiplier is almost
     never drawn as an example, while the same program under an empty grammar dominates the
     sampling.  ``extra_programs`` are scored after the search and never influence it.
+
+    ``selection_pressure=False`` is the ablation the learning measurement is controlled
+    against.  It removes every path by which ``final_score`` can reach the proposer, and
+    nothing else:
+
+    * example sampling becomes uniform over the island instead of softmax over final_score,
+    * island truncation orders by ``program_sha256`` instead of by ``-final_score``,
+    * the periodic island reset -- which reseeds weak islands from strong ones -- is skipped.
+
+    Scoring still happens and is still sealed; it simply stops steering.  A statistic that
+    reports a shift in the proposal distribution under this ablation is measuring drift, not
+    learning, so the ablated arm is the falsifier for the statistic itself.
+
+    ``observer`` is a read-only tap.  It is handed one mapping per generation carrying that
+    generation's proposals, and cannot influence the loop.
     """
 
     rng = random.Random(config.seed ^ _stable_hash(problem.problem_id))
@@ -2096,8 +2132,10 @@ def run_problem(
         if not governor.may_call():
             halt_reason = governor.halt_reason
             break
-        examples = _sample_examples(
-            islands[index], config.examples_per_prompt, config.temperature, rng
+        examples = (
+            _sample_examples(islands[index], config.examples_per_prompt, config.temperature, rng)
+            if selection_pressure
+            else _sample_examples_blind(islands[index], config.examples_per_prompt, rng)
         )
         example_slots += len(examples)
         for item in examples:
@@ -2153,10 +2191,24 @@ def run_problem(
                 incidents.append(
                     {"program_sha256": scored.program_sha256, **scored.sandbox.classification()}
                 )
+        merged = {item.program_sha256: item for item in [*islands[index], *produced]}.values()
         islands[index] = sorted(
-            {item.program_sha256: item for item in [*islands[index], *produced]}.values(),
-            key=lambda item: (-item.final_score, item.program_sha256),
+            merged,
+            key=(
+                (lambda item: (-item.final_score, item.program_sha256))
+                if selection_pressure
+                else (lambda item: item.program_sha256)
+            ),
         )[: config.island_capacity]
+        if observer is not None:
+            observer(
+                {
+                    "generation": generation,
+                    "island": index,
+                    "examples": tuple(examples),
+                    "proposed": tuple(produced),
+                }
+            )
         history.append(
             {
                 "generation": generation,
@@ -2171,7 +2223,7 @@ def run_problem(
                 ),
             }
         )
-        if config.reset_period and (generation + 1) % config.reset_period == 0:
+        if selection_pressure and config.reset_period and (generation + 1) % config.reset_period == 0:
             islands = _reset_islands(islands, rng)
 
     for label, source in extra_programs:
