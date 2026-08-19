@@ -1,6 +1,22 @@
 # First-principles discovery goals
 
-The forward-looking falsification spec for the Invariant engine, written 2026-08-18.
+The forward-looking spec for the Invariant engine, written 2026-08-18, reordered 2026-08-19.
+
+**The primary goal is to find a creative new law that fits the data.** Everything else in this
+document is subordinate to that, including every guard in it. The engine currently has roughly
+132 gate, audit and control modules against 26 search and generator modules, and not one novel
+result. That ratio is the problem, and a spec that leads with its guards makes it worse.
+
+So read the tiers in this order: **Tier 2 (derivation), Tier 6 (construction), Tier 7
+(reconciliation) are the work.** Tier 1 is the substrate they run on. Tiers 0 and 3 are what
+make a result checkable *once you have one* -- they are not a gate on attempting anything, and
+no work should be scheduled on them that is not unblocking a search.
+
+One guard is worth keeping cheaply and continuously: a held-out split. Fit on most objects, keep
+a few back. Not to protect an announcement -- so that when something fits you can tell within a
+day whether it means anything. The sealed-trial opening protocol (I5, U3) is publication
+infrastructure and is explicitly OFF the critical path until there is a candidate worth
+spending it on.
 
 `GOALS_AND_MEASURED_OUTCOMES.md` is retrospective: it records what has been measured.
 This document is prospective: it states what the engine **claims it can do**, the
@@ -25,9 +41,10 @@ itself. A result accepted by only one lane is an artifact, not a discovery.
 
 ## Tier 0 — Discipline invariants
 
-These are not achievements. They are the conditions under which any achievement below
-counts for anything. Each is continuously tested; a failure here invalidates results
-downstream of it, retroactively.
+These are not achievements and they are not a gate on attempting anything. They are what
+makes a result checkable once you have one. Keep them cheap and continuous; never schedule a
+sprint on them. If an invariant is costing more than the search it protects, it is
+mis-scoped -- fix the scope, not the search.
 
 | # | Invariant | Test | Falsifier | Lane | Current |
 |---|---|---|---|---|---|
@@ -160,13 +177,12 @@ within its uncertainty, the universal law is already in hand. If it varies, the 
 is either tracked by something measurable, which is the discovery of a new dependence, or
 it is irreducible, which refutes the family far more sharply than a global INFEASIBLE.
 
-**The discipline this requires, stated first because it is the whole risk.** Pass 1 is a
-refit machine. Per-object knobs are exactly what the sealed SPARC trial forbade, and a
-population of per-object fits can absorb almost any data. So Tier 7 is *hypothesis
-generation only*. The exploration set and the confirmation set are split and sealed
-BEFORE pass 1 runs; passes 1 and 2 never touch the confirmation set; and the reconciled
-universal law is the hypothesis that then goes to a sealed no-refit trial under I5. A
-reconciliation result reported without that split is worthless and must not be published.
+**Refit freely.** Per-object knobs are the point of pass 1; a population of per-object fits
+is the measurement. The only bookkeeping required is a held-out split declared before pass 1 --
+fit on most objects, keep a few back -- so a reconciled law can be checked cheaply against
+objects it never saw. That is one line of record-keeping, not a ceremony. Formal sealed-trial
+machinery applies only if and when a reconciled law is good enough to publish, and must never
+be a reason to delay running pass 1.
 
 | # | Goal | Test | Falsifier | Lane | Current |
 |---|---|---|---|---|---|

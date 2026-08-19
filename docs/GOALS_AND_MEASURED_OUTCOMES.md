@@ -100,6 +100,15 @@ Forward-looking claims, tests, and falsifiers for this section live in
 
 ## Current priority order
 
+0. **Find a creative new law that fits the data.** This outranks every other item here.
+   The engine has ~132 gate/audit/control modules against ~26 generative ones and zero
+   novel results; the binding constraint is proposal quality, not verification rigour.
+   Concretely: restore the LLM proposer (currently dead -- OAuth expired, so every recent
+   run fell back to a ten-token deterministic mutator), widen the search signature beyond
+   one scalar, put a gradient on every gate that returns BLOCK, and upgrade the FunSearch
+   loop toward AlphaEvolve (diff-based edits over whole modules, a MAP-Elites archive, an
+   evaluation cascade). Guard work is scheduled only when it unblocks a search.
+
 1. Preserve the 39/39 release baseline on every integrated change; never trade a
    scientific increment for an unverified release head.
 2. Register the remaining 150 coordinate-free recurrence packets (45 higher K55,
@@ -110,9 +119,10 @@ Forward-looking claims, tests, and falsifiers for this section live in
 4. Materialize the 132 sealed gravity/scalar A/W roots into coordinate arithmetic,
    close the remaining 11/85 RHS rows, and use the exact 4/4 `div Q` rows to pursue
    sourced constraint propagation before widening the cylindrical domain.
-5. Complete one authorized, sealed, no-refit Solar observation trial. Until the four
-   opening commitments exist for each candidate, the correct result remains BLOCK
-   with zero target reads.
+5. Sealed no-refit Solar trial: OFF the critical path. It is publication infrastructure,
+   not search infrastructure, and has produced zero target reads since it was registered.
+   Keep a cheap held-out split during exploration instead, and revisit the formal protocol
+   only when a candidate is good enough to be worth spending it on.
 6. Extend exact D2F coverage beyond 5,324/257,499 entries per candidate, with every new
    block carrying replayable leaf/root provenance.
 7. Let the currently running two-logical-host campaign reach its honest >=6-hour
