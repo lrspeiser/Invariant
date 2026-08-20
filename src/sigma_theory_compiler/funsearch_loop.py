@@ -1955,19 +1955,31 @@ class SpendGovernor:
             raise FunSearchError("spend governor caps must be positive")
         self.opening_hundredths = read_ledger(self.ledger_path)
 
-    def may_call(self) -> bool:
+    def may_call(self, units: int = 1) -> bool:
+        """Would a call costing ``units`` of the base charge still fit under both caps?
+
+        ``units`` exists because an ensemble prices its models differently: one call to a
+        cheap model and one call to an expensive one are both one call, and charging them the
+        same would make "did the expensive model earn its cost" unanswerable.  The default of
+        1 is the single-model behaviour, unchanged, and the caps themselves are untouched.
+        """
+
+        if units < 1:
+            raise FunSearchError("a proposal call must cost at least one unit")
         if self.calls >= self.max_calls:
             self.halt_reason = "call_cap_reached"
             return False
-        projected = self.charged_hundredths + self.charge_per_call_hundredths
+        projected = self.charged_hundredths + self.charge_per_call_hundredths * units
         if projected > self.max_dollars_hundredths:
             self.halt_reason = "dollar_cap_reached"
             return False
         return True
 
-    def charge(self) -> None:
+    def charge(self, units: int = 1) -> None:
+        if units < 1:
+            raise FunSearchError("a proposal call must cost at least one unit")
         self.calls += 1
-        self.charged_hundredths += self.charge_per_call_hundredths
+        self.charged_hundredths += self.charge_per_call_hundredths * units
         write_ledger(self.ledger_path, self.opening_hundredths + self.charged_hundredths)
 
     def to_dict(self) -> dict[str, Any]:
@@ -2344,6 +2356,16 @@ def _reset_islands(
         if donor:
             islands[index] = [max(donor, key=lambda item: item.final_score)]
     return islands
+
+
+#: Public aliases.  A second loop that wants per-model attribution has to own its own
+#: bookkeeping, but it must not own a second copy of the *selection rules* -- two softmax
+#: samplers or two island-reset rules that drift apart would make two receipts incomparable
+#: for reasons nobody declared.  These three are the rules; :mod:`.model_ensemble_proposer`
+#: imports them rather than restating them.
+sample_examples = _sample_examples
+reset_islands = _reset_islands
+stable_hash = _stable_hash
 
 
 def _brief(item: ScoredProgram) -> dict[str, Any]:
@@ -3730,12 +3752,15 @@ __all__ = [
     "relative_rms_distance",
     "replay_creativity",
     "replay_from_receipt",
+    "reset_islands",
     "run_hostile_suite",
     "run_in_sandbox",
     "run_loop",
     "run_problem",
+    "sample_examples",
     "score_program",
     "screen_induced_continued_fraction",
+    "stable_hash",
     "static_screen",
     "validate_receipt",
     "vocabulary_violations",
