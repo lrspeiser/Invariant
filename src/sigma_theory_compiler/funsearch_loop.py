@@ -1435,6 +1435,14 @@ _BLIND_INSTRUCTION = (
     "and you are not asked to explain anything; only the measured score counts."
 )
 
+#: The values the sequence program must reproduce.  Same reasoning as the response problem: the
+#: rule that generated them stays sealed, the numbers themselves are the task.
+SEQUENCE_OBSERVATIONS: tuple[str, ...] = tuple(
+    format(value, ".0f")
+    for value in _sealed_sequence_targets()[: len(SEQUENCE_FIT_POINTS)]
+)
+
+
 
 #: Failure text that means "try again": the call did not reach a verdict, so retrying is not
 #: papering over an answer.  Matched case-insensitively against the recorded detail.
@@ -2223,6 +2231,7 @@ def declared_problems() -> dict[str, ProblemSpec]:
         seed_program="def rule(n):\n    return 1",
         evaluator_id="exact_match_fraction",
         probe_points=SEQUENCE_FIT_POINTS,
+        observed_outputs=SEQUENCE_OBSERVATIONS,
         novelty_channel="known_solution_grammar",
         forbidden_vocabulary=FORBIDDEN_SEQUENCE_VOCABULARY,
         sandbox=SandboxBudget(wall_seconds=4.0, import_allowlist=("math",)),
