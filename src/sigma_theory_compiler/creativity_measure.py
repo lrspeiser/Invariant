@@ -46,13 +46,23 @@ honestly be very creative and entirely wrong.
 
 from __future__ import annotations
 
+import decimal
 import math
 from collections.abc import Mapping, Sequence
+from decimal import Decimal
 from typing import Any
 
 from .sigma_core import canonical_sha256
 
 SCHEMA = "invariant-creativity-measure-1.0"
+
+#: Every number this module *reports* is computed in this context and emitted as a decimal
+#: string.  ``Decimal.ln`` and ``Decimal.exp`` are correctly rounded to the context precision,
+#: so the reported digits are a function of the inputs alone and not of whichever libm the host
+#: happens to ship -- which is the whole point once these numbers are sealed into a receipt and
+#: a replay on another machine has to reproduce them byte for byte.  40 digits against a
+#: 6-decimal report is margin, not precision theatre.
+REPORT_CONTEXT = decimal.Context(prec=40)
 
 #: Two output vectors are the same behaviour when every coordinate agrees to this log-relative
 #: tolerance.  It is declared rather than tuned: 1e-9 is far below any difference a search could
@@ -71,6 +81,45 @@ def _vector(outputs: Sequence[str]) -> tuple[float, ...] | None:
         return None
 
 
+#: One coordinate of a behaviour, prepared once: its exact natural logarithm when the value is
+#: usable, and always the raw value so an unusable pair can still be compared for equality.
+_Coordinate = tuple[Decimal | None, float]
+
+
+def _prepared(vector: Sequence[float]) -> tuple[_Coordinate, ...]:
+    """Take the logarithm of every coordinate ONCE.
+
+    The distance is ``max_i |ln a_i - ln b_i|``, so a population of *n* behaviours needs *n*
+    logarithm evaluations, not one per pair.  Doing it per pair is what makes an exact distance
+    look expensive; doing it per coordinate makes the pairwise loop pure subtraction.
+    """
+
+    prepared: list[_Coordinate] = []
+    for value in vector:
+        if math.isfinite(value) and value > 0.0:
+            prepared.append((REPORT_CONTEXT.ln(Decimal(value)), value))
+        else:
+            prepared.append((None, value))
+    return tuple(prepared)
+
+
+def _exact_distance(
+    left: Sequence[_Coordinate], right: Sequence[_Coordinate]
+) -> Decimal | None:
+    """The distance between two prepared behaviours, or ``None`` when they are incomparable."""
+
+    if len(left) != len(right):
+        return None
+    worst = Decimal(0)
+    for (log_a, raw_a), (log_b, raw_b) in zip(left, right):
+        if log_a is None or log_b is None:
+            if raw_a != raw_b:
+                return None
+            continue
+        worst = max(worst, abs(log_a - log_b))
+    return worst
+
+
 def log_relative_distance(left: Sequence[float], right: Sequence[float]) -> float:
     """``max_i |ln(left_i / right_i)|``, the scale-free distance between two behaviours.
 
@@ -79,16 +128,8 @@ def log_relative_distance(left: Sequence[float], right: Sequence[float]) -> floa
     return infinity, which keeps them in separate clusters rather than silently merging them.
     """
 
-    if len(left) != len(right):
-        return math.inf
-    worst = 0.0
-    for a, b in zip(left, right):
-        if not (math.isfinite(a) and math.isfinite(b)) or a <= 0.0 or b <= 0.0:
-            if a != b:
-                return math.inf
-            continue
-        worst = max(worst, abs(math.log(a / b)))
-    return worst
+    distance = _exact_distance(_prepared(left), _prepared(right))
+    return math.inf if distance is None else float(distance)
 
 
 def cluster_behaviours(
@@ -96,37 +137,44 @@ def cluster_behaviours(
 ) -> list[list[int]]:
     """Greedy clustering of output vectors: indices grouped by behavioural identity."""
 
+    limit = Decimal(tolerance)
     clusters: list[list[int]] = []
-    reps: list[tuple[float, ...]] = []
+    reps: list[tuple[_Coordinate, ...]] = []
     for index, vector in enumerate(vectors):
+        prepared = _prepared(vector)
         for slot, rep in enumerate(reps):
-            if log_relative_distance(vector, rep) <= tolerance:
+            distance = _exact_distance(prepared, rep)
+            if distance is not None and distance <= limit:
                 clusters[slot].append(index)
                 break
         else:
             clusters.append([index])
-            reps.append(vector)
+            reps.append(prepared)
     return clusters
 
 
-def _effective_number(sizes: Sequence[int]) -> float:
+def _effective_number(sizes: Sequence[int]) -> Decimal:
     """``exp(H)`` over occupancies: the effective number of behaviours actually present.
 
     A raw count says 17 when a population is one behaviour repeated sixteen times plus one
     other.  The effective number says about 2, which is what a reader means by "how many
     different things did it try".
+
+    The occupancies are integers, so the shares are exact rationals and the only inexact step
+    is the logarithm -- taken here at a declared precision that rounds correctly, so the sealed
+    digits do not depend on the host's libm.
     """
 
     total = sum(sizes)
     if total <= 0:
-        return 0.0
-    entropy = 0.0
+        return Decimal(0)
+    entropy = Decimal(0)
     for size in sizes:
         if size <= 0:
             continue
-        share = size / total
-        entropy -= share * math.log(share)
-    return math.exp(entropy)
+        share = REPORT_CONTEXT.divide(Decimal(size), Decimal(total))
+        entropy -= REPORT_CONTEXT.multiply(share, REPORT_CONTEXT.ln(share))
+    return REPORT_CONTEXT.exp(entropy)
 
 
 def measure_creativity(
@@ -174,15 +222,15 @@ def measure_creativity(
     ]
     known_hits = sum(1 for program in usable if _novelty(program) < novelty_floor)
 
-    reps = [vectors[cluster[0]] for cluster in clusters]
-    spans: list[float] = []
+    reps = [_prepared(vectors[cluster[0]]) for cluster in clusters]
+    spans: list[Decimal] = []
     for i in range(len(reps)):
         for j in range(i + 1, len(reps)):
-            distance = log_relative_distance(reps[i], reps[j])
-            if math.isfinite(distance):
+            distance = _exact_distance(reps[i], reps[j])
+            if distance is not None:
                 spans.append(distance)
     spans.sort()
-    span = spans[len(spans) // 2] if spans else 0.0
+    span = spans[len(spans) // 2] if spans else Decimal(0)
 
     # A high waste ratio means opposite things at opposite ends of the quality range, and reading
     # it alone gets the verdict backwards.  A measured sequence run wrote 44 distinct sources that
@@ -217,10 +265,20 @@ def measure_creativity(
             _effective_number([len(cluster) for cluster in novel_clusters]), ".6f"
         ),
         "effective_behaviours": format(_effective_number(sizes), ".6f"),
+        # Exact rationals: counts over counts, divided at the declared precision rather than
+        # in binary floating point, so the reported digits are the true digits.
         "wasted_variation_ratio": format(
-            len(sources) / distinct_behaviours if distinct_behaviours else 0.0, ".6f"
+            REPORT_CONTEXT.divide(Decimal(len(sources)), Decimal(distinct_behaviours))
+            if distinct_behaviours
+            else Decimal(0),
+            ".6f",
         ),
-        "known_collapse_fraction": format(known_hits / len(usable) if usable else 0.0, ".6f"),
+        "known_collapse_fraction": format(
+            REPORT_CONTEXT.divide(Decimal(known_hits), Decimal(len(usable)))
+            if usable
+            else Decimal(0),
+            ".6f",
+        ),
         "behavioural_span_median": format(span, ".6g"),
         "regime": regime,
         "best_quality": format(best_quality, ".9f") if best_quality is not None else None,
@@ -238,19 +296,34 @@ def measure_creativity(
     return payload
 
 
-def compare(before: Mapping[str, Any], after: Mapping[str, Any]) -> dict[str, Any]:
-    """A/B two measurements and say which way each number moved."""
+#: The metrics an A/B report walks, and which way is an improvement.  ``report`` means the
+#: number is published and never scored: recovering a known law is a real success for a blind
+#: search, so it must not be able to make a change look bad.
+COMPARED_METRICS: tuple[tuple[str, str], ...] = (
+    ("effective_novel_behaviours", "up"),
+    ("effective_behaviours", "up"),
+    ("wasted_variation_ratio", "down"),
+    ("known_collapse_fraction", "report"),
+)
 
-    def _get(block: Mapping[str, Any], key: str) -> float:
-        return float(block.get(key, 0.0))
+
+def compare(before: Mapping[str, Any], after: Mapping[str, Any]) -> dict[str, Any]:
+    """A/B two measurements and say which way each number moved.
+
+    The measurements arrive as decimal strings and the deltas stay decimal: subtracting two
+    sealed six-decimal numbers is exact arithmetic, and doing it in binary floating point would
+    put a rounding artefact on a certificate path for no reason at all.
+    """
+
+    def _get(block: Mapping[str, Any], key: str) -> Decimal:
+        raw = block.get(key, "0")
+        try:
+            return Decimal(str(raw))
+        except decimal.InvalidOperation:
+            return Decimal(0)
 
     rows = []
-    for key, better in (
-        ("effective_novel_behaviours", "up"),
-        ("effective_behaviours", "up"),
-        ("wasted_variation_ratio", "down"),
-        ("known_collapse_fraction", "report"),
-    ):
+    for key, better in COMPARED_METRICS:
         left, right = _get(before, key), _get(after, key)
         delta = right - left
         if better == "report":

@@ -126,6 +126,49 @@ def test_distance_is_scale_free() -> None:
     assert small == pytest.approx(math.log(2.0))
 
 
+def test_an_extreme_output_vector_does_not_crash_the_measure() -> None:
+    """Programs are model output, so a subnormal beside a huge value is normal traffic.
+
+    Computing the distance as ``ln(a/b)`` underflows the ratio to zero and raises a domain
+    error; computing it as ``ln(a) - ln(b)`` cannot.  This matters now that every campaign
+    calls the measure over its own sealed programs: a crash here would take a whole run down.
+    """
+
+    tiny_over_huge = cm.log_relative_distance([1e-320], [1e300])
+    assert math.isfinite(tiny_over_huge)
+    assert tiny_over_huge == pytest.approx(abs(math.log(1e-320) - math.log(1e300)))
+
+    population = [
+        _program("subnormal", [1e-320, 1e-320, 1e-320]),
+        _program("enormous", [1e300, 1e300, 1e300]),
+    ]
+    result = cm.measure_creativity(population)
+    assert result["population"]["distinct_behaviours"] == 2
+
+
+def test_the_reported_numbers_are_exact_decimals() -> None:
+    """These strings go into a receipt and must be recomputable digit for digit."""
+
+    points = [1e-12, 1e-9, 1e-6]
+    uniform = [_program(f"s{i}", [p * (i + 1) for p in points]) for i in range(4)]
+    assert cm.measure_creativity(uniform)["effective_behaviours"] == "4.000000"
+
+    # Three spellings over two behaviours is exactly 1.5, not 1.4999999999999998.
+    padded = [
+        _program("a", points),
+        _program("b", points),
+        _program("c", [p * 2 for p in points]),
+    ]
+    assert cm.measure_creativity(padded)["wasted_variation_ratio"] == "1.500000"
+
+    known = [
+        _program("k", points, novelty=0.0),
+        _program("m", [p * 2 for p in points], novelty=0.0),
+        _program("n", [p * 3 for p in points], novelty=1.0),
+    ]
+    assert cm.measure_creativity(known)["known_collapse_fraction"] == "0.666667"
+
+
 def test_incomparable_vectors_do_not_merge() -> None:
     assert cm.log_relative_distance([1.0, 2.0], [1.0]) == math.inf
     assert cm.log_relative_distance([float("nan")], [1.0]) == math.inf

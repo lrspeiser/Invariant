@@ -11,8 +11,8 @@ BEGIN = "# BEGIN comprehensive-alpha-test-manifest"
 END = "# END comprehensive-alpha-test-manifest"
 PATH_PATTERN = re.compile(r"tests/test_[a-z0-9_]+\.py")
 SLICE_PATTERN = re.compile(r"(?m)^\s{10}- slice: ([a-z0-9-]+)$")
-EXPECTED_PATH_COUNT = 182
-EXPECTED_PATH_SET_SHA256 = "76892c1c37582a3f9db3376626ee3a83fd8d8bf6b51817b82c6b76ffe64289c6"
+EXPECTED_PATH_COUNT = 183
+EXPECTED_PATH_SET_SHA256 = "7cefbe55f06f98fc14bda8cff64130971761718dc818d213a42734a34fee5a0e"
 EXPECTED_SLICE_COUNTS = {
     "discovery-and-proof": 48,
     "system7-coordinate-authority": 15,
@@ -23,7 +23,7 @@ EXPECTED_SLICE_COUNTS = {
     "system10-cylindrical": 29,
     "system8-system9-recurrence": 13,
     "pde-controls-and-85-state": 25,
-    "math-controls-and-operations": 44,
+    "math-controls-and-operations": 45,
 }
 
 
