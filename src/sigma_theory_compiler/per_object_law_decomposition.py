@@ -276,22 +276,31 @@ def _from_block(block: Mapping[str, Any]) -> Fraction:
 
 @dataclass(frozen=True, slots=True)
 class Split:
-    """Which objects may be fitted, and which may not be touched."""
+    """Which objects may be fitted, and which may not be touched.
+
+    ``count``, ``salt`` and ``rule`` default to this module's declared constants, so the
+    six-galaxy receipt is unchanged.  They are fields rather than globals because a wider
+    population -- the full published sample -- must declare its own withholding fraction
+    and its own salt, and must do so in *its* source rather than by editing this one.
+    """
 
     exploration: tuple[str, ...]
     confirmation: tuple[str, ...]
     digests: tuple[tuple[str, str], ...]
+    count: int = CONFIRMATION_COUNT
+    salt: str = SPLIT_SALT
+    rule: str = SPLIT_RULE
 
     def block(self) -> dict[str, Any]:
         """The receipt block.  Written before pass 1 runs, and hashed on its own."""
 
         body = {
             "confirmation": list(self.confirmation),
-            "confirmation_count": CONFIRMATION_COUNT,
+            "confirmation_count": self.count,
             "exploration": list(self.exploration),
             "name_digests": {name: digest for name, digest in self.digests},
-            "rule": SPLIT_RULE,
-            "salt": SPLIT_SALT,
+            "rule": self.rule,
+            "salt": self.salt,
             "sealed_before_any_fit": True,
         }
         return {**body, "split_sha256": canonical_sha256(body)}
@@ -311,25 +320,47 @@ class Split:
                 )
 
 
-def declare_split(names: Sequence[str]) -> Split:
-    """Compute the split from the declared salt and the object *names* alone."""
+def declare_split(
+    names: Sequence[str],
+    *,
+    count: int | None = None,
+    salt: str | None = None,
+    rule: str | None = None,
+) -> Split:
+    """Compute the split from the declared salt and the object *names* alone.
 
+    Omitting an argument reproduces the six-galaxy split byte for byte.  A caller fitting a
+    wider population passes its own declared ``count``, ``salt`` and ``rule``; the
+    arithmetic is identical and still reads names only, never a radius, a velocity or an
+    uncertainty.  The defaults are resolved here rather than in the signature so that the
+    declared constants are read at call time -- a control that rebinds ``SPLIT_SALT`` to
+    check the partition really moves with it must keep working.
+    """
+
+    count = CONFIRMATION_COUNT if count is None else count
+    salt = SPLIT_SALT if salt is None else salt
+    rule = SPLIT_RULE if rule is None else rule
     unique = sorted(set(names))
     if len(unique) != len(names):
         raise PerObjectError("duplicate object name in the declared population")
-    if len(unique) <= CONFIRMATION_COUNT:
+    if count < 1:
+        raise PerObjectError("the split must withhold at least one object")
+    if len(unique) <= count:
         raise PerObjectError("the split would leave nothing to explore")
     digested = sorted(
-        (hashlib.sha256(f"{SPLIT_SALT}|{name}".encode()).hexdigest(), name) for name in unique
+        (hashlib.sha256(f"{salt}|{name}".encode()).hexdigest(), name) for name in unique
     )
-    confirmation = tuple(name for _, name in digested[:CONFIRMATION_COUNT])
-    exploration = tuple(name for _, name in digested[CONFIRMATION_COUNT:])
+    confirmation = tuple(name for _, name in digested[:count])
+    exploration = tuple(name for _, name in digested[count:])
     if set(confirmation) & set(exploration):
         raise PerObjectError("the split is not a partition")
     return Split(
         confirmation=tuple(sorted(confirmation)),
         exploration=tuple(sorted(exploration)),
         digests=tuple(sorted((name, digest) for digest, name in digested)),
+        count=count,
+        salt=salt,
+        rule=rule,
     )
 
 
@@ -588,17 +619,25 @@ def family_arm_columns(
 # ---------------------------------------------------------------------------
 
 
+#: How the smallest feasible coverage is computed from an axis.  ``critical_coverage`` is
+#: the reference: an explicit maximum over every ordered pair.  A caller fitting thousands
+#: of pooled rows may supply an exactly equivalent solver that does not enumerate pairs.
+CoverageSolver = Callable[[Axis], tuple[Fraction, tuple[str, str] | None]]
+
+
 def fit_object(
     law: LawSpace,
     galaxy: Galaxy,
     rows: Sequence[MeasuredRow],
     coverages: Sequence[str],
+    *,
+    solver: CoverageSolver = critical_coverage,
 ) -> tuple[Axis, dict[str, Any]]:
     """One object, alone, with its own copy of the free parameter.  Nothing is pooled."""
 
     offsets, slopes = law.columns(galaxy)
     axis = build_axis(offsets, slopes, rows)
-    critical, pair = critical_coverage(axis)
+    critical, pair = solver(axis)
     at_critical = interval_at(axis, critical)
     if at_critical["empty"]:
         raise PerObjectError(
@@ -665,12 +704,15 @@ def decompose(
     rows_by_object: Mapping[str, Sequence[MeasuredRow]],
     split: Split,
     coverages: Sequence[str] = COVERAGE_GRID,
+    *,
+    solver: CoverageSolver = critical_coverage,
 ) -> dict[str, Any]:
     """R1 for one law space: every exploration object fitted alone, whole population kept."""
 
     split.guard(galaxies)
     fitted = [
-        fit_object(law, galaxy, rows_by_object[galaxy.name], coverages) for galaxy in galaxies
+        fit_object(law, galaxy, rows_by_object[galaxy.name], coverages, solver=solver)
+        for galaxy in galaxies
     ]
     fitted.sort(key=lambda item: item[1]["object"])
     population = [entry for _, entry in fitted]
@@ -689,7 +731,7 @@ def decompose(
                 "its own critical coverage and therefore cannot be empty"
             )
         entry["interval_at_population_coverage"] = interval
-    common, common_pair = critical_coverage(pooled_axis(law, galaxies, rows_by_object))
+    common, common_pair = solver(pooled_axis(law, galaxies, rows_by_object))
     if common < k_pop:
         raise PerObjectError(
             "the shared-parameter coverage fell below the per-object one, which is "
@@ -1555,6 +1597,7 @@ __all__ = [
     "VARIES",
     "Axis",
     "ConfirmationSetTouched",
+    "CoverageSolver",
     "LawSpace",
     "PerObjectError",
     "Split",
