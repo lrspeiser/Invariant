@@ -977,3 +977,46 @@ def test_retries_are_bounded(tmp_path: Path) -> None:
     with pytest.raises(fl.ProposerCallFailed):
         fl.run_problem(problem, config, proposer, governor)
     assert proposer.calls == 3, "expected the initial call plus two retries"
+
+
+def test_sweeping_islands_proposes_into_every_island(tmp_path: Path) -> None:
+    """Round-robin means raising the island count REDUCES each island's depth.
+
+    With sweep off, generations and calls are one to one and only one island moves per
+    generation. With it on, every island gets a proposal every generation, which is what makes
+    an island model explore in parallel rather than in turn.
+    """
+
+    class Counting:
+        proposer_id = "counting"
+
+        def __init__(self) -> None:
+            self.calls = 0
+
+        def propose(self, prompt, examples, count):
+            self.calls += 1
+            return fl.ProposalCall(
+                self.proposer_id, "0" * 64, 1, 1, True, "returned_programs", "")
+
+        def programs(self):
+            return ("def rule(n):" + chr(10) + "    return n",)
+
+    problem = fl.declared_problems()["blinded_sequence_rule"]
+    governor = fl.SpendGovernor(tmp_path / "a.json", 5000, 50000, 1)
+    narrow = Counting()
+    fl.run_problem(
+        problem,
+        fl.LoopConfig(generations=6, islands=3, proposals_per_call=1, seed=3),
+        narrow,
+        governor,
+    )
+    wide = Counting()
+    fl.run_problem(
+        problem,
+        fl.LoopConfig(generations=6, islands=3, proposals_per_call=1, seed=3,
+                      sweep_islands=True),
+        wide,
+        fl.SpendGovernor(tmp_path / "b.json", 5000, 50000, 1),
+    )
+    assert narrow.calls == 6, "round-robin should make one call per generation"
+    assert wide.calls == 18, "sweeping should make one call per island per generation"

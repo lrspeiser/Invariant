@@ -1846,6 +1846,12 @@ class LoopConfig:
     #: rate limit should not cost a twenty-minute campaign; a dead session still must.
     transient_retries: int = 3
     retry_backoff_seconds: float = 2.0
+    #: Propose into EVERY island each generation instead of one island round-robin.
+    #: Round-robin means islands do not explore in parallel: at islands=3, generations=8 each
+    #: island evolved two or three times and the run made eight calls, so raising the island
+    #: count REDUCED the depth of each one.  Sweeping costs islands x more calls per generation
+    #: and is what makes an island model an island model.
+    sweep_islands: bool = False
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -1856,6 +1862,7 @@ class LoopConfig:
             "proposals_per_call": self.proposals_per_call,
             "reset_period": self.reset_period,
             "temperature": format(self.temperature, ".6g"),
+            "sweep_islands": self.sweep_islands,
             "transient_retries": self.transient_retries,
             "retry_backoff_seconds": format(self.retry_backoff_seconds, ".6g"),
             "seed": self.seed,
@@ -1925,11 +1932,17 @@ def run_problem(
             )
     halt_reason = "generations_exhausted"
 
-    for generation in range(config.generations):
+    steps = [
+        (generation, island)
+        for generation in range(config.generations)
+        for island in (
+            range(config.islands) if config.sweep_islands else (generation % config.islands,)
+        )
+    ]
+    for generation, index in steps:
         if not governor.may_call():
             halt_reason = governor.halt_reason
             break
-        index = generation % config.islands
         examples = _sample_examples(
             islands[index], config.examples_per_prompt, config.temperature, rng
         )
