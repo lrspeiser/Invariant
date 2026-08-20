@@ -135,6 +135,7 @@ def measure_creativity(
     tolerance: float = DEFAULT_TOLERANCE,
     novelty_floor: float = NOVELTY_FLOOR,
     origin: str | None = "proposed",
+    best_quality: float | None = None,
 ) -> dict[str, Any]:
     """Behavioural creativity of one population of sealed programs.
 
@@ -183,7 +184,20 @@ def measure_creativity(
     spans.sort()
     span = spans[len(spans) // 2] if spans else 0.0
 
+    # A high waste ratio means opposite things at opposite ends of the quality range, and reading
+    # it alone gets the verdict backwards.  A measured sequence run wrote 44 distinct sources that
+    # were one behaviour -- identical to the stuck run's signature -- except the behaviour was the
+    # exact answer at quality 1.0.  Forty-four spellings of a correct solution is convergence and
+    # the search is finished; forty-four spellings of a wrong one is a search that cannot move.
     distinct_behaviours = len(clusters)
+    if best_quality is None:
+        regime = "unknown_no_quality_supplied"
+    elif best_quality >= 0.99:
+        regime = "converged"
+    elif distinct_behaviours <= 1 and len(usable) > 2:
+        regime = "stuck"
+    else:
+        regime = "exploring"
     payload = {
         "schema_version": SCHEMA,
         "declared": {
@@ -208,6 +222,12 @@ def measure_creativity(
         ),
         "known_collapse_fraction": format(known_hits / len(usable) if usable else 0.0, ".6f"),
         "behavioural_span_median": format(span, ".6g"),
+        "regime": regime,
+        "best_quality": format(best_quality, ".9f") if best_quality is not None else None,
+        "regime_rule": (
+            "converged when best quality >= 0.99, whatever the waste ratio; stuck when the whole "
+            "population is one behaviour and quality is not; otherwise exploring"
+        ),
         "claims": {
             "measures_spread_not_correctness": True,
             "syntactic_variation_alone_cannot_raise_it": True,

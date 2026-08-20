@@ -163,3 +163,25 @@ def test_the_comparison_states_which_way_is_better() -> None:
     waste = next(r for r in report["rows"] if r["metric"] == "wasted_variation_ratio")
     assert waste["direction_that_is_better"] == "down"
     assert waste["verdict"] == "better"
+
+
+def test_waste_means_converged_when_quality_is_high() -> None:
+    """Forty-four spellings of the right answer is convergence, not paralysis.
+
+    A measured live run on the sequence problem produced exactly this shape: 44 distinct
+    sources, one behaviour, quality 1.0. Reading the waste ratio alone would have condemned a
+    solved problem.
+    """
+
+    points = [1.0, 2.0, 3.0]
+    solved = [_program(f"spelling {i}", points) for i in range(44)]
+    stuck = [_program(f"spelling {i}", points) for i in range(44)]
+    assert cm.measure_creativity(solved, best_quality=1.0)["regime"] == "converged"
+    assert cm.measure_creativity(stuck, best_quality=0.06)["regime"] == "stuck"
+    assert cm.measure_creativity(stuck)["regime"] == "unknown_no_quality_supplied"
+
+
+def test_a_spread_population_is_exploring() -> None:
+    points = [1.0, 2.0, 3.0]
+    spread = [_program(f"s{i}", [p * (i + 1) for p in points]) for i in range(5)]
+    assert cm.measure_creativity(spread, best_quality=0.4)["regime"] == "exploring"
