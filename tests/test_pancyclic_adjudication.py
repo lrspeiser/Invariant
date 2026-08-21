@@ -11,7 +11,13 @@ What is checked
 1.  **The record.**  ``SEALED_TABLE`` is compared entry by entry against Griffin,
     "Minimal Pancyclicity", arXiv:1312.0274 (2013), Table 1, transcribed here from the
     paper itself, and against the twenty terms of OEIS A105206 (which stops at n = 22).
-    The published table ends at n = 37 with m(37) = 42.
+    The published table of exact values ends at n = 37 with m(37) = 42.  Separately, the
+    module under audit understates the record: there *is* a published upper bound past
+    n = 37.  Sridharan (1978), as restated by George, Marr and Wallis (JCMCC 86, 2013,
+    p.126), gives m(v) <= v + 6 for 37 <= v <= 52.  Together with the Bondy/Shi lower
+    bound m(v) >= v + 5 for 34 <= v <= 65 this brackets m(38), m(39) and m(40) within a
+    single edge, and each witness lands on the lower end -- so the witnesses improve the
+    published upper bound by one edge rather than filling a vacuum.
 2.  **The upper bound.**  Each witness is re-verified pancyclic by (a) a depth-first
     simple-cycle enumerator rooted at the smallest vertex and (b) an exhaustive
     in/out assignment of every edge of ``C_n`` for every one of the ``2^k`` chord
@@ -69,6 +75,28 @@ GRIFFIN_TABLE_1 = {
 
 # OEIS A105206 DATA as served by oeis.org, offset 3: m(3), m(4), ..., m(22).
 OEIS_A105206 = (3, 5, 6, 8, 9, 10, 12, 13, 14, 15, 16, 17, 19, 20, 21, 22, 23, 24, 25, 26)
+
+# The published UPPER bound at orders past Griffin's table.  M. R. Sridharan, "On an
+# extremal problem concerning pancyclic graphs", J. Math. Phys. Sci. 12 (1978), 297-306,
+# gives constructions which J. C. George, A. Marr and W. D. Wallis, "Minimal Pancyclic
+# Graphs", JCMCC 86 (2013), 125-133, p.126 restate as
+#     21 <= v <= 36 : m(v) <= v + 5
+#     37 <= v <= 52 : m(v) <= v + 6
+#     53 <= v <= 84 : m(v) <= v + 7
+# so the best published upper bound at v = 38, 39, 40 is v + 6.  Griffin's 5-chord
+# construction improves this only at v = 37, where it gives m(37) = 42 = 37 + 5.
+SRIDHARAN_EXTRA_EDGES = {(21, 36): 5, (37, 52): 6, (53, 84): 7}
+
+# GMW 2013 determine m(v) only for v <= 22 -- "the cases v >= 23 remain open" (p.132),
+# and their sequence is OEIS A105206.  Griffin 2013 is the frontier, and it ends at 37.
+GMW_LAST_DETERMINED_ORDER = 22
+
+
+def _sridharan_upper_bound(v: int) -> int:
+    for (low, high), extra in SRIDHARAN_EXTRA_EDGES.items():
+        if low <= v <= high:
+            return v + extra
+    raise AssertionError(f"no Sridharan range covers v={v}")
 
 
 # ---------------------------------------------------------------------------------
@@ -255,6 +283,40 @@ def test_the_three_orders_are_pinned_exactly() -> None:
         assert n + counting_lower_bound_chords(n) == expected      # lower bound
         assert verify_witness(n, CLAIMED_WITNESSES[n])["edges"] == expected  # upper bound
         assert n > SEALED_TABLE_LAST_N
+
+
+def test_the_witnesses_improve_the_published_upper_bound_by_one_edge() -> None:
+    """There WAS a published upper bound at these orders, and each witness beats it by 1.
+
+    Sridharan's construction gives m(v) <= v + 6 for 37 <= v <= 52, and Griffin improves
+    that only at v = 37.  So before these witnesses the published brackets were
+    m(38) in {43,44}, m(39) in {44,45}, m(40) in {45,46} -- each undetermined by exactly
+    one edge.  Each witness lands on the lower end and closes its bracket.
+    """
+    for n in (38, 39, 40):
+        published_upper = _sridharan_upper_bound(n)
+        published_lower = n + counting_lower_bound_chords(n)
+        assert published_upper == n + 6
+        assert published_lower == n + 5
+        assert published_upper - published_lower == 1, "bracket was one edge wide"
+
+        witnessed = verify_witness(n, CLAIMED_WITNESSES[n])
+        assert witnessed["pancyclic"] is True
+        assert witnessed["edges"] == published_lower < published_upper
+
+    # Sanity: the same published bound reproduces, not beats, the table where it overlaps.
+    assert _sridharan_upper_bound(36) == SEALED_TABLE[36][1] == 41
+    # and it is one edge LOOSE at v = 37, which is exactly what Griffin's construction fixed.
+    assert _sridharan_upper_bound(37) == 43
+    assert SEALED_TABLE[37][1] == 42
+
+
+def test_george_marr_wallis_stop_at_order_22() -> None:
+    """GMW 2013 determine m(v) only to v = 22; Griffin 2013 is the frontier, ending at 37."""
+    assert GMW_LAST_DETERMINED_ORDER == 3 + len(OEIS_A105206) - 1 == 22
+    assert SEALED_TABLE_LAST_N == 37 > GMW_LAST_DETERMINED_ORDER
+    for offset, value in enumerate(OEIS_A105206):
+        assert SEALED_TABLE[3 + offset][1] == value
 
 
 # ---------------------------------------------------------------------------------
