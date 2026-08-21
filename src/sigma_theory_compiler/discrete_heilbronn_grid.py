@@ -126,8 +126,8 @@ ESTABLISHED_TERMS: dict[int, EstablishedTerm] = {
             (9, 7), (9, 13), (11, 2), (13, 5), (13, 14), (14, 1), (14, 10),
         ),
         refutation_threshold=7,
-        refutation_nodes=45_102_635_606,
-        refutation_seconds=1324.9,
+        refutation_nodes=45_102_635_138,
+        refutation_seconds=1767.7,
         beyond_published=True,
     ),
 }
