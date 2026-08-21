@@ -1,0 +1,58 @@
+{
+  "absence_establishes_novelty": false,
+  "arithmetic": "unbounded Python integers and bitsets only; no floats; no sampling; no node cap",
+  "calibration": {
+    "literal_brute_force_every_subset": "n = 3, 4, 5 -> 4, 9, 6, matching OEIS",
+    "lower_bound_found_independently": "this engine built its own 14- and 15-point configurations scoring exactly 6 without being given the claimed witnesses",
+    "planted_solution_recovered": "with the witness's own triples made admissible at threshold 7, the same pruning recovers it at n=14 (2,128,788 nodes) and n=15 (201,924 nodes), while the control on genuine threshold-7 masks in the same shard exhausts and finds nothing",
+    "published_terms_reproduced_by_this_engine": "a(3)..a(13), all eleven",
+    "published_witnesses_rescored_by_this_scorer": "all eleven OEIS pictures score their published value"
+  },
+  "digest": "47378fb62716e1470c579fc16aa79c0a0bb822ff33427033b2ec44d6d22bf68c",
+  "engine": "second decision procedure, sigma_theory_compiler.discrete_heilbronn_independent_audit; shares no mathematics with discrete_heilbronn_grid; NO symmetry reduction at all",
+  "prior_art": "No source giving a(14) or a(15) was found. Not finding prior art is not a claim that none exists.",
+  "problem": "discrete_heilbronn_grid_min_double_area",
+  "record_established_independently": "OEIS A248866 text record fetched 2026-08-20 via https://oeis.org/search?q=id:A248866&fmt=text ; %S line is exactly '4,9,6,6,5,6,5,6,6,6,6' (offset 3, so a(3)..a(13)); keywords 'nonn,more'; latest revision #22 Mar 13 2015 per https://oeis.org/history?seq=A248866 (no drafts pending). The synthesized b-file and the linked worked-examples file a248866.txt both stop at a(13). OEIS full-text search for 'Heilbronn' returns no other grid sequence.",
+  "role": "independent adjudication of the a(14)/a(15) claim on agent/packing-bounds",
+  "space_decomposition": "every n-subset has a unique smallest and second-smallest index, so the C(n^2,2) (min, 2nd-min) shards partition the C(n^2,n) subsets; completeness is a count, not an argument",
+  "sweeps": [
+    {
+      "feasible": false,
+      "n": 14,
+      "node_counts_identical": true,
+      "nodes_restricted_to_their_branch_list": 5480024818,
+      "search_nodes": 9296032251,
+      "shards_decided": 19110,
+      "shards_their_symmetry_cut_skipped": 14546,
+      "shards_total": 19110,
+      "shards_total_equals_binomial_n2_2": true,
+      "solutions_found_in_skipped_shards": 0,
+      "their_recorded_nodes": 5480024818,
+      "threshold": 7,
+      "wall_seconds": "315.5"
+    },
+    {
+      "feasible": false,
+      "n": 15,
+      "node_counts_identical": true,
+      "nodes_restricted_to_their_branch_list": 45102635138,
+      "search_nodes": 71765752222,
+      "shards_decided": 25200,
+      "shards_their_symmetry_cut_skipped": 18564,
+      "shards_total": 25200,
+      "shards_total_equals_binomial_n2_2": true,
+      "solutions_found_in_skipped_shards": 0,
+      "their_recorded_nodes": 45102635138,
+      "threshold": 7,
+      "wall_seconds": "1452.5"
+    }
+  ],
+  "verdict": {
+    "a14": 6,
+    "a15": 6,
+    "exhaustive": true,
+    "lower_bound_reproduced": true,
+    "sampling_used_anywhere": false,
+    "upper_bound_reproduced": true
+  }
+}
