@@ -1,0 +1,118 @@
+{
+  "a_n": 6,
+  "absence_establishes_novelty": false,
+  "beyond_published_range": true,
+  "digest": "97b2caee60e0db0d44eb6b17b43b9f6835339df40c5eb09bca257b2464243502",
+  "last_published_term": {
+    "n": 13,
+    "value": 6
+  },
+  "lower_bound": {
+    "method": "exhaustive integer scan of all C(14,3) triples",
+    "min_double_area_rescored": 6,
+    "triples_checked": 364,
+    "witness": [
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        4
+      ],
+      [
+        2,
+        8
+      ],
+      [
+        2,
+        12
+      ],
+      [
+        4,
+        1
+      ],
+      [
+        4,
+        4
+      ],
+      [
+        6,
+        8
+      ],
+      [
+        6,
+        11
+      ],
+      [
+        8,
+        0
+      ],
+      [
+        10,
+        6
+      ],
+      [
+        10,
+        12
+      ],
+      [
+        11,
+        1
+      ],
+      [
+        13,
+        6
+      ],
+      [
+        13,
+        11
+      ]
+    ]
+  },
+  "n": 14,
+  "prior_art_note": "No published value for a(14) was found; OEIS A248866 was last edited 2015-03-13, lists a(3)..a(13) and carries the 'more' keyword. Absence of prior art found is not a claim of novelty.",
+  "problem": "discrete_heilbronn_grid_min_double_area",
+  "sequence": "OEIS A248866",
+  "terms_source": "OEIS A248866, 'Discrete Heilbronn Triangle Problem: a(n) is twice the maximal area of the smallest triangle defined by three vertices that are a subset of n points on an n X n square lattice', Gordon Hamilton (Mar 2015), a(5)/a(7)/a(9) corrected and a(10)-a(13) added by Hiroaki Yamanouchi (Mar 2015); keyword 'more'; https://oeis.org/A248866 (read 2026-08-20)",
+  "upper_bound": {
+    "feasible": false,
+    "method": "complete enumeration of all 14-subsets of the 14x14 grid, split by first two chosen points; first point restricted to orbit-minimal representatives under the square's 8 symmetries (sound: a lexicographically least image has an orbit-minimal least point)",
+    "monotonicity": "feasibility is non-increasing in the threshold, so 7 refutes all T>=7",
+    "orbit_minimal_roots": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      30,
+      31,
+      32,
+      33,
+      34,
+      45,
+      46,
+      47,
+      48,
+      60,
+      61,
+      62,
+      75,
+      76,
+      90
+    ],
+    "reproduce_shard": "python -m sigma_theory_compiler.discrete_heilbronn_grid --n 14 --threshold 7 --roots <index>",
+    "root_branches": 28,
+    "search_nodes": 5480025159,
+    "threshold_refuted": 7,
+    "wall_seconds": "242.2"
+  }
+}

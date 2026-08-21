@@ -51,7 +51,9 @@ from typing import Any
 from .sigma_core import canonical_sha256
 
 __all__ = [
+    "ESTABLISHED_TERMS",
     "PUBLISHED_TERMS",
+    "EstablishedTerm",
     "GridVerdict",
     "certify_min_double_area",
     "exists_configuration",
@@ -72,6 +74,45 @@ PUBLISHED_TERMS: dict[int, int] = {
     3: 4, 4: 9, 5: 6, 6: 6, 7: 5, 8: 6, 9: 5, 10: 6, 11: 6, 12: 6, 13: 6,
 }
 LAST_PUBLISHED_N = max(PUBLISHED_TERMS)
+
+
+@dataclass(frozen=True)
+class EstablishedTerm:
+    """A term this repository settled by its own complete enumeration.
+
+    The witness is carried so the *lower* half re-verifies in milliseconds on every CI run.
+    The *upper* half -- that nothing reaches ``value + 1`` -- is a completed sweep whose cost
+    is recorded here rather than repeated: it is reproduced with
+
+        ``python -m sigma_theory_compiler.discrete_heilbronn_grid --n N --threshold V+1``
+
+    which must report ``feasible: false``.  ``refutation_nodes`` is what that sweep visited,
+    so a rerun that finishes suspiciously fast is visibly not the same computation.
+    """
+
+    n: int
+    value: int
+    witness: tuple[tuple[int, int], ...]
+    refutation_threshold: int
+    refutation_nodes: int
+    refutation_seconds: float
+    beyond_published: bool
+
+
+ESTABLISHED_TERMS: dict[int, EstablishedTerm] = {
+    14: EstablishedTerm(
+        n=14,
+        value=6,
+        witness=(
+            (0, 0), (0, 4), (2, 8), (2, 12), (4, 1), (4, 4), (6, 8),
+            (6, 11), (8, 0), (10, 6), (10, 12), (11, 1), (13, 6), (13, 11),
+        ),
+        refutation_threshold=7,
+        refutation_nodes=5_480_025_159,
+        refutation_seconds=242.2,
+        beyond_published=True,
+    ),
+}
 
 
 def grid_points(n: int) -> list[tuple[int, int]]:
@@ -248,14 +289,23 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--threshold", type=int, default=None,
                         help="decide one threshold; omit to climb to a(n)")
     parser.add_argument("--no-symmetry", action="store_true")
+    parser.add_argument(
+        "--roots", type=str, default=None,
+        help="comma-separated first-point indices, for reproducing one shard of a split sweep",
+    )
     parser.add_argument("--out", type=Path, default=None)
     args = parser.parse_args(argv)
 
+    roots = None
+    if args.roots is not None:
+        roots = [int(part) for part in args.roots.split(",") if part.strip()]
+
     if args.threshold is not None:
         verdict = exists_configuration(
-            args.n, args.threshold, use_symmetry=not args.no_symmetry
+            args.n, args.threshold, use_symmetry=not args.no_symmetry, roots=roots
         )
         payload = verdict.to_payload()
+        payload["roots_restricted_to"] = roots
     else:
         value, witness, refutation = maximal_min_double_area(args.n)
         payload = {

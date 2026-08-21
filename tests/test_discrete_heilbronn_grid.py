@@ -15,6 +15,7 @@ from itertools import combinations
 import pytest
 
 from sigma_theory_compiler.discrete_heilbronn_grid import (
+    ESTABLISHED_TERMS,
     PUBLISHED_TERMS,
     TERMS_SOURCE,
     _orbit_minimal,
@@ -142,3 +143,25 @@ def test_root_splitting_partitions_the_same_search() -> None:
     assert whole.feasible is False
     assert not any(piece.feasible for piece in pieces)
     assert sum(piece.nodes for piece in pieces) == whole.nodes
+
+
+def test_terms_established_here_have_re_verifiable_witnesses() -> None:
+    """The lower half of each self-settled term is cheap, so CI re-proves it every run."""
+    for n, term in ESTABLISHED_TERMS.items():
+        assert term.n == n
+        assert len(term.witness) == n
+        assert len({p for p in term.witness}) == n
+        # Re-scored from the raw coordinates; the stored value is not consulted.
+        assert certify_min_double_area(list(term.witness), n) == term.value
+        # The refutation is one step above and is what makes the term exact.
+        assert term.refutation_threshold == term.value + 1
+        assert term.refutation_nodes > 10**8
+        assert term.beyond_published == (n > max(PUBLISHED_TERMS))
+        if n in PUBLISHED_TERMS:
+            assert term.value == PUBLISHED_TERMS[n]
+
+
+def test_established_terms_do_not_overwrite_the_published_ones() -> None:
+    """Two tables, kept apart on purpose: what OEIS prints, and what this repo computed."""
+    assert set(ESTABLISHED_TERMS) & set(PUBLISHED_TERMS) == set()
+    assert all(term.beyond_published for term in ESTABLISHED_TERMS.values())
