@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import itertools
+import json
+import pathlib
 
 import pytest
 
@@ -157,3 +159,69 @@ def test_node_cap_marks_a_traversal_as_non_exhaustive() -> None:
     found, nodes, _ = search_within(11, 56, w, node_cap=1000, engine="numba")
     assert not found
     assert nodes < 0, "an aborted traversal must report a negative node count"
+
+
+# --------------------------------------------------------------------------
+# recorded coverage certificates
+# --------------------------------------------------------------------------
+
+CERT_DIR = pathlib.Path(__file__).resolve().parents[1] / "work" / "weak_sidon"
+
+
+def _load(name: str) -> list[dict]:
+    path = CERT_DIR / name
+    return [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line]
+
+
+def test_recorded_chain_agrees_with_the_published_sequence() -> None:
+    settled = {}
+    for rec in _load("verified_chain.jsonl"):
+        assert rec["exhaustive"], rec
+        assert rec["declared_cells"] == rec["traversed_cells"], rec
+        if rec["found"]:
+            settled[int(rec["n"])] = int(rec["lmax"])
+    assert settled, "chain log must contain at least one settled stage"
+    for n, value in settled.items():
+        assert value == A345731_PUBLISHED[n], (n, value)
+    # the chain is contiguous from n = 2 and self-contained: every stage that
+    # is settled only ever used pruning values for strictly smaller sizes.
+    assert sorted(settled) == list(range(2, max(settled) + 1))
+
+
+def test_open_case_certificates_are_complete_traversals() -> None:
+    recs = _load("open_case_17.jsonl")
+    assert recs, "expected recorded levels for the open case n = 17"
+    for rec in recs:
+        n, lmax = int(rec["n"]), int(rec["lmax"])
+        assert n == 17
+        wtab = [int(v) for v in rec["wtab"]]
+        # the declared cell count is reproducible from the module, not trusted
+        cells = enumerate_prefix_cells(n, lmax, wtab, depth=3)
+        assert len(cells) == int(rec["declared_cells"]), (lmax, len(cells))
+        assert rec["traversed_cells"] == rec["declared_cells"], rec
+        assert rec["exhaustive"] is True, rec
+        assert rec["found"] is False, rec
+        assert int(rec["nodes"]) > 0
+        # the pruning table must be a valid lower-bound table
+        for m in range(2, n):
+            assert wtab[m] <= A345731_PUBLISHED[m]
+
+
+def test_open_case_lower_bound_follows_from_the_certificates() -> None:
+    levels = sorted(int(r["lmax"]) for r in _load("open_case_17.jsonl") if not r["found"])
+    assert levels == list(range(levels[0], levels[0] + len(levels))), levels
+    assert levels[0] <= A345731_PUBLISHED[16] + 1, "must start no higher than the trivial bound"
+    bound = levels[-1] + 1
+    assert bound > A345731_PUBLISHED[16] + 1, "certificates must improve on monotonicity"
+    # the published 16-element optimum is 148, so monotonicity alone gives 149
+    assert bound == 151
+
+
+def test_per_cell_log_matches_its_level_certificate() -> None:
+    rows = _load("cells_17_150.jsonl")
+    level = next(r for r in _load("open_case_17.jsonl") if r["lmax"] == "150")
+    keys = {(r["a1"], r["a2"], r["a3"]) for r in rows}
+    assert len(keys) == len(rows) == int(level["declared_cells"])
+    assert all(int(r["nodes"]) >= 0 for r in rows), "no cell may have aborted"
+    assert not any(r["found"] for r in rows)
+    assert sum(abs(int(r["nodes"])) for r in rows) == int(level["nodes"])
