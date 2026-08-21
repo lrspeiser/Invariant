@@ -2,7 +2,7 @@
   "a_n": 6,
   "absence_establishes_novelty": false,
   "beyond_published_range": true,
-  "digest": "587259c1f523b63b0ab67929f6ef5e2da2ab8d6f015f19f3af4126f45bb0ab13",
+  "digest": "1d438f6a3826f16a1ce70ca251c0d50339b9ebc52f1b08d3b33da07ab4b4507c",
   "lower_bound": {
     "method": "exhaustive integer scan of all C(15,3) triples",
     "min_double_area_rescored": 6,
@@ -82,9 +82,10 @@
   "upper_bound": {
     "branches_decided": 6636,
     "branches_total": 6636,
-    "driver": "scripts/heilbronn_grid_sweep.py --n 15 --threshold 7",
     "feasible": false,
     "monotonicity": "feasibility is non-increasing in the threshold, so refuting 7 refutes every larger value",
+    "provenance": "produced by a pre-refactor driver running the identical enumeration; its pair masks were checked bit-for-bit against the committed _pair_masks on the exact (n=14, threshold=7) data, and the committed driver independently reproduces the n=11, n=13 and n=14 refutations",
+    "reproduce": "python scripts/heilbronn_grid_sweep.py --n 15 --threshold 7 --workers 22",
     "search_nodes": 45102635606,
     "sweep_complete": true,
     "threshold_refuted": 7,
