@@ -55,7 +55,9 @@ __all__ = [
     "PUBLISHED_TERMS",
     "EstablishedTerm",
     "GridVerdict",
+    "branch_verdict",
     "certify_min_double_area",
+    "enumerate_branches",
     "exists_configuration",
     "grid_points",
     "maximal_min_double_area",
@@ -216,22 +218,30 @@ def _branch_roots(n: int, use_symmetry: bool) -> Iterator[int]:
             yield index
 
 
-def exists_configuration(
-    n: int, threshold: int, *, use_symmetry: bool = True, roots: Sequence[int] | None = None
-) -> GridVerdict:
-    """Decide, by complete enumeration, whether ``n`` grid points can all clear ``threshold``.
+class _Enumerator:
+    """The one depth-first enumeration, shared by whole sweeps and by single shards."""
 
-    ``roots`` restricts the first (lowest-index) chosen point, which is how the work is split
-    across processes; passing it does not change what a full sweep of roots decides.
-    """
-    if threshold < 1:
-        raise ValueError("threshold must be positive")
-    points, masks = _pair_masks(n, threshold)
-    size = n * n
-    nodes = 0
+    def __init__(self, n: int, threshold: int) -> None:
+        if threshold < 1:
+            raise ValueError("threshold must be positive")
+        self.n = n
+        self.threshold = threshold
+        self.points, self.masks = _pair_masks(n, threshold)
+        self.full = (1 << (n * n)) - 1
+        self.nodes = 0
 
-    def descend(chosen: list[int], cand: int, depth: int) -> list[int] | None:
-        nonlocal nodes
+    def initial(self, chosen: Sequence[int]) -> int | None:
+        """Candidate bitset after an increasing prefix, or ``None`` if the prefix is dead."""
+        cand = (self.full >> (chosen[-1] + 1)) << (chosen[-1] + 1)
+        for position, p in enumerate(chosen):
+            row = self.masks[p]
+            for q in chosen[:position]:
+                cand &= row[q]
+        return cand
+
+    def descend(self, chosen: list[int], cand: int) -> list[int] | None:
+        n, masks = self.n, self.masks
+        depth = len(chosen)
         if depth == n:
             return list(chosen)
         while cand:
@@ -244,24 +254,69 @@ def exists_configuration(
             row = masks[p]
             for q in chosen:
                 reduced &= row[q]
-            nodes += 1
+            self.nodes += 1
             if depth + 1 + reduced.bit_count() >= n:
                 chosen.append(p)
-                found = descend(chosen, reduced, depth + 1)
+                found = self.descend(chosen, reduced)
                 chosen.pop()
                 if found is not None:
                     return found
         return None
 
+
+def enumerate_branches(n: int, *, use_symmetry: bool = True) -> list[tuple[int, int]]:
+    """Every ``(first, second)`` prefix a complete sweep must cover.
+
+    A sweep is complete exactly when it decides all of these, which is what makes the split
+    auditable: the driver reports how many it ran and it has to match ``len(...)``.
+    """
+    size = n * n
+    return [
+        (first, second)
+        for first in _branch_roots(n, use_symmetry)
+        for second in range(first + 1, size)
+    ]
+
+
+def branch_verdict(n: int, threshold: int, prefix: Sequence[int]) -> GridVerdict:
+    """Complete enumeration of the subtree under one increasing prefix of chosen indices."""
+    engine = _Enumerator(n, threshold)
+    chosen = list(prefix)
+    if chosen != sorted(set(chosen)):
+        raise ValueError("prefix must be strictly increasing indices")
+    cand = engine.initial(chosen)
+    found = None
+    if cand is not None and len(chosen) + cand.bit_count() >= n:
+        found = engine.descend(chosen, cand)
+    return _finish(engine, found, True)
+
+
+def _finish(engine: _Enumerator, found: list[int] | None, used_symmetry: bool) -> GridVerdict:
+    if found is None:
+        return GridVerdict(engine.n, engine.threshold, False, engine.nodes, None, used_symmetry)
+    witness = tuple(engine.points[i] for i in found)
+    # The witness is re-scored by the public certifier before it is ever returned.
+    assert certify_min_double_area(list(witness), engine.n) >= engine.threshold
+    return GridVerdict(engine.n, engine.threshold, True, engine.nodes, witness, used_symmetry)
+
+
+def exists_configuration(
+    n: int, threshold: int, *, use_symmetry: bool = True, roots: Sequence[int] | None = None
+) -> GridVerdict:
+    """Decide, by complete enumeration, whether ``n`` grid points can all clear ``threshold``.
+
+    ``roots`` restricts the first (lowest-index) chosen point, which is how the work is split
+    across processes; passing it does not change what a full sweep of roots decides.
+    """
+    engine = _Enumerator(n, threshold)
     candidates = list(_branch_roots(n, use_symmetry)) if roots is None else list(roots)
-    full = (1 << size) - 1
     for first in candidates:
-        found = descend([first], (full >> (first + 1)) << (first + 1), 1)
+        cand = engine.initial([first])
+        assert cand is not None
+        found = engine.descend([first], cand)
         if found is not None:
-            witness = tuple(points[i] for i in found)
-            assert certify_min_double_area(list(witness), n) >= threshold
-            return GridVerdict(n, threshold, True, nodes, witness, use_symmetry)
-    return GridVerdict(n, threshold, False, nodes, None, use_symmetry)
+            return _finish(engine, found, use_symmetry)
+    return _finish(engine, None, use_symmetry)
 
 
 def maximal_min_double_area(n: int, *, start: int = 1) -> tuple[int, GridVerdict, GridVerdict]:

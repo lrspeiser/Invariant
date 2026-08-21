@@ -20,8 +20,10 @@ from sigma_theory_compiler.discrete_heilbronn_grid import (
     TERMS_SOURCE,
     _orbit_minimal,
     _pair_masks,
+    branch_verdict,
     certify_min_double_area,
     double_area,
+    enumerate_branches,
     exists_configuration,
     grid_points,
     maximal_min_double_area,
@@ -165,3 +167,45 @@ def test_established_terms_do_not_overwrite_the_published_ones() -> None:
     """Two tables, kept apart on purpose: what OEIS prints, and what this repo computed."""
     assert set(ESTABLISHED_TERMS) & set(PUBLISHED_TERMS) == set()
     assert all(term.beyond_published for term in ESTABLISHED_TERMS.values())
+
+
+def test_branch_split_reconstructs_the_whole_sweep_exactly() -> None:
+    """The parallel driver decides one (first, second) prefix per task; the pieces must
+    reassemble into the unsplit search, verdict and node count alike."""
+    n, threshold = 7, 6            # infeasible, so every branch must agree independently
+    branches = enumerate_branches(n)
+    whole = exists_configuration(n, threshold)
+    pieces = [branch_verdict(n, threshold, prefix) for prefix in branches]
+    assert whole.feasible is False
+    assert not any(piece.feasible for piece in pieces)
+    # The split is conservative rather than identical: the unsplit search can abandon a whole
+    # tail of second points at once when even taking all of them cannot reach n, whereas the
+    # driver hands each of those out as its own (trivially dead) task.  So the shard total
+    # brackets the unsplit count -- it may not exceed it, and may fall short by at most the
+    # one node per branch that the unsplit search spent choosing that second point.
+    shard_total = sum(piece.nodes for piece in pieces)
+    assert shard_total <= whole.nodes <= shard_total + len(branches)
+
+    n, threshold = 7, 5            # feasible: at least one branch must carry a witness
+    branches = enumerate_branches(n)
+    pieces = [branch_verdict(n, threshold, prefix) for prefix in branches]
+    assert any(piece.feasible for piece in pieces)
+    for piece in pieces:
+        if piece.witness is not None:
+            assert certify_min_double_area(list(piece.witness), n) >= threshold
+
+
+def test_branch_enumeration_counts_what_a_complete_sweep_must_cover() -> None:
+    for n in (7, 14):
+        branches = enumerate_branches(n)
+        roots = [i for i, p in enumerate(grid_points(n)) if _orbit_minimal(p, n)]
+        assert len(branches) == sum(n * n - r - 1 for r in roots)
+        assert len(set(branches)) == len(branches)
+    assert len(enumerate_branches(14)) == 4564   # the count the a(14) sweep reported
+
+
+def test_branch_verdict_rejects_a_malformed_prefix() -> None:
+    with pytest.raises(ValueError):
+        branch_verdict(7, 5, [4, 2])
+    with pytest.raises(ValueError):
+        branch_verdict(7, 5, [3, 3])
