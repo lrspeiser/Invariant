@@ -74,9 +74,13 @@ __all__ = [
     "SEALED_RECORD",
     "CyclicColouring",
     "SearchOutcome",
+    "adjacency_independence_number",
+    "adjacency_is_triangle_free",
     "build_adjacency",
     "compare_to_record",
     "difference_classes",
+    "dihedral_adjacency",
+    "dihedral_search",
     "enumerate_naive",
     "exhaustive_search",
     "has_independent_set",
@@ -609,6 +613,179 @@ def compare_to_record(k: int, order: int) -> dict[str, object]:
         "beats_published_lower_bound": attained > published_lower,
         "record_source": RECORD_SOURCE,
     }
+
+
+# --------------------------------------------------------------------------------------
+# The dihedral family: the only non-cyclic Cayley graphs at the frontier orders.
+# --------------------------------------------------------------------------------------
+#
+# Improving the Table Ia entry for R(3,k) needs a witness on at least ``lower_bound``
+# vertices, so the smallest order that could improve R(3,13), R(3,14), R(3,15) is 61, 67, 74.
+# 61 and 67 are prime, so Z_p is the only group of that order and the circulant search above
+# already covers every Cayley graph on them.  74 = 2 * 37 admits exactly two groups, Z_74 and
+# the dihedral group D_37, so D_37 is the entire remaining Cayley family at the frontier.
+#
+# Write D_m = <r, s | r^m, s^2, s r s = r^-1>, elements r^i (index i) and s r^i (index m + i).
+# A symmetric connection set is a pair (A, B) with A = -A a set of rotation exponents and B a
+# set of reflection exponents -- every reflection is an involution, so B is unconstrained.
+# Multiplying out the four cases, Cay(D_m, A u B) is triangle-free exactly when
+#
+#     A is sum-free in Z_m          (no triangle inside either coset), and
+#     (B - B) and A are disjoint    (no triangle straddling the two cosets),
+#
+# and the second condition says precisely that B is an independent set of C_m(A).  Both cosets
+# induce a copy of C_m(A), so alpha(Cay) >= alpha(C_m(A)) -- which is what makes the search
+# small: A must already be a good circulant before B is chosen at all.
+#
+# Conjugation by r^t fixes every rotation and sends s r^i to s r^(i - 2t).  For odd m the
+# map t -> 2t is a bijection, so a non-empty B may be translated to contain 0 without loss;
+# that is an exact m-fold reduction, not a heuristic.
+
+
+def dihedral_adjacency(m: int, rotations: Sequence[int], reflections: Sequence[int]) -> list[int]:
+    """Adjacency bitmasks of ``Cay(D_m, {r^a : a in A} u {s r^b : b in B})`` on ``2m`` vertices."""
+
+    n = 2 * m
+    rot = {a % m for a in rotations}
+    ref = {b % m for b in reflections}
+    if 0 in rot:
+        raise ValueError("the identity is not a connection element")
+    if any((m - a) % m not in rot for a in rot):
+        raise ValueError("rotation part must be closed under inversion")
+    adj = [0] * n
+    for i in range(m):
+        for a in rot:
+            adj[i] |= 1 << ((i + a) % m)                    # r^i ~ r^(i+a)
+            adj[m + i] |= 1 << (m + (i + a) % m)            # s r^i ~ s r^(i+a)
+        for b in ref:
+            # r^i ~ s r^j  iff  i + j in B
+            adj[i] |= 1 << (m + (b - i) % m)
+            adj[m + i] |= 1 << ((b - i) % m)
+    return adj
+
+
+def adjacency_is_triangle_free(n: int, adj: Sequence[int]) -> bool:
+    """Exhaustive over triples: every edge is examined for a common neighbour."""
+
+    for a in range(n):
+        rest = adj[a] >> (a + 1)
+        b = a + 1
+        while rest:
+            if rest & 1 and adj[a] & adj[b]:
+                return False
+            rest >>= 1
+            b += 1
+    return True
+
+
+def adjacency_independence_number(n: int, adj: Sequence[int]) -> int:
+    size = 0
+    while has_independent_set(n, adj, size + 1):
+        size += 1
+    return size
+
+
+def _independent_sets(m: int, adj: Sequence[int], cap: int) -> Iterator[tuple[int, ...]]:
+    """Every independent set of ``C_m(A)`` of size at most ``cap`` that contains 0, plus the
+    empty set.  Complete: the recursion branches on both including and excluding each vertex."""
+
+    yield ()
+    if cap <= 0:
+        return
+    chosen = [0]
+
+    def grow(start: int, banned: int) -> Iterator[tuple[int, ...]]:
+        yield tuple(chosen)
+        if len(chosen) >= cap:
+            return
+        for v in range(start, m):
+            if (banned >> v) & 1:
+                continue
+            chosen.append(v)
+            yield from grow(v + 1, banned | adj[v])
+            chosen.pop()
+
+    yield from grow(1, adj[0] | 1)
+
+
+def dihedral_search(m: int, k: int, stop_at_first: bool = True) -> dict[str, object]:
+    """Complete search over Cayley graphs of ``D_m`` (order ``2m``) with alpha <= k-1.
+
+    ``m`` must be odd, which is the case at every frontier order this module targets, so the
+    conjugation reduction "0 in B" is available.
+    """
+
+    if m % 2 == 0:
+        raise ValueError("m must be odd for the conjugation reduction to be exact")
+    n = 2 * m
+    max_degree = k - 1
+    min_degree = -(-n // (k - 1)) - 1
+    classes = difference_classes(m)
+    stats = {"rotation_sets": 0, "pairs_tested": 0, "decided_exactly": 0}
+    witnesses: list[dict[str, object]] = []
+
+    def rotation_sets() -> Iterator[tuple[int, int]]:
+        """Symmetric sum-free A subsets of Z_m, as (mask, degree)."""
+
+        full = (1 << m) - 1
+
+        def walk(index: int, mask: int, sums: int, degree: int) -> Iterator[tuple[int, int]]:
+            yield mask, degree
+            for j in range(index, len(classes)):
+                x = classes[j][0]
+                y = m - x
+                step = len(classes[j])
+                if degree + step > max_degree:
+                    continue
+                grown = mask | (1 << x) | (1 << (y % m))
+                grown_sums = (
+                    sums
+                    | _rotate(mask, x, m, full)
+                    | _rotate(mask, y % m, m, full)
+                    | (1 << ((2 * x) % m))
+                    | (1 << ((2 * y) % m))
+                    | 1
+                )
+                if grown & grown_sums:
+                    continue
+                yield from walk(j + 1, grown, grown_sums, degree + step)
+
+        yield from walk(0, 0, 0, 0)
+
+    for mask, degree_a in rotation_sets():
+        stats["rotation_sets"] += 1
+        coset_adj = build_adjacency(m, mask)
+        # both cosets induce C_m(A), so this is a lower bound on alpha of the whole graph
+        if adjacency_independence_number(m, coset_adj) > k - 1:
+            continue
+        budget = max_degree - degree_a
+        rotations = residues_of(m, mask)
+        for reflections in _independent_sets(m, coset_adj, budget):
+            degree = degree_a + len(reflections)
+            if degree < min_degree or degree > max_degree:
+                continue
+            stats["pairs_tested"] += 1
+            adj = dihedral_adjacency(m, rotations, reflections)
+            if _greedy_lowest(n, adj, k) >= k or _greedy_min_degree(n, adj, k) >= k:
+                continue
+            stats["decided_exactly"] += 1
+            if has_independent_set(n, adj, k):
+                continue
+            if not adjacency_is_triangle_free(n, adj):     # belt and braces; should not fire
+                continue
+            witnesses.append(
+                {
+                    "group": f"D_{m}",
+                    "order": n,
+                    "rotations": rotations,
+                    "reflections": list(reflections),
+                    "degree": degree,
+                    "independence_number": adjacency_independence_number(n, adj),
+                }
+            )
+            if stop_at_first:
+                return {"order": n, "clique_target": k, "witnesses": witnesses, **stats}
+    return {"order": n, "clique_target": k, "witnesses": witnesses, **stats}
 
 
 def seal_certificate(

@@ -17,10 +17,14 @@ import pytest
 from sigma_theory_compiler.cyclic_ramsey_lower_bounds import (
     SEALED_CYCLIC_ORDERS,
     SEALED_RECORD,
+    adjacency_independence_number,
+    adjacency_is_triangle_free,
     build_adjacency,
     compare_to_record,
     connection_from_residues,
     difference_classes,
+    dihedral_adjacency,
+    dihedral_search,
     enumerate_naive,
     exhaustive_search,
     has_independent_set,
@@ -406,3 +410,85 @@ def test_cli_emits_a_verifiable_certificate(tmp_path, capsys) -> None:
     assert verify_certificate(cert)["valid"] is True
     assert "Radziszowski" in cert["record_comparison"]["record_source"]
     capsys.readouterr()
+
+
+# --------------------------------------------------------------------------------------
+# The dihedral family.
+# --------------------------------------------------------------------------------------
+
+
+def _brute_force_dihedral(m: int, k: int) -> list[tuple[tuple[int, ...], tuple[int, ...]]]:
+    """Every (A, B) pair with no reduction at all: all symmetric A, all 2**m subsets B."""
+
+    n = 2 * m
+    classes = difference_classes(m)
+    found = []
+    for abits in range(1 << len(classes)):
+        rotations: list[int] = []
+        for i, cls in enumerate(classes):
+            if (abits >> i) & 1:
+                rotations.extend(cls)
+        for bbits in range(1 << m):
+            reflections = [j for j in range(m) if (bbits >> j) & 1]
+            adj = dihedral_adjacency(m, rotations, reflections)
+            if not adjacency_is_triangle_free(n, adj):
+                continue
+            if adjacency_independence_number(n, adj) <= k - 1:
+                found.append((tuple(sorted(rotations)), tuple(reflections)))
+    return found
+
+
+@pytest.mark.parametrize("m", [5, 7, 9])
+@pytest.mark.parametrize("k", [3, 4, 5, 6, 7, 8])
+def test_dihedral_search_agrees_with_brute_force_on_existence(m: int, k: int) -> None:
+    """The conjugation reduction ("0 in B without loss") and the degree window must not
+    lose a witness -- checked against a loop over every one of the 2**m reflection sets."""
+
+    brute = _brute_force_dihedral(m, k)
+    found = dihedral_search(m, k, stop_at_first=False)
+    assert bool(found["witnesses"]) == bool(brute), (m, k)
+
+
+@pytest.mark.parametrize("m", [5, 7, 9, 11])
+def test_dihedral_witnesses_are_triangle_free_with_the_claimed_independence(m: int) -> None:
+    for k in (6, 7, 8):
+        found = dihedral_search(m, k, stop_at_first=False)
+        for w in found["witnesses"]:
+            adj = dihedral_adjacency(m, w["rotations"], w["reflections"])
+            assert adjacency_is_triangle_free(2 * m, adj)
+            assert adjacency_independence_number(2 * m, adj) == w["independence_number"]
+            assert w["independence_number"] <= k - 1
+            assert w["degree"] == len(w["rotations"]) + len(w["reflections"])
+
+
+def test_dihedral_adjacency_is_a_symmetric_regular_graph() -> None:
+    m = 11
+    adj = dihedral_adjacency(m, [1, 10, 3, 8], [0, 2, 5])
+    n = 2 * m
+    degree = adj[0].bit_count()
+    for u in range(n):
+        assert adj[u].bit_count() == degree
+        assert not (adj[u] >> u) & 1
+        for v in range(n):
+            assert ((adj[u] >> v) & 1) == ((adj[v] >> u) & 1)
+    assert degree == 4 + 3
+
+
+def test_dihedral_adjacency_rejects_bad_connection_sets() -> None:
+    with pytest.raises(ValueError):
+        dihedral_adjacency(7, [0], [1])
+    with pytest.raises(ValueError):
+        dihedral_adjacency(7, [1], [1])          # not closed under inversion
+    with pytest.raises(ValueError):
+        dihedral_search(8, 5)                    # even m breaks the conjugation reduction
+
+
+def test_dihedral_cosets_induce_the_circulant() -> None:
+    """Both cosets of the rotation subgroup induce C_m(A); that is what bounds alpha below."""
+
+    m, rotations = 13, [1, 12, 5, 8]
+    adj = dihedral_adjacency(m, rotations, [0, 3])
+    circ = build_adjacency(m, connection_from_residues(m, rotations))
+    for i in range(m):
+        assert adj[i] & ((1 << m) - 1) == circ[i]
+        assert (adj[m + i] >> m) == circ[i]
