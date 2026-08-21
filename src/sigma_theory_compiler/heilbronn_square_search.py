@@ -469,20 +469,6 @@ class _LatticeSearcher:
                 pts[index] = cands[best]
         return pts
 
-    def random_start(self) -> np.ndarray:
-        return self.np_rng.integers(0, self.d + 1, size=(self.n, 2)).astype(np.int64)
-
-    def kick(self, pts: np.ndarray, strength: float) -> np.ndarray:
-        out = pts.copy()
-        moved = self.rng.randrange(1, max(2, self.n // 3))
-        for index in self.rng.sample(range(self.n), moved):
-            if self.rng.random() < 0.35:
-                out[index] = self.np_rng.integers(0, self.d + 1, size=2)
-            else:
-                jump = self.np_rng.normal(0.0, strength * self.d, size=2)
-                out[index] = np.clip(pts[index] + np.rint(jump).astype(np.int64), 0, self.d)
-        return out
-
 
 def _distinct(pts: np.ndarray) -> bool:
     return len({(int(x), int(y)) for x, y in pts}) == len(pts)
@@ -831,7 +817,6 @@ def enumerate_layouts(group: str, n: int, limit: int = 64) -> list[tuple[str, ..
 
 def build_layout(group: str, orbits: Sequence[str]) -> SymmetryLayout:
     """Assemble the affine map for a chosen orbit composition."""
-    columns: list[list[tuple[int, float]]] = []
     xs: list[list[tuple[int, float]]] = []
     ys: list[list[tuple[int, float]]] = []
     offx: list[float] = []
@@ -846,7 +831,6 @@ def build_layout(group: str, orbits: Sequence[str]) -> SymmetryLayout:
             ys.append([(slots[c], a[1, c]) for c in range(local) if a[1, c] != 0.0])
             offx.append(float(b[0]))
             offy.append(float(b[1]))
-    del columns
 
     n = len(offx)
     matrix = np.zeros((2 * n, dimension))
@@ -1007,44 +991,6 @@ def _perturb(
         a, b = rng.choice(n, size=2, replace=False)
         out[[a, b]] = np.clip(out[[b, a]] + rng.normal(0.0, 0.02, (2, 2)), 0.0, 1.0)
     return out
-
-
-def _structured_start(n: int, rng: random.Random) -> np.ndarray:
-    """A start drawn from a small family of shapes that Heilbronn optima tend to resemble."""
-    kind = rng.randrange(4)
-    if kind == 0:
-        return np.array([[rng.random(), rng.random()] for _ in range(n)])
-    if kind == 1:  # jittered near-square grid
-        side = math.ceil(math.sqrt(n))
-        cells = rng.sample([(a, b) for a in range(side) for b in range(side)], n)
-        jitter = 0.5 / side
-        return np.array(
-            [
-                [
-                    (a + 0.5) / side + rng.uniform(-jitter, jitter),
-                    (b + 0.5) / side + rng.uniform(-jitter, jitter),
-                ]
-                for a, b in cells
-            ]
-        )
-    if kind == 2:  # boundary ring plus interior cloud
-        on_edge = rng.randint(max(3, n // 3), max(4, (2 * n) // 3))
-        pts = []
-        for idx in range(on_edge):
-            t = 4.0 * (idx + rng.uniform(0.0, 0.6)) / on_edge
-            side, frac = int(t) % 4, t - int(t)
-            pts.append(
-                [(frac, 0.0), (1.0, frac), (1.0 - frac, 1.0), (0.0, 1.0 - frac)][side]
-            )
-        pts.extend([rng.random(), rng.random()] for _ in range(n - on_edge))
-        return np.clip(np.array(pts, dtype=float), 0.0, 1.0)
-    half = n // 2  # 180-degree rotationally symmetric start
-    pts = [[rng.random(), rng.random()] for _ in range(half)]
-    mirrored = [[1.0 - x, 1.0 - y] for x, y in pts]
-    out = pts + mirrored
-    if n % 2:
-        out.append([0.5, 0.5])
-    return np.array(out)
 
 
 def search_real_configuration(
