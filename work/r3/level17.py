@@ -10,11 +10,12 @@ from sigma_theory_compiler.weak_sidon_exhaustion import (
 def main(L, workers, out):
     n = 17
     w = [0, 0] + [A345731_PUBLISHED[m] for m in range(2, 17)] + [L]
-    cells = enumerate_prefix_cells(n, L, w)
+    cells = enumerate_prefix_cells(n, L, w, depth=3)
     print("n=17 L=%d declared_cells=%d wtab=%s" % (L, len(cells), w)); sys.stdout.flush()
     t0 = time.time(); done = 0; total = 0; hits = []
     def job(c):
-        f, nd, wit = search_within(n, L, w, a1_range=(c.a1, c.a1), a2_range=(c.a2, c.a2), engine="numba")
+        f, nd, wit = search_within(n, L, w, a1_range=(c.a1, c.a1), a2_range=(c.a2, c.a2),
+                                   a3_range=(c.a3, c.a3), engine="numba")
         return c, f, nd, wit
     with ThreadPoolExecutor(max_workers=workers) as ex:
         futs = [ex.submit(job, c) for c in cells]
@@ -23,8 +24,8 @@ def main(L, workers, out):
             if f:
                 assert is_weak_sidon(wit) and witness_diameter(wit) <= L
                 hits.append(list(map(int, wit)))
-            print("  cell(a1=%d,a2=%d) found=%s nodes=%d  [%d/%d] total=%d %.0fs"
-                  % (c.a1, c.a2, f, abs(nd), done, len(cells), total, time.time()-t0)); sys.stdout.flush()
+            if done % 25 == 0 or f:
+                print("  [%d/%d] total_nodes=%d %.0fs" % (done, len(cells), total, time.time()-t0)); sys.stdout.flush()
     rec = {"n":"17","lmax":str(L),"wtab":[str(v) for v in w],
            "declared_cells":str(len(cells)),"traversed_cells":str(done),
            "nodes":str(total),"exhaustive":True,"found":bool(hits),

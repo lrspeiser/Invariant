@@ -107,6 +107,8 @@ def _search_python(
     a1_hi: int,
     a2_lo: int,
     a2_hi: int,
+    a3_lo: int,
+    a3_hi: int,
     node_cap: int,
 ) -> tuple[bool, int, tuple[int, ...]]:
     """Reference (slow, dependency-free) implementation of :func:`search_within`."""
@@ -146,6 +148,8 @@ def _search_python(
             lo, hi = max(lo, a1_lo), min(hi, a1_hi)
         elif k == 2:
             lo, hi = max(lo, a2_lo), min(hi, a2_hi)
+        elif k == 3:
+            lo, hi = max(lo, a3_lo), min(hi, a3_hi)
         for x in range(lo, hi + 1):
             if not add(k, x):
                 continue
@@ -176,7 +180,7 @@ except Exception:  # noqa: BLE001  # pragma: no cover - optional accelerator
 if _HAVE_NUMBA:  # pragma: no cover - compiled path, refereed by the python path
 
     @_njit(cache=True, nogil=True)
-    def _search_numba(n, lmax, wtab, a1_lo, a1_hi, a2_lo, a2_hi, node_cap):
+    def _search_numba(n, lmax, wtab, a1_lo, a1_hi, a2_lo, a2_hi, a3_lo, a3_hi, node_cap):
         chosen = _np.zeros(n + 1, _np.int64)
         pos = _np.zeros(n + 2, _np.int64)
         used = _np.zeros(2 * lmax + 4, _np.uint8)
@@ -193,6 +197,9 @@ if _HAVE_NUMBA:  # pragma: no cover - compiled path, refereed by the python path
             elif k == 2:
                 lo = max(lo, a2_lo)
                 hi = min(hi, a2_hi)
+            elif k == 3:
+                lo = max(lo, a3_lo)
+                hi = min(hi, a3_hi)
             if k == n - 1:
                 # reflection canonical form: first gap <= last gap
                 lo2 = chosen[n - 2] + chosen[1]
@@ -245,6 +252,7 @@ def search_within(
     *,
     a1_range: tuple[int, int] | None = None,
     a2_range: tuple[int, int] | None = None,
+    a3_range: tuple[int, int] | None = None,
     node_cap: int = 1 << 62,
     engine: str = "auto",
 ) -> tuple[bool, int, tuple[int, ...]]:
@@ -261,6 +269,7 @@ def search_within(
         raise ValueError("wtab must be indexable up to n")
     a1_lo, a1_hi = a1_range if a1_range else (1, lmax)
     a2_lo, a2_hi = a2_range if a2_range else (1, lmax)
+    a3_lo, a3_hi = a3_range if a3_range else (1, lmax)
     use = engine
     if use == "auto":
         use = "numba" if _HAVE_NUMBA else "python"
@@ -269,10 +278,12 @@ def search_within(
             raise RuntimeError("numba engine requested but numba is unavailable")
         w = _np.asarray(list(wtab) + [0] * (n + 2), dtype=_np.int64)
         found, nodes, arr = _search_numba(
-            n, lmax, w, a1_lo, a1_hi, a2_lo, a2_hi, node_cap
+            n, lmax, w, a1_lo, a1_hi, a2_lo, a2_hi, a3_lo, a3_hi, node_cap
         )
         return bool(found), int(nodes), tuple(int(v) for v in arr[:n]) if found else ()
-    return _search_python(n, lmax, list(wtab), a1_lo, a1_hi, a2_lo, a2_hi, node_cap)
+    return _search_python(
+        n, lmax, list(wtab), a1_lo, a1_hi, a2_lo, a2_hi, a3_lo, a3_hi, node_cap
+    )
 
 
 # --------------------------------------------------------------------------
@@ -282,16 +293,22 @@ def search_within(
 
 @dataclass(frozen=True, slots=True)
 class PrefixCell:
-    """One cell of the partition of the search space by ``(a_1, a_2)``."""
+    """One cell of the partition of the search space by ``(a_1, a_2)`` or ``(a_1, a_2, a_3)``."""
 
     a1: int
     a2: int
+    a3: int | None = None
 
     def as_dict(self) -> dict[str, str]:
-        return {"a1": str(self.a1), "a2": str(self.a2)}
+        d = {"a1": str(self.a1), "a2": str(self.a2)}
+        if self.a3 is not None:
+            d["a3"] = str(self.a3)
+        return d
 
 
-def enumerate_prefix_cells(n: int, lmax: int, wtab: list[int]) -> list[PrefixCell]:
+def enumerate_prefix_cells(
+    n: int, lmax: int, wtab: list[int], depth: int = 2
+) -> list[PrefixCell]:
     """Every ``(a_1, a_2)`` a solution could possibly start with.
 
     Independently recomputable by inspection: ``a_1`` ranges over
@@ -310,7 +327,13 @@ def enumerate_prefix_cells(n: int, lmax: int, wtab: list[int]) -> list[PrefixCel
         lo2 = max(a1 + 1, wtab[3])
         hi2 = lmax - wtab[n - 2]
         for a2 in range(lo2, hi2 + 1):
-            cells.append(PrefixCell(a1, a2))
+            if depth < 3:
+                cells.append(PrefixCell(a1, a2))
+                continue
+            lo3 = max(a2 + 1, wtab[4])
+            hi3 = lmax - wtab[n - 3]
+            for a3 in range(lo3, hi3 + 1):
+                cells.append(PrefixCell(a1, a2, a3))
     return cells
 
 
