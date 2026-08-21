@@ -10,6 +10,8 @@ So ``a(n) = max over n-subsets S of min over triples of |det|``, an integer opti
 finite set.  This is OEIS `A248866 <https://oeis.org/A248866>`_, contributed by Gordon
 Hamilton in March 2015 and extended by Hiroaki Yamanouchi to ``a(13)`` a few days later.  The
 entry still carries the ``more`` keyword: past ``a(13)`` the sequence is unpublished.
+:data:`ESTABLISHED_TERMS` carries ``a(14) = 6`` and ``a(15) = 6``, both settled here, each
+with the witness that makes the lower bound and the cost of the sweep that makes the upper.
 
 **Why this is settleable rather than merely searchable.**  Everything is integral and the
 domain is finite, so ``a(n) = T`` is two exact statements: a witness achieving ``T``, and the
@@ -34,8 +36,10 @@ without losing a single solution -- and :func:`exists_configuration` accepts
 
 **Honest limits.**  A verdict here is exact and complete for the ``(n, T)`` it was run on, and
 says nothing about any other ``n``.  Reproducing ``a(3)..a(13)`` shows the enumeration agrees
-with the published terms; it is not evidence about terms nobody has computed, and absence of
-a published ``a(14)`` is not a claim that none exists somewhere.
+with the published terms; it is not evidence about terms nobody has computed, and the absence
+of a published ``a(14)`` or ``a(15)`` is not a claim that none exists somewhere.  What is
+checkable is narrower and is all that gets claimed: the OEIS entry lists ``a(3)..a(13)``, so
+these two values are not among its terms.
 """
 
 from __future__ import annotations
@@ -110,8 +114,20 @@ ESTABLISHED_TERMS: dict[int, EstablishedTerm] = {
             (6, 11), (8, 0), (10, 6), (10, 12), (11, 1), (13, 6), (13, 11),
         ),
         refutation_threshold=7,
-        refutation_nodes=5_480_025_159,
-        refutation_seconds=242.2,
+        refutation_nodes=5_480_024_818,
+        refutation_seconds=226.2,
+        beyond_published=True,
+    ),
+    15: EstablishedTerm(
+        n=15,
+        value=6,
+        witness=(
+            (0, 0), (0, 3), (2, 9), (2, 13), (4, 2), (5, 6), (5, 14), (6, 0),
+            (9, 7), (9, 13), (11, 2), (13, 5), (13, 14), (14, 1), (14, 10),
+        ),
+        refutation_threshold=7,
+        refutation_nodes=45_102_635_606,
+        refutation_seconds=1324.9,
         beyond_published=True,
     ),
 }
@@ -279,11 +295,20 @@ def enumerate_branches(n: int, *, use_symmetry: bool = True) -> list[tuple[int, 
 
 
 def branch_verdict(n: int, threshold: int, prefix: Sequence[int]) -> GridVerdict:
-    """Complete enumeration of the subtree under one increasing prefix of chosen indices."""
+    """Complete enumeration of the subtree under one increasing prefix of chosen indices.
+
+    The candidate bitset only constrains *future* points, so a prefix of three or more has to
+    be checked against itself as well -- otherwise a prefix that already contains a too-small
+    triangle would have its subtree explored as though it were legal.
+    """
     engine = _Enumerator(n, threshold)
     chosen = list(prefix)
-    if chosen != sorted(set(chosen)):
+    if chosen != sorted(set(chosen)) or not chosen:
         raise ValueError("prefix must be strictly increasing indices")
+    if len(chosen) > 2:
+        picked = [engine.points[i] for i in chosen]
+        if certify_min_double_area(picked, n) < threshold:
+            return GridVerdict(n, threshold, False, 0, None, True)
     cand = engine.initial(chosen)
     found = None
     if cand is not None and len(chosen) + cand.bit_count() >= n:

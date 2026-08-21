@@ -209,3 +209,26 @@ def test_branch_verdict_rejects_a_malformed_prefix() -> None:
         branch_verdict(7, 5, [4, 2])
     with pytest.raises(ValueError):
         branch_verdict(7, 5, [3, 3])
+
+
+def test_a_long_prefix_is_checked_against_itself_not_just_against_the_future() -> None:
+    """The candidate bitset constrains future points only, so a prefix of three or more has
+    to be scored on its own or an already-illegal prefix would be explored as if legal."""
+    n, threshold = 7, 5
+    points = grid_points(n)
+    # Three collinear points: min double area 0, so this prefix can never be completed.
+    collinear = [points.index((0, 0)), points.index((1, 1)), points.index((2, 2))]
+    dead = branch_verdict(n, threshold, collinear)
+    assert dead.feasible is False
+    assert dead.nodes == 0
+
+    # A legal three-point prefix is still explored, and any witness it returns contains it.
+    legal = [points.index((0, 0)), points.index((0, 5)), points.index((3, 2))]
+    assert certify_min_double_area([points[i] for i in legal], n) >= threshold
+    verdict = branch_verdict(n, threshold, legal)
+    if verdict.witness is not None:
+        assert {points[i] for i in legal} <= set(verdict.witness)
+        assert certify_min_double_area(list(verdict.witness), n) >= threshold
+
+    with pytest.raises(ValueError):
+        branch_verdict(n, threshold, [])
