@@ -20,10 +20,11 @@ TARGET = "Invariant.externalKnownFormulaControls"
 ALLOWED_PREMISES = (
     "Invariant.recoveredKineticNormalForm",
     "Invariant.recoveredSumSquaresNormalForm",
-    "Lean.Parser.Tactic.ac_rfl",
     "Nat.add_mul",
     "Nat.mul_add",
     "Nat.mul_one",
+    "Rat.mul_assoc",
+    "Rat.mul_comm",
 )
 
 

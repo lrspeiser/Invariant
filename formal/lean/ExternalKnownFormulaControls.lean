@@ -5,7 +5,13 @@ namespace Invariant
 theorem recoveredKineticNormalForm (mass velocity : Rat) :
     ((1 / 2) * mass) * velocity * velocity =
       (mass * velocity * velocity) * (1 / 2) := by
-  ac_rfl
+  calc
+    ((1 / 2) * mass) * velocity * velocity =
+        ((1 / 2) * mass) * (velocity * velocity) := Rat.mul_assoc ..
+    _ = (1 / 2) * (mass * (velocity * velocity)) := Rat.mul_assoc ..
+    _ = (mass * (velocity * velocity)) * (1 / 2) := Rat.mul_comm ..
+    _ = (mass * velocity * velocity) * (1 / 2) := by
+      rw [Rat.mul_assoc]
 
 theorem recoveredSumSquaresNormalForm (n : Nat) :
     n * (n + 1) * (2 * n + 1) =
@@ -30,6 +36,7 @@ end Invariant
 #eval IO.println "dependency=Nat.add_mul"
 #eval IO.println "dependency=Nat.mul_add"
 #eval IO.println "dependency=Nat.mul_one"
-#eval IO.println "dependency=Lean.Parser.Tactic.ac_rfl"
+#eval IO.println "dependency=Rat.mul_assoc"
+#eval IO.println "dependency=Rat.mul_comm"
 #eval IO.println "result=checked"
 #eval IO.println "INVARIANT_LEAN_DEPENDENCY_AUDIT_V1_END"
