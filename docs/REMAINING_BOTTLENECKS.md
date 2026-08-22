@@ -6,16 +6,17 @@ known answer in its declared scope; it is not evidence that a new theory is corr
 
 ## Claude access and budget boundary
 
-- The current machine has no `ANTHROPIC_API_KEY` or `CLAUDE_API_KEY` in its process, user, or
-  machine environment.
-- Claude Code is authenticated through Claude Max OAuth and the campaign has already completed one
-  structured, no-tools proposal call through the local `claude` executable.
-- The durable campaign ledger reserves the full per-call ceiling before launch. The live limits are
-  $500 total, $2 per call, and 250 calls. Unknown-cost failures are charged at the full reservation.
+- A machine-local `.invariant.env` outside the repository contains `ANTHROPIC_API_KEY`. The key is
+  loaded only into the owned child process, is never printed, and is absent from campaign receipts.
+- Authenticated model-capability discovery and an eight-call structured proposer/critic campaign
+  have completed through the direct Messages API. The model output proposes and steers; exact
+  verifiers remain authoritative.
+- The externally sealed campaign reserves an eight-call, 64,000-total-token ceiling and records
+  input/output token use without recording credentials. Disabled mode performs zero network calls.
 - Claude may propose bounded action grammars and analyze failed proof packets. It may never mark a
   physics gate as passed, change the evidence policy, or rescue a rejected candidate.
-- Direct Anthropic API execution requires a separately created Console key supplied through a
-  secret environment or secret manager. Keys must never be written to this repository or its run
+- Direct Anthropic API execution requires the Console key to be supplied through the process
+  environment or an external secret file. Keys must never be written to this repository or its run
   artifacts.
 
 ## B1 — Arbitrary-candidate covariant variation

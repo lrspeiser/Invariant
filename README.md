@@ -1172,6 +1172,41 @@ This is a working, deliberately narrow prototype of the proposed “Gravity Theo
 
 It does **not** claim to enumerate all gravity theories. It does **not** fit observations. A static survivor is not a healthy relativistic theory.
 
+## Externally sealed creativity validation
+
+The creativity lane runs two known-formula controls and two bounded-unknown sequence controls whose
+source records are OpenStax, NIST DLMF, and OEIS. Generation sees anonymous training rows,
+dimensions, and variable arity; source identity, reference formulas, and sealed holdouts open only
+after deterministic and optional Claude proposer/critic traces and proposal hashes are frozen.
+
+The search covers analogy transfer, conserved quantities, counterexample repair, dimensional
+analysis, generating functions, inverse variational reasoning, quotient construction, recurrence
+guessing, representation changes, and symmetry reduction. Every family has an equal-budget random
+control and a leave-one-family-out ablation. Candidate behavior and proof-mechanism hashes are
+reported separately. Exact row replay, CAS normalization, SMT countermodel search, interval checks,
+and a formula-specific Lean bridge are distinct proof routes; model output cannot mark any route as
+passed.
+
+The current bounded result rediscovers the two known formulas but finds no zero-loss law for either
+unknown sequence. Consequently the level-5 success count is zero and famous-open-problem spending
+is blocked. A second exact evaluator implemented with only Python AST and `Fraction` agrees with the
+primary evaluator. Windows/Linux CI and the Lean kernel job are the pending independent-host gates.
+Human prior-art review is mandatory before any serious or novelty claim can be released.
+The implementation backlog and promotion criteria are listed in
+[`docs/CREATIVE_FORMULA_DISCOVERY_ROADMAP.md`](docs/CREATIVE_FORMULA_DISCOVERY_ROADMAP.md).
+
+Run the replayable, network-free campaign with:
+
+```powershell
+sigma-external-creativity --output runs/math/external-creativity-validation/campaign.json
+```
+
+For an explicitly authorized live run, load `ANTHROPIC_API_KEY` from a secret outside the repository
+and add `--live-claude`. The receipt stores response, prompt, schema, and capability hashes plus token
+counts, but never the credential. See
+[`configs/external_creativity_validation_campaign.json`](configs/external_creativity_validation_campaign.json)
+for the frozen call and token ceilings.
+
 ## The compiled theory class
 
 The parent static functional is
