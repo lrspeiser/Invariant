@@ -6,25 +6,77 @@ on:
       - ".github/workflows/declarative-discovery.yml"
       - "configs/declarative_discovery_platform.json"
       - "configs/declarative_discovery_receipt_dag.json"
+      - "configs/declarative_extension_candidates.json"
+      - "configs/backgrounds/anonymous_natural_sum_blind_rediscovery.json"
+      - "configs/backgrounds/blind_planetary_public_worlds_v1.json"
+      - "configs/backgrounds/blind_planetary_targets_v1.json"
+      - "configs/complete_blind_benchmark_curriculum.json"
+      - "configs/complete_blind_benchmark_targets.json"
+      - "configs/prospective_blind_cross_generator_tournament.json"
+      - "docs/BLIND_PLANETARY_LAW_REDISCOVERY.md"
+      - "docs/COMPLETE_BLIND_BENCHMARK_CURRICULUM.md"
+      - "docs/FIRST_PRINCIPLES_DISCOVERY_GOALS.md"
+      - "runs/math/blind-planetary-laws/**"
+      - "runs/math/complete-blind-benchmark-curriculum/**"
+      - "runs/math/constraint-recovered-identity-breadth-lean-bridge/**"
       - "runs/math/declarative-discovery-platform/**"
+      - "runs/math/math-benchmark-curriculum-v1/readiness.json"
+      - "src/sigma_theory_compiler/anonymous_natural_sum_blind_rediscovery.py"
+      - "src/sigma_theory_compiler/blind_planetary_law_rediscovery_campaign.py"
+      - "src/sigma_theory_compiler/complete_blind_benchmark_curriculum.py"
       - "src/sigma_theory_compiler/declarative_discovery.py"
       - "src/sigma_theory_compiler/declarative_discovery_campaign.py"
+      - "src/sigma_theory_compiler/declarative_discovery_operational_campaign.py"
+      - "src/sigma_theory_compiler/declarative_discovery_runtime.py"
       - "src/sigma_theory_compiler/receipt_dag.py"
+      - "src/sigma_theory_compiler/prospective_blind_cross_generator_tournament.py"
+      - "tests/test_anonymous_natural_sum_blind_rediscovery.py"
+      - "tests/test_blind_planetary_law_rediscovery_campaign.py"
+      - "tests/test_complete_blind_benchmark_curriculum.py"
       - "tests/test_declarative_discovery.py"
       - "tests/test_declarative_discovery_campaign.py"
+      - "tests/test_declarative_discovery_operational_campaign.py"
+      - "tests/test_declarative_discovery_runtime.py"
       - "tests/test_receipt_dag.py"
+      - "tests/test_prospective_blind_cross_generator_tournament.py"
   pull_request:
     paths:
       - ".github/workflows/declarative-discovery.yml"
       - "configs/declarative_discovery_platform.json"
       - "configs/declarative_discovery_receipt_dag.json"
+      - "configs/declarative_extension_candidates.json"
+      - "configs/backgrounds/anonymous_natural_sum_blind_rediscovery.json"
+      - "configs/backgrounds/blind_planetary_public_worlds_v1.json"
+      - "configs/backgrounds/blind_planetary_targets_v1.json"
+      - "configs/complete_blind_benchmark_curriculum.json"
+      - "configs/complete_blind_benchmark_targets.json"
+      - "configs/prospective_blind_cross_generator_tournament.json"
+      - "docs/BLIND_PLANETARY_LAW_REDISCOVERY.md"
+      - "docs/COMPLETE_BLIND_BENCHMARK_CURRICULUM.md"
+      - "docs/FIRST_PRINCIPLES_DISCOVERY_GOALS.md"
+      - "runs/math/blind-planetary-laws/**"
+      - "runs/math/complete-blind-benchmark-curriculum/**"
+      - "runs/math/constraint-recovered-identity-breadth-lean-bridge/**"
       - "runs/math/declarative-discovery-platform/**"
+      - "runs/math/math-benchmark-curriculum-v1/readiness.json"
+      - "src/sigma_theory_compiler/anonymous_natural_sum_blind_rediscovery.py"
+      - "src/sigma_theory_compiler/blind_planetary_law_rediscovery_campaign.py"
+      - "src/sigma_theory_compiler/complete_blind_benchmark_curriculum.py"
       - "src/sigma_theory_compiler/declarative_discovery.py"
       - "src/sigma_theory_compiler/declarative_discovery_campaign.py"
+      - "src/sigma_theory_compiler/declarative_discovery_operational_campaign.py"
+      - "src/sigma_theory_compiler/declarative_discovery_runtime.py"
       - "src/sigma_theory_compiler/receipt_dag.py"
+      - "src/sigma_theory_compiler/prospective_blind_cross_generator_tournament.py"
+      - "tests/test_anonymous_natural_sum_blind_rediscovery.py"
+      - "tests/test_blind_planetary_law_rediscovery_campaign.py"
+      - "tests/test_complete_blind_benchmark_curriculum.py"
       - "tests/test_declarative_discovery.py"
       - "tests/test_declarative_discovery_campaign.py"
+      - "tests/test_declarative_discovery_operational_campaign.py"
+      - "tests/test_declarative_discovery_runtime.py"
       - "tests/test_receipt_dag.py"
+      - "tests/test_prospective_blind_cross_generator_tournament.py"
 
 permissions:
   contents: read
@@ -39,7 +91,9 @@ jobs:
         with:
           python-version: "3.11"
       - run: python -m pip install -e . pytest ruff
-      - run: python -m ruff check src/sigma_theory_compiler/declarative_discovery.py src/sigma_theory_compiler/declarative_discovery_campaign.py src/sigma_theory_compiler/receipt_dag.py tests/test_declarative_discovery.py tests/test_declarative_discovery_campaign.py tests/test_receipt_dag.py
-      - run: python -m pytest -q tests/test_declarative_discovery.py tests/test_declarative_discovery_campaign.py tests/test_receipt_dag.py
+      - run: python -m ruff check src/sigma_theory_compiler/declarative_discovery.py src/sigma_theory_compiler/declarative_discovery_campaign.py src/sigma_theory_compiler/declarative_discovery_operational_campaign.py src/sigma_theory_compiler/declarative_discovery_runtime.py src/sigma_theory_compiler/receipt_dag.py tests/test_declarative_discovery.py tests/test_declarative_discovery_campaign.py tests/test_declarative_discovery_operational_campaign.py tests/test_declarative_discovery_runtime.py tests/test_receipt_dag.py
+      - run: python -m pytest -q tests/test_declarative_discovery.py tests/test_declarative_discovery_campaign.py tests/test_declarative_discovery_operational_campaign.py tests/test_declarative_discovery_runtime.py tests/test_receipt_dag.py tests/test_anonymous_natural_sum_blind_rediscovery.py tests/test_blind_planetary_law_rediscovery_campaign.py tests/test_complete_blind_benchmark_curriculum.py tests/test_prospective_blind_cross_generator_tournament.py
       - run: python -m sigma_theory_compiler.declarative_discovery_campaign --check
-      - run: python -m sigma_theory_compiler.receipt_dag --manifest configs/declarative_discovery_receipt_dag.json --check
+      - run: python -m sigma_theory_compiler.declarative_discovery_operational_campaign --check
+      - run: python -m sigma_theory_compiler.receipt_dag --manifest configs/declarative_discovery_receipt_dag.json --write --rebuild-all
+      - run: git diff --exit-code -- runs/math/declarative-discovery-platform

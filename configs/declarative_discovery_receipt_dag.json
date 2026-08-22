@@ -1,10 +1,37 @@
 {
-  "schema_version": "invariant-receipt-dag-manifest-1.0",
+  "schema_version": "invariant-receipt-dag-manifest-2.0",
   "manifest_id": "declarative-discovery-receipts-v1",
+  "auto_self_sealed": true,
+  "builders": [
+    {
+      "arguments": [
+        "--out",
+        "runs/math/declarative-discovery-platform/operational-v2.json"
+      ],
+      "module": "sigma_theory_compiler.declarative_discovery_operational_campaign",
+      "node": "runs/math/declarative-discovery-platform/operational-v2.json",
+      "timeout_seconds": 120,
+      "verify_determinism": true
+    },
+    {
+      "arguments": [
+        "--out",
+        "runs/math/declarative-discovery-platform/readiness.json"
+      ],
+      "module": "sigma_theory_compiler.declarative_discovery_campaign",
+      "node": "runs/math/declarative-discovery-platform/readiness.json",
+      "timeout_seconds": 120,
+      "verify_determinism": true
+    }
+  ],
+  "portable_all_file_hashes": true,
+  "portable_targets": [],
+  "root_nodes": [],
   "scan_paths": [
     "runs/math/declarative-discovery-platform"
   ],
   "self_sealed": [
+    "runs/math/declarative-discovery-platform/operational-v2.json",
     "runs/math/declarative-discovery-platform/readiness.json"
   ],
   "aliases": []
