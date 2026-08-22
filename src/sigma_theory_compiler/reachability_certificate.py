@@ -813,6 +813,14 @@ def _fragment_declaration(fragment: Fragment) -> dict[str, Any]:
     }
 
 
+#: Public names for the two blocks a consumer must be able to rebuild identically.  A module
+#: that adjudicates a search against a certificate has to bind the certificate to the fragment
+#: the search really enumerated, and it has to seal its own record the same way; re-deriving
+#: either of those elsewhere is how two supposedly identical canonical forms drift apart.
+fragment_declaration = _fragment_declaration
+seal_certificate = _seal
+
+
 def _target_block(value: Fraction) -> dict[str, Any]:
     return {
         "kind": "rational",

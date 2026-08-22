@@ -38,10 +38,14 @@ jobs:
           src/sigma_theory_compiler/tensor_constraint_search.py
           src/sigma_theory_compiler/inverse_variational_engine.py
           src/sigma_theory_compiler/funsearch_loop.py
+          src/sigma_theory_compiler/funsearch_learning.py
+          src/sigma_theory_compiler/unlabelled_channel_mdl.py
           src/sigma_theory_compiler/cyclic_ramsey_lower_bounds.py
           src/sigma_theory_compiler/guided_lattice_order.py
           src/sigma_theory_compiler/capset_construction_search.py
           src/sigma_theory_compiler/creativity_measure.py
+          src/sigma_theory_compiler/creativity_receipt.py
+          src/sigma_theory_compiler/model_ensemble_proposer.py
           src/sigma_theory_compiler/heilbronn_square_search.py
           src/sigma_theory_compiler/discrete_heilbronn_grid.py
           src/sigma_theory_compiler/discrete_heilbronn_independent_audit.py
@@ -51,7 +55,9 @@ jobs:
           src/sigma_theory_compiler/solar_system_screen.py
           src/sigma_theory_compiler/real_data_gravity_confrontation.py
           src/sigma_theory_compiler/reachability_certificate.py
+          src/sigma_theory_compiler/certified_null_search.py
           src/sigma_theory_compiler/self_generated_conjecture_adjudication.py
+          src/sigma_theory_compiler/reconciliation_search.py
           src/sigma_theory_compiler/per_object_law_decomposition.py
           tests/test_per_object_law_decomposition.py
           src/sigma_theory_compiler/sparc_full_sample.py
@@ -110,6 +116,10 @@ jobs:
           tests/test_synthetic_graph_cut_holdout_world.py
           tests/test_synthetic_modular_exponent_holdout_world.py
           tests/test_synthetic_affine_geometry_holdout_world.py
+          tests/test_reconciliation_search.py
+          tests/test_unlabelled_channel_mdl.py
+          tests/test_funsearch_channel_widening.py
+          tests/test_certified_null_search.py
       - name: Verify Sigma Core, Math Pack, and blind rediscovery
         run: >-
           python -m pytest
@@ -643,10 +653,15 @@ jobs:
               tests/test_tensor_constraint_search.py
               tests/test_inverse_variational_engine.py
               tests/test_funsearch_loop.py
+              tests/test_funsearch_learning.py
+              tests/test_unlabelled_channel_mdl.py
+              tests/test_funsearch_channel_widening.py
               tests/test_cyclic_ramsey_lower_bounds.py
               tests/test_guided_lattice_order.py
               tests/test_capset_construction_search.py
               tests/test_creativity_measure.py
+              tests/test_creativity_receipt.py
+              tests/test_model_ensemble_proposer.py
               tests/test_heilbronn_square_search.py
               tests/test_discrete_heilbronn_grid.py
               tests/test_discrete_heilbronn_independent_audit.py
@@ -656,9 +671,11 @@ jobs:
               tests/test_solar_system_screen.py
               tests/test_real_data_gravity_confrontation.py
               tests/test_reachability_certificate.py
+              tests/test_certified_null_search.py
               tests/test_per_object_law_decomposition.py
               tests/test_sparc_full_sample.py
               tests/test_self_generated_conjecture_adjudication.py
+              tests/test_reconciliation_search.py
               tests/test_self_generated_conjecture_widening.py
               tests/test_tensor_constraint_framework.py
               tests/test_weak_sidon_exhaustion.py
