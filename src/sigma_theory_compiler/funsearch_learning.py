@@ -90,19 +90,16 @@ uninformative one.
 A campaign with no floor at all is *not* evidence that the search does not learn, and
 :func:`verdict_of` refuses to report it as such: it returns ``uninformative_null``, which is
 the statistical form of the reachability certificate C1 demands before a null result may be
-published.  Half the campaigns in the sealed sweep land there, and the reason is worth
-stating because it is a property of the loop and not of the test: in a campaign that
-improves, the top-scoring mid-campaign programs *are* the late ones, so the score axis and
-the clock become collinear and no amount of arithmetic can attribute the drift to one rather
-than the other.
+published.
 
-The pole construction and the campaign geometry were chosen on that floor and on nothing
-else.  Balanced per-generation poles and pole sizes of 12, 20, 25, 40 and 60 were measured;
-so were campaigns of 60 and 80 generations at 5 and 8 proposals per call.  None beat the v1
-geometry's floor and one had no floor at all, so the v1 geometry is kept -- which also keeps
-the comparison against v1 a comparison of nulls rather than of two different experiments.
-Selecting on the floor cannot manufacture the headline: a more sensitive instrument that
-still reports no shift is a stronger negative, not a weaker one.
+The score poles are paired within generations.  Candidate pairs are the highest- and
+lowest-scoring programs from one generation, ranked by their score separation; the declared
+number of widest-separated pairs forms the two poles.  This preserves the meaning of
+``elite`` and ``foil`` while guaranteeing that N3 has the same number of elite and foil
+labels to exchange inside every contributing generation.  Without that reachability rule a
+smooth scorer can put an entire generation in one global pole, at which point the
+generation-stratified null has no possible within-generation counterfactual and a planted
+power control can be dead for a purely combinatorial reason.
 
 Exact arithmetic
 ----------------
@@ -170,8 +167,8 @@ SCOPE = (
     "Two campaigns of the declared FunSearch loop that differ in exactly one field: "
     "whether final_score is allowed to reach the proposer. For each, the drift of the "
     "pooled feature-count distribution from the first window of generations to the last is "
-    "projected onto the axis separating the top-scoring from the bottom-scoring pole of the "
-    "mid-campaign population, and that projection is tested against three nulls: a "
+    "projected onto the axis separating paired high- and low-scoring programs drawn within "
+    "the same mid-campaign generations, and that projection is tested against three nulls: a "
     "permutation of generations (inadmissible, retained only because it is the null the "
     "first version of this measurement shipped with), a permutation of the score labels "
     "over the mid-campaign pool, and the same permutation stratified so each drawn pole "
@@ -440,6 +437,48 @@ def poles_of(pool: Sequence[PoolProgram], size: int) -> tuple[list[PoolProgram],
         )
     ranked = rank_pool(pool)
     return ranked[:size], ranked[-size:]
+
+
+def paired_poles_of(
+    pool: Sequence[PoolProgram], size: int
+) -> tuple[list[PoolProgram], list[PoolProgram]]:
+    """Return score-separated pairs whose two members come from the same generation.
+
+    N3 conditions on the observed pole counts per generation.  If a global pole consumes
+    every program from one generation, permuting labels inside that generation changes
+    nothing and the null has no reachable counterfactual.  Pairing the local extremes makes
+    each contributing label exchangeable while still choosing the strongest score
+    separations available in the pool.  Pair ranking is total and deterministic.
+    """
+
+    if size < 1:
+        raise LearningError("a pole needs at least one program")
+    by_generation: dict[int, list[PoolProgram]] = {}
+    for item in pool:
+        by_generation.setdefault(item.generation, []).append(item)
+    pairs: list[tuple[float, str, str, PoolProgram, PoolProgram]] = []
+    for generation in sorted(by_generation):
+        ranked = rank_pool(by_generation[generation])
+        for position in range(len(ranked) // 2):
+            elite = ranked[position]
+            foil = ranked[-1 - position]
+            pairs.append(
+                (
+                    elite.final_score - foil.final_score,
+                    elite.program_sha256,
+                    foil.program_sha256,
+                    elite,
+                    foil,
+                )
+            )
+    if len(pairs) < size:
+        raise LearningError(
+            f"the pool supplies only {len(pairs)} disjoint within-generation pairs and "
+            f"cannot form poles of {size}"
+        )
+    pairs.sort(key=lambda item: (-item[0], item[1], item[2]))
+    selected = pairs[:size]
+    return [item[3] for item in selected], [item[4] for item in selected]
 
 
 @dataclass(frozen=True, slots=True)
@@ -1129,7 +1168,7 @@ def measure_records(
                     features=features,
                 )
             )
-    elite_items, foil_items = poles_of(pool, config.pole_size)
+    elite_items, foil_items = paired_poles_of(pool, config.pole_size)
     elite = pooled(item.features for item in elite_items)
     foil = pooled(item.features for item in foil_items)
 

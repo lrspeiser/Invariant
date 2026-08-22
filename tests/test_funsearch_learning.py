@@ -556,6 +556,31 @@ def test_the_instrument_fires_when_learning_is_true_by_construction(
         assert arm.power.floor <= arm.power.programs_per_generation
 
 
+def test_campaign_poles_have_exchangeable_labels_within_each_generation() -> None:
+    """N3 must have a reachable label permutation everywhere the observed axis is built."""
+
+    pool: list[L.PoolProgram] = []
+    for generation in range(4):
+        for position in range(5):
+            pool.append(
+                L.PoolProgram(
+                    generation=generation,
+                    program_sha256=f"{generation}-{position}",
+                    final_score=float(5 - position + generation),
+                    features=vec(op__Add=position + 1, op__Mult=6 - position),
+                )
+            )
+    elite, foil = L.paired_poles_of(pool, 6)
+    elite_profile = {generation: 0 for generation in range(4)}
+    foil_profile = {generation: 0 for generation in range(4)}
+    for item in elite:
+        elite_profile[item.generation] += 1
+    for item in foil:
+        foil_profile[item.generation] += 1
+    assert elite_profile == foil_profile
+    assert all(high.final_score >= low.final_score for high, low in zip(elite, foil, strict=True))
+
+
 def test_the_detection_floor_is_the_first_firing_rung(
     arms: tuple[L.ArmMeasurement, L.ArmMeasurement],
 ) -> None:
