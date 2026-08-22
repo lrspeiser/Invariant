@@ -10,13 +10,13 @@ ROOT = Path(__file__).resolve().parents[1]
 def test_formula_specific_source_and_closed_premise_manifest() -> None:
     source = (ROOT / L.SOURCE_PATH).read_text(encoding="utf-8")
     assert "theorem recoveredKineticNormalForm" in source
-    assert "theorem externalSumSquaresClosedForm" in source
+    assert "theorem recoveredSumSquaresNormalForm" in source
     assert "theorem externalKnownFormulaControls" in source
     assert "sorry" not in source.lower()
     assert "axiom " not in source.lower()
     config = L.adapter_config(ROOT / "missing-lean")
     assert config.target == L.TARGET
-    assert "Invariant.externalSumSquaresClosedForm" in config.allowed_premises
+    assert "Invariant.recoveredSumSquaresNormalForm" in config.allowed_premises
     assert "Classical.choice" in config.forbidden_premises
 
 

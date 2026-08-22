@@ -18,19 +18,12 @@ SOURCE_PATH = "formal/lean/ExternalKnownFormulaControls.lean"
 OUTPUT_PATH = "runs/math/external-creativity-known-controls-lean/receipt.json"
 TARGET = "Invariant.externalKnownFormulaControls"
 ALLOWED_PREMISES = (
-    "Invariant.externalSumSquares",
-    "Invariant.externalSumSquaresClosedForm",
-    "Invariant.externalSumSquaresSuccessor",
     "Invariant.recoveredKineticNormalForm",
+    "Invariant.recoveredSumSquaresNormalForm",
     "Lean.Parser.Tactic.ac_rfl",
-    "Lean.Parser.Tactic.omega",
     "Nat.add_mul",
     "Nat.mul_add",
-    "Nat.mul_assoc",
     "Nat.mul_one",
-    "Nat.pow_succ",
-    "Nat.pow_zero",
-    "Nat.rec",
 )
 
 
