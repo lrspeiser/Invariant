@@ -11,7 +11,8 @@ theorem recoveredKineticNormalForm (mass velocity : Rat) :
     _ = (1 / 2) * (mass * (velocity * velocity)) := Rat.mul_assoc ..
     _ = (mass * (velocity * velocity)) * (1 / 2) := Rat.mul_comm ..
     _ = (mass * velocity * velocity) * (1 / 2) := by
-      rw [Rat.mul_assoc]
+      exact congrArg (fun value : Rat => value * (1 / 2))
+        (Rat.mul_assoc mass velocity velocity).symm
 
 theorem recoveredSumSquaresNormalForm (n : Nat) :
     n * (n + 1) * (2 * n + 1) =
