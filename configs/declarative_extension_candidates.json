@@ -1,0 +1,177 @@
+{
+  "candidates": [
+    {
+      "candidate_id": "candidate.operator.mobius-normalize",
+      "capabilities": [
+        "normal_form.rational",
+        "symmetry.mobius"
+      ],
+      "creativity_family": "duality_transform",
+      "declaration": {
+        "declaration_id": "operator.mobius-normalize",
+        "input_types": [
+          "expression"
+        ],
+        "kind": "operator",
+        "laws": [
+          "preserve_cross_ratio"
+        ],
+        "output_type": "expression",
+        "symbols": []
+      },
+      "program": {
+        "consumes": "",
+        "opcode": "format",
+        "produces": [],
+        "productions": [],
+        "template": "mobius_normalize({arg0})"
+      },
+      "proposer_id": "proposer.language-model-a",
+      "schema_version": "invariant-declarative-extension-candidate-2.0",
+      "tests": [
+        {
+          "expected": "mobius_normalize((a*x+b)/(c*x+d))",
+          "inputs": [
+            "(a*x+b)/(c*x+d)"
+          ]
+        }
+      ]
+    },
+    {
+      "candidate_id": "candidate.invariant.cross-ratio",
+      "capabilities": [
+        "invariant.projective",
+        "symmetry.mobius"
+      ],
+      "creativity_family": null,
+      "declaration": {
+        "declaration_id": "invariant.cross-ratio",
+        "input_types": [
+          "scalar",
+          "scalar",
+          "scalar",
+          "scalar"
+        ],
+        "kind": "invariant",
+        "laws": [
+          "mobius_invariant"
+        ],
+        "output_type": "expression",
+        "symbols": []
+      },
+      "program": {
+        "consumes": "",
+        "opcode": "format",
+        "produces": [],
+        "productions": [],
+        "template": "cross_ratio({arg0},{arg1},{arg2},{arg3})"
+      },
+      "proposer_id": "proposer.language-model-b",
+      "schema_version": "invariant-declarative-extension-candidate-2.0",
+      "tests": [
+        {
+          "expected": "cross_ratio(a,b,c,d)",
+          "inputs": [
+            "a",
+            "b",
+            "c",
+            "d"
+          ]
+        }
+      ]
+    },
+    {
+      "candidate_id": "candidate.tactic.factor-zero",
+      "capabilities": [
+        "adds_invariant.factorization",
+        "mechanism.case_split",
+        "normal_form.factorized",
+        "representation.polynomial"
+      ],
+      "creativity_family": null,
+      "declaration": {
+        "declaration_id": "tactic.factor-zero",
+        "input_types": [
+          "proof_state"
+        ],
+        "kind": "proof_tactic",
+        "laws": [
+          "zero_product_split"
+        ],
+        "output_type": "proof_state",
+        "symbols": []
+      },
+      "program": {
+        "consumes": "product_zero",
+        "opcode": "goal_transition",
+        "produces": [
+          "factor_left",
+          "factor_right"
+        ],
+        "productions": [],
+        "template": ""
+      },
+      "proposer_id": "proposer.language-model-c",
+      "schema_version": "invariant-declarative-extension-candidate-2.0",
+      "tests": [
+        {
+          "expected": [
+            "factor_left",
+            "factor_right"
+          ],
+          "inputs": [
+            "product_zero"
+          ]
+        }
+      ]
+    },
+    {
+      "candidate_id": "candidate.grammar.rational-expression",
+      "capabilities": [
+        "grammar.quotient",
+        "grammar.rational"
+      ],
+      "creativity_family": null,
+      "declaration": {
+        "declaration_id": "grammar.rational-expression",
+        "input_types": [],
+        "kind": "grammar",
+        "laws": [
+          "denominator_nonzero"
+        ],
+        "output_type": "expression",
+        "symbols": []
+      },
+      "program": {
+        "consumes": "",
+        "opcode": "grammar_expand",
+        "produces": [],
+        "productions": [
+          {
+            "expansion": "Atom",
+            "nonterminal": "Expr"
+          },
+          {
+            "expansion": "quotient(Expr,nonzero(Expr))",
+            "nonterminal": "Expr"
+          }
+        ],
+        "template": ""
+      },
+      "proposer_id": "proposer.language-model-d",
+      "schema_version": "invariant-declarative-extension-candidate-2.0",
+      "tests": [
+        {
+          "expected": [
+            "Atom",
+            "quotient(Expr,nonzero(Expr))"
+          ],
+          "inputs": [
+            "Expr"
+          ]
+        }
+      ]
+    }
+  ],
+  "schema_version": "invariant-declarative-extension-set-2.0"
+}
