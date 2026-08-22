@@ -339,12 +339,22 @@ class BehaviorDescriptor:
     complexity_bin: int
     asymptotic_class: str
     invariant_flags: tuple[str, ...]
+    singularity_structure: tuple[str, ...] = ()
+    conserved_quantities: tuple[str, ...] = ()
+    proof_shape: tuple[str, ...] = ()
 
     def __post_init__(self) -> None:
         if self.complexity_bin < 0 or not self.symmetry_class or not self.asymptotic_class:
             raise DiscoveryProtocolError("behavior descriptor is malformed")
         if tuple(sorted(set(self.invariant_flags))) != self.invariant_flags:
             raise DiscoveryProtocolError("invariant flags must be sorted and unique")
+        for label, values in (
+            ("singularity structure", self.singularity_structure),
+            ("conserved quantities", self.conserved_quantities),
+            ("proof shape", self.proof_shape),
+        ):
+            if tuple(sorted(set(values))) != values or any(not item for item in values):
+                raise DiscoveryProtocolError(f"{label} values must be nonempty, sorted, and unique")
 
     @property
     def niche(self) -> tuple[Any, ...]:
@@ -354,6 +364,9 @@ class BehaviorDescriptor:
             self.complexity_bin,
             self.asymptotic_class,
             self.invariant_flags,
+            self.singularity_structure,
+            self.conserved_quantities,
+            self.proof_shape,
         )
 
     def to_dict(self) -> dict[str, Any]:
@@ -362,6 +375,9 @@ class BehaviorDescriptor:
             "complexity_bin": self.complexity_bin,
             "dimensional_signature": list(self.dimensional_signature),
             "invariant_flags": list(self.invariant_flags),
+            "singularity_structure": list(self.singularity_structure),
+            "conserved_quantities": list(self.conserved_quantities),
+            "proof_shape": list(self.proof_shape),
             "symmetry_class": self.symmetry_class,
         }
 
