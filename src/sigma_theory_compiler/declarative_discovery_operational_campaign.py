@@ -183,7 +183,7 @@ def _validated_blind_ladder(
             anonymous["benchmark_id"],
             "principal.anonymous-natural-sum",
             "",
-            anonymous["blinded_pre_unseal_root_sha256"],
+            canonical_sha256(anonymous["winner"]),
             3,
             anonymous["post_unseal"]["withheld_theorem_sha256"],
             4,
