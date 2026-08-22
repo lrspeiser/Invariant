@@ -1,0 +1,95 @@
+{
+  "a_n": 6,
+  "absence_establishes_novelty": false,
+  "beyond_published_range": true,
+  "digest": "d44c0d66bcdfe9b5f3457596216d3e74c128c834f810bdad2b8b47b076159bd4",
+  "lower_bound": {
+    "method": "exhaustive integer scan of all C(15,3) triples",
+    "min_double_area_rescored": 6,
+    "witness": [
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        3
+      ],
+      [
+        2,
+        9
+      ],
+      [
+        2,
+        13
+      ],
+      [
+        4,
+        2
+      ],
+      [
+        5,
+        6
+      ],
+      [
+        5,
+        14
+      ],
+      [
+        6,
+        0
+      ],
+      [
+        9,
+        7
+      ],
+      [
+        9,
+        13
+      ],
+      [
+        11,
+        2
+      ],
+      [
+        13,
+        5
+      ],
+      [
+        13,
+        14
+      ],
+      [
+        14,
+        1
+      ],
+      [
+        14,
+        10
+      ]
+    ]
+  },
+  "n": 15,
+  "prior_art_note": "OEIS A248866 was last edited 2015-03-13, lists a(3)..a(13) and carries the 'more' keyword, so a(15) is not among its published terms. No other source giving a(15) was found; not finding prior art is not a claim that none exists.",
+  "problem": "discrete_heilbronn_grid_min_double_area",
+  "published_range": {
+    "first_n": 3,
+    "last_n": 13,
+    "last_value": 6
+  },
+  "sequence": "OEIS A248866",
+  "terms_source": "OEIS A248866, 'Discrete Heilbronn Triangle Problem: a(n) is twice the maximal area of the smallest triangle defined by three vertices that are a subset of n points on an n X n square lattice', Gordon Hamilton (Mar 2015), a(5)/a(7)/a(9) corrected and a(10)-a(13) added by Hiroaki Yamanouchi (Mar 2015); keyword 'more'; https://oeis.org/A248866 (read 2026-08-20)",
+  "upper_bound": {
+    "branches_decided": 6636,
+    "branches_total": 6636,
+    "feasible": false,
+    "monotonicity": "feasibility is non-increasing in the threshold, so refuting 7 refutes every larger value",
+    "provenance": "produced by scripts/heilbronn_grid_sweep.py as committed",
+    "reproduce": "python scripts/heilbronn_grid_sweep.py --n 15 --threshold 7 --workers 22",
+    "search_nodes": 45102635138,
+    "sweep_complete": true,
+    "threshold_refuted": 7,
+    "wall_seconds": "1767.7"
+  },
+  "validation": "the same enumeration reproduces every published term a(3)..a(13) of A248866"
+}
