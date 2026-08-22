@@ -114,7 +114,8 @@ def _fraction_text(value: Fraction) -> str:
 
 
 def _file_sha256(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    normalized_text = path.read_text(encoding="utf-8").replace("\r\n", "\n").replace("\r", "\n")
+    return hashlib.sha256(normalized_text.encode("utf-8")).hexdigest()
 
 
 @dataclass(frozen=True, slots=True)

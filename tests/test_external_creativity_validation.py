@@ -139,6 +139,14 @@ def test_target_commitment_tamper_fails_closed(tmp_path: Path) -> None:
         E.unseal_targets(tmp_path, public, benchmarks)
 
 
+def test_source_bindings_normalize_git_checkout_line_endings(tmp_path: Path) -> None:
+    lf = tmp_path / "lf.txt"
+    crlf = tmp_path / "crlf.txt"
+    lf.write_bytes(b"first\nsecond\n")
+    crlf.write_bytes(b"first\r\nsecond\r\n")
+    assert E._file_sha256(lf) == E._file_sha256(crlf)
+
+
 def test_known_and_bounded_unknown_campaign_is_honest(dry_receipt: dict[str, Any]) -> None:
     assert dry_receipt["schema_version"] == E.RECEIPT_SCHEMA
     assert dry_receipt["claims"] == {
