@@ -1,0 +1,156 @@
+{
+  "schema_version": "invariant-external-sealed-benchmarks-1.0",
+  "generator_principal_id": "invariant.discovery-engine",
+  "sealed_targets_path": "configs/external_sealed_creativity_targets.json",
+  "benchmarks": [
+    {
+      "benchmark_id": "external.authority-openstax-0702",
+      "capability_level": 4,
+      "external_authorship": {
+        "authoring_principal_id": "external.openstax-university-physics",
+        "retrieved_utc": "2026-08-22T00:00:00Z",
+        "source_locator": "section 7.2, equation 7.6",
+        "source_uri": "https://openstax.org/books/university-physics-volume-1/pages/7-2-kinetic-energy"
+      },
+      "variables": [
+        {"name": "m", "dimension": [1, 0, 0], "unit": "kg"},
+        {"name": "v", "dimension": [0, 1, -1], "unit": "m/s"}
+      ],
+      "output": {"dimension": [1, 2, -2], "unit": "J"},
+      "observations": [
+        {"inputs": {"m": "1", "v": "1"}, "output": "1/2"},
+        {"inputs": {"m": "2", "v": "3"}, "output": "9"},
+        {"inputs": {"m": "3", "v": "2"}, "output": "6"},
+        {"inputs": {"m": "4", "v": "1/2"}, "output": "1/2"},
+        {"inputs": {"m": "5", "v": "4"}, "output": "40"},
+        {"inputs": {"m": "7", "v": "3/2"}, "output": "63/8"}
+      ],
+      "dataset_protocol": {
+        "causal_interventions": ["vary_m_at_fixed_v", "vary_v_at_fixed_m"],
+        "dimension_basis": ["mass", "length", "time"],
+        "ood_split_rule": "sealed rational values outside the observed coordinate pairs",
+        "residual_channels": ["mass_scaling", "speed_parity", "speed_scaling"],
+        "symmetry_coordinates": ["mass_rescaled_output", "speed_squared"]
+      },
+      "target_commitment": "54675f0e9b83bd4be5342b063bd7cb76ddb4e390b50c53332877fa2aa1cff211"
+    },
+    {
+      "benchmark_id": "external.authority-nist-0244",
+      "capability_level": 4,
+      "external_authorship": {
+        "authoring_principal_id": "external.nist-dlmf",
+        "retrieved_utc": "2026-08-22T00:00:00Z",
+        "source_locator": "DLMF 24.4(iii), sums of powers",
+        "source_uri": "https://dlmf.nist.gov/24.4"
+      },
+      "variables": [
+        {"name": "n", "dimension": [0, 0, 0], "unit": "1"}
+      ],
+      "output": {"dimension": [0, 0, 0], "unit": "1"},
+      "observations": [
+        {"inputs": {"n": "1"}, "output": "1"},
+        {"inputs": {"n": "2"}, "output": "5"},
+        {"inputs": {"n": "3"}, "output": "14"},
+        {"inputs": {"n": "4"}, "output": "30"},
+        {"inputs": {"n": "5"}, "output": "55"},
+        {"inputs": {"n": "6"}, "output": "91"},
+        {"inputs": {"n": "7"}, "output": "140"},
+        {"inputs": {"n": "8"}, "output": "204"}
+      ],
+      "dataset_protocol": {
+        "causal_interventions": ["extend_index", "delete_interior_observation"],
+        "dimension_basis": ["mass", "length", "time"],
+        "ood_split_rule": "sealed indices strictly beyond the observed range",
+        "residual_channels": ["finite_difference_order", "parity", "relative_growth"],
+        "symmetry_coordinates": ["forward_difference", "index_centered"]
+      },
+      "target_commitment": "a3457c5419a818b538b3d32880486c95ce4f70df6c65cf57ecee089d8b4c3771"
+    },
+    {
+      "benchmark_id": "external.authority-oeis-005132",
+      "capability_level": 5,
+      "external_authorship": {
+        "authoring_principal_id": "external.oeis-a005132-contributors",
+        "retrieved_utc": "2026-08-22T00:00:00Z",
+        "source_locator": "OEIS A005132",
+        "source_uri": "https://oeis.org/A005132"
+      },
+      "variables": [
+        {"name": "n", "dimension": [0, 0, 0], "unit": "1"}
+      ],
+      "output": {"dimension": [0, 0, 0], "unit": "1"},
+      "observations": [
+        {"inputs": {"n": "0"}, "output": "0"},
+        {"inputs": {"n": "1"}, "output": "1"},
+        {"inputs": {"n": "2"}, "output": "3"},
+        {"inputs": {"n": "3"}, "output": "6"},
+        {"inputs": {"n": "4"}, "output": "2"},
+        {"inputs": {"n": "5"}, "output": "7"},
+        {"inputs": {"n": "6"}, "output": "13"},
+        {"inputs": {"n": "7"}, "output": "20"},
+        {"inputs": {"n": "8"}, "output": "12"},
+        {"inputs": {"n": "9"}, "output": "21"},
+        {"inputs": {"n": "10"}, "output": "11"},
+        {"inputs": {"n": "11"}, "output": "22"},
+        {"inputs": {"n": "12"}, "output": "10"},
+        {"inputs": {"n": "13"}, "output": "23"},
+        {"inputs": {"n": "14"}, "output": "9"},
+        {"inputs": {"n": "15"}, "output": "24"},
+        {"inputs": {"n": "16"}, "output": "8"},
+        {"inputs": {"n": "17"}, "output": "25"}
+      ],
+      "dataset_protocol": {
+        "causal_interventions": ["truncate_history", "perturb_seed"],
+        "dimension_basis": ["mass", "length", "time"],
+        "ood_split_rule": "next eight externally defined sequence indices",
+        "residual_channels": ["branch_choice", "novelty_constraint", "signed_step"],
+        "symmetry_coordinates": ["a_n_minus_n", "visited_set_size"]
+      },
+      "target_commitment": "9a585452a85251ad240e14960e00f3db611b7432ea02c497fcf3dd41b6f458df"
+    },
+    {
+      "benchmark_id": "external.authority-oeis-002858",
+      "capability_level": 5,
+      "external_authorship": {
+        "authoring_principal_id": "external.oeis-a002858-contributors",
+        "retrieved_utc": "2026-08-22T00:00:00Z",
+        "source_locator": "OEIS A002858",
+        "source_uri": "https://oeis.org/A002858"
+      },
+      "variables": [
+        {"name": "n", "dimension": [0, 0, 0], "unit": "1"}
+      ],
+      "output": {"dimension": [0, 0, 0], "unit": "1"},
+      "observations": [
+        {"inputs": {"n": "0"}, "output": "1"},
+        {"inputs": {"n": "1"}, "output": "2"},
+        {"inputs": {"n": "2"}, "output": "3"},
+        {"inputs": {"n": "3"}, "output": "4"},
+        {"inputs": {"n": "4"}, "output": "6"},
+        {"inputs": {"n": "5"}, "output": "8"},
+        {"inputs": {"n": "6"}, "output": "11"},
+        {"inputs": {"n": "7"}, "output": "13"},
+        {"inputs": {"n": "8"}, "output": "16"},
+        {"inputs": {"n": "9"}, "output": "18"},
+        {"inputs": {"n": "10"}, "output": "26"},
+        {"inputs": {"n": "11"}, "output": "28"},
+        {"inputs": {"n": "12"}, "output": "36"},
+        {"inputs": {"n": "13"}, "output": "38"},
+        {"inputs": {"n": "14"}, "output": "47"},
+        {"inputs": {"n": "15"}, "output": "48"},
+        {"inputs": {"n": "16"}, "output": "53"},
+        {"inputs": {"n": "17"}, "output": "57"},
+        {"inputs": {"n": "18"}, "output": "62"},
+        {"inputs": {"n": "19"}, "output": "69"}
+      ],
+      "dataset_protocol": {
+        "causal_interventions": ["truncate_history", "alter_initial_pair"],
+        "dimension_basis": ["mass", "length", "time"],
+        "ood_split_rule": "next eight externally defined sequence indices",
+        "residual_channels": ["gap", "representation_count", "unique_sum"],
+        "symmetry_coordinates": ["a_n_over_n", "gap_phase"]
+      },
+      "target_commitment": "752590c2e9d4d5f51a635d69bab8ebf786c241b8cb5113fa51addf1c6bba1450"
+    }
+  ]
+}

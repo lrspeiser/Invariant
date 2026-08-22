@@ -1,0 +1,88 @@
+name: External creativity validation
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/external-creativity-validation.yml"
+      - "configs/external_*creativity*.json"
+      - "formal/lean/ExternalKnownFormulaControls.lean"
+      - "pyproject.toml"
+      - "src/sigma_theory_compiler/claude_creativity_api.py"
+      - "src/sigma_theory_compiler/external_creativity_*.py"
+      - "src/sigma_theory_compiler/independent_exact_evaluator.py"
+      - "tests/test_claude_creativity_api.py"
+      - "tests/test_external_creativity_*.py"
+      - "tests/test_independent_exact_evaluator.py"
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/external-creativity-validation.yml"
+      - "configs/external_*creativity*.json"
+      - "formal/lean/ExternalKnownFormulaControls.lean"
+      - "pyproject.toml"
+      - "src/sigma_theory_compiler/claude_creativity_api.py"
+      - "src/sigma_theory_compiler/external_creativity_*.py"
+      - "src/sigma_theory_compiler/independent_exact_evaluator.py"
+      - "tests/test_claude_creativity_api.py"
+      - "tests/test_external_creativity_*.py"
+      - "tests/test_independent_exact_evaluator.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deterministic-reproduction:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python: ["3.11", "3.12"]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+          cache-dependency-path: pyproject.toml
+      - run: python -m pip install --editable ".[dev]"
+      - run: >-
+          python -m pytest -q
+          tests/test_claude_creativity_api.py
+          tests/test_independent_exact_evaluator.py
+          tests/test_external_creativity_validation.py
+          tests/test_external_creativity_lean_bridge.py
+          tests/test_external_creativity_live_evidence.py
+      - run: >-
+          python -m sigma_theory_compiler.external_creativity_validation
+          --output external-creativity-${{ matrix.os }}-${{ matrix.python }}.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: external-creativity-${{ matrix.os }}-${{ matrix.python }}
+          path: external-creativity-${{ matrix.os }}-${{ matrix.python }}.json
+
+  lean-kernel:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-github-cache: false
+      - run: python -m pip install --editable ".[dev]"
+      - run: >-
+          python -m sigma_theory_compiler.external_creativity_lean_bridge
+          --output external-creativity-lean.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: external-creativity-lean
+          path: external-creativity-lean.json

@@ -1,0 +1,53 @@
+{
+  "schema_version": "invariant-external-creativity-validation-config-1.0",
+  "campaign_id": "external-creativity-validation-001",
+  "benchmark_config_path": "configs/external_sealed_creativity_benchmarks.json",
+  "claude_api": {
+    "credential_env_var": "ANTHROPIC_API_KEY",
+    "effort": "high",
+    "execution_enabled": false,
+    "maximum_calls": 8,
+    "maximum_output_tokens": 4096,
+    "maximum_total_tokens": 64000,
+    "model": "claude-opus-4-6",
+    "timeout_seconds": 90
+  },
+  "search": {
+    "creativity_families": [
+      "analogy_transfer",
+      "conserved_quantity_synthesis",
+      "counterexample_guided_repair",
+      "dimensional_analysis",
+      "generating_function",
+      "inverse_variational",
+      "quotient_construction",
+      "recurrence_guessing",
+      "representation_change",
+      "symmetry_reduction"
+    ],
+    "maximum_candidates_per_family": 4,
+    "random_seed": 20260822
+  },
+  "verification": {
+    "required_backends_for_serious_claim": [
+      "exact_arithmetic",
+      "cas",
+      "smt",
+      "interval",
+      "lean"
+    ],
+    "lean_receipt_path": "runs/math/external-creativity-known-controls-lean/receipt.json",
+    "minimum_independent_implementations": 2,
+    "minimum_independent_machines": 2
+  },
+  "prior_art": {
+    "automated_sources": ["repository_theorem_library", "external_literature_index"],
+    "human_review_required": true
+  },
+  "open_problem_policy": {
+    "maximum_calls_per_problem": 4,
+    "maximum_total_tokens_per_problem": 32000,
+    "minimum_independent_level5_passes": 3,
+    "public_failure_receipt_required": true
+  }
+}
