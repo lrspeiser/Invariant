@@ -1,0 +1,60 @@
+{
+  "schema_version": "invariant-creativity-confirmatory-generation-config-1.0",
+  "experiment_id": "creativity-first-vs-falsification-first-confirmatory-001",
+  "baseline_commit": "a180d227fae9afae4964fc445cbfbb5c16afb558",
+  "treatment_commit": "7778e213cff0d0de934fd9d3acdd9412ff245214",
+  "generation_packet": {
+    "path": "runs/math/rotating-external-benchmarks/2026-08-23-002-generation.json",
+    "content_sha256": "061cdd4cc0bbe0190bd04200085896411e09cfa5ddcd5df9640cbf4c0c038727",
+    "required_tasks": 24
+  },
+  "claude": {
+    "credential_env_var": "ANTHROPIC_API_KEY",
+    "effort": "high",
+    "maximum_output_tokens_per_call": 4096,
+    "maximum_scheduled_calls_per_arm": 48,
+    "maximum_total_tokens_per_arm": 200000,
+    "model": "claude-opus-4-6",
+    "timeout_seconds": 120
+  },
+  "attempt_policy": {
+    "attempt_journal_required": true,
+    "contract_failure_policy": "retain_admitted_content_and_count_failure",
+    "persist_dispatch_before_transport": true,
+    "persist_response_before_validation": true,
+    "replacement_calls_allowed": false,
+    "transient_retries_allowed": false
+  },
+  "matched_resource_budget": {
+    "calls_per_task": 2,
+    "grammar_depth": 8,
+    "tokens_per_arm": 200000,
+    "verifier_invocations_per_task": 5,
+    "wall_clock_milliseconds_per_call": 120000
+  },
+  "execution": {
+    "arm_order_seed": "sha256:7ff1e24eed2589a865b93d63f22529ad00c381bc45669cb91932ea20bb7609b1",
+    "maximum_hypotheses_per_task": 6,
+    "requested_hypotheses_per_task": 3,
+    "treatment_independent_plans_per_hypothesis": 2,
+    "treatment_recombinations_per_task": 3
+  },
+  "prompt_policies": {
+    "baseline": {
+      "proposer_instruction": "Propose exactly three structurally distinct mathematical hypotheses and proof plans. Prefer candidates that can be checked immediately in the currently available typed grammar.",
+      "critic_instruction": "Critique every candidate, identify typed blockers, and suggest repairs. Return one steering action for every supplied candidate ID.",
+      "system_instruction": "You are one bounded component in a blind mathematical discovery experiment. Return only the required structured object. You may propose or critique, but you do not verify correctness or claim novelty."
+    },
+    "full_creativity_first": {
+      "proposer_instruction": "Propose exactly three maximally distinct first-principles hypotheses. Explore distant analogies, alternative representations, invariants, and constructions even when current executors may not support them. For each idea, self-label known rewrite, cross-domain synthesis, proposed new construction, or uncertain; name analogues and source domains. No idea is pruned by this label.",
+      "critic_instruction": "Critique every candidate, identify typed blockers, and create a repair or recombination direction for each supplied candidate ID. Failure changes claim readiness but never deletes an idea. Return one steering action for every candidate.",
+      "system_instruction": "You are the creative component in a blind mathematical discovery experiment. Return only the required structured object. Maximize useful structural diversity before verification. You do not verify correctness or claim novelty; origin labels are fallible lineage metadata."
+    }
+  },
+  "review": {
+    "axes": ["coherence", "nontriviality", "followup_value"],
+    "minimum_named_reviewers": 2,
+    "rating_scale": [0, 1, 2, 3, 4],
+    "useful_threshold_each_axis": 3
+  }
+}

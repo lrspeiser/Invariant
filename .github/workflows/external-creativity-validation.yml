@@ -8,18 +8,21 @@ on:
       - "configs/core_creative_discovery.json"
       - "configs/creative_dataset_challenges.json"
       - "configs/creativity_ablation_protocol.json"
+      - "configs/creativity_confirmatory_generation.json"
       - "configs/creativity_tournament_generation.json"
       - "configs/claim_specific_prior_art.json"
       - "configs/claims/**"
       - "configs/declarative_extension_candidates.json"
-      - "configs/rotating_external_benchmark_pack.json"
+      - "configs/rotating_external_benchmark_pack*.json"
       - "formal/lean/ExternalKnownFormulaControls.lean"
       - "pyproject.toml"
       - "src/sigma_theory_compiler/claude_creativity_api.py"
       - "src/sigma_theory_compiler/core_*.py"
       - "src/sigma_theory_compiler/creative_expansion.py"
       - "src/sigma_theory_compiler/creativity_ablation.py"
+      - "src/sigma_theory_compiler/creativity_confirmatory_*.py"
       - "src/sigma_theory_compiler/creativity_tournament_generation.py"
+      - "src/sigma_theory_compiler/durable_llm_attempt_journal.py"
       - "src/sigma_theory_compiler/claim_specific_prior_art.py"
       - "src/sigma_theory_compiler/dataset_challenge_suite.py"
       - "src/sigma_theory_compiler/declarative_discovery_*.py"
@@ -31,7 +34,9 @@ on:
       - "tests/test_core_*.py"
       - "tests/test_creative_expansion.py"
       - "tests/test_creativity_ablation.py"
+      - "tests/test_creativity_confirmatory_generation.py"
       - "tests/test_creativity_tournament_generation.py"
+      - "tests/test_durable_llm_attempt_journal.py"
       - "tests/test_claim_specific_prior_art.py"
       - "tests/test_dataset_challenge_suite.py"
       - "tests/test_declarative_discovery_*.py"
@@ -40,6 +45,7 @@ on:
       - "tests/test_rotating_external_benchmarks.py"
       - "runs/math/claim-specific-prior-art/**"
       - "runs/math/creativity-tournament/**"
+      - "runs/math/creativity-confirmatory/**"
       - "runs/math/rotating-external-benchmarks/**"
   push:
     branches: [main]
@@ -49,18 +55,21 @@ on:
       - "configs/core_creative_discovery.json"
       - "configs/creative_dataset_challenges.json"
       - "configs/creativity_ablation_protocol.json"
+      - "configs/creativity_confirmatory_generation.json"
       - "configs/creativity_tournament_generation.json"
       - "configs/claim_specific_prior_art.json"
       - "configs/claims/**"
       - "configs/declarative_extension_candidates.json"
-      - "configs/rotating_external_benchmark_pack.json"
+      - "configs/rotating_external_benchmark_pack*.json"
       - "formal/lean/ExternalKnownFormulaControls.lean"
       - "pyproject.toml"
       - "src/sigma_theory_compiler/claude_creativity_api.py"
       - "src/sigma_theory_compiler/core_*.py"
       - "src/sigma_theory_compiler/creative_expansion.py"
       - "src/sigma_theory_compiler/creativity_ablation.py"
+      - "src/sigma_theory_compiler/creativity_confirmatory_*.py"
       - "src/sigma_theory_compiler/creativity_tournament_generation.py"
+      - "src/sigma_theory_compiler/durable_llm_attempt_journal.py"
       - "src/sigma_theory_compiler/claim_specific_prior_art.py"
       - "src/sigma_theory_compiler/dataset_challenge_suite.py"
       - "src/sigma_theory_compiler/declarative_discovery_*.py"
@@ -72,7 +81,9 @@ on:
       - "tests/test_core_*.py"
       - "tests/test_creative_expansion.py"
       - "tests/test_creativity_ablation.py"
+      - "tests/test_creativity_confirmatory_generation.py"
       - "tests/test_creativity_tournament_generation.py"
+      - "tests/test_durable_llm_attempt_journal.py"
       - "tests/test_claim_specific_prior_art.py"
       - "tests/test_dataset_challenge_suite.py"
       - "tests/test_declarative_discovery_*.py"
@@ -81,6 +92,7 @@ on:
       - "tests/test_rotating_external_benchmarks.py"
       - "runs/math/claim-specific-prior-art/**"
       - "runs/math/creativity-tournament/**"
+      - "runs/math/creativity-confirmatory/**"
       - "runs/math/rotating-external-benchmarks/**"
   workflow_dispatch:
 
@@ -115,7 +127,9 @@ jobs:
           tests/test_core_creative_discovery.py
           tests/test_creative_expansion.py
           tests/test_creativity_ablation.py
+          tests/test_creativity_confirmatory_generation.py
           tests/test_creativity_tournament_generation.py
+          tests/test_durable_llm_attempt_journal.py
           tests/test_claim_specific_prior_art.py
           tests/test_dataset_challenge_suite.py
           tests/test_rotating_external_benchmarks.py
@@ -136,6 +150,16 @@ jobs:
           --root "${{ github.workspace }}"
           --review-packet runs/math/creativity-tournament/paired-review-packet.json
           --receipt runs/math/creativity-tournament/paired-generation-receipt.json
+      - run: >-
+          python -m sigma_theory_compiler.creativity_confirmatory_generation validate
+          --root "${{ github.workspace }}"
+          --review-packet runs/math/creativity-confirmatory/paired-review-packet.json
+          --receipt runs/math/creativity-confirmatory/paired-generation-receipt.json
+      - run: >-
+          python -m sigma_theory_compiler.creativity_confirmatory_recovery validate
+          --root "${{ github.workspace }}"
+          --review-packet runs/math/creativity-confirmatory/paired-review-packet.json
+          --receipt runs/math/creativity-confirmatory/paired-generation-receipt.json
       - run: >-
           python -m sigma_theory_compiler.external_creativity_validation
           --output external-creativity-${{ matrix.os }}-${{ matrix.python }}.json
