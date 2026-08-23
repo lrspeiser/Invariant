@@ -1,0 +1,250 @@
+{
+  "claims": {
+    "causal_effect_established": false,
+    "external_https_hash_is_source_signature": false,
+    "formula_or_law_established": false,
+    "more_creative_established": false,
+    "observational_association_establishes_causation": false
+  },
+  "content_sha256": "a9e64a17797ad3e4eed477595c522a0edaf0a614905a244cfe34f178418d3fa6",
+  "pack_id": "external-dataset-challenges-2026-08-23-001",
+  "release_gate": {
+    "external_dataset_challenges_ready": true,
+    "level5_eligible": false,
+    "serious_scientific_claim_authorized": false,
+    "status": "PASS_EXTERNAL_DATA_LEVEL5_BLOCKED_UNSIGNED"
+  },
+  "results": [
+    {
+      "challenge_id": "external-dataset.nsw-randomized-intervention",
+      "evidence": {
+        "arm_counts": {
+          "0": 260,
+          "1": 185
+        },
+        "arm_outcome_means": {
+          "0": "59212414562797546389/13000000000000000",
+          "1": "23491830957641601563/3700000000000000"
+        },
+        "documented_program_experiment": true,
+        "mutation_observational_relabelling_rejected": true,
+        "observed_difference_in_means": "863078685669898986797/481000000000000000",
+        "observed_difference_is_formula_or_universal_effect": false,
+        "rows": 445
+      },
+      "external_principal_id": "external.causaldata-rdatasets",
+      "kind": "intervention",
+      "mutation_control_rejected": true,
+      "source_evidence": [
+        {
+          "challenge_id": "external-dataset.nsw-randomized-intervention",
+          "external_principal_id": "external.causaldata-rdatasets",
+          "http_status": 200,
+          "response_bytes": 29171,
+          "response_sha256": "72efd333a4b94a2bee55149d3542021d0adde03201d010ebe971e3e863360cd6",
+          "role": "randomized_experiment",
+          "source_format": "csv",
+          "source_id": "causaldata-nsw-csv",
+          "source_uri": "https://raw.githubusercontent.com/vincentarelbundock/Rdatasets/master/csv/causaldata/nsw_mixtape.csv",
+          "transport": "https"
+        },
+        {
+          "challenge_id": "external-dataset.nsw-randomized-intervention",
+          "external_principal_id": "external.causaldata-rdatasets",
+          "http_status": 200,
+          "response_bytes": 2782,
+          "response_sha256": "e1d94cabc38d22e7aba97707aeda34ab87f5456ce93b8f3bd9e1eff0080eb8db",
+          "role": "documentation",
+          "source_format": "html_or_text",
+          "source_id": "causaldata-nsw-documentation",
+          "source_uri": "https://raw.githubusercontent.com/vincentarelbundock/Rdatasets/master/doc/causaldata/nsw_mixtape.html",
+          "transport": "https"
+        }
+      ],
+      "status": "PASS_EXTERNAL_DATASET_CHALLENGE"
+    },
+    {
+      "challenge_id": "external-dataset.nist-filip-noise",
+      "evidence": {
+        "certified_polynomial_parameters": 11,
+        "certified_r_squared": "49836370809281/50000000000000",
+        "certified_residual_standard_deviation": "2615633213473/781250000000000",
+        "mutation_zero_noise_rejected": true,
+        "nonzero_residual_rows_under_published_coefficients": 82,
+        "observations": 82,
+        "point_observations_treated_as_exact_law": false
+      },
+      "external_principal_id": "external.nist-strd",
+      "kind": "noisy",
+      "mutation_control_rejected": true,
+      "source_evidence": [
+        {
+          "challenge_id": "external-dataset.nist-filip-noise",
+          "external_principal_id": "external.nist-strd",
+          "http_status": 200,
+          "response_bytes": 4867,
+          "response_sha256": "403b34689e401d915cb28bd69311d3ca5c3007d88d3b670b00e3203042315072",
+          "role": "observed_data_with_certified_residuals",
+          "source_format": "nist_strd_ascii",
+          "source_id": "nist-filip-data",
+          "source_uri": "https://www.itl.nist.gov/div898/strd/lls/data/LINKS/DATA/Filip.dat?download=1",
+          "transport": "https"
+        },
+        {
+          "challenge_id": "external-dataset.nist-filip-noise",
+          "external_principal_id": "external.nist-strd",
+          "http_status": 200,
+          "response_bytes": 4867,
+          "response_sha256": "403b34689e401d915cb28bd69311d3ca5c3007d88d3b670b00e3203042315072",
+          "role": "documentation",
+          "source_format": "html_or_text",
+          "source_id": "nist-filip-documentation",
+          "source_uri": "https://www.itl.nist.gov/div898/strd/lls/data/LINKS/DATA/Filip.dat",
+          "transport": "https"
+        }
+      ],
+      "status": "PASS_EXTERNAL_DATASET_CHALLENGE"
+    },
+    {
+      "challenge_id": "external-dataset.uci-wine-domain-shift",
+      "evidence": {
+        "deployment_role": "white_wine",
+        "deployment_rows": 4898,
+        "features_with_different_exact_means": 12,
+        "mutation_same_domain_rejected": true,
+        "shift_feature": "total sulfur dioxide",
+        "shift_feature_deployment_mean": "1355381/9796",
+        "shift_feature_train_mean": "74302/1599",
+        "train_fit_treated_as_deployment_validity": false,
+        "train_role": "red_wine",
+        "train_rows": 1599
+      },
+      "external_principal_id": "external.uci-machine-learning-repository",
+      "kind": "shifted",
+      "mutation_control_rejected": true,
+      "source_evidence": [
+        {
+          "challenge_id": "external-dataset.uci-wine-domain-shift",
+          "external_principal_id": "external.uci-machine-learning-repository",
+          "http_status": 200,
+          "response_bytes": 3305,
+          "response_sha256": "15d215e73b39105952380fd487e4ce1bf5a6b83a425abb285c2ec55193d3ca92",
+          "role": "documentation",
+          "source_format": "html_or_text",
+          "source_id": "uci-wine-quality-documentation",
+          "source_uri": "https://archive.ics.uci.edu/ml/machine-learning-databases/wine-quality/winequality.names",
+          "transport": "https"
+        },
+        {
+          "challenge_id": "external-dataset.uci-wine-domain-shift",
+          "external_principal_id": "external.uci-machine-learning-repository",
+          "http_status": 200,
+          "response_bytes": 84199,
+          "response_sha256": "4a402cf041b025d4566d954c3b9ba8635a3a8a01e039005d97d6a710278cf05e",
+          "role": "train_red_wine",
+          "source_format": "semicolon_csv",
+          "source_id": "uci-wine-red",
+          "source_uri": "https://archive.ics.uci.edu/ml/machine-learning-databases/wine-quality/winequality-red.csv",
+          "transport": "https"
+        },
+        {
+          "challenge_id": "external-dataset.uci-wine-domain-shift",
+          "external_principal_id": "external.uci-machine-learning-repository",
+          "http_status": 200,
+          "response_bytes": 264426,
+          "response_sha256": "76c3f809815c17c07212622f776311faeb31e87610d52c26d87d6e361b169836",
+          "role": "deployment_white_wine",
+          "source_format": "semicolon_csv",
+          "source_id": "uci-wine-white",
+          "source_uri": "https://archive.ics.uci.edu/ml/machine-learning-databases/wine-quality/winequality-white.csv",
+          "transport": "https"
+        }
+      ],
+      "status": "PASS_EXTERNAL_DATASET_CHALLENGE"
+    },
+    {
+      "challenge_id": "external-dataset.nhefs-observational-underdetermination",
+      "evidence": {
+        "complete_exposure_outcome_rows": 1566,
+        "distinguishing_intervention_observed": false,
+        "exposure_group_counts": {
+          "0": 1163,
+          "1": 403
+        },
+        "exposure_group_outcome_means": {
+          "0": "2307970632910004490493/1163000000000000000000",
+          "1": "9118034164250008439877/2015000000000000000000"
+        },
+        "missing_exposure_or_outcome_rows": 63,
+        "mutation_forced_causal_identification_rejected": true,
+        "required_conclusion": "OBSERVATIONAL_ASSOCIATION_ONLY_CAUSAL_MECHANISM_UNDERDETERMINED",
+        "rows": 1629
+      },
+      "external_principal_id": "external.causaldata-rdatasets",
+      "kind": "unidentifiable",
+      "mutation_control_rejected": true,
+      "source_evidence": [
+        {
+          "challenge_id": "external-dataset.nhefs-observational-underdetermination",
+          "external_principal_id": "external.causaldata-rdatasets",
+          "http_status": 200,
+          "response_bytes": 425376,
+          "response_sha256": "c28e1a9c337de4ac0a1dd31468e445b19ff4e73efc99bc030ff574cc3afcd739",
+          "role": "observational_follow_up",
+          "source_format": "csv",
+          "source_id": "causaldata-nhefs-csv",
+          "source_uri": "https://raw.githubusercontent.com/vincentarelbundock/Rdatasets/master/csv/causaldata/nhefs.csv",
+          "transport": "https"
+        },
+        {
+          "challenge_id": "external-dataset.nhefs-observational-underdetermination",
+          "external_principal_id": "external.causaldata-rdatasets",
+          "http_status": 200,
+          "response_bytes": 2348,
+          "response_sha256": "8afc71b63c14d6e62968902d727c86d7f6bf5bece064bd96d6d4f9a546077e24",
+          "role": "documentation",
+          "source_format": "html_or_text",
+          "source_id": "causaldata-nhefs-documentation",
+          "source_uri": "https://raw.githubusercontent.com/vincentarelbundock/Rdatasets/master/doc/causaldata/nhefs.html",
+          "transport": "https"
+        }
+      ],
+      "status": "PASS_EXTERNAL_DATASET_CHALLENGE"
+    }
+  ],
+  "retrieved_utc": "2026-08-23T16:00:25.482813Z",
+  "schema_version": "invariant-external-dataset-challenges-receipt-1.0",
+  "source_bindings": {
+    "config": {
+      "normalized_file_sha256": "87433eda13c68225d197d1263627ee1d3dbff62ce680ec1c8bf35be3452eeb3c",
+      "path": "configs/external_dataset_challenges.json"
+    },
+    "source": {
+      "normalized_file_sha256": "2bb0d9a75beed78f6b045b862af992d5105871a50b499458b14b30eca987954d",
+      "path": "src/sigma_theory_compiler/external_dataset_challenges.py"
+    },
+    "test": {
+      "normalized_file_sha256": "8d21704a3f859e374d739dce09848127a0bada6c9120fad9d02de110479fc858",
+      "path": "tests/test_external_dataset_challenges.py"
+    }
+  },
+  "source_signature": {
+    "cryptographic_signature_verified": false,
+    "https_response_hashes_bound": true,
+    "status": "PENDING_DISTINCT_PRINCIPAL_SIGNATURE"
+  },
+  "summary": {
+    "challenge_kinds": [
+      "intervention",
+      "noisy",
+      "shifted",
+      "unidentifiable"
+    ],
+    "external_challenges_passed": 4,
+    "external_principals": 3,
+    "external_source_responses": 9,
+    "mutation_controls_rejected": 4,
+    "status": "PASS_EXTERNAL_DATASET_CHALLENGES",
+    "unique_external_response_hashes": 8
+  }
+}

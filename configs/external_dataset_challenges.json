@@ -1,0 +1,127 @@
+{
+  "schema_version": "invariant-external-dataset-challenges-config-1.0",
+  "pack_id": "external-dataset-challenges-2026-08-23-001",
+  "generator_principal_id": "invariant.discovery-engine",
+  "network": {
+    "allowed_hosts": [
+      "archive.ics.uci.edu",
+      "raw.githubusercontent.com",
+      "www.itl.nist.gov"
+    ],
+    "maximum_response_bytes": 1000000,
+    "request_timeout_seconds": 30,
+    "user_agent": "InvariantExternalDatasetChallenges/0.1 (https://github.com/lrspeiser/Invariant)"
+  },
+  "challenges": [
+    {
+      "challenge_id": "external-dataset.nsw-randomized-intervention",
+      "kind": "intervention",
+      "external_principal_id": "external.causaldata-rdatasets",
+      "documentation": {
+        "source_id": "causaldata-nsw-documentation",
+        "source_uri": "https://raw.githubusercontent.com/vincentarelbundock/Rdatasets/master/doc/causaldata/nsw_mixtape.html",
+        "required_markers": [
+          "national supported work demonstration",
+          "job-training program experiment"
+        ]
+      },
+      "datasets": [
+        {
+          "source_id": "causaldata-nsw-csv",
+          "source_uri": "https://raw.githubusercontent.com/vincentarelbundock/Rdatasets/master/csv/causaldata/nsw_mixtape.csv",
+          "role": "randomized_experiment",
+          "format": "csv"
+        }
+      ],
+      "analysis": {
+        "treatment_column": "treat",
+        "outcome_column": "re78",
+        "minimum_rows_per_arm": 100
+      }
+    },
+    {
+      "challenge_id": "external-dataset.nist-filip-noise",
+      "kind": "noisy",
+      "external_principal_id": "external.nist-strd",
+      "documentation": {
+        "source_id": "nist-filip-documentation",
+        "source_uri": "https://www.itl.nist.gov/div898/strd/lls/data/LINKS/DATA/Filip.dat",
+        "required_markers": [
+          "dataset name:  filip",
+          "linear least squares regression"
+        ]
+      },
+      "datasets": [
+        {
+          "source_id": "nist-filip-data",
+          "source_uri": "https://www.itl.nist.gov/div898/strd/lls/data/LINKS/DATA/Filip.dat?download=1",
+          "role": "observed_data_with_certified_residuals",
+          "format": "nist_strd_ascii"
+        }
+      ],
+      "analysis": {
+        "minimum_observations": 80,
+        "required_polynomial_parameters": 11
+      }
+    },
+    {
+      "challenge_id": "external-dataset.uci-wine-domain-shift",
+      "kind": "shifted",
+      "external_principal_id": "external.uci-machine-learning-repository",
+      "documentation": {
+        "source_id": "uci-wine-quality-documentation",
+        "source_uri": "https://archive.ics.uci.edu/ml/machine-learning-databases/wine-quality/winequality.names",
+        "required_markers": [
+          "red and white variants",
+          "wine quality"
+        ]
+      },
+      "datasets": [
+        {
+          "source_id": "uci-wine-red",
+          "source_uri": "https://archive.ics.uci.edu/ml/machine-learning-databases/wine-quality/winequality-red.csv",
+          "role": "train_red_wine",
+          "format": "semicolon_csv"
+        },
+        {
+          "source_id": "uci-wine-white",
+          "source_uri": "https://archive.ics.uci.edu/ml/machine-learning-databases/wine-quality/winequality-white.csv",
+          "role": "deployment_white_wine",
+          "format": "semicolon_csv"
+        }
+      ],
+      "analysis": {
+        "minimum_deployment_rows": 4000,
+        "minimum_train_rows": 1500,
+        "shift_feature": "total sulfur dioxide"
+      }
+    },
+    {
+      "challenge_id": "external-dataset.nhefs-observational-underdetermination",
+      "kind": "unidentifiable",
+      "external_principal_id": "external.causaldata-rdatasets",
+      "documentation": {
+        "source_id": "causaldata-nhefs-documentation",
+        "source_uri": "https://raw.githubusercontent.com/vincentarelbundock/Rdatasets/master/doc/causaldata/nhefs.html",
+        "required_markers": [
+          "epidemiologic follow-up study",
+          "national health and nutrition examination survey"
+        ]
+      },
+      "datasets": [
+        {
+          "source_id": "causaldata-nhefs-csv",
+          "source_uri": "https://raw.githubusercontent.com/vincentarelbundock/Rdatasets/master/csv/causaldata/nhefs.csv",
+          "role": "observational_follow_up",
+          "format": "csv"
+        }
+      ],
+      "analysis": {
+        "exposure_column": "qsmk",
+        "outcome_column": "wt82_71",
+        "minimum_complete_rows": 1000,
+        "identification_design": "none_declared"
+      }
+    }
+  ]
+}

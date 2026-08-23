@@ -29,6 +29,12 @@
   unidentifiability positives while rejecting a wrong treatment effect, an interval-external model,
   a train-only polynomial alias, and a forced unique causal mechanism. The sealed receipt is a
   required core component; it does not replace externally supplied scientific datasets.
+- A first live external-data pack now exercises the same four boundaries against the NSW
+  randomized program experiment, NIST Filip noisy-regression data, UCI red/white wine domain shift,
+  and the observational NHEFS follow-up. It binds nine exact response hashes from three external
+  principals, passes four positive contracts, rejects four claim-changing mutations, and reproduces
+  by refetching every response. The sources are independently maintained but not detached-signed,
+  so the pack supplements rather than removes the synthetic controls and is not level-5 evidence.
 - Every declared creativity family has an equal-budget random control and a leave-one-family-out
   ablation.
 - Exact arithmetic, CAS, SMT, and interval checks pass when independently rerun for the known
@@ -188,9 +194,10 @@ This is evidence of bounded rediscovery, not evidence of mathematical novelty.
 
 ### 6. Build a real dataset-to-invariant pipeline
 
-- The first exact calibration slice now executes intervention contrasts, interval-compatible model
-  sets, train/deployment shift, and an underdetermined causal control with positive and mutation
-  evidence. External data, broader uncertainty models, and learned invariant search remain.
+- Exact synthetic controls and a first live external pack now execute intervention contrasts,
+  nonzero-noise evidence, train/deployment shift, and an underdetermined observational control with
+  positive and mutation evidence. Broader uncertainty models, signed external principals, and
+  learned invariant search remain.
 - Normalize declared units and propagate unit uncertainty.
 - Compute dimension matrices, dimensionless null-space groups, invariant coordinates, residual
   channels, finite-difference channels, and out-of-distribution splits.
@@ -268,8 +275,9 @@ This is evidence of bounded rediscovery, not evidence of mathematical novelty.
 3. Extend the live rotating external pack from recurrence, generating-function, sum/product,
    modular, and representation-bridge tasks to separately maintained tensor and variational packs;
    obtain a detached signature from a distinct pack principal before level-5 use.
-4. Replace synthetic intervention/noise/shift/identifiability calibrations with externally supplied
-   datasets while retaining the synthetic negative controls.
+4. Expand the first four externally supplied dataset challenges to additional independent
+   principals, richer noise and missingness models, and learned invariant proposals while retaining
+   the synthetic negative controls; obtain detached signatures before level-5 use.
 5. Complete named human review of the bound A005132 behavior match and the nearest formula and
    proof-mechanism results; then run the same automated screen for every tournament survivor.
 6. Continue bounded level-5 runs until three independent successes exist; the open-problem gate

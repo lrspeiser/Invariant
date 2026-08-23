@@ -1234,6 +1234,16 @@ temporarily staged around the frozen 16-branch legacy parser and reattached befo
 behavior deduplication, or persistence. A 24-branch mutation control proves the overflow path; the
 latest stochastic run did not need it.
 
+The core receipt now also requires a live external-dataset challenge pack. It fetches and seals four
+separately maintained evidence classes: the NSW randomized program experiment, the NIST Filip
+noisy-regression reference, the UCI red/white wine train-to-deployment shift, and the observational
+NHEFS follow-up. Nine exact HTTPS response hashes from three external principals are bound into the
+receipt. Each challenge passes its positive contract and rejects a claim-changing mutation. A live
+refetch reproduced the complete sealed receipt byte-for-byte. HTTPS plus a content hash is not a
+detached source signature, so this pack is not level-5 evidence and cannot establish a causal law,
+formula, novelty, or that the creativity-first system is more creative. The synthetic challenges
+remain as deterministic negative controls rather than being discarded.
+
 The first live rotating evaluation pack contains 24 anonymized tasks built from independently
 maintained OEIS b-files: four each for recurrence, generating-function, finite-sum, finite-product,
 modular-object, and representation-bridge prompts. Each task carries 18 visible terms and an
@@ -1373,12 +1383,26 @@ sigma-core-discovery validate --root . `
   --receipt runs/math/core-creative-discovery/live-runtime.json
 ```
 
+Build the external-dataset pack from its live sources, validate its sealed receipt without network
+access, or refetch every source and require exact receipt reproduction with:
+
+```powershell
+sigma-external-dataset-challenges build --root . `
+  --output runs/math/external-dataset-challenges/receipt.json
+sigma-external-dataset-challenges validate --root . `
+  --receipt runs/math/external-dataset-challenges/receipt.json
+sigma-external-dataset-challenges reproduce --root . `
+  --receipt runs/math/external-dataset-challenges/receipt.json
+```
+
 Revalidate the network-free live receipts with:
 
 ```powershell
 sigma-prior-art validate --root . --receipt runs/math/claim-specific-prior-art/live-uncertain-recaman.json
 sigma-dataset-challenges validate --root . `
   --receipt runs/math/dataset-challenges/receipt.json
+sigma-external-dataset-challenges validate --root . `
+  --receipt runs/math/external-dataset-challenges/receipt.json
 sigma-proof-plan-search validate --root . `
   --receipt runs/math/independent-proof-plan-search/receipt.json
 sigma-serious-claim-ladder validate --root . `

@@ -8,6 +8,7 @@ on:
       - "configs/core_creative_discovery.json"
       - "configs/expanded_typed_grammar.json"
       - "configs/creative_dataset_challenges.json"
+      - "configs/external_dataset_challenges.json"
       - "configs/independent_proof_plan_search.json"
       - "configs/serious_claim_verification_ladder.json"
       - "configs/creativity_ablation_protocol.json"
@@ -32,6 +33,7 @@ on:
       - "src/sigma_theory_compiler/durable_llm_attempt_journal.py"
       - "src/sigma_theory_compiler/claim_specific_prior_art.py"
       - "src/sigma_theory_compiler/dataset_challenge_suite.py"
+      - "src/sigma_theory_compiler/external_dataset_challenges.py"
       - "src/sigma_theory_compiler/declarative_discovery_*.py"
       - "src/sigma_theory_compiler/idea_lineage.py"
       - "src/sigma_theory_compiler/rotating_external_benchmarks.py"
@@ -54,6 +56,7 @@ on:
       - "tests/test_durable_llm_attempt_journal.py"
       - "tests/test_claim_specific_prior_art.py"
       - "tests/test_dataset_challenge_suite.py"
+      - "tests/test_external_dataset_challenges.py"
       - "tests/test_declarative_discovery_*.py"
       - "tests/test_external_creativity_*.py"
       - "tests/test_external_claude_transport.py"
@@ -68,6 +71,7 @@ on:
       - "runs/math/creativity-component-knockouts/**"
       - "runs/math/core-creative-discovery/**"
       - "runs/math/dataset-challenges/**"
+      - "runs/math/external-dataset-challenges/**"
       - "runs/math/expanded-typed-grammar/**"
       - "runs/math/independent-proof-plan-search/**"
       - "runs/math/serious-claim-verification-ladder/**"
@@ -81,6 +85,7 @@ on:
       - "configs/core_creative_discovery.json"
       - "configs/expanded_typed_grammar.json"
       - "configs/creative_dataset_challenges.json"
+      - "configs/external_dataset_challenges.json"
       - "configs/independent_proof_plan_search.json"
       - "configs/serious_claim_verification_ladder.json"
       - "configs/creativity_ablation_protocol.json"
@@ -105,6 +110,7 @@ on:
       - "src/sigma_theory_compiler/durable_llm_attempt_journal.py"
       - "src/sigma_theory_compiler/claim_specific_prior_art.py"
       - "src/sigma_theory_compiler/dataset_challenge_suite.py"
+      - "src/sigma_theory_compiler/external_dataset_challenges.py"
       - "src/sigma_theory_compiler/declarative_discovery_*.py"
       - "src/sigma_theory_compiler/idea_lineage.py"
       - "src/sigma_theory_compiler/rotating_external_benchmarks.py"
@@ -127,6 +133,7 @@ on:
       - "tests/test_durable_llm_attempt_journal.py"
       - "tests/test_claim_specific_prior_art.py"
       - "tests/test_dataset_challenge_suite.py"
+      - "tests/test_external_dataset_challenges.py"
       - "tests/test_declarative_discovery_*.py"
       - "tests/test_external_creativity_*.py"
       - "tests/test_external_claude_transport.py"
@@ -141,6 +148,7 @@ on:
       - "runs/math/creativity-component-knockouts/**"
       - "runs/math/core-creative-discovery/**"
       - "runs/math/dataset-challenges/**"
+      - "runs/math/external-dataset-challenges/**"
       - "runs/math/expanded-typed-grammar/**"
       - "runs/math/independent-proof-plan-search/**"
       - "runs/math/serious-claim-verification-ladder/**"
@@ -191,6 +199,7 @@ jobs:
           tests/test_durable_llm_attempt_journal.py
           tests/test_claim_specific_prior_art.py
           tests/test_dataset_challenge_suite.py
+          tests/test_external_dataset_challenges.py
           tests/test_rotating_external_benchmarks.py
           tests/test_declarative_discovery_runtime.py
           tests/test_declarative_discovery_operational_campaign.py
@@ -202,6 +211,10 @@ jobs:
           python -m sigma_theory_compiler.dataset_challenge_suite validate
           --root .
           --receipt runs/math/dataset-challenges/receipt.json
+      - run: >-
+          python -m sigma_theory_compiler.external_dataset_challenges validate
+          --root .
+          --receipt runs/math/external-dataset-challenges/receipt.json
       - run: >-
           python -m sigma_theory_compiler.independent_proof_plan_search validate
           --root .
