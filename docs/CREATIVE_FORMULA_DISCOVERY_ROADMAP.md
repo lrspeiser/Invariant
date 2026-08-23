@@ -82,6 +82,14 @@
   origin labels. The core provider path consumes all five sealed briefs on every future live call,
   but the checked-in authenticated calls predate that wiring. It leaves every free function
   arbitrary and makes no law or novelty claim.
+- A separate exact learner now infers diagonal action rows from prime valuations of paired rational
+  transformations; the learning function receives neither the sealed target basis nor any declared
+  dimension/action weights. It learns two independent drag coordinates that survive compound
+  deployment rescalings, rejects two train-only coordinates after a hidden action appears while
+  retaining a repaired coordinate, and returns an explicit three-coordinate underdetermined
+  subspace when only one action is observed. All seven training candidates and all six repaired/
+  surviving coordinates remain in the core LLM brief set. These are synthetic identification and
+  shift controls, not a learned law or evidence of increased creativity.
 - A live claim-specific screen queried OEIS, Crossref, arXiv, Semantic Scholar, and the repository
   for one retained `uncertain` LLM idea. OEIS matched all 18 displayed terms to A005132; Semantic
   Scholar's HTTP 429 is preserved as unavailable evidence. This calibrates the model label at the
@@ -224,12 +232,14 @@ This is evidence of bounded rediscovery, not evidence of mathematical novelty.
 
 - Exact synthetic controls and a first live external pack now execute intervention contrasts,
   nonzero-noise evidence, train/deployment shift, and an underdetermined observational control with
-  positive and mutation evidence. A bounded declaration engine now also computes exact dimensional
-  and symmetry quotient coordinates in four domains with two independent rank/nullspace methods.
-  Learned invariant search, broader uncertainty models, and signed external principals remain.
+  positive and mutation evidence. A bounded declaration engine computes exact dimensional and
+  symmetry quotient coordinates in five domains with two independent rank/nullspace methods. An
+  exact transformation learner now recovers one multi-coordinate diagonal-action subspace without
+  target exponents and retains shifted and underdetermined outcomes. Noisy/missing/censored action
+  learning, nonlinear actions, and signed external principals remain.
 - Normalize declared units and propagate unit uncertainty.
-- Generalize the four-control dimension/symmetry null-space engine to learned group actions and
-  multiple invariant coordinates; add residual channels, finite-difference channels, and
+- Generalize the exact learned diagonal-action controls to matrix and nonlinear group actions;
+  add residual channels, finite-difference channels, and
   out-of-distribution splits to the same executable pipeline.
 - Accept causal language only when intervention data or a defensible identification design exists;
   observational rows must never be relabelled as interventions.

@@ -1,0 +1,34 @@
+{
+  "schema_version": "invariant-learned-invariant-discovery-targets-1.0",
+  "campaign_id": "learned-invariant-controls-2026-08-23-001",
+  "controls": [
+    {
+      "problem_id": "control.learned-drag-multi-coordinate",
+      "expected_augmented_rank": 4,
+      "expected_augmented_nullity": 2,
+      "expected_invariant_subspace_basis": [
+        [1, -1, -2, -2, 0, 0],
+        [0, 1, 1, 1, -1, 0]
+      ],
+      "expected_status": "PASS_LEARNED_INVARIANT_BASIS"
+    },
+    {
+      "problem_id": "control.shifted-hidden-action",
+      "expected_augmented_rank": 3,
+      "expected_augmented_nullity": 1,
+      "expected_invariant_subspace_basis": [[1, 1, 1, 1]],
+      "expected_status": "REJECT_TRAIN_ONLY_INVARIANT_SPACE"
+    },
+    {
+      "problem_id": "control.underidentified-action",
+      "expected_augmented_rank": 1,
+      "expected_augmented_nullity": 3,
+      "expected_invariant_subspace_basis": [
+        [1, 1, 0, 0],
+        [0, 0, 1, 0],
+        [0, 0, 0, 1]
+      ],
+      "expected_status": "UNDERDETERMINED_RETAIN_CANDIDATE_SUBSPACE"
+    }
+  ]
+}

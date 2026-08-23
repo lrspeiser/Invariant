@@ -1,0 +1,699 @@
+{
+  "campaign_id": "learned-invariant-controls-2026-08-23-001",
+  "claims": {
+    "empirical_law_discovered": false,
+    "invariance_implies_truth": false,
+    "literature_novelty_established": false,
+    "named_formula_recovered": false,
+    "target_used_for_learning": false
+  },
+  "content_sha256": "8c4c85229bcf883af92ab9d1bad689dca02a5e806ac5d1503ef5db1b8d59f80d",
+  "release_gate": {
+    "creative_context_ready": true,
+    "serious_claim_released": false,
+    "status": "PASS_LEARNED_CONTROLS_NO_LAW_OR_NOVELTY_CLAIM"
+  },
+  "results": [
+    {
+      "creative_brief": {
+        "candidate_invariant_coordinates": [
+          "density*speed*length_scale/dynamic_viscosity",
+          "drag_force/(speed*length_scale*dynamic_viscosity)"
+        ],
+        "constraint_statement": "Treat training coordinates as retained hypotheses. Keep deployment failures as repair branches and the repaired coordinates as distinct proposals; an underdetermined subspace requires more transformations, not forced selection.",
+        "deployment_repaired_coordinates": [
+          "density*speed*length_scale/dynamic_viscosity",
+          "drag_force/(speed*length_scale*dynamic_viscosity)"
+        ],
+        "identifiability_status": "PASS_LEARNED_INVARIANT_BASIS",
+        "llm_origin_assessment_labels": [
+          "known_rewrite",
+          "cross_domain_synthesis",
+          "proposed_new_construction",
+          "uncertain"
+        ],
+        "novelty_caution": "Exact transformation invariance is neither a discovered scientific law nor evidence of literature novelty."
+      },
+      "deployment": {
+        "coordinate_failures": 0,
+        "replays": [
+          {
+            "coordinate_id": "pi_1",
+            "invariant_on_all_deployment_transformations": true,
+            "replay_values": [
+              "1",
+              "1"
+            ]
+          },
+          {
+            "coordinate_id": "pi_2",
+            "invariant_on_all_deployment_transformations": true,
+            "replay_values": [
+              "1",
+              "1"
+            ]
+          }
+        ],
+        "transformations": 2
+      },
+      "deployment_repaired_coordinates": [
+        {
+          "coordinate_id": "pi_1",
+          "exponents": [
+            0,
+            1,
+            1,
+            1,
+            -1,
+            0
+          ],
+          "expression": "density*speed*length_scale/dynamic_viscosity"
+        },
+        {
+          "coordinate_id": "pi_2",
+          "exponents": [
+            1,
+            0,
+            -1,
+            -1,
+            -1,
+            0
+          ],
+          "expression": "drag_force/(speed*length_scale*dynamic_viscosity)"
+        }
+      ],
+      "domain": "aerodynamics",
+      "independent_evaluators": {
+        "agreement": true,
+        "augmented_fraction_rank": 4,
+        "augmented_sympy_nullspace_basis": [
+          [
+            1,
+            -1,
+            -2,
+            -2,
+            0,
+            0
+          ],
+          [
+            1,
+            1,
+            0,
+            0,
+            -2,
+            0
+          ]
+        ],
+        "augmented_sympy_rank": 4,
+        "training_fraction_rank": 4,
+        "training_sympy_nullspace_basis": [
+          [
+            1,
+            -1,
+            -2,
+            -2,
+            0,
+            0
+          ],
+          [
+            1,
+            1,
+            0,
+            0,
+            -2,
+            0
+          ]
+        ],
+        "training_sympy_rank": 4
+      },
+      "learned_action_rows": {
+        "augmented": [
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          [
+            1,
+            -3,
+            1,
+            1,
+            -1,
+            0
+          ],
+          [
+            1,
+            1,
+            0,
+            0,
+            1,
+            0
+          ],
+          [
+            2,
+            0,
+            1,
+            0,
+            1,
+            0
+          ]
+        ],
+        "deployment": [
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          [
+            1,
+            -3,
+            1,
+            1,
+            -1,
+            0
+          ],
+          [
+            1,
+            1,
+            0,
+            0,
+            1,
+            0
+          ],
+          [
+            2,
+            0,
+            1,
+            0,
+            1,
+            0
+          ]
+        ],
+        "training": [
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          [
+            1,
+            -3,
+            1,
+            1,
+            -1,
+            0
+          ],
+          [
+            1,
+            1,
+            0,
+            0,
+            1,
+            0
+          ],
+          [
+            2,
+            0,
+            1,
+            0,
+            1,
+            0
+          ]
+        ]
+      },
+      "problem_id": "control.learned-drag-multi-coordinate",
+      "sealed_control_evaluation": {
+        "expected_status_matched": true,
+        "sealed_subspace_matched": true,
+        "target_visible_to_learner": false
+      },
+      "search": {
+        "augmented_bounded_primitive_invariants": 6,
+        "augmented_nullity": 2,
+        "maximum_identifiable_nullity": 2,
+        "training_bounded_primitive_invariants": 6,
+        "training_nullity": 2
+      },
+      "status": "PASS_LEARNED_INVARIANT_BASIS",
+      "target_access": {
+        "learner_input_sha256": "991f9c7556c07b68ddc019f3986b39c5434f705f70872593fca6c0fef477789e",
+        "target_visible_to_learner": false
+      },
+      "training_coordinates": [
+        {
+          "coordinate_id": "pi_1",
+          "exponents": [
+            0,
+            1,
+            1,
+            1,
+            -1,
+            0
+          ],
+          "expression": "density*speed*length_scale/dynamic_viscosity"
+        },
+        {
+          "coordinate_id": "pi_2",
+          "exponents": [
+            1,
+            0,
+            -1,
+            -1,
+            -1,
+            0
+          ],
+          "expression": "drag_force/(speed*length_scale*dynamic_viscosity)"
+        }
+      ],
+      "variables": [
+        "drag_force",
+        "density",
+        "speed",
+        "length_scale",
+        "dynamic_viscosity",
+        "roughness_ratio"
+      ]
+    },
+    {
+      "creative_brief": {
+        "candidate_invariant_coordinates": [
+          "nuisance",
+          "output*input*scale"
+        ],
+        "constraint_statement": "Treat training coordinates as retained hypotheses. Keep deployment failures as repair branches and the repaired coordinates as distinct proposals; an underdetermined subspace requires more transformations, not forced selection.",
+        "deployment_repaired_coordinates": [
+          "output*input*scale*nuisance"
+        ],
+        "identifiability_status": "REJECT_TRAIN_ONLY_INVARIANT_SPACE",
+        "llm_origin_assessment_labels": [
+          "known_rewrite",
+          "cross_domain_synthesis",
+          "proposed_new_construction",
+          "uncertain"
+        ],
+        "novelty_caution": "Exact transformation invariance is neither a discovered scientific law nor evidence of literature novelty."
+      },
+      "deployment": {
+        "coordinate_failures": 2,
+        "replays": [
+          {
+            "coordinate_id": "pi_1",
+            "invariant_on_all_deployment_transformations": false,
+            "replay_values": [
+              "1/5"
+            ]
+          },
+          {
+            "coordinate_id": "pi_2",
+            "invariant_on_all_deployment_transformations": false,
+            "replay_values": [
+              "5"
+            ]
+          }
+        ],
+        "transformations": 1
+      },
+      "deployment_repaired_coordinates": [
+        {
+          "coordinate_id": "pi_1",
+          "exponents": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "expression": "output*input*scale*nuisance"
+        }
+      ],
+      "domain": "synthetic_shift",
+      "independent_evaluators": {
+        "agreement": true,
+        "augmented_fraction_rank": 3,
+        "augmented_sympy_nullspace_basis": [
+          [
+            1,
+            1,
+            1,
+            1
+          ]
+        ],
+        "augmented_sympy_rank": 3,
+        "training_fraction_rank": 2,
+        "training_sympy_nullspace_basis": [
+          [
+            1,
+            1,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "training_sympy_rank": 2
+      },
+      "learned_action_rows": {
+        "augmented": [
+          [
+            0,
+            0,
+            1,
+            -1
+          ],
+          [
+            0,
+            1,
+            -1,
+            0
+          ],
+          [
+            1,
+            -1,
+            0,
+            0
+          ]
+        ],
+        "deployment": [
+          [
+            0,
+            0,
+            1,
+            -1
+          ]
+        ],
+        "training": [
+          [
+            0,
+            1,
+            -1,
+            0
+          ],
+          [
+            1,
+            -1,
+            0,
+            0
+          ]
+        ]
+      },
+      "problem_id": "control.shifted-hidden-action",
+      "sealed_control_evaluation": {
+        "expected_status_matched": true,
+        "sealed_subspace_matched": true,
+        "target_visible_to_learner": false
+      },
+      "search": {
+        "augmented_bounded_primitive_invariants": 1,
+        "augmented_nullity": 1,
+        "maximum_identifiable_nullity": 2,
+        "training_bounded_primitive_invariants": 10,
+        "training_nullity": 2
+      },
+      "status": "REJECT_TRAIN_ONLY_INVARIANT_SPACE",
+      "target_access": {
+        "learner_input_sha256": "bbb041e225463e1ff0e5fa36842c8c144088d7693257ed69666ebf438ad7109b",
+        "target_visible_to_learner": false
+      },
+      "training_coordinates": [
+        {
+          "coordinate_id": "pi_1",
+          "exponents": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "expression": "nuisance"
+        },
+        {
+          "coordinate_id": "pi_2",
+          "exponents": [
+            1,
+            1,
+            1,
+            0
+          ],
+          "expression": "output*input*scale"
+        }
+      ],
+      "variables": [
+        "output",
+        "input",
+        "scale",
+        "nuisance"
+      ]
+    },
+    {
+      "creative_brief": {
+        "candidate_invariant_coordinates": [
+          "d",
+          "c",
+          "a*b"
+        ],
+        "constraint_statement": "Treat training coordinates as retained hypotheses. Keep deployment failures as repair branches and the repaired coordinates as distinct proposals; an underdetermined subspace requires more transformations, not forced selection.",
+        "deployment_repaired_coordinates": [
+          "d",
+          "c",
+          "a*b"
+        ],
+        "identifiability_status": "UNDERDETERMINED_RETAIN_CANDIDATE_SUBSPACE",
+        "llm_origin_assessment_labels": [
+          "known_rewrite",
+          "cross_domain_synthesis",
+          "proposed_new_construction",
+          "uncertain"
+        ],
+        "novelty_caution": "Exact transformation invariance is neither a discovered scientific law nor evidence of literature novelty."
+      },
+      "deployment": {
+        "coordinate_failures": 0,
+        "replays": [
+          {
+            "coordinate_id": "pi_1",
+            "invariant_on_all_deployment_transformations": true,
+            "replay_values": [
+              "1"
+            ]
+          },
+          {
+            "coordinate_id": "pi_2",
+            "invariant_on_all_deployment_transformations": true,
+            "replay_values": [
+              "1"
+            ]
+          },
+          {
+            "coordinate_id": "pi_3",
+            "invariant_on_all_deployment_transformations": true,
+            "replay_values": [
+              "1"
+            ]
+          }
+        ],
+        "transformations": 1
+      },
+      "deployment_repaired_coordinates": [
+        {
+          "coordinate_id": "pi_1",
+          "exponents": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "expression": "d"
+        },
+        {
+          "coordinate_id": "pi_2",
+          "exponents": [
+            0,
+            0,
+            1,
+            0
+          ],
+          "expression": "c"
+        },
+        {
+          "coordinate_id": "pi_3",
+          "exponents": [
+            1,
+            1,
+            0,
+            0
+          ],
+          "expression": "a*b"
+        }
+      ],
+      "domain": "synthetic_identifiability",
+      "independent_evaluators": {
+        "agreement": true,
+        "augmented_fraction_rank": 1,
+        "augmented_sympy_nullspace_basis": [
+          [
+            1,
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "augmented_sympy_rank": 1,
+        "training_fraction_rank": 1,
+        "training_sympy_nullspace_basis": [
+          [
+            1,
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "training_sympy_rank": 1
+      },
+      "learned_action_rows": {
+        "augmented": [
+          [
+            1,
+            -1,
+            0,
+            0
+          ]
+        ],
+        "deployment": [
+          [
+            1,
+            -1,
+            0,
+            0
+          ]
+        ],
+        "training": [
+          [
+            1,
+            -1,
+            0,
+            0
+          ]
+        ]
+      },
+      "problem_id": "control.underidentified-action",
+      "sealed_control_evaluation": {
+        "expected_status_matched": true,
+        "sealed_subspace_matched": true,
+        "target_visible_to_learner": false
+      },
+      "search": {
+        "augmented_bounded_primitive_invariants": 105,
+        "augmented_nullity": 3,
+        "maximum_identifiable_nullity": 2,
+        "training_bounded_primitive_invariants": 105,
+        "training_nullity": 3
+      },
+      "status": "UNDERDETERMINED_RETAIN_CANDIDATE_SUBSPACE",
+      "target_access": {
+        "learner_input_sha256": "4869755e6c8d3296b36c0252885baea402181c30423716742f2b495b7ca629cb",
+        "target_visible_to_learner": false
+      },
+      "training_coordinates": [
+        {
+          "coordinate_id": "pi_1",
+          "exponents": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "expression": "d"
+        },
+        {
+          "coordinate_id": "pi_2",
+          "exponents": [
+            0,
+            0,
+            1,
+            0
+          ],
+          "expression": "c"
+        },
+        {
+          "coordinate_id": "pi_3",
+          "exponents": [
+            1,
+            1,
+            0,
+            0
+          ],
+          "expression": "a*b"
+        }
+      ],
+      "variables": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ]
+    }
+  ],
+  "schema_version": "invariant-learned-invariant-discovery-receipt-1.0",
+  "source_bindings": {
+    "config": {
+      "normalized_sha256": "06a048fab44e4d57f58072a3d28cb9447a9b3ebca8c6886c128e8c265ee84687",
+      "path": "configs/learned_invariant_discovery.json"
+    },
+    "source": {
+      "normalized_sha256": "691a2fe39c9732458729b211d9fe7900f8f090ac54377505c06796f4e578845d",
+      "path": "src/sigma_theory_compiler/learned_invariant_discovery.py"
+    },
+    "targets": {
+      "normalized_sha256": "8046f3cc0a0f29b1831e9522610d5545f32671e2b5e1f001bd5fb9c763854f5f",
+      "path": "configs/learned_invariant_discovery_targets.json"
+    },
+    "test": {
+      "normalized_sha256": "7a4a9529a1fe21f18d39f74df853b844d395872d2b07668aba4cef56c872d0ff",
+      "path": "tests/test_learned_invariant_discovery.py"
+    }
+  },
+  "summary": {
+    "deployment_repaired_coordinates": 6,
+    "identified_passes": 1,
+    "problems": 3,
+    "shift_rejections": 1,
+    "status": "PASS_LEARNED_MULTI_INVARIANT_CONTROLS",
+    "training_coordinates_retained": 7,
+    "underdetermined_controls": 1
+  }
+}

@@ -16,8 +16,9 @@ from .claude_creativity_api import ClaudeCreativityError, Transport, urllib_tran
 from .external_claude_transport import ProviderCompatibleClaudeTransport
 from .sigma_core import canonical_sha256
 
-SCHEMA_VERSION = "invariant-core-creative-prompt-context-1.1"
+SCHEMA_VERSION = "invariant-core-creative-prompt-context-1.2"
 FIRST_PRINCIPLES_BRIEF_COUNT = 5
+LEARNED_INVARIANT_BRIEF_COUNT = 3
 ORIGIN_ASSESSMENTS = [
     "cross_domain_synthesis",
     "known_rewrite",
@@ -55,6 +56,7 @@ def _strict_keys(value: Any, expected: set[str], label: str) -> Mapping[str, Any
 
 def build_creative_prompt_context(
     symmetry_dimension: Mapping[str, Any],
+    learned_invariants: Mapping[str, Any],
     expanded_grammar: Mapping[str, Any],
     proof_plan_search: Mapping[str, Any],
 ) -> dict[str, Any]:
@@ -118,6 +120,68 @@ def build_creative_prompt_context(
     ) or not any(item["invariant_coordinate_arity"] > 1 for item in briefs):
         raise CoreCreativePromptContextError("first-principles brief coverage changed")
 
+    if learned_invariants.get("summary", {}).get("status") != (
+        "PASS_LEARNED_MULTI_INVARIANT_CONTROLS"
+    ):
+        raise CoreCreativePromptContextError("learned invariant context changed")
+    learned_briefs = []
+    for result in learned_invariants.get("results", []):
+        creative_brief = _strict_keys(
+            result.get("creative_brief"),
+            {
+                "candidate_invariant_coordinates",
+                "constraint_statement",
+                "deployment_repaired_coordinates",
+                "identifiability_status",
+                "llm_origin_assessment_labels",
+                "novelty_caution",
+            },
+            "learned invariant creative brief",
+        )
+        if creative_brief["llm_origin_assessment_labels"] != [
+            "known_rewrite",
+            "cross_domain_synthesis",
+            "proposed_new_construction",
+            "uncertain",
+        ]:
+            raise CoreCreativePromptContextError("learned invariant origin labels changed")
+        learned_briefs.append(
+            {
+                "candidate_invariant_coordinates": list(
+                    creative_brief["candidate_invariant_coordinates"]
+                ),
+                "constraint_statement": creative_brief["constraint_statement"],
+                "deployment_repaired_coordinates": list(
+                    creative_brief["deployment_repaired_coordinates"]
+                ),
+                "domain": result.get("domain"),
+                "identifiability_status": creative_brief["identifiability_status"],
+                "novelty_caution": creative_brief["novelty_caution"],
+                "problem_id": result.get("problem_id"),
+            }
+        )
+    learned_briefs.sort(key=lambda item: str(item["problem_id"]))
+    learned_statuses = {
+        item["identifiability_status"] for item in learned_briefs
+    }
+    if (
+        len(learned_briefs) != LEARNED_INVARIANT_BRIEF_COUNT
+        or learned_statuses
+        != {
+            "PASS_LEARNED_INVARIANT_BASIS",
+            "REJECT_TRAIN_ONLY_INVARIANT_SPACE",
+            "UNDERDETERMINED_RETAIN_CANDIDATE_SUBSPACE",
+        }
+        or any(
+            not isinstance(item["problem_id"], str)
+            or not isinstance(item["domain"], str)
+            or not item["candidate_invariant_coordinates"]
+            or not item["deployment_repaired_coordinates"]
+            for item in learned_briefs
+        )
+    ):
+        raise CoreCreativePromptContextError("learned invariant brief coverage changed")
+
     body: dict[str, Any] = {
         "schema_version": SCHEMA_VERSION,
         "creativity_policy": {
@@ -125,10 +189,12 @@ def build_creative_prompt_context(
             "generate_multiple_mechanisms_before_falsification": True,
             "origin_labels_are_fallible_lineage_assessments": True,
             "retain_every_schema_admitted_idea": True,
+            "retain_failed_and_underdetermined_invariant_branches": True,
             "uncertainty_does_not_prune": True,
         },
         "first_principles_briefs": briefs,
         "independent_proof_mechanisms": list(PROOF_MECHANISMS),
+        "learned_invariant_briefs": learned_briefs,
         "origin_assessment_labels": list(ORIGIN_ASSESSMENTS),
         "typed_formula_kinds": list(TYPED_FORMULA_KINDS),
     }
@@ -145,6 +211,7 @@ def validate_creative_prompt_context(value: Mapping[str, Any]) -> None:
             "creativity_policy",
             "first_principles_briefs",
             "independent_proof_mechanisms",
+            "learned_invariant_briefs",
             "origin_assessment_labels",
             "schema_version",
             "typed_formula_kinds",
@@ -169,6 +236,7 @@ def validate_creative_prompt_context(value: Mapping[str, Any]) -> None:
             "generate_multiple_mechanisms_before_falsification",
             "origin_labels_are_fallible_lineage_assessments",
             "retain_every_schema_admitted_idea",
+            "retain_failed_and_underdetermined_invariant_branches",
             "uncertainty_does_not_prune",
         },
         "core creativity policy",
@@ -212,6 +280,47 @@ def validate_creative_prompt_context(value: Mapping[str, Any]) -> None:
         raise CoreCreativePromptContextError(
             "core first-principles multi-coordinate coverage changed"
         )
+    learned_briefs = value.get("learned_invariant_briefs")
+    if (
+        not isinstance(learned_briefs, list)
+        or len(learned_briefs) != LEARNED_INVARIANT_BRIEF_COUNT
+    ):
+        raise CoreCreativePromptContextError("core learned invariant brief coverage changed")
+    learned_statuses: set[str] = set()
+    for brief in learned_briefs:
+        _strict_keys(
+            brief,
+            {
+                "candidate_invariant_coordinates",
+                "constraint_statement",
+                "deployment_repaired_coordinates",
+                "domain",
+                "identifiability_status",
+                "novelty_caution",
+                "problem_id",
+            },
+            "core learned invariant brief",
+        )
+        coordinates = brief["candidate_invariant_coordinates"]
+        repaired = brief["deployment_repaired_coordinates"]
+        status = brief["identifiability_status"]
+        if (
+            not isinstance(coordinates, list)
+            or not coordinates
+            or any(not isinstance(item, str) or not item for item in coordinates)
+            or not isinstance(repaired, list)
+            or not repaired
+            or any(not isinstance(item, str) or not item for item in repaired)
+            or not isinstance(status, str)
+        ):
+            raise CoreCreativePromptContextError("core learned invariant branch changed")
+        learned_statuses.add(status)
+    if learned_statuses != {
+        "PASS_LEARNED_INVARIANT_BASIS",
+        "REJECT_TRAIN_ONLY_INVARIANT_SPACE",
+        "UNDERDETERMINED_RETAIN_CANDIDATE_SUBSPACE",
+    }:
+        raise CoreCreativePromptContextError("core learned invariant outcomes changed")
     if len(json.dumps(value, sort_keys=True, separators=(",", ":")).encode("utf-8")) > 16_384:
         raise CoreCreativePromptContextError("core creative prompt context exceeds its byte budget")
 
@@ -268,6 +377,7 @@ class FirstPrinciplesContextTransport(ProviderCompatibleClaudeTransport):
 
 __all__ = [
     "FIRST_PRINCIPLES_BRIEF_COUNT",
+    "LEARNED_INVARIANT_BRIEF_COUNT",
     "SCHEMA_VERSION",
     "CoreCreativePromptContextError",
     "FirstPrinciplesContextTransport",

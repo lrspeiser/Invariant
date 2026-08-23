@@ -11,6 +11,7 @@ on:
       - "configs/external_dataset_challenges.json"
       - "configs/external_structured_benchmark_pack.json"
       - "configs/symmetry_dimension_derivation.json"
+      - "configs/learned_invariant_discovery*.json"
       - "configs/independent_proof_plan_search.json"
       - "configs/serious_claim_verification_ladder.json"
       - "configs/creativity_ablation_protocol.json"
@@ -38,6 +39,7 @@ on:
       - "src/sigma_theory_compiler/external_dataset_challenges.py"
       - "src/sigma_theory_compiler/external_structured_benchmarks.py"
       - "src/sigma_theory_compiler/symmetry_dimension_derivation.py"
+      - "src/sigma_theory_compiler/learned_invariant_discovery.py"
       - "src/sigma_theory_compiler/declarative_discovery_*.py"
       - "src/sigma_theory_compiler/idea_lineage.py"
       - "src/sigma_theory_compiler/rotating_external_benchmarks.py"
@@ -63,6 +65,7 @@ on:
       - "tests/test_external_dataset_challenges.py"
       - "tests/test_external_structured_benchmarks.py"
       - "tests/test_symmetry_dimension_derivation.py"
+      - "tests/test_learned_invariant_discovery.py"
       - "tests/test_declarative_discovery_*.py"
       - "tests/test_external_creativity_*.py"
       - "tests/test_external_claude_transport.py"
@@ -80,6 +83,7 @@ on:
       - "runs/math/external-dataset-challenges/**"
       - "runs/math/external-structured-benchmarks/**"
       - "runs/math/symmetry-dimension-derivation/**"
+      - "runs/math/learned-invariant-discovery/**"
       - "runs/math/expanded-typed-grammar/**"
       - "runs/math/independent-proof-plan-search/**"
       - "runs/math/serious-claim-verification-ladder/**"
@@ -96,6 +100,7 @@ on:
       - "configs/external_dataset_challenges.json"
       - "configs/external_structured_benchmark_pack.json"
       - "configs/symmetry_dimension_derivation.json"
+      - "configs/learned_invariant_discovery*.json"
       - "configs/independent_proof_plan_search.json"
       - "configs/serious_claim_verification_ladder.json"
       - "configs/creativity_ablation_protocol.json"
@@ -123,6 +128,7 @@ on:
       - "src/sigma_theory_compiler/external_dataset_challenges.py"
       - "src/sigma_theory_compiler/external_structured_benchmarks.py"
       - "src/sigma_theory_compiler/symmetry_dimension_derivation.py"
+      - "src/sigma_theory_compiler/learned_invariant_discovery.py"
       - "src/sigma_theory_compiler/declarative_discovery_*.py"
       - "src/sigma_theory_compiler/idea_lineage.py"
       - "src/sigma_theory_compiler/rotating_external_benchmarks.py"
@@ -148,6 +154,7 @@ on:
       - "tests/test_external_dataset_challenges.py"
       - "tests/test_external_structured_benchmarks.py"
       - "tests/test_symmetry_dimension_derivation.py"
+      - "tests/test_learned_invariant_discovery.py"
       - "tests/test_declarative_discovery_*.py"
       - "tests/test_external_creativity_*.py"
       - "tests/test_external_claude_transport.py"
@@ -165,6 +172,7 @@ on:
       - "runs/math/external-dataset-challenges/**"
       - "runs/math/external-structured-benchmarks/**"
       - "runs/math/symmetry-dimension-derivation/**"
+      - "runs/math/learned-invariant-discovery/**"
       - "runs/math/expanded-typed-grammar/**"
       - "runs/math/independent-proof-plan-search/**"
       - "runs/math/serious-claim-verification-ladder/**"
@@ -219,6 +227,7 @@ jobs:
           tests/test_external_dataset_challenges.py
           tests/test_external_structured_benchmarks.py
           tests/test_symmetry_dimension_derivation.py
+          tests/test_learned_invariant_discovery.py
           tests/test_rotating_external_benchmarks.py
           tests/test_declarative_discovery_runtime.py
           tests/test_declarative_discovery_operational_campaign.py
@@ -244,6 +253,10 @@ jobs:
           python -m sigma_theory_compiler.symmetry_dimension_derivation validate
           --root .
           --receipt runs/math/symmetry-dimension-derivation/receipt.json
+      - run: >-
+          python -m sigma_theory_compiler.learned_invariant_discovery validate
+          --root .
+          --receipt runs/math/learned-invariant-discovery/receipt.json
       - run: >-
           python -m sigma_theory_compiler.independent_proof_plan_search validate
           --root .

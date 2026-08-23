@@ -1247,6 +1247,16 @@ collapsed bases, and rejects all five dropped-nuisance-symmetry mutations. The t
 control is a known calibration problem, not a newly discovered law; it proves that future creative
 requests can mix multiple first-principles coordinates without treating dimensional admissibility
 as truth or novelty.
+An exact data-to-invariant learner now complements those declared controls. It receives only paired
+positive-rational transformation ratios; prime valuations recover an integer action matrix without
+dimension names, action weights, named formulas, or target exponents. On the drag control it learns
+a two-coordinate basis that survives two unseen compound rescalings. A shifted control preserves
+both failed training coordinates and a separately derived one-coordinate deployment repair. A
+rank-deficient control retains all three candidate coordinates and reports
+`UNDERDETERMINED_RETAIN_CANDIDATE_SUBSPACE` instead of forcing a winner. Public learner inputs and
+sealed control targets are separate hash-bound files, and the learner API never accepts the target.
+All three briefs—identified, rejected/repairable, and underdetermined—are injected into future core
+Claude calls so failure evidence expands or repairs the search tree rather than pruning it.
 The live provider adapter also preserves high-output proposer calls: branches 17 through 64 are
 temporarily staged around the frozen 16-branch legacy parser and reattached before lineage,
 behavior deduplication, or persistence. A 24-branch mutation control proves the overflow path; the
@@ -1408,6 +1418,15 @@ sigma-core-discovery run --root . `
   --output runs/math/core-creative-discovery/live-runtime.json
 sigma-core-discovery validate --root . `
   --receipt runs/math/core-creative-discovery/live-runtime.json
+```
+
+Build and replay the exact learned-invariant controls without a provider call:
+
+```powershell
+sigma-learn-invariants build --root . `
+  --output runs/math/learned-invariant-discovery/receipt.json
+sigma-learn-invariants validate --root . `
+  --receipt runs/math/learned-invariant-discovery/receipt.json
 ```
 
 Build the external-dataset pack from its live sources, validate its sealed receipt without network
