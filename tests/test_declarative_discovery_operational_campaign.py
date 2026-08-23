@@ -11,8 +11,18 @@ RECEIPT = ROOT / C.OUTPUT_PATH
 
 def test_operational_campaign_closes_every_runtime_control_without_claiming_open_math() -> None:
     value = C.run_operational_campaign(ROOT)
-    assert len(value["extension_admission"]["admitted_declarations"]) == 4
+    assert len(value["extension_admission"]["admitted_declarations"]) == 11
     assert value["extension_admission"]["no_bespoke_module_per_extension"] is True
+    assert set(value["extension_admission"]["grammar_expansions_executed"]) == {
+        "grammar.finite-product",
+        "grammar.finite-sum",
+        "grammar.generating-function",
+        "grammar.linear-recurrence",
+        "grammar.modular-relation",
+        "grammar.rational-expression",
+        "grammar.tensor-identity",
+        "grammar.variational-principle",
+    }
     assert len(value["creativity"]["families_executed"]) == 10
     assert value["independent_verification"] == {
         "backends": ["exact_arithmetic", "cas", "interval", "lean"],

@@ -4,17 +4,40 @@
 
 - Two externally sourced known-formula controls are rediscovered with zero sealed-holdout loss.
 - Two externally sourced bounded-unknown sequence controls do not have a zero-loss candidate.
-- Claude completed four blind proposer calls and four post-proposal critic calls. Its output is never
-  verifier authority.
+- The core app loaded the machine credential without persisting it and completed four blind Claude
+  proposer calls plus four post-proposal critic calls on `claude-opus-4-6`.
+- Those calls produced 21 schema-admitted ideas: 13 model-self-assessed known rewrites and 8
+  uncertain. All 21 remain active; none were discarded for their label or verifier status.
+- Independent expansion produced 126 proof-plan branches and 64 cross-idea recombination branches.
+  This is one treatment specimen, not evidence that the system is more creative.
 - Every declared creativity family has an equal-budget random control and a leave-one-family-out
   ablation.
 - Exact arithmetic, CAS, SMT, and interval checks pass for the known controls. The formula-specific
   Lean source is checked by CI, not inferred locally.
-- Two evaluator implementations agree on one machine. A second physical host remains mandatory.
+- Downloaded artifacts bind four distinct GitHub-hosted ephemeral VM runner IDs across Windows and
+  Linux, with two evaluator implementations per host and a separate Lean kernel artifact. This is
+  multi-host VM reproduction, not a claim about distinct bare-metal machines.
 - No novel formula, proof, theorem, scientific law, or open-problem result is claimed.
 - The famous-open-problem gate is closed: zero of three required independent level-5 successes.
 
-## Definition of a creative success
+## Definition of creative progress
+
+Creativity is measured before mathematical success. The primary experimental measure is blinded,
+human-reviewed, useful distinct behavior branches per 10,000 tokens under matched resources. A
+branch is useful when independent reviewers rate its coherence, nontriviality, and follow-up value;
+it need not already pass a theorem gate. We also count cross-domain recombinations, representation
+coverage, distinct proof mechanisms, and initially failed or blocked ideas later used as productive
+parents. Raw idea volume and the model's own novelty label do not count as wins.
+
+The preregistered paired protocol is
+[`configs/creativity_ablation_protocol.json`](../configs/creativity_ablation_protocol.json). It
+requires at least 24 rotating paired tasks, frozen baseline and treatment commits, blinded output
+order, two named reviewers, identical model/token/time/grammar/verifier budgets, at least a 20%
+primary improvement, a one-sided sign-test threshold of 0.05, and typed-usability noninferiority.
+Component knockouts isolate lineage labels, non-pruning, expanded grammar, and independent
+proof/recombination search.
+
+## Definition of a bounded mathematical success
 
 A run is not a success merely because it generated many candidates or found a low training error.
 For a bounded level-5 benchmark it must have all of the following:
@@ -65,13 +88,17 @@ This is evidence of bounded rediscovery, not evidence of mathematical novelty.
   after proposal and critique roots are sealed.
 - Rotate benchmark packs and publish failures to reduce adaptation to a static test set.
 
-### 4. Keep Claude useful but non-authoritative
+### 4. Use Claude throughout creativity while keeping it non-authoritative
 
-- Use structured proposer calls for analogies, invariants, representation changes, candidate
-  expressions, falsifiers, and proof plans.
+- Make structured roles available for proposing, analogy scouting, representation invention,
+  dataset explanation, proof strategy, recombination, and critique.
 - Use structured critic calls only after train evidence is frozen, supplying exact residuals and
   candidate IDs so steering is auditable.
-- Quarantine unsupported syntax and record proposed/admitted/non-executable counts separately.
+- Preserve unsupported but well-typed suggestions in the lineage archive and branch toward new
+  executors; inability to execute today changes claim readiness, not retention.
+- Require every suggestion to self-label as a likely known rewrite, cross-domain synthesis,
+  proposed new construction, or uncertain, with named analogues and source domains. Treat that as
+  fallible lineage metadata, never a novelty judgment.
 - Enforce per-call, per-campaign, and per-open-problem call/token ceilings before making a request.
 - Never let a model response pass an exact, formal, novelty, scientific, or release gate.
 
@@ -150,11 +177,13 @@ This is evidence of bounded rediscovery, not evidence of mathematical novelty.
 
 ## Next executable milestones
 
-1. Let CI compile `ExternalKnownFormulaControls.lean` and reproduce the deterministic receipt on
-   Windows and Linux.
-2. Download and bind those host artifacts into a two-machine reproduction receipt.
-3. Add a fifth external benchmark pack with a new typed representation, not another polynomial.
-4. Improve matched controls to equalize grammar complexity and wall-clock budget.
-5. Add one externally supplied intervention dataset and one deliberately non-identifiable dataset.
-6. Continue bounded level-5 runs until three genuine successes are recorded; do not spend the open-
-   problem budget before then.
+1. Run the 24-task paired old-vs-new creativity tournament and its four component knockouts.
+2. Obtain two named blinded reviewers and record disagreements before unblinding system identity.
+3. Add rotating externally maintained benchmark packs using the new recurrence, generating-function,
+   sum/product, modular, tensor, and variational grammars.
+4. Replace synthetic intervention/noise/shift/identifiability calibrations with externally supplied
+   datasets while retaining the synthetic negative controls.
+5. Execute claim-specific automated prior-art searches and complete named human review for the
+   nearest formula and proof-mechanism matches.
+6. Continue bounded level-5 runs until three independent successes exist; the open-problem gate
+   remains closed meanwhile, but creative branches continue accumulating.

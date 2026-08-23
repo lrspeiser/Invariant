@@ -1,7 +1,8 @@
 # Invariant
 
-Invariant is a falsification-first system for generating, rediscovering, and formally testing
-bounded families of mathematical and scientific formulas. The Python distribution and import
+Invariant is a creativity-first system for generating and recombining mathematical and scientific
+ideas, with independent falsification and formal testing controlling what may be claimed—not which
+ideas remain explorable. The Python distribution and import
 namespace retain the historical `sigma-theory-compiler` / `sigma_theory_compiler` names for
 artifact and API compatibility.
 
@@ -60,7 +61,7 @@ gravity term. See [`docs/PHYSICS_CONCEPT_LANGUAGE.md`](docs/PHYSICS_CONCEPT_LANG
 ## Sigma Core research notebooks
 
 The domain-independent Sigma Core now has seven bounded candidate generators (grammar,
-evolutionary, Bayesian, symbolic, e-graph, cross-domain, and quarantined LLM), a typed candidate
+evolutionary, Bayesian, symbolic, e-graph, cross-domain, and credentialed structured LLM roles), a typed candidate
 knowledge graph, a fail-closed cheap-to-formal-to-observational evaluation ladder, and a
 hard-gate-first exact Pareto explanation engine. The batch pipeline now admits soft metric receipts
 only after every required hard gate passes and retains every failure as an unranked null-front row.

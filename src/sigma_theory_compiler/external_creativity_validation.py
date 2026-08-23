@@ -1050,7 +1050,9 @@ def _proof_plan_search(candidate: Candidate, target: SealedTarget) -> dict[str, 
 
 
 def _family_metrics(
-    scored: Sequence[Mapping[str, Any]], controls: Mapping[str, Sequence[Mapping[str, Any]]]
+    scored: Sequence[Mapping[str, Any]],
+    controls: Mapping[str, Sequence[Mapping[str, Any]]],
+    allocated_search_budget: Mapping[str, int],
 ) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     metrics = []
     ablations = []
@@ -1061,13 +1063,16 @@ def _family_metrics(
         random_rows = controls[family]
         best = min(Fraction(item["holdout_loss"]) for item in rows)
         random_best = min(Fraction(item["holdout_loss"]) for item in random_rows)
+        control_budget_match = len(rows) == len(random_rows)
         without = [item for item in creative if item["family"] != family]
         ablated = min(Fraction(item["holdout_loss"]) for item in without)
         metrics.append(
             {
                 "best_holdout_loss": _fraction_text(best),
                 "candidate_budget": len(rows),
+                "control_budget_match": control_budget_match,
                 "family": family,
+                "matched_budget": dict(allocated_search_budget),
                 "matched_random_best_holdout_loss": _fraction_text(random_best),
                 "matched_random_budget": len(random_rows),
                 "outperformed_random": best < random_best,
@@ -1107,13 +1112,30 @@ def _load_campaign_config(root: Path, *, live_claude: bool) -> dict[str, Any]:
     search = raw["search"]
     _strict_keys(
         search,
-        {"creativity_families", "maximum_candidates_per_family", "random_seed"},
+        {
+            "creativity_families",
+            "matched_control_budget",
+            "maximum_candidates_per_family",
+            "random_seed",
+        },
         "creativity search config",
     )
     if tuple(search["creativity_families"]) != FAMILY_IDS:
         raise ExternalCreativityError("creativity family coverage changed")
     if not 1 <= search["maximum_candidates_per_family"] <= 16:
         raise ExternalCreativityError("per-family candidate budget is outside policy")
+    matched_budget = search["matched_control_budget"]
+    _strict_keys(
+        matched_budget,
+        {
+            "maximum_evaluation_operations",
+            "maximum_grammar_depth",
+            "maximum_verifier_invocations",
+        },
+        "matched control budget",
+    )
+    if any(isinstance(item, bool) or not isinstance(item, int) or item < 1 for item in matched_budget.values()):
+        raise ExternalCreativityError("matched control budgets must be positive integers")
     claude = ClaudeAPIConfig.from_mapping(raw["claude_api"])
     if live_claude:
         claude = replace(claude, execution_enabled=True)
@@ -1271,6 +1293,7 @@ def run_campaign(
     for benchmark in benchmarks:
         target = by_target[benchmark.benchmark_id]
         candidates = tuple(deterministic[benchmark.benchmark_id])
+        allocated_search_budget = config["search"]["matched_control_budget"]
         scored = [_score_candidate(item, benchmark, target) for item in candidates]
         family_counts = {family: sum(item.family == family for item in candidates) for family in FAMILY_IDS}
         controls = random_controls(benchmark, family_counts, config["search"]["random_seed"])
@@ -1278,7 +1301,9 @@ def run_campaign(
             family: [_score_candidate(item, benchmark, target) for item in rows]
             for family, rows in controls.items()
         }
-        metrics, ablations = _family_metrics(scored, scored_controls)
+        metrics, ablations = _family_metrics(
+            scored, scored_controls, allocated_search_budget
+        )
         best_row = min(scored, key=lambda item: (Fraction(item["holdout_loss"]), item["candidate_id"]))
         best_candidate = next(item for item in candidates if item.candidate_id == best_row["candidate_id"])
         all_rows = (*benchmark.observations, *target.holdout_records)
@@ -1309,11 +1334,13 @@ def run_campaign(
             }
         )
         outperformed_random = sum(item["outperformed_random"] for item in metrics)
+        controls_budget_matched = all(item["control_budget_match"] for item in metrics)
         bounded_process_pass = (
             benchmark.capability_level == 5
             and best_row["train_loss"] == "0"
             and best_row["holdout_loss"] == "0"
             and outperformed_random >= len(FAMILY_IDS) // 2
+            and controls_budget_matched
             and len({item["behavior_sha256"] for item in scored}) >= 3
             and len({item["proof_mechanism_sha256"] for item in scored}) >= 2
             and implementation_match
@@ -1338,6 +1365,11 @@ def run_campaign(
                 "external_authorship": benchmark.source.to_dict(),
                 "family_ablation": ablations,
                 "family_metrics": metrics,
+                "matched_control_policy": {
+                    "allocated_budget": allocated_search_budget,
+                    "all_family_budgets_match": controls_budget_matched,
+                    "candidate_count_matched": True,
+                },
                 "formal_verification": formal,
                 "holdout_count": len(target.holdout_records),
                 "independent_exact_reproduction": independent_reproduction,

@@ -83,7 +83,7 @@
     "readiness_controls_passed": true,
     "serious_claim_release_authorized": false
   },
-  "content_sha256": "abed0a67c8842e62cecda98aad205928ba98316fde85d25fefa17e1ec9b75ce8",
+  "content_sha256": "cdbf96a01e64bc5e9fe7610b67d5b65b18caef9a17ddacf5efb7d81e68074e48",
   "counterexample_guidance": {
     "blocker": {
       "blocker_id": "blocker.operational.counterexample",
@@ -276,17 +276,89 @@
   "decision": "OPERATIONAL_FOR_SEALED_DOMAIN_CAMPAIGNS",
   "extension_admission": {
     "admission_receipts": {
+      "grammar.finite-product": "e4287a6da907d1b6e798e0d23802ed9f15828a4e6036db2ed23153940eea849e",
+      "grammar.finite-sum": "8c725e37c20eca7bd5736738acc82b895839c8e2866dec2d61f6b82c1a35e45c",
+      "grammar.generating-function": "c56b8406579544eacb94fba54ec97d7d7da9e54e9ee2cb9a5bcafe3d6c6bd1d2",
+      "grammar.linear-recurrence": "7ac4627c2e766c8f1979f433a7e2a0de59d3a67d24e8371e0de8d989e288a397",
+      "grammar.modular-relation": "bfa32cf5fddb41f01a781e785a76bf2c05b8592aa06d082badc676ac4b39de0a",
       "grammar.rational-expression": "c459355bd6bee2089e9aac379b89af5d1c48bb19dd6d474af0980cc2b4ad709e",
+      "grammar.tensor-identity": "71ca0c49edf6535e8692cd34753b24dfce1d685461714cb7a82957f69e6e0976",
+      "grammar.variational-principle": "0c0afc3f2b6dfeccf22f65f9111f09d71af274388432aee6ce67ca0c36a46628",
       "invariant.cross-ratio": "23b00760984e7684b68e3293cf8b5c7fd37eca7728a79a13bdc93f4de5834cfd",
       "operator.mobius-normalize": "0896ef0131881b73d9294324d26b23b88c11624a8a032c4bd0fe0033ac5e59ad",
       "tactic.factor-zero": "db0af789c18a85943381838890ce374966051f4f8a6b8188bc54b028209775d0"
     },
     "admitted_declarations": [
+      "grammar.finite-product",
+      "grammar.finite-sum",
+      "grammar.generating-function",
+      "grammar.linear-recurrence",
+      "grammar.modular-relation",
       "grammar.rational-expression",
+      "grammar.tensor-identity",
+      "grammar.variational-principle",
       "invariant.cross-ratio",
       "operator.mobius-normalize",
       "tactic.factor-zero"
     ],
+    "grammar_expansions_executed": {
+      "grammar.finite-product": {
+        "input_nonterminal": "FiniteProduct",
+        "outputs": [
+          "product(k=lower..upper,Factor(k))",
+          "exp(sum(k=lower..upper,log(Factor(k))))"
+        ]
+      },
+      "grammar.finite-sum": {
+        "input_nonterminal": "FiniteSum",
+        "outputs": [
+          "sum(k=lower..upper,Term(k))",
+          "telescoping(A(k+1)-A(k))"
+        ]
+      },
+      "grammar.generating-function": {
+        "input_nonterminal": "GeneratingFunction",
+        "outputs": [
+          "G(z)=sum(n>=0,a[n]*z^n)",
+          "a[n]=coefficient(G(z),z,n)"
+        ]
+      },
+      "grammar.linear-recurrence": {
+        "input_nonterminal": "Recurrence",
+        "outputs": [
+          "a[n]=sum(k=1..r,c[k]*a[n-k])+f(n)",
+          "P(n,E)*a[n]=0"
+        ]
+      },
+      "grammar.modular-relation": {
+        "input_nonterminal": "ModularRelation",
+        "outputs": [
+          "lhs == rhs (mod m)",
+          "valuation_p(lhs-rhs)>=e"
+        ]
+      },
+      "grammar.rational-expression": {
+        "input_nonterminal": "Expr",
+        "outputs": [
+          "Atom",
+          "quotient(Expr,nonzero(Expr))"
+        ]
+      },
+      "grammar.tensor-identity": {
+        "input_nonterminal": "TensorIdentity",
+        "outputs": [
+          "contract(Tensor,IndexPair)=Tensor",
+          "symmetrize(lhs,FreeIndices)=symmetrize(rhs,FreeIndices)"
+        ]
+      },
+      "grammar.variational-principle": {
+        "input_nonterminal": "VariationalPrinciple",
+        "outputs": [
+          "delta(integral(L(q,Dq,x),domain))=0",
+          "D_q(L)-div(D_Dq(L))=0"
+        ]
+      }
+    },
     "kinds": [
       "grammar",
       "invariant",
@@ -311,7 +383,7 @@
   },
   "objective_completion_audit": [
     {
-      "evidence_sha256": "adcebaba9fe1fa8c372e9d550cf2edab0cf2c5d23b9b8601886b3d2aea43545e",
+      "evidence_sha256": "b45e4c6499d81c37331c04d7d36db84a653cec3c10f2adb385e364c7b50025e9",
       "requirement_id": "R01_DATA_DRIVEN_LANGUAGE_EXTENSION",
       "status": "PASS"
     },
@@ -432,7 +504,7 @@
     },
     "campaign": {
       "path": "src/sigma_theory_compiler/declarative_discovery_operational_campaign.py",
-      "portable_file_sha256": "c174b4aab6459717caeb1046e54840d6c0647be2dd326a9b13d36141e9558bb2"
+      "portable_file_sha256": "2364d0ae371ce80da31c5cdc881eb5218b919a355c9314623b3c4f736429855d"
     },
     "complete_curriculum_receipt": {
       "path": "runs/math/complete-blind-benchmark-curriculum/readiness.json",
@@ -440,7 +512,7 @@
     },
     "extensions": {
       "path": "configs/declarative_extension_candidates.json",
-      "portable_file_sha256": "2447bd1c933d654671ef30e117b64794ab6952ea840aad5c60bcd94461933908"
+      "portable_file_sha256": "dc163b6738c2b94945fb423c8fcd645b930145521a76c73c12df8997209d487d"
     },
     "independent_lean_receipt": {
       "path": "runs/math/constraint-recovered-identity-breadth-lean-bridge/receipt.json",
@@ -452,7 +524,7 @@
     },
     "operational_tests": {
       "path": "tests/test_declarative_discovery_operational_campaign.py",
-      "portable_file_sha256": "57a80cc600811a78cf5637d89faa0d26db288255aaef5e8290265c0a24ff4c9d"
+      "portable_file_sha256": "a85a76161a50d82f619eac5ea9a199fd2eb16f984ac05f36e8410d460c5c93bc"
     },
     "planetary_historical_receipt": {
       "path": "runs/math/blind-planetary-laws/campaign.json",

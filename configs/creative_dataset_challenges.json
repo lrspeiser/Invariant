@@ -1,0 +1,57 @@
+{
+  "schema_version": "invariant-creative-dataset-challenges-1.0",
+  "challenges": [
+    {
+      "challenge_id": "dataset.controlled-intervention",
+      "kind": "intervention",
+      "provenance": "synthetic_calibration_distinct_from_observational_rows",
+      "records": [
+        {"covariate": "0", "intervention": "do_treatment_0", "outcome": "1"},
+        {"covariate": "0", "intervention": "do_treatment_1", "outcome": "4"},
+        {"covariate": "2", "intervention": "do_treatment_0", "outcome": "5"},
+        {"covariate": "2", "intervention": "do_treatment_1", "outcome": "8"}
+      ]
+    },
+    {
+      "challenge_id": "dataset.interval-noise",
+      "kind": "noisy",
+      "provenance": "synthetic_calibration_with_declared_measurement_intervals",
+      "records": [
+        {"center": "1", "input": "0", "radius": "1/20"},
+        {"center": "3", "input": "1", "radius": "1/10"},
+        {"center": "5", "input": "2", "radius": "3/20"},
+        {"center": "7", "input": "3", "radius": "1/5"}
+      ]
+    },
+    {
+      "challenge_id": "dataset.covariate-shift",
+      "kind": "shifted",
+      "provenance": "synthetic_calibration_with_explicit_train_and_deployment_domains",
+      "records": [
+        {"input": "-2", "outcome": "5", "split": "train"},
+        {"input": "-1", "outcome": "2", "split": "train"},
+        {"input": "0", "outcome": "1", "split": "train"},
+        {"input": "3", "outcome": "10", "split": "deployment"},
+        {"input": "5", "outcome": "26", "split": "deployment"}
+      ]
+    },
+    {
+      "challenge_id": "dataset.observationally-unidentifiable",
+      "kind": "unidentifiable",
+      "provenance": "synthetic_negative_control_with_two_observationally_equivalent_mechanisms",
+      "observational_outcomes": ["0", "1", "2", "3"],
+      "compatible_models": [
+        {
+          "intervention_predictions": ["0", "1"],
+          "model_id": "mechanism.direct-effect",
+          "observational_predictions": ["0", "1", "2", "3"]
+        },
+        {
+          "intervention_predictions": ["0", "0"],
+          "model_id": "mechanism.latent-confounding",
+          "observational_predictions": ["0", "1", "2", "3"]
+        }
+      ]
+    }
+  ]
+}

@@ -30,9 +30,13 @@ def proposer_output(benchmark_id: str) -> dict[str, Any]:
                 "family": "generating_function",
                 "hypothesis_id": "claude.sum-squares.1",
                 "invariants": ["third finite difference is constant"],
+                "known_analogues": ["Faulhaber polynomial for sums of powers"],
+                "llm_origin_assessment": "known_rewrite",
                 "proof_plan": ["derive recurrence", "induct on n"],
                 "rationale": "The finite-difference signature suggests a cubic polynomial.",
                 "representation": "sympy_expression",
+                "source_idea_domains": ["finite differences", "generating functions"],
+                "synthesis_note": "This is a familiar identity recovered through a different lens.",
             }
         ],
         "role": "proposer",
@@ -129,6 +133,23 @@ def test_disabled_and_missing_credentials_fail_closed_without_network(monkeypatc
     assert result.evidence["credential_persisted"] is False
     assert transport.requests == []
 
+
+def test_creative_roles_are_open_but_remain_structured_and_non_authoritative() -> None:
+    assert {role.value for role in C.ClaudeRole} == {
+        "analogue_scout",
+        "critic",
+        "dataset_explainer",
+        "proof_strategist",
+        "proposer",
+        "recombiner",
+        "representation_inventor",
+    }
+    for role in C.ClaudeRole:
+        schema = C._structured_output_schema(role, "external.sum-squares")
+        assert schema["properties"]["role"]["const"] == role.value
+        assert "llm_origin_assessment" in schema["properties"]["hypotheses"]["items"][
+            "required"
+        ]
 
 def test_live_contract_uses_model_capability_check_and_structured_messages(monkeypatch) -> None:
     monkeypatch.setenv("ANTHROPIC_API_KEY", "test-secret-never-persisted")
