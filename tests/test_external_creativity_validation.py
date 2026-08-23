@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 from collections.abc import Mapping
+from fractions import Fraction
 from pathlib import Path
 from typing import Any
 
@@ -106,6 +107,28 @@ def dry_receipt() -> dict[str, Any]:
     return E.run_campaign(ROOT)
 
 
+def _hypothesis(
+    representation: str,
+    expression: str,
+    *,
+    origin: str = "proposed_new_construction",
+) -> E.ClaudeHypothesis:
+    return E.ClaudeHypothesis(
+        hypothesis_id=f"typed.{representation}",
+        family="typed_test",
+        representation=representation,
+        expression=expression,
+        invariants=("typed_test_invariant",),
+        proof_plan=("typed_test_plan",),
+        falsifiers=("independent evaluator disagreement",),
+        rationale="A bounded typed test hypothesis.",
+        llm_origin_assessment=origin,
+        known_analogues=("test fixture",),
+        source_idea_domains=("algebra", "sequences"),
+        synthesis_note="Test-only typed synthesis.",
+    )
+
+
 def test_external_authorship_is_distinct_and_generation_view_is_anonymous() -> None:
     public, benchmarks = E.load_public_benchmarks(ROOT)
     assert public["generator_principal_id"] == "invariant.discovery-engine"
@@ -161,6 +184,118 @@ def test_source_bindings_normalize_git_checkout_line_endings(tmp_path: Path) -> 
     assert E._file_sha256(lf) == E._file_sha256(crlf)
 
 
+def test_claude_arithmetic_normalizer_accepts_bounded_notation_only() -> None:
+    normalized, method = E._normalize_claude_arithmetic(
+        "output = n*(n+1)*(2*n+1)/6 = (2*n**3 + 3*n**2 + n)/6",
+        ("x0",),
+    )
+    assert E._safe_expression(normalized, ("x0",)) == E._safe_expression(
+        "x0*(x0+1)*(2*x0+1)/6", ("x0",)
+    )
+    assert "output_assignment" in method
+    assert "single_variable_alias" in method
+    assert "equivalent_equality" in method
+    with pytest.raises(E.ExternalCreativityError):
+        E._normalize_claude_arithmetic("x0 = x0 + 1", ("x0",))
+    with pytest.raises(E.ExternalCreativityError):
+        E._normalize_claude_arithmetic("try a polynomial near x0", ("x0",))
+
+
+def test_typed_claude_compiler_executes_with_independent_agreement() -> None:
+    _, benchmarks = E.load_public_benchmarks(ROOT)
+    benchmark = next(item for item in benchmarks if len(item.aliases) == 1)
+    rows = tuple(
+        E.Observation((Fraction(index),), Fraction(0)) for index in range(7)
+    )
+    cases = [
+        (
+            "linear_recurrence",
+            '{"coefficients":["1","1"],"seed":["0","1"]}',
+            (0, 1, 1, 2, 3, 5, 8),
+        ),
+        (
+            "generating_function",
+            (
+                '{"denominator":["1","-1","-1"],"index":"x0",'
+                '"numerator":["0","1"]}'
+            ),
+            (0, 1, 1, 2, 3, 5, 8),
+        ),
+        (
+            "finite_sum",
+            '{"body":"k**2","index":"k","lower":"1","upper":"x0"}',
+            (0, 1, 5, 14, 30, 55, 91),
+        ),
+        (
+            "finite_product",
+            '{"body":"k","index":"k","lower":"1","upper":"x0"}',
+            (1, 1, 2, 6, 24, 120, 720),
+        ),
+        (
+            "modular_relation",
+            '{"expression":"x0**2","modulus":5}',
+            (0, 1, 4, 4, 1, 0, 1),
+        ),
+    ]
+    for representation, expression, expected in cases:
+        candidate, record = E._claude_candidate(
+            benchmark, _hypothesis(representation, expression)
+        )
+        assert candidate is not None
+        assert record["status"] == "ADMITTED_EXECUTABLE"
+        primary = E.predict(candidate, benchmark, rows)
+        independent = E.independently_predict(candidate, benchmark, rows)
+        assert primary == independent == tuple(Fraction(item) for item in expected)
+
+
+def test_non_executable_claude_ideas_are_retained_with_origin_and_reason() -> None:
+    _, benchmarks = E.load_public_benchmarks(ROOT)
+    benchmark = benchmarks[0]
+    candidate, record = E._claude_candidate(
+        benchmark,
+        _hypothesis(
+            "tensor_identity",
+            "T_ab = R_ab - R*g_ab/2",
+            origin="cross_domain_synthesis",
+        ),
+    )
+    assert candidate is None
+    assert record["status"] == "RETAINED_NON_EXECUTABLE"
+    assert record["reason"] == "representation_not_yet_executable"
+    assert record["llm_self_assessed_origin"] == "cross_domain_synthesis"
+
+
+def test_modular_control_remains_matched_after_canonicalization() -> None:
+    public, benchmarks = E.load_public_benchmarks(ROOT)
+    benchmark = next(
+        item
+        for item in benchmarks
+        if item.benchmark_id == "external.authority-nist-0244"
+    )
+    target = next(
+        item
+        for item in E.unseal_targets(ROOT, public, benchmarks)
+        if item.benchmark_id == benchmark.benchmark_id
+    )
+    candidate, _ = E._claude_candidate(
+        benchmark,
+        _hypothesis(
+            "modular_relation",
+            '{"expression":"x0*(x0+1)*(2*x0+1)","modulus":6}',
+        ),
+    )
+    assert candidate is not None
+    control = E.random_controls(
+        benchmark, {"claude_proposer": (candidate,)}, seed=20260822
+    )["claude_proposer"][0]
+    budget = E._load_campaign_config(ROOT, live_claude=False)["search"][
+        "matched_control_budget"
+    ]
+    assert E._candidate_resource_profile(
+        candidate, benchmark, target, budget
+    ) == E._candidate_resource_profile(control, benchmark, target, budget)
+
+
 def test_known_and_bounded_unknown_campaign_is_honest(dry_receipt: dict[str, Any]) -> None:
     assert dry_receipt["schema_version"] == E.RECEIPT_SCHEMA
     assert dry_receipt["claims"] == {
@@ -192,8 +327,25 @@ def test_every_family_has_matched_random_and_leave_one_out_controls(
         assert [item["family"] for item in ablations] == list(E.FAMILY_IDS)
         assert all(item["candidate_budget"] == item["matched_random_budget"] for item in metrics)
         assert all(item["candidate_budget"] > 0 for item in metrics)
+        assert all(item["candidate_count_match"] for item in metrics)
+        assert all(item["grammar_depth_match"] for item in metrics)
+        assert all(item["evaluation_runtime_budget_match"] for item in metrics)
+        assert all(item["verifier_budget_match"] for item in metrics)
+        assert all(item["control_budget_match"] for item in metrics)
         assert all(item["unique_behaviors"] > 0 for item in metrics)
         assert len(benchmark["random_controls"]) == len(E.FAMILY_IDS)
+        ranked = {item["candidate_id"]: item for item in benchmark["ranked_candidates"]}
+        for controls in benchmark["random_controls"].values():
+            for control in controls:
+                source = ranked[control["matched_candidate_id"]]
+                assert control["resource_profile"] == source["resource_profile"]
+        policy = benchmark["matched_control_policy"]
+        assert policy["all_family_budgets_match"]
+        assert policy["grammar_depth_matched"]
+        assert policy["evaluation_runtime_budget_matched"]
+        assert policy["verifier_budget_matched"]
+        assert policy["deterministic_operation_budget_used"]
+        assert not policy["wall_clock_runtime_claimed_matched"]
 
 
 def test_exact_cas_smt_interval_pass_but_kernel_and_release_fail_closed(
@@ -246,7 +398,17 @@ def test_proof_plan_search_and_independent_exact_implementation_are_recorded(
     for benchmark in dry_receipt["benchmarks"]:
         proof_search = benchmark["proof_plan_search"]
         assert proof_search["selected_route"][0] == "exact_row_replay"
-        assert any(item["plan"] == "lean_kernel_bridge" for item in proof_search["plans"])
+        plan_names = {item["plan"] for item in proof_search["plans"]}
+        assert {
+            "bijection_construction",
+            "contradiction_via_modular_obstruction",
+            "induction_on_recurrence",
+            "invariant_strengthening",
+            "lean_kernel_bridge",
+            "minimal_counterexample_descent",
+            "transform_domain_identity",
+        } <= plan_names
+        assert len(proof_search["selected_route"]) <= 5
         reproduction = benchmark["independent_exact_reproduction"]
         assert reproduction["implementation"] == "python_stdlib_fraction_ast_v1"
         assert reproduction["match"]
@@ -263,7 +425,15 @@ def test_target_is_opened_after_claude_and_proposal_seals(dry_receipt: dict[str,
     critique = next(
         item for item in events if item["event"] == "claude_blind_critique_completed_or_blocked"
     )
-    assert proposal_seal["sequence"] < critique["sequence"] < target_open["sequence"]
+    control_seal = next(
+        item for item in events if item["event"] == "matched_random_controls_sealed"
+    )
+    assert (
+        proposal_seal["sequence"]
+        < critique["sequence"]
+        < control_seal["sequence"]
+        < target_open["sequence"]
+    )
     assert all(item["target_reads"] == 0 for item in events[: target_open["sequence"]])
 
 
@@ -276,15 +446,20 @@ def test_live_claude_fixture_proposes_and_steers_without_verifying(monkeypatch) 
     assert receipt["claude"]["proposer_hypotheses"] == 4
     assert receipt["claude"]["steering_actions"] == 4
     assert receipt["claims"]["claude_used_throughout"]
-    assert all(
-        item["proposer_admission"]
-        == {
-            "admitted_executable_hypotheses": 1,
-            "non_executable_typed_hypotheses": 0,
-            "proposed_hypotheses": 1,
-        }
-        for item in receipt["benchmarks"]
-    )
+    for item in receipt["benchmarks"]:
+        admission = item["proposer_admission"]
+        assert admission["admitted_executable_hypotheses"] == 1
+        assert admission["non_executable_typed_hypotheses"] == 0
+        assert admission["proposed_hypotheses"] == 1
+        assert len(admission["records"]) == 1
+        assert admission["records"][0]["status"] == "ADMITTED_EXECUTABLE"
+        contribution = item["claude_contribution"]
+        assert contribution["status"] == "MEASURED_EXECUTABLE_CLAUDE_CONTRIBUTION"
+        assert contribution["scored_executable_candidates"] == 1
+        assert contribution["grammar_depth_match"]
+        assert contribution["evaluation_runtime_budget_match"]
+        assert contribution["verifier_budget_match"]
+        assert len(item["claude_matched_controls"]) == 1
     assert receipt["serious_claim_policy"]["released_claims"] == 0
     assert [item["method"] for item in transport.requests].count("GET") == 1
     assert [item["method"] for item in transport.requests].count("POST") == 8

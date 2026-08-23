@@ -17,7 +17,12 @@ CONFIG_PATH = "configs/external_creativity_multi_host_artifacts.json"
 OUTPUT_PATH = "runs/math/external-creativity-validation/multi-host-reproduction.json"
 SCHEMA_VERSION = "invariant-external-creativity-multi-host-reproduction-1.0"
 SOURCE_SCHEMA = "invariant-external-creativity-multi-host-source-1.0"
-CAMPAIGN_SCHEMA = "invariant-external-creativity-validation-result-1.0"
+CAMPAIGN_SCHEMAS = frozenset(
+    {
+        "invariant-external-creativity-validation-result-1.0",
+        "invariant-external-creativity-validation-result-1.1",
+    }
+)
 _SHA256 = re.compile(r"[0-9a-f]{64}\Z")
 _GIT_SHA = re.compile(r"[0-9a-f]{40}\Z")
 
@@ -133,7 +138,7 @@ def build_receipt(root: Path, artifact_root: Path) -> dict[str, Any]:
             continue
         body = {key: item for key, item in value.items() if key != "content_sha256"}
         if (
-            value.get("schema_version") != CAMPAIGN_SCHEMA
+            value.get("schema_version") not in CAMPAIGN_SCHEMAS
             or value.get("content_sha256") != canonical_sha256(body)
             or value.get("content_sha256") != source["expected_campaign_content_sha256"]
         ):

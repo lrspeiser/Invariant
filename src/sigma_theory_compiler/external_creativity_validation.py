@@ -60,7 +60,7 @@ TEST_PATH = "tests/test_external_creativity_validation.py"
 PUBLIC_SCHEMA = "invariant-external-sealed-benchmarks-1.0"
 TARGET_SCHEMA = "invariant-external-sealed-targets-1.0"
 CAMPAIGN_SCHEMA = "invariant-external-creativity-validation-config-1.0"
-RECEIPT_SCHEMA = "invariant-external-creativity-validation-result-1.0"
+RECEIPT_SCHEMA = "invariant-external-creativity-validation-result-1.1"
 ALLOWED_EXTERNAL_DOMAINS = frozenset({"dlmf.nist.gov", "oeis.org", "openstax.org"})
 HEX_DIGITS = frozenset("0123456789abcdef")
 FAMILY_IDS = (
@@ -74,6 +74,33 @@ FAMILY_IDS = (
     "recurrence_guessing",
     "representation_change",
     "symmetry_reduction",
+)
+EXECUTABLE_CLAUDE_REPRESENTATIONS = frozenset(
+    {
+        "finite_product",
+        "finite_sum",
+        "generating_function",
+        "invariant_relation",
+        "linear_recurrence",
+        "modular_relation",
+        "sympy_expression",
+    }
+)
+MAXIMUM_TYPED_TERMS = 64
+MAXIMUM_RECURRENCE_ORDER = 8
+EXECUTABLE_PROPOSER_INSTRUCTION = (
+    "Propose structurally distinct mathematical hypotheses and proof plans. For "
+    "each idea, self-assess whether it is a known rewrite, cross-domain synthesis, "
+    "proposed new construction, or uncertain; name analogues and source domains. "
+    "Uncertainty is welcome and no idea is pruned by this label. To request bounded "
+    "execution, use exactly one admitted expression contract: sympy_expression uses "
+    "arithmetic over the public x aliases only; invariant_relation uses 'output = "
+    "<arithmetic>'; linear_recurrence uses JSON with coefficients and equally long "
+    "seed arrays; finite_sum or finite_product uses JSON with body, index, lower, and "
+    "upper; generating_function uses JSON with numerator and denominator coefficient "
+    "arrays plus an index alias; modular_relation uses JSON with expression and integer "
+    "modulus. Put explanation only in rationale. Tensor, transform, variational, and "
+    "other typed ideas are still retained for later compilers."
 )
 
 
@@ -441,6 +468,83 @@ def _safe_expression(expression: str, aliases: Sequence[str]) -> sp.Expr:
     return result
 
 
+def _arithmetic_tree_stats(expression: str, aliases: Sequence[str]) -> tuple[int, int]:
+    """Return exact syntax-tree depth and node count for the admitted arithmetic DSL."""
+
+    normalized = expression.replace("^", "**")
+    _safe_expression(normalized, aliases)
+    tree = ast.parse(normalized, mode="eval")
+
+    def stats(node: ast.AST) -> tuple[int, int]:
+        if isinstance(node, (ast.Constant, ast.Name)):
+            return 1, 1
+        if isinstance(node, ast.UnaryOp):
+            depth, count = stats(node.operand)
+            return depth + 1, count + 1
+        if isinstance(node, ast.BinOp):
+            left_depth, left_count = stats(node.left)
+            right_depth, right_count = stats(node.right)
+            return (
+                1 + max(left_depth, right_depth),
+                1 + left_count + right_count,
+            )
+        raise ExternalCreativityError("arithmetic syntax profiler left the admitted DSL")
+
+    return stats(tree.body)
+
+
+def _normalize_claude_arithmetic(
+    expression: str, aliases: Sequence[str]
+) -> tuple[str, str]:
+    """Normalize a small, declared set of harmless model notations.
+
+    This is intentionally not a prose parser. It accepts an optional output assignment,
+    maps the conventional single sequence variable n or x onto the public alias, and accepts
+    an equality only when both sides independently parse and are algebraically identical.
+    """
+
+    text = expression.strip().replace("^", "**")
+    normalization = "exact_dsl"
+    assignment = re.fullmatch(r"output\s*=\s*(.+)", text, flags=re.DOTALL)
+    if assignment is not None:
+        text = assignment.group(1).strip()
+        normalization = "output_assignment"
+    if len(aliases) == 1:
+        alias = aliases[0]
+        for conventional in ("n", "x"):
+            if conventional != alias and re.search(rf"\b{conventional}\b", text):
+                text = re.sub(rf"\b{conventional}\b", alias, text)
+                normalization = (
+                    f"{normalization}+single_variable_alias"
+                    if normalization != "exact_dsl"
+                    else "single_variable_alias"
+                )
+    try:
+        parsed = _safe_expression(text, aliases)
+    except ExternalCreativityError as direct_error:
+        if text.count("=") != 1:
+            raise
+        left_text, right_text = (item.strip() for item in text.split("=", 1))
+        try:
+            left = _safe_expression(left_text, aliases)
+            right = _safe_expression(right_text, aliases)
+        except ExternalCreativityError:
+            raise direct_error from None
+        if sp.cancel(left - right) != 0:
+            raise ExternalCreativityError(
+                "candidate equality sides are not algebraically identical"
+            )
+        parsed = left
+        normalization = (
+            f"{normalization}+equivalent_equality"
+            if normalization != "exact_dsl"
+            else "equivalent_equality"
+        )
+    canonical = str(sp.factor(parsed))
+    _safe_expression(canonical, aliases)
+    return canonical, normalization
+
+
 @dataclass(frozen=True, slots=True)
 class Candidate:
     candidate_id: str
@@ -501,6 +605,321 @@ def _candidate(
     )
 
 
+def _typed_json(expression: str, expected: set[str], label: str) -> dict[str, Any]:
+    try:
+        value = json.loads(expression)
+    except json.JSONDecodeError as error:
+        raise ExternalCreativityError(f"{label} must be canonical JSON") from error
+    _strict_keys(value, expected, label)
+    return dict(value)
+
+
+def _bounded_fraction(value: Any, label: str) -> Fraction:
+    result = _fraction(value, label)
+    if abs(result.numerator) > 10**6 or result.denominator > 10**6:
+        raise ExternalCreativityError(f"{label} exceeds the exact coefficient budget")
+    return result
+
+
+def _parse_recurrence_spec(expression: str) -> tuple[str, tuple[Fraction, ...], tuple[Fraction, ...]]:
+    value = _typed_json(expression, {"coefficients", "seed"}, "recurrence specification")
+    coefficients_raw = value["coefficients"]
+    seed_raw = value["seed"]
+    if (
+        not isinstance(coefficients_raw, list)
+        or not isinstance(seed_raw, list)
+        or not 1 <= len(coefficients_raw) <= MAXIMUM_RECURRENCE_ORDER
+        or len(seed_raw) != len(coefficients_raw)
+    ):
+        raise ExternalCreativityError("recurrence order or seed coverage changed")
+    coefficients = tuple(
+        _bounded_fraction(item, f"recurrence coefficient {index}")
+        for index, item in enumerate(coefficients_raw)
+    )
+    seed = tuple(
+        _bounded_fraction(item, f"recurrence seed {index}")
+        for index, item in enumerate(seed_raw)
+    )
+    canonical = json.dumps(
+        {
+            "coefficients": [_fraction_text(item) for item in coefficients],
+            "seed": [_fraction_text(item) for item in seed],
+        },
+        sort_keys=True,
+        separators=(",", ":"),
+    )
+    return canonical, coefficients, seed
+
+
+def _parse_bound(value: Any, aliases: Sequence[str], label: str) -> str:
+    if not isinstance(value, str):
+        raise ExternalCreativityError(f"{label} must be an integer or public alias string")
+    if value in aliases:
+        return value
+    parsed = _bounded_fraction(value, label)
+    if parsed.denominator != 1:
+        raise ExternalCreativityError(f"{label} is not an integer")
+    return str(parsed.numerator)
+
+
+def _parse_aggregate_spec(
+    expression: str, aliases: Sequence[str], label: str
+) -> tuple[str, dict[str, str]]:
+    value = _typed_json(
+        expression,
+        {"body", "index", "lower", "upper"},
+        f"{label} specification",
+    )
+    index = value["index"]
+    body = value["body"]
+    if (
+        not isinstance(index, str)
+        or re.fullmatch(r"[a-z][a-z0-9_]{0,15}", index) is None
+        or index in aliases
+        or not isinstance(body, str)
+    ):
+        raise ExternalCreativityError(f"{label} index or body is invalid")
+    _safe_expression(body, (*aliases, index))
+    spec = {
+        "body": body.replace("^", "**"),
+        "index": index,
+        "lower": _parse_bound(value["lower"], aliases, f"{label} lower bound"),
+        "upper": _parse_bound(value["upper"], aliases, f"{label} upper bound"),
+    }
+    return json.dumps(spec, sort_keys=True, separators=(",", ":")), spec
+
+
+def _parse_generating_function_spec(
+    expression: str, aliases: Sequence[str]
+) -> tuple[str, dict[str, Any]]:
+    value = _typed_json(
+        expression,
+        {"denominator", "index", "numerator"},
+        "generating-function specification",
+    )
+    index = value["index"]
+    numerator_raw = value["numerator"]
+    denominator_raw = value["denominator"]
+    if (
+        not isinstance(index, str)
+        or index not in aliases
+        or not isinstance(numerator_raw, list)
+        or not isinstance(denominator_raw, list)
+        or not 1 <= len(numerator_raw) <= MAXIMUM_TYPED_TERMS
+        or not 1 <= len(denominator_raw) <= MAXIMUM_TYPED_TERMS
+    ):
+        raise ExternalCreativityError("generating-function index or coefficients are invalid")
+    numerator = tuple(
+        _bounded_fraction(item, f"generating-function numerator {position}")
+        for position, item in enumerate(numerator_raw)
+    )
+    denominator = tuple(
+        _bounded_fraction(item, f"generating-function denominator {position}")
+        for position, item in enumerate(denominator_raw)
+    )
+    if denominator[0] == 0:
+        raise ExternalCreativityError("generating-function denominator has zero constant term")
+    spec = {
+        "denominator": [_fraction_text(item) for item in denominator],
+        "index": index,
+        "numerator": [_fraction_text(item) for item in numerator],
+    }
+    return json.dumps(spec, sort_keys=True, separators=(",", ":")), spec
+
+
+def _parse_modular_spec(
+    expression: str, aliases: Sequence[str]
+) -> tuple[str, dict[str, Any]]:
+    value = _typed_json(expression, {"expression", "modulus"}, "modular specification")
+    inner = value["expression"]
+    modulus = value["modulus"]
+    if (
+        not isinstance(inner, str)
+        or isinstance(modulus, bool)
+        or not isinstance(modulus, int)
+        or not 2 <= modulus <= 10**6
+    ):
+        raise ExternalCreativityError("modular expression or modulus is invalid")
+    normalized = inner.strip().replace("^", "**")
+    _safe_expression(normalized, aliases)
+    spec = {"expression": normalized, "modulus": modulus}
+    return json.dumps(spec, sort_keys=True, separators=(",", ":")), spec
+
+
+def _resolve_integer_bound(
+    value: str, aliases: Mapping[str, Fraction]
+) -> int | None:
+    if value in aliases:
+        resolved = aliases[value]
+        return int(resolved) if resolved.denominator == 1 else None
+    try:
+        return int(value)
+    except ValueError:
+        return None
+
+
+def _evaluate_aggregate(
+    candidate: Candidate,
+    benchmark: Benchmark,
+    rows: Sequence[Observation],
+    *,
+    product: bool,
+    independent: bool,
+) -> tuple[Fraction | None, ...]:
+    _, spec = _parse_aggregate_spec(
+        candidate.expression,
+        benchmark.aliases,
+        "finite product" if product else "finite sum",
+    )
+    body = spec["body"]
+    index = spec["index"]
+    sympy_body = None if independent else _safe_expression(body, (*benchmark.aliases, index))
+    sympy_symbols = (
+        {}
+        if independent
+        else {name: sp.Symbol(name, real=True) for name in (*benchmark.aliases, index)}
+    )
+    outputs: list[Fraction | None] = []
+    for row in rows:
+        aliases = dict(zip(benchmark.aliases, row.inputs, strict=True))
+        lower = _resolve_integer_bound(spec["lower"], aliases)
+        upper = _resolve_integer_bound(spec["upper"], aliases)
+        if lower is None or upper is None or upper - lower + 1 > MAXIMUM_TYPED_TERMS:
+            outputs.append(None)
+            continue
+        accumulator = Fraction(1 if product else 0)
+        valid = True
+        for term_index in range(lower, upper + 1):
+            variables = {**aliases, index: Fraction(term_index)}
+            try:
+                if independent:
+                    value = independently_evaluate_expression(body, variables)
+                else:
+                    assert sympy_body is not None
+                    evaluated = sp.cancel(
+                        sympy_body.subs(
+                            {
+                                sympy_symbols[name]: sp.Rational(item.numerator, item.denominator)
+                                for name, item in variables.items()
+                            }
+                        )
+                    )
+                    if not evaluated.is_Rational:
+                        valid = False
+                        break
+                    value = Fraction(int(evaluated.p), int(evaluated.q))
+            except (IndependentEvaluationError, ZeroDivisionError):
+                valid = False
+                break
+            accumulator = accumulator * value if product else accumulator + value
+        outputs.append(accumulator if valid else None)
+    return tuple(outputs)
+
+
+def _evaluate_modular(
+    candidate: Candidate,
+    benchmark: Benchmark,
+    rows: Sequence[Observation],
+    *,
+    independent: bool,
+) -> tuple[Fraction | None, ...]:
+    _, spec = _parse_modular_spec(candidate.expression, benchmark.aliases)
+    expression = spec["expression"]
+    modulus = spec["modulus"]
+    if independent:
+        values = []
+        for row in rows:
+            try:
+                value = independently_evaluate_expression(
+                    expression, dict(zip(benchmark.aliases, row.inputs, strict=True))
+                )
+            except IndependentEvaluationError:
+                values.append(None)
+                continue
+            values.append(
+                Fraction(value.numerator % modulus)
+                if value.denominator == 1
+                else None
+            )
+        return tuple(values)
+    base = _evaluate_expression(
+        replace(candidate, representation="sympy_expression", expression=expression),
+        benchmark,
+        rows,
+    )
+    return tuple(
+        Fraction(value.numerator % modulus)
+        if value is not None and value.denominator == 1
+        else None
+        for value in base
+    )
+
+
+def _generating_function_coefficients(
+    numerator: Sequence[Fraction],
+    denominator: Sequence[Fraction],
+    maximum_index: int,
+) -> tuple[Fraction, ...]:
+    coefficients: list[Fraction] = []
+    for index in range(maximum_index + 1):
+        numerator_term = numerator[index] if index < len(numerator) else Fraction(0)
+        feedback = sum(
+            denominator[lag] * coefficients[index - lag]
+            for lag in range(1, min(index, len(denominator) - 1) + 1)
+        )
+        coefficients.append((numerator_term - feedback) / denominator[0])
+    return tuple(coefficients)
+
+
+def _evaluate_generating_function(
+    candidate: Candidate,
+    benchmark: Benchmark,
+    rows: Sequence[Observation],
+    *,
+    independent: bool,
+) -> tuple[Fraction | None, ...]:
+    _, spec = _parse_generating_function_spec(candidate.expression, benchmark.aliases)
+    index_alias = spec["index"]
+    index_position = benchmark.aliases.index(index_alias)
+    requested = [row.inputs[index_position] for row in rows]
+    if any(value.denominator != 1 or value < 0 for value in requested):
+        return tuple(None for _ in rows)
+    indices = [int(value) for value in requested]
+    maximum_index = max(indices, default=-1)
+    if maximum_index >= MAXIMUM_TYPED_TERMS:
+        return tuple(None for _ in rows)
+    numerator = tuple(Fraction(item) for item in spec["numerator"])
+    denominator = tuple(Fraction(item) for item in spec["denominator"])
+    if independent:
+        coefficients = _generating_function_coefficients(
+            numerator, denominator, maximum_index
+        )
+    else:
+        z = sp.Symbol("z")
+        numerator_expression = sum(
+            sp.Rational(value.numerator, value.denominator) * z**degree
+            for degree, value in enumerate(numerator)
+        )
+        denominator_expression = sum(
+            sp.Rational(value.numerator, value.denominator) * z**degree
+            for degree, value in enumerate(denominator)
+        )
+        series = sp.series(
+            numerator_expression / denominator_expression,
+            z,
+            0,
+            maximum_index + 1,
+        ).removeO()
+        coefficients = tuple(
+            Fraction(int(value.p), int(value.q))
+            for index in range(maximum_index + 1)
+            if (value := sp.cancel(series.coeff(z, index))).is_Rational
+        )
+        if len(coefficients) != maximum_index + 1:
+            return tuple(None for _ in rows)
+    return tuple(coefficients[index] for index in indices)
+
+
 def _evaluate_expression(
     candidate: Candidate, benchmark: Benchmark, rows: Sequence[Observation]
 ) -> tuple[Fraction | None, ...]:
@@ -547,6 +966,20 @@ def _evaluate_recurrence(
 def predict(candidate: Candidate, benchmark: Benchmark, rows: Sequence[Observation]) -> tuple[Fraction | None, ...]:
     if candidate.representation == "linear_recurrence":
         return _evaluate_recurrence(candidate, benchmark, rows)
+    if candidate.representation == "generating_function":
+        return _evaluate_generating_function(
+            candidate, benchmark, rows, independent=False
+        )
+    if candidate.representation == "finite_sum":
+        return _evaluate_aggregate(
+            candidate, benchmark, rows, product=False, independent=False
+        )
+    if candidate.representation == "finite_product":
+        return _evaluate_aggregate(
+            candidate, benchmark, rows, product=True, independent=False
+        )
+    if candidate.representation == "modular_relation":
+        return _evaluate_modular(candidate, benchmark, rows, independent=False)
     return _evaluate_expression(candidate, benchmark, rows)
 
 
@@ -568,6 +1001,20 @@ def independently_predict(
                 candidate.recurrence_coefficients,
                 candidate.recurrence_seed,
                 indices,
+            )
+        if candidate.representation == "finite_sum":
+            return _evaluate_aggregate(
+                candidate, benchmark, rows, product=False, independent=True
+            )
+        if candidate.representation == "finite_product":
+            return _evaluate_aggregate(
+                candidate, benchmark, rows, product=True, independent=True
+            )
+        if candidate.representation == "modular_relation":
+            return _evaluate_modular(candidate, benchmark, rows, independent=True)
+        if candidate.representation == "generating_function":
+            return _evaluate_generating_function(
+                candidate, benchmark, rows, independent=True
             )
         if candidate.representation != "sympy_expression":
             return tuple(None for _ in rows)
@@ -736,56 +1183,372 @@ def generate_candidates(benchmark: Benchmark, maximum_per_family: int) -> tuple[
     return tuple(sorted(generated, key=lambda item: item.candidate_id))
 
 
-def _claude_candidate(benchmark: Benchmark, hypothesis: ClaudeHypothesis) -> Candidate | None:
-    if hypothesis.representation != "sympy_expression":
-        return None
+def _claude_candidate(
+    benchmark: Benchmark, hypothesis: ClaudeHypothesis
+) -> tuple[Candidate | None, dict[str, Any]]:
+    record: dict[str, Any] = {
+        "candidate_id": None,
+        "diagnostic": None,
+        "executable_representation": None,
+        "hypothesis_id": hypothesis.hypothesis_id,
+        "llm_self_assessed_origin": hypothesis.llm_origin_assessment,
+        "normalization": None,
+        "reason": None,
+        "source_representation": hypothesis.representation,
+        "status": "RETAINED_NON_EXECUTABLE",
+    }
+    if hypothesis.representation not in EXECUTABLE_CLAUDE_REPRESENTATIONS:
+        record["reason"] = "representation_not_yet_executable"
+        return None, record
+    representation = hypothesis.representation
+    expression = hypothesis.expression
+    coefficients: tuple[Fraction, ...] = ()
+    seed: tuple[Fraction, ...] = ()
     try:
-        _safe_expression(hypothesis.expression, benchmark.aliases)
-    except ExternalCreativityError:
-        return None
-    return _candidate(
+        if representation == "sympy_expression":
+            expression, normalization = _normalize_claude_arithmetic(
+                expression, benchmark.aliases
+            )
+        elif representation == "invariant_relation":
+            if re.fullmatch(r"output\s*=\s*.+", expression.strip(), flags=re.DOTALL) is None:
+                record["reason"] = "invariant_relation_missing_output_assignment"
+                return None, record
+            expression, normalization = _normalize_claude_arithmetic(
+                expression, benchmark.aliases
+            )
+            representation = "sympy_expression"
+        elif representation == "linear_recurrence":
+            expression, coefficients, seed = _parse_recurrence_spec(expression)
+            normalization = "canonical_typed_json"
+        elif representation in {"finite_product", "finite_sum"}:
+            expression, _ = _parse_aggregate_spec(
+                expression,
+                benchmark.aliases,
+                "finite product" if representation == "finite_product" else "finite sum",
+            )
+            normalization = "canonical_typed_json"
+        elif representation == "generating_function":
+            expression, _ = _parse_generating_function_spec(
+                expression, benchmark.aliases
+            )
+            normalization = "canonical_typed_json"
+        elif representation == "modular_relation":
+            expression, _ = _parse_modular_spec(expression, benchmark.aliases)
+            normalization = "canonical_typed_json"
+        else:  # pragma: no cover - guarded by the executable representation set
+            raise ExternalCreativityError("executable representation compiler is missing")
+    except ExternalCreativityError as error:
+        record["reason"] = "typed_expression_failed_validation"
+        record["diagnostic"] = str(error)
+        return None, record
+    candidate = _candidate(
         benchmark,
         "claude_proposer",
-        hypothesis.representation,
-        hypothesis.expression,
+        representation,
+        expression,
+        recurrence_coefficients=coefficients,
+        recurrence_seed=seed,
         invariants=hypothesis.invariants,
         proof_plan=hypothesis.proof_plan,
         proposer="claude_api",
     )
+    record.update(
+        {
+            "candidate_id": candidate.candidate_id,
+            "executable_representation": candidate.representation,
+            "normalization": normalization,
+            "reason": "typed_expression_admitted",
+            "status": "ADMITTED_EXECUTABLE",
+        }
+    )
+    return candidate, record
+
+
+def _candidate_syntax_profile(
+    candidate: Candidate, benchmark: Benchmark
+) -> tuple[int, int]:
+    if candidate.representation == "sympy_expression":
+        return _arithmetic_tree_stats(candidate.expression, benchmark.aliases)
+    if candidate.representation == "generating_function":
+        _, spec = _parse_generating_function_spec(
+            candidate.expression, benchmark.aliases
+        )
+        width = max(len(spec["numerator"]), len(spec["denominator"]))
+        return 2 + width.bit_length(), 2 + len(spec["numerator"]) + len(
+            spec["denominator"]
+        )
+    if candidate.representation == "linear_recurrence":
+        order = len(candidate.recurrence_coefficients)
+        return 2 + order.bit_length(), 1 + len(candidate.recurrence_coefficients) + len(
+            candidate.recurrence_seed
+        )
+    if candidate.representation in {"finite_product", "finite_sum"}:
+        _, spec = _parse_aggregate_spec(
+            candidate.expression,
+            benchmark.aliases,
+            "finite product"
+            if candidate.representation == "finite_product"
+            else "finite sum",
+        )
+        depth, nodes = _arithmetic_tree_stats(
+            spec["body"], (*benchmark.aliases, spec["index"])
+        )
+        return depth + 1, nodes + 4
+    if candidate.representation == "modular_relation":
+        _, spec = _parse_modular_spec(candidate.expression, benchmark.aliases)
+        depth, nodes = _arithmetic_tree_stats(spec["expression"], benchmark.aliases)
+        return depth + 1, nodes + 1
+    raise ExternalCreativityError("candidate has no executable syntax profile")
+
+
+def _evaluation_operations(
+    candidate: Candidate, benchmark: Benchmark, rows: Sequence[Observation]
+) -> int:
+    _, nodes = _candidate_syntax_profile(candidate, benchmark)
+    if candidate.representation == "linear_recurrence":
+        requested = [
+            int(row.inputs[0])
+            for row in rows
+            if len(row.inputs) == 1 and row.inputs[0].denominator == 1
+        ]
+        if len(requested) != len(rows) or any(index < 0 for index in requested):
+            return 10**12
+        generated = max(0, max(requested, default=-1) + 1 - len(candidate.recurrence_seed))
+        return max(1, generated * len(candidate.recurrence_coefficients))
+    if candidate.representation == "generating_function":
+        _, spec = _parse_generating_function_spec(
+            candidate.expression, benchmark.aliases
+        )
+        position = benchmark.aliases.index(spec["index"])
+        requested = [row.inputs[position] for row in rows]
+        if any(value.denominator != 1 or value < 0 for value in requested):
+            return 10**12
+        maximum_index = max((int(value) for value in requested), default=-1)
+        if maximum_index >= MAXIMUM_TYPED_TERMS:
+            return 10**12
+        recurrence_width = max(1, len(spec["denominator"]) - 1)
+        return max(1, (maximum_index + 1) * recurrence_width)
+    if candidate.representation in {"finite_product", "finite_sum"}:
+        _, spec = _parse_aggregate_spec(
+            candidate.expression,
+            benchmark.aliases,
+            "finite product"
+            if candidate.representation == "finite_product"
+            else "finite sum",
+        )
+        body_nodes = _arithmetic_tree_stats(
+            spec["body"], (*benchmark.aliases, spec["index"])
+        )[1]
+        operations = 0
+        for row in rows:
+            aliases = dict(zip(benchmark.aliases, row.inputs, strict=True))
+            lower = _resolve_integer_bound(spec["lower"], aliases)
+            upper = _resolve_integer_bound(spec["upper"], aliases)
+            if lower is None or upper is None:
+                return 10**12
+            terms = max(0, upper - lower + 1)
+            if terms > MAXIMUM_TYPED_TERMS:
+                return 10**12
+            operations += terms * (body_nodes + 1)
+        return max(1, operations)
+    return max(1, nodes * len(rows))
+
+
+def _candidate_resource_profile(
+    candidate: Candidate,
+    benchmark: Benchmark,
+    target: SealedTarget,
+    allocated_budget: Mapping[str, int],
+) -> dict[str, int]:
+    rows = (*benchmark.observations, *target.holdout_records)
+    grammar_depth, _ = _candidate_syntax_profile(candidate, benchmark)
+    evaluation_operations = _evaluation_operations(candidate, benchmark, rows)
+    verifier_invocations = len(
+        _proof_plan_search(
+            candidate,
+            target,
+            allocated_budget["maximum_verifier_invocations"],
+        )["selected_route"]
+    )
+    profile = {
+        "evaluation_runtime_budget_units": evaluation_operations,
+        "grammar_depth": grammar_depth,
+        "verifier_invocation_budget": verifier_invocations,
+    }
+    if (
+        grammar_depth > allocated_budget["maximum_grammar_depth"]
+        or evaluation_operations > allocated_budget["maximum_evaluation_operations"]
+        or verifier_invocations > allocated_budget["maximum_verifier_invocations"]
+    ):
+        raise ExternalCreativityError("candidate exceeds the matched-control resource budget")
+    return profile
+
+
+def _mutate_arithmetic_same_shape(
+    expression: str, aliases: Sequence[str], rng: random.Random
+) -> str:
+    original = ast.parse(expression.replace("^", "**"), mode="eval")
+
+    def mutate(node: ast.AST, *, exponent: bool = False) -> ast.AST:
+        if isinstance(node, ast.Expression):
+            return ast.Expression(mutate(node.body))
+        if isinstance(node, ast.Name):
+            if exponent:
+                return ast.Constant(rng.randint(0, 4))
+            choices: list[ast.expr] = [ast.Name(id=name, ctx=ast.Load()) for name in aliases]
+            choices.extend(ast.Constant(value) for value in range(6))
+            return rng.choice(choices)
+        if isinstance(node, ast.Constant):
+            return ast.Constant(rng.randint(0, 4) if exponent else rng.randint(0, 5))
+        if isinstance(node, ast.UnaryOp):
+            return ast.UnaryOp(op=type(node.op)(), operand=mutate(node.operand, exponent=exponent))
+        if isinstance(node, ast.BinOp):
+            if isinstance(node.op, ast.Pow):
+                return ast.BinOp(
+                    left=mutate(node.left),
+                    op=ast.Pow(),
+                    right=mutate(node.right, exponent=True),
+                )
+            operators = (ast.Add, ast.Sub, ast.Mult)
+            operator = rng.choice(operators)()
+            return ast.BinOp(left=mutate(node.left), op=operator, right=mutate(node.right))
+        raise ExternalCreativityError("random-control mutation left the arithmetic DSL")
+
+    expected = _arithmetic_tree_stats(expression, aliases)
+    last_attempt: tuple[str, tuple[int, int] | None] | None = None
+    for _ in range(64):
+        candidate_tree = ast.fix_missing_locations(mutate(original))
+        candidate_expression = ast.unparse(candidate_tree)
+        try:
+            _safe_expression(candidate_expression, aliases)
+        except ExternalCreativityError:
+            last_attempt = (candidate_expression, None)
+            continue
+        observed = _arithmetic_tree_stats(candidate_expression, aliases)
+        last_attempt = (candidate_expression, observed)
+        if observed == expected:
+            return candidate_expression
+    raise ExternalCreativityError(
+        "could not construct a same-shape random control: "
+        f"expected {expected}, last attempt {last_attempt!r}"
+    )
+
+
+def _matched_random_candidate(
+    benchmark: Benchmark,
+    source: Candidate,
+    family: str,
+    ordinal: int,
+    rng: random.Random,
+) -> Candidate:
+    expression = source.expression
+    coefficients: tuple[Fraction, ...] = ()
+    seed: tuple[Fraction, ...] = ()
+    if source.representation == "sympy_expression":
+        try:
+            expression = _mutate_arithmetic_same_shape(
+                expression, benchmark.aliases, rng
+            )
+        except ExternalCreativityError as error:
+            raise ExternalCreativityError(
+                f"same-shape mutation failed for {source.expression!r}"
+            ) from error
+    elif source.representation == "generating_function":
+        _, spec = _parse_generating_function_spec(expression, benchmark.aliases)
+        numerator = [
+            _fraction_text(Fraction(rng.randint(-5, 5)))
+            for _ in spec["numerator"]
+        ]
+        denominator = [
+            _fraction_text(Fraction(rng.randint(-5, 5)))
+            for _ in spec["denominator"]
+        ]
+        if denominator[0] == "0":
+            denominator[0] = "1"
+        expression = json.dumps(
+            {
+                "denominator": denominator,
+                "index": spec["index"],
+                "numerator": numerator,
+            },
+            sort_keys=True,
+            separators=(",", ":"),
+        )
+    elif source.representation == "linear_recurrence":
+        coefficients = tuple(Fraction(rng.randint(-3, 3)) for _ in source.recurrence_coefficients)
+        seed = tuple(Fraction(rng.randint(-5, 5)) for _ in source.recurrence_seed)
+        expression = json.dumps(
+            {
+                "coefficients": [_fraction_text(item) for item in coefficients],
+                "seed": [_fraction_text(item) for item in seed],
+            },
+            sort_keys=True,
+            separators=(",", ":"),
+        )
+    elif source.representation in {"finite_product", "finite_sum"}:
+        _, spec = _parse_aggregate_spec(
+            expression,
+            benchmark.aliases,
+            "finite product" if source.representation == "finite_product" else "finite sum",
+        )
+        spec["body"] = _mutate_arithmetic_same_shape(
+            spec["body"], (*benchmark.aliases, spec["index"]), rng
+        )
+        expression = json.dumps(spec, sort_keys=True, separators=(",", ":"))
+    elif source.representation == "modular_relation":
+        _, spec = _parse_modular_spec(expression, benchmark.aliases)
+        spec["expression"] = _mutate_arithmetic_same_shape(
+            spec["expression"], benchmark.aliases, rng
+        )
+        expression = json.dumps(spec, sort_keys=True, separators=(",", ":"))
+    else:
+        raise ExternalCreativityError("matched control has an unsupported representation")
+    return _candidate(
+        benchmark,
+        f"random_control_{family}_{ordinal}",
+        source.representation,
+        expression,
+        recurrence_coefficients=coefficients,
+        recurrence_seed=seed,
+        invariants=("random_budget_matched",),
+        proof_plan=source.proof_plan,
+        proposer="matched_random_search",
+    )
 
 
 def random_controls(
-    benchmark: Benchmark, family_counts: Mapping[str, int], seed: int
+    benchmark: Benchmark,
+    family_candidates: Mapping[str, Sequence[Candidate]],
+    seed: int,
 ) -> dict[str, tuple[Candidate, ...]]:
     controls: dict[str, tuple[Candidate, ...]] = {}
-    for family, count in sorted(family_counts.items()):
+    for family, candidates in sorted(family_candidates.items()):
         digest = hashlib.sha256(f"{seed}:{benchmark.blind_id}:{family}".encode()).digest()
         rng = random.Random(int.from_bytes(digest[:8], "big"))
-        rows = []
-        for ordinal in range(count):
-            if len(benchmark.aliases) == 1:
-                coefficients = [rng.randint(-5, 5) for _ in range(rng.randint(0, 4) + 1)]
-                expression = "+".join(
-                    f"({coefficient})*x0**{degree}"
-                    for degree, coefficient in enumerate(coefficients)
+        rows: list[Candidate] = []
+        used_signatures: set[tuple[str, str]] = set()
+        for ordinal, candidate in enumerate(candidates):
+            source_signature = (candidate.representation, candidate.expression)
+            source_syntax_profile = _candidate_syntax_profile(candidate, benchmark)
+            for _ in range(128):
+                control = _matched_random_candidate(
+                    benchmark, candidate, family, ordinal, rng
                 )
+                signature = (control.representation, control.expression)
+                if (
+                    signature != source_signature
+                    and signature not in used_signatures
+                    and _candidate_syntax_profile(control, benchmark)
+                    == source_syntax_profile
+                ):
+                    used_signatures.add(signature)
+                    rows.append(control)
+                    break
             else:
-                exponents = [rng.randint(0, 3) for _ in benchmark.aliases]
-                coefficient = rng.randint(-5, 5)
-                expression = "*".join(
-                    [f"({coefficient})", *[f"{alias}**{power}" for alias, power in zip(benchmark.aliases, exponents, strict=True)]]
+                raise ExternalCreativityError(
+                    "could not construct a distinct matched random control for "
+                    f"{family} ordinal {ordinal} ({candidate.representation})"
                 )
-            rows.append(
-                _candidate(
-                    benchmark,
-                    f"random_control_{family}_{ordinal}",
-                    "sympy_expression",
-                    expression,
-                    invariants=("random_budget_matched",),
-                    proof_plan=("none",),
-                    proposer="matched_random_search",
-                )
-            )
         controls[family] = tuple(rows)
     return controls
 
@@ -796,6 +1559,7 @@ def _behavior(candidate: Candidate, benchmark: Benchmark, rows: Sequence[Observa
     expression = None
     degree = "recurrence"
     singularities = "not_applicable"
+    structure: Any = None
     if candidate.representation == "sympy_expression":
         expression = _safe_expression(candidate.expression, benchmark.aliases)
         symbols = [sp.Symbol(alias, real=True) for alias in benchmark.aliases]
@@ -805,11 +1569,58 @@ def _behavior(candidate: Candidate, benchmark: Benchmark, rows: Sequence[Observa
             degree = "nonpolynomial"
         denominator = sp.factor(sp.together(expression).as_numer_denom()[1])
         singularities = str(denominator)
+        structure = str(sp.factor(expression))
+    elif candidate.representation == "generating_function":
+        _, spec = _parse_generating_function_spec(
+            candidate.expression, benchmark.aliases
+        )
+        degree = "rational_generating_function"
+        singularities = canonical_sha256(spec["denominator"])
+        structure = {
+            "denominator_degree": len(spec["denominator"]) - 1,
+            "numerator_degree": len(spec["numerator"]) - 1,
+        }
+    elif candidate.representation in {"finite_product", "finite_sum"}:
+        _, spec = _parse_aggregate_spec(
+            candidate.expression,
+            benchmark.aliases,
+            "finite product"
+            if candidate.representation == "finite_product"
+            else "finite sum",
+        )
+        degree = "finite_aggregate"
+        structure = {
+            "body": str(
+                sp.factor(
+                    _safe_expression(
+                        spec["body"], (*benchmark.aliases, spec["index"])
+                    )
+                )
+            ),
+            "bounds": [spec["lower"], spec["upper"]],
+        }
+    elif candidate.representation == "modular_relation":
+        _, spec = _parse_modular_spec(candidate.expression, benchmark.aliases)
+        degree = "modular"
+        structure = {
+            "expression": str(
+                sp.factor(_safe_expression(spec["expression"], benchmark.aliases))
+            ),
+            "modulus": spec["modulus"],
+        }
+    elif candidate.representation == "linear_recurrence":
+        structure = {
+            "order": len(candidate.recurrence_coefficients),
+            "coefficients": [
+                _fraction_text(item) for item in candidate.recurrence_coefficients
+            ],
+        }
     behavior_body = {
         "degree": degree,
         "predictions": finite,
         "representation": candidate.representation,
         "singularity_structure": singularities,
+        "typed_structure": structure,
     }
     proof_body = {
         "invariants": list(candidate.invariants),
@@ -981,6 +1792,7 @@ def _score_candidate(
     candidate: Candidate,
     benchmark: Benchmark,
     target: SealedTarget,
+    allocated_budget: Mapping[str, int],
 ) -> dict[str, Any]:
     train_predictions = predict(candidate, benchmark, benchmark.observations)
     holdout_predictions = predict(candidate, benchmark, target.holdout_records)
@@ -988,6 +1800,9 @@ def _score_candidate(
     return {
         **candidate.to_dict(),
         **behavior,
+        "resource_profile": _candidate_resource_profile(
+            candidate, benchmark, target, allocated_budget
+        ),
         "holdout_exact_rows": sum(
             prediction == row.output
             for prediction, row in zip(holdout_predictions, target.holdout_records, strict=True)
@@ -1001,9 +1816,18 @@ def _score_candidate(
     }
 
 
-def _proof_plan_search(candidate: Candidate, target: SealedTarget) -> dict[str, Any]:
+def _proof_plan_search(
+    candidate: Candidate,
+    target: SealedTarget,
+    maximum_invocations: int = 5,
+) -> dict[str, Any]:
     """Enumerate verifier routes separately from candidate-expression search."""
 
+    algebraic = candidate.representation == "sympy_expression"
+    aggregate = candidate.representation in {"finite_product", "finite_sum"}
+    recurrence = candidate.representation == "linear_recurrence"
+    generating = candidate.representation == "generating_function"
+    modular = candidate.representation == "modular_relation"
     plans = [
         {
             "applicable": True,
@@ -1012,28 +1836,58 @@ def _proof_plan_search(candidate: Candidate, target: SealedTarget) -> dict[str, 
             "purpose": "falsification",
         },
         {
-            "applicable": candidate.representation == "sympy_expression",
+            "applicable": algebraic or generating,
             "estimated_cost": 2,
             "plan": "cas_normal_form",
             "purpose": "symbolic_identity",
         },
         {
-            "applicable": candidate.representation == "sympy_expression",
+            "applicable": algebraic,
             "estimated_cost": 3,
             "plan": "smt_countermodel_search",
             "purpose": "universal_polynomial_identity",
         },
         {
-            "applicable": candidate.representation == "sympy_expression",
+            "applicable": algebraic or generating,
             "estimated_cost": 4,
             "plan": "interval_enclosure",
             "purpose": "numerical_domain_check",
         },
         {
-            "applicable": candidate.representation == "linear_recurrence",
+            "applicable": recurrence or aggregate,
             "estimated_cost": 4,
             "plan": "induction_on_recurrence",
-            "purpose": "recurrence_proof",
+            "purpose": "choose_and_test_an_induction_variable",
+        },
+        {
+            "applicable": recurrence or modular,
+            "estimated_cost": 4,
+            "plan": "invariant_strengthening",
+            "purpose": "search_for_a_preserved_auxiliary_statement",
+        },
+        {
+            "applicable": aggregate,
+            "estimated_cost": 4,
+            "plan": "bijection_construction",
+            "purpose": "replace_algebra_with_structure_preserving_counting",
+        },
+        {
+            "applicable": recurrence or modular,
+            "estimated_cost": 4,
+            "plan": "minimal_counterexample_descent",
+            "purpose": "search_for_a_strictly_smaller_counterexample",
+        },
+        {
+            "applicable": recurrence or generating,
+            "estimated_cost": 4,
+            "plan": "transform_domain_identity",
+            "purpose": "move_between_sequence_and_generating_function_domains",
+        },
+        {
+            "applicable": modular,
+            "estimated_cost": 4,
+            "plan": "contradiction_via_modular_obstruction",
+            "purpose": "derive_an_incompatible_residue_class",
         },
         {
             "applicable": target.target_kind == "known_formula",
@@ -1043,11 +1897,15 @@ def _proof_plan_search(candidate: Candidate, target: SealedTarget) -> dict[str, 
         },
     ]
     applicable = [item for item in plans if item["applicable"]]
+    selected = applicable[:maximum_invocations]
+    lean = next((item for item in applicable if item["plan"] == "lean_kernel_bridge"), None)
+    if lean is not None and lean not in selected:
+        selected[-1] = lean
     return {
         "candidate_declared_plan": list(candidate.proof_plan),
         "plans": plans,
-        "selected_route": [item["plan"] for item in applicable],
-        "selection_rule": "all_applicable_in_ascending_estimated_cost",
+        "selected_route": [item["plan"] for item in selected],
+        "selection_rule": "applicable_routes_in_cost_order_capped_by_verifier_budget_with_lean_reserved",
     }
 
 
@@ -1065,21 +1923,52 @@ def _family_metrics(
         random_rows = controls[family]
         best = min(Fraction(item["holdout_loss"]) for item in rows)
         random_best = min(Fraction(item["holdout_loss"]) for item in random_rows)
-        control_budget_match = len(rows) == len(random_rows)
+        candidate_count_match = len(rows) == len(random_rows)
+        source_by_id = {item["candidate_id"]: item for item in rows}
+
+        def profile_matches(
+            field: str,
+            *,
+            count_match: bool = candidate_count_match,
+            sources: Mapping[str, Mapping[str, Any]] = source_by_id,
+            control_rows: Sequence[Mapping[str, Any]] = random_rows,
+        ) -> bool:
+            return count_match and all(
+                control.get("matched_candidate_id") in sources
+                and control["resource_profile"][field]
+                == sources[control["matched_candidate_id"]]["resource_profile"][field]
+                for control in control_rows
+            )
+
+        grammar_depth_match = profile_matches("grammar_depth")
+        evaluation_runtime_budget_match = profile_matches(
+            "evaluation_runtime_budget_units"
+        )
+        verifier_budget_match = profile_matches("verifier_invocation_budget")
+        control_budget_match = (
+            candidate_count_match
+            and grammar_depth_match
+            and evaluation_runtime_budget_match
+            and verifier_budget_match
+        )
         without = [item for item in creative if item["family"] != family]
         ablated = min(Fraction(item["holdout_loss"]) for item in without)
         metrics.append(
             {
                 "best_holdout_loss": _fraction_text(best),
                 "candidate_budget": len(rows),
+                "candidate_count_match": candidate_count_match,
                 "control_budget_match": control_budget_match,
+                "evaluation_runtime_budget_match": evaluation_runtime_budget_match,
                 "family": family,
+                "grammar_depth_match": grammar_depth_match,
                 "matched_budget": dict(allocated_search_budget),
                 "matched_random_best_holdout_loss": _fraction_text(random_best),
                 "matched_random_budget": len(random_rows),
                 "outperformed_random": best < random_best,
                 "unique_behaviors": len({item["behavior_sha256"] for item in rows}),
                 "unique_proof_mechanisms": len({item["proof_mechanism_sha256"] for item in rows}),
+                "verifier_budget_match": verifier_budget_match,
             }
         )
         ablations.append(
@@ -1091,6 +1980,102 @@ def _family_metrics(
             }
         )
     return metrics, ablations
+
+
+def _claude_contribution(
+    scored: Sequence[Mapping[str, Any]],
+    controls: Sequence[Mapping[str, Any]],
+    admission_records: Sequence[Mapping[str, Any]],
+) -> dict[str, Any]:
+    claude_rows = [item for item in scored if item["family"] == "claude_proposer"]
+    deterministic_rows = [item for item in scored if item["family"] in FAMILY_IDS]
+    source_by_id = {item["candidate_id"]: item for item in claude_rows}
+
+    def profile_matches(field: str) -> bool | None:
+        if not claude_rows:
+            return None
+        return len(claude_rows) == len(controls) and all(
+            control.get("matched_candidate_id") in source_by_id
+            and control["resource_profile"][field]
+            == source_by_id[control["matched_candidate_id"]]["resource_profile"][field]
+            for control in controls
+        )
+
+    origin_counts: dict[str, int] = {}
+    executable_origin_counts: dict[str, int] = {}
+    for record in admission_records:
+        origin = str(record["llm_self_assessed_origin"])
+        origin_counts[origin] = origin_counts.get(origin, 0) + 1
+        if record["status"] == "ADMITTED_EXECUTABLE":
+            executable_origin_counts[origin] = executable_origin_counts.get(origin, 0) + 1
+    deterministic_behaviors = {
+        item["behavior_sha256"] for item in deterministic_rows
+    }
+    deterministic_proofs = {
+        item["proof_mechanism_sha256"] for item in deterministic_rows
+    }
+    best = (
+        min(Fraction(item["holdout_loss"]) for item in claude_rows)
+        if claude_rows
+        else None
+    )
+    control_best = (
+        min(Fraction(item["holdout_loss"]) for item in controls)
+        if controls
+        else None
+    )
+    status = "NO_CLAUDE_PROPOSALS"
+    if admission_records:
+        status = (
+            "MEASURED_EXECUTABLE_CLAUDE_CONTRIBUTION"
+            if claude_rows
+            else "RETAINED_NON_EXECUTABLE_CLAUDE_PROPOSALS"
+        )
+    return {
+        "admitted_executable_hypotheses": sum(
+            record["status"] == "ADMITTED_EXECUTABLE"
+            for record in admission_records
+        ),
+        "behavior_novelty_against_deterministic_count": len(
+            {
+                item["behavior_sha256"]
+                for item in claude_rows
+                if item["behavior_sha256"] not in deterministic_behaviors
+            }
+        ),
+        "best_holdout_loss": None if best is None else _fraction_text(best),
+        "claim_boundary": {
+            "behavioral_novelty_is_literature_novelty": False,
+            "llm_self_assessment_is_prior_art_authority": False,
+            "proof_mechanism_novelty_is_mathematical_correctness": False,
+        },
+        "evaluation_runtime_budget_match": profile_matches(
+            "evaluation_runtime_budget_units"
+        ),
+        "executable_llm_self_assessed_origin_counts": dict(
+            sorted(executable_origin_counts.items())
+        ),
+        "grammar_depth_match": profile_matches("grammar_depth"),
+        "llm_self_assessed_origin_counts": dict(sorted(origin_counts.items())),
+        "matched_control_best_holdout_loss": (
+            None if control_best is None else _fraction_text(control_best)
+        ),
+        "matched_control_count": len(controls),
+        "outperformed_matched_random": (
+            None if best is None or control_best is None else best < control_best
+        ),
+        "proof_mechanism_novelty_against_deterministic_count": len(
+            {
+                item["proof_mechanism_sha256"]
+                for item in claude_rows
+                if item["proof_mechanism_sha256"] not in deterministic_proofs
+            }
+        ),
+        "proposed_hypotheses": len(admission_records),
+        "scored_executable_candidates": len(claude_rows),
+        "status": status,
+        "verifier_budget_match": profile_matches("verifier_invocation_budget"),
+    }
 
 
 def _load_campaign_config(root: Path, *, live_claude: bool) -> dict[str, Any]:
@@ -1237,9 +2222,14 @@ def run_campaign(
     transport = claude_transport or ProviderCompatibleClaudeTransport()
     client = ClaudeCreativityClient(config["claude_api"], transport)
     claude_calls: list[ClaudeCallResult] = []
-    claude_admission: dict[str, dict[str, int]] = {}
+    claude_admission: dict[str, dict[str, Any]] = {}
     for benchmark in benchmarks:
-        call = client.run(ClaudeRole.PROPOSER, benchmark.blind_id, benchmark.generation_view())
+        call = client.run(
+            ClaudeRole.PROPOSER,
+            benchmark.blind_id,
+            benchmark.generation_view(),
+            instruction_override=EXECUTABLE_PROPOSER_INSTRUCTION,
+        )
         if isinstance(transport, ProviderCompatibleClaudeTransport):
             response_id = str(call.evidence.get("api_response_id", ""))
             overflow = []
@@ -1271,11 +2261,15 @@ def run_campaign(
             )
         claude_calls.append(call)
         hypotheses = () if call.output is None else call.output.hypotheses
+        admitted_rows = [
+            _claude_candidate(benchmark, hypothesis) for hypothesis in hypotheses
+        ]
         admitted = tuple(
             candidate
-            for hypothesis in hypotheses
-            if (candidate := _claude_candidate(benchmark, hypothesis)) is not None
+            for candidate, _ in admitted_rows
+            if candidate is not None
         )
+        admission_records = [record for _, record in admitted_rows]
         deterministic[benchmark.benchmark_id].extend(admitted)
         deterministic[benchmark.benchmark_id] = list(
             {
@@ -1287,6 +2281,7 @@ def run_campaign(
             "admitted_executable_hypotheses": len(admitted),
             "non_executable_typed_hypotheses": len(hypotheses) - len(admitted),
             "proposed_hypotheses": len(hypotheses),
+            "records": admission_records,
         }
     event("claude_blind_proposals_completed_or_blocked", target_reads=0)
 
@@ -1331,6 +2326,31 @@ def run_campaign(
         claude_calls.append(call)
     event("claude_blind_critique_completed_or_blocked", target_reads=0)
 
+    family_candidates_by_benchmark: dict[
+        str, dict[str, tuple[Candidate, ...]]
+    ] = {}
+    control_candidates_by_benchmark: dict[
+        str, dict[str, tuple[Candidate, ...]]
+    ] = {}
+    for benchmark in benchmarks:
+        candidates = deterministic[benchmark.benchmark_id]
+        family_candidates = {
+            family: tuple(item for item in candidates if item.family == family)
+            for family in FAMILY_IDS
+        }
+        claude_candidates = tuple(
+            item for item in candidates if item.family == "claude_proposer"
+        )
+        if claude_candidates:
+            family_candidates["claude_proposer"] = claude_candidates
+        family_candidates_by_benchmark[benchmark.benchmark_id] = family_candidates
+        control_candidates_by_benchmark[benchmark.benchmark_id] = random_controls(
+            benchmark,
+            family_candidates,
+            config["search"]["random_seed"],
+        )
+    event("matched_random_controls_sealed", target_reads=0)
+
     targets = unseal_targets(root, public, benchmarks)
     event("sealed_targets_opened_after_proposal_and_critique", target_reads=1)
     by_target = {item.benchmark_id: item for item in targets}
@@ -1340,11 +2360,24 @@ def run_campaign(
         target = by_target[benchmark.benchmark_id]
         candidates = tuple(deterministic[benchmark.benchmark_id])
         allocated_search_budget = config["search"]["matched_control_budget"]
-        scored = [_score_candidate(item, benchmark, target) for item in candidates]
-        family_counts = {family: sum(item.family == family for item in candidates) for family in FAMILY_IDS}
-        controls = random_controls(benchmark, family_counts, config["search"]["random_seed"])
+        scored = [
+            _score_candidate(item, benchmark, target, allocated_search_budget)
+            for item in candidates
+        ]
+        source_candidates = family_candidates_by_benchmark[benchmark.benchmark_id]
+        controls = control_candidates_by_benchmark[benchmark.benchmark_id]
         scored_controls = {
-            family: [_score_candidate(item, benchmark, target) for item in rows]
+            family: [
+                {
+                    **_score_candidate(
+                        control, benchmark, target, allocated_search_budget
+                    ),
+                    "matched_candidate_id": source.candidate_id,
+                }
+                for source, control in zip(
+                    source_candidates[family], rows, strict=True
+                )
+            ]
             for family, rows in controls.items()
         }
         metrics, ablations = _family_metrics(
@@ -1381,6 +2414,20 @@ def run_campaign(
         )
         outperformed_random = sum(item["outperformed_random"] for item in metrics)
         controls_budget_matched = all(item["control_budget_match"] for item in metrics)
+        candidate_counts_matched = all(item["candidate_count_match"] for item in metrics)
+        grammar_depths_matched = all(item["grammar_depth_match"] for item in metrics)
+        evaluation_runtime_budgets_matched = all(
+            item["evaluation_runtime_budget_match"] for item in metrics
+        )
+        verifier_budgets_matched = all(
+            item["verifier_budget_match"] for item in metrics
+        )
+        claude_controls = scored_controls.get("claude_proposer", [])
+        claude_contribution = _claude_contribution(
+            scored,
+            claude_controls,
+            claude_admission[benchmark.benchmark_id]["records"],
+        )
         bounded_process_pass = (
             benchmark.capability_level == 5
             and best_row["train_loss"] == "0"
@@ -1407,6 +2454,8 @@ def run_campaign(
                     "open_problem_solved": False,
                     "serious_claim_released": False,
                 },
+                "claude_contribution": claude_contribution,
+                "claude_matched_controls": claude_controls,
                 "dataset_evidence": _dataset_evidence(benchmark, target, best_candidate),
                 "external_authorship": benchmark.source.to_dict(),
                 "family_ablation": ablations,
@@ -1414,16 +2463,27 @@ def run_campaign(
                 "matched_control_policy": {
                     "allocated_budget": allocated_search_budget,
                     "all_family_budgets_match": controls_budget_matched,
-                    "candidate_count_matched": True,
+                    "candidate_count_matched": candidate_counts_matched,
+                    "deterministic_operation_budget_used": True,
+                    "evaluation_runtime_budget_matched": evaluation_runtime_budgets_matched,
+                    "grammar_depth_matched": grammar_depths_matched,
+                    "verifier_budget_matched": verifier_budgets_matched,
+                    "wall_clock_runtime_claimed_matched": False,
                 },
                 "formal_verification": formal,
                 "holdout_count": len(target.holdout_records),
                 "independent_exact_reproduction": independent_reproduction,
                 "prior_art": prior_art,
-                "proof_plan_search": _proof_plan_search(best_candidate, target),
+                "proof_plan_search": _proof_plan_search(
+                    best_candidate,
+                    target,
+                    allocated_search_budget["maximum_verifier_invocations"],
+                ),
                 "proposal_root_sha256": proposal_roots[benchmark.benchmark_id],
                 "proposer_admission": claude_admission[benchmark.benchmark_id],
-                "random_controls": scored_controls,
+                "random_controls": {
+                    family: scored_controls[family] for family in FAMILY_IDS
+                },
                 "ranked_candidates": sorted(scored, key=lambda item: (Fraction(item["holdout_loss"]), item["candidate_id"])),
                 "target_commitment_opened": target.commitment,
                 "target_kind": target.target_kind,

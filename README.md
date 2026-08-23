@@ -1223,16 +1223,19 @@ proof novelty.
 
 The latest live core health receipt discovered `ANTHROPIC_API_KEY` through the app's default
 machine-local `~/.invariant.env` path, removed it after the dynamic run, and completed four
-proposer plus four critic calls on `claude-opus-4-6`. It used 88,512 tokens and retained all 30
-schema-admitted ideas: 15 model-self-assessed known rewrites, 5 proposed new constructions, and 10
-uncertain. Independent expansion retained 180 proof plans and 64 recombination branches. These are
-one live treatment
+proposer plus four critic calls on `claude-opus-4-6`. It used 89,202 tokens and retained all 29
+schema-admitted ideas: 13 model-self-assessed known rewrites, 6 proposed new constructions, 9
+uncertain branches, and 1 cross-domain synthesis. Independent expansion retained 174 proof plans
+and 64 recombination branches. These are one live treatment
 specimen and runtime-health evidence, not a creativity win. The receipt stores hashes and usage
 evidence, not the credential, env-file path, or raw prompts and outputs.
-No Claude proposal became an executable benchmark candidate in this specimen; all four benchmark
-summaries report zero Claude-executable candidates and retain a deterministic-portfolio winner.
-One branch self-labelled `proposed_new_construction` while its own rationale identified Recamán's
-sequence, demonstrating why origin labels are retained observations rather than novelty verdicts.
+A typed compiler admitted 6 Claude hypotheses and scored 3 distinct executable candidates. The four
+benchmark summaries report 1, 2, 0, and 0 Claude-executable candidates. Every admitted hypothesis
+has a one-to-one target-blind control with exactly matched grammar depth, deterministic operation
+units, and verifier-invocation count. Against the deterministic portfolio, the live proposals add
+1 measured behavior and 3 measured proof mechanisms. That does not establish literature novelty:
+origin labels remain observations, and unsupported proposals remain retained for later compiler
+extensions rather than being discarded.
 The core now constructs one sealed creativity-first prompt context from five exact
 symmetry/dimension briefs, seven admitted typed formula kinds, six independently searched proof
 mechanisms, and four required origin-assessment labels. A core-only provider wrapper injects that

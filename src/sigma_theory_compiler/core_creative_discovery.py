@@ -70,9 +70,15 @@ from .uncertain_invariant_discovery import (
 
 CONFIG_PATH = "configs/core_creative_discovery.json"
 OUTPUT_PATH = "runs/math/core-creative-discovery/live-runtime.json"
+FAILED_CAMPAIGN_PATH = "work/core-creative-discovery/failed-live-campaign.json"
+SOURCE_PATH = "src/sigma_theory_compiler/core_creative_discovery.py"
+CLAUDE_API_SOURCE_PATH = "src/sigma_theory_compiler/claude_creativity_api.py"
+EXTERNAL_CAMPAIGN_SOURCE_PATH = (
+    "src/sigma_theory_compiler/external_creativity_validation.py"
+)
 PROMPT_CONTEXT_SOURCE_PATH = "src/sigma_theory_compiler/core_creative_prompt_context.py"
-SCHEMA_VERSION = "invariant-core-creative-discovery-runtime-2.5"
-CONFIG_SCHEMA = "invariant-core-creative-discovery-config-2.5"
+SCHEMA_VERSION = "invariant-core-creative-discovery-runtime-2.6"
+CONFIG_SCHEMA = "invariant-core-creative-discovery-config-2.6"
 
 
 class CoreCreativeDiscoveryError(ValueError):
@@ -157,6 +163,7 @@ def _load_config(root: Path) -> dict[str, Any]:
         "credential_env_var",
         "available_creative_roles",
         "required_completed_calls",
+        "required_executable_hypotheses",
         "required_first_principles_prompt_context",
         "required_model",
         "required_roles",
@@ -165,6 +172,7 @@ def _load_config(root: Path) -> dict[str, Any]:
     if (
         claude["credential_env_var"] != "ANTHROPIC_API_KEY"
         or claude["required_completed_calls"] < 8
+        or claude["required_executable_hypotheses"] < 1
         or claude["required_first_principles_prompt_context"] is not True
         or set(claude["required_roles"]) != {"proposer", "critic"}
         or set(claude["available_creative_roles"]) != {role.value for role in ClaudeRole}
@@ -276,10 +284,57 @@ def _load_bound_receipts(
     )
 
 
+def _claude_execution_summary(campaign: Mapping[str, Any]) -> dict[str, Any]:
+    records: list[Mapping[str, Any]] = []
+    contributions: list[Mapping[str, Any]] = []
+    for benchmark in campaign.get("benchmarks", []):
+        records.extend(benchmark.get("proposer_admission", {}).get("records", []))
+        contributions.append(benchmark.get("claude_contribution", {}))
+    origin_counts: dict[str, int] = {}
+    for record in records:
+        origin = str(record.get("llm_self_assessed_origin", "missing"))
+        origin_counts[origin] = origin_counts.get(origin, 0) + 1
+    measured = [
+        item
+        for item in contributions
+        if item.get("status") == "MEASURED_EXECUTABLE_CLAUDE_CONTRIBUTION"
+    ]
+    profiles_match = bool(measured) and all(
+        item.get("grammar_depth_match") is True
+        and item.get("evaluation_runtime_budget_match") is True
+        and item.get("verifier_budget_match") is True
+        for item in measured
+    )
+    return {
+        "admission_records_sha256": canonical_sha256(records),
+        "admitted_executable_hypotheses": sum(
+            record.get("status") == "ADMITTED_EXECUTABLE" for record in records
+        ),
+        "behavior_novelty_against_deterministic_count": sum(
+            int(item.get("behavior_novelty_against_deterministic_count", 0))
+            for item in contributions
+        ),
+        "llm_self_assessed_origin_counts": dict(sorted(origin_counts.items())),
+        "matched_control_profiles_verified": profiles_match,
+        "non_executable_hypotheses_retained": sum(
+            record.get("status") == "RETAINED_NON_EXECUTABLE" for record in records
+        ),
+        "proof_mechanism_novelty_against_deterministic_count": sum(
+            int(item.get("proof_mechanism_novelty_against_deterministic_count", 0))
+            for item in contributions
+        ),
+        "scored_executable_candidates": sum(
+            int(item.get("scored_executable_candidates", 0))
+            for item in contributions
+        ),
+    }
+
+
 def _validate_live_campaign(
     campaign: Mapping[str, Any],
     config: Mapping[str, Any],
     creative_context: Mapping[str, Any],
+    root: Path,
 ) -> None:
     validate_creative_prompt_context(creative_context)
     claude = campaign.get("claude", {})
@@ -304,19 +359,51 @@ def _validate_live_campaign(
         for call in calls
         if call.get("status") == "completed"
     }
-    if (
-        campaign.get("claims", {}).get("claude_used_throughout") is not True
-        or claude.get("status") != "PASS"
-        or claude.get("completed_calls") != policy["required_completed_calls"]
-        or claude.get("proposer_hypotheses", 0) < 1
-        or len(calls) != policy["required_completed_calls"]
-        or roles != set(policy["required_roles"])
-        or models != {policy["required_model"]}
-        or structured != {True}
-        or context_bindings != {creative_context["content_sha256"]}
-        or context_injected != {True}
-    ):
-        raise CoreCreativeDiscoveryError("authenticated Claude core participation failed")
+    execution = _claude_execution_summary(campaign)
+    source_bindings = campaign.get("config", {})
+    failures = []
+    checks = {
+        "campaign_schema": campaign.get("schema_version")
+        == "invariant-external-creativity-validation-result-1.1",
+        "campaign_substantive": campaign.get("claims", {}).get(
+            "claude_used_throughout"
+        )
+        is True,
+        "claude_status": claude.get("status") == "PASS",
+        "completed_call_count": claude.get("completed_calls")
+        == policy["required_completed_calls"],
+        "proposer_hypotheses_present": claude.get("proposer_hypotheses", 0) >= 1,
+        "call_trace_count": len(calls) == policy["required_completed_calls"],
+        "required_roles": roles == set(policy["required_roles"]),
+        "required_model": models == {policy["required_model"]},
+        "structured_outputs": structured == {True},
+        "prompt_context_binding": context_bindings
+        == {creative_context["content_sha256"]},
+        "prompt_context_injected": context_injected == {True},
+        "executable_hypothesis_admitted": execution[
+            "admitted_executable_hypotheses"
+        ]
+        >= policy["required_executable_hypotheses"],
+        "executable_candidate_scored": execution["scored_executable_candidates"] >= 1,
+        "matched_control_profiles": execution["matched_control_profiles_verified"]
+        is True,
+        "campaign_source_binding": source_bindings.get("source_sha256")
+        == _normalized_file_sha256(root / EXTERNAL_CAMPAIGN_SOURCE_PATH),
+        "claude_source_binding": source_bindings.get("claude_source_sha256")
+        == _normalized_file_sha256(root / CLAUDE_API_SOURCE_PATH),
+    }
+    failures.extend(name for name, passed in checks.items() if not passed)
+    if failures:
+        counts = {
+            "admitted": execution["admitted_executable_hypotheses"],
+            "calls": claude.get("completed_calls", 0),
+            "hypotheses": claude.get("proposer_hypotheses", 0),
+            "scored": execution["scored_executable_candidates"],
+        }
+        raise CoreCreativeDiscoveryError(
+            "authenticated Claude core participation failed: "
+            f"{','.join(failures)}; counts={json.dumps(counts, sort_keys=True)}"
+        )
 
 
 def run_core(
@@ -374,7 +461,17 @@ def run_core(
             environment=environment,
         ) as activation:
             campaign = dict(runner(root, creative_prompt_context))
-            _validate_live_campaign(campaign, config, creative_prompt_context)
+            try:
+                _validate_live_campaign(campaign, config, creative_prompt_context, root)
+            except CoreCreativeDiscoveryError:
+                failed_output = root / FAILED_CAMPAIGN_PATH
+                failed_output.parent.mkdir(parents=True, exist_ok=True)
+                failed_output.write_text(
+                    json.dumps(campaign, indent=2, sort_keys=True) + "\n",
+                    encoding="utf-8",
+                )
+                raise
+            claude_execution = _claude_execution_summary(campaign)
             idea_archive = build_idea_archive(campaign)
             creative_expansion = build_creative_expansion(idea_archive, proof_plan_search)
             live_evidence = build_evidence_from_receipt(
@@ -396,6 +493,20 @@ def run_core(
         "schema_version": SCHEMA_VERSION,
         "app_id": config["app_id"],
         "source_bindings": {
+            "core_application_source": {
+                "path": SOURCE_PATH,
+                "sha256": _normalized_file_sha256(root / SOURCE_PATH),
+            },
+            "claude_api_source": {
+                "path": CLAUDE_API_SOURCE_PATH,
+                "sha256": _normalized_file_sha256(root / CLAUDE_API_SOURCE_PATH),
+            },
+            "external_campaign_source": {
+                "path": EXTERNAL_CAMPAIGN_SOURCE_PATH,
+                "sha256": _normalized_file_sha256(
+                    root / EXTERNAL_CAMPAIGN_SOURCE_PATH
+                ),
+            },
             "config": {
                 "path": CONFIG_PATH,
                 "sha256": _normalized_file_sha256(root / CONFIG_PATH),
@@ -462,6 +573,7 @@ def run_core(
             "authenticated_messages_api_working": True,
             "available_creative_roles": sorted(config["claude"]["available_creative_roles"]),
             "completed_calls": live_evidence["usage"]["calls"],
+            "executable_contribution": claude_execution,
             "evidence": live_evidence,
             "model": config["claude"]["required_model"],
             "roles_completed": sorted(config["claude"]["required_roles"]),
@@ -718,6 +830,7 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
             "invariant-core-creative-discovery-runtime-2.2",
             "invariant-core-creative-discovery-runtime-2.3",
             "invariant-core-creative-discovery-runtime-2.4",
+            "invariant-core-creative-discovery-runtime-2.5",
             SCHEMA_VERSION,
         }
         or previous.get("app_id") != "invariant.core-creative-discovery"
@@ -731,6 +844,14 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
         runtime.get("status") != "PASS_REQUIRED_CORE_PARTICIPATION"
         or runtime.get("authenticated_messages_api_working") is not True
         or runtime.get("completed_calls", 0) < 8
+        or runtime.get("executable_contribution", {}).get(
+            "scored_executable_candidates", 0
+        )
+        < 1
+        or runtime.get("executable_contribution", {}).get(
+            "matched_control_profiles_verified"
+        )
+        is not True
         or credential.get("credential_persisted") is not False
         or credential.get("credential_value_recorded") is not False
     ):
@@ -763,6 +884,18 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
     value = deepcopy(dict(previous))
     value["schema_version"] = SCHEMA_VERSION
     value["source_bindings"] = {
+        "core_application_source": {
+            "path": SOURCE_PATH,
+            "sha256": _normalized_file_sha256(root / SOURCE_PATH),
+        },
+        "claude_api_source": {
+            "path": CLAUDE_API_SOURCE_PATH,
+            "sha256": _normalized_file_sha256(root / CLAUDE_API_SOURCE_PATH),
+        },
+        "external_campaign_source": {
+            "path": EXTERNAL_CAMPAIGN_SOURCE_PATH,
+            "sha256": _normalized_file_sha256(root / EXTERNAL_CAMPAIGN_SOURCE_PATH),
+        },
         "config": {"path": CONFIG_PATH, "sha256": _normalized_file_sha256(root / CONFIG_PATH)},
         "prompt_context_source": {
             "path": PROMPT_CONTEXT_SOURCE_PATH,
@@ -1010,10 +1143,14 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
         raise CoreCreativeDiscoveryError("core runtime receipt schema changed")
     runtime = value.get("claude_runtime", {})
     credential = value.get("credential_activation", {})
+    executable = runtime.get("executable_contribution", {})
     if (
         runtime.get("status") != "PASS_REQUIRED_CORE_PARTICIPATION"
         or runtime.get("authenticated_messages_api_working") is not True
         or runtime.get("completed_calls", 0) < 8
+        or executable.get("admitted_executable_hypotheses", 0) < 1
+        or executable.get("scored_executable_candidates", 0) < 1
+        or executable.get("matched_control_profiles_verified") is not True
         or set(runtime.get("available_creative_roles", [])) != {role.value for role in ClaudeRole}
         or credential.get("credential_persisted") is not False
         or credential.get("credential_value_recorded") is not False
@@ -1213,6 +1350,18 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
             "sha256"
         ) != _normalized_file_sha256(root / PROMPT_CONTEXT_SOURCE_PATH):
             raise CoreCreativeDiscoveryError("core prompt context source binding changed")
+        for key, expected_path in (
+            ("core_application_source", SOURCE_PATH),
+            ("claude_api_source", CLAUDE_API_SOURCE_PATH),
+            ("external_campaign_source", EXTERNAL_CAMPAIGN_SOURCE_PATH),
+        ):
+            source_binding = bindings.get(key, {})
+            if source_binding.get("path") != expected_path or source_binding.get(
+                "sha256"
+            ) != _normalized_file_sha256(root / expected_path):
+                raise CoreCreativeDiscoveryError(
+                    f"core executable source binding changed: {key}"
+                )
         for key in (
             "component_knockout_preflight_receipt",
             "dataset_challenge_receipt",

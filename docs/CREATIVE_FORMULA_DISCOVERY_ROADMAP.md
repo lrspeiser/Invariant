@@ -6,7 +6,7 @@
 - Two externally sourced bounded-unknown sequence controls do not have a zero-loss candidate.
 - The core app discovered the credential through its default machine-local `~/.invariant.env`
   path without persisting it and completed four blind Claude proposer calls plus four post-proposal
-  critic calls on `claude-opus-4-6`. The sanitized receipt records 88,512 tokens and no key,
+  critic calls on `claude-opus-4-6`. The sanitized receipt records 89,202 tokens and no key,
   credential value, or credential-file path.
 - The live core run used a sealed creativity-first prompt context: five exact
   symmetry/dimension briefs containing six coordinates, seven typed formula kinds, six
@@ -14,20 +14,27 @@
   and the four origin labels are injected into every provider request. Per-call evidence must bind
   the same context hash. All eight distinct response IDs bind the current hash and the receipt
   reports `PASS_CONTEXT_BOUND_TO_AUTHENTICATED_CALLS`.
-- Those calls produced 30 schema-admitted ideas: 15 model-self-assessed known rewrites, 5 proposed
-  new constructions, and 10 uncertain. All 30 remain active; none were discarded for their label or
-  verifier status.
-- None of the 30 became an executable benchmark candidate in this specimen; every benchmark
-  summary reports zero Claude-executable candidates. One `proposed_new_construction` branch
-  identifies Recamán's sequence in its own rationale, so model origin labels are evidence to retain,
-  never novelty authority. Executable translation and matched-control contribution are the next
-  creative bottlenecks.
+- Those calls produced 29 schema-admitted ideas: 13 model-self-assessed known rewrites, 6 proposed
+  new constructions, 9 uncertain branches, and 1 cross-domain synthesis. All 29 remain active;
+  none were discarded for their label or verifier status.
+- A typed compiler admitted 6 model hypotheses and scored 3 distinct executable candidates. The
+  four benchmark summaries contain 1, 2, 0, and 0 Claude-executable candidates respectively. Each
+  admitted proposal is paired one-to-one with a target-blind control having the same grammar depth,
+  deterministic operation units, and verifier-invocation count; the receipt verifies every profile
+  match. The live candidates add 1 behavior and 3 proof mechanisms beyond the deterministic
+  portfolio. These are measured contributions, not novelty verdicts: model origin labels are
+  evidence to retain, never authority about the literature.
+- The compiler currently accepts bounded symbolic expressions, invariant relations, linear
+  recurrences, finite sums/products, rational generating functions, and modular relations. Tensor,
+  transform, and variational proposals that do not yet compile are retained with explicit admission
+  failures instead of being pruned.
 - The provider adapter now losslessly stages proposer branches 17 through 64 around the frozen
   16-branch parser and reattaches them before lineage. A 24-branch control exercises eight overflow
   branches; the latest stochastic live run stayed below the legacy per-response threshold.
-- Independent expansion produced 180 proof-plan branches and 64 cross-idea recombination branches.
-  The six plan templates now come from candidate-independent executable tactic-graph searches;
-  all six abstract positives close and all six essential-tactic-removal mutations stay open. A
+- Independent expansion produced 174 proof-plan branches and 64 cross-idea recombination branches.
+  The candidate-independent registry spans induction, invariant strengthening, bijection, descent,
+  transforms, contradiction, exact arithmetic, CAS, SMT, interval, and Lean routes. Its bounded
+  controls close the required positives and leave essential-tactic-removal mutations open. A
   separate feature join retains both applicable and not-yet-applicable plans. This is one treatment
   specimen and search calibration, not evidence that the system is more creative or that a
   candidate theorem is proved.
@@ -329,9 +336,11 @@ This is evidence of bounded rediscovery, not evidence of mathematical novelty.
 
 1. Obtain two named blinded reviewers for the clean 353-branch packet, seal their complete forms,
    and score the bounded rotation; record disagreements before unblinding system identity.
-2. After explicit approval, run each preregistered component knockout through the one-experiment
+2. Run the preregistered old-vs-new matched-control comparison and, after explicit approval, each
+   component knockout through the one-experiment
    executor under its 96-call / 400,000-token ceiling and the same attempt-journal and review rules.
-3. Rotate the first external tensor and variational task slice across additional upstream projects
+3. Extend the typed LLM compiler to tensor, transform, and variational proposals, then rotate that
+   task slice across additional upstream projects
    and obtain a detached signature from a distinct pack principal before level-5 use.
 4. Expand the first four externally supplied dataset challenges to additional independent
    principals, richer noise and missingness models, and learned invariant proposals while retaining
