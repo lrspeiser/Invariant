@@ -34,8 +34,8 @@ from .claude_creativity_api import (
     ClaudeHypothesis,
     ClaudeRole,
     Transport,
-    urllib_transport,
 )
+from .external_claude_transport import ProviderCompatibleClaudeTransport
 from .independent_exact_evaluator import (
     IndependentEvaluationError,
 )
@@ -52,6 +52,7 @@ CAMPAIGN_CONFIG_PATH = "configs/external_creativity_validation_campaign.json"
 OUTPUT_PATH = "runs/math/external-creativity-validation/campaign.json"
 SOURCE_PATH = "src/sigma_theory_compiler/external_creativity_validation.py"
 CLAUDE_SOURCE_PATH = "src/sigma_theory_compiler/claude_creativity_api.py"
+CLAUDE_TRANSPORT_SOURCE_PATH = "src/sigma_theory_compiler/external_claude_transport.py"
 INDEPENDENT_EVALUATOR_PATH = "src/sigma_theory_compiler/independent_exact_evaluator.py"
 LEAN_SOURCE_PATH = "formal/lean/ExternalKnownFormulaControls.lean"
 TEST_PATH = "tests/test_external_creativity_validation.py"
@@ -1216,7 +1217,7 @@ def run_campaign(
     root: Path,
     *,
     live_claude: bool = False,
-    claude_transport: Transport = urllib_transport,
+    claude_transport: Transport | None = None,
 ) -> dict[str, Any]:
     root = root.resolve()
     config = _load_campaign_config(root, live_claude=live_claude)
@@ -1232,11 +1233,20 @@ def run_campaign(
     deterministic = {item.benchmark_id: list(generate_candidates(item, maximum)) for item in benchmarks}
     event("deterministic_creativity_families_generated", target_reads=0)
 
-    client = ClaudeCreativityClient(config["claude_api"], claude_transport)
+    transport = claude_transport or ProviderCompatibleClaudeTransport()
+    client = ClaudeCreativityClient(config["claude_api"], transport)
     claude_calls: list[ClaudeCallResult] = []
     claude_admission: dict[str, dict[str, int]] = {}
     for benchmark in benchmarks:
         call = client.run(ClaudeRole.PROPOSER, benchmark.blind_id, benchmark.generation_view())
+        if isinstance(transport, ProviderCompatibleClaudeTransport):
+            call = replace(
+                call,
+                evidence={
+                    **call.evidence,
+                    **transport.evidence_for(str(call.evidence.get("api_response_id", ""))),
+                },
+            )
         claude_calls.append(call)
         hypotheses = () if call.output is None else call.output.hypotheses
         admitted = tuple(
@@ -1282,6 +1292,14 @@ def run_campaign(
             benchmark.generation_view(),
             candidate_summaries=train_summaries[benchmark.benchmark_id],
         )
+        if isinstance(transport, ProviderCompatibleClaudeTransport):
+            call = replace(
+                call,
+                evidence={
+                    **call.evidence,
+                    **transport.evidence_for(str(call.evidence.get("api_response_id", ""))),
+                },
+            )
         claude_calls.append(call)
     event("claude_blind_critique_completed_or_blocked", target_reads=0)
 
@@ -1430,6 +1448,9 @@ def run_campaign(
         "config": {
             "campaign_sha256": _file_sha256(root / CAMPAIGN_CONFIG_PATH),
             "claude_source_sha256": _file_sha256(root / CLAUDE_SOURCE_PATH),
+            "claude_transport_source_sha256": _file_sha256(
+                root / CLAUDE_TRANSPORT_SOURCE_PATH
+            ),
             "independent_evaluator_sha256": _file_sha256(root / INDEPENDENT_EVALUATOR_PATH),
             "lean_source_sha256": _file_sha256(root / LEAN_SOURCE_PATH),
             "public_benchmarks_sha256": _file_sha256(root / PUBLIC_CONFIG_PATH),

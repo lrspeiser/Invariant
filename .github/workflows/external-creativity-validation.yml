@@ -6,6 +6,7 @@ on:
       - ".github/workflows/external-creativity-validation.yml"
       - "configs/external_*creativity*.json"
       - "configs/core_creative_discovery.json"
+      - "configs/expanded_typed_grammar.json"
       - "configs/creative_dataset_challenges.json"
       - "configs/creativity_ablation_protocol.json"
       - "configs/creativity_confirmatory_generation.json"
@@ -29,7 +30,11 @@ on:
       - "src/sigma_theory_compiler/idea_lineage.py"
       - "src/sigma_theory_compiler/rotating_external_benchmarks.py"
       - "src/sigma_theory_compiler/external_creativity_*.py"
+      - "src/sigma_theory_compiler/external_claude_transport.py"
+      - "src/sigma_theory_compiler/expanded_math_*.py"
       - "src/sigma_theory_compiler/independent_exact_evaluator.py"
+      - "src/sigma_theory_compiler/math_canonicalizer.py"
+      - "src/sigma_theory_compiler/math_expression_ir.py"
       - "tests/test_claude_creativity_api.py"
       - "tests/test_core_*.py"
       - "tests/test_creative_expansion.py"
@@ -41,11 +46,16 @@ on:
       - "tests/test_dataset_challenge_suite.py"
       - "tests/test_declarative_discovery_*.py"
       - "tests/test_external_creativity_*.py"
+      - "tests/test_external_claude_transport.py"
+      - "tests/test_expanded_math_grammar.py"
       - "tests/test_independent_exact_evaluator.py"
       - "tests/test_rotating_external_benchmarks.py"
       - "runs/math/claim-specific-prior-art/**"
       - "runs/math/creativity-tournament/**"
       - "runs/math/creativity-confirmatory/**"
+      - "runs/math/core-creative-discovery/**"
+      - "runs/math/expanded-typed-grammar/**"
+      - "runs/math/external-creativity-validation/**"
       - "runs/math/rotating-external-benchmarks/**"
   push:
     branches: [main]
@@ -53,6 +63,7 @@ on:
       - ".github/workflows/external-creativity-validation.yml"
       - "configs/external_*creativity*.json"
       - "configs/core_creative_discovery.json"
+      - "configs/expanded_typed_grammar.json"
       - "configs/creative_dataset_challenges.json"
       - "configs/creativity_ablation_protocol.json"
       - "configs/creativity_confirmatory_generation.json"
@@ -76,7 +87,11 @@ on:
       - "src/sigma_theory_compiler/idea_lineage.py"
       - "src/sigma_theory_compiler/rotating_external_benchmarks.py"
       - "src/sigma_theory_compiler/external_creativity_*.py"
+      - "src/sigma_theory_compiler/external_claude_transport.py"
+      - "src/sigma_theory_compiler/expanded_math_*.py"
       - "src/sigma_theory_compiler/independent_exact_evaluator.py"
+      - "src/sigma_theory_compiler/math_canonicalizer.py"
+      - "src/sigma_theory_compiler/math_expression_ir.py"
       - "tests/test_claude_creativity_api.py"
       - "tests/test_core_*.py"
       - "tests/test_creative_expansion.py"
@@ -88,11 +103,16 @@ on:
       - "tests/test_dataset_challenge_suite.py"
       - "tests/test_declarative_discovery_*.py"
       - "tests/test_external_creativity_*.py"
+      - "tests/test_external_claude_transport.py"
+      - "tests/test_expanded_math_grammar.py"
       - "tests/test_independent_exact_evaluator.py"
       - "tests/test_rotating_external_benchmarks.py"
       - "runs/math/claim-specific-prior-art/**"
       - "runs/math/creativity-tournament/**"
       - "runs/math/creativity-confirmatory/**"
+      - "runs/math/core-creative-discovery/**"
+      - "runs/math/expanded-typed-grammar/**"
+      - "runs/math/external-creativity-validation/**"
       - "runs/math/rotating-external-benchmarks/**"
   workflow_dispatch:
 
@@ -120,11 +140,13 @@ jobs:
           tests/test_claude_creativity_api.py
           tests/test_independent_exact_evaluator.py
           tests/test_external_creativity_validation.py
+          tests/test_external_claude_transport.py
           tests/test_external_creativity_lean_bridge.py
           tests/test_external_creativity_live_evidence.py
           tests/test_external_creativity_multi_host.py
           tests/test_core_credential.py
           tests/test_core_creative_discovery.py
+          tests/test_expanded_math_grammar.py
           tests/test_creative_expansion.py
           tests/test_creativity_ablation.py
           tests/test_creativity_confirmatory_generation.py

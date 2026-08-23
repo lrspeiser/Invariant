@@ -1,0 +1,31 @@
+{
+  "schema_version": "invariant-expanded-typed-grammar-config-1.0",
+  "grammar_id": "invariant.math.expanded-exact-grammar-v1",
+  "admitted_formula_kinds": [
+    "finite_product",
+    "finite_sum",
+    "generating_function",
+    "modular_relation",
+    "recurrence",
+    "tensor_identity",
+    "variational_functional"
+  ],
+  "resource_limits": {
+    "maximum_expression_nodes": 512,
+    "maximum_finite_terms": 64,
+    "maximum_tensor_components": 256,
+    "maximum_tensor_rank": 4,
+    "maximum_polynomial_power_for_independent_variational_evaluator": 8
+  },
+  "evaluator_policy": {
+    "exact_primary_and_independent_agreement_required": true,
+    "mutation_must_fail_both_evaluators": true,
+    "positive_control_required_for_every_kind": true,
+    "sympy_forbidden_in_independent_evaluator": true
+  },
+  "claim_boundary": {
+    "control_pass_establishes_literature_novelty": false,
+    "grammar_admission_establishes_formula_correctness": false,
+    "llm_output_can_extend_executable_grammar_without_review": false
+  }
+}

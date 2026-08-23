@@ -12,9 +12,15 @@ import sympy as sp
 from .math_expression_ir import (
     Equation,
     Expression,
+    FiniteProduct,
+    FiniteSum,
     Formula,
+    GeneratingFunction,
     Inequality,
+    ModularRelation,
     Recurrence,
+    TensorIdentity,
+    VariationalFunctional,
     add,
     call,
     expression_to_data,
@@ -176,6 +182,53 @@ def canonicalize_formula(formula: Formula) -> Formula:
                 (index, canonicalize_expression(value))
                 for index, value in sorted(formula.initial_conditions)
             ),
+        )
+    if isinstance(formula, FiniteSum):
+        return FiniteSum(
+            formula.index,
+            formula.lower,
+            formula.upper,
+            canonicalize_expression(formula.summand),
+            canonicalize_expression(formula.claimed_value),
+        )
+    if isinstance(formula, FiniteProduct):
+        return FiniteProduct(
+            formula.index,
+            formula.lower,
+            formula.upper,
+            canonicalize_expression(formula.factor),
+            canonicalize_expression(formula.claimed_value),
+        )
+    if isinstance(formula, GeneratingFunction):
+        return GeneratingFunction(
+            formula.sequence,
+            formula.variable,
+            tuple(canonicalize_expression(item) for item in formula.coefficients),
+            canonicalize_expression(formula.claimed_value),
+        )
+    if isinstance(formula, ModularRelation):
+        return ModularRelation(
+            canonicalize_expression(formula.left),
+            canonicalize_expression(formula.right),
+            formula.modulus,
+        )
+    if isinstance(formula, TensorIdentity):
+        return TensorIdentity(
+            formula.tensor_name,
+            formula.shape,
+            formula.variance,
+            tuple(canonicalize_expression(item) for item in formula.left_components),
+            tuple(canonicalize_expression(item) for item in formula.right_components),
+            formula.symmetries,
+        )
+    if isinstance(formula, VariationalFunctional):
+        return VariationalFunctional(
+            formula.field,
+            formula.coordinate,
+            formula.first_derivative,
+            formula.second_derivative,
+            canonicalize_expression(formula.integrand),
+            canonicalize_expression(formula.claimed_euler_lagrange),
         )
     raise CanonicalizationError(f"unsupported formula: {type(formula).__name__}")
 

@@ -1191,10 +1191,27 @@ passed.
 The current bounded result rediscovers the two known formulas but finds no zero-loss law for either
 unknown sequence. Consequently the level-5 success count is zero and famous-open-problem spending
 is blocked. A second exact evaluator implemented with only Python AST and `Fraction` agrees with the
-primary evaluator. Windows/Linux CI and the Lean kernel job are the pending independent-host gates.
-Human prior-art review is mandatory before any serious or novelty claim can be released.
+primary evaluator. Downloaded CI artifacts bind four distinct GitHub-hosted ephemeral runner IDs
+across Windows and Linux plus the Lean kernel job; this is multi-host VM reproduction, not proof of
+distinct bare-metal machines. Human prior-art review is mandatory before any serious or novelty
+claim can be released.
 The implementation backlog and promotion criteria are listed in
 [`docs/CREATIVE_FORMULA_DISCOVERY_ROADMAP.md`](docs/CREATIVE_FORMULA_DISCOVERY_ROADMAP.md).
+
+The core runtime now binds seven first-class executable formula kinds: recurrences, generating
+functions, finite sums, finite products, modular relations, tensor identities, and first-order
+variational functionals. Each kind has a positive control, a negative mutation, explicit resource
+limits, serialization, and two evaluator implementations. The control receipt passes 7/7 without
+claiming that grammar admission proves a formula or establishes novelty.
+
+The latest live core health receipt loaded `ANTHROPIC_API_KEY` from the explicitly supplied
+machine-local env file, removed it after the dynamic run, and completed four proposer plus four
+critic calls on `claude-opus-4-6`. It used 51,599 tokens and retained all 21 schema-admitted ideas:
+9 model-self-assessed known rewrites, one proposed new construction, and 11 uncertain. Independent
+expansion retained 126 proof plans and 64 recombination branches. These are one live treatment
+specimen and runtime-health evidence, not a creativity win. The receipt stores hashes and usage
+evidence, not the credential,
+env-file path, or raw prompts and outputs.
 
 The first live rotating evaluation pack contains 24 anonymized tasks built from independently
 maintained OEIS b-files: four each for recurrence, generating-function, finite-sum, finite-product,
@@ -1208,7 +1225,8 @@ provenance separate. Its first live screen corrected one model-self-assessed `un
 all 18 terms match OEIS A005132. Crossref and arXiv responded, Semantic Scholar rate-limited the
 request, and every response or failure is sealed. The formula and proof remain unresolved until a
 specifically named human reviews the nearest matches; automated absence can never authorize
-novelty language.
+novelty language. The reviewed idea is bound through an immutable, commit-anchored lineage snapshot
+rather than a mutable latest-runtime path.
 
 The paired tournament runner compares the frozen pre-creativity baseline with the creativity-first
 policy on all 24 rotating tasks. It interleaves arms, gives each arm the same Opus model, effort,
@@ -1270,6 +1288,17 @@ Run the replayable, network-free campaign with:
 sigma-external-creativity --output runs/math/external-creativity-validation/campaign.json
 ```
 
+Run the authenticated core health campaign with the machine-local credential file, then replay its
+sanitized receipt without network access:
+
+```powershell
+sigma-core-discovery run --root . `
+  --credential-file $env:USERPROFILE\.invariant.env `
+  --output runs/math/core-creative-discovery/live-runtime.json
+sigma-core-discovery validate --root . `
+  --receipt runs/math/core-creative-discovery/live-runtime.json
+```
+
 Revalidate the network-free live receipts with:
 
 ```powershell
@@ -1284,7 +1313,7 @@ Run or resume the paired live generation stage with the machine-local credential
 
 ```powershell
 sigma-creativity-tournament run --root . `
-  --credential-file C:\Users\henry\.invariant.env `
+  --credential-file $env:USERPROFILE\.invariant.env `
   --review-output runs/math/creativity-tournament/paired-review-packet.json `
   --receipt-output runs/math/creativity-tournament/paired-generation-receipt.json `
   --coordinator-output work/creativity-tournament/private-coordinator.json
