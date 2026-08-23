@@ -235,16 +235,21 @@ This is evidence of bounded rediscovery, not evidence of mathematical novelty.
   positive and mutation evidence. A bounded declaration engine computes exact dimensional and
   symmetry quotient coordinates in five domains with two independent rank/nullspace methods. An
   exact transformation learner now recovers one multi-coordinate diagonal-action subspace without
-  target exponents and retains shifted and underdetermined outcomes. Noisy/missing/censored action
-  learning, nonlinear actions, and signed external principals remain.
+  target exponents and retains shifted and underdetermined outcomes. A second target-blind learner
+  now constructs bounded polynomial features directly from exact before/after state pairs. It
+  recovers a squared-radius coordinate, two algebraically independent 2x2 conjugation coordinates,
+  and a nonlinear parabolic-shear coordinate without action matrices, group parameters, or target
+  coefficients. Noisy/missing/censored action learning, higher-degree/rational actions, and signed
+  external principals remain.
 - Normalize declared units and propagate unit uncertainty.
-- Generalize the exact learned diagonal-action controls to matrix and nonlinear group actions;
-  add residual channels, finite-difference channels, and
-  out-of-distribution splits to the same executable pipeline.
+- Generalize the exact state-pair matrix/nonlinear controls beyond degree-two polynomial
+  invariants; add residual channels, finite-difference channels, and out-of-distribution splits to
+  the same executable pipeline.
 - Accept causal language only when intervention data or a defensible identification design exists;
   observational rows must never be relabelled as interventions.
-- Extend the current declared diagonal symmetry actions to matrix/nonlinear group actions and
-  executable equivariance tests rather than relying only on coordinate names.
+- Extend declared symmetry actions to matrix/nonlinear group generators and executable
+  equivariance tests; the new state-pair learner infers invariant polynomials but does not recover
+  the generator or prove invariance outside the registered pairs.
 - Model measurement noise, missingness, censoring, dependence, and dataset shift before fitting.
 - Include synthetic identifiability controls where the correct result is “underdetermined.”
 

@@ -1257,6 +1257,17 @@ rank-deficient control retains all three candidate coordinates and reports
 sealed control targets are separate hash-bound files, and the learner API never accepts the target.
 All three briefs—identified, rejected/repairable, and underdetermined—are injected into future core
 Claude calls so failure evidence expands or repairs the search tree rather than pruning it.
+An exact state-pair learner now removes the diagonal-action restriction for bounded polynomial
+controls. It receives rational before/after states and a degree ceiling, but no transformation
+matrix, group parameter, named invariant, or target coefficients. Fraction RREF and SymPy agree on
+every learned nullspace. From held-out orthogonal pairs it learns `x**2 + y**2`; from flattened 2x2
+conjugation pairs it learns the three-dimensional degree-two linear invariant space and uses exact
+Jacobian-rank witnesses to retain trace and determinant as two algebraically independent creative
+coordinates rather than presenting trace-squared as a third independent idea; from nonlinear
+parabolic-shear pairs it learns `y - x**2`. All five learned basis polynomials survive deployment
+replay. These are known-answer calibration actions, not new theorems or empirical laws. Their three
+source-bound briefs reach future core Claude calls while noisy, missing, censored, higher-degree,
+and externally signed transformation data remain open.
 The live provider adapter also preserves high-output proposer calls: branches 17 through 64 are
 temporarily staged around the frozen 16-branch legacy parser and reattached before lineage,
 behavior deduplication, or persistence. A 24-branch mutation control proves the overflow path; the
