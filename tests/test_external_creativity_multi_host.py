@@ -23,9 +23,9 @@ def test_downloaded_multi_host_receipt_is_sealed_and_cross_platform() -> None:
         "ubuntu-latest",
         "windows-latest",
     ]
-    assert value["acquisition"]["workflow_run_id"] == 32665262031
-    assert value["head_sha"] == "5938f61d52ede7809c278b409425e72ae8815e9b"
-    assert value["lean"]["artifact_id"] == 9499840254
+    assert value["acquisition"]["workflow_run_id"] == 32673437653
+    assert value["head_sha"] == "cf8cd762b6ec166f5b4fe95bc35cab10afe5ee11"
+    assert value["lean"]["artifact_id"] == 9502029312
     assert value["lean"]["kernel_checked"]
     assert not value["claim_boundary"]["physical_bare_metal_identity_claimed"]
 

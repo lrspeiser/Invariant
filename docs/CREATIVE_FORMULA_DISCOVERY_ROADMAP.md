@@ -69,9 +69,9 @@
   new candidate or permission to release a serious claim.
 - Downloaded artifacts bind four distinct GitHub-hosted ephemeral VM runner IDs across Windows and
   Linux, with two evaluator implementations per host and a separate Lean kernel artifact. The
-  current receipt binds successful post-merge run `32665262031` at
-  `5938f61d52ede7809c278b409425e72ae8815e9b`. This is multi-host VM reproduction, not a claim about
-  distinct bare-metal machines.
+  current receipt binds successful post-merge run `32673437653` at
+  `cf8cd762b6ec166f5b4fe95bc35cab10afe5ee11`, which includes the executable-LLM core. This is
+  multi-host VM reproduction, not a claim about distinct bare-metal machines.
 - No novel formula, proof, theorem, scientific law, or open-problem result is claimed.
 - The famous-open-problem gate is closed: zero of three required independent level-5 successes.
 - A live rotating pack now binds 24 distinct OEIS b-file response hashes, with four tasks each for

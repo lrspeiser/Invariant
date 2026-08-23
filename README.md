@@ -1192,9 +1192,9 @@ The current bounded result rediscovers the two known formulas but finds no zero-
 unknown sequence. Consequently the level-5 success count is zero and famous-open-problem spending
 is blocked. A second exact evaluator implemented with only Python AST and `Fraction` agrees with the
 primary evaluator. Downloaded CI artifacts bind four distinct GitHub-hosted ephemeral runner IDs
-across Windows and Linux plus the Lean kernel job from successful post-merge run `32665262031` at
-`5938f61d52ede7809c278b409425e72ae8815e9b`; this is multi-host VM reproduction, not proof of
-distinct bare-metal machines. Human prior-art review is mandatory before any serious or novelty
+across Windows and Linux plus the Lean kernel job from successful post-merge run `32673437653` at
+`cf8cd762b6ec166f5b4fe95bc35cab10afe5ee11`; this is multi-host VM reproduction of the executable-LLM
+core, not proof of distinct bare-metal machines. Human prior-art review is mandatory before any serious or novelty
 claim can be released.
 The implementation backlog and promotion criteria are listed in
 [`docs/CREATIVE_FORMULA_DISCOVERY_ROADMAP.md`](docs/CREATIVE_FORMULA_DISCOVERY_ROADMAP.md).
@@ -1535,8 +1535,8 @@ The serious-claim ladder binds one candidate scope through the ordered exact-ari
 interval, and Lean stages. Its stored calibration joins the two externally authored known-formula
 controls to the downloaded kernel artifact, independently reruns the first four positive checks, and
 rejects an exact unit-offset wrong formula for both controls in exact arithmetic, CAS, SMT, and
-interval arithmetic. GitHub Actions run `32665262031` additionally kernel-rejects both corresponding
-Lean false theorems; the downloaded payload, artifact ID `9499840254`, archive digest, source hashes,
+interval arithmetic. GitHub Actions run `32673437653` additionally kernel-rejects both corresponding
+Lean false theorems; the downloaded payload, artifact ID `9502029312`, archive digest, source hashes,
 head commit, runner identity, and two rejection receipts are bound into the stored ladder. It also
 blocks both bounded-unknown controls and rejects stage deletion, reordering, candidate substitution,
 broken predecessor links, and unavailable backends. This completes all five wrong-formula backend
