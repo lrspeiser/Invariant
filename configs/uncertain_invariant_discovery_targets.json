@@ -1,0 +1,27 @@
+{
+  "schema_version": "invariant-uncertain-invariant-discovery-targets-1.0",
+  "campaign_id": "uncertain-invariant-controls-2026-08-23-001",
+  "controls": [
+    {
+      "problem_id": "control.noisy-ratio-action",
+      "expected_training_candidate_set": [[1, 1, -1], [2, -1, 0], [1, -2, 1]],
+      "expected_deployment_survivor_set": [[1, 1, -1]],
+      "expected_deployment_failed_candidates": 2,
+      "expected_status": "NOISY_RETAIN_INTERVAL_COMPATIBLE_SET"
+    },
+    {
+      "problem_id": "control.missing-ratio-action",
+      "expected_training_candidate_set": [[1, 1, -1]],
+      "expected_deployment_survivor_set": [[1, 1, -1]],
+      "expected_deployment_failed_candidates": 0,
+      "expected_status": "MISSINGNESS_RETAIN_PARTIALLY_OBSERVED_SET"
+    },
+    {
+      "problem_id": "control.censored-ratio-action",
+      "expected_training_candidate_set": [[1, 1, -1], [1, -2, 1]],
+      "expected_deployment_survivor_set": [[1, 1, -1]],
+      "expected_deployment_failed_candidates": 1,
+      "expected_status": "CENSORED_RETAIN_SET_VALUED_CANDIDATES"
+    }
+  ]
+}
