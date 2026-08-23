@@ -7,6 +7,11 @@
 - The core app loaded the explicitly supplied machine credential without persisting it and completed
   four blind Claude proposer calls plus four post-proposal critic calls on `claude-opus-4-6`. The
   sanitized receipt records 48,534 tokens and no key or credential-file path.
+- The next live core run now has a sealed creativity-first prompt context: four exact
+  symmetry/dimension briefs, seven typed formula kinds, six candidate-independent proof routes,
+  and the four origin labels are injected into every provider request. Per-call evidence must bind
+  the same context hash. The preserved eight-call receipt predates that context and is explicitly
+  marked ready-but-not-yet-live rather than being relabelled as evidence of prompt consumption.
 - Those calls produced 17 schema-admitted ideas: 8 model-self-assessed known rewrites, 1 proposed
   new construction, and 8 uncertain. All 17 remain active; none were discarded for their label or
   verifier status.
@@ -68,8 +73,10 @@
   Kepler, diffusion, and Reynolds systems from dimension rows plus explicit nuisance symmetries.
   Fraction Gaussian elimination and SymPy exact nullspaces agree on all four one-dimensional
   quotients. Exponent mutations are rejected, and deleting a nuisance action increases nullity and
-  admits the nuisance variable. The output is an LLM-ready creative constraint brief with the four
-  origin labels, but it deliberately leaves `F(pi_1)` arbitrary and makes no law or novelty claim.
+  admits the nuisance variable. The output is a creative constraint brief with the four origin
+  labels. The core provider path now consumes the sealed brief set on every future live call, but
+  the checked-in authenticated calls predate that wiring. It deliberately leaves `F(pi_1)`
+  arbitrary and makes no law or novelty claim.
 - A live claim-specific screen queried OEIS, Crossref, arXiv, Semantic Scholar, and the repository
   for one retained `uncertain` LLM idea. OEIS matched all 18 displayed terms to A005132; Semantic
   Scholar's HTTP 429 is preserved as unavailable evidence. This calibrates the model label at the
@@ -181,6 +188,10 @@ This is evidence of bounded rediscovery, not evidence of mathematical novelty.
 
 ### 4. Use Claude throughout creativity while keeping it non-authoritative
 
+- A core-only provider wrapper now injects the sealed first-principles/grammar/proof context into
+  every proposer and critic call and binds its exact hash to provider evidence. Run the next
+  authenticated eight-call core campaign to replace the current ready-but-not-yet-live context
+  status; do not infer execution from the deterministic prompt-contract tests.
 - Make structured roles available for proposing, analogy scouting, representation invention,
   dataset explanation, proof strategy, recombination, and critique.
 - Use structured critic calls only after train evidence is frozen, supplying exact residuals and
