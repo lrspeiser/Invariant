@@ -1229,6 +1229,41 @@ eligible for rubric calibration and blinded pilot review but ineligible for the 
 old-vs-new decision. A clean new rotation must persist every attempt and count contract failures as
 outcomes.
 
+That clean confirmatory rotation is now generated. It completed exactly 96 scheduled Opus calls
+with zero retries and zero replacements, used 361,460 tokens, and sealed 48 blinded outputs with 353
+branches. One output with no admitted idea is preserved as a counted outcome. The generation
+receipt is eligible for review, but it is not yet a creativity result: all 353 branch rows still need
+scores from two specifically named reviewers. The scorer validates and seals both complete forms
+before it opens the ignored private arm map. It behavior-deduplicates the primary measure, reports
+proof-mechanism diversity separately, and keeps literature-novelty and system-wide-superiority
+claims closed regardless of the outcome of this one rotation.
+
+Create separate arm-free drafts for each reviewer:
+
+```powershell
+sigma-creativity-confirmatory-score template --root . `
+  --output work/creativity-confirmatory/reviews/reviewer-a-draft.json
+sigma-creativity-confirmatory-score template --root . `
+  --output work/creativity-confirmatory/reviews/reviewer-b-draft.json
+```
+
+Each reviewer fills their name, affiliation, conflict disclosure, operator status, attestations,
+and all branch ratings without seeing the other form or any private experiment files. Seal completed
+forms independently, then score only after both seals validate:
+
+```powershell
+sigma-creativity-confirmatory-score seal-review --root . `
+  --draft work/creativity-confirmatory/reviews/reviewer-a-draft.json `
+  --output work/creativity-confirmatory/reviews/reviewer-a-sealed.json
+sigma-creativity-confirmatory-score seal-review --root . `
+  --draft work/creativity-confirmatory/reviews/reviewer-b-draft.json `
+  --output work/creativity-confirmatory/reviews/reviewer-b-sealed.json
+sigma-creativity-confirmatory-score score --root . `
+  --review-form work/creativity-confirmatory/reviews/reviewer-a-sealed.json `
+  --review-form work/creativity-confirmatory/reviews/reviewer-b-sealed.json `
+  --output runs/math/creativity-confirmatory/scored-rotation.json
+```
+
 Run the replayable, network-free campaign with:
 
 ```powershell

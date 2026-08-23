@@ -1,0 +1,50 @@
+{
+  "schema_version": "invariant-creativity-confirmatory-scoring-config-1.0",
+  "experiment_id": "creativity-first-vs-falsification-first-confirmatory-001",
+  "review_packet": {
+    "path": "runs/math/creativity-confirmatory/paired-review-packet.json",
+    "content_sha256": "c866a67c101cd9641562b30a4e81237f5c634d48000ce3a94c5f22223a805a7d",
+    "normalized_file_sha256": "0e51287c3f329f48fd7bfb768a81453c1bd1eb727568855f3cc4a33a0528e42c"
+  },
+  "generation_receipt": {
+    "path": "runs/math/creativity-confirmatory/paired-generation-receipt.json",
+    "content_sha256": "f28077425530bc997dc7e6d31d225dfb9d5130ac98c6dd733f6a6ef101143efe",
+    "normalized_file_sha256": "e6eda6a8fc93bd45bbb2476a772cb3371fd7d97e8b66cb68e5abc1ab1db6cbe9"
+  },
+  "private_coordinator_path": "work/creativity-confirmatory/private-coordinator.json",
+  "private_attempt_journal_path": "work/creativity-confirmatory/attempts.jsonl",
+  "generation_config": {
+    "path": "configs/creativity_confirmatory_generation.json",
+    "normalized_file_sha256": "01d537fc532cce1657ccf2ff06877e5255fad532de72c9a22460dea9cc3867d2"
+  },
+  "decision_protocol": {
+    "path": "configs/creativity_ablation_protocol.json",
+    "normalized_file_sha256": "c7f21bd61e4f466ac761b829010fcb864963655e834c99aada6c2e4868481620"
+  },
+  "review_policy": {
+    "axes": ["coherence", "nontriviality", "followup_value"],
+    "minimum_named_independent_reviewers": 2,
+    "rating_scale": [0, 1, 2, 3, 4],
+    "useful_threshold_each_axis": 3,
+    "reviewer_name_placeholders": [
+      "anonymous",
+      "pending",
+      "reviewer",
+      "replace_with_full_name",
+      "tbd",
+      "unknown"
+    ]
+  },
+  "unblinding_policy": {
+    "exact_review_count": 2,
+    "review_content_sealed_before_mapping_read": true,
+    "reviewers_must_be_distinct": true,
+    "withheld_targets_remain_closed_during_review": true
+  },
+  "claim_boundary": {
+    "bounded_single_rotation_can_establish_system_wide_superiority": false,
+    "human_usefulness_review_establishes_literature_novelty": false,
+    "internal_behavior_diversity_is_literature_novelty": false,
+    "proof_mechanism_diversity_is_literature_novelty": false
+  }
+}
