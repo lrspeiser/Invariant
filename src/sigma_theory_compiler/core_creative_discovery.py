@@ -20,6 +20,9 @@ from typing import Any
 from .claude_creativity_api import ClaudeRole
 from .core_credential import CredentialActivationError, activated_credential
 from .creative_expansion import build_creative_expansion, validate_creative_expansion
+from .creativity_component_knockout_preflight import (
+    validate_receipt as validate_component_knockout_preflight,
+)
 from .dataset_challenge_suite import validate_dataset_challenges
 from .declarative_discovery_operational_campaign import (
     validate_receipt as validate_operational_receipt,
@@ -45,8 +48,8 @@ from .sigma_core import canonical_sha256
 
 CONFIG_PATH = "configs/core_creative_discovery.json"
 OUTPUT_PATH = "runs/math/core-creative-discovery/live-runtime.json"
-SCHEMA_VERSION = "invariant-core-creative-discovery-runtime-1.4"
-CONFIG_SCHEMA = "invariant-core-creative-discovery-config-1.4"
+SCHEMA_VERSION = "invariant-core-creative-discovery-runtime-1.5"
+CONFIG_SCHEMA = "invariant-core-creative-discovery-config-1.5"
 
 
 class CoreCreativeDiscoveryError(ValueError):
@@ -105,6 +108,7 @@ def _load_config(root: Path) -> dict[str, Any]:
     ):
         raise CoreCreativeDiscoveryError("core release policy is too weak")
     if set(value["components"]) != {
+        "component_knockout_preflight_receipt",
         "dataset_challenge_receipt",
         "declarative_operational_receipt",
         "expanded_typed_grammar_receipt",
@@ -126,6 +130,7 @@ def _load_bound_receipts(
     dict[str, Any],
     dict[str, Any],
     dict[str, Any],
+    dict[str, Any],
 ]:
     components = config["components"]
     dataset_path = root / components["dataset_challenge_receipt"]
@@ -134,18 +139,21 @@ def _load_bound_receipts(
     expanded_grammar_path = root / components["expanded_typed_grammar_receipt"]
     proof_plan_path = root / components["proof_plan_search_receipt"]
     serious_claim_ladder_path = root / components["serious_claim_verification_ladder_receipt"]
+    component_knockout_path = root / components["component_knockout_preflight_receipt"]
     dataset = json.loads(dataset_path.read_text(encoding="utf-8"))
     operational = json.loads(operational_path.read_text(encoding="utf-8"))
     multi_host = json.loads(multi_host_path.read_text(encoding="utf-8"))
     expanded_grammar = json.loads(expanded_grammar_path.read_text(encoding="utf-8"))
     proof_plan_search = json.loads(proof_plan_path.read_text(encoding="utf-8"))
     serious_claim_ladder = json.loads(serious_claim_ladder_path.read_text(encoding="utf-8"))
+    component_knockout = json.loads(component_knockout_path.read_text(encoding="utf-8"))
     validate_dataset_challenges(dataset, root)
     validate_operational_receipt(operational, root)
     validate_multi_host_receipt(multi_host)
     validate_expanded_grammar_receipt(expanded_grammar, root)
     validate_proof_plan_search(proof_plan_search, root)
     validate_serious_claim_ladder(serious_claim_ladder, root)
+    validate_component_knockout_preflight(component_knockout, root)
     return (
         operational,
         multi_host,
@@ -153,6 +161,7 @@ def _load_bound_receipts(
         dataset,
         proof_plan_search,
         serious_claim_ladder,
+        component_knockout,
     )
 
 
@@ -199,6 +208,7 @@ def run_core(
         dataset_challenges,
         proof_plan_search,
         serious_claim_ladder,
+        component_knockout,
     ) = _load_bound_receipts(root, config)
     environment = None
     if credential_file is not None:
@@ -242,6 +252,10 @@ def run_core(
                 "path": CONFIG_PATH,
                 "sha256": _normalized_file_sha256(root / CONFIG_PATH),
             },
+            "component_knockout_preflight_receipt": {
+                "content_sha256": component_knockout["content_sha256"],
+                "path": config["components"]["component_knockout_preflight_receipt"],
+            },
             "dataset_challenge_receipt": {
                 "content_sha256": dataset_challenges["content_sha256"],
                 "path": config["components"]["dataset_challenge_receipt"],
@@ -279,6 +293,7 @@ def run_core(
         },
         "idea_lineage_archive": idea_archive,
         "creative_expansion": creative_expansion,
+        "component_knockout_preflight": component_knockout,
         "dataset_challenges": dataset_challenges,
         "proof_plan_search": proof_plan_search,
         "discovery_runtime": {
@@ -307,6 +322,18 @@ def run_core(
                 "positive_routes_closed"
             ],
             "independent_proof_plan_status": proof_plan_search["summary"]["status"],
+            "component_knockout_experiments_preflighted": component_knockout["design"][
+                "experiments"
+            ],
+            "component_knockout_live_runs_complete": component_knockout["release_gate"][
+                "component_knockout_live_runs_complete"
+            ],
+            "component_knockout_preflight_status": component_knockout["release_gate"][
+                "status"
+            ],
+            "component_knockout_scheduled_slots": component_knockout["schedule"][
+                "total_scheduled_slots"
+            ],
         },
         "verification": {
             "backends_required_for_serious_claim": config["release_policy"][
@@ -330,6 +357,9 @@ def run_core(
             ],
         },
         "release_gate": {
+            "component_knockout_live_runs_complete": component_knockout["release_gate"][
+                "component_knockout_live_runs_complete"
+            ],
             "human_prior_art_reviews_complete": all(
                 status == "COMPLETED" for status in prior_art_reviews
             ),
@@ -368,7 +398,11 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
     if (
         previous.get("content_sha256") != canonical_sha256(previous_body)
         or previous.get("schema_version")
-        not in {"invariant-core-creative-discovery-runtime-1.3", SCHEMA_VERSION}
+        not in {
+            "invariant-core-creative-discovery-runtime-1.3",
+            "invariant-core-creative-discovery-runtime-1.4",
+            SCHEMA_VERSION,
+        }
         or previous.get("app_id") != "invariant.core-creative-discovery"
     ):
         raise CoreCreativeDiscoveryError(
@@ -393,11 +427,16 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
         dataset_challenges,
         proof_plan_search,
         serious_claim_ladder,
+        component_knockout,
     ) = _load_bound_receipts(root, config)
     value = deepcopy(dict(previous))
     value["schema_version"] = SCHEMA_VERSION
     value["source_bindings"] = {
         "config": {"path": CONFIG_PATH, "sha256": _normalized_file_sha256(root / CONFIG_PATH)},
+        "component_knockout_preflight_receipt": {
+            "content_sha256": component_knockout["content_sha256"],
+            "path": config["components"]["component_knockout_preflight_receipt"],
+        },
         "dataset_challenge_receipt": {
             "content_sha256": dataset_challenges["content_sha256"],
             "path": config["components"]["dataset_challenge_receipt"],
@@ -423,8 +462,22 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
             "path": config["components"]["serious_claim_verification_ladder_receipt"],
         },
     }
+    value["component_knockout_preflight"] = component_knockout
     value["dataset_challenges"] = dataset_challenges
     value["proof_plan_search"] = proof_plan_search
+    value["discovery_runtime"] = {
+        **value["discovery_runtime"],
+        "component_knockout_experiments_preflighted": component_knockout["design"][
+            "experiments"
+        ],
+        "component_knockout_live_runs_complete": component_knockout["release_gate"][
+            "component_knockout_live_runs_complete"
+        ],
+        "component_knockout_preflight_status": component_knockout["release_gate"]["status"],
+        "component_knockout_scheduled_slots": component_knockout["schedule"][
+            "total_scheduled_slots"
+        ],
+    }
     value["verification"] = {
         "backends_required_for_serious_claim": config["release_policy"][
             "required_serious_claim_backends"
@@ -444,6 +497,12 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
         ],
         "serious_claims_released_by_ladder": serious_claim_ladder["release_gate"][
             "serious_claims_released"
+        ],
+    }
+    value["release_gate"] = {
+        **value["release_gate"],
+        "component_knockout_live_runs_complete": component_knockout["release_gate"][
+            "component_knockout_live_runs_complete"
         ],
     }
     value["content_sha256"] = canonical_sha256(
@@ -482,9 +541,17 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
     validate_proof_plan_search(proof_plan_search, root)
     validate_creative_expansion(value.get("creative_expansion", {}), proof_plan_search)
     validate_dataset_challenges(value.get("dataset_challenges", {}), root)
+    validate_component_knockout_preflight(
+        value.get("component_knockout_preflight", {}), root or Path.cwd()
+    )
     discovery = value.get("discovery_runtime", {})
     if (
-        discovery.get("dataset_challenge_kinds")
+        discovery.get("component_knockout_experiments_preflighted") != 4
+        or discovery.get("component_knockout_live_runs_complete") is not False
+        or discovery.get("component_knockout_preflight_status")
+        != "PASS_PREFLIGHT_LIVE_EXECUTION_NOT_RUN"
+        or discovery.get("component_knockout_scheduled_slots") != 384
+        or discovery.get("dataset_challenge_kinds")
         != ["intervention", "noisy", "shifted", "unidentifiable"]
         or discovery.get("dataset_positive_controls_passed") != 4
         or discovery.get("dataset_mutation_controls_rejected") != 4
@@ -531,6 +598,8 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
     claims = value.get("claims", {})
     if any(claims.get(key) is not False for key in claims):
         raise CoreCreativeDiscoveryError("core claim boundary changed")
+    if value.get("release_gate", {}).get("component_knockout_live_runs_complete") is not False:
+        raise CoreCreativeDiscoveryError("core component-knockout release boundary changed")
     if root is not None:
         root = root.resolve()
         bindings = value.get("source_bindings", {})
@@ -540,6 +609,7 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
         ) != _normalized_file_sha256(root / CONFIG_PATH):
             raise CoreCreativeDiscoveryError("core config source binding changed")
         for key in (
+            "component_knockout_preflight_receipt",
             "dataset_challenge_receipt",
             "declarative_operational_receipt",
             "expanded_typed_grammar_receipt",
@@ -564,6 +634,8 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
                 validate_proof_plan_search(bound, root)
             if key == "serious_claim_verification_ladder_receipt":
                 validate_serious_claim_ladder(bound, root)
+            if key == "component_knockout_preflight_receipt":
+                validate_component_knockout_preflight(bound, root)
 
 
 def main(argv: Sequence[str] | None = None) -> int:

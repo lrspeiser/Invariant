@@ -1,0 +1,143 @@
+{
+  "schema_version": "invariant-creativity-component-knockout-config-1.0",
+  "suite_id": "creativity-first-component-knockouts-001",
+  "protocol_binding": {
+    "path": "configs/creativity_ablation_protocol.json",
+    "canonical_sha256": "a8f195310be0a9cadd1530c990e5b28606825794901a0acc3fb4aab92580ec37"
+  },
+  "confirmatory_binding": {
+    "path": "configs/creativity_confirmatory_generation.json",
+    "canonical_sha256": "246575123b45834132a6a1274cf431ae421af3b59138b4e49bc2d25ddf269b37"
+  },
+  "generation_packet": {
+    "path": "runs/math/rotating-external-benchmarks/2026-08-23-002-generation.json",
+    "content_sha256": "061cdd4cc0bbe0190bd04200085896411e09cfa5ddcd5df9640cbf4c0c038727",
+    "required_tasks": 24
+  },
+  "feature_order": [
+    "expanded_typed_grammar",
+    "independent_proof_recombination",
+    "origin_lineage_labels",
+    "verifier_failure_non_pruning"
+  ],
+  "arms": {
+    "full_creativity_first": {
+      "feature_flags": {
+        "expanded_typed_grammar": true,
+        "independent_proof_recombination": true,
+        "origin_lineage_labels": true,
+        "verifier_failure_non_pruning": true
+      },
+      "enforcement": "apply_all_creativity_first_features",
+      "instruction_delta": "Use the frozen full-creativity-first proposer and critic policies without modification."
+    },
+    "minus_expanded_grammar": {
+      "feature_flags": {
+        "expanded_typed_grammar": false,
+        "independent_proof_recombination": true,
+        "origin_lineage_labels": true,
+        "verifier_failure_non_pruning": true
+      },
+      "enforcement": "restrict_to_frozen_legacy_algebraic_representation_slice",
+      "instruction_delta": "Use only the frozen legacy algebraic representation slice; do not propose recurrence, generating-function, finite-product, modular, tensor, or variational representations."
+    },
+    "minus_independent_proof_recombination": {
+      "feature_flags": {
+        "expanded_typed_grammar": true,
+        "independent_proof_recombination": false,
+        "origin_lineage_labels": true,
+        "verifier_failure_non_pruning": true
+      },
+      "enforcement": "retain_only_llm_declared_proof_plan_and_disable_post_generation_recombination",
+      "instruction_delta": "Retain each admitted hypothesis with only its model-declared proof plan; do not add candidate-independent proof routes or cross-idea recombination branches."
+    },
+    "minus_lineage_labels": {
+      "feature_flags": {
+        "expanded_typed_grammar": true,
+        "independent_proof_recombination": true,
+        "origin_lineage_labels": false,
+        "verifier_failure_non_pruning": true
+      },
+      "enforcement": "normalize_origin_metadata_to_uncertain_and_hide_analogue_lineage_from_expansion",
+      "instruction_delta": "Do not request or use origin-category, named-analogue, or source-domain lineage when expanding, recombining, or ranking branches; normalize required wire fields to uncertain metadata."
+    },
+    "minus_non_pruning": {
+      "feature_flags": {
+        "expanded_typed_grammar": true,
+        "independent_proof_recombination": true,
+        "origin_lineage_labels": true,
+        "verifier_failure_non_pruning": false
+      },
+      "enforcement": "drop_critic_rejected_hypotheses_before_proof_and_recombination_expansion",
+      "instruction_delta": "Apply the frozen critic rejection before independent proof-plan or recombination expansion; rejected hypotheses do not remain available as parents."
+    }
+  },
+  "experiments": [
+    {
+      "experiment_id": "creativity-knockout-minus-expanded-grammar-001",
+      "reference_arm": "full_creativity_first",
+      "knockout_arm": "minus_expanded_grammar",
+      "removed_feature": "expanded_typed_grammar",
+      "arm_order_seed": "sha256:aea03aebc96adbf23ac84b4f4cd6b41d6832ced1d1be56afd92023e0e1bc13eb"
+    },
+    {
+      "experiment_id": "creativity-knockout-minus-independent-proof-recombination-001",
+      "reference_arm": "full_creativity_first",
+      "knockout_arm": "minus_independent_proof_recombination",
+      "removed_feature": "independent_proof_recombination",
+      "arm_order_seed": "sha256:3c1bb9508138a73b5151940c642b4a5f449f0ae234f6f00d881fcc5405deab40"
+    },
+    {
+      "experiment_id": "creativity-knockout-minus-lineage-labels-001",
+      "reference_arm": "full_creativity_first",
+      "knockout_arm": "minus_lineage_labels",
+      "removed_feature": "origin_lineage_labels",
+      "arm_order_seed": "sha256:4189eebc0ffa29cd11dce1e6da16e61fd451816da86ece1a763b725bb65670b3"
+    },
+    {
+      "experiment_id": "creativity-knockout-minus-non-pruning-001",
+      "reference_arm": "full_creativity_first",
+      "knockout_arm": "minus_non_pruning",
+      "removed_feature": "verifier_failure_non_pruning",
+      "arm_order_seed": "sha256:9d94870c3e2dd04f48347afe43d2a69974f26bcf02ee615fedb10bbae70787d3"
+    }
+  ],
+  "matched_resource_budget": {
+    "calls_per_task": 2,
+    "grammar_depth": 8,
+    "tokens_per_arm": 200000,
+    "verifier_invocations_per_task": 5,
+    "wall_clock_milliseconds_per_call": 120000
+  },
+  "attempt_policy": {
+    "attempt_journal_required": true,
+    "contract_failure_policy": "retain_admitted_content_and_count_failure",
+    "persist_dispatch_before_transport": true,
+    "persist_response_before_validation": true,
+    "replacement_calls_allowed": false,
+    "transient_retries_allowed": false
+  },
+  "review_policy": {
+    "axes": [
+      "coherence",
+      "nontriviality",
+      "followup_value"
+    ],
+    "minimum_named_reviewers": 2,
+    "rating_scale": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "useful_threshold_each_axis": 3,
+    "reviewers_must_be_distinct": true,
+    "arm_identity_hidden_until_both_reviews_sealed": true
+  },
+  "execution_gate": {
+    "credential_access_during_preflight": false,
+    "live_provider_calls_during_preflight": 0,
+    "paid_execution_requires_explicit_separate_authorization": true
+  }
+}

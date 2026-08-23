@@ -1277,6 +1277,24 @@ before it opens the ignored private arm map. It behavior-deduplicates the primar
 proof-mechanism diversity separately, and keeps literature-novelty and system-wide-superiority
 claims closed regardless of the outcome of this one rotation.
 
+The four preregistered component knockouts now also have a deterministic, source-bound preflight.
+Each pairs the frozen full system against exactly one removed feature: expanded typed grammar,
+independent proof/recombination search, origin-lineage labels, or verifier-failure non-pruning. The
+preflight seals 384 unique proposer/critic slots across the same 24 tasks and proves identical call,
+token, grammar-depth, verifier, wall-clock, attempt-journal, and review policies. It accesses no
+credential and makes zero provider calls. Executing all four live rotations would authorize at most
+384 calls and 1,600,000 tokens, so live execution remains a separate explicit spending decision;
+the preflight is not a completed knockout experiment or evidence that the system is more creative.
+
+Rebuild and validate the zero-call preflight with:
+
+```powershell
+sigma-creativity-knockout-preflight build --root . `
+  --output runs/math/creativity-component-knockouts/preflight.json
+sigma-creativity-knockout-preflight validate --root . `
+  --receipt runs/math/creativity-component-knockouts/preflight.json
+```
+
 Create separate arm-free drafts for each reviewer:
 
 ```powershell

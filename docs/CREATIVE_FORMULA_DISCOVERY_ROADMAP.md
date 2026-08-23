@@ -66,6 +66,11 @@
   zero-idea output is retained as a counted `all_proposals_rejected_outcome`, not repaired by another
   model call. Generation is eligible, but remains unscored and arm identities remain private until
   two specifically named reviewers complete and seal all 353 branch ratings.
+- A source-bound zero-call preflight now seals the four preregistered component knockouts. Each
+  compares the full system with exactly one feature removed, uses the same 24 tasks and matched
+  budgets, and contributes 96 balanced proposer/critic slots for 384 total. The preflight accesses no
+  credential and makes no provider request. All four live rotations remain unexecuted; their combined
+  ceilings are 384 calls and 1,600,000 tokens and require a separate explicit spending decision.
 
 ## Definition of creative progress
 
@@ -253,7 +258,8 @@ This is evidence of bounded rediscovery, not evidence of mathematical novelty.
 
 1. Obtain two named blinded reviewers for the clean 353-branch packet, seal their complete forms,
    and score the bounded rotation; record disagreements before unblinding system identity.
-2. Run the four preregistered component knockouts under the same attempt-journal and review rules.
+2. After explicit approval of the sealed 384-call / 1,600,000-token ceiling, run the four
+   preregistered component knockouts under the same attempt-journal and review rules.
 3. Extend the live rotating external pack from recurrence, generating-function, sum/product,
    modular, and representation-bridge tasks to separately maintained tensor and variational packs;
    obtain a detached signature from a distinct pack principal before level-5 use.
