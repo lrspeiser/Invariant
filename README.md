@@ -1251,6 +1251,15 @@ eight-term target commitment. The coordinator receipt binds 24 distinct external
 OEIS supplies the external HTTPS origin but no detached pack signature, so the tasks may be used in
 the creativity A/B test and may not count as a level-5 success.
 
+A separate live structured pack now adds four tensor-canonicalization tasks and four
+Euler-Lagrange derivation tasks extracted from executable tests maintained by the upstream SymPy
+project. Invariant parses those files as Python AST and never imports or executes them. The public
+packet contains only normalized setup code, the requested expression, and a target commitment; test
+names, source identities, expected expressions, and source URIs remain in the sealed target packet.
+Two complete upstream response hashes reproduce exactly on refetch. These upstream assertions are
+benchmark targets, not independent proofs, and the HTTPS responses are not detached-signed, so the
+pack is useful for later creativity rotations but remains ineligible for level 5.
+
 Claim-specific prior-art search now keeps behavior, formula/construction, and proof-mechanism
 provenance separate. Its first live screen corrected one model-self-assessed `uncertain` behavior:
 all 18 terms match OEIS A005132. Crossref and arXiv responded, Semantic Scholar rate-limited the
@@ -1395,6 +1404,23 @@ sigma-external-dataset-challenges reproduce --root . `
   --receipt runs/math/external-dataset-challenges/receipt.json
 ```
 
+Build, validate, or exactly refetch the external tensor/variational pack with:
+
+```powershell
+sigma-external-structured-benchmarks build --root . `
+  --generation-output runs/math/external-structured-benchmarks/2026-08-23-001-generation.json `
+  --target-output runs/math/external-structured-benchmarks/2026-08-23-001-targets.json `
+  --receipt-output runs/math/external-structured-benchmarks/2026-08-23-001-receipt.json
+sigma-external-structured-benchmarks validate --root . `
+  --generation runs/math/external-structured-benchmarks/2026-08-23-001-generation.json `
+  --targets runs/math/external-structured-benchmarks/2026-08-23-001-targets.json `
+  --receipt runs/math/external-structured-benchmarks/2026-08-23-001-receipt.json
+sigma-external-structured-benchmarks reproduce --root . `
+  --generation runs/math/external-structured-benchmarks/2026-08-23-001-generation.json `
+  --targets runs/math/external-structured-benchmarks/2026-08-23-001-targets.json `
+  --receipt runs/math/external-structured-benchmarks/2026-08-23-001-receipt.json
+```
+
 Revalidate the network-free live receipts with:
 
 ```powershell
@@ -1403,6 +1429,10 @@ sigma-dataset-challenges validate --root . `
   --receipt runs/math/dataset-challenges/receipt.json
 sigma-external-dataset-challenges validate --root . `
   --receipt runs/math/external-dataset-challenges/receipt.json
+sigma-external-structured-benchmarks validate --root . `
+  --generation runs/math/external-structured-benchmarks/2026-08-23-001-generation.json `
+  --targets runs/math/external-structured-benchmarks/2026-08-23-001-targets.json `
+  --receipt runs/math/external-structured-benchmarks/2026-08-23-001-receipt.json
 sigma-proof-plan-search validate --root . `
   --receipt runs/math/independent-proof-plan-search/receipt.json
 sigma-serious-claim-ladder validate --root . `

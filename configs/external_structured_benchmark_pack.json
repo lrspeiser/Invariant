@@ -1,0 +1,76 @@
+{
+  "schema_version": "invariant-external-structured-benchmark-config-1.0",
+  "pack_id": "structured-symbolic-live-rotation",
+  "rotation_epoch": "2026-08-23-001",
+  "generator_principal_id": "invariant.discovery-engine",
+  "task_policy": {
+    "minimum_tasks": 8,
+    "minimum_tasks_per_family": 4
+  },
+  "source_policy": {
+    "allowed_host": "raw.githubusercontent.com",
+    "allowed_repository": "sympy/sympy",
+    "cryptographic_signature_required_for_level5": true,
+    "maximum_response_bytes": 500000,
+    "request_timeout_seconds": 30,
+    "user_agent": "InvariantStructuredBenchmarkRotation/0.1 (https://github.com/lrspeiser/Invariant)"
+  },
+  "sources": [
+    {
+      "source_id": "sympy-tensor-tests",
+      "source_uri": "https://raw.githubusercontent.com/sympy/sympy/master/sympy/tensor/tests/test_tensor.py",
+      "external_principal_id": "external.sympy-project",
+      "representation_family": "tensor_identity",
+      "selectors": [
+        {
+          "test_function": "test_canonicalize_no_slot_sym",
+          "assertion_ordinal": 0,
+          "task_kind": "canonicalize_tensor_expression"
+        },
+        {
+          "test_function": "test_canonicalize_no_dummies",
+          "assertion_ordinal": 0,
+          "task_kind": "canonicalize_tensor_expression"
+        },
+        {
+          "test_function": "test_no_metric_symmetry",
+          "assertion_ordinal": 0,
+          "task_kind": "canonicalize_tensor_expression"
+        },
+        {
+          "test_function": "test_canonicalize1",
+          "assertion_ordinal": 0,
+          "task_kind": "canonicalize_tensor_expression"
+        }
+      ]
+    },
+    {
+      "source_id": "sympy-euler-tests",
+      "source_uri": "https://raw.githubusercontent.com/sympy/sympy/master/sympy/calculus/tests/test_euler.py",
+      "external_principal_id": "external.sympy-project",
+      "representation_family": "variational_functional",
+      "selectors": [
+        {
+          "test_function": "test_euler_pendulum",
+          "assertion_ordinal": 0,
+          "task_kind": "derive_euler_lagrange_equations"
+        },
+        {
+          "test_function": "test_euler_henonheiles",
+          "assertion_ordinal": 0,
+          "task_kind": "derive_euler_lagrange_equations"
+        },
+        {
+          "test_function": "test_euler_sineg",
+          "assertion_ordinal": 0,
+          "task_kind": "derive_euler_lagrange_equations"
+        },
+        {
+          "test_function": "test_euler_high_order",
+          "assertion_ordinal": 0,
+          "task_kind": "derive_euler_lagrange_equations"
+        }
+      ]
+    }
+  ]
+}
