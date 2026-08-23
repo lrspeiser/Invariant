@@ -54,6 +54,7 @@ on:
       - "runs/math/creativity-tournament/**"
       - "runs/math/creativity-confirmatory/**"
       - "runs/math/core-creative-discovery/**"
+      - "runs/math/dataset-challenges/**"
       - "runs/math/expanded-typed-grammar/**"
       - "runs/math/external-creativity-validation/**"
       - "runs/math/rotating-external-benchmarks/**"
@@ -111,6 +112,7 @@ on:
       - "runs/math/creativity-tournament/**"
       - "runs/math/creativity-confirmatory/**"
       - "runs/math/core-creative-discovery/**"
+      - "runs/math/dataset-challenges/**"
       - "runs/math/expanded-typed-grammar/**"
       - "runs/math/external-creativity-validation/**"
       - "runs/math/rotating-external-benchmarks/**"
@@ -162,6 +164,10 @@ jobs:
           python -m sigma_theory_compiler.claim_specific_prior_art validate
           --root .
           --receipt runs/math/claim-specific-prior-art/live-uncertain-recaman.json
+      - run: >-
+          python -m sigma_theory_compiler.dataset_challenge_suite validate
+          --root .
+          --receipt runs/math/dataset-challenges/receipt.json
       - run: >-
           python -m sigma_theory_compiler.rotating_external_benchmarks validate
           --root .

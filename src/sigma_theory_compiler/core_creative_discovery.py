@@ -19,7 +19,7 @@ from typing import Any
 from .claude_creativity_api import ClaudeRole
 from .core_credential import CredentialActivationError, activated_credential
 from .creative_expansion import build_creative_expansion, validate_creative_expansion
-from .dataset_challenge_suite import run_dataset_challenges, validate_dataset_challenges
+from .dataset_challenge_suite import validate_dataset_challenges
 from .declarative_discovery_operational_campaign import (
     validate_receipt as validate_operational_receipt,
 )
@@ -96,6 +96,7 @@ def _load_config(root: Path) -> dict[str, Any]:
     ):
         raise CoreCreativeDiscoveryError("core release policy is too weak")
     if set(value["components"]) != {
+        "dataset_challenge_receipt",
         "declarative_operational_receipt",
         "expanded_typed_grammar_receipt",
         "live_evidence_output",
@@ -107,18 +108,21 @@ def _load_config(root: Path) -> dict[str, Any]:
 
 def _load_bound_receipts(
     root: Path, config: Mapping[str, Any]
-) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
+) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any], dict[str, Any]]:
     components = config["components"]
+    dataset_path = root / components["dataset_challenge_receipt"]
     operational_path = root / components["declarative_operational_receipt"]
     multi_host_path = root / components["multi_host_reproduction_receipt"]
     expanded_grammar_path = root / components["expanded_typed_grammar_receipt"]
+    dataset = json.loads(dataset_path.read_text(encoding="utf-8"))
     operational = json.loads(operational_path.read_text(encoding="utf-8"))
     multi_host = json.loads(multi_host_path.read_text(encoding="utf-8"))
     expanded_grammar = json.loads(expanded_grammar_path.read_text(encoding="utf-8"))
+    validate_dataset_challenges(dataset, root)
     validate_operational_receipt(operational, root)
     validate_multi_host_receipt(multi_host)
     validate_expanded_grammar_receipt(expanded_grammar, root)
-    return operational, multi_host, expanded_grammar
+    return operational, multi_host, expanded_grammar, dataset
 
 
 def _validate_live_campaign(campaign: Mapping[str, Any], config: Mapping[str, Any]) -> None:
@@ -161,8 +165,9 @@ def run_core(
 
     root = root.resolve()
     config = _load_config(root)
-    operational, multi_host, expanded_grammar = _load_bound_receipts(root, config)
-    dataset_challenges = run_dataset_challenges(root)
+    operational, multi_host, expanded_grammar, dataset_challenges = _load_bound_receipts(
+        root, config
+    )
     environment = None
     if credential_file is not None:
         environment = dict(os.environ)
@@ -205,6 +210,10 @@ def run_core(
                 "path": CONFIG_PATH,
                 "sha256": _normalized_file_sha256(root / CONFIG_PATH),
             },
+            "dataset_challenge_receipt": {
+                "content_sha256": dataset_challenges["content_sha256"],
+                "path": config["components"]["dataset_challenge_receipt"],
+            },
             "declarative_operational_receipt": {
                 "content_sha256": operational["content_sha256"],
                 "path": config["components"]["declarative_operational_receipt"],
@@ -241,6 +250,14 @@ def run_core(
             "typed_formula_kinds": expanded_grammar["summary"]["admitted_formula_kinds"],
             "typed_grammar_controls_passed": expanded_grammar["summary"]["controls_passed"],
             "typed_grammar_status": expanded_grammar["summary"]["status"],
+            "dataset_challenge_kinds": dataset_challenges["summary"]["challenge_kinds"],
+            "dataset_mutation_controls_rejected": dataset_challenges["summary"][
+                "mutation_controls_rejected"
+            ],
+            "dataset_positive_controls_passed": dataset_challenges["summary"][
+                "positive_controls_passed"
+            ],
+            "dataset_challenge_status": dataset_challenges["summary"]["status"],
         },
         "verification": {
             "backends_required_for_serious_claim": config["release_policy"][
@@ -307,10 +324,16 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
         raise CoreCreativeDiscoveryError("core provider wire-contract evidence changed")
     validate_idea_archive(value.get("idea_lineage_archive", {}))
     validate_creative_expansion(value.get("creative_expansion", {}))
-    validate_dataset_challenges(value.get("dataset_challenges", {}))
+    validate_dataset_challenges(value.get("dataset_challenges", {}), root)
     discovery = value.get("discovery_runtime", {})
     if (
-        discovery.get("typed_formula_kinds")
+        discovery.get("dataset_challenge_kinds")
+        != ["intervention", "noisy", "shifted", "unidentifiable"]
+        or discovery.get("dataset_positive_controls_passed") != 4
+        or discovery.get("dataset_mutation_controls_rejected") != 4
+        or discovery.get("dataset_challenge_status")
+        != "PASS_EXECUTABLE_DATASET_CHALLENGES"
+        or discovery.get("typed_formula_kinds")
         != [
             "finite_product",
             "finite_sum",
@@ -345,6 +368,7 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
         ):
             raise CoreCreativeDiscoveryError("core config source binding changed")
         for key in (
+            "dataset_challenge_receipt",
             "declarative_operational_receipt",
             "expanded_typed_grammar_receipt",
             "multi_host_reproduction_receipt",
@@ -360,6 +384,8 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
                 raise CoreCreativeDiscoveryError("core receipt source binding changed")
             if key == "expanded_typed_grammar_receipt":
                 validate_expanded_grammar_receipt(bound, root)
+            if key == "dataset_challenge_receipt":
+                validate_dataset_challenges(bound, root)
 
 
 def main(argv: Sequence[str] | None = None) -> int:

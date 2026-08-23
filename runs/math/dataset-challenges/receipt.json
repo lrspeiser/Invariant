@@ -1,0 +1,110 @@
+{
+  "claims": {
+    "causal_effect_inferred_from_observational_rows": false,
+    "dataset_formulas_established": false,
+    "interval_centers_treated_as_exact_truth": false,
+    "train_fit_establishes_deployment_validity": false,
+    "unidentifiable_control_forced_to_one_model": false
+  },
+  "content_sha256": "687d08e6c24b86fe00963bfddf5dfa20e9242acca21bd2a3fa37cea03d584039",
+  "results": [
+    {
+      "challenge_id": "dataset.controlled-intervention",
+      "evidence": {
+        "actual_do_labeled_rows": 4,
+        "constant_do_contrast": "3",
+        "crossed_at_fixed_covariates": true,
+        "mutation_exact_rows": 2,
+        "observational_rows_relabelled_as_interventions": false,
+        "positive_exact_rows": 4
+      },
+      "kind": "intervention",
+      "mutation_control_rejected": true,
+      "positive_control_passed": true,
+      "provenance": "synthetic_calibration_distinct_from_observational_rows",
+      "status": "PASS_EXECUTABLE_DATASET_CONTROL"
+    },
+    {
+      "challenge_id": "dataset.interval-noise",
+      "evidence": {
+        "center_exact_rows_by_model": {
+          "noise.center-line": 4,
+          "noise.offset-within-interval": 0
+        },
+        "distinct_point_predictions_retained": 2,
+        "interval_compatible_models": [
+          "noise.center-line",
+          "noise.offset-within-interval"
+        ],
+        "interval_rows": 4,
+        "mutation_compatible_rows": 0,
+        "point_centers_treated_as_unique_truth": false,
+        "positive_uncertainty_declared": true
+      },
+      "kind": "noisy",
+      "mutation_control_rejected": true,
+      "positive_control_passed": true,
+      "provenance": "synthetic_calibration_with_declared_measurement_intervals",
+      "status": "PASS_EXECUTABLE_DATASET_CONTROL"
+    },
+    {
+      "challenge_id": "dataset.covariate-shift",
+      "evidence": {
+        "deployment_exact_rows": 2,
+        "deployment_rows": 2,
+        "domain_shift_explicit": true,
+        "train_exact_rows": 3,
+        "train_only_alias_deployment_exact_rows": 0,
+        "train_only_alias_train_exact_rows": 3,
+        "train_rows": 3
+      },
+      "kind": "shifted",
+      "mutation_control_rejected": true,
+      "positive_control_passed": true,
+      "provenance": "synthetic_calibration_with_explicit_train_and_deployment_domains",
+      "status": "PASS_EXECUTABLE_DATASET_CONTROL"
+    },
+    {
+      "challenge_id": "dataset.observationally-unidentifiable",
+      "evidence": {
+        "compatible_mechanisms": 2,
+        "forced_unique_mechanism_rejected": true,
+        "intervention_predictions_diverge": true,
+        "observational_predictions_equal": true,
+        "required_conclusion": "UNDERDETERMINED_RETAIN_MULTIPLE_MECHANISMS"
+      },
+      "kind": "unidentifiable",
+      "mutation_control_rejected": true,
+      "positive_control_passed": true,
+      "provenance": "synthetic_negative_control_with_two_observationally_equivalent_mechanisms",
+      "status": "PASS_EXECUTABLE_DATASET_CONTROL"
+    }
+  ],
+  "schema_version": "invariant-creative-dataset-challenge-result-2.0",
+  "source_bindings": {
+    "config": {
+      "normalized_file_sha256": "db4a6831cf2ac3cebef3a237b5a4d7de157ebc0ea7f704175702b506de0a3cfc",
+      "path": "configs/creative_dataset_challenges.json"
+    },
+    "source": {
+      "normalized_file_sha256": "156621316f89bd0a300f7440500e3aae7e75a1522fc571b9c4eeaef13f58ffec",
+      "path": "src/sigma_theory_compiler/dataset_challenge_suite.py"
+    },
+    "test": {
+      "normalized_file_sha256": "c0364cb540b1f4050c60582a9b142044371bea418f49180a6c4ba3d0711b9356",
+      "path": "tests/test_dataset_challenge_suite.py"
+    }
+  },
+  "summary": {
+    "challenge_kinds": [
+      "intervention",
+      "noisy",
+      "shifted",
+      "unidentifiable"
+    ],
+    "mutation_controls_rejected": 4,
+    "positive_controls_passed": 4,
+    "status": "PASS_EXECUTABLE_DATASET_CHALLENGES",
+    "total": 4
+  }
+}
