@@ -18,13 +18,16 @@ def _context() -> dict[str, object]:
     symmetry = json.loads(
         (ROOT / "runs/math/symmetry-dimension-derivation/receipt.json").read_text()
     )
+    learned = json.loads(
+        (ROOT / "runs/math/learned-invariant-discovery/receipt.json").read_text()
+    )
     grammar = json.loads(
         (ROOT / "runs/math/expanded-typed-grammar/receipt.json").read_text()
     )
     proof = json.loads(
         (ROOT / "runs/math/independent-proof-plan-search/receipt.json").read_text()
     )
-    return C.build_creative_prompt_context(symmetry, grammar, proof)
+    return C.build_creative_prompt_context(symmetry, learned, grammar, proof)
 
 
 def test_prompt_context_is_sealed_creativity_first_and_broad() -> None:
@@ -35,6 +38,7 @@ def test_prompt_context_is_sealed_creativity_first_and_broad() -> None:
         "generate_multiple_mechanisms_before_falsification": True,
         "origin_labels_are_fallible_lineage_assessments": True,
         "retain_every_schema_admitted_idea": True,
+        "retain_failed_and_underdetermined_invariant_branches": True,
         "uncertainty_does_not_prune": True,
     }
     assert len(context["first_principles_briefs"]) == 5
@@ -45,6 +49,12 @@ def test_prompt_context_is_sealed_creativity_first_and_broad() -> None:
     )
     assert drag["invariant_coordinate_arity"] == 2
     assert drag["forced_form"].startswith("F(drag_force/")
+    assert len(context["learned_invariant_briefs"]) == 3
+    assert {brief["identifiability_status"] for brief in context["learned_invariant_briefs"]} == {
+        "PASS_LEARNED_INVARIANT_BASIS",
+        "REJECT_TRAIN_ONLY_INVARIANT_SPACE",
+        "UNDERDETERMINED_RETAIN_CANDIDATE_SUBSPACE",
+    }
     assert len(context["typed_formula_kinds"]) == 7
     assert len(context["independent_proof_mechanisms"]) == 6
     assert context["origin_assessment_labels"] == C.ORIGIN_ASSESSMENTS
@@ -72,6 +82,20 @@ def test_prompt_context_rejects_resealed_loss_of_multi_coordinate_coverage() -> 
     body = {key: value for key, value in changed.items() if key != "content_sha256"}
     changed["content_sha256"] = canonical_sha256(body)
     with pytest.raises(C.CoreCreativePromptContextError, match="multi-coordinate"):
+        C.validate_creative_prompt_context(changed)
+
+
+def test_prompt_context_rejects_resealed_pruning_of_failed_learned_branch() -> None:
+    context = _context()
+    changed = deepcopy(context)
+    changed["learned_invariant_briefs"] = [
+        brief
+        for brief in changed["learned_invariant_briefs"]
+        if brief["identifiability_status"] != "REJECT_TRAIN_ONLY_INVARIANT_SPACE"
+    ]
+    body = {key: value for key, value in changed.items() if key != "content_sha256"}
+    changed["content_sha256"] = canonical_sha256(body)
+    with pytest.raises(C.CoreCreativePromptContextError, match="learned invariant brief"):
         C.validate_creative_prompt_context(changed)
 
 

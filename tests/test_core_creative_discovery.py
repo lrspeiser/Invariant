@@ -159,6 +159,7 @@ def test_core_run_requires_and_sanitizes_live_claude(
     proof_plan_search = bound_receipts[7]
     serious_claim_ladder = bound_receipts[8]
     component_knockout = bound_receipts[9]
+    learned_invariants = bound_receipts[10]
     monkeypatch.setattr(
         C,
         "_load_bound_receipts",
@@ -173,6 +174,7 @@ def test_core_run_requires_and_sanitizes_live_claude(
             proof_plan_search,
             serious_claim_ladder,
             component_knockout,
+            learned_invariants,
         ),
     )
     monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
@@ -185,6 +187,12 @@ def test_core_run_requires_and_sanitizes_live_claude(
         assert any(
             brief["invariant_coordinate_arity"] == 2
             for brief in creative_context["first_principles_briefs"]
+        )
+        assert len(creative_context["learned_invariant_briefs"]) == 3
+        assert any(
+            brief["identifiability_status"]
+            == "UNDERDETERMINED_RETAIN_CANDIDATE_SUBSPACE"
+            for brief in creative_context["learned_invariant_briefs"]
         )
         assert creative_context["origin_assessment_labels"] == [
             "cross_domain_synthesis",
@@ -206,6 +214,7 @@ def test_core_run_requires_and_sanitizes_live_claude(
         ],
         "first_principles_briefs": 5,
         "independent_proof_mechanisms": 6,
+        "learned_invariant_briefs": 3,
         "origin_assessment_labels": [
             "cross_domain_synthesis",
             "known_rewrite",
@@ -253,6 +262,12 @@ def test_core_run_requires_and_sanitizes_live_claude(
         == 5
     )
     assert receipt["symmetry_dimension_derivation"]["claims"]["specific_law_discovered"] is False
+    assert receipt["learned_invariant_discovery"]["claims"]["empirical_law_discovered"] is False
+    assert receipt["discovery_runtime"]["learned_invariant_identified_passes"] == 1
+    assert receipt["discovery_runtime"]["learned_invariant_shift_rejections"] == 1
+    assert receipt["discovery_runtime"]["learned_invariant_underdetermined_controls"] == 1
+    assert receipt["discovery_runtime"]["learned_invariant_training_coordinates_retained"] == 7
+    assert receipt["discovery_runtime"]["learned_invariant_deployment_repaired_coordinates"] == 6
     assert receipt["discovery_runtime"]["independent_proof_plan_routes_closed"] == 6
     assert receipt["discovery_runtime"]["independent_proof_plan_mutations_rejected"] == 6
     assert receipt["discovery_runtime"]["component_knockout_experiments_preflighted"] == 4
