@@ -10,10 +10,14 @@ from collections.abc import Mapping, Sequence
 from pathlib import Path
 from typing import Any
 
+from .claude_creativity_api import CLAUDE_REPRESENTATIONS
 from .sigma_core import canonical_sha256
 
 CONFIG_PATH = "configs/creativity_component_knockouts.json"
 RUNNER_PATH = "src/sigma_theory_compiler/creativity_component_knockout_preflight.py"
+GENERATION_RUNNER_PATH = (
+    "src/sigma_theory_compiler/creativity_component_knockout_generation.py"
+)
 OUTPUT_PATH = "runs/math/creativity-component-knockouts/preflight.json"
 CONFIG_SCHEMA = "invariant-creativity-component-knockout-config-1.0"
 RECEIPT_SCHEMA = "invariant-creativity-component-knockout-preflight-1.0"
@@ -32,6 +36,8 @@ KNOCKOUTS = {
     "minus_non_pruning": "verifier_failure_non_pruning",
 }
 ROLES = ("proposer", "critic")
+FULL_REPRESENTATIONS = tuple(sorted(CLAUDE_REPRESENTATIONS))
+LEGACY_REPRESENTATIONS = ("sympy_expression",)
 _HEX = frozenset("0123456789abcdef")
 
 
@@ -161,7 +167,12 @@ def validate_config(value: Mapping[str, Any], root: Path) -> dict[str, Any]:
     for arm, arm_value in value["arms"].items():
         _strict(
             arm_value,
-            {"enforcement", "feature_flags", "instruction_delta"},
+            {
+                "enforcement",
+                "execution_semantics",
+                "feature_flags",
+                "instruction_delta",
+            },
             f"component-knockout arm {arm}",
         )
         flags = arm_value["feature_flags"]
@@ -181,6 +192,38 @@ def validate_config(value: Mapping[str, Any], root: Path) -> dict[str, Any]:
         if flags != expected_flags:
             raise ComponentKnockoutPreflightError(
                 f"component-knockout arm {arm} does not remove exactly its registered feature"
+            )
+        semantics = arm_value["execution_semantics"]
+        _strict(
+            semantics,
+            {
+                "admitted_representations",
+                "critic_reject_action",
+                "independent_proof_plans_per_hypothesis",
+                "origin_lineage_mode",
+                "post_generation_recombinations_per_task",
+            },
+            f"component-knockout execution semantics {arm}",
+        )
+        expected_semantics = {
+            "admitted_representations": list(FULL_REPRESENTATIONS),
+            "critic_reject_action": "retain_for_repair",
+            "independent_proof_plans_per_hypothesis": 2,
+            "origin_lineage_mode": "preserve",
+            "post_generation_recombinations_per_task": 3,
+        }
+        if arm == "minus_expanded_grammar":
+            expected_semantics["admitted_representations"] = list(LEGACY_REPRESENTATIONS)
+        elif arm == "minus_independent_proof_recombination":
+            expected_semantics["independent_proof_plans_per_hypothesis"] = 0
+            expected_semantics["post_generation_recombinations_per_task"] = 0
+        elif arm == "minus_lineage_labels":
+            expected_semantics["origin_lineage_mode"] = "normalize_uncertain_and_hide"
+        elif arm == "minus_non_pruning":
+            expected_semantics["critic_reject_action"] = "drop_before_expansion"
+        if semantics != expected_semantics:
+            raise ComponentKnockoutPreflightError(
+                f"component-knockout arm {arm} execution semantics changed"
             )
 
     experiments = value["experiments"]
@@ -354,6 +397,7 @@ def _source_bindings(root: Path, config: Mapping[str, Any]) -> dict[str, Any]:
         "component_knockout_config": CONFIG_PATH,
         "confirmatory_generation_config": config["confirmatory_binding"]["path"],
         "generation_packet": config["generation_packet"]["path"],
+        "live_generation_runner": GENERATION_RUNNER_PATH,
         "preflight_runner": RUNNER_PATH,
     }
     return {
@@ -374,8 +418,13 @@ def build_receipt(root: Path) -> dict[str, Any]:
         "suite_id": SUITE_ID,
         "source_bindings": _source_bindings(root, config),
         "design": {
+            "arm_execution_semantics_sha256s": {
+                arm: canonical_sha256(value["execution_semantics"])
+                for arm, value in sorted(config["arms"].items())
+            },
             "experiments": experiment_count,
             "feature_order": list(FEATURES),
+            "live_executor_source_bound": True,
             "one_feature_removed_per_experiment": True,
             "reference_arm": REFERENCE_ARM,
             "tasks_per_experiment": 24,

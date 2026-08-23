@@ -1295,6 +1295,41 @@ sigma-creativity-knockout-preflight validate --root . `
   --receipt runs/math/creativity-component-knockouts/preflight.json
 ```
 
+The corresponding live runner executes exactly one 96-call / 400,000-token-ceiling experiment at a
+time. The registered intervention is machine-enforced after generation as well as stated in the
+prompt: representation admission, independent proof routes, recombination, origin-lineage
+normalization, and critic-rejection pruning cannot silently drift. A sealed authorization bound to
+the current preflight is required before credential activation or provider transport. Creating or
+sealing a template does not authorize spending; the runner accepts it only after the approving
+person explicitly supplies their identity, UTC timestamp, a unique 256-bit nonce, and
+`paid_execution_authorized: true`. The authorization is single-execution and bound to the exact
+durable-journal path: the same journal can resume, while a different path requires a new approval.
+
+```powershell
+sigma-creativity-knockout-run authorization-template --root . `
+  --experiment-id creativity-knockout-minus-expanded-grammar-001 `
+  --journal work/private/creativity-knockout/attempts.jsonl `
+  --output work/private/creativity-knockout/authorization-draft.json
+
+# After a person explicitly approves this experiment's exact ceiling and edits the draft:
+sigma-creativity-knockout-run seal-authorization `
+  --input work/private/creativity-knockout/authorization-draft.json `
+  --output work/private/creativity-knockout/authorization.json
+
+sigma-creativity-knockout-run run --root . `
+  --authorization work/private/creativity-knockout/authorization.json `
+  --credential-file <path-to-local-env-file> `
+  --journal work/private/creativity-knockout/attempts.jsonl `
+  --review-output runs/math/creativity-component-knockouts/expanded-grammar-review.json `
+  --receipt-output runs/math/creativity-component-knockouts/expanded-grammar-receipt.json `
+  --coordinator-output work/private/creativity-knockout/coordinator.json
+```
+
+The private journal seals each dispatch before transport and each response before validation. A
+restart never replaces an already dispatched slot. Public review packets keep arm identity hidden;
+the unblinding map and raw attempt material stay in ignored private paths. No live knockout has been
+run merely because this executor exists.
+
 Create separate arm-free drafts for each reviewer:
 
 ```powershell

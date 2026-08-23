@@ -40,6 +40,8 @@ def test_four_knockouts_remove_exactly_one_feature_under_matched_budgets() -> No
 def test_preflight_seals_all_slots_without_key_or_provider_access() -> None:
     receipt = K.build_receipt(ROOT)
     schedule = receipt["schedule"]
+    assert receipt["design"]["live_executor_source_bound"] is True
+    assert "live_generation_runner" in receipt["source_bindings"]
     assert schedule["total_scheduled_slots"] == 384
     assert len(schedule["slot_sha256s"]) == 384
     assert len(set(schedule["slot_sha256s"])) == 384
@@ -60,6 +62,39 @@ def test_second_feature_removal_fails_closed() -> None:
         "independent_proof_recombination"
     ] = False
     with pytest.raises(K.ComponentKnockoutPreflightError, match="does not remove exactly"):
+        K.validate_config(changed, ROOT)
+
+
+def test_execution_semantics_enforce_each_registered_intervention() -> None:
+    config, _ = K.load_config(ROOT)
+    full = config["arms"][K.REFERENCE_ARM]["execution_semantics"]
+    assert full["admitted_representations"] == list(K.FULL_REPRESENTATIONS)
+    assert full["independent_proof_plans_per_hypothesis"] == 2
+    assert full["post_generation_recombinations_per_task"] == 3
+    assert full["origin_lineage_mode"] == "preserve"
+    assert full["critic_reject_action"] == "retain_for_repair"
+
+    assert config["arms"]["minus_expanded_grammar"]["execution_semantics"][
+        "admitted_representations"
+    ] == ["sympy_expression"]
+    assert config["arms"]["minus_independent_proof_recombination"][
+        "execution_semantics"
+    ]["independent_proof_plans_per_hypothesis"] == 0
+    assert config["arms"]["minus_independent_proof_recombination"][
+        "execution_semantics"
+    ]["post_generation_recombinations_per_task"] == 0
+    assert config["arms"]["minus_lineage_labels"]["execution_semantics"][
+        "origin_lineage_mode"
+    ] == "normalize_uncertain_and_hide"
+    assert config["arms"]["minus_non_pruning"]["execution_semantics"][
+        "critic_reject_action"
+    ] == "drop_before_expansion"
+
+    changed = copy.deepcopy(config)
+    changed["arms"]["minus_non_pruning"]["execution_semantics"][
+        "critic_reject_action"
+    ] = "retain_for_repair"
+    with pytest.raises(K.ComponentKnockoutPreflightError, match="semantics changed"):
         K.validate_config(changed, ROOT)
 
 

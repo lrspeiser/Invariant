@@ -71,6 +71,11 @@
   budgets, and contributes 96 balanced proposer/critic slots for 384 total. The preflight accesses no
   credential and makes no provider request. All four live rotations remain unexecuted; their combined
   ceilings are 384 calls and 1,600,000 tokens and require a separate explicit spending decision.
+- A resumable live executor is now available for one component knockout at a time. It requires a
+  separately sealed human authorization bound to the current preflight before credential activation,
+  caps each experiment at 96 calls and 400,000 tokens, journals dispatch before transport, and
+  enforces the representation, proof/recombination, lineage, and pruning interventions in code. Its
+  deterministic fake-transport tests are not live evidence; no paid knockout has yet been run.
 
 ## Definition of creative progress
 
@@ -258,8 +263,8 @@ This is evidence of bounded rediscovery, not evidence of mathematical novelty.
 
 1. Obtain two named blinded reviewers for the clean 353-branch packet, seal their complete forms,
    and score the bounded rotation; record disagreements before unblinding system identity.
-2. After explicit approval of the sealed 384-call / 1,600,000-token ceiling, run the four
-   preregistered component knockouts under the same attempt-journal and review rules.
+2. After explicit approval, run each preregistered component knockout through the one-experiment
+   executor under its 96-call / 400,000-token ceiling and the same attempt-journal and review rules.
 3. Extend the live rotating external pack from recurrence, generating-function, sum/product,
    modular, and representation-bridge tasks to separately maintained tensor and variational packs;
    obtain a detached signature from a distinct pack principal before level-5 use.

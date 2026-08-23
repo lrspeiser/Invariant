@@ -28,6 +28,26 @@
         "origin_lineage_labels": true,
         "verifier_failure_non_pruning": true
       },
+      "execution_semantics": {
+        "admitted_representations": [
+          "finite_product",
+          "finite_sum",
+          "generating_function",
+          "invariant_relation",
+          "linear_recurrence",
+          "modular_relation",
+          "other_typed_relation",
+          "proof_plan",
+          "sympy_expression",
+          "tensor_identity",
+          "transform_relation",
+          "variational_principle"
+        ],
+        "critic_reject_action": "retain_for_repair",
+        "independent_proof_plans_per_hypothesis": 2,
+        "origin_lineage_mode": "preserve",
+        "post_generation_recombinations_per_task": 3
+      },
       "enforcement": "apply_all_creativity_first_features",
       "instruction_delta": "Use the frozen full-creativity-first proposer and critic policies without modification."
     },
@@ -37,6 +57,13 @@
         "independent_proof_recombination": true,
         "origin_lineage_labels": true,
         "verifier_failure_non_pruning": true
+      },
+      "execution_semantics": {
+        "admitted_representations": ["sympy_expression"],
+        "critic_reject_action": "retain_for_repair",
+        "independent_proof_plans_per_hypothesis": 2,
+        "origin_lineage_mode": "preserve",
+        "post_generation_recombinations_per_task": 3
       },
       "enforcement": "restrict_to_frozen_legacy_algebraic_representation_slice",
       "instruction_delta": "Use only the frozen legacy algebraic representation slice; do not propose recurrence, generating-function, finite-product, modular, tensor, or variational representations."
@@ -48,6 +75,26 @@
         "origin_lineage_labels": true,
         "verifier_failure_non_pruning": true
       },
+      "execution_semantics": {
+        "admitted_representations": [
+          "finite_product",
+          "finite_sum",
+          "generating_function",
+          "invariant_relation",
+          "linear_recurrence",
+          "modular_relation",
+          "other_typed_relation",
+          "proof_plan",
+          "sympy_expression",
+          "tensor_identity",
+          "transform_relation",
+          "variational_principle"
+        ],
+        "critic_reject_action": "retain_for_repair",
+        "independent_proof_plans_per_hypothesis": 0,
+        "origin_lineage_mode": "preserve",
+        "post_generation_recombinations_per_task": 0
+      },
       "enforcement": "retain_only_llm_declared_proof_plan_and_disable_post_generation_recombination",
       "instruction_delta": "Retain each admitted hypothesis with only its model-declared proof plan; do not add candidate-independent proof routes or cross-idea recombination branches."
     },
@@ -58,6 +105,26 @@
         "origin_lineage_labels": false,
         "verifier_failure_non_pruning": true
       },
+      "execution_semantics": {
+        "admitted_representations": [
+          "finite_product",
+          "finite_sum",
+          "generating_function",
+          "invariant_relation",
+          "linear_recurrence",
+          "modular_relation",
+          "other_typed_relation",
+          "proof_plan",
+          "sympy_expression",
+          "tensor_identity",
+          "transform_relation",
+          "variational_principle"
+        ],
+        "critic_reject_action": "retain_for_repair",
+        "independent_proof_plans_per_hypothesis": 2,
+        "origin_lineage_mode": "normalize_uncertain_and_hide",
+        "post_generation_recombinations_per_task": 3
+      },
       "enforcement": "normalize_origin_metadata_to_uncertain_and_hide_analogue_lineage_from_expansion",
       "instruction_delta": "Do not request or use origin-category, named-analogue, or source-domain lineage when expanding, recombining, or ranking branches; normalize required wire fields to uncertain metadata."
     },
@@ -67,6 +134,26 @@
         "independent_proof_recombination": true,
         "origin_lineage_labels": true,
         "verifier_failure_non_pruning": false
+      },
+      "execution_semantics": {
+        "admitted_representations": [
+          "finite_product",
+          "finite_sum",
+          "generating_function",
+          "invariant_relation",
+          "linear_recurrence",
+          "modular_relation",
+          "other_typed_relation",
+          "proof_plan",
+          "sympy_expression",
+          "tensor_identity",
+          "transform_relation",
+          "variational_principle"
+        ],
+        "critic_reject_action": "drop_before_expansion",
+        "independent_proof_plans_per_hypothesis": 2,
+        "origin_lineage_mode": "preserve",
+        "post_generation_recombinations_per_task": 3
       },
       "enforcement": "drop_critic_rejected_hypotheses_before_proof_and_recombination_expansion",
       "instruction_delta": "Apply the frozen critic rejection before independent proof-plan or recombination expansion; rejected hypotheses do not remain available as parents."
