@@ -46,6 +46,7 @@ def test_prompt_context_is_sealed_creativity_first_and_broad() -> None:
         "generate_multiple_mechanisms_before_falsification": True,
         "learn_matrix_and_nonlinear_actions_from_state_pairs": True,
         "origin_labels_are_fallible_lineage_assessments": True,
+        "preserve_joint_and_unit_hypothesis_branches": True,
         "retain_every_schema_admitted_idea": True,
         "retain_failed_and_underdetermined_invariant_branches": True,
         "retain_set_valued_uncertainty_branches": True,
@@ -77,11 +78,13 @@ def test_prompt_context_is_sealed_creativity_first_and_broad() -> None:
         if brief["action_kind"] == "matrix_conjugation"
     )
     assert matrix["candidate_invariant_coordinates"] == ["a + d", "a*d - b*c"]
-    assert len(context["uncertain_invariant_briefs"]) == 3
+    assert len(context["uncertain_invariant_briefs"]) == 5
     assert {brief["observation_mode"] for brief in context["uncertain_invariant_briefs"]} == {
         "missingness",
         "noisy_interval",
         "one_sided_censoring",
+        "joint_support",
+        "unit_hypotheses",
     }
     noisy = next(
         brief
@@ -90,6 +93,23 @@ def test_prompt_context_is_sealed_creativity_first_and_broad() -> None:
     )
     assert len(noisy["candidate_invariant_coordinates"]) == 3
     assert noisy["deployment_surviving_coordinates"] == ["a*b/c"]
+    dependent = next(
+        brief
+        for brief in context["uncertain_invariant_briefs"]
+        if brief["observation_mode"] == "joint_support"
+    )
+    assert dependent["dependence_semantics"] == (
+        "finite_joint_support_without_marginal_factorization"
+    )
+    unit = next(
+        brief
+        for brief in context["uncertain_invariant_briefs"]
+        if brief["observation_mode"] == "unit_hypotheses"
+    )
+    assert unit["retained_evidence_branches"] == [
+        {"branch_ids": ["b_three_c_two"], "expression": "a*b/c"},
+        {"branch_ids": ["b_half"], "expression": "a**2/b"},
+    ]
     assert len(context["typed_formula_kinds"]) == 7
     assert len(context["independent_proof_mechanisms"]) == 6
     assert context["origin_assessment_labels"] == C.ORIGIN_ASSESSMENTS
@@ -159,6 +179,36 @@ def test_prompt_context_rejects_resealed_pruning_of_censored_candidates() -> Non
     censored["candidate_invariant_coordinates"] = censored[
         "deployment_surviving_coordinates"
     ]
+    body = {key: value for key, value in changed.items() if key != "content_sha256"}
+    changed["content_sha256"] = canonical_sha256(body)
+    with pytest.raises(C.CoreCreativePromptContextError, match="uncertain invariant"):
+        C.validate_creative_prompt_context(changed)
+
+
+def test_prompt_context_rejects_resealed_factorization_of_joint_support() -> None:
+    context = _context()
+    changed = deepcopy(context)
+    dependent = next(
+        brief
+        for brief in changed["uncertain_invariant_briefs"]
+        if brief["observation_mode"] == "joint_support"
+    )
+    dependent["dependence_semantics"] = "independent_marginal_bounds"
+    body = {key: value for key, value in changed.items() if key != "content_sha256"}
+    changed["content_sha256"] = canonical_sha256(body)
+    with pytest.raises(C.CoreCreativePromptContextError, match="uncertain invariant"):
+        C.validate_creative_prompt_context(changed)
+
+
+def test_prompt_context_rejects_resealed_unit_hypothesis_switch() -> None:
+    context = _context()
+    changed = deepcopy(context)
+    unit = next(
+        brief
+        for brief in changed["uncertain_invariant_briefs"]
+        if brief["observation_mode"] == "unit_hypotheses"
+    )
+    unit["retained_evidence_branches"][1]["branch_ids"] = ["b_three_c_two"]
     body = {key: value for key, value in changed.items() if key != "content_sha256"}
     changed["content_sha256"] = canonical_sha256(body)
     with pytest.raises(C.CoreCreativePromptContextError, match="uncertain invariant"):

@@ -1,6 +1,6 @@
 {
-  "schema_version": "invariant-uncertain-invariant-discovery-targets-1.0",
-  "campaign_id": "uncertain-invariant-controls-2026-08-23-001",
+  "schema_version": "invariant-uncertain-invariant-discovery-targets-1.1",
+  "campaign_id": "uncertain-invariant-controls-2026-08-23-002",
   "controls": [
     {
       "problem_id": "control.noisy-ratio-action",
@@ -22,6 +22,24 @@
       "expected_deployment_survivor_set": [[1, 1, -1]],
       "expected_deployment_failed_candidates": 1,
       "expected_status": "CENSORED_RETAIN_SET_VALUED_CANDIDATES"
+    },
+    {
+      "problem_id": "control.dependent-joint-ratio-action",
+      "expected_training_candidate_set": [[1, 1, -1]],
+      "expected_deployment_survivor_set": [[1, 1, -1]],
+      "expected_deployment_failed_candidates": 0,
+      "expected_status": "DEPENDENT_RETAIN_JOINT_SUPPORT_COMPATIBLE_SET"
+    },
+    {
+      "problem_id": "control.unit-uncertain-ratio-action",
+      "expected_training_candidate_set": [[1, 1, -1], [2, -1, 0]],
+      "expected_deployment_survivor_set": [[1, 1, -1]],
+      "expected_deployment_failed_candidates": 1,
+      "expected_status": "UNIT_UNCERTAINTY_RETAIN_GLOBAL_HYPOTHESIS_BRANCHES",
+      "expected_unit_hypothesis_branches": [
+        {"exponents": [1, 1, -1], "hypothesis_id": "b_three_c_two"},
+        {"exponents": [2, -1, 0], "hypothesis_id": "b_half"}
+      ]
     }
   ]
 }

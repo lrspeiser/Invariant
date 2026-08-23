@@ -2,9 +2,9 @@
 
 The external benchmark campaign remains a reproducible public control.  The core application wraps
 its provider transport with this module so that validated symmetry/dimension briefs, learned
-diagonal and state-pair invariants, typed grammar kinds, proof routes, and origin-label policy reach
-Claude without changing the deterministic control receipt.  The wrapper records the exact context
-seal beside the provider prompt hash.
+diagonal and state-pair invariants, structured uncertainty branches, typed grammar kinds, proof
+routes, and origin-label policy reach Claude without changing the deterministic control receipt.
+The wrapper records the exact context seal beside the provider prompt hash.
 """
 
 from __future__ import annotations
@@ -17,11 +17,11 @@ from .claude_creativity_api import ClaudeCreativityError, Transport, urllib_tran
 from .external_claude_transport import ProviderCompatibleClaudeTransport
 from .sigma_core import canonical_sha256
 
-SCHEMA_VERSION = "invariant-core-creative-prompt-context-1.4"
+SCHEMA_VERSION = "invariant-core-creative-prompt-context-1.5"
 FIRST_PRINCIPLES_BRIEF_COUNT = 5
 LEARNED_INVARIANT_BRIEF_COUNT = 3
 STATE_PAIR_INVARIANT_BRIEF_COUNT = 3
-UNCERTAIN_INVARIANT_BRIEF_COUNT = 3
+UNCERTAIN_INVARIANT_BRIEF_COUNT = 5
 ORIGIN_ASSESSMENTS = [
     "cross_domain_synthesis",
     "known_rewrite",
@@ -252,7 +252,7 @@ def build_creative_prompt_context(
         raise CoreCreativePromptContextError("state-pair invariant brief coverage changed")
 
     if uncertain_invariants.get("summary", {}).get("status") != (
-        "PASS_UNCERTAIN_INVARIANT_BRANCH_CONTROLS"
+        "PASS_COUPLED_UNCERTAIN_INVARIANT_BRANCH_CONTROLS"
     ):
         raise CoreCreativePromptContextError("uncertain invariant context changed")
     uncertain_briefs = []
@@ -262,11 +262,13 @@ def build_creative_prompt_context(
             {
                 "candidate_invariant_coordinates",
                 "constraint_statement",
+                "dependence_semantics",
                 "deployment_surviving_coordinates",
                 "identifiability_status",
                 "llm_origin_assessment_labels",
                 "novelty_caution",
                 "observation_mode",
+                "retained_evidence_branches",
             },
             "uncertain invariant creative brief",
         )
@@ -283,6 +285,7 @@ def build_creative_prompt_context(
                     creative_brief["candidate_invariant_coordinates"]
                 ),
                 "constraint_statement": creative_brief["constraint_statement"],
+                "dependence_semantics": creative_brief["dependence_semantics"],
                 "deployment_surviving_coordinates": list(
                     creative_brief["deployment_surviving_coordinates"]
                 ),
@@ -291,18 +294,29 @@ def build_creative_prompt_context(
                 "novelty_caution": creative_brief["novelty_caution"],
                 "observation_mode": creative_brief["observation_mode"],
                 "problem_id": result.get("problem_id"),
+                "retained_evidence_branches": list(
+                    creative_brief["retained_evidence_branches"]
+                ),
             }
         )
     uncertain_briefs.sort(key=lambda item: str(item["problem_id"]))
     if (
         len(uncertain_briefs) != UNCERTAIN_INVARIANT_BRIEF_COUNT
         or {item["observation_mode"] for item in uncertain_briefs}
-        != {"missingness", "noisy_interval", "one_sided_censoring"}
+        != {
+            "joint_support",
+            "missingness",
+            "noisy_interval",
+            "one_sided_censoring",
+            "unit_hypotheses",
+        }
         or {item["identifiability_status"] for item in uncertain_briefs}
         != {
             "CENSORED_RETAIN_SET_VALUED_CANDIDATES",
+            "DEPENDENT_RETAIN_JOINT_SUPPORT_COMPATIBLE_SET",
             "MISSINGNESS_RETAIN_PARTIALLY_OBSERVED_SET",
             "NOISY_RETAIN_INTERVAL_COMPATIBLE_SET",
+            "UNIT_UNCERTAINTY_RETAIN_GLOBAL_HYPOTHESIS_BRANCHES",
         }
         or any(
             not isinstance(item["problem_id"], str)
@@ -321,6 +335,7 @@ def build_creative_prompt_context(
             "generate_multiple_mechanisms_before_falsification": True,
             "learn_matrix_and_nonlinear_actions_from_state_pairs": True,
             "origin_labels_are_fallible_lineage_assessments": True,
+            "preserve_joint_and_unit_hypothesis_branches": True,
             "retain_every_schema_admitted_idea": True,
             "retain_failed_and_underdetermined_invariant_branches": True,
             "retain_set_valued_uncertainty_branches": True,
@@ -374,6 +389,7 @@ def validate_creative_prompt_context(value: Mapping[str, Any]) -> None:
             "generate_multiple_mechanisms_before_falsification",
             "learn_matrix_and_nonlinear_actions_from_state_pairs",
             "origin_labels_are_fallible_lineage_assessments",
+            "preserve_joint_and_unit_hypothesis_branches",
             "retain_every_schema_admitted_idea",
             "retain_failed_and_underdetermined_invariant_branches",
             "retain_set_valued_uncertainty_branches",
@@ -519,17 +535,20 @@ def validate_creative_prompt_context(value: Mapping[str, Any]) -> None:
             {
                 "candidate_invariant_coordinates",
                 "constraint_statement",
+                "dependence_semantics",
                 "deployment_surviving_coordinates",
                 "domain",
                 "identifiability_status",
                 "novelty_caution",
                 "observation_mode",
                 "problem_id",
+                "retained_evidence_branches",
             },
             "core uncertain invariant brief",
         )
         candidates = brief["candidate_invariant_coordinates"]
         survivors = brief["deployment_surviving_coordinates"]
+        evidence_branches = brief["retained_evidence_branches"]
         if (
             not isinstance(candidates, list)
             or not candidates
@@ -539,24 +558,70 @@ def validate_creative_prompt_context(value: Mapping[str, Any]) -> None:
             or any(not isinstance(item, str) or not item for item in survivors)
             or not isinstance(brief["observation_mode"], str)
             or not isinstance(brief["identifiability_status"], str)
+            or not isinstance(brief["dependence_semantics"], str)
+            or brief["dependence_semantics"]
+            != {
+                "joint_support": "finite_joint_support_without_marginal_factorization",
+                "missingness": "independent_marginal_bounds",
+                "noisy_interval": "independent_marginal_bounds",
+                "one_sided_censoring": "independent_marginal_bounds",
+                "unit_hypotheses": "one_global_unit_hypothesis_per_candidate_branch",
+            }.get(brief["observation_mode"])
+            or not isinstance(evidence_branches, list)
+            or len(evidence_branches) != len(candidates)
+            or any(
+                not isinstance(branch, Mapping)
+                or set(branch) != {"branch_ids", "expression"}
+                or branch["expression"] not in candidates
+                or not isinstance(branch["branch_ids"], list)
+                or not branch["branch_ids"]
+                or any(
+                    not isinstance(branch_id, str) or not branch_id
+                    for branch_id in branch["branch_ids"]
+                )
+                for branch in evidence_branches
+            )
             or len(candidates)
             != {
+                "joint_support": 1,
                 "missingness": 1,
                 "noisy_interval": 3,
                 "one_sided_censoring": 2,
+                "unit_hypotheses": 2,
             }.get(brief["observation_mode"])
             or len(survivors) != 1
+            or (
+                brief["observation_mode"] == "joint_support"
+                and evidence_branches
+                != [{"branch_ids": ["finite_joint_support"], "expression": "a*b/c"}]
+            )
+            or (
+                brief["observation_mode"] == "unit_hypotheses"
+                and evidence_branches
+                != [
+                    {"branch_ids": ["b_three_c_two"], "expression": "a*b/c"},
+                    {"branch_ids": ["b_half"], "expression": "a**2/b"},
+                ]
+            )
         ):
             raise CoreCreativePromptContextError("core uncertain invariant branch changed")
         modes.add(brief["observation_mode"])
         statuses.add(brief["identifiability_status"])
-    if modes != {"missingness", "noisy_interval", "one_sided_censoring"} or statuses != {
+    if modes != {
+        "joint_support",
+        "missingness",
+        "noisy_interval",
+        "one_sided_censoring",
+        "unit_hypotheses",
+    } or statuses != {
         "CENSORED_RETAIN_SET_VALUED_CANDIDATES",
+        "DEPENDENT_RETAIN_JOINT_SUPPORT_COMPATIBLE_SET",
         "MISSINGNESS_RETAIN_PARTIALLY_OBSERVED_SET",
         "NOISY_RETAIN_INTERVAL_COMPATIBLE_SET",
+        "UNIT_UNCERTAINTY_RETAIN_GLOBAL_HYPOTHESIS_BRANCHES",
     }:
         raise CoreCreativePromptContextError("core uncertain invariant outcomes changed")
-    if len(json.dumps(value, sort_keys=True, separators=(",", ":")).encode("utf-8")) > 24_576:
+    if len(json.dumps(value, sort_keys=True, separators=(",", ":")).encode("utf-8")) > 32_768:
         raise CoreCreativePromptContextError("core creative prompt context exceeds its byte budget")
 
 

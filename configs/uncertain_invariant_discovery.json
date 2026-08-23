@@ -1,10 +1,12 @@
 {
-  "schema_version": "invariant-uncertain-invariant-discovery-config-1.0",
-  "campaign_id": "uncertain-invariant-controls-2026-08-23-001",
+  "schema_version": "invariant-uncertain-invariant-discovery-config-1.1",
+  "campaign_id": "uncertain-invariant-controls-2026-08-23-002",
   "policy": {
     "maximum_absolute_exponent": 2,
     "maximum_candidates": 16,
+    "maximum_joint_atoms_per_transformation": 2,
     "maximum_l1_norm": 5,
+    "maximum_unit_hypotheses": 2,
     "minimum_deployment_transformations": 2,
     "minimum_evaluable_training_transformations": 2,
     "minimum_training_transformations": 4
@@ -176,6 +178,128 @@
         },
         {
           "transformation_id": "deployment.censored-action-02",
+          "observations": {
+            "a": {"kind": "exact", "value": "49"},
+            "b": {"kind": "exact", "value": "7"},
+            "c": {"kind": "exact", "value": "343"}
+          }
+        }
+      ]
+    },
+    {
+      "problem_id": "control.dependent-joint-ratio-action",
+      "domain": "dependent_measurement",
+      "observation_mode": "joint_support",
+      "variables": ["a", "b", "c"],
+      "training_transformations": [
+        {
+          "transformation_id": "train.dependent-action-01",
+          "joint_atoms": [
+            {"atom_id": "support-a", "ratios": {"a": "2", "b": "4", "c": "8"}},
+            {"atom_id": "support-b", "ratios": {"a": "4", "b": "2", "c": "8"}}
+          ]
+        },
+        {
+          "transformation_id": "train.dependent-action-02",
+          "joint_atoms": [
+            {"atom_id": "support-a", "ratios": {"a": "3", "b": "27", "c": "81"}},
+            {"atom_id": "support-b", "ratios": {"a": "27", "b": "3", "c": "81"}}
+          ]
+        },
+        {
+          "transformation_id": "train.dependent-action-03",
+          "joint_atoms": [
+            {"atom_id": "support-a", "ratios": {"a": "5", "b": "625", "c": "3125"}},
+            {"atom_id": "support-b", "ratios": {"a": "625", "b": "5", "c": "3125"}}
+          ]
+        },
+        {
+          "transformation_id": "train.dependent-action-04",
+          "joint_atoms": [
+            {"atom_id": "support-a", "ratios": {"a": "49", "b": "343", "c": "16807"}},
+            {"atom_id": "support-b", "ratios": {"a": "343", "b": "49", "c": "16807"}}
+          ]
+        }
+      ],
+      "deployment_transformations": [
+        {
+          "transformation_id": "deployment.dependent-action-01",
+          "observations": {
+            "a": {"kind": "exact", "value": "5"},
+            "b": {"kind": "exact", "value": "25"},
+            "c": {"kind": "exact", "value": "125"}
+          }
+        },
+        {
+          "transformation_id": "deployment.dependent-action-02",
+          "observations": {
+            "a": {"kind": "exact", "value": "49"},
+            "b": {"kind": "exact", "value": "7"},
+            "c": {"kind": "exact", "value": "343"}
+          }
+        }
+      ]
+    },
+    {
+      "problem_id": "control.unit-uncertain-ratio-action",
+      "domain": "unit_calibration",
+      "observation_mode": "unit_hypotheses",
+      "variables": ["a", "b", "c"],
+      "unit_hypotheses": [
+        {
+          "hypothesis_id": "b_half",
+          "ratio_multipliers": {"a": "1", "b": "1/2", "c": "1"}
+        },
+        {
+          "hypothesis_id": "b_three_c_two",
+          "ratio_multipliers": {"a": "1", "b": "3", "c": "2"}
+        }
+      ],
+      "training_transformations": [
+        {
+          "transformation_id": "train.unit-action-01",
+          "observations": {
+            "a": {"kind": "exact", "value": "2"},
+            "b": {"kind": "exact", "value": "8"},
+            "c": {"kind": "exact", "value": "24"}
+          }
+        },
+        {
+          "transformation_id": "train.unit-action-02",
+          "observations": {
+            "a": {"kind": "exact", "value": "3"},
+            "b": {"kind": "exact", "value": "18"},
+            "c": {"kind": "exact", "value": "81"}
+          }
+        },
+        {
+          "transformation_id": "train.unit-action-03",
+          "observations": {
+            "a": {"kind": "exact", "value": "5"},
+            "b": {"kind": "exact", "value": "50"},
+            "c": {"kind": "exact", "value": "375"}
+          }
+        },
+        {
+          "transformation_id": "train.unit-action-04",
+          "observations": {
+            "a": {"kind": "exact", "value": "7"},
+            "b": {"kind": "exact", "value": "98"},
+            "c": {"kind": "exact", "value": "1029"}
+          }
+        }
+      ],
+      "deployment_transformations": [
+        {
+          "transformation_id": "deployment.unit-action-01",
+          "observations": {
+            "a": {"kind": "exact", "value": "5"},
+            "b": {"kind": "exact", "value": "25"},
+            "c": {"kind": "exact", "value": "125"}
+          }
+        },
+        {
+          "transformation_id": "deployment.unit-action-02",
           "observations": {
             "a": {"kind": "exact", "value": "49"},
             "b": {"kind": "exact", "value": "7"},
