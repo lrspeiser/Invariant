@@ -44,8 +44,8 @@ from .sigma_core import canonical_sha256
 
 CONFIG_PATH = "configs/core_creative_discovery.json"
 OUTPUT_PATH = "runs/math/core-creative-discovery/live-runtime.json"
-SCHEMA_VERSION = "invariant-core-creative-discovery-runtime-1.2"
-CONFIG_SCHEMA = "invariant-core-creative-discovery-config-1.2"
+SCHEMA_VERSION = "invariant-core-creative-discovery-runtime-1.3"
+CONFIG_SCHEMA = "invariant-core-creative-discovery-config-1.3"
 
 
 class CoreCreativeDiscoveryError(ValueError):
@@ -98,6 +98,7 @@ def _load_config(root: Path) -> dict[str, Any]:
     if (
         policy.get("required_serious_claim_backends")
         != ["exact_arithmetic", "cas", "smt", "interval", "lean"]
+        or policy.get("backend_wrong_formula_mutation_required") is not True
         or policy.get("human_prior_art_review_required") is not True
         or policy.get("minimum_independent_level5_passes_before_open_problem", 0) < 3
     ):
@@ -131,17 +132,13 @@ def _load_bound_receipts(
     multi_host_path = root / components["multi_host_reproduction_receipt"]
     expanded_grammar_path = root / components["expanded_typed_grammar_receipt"]
     proof_plan_path = root / components["proof_plan_search_receipt"]
-    serious_claim_ladder_path = root / components[
-        "serious_claim_verification_ladder_receipt"
-    ]
+    serious_claim_ladder_path = root / components["serious_claim_verification_ladder_receipt"]
     dataset = json.loads(dataset_path.read_text(encoding="utf-8"))
     operational = json.loads(operational_path.read_text(encoding="utf-8"))
     multi_host = json.loads(multi_host_path.read_text(encoding="utf-8"))
     expanded_grammar = json.loads(expanded_grammar_path.read_text(encoding="utf-8"))
     proof_plan_search = json.loads(proof_plan_path.read_text(encoding="utf-8"))
-    serious_claim_ladder = json.loads(
-        serious_claim_ladder_path.read_text(encoding="utf-8")
-    )
+    serious_claim_ladder = json.loads(serious_claim_ladder_path.read_text(encoding="utf-8"))
     validate_dataset_challenges(dataset, root)
     validate_operational_receipt(operational, root)
     validate_multi_host_receipt(multi_host)
@@ -164,14 +161,10 @@ def _validate_live_campaign(campaign: Mapping[str, Any], config: Mapping[str, An
     policy = config["claude"]
     roles = {call.get("role") for call in calls if call.get("status") == "completed"}
     models = {
-        call.get("evidence", {}).get("model")
-        for call in calls
-        if call.get("status") == "completed"
+        call.get("evidence", {}).get("model") for call in calls if call.get("status") == "completed"
     }
     structured = {
-        call.get("evidence", {}).get("model_evidence", {}).get(
-            "structured_outputs_supported"
-        )
+        call.get("evidence", {}).get("model_evidence", {}).get("structured_outputs_supported")
         for call in calls
         if call.get("status") == "completed"
     }
@@ -270,9 +263,7 @@ def run_core(
             },
             "serious_claim_verification_ladder_receipt": {
                 "content_sha256": serious_claim_ladder["content_sha256"],
-                "path": config["components"][
-                    "serious_claim_verification_ladder_receipt"
-                ],
+                "path": config["components"]["serious_claim_verification_ladder_receipt"],
             },
         },
         "credential_activation": activation.to_evidence(),
@@ -324,6 +315,12 @@ def run_core(
             "received_machines": multi_host["reproduction"]["received_machines"],
             "lean_kernel_checked": multi_host["lean"]["kernel_checked"],
             "serious_claim_ladder_status": serious_claim_ladder["summary"]["status"],
+            "serious_claim_backend_mutations_rejected": serious_claim_ladder["summary"][
+                "backend_mathematical_mutations_rejected"
+            ],
+            "serious_claim_lean_mutation_artifact_bound": serious_claim_ladder["summary"][
+                "lean_kernel_mutation_artifact_bound"
+            ],
             "serious_claim_required_stage_order": serious_claim_ladder["summary"][
                 "required_stage_order"
             ],
@@ -397,8 +394,7 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
         != ["intervention", "noisy", "shifted", "unidentifiable"]
         or discovery.get("dataset_positive_controls_passed") != 4
         or discovery.get("dataset_mutation_controls_rejected") != 4
-        or discovery.get("dataset_challenge_status")
-        != "PASS_EXECUTABLE_DATASET_CHALLENGES"
+        or discovery.get("dataset_challenge_status") != "PASS_EXECUTABLE_DATASET_CHALLENGES"
         or discovery.get("independent_proof_plan_mechanisms")
         != [
             "induction",
@@ -410,8 +406,7 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
         ]
         or discovery.get("independent_proof_plan_routes_closed") != 6
         or discovery.get("independent_proof_plan_mutations_rejected") != 6
-        or discovery.get("independent_proof_plan_status")
-        != "PASS_INDEPENDENT_PROOF_PLAN_SEARCH"
+        or discovery.get("independent_proof_plan_status") != "PASS_INDEPENDENT_PROOF_PLAN_SEARCH"
         or discovery.get("typed_formula_kinds")
         != [
             "finite_product",
@@ -423,8 +418,7 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
             "variational_functional",
         ]
         or discovery.get("typed_grammar_controls_passed") != 7
-        or discovery.get("typed_grammar_status")
-        != "PASS_EXPANDED_TYPED_GRAMMAR_CONTROLS"
+        or discovery.get("typed_grammar_status") != "PASS_EXPANDED_TYPED_GRAMMAR_CONTROLS"
     ):
         raise CoreCreativeDiscoveryError("core expanded typed grammar evidence changed")
     verification = value.get("verification", {})
@@ -434,8 +428,9 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
         or verification.get("lean_kernel_checked") is not True
         or verification.get("serious_claim_ladder_status")
         != "PASS_CANDIDATE_BOUND_LADDER_CALIBRATION"
-        or tuple(verification.get("serious_claim_required_stage_order", ()))
-        != SERIOUS_CLAIM_STAGES
+        or verification.get("serious_claim_backend_mutations_rejected") != 8
+        or verification.get("serious_claim_lean_mutation_artifact_bound") is not False
+        or tuple(verification.get("serious_claim_required_stage_order", ())) != SERIOUS_CLAIM_STAGES
         or verification.get("serious_claims_released_by_ladder") != 0
     ):
         raise CoreCreativeDiscoveryError("core verification evidence changed")
@@ -446,10 +441,9 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
         root = root.resolve()
         bindings = value.get("source_bindings", {})
         config_binding = bindings.get("config", {})
-        if (
-            config_binding.get("path") != CONFIG_PATH
-            or config_binding.get("sha256") != _normalized_file_sha256(root / CONFIG_PATH)
-        ):
+        if config_binding.get("path") != CONFIG_PATH or config_binding.get(
+            "sha256"
+        ) != _normalized_file_sha256(root / CONFIG_PATH):
             raise CoreCreativeDiscoveryError("core config source binding changed")
         for key in (
             "dataset_challenge_receipt",
