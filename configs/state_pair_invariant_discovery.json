@@ -1,0 +1,177 @@
+{
+  "schema_version": "invariant-state-pair-invariant-discovery-config-1.0",
+  "campaign_id": "state-pair-invariant-controls-2026-08-23-001",
+  "policy": {
+    "maximum_algebraic_coordinates": 4,
+    "maximum_linear_invariant_dimension": 4,
+    "maximum_monomials": 14,
+    "maximum_total_degree": 2,
+    "minimum_deployment_pairs": 2,
+    "minimum_training_pairs": 4
+  },
+  "problems": [
+    {
+      "problem_id": "control.orthogonal-plane-state-pairs",
+      "domain": "geometry",
+      "action_kind": "matrix_orthogonal",
+      "variables": ["x", "y"],
+      "maximum_total_degree": 2,
+      "training_pairs": [
+        {
+          "pair_id": "train.orthogonal-01",
+          "before": {"x": "1", "y": "2"},
+          "after": {"x": "-2", "y": "1"}
+        },
+        {
+          "pair_id": "train.orthogonal-02",
+          "before": {"x": "2", "y": "-1"},
+          "after": {"x": "1", "y": "2"}
+        },
+        {
+          "pair_id": "train.orthogonal-03",
+          "before": {"x": "1", "y": "3"},
+          "after": {"x": "1", "y": "-3"}
+        },
+        {
+          "pair_id": "train.orthogonal-04",
+          "before": {"x": "2", "y": "3"},
+          "after": {"x": "3", "y": "2"}
+        }
+      ],
+      "deployment_pairs": [
+        {
+          "pair_id": "deployment.orthogonal-01",
+          "before": {"x": "-2", "y": "5"},
+          "after": {"x": "-5", "y": "-2"}
+        },
+        {
+          "pair_id": "deployment.orthogonal-02",
+          "before": {"x": "4", "y": "1"},
+          "after": {"x": "-1", "y": "4"}
+        }
+      ]
+    },
+    {
+      "problem_id": "control.matrix-conjugation-2x2",
+      "domain": "linear_algebra",
+      "action_kind": "matrix_conjugation",
+      "variables": ["a", "b", "c", "d"],
+      "maximum_total_degree": 2,
+      "training_pairs": [
+        {
+          "pair_id": "train.matrix-01",
+          "before": {"a": "3", "b": "-4", "c": "1", "d": "2"},
+          "after": {"a": "-11/5", "b": "19/5", "c": "-34/5", "d": "36/5"}
+        },
+        {
+          "pair_id": "train.matrix-02",
+          "before": {"a": "1", "b": "5", "c": "-2", "d": "5"},
+          "after": {"a": "-15", "b": "-10", "c": "33", "d": "21"}
+        },
+        {
+          "pair_id": "train.matrix-03",
+          "before": {"a": "-3", "b": "5", "c": "3", "d": "5"},
+          "after": {"a": "4", "b": "-4", "c": "-11/2", "d": "-2"}
+        },
+        {
+          "pair_id": "train.matrix-04",
+          "before": {"a": "-3", "b": "-1", "c": "2", "d": "2"},
+          "after": {"a": "-14/5", "b": "-13/5", "c": "2/5", "d": "9/5"}
+        },
+        {
+          "pair_id": "train.matrix-05",
+          "before": {"a": "5", "b": "3", "c": "-4", "d": "-4"},
+          "after": {"a": "40", "b": "-97/2", "c": "32", "d": "-39"}
+        },
+        {
+          "pair_id": "train.matrix-06",
+          "before": {"a": "1", "b": "-3", "c": "3", "d": "-3"},
+          "after": {"a": "-3/13", "b": "-63/13", "c": "15/13", "d": "-23/13"}
+        },
+        {
+          "pair_id": "train.matrix-07",
+          "before": {"a": "3", "b": "-1", "c": "5", "d": "2"},
+          "after": {"a": "22/9", "b": "35/9", "c": "-11/9", "d": "23/9"}
+        },
+        {
+          "pair_id": "train.matrix-08",
+          "before": {"a": "-1", "b": "5", "c": "-2", "d": "1"},
+          "after": {"a": "7/3", "b": "-13/3", "c": "10/3", "d": "-7/3"}
+        },
+        {
+          "pair_id": "train.matrix-09",
+          "before": {"a": "-4", "b": "-2", "c": "1", "d": "-4"},
+          "after": {"a": "-4", "b": "2", "c": "-1", "d": "-4"}
+        },
+        {
+          "pair_id": "train.matrix-10",
+          "before": {"a": "2", "b": "-2", "c": "3", "d": "2"},
+          "after": {"a": "5/2", "b": "5/2", "c": "-5/2", "d": "3/2"}
+        },
+        {
+          "pair_id": "train.matrix-11",
+          "before": {"a": "4", "b": "-3", "c": "3", "d": "-2"},
+          "after": {"a": "1", "b": "0", "c": "3", "d": "1"}
+        }
+      ],
+      "deployment_pairs": [
+        {
+          "pair_id": "deployment.matrix-01",
+          "before": {"a": "2", "b": "4", "c": "-1", "d": "3"},
+          "after": {"a": "6", "b": "-2", "c": "8", "d": "-1"}
+        },
+        {
+          "pair_id": "deployment.matrix-02",
+          "before": {"a": "-2", "b": "1", "c": "5", "d": "4"},
+          "after": {"a": "-7/3", "b": "-13/3", "c": "-2/3", "d": "13/3"}
+        },
+        {
+          "pair_id": "deployment.matrix-03",
+          "before": {"a": "6", "b": "-3", "c": "2", "d": "-1"},
+          "after": {"a": "0", "b": "-6", "c": "0", "d": "5"}
+        }
+      ]
+    },
+    {
+      "problem_id": "control.nonlinear-parabolic-shear",
+      "domain": "nonlinear_geometry",
+      "action_kind": "nonlinear_polynomial",
+      "variables": ["x", "y"],
+      "maximum_total_degree": 2,
+      "training_pairs": [
+        {
+          "pair_id": "train.nonlinear-01",
+          "before": {"x": "1", "y": "3"},
+          "after": {"x": "3", "y": "11"}
+        },
+        {
+          "pair_id": "train.nonlinear-02",
+          "before": {"x": "2", "y": "-1"},
+          "after": {"x": "1", "y": "-4"}
+        },
+        {
+          "pair_id": "train.nonlinear-03",
+          "before": {"x": "-2", "y": "5"},
+          "after": {"x": "1", "y": "2"}
+        },
+        {
+          "pair_id": "train.nonlinear-04",
+          "before": {"x": "3", "y": "0"},
+          "after": {"x": "5", "y": "16"}
+        }
+      ],
+      "deployment_pairs": [
+        {
+          "pair_id": "deployment.nonlinear-01",
+          "before": {"x": "1", "y": "-4"},
+          "after": {"x": "-2", "y": "-1"}
+        },
+        {
+          "pair_id": "deployment.nonlinear-02",
+          "before": {"x": "0", "y": "7"},
+          "after": {"x": "-2", "y": "11"}
+        }
+      ]
+    }
+  ]
+}

@@ -160,6 +160,7 @@ def test_core_run_requires_and_sanitizes_live_claude(
     serious_claim_ladder = bound_receipts[8]
     component_knockout = bound_receipts[9]
     learned_invariants = bound_receipts[10]
+    state_pair_invariants = bound_receipts[11]
     monkeypatch.setattr(
         C,
         "_load_bound_receipts",
@@ -175,6 +176,7 @@ def test_core_run_requires_and_sanitizes_live_claude(
             serious_claim_ladder,
             component_knockout,
             learned_invariants,
+            state_pair_invariants,
         ),
     )
     monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
@@ -194,6 +196,11 @@ def test_core_run_requires_and_sanitizes_live_claude(
             == "UNDERDETERMINED_RETAIN_CANDIDATE_SUBSPACE"
             for brief in creative_context["learned_invariant_briefs"]
         )
+        assert len(creative_context["state_pair_invariant_briefs"]) == 3
+        assert {
+            brief["action_kind"]
+            for brief in creative_context["state_pair_invariant_briefs"]
+        } == {"matrix_conjugation", "matrix_orthogonal", "nonlinear_polynomial"}
         assert creative_context["origin_assessment_labels"] == [
             "cross_domain_synthesis",
             "known_rewrite",
@@ -221,6 +228,7 @@ def test_core_run_requires_and_sanitizes_live_claude(
             "proposed_new_construction",
             "uncertain",
         ],
+        "state_pair_invariant_briefs": 3,
         "status": "PASS_CONTEXT_BOUND_TO_AUTHENTICATED_CALLS",
         "typed_formula_kinds": 7,
     }
@@ -263,11 +271,16 @@ def test_core_run_requires_and_sanitizes_live_claude(
     )
     assert receipt["symmetry_dimension_derivation"]["claims"]["specific_law_discovered"] is False
     assert receipt["learned_invariant_discovery"]["claims"]["empirical_law_discovered"] is False
+    assert receipt["state_pair_invariant_discovery"]["claims"]["theorem_proved"] is False
     assert receipt["discovery_runtime"]["learned_invariant_identified_passes"] == 1
     assert receipt["discovery_runtime"]["learned_invariant_shift_rejections"] == 1
     assert receipt["discovery_runtime"]["learned_invariant_underdetermined_controls"] == 1
     assert receipt["discovery_runtime"]["learned_invariant_training_coordinates_retained"] == 7
     assert receipt["discovery_runtime"]["learned_invariant_deployment_repaired_coordinates"] == 6
+    assert receipt["discovery_runtime"]["state_pair_controls"] == 3
+    assert receipt["discovery_runtime"]["state_pair_matrix_action_controls"] == 2
+    assert receipt["discovery_runtime"]["state_pair_nonlinear_action_controls"] == 1
+    assert receipt["discovery_runtime"]["state_pair_deployment_failures"] == 0
     assert receipt["discovery_runtime"]["independent_proof_plan_routes_closed"] == 6
     assert receipt["discovery_runtime"]["independent_proof_plan_mutations_rejected"] == 6
     assert receipt["discovery_runtime"]["component_knockout_experiments_preflighted"] == 4

@@ -21,13 +21,16 @@ def _context() -> dict[str, object]:
     learned = json.loads(
         (ROOT / "runs/math/learned-invariant-discovery/receipt.json").read_text()
     )
+    state_pair = json.loads(
+        (ROOT / "runs/math/state-pair-invariant-discovery/receipt.json").read_text()
+    )
     grammar = json.loads(
         (ROOT / "runs/math/expanded-typed-grammar/receipt.json").read_text()
     )
     proof = json.loads(
         (ROOT / "runs/math/independent-proof-plan-search/receipt.json").read_text()
     )
-    return C.build_creative_prompt_context(symmetry, learned, grammar, proof)
+    return C.build_creative_prompt_context(symmetry, learned, state_pair, grammar, proof)
 
 
 def test_prompt_context_is_sealed_creativity_first_and_broad() -> None:
@@ -36,6 +39,7 @@ def test_prompt_context_is_sealed_creativity_first_and_broad() -> None:
     assert context["creativity_policy"] == {
         "creativity_is_primary": True,
         "generate_multiple_mechanisms_before_falsification": True,
+        "learn_matrix_and_nonlinear_actions_from_state_pairs": True,
         "origin_labels_are_fallible_lineage_assessments": True,
         "retain_every_schema_admitted_idea": True,
         "retain_failed_and_underdetermined_invariant_branches": True,
@@ -55,6 +59,18 @@ def test_prompt_context_is_sealed_creativity_first_and_broad() -> None:
         "REJECT_TRAIN_ONLY_INVARIANT_SPACE",
         "UNDERDETERMINED_RETAIN_CANDIDATE_SUBSPACE",
     }
+    assert len(context["state_pair_invariant_briefs"]) == 3
+    assert {brief["action_kind"] for brief in context["state_pair_invariant_briefs"]} == {
+        "matrix_conjugation",
+        "matrix_orthogonal",
+        "nonlinear_polynomial",
+    }
+    matrix = next(
+        brief
+        for brief in context["state_pair_invariant_briefs"]
+        if brief["action_kind"] == "matrix_conjugation"
+    )
+    assert matrix["candidate_invariant_coordinates"] == ["a + d", "a*d - b*c"]
     assert len(context["typed_formula_kinds"]) == 7
     assert len(context["independent_proof_mechanisms"]) == 6
     assert context["origin_assessment_labels"] == C.ORIGIN_ASSESSMENTS
@@ -96,6 +112,20 @@ def test_prompt_context_rejects_resealed_pruning_of_failed_learned_branch() -> N
     body = {key: value for key, value in changed.items() if key != "content_sha256"}
     changed["content_sha256"] = canonical_sha256(body)
     with pytest.raises(C.CoreCreativePromptContextError, match="learned invariant brief"):
+        C.validate_creative_prompt_context(changed)
+
+
+def test_prompt_context_rejects_resealed_loss_of_nonlinear_action_branch() -> None:
+    context = _context()
+    changed = deepcopy(context)
+    changed["state_pair_invariant_briefs"] = [
+        brief
+        for brief in changed["state_pair_invariant_briefs"]
+        if brief["action_kind"] != "nonlinear_polynomial"
+    ]
+    body = {key: value for key, value in changed.items() if key != "content_sha256"}
+    changed["content_sha256"] = canonical_sha256(body)
+    with pytest.raises(C.CoreCreativePromptContextError, match="state-pair invariant brief"):
         C.validate_creative_prompt_context(changed)
 
 
