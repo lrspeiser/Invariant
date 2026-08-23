@@ -1,0 +1,88 @@
+{
+  "schema_version": "invariant-symmetry-dimension-derivation-config-1.0",
+  "campaign_id": "first-principles-d4-controls-2026-08-23-001",
+  "engine_principal_id": "invariant.discovery-engine",
+  "search_policy": {
+    "maximum_absolute_exponent": 3,
+    "maximum_l1_norm": 8,
+    "minimum_controls": 4,
+    "require_independent_rank_evaluators": true,
+    "require_symmetry_nuisance_mutation": true
+  },
+  "problems": [
+    {
+      "problem_id": "control.simple-pendulum-scaling",
+      "domain": "mechanics",
+      "dimension_axes": ["length", "time"],
+      "variables": [
+        {"name": "period", "dimensions": [0, 1]},
+        {"name": "length", "dimensions": [1, 0]},
+        {"name": "gravity", "dimensions": [1, -2]},
+        {"name": "amplitude_ratio", "dimensions": [0, 0]}
+      ],
+      "symmetry_actions": [
+        {
+          "name": "small_angle_amplitude_rescaling",
+          "weights": [0, 0, 0, 1]
+        }
+      ],
+      "expected_control_exponents": [2, -1, 1, 0]
+    },
+    {
+      "problem_id": "control.kepler-similarity",
+      "domain": "orbital_dynamics",
+      "dimension_axes": ["length", "time", "mass"],
+      "variables": [
+        {"name": "period", "dimensions": [0, 1, 0]},
+        {"name": "semi_major_axis", "dimensions": [1, 0, 0]},
+        {"name": "central_mass", "dimensions": [0, 0, 1]},
+        {"name": "gravitational_constant", "dimensions": [3, -2, -1]},
+        {"name": "eccentricity", "dimensions": [0, 0, 0]}
+      ],
+      "symmetry_actions": [
+        {
+          "name": "eccentricity_nuisance_rescaling",
+          "weights": [0, 0, 0, 0, 1]
+        }
+      ],
+      "expected_control_exponents": [2, -3, 1, 1, 0]
+    },
+    {
+      "problem_id": "control.diffusion-similarity",
+      "domain": "transport",
+      "dimension_axes": ["length", "time"],
+      "variables": [
+        {"name": "length_scale", "dimensions": [1, 0]},
+        {"name": "time_scale", "dimensions": [0, 1]},
+        {"name": "diffusivity", "dimensions": [2, -1]},
+        {"name": "anisotropy_ratio", "dimensions": [0, 0]}
+      ],
+      "symmetry_actions": [
+        {
+          "name": "anisotropy_nuisance_rescaling",
+          "weights": [0, 0, 0, 1]
+        }
+      ],
+      "expected_control_exponents": [2, -1, -1, 0]
+    },
+    {
+      "problem_id": "control.reynolds-similarity",
+      "domain": "fluid_dynamics",
+      "dimension_axes": ["length", "time", "mass"],
+      "variables": [
+        {"name": "density", "dimensions": [-3, 0, 1]},
+        {"name": "speed", "dimensions": [1, -1, 0]},
+        {"name": "length_scale", "dimensions": [1, 0, 0]},
+        {"name": "dynamic_viscosity", "dimensions": [-1, -1, 1]},
+        {"name": "roughness_ratio", "dimensions": [0, 0, 0]}
+      ],
+      "symmetry_actions": [
+        {
+          "name": "roughness_nuisance_rescaling",
+          "weights": [0, 0, 0, 0, 1]
+        }
+      ],
+      "expected_control_exponents": [1, 1, 1, -1, 0]
+    }
+  ]
+}

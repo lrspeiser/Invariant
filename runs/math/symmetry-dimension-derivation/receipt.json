@@ -1,0 +1,438 @@
+{
+  "campaign_id": "first-principles-d4-controls-2026-08-23-001",
+  "claims": {
+    "dimensionless_implies_true": false,
+    "empirical_fit_established": false,
+    "literature_novelty_established": false,
+    "specific_law_discovered": false,
+    "symmetry_dimension_constraints_determine_free_function": false
+  },
+  "content_sha256": "c13fb8bda24c26eab228e426c1f53a0ba973ee1fa2303be00ea82efb936d2964",
+  "engine_principal_id": "invariant.discovery-engine",
+  "evaluators": {
+    "agreement_required": true,
+    "implementations": [
+      "fraction_gaussian_elimination",
+      "sympy_exact_nullspace"
+    ]
+  },
+  "release_gate": {
+    "d4_controls_ready": true,
+    "serious_claim_released": false,
+    "status": "PASS_D4_CONTROLS_NO_LAW_OR_NOVELTY_CLAIM"
+  },
+  "results": [
+    {
+      "creative_brief": {
+        "candidate_invariant_coordinates": [
+          "period**2*gravity/length"
+        ],
+        "constraint_statement": "Generate hypotheses only through the declared dimension and symmetry quotient; retain multiple mechanisms until exact falsification.",
+        "llm_origin_assessment_labels": [
+          "known_rewrite",
+          "cross_domain_synthesis",
+          "proposed_new_construction",
+          "uncertain"
+        ],
+        "novelty_caution": "Dimensional and symmetry admissibility is neither empirical truth nor literature novelty."
+      },
+      "dimensions": {
+        "axes": [
+          "length",
+          "time"
+        ],
+        "rank": 2
+      },
+      "domain": "mechanics",
+      "forced_form": {
+        "free_function_arity": 1,
+        "free_function_determined": false,
+        "statement": "F(period**2*gravity/length) = 0"
+      },
+      "independent_evaluators": {
+        "agreement": true,
+        "fraction_gaussian_elimination_rank": 3,
+        "sympy_exact_nullspace_basis": [
+          [
+            2,
+            -1,
+            1,
+            0
+          ]
+        ],
+        "sympy_rank": 3
+      },
+      "invariant": {
+        "exponents": [
+          2,
+          -1,
+          1,
+          0
+        ],
+        "expression": "period**2*gravity/length",
+        "primitive": true
+      },
+      "mutations": {
+        "dimension_exponent_offset": {
+          "mutated_exponents": [
+            3,
+            -1,
+            1,
+            0
+          ],
+          "rejected": true,
+          "row_residuals": [
+            0,
+            1,
+            0
+          ]
+        },
+        "drop_nuisance_symmetry": {
+          "baseline_nullity": 1,
+          "mutated_nullity": 2,
+          "nuisance_coordinate_admitted": true,
+          "nuisance_exponents": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "rejected": true
+        }
+      },
+      "problem_id": "control.simple-pendulum-scaling",
+      "search": {
+        "bounded_primitive_invariants": 1,
+        "combined_rank": 3,
+        "nullity": 1
+      },
+      "symmetry_actions": [
+        "small_angle_amplitude_rescaling"
+      ],
+      "variables": [
+        "period",
+        "length",
+        "gravity",
+        "amplitude_ratio"
+      ]
+    },
+    {
+      "creative_brief": {
+        "candidate_invariant_coordinates": [
+          "period**2*central_mass*gravitational_constant/semi_major_axis**3"
+        ],
+        "constraint_statement": "Generate hypotheses only through the declared dimension and symmetry quotient; retain multiple mechanisms until exact falsification.",
+        "llm_origin_assessment_labels": [
+          "known_rewrite",
+          "cross_domain_synthesis",
+          "proposed_new_construction",
+          "uncertain"
+        ],
+        "novelty_caution": "Dimensional and symmetry admissibility is neither empirical truth nor literature novelty."
+      },
+      "dimensions": {
+        "axes": [
+          "length",
+          "time",
+          "mass"
+        ],
+        "rank": 3
+      },
+      "domain": "orbital_dynamics",
+      "forced_form": {
+        "free_function_arity": 1,
+        "free_function_determined": false,
+        "statement": "F(period**2*central_mass*gravitational_constant/semi_major_axis**3) = 0"
+      },
+      "independent_evaluators": {
+        "agreement": true,
+        "fraction_gaussian_elimination_rank": 4,
+        "sympy_exact_nullspace_basis": [
+          [
+            2,
+            -3,
+            1,
+            1,
+            0
+          ]
+        ],
+        "sympy_rank": 4
+      },
+      "invariant": {
+        "exponents": [
+          2,
+          -3,
+          1,
+          1,
+          0
+        ],
+        "expression": "period**2*central_mass*gravitational_constant/semi_major_axis**3",
+        "primitive": true
+      },
+      "mutations": {
+        "dimension_exponent_offset": {
+          "mutated_exponents": [
+            3,
+            -3,
+            1,
+            1,
+            0
+          ],
+          "rejected": true,
+          "row_residuals": [
+            0,
+            1,
+            0,
+            0
+          ]
+        },
+        "drop_nuisance_symmetry": {
+          "baseline_nullity": 1,
+          "mutated_nullity": 2,
+          "nuisance_coordinate_admitted": true,
+          "nuisance_exponents": [
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "rejected": true
+        }
+      },
+      "problem_id": "control.kepler-similarity",
+      "search": {
+        "bounded_primitive_invariants": 1,
+        "combined_rank": 4,
+        "nullity": 1
+      },
+      "symmetry_actions": [
+        "eccentricity_nuisance_rescaling"
+      ],
+      "variables": [
+        "period",
+        "semi_major_axis",
+        "central_mass",
+        "gravitational_constant",
+        "eccentricity"
+      ]
+    },
+    {
+      "creative_brief": {
+        "candidate_invariant_coordinates": [
+          "length_scale**2/(time_scale*diffusivity)"
+        ],
+        "constraint_statement": "Generate hypotheses only through the declared dimension and symmetry quotient; retain multiple mechanisms until exact falsification.",
+        "llm_origin_assessment_labels": [
+          "known_rewrite",
+          "cross_domain_synthesis",
+          "proposed_new_construction",
+          "uncertain"
+        ],
+        "novelty_caution": "Dimensional and symmetry admissibility is neither empirical truth nor literature novelty."
+      },
+      "dimensions": {
+        "axes": [
+          "length",
+          "time"
+        ],
+        "rank": 2
+      },
+      "domain": "transport",
+      "forced_form": {
+        "free_function_arity": 1,
+        "free_function_determined": false,
+        "statement": "F(length_scale**2/(time_scale*diffusivity)) = 0"
+      },
+      "independent_evaluators": {
+        "agreement": true,
+        "fraction_gaussian_elimination_rank": 3,
+        "sympy_exact_nullspace_basis": [
+          [
+            2,
+            -1,
+            -1,
+            0
+          ]
+        ],
+        "sympy_rank": 3
+      },
+      "invariant": {
+        "exponents": [
+          2,
+          -1,
+          -1,
+          0
+        ],
+        "expression": "length_scale**2/(time_scale*diffusivity)",
+        "primitive": true
+      },
+      "mutations": {
+        "dimension_exponent_offset": {
+          "mutated_exponents": [
+            3,
+            -1,
+            -1,
+            0
+          ],
+          "rejected": true,
+          "row_residuals": [
+            1,
+            0,
+            0
+          ]
+        },
+        "drop_nuisance_symmetry": {
+          "baseline_nullity": 1,
+          "mutated_nullity": 2,
+          "nuisance_coordinate_admitted": true,
+          "nuisance_exponents": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "rejected": true
+        }
+      },
+      "problem_id": "control.diffusion-similarity",
+      "search": {
+        "bounded_primitive_invariants": 1,
+        "combined_rank": 3,
+        "nullity": 1
+      },
+      "symmetry_actions": [
+        "anisotropy_nuisance_rescaling"
+      ],
+      "variables": [
+        "length_scale",
+        "time_scale",
+        "diffusivity",
+        "anisotropy_ratio"
+      ]
+    },
+    {
+      "creative_brief": {
+        "candidate_invariant_coordinates": [
+          "density*speed*length_scale/dynamic_viscosity"
+        ],
+        "constraint_statement": "Generate hypotheses only through the declared dimension and symmetry quotient; retain multiple mechanisms until exact falsification.",
+        "llm_origin_assessment_labels": [
+          "known_rewrite",
+          "cross_domain_synthesis",
+          "proposed_new_construction",
+          "uncertain"
+        ],
+        "novelty_caution": "Dimensional and symmetry admissibility is neither empirical truth nor literature novelty."
+      },
+      "dimensions": {
+        "axes": [
+          "length",
+          "time",
+          "mass"
+        ],
+        "rank": 3
+      },
+      "domain": "fluid_dynamics",
+      "forced_form": {
+        "free_function_arity": 1,
+        "free_function_determined": false,
+        "statement": "F(density*speed*length_scale/dynamic_viscosity) = 0"
+      },
+      "independent_evaluators": {
+        "agreement": true,
+        "fraction_gaussian_elimination_rank": 4,
+        "sympy_exact_nullspace_basis": [
+          [
+            1,
+            1,
+            1,
+            -1,
+            0
+          ]
+        ],
+        "sympy_rank": 4
+      },
+      "invariant": {
+        "exponents": [
+          1,
+          1,
+          1,
+          -1,
+          0
+        ],
+        "expression": "density*speed*length_scale/dynamic_viscosity",
+        "primitive": true
+      },
+      "mutations": {
+        "dimension_exponent_offset": {
+          "mutated_exponents": [
+            2,
+            1,
+            1,
+            -1,
+            0
+          ],
+          "rejected": true,
+          "row_residuals": [
+            -3,
+            0,
+            1,
+            0
+          ]
+        },
+        "drop_nuisance_symmetry": {
+          "baseline_nullity": 1,
+          "mutated_nullity": 2,
+          "nuisance_coordinate_admitted": true,
+          "nuisance_exponents": [
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "rejected": true
+        }
+      },
+      "problem_id": "control.reynolds-similarity",
+      "search": {
+        "bounded_primitive_invariants": 1,
+        "combined_rank": 4,
+        "nullity": 1
+      },
+      "symmetry_actions": [
+        "roughness_nuisance_rescaling"
+      ],
+      "variables": [
+        "density",
+        "speed",
+        "length_scale",
+        "dynamic_viscosity",
+        "roughness_ratio"
+      ]
+    }
+  ],
+  "schema_version": "invariant-symmetry-dimension-derivation-receipt-1.0",
+  "source_bindings": {
+    "config": {
+      "normalized_sha256": "b50f25469313b71717820870f9442086062b119e0039fff5dac408dcd0949b45",
+      "path": "configs/symmetry_dimension_derivation.json"
+    },
+    "source": {
+      "normalized_sha256": "167c755d27ebe21bf53bc55476d0bd6c3bb9414043a873307fd55c0a02a8331d",
+      "path": "src/sigma_theory_compiler/symmetry_dimension_derivation.py"
+    },
+    "test": {
+      "normalized_sha256": "65e8ca7cfd5974983adb110aa6d9b97834b49649189d3e960370e359f282eac6",
+      "path": "tests/test_symmetry_dimension_derivation.py"
+    }
+  },
+  "summary": {
+    "controls_passed": 4,
+    "dimension_mutations_rejected": 4,
+    "invariant_coordinates": 4,
+    "status": "PASS_SYMMETRY_DIMENSION_FORCED_DERIVATION",
+    "symmetry_mutations_rejected": 4
+  }
+}
