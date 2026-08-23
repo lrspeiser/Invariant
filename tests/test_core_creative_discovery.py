@@ -151,9 +151,10 @@ def test_core_run_requires_and_sanitizes_live_claude(
     bound_receipts = C._load_bound_receipts(ROOT, C._load_config(ROOT))
     expanded_grammar = bound_receipts[2]
     dataset_challenges = bound_receipts[3]
-    proof_plan_search = bound_receipts[4]
-    serious_claim_ladder = bound_receipts[5]
-    component_knockout = bound_receipts[6]
+    external_dataset_challenges = bound_receipts[4]
+    proof_plan_search = bound_receipts[5]
+    serious_claim_ladder = bound_receipts[6]
+    component_knockout = bound_receipts[7]
     monkeypatch.setattr(
         C,
         "_load_bound_receipts",
@@ -162,6 +163,7 @@ def test_core_run_requires_and_sanitizes_live_claude(
             multi_host,
             expanded_grammar,
             dataset_challenges,
+            external_dataset_challenges,
             proof_plan_search,
             serious_claim_ladder,
             component_knockout,
@@ -184,6 +186,9 @@ def test_core_run_requires_and_sanitizes_live_claude(
     assert "variational_functional" in receipt["discovery_runtime"]["typed_formula_kinds"]
     assert receipt["discovery_runtime"]["dataset_positive_controls_passed"] == 4
     assert receipt["discovery_runtime"]["dataset_mutation_controls_rejected"] == 4
+    assert receipt["discovery_runtime"]["external_dataset_challenges_passed"] == 4
+    assert receipt["discovery_runtime"]["external_dataset_mutation_controls_rejected"] == 4
+    assert receipt["external_dataset_challenges"]["release_gate"]["level5_eligible"] is False
     assert receipt["discovery_runtime"]["independent_proof_plan_routes_closed"] == 6
     assert receipt["discovery_runtime"]["independent_proof_plan_mutations_rejected"] == 6
     assert receipt["discovery_runtime"]["component_knockout_experiments_preflighted"] == 4

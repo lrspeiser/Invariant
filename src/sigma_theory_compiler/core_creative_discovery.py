@@ -36,6 +36,9 @@ from .external_creativity_live_evidence import (
 )
 from .external_creativity_multi_host import validate_receipt as validate_multi_host_receipt
 from .external_creativity_validation import run_campaign
+from .external_dataset_challenges import (
+    validate_external_dataset_challenges,
+)
 from .idea_lineage import build_idea_archive, validate_idea_archive
 from .independent_proof_plan_search import validate_proof_plan_search
 from .serious_claim_verification_ladder import (
@@ -48,8 +51,8 @@ from .sigma_core import canonical_sha256
 
 CONFIG_PATH = "configs/core_creative_discovery.json"
 OUTPUT_PATH = "runs/math/core-creative-discovery/live-runtime.json"
-SCHEMA_VERSION = "invariant-core-creative-discovery-runtime-1.5"
-CONFIG_SCHEMA = "invariant-core-creative-discovery-config-1.5"
+SCHEMA_VERSION = "invariant-core-creative-discovery-runtime-1.6"
+CONFIG_SCHEMA = "invariant-core-creative-discovery-config-1.6"
 
 
 class CoreCreativeDiscoveryError(ValueError):
@@ -111,6 +114,7 @@ def _load_config(root: Path) -> dict[str, Any]:
         "component_knockout_preflight_receipt",
         "dataset_challenge_receipt",
         "declarative_operational_receipt",
+        "external_dataset_challenge_receipt",
         "expanded_typed_grammar_receipt",
         "live_evidence_output",
         "multi_host_reproduction_receipt",
@@ -131,9 +135,11 @@ def _load_bound_receipts(
     dict[str, Any],
     dict[str, Any],
     dict[str, Any],
+    dict[str, Any],
 ]:
     components = config["components"]
     dataset_path = root / components["dataset_challenge_receipt"]
+    external_dataset_path = root / components["external_dataset_challenge_receipt"]
     operational_path = root / components["declarative_operational_receipt"]
     multi_host_path = root / components["multi_host_reproduction_receipt"]
     expanded_grammar_path = root / components["expanded_typed_grammar_receipt"]
@@ -141,6 +147,7 @@ def _load_bound_receipts(
     serious_claim_ladder_path = root / components["serious_claim_verification_ladder_receipt"]
     component_knockout_path = root / components["component_knockout_preflight_receipt"]
     dataset = json.loads(dataset_path.read_text(encoding="utf-8"))
+    external_dataset = json.loads(external_dataset_path.read_text(encoding="utf-8"))
     operational = json.loads(operational_path.read_text(encoding="utf-8"))
     multi_host = json.loads(multi_host_path.read_text(encoding="utf-8"))
     expanded_grammar = json.loads(expanded_grammar_path.read_text(encoding="utf-8"))
@@ -148,6 +155,7 @@ def _load_bound_receipts(
     serious_claim_ladder = json.loads(serious_claim_ladder_path.read_text(encoding="utf-8"))
     component_knockout = json.loads(component_knockout_path.read_text(encoding="utf-8"))
     validate_dataset_challenges(dataset, root)
+    validate_external_dataset_challenges(external_dataset, root)
     validate_operational_receipt(operational, root)
     validate_multi_host_receipt(multi_host)
     validate_expanded_grammar_receipt(expanded_grammar, root)
@@ -159,6 +167,7 @@ def _load_bound_receipts(
         multi_host,
         expanded_grammar,
         dataset,
+        external_dataset,
         proof_plan_search,
         serious_claim_ladder,
         component_knockout,
@@ -206,6 +215,7 @@ def run_core(
         multi_host,
         expanded_grammar,
         dataset_challenges,
+        external_dataset_challenges,
         proof_plan_search,
         serious_claim_ladder,
         component_knockout,
@@ -264,6 +274,10 @@ def run_core(
                 "content_sha256": operational["content_sha256"],
                 "path": config["components"]["declarative_operational_receipt"],
             },
+            "external_dataset_challenge_receipt": {
+                "content_sha256": external_dataset_challenges["content_sha256"],
+                "path": config["components"]["external_dataset_challenge_receipt"],
+            },
             "multi_host_reproduction_receipt": {
                 "content_sha256": multi_host["content_sha256"],
                 "path": config["components"]["multi_host_reproduction_receipt"],
@@ -295,6 +309,7 @@ def run_core(
         "creative_expansion": creative_expansion,
         "component_knockout_preflight": component_knockout,
         "dataset_challenges": dataset_challenges,
+        "external_dataset_challenges": external_dataset_challenges,
         "proof_plan_search": proof_plan_search,
         "discovery_runtime": {
             "declarative_extensions_admitted": len(
@@ -314,6 +329,16 @@ def run_core(
                 "positive_controls_passed"
             ],
             "dataset_challenge_status": dataset_challenges["summary"]["status"],
+            "external_dataset_challenge_kinds": external_dataset_challenges["summary"][
+                "challenge_kinds"
+            ],
+            "external_dataset_challenges_passed": external_dataset_challenges["summary"][
+                "external_challenges_passed"
+            ],
+            "external_dataset_mutation_controls_rejected": external_dataset_challenges[
+                "summary"
+            ]["mutation_controls_rejected"],
+            "external_dataset_status": external_dataset_challenges["summary"]["status"],
             "independent_proof_plan_mechanisms": proof_plan_search["summary"]["mechanisms"],
             "independent_proof_plan_mutations_rejected": proof_plan_search["summary"][
                 "mutation_controls_rejected"
@@ -401,6 +426,7 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
         not in {
             "invariant-core-creative-discovery-runtime-1.3",
             "invariant-core-creative-discovery-runtime-1.4",
+            "invariant-core-creative-discovery-runtime-1.5",
             SCHEMA_VERSION,
         }
         or previous.get("app_id") != "invariant.core-creative-discovery"
@@ -425,6 +451,7 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
         multi_host,
         expanded_grammar,
         dataset_challenges,
+        external_dataset_challenges,
         proof_plan_search,
         serious_claim_ladder,
         component_knockout,
@@ -445,6 +472,10 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
             "content_sha256": operational["content_sha256"],
             "path": config["components"]["declarative_operational_receipt"],
         },
+        "external_dataset_challenge_receipt": {
+            "content_sha256": external_dataset_challenges["content_sha256"],
+            "path": config["components"]["external_dataset_challenge_receipt"],
+        },
         "multi_host_reproduction_receipt": {
             "content_sha256": multi_host["content_sha256"],
             "path": config["components"]["multi_host_reproduction_receipt"],
@@ -464,6 +495,7 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
     }
     value["component_knockout_preflight"] = component_knockout
     value["dataset_challenges"] = dataset_challenges
+    value["external_dataset_challenges"] = external_dataset_challenges
     value["proof_plan_search"] = proof_plan_search
     value["discovery_runtime"] = {
         **value["discovery_runtime"],
@@ -477,6 +509,16 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
         "component_knockout_scheduled_slots": component_knockout["schedule"][
             "total_scheduled_slots"
         ],
+        "external_dataset_challenge_kinds": external_dataset_challenges["summary"][
+            "challenge_kinds"
+        ],
+        "external_dataset_challenges_passed": external_dataset_challenges["summary"][
+            "external_challenges_passed"
+        ],
+        "external_dataset_mutation_controls_rejected": external_dataset_challenges["summary"][
+            "mutation_controls_rejected"
+        ],
+        "external_dataset_status": external_dataset_challenges["summary"]["status"],
     }
     value["verification"] = {
         "backends_required_for_serious_claim": config["release_policy"][
@@ -541,6 +583,7 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
     validate_proof_plan_search(proof_plan_search, root)
     validate_creative_expansion(value.get("creative_expansion", {}), proof_plan_search)
     validate_dataset_challenges(value.get("dataset_challenges", {}), root)
+    validate_external_dataset_challenges(value.get("external_dataset_challenges", {}), root)
     validate_component_knockout_preflight(
         value.get("component_knockout_preflight", {}), root or Path.cwd()
     )
@@ -556,6 +599,11 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
         or discovery.get("dataset_positive_controls_passed") != 4
         or discovery.get("dataset_mutation_controls_rejected") != 4
         or discovery.get("dataset_challenge_status") != "PASS_EXECUTABLE_DATASET_CHALLENGES"
+        or discovery.get("external_dataset_challenge_kinds")
+        != ["intervention", "noisy", "shifted", "unidentifiable"]
+        or discovery.get("external_dataset_challenges_passed") != 4
+        or discovery.get("external_dataset_mutation_controls_rejected") != 4
+        or discovery.get("external_dataset_status") != "PASS_EXTERNAL_DATASET_CHALLENGES"
         or discovery.get("independent_proof_plan_mechanisms")
         != [
             "induction",
@@ -612,6 +660,7 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
             "component_knockout_preflight_receipt",
             "dataset_challenge_receipt",
             "declarative_operational_receipt",
+            "external_dataset_challenge_receipt",
             "expanded_typed_grammar_receipt",
             "multi_host_reproduction_receipt",
             "proof_plan_search_receipt",
@@ -630,6 +679,8 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
                 validate_expanded_grammar_receipt(bound, root)
             if key == "dataset_challenge_receipt":
                 validate_dataset_challenges(bound, root)
+            if key == "external_dataset_challenge_receipt":
+                validate_external_dataset_challenges(bound, root)
             if key == "proof_plan_search_receipt":
                 validate_proof_plan_search(bound, root)
             if key == "serious_claim_verification_ladder_receipt":
