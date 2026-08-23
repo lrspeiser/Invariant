@@ -54,8 +54,10 @@
   head commit, source hashes, and rejection seals. This is gate calibration, not verification of a
   new candidate or permission to release a serious claim.
 - Downloaded artifacts bind four distinct GitHub-hosted ephemeral VM runner IDs across Windows and
-  Linux, with two evaluator implementations per host and a separate Lean kernel artifact. This is
-  multi-host VM reproduction, not a claim about distinct bare-metal machines.
+  Linux, with two evaluator implementations per host and a separate Lean kernel artifact. The
+  current receipt binds successful post-merge run `32656252764` at
+  `21f97a6f1c68278c57b2547be1912c7a78826f4b`. This is multi-host VM reproduction, not a claim about
+  distinct bare-metal machines.
 - No novel formula, proof, theorem, scientific law, or open-problem result is claimed.
 - The famous-open-problem gate is closed: zero of three required independent level-5 successes.
 - A live rotating pack now binds 24 distinct OEIS b-file response hashes, with four tasks each for
