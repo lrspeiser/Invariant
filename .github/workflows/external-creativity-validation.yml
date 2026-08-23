@@ -18,6 +18,7 @@ on:
       - "configs/declarative_extension_candidates.json"
       - "configs/rotating_external_benchmark_pack*.json"
       - "formal/lean/ExternalKnownFormulaControls.lean"
+      - "formal/lean/ExternalKnownFormula*UnitOffsetFalse.lean"
       - "pyproject.toml"
       - "src/sigma_theory_compiler/claude_creativity_api.py"
       - "src/sigma_theory_compiler/core_*.py"
@@ -84,6 +85,7 @@ on:
       - "configs/declarative_extension_candidates.json"
       - "configs/rotating_external_benchmark_pack*.json"
       - "formal/lean/ExternalKnownFormulaControls.lean"
+      - "formal/lean/ExternalKnownFormula*UnitOffsetFalse.lean"
       - "pyproject.toml"
       - "src/sigma_theory_compiler/claude_creativity_api.py"
       - "src/sigma_theory_compiler/core_*.py"
@@ -244,6 +246,9 @@ jobs:
       - run: >-
           python -m sigma_theory_compiler.external_creativity_lean_bridge
           --output external-creativity-lean.json
+        env:
+          INVARIANT_EVIDENCE_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          INVARIANT_EVIDENCE_JOB: lean-kernel
       - uses: actions/upload-artifact@v4
         with:
           name: external-creativity-lean

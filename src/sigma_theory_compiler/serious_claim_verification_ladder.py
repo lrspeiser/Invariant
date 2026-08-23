@@ -18,6 +18,9 @@ from typing import Any
 import sympy as sp
 import z3
 
+from .external_creativity_lean_bridge import (
+    validate_receipt as validate_external_lean_receipt,
+)
 from .external_creativity_multi_host import validate_receipt as validate_multi_host_receipt
 from .external_creativity_validation import (
     PUBLIC_CONFIG_PATH,
@@ -45,14 +48,15 @@ from .sigma_core import canonical_sha256
 
 CONFIG_PATH = "configs/serious_claim_verification_ladder.json"
 OUTPUT_PATH = "runs/math/serious-claim-verification-ladder/receipt.json"
-CONFIG_SCHEMA = "invariant-serious-claim-verification-ladder-config-1.1"
-SCHEMA_VERSION = "invariant-serious-claim-verification-ladder-1.1"
-CHAIN_SCHEMA = "invariant-candidate-verification-chain-1.1"
-STAGE_SCHEMA = "invariant-candidate-verification-stage-1.1"
+CONFIG_SCHEMA = "invariant-serious-claim-verification-ladder-config-1.2"
+SCHEMA_VERSION = "invariant-serious-claim-verification-ladder-1.2"
+CHAIN_SCHEMA = "invariant-candidate-verification-chain-1.2"
+STAGE_SCHEMA = "invariant-candidate-verification-stage-1.2"
 REQUIRED_STAGES = ("exact_arithmetic", "cas", "smt", "interval", "lean")
-MATHEMATICAL_MUTATION_BACKENDS = REQUIRED_STAGES[:-1]
+MATHEMATICAL_MUTATION_BACKENDS = REQUIRED_STAGES
+RUNTIME_MUTATION_BACKENDS = REQUIRED_STAGES[:-1]
 MATHEMATICAL_MUTATION_OPERATOR = "add_exact_unit"
-LEAN_MUTATION_STATUS = "PENDING_SEPARATE_CI_ARTIFACT"
+LEAN_MUTATION_STATUS = "PASS_CI_KERNEL_REJECTION_ARTIFACT_BOUND"
 MUTATIONS = (
     "missing_stage",
     "reordered_stages",
@@ -79,6 +83,16 @@ def _sha(value: Any, label: str) -> str:
         or any(character not in _HEX for character in value)
     ):
         raise SeriousClaimVerificationError(f"{label} is not a SHA-256 digest")
+    return value
+
+
+def _commit_sha(value: Any, label: str) -> str:
+    if (
+        not isinstance(value, str)
+        or len(value) != 40
+        or any(character not in _HEX for character in value)
+    ):
+        raise SeriousClaimVerificationError(f"{label} is not a full Git commit digest")
     return value
 
 
@@ -146,6 +160,7 @@ def load_config(root: Path) -> dict[str, Any]:
         value["sources"],
         {
             "campaign_receipt",
+            "lean_ci_artifact",
             "lean_source",
             "multi_host_receipt",
             "public_benchmarks",
@@ -165,7 +180,7 @@ def load_config(root: Path) -> dict[str, Any]:
     mathematical_control = value["mathematical_wrong_formula_control"]
     _strict(
         mathematical_control,
-        {"lean_status", "operator", "required_backends"},
+        {"lean_artifact_binding", "lean_status", "operator", "required_backends"},
         "mathematical wrong-formula control",
     )
     if (
@@ -174,6 +189,41 @@ def load_config(root: Path) -> dict[str, Any]:
         or mathematical_control["lean_status"] != LEAN_MUTATION_STATUS
     ):
         raise SeriousClaimVerificationError("mathematical wrong-formula policy changed")
+    artifact = mathematical_control["lean_artifact_binding"]
+    _strict(
+        artifact,
+        {
+            "artifact_archive_digest",
+            "artifact_created_at",
+            "artifact_file_sha256",
+            "artifact_id",
+            "artifact_name",
+            "head_branch",
+            "head_sha",
+            "run_attempt",
+            "run_id",
+            "workflow_run_url",
+        },
+        "Lean CI artifact binding",
+    )
+    archive_digest = str(artifact.get("artifact_archive_digest", ""))
+    if (
+        not archive_digest.startswith("sha256:")
+        or len(archive_digest) != 71
+        or any(character not in _HEX for character in archive_digest.removeprefix("sha256:"))
+        or not isinstance(artifact.get("artifact_id"), int)
+        or artifact["artifact_id"] <= 0
+        or artifact.get("artifact_name") != "external-creativity-lean"
+        or not isinstance(artifact.get("run_id"), int)
+        or artifact["run_id"] <= 0
+        or not isinstance(artifact.get("run_attempt"), int)
+        or artifact["run_attempt"] <= 0
+        or artifact.get("workflow_run_url")
+        != f"https://github.com/lrspeiser/Invariant/actions/runs/{artifact['run_id']}"
+    ):
+        raise SeriousClaimVerificationError("Lean CI artifact registry metadata changed")
+    _sha(artifact["artifact_file_sha256"], "Lean artifact file")
+    _commit_sha(artifact["head_sha"], "Lean artifact head commit")
     policy = value["release_policy"]
     required_policy = {
         "backend_unavailable_is_block",
@@ -220,6 +270,36 @@ def _multi_host(root: Path, config: Mapping[str, Any]) -> dict[str, Any]:
         "multi-host receipt",
     )
     validate_multi_host_receipt(value)
+    return value
+
+
+def _lean_ci_artifact(root: Path, config: Mapping[str, Any]) -> dict[str, Any]:
+    path = _under(root, config["sources"]["lean_ci_artifact"], "Lean CI artifact")
+    value = _read_json(path, "Lean CI artifact")
+    try:
+        validate_external_lean_receipt(value, root, require_ci_provenance=True)
+    except ValueError as error:
+        raise SeriousClaimVerificationError("Lean CI artifact did not validate") from error
+    binding = config["mathematical_wrong_formula_control"]["lean_artifact_binding"]
+    provenance = value["ci_provenance"]
+    if (
+        _normalized_file_sha256(path) != binding["artifact_file_sha256"]
+        or value.get("status") != "PASS"
+        or value.get("counts")
+        != {
+            "kernel_executions_attempted": 3,
+            "kernel_positive_passes": 1,
+            "wrong_formula_controls_rejected": 2,
+            "wrong_formula_controls_required": 2,
+        }
+        or value.get("claims", {}).get("candidate_specific_unit_offset_mutations_kernel_rejected")
+        is not True
+        or provenance.get("artifact_name") != binding["artifact_name"]
+        or provenance.get("run_id") != binding["run_id"]
+        or provenance.get("run_attempt") != binding["run_attempt"]
+        or provenance.get("head_sha") != binding["head_sha"]
+    ):
+        raise SeriousClaimVerificationError("Lean CI artifact registry binding changed")
     return value
 
 
@@ -308,8 +388,7 @@ def _runtime_known_controls(
             raise SeriousClaimVerificationError("known-control sealed target changed")
         positive = verify_known_formula(candidate, benchmark, target)
         if any(
-            positive["backends"].get(backend) is not True
-            for backend in MATHEMATICAL_MUTATION_BACKENDS
+            positive["backends"].get(backend) is not True for backend in RUNTIME_MUTATION_BACKENDS
         ):
             raise SeriousClaimVerificationError("known-control backend reexecution failed")
         result[benchmark_id] = (benchmark, target, candidate, positive)
@@ -322,7 +401,7 @@ def _wrong_formula_mutation(
     target: SealedTarget,
     candidate: Candidate,
 ) -> dict[str, Any]:
-    if backend not in MATHEMATICAL_MUTATION_BACKENDS or target.reference_formula is None:
+    if backend not in RUNTIME_MUTATION_BACKENDS or target.reference_formula is None:
         raise SeriousClaimVerificationError("wrong-formula mutation backend changed")
     mutated_expression = f"({candidate.expression}) + 1"
     mutation_body = {
@@ -466,17 +545,81 @@ def _validate_stage_evidence(
         kernel_control = evidence["wrong_formula_kernel_control"]
         _strict(
             kernel_control,
-            {"artifact_bound", "required_for_serious_claim", "status"},
+            {
+                "artifact_bound",
+                "artifact_content_sha256",
+                "artifact_registry_binding",
+                "controls",
+                "required_for_serious_claim",
+                "status",
+            },
             "Lean wrong-formula control",
         )
-        if evidence["kernel_checked"] is not True or kernel_control != {
-            "artifact_bound": False,
-            "required_for_serious_claim": True,
-            "status": LEAN_MUTATION_STATUS,
-        }:
+        registry = kernel_control["artifact_registry_binding"]
+        _strict(
+            registry,
+            {
+                "artifact_archive_digest",
+                "artifact_created_at",
+                "artifact_file_sha256",
+                "artifact_id",
+                "artifact_name",
+                "head_branch",
+                "head_sha",
+                "run_attempt",
+                "run_id",
+                "workflow_run_url",
+            },
+            "Lean artifact registry binding",
+        )
+        controls = kernel_control["controls"]
+        if (
+            evidence["kernel_checked"] is not True
+            or kernel_control["artifact_bound"] is not True
+            or kernel_control["required_for_serious_claim"] is not True
+            or kernel_control["status"] != LEAN_MUTATION_STATUS
+            or not isinstance(controls, list)
+            or len(controls) != len(bindings)
+        ):
             raise SeriousClaimVerificationError("Lean wrong-formula evidence changed")
         _sha(evidence["artifact_content_sha256"], "Lean artifact content")
         _sha(evidence["source_sha256"], "Lean source")
+        _sha(kernel_control["artifact_content_sha256"], "Lean mutation artifact content")
+        _sha(registry["artifact_file_sha256"], "Lean mutation artifact file")
+        _commit_sha(registry["head_sha"], "Lean mutation artifact head")
+        bindings_by_id = {item["benchmark_id"]: item for item in bindings}
+        for control in controls:
+            _strict(
+                control,
+                {
+                    "benchmark_id",
+                    "candidate_expression_sha256",
+                    "candidate_id",
+                    "control_id",
+                    "expected_residual",
+                    "mutation_operator",
+                    "outcome",
+                    "rejection_receipt_sha256",
+                    "source_path",
+                    "source_sha256",
+                    "target",
+                    "witness_inputs",
+                },
+                "Lean mutation control",
+            )
+            binding = bindings_by_id.get(control["benchmark_id"])
+            if (
+                binding is None
+                or control["candidate_id"] != binding["candidate_id"]
+                or control["candidate_expression_sha256"] != binding["expression_sha256"]
+                or control["mutation_operator"] != MATHEMATICAL_MUTATION_OPERATOR
+                or control["expected_residual"] != "1/1"
+                or control["outcome"] != "REJECTED_BY_LEAN_KERNEL"
+                or not control["witness_inputs"]
+            ):
+                raise SeriousClaimVerificationError("Lean mutation candidate binding changed")
+            _sha(control["rejection_receipt_sha256"], "Lean rejection receipt")
+            _sha(control["source_sha256"], "Lean mutation source")
         return
 
     _strict(
@@ -697,7 +840,7 @@ def validate_candidate_chain(chain: Mapping[str, Any]) -> None:
         "candidate verification claims",
     )
     if claims != {
-        "all_five_backend_wrong_formula_controls_complete": False,
+        "all_five_backend_wrong_formula_controls_complete": True,
         "known_control_calibration_passed": True,
         "literature_novelty_established": False,
         "new_candidate_verified": False,
@@ -706,11 +849,32 @@ def validate_candidate_chain(chain: Mapping[str, Any]) -> None:
         raise SeriousClaimVerificationError("candidate verification claim boundary changed")
 
 
+def _lean_mutation_summaries(artifact: Mapping[str, Any]) -> list[dict[str, Any]]:
+    return [
+        {
+            "benchmark_id": control["benchmark_id"],
+            "candidate_expression_sha256": control["candidate_expression_sha256"],
+            "candidate_id": control["candidate_id"],
+            "control_id": control["control_id"],
+            "expected_residual": control["expected_residual"],
+            "mutation_operator": control["mutation_operator"],
+            "outcome": control["outcome"],
+            "rejection_receipt_sha256": control["rejection_receipt"]["content_sha256"],
+            "source_path": control["source_path"],
+            "source_sha256": control["source_sha256"],
+            "target": control["target"],
+            "witness_inputs": control["witness_inputs"],
+        }
+        for control in artifact["wrong_formula_kernel_controls"]
+    ]
+
+
 def _known_control_chain(
     root: Path,
     config: Mapping[str, Any],
     campaign: Mapping[str, Any],
     multi_host: Mapping[str, Any],
+    lean_artifact: Mapping[str, Any],
 ) -> dict[str, Any]:
     benchmarks = {item["benchmark_id"]: item for item in campaign["benchmarks"]}
     benchmark_ids = config["known_control_suite"]["benchmark_ids"]
@@ -736,7 +900,12 @@ def _known_control_chain(
                 "target": config["known_control_suite"]["lean_target"],
                 "theorems": list(theorem_names),
                 "wrong_formula_kernel_control": {
-                    "artifact_bound": False,
+                    "artifact_bound": True,
+                    "artifact_content_sha256": lean_artifact["content_sha256"],
+                    "artifact_registry_binding": dict(
+                        config["mathematical_wrong_formula_control"]["lean_artifact_binding"]
+                    ),
+                    "controls": _lean_mutation_summaries(lean_artifact),
                     "required_for_serious_claim": True,
                     "status": LEAN_MUTATION_STATUS,
                 },
@@ -788,7 +957,7 @@ def _known_control_chain(
         "stages": stages,
         "status": "PASS_KNOWN_CONTROL_BACKEND_LADDER",
         "claims": {
-            "all_five_backend_wrong_formula_controls_complete": False,
+            "all_five_backend_wrong_formula_controls_complete": True,
             "known_control_calibration_passed": True,
             "literature_novelty_established": False,
             "new_candidate_verified": False,
@@ -877,7 +1046,8 @@ def build_receipt(root: Path) -> dict[str, Any]:
     config = load_config(root)
     campaign = _campaign(root, config)
     multi_host = _multi_host(root, config)
-    chain = _known_control_chain(root, config, campaign, multi_host)
+    lean_artifact = _lean_ci_artifact(root, config)
+    chain = _known_control_chain(root, config, campaign, multi_host, lean_artifact)
     negative = _negative_controls(config, campaign)
     mutations = _mutation_controls(chain)
     body = {
@@ -891,6 +1061,13 @@ def build_receipt(root: Path) -> dict[str, Any]:
             "config": {
                 "normalized_file_sha256": _normalized_file_sha256(root / CONFIG_PATH),
                 "path": CONFIG_PATH,
+            },
+            "lean_ci_artifact": {
+                "content_sha256": lean_artifact["content_sha256"],
+                "normalized_file_sha256": _normalized_file_sha256(
+                    root / config["sources"]["lean_ci_artifact"]
+                ),
+                "path": config["sources"]["lean_ci_artifact"],
             },
             "multi_host_receipt": {
                 "content_sha256": multi_host["content_sha256"],
@@ -916,7 +1093,7 @@ def build_receipt(root: Path) -> dict[str, Any]:
             "backend_mathematical_mutations_rejected": len(chain["candidate_bindings"])
             * len(MATHEMATICAL_MUTATION_BACKENDS),
             "known_control_candidates": len(chain["candidate_bindings"]),
-            "lean_kernel_mutation_artifact_bound": False,
+            "lean_kernel_mutation_artifact_bound": True,
             "negative_controls_blocked": len(negative),
             "required_stage_order": list(REQUIRED_STAGES),
             "structural_mutations_rejected": len(mutations),
@@ -932,7 +1109,7 @@ def build_receipt(root: Path) -> dict[str, Any]:
             "status": "BLOCKED_NO_NEW_CANDIDATE_COMPLETE_LADDER",
         },
         "claims": {
-            "all_five_backend_mutations_complete": False,
+            "all_five_backend_mutations_complete": True,
             "backend_availability_is_proof": False,
             "known_control_calibration_is_novelty": False,
             "novel_formula_established": False,
@@ -985,7 +1162,7 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
         or summary.get("known_control_candidates", 0) < 2
         or summary.get("backend_mathematical_mutations_rejected")
         != summary.get("known_control_candidates", 0) * len(MATHEMATICAL_MUTATION_BACKENDS)
-        or summary.get("lean_kernel_mutation_artifact_bound") is not False
+        or summary.get("lean_kernel_mutation_artifact_bound") is not True
         or summary.get("negative_controls_blocked", 0) < 2
         or summary.get("structural_mutations_rejected") != len(MUTATIONS)
     ):
@@ -1055,19 +1232,27 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
         },
         "serious-claim ladder claims",
     )
-    if any(value["claims"].values()):
+    if value["claims"] != {
+        "all_five_backend_mutations_complete": True,
+        "backend_availability_is_proof": False,
+        "known_control_calibration_is_novelty": False,
+        "novel_formula_established": False,
+        "serious_claim_released": False,
+    }:
         raise SeriousClaimVerificationError("serious-claim ladder claim boundary changed")
     if root is not None:
         root = root.resolve()
         config = load_config(root)
         campaign = _campaign(root, config)
         multi_host = _multi_host(root, config)
+        lean_artifact = _lean_ci_artifact(root, config)
         bindings = value["source_bindings"]
         _strict(
             bindings,
             {
                 "campaign_receipt",
                 "config",
+                "lean_ci_artifact",
                 "multi_host_receipt",
                 "public_benchmarks",
                 "sealed_targets",
@@ -1085,6 +1270,11 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
             "ladder config source binding",
         )
         _strict(
+            bindings["lean_ci_artifact"],
+            {"content_sha256", "normalized_file_sha256", "path"},
+            "Lean CI artifact source binding",
+        )
+        _strict(
             bindings["multi_host_receipt"],
             {"content_sha256", "path"},
             "multi-host source binding",
@@ -1098,6 +1288,7 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
         if (
             bindings["config"]["path"] != CONFIG_PATH
             or bindings["campaign_receipt"]["path"] != config["sources"]["campaign_receipt"]
+            or bindings["lean_ci_artifact"]["path"] != config["sources"]["lean_ci_artifact"]
             or bindings["multi_host_receipt"]["path"] != config["sources"]["multi_host_receipt"]
             or bindings["public_benchmarks"]["path"] != config["sources"]["public_benchmarks"]
             or bindings["sealed_targets"]["path"] != config["sources"]["sealed_targets"]
@@ -1105,6 +1296,10 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
             != _normalized_file_sha256(root / CONFIG_PATH)
             or bindings.get("campaign_receipt", {}).get("content_sha256")
             != campaign["content_sha256"]
+            or bindings.get("lean_ci_artifact", {}).get("content_sha256")
+            != lean_artifact["content_sha256"]
+            or bindings["lean_ci_artifact"]["normalized_file_sha256"]
+            != _normalized_file_sha256(root / config["sources"]["lean_ci_artifact"])
             or bindings.get("multi_host_receipt", {}).get("content_sha256")
             != multi_host["content_sha256"]
             or bindings["public_benchmarks"]["normalized_file_sha256"]
@@ -1113,7 +1308,7 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
             != _normalized_file_sha256(root / config["sources"]["sealed_targets"])
         ):
             raise SeriousClaimVerificationError("serious-claim ladder source binding changed")
-        expected_chain = _known_control_chain(root, config, campaign, multi_host)
+        expected_chain = _known_control_chain(root, config, campaign, multi_host, lean_artifact)
         if value["known_control_chain"] != expected_chain:
             raise SeriousClaimVerificationError("known-control ladder evidence changed")
         if value["negative_controls"] != _negative_controls(config, campaign):
