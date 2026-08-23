@@ -1,6 +1,6 @@
 """Replayable operational campaign for the data-driven discovery runtime.
 
-This control admits four proposed extension kinds from JSON, executes all ten creativity
+This control admits every proposed extension from JSON across all four extension kinds, executes all ten creativity
 families, exercises verifier-quorum protocol mechanics, and rechecks one identity through four
 genuinely distinct mathematical backends.  It also measures full behavioral niches and exercises
 reachability, repair, proof planning, sealed datasets, evidence-backed blind capability levels,
@@ -460,6 +460,20 @@ def run_operational_campaign(root: Path) -> dict[str, Any]:
     grammar_outputs = admitted["grammar.rational-expression"].execute(("Expr",))
     if not isinstance(grammar_outputs, tuple):
         raise OperationalCampaignError("admitted grammar did not expand")
+    grammar_expansions = {}
+    for declaration_id, extension in sorted(admitted.items()):
+        if extension.candidate.declaration.kind is not D.DeclarationKind.GRAMMAR:
+            continue
+        inputs = extension.candidate.tests[0].inputs
+        outputs = extension.execute(inputs)
+        if not isinstance(outputs, tuple):
+            raise OperationalCampaignError("admitted grammar did not return typed expansions")
+        grammar_expansions[declaration_id] = {
+            "input_nonterminal": inputs[0],
+            "outputs": list(outputs),
+        }
+    if len(grammar_expansions) < 8:
+        raise OperationalCampaignError("broad typed grammar portfolio was not executed")
     all_proposals = (*portfolio, dynamic_operator, dynamic_invariant)
 
     decision_policy = R.DecisionPolicy(
@@ -809,6 +823,7 @@ def run_operational_campaign(root: Path) -> dict[str, Any]:
             "kinds": sorted(item.value for item in D.DeclarationKind),
             "minimum_independent_principals": 2,
             "no_bespoke_module_per_extension": True,
+            "grammar_expansions_executed": grammar_expansions,
         },
         "creativity": {
             "data_driven_extension_proposals": [

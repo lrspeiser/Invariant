@@ -8,6 +8,7 @@ from typing import Any
 import pytest
 
 from sigma_theory_compiler import external_creativity_validation as E
+from sigma_theory_compiler.claude_creativity_api import CLAUDE_OUTPUT_SCHEMA_VERSION
 
 ROOT = Path(__file__).resolve().parents[1]
 MODEL = "claude-opus-4-6"
@@ -49,13 +50,17 @@ class CampaignClaudeTransport:
                         "family": "analogy_transfer",
                         "hypothesis_id": f"hypothesis.{len(self.requests)}",
                         "invariants": ["identity_scaling"],
+                        "known_analogues": ["identity map"],
+                        "llm_origin_assessment": "known_rewrite",
                         "proof_plan": ["test base cases", "induct"],
                         "rationale": "A deliberately simple typed control hypothesis.",
                         "representation": "sympy_expression",
+                        "source_idea_domains": ["algebra", "recurrences"],
+                        "synthesis_note": "A control recovered through recurrence language.",
                     }
                 ],
                 "role": role,
-                "schema_version": "invariant-claude-creativity-output-1.0",
+                "schema_version": CLAUDE_OUTPUT_SCHEMA_VERSION,
                 "steering_actions": [],
             }
         else:
@@ -64,7 +69,7 @@ class CampaignClaudeTransport:
                 "benchmark_id": benchmark_id,
                 "hypotheses": [],
                 "role": role,
-                "schema_version": "invariant-claude-creativity-output-1.0",
+                "schema_version": CLAUDE_OUTPUT_SCHEMA_VERSION,
                 "steering_actions": [
                     {
                         "blocker_kind": "train_residual",

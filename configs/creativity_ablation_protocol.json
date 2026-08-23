@@ -1,0 +1,57 @@
+{
+  "schema_version": "invariant-creativity-ablation-protocol-1.0",
+  "experiment_id": "creativity-first-vs-falsification-first-001",
+  "baseline_commit": "a180d227fae9afae4964fc445cbfbb5c16afb558",
+  "arms": [
+    "baseline",
+    "full_creativity_first",
+    "minus_expanded_grammar",
+    "minus_independent_proof_recombination",
+    "minus_lineage_labels",
+    "minus_non_pruning"
+  ],
+  "task_protocol": {
+    "minimum_paired_tasks": 24,
+    "rotating_external_packs_required": true,
+    "include_intervention_noise_shift_unidentifiable": true,
+    "sealed_targets_required": true,
+    "blinded_output_order": true
+  },
+  "resource_matching": {
+    "same_model_and_effort": true,
+    "same_token_and_call_budget": true,
+    "same_wall_clock_budget": true,
+    "same_grammar_depth_budget": true,
+    "same_verifier_budget": true
+  },
+  "human_review": {
+    "minimum_independent_reviewers": 2,
+    "named_reviewers_in_unblinded_receipt": true,
+    "rating_scale": [0, 1, 2, 3, 4],
+    "useful_threshold_each_axis": 3,
+    "axes": ["coherence", "nontriviality", "followup_value"]
+  },
+  "primary_metric": "blinded_useful_distinct_behavior_branches_per_10000_tokens",
+  "secondary_metrics": [
+    "distinct_proof_mechanisms_per_10000_tokens",
+    "cross_domain_useful_branch_rate",
+    "representation_coverage",
+    "failed_or_blocked_idea_later_used_as_parent_rate",
+    "llm_origin_label_prior_art_calibration",
+    "bounded_level5_success_rate"
+  ],
+  "decision_rule": {
+    "minimum_relative_primary_improvement_numerator": 1,
+    "minimum_relative_primary_improvement_denominator": 5,
+    "one_sided_sign_test_alpha_numerator": 1,
+    "one_sided_sign_test_alpha_denominator": 20,
+    "typed_usability_noninferiority_margin_numerator": 1,
+    "typed_usability_noninferiority_margin_denominator": 20
+  },
+  "claim_boundary": {
+    "internal_behavior_diversity_is_literature_novelty": false,
+    "llm_origin_label_is_novelty_authority": false,
+    "single_run_can_establish_more_creative": false,
+    "verification_failure_deletes_idea": false
+  }
+}

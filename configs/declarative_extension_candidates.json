@@ -1,6 +1,335 @@
 {
   "candidates": [
     {
+      "candidate_id": "candidate.grammar.linear-recurrence",
+      "capabilities": [
+        "grammar.holonomic",
+        "grammar.recurrence"
+      ],
+      "creativity_family": null,
+      "declaration": {
+        "declaration_id": "grammar.linear-recurrence",
+        "input_types": [],
+        "kind": "grammar",
+        "laws": [
+          "initial_conditions_required"
+        ],
+        "output_type": "sequence",
+        "symbols": []
+      },
+      "program": {
+        "consumes": "",
+        "opcode": "grammar_expand",
+        "produces": [],
+        "productions": [
+          {
+            "expansion": "a[n]=sum(k=1..r,c[k]*a[n-k])+f(n)",
+            "nonterminal": "Recurrence"
+          },
+          {
+            "expansion": "P(n,E)*a[n]=0",
+            "nonterminal": "Recurrence"
+          }
+        ],
+        "template": ""
+      },
+      "proposer_id": "proposer.language-model-recurrence",
+      "schema_version": "invariant-declarative-extension-candidate-2.0",
+      "tests": [
+        {
+          "expected": [
+            "a[n]=sum(k=1..r,c[k]*a[n-k])+f(n)",
+            "P(n,E)*a[n]=0"
+          ],
+          "inputs": [
+            "Recurrence"
+          ]
+        }
+      ]
+    },
+    {
+      "candidate_id": "candidate.grammar.generating-function",
+      "capabilities": [
+        "grammar.coefficient-extraction",
+        "grammar.generating-function"
+      ],
+      "creativity_family": null,
+      "declaration": {
+        "declaration_id": "grammar.generating-function",
+        "input_types": [],
+        "kind": "grammar",
+        "laws": [
+          "coefficient_domain_declared"
+        ],
+        "output_type": "expression",
+        "symbols": []
+      },
+      "program": {
+        "consumes": "",
+        "opcode": "grammar_expand",
+        "produces": [],
+        "productions": [
+          {
+            "expansion": "G(z)=sum(n>=0,a[n]*z^n)",
+            "nonterminal": "GeneratingFunction"
+          },
+          {
+            "expansion": "a[n]=coefficient(G(z),z,n)",
+            "nonterminal": "GeneratingFunction"
+          }
+        ],
+        "template": ""
+      },
+      "proposer_id": "proposer.language-model-generating-function",
+      "schema_version": "invariant-declarative-extension-candidate-2.0",
+      "tests": [
+        {
+          "expected": [
+            "G(z)=sum(n>=0,a[n]*z^n)",
+            "a[n]=coefficient(G(z),z,n)"
+          ],
+          "inputs": [
+            "GeneratingFunction"
+          ]
+        }
+      ]
+    },
+    {
+      "candidate_id": "candidate.grammar.finite-sum",
+      "capabilities": [
+        "grammar.finite-sum",
+        "grammar.summation"
+      ],
+      "creativity_family": null,
+      "declaration": {
+        "declaration_id": "grammar.finite-sum",
+        "input_types": [],
+        "kind": "grammar",
+        "laws": [
+          "finite_bounds_declared"
+        ],
+        "output_type": "expression",
+        "symbols": []
+      },
+      "program": {
+        "consumes": "",
+        "opcode": "grammar_expand",
+        "produces": [],
+        "productions": [
+          {
+            "expansion": "sum(k=lower..upper,Term(k))",
+            "nonterminal": "FiniteSum"
+          },
+          {
+            "expansion": "telescoping(A(k+1)-A(k))",
+            "nonterminal": "FiniteSum"
+          }
+        ],
+        "template": ""
+      },
+      "proposer_id": "proposer.language-model-finite-sum",
+      "schema_version": "invariant-declarative-extension-candidate-2.0",
+      "tests": [
+        {
+          "expected": [
+            "sum(k=lower..upper,Term(k))",
+            "telescoping(A(k+1)-A(k))"
+          ],
+          "inputs": [
+            "FiniteSum"
+          ]
+        }
+      ]
+    },
+    {
+      "candidate_id": "candidate.grammar.finite-product",
+      "capabilities": [
+        "grammar.finite-product",
+        "grammar.product"
+      ],
+      "creativity_family": null,
+      "declaration": {
+        "declaration_id": "grammar.finite-product",
+        "input_types": [],
+        "kind": "grammar",
+        "laws": [
+          "finite_bounds_declared"
+        ],
+        "output_type": "expression",
+        "symbols": []
+      },
+      "program": {
+        "consumes": "",
+        "opcode": "grammar_expand",
+        "produces": [],
+        "productions": [
+          {
+            "expansion": "product(k=lower..upper,Factor(k))",
+            "nonterminal": "FiniteProduct"
+          },
+          {
+            "expansion": "exp(sum(k=lower..upper,log(Factor(k))))",
+            "nonterminal": "FiniteProduct"
+          }
+        ],
+        "template": ""
+      },
+      "proposer_id": "proposer.language-model-finite-product",
+      "schema_version": "invariant-declarative-extension-candidate-2.0",
+      "tests": [
+        {
+          "expected": [
+            "product(k=lower..upper,Factor(k))",
+            "exp(sum(k=lower..upper,log(Factor(k))))"
+          ],
+          "inputs": [
+            "FiniteProduct"
+          ]
+        }
+      ]
+    },
+    {
+      "candidate_id": "candidate.grammar.modular-relation",
+      "capabilities": [
+        "grammar.congruence",
+        "grammar.modular"
+      ],
+      "creativity_family": null,
+      "declaration": {
+        "declaration_id": "grammar.modular-relation",
+        "input_types": [],
+        "kind": "grammar",
+        "laws": [
+          "positive_modulus_required"
+        ],
+        "output_type": "equation",
+        "symbols": []
+      },
+      "program": {
+        "consumes": "",
+        "opcode": "grammar_expand",
+        "produces": [],
+        "productions": [
+          {
+            "expansion": "lhs == rhs (mod m)",
+            "nonterminal": "ModularRelation"
+          },
+          {
+            "expansion": "valuation_p(lhs-rhs)>=e",
+            "nonterminal": "ModularRelation"
+          }
+        ],
+        "template": ""
+      },
+      "proposer_id": "proposer.language-model-modular",
+      "schema_version": "invariant-declarative-extension-candidate-2.0",
+      "tests": [
+        {
+          "expected": [
+            "lhs == rhs (mod m)",
+            "valuation_p(lhs-rhs)>=e"
+          ],
+          "inputs": [
+            "ModularRelation"
+          ]
+        }
+      ]
+    },
+    {
+      "candidate_id": "candidate.grammar.tensor-identity",
+      "capabilities": [
+        "grammar.index-contraction",
+        "grammar.tensor"
+      ],
+      "creativity_family": null,
+      "declaration": {
+        "declaration_id": "grammar.tensor-identity",
+        "input_types": [],
+        "kind": "grammar",
+        "laws": [
+          "free_indices_and_symmetries_declared"
+        ],
+        "output_type": "equation",
+        "symbols": []
+      },
+      "program": {
+        "consumes": "",
+        "opcode": "grammar_expand",
+        "produces": [],
+        "productions": [
+          {
+            "expansion": "contract(Tensor,IndexPair)=Tensor",
+            "nonterminal": "TensorIdentity"
+          },
+          {
+            "expansion": "symmetrize(lhs,FreeIndices)=symmetrize(rhs,FreeIndices)",
+            "nonterminal": "TensorIdentity"
+          }
+        ],
+        "template": ""
+      },
+      "proposer_id": "proposer.language-model-tensor",
+      "schema_version": "invariant-declarative-extension-candidate-2.0",
+      "tests": [
+        {
+          "expected": [
+            "contract(Tensor,IndexPair)=Tensor",
+            "symmetrize(lhs,FreeIndices)=symmetrize(rhs,FreeIndices)"
+          ],
+          "inputs": [
+            "TensorIdentity"
+          ]
+        }
+      ]
+    },
+    {
+      "candidate_id": "candidate.grammar.variational-principle",
+      "capabilities": [
+        "grammar.euler-lagrange",
+        "grammar.variational"
+      ],
+      "creativity_family": null,
+      "declaration": {
+        "declaration_id": "grammar.variational-principle",
+        "input_types": [],
+        "kind": "grammar",
+        "laws": [
+          "boundary_conditions_declared"
+        ],
+        "output_type": "equation",
+        "symbols": []
+      },
+      "program": {
+        "consumes": "",
+        "opcode": "grammar_expand",
+        "produces": [],
+        "productions": [
+          {
+            "expansion": "delta(integral(L(q,Dq,x),domain))=0",
+            "nonterminal": "VariationalPrinciple"
+          },
+          {
+            "expansion": "D_q(L)-div(D_Dq(L))=0",
+            "nonterminal": "VariationalPrinciple"
+          }
+        ],
+        "template": ""
+      },
+      "proposer_id": "proposer.language-model-variational",
+      "schema_version": "invariant-declarative-extension-candidate-2.0",
+      "tests": [
+        {
+          "expected": [
+            "delta(integral(L(q,Dq,x),domain))=0",
+            "D_q(L)-div(D_Dq(L))=0"
+          ],
+          "inputs": [
+            "VariationalPrinciple"
+          ]
+        }
+      ]
+    },
+    {
       "candidate_id": "candidate.operator.mobius-normalize",
       "capabilities": [
         "normal_form.rational",

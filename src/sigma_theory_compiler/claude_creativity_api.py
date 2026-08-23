@@ -24,7 +24,27 @@ from .sigma_core import canonical_sha256
 ANTHROPIC_VERSION = "2023-06-01"
 MESSAGES_ENDPOINT = "https://api.anthropic.com/v1/messages"
 MODELS_ENDPOINT = "https://api.anthropic.com/v1/models"
-CLAUDE_OUTPUT_SCHEMA_VERSION = "invariant-claude-creativity-output-1.0"
+CLAUDE_OUTPUT_SCHEMA_VERSION = "invariant-claude-creativity-output-2.0"
+CLAUDE_ORIGIN_ASSESSMENTS = {
+    "cross_domain_synthesis",
+    "known_rewrite",
+    "proposed_new_construction",
+    "uncertain",
+}
+CLAUDE_REPRESENTATIONS = {
+    "finite_product",
+    "finite_sum",
+    "generating_function",
+    "invariant_relation",
+    "linear_recurrence",
+    "modular_relation",
+    "other_typed_relation",
+    "proof_plan",
+    "sympy_expression",
+    "tensor_identity",
+    "transform_relation",
+    "variational_principle",
+}
 _IDENTIFIER = re.compile(r"[A-Za-z][A-Za-z0-9_.-]{0,127}\Z")
 _ENVIRONMENT_NAME = re.compile(r"[A-Z][A-Z0-9_]{2,63}\Z")
 
@@ -36,6 +56,11 @@ class ClaudeCreativityError(ValueError):
 class ClaudeRole(str, Enum):
     PROPOSER = "proposer"
     CRITIC = "critic"
+    ANALOGUE_SCOUT = "analogue_scout"
+    DATASET_EXPLAINER = "dataset_explainer"
+    PROOF_STRATEGIST = "proof_strategist"
+    RECOMBINER = "recombiner"
+    REPRESENTATION_INVENTOR = "representation_inventor"
 
 
 class ClaudeCallStatus(str, Enum):
@@ -185,6 +210,10 @@ class ClaudeHypothesis:
     proof_plan: tuple[str, ...]
     falsifiers: tuple[str, ...]
     rationale: str
+    llm_origin_assessment: str
+    known_analogues: tuple[str, ...]
+    source_idea_domains: tuple[str, ...]
+    synthesis_note: str
 
     @classmethod
     def from_mapping(cls, value: Mapping[str, Any]) -> ClaudeHypothesis:
@@ -196,20 +225,24 @@ class ClaudeHypothesis:
                 "family",
                 "hypothesis_id",
                 "invariants",
+                "known_analogues",
+                "llm_origin_assessment",
                 "proof_plan",
                 "rationale",
                 "representation",
+                "source_idea_domains",
+                "synthesis_note",
             },
             "Claude hypothesis",
         )
         representation = _identifier(value["representation"], "Claude representation")
-        if representation not in {
-            "invariant_relation",
-            "linear_recurrence",
-            "proof_plan",
-            "sympy_expression",
-        }:
+        if representation not in CLAUDE_REPRESENTATIONS:
             raise ClaudeCreativityError("Claude representation is not admitted")
+        origin_assessment = _identifier(
+            value["llm_origin_assessment"], "Claude origin assessment"
+        )
+        if origin_assessment not in CLAUDE_ORIGIN_ASSESSMENTS:
+            raise ClaudeCreativityError("Claude origin assessment is not admitted")
         expression = _text(value["expression"], "Claude expression", maximum_bytes=512)
         return cls(
             _identifier(value["hypothesis_id"], "Claude hypothesis_id"),
@@ -220,6 +253,12 @@ class ClaudeHypothesis:
             _text_array(value["proof_plan"], "Claude proof plan", maximum=16),
             _text_array(value["falsifiers"], "Claude falsifiers", maximum=16),
             _text(value["rationale"], "Claude rationale", maximum_bytes=2048),
+            origin_assessment,
+            _text_array(value["known_analogues"], "Claude known analogues", maximum=16),
+            _text_array(
+                value["source_idea_domains"], "Claude source idea domains", maximum=16
+            ),
+            _text(value["synthesis_note"], "Claude synthesis note", maximum_bytes=2048),
         )
 
     def to_dict(self) -> dict[str, Any]:
@@ -229,9 +268,13 @@ class ClaudeHypothesis:
             "family": self.family,
             "hypothesis_id": self.hypothesis_id,
             "invariants": list(self.invariants),
+            "known_analogues": list(self.known_analogues),
+            "llm_origin_assessment": self.llm_origin_assessment,
             "proof_plan": list(self.proof_plan),
             "rationale": self.rationale,
             "representation": self.representation,
+            "source_idea_domains": list(self.source_idea_domains),
+            "synthesis_note": self.synthesis_note,
         }
 
 
@@ -431,17 +474,19 @@ def _structured_output_schema(role: ClaudeRole, benchmark_id: str) -> dict[str, 
             "family": {"type": "string"},
             "hypothesis_id": {"type": "string"},
             "invariants": {"type": "array", "items": {"type": "string"}},
+            "known_analogues": {"type": "array", "items": {"type": "string"}},
+            "llm_origin_assessment": {
+                "type": "string",
+                "enum": sorted(CLAUDE_ORIGIN_ASSESSMENTS),
+            },
             "proof_plan": {"type": "array", "items": {"type": "string"}},
             "rationale": {"type": "string"},
             "representation": {
                 "type": "string",
-                "enum": [
-                    "invariant_relation",
-                    "linear_recurrence",
-                    "proof_plan",
-                    "sympy_expression",
-                ],
+                "enum": sorted(CLAUDE_REPRESENTATIONS),
             },
+            "source_idea_domains": {"type": "array", "items": {"type": "string"}},
+            "synthesis_note": {"type": "string"},
         },
         "required": [
             "expression",
@@ -449,9 +494,13 @@ def _structured_output_schema(role: ClaudeRole, benchmark_id: str) -> dict[str, 
             "family",
             "hypothesis_id",
             "invariants",
+            "known_analogues",
+            "llm_origin_assessment",
             "proof_plan",
             "rationale",
             "representation",
+            "source_idea_domains",
+            "synthesis_note",
         ],
         "additionalProperties": False,
     }
@@ -553,8 +602,8 @@ class ClaudeCreativityClient:
         benchmark_id = _identifier(benchmark_id, "Claude benchmark_id")
         if _contains_forbidden_key(public_payload):
             raise ClaudeCreativityError("Claude public payload contains sealed target material")
-        if role is ClaudeRole.PROPOSER and candidate_summaries:
-            raise ClaudeCreativityError("Claude proposer cannot see post-generation candidates")
+        if role in {ClaudeRole.PROPOSER, ClaudeRole.ANALOGUE_SCOUT} and candidate_summaries:
+            raise ClaudeCreativityError("blind Claude creative role cannot see post-generation candidates")
         if role is ClaudeRole.CRITIC and not candidate_summaries:
             raise ClaudeCreativityError("Claude critic requires candidate summaries")
         if not self.config.execution_enabled:
@@ -580,14 +629,43 @@ class ClaudeCreativityClient:
             )
         self._check_budget()
         model_evidence = self._verify_model(credential)
+        instructions = {
+            ClaudeRole.PROPOSER: (
+                "Propose structurally distinct mathematical hypotheses and proof plans. For "
+                "each idea, self-assess whether it is a known rewrite, cross-domain synthesis, "
+                "proposed new construction, or uncertain; name analogues and source domains. "
+                "Uncertainty is welcome and no idea is pruned by this label."
+            ),
+            ClaudeRole.CRITIC: (
+                "Critique candidates, identify typed blockers, and suggest repairs or "
+                "recombinations without treating a failed check as grounds to delete an idea."
+            ),
+            ClaudeRole.ANALOGUE_SCOUT: (
+                "Scout distant mathematical analogues, name the source domains, and turn each "
+                "analogy into a typed hypothesis. Mark uncertain lineage explicitly."
+            ),
+            ClaudeRole.DATASET_EXPLAINER: (
+                "Propose multiple structural explanations for the public dataset, including "
+                "invariants, confounders, shift sensitivity, and falsifying interventions."
+            ),
+            ClaudeRole.PROOF_STRATEGIST: (
+                "Propose proof routes independent of the candidate's declared plan, varying "
+                "induction variables, invariants, bijections, descent, transforms, and contradiction."
+            ),
+            ClaudeRole.RECOMBINER: (
+                "Mix retained ideas across source domains and representations. Preserve parent "
+                "lineage, and label known rewrites, syntheses, proposed constructions, and uncertainty."
+            ),
+            ClaudeRole.REPRESENTATION_INVENTOR: (
+                "Invent typed representations that make the structure easier to express or test, "
+                "including recurrences, generating functions, sums, products, modular, tensor, "
+                "transform, and variational forms."
+            ),
+        }
         prompt_body = {
             "benchmark": public_payload,
             "candidate_summaries": [dict(item) for item in candidate_summaries],
-            "instruction": (
-                "Propose structurally distinct mathematical hypotheses and proof plans."
-                if role is ClaudeRole.PROPOSER
-                else "Critique candidates, identify typed blockers, and suggest repairs."
-            ),
+            "instruction": instructions[role],
             "role": role.value,
         }
         prompt = json.dumps(prompt_body, sort_keys=True, separators=(",", ":"))
@@ -603,7 +681,8 @@ class ClaudeCreativityClient:
             "system": (
                 "You are one bounded component in a blind mathematical discovery experiment. "
                 "Return only the required structured object. You may propose or critique, but "
-                "you do not verify correctness or claim novelty."
+                "you do not verify correctness or claim novelty. Origin labels are your "
+                "fallible self-assessment for lineage tracking, not prior-art conclusions."
             ),
         }
         request_bytes = json.dumps(request_body, sort_keys=True, separators=(",", ":")).encode()

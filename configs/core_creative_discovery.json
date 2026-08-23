@@ -1,0 +1,35 @@
+{
+  "schema_version": "invariant-core-creative-discovery-config-1.0",
+  "app_id": "invariant.core-creative-discovery",
+  "claude": {
+    "available_creative_roles": [
+      "analogue_scout",
+      "critic",
+      "dataset_explainer",
+      "proof_strategist",
+      "proposer",
+      "recombiner",
+      "representation_inventor"
+    ],
+    "credential_env_var": "ANTHROPIC_API_KEY",
+    "required_completed_calls": 8,
+    "required_model": "claude-opus-4-6",
+    "required_roles": ["proposer", "critic"]
+  },
+  "components": {
+    "declarative_operational_receipt": "runs/math/declarative-discovery-platform/operational-v2.json",
+    "live_evidence_output": "runs/math/core-creative-discovery/live-runtime.json",
+    "multi_host_reproduction_receipt": "runs/math/external-creativity-validation/multi-host-reproduction.json"
+  },
+  "release_policy": {
+    "human_prior_art_review_required": true,
+    "minimum_independent_level5_passes_before_open_problem": 3,
+    "required_serious_claim_backends": [
+      "exact_arithmetic",
+      "cas",
+      "smt",
+      "interval",
+      "lean"
+    ]
+  }
+}

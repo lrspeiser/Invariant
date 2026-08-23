@@ -19,9 +19,17 @@ def _file_sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def build_evidence(source_path: Path) -> dict[str, Any]:
-    source_path = source_path.resolve()
-    source = json.loads(source_path.read_text(encoding="utf-8"))
+def build_evidence_from_receipt(
+    source: Mapping[str, Any], *, source_file_sha256: str
+) -> dict[str, Any]:
+    """Remove prompts, outputs, and credentials from one completed live receipt.
+
+    ``source_file_sha256`` binds the exact transient serialization inspected by the caller.  The
+    raw live receipt never needs to be written to the repository.
+    """
+
+    if not isinstance(source_file_sha256, str) or len(source_file_sha256) != 64:
+        raise ValueError("live campaign source file hash is invalid")
     source_body = {key: value for key, value in source.items() if key != "content_sha256"}
     if source.get("content_sha256") != canonical_sha256(source_body):
         raise ValueError("live campaign source receipt seal changed")
@@ -101,13 +109,19 @@ def build_evidence(source_path: Path) -> dict[str, Any]:
         },
         "source_receipt": {
             "content_sha256": source["content_sha256"],
-            "file_sha256": _file_sha256(source_path),
+            "file_sha256": source_file_sha256,
             "raw_prompts_or_outputs_copied": False,
         },
         "usage": dict(claude.get("budget", {})),
     }
     body["content_sha256"] = canonical_sha256(body)
     return body
+
+
+def build_evidence(source_path: Path) -> dict[str, Any]:
+    source_path = source_path.resolve()
+    source = json.loads(source_path.read_text(encoding="utf-8"))
+    return build_evidence_from_receipt(source, source_file_sha256=_file_sha256(source_path))
 
 
 def validate_evidence(evidence: Mapping[str, Any]) -> None:

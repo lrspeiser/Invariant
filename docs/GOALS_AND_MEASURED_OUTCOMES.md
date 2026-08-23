@@ -72,7 +72,7 @@ Overall status: **strong alpha; not yet scientifically or operationally complete
 | 32 | Persistent scheduler | Historical CPU campaigns processed 7,864,320 formulas. A current isolated rehearsal admitted three CPU tasks, deliberately expired one attempt-one lease, recovered it once with zero recovery failures, completed all three tasks with attempts `[2,1,1]`, and sealed checkpoint sequence 1. | Current scratch mechanics demonstrated without production-state access. |
 | 33 | Current continuous operation | Formal batch 0005 advanced the cumulative cursor to prefix 17: 314 checked, 312 new, two reconciled, 314 REJECT, zero PASS/BLOCK/promotion, and 10,935 pending. The bounded batch completed two more leaves in about 80 seconds. | Consecutive bounded batches ran successfully; sustained multi-hour operation is not established. |
 | 34 | GPU acceleration | 163 candidates; 87,509,958,656 measured formula evaluations; 5,341,184 GPU/CPU comparisons and 5,216 exact checks with zero violations. | Strong synthetic acceleration control. |
-| 35 | LLM safety and spending | Adapter is secret-safe and quarantined. Alpha runs made zero network calls. Historical aggregate: 51 calls and about $14.60 spent under the $500 cap. | Safety controls achieved; discovery value unproven. |
+| 35 | LLM safety and spending | The core adapter loads `ANTHROPIC_API_KEY` from the machine's `.invariant.env` without persisting the value. The 2026-08-22 core run completed 8 authenticated `claude-opus-4-6` calls, retained all 21 returned ideas, and expanded them into 126 independent proof plans plus 64 recombinations. Historical spending figures remain separate from this receipt. | Runtime and non-pruning lineage achieved; comparative creativity value remains unproven until the paired ablation runs. |
 | 36 | Dashboard and recovery | Dashboard, immutable checkpoints, leases, and replay exist. The two-logical-host contract exercises generation-fenced sessions, host and lease heartbeats, dead-host/expired-lease recovery, stale-result rejection, chained-event tamper rejection, resume, and a measured combined SQLite/WAL/SHM ceiling. The real-duration campaign is now terminal: two cleanly stopped logical-host sessions, two succeeded packets, 21,600.000388 credited union seconds (`host-a` 17,227.661285; `host-b` 21,600.000388), 16 chained events at root `e082114a...`, and 53,248 SQLite-family bytes under the 536,870,912-byte ceiling. The sealed receipt explicitly records no physical two-machine or scientific-validity claim. | Durable mechanics, real six-hour logical-host duration, recovery, event replay, and byte ceiling are complete. Evidence for two physical machines and scientific validity remains open; production-scale scheduling and legacy production freshness remain open. |
 
 ## G. Reproducibility and release
@@ -104,9 +104,9 @@ Forward-looking claims, tests, and falsifiers for this section live in
 0. **Find a creative new law that fits the data.** This outranks every other item here.
    The engine has ~132 gate/audit/control modules against ~26 generative ones and zero
    novel results; the binding constraint is proposal quality, not verification rigour.
-   Concretely: restore the LLM proposer (currently dead -- OAuth expired, so every recent
-   run fell back to a ten-token deterministic mutator), widen the search signature beyond
-   one scalar, put a gradient on every gate that returns BLOCK, and upgrade the FunSearch
+   The credentialed LLM proposer is now live in the core app; its first run retained 21/21 ideas.
+   Next, run the preregistered old-vs-new creativity ablation, widen the search signature beyond
+   one scalar, preserve every blocked idea as a repair/recombination branch, and upgrade the FunSearch
    loop toward AlphaEvolve (diff-based edits over whole modules, a MAP-Elites archive, an
    evaluation cascade). Guard work is scheduled only when it unblocks a search.
 
@@ -138,8 +138,9 @@ Forward-looking claims, tests, and falsifiers for this section live in
     regenerate the 137 CRLF-sealed receipts by re-running their campaigns. Until this
     closes, every receipt's provenance is weaker than claimed, because verification
     depends on which operating system runs it.
-12. Ablate the LLM lane (Goal 44). If removing it does not measurably degrade yield,
-    it is decoration and should be deleted rather than funded.
+12. Ablate the LLM lane and its lineage/non-pruning components (Goal 44). Use the result to improve
+    prompts, roles, and resource allocation; do not delete an idea lineage or capability because of
+    one underpowered or static-pack comparison.
 13. Build the declaration layer from `LANGUAGE_PROPOSAL.md`, so a new capability is a
     declaration rather than a hand-written module. 122 of 125 capability gaps are open,
     and each currently costs one module; this is the throughput bottleneck.
