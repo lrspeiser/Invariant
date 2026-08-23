@@ -33,6 +33,11 @@
   ablation.
 - Exact arithmetic, CAS, SMT, and interval checks pass for the known controls. The formula-specific
   Lean source is checked by CI, not inferred locally.
+- A candidate-bound release ladder now joins the two known controls through the ordered exact
+  arithmetic, CAS, SMT, interval, and downloaded Lean-kernel evidence. It blocks both bounded-
+  unknown controls and rejects five structural mutations: missing or reordered stages, candidate
+  substitution, broken predecessor binding, and backend unavailability. This is gate calibration,
+  not verification of a new candidate or permission to release a serious claim.
 - Downloaded artifacts bind four distinct GitHub-hosted ephemeral VM runner IDs across Windows and
   Linux, with two evaluator implementations per host and a separate Lean kernel artifact. This is
   multi-host VM reproduction, not a claim about distinct bare-metal machines.
@@ -188,6 +193,10 @@ This is evidence of bounded rediscovery, not evidence of mathematical novelty.
 - Stage 3: SMT proof or countermodel inside the declared theory.
 - Stage 4: interval enclosures over the declared continuous domain.
 - Stage 5: formula-specific Lean theorem with a closed premise manifest and negative mutation.
+- The stored known-control ladder now enforces this order, candidate identity at every stage,
+  predecessor hashes, backend availability, and a positive result at every stage. New candidates
+  remain blocked until they supply their own complete chain; backend-specific mathematical
+  mutations beyond the structural ladder controls remain to be added.
 - Block serious claims unless every required stage passes; “backend unavailable” is a block, not a
   pass.
 

@@ -152,6 +152,7 @@ def test_core_run_requires_and_sanitizes_live_claude(
     expanded_grammar = bound_receipts[2]
     dataset_challenges = bound_receipts[3]
     proof_plan_search = bound_receipts[4]
+    serious_claim_ladder = bound_receipts[5]
     monkeypatch.setattr(
         C,
         "_load_bound_receipts",
@@ -161,6 +162,7 @@ def test_core_run_requires_and_sanitizes_live_claude(
             expanded_grammar,
             dataset_challenges,
             proof_plan_search,
+            serious_claim_ladder,
         ),
     )
     monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
@@ -182,6 +184,14 @@ def test_core_run_requires_and_sanitizes_live_claude(
     assert receipt["discovery_runtime"]["dataset_mutation_controls_rejected"] == 4
     assert receipt["discovery_runtime"]["independent_proof_plan_routes_closed"] == 6
     assert receipt["discovery_runtime"]["independent_proof_plan_mutations_rejected"] == 6
+    assert receipt["verification"]["serious_claim_required_stage_order"] == [
+        "exact_arithmetic",
+        "cas",
+        "smt",
+        "interval",
+        "lean",
+    ]
+    assert receipt["verification"]["serious_claims_released_by_ladder"] == 0
     assert all(
         idea["retention_status"] == "RETAINED_ACTIVE"
         for idea in receipt["idea_lineage_archive"]["ideas"]

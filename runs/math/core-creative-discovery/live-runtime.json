@@ -248,7 +248,7 @@
     ],
     "status": "PASS_REQUIRED_CORE_PARTICIPATION"
   },
-  "content_sha256": "ebb5d2c58c3598df214ac48277f7b04308a444f2ae9985b574c4a9f595b75025",
+  "content_sha256": "77c70d860cd5e6cf357de28ca9e029876ec0969899b8c8c19a2ae638edbc6f0c",
   "creative_expansion": {
     "content_sha256": "623b68ea601478fd222003e22ebcb9103f0938ef13872893a90b16f74e8060e8",
     "independent_proof_plans": [
@@ -11219,11 +11219,11 @@
     "serious_claims_released": 0,
     "status": "BLOCKED_CALIBRATION_OR_HUMAN_REVIEW_INCOMPLETE"
   },
-  "schema_version": "invariant-core-creative-discovery-runtime-1.1",
+  "schema_version": "invariant-core-creative-discovery-runtime-1.2",
   "source_bindings": {
     "config": {
       "path": "configs/core_creative_discovery.json",
-      "sha256": "40cdbf570157fefa7c622b57b0e505dceef20f558c9f3ce1b853626854deb5aa"
+      "sha256": "b1772f3583a764fbcbfb72cdc0450a615fd0f6183a76b64b626d5fb576a1a626"
     },
     "dataset_challenge_receipt": {
       "content_sha256": "687d08e6c24b86fe00963bfddf5dfa20e9242acca21bd2a3fa37cea03d584039",
@@ -11244,6 +11244,10 @@
     "proof_plan_search_receipt": {
       "content_sha256": "24ef0d505cc623f5806dab2c4ee0fe8f174ef5fc1ca011a8c3994ca69e96d4b9",
       "path": "runs/math/independent-proof-plan-search/receipt.json"
+    },
+    "serious_claim_verification_ladder_receipt": {
+      "content_sha256": "78f6b869ae3f518b137d8f1d8fbae7c0935db3d3e83bd321d48f5b2e0728c0f1",
+      "path": "runs/math/serious-claim-verification-ladder/receipt.json"
     }
   },
   "verification": {
@@ -11256,6 +11260,15 @@
     ],
     "lean_kernel_checked": true,
     "multi_host_status": "PASS_MULTI_HOST_REPRODUCTION",
-    "received_machines": 4
+    "received_machines": 4,
+    "serious_claim_ladder_status": "PASS_CANDIDATE_BOUND_LADDER_CALIBRATION",
+    "serious_claim_required_stage_order": [
+      "exact_arithmetic",
+      "cas",
+      "smt",
+      "interval",
+      "lean"
+    ],
+    "serious_claims_released_by_ladder": 0
   }
 }
