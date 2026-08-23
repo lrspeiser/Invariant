@@ -155,7 +155,7 @@ def test_core_run_requires_and_sanitizes_live_claude(
         return _fake_campaign()
 
     receipt = C.run_core(ROOT, credential_file=credential_file, campaign_runner=runner)
-    C.validate_receipt(receipt)
+    C.validate_receipt(receipt, ROOT)
     assert receipt["claude_runtime"]["authenticated_messages_api_working"]
     assert receipt["claude_runtime"]["completed_calls"] == 8
     assert receipt["credential_activation"]["source_kind"] == "explicit_env_file"

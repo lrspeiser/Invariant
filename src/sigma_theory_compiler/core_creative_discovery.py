@@ -255,11 +255,11 @@ def run_core(
     ):
         raise CoreCreativeDiscoveryError("core release boundary opened unexpectedly")
     body["content_sha256"] = canonical_sha256(body)
-    validate_receipt(body)
+    validate_receipt(body, root)
     return body
 
 
-def validate_receipt(value: Mapping[str, Any]) -> None:
+def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None:
     body = {key: item for key, item in value.items() if key != "content_sha256"}
     if value.get("content_sha256") != canonical_sha256(body):
         raise CoreCreativeDiscoveryError("core runtime receipt content seal changed")
@@ -290,6 +290,25 @@ def validate_receipt(value: Mapping[str, Any]) -> None:
     claims = value.get("claims", {})
     if any(claims.get(key) is not False for key in claims):
         raise CoreCreativeDiscoveryError("core claim boundary changed")
+    if root is not None:
+        root = root.resolve()
+        bindings = value.get("source_bindings", {})
+        config_binding = bindings.get("config", {})
+        if (
+            config_binding.get("path") != CONFIG_PATH
+            or config_binding.get("sha256") != _normalized_file_sha256(root / CONFIG_PATH)
+        ):
+            raise CoreCreativeDiscoveryError("core config source binding changed")
+        for key in ("declarative_operational_receipt", "multi_host_reproduction_receipt"):
+            binding = bindings.get(key, {})
+            path = (root / str(binding.get("path", ""))).resolve()
+            try:
+                path.relative_to(root)
+            except ValueError as error:
+                raise CoreCreativeDiscoveryError("core receipt binding escapes root") from error
+            bound = json.loads(path.read_text(encoding="utf-8"))
+            if binding.get("content_sha256") != bound.get("content_sha256"):
+                raise CoreCreativeDiscoveryError("core receipt source binding changed")
 
 
 def main(argv: Sequence[str] | None = None) -> int:
@@ -301,10 +320,11 @@ def main(argv: Sequence[str] | None = None) -> int:
     run.add_argument("--output", type=Path, default=Path(OUTPUT_PATH))
     validate = subparsers.add_parser("validate", help="validate a sanitized core receipt")
     validate.add_argument("--receipt", type=Path, default=Path(OUTPUT_PATH))
+    validate.add_argument("--root", type=Path, default=Path.cwd())
     args = parser.parse_args(argv)
     if args.command == "validate":
         receipt = json.loads(args.receipt.read_text(encoding="utf-8"))
-        validate_receipt(receipt)
+        validate_receipt(receipt, args.root)
     else:
         receipt = run_core(args.root, credential_file=args.credential_file)
         output = args.output if args.output.is_absolute() else args.root / args.output
