@@ -1328,11 +1328,19 @@ sigma-dataset-challenges validate --root . `
   --receipt runs/math/dataset-challenges/receipt.json
 sigma-proof-plan-search validate --root . `
   --receipt runs/math/independent-proof-plan-search/receipt.json
+sigma-serious-claim-ladder validate --root . `
+  --receipt runs/math/serious-claim-verification-ladder/receipt.json
 sigma-rotate-benchmarks validate --root . `
   --generation runs/math/rotating-external-benchmarks/2026-08-23-001-generation.json `
   --targets runs/math/rotating-external-benchmarks/2026-08-23-001-targets.json `
   --receipt runs/math/rotating-external-benchmarks/2026-08-23-001-receipt.json
 ```
+
+The serious-claim ladder binds one candidate scope through the ordered exact-arithmetic, CAS, SMT,
+interval, and Lean stages. Its stored calibration joins the two externally authored known-formula
+controls to the downloaded kernel artifact, blocks both bounded-unknown controls, and rejects stage
+deletion, reordering, candidate substitution, broken predecessor links, and unavailable backends.
+This proves that the gate can fail closed; it does not verify a new candidate or establish novelty.
 
 Run or resume the paired live generation stage with the machine-local credential file:
 

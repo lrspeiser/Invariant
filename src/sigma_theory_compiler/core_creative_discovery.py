@@ -34,12 +34,18 @@ from .external_creativity_multi_host import validate_receipt as validate_multi_h
 from .external_creativity_validation import run_campaign
 from .idea_lineage import build_idea_archive, validate_idea_archive
 from .independent_proof_plan_search import validate_proof_plan_search
+from .serious_claim_verification_ladder import (
+    REQUIRED_STAGES as SERIOUS_CLAIM_STAGES,
+)
+from .serious_claim_verification_ladder import (
+    validate_receipt as validate_serious_claim_ladder,
+)
 from .sigma_core import canonical_sha256
 
 CONFIG_PATH = "configs/core_creative_discovery.json"
 OUTPUT_PATH = "runs/math/core-creative-discovery/live-runtime.json"
-SCHEMA_VERSION = "invariant-core-creative-discovery-runtime-1.1"
-CONFIG_SCHEMA = "invariant-core-creative-discovery-config-1.1"
+SCHEMA_VERSION = "invariant-core-creative-discovery-runtime-1.2"
+CONFIG_SCHEMA = "invariant-core-creative-discovery-config-1.2"
 
 
 class CoreCreativeDiscoveryError(ValueError):
@@ -103,6 +109,7 @@ def _load_config(root: Path) -> dict[str, Any]:
         "live_evidence_output",
         "multi_host_reproduction_receipt",
         "proof_plan_search_receipt",
+        "serious_claim_verification_ladder_receipt",
     }:
         raise CoreCreativeDiscoveryError("core component bindings changed")
     return value
@@ -111,7 +118,12 @@ def _load_config(root: Path) -> dict[str, Any]:
 def _load_bound_receipts(
     root: Path, config: Mapping[str, Any]
 ) -> tuple[
-    dict[str, Any], dict[str, Any], dict[str, Any], dict[str, Any], dict[str, Any]
+    dict[str, Any],
+    dict[str, Any],
+    dict[str, Any],
+    dict[str, Any],
+    dict[str, Any],
+    dict[str, Any],
 ]:
     components = config["components"]
     dataset_path = root / components["dataset_challenge_receipt"]
@@ -119,17 +131,31 @@ def _load_bound_receipts(
     multi_host_path = root / components["multi_host_reproduction_receipt"]
     expanded_grammar_path = root / components["expanded_typed_grammar_receipt"]
     proof_plan_path = root / components["proof_plan_search_receipt"]
+    serious_claim_ladder_path = root / components[
+        "serious_claim_verification_ladder_receipt"
+    ]
     dataset = json.loads(dataset_path.read_text(encoding="utf-8"))
     operational = json.loads(operational_path.read_text(encoding="utf-8"))
     multi_host = json.loads(multi_host_path.read_text(encoding="utf-8"))
     expanded_grammar = json.loads(expanded_grammar_path.read_text(encoding="utf-8"))
     proof_plan_search = json.loads(proof_plan_path.read_text(encoding="utf-8"))
+    serious_claim_ladder = json.loads(
+        serious_claim_ladder_path.read_text(encoding="utf-8")
+    )
     validate_dataset_challenges(dataset, root)
     validate_operational_receipt(operational, root)
     validate_multi_host_receipt(multi_host)
     validate_expanded_grammar_receipt(expanded_grammar, root)
     validate_proof_plan_search(proof_plan_search, root)
-    return operational, multi_host, expanded_grammar, dataset, proof_plan_search
+    validate_serious_claim_ladder(serious_claim_ladder, root)
+    return (
+        operational,
+        multi_host,
+        expanded_grammar,
+        dataset,
+        proof_plan_search,
+        serious_claim_ladder,
+    )
 
 
 def _validate_live_campaign(campaign: Mapping[str, Any], config: Mapping[str, Any]) -> None:
@@ -178,6 +204,7 @@ def run_core(
         expanded_grammar,
         dataset_challenges,
         proof_plan_search,
+        serious_claim_ladder,
     ) = _load_bound_receipts(root, config)
     environment = None
     if credential_file is not None:
@@ -241,6 +268,12 @@ def run_core(
                 "content_sha256": proof_plan_search["content_sha256"],
                 "path": config["components"]["proof_plan_search_receipt"],
             },
+            "serious_claim_verification_ladder_receipt": {
+                "content_sha256": serious_claim_ladder["content_sha256"],
+                "path": config["components"][
+                    "serious_claim_verification_ladder_receipt"
+                ],
+            },
         },
         "credential_activation": activation.to_evidence(),
         "claude_runtime": {
@@ -290,6 +323,13 @@ def run_core(
             "multi_host_status": multi_host["reproduction"]["status"],
             "received_machines": multi_host["reproduction"]["received_machines"],
             "lean_kernel_checked": multi_host["lean"]["kernel_checked"],
+            "serious_claim_ladder_status": serious_claim_ladder["summary"]["status"],
+            "serious_claim_required_stage_order": serious_claim_ladder["summary"][
+                "required_stage_order"
+            ],
+            "serious_claims_released_by_ladder": serious_claim_ladder["release_gate"][
+                "serious_claims_released"
+            ],
         },
         "release_gate": {
             "human_prior_art_reviews_complete": all(
@@ -392,6 +432,11 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
         verification.get("multi_host_status") != "PASS_MULTI_HOST_REPRODUCTION"
         or verification.get("received_machines", 0) < 2
         or verification.get("lean_kernel_checked") is not True
+        or verification.get("serious_claim_ladder_status")
+        != "PASS_CANDIDATE_BOUND_LADDER_CALIBRATION"
+        or tuple(verification.get("serious_claim_required_stage_order", ()))
+        != SERIOUS_CLAIM_STAGES
+        or verification.get("serious_claims_released_by_ladder") != 0
     ):
         raise CoreCreativeDiscoveryError("core verification evidence changed")
     claims = value.get("claims", {})
@@ -412,6 +457,7 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
             "expanded_typed_grammar_receipt",
             "multi_host_reproduction_receipt",
             "proof_plan_search_receipt",
+            "serious_claim_verification_ladder_receipt",
         ):
             binding = bindings.get(key, {})
             path = (root / str(binding.get("path", ""))).resolve()
@@ -428,6 +474,8 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
                 validate_dataset_challenges(bound, root)
             if key == "proof_plan_search_receipt":
                 validate_proof_plan_search(bound, root)
+            if key == "serious_claim_verification_ladder_receipt":
+                validate_serious_claim_ladder(bound, root)
 
 
 def main(argv: Sequence[str] | None = None) -> int:

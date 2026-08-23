@@ -1,0 +1,47 @@
+{
+  "schema_version": "invariant-serious-claim-verification-ladder-config-1.0",
+  "ladder_id": "candidate-bound-exact-cas-smt-interval-lean-001",
+  "required_stage_order": [
+    "exact_arithmetic",
+    "cas",
+    "smt",
+    "interval",
+    "lean"
+  ],
+  "sources": {
+    "campaign_receipt": "runs/math/external-creativity-validation/campaign.json",
+    "multi_host_receipt": "runs/math/external-creativity-validation/multi-host-reproduction.json",
+    "lean_source": "formal/lean/ExternalKnownFormulaControls.lean"
+  },
+  "known_control_suite": {
+    "benchmark_ids": [
+      "external.authority-openstax-0702",
+      "external.authority-nist-0244"
+    ],
+    "lean_target": "Invariant.externalKnownFormulaControls",
+    "lean_theorems": [
+      "Invariant.recoveredKineticNormalForm",
+      "Invariant.recoveredSumSquaresNormalForm"
+    ]
+  },
+  "negative_control_benchmark_ids": [
+    "external.authority-oeis-005132",
+    "external.authority-oeis-002858"
+  ],
+  "mutation_controls": [
+    "missing_stage",
+    "reordered_stages",
+    "candidate_scope_substitution",
+    "broken_previous_stage_link",
+    "backend_unavailable"
+  ],
+  "release_policy": {
+    "candidate_identity_bound_at_every_stage": true,
+    "previous_stage_hash_bound": true,
+    "backend_unavailable_is_block": true,
+    "positive_result_required_at_every_stage": true,
+    "independent_reproduction_required": true,
+    "named_human_prior_art_review_required": true,
+    "known_control_calibration_can_release_serious_claim": false
+  }
+}
