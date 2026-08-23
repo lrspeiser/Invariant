@@ -750,7 +750,7 @@
     },
     "suite_id": "creativity-first-component-knockouts-001"
   },
-  "content_sha256": "07bd9a99e588ea058591056f5de9137679fb5ea82c53f7fa049980c871377875",
+  "content_sha256": "3769c6602e9adf67f98d150fe65220dfbf473251455449f09fbc6cfa8a738abb",
   "creative_expansion": {
     "content_sha256": "623b68ea601478fd222003e22ebcb9103f0938ef13872893a90b16f74e8060e8",
     "independent_proof_plans": [
@@ -5171,11 +5171,13 @@
     "external_structured_benchmark_level5_eligible": false,
     "external_structured_benchmark_status": "CREATIVITY_BENCHMARK_READY_LEVEL5_BLOCKED_UNSIGNED_SOURCE",
     "external_structured_benchmark_tasks": 8,
-    "first_principles_d4_controls_passed": 4,
-    "first_principles_d4_dimension_mutations_rejected": 4,
-    "first_principles_d4_invariant_coordinates": 4,
-    "first_principles_d4_status": "PASS_SYMMETRY_DIMENSION_FORCED_DERIVATION",
-    "first_principles_d4_symmetry_mutations_rejected": 4,
+    "first_principles_d4_basis_collapse_mutations_rejected": 5,
+    "first_principles_d4_controls_passed": 5,
+    "first_principles_d4_dimension_mutations_rejected": 6,
+    "first_principles_d4_invariant_coordinates": 6,
+    "first_principles_d4_multi_coordinate_controls": 1,
+    "first_principles_d4_status": "PASS_SYMMETRY_DIMENSION_MULTI_COORDINATE_DERIVATION",
+    "first_principles_d4_symmetry_mutations_rejected": 5,
     "independent_proof_plan_mechanisms": [
       "induction",
       "invariant_preservation",
@@ -11670,8 +11672,8 @@
   "llm_prompt_context": {
     "authenticated_calls_bound_to_context": false,
     "bound_authenticated_calls": 0,
-    "content_sha256": "40dd751a2624ce48bab42458e0ed4e32af55c7ad2bf2ee77c8afde94c2c1042d",
-    "first_principles_briefs": 4,
+    "content_sha256": "b45d9d656884a0a6bc2b2d0e921965987f92a8f207c442ffd30be34907946d35",
+    "first_principles_briefs": 5,
     "independent_proof_mechanisms": 6,
     "origin_assessment_labels": [
       "cross_domain_synthesis",
@@ -12091,7 +12093,7 @@
     "serious_claims_released": 0,
     "status": "BLOCKED_CALIBRATION_OR_HUMAN_REVIEW_INCOMPLETE"
   },
-  "schema_version": "invariant-core-creative-discovery-runtime-1.9",
+  "schema_version": "invariant-core-creative-discovery-runtime-2.0",
   "source_bindings": {
     "component_knockout_preflight_receipt": {
       "content_sha256": "401713116d3af48016a5312218c2804be46ad31aca400e8c443b2f81c4f9a856",
@@ -12099,7 +12101,7 @@
     },
     "config": {
       "path": "configs/core_creative_discovery.json",
-      "sha256": "b25442d8a5a5f9a89d485c12d305176d06ec9deea1169ba128fdbf65a7c88d0d"
+      "sha256": "e405a3c0dc4d896f5c468a9ad4fd1dbc9f16aa81782a9ac433f5ae79f65032df"
     },
     "dataset_challenge_receipt": {
       "content_sha256": "687d08e6c24b86fe00963bfddf5dfa20e9242acca21bd2a3fa37cea03d584039",
@@ -12127,7 +12129,7 @@
     },
     "prompt_context_source": {
       "path": "src/sigma_theory_compiler/core_creative_prompt_context.py",
-      "sha256": "426c581a156b32d6fac7336ac907114d565c5e14d178c11366208f675b992edb"
+      "sha256": "e5b2f985bc192b869a4bbb2ff804cd97349a909a211c6e78fa4595ed3acef7c9"
     },
     "proof_plan_search_receipt": {
       "content_sha256": "24ef0d505cc623f5806dab2c4ee0fe8f174ef5fc1ca011a8c3994ca69e96d4b9",
@@ -12138,12 +12140,12 @@
       "path": "runs/math/serious-claim-verification-ladder/receipt.json"
     },
     "symmetry_dimension_derivation_receipt": {
-      "content_sha256": "c13fb8bda24c26eab228e426c1f53a0ba973ee1fa2303be00ea82efb936d2964",
+      "content_sha256": "fe60b85a4aa9a46c1d25dbfa07212d510e5e007f59dd546b6fdd9ddfd83d5872",
       "path": "runs/math/symmetry-dimension-derivation/receipt.json"
     }
   },
   "symmetry_dimension_derivation": {
-    "campaign_id": "first-principles-d4-controls-2026-08-23-001",
+    "campaign_id": "first-principles-d4-controls-2026-08-23-002",
     "claims": {
       "dimensionless_implies_true": false,
       "empirical_fit_established": false,
@@ -12151,7 +12153,7 @@
       "specific_law_discovered": false,
       "symmetry_dimension_constraints_determine_free_function": false
     },
-    "content_sha256": "c13fb8bda24c26eab228e426c1f53a0ba973ee1fa2303be00ea82efb936d2964",
+    "content_sha256": "fe60b85a4aa9a46c1d25dbfa07212d510e5e007f59dd546b6fdd9ddfd83d5872",
     "engine_principal_id": "invariant.discovery-engine",
     "evaluators": {
       "agreement_required": true,
@@ -12162,8 +12164,9 @@
     },
     "release_gate": {
       "d4_controls_ready": true,
+      "multiple_invariant_coordinates_ready": true,
       "serious_claim_released": false,
-      "status": "PASS_D4_CONTROLS_NO_LAW_OR_NOVELTY_CLAIM"
+      "status": "PASS_D4_MULTI_COORDINATE_CONTROLS_NO_LAW_OR_NOVELTY_CLAIM"
     },
     "results": [
       {
@@ -12195,6 +12198,7 @@
         },
         "independent_evaluators": {
           "agreement": true,
+          "declared_basis_rank": 1,
           "fraction_gaussian_elimination_rank": 3,
           "sympy_exact_nullspace_basis": [
             [
@@ -12206,31 +12210,50 @@
           ],
           "sympy_rank": 3
         },
-        "invariant": {
-          "exponents": [
-            2,
-            -1,
-            1,
-            0
-          ],
-          "expression": "period**2*gravity/length",
-          "primitive": true
-        },
-        "mutations": {
-          "dimension_exponent_offset": {
-            "mutated_exponents": [
-              3,
+        "invariant_coordinates": [
+          {
+            "coordinate_id": "pi_1",
+            "exponents": [
+              2,
               -1,
               1,
               0
             ],
-            "rejected": true,
-            "row_residuals": [
-              0,
-              1,
-              0
-            ]
+            "expression": "period**2*gravity/length",
+            "primitive": true
+          }
+        ],
+        "mutations": {
+          "basis_collapse": {
+            "baseline_rank": 1,
+            "mutated_basis": [
+              [
+                0,
+                0,
+                0,
+                0
+              ]
+            ],
+            "mutated_rank": 0,
+            "rejected": true
           },
+          "dimension_exponent_offsets": [
+            {
+              "coordinate_id": "pi_1",
+              "mutated_exponents": [
+                3,
+                -1,
+                1,
+                0
+              ],
+              "rejected": true,
+              "row_residuals": [
+                0,
+                1,
+                0
+              ]
+            }
+          ],
           "drop_nuisance_symmetry": {
             "baseline_nullity": 1,
             "mutated_nullity": 2,
@@ -12290,6 +12313,7 @@
         },
         "independent_evaluators": {
           "agreement": true,
+          "declared_basis_rank": 1,
           "fraction_gaussian_elimination_rank": 4,
           "sympy_exact_nullspace_basis": [
             [
@@ -12302,34 +12326,54 @@
           ],
           "sympy_rank": 4
         },
-        "invariant": {
-          "exponents": [
-            2,
-            -3,
-            1,
-            1,
-            0
-          ],
-          "expression": "period**2*central_mass*gravitational_constant/semi_major_axis**3",
-          "primitive": true
-        },
-        "mutations": {
-          "dimension_exponent_offset": {
-            "mutated_exponents": [
-              3,
+        "invariant_coordinates": [
+          {
+            "coordinate_id": "pi_1",
+            "exponents": [
+              2,
               -3,
               1,
               1,
               0
             ],
-            "rejected": true,
-            "row_residuals": [
-              0,
-              1,
-              0,
-              0
-            ]
+            "expression": "period**2*central_mass*gravitational_constant/semi_major_axis**3",
+            "primitive": true
+          }
+        ],
+        "mutations": {
+          "basis_collapse": {
+            "baseline_rank": 1,
+            "mutated_basis": [
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            ],
+            "mutated_rank": 0,
+            "rejected": true
           },
+          "dimension_exponent_offsets": [
+            {
+              "coordinate_id": "pi_1",
+              "mutated_exponents": [
+                3,
+                -3,
+                1,
+                1,
+                0
+              ],
+              "rejected": true,
+              "row_residuals": [
+                0,
+                1,
+                0,
+                0
+              ]
+            }
+          ],
           "drop_nuisance_symmetry": {
             "baseline_nullity": 1,
             "mutated_nullity": 2,
@@ -12390,6 +12434,7 @@
         },
         "independent_evaluators": {
           "agreement": true,
+          "declared_basis_rank": 1,
           "fraction_gaussian_elimination_rank": 3,
           "sympy_exact_nullspace_basis": [
             [
@@ -12401,31 +12446,50 @@
           ],
           "sympy_rank": 3
         },
-        "invariant": {
-          "exponents": [
-            2,
-            -1,
-            -1,
-            0
-          ],
-          "expression": "length_scale**2/(time_scale*diffusivity)",
-          "primitive": true
-        },
-        "mutations": {
-          "dimension_exponent_offset": {
-            "mutated_exponents": [
-              3,
+        "invariant_coordinates": [
+          {
+            "coordinate_id": "pi_1",
+            "exponents": [
+              2,
               -1,
               -1,
               0
             ],
-            "rejected": true,
-            "row_residuals": [
-              1,
-              0,
-              0
-            ]
+            "expression": "length_scale**2/(time_scale*diffusivity)",
+            "primitive": true
+          }
+        ],
+        "mutations": {
+          "basis_collapse": {
+            "baseline_rank": 1,
+            "mutated_basis": [
+              [
+                0,
+                0,
+                0,
+                0
+              ]
+            ],
+            "mutated_rank": 0,
+            "rejected": true
           },
+          "dimension_exponent_offsets": [
+            {
+              "coordinate_id": "pi_1",
+              "mutated_exponents": [
+                3,
+                -1,
+                -1,
+                0
+              ],
+              "rejected": true,
+              "row_residuals": [
+                1,
+                0,
+                0
+              ]
+            }
+          ],
           "drop_nuisance_symmetry": {
             "baseline_nullity": 1,
             "mutated_nullity": 2,
@@ -12485,6 +12549,7 @@
         },
         "independent_evaluators": {
           "agreement": true,
+          "declared_basis_rank": 1,
           "fraction_gaussian_elimination_rank": 4,
           "sympy_exact_nullspace_basis": [
             [
@@ -12497,34 +12562,54 @@
           ],
           "sympy_rank": 4
         },
-        "invariant": {
-          "exponents": [
-            1,
-            1,
-            1,
-            -1,
-            0
-          ],
-          "expression": "density*speed*length_scale/dynamic_viscosity",
-          "primitive": true
-        },
-        "mutations": {
-          "dimension_exponent_offset": {
-            "mutated_exponents": [
-              2,
+        "invariant_coordinates": [
+          {
+            "coordinate_id": "pi_1",
+            "exponents": [
+              1,
               1,
               1,
               -1,
               0
             ],
-            "rejected": true,
-            "row_residuals": [
-              -3,
-              0,
-              1,
-              0
-            ]
+            "expression": "density*speed*length_scale/dynamic_viscosity",
+            "primitive": true
+          }
+        ],
+        "mutations": {
+          "basis_collapse": {
+            "baseline_rank": 1,
+            "mutated_basis": [
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            ],
+            "mutated_rank": 0,
+            "rejected": true
           },
+          "dimension_exponent_offsets": [
+            {
+              "coordinate_id": "pi_1",
+              "mutated_exponents": [
+                2,
+                1,
+                1,
+                -1,
+                0
+              ],
+              "rejected": true,
+              "row_residuals": [
+                -3,
+                0,
+                1,
+                0
+              ]
+            }
+          ],
           "drop_nuisance_symmetry": {
             "baseline_nullity": 1,
             "mutated_nullity": 2,
@@ -12555,29 +12640,207 @@
           "dynamic_viscosity",
           "roughness_ratio"
         ]
+      },
+      {
+        "creative_brief": {
+          "candidate_invariant_coordinates": [
+            "drag_force/(density*speed**2*length_scale**2)",
+            "density*speed*length_scale/dynamic_viscosity"
+          ],
+          "constraint_statement": "Generate hypotheses only through the declared dimension and symmetry quotient; retain multiple mechanisms until exact falsification.",
+          "llm_origin_assessment_labels": [
+            "known_rewrite",
+            "cross_domain_synthesis",
+            "proposed_new_construction",
+            "uncertain"
+          ],
+          "novelty_caution": "Dimensional and symmetry admissibility is neither empirical truth nor literature novelty."
+        },
+        "dimensions": {
+          "axes": [
+            "length",
+            "time",
+            "mass"
+          ],
+          "rank": 3
+        },
+        "domain": "aerodynamics",
+        "forced_form": {
+          "free_function_arity": 2,
+          "free_function_determined": false,
+          "statement": "F(drag_force/(density*speed**2*length_scale**2),density*speed*length_scale/dynamic_viscosity) = 0"
+        },
+        "independent_evaluators": {
+          "agreement": true,
+          "declared_basis_rank": 2,
+          "fraction_gaussian_elimination_rank": 4,
+          "sympy_exact_nullspace_basis": [
+            [
+              1,
+              -1,
+              -2,
+              -2,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              0,
+              0,
+              -2,
+              0
+            ]
+          ],
+          "sympy_rank": 4
+        },
+        "invariant_coordinates": [
+          {
+            "coordinate_id": "pi_1",
+            "exponents": [
+              1,
+              -1,
+              -2,
+              -2,
+              0,
+              0
+            ],
+            "expression": "drag_force/(density*speed**2*length_scale**2)",
+            "primitive": true
+          },
+          {
+            "coordinate_id": "pi_2",
+            "exponents": [
+              0,
+              1,
+              1,
+              1,
+              -1,
+              0
+            ],
+            "expression": "density*speed*length_scale/dynamic_viscosity",
+            "primitive": true
+          }
+        ],
+        "mutations": {
+          "basis_collapse": {
+            "baseline_rank": 2,
+            "mutated_basis": [
+              [
+                1,
+                -1,
+                -2,
+                -2,
+                0,
+                0
+              ],
+              [
+                1,
+                -1,
+                -2,
+                -2,
+                0,
+                0
+              ]
+            ],
+            "mutated_rank": 1,
+            "rejected": true
+          },
+          "dimension_exponent_offsets": [
+            {
+              "coordinate_id": "pi_1",
+              "mutated_exponents": [
+                2,
+                -1,
+                -2,
+                -2,
+                0,
+                0
+              ],
+              "rejected": true,
+              "row_residuals": [
+                1,
+                -2,
+                1,
+                0
+              ]
+            },
+            {
+              "coordinate_id": "pi_2",
+              "mutated_exponents": [
+                1,
+                1,
+                1,
+                1,
+                -1,
+                0
+              ],
+              "rejected": true,
+              "row_residuals": [
+                1,
+                -2,
+                1,
+                0
+              ]
+            }
+          ],
+          "drop_nuisance_symmetry": {
+            "baseline_nullity": 2,
+            "mutated_nullity": 3,
+            "nuisance_coordinate_admitted": true,
+            "nuisance_exponents": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            "rejected": true
+          }
+        },
+        "problem_id": "control.drag-similarity",
+        "search": {
+          "bounded_primitive_invariants": 6,
+          "combined_rank": 4,
+          "nullity": 2
+        },
+        "symmetry_actions": [
+          "roughness_nuisance_rescaling"
+        ],
+        "variables": [
+          "drag_force",
+          "density",
+          "speed",
+          "length_scale",
+          "dynamic_viscosity",
+          "roughness_ratio"
+        ]
       }
     ],
-    "schema_version": "invariant-symmetry-dimension-derivation-receipt-1.0",
+    "schema_version": "invariant-symmetry-dimension-derivation-receipt-1.1",
     "source_bindings": {
       "config": {
-        "normalized_sha256": "b50f25469313b71717820870f9442086062b119e0039fff5dac408dcd0949b45",
+        "normalized_sha256": "6a31037290b65f33e980582f658993db3d394e10428978215a0ea18ae6eacdcf",
         "path": "configs/symmetry_dimension_derivation.json"
       },
       "source": {
-        "normalized_sha256": "167c755d27ebe21bf53bc55476d0bd6c3bb9414043a873307fd55c0a02a8331d",
+        "normalized_sha256": "8f3657d80f25433a677911b8493384935a2169c52ca28fa72e7ac4aced72eda5",
         "path": "src/sigma_theory_compiler/symmetry_dimension_derivation.py"
       },
       "test": {
-        "normalized_sha256": "65e8ca7cfd5974983adb110aa6d9b97834b49649189d3e960370e359f282eac6",
+        "normalized_sha256": "823d23509375f3ffc63e939c8daa5ce67927573c9a1ad94eb1ddc7da34a16ade",
         "path": "tests/test_symmetry_dimension_derivation.py"
       }
     },
     "summary": {
-      "controls_passed": 4,
-      "dimension_mutations_rejected": 4,
-      "invariant_coordinates": 4,
-      "status": "PASS_SYMMETRY_DIMENSION_FORCED_DERIVATION",
-      "symmetry_mutations_rejected": 4
+      "basis_collapse_mutations_rejected": 5,
+      "controls_passed": 5,
+      "dimension_mutations_rejected": 6,
+      "invariant_coordinates": 6,
+      "multi_coordinate_controls": 1,
+      "status": "PASS_SYMMETRY_DIMENSION_MULTI_COORDINATE_DERIVATION",
+      "symmetry_mutations_rejected": 5
     }
   },
   "verification": {

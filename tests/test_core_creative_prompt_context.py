@@ -9,6 +9,7 @@ import pytest
 
 from sigma_theory_compiler import core_creative_prompt_context as C
 from sigma_theory_compiler.claude_creativity_api import ClaudeCreativityError
+from sigma_theory_compiler.sigma_core import canonical_sha256
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -36,7 +37,14 @@ def test_prompt_context_is_sealed_creativity_first_and_broad() -> None:
         "retain_every_schema_admitted_idea": True,
         "uncertainty_does_not_prune": True,
     }
-    assert len(context["first_principles_briefs"]) == 4
+    assert len(context["first_principles_briefs"]) == 5
+    drag = next(
+        brief
+        for brief in context["first_principles_briefs"]
+        if brief["problem_id"] == "control.drag-similarity"
+    )
+    assert drag["invariant_coordinate_arity"] == 2
+    assert drag["forced_form"].startswith("F(drag_force/")
     assert len(context["typed_formula_kinds"]) == 7
     assert len(context["independent_proof_mechanisms"]) == 6
     assert context["origin_assessment_labels"] == C.ORIGIN_ASSESSMENTS
@@ -47,6 +55,23 @@ def test_prompt_context_rejects_policy_tampering() -> None:
     changed = deepcopy(context)
     changed["creativity_policy"]["uncertainty_does_not_prune"] = False
     with pytest.raises(C.CoreCreativePromptContextError, match="seal"):
+        C.validate_creative_prompt_context(changed)
+
+
+def test_prompt_context_rejects_resealed_loss_of_multi_coordinate_coverage() -> None:
+    context = _context()
+    changed = deepcopy(context)
+    drag = next(
+        brief
+        for brief in changed["first_principles_briefs"]
+        if brief["problem_id"] == "control.drag-similarity"
+    )
+    drag["candidate_invariant_coordinates"] = drag["candidate_invariant_coordinates"][:1]
+    drag["invariant_coordinate_arity"] = 1
+    drag["forced_form"] = f"F({drag['candidate_invariant_coordinates'][0]}) = 0"
+    body = {key: value for key, value in changed.items() if key != "content_sha256"}
+    changed["content_sha256"] = canonical_sha256(body)
+    with pytest.raises(C.CoreCreativePromptContextError, match="multi-coordinate"):
         C.validate_creative_prompt_context(changed)
 
 

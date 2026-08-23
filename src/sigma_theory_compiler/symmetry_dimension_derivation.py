@@ -26,10 +26,11 @@ CONFIG_PATH = "configs/symmetry_dimension_derivation.json"
 OUTPUT_PATH = "runs/math/symmetry-dimension-derivation/receipt.json"
 SOURCE_PATH = "src/sigma_theory_compiler/symmetry_dimension_derivation.py"
 TEST_PATH = "tests/test_symmetry_dimension_derivation.py"
-CONFIG_SCHEMA = "invariant-symmetry-dimension-derivation-config-1.0"
-RECEIPT_SCHEMA = "invariant-symmetry-dimension-derivation-receipt-1.0"
-CAMPAIGN_ID = "first-principles-d4-controls-2026-08-23-001"
+CONFIG_SCHEMA = "invariant-symmetry-dimension-derivation-config-1.1"
+RECEIPT_SCHEMA = "invariant-symmetry-dimension-derivation-receipt-1.1"
+CAMPAIGN_ID = "first-principles-d4-controls-2026-08-23-002"
 _EXPECTED_PROBLEMS = {
+    "control.drag-similarity": "aerodynamics",
     "control.diffusion-similarity": "transport",
     "control.kepler-similarity": "orbital_dynamics",
     "control.reynolds-similarity": "fluid_dynamics",
@@ -125,7 +126,7 @@ def validate_config(value: Mapping[str, Any]) -> dict[str, Any]:
     if policy != {
         "maximum_absolute_exponent": 3,
         "maximum_l1_norm": 8,
-        "minimum_controls": 4,
+        "minimum_controls": 5,
         "require_independent_rank_evaluators": True,
         "require_symmetry_nuisance_mutation": True,
     }:
@@ -140,7 +141,7 @@ def validate_config(value: Mapping[str, Any]) -> dict[str, Any]:
             {
                 "dimension_axes",
                 "domain",
-                "expected_control_exponents",
+                "expected_control_basis",
                 "problem_id",
                 "symmetry_actions",
                 "variables",
@@ -160,7 +161,7 @@ def validate_config(value: Mapping[str, Any]) -> dict[str, Any]:
             or len(axes) != len(set(axes))
             or any(not isinstance(axis, str) or not axis for axis in axes)
             or not isinstance(variables, list)
-            or len(variables) not in {4, 5}
+            or len(variables) not in {4, 5, 6}
             or not isinstance(actions, list)
             or len(actions) != 1
         ):
@@ -182,13 +183,20 @@ def validate_config(value: Mapping[str, Any]) -> dict[str, Any]:
             )
             if not any(weights):
                 raise SymmetryDimensionError("declared symmetry action is trivial")
-        expected = _integer_vector(
-            problem["expected_control_exponents"],
-            len(variables),
-            f"{problem_id} expected exponents",
-        )
-        if not any(expected):
-            raise SymmetryDimensionError("expected invariant is trivial")
+        expected_basis = problem["expected_control_basis"]
+        if (
+            not isinstance(expected_basis, list)
+            or not 1 <= len(expected_basis) < len(variables)
+        ):
+            raise SymmetryDimensionError("expected invariant basis shape changed")
+        for index, vector in enumerate(expected_basis):
+            expected = _integer_vector(
+                vector,
+                len(variables),
+                f"{problem_id} expected basis vector {index}",
+            )
+            if not any(expected) or tuple(expected) != _canonical_integer_vector(expected):
+                raise SymmetryDimensionError("expected invariant basis is not primitive canonical")
         observed[problem_id] = domain
     if observed != _EXPECTED_PROBLEMS:
         raise SymmetryDimensionError("symmetry/dimension domain coverage changed")
@@ -310,7 +318,7 @@ def _expression(names: Sequence[str], exponents: Sequence[int]) -> str:
 
 def evaluate_problem(problem: Mapping[str, Any], policy: Mapping[str, Any]) -> dict[str, Any]:
     names = [variable["name"] for variable in problem["variables"]]
-    expected = tuple(problem["expected_control_exponents"])
+    expected_basis = [tuple(vector) for vector in problem["expected_control_basis"]]
     dimension_rows = _matrix_rows(problem, include_symmetry=False)
     combined_rows = _matrix_rows(problem, include_symmetry=True)
     fraction_dimension_rank = _rank_fraction(dimension_rows)
@@ -323,7 +331,13 @@ def evaluate_problem(problem: Mapping[str, Any], policy: Mapping[str, Any]) -> d
     ):
         raise SymmetryDimensionError("independent exact rank evaluators disagree")
     nullity = len(names) - fraction_combined_rank
-    if nullity != 1 or sympy_combined_basis != [expected]:
+    declared_basis_rank = _rank_fraction(expected_basis)
+    if (
+        nullity != len(expected_basis)
+        or len(sympy_combined_basis) != nullity
+        or declared_basis_rank != nullity
+        or any(_dot(row, vector) for vector in expected_basis for row in combined_rows)
+    ):
         raise SymmetryDimensionError(f"{problem['problem_id']} exact nullspace changed")
     enumerated = enumerate_primitive_invariants(
         combined_rows,
@@ -331,14 +345,32 @@ def evaluate_problem(problem: Mapping[str, Any], policy: Mapping[str, Any]) -> d
         maximum_absolute_exponent=policy["maximum_absolute_exponent"],
         maximum_l1_norm=policy["maximum_l1_norm"],
     )
-    if enumerated != [expected]:
+    if any(vector not in enumerated for vector in expected_basis):
         raise SymmetryDimensionError(f"{problem['problem_id']} bounded invariant changed")
 
-    offset = list(expected)
-    offset[0] += 1
-    offset_residuals = [_dot(row, offset) for row in combined_rows]
-    if not any(offset_residuals):
-        raise SymmetryDimensionError("dimension-breaking exponent mutation was admitted")
+    offset_mutations = []
+    for coordinate_index, expected in enumerate(expected_basis, start=1):
+        offset = list(expected)
+        offset[0] += 1
+        offset_residuals = [_dot(row, offset) for row in combined_rows]
+        if not any(offset_residuals):
+            raise SymmetryDimensionError("dimension-breaking exponent mutation was admitted")
+        offset_mutations.append(
+            {
+                "coordinate_id": f"pi_{coordinate_index}",
+                "mutated_exponents": offset,
+                "rejected": True,
+                "row_residuals": offset_residuals,
+            }
+        )
+
+    collapsed_basis = [list(vector) for vector in expected_basis]
+    collapsed_basis[-1] = (
+        list(expected_basis[0]) if nullity > 1 else [0 for _ in names]
+    )
+    collapsed_rank = _rank_fraction(collapsed_basis)
+    if collapsed_rank >= nullity:
+        raise SymmetryDimensionError("dependent invariant-basis mutation was admitted")
 
     dimension_only_nullity = len(names) - fraction_dimension_rank
     nuisance = tuple(1 if index == len(names) - 1 else 0 for index in range(len(names)))
@@ -357,10 +389,21 @@ def evaluate_problem(problem: Mapping[str, Any], policy: Mapping[str, Any]) -> d
     ):
         raise SymmetryDimensionError("nuisance-symmetry mutation did not open the search space")
 
-    expression = _expression(names, expected)
+    expressions = [_expression(names, vector) for vector in expected_basis]
+    invariants = [
+        {
+            "coordinate_id": f"pi_{index}",
+            "exponents": list(vector),
+            "expression": expression,
+            "primitive": True,
+        }
+        for index, (vector, expression) in enumerate(
+            zip(expected_basis, expressions, strict=True), start=1
+        )
+    ]
     return {
         "creative_brief": {
-            "candidate_invariant_coordinates": [expression],
+            "candidate_invariant_coordinates": expressions,
             "constraint_statement": (
                 "Generate hypotheses only through the declared dimension and symmetry quotient; "
                 "retain multiple mechanisms until exact falsification."
@@ -376,27 +419,26 @@ def evaluate_problem(problem: Mapping[str, Any], policy: Mapping[str, Any]) -> d
         },
         "domain": problem["domain"],
         "forced_form": {
-            "free_function_arity": 1,
+            "free_function_arity": nullity,
             "free_function_determined": False,
-            "statement": f"F({expression}) = 0",
+            "statement": f"F({','.join(expressions)}) = 0",
         },
         "independent_evaluators": {
             "agreement": True,
+            "declared_basis_rank": declared_basis_rank,
             "fraction_gaussian_elimination_rank": fraction_combined_rank,
             "sympy_exact_nullspace_basis": [list(vector) for vector in sympy_combined_basis],
             "sympy_rank": sympy_combined_rank,
         },
-        "invariant": {
-            "exponents": list(expected),
-            "expression": expression,
-            "primitive": True,
-        },
+        "invariant_coordinates": invariants,
         "mutations": {
-            "dimension_exponent_offset": {
-                "mutated_exponents": offset,
+            "basis_collapse": {
+                "baseline_rank": nullity,
+                "mutated_basis": collapsed_basis,
+                "mutated_rank": collapsed_rank,
                 "rejected": True,
-                "row_residuals": offset_residuals,
             },
+            "dimension_exponent_offsets": offset_mutations,
             "drop_nuisance_symmetry": {
                 "baseline_nullity": nullity,
                 "mutated_nullity": dimension_only_nullity,
@@ -445,8 +487,9 @@ def build_receipt(root: Path) -> dict[str, Any]:
         },
         "release_gate": {
             "d4_controls_ready": True,
+            "multiple_invariant_coordinates_ready": True,
             "serious_claim_released": False,
-            "status": "PASS_D4_CONTROLS_NO_LAW_OR_NOVELTY_CLAIM",
+            "status": "PASS_D4_MULTI_COORDINATE_CONTROLS_NO_LAW_OR_NOVELTY_CLAIM",
         },
         "results": results,
         "schema_version": RECEIPT_SCHEMA,
@@ -456,13 +499,22 @@ def build_receipt(root: Path) -> dict[str, Any]:
             "test": _source_binding(root, TEST_PATH),
         },
         "summary": {
+            "basis_collapse_mutations_rejected": sum(
+                result["mutations"]["basis_collapse"]["rejected"] for result in results
+            ),
             "controls_passed": len(results),
             "dimension_mutations_rejected": sum(
-                result["mutations"]["dimension_exponent_offset"]["rejected"]
+                sum(
+                    mutation["rejected"]
+                    for mutation in result["mutations"]["dimension_exponent_offsets"]
+                )
                 for result in results
             ),
             "invariant_coordinates": sum(result["search"]["nullity"] for result in results),
-            "status": "PASS_SYMMETRY_DIMENSION_FORCED_DERIVATION",
+            "multi_coordinate_controls": sum(
+                result["search"]["nullity"] > 1 for result in results
+            ),
+            "status": "PASS_SYMMETRY_DIMENSION_MULTI_COORDINATE_DERIVATION",
             "symmetry_mutations_rejected": sum(
                 result["mutations"]["drop_nuisance_symmetry"]["rejected"]
                 for result in results

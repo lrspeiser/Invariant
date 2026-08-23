@@ -7,8 +7,9 @@
 - The core app loaded the explicitly supplied machine credential without persisting it and completed
   four blind Claude proposer calls plus four post-proposal critic calls on `claude-opus-4-6`. The
   sanitized receipt records 48,534 tokens and no key or credential-file path.
-- The next live core run now has a sealed creativity-first prompt context: four exact
-  symmetry/dimension briefs, seven typed formula kinds, six candidate-independent proof routes,
+- The next live core run now has a sealed creativity-first prompt context: five exact
+  symmetry/dimension briefs containing six coordinates, seven typed formula kinds, six
+  candidate-independent proof routes,
   and the four origin labels are injected into every provider request. Per-call evidence must bind
   the same context hash. The preserved eight-call receipt predates that context and is explicitly
   marked ready-but-not-yet-live rather than being relabelled as evidence of prompt consumption.
@@ -71,13 +72,15 @@
   commitments. Exact live refetch reproduces both response hashes. Upstream assertions are benchmark
   targets rather than independent proofs, and the unsigned HTTPS evidence remains ineligible for a
   level-5 count.
-- The declarative D4 control engine now computes primitive invariant coordinates for pendulum,
-  Kepler, diffusion, and Reynolds systems from dimension rows plus explicit nuisance symmetries.
-  Fraction Gaussian elimination and SymPy exact nullspaces agree on all four one-dimensional
-  quotients. Exponent mutations are rejected, and deleting a nuisance action increases nullity and
-  admits the nuisance variable. The output is a creative constraint brief with the four origin
-  labels. The core provider path now consumes the sealed brief set on every future live call, but
-  the checked-in authenticated calls predate that wiring. It deliberately leaves `F(pi_1)`
+- The declarative D4 control engine now computes primitive invariant-coordinate bases for pendulum,
+  Kepler, diffusion, Reynolds, and drag systems from dimension rows plus explicit nuisance
+  symmetries. Fraction Gaussian elimination and SymPy exact nullspaces agree on all five controls.
+  The drag control has a two-dimensional quotient, exposing drag coefficient and Reynolds number
+  together as `F(pi_1, pi_2) = 0`; the other four controls remain one-dimensional. All six
+  coordinate-specific exponent mutations, five collapsed-basis mutations, and five deleted-
+  nuisance-symmetry mutations reject. The output is a creative constraint brief with the four
+  origin labels. The core provider path consumes all five sealed briefs on every future live call,
+  but the checked-in authenticated calls predate that wiring. It leaves every free function
   arbitrary and makes no law or novelty claim.
 - A live claim-specific screen queried OEIS, Crossref, arXiv, Semantic Scholar, and the repository
   for one retained `uncertain` LLM idea. OEIS matched all 18 displayed terms to A005132; Semantic
