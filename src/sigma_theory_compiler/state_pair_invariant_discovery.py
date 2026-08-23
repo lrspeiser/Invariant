@@ -1,10 +1,10 @@
-"""Learn exact polynomial invariants from target-blind before/after state pairs.
+"""Learn exact typed invariants from target-blind before/after state pairs.
 
-The learner receives rational state pairs and a bounded polynomial degree.  It does not receive
-transformation matrices, group parameters, named formulas, or target coefficients.  It constructs
-the monomial difference matrix, solves its nullspace independently with Fraction elimination and
-SymPy, replays every learned coordinate on held-out pairs, and retains both failed training
-coordinates and a separately repaired deployment basis when the action changes.
+The learner receives rational state pairs and a bounded public feature grammar.  It does not receive
+transformation matrices, group parameters, named formulas, or target coefficients.  Polynomial,
+Laurent-rational, and formal-logarithmic feature differences are evaluated exactly; every linear
+nullspace is solved independently with Fraction elimination and SymPy.  Learned coordinates are
+replayed on held-out pairs, with domain failures and failed training branches retained explicitly.
 """
 
 from __future__ import annotations
@@ -19,7 +19,7 @@ from fractions import Fraction
 from pathlib import Path
 from typing import Any
 
-from sympy import Matrix
+from sympy import Matrix, factorint
 
 from .sigma_core import canonical_sha256
 
@@ -28,10 +28,10 @@ TARGETS_PATH = "configs/state_pair_invariant_discovery_targets.json"
 OUTPUT_PATH = "runs/math/state-pair-invariant-discovery/receipt.json"
 SOURCE_PATH = "src/sigma_theory_compiler/state_pair_invariant_discovery.py"
 TEST_PATH = "tests/test_state_pair_invariant_discovery.py"
-CONFIG_SCHEMA = "invariant-state-pair-invariant-discovery-config-1.0"
-TARGETS_SCHEMA = "invariant-state-pair-invariant-discovery-targets-1.0"
-RECEIPT_SCHEMA = "invariant-state-pair-invariant-discovery-receipt-1.0"
-CAMPAIGN_ID = "state-pair-invariant-controls-2026-08-23-001"
+CONFIG_SCHEMA = "invariant-state-pair-invariant-discovery-config-1.1"
+TARGETS_SCHEMA = "invariant-state-pair-invariant-discovery-targets-1.1"
+RECEIPT_SCHEMA = "invariant-state-pair-invariant-discovery-receipt-1.1"
+CAMPAIGN_ID = "state-pair-invariant-controls-2026-08-23-002"
 PASS_STATUS = "PASS_EXACT_STATE_PAIR_INVARIANT_BASIS"
 REJECT_STATUS = "REJECT_TRAIN_ONLY_STATE_PAIR_INVARIANTS"
 UNDERDETERMINED_STATUS = "UNDERDETERMINED_STATE_PAIR_INVARIANT_SPACE"
@@ -39,6 +39,15 @@ _EXPECTED_PROBLEMS = {
     "control.orthogonal-plane-state-pairs": ("geometry", "matrix_orthogonal"),
     "control.matrix-conjugation-2x2": ("linear_algebra", "matrix_conjugation"),
     "control.nonlinear-parabolic-shear": ("nonlinear_geometry", "nonlinear_polynomial"),
+    "control.cubic-shear-state-pairs": (
+        "higher_order_geometry",
+        "nonlinear_polynomial_degree3",
+    ),
+    "control.laurent-inversion-state-pairs": ("rational_geometry", "rational_laurent"),
+    "control.logarithmic-scaling-state-pairs": (
+        "transcendental_representation",
+        "transcendental_logarithmic",
+    ),
 }
 _ORIGIN_LABELS = [
     "known_rewrite",
@@ -96,7 +105,13 @@ def _integer_vector(value: Any, width: int, label: str) -> tuple[int, ...]:
     return tuple(value)
 
 
-def _validate_pairs(value: Any, variables: Sequence[str], minimum: int, label: str) -> None:
+def _validate_pairs(
+    value: Any,
+    variables: Sequence[str],
+    feature_kind: str,
+    minimum: int,
+    label: str,
+) -> None:
     if not isinstance(value, list) or len(value) < minimum:
         raise StatePairInvariantError(f"{label} lacks state pairs")
     identifiers: set[str] = set()
@@ -119,6 +134,14 @@ def _validate_pairs(value: Any, variables: Sequence[str], minimum: int, label: s
         after_values = [_rational(after[name], f"{identifier} after {name}") for name in variables]
         if before_values == after_values:
             raise StatePairInvariantError(f"{label} contains a trivial pair")
+        if feature_kind == "laurent_monomials" and any(
+            not item for item in [*before_values, *after_values]
+        ):
+            raise StatePairInvariantError(f"{label} leaves the Laurent feature domain")
+        if feature_kind == "logarithmic_coordinates" and any(
+            item <= 0 for item in [*before_values, *after_values]
+        ):
+            raise StatePairInvariantError(f"{label} leaves the logarithmic feature domain")
         identifiers.add(identifier)
 
 
@@ -143,8 +166,9 @@ def validate_config(value: Mapping[str, Any]) -> dict[str, Any]:
         value["policy"],
         {
             "maximum_algebraic_coordinates",
+            "maximum_absolute_laurent_exponent",
+            "maximum_features",
             "maximum_linear_invariant_dimension",
-            "maximum_monomials",
             "maximum_total_degree",
             "minimum_deployment_pairs",
             "minimum_training_pairs",
@@ -153,9 +177,10 @@ def validate_config(value: Mapping[str, Any]) -> dict[str, Any]:
     )
     if policy != {
         "maximum_algebraic_coordinates": 4,
+        "maximum_absolute_laurent_exponent": 2,
+        "maximum_features": 14,
         "maximum_linear_invariant_dimension": 4,
-        "maximum_monomials": 14,
-        "maximum_total_degree": 2,
+        "maximum_total_degree": 3,
         "minimum_deployment_pairs": 2,
         "minimum_training_pairs": 4,
     }:
@@ -171,7 +196,7 @@ def validate_config(value: Mapping[str, Any]) -> dict[str, Any]:
                 "action_kind",
                 "deployment_pairs",
                 "domain",
-                "maximum_total_degree",
+                "feature_grammar",
                 "problem_id",
                 "training_pairs",
                 "variables",
@@ -182,29 +207,61 @@ def validate_config(value: Mapping[str, Any]) -> dict[str, Any]:
         domain = problem["domain"]
         action_kind = problem["action_kind"]
         variables = problem["variables"]
-        degree = problem["maximum_total_degree"]
         if (
             _EXPECTED_PROBLEMS.get(problem_id) != (domain, action_kind)
             or problem_id in observed
             or not isinstance(variables, list)
-            or not 2 <= len(variables) <= 4
+            or not 1 <= len(variables) <= 4
             or len(variables) != len(set(variables))
             or any(not isinstance(name, str) or not name for name in variables)
-            or not isinstance(degree, int)
-            or isinstance(degree, bool)
-            or not 1 <= degree <= policy["maximum_total_degree"]
-            or len(_monomials(len(variables), degree)) > policy["maximum_monomials"]
         ):
             raise StatePairInvariantError("state-pair problem identity or search space changed")
+        grammar = problem["feature_grammar"]
+        if not isinstance(grammar, Mapping) or "kind" not in grammar:
+            raise StatePairInvariantError("state-pair feature grammar changed")
+        feature_kind = grammar["kind"]
+        if feature_kind == "polynomial_monomials":
+            _strict(grammar, {"kind", "maximum_total_degree"}, "polynomial feature grammar")
+            degree = grammar["maximum_total_degree"]
+            if (
+                not isinstance(degree, int)
+                or isinstance(degree, bool)
+                or not 1 <= degree <= policy["maximum_total_degree"]
+            ):
+                raise StatePairInvariantError("polynomial feature degree changed")
+        elif feature_kind == "laurent_monomials":
+            _strict(
+                grammar,
+                {"kind", "maximum_absolute_exponent"},
+                "Laurent feature grammar",
+            )
+            exponent = grammar["maximum_absolute_exponent"]
+            if (
+                len(variables) != 1
+                or not isinstance(exponent, int)
+                or isinstance(exponent, bool)
+                or not 1 <= exponent <= policy["maximum_absolute_laurent_exponent"]
+            ):
+                raise StatePairInvariantError("Laurent feature bound changed")
+        elif feature_kind == "logarithmic_coordinates":
+            _strict(grammar, {"kind"}, "logarithmic feature grammar")
+            if len(variables) < 2:
+                raise StatePairInvariantError("logarithmic feature coverage changed")
+        else:
+            raise StatePairInvariantError("state-pair feature kind changed")
+        if len(_feature_basis(problem)) > policy["maximum_features"]:
+            raise StatePairInvariantError("state-pair feature space exceeds its bound")
         _validate_pairs(
             problem["training_pairs"],
             variables,
+            feature_kind,
             policy["minimum_training_pairs"],
             f"{problem_id} training",
         )
         _validate_pairs(
             problem["deployment_pairs"],
             variables,
+            feature_kind,
             policy["minimum_deployment_pairs"],
             f"{problem_id} deployment",
         )
@@ -265,9 +322,7 @@ def load_config(root: Path) -> tuple[dict[str, Any], dict[str, Any]]:
     _, config_path = _bound_path(root, CONFIG_PATH, "state-pair config")
     config = validate_config(json.loads(config_path.read_text(encoding="utf-8")))
     widths = {
-        problem["problem_id"]: len(
-            _monomials(len(problem["variables"]), problem["maximum_total_degree"])
-        )
+        problem["problem_id"]: len(_feature_basis(problem))
         for problem in config["problems"]
     }
     _, targets_path = _bound_path(root, TARGETS_PATH, "state-pair targets")
@@ -375,10 +430,112 @@ def _state(pair: Mapping[str, Any], side: str, variables: Sequence[str]) -> list
     ]
 
 
-def _constraint_rows(
+def _monomial_expression(variables: Sequence[str], exponents: Sequence[int]) -> str:
+    numerator = []
+    denominator = []
+    for name, exponent in zip(variables, exponents, strict=True):
+        if exponent:
+            factor = name if abs(exponent) == 1 else f"{name}**{abs(exponent)}"
+            (numerator if exponent > 0 else denominator).append(factor)
+    numerator_text = "*".join(numerator) or "1"
+    if not denominator:
+        return numerator_text
+    denominator_text = "*".join(denominator)
+    if len(denominator) > 1:
+        denominator_text = f"({denominator_text})"
+    return f"{numerator_text}/{denominator_text}"
+
+
+def _feature_basis(problem: Mapping[str, Any]) -> list[dict[str, Any]]:
+    variables = list(problem["variables"])
+    grammar = problem["feature_grammar"]
+    kind = grammar["kind"]
+    if kind == "polynomial_monomials":
+        exponents = _monomials(len(variables), grammar["maximum_total_degree"])
+        return [
+            {
+                "complexity": sum(vector),
+                "exponents": tuple(vector),
+                "expression": _monomial_expression(variables, vector),
+                "feature_id": f"feature_{index}",
+                "kind": "monomial",
+            }
+            for index, vector in enumerate(exponents, start=1)
+        ]
+    if kind == "laurent_monomials":
+        bound = grammar["maximum_absolute_exponent"]
+        powers = [power for magnitude in range(1, bound + 1) for power in (magnitude, -magnitude)]
+        return [
+            {
+                "complexity": abs(power),
+                "exponents": (power,),
+                "expression": _monomial_expression(variables, (power,)),
+                "feature_id": f"feature_{index}",
+                "kind": "laurent_monomial",
+            }
+            for index, power in enumerate(powers, start=1)
+        ]
+    if kind == "logarithmic_coordinates":
+        return [
+            {
+                "complexity": 1,
+                "expression": f"log({name})",
+                "feature_id": f"feature_{index}",
+                "kind": "logarithm",
+                "variable_index": index - 1,
+            }
+            for index, name in enumerate(variables, start=1)
+        ]
+    raise StatePairInvariantError("state-pair feature kind changed")
+
+
+def _trial_factor(value: int) -> dict[int, int]:
+    factors: dict[int, int] = {}
+    divisor = 2
+    while divisor * divisor <= value:
+        while value % divisor == 0:
+            factors[divisor] = factors.get(divisor, 0) + 1
+            value //= divisor
+        divisor += 1 if divisor == 2 else 2
+    if value > 1:
+        factors[value] = factors.get(value, 0) + 1
+    return factors
+
+
+def _fraction_prime_valuations(value: Fraction) -> dict[int, int]:
+    if value <= 0:
+        raise StatePairInvariantError("formal logarithm left its positive domain")
+    valuations = _trial_factor(value.numerator)
+    for prime, exponent in _trial_factor(value.denominator).items():
+        valuations[prime] = valuations.get(prime, 0) - exponent
+    return {prime: exponent for prime, exponent in valuations.items() if exponent}
+
+
+def _sympy_prime_valuations(value: Fraction) -> dict[int, int]:
+    if value <= 0:
+        raise StatePairInvariantError("SymPy logarithm left its positive domain")
+    valuations = {int(prime): int(exponent) for prime, exponent in factorint(value.numerator).items()}
+    for prime, exponent in factorint(value.denominator).items():
+        normalized = int(prime)
+        valuations[normalized] = valuations.get(normalized, 0) - int(exponent)
+    return {prime: exponent for prime, exponent in valuations.items() if exponent}
+
+
+def _evaluate_feature(state: Sequence[Fraction], feature: Mapping[str, Any]) -> Fraction:
+    if feature["kind"] not in {"monomial", "laurent_monomial"}:
+        raise StatePairInvariantError("non-numeric feature entered rational evaluation")
+    if feature["kind"] == "laurent_monomial" and any(
+        coordinate == 0 and exponent < 0
+        for coordinate, exponent in zip(state, feature["exponents"], strict=True)
+    ):
+        raise StatePairInvariantError("Laurent feature division by zero")
+    return _evaluate_monomial(state, feature["exponents"])
+
+
+def _numeric_constraint_rows(
     pairs: Sequence[Mapping[str, Any]],
     variables: Sequence[str],
-    monomials: Sequence[Sequence[int]],
+    features: Sequence[Mapping[str, Any]],
 ) -> list[list[Fraction]]:
     rows = []
     for pair in pairs:
@@ -386,37 +543,80 @@ def _constraint_rows(
         after = _state(pair, "after", variables)
         rows.append(
             [
-                _evaluate_monomial(after, exponents)
-                - _evaluate_monomial(before, exponents)
-                for exponents in monomials
+                _evaluate_feature(after, feature) - _evaluate_feature(before, feature)
+                for feature in features
             ]
         )
     return rows
 
 
-def _monomial_expression(variables: Sequence[str], exponents: Sequence[int]) -> str:
-    factors = []
-    for name, exponent in zip(variables, exponents, strict=True):
-        if exponent:
-            factors.append(name if exponent == 1 else f"{name}**{exponent}")
-    return "*".join(factors)
-
-
-def _polynomial_expression(
+def _log_rows_with(
+    pairs: Sequence[Mapping[str, Any]],
     variables: Sequence[str],
-    monomials: Sequence[Sequence[int]],
+    features: Sequence[Mapping[str, Any]],
+    evaluator: Any,
+) -> tuple[list[list[Fraction]], set[int]]:
+    rows: list[list[Fraction]] = []
+    prime_support: set[int] = set()
+    for pair in pairs:
+        before = _state(pair, "before", variables)
+        after = _state(pair, "after", variables)
+        valuations = [
+            evaluator(after[feature["variable_index"]] / before[feature["variable_index"]])
+            for feature in features
+        ]
+        primes = sorted({prime for item in valuations for prime in item})
+        prime_support.update(primes)
+        rows.extend(
+            [Fraction(item.get(prime, 0)) for item in valuations]
+            for prime in primes
+        )
+    return rows, prime_support
+
+
+def _constraint_rows(
+    pairs: Sequence[Mapping[str, Any]],
+    variables: Sequence[str],
+    features: Sequence[Mapping[str, Any]],
+) -> tuple[list[list[Fraction]], dict[str, Any]]:
+    if features and features[0]["kind"] == "logarithm":
+        fraction_rows, fraction_primes = _log_rows_with(
+            pairs, variables, features, _fraction_prime_valuations
+        )
+        sympy_rows, sympy_primes = _log_rows_with(
+            pairs, variables, features, _sympy_prime_valuations
+        )
+        if fraction_rows != sympy_rows or fraction_primes != sympy_primes:
+            raise StatePairInvariantError("independent formal-log evaluators disagree")
+        return fraction_rows, {
+            "agreement": True,
+            "constraint_rows": len(fraction_rows),
+            "evaluator_pair": ["fraction_trial_division", "sympy_factorint"],
+            "prime_support": sorted(fraction_primes),
+        }
+    rows = _numeric_constraint_rows(pairs, variables, features)
+    return rows, {
+        "agreement": True,
+        "constraint_rows": len(rows),
+        "evaluator_pair": ["fraction_rref", "sympy_matrix"],
+        "prime_support": [],
+    }
+
+
+def _linear_feature_expression(
+    features: Sequence[Mapping[str, Any]],
     coefficients: Sequence[int],
 ) -> str:
     terms: list[tuple[int, str]] = []
-    for coefficient, exponents in zip(coefficients, monomials, strict=True):
+    for coefficient, feature in zip(coefficients, features, strict=True):
         if not coefficient:
             continue
-        monomial = _monomial_expression(variables, exponents)
+        expression = feature["expression"]
         magnitude = abs(coefficient)
-        term = monomial if magnitude == 1 else f"{magnitude}*{monomial}"
+        term = expression if magnitude == 1 else f"{magnitude}*{expression}"
         terms.append((1 if coefficient > 0 else -1, term))
     if not terms:
-        raise StatePairInvariantError("polynomial expression is trivial")
+        raise StatePairInvariantError("feature expression is trivial")
     sign, first = terms[0]
     text = first if sign > 0 else f"-{first}"
     for sign, term in terms[1:]:
@@ -425,44 +625,52 @@ def _polynomial_expression(
 
 
 def _basis_sort_key(
-    vector: Sequence[int], monomials: Sequence[Sequence[int]]
+    vector: Sequence[int], features: Sequence[Mapping[str, Any]]
 ) -> tuple[Any, ...]:
     active = [
-        (coefficient, exponents)
-        for coefficient, exponents in zip(vector, monomials, strict=True)
+        (coefficient, feature)
+        for coefficient, feature in zip(vector, features, strict=True)
         if coefficient
     ]
     return (
-        max(sum(exponents) for _, exponents in active),
+        max(feature["complexity"] for _, feature in active),
         len(active),
-        sum(abs(coefficient) for coefficient, _ in active),
+        sum(abs(coefficient) for coefficient, _feature in active),
         tuple(vector),
     )
 
 
 def _gradient_at(
     coefficients: Sequence[int],
-    monomials: Sequence[Sequence[int]],
+    features: Sequence[Mapping[str, Any]],
     point: Sequence[Fraction],
 ) -> list[Fraction]:
     gradient = []
     for variable_index in range(len(point)):
         value = Fraction(0)
-        for coefficient, exponents in zip(coefficients, monomials, strict=True):
-            exponent = exponents[variable_index]
-            if not coefficient or not exponent:
+        for coefficient, feature in zip(coefficients, features, strict=True):
+            if not coefficient:
                 continue
-            term = Fraction(coefficient * exponent)
-            for index, (coordinate, power) in enumerate(zip(point, exponents, strict=True)):
-                term *= coordinate ** (power - (index == variable_index))
-            value += term
+            if feature["kind"] == "logarithm":
+                if feature["variable_index"] == variable_index:
+                    value += Fraction(coefficient, 1) / point[variable_index]
+                continue
+            exponents = feature["exponents"]
+            exponent = exponents[variable_index]
+            if exponent:
+                term = Fraction(coefficient * exponent)
+                for index, (coordinate, power) in enumerate(
+                    zip(point, exponents, strict=True)
+                ):
+                    term *= coordinate ** (power - (index == variable_index))
+                value += term
         gradient.append(value)
     return gradient
 
 
 def _select_algebraically_independent(
     basis: Sequence[tuple[int, ...]],
-    monomials: Sequence[Sequence[int]],
+    features: Sequence[Mapping[str, Any]],
     variable_count: int,
     maximum: int,
 ) -> list[tuple[int, ...]]:
@@ -475,7 +683,7 @@ def _select_algebraically_independent(
         trial = [*selected, candidate]
         if any(
             _fraction_rank(
-                [_gradient_at(vector, monomials, witness) for vector in trial],
+                [_gradient_at(vector, features, witness) for vector in trial],
                 variable_count,
             )
             == len(trial)
@@ -488,8 +696,7 @@ def _select_algebraically_independent(
 
 
 def _coordinate_rows(
-    variables: Sequence[str],
-    monomials: Sequence[Sequence[int]],
+    features: Sequence[Mapping[str, Any]],
     basis: Sequence[tuple[int, ...]],
     algebraically_independent: Sequence[tuple[int, ...]],
 ) -> list[dict[str, Any]]:
@@ -499,27 +706,27 @@ def _coordinate_rows(
             "algebraically_independent": vector in independent,
             "coefficient_vector": list(vector),
             "coordinate_id": f"phi_{index}",
-            "expression": _polynomial_expression(variables, monomials, vector),
+            "expression": _linear_feature_expression(features, vector),
         }
         for index, vector in enumerate(basis, start=1)
     ]
 
 
-def _evaluate_polynomial(
+def _evaluate_linear_features(
     coefficients: Sequence[int],
-    monomials: Sequence[Sequence[int]],
+    features: Sequence[Mapping[str, Any]],
     state: Sequence[Fraction],
 ) -> Fraction:
     return sum(
-        Fraction(coefficient) * _evaluate_monomial(state, exponents)
-        for coefficient, exponents in zip(coefficients, monomials, strict=True)
+        Fraction(coefficient) * _evaluate_feature(state, feature)
+        for coefficient, feature in zip(coefficients, features, strict=True)
     )
 
 
 def _replay_basis(
     pairs: Sequence[Mapping[str, Any]],
     variables: Sequence[str],
-    monomials: Sequence[Sequence[int]],
+    features: Sequence[Mapping[str, Any]],
     basis: Sequence[tuple[int, ...]],
 ) -> tuple[list[dict[str, Any]], int]:
     replays = []
@@ -529,16 +736,49 @@ def _replay_basis(
         for pair in pairs:
             before = _state(pair, "before", variables)
             after = _state(pair, "after", variables)
-            differences.append(
-                _evaluate_polynomial(vector, monomials, after)
-                - _evaluate_polynomial(vector, monomials, before)
-            )
-        passes = all(not value for value in differences)
+            if features[0]["kind"] == "logarithm":
+                fraction_difference: dict[int, int] = {}
+                sympy_difference: dict[int, int] = {}
+                for coefficient, feature in zip(vector, features, strict=True):
+                    ratio = after[feature["variable_index"]] / before[
+                        feature["variable_index"]
+                    ]
+                    for prime, exponent in _fraction_prime_valuations(ratio).items():
+                        fraction_difference[prime] = (
+                            fraction_difference.get(prime, 0) + coefficient * exponent
+                        )
+                    for prime, exponent in _sympy_prime_valuations(ratio).items():
+                        sympy_difference[prime] = (
+                            sympy_difference.get(prime, 0) + coefficient * exponent
+                        )
+                fraction_difference = {
+                    prime: exponent
+                    for prime, exponent in fraction_difference.items()
+                    if exponent
+                }
+                sympy_difference = {
+                    prime: exponent
+                    for prime, exponent in sympy_difference.items()
+                    if exponent
+                }
+                if fraction_difference != sympy_difference:
+                    raise StatePairInvariantError("formal-log deployment evaluators disagree")
+                differences.append(
+                    {str(prime): exponent for prime, exponent in sorted(fraction_difference.items())}
+                )
+            else:
+                differences.append(
+                    str(
+                        _evaluate_linear_features(vector, features, after)
+                        - _evaluate_linear_features(vector, features, before)
+                    )
+                )
+        passes = all(value == "0" or value == {} for value in differences)
         failures += not passes
         replays.append(
             {
                 "coordinate_id": f"phi_{index}",
-                "differences": [str(value) for value in differences],
+                "differences": differences,
                 "invariant_on_all_deployment_pairs": passes,
             }
         )
@@ -547,15 +787,15 @@ def _replay_basis(
 
 def _learn_basis(
     rows: Sequence[Sequence[Fraction]],
-    monomials: Sequence[Sequence[int]],
+    features: Sequence[Mapping[str, Any]],
 ) -> tuple[int, list[tuple[int, ...]], dict[str, Any]]:
-    width = len(monomials)
+    width = len(features)
     fraction_rank = _fraction_rank(rows, width)
     fraction_basis = _fraction_nullspace(rows, width)
     sympy_rank, sympy_basis = _sympy_rank_and_basis(rows, width)
     if fraction_rank != sympy_rank or not _same_span(fraction_basis, sympy_basis, width):
         raise StatePairInvariantError("independent state-pair nullspace evaluators disagree")
-    basis = sorted(fraction_basis, key=lambda vector: _basis_sort_key(vector, monomials))
+    basis = sorted(fraction_basis, key=lambda vector: _basis_sort_key(vector, features))
     return fraction_rank, basis, {
         "agreement": True,
         "fraction_nullspace_basis": [list(vector) for vector in fraction_basis],
@@ -566,41 +806,43 @@ def _learn_basis(
 
 
 def learn_problem(problem: Mapping[str, Any], policy: Mapping[str, Any]) -> dict[str, Any]:
-    """Infer polynomial invariant coordinates without accepting a sealed target."""
+    """Infer typed invariant coordinates without accepting a sealed target."""
 
     variables = list(problem["variables"])
-    monomials = _monomials(len(variables), problem["maximum_total_degree"])
+    features = _feature_basis(problem)
     training_pairs = problem["training_pairs"]
     deployment_pairs = problem["deployment_pairs"]
-    training_rows = _constraint_rows(training_pairs, variables, monomials)
-    deployment_rows = _constraint_rows(deployment_pairs, variables, monomials)
+    training_rows, training_feature_evaluator = _constraint_rows(
+        training_pairs, variables, features
+    )
+    deployment_rows, deployment_feature_evaluator = _constraint_rows(
+        deployment_pairs, variables, features
+    )
     augmented_rows = [*training_rows, *deployment_rows]
 
-    training_rank, training_basis, training_evaluator = _learn_basis(training_rows, monomials)
-    augmented_rank, repaired_basis, augmented_evaluator = _learn_basis(augmented_rows, monomials)
+    training_rank, training_basis, training_evaluator = _learn_basis(training_rows, features)
+    augmented_rank, repaired_basis, augmented_evaluator = _learn_basis(
+        augmented_rows, features
+    )
     training_independent = _select_algebraically_independent(
         training_basis,
-        monomials,
+        features,
         len(variables),
         policy["maximum_algebraic_coordinates"],
     )
     repaired_independent = _select_algebraically_independent(
         repaired_basis,
-        monomials,
+        features,
         len(variables),
         policy["maximum_algebraic_coordinates"],
     )
-    training_coordinates = _coordinate_rows(
-        variables, monomials, training_basis, training_independent
-    )
-    repaired_coordinates = _coordinate_rows(
-        variables, monomials, repaired_basis, repaired_independent
-    )
+    training_coordinates = _coordinate_rows(features, training_basis, training_independent)
+    repaired_coordinates = _coordinate_rows(features, repaired_basis, repaired_independent)
     deployment_replays, deployment_failures = _replay_basis(
-        deployment_pairs, variables, monomials, training_basis
+        deployment_pairs, variables, features, training_basis
     )
-    training_nullity = len(monomials) - training_rank
-    augmented_nullity = len(monomials) - augmented_rank
+    training_nullity = len(features) - training_rank
+    augmented_nullity = len(features) - augmented_rank
     if training_nullity > policy["maximum_linear_invariant_dimension"]:
         status = UNDERDETERMINED_STATUS
     elif deployment_failures or augmented_nullity != training_nullity:
@@ -623,6 +865,7 @@ def learn_problem(problem: Mapping[str, Any], policy: Mapping[str, Any]) -> dict
             "deployment_repaired_coordinates": [
                 row["expression"] for row in repaired_coordinates if row["algebraically_independent"]
             ],
+            "feature_grammar": dict(problem["feature_grammar"]),
             "identifiability_status": status,
             "llm_origin_assessment_labels": list(_ORIGIN_LABELS),
             "novelty_caution": (
@@ -643,21 +886,23 @@ def learn_problem(problem: Mapping[str, Any], policy: Mapping[str, Any]) -> dict
         "independent_evaluators": {
             "agreement": True,
             "augmented": augmented_evaluator,
+            "deployment_feature_evaluation": deployment_feature_evaluator,
             "training": training_evaluator,
+            "training_feature_evaluation": training_feature_evaluator,
         },
-        "monomial_basis": [
+        "feature_basis": [
             {
-                "exponents": list(exponents),
-                "expression": _monomial_expression(variables, exponents),
+                key: list(value) if key == "exponents" else value
+                for key, value in feature.items()
             }
-            for exponents in monomials
+            for feature in features
         ],
         "problem_id": problem["problem_id"],
         "search": {
             "augmented_nullity": augmented_nullity,
             "augmented_rank": augmented_rank,
-            "maximum_total_degree": problem["maximum_total_degree"],
-            "monomials": len(monomials),
+            "feature_grammar": dict(problem["feature_grammar"]),
+            "features": len(features),
             "training_algebraically_independent_coordinates": len(training_independent),
             "training_nullity": training_nullity,
             "training_rank": training_rank,
@@ -677,7 +922,7 @@ def _evaluate_target(
     target: Mapping[str, Any],
     augmented_rows: Sequence[Sequence[Fraction]],
 ) -> dict[str, Any]:
-    width = len(result["monomial_basis"])
+    width = len(result["feature_basis"])
     expected_basis = [
         _integer_vector(vector, width, f"{result['problem_id']} sealed basis")
         for vector in target["expected_invariant_subspace_basis"]
@@ -722,11 +967,11 @@ def build_receipt(root: Path) -> dict[str, Any]:
     results = []
     for problem in config["problems"]:
         learned = learn_problem(problem, config["policy"])
-        monomials = [tuple(item["exponents"]) for item in learned["monomial_basis"]]
-        augmented_rows = _constraint_rows(
+        features = _feature_basis(problem)
+        augmented_rows, _ = _constraint_rows(
             [*problem["training_pairs"], *problem["deployment_pairs"]],
             problem["variables"],
-            monomials,
+            features,
         )
         learned["sealed_control_evaluation"] = _evaluate_target(
             learned,
@@ -747,7 +992,7 @@ def build_receipt(root: Path) -> dict[str, Any]:
         "release_gate": {
             "creative_context_ready": True,
             "serious_claim_released": False,
-            "status": "PASS_STATE_PAIR_CONTROLS_NO_THEOREM_OR_NOVELTY_CLAIM",
+            "status": "PASS_TYPED_STATE_PAIR_CONTROLS_NO_THEOREM_OR_NOVELTY_CLAIM",
         },
         "results": results,
         "schema_version": RECEIPT_SCHEMA,
@@ -766,19 +1011,35 @@ def build_receipt(root: Path) -> dict[str, Any]:
             "deployment_failures": sum(
                 result["deployment"]["coordinate_failures"] for result in results
             ),
+            "feature_grammar_kinds": sorted(
+                {result["search"]["feature_grammar"]["kind"] for result in results}
+            ),
+            "higher_degree_controls": sum(
+                result["action_kind"] == "nonlinear_polynomial_degree3"
+                for result in results
+            ),
             "matrix_action_controls": sum(
                 result["action_kind"].startswith("matrix_") for result in results
             ),
             "nonlinear_action_controls": sum(
-                result["action_kind"] == "nonlinear_polynomial" for result in results
+                result["action_kind"]
+                in {"nonlinear_polynomial", "nonlinear_polynomial_degree3"}
+                for result in results
             ),
-            "status": "PASS_EXACT_MATRIX_AND_NONLINEAR_STATE_PAIR_CONTROLS",
+            "rational_action_controls": sum(
+                result["action_kind"] == "rational_laurent" for result in results
+            ),
+            "status": "PASS_EXACT_TYPED_STATE_PAIR_INVARIANT_CONTROLS",
             "target_blind_controls": sum(
                 result["target_access"]["target_visible_to_learner"] is False
                 for result in results
             ),
             "training_linear_invariant_coordinates": sum(
                 len(result["training_coordinates"]) for result in results
+            ),
+            "transcendental_action_controls": sum(
+                result["action_kind"] == "transcendental_logarithmic"
+                for result in results
             ),
         },
     }

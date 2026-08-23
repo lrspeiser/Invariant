@@ -186,6 +186,12 @@ def test_core_run_requires_and_sanitizes_live_claude(
     def runner(_: Path, creative_context: dict[str, object]) -> dict[str, object]:
         assert os.environ["ANTHROPIC_API_KEY"] == secret
         assert creative_context["creativity_policy"]["creativity_is_primary"] is True
+        assert (
+            creative_context["creativity_policy"][
+                "learn_higher_degree_rational_and_logarithmic_features"
+            ]
+            is True
+        )
         assert creative_context["creativity_policy"]["uncertainty_does_not_prune"] is True
         assert (
             creative_context["creativity_policy"][
@@ -204,11 +210,18 @@ def test_core_run_requires_and_sanitizes_live_claude(
             == "UNDERDETERMINED_RETAIN_CANDIDATE_SUBSPACE"
             for brief in creative_context["learned_invariant_briefs"]
         )
-        assert len(creative_context["state_pair_invariant_briefs"]) == 3
+        assert len(creative_context["state_pair_invariant_briefs"]) == 6
         assert {
             brief["action_kind"]
             for brief in creative_context["state_pair_invariant_briefs"]
-        } == {"matrix_conjugation", "matrix_orthogonal", "nonlinear_polynomial"}
+        } == {
+            "matrix_conjugation",
+            "matrix_orthogonal",
+            "nonlinear_polynomial",
+            "nonlinear_polynomial_degree3",
+            "rational_laurent",
+            "transcendental_logarithmic",
+        }
         assert len(creative_context["uncertain_invariant_briefs"]) == 5
         assert {
             brief["observation_mode"]
@@ -247,7 +260,7 @@ def test_core_run_requires_and_sanitizes_live_claude(
             "proposed_new_construction",
             "uncertain",
         ],
-        "state_pair_invariant_briefs": 3,
+        "state_pair_invariant_briefs": 6,
         "status": "PASS_CONTEXT_BOUND_TO_AUTHENTICATED_CALLS",
         "typed_formula_kinds": 7,
         "uncertain_invariant_briefs": 5,
@@ -298,9 +311,17 @@ def test_core_run_requires_and_sanitizes_live_claude(
     assert receipt["discovery_runtime"]["learned_invariant_underdetermined_controls"] == 1
     assert receipt["discovery_runtime"]["learned_invariant_training_coordinates_retained"] == 7
     assert receipt["discovery_runtime"]["learned_invariant_deployment_repaired_coordinates"] == 6
-    assert receipt["discovery_runtime"]["state_pair_controls"] == 3
+    assert receipt["discovery_runtime"]["state_pair_controls"] == 6
     assert receipt["discovery_runtime"]["state_pair_matrix_action_controls"] == 2
-    assert receipt["discovery_runtime"]["state_pair_nonlinear_action_controls"] == 1
+    assert receipt["discovery_runtime"]["state_pair_nonlinear_action_controls"] == 2
+    assert receipt["discovery_runtime"]["state_pair_higher_degree_controls"] == 1
+    assert receipt["discovery_runtime"]["state_pair_rational_action_controls"] == 1
+    assert receipt["discovery_runtime"]["state_pair_transcendental_action_controls"] == 1
+    assert receipt["discovery_runtime"]["state_pair_feature_grammar_kinds"] == [
+        "laurent_monomials",
+        "logarithmic_coordinates",
+        "polynomial_monomials",
+    ]
     assert receipt["discovery_runtime"]["state_pair_deployment_failures"] == 0
     assert receipt["discovery_runtime"]["uncertain_invariant_controls"] == 5
     assert receipt["discovery_runtime"]["uncertain_invariant_training_candidates_retained"] == 9

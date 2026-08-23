@@ -1257,17 +1257,20 @@ rank-deficient control retains all three candidate coordinates and reports
 sealed control targets are separate hash-bound files, and the learner API never accepts the target.
 All three briefs—identified, rejected/repairable, and underdetermined—are injected into future core
 Claude calls so failure evidence expands or repairs the search tree rather than pruning it.
-An exact state-pair learner now removes the diagonal-action restriction for bounded polynomial
-controls. It receives rational before/after states and a degree ceiling, but no transformation
-matrix, group parameter, named invariant, or target coefficients. Fraction RREF and SymPy agree on
-every learned nullspace. From held-out orthogonal pairs it learns `x**2 + y**2`; from flattened 2x2
-conjugation pairs it learns the three-dimensional degree-two linear invariant space and uses exact
-Jacobian-rank witnesses to retain trace and determinant as two algebraically independent creative
-coordinates rather than presenting trace-squared as a third independent idea; from nonlinear
-parabolic-shear pairs it learns `y - x**2`. All five learned basis polynomials survive deployment
-replay. These are known-answer calibration actions, not new theorems or empirical laws. Their three
-source-bound briefs reach future core Claude calls while higher-degree, rational/transcendental,
-and externally signed transformation data remain open.
+An exact typed state-pair learner removes the diagonal-action and degree-two-polynomial
+restrictions. It receives rational before/after states and a bounded public feature grammar, but no
+transformation matrix, group parameter, named invariant, or target coefficients. Fraction RREF and
+SymPy agree on every learned nullspace. The original controls recover `x**2 + y**2`, trace and
+determinant, and `y - x**2`. New held-out controls recover `y - x**3` from a nine-feature cubic
+space, `x + 1/x` from a Laurent space, and `2*log(x) - log(y)` from formal logarithmic coordinates.
+The Laurent engine retains `x**2 + 1/x**2` in the complete linear basis but an exact Jacobian-rank
+witness prevents it from being counted as a second algebraically independent idea. Formal logs are
+represented by rational prime valuations and must agree between independent trial-division and
+SymPy-factorization evaluators; Laurent zero states and nonpositive log states fail closed. All nine
+learned basis coordinates survive deployment replay. These are known-answer calibration actions,
+not new theorems or empirical laws. Their six source-bound briefs reach future core Claude calls
+while rational functions with multivariate denominators, broader transcendental dictionaries, and
+externally signed transformation data remain open.
 A bounded uncertainty learner now gives noisy intervals, missing ratios, one-sided censoring,
 dependent finite supports, and global unit-calibration hypotheses honest executable semantics. It
 enumerates primitive exponent coordinates without targets and rejects only when the declared
