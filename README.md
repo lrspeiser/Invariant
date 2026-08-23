@@ -1211,13 +1211,28 @@ train-exact polynomial alias fails after explicit covariate shift, and two obser
 equivalent mechanisms remain underdetermined without a distinguishing intervention. These are
 synthetic calibration controls, not learned scientific laws or substitutes for external datasets.
 
+Independent proof planning is now an executable search rather than six fixed prose suggestions.
+Six candidate-independent tactic graphs cover strengthened induction, invariant preservation,
+bijections or involutions, minimal-counterexample descent, transform-and-extract, and contradiction.
+All six positive routes close and all six essential-tactic-removal mutations stay open. Routes are
+ranked by falsification power, premise count, proof debt, and search cost. A separate structural
+applicability join attaches every route to every retained idea; missing features are recorded but
+never prune the branch. Closing an abstract route does not prove a candidate theorem or establish
+proof novelty.
+
 The latest live core health receipt loaded `ANTHROPIC_API_KEY` from the explicitly supplied
 machine-local env file, removed it after the dynamic run, and completed four proposer plus four
-critic calls on `claude-opus-4-6`. It used 55,584 tokens and retained all 22 schema-admitted ideas:
-6 model-self-assessed known rewrites, one cross-domain synthesis, and 15 uncertain. Independent
-expansion retained 132 proof plans and 64 recombination branches. These are one live treatment
+critic calls on `claude-opus-4-6`. It used 48,534 tokens and retained all 17 schema-admitted ideas:
+8 model-self-assessed known rewrites, 1 proposed new construction, and 8 uncertain. Independent
+expansion retained 102 proof plans and 64 recombination branches; 75 plan/idea joins have their
+required structural features and 27 remain active while feature evidence is missing. These are one
+live treatment
 specimen and runtime-health evidence, not a creativity win. The receipt stores hashes and usage
 evidence, not the credential, env-file path, or raw prompts and outputs.
+The live provider adapter also preserves high-output proposer calls: branches 17 through 64 are
+temporarily staged around the frozen 16-branch legacy parser and reattached before lineage,
+behavior deduplication, or persistence. A 24-branch mutation control proves the overflow path; the
+latest stochastic run did not need it.
 
 The first live rotating evaluation pack contains 24 anonymized tasks built from independently
 maintained OEIS b-files: four each for recurrence, generating-function, finite-sum, finite-product,
@@ -1311,6 +1326,8 @@ Revalidate the network-free live receipts with:
 sigma-prior-art validate --root . --receipt runs/math/claim-specific-prior-art/live-uncertain-recaman.json
 sigma-dataset-challenges validate --root . `
   --receipt runs/math/dataset-challenges/receipt.json
+sigma-proof-plan-search validate --root . `
+  --receipt runs/math/independent-proof-plan-search/receipt.json
 sigma-rotate-benchmarks validate --root . `
   --generation runs/math/rotating-external-benchmarks/2026-08-23-001-generation.json `
   --targets runs/math/rotating-external-benchmarks/2026-08-23-001-targets.json `

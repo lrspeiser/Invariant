@@ -1,0 +1,77 @@
+{
+  "schema_version": "invariant-independent-proof-plan-search-config-1.0",
+  "routes": [
+    {
+      "route_id": "proof-route.strengthened-induction",
+      "mechanism": "induction",
+      "initial_goal": "target_theorem",
+      "required_candidate_capabilities": ["declared_invariant", "discrete_domain"],
+      "mutation_remove_tactic_id": "induction.split",
+      "tactics": [
+        {"tactic_id": "induction.split", "consumes": "target_theorem", "produces": ["base_case", "transition_case"], "requires_facts": [], "adds_facts": ["strengthened_invariant"], "introduces_induction_variables": ["n"], "normal_form": "strengthened_statement", "representation": "inductive_domain", "instruction": "choose an induction variable and strengthen the statement with a preserved invariant", "cost": 3, "premise_count": 1, "proof_debt": 2, "falsification_power": 3},
+        {"tactic_id": "induction.base", "consumes": "base_case", "produces": [], "requires_facts": ["strengthened_invariant"], "adds_facts": ["base_verified"], "introduces_induction_variables": [], "normal_form": "base_normal_form", "representation": "inductive_domain", "instruction": "close every base stratum under the strengthened statement", "cost": 1, "premise_count": 0, "proof_debt": 0, "falsification_power": 2},
+        {"tactic_id": "induction.transition", "consumes": "transition_case", "produces": [], "requires_facts": ["base_verified", "strengthened_invariant"], "adds_facts": ["transition_verified"], "introduces_induction_variables": [], "normal_form": "transition_normal_form", "representation": "inductive_domain", "instruction": "prove the transition and audit exceptional indices", "cost": 2, "premise_count": 1, "proof_debt": 1, "falsification_power": 4}
+      ]
+    },
+    {
+      "route_id": "proof-route.invariant-preservation",
+      "mechanism": "invariant_preservation",
+      "initial_goal": "target_theorem",
+      "required_candidate_capabilities": ["declared_invariant", "falsifiable_boundary"],
+      "mutation_remove_tactic_id": "invariant.expose",
+      "tactics": [
+        {"tactic_id": "invariant.expose", "consumes": "target_theorem", "produces": ["preservation_obligation", "boundary_obligation"], "requires_facts": [], "adds_facts": ["candidate_invariant"], "introduces_induction_variables": [], "normal_form": "state_transition", "representation": "invariant_coordinates", "instruction": "express the claim as preservation of a declared state invariant", "cost": 2, "premise_count": 1, "proof_debt": 1, "falsification_power": 3},
+        {"tactic_id": "invariant.preserve", "consumes": "preservation_obligation", "produces": [], "requires_facts": ["candidate_invariant"], "adds_facts": ["preservation_verified"], "introduces_induction_variables": [], "normal_form": "transition_identity", "representation": "invariant_coordinates", "instruction": "prove exact preservation or monotonicity across each admitted transition", "cost": 2, "premise_count": 1, "proof_debt": 1, "falsification_power": 5},
+        {"tactic_id": "invariant.boundary", "consumes": "boundary_obligation", "produces": [], "requires_facts": ["preservation_verified"], "adds_facts": ["boundary_verified"], "introduces_induction_variables": [], "normal_form": "boundary_normal_form", "representation": "invariant_coordinates", "instruction": "replay initial, terminal, and exceptional boundary strata", "cost": 1, "premise_count": 0, "proof_debt": 0, "falsification_power": 4}
+      ]
+    },
+    {
+      "route_id": "proof-route.bijection-involution",
+      "mechanism": "bijection_or_involution",
+      "initial_goal": "target_theorem",
+      "required_candidate_capabilities": ["combinatorial_structure"],
+      "mutation_remove_tactic_id": "bijection.construct",
+      "tactics": [
+        {"tactic_id": "bijection.construct", "consumes": "target_theorem", "produces": ["inverse_obligation", "weight_obligation"], "requires_facts": [], "adds_facts": ["candidate_map"], "introduces_induction_variables": [], "normal_form": "two_structures", "representation": "combinatorial_objects", "instruction": "construct a bijection or sign-reversing involution between the represented structures", "cost": 4, "premise_count": 1, "proof_debt": 3, "falsification_power": 2},
+        {"tactic_id": "bijection.inverse", "consumes": "inverse_obligation", "produces": [], "requires_facts": ["candidate_map"], "adds_facts": ["inverse_verified"], "introduces_induction_variables": [], "normal_form": "composed_maps", "representation": "combinatorial_objects", "instruction": "prove the map has an inverse or that the involution squares to identity", "cost": 2, "premise_count": 1, "proof_debt": 1, "falsification_power": 4},
+        {"tactic_id": "bijection.weight", "consumes": "weight_obligation", "produces": [], "requires_facts": ["inverse_verified"], "adds_facts": ["weights_verified"], "introduces_induction_variables": [], "normal_form": "weight_classes", "representation": "combinatorial_objects", "instruction": "audit weights, fixed points, signs, and boundary classes", "cost": 2, "premise_count": 1, "proof_debt": 1, "falsification_power": 4}
+      ]
+    },
+    {
+      "route_id": "proof-route.minimal-counterexample-descent",
+      "mechanism": "minimal_counterexample_descent",
+      "initial_goal": "target_theorem",
+      "required_candidate_capabilities": ["falsifiable_boundary", "well_founded_order"],
+      "mutation_remove_tactic_id": "descent.reduce",
+      "tactics": [
+        {"tactic_id": "descent.minimal", "consumes": "target_theorem", "produces": ["descent_obligation", "exceptional_strata"], "requires_facts": [], "adds_facts": ["minimal_counterexample", "well_founded_measure"], "introduces_induction_variables": [], "normal_form": "minimal_counterexample", "representation": "well_founded_order", "instruction": "assume a minimal counterexample under an explicit well-founded measure", "cost": 2, "premise_count": 2, "proof_debt": 1, "falsification_power": 3},
+        {"tactic_id": "descent.reduce", "consumes": "descent_obligation", "produces": [], "requires_facts": ["minimal_counterexample", "well_founded_measure"], "adds_facts": ["strict_reduction"], "introduces_induction_variables": [], "normal_form": "strictly_smaller_instance", "representation": "well_founded_order", "instruction": "construct a strictly smaller counterexample or an immediate contradiction", "cost": 3, "premise_count": 1, "proof_debt": 2, "falsification_power": 5},
+        {"tactic_id": "descent.exceptions", "consumes": "exceptional_strata", "produces": [], "requires_facts": ["strict_reduction"], "adds_facts": ["exceptions_closed"], "introduces_induction_variables": [], "normal_form": "finite_exception_table", "representation": "well_founded_order", "instruction": "check termination and every exceptional minimal stratum", "cost": 1, "premise_count": 0, "proof_debt": 0, "falsification_power": 5}
+      ]
+    },
+    {
+      "route_id": "proof-route.transform-extract",
+      "mechanism": "transform_and_extract",
+      "initial_goal": "target_theorem",
+      "required_candidate_capabilities": ["transformable_representation"],
+      "mutation_remove_tactic_id": "transform.move",
+      "tactics": [
+        {"tactic_id": "transform.move", "consumes": "target_theorem", "produces": ["transformed_relation", "inversion_obligation"], "requires_facts": [], "adds_facts": ["transform_domain"], "introduces_induction_variables": [], "normal_form": "transformed_equation", "representation": "generating_fourier_laplace_or_z", "instruction": "move to a generating, Fourier, Laplace, or z-transform representation", "cost": 3, "premise_count": 2, "proof_debt": 2, "falsification_power": 3},
+        {"tactic_id": "transform.solve", "consumes": "transformed_relation", "produces": [], "requires_facts": ["transform_domain"], "adds_facts": ["transformed_relation_solved"], "introduces_induction_variables": [], "normal_form": "algebraic_or_differential_relation", "representation": "generating_fourier_laplace_or_z", "instruction": "derive and solve the simpler algebraic or differential relation", "cost": 2, "premise_count": 1, "proof_debt": 1, "falsification_power": 4},
+        {"tactic_id": "transform.invert", "consumes": "inversion_obligation", "produces": [], "requires_facts": ["transform_domain", "transformed_relation_solved"], "adds_facts": ["inversion_verified"], "introduces_induction_variables": [], "normal_form": "coefficient_or_inverse_transform", "representation": "native", "instruction": "extract coefficients or invert the transform with convergence and domain obligations", "cost": 3, "premise_count": 2, "proof_debt": 2, "falsification_power": 5}
+      ]
+    },
+    {
+      "route_id": "proof-route.contradiction",
+      "mechanism": "contradiction",
+      "initial_goal": "target_theorem",
+      "required_candidate_capabilities": ["declared_invariant", "falsifiable_boundary"],
+      "mutation_remove_tactic_id": "contradiction.propagate",
+      "tactics": [
+        {"tactic_id": "contradiction.negate", "consumes": "target_theorem", "produces": ["negated_context"], "requires_facts": [], "adds_facts": ["negated_target"], "introduces_induction_variables": [], "normal_form": "negated_target", "representation": "constraint_system", "instruction": "negate the target while preserving every explicit premise", "cost": 1, "premise_count": 1, "proof_debt": 0, "falsification_power": 2},
+        {"tactic_id": "contradiction.propagate", "consumes": "negated_context", "produces": ["impossible_boundary"], "requires_facts": ["negated_target"], "adds_facts": ["propagated_invariant"], "introduces_induction_variables": [], "normal_form": "invariant_constraints", "representation": "constraint_system", "instruction": "propagate a conserved, monotone, parity, or modular invariant", "cost": 2, "premise_count": 1, "proof_debt": 1, "falsification_power": 5},
+        {"tactic_id": "contradiction.close", "consumes": "impossible_boundary", "produces": [], "requires_facts": ["propagated_invariant"], "adds_facts": ["contradiction_derived"], "introduces_induction_variables": [], "normal_form": "empty_constraint_set", "representation": "constraint_system", "instruction": "derive an incompatible boundary, parity, or extremal condition", "cost": 1, "premise_count": 0, "proof_debt": 0, "falsification_power": 5}
+      ]
+    }
+  ]
+}

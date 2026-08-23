@@ -41,24 +41,33 @@ class CampaignClaudeTransport:
         benchmark_id = prompt["benchmark"]["blind_id"]
         role = prompt["role"]
         if role == "proposer":
+            hypothesis = {
+                "expression": "x0",
+                "falsifiers": ["sealed holdout"],
+                "family": "analogy_transfer",
+                "hypothesis_id": f"hypothesis.{len(self.requests)}",
+                "invariants": ["identity_scaling"],
+                "known_analogues": ["identity map"],
+                "llm_origin_assessment": "known_rewrite",
+                "proof_plan": ["test base cases", "induct"],
+                "rationale": "A deliberately simple typed control hypothesis.",
+                "representation": "sympy_expression",
+                "source_idea_domains": ["algebra", "recurrences"],
+                "synthesis_note": "A control recovered through recurrence language.",
+            }
+            hypothesis_schema = parsed["output_config"]["format"]["schema"]["properties"][
+                "hypotheses"
+            ]
+            if hypothesis_schema["type"] == "object":
+                hypotheses = {
+                    name: hypothesis | {"hypothesis_id": f"{hypothesis['hypothesis_id']}.{name}"}
+                    for name in hypothesis_schema["required"]
+                }
+            else:
+                hypotheses = [hypothesis]
             output = {
                 "benchmark_id": benchmark_id,
-                "hypotheses": [
-                    {
-                        "expression": "x0",
-                        "falsifiers": ["sealed holdout"],
-                        "family": "analogy_transfer",
-                        "hypothesis_id": f"hypothesis.{len(self.requests)}",
-                        "invariants": ["identity_scaling"],
-                        "known_analogues": ["identity map"],
-                        "llm_origin_assessment": "known_rewrite",
-                        "proof_plan": ["test base cases", "induct"],
-                        "rationale": "A deliberately simple typed control hypothesis.",
-                        "representation": "sympy_expression",
-                        "source_idea_domains": ["algebra", "recurrences"],
-                        "synthesis_note": "A control recovered through recurrence language.",
-                    }
-                ],
+                "hypotheses": hypotheses,
                 "role": role,
                 "schema_version": CLAUDE_OUTPUT_SCHEMA_VERSION,
                 "steering_actions": [],

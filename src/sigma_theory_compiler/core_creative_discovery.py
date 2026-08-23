@@ -33,12 +33,13 @@ from .external_creativity_live_evidence import (
 from .external_creativity_multi_host import validate_receipt as validate_multi_host_receipt
 from .external_creativity_validation import run_campaign
 from .idea_lineage import build_idea_archive, validate_idea_archive
+from .independent_proof_plan_search import validate_proof_plan_search
 from .sigma_core import canonical_sha256
 
 CONFIG_PATH = "configs/core_creative_discovery.json"
 OUTPUT_PATH = "runs/math/core-creative-discovery/live-runtime.json"
-SCHEMA_VERSION = "invariant-core-creative-discovery-runtime-1.0"
-CONFIG_SCHEMA = "invariant-core-creative-discovery-config-1.0"
+SCHEMA_VERSION = "invariant-core-creative-discovery-runtime-1.1"
+CONFIG_SCHEMA = "invariant-core-creative-discovery-config-1.1"
 
 
 class CoreCreativeDiscoveryError(ValueError):
@@ -101,6 +102,7 @@ def _load_config(root: Path) -> dict[str, Any]:
         "expanded_typed_grammar_receipt",
         "live_evidence_output",
         "multi_host_reproduction_receipt",
+        "proof_plan_search_receipt",
     }:
         raise CoreCreativeDiscoveryError("core component bindings changed")
     return value
@@ -108,21 +110,26 @@ def _load_config(root: Path) -> dict[str, Any]:
 
 def _load_bound_receipts(
     root: Path, config: Mapping[str, Any]
-) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any], dict[str, Any]]:
+) -> tuple[
+    dict[str, Any], dict[str, Any], dict[str, Any], dict[str, Any], dict[str, Any]
+]:
     components = config["components"]
     dataset_path = root / components["dataset_challenge_receipt"]
     operational_path = root / components["declarative_operational_receipt"]
     multi_host_path = root / components["multi_host_reproduction_receipt"]
     expanded_grammar_path = root / components["expanded_typed_grammar_receipt"]
+    proof_plan_path = root / components["proof_plan_search_receipt"]
     dataset = json.loads(dataset_path.read_text(encoding="utf-8"))
     operational = json.loads(operational_path.read_text(encoding="utf-8"))
     multi_host = json.loads(multi_host_path.read_text(encoding="utf-8"))
     expanded_grammar = json.loads(expanded_grammar_path.read_text(encoding="utf-8"))
+    proof_plan_search = json.loads(proof_plan_path.read_text(encoding="utf-8"))
     validate_dataset_challenges(dataset, root)
     validate_operational_receipt(operational, root)
     validate_multi_host_receipt(multi_host)
     validate_expanded_grammar_receipt(expanded_grammar, root)
-    return operational, multi_host, expanded_grammar, dataset
+    validate_proof_plan_search(proof_plan_search, root)
+    return operational, multi_host, expanded_grammar, dataset, proof_plan_search
 
 
 def _validate_live_campaign(campaign: Mapping[str, Any], config: Mapping[str, Any]) -> None:
@@ -165,9 +172,13 @@ def run_core(
 
     root = root.resolve()
     config = _load_config(root)
-    operational, multi_host, expanded_grammar, dataset_challenges = _load_bound_receipts(
-        root, config
-    )
+    (
+        operational,
+        multi_host,
+        expanded_grammar,
+        dataset_challenges,
+        proof_plan_search,
+    ) = _load_bound_receipts(root, config)
     environment = None
     if credential_file is not None:
         environment = dict(os.environ)
@@ -186,7 +197,7 @@ def run_core(
             campaign = dict(runner(root))
             _validate_live_campaign(campaign, config)
             idea_archive = build_idea_archive(campaign)
-            creative_expansion = build_creative_expansion(idea_archive)
+            creative_expansion = build_creative_expansion(idea_archive, proof_plan_search)
             live_evidence = build_evidence_from_receipt(
                 campaign, source_file_sha256=_serialized_sha256(campaign)
             )
@@ -226,6 +237,10 @@ def run_core(
                 "content_sha256": expanded_grammar["content_sha256"],
                 "path": config["components"]["expanded_typed_grammar_receipt"],
             },
+            "proof_plan_search_receipt": {
+                "content_sha256": proof_plan_search["content_sha256"],
+                "path": config["components"]["proof_plan_search_receipt"],
+            },
         },
         "credential_activation": activation.to_evidence(),
         "claude_runtime": {
@@ -240,6 +255,7 @@ def run_core(
         "idea_lineage_archive": idea_archive,
         "creative_expansion": creative_expansion,
         "dataset_challenges": dataset_challenges,
+        "proof_plan_search": proof_plan_search,
         "discovery_runtime": {
             "declarative_extensions_admitted": len(
                 operational["extension_admission"]["admitted_declarations"]
@@ -258,6 +274,14 @@ def run_core(
                 "positive_controls_passed"
             ],
             "dataset_challenge_status": dataset_challenges["summary"]["status"],
+            "independent_proof_plan_mechanisms": proof_plan_search["summary"]["mechanisms"],
+            "independent_proof_plan_mutations_rejected": proof_plan_search["summary"][
+                "mutation_controls_rejected"
+            ],
+            "independent_proof_plan_routes_closed": proof_plan_search["summary"][
+                "positive_routes_closed"
+            ],
+            "independent_proof_plan_status": proof_plan_search["summary"]["status"],
         },
         "verification": {
             "backends_required_for_serious_claim": config["release_policy"][
@@ -323,7 +347,9 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
     ):
         raise CoreCreativeDiscoveryError("core provider wire-contract evidence changed")
     validate_idea_archive(value.get("idea_lineage_archive", {}))
-    validate_creative_expansion(value.get("creative_expansion", {}))
+    proof_plan_search = value.get("proof_plan_search", {})
+    validate_proof_plan_search(proof_plan_search, root)
+    validate_creative_expansion(value.get("creative_expansion", {}), proof_plan_search)
     validate_dataset_challenges(value.get("dataset_challenges", {}), root)
     discovery = value.get("discovery_runtime", {})
     if (
@@ -333,6 +359,19 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
         or discovery.get("dataset_mutation_controls_rejected") != 4
         or discovery.get("dataset_challenge_status")
         != "PASS_EXECUTABLE_DATASET_CHALLENGES"
+        or discovery.get("independent_proof_plan_mechanisms")
+        != [
+            "induction",
+            "invariant_preservation",
+            "bijection_or_involution",
+            "minimal_counterexample_descent",
+            "transform_and_extract",
+            "contradiction",
+        ]
+        or discovery.get("independent_proof_plan_routes_closed") != 6
+        or discovery.get("independent_proof_plan_mutations_rejected") != 6
+        or discovery.get("independent_proof_plan_status")
+        != "PASS_INDEPENDENT_PROOF_PLAN_SEARCH"
         or discovery.get("typed_formula_kinds")
         != [
             "finite_product",
@@ -372,6 +411,7 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
             "declarative_operational_receipt",
             "expanded_typed_grammar_receipt",
             "multi_host_reproduction_receipt",
+            "proof_plan_search_receipt",
         ):
             binding = bindings.get(key, {})
             path = (root / str(binding.get("path", ""))).resolve()
@@ -386,6 +426,8 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
                 validate_expanded_grammar_receipt(bound, root)
             if key == "dataset_challenge_receipt":
                 validate_dataset_challenges(bound, root)
+            if key == "proof_plan_search_receipt":
+                validate_proof_plan_search(bound, root)
 
 
 def main(argv: Sequence[str] | None = None) -> int:

@@ -8,6 +8,7 @@ on:
       - "configs/core_creative_discovery.json"
       - "configs/expanded_typed_grammar.json"
       - "configs/creative_dataset_challenges.json"
+      - "configs/independent_proof_plan_search.json"
       - "configs/creativity_ablation_protocol.json"
       - "configs/creativity_confirmatory_generation.json"
       - "configs/creativity_tournament_generation.json"
@@ -33,6 +34,7 @@ on:
       - "src/sigma_theory_compiler/external_claude_transport.py"
       - "src/sigma_theory_compiler/expanded_math_*.py"
       - "src/sigma_theory_compiler/independent_exact_evaluator.py"
+      - "src/sigma_theory_compiler/independent_proof_plan_search.py"
       - "src/sigma_theory_compiler/math_canonicalizer.py"
       - "src/sigma_theory_compiler/math_expression_ir.py"
       - "tests/test_claude_creativity_api.py"
@@ -49,6 +51,7 @@ on:
       - "tests/test_external_claude_transport.py"
       - "tests/test_expanded_math_grammar.py"
       - "tests/test_independent_exact_evaluator.py"
+      - "tests/test_independent_proof_plan_search.py"
       - "tests/test_rotating_external_benchmarks.py"
       - "runs/math/claim-specific-prior-art/**"
       - "runs/math/creativity-tournament/**"
@@ -56,6 +59,7 @@ on:
       - "runs/math/core-creative-discovery/**"
       - "runs/math/dataset-challenges/**"
       - "runs/math/expanded-typed-grammar/**"
+      - "runs/math/independent-proof-plan-search/**"
       - "runs/math/external-creativity-validation/**"
       - "runs/math/rotating-external-benchmarks/**"
   push:
@@ -66,6 +70,7 @@ on:
       - "configs/core_creative_discovery.json"
       - "configs/expanded_typed_grammar.json"
       - "configs/creative_dataset_challenges.json"
+      - "configs/independent_proof_plan_search.json"
       - "configs/creativity_ablation_protocol.json"
       - "configs/creativity_confirmatory_generation.json"
       - "configs/creativity_tournament_generation.json"
@@ -91,6 +96,7 @@ on:
       - "src/sigma_theory_compiler/external_claude_transport.py"
       - "src/sigma_theory_compiler/expanded_math_*.py"
       - "src/sigma_theory_compiler/independent_exact_evaluator.py"
+      - "src/sigma_theory_compiler/independent_proof_plan_search.py"
       - "src/sigma_theory_compiler/math_canonicalizer.py"
       - "src/sigma_theory_compiler/math_expression_ir.py"
       - "tests/test_claude_creativity_api.py"
@@ -107,6 +113,7 @@ on:
       - "tests/test_external_claude_transport.py"
       - "tests/test_expanded_math_grammar.py"
       - "tests/test_independent_exact_evaluator.py"
+      - "tests/test_independent_proof_plan_search.py"
       - "tests/test_rotating_external_benchmarks.py"
       - "runs/math/claim-specific-prior-art/**"
       - "runs/math/creativity-tournament/**"
@@ -114,6 +121,7 @@ on:
       - "runs/math/core-creative-discovery/**"
       - "runs/math/dataset-challenges/**"
       - "runs/math/expanded-typed-grammar/**"
+      - "runs/math/independent-proof-plan-search/**"
       - "runs/math/external-creativity-validation/**"
       - "runs/math/rotating-external-benchmarks/**"
   workflow_dispatch:
@@ -141,6 +149,7 @@ jobs:
           python -m pytest -q
           tests/test_claude_creativity_api.py
           tests/test_independent_exact_evaluator.py
+          tests/test_independent_proof_plan_search.py
           tests/test_external_creativity_validation.py
           tests/test_external_claude_transport.py
           tests/test_external_creativity_lean_bridge.py
@@ -168,6 +177,10 @@ jobs:
           python -m sigma_theory_compiler.dataset_challenge_suite validate
           --root .
           --receipt runs/math/dataset-challenges/receipt.json
+      - run: >-
+          python -m sigma_theory_compiler.independent_proof_plan_search validate
+          --root .
+          --receipt runs/math/independent-proof-plan-search/receipt.json
       - run: >-
           python -m sigma_theory_compiler.rotating_external_benchmarks validate
           --root .
