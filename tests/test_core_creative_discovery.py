@@ -181,7 +181,11 @@ def test_core_run_requires_and_sanitizes_live_claude(
         assert os.environ["ANTHROPIC_API_KEY"] == secret
         assert creative_context["creativity_policy"]["creativity_is_primary"] is True
         assert creative_context["creativity_policy"]["uncertainty_does_not_prune"] is True
-        assert len(creative_context["first_principles_briefs"]) == 4
+        assert len(creative_context["first_principles_briefs"]) == 5
+        assert any(
+            brief["invariant_coordinate_arity"] == 2
+            for brief in creative_context["first_principles_briefs"]
+        )
         assert creative_context["origin_assessment_labels"] == [
             "cross_domain_synthesis",
             "known_rewrite",
@@ -200,7 +204,7 @@ def test_core_run_requires_and_sanitizes_live_claude(
         "content_sha256": receipt["claude_runtime"]["evidence"]["calls"][0][
             "creative_context_sha256"
         ],
-        "first_principles_briefs": 4,
+        "first_principles_briefs": 5,
         "independent_proof_mechanisms": 6,
         "origin_assessment_labels": [
             "cross_domain_synthesis",
@@ -231,15 +235,22 @@ def test_core_run_requires_and_sanitizes_live_claude(
         receipt["external_structured_benchmarks"]["release_gate"]["level5_eligible"]
         is False
     )
-    assert receipt["discovery_runtime"]["first_principles_d4_controls_passed"] == 4
-    assert receipt["discovery_runtime"]["first_principles_d4_invariant_coordinates"] == 4
+    assert receipt["discovery_runtime"]["first_principles_d4_controls_passed"] == 5
+    assert receipt["discovery_runtime"]["first_principles_d4_invariant_coordinates"] == 6
+    assert receipt["discovery_runtime"]["first_principles_d4_multi_coordinate_controls"] == 1
+    assert (
+        receipt["discovery_runtime"][
+            "first_principles_d4_basis_collapse_mutations_rejected"
+        ]
+        == 5
+    )
     assert (
         receipt["discovery_runtime"]["first_principles_d4_dimension_mutations_rejected"]
-        == 4
+        == 6
     )
     assert (
         receipt["discovery_runtime"]["first_principles_d4_symmetry_mutations_rejected"]
-        == 4
+        == 5
     )
     assert receipt["symmetry_dimension_derivation"]["claims"]["specific_law_discovered"] is False
     assert receipt["discovery_runtime"]["independent_proof_plan_routes_closed"] == 6

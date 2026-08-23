@@ -19,23 +19,31 @@ def _receipt() -> dict[str, object]:
 def test_cross_domain_controls_recover_exact_expected_invariants() -> None:
     receipt = _receipt()
     assert receipt["summary"] == {
-        "controls_passed": 4,
-        "dimension_mutations_rejected": 4,
-        "invariant_coordinates": 4,
-        "status": "PASS_SYMMETRY_DIMENSION_FORCED_DERIVATION",
-        "symmetry_mutations_rejected": 4,
+        "basis_collapse_mutations_rejected": 5,
+        "controls_passed": 5,
+        "dimension_mutations_rejected": 6,
+        "invariant_coordinates": 6,
+        "multi_coordinate_controls": 1,
+        "status": "PASS_SYMMETRY_DIMENSION_MULTI_COORDINATE_DERIVATION",
+        "symmetry_mutations_rejected": 5,
     }
     observed = {
-        result["problem_id"]: result["invariant"]["expression"]
+        result["problem_id"]: [
+            coordinate["expression"] for coordinate in result["invariant_coordinates"]
+        ]
         for result in receipt["results"]
     }
     assert observed == {
-        "control.simple-pendulum-scaling": "period**2*gravity/length",
-        "control.kepler-similarity": (
+        "control.simple-pendulum-scaling": ["period**2*gravity/length"],
+        "control.kepler-similarity": [
             "period**2*central_mass*gravitational_constant/semi_major_axis**3"
-        ),
-        "control.diffusion-similarity": "length_scale**2/(time_scale*diffusivity)",
-        "control.reynolds-similarity": "density*speed*length_scale/dynamic_viscosity",
+        ],
+        "control.diffusion-similarity": ["length_scale**2/(time_scale*diffusivity)"],
+        "control.reynolds-similarity": ["density*speed*length_scale/dynamic_viscosity"],
+        "control.drag-similarity": [
+            "drag_force/(density*speed**2*length_scale**2)",
+            "density*speed*length_scale/dynamic_viscosity",
+        ],
     }
 
 
@@ -44,25 +52,51 @@ def test_independent_exact_evaluators_agree_on_rank_and_nullspace() -> None:
         evaluators = result["independent_evaluators"]
         assert evaluators["agreement"] is True
         assert evaluators["fraction_gaussian_elimination_rank"] == evaluators["sympy_rank"]
-        assert evaluators["sympy_exact_nullspace_basis"] == [
-            result["invariant"]["exponents"]
-        ]
-        assert result["search"]["nullity"] == 1
+        assert len(evaluators["sympy_exact_nullspace_basis"]) == result["search"]["nullity"]
+        assert evaluators["declared_basis_rank"] == result["search"]["nullity"]
+
+
+def test_drag_control_exposes_two_coordinates_to_the_creative_lane() -> None:
+    drag = next(
+        result
+        for result in _receipt()["results"]
+        if result["problem_id"] == "control.drag-similarity"
+    )
+    assert drag["search"]["nullity"] == 2
+    assert drag["forced_form"] == {
+        "free_function_arity": 2,
+        "free_function_determined": False,
+        "statement": (
+            "F(drag_force/(density*speed**2*length_scale**2),"
+            "density*speed*length_scale/dynamic_viscosity) = 0"
+        ),
+    }
+    assert drag["creative_brief"]["candidate_invariant_coordinates"] == [
+        "drag_force/(density*speed**2*length_scale**2)",
+        "density*speed*length_scale/dynamic_viscosity",
+    ]
 
 
 def test_dimension_exponent_mutations_are_rejected_exactly() -> None:
     for result in _receipt()["results"]:
-        mutation = result["mutations"]["dimension_exponent_offset"]
+        for mutation in result["mutations"]["dimension_exponent_offsets"]:
+            assert mutation["rejected"] is True
+            assert any(mutation["row_residuals"])
+
+
+def test_collapsing_a_coordinate_basis_is_rejected_exactly() -> None:
+    for result in _receipt()["results"]:
+        mutation = result["mutations"]["basis_collapse"]
         assert mutation["rejected"] is True
-        assert any(mutation["row_residuals"])
+        assert mutation["mutated_rank"] < mutation["baseline_rank"]
 
 
 def test_dropping_nuisance_symmetry_opens_a_spurious_coordinate() -> None:
     for result in _receipt()["results"]:
         mutation = result["mutations"]["drop_nuisance_symmetry"]
         assert mutation == {
-            "baseline_nullity": 1,
-            "mutated_nullity": 2,
+            "baseline_nullity": result["search"]["nullity"],
+            "mutated_nullity": result["search"]["nullity"] + 1,
             "nuisance_coordinate_admitted": True,
             "nuisance_exponents": [0] * (len(result["variables"]) - 1) + [1],
             "rejected": True,
@@ -73,7 +107,9 @@ def test_forced_form_preserves_free_function_and_novelty_boundary() -> None:
     receipt = _receipt()
     assert not any(receipt["claims"].values())
     for result in receipt["results"]:
-        assert result["forced_form"]["free_function_arity"] == 1
+        assert result["forced_form"]["free_function_arity"] == len(
+            result["creative_brief"]["candidate_invariant_coordinates"]
+        )
         assert result["forced_form"]["free_function_determined"] is False
         assert result["creative_brief"]["llm_origin_assessment_labels"] == [
             "known_rewrite",
@@ -89,9 +125,22 @@ def test_forced_form_preserves_free_function_and_novelty_boundary() -> None:
 def test_expected_vector_mutation_fails_closed() -> None:
     config = D.load_config(ROOT)
     changed = copy.deepcopy(config)
-    changed["problems"][0]["expected_control_exponents"][0] += 1
+    changed["problems"][0]["expected_control_basis"][0][0] += 1
     with pytest.raises(D.SymmetryDimensionError, match="nullspace"):
         D.evaluate_problem(changed["problems"][0], changed["search_policy"])
+
+
+def test_duplicate_multi_coordinate_basis_fails_closed() -> None:
+    config = D.load_config(ROOT)
+    changed = copy.deepcopy(config)
+    drag = next(
+        problem
+        for problem in changed["problems"]
+        if problem["problem_id"] == "control.drag-similarity"
+    )
+    drag["expected_control_basis"][1] = list(drag["expected_control_basis"][0])
+    with pytest.raises(D.SymmetryDimensionError, match="nullspace"):
+        D.evaluate_problem(drag, changed["search_policy"])
 
 
 def test_claim_promotion_fails_even_after_resealing() -> None:

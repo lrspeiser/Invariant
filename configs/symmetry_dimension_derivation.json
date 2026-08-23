@@ -1,11 +1,11 @@
 {
-  "schema_version": "invariant-symmetry-dimension-derivation-config-1.0",
-  "campaign_id": "first-principles-d4-controls-2026-08-23-001",
+  "schema_version": "invariant-symmetry-dimension-derivation-config-1.1",
+  "campaign_id": "first-principles-d4-controls-2026-08-23-002",
   "engine_principal_id": "invariant.discovery-engine",
   "search_policy": {
     "maximum_absolute_exponent": 3,
     "maximum_l1_norm": 8,
-    "minimum_controls": 4,
+    "minimum_controls": 5,
     "require_independent_rank_evaluators": true,
     "require_symmetry_nuisance_mutation": true
   },
@@ -26,7 +26,7 @@
           "weights": [0, 0, 0, 1]
         }
       ],
-      "expected_control_exponents": [2, -1, 1, 0]
+      "expected_control_basis": [[2, -1, 1, 0]]
     },
     {
       "problem_id": "control.kepler-similarity",
@@ -45,7 +45,7 @@
           "weights": [0, 0, 0, 0, 1]
         }
       ],
-      "expected_control_exponents": [2, -3, 1, 1, 0]
+      "expected_control_basis": [[2, -3, 1, 1, 0]]
     },
     {
       "problem_id": "control.diffusion-similarity",
@@ -63,7 +63,7 @@
           "weights": [0, 0, 0, 1]
         }
       ],
-      "expected_control_exponents": [2, -1, -1, 0]
+      "expected_control_basis": [[2, -1, -1, 0]]
     },
     {
       "problem_id": "control.reynolds-similarity",
@@ -82,7 +82,30 @@
           "weights": [0, 0, 0, 0, 1]
         }
       ],
-      "expected_control_exponents": [1, 1, 1, -1, 0]
+      "expected_control_basis": [[1, 1, 1, -1, 0]]
+    },
+    {
+      "problem_id": "control.drag-similarity",
+      "domain": "aerodynamics",
+      "dimension_axes": ["length", "time", "mass"],
+      "variables": [
+        {"name": "drag_force", "dimensions": [1, -2, 1]},
+        {"name": "density", "dimensions": [-3, 0, 1]},
+        {"name": "speed", "dimensions": [1, -1, 0]},
+        {"name": "length_scale", "dimensions": [1, 0, 0]},
+        {"name": "dynamic_viscosity", "dimensions": [-1, -1, 1]},
+        {"name": "roughness_ratio", "dimensions": [0, 0, 0]}
+      ],
+      "symmetry_actions": [
+        {
+          "name": "roughness_nuisance_rescaling",
+          "weights": [0, 0, 0, 0, 0, 1]
+        }
+      ],
+      "expected_control_basis": [
+        [1, -1, -2, -2, 0, 0],
+        [0, 1, 1, 1, -1, 0]
+      ]
     }
   ]
 }

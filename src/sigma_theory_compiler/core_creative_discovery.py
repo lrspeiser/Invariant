@@ -64,8 +64,8 @@ from .symmetry_dimension_derivation import (
 CONFIG_PATH = "configs/core_creative_discovery.json"
 OUTPUT_PATH = "runs/math/core-creative-discovery/live-runtime.json"
 PROMPT_CONTEXT_SOURCE_PATH = "src/sigma_theory_compiler/core_creative_prompt_context.py"
-SCHEMA_VERSION = "invariant-core-creative-discovery-runtime-1.9"
-CONFIG_SCHEMA = "invariant-core-creative-discovery-config-1.9"
+SCHEMA_VERSION = "invariant-core-creative-discovery-runtime-2.0"
+CONFIG_SCHEMA = "invariant-core-creative-discovery-config-2.0"
 
 
 class CoreCreativeDiscoveryError(ValueError):
@@ -464,6 +464,11 @@ def run_core(
             "external_structured_benchmark_tasks": external_structured_benchmarks[
                 "coverage"
             ]["tasks"],
+            "first_principles_d4_basis_collapse_mutations_rejected": (
+                symmetry_dimension_derivation["summary"][
+                    "basis_collapse_mutations_rejected"
+                ]
+            ),
             "first_principles_d4_controls_passed": symmetry_dimension_derivation["summary"][
                 "controls_passed"
             ],
@@ -473,6 +478,9 @@ def run_core(
             "first_principles_d4_invariant_coordinates": symmetry_dimension_derivation[
                 "summary"
             ]["invariant_coordinates"],
+            "first_principles_d4_multi_coordinate_controls": symmetry_dimension_derivation[
+                "summary"
+            ]["multi_coordinate_controls"],
             "first_principles_d4_status": symmetry_dimension_derivation["summary"]["status"],
             "first_principles_d4_symmetry_mutations_rejected": (
                 symmetry_dimension_derivation["summary"]["symmetry_mutations_rejected"]
@@ -569,6 +577,7 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
             "invariant-core-creative-discovery-runtime-1.6",
             "invariant-core-creative-discovery-runtime-1.7",
             "invariant-core-creative-discovery-runtime-1.8",
+            "invariant-core-creative-discovery-runtime-1.9",
             SCHEMA_VERSION,
         }
         or previous.get("app_id") != "invariant.core-creative-discovery"
@@ -697,6 +706,9 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
         "external_structured_benchmark_tasks": external_structured_benchmarks["coverage"][
             "tasks"
         ],
+        "first_principles_d4_basis_collapse_mutations_rejected": symmetry_dimension_derivation[
+            "summary"
+        ]["basis_collapse_mutations_rejected"],
         "first_principles_d4_controls_passed": symmetry_dimension_derivation["summary"][
             "controls_passed"
         ],
@@ -705,6 +717,9 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
         ]["dimension_mutations_rejected"],
         "first_principles_d4_invariant_coordinates": symmetry_dimension_derivation["summary"][
             "invariant_coordinates"
+        ],
+        "first_principles_d4_multi_coordinate_controls": symmetry_dimension_derivation["summary"][
+            "multi_coordinate_controls"
         ],
         "first_principles_d4_status": symmetry_dimension_derivation["summary"]["status"],
         "first_principles_d4_symmetry_mutations_rejected": symmetry_dimension_derivation[
@@ -846,12 +861,14 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
         or discovery.get("external_structured_benchmark_status")
         != "CREATIVITY_BENCHMARK_READY_LEVEL5_BLOCKED_UNSIGNED_SOURCE"
         or discovery.get("external_structured_benchmark_tasks") != 8
-        or discovery.get("first_principles_d4_controls_passed") != 4
-        or discovery.get("first_principles_d4_dimension_mutations_rejected") != 4
-        or discovery.get("first_principles_d4_invariant_coordinates") != 4
+        or discovery.get("first_principles_d4_basis_collapse_mutations_rejected") != 5
+        or discovery.get("first_principles_d4_controls_passed") != 5
+        or discovery.get("first_principles_d4_dimension_mutations_rejected") != 6
+        or discovery.get("first_principles_d4_invariant_coordinates") != 6
+        or discovery.get("first_principles_d4_multi_coordinate_controls") != 1
         or discovery.get("first_principles_d4_status")
-        != "PASS_SYMMETRY_DIMENSION_FORCED_DERIVATION"
-        or discovery.get("first_principles_d4_symmetry_mutations_rejected") != 4
+        != "PASS_SYMMETRY_DIMENSION_MULTI_COORDINATE_DERIVATION"
+        or discovery.get("first_principles_d4_symmetry_mutations_rejected") != 5
         or discovery.get("independent_proof_plan_mechanisms")
         != [
             "induction",

@@ -16,7 +16,8 @@ from .claude_creativity_api import ClaudeCreativityError, Transport, urllib_tran
 from .external_claude_transport import ProviderCompatibleClaudeTransport
 from .sigma_core import canonical_sha256
 
-SCHEMA_VERSION = "invariant-core-creative-prompt-context-1.0"
+SCHEMA_VERSION = "invariant-core-creative-prompt-context-1.1"
+FIRST_PRINCIPLES_BRIEF_COUNT = 5
 ORIGIN_ASSESSMENTS = [
     "cross_domain_synthesis",
     "known_rewrite",
@@ -91,18 +92,30 @@ def build_creative_prompt_context(
                 "constraint_statement": creative_brief["constraint_statement"],
                 "domain": result.get("domain"),
                 "forced_form": result.get("forced_form", {}).get("statement"),
+                "invariant_coordinate_arity": result.get("forced_form", {}).get(
+                    "free_function_arity"
+                ),
                 "novelty_caution": creative_brief["novelty_caution"],
                 "problem_id": result.get("problem_id"),
             }
         )
     briefs.sort(key=lambda item: str(item["problem_id"]))
-    if len(briefs) != 4 or any(
+    if len(briefs) != FIRST_PRINCIPLES_BRIEF_COUNT or any(
         not isinstance(item["problem_id"], str)
         or not isinstance(item["domain"], str)
         or not isinstance(item["forced_form"], str)
+        or not isinstance(item["candidate_invariant_coordinates"], list)
         or not item["candidate_invariant_coordinates"]
+        or any(
+            not isinstance(coordinate, str) or not coordinate
+            for coordinate in item["candidate_invariant_coordinates"]
+        )
+        or len(set(item["candidate_invariant_coordinates"]))
+        != len(item["candidate_invariant_coordinates"])
+        or item["invariant_coordinate_arity"]
+        != len(item["candidate_invariant_coordinates"])
         for item in briefs
-    ):
+    ) or not any(item["invariant_coordinate_arity"] > 1 for item in briefs):
         raise CoreCreativePromptContextError("first-principles brief coverage changed")
 
     body: dict[str, Any] = {
@@ -163,8 +176,9 @@ def validate_creative_prompt_context(value: Mapping[str, Any]) -> None:
     if any(item is not True for item in policy.values()):
         raise CoreCreativePromptContextError("core creativity policy weakened")
     briefs = value.get("first_principles_briefs")
-    if not isinstance(briefs, list) or len(briefs) != 4:
+    if not isinstance(briefs, list) or len(briefs) != FIRST_PRINCIPLES_BRIEF_COUNT:
         raise CoreCreativePromptContextError("core first-principles brief coverage changed")
+    has_multiple_coordinates = False
     for brief in briefs:
         _strict_keys(
             brief,
@@ -173,10 +187,30 @@ def validate_creative_prompt_context(value: Mapping[str, Any]) -> None:
                 "constraint_statement",
                 "domain",
                 "forced_form",
+                "invariant_coordinate_arity",
                 "novelty_caution",
                 "problem_id",
             },
             "core first-principles brief",
+        )
+        coordinates = brief["candidate_invariant_coordinates"]
+        arity = brief["invariant_coordinate_arity"]
+        if (
+            not isinstance(coordinates, list)
+            or not coordinates
+            or any(not isinstance(item, str) or not item for item in coordinates)
+            or len(set(coordinates)) != len(coordinates)
+            or not isinstance(arity, int)
+            or isinstance(arity, bool)
+            or arity != len(coordinates)
+        ):
+            raise CoreCreativePromptContextError(
+                "core first-principles coordinate basis changed"
+            )
+        has_multiple_coordinates = has_multiple_coordinates or arity > 1
+    if not has_multiple_coordinates:
+        raise CoreCreativePromptContextError(
+            "core first-principles multi-coordinate coverage changed"
         )
     if len(json.dumps(value, sort_keys=True, separators=(",", ":")).encode("utf-8")) > 16_384:
         raise CoreCreativePromptContextError("core creative prompt context exceeds its byte budget")
@@ -233,6 +267,7 @@ class FirstPrinciplesContextTransport(ProviderCompatibleClaudeTransport):
 
 
 __all__ = [
+    "FIRST_PRINCIPLES_BRIEF_COUNT",
     "SCHEMA_VERSION",
     "CoreCreativePromptContextError",
     "FirstPrinciplesContextTransport",

@@ -1230,7 +1230,7 @@ required structural features and 27 remain active while feature evidence is miss
 live treatment
 specimen and runtime-health evidence, not a creativity win. The receipt stores hashes and usage
 evidence, not the credential, env-file path, or raw prompts and outputs.
-The core now constructs one sealed creativity-first prompt context from the four exact
+The core now constructs one sealed creativity-first prompt context from five exact
 symmetry/dimension briefs, seven admitted typed formula kinds, six independently searched proof
 mechanisms, and four required origin-assessment labels. A core-only provider wrapper injects that
 context into every proposer and critic request and records its content hash beside the actual
@@ -1239,6 +1239,14 @@ provider prompt hash. The checked-in receipt honestly marks this lane
 evidence but predate the new context. The next live core run cannot pass unless all eight completed
 Messages calls carry the same current context hash. No paid rerun was performed while adding this
 path.
+The fifth brief removes the former one-coordinate bottleneck. A drag-similarity control derives an
+independent two-coordinate basis—drag coefficient and Reynolds number—and exposes the undetermined
+family `F(pi_1, pi_2) = 0` to the model. Across all five controls the exact engine derives six
+coordinates, rejects all six coordinate-specific exponent mutations, rejects five deliberately
+collapsed bases, and rejects all five dropped-nuisance-symmetry mutations. The two-coordinate
+control is a known calibration problem, not a newly discovered law; it proves that future creative
+requests can mix multiple first-principles coordinates without treating dimensional admissibility
+as truth or novelty.
 The live provider adapter also preserves high-output proposer calls: branches 17 through 64 are
 temporarily staged around the frozen 16-branch legacy parser and reattached before lineage,
 behavior deduplication, or persistence. A 24-branch mutation control proves the overflow path; the
