@@ -1192,8 +1192,8 @@ The current bounded result rediscovers the two known formulas but finds no zero-
 unknown sequence. Consequently the level-5 success count is zero and famous-open-problem spending
 is blocked. A second exact evaluator implemented with only Python AST and `Fraction` agrees with the
 primary evaluator. Downloaded CI artifacts bind four distinct GitHub-hosted ephemeral runner IDs
-across Windows and Linux plus the Lean kernel job from successful post-merge run `32656252764` at
-`21f97a6f1c68278c57b2547be1912c7a78826f4b`; this is multi-host VM reproduction, not proof of
+across Windows and Linux plus the Lean kernel job from successful post-merge run `32665262031` at
+`5938f61d52ede7809c278b409425e72ae8815e9b`; this is multi-host VM reproduction, not proof of
 distinct bare-metal machines. Human prior-art review is mandatory before any serious or novelty
 claim can be released.
 The implementation backlog and promotion criteria are listed in
@@ -1221,24 +1221,26 @@ applicability join attaches every route to every retained idea; missing features
 never prune the branch. Closing an abstract route does not prove a candidate theorem or establish
 proof novelty.
 
-The latest live core health receipt loaded `ANTHROPIC_API_KEY` from the explicitly supplied
-machine-local env file, removed it after the dynamic run, and completed four proposer plus four
-critic calls on `claude-opus-4-6`. It used 48,534 tokens and retained all 17 schema-admitted ideas:
-8 model-self-assessed known rewrites, 1 proposed new construction, and 8 uncertain. Independent
-expansion retained 102 proof plans and 64 recombination branches; 75 plan/idea joins have their
-required structural features and 27 remain active while feature evidence is missing. These are one
-live treatment
+The latest live core health receipt discovered `ANTHROPIC_API_KEY` through the app's default
+machine-local `~/.invariant.env` path, removed it after the dynamic run, and completed four
+proposer plus four critic calls on `claude-opus-4-6`. It used 88,512 tokens and retained all 30
+schema-admitted ideas: 15 model-self-assessed known rewrites, 5 proposed new constructions, and 10
+uncertain. Independent expansion retained 180 proof plans and 64 recombination branches. These are
+one live treatment
 specimen and runtime-health evidence, not a creativity win. The receipt stores hashes and usage
 evidence, not the credential, env-file path, or raw prompts and outputs.
+No Claude proposal became an executable benchmark candidate in this specimen; all four benchmark
+summaries report zero Claude-executable candidates and retain a deterministic-portfolio winner.
+One branch self-labelled `proposed_new_construction` while its own rationale identified Recamán's
+sequence, demonstrating why origin labels are retained observations rather than novelty verdicts.
 The core now constructs one sealed creativity-first prompt context from five exact
 symmetry/dimension briefs, seven admitted typed formula kinds, six independently searched proof
 mechanisms, and four required origin-assessment labels. A core-only provider wrapper injects that
 context into every proposer and critic request and records its content hash beside the actual
-provider prompt hash. The checked-in receipt honestly marks this lane
-`READY_NEXT_LIVE_RUN_NOT_YET_EVIDENCED`: the earlier eight authenticated calls remain valid runtime
-evidence but predate the new context. The next live core run cannot pass unless all eight completed
-Messages calls carry the same current context hash. No paid rerun was performed while adding this
-path.
+provider prompt hash. The checked-in receipt marks this lane
+`PASS_CONTEXT_BOUND_TO_AUTHENTICATED_CALLS`: all eight distinct Messages API response IDs bind
+the current context hash `db2de1213540e9fe94fbea6781a37335ba6cf026fe56d6db411deee0bc45c6ef`.
+The LLM is a creative participant, never a verifier or novelty authority.
 The fifth brief removes the former one-coordinate bottleneck. A drag-similarity control derives an
 independent two-coordinate basis—drag coefficient and Reynolds number—and exposes the undetermined
 family `F(pi_1, pi_2) = 0` to the model. Across all five controls the exact engine derives six
@@ -1255,8 +1257,9 @@ both failed training coordinates and a separately derived one-coordinate deploym
 rank-deficient control retains all three candidate coordinates and reports
 `UNDERDETERMINED_RETAIN_CANDIDATE_SUBSPACE` instead of forcing a winner. Public learner inputs and
 sealed control targets are separate hash-bound files, and the learner API never accepts the target.
-All three briefs—identified, rejected/repairable, and underdetermined—are injected into future core
-Claude calls so failure evidence expands or repairs the search tree rather than pruning it.
+All three briefs—identified, rejected/repairable, and underdetermined—were injected into all eight
+current core Claude calls so failure evidence expands or repairs the search tree rather than
+pruning it.
 An exact typed state-pair learner removes the diagonal-action and degree-two-polynomial
 restrictions. It receives rational before/after states and a bounded public feature grammar, but no
 transformation matrix, group parameter, named invariant, or target coefficients. Fraction RREF and
@@ -1268,7 +1271,8 @@ witness prevents it from being counted as a second algebraically independent ide
 represented by rational prime valuations and must agree between independent trial-division and
 SymPy-factorization evaluators; Laurent zero states and nonpositive log states fail closed. All nine
 learned basis coordinates survive deployment replay. These are known-answer calibration actions,
-not new theorems or empirical laws. Their six source-bound briefs reach future core Claude calls
+not new theorems or empirical laws. Their six source-bound briefs reached all eight current core
+Claude calls
 while rational functions with multivariate denominators, broader transcendental dictionaries, and
 externally signed transformation data remain open.
 A bounded uncertainty learner now gives noisy intervals, missing ratios, one-sided censoring,
@@ -1279,7 +1283,7 @@ records three failures. A dependent-support control retains `a*b/c` while reject
 coordinates that factorized marginal envelopes would admit. A unit control retains two complete
 formula/hypothesis branches—`a*b/c` under one calibration and `a**2/b` under another—before held-out
 canonical-unit deployment keeps the first and records the second as a failed branch. All nine
-training candidates and both unit-hypothesis identities reach future Claude context rather than
+training candidates and both unit-hypothesis identities reached the current Claude context rather than
 being pruned or silently reselected per row. Finite endpoint-corner enumeration independently
 agrees with monotone interval propagation wherever every active bound is finite. These are
 synthetic uncertainty controls, not a unique learned law; learned calibration from real external
@@ -1528,8 +1532,8 @@ The serious-claim ladder binds one candidate scope through the ordered exact-ari
 interval, and Lean stages. Its stored calibration joins the two externally authored known-formula
 controls to the downloaded kernel artifact, independently reruns the first four positive checks, and
 rejects an exact unit-offset wrong formula for both controls in exact arithmetic, CAS, SMT, and
-interval arithmetic. GitHub Actions run `32656252764` additionally kernel-rejects both corresponding
-Lean false theorems; the downloaded payload, artifact ID `9497518975`, archive digest, source hashes,
+interval arithmetic. GitHub Actions run `32665262031` additionally kernel-rejects both corresponding
+Lean false theorems; the downloaded payload, artifact ID `9499840254`, archive digest, source hashes,
 head commit, runner identity, and two rejection receipts are bound into the stored ladder. It also
 blocks both bounded-unknown controls and rejects stage deletion, reordering, candidate substitution,
 broken predecessor links, and unavailable backends. This completes all five wrong-formula backend
