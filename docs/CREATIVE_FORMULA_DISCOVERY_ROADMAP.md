@@ -32,8 +32,12 @@
 - The first 24-task paired live generation completed 96 retained Opus calls, 358,226 tokens, and 48
   arm-free review outputs. Its 348 raw branches remain unscored. A source-identical task retry added
   3–4 discarded calls; the bound deviation therefore makes this a blinded pilot, not confirmatory
-  evidence that the new system is more creative. Two named reviews are still required before arm
-  unblinding, and a clean new rotation is required for the preregistered decision rule.
+  evidence that the new system is more creative.
+- A clean confirmatory rotation then completed all 96 scheduled Opus calls with no retries or
+  replacements, used 361,460 tokens, and sealed 48 arm-free outputs containing 353 branches. One
+  zero-idea output is retained as a counted `all_proposals_rejected_outcome`, not repaired by another
+  model call. Generation is eligible, but remains unscored and arm identities remain private until
+  two specifically named reviewers complete and seal all 353 branch ratings.
 
 ## Definition of creative progress
 
@@ -52,15 +56,20 @@ primary improvement, a one-sided sign-test threshold of 0.05, and typed-usabilit
 Component knockouts isolate lineage labels, non-pruning, expanded grammar, and independent
 proof/recombination search.
 
-The executable two-arm generation configuration is
-[`configs/creativity_tournament_generation.json`](../configs/creativity_tournament_generation.json).
+The clean executable two-arm configuration is
+[`configs/creativity_confirmatory_generation.json`](../configs/creativity_confirmatory_generation.json).
 It freezes 24 sequence tasks, 48 Claude calls per arm, exact proposer/critic coverage, interleaved arm
-order, HMAC-blinded public outputs, and a resumable private coordinator. Scoring must deduplicate by
-behavior hash before counting useful yield so extra proof routes cannot masquerade as extra formula
-ideas. Reviewers judge usefulness, not literature novelty. After unblinding, report paired per-task
-deltas, the preregistered one-sided sign test, the 20% effect threshold, token-normalized yield, and
-typed-usability noninferiority. Treat this as one rotation: repeat with new packs and finish the four
-component knockouts before making a system-wide comparison.
+order, HMAC-blinded public outputs, append-before-validation attempt evidence, and a private
+coordinator. The review and scoring contract is
+[`configs/creativity_confirmatory_scoring.json`](../configs/creativity_confirmatory_scoring.json).
+It requires two complete, specifically named, distinct review forms before the scorer reads the
+private journal or arm map. Scoring deduplicates by behavior hash before counting useful yield so
+extra proof routes cannot masquerade as extra formula ideas. Proof mechanisms remain a separately
+reported secondary measure. Reviewers judge usefulness, not literature novelty. After unblinding,
+the scorer reports paired per-task deltas, the preregistered one-sided sign test, the 20% effect
+threshold, token-normalized yield, typed-usability noninferiority, and reviewer disagreement. The
+receipt can state only whether this bounded rotation passed its primary rule. Repeat with new packs
+and finish the four component knockouts before making a system-wide comparison.
 
 ## Definition of a bounded mathematical success
 
@@ -202,8 +211,9 @@ This is evidence of bounded rediscovery, not evidence of mathematical novelty.
 
 ## Next executable milestones
 
-1. Run the 24-task paired old-vs-new creativity tournament and its four component knockouts.
-2. Obtain two named blinded reviewers and record disagreements before unblinding system identity.
+1. Obtain two named blinded reviewers for the clean 353-branch packet, seal their complete forms,
+   and score the bounded rotation; record disagreements before unblinding system identity.
+2. Run the four preregistered component knockouts under the same attempt-journal and review rules.
 3. Extend the live rotating external pack from recurrence, generating-function, sum/product,
    modular, and representation-bridge tasks to separately maintained tensor and variational packs;
    obtain a detached signature from a distinct pack principal before level-5 use.
