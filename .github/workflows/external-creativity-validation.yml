@@ -8,26 +8,35 @@ on:
       - "configs/core_creative_discovery.json"
       - "configs/creative_dataset_challenges.json"
       - "configs/creativity_ablation_protocol.json"
+      - "configs/claim_specific_prior_art.json"
+      - "configs/claims/**"
       - "configs/declarative_extension_candidates.json"
+      - "configs/rotating_external_benchmark_pack.json"
       - "formal/lean/ExternalKnownFormulaControls.lean"
       - "pyproject.toml"
       - "src/sigma_theory_compiler/claude_creativity_api.py"
       - "src/sigma_theory_compiler/core_*.py"
       - "src/sigma_theory_compiler/creative_expansion.py"
       - "src/sigma_theory_compiler/creativity_ablation.py"
+      - "src/sigma_theory_compiler/claim_specific_prior_art.py"
       - "src/sigma_theory_compiler/dataset_challenge_suite.py"
       - "src/sigma_theory_compiler/declarative_discovery_*.py"
       - "src/sigma_theory_compiler/idea_lineage.py"
+      - "src/sigma_theory_compiler/rotating_external_benchmarks.py"
       - "src/sigma_theory_compiler/external_creativity_*.py"
       - "src/sigma_theory_compiler/independent_exact_evaluator.py"
       - "tests/test_claude_creativity_api.py"
       - "tests/test_core_*.py"
       - "tests/test_creative_expansion.py"
       - "tests/test_creativity_ablation.py"
+      - "tests/test_claim_specific_prior_art.py"
       - "tests/test_dataset_challenge_suite.py"
       - "tests/test_declarative_discovery_*.py"
       - "tests/test_external_creativity_*.py"
       - "tests/test_independent_exact_evaluator.py"
+      - "tests/test_rotating_external_benchmarks.py"
+      - "runs/math/claim-specific-prior-art/**"
+      - "runs/math/rotating-external-benchmarks/**"
   push:
     branches: [main]
     paths:
@@ -36,26 +45,35 @@ on:
       - "configs/core_creative_discovery.json"
       - "configs/creative_dataset_challenges.json"
       - "configs/creativity_ablation_protocol.json"
+      - "configs/claim_specific_prior_art.json"
+      - "configs/claims/**"
       - "configs/declarative_extension_candidates.json"
+      - "configs/rotating_external_benchmark_pack.json"
       - "formal/lean/ExternalKnownFormulaControls.lean"
       - "pyproject.toml"
       - "src/sigma_theory_compiler/claude_creativity_api.py"
       - "src/sigma_theory_compiler/core_*.py"
       - "src/sigma_theory_compiler/creative_expansion.py"
       - "src/sigma_theory_compiler/creativity_ablation.py"
+      - "src/sigma_theory_compiler/claim_specific_prior_art.py"
       - "src/sigma_theory_compiler/dataset_challenge_suite.py"
       - "src/sigma_theory_compiler/declarative_discovery_*.py"
       - "src/sigma_theory_compiler/idea_lineage.py"
+      - "src/sigma_theory_compiler/rotating_external_benchmarks.py"
       - "src/sigma_theory_compiler/external_creativity_*.py"
       - "src/sigma_theory_compiler/independent_exact_evaluator.py"
       - "tests/test_claude_creativity_api.py"
       - "tests/test_core_*.py"
       - "tests/test_creative_expansion.py"
       - "tests/test_creativity_ablation.py"
+      - "tests/test_claim_specific_prior_art.py"
       - "tests/test_dataset_challenge_suite.py"
       - "tests/test_declarative_discovery_*.py"
       - "tests/test_external_creativity_*.py"
       - "tests/test_independent_exact_evaluator.py"
+      - "tests/test_rotating_external_benchmarks.py"
+      - "runs/math/claim-specific-prior-art/**"
+      - "runs/math/rotating-external-benchmarks/**"
   workflow_dispatch:
 
 permissions:
@@ -89,9 +107,21 @@ jobs:
           tests/test_core_creative_discovery.py
           tests/test_creative_expansion.py
           tests/test_creativity_ablation.py
+          tests/test_claim_specific_prior_art.py
           tests/test_dataset_challenge_suite.py
+          tests/test_rotating_external_benchmarks.py
           tests/test_declarative_discovery_runtime.py
           tests/test_declarative_discovery_operational_campaign.py
+      - run: >-
+          python -m sigma_theory_compiler.claim_specific_prior_art validate
+          --root .
+          --receipt runs/math/claim-specific-prior-art/live-uncertain-recaman.json
+      - run: >-
+          python -m sigma_theory_compiler.rotating_external_benchmarks validate
+          --root .
+          --generation runs/math/rotating-external-benchmarks/2026-08-23-001-generation.json
+          --targets runs/math/rotating-external-benchmarks/2026-08-23-001-targets.json
+          --receipt runs/math/rotating-external-benchmarks/2026-08-23-001-receipt.json
       - run: >-
           python -m sigma_theory_compiler.external_creativity_validation
           --output external-creativity-${{ matrix.os }}-${{ matrix.python }}.json
