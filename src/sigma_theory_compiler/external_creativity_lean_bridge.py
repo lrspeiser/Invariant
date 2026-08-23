@@ -62,7 +62,12 @@ _HEX_64 = re.compile(r"[0-9a-f]{64}\Z")
 
 
 def _file_sha256(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    raw = path.read_bytes()
+    try:
+        raw = raw.decode("utf-8").replace("\r\n", "\n").replace("\r", "\n").encode("utf-8")
+    except UnicodeDecodeError:
+        pass
+    return hashlib.sha256(raw).hexdigest()
 
 
 def _under(root: Path, relative: str) -> Path:

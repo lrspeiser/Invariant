@@ -1340,11 +1340,12 @@ The serious-claim ladder binds one candidate scope through the ordered exact-ari
 interval, and Lean stages. Its stored calibration joins the two externally authored known-formula
 controls to the downloaded kernel artifact, independently reruns the first four positive checks, and
 rejects an exact unit-offset wrong formula for both controls in exact arithmetic, CAS, SMT, and
-interval arithmetic. It also blocks both bounded-unknown controls and rejects stage deletion,
-reordering, candidate substitution, broken predecessor links, and unavailable backends. A separate
-Lean kernel-rejection artifact for the wrong-formula mutation remains explicitly pending and is
-required before the mutation ladder can be called complete. This proves that the bounded gate can
-fail closed; it does not verify a new candidate or establish novelty.
+interval arithmetic. GitHub Actions run `32645445686` additionally kernel-rejects both corresponding
+Lean false theorems; the downloaded payload, artifact ID `9494746948`, archive digest, source hashes,
+head commit, runner identity, and two rejection receipts are bound into the stored ladder. It also
+blocks both bounded-unknown controls and rejects stage deletion, reordering, candidate substitution,
+broken predecessor links, and unavailable backends. This completes all five wrong-formula backend
+controls for the two known formulas. It does not verify a new candidate or establish novelty.
 
 Run or resume the paired live generation stage with the machine-local credential file:
 

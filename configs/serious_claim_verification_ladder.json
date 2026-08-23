@@ -1,5 +1,5 @@
 {
-  "schema_version": "invariant-serious-claim-verification-ladder-config-1.1",
+  "schema_version": "invariant-serious-claim-verification-ladder-config-1.2",
   "ladder_id": "candidate-bound-exact-cas-smt-interval-lean-001",
   "required_stage_order": [
     "exact_arithmetic",
@@ -10,6 +10,7 @@
   ],
   "sources": {
     "campaign_receipt": "runs/math/external-creativity-validation/campaign.json",
+    "lean_ci_artifact": "runs/math/external-creativity-known-controls-lean/ci-artifact-run-32645445686.json",
     "multi_host_receipt": "runs/math/external-creativity-validation/multi-host-reproduction.json",
     "lean_source": "formal/lean/ExternalKnownFormulaControls.lean",
     "public_benchmarks": "configs/external_sealed_creativity_benchmarks.json",
@@ -43,9 +44,22 @@
       "exact_arithmetic",
       "cas",
       "smt",
-      "interval"
+      "interval",
+      "lean"
     ],
-    "lean_status": "PENDING_SEPARATE_CI_ARTIFACT"
+    "lean_status": "PASS_CI_KERNEL_REJECTION_ARTIFACT_BOUND",
+    "lean_artifact_binding": {
+      "artifact_archive_digest": "sha256:18d773409beec4b45f6ac9ee63bcaa6714389fa5f4ccaf4e63a300d16e4f0d39",
+      "artifact_created_at": "2026-08-23T14:27:55Z",
+      "artifact_file_sha256": "1b17c1e85d789f11a388bdd9b7922bfa75d7f81598aa2eb0b428b61ffb0b6348",
+      "artifact_id": 9494746948,
+      "artifact_name": "external-creativity-lean",
+      "head_branch": "feat/lean-wrong-formula-artifact",
+      "head_sha": "dacfba743a29fd92b4fcdedf9fa620d23b2400cb",
+      "run_attempt": 1,
+      "run_id": 32645445686,
+      "workflow_run_url": "https://github.com/lrspeiser/Invariant/actions/runs/32645445686"
+    }
   },
   "release_policy": {
     "candidate_identity_bound_at_every_stage": true,

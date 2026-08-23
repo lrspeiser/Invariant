@@ -13,6 +13,7 @@ import hashlib
 import json
 import os
 from collections.abc import Callable, Mapping, Sequence
+from copy import deepcopy
 from pathlib import Path
 from typing import Any
 
@@ -44,8 +45,8 @@ from .sigma_core import canonical_sha256
 
 CONFIG_PATH = "configs/core_creative_discovery.json"
 OUTPUT_PATH = "runs/math/core-creative-discovery/live-runtime.json"
-SCHEMA_VERSION = "invariant-core-creative-discovery-runtime-1.3"
-CONFIG_SCHEMA = "invariant-core-creative-discovery-config-1.3"
+SCHEMA_VERSION = "invariant-core-creative-discovery-runtime-1.4"
+CONFIG_SCHEMA = "invariant-core-creative-discovery-config-1.4"
 
 
 class CoreCreativeDiscoveryError(ValueError):
@@ -359,6 +360,99 @@ def run_core(
     return body
 
 
+def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, Any]:
+    """Rebind sanitized live LLM evidence after deterministic gate receipts advance."""
+
+    root = root.resolve()
+    previous_body = {key: item for key, item in previous.items() if key != "content_sha256"}
+    if (
+        previous.get("content_sha256") != canonical_sha256(previous_body)
+        or previous.get("schema_version")
+        not in {"invariant-core-creative-discovery-runtime-1.3", SCHEMA_VERSION}
+        or previous.get("app_id") != "invariant.core-creative-discovery"
+    ):
+        raise CoreCreativeDiscoveryError(
+            "previous core runtime receipt is not a sealed predecessor"
+        )
+    runtime = previous.get("claude_runtime", {})
+    credential = previous.get("credential_activation", {})
+    if (
+        runtime.get("status") != "PASS_REQUIRED_CORE_PARTICIPATION"
+        or runtime.get("authenticated_messages_api_working") is not True
+        or runtime.get("completed_calls", 0) < 8
+        or credential.get("credential_persisted") is not False
+        or credential.get("credential_value_recorded") is not False
+    ):
+        raise CoreCreativeDiscoveryError("previous core LLM evidence is not reusable")
+    validate_evidence(runtime["evidence"])
+    config = _load_config(root)
+    (
+        operational,
+        multi_host,
+        expanded_grammar,
+        dataset_challenges,
+        proof_plan_search,
+        serious_claim_ladder,
+    ) = _load_bound_receipts(root, config)
+    value = deepcopy(dict(previous))
+    value["schema_version"] = SCHEMA_VERSION
+    value["source_bindings"] = {
+        "config": {"path": CONFIG_PATH, "sha256": _normalized_file_sha256(root / CONFIG_PATH)},
+        "dataset_challenge_receipt": {
+            "content_sha256": dataset_challenges["content_sha256"],
+            "path": config["components"]["dataset_challenge_receipt"],
+        },
+        "declarative_operational_receipt": {
+            "content_sha256": operational["content_sha256"],
+            "path": config["components"]["declarative_operational_receipt"],
+        },
+        "multi_host_reproduction_receipt": {
+            "content_sha256": multi_host["content_sha256"],
+            "path": config["components"]["multi_host_reproduction_receipt"],
+        },
+        "expanded_typed_grammar_receipt": {
+            "content_sha256": expanded_grammar["content_sha256"],
+            "path": config["components"]["expanded_typed_grammar_receipt"],
+        },
+        "proof_plan_search_receipt": {
+            "content_sha256": proof_plan_search["content_sha256"],
+            "path": config["components"]["proof_plan_search_receipt"],
+        },
+        "serious_claim_verification_ladder_receipt": {
+            "content_sha256": serious_claim_ladder["content_sha256"],
+            "path": config["components"]["serious_claim_verification_ladder_receipt"],
+        },
+    }
+    value["dataset_challenges"] = dataset_challenges
+    value["proof_plan_search"] = proof_plan_search
+    value["verification"] = {
+        "backends_required_for_serious_claim": config["release_policy"][
+            "required_serious_claim_backends"
+        ],
+        "multi_host_status": multi_host["reproduction"]["status"],
+        "received_machines": multi_host["reproduction"]["received_machines"],
+        "lean_kernel_checked": multi_host["lean"]["kernel_checked"],
+        "serious_claim_ladder_status": serious_claim_ladder["summary"]["status"],
+        "serious_claim_backend_mutations_rejected": serious_claim_ladder["summary"][
+            "backend_mathematical_mutations_rejected"
+        ],
+        "serious_claim_lean_mutation_artifact_bound": serious_claim_ladder["summary"][
+            "lean_kernel_mutation_artifact_bound"
+        ],
+        "serious_claim_required_stage_order": serious_claim_ladder["summary"][
+            "required_stage_order"
+        ],
+        "serious_claims_released_by_ladder": serious_claim_ladder["release_gate"][
+            "serious_claims_released"
+        ],
+    }
+    value["content_sha256"] = canonical_sha256(
+        {key: item for key, item in value.items() if key != "content_sha256"}
+    )
+    validate_receipt(value, root)
+    return value
+
+
 def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None:
     body = {key: item for key, item in value.items() if key != "content_sha256"}
     if value.get("content_sha256") != canonical_sha256(body):
@@ -428,8 +522,8 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
         or verification.get("lean_kernel_checked") is not True
         or verification.get("serious_claim_ladder_status")
         != "PASS_CANDIDATE_BOUND_LADDER_CALIBRATION"
-        or verification.get("serious_claim_backend_mutations_rejected") != 8
-        or verification.get("serious_claim_lean_mutation_artifact_bound") is not False
+        or verification.get("serious_claim_backend_mutations_rejected") != 10
+        or verification.get("serious_claim_lean_mutation_artifact_bound") is not True
         or tuple(verification.get("serious_claim_required_stage_order", ())) != SERIOUS_CLAIM_STAGES
         or verification.get("serious_claims_released_by_ladder") != 0
     ):
@@ -479,6 +573,12 @@ def main(argv: Sequence[str] | None = None) -> int:
     run.add_argument("--root", type=Path, default=Path.cwd())
     run.add_argument("--credential-file", type=Path)
     run.add_argument("--output", type=Path, default=Path(OUTPUT_PATH))
+    rebind = subparsers.add_parser(
+        "rebind", help="preserve sanitized LLM evidence while rebinding deterministic gates"
+    )
+    rebind.add_argument("--root", type=Path, default=Path.cwd())
+    rebind.add_argument("--previous", type=Path, default=Path(OUTPUT_PATH))
+    rebind.add_argument("--output", type=Path, default=Path(OUTPUT_PATH))
     validate = subparsers.add_parser("validate", help="validate a sanitized core receipt")
     validate.add_argument("--receipt", type=Path, default=Path(OUTPUT_PATH))
     validate.add_argument("--root", type=Path, default=Path.cwd())
@@ -486,6 +586,14 @@ def main(argv: Sequence[str] | None = None) -> int:
     if args.command == "validate":
         receipt = json.loads(args.receipt.read_text(encoding="utf-8"))
         validate_receipt(receipt, args.root)
+    elif args.command == "rebind":
+        previous_path = args.previous if args.previous.is_absolute() else args.root / args.previous
+        receipt = rebind_core_receipt(
+            args.root, json.loads(previous_path.read_text(encoding="utf-8"))
+        )
+        output = args.output if args.output.is_absolute() else args.root / args.output
+        output.parent.mkdir(parents=True, exist_ok=True)
+        output.write_text(json.dumps(receipt, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     else:
         receipt = run_core(args.root, credential_file=args.credential_file)
         output = args.output if args.output.is_absolute() else args.root / args.output

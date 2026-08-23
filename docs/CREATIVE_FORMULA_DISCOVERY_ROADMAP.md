@@ -37,10 +37,11 @@
 - A candidate-bound release ladder now joins the two known controls through the ordered exact
   arithmetic, CAS, SMT, interval, and downloaded Lean-kernel evidence. It blocks both bounded-
   unknown controls and rejects five structural mutations: missing or reordered stages, candidate
-  substitution, broken predecessor binding, and backend unavailability. The positive Lean source is
-  checked by CI; a separate kernel artifact rejecting the wrong-formula mutation remains explicitly
-  pending and required for serious claims. This is gate calibration, not verification of a new
-  candidate or permission to release a serious claim.
+  substitution, broken predecessor binding, and backend unavailability. A Linux GitHub Actions job
+  checks the positive Lean source and independently rejects candidate-specific unit-offset false
+  theorems for both controls. Its downloaded receipt is bound by artifact ID, archive digest, run,
+  head commit, source hashes, and rejection seals. This is gate calibration, not verification of a
+  new candidate or permission to release a serious claim.
 - Downloaded artifacts bind four distinct GitHub-hosted ephemeral VM runner IDs across Windows and
   Linux, with two evaluator implementations per host and a separate Lean kernel artifact. This is
   multi-host VM reproduction, not a claim about distinct bare-metal machines.
@@ -200,9 +201,10 @@ This is evidence of bounded rediscovery, not evidence of mathematical novelty.
   predecessor hashes, backend availability, and a positive result at every stage. New candidates
   remain blocked until they supply their own complete chain. Exact arithmetic, CAS, SMT, and interval
   arithmetic now rerun the positive controls and reject two candidate-specific wrong-formula
-  mutations apiece. The remaining backend-mutation gap is a downloaded Lean kernel artifact that
-  demonstrates rejection of the corresponding false theorem rather than only proving the positive
-  controls.
+  mutations apiece. The downloaded Lean artifact also demonstrates two corresponding kernel
+  rejections, so the known-control calibration now has ten mathematical mutation rejections across
+  five backends. The serious-claim gate remains closed because these are known controls rather than
+  a new candidate, and named human prior-art review plus independent reproduction are still required.
 - Block serious claims unless every required stage passes; “backend unavailable” is a block, not a
   pass.
 

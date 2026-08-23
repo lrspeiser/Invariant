@@ -192,8 +192,8 @@ def test_core_run_requires_and_sanitizes_live_claude(
         "lean",
     ]
     assert receipt["verification"]["serious_claims_released_by_ladder"] == 0
-    assert receipt["verification"]["serious_claim_backend_mutations_rejected"] == 8
-    assert receipt["verification"]["serious_claim_lean_mutation_artifact_bound"] is False
+    assert receipt["verification"]["serious_claim_backend_mutations_rejected"] == 10
+    assert receipt["verification"]["serious_claim_lean_mutation_artifact_bound"] is True
     assert all(
         idea["retention_status"] == "RETAINED_ACTIVE"
         for idea in receipt["idea_lineage_archive"]["ideas"]
@@ -219,3 +219,13 @@ def test_core_receipt_fails_when_claude_health_claim_is_removed() -> None:
 def test_stored_live_core_receipt_validates_against_current_bound_sources() -> None:
     receipt = json.loads((ROOT / C.OUTPUT_PATH).read_text(encoding="utf-8"))
     C.validate_receipt(receipt, ROOT)
+
+
+def test_deterministic_rebind_preserves_authenticated_llm_evidence() -> None:
+    receipt = json.loads((ROOT / C.OUTPUT_PATH).read_text(encoding="utf-8"))
+    rebound = C.rebind_core_receipt(ROOT, receipt)
+    assert rebound == receipt
+    assert rebound["claude_runtime"] == receipt["claude_runtime"]
+    assert rebound["idea_lineage_archive"] == receipt["idea_lineage_archive"]
+    assert rebound["verification"]["serious_claim_backend_mutations_rejected"] == 10
+    assert rebound["verification"]["serious_claim_lean_mutation_artifact_bound"] is True

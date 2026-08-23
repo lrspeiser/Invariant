@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from copy import deepcopy
 from pathlib import Path
 
 import pytest
@@ -45,9 +46,9 @@ def test_stored_ladder_is_candidate_bound_ordered_and_fail_closed() -> None:
     for left, right in zip(chain["stages"], chain["stages"][1:]):
         assert right["previous_stage_sha256"] == left["content_sha256"]
     assert value["summary"] == {
-        "backend_mathematical_mutations_rejected": 8,
+        "backend_mathematical_mutations_rejected": 10,
         "known_control_candidates": 2,
-        "lean_kernel_mutation_artifact_bound": False,
+        "lean_kernel_mutation_artifact_bound": True,
         "negative_controls_blocked": 2,
         "required_stage_order": list(L.REQUIRED_STAGES),
         "structural_mutations_rejected": 5,
@@ -79,17 +80,33 @@ def test_first_four_backends_rerun_positives_and_reject_candidate_specific_wrong
             assert mutation["wrong_formula_rejected"] is True
 
 
-def test_lean_wrong_formula_kernel_artifact_is_explicitly_pending_and_blocks_completion() -> None:
+def test_lean_wrong_formula_kernel_artifact_binds_two_ci_rejections() -> None:
     value = json.loads(RECEIPT.read_text(encoding="utf-8"))
     lean = value["known_control_chain"]["stages"][-1]["evidence"]
-    assert lean["wrong_formula_kernel_control"] == {
-        "artifact_bound": False,
-        "required_for_serious_claim": True,
-        "status": "PENDING_SEPARATE_CI_ARTIFACT",
-    }
-    assert value["claims"]["all_five_backend_mutations_complete"] is False
+    control = lean["wrong_formula_kernel_control"]
+    assert control["artifact_bound"] is True
+    assert control["required_for_serious_claim"] is True
+    assert control["status"] == "PASS_CI_KERNEL_REJECTION_ARTIFACT_BOUND"
+    assert control["artifact_content_sha256"] == (
+        "4038ebe60cec64ef1d1947f504e98e91b1bd3610ee88f55902883ec9618aaa28"
+    )
+    assert control["artifact_registry_binding"]["artifact_id"] == 9494746948
+    assert control["artifact_registry_binding"]["run_id"] == 32645445686
+    assert control["artifact_registry_binding"]["head_sha"] == (
+        "dacfba743a29fd92b4fcdedf9fa620d23b2400cb"
+    )
+    assert len(control["controls"]) == 2
+    assert all(item["outcome"] == "REJECTED_BY_LEAN_KERNEL" for item in control["controls"])
+    assert value["claims"]["all_five_backend_mutations_complete"] is True
     assert value["release_gate"]["lean_wrong_formula_artifact_required"] is True
     assert value["release_gate"]["serious_claims_released"] == 0
+
+
+def test_lean_ci_registry_substitution_fails_against_downloaded_artifact() -> None:
+    config = deepcopy(L.load_config(ROOT))
+    config["mathematical_wrong_formula_control"]["lean_artifact_binding"]["head_sha"] = "0" * 40
+    with pytest.raises(L.SeriousClaimVerificationError, match="registry binding"):
+        L._lean_ci_artifact(ROOT, config)
 
 
 def test_semantically_resealed_wrong_formula_witness_tamper_fails_against_sources() -> None:
