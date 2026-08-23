@@ -1210,6 +1210,25 @@ request, and every response or failure is sealed. The formula and proof remain u
 specifically named human reviews the nearest matches; automated absence can never authorize
 novelty language.
 
+The paired tournament runner compares the frozen pre-creativity baseline with the creativity-first
+policy on all 24 rotating tasks. It interleaves arms, gives each arm the same Opus model, effort,
+calls, token ceiling, timeout, grammar depth, and verifier allocation, and reads only the generation
+packet. It emits 48 HMAC-blinded outputs for two named reviewers. Arm identity and raw Claude traces
+remain in an ignored private coordinator until reviews are complete. The primary measure is useful
+distinct behavior branches per 10,000 tokens; proof-route diversity, representation coverage, and
+productive reuse of initially blocked ideas remain separate secondary measures. This sequence-only
+run cannot by itself establish that the whole system is more creative: the preregistered dataset
+controls, component knockouts, holdout verification, repeated rotations, and paired significance
+rule still apply.
+
+The first live execution completed 96 retained Messages API calls across 24 tasks, used 358,226
+tokens, and sealed 48 blinded system outputs containing 348 raw proof/formula branches. Those are
+generation counts, not creativity wins. One source-identical task retry added 3–4 discarded calls,
+so [`pilot-deviation.json`](runs/math/creativity-tournament/pilot-deviation.json) marks this packet
+eligible for rubric calibration and blinded pilot review but ineligible for the confirmatory
+old-vs-new decision. A clean new rotation must persist every attempt and count contract failures as
+outcomes.
+
 Run the replayable, network-free campaign with:
 
 ```powershell
@@ -1224,6 +1243,29 @@ sigma-rotate-benchmarks validate --root . `
   --generation runs/math/rotating-external-benchmarks/2026-08-23-001-generation.json `
   --targets runs/math/rotating-external-benchmarks/2026-08-23-001-targets.json `
   --receipt runs/math/rotating-external-benchmarks/2026-08-23-001-receipt.json
+```
+
+Run or resume the paired live generation stage with the machine-local credential file:
+
+```powershell
+sigma-creativity-tournament run --root . `
+  --credential-file C:\Users\henry\.invariant.env `
+  --review-output runs/math/creativity-tournament/paired-review-packet.json `
+  --receipt-output runs/math/creativity-tournament/paired-generation-receipt.json `
+  --coordinator-output work/creativity-tournament/private-coordinator.json
+```
+
+The coordinator path is forced under ignored `work/`; while a run is incomplete it doubles as an
+atomic task-level checkpoint, and on completion it becomes the sealed unblinding map. Neither it nor
+the credential belongs in Git.
+
+Revalidate the public pilot packet without opening the private arm map:
+
+```powershell
+$repo = (Get-Location).Path
+sigma-creativity-tournament validate --root $repo `
+  --review-packet runs/math/creativity-tournament/paired-review-packet.json `
+  --receipt runs/math/creativity-tournament/paired-generation-receipt.json
 ```
 
 For an explicitly authorized live run, load `ANTHROPIC_API_KEY` from a secret outside the repository
