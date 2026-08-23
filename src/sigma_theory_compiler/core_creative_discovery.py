@@ -71,8 +71,8 @@ from .uncertain_invariant_discovery import (
 CONFIG_PATH = "configs/core_creative_discovery.json"
 OUTPUT_PATH = "runs/math/core-creative-discovery/live-runtime.json"
 PROMPT_CONTEXT_SOURCE_PATH = "src/sigma_theory_compiler/core_creative_prompt_context.py"
-SCHEMA_VERSION = "invariant-core-creative-discovery-runtime-2.3"
-CONFIG_SCHEMA = "invariant-core-creative-discovery-config-2.3"
+SCHEMA_VERSION = "invariant-core-creative-discovery-runtime-2.4"
+CONFIG_SCHEMA = "invariant-core-creative-discovery-config-2.4"
 
 
 class CoreCreativeDiscoveryError(ValueError):
@@ -580,6 +580,9 @@ def run_core(
                 "censored_controls"
             ],
             "uncertain_invariant_controls": uncertain_invariants["summary"]["controls"],
+            "uncertain_invariant_dependent_joint_controls": uncertain_invariants[
+                "summary"
+            ]["dependent_joint_controls"],
             "uncertain_invariant_deployment_failed_candidates": uncertain_invariants[
                 "summary"
             ]["deployment_failed_candidates"],
@@ -589,6 +592,9 @@ def run_core(
             "uncertain_invariant_missingness_controls": uncertain_invariants["summary"][
                 "missingness_controls"
             ],
+            "uncertain_invariant_marginal_false_positives_rejected": uncertain_invariants[
+                "summary"
+            ]["marginal_false_positive_candidates_rejected"],
             "uncertain_invariant_noisy_controls": uncertain_invariants["summary"][
                 "noisy_controls"
             ],
@@ -596,6 +602,12 @@ def run_core(
             "uncertain_invariant_training_candidates_retained": uncertain_invariants[
                 "summary"
             ]["training_candidates_retained"],
+            "uncertain_invariant_unit_hypothesis_branches_retained": uncertain_invariants[
+                "summary"
+            ]["unit_hypothesis_branches_retained"],
+            "uncertain_invariant_unit_uncertainty_controls": uncertain_invariants[
+                "summary"
+            ]["unit_uncertainty_controls"],
             "independent_proof_plan_mechanisms": proof_plan_search["summary"]["mechanisms"],
             "independent_proof_plan_mutations_rejected": proof_plan_search["summary"][
                 "mutation_controls_rejected"
@@ -692,6 +704,7 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
             "invariant-core-creative-discovery-runtime-2.0",
             "invariant-core-creative-discovery-runtime-2.1",
             "invariant-core-creative-discovery-runtime-2.2",
+            "invariant-core-creative-discovery-runtime-2.3",
             SCHEMA_VERSION,
         }
         or previous.get("app_id") != "invariant.core-creative-discovery"
@@ -898,6 +911,9 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
             "censored_controls"
         ],
         "uncertain_invariant_controls": uncertain_invariants["summary"]["controls"],
+        "uncertain_invariant_dependent_joint_controls": uncertain_invariants["summary"][
+            "dependent_joint_controls"
+        ],
         "uncertain_invariant_deployment_failed_candidates": uncertain_invariants["summary"][
             "deployment_failed_candidates"
         ],
@@ -907,12 +923,21 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
         "uncertain_invariant_missingness_controls": uncertain_invariants["summary"][
             "missingness_controls"
         ],
+        "uncertain_invariant_marginal_false_positives_rejected": uncertain_invariants[
+            "summary"
+        ]["marginal_false_positive_candidates_rejected"],
         "uncertain_invariant_noisy_controls": uncertain_invariants["summary"][
             "noisy_controls"
         ],
         "uncertain_invariant_status": uncertain_invariants["summary"]["status"],
         "uncertain_invariant_training_candidates_retained": uncertain_invariants["summary"][
             "training_candidates_retained"
+        ],
+        "uncertain_invariant_unit_hypothesis_branches_retained": uncertain_invariants[
+            "summary"
+        ]["unit_hypothesis_branches_retained"],
+        "uncertain_invariant_unit_uncertainty_controls": uncertain_invariants["summary"][
+            "unit_uncertainty_controls"
         ],
     }
     value["verification"] = {
@@ -1087,14 +1112,18 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
         != "PASS_EXACT_MATRIX_AND_NONLINEAR_STATE_PAIR_CONTROLS"
         or discovery.get("state_pair_target_blind_controls") != 3
         or discovery.get("uncertain_invariant_censored_controls") != 1
-        or discovery.get("uncertain_invariant_controls") != 3
-        or discovery.get("uncertain_invariant_deployment_failed_candidates") != 3
-        or discovery.get("uncertain_invariant_deployment_surviving_candidates") != 3
+        or discovery.get("uncertain_invariant_controls") != 5
+        or discovery.get("uncertain_invariant_dependent_joint_controls") != 1
+        or discovery.get("uncertain_invariant_deployment_failed_candidates") != 4
+        or discovery.get("uncertain_invariant_deployment_surviving_candidates") != 5
         or discovery.get("uncertain_invariant_missingness_controls") != 1
+        or discovery.get("uncertain_invariant_marginal_false_positives_rejected") != 3
         or discovery.get("uncertain_invariant_noisy_controls") != 1
         or discovery.get("uncertain_invariant_status")
-        != "PASS_UNCERTAIN_INVARIANT_BRANCH_CONTROLS"
-        or discovery.get("uncertain_invariant_training_candidates_retained") != 6
+        != "PASS_COUPLED_UNCERTAIN_INVARIANT_BRANCH_CONTROLS"
+        or discovery.get("uncertain_invariant_training_candidates_retained") != 9
+        or discovery.get("uncertain_invariant_unit_hypothesis_branches_retained") != 2
+        or discovery.get("uncertain_invariant_unit_uncertainty_controls") != 1
         or discovery.get("independent_proof_plan_mechanisms")
         != [
             "induction",

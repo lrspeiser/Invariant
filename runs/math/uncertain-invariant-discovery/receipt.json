@@ -1,17 +1,19 @@
 {
-  "campaign_id": "uncertain-invariant-controls-2026-08-23-001",
+  "campaign_id": "uncertain-invariant-controls-2026-08-23-002",
   "claims": {
+    "dependent_observations_factorized": false,
     "empirical_law_discovered": false,
     "literature_novelty_established": false,
     "target_used_for_learning": false,
     "uncertainty_resolved_by_assumption": false,
-    "unique_formula_identified": false
+    "unique_formula_identified": false,
+    "unit_hypothesis_selected_without_evidence": false
   },
-  "content_sha256": "6450e744b70d1ae761eade031a51d13eb6941445dd9f3f7a6e4dfed4e77d0dad",
+  "content_sha256": "a9f6693ef197cbe6b09fc152d4a389964a4e3f2b90f991ca1577ad4b59c6068a",
   "release_gate": {
     "creative_context_ready": true,
     "serious_claim_released": false,
-    "status": "PASS_UNCERTAIN_CONTROLS_NO_LAW_OR_NOVELTY_CLAIM"
+    "status": "PASS_COUPLED_AND_UNIT_UNCERTAINTY_NO_LAW_OR_NOVELTY_CLAIM"
   },
   "results": [
     {
@@ -21,7 +23,8 @@
           "a**2/b",
           "a*c/b**2"
         ],
-        "constraint_statement": "Retain every training-compatible coordinate. Keep exact-deployment failures as repair or recombination branches; noise intervals, missing values, and censoring create set-valued evidence rather than permission to force a winner.",
+        "constraint_statement": "Retain every evidence-compatible coordinate and its dependence or unit branch. Keep exact-deployment failures as repair or recombination branches; uncertainty creates set-valued evidence rather than permission to force a winner.",
+        "dependence_semantics": "independent_marginal_bounds",
         "deployment_surviving_coordinates": [
           "a*b/c"
         ],
@@ -32,8 +35,28 @@
           "proposed_new_construction",
           "uncertain"
         ],
-        "novelty_caution": "Uncertainty compatibility is neither an empirical law nor evidence of literature novelty; all three problems are synthetic calibration controls.",
-        "observation_mode": "noisy_interval"
+        "novelty_caution": "Uncertainty compatibility is neither an empirical law nor evidence of literature novelty; all five problems are synthetic calibration controls.",
+        "observation_mode": "noisy_interval",
+        "retained_evidence_branches": [
+          {
+            "branch_ids": [
+              "independent_marginal_bounds"
+            ],
+            "expression": "a*b/c"
+          },
+          {
+            "branch_ids": [
+              "independent_marginal_bounds"
+            ],
+            "expression": "a**2/b"
+          },
+          {
+            "branch_ids": [
+              "independent_marginal_bounds"
+            ],
+            "expression": "a*c/b**2"
+          }
+        ]
       },
       "deployment": {
         "failed_candidates": 2,
@@ -115,7 +138,10 @@
       "independent_evaluators": {
         "agreement": true,
         "finite_bounded_corner_checks": 12,
-        "interval_monotonicity_replays": 12
+        "global_unit_hypothesis_branches": 0,
+        "interval_monotonicity_replays": 12,
+        "joint_atom_replays": 0,
+        "marginal_false_positive_candidates_rejected": 0
       },
       "observation_mode": "noisy_interval",
       "problem_id": "control.noisy-ratio-action",
@@ -123,7 +149,8 @@
         "deployment_filter_matched": true,
         "expected_status_matched": true,
         "target_visible_to_learner": false,
-        "training_candidate_set_matched": true
+        "training_candidate_set_matched": true,
+        "unit_hypothesis_branches_matched": true
       },
       "status": "NOISY_RETAIN_INTERVAL_COMPATIBLE_SET",
       "target_access": {
@@ -251,7 +278,8 @@
         "candidate_invariant_coordinates": [
           "a*b/c"
         ],
-        "constraint_statement": "Retain every training-compatible coordinate. Keep exact-deployment failures as repair or recombination branches; noise intervals, missing values, and censoring create set-valued evidence rather than permission to force a winner.",
+        "constraint_statement": "Retain every evidence-compatible coordinate and its dependence or unit branch. Keep exact-deployment failures as repair or recombination branches; uncertainty creates set-valued evidence rather than permission to force a winner.",
+        "dependence_semantics": "independent_marginal_bounds",
         "deployment_surviving_coordinates": [
           "a*b/c"
         ],
@@ -262,8 +290,16 @@
           "proposed_new_construction",
           "uncertain"
         ],
-        "novelty_caution": "Uncertainty compatibility is neither an empirical law nor evidence of literature novelty; all three problems are synthetic calibration controls.",
-        "observation_mode": "missingness"
+        "novelty_caution": "Uncertainty compatibility is neither an empirical law nor evidence of literature novelty; all five problems are synthetic calibration controls.",
+        "observation_mode": "missingness",
+        "retained_evidence_branches": [
+          {
+            "branch_ids": [
+              "independent_marginal_bounds"
+            ],
+            "expression": "a*b/c"
+          }
+        ]
       },
       "deployment": {
         "failed_candidates": 0,
@@ -299,7 +335,10 @@
       "independent_evaluators": {
         "agreement": true,
         "finite_bounded_corner_checks": 2,
-        "interval_monotonicity_replays": 4
+        "global_unit_hypothesis_branches": 0,
+        "interval_monotonicity_replays": 4,
+        "joint_atom_replays": 0,
+        "marginal_false_positive_candidates_rejected": 0
       },
       "observation_mode": "missingness",
       "problem_id": "control.missing-ratio-action",
@@ -307,7 +346,8 @@
         "deployment_filter_matched": true,
         "expected_status_matched": true,
         "target_visible_to_learner": false,
-        "training_candidate_set_matched": true
+        "training_candidate_set_matched": true,
+        "unit_hypothesis_branches_matched": true
       },
       "status": "MISSINGNESS_RETAIN_PARTIALLY_OBSERVED_SET",
       "target_access": {
@@ -364,7 +404,8 @@
           "a*b/c",
           "a*c/b**2"
         ],
-        "constraint_statement": "Retain every training-compatible coordinate. Keep exact-deployment failures as repair or recombination branches; noise intervals, missing values, and censoring create set-valued evidence rather than permission to force a winner.",
+        "constraint_statement": "Retain every evidence-compatible coordinate and its dependence or unit branch. Keep exact-deployment failures as repair or recombination branches; uncertainty creates set-valued evidence rather than permission to force a winner.",
+        "dependence_semantics": "independent_marginal_bounds",
         "deployment_surviving_coordinates": [
           "a*b/c"
         ],
@@ -375,8 +416,22 @@
           "proposed_new_construction",
           "uncertain"
         ],
-        "novelty_caution": "Uncertainty compatibility is neither an empirical law nor evidence of literature novelty; all three problems are synthetic calibration controls.",
-        "observation_mode": "one_sided_censoring"
+        "novelty_caution": "Uncertainty compatibility is neither an empirical law nor evidence of literature novelty; all five problems are synthetic calibration controls.",
+        "observation_mode": "one_sided_censoring",
+        "retained_evidence_branches": [
+          {
+            "branch_ids": [
+              "independent_marginal_bounds"
+            ],
+            "expression": "a*b/c"
+          },
+          {
+            "branch_ids": [
+              "independent_marginal_bounds"
+            ],
+            "expression": "a*c/b**2"
+          }
+        ]
       },
       "deployment": {
         "failed_candidates": 1,
@@ -435,7 +490,10 @@
       "independent_evaluators": {
         "agreement": true,
         "finite_bounded_corner_checks": 0,
-        "interval_monotonicity_replays": 8
+        "global_unit_hypothesis_branches": 0,
+        "interval_monotonicity_replays": 8,
+        "joint_atom_replays": 0,
+        "marginal_false_positive_candidates_rejected": 0
       },
       "observation_mode": "one_sided_censoring",
       "problem_id": "control.censored-ratio-action",
@@ -443,7 +501,8 @@
         "deployment_filter_matched": true,
         "expected_status_matched": true,
         "target_visible_to_learner": false,
-        "training_candidate_set_matched": true
+        "training_candidate_set_matched": true,
+        "unit_hypothesis_branches_matched": true
       },
       "status": "CENSORED_RETAIN_SET_VALUED_CANDIDATES",
       "target_access": {
@@ -529,36 +588,406 @@
         "b",
         "c"
       ]
+    },
+    {
+      "creative_brief": {
+        "candidate_invariant_coordinates": [
+          "a*b/c"
+        ],
+        "constraint_statement": "Retain every evidence-compatible coordinate and its dependence or unit branch. Keep exact-deployment failures as repair or recombination branches; uncertainty creates set-valued evidence rather than permission to force a winner.",
+        "dependence_semantics": "finite_joint_support_without_marginal_factorization",
+        "deployment_surviving_coordinates": [
+          "a*b/c"
+        ],
+        "identifiability_status": "DEPENDENT_RETAIN_JOINT_SUPPORT_COMPATIBLE_SET",
+        "llm_origin_assessment_labels": [
+          "known_rewrite",
+          "cross_domain_synthesis",
+          "proposed_new_construction",
+          "uncertain"
+        ],
+        "novelty_caution": "Uncertainty compatibility is neither an empirical law nor evidence of literature novelty; all five problems are synthetic calibration controls.",
+        "observation_mode": "joint_support",
+        "retained_evidence_branches": [
+          {
+            "branch_ids": [
+              "finite_joint_support"
+            ],
+            "expression": "a*b/c"
+          }
+        ]
+      },
+      "deployment": {
+        "failed_candidates": 0,
+        "records": [
+          {
+            "exponents": [
+              1,
+              1,
+              -1
+            ],
+            "expression": "a*b/c",
+            "replays": [
+              {
+                "lower": "1",
+                "status": "COMPATIBLE_CONTAINS_ONE",
+                "transformation_id": "deployment.dependent-action-01",
+                "upper": "1"
+              },
+              {
+                "lower": "1",
+                "status": "COMPATIBLE_CONTAINS_ONE",
+                "transformation_id": "deployment.dependent-action-02",
+                "upper": "1"
+              }
+            ],
+            "survives_exact_deployment": true
+          }
+        ],
+        "surviving_candidates": 1,
+        "transformations": 2
+      },
+      "domain": "dependent_measurement",
+      "independent_evaluators": {
+        "agreement": true,
+        "finite_bounded_corner_checks": 0,
+        "global_unit_hypothesis_branches": 0,
+        "interval_monotonicity_replays": 0,
+        "joint_atom_replays": 392,
+        "marginal_false_positive_candidates_rejected": 3
+      },
+      "observation_mode": "joint_support",
+      "problem_id": "control.dependent-joint-ratio-action",
+      "sealed_control_evaluation": {
+        "deployment_filter_matched": true,
+        "expected_status_matched": true,
+        "target_visible_to_learner": false,
+        "training_candidate_set_matched": true,
+        "unit_hypothesis_branches_matched": true
+      },
+      "status": "DEPENDENT_RETAIN_JOINT_SUPPORT_COMPATIBLE_SET",
+      "target_access": {
+        "learner_input_sha256": "fe198a5b73c4972cdf1ad96a12af79a5b20ee239aa2cf45791335dd80c44b746",
+        "target_visible_to_learner": false
+      },
+      "training_candidates": [
+        {
+          "evaluable_training_transformations": 4,
+          "exponents": [
+            1,
+            1,
+            -1
+          ],
+          "expression": "a*b/c",
+          "missing_training_transformations": 0,
+          "training_replays": [
+            {
+              "atom_products": [
+                {
+                  "atom_id": "support-a",
+                  "product": "1"
+                },
+                {
+                  "atom_id": "support-b",
+                  "product": "1"
+                }
+              ],
+              "marginal_envelope_status": "COMPATIBLE_CONTAINS_ONE",
+              "status": "COMPATIBLE_JOINT_ATOM",
+              "transformation_id": "train.dependent-action-01"
+            },
+            {
+              "atom_products": [
+                {
+                  "atom_id": "support-a",
+                  "product": "1"
+                },
+                {
+                  "atom_id": "support-b",
+                  "product": "1"
+                }
+              ],
+              "marginal_envelope_status": "COMPATIBLE_CONTAINS_ONE",
+              "status": "COMPATIBLE_JOINT_ATOM",
+              "transformation_id": "train.dependent-action-02"
+            },
+            {
+              "atom_products": [
+                {
+                  "atom_id": "support-a",
+                  "product": "1"
+                },
+                {
+                  "atom_id": "support-b",
+                  "product": "1"
+                }
+              ],
+              "marginal_envelope_status": "COMPATIBLE_CONTAINS_ONE",
+              "status": "COMPATIBLE_JOINT_ATOM",
+              "transformation_id": "train.dependent-action-03"
+            },
+            {
+              "atom_products": [
+                {
+                  "atom_id": "support-a",
+                  "product": "1"
+                },
+                {
+                  "atom_id": "support-b",
+                  "product": "1"
+                }
+              ],
+              "marginal_envelope_status": "COMPATIBLE_CONTAINS_ONE",
+              "status": "COMPATIBLE_JOINT_ATOM",
+              "transformation_id": "train.dependent-action-04"
+            }
+          ]
+        }
+      ],
+      "variables": [
+        "a",
+        "b",
+        "c"
+      ]
+    },
+    {
+      "creative_brief": {
+        "candidate_invariant_coordinates": [
+          "a*b/c",
+          "a**2/b"
+        ],
+        "constraint_statement": "Retain every evidence-compatible coordinate and its dependence or unit branch. Keep exact-deployment failures as repair or recombination branches; uncertainty creates set-valued evidence rather than permission to force a winner.",
+        "dependence_semantics": "one_global_unit_hypothesis_per_candidate_branch",
+        "deployment_surviving_coordinates": [
+          "a*b/c"
+        ],
+        "identifiability_status": "UNIT_UNCERTAINTY_RETAIN_GLOBAL_HYPOTHESIS_BRANCHES",
+        "llm_origin_assessment_labels": [
+          "known_rewrite",
+          "cross_domain_synthesis",
+          "proposed_new_construction",
+          "uncertain"
+        ],
+        "novelty_caution": "Uncertainty compatibility is neither an empirical law nor evidence of literature novelty; all five problems are synthetic calibration controls.",
+        "observation_mode": "unit_hypotheses",
+        "retained_evidence_branches": [
+          {
+            "branch_ids": [
+              "b_three_c_two"
+            ],
+            "expression": "a*b/c"
+          },
+          {
+            "branch_ids": [
+              "b_half"
+            ],
+            "expression": "a**2/b"
+          }
+        ]
+      },
+      "deployment": {
+        "failed_candidates": 1,
+        "records": [
+          {
+            "exponents": [
+              1,
+              1,
+              -1
+            ],
+            "expression": "a*b/c",
+            "replays": [
+              {
+                "lower": "1",
+                "status": "COMPATIBLE_CONTAINS_ONE",
+                "transformation_id": "deployment.unit-action-01",
+                "upper": "1"
+              },
+              {
+                "lower": "1",
+                "status": "COMPATIBLE_CONTAINS_ONE",
+                "transformation_id": "deployment.unit-action-02",
+                "upper": "1"
+              }
+            ],
+            "survives_exact_deployment": true
+          },
+          {
+            "exponents": [
+              2,
+              -1,
+              0
+            ],
+            "expression": "a**2/b",
+            "replays": [
+              {
+                "lower": "1",
+                "status": "COMPATIBLE_CONTAINS_ONE",
+                "transformation_id": "deployment.unit-action-01",
+                "upper": "1"
+              },
+              {
+                "lower": "343",
+                "status": "REJECT_INTERVAL_EXCLUDES_ONE",
+                "transformation_id": "deployment.unit-action-02",
+                "upper": "343"
+              }
+            ],
+            "survives_exact_deployment": false
+          }
+        ],
+        "surviving_candidates": 1,
+        "transformations": 2
+      },
+      "domain": "unit_calibration",
+      "independent_evaluators": {
+        "agreement": true,
+        "finite_bounded_corner_checks": 0,
+        "global_unit_hypothesis_branches": 2,
+        "interval_monotonicity_replays": 0,
+        "joint_atom_replays": 0,
+        "marginal_false_positive_candidates_rejected": 0
+      },
+      "observation_mode": "unit_hypotheses",
+      "problem_id": "control.unit-uncertain-ratio-action",
+      "sealed_control_evaluation": {
+        "deployment_filter_matched": true,
+        "expected_status_matched": true,
+        "target_visible_to_learner": false,
+        "training_candidate_set_matched": true,
+        "unit_hypothesis_branches_matched": true
+      },
+      "status": "UNIT_UNCERTAINTY_RETAIN_GLOBAL_HYPOTHESIS_BRANCHES",
+      "target_access": {
+        "learner_input_sha256": "ea318c611e53beefc1e0e14955a8d02f12ca38a6a3ab9536bb7d61ec8b066998",
+        "target_visible_to_learner": false
+      },
+      "training_candidates": [
+        {
+          "compatible_unit_hypotheses": [
+            {
+              "hypothesis_id": "b_three_c_two",
+              "ratio_multipliers": {
+                "a": "1",
+                "b": "3",
+                "c": "2"
+              },
+              "training_replays": [
+                {
+                  "corrected_product": "1",
+                  "status": "COMPATIBLE_EXACT_ONE",
+                  "transformation_id": "train.unit-action-01"
+                },
+                {
+                  "corrected_product": "1",
+                  "status": "COMPATIBLE_EXACT_ONE",
+                  "transformation_id": "train.unit-action-02"
+                },
+                {
+                  "corrected_product": "1",
+                  "status": "COMPATIBLE_EXACT_ONE",
+                  "transformation_id": "train.unit-action-03"
+                },
+                {
+                  "corrected_product": "1",
+                  "status": "COMPATIBLE_EXACT_ONE",
+                  "transformation_id": "train.unit-action-04"
+                }
+              ]
+            }
+          ],
+          "evaluable_training_transformations": 4,
+          "exponents": [
+            1,
+            1,
+            -1
+          ],
+          "expression": "a*b/c",
+          "missing_training_transformations": 0,
+          "training_replays": []
+        },
+        {
+          "compatible_unit_hypotheses": [
+            {
+              "hypothesis_id": "b_half",
+              "ratio_multipliers": {
+                "a": "1",
+                "b": "1/2",
+                "c": "1"
+              },
+              "training_replays": [
+                {
+                  "corrected_product": "1",
+                  "status": "COMPATIBLE_EXACT_ONE",
+                  "transformation_id": "train.unit-action-01"
+                },
+                {
+                  "corrected_product": "1",
+                  "status": "COMPATIBLE_EXACT_ONE",
+                  "transformation_id": "train.unit-action-02"
+                },
+                {
+                  "corrected_product": "1",
+                  "status": "COMPATIBLE_EXACT_ONE",
+                  "transformation_id": "train.unit-action-03"
+                },
+                {
+                  "corrected_product": "1",
+                  "status": "COMPATIBLE_EXACT_ONE",
+                  "transformation_id": "train.unit-action-04"
+                }
+              ]
+            }
+          ],
+          "evaluable_training_transformations": 4,
+          "exponents": [
+            2,
+            -1,
+            0
+          ],
+          "expression": "a**2/b",
+          "missing_training_transformations": 0,
+          "training_replays": []
+        }
+      ],
+      "variables": [
+        "a",
+        "b",
+        "c"
+      ]
     }
   ],
-  "schema_version": "invariant-uncertain-invariant-discovery-receipt-1.0",
+  "schema_version": "invariant-uncertain-invariant-discovery-receipt-1.1",
   "source_bindings": {
     "config": {
-      "normalized_sha256": "66074972b3880db196c6d00ad3559786471075f088da52159877a88061d1837c",
+      "normalized_sha256": "468717e31ecf53bb284e12e642c4fdc9822ab1cf024976d2300d862786d97d43",
       "path": "configs/uncertain_invariant_discovery.json"
     },
     "source": {
-      "normalized_sha256": "9f24ab9d8843a02f73b62a79d4d23e4b11f2f0889487f1bd84a4080d543a76b3",
+      "normalized_sha256": "4151b6cef4362db060e8c971ef029d1893592dab1cc45845b6a0ac9aef984fa9",
       "path": "src/sigma_theory_compiler/uncertain_invariant_discovery.py"
     },
     "targets": {
-      "normalized_sha256": "e280b4e4020b838abd88cb076b56ce8bb1c68e950832b7c22644a2779d353047",
+      "normalized_sha256": "da134e974a63a40aaaf22088721776abf546c137a7a6dc47c2ce25a79198225f",
       "path": "configs/uncertain_invariant_discovery_targets.json"
     },
     "test": {
-      "normalized_sha256": "ace871bc29f09b26bac6780cc1ca4f9958b0acf83a5e28f07d29f548563909de",
+      "normalized_sha256": "f6f3be10e32c808429b19929cfeaf9df46d46e704c9396f4094ef3f57dc17975",
       "path": "tests/test_uncertain_invariant_discovery.py"
     }
   },
   "summary": {
     "censored_controls": 1,
-    "controls": 3,
-    "deployment_failed_candidates": 3,
-    "deployment_surviving_candidates": 3,
+    "controls": 5,
+    "dependent_joint_controls": 1,
+    "deployment_failed_candidates": 4,
+    "deployment_surviving_candidates": 5,
+    "marginal_false_positive_candidates_rejected": 3,
     "missingness_controls": 1,
     "noisy_controls": 1,
-    "status": "PASS_UNCERTAIN_INVARIANT_BRANCH_CONTROLS",
-    "target_blind_controls": 3,
-    "training_candidates_retained": 6
+    "status": "PASS_COUPLED_UNCERTAIN_INVARIANT_BRANCH_CONTROLS",
+    "target_blind_controls": 5,
+    "training_candidates_retained": 9,
+    "unit_hypothesis_branches_retained": 2,
+    "unit_uncertainty_controls": 1
   }
 }

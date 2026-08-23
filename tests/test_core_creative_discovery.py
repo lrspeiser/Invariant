@@ -187,6 +187,12 @@ def test_core_run_requires_and_sanitizes_live_claude(
         assert os.environ["ANTHROPIC_API_KEY"] == secret
         assert creative_context["creativity_policy"]["creativity_is_primary"] is True
         assert creative_context["creativity_policy"]["uncertainty_does_not_prune"] is True
+        assert (
+            creative_context["creativity_policy"][
+                "preserve_joint_and_unit_hypothesis_branches"
+            ]
+            is True
+        )
         assert len(creative_context["first_principles_briefs"]) == 5
         assert any(
             brief["invariant_coordinate_arity"] == 2
@@ -203,11 +209,17 @@ def test_core_run_requires_and_sanitizes_live_claude(
             brief["action_kind"]
             for brief in creative_context["state_pair_invariant_briefs"]
         } == {"matrix_conjugation", "matrix_orthogonal", "nonlinear_polynomial"}
-        assert len(creative_context["uncertain_invariant_briefs"]) == 3
+        assert len(creative_context["uncertain_invariant_briefs"]) == 5
         assert {
             brief["observation_mode"]
             for brief in creative_context["uncertain_invariant_briefs"]
-        } == {"missingness", "noisy_interval", "one_sided_censoring"}
+        } == {
+            "joint_support",
+            "missingness",
+            "noisy_interval",
+            "one_sided_censoring",
+            "unit_hypotheses",
+        }
         assert creative_context["origin_assessment_labels"] == [
             "cross_domain_synthesis",
             "known_rewrite",
@@ -238,7 +250,7 @@ def test_core_run_requires_and_sanitizes_live_claude(
         "state_pair_invariant_briefs": 3,
         "status": "PASS_CONTEXT_BOUND_TO_AUTHENTICATED_CALLS",
         "typed_formula_kinds": 7,
-        "uncertain_invariant_briefs": 3,
+        "uncertain_invariant_briefs": 5,
     }
     assert receipt["release_gate"]["llm_first_principles_lane_live_run_complete"]
     assert receipt["credential_activation"]["source_kind"] == "explicit_env_file"
@@ -290,10 +302,24 @@ def test_core_run_requires_and_sanitizes_live_claude(
     assert receipt["discovery_runtime"]["state_pair_matrix_action_controls"] == 2
     assert receipt["discovery_runtime"]["state_pair_nonlinear_action_controls"] == 1
     assert receipt["discovery_runtime"]["state_pair_deployment_failures"] == 0
-    assert receipt["discovery_runtime"]["uncertain_invariant_controls"] == 3
-    assert receipt["discovery_runtime"]["uncertain_invariant_training_candidates_retained"] == 6
-    assert receipt["discovery_runtime"]["uncertain_invariant_deployment_failed_candidates"] == 3
-    assert receipt["discovery_runtime"]["uncertain_invariant_deployment_surviving_candidates"] == 3
+    assert receipt["discovery_runtime"]["uncertain_invariant_controls"] == 5
+    assert receipt["discovery_runtime"]["uncertain_invariant_training_candidates_retained"] == 9
+    assert receipt["discovery_runtime"]["uncertain_invariant_deployment_failed_candidates"] == 4
+    assert receipt["discovery_runtime"]["uncertain_invariant_deployment_surviving_candidates"] == 5
+    assert receipt["discovery_runtime"]["uncertain_invariant_dependent_joint_controls"] == 1
+    assert (
+        receipt["discovery_runtime"][
+            "uncertain_invariant_marginal_false_positives_rejected"
+        ]
+        == 3
+    )
+    assert (
+        receipt["discovery_runtime"][
+            "uncertain_invariant_unit_hypothesis_branches_retained"
+        ]
+        == 2
+    )
+    assert receipt["discovery_runtime"]["uncertain_invariant_unit_uncertainty_controls"] == 1
     assert receipt["discovery_runtime"]["independent_proof_plan_routes_closed"] == 6
     assert receipt["discovery_runtime"]["independent_proof_plan_mutations_rejected"] == 6
     assert receipt["discovery_runtime"]["component_knockout_experiments_preflighted"] == 4

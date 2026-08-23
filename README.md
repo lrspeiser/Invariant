@@ -1268,17 +1268,19 @@ parabolic-shear pairs it learns `y - x**2`. All five learned basis polynomials s
 replay. These are known-answer calibration actions, not new theorems or empirical laws. Their three
 source-bound briefs reach future core Claude calls while higher-degree, rational/transcendental,
 and externally signed transformation data remain open.
-A bounded uncertainty learner now gives noisy intervals, missing ratios, and one-sided censoring
-honest executable semantics. It enumerates primitive exponent coordinates without targets and
-rejects only when the observable product interval excludes one. The noisy control retains three
-compatible training coordinates, then exact deployment keeps `a*b/c` and records two failures; the
-missing-data control keeps that coordinate despite two explicitly unresolved transformations; the
-censored control retains two set-valued candidates before deployment records one failure. All six
-training branches—including all three later failures—are carried into future Claude context rather
-than being pruned. Finite endpoint-corner enumeration independently agrees with monotone interval
-propagation wherever every active bound is finite. These are synthetic uncertainty controls, not a
-unique learned law; dependent noise, unit uncertainty, and signed external transformation data
-remain open.
+A bounded uncertainty learner now gives noisy intervals, missing ratios, one-sided censoring,
+dependent finite supports, and global unit-calibration hypotheses honest executable semantics. It
+enumerates primitive exponent coordinates without targets and rejects only when the declared
+evidence excludes one. The original three controls retain six coordinates before exact deployment
+records three failures. A dependent-support control retains `a*b/c` while rejecting three false
+coordinates that factorized marginal envelopes would admit. A unit control retains two complete
+formula/hypothesis branches—`a*b/c` under one calibration and `a**2/b` under another—before held-out
+canonical-unit deployment keeps the first and records the second as a failed branch. All nine
+training candidates and both unit-hypothesis identities reach future Claude context rather than
+being pruned or silently reselected per row. Finite endpoint-corner enumeration independently
+agrees with monotone interval propagation wherever every active bound is finite. These are
+synthetic uncertainty controls, not a unique learned law; learned calibration from real external
+transformations and detached-signed sources remain open.
 The live provider adapter also preserves high-output proposer calls: branches 17 through 64 are
 temporarily staged around the frozen 16-branch legacy parser and reattached before lineage,
 behavior deduplication, or persistence. A 24-branch mutation control proves the overflow path; the

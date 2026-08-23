@@ -239,11 +239,14 @@ This is evidence of bounded rediscovery, not evidence of mathematical novelty.
   now constructs bounded polynomial features directly from exact before/after state pairs. It
   recovers a squared-radius coordinate, two algebraically independent 2x2 conjugation coordinates,
   and a nonlinear parabolic-shear coordinate without action matrices, group parameters, or target
-  coefficients. A third target-blind learner now treats noisy intervals, missing ratios, and
-  one-sided censoring as set-valued evidence: it retains six training-compatible branches and lets
-  exact deployment pairs filter three without deleting the failed branches. Dependence-aware and
-  unit-uncertainty models, higher-degree/rational actions, and signed external principals remain.
-- Normalize declared units and propagate unit uncertainty.
+  coefficients. A third target-blind learner now treats noisy intervals, missing ratios,
+  one-sided censoring, finite dependent supports, and global unit hypotheses as set-valued
+  evidence. It retains nine training-compatible coordinates, rejects three false coordinates that
+  marginal factorization would admit, and keeps two formula/unit branches intact until exact
+  deployment. Learned calibration from real observations, higher-degree/rational actions, and
+  signed external principals remain.
+- Infer calibration hypotheses from external metadata and propagate continuous unit uncertainty;
+  the current exact finite hypothesis control proves branch semantics, not learned calibration.
 - Generalize the exact state-pair matrix/nonlinear controls beyond degree-two polynomial
   invariants; add residual channels, finite-difference channels, and out-of-distribution splits to
   the same executable pipeline.
@@ -252,8 +255,8 @@ This is evidence of bounded rediscovery, not evidence of mathematical novelty.
 - Extend declared symmetry actions to matrix/nonlinear group generators and executable
   equivariance tests; the new state-pair learner infers invariant polynomials but does not recover
   the generator or prove invariance outside the registered pairs.
-- Extend the bounded interval/missing/censoring controls to dependent observations, propagated unit
-  uncertainty, and externally sourced dataset shift before fitting.
+- Extend the bounded dependence/unit controls from finite synthetic supports to learned joint
+  uncertainty and externally sourced dataset shift before fitting.
 - Include synthetic identifiability controls where the correct result is “underdetermined.”
 
 ### 7. Layer independent verification
