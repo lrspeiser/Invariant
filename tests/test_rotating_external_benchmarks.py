@@ -64,6 +64,25 @@ def test_unsigned_https_pack_is_useful_but_cannot_count_as_level5(
     assert not any(receipt["claims"].values())
 
 
+def test_versioned_rotation_binds_the_selected_config() -> None:
+    generation, targets, receipt = build_pack(
+        ROOT,
+        config_path="configs/rotating_external_benchmark_pack_002.json",
+        transport=_transport,
+        retrieved_utc="2026-08-23T12:00:00Z",
+    )
+    validate_pack(generation, targets, receipt, ROOT)
+    assert generation["rotation_epoch"] == "2026-08-23-002"
+    assert receipt["source_bindings"]["config"]["path"] == (
+        "configs/rotating_external_benchmark_pack_002.json"
+    )
+
+
+def test_rotation_config_cannot_escape_repository_root(tmp_path: Path) -> None:
+    with pytest.raises(RotationError, match="escaped"):
+        build_pack(ROOT, config_path=tmp_path / "outside.json", transport=_transport)
+
+
 def test_commitment_or_release_tamper_fails_closed(
     pack: tuple[dict[str, object], dict[str, object], dict[str, object]],
 ) -> None:

@@ -80,8 +80,19 @@ def _utc(value: str | None) -> str:
     return parsed.astimezone(UTC).isoformat().replace("+00:00", "Z")
 
 
-def load_config(root: Path) -> dict[str, Any]:
-    value = json.loads((root / CONFIG_PATH).read_text(encoding="utf-8"))
+def _bound_config_path(root: Path, config_path: str | Path) -> tuple[str, Path]:
+    root = root.resolve()
+    candidate = (root / config_path).resolve()
+    try:
+        relative = candidate.relative_to(root).as_posix()
+    except ValueError as error:
+        raise RotationError("rotation config escaped the repository root") from error
+    return relative, candidate
+
+
+def load_config(root: Path, config_path: str | Path = CONFIG_PATH) -> dict[str, Any]:
+    _, resolved_config = _bound_config_path(root, config_path)
+    value = json.loads(resolved_config.read_text(encoding="utf-8"))
     _strict(
         value,
         {
@@ -194,9 +205,11 @@ def build_pack(
     *,
     transport: Transport = urllib_transport,
     retrieved_utc: str | None = None,
+    config_path: str | Path = CONFIG_PATH,
 ) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
     root = root.resolve()
-    config = load_config(root)
+    relative_config, resolved_config = _bound_config_path(root, config_path)
+    config = load_config(root, relative_config)
     retrieved = _utc(retrieved_utc)
     policy = config["source_policy"]
     task_policy = config["task_policy"]
@@ -298,7 +311,10 @@ def build_pack(
             "rotation_epoch": config["rotation_epoch"],
             "retrieved_utc": retrieved,
             "source_bindings": {
-                "config": {"path": CONFIG_PATH, "sha256": _normalized_file_sha256(root / CONFIG_PATH)},
+                "config": {
+                    "path": relative_config,
+                    "sha256": _normalized_file_sha256(resolved_config),
+                },
                 "generation_packet_content_sha256": generation["content_sha256"],
                 "target_packet_content_sha256": target_packet["content_sha256"],
             },
@@ -417,8 +433,9 @@ def validate_pack(
             raise RotationError("external source evidence escaped OEIS HTTPS")
     if root is not None:
         binding = bindings["config"]
-        if binding["path"] != CONFIG_PATH or binding["sha256"] != _normalized_file_sha256(
-            root / CONFIG_PATH
+        relative_config, resolved_config = _bound_config_path(root, binding["path"])
+        if binding["path"] != relative_config or binding["sha256"] != _normalized_file_sha256(
+            resolved_config
         ):
             raise RotationError("rotation config source binding changed")
 
@@ -428,6 +445,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     subparsers = parser.add_subparsers(dest="command", required=True)
     build = subparsers.add_parser("build")
     build.add_argument("--root", type=Path, default=Path.cwd())
+    build.add_argument("--config", type=Path, default=Path(CONFIG_PATH))
     build.add_argument("--generation-output", type=Path, required=True)
     build.add_argument("--target-output", type=Path, required=True)
     build.add_argument("--receipt-output", type=Path, required=True)
@@ -438,7 +456,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     validate.add_argument("--receipt", type=Path, required=True)
     args = parser.parse_args(argv)
     if args.command == "build":
-        generation, targets, receipt = build_pack(args.root)
+        generation, targets, receipt = build_pack(args.root, config_path=args.config)
         for path, value in (
             (args.generation_output, generation),
             (args.target_output, targets),
