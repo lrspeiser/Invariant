@@ -1196,10 +1196,34 @@ Human prior-art review is mandatory before any serious or novelty claim can be r
 The implementation backlog and promotion criteria are listed in
 [`docs/CREATIVE_FORMULA_DISCOVERY_ROADMAP.md`](docs/CREATIVE_FORMULA_DISCOVERY_ROADMAP.md).
 
+The first live rotating evaluation pack contains 24 anonymized tasks built from independently
+maintained OEIS b-files: four each for recurrence, generating-function, finite-sum, finite-product,
+modular-object, and representation-bridge prompts. Each task carries 18 visible terms and an
+eight-term target commitment. The coordinator receipt binds 24 distinct external response hashes.
+OEIS supplies the external HTTPS origin but no detached pack signature, so the tasks may be used in
+the creativity A/B test and may not count as a level-5 success.
+
+Claim-specific prior-art search now keeps behavior, formula/construction, and proof-mechanism
+provenance separate. Its first live screen corrected one model-self-assessed `uncertain` behavior:
+all 18 terms match OEIS A005132. Crossref and arXiv responded, Semantic Scholar rate-limited the
+request, and every response or failure is sealed. The formula and proof remain unresolved until a
+specifically named human reviews the nearest matches; automated absence can never authorize
+novelty language.
+
 Run the replayable, network-free campaign with:
 
 ```powershell
 sigma-external-creativity --output runs/math/external-creativity-validation/campaign.json
+```
+
+Revalidate the network-free live receipts with:
+
+```powershell
+sigma-prior-art validate --root . --receipt runs/math/claim-specific-prior-art/live-uncertain-recaman.json
+sigma-rotate-benchmarks validate --root . `
+  --generation runs/math/rotating-external-benchmarks/2026-08-23-001-generation.json `
+  --targets runs/math/rotating-external-benchmarks/2026-08-23-001-targets.json `
+  --receipt runs/math/rotating-external-benchmarks/2026-08-23-001-receipt.json
 ```
 
 For an explicitly authorized live run, load `ANTHROPIC_API_KEY` from a secret outside the repository

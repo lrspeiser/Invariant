@@ -19,6 +19,16 @@
   multi-host VM reproduction, not a claim about distinct bare-metal machines.
 - No novel formula, proof, theorem, scientific law, or open-problem result is claimed.
 - The famous-open-problem gate is closed: zero of three required independent level-5 successes.
+- A live rotating pack now binds 24 distinct OEIS b-file response hashes, with four tasks each for
+  recurrences, generating functions, finite sums, finite products, modular objects, and
+  representation bridges. Generation packets omit source IDs and eight-term holdouts. The external
+  HTTPS origins are hash-bound but not cryptographically signed, so the pack is usable for the
+  creativity tournament and explicitly ineligible for a level-5 count.
+- A live claim-specific screen queried OEIS, Crossref, arXiv, Semantic Scholar, and the repository
+  for one retained `uncertain` LLM idea. OEIS matched all 18 displayed terms to A005132; Semantic
+  Scholar's HTTP 429 is preserved as unavailable evidence. This calibrates the model label at the
+  behavior level only. Formula/construction and proof-mechanism provenance remain blocked on a
+  named human review.
 
 ## Definition of creative progress
 
@@ -179,11 +189,12 @@ This is evidence of bounded rediscovery, not evidence of mathematical novelty.
 
 1. Run the 24-task paired old-vs-new creativity tournament and its four component knockouts.
 2. Obtain two named blinded reviewers and record disagreements before unblinding system identity.
-3. Add rotating externally maintained benchmark packs using the new recurrence, generating-function,
-   sum/product, modular, tensor, and variational grammars.
+3. Extend the live rotating external pack from recurrence, generating-function, sum/product,
+   modular, and representation-bridge tasks to separately maintained tensor and variational packs;
+   obtain a detached signature from a distinct pack principal before level-5 use.
 4. Replace synthetic intervention/noise/shift/identifiability calibrations with externally supplied
    datasets while retaining the synthetic negative controls.
-5. Execute claim-specific automated prior-art searches and complete named human review for the
-   nearest formula and proof-mechanism matches.
+5. Complete named human review of the bound A005132 behavior match and the nearest formula and
+   proof-mechanism results; then run the same automated screen for every tournament survivor.
 6. Continue bounded level-5 runs until three independent successes exist; the open-problem gate
    remains closed meanwhile, but creative branches continue accumulating.

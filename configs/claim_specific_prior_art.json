@@ -1,0 +1,61 @@
+{
+  "schema_version": "invariant-claim-specific-prior-art-config-1.0",
+  "screen_id": "invariant.claim-specific-prior-art",
+  "network": {
+    "maximum_response_bytes": 2000000,
+    "request_timeout_seconds": 20,
+    "user_agent": "InvariantPriorArt/0.1 (https://github.com/lrspeiser/Invariant)"
+  },
+  "providers": [
+    {
+      "provider_id": "oeis",
+      "authority": "OEIS Foundation",
+      "base_uri": "https://oeis.org/search",
+      "maximum_results": 5,
+      "query_channel": "behavior"
+    },
+    {
+      "provider_id": "crossref",
+      "authority": "Crossref",
+      "base_uri": "https://api.crossref.org/works",
+      "maximum_results": 5,
+      "query_channel": "formula_and_proof"
+    },
+    {
+      "provider_id": "arxiv",
+      "authority": "Cornell University arXiv",
+      "base_uri": "https://export.arxiv.org/api/query",
+      "maximum_results": 5,
+      "query_channel": "formula_and_proof"
+    },
+    {
+      "provider_id": "semantic_scholar",
+      "authority": "Allen Institute for AI",
+      "base_uri": "https://api.semanticscholar.org/graph/v1/paper/search",
+      "maximum_results": 5,
+      "query_channel": "formula_and_proof"
+    }
+  ],
+  "query_policy": {
+    "minimum_distinct_channels": 4,
+    "required_channels": [
+      "behavior",
+      "equivalent_notation",
+      "literal_construction",
+      "proof_mechanism",
+      "representation_dual"
+    ]
+  },
+  "release_policy": {
+    "human_review_required": true,
+    "minimum_successful_external_providers": 3,
+    "no_match_means_novel": false,
+    "reviewer_name_placeholders": [
+      "anonymous",
+      "pending",
+      "reviewer",
+      "tbd",
+      "unknown"
+    ]
+  }
+}
