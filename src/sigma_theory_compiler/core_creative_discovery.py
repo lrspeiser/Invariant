@@ -18,6 +18,11 @@ from pathlib import Path
 from typing import Any
 
 from .claude_creativity_api import ClaudeRole
+from .core_creative_prompt_context import (
+    FirstPrinciplesContextTransport,
+    build_creative_prompt_context,
+    validate_creative_prompt_context,
+)
 from .core_credential import CredentialActivationError, activated_credential
 from .creative_expansion import build_creative_expansion, validate_creative_expansion
 from .creativity_component_knockout_preflight import (
@@ -58,15 +63,16 @@ from .symmetry_dimension_derivation import (
 
 CONFIG_PATH = "configs/core_creative_discovery.json"
 OUTPUT_PATH = "runs/math/core-creative-discovery/live-runtime.json"
-SCHEMA_VERSION = "invariant-core-creative-discovery-runtime-1.8"
-CONFIG_SCHEMA = "invariant-core-creative-discovery-config-1.8"
+PROMPT_CONTEXT_SOURCE_PATH = "src/sigma_theory_compiler/core_creative_prompt_context.py"
+SCHEMA_VERSION = "invariant-core-creative-discovery-runtime-1.9"
+CONFIG_SCHEMA = "invariant-core-creative-discovery-config-1.9"
 
 
 class CoreCreativeDiscoveryError(ValueError):
     """The live core application or one of its required gates failed closed."""
 
 
-CampaignRunner = Callable[[Path], Mapping[str, Any]]
+CampaignRunner = Callable[[Path, Mapping[str, Any]], Mapping[str, Any]]
 
 
 def _normalized_file_sha256(path: Path) -> str:
@@ -83,6 +89,46 @@ def _serialized_sha256(value: Mapping[str, Any]) -> str:
     return hashlib.sha256(payload).hexdigest()
 
 
+def _prompt_context_runtime_evidence(
+    creative_context: Mapping[str, Any], live_evidence: Mapping[str, Any]
+) -> dict[str, Any]:
+    """Describe whether the preserved authenticated calls carried the current context."""
+
+    validate_creative_prompt_context(creative_context)
+    calls = live_evidence.get("calls", [])
+    bound_calls = [
+        call
+        for call in calls
+        if call.get("creative_context_injected") is True
+        and call.get("creative_context_sha256") == creative_context["content_sha256"]
+    ]
+    context_claims = [
+        call
+        for call in calls
+        if call.get("creative_context_injected") is True
+        or call.get("creative_context_sha256") is not None
+    ]
+    if context_claims and len(bound_calls) != len(calls):
+        raise CoreCreativeDiscoveryError("authenticated Claude prompt context is mixed or stale")
+    context_bound = bool(calls) and len(bound_calls) == len(calls)
+    return {
+        "authenticated_calls_bound_to_context": context_bound,
+        "bound_authenticated_calls": len(bound_calls),
+        "content_sha256": creative_context["content_sha256"],
+        "first_principles_briefs": len(creative_context["first_principles_briefs"]),
+        "independent_proof_mechanisms": len(
+            creative_context["independent_proof_mechanisms"]
+        ),
+        "origin_assessment_labels": creative_context["origin_assessment_labels"],
+        "status": (
+            "PASS_CONTEXT_BOUND_TO_AUTHENTICATED_CALLS"
+            if context_bound
+            else "READY_NEXT_LIVE_RUN_NOT_YET_EVIDENCED"
+        ),
+        "typed_formula_kinds": len(creative_context["typed_formula_kinds"]),
+    }
+
+
 def _load_config(root: Path) -> dict[str, Any]:
     path = root / CONFIG_PATH
     value = json.loads(path.read_text(encoding="utf-8"))
@@ -97,6 +143,7 @@ def _load_config(root: Path) -> dict[str, Any]:
         "credential_env_var",
         "available_creative_roles",
         "required_completed_calls",
+        "required_first_principles_prompt_context",
         "required_model",
         "required_roles",
     }:
@@ -104,6 +151,7 @@ def _load_config(root: Path) -> dict[str, Any]:
     if (
         claude["credential_env_var"] != "ANTHROPIC_API_KEY"
         or claude["required_completed_calls"] < 8
+        or claude["required_first_principles_prompt_context"] is not True
         or set(claude["required_roles"]) != {"proposer", "critic"}
         or set(claude["available_creative_roles"]) != {role.value for role in ClaudeRole}
     ):
@@ -192,7 +240,12 @@ def _load_bound_receipts(
     )
 
 
-def _validate_live_campaign(campaign: Mapping[str, Any], config: Mapping[str, Any]) -> None:
+def _validate_live_campaign(
+    campaign: Mapping[str, Any],
+    config: Mapping[str, Any],
+    creative_context: Mapping[str, Any],
+) -> None:
+    validate_creative_prompt_context(creative_context)
     claude = campaign.get("claude", {})
     calls = claude.get("calls", [])
     policy = config["claude"]
@@ -205,6 +258,16 @@ def _validate_live_campaign(campaign: Mapping[str, Any], config: Mapping[str, An
         for call in calls
         if call.get("status") == "completed"
     }
+    context_bindings = {
+        call.get("evidence", {}).get("creative_context_sha256")
+        for call in calls
+        if call.get("status") == "completed"
+    }
+    context_injected = {
+        call.get("evidence", {}).get("creative_context_injected")
+        for call in calls
+        if call.get("status") == "completed"
+    }
     if (
         campaign.get("claims", {}).get("claude_used_throughout") is not True
         or claude.get("status") != "PASS"
@@ -214,6 +277,8 @@ def _validate_live_campaign(campaign: Mapping[str, Any], config: Mapping[str, An
         or roles != set(policy["required_roles"])
         or models != {policy["required_model"]}
         or structured != {True}
+        or context_bindings != {creative_context["content_sha256"]}
+        or context_injected != {True}
     ):
         raise CoreCreativeDiscoveryError("authenticated Claude core participation failed")
 
@@ -240,13 +305,24 @@ def run_core(
         serious_claim_ladder,
         component_knockout,
     ) = _load_bound_receipts(root, config)
+    creative_prompt_context = build_creative_prompt_context(
+        symmetry_dimension_derivation,
+        expanded_grammar,
+        proof_plan_search,
+    )
     environment = None
     if credential_file is not None:
         environment = dict(os.environ)
         environment["INVARIANT_ENV_FILE"] = str(credential_file.resolve())
 
-    def live_runner(project_root: Path) -> Mapping[str, Any]:
-        return run_campaign(project_root, live_claude=True)
+    def live_runner(
+        project_root: Path, context: Mapping[str, Any]
+    ) -> Mapping[str, Any]:
+        return run_campaign(
+            project_root,
+            live_claude=True,
+            claude_transport=FirstPrinciplesContextTransport(context),
+        )
 
     runner = campaign_runner or live_runner
     try:
@@ -255,8 +331,8 @@ def run_core(
             env_var=config["claude"]["credential_env_var"],
             environment=environment,
         ) as activation:
-            campaign = dict(runner(root))
-            _validate_live_campaign(campaign, config)
+            campaign = dict(runner(root, creative_prompt_context))
+            _validate_live_campaign(campaign, config, creative_prompt_context)
             idea_archive = build_idea_archive(campaign)
             creative_expansion = build_creative_expansion(idea_archive, proof_plan_search)
             live_evidence = build_evidence_from_receipt(
@@ -281,6 +357,10 @@ def run_core(
             "config": {
                 "path": CONFIG_PATH,
                 "sha256": _normalized_file_sha256(root / CONFIG_PATH),
+            },
+            "prompt_context_source": {
+                "path": PROMPT_CONTEXT_SOURCE_PATH,
+                "sha256": _normalized_file_sha256(root / PROMPT_CONTEXT_SOURCE_PATH),
             },
             "component_knockout_preflight_receipt": {
                 "content_sha256": component_knockout["content_sha256"],
@@ -333,6 +413,9 @@ def run_core(
             "roles_completed": sorted(config["claude"]["required_roles"]),
             "status": "PASS_REQUIRED_CORE_PARTICIPATION",
         },
+        "llm_prompt_context": _prompt_context_runtime_evidence(
+            creative_prompt_context, live_evidence
+        ),
         "idea_lineage_archive": idea_archive,
         "creative_expansion": creative_expansion,
         "component_knockout_preflight": component_knockout,
@@ -443,6 +526,7 @@ def run_core(
             "human_prior_art_reviews_complete": all(
                 status == "COMPLETED" for status in prior_art_reviews
             ),
+            "llm_first_principles_lane_live_run_complete": True,
             "level5_process_passes": level5,
             "minimum_level5_process_passes": config["release_policy"][
                 "minimum_independent_level5_passes_before_open_problem"
@@ -484,6 +568,7 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
             "invariant-core-creative-discovery-runtime-1.5",
             "invariant-core-creative-discovery-runtime-1.6",
             "invariant-core-creative-discovery-runtime-1.7",
+            "invariant-core-creative-discovery-runtime-1.8",
             SCHEMA_VERSION,
         }
         or previous.get("app_id") != "invariant.core-creative-discovery"
@@ -515,10 +600,19 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
         serious_claim_ladder,
         component_knockout,
     ) = _load_bound_receipts(root, config)
+    creative_prompt_context = build_creative_prompt_context(
+        symmetry_dimension_derivation,
+        expanded_grammar,
+        proof_plan_search,
+    )
     value = deepcopy(dict(previous))
     value["schema_version"] = SCHEMA_VERSION
     value["source_bindings"] = {
         "config": {"path": CONFIG_PATH, "sha256": _normalized_file_sha256(root / CONFIG_PATH)},
+        "prompt_context_source": {
+            "path": PROMPT_CONTEXT_SOURCE_PATH,
+            "sha256": _normalized_file_sha256(root / PROMPT_CONTEXT_SOURCE_PATH),
+        },
         "component_knockout_preflight_receipt": {
             "content_sha256": component_knockout["content_sha256"],
             "path": config["components"]["component_knockout_preflight_receipt"],
@@ -566,6 +660,9 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
     value["external_structured_benchmarks"] = external_structured_benchmarks
     value["symmetry_dimension_derivation"] = symmetry_dimension_derivation
     value["proof_plan_search"] = proof_plan_search
+    value["llm_prompt_context"] = _prompt_context_runtime_evidence(
+        creative_prompt_context, runtime["evidence"]
+    )
     value["discovery_runtime"] = {
         **value["discovery_runtime"],
         "component_knockout_experiments_preflighted": component_knockout["design"][
@@ -640,6 +737,9 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
         "component_knockout_live_runs_complete": component_knockout["release_gate"][
             "component_knockout_live_runs_complete"
         ],
+        "llm_first_principles_lane_live_run_complete": value["llm_prompt_context"][
+            "authenticated_calls_bound_to_context"
+        ],
     }
     value["content_sha256"] = canonical_sha256(
         {key: item for key, item in value.items() if key != "content_sha256"}
@@ -675,6 +775,29 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
     validate_idea_archive(value.get("idea_lineage_archive", {}))
     proof_plan_search = value.get("proof_plan_search", {})
     validate_proof_plan_search(proof_plan_search, root)
+    creative_prompt_context = build_creative_prompt_context(
+        value.get("symmetry_dimension_derivation", {}),
+        {
+            "summary": {
+                "admitted_formula_kinds": value.get("discovery_runtime", {}).get(
+                    "typed_formula_kinds"
+                )
+            }
+        },
+        proof_plan_search,
+    )
+    expected_prompt_context_evidence = _prompt_context_runtime_evidence(
+        creative_prompt_context, runtime["evidence"]
+    )
+    if value.get("llm_prompt_context") != expected_prompt_context_evidence:
+        raise CoreCreativeDiscoveryError("core authenticated prompt context evidence changed")
+    context_bound = expected_prompt_context_evidence[
+        "authenticated_calls_bound_to_context"
+    ]
+    if value.get("release_gate", {}).get(
+        "llm_first_principles_lane_live_run_complete"
+    ) is not context_bound:
+        raise CoreCreativeDiscoveryError("core authenticated prompt context release gate changed")
     validate_creative_expansion(value.get("creative_expansion", {}), proof_plan_search)
     validate_dataset_challenges(value.get("dataset_challenges", {}), root)
     validate_external_dataset_challenges(value.get("external_dataset_challenges", {}), root)
@@ -781,6 +904,13 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
             "sha256"
         ) != _normalized_file_sha256(root / CONFIG_PATH):
             raise CoreCreativeDiscoveryError("core config source binding changed")
+        context_source_binding = bindings.get("prompt_context_source", {})
+        if context_source_binding.get(
+            "path"
+        ) != PROMPT_CONTEXT_SOURCE_PATH or context_source_binding.get(
+            "sha256"
+        ) != _normalized_file_sha256(root / PROMPT_CONTEXT_SOURCE_PATH):
+            raise CoreCreativeDiscoveryError("core prompt context source binding changed")
         for key in (
             "component_knockout_preflight_receipt",
             "dataset_challenge_receipt",

@@ -1,0 +1,138 @@
+from __future__ import annotations
+
+import hashlib
+import json
+from copy import deepcopy
+from pathlib import Path
+
+import pytest
+
+from sigma_theory_compiler import core_creative_prompt_context as C
+from sigma_theory_compiler.claude_creativity_api import ClaudeCreativityError
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def _context() -> dict[str, object]:
+    symmetry = json.loads(
+        (ROOT / "runs/math/symmetry-dimension-derivation/receipt.json").read_text()
+    )
+    grammar = json.loads(
+        (ROOT / "runs/math/expanded-typed-grammar/receipt.json").read_text()
+    )
+    proof = json.loads(
+        (ROOT / "runs/math/independent-proof-plan-search/receipt.json").read_text()
+    )
+    return C.build_creative_prompt_context(symmetry, grammar, proof)
+
+
+def test_prompt_context_is_sealed_creativity_first_and_broad() -> None:
+    context = _context()
+    C.validate_creative_prompt_context(context)
+    assert context["creativity_policy"] == {
+        "creativity_is_primary": True,
+        "generate_multiple_mechanisms_before_falsification": True,
+        "origin_labels_are_fallible_lineage_assessments": True,
+        "retain_every_schema_admitted_idea": True,
+        "uncertainty_does_not_prune": True,
+    }
+    assert len(context["first_principles_briefs"]) == 4
+    assert len(context["typed_formula_kinds"]) == 7
+    assert len(context["independent_proof_mechanisms"]) == 6
+    assert context["origin_assessment_labels"] == C.ORIGIN_ASSESSMENTS
+
+
+def test_prompt_context_rejects_policy_tampering() -> None:
+    context = _context()
+    changed = deepcopy(context)
+    changed["creativity_policy"]["uncertainty_does_not_prune"] = False
+    with pytest.raises(C.CoreCreativePromptContextError, match="seal"):
+        C.validate_creative_prompt_context(changed)
+
+
+def test_transport_injects_context_and_binds_actual_provider_prompt() -> None:
+    context = _context()
+    captured: dict[str, object] = {}
+
+    def provider(method, url, headers, body, timeout):
+        captured.update(
+            {
+                "body": body,
+                "headers": dict(headers),
+                "method": method,
+                "timeout": timeout,
+                "url": url,
+            }
+        )
+        return 200, {
+            "content": [{"text": json.dumps({"hypotheses": []}), "type": "text"}],
+            "id": "msg_context_test",
+            "type": "message",
+        }
+
+    transport = C.FirstPrinciplesContextTransport(context, transport=provider)
+    request = {
+        "messages": [
+            {
+                "content": json.dumps(
+                    {"benchmark": {"blind_id": "blind.test"}, "instruction": "create"}
+                ),
+                "role": "user",
+            }
+        ],
+        "output_config": {
+            "format": {
+                "schema": {
+                    "properties": {
+                        "role": {"const": "proposer"},
+                        "steering_actions": {"items": {}, "type": "array"},
+                    }
+                }
+            }
+        },
+    }
+    status, _ = transport(
+        "POST",
+        "https://api.anthropic.com/v1/messages",
+        {"x-api-key": "test-only"},
+        json.dumps(request).encode(),
+        10.0,
+    )
+    assert status == 200
+    provider_request = json.loads(captured["body"])
+    provider_prompt_text = provider_request["messages"][0]["content"]
+    provider_prompt = json.loads(provider_prompt_text)
+    assert provider_prompt["creative_context"] == context
+    evidence = transport.evidence_for("msg_context_test")
+    assert evidence["creative_context_injected"] is True
+    assert evidence["creative_context_sha256"] == context["content_sha256"]
+    assert evidence["provider_prompt_sha256"] == hashlib.sha256(
+        provider_prompt_text.encode()
+    ).hexdigest()
+    assert "test-only" not in json.dumps(evidence, sort_keys=True)
+    assert "x-api-key" in captured["headers"]
+
+
+def test_transport_rejects_a_preexisting_context_slot() -> None:
+    context = _context()
+    transport = C.FirstPrinciplesContextTransport(
+        context, transport=lambda *_: (500, {"type": "error"})
+    )
+    request = {
+        "messages": [
+            {
+                "content": json.dumps(
+                    {"creative_context": {}, "instruction": "create"}
+                ),
+                "role": "user",
+            }
+        ]
+    }
+    with pytest.raises(ClaudeCreativityError, match="context slot"):
+        transport(
+            "POST",
+            "https://api.anthropic.com/v1/messages",
+            {"x-api-key": "test-only"},
+            json.dumps(request).encode(),
+            10.0,
+        )

@@ -1229,6 +1229,15 @@ required structural features and 27 remain active while feature evidence is miss
 live treatment
 specimen and runtime-health evidence, not a creativity win. The receipt stores hashes and usage
 evidence, not the credential, env-file path, or raw prompts and outputs.
+The core now constructs one sealed creativity-first prompt context from the four exact
+symmetry/dimension briefs, seven admitted typed formula kinds, six independently searched proof
+mechanisms, and four required origin-assessment labels. A core-only provider wrapper injects that
+context into every proposer and critic request and records its content hash beside the actual
+provider prompt hash. The checked-in receipt honestly marks this lane
+`READY_NEXT_LIVE_RUN_NOT_YET_EVIDENCED`: the earlier eight authenticated calls remain valid runtime
+evidence but predate the new context. The next live core run cannot pass unless all eight completed
+Messages calls carry the same current context hash. No paid rerun was performed while adding this
+path.
 The live provider adapter also preserves high-output proposer calls: branches 17 through 64 are
 temporarily staged around the frozen 16-branch legacy parser and reattached before lineage,
 behavior deduplication, or persistence. A 24-branch mutation control proves the overflow path; the

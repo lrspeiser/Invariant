@@ -58,6 +58,10 @@ def build_evidence_from_receipt(
                     "capabilities_sha256"
                 ),
                 "credential_persisted": False,
+                "creative_context_injected": evidence.get(
+                    "creative_context_injected", False
+                ),
+                "creative_context_sha256": evidence.get("creative_context_sha256"),
                 "model": evidence.get("model"),
                 "output_sha256": evidence.get("output_sha256"),
                 "prompt_sha256": evidence.get(
@@ -150,6 +154,17 @@ def validate_evidence(evidence: Mapping[str, Any]) -> None:
         raise ValueError("live API evidence claim boundary changed")
     if any(call.get("credential_persisted") is not False for call in evidence.get("calls", [])):
         raise ValueError("live API evidence credential boundary changed")
+    for call in evidence.get("calls", []):
+        injected = call.get("creative_context_injected", False)
+        context_sha = call.get("creative_context_sha256")
+        if injected is True and (
+            not isinstance(context_sha, str)
+            or len(context_sha) != 64
+            or any(character not in "0123456789abcdef" for character in context_sha)
+        ):
+            raise ValueError("live API creative context binding changed")
+        if injected is not True and context_sha is not None:
+            raise ValueError("un-injected live API call claims a creative context")
 
 
 def main(argv: list[str] | None = None) -> int:

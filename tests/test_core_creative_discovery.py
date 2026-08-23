@@ -12,7 +12,7 @@ from sigma_theory_compiler.sigma_core import canonical_sha256
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def _fake_campaign() -> dict[str, object]:
+def _fake_campaign(creative_context: dict[str, object]) -> dict[str, object]:
     calls = []
     for index in range(8):
         role = "proposer" if index < 4 else "critic"
@@ -69,6 +69,8 @@ def _fake_campaign() -> dict[str, object]:
                     "api_response_id": f"msg_test_{index}",
                     "capabilities_sha256": "a" * 64,
                     "credential_persisted": False,
+                    "creative_context_injected": True,
+                    "creative_context_sha256": creative_context["content_sha256"],
                     "model": "claude-opus-4-6",
                     "model_evidence": {
                         "capabilities_sha256": "b" * 64,
@@ -175,14 +177,41 @@ def test_core_run_requires_and_sanitizes_live_claude(
     )
     monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
 
-    def runner(_: Path) -> dict[str, object]:
+    def runner(_: Path, creative_context: dict[str, object]) -> dict[str, object]:
         assert os.environ["ANTHROPIC_API_KEY"] == secret
-        return _fake_campaign()
+        assert creative_context["creativity_policy"]["creativity_is_primary"] is True
+        assert creative_context["creativity_policy"]["uncertainty_does_not_prune"] is True
+        assert len(creative_context["first_principles_briefs"]) == 4
+        assert creative_context["origin_assessment_labels"] == [
+            "cross_domain_synthesis",
+            "known_rewrite",
+            "proposed_new_construction",
+            "uncertain",
+        ]
+        return _fake_campaign(creative_context)
 
     receipt = C.run_core(ROOT, credential_file=credential_file, campaign_runner=runner)
     C.validate_receipt(receipt, ROOT)
     assert receipt["claude_runtime"]["authenticated_messages_api_working"]
     assert receipt["claude_runtime"]["completed_calls"] == 8
+    assert receipt["llm_prompt_context"] == {
+        "authenticated_calls_bound_to_context": True,
+        "bound_authenticated_calls": 8,
+        "content_sha256": receipt["claude_runtime"]["evidence"]["calls"][0][
+            "creative_context_sha256"
+        ],
+        "first_principles_briefs": 4,
+        "independent_proof_mechanisms": 6,
+        "origin_assessment_labels": [
+            "cross_domain_synthesis",
+            "known_rewrite",
+            "proposed_new_construction",
+            "uncertain",
+        ],
+        "status": "PASS_CONTEXT_BOUND_TO_AUTHENTICATED_CALLS",
+        "typed_formula_kinds": 7,
+    }
+    assert receipt["release_gate"]["llm_first_principles_lane_live_run_complete"]
     assert receipt["credential_activation"]["source_kind"] == "explicit_env_file"
     assert receipt["idea_lineage_archive"]["summary"]["ideas_received"] == 4
     assert receipt["idea_lineage_archive"]["summary"]["ideas_retained"] == 4
@@ -261,5 +290,28 @@ def test_deterministic_rebind_preserves_authenticated_llm_evidence() -> None:
     assert rebound == receipt
     assert rebound["claude_runtime"] == receipt["claude_runtime"]
     assert rebound["idea_lineage_archive"] == receipt["idea_lineage_archive"]
+    assert rebound["schema_version"] == C.SCHEMA_VERSION
+    assert rebound["llm_prompt_context"]["status"] == (
+        "READY_NEXT_LIVE_RUN_NOT_YET_EVIDENCED"
+    )
+    assert not rebound["llm_prompt_context"][
+        "authenticated_calls_bound_to_context"
+    ]
+    assert not rebound["release_gate"][
+        "llm_first_principles_lane_live_run_complete"
+    ]
     assert rebound["verification"]["serious_claim_backend_mutations_rejected"] == 10
     assert rebound["verification"]["serious_claim_lean_mutation_artifact_bound"] is True
+
+
+def test_core_receipt_rejects_unearned_prompt_context_claim() -> None:
+    receipt = json.loads((ROOT / C.OUTPUT_PATH).read_text(encoding="utf-8"))
+    rebound = C.rebind_core_receipt(ROOT, receipt)
+    changed = json.loads(json.dumps(rebound))
+    changed["llm_prompt_context"]["authenticated_calls_bound_to_context"] = True
+    changed["llm_prompt_context"]["status"] = "PASS_CONTEXT_BOUND_TO_AUTHENTICATED_CALLS"
+    changed["release_gate"]["llm_first_principles_lane_live_run_complete"] = True
+    body = {key: item for key, item in changed.items() if key != "content_sha256"}
+    changed["content_sha256"] = canonical_sha256(body)
+    with pytest.raises(C.CoreCreativeDiscoveryError, match="prompt context"):
+        C.validate_receipt(changed, ROOT)
