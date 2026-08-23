@@ -1,11 +1,12 @@
 {
   "claims": {
+    "all_five_backend_mutations_complete": false,
     "backend_availability_is_proof": false,
     "known_control_calibration_is_novelty": false,
     "novel_formula_established": false,
     "serious_claim_released": false
   },
-  "content_sha256": "78f6b869ae3f518b137d8f1d8fbae7c0935db3d3e83bd321d48f5b2e0728c0f1",
+  "content_sha256": "50501be280be64050e70b6af88820f545d9acf903d7bca7197c3f27bd7c18952",
   "known_control_chain": {
     "candidate_bindings": [
       {
@@ -26,122 +27,349 @@
     "candidate_scope_sha256": "e9eeae69d38e419d308d2b1726cd3448e2b045bdac919f0b1f60432a2499103f",
     "chain_id": "candidate-bound-exact-cas-smt-interval-lean-001.known-controls",
     "claims": {
+      "all_five_backend_wrong_formula_controls_complete": false,
       "known_control_calibration_passed": true,
       "literature_novelty_established": false,
       "new_candidate_verified": false,
       "serious_claim_released": false
     },
-    "content_sha256": "80ab285f07551e82f71dac4173536b1383d12dc8b35d1f599a31c77f066e8a99",
+    "content_sha256": "63b96866d5d9b5e7b23e9777ee2919def211c8a8e4cfd61434f7a51fb01df15c",
     "purpose": "known_control_calibration_only",
-    "schema_version": "invariant-candidate-verification-chain-1.0",
+    "schema_version": "invariant-candidate-verification-chain-1.1",
     "stages": [
       {
         "backend": "exact_arithmetic",
         "backend_available": true,
         "candidate_scope_sha256": "e9eeae69d38e419d308d2b1726cd3448e2b045bdac919f0b1f60432a2499103f",
-        "content_sha256": "044789ca7aa55f384b495cdd7d88ca2384acfd8985a04691a6e455f620f2ac25",
+        "content_sha256": "da7ce295205cc4be1151db580ea552cad34a8d46727176a8fb28af3177b03d44",
         "evidence": {
           "campaign_content_sha256": "2c4f8d00fbe57265f850c17f3bb9f4e6542daa2b594561a0892748615b1e4123",
           "controls": [
             {
               "backend_passed": true,
               "benchmark_id": "external.authority-openstax-0702",
+              "campaign_reported_backend_passed": true,
               "candidate_id": "candidate.0dd1fa8201b4bc8c2e6877d9",
-              "independent_exact_match": true
+              "independent_exact_match": true,
+              "independent_positive_reexecution": true
             },
             {
               "backend_passed": true,
               "benchmark_id": "external.authority-nist-0244",
+              "campaign_reported_backend_passed": true,
               "candidate_id": "candidate.0082bc01d3dc5192fc25ea54",
-              "independent_exact_match": true
+              "independent_exact_match": true,
+              "independent_positive_reexecution": true
+            }
+          ],
+          "mathematical_mutation_controls": [
+            {
+              "backend": "exact_arithmetic",
+              "backend_evidence": {
+                "comparison": "mutated_output != sealed_holdout_output",
+                "implementation": "python_stdlib_fraction_ast_v1"
+              },
+              "backend_result": "MISMATCH_WITNESS",
+              "benchmark_id": "external.authority-openstax-0702",
+              "candidate_id": "candidate.0dd1fa8201b4bc8c2e6877d9",
+              "mutated_expression": "((1/2)*x0*x1**2) + 1",
+              "mutated_expression_sha256": "7d1a80cdd7564046141bb9c89933564e2d38a47825620a9c49481d6b10e5dbd7",
+              "mutation_id": "mutation.998ad9036e650785d7a756d3",
+              "mutation_operator": "add_exact_unit",
+              "reference_formula_sha256": "c4ca6e7cbd23ed9ec5e7010ceecd9e432c05f596a9976dd42b6b3cae8f6a0a0d",
+              "target_commitment_sha256": "54675f0e9b83bd4be5342b063bd7cb76ddb4e390b50c53332877fa2aa1cff211",
+              "witness": {
+                "inputs": {
+                  "x0": "8/1",
+                  "x1": "5/1"
+                },
+                "mutated_output": "101/1",
+                "original_output": "100/1",
+                "residual": "1/1"
+              },
+              "wrong_formula_rejected": true
+            },
+            {
+              "backend": "exact_arithmetic",
+              "backend_evidence": {
+                "comparison": "mutated_output != sealed_holdout_output",
+                "implementation": "python_stdlib_fraction_ast_v1"
+              },
+              "backend_result": "MISMATCH_WITNESS",
+              "benchmark_id": "external.authority-nist-0244",
+              "candidate_id": "candidate.0082bc01d3dc5192fc25ea54",
+              "mutated_expression": "(x0*(x0 + 1)*(2*x0 + 1)/6) + 1",
+              "mutated_expression_sha256": "c4e3c3e616163bbbb042eb40f041daa98af70817b63e77d2a1a5783fe360cadf",
+              "mutation_id": "mutation.07f512d4ea6e21244a588b0b",
+              "mutation_operator": "add_exact_unit",
+              "reference_formula_sha256": "47f0902ce415c91a72fa6c05c4674824d198c540b4379f1200e03bda4a23cace",
+              "target_commitment_sha256": "a3457c5419a818b538b3d32880486c95ce4f70df6c65cf57ecee089d8b4c3771",
+              "witness": {
+                "inputs": {
+                  "x0": "9/1"
+                },
+                "mutated_output": "286/1",
+                "original_output": "285/1",
+                "residual": "1/1"
+              },
+              "wrong_formula_rejected": true
             }
           ]
         },
         "order": 0,
         "positive_control_passed": true,
         "previous_stage_sha256": null,
-        "schema_version": "invariant-candidate-verification-stage-1.0"
+        "schema_version": "invariant-candidate-verification-stage-1.1"
       },
       {
         "backend": "cas",
         "backend_available": true,
         "candidate_scope_sha256": "e9eeae69d38e419d308d2b1726cd3448e2b045bdac919f0b1f60432a2499103f",
-        "content_sha256": "94d352aa4bdb7fbbe720ebdeb72b26fb02163d476ceafbbc3531ee364339f608",
+        "content_sha256": "3351cf21c2cc8cb5f4c22298f8dcedf8136ad77ca3e510ee218eeb2ec723f5d7",
         "evidence": {
           "campaign_content_sha256": "2c4f8d00fbe57265f850c17f3bb9f4e6542daa2b594561a0892748615b1e4123",
           "controls": [
             {
               "backend_passed": true,
               "benchmark_id": "external.authority-openstax-0702",
-              "candidate_id": "candidate.0dd1fa8201b4bc8c2e6877d9"
+              "campaign_reported_backend_passed": true,
+              "candidate_id": "candidate.0dd1fa8201b4bc8c2e6877d9",
+              "independent_positive_reexecution": true
             },
             {
               "backend_passed": true,
               "benchmark_id": "external.authority-nist-0244",
-              "candidate_id": "candidate.0082bc01d3dc5192fc25ea54"
+              "campaign_reported_backend_passed": true,
+              "candidate_id": "candidate.0082bc01d3dc5192fc25ea54",
+              "independent_positive_reexecution": true
+            }
+          ],
+          "mathematical_mutation_controls": [
+            {
+              "backend": "cas",
+              "backend_evidence": {
+                "normalized_symbolic_residual": "1"
+              },
+              "backend_result": "NONZERO_NORMAL_FORM",
+              "benchmark_id": "external.authority-openstax-0702",
+              "candidate_id": "candidate.0dd1fa8201b4bc8c2e6877d9",
+              "mutated_expression": "((1/2)*x0*x1**2) + 1",
+              "mutated_expression_sha256": "7d1a80cdd7564046141bb9c89933564e2d38a47825620a9c49481d6b10e5dbd7",
+              "mutation_id": "mutation.998ad9036e650785d7a756d3",
+              "mutation_operator": "add_exact_unit",
+              "reference_formula_sha256": "c4ca6e7cbd23ed9ec5e7010ceecd9e432c05f596a9976dd42b6b3cae8f6a0a0d",
+              "target_commitment_sha256": "54675f0e9b83bd4be5342b063bd7cb76ddb4e390b50c53332877fa2aa1cff211",
+              "witness": {
+                "inputs": {
+                  "x0": "8/1",
+                  "x1": "5/1"
+                },
+                "mutated_output": "101/1",
+                "original_output": "100/1",
+                "residual": "1/1"
+              },
+              "wrong_formula_rejected": true
+            },
+            {
+              "backend": "cas",
+              "backend_evidence": {
+                "normalized_symbolic_residual": "1"
+              },
+              "backend_result": "NONZERO_NORMAL_FORM",
+              "benchmark_id": "external.authority-nist-0244",
+              "candidate_id": "candidate.0082bc01d3dc5192fc25ea54",
+              "mutated_expression": "(x0*(x0 + 1)*(2*x0 + 1)/6) + 1",
+              "mutated_expression_sha256": "c4e3c3e616163bbbb042eb40f041daa98af70817b63e77d2a1a5783fe360cadf",
+              "mutation_id": "mutation.07f512d4ea6e21244a588b0b",
+              "mutation_operator": "add_exact_unit",
+              "reference_formula_sha256": "47f0902ce415c91a72fa6c05c4674824d198c540b4379f1200e03bda4a23cace",
+              "target_commitment_sha256": "a3457c5419a818b538b3d32880486c95ce4f70df6c65cf57ecee089d8b4c3771",
+              "witness": {
+                "inputs": {
+                  "x0": "9/1"
+                },
+                "mutated_output": "286/1",
+                "original_output": "285/1",
+                "residual": "1/1"
+              },
+              "wrong_formula_rejected": true
             }
           ]
         },
         "order": 1,
         "positive_control_passed": true,
-        "previous_stage_sha256": "044789ca7aa55f384b495cdd7d88ca2384acfd8985a04691a6e455f620f2ac25",
-        "schema_version": "invariant-candidate-verification-stage-1.0"
+        "previous_stage_sha256": "da7ce295205cc4be1151db580ea552cad34a8d46727176a8fb28af3177b03d44",
+        "schema_version": "invariant-candidate-verification-stage-1.1"
       },
       {
         "backend": "smt",
         "backend_available": true,
         "candidate_scope_sha256": "e9eeae69d38e419d308d2b1726cd3448e2b045bdac919f0b1f60432a2499103f",
-        "content_sha256": "a6ae2701b6f40258f3e6201c40705d87897998ed37b1d225677de495a5abb0e8",
+        "content_sha256": "2758b5b5b342a84d751297d59077fd36883c055d83220591dd46369e9f9e6700",
         "evidence": {
           "campaign_content_sha256": "2c4f8d00fbe57265f850c17f3bb9f4e6542daa2b594561a0892748615b1e4123",
           "controls": [
             {
               "backend_passed": true,
               "benchmark_id": "external.authority-openstax-0702",
-              "candidate_id": "candidate.0dd1fa8201b4bc8c2e6877d9"
+              "campaign_reported_backend_passed": true,
+              "candidate_id": "candidate.0dd1fa8201b4bc8c2e6877d9",
+              "independent_positive_reexecution": true
             },
             {
               "backend_passed": true,
               "benchmark_id": "external.authority-nist-0244",
-              "candidate_id": "candidate.0082bc01d3dc5192fc25ea54"
+              "campaign_reported_backend_passed": true,
+              "candidate_id": "candidate.0082bc01d3dc5192fc25ea54",
+              "independent_positive_reexecution": true
+            }
+          ],
+          "mathematical_mutation_controls": [
+            {
+              "backend": "smt",
+              "backend_evidence": {
+                "solver_result": "sat",
+                "witness_constraints_bound": true
+              },
+              "backend_result": "SAT_COUNTERMODEL",
+              "benchmark_id": "external.authority-openstax-0702",
+              "candidate_id": "candidate.0dd1fa8201b4bc8c2e6877d9",
+              "mutated_expression": "((1/2)*x0*x1**2) + 1",
+              "mutated_expression_sha256": "7d1a80cdd7564046141bb9c89933564e2d38a47825620a9c49481d6b10e5dbd7",
+              "mutation_id": "mutation.998ad9036e650785d7a756d3",
+              "mutation_operator": "add_exact_unit",
+              "reference_formula_sha256": "c4ca6e7cbd23ed9ec5e7010ceecd9e432c05f596a9976dd42b6b3cae8f6a0a0d",
+              "target_commitment_sha256": "54675f0e9b83bd4be5342b063bd7cb76ddb4e390b50c53332877fa2aa1cff211",
+              "witness": {
+                "inputs": {
+                  "x0": "8/1",
+                  "x1": "5/1"
+                },
+                "mutated_output": "101/1",
+                "original_output": "100/1",
+                "residual": "1/1"
+              },
+              "wrong_formula_rejected": true
+            },
+            {
+              "backend": "smt",
+              "backend_evidence": {
+                "solver_result": "sat",
+                "witness_constraints_bound": true
+              },
+              "backend_result": "SAT_COUNTERMODEL",
+              "benchmark_id": "external.authority-nist-0244",
+              "candidate_id": "candidate.0082bc01d3dc5192fc25ea54",
+              "mutated_expression": "(x0*(x0 + 1)*(2*x0 + 1)/6) + 1",
+              "mutated_expression_sha256": "c4e3c3e616163bbbb042eb40f041daa98af70817b63e77d2a1a5783fe360cadf",
+              "mutation_id": "mutation.07f512d4ea6e21244a588b0b",
+              "mutation_operator": "add_exact_unit",
+              "reference_formula_sha256": "47f0902ce415c91a72fa6c05c4674824d198c540b4379f1200e03bda4a23cace",
+              "target_commitment_sha256": "a3457c5419a818b538b3d32880486c95ce4f70df6c65cf57ecee089d8b4c3771",
+              "witness": {
+                "inputs": {
+                  "x0": "9/1"
+                },
+                "mutated_output": "286/1",
+                "original_output": "285/1",
+                "residual": "1/1"
+              },
+              "wrong_formula_rejected": true
             }
           ]
         },
         "order": 2,
         "positive_control_passed": true,
-        "previous_stage_sha256": "94d352aa4bdb7fbbe720ebdeb72b26fb02163d476ceafbbc3531ee364339f608",
-        "schema_version": "invariant-candidate-verification-stage-1.0"
+        "previous_stage_sha256": "3351cf21c2cc8cb5f4c22298f8dcedf8136ad77ca3e510ee218eeb2ec723f5d7",
+        "schema_version": "invariant-candidate-verification-stage-1.1"
       },
       {
         "backend": "interval",
         "backend_available": true,
         "candidate_scope_sha256": "e9eeae69d38e419d308d2b1726cd3448e2b045bdac919f0b1f60432a2499103f",
-        "content_sha256": "94d51b0bf8d5fe59aeac2e6030e490fcc0e7f415bc4419c589ab12ec7cfe660d",
+        "content_sha256": "e9c73fb7bb4a8f006167bbe8d567ee895b62781e0374c0944ec469db6676be84",
         "evidence": {
           "campaign_content_sha256": "2c4f8d00fbe57265f850c17f3bb9f4e6542daa2b594561a0892748615b1e4123",
           "controls": [
             {
               "backend_passed": true,
               "benchmark_id": "external.authority-openstax-0702",
-              "candidate_id": "candidate.0dd1fa8201b4bc8c2e6877d9"
+              "campaign_reported_backend_passed": true,
+              "candidate_id": "candidate.0dd1fa8201b4bc8c2e6877d9",
+              "independent_positive_reexecution": true
             },
             {
               "backend_passed": true,
               "benchmark_id": "external.authority-nist-0244",
-              "candidate_id": "candidate.0082bc01d3dc5192fc25ea54"
+              "campaign_reported_backend_passed": true,
+              "candidate_id": "candidate.0082bc01d3dc5192fc25ea54",
+              "independent_positive_reexecution": true
+            }
+          ],
+          "mathematical_mutation_controls": [
+            {
+              "backend": "interval",
+              "backend_evidence": {
+                "enclosure_relation": "strictly_positive",
+                "zero_excluded": true
+              },
+              "backend_result": "ZERO_EXCLUDED",
+              "benchmark_id": "external.authority-openstax-0702",
+              "candidate_id": "candidate.0dd1fa8201b4bc8c2e6877d9",
+              "mutated_expression": "((1/2)*x0*x1**2) + 1",
+              "mutated_expression_sha256": "7d1a80cdd7564046141bb9c89933564e2d38a47825620a9c49481d6b10e5dbd7",
+              "mutation_id": "mutation.998ad9036e650785d7a756d3",
+              "mutation_operator": "add_exact_unit",
+              "reference_formula_sha256": "c4ca6e7cbd23ed9ec5e7010ceecd9e432c05f596a9976dd42b6b3cae8f6a0a0d",
+              "target_commitment_sha256": "54675f0e9b83bd4be5342b063bd7cb76ddb4e390b50c53332877fa2aa1cff211",
+              "witness": {
+                "inputs": {
+                  "x0": "8/1",
+                  "x1": "5/1"
+                },
+                "mutated_output": "101/1",
+                "original_output": "100/1",
+                "residual": "1/1"
+              },
+              "wrong_formula_rejected": true
+            },
+            {
+              "backend": "interval",
+              "backend_evidence": {
+                "enclosure_relation": "strictly_positive",
+                "zero_excluded": true
+              },
+              "backend_result": "ZERO_EXCLUDED",
+              "benchmark_id": "external.authority-nist-0244",
+              "candidate_id": "candidate.0082bc01d3dc5192fc25ea54",
+              "mutated_expression": "(x0*(x0 + 1)*(2*x0 + 1)/6) + 1",
+              "mutated_expression_sha256": "c4e3c3e616163bbbb042eb40f041daa98af70817b63e77d2a1a5783fe360cadf",
+              "mutation_id": "mutation.07f512d4ea6e21244a588b0b",
+              "mutation_operator": "add_exact_unit",
+              "reference_formula_sha256": "47f0902ce415c91a72fa6c05c4674824d198c540b4379f1200e03bda4a23cace",
+              "target_commitment_sha256": "a3457c5419a818b538b3d32880486c95ce4f70df6c65cf57ecee089d8b4c3771",
+              "witness": {
+                "inputs": {
+                  "x0": "9/1"
+                },
+                "mutated_output": "286/1",
+                "original_output": "285/1",
+                "residual": "1/1"
+              },
+              "wrong_formula_rejected": true
             }
           ]
         },
         "order": 3,
         "positive_control_passed": true,
-        "previous_stage_sha256": "a6ae2701b6f40258f3e6201c40705d87897998ed37b1d225677de495a5abb0e8",
-        "schema_version": "invariant-candidate-verification-stage-1.0"
+        "previous_stage_sha256": "2758b5b5b342a84d751297d59077fd36883c055d83220591dd46369e9f9e6700",
+        "schema_version": "invariant-candidate-verification-stage-1.1"
       },
       {
         "backend": "lean",
         "backend_available": true,
         "candidate_scope_sha256": "e9eeae69d38e419d308d2b1726cd3448e2b045bdac919f0b1f60432a2499103f",
-        "content_sha256": "7fed68adae6474a65ae23efa6a2a3ad57b720668f576c453aa59d0df87067834",
+        "content_sha256": "870365f5a81b0fb2214c78779b66445dab202d6a98fa4f560f887f28db554d58",
         "evidence": {
           "artifact_content_sha256": "c8258074e1d7ef4fce8179b4cfe87cabed79b808f9cb4f4d4e354f89c7001b21",
           "artifact_id": 9493649349,
@@ -151,12 +379,17 @@
           "theorems": [
             "Invariant.recoveredKineticNormalForm",
             "Invariant.recoveredSumSquaresNormalForm"
-          ]
+          ],
+          "wrong_formula_kernel_control": {
+            "artifact_bound": false,
+            "required_for_serious_claim": true,
+            "status": "PENDING_SEPARATE_CI_ARTIFACT"
+          }
         },
         "order": 4,
         "positive_control_passed": true,
-        "previous_stage_sha256": "94d51b0bf8d5fe59aeac2e6030e490fcc0e7f415bc4419c589ab12ec7cfe660d",
-        "schema_version": "invariant-candidate-verification-stage-1.0"
+        "previous_stage_sha256": "e9c73fb7bb4a8f006167bbe8d567ee895b62781e0374c0944ec469db6676be84",
+        "schema_version": "invariant-candidate-verification-stage-1.1"
       }
     ],
     "status": "PASS_KNOWN_CONTROL_BACKEND_LADDER"
@@ -214,29 +447,41 @@
     }
   ],
   "release_gate": {
+    "backend_wrong_formula_mutation_required": true,
     "candidate_specific_chain_required": true,
     "independent_reproduction_required": true,
+    "lean_wrong_formula_artifact_required": true,
     "named_human_prior_art_review_required": true,
     "serious_claims_released": 0,
     "status": "BLOCKED_NO_NEW_CANDIDATE_COMPLETE_LADDER"
   },
-  "schema_version": "invariant-serious-claim-verification-ladder-1.0",
+  "schema_version": "invariant-serious-claim-verification-ladder-1.1",
   "source_bindings": {
     "campaign_receipt": {
       "content_sha256": "2c4f8d00fbe57265f850c17f3bb9f4e6542daa2b594561a0892748615b1e4123",
       "path": "runs/math/external-creativity-validation/campaign.json"
     },
     "config": {
-      "normalized_file_sha256": "66097d27696d780ca1b1956617eb200fb9af102c067d9b0b0e7101e7b1c91a55",
+      "normalized_file_sha256": "8141a93fa15ae1a4ac6c7facdc16fc864d4034281111147dd3f38f14c4d6bfb8",
       "path": "configs/serious_claim_verification_ladder.json"
     },
     "multi_host_receipt": {
       "content_sha256": "f56e4ededc018d316822927b20d151ae78b5fa8126e17520d579a582aeb68429",
       "path": "runs/math/external-creativity-validation/multi-host-reproduction.json"
+    },
+    "public_benchmarks": {
+      "normalized_file_sha256": "906094a777c741e01d44146c57b95c82aa9b746df88ffab73078f9c7b3b55ecc",
+      "path": "configs/external_sealed_creativity_benchmarks.json"
+    },
+    "sealed_targets": {
+      "normalized_file_sha256": "b1a83c5986364dee4b8b98b895f71706243211b6c152032ff4e9f765b5a11697",
+      "path": "configs/external_sealed_creativity_targets.json"
     }
   },
   "summary": {
+    "backend_mathematical_mutations_rejected": 8,
     "known_control_candidates": 2,
+    "lean_kernel_mutation_artifact_bound": false,
     "negative_controls_blocked": 2,
     "required_stage_order": [
       "exact_arithmetic",

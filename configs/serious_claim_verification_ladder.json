@@ -1,5 +1,5 @@
 {
-  "schema_version": "invariant-serious-claim-verification-ladder-config-1.0",
+  "schema_version": "invariant-serious-claim-verification-ladder-config-1.1",
   "ladder_id": "candidate-bound-exact-cas-smt-interval-lean-001",
   "required_stage_order": [
     "exact_arithmetic",
@@ -11,7 +11,9 @@
   "sources": {
     "campaign_receipt": "runs/math/external-creativity-validation/campaign.json",
     "multi_host_receipt": "runs/math/external-creativity-validation/multi-host-reproduction.json",
-    "lean_source": "formal/lean/ExternalKnownFormulaControls.lean"
+    "lean_source": "formal/lean/ExternalKnownFormulaControls.lean",
+    "public_benchmarks": "configs/external_sealed_creativity_benchmarks.json",
+    "sealed_targets": "configs/external_sealed_creativity_targets.json"
   },
   "known_control_suite": {
     "benchmark_ids": [
@@ -35,12 +37,24 @@
     "broken_previous_stage_link",
     "backend_unavailable"
   ],
+  "mathematical_wrong_formula_control": {
+    "operator": "add_exact_unit",
+    "required_backends": [
+      "exact_arithmetic",
+      "cas",
+      "smt",
+      "interval"
+    ],
+    "lean_status": "PENDING_SEPARATE_CI_ARTIFACT"
+  },
   "release_policy": {
     "candidate_identity_bound_at_every_stage": true,
     "previous_stage_hash_bound": true,
     "backend_unavailable_is_block": true,
+    "backend_wrong_formula_mutation_required": true,
     "positive_result_required_at_every_stage": true,
     "independent_reproduction_required": true,
+    "lean_wrong_formula_artifact_required": true,
     "named_human_prior_art_review_required": true,
     "known_control_calibration_can_release_serious_claim": false
   }

@@ -192,6 +192,8 @@ def test_core_run_requires_and_sanitizes_live_claude(
         "lean",
     ]
     assert receipt["verification"]["serious_claims_released_by_ladder"] == 0
+    assert receipt["verification"]["serious_claim_backend_mutations_rejected"] == 8
+    assert receipt["verification"]["serious_claim_lean_mutation_artifact_bound"] is False
     assert all(
         idea["retention_status"] == "RETAINED_ACTIVE"
         for idea in receipt["idea_lineage_archive"]["ideas"]

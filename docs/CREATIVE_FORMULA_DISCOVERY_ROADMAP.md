@@ -31,13 +31,16 @@
   required core component; it does not replace externally supplied scientific datasets.
 - Every declared creativity family has an equal-budget random control and a leave-one-family-out
   ablation.
-- Exact arithmetic, CAS, SMT, and interval checks pass for the known controls. The formula-specific
-  Lean source is checked by CI, not inferred locally.
+- Exact arithmetic, CAS, SMT, and interval checks pass when independently rerun for the known
+  controls. Each backend also rejects a candidate-specific exact unit-offset mutation with a bound
+  mismatch, nonzero normal form, SAT countermodel, or zero-excluding enclosure.
 - A candidate-bound release ladder now joins the two known controls through the ordered exact
   arithmetic, CAS, SMT, interval, and downloaded Lean-kernel evidence. It blocks both bounded-
   unknown controls and rejects five structural mutations: missing or reordered stages, candidate
-  substitution, broken predecessor binding, and backend unavailability. This is gate calibration,
-  not verification of a new candidate or permission to release a serious claim.
+  substitution, broken predecessor binding, and backend unavailability. The positive Lean source is
+  checked by CI; a separate kernel artifact rejecting the wrong-formula mutation remains explicitly
+  pending and required for serious claims. This is gate calibration, not verification of a new
+  candidate or permission to release a serious claim.
 - Downloaded artifacts bind four distinct GitHub-hosted ephemeral VM runner IDs across Windows and
   Linux, with two evaluator implementations per host and a separate Lean kernel artifact. This is
   multi-host VM reproduction, not a claim about distinct bare-metal machines.
@@ -195,8 +198,11 @@ This is evidence of bounded rediscovery, not evidence of mathematical novelty.
 - Stage 5: formula-specific Lean theorem with a closed premise manifest and negative mutation.
 - The stored known-control ladder now enforces this order, candidate identity at every stage,
   predecessor hashes, backend availability, and a positive result at every stage. New candidates
-  remain blocked until they supply their own complete chain; backend-specific mathematical
-  mutations beyond the structural ladder controls remain to be added.
+  remain blocked until they supply their own complete chain. Exact arithmetic, CAS, SMT, and interval
+  arithmetic now rerun the positive controls and reject two candidate-specific wrong-formula
+  mutations apiece. The remaining backend-mutation gap is a downloaded Lean kernel artifact that
+  demonstrates rejection of the corresponding false theorem rather than only proving the positive
+  controls.
 - Block serious claims unless every required stage passes; “backend unavailable” is a block, not a
   pass.
 
