@@ -1,11 +1,12 @@
 {
-  "schema_version": "invariant-state-pair-invariant-discovery-config-1.0",
-  "campaign_id": "state-pair-invariant-controls-2026-08-23-001",
+  "schema_version": "invariant-state-pair-invariant-discovery-config-1.1",
+  "campaign_id": "state-pair-invariant-controls-2026-08-23-002",
   "policy": {
     "maximum_algebraic_coordinates": 4,
+    "maximum_absolute_laurent_exponent": 2,
+    "maximum_features": 14,
     "maximum_linear_invariant_dimension": 4,
-    "maximum_monomials": 14,
-    "maximum_total_degree": 2,
+    "maximum_total_degree": 3,
     "minimum_deployment_pairs": 2,
     "minimum_training_pairs": 4
   },
@@ -15,7 +16,7 @@
       "domain": "geometry",
       "action_kind": "matrix_orthogonal",
       "variables": ["x", "y"],
-      "maximum_total_degree": 2,
+      "feature_grammar": {"kind": "polynomial_monomials", "maximum_total_degree": 2},
       "training_pairs": [
         {
           "pair_id": "train.orthogonal-01",
@@ -56,7 +57,7 @@
       "domain": "linear_algebra",
       "action_kind": "matrix_conjugation",
       "variables": ["a", "b", "c", "d"],
-      "maximum_total_degree": 2,
+      "feature_grammar": {"kind": "polynomial_monomials", "maximum_total_degree": 2},
       "training_pairs": [
         {
           "pair_id": "train.matrix-01",
@@ -137,7 +138,7 @@
       "domain": "nonlinear_geometry",
       "action_kind": "nonlinear_polynomial",
       "variables": ["x", "y"],
-      "maximum_total_degree": 2,
+      "feature_grammar": {"kind": "polynomial_monomials", "maximum_total_degree": 2},
       "training_pairs": [
         {
           "pair_id": "train.nonlinear-01",
@@ -171,6 +172,61 @@
           "before": {"x": "0", "y": "7"},
           "after": {"x": "-2", "y": "11"}
         }
+      ]
+    },
+    {
+      "problem_id": "control.cubic-shear-state-pairs",
+      "domain": "higher_order_geometry",
+      "action_kind": "nonlinear_polynomial_degree3",
+      "variables": ["x", "y"],
+      "feature_grammar": {"kind": "polynomial_monomials", "maximum_total_degree": 3},
+      "training_pairs": [
+        {"pair_id": "train.cubic-01", "before": {"x": "1", "y": "2"}, "after": {"x": "3", "y": "28"}},
+        {"pair_id": "train.cubic-02", "before": {"x": "2", "y": "-1"}, "after": {"x": "1", "y": "-8"}},
+        {"pair_id": "train.cubic-03", "before": {"x": "-2", "y": "5"}, "after": {"x": "1", "y": "14"}},
+        {"pair_id": "train.cubic-04", "before": {"x": "3", "y": "0"}, "after": {"x": "1", "y": "-26"}},
+        {"pair_id": "train.cubic-05", "before": {"x": "-1", "y": "-3"}, "after": {"x": "3", "y": "25"}},
+        {"pair_id": "train.cubic-06", "before": {"x": "4", "y": "7"}, "after": {"x": "5", "y": "68"}},
+        {"pair_id": "train.cubic-07", "before": {"x": "5", "y": "-4"}, "after": {"x": "2", "y": "-121"}},
+        {"pair_id": "train.cubic-08", "before": {"x": "-3", "y": "2"}, "after": {"x": "2", "y": "37"}}
+      ],
+      "deployment_pairs": [
+        {"pair_id": "deployment.cubic-01", "before": {"x": "2", "y": "6"}, "after": {"x": "-2", "y": "-10"}},
+        {"pair_id": "deployment.cubic-02", "before": {"x": "6", "y": "1"}, "after": {"x": "8", "y": "297"}}
+      ]
+    },
+    {
+      "problem_id": "control.laurent-inversion-state-pairs",
+      "domain": "rational_geometry",
+      "action_kind": "rational_laurent",
+      "variables": ["x"],
+      "feature_grammar": {"kind": "laurent_monomials", "maximum_absolute_exponent": 2},
+      "training_pairs": [
+        {"pair_id": "train.laurent-01", "before": {"x": "2"}, "after": {"x": "1/2"}},
+        {"pair_id": "train.laurent-02", "before": {"x": "3"}, "after": {"x": "1/3"}},
+        {"pair_id": "train.laurent-03", "before": {"x": "5"}, "after": {"x": "1/5"}},
+        {"pair_id": "train.laurent-04", "before": {"x": "7"}, "after": {"x": "1/7"}}
+      ],
+      "deployment_pairs": [
+        {"pair_id": "deployment.laurent-01", "before": {"x": "11"}, "after": {"x": "1/11"}},
+        {"pair_id": "deployment.laurent-02", "before": {"x": "13"}, "after": {"x": "1/13"}}
+      ]
+    },
+    {
+      "problem_id": "control.logarithmic-scaling-state-pairs",
+      "domain": "transcendental_representation",
+      "action_kind": "transcendental_logarithmic",
+      "variables": ["x", "y"],
+      "feature_grammar": {"kind": "logarithmic_coordinates"},
+      "training_pairs": [
+        {"pair_id": "train.log-01", "before": {"x": "1", "y": "3"}, "after": {"x": "2", "y": "12"}},
+        {"pair_id": "train.log-02", "before": {"x": "2", "y": "5"}, "after": {"x": "6", "y": "45"}},
+        {"pair_id": "train.log-03", "before": {"x": "3", "y": "7"}, "after": {"x": "15", "y": "175"}},
+        {"pair_id": "train.log-04", "before": {"x": "5", "y": "11"}, "after": {"x": "35", "y": "539"}}
+      ],
+      "deployment_pairs": [
+        {"pair_id": "deployment.log-01", "before": {"x": "7", "y": "13"}, "after": {"x": "77", "y": "1573"}},
+        {"pair_id": "deployment.log-02", "before": {"x": "11", "y": "17"}, "after": {"x": "143", "y": "2873"}}
       ]
     }
   ]

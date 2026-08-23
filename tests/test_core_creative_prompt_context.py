@@ -44,6 +44,7 @@ def test_prompt_context_is_sealed_creativity_first_and_broad() -> None:
     assert context["creativity_policy"] == {
         "creativity_is_primary": True,
         "generate_multiple_mechanisms_before_falsification": True,
+        "learn_higher_degree_rational_and_logarithmic_features": True,
         "learn_matrix_and_nonlinear_actions_from_state_pairs": True,
         "origin_labels_are_fallible_lineage_assessments": True,
         "preserve_joint_and_unit_hypothesis_branches": True,
@@ -66,11 +67,14 @@ def test_prompt_context_is_sealed_creativity_first_and_broad() -> None:
         "REJECT_TRAIN_ONLY_INVARIANT_SPACE",
         "UNDERDETERMINED_RETAIN_CANDIDATE_SUBSPACE",
     }
-    assert len(context["state_pair_invariant_briefs"]) == 3
+    assert len(context["state_pair_invariant_briefs"]) == 6
     assert {brief["action_kind"] for brief in context["state_pair_invariant_briefs"]} == {
         "matrix_conjugation",
         "matrix_orthogonal",
         "nonlinear_polynomial",
+        "nonlinear_polynomial_degree3",
+        "rational_laurent",
+        "transcendental_logarithmic",
     }
     matrix = next(
         brief
@@ -78,6 +82,24 @@ def test_prompt_context_is_sealed_creativity_first_and_broad() -> None:
         if brief["action_kind"] == "matrix_conjugation"
     )
     assert matrix["candidate_invariant_coordinates"] == ["a + d", "a*d - b*c"]
+    rational = next(
+        brief
+        for brief in context["state_pair_invariant_briefs"]
+        if brief["action_kind"] == "rational_laurent"
+    )
+    assert rational["candidate_invariant_coordinates"] == ["x + 1/x"]
+    assert rational["retained_linear_invariant_basis"] == [
+        "x + 1/x",
+        "x**2 + 1/x**2",
+    ]
+    logarithmic = next(
+        brief
+        for brief in context["state_pair_invariant_briefs"]
+        if brief["action_kind"] == "transcendental_logarithmic"
+    )
+    assert logarithmic["candidate_invariant_coordinates"] == [
+        "2*log(x) - log(y)"
+    ]
     assert len(context["uncertain_invariant_briefs"]) == 5
     assert {brief["observation_mode"] for brief in context["uncertain_invariant_briefs"]} == {
         "missingness",
@@ -165,6 +187,24 @@ def test_prompt_context_rejects_resealed_loss_of_nonlinear_action_branch() -> No
     body = {key: value for key, value in changed.items() if key != "content_sha256"}
     changed["content_sha256"] = canonical_sha256(body)
     with pytest.raises(C.CoreCreativePromptContextError, match="state-pair invariant brief"):
+        C.validate_creative_prompt_context(changed)
+
+
+def test_prompt_context_rejects_resealed_loss_of_laurent_feature_grammar() -> None:
+    context = _context()
+    changed = deepcopy(context)
+    rational = next(
+        brief
+        for brief in changed["state_pair_invariant_briefs"]
+        if brief["action_kind"] == "rational_laurent"
+    )
+    rational["feature_grammar"] = {
+        "kind": "polynomial_monomials",
+        "maximum_total_degree": 2,
+    }
+    body = {key: value for key, value in changed.items() if key != "content_sha256"}
+    changed["content_sha256"] = canonical_sha256(body)
+    with pytest.raises(C.CoreCreativePromptContextError, match="state-pair action coverage"):
         C.validate_creative_prompt_context(changed)
 
 

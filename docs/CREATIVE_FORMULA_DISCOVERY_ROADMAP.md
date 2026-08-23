@@ -236,20 +236,21 @@ This is evidence of bounded rediscovery, not evidence of mathematical novelty.
   symmetry quotient coordinates in five domains with two independent rank/nullspace methods. An
   exact transformation learner now recovers one multi-coordinate diagonal-action subspace without
   target exponents and retains shifted and underdetermined outcomes. A second target-blind learner
-  now constructs bounded polynomial features directly from exact before/after state pairs. It
-  recovers a squared-radius coordinate, two algebraically independent 2x2 conjugation coordinates,
-  and a nonlinear parabolic-shear coordinate without action matrices, group parameters, or target
-  coefficients. A third target-blind learner now treats noisy intervals, missing ratios,
+  now constructs typed features directly from exact before/after state pairs. It recovers a
+  squared-radius coordinate, two algebraically independent 2x2 conjugation coordinates, quadratic
+  and cubic shear coordinates, a Laurent inversion coordinate, and a formal-log scaling coordinate
+  without action matrices, group parameters, or target coefficients. A third target-blind learner
+  now treats noisy intervals, missing ratios,
   one-sided censoring, finite dependent supports, and global unit hypotheses as set-valued
   evidence. It retains nine training-compatible coordinates, rejects three false coordinates that
   marginal factorization would admit, and keeps two formula/unit branches intact until exact
-  deployment. Learned calibration from real observations, higher-degree/rational actions, and
-  signed external principals remain.
+  deployment. Learned calibration from real observations, multivariate rational and broader
+  transcendental actions, and signed external principals remain.
 - Infer calibration hypotheses from external metadata and propagate continuous unit uncertainty;
   the current exact finite hypothesis control proves branch semantics, not learned calibration.
-- Generalize the exact state-pair matrix/nonlinear controls beyond degree-two polynomial
-  invariants; add residual channels, finite-difference channels, and out-of-distribution splits to
-  the same executable pipeline.
+- Generalize the new cubic/Laurent/formal-log feature grammars to multivariate rational
+  denominators, exponential/trigonometric dictionaries, residual channels, finite-difference
+  channels, and out-of-distribution splits.
 - Accept causal language only when intervention data or a defensible identification design exists;
   observational rows must never be relabelled as interventions.
 - Extend declared symmetry actions to matrix/nonlinear group generators and executable

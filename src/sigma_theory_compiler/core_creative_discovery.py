@@ -71,8 +71,8 @@ from .uncertain_invariant_discovery import (
 CONFIG_PATH = "configs/core_creative_discovery.json"
 OUTPUT_PATH = "runs/math/core-creative-discovery/live-runtime.json"
 PROMPT_CONTEXT_SOURCE_PATH = "src/sigma_theory_compiler/core_creative_prompt_context.py"
-SCHEMA_VERSION = "invariant-core-creative-discovery-runtime-2.4"
-CONFIG_SCHEMA = "invariant-core-creative-discovery-config-2.4"
+SCHEMA_VERSION = "invariant-core-creative-discovery-runtime-2.5"
+CONFIG_SCHEMA = "invariant-core-creative-discovery-config-2.5"
 
 
 class CoreCreativeDiscoveryError(ValueError):
@@ -566,16 +566,28 @@ def run_core(
             "state_pair_deployment_failures": state_pair_invariants["summary"][
                 "deployment_failures"
             ],
+            "state_pair_feature_grammar_kinds": state_pair_invariants["summary"][
+                "feature_grammar_kinds"
+            ],
+            "state_pair_higher_degree_controls": state_pair_invariants["summary"][
+                "higher_degree_controls"
+            ],
             "state_pair_matrix_action_controls": state_pair_invariants["summary"][
                 "matrix_action_controls"
             ],
             "state_pair_nonlinear_action_controls": state_pair_invariants["summary"][
                 "nonlinear_action_controls"
             ],
+            "state_pair_rational_action_controls": state_pair_invariants["summary"][
+                "rational_action_controls"
+            ],
             "state_pair_status": state_pair_invariants["summary"]["status"],
             "state_pair_target_blind_controls": state_pair_invariants["summary"][
                 "target_blind_controls"
             ],
+            "state_pair_transcendental_action_controls": state_pair_invariants[
+                "summary"
+            ]["transcendental_action_controls"],
             "uncertain_invariant_censored_controls": uncertain_invariants["summary"][
                 "censored_controls"
             ],
@@ -705,6 +717,7 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
             "invariant-core-creative-discovery-runtime-2.1",
             "invariant-core-creative-discovery-runtime-2.2",
             "invariant-core-creative-discovery-runtime-2.3",
+            "invariant-core-creative-discovery-runtime-2.4",
             SCHEMA_VERSION,
         }
         or previous.get("app_id") != "invariant.core-creative-discovery"
@@ -897,15 +910,27 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
         "state_pair_deployment_failures": state_pair_invariants["summary"][
             "deployment_failures"
         ],
+        "state_pair_feature_grammar_kinds": state_pair_invariants["summary"][
+            "feature_grammar_kinds"
+        ],
+        "state_pair_higher_degree_controls": state_pair_invariants["summary"][
+            "higher_degree_controls"
+        ],
         "state_pair_matrix_action_controls": state_pair_invariants["summary"][
             "matrix_action_controls"
         ],
         "state_pair_nonlinear_action_controls": state_pair_invariants["summary"][
             "nonlinear_action_controls"
         ],
+        "state_pair_rational_action_controls": state_pair_invariants["summary"][
+            "rational_action_controls"
+        ],
         "state_pair_status": state_pair_invariants["summary"]["status"],
         "state_pair_target_blind_controls": state_pair_invariants["summary"][
             "target_blind_controls"
+        ],
+        "state_pair_transcendental_action_controls": state_pair_invariants["summary"][
+            "transcendental_action_controls"
         ],
         "uncertain_invariant_censored_controls": uncertain_invariants["summary"][
             "censored_controls"
@@ -1103,14 +1128,19 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
         != "PASS_LEARNED_MULTI_INVARIANT_CONTROLS"
         or discovery.get("learned_invariant_training_coordinates_retained") != 7
         or discovery.get("learned_invariant_underdetermined_controls") != 1
-        or discovery.get("state_pair_algebraically_independent_coordinates") != 4
-        or discovery.get("state_pair_controls") != 3
+        or discovery.get("state_pair_algebraically_independent_coordinates") != 7
+        or discovery.get("state_pair_controls") != 6
         or discovery.get("state_pair_deployment_failures") != 0
+        or discovery.get("state_pair_feature_grammar_kinds")
+        != ["laurent_monomials", "logarithmic_coordinates", "polynomial_monomials"]
+        or discovery.get("state_pair_higher_degree_controls") != 1
         or discovery.get("state_pair_matrix_action_controls") != 2
-        or discovery.get("state_pair_nonlinear_action_controls") != 1
+        or discovery.get("state_pair_nonlinear_action_controls") != 2
+        or discovery.get("state_pair_rational_action_controls") != 1
         or discovery.get("state_pair_status")
-        != "PASS_EXACT_MATRIX_AND_NONLINEAR_STATE_PAIR_CONTROLS"
-        or discovery.get("state_pair_target_blind_controls") != 3
+        != "PASS_EXACT_TYPED_STATE_PAIR_INVARIANT_CONTROLS"
+        or discovery.get("state_pair_target_blind_controls") != 6
+        or discovery.get("state_pair_transcendental_action_controls") != 1
         or discovery.get("uncertain_invariant_censored_controls") != 1
         or discovery.get("uncertain_invariant_controls") != 5
         or discovery.get("uncertain_invariant_dependent_joint_controls") != 1
