@@ -52,11 +52,14 @@ from .serious_claim_verification_ladder import (
     validate_receipt as validate_serious_claim_ladder,
 )
 from .sigma_core import canonical_sha256
+from .symmetry_dimension_derivation import (
+    validate_receipt as validate_symmetry_dimension_derivation,
+)
 
 CONFIG_PATH = "configs/core_creative_discovery.json"
 OUTPUT_PATH = "runs/math/core-creative-discovery/live-runtime.json"
-SCHEMA_VERSION = "invariant-core-creative-discovery-runtime-1.7"
-CONFIG_SCHEMA = "invariant-core-creative-discovery-config-1.7"
+SCHEMA_VERSION = "invariant-core-creative-discovery-runtime-1.8"
+CONFIG_SCHEMA = "invariant-core-creative-discovery-config-1.8"
 
 
 class CoreCreativeDiscoveryError(ValueError):
@@ -125,6 +128,7 @@ def _load_config(root: Path) -> dict[str, Any]:
         "multi_host_reproduction_receipt",
         "proof_plan_search_receipt",
         "serious_claim_verification_ladder_receipt",
+        "symmetry_dimension_derivation_receipt",
     }:
         raise CoreCreativeDiscoveryError("core component bindings changed")
     return value
@@ -133,6 +137,7 @@ def _load_config(root: Path) -> dict[str, Any]:
 def _load_bound_receipts(
     root: Path, config: Mapping[str, Any]
 ) -> tuple[
+    dict[str, Any],
     dict[str, Any],
     dict[str, Any],
     dict[str, Any],
@@ -152,6 +157,7 @@ def _load_bound_receipts(
     expanded_grammar_path = root / components["expanded_typed_grammar_receipt"]
     proof_plan_path = root / components["proof_plan_search_receipt"]
     serious_claim_ladder_path = root / components["serious_claim_verification_ladder_receipt"]
+    symmetry_dimension_path = root / components["symmetry_dimension_derivation_receipt"]
     component_knockout_path = root / components["component_knockout_preflight_receipt"]
     dataset = json.loads(dataset_path.read_text(encoding="utf-8"))
     external_dataset = json.loads(external_dataset_path.read_text(encoding="utf-8"))
@@ -161,6 +167,7 @@ def _load_bound_receipts(
     expanded_grammar = json.loads(expanded_grammar_path.read_text(encoding="utf-8"))
     proof_plan_search = json.loads(proof_plan_path.read_text(encoding="utf-8"))
     serious_claim_ladder = json.loads(serious_claim_ladder_path.read_text(encoding="utf-8"))
+    symmetry_dimension = json.loads(symmetry_dimension_path.read_text(encoding="utf-8"))
     component_knockout = json.loads(component_knockout_path.read_text(encoding="utf-8"))
     validate_dataset_challenges(dataset, root)
     validate_external_dataset_challenges(external_dataset, root)
@@ -169,6 +176,7 @@ def _load_bound_receipts(
     validate_expanded_grammar_receipt(expanded_grammar, root)
     validate_proof_plan_search(proof_plan_search, root)
     validate_serious_claim_ladder(serious_claim_ladder, root)
+    validate_symmetry_dimension_derivation(symmetry_dimension, root)
     validate_component_knockout_preflight(component_knockout, root)
     return (
         operational,
@@ -177,6 +185,7 @@ def _load_bound_receipts(
         dataset,
         external_dataset,
         external_structured,
+        symmetry_dimension,
         proof_plan_search,
         serious_claim_ladder,
         component_knockout,
@@ -226,6 +235,7 @@ def run_core(
         dataset_challenges,
         external_dataset_challenges,
         external_structured_benchmarks,
+        symmetry_dimension_derivation,
         proof_plan_search,
         serious_claim_ladder,
         component_knockout,
@@ -292,6 +302,10 @@ def run_core(
                 "content_sha256": external_structured_benchmarks["content_sha256"],
                 "path": config["components"]["external_structured_benchmark_receipt"],
             },
+            "symmetry_dimension_derivation_receipt": {
+                "content_sha256": symmetry_dimension_derivation["content_sha256"],
+                "path": config["components"]["symmetry_dimension_derivation_receipt"],
+            },
             "multi_host_reproduction_receipt": {
                 "content_sha256": multi_host["content_sha256"],
                 "path": config["components"]["multi_host_reproduction_receipt"],
@@ -325,6 +339,7 @@ def run_core(
         "dataset_challenges": dataset_challenges,
         "external_dataset_challenges": external_dataset_challenges,
         "external_structured_benchmarks": external_structured_benchmarks,
+        "symmetry_dimension_derivation": symmetry_dimension_derivation,
         "proof_plan_search": proof_plan_search,
         "discovery_runtime": {
             "declarative_extensions_admitted": len(
@@ -366,6 +381,19 @@ def run_core(
             "external_structured_benchmark_tasks": external_structured_benchmarks[
                 "coverage"
             ]["tasks"],
+            "first_principles_d4_controls_passed": symmetry_dimension_derivation["summary"][
+                "controls_passed"
+            ],
+            "first_principles_d4_dimension_mutations_rejected": (
+                symmetry_dimension_derivation["summary"]["dimension_mutations_rejected"]
+            ),
+            "first_principles_d4_invariant_coordinates": symmetry_dimension_derivation[
+                "summary"
+            ]["invariant_coordinates"],
+            "first_principles_d4_status": symmetry_dimension_derivation["summary"]["status"],
+            "first_principles_d4_symmetry_mutations_rejected": (
+                symmetry_dimension_derivation["summary"]["symmetry_mutations_rejected"]
+            ),
             "independent_proof_plan_mechanisms": proof_plan_search["summary"]["mechanisms"],
             "independent_proof_plan_mutations_rejected": proof_plan_search["summary"][
                 "mutation_controls_rejected"
@@ -455,6 +483,7 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
             "invariant-core-creative-discovery-runtime-1.4",
             "invariant-core-creative-discovery-runtime-1.5",
             "invariant-core-creative-discovery-runtime-1.6",
+            "invariant-core-creative-discovery-runtime-1.7",
             SCHEMA_VERSION,
         }
         or previous.get("app_id") != "invariant.core-creative-discovery"
@@ -481,6 +510,7 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
         dataset_challenges,
         external_dataset_challenges,
         external_structured_benchmarks,
+        symmetry_dimension_derivation,
         proof_plan_search,
         serious_claim_ladder,
         component_knockout,
@@ -509,6 +539,10 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
             "content_sha256": external_structured_benchmarks["content_sha256"],
             "path": config["components"]["external_structured_benchmark_receipt"],
         },
+        "symmetry_dimension_derivation_receipt": {
+            "content_sha256": symmetry_dimension_derivation["content_sha256"],
+            "path": config["components"]["symmetry_dimension_derivation_receipt"],
+        },
         "multi_host_reproduction_receipt": {
             "content_sha256": multi_host["content_sha256"],
             "path": config["components"]["multi_host_reproduction_receipt"],
@@ -530,6 +564,7 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
     value["dataset_challenges"] = dataset_challenges
     value["external_dataset_challenges"] = external_dataset_challenges
     value["external_structured_benchmarks"] = external_structured_benchmarks
+    value["symmetry_dimension_derivation"] = symmetry_dimension_derivation
     value["proof_plan_search"] = proof_plan_search
     value["discovery_runtime"] = {
         **value["discovery_runtime"],
@@ -565,6 +600,19 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
         "external_structured_benchmark_tasks": external_structured_benchmarks["coverage"][
             "tasks"
         ],
+        "first_principles_d4_controls_passed": symmetry_dimension_derivation["summary"][
+            "controls_passed"
+        ],
+        "first_principles_d4_dimension_mutations_rejected": symmetry_dimension_derivation[
+            "summary"
+        ]["dimension_mutations_rejected"],
+        "first_principles_d4_invariant_coordinates": symmetry_dimension_derivation["summary"][
+            "invariant_coordinates"
+        ],
+        "first_principles_d4_status": symmetry_dimension_derivation["summary"]["status"],
+        "first_principles_d4_symmetry_mutations_rejected": symmetry_dimension_derivation[
+            "summary"
+        ]["symmetry_mutations_rejected"],
     }
     value["verification"] = {
         "backends_required_for_serious_claim": config["release_policy"][
@@ -630,6 +678,9 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
     validate_creative_expansion(value.get("creative_expansion", {}), proof_plan_search)
     validate_dataset_challenges(value.get("dataset_challenges", {}), root)
     validate_external_dataset_challenges(value.get("external_dataset_challenges", {}), root)
+    validate_symmetry_dimension_derivation(
+        value.get("symmetry_dimension_derivation", {}), root or Path.cwd()
+    )
     external_structured = value.get("external_structured_benchmarks", {})
     external_structured_body = {
         key: item for key, item in external_structured.items() if key != "content_sha256"
@@ -672,6 +723,12 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
         or discovery.get("external_structured_benchmark_status")
         != "CREATIVITY_BENCHMARK_READY_LEVEL5_BLOCKED_UNSIGNED_SOURCE"
         or discovery.get("external_structured_benchmark_tasks") != 8
+        or discovery.get("first_principles_d4_controls_passed") != 4
+        or discovery.get("first_principles_d4_dimension_mutations_rejected") != 4
+        or discovery.get("first_principles_d4_invariant_coordinates") != 4
+        or discovery.get("first_principles_d4_status")
+        != "PASS_SYMMETRY_DIMENSION_FORCED_DERIVATION"
+        or discovery.get("first_principles_d4_symmetry_mutations_rejected") != 4
         or discovery.get("independent_proof_plan_mechanisms")
         != [
             "induction",
@@ -734,6 +791,7 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
             "multi_host_reproduction_receipt",
             "proof_plan_search_receipt",
             "serious_claim_verification_ladder_receipt",
+            "symmetry_dimension_derivation_receipt",
         ):
             binding = bindings.get(key, {})
             path = (root / str(binding.get("path", ""))).resolve()
@@ -760,6 +818,8 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
                 validate_proof_plan_search(bound, root)
             if key == "serious_claim_verification_ladder_receipt":
                 validate_serious_claim_ladder(bound, root)
+            if key == "symmetry_dimension_derivation_receipt":
+                validate_symmetry_dimension_derivation(bound, root)
             if key == "component_knockout_preflight_receipt":
                 validate_component_knockout_preflight(bound, root)
 

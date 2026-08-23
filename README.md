@@ -1421,6 +1421,21 @@ sigma-external-structured-benchmarks reproduce --root . `
   --receipt runs/math/external-structured-benchmarks/2026-08-23-001-receipt.json
 ```
 
+Build or validate the exact symmetry-and-dimension derivation controls with:
+
+```powershell
+sigma-symmetry-dimension build --root . `
+  --output runs/math/symmetry-dimension-derivation/receipt.json
+sigma-symmetry-dimension validate --root . `
+  --receipt runs/math/symmetry-dimension-derivation/receipt.json
+```
+
+The four declarations recover primitive pendulum, Kepler, diffusion, and Reynolds invariant
+coordinates with agreeing Fraction and SymPy exact evaluators. Each exponent-offset mutation is
+rejected, and deleting the nuisance symmetry opens a spurious coordinate. The receipt stores an
+LLM-ready brief with explicit origin labels while retaining an arbitrary free function; it does not
+claim a specific law, empirical fit, or literature novelty.
+
 Revalidate the network-free live receipts with:
 
 ```powershell
@@ -1433,6 +1448,8 @@ sigma-external-structured-benchmarks validate --root . `
   --generation runs/math/external-structured-benchmarks/2026-08-23-001-generation.json `
   --targets runs/math/external-structured-benchmarks/2026-08-23-001-targets.json `
   --receipt runs/math/external-structured-benchmarks/2026-08-23-001-receipt.json
+sigma-symmetry-dimension validate --root . `
+  --receipt runs/math/symmetry-dimension-derivation/receipt.json
 sigma-proof-plan-search validate --root . `
   --receipt runs/math/independent-proof-plan-search/receipt.json
 sigma-serious-claim-ladder validate --root . `

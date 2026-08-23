@@ -64,6 +64,12 @@
   commitments. Exact live refetch reproduces both response hashes. Upstream assertions are benchmark
   targets rather than independent proofs, and the unsigned HTTPS evidence remains ineligible for a
   level-5 count.
+- The declarative D4 control engine now computes primitive invariant coordinates for pendulum,
+  Kepler, diffusion, and Reynolds systems from dimension rows plus explicit nuisance symmetries.
+  Fraction Gaussian elimination and SymPy exact nullspaces agree on all four one-dimensional
+  quotients. Exponent mutations are rejected, and deleting a nuisance action increases nullity and
+  admits the nuisance variable. The output is an LLM-ready creative constraint brief with the four
+  origin labels, but it deliberately leaves `F(pi_1)` arbitrary and makes no law or novelty claim.
 - A live claim-specific screen queried OEIS, Crossref, arXiv, Semantic Scholar, and the repository
   for one retained `uncertain` LLM idea. OEIS matched all 18 displayed terms to A005132; Semantic
   Scholar's HTTP 429 is preserved as unavailable evidence. This calibrates the model label at the
@@ -202,14 +208,17 @@ This is evidence of bounded rediscovery, not evidence of mathematical novelty.
 
 - Exact synthetic controls and a first live external pack now execute intervention contrasts,
   nonzero-noise evidence, train/deployment shift, and an underdetermined observational control with
-  positive and mutation evidence. Broader uncertainty models, signed external principals, and
-  learned invariant search remain.
+  positive and mutation evidence. A bounded declaration engine now also computes exact dimensional
+  and symmetry quotient coordinates in four domains with two independent rank/nullspace methods.
+  Learned invariant search, broader uncertainty models, and signed external principals remain.
 - Normalize declared units and propagate unit uncertainty.
-- Compute dimension matrices, dimensionless null-space groups, invariant coordinates, residual
-  channels, finite-difference channels, and out-of-distribution splits.
+- Generalize the four-control dimension/symmetry null-space engine to learned group actions and
+  multiple invariant coordinates; add residual channels, finite-difference channels, and
+  out-of-distribution splits to the same executable pipeline.
 - Accept causal language only when intervention data or a defensible identification design exists;
   observational rows must never be relabelled as interventions.
-- Add symmetry-group actions and equivariance tests rather than relying only on coordinate names.
+- Extend the current declared diagonal symmetry actions to matrix/nonlinear group actions and
+  executable equivariance tests rather than relying only on coordinate names.
 - Model measurement noise, missingness, censoring, dependence, and dataset shift before fitting.
 - Include synthetic identifiability controls where the correct result is “underdetermined.”
 
