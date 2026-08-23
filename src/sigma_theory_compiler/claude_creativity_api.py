@@ -92,12 +92,41 @@ def _text(value: Any, label: str, *, maximum_bytes: int = 4096) -> str:
 
 
 def _text_array(value: Any, label: str, *, maximum: int) -> tuple[str, ...]:
-    if not isinstance(value, list) or len(value) > maximum:
+    if not isinstance(value, list):
         raise ClaudeCreativityError(f"{label} is not a bounded JSON array")
-    result = tuple(_text(item, label, maximum_bytes=512) for item in value)
-    if len(set(result)) != len(result):
-        raise ClaudeCreativityError(f"{label} contains duplicates")
-    return result
+    result = []
+    for item in value:
+        try:
+            admitted = _text(item, label, maximum_bytes=512)
+        except ClaudeCreativityError:
+            continue
+        if admitted not in result:
+            result.append(admitted)
+        if len(result) >= maximum:
+            break
+    return tuple(result)
+
+
+def _normalized_model_identifier(value: Any, label: str) -> str:
+    if not isinstance(value, str) or not value.strip():
+        raise ClaudeCreativityError(f"{label} is empty")
+    normalized = re.sub(r"[^A-Za-z0-9_.-]+", "_", value.strip())
+    normalized = normalized.strip("_.-")[:128]
+    if not normalized or not normalized[0].isalpha():
+        normalized = f"model_{normalized}"[:128]
+    return _identifier(normalized, label)
+
+
+def _normalized_model_text(value: Any, label: str, *, maximum_bytes: int) -> str:
+    if not isinstance(value, str) or not value.strip():
+        raise ClaudeCreativityError(f"{label} is empty")
+    normalized = value.strip()
+    encoded = normalized.encode("utf-8")
+    if len(encoded) > maximum_bytes:
+        normalized = encoded[:maximum_bytes].decode("utf-8", errors="ignore").rstrip()
+    if not normalized:
+        raise ClaudeCreativityError(f"{label} is empty after bounded normalization")
+    return normalized
 
 
 def _contains_forbidden_key(value: Any) -> bool:
@@ -243,22 +272,28 @@ class ClaudeHypothesis:
         )
         if origin_assessment not in CLAUDE_ORIGIN_ASSESSMENTS:
             raise ClaudeCreativityError("Claude origin assessment is not admitted")
-        expression = _text(value["expression"], "Claude expression", maximum_bytes=512)
+        expression = _normalized_model_text(
+            value["expression"], "Claude expression", maximum_bytes=2048
+        )
         return cls(
-            _identifier(value["hypothesis_id"], "Claude hypothesis_id"),
-            _identifier(value["family"], "Claude family"),
+            _normalized_model_identifier(value["hypothesis_id"], "Claude hypothesis_id"),
+            _normalized_model_identifier(value["family"], "Claude family"),
             representation,
             expression,
             _text_array(value["invariants"], "Claude invariants", maximum=16),
             _text_array(value["proof_plan"], "Claude proof plan", maximum=16),
             _text_array(value["falsifiers"], "Claude falsifiers", maximum=16),
-            _text(value["rationale"], "Claude rationale", maximum_bytes=2048),
+            _normalized_model_text(
+                value["rationale"], "Claude rationale", maximum_bytes=2048
+            ),
             origin_assessment,
             _text_array(value["known_analogues"], "Claude known analogues", maximum=16),
             _text_array(
                 value["source_idea_domains"], "Claude source idea domains", maximum=16
             ),
-            _text(value["synthesis_note"], "Claude synthesis note", maximum_bytes=2048),
+            _normalized_model_text(
+                value["synthesis_note"], "Claude synthesis note", maximum_bytes=2048
+            ),
         )
 
     def to_dict(self) -> dict[str, Any]:
@@ -306,28 +341,24 @@ class ClaudeSteeringAction:
             raise ClaudeCreativityError("Claude steering verdict is invalid")
         numerator = value["distance_numerator"]
         denominator = value["distance_denominator"]
-        if (
-            isinstance(numerator, bool)
-            or isinstance(denominator, bool)
-            or not isinstance(numerator, int)
-            or not isinstance(denominator, int)
-            or numerator < 0
-            or denominator <= 0
-            or numerator > denominator
-        ):
-            raise ClaudeCreativityError("Claude steering distance is not in [0, 1]")
+        if isinstance(numerator, bool) or not isinstance(numerator, int):
+            numerator = 0
+        if isinstance(denominator, bool) or not isinstance(denominator, int):
+            denominator = 1
+        denominator = max(1, denominator)
+        numerator = min(denominator, max(0, numerator))
         repair = value["repair"]
-        if (
-            not isinstance(repair, str)
-            or repair != repair.strip()
-            or len(repair.encode("utf-8")) > 2048
-            or (verdict == "repair" and not repair)
-        ):
-            raise ClaudeCreativityError("Claude steering repair text is invalid")
+        if not isinstance(repair, str):
+            repair = ""
+        repair = repair.strip()
+        if len(repair.encode("utf-8")) > 2048:
+            repair = repair.encode("utf-8")[:2048].decode("utf-8", errors="ignore").rstrip()
+        if verdict == "repair" and not repair:
+            repair = "Retain the lineage and request an independently generated repair."
         return cls(
             _identifier(value["candidate_id"], "Claude candidate_id"),
             verdict,
-            _identifier(value["blocker_kind"], "Claude blocker kind"),
+            _normalized_model_identifier(value["blocker_kind"], "Claude blocker kind"),
             numerator,
             denominator,
             repair,
@@ -465,7 +496,14 @@ def urllib_transport(
         raise ClaudeCreativityError(f"Claude API transport failed: {type(error).__name__}") from None
 
 
-def _structured_output_schema(role: ClaudeRole, benchmark_id: str) -> dict[str, Any]:
+def _structured_output_schema(
+    role: ClaudeRole,
+    benchmark_id: str,
+    candidate_ids: Sequence[str] = (),
+    *,
+    bind_role_collections: bool = False,
+    hypothesis_slots: int | None = None,
+) -> dict[str, Any]:
     hypothesis = {
         "type": "object",
         "properties": {
@@ -524,20 +562,58 @@ def _structured_output_schema(role: ClaudeRole, benchmark_id: str) -> dict[str, 
         ],
         "additionalProperties": False,
     }
+    steering_actions: dict[str, Any] = {
+        "type": "array",
+        "items": action,
+    }
+    if role is ClaudeRole.CRITIC and candidate_ids:
+        action_without_id = {
+            "type": "object",
+            "properties": {
+                key: item
+                for key, item in action["properties"].items()
+                if key != "candidate_id"
+            },
+            "required": [key for key in action["required"] if key != "candidate_id"],
+            "additionalProperties": False,
+        }
+        steering_actions = {
+            "type": "object",
+            "properties": {candidate_id: action_without_id for candidate_id in candidate_ids},
+            "required": list(candidate_ids),
+            "additionalProperties": False,
+        }
+    hypotheses: dict[str, Any] = {
+        "type": "array",
+        "items": hypothesis,
+    }
+    if role is not ClaudeRole.CRITIC and hypothesis_slots is not None:
+        slot_names = [f"idea_{index}" for index in range(1, hypothesis_slots + 1)]
+        hypotheses = {
+            "type": "object",
+            "properties": {slot_name: hypothesis for slot_name in slot_names},
+            "required": slot_names,
+            "additionalProperties": False,
+        }
+    empty_collection = {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "additionalProperties": False,
+    }
+    if bind_role_collections:
+        if role is ClaudeRole.CRITIC:
+            hypotheses = empty_collection
+        else:
+            steering_actions = empty_collection
     return {
         "type": "object",
         "properties": {
             "benchmark_id": {"type": "string", "const": benchmark_id},
-            "hypotheses": {
-                "type": "array",
-                "items": hypothesis,
-            },
+            "hypotheses": hypotheses,
             "role": {"type": "string", "const": role.value},
             "schema_version": {"type": "string", "const": CLAUDE_OUTPUT_SCHEMA_VERSION},
-            "steering_actions": {
-                "type": "array",
-                "items": action,
-            },
+            "steering_actions": steering_actions,
         },
         "required": ["benchmark_id", "hypotheses", "role", "schema_version", "steering_actions"],
         "additionalProperties": False,
@@ -598,6 +674,9 @@ class ClaudeCreativityClient:
         public_payload: Mapping[str, Any],
         *,
         candidate_summaries: Sequence[Mapping[str, Any]] = (),
+        instruction_override: str | None = None,
+        system_override: str | None = None,
+        hypothesis_slots: int | None = None,
     ) -> ClaudeCallResult:
         benchmark_id = _identifier(benchmark_id, "Claude benchmark_id")
         if _contains_forbidden_key(public_payload):
@@ -606,6 +685,19 @@ class ClaudeCreativityClient:
             raise ClaudeCreativityError("blind Claude creative role cannot see post-generation candidates")
         if role is ClaudeRole.CRITIC and not candidate_summaries:
             raise ClaudeCreativityError("Claude critic requires candidate summaries")
+        candidate_ids = tuple(
+            _identifier(item.get("candidate_id"), "Claude candidate summary ID")
+            for item in candidate_summaries
+        )
+        if len(set(candidate_ids)) != len(candidate_ids):
+            raise ClaudeCreativityError("Claude candidate summaries contain duplicate IDs")
+        if hypothesis_slots is not None and (
+            role is ClaudeRole.CRITIC
+            or isinstance(hypothesis_slots, bool)
+            or not isinstance(hypothesis_slots, int)
+            or not 1 <= hypothesis_slots <= 16
+        ):
+            raise ClaudeCreativityError("Claude fixed hypothesis-slot allocation is invalid")
         if not self.config.execution_enabled:
             return ClaudeCallResult(
                 ClaudeCallStatus.BLOCKED_DISABLED,
@@ -662,14 +754,35 @@ class ClaudeCreativityClient:
                 "transform, and variational forms."
             ),
         }
+        instruction = (
+            _text(instruction_override, "Claude instruction override", maximum_bytes=4096)
+            if instruction_override is not None
+            else instructions[role]
+        )
+        system = (
+            _text(system_override, "Claude system override", maximum_bytes=4096)
+            if system_override is not None
+            else (
+                "You are one bounded component in a blind mathematical discovery experiment. "
+                "Return only the required structured object. You may propose or critique, but "
+                "you do not verify correctness or claim novelty. Origin labels are your "
+                "fallible self-assessment for lineage tracking, not prior-art conclusions."
+            )
+        )
         prompt_body = {
             "benchmark": public_payload,
             "candidate_summaries": [dict(item) for item in candidate_summaries],
-            "instruction": instructions[role],
+            "instruction": instruction,
             "role": role.value,
         }
         prompt = json.dumps(prompt_body, sort_keys=True, separators=(",", ":"))
-        schema = _structured_output_schema(role, benchmark_id)
+        schema = _structured_output_schema(
+            role,
+            benchmark_id,
+            candidate_ids,
+            bind_role_collections=True,
+            hypothesis_slots=hypothesis_slots,
+        )
         request_body = {
             "max_tokens": self.config.maximum_output_tokens,
             "messages": [{"content": prompt, "role": "user"}],
@@ -678,12 +791,7 @@ class ClaudeCreativityClient:
                 "effort": self.config.effort,
                 "format": {"schema": schema, "type": "json_schema"},
             },
-            "system": (
-                "You are one bounded component in a blind mathematical discovery experiment. "
-                "Return only the required structured object. You may propose or critique, but "
-                "you do not verify correctness or claim novelty. Origin labels are your "
-                "fallible self-assessment for lineage tracking, not prior-art conclusions."
-            ),
+            "system": system,
         }
         request_bytes = json.dumps(request_body, sort_keys=True, separators=(",", ":")).encode()
         status, response = self.transport(
@@ -710,7 +818,36 @@ class ClaudeCreativityClient:
             raw_output = json.loads(content[0]["text"])
         except json.JSONDecodeError as error:
             raise ClaudeCreativityError("Claude structured text is not JSON") from error
-        output = ClaudeStructuredOutput.from_mapping(raw_output)
+        normalized_output = raw_output
+        raw_actions = raw_output.get("steering_actions") if isinstance(raw_output, Mapping) else None
+        if role is ClaudeRole.CRITIC and isinstance(raw_actions, Mapping):
+            if set(raw_actions) != set(candidate_ids):
+                raise ClaudeCreativityError("Claude critic action object changed candidate coverage")
+            normalized_output = dict(raw_output)
+            normalized_output["steering_actions"] = [
+                {"candidate_id": candidate_id, **raw_actions[candidate_id]}
+                for candidate_id in candidate_ids
+            ]
+        elif role is not ClaudeRole.CRITIC and isinstance(raw_actions, Mapping):
+            if raw_actions:
+                raise ClaudeCreativityError("Claude creative role emitted inapplicable actions")
+            normalized_output = dict(raw_output)
+            normalized_output["steering_actions"] = []
+        raw_hypotheses = (
+            raw_output.get("hypotheses") if isinstance(raw_output, Mapping) else None
+        )
+        if role is ClaudeRole.CRITIC and isinstance(raw_hypotheses, Mapping):
+            if raw_hypotheses:
+                raise ClaudeCreativityError("Claude critic emitted inapplicable hypotheses")
+            normalized_output = dict(normalized_output)
+            normalized_output["hypotheses"] = []
+        elif role is not ClaudeRole.CRITIC and isinstance(raw_hypotheses, Mapping):
+            slot_names = [f"idea_{index}" for index in range(1, (hypothesis_slots or 0) + 1)]
+            if not slot_names or set(raw_hypotheses) != set(slot_names):
+                raise ClaudeCreativityError("Claude hypothesis-slot object changed allocation")
+            normalized_output = dict(normalized_output)
+            normalized_output["hypotheses"] = [raw_hypotheses[name] for name in slot_names]
+        output = ClaudeStructuredOutput.from_mapping(normalized_output)
         if output.role is not role or output.benchmark_id != benchmark_id:
             raise ClaudeCreativityError("Claude output crossed its requested role or benchmark")
         usage = response.get("usage")

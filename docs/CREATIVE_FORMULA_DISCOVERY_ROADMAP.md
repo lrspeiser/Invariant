@@ -29,6 +29,11 @@
   Scholar's HTTP 429 is preserved as unavailable evidence. This calibrates the model label at the
   behavior level only. Formula/construction and proof-mechanism provenance remain blocked on a
   named human review.
+- The first 24-task paired live generation completed 96 retained Opus calls, 358,226 tokens, and 48
+  arm-free review outputs. Its 348 raw branches remain unscored. A source-identical task retry added
+  3–4 discarded calls; the bound deviation therefore makes this a blinded pilot, not confirmatory
+  evidence that the new system is more creative. Two named reviews are still required before arm
+  unblinding, and a clean new rotation is required for the preregistered decision rule.
 
 ## Definition of creative progress
 
@@ -46,6 +51,16 @@ order, two named reviewers, identical model/token/time/grammar/verifier budgets,
 primary improvement, a one-sided sign-test threshold of 0.05, and typed-usability noninferiority.
 Component knockouts isolate lineage labels, non-pruning, expanded grammar, and independent
 proof/recombination search.
+
+The executable two-arm generation configuration is
+[`configs/creativity_tournament_generation.json`](../configs/creativity_tournament_generation.json).
+It freezes 24 sequence tasks, 48 Claude calls per arm, exact proposer/critic coverage, interleaved arm
+order, HMAC-blinded public outputs, and a resumable private coordinator. Scoring must deduplicate by
+behavior hash before counting useful yield so extra proof routes cannot masquerade as extra formula
+ideas. Reviewers judge usefulness, not literature novelty. After unblinding, report paired per-task
+deltas, the preregistered one-sided sign test, the 20% effect threshold, token-normalized yield, and
+typed-usability noninferiority. Treat this as one rotation: repeat with new packs and finish the four
+component knockouts before making a system-wide comparison.
 
 ## Definition of a bounded mathematical success
 

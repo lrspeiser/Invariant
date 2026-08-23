@@ -1,0 +1,51 @@
+{
+  "schema_version": "invariant-creativity-tournament-pilot-deviation-1.0",
+  "experiment_id": "creativity-first-vs-falsification-first-001",
+  "observed_utc_date": "2026-08-23",
+  "artifact_bindings": {
+    "public_generation_receipt_content_sha256": "8e733c87c7b8989f70df17ad7fbb67047d3bcb25dc1a155701326b5c26c2975b",
+    "public_generation_receipt_file_sha256": "e4963679ff3a2d2b36cb659625557f495fdf5868df63dc085a4d47f0d47fb168",
+    "review_packet_content_sha256": "eb68529433e79412f27dc40a20f90d52467b9bd1525f3ebc61d0afb7b2069513",
+    "review_packet_file_sha256": "b1f30168bb37d45d626c7af3960555c05af361b65683e58fcfbecd0212da58c3"
+  },
+  "retained_packet": {
+    "completed_messages_api_calls": 96,
+    "paired_tasks": 24,
+    "public_blinded_outputs": 48,
+    "total_tokens": 358226
+  },
+  "deviations": [
+    {
+      "kind": "preflight_contract_iteration",
+      "completed_unretained_messages_api_calls_lower_bound": 10,
+      "completed_unretained_messages_api_calls_upper_bound": 12,
+      "source_identical_to_retained_packet": false,
+      "reason": "Three fail-closed wire/parser contract iterations and three count-only smoke checks preceded the frozen successful implementation."
+    },
+    {
+      "kind": "source_identical_task_retry",
+      "completed_unretained_messages_api_calls_lower_bound": 3,
+      "completed_unretained_messages_api_calls_upper_bound": 4,
+      "source_identical_to_retained_packet": true,
+      "reason": "Task 8 was retried from the last atomic checkpoint after one critic action was quarantined; the failed partial task did not persist enough evidence to distinguish whether the other critic call had already completed."
+    }
+  ],
+  "disposition": {
+    "blinded_pilot_review_eligible": true,
+    "confirmatory_decision_eligible": false,
+    "required_clean_followup": [
+      "freeze the already live-tested wire and normalization contract",
+      "use a new rotating external pack",
+      "persist every call attempt before task-level validation",
+      "count contract failures as arm outcomes instead of silently replacing them",
+      "complete four component knockouts and the intervention/noise/shift/unidentifiable dataset strata"
+    ]
+  },
+  "claims": {
+    "matched_total_provider_calls_established": false,
+    "more_creative_established": false,
+    "novel_formula_established": false,
+    "open_problem_solved": false
+  },
+  "content_sha256": "b55fc8e728066937ae193c16a05c0367886e38d624644e474e93bfaff4f3a6b6"
+}

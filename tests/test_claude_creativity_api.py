@@ -41,26 +41,25 @@ def proposer_output(benchmark_id: str) -> dict[str, Any]:
         ],
         "role": "proposer",
         "schema_version": C.CLAUDE_OUTPUT_SCHEMA_VERSION,
-        "steering_actions": [],
+        "steering_actions": {},
     }
 
 
 def critic_output(benchmark_id: str) -> dict[str, Any]:
     return {
         "benchmark_id": benchmark_id,
-        "hypotheses": [],
+        "hypotheses": {},
         "role": "critic",
         "schema_version": C.CLAUDE_OUTPUT_SCHEMA_VERSION,
-        "steering_actions": [
-            {
+        "steering_actions": {
+            "candidate.polynomial.1": {
                 "blocker_kind": "holdout_counterexample",
-                "candidate_id": "candidate.polynomial.1",
                 "distance_denominator": 8,
                 "distance_numerator": 1,
                 "repair": "Switch from interpolation to a recurrence representation.",
                 "verdict": "repair",
             }
-        ],
+        },
     }
 
 
@@ -189,10 +188,55 @@ def test_live_contract_uses_model_capability_check_and_structured_messages(monke
     assert "output_config" in message_request["body"]
     assert "output_format" not in message_request["body"]
     assert message_request["body"]["output_config"]["format"]["type"] == "json_schema"
+    critic_schema = transport.requests[2]["body"]["output_config"]["format"]["schema"]
+    critic_actions = critic_schema["properties"]["steering_actions"]
+    assert critic_actions["type"] == "object"
+    assert critic_actions["required"] == ["candidate.polynomial.1"]
+    assert "candidate_id" not in critic_actions["properties"]["candidate.polynomial.1"][
+        "properties"
+    ]
+    assert critic_schema["properties"]["hypotheses"] == {
+        "additionalProperties": False,
+        "properties": {},
+        "required": [],
+        "type": "object",
+    }
+    assert message_request["body"]["output_config"]["format"]["schema"]["properties"][
+        "steering_actions"
+    ]["type"] == "object"
     serialized = json.dumps([proposal.to_dict(), critique.to_dict()], sort_keys=True)
     assert "test-secret-never-persisted" not in serialized
     assert proposal.evidence["credential_persisted"] is False
     assert proposal.evidence["model_evidence"]["structured_outputs_supported"] is True
+
+
+def test_instruction_and_system_overrides_are_bound_into_the_request(monkeypatch) -> None:
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "test-secret-never-persisted")
+    wire_output = proposer_output("external.sum-squares")
+    wire_output["hypotheses"] = {"idea_1": wire_output["hypotheses"][0]}
+    transport = FakeTransport([wire_output])
+    client = C.ClaudeCreativityClient(config(), transport)
+    instruction = "Generate exactly one deliberately distant structural analogy for this task."
+    system = "You are the blinded treatment component; return only the structured object."
+
+    client.run(
+        C.ClaudeRole.PROPOSER,
+        "external.sum-squares",
+        public_benchmark(),
+        instruction_override=instruction,
+        system_override=system,
+        hypothesis_slots=1,
+    )
+
+    request = transport.requests[1]["body"]
+    prompt = json.loads(request["messages"][0]["content"])
+    assert prompt["instruction"] == instruction
+    assert request["system"] == system
+    hypothesis_schema = request["output_config"]["format"]["schema"]["properties"][
+        "hypotheses"
+    ]
+    assert hypothesis_schema["type"] == "object"
+    assert hypothesis_schema["required"] == ["idea_1"]
 
 
 def test_sealed_material_and_role_smuggling_are_rejected(monkeypatch) -> None:
@@ -231,7 +275,25 @@ def test_config_and_output_shapes_are_strict() -> None:
     with pytest.raises(C.ClaudeCreativityError, match="keys changed"):
         C.ClaudeAPIConfig.from_mapping(config().to_dict() | {"api_key": "forbidden"})
     invalid = proposer_output("external.sum-squares")
-    invalid["hypotheses"][0]["expression"] = "x" * 513
+    invalid["steering_actions"] = []
+    invalid["hypotheses"][0]["representation"] = "untyped_prose"
     output = C.ClaudeStructuredOutput.from_mapping(invalid)
     assert output.hypotheses == ()
     assert output.rejected_hypotheses == 1
+
+
+def test_harmless_model_metadata_is_bounded_instead_of_pruning_the_idea() -> None:
+    value = proposer_output("external.sum-squares")
+    value["steering_actions"] = []
+    hypothesis = value["hypotheses"][0]
+    hypothesis["family"] = "descriptive family with spaces"
+    hypothesis["hypothesis_id"] = "1: descriptive model idea"
+    hypothesis["invariants"] = ["same", "same"] + [f"item {index}" for index in range(20)]
+    hypothesis["expression"] = "x" * 3000
+    output = C.ClaudeStructuredOutput.from_mapping(value)
+    admitted = output.hypotheses[0]
+    assert admitted.family == "descriptive_family_with_spaces"
+    assert admitted.hypothesis_id.startswith("model_")
+    assert len(admitted.invariants) == 16
+    assert len(admitted.expression.encode("utf-8")) == 2048
+    assert output.rejected_hypotheses == 0
