@@ -11,6 +11,7 @@ on:
       - "configs/independent_proof_plan_search.json"
       - "configs/serious_claim_verification_ladder.json"
       - "configs/creativity_ablation_protocol.json"
+      - "configs/creativity_component_knockouts.json"
       - "configs/creativity_confirmatory_generation.json"
       - "configs/creativity_tournament_generation.json"
       - "configs/claim_specific_prior_art.json"
@@ -24,6 +25,7 @@ on:
       - "src/sigma_theory_compiler/core_*.py"
       - "src/sigma_theory_compiler/creative_expansion.py"
       - "src/sigma_theory_compiler/creativity_ablation.py"
+      - "src/sigma_theory_compiler/creativity_component_knockout_preflight.py"
       - "src/sigma_theory_compiler/creativity_confirmatory_*.py"
       - "src/sigma_theory_compiler/creativity_tournament_generation.py"
       - "src/sigma_theory_compiler/durable_llm_attempt_journal.py"
@@ -44,6 +46,7 @@ on:
       - "tests/test_core_*.py"
       - "tests/test_creative_expansion.py"
       - "tests/test_creativity_ablation.py"
+      - "tests/test_creativity_component_knockout_preflight.py"
       - "tests/test_creativity_confirmatory_generation.py"
       - "tests/test_creativity_tournament_generation.py"
       - "tests/test_durable_llm_attempt_journal.py"
@@ -60,6 +63,7 @@ on:
       - "runs/math/claim-specific-prior-art/**"
       - "runs/math/creativity-tournament/**"
       - "runs/math/creativity-confirmatory/**"
+      - "runs/math/creativity-component-knockouts/**"
       - "runs/math/core-creative-discovery/**"
       - "runs/math/dataset-challenges/**"
       - "runs/math/expanded-typed-grammar/**"
@@ -78,6 +82,7 @@ on:
       - "configs/independent_proof_plan_search.json"
       - "configs/serious_claim_verification_ladder.json"
       - "configs/creativity_ablation_protocol.json"
+      - "configs/creativity_component_knockouts.json"
       - "configs/creativity_confirmatory_generation.json"
       - "configs/creativity_tournament_generation.json"
       - "configs/claim_specific_prior_art.json"
@@ -91,6 +96,7 @@ on:
       - "src/sigma_theory_compiler/core_*.py"
       - "src/sigma_theory_compiler/creative_expansion.py"
       - "src/sigma_theory_compiler/creativity_ablation.py"
+      - "src/sigma_theory_compiler/creativity_component_knockout_preflight.py"
       - "src/sigma_theory_compiler/creativity_confirmatory_*.py"
       - "src/sigma_theory_compiler/creativity_tournament_generation.py"
       - "src/sigma_theory_compiler/durable_llm_attempt_journal.py"
@@ -111,6 +117,7 @@ on:
       - "tests/test_core_*.py"
       - "tests/test_creative_expansion.py"
       - "tests/test_creativity_ablation.py"
+      - "tests/test_creativity_component_knockout_preflight.py"
       - "tests/test_creativity_confirmatory_generation.py"
       - "tests/test_creativity_tournament_generation.py"
       - "tests/test_durable_llm_attempt_journal.py"
@@ -127,6 +134,7 @@ on:
       - "runs/math/claim-specific-prior-art/**"
       - "runs/math/creativity-tournament/**"
       - "runs/math/creativity-confirmatory/**"
+      - "runs/math/creativity-component-knockouts/**"
       - "runs/math/core-creative-discovery/**"
       - "runs/math/dataset-challenges/**"
       - "runs/math/expanded-typed-grammar/**"
@@ -171,6 +179,7 @@ jobs:
           tests/test_expanded_math_grammar.py
           tests/test_creative_expansion.py
           tests/test_creativity_ablation.py
+          tests/test_creativity_component_knockout_preflight.py
           tests/test_creativity_confirmatory_generation.py
           tests/test_creativity_confirmatory_scoring.py
           tests/test_creativity_tournament_generation.py
@@ -207,6 +216,10 @@ jobs:
           --root "${{ github.workspace }}"
           --review-packet runs/math/creativity-tournament/paired-review-packet.json
           --receipt runs/math/creativity-tournament/paired-generation-receipt.json
+      - run: >-
+          python -m sigma_theory_compiler.creativity_component_knockout_preflight validate
+          --root .
+          --receipt runs/math/creativity-component-knockouts/preflight.json
       - run: >-
           python -m sigma_theory_compiler.creativity_confirmatory_generation validate
           --root "${{ github.workspace }}"
