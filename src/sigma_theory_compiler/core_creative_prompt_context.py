@@ -17,10 +17,11 @@ from .claude_creativity_api import ClaudeCreativityError, Transport, urllib_tran
 from .external_claude_transport import ProviderCompatibleClaudeTransport
 from .sigma_core import canonical_sha256
 
-SCHEMA_VERSION = "invariant-core-creative-prompt-context-1.3"
+SCHEMA_VERSION = "invariant-core-creative-prompt-context-1.4"
 FIRST_PRINCIPLES_BRIEF_COUNT = 5
 LEARNED_INVARIANT_BRIEF_COUNT = 3
 STATE_PAIR_INVARIANT_BRIEF_COUNT = 3
+UNCERTAIN_INVARIANT_BRIEF_COUNT = 3
 ORIGIN_ASSESSMENTS = [
     "cross_domain_synthesis",
     "known_rewrite",
@@ -60,6 +61,7 @@ def build_creative_prompt_context(
     symmetry_dimension: Mapping[str, Any],
     learned_invariants: Mapping[str, Any],
     state_pair_invariants: Mapping[str, Any],
+    uncertain_invariants: Mapping[str, Any],
     expanded_grammar: Mapping[str, Any],
     proof_plan_search: Mapping[str, Any],
 ) -> dict[str, Any]:
@@ -249,6 +251,69 @@ def build_creative_prompt_context(
     ):
         raise CoreCreativePromptContextError("state-pair invariant brief coverage changed")
 
+    if uncertain_invariants.get("summary", {}).get("status") != (
+        "PASS_UNCERTAIN_INVARIANT_BRANCH_CONTROLS"
+    ):
+        raise CoreCreativePromptContextError("uncertain invariant context changed")
+    uncertain_briefs = []
+    for result in uncertain_invariants.get("results", []):
+        creative_brief = _strict_keys(
+            result.get("creative_brief"),
+            {
+                "candidate_invariant_coordinates",
+                "constraint_statement",
+                "deployment_surviving_coordinates",
+                "identifiability_status",
+                "llm_origin_assessment_labels",
+                "novelty_caution",
+                "observation_mode",
+            },
+            "uncertain invariant creative brief",
+        )
+        if creative_brief["llm_origin_assessment_labels"] != [
+            "known_rewrite",
+            "cross_domain_synthesis",
+            "proposed_new_construction",
+            "uncertain",
+        ]:
+            raise CoreCreativePromptContextError("uncertain invariant origin labels changed")
+        uncertain_briefs.append(
+            {
+                "candidate_invariant_coordinates": list(
+                    creative_brief["candidate_invariant_coordinates"]
+                ),
+                "constraint_statement": creative_brief["constraint_statement"],
+                "deployment_surviving_coordinates": list(
+                    creative_brief["deployment_surviving_coordinates"]
+                ),
+                "domain": result.get("domain"),
+                "identifiability_status": creative_brief["identifiability_status"],
+                "novelty_caution": creative_brief["novelty_caution"],
+                "observation_mode": creative_brief["observation_mode"],
+                "problem_id": result.get("problem_id"),
+            }
+        )
+    uncertain_briefs.sort(key=lambda item: str(item["problem_id"]))
+    if (
+        len(uncertain_briefs) != UNCERTAIN_INVARIANT_BRIEF_COUNT
+        or {item["observation_mode"] for item in uncertain_briefs}
+        != {"missingness", "noisy_interval", "one_sided_censoring"}
+        or {item["identifiability_status"] for item in uncertain_briefs}
+        != {
+            "CENSORED_RETAIN_SET_VALUED_CANDIDATES",
+            "MISSINGNESS_RETAIN_PARTIALLY_OBSERVED_SET",
+            "NOISY_RETAIN_INTERVAL_COMPATIBLE_SET",
+        }
+        or any(
+            not isinstance(item["problem_id"], str)
+            or not isinstance(item["domain"], str)
+            or not item["candidate_invariant_coordinates"]
+            or not item["deployment_surviving_coordinates"]
+            for item in uncertain_briefs
+        )
+    ):
+        raise CoreCreativePromptContextError("uncertain invariant brief coverage changed")
+
     body: dict[str, Any] = {
         "schema_version": SCHEMA_VERSION,
         "creativity_policy": {
@@ -258,6 +323,7 @@ def build_creative_prompt_context(
             "origin_labels_are_fallible_lineage_assessments": True,
             "retain_every_schema_admitted_idea": True,
             "retain_failed_and_underdetermined_invariant_branches": True,
+            "retain_set_valued_uncertainty_branches": True,
             "uncertainty_does_not_prune": True,
         },
         "first_principles_briefs": briefs,
@@ -266,6 +332,7 @@ def build_creative_prompt_context(
         "origin_assessment_labels": list(ORIGIN_ASSESSMENTS),
         "state_pair_invariant_briefs": state_pair_briefs,
         "typed_formula_kinds": list(TYPED_FORMULA_KINDS),
+        "uncertain_invariant_briefs": uncertain_briefs,
     }
     body["content_sha256"] = canonical_sha256(body)
     validate_creative_prompt_context(body)
@@ -285,6 +352,7 @@ def validate_creative_prompt_context(value: Mapping[str, Any]) -> None:
             "schema_version",
             "state_pair_invariant_briefs",
             "typed_formula_kinds",
+            "uncertain_invariant_briefs",
         },
         "core creative prompt context",
     )
@@ -308,6 +376,7 @@ def validate_creative_prompt_context(value: Mapping[str, Any]) -> None:
             "origin_labels_are_fallible_lineage_assessments",
             "retain_every_schema_admitted_idea",
             "retain_failed_and_underdetermined_invariant_branches",
+            "retain_set_valued_uncertainty_branches",
             "uncertainty_does_not_prune",
         },
         "core creativity policy",
@@ -436,6 +505,57 @@ def validate_creative_prompt_context(value: Mapping[str, Any]) -> None:
         action_kinds.add(brief["action_kind"])
     if action_kinds != {"matrix_conjugation", "matrix_orthogonal", "nonlinear_polynomial"}:
         raise CoreCreativePromptContextError("core state-pair action coverage changed")
+    uncertain_briefs = value.get("uncertain_invariant_briefs")
+    if (
+        not isinstance(uncertain_briefs, list)
+        or len(uncertain_briefs) != UNCERTAIN_INVARIANT_BRIEF_COUNT
+    ):
+        raise CoreCreativePromptContextError("core uncertain invariant brief coverage changed")
+    modes: set[str] = set()
+    statuses: set[str] = set()
+    for brief in uncertain_briefs:
+        _strict_keys(
+            brief,
+            {
+                "candidate_invariant_coordinates",
+                "constraint_statement",
+                "deployment_surviving_coordinates",
+                "domain",
+                "identifiability_status",
+                "novelty_caution",
+                "observation_mode",
+                "problem_id",
+            },
+            "core uncertain invariant brief",
+        )
+        candidates = brief["candidate_invariant_coordinates"]
+        survivors = brief["deployment_surviving_coordinates"]
+        if (
+            not isinstance(candidates, list)
+            or not candidates
+            or any(not isinstance(item, str) or not item for item in candidates)
+            or not isinstance(survivors, list)
+            or not survivors
+            or any(not isinstance(item, str) or not item for item in survivors)
+            or not isinstance(brief["observation_mode"], str)
+            or not isinstance(brief["identifiability_status"], str)
+            or len(candidates)
+            != {
+                "missingness": 1,
+                "noisy_interval": 3,
+                "one_sided_censoring": 2,
+            }.get(brief["observation_mode"])
+            or len(survivors) != 1
+        ):
+            raise CoreCreativePromptContextError("core uncertain invariant branch changed")
+        modes.add(brief["observation_mode"])
+        statuses.add(brief["identifiability_status"])
+    if modes != {"missingness", "noisy_interval", "one_sided_censoring"} or statuses != {
+        "CENSORED_RETAIN_SET_VALUED_CANDIDATES",
+        "MISSINGNESS_RETAIN_PARTIALLY_OBSERVED_SET",
+        "NOISY_RETAIN_INTERVAL_COMPATIBLE_SET",
+    }:
+        raise CoreCreativePromptContextError("core uncertain invariant outcomes changed")
     if len(json.dumps(value, sort_keys=True, separators=(",", ":")).encode("utf-8")) > 24_576:
         raise CoreCreativePromptContextError("core creative prompt context exceeds its byte budget")
 

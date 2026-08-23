@@ -24,13 +24,18 @@ def _context() -> dict[str, object]:
     state_pair = json.loads(
         (ROOT / "runs/math/state-pair-invariant-discovery/receipt.json").read_text()
     )
+    uncertain = json.loads(
+        (ROOT / "runs/math/uncertain-invariant-discovery/receipt.json").read_text()
+    )
     grammar = json.loads(
         (ROOT / "runs/math/expanded-typed-grammar/receipt.json").read_text()
     )
     proof = json.loads(
         (ROOT / "runs/math/independent-proof-plan-search/receipt.json").read_text()
     )
-    return C.build_creative_prompt_context(symmetry, learned, state_pair, grammar, proof)
+    return C.build_creative_prompt_context(
+        symmetry, learned, state_pair, uncertain, grammar, proof
+    )
 
 
 def test_prompt_context_is_sealed_creativity_first_and_broad() -> None:
@@ -43,6 +48,7 @@ def test_prompt_context_is_sealed_creativity_first_and_broad() -> None:
         "origin_labels_are_fallible_lineage_assessments": True,
         "retain_every_schema_admitted_idea": True,
         "retain_failed_and_underdetermined_invariant_branches": True,
+        "retain_set_valued_uncertainty_branches": True,
         "uncertainty_does_not_prune": True,
     }
     assert len(context["first_principles_briefs"]) == 5
@@ -71,6 +77,19 @@ def test_prompt_context_is_sealed_creativity_first_and_broad() -> None:
         if brief["action_kind"] == "matrix_conjugation"
     )
     assert matrix["candidate_invariant_coordinates"] == ["a + d", "a*d - b*c"]
+    assert len(context["uncertain_invariant_briefs"]) == 3
+    assert {brief["observation_mode"] for brief in context["uncertain_invariant_briefs"]} == {
+        "missingness",
+        "noisy_interval",
+        "one_sided_censoring",
+    }
+    noisy = next(
+        brief
+        for brief in context["uncertain_invariant_briefs"]
+        if brief["observation_mode"] == "noisy_interval"
+    )
+    assert len(noisy["candidate_invariant_coordinates"]) == 3
+    assert noisy["deployment_surviving_coordinates"] == ["a*b/c"]
     assert len(context["typed_formula_kinds"]) == 7
     assert len(context["independent_proof_mechanisms"]) == 6
     assert context["origin_assessment_labels"] == C.ORIGIN_ASSESSMENTS
@@ -126,6 +145,23 @@ def test_prompt_context_rejects_resealed_loss_of_nonlinear_action_branch() -> No
     body = {key: value for key, value in changed.items() if key != "content_sha256"}
     changed["content_sha256"] = canonical_sha256(body)
     with pytest.raises(C.CoreCreativePromptContextError, match="state-pair invariant brief"):
+        C.validate_creative_prompt_context(changed)
+
+
+def test_prompt_context_rejects_resealed_pruning_of_censored_candidates() -> None:
+    context = _context()
+    changed = deepcopy(context)
+    censored = next(
+        brief
+        for brief in changed["uncertain_invariant_briefs"]
+        if brief["observation_mode"] == "one_sided_censoring"
+    )
+    censored["candidate_invariant_coordinates"] = censored[
+        "deployment_surviving_coordinates"
+    ]
+    body = {key: value for key, value in changed.items() if key != "content_sha256"}
+    changed["content_sha256"] = canonical_sha256(body)
+    with pytest.raises(C.CoreCreativePromptContextError, match="uncertain invariant"):
         C.validate_creative_prompt_context(changed)
 
 

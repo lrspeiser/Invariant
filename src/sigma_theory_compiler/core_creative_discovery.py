@@ -64,12 +64,15 @@ from .state_pair_invariant_discovery import (
 from .symmetry_dimension_derivation import (
     validate_receipt as validate_symmetry_dimension_derivation,
 )
+from .uncertain_invariant_discovery import (
+    validate_receipt as validate_uncertain_invariants,
+)
 
 CONFIG_PATH = "configs/core_creative_discovery.json"
 OUTPUT_PATH = "runs/math/core-creative-discovery/live-runtime.json"
 PROMPT_CONTEXT_SOURCE_PATH = "src/sigma_theory_compiler/core_creative_prompt_context.py"
-SCHEMA_VERSION = "invariant-core-creative-discovery-runtime-2.2"
-CONFIG_SCHEMA = "invariant-core-creative-discovery-config-2.2"
+SCHEMA_VERSION = "invariant-core-creative-discovery-runtime-2.3"
+CONFIG_SCHEMA = "invariant-core-creative-discovery-config-2.3"
 
 
 class CoreCreativeDiscoveryError(ValueError):
@@ -134,6 +137,9 @@ def _prompt_context_runtime_evidence(
             else "READY_NEXT_LIVE_RUN_NOT_YET_EVIDENCED"
         ),
         "typed_formula_kinds": len(creative_context["typed_formula_kinds"]),
+        "uncertain_invariant_briefs": len(
+            creative_context["uncertain_invariant_briefs"]
+        ),
     }
 
 
@@ -187,6 +193,7 @@ def _load_config(root: Path) -> dict[str, Any]:
         "serious_claim_verification_ladder_receipt",
         "state_pair_invariant_discovery_receipt",
         "symmetry_dimension_derivation_receipt",
+        "uncertain_invariant_discovery_receipt",
     }:
         raise CoreCreativeDiscoveryError("core component bindings changed")
     return value
@@ -195,6 +202,7 @@ def _load_config(root: Path) -> dict[str, Any]:
 def _load_bound_receipts(
     root: Path, config: Mapping[str, Any]
 ) -> tuple[
+    dict[str, Any],
     dict[str, Any],
     dict[str, Any],
     dict[str, Any],
@@ -223,6 +231,7 @@ def _load_bound_receipts(
     state_pair_invariant_path = root / components[
         "state_pair_invariant_discovery_receipt"
     ]
+    uncertain_invariant_path = root / components["uncertain_invariant_discovery_receipt"]
     dataset = json.loads(dataset_path.read_text(encoding="utf-8"))
     external_dataset = json.loads(external_dataset_path.read_text(encoding="utf-8"))
     _, _, external_structured = load_stored_pack(root, external_structured_path)
@@ -237,6 +246,7 @@ def _load_bound_receipts(
     state_pair_invariants = json.loads(
         state_pair_invariant_path.read_text(encoding="utf-8")
     )
+    uncertain_invariants = json.loads(uncertain_invariant_path.read_text(encoding="utf-8"))
     validate_dataset_challenges(dataset, root)
     validate_external_dataset_challenges(external_dataset, root)
     validate_operational_receipt(operational, root)
@@ -248,6 +258,7 @@ def _load_bound_receipts(
     validate_component_knockout_preflight(component_knockout, root)
     validate_learned_invariants(learned_invariants, root)
     validate_state_pair_invariants(state_pair_invariants, root)
+    validate_uncertain_invariants(uncertain_invariants, root)
     return (
         operational,
         multi_host,
@@ -261,6 +272,7 @@ def _load_bound_receipts(
         component_knockout,
         learned_invariants,
         state_pair_invariants,
+        uncertain_invariants,
     )
 
 
@@ -330,11 +342,13 @@ def run_core(
         component_knockout,
         learned_invariants,
         state_pair_invariants,
+        uncertain_invariants,
     ) = _load_bound_receipts(root, config)
     creative_prompt_context = build_creative_prompt_context(
         symmetry_dimension_derivation,
         learned_invariants,
         state_pair_invariants,
+        uncertain_invariants,
         expanded_grammar,
         proof_plan_search,
     )
@@ -418,6 +432,10 @@ def run_core(
                 "content_sha256": state_pair_invariants["content_sha256"],
                 "path": config["components"]["state_pair_invariant_discovery_receipt"],
             },
+            "uncertain_invariant_discovery_receipt": {
+                "content_sha256": uncertain_invariants["content_sha256"],
+                "path": config["components"]["uncertain_invariant_discovery_receipt"],
+            },
             "symmetry_dimension_derivation_receipt": {
                 "content_sha256": symmetry_dimension_derivation["content_sha256"],
                 "path": config["components"]["symmetry_dimension_derivation_receipt"],
@@ -460,6 +478,7 @@ def run_core(
         "external_structured_benchmarks": external_structured_benchmarks,
         "learned_invariant_discovery": learned_invariants,
         "state_pair_invariant_discovery": state_pair_invariants,
+        "uncertain_invariant_discovery": uncertain_invariants,
         "symmetry_dimension_derivation": symmetry_dimension_derivation,
         "proof_plan_search": proof_plan_search,
         "discovery_runtime": {
@@ -557,6 +576,26 @@ def run_core(
             "state_pair_target_blind_controls": state_pair_invariants["summary"][
                 "target_blind_controls"
             ],
+            "uncertain_invariant_censored_controls": uncertain_invariants["summary"][
+                "censored_controls"
+            ],
+            "uncertain_invariant_controls": uncertain_invariants["summary"]["controls"],
+            "uncertain_invariant_deployment_failed_candidates": uncertain_invariants[
+                "summary"
+            ]["deployment_failed_candidates"],
+            "uncertain_invariant_deployment_surviving_candidates": uncertain_invariants[
+                "summary"
+            ]["deployment_surviving_candidates"],
+            "uncertain_invariant_missingness_controls": uncertain_invariants["summary"][
+                "missingness_controls"
+            ],
+            "uncertain_invariant_noisy_controls": uncertain_invariants["summary"][
+                "noisy_controls"
+            ],
+            "uncertain_invariant_status": uncertain_invariants["summary"]["status"],
+            "uncertain_invariant_training_candidates_retained": uncertain_invariants[
+                "summary"
+            ]["training_candidates_retained"],
             "independent_proof_plan_mechanisms": proof_plan_search["summary"]["mechanisms"],
             "independent_proof_plan_mutations_rejected": proof_plan_search["summary"][
                 "mutation_controls_rejected"
@@ -652,6 +691,7 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
             "invariant-core-creative-discovery-runtime-1.9",
             "invariant-core-creative-discovery-runtime-2.0",
             "invariant-core-creative-discovery-runtime-2.1",
+            "invariant-core-creative-discovery-runtime-2.2",
             SCHEMA_VERSION,
         }
         or previous.get("app_id") != "invariant.core-creative-discovery"
@@ -684,11 +724,13 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
         component_knockout,
         learned_invariants,
         state_pair_invariants,
+        uncertain_invariants,
     ) = _load_bound_receipts(root, config)
     creative_prompt_context = build_creative_prompt_context(
         symmetry_dimension_derivation,
         learned_invariants,
         state_pair_invariants,
+        uncertain_invariants,
         expanded_grammar,
         proof_plan_search,
     )
@@ -728,6 +770,10 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
             "content_sha256": state_pair_invariants["content_sha256"],
             "path": config["components"]["state_pair_invariant_discovery_receipt"],
         },
+        "uncertain_invariant_discovery_receipt": {
+            "content_sha256": uncertain_invariants["content_sha256"],
+            "path": config["components"]["uncertain_invariant_discovery_receipt"],
+        },
         "symmetry_dimension_derivation_receipt": {
             "content_sha256": symmetry_dimension_derivation["content_sha256"],
             "path": config["components"]["symmetry_dimension_derivation_receipt"],
@@ -755,6 +801,7 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
     value["external_structured_benchmarks"] = external_structured_benchmarks
     value["learned_invariant_discovery"] = learned_invariants
     value["state_pair_invariant_discovery"] = state_pair_invariants
+    value["uncertain_invariant_discovery"] = uncertain_invariants
     value["symmetry_dimension_derivation"] = symmetry_dimension_derivation
     value["proof_plan_search"] = proof_plan_search
     value["llm_prompt_context"] = _prompt_context_runtime_evidence(
@@ -847,6 +894,26 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
         "state_pair_target_blind_controls": state_pair_invariants["summary"][
             "target_blind_controls"
         ],
+        "uncertain_invariant_censored_controls": uncertain_invariants["summary"][
+            "censored_controls"
+        ],
+        "uncertain_invariant_controls": uncertain_invariants["summary"]["controls"],
+        "uncertain_invariant_deployment_failed_candidates": uncertain_invariants["summary"][
+            "deployment_failed_candidates"
+        ],
+        "uncertain_invariant_deployment_surviving_candidates": uncertain_invariants[
+            "summary"
+        ]["deployment_surviving_candidates"],
+        "uncertain_invariant_missingness_controls": uncertain_invariants["summary"][
+            "missingness_controls"
+        ],
+        "uncertain_invariant_noisy_controls": uncertain_invariants["summary"][
+            "noisy_controls"
+        ],
+        "uncertain_invariant_status": uncertain_invariants["summary"]["status"],
+        "uncertain_invariant_training_candidates_retained": uncertain_invariants["summary"][
+            "training_candidates_retained"
+        ],
     }
     value["verification"] = {
         "backends_required_for_serious_claim": config["release_policy"][
@@ -916,6 +983,7 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
         value.get("symmetry_dimension_derivation", {}),
         value.get("learned_invariant_discovery", {}),
         value.get("state_pair_invariant_discovery", {}),
+        value.get("uncertain_invariant_discovery", {}),
         {
             "summary": {
                 "admitted_formula_kinds": value.get("discovery_runtime", {}).get(
@@ -948,6 +1016,9 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
     )
     validate_state_pair_invariants(
         value.get("state_pair_invariant_discovery", {}), root or Path.cwd()
+    )
+    validate_uncertain_invariants(
+        value.get("uncertain_invariant_discovery", {}), root or Path.cwd()
     )
     external_structured = value.get("external_structured_benchmarks", {})
     external_structured_body = {
@@ -1015,6 +1086,15 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
         or discovery.get("state_pair_status")
         != "PASS_EXACT_MATRIX_AND_NONLINEAR_STATE_PAIR_CONTROLS"
         or discovery.get("state_pair_target_blind_controls") != 3
+        or discovery.get("uncertain_invariant_censored_controls") != 1
+        or discovery.get("uncertain_invariant_controls") != 3
+        or discovery.get("uncertain_invariant_deployment_failed_candidates") != 3
+        or discovery.get("uncertain_invariant_deployment_surviving_candidates") != 3
+        or discovery.get("uncertain_invariant_missingness_controls") != 1
+        or discovery.get("uncertain_invariant_noisy_controls") != 1
+        or discovery.get("uncertain_invariant_status")
+        != "PASS_UNCERTAIN_INVARIANT_BRANCH_CONTROLS"
+        or discovery.get("uncertain_invariant_training_candidates_retained") != 6
         or discovery.get("independent_proof_plan_mechanisms")
         != [
             "induction",
@@ -1087,6 +1167,7 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
             "serious_claim_verification_ladder_receipt",
             "state_pair_invariant_discovery_receipt",
             "symmetry_dimension_derivation_receipt",
+            "uncertain_invariant_discovery_receipt",
         ):
             binding = bindings.get(key, {})
             path = (root / str(binding.get("path", ""))).resolve()
@@ -1119,6 +1200,8 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
                 validate_learned_invariants(bound, root)
             if key == "state_pair_invariant_discovery_receipt":
                 validate_state_pair_invariants(bound, root)
+            if key == "uncertain_invariant_discovery_receipt":
+                validate_uncertain_invariants(bound, root)
             if key == "component_knockout_preflight_receipt":
                 validate_component_knockout_preflight(bound, root)
 

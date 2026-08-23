@@ -1,0 +1,188 @@
+{
+  "schema_version": "invariant-uncertain-invariant-discovery-config-1.0",
+  "campaign_id": "uncertain-invariant-controls-2026-08-23-001",
+  "policy": {
+    "maximum_absolute_exponent": 2,
+    "maximum_candidates": 16,
+    "maximum_l1_norm": 5,
+    "minimum_deployment_transformations": 2,
+    "minimum_evaluable_training_transformations": 2,
+    "minimum_training_transformations": 4
+  },
+  "problems": [
+    {
+      "problem_id": "control.noisy-ratio-action",
+      "domain": "measurement_noise",
+      "observation_mode": "noisy_interval",
+      "variables": ["a", "b", "c"],
+      "training_transformations": [
+        {
+          "transformation_id": "train.noisy-action-01",
+          "observations": {
+            "a": {"kind": "interval", "lower": "199/100", "upper": "201/100"},
+            "b": {"kind": "interval", "lower": "399/100", "upper": "401/100"},
+            "c": {"kind": "interval", "lower": "799/100", "upper": "801/100"}
+          }
+        },
+        {
+          "transformation_id": "train.noisy-action-02",
+          "observations": {
+            "a": {"kind": "interval", "lower": "299/100", "upper": "301/100"},
+            "b": {"kind": "interval", "lower": "899/100", "upper": "901/100"},
+            "c": {"kind": "interval", "lower": "2699/100", "upper": "2701/100"}
+          }
+        },
+        {
+          "transformation_id": "train.noisy-action-03",
+          "observations": {
+            "a": {"kind": "interval", "lower": "499/100", "upper": "501/100"},
+            "b": {"kind": "interval", "lower": "2499/100", "upper": "2501/100"},
+            "c": {"kind": "interval", "lower": "12499/100", "upper": "12501/100"}
+          }
+        },
+        {
+          "transformation_id": "train.noisy-action-04",
+          "observations": {
+            "a": {"kind": "interval", "lower": "399/100", "upper": "401/100"},
+            "b": {"kind": "interval", "lower": "1599/100", "upper": "1601/100"},
+            "c": {"kind": "interval", "lower": "6399/100", "upper": "6401/100"}
+          }
+        }
+      ],
+      "deployment_transformations": [
+        {
+          "transformation_id": "deployment.noisy-action-01",
+          "observations": {
+            "a": {"kind": "exact", "value": "5"},
+            "b": {"kind": "exact", "value": "25"},
+            "c": {"kind": "exact", "value": "125"}
+          }
+        },
+        {
+          "transformation_id": "deployment.noisy-action-02",
+          "observations": {
+            "a": {"kind": "exact", "value": "49"},
+            "b": {"kind": "exact", "value": "7"},
+            "c": {"kind": "exact", "value": "343"}
+          }
+        }
+      ]
+    },
+    {
+      "problem_id": "control.missing-ratio-action",
+      "domain": "missing_data",
+      "observation_mode": "missingness",
+      "variables": ["a", "b", "c"],
+      "training_transformations": [
+        {
+          "transformation_id": "train.missing-action-01",
+          "observations": {
+            "a": {"kind": "exact", "value": "2"},
+            "b": {"kind": "exact", "value": "4"},
+            "c": {"kind": "exact", "value": "8"}
+          }
+        },
+        {
+          "transformation_id": "train.missing-action-02",
+          "observations": {
+            "a": {"kind": "exact", "value": "9"},
+            "b": {"kind": "exact", "value": "3"},
+            "c": {"kind": "exact", "value": "27"}
+          }
+        },
+        {
+          "transformation_id": "train.missing-action-03",
+          "observations": {
+            "a": {"kind": "exact", "value": "5"},
+            "b": {"kind": "exact", "value": "25"},
+            "c": {"kind": "missing"}
+          }
+        },
+        {
+          "transformation_id": "train.missing-action-04",
+          "observations": {
+            "a": {"kind": "exact", "value": "49"},
+            "b": {"kind": "missing"},
+            "c": {"kind": "exact", "value": "343"}
+          }
+        }
+      ],
+      "deployment_transformations": [
+        {
+          "transformation_id": "deployment.missing-action-01",
+          "observations": {
+            "a": {"kind": "exact", "value": "5"},
+            "b": {"kind": "exact", "value": "25"},
+            "c": {"kind": "exact", "value": "125"}
+          }
+        },
+        {
+          "transformation_id": "deployment.missing-action-02",
+          "observations": {
+            "a": {"kind": "exact", "value": "49"},
+            "b": {"kind": "exact", "value": "7"},
+            "c": {"kind": "exact", "value": "343"}
+          }
+        }
+      ]
+    },
+    {
+      "problem_id": "control.censored-ratio-action",
+      "domain": "censored_data",
+      "observation_mode": "one_sided_censoring",
+      "variables": ["a", "b", "c"],
+      "training_transformations": [
+        {
+          "transformation_id": "train.censored-action-01",
+          "observations": {
+            "a": {"kind": "exact", "value": "2"},
+            "b": {"kind": "exact", "value": "4"},
+            "c": {"kind": "right_censored", "lower": "79/10"}
+          }
+        },
+        {
+          "transformation_id": "train.censored-action-02",
+          "observations": {
+            "a": {"kind": "exact", "value": "9"},
+            "b": {"kind": "exact", "value": "3"},
+            "c": {"kind": "left_censored", "upper": "271/10"}
+          }
+        },
+        {
+          "transformation_id": "train.censored-action-03",
+          "observations": {
+            "a": {"kind": "right_censored", "lower": "49/10"},
+            "b": {"kind": "exact", "value": "25"},
+            "c": {"kind": "left_censored", "upper": "1251/10"}
+          }
+        },
+        {
+          "transformation_id": "train.censored-action-04",
+          "observations": {
+            "a": {"kind": "exact", "value": "49"},
+            "b": {"kind": "right_censored", "lower": "69/10"},
+            "c": {"kind": "left_censored", "upper": "3431/10"}
+          }
+        }
+      ],
+      "deployment_transformations": [
+        {
+          "transformation_id": "deployment.censored-action-01",
+          "observations": {
+            "a": {"kind": "exact", "value": "5"},
+            "b": {"kind": "exact", "value": "25"},
+            "c": {"kind": "exact", "value": "125"}
+          }
+        },
+        {
+          "transformation_id": "deployment.censored-action-02",
+          "observations": {
+            "a": {"kind": "exact", "value": "49"},
+            "b": {"kind": "exact", "value": "7"},
+            "c": {"kind": "exact", "value": "343"}
+          }
+        }
+      ]
+    }
+  ]
+}

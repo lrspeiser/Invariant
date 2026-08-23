@@ -161,6 +161,7 @@ def test_core_run_requires_and_sanitizes_live_claude(
     component_knockout = bound_receipts[9]
     learned_invariants = bound_receipts[10]
     state_pair_invariants = bound_receipts[11]
+    uncertain_invariants = bound_receipts[12]
     monkeypatch.setattr(
         C,
         "_load_bound_receipts",
@@ -177,6 +178,7 @@ def test_core_run_requires_and_sanitizes_live_claude(
             component_knockout,
             learned_invariants,
             state_pair_invariants,
+            uncertain_invariants,
         ),
     )
     monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
@@ -201,6 +203,11 @@ def test_core_run_requires_and_sanitizes_live_claude(
             brief["action_kind"]
             for brief in creative_context["state_pair_invariant_briefs"]
         } == {"matrix_conjugation", "matrix_orthogonal", "nonlinear_polynomial"}
+        assert len(creative_context["uncertain_invariant_briefs"]) == 3
+        assert {
+            brief["observation_mode"]
+            for brief in creative_context["uncertain_invariant_briefs"]
+        } == {"missingness", "noisy_interval", "one_sided_censoring"}
         assert creative_context["origin_assessment_labels"] == [
             "cross_domain_synthesis",
             "known_rewrite",
@@ -231,6 +238,7 @@ def test_core_run_requires_and_sanitizes_live_claude(
         "state_pair_invariant_briefs": 3,
         "status": "PASS_CONTEXT_BOUND_TO_AUTHENTICATED_CALLS",
         "typed_formula_kinds": 7,
+        "uncertain_invariant_briefs": 3,
     }
     assert receipt["release_gate"]["llm_first_principles_lane_live_run_complete"]
     assert receipt["credential_activation"]["source_kind"] == "explicit_env_file"
@@ -272,6 +280,7 @@ def test_core_run_requires_and_sanitizes_live_claude(
     assert receipt["symmetry_dimension_derivation"]["claims"]["specific_law_discovered"] is False
     assert receipt["learned_invariant_discovery"]["claims"]["empirical_law_discovered"] is False
     assert receipt["state_pair_invariant_discovery"]["claims"]["theorem_proved"] is False
+    assert receipt["uncertain_invariant_discovery"]["claims"]["unique_formula_identified"] is False
     assert receipt["discovery_runtime"]["learned_invariant_identified_passes"] == 1
     assert receipt["discovery_runtime"]["learned_invariant_shift_rejections"] == 1
     assert receipt["discovery_runtime"]["learned_invariant_underdetermined_controls"] == 1
@@ -281,6 +290,10 @@ def test_core_run_requires_and_sanitizes_live_claude(
     assert receipt["discovery_runtime"]["state_pair_matrix_action_controls"] == 2
     assert receipt["discovery_runtime"]["state_pair_nonlinear_action_controls"] == 1
     assert receipt["discovery_runtime"]["state_pair_deployment_failures"] == 0
+    assert receipt["discovery_runtime"]["uncertain_invariant_controls"] == 3
+    assert receipt["discovery_runtime"]["uncertain_invariant_training_candidates_retained"] == 6
+    assert receipt["discovery_runtime"]["uncertain_invariant_deployment_failed_candidates"] == 3
+    assert receipt["discovery_runtime"]["uncertain_invariant_deployment_surviving_candidates"] == 3
     assert receipt["discovery_runtime"]["independent_proof_plan_routes_closed"] == 6
     assert receipt["discovery_runtime"]["independent_proof_plan_mutations_rejected"] == 6
     assert receipt["discovery_runtime"]["component_knockout_experiments_preflighted"] == 4
