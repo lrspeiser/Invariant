@@ -1,0 +1,112 @@
+{
+  "content_sha256": "28aaaaacc052d2f588b319824f0e969b7e453c0c6f90071cf4013477d58ce42f",
+  "pack_id": "structured-symbolic-live-rotation",
+  "rotation_epoch": "2026-08-23-001",
+  "schema_version": "invariant-external-structured-target-packet-1.0",
+  "targets": [
+    {
+      "assertion_ordinal": 0,
+      "context_sha256": "b7460585b6673cbc53297648266ee8b0343e8a29139d723f20c00c27794a50f0",
+      "external_principal_id": "external.sympy-project",
+      "query_expression": "str(tc)",
+      "source_id": "sympy-tensor-tests",
+      "source_response_sha256": "39fa306d8d8384a5a3aa347eeffb2676a528f3aea136e2c0574e9c2fa14f3bac",
+      "source_uri": "https://raw.githubusercontent.com/sympy/sympy/master/sympy/tensor/tests/test_tensor.py",
+      "target_expression": "'A(L_0)*B(-L_0)'",
+      "task_id": "blind.0787e436659db2d30538598c",
+      "test_function": "test_canonicalize_no_slot_sym",
+      "upstream_function_source": "def test_canonicalize_no_slot_sym():\n    # A_d0 * B^d0; T_c = A^d0*B_d0\n    Lorentz = TensorIndexType('Lorentz', dummy_name='L')\n    a, b, d0, d1 = tensor_indices('a,b,d0,d1', Lorentz)\n    A, B = tensor_heads('A,B', [Lorentz], TensorSymmetry.no_symmetry(1))\n    t = A(-d0)*B(d0)\n    tc = t.canon_bp()\n    assert str(tc) == 'A(L_0)*B(-L_0)'\n\n    # A^a * B^b;  T_c = T\n    t = A(a)*B(b)\n    tc = t.canon_bp()\n    assert tc == t\n    # B^b * A^a\n    t1 = B(b)*A(a)\n    tc = t1.canon_bp()\n    assert str(tc) == 'A(a)*B(b)'\n\n    # A symmetric\n    # A^{b}_{d0}*A^{d0, a}; T_c = A^{a d0}*A{b}_{d0}\n    A = TensorHead('A', [Lorentz]*2, TensorSymmetry.fully_symmetric(2))\n    t = A(b, -d0)*A(d0, a)\n    tc = t.canon_bp()\n    assert str(tc) == 'A(a, L_0)*A(b, -L_0)'\n\n    # A^{d1}_{d0}*B^d0*C_d1\n    # T_c = A^{d0 d1}*B_d0*C_d1\n    B, C = tensor_heads('B,C', [Lorentz], TensorSymmetry.no_symmetry(1))\n    t = A(d1, -d0)*B(d0)*C(-d1)\n    tc = t.canon_bp()\n    assert str(tc) == 'A(L_0, L_1)*B(-L_0)*C(-L_1)'\n\n    # A without symmetry\n    # A^{d1}_{d0}*B^d0*C_d1 ord=[d0,-d0,d1,-d1]; g = [2,1,0,3,4,5]\n    # T_c = A^{d0 d1}*B_d1*C_d0; can = [0,2,3,1,4,5]\n    A = TensorHead('A', [Lorentz]*2, TensorSymmetry.no_symmetry(2))\n    t = A(d1, -d0)*B(d0)*C(-d1)\n    tc = t.canon_bp()\n    assert str(tc) == 'A(L_0, L_1)*B(-L_1)*C(-L_0)'\n\n    # A, B without symmetry\n    # A^{d1}_{d0}*B_{d1}^{d0}\n    # T_c = A^{d0 d1}*B_{d0 d1}\n    B = TensorHead('B', [Lorentz]*2, TensorSymmetry.no_symmetry(2))\n    t = A(d1, -d0)*B(-d1, d0)\n    tc = t.canon_bp()\n    assert str(tc) == 'A(L_0, L_1)*B(-L_0, -L_1)'\n    # A_{d0}^{d1}*B_{d1}^{d0}\n    # T_c = A^{d0 d1}*B_{d1 d0}\n    t = A(-d0, d1)*B(-d1, d0)\n    tc = t.canon_bp()\n    assert str(tc) == 'A(L_0, L_1)*B(-L_1, -L_0)'\n\n    # A, B, C without symmetry\n    # A^{d1 d0}*B_{a d0}*C_{d1 b}\n    # T_c=A^{d0 d1}*B_{a d1}*C_{d0 b}\n    C = TensorHead('C', [Lorentz]*2, TensorSymmetry.no_symmetry(2))\n    t = A(d1, d0)*B(-a, -d0)*C(-d1, -b)\n    tc = t.canon_bp()\n    assert str(tc) == 'A(L_0, L_1)*B(-a, -L_1)*C(-L_0, -b)'\n\n    # A symmetric, B and C without symmetry\n    # A^{d1 d0}*B_{a d0}*C_{d1 b}\n    # T_c = A^{d0 d1}*B_{a d0}*C_{d1 b}\n    A = TensorHead('A', [Lorentz]*2, TensorSymmetry.fully_symmetric(2))\n    t = A(d1, d0)*B(-a, -d0)*C(-d1, -b)\n    tc = t.canon_bp()\n    assert str(tc) == 'A(L_0, L_1)*B(-a, -L_0)*C(-L_1, -b)'\n\n    # A and C symmetric, B without symmetry\n    # A^{d1 d0}*B_{a d0}*C_{d1 b} ord=[a,b,d0,-d0,d1,-d1]\n    # T_c = A^{d0 d1}*B_{a d0}*C_{b d1}\n    C = TensorHead('C', [Lorentz]*2, TensorSymmetry.fully_symmetric(2))\n    t = A(d1, d0)*B(-a, -d0)*C(-d1, -b)\n    tc = t.canon_bp()\n    assert str(tc) == 'A(L_0, L_1)*B(-a, -L_0)*C(-b, -L_1)'"
+    },
+    {
+      "assertion_ordinal": 0,
+      "context_sha256": "e5dcdc0060eda24889b01fd6b8f7ffdc9a1b442da6cb7472400f387a9be14ff6",
+      "external_principal_id": "external.sympy-project",
+      "query_expression": "str(tc)",
+      "source_id": "sympy-tensor-tests",
+      "source_response_sha256": "39fa306d8d8384a5a3aa347eeffb2676a528f3aea136e2c0574e9c2fa14f3bac",
+      "source_uri": "https://raw.githubusercontent.com/sympy/sympy/master/sympy/tensor/tests/test_tensor.py",
+      "target_expression": "'A(a)*A(b)*A(c)'",
+      "task_id": "blind.f5ba1e7b0763c8e3d6bb716f",
+      "test_function": "test_canonicalize_no_dummies",
+      "upstream_function_source": "def test_canonicalize_no_dummies():\n    Lorentz = TensorIndexType('Lorentz', dummy_name='L')\n    a, b, c, d = tensor_indices('a, b, c, d', Lorentz)\n\n    # A commuting\n    # A^c A^b A^a\n    # T_c = A^a A^b A^c\n    A = TensorHead('A', [Lorentz], TensorSymmetry.no_symmetry(1))\n    t = A(c)*A(b)*A(a)\n    tc = t.canon_bp()\n    assert str(tc) == 'A(a)*A(b)*A(c)'\n\n    # A anticommuting\n    # A^c A^b A^a\n    # T_c = -A^a A^b A^c\n    A = TensorHead('A', [Lorentz], TensorSymmetry.no_symmetry(1), 1)\n    t = A(c)*A(b)*A(a)\n    tc = t.canon_bp()\n    assert str(tc) == '-A(a)*A(b)*A(c)'\n\n    # A commuting and symmetric\n    # A^{b,d}*A^{c,a}\n    # T_c = A^{a c}*A^{b d}\n    A = TensorHead('A', [Lorentz]*2, TensorSymmetry.fully_symmetric(2))\n    t = A(b, d)*A(c, a)\n    tc = t.canon_bp()\n    assert str(tc) == 'A(a, c)*A(b, d)'\n\n    # A anticommuting and symmetric\n    # A^{b,d}*A^{c,a}\n    # T_c = -A^{a c}*A^{b d}\n    A = TensorHead('A', [Lorentz]*2, TensorSymmetry.fully_symmetric(2), 1)\n    t = A(b, d)*A(c, a)\n    tc = t.canon_bp()\n    assert str(tc) == '-A(a, c)*A(b, d)'\n\n    # A^{c,a}*A^{b,d}\n    # T_c = A^{a c}*A^{b d}\n    t = A(c, a)*A(b, d)\n    tc = t.canon_bp()\n    assert str(tc) == 'A(a, c)*A(b, d)'"
+    },
+    {
+      "assertion_ordinal": 0,
+      "context_sha256": "899d22ad2fb9a5abdb0805ea1607750ffc3fb8276847a509e921a831803511df",
+      "external_principal_id": "external.sympy-project",
+      "query_expression": "str(tc)",
+      "source_id": "sympy-tensor-tests",
+      "source_response_sha256": "39fa306d8d8384a5a3aa347eeffb2676a528f3aea136e2c0574e9c2fa14f3bac",
+      "source_uri": "https://raw.githubusercontent.com/sympy/sympy/master/sympy/tensor/tests/test_tensor.py",
+      "target_expression": "'A(L_0, -L_1)*A(L_1, -L_0)'",
+      "task_id": "blind.9c6a41539fbaadeb7f4f5306",
+      "test_function": "test_no_metric_symmetry",
+      "upstream_function_source": "def test_no_metric_symmetry():\n    # no metric symmetry; A no symmetry\n    # A^d1_d0 * A^d0_d1\n    # T_c = A^d0_d1 * A^d1_d0\n    Lorentz = TensorIndexType('Lorentz', dummy_name='L', metric_symmetry=0)\n    d0, d1, d2, d3 = tensor_indices('d:4', Lorentz)\n    A = TensorHead('A', [Lorentz]*2, TensorSymmetry.no_symmetry(2))\n    t = A(d1, -d0)*A(d0, -d1)\n    tc = t.canon_bp()\n    assert str(tc) == 'A(L_0, -L_1)*A(L_1, -L_0)'\n\n    # A^d1_d2 * A^d0_d3 * A^d2_d1 * A^d3_d0\n    # T_c = A^d0_d1 * A^d1_d0 * A^d2_d3 * A^d3_d2\n    t = A(d1, -d2)*A(d0, -d3)*A(d2, -d1)*A(d3, -d0)\n    tc = t.canon_bp()\n    assert str(tc) == 'A(L_0, -L_1)*A(L_1, -L_0)*A(L_2, -L_3)*A(L_3, -L_2)'\n\n    # A^d0_d2 * A^d1_d3 * A^d3_d0 * A^d2_d1\n    # T_c = A^d0_d1 * A^d1_d2 * A^d2_d3 * A^d3_d0\n    t = A(d0, -d1)*A(d1, -d2)*A(d2, -d3)*A(d3, -d0)\n    tc = t.canon_bp()\n    assert str(tc) == 'A(L_0, -L_1)*A(L_1, -L_2)*A(L_2, -L_3)*A(L_3, -L_0)'"
+    },
+    {
+      "assertion_ordinal": 0,
+      "context_sha256": "a183f697c951bce6228e9c6020a1ed35371113a879a79d02b10931464307ef93",
+      "external_principal_id": "external.sympy-project",
+      "query_expression": "str(tc)",
+      "source_id": "sympy-tensor-tests",
+      "source_response_sha256": "39fa306d8d8384a5a3aa347eeffb2676a528f3aea136e2c0574e9c2fa14f3bac",
+      "source_uri": "https://raw.githubusercontent.com/sympy/sympy/master/sympy/tensor/tests/test_tensor.py",
+      "target_expression": "'A(L_0)*A(-L_0)'",
+      "task_id": "blind.7610d48cd586d71a6e4ed621",
+      "test_function": "test_canonicalize1",
+      "upstream_function_source": "def test_canonicalize1():\n    Lorentz = TensorIndexType('Lorentz', dummy_name='L')\n    a, a0, a1, a2, a3, b, d0, d1, d2, d3 = \\\n        tensor_indices('a,a0,a1,a2,a3,b,d0,d1,d2,d3', Lorentz)\n\n    # A_d0*A^d0; ord = [d0,-d0]\n    # T_c = A^d0*A_d0\n    A = TensorHead('A', [Lorentz], TensorSymmetry.no_symmetry(1))\n    t = A(-d0)*A(d0)\n    tc = t.canon_bp()\n    assert str(tc) == 'A(L_0)*A(-L_0)'\n\n    # A commuting\n    # A_d0*A_d1*A_d2*A^d2*A^d1*A^d0\n    # T_c = A^d0*A_d0*A^d1*A_d1*A^d2*A_d2\n    t = A(-d0)*A(-d1)*A(-d2)*A(d2)*A(d1)*A(d0)\n    tc = t.canon_bp()\n    assert str(tc) == 'A(L_0)*A(-L_0)*A(L_1)*A(-L_1)*A(L_2)*A(-L_2)'\n\n    # A anticommuting\n    # A_d0*A_d1*A_d2*A^d2*A^d1*A^d0\n    # T_c 0\n    A = TensorHead('A', [Lorentz], TensorSymmetry.no_symmetry(1), 1)\n    t = A(-d0)*A(-d1)*A(-d2)*A(d2)*A(d1)*A(d0)\n    tc = t.canon_bp()\n    assert tc == 0\n\n    # A commuting symmetric\n    # A^{d0 b}*A^a_d1*A^d1_d0\n    # T_c = A^{a d0}*A^{b d1}*A_{d0 d1}\n    A = TensorHead('A', [Lorentz]*2, TensorSymmetry.fully_symmetric(2))\n    t = A(d0, b)*A(a, -d1)*A(d1, -d0)\n    tc = t.canon_bp()\n    assert str(tc) == 'A(a, L_0)*A(b, L_1)*A(-L_0, -L_1)'\n\n    # A, B commuting symmetric\n    # A^{d0 b}*A^d1_d0*B^a_d1\n    # T_c = A^{b d0}*A_d0^d1*B^a_d1\n    B = TensorHead('B', [Lorentz]*2, TensorSymmetry.fully_symmetric(2))\n    t = A(d0, b)*A(d1, -d0)*B(a, -d1)\n    tc = t.canon_bp()\n    assert str(tc) == 'A(b, L_0)*A(-L_0, L_1)*B(a, -L_1)'\n\n    # A commuting symmetric\n    # A^{d1 d0 b}*A^{a}_{d1 d0}; ord=[a,b, d0,-d0,d1,-d1]\n    # T_c = A^{a d0 d1}*A^{b}_{d0 d1}\n    A = TensorHead('A', [Lorentz]*3, TensorSymmetry.fully_symmetric(3))\n    t = A(d1, d0, b)*A(a, -d1, -d0)\n    tc = t.canon_bp()\n    assert str(tc) == 'A(a, L_0, L_1)*A(b, -L_0, -L_1)'\n\n    # A^{d3 d0 d2}*A^a0_{d1 d2}*A^d1_d3^a1*A^{a2 a3}_d0\n    # T_c = A^{a0 d0 d1}*A^a1_d0^d2*A^{a2 a3 d3}*A_{d1 d2 d3}\n    t = A(d3, d0, d2)*A(a0, -d1, -d2)*A(d1, -d3, a1)*A(a2, a3, -d0)\n    tc = t.canon_bp()\n    assert str(tc) == 'A(a0, L_0, L_1)*A(a1, -L_0, L_2)*A(a2, a3, L_3)*A(-L_1, -L_2, -L_3)'\n\n    # A commuting symmetric, B antisymmetric\n    # A^{d0 d1 d2} * A_{d2 d3 d1} * B_d0^d3\n    # in this esxample and in the next three,\n    # renaming dummy indices and using symmetry of A,\n    # T = A^{d0 d1 d2} * A_{d0 d1 d3} * B_d2^d3\n    # can = 0\n    A = TensorHead('A', [Lorentz]*3, TensorSymmetry.fully_symmetric(3))\n    B = TensorHead('B', [Lorentz]*2, TensorSymmetry.fully_symmetric(-2))\n    t = A(d0, d1, d2)*A(-d2, -d3, -d1)*B(-d0, d3)\n    tc = t.canon_bp()\n    assert tc == 0\n\n    # A anticommuting symmetric, B antisymmetric\n    # A^{d0 d1 d2} * A_{d2 d3 d1} * B_d0^d3\n    # T_c = A^{d0 d1 d2} * A_{d0 d1}^d3 * B_{d2 d3}\n    A = TensorHead('A', [Lorentz]*3, TensorSymmetry.fully_symmetric(3), 1)\n    B = TensorHead('B', [Lorentz]*2, TensorSymmetry.fully_symmetric(-2))\n    t = A(d0, d1, d2)*A(-d2, -d3, -d1)*B(-d0, d3)\n    tc = t.canon_bp()\n    assert str(tc) == 'A(L_0, L_1, L_2)*A(-L_0, -L_1, L_3)*B(-L_2, -L_3)'\n\n    # A anticommuting symmetric, B antisymmetric commuting, antisymmetric metric\n    # A^{d0 d1 d2} * A_{d2 d3 d1} * B_d0^d3\n    # T_c = -A^{d0 d1 d2} * A_{d0 d1}^d3 * B_{d2 d3}\n    Spinor = TensorIndexType('Spinor', dummy_name='S', metric_symmetry=-1)\n    a, a0, a1, a2, a3, b, d0, d1, d2, d3 = \\\n        tensor_indices('a,a0,a1,a2,a3,b,d0,d1,d2,d3', Spinor)\n    A = TensorHead('A', [Spinor]*3, TensorSymmetry.fully_symmetric(3), 1)\n    B = TensorHead('B', [Spinor]*2, TensorSymmetry.fully_symmetric(-2))\n    t = A(d0, d1, d2)*A(-d2, -d3, -d1)*B(-d0, d3)\n    tc = t.canon_bp()\n    assert str(tc) == '-A(S_0, S_1, S_2)*A(-S_0, -S_1, S_3)*B(-S_2, -S_3)'\n\n    # A anticommuting symmetric, B antisymmetric anticommuting,\n    # no metric symmetry\n    # A^{d0 d1 d2} * A_{d2 d3 d1} * B_d0^d3\n    # T_c = A^{d0 d1 d2} * A_{d0 d1 d3} * B_d2^d3\n    Mat = TensorIndexType('Mat', metric_symmetry=0, dummy_name='M')\n    a, a0, a1, a2, a3, b, d0, d1, d2, d3 = \\\n        tensor_indices('a,a0,a1,a2,a3,b,d0,d1,d2,d3', Mat)\n    A = TensorHead('A', [Mat]*3, TensorSymmetry.fully_symmetric(3), 1)\n    B = TensorHead('B', [Mat]*2, TensorSymmetry.fully_symmetric(-2))\n    t = A(d0, d1, d2)*A(-d2, -d3, -d1)*B(-d0, d3)\n    tc = t.canon_bp()\n    assert str(tc) == 'A(M_0, M_1, M_2)*A(-M_0, -M_1, -M_3)*B(-M_2, M_3)'\n\n    # Gamma anticommuting\n    # Gamma_{mu nu} * gamma^rho * Gamma^{nu mu alpha}\n    # T_c = -Gamma^{mu nu} * gamma^rho * Gamma_{alpha mu nu}\n    alpha, beta, gamma, mu, nu, rho = \\\n        tensor_indices('alpha,beta,gamma,mu,nu,rho', Lorentz)\n    Gamma = TensorHead('Gamma', [Lorentz],\n                       TensorSymmetry.fully_symmetric(1), 2)\n    Gamma2 = TensorHead('Gamma', [Lorentz]*2,\n                        TensorSymmetry.fully_symmetric(-2), 2)\n    Gamma3 = TensorHead('Gamma', [Lorentz]*3,\n                        TensorSymmetry.fully_symmetric(-3), 2)\n    t = Gamma2(-mu, -nu)*Gamma(rho)*Gamma3(nu, mu, alpha)\n    tc = t.canon_bp()\n    assert str(tc) == '-Gamma(L_0, L_1)*Gamma(rho)*Gamma(alpha, -L_0, -L_1)'\n\n    # Gamma_{mu nu} * Gamma^{gamma beta} * gamma_rho * Gamma^{nu mu alpha}\n    # T_c = Gamma^{mu nu} * Gamma^{beta gamma} * gamma_rho * Gamma^alpha_{mu nu}\n    t = Gamma2(mu, nu)*Gamma2(beta, gamma)*Gamma(-rho)*Gamma3(alpha, -mu, -nu)\n    tc = t.canon_bp()\n    assert str(tc) == 'Gamma(L_0, L_1)*Gamma(beta, gamma)*Gamma(-rho)*Gamma(alpha, -L_0, -L_1)'\n\n    # f^a_{b,c} antisymmetric in b,c; A_mu^a no symmetry\n    # f^c_{d a} * f_{c e b} * A_mu^d * A_nu^a * A^{nu e} * A^{mu b}\n    # g = [8,11,5, 9,13,7, 1,10, 3,4, 2,12, 0,6, 14,15]\n    # T_c = -f^{a b c} * f_a^{d e} * A^mu_b * A_{mu d} * A^nu_c * A_{nu e}\n    Flavor = TensorIndexType('Flavor', dummy_name='F')\n    a, b, c, d, e, ff = tensor_indices('a,b,c,d,e,f', Flavor)\n    mu, nu = tensor_indices('mu,nu', Lorentz)\n    f = TensorHead('f', [Flavor]*3, TensorSymmetry.direct_product(1, -2))\n    A = TensorHead('A', [Lorentz, Flavor], TensorSymmetry.no_symmetry(2))\n    t = f(c, -d, -a)*f(-c, -e, -b)*A(-mu, d)*A(-nu, a)*A(nu, e)*A(mu, b)\n    tc = t.canon_bp()\n    assert str(tc) == '-f(F_0, F_1, F_2)*f(-F_0, F_3, F_4)*A(L_0, -F_1)*A(-L_0, -F_3)*A(L_1, -F_2)*A(-L_1, -F_4)'"
+    },
+    {
+      "assertion_ordinal": 0,
+      "context_sha256": "054960a7389ab204d115ddd2751d568c9c139e0190b045706fec1824a30dd865",
+      "external_principal_id": "external.sympy-project",
+      "query_expression": "euler(L, x(t), t)",
+      "source_id": "sympy-euler-tests",
+      "source_response_sha256": "1c5376a1b22662d4b509f6ff8e7d0365645c49eb7aad8e60b0638a294743dd95",
+      "source_uri": "https://raw.githubusercontent.com/sympy/sympy/master/sympy/calculus/tests/test_euler.py",
+      "target_expression": "[Eq(-sin(x(t)) - D(x(t), t, t), 0)]",
+      "task_id": "blind.99e37c74298b9e117f08551b",
+      "test_function": "test_euler_pendulum",
+      "upstream_function_source": "def test_euler_pendulum():\n    x = Function('x')\n    t = Symbol('t')\n    L = D(x(t), t)**2/2 + cos(x(t))\n    assert euler(L, x(t), t) == [Eq(-sin(x(t)) - D(x(t), t, t), 0)]"
+    },
+    {
+      "assertion_ordinal": 0,
+      "context_sha256": "8941614078150af6fb2e26fbd84fe3b06fc606a3385f054648630166b4c916aa",
+      "external_principal_id": "external.sympy-project",
+      "query_expression": "euler(L, [x(t), y(t)], t)",
+      "source_id": "sympy-euler-tests",
+      "source_response_sha256": "1c5376a1b22662d4b509f6ff8e7d0365645c49eb7aad8e60b0638a294743dd95",
+      "source_uri": "https://raw.githubusercontent.com/sympy/sympy/master/sympy/calculus/tests/test_euler.py",
+      "target_expression": "[Eq(-2*x(t)*y(t) - x(t) -\n                                            D(x(t), t, t), 0),\n                                         Eq(-x(t)**2 + y(t)**2 -\n                                            y(t) - D(y(t), t, t), 0)]",
+      "task_id": "blind.c3f34512c442abbfb6ba99d8",
+      "test_function": "test_euler_henonheiles",
+      "upstream_function_source": "def test_euler_henonheiles():\n    x = Function('x')\n    y = Function('y')\n    t = Symbol('t')\n    L = sum(D(z(t), t)**2/2 - z(t)**2/2 for z in [x, y])\n    L += -x(t)**2*y(t) + y(t)**3/3\n    assert euler(L, [x(t), y(t)], t) == [Eq(-2*x(t)*y(t) - x(t) -\n                                            D(x(t), t, t), 0),\n                                         Eq(-x(t)**2 + y(t)**2 -\n                                            y(t) - D(y(t), t, t), 0)]"
+    },
+    {
+      "assertion_ordinal": 0,
+      "context_sha256": "f69f78be16b57c73a54ee4624e5c7018610f04d939e6d70339542d846dc7dc66",
+      "external_principal_id": "external.sympy-project",
+      "query_expression": "euler(L, psi(t, x), [t, x])",
+      "source_id": "sympy-euler-tests",
+      "source_response_sha256": "1c5376a1b22662d4b509f6ff8e7d0365645c49eb7aad8e60b0638a294743dd95",
+      "source_uri": "https://raw.githubusercontent.com/sympy/sympy/master/sympy/calculus/tests/test_euler.py",
+      "target_expression": "[Eq(-sin(psi(t, x)) -\n                                              D(psi(t, x), t, t) +\n                                              D(psi(t, x), x, x), 0)]",
+      "task_id": "blind.0c1cd5a4feafbcac90c1288c",
+      "test_function": "test_euler_sineg",
+      "upstream_function_source": "def test_euler_sineg():\n    psi = Function('psi')\n    t = Symbol('t')\n    x = Symbol('x')\n    L = D(psi(t, x), t)**2/2 - D(psi(t, x), x)**2/2 + cos(psi(t, x))\n    assert euler(L, psi(t, x), [t, x]) == [Eq(-sin(psi(t, x)) -\n                                              D(psi(t, x), t, t) +\n                                              D(psi(t, x), x, x), 0)]"
+    },
+    {
+      "assertion_ordinal": 0,
+      "context_sha256": "174a86d7972c4135c8f2d37afb3c92bc2526953f96c15c56b2b41f65d05b468e",
+      "external_principal_id": "external.sympy-project",
+      "query_expression": "euler(L, [x(t), y(t)])",
+      "source_id": "sympy-euler-tests",
+      "source_response_sha256": "1c5376a1b22662d4b509f6ff8e7d0365645c49eb7aad8e60b0638a294743dd95",
+      "source_uri": "https://raw.githubusercontent.com/sympy/sympy/master/sympy/calculus/tests/test_euler.py",
+      "target_expression": "[Eq(2*k*D(y(t), t, t, t) -\n                                         m*D(x(t), t, t), 0),\n                                      Eq(-2*k*D(x(t), t, t, t) -\n                                         m*D(y(t), t, t), 0)]",
+      "task_id": "blind.3d508912dbc7e21e1c961362",
+      "test_function": "test_euler_high_order",
+      "upstream_function_source": "def test_euler_high_order():\n    # an example from hep-th/0309038\n    m = Symbol('m')\n    k = Symbol('k')\n    x = Function('x')\n    y = Function('y')\n    t = Symbol('t')\n    L = (m*D(x(t), t)**2/2 + m*D(y(t), t)**2/2 -\n         k*D(x(t), t)*D(y(t), t, t) + k*D(y(t), t)*D(x(t), t, t))\n    assert euler(L, [x(t), y(t)]) == [Eq(2*k*D(y(t), t, t, t) -\n                                         m*D(x(t), t, t), 0),\n                                      Eq(-2*k*D(x(t), t, t, t) -\n                                         m*D(y(t), t, t), 0)]\n\n    w = Symbol('w')\n    L = D(x(t, w), t, w)**2/2\n    assert euler(L) == [Eq(D(x(t, w), t, t, w, w), 0)]"
+    }
+  ]
+}

@@ -39,6 +39,10 @@ from .external_creativity_validation import run_campaign
 from .external_dataset_challenges import (
     validate_external_dataset_challenges,
 )
+from .external_structured_benchmarks import (
+    RECEIPT_SCHEMA as EXTERNAL_STRUCTURED_RECEIPT_SCHEMA,
+)
+from .external_structured_benchmarks import load_stored_pack
 from .idea_lineage import build_idea_archive, validate_idea_archive
 from .independent_proof_plan_search import validate_proof_plan_search
 from .serious_claim_verification_ladder import (
@@ -51,8 +55,8 @@ from .sigma_core import canonical_sha256
 
 CONFIG_PATH = "configs/core_creative_discovery.json"
 OUTPUT_PATH = "runs/math/core-creative-discovery/live-runtime.json"
-SCHEMA_VERSION = "invariant-core-creative-discovery-runtime-1.6"
-CONFIG_SCHEMA = "invariant-core-creative-discovery-config-1.6"
+SCHEMA_VERSION = "invariant-core-creative-discovery-runtime-1.7"
+CONFIG_SCHEMA = "invariant-core-creative-discovery-config-1.7"
 
 
 class CoreCreativeDiscoveryError(ValueError):
@@ -115,6 +119,7 @@ def _load_config(root: Path) -> dict[str, Any]:
         "dataset_challenge_receipt",
         "declarative_operational_receipt",
         "external_dataset_challenge_receipt",
+        "external_structured_benchmark_receipt",
         "expanded_typed_grammar_receipt",
         "live_evidence_output",
         "multi_host_reproduction_receipt",
@@ -136,10 +141,12 @@ def _load_bound_receipts(
     dict[str, Any],
     dict[str, Any],
     dict[str, Any],
+    dict[str, Any],
 ]:
     components = config["components"]
     dataset_path = root / components["dataset_challenge_receipt"]
     external_dataset_path = root / components["external_dataset_challenge_receipt"]
+    external_structured_path = components["external_structured_benchmark_receipt"]
     operational_path = root / components["declarative_operational_receipt"]
     multi_host_path = root / components["multi_host_reproduction_receipt"]
     expanded_grammar_path = root / components["expanded_typed_grammar_receipt"]
@@ -148,6 +155,7 @@ def _load_bound_receipts(
     component_knockout_path = root / components["component_knockout_preflight_receipt"]
     dataset = json.loads(dataset_path.read_text(encoding="utf-8"))
     external_dataset = json.loads(external_dataset_path.read_text(encoding="utf-8"))
+    _, _, external_structured = load_stored_pack(root, external_structured_path)
     operational = json.loads(operational_path.read_text(encoding="utf-8"))
     multi_host = json.loads(multi_host_path.read_text(encoding="utf-8"))
     expanded_grammar = json.loads(expanded_grammar_path.read_text(encoding="utf-8"))
@@ -168,6 +176,7 @@ def _load_bound_receipts(
         expanded_grammar,
         dataset,
         external_dataset,
+        external_structured,
         proof_plan_search,
         serious_claim_ladder,
         component_knockout,
@@ -216,6 +225,7 @@ def run_core(
         expanded_grammar,
         dataset_challenges,
         external_dataset_challenges,
+        external_structured_benchmarks,
         proof_plan_search,
         serious_claim_ladder,
         component_knockout,
@@ -278,6 +288,10 @@ def run_core(
                 "content_sha256": external_dataset_challenges["content_sha256"],
                 "path": config["components"]["external_dataset_challenge_receipt"],
             },
+            "external_structured_benchmark_receipt": {
+                "content_sha256": external_structured_benchmarks["content_sha256"],
+                "path": config["components"]["external_structured_benchmark_receipt"],
+            },
             "multi_host_reproduction_receipt": {
                 "content_sha256": multi_host["content_sha256"],
                 "path": config["components"]["multi_host_reproduction_receipt"],
@@ -310,6 +324,7 @@ def run_core(
         "component_knockout_preflight": component_knockout,
         "dataset_challenges": dataset_challenges,
         "external_dataset_challenges": external_dataset_challenges,
+        "external_structured_benchmarks": external_structured_benchmarks,
         "proof_plan_search": proof_plan_search,
         "discovery_runtime": {
             "declarative_extensions_admitted": len(
@@ -339,6 +354,18 @@ def run_core(
                 "summary"
             ]["mutation_controls_rejected"],
             "external_dataset_status": external_dataset_challenges["summary"]["status"],
+            "external_structured_benchmark_families": sorted(
+                external_structured_benchmarks["coverage"]["representation_counts"]
+            ),
+            "external_structured_benchmark_level5_eligible": (
+                external_structured_benchmarks["release_gate"]["level5_eligible"]
+            ),
+            "external_structured_benchmark_status": external_structured_benchmarks[
+                "release_gate"
+            ]["status"],
+            "external_structured_benchmark_tasks": external_structured_benchmarks[
+                "coverage"
+            ]["tasks"],
             "independent_proof_plan_mechanisms": proof_plan_search["summary"]["mechanisms"],
             "independent_proof_plan_mutations_rejected": proof_plan_search["summary"][
                 "mutation_controls_rejected"
@@ -427,6 +454,7 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
             "invariant-core-creative-discovery-runtime-1.3",
             "invariant-core-creative-discovery-runtime-1.4",
             "invariant-core-creative-discovery-runtime-1.5",
+            "invariant-core-creative-discovery-runtime-1.6",
             SCHEMA_VERSION,
         }
         or previous.get("app_id") != "invariant.core-creative-discovery"
@@ -452,6 +480,7 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
         expanded_grammar,
         dataset_challenges,
         external_dataset_challenges,
+        external_structured_benchmarks,
         proof_plan_search,
         serious_claim_ladder,
         component_knockout,
@@ -476,6 +505,10 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
             "content_sha256": external_dataset_challenges["content_sha256"],
             "path": config["components"]["external_dataset_challenge_receipt"],
         },
+        "external_structured_benchmark_receipt": {
+            "content_sha256": external_structured_benchmarks["content_sha256"],
+            "path": config["components"]["external_structured_benchmark_receipt"],
+        },
         "multi_host_reproduction_receipt": {
             "content_sha256": multi_host["content_sha256"],
             "path": config["components"]["multi_host_reproduction_receipt"],
@@ -496,6 +529,7 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
     value["component_knockout_preflight"] = component_knockout
     value["dataset_challenges"] = dataset_challenges
     value["external_dataset_challenges"] = external_dataset_challenges
+    value["external_structured_benchmarks"] = external_structured_benchmarks
     value["proof_plan_search"] = proof_plan_search
     value["discovery_runtime"] = {
         **value["discovery_runtime"],
@@ -519,6 +553,18 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
             "mutation_controls_rejected"
         ],
         "external_dataset_status": external_dataset_challenges["summary"]["status"],
+        "external_structured_benchmark_families": sorted(
+            external_structured_benchmarks["coverage"]["representation_counts"]
+        ),
+        "external_structured_benchmark_level5_eligible": external_structured_benchmarks[
+            "release_gate"
+        ]["level5_eligible"],
+        "external_structured_benchmark_status": external_structured_benchmarks[
+            "release_gate"
+        ]["status"],
+        "external_structured_benchmark_tasks": external_structured_benchmarks["coverage"][
+            "tasks"
+        ],
     }
     value["verification"] = {
         "backends_required_for_serious_claim": config["release_policy"][
@@ -584,6 +630,22 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
     validate_creative_expansion(value.get("creative_expansion", {}), proof_plan_search)
     validate_dataset_challenges(value.get("dataset_challenges", {}), root)
     validate_external_dataset_challenges(value.get("external_dataset_challenges", {}), root)
+    external_structured = value.get("external_structured_benchmarks", {})
+    external_structured_body = {
+        key: item for key, item in external_structured.items() if key != "content_sha256"
+    }
+    if (
+        external_structured.get("schema_version") != EXTERNAL_STRUCTURED_RECEIPT_SCHEMA
+        or external_structured.get("content_sha256")
+        != canonical_sha256(external_structured_body)
+    ):
+        raise CoreCreativeDiscoveryError("core external structured benchmark seal changed")
+    if root is not None:
+        _, _, stored_external_structured = load_stored_pack(root)
+        if external_structured != stored_external_structured:
+            raise CoreCreativeDiscoveryError(
+                "core external structured benchmark component changed"
+            )
     validate_component_knockout_preflight(
         value.get("component_knockout_preflight", {}), root or Path.cwd()
     )
@@ -604,6 +666,12 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
         or discovery.get("external_dataset_challenges_passed") != 4
         or discovery.get("external_dataset_mutation_controls_rejected") != 4
         or discovery.get("external_dataset_status") != "PASS_EXTERNAL_DATASET_CHALLENGES"
+        or discovery.get("external_structured_benchmark_families")
+        != ["tensor_identity", "variational_functional"]
+        or discovery.get("external_structured_benchmark_level5_eligible") is not False
+        or discovery.get("external_structured_benchmark_status")
+        != "CREATIVITY_BENCHMARK_READY_LEVEL5_BLOCKED_UNSIGNED_SOURCE"
+        or discovery.get("external_structured_benchmark_tasks") != 8
         or discovery.get("independent_proof_plan_mechanisms")
         != [
             "induction",
@@ -661,6 +729,7 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
             "dataset_challenge_receipt",
             "declarative_operational_receipt",
             "external_dataset_challenge_receipt",
+            "external_structured_benchmark_receipt",
             "expanded_typed_grammar_receipt",
             "multi_host_reproduction_receipt",
             "proof_plan_search_receipt",
@@ -681,6 +750,12 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
                 validate_dataset_challenges(bound, root)
             if key == "external_dataset_challenge_receipt":
                 validate_external_dataset_challenges(bound, root)
+            if key == "external_structured_benchmark_receipt":
+                _, _, structured_receipt = load_stored_pack(root, binding["path"])
+                if bound != structured_receipt:
+                    raise CoreCreativeDiscoveryError(
+                        "core structured benchmark packet binding changed"
+                    )
             if key == "proof_plan_search_receipt":
                 validate_proof_plan_search(bound, root)
             if key == "serious_claim_verification_ladder_receipt":

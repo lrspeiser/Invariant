@@ -58,6 +58,12 @@
   representation bridges. Generation packets omit source IDs and eight-term holdouts. The external
   HTTPS origins are hash-bound but not cryptographically signed, so the pack is usable for the
   creativity tournament and explicitly ineligible for a level-5 count.
+- A separate live structured pack now binds four tensor-canonicalization and four variational
+  Euler-Lagrange tasks extracted without execution from two upstream SymPy test files. Public tasks
+  omit test names, source identities, source URIs, and expected expressions while retaining target
+  commitments. Exact live refetch reproduces both response hashes. Upstream assertions are benchmark
+  targets rather than independent proofs, and the unsigned HTTPS evidence remains ineligible for a
+  level-5 count.
 - A live claim-specific screen queried OEIS, Crossref, arXiv, Semantic Scholar, and the repository
   for one retained `uncertain` LLM idea. OEIS matched all 18 displayed terms to A005132; Semantic
   Scholar's HTTP 429 is preserved as unavailable evidence. This calibrates the model label at the
@@ -272,9 +278,8 @@ This is evidence of bounded rediscovery, not evidence of mathematical novelty.
    and score the bounded rotation; record disagreements before unblinding system identity.
 2. After explicit approval, run each preregistered component knockout through the one-experiment
    executor under its 96-call / 400,000-token ceiling and the same attempt-journal and review rules.
-3. Extend the live rotating external pack from recurrence, generating-function, sum/product,
-   modular, and representation-bridge tasks to separately maintained tensor and variational packs;
-   obtain a detached signature from a distinct pack principal before level-5 use.
+3. Rotate the first external tensor and variational task slice across additional upstream projects
+   and obtain a detached signature from a distinct pack principal before level-5 use.
 4. Expand the first four externally supplied dataset challenges to additional independent
    principals, richer noise and missingness models, and learned invariant proposals while retaining
    the synthetic negative controls; obtain detached signatures before level-5 use.
