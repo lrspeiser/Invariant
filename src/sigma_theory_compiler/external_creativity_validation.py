@@ -31,6 +31,7 @@ from .claude_creativity_api import (
     ClaudeCallResult,
     ClaudeCallStatus,
     ClaudeCreativityClient,
+    ClaudeCreativityError,
     ClaudeHypothesis,
     ClaudeRole,
     Transport,
@@ -1240,11 +1241,32 @@ def run_campaign(
     for benchmark in benchmarks:
         call = client.run(ClaudeRole.PROPOSER, benchmark.blind_id, benchmark.generation_view())
         if isinstance(transport, ProviderCompatibleClaudeTransport):
+            response_id = str(call.evidence.get("api_response_id", ""))
+            overflow = []
+            rejected_overflow = 0
+            for item in transport.hypothesis_overflow_for(response_id):
+                try:
+                    overflow.append(ClaudeHypothesis.from_mapping(item))
+                except ClaudeCreativityError:
+                    rejected_overflow += 1
+            if overflow or rejected_overflow:
+                if call.output is None:
+                    raise ExternalCreativityError("provider overflow has no proposer output")
+                call = replace(
+                    call,
+                    output=replace(
+                        call.output,
+                        hypotheses=(*call.output.hypotheses, *overflow),
+                        rejected_hypotheses=(
+                            call.output.rejected_hypotheses + rejected_overflow
+                        ),
+                    ),
+                )
             call = replace(
                 call,
                 evidence={
                     **call.evidence,
-                    **transport.evidence_for(str(call.evidence.get("api_response_id", ""))),
+                    **transport.evidence_for(response_id),
                 },
             )
         claude_calls.append(call)
@@ -1255,6 +1277,12 @@ def run_campaign(
             if (candidate := _claude_candidate(benchmark, hypothesis)) is not None
         )
         deterministic[benchmark.benchmark_id].extend(admitted)
+        deterministic[benchmark.benchmark_id] = list(
+            {
+                candidate.candidate_id: candidate
+                for candidate in deterministic[benchmark.benchmark_id]
+            }.values()
+        )
         claude_admission[benchmark.benchmark_id] = {
             "admitted_executable_hypotheses": len(admitted),
             "non_executable_typed_hypotheses": len(hypotheses) - len(admitted),

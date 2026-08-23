@@ -87,6 +87,56 @@ class ProviderFixture:
         }
 
 
+class WideProposerFixture:
+    def __call__(
+        self,
+        method: str,
+        url: str,
+        headers: Mapping[str, str],
+        body: bytes | None,
+        timeout: float,
+    ) -> tuple[int, Mapping[str, Any]]:
+        if method == "GET":
+            return 200, {
+                "capabilities": {"structured_outputs": {"supported": True}},
+                "id": MODEL,
+                "type": "model",
+            }
+        hypotheses = [
+            {
+                "expression": f"n + {index}",
+                "falsifiers": ["sealed holdout"],
+                "family": "wide_search",
+                "hypothesis_id": f"hypothesis.wide.{index}",
+                "invariants": ["translation"],
+                "known_analogues": ["affine sequence"],
+                "llm_origin_assessment": "uncertain",
+                "proof_plan": ["test boundary cases"],
+                "rationale": "Retain a distinct bounded branch.",
+                "representation": "sympy_expression",
+                "source_idea_domains": ["algebra"],
+                "synthesis_note": "A wide-output adapter control.",
+            }
+            for index in range(24)
+        ]
+        output = {
+            "benchmark_id": "external.sum-squares",
+            "hypotheses": hypotheses,
+            "role": "proposer",
+            "schema_version": CLAUDE_OUTPUT_SCHEMA_VERSION,
+            "steering_actions": {},
+        }
+        return 200, {
+            "content": [{"text": json.dumps(output), "type": "text"}],
+            "id": "msg_wide_provider_fixture",
+            "model": MODEL,
+            "role": "assistant",
+            "stop_reason": "end_turn",
+            "type": "message",
+            "usage": {"input_tokens": 100, "output_tokens": 500},
+        }
+
+
 def _run(monkeypatch, provider: ProviderFixture):
     monkeypatch.setenv("ANTHROPIC_API_KEY", "fixture-secret")
     transport = ProviderCompatibleClaudeTransport(provider)
@@ -140,3 +190,32 @@ def test_provider_adapter_compacts_critic_schema_and_preserves_exact_coverage(
 def test_provider_adapter_rejects_missing_candidate_coverage(monkeypatch) -> None:
     with pytest.raises(ClaudeCreativityError, match="candidate coverage"):
         _run(monkeypatch, ProviderFixture(omit_last_action=True))
+
+
+def test_provider_adapter_stages_every_proposer_branch_beyond_legacy_parser_limit(
+    monkeypatch,
+) -> None:
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "fixture-secret")
+    transport = ProviderCompatibleClaudeTransport(WideProposerFixture())
+    client = ClaudeCreativityClient(
+        ClaudeAPIConfig(model=MODEL, execution_enabled=True), transport
+    )
+    result = client.run(
+        ClaudeRole.PROPOSER,
+        "external.sum-squares",
+        {
+            "benchmark_id": "external.sum-squares",
+            "observations": [{"inputs": {"n": "1"}, "output": "1"}],
+            "variables": ["n"],
+        },
+    )
+    assert result.output is not None and len(result.output.hypotheses) == 16
+    overflow = transport.hypothesis_overflow_for("msg_wide_provider_fixture")
+    assert len(overflow) == 8
+    assert [item["hypothesis_id"] for item in overflow] == [
+        f"hypothesis.wide.{index}" for index in range(16, 24)
+    ]
+    evidence = transport.evidence_for("msg_wide_provider_fixture")
+    assert evidence["hypothesis_overflow_adapter_used"] is True
+    assert evidence["overflow_hypotheses_retained"] == 8
+    assert evidence["wire_contract_adapter_used"] is False

@@ -6,12 +6,19 @@
 - Two externally sourced bounded-unknown sequence controls do not have a zero-loss candidate.
 - The core app loaded the explicitly supplied machine credential without persisting it and completed
   four blind Claude proposer calls plus four post-proposal critic calls on `claude-opus-4-6`. The
-  sanitized receipt records 55,584 tokens and no key or credential-file path.
-- Those calls produced 22 schema-admitted ideas: 6 model-self-assessed known rewrites, 1 cross-domain
-  synthesis, and 15 uncertain. All 22 remain active; none were discarded for their label or
+  sanitized receipt records 48,534 tokens and no key or credential-file path.
+- Those calls produced 17 schema-admitted ideas: 8 model-self-assessed known rewrites, 1 proposed
+  new construction, and 8 uncertain. All 17 remain active; none were discarded for their label or
   verifier status.
-- Independent expansion produced 132 proof-plan branches and 64 cross-idea recombination branches.
-  This is one treatment specimen, not evidence that the system is more creative.
+- The provider adapter now losslessly stages proposer branches 17 through 64 around the frozen
+  16-branch parser and reattaches them before lineage. A 24-branch control exercises eight overflow
+  branches; the latest stochastic live run stayed below the legacy per-response threshold.
+- Independent expansion produced 102 proof-plan branches and 64 cross-idea recombination branches.
+  The six plan templates now come from candidate-independent executable tactic-graph searches;
+  all six abstract positives close and all six essential-tactic-removal mutations stay open. A
+  separate feature join retains both applicable and not-yet-applicable plans. This is one treatment
+  specimen and search calibration, not evidence that the system is more creative or that a
+  candidate theorem is proved.
 - Seven bounded expression kinds are now first-class executable IR: recurrences, generating
   functions, finite sums/products, modular relations, tensor identities, and first-order
   variational functionals. Two independent evaluators accept all seven positive controls and reject
@@ -115,12 +122,13 @@ This is evidence of bounded rediscovery, not evidence of mathematical novelty.
 
 ### 2. Search ideas and proof plans as separate spaces
 
-- Search formula candidates and proof plans independently, then join them by applicability.
-- Let proof plans include induction, invariant preservation, descent, extremal arguments,
-  contradiction, bijection, generating-function coefficient extraction, dimensional reduction,
-  variational derivation, CAS normalization, SMT countermodel search, interval enclosure, and Lean.
-- Rank plans by falsification power, premise count, proof debt, and estimated cost—not by persuasive
-  prose.
+- Candidate-independent tactic-graph search now covers induction, invariant preservation,
+  bijection/involution, minimal-counterexample descent, transform/extraction, and contradiction,
+  then joins all routes to all retained ideas by structural applicability without pruning.
+- Route ranks now use falsification power, premise count, proof debt, and exact search cost rather
+  than persuasive prose.
+- Extend executable routes to extremal arguments, dimensional reduction, variational derivation,
+  CAS normalization, SMT countermodel search, interval enclosure, and Lean proof synthesis.
 - Preserve failed plan/candidate pairs so counterexamples steer later proposals without changing the
   verifier contract.
 

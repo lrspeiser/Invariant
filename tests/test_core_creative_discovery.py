@@ -148,12 +148,20 @@ def test_core_run_requires_and_sanitizes_live_claude(
     multi_host = json.loads(
         (ROOT / "runs/math/external-creativity-validation/multi-host-reproduction.json").read_text()
     )
-    expanded_grammar = C._load_bound_receipts(ROOT, C._load_config(ROOT))[2]
-    dataset_challenges = C._load_bound_receipts(ROOT, C._load_config(ROOT))[3]
+    bound_receipts = C._load_bound_receipts(ROOT, C._load_config(ROOT))
+    expanded_grammar = bound_receipts[2]
+    dataset_challenges = bound_receipts[3]
+    proof_plan_search = bound_receipts[4]
     monkeypatch.setattr(
         C,
         "_load_bound_receipts",
-        lambda *_: (operational, multi_host, expanded_grammar, dataset_challenges),
+        lambda *_: (
+            operational,
+            multi_host,
+            expanded_grammar,
+            dataset_challenges,
+            proof_plan_search,
+        ),
     )
     monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
 
@@ -172,6 +180,8 @@ def test_core_run_requires_and_sanitizes_live_claude(
     assert "variational_functional" in receipt["discovery_runtime"]["typed_formula_kinds"]
     assert receipt["discovery_runtime"]["dataset_positive_controls_passed"] == 4
     assert receipt["discovery_runtime"]["dataset_mutation_controls_rejected"] == 4
+    assert receipt["discovery_runtime"]["independent_proof_plan_routes_closed"] == 6
+    assert receipt["discovery_runtime"]["independent_proof_plan_mutations_rejected"] == 6
     assert all(
         idea["retention_status"] == "RETAINED_ACTIVE"
         for idea in receipt["idea_lineage_archive"]["ideas"]

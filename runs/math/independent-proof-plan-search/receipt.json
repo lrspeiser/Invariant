@@ -1,0 +1,399 @@
+{
+  "claims": {
+    "applicability_establishes_proof": false,
+    "closed_abstract_route_establishes_candidate_theorem": false,
+    "proof_mechanism_novelty_established": false
+  },
+  "content_sha256": "24ef0d505cc623f5806dab2c4ee0fe8f174ef5fc1ca011a8c3994ca69e96d4b9",
+  "routes": [
+    {
+      "mechanism": "induction",
+      "mutation_control": {
+        "closed": false,
+        "explored_states": 1,
+        "mutation_control_rejected": true,
+        "remaining_goal_kinds": [
+          "target_theorem"
+        ],
+        "removed_tactic_id": "induction.split"
+      },
+      "plan_template": {
+        "mechanism": "induction",
+        "metrics": {
+          "cost": 6,
+          "falsification_power": 9,
+          "premise_count": 2,
+          "proof_debt": 3
+        },
+        "proof_mechanism_sha256": "b04b571846dd003472838431ccfaf75b39017c3453298173c93ff58d50cd9c1a",
+        "rank": 6,
+        "required_candidate_capabilities": [
+          "declared_invariant",
+          "discrete_domain"
+        ],
+        "route_id": "proof-route.strengthened-induction",
+        "steps": [
+          "choose an induction variable and strengthen the statement with a preserved invariant",
+          "close every base stratum under the strengthened statement",
+          "prove the transition and audit exceptional indices"
+        ],
+        "tactic_ids": [
+          "induction.split",
+          "induction.base",
+          "induction.transition"
+        ],
+        "template_id": "proof-template.b22a157171a8ad8ca7dc26c7"
+      },
+      "positive_control": {
+        "closed": true,
+        "explored_states": 4,
+        "facts": [
+          "base_verified",
+          "strengthened_invariant",
+          "transition_verified"
+        ],
+        "induction_variables": [
+          "n"
+        ],
+        "normal_form": "transition_normal_form",
+        "representation": "inductive_domain",
+        "tactic_ids": [
+          "induction.split",
+          "induction.base",
+          "induction.transition"
+        ]
+      },
+      "route_id": "proof-route.strengthened-induction",
+      "status": "PASS_EXECUTABLE_PROOF_PLAN_ROUTE"
+    },
+    {
+      "mechanism": "invariant_preservation",
+      "mutation_control": {
+        "closed": false,
+        "explored_states": 1,
+        "mutation_control_rejected": true,
+        "remaining_goal_kinds": [
+          "target_theorem"
+        ],
+        "removed_tactic_id": "invariant.expose"
+      },
+      "plan_template": {
+        "mechanism": "invariant_preservation",
+        "metrics": {
+          "cost": 5,
+          "falsification_power": 12,
+          "premise_count": 2,
+          "proof_debt": 2
+        },
+        "proof_mechanism_sha256": "45aabf42ba40f9435d82b7d528af8e1b7a3c4dd06c9f659cb6f6b11d2ce373e0",
+        "rank": 3,
+        "required_candidate_capabilities": [
+          "declared_invariant",
+          "falsifiable_boundary"
+        ],
+        "route_id": "proof-route.invariant-preservation",
+        "steps": [
+          "express the claim as preservation of a declared state invariant",
+          "prove exact preservation or monotonicity across each admitted transition",
+          "replay initial, terminal, and exceptional boundary strata"
+        ],
+        "tactic_ids": [
+          "invariant.expose",
+          "invariant.preserve",
+          "invariant.boundary"
+        ],
+        "template_id": "proof-template.34ee77055d51187df4a9d9b1"
+      },
+      "positive_control": {
+        "closed": true,
+        "explored_states": 4,
+        "facts": [
+          "boundary_verified",
+          "candidate_invariant",
+          "preservation_verified"
+        ],
+        "induction_variables": [],
+        "normal_form": "boundary_normal_form",
+        "representation": "invariant_coordinates",
+        "tactic_ids": [
+          "invariant.expose",
+          "invariant.preserve",
+          "invariant.boundary"
+        ]
+      },
+      "route_id": "proof-route.invariant-preservation",
+      "status": "PASS_EXECUTABLE_PROOF_PLAN_ROUTE"
+    },
+    {
+      "mechanism": "bijection_or_involution",
+      "mutation_control": {
+        "closed": false,
+        "explored_states": 1,
+        "mutation_control_rejected": true,
+        "remaining_goal_kinds": [
+          "target_theorem"
+        ],
+        "removed_tactic_id": "bijection.construct"
+      },
+      "plan_template": {
+        "mechanism": "bijection_or_involution",
+        "metrics": {
+          "cost": 8,
+          "falsification_power": 10,
+          "premise_count": 3,
+          "proof_debt": 5
+        },
+        "proof_mechanism_sha256": "0d8f5229303c08b9cd1eb17a2bc468145c3fd2ae076e4a333ac0050720e5233c",
+        "rank": 5,
+        "required_candidate_capabilities": [
+          "combinatorial_structure"
+        ],
+        "route_id": "proof-route.bijection-involution",
+        "steps": [
+          "construct a bijection or sign-reversing involution between the represented structures",
+          "prove the map has an inverse or that the involution squares to identity",
+          "audit weights, fixed points, signs, and boundary classes"
+        ],
+        "tactic_ids": [
+          "bijection.construct",
+          "bijection.inverse",
+          "bijection.weight"
+        ],
+        "template_id": "proof-template.3b490e6a2d7eec2d0bf874e0"
+      },
+      "positive_control": {
+        "closed": true,
+        "explored_states": 4,
+        "facts": [
+          "candidate_map",
+          "inverse_verified",
+          "weights_verified"
+        ],
+        "induction_variables": [],
+        "normal_form": "weight_classes",
+        "representation": "combinatorial_objects",
+        "tactic_ids": [
+          "bijection.construct",
+          "bijection.inverse",
+          "bijection.weight"
+        ]
+      },
+      "route_id": "proof-route.bijection-involution",
+      "status": "PASS_EXECUTABLE_PROOF_PLAN_ROUTE"
+    },
+    {
+      "mechanism": "minimal_counterexample_descent",
+      "mutation_control": {
+        "closed": false,
+        "explored_states": 2,
+        "mutation_control_rejected": true,
+        "remaining_goal_kinds": [
+          "target_theorem"
+        ],
+        "removed_tactic_id": "descent.reduce"
+      },
+      "plan_template": {
+        "mechanism": "minimal_counterexample_descent",
+        "metrics": {
+          "cost": 6,
+          "falsification_power": 13,
+          "premise_count": 3,
+          "proof_debt": 3
+        },
+        "proof_mechanism_sha256": "4a26fa19b3201a59dfda669186a355c8355fe5967bad2ab025d4c1f557851f68",
+        "rank": 1,
+        "required_candidate_capabilities": [
+          "falsifiable_boundary",
+          "well_founded_order"
+        ],
+        "route_id": "proof-route.minimal-counterexample-descent",
+        "steps": [
+          "assume a minimal counterexample under an explicit well-founded measure",
+          "construct a strictly smaller counterexample or an immediate contradiction",
+          "check termination and every exceptional minimal stratum"
+        ],
+        "tactic_ids": [
+          "descent.minimal",
+          "descent.reduce",
+          "descent.exceptions"
+        ],
+        "template_id": "proof-template.edd0597297f87b4240f3d428"
+      },
+      "positive_control": {
+        "closed": true,
+        "explored_states": 4,
+        "facts": [
+          "exceptions_closed",
+          "minimal_counterexample",
+          "strict_reduction",
+          "well_founded_measure"
+        ],
+        "induction_variables": [],
+        "normal_form": "finite_exception_table",
+        "representation": "well_founded_order",
+        "tactic_ids": [
+          "descent.minimal",
+          "descent.reduce",
+          "descent.exceptions"
+        ]
+      },
+      "route_id": "proof-route.minimal-counterexample-descent",
+      "status": "PASS_EXECUTABLE_PROOF_PLAN_ROUTE"
+    },
+    {
+      "mechanism": "transform_and_extract",
+      "mutation_control": {
+        "closed": false,
+        "explored_states": 1,
+        "mutation_control_rejected": true,
+        "remaining_goal_kinds": [
+          "target_theorem"
+        ],
+        "removed_tactic_id": "transform.move"
+      },
+      "plan_template": {
+        "mechanism": "transform_and_extract",
+        "metrics": {
+          "cost": 8,
+          "falsification_power": 12,
+          "premise_count": 5,
+          "proof_debt": 5
+        },
+        "proof_mechanism_sha256": "6a2ead672a820fa0b678a9f70a3349e1364e1fed11d29cc2a67128418463420b",
+        "rank": 4,
+        "required_candidate_capabilities": [
+          "transformable_representation"
+        ],
+        "route_id": "proof-route.transform-extract",
+        "steps": [
+          "move to a generating, Fourier, Laplace, or z-transform representation",
+          "derive and solve the simpler algebraic or differential relation",
+          "extract coefficients or invert the transform with convergence and domain obligations"
+        ],
+        "tactic_ids": [
+          "transform.move",
+          "transform.solve",
+          "transform.invert"
+        ],
+        "template_id": "proof-template.33e9ec3889b9718543dac567"
+      },
+      "positive_control": {
+        "closed": true,
+        "explored_states": 4,
+        "facts": [
+          "inversion_verified",
+          "transform_domain",
+          "transformed_relation_solved"
+        ],
+        "induction_variables": [],
+        "normal_form": "coefficient_or_inverse_transform",
+        "representation": "native",
+        "tactic_ids": [
+          "transform.move",
+          "transform.solve",
+          "transform.invert"
+        ]
+      },
+      "route_id": "proof-route.transform-extract",
+      "status": "PASS_EXECUTABLE_PROOF_PLAN_ROUTE"
+    },
+    {
+      "mechanism": "contradiction",
+      "mutation_control": {
+        "closed": false,
+        "explored_states": 2,
+        "mutation_control_rejected": true,
+        "remaining_goal_kinds": [
+          "target_theorem"
+        ],
+        "removed_tactic_id": "contradiction.propagate"
+      },
+      "plan_template": {
+        "mechanism": "contradiction",
+        "metrics": {
+          "cost": 4,
+          "falsification_power": 12,
+          "premise_count": 2,
+          "proof_debt": 1
+        },
+        "proof_mechanism_sha256": "6ae9317d3d2f9752988faefefb582590f9b3193cf060248c893785602f2aa6ae",
+        "rank": 2,
+        "required_candidate_capabilities": [
+          "declared_invariant",
+          "falsifiable_boundary"
+        ],
+        "route_id": "proof-route.contradiction",
+        "steps": [
+          "negate the target while preserving every explicit premise",
+          "propagate a conserved, monotone, parity, or modular invariant",
+          "derive an incompatible boundary, parity, or extremal condition"
+        ],
+        "tactic_ids": [
+          "contradiction.negate",
+          "contradiction.propagate",
+          "contradiction.close"
+        ],
+        "template_id": "proof-template.21bdf71300e18bf5a1fc8198"
+      },
+      "positive_control": {
+        "closed": true,
+        "explored_states": 4,
+        "facts": [
+          "contradiction_derived",
+          "negated_target",
+          "propagated_invariant"
+        ],
+        "induction_variables": [],
+        "normal_form": "empty_constraint_set",
+        "representation": "constraint_system",
+        "tactic_ids": [
+          "contradiction.negate",
+          "contradiction.propagate",
+          "contradiction.close"
+        ]
+      },
+      "route_id": "proof-route.contradiction",
+      "status": "PASS_EXECUTABLE_PROOF_PLAN_ROUTE"
+    }
+  ],
+  "schema_version": "invariant-independent-proof-plan-search-result-1.0",
+  "search_contract": {
+    "candidate_content_used_during_library_search": false,
+    "missing_features_delete_plan": false,
+    "ranking_order": [
+      "falsification_power_desc",
+      "premise_count_asc",
+      "proof_debt_asc",
+      "cost_asc"
+    ],
+    "search_algorithm": "deterministic_uniform_cost_tactic_graph"
+  },
+  "source_bindings": {
+    "config": {
+      "normalized_file_sha256": "8d19fef4103786eed1931ee73ebd9139b86978f221fc2c5a38ba2c65874bf0db",
+      "path": "configs/independent_proof_plan_search.json"
+    },
+    "source": {
+      "normalized_file_sha256": "fbd098f57e174e162387dbf111dfb1946edeb43b3767d56ff53787ec86c53b72",
+      "path": "src/sigma_theory_compiler/independent_proof_plan_search.py"
+    },
+    "test": {
+      "normalized_file_sha256": "062a564f2e4f12de290a11d4b4dc07c4a97568eefee71ee5d59dfee432b9f7f6",
+      "path": "tests/test_independent_proof_plan_search.py"
+    }
+  },
+  "summary": {
+    "mechanisms": [
+      "induction",
+      "invariant_preservation",
+      "bijection_or_involution",
+      "minimal_counterexample_descent",
+      "transform_and_extract",
+      "contradiction"
+    ],
+    "mutation_controls_rejected": 6,
+    "positive_routes_closed": 6,
+    "status": "PASS_INDEPENDENT_PROOF_PLAN_SEARCH",
+    "total_routes": 6
+  }
+}
