@@ -4,22 +4,28 @@
 
 - Two externally sourced known-formula controls are rediscovered with zero sealed-holdout loss.
 - Two externally sourced bounded-unknown sequence controls do not have a zero-loss candidate.
-- The core app loaded the explicitly supplied machine credential without persisting it and completed
-  four blind Claude proposer calls plus four post-proposal critic calls on `claude-opus-4-6`. The
-  sanitized receipt records 48,534 tokens and no key or credential-file path.
-- The next live core run now has a sealed creativity-first prompt context: five exact
+- The core app discovered the credential through its default machine-local `~/.invariant.env`
+  path without persisting it and completed four blind Claude proposer calls plus four post-proposal
+  critic calls on `claude-opus-4-6`. The sanitized receipt records 88,512 tokens and no key,
+  credential value, or credential-file path.
+- The live core run used a sealed creativity-first prompt context: five exact
   symmetry/dimension briefs containing six coordinates, seven typed formula kinds, six
   candidate-independent proof routes,
   and the four origin labels are injected into every provider request. Per-call evidence must bind
-  the same context hash. The preserved eight-call receipt predates that context and is explicitly
-  marked ready-but-not-yet-live rather than being relabelled as evidence of prompt consumption.
-- Those calls produced 17 schema-admitted ideas: 8 model-self-assessed known rewrites, 1 proposed
-  new construction, and 8 uncertain. All 17 remain active; none were discarded for their label or
+  the same context hash. All eight distinct response IDs bind the current hash and the receipt
+  reports `PASS_CONTEXT_BOUND_TO_AUTHENTICATED_CALLS`.
+- Those calls produced 30 schema-admitted ideas: 15 model-self-assessed known rewrites, 5 proposed
+  new constructions, and 10 uncertain. All 30 remain active; none were discarded for their label or
   verifier status.
+- None of the 30 became an executable benchmark candidate in this specimen; every benchmark
+  summary reports zero Claude-executable candidates. One `proposed_new_construction` branch
+  identifies Recamán's sequence in its own rationale, so model origin labels are evidence to retain,
+  never novelty authority. Executable translation and matched-control contribution are the next
+  creative bottlenecks.
 - The provider adapter now losslessly stages proposer branches 17 through 64 around the frozen
   16-branch parser and reattaches them before lineage. A 24-branch control exercises eight overflow
   branches; the latest stochastic live run stayed below the legacy per-response threshold.
-- Independent expansion produced 102 proof-plan branches and 64 cross-idea recombination branches.
+- Independent expansion produced 180 proof-plan branches and 64 cross-idea recombination branches.
   The six plan templates now come from candidate-independent executable tactic-graph searches;
   all six abstract positives close and all six essential-tactic-removal mutations stay open. A
   separate feature join retains both applicable and not-yet-applicable plans. This is one treatment
@@ -56,8 +62,8 @@
   new candidate or permission to release a serious claim.
 - Downloaded artifacts bind four distinct GitHub-hosted ephemeral VM runner IDs across Windows and
   Linux, with two evaluator implementations per host and a separate Lean kernel artifact. The
-  current receipt binds successful post-merge run `32656252764` at
-  `21f97a6f1c68278c57b2547be1912c7a78826f4b`. This is multi-host VM reproduction, not a claim about
+  current receipt binds successful post-merge run `32665262031` at
+  `5938f61d52ede7809c278b409425e72ae8815e9b`. This is multi-host VM reproduction, not a claim about
   distinct bare-metal machines.
 - No novel formula, proof, theorem, scientific law, or open-problem result is claimed.
 - The famous-open-problem gate is closed: zero of three required independent level-5 successes.
@@ -79,8 +85,8 @@
   together as `F(pi_1, pi_2) = 0`; the other four controls remain one-dimensional. All six
   coordinate-specific exponent mutations, five collapsed-basis mutations, and five deleted-
   nuisance-symmetry mutations reject. The output is a creative constraint brief with the four
-  origin labels. The core provider path consumes all five sealed briefs on every future live call,
-  but the checked-in authenticated calls predate that wiring. It leaves every free function
+  origin labels. The core provider path delivered all five sealed briefs to all eight current
+  authenticated calls. It leaves every free function
   arbitrary and makes no law or novelty claim.
 - A separate exact learner now infers diagonal action rows from prime valuations of paired rational
   transformations; the learning function receives neither the sealed target basis nor any declared

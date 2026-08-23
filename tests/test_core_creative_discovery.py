@@ -391,14 +391,18 @@ def test_deterministic_rebind_preserves_authenticated_llm_evidence() -> None:
     assert rebound["idea_lineage_archive"] == receipt["idea_lineage_archive"]
     assert rebound["schema_version"] == C.SCHEMA_VERSION
     assert rebound["llm_prompt_context"]["status"] == (
-        "READY_NEXT_LIVE_RUN_NOT_YET_EVIDENCED"
+        "PASS_CONTEXT_BOUND_TO_AUTHENTICATED_CALLS"
     )
-    assert not rebound["llm_prompt_context"][
-        "authenticated_calls_bound_to_context"
-    ]
-    assert not rebound["release_gate"][
-        "llm_first_principles_lane_live_run_complete"
-    ]
+    assert rebound["llm_prompt_context"]["authenticated_calls_bound_to_context"]
+    assert rebound["llm_prompt_context"]["bound_authenticated_calls"] == 8
+    assert rebound["release_gate"]["llm_first_principles_lane_live_run_complete"]
+    assert len(
+        {
+            call["api_response_id"]
+            for call in rebound["claude_runtime"]["evidence"]["calls"]
+        }
+    ) == 8
+    assert rebound["credential_activation"]["source_kind"] == "user_invariant_env_file"
     assert rebound["verification"]["serious_claim_backend_mutations_rejected"] == 10
     assert rebound["verification"]["serious_claim_lean_mutation_artifact_bound"] is True
 
@@ -407,9 +411,7 @@ def test_core_receipt_rejects_unearned_prompt_context_claim() -> None:
     receipt = json.loads((ROOT / C.OUTPUT_PATH).read_text(encoding="utf-8"))
     rebound = C.rebind_core_receipt(ROOT, receipt)
     changed = json.loads(json.dumps(rebound))
-    changed["llm_prompt_context"]["authenticated_calls_bound_to_context"] = True
-    changed["llm_prompt_context"]["status"] = "PASS_CONTEXT_BOUND_TO_AUTHENTICATED_CALLS"
-    changed["release_gate"]["llm_first_principles_lane_live_run_complete"] = True
+    changed["llm_prompt_context"]["bound_authenticated_calls"] = 7
     body = {key: item for key, item in changed.items() if key != "content_sha256"}
     changed["content_sha256"] = canonical_sha256(body)
     with pytest.raises(C.CoreCreativeDiscoveryError, match="prompt context"):
