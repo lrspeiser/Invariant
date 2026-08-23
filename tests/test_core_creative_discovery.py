@@ -90,7 +90,7 @@ def _fake_campaign(creative_context: dict[str, object]) -> dict[str, object]:
             }
         )
     body: dict[str, object] = {
-        "schema_version": "invariant-external-creativity-validation-result-1.0",
+        "schema_version": "invariant-external-creativity-validation-result-1.1",
         "benchmarks": [
             {
                 "benchmark_id": "external.test",
@@ -99,7 +99,34 @@ def _fake_campaign(creative_context: dict[str, object]) -> dict[str, object]:
                     "known_formula_rediscovered": False,
                     "serious_claim_released": False,
                 },
+                "claude_contribution": {
+                    "behavior_novelty_against_deterministic_count": 1,
+                    "evaluation_runtime_budget_match": True,
+                    "grammar_depth_match": True,
+                    "proof_mechanism_novelty_against_deterministic_count": 1,
+                    "scored_executable_candidates": 1,
+                    "status": "MEASURED_EXECUTABLE_CLAUDE_CONTRIBUTION",
+                    "verifier_budget_match": True,
+                },
                 "prior_art": {"human_review": {"status": "NOT_PERFORMED"}},
+                "proposer_admission": {
+                    "admitted_executable_hypotheses": 1,
+                    "non_executable_typed_hypotheses": 0,
+                    "proposed_hypotheses": 1,
+                    "records": [
+                        {
+                            "candidate_id": "candidate.test",
+                            "diagnostic": None,
+                            "executable_representation": "sympy_expression",
+                            "hypothesis_id": "idea.test-0",
+                            "llm_self_assessed_origin": "cross_domain_synthesis",
+                            "normalization": "exact_dsl",
+                            "reason": "typed_expression_admitted",
+                            "source_representation": "sympy_expression",
+                            "status": "ADMITTED_EXECUTABLE",
+                        }
+                    ],
+                },
                 "ranked_candidates": [
                     {
                         "candidate_id": "candidate.test",
@@ -117,6 +144,14 @@ def _fake_campaign(creative_context: dict[str, object]) -> dict[str, object]:
             "claude_used_throughout": True,
             "novel_formula_established": False,
             "open_problem_solved": False,
+        },
+        "config": {
+            "claude_source_sha256": C._normalized_file_sha256(
+                ROOT / C.CLAUDE_API_SOURCE_PATH
+            ),
+            "source_sha256": C._normalized_file_sha256(
+                ROOT / C.EXTERNAL_CAMPAIGN_SOURCE_PATH
+            ),
         },
         "claude": {
             "budget": {
@@ -245,6 +280,15 @@ def test_core_run_requires_and_sanitizes_live_claude(
     C.validate_receipt(receipt, ROOT)
     assert receipt["claude_runtime"]["authenticated_messages_api_working"]
     assert receipt["claude_runtime"]["completed_calls"] == 8
+    execution = receipt["claude_runtime"]["executable_contribution"]
+    assert execution["admitted_executable_hypotheses"] == 1
+    assert execution["scored_executable_candidates"] == 1
+    assert execution["matched_control_profiles_verified"]
+    assert execution["behavior_novelty_against_deterministic_count"] == 1
+    assert execution["proof_mechanism_novelty_against_deterministic_count"] == 1
+    assert execution["llm_self_assessed_origin_counts"] == {
+        "cross_domain_synthesis": 1
+    }
     assert receipt["llm_prompt_context"] == {
         "authenticated_calls_bound_to_context": True,
         "bound_authenticated_calls": 8,
