@@ -149,10 +149,11 @@ def test_core_run_requires_and_sanitizes_live_claude(
         (ROOT / "runs/math/external-creativity-validation/multi-host-reproduction.json").read_text()
     )
     expanded_grammar = C._load_bound_receipts(ROOT, C._load_config(ROOT))[2]
+    dataset_challenges = C._load_bound_receipts(ROOT, C._load_config(ROOT))[3]
     monkeypatch.setattr(
         C,
         "_load_bound_receipts",
-        lambda *_: (operational, multi_host, expanded_grammar),
+        lambda *_: (operational, multi_host, expanded_grammar, dataset_challenges),
     )
     monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
 
@@ -169,6 +170,8 @@ def test_core_run_requires_and_sanitizes_live_claude(
     assert receipt["idea_lineage_archive"]["summary"]["ideas_retained"] == 4
     assert receipt["discovery_runtime"]["typed_grammar_controls_passed"] == 7
     assert "variational_functional" in receipt["discovery_runtime"]["typed_formula_kinds"]
+    assert receipt["discovery_runtime"]["dataset_positive_controls_passed"] == 4
+    assert receipt["discovery_runtime"]["dataset_mutation_controls_rejected"] == 4
     assert all(
         idea["retention_status"] == "RETAINED_ACTIVE"
         for idea in receipt["idea_lineage_archive"]["ideas"]

@@ -6,17 +6,22 @@
 - Two externally sourced bounded-unknown sequence controls do not have a zero-loss candidate.
 - The core app loaded the explicitly supplied machine credential without persisting it and completed
   four blind Claude proposer calls plus four post-proposal critic calls on `claude-opus-4-6`. The
-  sanitized receipt records 51,599 tokens and no key or credential-file path.
-- Those calls produced 21 schema-admitted ideas: 9 model-self-assessed known rewrites, 1 proposed new
-  construction, and 11 uncertain. All 21 remain active; none were discarded for their label or
+  sanitized receipt records 55,584 tokens and no key or credential-file path.
+- Those calls produced 22 schema-admitted ideas: 6 model-self-assessed known rewrites, 1 cross-domain
+  synthesis, and 15 uncertain. All 22 remain active; none were discarded for their label or
   verifier status.
-- Independent expansion produced 126 proof-plan branches and 64 cross-idea recombination branches.
+- Independent expansion produced 132 proof-plan branches and 64 cross-idea recombination branches.
   This is one treatment specimen, not evidence that the system is more creative.
 - Seven bounded expression kinds are now first-class executable IR: recurrences, generating
   functions, finite sums/products, modular relations, tensor identities, and first-order
   variational functionals. Two independent evaluators accept all seven positive controls and reject
   all seven mutations under explicit resource limits. This establishes the admitted control slice,
   not formula correctness or novelty outside those controls.
+- Four synthetic dataset challenges are now exact executable controls rather than metadata checks.
+  They pass crossed intervention, interval-noise, covariate-shift, and observational
+  unidentifiability positives while rejecting a wrong treatment effect, an interval-external model,
+  a train-only polynomial alias, and a forced unique causal mechanism. The sealed receipt is a
+  required core component; it does not replace externally supplied scientific datasets.
 - Every declared creativity family has an equal-budget random control and a leave-one-family-out
   ablation.
 - Exact arithmetic, CAS, SMT, and interval checks pass for the known controls. The formula-specific
@@ -156,6 +161,9 @@ This is evidence of bounded rediscovery, not evidence of mathematical novelty.
 
 ### 6. Build a real dataset-to-invariant pipeline
 
+- The first exact calibration slice now executes intervention contrasts, interval-compatible model
+  sets, train/deployment shift, and an underdetermined causal control with positive and mutation
+  evidence. External data, broader uncertainty models, and learned invariant search remain.
 - Normalize declared units and propagate unit uncertainty.
 - Compute dimension matrices, dimensionless null-space groups, invariant coordinates, residual
   channels, finite-difference channels, and out-of-distribution splits.

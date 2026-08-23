@@ -1204,14 +1204,20 @@ variational functionals. Each kind has a positive control, a negative mutation, 
 limits, serialization, and two evaluator implementations. The control receipt passes 7/7 without
 claiming that grammar admission proves a formula or establishes novelty.
 
+The core also binds a sealed executable dataset-control receipt. Exact rational replay passes four
+positive controls and rejects four mutations: crossed `do(...)` rows recover a constant treatment
+contrast, two genuinely different models remain compatible with declared measurement intervals, a
+train-exact polynomial alias fails after explicit covariate shift, and two observationally
+equivalent mechanisms remain underdetermined without a distinguishing intervention. These are
+synthetic calibration controls, not learned scientific laws or substitutes for external datasets.
+
 The latest live core health receipt loaded `ANTHROPIC_API_KEY` from the explicitly supplied
 machine-local env file, removed it after the dynamic run, and completed four proposer plus four
-critic calls on `claude-opus-4-6`. It used 51,599 tokens and retained all 21 schema-admitted ideas:
-9 model-self-assessed known rewrites, one proposed new construction, and 11 uncertain. Independent
-expansion retained 126 proof plans and 64 recombination branches. These are one live treatment
+critic calls on `claude-opus-4-6`. It used 55,584 tokens and retained all 22 schema-admitted ideas:
+6 model-self-assessed known rewrites, one cross-domain synthesis, and 15 uncertain. Independent
+expansion retained 132 proof plans and 64 recombination branches. These are one live treatment
 specimen and runtime-health evidence, not a creativity win. The receipt stores hashes and usage
-evidence, not the credential,
-env-file path, or raw prompts and outputs.
+evidence, not the credential, env-file path, or raw prompts and outputs.
 
 The first live rotating evaluation pack contains 24 anonymized tasks built from independently
 maintained OEIS b-files: four each for recurrence, generating-function, finite-sum, finite-product,
@@ -1303,6 +1309,8 @@ Revalidate the network-free live receipts with:
 
 ```powershell
 sigma-prior-art validate --root . --receipt runs/math/claim-specific-prior-art/live-uncertain-recaman.json
+sigma-dataset-challenges validate --root . `
+  --receipt runs/math/dataset-challenges/receipt.json
 sigma-rotate-benchmarks validate --root . `
   --generation runs/math/rotating-external-benchmarks/2026-08-23-001-generation.json `
   --targets runs/math/rotating-external-benchmarks/2026-08-23-001-targets.json `

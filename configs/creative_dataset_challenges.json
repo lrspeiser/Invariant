@@ -1,10 +1,22 @@
 {
-  "schema_version": "invariant-creative-dataset-challenges-1.0",
+  "schema_version": "invariant-creative-dataset-challenges-2.0",
   "challenges": [
     {
       "challenge_id": "dataset.controlled-intervention",
       "kind": "intervention",
       "provenance": "synthetic_calibration_distinct_from_observational_rows",
+      "positive_model": {
+        "model_id": "intervention.affine-do-effect",
+        "covariate_coefficient": "2",
+        "intercept": "1",
+        "treatment_effect": "3"
+      },
+      "mutation_model": {
+        "model_id": "intervention.wrong-do-effect",
+        "covariate_coefficient": "2",
+        "intercept": "1",
+        "treatment_effect": "2"
+      },
       "records": [
         {"covariate": "0", "intervention": "do_treatment_0", "outcome": "1"},
         {"covariate": "0", "intervention": "do_treatment_1", "outcome": "4"},
@@ -16,6 +28,15 @@
       "challenge_id": "dataset.interval-noise",
       "kind": "noisy",
       "provenance": "synthetic_calibration_with_declared_measurement_intervals",
+      "compatible_models": [
+        {"model_id": "noise.center-line", "slope": "2", "intercept": "1"},
+        {"model_id": "noise.offset-within-interval", "slope": "2", "intercept": "101/100"}
+      ],
+      "mutation_model": {
+        "model_id": "noise.outside-interval",
+        "slope": "2",
+        "intercept": "3/2"
+      },
       "records": [
         {"center": "1", "input": "0", "radius": "1/20"},
         {"center": "3", "input": "1", "radius": "1/10"},
@@ -27,6 +48,22 @@
       "challenge_id": "dataset.covariate-shift",
       "kind": "shifted",
       "provenance": "synthetic_calibration_with_explicit_train_and_deployment_domains",
+      "invariant_model": {
+        "model_id": "shift.invariant-quadratic",
+        "quadratic": "1",
+        "linear": "0",
+        "intercept": "1",
+        "alias_coefficient": "0",
+        "alias_roots": []
+      },
+      "train_only_alias_model": {
+        "model_id": "shift.train-only-alias",
+        "quadratic": "1",
+        "linear": "0",
+        "intercept": "1",
+        "alias_coefficient": "1",
+        "alias_roots": ["-2", "-1", "0"]
+      },
       "records": [
         {"input": "-2", "outcome": "5", "split": "train"},
         {"input": "-1", "outcome": "2", "split": "train"},
@@ -40,6 +77,8 @@
       "kind": "unidentifiable",
       "provenance": "synthetic_negative_control_with_two_observationally_equivalent_mechanisms",
       "observational_outcomes": ["0", "1", "2", "3"],
+      "distinguishing_intervention_observed": false,
+      "forced_choice_control": "mechanism.direct-effect",
       "compatible_models": [
         {
           "intervention_predictions": ["0", "1"],
