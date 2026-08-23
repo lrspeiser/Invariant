@@ -301,6 +301,7 @@ def test_dry_receipt_replays_byte_for_byte(dry_receipt: dict[str, Any]) -> None:
     assert set(dry_receipt["config"]) == {
         "campaign_sha256",
         "claude_source_sha256",
+        "claude_transport_source_sha256",
         "independent_evaluator_sha256",
         "lean_source_sha256",
         "public_benchmarks_sha256",

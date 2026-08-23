@@ -4,12 +4,19 @@
 
 - Two externally sourced known-formula controls are rediscovered with zero sealed-holdout loss.
 - Two externally sourced bounded-unknown sequence controls do not have a zero-loss candidate.
-- The core app loaded the machine credential without persisting it and completed four blind Claude
-  proposer calls plus four post-proposal critic calls on `claude-opus-4-6`.
-- Those calls produced 21 schema-admitted ideas: 13 model-self-assessed known rewrites and 8
-  uncertain. All 21 remain active; none were discarded for their label or verifier status.
+- The core app loaded the explicitly supplied machine credential without persisting it and completed
+  four blind Claude proposer calls plus four post-proposal critic calls on `claude-opus-4-6`. The
+  sanitized receipt records 51,599 tokens and no key or credential-file path.
+- Those calls produced 21 schema-admitted ideas: 9 model-self-assessed known rewrites, 1 proposed new
+  construction, and 11 uncertain. All 21 remain active; none were discarded for their label or
+  verifier status.
 - Independent expansion produced 126 proof-plan branches and 64 cross-idea recombination branches.
   This is one treatment specimen, not evidence that the system is more creative.
+- Seven bounded expression kinds are now first-class executable IR: recurrences, generating
+  functions, finite sums/products, modular relations, tensor identities, and first-order
+  variational functionals. Two independent evaluators accept all seven positive controls and reject
+  all seven mutations under explicit resource limits. This establishes the admitted control slice,
+  not formula correctness or novelty outside those controls.
 - Every declared creativity family has an equal-budget random control and a leave-one-family-out
   ablation.
 - Exact arithmetic, CAS, SMT, and interval checks pass for the known controls. The formula-specific
@@ -90,9 +97,9 @@ This is evidence of bounded rediscovery, not evidence of mathematical novelty.
 
 ### 1. Make the typed language genuinely broader
 
-- Add first-class expression types for rational functions, piecewise laws, recurrences, generating
-  functions, finite sums/products, modular arithmetic, graphs, tensors, differential operators,
-  variational functionals, and asymptotic expansions.
+- The first admitted slice now covers recurrences, generating functions, finite sums/products,
+  modular arithmetic, bounded tensors, and first-order variational functionals. Rational functions,
+  piecewise laws, graphs, general differential operators, and asymptotic expansions remain.
 - Carry domains, units, dimensions, tensor ranks, index symmetries, derivative order, singular sets,
   boundary conditions, and admissible rewrites in the type checker.
 - Separate representation from meaning so algebraically equivalent polynomial, recurrence,

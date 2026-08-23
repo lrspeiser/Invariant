@@ -23,6 +23,9 @@ from .dataset_challenge_suite import run_dataset_challenges, validate_dataset_ch
 from .declarative_discovery_operational_campaign import (
     validate_receipt as validate_operational_receipt,
 )
+from .expanded_math_grammar_controls import (
+    validate_receipt as validate_expanded_grammar_receipt,
+)
 from .external_creativity_live_evidence import (
     build_evidence_from_receipt,
     validate_evidence,
@@ -92,18 +95,30 @@ def _load_config(root: Path) -> dict[str, Any]:
         or policy.get("minimum_independent_level5_passes_before_open_problem", 0) < 3
     ):
         raise CoreCreativeDiscoveryError("core release policy is too weak")
+    if set(value["components"]) != {
+        "declarative_operational_receipt",
+        "expanded_typed_grammar_receipt",
+        "live_evidence_output",
+        "multi_host_reproduction_receipt",
+    }:
+        raise CoreCreativeDiscoveryError("core component bindings changed")
     return value
 
 
-def _load_bound_receipts(root: Path, config: Mapping[str, Any]) -> tuple[dict[str, Any], dict[str, Any]]:
+def _load_bound_receipts(
+    root: Path, config: Mapping[str, Any]
+) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
     components = config["components"]
     operational_path = root / components["declarative_operational_receipt"]
     multi_host_path = root / components["multi_host_reproduction_receipt"]
+    expanded_grammar_path = root / components["expanded_typed_grammar_receipt"]
     operational = json.loads(operational_path.read_text(encoding="utf-8"))
     multi_host = json.loads(multi_host_path.read_text(encoding="utf-8"))
+    expanded_grammar = json.loads(expanded_grammar_path.read_text(encoding="utf-8"))
     validate_operational_receipt(operational, root)
     validate_multi_host_receipt(multi_host)
-    return operational, multi_host
+    validate_expanded_grammar_receipt(expanded_grammar, root)
+    return operational, multi_host, expanded_grammar
 
 
 def _validate_live_campaign(campaign: Mapping[str, Any], config: Mapping[str, Any]) -> None:
@@ -146,7 +161,7 @@ def run_core(
 
     root = root.resolve()
     config = _load_config(root)
-    operational, multi_host = _load_bound_receipts(root, config)
+    operational, multi_host, expanded_grammar = _load_bound_receipts(root, config)
     dataset_challenges = run_dataset_challenges(root)
     environment = None
     if credential_file is not None:
@@ -198,6 +213,10 @@ def run_core(
                 "content_sha256": multi_host["content_sha256"],
                 "path": config["components"]["multi_host_reproduction_receipt"],
             },
+            "expanded_typed_grammar_receipt": {
+                "content_sha256": expanded_grammar["content_sha256"],
+                "path": config["components"]["expanded_typed_grammar_receipt"],
+            },
         },
         "credential_activation": activation.to_evidence(),
         "claude_runtime": {
@@ -219,6 +238,9 @@ def run_core(
             "distinct_behavior_niches": operational["behavioral_archive"]["occupied_niches"],
             "proof_plan_closed": operational["proof_plan"]["closed"],
             "proof_plan_mechanisms": operational["proof_plan"]["mechanisms"],
+            "typed_formula_kinds": expanded_grammar["summary"]["admitted_formula_kinds"],
+            "typed_grammar_controls_passed": expanded_grammar["summary"]["controls_passed"],
+            "typed_grammar_status": expanded_grammar["summary"]["status"],
         },
         "verification": {
             "backends_required_for_serious_claim": config["release_policy"][
@@ -277,9 +299,32 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
     ):
         raise CoreCreativeDiscoveryError("core Claude health evidence changed")
     validate_evidence(runtime["evidence"])
+    live_calls = runtime["evidence"].get("calls", [])
+    if any(
+        call.get("wire_contract_adapter_used") is not (call.get("role") == "critic")
+        for call in live_calls
+    ):
+        raise CoreCreativeDiscoveryError("core provider wire-contract evidence changed")
     validate_idea_archive(value.get("idea_lineage_archive", {}))
     validate_creative_expansion(value.get("creative_expansion", {}))
     validate_dataset_challenges(value.get("dataset_challenges", {}))
+    discovery = value.get("discovery_runtime", {})
+    if (
+        discovery.get("typed_formula_kinds")
+        != [
+            "finite_product",
+            "finite_sum",
+            "generating_function",
+            "modular_relation",
+            "recurrence",
+            "tensor_identity",
+            "variational_functional",
+        ]
+        or discovery.get("typed_grammar_controls_passed") != 7
+        or discovery.get("typed_grammar_status")
+        != "PASS_EXPANDED_TYPED_GRAMMAR_CONTROLS"
+    ):
+        raise CoreCreativeDiscoveryError("core expanded typed grammar evidence changed")
     verification = value.get("verification", {})
     if (
         verification.get("multi_host_status") != "PASS_MULTI_HOST_REPRODUCTION"
@@ -299,7 +344,11 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
             or config_binding.get("sha256") != _normalized_file_sha256(root / CONFIG_PATH)
         ):
             raise CoreCreativeDiscoveryError("core config source binding changed")
-        for key in ("declarative_operational_receipt", "multi_host_reproduction_receipt"):
+        for key in (
+            "declarative_operational_receipt",
+            "expanded_typed_grammar_receipt",
+            "multi_host_reproduction_receipt",
+        ):
             binding = bindings.get(key, {})
             path = (root / str(binding.get("path", ""))).resolve()
             try:
@@ -309,6 +358,8 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
             bound = json.loads(path.read_text(encoding="utf-8"))
             if binding.get("content_sha256") != bound.get("content_sha256"):
                 raise CoreCreativeDiscoveryError("core receipt source binding changed")
+            if key == "expanded_typed_grammar_receipt":
+                validate_expanded_grammar_receipt(bound, root)
 
 
 def main(argv: Sequence[str] | None = None) -> int:

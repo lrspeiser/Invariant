@@ -80,6 +80,7 @@ def _fake_campaign() -> dict[str, object]:
                     "raw_output_sha256": "e" * 64,
                     "request_schema_sha256": "f" * 64,
                     "usage": {"input_tokens": 10, "output_tokens": 5},
+                    "wire_contract_adapter_used": role == "critic",
                 },
                 "output": output,
                 "role": role,
@@ -147,7 +148,12 @@ def test_core_run_requires_and_sanitizes_live_claude(
     multi_host = json.loads(
         (ROOT / "runs/math/external-creativity-validation/multi-host-reproduction.json").read_text()
     )
-    monkeypatch.setattr(C, "_load_bound_receipts", lambda *_: (operational, multi_host))
+    expanded_grammar = C._load_bound_receipts(ROOT, C._load_config(ROOT))[2]
+    monkeypatch.setattr(
+        C,
+        "_load_bound_receipts",
+        lambda *_: (operational, multi_host, expanded_grammar),
+    )
     monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
 
     def runner(_: Path) -> dict[str, object]:
@@ -161,6 +167,8 @@ def test_core_run_requires_and_sanitizes_live_claude(
     assert receipt["credential_activation"]["source_kind"] == "explicit_env_file"
     assert receipt["idea_lineage_archive"]["summary"]["ideas_received"] == 4
     assert receipt["idea_lineage_archive"]["summary"]["ideas_retained"] == 4
+    assert receipt["discovery_runtime"]["typed_grammar_controls_passed"] == 7
+    assert "variational_functional" in receipt["discovery_runtime"]["typed_formula_kinds"]
     assert all(
         idea["retention_status"] == "RETAINED_ACTIVE"
         for idea in receipt["idea_lineage_archive"]["ideas"]
@@ -181,3 +189,8 @@ def test_core_receipt_fails_when_claude_health_claim_is_removed() -> None:
     changed["content_sha256"] = canonical_sha256(body)
     with pytest.raises(C.CoreCreativeDiscoveryError, match="health"):
         C.validate_receipt(changed)
+
+
+def test_stored_live_core_receipt_validates_against_current_bound_sources() -> None:
+    receipt = json.loads((ROOT / C.OUTPUT_PATH).read_text(encoding="utf-8"))
+    C.validate_receipt(receipt, ROOT)

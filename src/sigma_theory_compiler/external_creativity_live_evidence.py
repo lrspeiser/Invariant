@@ -60,11 +60,21 @@ def build_evidence_from_receipt(
                 "credential_persisted": False,
                 "model": evidence.get("model"),
                 "output_sha256": evidence.get("output_sha256"),
-                "prompt_sha256": evidence.get("prompt_sha256"),
-                "raw_output_sha256": evidence.get("raw_output_sha256"),
-                "request_schema_sha256": evidence.get("request_schema_sha256"),
+                "prompt_sha256": evidence.get(
+                    "provider_prompt_sha256", evidence.get("prompt_sha256")
+                ),
+                "raw_output_sha256": evidence.get(
+                    "provider_raw_output_sha256", evidence.get("raw_output_sha256")
+                ),
+                "request_schema_sha256": evidence.get(
+                    "provider_request_schema_sha256",
+                    evidence.get("request_schema_sha256"),
+                ),
                 "role": call.get("role"),
                 "usage": dict(evidence.get("usage", {})),
+                "wire_contract_adapter_used": evidence.get(
+                    "wire_contract_adapter_used", False
+                ),
             }
         )
 

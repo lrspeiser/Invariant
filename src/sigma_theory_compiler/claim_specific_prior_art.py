@@ -237,13 +237,34 @@ def load_claim(root: Path, claim_path: Path) -> dict[str, Any]:
     except ValueError as error:
         raise PriorArtError("claim source binding escapes the repository") from error
     receipt = json.loads(bound_path.read_text(encoding="utf-8"))
-    if receipt.get("content_sha256") != binding["receipt_content_sha256"]:
+    receipt_body = {key: item for key, item in receipt.items() if key != "content_sha256"}
+    if (
+        receipt.get("content_sha256") != binding["receipt_content_sha256"]
+        or receipt.get("content_sha256") != canonical_sha256(receipt_body)
+    ):
         raise PriorArtError("claim source receipt hash changed")
     ideas = receipt.get("idea_lineage_archive", {}).get("ideas", [])
     matching = [idea for idea in ideas if idea.get("lineage_id") == binding["lineage_id"]]
+    proposal_keys = (
+        "benchmark_id",
+        "expression",
+        "family",
+        "falsifiers",
+        "hypothesis_id",
+        "invariants",
+        "known_analogues",
+        "llm_origin_assessment",
+        "proof_plan",
+        "rationale",
+        "representation",
+        "source_idea_domains",
+        "synthesis_note",
+    )
     if (
         len(matching) != 1
         or matching[0].get("idea_content_sha256") != binding["idea_content_sha256"]
+        or canonical_sha256({key: matching[0].get(key) for key in proposal_keys})
+        != binding["idea_content_sha256"]
     ):
         raise PriorArtError("claim does not bind exactly one retained LLM idea")
     claim = value["claim"]
@@ -696,7 +717,11 @@ def validate_screen(value: Mapping[str, Any], root: Path | None = None) -> None:
             if binding["sha256"] != _normalized_file_sha256(path):
                 raise PriorArtError("prior-art source binding changed")
         claim_document = load_claim(root, root / value["source_bindings"]["claim"]["path"])
-        if claim_document["claim_id"] != value["claim_id"]:
+        if (
+            claim_document["claim_id"] != value["claim_id"]
+            or dict(claim_document["source_binding"])
+            != value["source_bindings"]["idea"]
+        ):
             raise PriorArtError("prior-art claim identity changed")
 
 
