@@ -1,0 +1,57 @@
+{
+  "claim": {
+    "behavior_status": "EXECUTABLE_PREDICTIONS",
+    "behavior_terms": [
+      "30",
+      "55",
+      "91",
+      "140",
+      "204",
+      "285",
+      "385",
+      "506",
+      "650",
+      "819",
+      "1015",
+      "1240",
+      "1496",
+      "1785",
+      "2109",
+      "2470",
+      "2870",
+      "3311"
+    ],
+    "formula_or_construction": "x0 * (x0 + 1) * (2 * x0 + 1) / 6",
+    "known_analogues": [
+      "Sum of squares formula",
+      "Pyramidal numbers",
+      "OEIS A000330"
+    ],
+    "llm_origin_assessment": "known_rewrite",
+    "proof_mechanisms": [
+      "exact_row_replay",
+      "cas_normal_form",
+      "smt_countermodel_search",
+      "interval_enclosure",
+      "lean_kernel_bridge",
+      "1. Verify that the formula n(n+1)(2n+1)/6 = sum_{k=1}^{n} k^2 matches all training rows.",
+      "2. Check: x0=4 -> 4*5*9/6=30 \u2713, x0=5 -> 5*6*11/6=55 \u2713, x0=10 -> 10*11*21/6=385 \u2713, x0=21 -> 21*22*43/6=3311 \u2713",
+      "3. This is the well-known closed form for sum of first n squares, provable by induction."
+    ],
+    "representation": "sympy_expression",
+    "source_domains": [
+      "combinatorics",
+      "figurate_numbers"
+    ],
+    "statement": "Parent_7 already achieved zero training loss with x0*(x0+1)*(2*x0+1)/6 wrapped in a piecewise shell. The sequence 30,55,91,140,... matches sum of squares 1^2+2^2+...+n^2 exactly. This strips the unnecessary piecewise wrapper to give a clean sympy_expression."
+  },
+  "claim_id": "retained-descendant.b0978ccff183307ed93b0a07.prior-art",
+  "schema_version": "invariant-claim-prior-art-input-1.1",
+  "source_binding": {
+    "path": "runs/math/retained-piecewise-descendant-campaign/live-runtime.json",
+    "receipt_content_sha256": "b9b9a42efcba394410d1dc3a386e148a08470ebe702c76d82c2802cc46d0f400",
+    "source_content_sha256": "047ff2aa41dc282a6f66e25ac414008b67b60689a8c661550adaad28cd590ab9",
+    "source_id": "descendant.b0978ccff183307ed93b0a07",
+    "source_kind": "retained_descendant"
+  }
+}

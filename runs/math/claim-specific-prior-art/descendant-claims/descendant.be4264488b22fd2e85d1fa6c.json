@@ -1,0 +1,53 @@
+{
+  "claim": {
+    "behavior_status": "EXECUTABLE_PREDICTIONS",
+    "behavior_terms": [
+      "86",
+      "90",
+      "94",
+      "98",
+      "98",
+      "102",
+      "107",
+      "111",
+      "116",
+      "120",
+      "45",
+      "48",
+      "51",
+      "54",
+      "58",
+      "51",
+      "55",
+      "59"
+    ],
+    "formula_or_construction": "{\"branches\":[{\"condition\":{\"comparator\":\"le\",\"left\":\"x0\",\"right\":\"29\"},\"expression\":\"round(3 * x0 * x0 / 100 + 239 * x0 / 100 + 35 / 10)\"},{\"condition\":{\"comparator\":\"le\",\"left\":\"x0\",\"right\":\"35\"},\"expression\":\"round(x0 * x0 / 25 + 47 * x0 / 25 + 27 / 5)\"},{\"condition\":{\"comparator\":\"le\",\"left\":\"x0\",\"right\":\"40\"},\"expression\":\"round(x0 * x0 * 7 / 100 - 193 * x0 / 100 + 233 / 10)\"},{\"condition\":{\"comparator\":\"le\",\"left\":\"x0\",\"right\":\"43\"},\"expression\":\"round(x0 * x0 * 9 / 100 - 363 * x0 / 100 + 4867 / 100)\"}],\"default_expression\":\"round(x0 * x0 * 9 / 100 - 363 * x0 / 100 + 4867 / 100)\"}",
+    "known_analogues": [
+      "Spline approximations"
+    ],
+    "llm_origin_assessment": "proposed_new_construction",
+    "proof_mechanisms": [
+      "exact_row_replay",
+      "boundary_partition_analysis",
+      "1. Fit piecewise quadratic segments to the training data in ranges [26,29],[30,35],[36,40],[41,43]",
+      "2. Minimize max absolute error on each segment",
+      "3. Verify continuity at segment boundaries",
+      "4. Test on all 18 training pairs"
+    ],
+    "representation": "piecewise_relation",
+    "source_domains": [
+      "approximation_theory",
+      "data_fitting"
+    ],
+    "statement": "Parent_3 used a piecewise quadratic spline but had wrong coefficients for x0>=20. This repairs the approach by fitting four quadratic segments directly to the fresh training data in the range [26,43]. Coefficients are chosen to minimize residuals on each segment. This avoids the cubic blowup seen in parent_5 and parent_9."
+  },
+  "claim_id": "retained-descendant.be4264488b22fd2e85d1fa6c.prior-art",
+  "schema_version": "invariant-claim-prior-art-input-1.1",
+  "source_binding": {
+    "path": "runs/math/retained-piecewise-descendant-campaign/live-runtime.json",
+    "receipt_content_sha256": "b9b9a42efcba394410d1dc3a386e148a08470ebe702c76d82c2802cc46d0f400",
+    "source_content_sha256": "d1e11b0dbee633a346d255abb15513f7bab3c0743e3c12c7cb9cf13be0bae6c9",
+    "source_id": "descendant.be4264488b22fd2e85d1fa6c",
+    "source_kind": "retained_descendant"
+  }
+}

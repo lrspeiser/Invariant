@@ -85,6 +85,21 @@ def test_rate_limit_and_response_hashes_are_evidence_not_silent_success(
         assert len(providers[provider_id]["response_sha256"]) == 64
 
 
+def test_oeis_null_result_is_a_completed_empty_screen() -> None:
+    def null_oeis_transport(
+        uri: str, headers: object, timeout: int, maximum: int
+    ) -> HTTPResponse:
+        if urlparse(uri).hostname == "oeis.org":
+            return HTTPResponse(200, {"content-type": "application/json"}, b"null")
+        return _transport(uri, headers, timeout, maximum)
+
+    screen = run_screen(ROOT, CLAIM, transport=null_oeis_transport, retrieved_utc=NOW)
+    providers = {item["provider_id"]: item for item in screen["provider_evidence"]}
+    assert providers["oeis"]["status"] == "COMPLETED"
+    assert providers["oeis"]["matches"] == []
+    assert screen["channel_assessment"]["behavior"] == "NO_EXACT_MATCH_IN_QUERIED_RESULTS"
+
+
 def test_source_or_receipt_tamper_fails_closed(receipt: dict[str, object]) -> None:
     tampered = json.loads(json.dumps(receipt))
     tampered["release_gate"]["novelty_language_authorized"] = True

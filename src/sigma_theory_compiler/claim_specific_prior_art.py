@@ -27,6 +27,7 @@ from .sigma_core import canonical_sha256
 CONFIG_PATH = "configs/claim_specific_prior_art.json"
 CONFIG_SCHEMA = "invariant-claim-specific-prior-art-config-1.0"
 CLAIM_SCHEMA = "invariant-claim-prior-art-input-1.0"
+DESCENDANT_CLAIM_SCHEMA = "invariant-claim-prior-art-input-1.1"
 SCREEN_SCHEMA = "invariant-claim-prior-art-screen-1.0"
 REVIEW_SCHEMA = "invariant-claim-prior-art-human-review-1.0"
 ADJUDICATED_SCHEMA = "invariant-claim-prior-art-adjudicated-1.0"
@@ -219,18 +220,38 @@ def load_config(root: Path) -> dict[str, Any]:
 def load_claim(root: Path, claim_path: Path) -> dict[str, Any]:
     value = json.loads(claim_path.read_text(encoding="utf-8"))
     _strict(value, {"claim", "claim_id", "schema_version", "source_binding"}, "prior-art claim")
-    if value["schema_version"] != CLAIM_SCHEMA:
+    schema_version = value["schema_version"]
+    if schema_version not in {CLAIM_SCHEMA, DESCENDANT_CLAIM_SCHEMA}:
         raise PriorArtError("prior-art claim schema changed")
     _identifier(value["claim_id"], "claim ID")
     binding = value["source_binding"]
-    _strict(
-        binding,
-        {"idea_content_sha256", "lineage_id", "path", "receipt_content_sha256"},
-        "claim source binding",
-    )
+    if schema_version == CLAIM_SCHEMA:
+        _strict(
+            binding,
+            {"idea_content_sha256", "lineage_id", "path", "receipt_content_sha256"},
+            "claim source binding",
+        )
+    else:
+        _strict(
+            binding,
+            {
+                "path",
+                "receipt_content_sha256",
+                "source_content_sha256",
+                "source_id",
+                "source_kind",
+            },
+            "claim source binding",
+        )
+        if binding["source_kind"] != "retained_descendant":
+            raise PriorArtError("claim source kind changed")
     _sha(binding["receipt_content_sha256"], "bound receipt content hash")
-    _sha(binding["idea_content_sha256"], "bound idea content hash")
-    _identifier(binding["lineage_id"], "lineage ID")
+    if schema_version == CLAIM_SCHEMA:
+        _sha(binding["idea_content_sha256"], "bound idea content hash")
+        _identifier(binding["lineage_id"], "lineage ID")
+    else:
+        _sha(binding["source_content_sha256"], "bound descendant content hash")
+        _identifier(binding["source_id"], "descendant ID")
     bound_path = (root / _text(binding["path"], "bound receipt path", maximum=500)).resolve()
     try:
         bound_path.relative_to(root.resolve())
@@ -243,49 +264,73 @@ def load_claim(root: Path, claim_path: Path) -> dict[str, Any]:
         or receipt.get("content_sha256") != canonical_sha256(receipt_body)
     ):
         raise PriorArtError("claim source receipt hash changed")
-    ideas = receipt.get("idea_lineage_archive", {}).get("ideas", [])
-    matching = [idea for idea in ideas if idea.get("lineage_id") == binding["lineage_id"]]
-    proposal_keys = (
-        "benchmark_id",
-        "expression",
-        "family",
-        "falsifiers",
-        "hypothesis_id",
-        "invariants",
-        "known_analogues",
-        "llm_origin_assessment",
-        "proof_plan",
-        "rationale",
-        "representation",
-        "source_idea_domains",
-        "synthesis_note",
-    )
-    if (
-        len(matching) != 1
-        or matching[0].get("idea_content_sha256") != binding["idea_content_sha256"]
-        or canonical_sha256({key: matching[0].get(key) for key in proposal_keys})
-        != binding["idea_content_sha256"]
-    ):
-        raise PriorArtError("claim does not bind exactly one retained LLM idea")
-    claim = value["claim"]
-    _strict(
-        claim,
-        {
-            "behavior_terms",
-            "formula_or_construction",
+    if schema_version == CLAIM_SCHEMA:
+        ideas = receipt.get("idea_lineage_archive", {}).get("ideas", [])
+        matching = [idea for idea in ideas if idea.get("lineage_id") == binding["lineage_id"]]
+        proposal_keys = (
+            "benchmark_id",
+            "expression",
+            "family",
+            "falsifiers",
+            "hypothesis_id",
+            "invariants",
             "known_analogues",
             "llm_origin_assessment",
-            "proof_mechanisms",
+            "proof_plan",
+            "rationale",
             "representation",
-            "source_domains",
-            "statement",
-        },
-        "claim content",
-    )
+            "source_idea_domains",
+            "synthesis_note",
+        )
+        if (
+            len(matching) != 1
+            or matching[0].get("idea_content_sha256") != binding["idea_content_sha256"]
+            or canonical_sha256({key: matching[0].get(key) for key in proposal_keys})
+            != binding["idea_content_sha256"]
+        ):
+            raise PriorArtError("claim does not bind exactly one retained LLM idea")
+    else:
+        descendants = receipt.get("descendants", [])
+        matching = [
+            descendant
+            for descendant in descendants
+            if descendant.get("descendant_id") == binding["source_id"]
+        ]
+        if (
+            len(matching) != 1
+            or matching[0].get("retention_status") != "RETAINED_ACTIVE"
+            or canonical_sha256(matching[0]) != binding["source_content_sha256"]
+        ):
+            raise PriorArtError("claim does not bind exactly one retained descendant")
+    claim = value["claim"]
+    claim_keys = {
+        "behavior_terms",
+        "formula_or_construction",
+        "known_analogues",
+        "llm_origin_assessment",
+        "proof_mechanisms",
+        "representation",
+        "source_domains",
+        "statement",
+    }
+    if schema_version == DESCENDANT_CLAIM_SCHEMA:
+        claim_keys.add("behavior_status")
+    _strict(claim, claim_keys, "claim content")
     _text(claim["statement"], "claim statement")
     _text(claim["formula_or_construction"], "claim construction")
     _identifier(claim["representation"], "claim representation")
-    _text_array(claim["behavior_terms"], "claim behavior terms", minimum=6)
+    if schema_version == CLAIM_SCHEMA:
+        _text_array(claim["behavior_terms"], "claim behavior terms", minimum=6)
+    elif claim["behavior_status"] == "EXECUTABLE_PREDICTIONS":
+        if not isinstance(claim["behavior_terms"], list) or len(claim["behavior_terms"]) < 6:
+            raise PriorArtError("claim behavior terms must contain at least six predictions")
+        for item in claim["behavior_terms"]:
+            _text(item, "claim behavior term", maximum=500)
+    elif claim["behavior_status"] == "NO_EXECUTABLE_BEHAVIOR":
+        if claim["behavior_terms"] != []:
+            raise PriorArtError("non-executable claim invents behavior terms")
+    else:
+        raise PriorArtError("claim behavior status changed")
     _text_array(claim["known_analogues"], "claim known analogues")
     _text_array(claim["proof_mechanisms"], "claim proof mechanisms")
     _text_array(claim["source_domains"], "claim source domains")
@@ -315,10 +360,15 @@ def build_queries(claim_document: Mapping[str, Any]) -> tuple[dict[str, str], ..
         "tensor identity": "index symmetry invariant contraction differential identity",
         "variational functional": "Euler Lagrange functional stationary action duality",
     }
+    behavior_query = (
+        ",".join(claim["behavior_terms"][:18])
+        if claim["behavior_terms"]
+        else f"no executable behavior {construction} {domains}"[:500]
+    )
     queries = (
         {
             "channel": "behavior",
-            "query": ",".join(claim["behavior_terms"][:18]),
+            "query": behavior_query,
         },
         {
             "channel": "literal_construction",
@@ -377,7 +427,12 @@ def _clean_title(value: Any) -> str:
 
 def _parse_oeis(body: bytes, limit: int, query: str) -> list[dict[str, Any]]:
     value = json.loads(body.decode("utf-8"))
-    rows = value if isinstance(value, list) else value.get("results", [])
+    if isinstance(value, list):
+        rows = value
+    elif isinstance(value, dict):
+        rows = value.get("results", [])
+    else:
+        rows = []
     expected_prefix = query.replace(" ", "").split(",")
     matches = []
     for rank, item in enumerate(rows[:limit]):
@@ -551,6 +606,20 @@ def run_screen(
         provider_id = provider["provider_id"]
         query = query_by_channel["behavior"] if provider_id == "oeis" else textual_query
         uri = _provider_uri(provider, query)
+        if provider_id == "oeis" and not claim_document["claim"]["behavior_terms"]:
+            evidence.append(
+                {
+                    "content_type": "",
+                    "error": "NO_EXECUTABLE_BEHAVIOR",
+                    "matches": [],
+                    "provider_id": provider_id,
+                    "query": query,
+                    "request_uri": uri,
+                    "response_sha256": None,
+                    "status": "NOT_APPLICABLE_RECORDED",
+                }
+            )
+            continue
         try:
             response = transport(
                 uri,
@@ -606,7 +675,8 @@ def run_screen(
     exact_behavior = [
         item
         for item in all_matches
-        if item["provider_id"] == "oeis"
+        if claim_document["claim"]["behavior_terms"]
+        and item["provider_id"] == "oeis"
         and item.get("matched_prefix_terms", 0) >= len(claim_document["claim"]["behavior_terms"])
     ]
     successful = sum(item["status"] == "COMPLETED" for item in evidence)
@@ -641,7 +711,15 @@ def run_screen(
             ),
         )[:12],
         "channel_assessment": {
-            "behavior": "KNOWN_EXTERNAL_BEHAVIOR_MATCH" if exact_behavior else "NO_EXACT_MATCH_IN_QUERIED_RESULTS",
+            "behavior": (
+                "NOT_APPLICABLE_NO_EXECUTABLE_BEHAVIOR"
+                if not claim_document["claim"]["behavior_terms"]
+                else (
+                    "KNOWN_EXTERNAL_BEHAVIOR_MATCH"
+                    if exact_behavior
+                    else "NO_EXACT_MATCH_IN_QUERIED_RESULTS"
+                )
+            ),
             "formula_or_construction": "REQUIRES_NAMED_HUMAN_REVIEW",
             "proof_mechanism": "REQUIRES_NAMED_HUMAN_REVIEW",
         },
@@ -651,7 +729,11 @@ def run_screen(
             "calibration_note": (
                 "model uncertainty contained an externally indexed known behavior"
                 if exact_behavior
-                else "automated screen did not resolve the model origin label"
+                else (
+                    "behavior search was inapplicable because the retained branch is not executable"
+                    if not claim_document["claim"]["behavior_terms"]
+                    else "automated screen did not resolve the model origin label"
+                )
             ),
         },
         "automated_screen": {
@@ -700,11 +782,23 @@ def validate_screen(value: Mapping[str, Any], root: Path | None = None) -> None:
     ):
         raise PriorArtError("automated prior-art screen opened a novelty gate")
     for provider in value["provider_evidence"]:
+        if provider.get("status") not in {
+            "COMPLETED",
+            "NOT_APPLICABLE_RECORDED",
+            "UNAVAILABLE_RECORDED",
+        }:
+            raise PriorArtError("provider evidence status changed")
         parsed = urllib.parse.urlparse(provider["request_uri"])
         if parsed.scheme != "https" or parsed.hostname != _PROVIDER_HOSTS[provider["provider_id"]]:
             raise PriorArtError("provider evidence URI escaped its authority")
         if provider["status"] == "COMPLETED":
             _sha(provider["response_sha256"], "provider response hash")
+        if provider["status"] == "NOT_APPLICABLE_RECORDED" and (
+            provider["provider_id"] != "oeis"
+            or provider.get("error") != "NO_EXECUTABLE_BEHAVIOR"
+            or provider.get("response_sha256") is not None
+        ):
+            raise PriorArtError("inapplicable behavior evidence changed")
     if root is not None:
         root = root.resolve()
         for key in ("claim", "config"):

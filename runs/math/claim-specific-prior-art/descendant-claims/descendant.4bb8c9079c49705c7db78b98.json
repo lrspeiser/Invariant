@@ -1,0 +1,56 @@
+{
+  "claim": {
+    "behavior_status": "EXECUTABLE_PREDICTIONS",
+    "behavior_terms": [
+      "388",
+      "427",
+      "469",
+      "514",
+      "563",
+      "616",
+      "673",
+      "733",
+      "798",
+      "866",
+      "939",
+      "1017",
+      "1099",
+      "1186",
+      "1278",
+      "1375",
+      "1477",
+      "1584"
+    ],
+    "formula_or_construction": "round(2203 / 100000 * x0 * x0 * x0 - 1397 / 10000 * x0 * x0 - 2861 / 10000 * x0 + 10297 / 100)",
+    "known_analogues": [
+      "Lagrange interpolation",
+      "Least-squares cubic fitting"
+    ],
+    "llm_origin_assessment": "uncertain",
+    "proof_mechanisms": [
+      "exact_row_replay",
+      "cas_normal_form",
+      "smt_countermodel_search",
+      "interval_enclosure",
+      "1. Select four well-spaced anchor points: (26,99), (30,126), (36,175), (43,209)",
+      "2. Solve 4x4 linear system for cubic coefficients",
+      "3. Round coefficients to nearby rationals",
+      "4. Evaluate at all 18 training points to check max error"
+    ],
+    "representation": "sympy_expression",
+    "source_domains": [
+      "polynomial_interpolation",
+      "numerical_analysis"
+    ],
+    "statement": "Parent_2 and parent_5 tried cubic polynomials but used coefficients calibrated to a different input range. Since the fresh training data is [26,43], I refit a single cubic polynomial through four representative anchor points in this range. The cubic f(x) = ax\u00b3 + bx\u00b2 + cx + d is solved from (26,99), (30,126), (36,175), (43,209)."
+  },
+  "claim_id": "retained-descendant.4bb8c9079c49705c7db78b98.prior-art",
+  "schema_version": "invariant-claim-prior-art-input-1.1",
+  "source_binding": {
+    "path": "runs/math/retained-piecewise-descendant-campaign/live-runtime.json",
+    "receipt_content_sha256": "b9b9a42efcba394410d1dc3a386e148a08470ebe702c76d82c2802cc46d0f400",
+    "source_content_sha256": "b24789bc481a1bf424c28932202ca14e4c8eb5ee46eababad1710a1e7cb79d0f",
+    "source_id": "descendant.4bb8c9079c49705c7db78b98",
+    "source_kind": "retained_descendant"
+  }
+}

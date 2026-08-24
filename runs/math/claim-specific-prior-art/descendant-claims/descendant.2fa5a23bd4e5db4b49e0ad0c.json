@@ -1,0 +1,55 @@
+{
+  "claim": {
+    "behavior_status": "EXECUTABLE_PREDICTIONS",
+    "behavior_terms": [
+      "101",
+      "109",
+      "119",
+      "128",
+      "138",
+      "148",
+      "158",
+      "169",
+      "180",
+      "192",
+      "203",
+      "216",
+      "228",
+      "241",
+      "254",
+      "268",
+      "282",
+      "296"
+    ],
+    "formula_or_construction": "round(x0 * x0 * 1741 / 10000 - 5289 * x0 / 10000 - 3167 / 1000)",
+    "known_analogues": [
+      "Uniform polynomial formulas for figurate numbers"
+    ],
+    "llm_origin_assessment": "uncertain",
+    "proof_mechanisms": [
+      "exact_row_replay",
+      "cas_normal_form",
+      "smt_countermodel_search",
+      "interval_enclosure",
+      "1. Use three anchor points (26,99),(36,175),(43,209) to determine a,b,c in ax^2+bx+c",
+      "2. Solve the 3x3 system exactly",
+      "3. Verify residuals on all 18 training rows",
+      "4. If max error > 0 then reject or refine"
+    ],
+    "representation": "sympy_expression",
+    "source_domains": [
+      "polynomial_interpolation",
+      "data_fitting"
+    ],
+    "statement": "Several parents tried polynomial fits but with wrong degree or domain. The training data from x0=26..43 has outputs growing roughly quadratically. A single global quadratic might suffice. Using three well-spaced anchors: f(26)=99, f(36)=175, f(43)=209, solving gives a\u22480.1741, b\u2248-0.5289, c\u2248-3.167. This is compact and falsifiable."
+  },
+  "claim_id": "retained-descendant.2fa5a23bd4e5db4b49e0ad0c.prior-art",
+  "schema_version": "invariant-claim-prior-art-input-1.1",
+  "source_binding": {
+    "path": "runs/math/retained-piecewise-descendant-campaign/live-runtime.json",
+    "receipt_content_sha256": "b9b9a42efcba394410d1dc3a386e148a08470ebe702c76d82c2802cc46d0f400",
+    "source_content_sha256": "3574174e6db2b6fe07e4d3364bb6ac19d582f2afa3c612528ab9fb102892e723",
+    "source_id": "descendant.2fa5a23bd4e5db4b49e0ad0c",
+    "source_kind": "retained_descendant"
+  }
+}

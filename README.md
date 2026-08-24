@@ -1404,6 +1404,19 @@ specifically named human reviews the nearest matches; automated absence can neve
 novelty language. The reviewed idea is bound through an immutable, commit-anchored lineage snapshot
 rather than a mutable latest-runtime path.
 
+The live prior-art portfolio now extends that contract to all 24 retained descendant ideas without
+pruning the six non-executable branches. It prioritizes the eight model-self-labeled proposed-new
+constructions, then uncertain, synthesis, and known-rewrite branches. Eighteen executable claims
+received behavior plus literature searches; six non-executable claims explicitly recorded behavior
+search as inapplicable while still querying construction and proof channels. The resumable run used
+the sealed 90-request budget: Crossref and arXiv completed all 24 claims, OEIS completed the 18
+executable claims, and Semantic Scholar completed one while 23 rate limits were preserved. No exact
+behavior match appeared in the queried results. That absence establishes nothing about novelty.
+Every screen and pending named-human form is hash-bound in the complete portfolio receipt, and all
+24 novelty gates remain closed. The core creative-discovery runtime now binds both the portfolio
+preflight and complete receipt, reports the 24/18/6 coverage and 90-request budget, and fails closed
+unless the automated screen is complete while the outstanding named-human gate remains explicit.
+
 The paired tournament runner compares the frozen pre-creativity baseline with the creativity-first
 policy on all 24 rotating tasks. It interleaves arms, gives each arm the same Opus model, effort,
 calls, token ceiling, timeout, grammar depth, and verifier allocation, and reads only the generation
@@ -1585,6 +1598,9 @@ Revalidate the network-free live receipts with:
 
 ```powershell
 sigma-prior-art validate --root . --receipt runs/math/claim-specific-prior-art/live-uncertain-recaman.json
+sigma-prior-art-portfolio validate-batch --root . `
+  --preflight runs/math/claim-specific-prior-art/descendant-portfolio-preflight.json `
+  --receipt runs/math/claim-specific-prior-art/descendant-portfolio-complete.json
 sigma-dataset-challenges validate --root . `
   --receipt runs/math/dataset-challenges/receipt.json
 sigma-external-dataset-challenges validate --root . `
