@@ -1199,8 +1199,8 @@ The current bounded result rediscovers the two known formulas but finds no zero-
 unknown sequence. Consequently the level-5 success count is zero and famous-open-problem spending
 is blocked. A second exact evaluator implemented with only Python AST and `Fraction` agrees with the
 primary evaluator. Downloaded CI artifacts bind four distinct GitHub-hosted ephemeral runner IDs
-across Windows and Linux plus the Lean kernel job from successful post-merge run `32694147754` at
-`30f12a4d499c949b67ec57d0eb0332a2e78aae33`; this is multi-host VM reproduction of the
+across Windows and Linux plus the Lean kernel job from successful post-merge run `32698594929` at
+`56c4b86621ab243f306c51d6c406c695f5c672c4`; this is multi-host VM reproduction of the
 exact-discrete piecewise replay and the transform-, tensor-, variational-, and retained-descendant-
 capable executable-LLM core, not proof of distinct bare-metal machines. Human prior-art review is
 mandatory before any serious or novelty claim can be released.
@@ -1209,9 +1209,11 @@ The external-creativity workflow now also emits a credential-free core reproduct
 deterministic host. The probe validates the full core and descendant receipts, makes zero provider
 calls, and binds a rebind-stable projection of the eight authenticated proposer/critic calls, six
 authenticated repair/recombination calls, prompt context, lineage archive, usage, and credential
-boundary. A workflow definition or local probe is not second-machine evidence by itself: the first
-probe-bearing CI payloads must still be downloaded, hash-checked, compared across hosts, and bound
-into the durable multi-host receipt.
+boundary. The first four probe-bearing payloads are now downloaded, hash-checked, provenance-bound,
+and sealed into the durable multi-host receipt. All four reproduce projection
+`5f2a010578c99a895b143a1b83ef11f51159e7a7810dad78c83792186ee12433` with zero new provider
+calls and no provider credential on the runners. This replays authenticated evidence; it does not
+claim that CI repeated the paid live calls or independently established novelty.
 
 The implementation backlog and promotion criteria are listed in
 [`docs/CREATIVE_FORMULA_DISCOVERY_ROADMAP.md`](docs/CREATIVE_FORMULA_DISCOVERY_ROADMAP.md).

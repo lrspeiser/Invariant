@@ -1427,7 +1427,8 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
         raise CoreCreativeDiscoveryError("core expanded typed grammar evidence changed")
     verification = value.get("verification", {})
     if (
-        verification.get("multi_host_status") != "PASS_MULTI_HOST_REPRODUCTION"
+        verification.get("multi_host_status")
+        != "PASS_MULTI_HOST_CORE_LLM_EVIDENCE_REPRODUCTION"
         or verification.get("received_machines", 0) < 2
         or verification.get("lean_kernel_checked") is not True
         or verification.get("serious_claim_ladder_status")
