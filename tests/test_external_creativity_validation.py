@@ -204,9 +204,7 @@ def test_claude_arithmetic_normalizer_accepts_bounded_notation_only() -> None:
 def test_typed_claude_compiler_executes_with_independent_agreement() -> None:
     _, benchmarks = E.load_public_benchmarks(ROOT)
     benchmark = next(item for item in benchmarks if len(item.aliases) == 1)
-    rows = tuple(
-        E.Observation((Fraction(index),), Fraction(0)) for index in range(7)
-    )
+    rows = tuple(E.Observation((Fraction(index),), Fraction(0)) for index in range(7))
     cases = [
         (
             "linear_recurrence",
@@ -215,10 +213,7 @@ def test_typed_claude_compiler_executes_with_independent_agreement() -> None:
         ),
         (
             "generating_function",
-            (
-                '{"denominator":["1","-1","-1"],"index":"x0",'
-                '"numerator":["0","1"]}'
-            ),
+            ('{"denominator":["1","-1","-1"],"index":"x0","numerator":["0","1"]}'),
             (0, 1, 1, 2, 3, 5, 8),
         ),
         (
@@ -236,11 +231,44 @@ def test_typed_claude_compiler_executes_with_independent_agreement() -> None:
             '{"expression":"x0**2","modulus":5}',
             (0, 1, 4, 4, 1, 0, 1),
         ),
+        (
+            "tensor_identity",
+            json.dumps(
+                {
+                    "left_components": ["x0", "0", "0", "x0"],
+                    "output_component": {"flat_index": 0, "side": "left"},
+                    "right_components": ["x0", "0", "0", "x0"],
+                    "shape": [2, 2],
+                    "symmetries": [{"left_axis": 0, "right_axis": 1, "sign": 1}],
+                    "tensor_name": "T",
+                    "variance": ["covariant", "covariant"],
+                }
+            ),
+            (0, 1, 2, 3, 4, 5, 6),
+        ),
+        (
+            "variational_principle",
+            json.dumps(
+                {
+                    "bindings": {
+                        "q": "0",
+                        "q_ddot": "-x0",
+                        "q_dot": "0",
+                        "t": "0",
+                    },
+                    "claimed_euler_lagrange": "-q_ddot",
+                    "coordinate": "t",
+                    "field": "q",
+                    "first_derivative": "q_dot",
+                    "integrand": "q_dot**2/2",
+                    "second_derivative": "q_ddot",
+                }
+            ),
+            (0, 1, 2, 3, 4, 5, 6),
+        ),
     ]
     for representation, expression, expected in cases:
-        candidate, record = E._claude_candidate(
-            benchmark, _hypothesis(representation, expression)
-        )
+        candidate, record = E._claude_candidate(benchmark, _hypothesis(representation, expression))
         assert candidate is not None
         assert record["status"] == "ADMITTED_EXECUTABLE"
         primary = E.predict(candidate, benchmark, rows)
@@ -254,7 +282,7 @@ def test_non_executable_claude_ideas_are_retained_with_origin_and_reason() -> No
     candidate, record = E._claude_candidate(
         benchmark,
         _hypothesis(
-            "tensor_identity",
+            "transform_relation",
             "T_ab = R_ab - R*g_ab/2",
             origin="cross_domain_synthesis",
         ),
@@ -265,12 +293,48 @@ def test_non_executable_claude_ideas_are_retained_with_origin_and_reason() -> No
     assert record["llm_self_assessed_origin"] == "cross_domain_synthesis"
 
 
+def test_malformed_executable_typed_idea_is_retained_instead_of_pruned() -> None:
+    _, benchmarks = E.load_public_benchmarks(ROOT)
+    candidate, record = E._claude_candidate(
+        benchmarks[0],
+        _hypothesis(
+            "tensor_identity",
+            "T_ab = R_ab - R*g_ab/2",
+            origin="uncertain",
+        ),
+    )
+    assert candidate is None
+    assert record["status"] == "RETAINED_NON_EXECUTABLE"
+    assert record["reason"] == "typed_expression_failed_validation"
+    assert record["llm_self_assessed_origin"] == "uncertain"
+
+
+def test_variational_output_cannot_be_decoupled_from_the_checked_claim() -> None:
+    _, benchmarks = E.load_public_benchmarks(ROOT)
+    specification = {
+        "bindings": {"q": "0", "q_ddot": "-x0", "q_dot": "0", "t": "0"},
+        "claimed_euler_lagrange": "-q_ddot",
+        "coordinate": "t",
+        "field": "q",
+        "first_derivative": "q_dot",
+        "integrand": "q_dot**2/2",
+        "output_expression": "x0 + 1",
+        "second_derivative": "q_ddot",
+    }
+    candidate, record = E._claude_candidate(
+        next(item for item in benchmarks if len(item.aliases) == 1),
+        _hypothesis("variational_principle", json.dumps(specification)),
+    )
+    assert candidate is None
+    assert record["status"] == "RETAINED_NON_EXECUTABLE"
+    assert record["reason"] == "typed_expression_failed_validation"
+    assert "not induced" in record["diagnostic"]
+
+
 def test_modular_control_remains_matched_after_canonicalization() -> None:
     public, benchmarks = E.load_public_benchmarks(ROOT)
     benchmark = next(
-        item
-        for item in benchmarks
-        if item.benchmark_id == "external.authority-nist-0244"
+        item for item in benchmarks if item.benchmark_id == "external.authority-nist-0244"
     )
     target = next(
         item
@@ -285,15 +349,103 @@ def test_modular_control_remains_matched_after_canonicalization() -> None:
         ),
     )
     assert candidate is not None
-    control = E.random_controls(
-        benchmark, {"claude_proposer": (candidate,)}, seed=20260822
-    )["claude_proposer"][0]
-    budget = E._load_campaign_config(ROOT, live_claude=False)["search"][
-        "matched_control_budget"
-    ]
+    control = E.random_controls(benchmark, {"claude_proposer": (candidate,)}, seed=20260822)[
+        "claude_proposer"
+    ][0]
+    budget = E._load_campaign_config(ROOT, live_claude=False)["search"]["matched_control_budget"]
     assert E._candidate_resource_profile(
         candidate, benchmark, target, budget
     ) == E._candidate_resource_profile(control, benchmark, target, budget)
+
+
+def test_tensor_and_variational_controls_match_exact_resource_profiles() -> None:
+    public, benchmarks = E.load_public_benchmarks(ROOT)
+    benchmark = next(item for item in benchmarks if len(item.aliases) == 1)
+    target = next(
+        item
+        for item in E.unseal_targets(ROOT, public, benchmarks)
+        if item.benchmark_id == benchmark.benchmark_id
+    )
+    tensor = json.dumps(
+        {
+            "left_components": ["x0", "0", "0", "x0"],
+            "output_component": {"flat_index": 0, "side": "left"},
+            "right_components": ["x0", "0", "0", "x0"],
+            "shape": [2, 2],
+            "symmetries": [{"left_axis": 0, "right_axis": 1, "sign": 1}],
+            "tensor_name": "T",
+            "variance": ["covariant", "covariant"],
+        }
+    )
+    variational = json.dumps(
+        {
+            "bindings": {"q": "0", "q_ddot": "-x0", "q_dot": "0", "t": "0"},
+            "claimed_euler_lagrange": "-q_ddot",
+            "coordinate": "t",
+            "field": "q",
+            "first_derivative": "q_dot",
+            "integrand": "q_dot**2/2",
+            "second_derivative": "q_ddot",
+        }
+    )
+    budget = E._load_campaign_config(ROOT, live_claude=False)["search"]["matched_control_budget"]
+    for representation, expression in (
+        ("tensor_identity", tensor),
+        ("variational_principle", variational),
+    ):
+        candidate, record = E._claude_candidate(benchmark, _hypothesis(representation, expression))
+        assert candidate is not None
+        assert record["status"] == "ADMITTED_EXECUTABLE"
+        control = E.random_controls(
+            benchmark,
+            {"claude_proposer": (candidate,)},
+            seed=20260823,
+        )["claude_proposer"][0]
+        assert control.expression != candidate.expression
+        assert E._candidate_resource_profile(
+            candidate, benchmark, target, budget
+        ) == E._candidate_resource_profile(control, benchmark, target, budget)
+
+
+def test_false_tensor_and_variational_claims_execute_but_do_not_score() -> None:
+    _, benchmarks = E.load_public_benchmarks(ROOT)
+    benchmark = next(item for item in benchmarks if len(item.aliases) == 1)
+    rows = tuple(E.Observation((Fraction(index),), Fraction(0)) for index in range(3))
+    false_tensor = json.dumps(
+        {
+            "left_components": ["x0", "0", "0", "x0"],
+            "output_component": {"flat_index": 0, "side": "left"},
+            "right_components": ["x0 + 1", "0", "0", "x0"],
+            "shape": [2, 2],
+            "symmetries": [{"left_axis": 0, "right_axis": 1, "sign": 1}],
+            "tensor_name": "T",
+            "variance": ["covariant", "covariant"],
+        }
+    )
+    false_variational = json.dumps(
+        {
+            "bindings": {"q": "0", "q_ddot": "x0", "q_dot": "0", "t": "0"},
+            "claimed_euler_lagrange": "q_ddot",
+            "coordinate": "t",
+            "field": "q",
+            "first_derivative": "q_dot",
+            "integrand": "q_dot**2/2",
+            "second_derivative": "q_ddot",
+        }
+    )
+    for representation, expression in (
+        ("tensor_identity", false_tensor),
+        ("variational_principle", false_variational),
+    ):
+        candidate, record = E._claude_candidate(benchmark, _hypothesis(representation, expression))
+        assert candidate is not None
+        assert record["status"] == "ADMITTED_EXECUTABLE"
+        assert E.predict(candidate, benchmark, rows) == (None, None, None)
+        assert E.independently_predict(candidate, benchmark, rows) == (
+            None,
+            None,
+            None,
+        )
 
 
 def test_known_and_bounded_unknown_campaign_is_honest(dry_receipt: dict[str, Any]) -> None:
@@ -387,7 +539,9 @@ def test_dataset_pipeline_contains_units_groups_residuals_interventions_and_ood(
             evidence["causal_interventions"]["execution_status"]
             == "DECLARED_REQUIRES_INTERVENTION_DATA"
         )
-        assert not evidence["causal_interventions"]["observational_rows_mislabelled_as_interventions"]
+        assert not evidence["causal_interventions"][
+            "observational_rows_mislabelled_as_interventions"
+        ]
         assert evidence["ood_split_rule"]
         assert evidence["holdout_opened_last"]
 
@@ -463,6 +617,18 @@ def test_live_claude_fixture_proposes_and_steers_without_verifying(monkeypatch) 
     assert receipt["serious_claim_policy"]["released_claims"] == 0
     assert [item["method"] for item in transport.requests].count("GET") == 1
     assert [item["method"] for item in transport.requests].count("POST") == 8
+    proposer_prompts = [
+        json.loads(item["body"]["messages"][0]["content"])
+        for item in transport.requests
+        if item["method"] == "POST"
+        and json.loads(item["body"]["messages"][0]["content"])["role"] == "proposer"
+    ]
+    assert len(proposer_prompts) == 4
+    assert all(
+        prompt["instruction"] == E.EXECUTABLE_PROPOSER_INSTRUCTION for prompt in proposer_prompts
+    )
+    assert "tensor_identity uses JSON" in E.EXECUTABLE_PROPOSER_INSTRUCTION
+    assert "variational_principle uses JSON" in E.EXECUTABLE_PROPOSER_INSTRUCTION
     assert "fixture-secret" not in json.dumps(receipt, sort_keys=True)
 
 
