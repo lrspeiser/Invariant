@@ -48,6 +48,17 @@ PUBLIC_RECEIPT_SCHEMA = "invariant-creativity-confirmatory-public-generation-1.0
 COORDINATOR_SCHEMA = "invariant-creativity-confirmatory-private-coordinator-1.0"
 _ARMS = ("baseline", "full_creativity_first")
 _HEX = frozenset("0123456789abcdef")
+# Complete generation-time bundle sealed by the published 96-call confirmatory receipt. Historical
+# bundles remain evidence of the code that produced a run; they are never rewritten as current code.
+_HISTORICAL_SOURCE_SHA256_BUNDLES = (
+    {
+        "claude_adapter": "a37046bc911f4d4400d120de6f94077a55c3dc3896f4aecc2b1b24f0a9e7ce84",
+        "config": "01d537fc532cce1657ccf2ff06877e5255fad532de72c9a22460dea9cc3867d2",
+        "confirmatory_runner": "cf3e6dcfaae2e4ba6dcf481ed3e262ef40c003ce3aa76a1db68038efb83e8240",
+        "durable_attempt_journal": "003e7dcaf2b325b9155f84d988a38f093f384e6de0ea2f33d207da4228e11a23",
+        "pilot_helper": "7b8d5cf01db3c85d8b6dc147cd5ee0511da646145b2291f21a1f4cab1e6a8460",
+    },
+)
 
 
 class ConfirmatoryGenerationError(ValueError):
@@ -81,6 +92,20 @@ def _source_bindings(root: Path) -> dict[str, Any]:
         name: {"path": path, "sha256": pilot._normalized_file_sha256(root / path)}
         for name, path in sorted(paths.items())
     }
+
+
+def _compatible_source_bindings(root: Path) -> tuple[dict[str, Any], ...]:
+    """Return the current bundle plus explicitly preserved generation-time bundles."""
+
+    current = _source_bindings(root)
+    historical = tuple(
+        {
+            name: {"path": current[name]["path"], "sha256": sha256}
+            for name, sha256 in sorted(bundle.items())
+        }
+        for bundle in _HISTORICAL_SOURCE_SHA256_BUNDLES
+    )
+    return (current, *historical)
 
 
 def load_config(root: Path) -> dict[str, Any]:
@@ -829,11 +854,14 @@ def validate_public(
         root = root.resolve()
         config = load_config(root)
         generation = _load_generation(root, config)
-        expected = {
-            **_source_bindings(root),
-            "generation_packet_content_sha256": generation["content_sha256"],
-        }
-        if public.get("source_bindings") != expected:
+        compatible = tuple(
+            {
+                **bindings,
+                "generation_packet_content_sha256": generation["content_sha256"],
+            }
+            for bindings in _compatible_source_bindings(root)
+        )
+        if public.get("source_bindings") not in compatible:
             raise ConfirmatoryGenerationError("confirmatory public source bindings changed")
 
 

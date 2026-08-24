@@ -22,6 +22,9 @@ from .math_expression_ir import (
     Formula,
     GeneratingFunction,
     ModularRelation,
+    PiecewiseBranch,
+    PiecewiseComparator,
+    PiecewiseRelation,
     Recurrence,
     TensorIdentity,
     VariationalFunctional,
@@ -43,13 +46,14 @@ INDEPENDENT_PATH = "src/sigma_theory_compiler/expanded_math_independent_evaluato
 INDEPENDENT_BASE_PATH = "src/sigma_theory_compiler/independent_exact_evaluator.py"
 CANONICALIZER_PATH = "src/sigma_theory_compiler/math_canonicalizer.py"
 COUNTEREXAMPLE_PATH = "src/sigma_theory_compiler/math_counterexample.py"
-CONFIG_SCHEMA = "invariant-expanded-typed-grammar-config-1.0"
-RESULT_SCHEMA = "invariant-expanded-typed-grammar-controls-1.0"
+CONFIG_SCHEMA = "invariant-expanded-typed-grammar-config-1.1"
+RESULT_SCHEMA = "invariant-expanded-typed-grammar-controls-1.1"
 _KINDS = (
     "finite_product",
     "finite_sum",
     "generating_function",
     "modular_relation",
+    "piecewise_relation",
     "recurrence",
     "tensor_identity",
     "variational_functional",
@@ -93,12 +97,13 @@ def _load_config(root: Path) -> dict[str, Any]:
         raise ExpandedGrammarControlError("expanded grammar policy keys changed")
     if (
         value["schema_version"] != CONFIG_SCHEMA
-        or value["grammar_id"] != "invariant.math.expanded-exact-grammar-v1"
+        or value["grammar_id"] != "invariant.math.expanded-exact-grammar-v2"
         or value["admitted_formula_kinds"] != list(_KINDS)
         or value["resource_limits"]
         != {
             "maximum_expression_nodes": 512,
             "maximum_finite_terms": 64,
+            "maximum_piecewise_branches": 8,
             "maximum_polynomial_power_for_independent_variational_evaluator": 8,
             "maximum_tensor_components": 256,
             "maximum_tensor_rank": 4,
@@ -134,6 +139,17 @@ def _formula_controls() -> dict[str, tuple[Formula, Formula, list[dict[str, Frac
     )
     modular = ModularRelation(power(literal(2), literal(5)), literal(1), 31)
     modular_mutation = ModularRelation(power(literal(2), literal(5)), literal(2), 31)
+    expected = symbol("expected")
+    piecewise_branches = (
+        PiecewiseBranch(variable, PiecewiseComparator.LESS, literal(0), -variable),
+        PiecewiseBranch(variable, PiecewiseComparator.EQUAL, literal(0), literal(0)),
+    )
+    piecewise = PiecewiseRelation(piecewise_branches, variable, expected)
+    piecewise_mutation = PiecewiseRelation(
+        piecewise_branches,
+        variable,
+        expected + 1,
+    )
     tensor = TensorIdentity(
         "symmetric_control",
         (2, 2),
@@ -176,6 +192,15 @@ def _formula_controls() -> dict[str, tuple[Formula, Formula, list[dict[str, Frac
             [{"x": Fraction(1, 2)}, {"x": Fraction(-1, 2)}, {"x": Fraction(2)}],
         ),
         "modular_relation": (modular, modular_mutation, [{}]),
+        "piecewise_relation": (
+            piecewise,
+            piecewise_mutation,
+            [
+                {"expected": Fraction(2), "x": Fraction(-2)},
+                {"expected": Fraction(0), "x": Fraction(0)},
+                {"expected": Fraction(3), "x": Fraction(3)},
+            ],
+        ),
         "tensor_identity": (tensor, tensor_mutation, [{}]),
         "variational_functional": (variational, variational_mutation, [{}]),
     }
@@ -314,11 +339,12 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
         "primary_evaluator": PRIMARY_PATH,
     }
     if (
-        value.get("grammar_id") != "invariant.math.expanded-exact-grammar-v1"
+        value.get("grammar_id") != "invariant.math.expanded-exact-grammar-v2"
         or value.get("resource_limits")
         != {
             "maximum_expression_nodes": 512,
             "maximum_finite_terms": 64,
+            "maximum_piecewise_branches": 8,
             "maximum_polynomial_power_for_independent_variational_evaluator": 8,
             "maximum_tensor_components": 256,
             "maximum_tensor_rank": 4,

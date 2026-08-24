@@ -18,6 +18,8 @@ from .math_expression_ir import (
     GeneratingFunction,
     Inequality,
     ModularRelation,
+    PiecewiseBranch,
+    PiecewiseRelation,
     Recurrence,
     TensorIdentity,
     VariationalFunctional,
@@ -211,6 +213,20 @@ def canonicalize_formula(formula: Formula) -> Formula:
             canonicalize_expression(formula.left),
             canonicalize_expression(formula.right),
             formula.modulus,
+        )
+    if isinstance(formula, PiecewiseRelation):
+        return PiecewiseRelation(
+            tuple(
+                PiecewiseBranch(
+                    canonicalize_expression(branch.left),
+                    branch.comparator,
+                    canonicalize_expression(branch.right),
+                    canonicalize_expression(branch.expression),
+                )
+                for branch in formula.branches
+            ),
+            canonicalize_expression(formula.default_expression),
+            canonicalize_expression(formula.claimed_value),
         )
     if isinstance(formula, TensorIdentity):
         return TensorIdentity(

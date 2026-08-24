@@ -306,14 +306,15 @@ def test_core_run_requires_and_sanitizes_live_claude(
         ],
         "state_pair_invariant_briefs": 6,
         "status": "PASS_CONTEXT_BOUND_TO_AUTHENTICATED_CALLS",
-        "typed_formula_kinds": 7,
+        "typed_formula_kinds": 8,
         "uncertain_invariant_briefs": 5,
     }
     assert receipt["release_gate"]["llm_first_principles_lane_live_run_complete"]
     assert receipt["credential_activation"]["source_kind"] == "explicit_env_file"
     assert receipt["idea_lineage_archive"]["summary"]["ideas_received"] == 4
     assert receipt["idea_lineage_archive"]["summary"]["ideas_retained"] == 4
-    assert receipt["discovery_runtime"]["typed_grammar_controls_passed"] == 7
+    assert receipt["discovery_runtime"]["typed_grammar_controls_passed"] == 8
+    assert "piecewise_relation" in receipt["discovery_runtime"]["typed_formula_kinds"]
     assert "variational_functional" in receipt["discovery_runtime"]["typed_formula_kinds"]
     assert receipt["discovery_runtime"]["dataset_positive_controls_passed"] == 4
     assert receipt["discovery_runtime"]["dataset_mutation_controls_rejected"] == 4

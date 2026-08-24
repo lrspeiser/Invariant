@@ -48,6 +48,9 @@ from .independent_exact_evaluator import (
     IndependentEvaluationError,
 )
 from .independent_exact_evaluator import (
+    evaluate_comparison as independently_evaluate_comparison,
+)
+from .independent_exact_evaluator import (
     evaluate_expression as independently_evaluate_expression,
 )
 from .independent_exact_evaluator import (
@@ -111,6 +114,7 @@ EXECUTABLE_CLAUDE_REPRESENTATIONS = frozenset(
         "invariant_relation",
         "linear_recurrence",
         "modular_relation",
+        "piecewise_relation",
         "sympy_expression",
         "tensor_identity",
         "transform_relation",
@@ -119,6 +123,7 @@ EXECUTABLE_CLAUDE_REPRESENTATIONS = frozenset(
 )
 MAXIMUM_TYPED_TERMS = 64
 MAXIMUM_RECURRENCE_ORDER = 8
+MAXIMUM_PIECEWISE_BRANCHES = 8
 MAXIMUM_TENSOR_COMPONENTS = 256
 MAXIMUM_TENSOR_RANK = 4
 MAXIMUM_TRANSFORM_TERMS = 16
@@ -133,7 +138,10 @@ EXECUTABLE_PROPOSER_INSTRUCTION = (
     "seed arrays; finite_sum or finite_product uses JSON with body, index, lower, and "
     "upper; generating_function uses JSON with numerator and denominator coefficient "
     "arrays plus an index alias; modular_relation uses JSON with expression and integer "
-    "modulus; transform_relation uses JSON with transform_kind='linear_shift_stencil', "
+    "modulus; piecewise_relation uses JSON with one to eight ordered branches, each "
+    "containing condition {left, comparator, right} plus expression, and a mandatory "
+    "default_expression; comparators are lt, le, eq, ne, ge, or gt; transform_relation "
+    "uses JSON with transform_kind='linear_shift_stencil', "
     "a public index alias, source_expression, claimed_transform, and one to sixteen "
     "stencil terms containing exact rational coefficients and integer offsets; "
     "tensor_identity uses JSON with tensor_name, shape, variance, complete "
@@ -796,6 +804,56 @@ def _parse_modular_spec(expression: str, aliases: Sequence[str]) -> tuple[str, d
     return json.dumps(spec, sort_keys=True, separators=(",", ":")), spec
 
 
+def _parse_piecewise_spec(expression: str, aliases: Sequence[str]) -> tuple[str, dict[str, Any]]:
+    value = _typed_json(
+        expression,
+        {"branches", "default_expression"},
+        "piecewise specification",
+    )
+    branches_raw = value["branches"]
+    if (
+        not isinstance(branches_raw, list)
+        or not 1 <= len(branches_raw) <= MAXIMUM_PIECEWISE_BRANCHES
+    ):
+        raise ExternalCreativityError("piecewise branch count is outside the budget")
+    branches: list[dict[str, Any]] = []
+    comparators = {"eq", "ge", "gt", "le", "lt", "ne"}
+    for position, branch in enumerate(branches_raw):
+        _strict_keys(branch, {"condition", "expression"}, f"piecewise branch {position}")
+        condition = branch["condition"]
+        _strict_keys(
+            condition,
+            {"comparator", "left", "right"},
+            f"piecewise branch {position} condition",
+        )
+        comparator = condition["comparator"]
+        if comparator not in comparators:
+            raise ExternalCreativityError("piecewise comparator is unsupported")
+        branches.append(
+            {
+                "condition": {
+                    "comparator": comparator,
+                    "left": _canonical_typed_arithmetic(
+                        condition["left"], aliases, f"piecewise branch {position} left operand"
+                    ),
+                    "right": _canonical_typed_arithmetic(
+                        condition["right"], aliases, f"piecewise branch {position} right operand"
+                    ),
+                },
+                "expression": _canonical_typed_arithmetic(
+                    branch["expression"], aliases, f"piecewise branch {position} expression"
+                ),
+            }
+        )
+    spec = {
+        "branches": branches,
+        "default_expression": _canonical_typed_arithmetic(
+            value["default_expression"], aliases, "piecewise default expression"
+        ),
+    }
+    return json.dumps(spec, sort_keys=True, separators=(",", ":")), spec
+
+
 def _typed_symbol(value: Any, label: str) -> str:
     if not isinstance(value, str) or re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]{0,63}", value) is None:
         raise ExternalCreativityError(f"{label} is not a typed symbol")
@@ -1223,6 +1281,78 @@ def _evaluate_modular(
     )
 
 
+def _evaluate_piecewise(
+    candidate: Candidate,
+    benchmark: Benchmark,
+    rows: Sequence[Observation],
+    *,
+    independent: bool,
+) -> tuple[Fraction | None, ...]:
+    _, spec = _parse_piecewise_spec(candidate.expression, benchmark.aliases)
+    outputs: list[Fraction | None] = []
+    if independent:
+        for row in rows:
+            assignment = dict(zip(benchmark.aliases, row.inputs, strict=True))
+            selected = spec["default_expression"]
+            try:
+                for branch in spec["branches"]:
+                    condition = branch["condition"]
+                    if independently_evaluate_comparison(
+                        condition["left"],
+                        condition["comparator"],
+                        condition["right"],
+                        assignment,
+                    ):
+                        selected = branch["expression"]
+                        break
+                outputs.append(independently_evaluate_expression(selected, assignment))
+            except (IndependentEvaluationError, ZeroDivisionError):
+                outputs.append(None)
+        return tuple(outputs)
+
+    symbols = {name: sp.Symbol(name, real=True) for name in benchmark.aliases}
+    parsed_branches = [
+        (
+            _safe_expression(branch["condition"]["left"], benchmark.aliases),
+            branch["condition"]["comparator"],
+            _safe_expression(branch["condition"]["right"], benchmark.aliases),
+            _safe_expression(branch["expression"], benchmark.aliases),
+        )
+        for branch in spec["branches"]
+    ]
+    default_expression = _safe_expression(spec["default_expression"], benchmark.aliases)
+    for row in rows:
+        substitutions = {
+            symbols[name]: sp.Rational(value.numerator, value.denominator)
+            for name, value in zip(benchmark.aliases, row.inputs, strict=True)
+        }
+        selected = default_expression
+        valid = True
+        for left, comparator, right, branch_expression in parsed_branches:
+            left_value = sp.cancel(left.subs(substitutions))
+            right_value = sp.cancel(right.subs(substitutions))
+            if not left_value.is_Rational or not right_value.is_Rational:
+                valid = False
+                break
+            comparisons = {
+                "eq": left_value == right_value,
+                "ge": left_value >= right_value,
+                "gt": left_value > right_value,
+                "le": left_value <= right_value,
+                "lt": left_value < right_value,
+                "ne": left_value != right_value,
+            }
+            if comparisons[comparator]:
+                selected = branch_expression
+                break
+        if not valid:
+            outputs.append(None)
+            continue
+        result = sp.cancel(selected.subs(substitutions))
+        outputs.append(Fraction(int(result.p), int(result.q)) if result.is_Rational else None)
+    return tuple(outputs)
+
+
 def _generating_function_coefficients(
     numerator: Sequence[Fraction],
     denominator: Sequence[Fraction],
@@ -1492,6 +1622,8 @@ def predict(
         return _evaluate_aggregate(candidate, benchmark, rows, product=True, independent=False)
     if candidate.representation == "modular_relation":
         return _evaluate_modular(candidate, benchmark, rows, independent=False)
+    if candidate.representation == "piecewise_relation":
+        return _evaluate_piecewise(candidate, benchmark, rows, independent=False)
     if candidate.representation == "transform_relation":
         return _evaluate_transform(candidate, benchmark, rows, independent=False)
     if candidate.representation == "tensor_identity":
@@ -1526,6 +1658,8 @@ def independently_predict(
             return _evaluate_aggregate(candidate, benchmark, rows, product=True, independent=True)
         if candidate.representation == "modular_relation":
             return _evaluate_modular(candidate, benchmark, rows, independent=True)
+        if candidate.representation == "piecewise_relation":
+            return _evaluate_piecewise(candidate, benchmark, rows, independent=True)
         if candidate.representation == "generating_function":
             return _evaluate_generating_function(candidate, benchmark, rows, independent=True)
         if candidate.representation == "transform_relation":
@@ -1782,6 +1916,9 @@ def _claude_candidate(
         elif representation == "modular_relation":
             expression, _ = _parse_modular_spec(expression, benchmark.aliases)
             normalization = "canonical_typed_json"
+        elif representation == "piecewise_relation":
+            expression, _ = _parse_piecewise_spec(expression, benchmark.aliases)
+            normalization = "canonical_typed_json+ordered_exact_predicates"
         elif representation == "transform_relation":
             expression, _ = _parse_transform_spec(expression, benchmark.aliases)
             normalization = "canonical_typed_json+exact_shift_stencil"
@@ -1845,6 +1982,24 @@ def _candidate_syntax_profile(candidate: Candidate, benchmark: Benchmark) -> tup
         _, spec = _parse_modular_spec(candidate.expression, benchmark.aliases)
         depth, nodes = _arithmetic_tree_stats(spec["expression"], benchmark.aliases)
         return depth + 1, nodes + 1
+    if candidate.representation == "piecewise_relation":
+        _, spec = _parse_piecewise_spec(candidate.expression, benchmark.aliases)
+        expression_stats = [
+            *(
+                stats
+                for branch in spec["branches"]
+                for stats in (
+                    _arithmetic_tree_stats(branch["condition"]["left"], benchmark.aliases),
+                    _arithmetic_tree_stats(branch["condition"]["right"], benchmark.aliases),
+                    _arithmetic_tree_stats(branch["expression"], benchmark.aliases),
+                )
+            ),
+            _arithmetic_tree_stats(spec["default_expression"], benchmark.aliases),
+        ]
+        return (
+            3 + max(depth for depth, _ in expression_stats),
+            2 + len(spec["branches"]) + sum(nodes for _, nodes in expression_stats),
+        )
     if candidate.representation == "transform_relation":
         _, spec = _parse_transform_spec(candidate.expression, benchmark.aliases)
         source_depth, source_nodes = _arithmetic_tree_stats(
@@ -2081,6 +2236,32 @@ def _matched_random_candidate(
             spec["expression"], benchmark.aliases, rng
         )
         expression = json.dumps(spec, sort_keys=True, separators=(",", ":"))
+    elif source.representation == "piecewise_relation":
+        _, spec = _parse_piecewise_spec(expression, benchmark.aliases)
+        spec["branches"] = [
+            {
+                "condition": {
+                    "comparator": branch["condition"]["comparator"],
+                    "left": _mutate_arithmetic_same_shape(
+                        branch["condition"]["left"], benchmark.aliases, rng
+                    ),
+                    "right": _mutate_arithmetic_same_shape(
+                        branch["condition"]["right"], benchmark.aliases, rng
+                    ),
+                },
+                "expression": _mutate_arithmetic_same_shape(
+                    branch["expression"], benchmark.aliases, rng
+                ),
+            }
+            for branch in spec["branches"]
+        ]
+        spec["default_expression"] = _mutate_arithmetic_same_shape(
+            spec["default_expression"], benchmark.aliases, rng
+        )
+        expression, _ = _parse_piecewise_spec(
+            json.dumps(spec, sort_keys=True, separators=(",", ":")),
+            benchmark.aliases,
+        )
     elif source.representation == "transform_relation":
         _, spec = _parse_transform_spec(expression, benchmark.aliases)
         spec["source_expression"] = _mutate_arithmetic_same_shape(
@@ -2246,6 +2427,32 @@ def _behavior(
             "expression": str(sp.factor(_safe_expression(spec["expression"], benchmark.aliases))),
             "modulus": spec["modulus"],
         }
+    elif candidate.representation == "piecewise_relation":
+        _, spec = _parse_piecewise_spec(candidate.expression, benchmark.aliases)
+        degree = "piecewise"
+        expressions = [
+            *(
+                item
+                for branch in spec["branches"]
+                for item in (
+                    branch["condition"]["left"],
+                    branch["condition"]["right"],
+                    branch["expression"],
+                )
+            ),
+            spec["default_expression"],
+        ]
+        singularities = canonical_sha256(
+            [
+                str(
+                    sp.factor(
+                        sp.together(_safe_expression(item, benchmark.aliases)).as_numer_denom()[1]
+                    )
+                )
+                for item in expressions
+            ]
+        )
+        structure = spec
     elif candidate.representation == "linear_recurrence":
         structure = {
             "order": len(candidate.recurrence_coefficients),
@@ -2504,6 +2711,7 @@ def _proof_plan_search(
     recurrence = candidate.representation == "linear_recurrence"
     generating = candidate.representation == "generating_function"
     modular = candidate.representation == "modular_relation"
+    piecewise = candidate.representation == "piecewise_relation"
     plans = [
         {
             "applicable": True,
@@ -2564,6 +2772,12 @@ def _proof_plan_search(
             "estimated_cost": 4,
             "plan": "contradiction_via_modular_obstruction",
             "purpose": "derive_an_incompatible_residue_class",
+        },
+        {
+            "applicable": piecewise,
+            "estimated_cost": 4,
+            "plan": "boundary_partition_analysis",
+            "purpose": "check_coverage_overlap_and_boundary_consistency",
         },
         {
             "applicable": target.target_kind == "known_formula",

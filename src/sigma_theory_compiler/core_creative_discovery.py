@@ -1309,11 +1309,12 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
             "finite_sum",
             "generating_function",
             "modular_relation",
+            "piecewise_relation",
             "recurrence",
             "tensor_identity",
             "variational_functional",
         ]
-        or discovery.get("typed_grammar_controls_passed") != 7
+        or discovery.get("typed_grammar_controls_passed") != 8
         or discovery.get("typed_grammar_status") != "PASS_EXPANDED_TYPED_GRAMMAR_CONTROLS"
     ):
         raise CoreCreativeDiscoveryError("core expanded typed grammar evidence changed")

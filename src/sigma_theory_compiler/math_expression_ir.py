@@ -15,6 +15,7 @@ _NAME = re.compile(r"[A-Za-z_][A-Za-z0-9_]*\Z")
 _OPERATIONS = {"literal", "symbol", "add", "multiply", "power", "negate", "call"}
 _MAX_EXPRESSION_NODES = 512
 _MAX_FINITE_TERMS = 64
+_MAX_PIECEWISE_BRANCHES = 8
 _MAX_TENSOR_COMPONENTS = 256
 
 
@@ -310,6 +311,47 @@ class ModularRelation(Formula):
             raise ExpressionIRError("modulus must be an integer in [2, 2^31-1]")
 
 
+class PiecewiseComparator(str, Enum):
+    LESS = "lt"
+    LESS_EQUAL = "le"
+    EQUAL = "eq"
+    NOT_EQUAL = "ne"
+    GREATER_EQUAL = "ge"
+    GREATER = "gt"
+
+
+@dataclass(frozen=True, slots=True)
+class PiecewiseBranch:
+    left: Expression
+    comparator: PiecewiseComparator
+    right: Expression
+    expression: Expression
+
+    def __post_init__(self) -> None:
+        _bounded_expression(self.left, "piecewise left predicate operand")
+        _bounded_expression(self.right, "piecewise right predicate operand")
+        _bounded_expression(self.expression, "piecewise branch expression")
+        if not isinstance(self.comparator, PiecewiseComparator):
+            raise ExpressionIRError("piecewise comparator must be a PiecewiseComparator")
+
+
+@dataclass(frozen=True, slots=True)
+class PiecewiseRelation(Formula):
+    branches: tuple[PiecewiseBranch, ...]
+    default_expression: Expression
+    claimed_value: Expression
+
+    def __post_init__(self) -> None:
+        if (
+            not isinstance(self.branches, tuple)
+            or not 1 <= len(self.branches) <= _MAX_PIECEWISE_BRANCHES
+            or any(not isinstance(branch, PiecewiseBranch) for branch in self.branches)
+        ):
+            raise ExpressionIRError("piecewise branches are invalid or outside the branch budget")
+        _bounded_expression(self.default_expression, "piecewise default expression")
+        _bounded_expression(self.claimed_value, "piecewise claimed value")
+
+
 @dataclass(frozen=True, slots=True)
 class TensorIdentity(Formula):
     tensor_name: str
@@ -465,6 +507,21 @@ def formula_to_data(formula: Formula) -> dict[str, Any]:
             "left": expression_to_data(formula.left),
             "right": expression_to_data(formula.right),
             "modulus": formula.modulus,
+        }
+    if isinstance(formula, PiecewiseRelation):
+        return {
+            "kind": "piecewise_relation",
+            "branches": [
+                {
+                    "left": expression_to_data(branch.left),
+                    "comparator": branch.comparator.value,
+                    "right": expression_to_data(branch.right),
+                    "expression": expression_to_data(branch.expression),
+                }
+                for branch in formula.branches
+            ],
+            "default_expression": expression_to_data(formula.default_expression),
+            "claimed_value": expression_to_data(formula.claimed_value),
         }
     if isinstance(formula, TensorIdentity):
         return {
