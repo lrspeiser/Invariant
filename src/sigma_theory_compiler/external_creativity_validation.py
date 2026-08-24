@@ -17,6 +17,7 @@ import random
 import re
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, replace
+from decimal import Decimal, InvalidOperation
 from fractions import Fraction
 from itertools import pairwise
 from math import prod
@@ -127,6 +128,7 @@ MAXIMUM_PIECEWISE_BRANCHES = 8
 MAXIMUM_TENSOR_COMPONENTS = 256
 MAXIMUM_TENSOR_RANK = 4
 MAXIMUM_TRANSFORM_TERMS = 16
+MAXIMUM_EXACT_LITERAL = 10**12
 EXECUTABLE_PROPOSER_INSTRUCTION = (
     "Propose structurally distinct mathematical hypotheses and proof plans. For "
     "each idea, self-assess whether it is a known rewrite, cross-domain synthesis, "
@@ -140,7 +142,11 @@ EXECUTABLE_PROPOSER_INSTRUCTION = (
     "arrays plus an index alias; modular_relation uses JSON with expression and integer "
     "modulus; piecewise_relation uses JSON with one to eight ordered branches, each "
     "containing condition {left, comparator, right} plus expression, and a mandatory "
-    "default_expression; comparators are lt, le, eq, ne, ge, or gt; transform_relation "
+    "default_expression; comparators are lt, le, eq, ne, ge, or gt; piecewise arithmetic "
+    "also admits exact finite decimals (canonicalized to rationals), %, //, floor(value), "
+    "round(value) with ties-to-even semantics, and one-level or nested arithmetic "
+    "conditionals of the form value_if_true if left < right else value_if_false; "
+    "transform_relation "
     "uses JSON with transform_kind='linear_shift_stencil', "
     "a public index alias, source_expression, claimed_transform, and one to sixteen "
     "stencil terms containing exact rational coefficients and integer offsets; "
@@ -155,6 +161,53 @@ EXECUTABLE_PROPOSER_INSTRUCTION = (
 
 class ExternalCreativityError(ValueError):
     """The external benchmark, blind chronology, or verifier policy failed closed."""
+
+
+_DECIMAL_LITERAL = re.compile(
+    r"(?:[0-9]+(?:\.[0-9]*)?|\.[0-9]+)(?:[eE][+-]?[0-9]+)?\Z"
+)
+
+
+def _decimal_fraction(source: str, node: ast.Constant) -> Fraction:
+    text = ast.get_source_segment(source, node)
+    if text is None or _DECIMAL_LITERAL.fullmatch(text) is None:
+        raise ExternalCreativityError("candidate decimal literal is not canonical")
+    try:
+        value = Fraction(Decimal(text))
+    except (InvalidOperation, ValueError, OverflowError) as error:
+        raise ExternalCreativityError("candidate decimal literal is not finite") from error
+    if (
+        abs(value.numerator) > MAXIMUM_EXACT_LITERAL
+        or value.denominator > MAXIMUM_EXACT_LITERAL
+    ):
+        raise ExternalCreativityError("candidate exact literal exceeds the coefficient budget")
+    return value
+
+
+def _round_fraction_half_even(value: Fraction) -> int:
+    lower = value.numerator // value.denominator
+    remainder = value - lower
+    if remainder < Fraction(1, 2):
+        return lower
+    if remainder > Fraction(1, 2):
+        return lower + 1
+    return lower if lower % 2 == 0 else lower + 1
+
+
+class _ExactRound(sp.Function):
+    """Symbolic exact nearest-integer operation with deterministic ties-to-even semantics."""
+
+    nargs = 1
+
+    @classmethod
+    def eval(cls, argument: sp.Expr) -> sp.Integer | None:
+        if argument.is_Rational:
+            value = Fraction(int(argument.p), int(argument.q))
+            return sp.Integer(_round_fraction_half_even(value))
+        return None
+
+    def _sympystr(self, printer: Any) -> str:
+        return f"round({printer.doprint(self.args[0])})"
 
 
 def _strict_keys(value: Mapping[str, Any], expected: set[str], label: str) -> None:
@@ -488,6 +541,26 @@ def _safe_expression(expression: str, aliases: Sequence[str]) -> sp.Expr:
         raise ExternalCreativityError("candidate expression is not valid DSL syntax") from error
     symbols = {name: sp.Symbol(name, real=True) for name in aliases}
 
+    def comparison(node: ast.Compare) -> sp.logic.boolalg.Boolean:
+        if len(node.ops) != 1 or len(node.comparators) != 1:
+            raise ExternalCreativityError("candidate conditional must use one comparison")
+        left = visit(node.left)
+        right = visit(node.comparators[0])
+        operator = node.ops[0]
+        if isinstance(operator, ast.Lt):
+            return sp.Lt(left, right)
+        if isinstance(operator, ast.LtE):
+            return sp.Le(left, right)
+        if isinstance(operator, ast.Eq):
+            return sp.Eq(left, right)
+        if isinstance(operator, ast.NotEq):
+            return sp.Ne(left, right)
+        if isinstance(operator, ast.GtE):
+            return sp.Ge(left, right)
+        if isinstance(operator, ast.Gt):
+            return sp.Gt(left, right)
+        raise ExternalCreativityError("candidate conditional comparator is unsupported")
+
     def visit(node: ast.AST) -> sp.Expr:
         if isinstance(node, ast.Expression):
             return visit(node.body)
@@ -498,9 +571,12 @@ def _safe_expression(expression: str, aliases: Sequence[str]) -> sp.Expr:
             and isinstance(node.value, int)
             and not isinstance(node.value, bool)
         ):
-            if abs(node.value) > 10**12:
+            if abs(node.value) > MAXIMUM_EXACT_LITERAL:
                 raise ExternalCreativityError("candidate integer literal is too large")
             return sp.Integer(node.value)
+        if isinstance(node, ast.Constant) and isinstance(node.value, float):
+            value = _decimal_fraction(expression, node)
+            return sp.Rational(value.numerator, value.denominator)
         if isinstance(node, ast.UnaryOp) and isinstance(node.op, (ast.UAdd, ast.USub)):
             value = visit(node.operand)
             return value if isinstance(node.op, ast.UAdd) else -value
@@ -515,10 +591,36 @@ def _safe_expression(expression: str, aliases: Sequence[str]) -> sp.Expr:
                 return left * right
             if isinstance(node.op, ast.Div):
                 return left / right
+            if isinstance(node.op, ast.FloorDiv):
+                return sp.floor(left / right)
+            if isinstance(node.op, ast.Mod):
+                return sp.Mod(left, right)
             if isinstance(node.op, ast.Pow):
                 if not right.is_Integer or not -8 <= int(right) <= 8:
                     raise ExternalCreativityError("candidate exponent is outside [-8, 8]")
                 return left**right
+        if isinstance(node, ast.Call):
+            if (
+                not isinstance(node.func, ast.Name)
+                or node.keywords
+                or len(node.args) != 1
+            ):
+                raise ExternalCreativityError("candidate function call left the exact DSL")
+            argument = visit(node.args[0])
+            if node.func.id == "floor":
+                return sp.floor(argument)
+            if node.func.id == "round":
+                return _ExactRound(argument)
+            raise ExternalCreativityError("candidate function left the exact DSL")
+        if isinstance(node, ast.IfExp):
+            if not isinstance(node.test, ast.Compare):
+                raise ExternalCreativityError(
+                    "candidate conditional test must be one exact comparison"
+                )
+            return sp.Piecewise(
+                (visit(node.body), comparison(node.test)),
+                (visit(node.orelse), True),
+            )
         raise ExternalCreativityError("candidate expression left the arithmetic DSL")
 
     result = sp.cancel(visit(tree))
@@ -546,6 +648,27 @@ def _arithmetic_tree_stats(expression: str, aliases: Sequence[str]) -> tuple[int
             return (
                 1 + max(left_depth, right_depth),
                 1 + left_count + right_count,
+            )
+        if isinstance(node, ast.Call):
+            if len(node.args) != 1:
+                raise ExternalCreativityError("arithmetic call profiler left the admitted DSL")
+            depth, count = stats(node.args[0])
+            return depth + 1, count + 1
+        if isinstance(node, ast.Compare):
+            if len(node.comparators) != 1:
+                raise ExternalCreativityError(
+                    "arithmetic comparison profiler left the admitted DSL"
+                )
+            left_depth, left_count = stats(node.left)
+            right_depth, right_count = stats(node.comparators[0])
+            return 1 + max(left_depth, right_depth), 1 + left_count + right_count
+        if isinstance(node, ast.IfExp):
+            test_depth, test_count = stats(node.test)
+            body_depth, body_count = stats(node.body)
+            else_depth, else_count = stats(node.orelse)
+            return (
+                1 + max(test_depth, body_depth, else_depth),
+                1 + test_count + body_count + else_count,
             )
         raise ExternalCreativityError("arithmetic syntax profiler left the admitted DSL")
 
@@ -860,13 +983,39 @@ def _typed_symbol(value: Any, label: str) -> str:
     return value
 
 
+def _canonical_decimal_ast(expression: str, tree: ast.Expression) -> ast.Expression:
+    class CanonicalDecimal(ast.NodeTransformer):
+        def visit_Constant(self, node: ast.Constant) -> ast.expr:
+            if not isinstance(node.value, float):
+                return node
+            value = _decimal_fraction(expression, node)
+            if value.denominator == 1:
+                return ast.copy_location(ast.Constant(value.numerator), node)
+            return ast.copy_location(
+                ast.BinOp(
+                    left=ast.Constant(value.numerator),
+                    op=ast.Div(),
+                    right=ast.Constant(value.denominator),
+                ),
+                node,
+            )
+
+    rewritten = CanonicalDecimal().visit(tree)
+    if not isinstance(rewritten, ast.Expression):  # pragma: no cover - transformer contract
+        raise ExternalCreativityError("candidate decimal canonicalization changed its root")
+    return ast.fix_missing_locations(rewritten)
+
+
 def _canonical_typed_arithmetic(expression: Any, aliases: Sequence[str], label: str) -> str:
     if not isinstance(expression, str) or not expression.strip():
         raise ExternalCreativityError(f"{label} is not an arithmetic string")
     normalized = expression.strip().replace("^", "**")
     _safe_expression(normalized, aliases)
     try:
-        return ast.unparse(ast.parse(normalized, mode="eval").body)
+        tree = ast.parse(normalized, mode="eval")
+        canonical = ast.unparse(_canonical_decimal_ast(normalized, tree).body)
+        _safe_expression(canonical, aliases)
+        return canonical
     except SyntaxError as error:  # pragma: no cover - _safe_expression already guards this
         raise ExternalCreativityError(f"{label} is not valid arithmetic") from error
 
@@ -1918,7 +2067,9 @@ def _claude_candidate(
             normalization = "canonical_typed_json"
         elif representation == "piecewise_relation":
             expression, _ = _parse_piecewise_spec(expression, benchmark.aliases)
-            normalization = "canonical_typed_json+ordered_exact_predicates"
+            normalization = (
+                "canonical_typed_json+ordered_exact_predicates+exact_extended_arithmetic"
+            )
         elif representation == "transform_relation":
             expression, _ = _parse_transform_spec(expression, benchmark.aliases)
             normalization = "canonical_typed_json+exact_shift_stencil"
@@ -2155,6 +2306,34 @@ def _mutate_arithmetic_same_shape(
             operators = (ast.Add, ast.Sub, ast.Mult)
             operator = rng.choice(operators)()
             return ast.BinOp(left=mutate(node.left), op=operator, right=mutate(node.right))
+        if isinstance(node, ast.Call):
+            if not isinstance(node.func, ast.Name) or len(node.args) != 1 or node.keywords:
+                raise ExternalCreativityError("random-control call left the arithmetic DSL")
+            return ast.Call(
+                func=ast.Name(id=node.func.id, ctx=ast.Load()),
+                args=[mutate(node.args[0])],
+                keywords=[],
+            )
+        if isinstance(node, ast.Compare):
+            if len(node.ops) != 1 or len(node.comparators) != 1:
+                raise ExternalCreativityError(
+                    "random-control comparison left the arithmetic DSL"
+                )
+            return ast.Compare(
+                left=mutate(node.left),
+                ops=[type(node.ops[0])()],
+                comparators=[mutate(node.comparators[0])],
+            )
+        if isinstance(node, ast.IfExp):
+            if not isinstance(node.test, ast.Compare):
+                raise ExternalCreativityError(
+                    "random-control conditional left the arithmetic DSL"
+                )
+            return ast.IfExp(
+                test=mutate(node.test),
+                body=mutate(node.body),
+                orelse=mutate(node.orelse),
+            )
         raise ExternalCreativityError("random-control mutation left the arithmetic DSL")
 
     expected = _arithmetic_tree_stats(expression, aliases)

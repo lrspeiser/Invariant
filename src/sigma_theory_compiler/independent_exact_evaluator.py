@@ -8,12 +8,43 @@ arithmetic grammar using only Python's AST and :class:`fractions.Fraction`.
 from __future__ import annotations
 
 import ast
+import re
 from collections.abc import Mapping, Sequence
+from decimal import Decimal, InvalidOperation
 from fractions import Fraction
 
 
 class IndependentEvaluationError(ValueError):
     """Raised when an expression escapes the independent arithmetic grammar."""
+
+
+_DECIMAL_LITERAL = re.compile(
+    r"(?:[0-9]+(?:\.[0-9]*)?|\.[0-9]+)(?:[eE][+-]?[0-9]+)?\Z"
+)
+_MAX_EXACT_LITERAL = 10**12
+
+
+def _decimal_fraction(source: str, node: ast.Constant) -> Fraction:
+    text = ast.get_source_segment(source, node)
+    if text is None or _DECIMAL_LITERAL.fullmatch(text) is None:
+        raise IndependentEvaluationError("decimal literal is not canonical")
+    try:
+        value = Fraction(Decimal(text))
+    except (InvalidOperation, ValueError, OverflowError) as error:
+        raise IndependentEvaluationError("decimal literal is not finite") from error
+    if abs(value.numerator) > _MAX_EXACT_LITERAL or value.denominator > _MAX_EXACT_LITERAL:
+        raise IndependentEvaluationError("exact literal exceeds the coefficient budget")
+    return value
+
+
+def _round_half_even(value: Fraction) -> Fraction:
+    lower = value.numerator // value.denominator
+    remainder = value - lower
+    if remainder < Fraction(1, 2):
+        return Fraction(lower)
+    if remainder > Fraction(1, 2):
+        return Fraction(lower + 1)
+    return Fraction(lower if lower % 2 == 0 else lower + 1)
 
 
 def _integer_constant(node: ast.AST) -> int:
@@ -39,6 +70,26 @@ def evaluate_expression(expression: str, variables: Mapping[str, Fraction]) -> F
     except (SyntaxError, ValueError) as error:
         raise IndependentEvaluationError("expression is not valid arithmetic syntax") from error
 
+    def compare(node: ast.Compare) -> bool:
+        if len(node.ops) != 1 or len(node.comparators) != 1:
+            raise IndependentEvaluationError("only one exact comparison is admitted")
+        left = visit(node.left)
+        right = visit(node.comparators[0])
+        operator = node.ops[0]
+        if isinstance(operator, ast.Lt):
+            return left < right
+        if isinstance(operator, ast.LtE):
+            return left <= right
+        if isinstance(operator, ast.Eq):
+            return left == right
+        if isinstance(operator, ast.NotEq):
+            return left != right
+        if isinstance(operator, ast.GtE):
+            return left >= right
+        if isinstance(operator, ast.Gt):
+            return left > right
+        raise IndependentEvaluationError("comparison operator is unsupported")
+
     def visit(node: ast.AST) -> Fraction:
         if isinstance(node, ast.Expression):
             return visit(node.body)
@@ -49,8 +100,12 @@ def evaluate_expression(expression: str, variables: Mapping[str, Fraction]) -> F
                 raise IndependentEvaluationError("expression uses an unknown variable") from error
         if isinstance(node, ast.Constant):
             if isinstance(node.value, int) and not isinstance(node.value, bool):
+                if abs(node.value) > _MAX_EXACT_LITERAL:
+                    raise IndependentEvaluationError("integer literal exceeds the coefficient budget")
                 return Fraction(node.value)
-            raise IndependentEvaluationError("only integer constants are admitted")
+            if isinstance(node.value, float):
+                return _decimal_fraction(expression, node)
+            raise IndependentEvaluationError("only exact numeric constants are admitted")
         if isinstance(node, ast.UnaryOp) and isinstance(node.op, (ast.UAdd, ast.USub)):
             value = visit(node.operand)
             return value if isinstance(node.op, ast.UAdd) else -value
@@ -77,6 +132,31 @@ def evaluate_expression(expression: str, variables: Mapping[str, Fraction]) -> F
                 if right == 0:
                     raise IndependentEvaluationError("division by zero")
                 return left / right
+            if isinstance(node.op, ast.FloorDiv):
+                if right == 0:
+                    raise IndependentEvaluationError("floor division by zero")
+                return Fraction(left // right)
+            if isinstance(node.op, ast.Mod):
+                if right == 0:
+                    raise IndependentEvaluationError("modulo by zero")
+                return left % right
+        if isinstance(node, ast.Call):
+            if (
+                not isinstance(node.func, ast.Name)
+                or node.keywords
+                or len(node.args) != 1
+            ):
+                raise IndependentEvaluationError("function call is outside the exact DSL")
+            value = visit(node.args[0])
+            if node.func.id == "floor":
+                return Fraction(value.numerator // value.denominator)
+            if node.func.id == "round":
+                return _round_half_even(value)
+            raise IndependentEvaluationError("function is outside the exact DSL")
+        if isinstance(node, ast.IfExp):
+            if not isinstance(node.test, ast.Compare):
+                raise IndependentEvaluationError("conditional test must be one exact comparison")
+            return visit(node.body if compare(node.test) else node.orelse)
         raise IndependentEvaluationError("expression contains an unsupported syntax node")
 
     return visit(root)

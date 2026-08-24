@@ -51,6 +51,7 @@ from .external_structured_benchmarks import load_stored_pack
 from .idea_lineage import build_idea_archive, validate_idea_archive
 from .independent_proof_plan_search import validate_proof_plan_search
 from .learned_invariant_discovery import validate_receipt as validate_learned_invariants
+from .retained_piecewise_replay import validate_receipt as validate_piecewise_replay
 from .serious_claim_verification_ladder import (
     REQUIRED_STAGES as SERIOUS_CLAIM_STAGES,
 )
@@ -77,8 +78,8 @@ EXTERNAL_CAMPAIGN_SOURCE_PATH = (
     "src/sigma_theory_compiler/external_creativity_validation.py"
 )
 PROMPT_CONTEXT_SOURCE_PATH = "src/sigma_theory_compiler/core_creative_prompt_context.py"
-SCHEMA_VERSION = "invariant-core-creative-discovery-runtime-2.6"
-CONFIG_SCHEMA = "invariant-core-creative-discovery-config-2.6"
+SCHEMA_VERSION = "invariant-core-creative-discovery-runtime-2.7"
+CONFIG_SCHEMA = "invariant-core-creative-discovery-config-2.7"
 
 
 class CoreCreativeDiscoveryError(ValueError):
@@ -198,6 +199,7 @@ def _load_config(root: Path) -> dict[str, Any]:
         "learned_invariant_discovery_receipt",
         "multi_host_reproduction_receipt",
         "proof_plan_search_receipt",
+        "retained_piecewise_replay_receipt",
         "serious_claim_verification_ladder_receipt",
         "state_pair_invariant_discovery_receipt",
         "symmetry_dimension_derivation_receipt",
@@ -223,6 +225,7 @@ def _load_bound_receipts(
     dict[str, Any],
     dict[str, Any],
     dict[str, Any],
+    dict[str, Any],
 ]:
     components = config["components"]
     dataset_path = root / components["dataset_challenge_receipt"]
@@ -232,6 +235,7 @@ def _load_bound_receipts(
     multi_host_path = root / components["multi_host_reproduction_receipt"]
     expanded_grammar_path = root / components["expanded_typed_grammar_receipt"]
     proof_plan_path = root / components["proof_plan_search_receipt"]
+    piecewise_replay_path = root / components["retained_piecewise_replay_receipt"]
     serious_claim_ladder_path = root / components["serious_claim_verification_ladder_receipt"]
     symmetry_dimension_path = root / components["symmetry_dimension_derivation_receipt"]
     component_knockout_path = root / components["component_knockout_preflight_receipt"]
@@ -247,6 +251,7 @@ def _load_bound_receipts(
     multi_host = json.loads(multi_host_path.read_text(encoding="utf-8"))
     expanded_grammar = json.loads(expanded_grammar_path.read_text(encoding="utf-8"))
     proof_plan_search = json.loads(proof_plan_path.read_text(encoding="utf-8"))
+    piecewise_replay = json.loads(piecewise_replay_path.read_text(encoding="utf-8"))
     serious_claim_ladder = json.loads(serious_claim_ladder_path.read_text(encoding="utf-8"))
     symmetry_dimension = json.loads(symmetry_dimension_path.read_text(encoding="utf-8"))
     component_knockout = json.loads(component_knockout_path.read_text(encoding="utf-8"))
@@ -261,6 +266,7 @@ def _load_bound_receipts(
     validate_multi_host_receipt(multi_host)
     validate_expanded_grammar_receipt(expanded_grammar, root)
     validate_proof_plan_search(proof_plan_search, root)
+    validate_piecewise_replay(piecewise_replay, root)
     validate_serious_claim_ladder(serious_claim_ladder, root)
     validate_symmetry_dimension_derivation(symmetry_dimension, root)
     validate_component_knockout_preflight(component_knockout, root)
@@ -276,6 +282,7 @@ def _load_bound_receipts(
         external_structured,
         symmetry_dimension,
         proof_plan_search,
+        piecewise_replay,
         serious_claim_ladder,
         component_knockout,
         learned_invariants,
@@ -425,6 +432,7 @@ def run_core(
         external_structured_benchmarks,
         symmetry_dimension_derivation,
         proof_plan_search,
+        piecewise_replay,
         serious_claim_ladder,
         component_knockout,
         learned_invariants,
@@ -563,6 +571,10 @@ def run_core(
                 "content_sha256": proof_plan_search["content_sha256"],
                 "path": config["components"]["proof_plan_search_receipt"],
             },
+            "retained_piecewise_replay_receipt": {
+                "content_sha256": piecewise_replay["content_sha256"],
+                "path": config["components"]["retained_piecewise_replay_receipt"],
+            },
             "serious_claim_verification_ladder_receipt": {
                 "content_sha256": serious_claim_ladder["content_sha256"],
                 "path": config["components"]["serious_claim_verification_ladder_receipt"],
@@ -593,6 +605,7 @@ def run_core(
         "uncertain_invariant_discovery": uncertain_invariants,
         "symmetry_dimension_derivation": symmetry_dimension_derivation,
         "proof_plan_search": proof_plan_search,
+        "retained_piecewise_replay": piecewise_replay,
         "discovery_runtime": {
             "declarative_extensions_admitted": len(
                 operational["extension_admission"]["admitted_declarations"]
@@ -740,6 +753,25 @@ def run_core(
                 "positive_routes_closed"
             ],
             "independent_proof_plan_status": proof_plan_search["summary"]["status"],
+            "retained_piecewise_admitted": piecewise_replay["summary"][
+                "admitted_by_current_executor"
+            ],
+            "retained_piecewise_exact_agreements": piecewise_replay["summary"][
+                "exact_primary_independent_agreements"
+            ],
+            "retained_piecewise_origin_counts": piecewise_replay["summary"][
+                "llm_self_assessed_origin_counts"
+            ],
+            "retained_piecewise_resource_matched_controls": piecewise_replay["summary"][
+                "resource_matched_controls"
+            ],
+            "retained_piecewise_replay_status": piecewise_replay["summary"]["status"],
+            "retained_piecewise_train_exact_holdout_failed": piecewise_replay["summary"][
+                "train_exact_holdout_failed"
+            ],
+            "retained_piecewise_zero_holdout_bounded_unknown": piecewise_replay["summary"][
+                "zero_holdout_loss_bounded_unknown"
+            ],
             "component_knockout_experiments_preflighted": component_knockout["design"][
                 "experiments"
             ],
@@ -831,6 +863,7 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
             "invariant-core-creative-discovery-runtime-2.3",
             "invariant-core-creative-discovery-runtime-2.4",
             "invariant-core-creative-discovery-runtime-2.5",
+            "invariant-core-creative-discovery-runtime-2.6",
             SCHEMA_VERSION,
         }
         or previous.get("app_id") != "invariant.core-creative-discovery"
@@ -867,6 +900,7 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
         external_structured_benchmarks,
         symmetry_dimension_derivation,
         proof_plan_search,
+        piecewise_replay,
         serious_claim_ladder,
         component_knockout,
         learned_invariants,
@@ -949,6 +983,10 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
             "content_sha256": proof_plan_search["content_sha256"],
             "path": config["components"]["proof_plan_search_receipt"],
         },
+        "retained_piecewise_replay_receipt": {
+            "content_sha256": piecewise_replay["content_sha256"],
+            "path": config["components"]["retained_piecewise_replay_receipt"],
+        },
         "serious_claim_verification_ladder_receipt": {
             "content_sha256": serious_claim_ladder["content_sha256"],
             "path": config["components"]["serious_claim_verification_ladder_receipt"],
@@ -963,6 +1001,7 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
     value["uncertain_invariant_discovery"] = uncertain_invariants
     value["symmetry_dimension_derivation"] = symmetry_dimension_derivation
     value["proof_plan_search"] = proof_plan_search
+    value["retained_piecewise_replay"] = piecewise_replay
     value["llm_prompt_context"] = _prompt_context_runtime_evidence(
         creative_prompt_context, runtime["evidence"]
     )
@@ -1097,6 +1136,25 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
         "uncertain_invariant_unit_uncertainty_controls": uncertain_invariants["summary"][
             "unit_uncertainty_controls"
         ],
+        "retained_piecewise_admitted": piecewise_replay["summary"][
+            "admitted_by_current_executor"
+        ],
+        "retained_piecewise_exact_agreements": piecewise_replay["summary"][
+            "exact_primary_independent_agreements"
+        ],
+        "retained_piecewise_origin_counts": piecewise_replay["summary"][
+            "llm_self_assessed_origin_counts"
+        ],
+        "retained_piecewise_resource_matched_controls": piecewise_replay["summary"][
+            "resource_matched_controls"
+        ],
+        "retained_piecewise_replay_status": piecewise_replay["summary"]["status"],
+        "retained_piecewise_train_exact_holdout_failed": piecewise_replay["summary"][
+            "train_exact_holdout_failed"
+        ],
+        "retained_piecewise_zero_holdout_bounded_unknown": piecewise_replay["summary"][
+            "zero_holdout_loss_bounded_unknown"
+        ],
     }
     value["verification"] = {
         "backends_required_for_serious_claim": config["release_policy"][
@@ -1193,6 +1251,9 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
     ) is not context_bound:
         raise CoreCreativeDiscoveryError("core authenticated prompt context release gate changed")
     validate_creative_expansion(value.get("creative_expansion", {}), proof_plan_search)
+    validate_piecewise_replay(
+        value.get("retained_piecewise_replay", {}), root or Path.cwd()
+    )
     validate_dataset_challenges(value.get("dataset_challenges", {}), root)
     validate_external_dataset_challenges(value.get("external_dataset_challenges", {}), root)
     validate_symmetry_dimension_derivation(
@@ -1303,6 +1364,15 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
         or discovery.get("independent_proof_plan_routes_closed") != 6
         or discovery.get("independent_proof_plan_mutations_rejected") != 6
         or discovery.get("independent_proof_plan_status") != "PASS_INDEPENDENT_PROOF_PLAN_SEARCH"
+        or discovery.get("retained_piecewise_admitted") != 9
+        or discovery.get("retained_piecewise_exact_agreements") != 9
+        or discovery.get("retained_piecewise_origin_counts")
+        != {"cross_domain_synthesis": 1, "known_rewrite": 1, "uncertain": 7}
+        or discovery.get("retained_piecewise_resource_matched_controls") != 9
+        or discovery.get("retained_piecewise_replay_status")
+        != "PASS_RETAINED_PIECEWISE_REPLAY"
+        or discovery.get("retained_piecewise_train_exact_holdout_failed") != 1
+        or discovery.get("retained_piecewise_zero_holdout_bounded_unknown") != 0
         or discovery.get("typed_formula_kinds")
         != [
             "finite_product",
@@ -1373,6 +1443,7 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
             "learned_invariant_discovery_receipt",
             "multi_host_reproduction_receipt",
             "proof_plan_search_receipt",
+            "retained_piecewise_replay_receipt",
             "serious_claim_verification_ladder_receipt",
             "state_pair_invariant_discovery_receipt",
             "symmetry_dimension_derivation_receipt",
@@ -1401,6 +1472,8 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
                     )
             if key == "proof_plan_search_receipt":
                 validate_proof_plan_search(bound, root)
+            if key == "retained_piecewise_replay_receipt":
+                validate_piecewise_replay(bound, root)
             if key == "serious_claim_verification_ladder_receipt":
                 validate_serious_claim_ladder(bound, root)
             if key == "symmetry_dimension_derivation_receipt":

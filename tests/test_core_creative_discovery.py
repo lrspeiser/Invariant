@@ -192,11 +192,12 @@ def test_core_run_requires_and_sanitizes_live_claude(
     external_structured_benchmarks = bound_receipts[5]
     symmetry_dimension_derivation = bound_receipts[6]
     proof_plan_search = bound_receipts[7]
-    serious_claim_ladder = bound_receipts[8]
-    component_knockout = bound_receipts[9]
-    learned_invariants = bound_receipts[10]
-    state_pair_invariants = bound_receipts[11]
-    uncertain_invariants = bound_receipts[12]
+    piecewise_replay = bound_receipts[8]
+    serious_claim_ladder = bound_receipts[9]
+    component_knockout = bound_receipts[10]
+    learned_invariants = bound_receipts[11]
+    state_pair_invariants = bound_receipts[12]
+    uncertain_invariants = bound_receipts[13]
     monkeypatch.setattr(
         C,
         "_load_bound_receipts",
@@ -209,6 +210,7 @@ def test_core_run_requires_and_sanitizes_live_claude(
             external_structured_benchmarks,
             symmetry_dimension_derivation,
             proof_plan_search,
+            piecewise_replay,
             serious_claim_ladder,
             component_knockout,
             learned_invariants,
@@ -389,6 +391,15 @@ def test_core_run_requires_and_sanitizes_live_claude(
     assert receipt["discovery_runtime"]["uncertain_invariant_unit_uncertainty_controls"] == 1
     assert receipt["discovery_runtime"]["independent_proof_plan_routes_closed"] == 6
     assert receipt["discovery_runtime"]["independent_proof_plan_mutations_rejected"] == 6
+    assert receipt["discovery_runtime"]["retained_piecewise_admitted"] == 9
+    assert receipt["discovery_runtime"]["retained_piecewise_exact_agreements"] == 9
+    assert receipt["discovery_runtime"]["retained_piecewise_resource_matched_controls"] == 9
+    assert (
+        receipt["discovery_runtime"]["retained_piecewise_replay_status"]
+        == "PASS_RETAINED_PIECEWISE_REPLAY"
+    )
+    assert receipt["discovery_runtime"]["retained_piecewise_train_exact_holdout_failed"] == 1
+    assert receipt["discovery_runtime"]["retained_piecewise_zero_holdout_bounded_unknown"] == 0
     assert receipt["discovery_runtime"]["component_knockout_experiments_preflighted"] == 4
     assert receipt["discovery_runtime"]["component_knockout_scheduled_slots"] == 384
     assert receipt["discovery_runtime"]["component_knockout_live_runs_complete"] is False

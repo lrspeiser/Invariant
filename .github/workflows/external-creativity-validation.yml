@@ -52,6 +52,7 @@ on:
       - "src/sigma_theory_compiler/expanded_math_*.py"
       - "src/sigma_theory_compiler/independent_exact_evaluator.py"
       - "src/sigma_theory_compiler/independent_proof_plan_search.py"
+      - "src/sigma_theory_compiler/retained_piecewise_replay.py"
       - "src/sigma_theory_compiler/serious_claim_verification_ladder.py"
       - "src/sigma_theory_compiler/math_canonicalizer.py"
       - "src/sigma_theory_compiler/math_expression_ir.py"
@@ -78,6 +79,7 @@ on:
       - "tests/test_expanded_math_grammar.py"
       - "tests/test_independent_exact_evaluator.py"
       - "tests/test_independent_proof_plan_search.py"
+      - "tests/test_retained_piecewise_replay.py"
       - "tests/test_serious_claim_verification_ladder.py"
       - "tests/test_rotating_external_benchmarks.py"
       - "runs/math/claim-specific-prior-art/**"
@@ -94,6 +96,7 @@ on:
       - "runs/math/uncertain-invariant-discovery/**"
       - "runs/math/expanded-typed-grammar/**"
       - "runs/math/independent-proof-plan-search/**"
+      - "runs/math/retained-piecewise-replay/**"
       - "runs/math/serious-claim-verification-ladder/**"
       - "runs/math/external-creativity-validation/**"
       - "runs/math/rotating-external-benchmarks/**"
@@ -149,6 +152,7 @@ on:
       - "src/sigma_theory_compiler/expanded_math_*.py"
       - "src/sigma_theory_compiler/independent_exact_evaluator.py"
       - "src/sigma_theory_compiler/independent_proof_plan_search.py"
+      - "src/sigma_theory_compiler/retained_piecewise_replay.py"
       - "src/sigma_theory_compiler/serious_claim_verification_ladder.py"
       - "src/sigma_theory_compiler/math_canonicalizer.py"
       - "src/sigma_theory_compiler/math_expression_ir.py"
@@ -175,6 +179,7 @@ on:
       - "tests/test_expanded_math_grammar.py"
       - "tests/test_independent_exact_evaluator.py"
       - "tests/test_independent_proof_plan_search.py"
+      - "tests/test_retained_piecewise_replay.py"
       - "tests/test_serious_claim_verification_ladder.py"
       - "tests/test_rotating_external_benchmarks.py"
       - "runs/math/claim-specific-prior-art/**"
@@ -191,6 +196,7 @@ on:
       - "runs/math/uncertain-invariant-discovery/**"
       - "runs/math/expanded-typed-grammar/**"
       - "runs/math/independent-proof-plan-search/**"
+      - "runs/math/retained-piecewise-replay/**"
       - "runs/math/serious-claim-verification-ladder/**"
       - "runs/math/external-creativity-validation/**"
       - "runs/math/rotating-external-benchmarks/**"
@@ -220,6 +226,7 @@ jobs:
           tests/test_claude_creativity_api.py
           tests/test_independent_exact_evaluator.py
           tests/test_independent_proof_plan_search.py
+          tests/test_retained_piecewise_replay.py
           tests/test_serious_claim_verification_ladder.py
           tests/test_external_creativity_validation.py
           tests/test_external_claude_transport.py
@@ -287,6 +294,10 @@ jobs:
           python -m sigma_theory_compiler.independent_proof_plan_search validate
           --root .
           --receipt runs/math/independent-proof-plan-search/receipt.json
+      - run: >-
+          python -m sigma_theory_compiler.retained_piecewise_replay validate
+          --root .
+          --receipt runs/math/retained-piecewise-replay/receipt.json
       - run: >-
           python -m sigma_theory_compiler.serious_claim_verification_ladder validate
           --root .
