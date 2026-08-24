@@ -273,6 +273,7 @@ jobs:
           tests/test_core_creative_prompt_context.py
           tests/test_core_creative_discovery.py
           tests/test_core_llm_health.py
+          tests/test_level5_success_admission.py
           tests/test_expanded_math_grammar.py
           tests/test_creative_expansion.py
           tests/test_creativity_ablation.py
@@ -376,6 +377,9 @@ jobs:
           python -m sigma_theory_compiler.core_creative_discovery validate
           --root .
           --receipt runs/math/core-creative-discovery/live-runtime.json
+      - run: >-
+          python -m sigma_theory_compiler.level5_success_admission validate
+          --root .
       - run: >-
           python -m sigma_theory_compiler.core_creative_discovery validate-health
           --root .
