@@ -1231,10 +1231,19 @@ The newest authenticated eight-call run used 86,772 tokens and retained all 25 i
 executable hypotheses, scored 5 candidates, and measured 3 behavioral plus 5 proof-mechanism
 contributions beyond the deterministic portfolio. Claude organically proposed nine piecewise
 branches: 1 self-labeled known rewrite, 1 cross-domain synthesis, and 7 uncertain ideas. All nine
-remain in lineage. None executed in this specimen because their arithmetic used parity `%`, floor
-division, heuristic rounding, or floating coefficients outside the exact rational DSL. That is an
-observed compiler gap, not a reason to discard the branches; exact bounded discrete operators are
-the next repair target.
+remain in lineage. The current exact DSL now gives `%`, `//`, `floor`, ties-to-even `round`, finite
+decimal-to-rational canonicalization, and exact arithmetic conditionals independent SymPy and
+Python-AST/`Fraction` semantics. A credential-free replay of the retained lineage therefore admits
+all 9/9 proposals without another provider call; both evaluators agree on every sealed row and all
+nine random controls exactly match grammar depth, deterministic operation count, and verifier
+budget. Two proposals fit all training rows, but the sealed holdout rejects one; only the
+self-labeled known rewrite has zero holdout loss, and no bounded-unknown proposal does. Execution
+therefore expands the creative tree while still exposing overfit rather than silently promoting it.
+
+```powershell
+sigma-replay-piecewise validate --root . `
+  --receipt runs/math/retained-piecewise-replay/receipt.json
+```
 
 The core also binds a sealed executable dataset-control receipt. Exact rational replay passes four
 positive controls and rejects four mutations: crossed `do(...)` rows recover a constant treatment

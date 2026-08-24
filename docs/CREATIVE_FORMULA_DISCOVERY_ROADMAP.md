@@ -48,9 +48,13 @@
   prediction is emitted. Positive, false-claim, malformed, safe-alias-replay, and exactly matched
   random-control tests pass.
 - The current live run organically produced nine piecewise proposals. All nine are retained with
-  origin labels, but none executed because they use parity, floor division, heuristic rounding, or
-  floating coefficients outside the exact rational slice. This turns exact bounded discrete
-  operators into an evidence-selected next compiler target rather than pruning the ideas.
+  origin labels. The executor now gives parity/modulo, floor division, `floor`, ties-to-even
+  `round`, finite decimal-to-rational conversion, and exact arithmetic conditionals two independent
+  interpretations. A no-network replay admits all nine, obtains primary/independent agreement on
+  every sealed row, and constructs nine exactly resource-matched controls. Two branches fit their
+  training rows exactly; the holdout rejects one, leaving only the known-rewrite control at zero
+  holdout loss and no bounded-unknown success. Retention enabled a compiler repair and a stronger
+  falsification result without treating failure as grounds to delete the idea.
 - Four synthetic dataset challenges are now exact executable controls rather than metadata checks.
   They pass crossed intervention, interval-noise, covariate-shift, and observational
   unidentifiability positives while rejecting a wrong treatment effect, an interval-external model,
@@ -354,8 +358,9 @@ This is evidence of bounded rediscovery, not evidence of mathematical novelty.
 
 ## Next executable milestones
 
-1. Add exact bounded modulo and floor-division semantics to the piecewise slice, then replay the nine
-   retained live branches without another provider call; continue to reject floats and heuristic rounding.
+1. Feed the nine now-executable retained branches through counterexample-guided repair and
+   cross-recombination while preserving the original sealed predictions, then evaluate repaired
+   descendants on a fresh sealed rotation with the same exact resource controls.
 2. Obtain two named blinded reviewers for the clean 353-branch packet, seal their complete forms,
    and score the bounded rotation; record disagreements before unblinding system identity.
 3. Run the preregistered old-vs-new matched-control comparison and, after explicit approval, each

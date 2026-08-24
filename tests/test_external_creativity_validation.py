@@ -359,7 +359,9 @@ def test_piecewise_relation_has_ordered_exact_boundary_semantics() -> None:
         benchmark, _hypothesis("piecewise_relation", expression)
     )
     assert candidate is not None
-    assert record["normalization"] == "canonical_typed_json+ordered_exact_predicates"
+    assert record["normalization"] == (
+        "canonical_typed_json+ordered_exact_predicates+exact_extended_arithmetic"
+    )
     rows = tuple(
         E.Observation((value,), Fraction(0))
         for value in (Fraction(-3, 2), Fraction(-1, 2), Fraction(0), Fraction(1, 2))
@@ -367,6 +369,99 @@ def test_piecewise_relation_has_ordered_exact_boundary_semantics() -> None:
     expected = tuple(Fraction(item) for item in (Fraction(3, 2), Fraction(1, 2), 0, Fraction(1, 2)))
     assert E.predict(candidate, benchmark, rows) == expected
     assert E.independently_predict(candidate, benchmark, rows) == expected
+
+
+def test_live_style_modulo_piecewise_replays_with_independent_agreement() -> None:
+    _, benchmarks = E.load_public_benchmarks(ROOT)
+    benchmark = next(item for item in benchmarks if len(item.aliases) == 1)
+    expression = json.dumps(
+        {
+            "branches": [
+                {
+                    "condition": {"comparator": "lt", "left": "x0", "right": "8"},
+                    "expression": "x0",
+                },
+                {
+                    "condition": {"comparator": "eq", "left": "x0 % 2", "right": "0"},
+                    "expression": "16 - x0 / 2",
+                },
+                {
+                    "condition": {"comparator": "eq", "left": "x0 % 2", "right": "1"},
+                    "expression": "(x0 + 33) / 2",
+                },
+            ],
+            "default_expression": "0",
+        }
+    )
+    candidate, record = E._claude_candidate(
+        benchmark,
+        _hypothesis("piecewise_relation", expression, origin="cross_domain_synthesis"),
+    )
+    assert candidate is not None
+    assert record["status"] == "ADMITTED_EXECUTABLE"
+    assert record["llm_self_assessed_origin"] == "cross_domain_synthesis"
+    rows = tuple(
+        E.Observation((Fraction(value),), Fraction(0)) for value in (0, 7, 8, 9, 10)
+    )
+    expected = tuple(Fraction(value) for value in (0, 7, 12, 21, 11))
+    assert E.predict(candidate, benchmark, rows) == expected
+    assert E.independently_predict(candidate, benchmark, rows) == expected
+
+
+def test_live_style_floor_conditional_and_decimals_are_exactly_executable() -> None:
+    _, benchmarks = E.load_public_benchmarks(ROOT)
+    benchmark = next(item for item in benchmarks if len(item.aliases) == 1)
+    floor_expression = json.dumps(
+        {
+            "branches": [
+                {
+                    "condition": {"comparator": "eq", "left": "x0 % 2", "right": "0"},
+                    "expression": (
+                        "(x0 // 2) + (x0 // 2) * ((x0 // 2) + 1) // 2 "
+                        "if x0 > 0 else 0"
+                    ),
+                },
+                {
+                    "condition": {"comparator": "eq", "left": "x0 % 2", "right": "1"},
+                    "expression": (
+                        "(x0 + 1) // 2 + ((x0 - 1) // 2) * "
+                        "(((x0 - 1) // 2) + 1) // 2"
+                    ),
+                },
+            ],
+            "default_expression": "0",
+        }
+    )
+    floor_candidate, _ = E._claude_candidate(
+        benchmark, _hypothesis("piecewise_relation", floor_expression, origin="uncertain")
+    )
+    assert floor_candidate is not None
+    rows = tuple(E.Observation((Fraction(value),), Fraction(0)) for value in range(6))
+    expected = tuple(Fraction(value) for value in (0, 1, 2, 3, 5, 6))
+    assert E.predict(floor_candidate, benchmark, rows) == expected
+    assert E.independently_predict(floor_candidate, benchmark, rows) == expected
+
+    rounded_expression = json.dumps(
+        {
+            "branches": [
+                {
+                    "condition": {"comparator": "le", "left": "x0", "right": "3"},
+                    "expression": "x0 + 1",
+                }
+            ],
+            "default_expression": "round(0.0833*x0**3 - 0.75*x0**2 + 3.1667*x0 - 2)",
+        }
+    )
+    rounded_candidate, _ = E._claude_candidate(
+        benchmark, _hypothesis("piecewise_relation", rounded_expression, origin="uncertain")
+    )
+    assert rounded_candidate is not None
+    stored_default = json.loads(rounded_candidate.expression)["default_expression"]
+    assert "." not in stored_default
+    assert "/" in stored_default
+    assert E.predict(rounded_candidate, benchmark, rows) == E.independently_predict(
+        rounded_candidate, benchmark, rows
+    )
 
 
 def test_piecewise_undefined_predicate_fails_closed_in_both_evaluators() -> None:

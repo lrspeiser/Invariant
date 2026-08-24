@@ -780,7 +780,7 @@
     },
     "suite_id": "creativity-first-component-knockouts-001"
   },
-  "content_sha256": "1c62c523eb10aa7a3602a5c39a628b7811dc677b2b25e31b6030126aa96545a7",
+  "content_sha256": "fe92aabf9fdb09c9a3ae4df8444e4c1b07199aa43c691c56761066670b260a1f",
   "creative_expansion": {
     "content_sha256": "b2c28fc3901d77ffef3ae19e34ce0b087cd489e6a7b74df9454392422fe4a22d",
     "independent_proof_plans": [
@@ -6454,6 +6454,17 @@
       "case_split",
       "exact_factor_check"
     ],
+    "retained_piecewise_admitted": 9,
+    "retained_piecewise_exact_agreements": 9,
+    "retained_piecewise_origin_counts": {
+      "cross_domain_synthesis": 1,
+      "known_rewrite": 1,
+      "uncertain": 7
+    },
+    "retained_piecewise_replay_status": "PASS_RETAINED_PIECEWISE_REPLAY",
+    "retained_piecewise_resource_matched_controls": 9,
+    "retained_piecewise_train_exact_holdout_failed": 1,
+    "retained_piecewise_zero_holdout_bounded_unknown": 0,
     "state_pair_algebraically_independent_coordinates": 7,
     "state_pair_controls": 6,
     "state_pair_deployment_failures": 0,
@@ -17132,7 +17143,1821 @@
     "serious_claims_released": 0,
     "status": "BLOCKED_CALIBRATION_OR_HUMAN_REVIEW_INCOMPLETE"
   },
-  "schema_version": "invariant-core-creative-discovery-runtime-2.6",
+  "retained_piecewise_replay": {
+    "chronology": {
+      "new_provider_calls": 0,
+      "replayed_after_live_generation": true,
+      "source_outputs_are_credential_free": true,
+      "uses_retained_sanitized_lineage_only": true
+    },
+    "claim_boundary": {
+      "executor_admission_establishes_correctness": false,
+      "fit_establishes_general_formula": false,
+      "llm_origin_assessment_establishes_novelty": false,
+      "replay_establishes_proof": false
+    },
+    "content_sha256": "bb8c99a09244b374fe0c4afbf37b8989b804fc1eb08780e163832ce94bf84816",
+    "replay_budget": {
+      "maximum_evaluation_operations": 1000000,
+      "maximum_grammar_depth": 64,
+      "maximum_verifier_invocations": 5
+    },
+    "replays": [
+      {
+        "admission": {
+          "candidate_id": "candidate.d57de9e00449224d13bc423a",
+          "diagnostic": null,
+          "executable_representation": "piecewise_relation",
+          "hypothesis_id": "h3_linear_branches",
+          "llm_self_assessed_origin": "uncertain",
+          "normalization": "canonical_typed_json+ordered_exact_predicates+exact_extended_arithmetic",
+          "reason": "typed_expression_admitted",
+          "source_representation": "piecewise_relation",
+          "status": "ADMITTED_EXECUTABLE"
+        },
+        "benchmark_id": "external.authority-oeis-005132",
+        "execution": {
+          "behavior": {
+            "behavior_sha256": "dd8c6288c5223512c9a4ecaa12d995bfee31573716bffc4498153823d8791af9",
+            "proof_mechanism_sha256": "d85da752b5d6b2bb7bba64c4144d2f27f0f06fa5883a5f674498f187651718bb"
+          },
+          "candidate_id": "candidate.d57de9e00449224d13bc423a",
+          "candidate_resource_profile": {
+            "evaluation_runtime_budget_units": 962,
+            "grammar_depth": 8,
+            "verifier_invocation_budget": 2
+          },
+          "control_behavior": {
+            "behavior_sha256": "f0378f1231c7d29eacf7a786e7d559afac3eaf31838775f28da55926a70404da",
+            "proof_mechanism_sha256": "ed792dac050a1862118a3dd37408c3486ac48bcfe3db85e84a67279da2119be9"
+          },
+          "control_candidate_id": "candidate.1afcb5a3a061c8fb3cca652c",
+          "control_resource_profile": {
+            "evaluation_runtime_budget_units": 962,
+            "grammar_depth": 8,
+            "verifier_invocation_budget": 2
+          },
+          "holdout_loss": "119/4",
+          "independent_predictions": [
+            "0",
+            "1",
+            "3",
+            "6",
+            "6",
+            "22",
+            "6",
+            "23",
+            "6",
+            "24",
+            "6",
+            "25",
+            "6",
+            "26",
+            "6",
+            "27",
+            "6",
+            "28",
+            "6",
+            "29",
+            "6",
+            "30",
+            "6",
+            "31",
+            "6",
+            "32"
+          ],
+          "normalized_expression": "{\"branches\":[{\"condition\":{\"comparator\":\"lt\",\"left\":\"x0\",\"right\":\"4\"},\"expression\":\"x0 * (x0 + 1) / 2\"},{\"condition\":{\"comparator\":\"eq\",\"left\":\"x0 % 2\",\"right\":\"0\"},\"expression\":\"(x0 + 8 - x0) / 2 + 2\"},{\"condition\":{\"comparator\":\"eq\",\"left\":\"x0 % 2\",\"right\":\"1\"},\"expression\":\"(x0 + 39) / 2\"}],\"default_expression\":\"0\"}",
+          "primary_independent_exact_agreement": true,
+          "primary_predictions": [
+            "0",
+            "1",
+            "3",
+            "6",
+            "6",
+            "22",
+            "6",
+            "23",
+            "6",
+            "24",
+            "6",
+            "25",
+            "6",
+            "26",
+            "6",
+            "27",
+            "6",
+            "28",
+            "6",
+            "29",
+            "6",
+            "30",
+            "6",
+            "31",
+            "6",
+            "32"
+          ],
+          "proof_plan_search": {
+            "candidate_declared_plan": [
+              "Test odd branch: for x0>=9 odd, output = (x0+41)/2 gives x0=9->25? no 21",
+              "Refine coefficients"
+            ],
+            "plans": [
+              {
+                "applicable": true,
+                "estimated_cost": 1,
+                "plan": "exact_row_replay",
+                "purpose": "falsification"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 2,
+                "plan": "cas_normal_form",
+                "purpose": "symbolic_identity"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 3,
+                "plan": "smt_countermodel_search",
+                "purpose": "universal_polynomial_identity"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "interval_enclosure",
+                "purpose": "numerical_domain_check"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "induction_on_recurrence",
+                "purpose": "choose_and_test_an_induction_variable"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "invariant_strengthening",
+                "purpose": "search_for_a_preserved_auxiliary_statement"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "bijection_construction",
+                "purpose": "replace_algebra_with_structure_preserving_counting"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "minimal_counterexample_descent",
+                "purpose": "search_for_a_strictly_smaller_counterexample"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "transform_domain_identity",
+                "purpose": "move_between_sequence_and_generating_function_domains"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "contradiction_via_modular_obstruction",
+                "purpose": "derive_an_incompatible_residue_class"
+              },
+              {
+                "applicable": true,
+                "estimated_cost": 4,
+                "plan": "boundary_partition_analysis",
+                "purpose": "check_coverage_overlap_and_boundary_consistency"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 5,
+                "plan": "lean_kernel_bridge",
+                "purpose": "formula_specific_formal_check"
+              }
+            ],
+            "selected_route": [
+              "exact_row_replay",
+              "boundary_partition_analysis"
+            ],
+            "selection_rule": "applicable_routes_in_cost_order_capped_by_verifier_budget_with_lean_reserved"
+          },
+          "resource_profile_exact_match": true,
+          "train_loss": "32/9",
+          "undefined_rows": 0
+        },
+        "hypothesis_id": "h3_linear_branches",
+        "lineage_id": "idea.05f72359aeb003dc13c76f7b",
+        "llm_self_assessed_origin": "uncertain",
+        "original_retention_status": "RETAINED_ACTIVE",
+        "source_arithmetic_features": [
+          "exact_modulo"
+        ],
+        "source_blind_id": "blind.9a585452a85251ad240e",
+        "source_expression_sha256": "00599713a793cb09c22b41c0cd27830c9a48ed6186f4278a283622196fc6f760",
+        "target_kind": "bounded_unknown"
+      },
+      {
+        "admission": {
+          "candidate_id": "candidate.13a3a44da47819c1811e262f",
+          "diagnostic": null,
+          "executable_representation": "piecewise_relation",
+          "hypothesis_id": "h5_piecewise_exact_small",
+          "llm_self_assessed_origin": "uncertain",
+          "normalization": "canonical_typed_json+ordered_exact_predicates+exact_extended_arithmetic",
+          "reason": "typed_expression_admitted",
+          "source_representation": "piecewise_relation",
+          "status": "ADMITTED_EXECUTABLE"
+        },
+        "benchmark_id": "external.authority-oeis-002858",
+        "execution": {
+          "behavior": {
+            "behavior_sha256": "51e9aef63325ab3e41af74932b4d73d663460fd9b827b31904fb7465b132b44a",
+            "proof_mechanism_sha256": "e2ecb5444b7a3c1df9fe3c7ef89e257a6c71a79e4213d18368f2f50d3e918f01"
+          },
+          "candidate_id": "candidate.13a3a44da47819c1811e262f",
+          "candidate_resource_profile": {
+            "evaluation_runtime_budget_units": 1232,
+            "grammar_depth": 10,
+            "verifier_invocation_budget": 2
+          },
+          "control_behavior": {
+            "behavior_sha256": "e306d3b912ee74a04ba94d690ed4b79ecf55fc3738e335016615144b80e5dee6",
+            "proof_mechanism_sha256": "2e21e0d8410c652d580d0a4cdfee80b45dc79e45937a41cdab1eb3ffd603e4ae"
+          },
+          "control_candidate_id": "candidate.8c0bafc91ebd2c44a84e2743",
+          "control_resource_profile": {
+            "evaluation_runtime_budget_units": 1232,
+            "grammar_depth": 10,
+            "verifier_invocation_budget": 2
+          },
+          "holdout_loss": "111/4",
+          "independent_predictions": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "4",
+            "6",
+            "7",
+            "8",
+            "10",
+            "12",
+            "14",
+            "16",
+            "19",
+            "23",
+            "27",
+            "32",
+            "38",
+            "44",
+            "52",
+            "60",
+            "70",
+            "81",
+            "93",
+            "106",
+            "121",
+            "138",
+            "156",
+            "175"
+          ],
+          "normalized_expression": "{\"branches\":[{\"condition\":{\"comparator\":\"eq\",\"left\":\"x0\",\"right\":\"0\"},\"expression\":\"1\"},{\"condition\":{\"comparator\":\"eq\",\"left\":\"x0\",\"right\":\"1\"},\"expression\":\"2\"},{\"condition\":{\"comparator\":\"eq\",\"left\":\"x0\",\"right\":\"2\"},\"expression\":\"3\"},{\"condition\":{\"comparator\":\"eq\",\"left\":\"x0\",\"right\":\"3\"},\"expression\":\"4\"}],\"default_expression\":\"round(659 / 50000 * x0 ** 3 - 391 / 2000 * x0 ** 2 + 563 / 250 * x0 - 61 / 25)\"}",
+          "primary_independent_exact_agreement": true,
+          "primary_predictions": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "4",
+            "6",
+            "7",
+            "8",
+            "10",
+            "12",
+            "14",
+            "16",
+            "19",
+            "23",
+            "27",
+            "32",
+            "38",
+            "44",
+            "52",
+            "60",
+            "70",
+            "81",
+            "93",
+            "106",
+            "121",
+            "138",
+            "156",
+            "175"
+          ],
+          "proof_plan_search": {
+            "candidate_declared_plan": [
+              "Identify breakpoints in growth rate",
+              "Fit separate models for different regimes"
+            ],
+            "plans": [
+              {
+                "applicable": true,
+                "estimated_cost": 1,
+                "plan": "exact_row_replay",
+                "purpose": "falsification"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 2,
+                "plan": "cas_normal_form",
+                "purpose": "symbolic_identity"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 3,
+                "plan": "smt_countermodel_search",
+                "purpose": "universal_polynomial_identity"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "interval_enclosure",
+                "purpose": "numerical_domain_check"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "induction_on_recurrence",
+                "purpose": "choose_and_test_an_induction_variable"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "invariant_strengthening",
+                "purpose": "search_for_a_preserved_auxiliary_statement"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "bijection_construction",
+                "purpose": "replace_algebra_with_structure_preserving_counting"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "minimal_counterexample_descent",
+                "purpose": "search_for_a_strictly_smaller_counterexample"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "transform_domain_identity",
+                "purpose": "move_between_sequence_and_generating_function_domains"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "contradiction_via_modular_obstruction",
+                "purpose": "derive_an_incompatible_residue_class"
+              },
+              {
+                "applicable": true,
+                "estimated_cost": 4,
+                "plan": "boundary_partition_analysis",
+                "purpose": "check_coverage_overlap_and_boundary_consistency"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 5,
+                "plan": "lean_kernel_bridge",
+                "purpose": "formula_specific_formal_check"
+              }
+            ],
+            "selected_route": [
+              "exact_row_replay",
+              "boundary_partition_analysis"
+            ],
+            "selection_rule": "applicable_routes_in_cost_order_capped_by_verifier_budget_with_lean_reserved"
+          },
+          "resource_profile_exact_match": true,
+          "train_loss": "41/5",
+          "undefined_rows": 0
+        },
+        "hypothesis_id": "h5_piecewise_exact_small",
+        "lineage_id": "idea.08cb37b9e5a1a5f5d32a4335",
+        "llm_self_assessed_origin": "uncertain",
+        "original_retention_status": "RETAINED_ACTIVE",
+        "source_arithmetic_features": [
+          "exact_round_ties_to_even",
+          "decimal_to_rational"
+        ],
+        "source_blind_id": "blind.752590c2e9d4d5f51a63",
+        "source_expression_sha256": "3163e3cdaf4de9c78ad80dd71af97576007ae20c1706b34d024c4c6a2846d0e6",
+        "target_kind": "bounded_unknown"
+      },
+      {
+        "admission": {
+          "candidate_id": "candidate.42359c77dfc824dc9e8fb371",
+          "diagnostic": null,
+          "executable_representation": "piecewise_relation",
+          "hypothesis_id": "h8_segmented",
+          "llm_self_assessed_origin": "uncertain",
+          "normalization": "canonical_typed_json+ordered_exact_predicates+exact_extended_arithmetic",
+          "reason": "typed_expression_admitted",
+          "source_representation": "piecewise_relation",
+          "status": "ADMITTED_EXECUTABLE"
+        },
+        "benchmark_id": "external.authority-oeis-002858",
+        "execution": {
+          "behavior": {
+            "behavior_sha256": "15c9bff5e2c0d072ba9cdc02ff31608fde2396a80c30ff607eb899f9b9529f60",
+            "proof_mechanism_sha256": "b46fac425b351f1df41a773e7a4479cb4e12a86659b2512f2a8cbdf6fbc40438"
+          },
+          "candidate_id": "candidate.42359c77dfc824dc9e8fb371",
+          "candidate_resource_profile": {
+            "evaluation_runtime_budget_units": 2436,
+            "grammar_depth": 9,
+            "verifier_invocation_budget": 2
+          },
+          "control_behavior": {
+            "behavior_sha256": "fb4195e1b027fe12f33d3da2d58e9d432a9b998d40478f31b30e167456f66aef",
+            "proof_mechanism_sha256": "f025fd7a12c70d674b9040e9c2e4024eed3cf7389ef8d1d6199a2139adaa51b8"
+          },
+          "control_candidate_id": "candidate.8a0bfacd1a666082d14a6188",
+          "control_resource_profile": {
+            "evaluation_runtime_budget_units": 2436,
+            "grammar_depth": 9,
+            "verifier_invocation_budget": 2
+          },
+          "holdout_loss": "45",
+          "independent_predictions": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "7",
+            "10",
+            "14",
+            "19",
+            "25",
+            "32",
+            "28",
+            "34",
+            "40",
+            "48",
+            "57",
+            "66",
+            "62",
+            "69",
+            "76",
+            "85",
+            "94",
+            "105",
+            "116",
+            "127",
+            "140",
+            "153",
+            "166",
+            "181"
+          ],
+          "normalized_expression": "{\"branches\":[{\"condition\":{\"comparator\":\"le\",\"left\":\"x0\",\"right\":\"3\"},\"expression\":\"x0 + 1\"},{\"condition\":{\"comparator\":\"le\",\"left\":\"x0\",\"right\":\"9\"},\"expression\":\"round(1 / 2 * x0 ** 2 - 3 / 2 * x0 + 5)\"},{\"condition\":{\"comparator\":\"le\",\"left\":\"x0\",\"right\":\"15\"},\"expression\":\"round(417 / 1000 * x0 ** 2 - 11 / 4 * x0 + 1333 / 100)\"},{\"condition\":{\"comparator\":\"le\",\"left\":\"x0\",\"right\":\"19\"},\"expression\":\"round(3 / 8 * x0 ** 2 - 21 / 4 * x0 + 99 / 2)\"}],\"default_expression\":\"round(3 / 8 * x0 ** 2 - 21 / 4 * x0 + 99 / 2)\"}",
+          "primary_independent_exact_agreement": true,
+          "primary_predictions": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "7",
+            "10",
+            "14",
+            "19",
+            "25",
+            "32",
+            "28",
+            "34",
+            "40",
+            "48",
+            "57",
+            "66",
+            "62",
+            "69",
+            "76",
+            "85",
+            "94",
+            "105",
+            "116",
+            "127",
+            "140",
+            "153",
+            "166",
+            "181"
+          ],
+          "proof_plan_search": {
+            "candidate_declared_plan": [
+              "Identify natural breakpoints",
+              "Fit quadratics in each segment",
+              "Verify continuity at boundaries"
+            ],
+            "plans": [
+              {
+                "applicable": true,
+                "estimated_cost": 1,
+                "plan": "exact_row_replay",
+                "purpose": "falsification"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 2,
+                "plan": "cas_normal_form",
+                "purpose": "symbolic_identity"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 3,
+                "plan": "smt_countermodel_search",
+                "purpose": "universal_polynomial_identity"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "interval_enclosure",
+                "purpose": "numerical_domain_check"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "induction_on_recurrence",
+                "purpose": "choose_and_test_an_induction_variable"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "invariant_strengthening",
+                "purpose": "search_for_a_preserved_auxiliary_statement"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "bijection_construction",
+                "purpose": "replace_algebra_with_structure_preserving_counting"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "minimal_counterexample_descent",
+                "purpose": "search_for_a_strictly_smaller_counterexample"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "transform_domain_identity",
+                "purpose": "move_between_sequence_and_generating_function_domains"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "contradiction_via_modular_obstruction",
+                "purpose": "derive_an_incompatible_residue_class"
+              },
+              {
+                "applicable": true,
+                "estimated_cost": 4,
+                "plan": "boundary_partition_analysis",
+                "purpose": "check_coverage_overlap_and_boundary_consistency"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 5,
+                "plan": "lean_kernel_bridge",
+                "purpose": "formula_specific_formal_check"
+              }
+            ],
+            "selected_route": [
+              "exact_row_replay",
+              "boundary_partition_analysis"
+            ],
+            "selection_rule": "applicable_routes_in_cost_order_capped_by_verifier_budget_with_lean_reserved"
+          },
+          "resource_profile_exact_match": true,
+          "train_loss": "34/5",
+          "undefined_rows": 0
+        },
+        "hypothesis_id": "h8_segmented",
+        "lineage_id": "idea.0ecb555f03b846f896509185",
+        "llm_self_assessed_origin": "uncertain",
+        "original_retention_status": "RETAINED_ACTIVE",
+        "source_arithmetic_features": [
+          "exact_round_ties_to_even",
+          "decimal_to_rational"
+        ],
+        "source_blind_id": "blind.752590c2e9d4d5f51a63",
+        "source_expression_sha256": "bb4191b09f9e79f47bc23bc0978686a84faa65b64589240a84fe968c28593137",
+        "target_kind": "bounded_unknown"
+      },
+      {
+        "admission": {
+          "candidate_id": "candidate.434d84552a8ee61e14480458",
+          "diagnostic": null,
+          "executable_representation": "piecewise_relation",
+          "hypothesis_id": "h1_piecewise_attempt",
+          "llm_self_assessed_origin": "uncertain",
+          "normalization": "canonical_typed_json+ordered_exact_predicates+exact_extended_arithmetic",
+          "reason": "typed_expression_admitted",
+          "source_representation": "piecewise_relation",
+          "status": "ADMITTED_EXECUTABLE"
+        },
+        "benchmark_id": "external.authority-oeis-005132",
+        "execution": {
+          "behavior": {
+            "behavior_sha256": "94acf3149928798f0cfa18e9267ce01da15b73f1b51afadc2878f947fd9fc7e4",
+            "proof_mechanism_sha256": "33ce21a757ccd77798810483aec9c083700e6baef3fcd35d9dc954aeaa200dc1"
+          },
+          "candidate_id": "candidate.434d84552a8ee61e14480458",
+          "candidate_resource_profile": {
+            "evaluation_runtime_budget_units": 1404,
+            "grammar_depth": 10,
+            "verifier_invocation_budget": 2
+          },
+          "control_behavior": {
+            "behavior_sha256": "856f128b1fb35cb5985e6e2fd2d0cebe09831a6f7606f5d0da5c9b3258eaa068",
+            "proof_mechanism_sha256": "eca883b2d969b356778456bc097e025f6d3b5f08cc14a0c0c62d9d8d1efc7558"
+          },
+          "control_candidate_id": "candidate.2da575f47951c724fbae50d3",
+          "control_resource_profile": {
+            "evaluation_runtime_budget_units": 1404,
+            "grammar_depth": 10,
+            "verifier_invocation_budget": 2
+          },
+          "holdout_loss": "131/4",
+          "independent_predictions": [
+            "0",
+            "1",
+            "2",
+            "3",
+            "5",
+            "6",
+            "9",
+            "10",
+            "14",
+            "15",
+            "20",
+            "21",
+            "27",
+            "28",
+            "35",
+            "36",
+            "44",
+            "45",
+            "54",
+            "55",
+            "65",
+            "66",
+            "77",
+            "78",
+            "90",
+            "91"
+          ],
+          "normalized_expression": "{\"branches\":[{\"condition\":{\"comparator\":\"eq\",\"left\":\"x0 % 2\",\"right\":\"0\"},\"expression\":\"x0 // 2 + x0 // 2 * (x0 // 2 + 1) // 2 if x0 > 0 else 0\"},{\"condition\":{\"comparator\":\"eq\",\"left\":\"x0 % 2\",\"right\":\"1\"},\"expression\":\"(x0 + 1) // 2 + (x0 - 1) // 2 * ((x0 - 1) // 2 + 1) // 2\"}],\"default_expression\":\"0\"}",
+          "primary_independent_exact_agreement": true,
+          "primary_predictions": [
+            "0",
+            "1",
+            "2",
+            "3",
+            "5",
+            "6",
+            "9",
+            "10",
+            "14",
+            "15",
+            "20",
+            "21",
+            "27",
+            "28",
+            "35",
+            "36",
+            "44",
+            "45",
+            "54",
+            "55",
+            "65",
+            "66",
+            "77",
+            "78",
+            "90",
+            "91"
+          ],
+          "proof_plan_search": {
+            "candidate_declared_plan": [
+              "Check pattern for even indices: 0,3,2,13,12,11,10,9,8",
+              "Check pattern for odd indices: 1,6,7,20,21,22,23,24,25"
+            ],
+            "plans": [
+              {
+                "applicable": true,
+                "estimated_cost": 1,
+                "plan": "exact_row_replay",
+                "purpose": "falsification"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 2,
+                "plan": "cas_normal_form",
+                "purpose": "symbolic_identity"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 3,
+                "plan": "smt_countermodel_search",
+                "purpose": "universal_polynomial_identity"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "interval_enclosure",
+                "purpose": "numerical_domain_check"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "induction_on_recurrence",
+                "purpose": "choose_and_test_an_induction_variable"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "invariant_strengthening",
+                "purpose": "search_for_a_preserved_auxiliary_statement"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "bijection_construction",
+                "purpose": "replace_algebra_with_structure_preserving_counting"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "minimal_counterexample_descent",
+                "purpose": "search_for_a_strictly_smaller_counterexample"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "transform_domain_identity",
+                "purpose": "move_between_sequence_and_generating_function_domains"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "contradiction_via_modular_obstruction",
+                "purpose": "derive_an_incompatible_residue_class"
+              },
+              {
+                "applicable": true,
+                "estimated_cost": 4,
+                "plan": "boundary_partition_analysis",
+                "purpose": "check_coverage_overlap_and_boundary_consistency"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 5,
+                "plan": "lean_kernel_bridge",
+                "purpose": "formula_specific_formal_check"
+              }
+            ],
+            "selected_route": [
+              "exact_row_replay",
+              "boundary_partition_analysis"
+            ],
+            "selection_rule": "applicable_routes_in_cost_order_capped_by_verifier_budget_with_lean_reserved"
+          },
+          "resource_profile_exact_match": true,
+          "train_loss": "26/3",
+          "undefined_rows": 0
+        },
+        "hypothesis_id": "h1_piecewise_attempt",
+        "lineage_id": "idea.5532cd6e1f874612d49da9e5",
+        "llm_self_assessed_origin": "uncertain",
+        "original_retention_status": "RETAINED_ACTIVE",
+        "source_arithmetic_features": [
+          "exact_modulo",
+          "exact_floor_division",
+          "exact_conditional"
+        ],
+        "source_blind_id": "blind.9a585452a85251ad240e",
+        "source_expression_sha256": "f8ed18adc056f5fafe6f228ec005c32eb61abeb168a2824d80bd38bfb8b3657b",
+        "target_kind": "bounded_unknown"
+      },
+      {
+        "admission": {
+          "candidate_id": "candidate.aafa3c22c5182209f2351912",
+          "diagnostic": null,
+          "executable_representation": "piecewise_relation",
+          "hypothesis_id": "h0_piecewise_cubic",
+          "llm_self_assessed_origin": "uncertain",
+          "normalization": "canonical_typed_json+ordered_exact_predicates+exact_extended_arithmetic",
+          "reason": "typed_expression_admitted",
+          "source_representation": "piecewise_relation",
+          "status": "ADMITTED_EXECUTABLE"
+        },
+        "benchmark_id": "external.authority-oeis-002858",
+        "execution": {
+          "behavior": {
+            "behavior_sha256": "de296c2af0517667dd400dcd0be85975aff90e2cb668d17f22734f0edbb72160",
+            "proof_mechanism_sha256": "dac5b00a26e0afc3268059b5af75f3050b065b789dcae8b7c4bada331d7596ca"
+          },
+          "candidate_id": "candidate.aafa3c22c5182209f2351912",
+          "candidate_resource_profile": {
+            "evaluation_runtime_budget_units": 2520,
+            "grammar_depth": 10,
+            "verifier_invocation_budget": 2
+          },
+          "control_behavior": {
+            "behavior_sha256": "a35fb322461c0453735b63ac5964eed3ad764e9ec49b7f7bb6e84eb0e8b9b16e",
+            "proof_mechanism_sha256": "b251106d3e4766d2c87ba34f70731d8f776e9447efc88989574e636799acd8bb"
+          },
+          "control_candidate_id": "candidate.132c7bdd830ab17cfcbf29fb",
+          "control_resource_profile": {
+            "evaluation_runtime_budget_units": 2520,
+            "grammar_depth": 10,
+            "verifier_invocation_budget": 2
+          },
+          "holdout_loss": "676",
+          "independent_predictions": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "4",
+            "5",
+            "8",
+            "12",
+            "18",
+            "26",
+            "38",
+            "53",
+            "72",
+            "95",
+            "124",
+            "158",
+            "198",
+            "244",
+            "298",
+            "359",
+            "428",
+            "505",
+            "592",
+            "688",
+            "794",
+            "910",
+            "1037",
+            "1176"
+          ],
+          "normalized_expression": "{\"branches\":[{\"condition\":{\"comparator\":\"le\",\"left\":\"x0\",\"right\":\"3\"},\"expression\":\"x0 + 1\"},{\"condition\":{\"comparator\":\"eq\",\"left\":\"x0 % 2\",\"right\":\"0\"},\"expression\":\"round(833 / 10000 * x0 ** 3 - 3 / 4 * x0 ** 2 + 31667 / 10000 * x0 - 2)\"},{\"condition\":{\"comparator\":\"eq\",\"left\":\"x0 % 2\",\"right\":\"1\"},\"expression\":\"round(833 / 10000 * x0 ** 3 - 3 / 4 * x0 ** 2 + 31667 / 10000 * x0 - 2)\"}],\"default_expression\":\"round(833 / 10000 * x0 ** 3 - 3 / 4 * x0 ** 2 + 31667 / 10000 * x0 - 2)\"}",
+          "primary_independent_exact_agreement": true,
+          "primary_predictions": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "4",
+            "5",
+            "8",
+            "12",
+            "18",
+            "26",
+            "38",
+            "53",
+            "72",
+            "95",
+            "124",
+            "158",
+            "198",
+            "244",
+            "298",
+            "359",
+            "428",
+            "505",
+            "592",
+            "688",
+            "794",
+            "910",
+            "1037",
+            "1176"
+          ],
+          "proof_plan_search": {
+            "candidate_declared_plan": [
+              "Fit polynomial to subsequences",
+              "Verify parity-dependent behavior"
+            ],
+            "plans": [
+              {
+                "applicable": true,
+                "estimated_cost": 1,
+                "plan": "exact_row_replay",
+                "purpose": "falsification"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 2,
+                "plan": "cas_normal_form",
+                "purpose": "symbolic_identity"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 3,
+                "plan": "smt_countermodel_search",
+                "purpose": "universal_polynomial_identity"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "interval_enclosure",
+                "purpose": "numerical_domain_check"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "induction_on_recurrence",
+                "purpose": "choose_and_test_an_induction_variable"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "invariant_strengthening",
+                "purpose": "search_for_a_preserved_auxiliary_statement"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "bijection_construction",
+                "purpose": "replace_algebra_with_structure_preserving_counting"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "minimal_counterexample_descent",
+                "purpose": "search_for_a_strictly_smaller_counterexample"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "transform_domain_identity",
+                "purpose": "move_between_sequence_and_generating_function_domains"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "contradiction_via_modular_obstruction",
+                "purpose": "derive_an_incompatible_residue_class"
+              },
+              {
+                "applicable": true,
+                "estimated_cost": 4,
+                "plan": "boundary_partition_analysis",
+                "purpose": "check_coverage_overlap_and_boundary_consistency"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 5,
+                "plan": "lean_kernel_bridge",
+                "purpose": "formula_specific_formal_check"
+              }
+            ],
+            "selected_route": [
+              "exact_row_replay",
+              "boundary_partition_analysis"
+            ],
+            "selection_rule": "applicable_routes_in_cost_order_capped_by_verifier_budget_with_lean_reserved"
+          },
+          "resource_profile_exact_match": true,
+          "train_loss": "597/10",
+          "undefined_rows": 0
+        },
+        "hypothesis_id": "h0_piecewise_cubic",
+        "lineage_id": "idea.86f9a1d236288ed330a4e62d",
+        "llm_self_assessed_origin": "uncertain",
+        "original_retention_status": "RETAINED_ACTIVE",
+        "source_arithmetic_features": [
+          "exact_modulo",
+          "exact_round_ties_to_even",
+          "decimal_to_rational"
+        ],
+        "source_blind_id": "blind.752590c2e9d4d5f51a63",
+        "source_expression_sha256": "b4a7eab4dbd4b2c3ef4fe2192db501e3bf4a53c65891db1e18d1eac67d7ba2b8",
+        "target_kind": "bounded_unknown"
+      },
+      {
+        "admission": {
+          "candidate_id": "candidate.f3ca82d844730a0629471d01",
+          "diagnostic": null,
+          "executable_representation": "piecewise_relation",
+          "hypothesis_id": "h5_two_linear_tails",
+          "llm_self_assessed_origin": "cross_domain_synthesis",
+          "normalization": "canonical_typed_json+ordered_exact_predicates+exact_extended_arithmetic",
+          "reason": "typed_expression_admitted",
+          "source_representation": "piecewise_relation",
+          "status": "ADMITTED_EXECUTABLE"
+        },
+        "benchmark_id": "external.authority-oeis-005132",
+        "execution": {
+          "behavior": {
+            "behavior_sha256": "5f495c1f62c35743a258a7b8cf3663af768c56442e311baf1741ce455c7d9fbc",
+            "proof_mechanism_sha256": "72995cac65444c1566a035347a3f895b5e98dc1a6923170363dec7afa87122d8"
+          },
+          "candidate_id": "candidate.f3ca82d844730a0629471d01",
+          "candidate_resource_profile": {
+            "evaluation_runtime_budget_units": 702,
+            "grammar_depth": 6,
+            "verifier_invocation_budget": 2
+          },
+          "control_behavior": {
+            "behavior_sha256": "7a1dd5d3a767b02a2808e1216e21fca1fcf92b86882d02baf9241d006c31a15f",
+            "proof_mechanism_sha256": "dcbe10d0755b42b89de2dae55067a82cb659a4a8132c90928e8793897c529ecb"
+          },
+          "control_candidate_id": "candidate.4b4ec68705e22408ca72ada3",
+          "control_resource_profile": {
+            "evaluation_runtime_budget_units": 702,
+            "grammar_depth": 6,
+            "verifier_invocation_budget": 2
+          },
+          "holdout_loss": "30",
+          "independent_predictions": [
+            "0",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "12",
+            "21",
+            "11",
+            "22",
+            "10",
+            "23",
+            "9",
+            "24",
+            "8",
+            "25",
+            "7",
+            "26",
+            "6",
+            "27",
+            "5",
+            "28",
+            "4",
+            "29"
+          ],
+          "normalized_expression": "{\"branches\":[{\"condition\":{\"comparator\":\"lt\",\"left\":\"x0\",\"right\":\"8\"},\"expression\":\"x0\"},{\"condition\":{\"comparator\":\"eq\",\"left\":\"x0 % 2\",\"right\":\"0\"},\"expression\":\"16 - x0 / 2\"},{\"condition\":{\"comparator\":\"eq\",\"left\":\"x0 % 2\",\"right\":\"1\"},\"expression\":\"(x0 + 33) / 2\"}],\"default_expression\":\"0\"}",
+          "primary_independent_exact_agreement": true,
+          "primary_predictions": [
+            "0",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "12",
+            "21",
+            "11",
+            "22",
+            "10",
+            "23",
+            "9",
+            "24",
+            "8",
+            "25",
+            "7",
+            "26",
+            "6",
+            "27",
+            "5",
+            "28",
+            "4",
+            "29"
+          ],
+          "proof_plan_search": {
+            "candidate_declared_plan": [
+              "Step 1: Confirm the two linear formulas hold for x0>=8",
+              "Step 2: Investigate whether the early values follow a separate pattern like van der Corput or bit-reversal",
+              "Step 3: Check if the sequence relates to a known OEIS entry"
+            ],
+            "plans": [
+              {
+                "applicable": true,
+                "estimated_cost": 1,
+                "plan": "exact_row_replay",
+                "purpose": "falsification"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 2,
+                "plan": "cas_normal_form",
+                "purpose": "symbolic_identity"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 3,
+                "plan": "smt_countermodel_search",
+                "purpose": "universal_polynomial_identity"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "interval_enclosure",
+                "purpose": "numerical_domain_check"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "induction_on_recurrence",
+                "purpose": "choose_and_test_an_induction_variable"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "invariant_strengthening",
+                "purpose": "search_for_a_preserved_auxiliary_statement"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "bijection_construction",
+                "purpose": "replace_algebra_with_structure_preserving_counting"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "minimal_counterexample_descent",
+                "purpose": "search_for_a_strictly_smaller_counterexample"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "transform_domain_identity",
+                "purpose": "move_between_sequence_and_generating_function_domains"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "contradiction_via_modular_obstruction",
+                "purpose": "derive_an_incompatible_residue_class"
+              },
+              {
+                "applicable": true,
+                "estimated_cost": 4,
+                "plan": "boundary_partition_analysis",
+                "purpose": "check_coverage_overlap_and_boundary_consistency"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 5,
+                "plan": "lean_kernel_bridge",
+                "purpose": "formula_specific_formal_check"
+              }
+            ],
+            "selected_route": [
+              "exact_row_replay",
+              "boundary_partition_analysis"
+            ],
+            "selection_rule": "applicable_routes_in_cost_order_capped_by_verifier_budget_with_lean_reserved"
+          },
+          "resource_profile_exact_match": true,
+          "train_loss": "14/9",
+          "undefined_rows": 0
+        },
+        "hypothesis_id": "h5_two_linear_tails",
+        "lineage_id": "idea.ad316b9bfb43319c244dc558",
+        "llm_self_assessed_origin": "cross_domain_synthesis",
+        "original_retention_status": "RETAINED_ACTIVE",
+        "source_arithmetic_features": [
+          "exact_modulo"
+        ],
+        "source_blind_id": "blind.9a585452a85251ad240e",
+        "source_expression_sha256": "968fd19c852c324ea66974d0aa4c10abbba8a3185a8ff7cb4d9c2aafd2f9122c",
+        "target_kind": "bounded_unknown"
+      },
+      {
+        "admission": {
+          "candidate_id": "candidate.92f81bdb55b84d466e9417dd",
+          "diagnostic": null,
+          "executable_representation": "piecewise_relation",
+          "hypothesis_id": "h7_piecewise_trivial",
+          "llm_self_assessed_origin": "known_rewrite",
+          "normalization": "canonical_typed_json+ordered_exact_predicates+exact_extended_arithmetic",
+          "reason": "typed_expression_admitted",
+          "source_representation": "piecewise_relation",
+          "status": "ADMITTED_EXECUTABLE"
+        },
+        "benchmark_id": "external.authority-nist-0244",
+        "execution": {
+          "behavior": {
+            "behavior_sha256": "dbd0b14126f55ef767faf11476c6e1e3197dfed64a8f4a740867b94205e17d45",
+            "proof_mechanism_sha256": "a3e173cb892ef6c637623520cf7537ec5b1ef9273f2b7aaee0ee0a4598550656"
+          },
+          "candidate_id": "candidate.92f81bdb55b84d466e9417dd",
+          "candidate_resource_profile": {
+            "evaluation_runtime_budget_units": 396,
+            "grammar_depth": 8,
+            "verifier_invocation_budget": 3
+          },
+          "control_behavior": {
+            "behavior_sha256": "12f9a7a8450e9e985b4bb50aacc63413ea1c789ae8a8a13c42ee98286e1b704a",
+            "proof_mechanism_sha256": "a0c0d7f4c0e0e12ed1226802b1b9bacedd528a360ee9b0235089fc2c6b766d77"
+          },
+          "control_candidate_id": "candidate.a4222b452e3ed278085833f0",
+          "control_resource_profile": {
+            "evaluation_runtime_budget_units": 396,
+            "grammar_depth": 8,
+            "verifier_invocation_budget": 3
+          },
+          "holdout_loss": "0",
+          "independent_predictions": [
+            "1",
+            "5",
+            "14",
+            "30",
+            "55",
+            "91",
+            "140",
+            "204",
+            "285",
+            "385",
+            "506",
+            "650"
+          ],
+          "normalized_expression": "{\"branches\":[{\"condition\":{\"comparator\":\"eq\",\"left\":\"x0 % 2\",\"right\":\"0\"},\"expression\":\"x0 * (x0 + 1) * (2 * x0 + 1) / 6\"}],\"default_expression\":\"x0 * (x0 + 1) * (2 * x0 + 1) / 6\"}",
+          "primary_independent_exact_agreement": true,
+          "primary_predictions": [
+            "1",
+            "5",
+            "14",
+            "30",
+            "55",
+            "91",
+            "140",
+            "204",
+            "285",
+            "385",
+            "506",
+            "650"
+          ],
+          "proof_plan_search": {
+            "candidate_declared_plan": [
+              "The piecewise representation collapses to a single formula, demonstrating parity-independence"
+            ],
+            "plans": [
+              {
+                "applicable": true,
+                "estimated_cost": 1,
+                "plan": "exact_row_replay",
+                "purpose": "falsification"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 2,
+                "plan": "cas_normal_form",
+                "purpose": "symbolic_identity"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 3,
+                "plan": "smt_countermodel_search",
+                "purpose": "universal_polynomial_identity"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "interval_enclosure",
+                "purpose": "numerical_domain_check"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "induction_on_recurrence",
+                "purpose": "choose_and_test_an_induction_variable"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "invariant_strengthening",
+                "purpose": "search_for_a_preserved_auxiliary_statement"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "bijection_construction",
+                "purpose": "replace_algebra_with_structure_preserving_counting"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "minimal_counterexample_descent",
+                "purpose": "search_for_a_strictly_smaller_counterexample"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "transform_domain_identity",
+                "purpose": "move_between_sequence_and_generating_function_domains"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "contradiction_via_modular_obstruction",
+                "purpose": "derive_an_incompatible_residue_class"
+              },
+              {
+                "applicable": true,
+                "estimated_cost": 4,
+                "plan": "boundary_partition_analysis",
+                "purpose": "check_coverage_overlap_and_boundary_consistency"
+              },
+              {
+                "applicable": true,
+                "estimated_cost": 5,
+                "plan": "lean_kernel_bridge",
+                "purpose": "formula_specific_formal_check"
+              }
+            ],
+            "selected_route": [
+              "exact_row_replay",
+              "boundary_partition_analysis",
+              "lean_kernel_bridge"
+            ],
+            "selection_rule": "applicable_routes_in_cost_order_capped_by_verifier_budget_with_lean_reserved"
+          },
+          "resource_profile_exact_match": true,
+          "train_loss": "0",
+          "undefined_rows": 0
+        },
+        "hypothesis_id": "h7_piecewise_trivial",
+        "lineage_id": "idea.d492b333b4ee084e2563aa50",
+        "llm_self_assessed_origin": "known_rewrite",
+        "original_retention_status": "RETAINED_ACTIVE",
+        "source_arithmetic_features": [
+          "exact_modulo"
+        ],
+        "source_blind_id": "blind.a3457c5419a818b538b3",
+        "source_expression_sha256": "60a535a9d4e483c3dcad30ae5e82d562cc2e792fe6a69e74495ad6835d8b92b9",
+        "target_kind": "known_formula"
+      },
+      {
+        "admission": {
+          "candidate_id": "candidate.a3cfa1712c571b20ad3751b5",
+          "diagnostic": null,
+          "executable_representation": "piecewise_relation",
+          "hypothesis_id": "h4_full_piecewise",
+          "llm_self_assessed_origin": "uncertain",
+          "normalization": "canonical_typed_json+ordered_exact_predicates+exact_extended_arithmetic",
+          "reason": "typed_expression_admitted",
+          "source_representation": "piecewise_relation",
+          "status": "ADMITTED_EXECUTABLE"
+        },
+        "benchmark_id": "external.authority-oeis-005132",
+        "execution": {
+          "behavior": {
+            "behavior_sha256": "e4fa74f4cf0be428afb54fc3ba67c9f76e098a1347f54c7ed415f106de26c9a1",
+            "proof_mechanism_sha256": "9c09510dcfb45d49f81d7dcc2ca6fef58f27e092250a8e593969ff4a807e33d3"
+          },
+          "candidate_id": "candidate.a3cfa1712c571b20ad3751b5",
+          "candidate_resource_profile": {
+            "evaluation_runtime_budget_units": 1430,
+            "grammar_depth": 8,
+            "verifier_invocation_budget": 2
+          },
+          "control_behavior": {
+            "behavior_sha256": "8b0bfbfc52f328838a9d6320fab77cbd790df097068001255825367b3c6fe338",
+            "proof_mechanism_sha256": "9b3dee5e52e078ad0b0e66037ff426e093cdca23b5655500b1766a60d0b51eb3"
+          },
+          "control_candidate_id": "candidate.98b68495ee3244e8f24d8fa0",
+          "control_resource_profile": {
+            "evaluation_runtime_budget_units": 1430,
+            "grammar_depth": 8,
+            "verifier_invocation_budget": 2
+          },
+          "holdout_loss": "30",
+          "independent_predictions": [
+            "0",
+            "1",
+            "3",
+            "6",
+            "2",
+            "7",
+            "13",
+            "20",
+            "12",
+            "21",
+            "11",
+            "22",
+            "10",
+            "23",
+            "9",
+            "24",
+            "8",
+            "25",
+            "7",
+            "26",
+            "6",
+            "27",
+            "5",
+            "28",
+            "4",
+            "29"
+          ],
+          "normalized_expression": "{\"branches\":[{\"condition\":{\"comparator\":\"eq\",\"left\":\"x0\",\"right\":\"0\"},\"expression\":\"0\"},{\"condition\":{\"comparator\":\"eq\",\"left\":\"x0\",\"right\":\"1\"},\"expression\":\"1\"},{\"condition\":{\"comparator\":\"eq\",\"left\":\"x0\",\"right\":\"2\"},\"expression\":\"3\"},{\"condition\":{\"comparator\":\"eq\",\"left\":\"x0\",\"right\":\"3\"},\"expression\":\"6\"},{\"condition\":{\"comparator\":\"eq\",\"left\":\"x0\",\"right\":\"4\"},\"expression\":\"2\"},{\"condition\":{\"comparator\":\"eq\",\"left\":\"x0\",\"right\":\"5\"},\"expression\":\"7\"},{\"condition\":{\"comparator\":\"eq\",\"left\":\"x0\",\"right\":\"6\"},\"expression\":\"13\"},{\"condition\":{\"comparator\":\"eq\",\"left\":\"x0\",\"right\":\"7\"},\"expression\":\"20\"}],\"default_expression\":\"(1 - x0 % 2) * (16 - x0 / 2) + x0 % 2 * ((x0 + 33) / 2)\"}",
+          "primary_independent_exact_agreement": true,
+          "primary_predictions": [
+            "0",
+            "1",
+            "3",
+            "6",
+            "2",
+            "7",
+            "13",
+            "20",
+            "12",
+            "21",
+            "11",
+            "22",
+            "10",
+            "23",
+            "9",
+            "24",
+            "8",
+            "25",
+            "7",
+            "26",
+            "6",
+            "27",
+            "5",
+            "28",
+            "4",
+            "29"
+          ],
+          "proof_plan_search": {
+            "candidate_declared_plan": [
+              "Step 1: Verify all 18 data points against the piecewise formula",
+              "Step 2: Investigate whether the early exceptions (x0=0..7) also follow a pattern",
+              "Step 3: Search for a unified closed form"
+            ],
+            "plans": [
+              {
+                "applicable": true,
+                "estimated_cost": 1,
+                "plan": "exact_row_replay",
+                "purpose": "falsification"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 2,
+                "plan": "cas_normal_form",
+                "purpose": "symbolic_identity"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 3,
+                "plan": "smt_countermodel_search",
+                "purpose": "universal_polynomial_identity"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "interval_enclosure",
+                "purpose": "numerical_domain_check"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "induction_on_recurrence",
+                "purpose": "choose_and_test_an_induction_variable"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "invariant_strengthening",
+                "purpose": "search_for_a_preserved_auxiliary_statement"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "bijection_construction",
+                "purpose": "replace_algebra_with_structure_preserving_counting"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "minimal_counterexample_descent",
+                "purpose": "search_for_a_strictly_smaller_counterexample"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "transform_domain_identity",
+                "purpose": "move_between_sequence_and_generating_function_domains"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "contradiction_via_modular_obstruction",
+                "purpose": "derive_an_incompatible_residue_class"
+              },
+              {
+                "applicable": true,
+                "estimated_cost": 4,
+                "plan": "boundary_partition_analysis",
+                "purpose": "check_coverage_overlap_and_boundary_consistency"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 5,
+                "plan": "lean_kernel_bridge",
+                "purpose": "formula_specific_formal_check"
+              }
+            ],
+            "selected_route": [
+              "exact_row_replay",
+              "boundary_partition_analysis"
+            ],
+            "selection_rule": "applicable_routes_in_cost_order_capped_by_verifier_budget_with_lean_reserved"
+          },
+          "resource_profile_exact_match": true,
+          "train_loss": "0",
+          "undefined_rows": 0
+        },
+        "hypothesis_id": "h4_full_piecewise",
+        "lineage_id": "idea.ea4af7227505d8c6b43b2612",
+        "llm_self_assessed_origin": "uncertain",
+        "original_retention_status": "RETAINED_ACTIVE",
+        "source_arithmetic_features": [
+          "exact_modulo"
+        ],
+        "source_blind_id": "blind.9a585452a85251ad240e",
+        "source_expression_sha256": "3dabd656b51d1db0852182f57781d09dfddc66f9dd8ab222cf47ac86c81d0efb",
+        "target_kind": "bounded_unknown"
+      },
+      {
+        "admission": {
+          "candidate_id": "candidate.733c1b7281dceb9f1a04d371",
+          "diagnostic": null,
+          "executable_representation": "piecewise_relation",
+          "hypothesis_id": "h7_parity_cubic",
+          "llm_self_assessed_origin": "uncertain",
+          "normalization": "canonical_typed_json+ordered_exact_predicates+exact_extended_arithmetic",
+          "reason": "typed_expression_admitted",
+          "source_representation": "piecewise_relation",
+          "status": "ADMITTED_EXECUTABLE"
+        },
+        "benchmark_id": "external.authority-oeis-002858",
+        "execution": {
+          "behavior": {
+            "behavior_sha256": "481713c118abcf4726a3cb54e978e558a8b0012a7ec68ca3cafe477bc768ca25",
+            "proof_mechanism_sha256": "bd60ff019b7c67f6c7d0fc890b7f781b54b3aaf2b1ea0a4ba1d3814a8f58aea0"
+          },
+          "candidate_id": "candidate.733c1b7281dceb9f1a04d371",
+          "candidate_resource_profile": {
+            "evaluation_runtime_budget_units": 2520,
+            "grammar_depth": 10,
+            "verifier_invocation_budget": 2
+          },
+          "control_behavior": {
+            "behavior_sha256": "da03b67ca9936048ab52891e9713807a487278d78c40c35acca0f81a22bb58b1",
+            "proof_mechanism_sha256": "05da9089bb926af32db62fffa0bb8de6d097081366e1551d90e59c876e84ed5b"
+          },
+          "control_candidate_id": "candidate.318779b18ff9e31c32c8730c",
+          "control_resource_profile": {
+            "evaluation_runtime_budget_units": 2520,
+            "grammar_depth": 10,
+            "verifier_invocation_budget": 2
+          },
+          "holdout_loss": "1403/8",
+          "independent_predictions": [
+            "1",
+            "2",
+            "2",
+            "3",
+            "4",
+            "5",
+            "7",
+            "9",
+            "12",
+            "16",
+            "21",
+            "28",
+            "35",
+            "44",
+            "55",
+            "67",
+            "81",
+            "97",
+            "115",
+            "135",
+            "158",
+            "183",
+            "211",
+            "242",
+            "275",
+            "311",
+            "351",
+            "394"
+          ],
+          "normalized_expression": "{\"branches\":[{\"condition\":{\"comparator\":\"eq\",\"left\":\"x0 % 2\",\"right\":\"0\"},\"expression\":\"round(11 / 500 * x0 ** 3 - 77 / 1000 * x0 ** 2 + 59 / 100 * x0 + 27 / 25)\"},{\"condition\":{\"comparator\":\"eq\",\"left\":\"x0 % 2\",\"right\":\"1\"},\"expression\":\"round(11 / 500 * x0 ** 3 - 77 / 1000 * x0 ** 2 + 59 / 100 * x0 + 27 / 25)\"}],\"default_expression\":\"round(11 / 500 * x0 ** 3 - 77 / 1000 * x0 ** 2 + 59 / 100 * x0 + 27 / 25)\"}",
+          "primary_independent_exact_agreement": true,
+          "primary_predictions": [
+            "1",
+            "2",
+            "2",
+            "3",
+            "4",
+            "5",
+            "7",
+            "9",
+            "12",
+            "16",
+            "21",
+            "28",
+            "35",
+            "44",
+            "55",
+            "67",
+            "81",
+            "97",
+            "115",
+            "135",
+            "158",
+            "183",
+            "211",
+            "242",
+            "275",
+            "311",
+            "351",
+            "394"
+          ],
+          "proof_plan_search": {
+            "candidate_declared_plan": [
+              "Separate even and odd subsequences",
+              "Fit each independently",
+              "Look for partition or divisor-sum interpretation of each"
+            ],
+            "plans": [
+              {
+                "applicable": true,
+                "estimated_cost": 1,
+                "plan": "exact_row_replay",
+                "purpose": "falsification"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 2,
+                "plan": "cas_normal_form",
+                "purpose": "symbolic_identity"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 3,
+                "plan": "smt_countermodel_search",
+                "purpose": "universal_polynomial_identity"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "interval_enclosure",
+                "purpose": "numerical_domain_check"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "induction_on_recurrence",
+                "purpose": "choose_and_test_an_induction_variable"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "invariant_strengthening",
+                "purpose": "search_for_a_preserved_auxiliary_statement"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "bijection_construction",
+                "purpose": "replace_algebra_with_structure_preserving_counting"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "minimal_counterexample_descent",
+                "purpose": "search_for_a_strictly_smaller_counterexample"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "transform_domain_identity",
+                "purpose": "move_between_sequence_and_generating_function_domains"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 4,
+                "plan": "contradiction_via_modular_obstruction",
+                "purpose": "derive_an_incompatible_residue_class"
+              },
+              {
+                "applicable": true,
+                "estimated_cost": 4,
+                "plan": "boundary_partition_analysis",
+                "purpose": "check_coverage_overlap_and_boundary_consistency"
+              },
+              {
+                "applicable": false,
+                "estimated_cost": 5,
+                "plan": "lean_kernel_bridge",
+                "purpose": "formula_specific_formal_check"
+              }
+            ],
+            "selected_route": [
+              "exact_row_replay",
+              "boundary_partition_analysis"
+            ],
+            "selection_rule": "applicable_routes_in_cost_order_capped_by_verifier_budget_with_lean_reserved"
+          },
+          "resource_profile_exact_match": true,
+          "train_loss": "247/20",
+          "undefined_rows": 0
+        },
+        "hypothesis_id": "h7_parity_cubic",
+        "lineage_id": "idea.ef9536600dd15330d04c8e68",
+        "llm_self_assessed_origin": "uncertain",
+        "original_retention_status": "RETAINED_ACTIVE",
+        "source_arithmetic_features": [
+          "exact_modulo",
+          "exact_round_ties_to_even",
+          "decimal_to_rational"
+        ],
+        "source_blind_id": "blind.752590c2e9d4d5f51a63",
+        "source_expression_sha256": "ec44015fa2939b18fc8beea39dba7cbbb6f6c0d13fa2e28e8aaea17708da6085",
+        "target_kind": "bounded_unknown"
+      }
+    ],
+    "schema_version": "invariant-retained-piecewise-replay-1.0",
+    "source_bindings": {
+      "campaign_config": {
+        "path": "configs/external_creativity_validation_campaign.json",
+        "sha256": "49f89da9d70118883c6772274c33fb9375a2f0f0ab30ad4f8a5835f4a2fdeae8"
+      },
+      "executor_source": {
+        "path": "src/sigma_theory_compiler/external_creativity_validation.py",
+        "sha256": "d31a57a393be2be204925c956e0a01d65fda10bb2321b270ecf0fbbfdc21db8e"
+      },
+      "independent_evaluator_source": {
+        "path": "src/sigma_theory_compiler/independent_exact_evaluator.py",
+        "sha256": "70a5838705fc0990ad126054e3397662397c58424dfdcf94a3a2726d0d5bed96"
+      },
+      "public_benchmarks": {
+        "path": "configs/external_sealed_creativity_benchmarks.json",
+        "sha256": "906094a777c741e01d44146c57b95c82aa9b746df88ffab73078f9c7b3b55ecc"
+      },
+      "replay_source": {
+        "path": "src/sigma_theory_compiler/retained_piecewise_replay.py",
+        "sha256": "261ab9b405866881b8dcd251e99d2cfada4e7e80e5dda768f2efebcf05a860b5"
+      },
+      "source_core_receipt": {
+        "idea_lineage_archive_sha256": "46651e2906872d1fb671ac642a829fba420037640d3b2ae9f238319eb7dfc6e2",
+        "live_evidence_sha256": "c474cebe88093a2592d0d818e7b3d98cd38a3018d0944b816311de72ba143c9f",
+        "path": "runs/math/core-creative-discovery/live-runtime.json"
+      },
+      "tests": {
+        "path": "tests/test_retained_piecewise_replay.py",
+        "sha256": "1c396c74ea96ca5741db7ff914379e973311e69387aea76011ebfc38e542bbfd"
+      }
+    },
+    "summary": {
+      "admitted_by_current_executor": 9,
+      "exact_primary_independent_agreements": 9,
+      "extended_arithmetic_feature_counts": {
+        "decimal_to_rational": 4,
+        "exact_conditional": 1,
+        "exact_floor_division": 1,
+        "exact_modulo": 7,
+        "exact_round_ties_to_even": 4
+      },
+      "llm_self_assessed_origin_counts": {
+        "cross_domain_synthesis": 1,
+        "known_rewrite": 1,
+        "uncertain": 7
+      },
+      "resource_matched_controls": 9,
+      "retained_piecewise_ideas": 9,
+      "status": "PASS_RETAINED_PIECEWISE_REPLAY",
+      "train_exact_holdout_failed": 1,
+      "zero_holdout_loss_bounded_unknown": 0,
+      "zero_holdout_loss_candidates": 1,
+      "zero_train_loss_candidates": 2
+    }
+  },
+  "schema_version": "invariant-core-creative-discovery-runtime-2.7",
   "source_bindings": {
     "claude_api_source": {
       "path": "src/sigma_theory_compiler/claude_creativity_api.py",
@@ -17144,11 +18969,11 @@
     },
     "config": {
       "path": "configs/core_creative_discovery.json",
-      "sha256": "b63035695f0cf5d1ce7271b3b64edec400b9ce9180b21a66115ff73a6da2d625"
+      "sha256": "54fd3ed0215e54ed3526627a46e8456ff42f8849285ed267622533da482eebe9"
     },
     "core_application_source": {
       "path": "src/sigma_theory_compiler/core_creative_discovery.py",
-      "sha256": "65d2c5c3071d370eb3c48c1b07d8689539d5740da52fad093ce263e7e3fc8fb4"
+      "sha256": "eae54ffaf17771ac23c8eb2a039fad9d8fd972a9e488650c35ed5395c0d2e4cf"
     },
     "dataset_challenge_receipt": {
       "content_sha256": "687d08e6c24b86fe00963bfddf5dfa20e9242acca21bd2a3fa37cea03d584039",
@@ -17159,12 +18984,12 @@
       "path": "runs/math/declarative-discovery-platform/operational-v2.json"
     },
     "expanded_typed_grammar_receipt": {
-      "content_sha256": "811c44630a1f02c21e3f964caf521fdec552f0c1ae2f52a8d99c65d0ed0c3acb",
+      "content_sha256": "fbd440025ff2a21ce7dd7742e0045db6c8d945bb2dfb38ebc89d44f3fc64ceea",
       "path": "runs/math/expanded-typed-grammar/receipt.json"
     },
     "external_campaign_source": {
       "path": "src/sigma_theory_compiler/external_creativity_validation.py",
-      "sha256": "84f9edbdf1a9d1f5ce5fed99423bc5060aa5d13ba6d631455ff2263406d25ffa"
+      "sha256": "d31a57a393be2be204925c956e0a01d65fda10bb2321b270ecf0fbbfdc21db8e"
     },
     "external_dataset_challenge_receipt": {
       "content_sha256": "a9e64a17797ad3e4eed477595c522a0edaf0a614905a244cfe34f178418d3fa6",
@@ -17190,8 +19015,12 @@
       "content_sha256": "24ef0d505cc623f5806dab2c4ee0fe8f174ef5fc1ca011a8c3994ca69e96d4b9",
       "path": "runs/math/independent-proof-plan-search/receipt.json"
     },
+    "retained_piecewise_replay_receipt": {
+      "content_sha256": "bb8c99a09244b374fe0c4afbf37b8989b804fc1eb08780e163832ce94bf84816",
+      "path": "runs/math/retained-piecewise-replay/receipt.json"
+    },
     "serious_claim_verification_ladder_receipt": {
-      "content_sha256": "ec68052d6d8daf8e410e7de093936cc7c1f54e48a085985333d24d0a5856e862",
+      "content_sha256": "9f7d8a839998b47136ab45d729221209d1782f909d32bf8041dc26f99a4ba415",
       "path": "runs/math/serious-claim-verification-ladder/receipt.json"
     },
     "state_pair_invariant_discovery_receipt": {
