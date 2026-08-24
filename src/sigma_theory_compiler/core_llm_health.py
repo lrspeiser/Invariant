@@ -322,6 +322,20 @@ def run_live_health(
     return body
 
 
+def rebind_health_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, Any]:
+    """Preserve live provider evidence while updating deterministic source bindings."""
+
+    validate_health_receipt(previous)
+    root = root.resolve()
+    _, context, core_receipt = _load_core_state(root)
+    rebound = json.loads(json.dumps(previous))
+    rebound["source_bindings"] = _source_bindings(root, context, core_receipt)
+    body = {key: item for key, item in rebound.items() if key != "content_sha256"}
+    rebound["content_sha256"] = canonical_sha256(body)
+    validate_health_receipt(rebound, root)
+    return rebound
+
+
 def validate_health_receipt(value: Mapping[str, Any], root: Path | None = None) -> None:
     _strict(
         value,
@@ -531,6 +545,7 @@ def validate_health_receipt(value: Mapping[str, Any], root: Path | None = None) 
 __all__ = [
     "OUTPUT_PATH",
     "CoreLLMHealthError",
+    "rebind_health_receipt",
     "run_live_health",
     "validate_health_receipt",
 ]

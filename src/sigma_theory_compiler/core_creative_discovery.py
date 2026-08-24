@@ -276,7 +276,7 @@ def _load_bound_receipts(
     validate_dataset_challenges(dataset, root)
     validate_external_dataset_challenges(external_dataset, root)
     validate_operational_receipt(operational, root)
-    validate_multi_host_receipt(multi_host)
+    validate_multi_host_receipt(multi_host, root)
     validate_expanded_grammar_receipt(expanded_grammar, root)
     validate_proof_plan_search(proof_plan_search, root)
     validate_piecewise_replay(piecewise_replay, root)
@@ -1687,6 +1687,21 @@ def main(argv: Sequence[str] | None = None) -> int:
         type=Path,
         default=Path("runs/math/core-creative-discovery/live-llm-health.json"),
     )
+    rebind_health = subparsers.add_parser(
+        "rebind-health",
+        help="preserve live health-call evidence while rebinding deterministic sources",
+    )
+    rebind_health.add_argument("--root", type=Path, default=Path.cwd())
+    rebind_health.add_argument(
+        "--previous",
+        type=Path,
+        default=Path("runs/math/core-creative-discovery/live-llm-health.json"),
+    )
+    rebind_health.add_argument(
+        "--output",
+        type=Path,
+        default=Path("runs/math/core-creative-discovery/live-llm-health.json"),
+    )
     rebind = subparsers.add_parser(
         "rebind", help="preserve sanitized LLM evidence while rebinding deterministic gates"
     )
@@ -1725,6 +1740,29 @@ def main(argv: Sequence[str] | None = None) -> int:
         receipt_path = args.receipt if args.receipt.is_absolute() else args.root / args.receipt
         health_receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
         validate_health_receipt(health_receipt, args.root)
+        print(
+            json.dumps(
+                {
+                    "api_response_id": health_receipt["call"]["api_response_id"],
+                    "content_sha256": health_receipt["content_sha256"],
+                    "status": health_receipt["release_gate"]["status"],
+                },
+                sort_keys=True,
+            )
+        )
+        return 0
+    if args.command == "rebind-health":
+        from .core_llm_health import rebind_health_receipt
+
+        previous_path = args.previous if args.previous.is_absolute() else args.root / args.previous
+        health_receipt = rebind_health_receipt(
+            args.root, json.loads(previous_path.read_text(encoding="utf-8"))
+        )
+        output = args.output if args.output.is_absolute() else args.root / args.output
+        output.parent.mkdir(parents=True, exist_ok=True)
+        output.write_text(
+            json.dumps(health_receipt, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+        )
         print(
             json.dumps(
                 {

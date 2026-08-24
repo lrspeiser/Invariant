@@ -174,3 +174,24 @@ def test_committed_live_health_receipt_validates_offline() -> None:
     path = ROOT / H.OUTPUT_PATH
     assert path.is_file()
     H.validate_health_receipt(json.loads(path.read_text(encoding="utf-8")), ROOT)
+
+
+def test_health_rebind_preserves_live_call_and_repairs_only_source_bindings() -> None:
+    path = ROOT / H.OUTPUT_PATH
+    original = json.loads(path.read_text(encoding="utf-8"))
+    stale = copy.deepcopy(original)
+    stale["source_bindings"]["core_live_receipt"]["content_sha256"] = "0" * 64
+    stale["content_sha256"] = canonical_sha256(
+        {key: item for key, item in stale.items() if key != "content_sha256"}
+    )
+
+    H.validate_health_receipt(stale)
+    with pytest.raises(H.CoreLLMHealthError, match="source bindings"):
+        H.validate_health_receipt(stale, ROOT)
+    rebound = H.rebind_health_receipt(ROOT, stale)
+
+    assert rebound["call"] == original["call"]
+    assert rebound["credential_activation"] == original["credential_activation"]
+    assert rebound["retrieved_utc"] == original["retrieved_utc"]
+    assert rebound["source_bindings"] == original["source_bindings"]
+    H.validate_health_receipt(rebound, ROOT)
