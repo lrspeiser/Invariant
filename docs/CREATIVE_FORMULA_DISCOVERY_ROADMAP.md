@@ -408,6 +408,12 @@ network calls; a proposer plus two critic batches, including one malformed criti
 resumes with zero calls while retaining every candidate. The historical open-problem shadow budget
 remains exhausted, so its configured critic batch size is zero and no new paid attempt was made.
 This closes the response-loss engineering gap but does not count as a level-5 mathematical success.
+The same shadow receipt now gives all 173 creative-tail recoveries exact first-success lineage back
+to winning pair, direct parent pair, mutation delta, idea, basis, origin assessment, and role. Five
+ideas are linked to the recoveries (70, 51, 33, 18, and 1 respectively); 27 hits have multiple
+direct mutation parents but zero cross-idea or cross-basis ambiguity. This establishes auditable
+mechanism lineage, not causal or novelty credit, and leaves basis-specific ESDSL2 execution as the
+next semantic expansion.
 
 1. Complete the 24 pending retained-descendant prior-art forms plus the earlier A005132 form with
    specifically named human reviewers, using the sealed zbMATH supplement as an additional

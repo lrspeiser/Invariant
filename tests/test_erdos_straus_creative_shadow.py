@@ -15,12 +15,18 @@ from sigma_theory_compiler.erdos_straus_creative_shadow import (
     _creative_calls,
     _file_sha256,
     _mutated_pairs,
+    _mutation_lineage,
     _run_pairs,
+    _run_pairs_with_attribution,
     _witness_sample,
     parse_recipe,
     validate_receipt,
 )
-from sigma_theory_compiler.exponent_diophantine_sweeper import _es_hard_members
+from sigma_theory_compiler.exponent_diophantine_sweeper import (
+    _es_hard_members,
+    es_witness_is_exact,
+)
+from sigma_theory_compiler.sigma_core import canonical_sha256
 
 EXPERIMENT = {
     "maximum_moduli_per_recipe": 4,
@@ -212,12 +218,62 @@ def test_exact_pair_schedule_produces_replayable_witnesses():
     assert _witness_sample(members, wx, wy, resolved)
 
 
+def test_exact_pair_schedule_records_the_first_successful_pair():
+    members = _es_hard_members(10_000)
+    pairs = [(0, 0), (1, 0), (2, 1)]
+    wx, wy, resolved, winning_dx, winning_t, _, _ = _run_pairs_with_attribution(
+        __import__("numpy"), members, pairs
+    )
+    for index in __import__("numpy").flatnonzero(resolved):
+        winning_pair = (int(winning_dx[index]), int(winning_t[index]))
+        assert winning_pair in pairs
+        n, x, y = int(members[index]), int(wx[index]), int(wy[index])
+        b = n * x
+        d = (4 * x - n) * y - b
+        assert d > 0 and (b * y) % d == 0
+        assert es_witness_is_exact(n, x, y, (b * y) // d)
+
+
 def test_mutation_preserves_direct_pairs_and_adds_neighbors():
     pairs = _mutated_pairs([[64, 32]], EXPERIMENT)
     assert (64, 32) in pairs
     assert (62, 30) in pairs
     assert (66, 34) in pairs
     assert len(pairs) == 25
+
+
+def test_mutation_lineage_preserves_overlapping_parent_ideas():
+    creative = {
+        "ideas": [
+            {
+                "execution": {
+                    "admission": "EXECUTED_EXACT_MODULAR_SCREEN",
+                    "direct_parameter_pairs": [[1, 2]],
+                    "recipe": {"basis": "lattice_transform"},
+                },
+                "idea_id": "idea.one",
+                "llm_self_assessed_origin": "cross_domain_synthesis",
+                "role": "recombiner",
+            },
+            {
+                "execution": {
+                    "admission": "EXECUTED_EXACT_MODULAR_SCREEN",
+                    "direct_parameter_pairs": [[2, 2]],
+                    "recipe": {"basis": "divisor_pair"},
+                },
+                "idea_id": "idea.two",
+                "llm_self_assessed_origin": "known_rewrite",
+                "role": "recombiner",
+            },
+        ]
+    }
+    lineage = _mutation_lineage(creative, EXPERIMENT)
+    parents = lineage[(2, 2)]
+    assert {(item["idea_id"], tuple(item["mutation_delta"])) for item in parents} == {
+        ("idea.one", (1, 0)),
+        ("idea.two", (0, 0)),
+    }
+    assert {item["basis"] for item in parents} == {"lattice_transform", "divisor_pair"}
 
 
 def test_response_survives_process_stop_and_replays_without_redispatch(tmp_path: Path):
@@ -348,4 +404,47 @@ def test_shipped_live_receipt_validates_and_preserves_claim_boundary():
     rewired = receipt["hard_tail_funnel"]["matched_random_controls"]["pairing_only_rewire"]
     assert rewired["median_resolved"] == "174.000000"
     assert rewired["random_at_least_creative"] == 24
+    attribution = receipt["hard_tail_funnel"]["creative_tail"][
+        "parent_lineage_attribution"
+    ]
+    assert attribution["all_resolved_hits_have_parent_lineage"] is True
+    assert len(attribution["resolved_hit_records"]) == 173
+    assert attribution["multi_parent_lineage_hits"] == 27
+    assert attribution["multi_idea_lineage_hits"] == 0
+    assert attribution["multi_basis_lineage_hits"] == 0
+    assert {
+        item["idea_id"]: item["linked_resolved_hits"]
+        for item in attribution["idea_linked_hits"]
+    } == {
+        "recombiner.02.ES-CF-002": 33,
+        "recombiner.08.ES-MS-008": 51,
+        "recombiner.09.ES-DC-009": 18,
+        "recombiner.10.ES-HL-010": 1,
+        "recombiner.12.ES-TP-012": 70,
+    }
+    example = next(
+        item for item in attribution["resolved_hit_records"] if item["n"] == 398_161
+    )
+    assert example["winning_pair"] == [83, 11]
+    assert example["parent_lineages"] == [
+        {
+            "basis": "polynomial_ansatz",
+            "direct_pair": [81, 13],
+            "idea_id": "recombiner.12.ES-TP-012",
+            "llm_self_assessed_origin": "proposed_new_construction",
+            "mutation_delta": [2, -2],
+            "role": "recombiner",
+        }
+    ]
     assert all(value is False for value in receipt["claim_boundary"].values())
+
+    tampered = deepcopy(receipt)
+    tampered_record = tampered["hard_tail_funnel"]["creative_tail"][
+        "parent_lineage_attribution"
+    ]["resolved_hit_records"][0]
+    tampered_record["winning_pair"][0] += 1
+    tampered["content_sha256"] = canonical_sha256(
+        {key: item for key, item in tampered.items() if key != "content_sha256"}
+    )
+    with pytest.raises(ValueError, match="lineage"):
+        validate_receipt(tampered, ROOT)
