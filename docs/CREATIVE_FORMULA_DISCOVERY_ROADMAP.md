@@ -402,6 +402,13 @@ This is evidence of bounded rediscovery, not evidence of mathematical novelty.
 
 ## Next executable milestones
 
+The bounded Erdős--Straus shadow runner now uses the same durable response-first journal contract
+as the confirmatory and knockout paths. A simulated post-response process stop recovers with zero
+network calls; a proposer plus two critic batches, including one malformed critic response, also
+resumes with zero calls while retaining every candidate. The historical open-problem shadow budget
+remains exhausted, so its configured critic batch size is zero and no new paid attempt was made.
+This closes the response-loss engineering gap but does not count as a level-5 mathematical success.
+
 1. Complete the 24 pending retained-descendant prior-art forms plus the earlier A005132 form with
    specifically named human reviewers, using the sealed zbMATH supplement as an additional
    math-specific review dossier. Retry other unavailable provider lanes where practical, but keep
