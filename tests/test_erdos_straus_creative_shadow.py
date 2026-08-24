@@ -19,6 +19,7 @@ from sigma_theory_compiler.erdos_straus_creative_shadow import (
     _mutation_lineage,
     _public_payload,
     _run_pairs,
+    _run_pairs_fixed_lane_budget,
     _run_pairs_with_attribution,
     _schedule_pairs,
     _witness_sample,
@@ -345,6 +346,22 @@ def test_exact_pair_schedule_records_the_first_successful_pair():
         assert es_witness_is_exact(n, x, y, (b * y) // d)
 
 
+def test_fixed_lane_budget_matches_first_success_results_and_executes_every_lane():
+    np = __import__("numpy")
+    members = _es_hard_members(10_000)
+    pairs = [(0, 0), (1, 0), (2, 1), (64, 32)]
+    early_wx, early_wy, early_resolved, early_lane_tests, _ = _run_pairs(np, members, pairs)
+    fixed_wx, fixed_wy, fixed_resolved, fixed_lane_tests, _ = _run_pairs_fixed_lane_budget(
+        np, members, pairs
+    )
+    assert np.array_equal(fixed_resolved, early_resolved)
+    assert np.array_equal(fixed_wx, early_wx)
+    assert np.array_equal(fixed_wy, early_wy)
+    assert fixed_lane_tests == len(members) * len(pairs)
+    assert early_lane_tests <= fixed_lane_tests
+    assert _witness_sample(members, fixed_wx, fixed_wy, fixed_resolved)
+
+
 def test_mutation_preserves_direct_pairs_and_adds_neighbors():
     pairs = _mutated_pairs([[64, 32]], EXPERIMENT)
     assert (64, 32) in pairs
@@ -509,14 +526,34 @@ def test_shipped_live_receipt_validates_and_preserves_claim_boundary():
         "executable_llm_ideas": 11,
         "llm_ideas_proposed": 12,
         "llm_provider_calls": 4,
-        "matched_control_lane_tests": 33_918_680,
+        "matched_control_lane_tests": 36_205_832,
         "mutated_parameter_pairs": 1_051,
         "retained_llm_provider_calls": 1,
-        "total_exact_modular_lane_tests": 146_588_698,
+        "total_exact_modular_lane_tests": 148_875_850,
     }
     assert receipt["hard_tail_funnel"]["creative_tail"]["resolved_from_baseline_tail"] == 173
     assert receipt["hard_tail_funnel"]["creative_tail"]["independent_cpu_exact_verified"] == 173
-    rewired = receipt["hard_tail_funnel"]["matched_random_controls"]["pairing_only_rewire"]
+    controls = receipt["hard_tail_funnel"]["matched_random_controls"]
+    assert controls["fixed_lane_evaluator"] is True
+    assert controls["early_stop_enabled"] is False
+    assert controls["exact_lane_budget_matched"] is True
+    assert controls["wall_clock_budget_claimed_matched"] is True
+    assert controls["same_device_and_evaluator_kernel"] is True
+    assert controls["wall_clock_ceiling_seconds"] == 30
+    assert controls["random_control_exact_lane_tests"] == 35_832_576
+    assert controls["total_exact_lane_tests"] == 36_205_832
+    fixed_reference = controls["creative_fixed_lane_reference"]
+    assert fixed_reference["exact_lane_tests"] == 373_256
+    assert fixed_reference["resolved"] == 173
+    assert fixed_reference["first_success_result_agreement"] is True
+    assert float(fixed_reference["elapsed_seconds"]) <= 30
+    for key in ("uniform_domain", "support_matched", "pairing_only_rewire"):
+        assert controls[key]["exact_lane_tests_per_trial"] == 373_256
+        assert controls[key]["total_exact_lane_tests"] == 11_944_192
+        assert controls[key]["all_trials_within_wall_clock_ceiling"] is True
+        assert len(controls[key]["elapsed_seconds"]) == 32
+        assert max(float(item) for item in controls[key]["elapsed_seconds"]) <= 30
+    rewired = controls["pairing_only_rewire"]
     assert rewired["median_resolved"] == "174.000000"
     assert rewired["random_at_least_creative"] == 24
     attribution = receipt["hard_tail_funnel"]["creative_tail"][
@@ -570,4 +607,24 @@ def test_shipped_live_receipt_validates_and_preserves_claim_boundary():
         {key: item for key, item in tampered.items() if key != "content_sha256"}
     )
     with pytest.raises(ValueError, match="typed schedule compiler"):
+        validate_receipt(tampered, ROOT)
+
+    tampered = deepcopy(receipt)
+    tampered["hard_tail_funnel"]["matched_random_controls"]["uniform_domain"][
+        "exact_lane_tests_per_trial"
+    ] -= 1
+    tampered["content_sha256"] = canonical_sha256(
+        {key: item for key, item in tampered.items() if key != "content_sha256"}
+    )
+    with pytest.raises(ValueError, match="fixed-lane random control"):
+        validate_receipt(tampered, ROOT)
+
+    tampered = deepcopy(receipt)
+    tampered["hard_tail_funnel"]["matched_random_controls"]["support_matched"][
+        "elapsed_seconds"
+    ][0] = "30.000001"
+    tampered["content_sha256"] = canonical_sha256(
+        {key: item for key, item in tampered.items() if key != "content_sha256"}
+    )
+    with pytest.raises(ValueError, match="fixed-lane random control"):
         validate_receipt(tampered, ROOT)

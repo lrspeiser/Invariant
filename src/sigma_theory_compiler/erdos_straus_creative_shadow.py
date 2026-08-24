@@ -54,8 +54,8 @@ from .sigma_core import canonical_sha256
 
 CONFIG_PATH = "configs/erdos_straus_creative_shadow.json"
 OUTPUT_PATH = "runs/math/erdos-straus-creative-shadow/live-runtime.json"
-SCHEMA_VERSION = "invariant-erdos-straus-creative-shadow-runtime-1.1"
-CONFIG_SCHEMA = "invariant-erdos-straus-creative-shadow-config-1.1"
+SCHEMA_VERSION = "invariant-erdos-straus-creative-shadow-runtime-1.2"
+CONFIG_SCHEMA = "invariant-erdos-straus-creative-shadow-config-1.2"
 ESDSL2_CONTRACT_SCHEMA = "invariant-esdsl2-basis-semantics-contract-1.0"
 SOURCE_PATH = "src/sigma_theory_compiler/erdos_straus_creative_shadow.py"
 SWEEPER_PATH = "src/sigma_theory_compiler/exponent_diophantine_sweeper.py"
@@ -224,6 +224,13 @@ def _load_config(root: Path, config_path: str | Path = CONFIG_PATH) -> dict[str,
         raise ErdosStrausCreativeShadowError("LLM critic batch size is invalid")
     if experiment.get("proposal_dsl_version") not in {"ESDSL1", "ESDSL2"}:
         raise ErdosStrausCreativeShadowError("proposal DSL version is invalid")
+    wall_clock_ceiling = experiment.get("matched_control_wall_clock_ceiling_seconds")
+    if (
+        isinstance(wall_clock_ceiling, bool)
+        or not isinstance(wall_clock_ceiling, int)
+        or not 1 <= wall_clock_ceiling <= 60
+    ):
+        raise ErdosStrausCreativeShadowError("matched control wall-clock ceiling is invalid")
     if value["claude"]["maximum_calls"] != 4 or value["claude"]["maximum_total_tokens"] > 32_000:
         raise ErdosStrausCreativeShadowError("open-problem shadow budget changed")
     return value
@@ -803,6 +810,33 @@ def _run_pairs(
         xp, members, pairs
     )
     return wx, wy, resolved, lane_tests, elapsed
+
+
+def _run_pairs_fixed_lane_budget(
+    xp: Any, members: np.ndarray, pairs: Sequence[tuple[int, int]]
+) -> tuple[np.ndarray, np.ndarray, np.ndarray, int, float]:
+    """Run every pair on every member while preserving first-success witness semantics."""
+
+    started = time.perf_counter()
+    n = xp.asarray(members)
+    resolved = xp.zeros(n.shape, dtype=bool)
+    wx = xp.zeros(n.shape, dtype=xp.int64)
+    wy = xp.zeros(n.shape, dtype=xp.int64)
+    lane_tests = 0
+    for dx, t in pairs:
+        lane_tests += int(n.size)
+        a = 3 + 4 * dx
+        x = n // 4 + 1 + dx
+        b = n * x
+        y = (b + a - 1) // a + t
+        d = a * y - b
+        safe = xp.where(d > 0, d, xp.int64(1))
+        ok = (~resolved) & (d > 0) & (y >= x) & (((b % safe) * (y % safe)) % safe == 0)
+        wx = xp.where(ok, x, wx)
+        wy = xp.where(ok, y, wy)
+        resolved = resolved | ok
+    elapsed = time.perf_counter() - started
+    return _host_array(wx), _host_array(wy), _host_array(resolved), lane_tests, elapsed
 
 
 def _witness_sample(
@@ -1566,41 +1600,88 @@ def _hard_tail_experiment(
     )
     rng = np.random.default_rng(int(experiment["matched_control_seed"]))
     creative_count = int(resolved.sum())
+    wall_clock_ceiling = int(experiment["matched_control_wall_clock_ceiling_seconds"])
+    (
+        fixed_wx,
+        fixed_wy,
+        fixed_resolved,
+        fixed_creative_lane_tests,
+        fixed_creative_elapsed,
+    ) = _run_pairs_fixed_lane_budget(xp, tail, novel_pairs)
+    expected_lane_tests_per_schedule = int(tail.size) * len(novel_pairs)
+    if (
+        fixed_creative_lane_tests != expected_lane_tests_per_schedule
+        or not np.array_equal(fixed_resolved, resolved)
+        or not np.array_equal(fixed_wx, wx)
+        or not np.array_equal(fixed_wy, wy)
+    ):
+        raise ErdosStrausCreativeShadowError(
+            "fixed-lane creative reference disagrees with first-success evaluation"
+        )
+    if fixed_creative_elapsed > wall_clock_ceiling:
+        raise ErdosStrausCreativeShadowError(
+            "fixed-lane creative reference exceeded matched wall-clock ceiling"
+        )
 
     def summarize_controls(
-        label: str, control_counts: Sequence[int], control_lane_tests: Sequence[int]
+        label: str,
+        control_counts: Sequence[int],
+        control_lane_tests: Sequence[int],
+        control_elapsed: Sequence[float],
     ) -> dict[str, Any]:
+        if (
+            not len(control_counts) == len(control_lane_tests) == len(control_elapsed)
+            or any(item != expected_lane_tests_per_schedule for item in control_lane_tests)
+        ):
+            raise ErdosStrausCreativeShadowError("fixed-lane control verifier budget changed")
+        if any(item > wall_clock_ceiling for item in control_elapsed):
+            raise ErdosStrausCreativeShadowError(
+                "fixed-lane control exceeded matched wall-clock ceiling"
+            )
+        elapsed_strings = [f"{item:.6f}" for item in control_elapsed]
+        rounded_elapsed = [float(item) for item in elapsed_strings]
         random_at_least_creative = sum(count >= creative_count for count in control_counts)
         return {
+            "all_trials_within_wall_clock_ceiling": True,
             "control_kind": label,
             "control_resolved_counts": control_counts,
             "creative_outperformed_random_median": creative_count
             > float(np.median(control_counts)),
+            "elapsed_seconds": elapsed_strings,
             "creative_percentile": (
                 f"{sum(count <= creative_count for count in control_counts) / len(control_counts):.6f}"
             ),
             "empirical_one_sided_p": (
                 f"{(random_at_least_creative + 1) / (len(control_counts) + 1):.6f}"
             ),
+            "exact_lane_tests_per_trial": expected_lane_tests_per_schedule,
             "maximum_resolved": max(control_counts),
+            "maximum_elapsed_seconds": f"{max(rounded_elapsed):.6f}",
             "mean_resolved": f"{float(np.mean(control_counts)):.6f}",
+            "median_elapsed_seconds": f"{float(np.median(rounded_elapsed)):.6f}",
             "median_resolved": f"{float(np.median(control_counts)):.6f}",
+            "minimum_elapsed_seconds": f"{min(rounded_elapsed):.6f}",
             "minimum_resolved": min(control_counts),
             "random_at_least_creative": random_at_least_creative,
             "total_exact_lane_tests": sum(control_lane_tests),
             "trials": len(control_counts),
+            "wall_clock_ceiling_seconds": wall_clock_ceiling,
         }
 
     def run_controls(universe: Sequence[tuple[int, int]], label: str) -> dict[str, Any]:
         control_counts = []
         control_lane_tests = []
+        control_elapsed = []
         for _ in range(int(experiment["matched_control_trials"])):
             indices = rng.choice(len(universe), size=len(novel_pairs), replace=False)
             control_pairs = tuple(universe[int(index)] for index in indices)
-            _, _, control_resolved, lane_tests, _ = _run_pairs(xp, tail, control_pairs)
+            _, _, control_resolved, lane_tests, elapsed = _run_pairs_fixed_lane_budget(
+                xp, tail, control_pairs
+            )
             control_counts.append(int(control_resolved.sum()))
             control_lane_tests.append(lane_tests)
-        return summarize_controls(label, control_counts, control_lane_tests)
+            control_elapsed.append(elapsed)
+        return summarize_controls(label, control_counts, control_lane_tests, control_elapsed)
 
     def rewire_pairs() -> tuple[tuple[tuple[int, int], ...], int]:
         edges = list(novel_pairs)
@@ -1639,35 +1720,67 @@ def _hard_tail_experiment(
     support_controls = run_controls(support_universe, "llm_offset_support_cross_product")
     rewired_counts = []
     rewired_lane_tests = []
+    rewired_elapsed = []
     rewired_swaps = []
     for _ in range(int(experiment["matched_control_trials"])):
         rewired_pairs, successful_swaps = rewire_pairs()
-        _, _, rewired_resolved, lane_tests, _ = _run_pairs(xp, tail, rewired_pairs)
+        _, _, rewired_resolved, lane_tests, elapsed = _run_pairs_fixed_lane_budget(
+            xp, tail, rewired_pairs
+        )
         rewired_counts.append(int(rewired_resolved.sum()))
         rewired_lane_tests.append(lane_tests)
+        rewired_elapsed.append(elapsed)
         rewired_swaps.append(successful_swaps)
     rewired_controls = summarize_controls(
-        "degree_preserving_pair_rewire", rewired_counts, rewired_lane_tests
+        "degree_preserving_pair_rewire",
+        rewired_counts,
+        rewired_lane_tests,
+        rewired_elapsed,
     )
     rewired_controls["exact_x_marginal_frequency_matched"] = True
     rewired_controls["exact_t_marginal_frequency_matched"] = True
     rewired_controls["minimum_successful_edge_swaps"] = min(rewired_swaps)
     matched_controls = {
         "candidate_pair_count_matched": True,
+        "creative_fixed_lane_reference": {
+            "all_within_wall_clock_ceiling": True,
+            "device": device,
+            "elapsed_seconds": f"{fixed_creative_elapsed:.6f}",
+            "exact_lane_tests": fixed_creative_lane_tests,
+            "first_success_result_agreement": True,
+            "resolved": int(fixed_resolved.sum()),
+            "wall_clock_ceiling_seconds": wall_clock_ceiling,
+        },
+        "early_stop_enabled": False,
         "early_stop_rule_matched": True,
+        "exact_lane_budget_matched": True,
+        "fixed_lane_evaluator": True,
         "llm_x_support": x_support,
         "llm_t_support": t_support,
         "parameter_domain_matched": True,
         "pairing_only_rewire": rewired_controls,
-        "seed": int(experiment["matched_control_seed"]),
-        "support_matched": support_controls,
-        "total_exact_lane_tests": (
+        "random_control_exact_lane_tests": (
             uniform_controls["total_exact_lane_tests"]
             + support_controls["total_exact_lane_tests"]
             + rewired_controls["total_exact_lane_tests"]
         ),
+        "runtime_budget_contract": (
+            "Every creative/control schedule executes the same pair-by-tail array shape on the "
+            "same device and evaluator, with the same fail-closed wall-clock ceiling. Observed "
+            "times are outcomes and are not asserted equal."
+        ),
+        "same_device_and_evaluator_kernel": True,
+        "seed": int(experiment["matched_control_seed"]),
+        "support_matched": support_controls,
+        "total_exact_lane_tests": (
+            fixed_creative_lane_tests
+            + uniform_controls["total_exact_lane_tests"]
+            + support_controls["total_exact_lane_tests"]
+            + rewired_controls["total_exact_lane_tests"]
+        ),
         "uniform_domain": uniform_controls,
-        "wall_clock_budget_claimed_matched": False,
+        "wall_clock_budget_claimed_matched": True,
+        "wall_clock_ceiling_seconds": wall_clock_ceiling,
     }
     return {
         "baseline": {
@@ -2017,11 +2130,29 @@ def validate_receipt(
     if accounting["denominators_covered"] != config["experiment"]["search_n_max"] - 1:
         raise ErdosStrausCreativeShadowError("finite coverage accounting mismatch")
     controls = value["hard_tail_funnel"]["matched_random_controls"]
+    trial_count = int(config["experiment"]["matched_control_trials"])
+    wall_clock_ceiling = int(
+        config["experiment"]["matched_control_wall_clock_ceiling_seconds"]
+    )
+    expected_lane_tests = (
+        int(value["hard_tail_funnel"]["baseline"]["unresolved_tail"])
+        * int(tail["pairs_outside_fixed_baseline"])
+    )
+    fixed_reference = controls.get("creative_fixed_lane_reference", {})
     if (
-        controls["uniform_domain"]["trials"] != config["experiment"]["matched_control_trials"]
-        or controls["support_matched"]["trials"] != config["experiment"]["matched_control_trials"]
-        or controls["pairing_only_rewire"]["trials"]
-        != config["experiment"]["matched_control_trials"]
+        controls.get("fixed_lane_evaluator") is not True
+        or controls.get("early_stop_enabled") is not False
+        or controls.get("exact_lane_budget_matched") is not True
+        or controls.get("same_device_and_evaluator_kernel") is not True
+        or controls.get("wall_clock_budget_claimed_matched") is not True
+        or controls.get("wall_clock_ceiling_seconds") != wall_clock_ceiling
+        or fixed_reference.get("device") != tail["device"]
+        or fixed_reference.get("exact_lane_tests") != expected_lane_tests
+        or fixed_reference.get("resolved") != tail["resolved_from_baseline_tail"]
+        or fixed_reference.get("first_success_result_agreement") is not True
+        or fixed_reference.get("all_within_wall_clock_ceiling") is not True
+        or fixed_reference.get("wall_clock_ceiling_seconds") != wall_clock_ceiling
+        or not 0 <= float(fixed_reference.get("elapsed_seconds", -1)) <= wall_clock_ceiling
         or controls["pairing_only_rewire"]["exact_x_marginal_frequency_matched"] is not True
         or controls["pairing_only_rewire"]["exact_t_marginal_frequency_matched"] is not True
         or controls["candidate_pair_count_matched"] is not True
@@ -2029,6 +2160,40 @@ def validate_receipt(
         or controls["early_stop_rule_matched"] is not True
     ):
         raise ErdosStrausCreativeShadowError("matched random control contract changed")
+    random_control_lane_tests = 0
+    for control_name in ("uniform_domain", "support_matched", "pairing_only_rewire"):
+        control = controls[control_name]
+        elapsed = [float(item) for item in control.get("elapsed_seconds", [])]
+        if (
+            control.get("trials") != trial_count
+            or len(control.get("control_resolved_counts", [])) != trial_count
+            or len(elapsed) != trial_count
+            or control.get("exact_lane_tests_per_trial") != expected_lane_tests
+            or control.get("total_exact_lane_tests") != expected_lane_tests * trial_count
+            or control.get("wall_clock_ceiling_seconds") != wall_clock_ceiling
+            or control.get("all_trials_within_wall_clock_ceiling") is not True
+            or any(item < 0 or item > wall_clock_ceiling for item in elapsed)
+            or control.get("minimum_elapsed_seconds") != f"{min(elapsed):.6f}"
+            or control.get("median_elapsed_seconds")
+            != f"{float(np.median(elapsed)):.6f}"
+            or control.get("maximum_elapsed_seconds") != f"{max(elapsed):.6f}"
+        ):
+            raise ErdosStrausCreativeShadowError(
+                "fixed-lane random control budget or runtime evidence changed"
+            )
+        random_control_lane_tests += int(control["total_exact_lane_tests"])
+    if (
+        controls.get("random_control_exact_lane_tests") != random_control_lane_tests
+        or controls.get("total_exact_lane_tests")
+        != random_control_lane_tests + expected_lane_tests
+        or accounting.get("matched_control_lane_tests") != controls["total_exact_lane_tests"]
+        or accounting.get("total_exact_modular_lane_tests")
+        != creative["total_idea_lane_tests"]
+        + value["hard_tail_funnel"]["baseline"]["exact_lane_tests"]
+        + tail["exact_lane_tests"]
+        + controls["total_exact_lane_tests"]
+    ):
+        raise ErdosStrausCreativeShadowError("fixed-lane matched-control accounting changed")
 
 
 def main(argv: list[str] | None = None) -> int:

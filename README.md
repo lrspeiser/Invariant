@@ -23,8 +23,8 @@ and release priorities are maintained in
 
 The first bounded famous-open-problem shadow experiment applies the LLM-to-typed-search-to-GPU
 pipeline to the Erdős--Straus conjecture without opening the project's proof-claim gate. It tests
-12 retained ideas, performs 146,588,698 exact modular lane checks, and uses progressively stronger
-matched controls. The result is useful but deliberately mixed: creative mutations remove 173 CPU
+12 retained ideas, performs 148,875,850 exact modular lane checks, and uses progressively stronger
+fixed-lane matched controls. The result is useful but deliberately mixed: creative mutations remove 173 CPU
 fallbacks, while degree-preserving random rewiring slightly outperforms the LLM's exact pairings.
 See the [full experiment report](docs/ERDOS_STRAUS_CREATIVE_SHADOW_2026_08_24.md).
 

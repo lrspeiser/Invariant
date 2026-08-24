@@ -4,7 +4,7 @@ Date: 2026-08-24
 
 Campaign: `erdos-straus-creative-shadow-2026-08-24-001`
 
-Receipt: `37f9b5dca780491283108dc7e666dba78796dbbe832c517d90a72f04edf5d4b1`
+Receipt: `71bbdb5014738e6198b28d99649481e0d092fb59025d06702674784e84c9c27c`
 
 ## Result in one paragraph
 
@@ -66,8 +66,9 @@ tail.
 | Per-idea calibration lane tests | 7,486,679 |
 | Old baseline GPU lane tests | 104,839,060 |
 | Creative-tail lane tests | 344,279 |
-| Random-control lane tests | 33,918,680 |
-| Total exact modular lane tests | 146,588,698 |
+| Fixed-lane creative reference tests | 373,256 |
+| Fixed-lane random-control tests | 35,832,576 |
+| Total exact modular lane tests | 148,875,850 |
 | Denominators finitely covered, `2 <= n <= 10^8` | 99,999,999 |
 | Unsolvable values found in that finite range | 0 |
 
@@ -219,6 +220,14 @@ Three increasingly strict 32-trial controls each used 296 pairs and the same exa
 | Uniform over the full declared offset domain | 38 | 25–53 | 0/32 | 0.0303 |
 | Same LLM-selected offset supports | 158 | 145–170 | 0/32 | 0.0303 |
 | Exact `x`/`t` marginal frequencies; pairings rewired | 174 | 168–180 | 24/32 | 0.7576 |
+
+The strengthened comparison disables early stopping for both the creative reference and every
+control schedule. Each executes exactly `296 * 1261 = 373,256` pair-by-tail lanes on the same RTX
+5090 evaluator with the same fail-closed 30-second ceiling. The creative reference took 0.182917
+seconds; across all 96 controls, observed times ranged from 0.089636 to 0.244319 seconds. These are
+reported outcomes, not a claim that wall times are equal. All runs passed the common ceiling, and
+the fixed-lane result agrees exactly with the historical first-success witnesses. The three control
+distributions and p-values are unchanged.
 
 The first two comparisons show that the LLM portfolio concentrated computation in useful regions.
 The third comparison is the fairest test of its precise combinations and does not support an
