@@ -1,0 +1,80 @@
+{
+  "campaign_id": "erdos-straus-creative-shadow-2026-08-24-001",
+  "claim_policy": {
+    "famous_open_problem_attempt_authorized": false,
+    "human_prior_art_review_required_for_novelty": true,
+    "level5_process_passes": 0,
+    "minimum_level5_process_passes": 3,
+    "shadow_mechanism_experiment_only": true
+  },
+  "claude": {
+    "credential_env_var": "ANTHROPIC_API_KEY",
+    "effort": "high",
+    "execution_enabled": true,
+    "maximum_calls": 4,
+    "maximum_output_tokens": 6144,
+    "maximum_total_tokens": 32000,
+    "model": "claude-opus-4-6",
+    "timeout_seconds": 180
+  },
+  "experiment": {
+    "baseline_t_rounds": 32,
+    "baseline_x_rounds": 64,
+    "benchmark_n_max": 10000000,
+    "calibration_n_max": 1000000,
+    "creative_roles": [
+      "recombiner"
+    ],
+    "matched_control_seed": 20260824,
+    "matched_control_trials": 32,
+    "maximum_moduli_per_recipe": 4,
+    "maximum_offset": 255,
+    "maximum_offsets_per_axis": 6,
+    "mutation_radius": 2,
+    "search_n_max": 100000000,
+    "requested_ideas_per_creative_call": 12
+  },
+  "literature": {
+    "checked_on": "2026-08-24",
+    "current_status": "open",
+    "latest_bound_claim": 1000000000000000000,
+    "sources": [
+      {
+        "citation": "C. Elsholtz and T. Tao, Counting the number of solutions to the Erdos-Straus equation on unit fractions, J. Aust. Math. Soc. 94 (2013), 50-105.",
+        "url": "https://arxiv.org/abs/1107.1010"
+      },
+      {
+        "citation": "S. E. Salez, The Erdos-Straus conjecture: New modular equations and checking up to N=10^17 (2014).",
+        "url": "https://arxiv.org/abs/1406.6307"
+      },
+      {
+        "citation": "S. Mihnea and D. C. Bogdan, Further verification and empirical evidence for the Erdos-Straus conjecture (2025), reporting verification to 10^18.",
+        "url": "https://arxiv.org/abs/2509.00128"
+      }
+    ]
+  },
+  "problem": {
+    "equation": "4/n = 1/x + 1/y + 1/z",
+    "id": "erdos_straus",
+    "integer_constraints": "n >= 2 and 1 <= x <= y <= z",
+    "progress_definition": "A finite shadow run may compare mechanisms and find exact witnesses. It cannot decide the conjecture or establish novelty."
+  },
+  "recovery": {
+    "discarded_attempts": [
+      {
+        "completed_provider_calls": 0,
+        "failure": "fixed_hypothesis_slot_grammar_rejected_by_provider",
+        "outputs_persisted": false,
+        "token_usage": "zero_completed_message_calls"
+      },
+      {
+        "completed_provider_calls": 3,
+        "failure": "per_candidate_critic_grammar_rejected_by_provider_after_creative_calls",
+        "outputs_persisted": false,
+        "token_usage": "not_recoverable_from_fail_closed_in_memory_attempt"
+      }
+    ],
+    "remaining_completed_call_budget": 1
+  },
+  "schema_version": "invariant-erdos-straus-creative-shadow-config-1.0"
+}
