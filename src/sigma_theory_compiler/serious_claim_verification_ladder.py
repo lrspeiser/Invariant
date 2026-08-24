@@ -269,7 +269,7 @@ def _multi_host(root: Path, config: Mapping[str, Any]) -> dict[str, Any]:
         _under(root, config["sources"]["multi_host_receipt"], "multi-host receipt"),
         "multi-host receipt",
     )
-    validate_multi_host_receipt(value)
+    validate_multi_host_receipt(value, root)
     return value
 
 

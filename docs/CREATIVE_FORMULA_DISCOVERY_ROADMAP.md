@@ -92,11 +92,12 @@
   new candidate or permission to release a serious claim.
 - Downloaded artifacts bind four distinct GitHub-hosted ephemeral VM runner IDs across Windows and
   Linux, with two evaluator implementations per host and a separate Lean kernel artifact. The
-  current receipt binds successful post-merge run `32698594929` at
-  `56c4b86621ab243f306c51d6c406c695f5c672c4`, which includes exact-discrete piecewise replay,
-  the retained-descendant campaign, and the transform-, tensor-, and variational-capable
-  executable-LLM core. This is multi-host VM reproduction, not a claim about distinct bare-metal
-  machines.
+  current receipt binds successful post-merge run `32717558984` at
+  `163fd312c5bcf3b9b5bb16b27a40d5253ef83941`, which includes exact-discrete piecewise replay,
+  the retained-descendant campaign, the transform-, tensor-, and variational-capable executable-LLM
+  core, and its one-call live health receipt. The multi-host seal is
+  `074af7dda442379dd380a0559e6d04c17211f812956c03e2e327f1bfb8627d23`. This is multi-host VM
+  reproduction, not a claim about distinct bare-metal machines.
 - The CI workflow creates a second credential-free payload on every deterministic host. It
   validates the core and retained-descendant receipts without a provider key or provider call and
   binds a deterministic-rebind-stable projection of all 14 authenticated call records, their prompt

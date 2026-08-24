@@ -15,34 +15,30 @@ RECEIPT = ROOT / M.OUTPUT_PATH
 
 def test_downloaded_multi_host_receipt_is_sealed_and_cross_platform() -> None:
     value = json.loads(RECEIPT.read_text(encoding="utf-8"))
-    M.validate_receipt(value)
+    M.validate_receipt(value, ROOT)
     assert value["acquisition"]["artifact_bytes_downloaded_and_hashed"]
-    assert value["reproduction"]["received_machines"] == 4
-    assert value["reproduction"]["distinct_runner_ids"] == 4
+    assert value["reproduction"]["received_machines"] == 5
+    assert value["reproduction"]["core_reproduction_machines"] == 4
+    assert value["reproduction"]["lean_kernel_machines"] == 1
+    assert value["reproduction"]["distinct_runner_ids"] == 5
     assert value["reproduction"]["distinct_operating_systems"] == [
         "ubuntu-latest",
         "windows-latest",
     ]
-    assert value["acquisition"]["workflow_run_id"] == 32698594929
-    assert value["head_sha"] == "56c4b86621ab243f306c51d6c406c695f5c672c4"
-    assert value["lean"]["artifact_id"] == 9509721324
+    assert value["acquisition"]["workflow_run_id"] == 32717558984
+    assert value["head_sha"] == "163fd312c5bcf3b9b5bb16b27a40d5253ef83941"
+    assert value["lean"]["artifact_id"] == 9516510138
     assert value["lean"]["kernel_checked"]
-    assert value["reproduction"]["status"] == (
-        "PASS_MULTI_HOST_CORE_LLM_EVIDENCE_REPRODUCTION"
-    )
+    assert value["reproduction"]["status"] == ("PASS_MULTI_HOST_CORE_LLM_EVIDENCE_REPRODUCTION")
     assert value["reproduction"]["core_llm_evidence_reproductions"] == 4
     assert value["reproduction"]["core_new_provider_calls"] == 0
     assert value["reproduction"]["core_llm_evidence_projection_sha256"] == (
         "5f2a010578c99a895b143a1b83ef11f51159e7a7810dad78c83792186ee12433"
     )
     assert all(
-        host["core_reproduction"]["status"]
-        == "PASS_CORE_LLM_EVIDENCE_REPRODUCTION"
+        host["core_reproduction"]["status"] == "PASS_CORE_LLM_EVIDENCE_REPRODUCTION"
         and host["core_reproduction"]["new_provider_calls"] == 0
-        and host["core_reproduction"][
-            "provider_credential_available_on_reproduction_host"
-        ]
-        is False
+        and host["core_reproduction"]["provider_credential_available_on_reproduction_host"] is False
         for host in value["hosts"]
     )
     assert not value["claim_boundary"]["physical_bare_metal_identity_claimed"]
@@ -62,10 +58,44 @@ def test_multi_host_receipt_rejects_collapsed_runner_identity() -> None:
 def test_multi_host_receipt_rejects_core_projection_disagreement() -> None:
     value = json.loads(RECEIPT.read_text(encoding="utf-8"))
     changed = deepcopy(value)
-    changed["hosts"][0]["core_reproduction"]["llm_evidence_projection_sha256"] = (
-        "0" * 64
-    )
+    changed["hosts"][0]["core_reproduction"]["llm_evidence_projection_sha256"] = "0" * 64
     body = {key: item for key, item in changed.items() if key != "content_sha256"}
     changed["content_sha256"] = canonical_sha256(body)
     with pytest.raises(M.MultiHostReproductionError, match="policy"):
         M.validate_receipt(changed)
+
+
+def test_multi_host_receipt_rejects_lean_runner_or_archive_digest_tamper() -> None:
+    value = json.loads(RECEIPT.read_text(encoding="utf-8"))
+    for mutate in (
+        lambda changed: changed["lean"].__setitem__("runner_id", changed["hosts"][0]["runner_id"]),
+        lambda changed: changed["acquisition"]["archive_digests_bound"].__setitem__(
+            0, "sha256:" + "0" * 64
+        ),
+    ):
+        changed = deepcopy(value)
+        mutate(changed)
+        body = {key: item for key, item in changed.items() if key != "content_sha256"}
+        changed["content_sha256"] = canonical_sha256(body)
+        with pytest.raises(M.MultiHostReproductionError):
+            M.validate_receipt(changed, ROOT)
+
+
+def test_source_manifest_rejects_collapsed_github_identity(tmp_path: Path) -> None:
+    source = json.loads((ROOT / M.CONFIG_PATH).read_text(encoding="utf-8"))
+    source["artifacts"][1]["runner_id"] = source["artifacts"][0]["runner_id"]
+    path = tmp_path / M.CONFIG_PATH
+    path.parent.mkdir(parents=True)
+    path.write_text(json.dumps(source), encoding="utf-8")
+    with pytest.raises(M.MultiHostReproductionError, match="identity collapsed"):
+        M._load_source(tmp_path)
+
+
+def test_source_manifest_rejects_wrong_artifact_topology(tmp_path: Path) -> None:
+    source = json.loads((ROOT / M.CONFIG_PATH).read_text(encoding="utf-8"))
+    source["artifacts"][-1]["artifact_name"] = "external-creativity-unexpected"
+    path = tmp_path / M.CONFIG_PATH
+    path.parent.mkdir(parents=True)
+    path.write_text(json.dumps(source), encoding="utf-8")
+    with pytest.raises(M.MultiHostReproductionError, match="topology"):
+        M._load_source(tmp_path)

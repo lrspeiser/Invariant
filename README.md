@@ -1199,18 +1199,19 @@ The current bounded result rediscovers the two known formulas but finds no zero-
 unknown sequence. Consequently the level-5 success count is zero and famous-open-problem spending
 is blocked. A second exact evaluator implemented with only Python AST and `Fraction` agrees with the
 primary evaluator. Downloaded CI artifacts bind four distinct GitHub-hosted ephemeral runner IDs
-across Windows and Linux plus the Lean kernel job from successful post-merge run `32698594929` at
-`56c4b86621ab243f306c51d6c406c695f5c672c4`; this is multi-host VM reproduction of the
+across Windows and Linux plus the Lean kernel job from successful post-merge run `32717558984` at
+`163fd312c5bcf3b9b5bb16b27a40d5253ef83941`; this is multi-host VM reproduction of the
 exact-discrete piecewise replay and the transform-, tensor-, variational-, and retained-descendant-
-capable executable-LLM core, not proof of distinct bare-metal machines. Human prior-art review is
-mandatory before any serious or novelty claim can be released.
+capable executable-LLM core plus its one-call live health receipt, not proof of distinct bare-metal
+machines. Human prior-art review is mandatory before any serious or novelty claim can be released.
 
 The external-creativity workflow now also emits a credential-free core reproduction probe on every
 deterministic host. The probe validates the full core and descendant receipts, makes zero provider
 calls, and binds a rebind-stable projection of the eight authenticated proposer/critic calls, six
 authenticated repair/recombination calls, prompt context, lineage archive, usage, and credential
-boundary. The first four probe-bearing payloads are now downloaded, hash-checked, provenance-bound,
-and sealed into the durable multi-host receipt. All four reproduce projection
+boundary. Four fresh probe-bearing payloads are downloaded, hash-checked, provenance-bound, and
+sealed into the durable multi-host receipt
+`074af7dda442379dd380a0559e6d04c17211f812956c03e2e327f1bfb8627d23`. All four reproduce projection
 `5f2a010578c99a895b143a1b83ef11f51159e7a7810dad78c83792186ee12433` with zero new provider
 calls and no provider credential on the runners. This replays authenticated evidence; it does not
 claim that CI repeated the paid live calls or independently established novelty.
@@ -1579,6 +1580,15 @@ sigma-core-discovery health --root . `
   --output runs/math/core-creative-discovery/live-llm-health.json
 sigma-core-discovery validate-health --root . `
   --receipt runs/math/core-creative-discovery/live-llm-health.json
+```
+
+When deterministic source-bound evidence changes, preserve the authenticated health call and update
+only its source bindings after resealing the core receipt:
+
+```powershell
+sigma-core-discovery rebind-health --root . `
+  --previous runs/math/core-creative-discovery/live-llm-health.json `
+  --output runs/math/core-creative-discovery/live-llm-health.json
 ```
 
 Run the full eight-call authenticated discovery campaign separately when new creative evidence is
