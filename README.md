@@ -1194,9 +1194,8 @@ is blocked. A second exact evaluator implemented with only Python AST and `Fract
 primary evaluator. Downloaded CI artifacts bind four distinct GitHub-hosted ephemeral runner IDs
 across Windows and Linux plus the Lean kernel job from successful post-merge run `32676680764` at
 `df040f9a38a60a86e3b55c157006af4f8f48923c`; this is multi-host VM reproduction of the tensor- and
-variational-capable executable-LLM
-core, not proof of distinct bare-metal machines. Human prior-art review is mandatory before any serious or novelty
-claim can be released.
+variational-capable executable-LLM core, not proof of distinct bare-metal machines. Human prior-art
+review is mandatory before any serious or novelty claim can be released.
 The implementation backlog and promotion criteria are listed in
 [`docs/CREATIVE_FORMULA_DISCOVERY_ROADMAP.md`](docs/CREATIVE_FORMULA_DISCOVERY_ROADMAP.md).
 
@@ -1206,8 +1205,11 @@ variational functionals. Each kind has a positive control, a negative mutation, 
 limits, serialization, and two evaluator implementations. The control receipt passes 7/7 without
 claiming that grammar admission proves a formula or establishes novelty.
 
-The live Claude proposal compiler now reaches the tensor and variational kinds rather than merely
-archiving them as unsupported prose. A tensor proposal declares its complete bounded component
+The live Claude proposal compiler now reaches bounded linear shift transforms, tensors, and
+variational kinds rather than merely archiving them as unsupported prose. A transform proposal
+declares a public index, a source expression, an exact rational shift stencil, and a claimed
+transform; it emits the claim only where both evaluators obtain the same exact stencil result. A
+tensor proposal declares its complete bounded component
 arrays, shape, variance, symmetries, and one output component; it produces a prediction only when
 both exact evaluators accept the component identity and symmetries. A first-order variational
 proposal declares its integrand, Euler-Lagrange claim, and bindings from all formal symbols to the
@@ -1217,7 +1219,13 @@ and verifier-invocation profiles. The current live eight-call run received these
 proposer prompt but happened to propose no tensor or variational idea, so provider-path execution of
 those two representations remains unobserved in this stochastic specimen; bounded primary and
 independent execution is covered by positive, false-identity, malformed-input, and matched-control
-tests.
+tests. A fresh authenticated eight-call run used 89,475 tokens, retained all 29 ideas, admitted 6
+executable hypotheses, and scored 4 distinct candidates. It organically returned two transform
+ideas. One self-labeled known rewrite proposed that the forward difference of the sum-of-squares
+formula is `(n+1)^2`; the current compiler safely normalizes `n` to the public `x0` alias and both
+evaluators reproduce `1, 4, 9, 16, ...`. The second used an unsupported function-call/equality form
+and remains retained. The run proposed no tensor or variational specimen, so those two provider
+paths remain unobserved.
 
 The core also binds a sealed executable dataset-control receipt. Exact rational replay passes four
 positive controls and rejects four mutations: crossed `do(...)` rows recover a constant treatment
