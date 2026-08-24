@@ -92,18 +92,19 @@
   new candidate or permission to release a serious claim.
 - Downloaded artifacts bind four distinct GitHub-hosted ephemeral VM runner IDs across Windows and
   Linux, with two evaluator implementations per host and a separate Lean kernel artifact. The
-  current receipt binds successful post-merge run `32694147754` at
-  `30f12a4d499c949b67ec57d0eb0332a2e78aae33`, which includes exact-discrete piecewise replay,
+  current receipt binds successful post-merge run `32698594929` at
+  `56c4b86621ab243f306c51d6c406c695f5c672c4`, which includes exact-discrete piecewise replay,
   the retained-descendant campaign, and the transform-, tensor-, and variational-capable
   executable-LLM core. This is multi-host VM reproduction, not a claim about distinct bare-metal
   machines.
-- The CI workflow now creates a second credential-free payload on every deterministic host. It
+- The CI workflow creates a second credential-free payload on every deterministic host. It
   validates the core and retained-descendant receipts without a provider key or provider call and
   binds a deterministic-rebind-stable projection of all 14 authenticated call records, their prompt
-  and output seals, usage, prompt context, lineage archive, and credential boundary. This closes the
-  workflow-payload gap in code; it becomes durable second-machine evidence only after the first
-  probe-bearing artifacts are downloaded, hash-checked, compared, and bound into the multi-host
-  receipt.
+  and output seals, usage, prompt context, lineage archive, and credential boundary. Four payloads
+  from the bound post-merge run have now been downloaded and hash-checked. They agree on projection
+  `5f2a010578c99a895b143a1b83ef11f51159e7a7810dad78c83792186ee12433`, report zero new provider
+  calls and no credential on the runners, and are sealed into the multi-host receipt. This is
+  durable replay evidence, not a claim that CI repeated the paid calls or established novelty.
 - The LLM proposal compiler now admits bounded linear shift transforms, tensor identities, and first-order variational
   functionals. Tensor predictions are gated by complete component equality plus declared symmetry;
   variational predictions are derived from an independently checked Euler-Lagrange claim under an

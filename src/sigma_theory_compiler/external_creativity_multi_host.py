@@ -15,8 +15,8 @@ from .sigma_core import canonical_sha256
 
 CONFIG_PATH = "configs/external_creativity_multi_host_artifacts.json"
 OUTPUT_PATH = "runs/math/external-creativity-validation/multi-host-reproduction.json"
-SCHEMA_VERSION = "invariant-external-creativity-multi-host-reproduction-1.0"
-SOURCE_SCHEMA = "invariant-external-creativity-multi-host-source-1.0"
+SCHEMA_VERSION = "invariant-external-creativity-multi-host-reproduction-1.1"
+SOURCE_SCHEMA = "invariant-external-creativity-multi-host-source-1.1"
 CAMPAIGN_SCHEMAS = frozenset(
     {
         "invariant-external-creativity-validation-result-1.0",
@@ -56,6 +56,7 @@ def _load_source(root: Path) -> dict[str, Any]:
         {
             "artifacts",
             "expected_campaign_content_sha256",
+            "expected_core_projection_sha256",
             "expected_lean_content_sha256",
             "head_sha",
             "repository",
@@ -71,7 +72,11 @@ def _load_source(root: Path) -> dict[str, Any]:
         raise MultiHostReproductionError("multi-host source commit is invalid")
     if any(
         _SHA256.fullmatch(value[key]) is None
-        for key in ("expected_campaign_content_sha256", "expected_lean_content_sha256")
+        for key in (
+            "expected_campaign_content_sha256",
+            "expected_core_projection_sha256",
+            "expected_lean_content_sha256",
+        )
     ):
         raise MultiHostReproductionError("multi-host expected content seal is invalid")
     if not isinstance(value["workflow_run_id"], int) or value["workflow_run_id"] <= 0:
@@ -81,8 +86,10 @@ def _load_source(root: Path) -> dict[str, Any]:
     return value
 
 
-def _artifact_path(artifact_root: Path, row: Mapping[str, Any]) -> Path:
-    path = (artifact_root / row["artifact_name"] / row["file_name"]).resolve()
+def _artifact_path(
+    artifact_root: Path, row: Mapping[str, Any], file_key: str = "file_name"
+) -> Path:
+    path = (artifact_root / row["artifact_name"] / row[file_key]).resolve()
     try:
         path.relative_to(artifact_root.resolve())
     except ValueError as error:
@@ -91,33 +98,40 @@ def _artifact_path(artifact_root: Path, row: Mapping[str, Any]) -> Path:
 
 
 def build_receipt(root: Path, artifact_root: Path) -> dict[str, Any]:
+    # Imported lazily because the core receipt validator itself binds this multi-host receipt.
+    from .core_creative_ci_reproduction import validate_receipt as validate_core_ci_receipt
+
     root = root.resolve()
     artifact_root = artifact_root.resolve()
     source = _load_source(root)
     hosts: list[dict[str, Any]] = []
     lean: dict[str, Any] | None = None
     for row in source["artifacts"]:
+        is_lean = row.get("artifact_name") == "external-creativity-lean"
+        expected_keys = {
+            "archive_digest",
+            "artifact_id",
+            "artifact_name",
+            "file_name",
+            "file_sha256",
+            "job_id",
+            "operating_system",
+            "python_version",
+            "runner_id",
+            "runner_name",
+        }
+        if not is_lean:
+            expected_keys.update({"core_file_name", "core_file_sha256"})
         _strict_keys(
             row,
-            {
-                "archive_digest",
-                "artifact_id",
-                "artifact_name",
-                "file_name",
-                "file_sha256",
-                "job_id",
-                "operating_system",
-                "python_version",
-                "runner_id",
-                "runner_name",
-            },
+            expected_keys,
             "multi-host artifact",
         )
         path = _artifact_path(artifact_root, row)
         if not path.is_file() or _file_sha256(path) != row["file_sha256"]:
             raise MultiHostReproductionError(f"downloaded artifact hash changed: {row['artifact_name']}")
         value = json.loads(path.read_text(encoding="utf-8"))
-        if row["artifact_name"] == "external-creativity-lean":
+        if is_lean:
             validate_lean_receipt(value)
             if value.get("content_sha256") != source["expected_lean_content_sha256"]:
                 raise MultiHostReproductionError("Lean artifact content seal changed")
@@ -146,11 +160,46 @@ def build_receipt(root: Path, artifact_root: Path) -> dict[str, Any]:
         reproduction = value.get("independent_reproduction", {})
         if reproduction.get("received_implementations", 0) < 2:
             raise MultiHostReproductionError("host artifact lacks two evaluator implementations")
+        core_path = _artifact_path(artifact_root, row, "core_file_name")
+        if not core_path.is_file() or _file_sha256(core_path) != row["core_file_sha256"]:
+            raise MultiHostReproductionError(
+                f"downloaded core artifact hash changed: {row['artifact_name']}"
+            )
+        core_value = json.loads(core_path.read_text(encoding="utf-8"))
+        validate_core_ci_receipt(core_value, require_ci_provenance=True)
+        provenance = core_value["ci_provenance"]
+        if (
+            provenance.get("run_id") != source["workflow_run_id"]
+            or provenance.get("head_sha") != source["head_sha"]
+            or provenance.get("artifact_name") != row["artifact_name"]
+            or provenance.get("operating_system") != row["operating_system"]
+            or provenance.get("python_version") != row["python_version"]
+            or provenance.get("runner_name") != row["runner_name"]
+            or provenance.get("event_name") != "push"
+        ):
+            raise MultiHostReproductionError("core CI artifact provenance changed")
+        if (
+            core_value["llm_evidence_projection_sha256"]
+            != source["expected_core_projection_sha256"]
+        ):
+            raise MultiHostReproductionError("core LLM evidence projection changed")
         hosts.append(
             {
                 "artifact_id": row["artifact_id"],
                 "artifact_name": row["artifact_name"],
                 "campaign_content_sha256": value["content_sha256"],
+                "core_reproduction": {
+                    "content_sha256": core_value["content_sha256"],
+                    "file_sha256": row["core_file_sha256"],
+                    "llm_evidence_projection_sha256": core_value[
+                        "llm_evidence_projection_sha256"
+                    ],
+                    "new_provider_calls": core_value["verification"]["new_provider_calls"],
+                    "provider_credential_available_on_reproduction_host": core_value[
+                        "verification"
+                    ]["provider_credential_available_on_reproduction_host"],
+                    "status": core_value["verification"]["status"],
+                },
                 "file_sha256": row["file_sha256"],
                 "independent_implementations": reproduction["received_implementations"],
                 "job_id": row["job_id"],
@@ -165,7 +214,16 @@ def build_receipt(root: Path, artifact_root: Path) -> dict[str, Any]:
     runner_ids = {item["runner_id"] for item in hosts}
     operating_systems = {item["operating_system"] for item in hosts}
     campaigns = {item["campaign_content_sha256"] for item in hosts}
-    if len(hosts) < 4 or len(runner_ids) < 2 or len(operating_systems) < 2 or len(campaigns) != 1:
+    core_projections = {
+        item["core_reproduction"]["llm_evidence_projection_sha256"] for item in hosts
+    }
+    if (
+        len(hosts) != 4
+        or len(runner_ids) != 4
+        or len(operating_systems) < 2
+        or len(campaigns) != 1
+        or core_projections != {source["expected_core_projection_sha256"]}
+    ):
         raise MultiHostReproductionError("cross-host agreement policy failed")
     body = {
         "schema_version": SCHEMA_VERSION,
@@ -181,6 +239,11 @@ def build_receipt(root: Path, artifact_root: Path) -> dict[str, Any]:
         "lean": lean,
         "reproduction": {
             "campaign_content_sha256": next(iter(campaigns)),
+            "core_llm_evidence_projection_sha256": next(iter(core_projections)),
+            "core_llm_evidence_reproductions": len(hosts),
+            "core_new_provider_calls": sum(
+                item["core_reproduction"]["new_provider_calls"] for item in hosts
+            ),
             "distinct_operating_systems": sorted(operating_systems),
             "distinct_runner_ids": len(runner_ids),
             "independent_implementations_per_host": min(
@@ -189,13 +252,16 @@ def build_receipt(root: Path, artifact_root: Path) -> dict[str, Any]:
             "machine_kind": "github_hosted_ephemeral_vm",
             "minimum_distinct_machines": 2,
             "received_machines": len(runner_ids),
-            "status": "PASS_MULTI_HOST_REPRODUCTION",
+            "status": "PASS_MULTI_HOST_CORE_LLM_EVIDENCE_REPRODUCTION",
         },
         "claim_boundary": {
+            "authenticated_live_llm_evidence_replayed": True,
             "hardware_serials_available": False,
             "host_distinction_basis": "distinct GitHub Actions runner IDs and job IDs",
+            "new_provider_calls_required": False,
             "novel_formula_established": False,
             "physical_bare_metal_identity_claimed": False,
+            "provider_credential_present_on_reproduction_hosts": False,
         },
     }
     body["content_sha256"] = canonical_sha256(body)
@@ -211,18 +277,45 @@ def validate_receipt(value: Mapping[str, Any]) -> None:
         raise MultiHostReproductionError("multi-host receipt schema changed")
     reproduction = value.get("reproduction", {})
     hosts = value.get("hosts", [])
+    core_reproductions = [item.get("core_reproduction", {}) for item in hosts]
+    core_projections = {
+        item.get("llm_evidence_projection_sha256") for item in core_reproductions
+    }
     if (
-        reproduction.get("status") != "PASS_MULTI_HOST_REPRODUCTION"
+        reproduction.get("status")
+        != "PASS_MULTI_HOST_CORE_LLM_EVIDENCE_REPRODUCTION"
         or reproduction.get("received_machines", 0) < 2
+        or reproduction.get("received_machines") != len(hosts)
+        or reproduction.get("core_llm_evidence_reproductions") != len(hosts)
+        or reproduction.get("core_new_provider_calls") != 0
         or reproduction.get("independent_implementations_per_host", 0) < 2
-        or len({item.get("runner_id") for item in hosts}) < 2
+        or len(hosts) != 4
+        or len({item.get("runner_id") for item in hosts}) != 4
         or len({item.get("operating_system") for item in hosts}) < 2
+        or len(core_projections) != 1
+        or reproduction.get("core_llm_evidence_projection_sha256")
+        != next(iter(core_projections), None)
+        or any(
+            item.get("status") != "PASS_CORE_LLM_EVIDENCE_REPRODUCTION"
+            or item.get("new_provider_calls") != 0
+            or item.get("provider_credential_available_on_reproduction_host") is not False
+            or _SHA256.fullmatch(str(item.get("content_sha256", ""))) is None
+            or _SHA256.fullmatch(str(item.get("file_sha256", ""))) is None
+            or _SHA256.fullmatch(
+                str(item.get("llm_evidence_projection_sha256", ""))
+            )
+            is None
+            for item in core_reproductions
+        )
         or value.get("lean", {}).get("kernel_checked") is not True
     ):
         raise MultiHostReproductionError("multi-host receipt policy changed")
     boundary = value.get("claim_boundary", {})
     if (
-        boundary.get("novel_formula_established") is not False
+        boundary.get("authenticated_live_llm_evidence_replayed") is not True
+        or boundary.get("new_provider_calls_required") is not False
+        or boundary.get("provider_credential_present_on_reproduction_hosts") is not False
+        or boundary.get("novel_formula_established") is not False
         or boundary.get("physical_bare_metal_identity_claimed") is not False
     ):
         raise MultiHostReproductionError("multi-host claim boundary changed")
