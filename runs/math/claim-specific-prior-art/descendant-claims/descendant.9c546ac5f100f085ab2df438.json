@@ -1,0 +1,55 @@
+{
+  "claim": {
+    "behavior_status": "EXECUTABLE_PREDICTIONS",
+    "behavior_terms": [
+      "228",
+      "243",
+      "272",
+      "291",
+      "324",
+      "344",
+      "382",
+      "404",
+      "445",
+      "471",
+      "516",
+      "543",
+      "592",
+      "625",
+      "677",
+      "712",
+      "770",
+      "807"
+    ],
+    "formula_or_construction": "{\"branches\":[{\"condition\":{\"comparator\":\"le\",\"left\":\"x0\",\"right\":\"3\"},\"expression\":\"x0 + 1\"}],\"default_expression\":\"floor(x0 * x0 * x0 / 144 + x0 * x0 / 8 + 25 * x0 / 36 + 1) + floor((-1 if x0 % 2 == 1 else 1) * x0 / 8) + floor((1 if x0 % 3 == 0 else (-1 if x0 % 3 == 1 else 0)) / 3)\"}",
+    "known_analogues": [
+      "Explicit denumerant formulas",
+      "Popoviciu formula",
+      "Partition function p(n,4)"
+    ],
+    "llm_origin_assessment": "proposed_new_construction",
+    "proof_mechanisms": [
+      "exact_row_replay",
+      "boundary_partition_analysis",
+      "1. The exact formula for p(n,4) involves a cubic polynomial plus periodic correction terms of periods 2, 3, and 4",
+      "2. Evaluate at training points to verify or calibrate the correction amplitudes",
+      "3. The known closed form is: p(n,4) = round((n+4)^3/144 + correction_terms) - compare with this"
+    ],
+    "representation": "piecewise_relation",
+    "source_domains": [
+      "partition_theory",
+      "denumerant_theory",
+      "number_theory"
+    ],
+    "statement": "The sequence likely represents p(n,4), the number of partitions of n into parts at most 4. The exact closed-form denumerant formula for this is well-known: it involves n^3/144 plus lower-order polynomial and periodic correction terms. This attempts to reconstruct that formula. Parent_4's approach was in the right family but used wrong coefficients. p(26,4) should equal 99 if this identification is correct. The known formula is floor((n+4)^3/144) with quasi-polynomial corrections."
+  },
+  "claim_id": "retained-descendant.9c546ac5f100f085ab2df438.prior-art",
+  "schema_version": "invariant-claim-prior-art-input-1.1",
+  "source_binding": {
+    "path": "runs/math/retained-piecewise-descendant-campaign/live-runtime.json",
+    "receipt_content_sha256": "c62267db1a7cab86b854ca8edee537c65356875672a77c28a82bb3e79029e73c",
+    "source_content_sha256": "00e7a767fdbff125dee5d20c93f8a3aa191640ae04a1811722010b83310b4c42",
+    "source_id": "descendant.9c546ac5f100f085ab2df438",
+    "source_kind": "retained_descendant"
+  }
+}

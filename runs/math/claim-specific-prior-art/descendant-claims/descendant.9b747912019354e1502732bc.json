@@ -1,0 +1,55 @@
+{
+  "claim": {
+    "behavior_status": "EXECUTABLE_PREDICTIONS",
+    "behavior_terms": [
+      "192",
+      "207",
+      "226",
+      "246",
+      "266",
+      "285",
+      "309",
+      "332",
+      "356",
+      "381",
+      "409",
+      "436",
+      "465",
+      "496",
+      "528",
+      "561",
+      "594",
+      "629"
+    ],
+    "formula_or_construction": "1 + x0 + floor(x0**2 / 12) + floor(x0 * (x0 - 2) / 12) + floor((x0 - 1) * (x0 - 2) * (x0 - 3) / 720) * 3",
+    "known_analogues": [
+      "Restricted partition functions",
+      "OEIS partition enumerations"
+    ],
+    "llm_origin_assessment": "proposed_new_construction",
+    "proof_mechanisms": [
+      "exact_row_replay",
+      "cas_normal_form",
+      "smt_countermodel_search",
+      "interval_enclosure",
+      "1. Fit coefficients to training data x0=26..43",
+      "2. Check intermediate values and counterexample at x0=20",
+      "3. If needed, add periodic correction with small period"
+    ],
+    "representation": "sympy_expression",
+    "source_domains": [
+      "polynomial_fitting",
+      "integer_sequences"
+    ],
+    "statement": "Attempting a compact sympy expression. The training data shows output growing from 99 at x0=26 to 209 at x0=43 (delta 110 over 17 steps, roughly 6.5 per step but accelerating). A polynomial with floor divisions can capture this. This is a direct arithmetic approach rather than piecewise."
+  },
+  "claim_id": "retained-descendant.9b747912019354e1502732bc.prior-art",
+  "schema_version": "invariant-claim-prior-art-input-1.1",
+  "source_binding": {
+    "path": "runs/math/retained-piecewise-descendant-campaign/live-runtime.json",
+    "receipt_content_sha256": "c62267db1a7cab86b854ca8edee537c65356875672a77c28a82bb3e79029e73c",
+    "source_content_sha256": "ab07e329af26a69d3811dfa475c9289a2088dcf423c5a86f066f494dc9916c5e",
+    "source_id": "descendant.9b747912019354e1502732bc",
+    "source_kind": "retained_descendant"
+  }
+}

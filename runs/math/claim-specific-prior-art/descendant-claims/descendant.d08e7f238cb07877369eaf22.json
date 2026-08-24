@@ -1,0 +1,55 @@
+{
+  "claim": {
+    "behavior_status": "EXECUTABLE_PREDICTIONS",
+    "behavior_terms": [
+      "2",
+      "7",
+      "13",
+      "20",
+      "12",
+      "21",
+      "11",
+      "22",
+      "10",
+      "23",
+      "9",
+      "24",
+      "8",
+      "25",
+      "27",
+      "36",
+      "26",
+      "37"
+    ],
+    "formula_or_construction": "{\"branches\":[{\"condition\":{\"comparator\":\"lt\",\"left\":\"x0\",\"right\":\"4\"},\"expression\":\"x0 * (x0 + 1) // 2\"},{\"condition\":{\"comparator\":\"lt\",\"left\":\"x0\",\"right\":\"8\"},\"expression\":\"2 + (x0 - 4) * 5 + (x0 - 4) * (x0 - 5) // 2\"}],\"default_expression\":\"(((x0 - 8) // 10 + 1) * ((x0 - 8) // 10 + 1) * 5 + 7 - (x0 - 8) % 10 // 2) if x0 % 2 == 0 else (((x0 - 8) // 10 + 1) * ((x0 - 8) // 10 + 1) * 5 + 16 + (x0 - 8) % 10 // 2)\"}",
+    "known_analogues": [
+      "Quadratic-growth interleaved sequences",
+      "Block-partitioned sequences"
+    ],
+    "llm_origin_assessment": "proposed_new_construction",
+    "proof_mechanisms": [
+      "exact_row_replay",
+      "boundary_partition_analysis",
+      "Step 1: Blocks of length 10 starting at x0=8: block 0 is x0=8..17, block 1 is x0=18..27",
+      "Step 2: Even-index base for block k: 12, 43, ... suggesting quadratic growth in block index",
+      "Step 3: Odd-index base for block k: 21, 62, ... also quadratic",
+      "Step 4: Fit quadratic in block index k for even base and odd base, derive formula"
+    ],
+    "representation": "piecewise_relation",
+    "source_domains": [
+      "number_theory",
+      "polynomial_interpolation",
+      "block_structured_sequences"
+    ],
+    "statement": "Extending parent_7's block approach by noticing blocks might be length 10 and the base values grow quadratically with block index. Block 0 (x0=8..17): even base 12, odd base 21. Block 1 (x0=18..27): even base 43, odd base 62. Differences: 31 and 41. Testing a quadratic model for block baselines."
+  },
+  "claim_id": "retained-descendant.d08e7f238cb07877369eaf22.prior-art",
+  "schema_version": "invariant-claim-prior-art-input-1.1",
+  "source_binding": {
+    "path": "runs/math/retained-piecewise-descendant-campaign/live-runtime.json",
+    "receipt_content_sha256": "c62267db1a7cab86b854ca8edee537c65356875672a77c28a82bb3e79029e73c",
+    "source_content_sha256": "fe22aec8e5d96357b581a4bc229ac2d865baa6956496aa48fb170bcc078e54fd",
+    "source_id": "descendant.d08e7f238cb07877369eaf22",
+    "source_kind": "retained_descendant"
+  }
+}

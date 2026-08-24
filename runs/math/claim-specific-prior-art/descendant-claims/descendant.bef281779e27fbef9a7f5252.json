@@ -1,0 +1,35 @@
+{
+  "claim": {
+    "behavior_status": "NO_EXECUTABLE_BEHAVIOR",
+    "behavior_terms": [],
+    "formula_or_construction": "{\"branches\":[{\"condition\":{\"comparator\":\"lt\",\"left\":\"x0\",\"right\":\"4\"},\"expression\":\"x0 * (x0 + 1) // 2\"},{\"condition\":{\"comparator\":\"lt\",\"left\":\"x0\",\"right\":\"8\"},\"expression\":\"[2, 7, 13, 20][x0 - 4]\"},{\"condition\":{\"comparator\":\"eq\",\"left\":\"x0 % 2\",\"right\":\"0\"},\"expression\":\"(17 - (x0 % 10) // 2) + 31 * ((x0 - 8) // 10)\"},{\"condition\":{\"comparator\":\"eq\",\"left\":\"x0 % 2\",\"right\":\"1\"},\"expression\":\"(17 + (x0 % 10) // 2) + 4 + 31 * ((x0 - 9) // 10)\"}],\"default_expression\":\"0\"}",
+    "known_analogues": [
+      "Sawtooth sequences",
+      "Quasi-polynomial sequences"
+    ],
+    "llm_origin_assessment": "proposed_new_construction",
+    "proof_mechanisms": [
+      "1. Even: x0=8->12,10->11,12->10,14->9,16->8,18->43,20->42. Period-5 within evens: starting values 12,43,...",
+      "2. Even base at period k: 12 + 31*k, then decreases by 1 each step",
+      "3. Odd: x0=9->21,11->22,13->23,15->24,17->25,19->62,21->63. Period-5 within odds: starting values 21,62,...",
+      "4. Odd base at period k: 21 + 41*k, then increases by 1 each step",
+      "5. Wait: 62-21=41, not 31. Even: 43-12=31. Different jumps per parity."
+    ],
+    "representation": "piecewise_relation",
+    "source_domains": [
+      "arithmetic_progressions",
+      "modular_arithmetic",
+      "quasi_periodic_sequences"
+    ],
+    "statement": "Careful analysis: Even-indexed (from x0=8): 12,11,10,9,8 then 43,42. Differences within block: -1 each. Jump: 43-8=35, but 43-12(start)=31. So each even block starts 31 higher. Odd-indexed (from x0=9): 21,22,23,24,25 then 62,63. Jump: 62-21(start)=41. So even blocks shift by 31, odd blocks shift by 41. Let me encode this with period-5 per parity."
+  },
+  "claim_id": "retained-descendant.bef281779e27fbef9a7f5252.prior-art",
+  "schema_version": "invariant-claim-prior-art-input-1.1",
+  "source_binding": {
+    "path": "runs/math/retained-piecewise-descendant-campaign/live-runtime.json",
+    "receipt_content_sha256": "c62267db1a7cab86b854ca8edee537c65356875672a77c28a82bb3e79029e73c",
+    "source_content_sha256": "32367053daa2a1f887f2d4006cc6d94b58d8bfffd199cdc7bfb5709a73220fba",
+    "source_id": "descendant.bef281779e27fbef9a7f5252",
+    "source_kind": "retained_descendant"
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "claim": {
+    "behavior_status": "EXECUTABLE_PREDICTIONS",
+    "behavior_terms": [
+      "699",
+      "775",
+      "853",
+      "937",
+      "1025",
+      "1120",
+      "1219",
+      "1328",
+      "1439",
+      "1558",
+      "1681",
+      "1813",
+      "1949",
+      "2096",
+      "2247",
+      "2406",
+      "2571",
+      "2745"
+    ],
+    "formula_or_construction": "{\"branches\":[{\"condition\":{\"comparator\":\"le\",\"left\":\"x0\",\"right\":\"3\"},\"expression\":\"x0 + 1\"},{\"condition\":{\"comparator\":\"eq\",\"left\":\"x0 % 6\",\"right\":\"0\"},\"expression\":\"floor(x0 * x0 * x0 / 36 + x0 * x0 / 4 + 11 * x0 / 6) - 5\"},{\"condition\":{\"comparator\":\"eq\",\"left\":\"x0 % 6\",\"right\":\"1\"},\"expression\":\"floor(x0 * x0 * x0 / 36 + x0 * x0 / 4 + 11 * x0 / 6) - 4\"},{\"condition\":{\"comparator\":\"eq\",\"left\":\"x0 % 6\",\"right\":\"2\"},\"expression\":\"floor(x0 * x0 * x0 / 36 + x0 * x0 / 4 + 11 * x0 / 6) - 5\"},{\"condition\":{\"comparator\":\"eq\",\"left\":\"x0 % 6\",\"right\":\"3\"},\"expression\":\"floor(x0 * x0 * x0 / 36 + x0 * x0 / 4 + 11 * x0 / 6) - 3\"},{\"condition\":{\"comparator\":\"eq\",\"left\":\"x0 % 6\",\"right\":\"4\"},\"expression\":\"floor(x0 * x0 * x0 / 36 + x0 * x0 / 4 + 11 * x0 / 6) - 4\"},{\"condition\":{\"comparator\":\"eq\",\"left\":\"x0 % 6\",\"right\":\"5\"},\"expression\":\"floor(x0 * x0 * x0 / 36 + x0 * x0 / 4 + 11 * x0 / 6) - 3\"}],\"default_expression\":\"floor(x0 * x0 * x0 / 36 + x0 * x0 / 4 + 11 * x0 / 6) - 4\"}",
+    "known_analogues": [
+      "Ehrhart quasi-polynomials",
+      "Sylvester waves"
+    ],
+    "llm_origin_assessment": "cross_domain_synthesis",
+    "proof_mechanisms": [
+      "exact_row_replay",
+      "boundary_partition_analysis",
+      "1. Evaluate the base cubic x0^3/36 + x0^2/4 + 11*x0/6 at each training point",
+      "2. Compute residual (expected - base) and check if residuals have period 6",
+      "3. Fit the per-residue-class offsets to match training data exactly"
+    ],
+    "representation": "piecewise_relation",
+    "source_domains": [
+      "Ehrhart_theory",
+      "partition_theory",
+      "quasi_polynomials"
+    ],
+    "statement": "Parent_2 used Ehrhart quasi-polynomials with period-2 corrections but had large errors. Parent_4 used a cubic. This synthesis uses a cubic backbone with period-6 (lcm of 2,3) quasi-polynomial corrections, a common structure in partition enumeration problems (e.g., counting partitions into parts of size 1,2,3)."
+  },
+  "claim_id": "retained-descendant.afcd476e13143bf9d141e144.prior-art",
+  "schema_version": "invariant-claim-prior-art-input-1.1",
+  "source_binding": {
+    "path": "runs/math/retained-piecewise-descendant-campaign/live-runtime.json",
+    "receipt_content_sha256": "c62267db1a7cab86b854ca8edee537c65356875672a77c28a82bb3e79029e73c",
+    "source_content_sha256": "103731ee484c9bc28fcf8300771b97e3bed229882961bfdccb3ddb6a6a7cd042",
+    "source_id": "descendant.afcd476e13143bf9d141e144",
+    "source_kind": "retained_descendant"
+  }
+}

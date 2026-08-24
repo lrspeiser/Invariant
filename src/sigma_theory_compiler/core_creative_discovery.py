@@ -81,12 +81,13 @@ from .uncertain_invariant_discovery import (
 CONFIG_PATH = "configs/core_creative_discovery.json"
 OUTPUT_PATH = "runs/math/core-creative-discovery/live-runtime.json"
 FAILED_CAMPAIGN_PATH = "work/core-creative-discovery/failed-live-campaign.json"
+LIVE_CALL_JOURNAL_PATH = "work/core-creative-discovery/live-call-attempts.jsonl"
 SOURCE_PATH = "src/sigma_theory_compiler/core_creative_discovery.py"
 CLAUDE_API_SOURCE_PATH = "src/sigma_theory_compiler/claude_creativity_api.py"
 EXTERNAL_CAMPAIGN_SOURCE_PATH = "src/sigma_theory_compiler/external_creativity_validation.py"
 PROMPT_CONTEXT_SOURCE_PATH = "src/sigma_theory_compiler/core_creative_prompt_context.py"
-SCHEMA_VERSION = "invariant-core-creative-discovery-runtime-2.9"
-CONFIG_SCHEMA = "invariant-core-creative-discovery-config-2.9"
+SCHEMA_VERSION = "invariant-core-creative-discovery-runtime-3.0"
+CONFIG_SCHEMA = "invariant-core-creative-discovery-config-3.0"
 
 
 class CoreCreativeDiscoveryError(ValueError):
@@ -345,6 +346,9 @@ def _claude_execution_summary(campaign: Mapping[str, Any]) -> dict[str, Any]:
         "non_executable_hypotheses_retained": sum(
             record.get("status") == "RETAINED_NON_EXECUTABLE" for record in records
         ),
+        "retained_unscored_executable_candidates": sum(
+            int(item.get("retained_unscored_executable_candidates", 0)) for item in contributions
+        ),
         "proof_mechanism_novelty_against_deterministic_count": sum(
             int(item.get("proof_mechanism_novelty_against_deterministic_count", 0))
             for item in contributions
@@ -389,7 +393,7 @@ def _validate_live_campaign(
     failures = []
     checks = {
         "campaign_schema": campaign.get("schema_version")
-        == "invariant-external-creativity-validation-result-1.1",
+        == "invariant-external-creativity-validation-result-1.2",
         "campaign_substantive": campaign.get("claims", {}).get("claude_used_throughout") is True,
         "claude_status": claude.get("status") == "PASS",
         "completed_call_count": claude.get("completed_calls") == policy["required_completed_calls"],
@@ -470,6 +474,7 @@ def run_core(
             project_root,
             live_claude=True,
             claude_transport=FirstPrinciplesContextTransport(context),
+            attempt_journal_path=project_root / LIVE_CALL_JOURNAL_PATH,
         )
 
     runner = campaign_runner or live_runner
@@ -739,6 +744,9 @@ def run_core(
             "state_pair_matrix_action_controls": state_pair_invariants["summary"][
                 "matrix_action_controls"
             ],
+            "state_pair_multivariate_rational_action_controls": state_pair_invariants["summary"][
+                "multivariate_rational_action_controls"
+            ],
             "state_pair_nonlinear_action_controls": state_pair_invariants["summary"][
                 "nonlinear_action_controls"
             ],
@@ -937,6 +945,7 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
             "invariant-core-creative-discovery-runtime-2.6",
             "invariant-core-creative-discovery-runtime-2.7",
             "invariant-core-creative-discovery-runtime-2.8",
+            "invariant-core-creative-discovery-runtime-2.9",
             SCHEMA_VERSION,
         }
         or previous.get("app_id") != "invariant.core-creative-discovery"
@@ -1184,6 +1193,9 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
         "state_pair_matrix_action_controls": state_pair_invariants["summary"][
             "matrix_action_controls"
         ],
+        "state_pair_multivariate_rational_action_controls": state_pair_invariants["summary"][
+            "multivariate_rational_action_controls"
+        ],
         "state_pair_nonlinear_action_controls": state_pair_invariants["summary"][
             "nonlinear_action_controls"
         ],
@@ -1422,9 +1434,9 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
     if (
         discovery.get("claim_specific_prior_art_automated_screens_complete") is not True
         or discovery.get("claim_specific_prior_art_claims") != 24
-        or discovery.get("claim_specific_prior_art_external_request_budget") != 90
+        or discovery.get("claim_specific_prior_art_external_request_budget") != 88
         or discovery.get("claim_specific_prior_art_named_human_reviews_complete") is not False
-        or discovery.get("claim_specific_prior_art_no_exact_behavior_match_claims") != 18
+        or discovery.get("claim_specific_prior_art_no_exact_behavior_match_claims") != 16
         or discovery.get("claim_specific_prior_art_status") != "BLOCKED_NAMED_HUMAN_REVIEW_REQUIRED"
         or discovery.get("component_knockout_experiments_preflighted") != 4
         or discovery.get("component_knockout_live_runs_complete") is not False
@@ -1462,17 +1474,18 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
         or discovery.get("learned_invariant_status") != "PASS_LEARNED_MULTI_INVARIANT_CONTROLS"
         or discovery.get("learned_invariant_training_coordinates_retained") != 7
         or discovery.get("learned_invariant_underdetermined_controls") != 1
-        or discovery.get("state_pair_algebraically_independent_coordinates") != 7
-        or discovery.get("state_pair_controls") != 6
+        or discovery.get("state_pair_algebraically_independent_coordinates") != 8
+        or discovery.get("state_pair_controls") != 7
         or discovery.get("state_pair_deployment_failures") != 0
         or discovery.get("state_pair_feature_grammar_kinds")
         != ["laurent_monomials", "logarithmic_coordinates", "polynomial_monomials"]
         or discovery.get("state_pair_higher_degree_controls") != 1
         or discovery.get("state_pair_matrix_action_controls") != 2
+        or discovery.get("state_pair_multivariate_rational_action_controls") != 1
         or discovery.get("state_pair_nonlinear_action_controls") != 2
-        or discovery.get("state_pair_rational_action_controls") != 1
+        or discovery.get("state_pair_rational_action_controls") != 2
         or discovery.get("state_pair_status") != "PASS_EXACT_TYPED_STATE_PAIR_INVARIANT_CONTROLS"
-        or discovery.get("state_pair_target_blind_controls") != 6
+        or discovery.get("state_pair_target_blind_controls") != 7
         or discovery.get("state_pair_transcendental_action_controls") != 1
         or discovery.get("uncertain_invariant_censored_controls") != 1
         or discovery.get("uncertain_invariant_controls") != 5
@@ -1499,21 +1512,21 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
         or discovery.get("independent_proof_plan_routes_closed") != 6
         or discovery.get("independent_proof_plan_mutations_rejected") != 6
         or discovery.get("independent_proof_plan_status") != "PASS_INDEPENDENT_PROOF_PLAN_SEARCH"
-        or discovery.get("retained_piecewise_admitted") != 9
-        or discovery.get("retained_piecewise_exact_agreements") != 9
+        or discovery.get("retained_piecewise_admitted") != 8
+        or discovery.get("retained_piecewise_exact_agreements") != 8
         or discovery.get("retained_piecewise_origin_counts")
-        != {"cross_domain_synthesis": 1, "known_rewrite": 1, "uncertain": 7}
-        or discovery.get("retained_piecewise_resource_matched_controls") != 9
+        != {"cross_domain_synthesis": 1, "uncertain": 7}
+        or discovery.get("retained_piecewise_resource_matched_controls") != 8
         or discovery.get("retained_piecewise_replay_status") != "PASS_RETAINED_PIECEWISE_REPLAY"
         or discovery.get("retained_piecewise_train_exact_holdout_failed") != 1
         or discovery.get("retained_piecewise_zero_holdout_bounded_unknown") != 0
-        or discovery.get("retained_piecewise_descendant_admitted") != 18
+        or discovery.get("retained_piecewise_descendant_admitted") != 16
         or discovery.get("retained_piecewise_descendant_calls") != 6
-        or discovery.get("retained_piecewise_descendant_exact_agreements") != 18
+        or discovery.get("retained_piecewise_descendant_exact_agreements") != 16
         or discovery.get("retained_piecewise_descendant_ideas") != 24
-        or discovery.get("retained_piecewise_descendant_nonexecutable_retained") != 6
-        or discovery.get("retained_piecewise_descendant_parent_branches_preserved") != 9
-        or discovery.get("retained_piecewise_descendant_resource_matched_controls") != 18
+        or discovery.get("retained_piecewise_descendant_nonexecutable_retained") != 8
+        or discovery.get("retained_piecewise_descendant_parent_branches_preserved") != 8
+        or discovery.get("retained_piecewise_descendant_resource_matched_controls") != 16
         or discovery.get("retained_piecewise_descendant_status")
         != "PASS_LIVE_RETAINED_PIECEWISE_DESCENDANT_CAMPAIGN"
         or discovery.get("retained_piecewise_descendant_zero_holdout_bounded_unknown") != 0

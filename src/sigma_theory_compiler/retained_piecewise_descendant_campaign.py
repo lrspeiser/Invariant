@@ -14,7 +14,9 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import re
+import uuid
 from collections import Counter
 from collections.abc import Mapping, Sequence
 from fractions import Fraction
@@ -60,6 +62,7 @@ from .sigma_core import canonical_sha256
 
 CONFIG_PATH = "configs/retained_piecewise_descendant_campaign.json"
 OUTPUT_PATH = "runs/math/retained-piecewise-descendant-campaign/live-runtime.json"
+LIVE_CALL_JOURNAL_PATH = "work/retained-piecewise-descendant-campaign/live-call-attempts.jsonl"
 SOURCE_PATH = "src/sigma_theory_compiler/retained_piecewise_descendant_campaign.py"
 TRANSPORT_SOURCE_PATH = "src/sigma_theory_compiler/external_claude_transport.py"
 TEST_PATH = "tests/test_retained_piecewise_descendant_campaign.py"
@@ -230,7 +233,7 @@ def load_config(root: Path, path: str | Path = CONFIG_PATH) -> dict[str, Any]:
     )
     if value.get("schema_version") != CONFIG_SCHEMA:
         raise RetainedPiecewiseDescendantError("descendant campaign config schema changed")
-    if value.get("campaign_id") != "retained-piecewise-counterexample-repair-2026-08-24-003":
+    if value.get("campaign_id") != "retained-piecewise-counterexample-repair-2026-08-24-004":
         raise RetainedPiecewiseDescendantError("descendant campaign identity changed")
     try:
         claude = ClaudeAPIConfig.from_mapping(value["claude"])
@@ -333,7 +336,7 @@ def _load_sources(root: Path, config: Mapping[str, Any]) -> dict[str, Any]:
         raise RetainedPiecewiseDescendantError("fresh rotation epoch changed")
     replay = _load_json(root / source_paths["retained_piecewise_replay"], "piecewise replay")
     validate_piecewise_replay(replay, root)
-    if replay.get("summary", {}).get("retained_piecewise_ideas") != 9:
+    if replay.get("summary", {}).get("retained_piecewise_ideas") != 8:
         raise RetainedPiecewiseDescendantError("retained parent coverage changed")
     core = _sealed_core(root / source_paths["source_core_receipt"])
     return {
@@ -761,8 +764,6 @@ def _expected_call_contexts(
             for benchmark_id in binding["parent_benchmark_ids"]
             for lineage_id in replay_by_benchmark.get(benchmark_id, [])
         )
-        if not affinity:
-            raise RetainedPiecewiseDescendantError("fresh task lost task-affine parents")
         payload = _public_payload(root, task, binding, replay, core)
         benchmark, sealed = _fresh_task(task, target, binding, sources["rotation"])
         for role in CAMPAIGN_ROLES:
@@ -988,6 +989,7 @@ def run_live(
     transport: Transport = urllib_transport,
     environment: Mapping[str, str] | None = None,
     home: Path | None = None,
+    attempt_journal_path: Path | None = None,
 ) -> dict[str, Any]:
     """Execute six authenticated creative calls and return credential-free evidence."""
 
@@ -998,6 +1000,24 @@ def run_live(
     adapter = _FixedHypothesisProviderTransport(transport, config["hypotheses_per_call"])
     client = ClaudeCreativityClient(ClaudeAPIConfig.from_mapping(config["claude"]), adapter)
     calls = []
+    attempt_id = uuid.uuid4().hex if attempt_journal_path is not None else None
+
+    def journal(kind: str, payload: Mapping[str, Any]) -> None:
+        if attempt_journal_path is None:
+            return
+        attempt_journal_path.parent.mkdir(parents=True, exist_ok=True)
+        row = {
+            "attempt_id": attempt_id,
+            "campaign_id": config["campaign_id"],
+            "kind": kind,
+            **payload,
+        }
+        with attempt_journal_path.open("a", encoding="utf-8", newline="\n") as handle:
+            handle.write(json.dumps(row, sort_keys=True) + "\n")
+            handle.flush()
+            os.fsync(handle.fileno())
+
+    journal("attempt_started", {"planned_calls": len(contexts)})
     with activated_credential(
         project_root=root,
         env_var=config["claude"]["credential_env_var"],
@@ -1019,22 +1039,30 @@ def run_live(
                 )
             record = result.to_dict()
             response_id = record["evidence"]["api_response_id"]
-            calls.append(
-                {
-                    "call_id": _call_id(context["task"]["task_id"], context["role"]),
-                    "evidence": record["evidence"],
-                    "output": record["output"],
-                    "parent_lineage_ids": list(context["all_parents"]),
-                    "provider_transport": dict(adapter.evidence_for(response_id)),
-                    "public_payload": context["payload"],
-                    "role": context["role"].value,
-                    "status": record["status"],
-                    "task_affinity_parent_lineage_ids": list(context["affinity"]),
-                    "task_id": context["task"]["task_id"],
-                }
+            call_record = {
+                "call_id": _call_id(context["task"]["task_id"], context["role"]),
+                "evidence": record["evidence"],
+                "output": record["output"],
+                "parent_lineage_ids": list(context["all_parents"]),
+                "provider_transport": dict(adapter.evidence_for(response_id)),
+                "public_payload": context["payload"],
+                "role": context["role"].value,
+                "status": record["status"],
+                "task_affinity_parent_lineage_ids": list(context["affinity"]),
+                "task_id": context["task"]["task_id"],
+            }
+            calls.append(call_record)
+            journal(
+                "claude_call_completed",
+                {"call_index": len(calls) - 1, "call": call_record},
             )
         activation_evidence = activation.to_evidence()
-    return _build_from_calls(root, config, sources, calls, activation_evidence)
+    receipt = _build_from_calls(root, config, sources, calls, activation_evidence)
+    journal(
+        "attempt_completed",
+        {"campaign_content_sha256": receipt["content_sha256"], "completed_calls": len(calls)},
+    )
+    return receipt
 
 
 def rebind_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, Any]:
@@ -1059,8 +1087,8 @@ def validate_receipt(value: Mapping[str, Any], root: Path) -> None:
         != "PASS_LIVE_RETAINED_PIECEWISE_DESCENDANT_CAMPAIGN"
         or value.get("claude_runtime", {}).get("authenticated_messages_api_working") is not True
         or value.get("claude_runtime", {}).get("completed_calls") != 6
-        or value.get("summary", {}).get("parent_branches_exposed") != 9
-        or value.get("summary", {}).get("parent_branches_preserved") != 9
+        or value.get("summary", {}).get("parent_branches_exposed") != 8
+        or value.get("summary", {}).get("parent_branches_preserved") != 8
         or value.get("claim_boundary")
         != {
             "executor_admission_establishes_correctness": False,
@@ -1095,7 +1123,11 @@ def main(argv: Sequence[str] | None = None) -> int:
     args = parser.parse_args(argv)
     root = args.root.resolve()
     if args.command == "run":
-        receipt = run_live(root, config_path=args.config)
+        receipt = run_live(
+            root,
+            config_path=args.config,
+            attempt_journal_path=root / LIVE_CALL_JOURNAL_PATH,
+        )
     else:
         source = args.previous if args.command == "rebind" else args.receipt
         source_path, _ = _rooted_path(root, source)

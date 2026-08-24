@@ -1,0 +1,54 @@
+{
+  "claim": {
+    "behavior_status": "EXECUTABLE_PREDICTIONS",
+    "behavior_terms": [
+      "30",
+      "55",
+      "91",
+      "140",
+      "204",
+      "285",
+      "385",
+      "506",
+      "650",
+      "819",
+      "1015",
+      "1240",
+      "1496",
+      "1785",
+      "2109",
+      "2470",
+      "2870",
+      "3311"
+    ],
+    "formula_or_construction": "{\"branches\":[{\"condition\":{\"comparator\":\"ge\",\"left\":\"x0\",\"right\":\"1\"},\"expression\":\"x0 * (x0 + 1) * (2 * x0 + 1) // 6\"}],\"default_expression\":\"0\"}",
+    "known_analogues": [
+      "Square pyramidal numbers with boundary guard"
+    ],
+    "llm_origin_assessment": "known_rewrite",
+    "proof_mechanisms": [
+      "exact_row_replay",
+      "boundary_partition_analysis",
+      "lean_kernel_bridge",
+      "1. For x0 >= 1, evaluate x0*(x0+1)*(2*x0+1)//6",
+      "2. For x0 = 0, return 0 (empty sum)",
+      "3. All training inputs have x0 >= 4, so the main branch covers everything",
+      "4. The guard ensures correct behavior at boundary"
+    ],
+    "representation": "piecewise_relation",
+    "source_domains": [
+      "number_theory",
+      "combinatorics"
+    ],
+    "statement": "Piecewise formulation of the sum-of-squares closed form with a boundary guard at x0=0. This repairs all parent piecewise attempts (parent_1 through parent_8) by replacing their incorrect branch logic with the correct polynomial formula. The piecewise structure is retained for compatibility with the representation contract."
+  },
+  "claim_id": "retained-descendant.eef64d6e2f67204ed6c9ba16.prior-art",
+  "schema_version": "invariant-claim-prior-art-input-1.1",
+  "source_binding": {
+    "path": "runs/math/retained-piecewise-descendant-campaign/live-runtime.json",
+    "receipt_content_sha256": "c62267db1a7cab86b854ca8edee537c65356875672a77c28a82bb3e79029e73c",
+    "source_content_sha256": "26ddae237421065e9d2e0ed25d27c276a14aac7ee0ad6426538c263a8ba38f6c",
+    "source_id": "descendant.eef64d6e2f67204ed6c9ba16",
+    "source_kind": "retained_descendant"
+  }
+}

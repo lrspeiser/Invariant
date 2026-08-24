@@ -1,5 +1,5 @@
 {
-  "campaign_id": "state-pair-invariant-controls-2026-08-23-002",
+  "campaign_id": "state-pair-invariant-controls-2026-08-24-003",
   "claims": {
     "action_generator_recovered": false,
     "empirical_law_discovered": false,
@@ -8,7 +8,7 @@
     "target_used_for_learning": false,
     "theorem_proved": false
   },
-  "content_sha256": "fb38a4f2110c36678a17e5a201412f1264c9d43c741fda76c990a27ad13b9d84",
+  "content_sha256": "c97fbe4b3caee5008de485492f98db2aae3fe03f1aeae8d0e2a1d5b6f74a767a",
   "release_gate": {
     "creative_context_ready": true,
     "serious_claim_released": false,
@@ -1613,6 +1613,273 @@
       ]
     },
     {
+      "action_kind": "rational_multivariate_laurent",
+      "creative_brief": {
+        "action_kind": "rational_multivariate_laurent",
+        "candidate_invariant_coordinates": [
+          "1/y + x"
+        ],
+        "constraint_statement": "Treat the algebraically independent coordinates as first-principles building blocks. Retain the full linear invariant basis, deployment failures, and repaired basis as distinct branches; exact pair invariance is not a truth or novelty claim.",
+        "deployment_repaired_coordinates": [
+          "1/y + x"
+        ],
+        "feature_grammar": {
+          "kind": "laurent_monomials",
+          "maximum_absolute_exponent": 1
+        },
+        "identifiability_status": "PASS_EXACT_STATE_PAIR_INVARIANT_BASIS",
+        "llm_origin_assessment_labels": [
+          "known_rewrite",
+          "cross_domain_synthesis",
+          "proposed_new_construction",
+          "uncertain"
+        ],
+        "novelty_caution": "These are known-answer calibration actions. A learned invariant basis establishes neither a new theorem nor literature novelty.",
+        "retained_linear_invariant_basis": [
+          "1/y + x"
+        ]
+      },
+      "deployment": {
+        "coordinate_failures": 0,
+        "pairs": 3,
+        "replays": [
+          {
+            "coordinate_id": "phi_1",
+            "differences": [
+              "0",
+              "0",
+              "0"
+            ],
+            "invariant_on_all_deployment_pairs": true
+          }
+        ]
+      },
+      "deployment_repaired_coordinates": [
+        {
+          "algebraically_independent": true,
+          "coefficient_vector": [
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "coordinate_id": "phi_1",
+          "expression": "1/y + x"
+        }
+      ],
+      "domain": "multivariate_rational_geometry",
+      "feature_basis": [
+        {
+          "complexity": 1,
+          "exponents": [
+            0,
+            1
+          ],
+          "expression": "y",
+          "feature_id": "feature_1",
+          "kind": "laurent_monomial"
+        },
+        {
+          "complexity": 1,
+          "exponents": [
+            0,
+            -1
+          ],
+          "expression": "1/y",
+          "feature_id": "feature_2",
+          "kind": "laurent_monomial"
+        },
+        {
+          "complexity": 1,
+          "exponents": [
+            1,
+            0
+          ],
+          "expression": "x",
+          "feature_id": "feature_3",
+          "kind": "laurent_monomial"
+        },
+        {
+          "complexity": 2,
+          "exponents": [
+            1,
+            1
+          ],
+          "expression": "x*y",
+          "feature_id": "feature_4",
+          "kind": "laurent_monomial"
+        },
+        {
+          "complexity": 2,
+          "exponents": [
+            1,
+            -1
+          ],
+          "expression": "x/y",
+          "feature_id": "feature_5",
+          "kind": "laurent_monomial"
+        },
+        {
+          "complexity": 1,
+          "exponents": [
+            -1,
+            0
+          ],
+          "expression": "1/x",
+          "feature_id": "feature_6",
+          "kind": "laurent_monomial"
+        },
+        {
+          "complexity": 2,
+          "exponents": [
+            -1,
+            1
+          ],
+          "expression": "y/x",
+          "feature_id": "feature_7",
+          "kind": "laurent_monomial"
+        },
+        {
+          "complexity": 2,
+          "exponents": [
+            -1,
+            -1
+          ],
+          "expression": "1/(x*y)",
+          "feature_id": "feature_8",
+          "kind": "laurent_monomial"
+        }
+      ],
+      "independent_evaluators": {
+        "agreement": true,
+        "augmented": {
+          "agreement": true,
+          "fraction_nullspace_basis": [
+            [
+              0,
+              1,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "fraction_rank": 7,
+          "sympy_nullspace_basis": [
+            [
+              0,
+              1,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "sympy_rank": 7
+        },
+        "deployment_feature_evaluation": {
+          "agreement": true,
+          "constraint_rows": 3,
+          "evaluator_pair": [
+            "fraction_rref",
+            "sympy_matrix"
+          ],
+          "prime_support": []
+        },
+        "training": {
+          "agreement": true,
+          "fraction_nullspace_basis": [
+            [
+              0,
+              1,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "fraction_rank": 7,
+          "sympy_nullspace_basis": [
+            [
+              0,
+              1,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "sympy_rank": 7
+        },
+        "training_feature_evaluation": {
+          "agreement": true,
+          "constraint_rows": 7,
+          "evaluator_pair": [
+            "fraction_rref",
+            "sympy_matrix"
+          ],
+          "prime_support": []
+        }
+      },
+      "problem_id": "control.multivariate-rational-level-sets",
+      "sealed_control_evaluation": {
+        "expected_algebraic_coordinate_count_matched": true,
+        "expected_status_matched": true,
+        "sealed_subspace_matched": true,
+        "target_visible_to_learner": false
+      },
+      "search": {
+        "augmented_nullity": 1,
+        "augmented_rank": 7,
+        "feature_grammar": {
+          "kind": "laurent_monomials",
+          "maximum_absolute_exponent": 1
+        },
+        "features": 8,
+        "training_algebraically_independent_coordinates": 1,
+        "training_nullity": 1,
+        "training_rank": 7
+      },
+      "status": "PASS_EXACT_STATE_PAIR_INVARIANT_BASIS",
+      "target_access": {
+        "learner_input_sha256": "d5e621b0766ba32d2d9cd52ef138e0744d1b5b39ae7b6ed44304522e487c75bb",
+        "target_visible_to_learner": false
+      },
+      "training_coordinates": [
+        {
+          "algebraically_independent": true,
+          "coefficient_vector": [
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "coordinate_id": "phi_1",
+          "expression": "1/y + x"
+        }
+      ],
+      "variables": [
+        "x",
+        "y"
+      ]
+    },
+    {
       "action_kind": "transcendental_logarithmic",
       "creative_brief": {
         "action_kind": "transcendental_logarithmic",
@@ -1783,28 +2050,28 @@
       ]
     }
   ],
-  "schema_version": "invariant-state-pair-invariant-discovery-receipt-1.1",
+  "schema_version": "invariant-state-pair-invariant-discovery-receipt-1.2",
   "source_bindings": {
     "config": {
-      "normalized_sha256": "720f1d32a9ecaa1b23d420b10e73c91da349f7fabf4a7b2bd6092114574b420f",
+      "normalized_sha256": "a0f217b120e97faa497d54d2ebe2167d9434940d824be31376938c59b5d86832",
       "path": "configs/state_pair_invariant_discovery.json"
     },
     "source": {
-      "normalized_sha256": "9401cac44965d25bbe87e2e5305034d2d7ed6dcfc78dc3d0d46d3bb55eaf09cf",
+      "normalized_sha256": "5c543cc6281257e14b605554387e31a35765dcaf4e499a68a1622e1ed18a6169",
       "path": "src/sigma_theory_compiler/state_pair_invariant_discovery.py"
     },
     "targets": {
-      "normalized_sha256": "d9b16ee422073cf9540dc571214634d717d3f7789550154141f2d3c4e2987670",
+      "normalized_sha256": "c5f233fcf1bf6b4ae3ae2655dcb15c0db8967aa2806ef3d6c829da437dee9d9d",
       "path": "configs/state_pair_invariant_discovery_targets.json"
     },
     "test": {
-      "normalized_sha256": "cb7ebc2733f2d685189e59a1714bcdffa635b26c2c56b76e72c345c68f36150c",
+      "normalized_sha256": "b3110a7814cb2668a5fcec772a48ce3b3820a4041948a221c675c89f1df1f6cc",
       "path": "tests/test_state_pair_invariant_discovery.py"
     }
   },
   "summary": {
-    "algebraically_independent_coordinates": 7,
-    "controls": 6,
+    "algebraically_independent_coordinates": 8,
+    "controls": 7,
     "deployment_failures": 0,
     "feature_grammar_kinds": [
       "laurent_monomials",
@@ -1813,11 +2080,12 @@
     ],
     "higher_degree_controls": 1,
     "matrix_action_controls": 2,
+    "multivariate_rational_action_controls": 1,
     "nonlinear_action_controls": 2,
-    "rational_action_controls": 1,
+    "rational_action_controls": 2,
     "status": "PASS_EXACT_TYPED_STATE_PAIR_INVARIANT_CONTROLS",
-    "target_blind_controls": 6,
-    "training_linear_invariant_coordinates": 9,
+    "target_blind_controls": 7,
+    "training_linear_invariant_coordinates": 10,
     "transcendental_action_controls": 1
   }
 }

@@ -1,12 +1,13 @@
 {
-  "schema_version": "invariant-state-pair-invariant-discovery-config-1.1",
-  "campaign_id": "state-pair-invariant-controls-2026-08-23-002",
+  "schema_version": "invariant-state-pair-invariant-discovery-config-1.2",
+  "campaign_id": "state-pair-invariant-controls-2026-08-24-003",
   "policy": {
     "maximum_algebraic_coordinates": 4,
     "maximum_absolute_laurent_exponent": 2,
     "maximum_features": 14,
     "maximum_linear_invariant_dimension": 4,
     "maximum_total_degree": 3,
+    "maximum_variables_per_laurent_feature_grammar": 2,
     "minimum_deployment_pairs": 2,
     "minimum_training_pairs": 4
   },
@@ -210,6 +211,27 @@
       "deployment_pairs": [
         {"pair_id": "deployment.laurent-01", "before": {"x": "11"}, "after": {"x": "1/11"}},
         {"pair_id": "deployment.laurent-02", "before": {"x": "13"}, "after": {"x": "1/13"}}
+      ]
+    },
+    {
+      "problem_id": "control.multivariate-rational-level-sets",
+      "domain": "multivariate_rational_geometry",
+      "action_kind": "rational_multivariate_laurent",
+      "variables": ["x", "y"],
+      "feature_grammar": {"kind": "laurent_monomials", "maximum_absolute_exponent": 1},
+      "training_pairs": [
+        {"pair_id": "train.rational-multi-01", "before": {"x": "1", "y": "1"}, "after": {"x": "3/2", "y": "2"}},
+        {"pair_id": "train.rational-multi-02", "before": {"x": "5/2", "y": "2"}, "after": {"x": "8/3", "y": "3"}},
+        {"pair_id": "train.rational-multi-03", "before": {"x": "11/3", "y": "3"}, "after": {"x": "15/4", "y": "4"}},
+        {"pair_id": "train.rational-multi-04", "before": {"x": "19/4", "y": "4"}, "after": {"x": "24/5", "y": "5"}},
+        {"pair_id": "train.rational-multi-05", "before": {"x": "29/5", "y": "5"}, "after": {"x": "35/6", "y": "6"}},
+        {"pair_id": "train.rational-multi-06", "before": {"x": "41/6", "y": "6"}, "after": {"x": "48/7", "y": "7"}},
+        {"pair_id": "train.rational-multi-07", "before": {"x": "55/7", "y": "7"}, "after": {"x": "63/8", "y": "8"}}
+      ],
+      "deployment_pairs": [
+        {"pair_id": "deployment.rational-multi-01", "before": {"x": "71/8", "y": "8"}, "after": {"x": "80/9", "y": "9"}},
+        {"pair_id": "deployment.rational-multi-02", "before": {"x": "89/9", "y": "9"}, "after": {"x": "99/10", "y": "10"}},
+        {"pair_id": "deployment.rational-multi-03", "before": {"x": "109/10", "y": "10"}, "after": {"x": "120/11", "y": "11"}}
       ]
     },
     {

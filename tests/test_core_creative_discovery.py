@@ -90,7 +90,7 @@ def _fake_campaign(creative_context: dict[str, object]) -> dict[str, object]:
             }
         )
     body: dict[str, object] = {
-        "schema_version": "invariant-external-creativity-validation-result-1.1",
+        "schema_version": "invariant-external-creativity-validation-result-1.2",
         "benchmarks": [
             {
                 "benchmark_id": "external.test",
@@ -246,7 +246,7 @@ def test_core_run_requires_and_sanitizes_live_claude(
             brief["identifiability_status"] == "UNDERDETERMINED_RETAIN_CANDIDATE_SUBSPACE"
             for brief in creative_context["learned_invariant_briefs"]
         )
-        assert len(creative_context["state_pair_invariant_briefs"]) == 6
+        assert len(creative_context["state_pair_invariant_briefs"]) == 7
         assert {
             brief["action_kind"] for brief in creative_context["state_pair_invariant_briefs"]
         } == {
@@ -255,6 +255,7 @@ def test_core_run_requires_and_sanitizes_live_claude(
             "nonlinear_polynomial",
             "nonlinear_polynomial_degree3",
             "rational_laurent",
+            "rational_multivariate_laurent",
             "transcendental_logarithmic",
         }
         assert len(creative_context["uncertain_invariant_briefs"]) == 5
@@ -281,6 +282,7 @@ def test_core_run_requires_and_sanitizes_live_claude(
     assert receipt["claude_runtime"]["completed_calls"] == 8
     execution = receipt["claude_runtime"]["executable_contribution"]
     assert execution["admitted_executable_hypotheses"] == 1
+    assert execution["retained_unscored_executable_candidates"] == 0
     assert execution["scored_executable_candidates"] == 1
     assert execution["matched_control_profiles_verified"]
     assert execution["behavior_novelty_against_deterministic_count"] == 1
@@ -301,7 +303,7 @@ def test_core_run_requires_and_sanitizes_live_claude(
             "proposed_new_construction",
             "uncertain",
         ],
-        "state_pair_invariant_briefs": 6,
+        "state_pair_invariant_briefs": 7,
         "status": "PASS_CONTEXT_BOUND_TO_AUTHENTICATED_CALLS",
         "typed_formula_kinds": 8,
         "uncertain_invariant_briefs": 5,
@@ -342,11 +344,12 @@ def test_core_run_requires_and_sanitizes_live_claude(
     assert receipt["discovery_runtime"]["learned_invariant_underdetermined_controls"] == 1
     assert receipt["discovery_runtime"]["learned_invariant_training_coordinates_retained"] == 7
     assert receipt["discovery_runtime"]["learned_invariant_deployment_repaired_coordinates"] == 6
-    assert receipt["discovery_runtime"]["state_pair_controls"] == 6
+    assert receipt["discovery_runtime"]["state_pair_controls"] == 7
+    assert receipt["discovery_runtime"]["state_pair_multivariate_rational_action_controls"] == 1
     assert receipt["discovery_runtime"]["state_pair_matrix_action_controls"] == 2
     assert receipt["discovery_runtime"]["state_pair_nonlinear_action_controls"] == 2
     assert receipt["discovery_runtime"]["state_pair_higher_degree_controls"] == 1
-    assert receipt["discovery_runtime"]["state_pair_rational_action_controls"] == 1
+    assert receipt["discovery_runtime"]["state_pair_rational_action_controls"] == 2
     assert receipt["discovery_runtime"]["state_pair_transcendental_action_controls"] == 1
     assert receipt["discovery_runtime"]["state_pair_feature_grammar_kinds"] == [
         "laurent_monomials",
@@ -368,9 +371,9 @@ def test_core_run_requires_and_sanitizes_live_claude(
     assert receipt["discovery_runtime"]["uncertain_invariant_unit_uncertainty_controls"] == 1
     assert receipt["discovery_runtime"]["independent_proof_plan_routes_closed"] == 6
     assert receipt["discovery_runtime"]["independent_proof_plan_mutations_rejected"] == 6
-    assert receipt["discovery_runtime"]["retained_piecewise_admitted"] == 9
-    assert receipt["discovery_runtime"]["retained_piecewise_exact_agreements"] == 9
-    assert receipt["discovery_runtime"]["retained_piecewise_resource_matched_controls"] == 9
+    assert receipt["discovery_runtime"]["retained_piecewise_admitted"] == 8
+    assert receipt["discovery_runtime"]["retained_piecewise_exact_agreements"] == 8
+    assert receipt["discovery_runtime"]["retained_piecewise_resource_matched_controls"] == 8
     assert (
         receipt["discovery_runtime"]["retained_piecewise_replay_status"]
         == "PASS_RETAINED_PIECEWISE_REPLAY"
@@ -379,10 +382,10 @@ def test_core_run_requires_and_sanitizes_live_claude(
     assert receipt["discovery_runtime"]["retained_piecewise_zero_holdout_bounded_unknown"] == 0
     assert receipt["retained_piecewise_descendant_claude_runtime"]["completed_calls"] == 6
     assert receipt["discovery_runtime"]["retained_piecewise_descendant_ideas"] == 24
-    assert receipt["discovery_runtime"]["retained_piecewise_descendant_admitted"] == 18
-    assert receipt["discovery_runtime"]["retained_piecewise_descendant_nonexecutable_retained"] == 6
+    assert receipt["discovery_runtime"]["retained_piecewise_descendant_admitted"] == 16
+    assert receipt["discovery_runtime"]["retained_piecewise_descendant_nonexecutable_retained"] == 8
     assert (
-        receipt["discovery_runtime"]["retained_piecewise_descendant_parent_branches_preserved"] == 9
+        receipt["discovery_runtime"]["retained_piecewise_descendant_parent_branches_preserved"] == 8
     )
     assert (
         receipt["discovery_runtime"]["retained_piecewise_descendant_zero_holdout_known_control"]
@@ -398,7 +401,7 @@ def test_core_run_requires_and_sanitizes_live_claude(
     assert receipt["discovery_runtime"]["claim_specific_prior_art_claims"] == 24
     assert (
         receipt["discovery_runtime"]["claim_specific_prior_art_no_exact_behavior_match_claims"]
-        == 18
+        == 16
     )
     assert receipt["discovery_runtime"]["component_knockout_experiments_preflighted"] == 4
     assert receipt["discovery_runtime"]["component_knockout_scheduled_slots"] == 384

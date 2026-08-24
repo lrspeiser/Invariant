@@ -17,10 +17,10 @@ from .claude_creativity_api import ClaudeCreativityError, Transport, urllib_tran
 from .external_claude_transport import ProviderCompatibleClaudeTransport
 from .sigma_core import canonical_sha256
 
-SCHEMA_VERSION = "invariant-core-creative-prompt-context-1.7"
+SCHEMA_VERSION = "invariant-core-creative-prompt-context-1.8"
 FIRST_PRINCIPLES_BRIEF_COUNT = 5
 LEARNED_INVARIANT_BRIEF_COUNT = 3
-STATE_PAIR_INVARIANT_BRIEF_COUNT = 6
+STATE_PAIR_INVARIANT_BRIEF_COUNT = 7
 UNCERTAIN_INVARIANT_BRIEF_COUNT = 5
 ORIGIN_ASSESSMENTS = [
     "cross_domain_synthesis",
@@ -108,22 +108,25 @@ def build_creative_prompt_context(
             }
         )
     briefs.sort(key=lambda item: str(item["problem_id"]))
-    if len(briefs) != FIRST_PRINCIPLES_BRIEF_COUNT or any(
-        not isinstance(item["problem_id"], str)
-        or not isinstance(item["domain"], str)
-        or not isinstance(item["forced_form"], str)
-        or not isinstance(item["candidate_invariant_coordinates"], list)
-        or not item["candidate_invariant_coordinates"]
+    if (
+        len(briefs) != FIRST_PRINCIPLES_BRIEF_COUNT
         or any(
-            not isinstance(coordinate, str) or not coordinate
-            for coordinate in item["candidate_invariant_coordinates"]
+            not isinstance(item["problem_id"], str)
+            or not isinstance(item["domain"], str)
+            or not isinstance(item["forced_form"], str)
+            or not isinstance(item["candidate_invariant_coordinates"], list)
+            or not item["candidate_invariant_coordinates"]
+            or any(
+                not isinstance(coordinate, str) or not coordinate
+                for coordinate in item["candidate_invariant_coordinates"]
+            )
+            or len(set(item["candidate_invariant_coordinates"]))
+            != len(item["candidate_invariant_coordinates"])
+            or item["invariant_coordinate_arity"] != len(item["candidate_invariant_coordinates"])
+            for item in briefs
         )
-        or len(set(item["candidate_invariant_coordinates"]))
-        != len(item["candidate_invariant_coordinates"])
-        or item["invariant_coordinate_arity"]
-        != len(item["candidate_invariant_coordinates"])
-        for item in briefs
-    ) or not any(item["invariant_coordinate_arity"] > 1 for item in briefs):
+        or not any(item["invariant_coordinate_arity"] > 1 for item in briefs)
+    ):
         raise CoreCreativePromptContextError("first-principles brief coverage changed")
 
     if learned_invariants.get("summary", {}).get("status") != (
@@ -167,9 +170,7 @@ def build_creative_prompt_context(
             }
         )
     learned_briefs.sort(key=lambda item: str(item["problem_id"]))
-    learned_statuses = {
-        item["identifiability_status"] for item in learned_briefs
-    }
+    learned_statuses = {item["identifiability_status"] for item in learned_briefs}
     if (
         len(learned_briefs) != LEARNED_INVARIANT_BRIEF_COUNT
         or learned_statuses
@@ -246,13 +247,13 @@ def build_creative_prompt_context(
             "nonlinear_polynomial",
             "nonlinear_polynomial_degree3",
             "rational_laurent",
+            "rational_multivariate_laurent",
             "transcendental_logarithmic",
         }
         or any(
             not isinstance(item["problem_id"], str)
             or not isinstance(item["domain"], str)
-            or item["identifiability_status"]
-            != "PASS_EXACT_STATE_PAIR_INVARIANT_BASIS"
+            or item["identifiability_status"] != "PASS_EXACT_STATE_PAIR_INVARIANT_BASIS"
             or not item["candidate_invariant_coordinates"]
             or not item["deployment_repaired_coordinates"]
             or not item["retained_linear_invariant_basis"]
@@ -304,9 +305,7 @@ def build_creative_prompt_context(
                 "novelty_caution": creative_brief["novelty_caution"],
                 "observation_mode": creative_brief["observation_mode"],
                 "problem_id": result.get("problem_id"),
-                "retained_evidence_branches": list(
-                    creative_brief["retained_evidence_branches"]
-                ),
+                "retained_evidence_branches": list(creative_brief["retained_evidence_branches"]),
             }
         )
     uncertain_briefs.sort(key=lambda item: str(item["problem_id"]))
@@ -345,6 +344,7 @@ def build_creative_prompt_context(
             "generate_multiple_mechanisms_before_falsification": True,
             "learn_higher_degree_rational_and_logarithmic_features": True,
             "learn_matrix_and_nonlinear_actions_from_state_pairs": True,
+            "learn_multivariate_rational_features": True,
             "origin_labels_are_fallible_lineage_assessments": True,
             "preserve_joint_and_unit_hypothesis_branches": True,
             "retain_every_schema_admitted_idea": True,
@@ -400,6 +400,7 @@ def validate_creative_prompt_context(value: Mapping[str, Any]) -> None:
             "generate_multiple_mechanisms_before_falsification",
             "learn_higher_degree_rational_and_logarithmic_features",
             "learn_matrix_and_nonlinear_actions_from_state_pairs",
+            "learn_multivariate_rational_features",
             "origin_labels_are_fallible_lineage_assessments",
             "preserve_joint_and_unit_hypothesis_branches",
             "retain_every_schema_admitted_idea",
@@ -440,19 +441,14 @@ def validate_creative_prompt_context(value: Mapping[str, Any]) -> None:
             or isinstance(arity, bool)
             or arity != len(coordinates)
         ):
-            raise CoreCreativePromptContextError(
-                "core first-principles coordinate basis changed"
-            )
+            raise CoreCreativePromptContextError("core first-principles coordinate basis changed")
         has_multiple_coordinates = has_multiple_coordinates or arity > 1
     if not has_multiple_coordinates:
         raise CoreCreativePromptContextError(
             "core first-principles multi-coordinate coverage changed"
         )
     learned_briefs = value.get("learned_invariant_briefs")
-    if (
-        not isinstance(learned_briefs, list)
-        or len(learned_briefs) != LEARNED_INVARIANT_BRIEF_COUNT
-    ):
+    if not isinstance(learned_briefs, list) or len(learned_briefs) != LEARNED_INVARIANT_BRIEF_COUNT:
         raise CoreCreativePromptContextError("core learned invariant brief coverage changed")
     learned_statuses: set[str] = set()
     for brief in learned_briefs:
@@ -496,6 +492,7 @@ def validate_creative_prompt_context(value: Mapping[str, Any]) -> None:
     ):
         raise CoreCreativePromptContextError("core state-pair invariant brief coverage changed")
     action_kinds: set[str] = set()
+    action_feature_kinds: dict[str, str] = {}
     feature_kinds: set[str] = set()
     for brief in state_pair_briefs:
         _strict_keys(
@@ -528,8 +525,7 @@ def validate_creative_prompt_context(value: Mapping[str, Any]) -> None:
             or not isinstance(retained, list)
             or not retained
             or any(not isinstance(item, str) or not item for item in retained)
-            or brief["identifiability_status"]
-            != "PASS_EXACT_STATE_PAIR_INVARIANT_BASIS"
+            or brief["identifiability_status"] != "PASS_EXACT_STATE_PAIR_INVARIANT_BASIS"
             or not isinstance(brief["action_kind"], str)
             or not isinstance(feature_grammar, Mapping)
             or feature_grammar.get("kind")
@@ -541,19 +537,28 @@ def validate_creative_prompt_context(value: Mapping[str, Any]) -> None:
         ):
             raise CoreCreativePromptContextError("core state-pair invariant branch changed")
         action_kinds.add(brief["action_kind"])
+        action_feature_kinds[brief["action_kind"]] = feature_grammar["kind"]
         feature_kinds.add(feature_grammar["kind"])
-    if action_kinds != {
-        "matrix_conjugation",
-        "matrix_orthogonal",
-        "nonlinear_polynomial",
-        "nonlinear_polynomial_degree3",
-        "rational_laurent",
-        "transcendental_logarithmic",
-    } or feature_kinds != {
-        "laurent_monomials",
-        "logarithmic_coordinates",
-        "polynomial_monomials",
-    }:
+    if (
+        action_kinds
+        != {
+            "matrix_conjugation",
+            "matrix_orthogonal",
+            "nonlinear_polynomial",
+            "nonlinear_polynomial_degree3",
+            "rational_laurent",
+            "rational_multivariate_laurent",
+            "transcendental_logarithmic",
+        }
+        or feature_kinds
+        != {
+            "laurent_monomials",
+            "logarithmic_coordinates",
+            "polynomial_monomials",
+        }
+        or action_feature_kinds.get("rational_laurent") != "laurent_monomials"
+        or (action_feature_kinds.get("rational_multivariate_laurent") != "laurent_monomials")
+    ):
         raise CoreCreativePromptContextError("core state-pair action coverage changed")
     uncertain_briefs = value.get("uncertain_invariant_briefs")
     if (

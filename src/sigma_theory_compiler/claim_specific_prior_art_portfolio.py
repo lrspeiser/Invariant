@@ -22,6 +22,7 @@ from .claim_specific_prior_art import (
     Transport,
     build_queries,
     load_claim,
+    rebind_screen,
     run_screen,
     urllib_transport,
     validate_screen,
@@ -217,8 +218,12 @@ def build_claim_document(
     selected_routes = execution.get("proof_plan_search", {}).get("selected_route", [])
     declared_plan = hypothesis.get("proof_plan", [])
     proof_mechanisms = [str(item)[:500] for item in [*selected_routes, *declared_plan] if str(item)]
-    known_analogues = [str(item)[:500] for item in hypothesis.get("known_analogues", []) if str(item)]
-    source_domains = [str(item)[:500] for item in hypothesis.get("source_idea_domains", []) if str(item)]
+    known_analogues = [
+        str(item)[:500] for item in hypothesis.get("known_analogues", []) if str(item)
+    ]
+    source_domains = [
+        str(item)[:500] for item in hypothesis.get("source_idea_domains", []) if str(item)
+    ]
     if not proof_mechanisms:
         proof_mechanisms = ["model supplied no executable proof route"]
     if not known_analogues:
@@ -292,9 +297,7 @@ def build_preflight(root: Path, claim_directory: Path) -> dict[str, Any]:
                 "query_set_sha256": canonical_sha256(list(build_queries(document))),
                 "representation": document["claim"]["representation"],
                 "source_order": source_order,
-                "source_content_sha256": document["source_binding"][
-                    "source_content_sha256"
-                ],
+                "source_content_sha256": document["source_binding"]["source_content_sha256"],
                 "source_id": source_id,
             }
         )
@@ -364,16 +367,14 @@ def validate_preflight(value: Mapping[str, Any], root: Path | None = None) -> No
         or len({item.get("source_id") for item in claims}) != 24
         or [item.get("queue_rank") for item in claims] != list(range(24))
         or origin_ranks != sorted(origin_ranks)
-        or sum(item.get("behavior_status") == "EXECUTABLE_PREDICTIONS" for item in claims)
-        != 18
-        or sum(item.get("behavior_status") == "NO_EXECUTABLE_BEHAVIOR" for item in claims)
-        != 6
-        or sum(item.get("external_request_budget", 0) for item in claims) != 90
+        or sum(item.get("behavior_status") == "EXECUTABLE_PREDICTIONS" for item in claims) != 16
+        or sum(item.get("behavior_status") == "NO_EXECUTABLE_BEHAVIOR" for item in claims) != 8
+        or sum(item.get("external_request_budget", 0) for item in claims) != 88
         or summary
         != {
-            "executable_claims": 18,
-            "maximum_external_requests": 90,
-            "nonexecutable_claims_retained": 6,
+            "executable_claims": 16,
+            "maximum_external_requests": 88,
+            "nonexecutable_claims_retained": 8,
             "retained_claims": 24,
             "status": "READY_FOR_RESUMABLE_CLAIM_SPECIFIC_SCREENING",
         }
@@ -422,8 +423,7 @@ def validate_preflight(value: Mapping[str, Any], root: Path | None = None) -> No
             row["claim_sha256"] != _normalized_file_sha256(claim_path)
             or row["claim_id"] != document["claim_id"]
             or row["source_id"] != document["source_binding"]["source_id"]
-            or row["source_content_sha256"]
-            != document["source_binding"]["source_content_sha256"]
+            or row["source_content_sha256"] != document["source_binding"]["source_content_sha256"]
             or row["query_set_sha256"] != canonical_sha256(list(build_queries(document)))
         ):
             raise PriorArtPortfolioError("portfolio claim binding changed")
@@ -449,9 +449,7 @@ def build_pending_review_form(screen: Mapping[str, Any]) -> dict[str, Any]:
     }
 
 
-def validate_pending_review_form(
-    value: Mapping[str, Any], screen: Mapping[str, Any]
-) -> None:
+def validate_pending_review_form(value: Mapping[str, Any], screen: Mapping[str, Any]) -> None:
     validate_screen(screen)
     if (
         value != build_pending_review_form(screen)
@@ -515,14 +513,10 @@ def screen_portfolio(
         form = build_pending_review_form(screen)
         _write_json_atomic(review_path, form)
         validate_screen(_read_json(screen_path, "portfolio screen"), root)
-        validate_pending_review_form(
-            _read_json(review_path, "pending human review form"), screen
-        )
+        validate_pending_review_form(_read_json(review_path, "pending human review form"), screen)
         newly_screened.append(row["source_id"])
         completed_ids.add(row["source_id"])
-        completed_claims.append(
-            _completed_claim_row(root, row, screen_path, review_path, screen)
-        )
+        completed_claims.append(_completed_claim_row(root, row, screen_path, review_path, screen))
     external_requests = sum(
         row["external_request_budget"]
         for row in preflight["claims"]
@@ -674,11 +668,9 @@ def validate_batch_receipt(
             or row["human_review_status"] != "PENDING_NAMED_HUMAN_REVIEW"
             or row["automated_screen_status"]
             not in {"COMPLETED_NOT_NOVELTY_CLEARED", "INCOMPLETE_PROVIDER_COVERAGE"}
-            or set(row["provider_statuses"])
-            != {"arxiv", "crossref", "oeis", "semantic_scholar"}
+            or set(row["provider_statuses"]) != {"arxiv", "crossref", "oeis", "semantic_scholar"}
             or any(
-                status
-                not in {"COMPLETED", "NOT_APPLICABLE_RECORDED", "UNAVAILABLE_RECORDED"}
+                status not in {"COMPLETED", "NOT_APPLICABLE_RECORDED", "UNAVAILABLE_RECORDED"}
                 for status in row["provider_statuses"].values()
             )
             or any(
@@ -752,6 +744,11 @@ def main(argv: Sequence[str] | None = None) -> int:
     batch.add_argument("--review-directory", type=Path, default=Path(REVIEW_DIRECTORY))
     batch.add_argument("--maximum-claims", type=int, default=4)
     batch.add_argument("--output", type=Path, required=True)
+    rebind = subparsers.add_parser("rebind-screens")
+    rebind.add_argument("--root", type=Path, default=Path.cwd())
+    rebind.add_argument("--preflight", type=Path, default=Path(PREFLIGHT_PATH))
+    rebind.add_argument("--screen-directory", type=Path, default=Path(SCREEN_DIRECTORY))
+    rebind.add_argument("--review-directory", type=Path, default=Path(REVIEW_DIRECTORY))
     validate_batch = subparsers.add_parser("validate-batch")
     validate_batch.add_argument("--root", type=Path, default=Path.cwd())
     validate_batch.add_argument("--preflight", type=Path, default=Path(PREFLIGHT_PATH))
@@ -767,6 +764,23 @@ def main(argv: Sequence[str] | None = None) -> int:
         receipt = _read_json(receipt_path, "portfolio preflight")
         validate_preflight(receipt, args.root)
         summary = receipt["summary"]
+    elif args.command == "rebind-screens":
+        root = args.root.resolve()
+        preflight_path = _under(root, args.preflight, "portfolio preflight")
+        preflight = _read_json(preflight_path, "portfolio preflight")
+        validate_preflight(preflight, root)
+        screen_directory = _under(root, args.screen_directory, "portfolio screen directory")
+        review_directory = _under(root, args.review_directory, "portfolio review directory")
+        rebound = []
+        for row in preflight["claims"]:
+            screen_path = screen_directory / f"{row['source_id']}.json"
+            review_path = review_directory / f"{row['source_id']}.json"
+            previous = _read_json(screen_path, "portfolio screen")
+            screen = rebind_screen(root, root / row["claim_path"], previous)
+            _write_json_atomic(screen_path, screen)
+            _write_json_atomic(review_path, build_pending_review_form(screen))
+            rebound.append(row["source_id"])
+        summary = {"new_provider_calls": 0, "rebound_screens": rebound}
     elif args.command == "screen-batch":
         receipt = screen_portfolio(
             args.root,

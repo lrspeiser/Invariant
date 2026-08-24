@@ -1,0 +1,57 @@
+{
+  "claim": {
+    "behavior_status": "EXECUTABLE_PREDICTIONS",
+    "behavior_terms": [
+      "30",
+      "55",
+      "91",
+      "140",
+      "204",
+      "285",
+      "385",
+      "506",
+      "650",
+      "819",
+      "1015",
+      "1240",
+      "1496",
+      "1785",
+      "2109",
+      "2470",
+      "2870",
+      "3311"
+    ],
+    "formula_or_construction": "{\"body\":\"k * k\",\"index\":\"k\",\"lower\":\"1\",\"upper\":\"x0\"}",
+    "known_analogues": [
+      "Square pyramidal numbers",
+      "OEIS A000330",
+      "Faulhaber's formula for p=2"
+    ],
+    "llm_origin_assessment": "known_rewrite",
+    "proof_mechanisms": [
+      "exact_row_replay",
+      "induction_on_recurrence",
+      "bijection_construction",
+      "lean_kernel_bridge",
+      "1. Verify closed form: n(n+1)(2n+1)/6 for n=4: 4*5*9/6 = 30 \u2713",
+      "2. n=5: 5*6*11/6 = 55 \u2713",
+      "3. n=21: 21*22*43/6 = 3311 \u2713",
+      "4. Standard identity proved by induction or Faulhaber's formula."
+    ],
+    "representation": "finite_sum",
+    "source_domains": [
+      "number_theory",
+      "Faulhaber_formulas"
+    ],
+    "statement": "The output sequence exactly matches the square pyramidal numbers: f(x0) = sum_{k=1}^{x0} k^2 = x0*(x0+1)*(2*x0+1)/6. Verified against all 18 training rows. This is the canonical sum-of-squares formula."
+  },
+  "claim_id": "retained-descendant.31123b4a4fb8a84c10cfcef1.prior-art",
+  "schema_version": "invariant-claim-prior-art-input-1.1",
+  "source_binding": {
+    "path": "runs/math/retained-piecewise-descendant-campaign/live-runtime.json",
+    "receipt_content_sha256": "c62267db1a7cab86b854ca8edee537c65356875672a77c28a82bb3e79029e73c",
+    "source_content_sha256": "153cfae353cc14672f0054244059a04cfc04be31a6a23bb036fb2f0f720a811c",
+    "source_id": "descendant.31123b4a4fb8a84c10cfcef1",
+    "source_kind": "retained_descendant"
+  }
+}

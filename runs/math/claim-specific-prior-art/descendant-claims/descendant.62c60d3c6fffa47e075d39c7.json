@@ -1,0 +1,52 @@
+{
+  "claim": {
+    "behavior_status": "EXECUTABLE_PREDICTIONS",
+    "behavior_terms": [
+      "30",
+      "55",
+      "91",
+      "140",
+      "204",
+      "285",
+      "385",
+      "506",
+      "650",
+      "819",
+      "1015",
+      "1240",
+      "1496",
+      "1785",
+      "2109",
+      "2470",
+      "2870",
+      "3311"
+    ],
+    "formula_or_construction": "{\"branches\":[{\"condition\":{\"comparator\":\"ge\",\"left\":\"x0\",\"right\":\"1\"},\"expression\":\"x0 * (x0 + 1) * (2 * x0 + 1) // 6\"}],\"default_expression\":\"0\"}",
+    "known_analogues": [
+      "Sum of squares closed form"
+    ],
+    "llm_origin_assessment": "known_rewrite",
+    "proof_mechanisms": [
+      "exact_row_replay",
+      "boundary_partition_analysis",
+      "lean_kernel_bridge",
+      "1. For x0 >= 1, use n(n+1)(2n+1)/6",
+      "2. All training points have x0 >= 4, so the single branch covers them",
+      "3. Default handles hypothetical x0=0 case with output 0"
+    ],
+    "representation": "piecewise_relation",
+    "source_domains": [
+      "combinatorics"
+    ],
+    "statement": "Piecewise representation wrapping the closed-form cubic. Repairs all parents (parent_1 through parent_8) which had incorrect formulas by replacing with the correct n(n+1)(2n+1)/6."
+  },
+  "claim_id": "retained-descendant.62c60d3c6fffa47e075d39c7.prior-art",
+  "schema_version": "invariant-claim-prior-art-input-1.1",
+  "source_binding": {
+    "path": "runs/math/retained-piecewise-descendant-campaign/live-runtime.json",
+    "receipt_content_sha256": "c62267db1a7cab86b854ca8edee537c65356875672a77c28a82bb3e79029e73c",
+    "source_content_sha256": "6fa976df3201989481c02e0344ec9535f91abc048633cf9d49e4c9136660e25f",
+    "source_id": "descendant.62c60d3c6fffa47e075d39c7",
+    "source_kind": "retained_descendant"
+  }
+}

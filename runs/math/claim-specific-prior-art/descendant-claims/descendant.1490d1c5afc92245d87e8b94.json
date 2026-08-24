@@ -1,0 +1,54 @@
+{
+  "claim": {
+    "behavior_status": "EXECUTABLE_PREDICTIONS",
+    "behavior_terms": [
+      "178",
+      "194",
+      "213",
+      "231",
+      "251",
+      "271",
+      "294",
+      "316",
+      "342",
+      "368",
+      "395",
+      "423",
+      "453",
+      "483",
+      "517",
+      "551",
+      "586",
+      "623"
+    ],
+    "formula_or_construction": "{\"branches\":[{\"condition\":{\"comparator\":\"le\",\"left\":\"x0\",\"right\":\"3\"},\"expression\":\"x0 + 1\"}],\"default_expression\":\"1 + x0 + floor(x0 * x0 / 12) + floor(x0 * (x0 - 1) * (x0 - 2) / 180) + floor(x0 / 2) - floor(x0 / 6)\"}",
+    "known_analogues": [
+      "Denumerant formulas",
+      "Sylvester-Frobenius partition formulas"
+    ],
+    "llm_origin_assessment": "uncertain",
+    "proof_mechanisms": [
+      "exact_row_replay",
+      "boundary_partition_analysis",
+      "1. Start from parent_4 formula which had train_loss 5/2",
+      "2. Add correction terms floor(x0/2) - floor(x0/6) to fix systematic undershoot",
+      "3. Verify on training points x0=26..43",
+      "4. Check counterexample x0=20 -> expected 72"
+    ],
+    "representation": "piecewise_relation",
+    "source_domains": [
+      "partition_theory",
+      "denumerant_theory"
+    ],
+    "statement": "Parent_4 had the best train loss (5/2) among task-affine parents. Its formula 1 + x0 + floor(x0^2/12) + floor(x0*(x0-1)*(x0-2)/180) systematically undershoots by a roughly linear amount. Adding floor(x0/2) - floor(x0/6) as periodic correction terms attempts to fix this. For x0=20: 1+20+floor(400/12)+floor(20*19*18/180)+10-3 = 1+20+33+38+10-3 = 99, but expected 72, so still off. Need different coefficients."
+  },
+  "claim_id": "retained-descendant.1490d1c5afc92245d87e8b94.prior-art",
+  "schema_version": "invariant-claim-prior-art-input-1.1",
+  "source_binding": {
+    "path": "runs/math/retained-piecewise-descendant-campaign/live-runtime.json",
+    "receipt_content_sha256": "c62267db1a7cab86b854ca8edee537c65356875672a77c28a82bb3e79029e73c",
+    "source_content_sha256": "b7bb1b77ff3931f8c9f21ec29e582f7e401b831041021e30142100c53a023e5d",
+    "source_id": "descendant.1490d1c5afc92245d87e8b94",
+    "source_kind": "retained_descendant"
+  }
+}

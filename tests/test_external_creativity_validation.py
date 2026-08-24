@@ -16,8 +16,14 @@ MODEL = "claude-opus-4-6"
 
 
 class CampaignClaudeTransport:
-    def __init__(self) -> None:
+    def __init__(
+        self,
+        proposer_expression: str = "x0",
+        proposer_representation: str = "sympy_expression",
+    ) -> None:
         self.requests: list[dict[str, Any]] = []
+        self.proposer_expression = proposer_expression
+        self.proposer_representation = proposer_representation
 
     def __call__(
         self,
@@ -43,7 +49,7 @@ class CampaignClaudeTransport:
         role = prompt["role"]
         if role == "proposer":
             hypothesis = {
-                "expression": "x0",
+                "expression": self.proposer_expression,
                 "falsifiers": ["sealed holdout"],
                 "family": "analogy_transfer",
                 "hypothesis_id": f"hypothesis.{len(self.requests)}",
@@ -52,7 +58,7 @@ class CampaignClaudeTransport:
                 "llm_origin_assessment": "known_rewrite",
                 "proof_plan": ["test base cases", "induct"],
                 "rationale": "A deliberately simple typed control hypothesis.",
-                "representation": "sympy_expression",
+                "representation": self.proposer_representation,
                 "source_idea_domains": ["algebra", "recurrences"],
                 "synthesis_note": "A control recovered through recurrence language.",
             }
@@ -400,9 +406,7 @@ def test_live_style_modulo_piecewise_replays_with_independent_agreement() -> Non
     assert candidate is not None
     assert record["status"] == "ADMITTED_EXECUTABLE"
     assert record["llm_self_assessed_origin"] == "cross_domain_synthesis"
-    rows = tuple(
-        E.Observation((Fraction(value),), Fraction(0)) for value in (0, 7, 8, 9, 10)
-    )
+    rows = tuple(E.Observation((Fraction(value),), Fraction(0)) for value in (0, 7, 8, 9, 10))
     expected = tuple(Fraction(value) for value in (0, 7, 12, 21, 11))
     assert E.predict(candidate, benchmark, rows) == expected
     assert E.independently_predict(candidate, benchmark, rows) == expected
@@ -416,17 +420,11 @@ def test_live_style_floor_conditional_and_decimals_are_exactly_executable() -> N
             "branches": [
                 {
                     "condition": {"comparator": "eq", "left": "x0 % 2", "right": "0"},
-                    "expression": (
-                        "(x0 // 2) + (x0 // 2) * ((x0 // 2) + 1) // 2 "
-                        "if x0 > 0 else 0"
-                    ),
+                    "expression": ("(x0 // 2) + (x0 // 2) * ((x0 // 2) + 1) // 2 if x0 > 0 else 0"),
                 },
                 {
                     "condition": {"comparator": "eq", "left": "x0 % 2", "right": "1"},
-                    "expression": (
-                        "(x0 + 1) // 2 + ((x0 - 1) // 2) * "
-                        "(((x0 - 1) // 2) + 1) // 2"
-                    ),
+                    "expression": ("(x0 + 1) // 2 + ((x0 - 1) // 2) * (((x0 - 1) // 2) + 1) // 2"),
                 },
             ],
             "default_expression": "0",
@@ -614,6 +612,44 @@ def test_modular_control_remains_matched_after_canonicalization() -> None:
     assert E._candidate_resource_profile(
         candidate, benchmark, target, budget
     ) == E._candidate_resource_profile(control, benchmark, target, budget)
+
+
+def test_oversized_executable_candidate_is_retained_without_scoring() -> None:
+    public, benchmarks = E.load_public_benchmarks(ROOT)
+    benchmark = next(item for item in benchmarks if len(item.aliases) == 1)
+    target = next(
+        item
+        for item in E.unseal_targets(ROOT, public, benchmarks)
+        if item.benchmark_id == benchmark.benchmark_id
+    )
+    expression = json.dumps(
+        {
+            "branches": [
+                {
+                    "condition": {
+                        "comparator": "lt",
+                        "left": "x0" + " + 1" * 10,
+                        "right": "0",
+                    },
+                    "expression": "x0",
+                }
+            ],
+            "default_expression": "x0",
+        }
+    )
+    candidate, record = E._claude_candidate(
+        benchmark, _hypothesis("piecewise_relation", expression)
+    )
+    assert candidate is not None
+    assert record["status"] == "ADMITTED_EXECUTABLE"
+    budget = E._load_campaign_config(ROOT, live_claude=False)["search"]["matched_control_budget"]
+    with pytest.raises(E.ExternalCreativityError, match="exceeds"):
+        E._candidate_resource_profile(candidate, benchmark, target, budget)
+    result = E._score_candidate(candidate, benchmark, target, budget)
+    assert result["scoring_status"] == "RETAINED_UNSCORED_RESOURCE_BUDGET"
+    assert result["retention_status"] == "RETAINED_ACTIVE_FOR_REPAIR_OR_LARGER_BUDGET"
+    assert "grammar_depth" in result["resource_budget_exceeded"]
+    assert "holdout_loss" not in result
 
 
 def test_piecewise_transform_tensor_and_variational_controls_match_exact_resource_profiles() -> (
@@ -889,10 +925,18 @@ def test_target_is_opened_after_claude_and_proposal_seals(dry_receipt: dict[str,
     assert all(item["target_reads"] == 0 for item in events[: target_open["sequence"]])
 
 
-def test_live_claude_fixture_proposes_and_steers_without_verifying(monkeypatch) -> None:
+def test_live_claude_fixture_proposes_and_steers_without_verifying(
+    monkeypatch, tmp_path: Path
+) -> None:
     monkeypatch.setenv("ANTHROPIC_API_KEY", "fixture-secret")
     transport = CampaignClaudeTransport()
-    receipt = E.run_campaign(ROOT, live_claude=True, claude_transport=transport)
+    journal_path = tmp_path / "live-call-attempts.jsonl"
+    receipt = E.run_campaign(
+        ROOT,
+        live_claude=True,
+        claude_transport=transport,
+        attempt_journal_path=journal_path,
+    )
     assert receipt["claude"]["status"] == "PASS"
     assert receipt["claude"]["completed_calls"] == receipt["claude"]["required_calls"] == 8
     assert receipt["claude"]["proposer_hypotheses"] == 4
@@ -907,6 +951,7 @@ def test_live_claude_fixture_proposes_and_steers_without_verifying(monkeypatch) 
         assert admission["records"][0]["status"] == "ADMITTED_EXECUTABLE"
         contribution = item["claude_contribution"]
         assert contribution["status"] == "MEASURED_EXECUTABLE_CLAUDE_CONTRIBUTION"
+        assert contribution["retained_unscored_executable_candidates"] == 0
         assert contribution["scored_executable_candidates"] == 1
         assert contribution["grammar_depth_match"]
         assert contribution["evaluation_runtime_budget_match"]
@@ -930,6 +975,51 @@ def test_live_claude_fixture_proposes_and_steers_without_verifying(monkeypatch) 
     assert "tensor_identity uses JSON" in E.EXECUTABLE_PROPOSER_INSTRUCTION
     assert "variational_principle uses JSON" in E.EXECUTABLE_PROPOSER_INSTRUCTION
     assert "fixture-secret" not in json.dumps(receipt, sort_keys=True)
+    journal = [json.loads(line) for line in journal_path.read_text().splitlines()]
+    assert [row["kind"] for row in journal].count("attempt_started") == 1
+    assert [row["kind"] for row in journal].count("claude_call_completed_or_blocked") == 8
+    assert [row["kind"] for row in journal].count("attempt_completed") == 1
+    assert len({row["attempt_id"] for row in journal}) == 1
+    assert "fixture-secret" not in json.dumps(journal, sort_keys=True)
+
+
+def test_live_campaign_retains_oversized_claude_branches_instead_of_aborting(
+    monkeypatch, tmp_path: Path
+) -> None:
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "fixture-secret")
+    expression = json.dumps(
+        {
+            "branches": [
+                {
+                    "condition": {
+                        "comparator": "lt",
+                        "left": "x0" + " + 1" * 10,
+                        "right": "0",
+                    },
+                    "expression": "x0",
+                }
+            ],
+            "default_expression": "x0",
+        }
+    )
+    transport = CampaignClaudeTransport(expression, "piecewise_relation")
+    receipt = E.run_campaign(
+        ROOT,
+        live_claude=True,
+        claude_transport=transport,
+        attempt_journal_path=tmp_path / "overflow-attempts.jsonl",
+    )
+    assert receipt["claude"]["completed_calls"] == 8
+    for benchmark in receipt["benchmarks"]:
+        retained = benchmark["retained_unscored_candidates"]
+        assert len(retained) == 1
+        assert retained[0]["family"] == "claude_proposer"
+        assert retained[0]["scoring_status"] == "RETAINED_UNSCORED_RESOURCE_BUDGET"
+        contribution = benchmark["claude_contribution"]
+        assert contribution["status"] == ("RETAINED_UNSCORED_OR_NON_EXECUTABLE_CLAUDE_PROPOSALS")
+        assert contribution["retained_unscored_executable_candidates"] == 1
+        assert contribution["scored_executable_candidates"] == 0
+        assert benchmark["claude_matched_controls"] == []
 
 
 def test_open_problem_spend_and_reproduction_remain_blocked(dry_receipt: dict[str, Any]) -> None:

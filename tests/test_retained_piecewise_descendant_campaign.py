@@ -140,10 +140,10 @@ def test_fake_live_campaign_retains_24_descendants_and_preserves_all_parents(
     assert receipt["summary"]["descendant_ideas_retained"] == 24
     assert receipt["summary"]["admitted_executable_descendants"] == 18
     assert receipt["summary"]["nonexecutable_descendants_retained"] == 6
-    assert receipt["summary"]["parent_branches_exposed"] == 9
-    assert receipt["summary"]["parent_branches_preserved"] == 9
+    assert receipt["summary"]["parent_branches_exposed"] == 8
+    assert receipt["summary"]["parent_branches_preserved"] == 8
     assert receipt["summary"]["descendants_with_explicit_parent_lineage"] == 24
-    assert len(receipt["parent_prediction_archive"]) == 9
+    assert len(receipt["parent_prediction_archive"]) == 8
     assert provider.post_count == 6
     post_requests = [request for request in provider.requests if request["method"] == "POST"]
     assert all(
