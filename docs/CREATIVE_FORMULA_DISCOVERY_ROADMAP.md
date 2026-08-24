@@ -74,8 +74,8 @@
   new candidate or permission to release a serious claim.
 - Downloaded artifacts bind four distinct GitHub-hosted ephemeral VM runner IDs across Windows and
   Linux, with two evaluator implementations per host and a separate Lean kernel artifact. The
-  current receipt binds successful post-merge run `32676680764` at
-  `df040f9a38a60a86e3b55c157006af4f8f48923c`, which includes the tensor- and
+  current receipt binds successful post-merge run `32678924431` at
+  `e1e22ae54248ee586f4f82fc52d581fc2fd9c12b`, which includes the transform-, tensor-, and
   variational-capable executable-LLM core. This is
   multi-host VM reproduction, not a claim about distinct bare-metal machines.
 - The LLM proposal compiler now admits bounded linear shift transforms, tensor identities, and first-order variational
