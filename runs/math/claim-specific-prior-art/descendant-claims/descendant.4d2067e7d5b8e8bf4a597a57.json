@@ -1,0 +1,55 @@
+{
+  "claim": {
+    "behavior_status": "EXECUTABLE_PREDICTIONS",
+    "behavior_terms": [
+      "2",
+      "7",
+      "13",
+      "20",
+      "16",
+      "21",
+      "15",
+      "22",
+      "14",
+      "23",
+      "13",
+      "24",
+      "12",
+      "25",
+      "43",
+      "62",
+      "42",
+      "63"
+    ],
+    "formula_or_construction": "{\"branches\":[{\"condition\":{\"comparator\":\"eq\",\"left\":\"x0\",\"right\":\"4\"},\"expression\":\"2\"},{\"condition\":{\"comparator\":\"eq\",\"left\":\"x0\",\"right\":\"5\"},\"expression\":\"7\"},{\"condition\":{\"comparator\":\"eq\",\"left\":\"x0\",\"right\":\"6\"},\"expression\":\"13\"},{\"condition\":{\"comparator\":\"eq\",\"left\":\"x0\",\"right\":\"7\"},\"expression\":\"20\"},{\"condition\":{\"comparator\":\"lt\",\"left\":\"x0\",\"right\":\"18\"},\"expression\":\"(x0 % 2) * (x0 // 2 + 17) + (1 - x0 % 2) * (20 - x0 // 2)\"},{\"condition\":{\"comparator\":\"ge\",\"left\":\"x0\",\"right\":\"18\"},\"expression\":\"(x0 % 2) * (x0 // 2 + 53) + (1 - x0 % 2) * (52 - x0 // 2)\"}],\"default_expression\":\"0\"}",
+    "known_analogues": [
+      "OEIS interleaved linear sequences"
+    ],
+    "llm_origin_assessment": "uncertain",
+    "proof_mechanisms": [
+      "exact_row_replay",
+      "boundary_partition_analysis",
+      "1. Verify x0=4..7 via lookup",
+      "2. For even x0 in [8,16]: values are 12,11,10,9,8. Formula 20-x0//2: x0=8->16, wrong.",
+      "3. Need: even x0, value = 20 - x0//2 doesn't work. Try: value = -x0//2 + 16: x0=8->12 YES, x0=10->11 YES, x0=12->10 YES, x0=14->9 YES, x0=16->8 YES",
+      "4. For odd x0 in [9,17]: values are 21,22,23,24,25. Formula x0//2+17: x0=9->21 YES, x0=11->22 YES, x0=13->23 YES, x0=15->24 YES, x0=17->25 YES",
+      "5. For even x0>=18: values 43,42. Formula -x0//2+52: x0=18->43 YES, x0=20->42 YES",
+      "6. For odd x0>=18: values 62,63. Formula x0//2+53: x0=19->62 YES, x0=21->63 YES"
+    ],
+    "representation": "piecewise_relation",
+    "source_domains": [
+      "integer_sequences",
+      "parity_analysis"
+    ],
+    "statement": "After careful arithmetic checking, the correct formulas are: even in [8,18): -x0//2+16, odd in [8,18): x0//2+17, even >=18: -x0//2+52, odd >=18: x0//2+53. First four values 2,7,13,20 don't fit any clean formula so use lookup. This is the most reliable hypothesis."
+  },
+  "claim_id": "retained-descendant.4d2067e7d5b8e8bf4a597a57.prior-art",
+  "schema_version": "invariant-claim-prior-art-input-1.1",
+  "source_binding": {
+    "path": "runs/math/retained-piecewise-descendant-campaign/live-runtime.json",
+    "receipt_content_sha256": "b9b9a42efcba394410d1dc3a386e148a08470ebe702c76d82c2802cc46d0f400",
+    "source_content_sha256": "6bcb706be67132fc73f992f1e41537fd2af5781aa8750e167dac982f57d162b9",
+    "source_id": "descendant.4d2067e7d5b8e8bf4a597a57",
+    "source_kind": "retained_descendant"
+  }
+}

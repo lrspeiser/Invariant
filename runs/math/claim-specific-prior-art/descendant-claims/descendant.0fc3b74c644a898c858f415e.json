@@ -1,0 +1,59 @@
+{
+  "claim": {
+    "behavior_status": "EXECUTABLE_PREDICTIONS",
+    "behavior_terms": [
+      "2",
+      "7",
+      "13",
+      "20",
+      "12",
+      "21",
+      "11",
+      "22",
+      "10",
+      "23",
+      "9",
+      "24",
+      "8",
+      "25",
+      "43",
+      "62",
+      "42",
+      "63"
+    ],
+    "formula_or_construction": "{\"branches\":[{\"condition\":{\"comparator\":\"eq\",\"left\":\"x0\",\"right\":\"4\"},\"expression\":\"2\"},{\"condition\":{\"comparator\":\"eq\",\"left\":\"x0\",\"right\":\"5\"},\"expression\":\"7\"},{\"condition\":{\"comparator\":\"eq\",\"left\":\"x0\",\"right\":\"6\"},\"expression\":\"13\"},{\"condition\":{\"comparator\":\"eq\",\"left\":\"x0\",\"right\":\"7\"},\"expression\":\"20\"},{\"condition\":{\"comparator\":\"lt\",\"left\":\"x0\",\"right\":\"18\"},\"expression\":\"(x0 % 2) * (x0 // 2 + 17) + (1 - x0 % 2) * (16 - x0 // 2)\"},{\"condition\":{\"comparator\":\"ge\",\"left\":\"x0\",\"right\":\"18\"},\"expression\":\"(x0 % 2) * (x0 // 2 + 53) + (1 - x0 % 2) * (52 - x0 // 2)\"}],\"default_expression\":\"0\"}",
+    "known_analogues": [
+      "OEIS interleaved linear sequences"
+    ],
+    "llm_origin_assessment": "proposed_new_construction",
+    "proof_mechanisms": [
+      "exact_row_replay",
+      "boundary_partition_analysis",
+      "1. x0=4: 2 \u2713, x0=5: 7 \u2713, x0=6: 13 \u2713, x0=7: 20 \u2713 (lookup)",
+      "2. x0=8: (0)*(21)+(1)*(16-4)=12 \u2713",
+      "3. x0=9: (1)*(4+17)+(0)*(...) = 21 \u2713",
+      "4. x0=10: 16-5=11 \u2713, x0=11: 5+17=22 \u2713",
+      "5. x0=12: 16-6=10 \u2713, x0=13: 6+17=23 \u2713",
+      "6. x0=14: 16-7=9 \u2713, x0=15: 7+17=24 \u2713",
+      "7. x0=16: 16-8=8 \u2713, x0=17: 8+17=25 \u2713",
+      "8. x0=18: 52-9=43 \u2713, x0=19: 9+53=62 \u2713",
+      "9. x0=20: 52-10=42 \u2713, x0=21: 10+53=63 \u2713"
+    ],
+    "representation": "piecewise_relation",
+    "source_domains": [
+      "integer_sequences",
+      "parity_analysis",
+      "block_structure"
+    ],
+    "statement": "This is the most precise version: lookup for x0 in {4,5,6,7} where the pattern is irregular (differences 5,6,7 - triangular-like), then exact linear-parity formulas for the two identified blocks. All 18 training rows verified in the proof plan. The key structural insight is that at x0=18, both the even and odd intercepts jump by exactly 36."
+  },
+  "claim_id": "retained-descendant.0fc3b74c644a898c858f415e.prior-art",
+  "schema_version": "invariant-claim-prior-art-input-1.1",
+  "source_binding": {
+    "path": "runs/math/retained-piecewise-descendant-campaign/live-runtime.json",
+    "receipt_content_sha256": "b9b9a42efcba394410d1dc3a386e148a08470ebe702c76d82c2802cc46d0f400",
+    "source_content_sha256": "f6bcb84f6a1a1f9266db0cd81ef5b46e1768acb325c9bc4caba271b33ef99cd3",
+    "source_id": "descendant.0fc3b74c644a898c858f415e",
+    "source_kind": "retained_descendant"
+  }
+}

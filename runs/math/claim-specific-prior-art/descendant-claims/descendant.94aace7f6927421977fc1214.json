@@ -1,0 +1,53 @@
+{
+  "claim": {
+    "behavior_status": "EXECUTABLE_PREDICTIONS",
+    "behavior_terms": [
+      "99",
+      "102",
+      "106",
+      "110",
+      "118",
+      "131",
+      "137",
+      "143",
+      "149",
+      "155",
+      "161",
+      "168",
+      "175",
+      "182",
+      "190",
+      "194",
+      "198",
+      "202"
+    ],
+    "formula_or_construction": "{\"branches\":[{\"condition\":{\"comparator\":\"le\",\"left\":\"x0\",\"right\":\"28\"},\"expression\":\"99 + (x0 - 26) * 7 // 2\"},{\"condition\":{\"comparator\":\"le\",\"left\":\"x0\",\"right\":\"30\"},\"expression\":\"106 + (x0 - 28) * (x0 - 28 + 1) * 4 // 2\"},{\"condition\":{\"comparator\":\"le\",\"left\":\"x0\",\"right\":\"35\"},\"expression\":\"126 + (x0 - 30) * 29 // 5\"},{\"condition\":{\"comparator\":\"le\",\"left\":\"x0\",\"right\":\"39\"},\"expression\":\"155 + (x0 - 35) * 27 // 4\"},{\"condition\":{\"comparator\":\"le\",\"left\":\"x0\",\"right\":\"43\"},\"expression\":\"175 + round((x0 - 36) * (x0 - 36) * 9 / 100 + (x0 - 36) * 73 / 25 + 2)\"}],\"default_expression\":\"175 + round((x0 - 36) * (x0 - 36) * 9 / 100 + (x0 - 36) * 73 / 25 + 2)\"}",
+    "known_analogues": [
+      "Piecewise linear interpolation with quadratic correction"
+    ],
+    "llm_origin_assessment": "proposed_new_construction",
+    "proof_mechanisms": [
+      "exact_row_replay",
+      "boundary_partition_analysis",
+      "1. Anchor at known training points (26,99), (28,106), (30,126), (35,155), (36,175)",
+      "2. Use linear segments with integer slopes between anchors",
+      "3. Use a quadratic correction term for the upper segment [36,43]",
+      "4. Verify all 18 training points"
+    ],
+    "representation": "piecewise_relation",
+    "source_domains": [
+      "interpolation",
+      "signal_processing"
+    ],
+    "statement": "The sequence has varying growth rates: slow near 26-28, a jump at 29-30, moderate through 30-35, a big jump at 35-36, then moderate again. This suggests piecewise construction anchored at observed inflection points. I use a hybrid of linear interpolation (with integer arithmetic) and quadratic adjustments."
+  },
+  "claim_id": "retained-descendant.94aace7f6927421977fc1214.prior-art",
+  "schema_version": "invariant-claim-prior-art-input-1.1",
+  "source_binding": {
+    "path": "runs/math/retained-piecewise-descendant-campaign/live-runtime.json",
+    "receipt_content_sha256": "b9b9a42efcba394410d1dc3a386e148a08470ebe702c76d82c2802cc46d0f400",
+    "source_content_sha256": "0c1ffc9cb5ab3690eef340808be604e6ffee93b4b9b92b1206717678dad610b3",
+    "source_id": "descendant.94aace7f6927421977fc1214",
+    "source_kind": "retained_descendant"
+  }
+}

@@ -195,6 +195,8 @@ def test_core_run_requires_and_sanitizes_live_claude(
     state_pair_invariants = bound_receipts[12]
     uncertain_invariants = bound_receipts[13]
     piecewise_descendants = bound_receipts[14]
+    prior_art_portfolio_preflight = bound_receipts[15]
+    prior_art_portfolio = bound_receipts[16]
     monkeypatch.setattr(
         C,
         "_load_bound_receipts",
@@ -214,6 +216,8 @@ def test_core_run_requires_and_sanitizes_live_claude(
             state_pair_invariants,
             uncertain_invariants,
             piecewise_descendants,
+            prior_art_portfolio_preflight,
+            prior_art_portfolio,
         ),
     )
     monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
@@ -389,6 +393,13 @@ def test_core_run_requires_and_sanitizes_live_claude(
         == 0
     )
     assert receipt["release_gate"]["retained_piecewise_descendant_live_run_complete"]
+    assert receipt["release_gate"]["claim_specific_prior_art_automated_screens_complete"]
+    assert receipt["release_gate"]["claim_specific_prior_art_named_human_reviews_complete"] is False
+    assert receipt["discovery_runtime"]["claim_specific_prior_art_claims"] == 24
+    assert (
+        receipt["discovery_runtime"]["claim_specific_prior_art_no_exact_behavior_match_claims"]
+        == 18
+    )
     assert receipt["discovery_runtime"]["component_knockout_experiments_preflighted"] == 4
     assert receipt["discovery_runtime"]["component_knockout_scheduled_slots"] == 384
     assert receipt["discovery_runtime"]["component_knockout_live_runs_complete"] is False
@@ -441,6 +452,8 @@ def test_deterministic_rebind_preserves_authenticated_llm_evidence() -> None:
     assert rebound["llm_prompt_context"]["bound_authenticated_calls"] == 8
     assert rebound["release_gate"]["llm_first_principles_lane_live_run_complete"]
     assert rebound["release_gate"]["retained_piecewise_descendant_live_run_complete"]
+    assert rebound["release_gate"]["claim_specific_prior_art_automated_screens_complete"]
+    assert rebound["release_gate"]["claim_specific_prior_art_named_human_reviews_complete"] is False
     assert rebound["retained_piecewise_descendant_claude_runtime"]["completed_calls"] == 6
     assert (
         len({call["api_response_id"] for call in rebound["claude_runtime"]["evidence"]["calls"]})
@@ -449,6 +462,16 @@ def test_deterministic_rebind_preserves_authenticated_llm_evidence() -> None:
     assert rebound["credential_activation"]["source_kind"] == "user_invariant_env_file"
     assert rebound["verification"]["serious_claim_backend_mutations_rejected"] == 10
     assert rebound["verification"]["serious_claim_lean_mutation_artifact_bound"] is True
+
+
+def test_core_receipt_rejects_unearned_prior_art_human_review_completion() -> None:
+    receipt = json.loads((ROOT / C.OUTPUT_PATH).read_text(encoding="utf-8"))
+    changed = json.loads(json.dumps(receipt))
+    changed["release_gate"]["claim_specific_prior_art_named_human_reviews_complete"] = True
+    body = {key: item for key, item in changed.items() if key != "content_sha256"}
+    changed["content_sha256"] = canonical_sha256(body)
+    with pytest.raises(C.CoreCreativeDiscoveryError, match="prior-art portfolio"):
+        C.validate_receipt(changed)
 
 
 def test_core_receipt_rejects_unearned_prompt_context_claim() -> None:

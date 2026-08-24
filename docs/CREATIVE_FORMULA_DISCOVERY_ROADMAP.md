@@ -151,6 +151,18 @@
   Scholar's HTTP 429 is preserved as unavailable evidence. This calibrates the model label at the
   behavior level only. Formula/construction and proof-mechanism provenance remain blocked on a
   named human review.
+- A source-bound portfolio now prepares and live-screens all 24 retained descendants in the order
+  proposed-new construction, uncertain, cross-domain synthesis, then known rewrite. Eighteen
+  executable branches receive behavior plus literature searches; all six non-executable branches
+  remain active and explicitly skip only the inapplicable OEIS behavior request. The resumable live
+  run consumed its sealed 90-request budget without replaying completed claims. Crossref and arXiv
+  completed 24/24, OEIS completed 18/18 applicable requests, and Semantic Scholar completed one
+  while 23 rate limits are sealed as unavailable. No exact behavior prefix matched. Eighteen screens
+  have sufficient automated provider coverage and six do not; all 24 bind pending named-human forms,
+  and none is novelty-cleared. Receipt
+  `19792e984aebee8fa2f3c5f091b7bc54a3621770c983e41b1a81a7abae04e5d3` binds every screen and form.
+  Core runtime schema 2.9 now embeds and validates both portfolio receipts and preserves the closed
+  named-human gate during deterministic rebind without repeating the authenticated model calls.
 - The first 24-task paired live generation completed 96 retained Opus calls, 358,226 tokens, and 48
   arm-free review outputs. Its 348 raw branches remain unscored. A source-identical task retry added
   3–4 discarded calls; the bound deviation therefore makes this a blinded pilot, not confirmatory
@@ -346,6 +358,10 @@ This is evidence of bounded rediscovery, not evidence of mathematical novelty.
 - Require a named human reviewer to inspect the nearest matches before any novelty language is
   released.
 - Treat “no automated match” as “not cleared,” never as “novel.”
+- The retained-descendant portfolio now automates source-bound, resumable screening for all 24
+  branches and generates a complete pending human form for every sealed nearest-match set. It does
+  not let an AI fill the human field. Named review remains outstanding for all 24 descendants and
+  the earlier A005132 screen; tournament survivors will enter the same queue after blinded scoring.
 
 ### 9. Reproduce independently
 
@@ -379,14 +395,13 @@ This is evidence of bounded rediscovery, not evidence of mathematical novelty.
 
 ## Next executable milestones
 
-1. Download the first probe-bearing post-merge artifacts, verify identical LLM evidence projection
-   hashes across all four Ubuntu/Windows hosts, and bind their archive and payload hashes into the
-   multi-host reproduction receipt.
+1. Complete the 24 pending retained-descendant prior-art forms plus the earlier A005132 form with
+   specifically named human reviewers. Retry unavailable provider lanes where practical, but keep
+   automated absence as `not cleared` regardless of retry outcome.
 2. Obtain two named blinded reviewers for the clean 353-branch packet, seal their complete forms,
    and score the bounded rotation; record disagreements before unblinding system identity.
-3. Complete named human review of the bound A005132 behavior match and the nearest formula and
-   proof-mechanism results, then run the same automated screen for every retained descendant and
-   tournament survivor. Automated absence remains `not cleared`, never `novel`.
+3. After blinded scoring identifies tournament survivors, generate source-bound claim documents,
+   run the same resumable automated portfolio, and require named review before origin language.
 4. Run the preregistered old-vs-new matched-control comparison and, after explicit approval, each
    component knockout through the one-experiment
    executor under its 96-call / 400,000-token ceiling and the same attempt-journal and review rules.

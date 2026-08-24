@@ -1,0 +1,54 @@
+{
+  "claim": {
+    "behavior_status": "EXECUTABLE_PREDICTIONS",
+    "behavior_terms": [
+      "90",
+      "95",
+      "99",
+      "103",
+      "107",
+      "49",
+      "53",
+      "58",
+      "62",
+      "67",
+      "71",
+      "85",
+      "89",
+      "94",
+      "99",
+      "103",
+      "108",
+      "113"
+    ],
+    "formula_or_construction": "{\"branches\":[{\"condition\":{\"comparator\":\"le\",\"left\":\"x0\",\"right\":\"30\"},\"expression\":\"round(x0 * x0 * 47 / 1000 + 157 * x0 / 100 + 1789 / 100)\"},{\"condition\":{\"comparator\":\"le\",\"left\":\"x0\",\"right\":\"36\"},\"expression\":\"round(x0 * x0 * 67 / 1000 - 7 * x0 / 100 - 1291 / 100)\"},{\"condition\":{\"comparator\":\"le\",\"left\":\"x0\",\"right\":\"43\"},\"expression\":\"round(x0 * x0 * 43 / 1000 + 119 * x0 / 100 - 447 / 25)\"}],\"default_expression\":\"round(x0 * x0 * 43 / 1000 + 119 * x0 / 100 - 447 / 25)\"}",
+    "known_analogues": [
+      "Spline approximations",
+      "Piecewise polynomial regression"
+    ],
+    "llm_origin_assessment": "proposed_new_construction",
+    "proof_mechanisms": [
+      "exact_row_replay",
+      "boundary_partition_analysis",
+      "1. Least-squares fit a quadratic to each of the three segments",
+      "2. Round coefficients to rationals with denominator \u2264 1000",
+      "3. Test all 18 rows",
+      "4. Refine if max-error > 1"
+    ],
+    "representation": "piecewise_relation",
+    "source_domains": [
+      "approximation_theory",
+      "regression"
+    ],
+    "statement": "An alternative segmentation to h1, splitting at different breakpoints [30,36] instead of [29,35,40]. The data shows possible inflection around x0=30 (jump from 114 to 126) and around x0=36 (jump from 155 to 175). Fitting quadratics to each natural segment. Cross-recombines parent_3's spline idea with parent_2's polynomial approach."
+  },
+  "claim_id": "retained-descendant.004e74f4156673f25cab192a.prior-art",
+  "schema_version": "invariant-claim-prior-art-input-1.1",
+  "source_binding": {
+    "path": "runs/math/retained-piecewise-descendant-campaign/live-runtime.json",
+    "receipt_content_sha256": "b9b9a42efcba394410d1dc3a386e148a08470ebe702c76d82c2802cc46d0f400",
+    "source_content_sha256": "0821450a49420514cb979abcfcaece7a4779928db05838508b0535d4cd58aef8",
+    "source_id": "descendant.004e74f4156673f25cab192a",
+    "source_kind": "retained_descendant"
+  }
+}

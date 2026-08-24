@@ -21,6 +21,7 @@ on:
       - "configs/creativity_confirmatory_generation.json"
       - "configs/creativity_tournament_generation.json"
       - "configs/claim_specific_prior_art.json"
+      - "configs/claim_specific_prior_art_portfolio.json"
       - "configs/claims/**"
       - "configs/declarative_extension_candidates.json"
       - "configs/rotating_external_benchmark_pack*.json"
@@ -38,6 +39,7 @@ on:
       - "src/sigma_theory_compiler/creativity_tournament_generation.py"
       - "src/sigma_theory_compiler/durable_llm_attempt_journal.py"
       - "src/sigma_theory_compiler/claim_specific_prior_art.py"
+      - "src/sigma_theory_compiler/claim_specific_prior_art_portfolio.py"
       - "src/sigma_theory_compiler/dataset_challenge_suite.py"
       - "src/sigma_theory_compiler/external_dataset_challenges.py"
       - "src/sigma_theory_compiler/external_structured_benchmarks.py"
@@ -68,6 +70,7 @@ on:
       - "tests/test_creativity_tournament_generation.py"
       - "tests/test_durable_llm_attempt_journal.py"
       - "tests/test_claim_specific_prior_art.py"
+      - "tests/test_claim_specific_prior_art_portfolio.py"
       - "tests/test_dataset_challenge_suite.py"
       - "tests/test_external_dataset_challenges.py"
       - "tests/test_external_structured_benchmarks.py"
@@ -125,6 +128,7 @@ on:
       - "configs/creativity_confirmatory_generation.json"
       - "configs/creativity_tournament_generation.json"
       - "configs/claim_specific_prior_art.json"
+      - "configs/claim_specific_prior_art_portfolio.json"
       - "configs/claims/**"
       - "configs/declarative_extension_candidates.json"
       - "configs/rotating_external_benchmark_pack*.json"
@@ -142,6 +146,7 @@ on:
       - "src/sigma_theory_compiler/creativity_tournament_generation.py"
       - "src/sigma_theory_compiler/durable_llm_attempt_journal.py"
       - "src/sigma_theory_compiler/claim_specific_prior_art.py"
+      - "src/sigma_theory_compiler/claim_specific_prior_art_portfolio.py"
       - "src/sigma_theory_compiler/dataset_challenge_suite.py"
       - "src/sigma_theory_compiler/external_dataset_challenges.py"
       - "src/sigma_theory_compiler/external_structured_benchmarks.py"
@@ -172,6 +177,7 @@ on:
       - "tests/test_creativity_tournament_generation.py"
       - "tests/test_durable_llm_attempt_journal.py"
       - "tests/test_claim_specific_prior_art.py"
+      - "tests/test_claim_specific_prior_art_portfolio.py"
       - "tests/test_dataset_challenge_suite.py"
       - "tests/test_external_dataset_challenges.py"
       - "tests/test_external_structured_benchmarks.py"
@@ -256,6 +262,7 @@ jobs:
           tests/test_creativity_tournament_generation.py
           tests/test_durable_llm_attempt_journal.py
           tests/test_claim_specific_prior_art.py
+          tests/test_claim_specific_prior_art_portfolio.py
           tests/test_dataset_challenge_suite.py
           tests/test_external_dataset_challenges.py
           tests/test_external_structured_benchmarks.py
@@ -270,6 +277,11 @@ jobs:
           python -m sigma_theory_compiler.claim_specific_prior_art validate
           --root .
           --receipt runs/math/claim-specific-prior-art/live-uncertain-recaman.json
+      - run: >-
+          python -m sigma_theory_compiler.claim_specific_prior_art_portfolio validate-batch
+          --root .
+          --preflight runs/math/claim-specific-prior-art/descendant-portfolio-preflight.json
+          --receipt runs/math/claim-specific-prior-art/descendant-portfolio-complete.json
       - run: >-
           python -m sigma_theory_compiler.dataset_challenge_suite validate
           --root .

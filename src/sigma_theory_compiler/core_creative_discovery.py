@@ -17,6 +17,12 @@ from copy import deepcopy
 from pathlib import Path
 from typing import Any
 
+from .claim_specific_prior_art_portfolio import (
+    validate_batch_receipt as validate_prior_art_portfolio_receipt,
+)
+from .claim_specific_prior_art_portfolio import (
+    validate_preflight as validate_prior_art_portfolio_preflight,
+)
 from .claude_creativity_api import ClaudeRole
 from .core_creative_prompt_context import (
     FirstPrinciplesContextTransport,
@@ -79,8 +85,8 @@ SOURCE_PATH = "src/sigma_theory_compiler/core_creative_discovery.py"
 CLAUDE_API_SOURCE_PATH = "src/sigma_theory_compiler/claude_creativity_api.py"
 EXTERNAL_CAMPAIGN_SOURCE_PATH = "src/sigma_theory_compiler/external_creativity_validation.py"
 PROMPT_CONTEXT_SOURCE_PATH = "src/sigma_theory_compiler/core_creative_prompt_context.py"
-SCHEMA_VERSION = "invariant-core-creative-discovery-runtime-2.8"
-CONFIG_SCHEMA = "invariant-core-creative-discovery-config-2.8"
+SCHEMA_VERSION = "invariant-core-creative-discovery-runtime-2.9"
+CONFIG_SCHEMA = "invariant-core-creative-discovery-config-2.9"
 
 
 class CoreCreativeDiscoveryError(ValueError):
@@ -185,6 +191,8 @@ def _load_config(root: Path) -> dict[str, Any]:
         raise CoreCreativeDiscoveryError("core release policy is too weak")
     if set(value["components"]) != {
         "component_knockout_preflight_receipt",
+        "claim_specific_prior_art_portfolio_preflight_receipt",
+        "claim_specific_prior_art_portfolio_receipt",
         "dataset_challenge_receipt",
         "declarative_operational_receipt",
         "external_dataset_challenge_receipt",
@@ -223,6 +231,8 @@ def _load_bound_receipts(
     dict[str, Any],
     dict[str, Any],
     dict[str, Any],
+    dict[str, Any],
+    dict[str, Any],
 ]:
     components = config["components"]
     dataset_path = root / components["dataset_challenge_receipt"]
@@ -240,6 +250,10 @@ def _load_bound_receipts(
     state_pair_invariant_path = root / components["state_pair_invariant_discovery_receipt"]
     uncertain_invariant_path = root / components["uncertain_invariant_discovery_receipt"]
     piecewise_descendant_path = root / components["retained_piecewise_descendant_campaign_receipt"]
+    prior_art_portfolio_preflight_path = (
+        root / components["claim_specific_prior_art_portfolio_preflight_receipt"]
+    )
+    prior_art_portfolio_path = root / components["claim_specific_prior_art_portfolio_receipt"]
     dataset = json.loads(dataset_path.read_text(encoding="utf-8"))
     external_dataset = json.loads(external_dataset_path.read_text(encoding="utf-8"))
     _, _, external_structured = load_stored_pack(root, external_structured_path)
@@ -255,6 +269,10 @@ def _load_bound_receipts(
     state_pair_invariants = json.loads(state_pair_invariant_path.read_text(encoding="utf-8"))
     uncertain_invariants = json.loads(uncertain_invariant_path.read_text(encoding="utf-8"))
     piecewise_descendants = json.loads(piecewise_descendant_path.read_text(encoding="utf-8"))
+    prior_art_portfolio_preflight = json.loads(
+        prior_art_portfolio_preflight_path.read_text(encoding="utf-8")
+    )
+    prior_art_portfolio = json.loads(prior_art_portfolio_path.read_text(encoding="utf-8"))
     validate_dataset_challenges(dataset, root)
     validate_external_dataset_challenges(external_dataset, root)
     validate_operational_receipt(operational, root)
@@ -269,6 +287,8 @@ def _load_bound_receipts(
     validate_state_pair_invariants(state_pair_invariants, root)
     validate_uncertain_invariants(uncertain_invariants, root)
     validate_piecewise_descendant_campaign(piecewise_descendants, root)
+    validate_prior_art_portfolio_preflight(prior_art_portfolio_preflight, root)
+    validate_prior_art_portfolio_receipt(prior_art_portfolio, prior_art_portfolio_preflight, root)
     return (
         operational,
         multi_host,
@@ -285,6 +305,8 @@ def _load_bound_receipts(
         state_pair_invariants,
         uncertain_invariants,
         piecewise_descendants,
+        prior_art_portfolio_preflight,
+        prior_art_portfolio,
     )
 
 
@@ -427,6 +449,8 @@ def run_core(
         state_pair_invariants,
         uncertain_invariants,
         piecewise_descendants,
+        prior_art_portfolio_preflight,
+        prior_art_portfolio,
     ) = _load_bound_receipts(root, config)
     creative_prompt_context = build_creative_prompt_context(
         symmetry_dimension_derivation,
@@ -484,6 +508,7 @@ def run_core(
         bool(benchmark.get("claims", {}).get("serious_claim_released"))
         for benchmark in campaign.get("benchmarks", [])
     )
+    prior_art_portfolio_claims = prior_art_portfolio["batch"]["completed_claims"]
     body = {
         "schema_version": SCHEMA_VERSION,
         "app_id": config["app_id"],
@@ -511,6 +536,16 @@ def run_core(
             "component_knockout_preflight_receipt": {
                 "content_sha256": component_knockout["content_sha256"],
                 "path": config["components"]["component_knockout_preflight_receipt"],
+            },
+            "claim_specific_prior_art_portfolio_preflight_receipt": {
+                "content_sha256": prior_art_portfolio_preflight["content_sha256"],
+                "path": config["components"][
+                    "claim_specific_prior_art_portfolio_preflight_receipt"
+                ],
+            },
+            "claim_specific_prior_art_portfolio_receipt": {
+                "content_sha256": prior_art_portfolio["content_sha256"],
+                "path": config["components"]["claim_specific_prior_art_portfolio_receipt"],
             },
             "dataset_challenge_receipt": {
                 "content_sha256": dataset_challenges["content_sha256"],
@@ -586,6 +621,8 @@ def run_core(
         "idea_lineage_archive": idea_archive,
         "creative_expansion": creative_expansion,
         "component_knockout_preflight": component_knockout,
+        "claim_specific_prior_art_portfolio_preflight": prior_art_portfolio_preflight,
+        "claim_specific_prior_art_portfolio": prior_art_portfolio,
         "dataset_challenges": dataset_challenges,
         "external_dataset_challenges": external_dataset_challenges,
         "external_structured_benchmarks": external_structured_benchmarks,
@@ -598,6 +635,21 @@ def run_core(
         "retained_piecewise_descendant_claude_runtime": piecewise_descendants["claude_runtime"],
         "retained_piecewise_replay": piecewise_replay,
         "discovery_runtime": {
+            "claim_specific_prior_art_automated_screens_complete": prior_art_portfolio[
+                "release_gate"
+            ]["all_automated_screens_complete"],
+            "claim_specific_prior_art_claims": len(prior_art_portfolio_claims),
+            "claim_specific_prior_art_external_request_budget": prior_art_portfolio["batch"][
+                "cumulative_external_request_budget"
+            ],
+            "claim_specific_prior_art_named_human_reviews_complete": prior_art_portfolio[
+                "release_gate"
+            ]["all_named_human_reviews_complete"],
+            "claim_specific_prior_art_no_exact_behavior_match_claims": sum(
+                row["behavior_assessment"] == "NO_EXACT_MATCH_IN_QUERIED_RESULTS"
+                for row in prior_art_portfolio_claims
+            ),
+            "claim_specific_prior_art_status": prior_art_portfolio["release_gate"]["status"],
             "declarative_extensions_admitted": len(
                 operational["extension_admission"]["admitted_declarations"]
             ),
@@ -818,12 +870,19 @@ def run_core(
             ],
         },
         "release_gate": {
+            "claim_specific_prior_art_automated_screens_complete": prior_art_portfolio[
+                "release_gate"
+            ]["all_automated_screens_complete"],
+            "claim_specific_prior_art_named_human_reviews_complete": prior_art_portfolio[
+                "release_gate"
+            ]["all_named_human_reviews_complete"],
             "component_knockout_live_runs_complete": component_knockout["release_gate"][
                 "component_knockout_live_runs_complete"
             ],
             "human_prior_art_reviews_complete": all(
                 status == "COMPLETED" for status in prior_art_reviews
-            ),
+            )
+            and prior_art_portfolio["release_gate"]["all_named_human_reviews_complete"],
             "llm_first_principles_lane_live_run_complete": True,
             "retained_piecewise_descendant_live_run_complete": True,
             "level5_process_passes": level5,
@@ -877,6 +936,7 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
             "invariant-core-creative-discovery-runtime-2.5",
             "invariant-core-creative-discovery-runtime-2.6",
             "invariant-core-creative-discovery-runtime-2.7",
+            "invariant-core-creative-discovery-runtime-2.8",
             SCHEMA_VERSION,
         }
         or previous.get("app_id") != "invariant.core-creative-discovery"
@@ -915,6 +975,8 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
         state_pair_invariants,
         uncertain_invariants,
         piecewise_descendants,
+        prior_art_portfolio_preflight,
+        prior_art_portfolio,
     ) = _load_bound_receipts(root, config)
     creative_prompt_context = build_creative_prompt_context(
         symmetry_dimension_derivation,
@@ -925,6 +987,7 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
         proof_plan_search,
     )
     value = deepcopy(dict(previous))
+    prior_art_portfolio_claims = prior_art_portfolio["batch"]["completed_claims"]
     value["schema_version"] = SCHEMA_VERSION
     value["source_bindings"] = {
         "core_application_source": {
@@ -947,6 +1010,14 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
         "component_knockout_preflight_receipt": {
             "content_sha256": component_knockout["content_sha256"],
             "path": config["components"]["component_knockout_preflight_receipt"],
+        },
+        "claim_specific_prior_art_portfolio_preflight_receipt": {
+            "content_sha256": prior_art_portfolio_preflight["content_sha256"],
+            "path": config["components"]["claim_specific_prior_art_portfolio_preflight_receipt"],
+        },
+        "claim_specific_prior_art_portfolio_receipt": {
+            "content_sha256": prior_art_portfolio["content_sha256"],
+            "path": config["components"]["claim_specific_prior_art_portfolio_receipt"],
         },
         "dataset_challenge_receipt": {
             "content_sha256": dataset_challenges["content_sha256"],
@@ -1006,6 +1077,8 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
         },
     }
     value["component_knockout_preflight"] = component_knockout
+    value["claim_specific_prior_art_portfolio_preflight"] = prior_art_portfolio_preflight
+    value["claim_specific_prior_art_portfolio"] = prior_art_portfolio
     value["dataset_challenges"] = dataset_challenges
     value["external_dataset_challenges"] = external_dataset_challenges
     value["external_structured_benchmarks"] = external_structured_benchmarks
@@ -1022,6 +1095,21 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
     )
     value["discovery_runtime"] = {
         **value["discovery_runtime"],
+        "claim_specific_prior_art_automated_screens_complete": prior_art_portfolio["release_gate"][
+            "all_automated_screens_complete"
+        ],
+        "claim_specific_prior_art_claims": len(prior_art_portfolio_claims),
+        "claim_specific_prior_art_external_request_budget": prior_art_portfolio["batch"][
+            "cumulative_external_request_budget"
+        ],
+        "claim_specific_prior_art_named_human_reviews_complete": prior_art_portfolio[
+            "release_gate"
+        ]["all_named_human_reviews_complete"],
+        "claim_specific_prior_art_no_exact_behavior_match_claims": sum(
+            row["behavior_assessment"] == "NO_EXACT_MATCH_IN_QUERIED_RESULTS"
+            for row in prior_art_portfolio_claims
+        ),
+        "claim_specific_prior_art_status": prior_art_portfolio["release_gate"]["status"],
         "component_knockout_experiments_preflighted": component_knockout["design"]["experiments"],
         "component_knockout_live_runs_complete": component_knockout["release_gate"][
             "component_knockout_live_runs_complete"
@@ -1208,9 +1296,19 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
     }
     value["release_gate"] = {
         **value["release_gate"],
+        "claim_specific_prior_art_automated_screens_complete": prior_art_portfolio["release_gate"][
+            "all_automated_screens_complete"
+        ],
+        "claim_specific_prior_art_named_human_reviews_complete": prior_art_portfolio[
+            "release_gate"
+        ]["all_named_human_reviews_complete"],
         "component_knockout_live_runs_complete": component_knockout["release_gate"][
             "component_knockout_live_runs_complete"
         ],
+        "human_prior_art_reviews_complete": (
+            value["release_gate"].get("human_prior_art_reviews_complete") is True
+            and prior_art_portfolio["release_gate"]["all_named_human_reviews_complete"]
+        ),
         "llm_first_principles_lane_live_run_complete": value["llm_prompt_context"][
             "authenticated_calls_bound_to_context"
         ],
@@ -1316,9 +1414,19 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
     validate_component_knockout_preflight(
         value.get("component_knockout_preflight", {}), root or Path.cwd()
     )
+    prior_art_portfolio_preflight = value.get("claim_specific_prior_art_portfolio_preflight", {})
+    prior_art_portfolio = value.get("claim_specific_prior_art_portfolio", {})
+    validate_prior_art_portfolio_preflight(prior_art_portfolio_preflight, root)
+    validate_prior_art_portfolio_receipt(prior_art_portfolio, prior_art_portfolio_preflight, root)
     discovery = value.get("discovery_runtime", {})
     if (
-        discovery.get("component_knockout_experiments_preflighted") != 4
+        discovery.get("claim_specific_prior_art_automated_screens_complete") is not True
+        or discovery.get("claim_specific_prior_art_claims") != 24
+        or discovery.get("claim_specific_prior_art_external_request_budget") != 90
+        or discovery.get("claim_specific_prior_art_named_human_reviews_complete") is not False
+        or discovery.get("claim_specific_prior_art_no_exact_behavior_match_claims") != 18
+        or discovery.get("claim_specific_prior_art_status") != "BLOCKED_NAMED_HUMAN_REVIEW_REQUIRED"
+        or discovery.get("component_knockout_experiments_preflighted") != 4
         or discovery.get("component_knockout_live_runs_complete") is not False
         or discovery.get("component_knockout_preflight_status")
         != "PASS_PREFLIGHT_LIVE_EXECUTION_NOT_RUN"
@@ -1427,8 +1535,7 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
         raise CoreCreativeDiscoveryError("core expanded typed grammar evidence changed")
     verification = value.get("verification", {})
     if (
-        verification.get("multi_host_status")
-        != "PASS_MULTI_HOST_CORE_LLM_EVIDENCE_REPRODUCTION"
+        verification.get("multi_host_status") != "PASS_MULTI_HOST_CORE_LLM_EVIDENCE_REPRODUCTION"
         or verification.get("received_machines", 0) < 2
         or verification.get("lean_kernel_checked") is not True
         or verification.get("serious_claim_ladder_status")
@@ -1444,6 +1551,16 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
         raise CoreCreativeDiscoveryError("core claim boundary changed")
     if value.get("release_gate", {}).get("component_knockout_live_runs_complete") is not False:
         raise CoreCreativeDiscoveryError("core component-knockout release boundary changed")
+    if (
+        value.get("release_gate", {}).get("claim_specific_prior_art_automated_screens_complete")
+        is not True
+        or value.get("release_gate", {}).get(
+            "claim_specific_prior_art_named_human_reviews_complete"
+        )
+        is not False
+        or value.get("release_gate", {}).get("human_prior_art_reviews_complete") is not False
+    ):
+        raise CoreCreativeDiscoveryError("core prior-art portfolio release boundary changed")
     if (
         value.get("release_gate", {}).get("retained_piecewise_descendant_live_run_complete")
         is not True
@@ -1475,6 +1592,8 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
             ) != _normalized_file_sha256(root / expected_path):
                 raise CoreCreativeDiscoveryError(f"core executable source binding changed: {key}")
         for key in (
+            "claim_specific_prior_art_portfolio_preflight_receipt",
+            "claim_specific_prior_art_portfolio_receipt",
             "component_knockout_preflight_receipt",
             "dataset_challenge_receipt",
             "declarative_operational_receipt",
@@ -1530,6 +1649,16 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
                 validate_uncertain_invariants(bound, root)
             if key == "component_knockout_preflight_receipt":
                 validate_component_knockout_preflight(bound, root)
+            if key == "claim_specific_prior_art_portfolio_preflight_receipt":
+                validate_prior_art_portfolio_preflight(bound, root)
+                if bound != prior_art_portfolio_preflight:
+                    raise CoreCreativeDiscoveryError(
+                        "core prior-art portfolio preflight component changed"
+                    )
+            if key == "claim_specific_prior_art_portfolio_receipt":
+                validate_prior_art_portfolio_receipt(bound, prior_art_portfolio_preflight, root)
+                if bound != prior_art_portfolio:
+                    raise CoreCreativeDiscoveryError("core prior-art portfolio component changed")
 
 
 def main(argv: Sequence[str] | None = None) -> int:
