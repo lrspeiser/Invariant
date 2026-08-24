@@ -1192,11 +1192,20 @@ The current bounded result rediscovers the two known formulas but finds no zero-
 unknown sequence. Consequently the level-5 success count is zero and famous-open-problem spending
 is blocked. A second exact evaluator implemented with only Python AST and `Fraction` agrees with the
 primary evaluator. Downloaded CI artifacts bind four distinct GitHub-hosted ephemeral runner IDs
-across Windows and Linux plus the Lean kernel job from successful post-merge run `32687167258` at
-`266123c797e3fb1765224dad33e8e6a5e60b6854`; this is multi-host VM reproduction of the
-exact-discrete piecewise replay and the transform-, tensor-, and variational-capable executable-LLM
-core, not proof of distinct bare-metal machines. Human prior-art review is mandatory before any
-serious or novelty claim can be released.
+across Windows and Linux plus the Lean kernel job from successful post-merge run `32694147754` at
+`30f12a4d499c949b67ec57d0eb0332a2e78aae33`; this is multi-host VM reproduction of the
+exact-discrete piecewise replay and the transform-, tensor-, variational-, and retained-descendant-
+capable executable-LLM core, not proof of distinct bare-metal machines. Human prior-art review is
+mandatory before any serious or novelty claim can be released.
+
+The external-creativity workflow now also emits a credential-free core reproduction probe on every
+deterministic host. The probe validates the full core and descendant receipts, makes zero provider
+calls, and binds a rebind-stable projection of the eight authenticated proposer/critic calls, six
+authenticated repair/recombination calls, prompt context, lineage archive, usage, and credential
+boundary. A workflow definition or local probe is not second-machine evidence by itself: the first
+probe-bearing CI payloads must still be downloaded, hash-checked, compared across hosts, and bound
+into the durable multi-host receipt.
+
 The implementation backlog and promotion criteria are listed in
 [`docs/CREATIVE_FORMULA_DISCOVERY_ROADMAP.md`](docs/CREATIVE_FORMULA_DISCOVERY_ROADMAP.md).
 
@@ -1591,8 +1600,8 @@ The serious-claim ladder binds one candidate scope through the ordered exact-ari
 interval, and Lean stages. Its stored calibration joins the two externally authored known-formula
 controls to the downloaded kernel artifact, independently reruns the first four positive checks, and
 rejects an exact unit-offset wrong formula for both controls in exact arithmetic, CAS, SMT, and
-interval arithmetic. GitHub Actions run `32687167258` additionally kernel-rejects both corresponding
-Lean false theorems; the downloaded payload, artifact ID `9506052115`, archive digest, source hashes,
+interval arithmetic. GitHub Actions run `32694147754` additionally kernel-rejects both corresponding
+Lean false theorems; the downloaded payload, artifact ID `9508304732`, archive digest, source hashes,
 head commit, runner identity, and two rejection receipts are bound into the stored ladder. It also
 blocks both bounded-unknown controls and rejects stage deletion, reordering, candidate substitution,
 broken predecessor links, and unavailable backends. This completes all five wrong-formula backend

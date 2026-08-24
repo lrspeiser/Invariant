@@ -243,6 +243,7 @@ jobs:
           tests/test_external_creativity_live_evidence.py
           tests/test_external_creativity_multi_host.py
           tests/test_core_credential.py
+          tests/test_core_creative_ci_reproduction.py
           tests/test_core_creative_prompt_context.py
           tests/test_core_creative_discovery.py
           tests/test_expanded_math_grammar.py
@@ -332,6 +333,17 @@ jobs:
           --root .
           --receipt runs/math/core-creative-discovery/live-runtime.json
       - run: >-
+          python -m sigma_theory_compiler.core_creative_ci_reproduction
+          --root .
+          --output core-creativity-reproduction-${{ matrix.os }}-${{ matrix.python }}.json
+          --require-ci-provenance
+        env:
+          INVARIANT_EVIDENCE_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          INVARIANT_EVIDENCE_JOB: deterministic-reproduction
+          INVARIANT_EVIDENCE_ARTIFACT_NAME: external-creativity-${{ matrix.os }}-${{ matrix.python }}
+          INVARIANT_EVIDENCE_OPERATING_SYSTEM: ${{ matrix.os }}
+          INVARIANT_EVIDENCE_PYTHON_VERSION: ${{ matrix.python }}
+      - run: >-
           python -m sigma_theory_compiler.creativity_tournament_generation validate
           --root "${{ github.workspace }}"
           --review-packet runs/math/creativity-tournament/paired-review-packet.json
@@ -356,7 +368,9 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: external-creativity-${{ matrix.os }}-${{ matrix.python }}
-          path: external-creativity-${{ matrix.os }}-${{ matrix.python }}.json
+          path: |
+            external-creativity-${{ matrix.os }}-${{ matrix.python }}.json
+            core-creativity-reproduction-${{ matrix.os }}-${{ matrix.python }}.json
 
   lean-kernel:
     runs-on: ubuntu-latest
