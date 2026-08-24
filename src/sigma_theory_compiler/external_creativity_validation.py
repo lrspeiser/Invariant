@@ -113,6 +113,7 @@ EXECUTABLE_CLAUDE_REPRESENTATIONS = frozenset(
         "modular_relation",
         "sympy_expression",
         "tensor_identity",
+        "transform_relation",
         "variational_principle",
     }
 )
@@ -120,6 +121,7 @@ MAXIMUM_TYPED_TERMS = 64
 MAXIMUM_RECURRENCE_ORDER = 8
 MAXIMUM_TENSOR_COMPONENTS = 256
 MAXIMUM_TENSOR_RANK = 4
+MAXIMUM_TRANSFORM_TERMS = 16
 EXECUTABLE_PROPOSER_INSTRUCTION = (
     "Propose structurally distinct mathematical hypotheses and proof plans. For "
     "each idea, self-assess whether it is a known rewrite, cross-domain synthesis, "
@@ -131,12 +133,15 @@ EXECUTABLE_PROPOSER_INSTRUCTION = (
     "seed arrays; finite_sum or finite_product uses JSON with body, index, lower, and "
     "upper; generating_function uses JSON with numerator and denominator coefficient "
     "arrays plus an index alias; modular_relation uses JSON with expression and integer "
-    "modulus; tensor_identity uses JSON with tensor_name, shape, variance, complete "
+    "modulus; transform_relation uses JSON with transform_kind='linear_shift_stencil', "
+    "a public index alias, source_expression, claimed_transform, and one to sixteen "
+    "stencil terms containing exact rational coefficients and integer offsets; "
+    "tensor_identity uses JSON with tensor_name, shape, variance, complete "
     "left_components and right_components arrays, symmetries, and an output_component; "
     "variational_principle uses JSON with field, coordinate, first_derivative, "
     "second_derivative, integrand, claimed_euler_lagrange, and bindings from all four "
     "formal symbols to arithmetic over public aliases. Put explanation only in rationale. "
-    "Transform and other typed ideas are retained for later compilers."
+    "Other typed ideas are retained for later compilers."
 )
 
 
@@ -808,6 +813,69 @@ def _canonical_typed_arithmetic(expression: Any, aliases: Sequence[str], label: 
         raise ExternalCreativityError(f"{label} is not valid arithmetic") from error
 
 
+def _parse_transform_spec(expression: str, aliases: Sequence[str]) -> tuple[str, dict[str, Any]]:
+    value = _typed_json(
+        expression,
+        {
+            "claimed_transform",
+            "index",
+            "source_expression",
+            "stencil",
+            "transform_kind",
+        },
+        "transform specification",
+    )
+    if value["transform_kind"] != "linear_shift_stencil":
+        raise ExternalCreativityError("transform kind is not executable")
+    index = value["index"]
+    if not isinstance(index, str):
+        raise ExternalCreativityError("transform index is not a string")
+    if index in aliases:
+        source = _canonical_typed_arithmetic(
+            value["source_expression"], aliases, "transform source expression"
+        )
+        claimed = _canonical_typed_arithmetic(
+            value["claimed_transform"], aliases, "claimed transform expression"
+        )
+    elif len(aliases) == 1 and index in {"n", "x"}:
+        source, _ = _normalize_claude_arithmetic(value["source_expression"], aliases)
+        claimed, _ = _normalize_claude_arithmetic(value["claimed_transform"], aliases)
+        index = aliases[0]
+    else:
+        raise ExternalCreativityError("transform index is not a public or normalized alias")
+    stencil_raw = value["stencil"]
+    if not isinstance(stencil_raw, list) or not 1 <= len(stencil_raw) <= MAXIMUM_TRANSFORM_TERMS:
+        raise ExternalCreativityError("transform stencil is outside the term budget")
+    stencil: list[dict[str, Any]] = []
+    offsets: set[int] = set()
+    for position, term in enumerate(stencil_raw):
+        _strict_keys(term, {"coefficient", "offset"}, f"transform stencil term {position}")
+        offset = term["offset"]
+        if (
+            isinstance(offset, bool)
+            or not isinstance(offset, int)
+            or not -16 <= offset <= 16
+            or offset in offsets
+        ):
+            raise ExternalCreativityError("transform stencil offsets are invalid or duplicated")
+        coefficient = _bounded_fraction(
+            term["coefficient"], f"transform stencil coefficient {position}"
+        )
+        if coefficient == 0:
+            raise ExternalCreativityError("transform stencil coefficient cannot be zero")
+        offsets.add(offset)
+        stencil.append({"coefficient": _fraction_text(coefficient), "offset": offset})
+    stencil.sort(key=lambda item: item["offset"])
+    spec = {
+        "claimed_transform": claimed,
+        "index": index,
+        "source_expression": source,
+        "stencil": stencil,
+        "transform_kind": "linear_shift_stencil",
+    }
+    return json.dumps(spec, sort_keys=True, separators=(",", ":")), spec
+
+
 def _sympy_expression_ir(expression: sp.Expr) -> Expression:
     if expression.is_Integer:
         return ir_literal(int(expression))
@@ -1218,6 +1286,73 @@ def _evaluate_generating_function(
     return tuple(coefficients[index] for index in indices)
 
 
+def _evaluate_transform(
+    candidate: Candidate,
+    benchmark: Benchmark,
+    rows: Sequence[Observation],
+    *,
+    independent: bool,
+) -> tuple[Fraction | None, ...]:
+    _, spec = _parse_transform_spec(candidate.expression, benchmark.aliases)
+    source = spec["source_expression"]
+    claimed = spec["claimed_transform"]
+    index = spec["index"]
+    stencil = tuple((Fraction(term["coefficient"]), term["offset"]) for term in spec["stencil"])
+    outputs: list[Fraction | None] = []
+    if independent:
+        for row in rows:
+            assignment = dict(zip(benchmark.aliases, row.inputs, strict=True))
+            try:
+                transformed = sum(
+                    (
+                        coefficient
+                        * independently_evaluate_expression(
+                            source,
+                            {**assignment, index: assignment[index] + offset},
+                        )
+                        for coefficient, offset in stencil
+                    ),
+                    Fraction(0),
+                )
+                claimed_value = independently_evaluate_expression(claimed, assignment)
+            except (IndependentEvaluationError, ZeroDivisionError):
+                outputs.append(None)
+                continue
+            outputs.append(claimed_value if transformed == claimed_value else None)
+        return tuple(outputs)
+
+    source_expression = _safe_expression(source, benchmark.aliases)
+    claimed_expression = _safe_expression(claimed, benchmark.aliases)
+    symbols = {name: sp.Symbol(name, real=True) for name in benchmark.aliases}
+    for row in rows:
+        assignment = dict(zip(benchmark.aliases, row.inputs, strict=True))
+        transformed = sp.Integer(0)
+        for coefficient, offset in stencil:
+            shifted = {**assignment, index: assignment[index] + offset}
+            transformed += sp.Rational(coefficient.numerator, coefficient.denominator) * sp.cancel(
+                source_expression.subs(
+                    {
+                        symbols[name]: sp.Rational(value.numerator, value.denominator)
+                        for name, value in shifted.items()
+                    }
+                )
+            )
+        claimed_value = sp.cancel(
+            claimed_expression.subs(
+                {
+                    symbols[name]: sp.Rational(value.numerator, value.denominator)
+                    for name, value in assignment.items()
+                }
+            )
+        )
+        transformed = sp.cancel(transformed)
+        if transformed.is_Rational and claimed_value.is_Rational and transformed == claimed_value:
+            outputs.append(Fraction(int(claimed_value.p), int(claimed_value.q)))
+        else:
+            outputs.append(None)
+    return tuple(outputs)
+
+
 def _evaluate_expanded_formula_output(
     formula: TensorIdentity | VariationalFunctional,
     output_expression: str,
@@ -1357,6 +1492,8 @@ def predict(
         return _evaluate_aggregate(candidate, benchmark, rows, product=True, independent=False)
     if candidate.representation == "modular_relation":
         return _evaluate_modular(candidate, benchmark, rows, independent=False)
+    if candidate.representation == "transform_relation":
+        return _evaluate_transform(candidate, benchmark, rows, independent=False)
     if candidate.representation == "tensor_identity":
         return _evaluate_tensor(candidate, benchmark, rows, independent=False)
     if candidate.representation == "variational_functional":
@@ -1391,6 +1528,8 @@ def independently_predict(
             return _evaluate_modular(candidate, benchmark, rows, independent=True)
         if candidate.representation == "generating_function":
             return _evaluate_generating_function(candidate, benchmark, rows, independent=True)
+        if candidate.representation == "transform_relation":
+            return _evaluate_transform(candidate, benchmark, rows, independent=True)
         if candidate.representation == "tensor_identity":
             return _evaluate_tensor(candidate, benchmark, rows, independent=True)
         if candidate.representation == "variational_functional":
@@ -1643,6 +1782,9 @@ def _claude_candidate(
         elif representation == "modular_relation":
             expression, _ = _parse_modular_spec(expression, benchmark.aliases)
             normalization = "canonical_typed_json"
+        elif representation == "transform_relation":
+            expression, _ = _parse_transform_spec(expression, benchmark.aliases)
+            normalization = "canonical_typed_json+exact_shift_stencil"
         elif representation == "tensor_identity":
             expression, _, _ = _parse_tensor_spec(expression, benchmark.aliases)
             normalization = "canonical_typed_json"
@@ -1703,6 +1845,18 @@ def _candidate_syntax_profile(candidate: Candidate, benchmark: Benchmark) -> tup
         _, spec = _parse_modular_spec(candidate.expression, benchmark.aliases)
         depth, nodes = _arithmetic_tree_stats(spec["expression"], benchmark.aliases)
         return depth + 1, nodes + 1
+    if candidate.representation == "transform_relation":
+        _, spec = _parse_transform_spec(candidate.expression, benchmark.aliases)
+        source_depth, source_nodes = _arithmetic_tree_stats(
+            spec["source_expression"], benchmark.aliases
+        )
+        claimed_depth, claimed_nodes = _arithmetic_tree_stats(
+            spec["claimed_transform"], benchmark.aliases
+        )
+        return (
+            3 + max(source_depth, claimed_depth),
+            5 + source_nodes + claimed_nodes + 2 * len(spec["stencil"]),
+        )
     if candidate.representation == "tensor_identity":
         _, spec, _ = _parse_tensor_spec(candidate.expression, benchmark.aliases)
         component_stats = [
@@ -1927,6 +2081,26 @@ def _matched_random_candidate(
             spec["expression"], benchmark.aliases, rng
         )
         expression = json.dumps(spec, sort_keys=True, separators=(",", ":"))
+    elif source.representation == "transform_relation":
+        _, spec = _parse_transform_spec(expression, benchmark.aliases)
+        spec["source_expression"] = _mutate_arithmetic_same_shape(
+            spec["source_expression"], benchmark.aliases, rng
+        )
+        spec["claimed_transform"] = _mutate_arithmetic_same_shape(
+            spec["claimed_transform"], benchmark.aliases, rng
+        )
+        coefficient_choices = tuple(value for value in range(-5, 6) if value)
+        spec["stencil"] = [
+            {
+                "coefficient": str(rng.choice(coefficient_choices)),
+                "offset": term["offset"],
+            }
+            for term in spec["stencil"]
+        ]
+        expression, _ = _parse_transform_spec(
+            json.dumps(spec, sort_keys=True, separators=(",", ":")),
+            benchmark.aliases,
+        )
     elif source.representation == "tensor_identity":
         _, spec, _ = _parse_tensor_spec(expression, benchmark.aliases)
         spec["left_components"] = [
@@ -2085,6 +2259,24 @@ def _behavior(
             "shape": spec["shape"],
             "symmetries": spec["symmetries"],
             "variance": spec["variance"],
+        }
+    elif candidate.representation == "transform_relation":
+        _, spec = _parse_transform_spec(candidate.expression, benchmark.aliases)
+        degree = "linear_shift_stencil"
+        source = _safe_expression(spec["source_expression"], benchmark.aliases)
+        claimed = _safe_expression(spec["claimed_transform"], benchmark.aliases)
+        singularities = canonical_sha256(
+            [
+                str(sp.factor(sp.together(source).as_numer_denom()[1])),
+                str(sp.factor(sp.together(claimed).as_numer_denom()[1])),
+            ]
+        )
+        structure = {
+            "claimed_transform": str(sp.factor(claimed)),
+            "index": spec["index"],
+            "source_expression": str(sp.factor(source)),
+            "stencil": spec["stencil"],
+            "transform_kind": spec["transform_kind"],
         }
     elif candidate.representation == "variational_functional":
         _, spec, _ = _parse_variational_spec(candidate.expression, benchmark.aliases)

@@ -232,6 +232,22 @@ def test_typed_claude_compiler_executes_with_independent_agreement() -> None:
             (0, 1, 4, 4, 1, 0, 1),
         ),
         (
+            "transform_relation",
+            json.dumps(
+                {
+                    "claimed_transform": "3*x0**2 + 3*x0 + 1",
+                    "index": "x0",
+                    "source_expression": "x0**3",
+                    "stencil": [
+                        {"coefficient": "-1", "offset": 0},
+                        {"coefficient": "1", "offset": 1},
+                    ],
+                    "transform_kind": "linear_shift_stencil",
+                }
+            ),
+            (1, 7, 19, 37, 61, 91, 127),
+        ),
+        (
             "tensor_identity",
             json.dumps(
                 {
@@ -276,13 +292,43 @@ def test_typed_claude_compiler_executes_with_independent_agreement() -> None:
         assert primary == independent == tuple(Fraction(item) for item in expected)
 
 
+def test_live_known_rewrite_transform_replays_after_safe_alias_normalization() -> None:
+    _, benchmarks = E.load_public_benchmarks(ROOT)
+    benchmark = next(
+        item for item in benchmarks if item.benchmark_id == "external.authority-nist-0244"
+    )
+    expression = json.dumps(
+        {
+            "claimed_transform": "(n+1)^2",
+            "index": "n",
+            "source_expression": "n*(n+1)*(2*n+1)/6",
+            "stencil": [
+                {"coefficient": "1", "offset": 1},
+                {"coefficient": "-1", "offset": 0},
+            ],
+            "transform_kind": "linear_shift_stencil",
+        }
+    )
+    candidate, record = E._claude_candidate(
+        benchmark,
+        _hypothesis("transform_relation", expression, origin="known_rewrite"),
+    )
+    assert candidate is not None
+    assert record["status"] == "ADMITTED_EXECUTABLE"
+    assert json.loads(candidate.expression)["index"] == "x0"
+    rows = tuple(E.Observation((Fraction(index),), Fraction(0)) for index in range(7))
+    expected = tuple(Fraction((index + 1) ** 2) for index in range(7))
+    assert E.predict(candidate, benchmark, rows) == expected
+    assert E.independently_predict(candidate, benchmark, rows) == expected
+
+
 def test_non_executable_claude_ideas_are_retained_with_origin_and_reason() -> None:
     _, benchmarks = E.load_public_benchmarks(ROOT)
     benchmark = benchmarks[0]
     candidate, record = E._claude_candidate(
         benchmark,
         _hypothesis(
-            "transform_relation",
+            "other_typed_relation",
             "T_ab = R_ab - R*g_ab/2",
             origin="cross_domain_synthesis",
         ),
@@ -291,6 +337,22 @@ def test_non_executable_claude_ideas_are_retained_with_origin_and_reason() -> No
     assert record["status"] == "RETAINED_NON_EXECUTABLE"
     assert record["reason"] == "representation_not_yet_executable"
     assert record["llm_self_assessed_origin"] == "cross_domain_synthesis"
+
+
+def test_malformed_transform_idea_is_retained_instead_of_pruned() -> None:
+    _, benchmarks = E.load_public_benchmarks(ROOT)
+    candidate, record = E._claude_candidate(
+        benchmarks[0],
+        _hypothesis(
+            "transform_relation",
+            "Delta f = f(x + 1) - f(x)",
+            origin="uncertain",
+        ),
+    )
+    assert candidate is None
+    assert record["status"] == "RETAINED_NON_EXECUTABLE"
+    assert record["reason"] == "typed_expression_failed_validation"
+    assert record["llm_self_assessed_origin"] == "uncertain"
 
 
 def test_malformed_executable_typed_idea_is_retained_instead_of_pruned() -> None:
@@ -358,7 +420,7 @@ def test_modular_control_remains_matched_after_canonicalization() -> None:
     ) == E._candidate_resource_profile(control, benchmark, target, budget)
 
 
-def test_tensor_and_variational_controls_match_exact_resource_profiles() -> None:
+def test_transform_tensor_and_variational_controls_match_exact_resource_profiles() -> None:
     public, benchmarks = E.load_public_benchmarks(ROOT)
     benchmark = next(item for item in benchmarks if len(item.aliases) == 1)
     target = next(
@@ -388,8 +450,21 @@ def test_tensor_and_variational_controls_match_exact_resource_profiles() -> None
             "second_derivative": "q_ddot",
         }
     )
+    transform = json.dumps(
+        {
+            "claimed_transform": "3*x0**2 + 3*x0 + 1",
+            "index": "x0",
+            "source_expression": "x0**3",
+            "stencil": [
+                {"coefficient": "-1", "offset": 0},
+                {"coefficient": "1", "offset": 1},
+            ],
+            "transform_kind": "linear_shift_stencil",
+        }
+    )
     budget = E._load_campaign_config(ROOT, live_claude=False)["search"]["matched_control_budget"]
     for representation, expression in (
+        ("transform_relation", transform),
         ("tensor_identity", tensor),
         ("variational_principle", variational),
     ):
@@ -407,7 +482,7 @@ def test_tensor_and_variational_controls_match_exact_resource_profiles() -> None
         ) == E._candidate_resource_profile(control, benchmark, target, budget)
 
 
-def test_false_tensor_and_variational_claims_execute_but_do_not_score() -> None:
+def test_false_transform_tensor_and_variational_claims_execute_but_do_not_score() -> None:
     _, benchmarks = E.load_public_benchmarks(ROOT)
     benchmark = next(item for item in benchmarks if len(item.aliases) == 1)
     rows = tuple(E.Observation((Fraction(index),), Fraction(0)) for index in range(3))
@@ -433,7 +508,20 @@ def test_false_tensor_and_variational_claims_execute_but_do_not_score() -> None:
             "second_derivative": "q_ddot",
         }
     )
+    false_transform = json.dumps(
+        {
+            "claimed_transform": "3*x0**2 + 3*x0 + 2",
+            "index": "x0",
+            "source_expression": "x0**3",
+            "stencil": [
+                {"coefficient": "-1", "offset": 0},
+                {"coefficient": "1", "offset": 1},
+            ],
+            "transform_kind": "linear_shift_stencil",
+        }
+    )
     for representation, expression in (
+        ("transform_relation", false_transform),
         ("tensor_identity", false_tensor),
         ("variational_principle", false_variational),
     ):
@@ -627,6 +715,7 @@ def test_live_claude_fixture_proposes_and_steers_without_verifying(monkeypatch) 
     assert all(
         prompt["instruction"] == E.EXECUTABLE_PROPOSER_INSTRUCTION for prompt in proposer_prompts
     )
+    assert "transform_relation uses JSON" in E.EXECUTABLE_PROPOSER_INSTRUCTION
     assert "tensor_identity uses JSON" in E.EXECUTABLE_PROPOSER_INSTRUCTION
     assert "variational_principle uses JSON" in E.EXECUTABLE_PROPOSER_INSTRUCTION
     assert "fixture-secret" not in json.dumps(receipt, sort_keys=True)

@@ -6,7 +6,7 @@
 - Two externally sourced bounded-unknown sequence controls do not have a zero-loss candidate.
 - The core app discovered the credential through its default machine-local `~/.invariant.env`
   path without persisting it and completed four blind Claude proposer calls plus four post-proposal
-  critic calls on `claude-opus-4-6`. The sanitized receipt records 89,202 tokens and no key,
+  critic calls on `claude-opus-4-6`. The sanitized receipt records 89,475 tokens and no key,
   credential value, or credential-file path.
 - The live core run used a sealed creativity-first prompt context: five exact
   symmetry/dimension briefs containing six coordinates, seven typed formula kinds, six
@@ -14,20 +14,20 @@
   and the four origin labels are injected into every provider request. Per-call evidence must bind
   the same context hash. All eight distinct response IDs bind the current hash and the receipt
   reports `PASS_CONTEXT_BOUND_TO_AUTHENTICATED_CALLS`.
-- Those calls produced 29 schema-admitted ideas: 13 model-self-assessed known rewrites, 6 proposed
-  new constructions, 9 uncertain branches, and 1 cross-domain synthesis. All 29 remain active;
+- Those calls produced 29 schema-admitted ideas: 13 model-self-assessed known rewrites, 4 proposed
+  new constructions, and 12 uncertain branches. All 29 remain active;
   none were discarded for their label or verifier status.
-- A typed compiler admitted 6 model hypotheses and scored 3 distinct executable candidates. The
-  four benchmark summaries contain 1, 2, 0, and 0 Claude-executable candidates respectively. Each
+- A typed compiler admitted 6 model hypotheses and scored 4 distinct executable candidates. The
+  four benchmark summaries contain 1, 3, 0, and 0 Claude-executable candidates respectively. Each
   admitted proposal is paired one-to-one with a target-blind control having the same grammar depth,
   deterministic operation units, and verifier-invocation count; the receipt verifies every profile
-  match. The live candidates add 1 behavior and 3 proof mechanisms beyond the deterministic
+  match. The live candidates add 2 behaviors and 4 proof mechanisms beyond the deterministic
   portfolio. These are measured contributions, not novelty verdicts: model origin labels are
   evidence to retain, never authority about the literature.
 - The compiler currently accepts bounded symbolic expressions, invariant relations, linear
-  recurrences, finite sums/products, rational generating functions, and modular relations. Tensor,
-  transform, and variational proposals that do not yet compile are retained with explicit admission
-  failures instead of being pruned.
+  recurrences, finite sums/products, rational generating functions, modular relations, exact linear
+  shift transforms, tensor identities, and first-order variational functionals. Malformed or other
+  unsupported typed proposals are retained with explicit admission failures instead of being pruned.
 - The provider adapter now losslessly stages proposer branches 17 through 64 around the frozen
   16-branch parser and reattaches them before lineage. A 24-branch control exercises eight overflow
   branches; the latest stochastic live run stayed below the legacy per-response threshold.
@@ -43,6 +43,11 @@
   variational functionals. Two independent evaluators accept all seven positive controls and reject
   all seven mutations under explicit resource limits. This establishes the admitted control slice,
   not formula correctness or novelty outside those controls.
+- An eighth bounded LLM proposal representation executes exact linear shift stencils. Its primary
+  evaluator uses SymPy rational substitution while its independent evaluator uses only Python AST
+  and `Fraction`; both must agree that the claimed transform equals the stencil result before a
+  prediction is emitted. Positive, false-claim, malformed, safe-alias-replay, and exactly matched
+  random-control tests pass.
 - Four synthetic dataset challenges are now exact executable controls rather than metadata checks.
   They pass crossed intervention, interval-noise, covariate-shift, and observational
   unidentifiability positives while rejecting a wrong treatment effect, an interval-external model,
@@ -73,13 +78,16 @@
   `df040f9a38a60a86e3b55c157006af4f8f48923c`, which includes the tensor- and
   variational-capable executable-LLM core. This is
   multi-host VM reproduction, not a claim about distinct bare-metal machines.
-- The LLM proposal compiler now admits bounded tensor identities and first-order variational
+- The LLM proposal compiler now admits bounded linear shift transforms, tensor identities, and first-order variational
   functionals. Tensor predictions are gated by complete component equality plus declared symmetry;
   variational predictions are derived from an independently checked Euler-Lagrange claim under an
   explicit public-alias binding. Their random controls match grammar depth, deterministic operation
   units, and verifier calls exactly. The first live run with these contracts completed eight
   authenticated calls but proposed neither representation, so live provider-path evidence for these
-  two forms is still pending rather than inferred from deterministic tests.
+  two forms is still pending rather than inferred from deterministic tests. A later fresh run did
+  return two transform ideas: the current compiler exactly replays the known sum-of-squares
+  first-difference rewrite after safe `n`-to-`x0` normalization, while retaining the malformed
+  function-style branch.
 - No novel formula, proof, theorem, scientific law, or open-problem result is claimed.
 - The famous-open-problem gate is closed: zero of three required independent level-5 successes.
 - A live rotating pack now binds 24 distinct OEIS b-file response hashes, with four tasks each for
@@ -188,7 +196,8 @@ This is evidence of bounded rediscovery, not evidence of mathematical novelty.
 ### 1. Make the typed language genuinely broader
 
 - The first admitted slice now covers recurrences, generating functions, finite sums/products,
-  modular arithmetic, bounded tensors, and first-order variational functionals. Rational functions,
+  modular arithmetic, exact linear shift transforms, bounded tensors, and first-order variational
+  functionals. Rational functions,
   piecewise laws, graphs, general differential operators, and asymptotic expansions remain.
 - Carry domains, units, dimensions, tensor ranks, index symmetries, derivative order, singular sets,
   boundary conditions, and admissible rewrites in the type checker.
@@ -347,8 +356,8 @@ This is evidence of bounded rediscovery, not evidence of mathematical novelty.
 2. Run the preregistered old-vs-new matched-control comparison and, after explicit approval, each
    component knockout through the one-experiment
    executor under its 96-call / 400,000-token ceiling and the same attempt-journal and review rules.
-3. Extend the typed LLM compiler to tensor, transform, and variational proposals, then rotate that
-   task slice across additional upstream projects
+3. Rotate the now-executable tensor, linear-shift-transform, and variational task slice across
+   additional upstream projects
    and obtain a detached signature from a distinct pack principal before level-5 use.
 4. Expand the first four externally supplied dataset challenges to additional independent
    principals, richer noise and missingness models, and learned invariant proposals while retaining
