@@ -57,6 +57,7 @@ from .external_structured_benchmarks import load_stored_pack
 from .idea_lineage import build_idea_archive, validate_idea_archive
 from .independent_proof_plan_search import validate_proof_plan_search
 from .learned_invariant_discovery import validate_receipt as validate_learned_invariants
+from .level5_success_admission import validate_receipt as validate_level5_success_admission
 from .retained_piecewise_descendant_campaign import (
     validate_receipt as validate_piecewise_descendant_campaign,
 )
@@ -86,8 +87,8 @@ SOURCE_PATH = "src/sigma_theory_compiler/core_creative_discovery.py"
 CLAUDE_API_SOURCE_PATH = "src/sigma_theory_compiler/claude_creativity_api.py"
 EXTERNAL_CAMPAIGN_SOURCE_PATH = "src/sigma_theory_compiler/external_creativity_validation.py"
 PROMPT_CONTEXT_SOURCE_PATH = "src/sigma_theory_compiler/core_creative_prompt_context.py"
-SCHEMA_VERSION = "invariant-core-creative-discovery-runtime-3.0"
-CONFIG_SCHEMA = "invariant-core-creative-discovery-config-3.0"
+SCHEMA_VERSION = "invariant-core-creative-discovery-runtime-3.1"
+CONFIG_SCHEMA = "invariant-core-creative-discovery-config-3.1"
 
 
 class CoreCreativeDiscoveryError(ValueError):
@@ -201,6 +202,7 @@ def _load_config(root: Path) -> dict[str, Any]:
         "expanded_typed_grammar_receipt",
         "live_evidence_output",
         "learned_invariant_discovery_receipt",
+        "level5_success_admission_receipt",
         "multi_host_reproduction_receipt",
         "proof_plan_search_receipt",
         "retained_piecewise_descendant_campaign_receipt",
@@ -234,6 +236,7 @@ def _load_bound_receipts(
     dict[str, Any],
     dict[str, Any],
     dict[str, Any],
+    dict[str, Any],
 ]:
     components = config["components"]
     dataset_path = root / components["dataset_challenge_receipt"]
@@ -248,6 +251,7 @@ def _load_bound_receipts(
     symmetry_dimension_path = root / components["symmetry_dimension_derivation_receipt"]
     component_knockout_path = root / components["component_knockout_preflight_receipt"]
     learned_invariant_path = root / components["learned_invariant_discovery_receipt"]
+    level5_admission_path = root / components["level5_success_admission_receipt"]
     state_pair_invariant_path = root / components["state_pair_invariant_discovery_receipt"]
     uncertain_invariant_path = root / components["uncertain_invariant_discovery_receipt"]
     piecewise_descendant_path = root / components["retained_piecewise_descendant_campaign_receipt"]
@@ -267,6 +271,7 @@ def _load_bound_receipts(
     symmetry_dimension = json.loads(symmetry_dimension_path.read_text(encoding="utf-8"))
     component_knockout = json.loads(component_knockout_path.read_text(encoding="utf-8"))
     learned_invariants = json.loads(learned_invariant_path.read_text(encoding="utf-8"))
+    level5_admission = json.loads(level5_admission_path.read_text(encoding="utf-8"))
     state_pair_invariants = json.loads(state_pair_invariant_path.read_text(encoding="utf-8"))
     uncertain_invariants = json.loads(uncertain_invariant_path.read_text(encoding="utf-8"))
     piecewise_descendants = json.loads(piecewise_descendant_path.read_text(encoding="utf-8"))
@@ -285,6 +290,7 @@ def _load_bound_receipts(
     validate_symmetry_dimension_derivation(symmetry_dimension, root)
     validate_component_knockout_preflight(component_knockout, root)
     validate_learned_invariants(learned_invariants, root)
+    validate_level5_success_admission(level5_admission, root)
     validate_state_pair_invariants(state_pair_invariants, root)
     validate_uncertain_invariants(uncertain_invariants, root)
     validate_piecewise_descendant_campaign(piecewise_descendants, root)
@@ -308,6 +314,7 @@ def _load_bound_receipts(
         piecewise_descendants,
         prior_art_portfolio_preflight,
         prior_art_portfolio,
+        level5_admission,
     )
 
 
@@ -455,6 +462,7 @@ def run_core(
         piecewise_descendants,
         prior_art_portfolio_preflight,
         prior_art_portfolio,
+        level5_admission,
     ) = _load_bound_receipts(root, config)
     creative_prompt_context = build_creative_prompt_context(
         symmetry_dimension_derivation,
@@ -504,7 +512,9 @@ def run_core(
     except CredentialActivationError as error:
         raise CoreCreativeDiscoveryError(str(error)) from error
     validate_evidence(live_evidence)
-    level5 = campaign["open_problem_gate"]["level5_process_passes"]
+    level5 = level5_admission["summary"][
+        "admitted_independently_reproduced_level5_successes"
+    ]
     prior_art_reviews = [
         benchmark.get("prior_art", {}).get("human_review", {}).get("status")
         for benchmark in campaign.get("benchmarks", [])
@@ -572,6 +582,10 @@ def run_core(
                 "content_sha256": learned_invariants["content_sha256"],
                 "path": config["components"]["learned_invariant_discovery_receipt"],
             },
+            "level5_success_admission_receipt": {
+                "content_sha256": level5_admission["content_sha256"],
+                "path": config["components"]["level5_success_admission_receipt"],
+            },
             "state_pair_invariant_discovery_receipt": {
                 "content_sha256": state_pair_invariants["content_sha256"],
                 "path": config["components"]["state_pair_invariant_discovery_receipt"],
@@ -632,6 +646,7 @@ def run_core(
         "external_dataset_challenges": external_dataset_challenges,
         "external_structured_benchmarks": external_structured_benchmarks,
         "learned_invariant_discovery": learned_invariants,
+        "level5_success_admission": level5_admission,
         "state_pair_invariant_discovery": state_pair_invariants,
         "uncertain_invariant_discovery": uncertain_invariants,
         "symmetry_dimension_derivation": symmetry_dimension_derivation,
@@ -727,6 +742,13 @@ def run_core(
             ],
             "learned_invariant_underdetermined_controls": learned_invariants["summary"][
                 "underdetermined_controls"
+            ],
+            "level5_admission_status": level5_admission["summary"]["status"],
+            "level5_campaign_local_process_passes": level5_admission["summary"][
+                "campaign_local_level5_process_passes"
+            ],
+            "level5_process_passes_before_external_signature": level5_admission["summary"][
+                "process_passes_before_external_signature"
             ],
             "state_pair_algebraically_independent_coordinates": state_pair_invariants["summary"][
                 "algebraically_independent_coordinates"
@@ -897,9 +919,15 @@ def run_core(
             "minimum_level5_process_passes": config["release_policy"][
                 "minimum_independent_level5_passes_before_open_problem"
             ],
-            "open_problem_authorized": campaign["open_problem_gate"]["authorized"],
+            "open_problem_authorized": level5_admission["release_gate"][
+                "open_problem_authorized"
+            ],
             "serious_claims_released": serious_claims,
-            "status": "BLOCKED_CALIBRATION_OR_HUMAN_REVIEW_INCOMPLETE",
+            "status": (
+                "READY_FAMOUS_OPEN_PROBLEM_PREREGISTRATION"
+                if level5_admission["release_gate"]["open_problem_authorized"]
+                else "BLOCKED_CALIBRATION_OR_HUMAN_REVIEW_INCOMPLETE"
+            ),
         },
         "claims": {
             "claude_is_verifier_authority": False,
@@ -910,8 +938,7 @@ def run_core(
         },
     }
     if (
-        body["release_gate"]["open_problem_authorized"] is True
-        or serious_claims != 0
+        serious_claims != 0
         or body["claims"]["credential_material_persisted"] is not False
     ):
         raise CoreCreativeDiscoveryError("core release boundary opened unexpectedly")
@@ -946,6 +973,7 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
             "invariant-core-creative-discovery-runtime-2.7",
             "invariant-core-creative-discovery-runtime-2.8",
             "invariant-core-creative-discovery-runtime-2.9",
+            "invariant-core-creative-discovery-runtime-3.0",
             SCHEMA_VERSION,
         }
         or previous.get("app_id") != "invariant.core-creative-discovery"
@@ -986,6 +1014,7 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
         piecewise_descendants,
         prior_art_portfolio_preflight,
         prior_art_portfolio,
+        level5_admission,
     ) = _load_bound_receipts(root, config)
     creative_prompt_context = build_creative_prompt_context(
         symmetry_dimension_derivation,
@@ -1048,6 +1077,10 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
             "content_sha256": learned_invariants["content_sha256"],
             "path": config["components"]["learned_invariant_discovery_receipt"],
         },
+        "level5_success_admission_receipt": {
+            "content_sha256": level5_admission["content_sha256"],
+            "path": config["components"]["level5_success_admission_receipt"],
+        },
         "state_pair_invariant_discovery_receipt": {
             "content_sha256": state_pair_invariants["content_sha256"],
             "path": config["components"]["state_pair_invariant_discovery_receipt"],
@@ -1092,6 +1125,7 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
     value["external_dataset_challenges"] = external_dataset_challenges
     value["external_structured_benchmarks"] = external_structured_benchmarks
     value["learned_invariant_discovery"] = learned_invariants
+    value["level5_success_admission"] = level5_admission
     value["state_pair_invariant_discovery"] = state_pair_invariants
     value["uncertain_invariant_discovery"] = uncertain_invariants
     value["symmetry_dimension_derivation"] = symmetry_dimension_derivation
@@ -1178,6 +1212,13 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
         ],
         "learned_invariant_underdetermined_controls": learned_invariants["summary"][
             "underdetermined_controls"
+        ],
+        "level5_admission_status": level5_admission["summary"]["status"],
+        "level5_campaign_local_process_passes": level5_admission["summary"][
+            "campaign_local_level5_process_passes"
+        ],
+        "level5_process_passes_before_external_signature": level5_admission["summary"][
+            "process_passes_before_external_signature"
         ],
         "state_pair_algebraically_independent_coordinates": state_pair_invariants["summary"][
             "algebraically_independent_coordinates"
@@ -1325,6 +1366,20 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
             "authenticated_calls_bound_to_context"
         ],
         "retained_piecewise_descendant_live_run_complete": True,
+        "level5_process_passes": level5_admission["summary"][
+            "admitted_independently_reproduced_level5_successes"
+        ],
+        "minimum_level5_process_passes": level5_admission["summary"][
+            "minimum_required_before_open_problem"
+        ],
+        "open_problem_authorized": level5_admission["release_gate"][
+            "open_problem_authorized"
+        ],
+        "status": (
+            "READY_FAMOUS_OPEN_PROBLEM_PREREGISTRATION"
+            if level5_admission["release_gate"]["open_problem_authorized"]
+            else "BLOCKED_CALIBRATION_OR_HUMAN_REVIEW_INCOMPLETE"
+        ),
     }
     value["content_sha256"] = canonical_sha256(
         {key: item for key, item in value.items() if key != "content_sha256"}
@@ -1403,6 +1458,8 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
         value.get("symmetry_dimension_derivation", {}), root or Path.cwd()
     )
     validate_learned_invariants(value.get("learned_invariant_discovery", {}), root or Path.cwd())
+    level5_admission = value.get("level5_success_admission", {})
+    validate_level5_success_admission(level5_admission, root or Path.cwd())
     validate_state_pair_invariants(
         value.get("state_pair_invariant_discovery", {}), root or Path.cwd()
     )
@@ -1474,6 +1531,14 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
         or discovery.get("learned_invariant_status") != "PASS_LEARNED_MULTI_INVARIANT_CONTROLS"
         or discovery.get("learned_invariant_training_coordinates_retained") != 7
         or discovery.get("learned_invariant_underdetermined_controls") != 1
+        or discovery.get("level5_admission_status")
+        != level5_admission.get("summary", {}).get("status")
+        or discovery.get("level5_campaign_local_process_passes")
+        != level5_admission.get("summary", {}).get("campaign_local_level5_process_passes")
+        or discovery.get("level5_process_passes_before_external_signature")
+        != level5_admission.get("summary", {}).get(
+            "process_passes_before_external_signature"
+        )
         or discovery.get("state_pair_algebraically_independent_coordinates") != 8
         or discovery.get("state_pair_controls") != 7
         or discovery.get("state_pair_deployment_failures") != 0
@@ -1565,6 +1630,23 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
     if value.get("release_gate", {}).get("component_knockout_live_runs_complete") is not False:
         raise CoreCreativeDiscoveryError("core component-knockout release boundary changed")
     if (
+        value.get("release_gate", {}).get("level5_process_passes")
+        != level5_admission.get("summary", {}).get(
+            "admitted_independently_reproduced_level5_successes"
+        )
+        or value.get("release_gate", {}).get("minimum_level5_process_passes")
+        != level5_admission.get("summary", {}).get("minimum_required_before_open_problem")
+        or value.get("release_gate", {}).get("open_problem_authorized")
+        is not level5_admission.get("release_gate", {}).get("open_problem_authorized")
+        or value.get("release_gate", {}).get("status")
+        != (
+            "READY_FAMOUS_OPEN_PROBLEM_PREREGISTRATION"
+            if level5_admission.get("release_gate", {}).get("open_problem_authorized") is True
+            else "BLOCKED_CALIBRATION_OR_HUMAN_REVIEW_INCOMPLETE"
+        )
+    ):
+        raise CoreCreativeDiscoveryError("core level-5 admission release boundary changed")
+    if (
         value.get("release_gate", {}).get("claim_specific_prior_art_automated_screens_complete")
         is not True
         or value.get("release_gate", {}).get(
@@ -1614,6 +1696,7 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
             "external_structured_benchmark_receipt",
             "expanded_typed_grammar_receipt",
             "learned_invariant_discovery_receipt",
+            "level5_success_admission_receipt",
             "multi_host_reproduction_receipt",
             "proof_plan_search_receipt",
             "retained_piecewise_descendant_campaign_receipt",
@@ -1656,6 +1739,8 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
                 validate_symmetry_dimension_derivation(bound, root)
             if key == "learned_invariant_discovery_receipt":
                 validate_learned_invariants(bound, root)
+            if key == "level5_success_admission_receipt":
+                validate_level5_success_admission(bound, root)
             if key == "state_pair_invariant_discovery_receipt":
                 validate_state_pair_invariants(bound, root)
             if key == "uncertain_invariant_discovery_receipt":

@@ -118,6 +118,12 @@
   function-style branch.
 - No novel formula, proof, theorem, scientific law, or open-problem result is claimed.
 - The famous-open-problem gate is closed: zero of three required independent level-5 successes.
+- A separate level-5 admission ledger now owns that count. It recomputes the bounded mathematical
+  criteria, requires authenticated LLM participation and target-blind chronology, binds the real
+  downloaded multi-host/Lean receipt, and requires a detached Ed25519 certificate from a distinct
+  principal with a named-human-reviewed key. Distinct target commitments are counted at most once.
+  The trusted registry and certificate list are intentionally empty, so the current result remains
+  0/3 and neither a campaign-local flag nor a re-sealed receipt can open the famous-problem gate.
 - A live rotating pack now binds 24 distinct OEIS b-file response hashes, with four tasks each for
   recurrences, generating functions, finite sums, finite products, modular objects, and
   representation bridges. Generation packets omit source IDs and eight-term holdouts. The external

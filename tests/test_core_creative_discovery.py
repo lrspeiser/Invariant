@@ -197,6 +197,7 @@ def test_core_run_requires_and_sanitizes_live_claude(
     piecewise_descendants = bound_receipts[14]
     prior_art_portfolio_preflight = bound_receipts[15]
     prior_art_portfolio = bound_receipts[16]
+    level5_admission = bound_receipts[17]
     monkeypatch.setattr(
         C,
         "_load_bound_receipts",
@@ -218,6 +219,7 @@ def test_core_run_requires_and_sanitizes_live_claude(
             piecewise_descendants,
             prior_art_portfolio_preflight,
             prior_art_portfolio,
+            level5_admission,
         ),
     )
     monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
@@ -344,6 +346,11 @@ def test_core_run_requires_and_sanitizes_live_claude(
     assert receipt["discovery_runtime"]["learned_invariant_underdetermined_controls"] == 1
     assert receipt["discovery_runtime"]["learned_invariant_training_coordinates_retained"] == 7
     assert receipt["discovery_runtime"]["learned_invariant_deployment_repaired_coordinates"] == 6
+    assert receipt["discovery_runtime"]["level5_campaign_local_process_passes"] == 0
+    assert receipt["discovery_runtime"]["level5_process_passes_before_external_signature"] == 0
+    assert receipt["release_gate"]["level5_process_passes"] == 0
+    assert receipt["release_gate"]["minimum_level5_process_passes"] == 3
+    assert receipt["release_gate"]["open_problem_authorized"] is False
     assert receipt["discovery_runtime"]["state_pair_controls"] == 7
     assert receipt["discovery_runtime"]["state_pair_multivariate_rational_action_controls"] == 1
     assert receipt["discovery_runtime"]["state_pair_matrix_action_controls"] == 2
@@ -457,6 +464,8 @@ def test_deterministic_rebind_preserves_authenticated_llm_evidence() -> None:
     assert rebound["release_gate"]["retained_piecewise_descendant_live_run_complete"]
     assert rebound["release_gate"]["claim_specific_prior_art_automated_screens_complete"]
     assert rebound["release_gate"]["claim_specific_prior_art_named_human_reviews_complete"] is False
+    assert rebound["release_gate"]["level5_process_passes"] == 0
+    assert rebound["release_gate"]["open_problem_authorized"] is False
     assert rebound["retained_piecewise_descendant_claude_runtime"]["completed_calls"] == 6
     assert (
         len({call["api_response_id"] for call in rebound["claude_runtime"]["evidence"]["calls"]})
@@ -485,4 +494,15 @@ def test_core_receipt_rejects_unearned_prompt_context_claim() -> None:
     body = {key: item for key, item in changed.items() if key != "content_sha256"}
     changed["content_sha256"] = canonical_sha256(body)
     with pytest.raises(C.CoreCreativeDiscoveryError, match="prompt context"):
+        C.validate_receipt(changed, ROOT)
+
+
+def test_core_receipt_rejects_unearned_level5_authorization() -> None:
+    receipt = json.loads((ROOT / C.OUTPUT_PATH).read_text(encoding="utf-8"))
+    changed = json.loads(json.dumps(receipt))
+    changed["release_gate"]["level5_process_passes"] = 3
+    changed["release_gate"]["open_problem_authorized"] = True
+    body = {key: item for key, item in changed.items() if key != "content_sha256"}
+    changed["content_sha256"] = canonical_sha256(body)
+    with pytest.raises(C.CoreCreativeDiscoveryError, match="level-5 admission"):
         C.validate_receipt(changed, ROOT)

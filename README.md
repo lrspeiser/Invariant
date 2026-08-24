@@ -1197,7 +1197,13 @@ passed.
 
 The current bounded result rediscovers the two known formulas but finds no zero-loss law for either
 unknown sequence. Consequently the level-5 success count is zero and famous-open-problem spending
-is blocked. A second exact evaluator implemented with only Python AST and `Fraction` agrees with the
+is blocked. That count now comes from a separate fail-closed admission ledger rather than the
+campaign's local process counter. The ledger recomputes the bounded criteria, requires authenticated
+LLM participation, binds the downloaded multi-host and Lean evidence, and admits only distinct target
+commitments carrying a detached Ed25519 signature from a distinct principal whose key identity has
+been reviewed by a named human. The trusted registry is intentionally empty, so a local or re-sealed
+`level5_process_passes` value cannot authorize open-problem work. A second exact evaluator implemented
+with only Python AST and `Fraction` agrees with the
 primary evaluator. Downloaded CI artifacts bind four distinct GitHub-hosted ephemeral runner IDs
 across Windows and Linux plus the Lean kernel job from successful post-merge run `32717558984` at
 `163fd312c5bcf3b9b5bb16b27a40d5253ef83941`; this is multi-host VM reproduction of the
@@ -1247,6 +1253,22 @@ sigma-external-benchmark-signature verify --root . `
 
 The implementation backlog and promotion criteria are listed in
 [`docs/CREATIVE_FORMULA_DISCOVERY_ROADMAP.md`](docs/CREATIVE_FORMULA_DISCOVERY_ROADMAP.md).
+
+Rebuild and validate the admission ledger without making provider calls:
+
+```powershell
+sigma-level5-success-admission build --root .
+sigma-level5-success-admission validate --root .
+
+# Available only after the named benchmark passes every pre-signature criterion.
+sigma-level5-success-admission export-payload --root . `
+  --benchmark BENCHMARK_ID --output work/level5-payload.json
+ssh-keygen -Y sign -f PATH_TO_EXTERNAL_KEY -n invariant-level5-success-v1 `
+  work/level5-payload.json
+sigma-level5-success-admission certify --root . `
+  --payload work/level5-payload.json --principal REGISTERED_PRINCIPAL_ID `
+  --signature work/level5-payload.json.sig --output work/level5-certificate.json
+```
 
 The core runtime now binds eight first-class executable formula kinds: recurrences, generating
 functions, finite sums, finite products, modular relations, piecewise relations, tensor identities,
