@@ -4,7 +4,7 @@ Date: 2026-08-24
 
 Campaign: `erdos-straus-creative-shadow-2026-08-24-001`
 
-Receipt: `e6af409250666bd46db823455f6a50fe057d74dc1557381cbdadad4f257b7d0d`
+Receipt: `b955585bb23c275d00efbdc8c8aa4a00e3a9acd41f5e6303994b19fa4b4c06c9`
 
 ## Result in one paragraph
 
@@ -152,6 +152,31 @@ validate the proposal's 3-adic rationale, show that the witness is new, or prove
 The complete set of 173 creative-tail witnesses was CPU-verified and sealed as
 `9bf44e7e0b8eb6a81d8c2119757d4bc9f494492c7f4eea4a40e51d1eaec0177b`.
 
+## Which ideas were linked to the recoveries?
+
+The refreshed receipt now records the first exact successful pair in the fixed canonical search
+order for every one of the 173 recoveries. Each record binds the denominator and exact witness to
+the winning pair, every direct parent pair, mutation delta, idea ID, basis label, role, and LLM
+origin assessment. Recomputing any winner from its recorded pair reproduces its exact witness.
+
+| Idea | Declared basis | Origin assessment | Linked recoveries |
+|---|---|---|---:|
+| ES-TP-012 | polynomial ansatz | proposed new construction | 70 |
+| ES-MS-008 | modular sieve | cross-domain synthesis | 51 |
+| ES-CF-002 | continued fraction | cross-domain synthesis | 33 |
+| ES-DC-009 | residue cover | proposed new construction | 18 |
+| ES-HL-010 | lattice transform | cross-domain synthesis | 1 |
+
+Twenty-seven recovered denominators had more than one direct mutation parent, but those overlaps
+were within the same idea and basis; none crossed idea or basis boundaries. The five linked counts
+therefore sum to 173. This is deterministic **first-success lineage**, not causal credit or evidence
+that the declared conceptual rationale is correct. In particular, ESDSL1 still executes every basis
+through the same numeric offset kernel. The attribution is the prerequisite for comparing future
+basis-specific ESDSL2 semantics without retroactively reinterpreting the historical run.
+
+For `n = 398161`, the record is exact: ES-TP-012 direct pair `(81,13)`, mutation `(+2,-2)`,
+winning pair `(83,11)`, and the witness printed above.
+
 ## Did it beat random search?
 
 Three increasingly strict 32-trial controls each used 296 pairs and the same exact evaluator:
@@ -204,12 +229,11 @@ historical campaign because its four-call budget is already exhausted.
 1. Exercise the journaled critic batches in a newly preregistered, separately budgeted campaign;
    do not reopen this exhausted four-call campaign.
 2. Give each DSL basis distinct executable semantics; today the conceptual labels share one kernel.
-3. Attribute each of the 173 tail recoveries to its direct parent idea and mutation path.
-4. Pre-register train/tail splits and all controls before generation, then repeat on rotating unseen
+3. Pre-register train/tail splits and all controls before generation, then repeat on rotating unseen
    problems and a second machine.
-5. If a candidate suggests an actual residue-class identity, move it through exact arithmetic,
+4. If a candidate suggests an actual residue-class identity, move it through exact arithmetic,
    CAS, SMT, interval checks where applicable, Lean, automated prior art, and named human review.
-6. Keep the famous-open-problem gate closed until the required three independent level-5 process
+5. Keep the famous-open-problem gate closed until the required three independent level-5 process
    successes exist.
 
 ## Bottom line

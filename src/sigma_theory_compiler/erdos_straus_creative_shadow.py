@@ -226,14 +226,16 @@ def _schedule_pairs(recipe: Mapping[str, Any]) -> tuple[tuple[int, int], ...]:
     )
 
 
-def _run_pairs(
+def _run_pairs_with_attribution(
     xp: Any, members: np.ndarray, pairs: Sequence[tuple[int, int]]
-) -> tuple[np.ndarray, np.ndarray, np.ndarray, int, float]:
+) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray, int, float]:
     started = time.perf_counter()
     n = xp.asarray(members)
     resolved = xp.zeros(n.shape, dtype=bool)
     wx = xp.zeros(n.shape, dtype=xp.int64)
     wy = xp.zeros(n.shape, dtype=xp.int64)
+    winning_dx = xp.full(n.shape, -1, dtype=xp.int64)
+    winning_t = xp.full(n.shape, -1, dtype=xp.int64)
     lane_tests = 0
     for dx, t in pairs:
         open_lanes = ~resolved
@@ -250,9 +252,28 @@ def _run_pairs(
         ok = open_lanes & (d > 0) & (y >= x) & (((b % safe) * (y % safe)) % safe == 0)
         wx = xp.where(ok, x, wx)
         wy = xp.where(ok, y, wy)
+        winning_dx = xp.where(ok, xp.int64(dx), winning_dx)
+        winning_t = xp.where(ok, xp.int64(t), winning_t)
         resolved = resolved | ok
     elapsed = time.perf_counter() - started
-    return _host_array(wx), _host_array(wy), _host_array(resolved), lane_tests, elapsed
+    return (
+        _host_array(wx),
+        _host_array(wy),
+        _host_array(resolved),
+        _host_array(winning_dx),
+        _host_array(winning_t),
+        lane_tests,
+        elapsed,
+    )
+
+
+def _run_pairs(
+    xp: Any, members: np.ndarray, pairs: Sequence[tuple[int, int]]
+) -> tuple[np.ndarray, np.ndarray, np.ndarray, int, float]:
+    wx, wy, resolved, _, _, lane_tests, elapsed = _run_pairs_with_attribution(
+        xp, members, pairs
+    )
+    return wx, wy, resolved, lane_tests, elapsed
 
 
 def _witness_sample(
@@ -792,6 +813,7 @@ def _evaluate_ideas(
         item["execution"] = {
             "admission": "EXECUTED_EXACT_MODULAR_SCREEN",
             "device": device,
+            "direct_parameter_pairs": [list(pair) for pair in pairs],
             "elapsed_seconds": f"{elapsed:.6f}",
             "exact_lane_tests": lane_tests,
             "finite_calibration_hard_cases": int(members.size),
@@ -825,6 +847,115 @@ def _mutated_pairs(
     return tuple(sorted(result, key=lambda item: (item[0] + item[1], item)))
 
 
+def _mutation_lineage(
+    creative: Mapping[str, Any], experiment: Mapping[str, Any]
+) -> dict[tuple[int, int], list[dict[str, Any]]]:
+    radius = int(experiment["mutation_radius"])
+    maximum = int(experiment["maximum_offset"])
+    lineage: dict[tuple[int, int], list[dict[str, Any]]] = {}
+    for idea in creative["ideas"]:
+        execution = idea["execution"]
+        if execution["admission"] != "EXECUTED_EXACT_MODULAR_SCREEN":
+            continue
+        for raw_dx, raw_t in execution["direct_parameter_pairs"]:
+            direct_dx, direct_t = int(raw_dx), int(raw_t)
+            for delta_x in range(-radius, radius + 1):
+                for delta_t in range(-radius, radius + 1):
+                    dx, t = direct_dx + delta_x, direct_t + delta_t
+                    if not (0 <= dx <= maximum and 0 <= t <= maximum):
+                        continue
+                    lineage.setdefault((dx, t), []).append(
+                        {
+                            "basis": execution["recipe"]["basis"],
+                            "direct_pair": [direct_dx, direct_t],
+                            "idea_id": idea["idea_id"],
+                            "llm_self_assessed_origin": idea["llm_self_assessed_origin"],
+                            "mutation_delta": [delta_x, delta_t],
+                            "role": idea["role"],
+                        }
+                    )
+    return {
+        pair: sorted(records, key=canonical_sha256)
+        for pair, records in sorted(
+            lineage.items(), key=lambda item: (sum(item[0]), item[0])
+        )
+    }
+
+
+def _summarize_lineage_attribution(
+    records: Sequence[Mapping[str, Any]], creative: Mapping[str, Any]
+) -> dict[str, Any]:
+    idea_hits: dict[str, set[int]] = {}
+    idea_pairs: dict[str, set[tuple[int, int]]] = {}
+    basis_hits: dict[str, set[int]] = {}
+    basis_pairs: dict[str, set[tuple[int, int]]] = {}
+    winning_pair_hits: dict[tuple[int, int], int] = {}
+    for record in records:
+        n = int(record["n"])
+        winning_pair = tuple(int(item) for item in record["winning_pair"])
+        winning_pair_hits[winning_pair] = winning_pair_hits.get(winning_pair, 0) + 1
+        for parent in record["parent_lineages"]:
+            idea_id = parent["idea_id"]
+            basis = parent["basis"]
+            idea_hits.setdefault(idea_id, set()).add(n)
+            idea_pairs.setdefault(idea_id, set()).add(winning_pair)
+            basis_hits.setdefault(basis, set()).add(n)
+            basis_pairs.setdefault(basis, set()).add(winning_pair)
+    idea_metadata = {
+        item["idea_id"]: {
+            "basis": item["execution"].get("recipe", {}).get("basis"),
+            "llm_self_assessed_origin": item["llm_self_assessed_origin"],
+            "role": item["role"],
+        }
+        for item in creative["ideas"]
+    }
+    return {
+        "all_resolved_hits_have_parent_lineage": all(
+            bool(item["parent_lineages"]) for item in records
+        ),
+        "attribution_rule": "first_exact_success_in_canonical_mutated_pair_order",
+        "basis_linked_hits": [
+            {
+                "basis": basis,
+                "linked_resolved_hits": len(basis_hits[basis]),
+                "winning_pairs": [list(pair) for pair in sorted(basis_pairs[basis])],
+            }
+            for basis in sorted(basis_hits)
+        ],
+        "causal_or_novelty_credit_claimed": False,
+        "idea_linked_hits": [
+            {
+                "basis": idea_metadata[idea_id]["basis"],
+                "idea_id": idea_id,
+                "linked_resolved_hits": len(idea_hits[idea_id]),
+                "llm_self_assessed_origin": idea_metadata[idea_id][
+                    "llm_self_assessed_origin"
+                ],
+                "role": idea_metadata[idea_id]["role"],
+                "winning_pairs": [list(pair) for pair in sorted(idea_pairs[idea_id])],
+            }
+            for idea_id in sorted(idea_hits)
+        ],
+        "multi_basis_lineage_hits": sum(
+            len({parent["basis"] for parent in item["parent_lineages"]}) > 1
+            for item in records
+        ),
+        "multi_idea_lineage_hits": sum(
+            len({parent["idea_id"] for parent in item["parent_lineages"]}) > 1
+            for item in records
+        ),
+        "multi_parent_lineage_hits": sum(
+            len(item["parent_lineages"]) > 1 for item in records
+        ),
+        "resolved_hit_records": [dict(item) for item in records],
+        "resolved_hit_records_sha256": canonical_sha256(records),
+        "winning_pair_hit_counts": [
+            {"resolved_hits": winning_pair_hits[pair], "winning_pair": list(pair)}
+            for pair in sorted(winning_pair_hits)
+        ],
+    }
+
+
 def _hard_tail_experiment(
     experiment: Mapping[str, Any], creative: Mapping[str, Any], xp: Any, device: str
 ) -> dict[str, Any]:
@@ -840,17 +971,38 @@ def _hard_tail_experiment(
     baseline_elapsed = time.perf_counter() - baseline_started
     tail = members[~baseline_resolved]
     direct = tuple(tuple(item) for item in creative["parameter_pairs"])
-    mutated = _mutated_pairs(creative["parameter_pairs"], experiment)
+    lineage_by_pair = _mutation_lineage(creative, experiment)
+    mutated = tuple(lineage_by_pair)
+    if mutated != _mutated_pairs(creative["parameter_pairs"], experiment):
+        raise ErdosStrausCreativeShadowError(
+            "mutation lineage does not cover the exact union search schedule"
+        )
     baseline_pairs = {
         (dx, t)
         for dx in range(int(experiment["baseline_x_rounds"]))
         for t in range(int(experiment["baseline_t_rounds"]))
     }
     novel_pairs = tuple(pair for pair in mutated if pair not in baseline_pairs)
-    wx, wy, resolved, creative_lane_tests, creative_elapsed = _run_pairs(xp, tail, novel_pairs)
+    (
+        wx,
+        wy,
+        resolved,
+        winning_dx,
+        winning_t,
+        creative_lane_tests,
+        creative_elapsed,
+    ) = _run_pairs_with_attribution(xp, tail, novel_pairs)
     verified_witnesses = []
+    attribution_records = []
+    pair_order = {pair: ordinal for ordinal, pair in enumerate(novel_pairs)}
     for index in np.flatnonzero(resolved):
         n, x, y = int(tail[index]), int(wx[index]), int(wy[index])
+        winning_pair = (int(winning_dx[index]), int(winning_t[index]))
+        parent_lineages = lineage_by_pair.get(winning_pair, [])
+        if not parent_lineages or winning_pair not in pair_order:
+            raise ErdosStrausCreativeShadowError(
+                "creative tail hit has no exact parent mutation lineage"
+            )
         b = n * x
         d = (4 * x - n) * y - b
         z = (b * y) // d
@@ -858,7 +1010,22 @@ def _hard_tail_experiment(
             raise ErdosStrausCreativeShadowError(
                 "creative tail GPU hit failed independent CPU exact verification"
             )
-        verified_witnesses.append({"n": n, "x": x, "y": y, "z": z})
+        witness = {"n": n, "x": x, "y": y, "z": z}
+        verified_witnesses.append(witness)
+        attribution_records.append(
+            {
+                "canonical_pair_order_ordinal": pair_order[winning_pair],
+                "n": n,
+                "parent_lineages": parent_lineages,
+                "winning_pair": list(winning_pair),
+                "witness": witness,
+            }
+        )
+    attribution = _summarize_lineage_attribution(attribution_records, creative)
+    attribution["all_resolved_hits_have_parent_lineage"] = (
+        attribution["all_resolved_hits_have_parent_lineage"]
+        and len(attribution_records) == int(resolved.sum())
+    )
     uniform_universe = sorted(
         (dx, t)
         for dx in range(int(experiment["maximum_offset"]) + 1)
@@ -989,6 +1156,7 @@ def _hard_tail_experiment(
             == int(resolved.sum()),
             "mutated_parameter_pairs": len(mutated),
             "pairs_outside_fixed_baseline": len(novel_pairs),
+            "parent_lineage_attribution": attribution,
             "resolved_from_baseline_tail": int(resolved.sum()),
             "still_requiring_complete_divisor_search": int(tail.size - resolved.sum()),
             "verified_witness_corpus_sha256": canonical_sha256(verified_witnesses),
@@ -1221,8 +1389,20 @@ def validate_receipt(
     ):
         raise ErdosStrausCreativeShadowError("durable attempt journal evidence changed")
     validate_sweep_receipt(value["finite_sweep"])
+    direct_union: set[tuple[int, int]] = set()
     for idea in value["creative_search"]["ideas"]:
         if idea["execution"]["admission"] == "EXECUTED_EXACT_MODULAR_SCREEN":
+            recipe = parse_recipe(idea["hypothesis"]["expression"], config["experiment"])
+            expected_pairs = _schedule_pairs(recipe or {}) if recipe is not None else ()
+            if (
+                recipe != idea["execution"]["recipe"]
+                or [list(pair) for pair in expected_pairs]
+                != idea["execution"]["direct_parameter_pairs"]
+            ):
+                raise ErdosStrausCreativeShadowError(
+                    "idea direct schedule or typed recipe changed"
+                )
+            direct_union.update(expected_pairs)
             for witness in idea["execution"]["witness_sample"]:
                 if not es_witness_is_exact(**witness):
                     raise ErdosStrausCreativeShadowError("idea witness failed exact replay")
@@ -1237,6 +1417,55 @@ def validate_receipt(
         or tail["integer_gpu_screen_cpu_identity_agreement"] is not True
     ):
         raise ErdosStrausCreativeShadowError("creative tail independent verification changed")
+    creative = value["creative_search"]
+    if [list(pair) for pair in sorted(direct_union)] != creative["parameter_pairs"]:
+        raise ErdosStrausCreativeShadowError("creative direct-pair union changed")
+    lineage_by_pair = _mutation_lineage(creative, config["experiment"])
+    baseline_pairs = {
+        (dx, t)
+        for dx in range(int(config["experiment"]["baseline_x_rounds"]))
+        for t in range(int(config["experiment"]["baseline_t_rounds"]))
+    }
+    novel_pairs = tuple(pair for pair in lineage_by_pair if pair not in baseline_pairs)
+    pair_order = {pair: ordinal for ordinal, pair in enumerate(novel_pairs)}
+    attribution = tail.get("parent_lineage_attribution", {})
+    records = attribution.get("resolved_hit_records", [])
+    if (
+        not isinstance(records, list)
+        or len(records) != tail["resolved_from_baseline_tail"]
+        or len({item.get("n") for item in records}) != len(records)
+    ):
+        raise ErdosStrausCreativeShadowError("creative lineage record coverage changed")
+    for record in records:
+        pair = tuple(record["winning_pair"])
+        witness = record["witness"]
+        if (
+            pair not in pair_order
+            or record["canonical_pair_order_ordinal"] != pair_order[pair]
+            or record["parent_lineages"] != lineage_by_pair[pair]
+            or record["n"] != witness["n"]
+            or not es_witness_is_exact(**witness)
+        ):
+            raise ErdosStrausCreativeShadowError("creative lineage record failed exact replay")
+        n = int(record["n"])
+        dx, t = (int(item) for item in pair)
+        x = n // 4 + 1 + dx
+        a = 4 * x - n
+        b = n * x
+        y = (b + a - 1) // a + t
+        d = a * y - b
+        z = (b * y) // d if d > 0 and (b * y) % d == 0 else 0
+        if witness != {"n": n, "x": x, "y": y, "z": z}:
+            raise ErdosStrausCreativeShadowError(
+                "creative lineage winning pair does not reproduce its witness"
+            )
+    expected_attribution = _summarize_lineage_attribution(records, creative)
+    expected_attribution["all_resolved_hits_have_parent_lineage"] = (
+        expected_attribution["all_resolved_hits_have_parent_lineage"]
+        and len(records) == tail["resolved_from_baseline_tail"]
+    )
+    if attribution != expected_attribution:
+        raise ErdosStrausCreativeShadowError("creative lineage aggregate changed")
     accounting = value["accounting"]
     if accounting["llm_ideas_proposed"] != value["claude"]["proposed_ideas"]:
         raise ErdosStrausCreativeShadowError("idea accounting mismatch")
