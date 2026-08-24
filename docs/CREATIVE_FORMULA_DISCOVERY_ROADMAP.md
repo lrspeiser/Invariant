@@ -42,6 +42,14 @@
   and first-order variational functionals. Two independent evaluators accept all eight positive
   controls and reject all eight mutations under explicit resource limits. This establishes the admitted control slice,
   not formula correctness or novelty outside those controls.
+- The core now requires a generic compiled-candidate modular prefilter backed by a sealed local RTX
+  5090 run. It exhaustively classified `33^5 = 39,135,393` coefficient vectors over eight integer
+  observations and three primes in `0.042086` seconds, rejected `39,135,392`, and sent the single
+  modular survivor to independent exact Python-integer replay. The receipt binds the full status
+  root, 4,096 deterministic CPU/GPU samples, an identical 65,536-candidate prefix, a wrong-target
+  mutation, and zero credential/provider access. The declared `939,249,432` congruence checks are
+  an upper bound because the kernel short-circuits on the first residual failure. This closes the
+  generic rejection-acceleration control, not candidate generation, correctness, or proof.
 - An eighth bounded LLM proposal representation executes exact linear shift stencils. Its primary
   evaluator uses SymPy rational substitution while its independent evaluator uses only Python AST
   and `Fraction`; both must agree that the claimed transform equals the stencil result before a
@@ -460,5 +468,9 @@ asserted equal, all pass the ceiling, and the original recovery counts and p-val
 7. Continue bounded counterexample-guided repair on the 24 descendants, prioritizing representation
    changes and parent mechanisms that were not used in the first campaign. Preserve the failed
    fresh predictions as new repair evidence and rotate again before measuring improvement.
-8. Continue bounded level-5 runs until three independent successes exist; the open-problem gate
+8. Compile recurrence, generating-function, finite-sum/product, modular, tensor, and variational
+   candidate families into the new integer residual-table boundary where mathematically applicable;
+   measure per-family quotient reduction, survivor rates across additional primes, exact false
+   positives, transfer overhead, and energy rather than extrapolating from the polynomial control.
+9. Continue bounded level-5 runs until three independent successes exist; the open-problem gate
    remains closed meanwhile, but creative branches continue accumulating.

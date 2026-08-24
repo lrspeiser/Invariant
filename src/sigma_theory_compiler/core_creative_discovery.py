@@ -31,6 +31,9 @@ from .core_creative_prompt_context import (
 )
 from .core_credential import CredentialActivationError, activated_credential
 from .creative_expansion import build_creative_expansion, validate_creative_expansion
+from .creative_modular_gpu_prefilter import (
+    validate_receipt as validate_creative_modular_gpu_receipt,
+)
 from .creativity_component_knockout_preflight import (
     validate_receipt as validate_component_knockout_preflight,
 )
@@ -87,8 +90,8 @@ SOURCE_PATH = "src/sigma_theory_compiler/core_creative_discovery.py"
 CLAUDE_API_SOURCE_PATH = "src/sigma_theory_compiler/claude_creativity_api.py"
 EXTERNAL_CAMPAIGN_SOURCE_PATH = "src/sigma_theory_compiler/external_creativity_validation.py"
 PROMPT_CONTEXT_SOURCE_PATH = "src/sigma_theory_compiler/core_creative_prompt_context.py"
-SCHEMA_VERSION = "invariant-core-creative-discovery-runtime-3.1"
-CONFIG_SCHEMA = "invariant-core-creative-discovery-config-3.1"
+SCHEMA_VERSION = "invariant-core-creative-discovery-runtime-3.2"
+CONFIG_SCHEMA = "invariant-core-creative-discovery-config-3.2"
 
 
 class CoreCreativeDiscoveryError(ValueError):
@@ -193,6 +196,7 @@ def _load_config(root: Path) -> dict[str, Any]:
         raise CoreCreativeDiscoveryError("core release policy is too weak")
     if set(value["components"]) != {
         "component_knockout_preflight_receipt",
+        "creative_modular_gpu_prefilter_receipt",
         "claim_specific_prior_art_portfolio_preflight_receipt",
         "claim_specific_prior_art_portfolio_receipt",
         "dataset_challenge_receipt",
@@ -237,6 +241,7 @@ def _load_bound_receipts(
     dict[str, Any],
     dict[str, Any],
     dict[str, Any],
+    dict[str, Any],
 ]:
     components = config["components"]
     dataset_path = root / components["dataset_challenge_receipt"]
@@ -245,6 +250,7 @@ def _load_bound_receipts(
     operational_path = root / components["declarative_operational_receipt"]
     multi_host_path = root / components["multi_host_reproduction_receipt"]
     expanded_grammar_path = root / components["expanded_typed_grammar_receipt"]
+    creative_modular_gpu_path = root / components["creative_modular_gpu_prefilter_receipt"]
     proof_plan_path = root / components["proof_plan_search_receipt"]
     piecewise_replay_path = root / components["retained_piecewise_replay_receipt"]
     serious_claim_ladder_path = root / components["serious_claim_verification_ladder_receipt"]
@@ -265,6 +271,7 @@ def _load_bound_receipts(
     operational = json.loads(operational_path.read_text(encoding="utf-8"))
     multi_host = json.loads(multi_host_path.read_text(encoding="utf-8"))
     expanded_grammar = json.loads(expanded_grammar_path.read_text(encoding="utf-8"))
+    creative_modular_gpu = json.loads(creative_modular_gpu_path.read_text(encoding="utf-8"))
     proof_plan_search = json.loads(proof_plan_path.read_text(encoding="utf-8"))
     piecewise_replay = json.loads(piecewise_replay_path.read_text(encoding="utf-8"))
     serious_claim_ladder = json.loads(serious_claim_ladder_path.read_text(encoding="utf-8"))
@@ -284,6 +291,7 @@ def _load_bound_receipts(
     validate_operational_receipt(operational, root)
     validate_multi_host_receipt(multi_host, root)
     validate_expanded_grammar_receipt(expanded_grammar, root)
+    validate_creative_modular_gpu_receipt(creative_modular_gpu, root)
     validate_proof_plan_search(proof_plan_search, root)
     validate_piecewise_replay(piecewise_replay, root)
     validate_serious_claim_ladder(serious_claim_ladder, root)
@@ -315,6 +323,7 @@ def _load_bound_receipts(
         prior_art_portfolio_preflight,
         prior_art_portfolio,
         level5_admission,
+        creative_modular_gpu,
     )
 
 
@@ -463,6 +472,7 @@ def run_core(
         prior_art_portfolio_preflight,
         prior_art_portfolio,
         level5_admission,
+        creative_modular_gpu,
     ) = _load_bound_receipts(root, config)
     creative_prompt_context = build_creative_prompt_context(
         symmetry_dimension_derivation,
@@ -606,6 +616,10 @@ def run_core(
                 "content_sha256": expanded_grammar["content_sha256"],
                 "path": config["components"]["expanded_typed_grammar_receipt"],
             },
+            "creative_modular_gpu_prefilter_receipt": {
+                "content_sha256": creative_modular_gpu["content_sha256"],
+                "path": config["components"]["creative_modular_gpu_prefilter_receipt"],
+            },
             "proof_plan_search_receipt": {
                 "content_sha256": proof_plan_search["content_sha256"],
                 "path": config["components"]["proof_plan_search_receipt"],
@@ -639,6 +653,7 @@ def run_core(
         ),
         "idea_lineage_archive": idea_archive,
         "creative_expansion": creative_expansion,
+        "creative_modular_gpu_prefilter": creative_modular_gpu,
         "component_knockout_preflight": component_knockout,
         "claim_specific_prior_art_portfolio_preflight": prior_art_portfolio_preflight,
         "claim_specific_prior_art_portfolio": prior_art_portfolio,
@@ -679,6 +694,25 @@ def run_core(
             "typed_formula_kinds": expanded_grammar["summary"]["admitted_formula_kinds"],
             "typed_grammar_controls_passed": expanded_grammar["summary"]["controls_passed"],
             "typed_grammar_status": expanded_grammar["summary"]["status"],
+            "creative_modular_gpu_candidates_classified": creative_modular_gpu["summary"][
+                "candidates_classified"
+            ],
+            "creative_modular_gpu_exact_survivors": creative_modular_gpu["summary"][
+                "exact_survivors"
+            ],
+            "creative_modular_gpu_modular_survivors": creative_modular_gpu["summary"][
+                "gpu_modular_survivors"
+            ],
+            "creative_modular_gpu_rejected": creative_modular_gpu["summary"][
+                "rejected_by_gpu"
+            ],
+            "creative_modular_gpu_status": creative_modular_gpu["summary"]["status"],
+            "creative_modular_gpu_device": creative_modular_gpu["gpu_execution"]["gpu"][
+                "device_name"
+            ],
+            "creative_modular_gpu_candidates_per_second": creative_modular_gpu[
+                "gpu_execution"
+            ]["candidates_per_second"],
             "dataset_challenge_kinds": dataset_challenges["summary"]["challenge_kinds"],
             "dataset_mutation_controls_rejected": dataset_challenges["summary"][
                 "mutation_controls_rejected"
@@ -974,6 +1008,7 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
             "invariant-core-creative-discovery-runtime-2.8",
             "invariant-core-creative-discovery-runtime-2.9",
             "invariant-core-creative-discovery-runtime-3.0",
+            "invariant-core-creative-discovery-runtime-3.1",
             SCHEMA_VERSION,
         }
         or previous.get("app_id") != "invariant.core-creative-discovery"
@@ -1015,6 +1050,7 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
         prior_art_portfolio_preflight,
         prior_art_portfolio,
         level5_admission,
+        creative_modular_gpu,
     ) = _load_bound_receipts(root, config)
     creative_prompt_context = build_creative_prompt_context(
         symmetry_dimension_derivation,
@@ -1101,6 +1137,10 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
             "content_sha256": expanded_grammar["content_sha256"],
             "path": config["components"]["expanded_typed_grammar_receipt"],
         },
+        "creative_modular_gpu_prefilter_receipt": {
+            "content_sha256": creative_modular_gpu["content_sha256"],
+            "path": config["components"]["creative_modular_gpu_prefilter_receipt"],
+        },
         "proof_plan_search_receipt": {
             "content_sha256": proof_plan_search["content_sha256"],
             "path": config["components"]["proof_plan_search_receipt"],
@@ -1119,6 +1159,7 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
         },
     }
     value["component_knockout_preflight"] = component_knockout
+    value["creative_modular_gpu_prefilter"] = creative_modular_gpu
     value["claim_specific_prior_art_portfolio_preflight"] = prior_art_portfolio_preflight
     value["claim_specific_prior_art_portfolio"] = prior_art_portfolio
     value["dataset_challenges"] = dataset_challenges
@@ -1160,6 +1201,23 @@ def rebind_core_receipt(root: Path, previous: Mapping[str, Any]) -> dict[str, An
         "component_knockout_preflight_status": component_knockout["release_gate"]["status"],
         "component_knockout_scheduled_slots": component_knockout["schedule"][
             "total_scheduled_slots"
+        ],
+        "creative_modular_gpu_candidates_classified": creative_modular_gpu["summary"][
+            "candidates_classified"
+        ],
+        "creative_modular_gpu_exact_survivors": creative_modular_gpu["summary"][
+            "exact_survivors"
+        ],
+        "creative_modular_gpu_modular_survivors": creative_modular_gpu["summary"][
+            "gpu_modular_survivors"
+        ],
+        "creative_modular_gpu_rejected": creative_modular_gpu["summary"]["rejected_by_gpu"],
+        "creative_modular_gpu_status": creative_modular_gpu["summary"]["status"],
+        "creative_modular_gpu_device": creative_modular_gpu["gpu_execution"]["gpu"][
+            "device_name"
+        ],
+        "creative_modular_gpu_candidates_per_second": creative_modular_gpu["gpu_execution"][
+            "candidates_per_second"
         ],
         "external_dataset_challenge_kinds": external_dataset_challenges["summary"][
             "challenge_kinds"
@@ -1445,6 +1503,8 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
     ):
         raise CoreCreativeDiscoveryError("core authenticated prompt context release gate changed")
     validate_creative_expansion(value.get("creative_expansion", {}), proof_plan_search)
+    creative_modular_gpu = value.get("creative_modular_gpu_prefilter", {})
+    validate_creative_modular_gpu_receipt(creative_modular_gpu, root or Path.cwd())
     validate_piecewise_replay(value.get("retained_piecewise_replay", {}), root or Path.cwd())
     piecewise_descendants = value.get("retained_piecewise_descendant_campaign", {})
     validate_piecewise_descendant_campaign(piecewise_descendants, root or Path.cwd())
@@ -1500,6 +1560,20 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
         or discovery.get("component_knockout_preflight_status")
         != "PASS_PREFLIGHT_LIVE_EXECUTION_NOT_RUN"
         or discovery.get("component_knockout_scheduled_slots") != 384
+        or discovery.get("creative_modular_gpu_candidates_classified")
+        != creative_modular_gpu.get("summary", {}).get("candidates_classified")
+        or discovery.get("creative_modular_gpu_exact_survivors")
+        != creative_modular_gpu.get("summary", {}).get("exact_survivors")
+        or discovery.get("creative_modular_gpu_modular_survivors")
+        != creative_modular_gpu.get("summary", {}).get("gpu_modular_survivors")
+        or discovery.get("creative_modular_gpu_rejected")
+        != creative_modular_gpu.get("summary", {}).get("rejected_by_gpu")
+        or discovery.get("creative_modular_gpu_status")
+        != creative_modular_gpu.get("summary", {}).get("status")
+        or discovery.get("creative_modular_gpu_device")
+        != creative_modular_gpu.get("gpu_execution", {}).get("gpu", {}).get("device_name")
+        or discovery.get("creative_modular_gpu_candidates_per_second")
+        != creative_modular_gpu.get("gpu_execution", {}).get("candidates_per_second")
         or discovery.get("dataset_challenge_kinds")
         != ["intervention", "noisy", "shifted", "unidentifiable"]
         or discovery.get("dataset_positive_controls_passed") != 4
@@ -1690,6 +1764,7 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
             "claim_specific_prior_art_portfolio_preflight_receipt",
             "claim_specific_prior_art_portfolio_receipt",
             "component_knockout_preflight_receipt",
+            "creative_modular_gpu_prefilter_receipt",
             "dataset_challenge_receipt",
             "declarative_operational_receipt",
             "external_dataset_challenge_receipt",
@@ -1717,6 +1792,8 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
                 raise CoreCreativeDiscoveryError("core receipt source binding changed")
             if key == "expanded_typed_grammar_receipt":
                 validate_expanded_grammar_receipt(bound, root)
+            if key == "creative_modular_gpu_prefilter_receipt":
+                validate_creative_modular_gpu_receipt(bound, root)
             if key == "dataset_challenge_receipt":
                 validate_dataset_challenges(bound, root)
             if key == "external_dataset_challenge_receipt":

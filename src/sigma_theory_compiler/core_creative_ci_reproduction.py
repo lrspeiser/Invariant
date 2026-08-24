@@ -16,8 +16,9 @@ from .retained_piecewise_descendant_campaign import (
 )
 from .sigma_core import canonical_sha256
 
-SCHEMA_VERSION = "invariant-core-creative-ci-reproduction-1.0"
+SCHEMA_VERSION = "invariant-core-creative-ci-reproduction-1.1"
 PROJECTION_SCHEMA = "invariant-core-live-llm-evidence-projection-1.0"
+ACCELERATOR_PROJECTION_SCHEMA = "invariant-core-accelerator-evidence-projection-1.0"
 CORE_PATH = "runs/math/core-creative-discovery/live-runtime.json"
 DESCENDANT_PATH = "runs/math/retained-piecewise-descendant-campaign/live-runtime.json"
 CI_REPOSITORY = "lrspeiser/Invariant"
@@ -236,6 +237,89 @@ def validate_projection(value: Mapping[str, Any]) -> None:
         raise CoreCreativeCIReproductionError("core LLM evidence projection policy failed")
 
 
+def accelerator_evidence_projection(core: Mapping[str, Any]) -> dict[str, Any]:
+    """Project deterministic GPU evidence that a credential-free host can validate offline."""
+
+    accelerator = core.get("creative_modular_gpu_prefilter", {})
+    execution = accelerator.get("gpu_execution", {})
+    projection = {
+        "schema_version": ACCELERATOR_PROJECTION_SCHEMA,
+        "backend": execution.get("backend"),
+        "campaign_id": accelerator.get("campaign_id"),
+        "candidate_count": accelerator.get("summary", {}).get("candidates_classified"),
+        "device_name": execution.get("gpu", {}).get("device_name"),
+        "exact_cpu_replay_required": accelerator.get("execution_boundary", {}).get(
+            "exact_cpu_replay_required"
+        ),
+        "exact_survivors": accelerator.get("summary", {}).get("exact_survivors"),
+        "gpu_modular_survivors": accelerator.get("summary", {}).get(
+            "gpu_modular_survivors"
+        ),
+        "maximum_congruence_checks": accelerator.get("compiled_lattice", {}).get(
+            "maximum_congruence_checks"
+        ),
+        "paid_llm_calls_made": accelerator.get("execution_boundary", {}).get(
+            "paid_llm_calls_made"
+        ),
+        "receipt_content_sha256": accelerator.get("content_sha256"),
+        "sample_crosscheck_agrees": execution.get("sample_crosscheck", {}).get(
+            "statuses_agree"
+        ),
+        "status": accelerator.get("summary", {}).get("status"),
+        "target_mutation_rejected": execution.get("mutation_control", {}).get(
+            "target_candidate_rejected"
+        ),
+        "gpu_survival_establishes_proof": accelerator.get("claims", {}).get(
+            "modular_screen_is_a_formal_proof"
+        ),
+    }
+    validate_accelerator_projection(projection)
+    return projection
+
+
+def validate_accelerator_projection(value: Mapping[str, Any]) -> None:
+    _strict(
+        value,
+        {
+            "backend",
+            "campaign_id",
+            "candidate_count",
+            "device_name",
+            "exact_cpu_replay_required",
+            "exact_survivors",
+            "gpu_modular_survivors",
+            "gpu_survival_establishes_proof",
+            "maximum_congruence_checks",
+            "paid_llm_calls_made",
+            "receipt_content_sha256",
+            "sample_crosscheck_agrees",
+            "schema_version",
+            "status",
+            "target_mutation_rejected",
+        },
+        "core accelerator evidence projection",
+    )
+    if (
+        value.get("schema_version") != ACCELERATOR_PROJECTION_SCHEMA
+        or value.get("backend") != "cupy-raw-kernel-modular-prefilter"
+        or value.get("campaign_id")
+        != "invariant.creativity.modular-prefilter.polynomial-control-v1"
+        or value.get("candidate_count") != 39_135_393
+        or value.get("maximum_congruence_checks") != 939_249_432
+        or value.get("device_name") != "NVIDIA GeForce RTX 5090"
+        or value.get("gpu_modular_survivors") != 1
+        or value.get("exact_survivors") != 1
+        or value.get("sample_crosscheck_agrees") is not True
+        or value.get("target_mutation_rejected") is not True
+        or value.get("exact_cpu_replay_required") is not True
+        or value.get("paid_llm_calls_made") != 0
+        or value.get("gpu_survival_establishes_proof") is not False
+        or value.get("status") != "PASS_GPU_MODULAR_PREFILTER_CONTROL"
+        or _HEX_64.fullmatch(str(value.get("receipt_content_sha256", ""))) is None
+    ):
+        raise CoreCreativeCIReproductionError("core accelerator evidence projection failed")
+
+
 def _ci_provenance(environment: Mapping[str, str] | None) -> dict[str, Any]:
     environment = os.environ if environment is None else environment
     run_id_raw = environment.get("GITHUB_RUN_ID", "")
@@ -292,9 +376,12 @@ def build_receipt(
     validate_core_receipt(core, root)
     validate_descendant_receipt(descendant, root)
     projection = llm_evidence_projection(core, descendant)
+    accelerator_projection = accelerator_evidence_projection(core)
     provenance = _ci_provenance(environment)
     body = {
         "schema_version": SCHEMA_VERSION,
+        "accelerator_evidence_projection": accelerator_projection,
+        "accelerator_evidence_projection_sha256": canonical_sha256(accelerator_projection),
         "ci_provenance": provenance,
         "source_bindings": {
             "core_runtime": {
@@ -310,6 +397,7 @@ def build_receipt(
         "llm_evidence_projection_sha256": canonical_sha256(projection),
         "verification": {
             "core_runtime_validated": True,
+            "creative_modular_gpu_receipt_validated": True,
             "descendant_runtime_validated": True,
             "new_provider_calls": 0,
             "provider_credential_available_on_reproduction_host": False,
@@ -322,8 +410,10 @@ def build_receipt(
         "claim_boundary": {
             "authenticated_live_evidence_replayed": True,
             "credential_value_or_path_persisted": False,
+            "gpu_survival_establishes_proof": False,
             "literature_novelty_established": False,
             "physical_bare_metal_identity_claimed": False,
+            "reproduction_host_reran_cuda": False,
         },
     }
     receipt = {**body, "content_sha256": canonical_sha256(body)}
@@ -340,6 +430,8 @@ def validate_receipt(
     _strict(
         value,
         {
+            "accelerator_evidence_projection",
+            "accelerator_evidence_projection_sha256",
             "ci_provenance",
             "claim_boundary",
             "content_sha256",
@@ -361,6 +453,12 @@ def validate_receipt(
     validate_projection(projection)
     if value.get("llm_evidence_projection_sha256") != canonical_sha256(projection):
         raise CoreCreativeCIReproductionError("core LLM evidence projection seal changed")
+    accelerator_projection = value["accelerator_evidence_projection"]
+    validate_accelerator_projection(accelerator_projection)
+    if value.get("accelerator_evidence_projection_sha256") != canonical_sha256(
+        accelerator_projection
+    ):
+        raise CoreCreativeCIReproductionError("core accelerator evidence projection seal changed")
     provenance = value["ci_provenance"]
     complete = provenance.get("complete") is True
     if require_ci_provenance and not complete:
@@ -388,6 +486,7 @@ def validate_receipt(
     )
     if value.get("verification") != {
         "core_runtime_validated": True,
+        "creative_modular_gpu_receipt_validated": True,
         "descendant_runtime_validated": True,
         "new_provider_calls": 0,
         "provider_credential_available_on_reproduction_host": False,
@@ -397,8 +496,10 @@ def validate_receipt(
     if value.get("claim_boundary") != {
         "authenticated_live_evidence_replayed": True,
         "credential_value_or_path_persisted": False,
+        "gpu_survival_establishes_proof": False,
         "literature_novelty_established": False,
         "physical_bare_metal_identity_claimed": False,
+        "reproduction_host_reran_cuda": False,
     }:
         raise CoreCreativeCIReproductionError("core CI claim boundary changed")
     if root is not None:
@@ -417,6 +518,7 @@ def validate_receipt(
         if (
             value.get("source_bindings") != expected_bindings
             or projection != llm_evidence_projection(core, descendant)
+            or accelerator_projection != accelerator_evidence_projection(core)
         ):
             raise CoreCreativeCIReproductionError("core CI source binding changed")
 

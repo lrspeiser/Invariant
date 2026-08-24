@@ -1,0 +1,105 @@
+{
+  "campaign_id": "invariant.creativity.modular-prefilter.polynomial-control-v1",
+  "claims": {
+    "gpu_survival_establishes_formula_correctness": false,
+    "gpu_survival_establishes_literature_novelty": false,
+    "modular_screen_is_a_formal_proof": false,
+    "open_problem_solved": false
+  },
+  "compiled_lattice": {
+    "coefficient_max": 16,
+    "coefficient_min": -16,
+    "feature_count": 5,
+    "maximum_congruence_checks": 939249432,
+    "observation_count": 8,
+    "ordinal_order": "least-significant feature coefficient first",
+    "prime_count": 3,
+    "search_space_candidates": 39135393
+  },
+  "content_sha256": "0753d287dba63cc532e45701b0bf0c9803e29ecf9ce410e16561efffb5c7c9bd",
+  "execution_boundary": {
+    "credential_accessed": false,
+    "exact_cpu_replay_required": true,
+    "paid_llm_calls_made": 0,
+    "provider_transport_accessed": false
+  },
+  "generated_utc": "2026-08-24T22:00:35.426411+00:00",
+  "gpu_execution": {
+    "backend": "cupy-raw-kernel-modular-prefilter",
+    "batch_count": 38,
+    "batch_size": 1048576,
+    "candidate_count": 39135393,
+    "candidate_status_sha256": "770e858bcc696845527fb91c59402106fb23a330367f327d81738ea670a53499",
+    "candidates_per_second": "929893219.025165",
+    "cpu_benchmark": {
+      "candidate_count": 65536,
+      "elapsed_seconds": "0.077399",
+      "status_sha256": "82a29364ad09997f2a8f88588a9de7f2587d39df8d60170166278824451bb005"
+    },
+    "elapsed_seconds": "0.042086",
+    "gpu": {
+      "compute_capability": "120",
+      "cupy_version": "13.5.1",
+      "device_id": 0,
+      "device_name": "NVIDIA GeForce RTX 5090",
+      "driver_version": 13000,
+      "runtime_version": 12090,
+      "total_global_memory_bytes": 34190458880
+    },
+    "gpu_benchmark": {
+      "candidate_count": 65536,
+      "elapsed_seconds": "0.000304",
+      "speedup_over_cpu": "254.434264",
+      "status_sha256": "82a29364ad09997f2a8f88588a9de7f2587d39df8d60170166278824451bb005"
+    },
+    "mutation_control": {
+      "mutation": "targets[0] += 1",
+      "target_candidate_gpu_status": 0,
+      "target_candidate_rejected": true
+    },
+    "sample_crosscheck": {
+      "cpu_status_sha256": "dc9183750321712a1e7224efa10294da8ff748725bf0fbc59aef53c9466b8681",
+      "gpu_status_sha256": "dc9183750321712a1e7224efa10294da8ff748725bf0fbc59aef53c9466b8681",
+      "sample_count": 4096,
+      "statuses_agree": true
+    },
+    "survivor_ordinals": [
+      21946999
+    ]
+  },
+  "independent_exact_replay": {
+    "all_modular_survivors_replayed": true,
+    "exact_survivor_coefficients": [
+      [
+        3,
+        -5,
+        7,
+        0,
+        2
+      ]
+    ],
+    "exact_survivor_ordinals": [
+      21946999
+    ],
+    "target_candidate_survived": true,
+    "target_ordinal": 21946999
+  },
+  "schema_version": "invariant-creative-modular-gpu-receipt-1.0",
+  "source_bindings": {
+    "config": {
+      "normalized_file_sha256": "12280fa90a31ad52670dd2689d95652ef393a40a7544e44677aa11d2a04e6ccf",
+      "path": "configs/creative_modular_gpu_prefilter.json"
+    },
+    "runner": {
+      "normalized_file_sha256": "044d8d69c53770dbfa25c322ad0413fd3bf13f401f3a90fd0afa08c8f5606f65",
+      "path": "src/sigma_theory_compiler/creative_modular_gpu_prefilter.py"
+    }
+  },
+  "summary": {
+    "candidates_classified": 39135393,
+    "exact_survivors": 1,
+    "gpu_modular_survivors": 1,
+    "rejected_by_gpu": 39135392,
+    "status": "PASS_GPU_MODULAR_PREFILTER_CONTROL"
+  }
+}
