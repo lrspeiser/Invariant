@@ -10,6 +10,7 @@ on:
       - "configs/creative_dataset_challenges.json"
       - "configs/external_dataset_challenges.json"
       - "configs/external_structured_benchmark_pack.json"
+      - "configs/external_benchmark_signers.json"
       - "configs/symmetry_dimension_derivation.json"
       - "configs/learned_invariant_discovery*.json"
       - "configs/state_pair_invariant_discovery*.json"
@@ -43,6 +44,7 @@ on:
       - "src/sigma_theory_compiler/dataset_challenge_suite.py"
       - "src/sigma_theory_compiler/external_dataset_challenges.py"
       - "src/sigma_theory_compiler/external_structured_benchmarks.py"
+      - "src/sigma_theory_compiler/external_benchmark_signature.py"
       - "src/sigma_theory_compiler/symmetry_dimension_derivation.py"
       - "src/sigma_theory_compiler/learned_invariant_discovery.py"
       - "src/sigma_theory_compiler/state_pair_invariant_discovery.py"
@@ -74,6 +76,7 @@ on:
       - "tests/test_dataset_challenge_suite.py"
       - "tests/test_external_dataset_challenges.py"
       - "tests/test_external_structured_benchmarks.py"
+      - "tests/test_external_benchmark_signature.py"
       - "tests/test_symmetry_dimension_derivation.py"
       - "tests/test_learned_invariant_discovery.py"
       - "tests/test_state_pair_invariant_discovery.py"
@@ -117,6 +120,7 @@ on:
       - "configs/creative_dataset_challenges.json"
       - "configs/external_dataset_challenges.json"
       - "configs/external_structured_benchmark_pack.json"
+      - "configs/external_benchmark_signers.json"
       - "configs/symmetry_dimension_derivation.json"
       - "configs/learned_invariant_discovery*.json"
       - "configs/state_pair_invariant_discovery*.json"
@@ -150,6 +154,7 @@ on:
       - "src/sigma_theory_compiler/dataset_challenge_suite.py"
       - "src/sigma_theory_compiler/external_dataset_challenges.py"
       - "src/sigma_theory_compiler/external_structured_benchmarks.py"
+      - "src/sigma_theory_compiler/external_benchmark_signature.py"
       - "src/sigma_theory_compiler/symmetry_dimension_derivation.py"
       - "src/sigma_theory_compiler/learned_invariant_discovery.py"
       - "src/sigma_theory_compiler/state_pair_invariant_discovery.py"
@@ -181,6 +186,7 @@ on:
       - "tests/test_dataset_challenge_suite.py"
       - "tests/test_external_dataset_challenges.py"
       - "tests/test_external_structured_benchmarks.py"
+      - "tests/test_external_benchmark_signature.py"
       - "tests/test_symmetry_dimension_derivation.py"
       - "tests/test_learned_invariant_discovery.py"
       - "tests/test_state_pair_invariant_discovery.py"
@@ -266,6 +272,7 @@ jobs:
           tests/test_dataset_challenge_suite.py
           tests/test_external_dataset_challenges.py
           tests/test_external_structured_benchmarks.py
+          tests/test_external_benchmark_signature.py
           tests/test_symmetry_dimension_derivation.py
           tests/test_learned_invariant_discovery.py
           tests/test_state_pair_invariant_discovery.py
@@ -296,6 +303,10 @@ jobs:
           --generation runs/math/external-structured-benchmarks/2026-08-23-002-generation.json
           --targets runs/math/external-structured-benchmarks/2026-08-23-002-targets.json
           --receipt runs/math/external-structured-benchmarks/2026-08-23-002-receipt.json
+      - run: >-
+          python -m sigma_theory_compiler.external_benchmark_signature validate-request
+          --root .
+          --request runs/math/external-structured-benchmarks/2026-08-23-002-signature-request.json
       - run: >-
           python -m sigma_theory_compiler.symmetry_dimension_derivation validate
           --root .

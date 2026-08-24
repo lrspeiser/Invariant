@@ -1,0 +1,86 @@
+{
+  "claims": {
+    "signature_establishes_level5_success": false,
+    "signature_establishes_mathematical_correctness": false,
+    "signature_establishes_novelty": false
+  },
+  "content_sha256": "fc4b953fb7e455485547a6faadc5dd03d923b5ce75a4ffd19c86657065f78a0b",
+  "pack_id": "structured-symbolic-live-rotation",
+  "payload": {
+    "coordinator_receipt_content_sha256": "90650bc2ae59fbec3175dc6df8108048614c73e12e76f31a8cca19d8b605f30a",
+    "generation_packet_content_sha256": "e7c7c889f72f57fb4ad81f27a2958293d6309673c0e78047db96e98acb1e237f",
+    "generator_principal_id": "invariant.discovery-engine",
+    "pack_id": "structured-symbolic-live-rotation",
+    "rotation_epoch": "2026-08-23-002",
+    "signing_namespace": "invariant-external-structured-benchmark-v1",
+    "sources": [
+      {
+        "external_principal_id": "external.sympy-project",
+        "source_id": "sympy-euler-tests",
+        "source_response_sha256": "1c5376a1b22662d4b509f6ff8e7d0365645c49eb7aad8e60b0638a294743dd95",
+        "source_uri": "https://raw.githubusercontent.com/sympy/sympy/master/sympy/calculus/tests/test_euler.py"
+      },
+      {
+        "external_principal_id": "external.sympy-project",
+        "source_id": "sympy-finite-difference-tests",
+        "source_response_sha256": "339969ccb324a895b5c5220cf984faff29f6dcf21a5065ec5b199e89e1020e45",
+        "source_uri": "https://raw.githubusercontent.com/sympy/sympy/master/sympy/calculus/tests/test_finite_diff.py"
+      },
+      {
+        "external_principal_id": "external.sympy-project",
+        "source_id": "sympy-tensor-tests",
+        "source_response_sha256": "39fa306d8d8384a5a3aa347eeffb2676a528f3aea136e2c0574e9c2fa14f3bac",
+        "source_uri": "https://raw.githubusercontent.com/sympy/sympy/master/sympy/tensor/tests/test_tensor.py"
+      }
+    ],
+    "target_packet_content_sha256": "0346b1a7e4329a8157c16cff5617a7143d7578d5db76f2851ce9c4a23e4dda3f"
+  },
+  "payload_sha256": "26ae3a8b33ca604e88a7293213185afbccd53f84b9fc5910e52f7a2d57341b36",
+  "release_gate": {
+    "signature_received": false,
+    "source_provenance_eligible_for_level5": false,
+    "status": "BLOCKED_DISTINCT_PRINCIPAL_SIGNATURE_REQUIRED"
+  },
+  "request_id": "structured-symbolic-live-rotation.2026-08-23-002.source-signature",
+  "rotation_epoch": "2026-08-23-002",
+  "schema_version": "invariant-external-benchmark-signature-request-1.0",
+  "signature_contract": {
+    "format": "openssh-sshsig-armored",
+    "namespace": "invariant-external-structured-benchmark-v1",
+    "payload_encoding": "sigma-core-canonical-json-utf8"
+  },
+  "signer_policy": {
+    "accepted_key_types": [
+      "ssh-ed25519"
+    ],
+    "disallowed_principal_ids": [
+      "external.sympy-project",
+      "invariant.discovery-engine"
+    ],
+    "minimum_distinct_signers": 1,
+    "named_human_key_identity_review_required": true,
+    "trusted_registry_path": "configs/external_benchmark_signers.json"
+  },
+  "source_bindings": {
+    "coordinator_receipt": {
+      "content_sha256": "90650bc2ae59fbec3175dc6df8108048614c73e12e76f31a8cca19d8b605f30a",
+      "path": "runs/math/external-structured-benchmarks/2026-08-23-002-receipt.json"
+    },
+    "generation_packet": {
+      "content_sha256": "e7c7c889f72f57fb4ad81f27a2958293d6309673c0e78047db96e98acb1e237f",
+      "path": "runs/math/external-structured-benchmarks/2026-08-23-002-generation.json"
+    },
+    "pack_builder_source": {
+      "path": "src/sigma_theory_compiler/external_structured_benchmarks.py",
+      "sha256": "a2b4ba3694b0260ee10314ec21864fd20975cd961444289d9eb32f532ff7cb46"
+    },
+    "signature_protocol_source": {
+      "path": "src/sigma_theory_compiler/external_benchmark_signature.py",
+      "sha256": "add92bd226372d7ba0398e8ea400c9e7311592f8154c2f193e92202af8a0dc31"
+    },
+    "target_packet": {
+      "content_sha256": "0346b1a7e4329a8157c16cff5617a7143d7578d5db76f2851ce9c4a23e4dda3f",
+      "path": "runs/math/external-structured-benchmarks/2026-08-23-002-targets.json"
+    }
+  }
+}
