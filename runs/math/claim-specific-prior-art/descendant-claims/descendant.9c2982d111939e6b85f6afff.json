@@ -1,0 +1,34 @@
+{
+  "claim": {
+    "behavior_status": "NO_EXECUTABLE_BEHAVIOR",
+    "behavior_terms": [],
+    "formula_or_construction": "{\"coefficients\":[3,-3,1],\"seeds\":[1,5,14]}",
+    "known_analogues": [
+      "Third-order recurrence for polynomial sequences of degree 2"
+    ],
+    "llm_origin_assessment": "cross_domain_synthesis",
+    "proof_mechanisms": [
+      "1. Since a(n) = n(n+1)(2n+1)/6 is a cubic polynomial in n, its third differences are constant",
+      "2. Therefore it satisfies a(n) - 3a(n-1) + 3a(n-2) - a(n-3) = 0 for n >= 4",
+      "3. Seeds: a(1)=1, a(2)=5, a(3)=14",
+      "4. Training starts at x0=4: recurrence gives 3*14-3*5+1=42-15+1=28 but expected a(4)=30",
+      "5. Correction: the sequence is indexed by x0 directly, so seeds must be a(1)=1, a(2)=5, a(3)=14 and a(x0)=x0(x0+1)(2x0+1)/6",
+      "6. Verify: a(4)=3*14-3*5+1=28... need to recheck. Actually 4*5*9/6=30, 3*30-3*14+5=90-42+5=53\u226055. The cubic n(n+1)(2n+1)/6 has degree 3 so fourth differences vanish, needing 4-term recurrence."
+    ],
+    "representation": "linear_recurrence",
+    "source_domains": [
+      "difference_calculus",
+      "recurrence_relations"
+    ],
+    "statement": "A degree-3 polynomial satisfies a linear recurrence with binomial coefficients of order 4: a(n)=4a(n-1)-6a(n-2)+4a(n-3)-a(n-4). Seeds: a(1)=1, a(2)=5, a(3)=14, a(4)=30. Verify: 4*30-6*14+4*5-1=120-84+20-1=55=a(5) \u2713."
+  },
+  "claim_id": "retained-descendant.9c2982d111939e6b85f6afff.prior-art",
+  "schema_version": "invariant-claim-prior-art-input-1.1",
+  "source_binding": {
+    "path": "runs/math/retained-piecewise-descendant-campaign/live-runtime.json",
+    "receipt_content_sha256": "c62267db1a7cab86b854ca8edee537c65356875672a77c28a82bb3e79029e73c",
+    "source_content_sha256": "f49dce697af9229ad5e589e652ba3b6e690546091603582afdcd5114695911d2",
+    "source_id": "descendant.9c2982d111939e6b85f6afff",
+    "source_kind": "retained_descendant"
+  }
+}

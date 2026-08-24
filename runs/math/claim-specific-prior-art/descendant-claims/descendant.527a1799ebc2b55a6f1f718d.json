@@ -1,0 +1,56 @@
+{
+  "claim": {
+    "behavior_status": "EXECUTABLE_PREDICTIONS",
+    "behavior_terms": [
+      "20",
+      "35",
+      "56",
+      "84",
+      "120",
+      "165",
+      "220",
+      "286",
+      "364",
+      "455",
+      "560",
+      "680",
+      "816",
+      "969",
+      "1140",
+      "1330",
+      "1540",
+      "1771"
+    ],
+    "formula_or_construction": "{\"body\":\"k * (k + 1) / 2\",\"index\":\"k\",\"lower\":\"1\",\"upper\":\"x0\"}",
+    "known_analogues": [
+      "Tetrahedral numbers",
+      "OEIS A000292",
+      "Binomial coefficient C(n+2,3)"
+    ],
+    "llm_origin_assessment": "known_rewrite",
+    "proof_mechanisms": [
+      "exact_row_replay",
+      "induction_on_recurrence",
+      "bijection_construction",
+      "lean_kernel_bridge",
+      "1. Verify: sum_{k=1}^{n} k(k+1)/2 = n(n+1)(n+2)/6 by induction or hockey-stick identity",
+      "2. Check against training: x0=4 -> 4*5*6/6=20 != 30. This fails, so this is a falsifier candidate.",
+      "3. Need adjustment: the outputs are larger than tetrahedral numbers."
+    ],
+    "representation": "finite_sum",
+    "source_domains": [
+      "number_theory",
+      "combinatorics"
+    ],
+    "statement": "The sequence 30,55,91,140,204,285,385,506,650,819,1015,1240,1496,1785,2109,2470,2870,3311 for x0=4..21. Differences: 25,36,49,64,81,100,121,144,169,196,225,256,289,324,361,400,441. These are (k+1)^2 for k=4..20, i.e., perfect squares starting at 25=5^2. So f(n) = f(4) + sum_{k=5}^{n+1} k^2 = 30 + sum_{k=5}^{n+1} k^2. Actually f(n) - f(n-1) = (n+1)^2. So f(n) = sum_{k=1}^{n+1} k^2 - (1+4+9+16) + 30 = sum_{k=1}^{n+1} k^2 - 30 + 30 = sum_{k=1}^{n+1} k^2. Check: sum_{k=1}^{5} k^2 = 1+4+9+16+25=55. But f(4)=30, f(5)=55. So f(n) = sum_{k=1}^{n+1} k^2 doesn't work for n=4. Let me try: f(n) = n(n+1)(2n+1)/6. For n=4: 4*5*9/6=30. Yes! f(5)=5*6*11/6=55. f(6)=6*7*13/6=91. Perfect! This is the sum of squares formula."
+  },
+  "claim_id": "retained-descendant.527a1799ebc2b55a6f1f718d.prior-art",
+  "schema_version": "invariant-claim-prior-art-input-1.1",
+  "source_binding": {
+    "path": "runs/math/retained-piecewise-descendant-campaign/live-runtime.json",
+    "receipt_content_sha256": "c62267db1a7cab86b854ca8edee537c65356875672a77c28a82bb3e79029e73c",
+    "source_content_sha256": "6db9360902517aa417abea9ff08accc10046a5f2bfb3a954301c1b29916aa678",
+    "source_id": "descendant.527a1799ebc2b55a6f1f718d",
+    "source_kind": "retained_descendant"
+  }
+}

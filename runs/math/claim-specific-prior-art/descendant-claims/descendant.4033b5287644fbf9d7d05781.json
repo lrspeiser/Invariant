@@ -1,0 +1,53 @@
+{
+  "claim": {
+    "behavior_status": "EXECUTABLE_PREDICTIONS",
+    "behavior_terms": [
+      "2",
+      "7",
+      "13",
+      "20",
+      "8",
+      "25",
+      "12",
+      "21",
+      "11",
+      "22",
+      "10",
+      "23",
+      "9",
+      "24",
+      "39",
+      "66",
+      "43",
+      "62"
+    ],
+    "formula_or_construction": "{\"branches\":[{\"condition\":{\"comparator\":\"lt\",\"left\":\"x0\",\"right\":\"4\"},\"expression\":\"x0 * (x0 + 1) // 2\"},{\"condition\":{\"comparator\":\"lt\",\"left\":\"x0\",\"right\":\"8\"},\"expression\":\"2 + (x0 - 4) * 5 + (x0 - 4) * (x0 - 5) // 2\"}],\"default_expression\":\"(12 + 31 * ((x0 - 8) // 10) - (x0 % 10) // 2) if x0 % 2 == 0 else (21 + 41 * ((x0 - 8) // 10) + (x0 % 10 - 1) // 2)\"}",
+    "known_analogues": [
+      "Interleaved arithmetic progressions with linearly growing offsets"
+    ],
+    "llm_origin_assessment": "proposed_new_construction",
+    "proof_mechanisms": [
+      "exact_row_replay",
+      "boundary_partition_analysis",
+      "Step 1: Verify block 0 (x0=8..17): even={12,11,10,9,8}, odd={21,22,23,24,25}",
+      "Step 2: Verify block 1 (x0=18..27): even starts 43 (=12+31), odd starts 62 (=21+41)",
+      "Step 3: Check x0=18: block_idx=1, x0%10=8, even: 12+31-8//2=43-4=39? Need to recalculate",
+      "Step 4: Adjust offset arithmetic to match x0=18->43, x0=20->42 pattern"
+    ],
+    "representation": "piecewise_relation",
+    "source_domains": [
+      "integer_sequences",
+      "arithmetic_progressions"
+    ],
+    "statement": "This is a refinement attempting linear growth of block baselines. Block 0 even base is 12, block 1 even base is 43 (diff=31). Block 0 odd base is 21, block 1 odd base is 62 (diff=41). Within blocks, evens decrease and odds increase. Need careful offset calculation using (x0-8)%10 for position within block."
+  },
+  "claim_id": "retained-descendant.4033b5287644fbf9d7d05781.prior-art",
+  "schema_version": "invariant-claim-prior-art-input-1.1",
+  "source_binding": {
+    "path": "runs/math/retained-piecewise-descendant-campaign/live-runtime.json",
+    "receipt_content_sha256": "c62267db1a7cab86b854ca8edee537c65356875672a77c28a82bb3e79029e73c",
+    "source_content_sha256": "b385e8bba0d13c5d666a45c06c4759f96c165b353706715289bd651d3937acdc",
+    "source_id": "descendant.4033b5287644fbf9d7d05781",
+    "source_kind": "retained_descendant"
+  }
+}

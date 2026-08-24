@@ -115,10 +115,10 @@ def test_fake_math_specific_screen_covers_all_25_claims_without_pruning() -> Non
     validate_supplement(receipt, ROOT)
     assert receipt["summary"]["claim_count"] == 25
     assert receipt["summary"]["origin_counts"] == {
-        "cross_domain_synthesis": 4,
-        "known_rewrite": 6,
-        "proposed_new_construction": 8,
-        "uncertain": 7,
+        "cross_domain_synthesis": 3,
+        "known_rewrite": 7,
+        "proposed_new_construction": 7,
+        "uncertain": 8,
     }
     assert receipt["summary"]["unique_zbmath_results"] == 1
     assert receipt["summary"]["zbmath_status_counts"] == {

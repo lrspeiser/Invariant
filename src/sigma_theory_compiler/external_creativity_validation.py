@@ -13,8 +13,10 @@ import argparse
 import ast
 import hashlib
 import json
+import os
 import random
 import re
+import uuid
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, replace
 from decimal import Decimal, InvalidOperation
@@ -92,7 +94,7 @@ TEST_PATH = "tests/test_external_creativity_validation.py"
 PUBLIC_SCHEMA = "invariant-external-sealed-benchmarks-1.0"
 TARGET_SCHEMA = "invariant-external-sealed-targets-1.0"
 CAMPAIGN_SCHEMA = "invariant-external-creativity-validation-config-1.0"
-RECEIPT_SCHEMA = "invariant-external-creativity-validation-result-1.1"
+RECEIPT_SCHEMA = "invariant-external-creativity-validation-result-1.2"
 ALLOWED_EXTERNAL_DOMAINS = frozenset({"dlmf.nist.gov", "oeis.org", "openstax.org"})
 HEX_DIGITS = frozenset("0123456789abcdef")
 FAMILY_IDS = (
@@ -163,9 +165,7 @@ class ExternalCreativityError(ValueError):
     """The external benchmark, blind chronology, or verifier policy failed closed."""
 
 
-_DECIMAL_LITERAL = re.compile(
-    r"(?:[0-9]+(?:\.[0-9]*)?|\.[0-9]+)(?:[eE][+-]?[0-9]+)?\Z"
-)
+_DECIMAL_LITERAL = re.compile(r"(?:[0-9]+(?:\.[0-9]*)?|\.[0-9]+)(?:[eE][+-]?[0-9]+)?\Z")
 
 
 def _decimal_fraction(source: str, node: ast.Constant) -> Fraction:
@@ -176,10 +176,7 @@ def _decimal_fraction(source: str, node: ast.Constant) -> Fraction:
         value = Fraction(Decimal(text))
     except (InvalidOperation, ValueError, OverflowError) as error:
         raise ExternalCreativityError("candidate decimal literal is not finite") from error
-    if (
-        abs(value.numerator) > MAXIMUM_EXACT_LITERAL
-        or value.denominator > MAXIMUM_EXACT_LITERAL
-    ):
+    if abs(value.numerator) > MAXIMUM_EXACT_LITERAL or value.denominator > MAXIMUM_EXACT_LITERAL:
         raise ExternalCreativityError("candidate exact literal exceeds the coefficient budget")
     return value
 
@@ -600,11 +597,7 @@ def _safe_expression(expression: str, aliases: Sequence[str]) -> sp.Expr:
                     raise ExternalCreativityError("candidate exponent is outside [-8, 8]")
                 return left**right
         if isinstance(node, ast.Call):
-            if (
-                not isinstance(node.func, ast.Name)
-                or node.keywords
-                or len(node.args) != 1
-            ):
+            if not isinstance(node.func, ast.Name) or node.keywords or len(node.args) != 1:
                 raise ExternalCreativityError("candidate function call left the exact DSL")
             argument = visit(node.args[0])
             if node.func.id == "floor":
@@ -2253,6 +2246,8 @@ def _candidate_resource_profile(
     benchmark: Benchmark,
     target: SealedTarget,
     allocated_budget: Mapping[str, int],
+    *,
+    enforce_budget: bool = True,
 ) -> dict[str, int]:
     rows = (*benchmark.observations, *target.holdout_records)
     grammar_depth, _ = _candidate_syntax_profile(candidate, benchmark)
@@ -2269,7 +2264,7 @@ def _candidate_resource_profile(
         "grammar_depth": grammar_depth,
         "verifier_invocation_budget": verifier_invocations,
     }
-    if (
+    if enforce_budget and (
         grammar_depth > allocated_budget["maximum_grammar_depth"]
         or evaluation_operations > allocated_budget["maximum_evaluation_operations"]
         or verifier_invocations > allocated_budget["maximum_verifier_invocations"]
@@ -2316,9 +2311,7 @@ def _mutate_arithmetic_same_shape(
             )
         if isinstance(node, ast.Compare):
             if len(node.ops) != 1 or len(node.comparators) != 1:
-                raise ExternalCreativityError(
-                    "random-control comparison left the arithmetic DSL"
-                )
+                raise ExternalCreativityError("random-control comparison left the arithmetic DSL")
             return ast.Compare(
                 left=mutate(node.left),
                 ops=[type(node.ops[0])()],
@@ -2326,9 +2319,7 @@ def _mutate_arithmetic_same_shape(
             )
         if isinstance(node, ast.IfExp):
             if not isinstance(node.test, ast.Compare):
-                raise ExternalCreativityError(
-                    "random-control conditional left the arithmetic DSL"
-                )
+                raise ExternalCreativityError("random-control conditional left the arithmetic DSL")
             return ast.IfExp(
                 test=mutate(node.test),
                 body=mutate(node.body),
@@ -2856,15 +2847,39 @@ def _score_candidate(
     target: SealedTarget,
     allocated_budget: Mapping[str, int],
 ) -> dict[str, Any]:
+    resource_profile = _candidate_resource_profile(
+        candidate,
+        benchmark,
+        target,
+        allocated_budget,
+        enforce_budget=False,
+    )
+    exceeded = [
+        field
+        for field, maximum_field in (
+            ("grammar_depth", "maximum_grammar_depth"),
+            ("evaluation_runtime_budget_units", "maximum_evaluation_operations"),
+            ("verifier_invocation_budget", "maximum_verifier_invocations"),
+        )
+        if resource_profile[field] > allocated_budget[maximum_field]
+    ]
+    if exceeded:
+        return {
+            **candidate.to_dict(),
+            "reason": "candidate_exceeds_current_matched_control_budget",
+            "resource_budget_exceeded": exceeded,
+            "resource_profile": resource_profile,
+            "retention_status": "RETAINED_ACTIVE_FOR_REPAIR_OR_LARGER_BUDGET",
+            "scoring_status": "RETAINED_UNSCORED_RESOURCE_BUDGET",
+        }
     train_predictions = predict(candidate, benchmark, benchmark.observations)
     holdout_predictions = predict(candidate, benchmark, target.holdout_records)
     behavior = _behavior(candidate, benchmark, (*benchmark.observations, *target.holdout_records))
     return {
         **candidate.to_dict(),
         **behavior,
-        "resource_profile": _candidate_resource_profile(
-            candidate, benchmark, target, allocated_budget
-        ),
+        "resource_profile": resource_profile,
+        "scoring_status": "SCORED_MATCHED_BUDGET",
         "holdout_exact_rows": sum(
             prediction == row.output
             for prediction, row in zip(holdout_predictions, target.holdout_records, strict=True)
@@ -3053,6 +3068,7 @@ def _claude_contribution(
     scored: Sequence[Mapping[str, Any]],
     controls: Sequence[Mapping[str, Any]],
     admission_records: Sequence[Mapping[str, Any]],
+    retained_unscored: Sequence[Mapping[str, Any]],
 ) -> dict[str, Any]:
     claude_rows = [item for item in scored if item["family"] == "claude_proposer"]
     deterministic_rows = [item for item in scored if item["family"] in FAMILY_IDS]
@@ -3084,7 +3100,7 @@ def _claude_contribution(
         status = (
             "MEASURED_EXECUTABLE_CLAUDE_CONTRIBUTION"
             if claude_rows
-            else "RETAINED_NON_EXECUTABLE_CLAUDE_PROPOSALS"
+            else "RETAINED_UNSCORED_OR_NON_EXECUTABLE_CLAUDE_PROPOSALS"
         )
     return {
         "admitted_executable_hypotheses": sum(
@@ -3124,6 +3140,7 @@ def _claude_contribution(
             }
         ),
         "proposed_hypotheses": len(admission_records),
+        "retained_unscored_executable_candidates": len(retained_unscored),
         "scored_executable_candidates": len(claude_rows),
         "status": status,
         "verifier_budget_match": profile_matches("verifier_invocation_budget"),
@@ -3271,11 +3288,30 @@ def run_campaign(
     *,
     live_claude: bool = False,
     claude_transport: Transport | None = None,
+    attempt_journal_path: Path | None = None,
 ) -> dict[str, Any]:
     root = root.resolve()
     config = _load_campaign_config(root, live_claude=live_claude)
     public, benchmarks = load_public_benchmarks(root)
     events: list[dict[str, Any]] = []
+    attempt_id = uuid.uuid4().hex if attempt_journal_path is not None else None
+
+    def journal(kind: str, payload: Mapping[str, Any]) -> None:
+        if attempt_journal_path is None:
+            return
+        attempt_journal_path.parent.mkdir(parents=True, exist_ok=True)
+        row = {
+            "attempt_id": attempt_id,
+            "campaign_id": config["campaign_id"],
+            "kind": kind,
+            **payload,
+        }
+        with attempt_journal_path.open("a", encoding="utf-8", newline="\n") as handle:
+            handle.write(json.dumps(row, sort_keys=True) + "\n")
+            handle.flush()
+            os.fsync(handle.fileno())
+
+    journal("attempt_started", {"live_claude": live_claude})
 
     def event(name: str, *, target_reads: int) -> None:
         events.append({"event": name, "sequence": len(events), "target_reads": target_reads})
@@ -3327,6 +3363,10 @@ def run_campaign(
                 },
             )
         claude_calls.append(call)
+        journal(
+            "claude_call_completed_or_blocked",
+            {"call_index": len(claude_calls) - 1, "call": call.to_dict()},
+        )
         hypotheses = () if call.output is None else call.output.hypotheses
         admitted_rows = [_claude_candidate(benchmark, hypothesis) for hypothesis in hypotheses]
         admitted = tuple(candidate for candidate, _ in admitted_rows if candidate is not None)
@@ -3390,6 +3430,10 @@ def run_campaign(
                 },
             )
         claude_calls.append(call)
+        journal(
+            "claude_call_completed_or_blocked",
+            {"call_index": len(claude_calls) - 1, "call": call.to_dict()},
+        )
     event("claude_blind_critique_completed_or_blocked", target_reads=0)
 
     family_candidates_by_benchmark: dict[str, dict[str, tuple[Candidate, ...]]] = {}
@@ -3420,22 +3464,38 @@ def run_campaign(
         target = by_target[benchmark.benchmark_id]
         candidates = tuple(deterministic[benchmark.benchmark_id])
         allocated_search_budget = config["search"]["matched_control_budget"]
-        scored = [
+        candidate_results = [
             _score_candidate(item, benchmark, target, allocated_search_budget)
             for item in candidates
         ]
+        scored = [
+            item for item in candidate_results if item["scoring_status"] == "SCORED_MATCHED_BUDGET"
+        ]
+        retained_unscored = [
+            item
+            for item in candidate_results
+            if item["scoring_status"] == "RETAINED_UNSCORED_RESOURCE_BUDGET"
+        ]
         source_candidates = family_candidates_by_benchmark[benchmark.benchmark_id]
         controls = control_candidates_by_benchmark[benchmark.benchmark_id]
-        scored_controls = {
-            family: [
-                {
-                    **_score_candidate(control, benchmark, target, allocated_search_budget),
-                    "matched_candidate_id": source.candidate_id,
-                }
-                for source, control in zip(source_candidates[family], rows, strict=True)
-            ]
-            for family, rows in controls.items()
-        }
+        scored_candidate_ids = {item["candidate_id"] for item in scored}
+        scored_controls = {}
+        for family, rows in controls.items():
+            family_control_rows = []
+            for source, control in zip(source_candidates[family], rows, strict=True):
+                if source.candidate_id not in scored_candidate_ids:
+                    continue
+                control_result = _score_candidate(
+                    control, benchmark, target, allocated_search_budget
+                )
+                if control_result["scoring_status"] != "SCORED_MATCHED_BUDGET":
+                    raise ExternalCreativityError(
+                        "matched control exceeded the source candidate resource budget"
+                    )
+                family_control_rows.append(
+                    {**control_result, "matched_candidate_id": source.candidate_id}
+                )
+            scored_controls[family] = family_control_rows
         metrics, ablations = _family_metrics(scored, scored_controls, allocated_search_budget)
         best_row = min(
             scored, key=lambda item: (Fraction(item["holdout_loss"]), item["candidate_id"])
@@ -3483,6 +3543,7 @@ def run_campaign(
             scored,
             claude_controls,
             claude_admission[benchmark.benchmark_id]["records"],
+            [item for item in retained_unscored if item["family"] == "claude_proposer"],
         )
         bounded_process_pass = (
             benchmark.capability_level == 5
@@ -3539,6 +3600,7 @@ def run_campaign(
                 "proposal_root_sha256": proposal_roots[benchmark.benchmark_id],
                 "proposer_admission": claude_admission[benchmark.benchmark_id],
                 "random_controls": {family: scored_controls[family] for family in FAMILY_IDS},
+                "retained_unscored_candidates": retained_unscored,
                 "ranked_candidates": sorted(
                     scored, key=lambda item: (Fraction(item["holdout_loss"]), item["candidate_id"])
                 ),
@@ -3643,6 +3705,13 @@ def run_campaign(
         },
     }
     receipt["content_sha256"] = canonical_sha256(receipt)
+    journal(
+        "attempt_completed",
+        {
+            "campaign_content_sha256": receipt["content_sha256"],
+            "completed_calls": completed_claude,
+        },
+    )
     return receipt
 
 

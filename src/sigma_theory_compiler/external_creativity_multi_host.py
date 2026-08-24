@@ -21,6 +21,7 @@ CAMPAIGN_SCHEMAS = frozenset(
     {
         "invariant-external-creativity-validation-result-1.0",
         "invariant-external-creativity-validation-result-1.1",
+        "invariant-external-creativity-validation-result-1.2",
     }
 )
 _SHA256 = re.compile(r"[0-9a-f]{64}\Z")

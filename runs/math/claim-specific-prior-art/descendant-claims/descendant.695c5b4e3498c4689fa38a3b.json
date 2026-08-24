@@ -1,0 +1,55 @@
+{
+  "claim": {
+    "behavior_status": "EXECUTABLE_PREDICTIONS",
+    "behavior_terms": [
+      "66",
+      "71",
+      "75",
+      "79",
+      "85",
+      "88",
+      "93",
+      "98",
+      "104",
+      "108",
+      "115",
+      "118",
+      "125",
+      "130",
+      "137",
+      "142",
+      "149",
+      "153"
+    ],
+    "formula_or_construction": "{\"branches\":[{\"condition\":{\"comparator\":\"le\",\"left\":\"x0\",\"right\":\"3\"},\"expression\":\"x0 + 1\"},{\"condition\":{\"comparator\":\"le\",\"left\":\"x0\",\"right\":\"25\"},\"expression\":\"floor(x0 * x0 * 7 / 120) + floor(x0 * 23 / 20) - 3 + (1 if x0 % 2 == 0 else 0) + (1 if x0 % 3 == 0 else 0)\"},{\"condition\":{\"comparator\":\"le\",\"left\":\"x0\",\"right\":\"43\"},\"expression\":\"floor(x0 * x0 * 7 / 120) + floor(x0 * 23 / 20) - 3 + (1 if x0 % 2 == 0 else 0) + (1 if x0 % 3 == 0 else 0)\"}],\"default_expression\":\"floor(x0 * x0 * 7 / 120) + floor(x0 * 23 / 20) - 3 + (1 if x0 % 2 == 0 else 0) + (1 if x0 % 3 == 0 else 0)\"}",
+    "known_analogues": [
+      "Quasi-polynomial sequences",
+      "Coin-change counting functions"
+    ],
+    "llm_origin_assessment": "uncertain",
+    "proof_mechanisms": [
+      "exact_row_replay",
+      "boundary_partition_analysis",
+      "1. Use quadratic backbone 7x^2/120 + 23x/20 - 3 calibrated to midrange",
+      "2. Add mod-2 and mod-3 periodic corrections",
+      "3. Verify all 18 training points",
+      "4. If residuals show pattern, refine coefficients or add cubic term"
+    ],
+    "representation": "piecewise_relation",
+    "source_domains": [
+      "polynomial_interpolation",
+      "quasi_polynomials",
+      "partition_theory"
+    ],
+    "statement": "Looking at training data differences: the sequence jumps irregularly (e.g., +4 at x0=28, +8 at x0=29, +12 at x0=30) suggesting periodic modulations on a polynomial backbone. A quadratic with mod-2 and mod-3 corrections may capture the local structure. This repairs the over-growth issue of parent_3 by using a lower-degree polynomial and adding periodic terms."
+  },
+  "claim_id": "retained-descendant.695c5b4e3498c4689fa38a3b.prior-art",
+  "schema_version": "invariant-claim-prior-art-input-1.1",
+  "source_binding": {
+    "path": "runs/math/retained-piecewise-descendant-campaign/live-runtime.json",
+    "receipt_content_sha256": "c62267db1a7cab86b854ca8edee537c65356875672a77c28a82bb3e79029e73c",
+    "source_content_sha256": "24395ad16bf8a126e7724dd189531861f8da5e788db5773f95463cde03f6403e",
+    "source_id": "descendant.695c5b4e3498c4689fa38a3b",
+    "source_kind": "retained_descendant"
+  }
+}

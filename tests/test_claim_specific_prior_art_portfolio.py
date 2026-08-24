@@ -13,6 +13,7 @@ from sigma_theory_compiler.claim_specific_prior_art import (
     adjudicate_screen,
     load_claim,
     load_config,
+    rebind_screen,
     run_screen,
 )
 from sigma_theory_compiler.claim_specific_prior_art_portfolio import (
@@ -90,9 +91,9 @@ def test_committed_portfolio_binds_every_retained_descendant_without_pruning() -
     preflight = json.loads((ROOT / PREFLIGHT_PATH).read_text(encoding="utf-8"))
     validate_preflight(preflight, ROOT)
     assert preflight["summary"] == {
-        "executable_claims": 18,
-        "maximum_external_requests": 90,
-        "nonexecutable_claims_retained": 6,
+        "executable_claims": 16,
+        "maximum_external_requests": 88,
+        "nonexecutable_claims_retained": 8,
         "retained_claims": 24,
         "status": "READY_FOR_RESUMABLE_CLAIM_SPECIFIC_SCREENING",
     }
@@ -112,7 +113,7 @@ def test_complete_live_portfolio_binds_every_screen_and_pending_human_form() -> 
     receipt = json.loads((ROOT / COMPLETE_PATH).read_text(encoding="utf-8"))
     validate_batch_receipt(receipt, preflight, ROOT)
     assert receipt["batch"]["remaining_claims"] == 0
-    assert receipt["batch"]["cumulative_external_request_budget"] == 90
+    assert receipt["batch"]["cumulative_external_request_budget"] == 88
     assert len(receipt["batch"]["completed_claims"]) == 24
     assert receipt["release_gate"] == {
         "all_automated_screens_complete": True,
@@ -120,10 +121,13 @@ def test_complete_live_portfolio_binds_every_screen_and_pending_human_form() -> 
         "novelty_language_authorized": False,
         "status": "BLOCKED_NAMED_HUMAN_REVIEW_REQUIRED",
     }
-    assert sum(
-        row["behavior_assessment"] == "NOT_APPLICABLE_NO_EXECUTABLE_BEHAVIOR"
-        for row in receipt["batch"]["completed_claims"]
-    ) == 6
+    assert (
+        sum(
+            row["behavior_assessment"] == "NOT_APPLICABLE_NO_EXECUTABLE_BEHAVIOR"
+            for row in receipt["batch"]["completed_claims"]
+        )
+        == 8
+    )
 
 
 def test_preflight_rejects_resealed_descendant_substitution() -> None:
@@ -156,16 +160,16 @@ def test_resumable_batch_skips_behavior_request_for_nonexecutable_branches(
         retrieved_utc=NOW,
     )
     validate_batch_receipt(first, preflight)
-    assert first["batch"]["external_request_budget_consumed"] == 16
+    assert first["batch"]["external_request_budget_consumed"] == sum(
+        row["external_request_budget"] for row in preflight["claims"][:4]
+    )
     assert len(first["batch"]["newly_screened_source_ids"]) == 4
     assert all(
         row["llm_origin_assessment"] == "proposed_new_construction"
         for row in preflight["claims"][:4]
     )
     nonexecutable = next(
-        row
-        for row in preflight["claims"]
-        if row["behavior_status"] == "NO_EXECUTABLE_BEHAVIOR"
+        row for row in preflight["claims"] if row["behavior_status"] == "NO_EXECUTABLE_BEHAVIOR"
     )
     screen = run_screen(
         root,
@@ -175,9 +179,7 @@ def test_resumable_batch_skips_behavior_request_for_nonexecutable_branches(
     )
     providers = {item["provider_id"]: item for item in screen["provider_evidence"]}
     assert providers["oeis"]["status"] == "NOT_APPLICABLE_RECORDED"
-    assert screen["channel_assessment"]["behavior"] == (
-        "NOT_APPLICABLE_NO_EXECUTABLE_BEHAVIOR"
-    )
+    assert screen["channel_assessment"]["behavior"] == ("NOT_APPLICABLE_NO_EXECUTABLE_BEHAVIOR")
     form = build_pending_review_form(screen)
     validate_pending_review_form(form, screen)
     with pytest.raises(PriorArtError):
@@ -197,6 +199,45 @@ def test_resumable_batch_skips_behavior_request_for_nonexecutable_branches(
     assert len(second["batch"]["newly_screened_source_ids"]) == 4
     assert second["batch"]["remaining_claims"] == 16
     assert second["release_gate"]["novelty_language_authorized"] is False
+
+
+def test_screen_rebind_reuses_provider_evidence_only_for_identical_queries(
+    tmp_path: Path,
+) -> None:
+    root = _mini_root(tmp_path)
+    preflight = build_preflight(root, Path(CLAIM_DIRECTORY))
+    selected = preflight["claims"][0]
+    claim_path = root / selected["claim_path"]
+    original = run_screen(root, claim_path, transport=_transport, retrieved_utc=NOW)
+
+    descendant_path = root / "runs/math/retained-piecewise-descendant-campaign/live-runtime.json"
+    descendant = json.loads(descendant_path.read_text(encoding="utf-8"))
+    descendant["rebind_test_marker"] = True
+    descendant["content_sha256"] = canonical_sha256(
+        {key: value for key, value in descendant.items() if key != "content_sha256"}
+    )
+    descendant_path.write_text(json.dumps(descendant), encoding="utf-8")
+    config_path = root / CONFIG_PATH
+    config = json.loads(config_path.read_text(encoding="utf-8"))
+    config["source"]["expected_content_sha256"] = descendant["content_sha256"]
+    config_path.write_text(json.dumps(config), encoding="utf-8")
+    rebound_preflight = build_preflight(root, Path(CLAIM_DIRECTORY))
+    rebound_row = next(
+        row for row in rebound_preflight["claims"] if row["source_id"] == selected["source_id"]
+    )
+    rebound_claim_path = root / rebound_row["claim_path"]
+    rebound = rebind_screen(root, rebound_claim_path, original)
+    assert rebound["provider_evidence"] == original["provider_evidence"]
+    assert rebound["retrieved_utc"] == original["retrieved_utc"]
+    assert (
+        rebound["source_bindings"]["idea"]["receipt_content_sha256"] == descendant["content_sha256"]
+    )
+
+    changed_claim = json.loads(rebound_claim_path.read_text(encoding="utf-8"))
+    changed_claim["claim"]["formula_or_construction"] += " + semantic_mutation"
+    rebound_claim_path.write_text(json.dumps(changed_claim), encoding="utf-8")
+    with pytest.raises(PriorArtError, match="semantic claim or query set"):
+        rebind_screen(root, rebound_claim_path, original)
 
 
 def test_batch_receipt_cannot_reseal_novelty_authority(tmp_path: Path) -> None:

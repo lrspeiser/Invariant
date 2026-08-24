@@ -1,0 +1,54 @@
+{
+  "claim": {
+    "behavior_status": "EXECUTABLE_PREDICTIONS",
+    "behavior_terms": [
+      "482",
+      "534",
+      "591",
+      "650",
+      "714",
+      "781",
+      "854",
+      "929",
+      "1010",
+      "1095",
+      "1186",
+      "1280",
+      "1379",
+      "1483",
+      "1594",
+      "1708",
+      "1829",
+      "1955"
+    ],
+    "formula_or_construction": "{\"branches\":[{\"condition\":{\"comparator\":\"le\",\"left\":\"x0\",\"right\":\"3\"},\"expression\":\"x0 + 1\"},{\"condition\":{\"comparator\":\"le\",\"left\":\"x0\",\"right\":\"7\"},\"expression\":\"floor((x0 * x0 + 11 * x0 + 12) / 8)\"}],\"default_expression\":\"floor((x0 * x0 * x0 + 3 * x0 * x0 + 8 * x0) / 48) + floor(x0 * x0 / 12) + floor(x0 / 2) + 1\"}",
+    "known_analogues": [
+      "Denumerant formulas",
+      "Partition function restricted counts"
+    ],
+    "llm_origin_assessment": "uncertain",
+    "proof_mechanisms": [
+      "exact_row_replay",
+      "boundary_partition_analysis",
+      "1. Compute predicted values at all 18 training points and compare to targets",
+      "2. Adjust cubic/quadratic coefficients by least-squares on the residuals",
+      "3. Check periodicity modulo small numbers in the residual to capture quasi-polynomial correction"
+    ],
+    "representation": "piecewise_relation",
+    "source_domains": [
+      "partition_theory",
+      "quasi_polynomials",
+      "polynomial_interpolation"
+    ],
+    "statement": "Parent_4 had a cubic/12/180 formula that was close (train_loss 5/2) but overshot at x0=20. This repair adjusts the coefficients: uses x0^3/48 + x0^2/12 + x0/2 + 1 with floor operations to try to capture the integer-valued sequence. The small-x0 branches from parent_3 are retained."
+  },
+  "claim_id": "retained-descendant.5f51655d03cd3f6fcccb29fc.prior-art",
+  "schema_version": "invariant-claim-prior-art-input-1.1",
+  "source_binding": {
+    "path": "runs/math/retained-piecewise-descendant-campaign/live-runtime.json",
+    "receipt_content_sha256": "c62267db1a7cab86b854ca8edee537c65356875672a77c28a82bb3e79029e73c",
+    "source_content_sha256": "86d81a28a02a93ad0af1a0a467a5b30c7f646ed0e1d0e8bcb3376950e1e469b5",
+    "source_id": "descendant.5f51655d03cd3f6fcccb29fc",
+    "source_kind": "retained_descendant"
+  }
+}

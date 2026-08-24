@@ -16,27 +16,25 @@ def test_all_retained_live_piecewise_ideas_now_replay_exactly() -> None:
     receipt = R.build_receipt(ROOT)
     R.validate_receipt(receipt, ROOT)
     assert receipt["summary"] == {
-        "admitted_by_current_executor": 9,
-        "exact_primary_independent_agreements": 9,
+        "admitted_by_current_executor": 8,
+        "exact_primary_independent_agreements": 8,
         "extended_arithmetic_feature_counts": {
-            "decimal_to_rational": 4,
-            "exact_conditional": 1,
-            "exact_floor_division": 1,
-            "exact_modulo": 7,
-            "exact_round_ties_to_even": 4,
+            "exact_conditional": 5,
+            "exact_floor_division": 5,
+            "exact_modulo": 6,
+            "exact_round_ties_to_even": 2,
         },
         "llm_self_assessed_origin_counts": {
             "cross_domain_synthesis": 1,
-            "known_rewrite": 1,
             "uncertain": 7,
         },
-        "resource_matched_controls": 9,
-        "retained_piecewise_ideas": 9,
+        "resource_matched_controls": 8,
+        "retained_piecewise_ideas": 8,
         "status": "PASS_RETAINED_PIECEWISE_REPLAY",
         "train_exact_holdout_failed": 1,
         "zero_holdout_loss_bounded_unknown": 0,
-        "zero_holdout_loss_candidates": 1,
-        "zero_train_loss_candidates": 2,
+        "zero_holdout_loss_candidates": 0,
+        "zero_train_loss_candidates": 1,
     }
     assert all(
         row["execution"]["primary_independent_exact_agreement"]

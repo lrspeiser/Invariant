@@ -28,10 +28,10 @@ TARGETS_PATH = "configs/state_pair_invariant_discovery_targets.json"
 OUTPUT_PATH = "runs/math/state-pair-invariant-discovery/receipt.json"
 SOURCE_PATH = "src/sigma_theory_compiler/state_pair_invariant_discovery.py"
 TEST_PATH = "tests/test_state_pair_invariant_discovery.py"
-CONFIG_SCHEMA = "invariant-state-pair-invariant-discovery-config-1.1"
-TARGETS_SCHEMA = "invariant-state-pair-invariant-discovery-targets-1.1"
-RECEIPT_SCHEMA = "invariant-state-pair-invariant-discovery-receipt-1.1"
-CAMPAIGN_ID = "state-pair-invariant-controls-2026-08-23-002"
+CONFIG_SCHEMA = "invariant-state-pair-invariant-discovery-config-1.2"
+TARGETS_SCHEMA = "invariant-state-pair-invariant-discovery-targets-1.2"
+RECEIPT_SCHEMA = "invariant-state-pair-invariant-discovery-receipt-1.2"
+CAMPAIGN_ID = "state-pair-invariant-controls-2026-08-24-003"
 PASS_STATUS = "PASS_EXACT_STATE_PAIR_INVARIANT_BASIS"
 REJECT_STATUS = "REJECT_TRAIN_ONLY_STATE_PAIR_INVARIANTS"
 UNDERDETERMINED_STATUS = "UNDERDETERMINED_STATE_PAIR_INVARIANT_SPACE"
@@ -44,6 +44,10 @@ _EXPECTED_PROBLEMS = {
         "nonlinear_polynomial_degree3",
     ),
     "control.laurent-inversion-state-pairs": ("rational_geometry", "rational_laurent"),
+    "control.multivariate-rational-level-sets": (
+        "multivariate_rational_geometry",
+        "rational_multivariate_laurent",
+    ),
     "control.logarithmic-scaling-state-pairs": (
         "transcendental_representation",
         "transcendental_logarithmic",
@@ -130,7 +134,9 @@ def _validate_pairs(
             or set(after) != set(variables)
         ):
             raise StatePairInvariantError(f"{label} identity or state coverage changed")
-        before_values = [_rational(before[name], f"{identifier} before {name}") for name in variables]
+        before_values = [
+            _rational(before[name], f"{identifier} before {name}") for name in variables
+        ]
         after_values = [_rational(after[name], f"{identifier} after {name}") for name in variables]
         if before_values == after_values:
             raise StatePairInvariantError(f"{label} contains a trivial pair")
@@ -170,6 +176,7 @@ def validate_config(value: Mapping[str, Any]) -> dict[str, Any]:
             "maximum_features",
             "maximum_linear_invariant_dimension",
             "maximum_total_degree",
+            "maximum_variables_per_laurent_feature_grammar",
             "minimum_deployment_pairs",
             "minimum_training_pairs",
         },
@@ -181,6 +188,7 @@ def validate_config(value: Mapping[str, Any]) -> dict[str, Any]:
         "maximum_features": 14,
         "maximum_linear_invariant_dimension": 4,
         "maximum_total_degree": 3,
+        "maximum_variables_per_laurent_feature_grammar": 2,
         "minimum_deployment_pairs": 2,
         "minimum_training_pairs": 4,
     }:
@@ -237,7 +245,7 @@ def validate_config(value: Mapping[str, Any]) -> dict[str, Any]:
             )
             exponent = grammar["maximum_absolute_exponent"]
             if (
-                len(variables) != 1
+                not 1 <= len(variables) <= policy["maximum_variables_per_laurent_feature_grammar"]
                 or not isinstance(exponent, int)
                 or isinstance(exponent, bool)
                 or not 1 <= exponent <= policy["maximum_absolute_laurent_exponent"]
@@ -321,10 +329,7 @@ def validate_targets(value: Mapping[str, Any], widths: Mapping[str, int]) -> dic
 def load_config(root: Path) -> tuple[dict[str, Any], dict[str, Any]]:
     _, config_path = _bound_path(root, CONFIG_PATH, "state-pair config")
     config = validate_config(json.loads(config_path.read_text(encoding="utf-8")))
-    widths = {
-        problem["problem_id"]: len(_feature_basis(problem))
-        for problem in config["problems"]
-    }
+    widths = {problem["problem_id"]: len(_feature_basis(problem)) for problem in config["problems"]}
     _, targets_path = _bound_path(root, TARGETS_PATH, "state-pair targets")
     targets = validate_targets(json.loads(targets_path.read_text(encoding="utf-8")), widths)
     return config, targets
@@ -381,9 +386,7 @@ def _fraction_rank(rows: Sequence[Sequence[Fraction]], width: int) -> int:
     return len(_rref_fraction(rows, width)[1])
 
 
-def _fraction_nullspace(
-    rows: Sequence[Sequence[Fraction]], width: int
-) -> list[tuple[int, ...]]:
+def _fraction_nullspace(rows: Sequence[Sequence[Fraction]], width: int) -> list[tuple[int, ...]]:
     rref, pivots = _rref_fraction(rows, width)
     free_columns = [column for column in range(width) if column not in pivots]
     basis = []
@@ -408,9 +411,7 @@ def _span_rank(vectors: Sequence[Sequence[int]], width: int) -> int:
     return _fraction_rank([[Fraction(item) for item in vector] for vector in vectors], width)
 
 
-def _same_span(
-    left: Sequence[Sequence[int]], right: Sequence[Sequence[int]], width: int
-) -> bool:
+def _same_span(left: Sequence[Sequence[int]], right: Sequence[Sequence[int]], width: int) -> bool:
     left_rank = _span_rank(left, width)
     right_rank = _span_rank(right, width)
     return left_rank == right_rank == _span_rank([*left, *right], width)
@@ -424,10 +425,7 @@ def _evaluate_monomial(state: Sequence[Fraction], exponents: Sequence[int]) -> F
 
 
 def _state(pair: Mapping[str, Any], side: str, variables: Sequence[str]) -> list[Fraction]:
-    return [
-        _rational(pair[side][name], f"{pair['pair_id']} {side} {name}")
-        for name in variables
-    ]
+    return [_rational(pair[side][name], f"{pair['pair_id']} {side} {name}") for name in variables]
 
 
 def _monomial_expression(variables: Sequence[str], exponents: Sequence[int]) -> str:
@@ -464,16 +462,24 @@ def _feature_basis(problem: Mapping[str, Any]) -> list[dict[str, Any]]:
         ]
     if kind == "laurent_monomials":
         bound = grammar["maximum_absolute_exponent"]
-        powers = [power for magnitude in range(1, bound + 1) for power in (magnitude, -magnitude)]
+        choices = [
+            0,
+            *(power for magnitude in range(1, bound + 1) for power in (magnitude, -magnitude)),
+        ]
+        powers = [
+            exponents
+            for exponents in itertools.product(choices, repeat=len(variables))
+            if any(exponents)
+        ]
         return [
             {
-                "complexity": abs(power),
-                "exponents": (power,),
-                "expression": _monomial_expression(variables, (power,)),
+                "complexity": sum(abs(power) for power in exponents),
+                "exponents": tuple(exponents),
+                "expression": _monomial_expression(variables, exponents),
                 "feature_id": f"feature_{index}",
                 "kind": "laurent_monomial",
             }
-            for index, power in enumerate(powers, start=1)
+            for index, exponents in enumerate(powers, start=1)
         ]
     if kind == "logarithmic_coordinates":
         return [
@@ -514,7 +520,9 @@ def _fraction_prime_valuations(value: Fraction) -> dict[int, int]:
 def _sympy_prime_valuations(value: Fraction) -> dict[int, int]:
     if value <= 0:
         raise StatePairInvariantError("SymPy logarithm left its positive domain")
-    valuations = {int(prime): int(exponent) for prime, exponent in factorint(value.numerator).items()}
+    valuations = {
+        int(prime): int(exponent) for prime, exponent in factorint(value.numerator).items()
+    }
     for prime, exponent in factorint(value.denominator).items():
         normalized = int(prime)
         valuations[normalized] = valuations.get(normalized, 0) - int(exponent)
@@ -567,10 +575,7 @@ def _log_rows_with(
         ]
         primes = sorted({prime for item in valuations for prime in item})
         prime_support.update(primes)
-        rows.extend(
-            [Fraction(item.get(prime, 0)) for item in valuations]
-            for prime in primes
-        )
+        rows.extend([Fraction(item.get(prime, 0)) for item in valuations] for prime in primes)
     return rows, prime_support
 
 
@@ -659,9 +664,7 @@ def _gradient_at(
             exponent = exponents[variable_index]
             if exponent:
                 term = Fraction(coefficient * exponent)
-                for index, (coordinate, power) in enumerate(
-                    zip(point, exponents, strict=True)
-                ):
+                for index, (coordinate, power) in enumerate(zip(point, exponents, strict=True)):
                     term *= coordinate ** (power - (index == variable_index))
                 value += term
         gradient.append(value)
@@ -740,9 +743,7 @@ def _replay_basis(
                 fraction_difference: dict[int, int] = {}
                 sympy_difference: dict[int, int] = {}
                 for coefficient, feature in zip(vector, features, strict=True):
-                    ratio = after[feature["variable_index"]] / before[
-                        feature["variable_index"]
-                    ]
+                    ratio = after[feature["variable_index"]] / before[feature["variable_index"]]
                     for prime, exponent in _fraction_prime_valuations(ratio).items():
                         fraction_difference[prime] = (
                             fraction_difference.get(prime, 0) + coefficient * exponent
@@ -752,19 +753,18 @@ def _replay_basis(
                             sympy_difference.get(prime, 0) + coefficient * exponent
                         )
                 fraction_difference = {
-                    prime: exponent
-                    for prime, exponent in fraction_difference.items()
-                    if exponent
+                    prime: exponent for prime, exponent in fraction_difference.items() if exponent
                 }
                 sympy_difference = {
-                    prime: exponent
-                    for prime, exponent in sympy_difference.items()
-                    if exponent
+                    prime: exponent for prime, exponent in sympy_difference.items() if exponent
                 }
                 if fraction_difference != sympy_difference:
                     raise StatePairInvariantError("formal-log deployment evaluators disagree")
                 differences.append(
-                    {str(prime): exponent for prime, exponent in sorted(fraction_difference.items())}
+                    {
+                        str(prime): exponent
+                        for prime, exponent in sorted(fraction_difference.items())
+                    }
                 )
             else:
                 differences.append(
@@ -796,13 +796,17 @@ def _learn_basis(
     if fraction_rank != sympy_rank or not _same_span(fraction_basis, sympy_basis, width):
         raise StatePairInvariantError("independent state-pair nullspace evaluators disagree")
     basis = sorted(fraction_basis, key=lambda vector: _basis_sort_key(vector, features))
-    return fraction_rank, basis, {
-        "agreement": True,
-        "fraction_nullspace_basis": [list(vector) for vector in fraction_basis],
-        "fraction_rank": fraction_rank,
-        "sympy_nullspace_basis": [list(vector) for vector in sympy_basis],
-        "sympy_rank": sympy_rank,
-    }
+    return (
+        fraction_rank,
+        basis,
+        {
+            "agreement": True,
+            "fraction_nullspace_basis": [list(vector) for vector in fraction_basis],
+            "fraction_rank": fraction_rank,
+            "sympy_nullspace_basis": [list(vector) for vector in sympy_basis],
+            "sympy_rank": sympy_rank,
+        },
+    )
 
 
 def learn_problem(problem: Mapping[str, Any], policy: Mapping[str, Any]) -> dict[str, Any]:
@@ -821,9 +825,7 @@ def learn_problem(problem: Mapping[str, Any], policy: Mapping[str, Any]) -> dict
     augmented_rows = [*training_rows, *deployment_rows]
 
     training_rank, training_basis, training_evaluator = _learn_basis(training_rows, features)
-    augmented_rank, repaired_basis, augmented_evaluator = _learn_basis(
-        augmented_rows, features
-    )
+    augmented_rank, repaired_basis, augmented_evaluator = _learn_basis(augmented_rows, features)
     training_independent = _select_algebraically_independent(
         training_basis,
         features,
@@ -855,7 +857,9 @@ def learn_problem(problem: Mapping[str, Any], policy: Mapping[str, Any]) -> dict
         "creative_brief": {
             "action_kind": problem["action_kind"],
             "candidate_invariant_coordinates": [
-                row["expression"] for row in training_coordinates if row["algebraically_independent"]
+                row["expression"]
+                for row in training_coordinates
+                if row["algebraically_independent"]
             ],
             "constraint_statement": (
                 "Treat the algebraically independent coordinates as first-principles building "
@@ -863,7 +867,9 @@ def learn_problem(problem: Mapping[str, Any], policy: Mapping[str, Any]) -> dict
                 "basis as distinct branches; exact pair invariance is not a truth or novelty claim."
             ),
             "deployment_repaired_coordinates": [
-                row["expression"] for row in repaired_coordinates if row["algebraically_independent"]
+                row["expression"]
+                for row in repaired_coordinates
+                if row["algebraically_independent"]
             ],
             "feature_grammar": dict(problem["feature_grammar"]),
             "identifiability_status": status,
@@ -872,9 +878,7 @@ def learn_problem(problem: Mapping[str, Any], policy: Mapping[str, Any]) -> dict
                 "These are known-answer calibration actions. A learned invariant basis establishes "
                 "neither a new theorem nor literature novelty."
             ),
-            "retained_linear_invariant_basis": [
-                row["expression"] for row in training_coordinates
-            ],
+            "retained_linear_invariant_basis": [row["expression"] for row in training_coordinates],
         },
         "deployment": {
             "coordinate_failures": deployment_failures,
@@ -891,10 +895,7 @@ def learn_problem(problem: Mapping[str, Any], policy: Mapping[str, Any]) -> dict
             "training_feature_evaluation": training_feature_evaluator,
         },
         "feature_basis": [
-            {
-                key: list(value) if key == "exponents" else value
-                for key, value in feature.items()
-            }
+            {key: list(value) if key == "exponents" else value for key, value in feature.items()}
             for feature in features
         ],
         "problem_id": problem["problem_id"],
@@ -1015,31 +1016,30 @@ def build_receipt(root: Path) -> dict[str, Any]:
                 {result["search"]["feature_grammar"]["kind"] for result in results}
             ),
             "higher_degree_controls": sum(
-                result["action_kind"] == "nonlinear_polynomial_degree3"
-                for result in results
+                result["action_kind"] == "nonlinear_polynomial_degree3" for result in results
             ),
             "matrix_action_controls": sum(
                 result["action_kind"].startswith("matrix_") for result in results
             ),
+            "multivariate_rational_action_controls": sum(
+                result["action_kind"] == "rational_multivariate_laurent" for result in results
+            ),
             "nonlinear_action_controls": sum(
-                result["action_kind"]
-                in {"nonlinear_polynomial", "nonlinear_polynomial_degree3"}
+                result["action_kind"] in {"nonlinear_polynomial", "nonlinear_polynomial_degree3"}
                 for result in results
             ),
             "rational_action_controls": sum(
-                result["action_kind"] == "rational_laurent" for result in results
+                result["action_kind"].startswith("rational_") for result in results
             ),
             "status": "PASS_EXACT_TYPED_STATE_PAIR_INVARIANT_CONTROLS",
             "target_blind_controls": sum(
-                result["target_access"]["target_visible_to_learner"] is False
-                for result in results
+                result["target_access"]["target_visible_to_learner"] is False for result in results
             ),
             "training_linear_invariant_coordinates": sum(
                 len(result["training_coordinates"]) for result in results
             ),
             "transcendental_action_controls": sum(
-                result["action_kind"] == "transcendental_logarithmic"
-                for result in results
+                result["action_kind"] == "transcendental_logarithmic" for result in results
             ),
         },
     }

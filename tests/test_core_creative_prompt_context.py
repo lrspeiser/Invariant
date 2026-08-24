@@ -18,24 +18,16 @@ def _context() -> dict[str, object]:
     symmetry = json.loads(
         (ROOT / "runs/math/symmetry-dimension-derivation/receipt.json").read_text()
     )
-    learned = json.loads(
-        (ROOT / "runs/math/learned-invariant-discovery/receipt.json").read_text()
-    )
+    learned = json.loads((ROOT / "runs/math/learned-invariant-discovery/receipt.json").read_text())
     state_pair = json.loads(
         (ROOT / "runs/math/state-pair-invariant-discovery/receipt.json").read_text()
     )
     uncertain = json.loads(
         (ROOT / "runs/math/uncertain-invariant-discovery/receipt.json").read_text()
     )
-    grammar = json.loads(
-        (ROOT / "runs/math/expanded-typed-grammar/receipt.json").read_text()
-    )
-    proof = json.loads(
-        (ROOT / "runs/math/independent-proof-plan-search/receipt.json").read_text()
-    )
-    return C.build_creative_prompt_context(
-        symmetry, learned, state_pair, uncertain, grammar, proof
-    )
+    grammar = json.loads((ROOT / "runs/math/expanded-typed-grammar/receipt.json").read_text())
+    proof = json.loads((ROOT / "runs/math/independent-proof-plan-search/receipt.json").read_text())
+    return C.build_creative_prompt_context(symmetry, learned, state_pair, uncertain, grammar, proof)
 
 
 def test_prompt_context_is_sealed_creativity_first_and_broad() -> None:
@@ -46,6 +38,7 @@ def test_prompt_context_is_sealed_creativity_first_and_broad() -> None:
         "generate_multiple_mechanisms_before_falsification": True,
         "learn_higher_degree_rational_and_logarithmic_features": True,
         "learn_matrix_and_nonlinear_actions_from_state_pairs": True,
+        "learn_multivariate_rational_features": True,
         "origin_labels_are_fallible_lineage_assessments": True,
         "preserve_joint_and_unit_hypothesis_branches": True,
         "retain_every_schema_admitted_idea": True,
@@ -67,13 +60,14 @@ def test_prompt_context_is_sealed_creativity_first_and_broad() -> None:
         "REJECT_TRAIN_ONLY_INVARIANT_SPACE",
         "UNDERDETERMINED_RETAIN_CANDIDATE_SUBSPACE",
     }
-    assert len(context["state_pair_invariant_briefs"]) == 6
+    assert len(context["state_pair_invariant_briefs"]) == 7
     assert {brief["action_kind"] for brief in context["state_pair_invariant_briefs"]} == {
         "matrix_conjugation",
         "matrix_orthogonal",
         "nonlinear_polynomial",
         "nonlinear_polynomial_degree3",
         "rational_laurent",
+        "rational_multivariate_laurent",
         "transcendental_logarithmic",
     }
     matrix = next(
@@ -92,14 +86,18 @@ def test_prompt_context_is_sealed_creativity_first_and_broad() -> None:
         "x + 1/x",
         "x**2 + 1/x**2",
     ]
+    multivariate_rational = next(
+        brief
+        for brief in context["state_pair_invariant_briefs"]
+        if brief["action_kind"] == "rational_multivariate_laurent"
+    )
+    assert multivariate_rational["candidate_invariant_coordinates"] == ["1/y + x"]
     logarithmic = next(
         brief
         for brief in context["state_pair_invariant_briefs"]
         if brief["action_kind"] == "transcendental_logarithmic"
     )
-    assert logarithmic["candidate_invariant_coordinates"] == [
-        "2*log(x) - log(y)"
-    ]
+    assert logarithmic["candidate_invariant_coordinates"] == ["2*log(x) - log(y)"]
     assert len(context["uncertain_invariant_briefs"]) == 5
     assert {brief["observation_mode"] for brief in context["uncertain_invariant_briefs"]} == {
         "missingness",
@@ -217,9 +215,7 @@ def test_prompt_context_rejects_resealed_pruning_of_censored_candidates() -> Non
         for brief in changed["uncertain_invariant_briefs"]
         if brief["observation_mode"] == "one_sided_censoring"
     )
-    censored["candidate_invariant_coordinates"] = censored[
-        "deployment_surviving_coordinates"
-    ]
+    censored["candidate_invariant_coordinates"] = censored["deployment_surviving_coordinates"]
     body = {key: value for key, value in changed.items() if key != "content_sha256"}
     changed["content_sha256"] = canonical_sha256(body)
     with pytest.raises(C.CoreCreativePromptContextError, match="uncertain invariant"):
@@ -312,9 +308,10 @@ def test_transport_injects_context_and_binds_actual_provider_prompt() -> None:
     evidence = transport.evidence_for("msg_context_test")
     assert evidence["creative_context_injected"] is True
     assert evidence["creative_context_sha256"] == context["content_sha256"]
-    assert evidence["provider_prompt_sha256"] == hashlib.sha256(
-        provider_prompt_text.encode()
-    ).hexdigest()
+    assert (
+        evidence["provider_prompt_sha256"]
+        == hashlib.sha256(provider_prompt_text.encode()).hexdigest()
+    )
     assert "test-only" not in json.dumps(evidence, sort_keys=True)
     assert "x-api-key" in captured["headers"]
 
@@ -327,9 +324,7 @@ def test_transport_rejects_a_preexisting_context_slot() -> None:
     request = {
         "messages": [
             {
-                "content": json.dumps(
-                    {"creative_context": {}, "instruction": "create"}
-                ),
+                "content": json.dumps({"creative_context": {}, "instruction": "create"}),
                 "role": "user",
             }
         ]

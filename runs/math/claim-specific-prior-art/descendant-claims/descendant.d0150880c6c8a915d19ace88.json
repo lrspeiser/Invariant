@@ -1,0 +1,58 @@
+{
+  "claim": {
+    "behavior_status": "EXECUTABLE_PREDICTIONS",
+    "behavior_terms": [
+      "30",
+      "55",
+      "91",
+      "140",
+      "204",
+      "285",
+      "385",
+      "506",
+      "650",
+      "819",
+      "1015",
+      "1240",
+      "1496",
+      "1785",
+      "2109",
+      "2470",
+      "2870",
+      "3311"
+    ],
+    "formula_or_construction": "x0 * (x0 + 1) * (2 * x0 + 1) // 6",
+    "known_analogues": [
+      "Sum of squares formula",
+      "Square pyramidal numbers",
+      "OEIS A000330"
+    ],
+    "llm_origin_assessment": "known_rewrite",
+    "proof_mechanisms": [
+      "exact_row_replay",
+      "cas_normal_form",
+      "smt_countermodel_search",
+      "interval_enclosure",
+      "lean_kernel_bridge",
+      "1. Verify that output matches x0*(x0+1)*(2*x0+1)/6 for all training points",
+      "2. This is the well-known formula for sum of first n squares: sum_{k=1}^{n} k^2",
+      "3. Check: x0=4 -> 4*5*9/6=30 \u2713, x0=5 -> 5*6*11/6=55 \u2713, x0=6 -> 6*7*13/6=91 \u2713",
+      "4. Check: x0=21 -> 21*22*43/6=3311 \u2713"
+    ],
+    "representation": "sympy_expression",
+    "source_domains": [
+      "elementary_number_theory",
+      "combinatorics"
+    ],
+    "statement": "Looking at the training data: 30, 55, 91, 140, 204, 285, 385, 506, 650, 819, 1015, 1240, 1496, 1785, 2109, 2470, 2870, 3311. These are exactly the square pyramidal numbers (sum of first n squares). For x0=4: 1+4+9+16=30. For x0=5: 1+4+9+16+25=55. The closed form is n(n+1)(2n+1)/6. All parent hypotheses were attempting complicated piecewise constructions for what is a simple cubic formula. Prior counterexamples all arose from incorrect formulas."
+  },
+  "claim_id": "retained-descendant.d0150880c6c8a915d19ace88.prior-art",
+  "schema_version": "invariant-claim-prior-art-input-1.1",
+  "source_binding": {
+    "path": "runs/math/retained-piecewise-descendant-campaign/live-runtime.json",
+    "receipt_content_sha256": "c62267db1a7cab86b854ca8edee537c65356875672a77c28a82bb3e79029e73c",
+    "source_content_sha256": "ce18f21bb1aeb5d1adea294e579c7866ba2e8f2a0ba597d62947d9870ecb20ee",
+    "source_id": "descendant.d0150880c6c8a915d19ace88",
+    "source_kind": "retained_descendant"
+  }
+}

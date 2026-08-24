@@ -20,11 +20,11 @@ def _by_id() -> dict[str, dict[str, object]]:
     return {result["problem_id"]: result for result in _receipt()["results"]}
 
 
-def test_six_target_blind_typed_state_pair_controls_pass() -> None:
+def test_seven_target_blind_typed_state_pair_controls_pass() -> None:
     receipt = _receipt()
     assert receipt["summary"] == {
-        "algebraically_independent_coordinates": 7,
-        "controls": 6,
+        "algebraically_independent_coordinates": 8,
+        "controls": 7,
         "deployment_failures": 0,
         "feature_grammar_kinds": [
             "laurent_monomials",
@@ -33,11 +33,12 @@ def test_six_target_blind_typed_state_pair_controls_pass() -> None:
         ],
         "higher_degree_controls": 1,
         "matrix_action_controls": 2,
+        "multivariate_rational_action_controls": 1,
         "nonlinear_action_controls": 2,
-        "rational_action_controls": 1,
+        "rational_action_controls": 2,
         "status": "PASS_EXACT_TYPED_STATE_PAIR_INVARIANT_CONTROLS",
-        "target_blind_controls": 6,
-        "training_linear_invariant_coordinates": 9,
+        "target_blind_controls": 7,
+        "training_linear_invariant_coordinates": 10,
         "transcendental_action_controls": 1,
     }
     assert all(result["status"] == S.PASS_STATUS for result in receipt["results"])
@@ -112,9 +113,27 @@ def test_laurent_pairs_learn_rational_basis_and_remove_algebraic_duplicate() -> 
     assert result["deployment"]["coordinate_failures"] == 0
 
 
+def test_multivariate_laurent_pairs_learn_cross_coordinate_rational_invariant() -> None:
+    result = _by_id()["control.multivariate-rational-level-sets"]
+    assert result["variables"] == ["x", "y"]
+    assert result["search"]["features"] == 8
+    assert result["search"]["training_rank"] == 7
+    assert result["search"]["training_nullity"] == 1
+    assert [row["expression"] for row in result["training_coordinates"]] == ["1/y + x"]
+    assert result["deployment"]["coordinate_failures"] == 0
+    assert result["independent_evaluators"]["agreement"] is True
+    assert result["target_access"]["target_visible_to_learner"] is False
+
+
 def test_laurent_domain_guard_rejects_zero_before_division() -> None:
     config, _ = S.load_config(ROOT)
-    problem = copy.deepcopy(config["problems"][4])
+    problem = copy.deepcopy(
+        next(
+            problem
+            for problem in config["problems"]
+            if problem["problem_id"] == "control.laurent-inversion-state-pairs"
+        )
+    )
     problem["deployment_pairs"][0]["before"]["x"] = "0"
     with pytest.raises(S.StatePairInvariantError, match="division by zero"):
         S.learn_problem(problem, config["policy"])
@@ -122,24 +141,29 @@ def test_laurent_domain_guard_rejects_zero_before_division() -> None:
 
 def test_formal_log_pairs_use_two_prime_valuation_evaluators() -> None:
     result = _by_id()["control.logarithmic-scaling-state-pairs"]
-    assert [row["expression"] for row in result["training_coordinates"]] == [
-        "2*log(x) - log(y)"
-    ]
+    assert [row["expression"] for row in result["training_coordinates"]] == ["2*log(x) - log(y)"]
     assert result["independent_evaluators"]["training_feature_evaluation"] == {
         "agreement": True,
         "constraint_rows": 4,
         "evaluator_pair": ["fraction_trial_division", "sympy_factorint"],
         "prime_support": [2, 3, 5, 7],
     }
-    assert result["independent_evaluators"]["deployment_feature_evaluation"][
-        "prime_support"
-    ] == [11, 13]
+    assert result["independent_evaluators"]["deployment_feature_evaluation"]["prime_support"] == [
+        11,
+        13,
+    ]
     assert result["deployment"]["replays"][0]["differences"] == [{}, {}]
 
 
 def test_logarithmic_domain_guard_rejects_nonpositive_state() -> None:
     config, _ = S.load_config(ROOT)
-    problem = copy.deepcopy(config["problems"][5])
+    problem = copy.deepcopy(
+        next(
+            problem
+            for problem in config["problems"]
+            if problem["problem_id"] == "control.logarithmic-scaling-state-pairs"
+        )
+    )
     problem["deployment_pairs"][0]["after"]["x"] = "-77"
     with pytest.raises(S.StatePairInvariantError, match="positive domain"):
         S.learn_problem(problem, config["policy"])
@@ -149,7 +173,11 @@ def test_formal_log_evaluator_disagreement_fails_closed(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     config, _ = S.load_config(ROOT)
-    problem = config["problems"][5]
+    problem = next(
+        problem
+        for problem in config["problems"]
+        if problem["problem_id"] == "control.logarithmic-scaling-state-pairs"
+    )
     monkeypatch.setattr(S, "_sympy_prime_valuations", lambda _value: {})
     with pytest.raises(S.StatePairInvariantError, match="formal-log evaluators disagree"):
         S.learn_problem(problem, config["policy"])

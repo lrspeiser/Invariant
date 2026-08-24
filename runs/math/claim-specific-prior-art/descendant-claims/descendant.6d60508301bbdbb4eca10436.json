@@ -1,0 +1,55 @@
+{
+  "claim": {
+    "behavior_status": "EXECUTABLE_PREDICTIONS",
+    "behavior_terms": [
+      "217",
+      "239",
+      "261",
+      "284",
+      "310",
+      "336",
+      "364",
+      "394",
+      "425",
+      "457",
+      "494",
+      "528",
+      "567",
+      "608",
+      "649",
+      "692",
+      "738",
+      "785"
+    ],
+    "formula_or_construction": "{\"branches\":[{\"condition\":{\"comparator\":\"le\",\"left\":\"x0\",\"right\":\"3\"},\"expression\":\"x0 + 1\"}],\"default_expression\":\"floor((x0 * x0 * x0 + 3 * x0 * x0 + 2 * x0) / 144) + floor((x0 * x0 + 5 * x0) / 12) + floor(x0 / 2) + 1 + (1 if x0 % 3 == 0 else 0)\"}",
+    "known_analogues": [
+      "Ehrhart quasi-polynomials",
+      "Partition quasi-polynomials"
+    ],
+    "llm_origin_assessment": "cross_domain_synthesis",
+    "proof_mechanisms": [
+      "exact_row_replay",
+      "boundary_partition_analysis",
+      "1. Combine cubic/144 + quadratic/12 + linear/2 structure from parent_2 and parent_4",
+      "2. Add mod-3 periodic correction",
+      "3. Evaluate on all training rows",
+      "4. If systematic error remains, adjust coefficients"
+    ],
+    "representation": "piecewise_relation",
+    "source_domains": [
+      "Ehrhart_theory",
+      "partition_theory",
+      "quasi_polynomials"
+    ],
+    "statement": "Combining the cubic polynomial approach of parent_2 (Ehrhart-style) with the denumerant structure of parent_4. The leading cubic term x0^3/144 gives the right asymptotic growth. Periodic corrections mod 3 account for quasi-polynomial behavior typical of partition-type sequences."
+  },
+  "claim_id": "retained-descendant.6d60508301bbdbb4eca10436.prior-art",
+  "schema_version": "invariant-claim-prior-art-input-1.1",
+  "source_binding": {
+    "path": "runs/math/retained-piecewise-descendant-campaign/live-runtime.json",
+    "receipt_content_sha256": "c62267db1a7cab86b854ca8edee537c65356875672a77c28a82bb3e79029e73c",
+    "source_content_sha256": "461bb165473ddee78d5dc6efa8458c918975efed419dfd4fd7e5543cb472e1e9",
+    "source_id": "descendant.6d60508301bbdbb4eca10436",
+    "source_kind": "retained_descendant"
+  }
+}

@@ -74,7 +74,10 @@ def _sha(value: Any, label: str) -> str:
 
 
 def _identifier(value: Any, label: str) -> str:
-    if not isinstance(value, str) or re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_.-]{2,159}", value) is None:
+    if (
+        not isinstance(value, str)
+        or re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_.-]{2,159}", value) is None
+    ):
         raise PriorArtError(f"{label} is not a portable identifier")
     return value
 
@@ -259,10 +262,9 @@ def load_claim(root: Path, claim_path: Path) -> dict[str, Any]:
         raise PriorArtError("claim source binding escapes the repository") from error
     receipt = json.loads(bound_path.read_text(encoding="utf-8"))
     receipt_body = {key: item for key, item in receipt.items() if key != "content_sha256"}
-    if (
-        receipt.get("content_sha256") != binding["receipt_content_sha256"]
-        or receipt.get("content_sha256") != canonical_sha256(receipt_body)
-    ):
+    if receipt.get("content_sha256") != binding["receipt_content_sha256"] or receipt.get(
+        "content_sha256"
+    ) != canonical_sha256(receipt_body):
         raise PriorArtError("claim source receipt hash changed")
     if schema_version == CLAIM_SCHEMA:
         ideas = receipt.get("idea_lineage_archive", {}).get("ideas", [])
@@ -384,7 +386,9 @@ def build_queries(claim_document: Mapping[str, Any]) -> tuple[dict[str, str], ..
         },
         {
             "channel": "representation_dual",
-            "query": f"{duals.get(representation, 'equivalent representation transform dual')} {construction} {domains}"[:500],
+            "query": f"{duals.get(representation, 'equivalent representation transform dual')} {construction} {domains}"[
+                :500
+            ],
         },
     )
     if len({item["query"] for item in queries}) != len(queries):
@@ -519,9 +523,7 @@ def _parse_semantic_scholar(body: bytes, limit: int) -> list[dict[str, Any]]:
     return matches
 
 
-def _parse_provider(
-    provider_id: str, body: bytes, limit: int, query: str
-) -> list[dict[str, Any]]:
+def _parse_provider(provider_id: str, body: bytes, limit: int, query: str) -> list[dict[str, Any]]:
     if provider_id == "oeis":
         return _parse_oeis(body, limit, query)
     if provider_id == "crossref":
@@ -643,7 +645,9 @@ def run_screen(
                     }
                 )
                 continue
-            matches = _parse_provider(provider_id, response.body, provider["maximum_results"], query)
+            matches = _parse_provider(
+                provider_id, response.body, provider["maximum_results"], query
+            )
             evidence.append(
                 {
                     "content_type": content_type,
@@ -813,10 +817,117 @@ def validate_screen(value: Mapping[str, Any], root: Path | None = None) -> None:
         claim_document = load_claim(root, root / value["source_bindings"]["claim"]["path"])
         if (
             claim_document["claim_id"] != value["claim_id"]
-            or dict(claim_document["source_binding"])
-            != value["source_bindings"]["idea"]
+            or dict(claim_document["source_binding"]) != value["source_bindings"]["idea"]
         ):
             raise PriorArtError("prior-art claim identity changed")
+
+
+def rebind_screen(
+    root: Path,
+    claim_path: Path,
+    previous: Mapping[str, Any],
+) -> dict[str, Any]:
+    """Rebind unchanged queries to a new upstream receipt without new provider calls."""
+
+    root = root.resolve()
+    validate_screen(previous)
+    claim_path = claim_path.resolve() if claim_path.is_absolute() else (root / claim_path).resolve()
+    try:
+        claim_relative = claim_path.relative_to(root).as_posix()
+    except ValueError as error:
+        raise PriorArtError("rebound claim path escapes root") from error
+    claim_document = load_claim(root, claim_path)
+    queries = list(build_queries(claim_document))
+    previous_idea = dict(previous.get("source_bindings", {}).get("idea", {}))
+    current_idea = dict(claim_document["source_binding"])
+    previous_semantic_binding = {
+        key: value for key, value in previous_idea.items() if key != "receipt_content_sha256"
+    }
+    current_semantic_binding = {
+        key: value for key, value in current_idea.items() if key != "receipt_content_sha256"
+    }
+    if (
+        claim_document["claim_id"] != previous.get("claim_id")
+        or queries != previous.get("queries")
+        or previous_semantic_binding != current_semantic_binding
+        or claim_document["claim"]["llm_origin_assessment"]
+        != previous.get("llm_origin_calibration", {}).get("model_assessment")
+    ):
+        raise PriorArtError("prior-art rebind changed the semantic claim or query set")
+
+    provider_evidence = list(previous["provider_evidence"])
+    external_matches = [
+        {**item, "provider_id": evidence["provider_id"]}
+        for evidence in provider_evidence
+        for item in evidence["matches"]
+    ]
+    repository = _repository_matches(root, queries)
+    all_matches = [
+        *external_matches,
+        *({**item, "provider_id": "repository"} for item in repository),
+    ]
+    behavior_terms = claim_document["claim"]["behavior_terms"]
+    exact_behavior = [
+        item
+        for item in all_matches
+        if behavior_terms
+        and item["provider_id"] == "oeis"
+        and item.get("matched_prefix_terms", 0) >= len(behavior_terms)
+    ]
+    successful = sum(item["status"] == "COMPLETED" for item in provider_evidence)
+    body = {key: value for key, value in previous.items() if key != "content_sha256"}
+    body["source_bindings"] = {
+        "claim": {"path": claim_relative, "sha256": _normalized_file_sha256(claim_path)},
+        "config": {
+            "path": CONFIG_PATH,
+            "sha256": _normalized_file_sha256(root / CONFIG_PATH),
+        },
+        "idea": current_idea,
+    }
+    body["repository_matches"] = repository
+    body["nearest_matches"] = sorted(
+        all_matches,
+        key=lambda item: (
+            -int(item.get("matched_prefix_terms", 0)),
+            item["rank"],
+            item["provider_id"],
+            item["identifier"],
+        ),
+    )[:12]
+    body["channel_assessment"] = {
+        "behavior": (
+            "NOT_APPLICABLE_NO_EXECUTABLE_BEHAVIOR"
+            if not behavior_terms
+            else (
+                "KNOWN_EXTERNAL_BEHAVIOR_MATCH"
+                if exact_behavior
+                else "NO_EXACT_MATCH_IN_QUERIED_RESULTS"
+            )
+        ),
+        "formula_or_construction": "REQUIRES_NAMED_HUMAN_REVIEW",
+        "proof_mechanism": "REQUIRES_NAMED_HUMAN_REVIEW",
+    }
+    body["llm_origin_calibration"] = {
+        "model_assessment": claim_document["claim"]["llm_origin_assessment"],
+        "behavior_match_found": bool(exact_behavior),
+        "calibration_note": (
+            "model uncertainty contained an externally indexed known behavior"
+            if exact_behavior
+            else (
+                "behavior search was inapplicable because the retained branch is not executable"
+                if not behavior_terms
+                else "automated screen did not resolve the model origin label"
+            )
+        ),
+    }
+    body["automated_screen"] = {
+        "successful_external_providers": successful,
+        "total_external_providers": len(provider_evidence),
+        "status": previous["automated_screen"]["status"],
+    }
+    body["content_sha256"] = canonical_sha256(body)
+    validate_screen(body, root)
+    return body
 
 
 def adjudicate_screen(
@@ -920,7 +1031,9 @@ def main(argv: Sequence[str] | None = None) -> int:
     if args.command == "screen":
         receipt = run_screen(args.root, args.claim)
         args.output.parent.mkdir(parents=True, exist_ok=True)
-        args.output.write_text(json.dumps(receipt, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        args.output.write_text(
+            json.dumps(receipt, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+        )
         summary = {
             "behavior": receipt["channel_assessment"]["behavior"],
             "content_sha256": receipt["content_sha256"],
@@ -936,8 +1049,13 @@ def main(argv: Sequence[str] | None = None) -> int:
         review_document = json.loads(args.review.read_text(encoding="utf-8"))
         receipt = adjudicate_screen(screen_receipt, review_document, load_config(args.root))
         args.output.parent.mkdir(parents=True, exist_ok=True)
-        args.output.write_text(json.dumps(receipt, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-        summary = {"content_sha256": receipt["content_sha256"], "status": receipt["release_gate"]["status"]}
+        args.output.write_text(
+            json.dumps(receipt, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+        )
+        summary = {
+            "content_sha256": receipt["content_sha256"],
+            "status": receipt["release_gate"]["status"],
+        }
     print(json.dumps(summary, sort_keys=True))
     return 0
 

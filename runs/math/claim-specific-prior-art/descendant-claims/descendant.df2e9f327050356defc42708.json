@@ -1,0 +1,33 @@
+{
+  "claim": {
+    "behavior_status": "NO_EXECUTABLE_BEHAVIOR",
+    "behavior_terms": [],
+    "formula_or_construction": "{\"numerator\":[1,0,0,0,0,0],\"denominator\":[1,-1,-1,1,1,-1,-1,1],\"index_alias\":\"x0\"}",
+    "known_analogues": [
+      "Partition generating functions",
+      "Restricted partition enumeration"
+    ],
+    "llm_origin_assessment": "uncertain",
+    "proof_mechanisms": [
+      "1. Expand 1/((1-x)(1-x^2)(1-x^3)(1-x^4)) as power series",
+      "2. Extract coefficient of x^n for n=26..43",
+      "3. Compare with training outputs to check if this is the partition function p(n,4)"
+    ],
+    "representation": "generating_function",
+    "source_domains": [
+      "partition_theory",
+      "generating_functions",
+      "combinatorics"
+    ],
+    "statement": "The training data grows roughly cubically. The number of partitions of n into parts at most 4 is known to grow as n^3/144 approximately. Let me check: p(26,4) should be around 99 area. The generating function is 1/((1-x)(1-x^2)(1-x^3)(1-x^4)). The denominator expanded: (1-x)(1-x^2) = 1-x-x^2+x^3, times (1-x^3) = 1-x-x^2+2x^3-x^5+x^6... This needs careful expansion. The denominator [1,-1,-1,1,1,-1,-1,1] corresponds to (1-x)(1-x^2)(1-x^3) with numerator 1, which counts partitions into parts <=3. That gives p(n,3) ~ n^2/12. For n=26 that's ~56, too small. So partitions into parts <=4 is more likely. Denominator of 1/((1-x)(1-x^2)(1-x^3)(1-x^4)) would need expansion. This is a representation-changing hypothesis to explore."
+  },
+  "claim_id": "retained-descendant.df2e9f327050356defc42708.prior-art",
+  "schema_version": "invariant-claim-prior-art-input-1.1",
+  "source_binding": {
+    "path": "runs/math/retained-piecewise-descendant-campaign/live-runtime.json",
+    "receipt_content_sha256": "c62267db1a7cab86b854ca8edee537c65356875672a77c28a82bb3e79029e73c",
+    "source_content_sha256": "86328bbb406eb6ea79d130dc1abc3b24a82d661f248040f18a9dbf0faf291667",
+    "source_id": "descendant.df2e9f327050356defc42708",
+    "source_kind": "retained_descendant"
+  }
+}
