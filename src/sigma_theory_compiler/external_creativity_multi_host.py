@@ -15,8 +15,8 @@ from .sigma_core import canonical_sha256
 
 CONFIG_PATH = "configs/external_creativity_multi_host_artifacts.json"
 OUTPUT_PATH = "runs/math/external-creativity-validation/multi-host-reproduction.json"
-SCHEMA_VERSION = "invariant-external-creativity-multi-host-reproduction-1.2"
-SOURCE_SCHEMA = "invariant-external-creativity-multi-host-source-1.1"
+SCHEMA_VERSION = "invariant-external-creativity-multi-host-reproduction-1.3"
+SOURCE_SCHEMA = "invariant-external-creativity-multi-host-source-1.2"
 CAMPAIGN_SCHEMAS = frozenset(
     {
         "invariant-external-creativity-validation-result-1.0",
@@ -65,6 +65,7 @@ def _load_source(root: Path) -> dict[str, Any]:
         {
             "artifacts",
             "expected_campaign_content_sha256",
+            "expected_core_live_evidence_content_sha256",
             "expected_core_projection_sha256",
             "expected_lean_content_sha256",
             "head_sha",
@@ -83,6 +84,7 @@ def _load_source(root: Path) -> dict[str, Any]:
         _SHA256.fullmatch(value[key]) is None
         for key in (
             "expected_campaign_content_sha256",
+            "expected_core_live_evidence_content_sha256",
             "expected_core_projection_sha256",
             "expected_lean_content_sha256",
         )
@@ -231,6 +233,14 @@ def build_receipt(root: Path, artifact_root: Path) -> dict[str, Any]:
             != source["expected_core_projection_sha256"]
         ):
             raise MultiHostReproductionError("core LLM evidence projection changed")
+        core_live_evidence_sha256 = core_value["llm_evidence_projection"]["core_lane"][
+            "evidence_content_sha256"
+        ]
+        if (
+            core_live_evidence_sha256
+            != source["expected_core_live_evidence_content_sha256"]
+        ):
+            raise MultiHostReproductionError("core live LLM evidence seal changed")
         hosts.append(
             {
                 "artifact_id": row["artifact_id"],
@@ -239,6 +249,7 @@ def build_receipt(root: Path, artifact_root: Path) -> dict[str, Any]:
                 "core_reproduction": {
                     "content_sha256": core_value["content_sha256"],
                     "file_sha256": row["core_file_sha256"],
+                    "live_evidence_content_sha256": core_live_evidence_sha256,
                     "llm_evidence_projection_sha256": core_value["llm_evidence_projection_sha256"],
                     "new_provider_calls": core_value["verification"]["new_provider_calls"],
                     "provider_credential_available_on_reproduction_host": core_value[
@@ -266,6 +277,9 @@ def build_receipt(root: Path, artifact_root: Path) -> dict[str, Any]:
     core_projections = {
         item["core_reproduction"]["llm_evidence_projection_sha256"] for item in hosts
     }
+    core_live_evidence = {
+        item["core_reproduction"]["live_evidence_content_sha256"] for item in hosts
+    }
     if (
         len(hosts) != 4
         or len(runner_ids) != 4
@@ -275,6 +289,8 @@ def build_receipt(root: Path, artifact_root: Path) -> dict[str, Any]:
         or len(operating_systems) < 2
         or len(campaigns) != 1
         or core_projections != {source["expected_core_projection_sha256"]}
+        or core_live_evidence
+        != {source["expected_core_live_evidence_content_sha256"]}
     ):
         raise MultiHostReproductionError("cross-host agreement policy failed")
     body = {
@@ -291,6 +307,7 @@ def build_receipt(root: Path, artifact_root: Path) -> dict[str, Any]:
         "lean": lean,
         "reproduction": {
             "campaign_content_sha256": next(iter(campaigns)),
+            "core_live_evidence_content_sha256": next(iter(core_live_evidence)),
             "core_llm_evidence_projection_sha256": next(iter(core_projections)),
             "core_llm_evidence_reproductions": len(hosts),
             "core_new_provider_calls": sum(
@@ -348,6 +365,7 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
         reproduction,
         {
             "campaign_content_sha256",
+            "core_live_evidence_content_sha256",
             "core_llm_evidence_projection_sha256",
             "core_llm_evidence_reproductions",
             "core_new_provider_calls",
@@ -387,6 +405,7 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
             {
                 "content_sha256",
                 "file_sha256",
+                "live_evidence_content_sha256",
                 "llm_evidence_projection_sha256",
                 "new_provider_calls",
                 "provider_credential_available_on_reproduction_host",
@@ -408,6 +427,9 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
     )
     core_reproductions = [item.get("core_reproduction", {}) for item in hosts]
     core_projections = {item.get("llm_evidence_projection_sha256") for item in core_reproductions}
+    core_live_evidence = {
+        item.get("live_evidence_content_sha256") for item in core_reproductions
+    }
     host_runner_ids = {item.get("runner_id") for item in hosts}
     all_runner_ids = host_runner_ids | {value.get("lean", {}).get("runner_id")}
     all_artifact_ids = {item.get("artifact_id") for item in hosts} | {
@@ -450,14 +472,18 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
         )
         or len({item.get("operating_system") for item in hosts}) < 2
         or len(core_projections) != 1
+        or len(core_live_evidence) != 1
         or reproduction.get("core_llm_evidence_projection_sha256")
         != next(iter(core_projections), None)
+        or reproduction.get("core_live_evidence_content_sha256")
+        != next(iter(core_live_evidence), None)
         or any(
             item.get("status") != "PASS_CORE_LLM_EVIDENCE_REPRODUCTION"
             or item.get("new_provider_calls") != 0
             or item.get("provider_credential_available_on_reproduction_host") is not False
             or _SHA256.fullmatch(str(item.get("content_sha256", ""))) is None
             or _SHA256.fullmatch(str(item.get("file_sha256", ""))) is None
+            or _SHA256.fullmatch(str(item.get("live_evidence_content_sha256", ""))) is None
             or _SHA256.fullmatch(str(item.get("llm_evidence_projection_sha256", ""))) is None
             for item in core_reproductions
         )
@@ -530,6 +556,8 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
             or host["campaign_content_sha256"] != source["expected_campaign_content_sha256"]
             or host["core_reproduction"]["llm_evidence_projection_sha256"]
             != source["expected_core_projection_sha256"]
+            or host["core_reproduction"]["live_evidence_content_sha256"]
+            != source["expected_core_live_evidence_content_sha256"]
         ):
             raise MultiHostReproductionError("multi-host source host binding changed")
     lean_source = next(

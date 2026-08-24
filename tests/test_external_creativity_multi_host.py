@@ -35,10 +35,15 @@ def test_downloaded_multi_host_receipt_is_sealed_and_cross_platform() -> None:
     assert value["reproduction"]["core_llm_evidence_projection_sha256"] == (
         "73af5e6628f6cf6f035add2c499748b591d57e548935962768b5889d0ccb0c57"
     )
+    assert value["reproduction"]["core_live_evidence_content_sha256"] == (
+        "b13a9da8fd9b8213f6c2e94d91872d3403342f1cddb4be80e7e55e3d3f03bf7e"
+    )
     assert all(
         host["core_reproduction"]["status"] == "PASS_CORE_LLM_EVIDENCE_REPRODUCTION"
         and host["core_reproduction"]["new_provider_calls"] == 0
         and host["core_reproduction"]["provider_credential_available_on_reproduction_host"] is False
+        and host["core_reproduction"]["live_evidence_content_sha256"]
+        == value["reproduction"]["core_live_evidence_content_sha256"]
         for host in value["hosts"]
     )
     assert not value["claim_boundary"]["physical_bare_metal_identity_claimed"]
@@ -59,6 +64,16 @@ def test_multi_host_receipt_rejects_core_projection_disagreement() -> None:
     value = json.loads(RECEIPT.read_text(encoding="utf-8"))
     changed = deepcopy(value)
     changed["hosts"][0]["core_reproduction"]["llm_evidence_projection_sha256"] = "0" * 64
+    body = {key: item for key, item in changed.items() if key != "content_sha256"}
+    changed["content_sha256"] = canonical_sha256(body)
+    with pytest.raises(M.MultiHostReproductionError, match="policy"):
+        M.validate_receipt(changed)
+
+
+def test_multi_host_receipt_rejects_core_live_evidence_disagreement() -> None:
+    value = json.loads(RECEIPT.read_text(encoding="utf-8"))
+    changed = deepcopy(value)
+    changed["hosts"][0]["core_reproduction"]["live_evidence_content_sha256"] = "0" * 64
     body = {key: item for key, item in changed.items() if key != "content_sha256"}
     changed["content_sha256"] = canonical_sha256(body)
     with pytest.raises(M.MultiHostReproductionError, match="policy"):

@@ -1202,9 +1202,14 @@ campaign's local process counter. The ledger recomputes the bounded criteria, re
 LLM participation, binds the downloaded multi-host and Lean evidence, and admits only distinct target
 commitments carrying a detached Ed25519 signature from a distinct principal whose key identity has
 been reviewed by a named human. The trusted registry is intentionally empty, so a local or re-sealed
-`level5_process_passes` value cannot authorize open-problem work. A second exact evaluator implemented
-with only Python AST and `Fraction` agrees with the
-primary evaluator. Downloaded CI artifacts bind four distinct GitHub-hosted ephemeral runner IDs
+`level5_process_passes` value cannot authorize open-problem work. LLM participation is now derived
+from the sanitized live API evidence rather than the older deterministic campaign flag. Each current
+level-5 blind ID binds one distinct proposer and one distinct critic response, and all four downloaded
+core-reproduction artifacts independently carry the same live-evidence seal. Both current level-5
+benchmarks therefore pass the LLM-participation criterion while still failing the mathematical
+training/holdout or proof-diversity criteria; the admitted count remains zero. A second exact
+evaluator implemented with only Python AST and `Fraction` agrees with the primary evaluator.
+Downloaded CI artifacts bind four distinct GitHub-hosted ephemeral runner IDs
 across Windows and Linux plus the Lean kernel job from successful post-merge run `32717558984` at
 `163fd312c5bcf3b9b5bb16b27a40d5253ef83941`; this is multi-host VM reproduction of the
 exact-discrete piecewise replay and the transform-, tensor-, variational-, and retained-descendant-
@@ -1217,9 +1222,11 @@ calls, and binds a rebind-stable projection of the eight authenticated proposer/
 authenticated repair/recombination calls, prompt context, lineage archive, usage, and credential
 boundary. Four fresh probe-bearing payloads are downloaded, hash-checked, provenance-bound, and
 sealed into the durable multi-host receipt
-`074af7dda442379dd380a0559e6d04c17211f812956c03e2e327f1bfb8627d23`. All four reproduce projection
-`5f2a010578c99a895b143a1b83ef11f51159e7a7810dad78c83792186ee12433` with zero new provider
-calls and no provider credential on the runners. This replays authenticated evidence; it does not
+`3260d9dd0829307c90faa511b7e4c1173f5feb64a6b138b3579d8b5e634cd01a`. All four reproduce projection
+`73af5e6628f6cf6f035add2c499748b591d57e548935962768b5889d0ccb0c57` with zero new provider
+calls and no provider credential on the runners. The receipt also extracts and cross-host agrees on
+live API evidence seal `b13a9da8fd9b8213f6c2e94d91872d3403342f1cddb4be80e7e55e3d3f03bf7e`.
+This replays authenticated evidence; it does not
 claim that CI repeated the paid live calls or independently established novelty.
 
 The current 12-task structured benchmark pack now has a concrete detached-signature handoff. The

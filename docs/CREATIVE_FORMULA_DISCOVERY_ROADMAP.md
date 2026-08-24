@@ -96,14 +96,16 @@
   `163fd312c5bcf3b9b5bb16b27a40d5253ef83941`, which includes exact-discrete piecewise replay,
   the retained-descendant campaign, the transform-, tensor-, and variational-capable executable-LLM
   core, and its one-call live health receipt. The multi-host seal is
-  `074af7dda442379dd380a0559e6d04c17211f812956c03e2e327f1bfb8627d23`. This is multi-host VM
+  `3260d9dd0829307c90faa511b7e4c1173f5feb64a6b138b3579d8b5e634cd01a`. The receipt now also proves
+  that all four core-reproduction artifacts bind the same sanitized live API evidence seal
+  `b13a9da8fd9b8213f6c2e94d91872d3403342f1cddb4be80e7e55e3d3f03bf7e`. This is multi-host VM
   reproduction, not a claim about distinct bare-metal machines.
 - The CI workflow creates a second credential-free payload on every deterministic host. It
   validates the core and retained-descendant receipts without a provider key or provider call and
   binds a deterministic-rebind-stable projection of all 14 authenticated call records, their prompt
   and output seals, usage, prompt context, lineage archive, and credential boundary. Four payloads
   from the bound post-merge run have now been downloaded and hash-checked. They agree on projection
-  `5f2a010578c99a895b143a1b83ef11f51159e7a7810dad78c83792186ee12433`, report zero new provider
+  `73af5e6628f6cf6f035add2c499748b591d57e548935962768b5889d0ccb0c57`, report zero new provider
   calls and no credential on the runners, and are sealed into the multi-host receipt. This is
   durable replay evidence, not a claim that CI repeated the paid calls or established novelty.
 - The LLM proposal compiler now admits bounded linear shift transforms, tensor identities, and first-order variational
@@ -122,6 +124,10 @@
   criteria, requires authenticated LLM participation and target-blind chronology, binds the real
   downloaded multi-host/Lean receipt, and requires a detached Ed25519 certificate from a distinct
   principal with a named-human-reviewed key. Distinct target commitments are counted at most once.
+  Authenticated participation is evaluated from the exact sanitized core evidence: each current
+  level-5 blind ID has one unique proposer and one unique critic response, and its evidence seal must
+  equal the seal independently replayed on all four CI hosts. Both current level-5 benchmarks pass
+  this LLM criterion but still fail mathematical training/holdout or proof-diversity criteria.
   The trusted registry and certificate list are intentionally empty, so the current result remains
   0/3 and neither a campaign-local flag nor a re-sealed receipt can open the famous-problem gate.
 - A live rotating pack now binds 24 distinct OEIS b-file response hashes, with four tasks each for

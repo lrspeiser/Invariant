@@ -5,13 +5,13 @@
     "local_process_pass_is_admitted_success": false,
     "open_problem_solved": false
   },
-  "content_sha256": "8ae7551e25dd375730c2664616df0c3454596029309d914c4cd6d89afe6c86aa",
+  "content_sha256": "9cfaf73c677344c0215f8bc000e0dcc8c488edc056ad9e51d808ce6000bbb26b",
   "process_evidence": [
     {
       "benchmark_id": "external.authority-oeis-005132",
       "blind_id": "blind.9a585452a85251ad240e",
       "criteria": {
-        "authenticated_llm_participation": false,
+        "authenticated_llm_participation": true,
         "capability_level_5": true,
         "independent_exact_implementation_match": true,
         "matched_candidate_count": true,
@@ -29,6 +29,17 @@
         "two_reproduction_machines": true
       },
       "family_metrics_sha256": "f8c5071f8b6f3c94be4200fb839e7e80877f45fdf865c8cdecbd7585753e6dfc",
+      "llm_evidence": {
+        "authenticated_llm_call_count": 2,
+        "authenticated_llm_call_roles": [
+          "critic",
+          "proposer"
+        ],
+        "authenticated_llm_calls_sha256": "05756bdf1fe754fa596dd6e8e0c1179a866afe5df28933b8f439f8b47ed35c2a",
+        "cross_host_live_evidence_binding": true,
+        "live_api_evidence_content_sha256": "b13a9da8fd9b8213f6c2e94d91872d3403342f1cddb4be80e7e55e3d3f03bf7e",
+        "passed": true
+      },
       "local_campaign_process_pass_reported": false,
       "outperformed_random_families": 8,
       "process_pass_before_external_signature": false,
@@ -40,7 +51,7 @@
       "benchmark_id": "external.authority-oeis-002858",
       "blind_id": "blind.752590c2e9d4d5f51a63",
       "criteria": {
-        "authenticated_llm_participation": false,
+        "authenticated_llm_participation": true,
         "capability_level_5": true,
         "independent_exact_implementation_match": true,
         "matched_candidate_count": true,
@@ -58,6 +69,17 @@
         "two_reproduction_machines": true
       },
       "family_metrics_sha256": "b3f8b1c572d6e18f44fa18369f0483487e283a002714a37e48c93f855e044f58",
+      "llm_evidence": {
+        "authenticated_llm_call_count": 2,
+        "authenticated_llm_call_roles": [
+          "critic",
+          "proposer"
+        ],
+        "authenticated_llm_calls_sha256": "ad1008151186fc62bb52b0466214e0590b109fb74edb881fa1f21641993f0bf2",
+        "cross_host_live_evidence_binding": true,
+        "live_api_evidence_content_sha256": "b13a9da8fd9b8213f6c2e94d91872d3403342f1cddb4be80e7e55e3d3f03bf7e",
+        "passed": true
+      },
       "local_campaign_process_pass_reported": false,
       "outperformed_random_families": 9,
       "process_pass_before_external_signature": false,
@@ -70,7 +92,7 @@
     "open_problem_authorized": false,
     "success_count_source": "detached_signed_multi_host_level5_admission_ledger"
   },
-  "schema_version": "invariant-level5-success-admission-receipt-1.0",
+  "schema_version": "invariant-level5-success-admission-receipt-1.1",
   "source_bindings": {
     "campaign_receipt": {
       "content_sha256": "2eb91421618fcd6ae35e9b2c8cd2cda9b670d45a55a424bfcee89129a53faf81",
@@ -78,14 +100,18 @@
     },
     "config": {
       "path": "configs/level5_success_admission.json",
-      "sha256": "1041ebf1e5573d23d8d357c5cfc6e5d128a8177d98c1b77cb613b316b1da1cc7"
+      "sha256": "e4790a6f0cc572ed69d1103f5f9bf95130aee55d989e5ec324b209b483fa6c5b"
+    },
+    "live_api_evidence": {
+      "content_sha256": "b13a9da8fd9b8213f6c2e94d91872d3403342f1cddb4be80e7e55e3d3f03bf7e",
+      "path": "runs/math/external-creativity-validation/live-api-evidence.json"
     },
     "module": {
       "path": "src/sigma_theory_compiler/level5_success_admission.py",
-      "sha256": "77f7448b5bb3ae916b86693d65e7d5f1d579b904851b0b550e83a2425b5291d4"
+      "sha256": "ed35796945b66fa3bb224c058d78498b0bf8bb0df2b5aa6e0e0ad7eb88e2ce00"
     },
     "multi_host_receipt": {
-      "content_sha256": "56de9e4ec213ebc4485f7a93f7376a82e8552b5d4d9e01bbaefef201aad1543a",
+      "content_sha256": "3260d9dd0829307c90faa511b7e4c1173f5feb64a6b138b3579d8b5e634cd01a",
       "path": "runs/math/external-creativity-validation/multi-host-reproduction.json"
     },
     "signer_registry": {
@@ -94,11 +120,12 @@
     },
     "tests": {
       "path": "tests/test_level5_success_admission.py",
-      "sha256": "7ff4fe9cbb9f53771a404de9b47f5ef91e8414d6e01dfec4bf3f5200dd19b14b"
+      "sha256": "b4ea6a66d62ab27196032ad6aa51f9bb1568bea61a15d515c2b0b9dd5d7e4cdf"
     }
   },
   "summary": {
     "admitted_independently_reproduced_level5_successes": 0,
+    "authenticated_llm_benchmarks": 2,
     "campaign_local_level5_process_passes": 0,
     "capability_level5_benchmarks": 2,
     "minimum_required_before_open_problem": 3,
