@@ -1,0 +1,5145 @@
+{
+  "accounting": {
+    "baseline_gpu_lane_tests": 104839060,
+    "creative_tail_lane_tests": 344279,
+    "denominators_covered": 99999999,
+    "executable_llm_ideas": 11,
+    "llm_ideas_proposed": 12,
+    "llm_provider_calls": 4,
+    "matched_control_lane_tests": 33918680,
+    "mutated_parameter_pairs": 1051,
+    "retained_llm_provider_calls": 1,
+    "total_exact_modular_lane_tests": 146588698
+  },
+  "campaign_id": "erdos-straus-creative-shadow-2026-08-24-001",
+  "claim_boundary": {
+    "famous_open_problem_attempt_authorized": false,
+    "finite_search_decides_conjecture": false,
+    "human_prior_art_review_complete": false,
+    "llm_self_assessment_establishes_novelty": false,
+    "new_verification_bound_claimed": false,
+    "open_problem_solved": false
+  },
+  "claude": {
+    "budget": {
+      "calls": 1,
+      "input_tokens": 1416,
+      "output_tokens": 5093,
+      "total_tokens": 6509
+    },
+    "calls": [
+      {
+        "benchmark_id": "erdos_straus_shadow",
+        "evidence": {
+          "anthropic_version": "2023-06-01",
+          "api_response_id": "msg_011CeM6cQW9jfwxL1EK9EfED",
+          "credential_persisted": false,
+          "header_names": [
+            "anthropic-version",
+            "content-type",
+            "x-api-key"
+          ],
+          "model": "claude-opus-4-6",
+          "model_evidence": {
+            "capabilities_sha256": "493fd4635402ecdc3d383a1da01b0bda4fc0603b07940b2549c47db93bc62f26",
+            "model": "claude-opus-4-6",
+            "structured_outputs_supported": true
+          },
+          "network_calls": 2,
+          "output_sha256": "10faa4b71ffa5bc535cff9be50b3fa31965ef55aff92283e381415c28630b240",
+          "prompt_sha256": "e03c694e57e0195b688f10fb5f9eb1164f39262ee174fb077091d66fc8024d23",
+          "raw_output_sha256": "6cfddb34ed71bebba56022cb6adf464403ff521ae15d184076578783d9d0f66a",
+          "request_schema_sha256": "6c1a14a9a2b948cd40d483155ee15f06195432c57c87649644ac0fc8b50c98ae",
+          "usage": {
+            "input_tokens": 1416,
+            "output_tokens": 5093
+          }
+        },
+        "output": {
+          "benchmark_id": "erdos_straus_shadow",
+          "hypotheses": [
+            {
+              "expression": "ESDSL1|basis=residue_cover|x=3,7,15,31|t=1,2,5|m=12,24",
+              "falsifiers": [
+                "n=1 mod 12 with n>10^6 not covered by residue classes"
+              ],
+              "family": "residue_class_covering",
+              "hypothesis_id": "ES-RC-001",
+              "invariants": [
+                "Union of residue classes mod 12 and mod 24 must cover all integers \u22653",
+                "Each residue class yields explicit (x,y,z) triple"
+              ],
+              "known_analogues": [
+                "Schinzel's covering congruence approach",
+                "Sierpinski's composite cover"
+              ],
+              "llm_origin_assessment": "known_rewrite",
+              "proof_plan": [
+                "Enumerate residue classes mod 12 and mod 24",
+                "For each class r, exhibit polynomial formulas for x(n),y(n),z(n)",
+                "Verify 4/n=1/x+1/y+1/z symbolically for each family",
+                "Show union of classes covers all n\u22653"
+              ],
+              "rationale": "Classic covering-system approach: partition integers mod 12 and 24 into residue classes, and for each class give an explicit decomposition formula. The parameters x=3,7,15,31 correspond to offsets used in the Mordell-style parametrizations for different residue classes. Most known partial results on Erd\u0151s-Straus use this strategy.",
+              "representation": "modular_relation",
+              "source_idea_domains": [
+                "covering systems",
+                "modular arithmetic",
+                "Erd\u0151s-Straus classical approaches"
+              ],
+              "synthesis_note": "Direct encoding of the classical residue-cover approach into ESDSL1 format. The key difficulty is that residue classes mod 12 and 24 do not fully cover the hard case n\u22611 mod 12."
+            },
+            {
+              "expression": "ESDSL1|basis=continued_fraction|x=1,4,17,68|t=2,7|m=4,12,48",
+              "falsifiers": [
+                "Primes n\u22611 mod 12 where CF convergents of 4/n do not yield valid triples"
+              ],
+              "family": "cf_convergent_extraction",
+              "hypothesis_id": "ES-CF-002",
+              "invariants": [
+                "Convergent p_k/q_k of 4/n satisfies |4/n - p_k/q_k| < 1/(q_k q_{k+1})",
+                "Remainder after subtracting 1/x must itself be an Egyptian fraction of 2 terms"
+              ],
+              "known_analogues": [
+                "Stern-Brocot mediant approach",
+                "CF-based Egyptian fraction algorithms"
+              ],
+              "llm_origin_assessment": "cross_domain_synthesis",
+              "proof_plan": [
+                "Compute continued fraction of 4/n",
+                "Extract first convergent p/q with q>n/4",
+                "Set x=q, reduce 4/n - 1/q to p'/q'",
+                "Apply greedy or divisor-pair to decompose p'/q' into 1/y+1/z"
+              ],
+              "rationale": "Use the continued fraction expansion of 4/n to find a good rational approximation 1/x, then decompose the remainder. The CF approach automatically finds denominators with small residual, potentially bypassing the hard cases of the modular sieve. Parameters encode convergent indices and trial offsets.",
+              "representation": "transform_relation",
+              "source_idea_domains": [
+                "continued fractions",
+                "Diophantine approximation",
+                "Egyptian fraction theory"
+              ],
+              "synthesis_note": "Synthesizes CF-based Diophantine approximation with the unit fraction decomposition problem. The approach is well-known for general Egyptian fractions but specifically tuned here for the 4/n case."
+            },
+            {
+              "expression": "ESDSL1|basis=descent_graph|x=2,5,13,34|t=1,3,8|m=12,60",
+              "falsifiers": [
+                "n prime \u22611 mod 12 where descent chain does not terminate in \u2264 log(n) steps"
+              ],
+              "family": "descent_chain",
+              "hypothesis_id": "ES-DG-003",
+              "invariants": [
+                "Each descent step reduces max(x,y,z)",
+                "Descent terminates when denominator divides n exactly",
+                "Graph is acyclic for all valid n"
+              ],
+              "known_analogues": [
+                "Fermat infinite descent",
+                "Vieta jumping on Markov equation"
+              ],
+              "llm_origin_assessment": "cross_domain_synthesis",
+              "proof_plan": [
+                "Define descent operator D(n,x) = (n', x') reducing problem size",
+                "Show D preserves the Erd\u0151s-Straus equation structure",
+                "Prove termination by showing denominators decrease",
+                "Handle base cases explicitly for small n"
+              ],
+              "rationale": "Model the search for (x,y,z) as a descent on a directed graph where nodes are partial decompositions 4/n - 1/x = remainder, and edges correspond to choosing the next unit fraction. The Fibonacci-like parameters x=2,5,13,34 define preferred descent paths. Inspired by Vieta jumping and infinite descent in quadratic Diophantine equations.",
+              "representation": "proof_plan",
+              "source_idea_domains": [
+                "infinite descent",
+                "Vieta jumping",
+                "graph theory",
+                "Fibonacci sequences"
+              ],
+              "synthesis_note": "Novel combination of descent methods from quadratic Diophantine theory with the linear structure of Egyptian fractions. The Fibonacci-indexed parameters aim to create descent paths with optimal convergence."
+            },
+            {
+              "expression": "ESDSL1|basis=divisor_pair|x=1,6,12,48|t=1,4,12|m=12,48,144",
+              "falsifiers": [
+                "n where 4x-n has no divisor pair (a,b) with ab=n*x and a+b\u22610 mod relevant modulus"
+              ],
+              "family": "divisor_factorization",
+              "hypothesis_id": "ES-DP-004",
+              "invariants": [
+                "4/n - 1/x = (4x-n)/(nx)",
+                "Need divisor d of nx such that d and nx/d give valid y,z",
+                "y = nx/(4x-n) * correction terms"
+              ],
+              "known_analogues": [
+                "Standard divisor-pair method in Erd\u0151s-Straus literature",
+                "Elsholtz-Tao divisor sum estimates"
+              ],
+              "llm_origin_assessment": "known_rewrite",
+              "proof_plan": [
+                "Fix x = ceil(n/4) + offset for offset in parameter set",
+                "Compute r = 4x - n",
+                "Factor nx and enumerate divisor pairs (d, nx/d)",
+                "Accept when d \u2261 r mod appropriate modulus, yielding integer y,z"
+              ],
+              "rationale": "The core algebraic identity: 4/n = 1/x + 1/y + 1/z iff 4/n - 1/x = (4x-n)/(nx) = 1/y + 1/z, which requires finding divisors of nx that sum appropriately. The multi-scale moduli 12,48,144 handle different residue classes. This is the most direct algebraic approach.",
+              "representation": "invariant_relation",
+              "source_idea_domains": [
+                "elementary number theory",
+                "divisor enumeration",
+                "factorization"
+              ],
+              "synthesis_note": "Standard algebraic reformulation with extended modular sieving at three scales. The large modulus 144=12^2 attempts to resolve more subcases."
+            },
+            {
+              "expression": "ESDSL1|basis=lattice_transform|x=3,11,23,47|t=2,6,14|m=8,24,120",
+              "falsifiers": [
+                "n where the lattice point (x,y,z) with 4yz+4xz+4xy=nxyz has no short vector"
+              ],
+              "family": "lattice_shortest_vector",
+              "hypothesis_id": "ES-LT-005",
+              "invariants": [
+                "Equation 4(xy+xz+yz)=nxyz defines a lattice in (x,y,z)-space",
+                "Solutions correspond to lattice points on an algebraic surface",
+                "LLL-reduced basis should contain short solution vectors"
+              ],
+              "known_analogues": [
+                "Lenstra's integer programming via LLL",
+                "Lattice-based Diophantine solvers"
+              ],
+              "llm_origin_assessment": "cross_domain_synthesis",
+              "proof_plan": [
+                "Rewrite 4/n=1/x+1/y+1/z as integer bilinear form",
+                "Construct lattice L_n with basis encoding the equation",
+                "Apply LLL or HKZ reduction",
+                "Extract solution from short vectors of reduced basis"
+              ],
+              "rationale": "Reinterpret the Erd\u0151s-Straus equation as finding lattice points on an algebraic surface. The equation 4(xy+xz+yz)=nxyz can be linearized by fixing x and searching for (y,z) on a hyperbola. Lattice reduction (LLL) can find short vectors corresponding to small solutions. Parameters are Sophie Germain primes chosen for their factorization difficulty.",
+              "representation": "other_typed_relation",
+              "source_idea_domains": [
+                "lattice reduction",
+                "LLL algorithm",
+                "algebraic geometry",
+                "integer programming"
+              ],
+              "synthesis_note": "Cross-domain transfer from computational number theory (lattice reduction) to the Egyptian fraction setting. Sophie Germain primes are chosen as they represent particularly hard cases."
+            },
+            {
+              "expression": "ESDSL1|basis=polynomial_ansatz|x=1,2,4,8|t=0,1,3,7|m=12,60,84",
+              "falsifiers": [
+                "n prime where no polynomial of degree \u22642 in n yields valid x"
+              ],
+              "family": "polynomial_parametrization",
+              "hypothesis_id": "ES-PA-006",
+              "invariants": [
+                "x(n) = (n+a)/b for class-dependent integers a,b",
+                "y and z are rational functions of n with integer values",
+                "Parametrization covers all n in given residue class"
+              ],
+              "known_analogues": [
+                "Schinzel polynomial parametrizations",
+                "Webb's parametric families"
+              ],
+              "llm_origin_assessment": "known_rewrite",
+              "proof_plan": [
+                "For each residue class mod lcm(12,60,84)=420, propose x=f(n)",
+                "Derive y(n),z(n) from the reduced equation",
+                "Verify integrality conditions",
+                "Count uncovered classes"
+              ],
+              "rationale": "Seek polynomial expressions x(n), y(n), z(n) that solve 4/n=1/x+1/y+1/z for all n in a given residue class. The moduli 12,60,84 are chosen so lcm=420, giving a fine partition. Powers of 2 in x parameters encode binary search through polynomial coefficients.",
+              "representation": "piecewise_relation",
+              "source_idea_domains": [
+                "polynomial parametrization",
+                "piecewise function design",
+                "modular arithmetic"
+              ],
+              "synthesis_note": "Systematic polynomial ansatz with fine modular partition. The lcm=420 partition attempts to cover more cases than the classical mod 12 approach."
+            },
+            {
+              "expression": "ESDSL1|basis=greedy_offset|x=0,1,3,7,15|t=1,2,4|m=4,12",
+              "falsifiers": [
+                "n where greedy algorithm 1/ceil(n/4) leaves remainder with no 2-term decomposition"
+              ],
+              "family": "greedy_with_correction",
+              "hypothesis_id": "ES-GO-007",
+              "invariants": [
+                "x = ceil(n/4) + offset, offset \u2208 {0,1,3,7,15}",
+                "Remainder 4/n - 1/x must be positive",
+                "Remainder denominator must factor appropriately"
+              ],
+              "known_analogues": [
+                "Fibonacci-Sylvester greedy algorithm",
+                "Erd\u0151s-Bleicher greedy variants"
+              ],
+              "llm_origin_assessment": "known_rewrite",
+              "proof_plan": [
+                "Set x = ceil(n/4) + delta for each delta in offset set",
+                "Compute remainder r/s = 4/n - 1/x in lowest terms",
+                "Check if s has divisor d with d \u2261 -s/r mod (s/r)",
+                "If yes, extract y,z; if no, try next delta"
+              ],
+              "rationale": "The greedy algorithm for Egyptian fractions chooses x=ceil(n/4), which works for many n. When it fails, small offsets can rescue the decomposition. The offsets 0,1,3,7,15 (Mersenne-like) are chosen to maximize the chance that the remainder has a convenient factorization. This is the computational baseline with systematic offset exploration.",
+              "representation": "piecewise_relation",
+              "source_idea_domains": [
+                "greedy algorithms",
+                "Mersenne numbers",
+                "Egyptian fraction algorithms"
+              ],
+              "synthesis_note": "Elaboration of the known greedy baseline with Mersenne-indexed offsets. Simple but effective for covering most cases."
+            },
+            {
+              "expression": "ESDSL1|basis=modular_sieve|x=5,17,41,97|t=1,3,7,13|m=24,120,256",
+              "falsifiers": [
+                "n\u22611 mod 24 where sieve leaves no admissible (x,y,z)"
+              ],
+              "family": "prime_indexed_sieve",
+              "hypothesis_id": "ES-MS-008",
+              "invariants": [
+                "For each prime p in sieve, n mod p determines feasibility",
+                "Intersection of feasible classes must be non-empty",
+                "Sieve density remains positive as moduli grow"
+              ],
+              "known_analogues": [
+                "Selberg sieve",
+                "Eratosthenes-type sieves for Diophantine equations"
+              ],
+              "llm_origin_assessment": "cross_domain_synthesis",
+              "proof_plan": [
+                "For each modulus m, classify residues of n into easy/hard",
+                "Apply inclusion-exclusion to bound density of hard cases",
+                "Show hard case density \u2192 0 as sieve depth increases",
+                "Explicitly handle any surviving hard residue classes"
+              ],
+              "rationale": "Apply sieve methods from analytic number theory to the Erd\u0151s-Straus problem. For each prime modulus p, determine which residue classes of n allow easy decompositions. The sieve parameters are primes chosen for their coverage efficiency. The key question is whether the sieve density of hard cases can be driven to zero.",
+              "representation": "modular_relation",
+              "source_idea_domains": [
+                "sieve theory",
+                "analytic number theory",
+                "probabilistic number theory"
+              ],
+              "synthesis_note": "Transfers sieve methodology from prime counting to Egyptian fraction feasibility. The choice of prime moduli 5,17,41,97 aims for near-independent coverage."
+            },
+            {
+              "expression": "ESDSL1|basis=residue_cover|x=4,12,28,60,124|t=1,5|m=12,60,168",
+              "falsifiers": [
+                "n\u22611 mod 840 not covered by any residue class in the system"
+              ],
+              "family": "deep_covering_system",
+              "hypothesis_id": "ES-DC-009",
+              "invariants": [
+                "Covering system uses moduli dividing lcm(12,60,168)=840",
+                "Each residue class mod 840 maps to an explicit triple",
+                "x values follow the pattern 4(2^k-1) for parametric flexibility"
+              ],
+              "known_analogues": [
+                "Heger's covering system for 4/n",
+                "Salez covering approach"
+              ],
+              "llm_origin_assessment": "proposed_new_construction",
+              "proof_plan": [
+                "Enumerate all 840 residue classes",
+                "For each class, try x = n*f(r)/g(r) for class-specific rational functions",
+                "Verify integrality and positivity",
+                "Catalog uncovered classes and attempt secondary covers"
+              ],
+              "rationale": "Extend the classical covering system approach to modulus 840 = 2^3 * 3 * 5 * 7, which is much larger than the usual 12 or 24. The x-values 4,12,28,60,124 follow 4(2^k-1) and provide geometrically spaced trial denominators. With 840 classes, far more cases can be resolved by direct polynomial parametrization.",
+              "representation": "modular_relation",
+              "source_idea_domains": [
+                "covering systems",
+                "highly composite numbers",
+                "systematic enumeration"
+              ],
+              "synthesis_note": "Aggressive scaling of the covering system approach. Whether mod 840 suffices to cover all cases is unknown, but it dramatically reduces the number of hard cases."
+            },
+            {
+              "expression": "ESDSL1|basis=lattice_transform|x=6,14,30,62|t=2,4,8|m=3,7,31",
+              "falsifiers": [
+                "Mersenne prime n where hyperbola has no integer point in the lattice"
+              ],
+              "family": "hyperbola_lattice",
+              "hypothesis_id": "ES-HL-010",
+              "invariants": [
+                "For fixed x, equation becomes (4x-n)yz = nx(y+z)",
+                "This defines a hyperbola in (y,z)-plane",
+                "Integer points on hyperbola \u2194 divisors of nx^2/(4x-n)^2"
+              ],
+              "known_analogues": [
+                "Pell equation solution via lattice methods",
+                "Hyperbola method in sieve theory"
+              ],
+              "llm_origin_assessment": "cross_domain_synthesis",
+              "proof_plan": [
+                "Fix x from parameter set (values are 2(2^k-1))",
+                "Transform to hyperbola (4x-n)(y-A)(z-A)=A^2*nx for appropriate A",
+                "Search for lattice points using Cornacchia-like algorithm",
+                "Combine solutions across different x values"
+              ],
+              "rationale": "After fixing x, the remaining equation in y,z defines a hyperbola. Finding integer points on this hyperbola is equivalent to factoring a specific integer. The lattice transform approach uses the geometry of the hyperbola to systematically enumerate solutions. Mersenne-like x values 6,14,30,62 create hyperbolas with special arithmetic properties.",
+              "representation": "invariant_relation",
+              "source_idea_domains": [
+                "algebraic geometry",
+                "Pell equations",
+                "Cornacchia algorithm",
+                "hyperbolic geometry"
+              ],
+              "synthesis_note": "Combines the algebraic structure of the reduced 2-variable problem with lattice point enumeration on conics. The specific x-values create hyperbolas whose discriminants have controlled factorization."
+            },
+            {
+              "expression": "ESDSL1|basis=generating_function|x=2,3,5,8,13|t=1,1,2,3|m=12,144",
+              "falsifiers": [
+                "n for which the generating function coefficient extraction yields no valid triple"
+              ],
+              "family": "fibonacci_gf_extraction",
+              "hypothesis_id": "ES-GF-011",
+              "invariants": [
+                "G(q) = sum_{n>=3} f(n) q^n where f(n) counts decompositions",
+                "Fibonacci-indexed coefficients have special modularity",
+                "Non-vanishing of f(n) equivalent to Erd\u0151s-Straus for n"
+              ],
+              "known_analogues": [
+                "Hardy-Littlewood circle method",
+                "Generating function approach to partition problems"
+              ],
+              "llm_origin_assessment": "cross_domain_synthesis",
+              "proof_plan": [
+                "Define G(q) = sum over valid triples of q^n weight",
+                "Factor G using modular forms / theta function identities",
+                "Show G has no zero coefficients for n\u22653",
+                "Extract constructive decomposition from dominant term"
+              ],
+              "rationale": "Encode the counting function of Erd\u0151s-Straus decompositions as a generating function. The Fibonacci parameters 2,3,5,8,13 index special evaluation points where the generating function has analytic structure amenable to the circle method. Modulus 144=12^2 provides a fine-grained modular decomposition of the generating function.",
+              "representation": "generating_function",
+              "source_idea_domains": [
+                "analytic number theory",
+                "circle method",
+                "generating functions",
+                "Fibonacci sequences",
+                "modular forms"
+              ],
+              "synthesis_note": "Highly speculative transfer of circle method ideas to the Egyptian fraction counting problem. The Fibonacci indexing is motivated by golden-ratio-related convergence properties."
+            },
+            {
+              "expression": "ESDSL1|basis=polynomial_ansatz|x=3,9,27,81,243|t=1,4,13|m=9,36,108",
+              "falsifiers": [
+                "n\u22611 mod 9 where ternary expansion yields no valid parametrization"
+              ],
+              "family": "ternary_polynomial",
+              "hypothesis_id": "ES-TP-012",
+              "invariants": [
+                "x values are powers of 3: 3^1,...,3^5",
+                "Moduli are 9,36,108 = 9*{1,4,12}",
+                "For n\u22610 mod 3, trivial: 4/n = 1/(n/3) + 1/(n/3) + 1/(2n/3) type",
+                "Ternary structure exploits 3-adic valuation of n"
+              ],
+              "known_analogues": [
+                "p-adic approaches to Diophantine equations",
+                "Hensel lifting"
+              ],
+              "llm_origin_assessment": "proposed_new_construction",
+              "proof_plan": [
+                "Classify n by 3-adic valuation v_3(n)",
+                "For each valuation, choose x = 3^k with k = v_3(n)+1",
+                "Reduce to equation over integers coprime to 3",
+                "Apply Hensel-like lifting to construct y,z from mod-9 solutions"
+              ],
+              "rationale": "Exploit the ternary (base-3) structure of n to choose x as a power of 3. When n is divisible by 3, the problem simplifies dramatically. For n coprime to 3, the 3-adic approach via Hensel lifting can construct solutions by iteratively refining mod-9, mod-27, etc. The moduli 9,36,108 are chosen to align with this 3-adic hierarchy.",
+              "representation": "other_typed_relation",
+              "source_idea_domains": [
+                "p-adic analysis",
+                "Hensel's lemma",
+                "ternary number systems",
+                "local-global principle"
+              ],
+              "synthesis_note": "Attempts to leverage p-adic (specifically 3-adic) structure. The connection between 3-adic valuations and Egyptian fraction decompositions is unexplored territory. May fail for n\u22611 mod 3 with high 3-adic complexity."
+            }
+          ],
+          "quarantine": {
+            "rejected_hypotheses": 0,
+            "rejected_steering_actions": 0
+          },
+          "role": "recombiner",
+          "schema_version": "invariant-claude-creativity-output-2.0",
+          "steering_actions": []
+        },
+        "role": "recombiner",
+        "status": "completed"
+      }
+    ],
+    "completed_calls": 1,
+    "credential_activation": {
+      "credential_env_var": "ANTHROPIC_API_KEY",
+      "credential_persisted": false,
+      "credential_value_recorded": false,
+      "injected_into_process": true,
+      "source_kind": "user_invariant_env_file",
+      "source_locator_sha256": "a8bd263e1734574f0da2293e21c313ac36422779ab2aef50a8e0606220d00da0"
+    },
+    "critic_kind": "deterministic_machine_admission_not_llm_critique",
+    "critic_verdict_counts": {
+      "repair": 1,
+      "retain": 11
+    },
+    "origin_counts": {
+      "cross_domain_synthesis": 6,
+      "known_rewrite": 4,
+      "proposed_new_construction": 2
+    },
+    "proposed_ideas": 12,
+    "requested_ideas_per_creative_call": 12
+  },
+  "config": {
+    "config_sha256": "bb3e29e63c7a2683e33b889c124e7d50bb7e3a750d7e8a20ed2048d460097b69",
+    "source_sha256": "702636794c25ffa8e7c1d68a9f6fa46ce677e31d33bf42e10413c262ed579680",
+    "sweeper_sha256": "046a56bb8fc4287c3601ac9aa33bfadcbde69e3780e4d90c730c7319c489b821"
+  },
+  "content_sha256": "e6af409250666bd46db823455f6a50fe057d74dc1557381cbdadad4f257b7d0d",
+  "creative_search": {
+    "direct_unique_parameter_pairs": 117,
+    "executable_ideas": 11,
+    "ideas": [
+      {
+        "critic": {
+          "blocker_kind": "none",
+          "candidate_id": "recombiner.01.ES-RC-001",
+          "distance_denominator": 1,
+          "distance_numerator": 0,
+          "repair": "Proceed to exact finite execution; correctness and novelty remain unverified.",
+          "verdict": "retain"
+        },
+        "execution": {
+          "admission": "EXECUTED_EXACT_MODULAR_SCREEN",
+          "device": "NVIDIA GeForce RTX 5090",
+          "elapsed_seconds": "0.132466",
+          "exact_lane_tests": 706924,
+          "finite_calibration_hard_cases": 83333,
+          "recipe": {
+            "basis": "residue_cover",
+            "moduli": [
+              12,
+              24
+            ],
+            "t_offsets": [
+              1,
+              2,
+              5
+            ],
+            "x_offsets": [
+              3,
+              7,
+              15,
+              31
+            ]
+          },
+          "residue_evidence": [
+            {
+              "complete_residues_in_finite_calibration": [],
+              "modulus": 12,
+              "observed_residues": 1
+            },
+            {
+              "complete_residues_in_finite_calibration": [],
+              "modulus": 24,
+              "observed_residues": 2
+            }
+          ],
+          "resolved_hard_cases": 33404,
+          "witness_sample": [
+            {
+              "n": 25,
+              "x": 10,
+              "y": 18,
+              "z": 225
+            },
+            {
+              "n": 142465,
+              "x": 35620,
+              "y": 338306888,
+              "z": 85838662512876520
+            },
+            {
+              "n": 284905,
+              "x": 71230,
+              "y": 1352918878,
+              "z": 1372792116483665285
+            },
+            {
+              "n": 428329,
+              "x": 107090,
+              "y": 1479669442,
+              "z": 737739904881703735
+            },
+            {
+              "n": 571357,
+              "x": 142855,
+              "y": 1295574672,
+              "z": 1046993711930743920
+            },
+            {
+              "n": 714085,
+              "x": 178529,
+              "y": 4112415516,
+              "z": 16911961372125130740
+            },
+            {
+              "n": 857185,
+              "x": 214300,
+              "y": 12246316368,
+              "z": 112479198426612217200
+            },
+            {
+              "n": 999985,
+              "x": 250000,
+              "y": 16666416668,
+              "z": 208327083396874750000
+            }
+          ]
+        },
+        "hypothesis": {
+          "expression": "ESDSL1|basis=residue_cover|x=3,7,15,31|t=1,2,5|m=12,24",
+          "falsifiers": [
+            "n=1 mod 12 with n>10^6 not covered by residue classes"
+          ],
+          "family": "residue_class_covering",
+          "hypothesis_id": "ES-RC-001",
+          "invariants": [
+            "Union of residue classes mod 12 and mod 24 must cover all integers \u22653",
+            "Each residue class yields explicit (x,y,z) triple"
+          ],
+          "known_analogues": [
+            "Schinzel's covering congruence approach",
+            "Sierpinski's composite cover"
+          ],
+          "llm_origin_assessment": "known_rewrite",
+          "proof_plan": [
+            "Enumerate residue classes mod 12 and mod 24",
+            "For each class r, exhibit polynomial formulas for x(n),y(n),z(n)",
+            "Verify 4/n=1/x+1/y+1/z symbolically for each family",
+            "Show union of classes covers all n\u22653"
+          ],
+          "rationale": "Classic covering-system approach: partition integers mod 12 and 24 into residue classes, and for each class give an explicit decomposition formula. The parameters x=3,7,15,31 correspond to offsets used in the Mordell-style parametrizations for different residue classes. Most known partial results on Erd\u0151s-Straus use this strategy.",
+          "representation": "modular_relation",
+          "source_idea_domains": [
+            "covering systems",
+            "modular arithmetic",
+            "Erd\u0151s-Straus classical approaches"
+          ],
+          "synthesis_note": "Direct encoding of the classical residue-cover approach into ESDSL1 format. The key difficulty is that residue classes mod 12 and 24 do not fully cover the hard case n\u22611 mod 12."
+        },
+        "idea_id": "recombiner.01.ES-RC-001",
+        "llm_self_assessed_origin": "known_rewrite",
+        "prior_art": {
+          "automated_mechanism_matches": [
+            "modular_identity"
+          ],
+          "human_prior_art_review": "NOT_PERFORMED",
+          "novelty_established": false,
+          "status": "POSSIBLE_KNOWN_OVERLAP"
+        },
+        "role": "recombiner"
+      },
+      {
+        "critic": {
+          "blocker_kind": "none",
+          "candidate_id": "recombiner.02.ES-CF-002",
+          "distance_denominator": 1,
+          "distance_numerator": 0,
+          "repair": "Proceed to exact finite execution; correctness and novelty remain unverified.",
+          "verdict": "retain"
+        },
+        "execution": {
+          "admission": "EXECUTED_EXACT_MODULAR_SCREEN",
+          "device": "NVIDIA GeForce RTX 5090",
+          "elapsed_seconds": "0.003494",
+          "exact_lane_tests": 465597,
+          "finite_calibration_hard_cases": 83333,
+          "recipe": {
+            "basis": "continued_fraction",
+            "moduli": [
+              4,
+              12,
+              48
+            ],
+            "t_offsets": [
+              2,
+              7
+            ],
+            "x_offsets": [
+              1,
+              4,
+              17,
+              68
+            ]
+          },
+          "residue_evidence": [
+            {
+              "complete_residues_in_finite_calibration": [],
+              "modulus": 4,
+              "observed_residues": 1
+            },
+            {
+              "complete_residues_in_finite_calibration": [],
+              "modulus": 12,
+              "observed_residues": 1
+            },
+            {
+              "complete_residues_in_finite_calibration": [],
+              "modulus": 48,
+              "observed_residues": 4
+            }
+          ],
+          "resolved_hard_cases": 35933,
+          "witness_sample": [
+            {
+              "n": 49,
+              "x": 14,
+              "y": 100,
+              "z": 4900
+            },
+            {
+              "n": 142081,
+              "x": 35538,
+              "y": 71116546,
+              "z": 1910037062728551
+            },
+            {
+              "n": 285337,
+              "x": 71336,
+              "y": 2907828612,
+              "z": 1138235971272189192
+            },
+            {
+              "n": 428281,
+              "x": 107072,
+              "y": 6550986178,
+              "z": 21457709945622537664
+            },
+            {
+              "n": 571249,
+              "x": 142814,
+              "y": 11654622100,
+              "z": 67915108135249582900
+            },
+            {
+              "n": 714097,
+              "x": 178542,
+              "y": 1795722630,
+              "z": 1467615403566343395
+            },
+            {
+              "n": 856177,
+              "x": 214046,
+              "y": 26180180308,
+              "z": 342700920453515307124
+            },
+            {
+              "n": 999985,
+              "x": 249998,
+              "y": 35713464292,
+              "z": 637725765832266066340
+            }
+          ]
+        },
+        "hypothesis": {
+          "expression": "ESDSL1|basis=continued_fraction|x=1,4,17,68|t=2,7|m=4,12,48",
+          "falsifiers": [
+            "Primes n\u22611 mod 12 where CF convergents of 4/n do not yield valid triples"
+          ],
+          "family": "cf_convergent_extraction",
+          "hypothesis_id": "ES-CF-002",
+          "invariants": [
+            "Convergent p_k/q_k of 4/n satisfies |4/n - p_k/q_k| < 1/(q_k q_{k+1})",
+            "Remainder after subtracting 1/x must itself be an Egyptian fraction of 2 terms"
+          ],
+          "known_analogues": [
+            "Stern-Brocot mediant approach",
+            "CF-based Egyptian fraction algorithms"
+          ],
+          "llm_origin_assessment": "cross_domain_synthesis",
+          "proof_plan": [
+            "Compute continued fraction of 4/n",
+            "Extract first convergent p/q with q>n/4",
+            "Set x=q, reduce 4/n - 1/q to p'/q'",
+            "Apply greedy or divisor-pair to decompose p'/q' into 1/y+1/z"
+          ],
+          "rationale": "Use the continued fraction expansion of 4/n to find a good rational approximation 1/x, then decompose the remainder. The CF approach automatically finds denominators with small residual, potentially bypassing the hard cases of the modular sieve. Parameters encode convergent indices and trial offsets.",
+          "representation": "transform_relation",
+          "source_idea_domains": [
+            "continued fractions",
+            "Diophantine approximation",
+            "Egyptian fraction theory"
+          ],
+          "synthesis_note": "Synthesizes CF-based Diophantine approximation with the unit fraction decomposition problem. The approach is well-known for general Egyptian fractions but specifically tuned here for the 4/n case."
+        },
+        "idea_id": "recombiner.02.ES-CF-002",
+        "llm_self_assessed_origin": "cross_domain_synthesis",
+        "prior_art": {
+          "automated_mechanism_matches": [
+            "continued_fraction",
+            "greedy_egyptian_fraction",
+            "modular_identity"
+          ],
+          "human_prior_art_review": "NOT_PERFORMED",
+          "novelty_established": false,
+          "status": "POSSIBLE_KNOWN_OVERLAP"
+        },
+        "role": "recombiner"
+      },
+      {
+        "critic": {
+          "blocker_kind": "none",
+          "candidate_id": "recombiner.03.ES-DG-003",
+          "distance_denominator": 1,
+          "distance_numerator": 0,
+          "repair": "Proceed to exact finite execution; correctness and novelty remain unverified.",
+          "verdict": "retain"
+        },
+        "execution": {
+          "admission": "EXECUTED_EXACT_MODULAR_SCREEN",
+          "device": "NVIDIA GeForce RTX 5090",
+          "elapsed_seconds": "0.004880",
+          "exact_lane_tests": 534760,
+          "finite_calibration_hard_cases": 83333,
+          "recipe": {
+            "basis": "descent_graph",
+            "moduli": [
+              12,
+              60
+            ],
+            "t_offsets": [
+              1,
+              3,
+              8
+            ],
+            "x_offsets": [
+              2,
+              5,
+              13,
+              34
+            ]
+          },
+          "residue_evidence": [
+            {
+              "complete_residues_in_finite_calibration": [],
+              "modulus": 12,
+              "observed_residues": 1
+            },
+            {
+              "complete_residues_in_finite_calibration": [],
+              "modulus": 60,
+              "observed_residues": 5
+            }
+          ],
+          "resolved_hard_cases": 49304,
+          "witness_sample": [
+            {
+              "n": 25,
+              "x": 12,
+              "y": 15,
+              "z": 100
+            },
+            {
+              "n": 143029,
+              "x": 35760,
+              "y": 464974278,
+              "z": 132122881269349840
+            },
+            {
+              "n": 285853,
+              "x": 71466,
+              "y": 1857160956,
+              "z": 2107750830442793116
+            },
+            {
+              "n": 429073,
+              "x": 107274,
+              "y": 2001233786,
+              "z": 1212020304883523547
+            },
+            {
+              "n": 571273,
+              "x": 142821,
+              "y": 7417252832,
+              "z": 31851159745842337824
+            },
+            {
+              "n": 714337,
+              "x": 178587,
+              "y": 11597391078,
+              "z": 37935750705756814638
+            },
+            {
+              "n": 857329,
+              "x": 214335,
+              "y": 16705055566,
+              "z": 279058881446442524790
+            },
+            {
+              "n": 999997,
+              "x": 250002,
+              "y": 22727386367,
+              "z": 132136627926664986786
+            }
+          ]
+        },
+        "hypothesis": {
+          "expression": "ESDSL1|basis=descent_graph|x=2,5,13,34|t=1,3,8|m=12,60",
+          "falsifiers": [
+            "n prime \u22611 mod 12 where descent chain does not terminate in \u2264 log(n) steps"
+          ],
+          "family": "descent_chain",
+          "hypothesis_id": "ES-DG-003",
+          "invariants": [
+            "Each descent step reduces max(x,y,z)",
+            "Descent terminates when denominator divides n exactly",
+            "Graph is acyclic for all valid n"
+          ],
+          "known_analogues": [
+            "Fermat infinite descent",
+            "Vieta jumping on Markov equation"
+          ],
+          "llm_origin_assessment": "cross_domain_synthesis",
+          "proof_plan": [
+            "Define descent operator D(n,x) = (n', x') reducing problem size",
+            "Show D preserves the Erd\u0151s-Straus equation structure",
+            "Prove termination by showing denominators decrease",
+            "Handle base cases explicitly for small n"
+          ],
+          "rationale": "Model the search for (x,y,z) as a descent on a directed graph where nodes are partial decompositions 4/n - 1/x = remainder, and edges correspond to choosing the next unit fraction. The Fibonacci-like parameters x=2,5,13,34 define preferred descent paths. Inspired by Vieta jumping and infinite descent in quadratic Diophantine equations.",
+          "representation": "proof_plan",
+          "source_idea_domains": [
+            "infinite descent",
+            "Vieta jumping",
+            "graph theory",
+            "Fibonacci sequences"
+          ],
+          "synthesis_note": "Novel combination of descent methods from quadratic Diophantine theory with the linear structure of Egyptian fractions. The Fibonacci-indexed parameters aim to create descent paths with optimal convergence."
+        },
+        "idea_id": "recombiner.03.ES-DG-003",
+        "llm_self_assessed_origin": "cross_domain_synthesis",
+        "prior_art": {
+          "automated_mechanism_matches": [],
+          "human_prior_art_review": "NOT_PERFORMED",
+          "novelty_established": false,
+          "status": "NO_COARSE_MATCH_NOT_A_NOVELTY_RESULT"
+        },
+        "role": "recombiner"
+      },
+      {
+        "critic": {
+          "blocker_kind": "none",
+          "candidate_id": "recombiner.04.ES-DP-004",
+          "distance_denominator": 1,
+          "distance_numerator": 0,
+          "repair": "Proceed to exact finite execution; correctness and novelty remain unverified.",
+          "verdict": "retain"
+        },
+        "execution": {
+          "admission": "EXECUTED_EXACT_MODULAR_SCREEN",
+          "device": "NVIDIA GeForce RTX 5090",
+          "elapsed_seconds": "0.012432",
+          "exact_lane_tests": 662046,
+          "finite_calibration_hard_cases": 83333,
+          "recipe": {
+            "basis": "divisor_pair",
+            "moduli": [
+              12,
+              48,
+              144
+            ],
+            "t_offsets": [
+              1,
+              4,
+              12
+            ],
+            "x_offsets": [
+              1,
+              6,
+              12,
+              48
+            ]
+          },
+          "residue_evidence": [
+            {
+              "complete_residues_in_finite_calibration": [],
+              "modulus": 12,
+              "observed_residues": 1
+            },
+            {
+              "complete_residues_in_finite_calibration": [],
+              "modulus": 48,
+              "observed_residues": 4
+            },
+            {
+              "complete_residues_in_finite_calibration": [],
+              "modulus": 144,
+              "observed_residues": 12
+            }
+          ],
+          "resolved_hard_cases": 38017,
+          "witness_sample": [
+            {
+              "n": 25,
+              "x": 8,
+              "y": 30,
+              "z": 600
+            },
+            {
+              "n": 142849,
+              "x": 35714,
+              "y": 728815599,
+              "z": 531172176616913202
+            },
+            {
+              "n": 285541,
+              "x": 71387,
+              "y": 2911987914,
+              "z": 1914765006087189498
+            },
+            {
+              "n": 428785,
+              "x": 107198,
+              "y": 6566413491,
+              "z": 43117786128220393590
+            },
+            {
+              "n": 571693,
+              "x": 142936,
+              "y": 1602264916,
+              "z": 1925439644181100376
+            },
+            {
+              "n": 714493,
+              "x": 178636,
+              "y": 2502630816,
+              "z": 4697370748391988576
+            },
+            {
+              "n": 857437,
+              "x": 214361,
+              "y": 26257293252,
+              "z": 689445448895267442252
+            },
+            {
+              "n": 999985,
+              "x": 249998,
+              "y": 35713464291,
+              "z": 1275451531628818668390
+            }
+          ]
+        },
+        "hypothesis": {
+          "expression": "ESDSL1|basis=divisor_pair|x=1,6,12,48|t=1,4,12|m=12,48,144",
+          "falsifiers": [
+            "n where 4x-n has no divisor pair (a,b) with ab=n*x and a+b\u22610 mod relevant modulus"
+          ],
+          "family": "divisor_factorization",
+          "hypothesis_id": "ES-DP-004",
+          "invariants": [
+            "4/n - 1/x = (4x-n)/(nx)",
+            "Need divisor d of nx such that d and nx/d give valid y,z",
+            "y = nx/(4x-n) * correction terms"
+          ],
+          "known_analogues": [
+            "Standard divisor-pair method in Erd\u0151s-Straus literature",
+            "Elsholtz-Tao divisor sum estimates"
+          ],
+          "llm_origin_assessment": "known_rewrite",
+          "proof_plan": [
+            "Fix x = ceil(n/4) + offset for offset in parameter set",
+            "Compute r = 4x - n",
+            "Factor nx and enumerate divisor pairs (d, nx/d)",
+            "Accept when d \u2261 r mod appropriate modulus, yielding integer y,z"
+          ],
+          "rationale": "The core algebraic identity: 4/n = 1/x + 1/y + 1/z iff 4/n - 1/x = (4x-n)/(nx) = 1/y + 1/z, which requires finding divisors of nx that sum appropriately. The multi-scale moduli 12,48,144 handle different residue classes. This is the most direct algebraic approach.",
+          "representation": "invariant_relation",
+          "source_idea_domains": [
+            "elementary number theory",
+            "divisor enumeration",
+            "factorization"
+          ],
+          "synthesis_note": "Standard algebraic reformulation with extended modular sieving at three scales. The large modulus 144=12^2 attempts to resolve more subcases."
+        },
+        "idea_id": "recombiner.04.ES-DP-004",
+        "llm_self_assessed_origin": "known_rewrite",
+        "prior_art": {
+          "automated_mechanism_matches": [
+            "divisor_factorization",
+            "modular_identity"
+          ],
+          "human_prior_art_review": "NOT_PERFORMED",
+          "novelty_established": false,
+          "status": "POSSIBLE_KNOWN_OVERLAP"
+        },
+        "role": "recombiner"
+      },
+      {
+        "critic": {
+          "blocker_kind": "none",
+          "candidate_id": "recombiner.05.ES-LT-005",
+          "distance_denominator": 1,
+          "distance_numerator": 0,
+          "repair": "Proceed to exact finite execution; correctness and novelty remain unverified.",
+          "verdict": "retain"
+        },
+        "execution": {
+          "admission": "EXECUTED_EXACT_MODULAR_SCREEN",
+          "device": "NVIDIA GeForce RTX 5090",
+          "elapsed_seconds": "0.012346",
+          "exact_lane_tests": 782130,
+          "finite_calibration_hard_cases": 83333,
+          "recipe": {
+            "basis": "lattice_transform",
+            "moduli": [
+              8,
+              24,
+              120
+            ],
+            "t_offsets": [
+              2,
+              6,
+              14
+            ],
+            "x_offsets": [
+              3,
+              11,
+              23,
+              47
+            ]
+          },
+          "residue_evidence": [
+            {
+              "complete_residues_in_finite_calibration": [],
+              "modulus": 8,
+              "observed_residues": 2
+            },
+            {
+              "complete_residues_in_finite_calibration": [],
+              "modulus": 24,
+              "observed_residues": 2
+            },
+            {
+              "complete_residues_in_finite_calibration": [],
+              "modulus": 120,
+              "observed_residues": 10
+            }
+          ],
+          "resolved_hard_cases": 26166,
+          "witness_sample": [
+            {
+              "n": 73,
+              "x": 22,
+              "y": 110,
+              "z": 4015
+            },
+            {
+              "n": 142765,
+              "x": 35695,
+              "y": 339733114,
+              "z": 49465109123754170
+            },
+            {
+              "n": 286429,
+              "x": 71619,
+              "y": 436462950,
+              "z": 90439349219769550
+            },
+            {
+              "n": 428257,
+              "x": 107068,
+              "y": 3056841372,
+              "z": 1347732570054337818
+            },
+            {
+              "n": 571345,
+              "x": 142884,
+              "y": 427413924,
+              "z": 69230929183605630
+            },
+            {
+              "n": 713977,
+              "x": 178498,
+              "y": 8496231106,
+              "z": 24608844198286263179
+            },
+            {
+              "n": 856129,
+              "x": 214044,
+              "y": 3898920762,
+              "z": 5177350764888536124
+            },
+            {
+              "n": 999985,
+              "x": 250000,
+              "y": 16666416669,
+              "z": 119044047662499750000
+            }
+          ]
+        },
+        "hypothesis": {
+          "expression": "ESDSL1|basis=lattice_transform|x=3,11,23,47|t=2,6,14|m=8,24,120",
+          "falsifiers": [
+            "n where the lattice point (x,y,z) with 4yz+4xz+4xy=nxyz has no short vector"
+          ],
+          "family": "lattice_shortest_vector",
+          "hypothesis_id": "ES-LT-005",
+          "invariants": [
+            "Equation 4(xy+xz+yz)=nxyz defines a lattice in (x,y,z)-space",
+            "Solutions correspond to lattice points on an algebraic surface",
+            "LLL-reduced basis should contain short solution vectors"
+          ],
+          "known_analogues": [
+            "Lenstra's integer programming via LLL",
+            "Lattice-based Diophantine solvers"
+          ],
+          "llm_origin_assessment": "cross_domain_synthesis",
+          "proof_plan": [
+            "Rewrite 4/n=1/x+1/y+1/z as integer bilinear form",
+            "Construct lattice L_n with basis encoding the equation",
+            "Apply LLL or HKZ reduction",
+            "Extract solution from short vectors of reduced basis"
+          ],
+          "rationale": "Reinterpret the Erd\u0151s-Straus equation as finding lattice points on an algebraic surface. The equation 4(xy+xz+yz)=nxyz can be linearized by fixing x and searching for (y,z) on a hyperbola. Lattice reduction (LLL) can find short vectors corresponding to small solutions. Parameters are Sophie Germain primes chosen for their factorization difficulty.",
+          "representation": "other_typed_relation",
+          "source_idea_domains": [
+            "lattice reduction",
+            "LLL algorithm",
+            "algebraic geometry",
+            "integer programming"
+          ],
+          "synthesis_note": "Cross-domain transfer from computational number theory (lattice reduction) to the Egyptian fraction setting. Sophie Germain primes are chosen as they represent particularly hard cases."
+        },
+        "idea_id": "recombiner.05.ES-LT-005",
+        "llm_self_assessed_origin": "cross_domain_synthesis",
+        "prior_art": {
+          "automated_mechanism_matches": [
+            "divisor_factorization",
+            "lattice_parameterization"
+          ],
+          "human_prior_art_review": "NOT_PERFORMED",
+          "novelty_established": false,
+          "status": "POSSIBLE_KNOWN_OVERLAP"
+        },
+        "role": "recombiner"
+      },
+      {
+        "critic": {
+          "blocker_kind": "none",
+          "candidate_id": "recombiner.06.ES-PA-006",
+          "distance_denominator": 1,
+          "distance_numerator": 0,
+          "repair": "Proceed to exact finite execution; correctness and novelty remain unverified.",
+          "verdict": "retain"
+        },
+        "execution": {
+          "admission": "EXECUTED_EXACT_MODULAR_SCREEN",
+          "device": "NVIDIA GeForce RTX 5090",
+          "elapsed_seconds": "0.016758",
+          "exact_lane_tests": 526700,
+          "finite_calibration_hard_cases": 83333,
+          "recipe": {
+            "basis": "polynomial_ansatz",
+            "moduli": [
+              12,
+              60,
+              84
+            ],
+            "t_offsets": [
+              0,
+              1,
+              3,
+              7
+            ],
+            "x_offsets": [
+              1,
+              2,
+              4,
+              8
+            ]
+          },
+          "residue_evidence": [
+            {
+              "complete_residues_in_finite_calibration": [],
+              "modulus": 12,
+              "observed_residues": 1
+            },
+            {
+              "complete_residues_in_finite_calibration": [
+                25
+              ],
+              "modulus": 60,
+              "observed_residues": 5
+            },
+            {
+              "complete_residues_in_finite_calibration": [
+                49
+              ],
+              "modulus": 84,
+              "observed_residues": 7
+            }
+          ],
+          "resolved_hard_cases": 69815,
+          "witness_sample": [
+            {
+              "n": 13,
+              "x": 5,
+              "y": 10,
+              "z": 130
+            },
+            {
+              "n": 142981,
+              "x": 35748,
+              "y": 464662254,
+              "z": 395836851737998692
+            },
+            {
+              "n": 285577,
+              "x": 71396,
+              "y": 2912722215,
+              "z": 4568281144185858060
+            },
+            {
+              "n": 428677,
+              "x": 107172,
+              "y": 4176561042,
+              "z": 10660015746549738036
+            },
+            {
+              "n": 571453,
+              "x": 142865,
+              "y": 11662947550,
+              "z": 190434083764008455950
+            },
+            {
+              "n": 714469,
+              "x": 178619,
+              "y": 18231105474,
+              "z": 332373206785881659202
+            },
+            {
+              "n": 857377,
+              "x": 214347,
+              "y": 16706926166,
+              "z": 438619314422997367422
+            },
+            {
+              "n": 999997,
+              "x": 250002,
+              "y": 22727386367,
+              "z": 132136627926664986786
+            }
+          ]
+        },
+        "hypothesis": {
+          "expression": "ESDSL1|basis=polynomial_ansatz|x=1,2,4,8|t=0,1,3,7|m=12,60,84",
+          "falsifiers": [
+            "n prime where no polynomial of degree \u22642 in n yields valid x"
+          ],
+          "family": "polynomial_parametrization",
+          "hypothesis_id": "ES-PA-006",
+          "invariants": [
+            "x(n) = (n+a)/b for class-dependent integers a,b",
+            "y and z are rational functions of n with integer values",
+            "Parametrization covers all n in given residue class"
+          ],
+          "known_analogues": [
+            "Schinzel polynomial parametrizations",
+            "Webb's parametric families"
+          ],
+          "llm_origin_assessment": "known_rewrite",
+          "proof_plan": [
+            "For each residue class mod lcm(12,60,84)=420, propose x=f(n)",
+            "Derive y(n),z(n) from the reduced equation",
+            "Verify integrality conditions",
+            "Count uncovered classes"
+          ],
+          "rationale": "Seek polynomial expressions x(n), y(n), z(n) that solve 4/n=1/x+1/y+1/z for all n in a given residue class. The moduli 12,60,84 are chosen so lcm=420, giving a fine partition. Powers of 2 in x parameters encode binary search through polynomial coefficients.",
+          "representation": "piecewise_relation",
+          "source_idea_domains": [
+            "polynomial parametrization",
+            "piecewise function design",
+            "modular arithmetic"
+          ],
+          "synthesis_note": "Systematic polynomial ansatz with fine modular partition. The lcm=420 partition attempts to cover more cases than the classical mod 12 approach."
+        },
+        "idea_id": "recombiner.06.ES-PA-006",
+        "llm_self_assessed_origin": "known_rewrite",
+        "prior_art": {
+          "automated_mechanism_matches": [
+            "modular_identity",
+            "polynomial_family"
+          ],
+          "human_prior_art_review": "NOT_PERFORMED",
+          "novelty_established": false,
+          "status": "POSSIBLE_KNOWN_OVERLAP"
+        },
+        "role": "recombiner"
+      },
+      {
+        "critic": {
+          "blocker_kind": "none",
+          "candidate_id": "recombiner.07.ES-GO-007",
+          "distance_denominator": 1,
+          "distance_numerator": 0,
+          "repair": "Proceed to exact finite execution; correctness and novelty remain unverified.",
+          "verdict": "retain"
+        },
+        "execution": {
+          "admission": "EXECUTED_EXACT_MODULAR_SCREEN",
+          "device": "NVIDIA GeForce RTX 5090",
+          "elapsed_seconds": "0.015368",
+          "exact_lane_tests": 412575,
+          "finite_calibration_hard_cases": 83333,
+          "recipe": {
+            "basis": "greedy_offset",
+            "moduli": [
+              4,
+              12
+            ],
+            "t_offsets": [
+              1,
+              2,
+              4
+            ],
+            "x_offsets": [
+              0,
+              1,
+              3,
+              7,
+              15
+            ]
+          },
+          "residue_evidence": [
+            {
+              "complete_residues_in_finite_calibration": [],
+              "modulus": 4,
+              "observed_residues": 1
+            },
+            {
+              "complete_residues_in_finite_calibration": [],
+              "modulus": 12,
+              "observed_residues": 1
+            }
+          ],
+          "resolved_hard_cases": 67788,
+          "witness_sample": [
+            {
+              "n": 13,
+              "x": 4,
+              "y": 20,
+              "z": 130
+            },
+            {
+              "n": 142897,
+              "x": 35725,
+              "y": 1701665110,
+              "z": 1737398486253122150
+            },
+            {
+              "n": 285565,
+              "x": 71392,
+              "y": 6795685495,
+              "z": 27708804801376351520
+            },
+            {
+              "n": 428593,
+              "x": 107150,
+              "y": 6560534280,
+              "z": 30128427020778048600
+            },
+            {
+              "n": 571453,
+              "x": 142864,
+              "y": 27213353800,
+              "z": 277712484364277061200
+            },
+            {
+              "n": 714277,
+              "x": 178570,
+              "y": 42516147965,
+              "z": 1084573702626548036770
+            },
+            {
+              "n": 857185,
+              "x": 214297,
+              "y": 61230724650,
+              "z": 2249520984637239848850
+            },
+            {
+              "n": 999997,
+              "x": 250000,
+              "y": 83333083335,
+              "z": 4166641666787499750000
+            }
+          ]
+        },
+        "hypothesis": {
+          "expression": "ESDSL1|basis=greedy_offset|x=0,1,3,7,15|t=1,2,4|m=4,12",
+          "falsifiers": [
+            "n where greedy algorithm 1/ceil(n/4) leaves remainder with no 2-term decomposition"
+          ],
+          "family": "greedy_with_correction",
+          "hypothesis_id": "ES-GO-007",
+          "invariants": [
+            "x = ceil(n/4) + offset, offset \u2208 {0,1,3,7,15}",
+            "Remainder 4/n - 1/x must be positive",
+            "Remainder denominator must factor appropriately"
+          ],
+          "known_analogues": [
+            "Fibonacci-Sylvester greedy algorithm",
+            "Erd\u0151s-Bleicher greedy variants"
+          ],
+          "llm_origin_assessment": "known_rewrite",
+          "proof_plan": [
+            "Set x = ceil(n/4) + delta for each delta in offset set",
+            "Compute remainder r/s = 4/n - 1/x in lowest terms",
+            "Check if s has divisor d with d \u2261 -s/r mod (s/r)",
+            "If yes, extract y,z; if no, try next delta"
+          ],
+          "rationale": "The greedy algorithm for Egyptian fractions chooses x=ceil(n/4), which works for many n. When it fails, small offsets can rescue the decomposition. The offsets 0,1,3,7,15 (Mersenne-like) are chosen to maximize the chance that the remainder has a convenient factorization. This is the computational baseline with systematic offset exploration.",
+          "representation": "piecewise_relation",
+          "source_idea_domains": [
+            "greedy algorithms",
+            "Mersenne numbers",
+            "Egyptian fraction algorithms"
+          ],
+          "synthesis_note": "Elaboration of the known greedy baseline with Mersenne-indexed offsets. Simple but effective for covering most cases."
+        },
+        "idea_id": "recombiner.07.ES-GO-007",
+        "llm_self_assessed_origin": "known_rewrite",
+        "prior_art": {
+          "automated_mechanism_matches": [
+            "divisor_factorization",
+            "greedy_egyptian_fraction"
+          ],
+          "human_prior_art_review": "NOT_PERFORMED",
+          "novelty_established": false,
+          "status": "POSSIBLE_KNOWN_OVERLAP"
+        },
+        "role": "recombiner"
+      },
+      {
+        "critic": {
+          "blocker_kind": "none",
+          "candidate_id": "recombiner.08.ES-MS-008",
+          "distance_denominator": 1,
+          "distance_numerator": 0,
+          "repair": "Proceed to exact finite execution; correctness and novelty remain unverified.",
+          "verdict": "retain"
+        },
+        "execution": {
+          "admission": "EXECUTED_EXACT_MODULAR_SCREEN",
+          "device": "NVIDIA GeForce RTX 5090",
+          "elapsed_seconds": "0.016171",
+          "exact_lane_tests": 928131,
+          "finite_calibration_hard_cases": 83333,
+          "recipe": {
+            "basis": "modular_sieve",
+            "moduli": [
+              24,
+              120,
+              256
+            ],
+            "t_offsets": [
+              1,
+              3,
+              7,
+              13
+            ],
+            "x_offsets": [
+              5,
+              17,
+              41,
+              97
+            ]
+          },
+          "residue_evidence": [
+            {
+              "complete_residues_in_finite_calibration": [],
+              "modulus": 24,
+              "observed_residues": 2
+            },
+            {
+              "complete_residues_in_finite_calibration": [],
+              "modulus": 120,
+              "observed_residues": 10
+            },
+            {
+              "complete_residues_in_finite_calibration": [],
+              "modulus": 256,
+              "observed_residues": 64
+            }
+          ],
+          "resolved_hard_cases": 31944,
+          "witness_sample": [
+            {
+              "n": 25,
+              "x": 12,
+              "y": 15,
+              "z": 100
+            },
+            {
+              "n": 142777,
+              "x": 35700,
+              "y": 221614736,
+              "z": 40342896131386800
+            },
+            {
+              "n": 286081,
+              "x": 71526,
+              "y": 889662158,
+              "z": 650159691027337491
+            },
+            {
+              "n": 428605,
+              "x": 107157,
+              "y": 1996870696,
+              "z": 3987492574546653720
+            },
+            {
+              "n": 570769,
+              "x": 142710,
+              "y": 1147245691,
+              "z": 1316172674370821790
+            },
+            {
+              "n": 714265,
+              "x": 178572,
+              "y": 5545553461,
+              "z": 30753163183263525060
+            },
+            {
+              "n": 856945,
+              "x": 214278,
+              "y": 1099547670,
+              "z": 1121688044048261365
+            },
+            {
+              "n": 999985,
+              "x": 250002,
+              "y": 10869489131,
+              "z": 63194261879486885490
+            }
+          ]
+        },
+        "hypothesis": {
+          "expression": "ESDSL1|basis=modular_sieve|x=5,17,41,97|t=1,3,7,13|m=24,120,256",
+          "falsifiers": [
+            "n\u22611 mod 24 where sieve leaves no admissible (x,y,z)"
+          ],
+          "family": "prime_indexed_sieve",
+          "hypothesis_id": "ES-MS-008",
+          "invariants": [
+            "For each prime p in sieve, n mod p determines feasibility",
+            "Intersection of feasible classes must be non-empty",
+            "Sieve density remains positive as moduli grow"
+          ],
+          "known_analogues": [
+            "Selberg sieve",
+            "Eratosthenes-type sieves for Diophantine equations"
+          ],
+          "llm_origin_assessment": "cross_domain_synthesis",
+          "proof_plan": [
+            "For each modulus m, classify residues of n into easy/hard",
+            "Apply inclusion-exclusion to bound density of hard cases",
+            "Show hard case density \u2192 0 as sieve depth increases",
+            "Explicitly handle any surviving hard residue classes"
+          ],
+          "rationale": "Apply sieve methods from analytic number theory to the Erd\u0151s-Straus problem. For each prime modulus p, determine which residue classes of n allow easy decompositions. The sieve parameters are primes chosen for their coverage efficiency. The key question is whether the sieve density of hard cases can be driven to zero.",
+          "representation": "modular_relation",
+          "source_idea_domains": [
+            "sieve theory",
+            "analytic number theory",
+            "probabilistic number theory"
+          ],
+          "synthesis_note": "Transfers sieve methodology from prime counting to Egyptian fraction feasibility. The choice of prime moduli 5,17,41,97 aims for near-independent coverage."
+        },
+        "idea_id": "recombiner.08.ES-MS-008",
+        "llm_self_assessed_origin": "cross_domain_synthesis",
+        "prior_art": {
+          "automated_mechanism_matches": [
+            "modular_identity"
+          ],
+          "human_prior_art_review": "NOT_PERFORMED",
+          "novelty_established": false,
+          "status": "POSSIBLE_KNOWN_OVERLAP"
+        },
+        "role": "recombiner"
+      },
+      {
+        "critic": {
+          "blocker_kind": "none",
+          "candidate_id": "recombiner.09.ES-DC-009",
+          "distance_denominator": 1,
+          "distance_numerator": 0,
+          "repair": "Proceed to exact finite execution; correctness and novelty remain unverified.",
+          "verdict": "retain"
+        },
+        "execution": {
+          "admission": "EXECUTED_EXACT_MODULAR_SCREEN",
+          "device": "NVIDIA GeForce RTX 5090",
+          "elapsed_seconds": "0.010682",
+          "exact_lane_tests": 679925,
+          "finite_calibration_hard_cases": 83333,
+          "recipe": {
+            "basis": "residue_cover",
+            "moduli": [
+              12,
+              60,
+              168
+            ],
+            "t_offsets": [
+              1,
+              5
+            ],
+            "x_offsets": [
+              4,
+              12,
+              28,
+              60,
+              124
+            ]
+          },
+          "residue_evidence": [
+            {
+              "complete_residues_in_finite_calibration": [],
+              "modulus": 12,
+              "observed_residues": 1
+            },
+            {
+              "complete_residues_in_finite_calibration": [],
+              "modulus": 60,
+              "observed_residues": 5
+            },
+            {
+              "complete_residues_in_finite_calibration": [],
+              "modulus": 168,
+              "observed_residues": 14
+            }
+          ],
+          "resolved_hard_cases": 21640,
+          "witness_sample": [
+            {
+              "n": 85,
+              "x": 34,
+              "y": 58,
+              "z": 2465
+            },
+            {
+              "n": 141985,
+              "x": 35525,
+              "y": 43861020,
+              "z": 1264204205714100
+            },
+            {
+              "n": 284653,
+              "x": 71176,
+              "y": 397263965,
+              "z": 28044430098427960
+            },
+            {
+              "n": 428773,
+              "x": 107198,
+              "y": 2419137267,
+              "z": 5852225114169092022
+            },
+            {
+              "n": 572125,
+              "x": 143060,
+              "y": 711723501,
+              "z": 506550341163973500
+            },
+            {
+              "n": 714373,
+              "x": 178598,
+              "y": 6715031004,
+              "z": 38942781189146046828
+            },
+            {
+              "n": 857101,
+              "x": 214280,
+              "y": 9666294858,
+              "z": 80695812233704048920
+            },
+            {
+              "n": 999949,
+              "x": 250000,
+              "y": 4901710790,
+              "z": 4225397243749750000
+            }
+          ]
+        },
+        "hypothesis": {
+          "expression": "ESDSL1|basis=residue_cover|x=4,12,28,60,124|t=1,5|m=12,60,168",
+          "falsifiers": [
+            "n\u22611 mod 840 not covered by any residue class in the system"
+          ],
+          "family": "deep_covering_system",
+          "hypothesis_id": "ES-DC-009",
+          "invariants": [
+            "Covering system uses moduli dividing lcm(12,60,168)=840",
+            "Each residue class mod 840 maps to an explicit triple",
+            "x values follow the pattern 4(2^k-1) for parametric flexibility"
+          ],
+          "known_analogues": [
+            "Heger's covering system for 4/n",
+            "Salez covering approach"
+          ],
+          "llm_origin_assessment": "proposed_new_construction",
+          "proof_plan": [
+            "Enumerate all 840 residue classes",
+            "For each class, try x = n*f(r)/g(r) for class-specific rational functions",
+            "Verify integrality and positivity",
+            "Catalog uncovered classes and attempt secondary covers"
+          ],
+          "rationale": "Extend the classical covering system approach to modulus 840 = 2^3 * 3 * 5 * 7, which is much larger than the usual 12 or 24. The x-values 4,12,28,60,124 follow 4(2^k-1) and provide geometrically spaced trial denominators. With 840 classes, far more cases can be resolved by direct polynomial parametrization.",
+          "representation": "modular_relation",
+          "source_idea_domains": [
+            "covering systems",
+            "highly composite numbers",
+            "systematic enumeration"
+          ],
+          "synthesis_note": "Aggressive scaling of the covering system approach. Whether mod 840 suffices to cover all cases is unknown, but it dramatically reduces the number of hard cases."
+        },
+        "idea_id": "recombiner.09.ES-DC-009",
+        "llm_self_assessed_origin": "proposed_new_construction",
+        "prior_art": {
+          "automated_mechanism_matches": [
+            "modular_identity",
+            "polynomial_family"
+          ],
+          "human_prior_art_review": "NOT_PERFORMED",
+          "novelty_established": false,
+          "status": "POSSIBLE_KNOWN_OVERLAP"
+        },
+        "role": "recombiner"
+      },
+      {
+        "critic": {
+          "blocker_kind": "none",
+          "candidate_id": "recombiner.10.ES-HL-010",
+          "distance_denominator": 1,
+          "distance_numerator": 0,
+          "repair": "Proceed to exact finite execution; correctness and novelty remain unverified.",
+          "verdict": "retain"
+        },
+        "execution": {
+          "admission": "EXECUTED_EXACT_MODULAR_SCREEN",
+          "device": "NVIDIA GeForce RTX 5090",
+          "elapsed_seconds": "0.012067",
+          "exact_lane_tests": 841719,
+          "finite_calibration_hard_cases": 83333,
+          "recipe": {
+            "basis": "lattice_transform",
+            "moduli": [
+              3,
+              7,
+              31
+            ],
+            "t_offsets": [
+              2,
+              4,
+              8
+            ],
+            "x_offsets": [
+              6,
+              14,
+              30,
+              62
+            ]
+          },
+          "residue_evidence": [
+            {
+              "complete_residues_in_finite_calibration": [],
+              "modulus": 3,
+              "observed_residues": 1
+            },
+            {
+              "complete_residues_in_finite_calibration": [],
+              "modulus": 7,
+              "observed_residues": 7
+            },
+            {
+              "complete_residues_in_finite_calibration": [],
+              "modulus": 31,
+              "observed_residues": 31
+            }
+          ],
+          "resolved_hard_cases": 20810,
+          "witness_sample": [
+            {
+              "n": 133,
+              "x": 40,
+              "y": 200,
+              "z": 13300
+            },
+            {
+              "n": 142741,
+              "x": 35700,
+              "y": 86370404,
+              "z": 3236256932308050
+            },
+            {
+              "n": 286741,
+              "x": 71700,
+              "y": 348463220,
+              "z": 25586322243941550
+            },
+            {
+              "n": 430801,
+              "x": 107707,
+              "y": 1718529014,
+              "z": 1123101874942244638
+            },
+            {
+              "n": 572965,
+              "x": 143248,
+              "y": 3039855200,
+              "z": 3118742874436520800
+            },
+            {
+              "n": 715141,
+              "x": 178800,
+              "y": 2167240866,
+              "z": 942581784582301200
+            },
+            {
+              "n": 857917,
+              "x": 214494,
+              "y": 3118949988,
+              "z": 1952187386782637796
+            },
+            {
+              "n": 999973,
+              "x": 250000,
+              "y": 9259009264,
+              "z": 18083514200683343750
+            }
+          ]
+        },
+        "hypothesis": {
+          "expression": "ESDSL1|basis=lattice_transform|x=6,14,30,62|t=2,4,8|m=3,7,31",
+          "falsifiers": [
+            "Mersenne prime n where hyperbola has no integer point in the lattice"
+          ],
+          "family": "hyperbola_lattice",
+          "hypothesis_id": "ES-HL-010",
+          "invariants": [
+            "For fixed x, equation becomes (4x-n)yz = nx(y+z)",
+            "This defines a hyperbola in (y,z)-plane",
+            "Integer points on hyperbola \u2194 divisors of nx^2/(4x-n)^2"
+          ],
+          "known_analogues": [
+            "Pell equation solution via lattice methods",
+            "Hyperbola method in sieve theory"
+          ],
+          "llm_origin_assessment": "cross_domain_synthesis",
+          "proof_plan": [
+            "Fix x from parameter set (values are 2(2^k-1))",
+            "Transform to hyperbola (4x-n)(y-A)(z-A)=A^2*nx for appropriate A",
+            "Search for lattice points using Cornacchia-like algorithm",
+            "Combine solutions across different x values"
+          ],
+          "rationale": "After fixing x, the remaining equation in y,z defines a hyperbola. Finding integer points on this hyperbola is equivalent to factoring a specific integer. The lattice transform approach uses the geometry of the hyperbola to systematically enumerate solutions. Mersenne-like x values 6,14,30,62 create hyperbolas with special arithmetic properties.",
+          "representation": "invariant_relation",
+          "source_idea_domains": [
+            "algebraic geometry",
+            "Pell equations",
+            "Cornacchia algorithm",
+            "hyperbolic geometry"
+          ],
+          "synthesis_note": "Combines the algebraic structure of the reduced 2-variable problem with lattice point enumeration on conics. The specific x-values create hyperbolas whose discriminants have controlled factorization."
+        },
+        "idea_id": "recombiner.10.ES-HL-010",
+        "llm_self_assessed_origin": "cross_domain_synthesis",
+        "prior_art": {
+          "automated_mechanism_matches": [
+            "divisor_factorization",
+            "lattice_parameterization"
+          ],
+          "human_prior_art_review": "NOT_PERFORMED",
+          "novelty_established": false,
+          "status": "POSSIBLE_KNOWN_OVERLAP"
+        },
+        "role": "recombiner"
+      },
+      {
+        "critic": {
+          "blocker_kind": "machine_dsl_parse_failure",
+          "candidate_id": "recombiner.11.ES-GF-011",
+          "distance_denominator": 1,
+          "distance_numerator": 1,
+          "repair": "Retain the idea text and translate it into a valid ESDSL1 recipe.",
+          "verdict": "repair"
+        },
+        "execution": {
+          "admission": "RETAINED_NONEXECUTABLE",
+          "reason": "expression_did_not_compile_to_esdsl1"
+        },
+        "hypothesis": {
+          "expression": "ESDSL1|basis=generating_function|x=2,3,5,8,13|t=1,1,2,3|m=12,144",
+          "falsifiers": [
+            "n for which the generating function coefficient extraction yields no valid triple"
+          ],
+          "family": "fibonacci_gf_extraction",
+          "hypothesis_id": "ES-GF-011",
+          "invariants": [
+            "G(q) = sum_{n>=3} f(n) q^n where f(n) counts decompositions",
+            "Fibonacci-indexed coefficients have special modularity",
+            "Non-vanishing of f(n) equivalent to Erd\u0151s-Straus for n"
+          ],
+          "known_analogues": [
+            "Hardy-Littlewood circle method",
+            "Generating function approach to partition problems"
+          ],
+          "llm_origin_assessment": "cross_domain_synthesis",
+          "proof_plan": [
+            "Define G(q) = sum over valid triples of q^n weight",
+            "Factor G using modular forms / theta function identities",
+            "Show G has no zero coefficients for n\u22653",
+            "Extract constructive decomposition from dominant term"
+          ],
+          "rationale": "Encode the counting function of Erd\u0151s-Straus decompositions as a generating function. The Fibonacci parameters 2,3,5,8,13 index special evaluation points where the generating function has analytic structure amenable to the circle method. Modulus 144=12^2 provides a fine-grained modular decomposition of the generating function.",
+          "representation": "generating_function",
+          "source_idea_domains": [
+            "analytic number theory",
+            "circle method",
+            "generating functions",
+            "Fibonacci sequences",
+            "modular forms"
+          ],
+          "synthesis_note": "Highly speculative transfer of circle method ideas to the Egyptian fraction counting problem. The Fibonacci indexing is motivated by golden-ratio-related convergence properties."
+        },
+        "idea_id": "recombiner.11.ES-GF-011",
+        "llm_self_assessed_origin": "cross_domain_synthesis",
+        "prior_art": {
+          "automated_mechanism_matches": [
+            "modular_identity"
+          ],
+          "human_prior_art_review": "NOT_PERFORMED",
+          "novelty_established": false,
+          "status": "POSSIBLE_KNOWN_OVERLAP"
+        },
+        "role": "recombiner"
+      },
+      {
+        "critic": {
+          "blocker_kind": "none",
+          "candidate_id": "recombiner.12.ES-TP-012",
+          "distance_denominator": 1,
+          "distance_numerator": 0,
+          "repair": "Proceed to exact finite execution; correctness and novelty remain unverified.",
+          "verdict": "retain"
+        },
+        "execution": {
+          "admission": "EXECUTED_EXACT_MODULAR_SCREEN",
+          "device": "NVIDIA GeForce RTX 5090",
+          "elapsed_seconds": "0.016125",
+          "exact_lane_tests": 946172,
+          "finite_calibration_hard_cases": 83333,
+          "recipe": {
+            "basis": "polynomial_ansatz",
+            "moduli": [
+              9,
+              36,
+              108
+            ],
+            "t_offsets": [
+              1,
+              4,
+              13
+            ],
+            "x_offsets": [
+              3,
+              9,
+              27,
+              81,
+              243
+            ]
+          },
+          "residue_evidence": [
+            {
+              "complete_residues_in_finite_calibration": [],
+              "modulus": 9,
+              "observed_residues": 3
+            },
+            {
+              "complete_residues_in_finite_calibration": [],
+              "modulus": 36,
+              "observed_residues": 3
+            },
+            {
+              "complete_residues_in_finite_calibration": [],
+              "modulus": 108,
+              "observed_residues": 9
+            }
+          ],
+          "resolved_hard_cases": 25264,
+          "witness_sample": [
+            {
+              "n": 25,
+              "x": 10,
+              "y": 18,
+              "z": 225
+            },
+            {
+              "n": 142477,
+              "x": 35623,
+              "y": 338363880,
+              "z": 59219024810940120
+            },
+            {
+              "n": 285817,
+              "x": 71482,
+              "y": 184061000,
+              "z": 18254893704439000
+            },
+            {
+              "n": 429109,
+              "x": 107281,
+              "y": 3069016180,
+              "z": 1989900063079249820
+            },
+            {
+              "n": 571213,
+              "x": 142807,
+              "y": 5438214328,
+              "z": 15296987103491695112
+            },
+            {
+              "n": 714181,
+              "x": 178555,
+              "y": 3269758680,
+              "z": 6414793091991446760
+            },
+            {
+              "n": 856993,
+              "x": 214252,
+              "y": 12240830951,
+              "z": 77502383972738254084
+            },
+            {
+              "n": 999985,
+              "x": 250000,
+              "y": 16666416668,
+              "z": 208327083396874750000
+            }
+          ]
+        },
+        "hypothesis": {
+          "expression": "ESDSL1|basis=polynomial_ansatz|x=3,9,27,81,243|t=1,4,13|m=9,36,108",
+          "falsifiers": [
+            "n\u22611 mod 9 where ternary expansion yields no valid parametrization"
+          ],
+          "family": "ternary_polynomial",
+          "hypothesis_id": "ES-TP-012",
+          "invariants": [
+            "x values are powers of 3: 3^1,...,3^5",
+            "Moduli are 9,36,108 = 9*{1,4,12}",
+            "For n\u22610 mod 3, trivial: 4/n = 1/(n/3) + 1/(n/3) + 1/(2n/3) type",
+            "Ternary structure exploits 3-adic valuation of n"
+          ],
+          "known_analogues": [
+            "p-adic approaches to Diophantine equations",
+            "Hensel lifting"
+          ],
+          "llm_origin_assessment": "proposed_new_construction",
+          "proof_plan": [
+            "Classify n by 3-adic valuation v_3(n)",
+            "For each valuation, choose x = 3^k with k = v_3(n)+1",
+            "Reduce to equation over integers coprime to 3",
+            "Apply Hensel-like lifting to construct y,z from mod-9 solutions"
+          ],
+          "rationale": "Exploit the ternary (base-3) structure of n to choose x as a power of 3. When n is divisible by 3, the problem simplifies dramatically. For n coprime to 3, the 3-adic approach via Hensel lifting can construct solutions by iteratively refining mod-9, mod-27, etc. The moduli 9,36,108 are chosen to align with this 3-adic hierarchy.",
+          "representation": "other_typed_relation",
+          "source_idea_domains": [
+            "p-adic analysis",
+            "Hensel's lemma",
+            "ternary number systems",
+            "local-global principle"
+          ],
+          "synthesis_note": "Attempts to leverage p-adic (specifically 3-adic) structure. The connection between 3-adic valuations and Egyptian fraction decompositions is unexplored territory. May fail for n\u22611 mod 3 with high 3-adic complexity."
+        },
+        "idea_id": "recombiner.12.ES-TP-012",
+        "llm_self_assessed_origin": "proposed_new_construction",
+        "prior_art": {
+          "automated_mechanism_matches": [
+            "polynomial_family"
+          ],
+          "human_prior_art_review": "NOT_PERFORMED",
+          "novelty_established": false,
+          "status": "POSSIBLE_KNOWN_OVERLAP"
+        },
+        "role": "recombiner"
+      }
+    ],
+    "nonexecutable_ideas_retained": 1,
+    "parameter_pairs": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        0,
+        4
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        1,
+        3
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        1,
+        7
+      ],
+      [
+        1,
+        12
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        2,
+        7
+      ],
+      [
+        2,
+        8
+      ],
+      [
+        3,
+        1
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        3,
+        4
+      ],
+      [
+        3,
+        5
+      ],
+      [
+        3,
+        6
+      ],
+      [
+        3,
+        13
+      ],
+      [
+        3,
+        14
+      ],
+      [
+        4,
+        0
+      ],
+      [
+        4,
+        1
+      ],
+      [
+        4,
+        2
+      ],
+      [
+        4,
+        3
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        4,
+        7
+      ],
+      [
+        5,
+        1
+      ],
+      [
+        5,
+        3
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        5,
+        8
+      ],
+      [
+        5,
+        13
+      ],
+      [
+        6,
+        1
+      ],
+      [
+        6,
+        2
+      ],
+      [
+        6,
+        4
+      ],
+      [
+        6,
+        8
+      ],
+      [
+        6,
+        12
+      ],
+      [
+        7,
+        1
+      ],
+      [
+        7,
+        2
+      ],
+      [
+        7,
+        4
+      ],
+      [
+        7,
+        5
+      ],
+      [
+        8,
+        0
+      ],
+      [
+        8,
+        1
+      ],
+      [
+        8,
+        3
+      ],
+      [
+        8,
+        7
+      ],
+      [
+        9,
+        1
+      ],
+      [
+        9,
+        4
+      ],
+      [
+        9,
+        13
+      ],
+      [
+        11,
+        2
+      ],
+      [
+        11,
+        6
+      ],
+      [
+        11,
+        14
+      ],
+      [
+        12,
+        1
+      ],
+      [
+        12,
+        4
+      ],
+      [
+        12,
+        5
+      ],
+      [
+        12,
+        12
+      ],
+      [
+        13,
+        1
+      ],
+      [
+        13,
+        3
+      ],
+      [
+        13,
+        8
+      ],
+      [
+        14,
+        2
+      ],
+      [
+        14,
+        4
+      ],
+      [
+        14,
+        8
+      ],
+      [
+        15,
+        1
+      ],
+      [
+        15,
+        2
+      ],
+      [
+        15,
+        4
+      ],
+      [
+        15,
+        5
+      ],
+      [
+        17,
+        1
+      ],
+      [
+        17,
+        2
+      ],
+      [
+        17,
+        3
+      ],
+      [
+        17,
+        7
+      ],
+      [
+        17,
+        13
+      ],
+      [
+        23,
+        2
+      ],
+      [
+        23,
+        6
+      ],
+      [
+        23,
+        14
+      ],
+      [
+        27,
+        1
+      ],
+      [
+        27,
+        4
+      ],
+      [
+        27,
+        13
+      ],
+      [
+        28,
+        1
+      ],
+      [
+        28,
+        5
+      ],
+      [
+        30,
+        2
+      ],
+      [
+        30,
+        4
+      ],
+      [
+        30,
+        8
+      ],
+      [
+        31,
+        1
+      ],
+      [
+        31,
+        2
+      ],
+      [
+        31,
+        5
+      ],
+      [
+        34,
+        1
+      ],
+      [
+        34,
+        3
+      ],
+      [
+        34,
+        8
+      ],
+      [
+        41,
+        1
+      ],
+      [
+        41,
+        3
+      ],
+      [
+        41,
+        7
+      ],
+      [
+        41,
+        13
+      ],
+      [
+        47,
+        2
+      ],
+      [
+        47,
+        6
+      ],
+      [
+        47,
+        14
+      ],
+      [
+        48,
+        1
+      ],
+      [
+        48,
+        4
+      ],
+      [
+        48,
+        12
+      ],
+      [
+        60,
+        1
+      ],
+      [
+        60,
+        5
+      ],
+      [
+        62,
+        2
+      ],
+      [
+        62,
+        4
+      ],
+      [
+        62,
+        8
+      ],
+      [
+        68,
+        2
+      ],
+      [
+        68,
+        7
+      ],
+      [
+        81,
+        1
+      ],
+      [
+        81,
+        4
+      ],
+      [
+        81,
+        13
+      ],
+      [
+        97,
+        1
+      ],
+      [
+        97,
+        3
+      ],
+      [
+        97,
+        7
+      ],
+      [
+        97,
+        13
+      ],
+      [
+        124,
+        1
+      ],
+      [
+        124,
+        5
+      ],
+      [
+        243,
+        1
+      ],
+      [
+        243,
+        4
+      ],
+      [
+        243,
+        13
+      ]
+    ],
+    "total_idea_lane_tests": 7486679
+  },
+  "finite_sweep": {
+    "arithmetic": {
+      "confirm": "python-bigint-exact",
+      "screen": "int64-exact-modular"
+    },
+    "box": {
+      "gpu_t_rounds": 32,
+      "gpu_x_rounds": 64,
+      "n_max": 100000000,
+      "n_min": 2
+    },
+    "claims": {
+      "corpus_absence_establishes_novelty": false,
+      "exceeds_literature_bound": false,
+      "full_witness_table_stored": false,
+      "mechanism_receipt_below_literature_bound": true,
+      "range_decides_conjecture": false,
+      "unsolvable_candidate_present": false,
+      "witnesses_exact_verified": true
+    },
+    "content_sha256": "086c3de578601454190f394600a83161f93e99cb64451982904343042f5d810c",
+    "decision": "NO_UNSOLVABLE_N_IN_RANGE",
+    "device": "NVIDIA GeForce RTX 5090",
+    "elapsed_seconds": "12.033",
+    "literature": {
+      "citation": "C. Elsholtz and T. Tao, arXiv:1107.1010, J. Aust. Math. Soc. 94 (2013) 50-105; S. E. Salez, arXiv:1406.6307 (2014): verified for all n <= 10^17",
+      "verified_below": 100000000000000000
+    },
+    "mode": "erdos_straus",
+    "prefilter": {
+      "cpu_divisor_completed": 1261,
+      "gpu_lane_tests": 104839060,
+      "gpu_resolved": 8332072,
+      "hard_class_count": 8333333
+    },
+    "problem_id": "erdos_straus_sweeper_target",
+    "queue_content_sha256": "76f3d3e9ec639c63da86de995b938439414c79d93eda1374770dff9212ccc299",
+    "results": {
+      "classes": {
+        "even": {
+          "count": 50000000,
+          "first_n": 2,
+          "last_n": 100000000,
+          "sample": [
+            {
+              "n": 2,
+              "x": 1,
+              "y": 2,
+              "z": 2
+            },
+            {
+              "n": 1587302,
+              "x": 793651,
+              "y": 793652,
+              "z": 629882703452
+            },
+            {
+              "n": 3174604,
+              "x": 1587302,
+              "y": 1587303,
+              "z": 2519529226506
+            },
+            {
+              "n": 4761906,
+              "x": 2380953,
+              "y": 2380954,
+              "z": 5668939569162
+            },
+            {
+              "n": 6349208,
+              "x": 3174604,
+              "y": 3174605,
+              "z": 10078113731420
+            },
+            {
+              "n": 7936508,
+              "x": 3968254,
+              "y": 3968255,
+              "z": 15747043776770
+            },
+            {
+              "n": 9523810,
+              "x": 4761905,
+              "y": 4761906,
+              "z": 22675743990930
+            },
+            {
+              "n": 11111112,
+              "x": 5555556,
+              "y": 5555557,
+              "z": 30864208024692
+            },
+            {
+              "n": 12698414,
+              "x": 6349207,
+              "y": 6349208,
+              "z": 40312435878056
+            },
+            {
+              "n": 14285716,
+              "x": 7142858,
+              "y": 7142859,
+              "z": 51020427551022
+            },
+            {
+              "n": 15873016,
+              "x": 7936508,
+              "y": 7936509,
+              "z": 62988167170572
+            },
+            {
+              "n": 17460318,
+              "x": 8730159,
+              "y": 8730160,
+              "z": 76215684895440
+            },
+            {
+              "n": 19047620,
+              "x": 9523810,
+              "y": 9523811,
+              "z": 90702966439910
+            },
+            {
+              "n": 20634922,
+              "x": 10317461,
+              "y": 10317462,
+              "z": 106450011803982
+            },
+            {
+              "n": 22222222,
+              "x": 11111111,
+              "y": 11111112,
+              "z": 123456798765432
+            },
+            {
+              "n": 23809524,
+              "x": 11904762,
+              "y": 11904763,
+              "z": 141723370181406
+            },
+            {
+              "n": 25396826,
+              "x": 12698413,
+              "y": 12698414,
+              "z": 161249705416982
+            },
+            {
+              "n": 26984128,
+              "x": 13492064,
+              "y": 13492065,
+              "z": 182035804472160
+            },
+            {
+              "n": 28571430,
+              "x": 14285715,
+              "y": 14285716,
+              "z": 204081667346940
+            },
+            {
+              "n": 30158730,
+              "x": 15079365,
+              "y": 15079366,
+              "z": 227387263882590
+            },
+            {
+              "n": 31746032,
+              "x": 15873016,
+              "y": 15873017,
+              "z": 251952652809272
+            },
+            {
+              "n": 33333334,
+              "x": 16666667,
+              "y": 16666668,
+              "z": 277777805555556
+            },
+            {
+              "n": 34920636,
+              "x": 17460318,
+              "y": 17460319,
+              "z": 304862722121442
+            },
+            {
+              "n": 36507936,
+              "x": 18253968,
+              "y": 18253969,
+              "z": 333207365998992
+            },
+            {
+              "n": 38095238,
+              "x": 19047619,
+              "y": 19047620,
+              "z": 362811808616780
+            },
+            {
+              "n": 39682540,
+              "x": 19841270,
+              "y": 19841271,
+              "z": 393676015054170
+            },
+            {
+              "n": 41269842,
+              "x": 20634921,
+              "y": 20634922,
+              "z": 425799985311162
+            },
+            {
+              "n": 42857144,
+              "x": 21428572,
+              "y": 21428573,
+              "z": 459183719387756
+            },
+            {
+              "n": 44444444,
+              "x": 22222222,
+              "y": 22222223,
+              "z": 493827172839506
+            },
+            {
+              "n": 46031746,
+              "x": 23015873,
+              "y": 23015874,
+              "z": 529730432968002
+            },
+            {
+              "n": 47619048,
+              "x": 23809524,
+              "y": 23809525,
+              "z": 566893456916100
+            },
+            {
+              "n": 49206350,
+              "x": 24603175,
+              "y": 24603176,
+              "z": 605316244683800
+            },
+            {
+              "n": 50793650,
+              "x": 25396825,
+              "y": 25396826,
+              "z": 644998745477450
+            },
+            {
+              "n": 52380952,
+              "x": 26190476,
+              "y": 26190477,
+              "z": 685941059297052
+            },
+            {
+              "n": 53968254,
+              "x": 26984127,
+              "y": 26984128,
+              "z": 728143136936256
+            },
+            {
+              "n": 55555556,
+              "x": 27777778,
+              "y": 27777779,
+              "z": 771604978395062
+            },
+            {
+              "n": 57142858,
+              "x": 28571429,
+              "y": 28571430,
+              "z": 816326583673470
+            },
+            {
+              "n": 58730158,
+              "x": 29365079,
+              "y": 29365080,
+              "z": 862307894041320
+            },
+            {
+              "n": 60317460,
+              "x": 30158730,
+              "y": 30158731,
+              "z": 909549025371630
+            },
+            {
+              "n": 61904762,
+              "x": 30952381,
+              "y": 30952382,
+              "z": 958049920521542
+            },
+            {
+              "n": 63492064,
+              "x": 31746032,
+              "y": 31746033,
+              "z": 1007810579491056
+            },
+            {
+              "n": 65079364,
+              "x": 32539682,
+              "y": 32539683,
+              "z": 1058830937200806
+            },
+            {
+              "n": 66666666,
+              "x": 33333333,
+              "y": 33333334,
+              "z": 1111111122222222
+            },
+            {
+              "n": 68253968,
+              "x": 34126984,
+              "y": 34126985,
+              "z": 1164651071063240
+            },
+            {
+              "n": 69841270,
+              "x": 34920635,
+              "y": 34920636,
+              "z": 1219450783723860
+            },
+            {
+              "n": 71428572,
+              "x": 35714286,
+              "y": 35714287,
+              "z": 1275510260204082
+            },
+            {
+              "n": 73015872,
+              "x": 36507936,
+              "y": 36507937,
+              "z": 1332829427488032
+            },
+            {
+              "n": 74603174,
+              "x": 37301587,
+              "y": 37301588,
+              "z": 1391408430020156
+            },
+            {
+              "n": 76190476,
+              "x": 38095238,
+              "y": 38095239,
+              "z": 1451247196371882
+            },
+            {
+              "n": 77777778,
+              "x": 38888889,
+              "y": 38888890,
+              "z": 1512345726543210
+            },
+            {
+              "n": 79365078,
+              "x": 39682539,
+              "y": 39682540,
+              "z": 1574703941169060
+            },
+            {
+              "n": 80952380,
+              "x": 40476190,
+              "y": 40476191,
+              "z": 1638321997392290
+            },
+            {
+              "n": 82539682,
+              "x": 41269841,
+              "y": 41269842,
+              "z": 1703199817435122
+            },
+            {
+              "n": 84126984,
+              "x": 42063492,
+              "y": 42063493,
+              "z": 1769337401297556
+            },
+            {
+              "n": 85714286,
+              "x": 42857143,
+              "y": 42857144,
+              "z": 1836734748979592
+            },
+            {
+              "n": 87301586,
+              "x": 43650793,
+              "y": 43650794,
+              "z": 1905391773179642
+            },
+            {
+              "n": 88888888,
+              "x": 44444444,
+              "y": 44444445,
+              "z": 1975308646913580
+            },
+            {
+              "n": 90476190,
+              "x": 45238095,
+              "y": 45238096,
+              "z": 2046485284467120
+            },
+            {
+              "n": 92063492,
+              "x": 46031746,
+              "y": 46031747,
+              "z": 2118921685840262
+            },
+            {
+              "n": 93650792,
+              "x": 46825396,
+              "y": 46825397,
+              "z": 2192617757382212
+            },
+            {
+              "n": 95238094,
+              "x": 47619047,
+              "y": 47619048,
+              "z": 2267573684807256
+            },
+            {
+              "n": 96825396,
+              "x": 48412698,
+              "y": 48412699,
+              "z": 2343789376051902
+            },
+            {
+              "n": 98412698,
+              "x": 49206349,
+              "y": 49206350,
+              "z": 2421264831116150
+            },
+            {
+              "n": 100000000,
+              "x": 50000000,
+              "y": 50000001,
+              "z": 2500000050000000
+            }
+          ],
+          "symbolic_identity_verified": true,
+          "witness_rule": "n = 2m: (m, m+1, m*(m+1))"
+        },
+        "hard_1_mod_12": {
+          "count": 8333333,
+          "extremal_min_x": [
+            {
+              "n": 7047049,
+              "x": 1761826,
+              "x_offset": 63,
+              "y": 48688918247,
+              "z": 400069982622441218098
+            },
+            {
+              "n": 8045449,
+              "x": 2011426,
+              "x_offset": 63,
+              "y": 63462060023,
+              "z": 183687252825561006322
+            },
+            {
+              "n": 8682361,
+              "x": 2170654,
+              "x_offset": 63,
+              "y": 73907457406,
+              "z": 313996759699768057349
+            },
+            {
+              "n": 8749801,
+              "x": 2187514,
+              "x_offset": 63,
+              "y": 75060047784,
+              "z": 6974139549443253759096
+            },
+            {
+              "n": 10849609,
+              "x": 2712466,
+              "x_offset": 63,
+              "y": 115408609906,
+              "z": 14391451467304069097099
+            },
+            {
+              "n": 10975969,
+              "x": 2744056,
+              "x_offset": 63,
+              "y": 118112445478,
+              "z": 536883518306630729192
+            },
+            {
+              "n": 14145121,
+              "x": 3536344,
+              "x_offset": 63,
+              "y": 196164759927,
+              "z": 2609028535961897985768
+            },
+            {
+              "n": 14615329,
+              "x": 3653896,
+              "x_offset": 63,
+              "y": 209423106586,
+              "z": 1462699395669917035544
+            },
+            {
+              "n": 18241441,
+              "x": 4560424,
+              "x_offset": 63,
+              "y": 326230217001,
+              "z": 6354172182664283738904
+            },
+            {
+              "n": 20649721,
+              "x": 5162494,
+              "x_offset": 63,
+              "y": 418055140252,
+              "z": 518213669467435951941068
+            },
+            {
+              "n": 23025601,
+              "x": 5756464,
+              "x_offset": 63,
+              "y": 519788404870,
+              "z": 9861994901929575340880
+            },
+            {
+              "n": 24440161,
+              "x": 6110104,
+              "x_offset": 63,
+              "y": 585615394078,
+              "z": 27797544307802326613192
+            },
+            {
+              "n": 26668321,
+              "x": 6667144,
+              "x_offset": 63,
+              "y": 697260926855,
+              "z": 44260644065802875934520
+            },
+            {
+              "n": 30663649,
+              "x": 7665976,
+              "x_offset": 63,
+              "y": 921830577673,
+              "z": 1134511840590171917873672
+            },
+            {
+              "n": 33651601,
+              "x": 8412964,
+              "x_offset": 63,
+              "y": 1110234148083,
+              "z": 54183427892398491417612
+            },
+            {
+              "n": 35705881,
+              "x": 8926534,
+              "x_offset": 63,
+              "y": 1249920630381,
+              "z": 568312273143214112397174
+            },
+            {
+              "n": 39828721,
+              "x": 9957244,
+              "x_offset": 63,
+              "y": 1555232522397,
+              "z": 97731071250851747700948
+            },
+            {
+              "n": 40705921,
+              "x": 10176544,
+              "x_offset": 63,
+              "y": 1624492533808,
+              "z": 167564461667069154343712
+            },
+            {
+              "n": 42413641,
+              "x": 10603474,
+              "x_offset": 63,
+              "y": 1763654665058,
+              "z": 829677649875972508898287
+            },
+            {
+              "n": 45562201,
+              "x": 11390614,
+              "x_offset": 63,
+              "y": 2035221351300,
+              "z": 12281885080704784464473700
+            }
+          ],
+          "first_n": 13,
+          "last_n": 99999997,
+          "max_x_offset": 63,
+          "sample": [
+            {
+              "n": 13,
+              "x": 4,
+              "y": 18,
+              "z": 468
+            },
+            {
+              "n": 1587313,
+              "x": 396830,
+              "y": 89984773971,
+              "z": 8097259546521974334870
+            },
+            {
+              "n": 3174613,
+              "x": 793654,
+              "y": 839848101968,
+              "z": 1058017251568038340107568
+            },
+            {
+              "n": 4761913,
+              "x": 1190479,
+              "y": 1889652475452,
+              "z": 369391704616924636759476
+            },
+            {
+              "n": 6349213,
+              "x": 1587304,
+              "y": 3359377063918,
+              "z": 16928121386364124009202168
+            },
+            {
+              "n": 7936513,
+              "x": 1984130,
+              "y": 2249581934100,
+              "z": 3542433214758118138032900
+            },
+            {
+              "n": 9523813,
+              "x": 2380954,
+              "y": 7558586885868,
+              "z": 85698353566816006500284268
+            },
+            {
+              "n": 11111113,
+              "x": 2777779,
+              "y": 10288072119350,
+              "z": 13805794947765381577153150
+            },
+            {
+              "n": 12698413,
+              "x": 3174604,
+              "y": 13437477567818,
+              "z": 270848705078404491706353868
+            },
+            {
+              "n": 14285725,
+              "x": 3571432,
+              "y": 17006831802734,
+              "z": 433848491949709887603009400
+            },
+            {
+              "n": 15873025,
+              "x": 3968257,
+              "y": 20996080855810,
+              "z": 264501246782205713125597850
+            },
+            {
+              "n": 17460325,
+              "x": 4365082,
+              "y": 25405250123884,
+              "z": 968140100785636590770744300
+            },
+            {
+              "n": 19047625,
+              "x": 4761907,
+              "y": 30234339606960,
+              "z": 548469174881363866028658000
+            },
+            {
+              "n": 20634925,
+              "x": 5158732,
+              "y": 35483349305034,
+              "z": 1888602116854549792817306700
+            },
+            {
+              "n": 22222225,
+              "x": 5555557,
+              "y": 41152279218110,
+              "z": 1016106050907131763491965150
+            },
+            {
+              "n": 23809525,
+              "x": 5952382,
+              "y": 47241129346184,
+              "z": 3347586452854283443843696600
+            },
+            {
+              "n": 25396825,
+              "x": 6349207,
+              "y": 53749899689260,
+              "z": 1733431029963253596835919300
+            },
+            {
+              "n": 26984125,
+              "x": 6746032,
+              "y": 60678590247334,
+              "z": 5522836971605724550350914000
+            },
+            {
+              "n": 28571437,
+              "x": 7142860,
+              "y": 68027258163274,
+              "z": 6941561779819025580805435340
+            },
+            {
+              "n": 30158737,
+              "x": 7539685,
+              "y": 75795792325950,
+              "z": 3447001280591048750833715550
+            },
+            {
+              "n": 31746037,
+              "x": 7936510,
+              "y": 83984246703624,
+              "z": 10580030541562684080895396440
+            },
+            {
+              "n": 33333337,
+              "x": 8333335,
+              "y": 92592621296300,
+              "z": 5144036111111924382814917700
+            },
+            {
+              "n": 34920637,
+              "x": 8730160,
+              "y": 101620916103974,
+              "z": 15490215884716281755851785040
+            },
+            {
+              "n": 36507937,
+              "x": 9126985,
+              "y": 111069131126650,
+              "z": 7401811133537272069873006850
+            },
+            {
+              "n": 38095237,
+              "x": 9523810,
+              "y": 120937266364324,
+              "z": 21938733593513058756383601140
+            },
+            {
+              "n": 39682537,
+              "x": 9920635,
+              "y": 131225321817000,
+              "z": 10332051051584998483571583000
+            },
+            {
+              "n": 41269837,
+              "x": 10317460,
+              "y": 141933297484674,
+              "z": 30217591402309308289599844740
+            },
+            {
+              "n": 42857149,
+              "x": 10714288,
+              "y": 153061279081638,
+              "z": 35141632731160458533724062928
+            },
+            {
+              "n": 44444449,
+              "x": 11111114,
+              "y": 70546762786599,
+              "z": 4976845739668598956851200202
+            },
+            {
+              "n": 46031749,
+              "x": 11507938,
+              "y": 176576837841188,
+              "z": 46769069492989627071626035828
+            },
+            {
+              "n": 47619049,
+              "x": 11904784,
+              "y": 6516028650925,
+              "z": 62608487390362405476297200
+            },
+            {
+              "n": 49206349,
+              "x": 12301588,
+              "y": 201772077460738,
+              "z": 61067956864232881684819796228
+            },
+            {
+              "n": 50793649,
+              "x": 12698413,
+              "y": 214999577593028,
+              "z": 2950520321181516978081611788
+            },
+            {
+              "n": 52380949,
+              "x": 13095238,
+              "y": 228646997940288,
+              "z": 78419174500658868724622344128
+            },
+            {
+              "n": 53968249,
+              "x": 13492076,
+              "y": 13238976674454,
+              "z": 209562558397172415812258076
+            },
+            {
+              "n": 55555549,
+              "x": 13888888,
+              "y": 257201599279838,
+              "z": 99228994008159287598750679528
+            },
+            {
+              "n": 57142861,
+              "x": 14285716,
+              "y": 272108894557826,
+              "z": 111064875746222830071192211588
+            },
+            {
+              "n": 58730161,
+              "x": 14682542,
+              "y": 123186865078467,
+              "z": 15175003727860309291201991622
+            },
+            {
+              "n": 60317461,
+              "x": 15079366,
+              "y": 303183023536576,
+              "z": 137879918641169691996591169088
+            },
+            {
+              "n": 61904761,
+              "x": 15476192,
+              "y": 136864280992882,
+              "z": 2114884191643249065882598432
+            },
+            {
+              "n": 63492061,
+              "x": 15873016,
+              "y": 335936833375326,
+              "z": 169280334027361981122145034088
+            },
+            {
+              "n": 65079361,
+              "x": 16269841,
+              "y": 352943618617210,
+              "z": 12886468750614535192158091490
+            },
+            {
+              "n": 66666661,
+              "x": 16666666,
+              "y": 370370324074076,
+              "z": 205761265432103749999778806588
+            },
+            {
+              "n": 68253961,
+              "x": 17063491,
+              "y": 388216949745966,
+              "z": 9619940430003562254024718278
+            },
+            {
+              "n": 69841261,
+              "x": 17460316,
+              "y": 406483495632826,
+              "z": 247843248332822104237817486588
+            },
+            {
+              "n": 71428573,
+              "x": 17857144,
+              "y": 425170104591838,
+              "z": 271154426757951271388759735528
+            },
+            {
+              "n": 73015873,
+              "x": 18253970,
+              "y": 190404222180831,
+              "z": 36253767824287065365441669730
+            },
+            {
+              "n": 74603173,
+              "x": 18650794,
+              "y": 463802803789788,
+              "z": 322669561204902415160135837628
+            },
+            {
+              "n": 76190473,
+              "x": 19047619,
+              "y": 483749033711282,
+              "z": 11898972590674044160451072626
+            },
+            {
+              "n": 77777773,
+              "x": 19444444,
+              "y": 504115183847738,
+              "z": 381198177878757521480967727228
+            },
+            {
+              "n": 79365073,
+              "x": 19841270,
+              "y": 224957691708960,
+              "z": 35424174141316218550049288160
+            },
+            {
+              "n": 80952373,
+              "x": 20238094,
+              "y": 546107244765688,
+              "z": 447349684178356049103788404328
+            },
+            {
+              "n": 82539673,
+              "x": 20634920,
+              "y": 243314221311595,
+              "z": 82882534409454719360692710040
+            },
+            {
+              "n": 84126973,
+              "x": 21031744,
+              "y": 589778986543638,
+              "z": 521758879452660509837530868928
+            },
+            {
+              "n": 85714285,
+              "x": 21428572,
+              "y": 612244909183674,
+              "z": 562265743231987223552693023740
+            },
+            {
+              "n": 87301585,
+              "x": 21825397,
+              "y": 635130583784750,
+              "z": 242034515075253768650015752750
+            },
+            {
+              "n": 88888885,
+              "x": 22222222,
+              "y": 658436178600824,
+              "z": 650307301935683642737321617640
+            },
+            {
+              "n": 90476185,
+              "x": 22619047,
+              "y": 682161693631900,
+              "z": 279206745755244636045924934100
+            },
+            {
+              "n": 92063485,
+              "x": 23015872,
+              "y": 706307128877974,
+              "z": 748304640455769754045144639040
+            },
+            {
+              "n": 93650785,
+              "x": 23412697,
+              "y": 730872484339050,
+              "z": 320504753018360201636728602450
+            },
+            {
+              "n": 95238085,
+              "x": 23809522,
+              "y": 755857760015124,
+              "z": 856981430062620422429303087940
+            },
+            {
+              "n": 96825385,
+              "x": 24206347,
+              "y": 781262955906200,
+              "z": 366223083762775022014963157800
+            },
+            {
+              "n": 98412685,
+              "x": 24603172,
+              "y": 807088072012274,
+              "z": 977086733976733565899337964340
+            },
+            {
+              "n": 99999997,
+              "x": 25000000,
+              "y": 833333308333334,
+              "z": 1041666604166668437499975000000
+            }
+          ],
+          "search_rule": "x ascending from n//4 + 1 with a small-divisor y window per x (64 x-rounds, 32 y-offsets, exact int64), then a complete per-x divisor search of b^2 on the CPU; x_offset is schedule-relative"
+        },
+        "mod3_0": {
+          "count": 8333333,
+          "first_n": 9,
+          "last_n": 99999993,
+          "sample": [
+            {
+              "n": 9,
+              "x": 3,
+              "y": 10,
+              "z": 90
+            },
+            {
+              "n": 1587309,
+              "x": 529103,
+              "y": 1587310,
+              "z": 2519551448790
+            },
+            {
+              "n": 3174609,
+              "x": 1058203,
+              "y": 3174610,
+              "z": 10078145477490
+            },
+            {
+              "n": 4761909,
+              "x": 1587303,
+              "y": 4761910,
+              "z": 22675782086190
+            },
+            {
+              "n": 6349209,
+              "x": 2116403,
+              "y": 6349210,
+              "z": 40312461274890
+            },
+            {
+              "n": 7936509,
+              "x": 2645503,
+              "y": 7936510,
+              "z": 62988183043590
+            },
+            {
+              "n": 9523809,
+              "x": 3174603,
+              "y": 9523810,
+              "z": 90702947392290
+            },
+            {
+              "n": 11111109,
+              "x": 3703703,
+              "y": 11111110,
+              "z": 123456754320990
+            },
+            {
+              "n": 12698409,
+              "x": 4232803,
+              "y": 12698410,
+              "z": 161249603829690
+            },
+            {
+              "n": 14285721,
+              "x": 4761907,
+              "y": 14285722,
+              "z": 204081838775562
+            },
+            {
+              "n": 15873021,
+              "x": 5291007,
+              "y": 15873022,
+              "z": 251952811539462
+            },
+            {
+              "n": 17460321,
+              "x": 5820107,
+              "y": 17460322,
+              "z": 304862826883362
+            },
+            {
+              "n": 19047621,
+              "x": 6349207,
+              "y": 19047622,
+              "z": 362811884807262
+            },
+            {
+              "n": 20634921,
+              "x": 6878307,
+              "y": 20634922,
+              "z": 425799985311162
+            },
+            {
+              "n": 22222221,
+              "x": 7407407,
+              "y": 22222222,
+              "z": 493827128395062
+            },
+            {
+              "n": 23809521,
+              "x": 7936507,
+              "y": 23809522,
+              "z": 566893314058962
+            },
+            {
+              "n": 25396821,
+              "x": 8465607,
+              "y": 25396822,
+              "z": 644998542302862
+            },
+            {
+              "n": 26984121,
+              "x": 8994707,
+              "y": 26984122,
+              "z": 728142813126762
+            },
+            {
+              "n": 28571433,
+              "x": 9523811,
+              "y": 28571434,
+              "z": 816326812244922
+            },
+            {
+              "n": 30158733,
+              "x": 10052911,
+              "y": 30158734,
+              "z": 909549206324022
+            },
+            {
+              "n": 31746033,
+              "x": 10582011,
+              "y": 31746034,
+              "z": 1007810642983122
+            },
+            {
+              "n": 33333333,
+              "x": 11111111,
+              "y": 33333334,
+              "z": 1111111122222222
+            },
+            {
+              "n": 34920633,
+              "x": 11640211,
+              "y": 34920634,
+              "z": 1219450644041322
+            },
+            {
+              "n": 36507933,
+              "x": 12169311,
+              "y": 36507934,
+              "z": 1332829208440422
+            },
+            {
+              "n": 38095233,
+              "x": 12698411,
+              "y": 38095234,
+              "z": 1451246815419522
+            },
+            {
+              "n": 39682533,
+              "x": 13227511,
+              "y": 39682534,
+              "z": 1574703464978622
+            },
+            {
+              "n": 41269833,
+              "x": 13756611,
+              "y": 41269834,
+              "z": 1703199157117722
+            },
+            {
+              "n": 42857145,
+              "x": 14285715,
+              "y": 42857146,
+              "z": 1836734920408170
+            },
+            {
+              "n": 44444445,
+              "x": 14814815,
+              "y": 44444446,
+              "z": 1975308735802470
+            },
+            {
+              "n": 46031745,
+              "x": 15343915,
+              "y": 46031746,
+              "z": 2118921593776770
+            },
+            {
+              "n": 47619045,
+              "x": 15873015,
+              "y": 47619046,
+              "z": 2267573494331070
+            },
+            {
+              "n": 49206345,
+              "x": 16402115,
+              "y": 49206346,
+              "z": 2421264437465370
+            },
+            {
+              "n": 50793645,
+              "x": 16931215,
+              "y": 50793646,
+              "z": 2579994423179670
+            },
+            {
+              "n": 52380945,
+              "x": 17460315,
+              "y": 52380946,
+              "z": 2743763451473970
+            },
+            {
+              "n": 53968245,
+              "x": 17989415,
+              "y": 53968246,
+              "z": 2912571522348270
+            },
+            {
+              "n": 55555545,
+              "x": 18518515,
+              "y": 55555546,
+              "z": 3086418635802570
+            },
+            {
+              "n": 57142857,
+              "x": 19047619,
+              "y": 57142858,
+              "z": 3265306163265306
+            },
+            {
+              "n": 58730157,
+              "x": 19576719,
+              "y": 58730158,
+              "z": 3449231399974806
+            },
+            {
+              "n": 60317457,
+              "x": 20105819,
+              "y": 60317458,
+              "z": 3638195679264306
+            },
+            {
+              "n": 61904757,
+              "x": 20634919,
+              "y": 61904758,
+              "z": 3832199001133806
+            },
+            {
+              "n": 63492057,
+              "x": 21164019,
+              "y": 63492058,
+              "z": 4031241365583306
+            },
+            {
+              "n": 65079357,
+              "x": 21693119,
+              "y": 65079358,
+              "z": 4235322772612806
+            },
+            {
+              "n": 66666657,
+              "x": 22222219,
+              "y": 66666658,
+              "z": 4444443222222306
+            },
+            {
+              "n": 68253957,
+              "x": 22751319,
+              "y": 68253958,
+              "z": 4658602714411806
+            },
+            {
+              "n": 69841257,
+              "x": 23280419,
+              "y": 69841258,
+              "z": 4877801249181306
+            },
+            {
+              "n": 71428569,
+              "x": 23809523,
+              "y": 71428570,
+              "z": 5102040540816330
+            },
+            {
+              "n": 73015869,
+              "x": 24338623,
+              "y": 73015870,
+              "z": 5331317198841030
+            },
+            {
+              "n": 74603169,
+              "x": 24867723,
+              "y": 74603170,
+              "z": 5565632899445730
+            },
+            {
+              "n": 76190469,
+              "x": 25396823,
+              "y": 76190470,
+              "z": 5804987642630430
+            },
+            {
+              "n": 77777769,
+              "x": 25925923,
+              "y": 77777770,
+              "z": 6049381428395130
+            },
+            {
+              "n": 79365069,
+              "x": 26455023,
+              "y": 79365070,
+              "z": 6298814256739830
+            },
+            {
+              "n": 80952369,
+              "x": 26984123,
+              "y": 80952370,
+              "z": 6553286127664530
+            },
+            {
+              "n": 82539669,
+              "x": 27513223,
+              "y": 82539670,
+              "z": 6812797041169230
+            },
+            {
+              "n": 84126969,
+              "x": 28042323,
+              "y": 84126970,
+              "z": 7077346997253930
+            },
+            {
+              "n": 85714281,
+              "x": 28571427,
+              "y": 85714282,
+              "z": 7346938053061242
+            },
+            {
+              "n": 87301581,
+              "x": 29100527,
+              "y": 87301582,
+              "z": 7621566132401142
+            },
+            {
+              "n": 88888881,
+              "x": 29629627,
+              "y": 88888882,
+              "z": 7901233254321042
+            },
+            {
+              "n": 90476181,
+              "x": 30158727,
+              "y": 90476182,
+              "z": 8185939418820942
+            },
+            {
+              "n": 92063481,
+              "x": 30687827,
+              "y": 92063482,
+              "z": 8475684625900842
+            },
+            {
+              "n": 93650781,
+              "x": 31216927,
+              "y": 93650782,
+              "z": 8770468875560742
+            },
+            {
+              "n": 95238081,
+              "x": 31746027,
+              "y": 95238082,
+              "z": 9070292167800642
+            },
+            {
+              "n": 96825381,
+              "x": 32275127,
+              "y": 96825382,
+              "z": 9375154502620542
+            },
+            {
+              "n": 98412681,
+              "x": 32804227,
+              "y": 98412682,
+              "z": 9685055880020442
+            },
+            {
+              "n": 99999993,
+              "x": 33333331,
+              "y": 99999994,
+              "z": 9999998700000042
+            }
+          ],
+          "symbolic_identity_verified": true,
+          "witness_rule": "n = 3m (odd, n = 1 mod 4): (m, n+1, n*(n+1))"
+        },
+        "mod3_2": {
+          "count": 8333333,
+          "first_n": 5,
+          "last_n": 99999989,
+          "sample": [
+            {
+              "n": 5,
+              "x": 2,
+              "y": 5,
+              "z": 10
+            },
+            {
+              "n": 1587305,
+              "x": 529102,
+              "y": 1587305,
+              "z": 839846250110
+            },
+            {
+              "n": 3174605,
+              "x": 1058202,
+              "y": 3174605,
+              "z": 3359373360210
+            },
+            {
+              "n": 4761905,
+              "x": 1587302,
+              "y": 4761905,
+              "z": 7558581330310
+            },
+            {
+              "n": 6349205,
+              "x": 2116402,
+              "y": 6349205,
+              "z": 13437470160410
+            },
+            {
+              "n": 7936505,
+              "x": 2645502,
+              "y": 7936505,
+              "z": 20996039850510
+            },
+            {
+              "n": 9523805,
+              "x": 3174602,
+              "y": 9523805,
+              "z": 30234290400610
+            },
+            {
+              "n": 11111105,
+              "x": 3703702,
+              "y": 11111105,
+              "z": 41152221810710
+            },
+            {
+              "n": 12698405,
+              "x": 4232802,
+              "y": 12698405,
+              "z": 53749834080810
+            },
+            {
+              "n": 14285717,
+              "x": 4761906,
+              "y": 14285717,
+              "z": 68027241496602
+            },
+            {
+              "n": 15873017,
+              "x": 5291006,
+              "y": 15873017,
+              "z": 83984228185102
+            },
+            {
+              "n": 17460317,
+              "x": 5820106,
+              "y": 17460317,
+              "z": 101620895733602
+            },
+            {
+              "n": 19047617,
+              "x": 6349206,
+              "y": 19047617,
+              "z": 120937244142102
+            },
+            {
+              "n": 20634917,
+              "x": 6878306,
+              "y": 20634917,
+              "z": 141933273410602
+            },
+            {
+              "n": 22222217,
+              "x": 7407406,
+              "y": 22222217,
+              "z": 164608983539102
+            },
+            {
+              "n": 23809517,
+              "x": 7936506,
+              "y": 23809517,
+              "z": 188964374527602
+            },
+            {
+              "n": 25396817,
+              "x": 8465606,
+              "y": 25396817,
+              "z": 214999446376102
+            },
+            {
+              "n": 26984117,
+              "x": 8994706,
+              "y": 26984117,
+              "z": 242714199084602
+            },
+            {
+              "n": 28571429,
+              "x": 9523810,
+              "y": 28571429,
+              "z": 272108861224490
+            },
+            {
+              "n": 30158729,
+              "x": 10052910,
+              "y": 30158729,
+              "z": 303182988351390
+            },
+            {
+              "n": 31746029,
+              "x": 10582010,
+              "y": 31746029,
+              "z": 335936796338290
+            },
+            {
+              "n": 33333329,
+              "x": 11111110,
+              "y": 33333329,
+              "z": 370370285185190
+            },
+            {
+              "n": 34920629,
+              "x": 11640210,
+              "y": 34920629,
+              "z": 406483454892090
+            },
+            {
+              "n": 36507929,
+              "x": 12169310,
+              "y": 36507929,
+              "z": 444276305458990
+            },
+            {
+              "n": 38095229,
+              "x": 12698410,
+              "y": 38095229,
+              "z": 483748836885890
+            },
+            {
+              "n": 39682529,
+              "x": 13227510,
+              "y": 39682529,
+              "z": 524901049172790
+            },
+            {
+              "n": 41269829,
+              "x": 13756610,
+              "y": 41269829,
+              "z": 567732942319690
+            },
+            {
+              "n": 42857141,
+              "x": 14285714,
+              "y": 42857141,
+              "z": 612244859183674
+            },
+            {
+              "n": 44444441,
+              "x": 14814814,
+              "y": 44444441,
+              "z": 658436126748974
+            },
+            {
+              "n": 46031741,
+              "x": 15343914,
+              "y": 46031741,
+              "z": 706307075174274
+            },
+            {
+              "n": 47619041,
+              "x": 15873014,
+              "y": 47619041,
+              "z": 755857704459574
+            },
+            {
+              "n": 49206341,
+              "x": 16402114,
+              "y": 49206341,
+              "z": 807088014604874
+            },
+            {
+              "n": 50793641,
+              "x": 16931214,
+              "y": 50793641,
+              "z": 859998005610174
+            },
+            {
+              "n": 52380941,
+              "x": 17460314,
+              "y": 52380941,
+              "z": 914587677475474
+            },
+            {
+              "n": 53968241,
+              "x": 17989414,
+              "y": 53968241,
+              "z": 970857030200774
+            },
+            {
+              "n": 55555541,
+              "x": 18518514,
+              "y": 55555541,
+              "z": 1028806063786074
+            },
+            {
+              "n": 57142853,
+              "x": 19047618,
+              "y": 57142853,
+              "z": 1088435235374154
+            },
+            {
+              "n": 58730153,
+              "x": 19576718,
+              "y": 58730153,
+              "z": 1149743643377854
+            },
+            {
+              "n": 60317453,
+              "x": 20105818,
+              "y": 60317453,
+              "z": 1212731732241554
+            },
+            {
+              "n": 61904753,
+              "x": 20634918,
+              "y": 61904753,
+              "z": 1277399501965254
+            },
+            {
+              "n": 63492053,
+              "x": 21164018,
+              "y": 63492053,
+              "z": 1343746952548954
+            },
+            {
+              "n": 65079353,
+              "x": 21693118,
+              "y": 65079353,
+              "z": 1411774083992654
+            },
+            {
+              "n": 66666653,
+              "x": 22222218,
+              "y": 66666653,
+              "z": 1481480896296354
+            },
+            {
+              "n": 68253953,
+              "x": 22751318,
+              "y": 68253953,
+              "z": 1552867389460054
+            },
+            {
+              "n": 69841253,
+              "x": 23280418,
+              "y": 69841253,
+              "z": 1625933563483754
+            },
+            {
+              "n": 71428565,
+              "x": 23809522,
+              "y": 71428565,
+              "z": 1700679989795930
+            },
+            {
+              "n": 73015865,
+              "x": 24338622,
+              "y": 73015865,
+              "z": 1777105538238030
+            },
+            {
+              "n": 74603165,
+              "x": 24867722,
+              "y": 74603165,
+              "z": 1855210767540130
+            },
+            {
+              "n": 76190465,
+              "x": 25396822,
+              "y": 76190465,
+              "z": 1934995677702230
+            },
+            {
+              "n": 77777765,
+              "x": 25925922,
+              "y": 77777765,
+              "z": 2016460268724330
+            },
+            {
+              "n": 79365065,
+              "x": 26455022,
+              "y": 79365065,
+              "z": 2099604540606430
+            },
+            {
+              "n": 80952365,
+              "x": 26984122,
+              "y": 80952365,
+              "z": 2184428493348530
+            },
+            {
+              "n": 82539665,
+              "x": 27513222,
+              "y": 82539665,
+              "z": 2270932126950630
+            },
+            {
+              "n": 84126965,
+              "x": 28042322,
+              "y": 84126965,
+              "z": 2359115441412730
+            },
+            {
+              "n": 85714277,
+              "x": 28571426,
+              "y": 85714277,
+              "z": 2448979122449002
+            },
+            {
+              "n": 87301577,
+              "x": 29100526,
+              "y": 87301577,
+              "z": 2540521811329502
+            },
+            {
+              "n": 88888877,
+              "x": 29629626,
+              "y": 88888877,
+              "z": 2633744181070002
+            },
+            {
+              "n": 90476177,
+              "x": 30158726,
+              "y": 90476177,
+              "z": 2728646231670502
+            },
+            {
+              "n": 92063477,
+              "x": 30687826,
+              "y": 92063477,
+              "z": 2825227963131002
+            },
+            {
+              "n": 93650777,
+              "x": 31216926,
+              "y": 93650777,
+              "z": 2923489375451502
+            },
+            {
+              "n": 95238077,
+              "x": 31746026,
+              "y": 95238077,
+              "z": 3023430468632002
+            },
+            {
+              "n": 96825377,
+              "x": 32275126,
+              "y": 96825377,
+              "z": 3125051242672502
+            },
+            {
+              "n": 98412677,
+              "x": 32804226,
+              "y": 98412677,
+              "z": 3228351697573002
+            },
+            {
+              "n": 99999989,
+              "x": 33333330,
+              "y": 99999989,
+              "z": 3333332633333370
+            }
+          ],
+          "symbolic_identity_verified": true,
+          "witness_rule": "n = 3k+2 (odd, n = 1 mod 4): (k+1, n, n*(k+1))"
+        },
+        "mod4_3": {
+          "count": 25000000,
+          "first_n": 3,
+          "last_n": 99999999,
+          "sample": [
+            {
+              "n": 3,
+              "x": 2,
+              "y": 2,
+              "z": 3
+            },
+            {
+              "n": 1587303,
+              "x": 396827,
+              "y": 157471271102,
+              "z": 629883100278
+            },
+            {
+              "n": 3174603,
+              "x": 793652,
+              "y": 629882703452,
+              "z": 2519526845553
+            },
+            {
+              "n": 4761907,
+              "x": 1190478,
+              "y": 1417236678006,
+              "z": 5668940759639
+            },
+            {
+              "n": 6349207,
+              "x": 1587303,
+              "y": 2519529226506,
+              "z": 10078108969514
+            },
+            {
+              "n": 7936507,
+              "x": 1984128,
+              "y": 3936761936256,
+              "z": 15747037824389
+            },
+            {
+              "n": 9523811,
+              "x": 2380954,
+              "y": 5668939569162,
+              "z": 22675746371883
+            },
+            {
+              "n": 11111111,
+              "x": 2777779,
+              "y": 7716053395062,
+              "z": 30864199691358
+            },
+            {
+              "n": 12698415,
+              "x": 3174605,
+              "y": 10078113731420,
+              "z": 40312439052660
+            },
+            {
+              "n": 14285715,
+              "x": 3571430,
+              "y": 12755108673470,
+              "z": 51020416836735
+            },
+            {
+              "n": 15873015,
+              "x": 3968255,
+              "y": 15747043776770,
+              "z": 62988155265810
+            },
+            {
+              "n": 17460319,
+              "x": 4365081,
+              "y": 19053927771480,
+              "z": 76215689260520
+            },
+            {
+              "n": 19047619,
+              "x": 4761906,
+              "y": 22675743990930,
+              "z": 90702952154195
+            },
+            {
+              "n": 20634919,
+              "x": 5158731,
+              "y": 26612500371630,
+              "z": 106449975692870
+            },
+            {
+              "n": 22222223,
+              "x": 5555557,
+              "y": 30864208024692,
+              "z": 123456804320988
+            },
+            {
+              "n": 23809523,
+              "x": 5952382,
+              "y": 35430845521542,
+              "z": 141723352324263
+            },
+            {
+              "n": 25396827,
+              "x": 6349208,
+              "y": 40312435878056,
+              "z": 161249711766189
+            },
+            {
+              "n": 26984127,
+              "x": 6746033,
+              "y": 45508954491056,
+              "z": 182035784234064
+            },
+            {
+              "n": 28571427,
+              "x": 7142858,
+              "y": 51020413265306,
+              "z": 204081617346939
+            },
+            {
+              "n": 30158731,
+              "x": 7539684,
+              "y": 56846827280172,
+              "z": 227387271422273
+            },
+            {
+              "n": 31746031,
+              "x": 7936509,
+              "y": 62988167170572,
+              "z": 251952628999748
+            },
+            {
+              "n": 33333335,
+              "x": 8333335,
+              "y": 69444463888890,
+              "z": 277777813888890
+            },
+            {
+              "n": 34920635,
+              "x": 8730160,
+              "y": 76215684895440,
+              "z": 304862695930965
+            },
+            {
+              "n": 36507935,
+              "x": 9126985,
+              "y": 83301846063240,
+              "z": 333207338618040
+            },
+            {
+              "n": 38095239,
+              "x": 9523811,
+              "y": 90702966439910,
+              "z": 362811818140590
+            },
+            {
+              "n": 39682539,
+              "x": 9920636,
+              "y": 98419008723860,
+              "z": 393675985292265
+            },
+            {
+              "n": 41269839,
+              "x": 10317461,
+              "y": 106449991169060,
+              "z": 425799913088940
+            },
+            {
+              "n": 42857143,
+              "x": 10714287,
+              "y": 114795935204082,
+              "z": 459183687244898
+            },
+            {
+              "n": 44444443,
+              "x": 11111112,
+              "y": 123456798765432,
+              "z": 493827139506173
+            },
+            {
+              "n": 46031747,
+              "x": 11507938,
+              "y": 132432625503906,
+              "z": 529730444475939
+            },
+            {
+              "n": 47619047,
+              "x": 11904763,
+              "y": 141723370181406,
+              "z": 566893421201814
+            },
+            {
+              "n": 49206347,
+              "x": 12301588,
+              "y": 151329055020156,
+              "z": 605316158572689
+            },
+            {
+              "n": 50793651,
+              "x": 12698414,
+              "y": 161249705416982,
+              "z": 644998758175863
+            },
+            {
+              "n": 52380951,
+              "x": 13095239,
+              "y": 171485271371882,
+              "z": 685941020011338
+            },
+            {
+              "n": 53968251,
+              "x": 13492064,
+              "y": 182035777488032,
+              "z": 728143042491813
+            },
+            {
+              "n": 55555555,
+              "x": 13888890,
+              "y": 192901251543210,
+              "z": 771604936728395
+            },
+            {
+              "n": 57142855,
+              "x": 14285715,
+              "y": 204081638775510,
+              "z": 816326483673470
+            },
+            {
+              "n": 58730159,
+              "x": 14682541,
+              "y": 215576995534140,
+              "z": 862307908723860
+            },
+            {
+              "n": 60317459,
+              "x": 15079366,
+              "y": 227387263882590,
+              "z": 909548980133535
+            },
+            {
+              "n": 61904759,
+              "x": 15476191,
+              "y": 239512472392290,
+              "z": 958049812188210
+            },
+            {
+              "n": 63492063,
+              "x": 15873017,
+              "y": 251952652809272,
+              "z": 1007810531872008
+            },
+            {
+              "n": 65079363,
+              "x": 16269842,
+              "y": 264707742435122,
+              "z": 1058830888391283
+            },
+            {
+              "n": 66666667,
+              "x": 16666668,
+              "y": 277777805555556,
+              "z": 1111111138888889
+            },
+            {
+              "n": 68253967,
+              "x": 17063493,
+              "y": 291162776297556,
+              "z": 1164651019872764
+            },
+            {
+              "n": 69841267,
+              "x": 17460318,
+              "y": 304862687200806,
+              "z": 1219450661501639
+            },
+            {
+              "n": 71428571,
+              "x": 17857144,
+              "y": 318877573979592,
+              "z": 1275510206632653
+            },
+            {
+              "n": 73015871,
+              "x": 18253969,
+              "y": 333207365998992,
+              "z": 1332829372726128
+            },
+            {
+              "n": 74603171,
+              "x": 18650794,
+              "y": 347852098179642,
+              "z": 1391408299464603
+            },
+            {
+              "n": 76190475,
+              "x": 19047620,
+              "y": 362811808616780,
+              "z": 1451247139229025
+            },
+            {
+              "n": 77777775,
+              "x": 19444445,
+              "y": 378086421913580,
+              "z": 1512345590432100
+            },
+            {
+              "n": 79365079,
+              "x": 19841271,
+              "y": 393676015054170,
+              "z": 1574703961010330
+            },
+            {
+              "n": 80952379,
+              "x": 20238096,
+              "y": 409580509467120,
+              "z": 1638321936678005
+            },
+            {
+              "n": 82539679,
+              "x": 20634921,
+              "y": 425799944041320,
+              "z": 1703199672990680
+            },
+            {
+              "n": 84126983,
+              "x": 21031747,
+              "y": 442334360840262,
+              "z": 1769337338202318
+            },
+            {
+              "n": 85714283,
+              "x": 21428572,
+              "y": 459183676530612,
+              "z": 1836734598979593
+            },
+            {
+              "n": 87301583,
+              "x": 21825397,
+              "y": 476347932382212,
+              "z": 1905391620401868
+            },
+            {
+              "n": 88888887,
+              "x": 22222223,
+              "y": 493827172839506,
+              "z": 1975308580246914
+            },
+            {
+              "n": 90476187,
+              "x": 22619048,
+              "y": 511621309807256,
+              "z": 2046485126133789
+            },
+            {
+              "n": 92063491,
+              "x": 23015874,
+              "y": 529730432968002,
+              "z": 2118921616792643
+            },
+            {
+              "n": 93650791,
+              "x": 23412699,
+              "y": 548154451051902,
+              "z": 2192617687144118
+            },
+            {
+              "n": 95238091,
+              "x": 23809524,
+              "y": 566893409297052,
+              "z": 2267573518140593
+            },
+            {
+              "n": 96825395,
+              "x": 24206350,
+              "y": 585947356116150,
+              "z": 2343789303432855
+            },
+            {
+              "n": 98412695,
+              "x": 24603175,
+              "y": 605316195477450,
+              "z": 2421264658893930
+            },
+            {
+              "n": 99999999,
+              "x": 25000001,
+              "y": 625000025000000,
+              "z": 2499999975000000
+            }
+          ],
+          "symbolic_identity_verified": true,
+          "witness_rule": "n = 4k+3: (k+2, (k+1)*(k+2), (k+1)*n)"
+        }
+      },
+      "coverage": {
+        "class_total": 99999999,
+        "expected_total": 99999999
+      },
+      "unsolvable_candidates": [],
+      "witness_storage": "full witness tables (~n_max rows) are deliberately not stored: counts per class, deterministic strided samples, and schedule-relative extremal minimal-x witnesses only; every stored witness is exactly verified and every hard-class witness was exactly verified during the run"
+    },
+    "schema_version": "invariant-exponent-diophantine-sweep-1.0",
+    "scope": "Generalized exponent-Diophantine sweep of one declared finite box for one queue v3 target; this module is the diophantine_family sweeper whose absence discovery receipts record as the typed blocker missing_sweeper:diophantine_family. The fp64 log-space layer (GPU or numpy) is a screen only, admitted after an a-priori resolution proof that guarantees every true solution is flagged; every near-hit is settled with exact Python big-integer arithmetic and the receipt records the near-hit -> exact funnel. Beal solutions carry exact gcds: a coprime confirmation is a COUNTEREXAMPLE_CANDIDATE with mandatory independent re-verification, while known gcd > 1 families are the rediscovery control. Fermat-Catalan confirmations are matched by power values against the builtin ten-solution table; unmatched confirmations claim no novelty. Erdos-Straus witnesses come from symbolically verified parametric identities on four residue classes plus an exact GPU-assisted search on n = 1 (mod 12), stored as counts, deterministic samples, and schedule-relative extremal witnesses, never full tables. A finite box proves nothing outside itself; every mode's box sits below its documented literature landscape, so these are mechanism receipts and the claims blocks say so.",
+    "system_caps": {
+      "base_cap": 100000,
+      "congruence_modulus": 2305843009213693951,
+      "es_extremal_top_k": 20,
+      "es_n_max_cap": 100000000,
+      "es_sample_size": 64,
+      "exp_cap": 40,
+      "fp64_integer_cap_log2": 52,
+      "near_hit_cap": 50000000,
+      "prefilter_delta_floor": "1e-9",
+      "prefilter_delta_max": "0.125",
+      "prefilter_eps_rel": "1e-13",
+      "solution_sample_cap": 2000
+    },
+    "throughput_per_second": 8310205
+  },
+  "gpu_benchmark": {
+    "cpu": {
+      "device": "cpu-numpy",
+      "elapsed_seconds": "44.002",
+      "throughput_per_second": 227261
+    },
+    "exact_result_match": true,
+    "gpu": {
+      "device": "NVIDIA GeForce RTX 5090",
+      "elapsed_seconds": "1.924",
+      "throughput_per_second": 5197021
+    },
+    "n_max": 10000000,
+    "speedup": "22.870062"
+  },
+  "hard_tail_funnel": {
+    "baseline": {
+      "device": "NVIDIA GeForce RTX 5090",
+      "elapsed_seconds": "3.379207",
+      "exact_lane_tests": 104839060,
+      "hard_cases": 8333333,
+      "resolved": 8332072,
+      "unresolved_tail": 1261
+    },
+    "creative_tail": {
+      "device": "NVIDIA GeForce RTX 5090",
+      "direct_parameter_pairs": 117,
+      "elapsed_seconds": "0.119949",
+      "exact_lane_tests": 344279,
+      "independent_cpu_exact_verified": 173,
+      "integer_gpu_screen_cpu_identity_agreement": true,
+      "mutated_parameter_pairs": 1051,
+      "pairs_outside_fixed_baseline": 296,
+      "resolved_from_baseline_tail": 173,
+      "still_requiring_complete_divisor_search": 1088,
+      "verified_witness_corpus_sha256": "9bf44e7e0b8eb6a81d8c2119757d4bc9f494492c7f4eea4a40e51d1eaec0177b",
+      "witness_sample": [
+        {
+          "n": 398161,
+          "x": 99624,
+          "y": 118407150,
+          "z": 1240566393036600
+        },
+        {
+          "n": 5828761,
+          "x": 1457274,
+          "y": 25355527946,
+          "z": 48992820069237201339
+        },
+        {
+          "n": 15276409,
+          "x": 3819184,
+          "y": 178420234955,
+          "z": 358953315135578512855120
+        },
+        {
+          "n": 34866049,
+          "x": 8716608,
+          "y": 793508307168,
+          "z": 67893589821163527275328
+        },
+        {
+          "n": 48631969,
+          "x": 12158076,
+          "y": 1764988582483,
+          "z": 6481906045084832201722932
+        },
+        {
+          "n": 62603641,
+          "x": 15651006,
+          "y": 2558250550695,
+          "z": 750703615478207458640230
+        },
+        {
+          "n": 83189401,
+          "x": 20797415,
+          "y": 6680017359850,
+          "z": 4225689824243929627076650
+        },
+        {
+          "n": 99128929,
+          "x": 24782332,
+          "y": 6157007592188,
+          "z": 25899979886319200276880946
+        }
+      ]
+    },
+    "matched_random_controls": {
+      "candidate_pair_count_matched": true,
+      "early_stop_rule_matched": true,
+      "llm_t_support": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "llm_x_support": [
+        64,
+        66,
+        67,
+        68,
+        69,
+        70,
+        79,
+        80,
+        81,
+        82,
+        83,
+        95,
+        96,
+        97,
+        98,
+        99,
+        122,
+        123,
+        124,
+        125,
+        126,
+        241,
+        242,
+        243,
+        244,
+        245
+      ],
+      "pairing_only_rewire": {
+        "control_kind": "degree_preserving_pair_rewire",
+        "control_resolved_counts": [
+          174,
+          176,
+          179,
+          170,
+          175,
+          171,
+          170,
+          175,
+          173,
+          174,
+          174,
+          177,
+          171,
+          172,
+          178,
+          173,
+          177,
+          180,
+          179,
+          178,
+          176,
+          177,
+          177,
+          177,
+          174,
+          168,
+          177,
+          174,
+          171,
+          174,
+          174,
+          172
+        ],
+        "creative_outperformed_random_median": false,
+        "creative_percentile": "0.312500",
+        "empirical_one_sided_p": "0.757576",
+        "exact_t_marginal_frequency_matched": true,
+        "exact_x_marginal_frequency_matched": true,
+        "maximum_resolved": 180,
+        "mean_resolved": "174.593750",
+        "median_resolved": "174.000000",
+        "minimum_resolved": 168,
+        "minimum_successful_edge_swaps": 78,
+        "random_at_least_creative": 24,
+        "total_exact_lane_tests": 11005785,
+        "trials": 32
+      },
+      "parameter_domain_matched": true,
+      "seed": 20260824,
+      "support_matched": {
+        "control_kind": "llm_offset_support_cross_product",
+        "control_resolved_counts": [
+          164,
+          167,
+          163,
+          164,
+          151,
+          158,
+          150,
+          170,
+          166,
+          160,
+          159,
+          148,
+          158,
+          166,
+          161,
+          149,
+          153,
+          151,
+          160,
+          149,
+          145,
+          146,
+          158,
+          152,
+          166,
+          158,
+          150,
+          146,
+          146,
+          162,
+          152,
+          164
+        ],
+        "creative_outperformed_random_median": true,
+        "creative_percentile": "1.000000",
+        "empirical_one_sided_p": "0.030303",
+        "maximum_resolved": 170,
+        "mean_resolved": "156.625000",
+        "median_resolved": "158.000000",
+        "minimum_resolved": 145,
+        "random_at_least_creative": 0,
+        "total_exact_lane_tests": 11150632,
+        "trials": 32
+      },
+      "total_exact_lane_tests": 33918680,
+      "uniform_domain": {
+        "control_kind": "uniform_full_declared_domain",
+        "control_resolved_counts": [
+          39,
+          36,
+          38,
+          33,
+          33,
+          45,
+          25,
+          39,
+          37,
+          46,
+          48,
+          33,
+          38,
+          36,
+          45,
+          26,
+          37,
+          42,
+          34,
+          53,
+          29,
+          38,
+          31,
+          45,
+          39,
+          37,
+          31,
+          45,
+          42,
+          45,
+          44,
+          35
+        ],
+        "creative_outperformed_random_median": true,
+        "creative_percentile": "1.000000",
+        "empirical_one_sided_p": "0.030303",
+        "maximum_resolved": 53,
+        "mean_resolved": "38.250000",
+        "median_resolved": "38.000000",
+        "minimum_resolved": 25,
+        "random_at_least_creative": 0,
+        "total_exact_lane_tests": 11762263,
+        "trials": 32
+      },
+      "wall_clock_budget_claimed_matched": false
+    }
+  },
+  "literature": {
+    "checked_on": "2026-08-24",
+    "current_status": "open",
+    "latest_bound_claim": 1000000000000000000,
+    "sources": [
+      {
+        "citation": "C. Elsholtz and T. Tao, Counting the number of solutions to the Erdos-Straus equation on unit fractions, J. Aust. Math. Soc. 94 (2013), 50-105.",
+        "url": "https://arxiv.org/abs/1107.1010"
+      },
+      {
+        "citation": "S. E. Salez, The Erdos-Straus conjecture: New modular equations and checking up to N=10^17 (2014).",
+        "url": "https://arxiv.org/abs/1406.6307"
+      },
+      {
+        "citation": "S. Mihnea and D. C. Bogdan, Further verification and empirical evidence for the Erdos-Straus conjecture (2025), reporting verification to 10^18.",
+        "url": "https://arxiv.org/abs/2509.00128"
+      }
+    ]
+  },
+  "problem": {
+    "equation": "4/n = 1/x + 1/y + 1/z",
+    "id": "erdos_straus",
+    "integer_constraints": "n >= 2 and 1 <= x <= y <= z",
+    "progress_definition": "A finite shadow run may compare mechanisms and find exact witnesses. It cannot decide the conjecture or establish novelty."
+  },
+  "recovery": {
+    "discarded_attempts": [
+      {
+        "completed_provider_calls": 0,
+        "failure": "fixed_hypothesis_slot_grammar_rejected_by_provider",
+        "outputs_persisted": false,
+        "token_usage": "zero_completed_message_calls"
+      },
+      {
+        "completed_provider_calls": 3,
+        "failure": "per_candidate_critic_grammar_rejected_by_provider_after_creative_calls",
+        "outputs_persisted": false,
+        "token_usage": "not_recoverable_from_fail_closed_in_memory_attempt"
+      }
+    ],
+    "remaining_completed_call_budget": 1
+  },
+  "schema_version": "invariant-erdos-straus-creative-shadow-runtime-1.0",
+  "status": "PASS_BOUNDED_CREATIVE_SHADOW_NO_OPEN_PROBLEM_CLAIM"
+}

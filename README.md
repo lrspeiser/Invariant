@@ -21,6 +21,13 @@ The current requirement-by-requirement status, receipt-backed measurements, unre
 and release priorities are maintained in
 [`docs/GOALS_AND_MEASURED_OUTCOMES.md`](docs/GOALS_AND_MEASURED_OUTCOMES.md).
 
+The first bounded famous-open-problem shadow experiment applies the LLM-to-typed-search-to-GPU
+pipeline to the Erdős--Straus conjecture without opening the project's proof-claim gate. It tests
+12 retained ideas, performs 146,588,698 exact modular lane checks, and uses progressively stronger
+matched controls. The result is useful but deliberately mixed: creative mutations remove 173 CPU
+fallbacks, while degree-preserving random rewiring slightly outperforms the LLM's exact pairings.
+See the [full experiment report](docs/ERDOS_STRAUS_CREATIVE_SHADOW_2026_08_24.md).
+
 The supported shareable distribution is a versioned standalone source-release ZIP containing a
 normal non-editable wheel, the complete tracked resource surface, and hydrated hash-bound Git LFS
 evidence. Build, install, verification, public PASS/REJECT examples, and isolated acceptance are
