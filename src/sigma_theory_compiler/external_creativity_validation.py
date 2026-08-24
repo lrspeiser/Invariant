@@ -19,6 +19,7 @@ from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, replace
 from fractions import Fraction
 from itertools import pairwise
+from math import prod
 from pathlib import Path
 from typing import Any
 
@@ -36,6 +37,12 @@ from .claude_creativity_api import (
     ClaudeRole,
     Transport,
 )
+from .expanded_math_independent_evaluator import (
+    ExpandedIndependentEvaluationError,
+)
+from .expanded_math_independent_evaluator import evaluate as independently_evaluate_expanded
+from .expanded_math_primary_evaluator import ExpandedPrimaryEvaluationError
+from .expanded_math_primary_evaluator import evaluate as primarily_evaluate_expanded
 from .external_claude_transport import ProviderCompatibleClaudeTransport
 from .independent_exact_evaluator import (
     IndependentEvaluationError,
@@ -45,6 +52,27 @@ from .independent_exact_evaluator import (
 )
 from .independent_exact_evaluator import (
     evaluate_recurrence as independently_evaluate_recurrence,
+)
+from .math_expression_ir import (
+    Expression,
+    ExpressionIRError,
+    TensorIdentity,
+    VariationalFunctional,
+)
+from .math_expression_ir import (
+    add as ir_add,
+)
+from .math_expression_ir import (
+    literal as ir_literal,
+)
+from .math_expression_ir import (
+    multiply as ir_multiply,
+)
+from .math_expression_ir import (
+    power as ir_power,
+)
+from .math_expression_ir import (
+    symbol as ir_symbol,
 )
 from .sigma_core import canonical_sha256
 
@@ -84,10 +112,14 @@ EXECUTABLE_CLAUDE_REPRESENTATIONS = frozenset(
         "linear_recurrence",
         "modular_relation",
         "sympy_expression",
+        "tensor_identity",
+        "variational_principle",
     }
 )
 MAXIMUM_TYPED_TERMS = 64
 MAXIMUM_RECURRENCE_ORDER = 8
+MAXIMUM_TENSOR_COMPONENTS = 256
+MAXIMUM_TENSOR_RANK = 4
 EXECUTABLE_PROPOSER_INSTRUCTION = (
     "Propose structurally distinct mathematical hypotheses and proof plans. For "
     "each idea, self-assess whether it is a known rewrite, cross-domain synthesis, "
@@ -99,8 +131,12 @@ EXECUTABLE_PROPOSER_INSTRUCTION = (
     "seed arrays; finite_sum or finite_product uses JSON with body, index, lower, and "
     "upper; generating_function uses JSON with numerator and denominator coefficient "
     "arrays plus an index alias; modular_relation uses JSON with expression and integer "
-    "modulus. Put explanation only in rationale. Tensor, transform, variational, and "
-    "other typed ideas are still retained for later compilers."
+    "modulus; tensor_identity uses JSON with tensor_name, shape, variance, complete "
+    "left_components and right_components arrays, symmetries, and an output_component; "
+    "variational_principle uses JSON with field, coordinate, first_derivative, "
+    "second_derivative, integrand, claimed_euler_lagrange, and bindings from all four "
+    "formal symbols to arithmetic over public aliases. Put explanation only in rationale. "
+    "Transform and other typed ideas are retained for later compilers."
 )
 
 
@@ -139,7 +175,9 @@ def _fraction(value: Any, label: str) -> Fraction:
 
 
 def _fraction_text(value: Fraction) -> str:
-    return str(value.numerator) if value.denominator == 1 else f"{value.numerator}/{value.denominator}"
+    return (
+        str(value.numerator) if value.denominator == 1 else f"{value.numerator}/{value.denominator}"
+    )
 
 
 def _file_sha256(path: Path) -> str:
@@ -199,7 +237,9 @@ class ExternalSource:
         parsed = urlparse(value["source_uri"])
         if parsed.scheme != "https" or parsed.hostname not in ALLOWED_EXTERNAL_DOMAINS:
             raise ExternalCreativityError("external benchmark source is not authoritative")
-        if not re.fullmatch(r"20[0-9]{2}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z", value["retrieved_utc"]):
+        if not re.fullmatch(
+            r"20[0-9]{2}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z", value["retrieved_utc"]
+        ):
             raise ExternalCreativityError("external source retrieval time is invalid")
         if not isinstance(value["source_locator"], str) or not value["source_locator"]:
             raise ExternalCreativityError("external source locator is empty")
@@ -376,7 +416,9 @@ def load_public_benchmarks(root: Path) -> tuple[dict[str, Any], tuple[Benchmark,
     return raw, tuple(benchmarks)
 
 
-def unseal_targets(root: Path, public: Mapping[str, Any], benchmarks: Sequence[Benchmark]) -> tuple[SealedTarget, ...]:
+def unseal_targets(
+    root: Path, public: Mapping[str, Any], benchmarks: Sequence[Benchmark]
+) -> tuple[SealedTarget, ...]:
     path = root / public["sealed_targets_path"]
     raw = json.loads(path.read_text(encoding="utf-8"))
     _strict_keys(raw, {"schema_version", "targets"}, "sealed target config")
@@ -438,7 +480,11 @@ def _safe_expression(expression: str, aliases: Sequence[str]) -> sp.Expr:
             return visit(node.body)
         if isinstance(node, ast.Name) and node.id in symbols:
             return symbols[node.id]
-        if isinstance(node, ast.Constant) and isinstance(node.value, int) and not isinstance(node.value, bool):
+        if (
+            isinstance(node, ast.Constant)
+            and isinstance(node.value, int)
+            and not isinstance(node.value, bool)
+        ):
             if abs(node.value) > 10**12:
                 raise ExternalCreativityError("candidate integer literal is too large")
             return sp.Integer(node.value)
@@ -493,9 +539,7 @@ def _arithmetic_tree_stats(expression: str, aliases: Sequence[str]) -> tuple[int
     return stats(tree.body)
 
 
-def _normalize_claude_arithmetic(
-    expression: str, aliases: Sequence[str]
-) -> tuple[str, str]:
+def _normalize_claude_arithmetic(expression: str, aliases: Sequence[str]) -> tuple[str, str]:
     """Normalize a small, declared set of harmless model notations.
 
     This is intentionally not a prose parser. It accepts an optional output assignment,
@@ -565,7 +609,9 @@ class Candidate:
             "invariants": list(self.invariants),
             "proof_plan": list(self.proof_plan),
             "proposer": self.proposer,
-            "recurrence_coefficients": [_fraction_text(item) for item in self.recurrence_coefficients],
+            "recurrence_coefficients": [
+                _fraction_text(item) for item in self.recurrence_coefficients
+            ],
             "recurrence_seed": [_fraction_text(item) for item in self.recurrence_seed],
             "representation": self.representation,
         }
@@ -621,7 +667,9 @@ def _bounded_fraction(value: Any, label: str) -> Fraction:
     return result
 
 
-def _parse_recurrence_spec(expression: str) -> tuple[str, tuple[Fraction, ...], tuple[Fraction, ...]]:
+def _parse_recurrence_spec(
+    expression: str,
+) -> tuple[str, tuple[Fraction, ...], tuple[Fraction, ...]]:
     value = _typed_json(expression, {"coefficients", "seed"}, "recurrence specification")
     coefficients_raw = value["coefficients"]
     seed_raw = value["seed"]
@@ -637,8 +685,7 @@ def _parse_recurrence_spec(expression: str) -> tuple[str, tuple[Fraction, ...], 
         for index, item in enumerate(coefficients_raw)
     )
     seed = tuple(
-        _bounded_fraction(item, f"recurrence seed {index}")
-        for index, item in enumerate(seed_raw)
+        _bounded_fraction(item, f"recurrence seed {index}") for index, item in enumerate(seed_raw)
     )
     canonical = json.dumps(
         {
@@ -727,9 +774,7 @@ def _parse_generating_function_spec(
     return json.dumps(spec, sort_keys=True, separators=(",", ":")), spec
 
 
-def _parse_modular_spec(
-    expression: str, aliases: Sequence[str]
-) -> tuple[str, dict[str, Any]]:
+def _parse_modular_spec(expression: str, aliases: Sequence[str]) -> tuple[str, dict[str, Any]]:
     value = _typed_json(expression, {"expression", "modulus"}, "modular specification")
     inner = value["expression"]
     modulus = value["modulus"]
@@ -746,9 +791,268 @@ def _parse_modular_spec(
     return json.dumps(spec, sort_keys=True, separators=(",", ":")), spec
 
 
-def _resolve_integer_bound(
-    value: str, aliases: Mapping[str, Fraction]
-) -> int | None:
+def _typed_symbol(value: Any, label: str) -> str:
+    if not isinstance(value, str) or re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]{0,63}", value) is None:
+        raise ExternalCreativityError(f"{label} is not a typed symbol")
+    return value
+
+
+def _canonical_typed_arithmetic(expression: Any, aliases: Sequence[str], label: str) -> str:
+    if not isinstance(expression, str) or not expression.strip():
+        raise ExternalCreativityError(f"{label} is not an arithmetic string")
+    normalized = expression.strip().replace("^", "**")
+    _safe_expression(normalized, aliases)
+    try:
+        return ast.unparse(ast.parse(normalized, mode="eval").body)
+    except SyntaxError as error:  # pragma: no cover - _safe_expression already guards this
+        raise ExternalCreativityError(f"{label} is not valid arithmetic") from error
+
+
+def _sympy_expression_ir(expression: sp.Expr) -> Expression:
+    if expression.is_Integer:
+        return ir_literal(int(expression))
+    if expression.is_Rational:
+        return ir_literal(Fraction(int(expression.p), int(expression.q)))
+    if expression.is_Symbol:
+        return ir_symbol(str(expression))
+    if expression.is_Add:
+        return ir_add(*(_sympy_expression_ir(item) for item in expression.args))
+    if expression.is_Mul:
+        return ir_multiply(*(_sympy_expression_ir(item) for item in expression.args))
+    if expression.is_Pow and expression.exp.is_Integer:
+        exponent = int(expression.exp)
+        if not -8 <= exponent <= 8:
+            raise ExternalCreativityError("typed arithmetic exponent is outside [-8, 8]")
+        return ir_power(_sympy_expression_ir(expression.base), exponent)
+    raise ExternalCreativityError("typed arithmetic cannot be represented in the exact IR")
+
+
+def _expression_ir_from_text(expression: str, aliases: Sequence[str]) -> Expression:
+    return _sympy_expression_ir(_safe_expression(expression, aliases))
+
+
+def _parse_tensor_spec(
+    expression: str, aliases: Sequence[str]
+) -> tuple[str, dict[str, Any], TensorIdentity]:
+    value = _typed_json(
+        expression,
+        {
+            "left_components",
+            "output_component",
+            "right_components",
+            "shape",
+            "symmetries",
+            "tensor_name",
+            "variance",
+        },
+        "tensor specification",
+    )
+    tensor_name = _typed_symbol(value["tensor_name"], "tensor name")
+    shape_raw = value["shape"]
+    variance_raw = value["variance"]
+    left_raw = value["left_components"]
+    right_raw = value["right_components"]
+    if (
+        not isinstance(shape_raw, list)
+        or not 1 <= len(shape_raw) <= MAXIMUM_TENSOR_RANK
+        or any(
+            isinstance(size, bool) or not isinstance(size, int) or not 1 <= size <= 8
+            for size in shape_raw
+        )
+    ):
+        raise ExternalCreativityError("tensor shape is invalid")
+    shape = tuple(shape_raw)
+    component_count = prod(shape)
+    if component_count > MAXIMUM_TENSOR_COMPONENTS:
+        raise ExternalCreativityError("tensor exceeds the component budget")
+    if (
+        not isinstance(variance_raw, list)
+        or len(variance_raw) != len(shape)
+        or any(item not in {"covariant", "contravariant"} for item in variance_raw)
+    ):
+        raise ExternalCreativityError("tensor variance does not match its rank")
+    if (
+        not isinstance(left_raw, list)
+        or not isinstance(right_raw, list)
+        or len(left_raw) != component_count
+        or len(right_raw) != component_count
+    ):
+        raise ExternalCreativityError("tensor components do not cover the declared shape")
+    left = [
+        _canonical_typed_arithmetic(item, aliases, f"tensor left component {index}")
+        for index, item in enumerate(left_raw)
+    ]
+    right = [
+        _canonical_typed_arithmetic(item, aliases, f"tensor right component {index}")
+        for index, item in enumerate(right_raw)
+    ]
+    symmetries_raw = value["symmetries"]
+    if not isinstance(symmetries_raw, list):
+        raise ExternalCreativityError("tensor symmetries must be a list")
+    symmetries: list[tuple[int, int, int]] = []
+    for index, item in enumerate(symmetries_raw):
+        _strict_keys(
+            item,
+            {"left_axis", "right_axis", "sign"},
+            f"tensor symmetry {index}",
+        )
+        left_axis = item["left_axis"]
+        right_axis = item["right_axis"]
+        sign = item["sign"]
+        if (
+            isinstance(left_axis, bool)
+            or isinstance(right_axis, bool)
+            or not isinstance(left_axis, int)
+            or not isinstance(right_axis, int)
+            or isinstance(sign, bool)
+            or sign not in {-1, 1}
+        ):
+            raise ExternalCreativityError("tensor symmetry is malformed")
+        symmetries.append((left_axis, right_axis, sign))
+    symmetry_tuples = tuple(sorted(set(symmetries)))
+    output = value["output_component"]
+    _strict_keys(output, {"flat_index", "side"}, "tensor output component")
+    flat_index = output["flat_index"]
+    side = output["side"]
+    if (
+        side not in {"left", "right"}
+        or isinstance(flat_index, bool)
+        or not isinstance(flat_index, int)
+        or not 0 <= flat_index < component_count
+    ):
+        raise ExternalCreativityError("tensor output component is invalid")
+    try:
+        formula = TensorIdentity(
+            tensor_name,
+            shape,
+            tuple(variance_raw),
+            tuple(_expression_ir_from_text(item, aliases) for item in left),
+            tuple(_expression_ir_from_text(item, aliases) for item in right),
+            symmetry_tuples,
+        )
+    except ExpressionIRError as error:
+        raise ExternalCreativityError(str(error)) from error
+    spec = {
+        "left_components": left,
+        "output_component": {"flat_index": flat_index, "side": side},
+        "right_components": right,
+        "shape": list(shape),
+        "symmetries": [
+            {"left_axis": left_axis, "right_axis": right_axis, "sign": sign}
+            for left_axis, right_axis, sign in symmetry_tuples
+        ],
+        "tensor_name": tensor_name,
+        "variance": list(variance_raw),
+    }
+    return json.dumps(spec, sort_keys=True, separators=(",", ":")), spec, formula
+
+
+def _parse_variational_spec(
+    expression: str, aliases: Sequence[str]
+) -> tuple[str, dict[str, Any], VariationalFunctional]:
+    try:
+        value = json.loads(expression)
+    except json.JSONDecodeError as error:
+        raise ExternalCreativityError("variational specification must be canonical JSON") from error
+    required = {
+        "bindings",
+        "claimed_euler_lagrange",
+        "coordinate",
+        "field",
+        "first_derivative",
+        "integrand",
+        "second_derivative",
+    }
+    if not isinstance(value, Mapping) or frozenset(value) not in {
+        frozenset(required),
+        frozenset((*required, "output_expression")),
+    }:
+        raise ExternalCreativityError("variational specification keys changed")
+    field = _typed_symbol(value["field"], "variational field")
+    coordinate = _typed_symbol(value["coordinate"], "variational coordinate")
+    first_derivative = _typed_symbol(value["first_derivative"], "variational first derivative")
+    second_derivative = _typed_symbol(value["second_derivative"], "variational second derivative")
+    formal_symbols = (field, coordinate, first_derivative, second_derivative)
+    if len(set(formal_symbols)) != 4 or set(formal_symbols) & set(aliases):
+        raise ExternalCreativityError(
+            "variational formal symbols must be distinct from public aliases"
+        )
+    allowed_symbols = (*formal_symbols, *aliases)
+    integrand = _canonical_typed_arithmetic(
+        value["integrand"], allowed_symbols, "variational integrand"
+    )
+    claimed = _canonical_typed_arithmetic(
+        value["claimed_euler_lagrange"],
+        allowed_symbols,
+        "claimed Euler-Lagrange expression",
+    )
+    symbolic_variables = [sp.Symbol(name, real=True) for name in allowed_symbols]
+    for label, item in (("integrand", integrand), ("claim", claimed)):
+        try:
+            polynomial = sp.Poly(_safe_expression(item, allowed_symbols), *symbolic_variables)
+        except sp.PolynomialError as error:
+            raise ExternalCreativityError(
+                f"variational {label} leaves the polynomial evaluator"
+            ) from error
+        if any(degree > 8 for degree in polynomial.degree_list()):
+            raise ExternalCreativityError(
+                f"variational {label} exceeds the polynomial power budget"
+            )
+    bindings_raw = value["bindings"]
+    if not isinstance(bindings_raw, Mapping) or set(bindings_raw) != set(formal_symbols):
+        raise ExternalCreativityError("variational bindings do not cover every formal symbol")
+    bindings = {
+        name: _canonical_typed_arithmetic(
+            bindings_raw[name], aliases, f"variational binding {name}"
+        )
+        for name in formal_symbols
+    }
+    claimed_expression = _safe_expression(claimed, allowed_symbols)
+    substitutions = {
+        sp.Symbol(name, real=True): _safe_expression(bindings[name], aliases)
+        for name in formal_symbols
+    }
+    output = sp.cancel(claimed_expression.subs(substitutions, simultaneous=True))
+    alias_symbols = {sp.Symbol(name, real=True) for name in aliases}
+    if output.free_symbols - alias_symbols:
+        raise ExternalCreativityError("variational output retains an unbound formal symbol")
+    output_expression = str(sp.factor(output))
+    _safe_expression(output_expression, aliases)
+    supplied_output = value.get("output_expression")
+    if supplied_output is not None:
+        supplied = _safe_expression(
+            _canonical_typed_arithmetic(supplied_output, aliases, "variational output expression"),
+            aliases,
+        )
+        if sp.cancel(supplied - output) != 0:
+            raise ExternalCreativityError(
+                "variational output expression is not induced by the declared bindings"
+            )
+    try:
+        formula = VariationalFunctional(
+            field,
+            coordinate,
+            first_derivative,
+            second_derivative,
+            _expression_ir_from_text(integrand, allowed_symbols),
+            _expression_ir_from_text(claimed, allowed_symbols),
+        )
+    except ExpressionIRError as error:
+        raise ExternalCreativityError(str(error)) from error
+    spec = {
+        "bindings": bindings,
+        "claimed_euler_lagrange": claimed,
+        "coordinate": coordinate,
+        "field": field,
+        "first_derivative": first_derivative,
+        "integrand": integrand,
+        "output_expression": output_expression,
+        "second_derivative": second_derivative,
+    }
+    return json.dumps(spec, sort_keys=True, separators=(",", ":")), spec, formula
+
+
+def _resolve_integer_bound(value: str, aliases: Mapping[str, Fraction]) -> int | None:
     if value in aliases:
         resolved = aliases[value]
         return int(resolved) if resolved.denominator == 1 else None
@@ -836,11 +1140,7 @@ def _evaluate_modular(
             except IndependentEvaluationError:
                 values.append(None)
                 continue
-            values.append(
-                Fraction(value.numerator % modulus)
-                if value.denominator == 1
-                else None
-            )
+            values.append(Fraction(value.numerator % modulus) if value.denominator == 1 else None)
         return tuple(values)
     base = _evaluate_expression(
         replace(candidate, representation="sympy_expression", expression=expression),
@@ -891,9 +1191,7 @@ def _evaluate_generating_function(
     numerator = tuple(Fraction(item) for item in spec["numerator"])
     denominator = tuple(Fraction(item) for item in spec["denominator"])
     if independent:
-        coefficients = _generating_function_coefficients(
-            numerator, denominator, maximum_index
-        )
+        coefficients = _generating_function_coefficients(numerator, denominator, maximum_index)
     else:
         z = sp.Symbol("z")
         numerator_expression = sum(
@@ -918,6 +1216,89 @@ def _evaluate_generating_function(
         if len(coefficients) != maximum_index + 1:
             return tuple(None for _ in rows)
     return tuple(coefficients[index] for index in indices)
+
+
+def _evaluate_expanded_formula_output(
+    formula: TensorIdentity | VariationalFunctional,
+    output_expression: str,
+    candidate: Candidate,
+    benchmark: Benchmark,
+    rows: Sequence[Observation],
+    *,
+    independent: bool,
+) -> tuple[Fraction | None, ...]:
+    if independent:
+        predicted: list[Fraction | None] = []
+        for row in rows:
+            assignment = dict(zip(benchmark.aliases, row.inputs, strict=True))
+            try:
+                identity_holds = independently_evaluate_expanded(formula, assignment)
+                value = independently_evaluate_expression(output_expression, assignment)
+            except (
+                ExpandedIndependentEvaluationError,
+                IndependentEvaluationError,
+                ZeroDivisionError,
+            ):
+                predicted.append(None)
+                continue
+            predicted.append(value if identity_holds else None)
+        return tuple(predicted)
+    base = _evaluate_expression(
+        replace(
+            candidate,
+            representation="sympy_expression",
+            expression=output_expression,
+        ),
+        benchmark,
+        rows,
+    )
+    predicted = []
+    for row, value in zip(rows, base, strict=True):
+        assignment = dict(zip(benchmark.aliases, row.inputs, strict=True))
+        try:
+            identity_holds = primarily_evaluate_expanded(formula, assignment)
+        except (ExpandedPrimaryEvaluationError, ZeroDivisionError):
+            identity_holds = False
+        predicted.append(value if identity_holds else None)
+    return tuple(predicted)
+
+
+def _evaluate_tensor(
+    candidate: Candidate,
+    benchmark: Benchmark,
+    rows: Sequence[Observation],
+    *,
+    independent: bool,
+) -> tuple[Fraction | None, ...]:
+    _, spec, formula = _parse_tensor_spec(candidate.expression, benchmark.aliases)
+    output = spec["output_component"]
+    components = spec[f"{output['side']}_components"]
+    return _evaluate_expanded_formula_output(
+        formula,
+        components[output["flat_index"]],
+        candidate,
+        benchmark,
+        rows,
+        independent=independent,
+    )
+
+
+def _evaluate_variational(
+    candidate: Candidate,
+    benchmark: Benchmark,
+    rows: Sequence[Observation],
+    *,
+    independent: bool,
+) -> tuple[Fraction | None, ...]:
+    _, spec, formula = _parse_variational_spec(candidate.expression, benchmark.aliases)
+    return _evaluate_expanded_formula_output(
+        formula,
+        spec["output_expression"],
+        candidate,
+        benchmark,
+        rows,
+        independent=independent,
+    )
 
 
 def _evaluate_expression(
@@ -963,23 +1344,23 @@ def _evaluate_recurrence(
     return tuple(sequence[index] for index in requested)
 
 
-def predict(candidate: Candidate, benchmark: Benchmark, rows: Sequence[Observation]) -> tuple[Fraction | None, ...]:
+def predict(
+    candidate: Candidate, benchmark: Benchmark, rows: Sequence[Observation]
+) -> tuple[Fraction | None, ...]:
     if candidate.representation == "linear_recurrence":
         return _evaluate_recurrence(candidate, benchmark, rows)
     if candidate.representation == "generating_function":
-        return _evaluate_generating_function(
-            candidate, benchmark, rows, independent=False
-        )
+        return _evaluate_generating_function(candidate, benchmark, rows, independent=False)
     if candidate.representation == "finite_sum":
-        return _evaluate_aggregate(
-            candidate, benchmark, rows, product=False, independent=False
-        )
+        return _evaluate_aggregate(candidate, benchmark, rows, product=False, independent=False)
     if candidate.representation == "finite_product":
-        return _evaluate_aggregate(
-            candidate, benchmark, rows, product=True, independent=False
-        )
+        return _evaluate_aggregate(candidate, benchmark, rows, product=True, independent=False)
     if candidate.representation == "modular_relation":
         return _evaluate_modular(candidate, benchmark, rows, independent=False)
+    if candidate.representation == "tensor_identity":
+        return _evaluate_tensor(candidate, benchmark, rows, independent=False)
+    if candidate.representation == "variational_functional":
+        return _evaluate_variational(candidate, benchmark, rows, independent=False)
     return _evaluate_expression(candidate, benchmark, rows)
 
 
@@ -1003,19 +1384,17 @@ def independently_predict(
                 indices,
             )
         if candidate.representation == "finite_sum":
-            return _evaluate_aggregate(
-                candidate, benchmark, rows, product=False, independent=True
-            )
+            return _evaluate_aggregate(candidate, benchmark, rows, product=False, independent=True)
         if candidate.representation == "finite_product":
-            return _evaluate_aggregate(
-                candidate, benchmark, rows, product=True, independent=True
-            )
+            return _evaluate_aggregate(candidate, benchmark, rows, product=True, independent=True)
         if candidate.representation == "modular_relation":
             return _evaluate_modular(candidate, benchmark, rows, independent=True)
         if candidate.representation == "generating_function":
-            return _evaluate_generating_function(
-                candidate, benchmark, rows, independent=True
-            )
+            return _evaluate_generating_function(candidate, benchmark, rows, independent=True)
+        if candidate.representation == "tensor_identity":
+            return _evaluate_tensor(candidate, benchmark, rows, independent=True)
+        if candidate.representation == "variational_functional":
+            return _evaluate_variational(candidate, benchmark, rows, independent=True)
         if candidate.representation != "sympy_expression":
             return tuple(None for _ in rows)
         outputs = []
@@ -1041,7 +1420,10 @@ def _polynomial_candidate(benchmark: Benchmark, family: str) -> Candidate | None
     x = sp.Symbol("x0", real=True)
     polynomial = sp.interpolate(
         [
-            (sp.Rational(row.inputs[0].numerator, row.inputs[0].denominator), sp.Rational(row.output.numerator, row.output.denominator))
+            (
+                sp.Rational(row.inputs[0].numerator, row.inputs[0].denominator),
+                sp.Rational(row.output.numerator, row.output.denominator),
+            )
             for row in benchmark.observations
         ],
         x,
@@ -1055,7 +1437,11 @@ def _polynomial_candidate(benchmark: Benchmark, family: str) -> Candidate | None
         "sympy_expression",
         expression,
         invariants=("bounded_polynomial_degree", "finite_difference_order"),
-        proof_plan=("derive_finite_difference_lemma", "change_to_polynomial_basis", "induct_on_index"),
+        proof_plan=(
+            "derive_finite_difference_lemma",
+            "change_to_polynomial_basis",
+            "induct_on_index",
+        ),
     )
 
 
@@ -1098,7 +1484,11 @@ def _dimensional_candidate(benchmark: Benchmark, family: str) -> Candidate | Non
         "sympy_expression",
         expression,
         invariants=("dimension_balance", "dimensionless_coefficient"),
-        proof_plan=("solve_dimension_lattice", "fit_dimensionless_group", "verify_scaling_interventions"),
+        proof_plan=(
+            "solve_dimension_lattice",
+            "fit_dimensionless_group",
+            "verify_scaling_interventions",
+        ),
     )
 
 
@@ -1112,14 +1502,24 @@ def _recurrence_candidate(benchmark: Benchmark, family: str) -> Candidate | None
     for order in range(1, min(5, len(sequence) // 2 + 1)):
         coefficients = sp.symbols(f"c0:{order}")
         equations = [
-            sp.Eq(sequence[index], sum(coefficients[offset - 1] * sequence[index - offset] for offset in range(1, order + 1)))
+            sp.Eq(
+                sequence[index],
+                sum(
+                    coefficients[offset - 1] * sequence[index - offset]
+                    for offset in range(1, order + 1)
+                ),
+            )
             for index in range(order, len(sequence))
         ]
         solutions = sp.solve(equations, coefficients, dict=True)
         for solution in solutions:
-            if set(solution) != set(coefficients) or any(not solution[item].is_Rational for item in coefficients):
+            if set(solution) != set(coefficients) or any(
+                not solution[item].is_Rational for item in coefficients
+            ):
                 continue
-            fractions = tuple(Fraction(int(solution[item].p), int(solution[item].q)) for item in coefficients)
+            fractions = tuple(
+                Fraction(int(solution[item].p), int(solution[item].q)) for item in coefficients
+            )
             return _candidate(
                 benchmark,
                 family,
@@ -1128,7 +1528,11 @@ def _recurrence_candidate(benchmark: Benchmark, family: str) -> Candidate | None
                 recurrence_coefficients=fractions,
                 recurrence_seed=tuple(row.output for row in rows[:order]),
                 invariants=("linear_recurrence", f"order_{order}"),
-                proof_plan=("guess_recurrence", "prove_initial_conditions", "induct_with_recurrence"),
+                proof_plan=(
+                    "guess_recurrence",
+                    "prove_initial_conditions",
+                    "induct_with_recurrence",
+                ),
             )
     return None
 
@@ -1151,8 +1555,18 @@ def _template_candidates(benchmark: Benchmark, family: str) -> tuple[Candidate, 
             invariants=("template_library",),
             proof_plan=("transfer_analogue", "test_public_counterexamples"),
         )
-        scored.append((_loss(predict(candidate, benchmark, benchmark.observations), benchmark.observations), candidate))
-    return tuple(candidate for _, candidate in sorted(scored, key=lambda item: (item[0], item[1].candidate_id))[:4])
+        scored.append(
+            (
+                _loss(
+                    predict(candidate, benchmark, benchmark.observations), benchmark.observations
+                ),
+                candidate,
+            )
+        )
+    return tuple(
+        candidate
+        for _, candidate in sorted(scored, key=lambda item: (item[0], item[1].candidate_id))[:4]
+    )
 
 
 def generate_candidates(benchmark: Benchmark, maximum_per_family: int) -> tuple[Candidate, ...]:
@@ -1206,16 +1620,12 @@ def _claude_candidate(
     seed: tuple[Fraction, ...] = ()
     try:
         if representation == "sympy_expression":
-            expression, normalization = _normalize_claude_arithmetic(
-                expression, benchmark.aliases
-            )
+            expression, normalization = _normalize_claude_arithmetic(expression, benchmark.aliases)
         elif representation == "invariant_relation":
             if re.fullmatch(r"output\s*=\s*.+", expression.strip(), flags=re.DOTALL) is None:
                 record["reason"] = "invariant_relation_missing_output_assignment"
                 return None, record
-            expression, normalization = _normalize_claude_arithmetic(
-                expression, benchmark.aliases
-            )
+            expression, normalization = _normalize_claude_arithmetic(expression, benchmark.aliases)
             representation = "sympy_expression"
         elif representation == "linear_recurrence":
             expression, coefficients, seed = _parse_recurrence_spec(expression)
@@ -1228,13 +1638,18 @@ def _claude_candidate(
             )
             normalization = "canonical_typed_json"
         elif representation == "generating_function":
-            expression, _ = _parse_generating_function_spec(
-                expression, benchmark.aliases
-            )
+            expression, _ = _parse_generating_function_spec(expression, benchmark.aliases)
             normalization = "canonical_typed_json"
         elif representation == "modular_relation":
             expression, _ = _parse_modular_spec(expression, benchmark.aliases)
             normalization = "canonical_typed_json"
+        elif representation == "tensor_identity":
+            expression, _, _ = _parse_tensor_spec(expression, benchmark.aliases)
+            normalization = "canonical_typed_json"
+        elif representation == "variational_principle":
+            expression, _, _ = _parse_variational_spec(expression, benchmark.aliases)
+            representation = "variational_functional"
+            normalization = "canonical_typed_json+derived_output_expression"
         else:  # pragma: no cover - guarded by the executable representation set
             raise ExternalCreativityError("executable representation compiler is missing")
     except ExternalCreativityError as error:
@@ -1264,19 +1679,13 @@ def _claude_candidate(
     return candidate, record
 
 
-def _candidate_syntax_profile(
-    candidate: Candidate, benchmark: Benchmark
-) -> tuple[int, int]:
+def _candidate_syntax_profile(candidate: Candidate, benchmark: Benchmark) -> tuple[int, int]:
     if candidate.representation == "sympy_expression":
         return _arithmetic_tree_stats(candidate.expression, benchmark.aliases)
     if candidate.representation == "generating_function":
-        _, spec = _parse_generating_function_spec(
-            candidate.expression, benchmark.aliases
-        )
+        _, spec = _parse_generating_function_spec(candidate.expression, benchmark.aliases)
         width = max(len(spec["numerator"]), len(spec["denominator"]))
-        return 2 + width.bit_length(), 2 + len(spec["numerator"]) + len(
-            spec["denominator"]
-        )
+        return 2 + width.bit_length(), 2 + len(spec["numerator"]) + len(spec["denominator"])
     if candidate.representation == "linear_recurrence":
         order = len(candidate.recurrence_coefficients)
         return 2 + order.bit_length(), 1 + len(candidate.recurrence_coefficients) + len(
@@ -1286,18 +1695,49 @@ def _candidate_syntax_profile(
         _, spec = _parse_aggregate_spec(
             candidate.expression,
             benchmark.aliases,
-            "finite product"
-            if candidate.representation == "finite_product"
-            else "finite sum",
+            "finite product" if candidate.representation == "finite_product" else "finite sum",
         )
-        depth, nodes = _arithmetic_tree_stats(
-            spec["body"], (*benchmark.aliases, spec["index"])
-        )
+        depth, nodes = _arithmetic_tree_stats(spec["body"], (*benchmark.aliases, spec["index"]))
         return depth + 1, nodes + 4
     if candidate.representation == "modular_relation":
         _, spec = _parse_modular_spec(candidate.expression, benchmark.aliases)
         depth, nodes = _arithmetic_tree_stats(spec["expression"], benchmark.aliases)
         return depth + 1, nodes + 1
+    if candidate.representation == "tensor_identity":
+        _, spec, _ = _parse_tensor_spec(candidate.expression, benchmark.aliases)
+        component_stats = [
+            _arithmetic_tree_stats(item, benchmark.aliases)
+            for item in (*spec["left_components"], *spec["right_components"])
+        ]
+        metadata_nodes = len(spec["shape"]) + 3 * len(spec["symmetries"]) + 2
+        return (
+            2 + len(spec["shape"]) + max(depth for depth, _ in component_stats),
+            metadata_nodes + sum(nodes for _, nodes in component_stats),
+        )
+    if candidate.representation == "variational_functional":
+        _, spec, _ = _parse_variational_spec(candidate.expression, benchmark.aliases)
+        formal_symbols = (
+            spec["field"],
+            spec["coordinate"],
+            spec["first_derivative"],
+            spec["second_derivative"],
+        )
+        expression_stats = [
+            _arithmetic_tree_stats(spec["integrand"], (*formal_symbols, *benchmark.aliases)),
+            _arithmetic_tree_stats(
+                spec["claimed_euler_lagrange"],
+                (*formal_symbols, *benchmark.aliases),
+            ),
+            *(
+                _arithmetic_tree_stats(item, benchmark.aliases)
+                for item in spec["bindings"].values()
+            ),
+            _arithmetic_tree_stats(spec["output_expression"], benchmark.aliases),
+        ]
+        return (
+            3 + max(depth for depth, _ in expression_stats),
+            8 + sum(nodes for _, nodes in expression_stats),
+        )
     raise ExternalCreativityError("candidate has no executable syntax profile")
 
 
@@ -1316,9 +1756,7 @@ def _evaluation_operations(
         generated = max(0, max(requested, default=-1) + 1 - len(candidate.recurrence_seed))
         return max(1, generated * len(candidate.recurrence_coefficients))
     if candidate.representation == "generating_function":
-        _, spec = _parse_generating_function_spec(
-            candidate.expression, benchmark.aliases
-        )
+        _, spec = _parse_generating_function_spec(candidate.expression, benchmark.aliases)
         position = benchmark.aliases.index(spec["index"])
         requested = [row.inputs[position] for row in rows]
         if any(value.denominator != 1 or value < 0 for value in requested):
@@ -1332,13 +1770,9 @@ def _evaluation_operations(
         _, spec = _parse_aggregate_spec(
             candidate.expression,
             benchmark.aliases,
-            "finite product"
-            if candidate.representation == "finite_product"
-            else "finite sum",
+            "finite product" if candidate.representation == "finite_product" else "finite sum",
         )
-        body_nodes = _arithmetic_tree_stats(
-            spec["body"], (*benchmark.aliases, spec["index"])
-        )[1]
+        body_nodes = _arithmetic_tree_stats(spec["body"], (*benchmark.aliases, spec["index"]))[1]
         operations = 0
         for row in rows:
             aliases = dict(zip(benchmark.aliases, row.inputs, strict=True))
@@ -1446,23 +1880,15 @@ def _matched_random_candidate(
     seed: tuple[Fraction, ...] = ()
     if source.representation == "sympy_expression":
         try:
-            expression = _mutate_arithmetic_same_shape(
-                expression, benchmark.aliases, rng
-            )
+            expression = _mutate_arithmetic_same_shape(expression, benchmark.aliases, rng)
         except ExternalCreativityError as error:
             raise ExternalCreativityError(
                 f"same-shape mutation failed for {source.expression!r}"
             ) from error
     elif source.representation == "generating_function":
         _, spec = _parse_generating_function_spec(expression, benchmark.aliases)
-        numerator = [
-            _fraction_text(Fraction(rng.randint(-5, 5)))
-            for _ in spec["numerator"]
-        ]
-        denominator = [
-            _fraction_text(Fraction(rng.randint(-5, 5)))
-            for _ in spec["denominator"]
-        ]
+        numerator = [_fraction_text(Fraction(rng.randint(-5, 5))) for _ in spec["numerator"]]
+        denominator = [_fraction_text(Fraction(rng.randint(-5, 5))) for _ in spec["denominator"]]
         if denominator[0] == "0":
             denominator[0] = "1"
         expression = json.dumps(
@@ -1501,6 +1927,53 @@ def _matched_random_candidate(
             spec["expression"], benchmark.aliases, rng
         )
         expression = json.dumps(spec, sort_keys=True, separators=(",", ":"))
+    elif source.representation == "tensor_identity":
+        _, spec, _ = _parse_tensor_spec(expression, benchmark.aliases)
+        spec["left_components"] = [
+            _mutate_arithmetic_same_shape(item, benchmark.aliases, rng)
+            for item in spec["left_components"]
+        ]
+        spec["right_components"] = [
+            _mutate_arithmetic_same_shape(item, benchmark.aliases, rng)
+            for item in spec["right_components"]
+        ]
+        expression, _, _ = _parse_tensor_spec(
+            json.dumps(spec, sort_keys=True, separators=(",", ":")),
+            benchmark.aliases,
+        )
+    elif source.representation == "variational_functional":
+        _, spec, _ = _parse_variational_spec(expression, benchmark.aliases)
+        formal_symbols = (
+            spec["field"],
+            spec["coordinate"],
+            spec["first_derivative"],
+            spec["second_derivative"],
+        )
+        allowed_symbols = (*formal_symbols, *benchmark.aliases)
+        for _ in range(64):
+            mutated = {key: value for key, value in spec.items() if key != "output_expression"}
+            mutated["integrand"] = _mutate_arithmetic_same_shape(
+                spec["integrand"], allowed_symbols, rng
+            )
+            mutated["claimed_euler_lagrange"] = _mutate_arithmetic_same_shape(
+                spec["claimed_euler_lagrange"], allowed_symbols, rng
+            )
+            mutated["bindings"] = {
+                name: _mutate_arithmetic_same_shape(value, benchmark.aliases, rng)
+                for name, value in spec["bindings"].items()
+            }
+            try:
+                expression, _, _ = _parse_variational_spec(
+                    json.dumps(mutated, sort_keys=True, separators=(",", ":")),
+                    benchmark.aliases,
+                )
+            except ExternalCreativityError:
+                continue
+            break
+        else:
+            raise ExternalCreativityError(
+                "could not construct an executable variational random control"
+            )
     else:
         raise ExternalCreativityError("matched control has an unsupported representation")
     return _candidate(
@@ -1531,15 +2004,12 @@ def random_controls(
             source_signature = (candidate.representation, candidate.expression)
             source_syntax_profile = _candidate_syntax_profile(candidate, benchmark)
             for _ in range(128):
-                control = _matched_random_candidate(
-                    benchmark, candidate, family, ordinal, rng
-                )
+                control = _matched_random_candidate(benchmark, candidate, family, ordinal, rng)
                 signature = (control.representation, control.expression)
                 if (
                     signature != source_signature
                     and signature not in used_signatures
-                    and _candidate_syntax_profile(control, benchmark)
-                    == source_syntax_profile
+                    and _candidate_syntax_profile(control, benchmark) == source_syntax_profile
                 ):
                     used_signatures.add(signature)
                     rows.append(control)
@@ -1553,7 +2023,9 @@ def random_controls(
     return controls
 
 
-def _behavior(candidate: Candidate, benchmark: Benchmark, rows: Sequence[Observation]) -> dict[str, str]:
+def _behavior(
+    candidate: Candidate, benchmark: Benchmark, rows: Sequence[Observation]
+) -> dict[str, str]:
     predictions = predict(candidate, benchmark, rows)
     finite = [None if item is None else _fraction_text(item) for item in predictions]
     expression = None
@@ -1564,16 +2036,16 @@ def _behavior(candidate: Candidate, benchmark: Benchmark, rows: Sequence[Observa
         expression = _safe_expression(candidate.expression, benchmark.aliases)
         symbols = [sp.Symbol(alias, real=True) for alias in benchmark.aliases]
         try:
-            degree = str(sp.Poly(sp.together(expression).as_numer_denom()[0], *symbols).total_degree())
+            degree = str(
+                sp.Poly(sp.together(expression).as_numer_denom()[0], *symbols).total_degree()
+            )
         except sp.PolynomialError:
             degree = "nonpolynomial"
         denominator = sp.factor(sp.together(expression).as_numer_denom()[1])
         singularities = str(denominator)
         structure = str(sp.factor(expression))
     elif candidate.representation == "generating_function":
-        _, spec = _parse_generating_function_spec(
-            candidate.expression, benchmark.aliases
-        )
+        _, spec = _parse_generating_function_spec(candidate.expression, benchmark.aliases)
         degree = "rational_generating_function"
         singularities = canonical_sha256(spec["denominator"])
         structure = {
@@ -1584,18 +2056,12 @@ def _behavior(candidate: Candidate, benchmark: Benchmark, rows: Sequence[Observa
         _, spec = _parse_aggregate_spec(
             candidate.expression,
             benchmark.aliases,
-            "finite product"
-            if candidate.representation == "finite_product"
-            else "finite sum",
+            "finite product" if candidate.representation == "finite_product" else "finite sum",
         )
         degree = "finite_aggregate"
         structure = {
             "body": str(
-                sp.factor(
-                    _safe_expression(
-                        spec["body"], (*benchmark.aliases, spec["index"])
-                    )
-                )
+                sp.factor(_safe_expression(spec["body"], (*benchmark.aliases, spec["index"])))
             ),
             "bounds": [spec["lower"], spec["upper"]],
         }
@@ -1603,17 +2069,30 @@ def _behavior(candidate: Candidate, benchmark: Benchmark, rows: Sequence[Observa
         _, spec = _parse_modular_spec(candidate.expression, benchmark.aliases)
         degree = "modular"
         structure = {
-            "expression": str(
-                sp.factor(_safe_expression(spec["expression"], benchmark.aliases))
-            ),
+            "expression": str(sp.factor(_safe_expression(spec["expression"], benchmark.aliases))),
             "modulus": spec["modulus"],
         }
     elif candidate.representation == "linear_recurrence":
         structure = {
             "order": len(candidate.recurrence_coefficients),
-            "coefficients": [
-                _fraction_text(item) for item in candidate.recurrence_coefficients
-            ],
+            "coefficients": [_fraction_text(item) for item in candidate.recurrence_coefficients],
+        }
+    elif candidate.representation == "tensor_identity":
+        _, spec, _ = _parse_tensor_spec(candidate.expression, benchmark.aliases)
+        degree = "tensor_identity"
+        structure = {
+            "output_component": spec["output_component"],
+            "shape": spec["shape"],
+            "symmetries": spec["symmetries"],
+            "variance": spec["variance"],
+        }
+    elif candidate.representation == "variational_functional":
+        _, spec, _ = _parse_variational_spec(candidate.expression, benchmark.aliases)
+        degree = "variational_functional"
+        structure = {
+            "claimed_euler_lagrange": spec["claimed_euler_lagrange"],
+            "integrand": spec["integrand"],
+            "output_expression": spec["output_expression"],
         }
     behavior_body = {
         "degree": degree,
@@ -1661,7 +2140,9 @@ def _interval_value(expression: sp.Expr, substitutions: Mapping[sp.Symbol, Fract
         value = substitutions[expression]
         return mpmath.iv.mpf(value.numerator) / value.denominator
     if expression.is_Add:
-        return sum((_interval_value(item, substitutions) for item in expression.args), mpmath.iv.mpf(0))
+        return sum(
+            (_interval_value(item, substitutions) for item in expression.args), mpmath.iv.mpf(0)
+        )
     if expression.is_Mul:
         result = mpmath.iv.mpf(1)
         for item in expression.args:
@@ -1686,14 +2167,18 @@ def verify_known_formula(
         reference = _safe_expression(target.reference_formula, benchmark.aliases)
         cas = sp.cancel(found - reference) == 0
         symbols = [sp.Symbol(alias, real=True) for alias in benchmark.aliases]
-        z3_variables = {symbol: z3.Real(alias) for symbol, alias in zip(symbols, benchmark.aliases, strict=True)}
+        z3_variables = {
+            symbol: z3.Real(alias) for symbol, alias in zip(symbols, benchmark.aliases, strict=True)
+        }
         solver = z3.Solver()
         solver.add(_sympy_to_z3(found, z3_variables) != _sympy_to_z3(reference, z3_variables))
         smt = solver.check() == z3.unsat
         interval = True
         for row in (*benchmark.observations, *target.holdout_records):
             substitutions = dict(zip(symbols, row.inputs, strict=True))
-            difference = _interval_value(found, substitutions) - _interval_value(reference, substitutions)
+            difference = _interval_value(found, substitutions) - _interval_value(
+                reference, substitutions
+            )
             if not (difference.a <= 0 <= difference.b):
                 interval = False
                 break
@@ -1746,8 +2231,7 @@ def _dataset_evidence(
             parity_channels[channel].append(residual)
         ordered = sorted(benchmark.observations, key=lambda row: row.inputs[0])
         if all(
-            row.inputs[0].denominator == 1
-            and next_row.inputs[0] == row.inputs[0] + 1
+            row.inputs[0].denominator == 1 and next_row.inputs[0] == row.inputs[0] + 1
             for row, next_row in pairwise(ordered)
         ):
             differences = [row.output for row in ordered]
@@ -1941,9 +2425,7 @@ def _family_metrics(
             )
 
         grammar_depth_match = profile_matches("grammar_depth")
-        evaluation_runtime_budget_match = profile_matches(
-            "evaluation_runtime_budget_units"
-        )
+        evaluation_runtime_budget_match = profile_matches("evaluation_runtime_budget_units")
         verifier_budget_match = profile_matches("verifier_invocation_budget")
         control_budget_match = (
             candidate_count_match
@@ -2008,22 +2490,10 @@ def _claude_contribution(
         origin_counts[origin] = origin_counts.get(origin, 0) + 1
         if record["status"] == "ADMITTED_EXECUTABLE":
             executable_origin_counts[origin] = executable_origin_counts.get(origin, 0) + 1
-    deterministic_behaviors = {
-        item["behavior_sha256"] for item in deterministic_rows
-    }
-    deterministic_proofs = {
-        item["proof_mechanism_sha256"] for item in deterministic_rows
-    }
-    best = (
-        min(Fraction(item["holdout_loss"]) for item in claude_rows)
-        if claude_rows
-        else None
-    )
-    control_best = (
-        min(Fraction(item["holdout_loss"]) for item in controls)
-        if controls
-        else None
-    )
+    deterministic_behaviors = {item["behavior_sha256"] for item in deterministic_rows}
+    deterministic_proofs = {item["proof_mechanism_sha256"] for item in deterministic_rows}
+    best = min(Fraction(item["holdout_loss"]) for item in claude_rows) if claude_rows else None
+    control_best = min(Fraction(item["holdout_loss"]) for item in controls) if controls else None
     status = "NO_CLAUDE_PROPOSALS"
     if admission_records:
         status = (
@@ -2033,8 +2503,7 @@ def _claude_contribution(
         )
     return {
         "admitted_executable_hypotheses": sum(
-            record["status"] == "ADMITTED_EXECUTABLE"
-            for record in admission_records
+            record["status"] == "ADMITTED_EXECUTABLE" for record in admission_records
         ),
         "behavior_novelty_against_deterministic_count": len(
             {
@@ -2049,9 +2518,7 @@ def _claude_contribution(
             "llm_self_assessment_is_prior_art_authority": False,
             "proof_mechanism_novelty_is_mathematical_correctness": False,
         },
-        "evaluation_runtime_budget_match": profile_matches(
-            "evaluation_runtime_budget_units"
-        ),
+        "evaluation_runtime_budget_match": profile_matches("evaluation_runtime_budget_units"),
         "executable_llm_self_assessed_origin_counts": dict(
             sorted(executable_origin_counts.items())
         ),
@@ -2094,7 +2561,10 @@ def _load_campaign_config(root: Path, *, live_claude: bool) -> dict[str, Any]:
         },
         "external creativity campaign config",
     )
-    if raw["schema_version"] != CAMPAIGN_SCHEMA or raw["benchmark_config_path"] != PUBLIC_CONFIG_PATH:
+    if (
+        raw["schema_version"] != CAMPAIGN_SCHEMA
+        or raw["benchmark_config_path"] != PUBLIC_CONFIG_PATH
+    ):
         raise ExternalCreativityError("external creativity campaign identity changed")
     search = raw["search"]
     _strict_keys(
@@ -2121,7 +2591,10 @@ def _load_campaign_config(root: Path, *, live_claude: bool) -> dict[str, Any]:
         },
         "matched control budget",
     )
-    if any(isinstance(item, bool) or not isinstance(item, int) or item < 1 for item in matched_budget.values()):
+    if any(
+        isinstance(item, bool) or not isinstance(item, int) or item < 1
+        for item in matched_budget.values()
+    ):
         raise ExternalCreativityError("matched control budgets must be positive integers")
     claude = ClaudeAPIConfig.from_mapping(raw["claude_api"])
     if live_claude:
@@ -2149,15 +2622,24 @@ def _load_campaign_config(root: Path, *, live_claude: bool) -> dict[str, Any]:
     ):
         raise ExternalCreativityError("independent formal-verification boundary is too weak")
     prior_art = raw["prior_art"]
-    if prior_art.get("automated_sources") != ["repository_theorem_library", "external_literature_index"] or prior_art.get("human_review_required") is not True:
+    if (
+        prior_art.get("automated_sources")
+        != ["repository_theorem_library", "external_literature_index"]
+        or prior_art.get("human_review_required") is not True
+    ):
         raise ExternalCreativityError("prior-art release policy changed")
     open_policy = raw["open_problem_policy"]
-    if open_policy.get("minimum_independent_level5_passes", 0) < 3 or open_policy.get("public_failure_receipt_required") is not True:
+    if (
+        open_policy.get("minimum_independent_level5_passes", 0) < 3
+        or open_policy.get("public_failure_receipt_required") is not True
+    ):
         raise ExternalCreativityError("open-problem gate is too weak")
     return raw
 
 
-def _prior_art_screen(root: Path, candidate: Mapping[str, Any], benchmark: Benchmark) -> dict[str, Any]:
+def _prior_art_screen(
+    root: Path, candidate: Mapping[str, Any], benchmark: Benchmark
+) -> dict[str, Any]:
     theorem_files = sorted((root / "formal" / "lean").glob("*.lean"))
     normalized = re.sub(r"\s+", "", candidate["expression"]).lower()
     local_matches = []
@@ -2216,7 +2698,9 @@ def run_campaign(
     event("public_external_benchmarks_loaded", target_reads=0)
     event("external_authorship_validated", target_reads=0)
     maximum = config["search"]["maximum_candidates_per_family"]
-    deterministic = {item.benchmark_id: list(generate_candidates(item, maximum)) for item in benchmarks}
+    deterministic = {
+        item.benchmark_id: list(generate_candidates(item, maximum)) for item in benchmarks
+    }
     event("deterministic_creativity_families_generated", target_reads=0)
 
     transport = claude_transport or ProviderCompatibleClaudeTransport()
@@ -2247,9 +2731,7 @@ def run_campaign(
                     output=replace(
                         call.output,
                         hypotheses=(*call.output.hypotheses, *overflow),
-                        rejected_hypotheses=(
-                            call.output.rejected_hypotheses + rejected_overflow
-                        ),
+                        rejected_hypotheses=(call.output.rejected_hypotheses + rejected_overflow),
                     ),
                 )
             call = replace(
@@ -2261,14 +2743,8 @@ def run_campaign(
             )
         claude_calls.append(call)
         hypotheses = () if call.output is None else call.output.hypotheses
-        admitted_rows = [
-            _claude_candidate(benchmark, hypothesis) for hypothesis in hypotheses
-        ]
-        admitted = tuple(
-            candidate
-            for candidate, _ in admitted_rows
-            if candidate is not None
-        )
+        admitted_rows = [_claude_candidate(benchmark, hypothesis) for hypothesis in hypotheses]
+        admitted = tuple(candidate for candidate, _ in admitted_rows if candidate is not None)
         admission_records = [record for _, record in admitted_rows]
         deterministic[benchmark.benchmark_id].extend(admitted)
         deterministic[benchmark.benchmark_id] = list(
@@ -2304,7 +2780,12 @@ def run_campaign(
             )
         train_summaries[benchmark.benchmark_id] = summaries
         proposal_roots[benchmark.benchmark_id] = canonical_sha256(
-            [item.to_dict() for item in sorted(deterministic[benchmark.benchmark_id], key=lambda row: row.candidate_id)]
+            [
+                item.to_dict()
+                for item in sorted(
+                    deterministic[benchmark.benchmark_id], key=lambda row: row.candidate_id
+                )
+            ]
         )
     event("proposal_roots_and_train_evidence_sealed", target_reads=0)
 
@@ -2326,21 +2807,15 @@ def run_campaign(
         claude_calls.append(call)
     event("claude_blind_critique_completed_or_blocked", target_reads=0)
 
-    family_candidates_by_benchmark: dict[
-        str, dict[str, tuple[Candidate, ...]]
-    ] = {}
-    control_candidates_by_benchmark: dict[
-        str, dict[str, tuple[Candidate, ...]]
-    ] = {}
+    family_candidates_by_benchmark: dict[str, dict[str, tuple[Candidate, ...]]] = {}
+    control_candidates_by_benchmark: dict[str, dict[str, tuple[Candidate, ...]]] = {}
     for benchmark in benchmarks:
         candidates = deterministic[benchmark.benchmark_id]
         family_candidates = {
             family: tuple(item for item in candidates if item.family == family)
             for family in FAMILY_IDS
         }
-        claude_candidates = tuple(
-            item for item in candidates if item.family == "claude_proposer"
-        )
+        claude_candidates = tuple(item for item in candidates if item.family == "claude_proposer")
         if claude_candidates:
             family_candidates["claude_proposer"] = claude_candidates
         family_candidates_by_benchmark[benchmark.benchmark_id] = family_candidates
@@ -2369,22 +2844,20 @@ def run_campaign(
         scored_controls = {
             family: [
                 {
-                    **_score_candidate(
-                        control, benchmark, target, allocated_search_budget
-                    ),
+                    **_score_candidate(control, benchmark, target, allocated_search_budget),
                     "matched_candidate_id": source.candidate_id,
                 }
-                for source, control in zip(
-                    source_candidates[family], rows, strict=True
-                )
+                for source, control in zip(source_candidates[family], rows, strict=True)
             ]
             for family, rows in controls.items()
         }
-        metrics, ablations = _family_metrics(
-            scored, scored_controls, allocated_search_budget
+        metrics, ablations = _family_metrics(scored, scored_controls, allocated_search_budget)
+        best_row = min(
+            scored, key=lambda item: (Fraction(item["holdout_loss"]), item["candidate_id"])
         )
-        best_row = min(scored, key=lambda item: (Fraction(item["holdout_loss"]), item["candidate_id"]))
-        best_candidate = next(item for item in candidates if item.candidate_id == best_row["candidate_id"])
+        best_candidate = next(
+            item for item in candidates if item.candidate_id == best_row["candidate_id"]
+        )
         all_rows = (*benchmark.observations, *target.holdout_records)
         primary_predictions = predict(best_candidate, benchmark, all_rows)
         reproduced_predictions = independently_predict(best_candidate, benchmark, all_rows)
@@ -2419,9 +2892,7 @@ def run_campaign(
         evaluation_runtime_budgets_matched = all(
             item["evaluation_runtime_budget_match"] for item in metrics
         )
-        verifier_budgets_matched = all(
-            item["verifier_budget_match"] for item in metrics
-        )
+        verifier_budgets_matched = all(item["verifier_budget_match"] for item in metrics)
         claude_controls = scored_controls.get("claude_proposer", [])
         claude_contribution = _claude_contribution(
             scored,
@@ -2449,7 +2920,8 @@ def run_campaign(
                 "bounded_unknown_process_pass": bounded_process_pass,
                 "capability_level": benchmark.capability_level,
                 "claims": {
-                    "known_formula_rediscovered": target.target_kind == "known_formula" and best_row["holdout_loss"] == "0",
+                    "known_formula_rediscovered": target.target_kind == "known_formula"
+                    and best_row["holdout_loss"] == "0",
                     "novel_formula_established": False,
                     "open_problem_solved": False,
                     "serious_claim_released": False,
@@ -2481,10 +2953,10 @@ def run_campaign(
                 ),
                 "proposal_root_sha256": proposal_roots[benchmark.benchmark_id],
                 "proposer_admission": claude_admission[benchmark.benchmark_id],
-                "random_controls": {
-                    family: scored_controls[family] for family in FAMILY_IDS
-                },
-                "ranked_candidates": sorted(scored, key=lambda item: (Fraction(item["holdout_loss"]), item["candidate_id"])),
+                "random_controls": {family: scored_controls[family] for family in FAMILY_IDS},
+                "ranked_candidates": sorted(
+                    scored, key=lambda item: (Fraction(item["holdout_loss"]), item["candidate_id"])
+                ),
                 "target_commitment_opened": target.commitment,
                 "target_kind": target.target_kind,
                 "unique_behaviors": len({item["behavior_sha256"] for item in scored}),
@@ -2536,9 +3008,7 @@ def run_campaign(
         "config": {
             "campaign_sha256": _file_sha256(root / CAMPAIGN_CONFIG_PATH),
             "claude_source_sha256": _file_sha256(root / CLAUDE_SOURCE_PATH),
-            "claude_transport_source_sha256": _file_sha256(
-                root / CLAUDE_TRANSPORT_SOURCE_PATH
-            ),
+            "claude_transport_source_sha256": _file_sha256(root / CLAUDE_TRANSPORT_SOURCE_PATH),
             "independent_evaluator_sha256": _file_sha256(root / INDEPENDENT_EVALUATOR_PATH),
             "lean_source_sha256": _file_sha256(root / LEAN_SOURCE_PATH),
             "public_benchmarks_sha256": _file_sha256(root / PUBLIC_CONFIG_PATH),
@@ -2547,11 +3017,15 @@ def run_campaign(
             "test_sha256": _file_sha256(root / TEST_PATH),
         },
         "independent_reproduction": {
-            "minimum_implementations": config["verification"]["minimum_independent_implementations"],
+            "minimum_implementations": config["verification"][
+                "minimum_independent_implementations"
+            ],
             "minimum_machines": config["verification"]["minimum_independent_machines"],
             "received_implementations": (
                 2
-                if all(item["independent_exact_reproduction"]["match"] for item in benchmark_results)
+                if all(
+                    item["independent_exact_reproduction"]["match"] for item in benchmark_results
+                )
                 else 1
             ),
             "received_machines": 1,
@@ -2572,7 +3046,9 @@ def run_campaign(
                 "sealed_holdout_loss": "0",
                 "training_loss": "0",
             },
-            "status": "READY_NOT_SPENT" if open_authorized else "BLOCKED_INSUFFICIENT_LEVEL5_REPETITIONS",
+            "status": "READY_NOT_SPENT"
+            if open_authorized
+            else "BLOCKED_INSUFFICIENT_LEVEL5_REPETITIONS",
         },
         "serious_claim_policy": {
             "human_prior_art_required": True,

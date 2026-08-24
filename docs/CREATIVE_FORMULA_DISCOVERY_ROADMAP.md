@@ -72,6 +72,13 @@
   current receipt binds successful post-merge run `32673437653` at
   `cf8cd762b6ec166f5b4fe95bc35cab10afe5ee11`, which includes the executable-LLM core. This is
   multi-host VM reproduction, not a claim about distinct bare-metal machines.
+- The LLM proposal compiler now admits bounded tensor identities and first-order variational
+  functionals. Tensor predictions are gated by complete component equality plus declared symmetry;
+  variational predictions are derived from an independently checked Euler-Lagrange claim under an
+  explicit public-alias binding. Their random controls match grammar depth, deterministic operation
+  units, and verifier calls exactly. The first live run with these contracts completed eight
+  authenticated calls but proposed neither representation, so live provider-path evidence for these
+  two forms is still pending rather than inferred from deterministic tests.
 - No novel formula, proof, theorem, scientific law, or open-problem result is claimed.
 - The famous-open-problem gate is closed: zero of three required independent level-5 successes.
 - A live rotating pack now binds 24 distinct OEIS b-file response hashes, with four tasks each for

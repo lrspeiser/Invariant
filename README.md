@@ -1205,6 +1205,19 @@ variational functionals. Each kind has a positive control, a negative mutation, 
 limits, serialization, and two evaluator implementations. The control receipt passes 7/7 without
 claiming that grammar admission proves a formula or establishes novelty.
 
+The live Claude proposal compiler now reaches the tensor and variational kinds rather than merely
+archiving them as unsupported prose. A tensor proposal declares its complete bounded component
+arrays, shape, variance, symmetries, and one output component; it produces a prediction only when
+both exact evaluators accept the component identity and symmetries. A first-order variational
+proposal declares its integrand, Euler-Lagrange claim, and bindings from all formal symbols to the
+public aliases; its numeric output is derived from that claim and is emitted only after independent
+Euler-Lagrange agreement. Random controls preserve the exact syntax-depth, deterministic-operation,
+and verifier-invocation profiles. The current live eight-call run received these contracts in every
+proposer prompt but happened to propose no tensor or variational idea, so provider-path execution of
+those two representations remains unobserved in this stochastic specimen; bounded primary and
+independent execution is covered by positive, false-identity, malformed-input, and matched-control
+tests.
+
 The core also binds a sealed executable dataset-control receipt. Exact rational replay passes four
 positive controls and rejects four mutations: crossed `do(...)` rows recover a constant treatment
 contrast, two genuinely different models remain compatible with declared measurement intervals, a
