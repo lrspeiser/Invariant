@@ -276,6 +276,32 @@ def test_cli_private_state_must_stay_under_ignored_work(tmp_path: Path) -> None:
         T._private_output_path(root, root / "runs" / "private.json")
 
 
+def test_historical_source_compatibility_is_exact_and_fail_closed(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    review = json.loads(
+        (ROOT / "runs/math/creativity-tournament/paired-review-packet.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    public = json.loads(
+        (ROOT / "runs/math/creativity-tournament/paired-generation-receipt.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    T.validate_public_generation(review, public, ROOT)
+    monkeypatch.chdir(ROOT)
+    T.validate_public_generation(review, public, Path(""))
+
+    tampered = copy.deepcopy(public)
+    tampered["source_bindings"]["claude_adapter"]["sha256"] = "0" * 64
+    tampered["content_sha256"] = canonical_sha256(
+        {key: value for key, value in tampered.items() if key != "content_sha256"}
+    )
+    with pytest.raises(T.TournamentGenerationError, match="source binding changed"):
+        T.validate_public_generation(review, tampered, ROOT)
+
+
 def test_live_pilot_deviation_blocks_confirmatory_claims() -> None:
     path = ROOT / "runs/math/creativity-tournament/pilot-deviation.json"
     value = json.loads(path.read_text(encoding="utf-8"))

@@ -52,6 +52,15 @@ _PLAN_MECHANISMS = (
     "variational_or_dual_certificate",
 )
 _HEX = frozenset("0123456789abcdef")
+# Complete generation-time bundle sealed by the published 96-call pilot receipt. Historical
+# bundles remain evidence of the code that produced a run; they are never rewritten as current code.
+_HISTORICAL_SOURCE_SHA256_BUNDLES = (
+    {
+        "claude_adapter": "a37046bc911f4d4400d120de6f94077a55c3dc3896f4aecc2b1b24f0a9e7ce84",
+        "config": "700162b09b4d01b47855b17cf57a980ec1fc03db0a0e473f63d0a6d278d06c39",
+        "runner": "7b8d5cf01db3c85d8b6dc147cd5ee0511da646145b2291f21a1f4cab1e6a8460",
+    },
+)
 
 
 class TournamentGenerationError(ValueError):
@@ -90,6 +99,32 @@ def _normalized_file_sha256(path: Path) -> str:
     except UnicodeDecodeError:
         pass
     return hashlib.sha256(raw).hexdigest()
+
+
+def _source_bindings(root: Path) -> dict[str, Any]:
+    paths = {
+        "claude_adapter": CLAUDE_ADAPTER_PATH,
+        "config": CONFIG_PATH,
+        "runner": RUNNER_PATH,
+    }
+    return {
+        name: {"path": path, "sha256": _normalized_file_sha256(root / path)}
+        for name, path in sorted(paths.items())
+    }
+
+
+def _compatible_source_bindings(root: Path) -> tuple[dict[str, Any], ...]:
+    """Return the current bundle plus explicitly preserved generation-time bundles."""
+
+    current = _source_bindings(root)
+    historical = tuple(
+        {
+            name: {"path": current[name]["path"], "sha256": sha256}
+            for name, sha256 in sorted(bundle.items())
+        }
+        for bundle in _HISTORICAL_SOURCE_SHA256_BUNDLES
+    )
+    return (current, *historical)
 
 
 def load_config(root: Path) -> dict[str, Any]:
@@ -736,12 +771,7 @@ def run_generation(
         "schema_version": PUBLIC_RECEIPT_SCHEMA,
         "experiment_id": config["experiment_id"],
         "source_bindings": {
-            "config": {"path": CONFIG_PATH, "sha256": _normalized_file_sha256(root / CONFIG_PATH)},
-            "runner": {"path": RUNNER_PATH, "sha256": _normalized_file_sha256(root / RUNNER_PATH)},
-            "claude_adapter": {
-                "path": CLAUDE_ADAPTER_PATH,
-                "sha256": _normalized_file_sha256(root / CLAUDE_ADAPTER_PATH),
-            },
+            **_source_bindings(root),
             "generation_packet_content_sha256": generation["content_sha256"],
         },
         "credential_activation": activation.to_evidence(),
@@ -832,16 +862,17 @@ def validate_public_generation(
     if any(event.get("target_reads") != 0 for event in receipt.get("chronology", [])):
         raise TournamentGenerationError("tournament generation opened a target")
     if root is not None:
+        root = root.resolve()
         config = load_config(root)
         generation = _load_generation_packet(root, config)
-        binding = receipt["source_bindings"]
-        if (
-            binding["config"]["sha256"] != _normalized_file_sha256(root / CONFIG_PATH)
-            or binding["runner"]["sha256"] != _normalized_file_sha256(root / RUNNER_PATH)
-            or binding["claude_adapter"]["sha256"]
-            != _normalized_file_sha256(root / CLAUDE_ADAPTER_PATH)
-            or binding["generation_packet_content_sha256"] != generation["content_sha256"]
-        ):
+        compatible = tuple(
+            {
+                **bindings,
+                "generation_packet_content_sha256": generation["content_sha256"],
+            }
+            for bindings in _compatible_source_bindings(root)
+        )
+        if receipt.get("source_bindings") not in compatible:
             raise TournamentGenerationError("tournament public source binding changed")
 
 
