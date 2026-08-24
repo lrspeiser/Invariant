@@ -170,6 +170,26 @@ def test_clean_confirmatory_run_has_exactly_one_dispatch_per_slot(tmp_path: Path
     C.validate_coordinator(coordinator, review, public, journal)
 
 
+def test_historical_source_compatibility_is_exact_and_fail_closed() -> None:
+    review = json.loads(
+        (ROOT / "runs/math/creativity-confirmatory/paired-review-packet.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    public = json.loads(
+        (ROOT / "runs/math/creativity-confirmatory/paired-generation-receipt.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    C.validate_public(review, public, ROOT)
+
+    tampered = json.loads(json.dumps(public))
+    tampered["source_bindings"]["claude_adapter"]["sha256"] = "0" * 64
+    R._reseal(tampered)
+    with pytest.raises(C.ConfirmatoryGenerationError, match="source bindings changed"):
+        C.validate_public(review, tampered, ROOT)
+
+
 def test_contract_failure_is_retained_and_never_replaced(tmp_path: Path) -> None:
     journal = _new_journal(tmp_path)
     transport = ConfirmatoryTransport(incomplete_critic_once=True)
