@@ -1446,6 +1446,16 @@ Every screen and pending named-human form is hash-bound in the complete portfoli
 preflight and complete receipt, reports the 24/18/6 coverage and 90-request budget, and fails closed
 unless the automated screen is complete while the outstanding named-human gate remains explicit.
 
+An additive zbMATH Open supplement now gives those 24 descendants and the earlier A005132 case one
+math-specific query each without altering the original provider history. All 25 requests reached a
+definitive provider outcome: 15 returned bibliographic matches, 10 returned explicit no-result
+responses, and none were unavailable. The sealed dossier retains 48 unique zbMATH records across 68
+claim-local result rows, including Faulhaber and square-pyramidal literature for known-rewrite
+branches and spline/interpolation literature for approximation branches. It deliberately excludes
+editorial reviews and abstracts, records automated absence as non-novelty, and keeps all 25 claims
+blocked for specifically named human review. The earlier A005132 screen now also has the same
+machine-valid pending review form as every descendant.
+
 The paired tournament runner compares the frozen pre-creativity baseline with the creativity-first
 policy on all 24 rotating tasks. It interleaves arms, gives each arm the same Opus model, effort,
 calls, token ceiling, timeout, grammar depth, and verifier allocation, and reads only the generation
@@ -1630,6 +1640,8 @@ sigma-prior-art validate --root . --receipt runs/math/claim-specific-prior-art/l
 sigma-prior-art-portfolio validate-batch --root . `
   --preflight runs/math/claim-specific-prior-art/descendant-portfolio-preflight.json `
   --receipt runs/math/claim-specific-prior-art/descendant-portfolio-complete.json
+sigma-prior-art-zbmath validate --root . `
+  --receipt runs/math/claim-specific-prior-art/zbmath-25-claim-supplement.json
 sigma-dataset-challenges validate --root . `
   --receipt runs/math/dataset-challenges/receipt.json
 sigma-external-dataset-challenges validate --root . `
