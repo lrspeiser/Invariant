@@ -1668,6 +1668,25 @@ def main(argv: Sequence[str] | None = None) -> int:
     run.add_argument("--root", type=Path, default=Path.cwd())
     run.add_argument("--credential-file", type=Path)
     run.add_argument("--output", type=Path, default=Path(OUTPUT_PATH))
+    health = subparsers.add_parser(
+        "health", help="run one authenticated, context-bound core LLM health call"
+    )
+    health.add_argument("--root", type=Path, default=Path.cwd())
+    health.add_argument("--credential-file", type=Path)
+    health.add_argument(
+        "--output",
+        type=Path,
+        default=Path("runs/math/core-creative-discovery/live-llm-health.json"),
+    )
+    validate_health = subparsers.add_parser(
+        "validate-health", help="validate a sanitized core LLM health receipt offline"
+    )
+    validate_health.add_argument("--root", type=Path, default=Path.cwd())
+    validate_health.add_argument(
+        "--receipt",
+        type=Path,
+        default=Path("runs/math/core-creative-discovery/live-llm-health.json"),
+    )
     rebind = subparsers.add_parser(
         "rebind", help="preserve sanitized LLM evidence while rebinding deterministic gates"
     )
@@ -1678,6 +1697,45 @@ def main(argv: Sequence[str] | None = None) -> int:
     validate.add_argument("--receipt", type=Path, default=Path(OUTPUT_PATH))
     validate.add_argument("--root", type=Path, default=Path.cwd())
     args = parser.parse_args(argv)
+    if args.command == "health":
+        from .core_llm_health import run_live_health
+
+        health_receipt = run_live_health(args.root, credential_file=args.credential_file)
+        output = args.output if args.output.is_absolute() else args.root / args.output
+        output.parent.mkdir(parents=True, exist_ok=True)
+        output.write_text(
+            json.dumps(health_receipt, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+        )
+        print(
+            json.dumps(
+                {
+                    "api_response_id": health_receipt["call"]["api_response_id"],
+                    "content_sha256": health_receipt["content_sha256"],
+                    "credential_source": health_receipt["credential_activation"]["source_kind"],
+                    "status": health_receipt["release_gate"]["status"],
+                    "usage": health_receipt["call"]["usage"],
+                },
+                sort_keys=True,
+            )
+        )
+        return 0
+    if args.command == "validate-health":
+        from .core_llm_health import validate_health_receipt
+
+        receipt_path = args.receipt if args.receipt.is_absolute() else args.root / args.receipt
+        health_receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+        validate_health_receipt(health_receipt, args.root)
+        print(
+            json.dumps(
+                {
+                    "api_response_id": health_receipt["call"]["api_response_id"],
+                    "content_sha256": health_receipt["content_sha256"],
+                    "status": health_receipt["release_gate"]["status"],
+                },
+                sort_keys=True,
+            )
+        )
+        return 0
     if args.command == "validate":
         receipt = json.loads(args.receipt.read_text(encoding="utf-8"))
         validate_receipt(receipt, args.root)

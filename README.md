@@ -1569,8 +1569,20 @@ Run the replayable, network-free campaign with:
 sigma-external-creativity --output runs/math/external-creativity-validation/campaign.json
 ```
 
-Run the authenticated core health campaign with the machine-local credential file, then replay its
-sanitized receipt without network access:
+Check that the current core can discover the machine-local credential, authenticate the configured
+model, inject the current first-principles context, and parse one structured idea with a single
+billed Messages call. The checked-in health receipt contains no credential value or path and makes
+no claim about creativity, correctness, novelty, or an open problem:
+
+```powershell
+sigma-core-discovery health --root . `
+  --output runs/math/core-creative-discovery/live-llm-health.json
+sigma-core-discovery validate-health --root . `
+  --receipt runs/math/core-creative-discovery/live-llm-health.json
+```
+
+Run the full eight-call authenticated discovery campaign separately when new creative evidence is
+required, then replay its sanitized receipt without network access:
 
 ```powershell
 sigma-core-discovery run --root . `
