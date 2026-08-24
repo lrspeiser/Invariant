@@ -85,9 +85,8 @@ class ErdosStrausCreativeShadowError(ValueError):
 
 
 def _file_sha256(path: Path) -> str:
-    import hashlib
-
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    data = path.read_bytes().replace(b"\r\n", b"\n")
+    return hashlib.sha256(data).hexdigest()
 
 
 def _load_config(root: Path, config_path: str | Path = CONFIG_PATH) -> dict[str, Any]:

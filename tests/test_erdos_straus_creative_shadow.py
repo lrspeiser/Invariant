@@ -13,6 +13,7 @@ from sigma_theory_compiler.claude_creativity_api import CLAUDE_OUTPUT_SCHEMA_VER
 from sigma_theory_compiler.durable_llm_attempt_journal import DurableAttemptJournal
 from sigma_theory_compiler.erdos_straus_creative_shadow import (
     _creative_calls,
+    _file_sha256,
     _mutated_pairs,
     _run_pairs,
     _witness_sample,
@@ -193,6 +194,14 @@ def test_recipe_parser_accepts_typed_schedule_and_rejects_prose():
     assert parse_recipe("try a clever lattice", EXPERIMENT) is None
     assert parse_recipe("ESDSL1|basis=magic|x=0|t=0|m=24", EXPERIMENT) is None
     assert parse_recipe("ESDSL1|basis=divisor_pair|x=999|t=0|m=24", EXPERIMENT) is None
+
+
+def test_source_binding_is_portable_across_lf_and_crlf(tmp_path: Path):
+    lf = tmp_path / "lf.py"
+    crlf = tmp_path / "crlf.py"
+    lf.write_bytes(b"first\nsecond\n")
+    crlf.write_bytes(b"first\r\nsecond\r\n")
+    assert _file_sha256(lf) == _file_sha256(crlf)
 
 
 def test_exact_pair_schedule_produces_replayable_witnesses():
