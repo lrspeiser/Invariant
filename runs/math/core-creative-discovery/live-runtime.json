@@ -1642,7 +1642,7 @@
     },
     "suite_id": "creativity-first-component-knockouts-001"
   },
-  "content_sha256": "08858747ec59e396ac48ed2ae83877a81b7077590fa67af6f9e5534b92af600c",
+  "content_sha256": "deec5322e3fd4215d9b7e36b36ad129496a4751579050ab4abb4cee5b876c84d",
   "creative_expansion": {
     "content_sha256": "2d738174571eaa4f8a11cf1a73133ebd80ad32064cc9dee8f61914dfe03bb145",
     "independent_proof_plans": [
@@ -6663,6 +6663,111 @@
       "recombination_branches_retained": 64
     }
   },
+  "creative_modular_gpu_prefilter": {
+    "campaign_id": "invariant.creativity.modular-prefilter.polynomial-control-v1",
+    "claims": {
+      "gpu_survival_establishes_formula_correctness": false,
+      "gpu_survival_establishes_literature_novelty": false,
+      "modular_screen_is_a_formal_proof": false,
+      "open_problem_solved": false
+    },
+    "compiled_lattice": {
+      "coefficient_max": 16,
+      "coefficient_min": -16,
+      "feature_count": 5,
+      "maximum_congruence_checks": 939249432,
+      "observation_count": 8,
+      "ordinal_order": "least-significant feature coefficient first",
+      "prime_count": 3,
+      "search_space_candidates": 39135393
+    },
+    "content_sha256": "0753d287dba63cc532e45701b0bf0c9803e29ecf9ce410e16561efffb5c7c9bd",
+    "execution_boundary": {
+      "credential_accessed": false,
+      "exact_cpu_replay_required": true,
+      "paid_llm_calls_made": 0,
+      "provider_transport_accessed": false
+    },
+    "generated_utc": "2026-08-24T22:00:35.426411+00:00",
+    "gpu_execution": {
+      "backend": "cupy-raw-kernel-modular-prefilter",
+      "batch_count": 38,
+      "batch_size": 1048576,
+      "candidate_count": 39135393,
+      "candidate_status_sha256": "770e858bcc696845527fb91c59402106fb23a330367f327d81738ea670a53499",
+      "candidates_per_second": "929893219.025165",
+      "cpu_benchmark": {
+        "candidate_count": 65536,
+        "elapsed_seconds": "0.077399",
+        "status_sha256": "82a29364ad09997f2a8f88588a9de7f2587d39df8d60170166278824451bb005"
+      },
+      "elapsed_seconds": "0.042086",
+      "gpu": {
+        "compute_capability": "120",
+        "cupy_version": "13.5.1",
+        "device_id": 0,
+        "device_name": "NVIDIA GeForce RTX 5090",
+        "driver_version": 13000,
+        "runtime_version": 12090,
+        "total_global_memory_bytes": 34190458880
+      },
+      "gpu_benchmark": {
+        "candidate_count": 65536,
+        "elapsed_seconds": "0.000304",
+        "speedup_over_cpu": "254.434264",
+        "status_sha256": "82a29364ad09997f2a8f88588a9de7f2587d39df8d60170166278824451bb005"
+      },
+      "mutation_control": {
+        "mutation": "targets[0] += 1",
+        "target_candidate_gpu_status": 0,
+        "target_candidate_rejected": true
+      },
+      "sample_crosscheck": {
+        "cpu_status_sha256": "dc9183750321712a1e7224efa10294da8ff748725bf0fbc59aef53c9466b8681",
+        "gpu_status_sha256": "dc9183750321712a1e7224efa10294da8ff748725bf0fbc59aef53c9466b8681",
+        "sample_count": 4096,
+        "statuses_agree": true
+      },
+      "survivor_ordinals": [
+        21946999
+      ]
+    },
+    "independent_exact_replay": {
+      "all_modular_survivors_replayed": true,
+      "exact_survivor_coefficients": [
+        [
+          3,
+          -5,
+          7,
+          0,
+          2
+        ]
+      ],
+      "exact_survivor_ordinals": [
+        21946999
+      ],
+      "target_candidate_survived": true,
+      "target_ordinal": 21946999
+    },
+    "schema_version": "invariant-creative-modular-gpu-receipt-1.0",
+    "source_bindings": {
+      "config": {
+        "normalized_file_sha256": "12280fa90a31ad52670dd2689d95652ef393a40a7544e44677aa11d2a04e6ccf",
+        "path": "configs/creative_modular_gpu_prefilter.json"
+      },
+      "runner": {
+        "normalized_file_sha256": "044d8d69c53770dbfa25c322ad0413fd3bf13f401f3a90fd0afa08c8f5606f65",
+        "path": "src/sigma_theory_compiler/creative_modular_gpu_prefilter.py"
+      }
+    },
+    "summary": {
+      "candidates_classified": 39135393,
+      "exact_survivors": 1,
+      "gpu_modular_survivors": 1,
+      "rejected_by_gpu": 39135392,
+      "status": "PASS_GPU_MODULAR_PREFILTER_CONTROL"
+    }
+  },
   "credential_activation": {
     "credential_env_var": "ANTHROPIC_API_KEY",
     "credential_persisted": false,
@@ -6792,6 +6897,13 @@
     "component_knockout_live_runs_complete": false,
     "component_knockout_preflight_status": "PASS_PREFLIGHT_LIVE_EXECUTION_NOT_RUN",
     "component_knockout_scheduled_slots": 384,
+    "creative_modular_gpu_candidates_classified": 39135393,
+    "creative_modular_gpu_candidates_per_second": "929893219.025165",
+    "creative_modular_gpu_device": "NVIDIA GeForce RTX 5090",
+    "creative_modular_gpu_exact_survivors": 1,
+    "creative_modular_gpu_modular_survivors": 1,
+    "creative_modular_gpu_rejected": 39135392,
+    "creative_modular_gpu_status": "PASS_GPU_MODULAR_PREFILTER_CONTROL",
     "dataset_challenge_kinds": [
       "intervention",
       "noisy",
@@ -26845,7 +26957,7 @@
       "zero_train_loss_candidates": 1
     }
   },
-  "schema_version": "invariant-core-creative-discovery-runtime-3.1",
+  "schema_version": "invariant-core-creative-discovery-runtime-3.2",
   "source_bindings": {
     "claim_specific_prior_art_portfolio_preflight_receipt": {
       "content_sha256": "d55f178371688da86b4c65a7a70a9f1a41dbf4519a0933df22eacd4ad02a1432",
@@ -26865,11 +26977,15 @@
     },
     "config": {
       "path": "configs/core_creative_discovery.json",
-      "sha256": "0e3e8f7d1683f50143fff4b9817305a09b916802cab4ea6277ea2604579e0cde"
+      "sha256": "139d26d83bb6909855142adb98dd9a83d896a8b286f7dc7bf8e6d9ce35436bc1"
     },
     "core_application_source": {
       "path": "src/sigma_theory_compiler/core_creative_discovery.py",
-      "sha256": "12cc593bc5d2e35535795f6bf579a9da9e7f5ccda33e7dddde74f956e81e30bf"
+      "sha256": "0c5d1de5757c777acae4967676365314d24a87b49717359e4cd6b6aa914eca91"
+    },
+    "creative_modular_gpu_prefilter_receipt": {
+      "content_sha256": "0753d287dba63cc532e45701b0bf0c9803e29ecf9ce410e16561efffb5c7c9bd",
+      "path": "runs/math/creative-modular-gpu-prefilter/receipt.json"
     },
     "dataset_challenge_receipt": {
       "content_sha256": "687d08e6c24b86fe00963bfddf5dfa20e9242acca21bd2a3fa37cea03d584039",

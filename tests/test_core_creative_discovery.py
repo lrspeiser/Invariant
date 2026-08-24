@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import copy
 import json
 import os
 from pathlib import Path
@@ -198,6 +199,7 @@ def test_core_run_requires_and_sanitizes_live_claude(
     prior_art_portfolio_preflight = bound_receipts[15]
     prior_art_portfolio = bound_receipts[16]
     level5_admission = bound_receipts[17]
+    creative_modular_gpu = bound_receipts[18]
     monkeypatch.setattr(
         C,
         "_load_bound_receipts",
@@ -220,6 +222,7 @@ def test_core_run_requires_and_sanitizes_live_claude(
             prior_art_portfolio_preflight,
             prior_art_portfolio,
             level5_admission,
+            creative_modular_gpu,
         ),
     )
     monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
@@ -315,6 +318,15 @@ def test_core_run_requires_and_sanitizes_live_claude(
     assert receipt["idea_lineage_archive"]["summary"]["ideas_received"] == 4
     assert receipt["idea_lineage_archive"]["summary"]["ideas_retained"] == 4
     assert receipt["discovery_runtime"]["typed_grammar_controls_passed"] == 8
+    assert receipt["discovery_runtime"]["creative_modular_gpu_candidates_classified"] == 33**5
+    assert receipt["discovery_runtime"]["creative_modular_gpu_modular_survivors"] == 1
+    assert receipt["discovery_runtime"]["creative_modular_gpu_exact_survivors"] == 1
+    assert receipt["creative_modular_gpu_prefilter"]["execution_boundary"] == {
+        "credential_accessed": False,
+        "exact_cpu_replay_required": True,
+        "paid_llm_calls_made": 0,
+        "provider_transport_accessed": False,
+    }
     assert "piecewise_relation" in receipt["discovery_runtime"]["typed_formula_kinds"]
     assert "variational_functional" in receipt["discovery_runtime"]["typed_formula_kinds"]
     assert receipt["discovery_runtime"]["dataset_positive_controls_passed"] == 4
@@ -443,6 +455,21 @@ def test_core_receipt_fails_when_claude_health_claim_is_removed() -> None:
     changed["content_sha256"] = canonical_sha256(body)
     with pytest.raises(C.CoreCreativeDiscoveryError, match="health"):
         C.validate_receipt(changed)
+
+
+def test_core_receipt_cannot_reseal_gpu_survival_as_proof() -> None:
+    receipt = json.loads((ROOT / C.OUTPUT_PATH).read_text(encoding="utf-8"))
+    changed = copy.deepcopy(receipt)
+    gpu = changed["creative_modular_gpu_prefilter"]
+    gpu["claims"]["modular_screen_is_a_formal_proof"] = True
+    gpu["content_sha256"] = canonical_sha256(
+        {key: item for key, item in gpu.items() if key != "content_sha256"}
+    )
+    changed["content_sha256"] = canonical_sha256(
+        {key: item for key, item in changed.items() if key != "content_sha256"}
+    )
+    with pytest.raises(ValueError, match="claim boundary"):
+        C.validate_receipt(changed, ROOT)
 
 
 def test_stored_live_core_receipt_validates_against_current_bound_sources() -> None:

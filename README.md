@@ -28,6 +28,16 @@ fixed-lane matched controls. The result is useful but deliberately mixed: creati
 fallbacks, while degree-preserving random rewiring slightly outperforms the LLM's exact pairings.
 See the [full experiment report](docs/ERDOS_STRAUS_CREATIVE_SHADOW_2026_08_24.md).
 
+The core creativity app now also requires a representation-neutral RTX 5090 modular prefilter
+receipt. Typed candidates compile to bounded integer feature/residual tables; CUDA exhaustively
+classified all `33^5 = 39,135,393` coefficient vectors in the registered control lattice in
+`0.042086` seconds, rejected `39,135,392`, and returned one survivor for independent exact Python
+integer replay. The run binds a hash over all 39,135,393 status bytes, 4,096 deterministic CPU/GPU samples,
+an identical 65,536-candidate CPU/GPU prefix, and a wrong-target mutation. Its
+`939,249,432` figure is the maximum congruence-check budget before short-circuit rejection, not a
+claim that every check executed. Modular survival is an acceleration signal, never proof,
+correctness, novelty, or an open-problem result.
+
 The supported shareable distribution is a versioned standalone source-release ZIP containing a
 normal non-editable wheel, the complete tracked resource surface, and hydrated hash-bound Git LFS
 evidence. Build, install, verification, public PASS/REJECT examples, and isolated acceptance are
