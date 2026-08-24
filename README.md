@@ -1192,10 +1192,11 @@ The current bounded result rediscovers the two known formulas but finds no zero-
 unknown sequence. Consequently the level-5 success count is zero and famous-open-problem spending
 is blocked. A second exact evaluator implemented with only Python AST and `Fraction` agrees with the
 primary evaluator. Downloaded CI artifacts bind four distinct GitHub-hosted ephemeral runner IDs
-across Windows and Linux plus the Lean kernel job from successful post-merge run `32678924431` at
-`e1e22ae54248ee586f4f82fc52d581fc2fd9c12b`; this is multi-host VM reproduction of the
-transform-, tensor-, and variational-capable executable-LLM core, not proof of distinct bare-metal
-machines. Human prior-art review is mandatory before any serious or novelty claim can be released.
+across Windows and Linux plus the Lean kernel job from successful post-merge run `32683958812` at
+`58bbcb40b644c2cf613e20ae4d50f2e051b134d4`; this is multi-host VM reproduction of the
+piecewise-, transform-, tensor-, and variational-capable executable-LLM core, not proof of distinct
+bare-metal machines. Human prior-art review is mandatory before any serious or novelty claim can be
+released.
 The implementation backlog and promotion criteria are listed in
 [`docs/CREATIVE_FORMULA_DISCOVERY_ROADMAP.md`](docs/CREATIVE_FORMULA_DISCOVERY_ROADMAP.md).
 
@@ -1565,8 +1566,8 @@ The serious-claim ladder binds one candidate scope through the ordered exact-ari
 interval, and Lean stages. Its stored calibration joins the two externally authored known-formula
 controls to the downloaded kernel artifact, independently reruns the first four positive checks, and
 rejects an exact unit-offset wrong formula for both controls in exact arithmetic, CAS, SMT, and
-interval arithmetic. GitHub Actions run `32678924431` additionally kernel-rejects both corresponding
-Lean false theorems; the downloaded payload, artifact ID `9503546652`, archive digest, source hashes,
+interval arithmetic. GitHub Actions run `32683958812` additionally kernel-rejects both corresponding
+Lean false theorems; the downloaded payload, artifact ID `9505070169`, archive digest, source hashes,
 head commit, runner identity, and two rejection receipts are bound into the stored ladder. It also
 blocks both bounded-unknown controls and rejects stage deletion, reordering, candidate substitution,
 broken predecessor links, and unavailable backends. This completes all five wrong-formula backend
