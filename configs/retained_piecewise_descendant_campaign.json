@@ -1,0 +1,57 @@
+{
+  "schema_version": "invariant-retained-piecewise-descendant-campaign-config-1.0",
+  "campaign_id": "retained-piecewise-counterexample-repair-2026-08-24-003",
+  "claude": {
+    "credential_env_var": "ANTHROPIC_API_KEY",
+    "effort": "high",
+    "execution_enabled": true,
+    "maximum_calls": 6,
+    "maximum_output_tokens": 8192,
+    "maximum_total_tokens": 180000,
+    "model": "claude-opus-4-6",
+    "timeout_seconds": 120
+  },
+  "hypotheses_per_call": 4,
+  "roles": [
+    "recombiner",
+    "representation_inventor"
+  ],
+  "sources": {
+    "fresh_generation_packet": "runs/math/rotating-external-benchmarks/2026-08-24-003-generation.json",
+    "fresh_rotation_receipt": "runs/math/rotating-external-benchmarks/2026-08-24-003-receipt.json",
+    "fresh_target_packet": "runs/math/rotating-external-benchmarks/2026-08-24-003-targets.json",
+    "retained_piecewise_replay": "runs/math/retained-piecewise-replay/receipt.json",
+    "source_core_receipt": "runs/math/core-creative-discovery/live-runtime.json"
+  },
+  "task_bindings": [
+    {
+      "evaluation_kind": "known_formula_control",
+      "known_reference_formula": "x0*(x0+1)*(2*x0+1)/6",
+      "parent_benchmark_ids": [
+        "external.authority-nist-0244"
+      ],
+      "source_id": "OEIS-A000330"
+    },
+    {
+      "evaluation_kind": "bounded_unknown",
+      "known_reference_formula": null,
+      "parent_benchmark_ids": [
+        "external.authority-oeis-005132"
+      ],
+      "source_id": "OEIS-A005132"
+    },
+    {
+      "evaluation_kind": "bounded_unknown",
+      "known_reference_formula": null,
+      "parent_benchmark_ids": [
+        "external.authority-oeis-002858"
+      ],
+      "source_id": "OEIS-A002858"
+    }
+  ],
+  "resource_budget": {
+    "maximum_evaluation_operations": 1000000,
+    "maximum_grammar_depth": 64,
+    "maximum_verifier_invocations": 5
+  }
+}

@@ -24,6 +24,7 @@ on:
       - "configs/claims/**"
       - "configs/declarative_extension_candidates.json"
       - "configs/rotating_external_benchmark_pack*.json"
+      - "configs/retained_piecewise_descendant_campaign.json"
       - "formal/lean/ExternalKnownFormulaControls.lean"
       - "formal/lean/ExternalKnownFormula*UnitOffsetFalse.lean"
       - "pyproject.toml"
@@ -53,6 +54,7 @@ on:
       - "src/sigma_theory_compiler/independent_exact_evaluator.py"
       - "src/sigma_theory_compiler/independent_proof_plan_search.py"
       - "src/sigma_theory_compiler/retained_piecewise_replay.py"
+      - "src/sigma_theory_compiler/retained_piecewise_descendant_campaign.py"
       - "src/sigma_theory_compiler/serious_claim_verification_ladder.py"
       - "src/sigma_theory_compiler/math_canonicalizer.py"
       - "src/sigma_theory_compiler/math_expression_ir.py"
@@ -80,6 +82,7 @@ on:
       - "tests/test_independent_exact_evaluator.py"
       - "tests/test_independent_proof_plan_search.py"
       - "tests/test_retained_piecewise_replay.py"
+      - "tests/test_retained_piecewise_descendant_campaign.py"
       - "tests/test_serious_claim_verification_ladder.py"
       - "tests/test_rotating_external_benchmarks.py"
       - "runs/math/claim-specific-prior-art/**"
@@ -97,6 +100,7 @@ on:
       - "runs/math/expanded-typed-grammar/**"
       - "runs/math/independent-proof-plan-search/**"
       - "runs/math/retained-piecewise-replay/**"
+      - "runs/math/retained-piecewise-descendant-campaign/**"
       - "runs/math/serious-claim-verification-ladder/**"
       - "runs/math/external-creativity-validation/**"
       - "runs/math/rotating-external-benchmarks/**"
@@ -124,6 +128,7 @@ on:
       - "configs/claims/**"
       - "configs/declarative_extension_candidates.json"
       - "configs/rotating_external_benchmark_pack*.json"
+      - "configs/retained_piecewise_descendant_campaign.json"
       - "formal/lean/ExternalKnownFormulaControls.lean"
       - "formal/lean/ExternalKnownFormula*UnitOffsetFalse.lean"
       - "pyproject.toml"
@@ -153,6 +158,7 @@ on:
       - "src/sigma_theory_compiler/independent_exact_evaluator.py"
       - "src/sigma_theory_compiler/independent_proof_plan_search.py"
       - "src/sigma_theory_compiler/retained_piecewise_replay.py"
+      - "src/sigma_theory_compiler/retained_piecewise_descendant_campaign.py"
       - "src/sigma_theory_compiler/serious_claim_verification_ladder.py"
       - "src/sigma_theory_compiler/math_canonicalizer.py"
       - "src/sigma_theory_compiler/math_expression_ir.py"
@@ -180,6 +186,7 @@ on:
       - "tests/test_independent_exact_evaluator.py"
       - "tests/test_independent_proof_plan_search.py"
       - "tests/test_retained_piecewise_replay.py"
+      - "tests/test_retained_piecewise_descendant_campaign.py"
       - "tests/test_serious_claim_verification_ladder.py"
       - "tests/test_rotating_external_benchmarks.py"
       - "runs/math/claim-specific-prior-art/**"
@@ -197,6 +204,7 @@ on:
       - "runs/math/expanded-typed-grammar/**"
       - "runs/math/independent-proof-plan-search/**"
       - "runs/math/retained-piecewise-replay/**"
+      - "runs/math/retained-piecewise-descendant-campaign/**"
       - "runs/math/serious-claim-verification-ladder/**"
       - "runs/math/external-creativity-validation/**"
       - "runs/math/rotating-external-benchmarks/**"
@@ -227,6 +235,7 @@ jobs:
           tests/test_independent_exact_evaluator.py
           tests/test_independent_proof_plan_search.py
           tests/test_retained_piecewise_replay.py
+          tests/test_retained_piecewise_descendant_campaign.py
           tests/test_serious_claim_verification_ladder.py
           tests/test_external_creativity_validation.py
           tests/test_external_claude_transport.py
@@ -299,6 +308,10 @@ jobs:
           --root .
           --receipt runs/math/retained-piecewise-replay/receipt.json
       - run: >-
+          python -m sigma_theory_compiler.retained_piecewise_descendant_campaign validate
+          --root .
+          --receipt runs/math/retained-piecewise-descendant-campaign/live-runtime.json
+      - run: >-
           python -m sigma_theory_compiler.serious_claim_verification_ladder validate
           --root .
           --receipt runs/math/serious-claim-verification-ladder/receipt.json
@@ -308,6 +321,16 @@ jobs:
           --generation runs/math/rotating-external-benchmarks/2026-08-23-001-generation.json
           --targets runs/math/rotating-external-benchmarks/2026-08-23-001-targets.json
           --receipt runs/math/rotating-external-benchmarks/2026-08-23-001-receipt.json
+      - run: >-
+          python -m sigma_theory_compiler.rotating_external_benchmarks validate
+          --root .
+          --generation runs/math/rotating-external-benchmarks/2026-08-24-003-generation.json
+          --targets runs/math/rotating-external-benchmarks/2026-08-24-003-targets.json
+          --receipt runs/math/rotating-external-benchmarks/2026-08-24-003-receipt.json
+      - run: >-
+          python -m sigma_theory_compiler.core_creative_discovery validate
+          --root .
+          --receipt runs/math/core-creative-discovery/live-runtime.json
       - run: >-
           python -m sigma_theory_compiler.creativity_tournament_generation validate
           --root "${{ github.workspace }}"

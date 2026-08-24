@@ -146,12 +146,8 @@ def _fake_campaign(creative_context: dict[str, object]) -> dict[str, object]:
             "open_problem_solved": False,
         },
         "config": {
-            "claude_source_sha256": C._normalized_file_sha256(
-                ROOT / C.CLAUDE_API_SOURCE_PATH
-            ),
-            "source_sha256": C._normalized_file_sha256(
-                ROOT / C.EXTERNAL_CAMPAIGN_SOURCE_PATH
-            ),
+            "claude_source_sha256": C._normalized_file_sha256(ROOT / C.CLAUDE_API_SOURCE_PATH),
+            "source_sha256": C._normalized_file_sha256(ROOT / C.EXTERNAL_CAMPAIGN_SOURCE_PATH),
         },
         "claude": {
             "budget": {
@@ -198,6 +194,7 @@ def test_core_run_requires_and_sanitizes_live_claude(
     learned_invariants = bound_receipts[11]
     state_pair_invariants = bound_receipts[12]
     uncertain_invariants = bound_receipts[13]
+    piecewise_descendants = bound_receipts[14]
     monkeypatch.setattr(
         C,
         "_load_bound_receipts",
@@ -216,6 +213,7 @@ def test_core_run_requires_and_sanitizes_live_claude(
             learned_invariants,
             state_pair_invariants,
             uncertain_invariants,
+            piecewise_descendants,
         ),
     )
     monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
@@ -231,9 +229,7 @@ def test_core_run_requires_and_sanitizes_live_claude(
         )
         assert creative_context["creativity_policy"]["uncertainty_does_not_prune"] is True
         assert (
-            creative_context["creativity_policy"][
-                "preserve_joint_and_unit_hypothesis_branches"
-            ]
+            creative_context["creativity_policy"]["preserve_joint_and_unit_hypothesis_branches"]
             is True
         )
         assert len(creative_context["first_principles_briefs"]) == 5
@@ -243,14 +239,12 @@ def test_core_run_requires_and_sanitizes_live_claude(
         )
         assert len(creative_context["learned_invariant_briefs"]) == 3
         assert any(
-            brief["identifiability_status"]
-            == "UNDERDETERMINED_RETAIN_CANDIDATE_SUBSPACE"
+            brief["identifiability_status"] == "UNDERDETERMINED_RETAIN_CANDIDATE_SUBSPACE"
             for brief in creative_context["learned_invariant_briefs"]
         )
         assert len(creative_context["state_pair_invariant_briefs"]) == 6
         assert {
-            brief["action_kind"]
-            for brief in creative_context["state_pair_invariant_briefs"]
+            brief["action_kind"] for brief in creative_context["state_pair_invariant_briefs"]
         } == {
             "matrix_conjugation",
             "matrix_orthogonal",
@@ -261,8 +255,7 @@ def test_core_run_requires_and_sanitizes_live_claude(
         }
         assert len(creative_context["uncertain_invariant_briefs"]) == 5
         assert {
-            brief["observation_mode"]
-            for brief in creative_context["uncertain_invariant_briefs"]
+            brief["observation_mode"] for brief in creative_context["uncertain_invariant_briefs"]
         } == {
             "joint_support",
             "missingness",
@@ -288,9 +281,7 @@ def test_core_run_requires_and_sanitizes_live_claude(
     assert execution["matched_control_profiles_verified"]
     assert execution["behavior_novelty_against_deterministic_count"] == 1
     assert execution["proof_mechanism_novelty_against_deterministic_count"] == 1
-    assert execution["llm_self_assessed_origin_counts"] == {
-        "cross_domain_synthesis": 1
-    }
+    assert execution["llm_self_assessed_origin_counts"] == {"cross_domain_synthesis": 1}
     assert receipt["llm_prompt_context"] == {
         "authenticated_calls_bound_to_context": True,
         "bound_authenticated_calls": 8,
@@ -329,27 +320,15 @@ def test_core_run_requires_and_sanitizes_live_claude(
         "transform_relation",
         "variational_functional",
     ]
-    assert (
-        receipt["external_structured_benchmarks"]["release_gate"]["level5_eligible"]
-        is False
-    )
+    assert receipt["external_structured_benchmarks"]["release_gate"]["level5_eligible"] is False
     assert receipt["discovery_runtime"]["first_principles_d4_controls_passed"] == 5
     assert receipt["discovery_runtime"]["first_principles_d4_invariant_coordinates"] == 6
     assert receipt["discovery_runtime"]["first_principles_d4_multi_coordinate_controls"] == 1
     assert (
-        receipt["discovery_runtime"][
-            "first_principles_d4_basis_collapse_mutations_rejected"
-        ]
-        == 5
+        receipt["discovery_runtime"]["first_principles_d4_basis_collapse_mutations_rejected"] == 5
     )
-    assert (
-        receipt["discovery_runtime"]["first_principles_d4_dimension_mutations_rejected"]
-        == 6
-    )
-    assert (
-        receipt["discovery_runtime"]["first_principles_d4_symmetry_mutations_rejected"]
-        == 5
-    )
+    assert receipt["discovery_runtime"]["first_principles_d4_dimension_mutations_rejected"] == 6
+    assert receipt["discovery_runtime"]["first_principles_d4_symmetry_mutations_rejected"] == 5
     assert receipt["symmetry_dimension_derivation"]["claims"]["specific_law_discovered"] is False
     assert receipt["learned_invariant_discovery"]["claims"]["empirical_law_discovered"] is False
     assert receipt["state_pair_invariant_discovery"]["claims"]["theorem_proved"] is False
@@ -377,16 +356,10 @@ def test_core_run_requires_and_sanitizes_live_claude(
     assert receipt["discovery_runtime"]["uncertain_invariant_deployment_surviving_candidates"] == 5
     assert receipt["discovery_runtime"]["uncertain_invariant_dependent_joint_controls"] == 1
     assert (
-        receipt["discovery_runtime"][
-            "uncertain_invariant_marginal_false_positives_rejected"
-        ]
-        == 3
+        receipt["discovery_runtime"]["uncertain_invariant_marginal_false_positives_rejected"] == 3
     )
     assert (
-        receipt["discovery_runtime"][
-            "uncertain_invariant_unit_hypothesis_branches_retained"
-        ]
-        == 2
+        receipt["discovery_runtime"]["uncertain_invariant_unit_hypothesis_branches_retained"] == 2
     )
     assert receipt["discovery_runtime"]["uncertain_invariant_unit_uncertainty_controls"] == 1
     assert receipt["discovery_runtime"]["independent_proof_plan_routes_closed"] == 6
@@ -400,6 +373,22 @@ def test_core_run_requires_and_sanitizes_live_claude(
     )
     assert receipt["discovery_runtime"]["retained_piecewise_train_exact_holdout_failed"] == 1
     assert receipt["discovery_runtime"]["retained_piecewise_zero_holdout_bounded_unknown"] == 0
+    assert receipt["retained_piecewise_descendant_claude_runtime"]["completed_calls"] == 6
+    assert receipt["discovery_runtime"]["retained_piecewise_descendant_ideas"] == 24
+    assert receipt["discovery_runtime"]["retained_piecewise_descendant_admitted"] == 18
+    assert receipt["discovery_runtime"]["retained_piecewise_descendant_nonexecutable_retained"] == 6
+    assert (
+        receipt["discovery_runtime"]["retained_piecewise_descendant_parent_branches_preserved"] == 9
+    )
+    assert (
+        receipt["discovery_runtime"]["retained_piecewise_descendant_zero_holdout_known_control"]
+        == 6
+    )
+    assert (
+        receipt["discovery_runtime"]["retained_piecewise_descendant_zero_holdout_bounded_unknown"]
+        == 0
+    )
+    assert receipt["release_gate"]["retained_piecewise_descendant_live_run_complete"]
     assert receipt["discovery_runtime"]["component_knockout_experiments_preflighted"] == 4
     assert receipt["discovery_runtime"]["component_knockout_scheduled_slots"] == 384
     assert receipt["discovery_runtime"]["component_knockout_live_runs_complete"] is False
@@ -447,18 +436,16 @@ def test_deterministic_rebind_preserves_authenticated_llm_evidence() -> None:
     assert rebound["claude_runtime"] == receipt["claude_runtime"]
     assert rebound["idea_lineage_archive"] == receipt["idea_lineage_archive"]
     assert rebound["schema_version"] == C.SCHEMA_VERSION
-    assert rebound["llm_prompt_context"]["status"] == (
-        "PASS_CONTEXT_BOUND_TO_AUTHENTICATED_CALLS"
-    )
+    assert rebound["llm_prompt_context"]["status"] == ("PASS_CONTEXT_BOUND_TO_AUTHENTICATED_CALLS")
     assert rebound["llm_prompt_context"]["authenticated_calls_bound_to_context"]
     assert rebound["llm_prompt_context"]["bound_authenticated_calls"] == 8
     assert rebound["release_gate"]["llm_first_principles_lane_live_run_complete"]
-    assert len(
-        {
-            call["api_response_id"]
-            for call in rebound["claude_runtime"]["evidence"]["calls"]
-        }
-    ) == 8
+    assert rebound["release_gate"]["retained_piecewise_descendant_live_run_complete"]
+    assert rebound["retained_piecewise_descendant_claude_runtime"]["completed_calls"] == 6
+    assert (
+        len({call["api_response_id"] for call in rebound["claude_runtime"]["evidence"]["calls"]})
+        == 8
+    )
     assert rebound["credential_activation"]["source_kind"] == "user_invariant_env_file"
     assert rebound["verification"]["serious_claim_backend_mutations_rejected"] == 10
     assert rebound["verification"]["serious_claim_lean_mutation_artifact_bound"] is True

@@ -55,6 +55,17 @@
   training rows exactly; the holdout rejects one, leaving only the known-rewrite control at zero
   holdout loss and no bounded-unknown success. Retention enabled a compiler repair and a stronger
   falsification result without treating failure as grounds to delete the idea.
+- A fresh target-blind repair/recombination campaign now feeds all nine retained piecewise parents
+  to two live Claude roles across three new rotation tasks. Six authenticated calls used 45,111
+  tokens and returned 24 descendants: 12 piecewise, 4 linear recurrences, 4 scalar expressions,
+  2 finite sums, and 2 invariant relations. Eighteen compile and agree exactly between the primary
+  and independent evaluators with 18 resource-matched controls; the other six remain active. All
+  nine parent prediction histories remain sealed, all 24 descendants name explicit parent lineage,
+  and eight parents were referenced. The known sum-of-squares control has six zero-loss fresh
+  holdout descendants. Neither bounded-unknown task has one; one proposed Recamán construction fits
+  all visible rows and then has fresh holdout loss 26. Model origin labels include 6 known rewrites,
+  4 cross-domain syntheses, 8 proposed new constructions, and 6 uncertain branches. These labels
+  organize the tree but do not authorize pruning or establish novelty.
 - Four synthetic dataset challenges are now exact executable controls rather than metadata checks.
   They pass crossed intervention, interval-noise, covariate-shift, and observational
   unidentifiability positives while rejecting a wrong treatment effect, an interval-external model,
@@ -238,10 +249,11 @@ This is evidence of bounded rediscovery, not evidence of mathematical novelty.
 
 ### 4. Use Claude throughout creativity while keeping it non-authoritative
 
-- A core-only provider wrapper now injects the sealed first-principles/grammar/proof context into
-  every proposer and critic call and binds its exact hash to provider evidence. Run the next
-  authenticated eight-call core campaign to replace the current ready-but-not-yet-live context
-  status; do not infer execution from the deterministic prompt-contract tests.
+- A core-only provider wrapper injects the sealed first-principles/grammar/proof context into every
+  proposer and critic call and binds its exact hash to provider evidence. The current eight-call
+  core campaign proves that lane is live. The core also requires the separate six-call retained-
+  piecewise descendant campaign, whose recombiner and representation-inventor calls see anonymous
+  fresh training rows, all nine parents, and only counterexamples opened before that rotation.
 - Make structured roles available for proposing, analogy scouting, representation invention,
   dataset explanation, proof strategy, recombination, and critique.
 - Use structured critic calls only after train evidence is frozen, supplying exact residuals and
@@ -358,11 +370,11 @@ This is evidence of bounded rediscovery, not evidence of mathematical novelty.
 
 ## Next executable milestones
 
-1. Feed the nine now-executable retained branches through counterexample-guided repair and
-   cross-recombination while preserving the original sealed predictions, then evaluate repaired
-   descendants on a fresh sealed rotation with the same exact resource controls.
-2. Obtain two named blinded reviewers for the clean 353-branch packet, seal their complete forms,
+1. Obtain two named blinded reviewers for the clean 353-branch packet, seal their complete forms,
    and score the bounded rotation; record disagreements before unblinding system identity.
+2. Complete named human review of the bound A005132 behavior match and the nearest formula and
+   proof-mechanism results, then run the same automated screen for every retained descendant and
+   tournament survivor. Automated absence remains `not cleared`, never `novel`.
 3. Run the preregistered old-vs-new matched-control comparison and, after explicit approval, each
    component knockout through the one-experiment
    executor under its 96-call / 400,000-token ceiling and the same attempt-journal and review rules.
@@ -372,7 +384,8 @@ This is evidence of bounded rediscovery, not evidence of mathematical novelty.
 5. Expand the first four externally supplied dataset challenges to additional independent
    principals, richer noise and missingness models, and learned invariant proposals while retaining
    the synthetic negative controls; obtain detached signatures before level-5 use.
-6. Complete named human review of the bound A005132 behavior match and the nearest formula and
-   proof-mechanism results; then run the same automated screen for every tournament survivor.
+6. Continue bounded counterexample-guided repair on the 24 descendants, prioritizing representation
+   changes and parent mechanisms that were not used in the first campaign. Preserve the failed
+   fresh predictions as new repair evidence and rotate again before measuring improvement.
 7. Continue bounded level-5 runs until three independent successes exist; the open-problem gate
    remains closed meanwhile, but creative branches continue accumulating.

@@ -1240,9 +1240,25 @@ budget. Two proposals fit all training rows, but the sealed holdout rejects one;
 self-labeled known rewrite has zero holdout loss, and no bounded-unknown proposal does. Execution
 therefore expands the creative tree while still exposing overfit rather than silently promoting it.
 
+The next live campaign uses those nine executable branches as parents instead of stopping at the
+replay. Across three fresh anonymized rotation tasks, Claude's recombiner and representation-
+inventor roles completed six authenticated calls (45,111 tokens) and returned 24 descendants. The
+system retained all 24, including six that are not executable yet; 18 execute with exact agreement
+between two evaluators and 18 exactly resource-matched controls. All nine original prediction
+histories remain sealed, every descendant explicitly names parent lineage, and eight of the nine
+parents were actually referenced. The known sum-of-squares control produced six zero-loss fresh
+holdout branches in scalar, finite-sum, and piecewise forms. Neither bounded-unknown sequence
+produced a zero-loss fresh holdout branch. In particular, one model-self-labeled proposed new
+Recamán construction fits every visible row but has fresh holdout loss 26, so it remains a repair
+parent rather than being promoted or deleted. The core receipt now requires this live component in
+addition to the earlier eight-call core evidence.
+
 ```powershell
 sigma-replay-piecewise validate --root . `
   --receipt runs/math/retained-piecewise-replay/receipt.json
+
+sigma-retained-piecewise-descendants validate --root . `
+  --receipt runs/math/retained-piecewise-descendant-campaign/live-runtime.json
 ```
 
 The core also binds a sealed executable dataset-control receipt. Exact rational replay passes four
