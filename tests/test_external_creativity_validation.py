@@ -232,6 +232,21 @@ def test_typed_claude_compiler_executes_with_independent_agreement() -> None:
             (0, 1, 4, 4, 1, 0, 1),
         ),
         (
+            "piecewise_relation",
+            json.dumps(
+                {
+                    "branches": [
+                        {
+                            "condition": {"comparator": "lt", "left": "x0", "right": "3"},
+                            "expression": "x0 + 10",
+                        }
+                    ],
+                    "default_expression": "x0",
+                }
+            ),
+            (10, 11, 12, 3, 4, 5, 6),
+        ),
+        (
             "transform_relation",
             json.dumps(
                 {
@@ -322,6 +337,61 @@ def test_live_known_rewrite_transform_replays_after_safe_alias_normalization() -
     assert E.independently_predict(candidate, benchmark, rows) == expected
 
 
+def test_piecewise_relation_has_ordered_exact_boundary_semantics() -> None:
+    _, benchmarks = E.load_public_benchmarks(ROOT)
+    benchmark = next(item for item in benchmarks if len(item.aliases) == 1)
+    expression = json.dumps(
+        {
+            "branches": [
+                {
+                    "condition": {"comparator": "lt", "left": "x0", "right": "0"},
+                    "expression": "-x0",
+                },
+                {
+                    "condition": {"comparator": "eq", "left": "x0", "right": "0"},
+                    "expression": "0",
+                },
+            ],
+            "default_expression": "x0",
+        }
+    )
+    candidate, record = E._claude_candidate(
+        benchmark, _hypothesis("piecewise_relation", expression)
+    )
+    assert candidate is not None
+    assert record["normalization"] == "canonical_typed_json+ordered_exact_predicates"
+    rows = tuple(
+        E.Observation((value,), Fraction(0))
+        for value in (Fraction(-3, 2), Fraction(-1, 2), Fraction(0), Fraction(1, 2))
+    )
+    expected = tuple(Fraction(item) for item in (Fraction(3, 2), Fraction(1, 2), 0, Fraction(1, 2)))
+    assert E.predict(candidate, benchmark, rows) == expected
+    assert E.independently_predict(candidate, benchmark, rows) == expected
+
+
+def test_piecewise_undefined_predicate_fails_closed_in_both_evaluators() -> None:
+    _, benchmarks = E.load_public_benchmarks(ROOT)
+    benchmark = next(item for item in benchmarks if len(item.aliases) == 1)
+    expression = json.dumps(
+        {
+            "branches": [
+                {
+                    "condition": {"comparator": "lt", "left": "1/x0", "right": "0"},
+                    "expression": "-1",
+                }
+            ],
+            "default_expression": "1",
+        }
+    )
+    candidate, _ = E._claude_candidate(
+        benchmark, _hypothesis("piecewise_relation", expression, origin="uncertain")
+    )
+    assert candidate is not None
+    rows = (E.Observation((Fraction(0),), Fraction(0)),)
+    assert E.predict(candidate, benchmark, rows) == (None,)
+    assert E.independently_predict(candidate, benchmark, rows) == (None,)
+
+
 def test_non_executable_claude_ideas_are_retained_with_origin_and_reason() -> None:
     _, benchmarks = E.load_public_benchmarks(ROOT)
     benchmark = benchmarks[0]
@@ -353,6 +423,37 @@ def test_malformed_transform_idea_is_retained_instead_of_pruned() -> None:
     assert record["status"] == "RETAINED_NON_EXECUTABLE"
     assert record["reason"] == "typed_expression_failed_validation"
     assert record["llm_self_assessed_origin"] == "uncertain"
+
+
+def test_malformed_piecewise_idea_is_retained_instead_of_pruned() -> None:
+    _, benchmarks = E.load_public_benchmarks(ROOT)
+    candidate, record = E._claude_candidate(
+        benchmarks[0],
+        _hypothesis(
+            "piecewise_relation",
+            json.dumps(
+                {
+                    "branches": [
+                        {
+                            "condition": {
+                                "comparator": "approximately_lt",
+                                "left": "x0",
+                                "right": "0",
+                            },
+                            "expression": "-x0",
+                        }
+                    ],
+                    "default_expression": "x0",
+                }
+            ),
+            origin="uncertain",
+        ),
+    )
+    assert candidate is None
+    assert record["status"] == "RETAINED_NON_EXECUTABLE"
+    assert record["reason"] == "typed_expression_failed_validation"
+    assert record["llm_self_assessed_origin"] == "uncertain"
+    assert "comparator" in record["diagnostic"]
 
 
 def test_malformed_executable_typed_idea_is_retained_instead_of_pruned() -> None:
@@ -420,7 +521,9 @@ def test_modular_control_remains_matched_after_canonicalization() -> None:
     ) == E._candidate_resource_profile(control, benchmark, target, budget)
 
 
-def test_transform_tensor_and_variational_controls_match_exact_resource_profiles() -> None:
+def test_piecewise_transform_tensor_and_variational_controls_match_exact_resource_profiles() -> (
+    None
+):
     public, benchmarks = E.load_public_benchmarks(ROOT)
     benchmark = next(item for item in benchmarks if len(item.aliases) == 1)
     target = next(
@@ -462,8 +565,20 @@ def test_transform_tensor_and_variational_controls_match_exact_resource_profiles
             "transform_kind": "linear_shift_stencil",
         }
     )
+    piecewise = json.dumps(
+        {
+            "branches": [
+                {
+                    "condition": {"comparator": "lt", "left": "x0", "right": "3"},
+                    "expression": "x0 + 10",
+                }
+            ],
+            "default_expression": "x0 + 20",
+        }
+    )
     budget = E._load_campaign_config(ROOT, live_claude=False)["search"]["matched_control_budget"]
     for representation, expression in (
+        ("piecewise_relation", piecewise),
         ("transform_relation", transform),
         ("tensor_identity", tensor),
         ("variational_principle", variational),
@@ -716,6 +831,7 @@ def test_live_claude_fixture_proposes_and_steers_without_verifying(monkeypatch) 
         prompt["instruction"] == E.EXECUTABLE_PROPOSER_INSTRUCTION for prompt in proposer_prompts
     )
     assert "transform_relation uses JSON" in E.EXECUTABLE_PROPOSER_INSTRUCTION
+    assert "piecewise_relation uses JSON" in E.EXECUTABLE_PROPOSER_INSTRUCTION
     assert "tensor_identity uses JSON" in E.EXECUTABLE_PROPOSER_INSTRUCTION
     assert "variational_principle uses JSON" in E.EXECUTABLE_PROPOSER_INSTRUCTION
     assert "fixture-secret" not in json.dumps(receipt, sort_keys=True)

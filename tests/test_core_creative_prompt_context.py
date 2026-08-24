@@ -132,7 +132,8 @@ def test_prompt_context_is_sealed_creativity_first_and_broad() -> None:
         {"branch_ids": ["b_three_c_two"], "expression": "a*b/c"},
         {"branch_ids": ["b_half"], "expression": "a**2/b"},
     ]
-    assert len(context["typed_formula_kinds"]) == 7
+    assert len(context["typed_formula_kinds"]) == 8
+    assert "piecewise_relation" in context["typed_formula_kinds"]
     assert len(context["independent_proof_mechanisms"]) == 6
     assert context["origin_assessment_labels"] == C.ORIGIN_ASSESSMENTS
 

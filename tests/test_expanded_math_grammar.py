@@ -16,6 +16,9 @@ from sigma_theory_compiler.math_expression_ir import (
     FiniteSum,
     GeneratingFunction,
     ModularRelation,
+    PiecewiseBranch,
+    PiecewiseComparator,
+    PiecewiseRelation,
     TensorIdentity,
     VariationalFunctional,
     add,
@@ -50,6 +53,21 @@ def _examples():
         ),
         (ModularRelation(power(2, 5), literal(1), 31), {}),
         (
+            PiecewiseRelation(
+                (
+                    PiecewiseBranch(
+                        variable,
+                        PiecewiseComparator.LESS,
+                        literal(0),
+                        -variable,
+                    ),
+                ),
+                variable,
+                literal(2),
+            ),
+            {"x": Fraction(-2)},
+        ),
+        (
             TensorIdentity(
                 "symmetric",
                 (2, 2),
@@ -83,6 +101,7 @@ def test_expanded_nodes_are_first_class_serializable_formulas() -> None:
         "finite_product",
         "generating_function",
         "modular_relation",
+        "piecewise_relation",
         "tensor_identity",
         "variational_functional",
     ]
@@ -114,6 +133,15 @@ def test_resource_and_tensor_type_boundaries_fail_closed() -> None:
     index = symbol("i")
     with pytest.raises(ExpressionIRError, match="finite-term budget"):
         FiniteSum(index, 0, 64, index, literal(0))
+    with pytest.raises(ExpressionIRError, match="branch budget"):
+        PiecewiseRelation(
+            tuple(
+                PiecewiseBranch(index, PiecewiseComparator.LESS, literal(value), index)
+                for value in range(9)
+            ),
+            index,
+            index,
+        )
     with pytest.raises(ExpressionIRError, match="component budget"):
         TensorIdentity(
             "too_large",
@@ -180,8 +208,8 @@ def test_control_receipt_covers_every_kind_with_positive_and_mutation_evidence()
     C.validate_receipt(receipt, ROOT)
     assert receipt["summary"] == {
         "admitted_formula_kinds": list(C._KINDS),
-        "controls_passed": 7,
-        "controls_total": 7,
+        "controls_passed": 8,
+        "controls_total": 8,
         "status": "PASS_EXPANDED_TYPED_GRAMMAR_CONTROLS",
     }
     assert all(row["primary_positive_passed"] for row in receipt["controls"])

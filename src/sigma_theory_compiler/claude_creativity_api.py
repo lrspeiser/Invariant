@@ -39,6 +39,7 @@ CLAUDE_REPRESENTATIONS = {
     "linear_recurrence",
     "modular_relation",
     "other_typed_relation",
+    "piecewise_relation",
     "proof_plan",
     "sympy_expression",
     "tensor_identity",
@@ -139,7 +140,10 @@ def _contains_forbidden_key(value: Any) -> bool:
         "target_reveal",
     }
     if isinstance(value, Mapping):
-        return any(str(key).lower() in forbidden or _contains_forbidden_key(item) for key, item in value.items())
+        return any(
+            str(key).lower() in forbidden or _contains_forbidden_key(item)
+            for key, item in value.items()
+        )
     if isinstance(value, list):
         return any(_contains_forbidden_key(item) for item in value)
     return False
@@ -267,9 +271,7 @@ class ClaudeHypothesis:
         representation = _identifier(value["representation"], "Claude representation")
         if representation not in CLAUDE_REPRESENTATIONS:
             raise ClaudeCreativityError("Claude representation is not admitted")
-        origin_assessment = _identifier(
-            value["llm_origin_assessment"], "Claude origin assessment"
-        )
+        origin_assessment = _identifier(value["llm_origin_assessment"], "Claude origin assessment")
         if origin_assessment not in CLAUDE_ORIGIN_ASSESSMENTS:
             raise ClaudeCreativityError("Claude origin assessment is not admitted")
         expression = _normalized_model_text(
@@ -283,14 +285,10 @@ class ClaudeHypothesis:
             _text_array(value["invariants"], "Claude invariants", maximum=16),
             _text_array(value["proof_plan"], "Claude proof plan", maximum=16),
             _text_array(value["falsifiers"], "Claude falsifiers", maximum=16),
-            _normalized_model_text(
-                value["rationale"], "Claude rationale", maximum_bytes=2048
-            ),
+            _normalized_model_text(value["rationale"], "Claude rationale", maximum_bytes=2048),
             origin_assessment,
             _text_array(value["known_analogues"], "Claude known analogues", maximum=16),
-            _text_array(
-                value["source_idea_domains"], "Claude source idea domains", maximum=16
-            ),
+            _text_array(value["source_idea_domains"], "Claude source idea domains", maximum=16),
             _normalized_model_text(
                 value["synthesis_note"], "Claude synthesis note", maximum_bytes=2048
             ),
@@ -493,7 +491,9 @@ def urllib_transport(
             pass
         raise ClaudeCreativityError(f"Claude API returned HTTP {error.code}: {detail}") from None
     except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as error:
-        raise ClaudeCreativityError(f"Claude API transport failed: {type(error).__name__}") from None
+        raise ClaudeCreativityError(
+            f"Claude API transport failed: {type(error).__name__}"
+        ) from None
 
 
 def _structured_output_schema(
@@ -570,9 +570,7 @@ def _structured_output_schema(
         action_without_id = {
             "type": "object",
             "properties": {
-                key: item
-                for key, item in action["properties"].items()
-                if key != "candidate_id"
+                key: item for key, item in action["properties"].items() if key != "candidate_id"
             },
             "required": [key for key in action["required"] if key != "candidate_id"],
             "additionalProperties": False,
@@ -646,7 +644,9 @@ class ClaudeCreativityClient:
             "GET", url, self._headers(credential), None, float(self.config.timeout_seconds)
         )
         capabilities = payload.get("capabilities", {})
-        structured = capabilities.get("structured_outputs", {}) if isinstance(capabilities, Mapping) else {}
+        structured = (
+            capabilities.get("structured_outputs", {}) if isinstance(capabilities, Mapping) else {}
+        )
         if (
             status != 200
             or payload.get("id") != self.config.model
@@ -682,7 +682,9 @@ class ClaudeCreativityClient:
         if _contains_forbidden_key(public_payload):
             raise ClaudeCreativityError("Claude public payload contains sealed target material")
         if role in {ClaudeRole.PROPOSER, ClaudeRole.ANALOGUE_SCOUT} and candidate_summaries:
-            raise ClaudeCreativityError("blind Claude creative role cannot see post-generation candidates")
+            raise ClaudeCreativityError(
+                "blind Claude creative role cannot see post-generation candidates"
+            )
         if role is ClaudeRole.CRITIC and not candidate_summaries:
             raise ClaudeCreativityError("Claude critic requires candidate summaries")
         candidate_ids = tuple(
@@ -819,10 +821,14 @@ class ClaudeCreativityClient:
         except json.JSONDecodeError as error:
             raise ClaudeCreativityError("Claude structured text is not JSON") from error
         normalized_output = raw_output
-        raw_actions = raw_output.get("steering_actions") if isinstance(raw_output, Mapping) else None
+        raw_actions = (
+            raw_output.get("steering_actions") if isinstance(raw_output, Mapping) else None
+        )
         if role is ClaudeRole.CRITIC and isinstance(raw_actions, Mapping):
             if set(raw_actions) != set(candidate_ids):
-                raise ClaudeCreativityError("Claude critic action object changed candidate coverage")
+                raise ClaudeCreativityError(
+                    "Claude critic action object changed candidate coverage"
+                )
             normalized_output = dict(raw_output)
             normalized_output["steering_actions"] = [
                 {"candidate_id": candidate_id, **raw_actions[candidate_id]}
@@ -833,9 +839,7 @@ class ClaudeCreativityClient:
                 raise ClaudeCreativityError("Claude creative role emitted inapplicable actions")
             normalized_output = dict(raw_output)
             normalized_output["steering_actions"] = []
-        raw_hypotheses = (
-            raw_output.get("hypotheses") if isinstance(raw_output, Mapping) else None
-        )
+        raw_hypotheses = raw_output.get("hypotheses") if isinstance(raw_output, Mapping) else None
         if role is ClaudeRole.CRITIC and isinstance(raw_hypotheses, Mapping):
             if raw_hypotheses:
                 raise ClaudeCreativityError("Claude critic emitted inapplicable hypotheses")

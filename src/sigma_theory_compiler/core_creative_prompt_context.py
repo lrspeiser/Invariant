@@ -17,7 +17,7 @@ from .claude_creativity_api import ClaudeCreativityError, Transport, urllib_tran
 from .external_claude_transport import ProviderCompatibleClaudeTransport
 from .sigma_core import canonical_sha256
 
-SCHEMA_VERSION = "invariant-core-creative-prompt-context-1.6"
+SCHEMA_VERSION = "invariant-core-creative-prompt-context-1.7"
 FIRST_PRINCIPLES_BRIEF_COUNT = 5
 LEARNED_INVARIANT_BRIEF_COUNT = 3
 STATE_PAIR_INVARIANT_BRIEF_COUNT = 6
@@ -33,6 +33,7 @@ TYPED_FORMULA_KINDS = [
     "finite_sum",
     "generating_function",
     "modular_relation",
+    "piecewise_relation",
     "recurrence",
     "tensor_identity",
     "variational_functional",

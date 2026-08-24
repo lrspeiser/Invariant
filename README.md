@@ -1199,14 +1199,17 @@ machines. Human prior-art review is mandatory before any serious or novelty clai
 The implementation backlog and promotion criteria are listed in
 [`docs/CREATIVE_FORMULA_DISCOVERY_ROADMAP.md`](docs/CREATIVE_FORMULA_DISCOVERY_ROADMAP.md).
 
-The core runtime now binds seven first-class executable formula kinds: recurrences, generating
-functions, finite sums, finite products, modular relations, tensor identities, and first-order
-variational functionals. Each kind has a positive control, a negative mutation, explicit resource
-limits, serialization, and two evaluator implementations. The control receipt passes 7/7 without
+The core runtime now binds eight first-class executable formula kinds: recurrences, generating
+functions, finite sums, finite products, modular relations, piecewise relations, tensor identities,
+and first-order variational functionals. A piecewise law has one to eight ordered exact predicates,
+explicit branch expressions, and a mandatory default. Each kind has a positive control, a negative
+mutation, explicit resource limits, serialization, and two evaluator implementations. The control
+receipt passes 8/8 without
 claiming that grammar admission proves a formula or establishes novelty.
 
-The live Claude proposal compiler now reaches bounded linear shift transforms, tensors, and
-variational kinds rather than merely archiving them as unsupported prose. A transform proposal
+The live Claude proposal compiler now reaches bounded piecewise laws, linear shift transforms,
+tensors, and variational kinds rather than merely archiving them as unsupported prose. A piecewise
+proposal declares ordered `lt`/`le`/`eq`/`ne`/`ge`/`gt` predicates and a total default branch. A transform proposal
 declares a public index, a source expression, an exact rational shift stencil, and a claimed
 transform; it emits the claim only where both evaluators obtain the same exact stencil result. A
 tensor proposal declares its complete bounded component
@@ -1215,17 +1218,22 @@ both exact evaluators accept the component identity and symmetries. A first-orde
 proposal declares its integrand, Euler-Lagrange claim, and bindings from all formal symbols to the
 public aliases; its numeric output is derived from that claim and is emitted only after independent
 Euler-Lagrange agreement. Random controls preserve the exact syntax-depth, deterministic-operation,
-and verifier-invocation profiles. The current live eight-call run received these contracts in every
-proposer prompt but happened to propose no tensor or variational idea, so provider-path execution of
-those two representations remains unobserved in this stochastic specimen; bounded primary and
-independent execution is covered by positive, false-identity, malformed-input, and matched-control
-tests. A fresh authenticated eight-call run used 89,475 tokens, retained all 29 ideas, admitted 6
-executable hypotheses, and scored 4 distinct candidates. It organically returned two transform
+and verifier-invocation profiles. Bounded primary and independent execution is covered by positive,
+false-identity or false-prediction, malformed-input, singular-boundary, and matched-control tests.
+A historical authenticated eight-call run used 89,475 tokens and organically returned two transform
 ideas. One self-labeled known rewrite proposed that the forward difference of the sum-of-squares
 formula is `(n+1)^2`; the current compiler safely normalizes `n` to the public `x0` alias and both
 evaluators reproduce `1, 4, 9, 16, ...`. The second used an unsupported function-call/equality form
-and remains retained. The run proposed no tensor or variational specimen, so those two provider
-paths remain unobserved.
+and remains retained.
+
+The newest authenticated eight-call run used 86,772 tokens and retained all 25 ideas. It admitted 6
+executable hypotheses, scored 5 candidates, and measured 3 behavioral plus 5 proof-mechanism
+contributions beyond the deterministic portfolio. Claude organically proposed nine piecewise
+branches: 1 self-labeled known rewrite, 1 cross-domain synthesis, and 7 uncertain ideas. All nine
+remain in lineage. None executed in this specimen because their arithmetic used parity `%`, floor
+division, heuristic rounding, or floating coefficients outside the exact rational DSL. That is an
+observed compiler gap, not a reason to discard the branches; exact bounded discrete operators are
+the next repair target.
 
 The core also binds a sealed executable dataset-control receipt. Exact rational replay passes four
 positive controls and rejects four mutations: crossed `do(...)` rows recover a constant treatment
@@ -1245,26 +1253,25 @@ proof novelty.
 
 The latest live core health receipt discovered `ANTHROPIC_API_KEY` through the app's default
 machine-local `~/.invariant.env` path, removed it after the dynamic run, and completed four
-proposer plus four critic calls on `claude-opus-4-6`. It used 89,202 tokens and retained all 29
-schema-admitted ideas: 13 model-self-assessed known rewrites, 6 proposed new constructions, 9
-uncertain branches, and 1 cross-domain synthesis. Independent expansion retained 174 proof plans
-and 64 recombination branches. These are one live treatment
+proposer plus four critic calls on `claude-opus-4-6`. It used 86,772 tokens and retained all 25
+schema-admitted ideas: 10 model-self-assessed known rewrites, 13 uncertain branches, and 2
+cross-domain syntheses. Independent expansion retained 150 proof plans and 64 recombination
+branches. These are one live treatment
 specimen and runtime-health evidence, not a creativity win. The receipt stores hashes and usage
 evidence, not the credential, env-file path, or raw prompts and outputs.
-A typed compiler admitted 6 Claude hypotheses and scored 3 distinct executable candidates. The four
-benchmark summaries report 1, 2, 0, and 0 Claude-executable candidates. Every admitted hypothesis
+A typed compiler admitted 6 Claude hypotheses and scored 5 distinct executable candidates. Every admitted hypothesis
 has a one-to-one target-blind control with exactly matched grammar depth, deterministic operation
 units, and verifier-invocation count. Against the deterministic portfolio, the live proposals add
-1 measured behavior and 3 measured proof mechanisms. That does not establish literature novelty:
+3 measured behaviors and 5 measured proof mechanisms. That does not establish literature novelty:
 origin labels remain observations, and unsupported proposals remain retained for later compiler
 extensions rather than being discarded.
 The core now constructs one sealed creativity-first prompt context from five exact
-symmetry/dimension briefs, seven admitted typed formula kinds, six independently searched proof
+symmetry/dimension briefs, eight admitted typed formula kinds, six independently searched proof
 mechanisms, and four required origin-assessment labels. A core-only provider wrapper injects that
 context into every proposer and critic request and records its content hash beside the actual
 provider prompt hash. The checked-in receipt marks this lane
 `PASS_CONTEXT_BOUND_TO_AUTHENTICATED_CALLS`: all eight distinct Messages API response IDs bind
-the current context hash `db2de1213540e9fe94fbea6781a37335ba6cf026fe56d6db411deee0bc45c6ef`.
+the current context hash `28c91b9fab1c2d8d6d82051e27fa5c1269dea47eb5183eb7ce93f9d32ef3ea3b`.
 The LLM is a creative participant, never a verifier or novelty authority.
 The fifth brief removes the former one-coordinate bottleneck. A drag-similarity control derives an
 independent two-coordinate basis—drag coefficient and Reynolds number—and exposes the undetermined

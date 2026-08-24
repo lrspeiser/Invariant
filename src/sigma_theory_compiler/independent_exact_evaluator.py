@@ -17,8 +17,10 @@ class IndependentEvaluationError(ValueError):
 
 
 def _integer_constant(node: ast.AST) -> int:
-    if isinstance(node, ast.Constant) and isinstance(node.value, int) and not isinstance(
-        node.value, bool
+    if (
+        isinstance(node, ast.Constant)
+        and isinstance(node.value, int)
+        and not isinstance(node.value, bool)
     ):
         return node.value
     if isinstance(node, ast.UnaryOp) and isinstance(node.op, (ast.UAdd, ast.USub)):
@@ -61,7 +63,9 @@ def evaluate_expression(expression: str, variables: Mapping[str, Fraction]) -> F
                 try:
                     return left**exponent
                 except ZeroDivisionError as error:
-                    raise IndependentEvaluationError("negative power of zero is undefined") from error
+                    raise IndependentEvaluationError(
+                        "negative power of zero is undefined"
+                    ) from error
             right = visit(node.right)
             if isinstance(node.op, ast.Add):
                 return left + right
@@ -78,6 +82,31 @@ def evaluate_expression(expression: str, variables: Mapping[str, Fraction]) -> F
     return visit(root)
 
 
+def evaluate_comparison(
+    left_expression: str,
+    comparator: str,
+    right_expression: str,
+    variables: Mapping[str, Fraction],
+) -> bool:
+    """Evaluate one exact comparison without the primary symbolic stack."""
+
+    left = evaluate_expression(left_expression, variables)
+    right = evaluate_expression(right_expression, variables)
+    if comparator == "lt":
+        return left < right
+    if comparator == "le":
+        return left <= right
+    if comparator == "eq":
+        return left == right
+    if comparator == "ne":
+        return left != right
+    if comparator == "ge":
+        return left >= right
+    if comparator == "gt":
+        return left > right
+    raise IndependentEvaluationError("comparison operator is unsupported")
+
+
 def evaluate_recurrence(
     coefficients: Sequence[Fraction],
     seed: Sequence[Fraction],
@@ -92,12 +121,15 @@ def evaluate_recurrence(
     values = list(seed)
     maximum = max(indices, default=-1)
     while len(values) <= maximum:
-        values.append(sum(coefficient * values[-offset] for offset, coefficient in enumerate(coefficients, 1)))
+        values.append(
+            sum(coefficient * values[-offset] for offset, coefficient in enumerate(coefficients, 1))
+        )
     return tuple(values[index] for index in indices)
 
 
 __all__ = [
     "IndependentEvaluationError",
+    "evaluate_comparison",
     "evaluate_expression",
     "evaluate_recurrence",
 ]

@@ -4,7 +4,7 @@
     "grammar_admission_establishes_formula_correctness": false,
     "llm_output_can_extend_executable_grammar_without_review": false
   },
-  "content_sha256": "6fc2641d76d409822480570e9a12db3fd0ab3e38410dad2e66cccb3db4c44c93",
+  "content_sha256": "811c44630a1f02c21e3f964caf521fdec552f0c1ae2f52a8d99c65d0ed0c3acb",
   "controls": [
     {
       "exact_evaluator_agreement": true,
@@ -50,6 +50,16 @@
       "exact_evaluator_agreement": true,
       "independent_mutation_rejected": true,
       "independent_positive_passed": true,
+      "kind": "piecewise_relation",
+      "mutation_formula_sha256": "ac72cb00939b2d55d158dbec83596c52f5bf4fef93a4b7c790ea0b309eb280f8",
+      "positive_formula_sha256": "bdd2c529fa06e73b1f37abd7fcf80b209ba6c2ea0353561dc9f556572539c4fc",
+      "primary_mutation_rejected": true,
+      "primary_positive_passed": true
+    },
+    {
+      "exact_evaluator_agreement": true,
+      "independent_mutation_rejected": true,
+      "independent_positive_passed": true,
       "kind": "recurrence",
       "mutation_formula_sha256": "173131535e3abafa6466d82dad38091fc4b031e13c1b3b6a25461d9792af70f7",
       "positive_formula_sha256": "3bba027e176f6ca66edc02abb521436c75cdf44a9f198108982d8b7aabb1b1ae",
@@ -77,26 +87,27 @@
       "primary_positive_passed": true
     }
   ],
-  "grammar_id": "invariant.math.expanded-exact-grammar-v1",
+  "grammar_id": "invariant.math.expanded-exact-grammar-v2",
   "resource_limits": {
     "maximum_expression_nodes": 512,
     "maximum_finite_terms": 64,
+    "maximum_piecewise_branches": 8,
     "maximum_polynomial_power_for_independent_variational_evaluator": 8,
     "maximum_tensor_components": 256,
     "maximum_tensor_rank": 4
   },
-  "schema_version": "invariant-expanded-typed-grammar-controls-1.0",
+  "schema_version": "invariant-expanded-typed-grammar-controls-1.1",
   "source_bindings": {
     "canonicalizer": {
-      "normalized_file_sha256": "14cc9cc8b9b63d9448cfb7738f9fb7fcae0d1f21454a715caf379056661ea8ef",
+      "normalized_file_sha256": "457c926e0e0da45160ce9624c4eb00811631bc951025e435ff6f4de1b2ea0b47",
       "path": "src/sigma_theory_compiler/math_canonicalizer.py"
     },
     "config": {
-      "normalized_file_sha256": "d4762f49be863f6c8064d54ca4abfa314c2663a7d55aaae60ce52dc9d9089d50",
+      "normalized_file_sha256": "d93102215cc29a68117809350e85bc194a9df5ca1292ed89be4f3d4ba513dcd0",
       "path": "configs/expanded_typed_grammar.json"
     },
     "control_runner": {
-      "normalized_file_sha256": "5a1c0519f5840907e07061ffdef95d1076672f7a0126ab0fda0a177ccb9ce1a6",
+      "normalized_file_sha256": "5f12b6fe16b6c343866eba16b88db2aea085c078a02be3d2c440c8d60e8c4126",
       "path": "src/sigma_theory_compiler/expanded_math_grammar_controls.py"
     },
     "counterexample_evaluator": {
@@ -104,19 +115,19 @@
       "path": "src/sigma_theory_compiler/math_counterexample.py"
     },
     "independent_base": {
-      "normalized_file_sha256": "414d6455c374b2d3af20e2d47cbecd3c2db318dd6527df15f7c63c0fa74580cc",
+      "normalized_file_sha256": "266e9de1e9134888146a0b971c49bd3ef0e3d35c906c49531701669e42ec348b",
       "path": "src/sigma_theory_compiler/independent_exact_evaluator.py"
     },
     "independent_evaluator": {
-      "normalized_file_sha256": "5353acd5e82de7fd808ba75c6c1cec4ec3aeba738a2a2a350059bf623c973652",
+      "normalized_file_sha256": "6800703fd9d6919a5eee4fd204a7356e8c29566da876ef8895605a93cd1fdb43",
       "path": "src/sigma_theory_compiler/expanded_math_independent_evaluator.py"
     },
     "math_ir": {
-      "normalized_file_sha256": "5d9a835bef91e45bdeef38a290e25957d05eacc718e617a2d66be23c81b81b1f",
+      "normalized_file_sha256": "1faffbe9a0aa5fa1b670ce6078762875c01e0138fd2e81e4a61752e883955e3f",
       "path": "src/sigma_theory_compiler/math_expression_ir.py"
     },
     "primary_evaluator": {
-      "normalized_file_sha256": "45c11c52a51d685ca1a8d29291b572bcc046c6f59a97b173a8b2133012a5cd49",
+      "normalized_file_sha256": "620bb936b859d57982a572b339211067042f7fa094080ee69091eea40b1f11f6",
       "path": "src/sigma_theory_compiler/expanded_math_primary_evaluator.py"
     }
   },
@@ -126,12 +137,13 @@
       "finite_sum",
       "generating_function",
       "modular_relation",
+      "piecewise_relation",
       "recurrence",
       "tensor_identity",
       "variational_functional"
     ],
-    "controls_passed": 7,
-    "controls_total": 7,
+    "controls_passed": 8,
+    "controls_total": 8,
     "status": "PASS_EXPANDED_TYPED_GRAMMAR_CONTROLS"
   }
 }

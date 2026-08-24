@@ -16,6 +16,8 @@ from .math_expression_ir import (
     Formula,
     GeneratingFunction,
     ModularRelation,
+    PiecewiseComparator,
+    PiecewiseRelation,
     TensorIdentity,
     VariationalFunctional,
 )
@@ -114,6 +116,23 @@ def evaluate(
         if left.q != 1 or right.q != 1:
             raise ExpandedPrimaryEvaluationError("modular relation requires integers")
         return (int(left) - int(right)) % formula.modulus == 0
+    if isinstance(formula, PiecewiseRelation):
+        selected = formula.default_expression
+        for branch in formula.branches:
+            left = _exact(branch.left, assignment)
+            right = _exact(branch.right, assignment)
+            conditions = {
+                PiecewiseComparator.LESS: left < right,
+                PiecewiseComparator.LESS_EQUAL: left <= right,
+                PiecewiseComparator.EQUAL: left == right,
+                PiecewiseComparator.NOT_EQUAL: left != right,
+                PiecewiseComparator.GREATER_EQUAL: left >= right,
+                PiecewiseComparator.GREATER: left > right,
+            }
+            if conditions[branch.comparator]:
+                selected = branch.expression
+                break
+        return _exact(selected, assignment) == _exact(formula.claimed_value, assignment)
     if isinstance(formula, TensorIdentity):
         left = tuple(_exact(item, assignment) for item in formula.left_components)
         right = tuple(_exact(item, assignment) for item in formula.right_components)

@@ -6,48 +6,51 @@
 - Two externally sourced bounded-unknown sequence controls do not have a zero-loss candidate.
 - The core app discovered the credential through its default machine-local `~/.invariant.env`
   path without persisting it and completed four blind Claude proposer calls plus four post-proposal
-  critic calls on `claude-opus-4-6`. The sanitized receipt records 89,475 tokens and no key,
+  critic calls on `claude-opus-4-6`. The sanitized receipt records 86,772 tokens and no key,
   credential value, or credential-file path.
 - The live core run used a sealed creativity-first prompt context: five exact
-  symmetry/dimension briefs containing six coordinates, seven typed formula kinds, six
+  symmetry/dimension briefs containing six coordinates, eight typed formula kinds, six
   candidate-independent proof routes,
   and the four origin labels are injected into every provider request. Per-call evidence must bind
   the same context hash. All eight distinct response IDs bind the current hash and the receipt
   reports `PASS_CONTEXT_BOUND_TO_AUTHENTICATED_CALLS`.
-- Those calls produced 29 schema-admitted ideas: 13 model-self-assessed known rewrites, 4 proposed
-  new constructions, and 12 uncertain branches. All 29 remain active;
+- Those calls produced 25 schema-admitted ideas: 10 model-self-assessed known rewrites, 2
+  cross-domain syntheses, and 13 uncertain branches. All 25 remain active;
   none were discarded for their label or verifier status.
-- A typed compiler admitted 6 model hypotheses and scored 4 distinct executable candidates. The
-  four benchmark summaries contain 1, 3, 0, and 0 Claude-executable candidates respectively. Each
+- A typed compiler admitted 6 model hypotheses and scored 5 distinct executable candidates. Each
   admitted proposal is paired one-to-one with a target-blind control having the same grammar depth,
   deterministic operation units, and verifier-invocation count; the receipt verifies every profile
-  match. The live candidates add 2 behaviors and 4 proof mechanisms beyond the deterministic
+  match. The live candidates add 3 behaviors and 5 proof mechanisms beyond the deterministic
   portfolio. These are measured contributions, not novelty verdicts: model origin labels are
   evidence to retain, never authority about the literature.
 - The compiler currently accepts bounded symbolic expressions, invariant relations, linear
-  recurrences, finite sums/products, rational generating functions, modular relations, exact linear
-  shift transforms, tensor identities, and first-order variational functionals. Malformed or other
+  recurrences, finite sums/products, rational generating functions, modular relations, ordered
+  piecewise laws, exact linear shift transforms, tensor identities, and first-order variational functionals. Malformed or other
   unsupported typed proposals are retained with explicit admission failures instead of being pruned.
 - The provider adapter now losslessly stages proposer branches 17 through 64 around the frozen
   16-branch parser and reattaches them before lineage. A 24-branch control exercises eight overflow
   branches; the latest stochastic live run stayed below the legacy per-response threshold.
-- Independent expansion produced 174 proof-plan branches and 64 cross-idea recombination branches.
+- Independent expansion produced 150 proof-plan branches and 64 cross-idea recombination branches.
   The candidate-independent registry spans induction, invariant strengthening, bijection, descent,
   transforms, contradiction, exact arithmetic, CAS, SMT, interval, and Lean routes. Its bounded
   controls close the required positives and leave essential-tactic-removal mutations open. A
   separate feature join retains both applicable and not-yet-applicable plans. This is one treatment
   specimen and search calibration, not evidence that the system is more creative or that a
   candidate theorem is proved.
-- Seven bounded expression kinds are now first-class executable IR: recurrences, generating
-  functions, finite sums/products, modular relations, tensor identities, and first-order
-  variational functionals. Two independent evaluators accept all seven positive controls and reject
-  all seven mutations under explicit resource limits. This establishes the admitted control slice,
+- Eight bounded expression kinds are now first-class executable IR: recurrences, generating
+  functions, finite sums/products, modular relations, ordered piecewise relations, tensor identities,
+  and first-order variational functionals. Two independent evaluators accept all eight positive
+  controls and reject all eight mutations under explicit resource limits. This establishes the admitted control slice,
   not formula correctness or novelty outside those controls.
 - An eighth bounded LLM proposal representation executes exact linear shift stencils. Its primary
   evaluator uses SymPy rational substitution while its independent evaluator uses only Python AST
   and `Fraction`; both must agree that the claimed transform equals the stencil result before a
   prediction is emitted. Positive, false-claim, malformed, safe-alias-replay, and exactly matched
   random-control tests pass.
+- The current live run organically produced nine piecewise proposals. All nine are retained with
+  origin labels, but none executed because they use parity, floor division, heuristic rounding, or
+  floating coefficients outside the exact rational slice. This turns exact bounded discrete
+  operators into an evidence-selected next compiler target rather than pruning the ideas.
 - Four synthetic dataset challenges are now exact executable controls rather than metadata checks.
   They pass crossed intervention, interval-noise, covariate-shift, and observational
   unidentifiability positives while rejecting a wrong treatment effect, an interval-external model,
@@ -196,9 +199,9 @@ This is evidence of bounded rediscovery, not evidence of mathematical novelty.
 ### 1. Make the typed language genuinely broader
 
 - The first admitted slice now covers recurrences, generating functions, finite sums/products,
-  modular arithmetic, exact linear shift transforms, bounded tensors, and first-order variational
-  functionals. Rational functions,
-  piecewise laws, graphs, general differential operators, and asymptotic expansions remain.
+  modular arithmetic, ordered piecewise laws, exact linear shift transforms, bounded tensors, and
+  first-order variational functionals. Rational functions, exact bounded modulo/floor operators,
+  graphs, general differential operators, and asymptotic expansions remain.
 - Carry domains, units, dimensions, tensor ranks, index symmetries, derivative order, singular sets,
   boundary conditions, and admissible rewrites in the type checker.
 - Separate representation from meaning so algebraically equivalent polynomial, recurrence,
@@ -351,18 +354,20 @@ This is evidence of bounded rediscovery, not evidence of mathematical novelty.
 
 ## Next executable milestones
 
-1. Obtain two named blinded reviewers for the clean 353-branch packet, seal their complete forms,
+1. Add exact bounded modulo and floor-division semantics to the piecewise slice, then replay the nine
+   retained live branches without another provider call; continue to reject floats and heuristic rounding.
+2. Obtain two named blinded reviewers for the clean 353-branch packet, seal their complete forms,
    and score the bounded rotation; record disagreements before unblinding system identity.
-2. Run the preregistered old-vs-new matched-control comparison and, after explicit approval, each
+3. Run the preregistered old-vs-new matched-control comparison and, after explicit approval, each
    component knockout through the one-experiment
    executor under its 96-call / 400,000-token ceiling and the same attempt-journal and review rules.
-3. Rotate the now-executable tensor, linear-shift-transform, and variational task slice across
+4. Rotate the now-executable tensor, linear-shift-transform, and variational task slice across
    additional upstream projects
    and obtain a detached signature from a distinct pack principal before level-5 use.
-4. Expand the first four externally supplied dataset challenges to additional independent
+5. Expand the first four externally supplied dataset challenges to additional independent
    principals, richer noise and missingness models, and learned invariant proposals while retaining
    the synthetic negative controls; obtain detached signatures before level-5 use.
-5. Complete named human review of the bound A005132 behavior match and the nearest formula and
+6. Complete named human review of the bound A005132 behavior match and the nearest formula and
    proof-mechanism results; then run the same automated screen for every tournament survivor.
-6. Continue bounded level-5 runs until three independent successes exist; the open-problem gate
+7. Continue bounded level-5 runs until three independent successes exist; the open-problem gate
    remains closed meanwhile, but creative branches continue accumulating.
