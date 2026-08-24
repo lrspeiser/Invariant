@@ -8,8 +8,10 @@ malformed and unsuccessful ideas, and uses the existing exact sweeper as the aut
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
+import secrets
 import time
 from collections import Counter
 from collections.abc import Mapping, Sequence
@@ -20,12 +22,22 @@ import numpy as np
 
 from .claude_creativity_api import (
     ClaudeAPIConfig,
+    ClaudeBudget,
+    ClaudeCallResult,
     ClaudeCallStatus,
     ClaudeCreativityClient,
+    ClaudeCreativityError,
     ClaudeRole,
+    ClaudeStructuredOutput,
+    Transport,
     urllib_transport,
 )
 from .core_credential import activated_credential
+from .durable_llm_attempt_journal import (
+    AttemptJournalError,
+    DurableAttemptJournal,
+    JournaledScheduledTransport,
+)
 from .exponent_diophantine_sweeper import (
     _backend,
     _es_hard_members,
@@ -45,6 +57,7 @@ SCHEMA_VERSION = "invariant-erdos-straus-creative-shadow-runtime-1.0"
 CONFIG_SCHEMA = "invariant-erdos-straus-creative-shadow-config-1.0"
 SOURCE_PATH = "src/sigma_theory_compiler/erdos_straus_creative_shadow.py"
 SWEEPER_PATH = "src/sigma_theory_compiler/exponent_diophantine_sweeper.py"
+JOURNAL_PATH = "work/erdos-straus-creative-shadow/llm-attempts.jsonl"
 
 _DSL = re.compile(r"^ESDSL1\|basis=([a-z_]+)\|x=([0-9,]+)\|t=([0-9,]+)\|m=([0-9,]+)$")
 _BASES = {
@@ -109,8 +122,19 @@ def _load_config(root: Path, config_path: str | Path = CONFIG_PATH) -> dict[str,
         <= 100_000_000
     ):
         raise ErdosStrausCreativeShadowError("experiment ranges are invalid")
-    if experiment["creative_roles"] != ["recombiner"]:
-        raise ErdosStrausCreativeShadowError("creative role allocation changed")
+    try:
+        creative_roles = [ClaudeRole(item) for item in experiment["creative_roles"]]
+    except (KeyError, TypeError, ValueError) as error:
+        raise ErdosStrausCreativeShadowError("creative role allocation is invalid") from error
+    if not creative_roles or ClaudeRole.CRITIC in creative_roles:
+        raise ErdosStrausCreativeShadowError("creative role allocation is invalid")
+    critic_batch_size = experiment.get("llm_critic_batch_size")
+    if (
+        isinstance(critic_batch_size, bool)
+        or not isinstance(critic_batch_size, int)
+        or not 0 <= critic_batch_size <= 16
+    ):
+        raise ErdosStrausCreativeShadowError("LLM critic batch size is invalid")
     if value["claude"]["maximum_calls"] != 4 or value["claude"]["maximum_total_tokens"] > 32_000:
         raise ErdosStrausCreativeShadowError("open-problem shadow budget changed")
     return value
@@ -154,6 +178,15 @@ def _instruction(role: ClaudeRole, requested_ideas: int) -> str:
         "mathematical explanation in rationale, invariants, proof_plan, known_analogues, "
         "source_idea_domains, and synthesis_note. Origin labels are fallible self-assessments "
         "and do not establish novelty. Failed ideas remain valuable."
+    )
+
+
+def _critic_instruction(batch_size: int) -> str:
+    return (
+        f"Critique exactly the {batch_size} supplied candidates in this bounded Erdős--Straus "
+        "mechanism experiment. Return one typed steering action for every candidate. A reject "
+        "or repair verdict must not delete an idea: identify a blocker and a concrete repair or "
+        "recombination. Do not claim proof, novelty, or progress on the open conjecture."
     )
 
 
@@ -290,16 +323,326 @@ def _candidate_id(role: ClaudeRole, hypothesis_id: str, ordinal: int) -> str:
     return f"{role.value}.{ordinal:02d}.{clean}"[:128]
 
 
-def _creative_calls(config: Mapping[str, Any]) -> tuple[list[dict[str, Any]], dict[str, Any]]:
-    claude = ClaudeCreativityClient(
-        ClaudeAPIConfig.from_mapping(config["claude"]), urllib_transport
+def _journal_bindings(
+    root: Path, config: Mapping[str, Any], config_path: str | Path
+) -> dict[str, Any]:
+    return {
+        "campaign_id": config["campaign_id"],
+        "config_sha256": _file_sha256(root / config_path),
+        "source_sha256": _file_sha256(root / SOURCE_PATH),
+    }
+
+
+def _open_attempt_journal(
+    root: Path,
+    config: Mapping[str, Any],
+    config_path: str | Path,
+    journal_path: str | Path,
+) -> DurableAttemptJournal:
+    path = Path(journal_path)
+    if not path.is_absolute():
+        path = root / path
+    expected = _journal_bindings(root, config, config_path)
+    if path.exists():
+        journal = DurableAttemptJournal.load(path)
+        header = journal.header
+        if (
+            header.get("experiment_id") != config["campaign_id"]
+            or header.get("source_bindings") != expected
+        ):
+            raise ErdosStrausCreativeShadowError(
+                "attempt journal is bound to another campaign, config, or source"
+            )
+        return journal
+    return DurableAttemptJournal.create(
+        path,
+        experiment_id=config["campaign_id"],
+        source_bindings=expected,
+        unblinding_key=secrets.token_bytes(32),
     )
+
+
+def _call_id(config: Mapping[str, Any], phase: str, ordinal: int, role: ClaudeRole) -> str:
+    return f"{config['campaign_id']}:{phase}.{ordinal:02d}:{role.value}"
+
+
+def _result_from_dict(value: Mapping[str, Any] | None) -> ClaudeCallResult | None:
+    if value is None:
+        return None
+    output_raw = value.get("output")
+    output = None
+    if output_raw is not None:
+        parseable = {key: item for key, item in output_raw.items() if key != "quarantine"}
+        output = ClaudeStructuredOutput.from_mapping(parseable)
+    return ClaudeCallResult(
+        ClaudeCallStatus(value["status"]),
+        ClaudeRole(value["role"]),
+        value["benchmark_id"],
+        output,
+        dict(value["evidence"]),
+    )
+
+
+def _outcome(journal: DurableAttemptJournal, call_id: str) -> dict[str, Any] | None:
+    events = [
+        item
+        for item in journal.events_for(call_id)
+        if item["event_kind"] == "scheduled_call_outcome"
+    ]
+    if len(events) > 1:
+        raise ErdosStrausCreativeShadowError("scheduled LLM call has multiple outcomes")
+    return None if not events else dict(events[0]["payload"])
+
+
+def _append_outcome(
+    journal: DurableAttemptJournal,
+    call_id: str,
+    *,
+    phase: str,
+    role: ClaudeRole,
+    status: str,
+    result: ClaudeCallResult | None,
+    errors: Sequence[str],
+) -> dict[str, Any]:
+    event = journal.append(
+        "scheduled_call_outcome",
+        call_id,
+        {
+            "errors": [str(item)[:1024] for item in errors],
+            "phase": phase,
+            "result": None if result is None else result.to_dict(),
+            "role": role.value,
+            "status": status,
+        },
+    )
+    return dict(event["payload"])
+
+
+def _response_events(
+    journal: DurableAttemptJournal, call_id: str | None = None
+) -> list[dict[str, Any]]:
+    events = journal.events if call_id is None else journal.events_for(call_id)
+    return [dict(item) for item in events if item["event_kind"] == "message_response"]
+
+
+def _restore_budget(
+    client: ClaudeCreativityClient,
+    journal: DurableAttemptJournal,
+    *,
+    exclude_call_id: str | None = None,
+) -> None:
+    calls = sum(
+        1
+        for event in journal.events
+        if event["event_kind"] == "message_dispatch"
+        and event["scheduled_call_id"] != exclude_call_id
+    )
+    input_tokens = 0
+    output_tokens = 0
+    for event in _response_events(journal):
+        if event["scheduled_call_id"] == exclude_call_id:
+            continue
+        usage = event["payload"].get("response", {}).get("usage", {})
+        raw_input = usage.get("input_tokens", 0)
+        raw_output = usage.get("output_tokens", 0)
+        if any(
+            isinstance(item, bool) or not isinstance(item, int) or item < 0
+            for item in (raw_input, raw_output)
+        ):
+            raise ErdosStrausCreativeShadowError("journaled provider usage is invalid")
+        input_tokens += raw_input
+        output_tokens += raw_output
+    client.budget = ClaudeBudget(calls, input_tokens, output_tokens)
+
+
+def _restore_model_evidence(
+    client: ClaudeCreativityClient, journal: DurableAttemptJournal
+) -> None:
+    probes = [
+        item for item in journal.events if item["event_kind"] == "model_probe_response"
+    ]
+    if len(probes) > 1:
+        raise ErdosStrausCreativeShadowError("attempt journal has multiple model probes")
+    if not probes:
+        raise ErdosStrausCreativeShadowError(
+            "journaled response cannot replay without its model-capability probe"
+        )
+    payload = probes[0]["payload"]
+    response = payload.get("response", {})
+    capabilities = response.get("capabilities", {})
+    structured = (
+        capabilities.get("structured_outputs", {})
+        if isinstance(capabilities, Mapping)
+        else {}
+    )
+    if (
+        payload.get("status") != 200
+        or response.get("id") != client.config.model
+        or not isinstance(structured, Mapping)
+        or structured.get("supported") is not True
+    ):
+        raise ErdosStrausCreativeShadowError("journaled model-capability evidence is invalid")
+    client._model_evidence = {
+        "capabilities_sha256": canonical_sha256(capabilities),
+        "model": client.config.model,
+        "structured_outputs_supported": True,
+    }
+
+
+class _ReplayMessageTransport:
+    """Replay one durable provider response against the exact original request bytes."""
+
+    def __init__(self, dispatch: Mapping[str, Any], response: Mapping[str, Any]) -> None:
+        self.dispatch = dispatch
+        self.response = response
+        self.used = False
+
+    def __call__(
+        self,
+        method: str,
+        url: str,
+        headers: Mapping[str, str],
+        body: bytes | None,
+        timeout: float,
+    ) -> tuple[int, Mapping[str, Any]]:
+        del headers, timeout
+        if self.used or method != "POST" or body is None:
+            raise ErdosStrausCreativeShadowError("journal replay attempted an unexpected request")
+        expected = self.dispatch["payload"]
+        if (
+            expected.get("method") != method
+            or expected.get("url") != url
+            or expected.get("body_sha256") != hashlib.sha256(body).hexdigest()
+        ):
+            raise ErdosStrausCreativeShadowError(
+                "journaled response request binding changed during replay"
+            )
+        self.used = True
+        return int(self.response["payload"]["status"]), dict(
+            self.response["payload"]["response"]
+        )
+
+
+def _run_scheduled_call(
+    journal: DurableAttemptJournal,
+    client: ClaudeCreativityClient,
+    *,
+    call_id: str,
+    phase: str,
+    role: ClaudeRole,
+    public_payload: Mapping[str, Any],
+    candidate_summaries: Sequence[Mapping[str, Any]],
+    instruction: str,
+    hypothesis_slots: int | None,
+    base_transport: Transport,
+) -> tuple[dict[str, Any], ClaudeCallResult | None]:
+    existing = _outcome(journal, call_id)
+    if existing is not None:
+        return existing, _result_from_dict(existing.get("result"))
+    previous = journal.events_for(call_id)
+    dispatches = [item for item in previous if item["event_kind"] == "message_dispatch"]
+    responses = [item for item in previous if item["event_kind"] == "message_response"]
+    if len(dispatches) > 1 or len(responses) > 1:
+        raise ErdosStrausCreativeShadowError("scheduled LLM call journal is not singular")
+    if dispatches and not responses:
+        outcome = _append_outcome(
+            journal,
+            call_id,
+            phase=phase,
+            role=role,
+            status="indeterminate_after_dispatch",
+            result=None,
+            errors=["process_stopped_after_dispatch_before_durable_response"],
+        )
+        return outcome, None
+    _restore_budget(client, journal, exclude_call_id=call_id if responses else None)
+    if responses:
+        _restore_model_evidence(client, journal)
+        client.transport = _ReplayMessageTransport(dispatches[0], responses[0])
+    else:
+        client.transport = JournaledScheduledTransport(
+            journal,
+            scheduled_call_id=call_id,
+            arm="erdos_straus_shadow",
+            task_id="erdos_straus_shadow",
+            role=role.value,
+            base_transport=base_transport,
+        )
+    try:
+        result = client.run(
+            role,
+            "erdos_straus_shadow",
+            public_payload,
+            candidate_summaries=candidate_summaries,
+            instruction_override=instruction,
+            hypothesis_slots=hypothesis_slots,
+        )
+    except (
+        ClaudeCreativityError,
+        AttemptJournalError,
+        ErdosStrausCreativeShadowError,
+        OSError,
+        TimeoutError,
+    ) as error:
+        outcome = _append_outcome(
+            journal,
+            call_id,
+            phase=phase,
+            role=role,
+            status="client_or_contract_failure",
+            result=None,
+            errors=[f"{type(error).__name__}:{error!s}"],
+        )
+        return outcome, None
+    if result.status is not ClaudeCallStatus.COMPLETED:
+        return (
+            {
+                "errors": [f"pre_dispatch_status:{result.status.value}"],
+                "phase": phase,
+                "result": result.to_dict(),
+                "role": role.value,
+                "status": "pre_dispatch_blocked_retryable",
+            },
+            result,
+        )
+    outcome = _append_outcome(
+        journal,
+        call_id,
+        phase=phase,
+        role=role,
+        status="completed",
+        result=result,
+        errors=[],
+    )
+    return outcome, result
+
+
+def _candidate_summary(item: Mapping[str, Any]) -> dict[str, Any]:
+    hypothesis = item["hypothesis"]
+    return {
+        "candidate_id": item["idea_id"],
+        "expression": hypothesis["expression"],
+        "known_analogues": hypothesis["known_analogues"],
+        "llm_origin_assessment": hypothesis["llm_origin_assessment"],
+        "representation": hypothesis["representation"],
+        "source_idea_domains": hypothesis["source_idea_domains"],
+    }
+
+
+def _creative_calls(
+    config: Mapping[str, Any],
+    journal: DurableAttemptJournal,
+    *,
+    base_transport: Transport = urllib_transport,
+) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    claude = ClaudeCreativityClient(ClaudeAPIConfig.from_mapping(config["claude"]))
     base_payload = _public_payload(config)
     calls = []
+    attempts = []
     ideas = []
     roles = [ClaudeRole(item) for item in config["experiment"]["creative_roles"]]
     requested = int(config["experiment"]["requested_ideas_per_creative_call"])
-    for role in roles:
+    for call_ordinal, role in enumerate(roles, 1):
         payload = dict(base_payload)
         if role is ClaudeRole.RECOMBINER:
             payload["parent_palette"] = [
@@ -311,14 +654,25 @@ def _creative_calls(config: Mapping[str, Any]) -> tuple[list[dict[str, Any]], di
                 }
                 for item in ideas
             ]
-        result = claude.run(
-            role,
-            "erdos_straus_shadow",
-            payload,
-            instruction_override=_instruction(role, requested),
+        outcome, result = _run_scheduled_call(
+            journal,
+            claude,
+            call_id=_call_id(config, "creative", call_ordinal, role),
+            phase="creative",
+            role=role,
+            public_payload=payload,
+            candidate_summaries=(),
+            instruction=_instruction(role, requested),
+            hypothesis_slots=None,
+            base_transport=base_transport,
         )
-        if result.status is not ClaudeCallStatus.COMPLETED or result.output is None:
-            raise ErdosStrausCreativeShadowError(f"Claude {role.value} call did not complete")
+        attempts.append(outcome)
+        if (
+            result is None
+            or result.status is not ClaudeCallStatus.COMPLETED
+            or result.output is None
+        ):
+            continue
         record = result.to_dict()
         calls.append(record)
         for ordinal, hypothesis in enumerate(record["output"]["hypotheses"], 1):
@@ -329,11 +683,40 @@ def _creative_calls(config: Mapping[str, Any]) -> tuple[list[dict[str, Any]], di
                     "role": role.value,
                 }
             )
+    if not ideas:
+        raise ErdosStrausCreativeShadowError("no journaled Claude idea call completed")
+    critic_actions: dict[str, dict[str, Any]] = {}
+    critic_batch_size = int(config["experiment"]["llm_critic_batch_size"])
+    if critic_batch_size:
+        batches = [
+            ideas[index : index + critic_batch_size]
+            for index in range(0, len(ideas), critic_batch_size)
+        ]
+        for batch_ordinal, batch in enumerate(batches, 1):
+            summaries = [_candidate_summary(item) for item in batch]
+            outcome, result = _run_scheduled_call(
+                journal,
+                claude,
+                call_id=_call_id(config, "critic", batch_ordinal, ClaudeRole.CRITIC),
+                phase="critic",
+                role=ClaudeRole.CRITIC,
+                public_payload=base_payload,
+                candidate_summaries=summaries,
+                instruction=_critic_instruction(len(batch)),
+                hypothesis_slots=None,
+                base_transport=base_transport,
+            )
+            attempts.append(outcome)
+            if result is None or result.output is None:
+                continue
+            calls.append(result.to_dict())
+            for action in result.output.steering_actions:
+                critic_actions[action.candidate_id] = action.to_dict()
     for item in ideas:
         executable = (
             parse_recipe(item["hypothesis"]["expression"], config["experiment"]) is not None
         )
-        item["critic"] = {
+        deterministic = {
             "blocker_kind": "none" if executable else "machine_dsl_parse_failure",
             "candidate_id": item["idea_id"],
             "distance_denominator": 1,
@@ -345,10 +728,30 @@ def _creative_calls(config: Mapping[str, Any]) -> tuple[list[dict[str, Any]], di
             ),
             "verdict": "retain" if executable else "repair",
         }
+        item["critic"] = critic_actions.get(item["idea_id"], deterministic)
+        item["critic_source"] = (
+            "journaled_llm_critic_retained_without_pruning"
+            if item["idea_id"] in critic_actions
+            else "deterministic_machine_admission_not_llm_critique"
+        )
+    _restore_budget(claude, journal)
     return ideas, {
         "budget": claude.budget.to_dict(),
         "calls": calls,
-        "critic_kind": "deterministic_machine_admission_not_llm_critique",
+        "attempt_journal": {
+            "content_sha256": journal.content_sha256,
+            "credential_values_persisted": False,
+            "event_counts": journal.event_counts(),
+            "private_path_persisted_in_receipt": False,
+            "response_before_validation": True,
+            "resume_redispatches_completed_slots": False,
+        },
+        "attempts": attempts,
+        "critic_kind": (
+            "journaled_llm_batches_with_deterministic_fallback_no_pruning"
+            if critic_batch_size
+            else "deterministic_machine_admission_not_llm_critique"
+        ),
     }
 
 
@@ -698,14 +1101,21 @@ def _build_receipt(
     return body
 
 
-def run_live(root: Path, *, config_path: str | Path = CONFIG_PATH) -> dict[str, Any]:
+def run_live(
+    root: Path,
+    *,
+    config_path: str | Path = CONFIG_PATH,
+    journal_path: str | Path = JOURNAL_PATH,
+    base_transport: Transport = urllib_transport,
+) -> dict[str, Any]:
     root = root.resolve()
     config = _load_config(root, config_path)
+    journal = _open_attempt_journal(root, config, config_path, journal_path)
     with activated_credential(
         project_root=root,
         env_var=config["claude"]["credential_env_var"],
     ) as activation:
-        ideas, claude = _creative_calls(config)
+        ideas, claude = _creative_calls(config, journal, base_transport=base_transport)
         credential_evidence = activation.to_evidence()
     return _build_receipt(root, config, config_path, ideas, claude, credential_evidence)
 
@@ -724,6 +1134,9 @@ def rebind_receipt(
     ideas = [
         {
             "critic": dict(item["critic"]),
+            "critic_source": item.get(
+                "critic_source", "deterministic_machine_admission_not_llm_critique"
+            ),
             "hypothesis": dict(item["hypothesis"]),
             "idea_id": item["idea_id"],
             "role": item["role"],
@@ -735,6 +1148,9 @@ def rebind_receipt(
         "calls": list(prior_claude["calls"]),
         "critic_kind": prior_claude["critic_kind"],
     }
+    for optional in ("attempt_journal", "attempts"):
+        if optional in prior_claude:
+            claude[optional] = prior_claude[optional]
     return _build_receipt(
         root,
         config,
@@ -767,18 +1183,33 @@ def validate_receipt(
     boundary = value["claim_boundary"]
     if any(boundary.values()):
         raise ErdosStrausCreativeShadowError("a prohibited claim is true")
-    if value["claude"]["completed_calls"] != 1 or value["claude"]["budget"]["calls"] != 1:
+    claude = value["claude"]
+    completed_calls = claude["completed_calls"]
+    budget_calls = claude["budget"]["calls"]
+    if (
+        completed_calls != len(claude["calls"])
+        or not 1 <= completed_calls <= budget_calls <= config["claude"]["maximum_calls"]
+    ):
         raise ErdosStrausCreativeShadowError("Claude call accounting changed")
-    proposed = value["claude"]["proposed_ideas"]
-    if not 1 <= proposed <= 16:
+    proposed = claude["proposed_ideas"]
+    if not 1 <= proposed <= 16 * len(config["experiment"]["creative_roles"]):
         raise ErdosStrausCreativeShadowError("idea count is outside the structured-output cap")
     if (
-        value["claude"]["requested_ideas_per_creative_call"]
+        claude["requested_ideas_per_creative_call"]
         != config["experiment"]["requested_ideas_per_creative_call"]
     ):
         raise ErdosStrausCreativeShadowError("requested idea allocation changed")
-    if value["claude"]["credential_activation"].get("credential_persisted") is not False:
+    if claude["credential_activation"].get("credential_persisted") is not False:
         raise ErdosStrausCreativeShadowError("credential persistence boundary changed")
+    journal = claude.get("attempt_journal")
+    if journal is not None and (
+        journal.get("credential_values_persisted") is not False
+        or journal.get("private_path_persisted_in_receipt") is not False
+        or journal.get("response_before_validation") is not True
+        or journal.get("resume_redispatches_completed_slots") is not False
+        or journal.get("event_counts", {}).get("message_dispatch") != budget_calls
+    ):
+        raise ErdosStrausCreativeShadowError("durable attempt journal evidence changed")
     validate_sweep_receipt(value["finite_sweep"])
     for idea in value["creative_search"]["ideas"]:
         if idea["execution"]["admission"] == "EXECUTED_EXACT_MODULAR_SCREEN":
@@ -799,7 +1230,13 @@ def validate_receipt(
     accounting = value["accounting"]
     if accounting["llm_ideas_proposed"] != value["claude"]["proposed_ideas"]:
         raise ErdosStrausCreativeShadowError("idea accounting mismatch")
-    if accounting["llm_provider_calls"] != 4 or accounting["retained_llm_provider_calls"] != 1:
+    discarded_calls = sum(
+        item["completed_provider_calls"] for item in config["recovery"]["discarded_attempts"]
+    )
+    if (
+        accounting["llm_provider_calls"] != budget_calls + discarded_calls
+        or accounting["retained_llm_provider_calls"] != budget_calls
+    ):
         raise ErdosStrausCreativeShadowError("provider recovery accounting mismatch")
     if accounting["denominators_covered"] != config["experiment"]["search_n_max"] - 1:
         raise ErdosStrausCreativeShadowError("finite coverage accounting mismatch")
@@ -823,12 +1260,13 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("command", choices=("run-live", "rebind", "validate"))
     parser.add_argument("--root", type=Path, default=Path.cwd())
     parser.add_argument("--config", default=CONFIG_PATH)
+    parser.add_argument("--journal", default=JOURNAL_PATH)
     parser.add_argument("--output", type=Path)
     args = parser.parse_args(argv)
     root = args.root.resolve()
     output = args.output or root / OUTPUT_PATH
     if args.command == "run-live":
-        receipt = run_live(root, config_path=args.config)
+        receipt = run_live(root, config_path=args.config, journal_path=args.journal)
         output.parent.mkdir(parents=True, exist_ok=True)
         output.write_text(json.dumps(receipt, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     elif args.command == "rebind":

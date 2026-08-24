@@ -183,13 +183,26 @@ The one retained provider call used 1,416 input and 5,093 output tokens (6,509 t
 12 ideas above, and stored no credential. The final run used deterministic admission/repair routing
 instead of claiming that an LLM critic ran.
 
-This exposed a real reliability gap: future campaigns need a credential-free, append-only response
-journal after every completed provider call so a later schema failure cannot erase already-paid
-evidence.
+This exposed a real reliability gap. It is now fixed prospectively in `run-live`: every scheduled
+message dispatch is hash-chained and fsynced before transport, and the complete response is fsynced
+before parsing or contract validation. Resume replays a completed response only when the newly
+generated request has the exact original body hash, and every dispatch counts against the fixed
+call budget even if the response is malformed or the process stops. The private journal stores
+header names but no header values, credential, or private path in a public receipt.
+
+Two offline provider-boundary rehearsals verify the recovery behavior without spending another
+call. One stops the process after a valid response is journaled but before it is parsed, then
+recovers the idea with zero network requests. The other runs one proposer and two one-candidate
+critic batches, deliberately malforms the last critic response, retains both candidate lineages,
+and resumes all three paid slots with zero requests. The historical three discarded responses were
+never journaled and therefore cannot be reconstructed; the refreshed live receipt preserves that
+failure accounting instead of pretending otherwise. LLM critic batching remains disabled in this
+historical campaign because its four-call budget is already exhausted.
 
 ## What should happen next
 
-1. Add the durable per-call journal and resumable critic batching.
+1. Exercise the journaled critic batches in a newly preregistered, separately budgeted campaign;
+   do not reopen this exhausted four-call campaign.
 2. Give each DSL basis distinct executable semantics; today the conceptual labels share one kernel.
 3. Attribute each of the 173 tail recoveries to its direct parent idea and mutation path.
 4. Pre-register train/tail splits and all controls before generation, then repeat on rotating unseen
