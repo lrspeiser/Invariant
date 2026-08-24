@@ -16,6 +16,7 @@ from sigma_theory_compiler.level5_success_admission import (
     REGISTRY_SCHEMA,
     SIGNING_NAMESPACE,
     Level5SuccessAdmissionError,
+    _authenticated_llm_evidence,
     _blind_chronology_pass,
     _verify_certificate,
     build_certificate,
@@ -92,6 +93,7 @@ def _payload() -> dict:
         "campaign_content_sha256": "1" * 64,
         "campaign_id": "test-campaign",
         "core_llm_evidence_projection_sha256": "2" * 64,
+        "live_api_evidence_content_sha256": "9" * 64,
         "multi_host_receipt_content_sha256": "3" * 64,
         "process_evidence_sha256": "4" * 64,
         "source_principal_id": "external.test-source",
@@ -127,6 +129,7 @@ def test_committed_admission_ledger_replays_and_stays_zero() -> None:
     validate_receipt(stored, ROOT)
     summary = stored["summary"]
     assert summary["capability_level5_benchmarks"] == 2
+    assert summary["authenticated_llm_benchmarks"] == 2
     assert summary["campaign_local_level5_process_passes"] == 0
     assert summary["process_passes_before_external_signature"] == 0
     assert summary["admitted_independently_reproduced_level5_successes"] == 0
@@ -138,10 +141,49 @@ def test_committed_admission_ledger_replays_and_stays_zero() -> None:
     assert all(
         row["criteria"]["two_reproduction_machines"] is True
         and row["criteria"]["two_independent_exact_implementations"] is True
-        and row["criteria"]["authenticated_llm_participation"] is False
+        and row["criteria"]["authenticated_llm_participation"] is True
+        and row["llm_evidence"]["authenticated_llm_call_count"] == 2
+        and row["llm_evidence"]["authenticated_llm_call_roles"]
+        == ["critic", "proposer"]
+        and row["llm_evidence"]["cross_host_live_evidence_binding"] is True
         and row["process_pass_before_external_signature"] is False
         for row in stored["process_evidence"]
     )
+
+
+def test_benchmark_llm_evidence_is_call_level_and_cross_host_bound() -> None:
+    campaign = json.loads(
+        (ROOT / "runs/math/external-creativity-validation/campaign.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    live = json.loads(
+        (ROOT / "runs/math/external-creativity-validation/live-api-evidence.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    multi_host = json.loads(
+        (ROOT / "runs/math/external-creativity-validation/multi-host-reproduction.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    benchmark = next(
+        row
+        for row in campaign["benchmarks"]
+        if row["benchmark_id"] == "external.authority-oeis-005132"
+    )
+    assert _authenticated_llm_evidence(benchmark, live, multi_host)["passed"] is True
+
+    changed = copy.deepcopy(live)
+    matching = next(
+        call for call in changed["calls"] if call["benchmark_id"] == benchmark["blind_id"]
+    )
+    matching["credential_persisted"] = True
+    assert _authenticated_llm_evidence(benchmark, changed, multi_host)["passed"] is False
+
+    changed_host = copy.deepcopy(multi_host)
+    changed_host["reproduction"]["core_live_evidence_content_sha256"] = "0" * 64
+    assert _authenticated_llm_evidence(benchmark, live, changed_host)["passed"] is False
 
 
 def test_resealed_local_counter_or_authorization_tamper_fails() -> None:

@@ -13,6 +13,7 @@ from .sigma_core import canonical_sha256
 
 SCHEMA_VERSION = "invariant-external-creativity-live-api-evidence-1.0"
 OUTPUT_PATH = "runs/math/external-creativity-validation/live-api-evidence.json"
+CORE_PATH = "runs/math/core-creative-discovery/live-runtime.json"
 
 
 def _file_sha256(path: Path) -> str:
@@ -138,6 +139,26 @@ def build_evidence(source_path: Path) -> dict[str, Any]:
     return build_evidence_from_receipt(source, source_file_sha256=_file_sha256(source_path))
 
 
+def build_evidence_from_core_receipt(
+    source: Mapping[str, Any], *, root: Path
+) -> dict[str, Any]:
+    """Promote the already-sanitized live evidence embedded in a valid core receipt.
+
+    This is a deterministic no-call export.  The lazy import avoids a module import cycle because
+    the core validator uses :func:`validate_evidence` for the same embedded object.
+    """
+
+    from .core_creative_discovery import validate_receipt as validate_core_receipt
+
+    validate_core_receipt(source, root.resolve())
+    evidence = source.get("claude_runtime", {}).get("evidence")
+    if not isinstance(evidence, Mapping):
+        raise TypeError("core receipt has no sanitized live API evidence")
+    promoted = dict(evidence)
+    validate_evidence(promoted)
+    return promoted
+
+
 def validate_evidence(evidence: Mapping[str, Any]) -> None:
     body = {key: value for key, value in evidence.items() if key != "content_sha256"}
     if evidence.get("content_sha256") != canonical_sha256(body):
@@ -146,15 +167,37 @@ def validate_evidence(evidence: Mapping[str, Any]) -> None:
         raise ValueError("live API evidence schema changed")
     claims = evidence.get("claims", {})
     if (
-        claims.get("credential_material_included") is not False
+        claims.get("live_claude_api_campaign_completed") is not True
+        or claims.get("credential_material_included") is not False
         or claims.get("model_output_is_verifier_authority") is not False
         or claims.get("novel_formula_established") is not False
         or claims.get("open_problem_solved") is not False
     ):
         raise ValueError("live API evidence claim boundary changed")
-    if any(call.get("credential_persisted") is not False for call in evidence.get("calls", [])):
+    calls = evidence.get("calls", [])
+    usage = evidence.get("usage", {})
+    if (
+        not isinstance(calls, list)
+        or not calls
+        or usage.get("calls") != len(calls)
+        or usage.get("total_tokens", 0) <= 0
+        or len({call.get("api_response_id") for call in calls}) != len(calls)
+        or {call.get("role") for call in calls} != {"proposer", "critic"}
+        or any(call.get("credential_persisted") is not False for call in calls)
+    ):
         raise ValueError("live API evidence credential boundary changed")
-    for call in evidence.get("calls", []):
+    for call in calls:
+        if any(
+            not isinstance(call.get(key), str) or len(call[key]) != 64
+            for key in (
+                "capabilities_sha256",
+                "output_sha256",
+                "prompt_sha256",
+                "raw_output_sha256",
+                "request_schema_sha256",
+            )
+        ):
+            raise ValueError("live API call evidence binding changed")
         injected = call.get("creative_context_injected", False)
         context_sha = call.get("creative_context_sha256")
         if injected is True and (
@@ -169,10 +212,17 @@ def validate_evidence(evidence: Mapping[str, Any]) -> None:
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--input", type=Path, required=True)
+    source = parser.add_mutually_exclusive_group(required=True)
+    source.add_argument("--input", type=Path)
+    source.add_argument("--core-receipt", type=Path)
+    parser.add_argument("--root", type=Path, default=Path.cwd())
     parser.add_argument("--output", type=Path, default=Path(OUTPUT_PATH))
     args = parser.parse_args(argv)
-    evidence = build_evidence(args.input)
+    if args.core_receipt is not None:
+        core = json.loads(args.core_receipt.read_text(encoding="utf-8"))
+        evidence = build_evidence_from_core_receipt(core, root=args.root)
+    else:
+        evidence = build_evidence(args.input)
     validate_evidence(evidence)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(evidence, indent=2, sort_keys=True) + "\n", encoding="utf-8")

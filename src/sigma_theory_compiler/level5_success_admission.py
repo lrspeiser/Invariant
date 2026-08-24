@@ -22,6 +22,7 @@ from collections.abc import Mapping, Sequence
 from pathlib import Path
 from typing import Any
 
+from .external_creativity_live_evidence import validate_evidence as validate_live_evidence
 from .external_creativity_multi_host import validate_receipt as validate_multi_host_receipt
 from .external_creativity_validation import validate_receipt as validate_campaign_receipt
 from .sigma_core import canonical_json_bytes, canonical_sha256
@@ -31,11 +32,11 @@ REGISTRY_PATH = "configs/level5_success_signers.json"
 OUTPUT_PATH = "runs/math/level5-success-admission/receipt.json"
 SOURCE_PATH = "src/sigma_theory_compiler/level5_success_admission.py"
 TEST_PATH = "tests/test_level5_success_admission.py"
-SCHEMA_VERSION = "invariant-level5-success-admission-receipt-1.0"
-CONFIG_SCHEMA = "invariant-level5-success-admission-config-1.0"
+SCHEMA_VERSION = "invariant-level5-success-admission-receipt-1.1"
+CONFIG_SCHEMA = "invariant-level5-success-admission-config-1.1"
 REGISTRY_SCHEMA = "invariant-level5-success-signer-registry-1.0"
 CERTIFICATE_SCHEMA = "invariant-level5-success-certificate-1.0"
-PAYLOAD_SCHEMA = "invariant-level5-success-payload-1.0"
+PAYLOAD_SCHEMA = "invariant-level5-success-payload-1.1"
 SIGNING_NAMESPACE = "invariant-level5-success-v1"
 GENERATOR_PRINCIPAL_ID = "invariant.discovery-engine"
 
@@ -94,6 +95,7 @@ def _load_config(root: Path) -> dict[str, Any]:
         {
             "admission_certificates",
             "campaign_receipt_path",
+            "live_api_evidence_path",
             "minimum_independent_successes_before_open_problem",
             "multi_host_receipt_path",
             "required_process_criteria",
@@ -236,9 +238,62 @@ def _blind_chronology_pass(campaign: Mapping[str, Any]) -> bool:
     )
 
 
+def _authenticated_llm_evidence(
+    benchmark: Mapping[str, Any],
+    live_evidence: Mapping[str, Any],
+    multi_host: Mapping[str, Any],
+) -> dict[str, Any]:
+    """Bind benchmark-level proposer/critic calls to the cross-host core projection."""
+
+    blind_id = benchmark.get("blind_id")
+    benchmark_id = benchmark.get("benchmark_id")
+    calls = [
+        call
+        for call in live_evidence.get("calls", [])
+        if call.get("benchmark_id") == blind_id
+    ]
+    summaries = [
+        row
+        for row in live_evidence.get("benchmarks", [])
+        if row.get("benchmark_id") == benchmark_id
+    ]
+    roles = sorted({str(call.get("role")) for call in calls})
+    response_ids = [call.get("api_response_id") for call in calls]
+    cross_host_seal = multi_host.get("reproduction", {}).get(
+        "core_live_evidence_content_sha256"
+    )
+    passed = (
+        live_evidence.get("claims", {}).get("live_claude_api_campaign_completed") is True
+        and live_evidence.get("content_sha256") == cross_host_seal
+        and len(summaries) == 1
+        and summaries[0].get("capability_level") == benchmark.get("capability_level")
+        and len(calls) >= 2
+        and {"proposer", "critic"}.issubset(roles)
+        and len(response_ids) == len(set(response_ids))
+        and all(
+            isinstance(response_id, str)
+            and response_id.startswith("msg_")
+            and call.get("model") == "claude-opus-4-6"
+            and call.get("credential_persisted") is False
+            and call.get("creative_context_injected") is True
+            for call, response_id in zip(calls, response_ids, strict=True)
+        )
+    )
+    return {
+        "authenticated_llm_call_count": len(calls),
+        "authenticated_llm_call_roles": roles,
+        "authenticated_llm_calls_sha256": canonical_sha256(calls),
+        "cross_host_live_evidence_binding": live_evidence.get("content_sha256")
+        == cross_host_seal,
+        "live_api_evidence_content_sha256": live_evidence.get("content_sha256"),
+        "passed": passed,
+    }
+
+
 def _process_evidence(
     benchmark: Mapping[str, Any],
     campaign: Mapping[str, Any],
+    live_evidence: Mapping[str, Any],
     multi_host: Mapping[str, Any],
     minimum_families: int,
 ) -> dict[str, Any]:
@@ -248,11 +303,9 @@ def _process_evidence(
     family_metrics = benchmark.get("family_metrics", [])
     outperformed = sum(item.get("outperformed_random") is True for item in family_metrics)
     reproduction = multi_host.get("reproduction", {})
+    llm_evidence = _authenticated_llm_evidence(benchmark, live_evidence, multi_host)
     criteria = {
-        "authenticated_llm_participation": campaign.get("claims", {}).get(
-            "claude_used_throughout"
-        )
-        is True,
+        "authenticated_llm_participation": llm_evidence["passed"],
         "capability_level_5": benchmark.get("capability_level") == 5,
         "independent_exact_implementation_match": benchmark.get(
             "independent_exact_reproduction", {}
@@ -284,6 +337,7 @@ def _process_evidence(
         "blind_id": benchmark.get("blind_id"),
         "criteria": criteria,
         "family_metrics_sha256": canonical_sha256(family_metrics),
+        "llm_evidence": llm_evidence,
         "local_campaign_process_pass_reported": benchmark.get(
             "bounded_unknown_process_pass"
         )
@@ -309,6 +363,9 @@ def _payload(
         "campaign_id": campaign["campaign_id"],
         "core_llm_evidence_projection_sha256": multi_host["reproduction"][
             "core_llm_evidence_projection_sha256"
+        ],
+        "live_api_evidence_content_sha256": evidence["llm_evidence"][
+            "live_api_evidence_content_sha256"
         ],
         "multi_host_receipt_content_sha256": multi_host["content_sha256"],
         "process_evidence_sha256": canonical_sha256(evidence),
@@ -413,6 +470,7 @@ def _validate_payload(value: Mapping[str, Any]) -> None:
             "campaign_content_sha256",
             "campaign_id",
             "core_llm_evidence_projection_sha256",
+            "live_api_evidence_content_sha256",
             "multi_host_receipt_content_sha256",
             "process_evidence_sha256",
             "schema_version",
@@ -438,6 +496,7 @@ def _validate_payload(value: Mapping[str, Any]) -> None:
             for key in (
                 "campaign_content_sha256",
                 "core_llm_evidence_projection_sha256",
+                "live_api_evidence_content_sha256",
                 "multi_host_receipt_content_sha256",
                 "process_evidence_sha256",
                 "target_commitment",
@@ -493,31 +552,45 @@ def build_certificate(
 
 def _load_sources(
     root: Path,
-) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any], dict[str, Any], list[dict[str, Any]]]:
+) -> tuple[
+    dict[str, Any],
+    dict[str, Any],
+    dict[str, Any],
+    dict[str, Any],
+    dict[str, Any],
+    list[dict[str, Any]],
+]:
     root = root.resolve()
     config = _load_config(root)
     campaign_path = _under(root, config["campaign_receipt_path"], "campaign receipt")
+    live_evidence_path = _under(
+        root, config["live_api_evidence_path"], "live API evidence"
+    )
     multi_host_path = _under(root, config["multi_host_receipt_path"], "multi-host receipt")
     registry_path = _under(root, config["signer_registry_path"], "signer registry")
     campaign = _read_json(campaign_path, "campaign receipt")
+    live_evidence = _read_json(live_evidence_path, "live API evidence")
     multi_host = _read_json(multi_host_path, "multi-host receipt")
     registry = _read_json(registry_path, "signer registry")
     validate_campaign_receipt(campaign, root)
+    validate_live_evidence(live_evidence)
     validate_multi_host_receipt(multi_host, root)
     validate_registry(registry)
     minimum_families = config["required_process_criteria"][
         "minimum_families_outperforming_random"
     ]
     process_rows = [
-        _process_evidence(benchmark, campaign, multi_host, minimum_families)
+        _process_evidence(
+            benchmark, campaign, live_evidence, multi_host, minimum_families
+        )
         for benchmark in campaign["benchmarks"]
         if benchmark.get("capability_level") == 5
     ]
-    return config, campaign, multi_host, registry, process_rows
+    return config, campaign, live_evidence, multi_host, registry, process_rows
 
 
 def export_payload(root: Path, benchmark_id: str) -> dict[str, Any]:
-    _, campaign, multi_host, _, process_rows = _load_sources(root)
+    _, campaign, _, multi_host, _, process_rows = _load_sources(root)
     matches = [row for row in process_rows if row["benchmark_id"] == benchmark_id]
     if len(matches) != 1:
         raise Level5SuccessAdmissionError("level-5 benchmark is not uniquely available")
@@ -530,7 +603,7 @@ def export_payload(root: Path, benchmark_id: str) -> dict[str, Any]:
 
 def build_receipt(root: Path) -> dict[str, Any]:
     root = root.resolve()
-    config, campaign, multi_host, registry, process_rows = _load_sources(root)
+    config, campaign, live_evidence, multi_host, registry, process_rows = _load_sources(root)
     process_by_id = {row["benchmark_id"]: row for row in process_rows}
     admitted: list[dict[str, Any]] = []
     for binding in config["admission_certificates"]:
@@ -571,6 +644,10 @@ def build_receipt(root: Path) -> dict[str, Any]:
                 "path": CONFIG_PATH,
                 "sha256": _normalized_file_sha256(root / CONFIG_PATH),
             },
+            "live_api_evidence": {
+                "content_sha256": live_evidence["content_sha256"],
+                "path": config["live_api_evidence_path"],
+            },
             "multi_host_receipt": {
                 "content_sha256": multi_host["content_sha256"],
                 "path": config["multi_host_receipt_path"],
@@ -592,6 +669,10 @@ def build_receipt(root: Path) -> dict[str, Any]:
         "admitted_successes": admitted,
         "summary": {
             "admitted_independently_reproduced_level5_successes": len(admitted),
+            "authenticated_llm_benchmarks": sum(
+                row["criteria"]["authenticated_llm_participation"] is True
+                for row in process_rows
+            ),
             "campaign_local_level5_process_passes": campaign["open_problem_gate"][
                 "level5_process_passes"
             ],

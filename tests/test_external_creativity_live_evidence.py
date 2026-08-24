@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import copy
 import json
 from pathlib import Path
 
@@ -15,7 +16,7 @@ def test_promoted_live_evidence_is_sealed_and_claim_neutral() -> None:
     V.validate_evidence(evidence)
     assert len(evidence["calls"]) == 8
     assert evidence["usage"]["calls"] == 8
-    assert evidence["usage"]["total_tokens"] <= 64000
+    assert evidence["usage"]["total_tokens"] <= 128000
     assert not evidence["claims"]["credential_material_included"]
     assert not evidence["claims"]["model_output_is_verifier_authority"]
     assert not evidence["claims"]["novel_formula_established"]
@@ -24,6 +25,43 @@ def test_promoted_live_evidence_is_sealed_and_claim_neutral() -> None:
     assert "hypotheses" not in serialized
     assert "rationale" not in serialized
     assert "x-api-key" not in serialized
+
+
+def test_committed_evidence_is_the_validated_core_apps_embedded_evidence() -> None:
+    evidence = json.loads(EVIDENCE_PATH.read_text(encoding="utf-8"))
+    core_path = ROOT / V.CORE_PATH
+    core = json.loads(core_path.read_text(encoding="utf-8"))
+    assert V.build_evidence_from_core_receipt(core, root=ROOT) == evidence
+    assert evidence["content_sha256"] == (
+        "b13a9da8fd9b8213f6c2e94d91872d3403342f1cddb4be80e7e55e3d3f03bf7e"
+    )
+
+
+def test_live_completion_or_duplicate_provider_response_tamper_rejects() -> None:
+    evidence = json.loads(EVIDENCE_PATH.read_text(encoding="utf-8"))
+    changed = copy.deepcopy(evidence)
+    changed["claims"]["live_claude_api_campaign_completed"] = False
+    changed["content_sha256"] = canonical_sha256(
+        {key: item for key, item in changed.items() if key != "content_sha256"}
+    )
+    try:
+        V.validate_evidence(changed)
+    except ValueError as error:
+        assert "claim boundary" in str(error)
+    else:
+        raise AssertionError("incomplete live campaign was accepted")
+
+    changed = copy.deepcopy(evidence)
+    changed["calls"][1]["api_response_id"] = changed["calls"][0]["api_response_id"]
+    changed["content_sha256"] = canonical_sha256(
+        {key: item for key, item in changed.items() if key != "content_sha256"}
+    )
+    try:
+        V.validate_evidence(changed)
+    except ValueError as error:
+        assert "credential boundary" in str(error)
+    else:
+        raise AssertionError("duplicate live provider response was accepted")
 
 
 def test_promoted_evidence_prefers_actual_provider_wire_hashes() -> None:
