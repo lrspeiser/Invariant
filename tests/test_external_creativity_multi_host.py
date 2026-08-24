@@ -25,15 +25,15 @@ def test_downloaded_multi_host_receipt_is_sealed_and_cross_platform() -> None:
         "ubuntu-latest",
         "windows-latest",
     ]
-    assert value["acquisition"]["workflow_run_id"] == 32717558984
-    assert value["head_sha"] == "163fd312c5bcf3b9b5bb16b27a40d5253ef83941"
-    assert value["lean"]["artifact_id"] == 9516510138
+    assert value["acquisition"]["workflow_run_id"] == 32736204652
+    assert value["head_sha"] == "3740bc0a955fceea3e305419684dfe7f6422a615"
+    assert value["lean"]["artifact_id"] == 9523594616
     assert value["lean"]["kernel_checked"]
     assert value["reproduction"]["status"] == ("PASS_MULTI_HOST_CORE_LLM_EVIDENCE_REPRODUCTION")
     assert value["reproduction"]["core_llm_evidence_reproductions"] == 4
     assert value["reproduction"]["core_new_provider_calls"] == 0
     assert value["reproduction"]["core_llm_evidence_projection_sha256"] == (
-        "5f2a010578c99a895b143a1b83ef11f51159e7a7810dad78c83792186ee12433"
+        "73af5e6628f6cf6f035add2c499748b591d57e548935962768b5889d0ccb0c57"
     )
     assert all(
         host["core_reproduction"]["status"] == "PASS_CORE_LLM_EVIDENCE_REPRODUCTION"
