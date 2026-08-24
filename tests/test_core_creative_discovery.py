@@ -320,9 +320,10 @@ def test_core_run_requires_and_sanitizes_live_claude(
     assert receipt["discovery_runtime"]["external_dataset_challenges_passed"] == 4
     assert receipt["discovery_runtime"]["external_dataset_mutation_controls_rejected"] == 4
     assert receipt["external_dataset_challenges"]["release_gate"]["level5_eligible"] is False
-    assert receipt["discovery_runtime"]["external_structured_benchmark_tasks"] == 8
+    assert receipt["discovery_runtime"]["external_structured_benchmark_tasks"] == 12
     assert receipt["discovery_runtime"]["external_structured_benchmark_families"] == [
         "tensor_identity",
+        "transform_relation",
         "variational_functional",
     ]
     assert (

@@ -1,10 +1,10 @@
 {
   "schema_version": "invariant-external-structured-benchmark-config-1.0",
   "pack_id": "structured-symbolic-live-rotation",
-  "rotation_epoch": "2026-08-23-001",
+  "rotation_epoch": "2026-08-23-002",
   "generator_principal_id": "invariant.discovery-engine",
   "task_policy": {
-    "minimum_tasks": 8,
+    "minimum_tasks": 12,
     "minimum_tasks_per_family": 4
   },
   "source_policy": {
@@ -69,6 +69,34 @@
           "test_function": "test_euler_high_order",
           "assertion_ordinal": 0,
           "task_kind": "derive_euler_lagrange_equations"
+        }
+      ]
+    },
+    {
+      "source_id": "sympy-finite-difference-tests",
+      "source_uri": "https://raw.githubusercontent.com/sympy/sympy/master/sympy/calculus/tests/test_finite_diff.py",
+      "external_principal_id": "external.sympy-project",
+      "representation_family": "transform_relation",
+      "selectors": [
+        {
+          "test_function": "test_apply_finite_diff",
+          "assertion_ordinal": 0,
+          "task_kind": "derive_finite_difference_transform"
+        },
+        {
+          "test_function": "test_finite_diff_weights",
+          "assertion_ordinal": 0,
+          "task_kind": "derive_finite_difference_transform"
+        },
+        {
+          "test_function": "test_as_finite_diff",
+          "assertion_ordinal": 0,
+          "task_kind": "derive_finite_difference_transform"
+        },
+        {
+          "test_function": "test_differentiate_finite",
+          "assertion_ordinal": 0,
+          "task_kind": "derive_finite_difference_transform"
         }
       ]
     }

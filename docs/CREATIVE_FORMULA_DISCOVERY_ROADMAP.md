@@ -95,12 +95,12 @@
   representation bridges. Generation packets omit source IDs and eight-term holdouts. The external
   HTTPS origins are hash-bound but not cryptographically signed, so the pack is usable for the
   creativity tournament and explicitly ineligible for a level-5 count.
-- A separate live structured pack now binds four tensor-canonicalization and four variational
-  Euler-Lagrange tasks extracted without execution from two upstream SymPy test files. Public tasks
-  omit test names, source identities, source URIs, and expected expressions while retaining target
-  commitments. Exact live refetch reproduces both response hashes. Upstream assertions are benchmark
-  targets rather than independent proofs, and the unsigned HTTPS evidence remains ineligible for a
-  level-5 count.
+- A second live structured rotation now binds four tensor-canonicalization, four exact
+  finite-difference-transform, and four variational Euler-Lagrange tasks extracted without execution
+  from three upstream SymPy test files. Public tasks omit test names, source identities, source URIs,
+  and expected expressions while retaining target commitments. Exact live refetch reproduces all
+  three response hashes. Upstream assertions are benchmark targets rather than independent proofs,
+  and the unsigned HTTPS evidence remains ineligible for a level-5 count.
 - The declarative D4 control engine now computes primitive invariant-coordinate bases for pendulum,
   Kepler, diffusion, Reynolds, and drag systems from dimension rows plus explicit nuisance
   symmetries. Fraction Gaussian elimination and SymPy exact nullspaces agree on all five controls.
