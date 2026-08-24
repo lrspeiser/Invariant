@@ -333,7 +333,7 @@ def _load(path: Path) -> dict:
 def test_registry_contains_each_goal_once_and_retains_incomplete_boundary() -> None:
     text = DOCUMENT.read_text(encoding="utf-8")
     goal_numbers = [int(value) for value in re.findall(r"^\| (\d+) \|", text, re.MULTILINE)]
-    assert goal_numbers == list(range(1, 47))
+    assert goal_numbers == list(range(1, 60))
     assert "strong alpha; not yet scientifically or operationally complete" in text
     assert "It is not yet a comprehensive theorem-discovery\nsystem" in text
     assert "39/39 successful jobs" in text
