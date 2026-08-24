@@ -1642,7 +1642,7 @@
     },
     "suite_id": "creativity-first-component-knockouts-001"
   },
-  "content_sha256": "60351f09fe9a68ffe21c915da734a45a9f67d7965b6dbc73e6ac4718df54aed5",
+  "content_sha256": "8cbeec3eeb46892fc12f9a3b4950b58e92c874efe25265e260ff99142fb0d6c4",
   "creative_expansion": {
     "content_sha256": "2d738174571eaa4f8a11cf1a73133ebd80ad32064cc9dee8f61914dfe03bb145",
     "independent_proof_plans": [
@@ -6845,6 +6845,9 @@
     "learned_invariant_status": "PASS_LEARNED_MULTI_INVARIANT_CONTROLS",
     "learned_invariant_training_coordinates_retained": 7,
     "learned_invariant_underdetermined_controls": 1,
+    "level5_admission_status": "BLOCKED_INSUFFICIENT_ADMITTED_LEVEL5_SUCCESSES",
+    "level5_campaign_local_process_passes": 0,
+    "level5_process_passes_before_external_signature": 0,
     "proof_plan_closed": true,
     "proof_plan_mechanisms": [
       "case_split",
@@ -16451,6 +16454,114 @@
       "status": "PASS_LEARNED_MULTI_INVARIANT_CONTROLS",
       "training_coordinates_retained": 7,
       "underdetermined_controls": 1
+    }
+  },
+  "level5_success_admission": {
+    "admitted_successes": [],
+    "claims": {
+      "literature_novelty_established": false,
+      "local_process_pass_is_admitted_success": false,
+      "open_problem_solved": false
+    },
+    "content_sha256": "8ae7551e25dd375730c2664616df0c3454596029309d914c4cd6d89afe6c86aa",
+    "process_evidence": [
+      {
+        "benchmark_id": "external.authority-oeis-005132",
+        "blind_id": "blind.9a585452a85251ad240e",
+        "criteria": {
+          "authenticated_llm_participation": false,
+          "capability_level_5": true,
+          "independent_exact_implementation_match": true,
+          "matched_candidate_count": true,
+          "matched_evaluation_runtime_budget": true,
+          "matched_grammar_depth": true,
+          "matched_verifier_budget": true,
+          "minimum_families_outperforming_random": true,
+          "minimum_unique_behaviors": true,
+          "minimum_unique_proof_mechanisms": false,
+          "multi_host_campaign_binding": true,
+          "sealed_holdout_loss": false,
+          "target_blind_chronology": true,
+          "training_loss": false,
+          "two_independent_exact_implementations": true,
+          "two_reproduction_machines": true
+        },
+        "family_metrics_sha256": "f8c5071f8b6f3c94be4200fb839e7e80877f45fdf865c8cdecbd7585753e6dfc",
+        "local_campaign_process_pass_reported": false,
+        "outperformed_random_families": 8,
+        "process_pass_before_external_signature": false,
+        "proposal_root_sha256": "f169b70f7b70afe2a310ef7f8010fa3a6ab26267b26c6954ff661aa5bba7a5d0",
+        "source_principal_id": "external.oeis-a005132-contributors",
+        "target_commitment": "9a585452a85251ad240e14960e00f3db611b7432ea02c497fcf3dd41b6f458df"
+      },
+      {
+        "benchmark_id": "external.authority-oeis-002858",
+        "blind_id": "blind.752590c2e9d4d5f51a63",
+        "criteria": {
+          "authenticated_llm_participation": false,
+          "capability_level_5": true,
+          "independent_exact_implementation_match": true,
+          "matched_candidate_count": true,
+          "matched_evaluation_runtime_budget": true,
+          "matched_grammar_depth": true,
+          "matched_verifier_budget": true,
+          "minimum_families_outperforming_random": true,
+          "minimum_unique_behaviors": true,
+          "minimum_unique_proof_mechanisms": false,
+          "multi_host_campaign_binding": true,
+          "sealed_holdout_loss": false,
+          "target_blind_chronology": true,
+          "training_loss": false,
+          "two_independent_exact_implementations": true,
+          "two_reproduction_machines": true
+        },
+        "family_metrics_sha256": "b3f8b1c572d6e18f44fa18369f0483487e283a002714a37e48c93f855e044f58",
+        "local_campaign_process_pass_reported": false,
+        "outperformed_random_families": 9,
+        "process_pass_before_external_signature": false,
+        "proposal_root_sha256": "03ea4d5c5f4f5fabe635b088e5d2592163db6838c1504820bc77154b33b300d9",
+        "source_principal_id": "external.oeis-a002858-contributors",
+        "target_commitment": "752590c2e9d4d5f51a635d69bab8ebf786c241b8cb5113fa51addf1c6bba1450"
+      }
+    ],
+    "release_gate": {
+      "open_problem_authorized": false,
+      "success_count_source": "detached_signed_multi_host_level5_admission_ledger"
+    },
+    "schema_version": "invariant-level5-success-admission-receipt-1.0",
+    "source_bindings": {
+      "campaign_receipt": {
+        "content_sha256": "2eb91421618fcd6ae35e9b2c8cd2cda9b670d45a55a424bfcee89129a53faf81",
+        "path": "runs/math/external-creativity-validation/campaign.json"
+      },
+      "config": {
+        "path": "configs/level5_success_admission.json",
+        "sha256": "1041ebf1e5573d23d8d357c5cfc6e5d128a8177d98c1b77cb613b316b1da1cc7"
+      },
+      "module": {
+        "path": "src/sigma_theory_compiler/level5_success_admission.py",
+        "sha256": "77f7448b5bb3ae916b86693d65e7d5f1d579b904851b0b550e83a2425b5291d4"
+      },
+      "multi_host_receipt": {
+        "content_sha256": "56de9e4ec213ebc4485f7a93f7376a82e8552b5d4d9e01bbaefef201aad1543a",
+        "path": "runs/math/external-creativity-validation/multi-host-reproduction.json"
+      },
+      "signer_registry": {
+        "content_sha256": "e78359cd771bd28dc5851b69d94918429ae691df74a26ff1e141a5fe130a27ae",
+        "path": "configs/level5_success_signers.json"
+      },
+      "tests": {
+        "path": "tests/test_level5_success_admission.py",
+        "sha256": "7ff4fe9cbb9f53771a404de9b47f5ef91e8414d6e01dfec4bf3f5200dd19b14b"
+      }
+    },
+    "summary": {
+      "admitted_independently_reproduced_level5_successes": 0,
+      "campaign_local_level5_process_passes": 0,
+      "capability_level5_benchmarks": 2,
+      "minimum_required_before_open_problem": 3,
+      "process_passes_before_external_signature": 0,
+      "status": "BLOCKED_INSUFFICIENT_ADMITTED_LEVEL5_SUCCESSES"
     }
   },
   "llm_prompt_context": {
@@ -26707,7 +26818,7 @@
       "zero_train_loss_candidates": 1
     }
   },
-  "schema_version": "invariant-core-creative-discovery-runtime-3.0",
+  "schema_version": "invariant-core-creative-discovery-runtime-3.1",
   "source_bindings": {
     "claim_specific_prior_art_portfolio_preflight_receipt": {
       "content_sha256": "d55f178371688da86b4c65a7a70a9f1a41dbf4519a0933df22eacd4ad02a1432",
@@ -26727,11 +26838,11 @@
     },
     "config": {
       "path": "configs/core_creative_discovery.json",
-      "sha256": "36a23d70f234d06aa5a19ab80513e64f939cf3a8c369b40111cf503b870b9637"
+      "sha256": "0e3e8f7d1683f50143fff4b9817305a09b916802cab4ea6277ea2604579e0cde"
     },
     "core_application_source": {
       "path": "src/sigma_theory_compiler/core_creative_discovery.py",
-      "sha256": "b7de4e264b1c02d0e36b68d979e50fab2964bb723ca37d23abe421e3ff1d6f7b"
+      "sha256": "12cc593bc5d2e35535795f6bf579a9da9e7f5ccda33e7dddde74f956e81e30bf"
     },
     "dataset_challenge_receipt": {
       "content_sha256": "687d08e6c24b86fe00963bfddf5dfa20e9242acca21bd2a3fa37cea03d584039",
@@ -26760,6 +26871,10 @@
     "learned_invariant_discovery_receipt": {
       "content_sha256": "8c4c85229bcf883af92ab9d1bad689dca02a5e806ac5d1503ef5db1b8d59f80d",
       "path": "runs/math/learned-invariant-discovery/receipt.json"
+    },
+    "level5_success_admission_receipt": {
+      "content_sha256": "8ae7551e25dd375730c2664616df0c3454596029309d914c4cd6d89afe6c86aa",
+      "path": "runs/math/level5-success-admission/receipt.json"
     },
     "multi_host_reproduction_receipt": {
       "content_sha256": "56de9e4ec213ebc4485f7a93f7376a82e8552b5d4d9e01bbaefef201aad1543a",
