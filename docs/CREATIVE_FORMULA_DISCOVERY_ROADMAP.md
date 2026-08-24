@@ -100,22 +100,27 @@
   new candidate or permission to release a serious claim.
 - Downloaded artifacts bind four distinct GitHub-hosted ephemeral VM runner IDs across Windows and
   Linux, with two evaluator implementations per host and a separate Lean kernel artifact. The
-  current receipt binds successful post-merge run `32717558984` at
-  `163fd312c5bcf3b9b5bb16b27a40d5253ef83941`, which includes exact-discrete piecewise replay,
+  current receipt binds successful post-merge run `32787580526` at
+  `aa1f47e753aad4b966e3a49027908b3134957d8f`, which includes exact-discrete piecewise replay,
   the retained-descendant campaign, the transform-, tensor-, and variational-capable executable-LLM
   core, and its one-call live health receipt. The multi-host seal is
-  `3260d9dd0829307c90faa511b7e4c1173f5feb64a6b138b3579d8b5e634cd01a`. The receipt now also proves
+  `ea0d4e1a848354f55ab423c6a367a0a48ee8010fb129c23f85b037104c4293ae`. The receipt also proves
   that all four core-reproduction artifacts bind the same sanitized live API evidence seal
-  `b13a9da8fd9b8213f6c2e94d91872d3403342f1cddb4be80e7e55e3d3f03bf7e`. This is multi-host VM
-  reproduction, not a claim about distinct bare-metal machines.
+  `b13a9da8fd9b8213f6c2e94d91872d3403342f1cddb4be80e7e55e3d3f03bf7e` and the same accelerator
+  projection `ec817fcf156127b59cb87e58a755bcbd3485e823f1d8dbc448b39f7855ee1d00`.
+  This is multi-host VM replay of stored GPU evidence, not a claim that the runners reran CUDA or
+  that they are distinct bare-metal machines.
 - The CI workflow creates a second credential-free payload on every deterministic host. It
   validates the core and retained-descendant receipts without a provider key or provider call and
   binds a deterministic-rebind-stable projection of all 14 authenticated call records, their prompt
   and output seals, usage, prompt context, lineage archive, and credential boundary. Four payloads
   from the bound post-merge run have now been downloaded and hash-checked. They agree on projection
   `73af5e6628f6cf6f035add2c499748b591d57e548935962768b5889d0ccb0c57`, report zero new provider
-  calls and no credential on the runners, and are sealed into the multi-host receipt. This is
-  durable replay evidence, not a claim that CI repeated the paid calls or established novelty.
+  calls and no credential on the runners, and are sealed into the multi-host receipt. The same
+  payloads agree on the accelerator projection, its `39,135,393`-candidate control, one modular and
+  exact survivor, exact replay requirement, CPU/GPU sample agreement, and mutation rejection; all
+  four report `reproduction_host_reran_cuda=false`. This is durable replay evidence, not a claim
+  that CI repeated the paid calls, reran the local GPU kernel, or established novelty.
 - The LLM proposal compiler now admits bounded linear shift transforms, tensor identities, and first-order variational
   functionals. Tensor predictions are gated by complete component equality plus declared symmetry;
   variational predictions are derived from an independently checked Euler-Lagrange claim under an
