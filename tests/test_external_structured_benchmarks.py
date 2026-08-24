@@ -30,6 +30,12 @@ _VARIATIONAL_FUNCTIONS = (
     "test_euler_sineg",
     "test_euler_high_order",
 )
+_TRANSFORM_FUNCTIONS = (
+    "test_apply_finite_diff",
+    "test_finite_diff_weights",
+    "test_as_finite_diff",
+    "test_differentiate_finite",
+)
 
 
 def _tensor_source(*, changed: bool = False) -> bytes:
@@ -62,21 +68,36 @@ def {name}():
     return ("\n\n".join(blocks) + "\n").encode()
 
 
-def _transport(
-    uri: str, _headers: object, _timeout: int, _maximum: int
-) -> HTTPResponse:
-    body = _tensor_source() if "/tensor/" in uri else _variational_source()
+def _transform_source(*, changed: bool = False) -> bytes:
+    blocks = ["raise RuntimeError('AST-only fixture must never execute')"]
+    for index, name in enumerate(_TRANSFORM_FUNCTIONS):
+        target = f"stencil-{index}{'-changed' if changed and index == 0 else ''}"
+        blocks.append(
+            f"""
+def {name}():
+    samples = 'shifted-samples-{index}'
+    transformed = '{target}'
+    assert transformed == '{target}'
+""".strip()
+        )
+    return ("\n\n".join(blocks) + "\n").encode()
+
+
+def _fixture_source(uri: str, *, changed: bool = False) -> bytes:
+    if "/tensor/" in uri:
+        return _tensor_source(changed=changed)
+    if "finite_diff" in uri:
+        return _transform_source(changed=changed)
+    return _variational_source(changed=changed)
+
+
+def _transport(uri: str, _headers: object, _timeout: int, _maximum: int) -> HTTPResponse:
+    body = _fixture_source(uri)
     return HTTPResponse(200, {"content-type": "text/plain; charset=utf-8"}, body)
 
 
-def _changed_transport(
-    uri: str, _headers: object, _timeout: int, _maximum: int
-) -> HTTPResponse:
-    body = (
-        _tensor_source(changed=True)
-        if "/tensor/" in uri
-        else _variational_source(changed=True)
-    )
+def _changed_transport(uri: str, _headers: object, _timeout: int, _maximum: int) -> HTTPResponse:
+    body = _fixture_source(uri, changed=True)
     return HTTPResponse(200, {"content-type": "text/plain; charset=utf-8"}, body)
 
 
@@ -105,12 +126,13 @@ def test_ast_only_pack_builds_balanced_blind_tasks_and_refetches_exactly(
         "external_principals": 1,
         "representation_counts": {
             "tensor_identity": 4,
+            "transform_relation": 4,
             "variational_functional": 4,
         },
-        "tasks": 8,
-        "unique_external_response_hashes": 2,
+        "tasks": 12,
+        "unique_external_response_hashes": 3,
     }
-    assert len(generation["tasks"]) == len(targets["targets"]) == 8
+    assert len(generation["tasks"]) == len(targets["targets"]) == 12
 
 
 def test_generation_packet_hides_source_and_expected_expression(
@@ -131,9 +153,11 @@ def test_generation_packet_hides_source_and_expected_expression(
         "external.sympy-project",
         "raw.githubusercontent.com",
         "sympy-euler-tests",
+        "sympy-finite-difference-tests",
         "sympy-tensor-tests",
         "test_canonicalize",
         "test_euler",
+        "test_finite_diff",
     ):
         assert forbidden not in public_text
 
@@ -159,21 +183,24 @@ def test_target_substitution_fails_against_upstream_function_after_full_reseal(
     target = changed_targets["targets"][0]
     target_body = {key: value for key, value in target.items() if key != "task_id"}
     commitment = canonical_sha256(target_body)
-    task_id = "blind." + canonical_sha256(
-        {"commitment": commitment, "epoch": changed_generation["rotation_epoch"]}
-    )[:24]
+    task_id = (
+        "blind."
+        + canonical_sha256(
+            {"commitment": commitment, "epoch": changed_generation["rotation_epoch"]}
+        )[:24]
+    )
     changed_generation["tasks"][0]["target_commitment"] = commitment
     changed_generation["tasks"][0]["task_id"] = task_id
     target["task_id"] = task_id
     _reseal(changed_generation)
     _reseal(changed_targets)
     changed_receipt = copy.deepcopy(receipt)
-    changed_receipt["source_bindings"]["generation_packet_content_sha256"] = (
-        changed_generation["content_sha256"]
-    )
-    changed_receipt["source_bindings"]["target_packet_content_sha256"] = (
-        changed_targets["content_sha256"]
-    )
+    changed_receipt["source_bindings"]["generation_packet_content_sha256"] = changed_generation[
+        "content_sha256"
+    ]
+    changed_receipt["source_bindings"]["target_packet_content_sha256"] = changed_targets[
+        "content_sha256"
+    ]
     _reseal(changed_receipt)
     with pytest.raises(StructuredBenchmarkError, match="upstream assertion"):
         validate_pack(changed_generation, changed_targets, changed_receipt)
@@ -215,9 +242,7 @@ def test_valid_unsigned_source_substitution_requires_live_refetch(
 
 
 def test_missing_upstream_selector_fails_closed() -> None:
-    def missing(
-        uri: str, _headers: object, _timeout: int, _maximum: int
-    ) -> HTTPResponse:
+    def missing(uri: str, _headers: object, _timeout: int, _maximum: int) -> HTTPResponse:
         body = b"def unrelated():\n    assert 1 == 1\n"
         return HTTPResponse(200, {"content-type": "text/plain"}, body)
 
@@ -226,9 +251,7 @@ def test_missing_upstream_selector_fails_closed() -> None:
 
 
 def test_unavailable_upstream_source_fails_closed() -> None:
-    def unavailable(
-        uri: str, _headers: object, _timeout: int, _maximum: int
-    ) -> HTTPResponse:
+    def unavailable(uri: str, _headers: object, _timeout: int, _maximum: int) -> HTTPResponse:
         return HTTPResponse(503, {"content-type": "text/plain"}, b"unavailable")
 
     with pytest.raises(StructuredBenchmarkError, match="unavailable"):
@@ -241,5 +264,5 @@ def test_unavailable_upstream_source_fails_closed() -> None:
 
 def test_stored_live_pack_is_source_bound_and_valid() -> None:
     generation, targets, receipt = load_stored_pack(ROOT)
-    assert len(generation["tasks"]) == len(targets["targets"]) == 8
+    assert len(generation["tasks"]) == len(targets["targets"]) == 12
     assert receipt["release_gate"]["level5_eligible"] is False

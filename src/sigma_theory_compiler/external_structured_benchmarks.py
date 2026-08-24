@@ -1,4 +1,4 @@
-"""Build blind tensor and variational tasks from live upstream executable tests.
+"""Build blind tensor, variational, and transform tasks from upstream executable tests.
 
 The public generation packet contains normalized setup code, a query, and a commitment.  It omits
 the upstream repository identity, test name, expected expression, and exact source URI.  A private
@@ -28,17 +28,15 @@ from .sigma_core import canonical_sha256
 CONFIG_PATH = "configs/external_structured_benchmark_pack.json"
 SOURCE_PATH = "src/sigma_theory_compiler/external_structured_benchmarks.py"
 TEST_PATH = "tests/test_external_structured_benchmarks.py"
-GENERATION_PATH = (
-    "runs/math/external-structured-benchmarks/2026-08-23-001-generation.json"
-)
-TARGET_PATH = "runs/math/external-structured-benchmarks/2026-08-23-001-targets.json"
-RECEIPT_PATH = "runs/math/external-structured-benchmarks/2026-08-23-001-receipt.json"
+GENERATION_PATH = "runs/math/external-structured-benchmarks/2026-08-23-002-generation.json"
+TARGET_PATH = "runs/math/external-structured-benchmarks/2026-08-23-002-targets.json"
+RECEIPT_PATH = "runs/math/external-structured-benchmarks/2026-08-23-002-receipt.json"
 CONFIG_SCHEMA = "invariant-external-structured-benchmark-config-1.0"
 GENERATION_SCHEMA = "invariant-external-structured-generation-packet-1.0"
 TARGET_SCHEMA = "invariant-external-structured-target-packet-1.0"
 RECEIPT_SCHEMA = "invariant-external-structured-coordinator-receipt-1.0"
 _HEX = frozenset("0123456789abcdef")
-_FAMILIES = {"tensor_identity", "variational_functional"}
+_FAMILIES = {"tensor_identity", "transform_relation", "variational_functional"}
 _SOURCE_IDENTITIES = {
     "sympy-euler-tests": (
         "variational_functional",
@@ -49,6 +47,11 @@ _SOURCE_IDENTITIES = {
         "tensor_identity",
         "/sympy/sympy/master/sympy/tensor/tests/test_tensor.py",
         "canonicalize_tensor_expression",
+    ),
+    "sympy-finite-difference-tests": (
+        "transform_relation",
+        "/sympy/sympy/master/sympy/calculus/tests/test_finite_diff.py",
+        "derive_finite_difference_transform",
     ),
 }
 
@@ -108,9 +111,7 @@ def _sealed(value: Mapping[str, Any]) -> dict[str, Any]:
     return body
 
 
-def load_config(
-    root: Path, config_path: str | Path = CONFIG_PATH
-) -> dict[str, Any]:
+def load_config(root: Path, config_path: str | Path = CONFIG_PATH) -> dict[str, Any]:
     _, resolved = _bound_path(root, config_path, "structured benchmark config")
     value = json.loads(resolved.read_text(encoding="utf-8"))
     _strict(
@@ -130,10 +131,7 @@ def load_config(
         value["schema_version"] != CONFIG_SCHEMA
         or value["pack_id"] != "structured-symbolic-live-rotation"
         or value["generator_principal_id"] != "invariant.discovery-engine"
-        or re.fullmatch(
-            r"20[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{3}", value["rotation_epoch"]
-        )
-        is None
+        or re.fullmatch(r"20[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{3}", value["rotation_epoch"]) is None
     ):
         raise StructuredBenchmarkError("structured benchmark identity changed")
     task_policy = value["task_policy"]
@@ -142,7 +140,7 @@ def load_config(
         {"minimum_tasks", "minimum_tasks_per_family"},
         "structured task policy",
     )
-    if task_policy != {"minimum_tasks": 8, "minimum_tasks_per_family": 4}:
+    if task_policy != {"minimum_tasks": 12, "minimum_tasks_per_family": 4}:
         raise StructuredBenchmarkError("structured task coverage weakened")
     policy = value["source_policy"]
     _strict(
@@ -168,7 +166,7 @@ def load_config(
     ):
         raise StructuredBenchmarkError("structured source policy weakened")
     sources = value["sources"]
-    if not isinstance(sources, list) or len(sources) != 2:
+    if not isinstance(sources, list) or len(sources) != 3:
         raise StructuredBenchmarkError("structured source registry changed")
     seen_sources: set[str] = set()
     seen_functions: set[tuple[str, str]] = set()
@@ -261,8 +259,7 @@ def _extract_assertion(
     functions = [
         node
         for node in tree.body
-        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))
-        and node.name == test_function
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)) and node.name == test_function
     ]
     if len(functions) != 1:
         raise StructuredBenchmarkError("upstream test function is missing or duplicated")
@@ -319,6 +316,11 @@ def _instruction(family: str) -> str:
         return (
             "Derive the exact Euler-Lagrange equation list requested by query_expression from "
             "the declared functional; preserve derivative order and coupled fields."
+        )
+    if family == "transform_relation":
+        return (
+            "Derive the exact finite-difference transform requested by query_expression from "
+            "the declared samples or symbolic expression; preserve shifts and exact weights."
         )
     raise StructuredBenchmarkError("unknown structured representation family")
 
@@ -385,9 +387,7 @@ def build_pack(
             )
             target_body = {
                 "assertion_ordinal": selector["assertion_ordinal"],
-                "context_sha256": hashlib.sha256(
-                    extracted["context_source"].encode()
-                ).hexdigest(),
+                "context_sha256": hashlib.sha256(extracted["context_source"].encode()).hexdigest(),
                 "external_principal_id": source["external_principal_id"],
                 "query_expression": extracted["query_expression"],
                 "source_id": source["source_id"],
@@ -398,9 +398,12 @@ def build_pack(
                 "upstream_function_source": extracted["upstream_function_source"],
             }
             commitment = canonical_sha256(target_body)
-            task_id = "blind." + canonical_sha256(
-                {"commitment": commitment, "epoch": config["rotation_epoch"]}
-            )[:24]
+            task_id = (
+                "blind."
+                + canonical_sha256({"commitment": commitment, "epoch": config["rotation_epoch"]})[
+                    :24
+                ]
+            )
             tasks.append(
                 {
                     "context_source": extracted["context_source"],
@@ -449,9 +452,7 @@ def build_pack(
                 "upstream_test_assertions_are_independent_proofs": False,
             },
             "coverage": {
-                "external_principals": len(
-                    {item["external_principal_id"] for item in evidence}
-                ),
+                "external_principals": len({item["external_principal_id"] for item in evidence}),
                 "representation_counts": dict(
                     sorted(Counter(task["representation_family"] for task in tasks).items())
                 ),
@@ -469,9 +470,7 @@ def build_pack(
             "rotation_epoch": config["rotation_epoch"],
             "schema_version": RECEIPT_SCHEMA,
             "source_bindings": {
-                "config": _source_binding(
-                    root, relative_config, "structured benchmark config"
-                ),
+                "config": _source_binding(root, relative_config, "structured benchmark config"),
                 "generation_packet_content_sha256": generation["content_sha256"],
                 "module": _source_binding(root, SOURCE_PATH, "structured benchmark module"),
                 "target_packet_content_sha256": target_packet["content_sha256"],
@@ -491,9 +490,9 @@ def build_pack(
 
 def _validate_seal(value: Mapping[str, Any], schema: str, label: str) -> None:
     body = {key: item for key, item in value.items() if key != "content_sha256"}
-    if value.get("schema_version") != schema or value.get(
-        "content_sha256"
-    ) != canonical_sha256(body):
+    if value.get("schema_version") != schema or value.get("content_sha256") != canonical_sha256(
+        body
+    ):
         raise StructuredBenchmarkError(f"{label} identity or content seal changed")
 
 
@@ -519,7 +518,7 @@ def validate_pack(
         raise StructuredBenchmarkError("structured packet identity changed")
     tasks = generation.get("tasks", [])
     target_rows = targets.get("targets", [])
-    if len(tasks) != 8 or len(target_rows) != 8:
+    if len(tasks) != 12 or len(target_rows) != 12:
         raise StructuredBenchmarkError("structured task count changed")
     if len({item.get("task_id") for item in tasks}) != len(tasks):
         raise StructuredBenchmarkError("structured generation tasks are not unique")
@@ -567,12 +566,15 @@ def validate_pack(
         target_body = {key: value for key, value in target.items() if key != "task_id"}
         if task["target_commitment"] != canonical_sha256(target_body):
             raise StructuredBenchmarkError("structured target commitment changed")
-        expected_id = "blind." + canonical_sha256(
-            {
-                "commitment": task["target_commitment"],
-                "epoch": generation["rotation_epoch"],
-            }
-        )[:24]
+        expected_id = (
+            "blind."
+            + canonical_sha256(
+                {
+                    "commitment": task["target_commitment"],
+                    "epoch": generation["rotation_epoch"],
+                }
+            )[:24]
+        )
         if task["task_id"] != expected_id:
             raise StructuredBenchmarkError("structured opaque task identity changed")
         extracted = _extract_assertion(
@@ -593,7 +595,7 @@ def validate_pack(
         _sha(target["source_response_sha256"], "structured source response hash")
     evidence = receipt.get("source_evidence", [])
     evidence_by_id = {item.get("source_id"): item for item in evidence}
-    if len(evidence) != 2 or len(evidence_by_id) != 2:
+    if len(evidence) != 3 or len(evidence_by_id) != 3:
         raise StructuredBenchmarkError("structured source evidence is missing or duplicated")
     for target in target_rows:
         source = evidence_by_id.get(target["source_id"])
@@ -645,13 +647,12 @@ def validate_pack(
         != {
             "external_principals": 1,
             "representation_counts": {family: 4 for family in sorted(_FAMILIES)},
-            "tasks": 8,
+            "tasks": 12,
             "unique_external_response_hashes": len(
                 {item["source_response_sha256"] for item in evidence}
             ),
         }
-        or bindings.get("generation_packet_content_sha256")
-        != generation["content_sha256"]
+        or bindings.get("generation_packet_content_sha256") != generation["content_sha256"]
         or bindings.get("target_packet_content_sha256") != targets["content_sha256"]
         or receipt.get("source_signature")
         != {
@@ -689,9 +690,7 @@ def validate_pack(
                 or binding.get("path") != relative
                 or binding.get("sha256") != _normalized_file_sha256(resolved)
             ):
-                raise StructuredBenchmarkError(
-                    f"structured {binding_name} source binding changed"
-                )
+                raise StructuredBenchmarkError(f"structured {binding_name} source binding changed")
 
 
 def reproduce_pack(

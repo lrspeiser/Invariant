@@ -780,7 +780,7 @@
     },
     "suite_id": "creativity-first-component-knockouts-001"
   },
-  "content_sha256": "b70251fe0a7f20c43e17ed6125846b6e1945c7b274559fe27f0c19a773862ef7",
+  "content_sha256": "1458806bf6233955c088ff8b7a5e9f95d9d943292b530611b568c4e7ba50e3cd",
   "creative_expansion": {
     "content_sha256": "474715561dc8a83bb1119e3948e64aa58e55d81c7a1a210a70cd312c183df3d7",
     "independent_proof_plans": [
@@ -7218,11 +7218,12 @@
     "external_dataset_status": "PASS_EXTERNAL_DATASET_CHALLENGES",
     "external_structured_benchmark_families": [
       "tensor_identity",
+      "transform_relation",
       "variational_functional"
     ],
     "external_structured_benchmark_level5_eligible": false,
     "external_structured_benchmark_status": "CREATIVITY_BENCHMARK_READY_LEVEL5_BLOCKED_UNSIGNED_SOURCE",
-    "external_structured_benchmark_tasks": 8,
+    "external_structured_benchmark_tasks": 12,
     "first_principles_d4_basis_collapse_mutations_rejected": 5,
     "first_principles_d4_controls_passed": 5,
     "first_principles_d4_dimension_mutations_rejected": 6,
@@ -7554,38 +7555,39 @@
       "targets_are_literature_novel": false,
       "upstream_test_assertions_are_independent_proofs": false
     },
-    "content_sha256": "4cc72d1a36177570caaa3553149670edecffee69c27472ac29bdc5961d99868e",
+    "content_sha256": "90650bc2ae59fbec3175dc6df8108048614c73e12e76f31a8cca19d8b605f30a",
     "coverage": {
       "external_principals": 1,
       "representation_counts": {
         "tensor_identity": 4,
+        "transform_relation": 4,
         "variational_functional": 4
       },
-      "tasks": 8,
-      "unique_external_response_hashes": 2
+      "tasks": 12,
+      "unique_external_response_hashes": 3
     },
     "pack_id": "structured-symbolic-live-rotation",
     "release_gate": {
       "level5_eligible": false,
       "status": "CREATIVITY_BENCHMARK_READY_LEVEL5_BLOCKED_UNSIGNED_SOURCE"
     },
-    "retrieved_utc": "2026-08-23T16:45:26.120110Z",
-    "rotation_epoch": "2026-08-23-001",
+    "retrieved_utc": "2026-08-24T01:30:08.259624Z",
+    "rotation_epoch": "2026-08-23-002",
     "schema_version": "invariant-external-structured-coordinator-receipt-1.0",
     "source_bindings": {
       "config": {
         "path": "configs/external_structured_benchmark_pack.json",
-        "sha256": "234737be88c39ff28113a753e198db72f38de7111d18a0f69c52870c4a39e8c1"
+        "sha256": "9fa45c9c4d5895734a64cade5eb4fbee320508d0cddcf71f1c3a1aab271ee901"
       },
-      "generation_packet_content_sha256": "a2575ef2285c27b5598035dbb9394717b72853f7f828a24f271f059aedfce940",
+      "generation_packet_content_sha256": "e7c7c889f72f57fb4ad81f27a2958293d6309673c0e78047db96e98acb1e237f",
       "module": {
         "path": "src/sigma_theory_compiler/external_structured_benchmarks.py",
-        "sha256": "0740498ea0f0935f6dcb22d165b8099f12d60be86ff0d664e94bdc741a842860"
+        "sha256": "a2b4ba3694b0260ee10314ec21864fd20975cd961444289d9eb32f532ff7cb46"
       },
-      "target_packet_content_sha256": "28aaaaacc052d2f588b319824f0e969b7e453c0c6f90071cf4013477d58ce42f",
+      "target_packet_content_sha256": "0346b1a7e4329a8157c16cff5617a7143d7578d5db76f2851ce9c4a23e4dda3f",
       "tests": {
         "path": "tests/test_external_structured_benchmarks.py",
-        "sha256": "3b7621ff6fbe721388882da75c0e80106a325a7e0926b6a01530acb45a64b423"
+        "sha256": "2aeebaf9c40dfc31858bc31f940c9fa9824092f3292148019dc92dff12234abc"
       }
     },
     "source_evidence": [
@@ -7593,7 +7595,7 @@
         "content_type": "text/plain; charset=utf-8",
         "external_principal_id": "external.sympy-project",
         "http_status": 206,
-        "retrieved_utc": "2026-08-23T16:45:26.120110Z",
+        "retrieved_utc": "2026-08-24T01:30:08.259624Z",
         "source_content_range": "bytes 0-84134/84135",
         "source_id": "sympy-tensor-tests",
         "source_response_bytes": 84135,
@@ -7605,12 +7607,24 @@
         "content_type": "text/plain; charset=utf-8",
         "external_principal_id": "external.sympy-project",
         "http_status": 206,
-        "retrieved_utc": "2026-08-23T16:45:26.120110Z",
+        "retrieved_utc": "2026-08-24T01:30:08.259624Z",
         "source_content_range": "bytes 0-2717/2718",
         "source_id": "sympy-euler-tests",
         "source_response_bytes": 2718,
         "source_response_sha256": "1c5376a1b22662d4b509f6ff8e7d0365645c49eb7aad8e60b0638a294743dd95",
         "source_uri": "https://raw.githubusercontent.com/sympy/sympy/master/sympy/calculus/tests/test_euler.py",
+        "transport": "https"
+      },
+      {
+        "content_type": "text/plain; charset=utf-8",
+        "external_principal_id": "external.sympy-project",
+        "http_status": 206,
+        "retrieved_utc": "2026-08-24T01:30:08.259624Z",
+        "source_content_range": "bytes 0-7704/7705",
+        "source_id": "sympy-finite-difference-tests",
+        "source_response_bytes": 7705,
+        "source_response_sha256": "339969ccb324a895b5c5220cf984faff29f6dcf21a5065ec5b199e89e1020e45",
+        "source_uri": "https://raw.githubusercontent.com/sympy/sympy/master/sympy/calculus/tests/test_finite_diff.py",
         "transport": "https"
       }
     ],
@@ -19303,11 +19317,11 @@
     },
     "config": {
       "path": "configs/core_creative_discovery.json",
-      "sha256": "fb830bccc548d6be7e171458e77c4ba368c4b8852d1cca5862734522e6a4f540"
+      "sha256": "b63035695f0cf5d1ce7271b3b64edec400b9ce9180b21a66115ff73a6da2d625"
     },
     "core_application_source": {
       "path": "src/sigma_theory_compiler/core_creative_discovery.py",
-      "sha256": "a3fdab9e03dabc4f04aceb4a9f46894a4ca27978de687c8e58da8873de2cee78"
+      "sha256": "296d9c4edd2ae8f551ff0c13c00c198df931182ff8eb49cc09f9761d4c06f7d9"
     },
     "dataset_challenge_receipt": {
       "content_sha256": "687d08e6c24b86fe00963bfddf5dfa20e9242acca21bd2a3fa37cea03d584039",
@@ -19330,8 +19344,8 @@
       "path": "runs/math/external-dataset-challenges/receipt.json"
     },
     "external_structured_benchmark_receipt": {
-      "content_sha256": "4cc72d1a36177570caaa3553149670edecffee69c27472ac29bdc5961d99868e",
-      "path": "runs/math/external-structured-benchmarks/2026-08-23-001-receipt.json"
+      "content_sha256": "90650bc2ae59fbec3175dc6df8108048614c73e12e76f31a8cca19d8b605f30a",
+      "path": "runs/math/external-structured-benchmarks/2026-08-23-002-receipt.json"
     },
     "learned_invariant_discovery_receipt": {
       "content_sha256": "8c4c85229bcf883af92ab9d1bad689dca02a5e806ac5d1503ef5db1b8d59f80d",

@@ -1,0 +1,144 @@
+{
+  "claims": {
+    "external_source_identity_visible_to_generator": false,
+    "target_expression_visible_to_generator": false
+  },
+  "content_sha256": "e7c7c889f72f57fb4ad81f27a2958293d6309673c0e78047db96e98acb1e237f",
+  "pack_id": "structured-symbolic-live-rotation",
+  "rotation_epoch": "2026-08-23-002",
+  "schema_version": "invariant-external-structured-generation-packet-1.0",
+  "tasks": [
+    {
+      "context_source": "Lorentz = TensorIndexType('Lorentz', dummy_name='L')\na, b, d0, d1 = tensor_indices('a,b,d0,d1', Lorentz)\nA, B = tensor_heads('A,B', [Lorentz], TensorSymmetry.no_symmetry(1))\nt = A(-d0)*B(d0)\ntc = t.canon_bp()",
+      "external_source_disclosed_to_generator": false,
+      "instruction": "Derive the exact canonical tensor expression requested by query_expression, respecting variance, contractions, commutation, and declared index symmetries.",
+      "query_expression": "str(tc)",
+      "representation_family": "tensor_identity",
+      "rotation_epoch": "2026-08-23-002",
+      "target_commitment": "da2c83fc85666952ae9e101cd5a9535da2ff0524ef413cf82a57c859f4298c73",
+      "task_id": "blind.e1769cce4d4f552002f22739",
+      "task_kind": "canonicalize_tensor_expression"
+    },
+    {
+      "context_source": "Lorentz = TensorIndexType('Lorentz', dummy_name='L')\na, b, c, d = tensor_indices('a, b, c, d', Lorentz)\nA = TensorHead('A', [Lorentz], TensorSymmetry.no_symmetry(1))\nt = A(c)*A(b)*A(a)\ntc = t.canon_bp()",
+      "external_source_disclosed_to_generator": false,
+      "instruction": "Derive the exact canonical tensor expression requested by query_expression, respecting variance, contractions, commutation, and declared index symmetries.",
+      "query_expression": "str(tc)",
+      "representation_family": "tensor_identity",
+      "rotation_epoch": "2026-08-23-002",
+      "target_commitment": "4569c22eb3c8f2fd18404b3e1febcc5ceba106208f5252ec8d67cdf1a937f098",
+      "task_id": "blind.5508b19c5b6788f803267597",
+      "task_kind": "canonicalize_tensor_expression"
+    },
+    {
+      "context_source": "Lorentz = TensorIndexType('Lorentz', dummy_name='L', metric_symmetry=0)\nd0, d1, d2, d3 = tensor_indices('d:4', Lorentz)\nA = TensorHead('A', [Lorentz]*2, TensorSymmetry.no_symmetry(2))\nt = A(d1, -d0)*A(d0, -d1)\ntc = t.canon_bp()",
+      "external_source_disclosed_to_generator": false,
+      "instruction": "Derive the exact canonical tensor expression requested by query_expression, respecting variance, contractions, commutation, and declared index symmetries.",
+      "query_expression": "str(tc)",
+      "representation_family": "tensor_identity",
+      "rotation_epoch": "2026-08-23-002",
+      "target_commitment": "1b70e4f780237ce61190c033977ee0ff214754dfb15e5dc00729559eb4a8ede3",
+      "task_id": "blind.0f97b6e5a58f442a599c3fd1",
+      "task_kind": "canonicalize_tensor_expression"
+    },
+    {
+      "context_source": "Lorentz = TensorIndexType('Lorentz', dummy_name='L')\na, a0, a1, a2, a3, b, d0, d1, d2, d3 = \\\n        tensor_indices('a,a0,a1,a2,a3,b,d0,d1,d2,d3', Lorentz)\nA = TensorHead('A', [Lorentz], TensorSymmetry.no_symmetry(1))\nt = A(-d0)*A(d0)\ntc = t.canon_bp()",
+      "external_source_disclosed_to_generator": false,
+      "instruction": "Derive the exact canonical tensor expression requested by query_expression, respecting variance, contractions, commutation, and declared index symmetries.",
+      "query_expression": "str(tc)",
+      "representation_family": "tensor_identity",
+      "rotation_epoch": "2026-08-23-002",
+      "target_commitment": "1e8ffac6c406c653dfc8df4f591c5a017f6e8372663b5a651911796eaf675679",
+      "task_id": "blind.ec760ac5d74404a7210aed8b",
+      "task_kind": "canonicalize_tensor_expression"
+    },
+    {
+      "context_source": "x = Function('x')\nt = Symbol('t')\nL = D(x(t), t)**2/2 + cos(x(t))",
+      "external_source_disclosed_to_generator": false,
+      "instruction": "Derive the exact Euler-Lagrange equation list requested by query_expression from the declared functional; preserve derivative order and coupled fields.",
+      "query_expression": "euler(L, x(t), t)",
+      "representation_family": "variational_functional",
+      "rotation_epoch": "2026-08-23-002",
+      "target_commitment": "c85efe83883f1eba5518347ab0277c3d29e35ba8fda9163672a26a44e889d4ee",
+      "task_id": "blind.898bfed733b59457957db398",
+      "task_kind": "derive_euler_lagrange_equations"
+    },
+    {
+      "context_source": "x = Function('x')\ny = Function('y')\nt = Symbol('t')\nL = sum(D(z(t), t)**2/2 - z(t)**2/2 for z in [x, y])\nL += -x(t)**2*y(t) + y(t)**3/3",
+      "external_source_disclosed_to_generator": false,
+      "instruction": "Derive the exact Euler-Lagrange equation list requested by query_expression from the declared functional; preserve derivative order and coupled fields.",
+      "query_expression": "euler(L, [x(t), y(t)], t)",
+      "representation_family": "variational_functional",
+      "rotation_epoch": "2026-08-23-002",
+      "target_commitment": "2522e0c05a6571d7bc0e1e4ddce2fb7f905d82bacb23373d531771d2c8520212",
+      "task_id": "blind.562e9848f8f7b22d508dd760",
+      "task_kind": "derive_euler_lagrange_equations"
+    },
+    {
+      "context_source": "psi = Function('psi')\nt = Symbol('t')\nx = Symbol('x')\nL = D(psi(t, x), t)**2/2 - D(psi(t, x), x)**2/2 + cos(psi(t, x))",
+      "external_source_disclosed_to_generator": false,
+      "instruction": "Derive the exact Euler-Lagrange equation list requested by query_expression from the declared functional; preserve derivative order and coupled fields.",
+      "query_expression": "euler(L, psi(t, x), [t, x])",
+      "representation_family": "variational_functional",
+      "rotation_epoch": "2026-08-23-002",
+      "target_commitment": "ababf936615958dc04a8837f263e1c8e2e3b8b8d77c8c4d0bfcfb947037cc2bd",
+      "task_id": "blind.ce7a6ff8a27c0de5a7b91e66",
+      "task_kind": "derive_euler_lagrange_equations"
+    },
+    {
+      "context_source": "m = Symbol('m')\nk = Symbol('k')\nx = Function('x')\ny = Function('y')\nt = Symbol('t')\nL = (m*D(x(t), t)**2/2 + m*D(y(t), t)**2/2 -\n         k*D(x(t), t)*D(y(t), t, t) + k*D(y(t), t)*D(x(t), t, t))",
+      "external_source_disclosed_to_generator": false,
+      "instruction": "Derive the exact Euler-Lagrange equation list requested by query_expression from the declared functional; preserve derivative order and coupled fields.",
+      "query_expression": "euler(L, [x(t), y(t)])",
+      "representation_family": "variational_functional",
+      "rotation_epoch": "2026-08-23-002",
+      "target_commitment": "600d29df015de0584edab6067c0e62b90bba49d53e67b31ef46e7b315340e960",
+      "task_id": "blind.0e347685473606012f392d60",
+      "task_kind": "derive_euler_lagrange_equations"
+    },
+    {
+      "context_source": "x, h = symbols('x h')\nf = Function('f')",
+      "external_source_disclosed_to_generator": false,
+      "instruction": "Derive the exact finite-difference transform requested by query_expression from the declared samples or symbolic expression; preserve shifts and exact weights.",
+      "query_expression": "(apply_finite_diff(1, [x-h, x+h], [f(x-h), f(x+h)], x) -\n            (f(x+h)-f(x-h))/(2*h)).simplify()",
+      "representation_family": "transform_relation",
+      "rotation_epoch": "2026-08-23-002",
+      "target_commitment": "e26dc4d64284f5c994520ce2090eefb506ede1daaaefe5ab1f97feeea9a525a0",
+      "task_id": "blind.108b712e0b73f6a4de21fabd",
+      "task_kind": "derive_finite_difference_transform"
+    },
+    {
+      "context_source": "d = finite_diff_weights(1, [5, 6, 7], 5)",
+      "external_source_disclosed_to_generator": false,
+      "instruction": "Derive the exact finite-difference transform requested by query_expression from the declared samples or symbolic expression; preserve shifts and exact weights.",
+      "query_expression": "d[1][2]",
+      "representation_family": "transform_relation",
+      "rotation_epoch": "2026-08-23-002",
+      "target_commitment": "db8fb7ad716cbc0b95e6edac04e7bc5d0e1a90e4268ad12f992657b5a5e0ee23",
+      "task_id": "blind.a3d4e220f50a611c376caf54",
+      "task_kind": "derive_finite_difference_transform"
+    },
+    {
+      "context_source": "x = symbols('x')\nf = Function('f')\ndx = Function('dx')\n_as_finite_diff(f(x).diff(x), [x-2, x-1, x, x+1, x+2])\ndf_true = -f(x+dx(x)/2-dx(x+dx(x)/2)/2) / dx(x+dx(x)/2) \\\n              + f(x+dx(x)/2+dx(x+dx(x)/2)/2) / dx(x+dx(x)/2)\ndf_test = diff(f(x), x).as_finite_difference(points=dx(x), x0=x+dx(x)/2)",
+      "external_source_disclosed_to_generator": false,
+      "instruction": "Derive the exact finite-difference transform requested by query_expression from the declared samples or symbolic expression; preserve shifts and exact weights.",
+      "query_expression": "(df_test - df_true).simplify()",
+      "representation_family": "transform_relation",
+      "rotation_epoch": "2026-08-23-002",
+      "target_commitment": "2a2d089f66a320564e128d67c8cdab667ed530422ece00c5928b3a2b1dc2a82a",
+      "task_id": "blind.e4392b8bc610c134456eb737",
+      "task_kind": "derive_finite_difference_transform"
+    },
+    {
+      "context_source": "x, y, h = symbols('x y h')\nf = Function('f')\nwith warns_deprecated_sympy():\n        res0 = differentiate_finite(f(x, y) + exp(42), x, y, evaluate=True)\nxm, xp, ym, yp = [v + sign*S.Half for v, sign in product([x, y], [-1, 1])]\nref0 = f(xm, ym) + f(xp, yp) - f(xm, yp) - f(xp, ym)",
+      "external_source_disclosed_to_generator": false,
+      "instruction": "Derive the exact finite-difference transform requested by query_expression from the declared samples or symbolic expression; preserve shifts and exact weights.",
+      "query_expression": "(res0 - ref0).simplify()",
+      "representation_family": "transform_relation",
+      "rotation_epoch": "2026-08-23-002",
+      "target_commitment": "7a514e3eb20c4df9fe5765192383346de150772a07fa99cbd1f646e4e3a422c8",
+      "task_id": "blind.ca6b2a996351668cf45a0e84",
+      "task_kind": "derive_finite_difference_transform"
+    }
+  ]
+}

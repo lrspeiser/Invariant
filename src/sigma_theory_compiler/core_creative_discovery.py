@@ -1244,11 +1244,11 @@ def validate_receipt(value: Mapping[str, Any], root: Path | None = None) -> None
         or discovery.get("external_dataset_mutation_controls_rejected") != 4
         or discovery.get("external_dataset_status") != "PASS_EXTERNAL_DATASET_CHALLENGES"
         or discovery.get("external_structured_benchmark_families")
-        != ["tensor_identity", "variational_functional"]
+        != ["tensor_identity", "transform_relation", "variational_functional"]
         or discovery.get("external_structured_benchmark_level5_eligible") is not False
         or discovery.get("external_structured_benchmark_status")
         != "CREATIVITY_BENCHMARK_READY_LEVEL5_BLOCKED_UNSIGNED_SOURCE"
-        or discovery.get("external_structured_benchmark_tasks") != 8
+        or discovery.get("external_structured_benchmark_tasks") != 12
         or discovery.get("first_principles_d4_basis_collapse_mutations_rejected") != 5
         or discovery.get("first_principles_d4_controls_passed") != 5
         or discovery.get("first_principles_d4_dimension_mutations_rejected") != 6
