@@ -88,12 +88,12 @@ def test_lean_wrong_formula_kernel_artifact_binds_two_ci_rejections() -> None:
     assert control["required_for_serious_claim"] is True
     assert control["status"] == "PASS_CI_KERNEL_REJECTION_ARTIFACT_BOUND"
     assert control["artifact_content_sha256"] == (
-        "5dbda99bd61ffbab6acbca32bb43b886cf6b6e64d628fe43f4e3f029066d06ae"
+        "491926a5f4f1613b698fd612d347c92cecf4298edcf5629af06c15f90b2af004"
     )
-    assert control["artifact_registry_binding"]["artifact_id"] == 9503546652
-    assert control["artifact_registry_binding"]["run_id"] == 32678924431
+    assert control["artifact_registry_binding"]["artifact_id"] == 9505070169
+    assert control["artifact_registry_binding"]["run_id"] == 32683958812
     assert control["artifact_registry_binding"]["head_sha"] == (
-        "e1e22ae54248ee586f4f82fc52d581fc2fd9c12b"
+        "58bbcb40b644c2cf613e20ae4d50f2e051b134d4"
     )
     assert len(control["controls"]) == 2
     assert all(item["outcome"] == "REJECTED_BY_LEAN_KERNEL" for item in control["controls"])
