@@ -407,7 +407,10 @@ This is evidence of bounded rediscovery, not evidence of mathematical novelty.
    executor under its 96-call / 400,000-token ceiling and the same attempt-journal and review rules.
 5. Rotate the now-executable tensor, linear-shift-transform, and variational task slice across
    additional upstream projects
-   and obtain a detached signature from a distinct pack principal before level-5 use.
+   and obtain a detached signature from a distinct pack principal before level-5 use. The current
+   SymPy rotation now has a sealed canonical signing request plus offline OpenSSH verification, but
+   its trusted registry is deliberately empty and no certificate exists; the external handoff,
+   named-human key-identity review, and signature remain required.
 6. Expand the first four externally supplied dataset challenges to additional independent
    principals, richer noise and missingness models, and learned invariant proposals while retaining
    the synthetic negative controls; obtain detached signatures before level-5 use.

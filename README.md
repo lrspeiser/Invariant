@@ -1215,6 +1215,35 @@ and sealed into the durable multi-host receipt. All four reproduce projection
 calls and no provider credential on the runners. This replays authenticated evidence; it does not
 claim that CI repeated the paid live calls or independently established novelty.
 
+The current 12-task structured benchmark pack now has a concrete detached-signature handoff. The
+sealed request binds the coordinator receipt, hidden-target packet, generation packet, all three
+upstream response hashes, the generator principal, and the signature protocol source. Its payload
+SHA-256 is `26ae3a8b33ca604e88a7293213185afbccd53f84b9fc5910e52f7a2d57341b36`; the complete request
+SHA-256 is `fc4b953fb7e455485547a6faadc5dd03d923b5ce75a4ffd19c86657065f78a0b`.
+The trusted signer registry is intentionally empty, so the pack remains blocked rather than
+manufacturing an independent attestation. A future signer must be different from both
+`invariant.discovery-engine` and `external.sympy-project`, use a named-human-reviewed Ed25519 key,
+and sign the exact canonical payload under the fixed OpenSSH namespace. Verification reruns the
+cryptographic check whenever a certificate is loaded. Even a valid signature establishes only
+pack provenance: it does not establish mathematical correctness, literature novelty, a level-5
+success, or permission to claim progress on an open problem.
+
+```powershell
+sigma-external-benchmark-signature validate-request --root .
+sigma-external-benchmark-signature export-payload --root . `
+  --output work/2026-08-23-002-signing-payload.json
+
+# Run by the independently registered signer; keep the private key outside this repository.
+ssh-keygen -Y sign -f PATH_TO_TRUSTED_PRIVATE_KEY `
+  -n invariant-external-structured-benchmark-v1 `
+  work/2026-08-23-002-signing-payload.json
+
+sigma-external-benchmark-signature verify --root . `
+  --principal REGISTERED_PRINCIPAL_ID `
+  --signature work/2026-08-23-002-signing-payload.json.sig `
+  --output work/2026-08-23-002-signature-certificate.json
+```
+
 The implementation backlog and promotion criteria are listed in
 [`docs/CREATIVE_FORMULA_DISCOVERY_ROADMAP.md`](docs/CREATIVE_FORMULA_DISCOVERY_ROADMAP.md).
 
