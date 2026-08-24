@@ -420,6 +420,10 @@ each has a structural control matched on basis, grammar field count, direct-pair
 lane budget. The sealed receipt also hardcodes the ESDSL1 parse and Cartesian-order compatibility
 vector. The historical LLM campaign remains ESDSL1 and is not reinterpreted; a separately budgeted,
 preregistered ESDSL2 LLM campaign is the next experimental step.
+The same receipt now closes its earlier runtime/verifier-budget caveat for the random comparison:
+the creative reference and every one of 96 random schedules execute exactly 373,256 lanes using the
+same fixed-lane evaluator and fail-closed 30-second ceiling. Observed times are recorded rather than
+asserted equal, all pass the ceiling, and the original recovery counts and p-values are unchanged.
 
 1. Complete the 24 pending retained-descendant prior-art forms plus the earlier A005132 form with
    specifically named human reviewers, using the sealed zbMATH supplement as an additional
