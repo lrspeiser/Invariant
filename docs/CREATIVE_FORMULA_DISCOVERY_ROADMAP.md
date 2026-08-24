@@ -92,10 +92,18 @@
   new candidate or permission to release a serious claim.
 - Downloaded artifacts bind four distinct GitHub-hosted ephemeral VM runner IDs across Windows and
   Linux, with two evaluator implementations per host and a separate Lean kernel artifact. The
-  current receipt binds successful post-merge run `32687167258` at
-  `266123c797e3fb1765224dad33e8e6a5e60b6854`, which includes exact-discrete piecewise replay
-  plus the transform-, tensor-, and variational-capable executable-LLM core. This is
-  multi-host VM reproduction, not a claim about distinct bare-metal machines.
+  current receipt binds successful post-merge run `32694147754` at
+  `30f12a4d499c949b67ec57d0eb0332a2e78aae33`, which includes exact-discrete piecewise replay,
+  the retained-descendant campaign, and the transform-, tensor-, and variational-capable
+  executable-LLM core. This is multi-host VM reproduction, not a claim about distinct bare-metal
+  machines.
+- The CI workflow now creates a second credential-free payload on every deterministic host. It
+  validates the core and retained-descendant receipts without a provider key or provider call and
+  binds a deterministic-rebind-stable projection of all 14 authenticated call records, their prompt
+  and output seals, usage, prompt context, lineage archive, and credential boundary. This closes the
+  workflow-payload gap in code; it becomes durable second-machine evidence only after the first
+  probe-bearing artifacts are downloaded, hash-checked, compared, and bound into the multi-host
+  receipt.
 - The LLM proposal compiler now admits bounded linear shift transforms, tensor identities, and first-order variational
   functionals. Tensor predictions are gated by complete component equality plus declared symmetry;
   variational predictions are derived from an independently checked Euler-Lagrange claim under an
@@ -370,22 +378,25 @@ This is evidence of bounded rediscovery, not evidence of mathematical novelty.
 
 ## Next executable milestones
 
-1. Obtain two named blinded reviewers for the clean 353-branch packet, seal their complete forms,
+1. Download the first probe-bearing post-merge artifacts, verify identical LLM evidence projection
+   hashes across all four Ubuntu/Windows hosts, and bind their archive and payload hashes into the
+   multi-host reproduction receipt.
+2. Obtain two named blinded reviewers for the clean 353-branch packet, seal their complete forms,
    and score the bounded rotation; record disagreements before unblinding system identity.
-2. Complete named human review of the bound A005132 behavior match and the nearest formula and
+3. Complete named human review of the bound A005132 behavior match and the nearest formula and
    proof-mechanism results, then run the same automated screen for every retained descendant and
    tournament survivor. Automated absence remains `not cleared`, never `novel`.
-3. Run the preregistered old-vs-new matched-control comparison and, after explicit approval, each
+4. Run the preregistered old-vs-new matched-control comparison and, after explicit approval, each
    component knockout through the one-experiment
    executor under its 96-call / 400,000-token ceiling and the same attempt-journal and review rules.
-4. Rotate the now-executable tensor, linear-shift-transform, and variational task slice across
+5. Rotate the now-executable tensor, linear-shift-transform, and variational task slice across
    additional upstream projects
    and obtain a detached signature from a distinct pack principal before level-5 use.
-5. Expand the first four externally supplied dataset challenges to additional independent
+6. Expand the first four externally supplied dataset challenges to additional independent
    principals, richer noise and missingness models, and learned invariant proposals while retaining
    the synthetic negative controls; obtain detached signatures before level-5 use.
-6. Continue bounded counterexample-guided repair on the 24 descendants, prioritizing representation
+7. Continue bounded counterexample-guided repair on the 24 descendants, prioritizing representation
    changes and parent mechanisms that were not used in the first campaign. Preserve the failed
    fresh predictions as new repair evidence and rotate again before measuring improvement.
-7. Continue bounded level-5 runs until three independent successes exist; the open-problem gate
+8. Continue bounded level-5 runs until three independent successes exist; the open-problem gate
    remains closed meanwhile, but creative branches continue accumulating.

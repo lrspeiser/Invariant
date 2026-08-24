@@ -1,0 +1,150 @@
+{
+  "adapter_receipt": {
+    "claims": {
+      "formal_target_checked": true,
+      "lean_available": true,
+      "scientific_truth_inferred": false
+    },
+    "content_sha256": "316d1e079aebfcf1058d3ee7b5b50f074045db6346d7e46f2c63c89a3294c71b",
+    "decision": "pass_lean_checked_closed_premise",
+    "dependency_audit": {
+      "closure_valid": true,
+      "dependencies": [
+        "Invariant.recoveredKineticNormalForm",
+        "Invariant.recoveredSumSquaresNormalForm",
+        "Nat.add_mul",
+        "Nat.mul_add",
+        "Nat.mul_one",
+        "Rat.mul_assoc",
+        "Rat.mul_comm"
+      ],
+      "protocol_version": "INVARIANT_LEAN_DEPENDENCY_AUDIT_V1",
+      "reported_target": "Invariant.externalKnownFormulaControls"
+    },
+    "executable": {
+      "configured": true,
+      "discovered": true,
+      "discovery_source": "explicit",
+      "identity_sha256": "840179e70803ef373c2ec53342d6a45ea7d022533e4145489fc1278b4f716385"
+    },
+    "execution": {
+      "attempted": true,
+      "exit_code": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "3579d4f12027ed68df038cde112d5650342a912af468d6c2eb4ecdb09f4acf27",
+      "timed_out": false
+    },
+    "manifest_sha256": "77db983cdbd21f7d14f26a6ccf04c60b604ff6a3c39385b6423b37ad56270338",
+    "reason": "Lean checked the target and reported only allowed premises",
+    "schema_version": "invariant-lean-adapter-result-1.0",
+    "source_sha256": "97c4ab4a0d6958ca011acc0fc45d77036fa51899e0da8db3ee15e77220891014",
+    "status": "pass",
+    "target": "Invariant.externalKnownFormulaControls"
+  },
+  "ci_provenance": {
+    "artifact_name": "external-creativity-lean",
+    "complete": true,
+    "event_name": "push",
+    "head_sha": "30f12a4d499c949b67ec57d0eb0332a2e78aae33",
+    "job": "lean-kernel",
+    "provider": "github_actions",
+    "repository": "lrspeiser/Invariant",
+    "run_attempt": 1,
+    "run_id": 32694147754,
+    "runner_arch": "X64",
+    "runner_os": "Linux",
+    "workflow": "External creativity validation"
+  },
+  "claims": {
+    "candidate_specific_unit_offset_mutations_kernel_rejected": true,
+    "known_formula_normal_forms_kernel_checked": true,
+    "novel_formula_established": false,
+    "physical_law_proved": false
+  },
+  "content_sha256": "419f8b04bc966527670a70a8abbf993c84554e830da308a40425b293bece09de",
+  "counts": {
+    "kernel_executions_attempted": 3,
+    "kernel_positive_passes": 1,
+    "wrong_formula_controls_rejected": 2,
+    "wrong_formula_controls_required": 2
+  },
+  "schema_version": "invariant-external-creativity-lean-bridge-1.1",
+  "source_path": "formal/lean/ExternalKnownFormulaControls.lean",
+  "source_sha256": "97c4ab4a0d6958ca011acc0fc45d77036fa51899e0da8db3ee15e77220891014",
+  "status": "PASS",
+  "target": "Invariant.externalKnownFormulaControls",
+  "toolchain": {
+    "declaration": "leanprover/lean4:v4.33.0",
+    "path": "lean-toolchain",
+    "source_sha256": "302cd63c54178885b89e669f33b38f12f4dd7ae7e5cac537b3203e3768d8fb2b"
+  },
+  "wrong_formula_kernel_controls": [
+    {
+      "benchmark_id": "external.authority-openstax-0702",
+      "candidate_expression": "(1/2)*x0*x1**2",
+      "candidate_expression_sha256": "149f3779a65e0726319b9d4ec3733fd959577eff6cce1de9a33ae2c27b10fac4",
+      "candidate_id": "candidate.0dd1fa8201b4bc8c2e6877d9",
+      "control_id": "lean-unit-offset-openstax-0702",
+      "expected_residual": "1/1",
+      "mutation_operator": "add_exact_unit",
+      "outcome": "REJECTED_BY_LEAN_KERNEL",
+      "rejection_receipt": {
+        "content_sha256": "00ffeda82c17737821d506f7b5ea2601bd97b31a9cd4e95847d167e440c42626",
+        "decision": "block_lean_process_failure",
+        "diagnostic_bytes_persisted": false,
+        "executable_identity_sha256": "840179e70803ef373c2ec53342d6a45ea7d022533e4145489fc1278b4f716385",
+        "execution": {
+          "attempted": true,
+          "nonzero_exit_code": true,
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_sha256": "c70fef153f8308361a3d2bb6297f7f8568cac2552c6207ead532ad325ee25d43",
+          "timed_out": false
+        },
+        "schema_version": "invariant-external-creativity-lean-rejection-1.0",
+        "source_sha256": "06d028ba21042f71715613f5b2c937d07ad1fb2ba894101ea141e12b97fcd8a7",
+        "status": "block",
+        "target": "Invariant.externalOpenStaxKineticUnitOffsetFalse"
+      },
+      "source_path": "formal/lean/ExternalKnownFormulaKineticUnitOffsetFalse.lean",
+      "source_sha256": "06d028ba21042f71715613f5b2c937d07ad1fb2ba894101ea141e12b97fcd8a7",
+      "target": "Invariant.externalOpenStaxKineticUnitOffsetFalse",
+      "witness_inputs": {
+        "x0": "0/1",
+        "x1": "0/1"
+      }
+    },
+    {
+      "benchmark_id": "external.authority-nist-0244",
+      "candidate_expression": "x0*(x0 + 1)*(2*x0 + 1)/6",
+      "candidate_expression_sha256": "011ed5d4712b5cc8fc378dde4ddfd5e0020b6105349b41cc84cfc532e47de808",
+      "candidate_id": "candidate.0082bc01d3dc5192fc25ea54",
+      "control_id": "lean-unit-offset-nist-0244",
+      "expected_residual": "1/1",
+      "mutation_operator": "add_exact_unit",
+      "outcome": "REJECTED_BY_LEAN_KERNEL",
+      "rejection_receipt": {
+        "content_sha256": "390d4bac64823da441e3961bebedd6f0c6285c8574bd6e914f99a6de29e6a6aa",
+        "decision": "block_lean_process_failure",
+        "diagnostic_bytes_persisted": false,
+        "executable_identity_sha256": "840179e70803ef373c2ec53342d6a45ea7d022533e4145489fc1278b4f716385",
+        "execution": {
+          "attempted": true,
+          "nonzero_exit_code": true,
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_sha256": "2dc179e094b2ec9298aabbb3007281f3e2a608d112b1bb3a5741f5db0795d857",
+          "timed_out": false
+        },
+        "schema_version": "invariant-external-creativity-lean-rejection-1.0",
+        "source_sha256": "63b7d91ada30b49e641229656d622418c366c52adcf0a58b597761d384439372",
+        "status": "block",
+        "target": "Invariant.externalNistSumSquaresUnitOffsetFalse"
+      },
+      "source_path": "formal/lean/ExternalKnownFormulaSumSquaresUnitOffsetFalse.lean",
+      "source_sha256": "63b7d91ada30b49e641229656d622418c366c52adcf0a58b597761d384439372",
+      "target": "Invariant.externalNistSumSquaresUnitOffsetFalse",
+      "witness_inputs": {
+        "x0": "0/1"
+      }
+    }
+  ]
+}
