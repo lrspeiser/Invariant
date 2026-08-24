@@ -362,6 +362,12 @@ This is evidence of bounded rediscovery, not evidence of mathematical novelty.
   branches and generates a complete pending human form for every sealed nearest-match set. It does
   not let an AI fill the human field. Named review remains outstanding for all 24 descendants and
   the earlier A005132 screen; tournament survivors will enter the same queue after blinded scoring.
+- A sealed additive zbMATH Open pass now covers all 24 descendants plus the earlier A005132 case.
+  Its 25 keyless requests produced 15 result-bearing responses and 10 explicit no-result responses,
+  with 48 unique bibliographic records retained. It stores compact titles, authors, years, MSC
+  classifications, and HTTPS links but excludes editorial review text. Original Crossref, arXiv,
+  OEIS, and Semantic Scholar evidence is unchanged. A result is a human-review lead; absence remains
+  `not cleared`, and all 25 gates remain closed.
 
 ### 9. Reproduce independently
 
@@ -396,7 +402,8 @@ This is evidence of bounded rediscovery, not evidence of mathematical novelty.
 ## Next executable milestones
 
 1. Complete the 24 pending retained-descendant prior-art forms plus the earlier A005132 form with
-   specifically named human reviewers. Retry unavailable provider lanes where practical, but keep
+   specifically named human reviewers, using the sealed zbMATH supplement as an additional
+   math-specific review dossier. Retry other unavailable provider lanes where practical, but keep
    automated absence as `not cleared` regardless of retry outcome.
 2. Obtain two named blinded reviewers for the clean 353-branch packet, seal their complete forms,
    and score the bounded rotation; record disagreements before unblinding system identity.
