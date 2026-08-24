@@ -461,32 +461,39 @@ def _restore_model_evidence(
     probes = [
         item for item in journal.events if item["event_kind"] == "model_probe_response"
     ]
-    if len(probes) > 1:
-        raise ErdosStrausCreativeShadowError("attempt journal has multiple model probes")
     if not probes:
         raise ErdosStrausCreativeShadowError(
             "journaled response cannot replay without its model-capability probe"
         )
-    payload = probes[0]["payload"]
-    response = payload.get("response", {})
-    capabilities = response.get("capabilities", {})
-    structured = (
-        capabilities.get("structured_outputs", {})
-        if isinstance(capabilities, Mapping)
-        else {}
-    )
-    if (
-        payload.get("status") != 200
-        or response.get("id") != client.config.model
-        or not isinstance(structured, Mapping)
-        or structured.get("supported") is not True
-    ):
-        raise ErdosStrausCreativeShadowError("journaled model-capability evidence is invalid")
-    client._model_evidence = {
-        "capabilities_sha256": canonical_sha256(capabilities),
-        "model": client.config.model,
-        "structured_outputs_supported": True,
-    }
+    recovered = []
+    for probe in probes:
+        payload = probe["payload"]
+        response = payload.get("response", {})
+        capabilities = response.get("capabilities", {})
+        structured = (
+            capabilities.get("structured_outputs", {})
+            if isinstance(capabilities, Mapping)
+            else {}
+        )
+        if (
+            payload.get("status") != 200
+            or response.get("id") != client.config.model
+            or not isinstance(structured, Mapping)
+            or structured.get("supported") is not True
+        ):
+            raise ErdosStrausCreativeShadowError(
+                "journaled model-capability evidence is invalid"
+            )
+        recovered.append(
+            {
+                "capabilities_sha256": canonical_sha256(capabilities),
+                "model": client.config.model,
+                "structured_outputs_supported": True,
+            }
+        )
+    if any(item != recovered[0] for item in recovered[1:]):
+        raise ErdosStrausCreativeShadowError("journaled model-capability probes disagree")
+    client._model_evidence = recovered[0]
 
 
 class _ReplayMessageTransport:
@@ -544,6 +551,10 @@ def _run_scheduled_call(
     responses = [item for item in previous if item["event_kind"] == "message_response"]
     if len(dispatches) > 1 or len(responses) > 1:
         raise ErdosStrausCreativeShadowError("scheduled LLM call journal is not singular")
+    if responses and not dispatches:
+        raise ErdosStrausCreativeShadowError(
+            "scheduled LLM response has no bound dispatch"
+        )
     if dispatches and not responses:
         outcome = _append_outcome(
             journal,

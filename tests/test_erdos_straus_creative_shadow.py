@@ -262,6 +262,32 @@ def test_missing_credential_does_not_permanently_consume_a_slot(tmp_path: Path):
     assert evidence["budget"]["calls"] == 1
 
 
+def test_restart_accepts_repeated_identical_model_probes_and_recovers_critic(tmp_path: Path):
+    config = _test_config(critics=False)
+    journal = _journal(tmp_path, config)
+    _with_test_credential(
+        lambda: _creative_calls(config, journal, base_transport=ShadowTransport())
+    )
+    config["experiment"]["llm_critic_batch_size"] = 1
+    with pytest.raises(SimulatedCrash, match="durable response"):
+        _with_test_credential(
+            lambda: _creative_calls(
+                config,
+                DurableAttemptJournal.load(journal.path),
+                base_transport=ShadowTransport(crash_after_first_response=True),
+            )
+        )
+    loaded = DurableAttemptJournal.load(journal.path)
+    assert loaded.event_counts()["model_probe_response"] == 2
+    no_calls = NoCallTransport()
+    ideas, evidence = _with_test_credential(
+        lambda: _creative_calls(config, loaded, base_transport=no_calls)
+    )
+    assert no_calls.calls == 0
+    assert evidence["budget"]["calls"] == 2
+    assert ideas[0]["critic_source"] == "journaled_llm_critic_retained_without_pruning"
+
+
 def test_later_bad_critic_is_retained_and_all_slots_resume_without_calls(tmp_path: Path):
     config = _test_config(critics=True)
     journal = _journal(tmp_path, config)
