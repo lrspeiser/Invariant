@@ -412,8 +412,14 @@ The same shadow receipt now gives all 173 creative-tail recoveries exact first-s
 to winning pair, direct parent pair, mutation delta, idea, basis, origin assessment, and role. Five
 ideas are linked to the recoveries (70, 51, 33, 18, and 1 respectively); 27 hits have multiple
 direct mutation parents but zero cross-idea or cross-basis ambiguity. This establishes auditable
-mechanism lineage, not causal or novelty credit, and leaves basis-specific ESDSL2 execution as the
-next semantic expansion.
+mechanism lineage, not causal or novelty credit. A versioned ESDSL2 compiler now closes the semantic
+collapse at the compiler-contract level: continued-fraction convergents, descent reachability,
+divisor factor pairs, greedy budget selection, affine lattices, congruence filters, polynomial maps,
+and residue lifts have separate strict schemas and operators. Eight positive schedules are distinct;
+each has a structural control matched on basis, grammar field count, direct-pair count, and verifier
+lane budget. The sealed receipt also hardcodes the ESDSL1 parse and Cartesian-order compatibility
+vector. The historical LLM campaign remains ESDSL1 and is not reinterpreted; a separately budgeted,
+preregistered ESDSL2 LLM campaign is the next experimental step.
 
 1. Complete the 24 pending retained-descendant prior-art forms plus the earlier A005132 form with
    specifically named human reviewers, using the sealed zbMATH supplement as an additional

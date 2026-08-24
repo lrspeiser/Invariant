@@ -15,6 +15,7 @@ import secrets
 import time
 from collections import Counter
 from collections.abc import Mapping, Sequence
+from math import isqrt
 from pathlib import Path
 from typing import Any
 
@@ -53,13 +54,14 @@ from .sigma_core import canonical_sha256
 
 CONFIG_PATH = "configs/erdos_straus_creative_shadow.json"
 OUTPUT_PATH = "runs/math/erdos-straus-creative-shadow/live-runtime.json"
-SCHEMA_VERSION = "invariant-erdos-straus-creative-shadow-runtime-1.0"
-CONFIG_SCHEMA = "invariant-erdos-straus-creative-shadow-config-1.0"
+SCHEMA_VERSION = "invariant-erdos-straus-creative-shadow-runtime-1.1"
+CONFIG_SCHEMA = "invariant-erdos-straus-creative-shadow-config-1.1"
+ESDSL2_CONTRACT_SCHEMA = "invariant-esdsl2-basis-semantics-contract-1.0"
 SOURCE_PATH = "src/sigma_theory_compiler/erdos_straus_creative_shadow.py"
 SWEEPER_PATH = "src/sigma_theory_compiler/exponent_diophantine_sweeper.py"
 JOURNAL_PATH = "work/erdos-straus-creative-shadow/llm-attempts.jsonl"
 
-_DSL = re.compile(r"^ESDSL1\|basis=([a-z_]+)\|x=([0-9,]+)\|t=([0-9,]+)\|m=([0-9,]+)$")
+_DSL1 = re.compile(r"^ESDSL1\|basis=([a-z_]+)\|x=([0-9,]+)\|t=([0-9,]+)\|m=([0-9,]+)$")
 _BASES = {
     "continued_fraction",
     "descent_graph",
@@ -70,6 +72,92 @@ _BASES = {
     "polynomial_ansatz",
     "residue_cover",
 }
+_ESDSL2_FIELDS = {
+    "continued_fraction": ("a", "scale", "m"),
+    "descent_graph": ("start", "moves", "depth", "m"),
+    "divisor_pair": ("n", "shift", "m"),
+    "greedy_offset": ("x", "t", "budget", "m"),
+    "lattice_transform": ("u", "v", "matrix", "shift", "m"),
+    "modular_sieve": ("x", "t", "congruence", "m"),
+    "polynomial_ansatz": ("k", "xcoef", "tcoef", "m"),
+    "residue_cover": ("q", "residues", "lifts", "m"),
+}
+_ESDSL2_OPERATORS = {
+    "continued_fraction": "ordered_continued_fraction_convergents",
+    "descent_graph": "bounded_descent_graph_reachability",
+    "divisor_pair": "exact_divisor_factor_pairs",
+    "greedy_offset": "diagonal_cost_greedy_budget",
+    "lattice_transform": "integer_affine_lattice_image",
+    "modular_sieve": "linear_congruence_filtered_product",
+    "polynomial_ansatz": "integer_polynomial_parameter_map",
+    "residue_cover": "complementary_residue_lifts",
+}
+_ESDSL2_CONTROL_CASES = (
+    {
+        "basis": "continued_fraction",
+        "expression": "ESDSL2|basis=continued_fraction|a=1,2,2,2|scale=1|m=24",
+        "matched_control": "ESDSL2|basis=continued_fraction|a=1,2,2,2|scale=2|m=24",
+    },
+    {
+        "basis": "descent_graph",
+        "expression": (
+            "ESDSL2|basis=descent_graph|start=4,4|moves=2,-1;-1,2|depth=2|m=24"
+        ),
+        "matched_control": (
+            "ESDSL2|basis=descent_graph|start=4,4|moves=1,0;0,1|depth=2|m=24"
+        ),
+    },
+    {
+        "basis": "divisor_pair",
+        "expression": "ESDSL2|basis=divisor_pair|n=12,18|shift=1,2|m=24",
+        "matched_control": "ESDSL2|basis=divisor_pair|n=12,18|shift=2,1|m=24",
+    },
+    {
+        "basis": "greedy_offset",
+        "expression": "ESDSL2|basis=greedy_offset|x=0,4,9|t=1,5,10|budget=5|m=24",
+        "matched_control": (
+            "ESDSL2|basis=greedy_offset|x=0,4,9|t=2,6,11|budget=5|m=24"
+        ),
+    },
+    {
+        "basis": "lattice_transform",
+        "expression": (
+            "ESDSL2|basis=lattice_transform|u=0,1|v=0,2|"
+            "matrix=2,1,1,3|shift=1,2|m=24"
+        ),
+        "matched_control": (
+            "ESDSL2|basis=lattice_transform|u=0,1|v=0,2|"
+            "matrix=3,1,1,2|shift=1,2|m=24"
+        ),
+    },
+    {
+        "basis": "modular_sieve",
+        "expression": (
+            "ESDSL2|basis=modular_sieve|x=0,1,2,3|t=0,1,2,3|"
+            "congruence=1,1,0,2|m=24"
+        ),
+        "matched_control": (
+            "ESDSL2|basis=modular_sieve|x=0,1,2,3|t=0,1,2,3|"
+            "congruence=1,1,1,2|m=24"
+        ),
+    },
+    {
+        "basis": "polynomial_ansatz",
+        "expression": (
+            "ESDSL2|basis=polynomial_ansatz|k=0,1,2,3|xcoef=1,1|tcoef=0,0,1|m=24"
+        ),
+        "matched_control": (
+            "ESDSL2|basis=polynomial_ansatz|k=0,1,2,3|xcoef=2,1|tcoef=0,0,1|m=24"
+        ),
+    },
+    {
+        "basis": "residue_cover",
+        "expression": "ESDSL2|basis=residue_cover|q=5|residues=1,2,4|lifts=0,1|m=24",
+        "matched_control": (
+            "ESDSL2|basis=residue_cover|q=5|residues=0,2,3|lifts=0,1|m=24"
+        ),
+    },
+)
 _KNOWN_MECHANISM_TERMS = {
     "continued_fraction": ("continued fraction", "ceiling fraction"),
     "divisor_factorization": ("divisor", "factor", "b^2"),
@@ -134,6 +222,8 @@ def _load_config(root: Path, config_path: str | Path = CONFIG_PATH) -> dict[str,
         or not 0 <= critic_batch_size <= 16
     ):
         raise ErdosStrausCreativeShadowError("LLM critic batch size is invalid")
+    if experiment.get("proposal_dsl_version") not in {"ESDSL1", "ESDSL2"}:
+        raise ErdosStrausCreativeShadowError("proposal DSL version is invalid")
     if value["claude"]["maximum_calls"] != 4 or value["claude"]["maximum_total_tokens"] > 32_000:
         raise ErdosStrausCreativeShadowError("open-problem shadow budget changed")
     return value
@@ -141,6 +231,27 @@ def _load_config(root: Path, config_path: str | Path = CONFIG_PATH) -> dict[str,
 
 def _public_payload(config: Mapping[str, Any]) -> dict[str, Any]:
     experiment = config["experiment"]
+    if experiment["proposal_dsl_version"] == "ESDSL1":
+        machine_recipe = (
+            "The expression field must be exactly ESDSL1|basis=B|x=X|t=T|m=M. "
+            "B is one of continued_fraction, descent_graph, divisor_pair, greedy_offset, "
+            "lattice_transform, modular_sieve, polynomial_ansatz, residue_cover. X and T "
+            f"are comma-separated sets of 2 to {experiment['maximum_offsets_per_axis']} "
+            f"integers from 0 to {experiment['maximum_offset']}; M is 1 to "
+            f"{experiment['maximum_moduli_per_recipe']} moduli from 2 to 256."
+        )
+    else:
+        machine_recipe = (
+            "The expression field must use exactly one strict ESDSL2 basis form: "
+            "continued_fraction|a=A|scale=S; "
+            "descent_graph|start=X,T|moves=DX,DT;...|depth=D; "
+            "divisor_pair|n=N|shift=X,T; greedy_offset|x=X|t=T|budget=K; "
+            "lattice_transform|u=U|v=V|matrix=A,B,C,D|shift=X,T; "
+            "modular_sieve|x=X|t=T|congruence=A,B,R,Q; "
+            "polynomial_ansatz|k=K|xcoef=C|tcoef=C; or "
+            "residue_cover|q=Q|residues=R|lifts=L. Prefix with ESDSL2|basis=B and "
+            "suffix with |m=M. Preserve the shown field order and use only bounded integers."
+        )
     return {
         "experiment_boundary": (
             "Finite mechanism shadow only. Do not claim a proof, a new verification bound, "
@@ -150,14 +261,7 @@ def _public_payload(config: Mapping[str, Any]) -> dict[str, Any]:
             "For n congruent to 1 mod 12, set x=floor(n/4)+1+dx, a=4x-n, b=nx, "
             "y=ceil(b/a)+t, and accept when d=ay-b divides by exactly testing d | by."
         ),
-        "machine_recipe": (
-            "The expression field must be exactly ESDSL1|basis=B|x=X|t=T|m=M. "
-            "B is one of continued_fraction, descent_graph, divisor_pair, greedy_offset, "
-            "lattice_transform, modular_sieve, polynomial_ansatz, residue_cover. X and T "
-            f"are comma-separated sets of 2 to {experiment['maximum_offsets_per_axis']} "
-            f"integers from 0 to {experiment['maximum_offset']}; M is 1 to "
-            f"{experiment['maximum_moduli_per_recipe']} moduli from 2 to 256."
-        ),
+        "machine_recipe": machine_recipe,
         "problem_equation": config["problem"]["equation"],
         "problem_id": config["problem"]["id"],
         "requested_diversity": (
@@ -190,40 +294,465 @@ def _critic_instruction(batch_size: int) -> str:
 
 
 def _parse_numbers(raw: str, *, minimum: int, maximum: int, cap: int) -> tuple[int, ...] | None:
+    if re.fullmatch(r"[0-9]+(?:,[0-9]+)*", raw) is None:
+        return None
     values = tuple(sorted({int(item) for item in raw.split(",")}))
     if not 1 <= len(values) <= cap or any(item < minimum or item > maximum for item in values):
         return None
     return values
 
 
-def parse_recipe(expression: str, experiment: Mapping[str, Any]) -> dict[str, Any] | None:
-    match = _DSL.fullmatch(expression.strip())
-    if match is None or match.group(1) not in _BASES:
+def _parse_canonical_numbers(
+    raw: str, *, minimum: int, maximum: int, cap: int
+) -> tuple[int, ...] | None:
+    values = _parse_numbers(raw, minimum=minimum, maximum=maximum, cap=cap)
+    if values is None or raw != ",".join(str(item) for item in values):
         return None
+    return values
+
+
+def _parse_ordered_integers(
+    raw: str,
+    *,
+    minimum: int,
+    maximum: int,
+    minimum_count: int,
+    maximum_count: int,
+) -> tuple[int, ...] | None:
+    if re.fullmatch(r"-?[0-9]+(?:,-?[0-9]+)*", raw) is None:
+        return None
+    values = tuple(int(item) for item in raw.split(","))
+    if (
+        not minimum_count <= len(values) <= maximum_count
+        or any(item < minimum or item > maximum for item in values)
+        or raw != ",".join(str(item) for item in values)
+    ):
+        return None
+    return values
+
+
+def _parse_scalar(raw: str, *, minimum: int, maximum: int) -> int | None:
+    parsed = _parse_ordered_integers(
+        raw,
+        minimum=minimum,
+        maximum=maximum,
+        minimum_count=1,
+        maximum_count=1,
+    )
+    return None if parsed is None else parsed[0]
+
+
+def _parse_esdsl2_fields(expression: str) -> tuple[str, dict[str, str]] | None:
+    parts = expression.strip().split("|")
+    if len(parts) < 4 or parts[0] != "ESDSL2" or not parts[1].startswith("basis="):
+        return None
+    basis = parts[1][len("basis=") :]
+    if basis not in _ESDSL2_FIELDS:
+        return None
+    fields: dict[str, str] = {}
+    ordered_keys = []
+    for part in parts[2:]:
+        if part.count("=") != 1:
+            return None
+        key, raw = part.split("=", 1)
+        if not key or not raw or key in fields:
+            return None
+        ordered_keys.append(key)
+        fields[key] = raw
+    if tuple(ordered_keys) != _ESDSL2_FIELDS[basis]:
+        return None
+    return basis, fields
+
+
+def _ordered_unique_pairs(pairs: Sequence[tuple[int, int]]) -> tuple[tuple[int, int], ...]:
+    return tuple(dict.fromkeys((int(dx), int(t)) for dx, t in pairs))
+
+
+def _validate_esdsl2_schedule(
+    pairs: Sequence[tuple[int, int]], experiment: Mapping[str, Any]
+) -> tuple[tuple[int, int], ...]:
+    result = _ordered_unique_pairs(pairs)
+    maximum = int(experiment["maximum_offset"])
+    cap = int(experiment["maximum_offsets_per_axis"]) ** 2
+    if (
+        not 1 <= len(result) <= cap
+        or any(dx < 0 or t < 0 or dx > maximum or t > maximum for dx, t in result)
+    ):
+        raise ErdosStrausCreativeShadowError("ESDSL2 schedule is empty, oversized, or out of bounds")
+    return result
+
+
+def _schedule_esdsl2(
+    recipe: Mapping[str, Any], experiment: Mapping[str, Any]
+) -> tuple[tuple[int, int], ...]:
+    basis = str(recipe["basis"])
+    parameters = recipe["parameters"]
+    pairs: list[tuple[int, int]] = []
+    if basis == "continued_fraction":
+        previous_previous_p, previous_p = 0, 1
+        previous_previous_q, previous_q = 1, 0
+        scale = int(parameters["scale"])
+        for partial_quotient in parameters["partial_quotients"]:
+            p = int(partial_quotient) * previous_p + previous_previous_p
+            q = int(partial_quotient) * previous_q + previous_previous_q
+            pairs.append((scale * p, scale * q))
+            previous_previous_p, previous_p = previous_p, p
+            previous_previous_q, previous_q = previous_q, q
+    elif basis == "descent_graph":
+        start = tuple(int(item) for item in parameters["start"])
+        moves = [tuple(int(item) for item in move) for move in parameters["moves"]]
+        maximum = int(experiment["maximum_offset"])
+        seen = {start}
+        frontier = [start]
+        pairs.append(start)
+        for _ in range(int(parameters["depth"])):
+            next_frontier = sorted(
+                {
+                    (node[0] + move[0], node[1] + move[1])
+                    for node in frontier
+                    for move in moves
+                    if 0 <= node[0] + move[0] <= maximum
+                    and 0 <= node[1] + move[1] <= maximum
+                }
+                - seen
+            )
+            pairs.extend(next_frontier)
+            seen.update(next_frontier)
+            frontier = next_frontier
+    elif basis == "divisor_pair":
+        shift_x, shift_t = (int(item) for item in parameters["shift"])
+        for composite in parameters["integers"]:
+            value = int(composite)
+            for divisor in range(1, isqrt(value) + 1):
+                if value % divisor == 0:
+                    pairs.append((divisor + shift_x, value // divisor + shift_t))
+    elif basis == "greedy_offset":
+        candidates = sorted(
+            (
+                (int(dx), int(t))
+                for dx in parameters["x_offsets"]
+                for t in parameters["t_offsets"]
+            ),
+            key=lambda item: (sum(item), abs(item[0] - item[1]), item),
+        )
+        pairs.extend(candidates[: int(parameters["budget"])])
+    elif basis == "lattice_transform":
+        a, b, c, d = (int(item) for item in parameters["matrix"])
+        shift_x, shift_t = (int(item) for item in parameters["shift"])
+        pairs.extend(
+            (
+                a * int(u) + b * int(v) + shift_x,
+                c * int(u) + d * int(v) + shift_t,
+            )
+            for u in parameters["u_coordinates"]
+            for v in parameters["v_coordinates"]
+        )
+    elif basis == "modular_sieve":
+        coefficient_x, coefficient_t, residue, modulus = (
+            int(item) for item in parameters["congruence"]
+        )
+        pairs.extend(
+            (int(dx), int(t))
+            for dx in parameters["x_offsets"]
+            for t in parameters["t_offsets"]
+            if (coefficient_x * int(dx) + coefficient_t * int(t) - residue) % modulus == 0
+        )
+    elif basis == "polynomial_ansatz":
+        x_coefficients = tuple(int(item) for item in parameters["x_coefficients"])
+        t_coefficients = tuple(int(item) for item in parameters["t_coefficients"])
+        for raw_k in parameters["parameter_values"]:
+            k = int(raw_k)
+            pairs.append(
+                (
+                    sum(coefficient * k**power for power, coefficient in enumerate(x_coefficients)),
+                    sum(coefficient * k**power for power, coefficient in enumerate(t_coefficients)),
+                )
+            )
+    elif basis == "residue_cover":
+        modulus = int(parameters["modulus"])
+        pairs.extend(
+            (
+                int(residue) + modulus * int(lift),
+                (-int(residue)) % modulus + modulus * int(lift),
+            )
+            for residue in parameters["residues"]
+            for lift in parameters["lifts"]
+        )
+    else:
+        raise ErdosStrausCreativeShadowError("ESDSL2 basis has no executable semantics")
+    return _validate_esdsl2_schedule(pairs, experiment)
+
+
+def _parse_esdsl2(expression: str, experiment: Mapping[str, Any]) -> dict[str, Any] | None:
+    parsed_fields = _parse_esdsl2_fields(expression)
+    if parsed_fields is None:
+        return None
+    basis, fields = parsed_fields
     cap = int(experiment["maximum_offsets_per_axis"])
     maximum = int(experiment["maximum_offset"])
-    x_offsets = _parse_numbers(match.group(2), minimum=0, maximum=maximum, cap=cap)
-    t_offsets = _parse_numbers(match.group(3), minimum=0, maximum=maximum, cap=cap)
-    moduli = _parse_numbers(
-        match.group(4),
+    moduli = _parse_canonical_numbers(
+        fields["m"],
         minimum=2,
         maximum=256,
         cap=int(experiment["maximum_moduli_per_recipe"]),
     )
-    if x_offsets is None or t_offsets is None or moduli is None:
+    if moduli is None:
         return None
-    return {
-        "basis": match.group(1),
+    parameters: dict[str, Any]
+    if basis == "continued_fraction":
+        partial_quotients = _parse_ordered_integers(
+            fields["a"], minimum=1, maximum=16, minimum_count=2, maximum_count=cap
+        )
+        scale = _parse_scalar(fields["scale"], minimum=1, maximum=16)
+        if partial_quotients is None or scale is None:
+            return None
+        parameters = {"partial_quotients": list(partial_quotients), "scale": scale}
+    elif basis == "descent_graph":
+        start = _parse_ordered_integers(
+            fields["start"], minimum=0, maximum=maximum, minimum_count=2, maximum_count=2
+        )
+        raw_moves = fields["moves"].split(";")
+        moves = [
+            _parse_ordered_integers(
+                raw, minimum=-maximum, maximum=maximum, minimum_count=2, maximum_count=2
+            )
+            for raw in raw_moves
+        ]
+        depth = _parse_scalar(fields["depth"], minimum=1, maximum=4)
+        if (
+            start is None
+            or not 1 <= len(moves) <= 4
+            or any(move is None or move == (0, 0) for move in moves)
+            or depth is None
+        ):
+            return None
+        parameters = {"depth": depth, "moves": [list(move) for move in moves], "start": list(start)}
+    elif basis == "divisor_pair":
+        integers = _parse_canonical_numbers(fields["n"], minimum=2, maximum=256, cap=4)
+        shift = _parse_ordered_integers(
+            fields["shift"], minimum=0, maximum=maximum, minimum_count=2, maximum_count=2
+        )
+        if integers is None or shift is None:
+            return None
+        parameters = {"integers": list(integers), "shift": list(shift)}
+    elif basis == "greedy_offset":
+        x_offsets = _parse_canonical_numbers(fields["x"], minimum=0, maximum=maximum, cap=cap)
+        t_offsets = _parse_canonical_numbers(fields["t"], minimum=0, maximum=maximum, cap=cap)
+        budget = _parse_scalar(fields["budget"], minimum=1, maximum=cap**2)
+        if (
+            x_offsets is None
+            or t_offsets is None
+            or budget is None
+            or budget > len(x_offsets) * len(t_offsets)
+        ):
+            return None
+        parameters = {
+            "budget": budget,
+            "t_offsets": list(t_offsets),
+            "x_offsets": list(x_offsets),
+        }
+    elif basis == "lattice_transform":
+        u_coordinates = _parse_canonical_numbers(fields["u"], minimum=0, maximum=16, cap=4)
+        v_coordinates = _parse_canonical_numbers(fields["v"], minimum=0, maximum=16, cap=4)
+        matrix = _parse_ordered_integers(
+            fields["matrix"], minimum=-16, maximum=16, minimum_count=4, maximum_count=4
+        )
+        shift = _parse_ordered_integers(
+            fields["shift"], minimum=0, maximum=maximum, minimum_count=2, maximum_count=2
+        )
+        if (
+            u_coordinates is None
+            or v_coordinates is None
+            or matrix is None
+            or matrix[0] * matrix[3] == matrix[1] * matrix[2]
+            or shift is None
+        ):
+            return None
+        parameters = {
+            "matrix": list(matrix),
+            "shift": list(shift),
+            "u_coordinates": list(u_coordinates),
+            "v_coordinates": list(v_coordinates),
+        }
+    elif basis == "modular_sieve":
+        x_offsets = _parse_canonical_numbers(fields["x"], minimum=0, maximum=maximum, cap=cap)
+        t_offsets = _parse_canonical_numbers(fields["t"], minimum=0, maximum=maximum, cap=cap)
+        congruence = _parse_ordered_integers(
+            fields["congruence"], minimum=-16, maximum=64, minimum_count=4, maximum_count=4
+        )
+        if x_offsets is None or t_offsets is None or congruence is None:
+            return None
+        coefficient_x, coefficient_t, residue, modulus = congruence
+        if (
+            coefficient_x == coefficient_t == 0
+            or not 2 <= modulus <= 64
+            or not 0 <= residue < modulus
+        ):
+            return None
+        parameters = {
+            "congruence": list(congruence),
+            "t_offsets": list(t_offsets),
+            "x_offsets": list(x_offsets),
+        }
+    elif basis == "polynomial_ansatz":
+        parameter_values = _parse_canonical_numbers(
+            fields["k"], minimum=0, maximum=16, cap=cap
+        )
+        x_coefficients = _parse_ordered_integers(
+            fields["xcoef"], minimum=-16, maximum=16, minimum_count=1, maximum_count=3
+        )
+        t_coefficients = _parse_ordered_integers(
+            fields["tcoef"], minimum=-16, maximum=16, minimum_count=1, maximum_count=3
+        )
+        if parameter_values is None or x_coefficients is None or t_coefficients is None:
+            return None
+        parameters = {
+            "parameter_values": list(parameter_values),
+            "t_coefficients": list(t_coefficients),
+            "x_coefficients": list(x_coefficients),
+        }
+    else:
+        modulus = _parse_scalar(fields["q"], minimum=2, maximum=64)
+        if modulus is None:
+            return None
+        residues = _parse_canonical_numbers(
+            fields["residues"], minimum=0, maximum=modulus - 1, cap=cap
+        )
+        lifts = _parse_canonical_numbers(fields["lifts"], minimum=0, maximum=cap, cap=cap)
+        if residues is None or lifts is None:
+            return None
+        parameters = {"lifts": list(lifts), "modulus": modulus, "residues": list(residues)}
+    recipe = {
+        "basis": basis,
+        "dsl_version": "ESDSL2",
         "moduli": list(moduli),
-        "t_offsets": list(t_offsets),
-        "x_offsets": list(x_offsets),
+        "parameters": parameters,
+        "semantic_operator": _ESDSL2_OPERATORS[basis],
     }
+    try:
+        _schedule_esdsl2(recipe, experiment)
+    except ErdosStrausCreativeShadowError:
+        return None
+    return recipe
 
 
-def _schedule_pairs(recipe: Mapping[str, Any]) -> tuple[tuple[int, int], ...]:
+def parse_recipe(expression: str, experiment: Mapping[str, Any]) -> dict[str, Any] | None:
+    match = _DSL1.fullmatch(expression.strip())
+    if match is not None and match.group(1) in _BASES:
+        cap = int(experiment["maximum_offsets_per_axis"])
+        maximum = int(experiment["maximum_offset"])
+        x_offsets = _parse_numbers(match.group(2), minimum=0, maximum=maximum, cap=cap)
+        t_offsets = _parse_numbers(match.group(3), minimum=0, maximum=maximum, cap=cap)
+        moduli = _parse_numbers(
+            match.group(4),
+            minimum=2,
+            maximum=256,
+            cap=int(experiment["maximum_moduli_per_recipe"]),
+        )
+        if x_offsets is None or t_offsets is None or moduli is None:
+            return None
+        return {
+            "basis": match.group(1),
+            "moduli": list(moduli),
+            "t_offsets": list(t_offsets),
+            "x_offsets": list(x_offsets),
+        }
+    return _parse_esdsl2(expression, experiment)
+
+
+def _schedule_pairs(
+    recipe: Mapping[str, Any], experiment: Mapping[str, Any] | None = None
+) -> tuple[tuple[int, int], ...]:
+    if recipe.get("dsl_version") == "ESDSL2":
+        if experiment is None:
+            raise ErdosStrausCreativeShadowError("ESDSL2 schedule requires experiment bounds")
+        return _schedule_esdsl2(recipe, experiment)
     return tuple(
         sorted((int(dx), int(t)) for dx in recipe["x_offsets"] for t in recipe["t_offsets"])
     )
+
+
+def _esdsl2_semantics_contract(experiment: Mapping[str, Any]) -> dict[str, Any]:
+    legacy_expression = "ESDSL1|basis=lattice_transform|x=0,2,65|t=0,7|m=24,120"
+    legacy_recipe = parse_recipe(legacy_expression, experiment)
+    legacy_expected_recipe = {
+        "basis": "lattice_transform",
+        "moduli": [24, 120],
+        "t_offsets": [0, 7],
+        "x_offsets": [0, 2, 65],
+    }
+    legacy_expected_schedule = ((0, 0), (0, 7), (2, 0), (2, 7), (65, 0), (65, 7))
+    if (
+        legacy_recipe != legacy_expected_recipe
+        or _schedule_pairs(legacy_recipe or {}) != legacy_expected_schedule
+    ):
+        raise ErdosStrausCreativeShadowError("ESDSL1 compatibility contract changed")
+
+    controls = []
+    schedule_hashes = set()
+    for case in _ESDSL2_CONTROL_CASES:
+        recipe = parse_recipe(case["expression"], experiment)
+        matched_recipe = parse_recipe(case["matched_control"], experiment)
+        if (
+            recipe is None
+            or matched_recipe is None
+            or recipe["basis"] != case["basis"]
+            or matched_recipe["basis"] != case["basis"]
+        ):
+            raise ErdosStrausCreativeShadowError("ESDSL2 positive control did not compile")
+        schedule = _schedule_pairs(recipe, experiment)
+        matched_schedule = _schedule_pairs(matched_recipe, experiment)
+        grammar_field_count_matched = len(case["expression"].split("|")) == len(
+            case["matched_control"].split("|")
+        )
+        if (
+            schedule == matched_schedule
+            or len(schedule) != len(matched_schedule)
+            or not grammar_field_count_matched
+        ):
+            raise ErdosStrausCreativeShadowError("ESDSL2 matched structural control changed")
+        schedule_sha256 = canonical_sha256(schedule)
+        schedule_hashes.add(schedule_sha256)
+        controls.append(
+            {
+                "basis": case["basis"],
+                "expression": case["expression"],
+                "grammar_field_count_matched": grammar_field_count_matched,
+                "matched_control_expression": case["matched_control"],
+                "matched_control_pairs": [list(pair) for pair in matched_schedule],
+                "matched_control_schedule_sha256": canonical_sha256(matched_schedule),
+                "pair_count": len(schedule),
+                "pair_count_matched": len(schedule) == len(matched_schedule),
+                "schedule_pairs": [list(pair) for pair in schedule],
+                "schedule_sha256": schedule_sha256,
+                "semantic_operator": recipe["semantic_operator"],
+                "verifier_lane_budget_matched": len(schedule) == len(matched_schedule),
+            }
+        )
+    if len(controls) != len(_BASES) or len(schedule_hashes) != len(_BASES):
+        raise ErdosStrausCreativeShadowError("ESDSL2 basis schedules are missing or collapsed")
+    return {
+        "all_basis_schedules_nonempty": all(item["pair_count"] > 0 for item in controls),
+        "basis_controls": controls,
+        "basis_schedule_sha256s_unique": True,
+        "claim_boundary": {
+            "basis_control_success_establishes_mathematical_novelty": False,
+            "basis_label_establishes_causal_mechanism": False,
+            "compiler_contract_decides_erdos_straus": False,
+        },
+        "esdsl1_compatibility": {
+            "expression": legacy_expression,
+            "parse_shape_unchanged": True,
+            "recipe": legacy_expected_recipe,
+            "schedule_pairs": [list(pair) for pair in legacy_expected_schedule],
+            "schedule_sha256": canonical_sha256(legacy_expected_schedule),
+        },
+        "matched_control_contract": (
+            "same basis, grammar field count, direct pair count, and exact verifier lane budget; "
+            "one typed structural parameter changed"
+        ),
+        "schema_version": ESDSL2_CONTRACT_SCHEMA,
+    }
 
 
 def _run_pairs_with_attribution(
@@ -755,7 +1284,10 @@ def _creative_calls(
             "repair": (
                 "Proceed to exact finite execution; correctness and novelty remain unverified."
                 if executable
-                else "Retain the idea text and translate it into a valid ESDSL1 recipe."
+                else (
+                    "Retain the idea text and translate it into a valid "
+                    f"{config['experiment']['proposal_dsl_version']} recipe."
+                )
             ),
             "verdict": "retain" if executable else "repair",
         }
@@ -806,7 +1338,7 @@ def _evaluate_ideas(
             }
             continue
         executable += 1
-        pairs = _schedule_pairs(recipe)
+        pairs = _schedule_pairs(recipe, experiment)
         all_pairs.update(pairs)
         wx, wy, resolved, lane_tests, elapsed = _run_pairs(xp, members, pairs)
         total_lane_tests += lane_tests
@@ -1248,6 +1780,7 @@ def _build_receipt(
         "recovery": config["recovery"],
         "schema_version": SCHEMA_VERSION,
         "status": "PASS_BOUNDED_CREATIVE_SHADOW_NO_OPEN_PROBLEM_CLAIM",
+        "typed_schedule_compiler": _esdsl2_semantics_contract(config["experiment"]),
     }
     body["accounting"] = {
         "baseline_gpu_lane_tests": hard_tail["baseline"]["exact_lane_tests"],
@@ -1358,6 +1891,8 @@ def validate_receipt(
         "sweeper_sha256": _file_sha256(root / SWEEPER_PATH),
     }:
         raise ErdosStrausCreativeShadowError("receipt source bindings changed")
+    if value.get("typed_schedule_compiler") != _esdsl2_semantics_contract(config["experiment"]):
+        raise ErdosStrausCreativeShadowError("typed schedule compiler contract changed")
     boundary = value["claim_boundary"]
     if any(boundary.values()):
         raise ErdosStrausCreativeShadowError("a prohibited claim is true")
@@ -1393,7 +1928,9 @@ def validate_receipt(
     for idea in value["creative_search"]["ideas"]:
         if idea["execution"]["admission"] == "EXECUTED_EXACT_MODULAR_SCREEN":
             recipe = parse_recipe(idea["hypothesis"]["expression"], config["experiment"])
-            expected_pairs = _schedule_pairs(recipe or {}) if recipe is not None else ()
+            expected_pairs = (
+                _schedule_pairs(recipe, config["experiment"]) if recipe is not None else ()
+            )
             if (
                 recipe != idea["execution"]["recipe"]
                 or [list(pair) for pair in expected_pairs]

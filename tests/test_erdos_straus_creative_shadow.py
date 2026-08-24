@@ -13,11 +13,14 @@ from sigma_theory_compiler.claude_creativity_api import CLAUDE_OUTPUT_SCHEMA_VER
 from sigma_theory_compiler.durable_llm_attempt_journal import DurableAttemptJournal
 from sigma_theory_compiler.erdos_straus_creative_shadow import (
     _creative_calls,
+    _esdsl2_semantics_contract,
     _file_sha256,
     _mutated_pairs,
     _mutation_lineage,
+    _public_payload,
     _run_pairs,
     _run_pairs_with_attribution,
+    _schedule_pairs,
     _witness_sample,
     parse_recipe,
     validate_receipt,
@@ -200,6 +203,114 @@ def test_recipe_parser_accepts_typed_schedule_and_rejects_prose():
     assert parse_recipe("try a clever lattice", EXPERIMENT) is None
     assert parse_recipe("ESDSL1|basis=magic|x=0|t=0|m=24", EXPERIMENT) is None
     assert parse_recipe("ESDSL1|basis=divisor_pair|x=999|t=0|m=24", EXPERIMENT) is None
+
+
+def test_esdsl2_basis_operators_have_distinct_exact_schedules_and_matched_controls():
+    contract = _esdsl2_semantics_contract(EXPERIMENT)
+    assert contract["schema_version"] == "invariant-esdsl2-basis-semantics-contract-1.0"
+    assert contract["all_basis_schedules_nonempty"] is True
+    assert contract["basis_schedule_sha256s_unique"] is True
+    assert [item["basis"] for item in contract["basis_controls"]] == [
+        "continued_fraction",
+        "descent_graph",
+        "divisor_pair",
+        "greedy_offset",
+        "lattice_transform",
+        "modular_sieve",
+        "polynomial_ansatz",
+        "residue_cover",
+    ]
+    assert {
+        item["basis"]: item["schedule_pairs"] for item in contract["basis_controls"]
+    } == {
+        "continued_fraction": [[1, 1], [3, 2], [7, 5], [17, 12]],
+        "descent_graph": [[4, 4], [3, 6], [6, 3], [2, 8], [5, 5], [8, 2]],
+        "divisor_pair": [[2, 14], [3, 8], [4, 6], [2, 20], [3, 11], [4, 8]],
+        "greedy_offset": [[0, 1], [4, 1], [0, 5], [4, 5], [9, 1]],
+        "lattice_transform": [[1, 2], [3, 8], [3, 3], [5, 9]],
+        "modular_sieve": [
+            [0, 0],
+            [0, 2],
+            [1, 1],
+            [1, 3],
+            [2, 0],
+            [2, 2],
+            [3, 1],
+            [3, 3],
+        ],
+        "polynomial_ansatz": [[1, 0], [2, 1], [3, 4], [4, 9]],
+        "residue_cover": [[1, 4], [6, 9], [2, 3], [7, 8], [4, 1], [9, 6]],
+    }
+    for item in contract["basis_controls"]:
+        assert item["pair_count_matched"] is True
+        assert item["grammar_field_count_matched"] is True
+        assert item["verifier_lane_budget_matched"] is True
+        assert item["schedule_pairs"] != item["matched_control_pairs"]
+
+
+def test_esdsl2_schedules_feed_the_exact_witness_checker():
+    members = _es_hard_members(10_000)
+    for item in _esdsl2_semantics_contract(EXPERIMENT)["basis_controls"]:
+        pairs = [tuple(pair) for pair in item["schedule_pairs"]]
+        wx, wy, resolved, lane_tests, _ = _run_pairs(__import__("numpy"), members, pairs)
+        assert lane_tests > 0
+        assert int(resolved.sum()) > 0
+        assert _witness_sample(members, wx, wy, resolved)
+
+
+def test_esdsl2_campaign_prompt_exposes_every_strict_basis_form():
+    config = json.loads(CONFIG_PATH.read_text(encoding="utf-8"))
+    legacy_machine_recipe = _public_payload(config)["machine_recipe"]
+    assert "exactly ESDSL1|basis=B|x=X|t=T|m=M" in legacy_machine_recipe
+    assert "ESDSL2" not in legacy_machine_recipe
+    config["experiment"]["proposal_dsl_version"] = "ESDSL2"
+    machine_recipe = _public_payload(config)["machine_recipe"]
+    assert "ESDSL2|basis=B" in machine_recipe
+    for basis in (
+        "continued_fraction",
+        "descent_graph",
+        "divisor_pair",
+        "greedy_offset",
+        "lattice_transform",
+        "modular_sieve",
+        "polynomial_ansatz",
+        "residue_cover",
+    ):
+        assert basis in machine_recipe
+
+
+@pytest.mark.parametrize(
+    "expression",
+    [
+        "ESDSL2|basis=continued_fraction|scale=1|a=1,2|m=24",
+        "ESDSL2|basis=descent_graph|start=4,4|moves=0,0|depth=2|m=24",
+        "ESDSL2|basis=divisor_pair|n=12|shift=-1,0|m=24",
+        "ESDSL2|basis=greedy_offset|x=0,1|t=0,1|budget=99|m=24",
+        "ESDSL2|basis=lattice_transform|u=0,1|v=0,1|matrix=1,2,2,4|shift=0,0|m=24",
+        "ESDSL2|basis=modular_sieve|x=0|t=0|congruence=1,1,1,2|m=24",
+        "ESDSL2|basis=polynomial_ansatz|k=16|xcoef=16,16,16|tcoef=0|m=24",
+        "ESDSL2|basis=residue_cover|q=5|residues=5|lifts=0|m=24",
+        "ESDSL2|basis=residue_cover|q=5|residues=1|lifts=0|m=24|m=30",
+        "ESDSL2|basis=greedy_offset|x=1,0|t=0,1|budget=2|m=24",
+        "ESDSL2|basis=greedy_offset|x=0,0|t=0,1|budget=2|m=24",
+        "ESDSL2|basis=continued_fraction|a=1,2|scale=01|m=24",
+        "ESDSL2|basis=descent_graph|start=4,4|moves=-0,1|depth=2|m=24",
+    ],
+)
+def test_esdsl2_rejects_noncanonical_degenerate_or_out_of_bounds_recipes(expression: str):
+    assert parse_recipe(expression, EXPERIMENT) is None
+
+
+def test_esdsl1_parse_shape_and_cartesian_order_are_immutable():
+    expression = "ESDSL1|basis=lattice_transform|x=0,2,65|t=0,7|m=24,120"
+    recipe = parse_recipe(expression, EXPERIMENT)
+    assert recipe == {
+        "basis": "lattice_transform",
+        "moduli": [24, 120],
+        "t_offsets": [0, 7],
+        "x_offsets": [0, 2, 65],
+    }
+    assert _schedule_pairs(recipe or {}) == ((0, 0), (0, 7), (2, 0), (2, 7), (65, 0), (65, 7))
 
 
 def test_source_binding_is_portable_across_lf_and_crlf(tmp_path: Path):
@@ -387,6 +498,10 @@ def test_shipped_live_receipt_validates_and_preserves_claim_boundary():
     receipt = json.loads(RECEIPT_PATH.read_text(encoding="utf-8"))
     validate_receipt(receipt, ROOT)
     assert receipt["status"] == "PASS_BOUNDED_CREATIVE_SHADOW_NO_OPEN_PROBLEM_CLAIM"
+    typed_compiler = receipt["typed_schedule_compiler"]
+    assert typed_compiler == _esdsl2_semantics_contract(EXPERIMENT)
+    assert len(typed_compiler["basis_controls"]) == 8
+    assert all(value is False for value in typed_compiler["claim_boundary"].values())
     assert receipt["accounting"] == {
         "baseline_gpu_lane_tests": 104_839_060,
         "creative_tail_lane_tests": 344_279,
@@ -447,4 +562,12 @@ def test_shipped_live_receipt_validates_and_preserves_claim_boundary():
         {key: item for key, item in tampered.items() if key != "content_sha256"}
     )
     with pytest.raises(ValueError, match="lineage"):
+        validate_receipt(tampered, ROOT)
+
+    tampered = deepcopy(receipt)
+    tampered["typed_schedule_compiler"]["basis_controls"][0]["schedule_pairs"][0][0] += 1
+    tampered["content_sha256"] = canonical_sha256(
+        {key: item for key, item in tampered.items() if key != "content_sha256"}
+    )
+    with pytest.raises(ValueError, match="typed schedule compiler"):
         validate_receipt(tampered, ROOT)

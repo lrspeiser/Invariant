@@ -4,7 +4,7 @@ Date: 2026-08-24
 
 Campaign: `erdos-straus-creative-shadow-2026-08-24-001`
 
-Receipt: `b955585bb23c275d00efbdc8c8aa4a00e3a9acd41f5e6303994b19fa4b4c06c9`
+Receipt: `37f9b5dca780491283108dc7e666dba78796dbbe832c517d90a72f04edf5d4b1`
 
 ## Result in one paragraph
 
@@ -115,10 +115,43 @@ establish origin or novelty.
 | ES-GF-011 | generating function | cross-domain synthesis | — | retained for repair |
 | ES-TP-012 | polynomial ansatz | proposed new construction | 25,264 | executed |
 
-The resolved counts overlap and are not additive. The current DSL compiles all admitted conceptual
-bases into the same offset-search kernel. Consequently, labels such as “continued fraction” or
-“lattice transform” describe the proposal rationale, but only the numeric offsets and moduli are
-machine-executed. This is a major limitation, not a semantic proof that those mechanisms worked.
+The resolved counts overlap and are not additive. This historical campaign used `ESDSL1`, which
+compiles all admitted conceptual bases into the same Cartesian offset-search kernel. Consequently,
+labels such as “continued fraction” or “lattice transform” describe the proposal rationale, but only
+the numeric offsets and moduli were machine-executed. This remains a limitation of the historical
+result, not a semantic proof that those mechanisms worked.
+
+## Versioned ESDSL2 basis semantics
+
+`ESDSL2` is now implemented as a separate, strict compiler version. It does not reinterpret any
+`ESDSL1` expression or change the 173 historical recoveries. Instead, every basis has its own field
+schema and executable schedule operator:
+
+| Basis | ESDSL2 operator | Positive-control pairs |
+|---|---|---:|
+| continued fraction | ordered convergents | 4 |
+| descent graph | bounded graph reachability | 6 |
+| divisor pair | exact factor pairs | 6 |
+| greedy offset | diagonal-cost budget selection | 5 |
+| lattice transform | integer affine-lattice image | 4 |
+| modular sieve | linear-congruence-filtered product | 8 |
+| polynomial ansatz | integer polynomial parameter map | 4 |
+| residue cover | complementary residue lifts | 6 |
+
+The eight positive controls produce eight distinct sealed schedules. Each has a structural control
+with the same basis, grammar field count, direct-pair count, and exact verifier-lane budget, but a
+changed typed parameter and a different schedule. Degenerate matrices, empty congruence slices,
+out-of-range polynomial images, noncanonical fields, duplicate fields, and oversized schedules fail
+closed. Every positive schedule also produces witnesses that pass the existing independent exact
+integer checker on a bounded control range.
+
+The runtime receipt embeds and recomputes this compiler contract. Its hardcoded compatibility
+vector requires the legacy expression
+`ESDSL1|basis=lattice_transform|x=0,2,65|t=0,7|m=24,120` to retain its old parse shape and exact
+Cartesian order. A newly preregistered campaign can set `proposal_dsl_version` to `ESDSL2`, causing
+the core Claude prompt to expose all eight strict forms; this exhausted historical campaign remains
+explicitly pinned to `ESDSL1`. These are compiler controls, not evidence that any basis is novel,
+causal, or better at the conjecture.
 
 ## A concrete example
 
@@ -170,9 +203,9 @@ origin assessment. Recomputing any winner from its recorded pair reproduces its 
 Twenty-seven recovered denominators had more than one direct mutation parent, but those overlaps
 were within the same idea and basis; none crossed idea or basis boundaries. The five linked counts
 therefore sum to 173. This is deterministic **first-success lineage**, not causal credit or evidence
-that the declared conceptual rationale is correct. In particular, ESDSL1 still executes every basis
-through the same numeric offset kernel. The attribution is the prerequisite for comparing future
-basis-specific ESDSL2 semantics without retroactively reinterpreting the historical run.
+that the declared conceptual rationale is correct. In particular, the historical ESDSL1 evidence
+still executes every basis through the same numeric offset kernel. The attribution can now support
+a future preregistered ESDSL2 comparison without retroactively reinterpreting that run.
 
 For `n = 398161`, the record is exact: ES-TP-012 direct pair `(81,13)`, mutation `(+2,-2)`,
 winning pair `(83,11)`, and the witness printed above.
@@ -228,7 +261,8 @@ historical campaign because its four-call budget is already exhausted.
 
 1. Exercise the journaled critic batches in a newly preregistered, separately budgeted campaign;
    do not reopen this exhausted four-call campaign.
-2. Give each DSL basis distinct executable semantics; today the conceptual labels share one kernel.
+2. Run the next campaign with `proposal_dsl_version=ESDSL2`; compare each emitted basis schedule
+   with its pair-count-, grammar-field-, and verifier-budget-matched structural control.
 3. Pre-register train/tail splits and all controls before generation, then repeat on rotating unseen
    problems and a second machine.
 4. If a candidate suggests an actual residue-class identity, move it through exact arithmetic,
