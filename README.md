@@ -38,6 +38,13 @@ an identical 65,536-candidate CPU/GPU prefix, and a wrong-target mutation. Its
 claim that every check executed. Modular survival is an acceleration signal, never proof,
 correctness, novelty, or an open-problem result.
 
+The post-merge GitHub reproduction matrix now binds that accelerator control into the durable
+multi-host receipt. Four credential-free Python hosts on Ubuntu/Windows and Python 3.11/3.12 agree
+on accelerator projection `ec817fcf156127b59cb87e58a755bcbd3485e823f1d8dbc448b39f7855ee1d00`,
+the GPU receipt seal, candidate/survivor counts, exact replay requirement, CPU/GPU sample agreement,
+and mutation rejection. The hosts validate stored evidence and explicitly report that they did not
+rerun CUDA; only the original local RTX 5090 run is a hardware execution claim.
+
 The supported shareable distribution is a versioned standalone source-release ZIP containing a
 normal non-editable wheel, the complete tracked resource surface, and hydrated hash-bound Git LFS
 evidence. Build, install, verification, public PASS/REJECT examples, and isolated acceptance are
