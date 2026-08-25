@@ -1,0 +1,52 @@
+{
+  "schema_version": "invariant-archimedes-first-principles-config-1.0",
+  "campaign_id": "archimedes-first-principles-control-2026-08-24-001",
+  "search_policy": {
+    "force_target_exponent": 1,
+    "maximum_absolute_exponent": 3,
+    "maximum_l1_norm": 8,
+    "noise_multipliers": ["199/200", "499/500", "1", "401/400", "201/200"],
+    "relative_interval_radius": "1/100"
+  },
+  "variables": [
+    {"name": "buoyant_force", "dimensions": [1, 1, -2]},
+    {"name": "fluid_density", "dimensions": [1, -3, 0]},
+    {"name": "gravity", "dimensions": [0, 1, -2]},
+    {"name": "displaced_volume", "dimensions": [0, 3, 0]},
+    {"name": "depth", "dimensions": [0, 1, 0]},
+    {"name": "ambient_pressure", "dimensions": [1, -1, -2]},
+    {"name": "object_density", "dimensions": [1, -3, 0]},
+    {"name": "shape_factor", "dimensions": [0, 0, 0]}
+  ],
+  "training_grid": {
+    "fluid_density": ["4/5", "1", "6/5"],
+    "gravity": ["81/50", "981/100", "2479/100"],
+    "displaced_volume": ["1/1000", "3/2000", "1/400"],
+    "depth": ["1/5", "7/10", "13/10"],
+    "ambient_pressure": ["99000", "101325", "104000"],
+    "object_density": ["4/5", "1", "6/5"],
+    "shape_factor": ["3/5", "1", "7/5"]
+  },
+  "shifted_holdout_grid": {
+    "fluid_density": ["17/20", "11/10"],
+    "gravity": ["371/100", "123/10"],
+    "displaced_volume": ["7/5000", "9/2000"],
+    "depth": ["2/5", "11/10"],
+    "ambient_pressure": ["100500", "102700"],
+    "object_density": ["3/5", "13/10"],
+    "shape_factor": ["4/5", "6/5"]
+  },
+  "hydrostatic_grid": {
+    "fluid_density": ["4/5", "1", "6/5"],
+    "gravity": ["81/50", "981/100", "2479/100"],
+    "delta_height": ["1/20", "1/5", "3/4"],
+    "depth": ["1/10", "3/5", "7/5"],
+    "ambient_pressure": ["99000", "101325", "104000"]
+  },
+  "derivation_policy": {
+    "require_hydrostatic_discovery": true,
+    "require_closed_surface": true,
+    "require_ambient_pressure_cancellation": true,
+    "require_divergence_theorem": true
+  }
+}

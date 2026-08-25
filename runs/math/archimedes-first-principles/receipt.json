@@ -1,0 +1,451 @@
+{
+  "buoyancy_discovery": {
+    "combined_noise_interval_intersection": [
+      "19899/20000",
+      "20099/20000"
+    ],
+    "dimensionally_admissible_candidate_count": 98,
+    "exact_constant_in_interval": true,
+    "identifiability_control": {
+      "best_score_tie_count_in_top_five": 5,
+      "reason": "fluid_density equals object_density in every retained row",
+      "row_count": 729,
+      "status": "blocked_unidentifiable"
+    },
+    "independent_exact_evaluators_agree": true,
+    "mutation_controls": [
+      {
+        "control_id": "drop_density",
+        "dimension_residual": [
+          1,
+          -3,
+          0
+        ],
+        "relative_span": "205/398",
+        "status": "rejected"
+      },
+      {
+        "control_id": "drop_gravity",
+        "dimension_residual": [
+          0,
+          1,
+          -2
+        ],
+        "relative_span": "155347/10746",
+        "status": "rejected"
+      },
+      {
+        "control_id": "drop_volume",
+        "dimension_residual": [
+          0,
+          3,
+          0
+        ],
+        "relative_span": "607/398",
+        "status": "rejected"
+      },
+      {
+        "control_id": "replace_volume_with_depth_cubed",
+        "dimension_residual": [
+          0,
+          0,
+          0
+        ],
+        "relative_span": "2204801/3184",
+        "status": "rejected"
+      },
+      {
+        "control_id": "replace_fluid_with_object_density",
+        "dimension_residual": [
+          0,
+          0,
+          0
+        ],
+        "relative_span": "1013/796",
+        "status": "rejected"
+      },
+      {
+        "control_id": "add_shape_dependence",
+        "dimension_residual": [
+          0,
+          0,
+          0
+        ],
+        "relative_span": "270/199",
+        "status": "rejected"
+      }
+    ],
+    "nuisance_interventions": [
+      {
+        "intervention": "depth",
+        "invariant_value": "1",
+        "status": "pass"
+      },
+      {
+        "intervention": "ambient_pressure",
+        "invariant_value": "1",
+        "status": "pass"
+      },
+      {
+        "intervention": "object_density",
+        "invariant_value": "1",
+        "status": "pass"
+      },
+      {
+        "intervention": "shape_factor",
+        "invariant_value": "1",
+        "status": "pass"
+      }
+    ],
+    "runner_up": {
+      "exponents": [
+        1,
+        0,
+        -1,
+        -1,
+        0,
+        0,
+        -1,
+        0
+      ],
+      "expression": "buoyant_force/(gravity*displaced_volume*object_density)",
+      "maximum": "603/400",
+      "minimum": "199/300",
+      "relative_span": "1013/796"
+    },
+    "shifted_holdout_dataset": {
+      "content_sha256": "6fcfe0ad49d72ffb52ed3b919e628a80c9c1401b61ac70ae2a7c8e9adb17367a",
+      "first_row": {
+        "ambient_pressure": "100500",
+        "buoyant_force": "44149/10000000",
+        "depth": "2/5",
+        "displaced_volume": "7/5000",
+        "fluid_density": "17/20",
+        "gravity": "371/100",
+        "object_density": "3/5",
+        "shape_factor": "4/5"
+      },
+      "last_row": {
+        "ambient_pressure": "102700",
+        "buoyant_force": "2447577/40000000",
+        "depth": "11/10",
+        "displaced_volume": "9/2000",
+        "fluid_density": "11/10",
+        "gravity": "123/10",
+        "object_density": "13/10",
+        "shape_factor": "6/5"
+      },
+      "row_count": 128
+    },
+    "shifted_holdout_relative_span": "2/199",
+    "top_five": [
+      {
+        "exponents": [
+          1,
+          -1,
+          -1,
+          -1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "expression": "buoyant_force/(fluid_density*gravity*displaced_volume)",
+        "maximum": "201/200",
+        "minimum": "199/200",
+        "relative_span": "2/199"
+      },
+      {
+        "exponents": [
+          1,
+          0,
+          -1,
+          -1,
+          0,
+          0,
+          -1,
+          0
+        ],
+        "expression": "buoyant_force/(gravity*displaced_volume*object_density)",
+        "maximum": "603/400",
+        "minimum": "199/300",
+        "relative_span": "1013/796"
+      },
+      {
+        "exponents": [
+          1,
+          -2,
+          -1,
+          -1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "expression": "buoyant_force*object_density/(fluid_density**2*gravity*displaced_volume)",
+        "maximum": "603/400",
+        "minimum": "199/300",
+        "relative_span": "1013/796"
+      },
+      {
+        "exponents": [
+          1,
+          -1,
+          -1,
+          -1,
+          0,
+          0,
+          0,
+          -1
+        ],
+        "expression": "buoyant_force/(fluid_density*gravity*displaced_volume*shape_factor)",
+        "maximum": "67/40",
+        "minimum": "199/280",
+        "relative_span": "270/199"
+      },
+      {
+        "exponents": [
+          1,
+          -1,
+          -1,
+          -1,
+          0,
+          0,
+          0,
+          1
+        ],
+        "expression": "buoyant_force*shape_factor/(fluid_density*gravity*displaced_volume)",
+        "maximum": "1407/1000",
+        "minimum": "597/1000",
+        "relative_span": "270/199"
+      }
+    ],
+    "training_dataset": {
+      "content_sha256": "eed052c5d245fb39d228502889f55e60cf863908537ff27b92d46b9598b8bd08",
+      "first_row": {
+        "ambient_pressure": "99000",
+        "buoyant_force": "16119/12500000",
+        "depth": "1/5",
+        "displaced_volume": "1/1000",
+        "fluid_density": "4/5",
+        "gravity": "81/50",
+        "object_density": "4/5",
+        "shape_factor": "3/5"
+      },
+      "last_row": {
+        "ambient_pressure": "104000",
+        "buoyant_force": "3711063/50000000",
+        "depth": "13/10",
+        "displaced_volume": "1/400",
+        "fluid_density": "6/5",
+        "gravity": "2479/100",
+        "object_density": "6/5",
+        "shape_factor": "7/5"
+      },
+      "row_count": 2187
+    },
+    "winner": {
+      "exponents": [
+        1,
+        -1,
+        -1,
+        -1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "expression": "buoyant_force/(fluid_density*gravity*displaced_volume)",
+      "maximum": "201/200",
+      "minimum": "199/200",
+      "relative_span": "2/199"
+    }
+  },
+  "campaign_id": "archimedes-first-principles-control-2026-08-24-001",
+  "content_sha256": "0af54417a13f55505db50f7d5bd5756eec18996bc629d242a38279d708609382",
+  "derivation": {
+    "claim_boundary": "bounded synthetic first-principles rediscovery control; not a historical novelty claim",
+    "proof_plan": "hydrostatic_gradient_then_closed_surface_divergence",
+    "rectangular_prism_symbolic_control": {
+      "closed_surface_normal_sum": "0",
+      "pressure_resultant": "A*g*h*rho",
+      "status": "pass",
+      "volume": "A*h",
+      "z_normal_surface_sum": "A*h"
+    },
+    "status": "pass",
+    "steps": [
+      {
+        "basis": "separately discovered exact sensor relation",
+        "claim": "delta_pressure = fluid_density * gravity * delta_height",
+        "step": 1
+      },
+      {
+        "basis": "pressure force definition",
+        "claim": "F_z = -surface_integral(pressure * normal_z, dA)",
+        "step": 2
+      },
+      {
+        "basis": "closed-surface cancellation; removes ambient pressure and depth offset",
+        "claim": "surface_integral(normal_z, dA) = 0",
+        "step": 3
+      },
+      {
+        "basis": "divergence theorem applied to the vector field z * e_z",
+        "claim": "surface_integral(z * normal_z, dA) = volume",
+        "step": 4
+      },
+      {
+        "basis": "substitution and exact symbolic simplification",
+        "claim": "buoyant_force = fluid_density * gravity * displaced_volume",
+        "step": 5
+      }
+    ]
+  },
+  "hydrostatic_discovery": {
+    "dataset": {
+      "content_sha256": "f3c7b4df7117cbbd8711e0431c7bac6183bf0dc136e0f6589577fee19528688f",
+      "first_row": {
+        "ambient_pressure": "99000",
+        "delta_height": "1/20",
+        "delta_pressure": "81/1250",
+        "depth": "1/10",
+        "fluid_density": "4/5",
+        "gravity": "81/50",
+        "pressure_bottom": "123750243/1250",
+        "pressure_top": "61875081/625"
+      },
+      "last_row": {
+        "ambient_pressure": "104000",
+        "delta_height": "3/4",
+        "delta_pressure": "22311/1000",
+        "depth": "7/5",
+        "fluid_density": "6/5",
+        "gravity": "2479/100",
+        "pressure_bottom": "520319791/5000",
+        "pressure_top": "130052059/1250"
+      },
+      "row_count": 243
+    },
+    "dimensionally_admissible_candidate_count": 20,
+    "independent_exact_evaluators_agree": true,
+    "runner_up": {
+      "exponents": [
+        1,
+        -1,
+        -1,
+        0,
+        -1,
+        0
+      ],
+      "expression": "delta_pressure/(fluid_density*gravity*depth)",
+      "maximum": "15/2",
+      "minimum": "1/28",
+      "relative_span": "209"
+    },
+    "top_five": [
+      {
+        "exponents": [
+          1,
+          -1,
+          -1,
+          -1,
+          0,
+          0
+        ],
+        "expression": "delta_pressure/(fluid_density*gravity*delta_height)",
+        "maximum": "1",
+        "minimum": "1",
+        "relative_span": "0"
+      },
+      {
+        "exponents": [
+          1,
+          -1,
+          -1,
+          0,
+          -1,
+          0
+        ],
+        "expression": "delta_pressure/(fluid_density*gravity*depth)",
+        "maximum": "15/2",
+        "minimum": "1/28",
+        "relative_span": "209"
+      },
+      {
+        "exponents": [
+          1,
+          -1,
+          -1,
+          -2,
+          1,
+          0
+        ],
+        "expression": "delta_pressure*depth/(fluid_density*gravity*delta_height**2)",
+        "maximum": "28",
+        "minimum": "2/15",
+        "relative_span": "209"
+      },
+      {
+        "exponents": [
+          1,
+          0,
+          0,
+          -1,
+          1,
+          -1
+        ],
+        "expression": "delta_pressure*depth/(delta_height*ambient_pressure)",
+        "maximum": "17353/41250000",
+        "minimum": "81/65000000",
+        "relative_span": "899683/2673"
+      },
+      {
+        "exponents": [
+          1,
+          -2,
+          -2,
+          -1,
+          -1,
+          1
+        ],
+        "expression": "delta_pressure*ambient_pressure/(fluid_density**2*gravity**2*delta_height*depth)",
+        "maximum": "65000000/81",
+        "minimum": "41250000/17353",
+        "relative_span": "899683/2673"
+      }
+    ],
+    "winner": {
+      "exponents": [
+        1,
+        -1,
+        -1,
+        -1,
+        0,
+        0
+      ],
+      "expression": "delta_pressure/(fluid_density*gravity*delta_height)",
+      "maximum": "1",
+      "minimum": "1",
+      "relative_span": "0"
+    }
+  },
+  "result": {
+    "discovered_formula": "buoyant_force = fluid_density * gravity * displaced_volume",
+    "hydrostatic_sensor_rows": 243,
+    "shifted_holdout_rows": 128,
+    "status": "PASS_BOUNDED_FIRST_PRINCIPLES_DISCOVERY_CONTROL",
+    "training_rows": 2187
+  },
+  "schema_version": "invariant-archimedes-first-principles-receipt-1.0",
+  "source_bindings": {
+    "config": {
+      "normalized_sha256": "0b89f5e08cd74162e16a32722a2835fe3cebf26ced3a9f35adc604bf1a269484",
+      "path": "configs/archimedes_first_principles.json"
+    },
+    "module": {
+      "normalized_sha256": "6075477b03023f849d443619bd129fa5d98e200583b81d4ac20171e7d9816155",
+      "path": "src/sigma_theory_compiler/archimedes_first_principles.py"
+    }
+  }
+}
