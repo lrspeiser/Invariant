@@ -14,9 +14,7 @@ from sigma_theory_compiler.continuous_formula_formal_backend import (
     _sealed as backend_sealed,
 )
 from sigma_theory_compiler.continuous_scientific_pipeline_service import (
-    _sealed as service_sealed,
-)
-from sigma_theory_compiler.continuous_scientific_pipeline_service import (
+    REGISTERED_HISTORICAL_RESULT_CONTENT_SHA256,
     acquire_lease,
     apply_action,
     build_readiness,
@@ -26,6 +24,9 @@ from sigma_theory_compiler.continuous_scientific_pipeline_service import (
     run_bounded_service,
     validate_execution_result,
     validate_readiness,
+)
+from sigma_theory_compiler.continuous_scientific_pipeline_service import (
+    _sealed as service_sealed,
 )
 from sigma_theory_compiler.high_throughput import (
     build_basis,
@@ -149,6 +150,11 @@ def test_readiness_exact_and_not_started() -> None:
 def test_completed_execution_result_is_exact_and_fail_closed() -> None:
     value = json.loads(RESULT.read_text(encoding="utf-8"))
     validate_execution_result(value, ROOT, CONFIG)
+    assert value["content_sha256"] == REGISTERED_HISTORICAL_RESULT_CONTENT_SHA256
+    assert (
+        value["replay_dependencies"]["files"]["field_contract"]["file_sha256"]
+        == "c31e42645fd6b7b9bd834cd77254451704946e6f6385517011343a74eb692c7c"
+    )
     assert value["coverage"]["unique_formula_count"] == 3_932_160
     assert value["coverage"]["real_CPU_batches"] == 8
     assert len(value["completed_receipt_bindings"]) == 8

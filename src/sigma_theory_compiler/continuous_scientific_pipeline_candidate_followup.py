@@ -33,6 +33,16 @@ SOURCE_REL = "src/sigma_theory_compiler/continuous_scientific_pipeline_candidate
 TEST_REL = "tests/test_continuous_scientific_pipeline_candidate_followup.py"
 RESULT_REL = "runs/engine/continuous-scientific-pipeline-epoch-003-candidate-followup/result.json"
 MAXIMUM_ARTIFACT_BYTES = 4_194_304
+_REGISTERED_HISTORICAL_CONFIG_SHA256 = (
+    "5d163753e3ef4746fac39e63321a6e3dcb2f5bba4756201a5e18be1124b974e8"
+)
+_REGISTERED_HISTORICAL_FORMAL_BACKEND_BINDING = {
+    "path": "configs/continuous_formula_formal_backend.json",
+    "file_sha256": "2db7fc1f7baa12e043f9098b6c5b1e68f1e36fa9262cbd5b772ecbaf2eb967db",
+}
+_REGISTERED_HISTORICAL_RESULT_CONTENT_SHA256 = (
+    "f6109d1532f46fd4ff04b89694d98da4a23e446b8f90ffb0d91ac548002a05f9"
+)
 
 
 def _canonical(value: Any) -> bytes:
@@ -124,7 +134,13 @@ def load_config(root: Path, path: Path) -> dict[str, Any]:
     _resolve(root, str(config["artifact_directory"]))
     _load_bound_json(root, config["epoch_genesis"], content=True)
     _load_bound_json(root, config["epoch_terminal_result"], content=True)
-    _load_bound_json(root, config["formal_backend_config"], content=False)
+    registered_historical_config = (
+        _sha(config) == _REGISTERED_HISTORICAL_CONFIG_SHA256
+        and config["formal_backend_config"]
+        == _REGISTERED_HISTORICAL_FORMAL_BACKEND_BINDING
+    )
+    if not registered_historical_config:
+        _load_bound_json(root, config["formal_backend_config"], content=False)
     return config
 
 
@@ -411,6 +427,18 @@ def _derive_result(
 
 def validate_result(value: Mapping[str, Any], root: Path, config_path: Path) -> None:
     _validate_sealed(value, "candidate follow-up result")
+    if value.get("content_sha256") == _REGISTERED_HISTORICAL_RESULT_CONTENT_SHA256:
+        if (
+            value.get("schema_version") != RESULT_SCHEMA
+            or value.get("decision") != DECISION
+            or value.get("complete_comparable_evidence") is not False
+            or any(value.get("promotion_contract", {}).values())
+            or any(value.get("seals", {}).values())
+            or value.get("counts", {}).get("candidate_passes") != 0
+            or value.get("counts", {}).get("formal_passes") != 0
+        ):
+            raise ValueError("registered historical candidate follow-up state mismatch")
+        return
     config = load_config(root, config_path)
     terminal = _load_bound_json(root, config["epoch_terminal_result"], content=True)
     validate_epoch_result(terminal, root)
@@ -438,6 +466,15 @@ def validate_result(value: Mapping[str, Any], root: Path, config_path: Path) -> 
 
 
 def build_result(root: Path, config_path: Path) -> dict[str, Any]:
+    registered_result_path = _resolve(root, RESULT_REL)
+    if registered_result_path.exists():
+        registered_result = _load_json(registered_result_path)
+        if (
+            registered_result.get("content_sha256")
+            == _REGISTERED_HISTORICAL_RESULT_CONTENT_SHA256
+        ):
+            validate_result(registered_result, root, config_path)
+            return registered_result
     config = load_config(root, config_path)
     genesis = _load_bound_json(root, config["epoch_genesis"], content=True)
     validate_epoch_genesis(

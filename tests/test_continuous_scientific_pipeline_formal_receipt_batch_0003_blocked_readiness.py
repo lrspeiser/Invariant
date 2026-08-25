@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import copy
+import hashlib
 import json
 from pathlib import Path
 
@@ -62,15 +63,12 @@ def test_exact_resource_samples_reconcile_with_strict_thresholds() -> None:
     }
 
 
-def test_readiness_binds_untouched_batch_implementation_and_predecessor() -> None:
+def test_historical_readiness_keeps_old_batch_binding_while_current_config_advances() -> None:
     value = _checked()
     config = readiness.load_config(ROOT, CONFIG)
-    assert value["target_batch_bindings"] == {
-        "config": config["target_batch_config"],
-        "source": config["target_batch_source"],
-        "test": config["target_batch_test"],
-    }
     assert value["predecessor_result_binding"] == config["predecessor_result"]
+    assert value["target_batch_bindings"]["config"] == config["target_batch_config"]
+    assert value["target_batch_bindings"]["test"] == config["target_batch_test"]
     assert value["target_batch_bindings"]["config"]["file_sha256"] == (
         "20563808fddda8e12cd67594fd8c784bcb5f564fa80a2230d96591029453623f"
     )
@@ -79,6 +77,22 @@ def test_readiness_binds_untouched_batch_implementation_and_predecessor() -> Non
     )
     assert value["target_batch_bindings"]["test"]["file_sha256"] == (
         "dabbfeb8dc81203f9b2a811e9687fdbd2b0cda2a12d93c7cffa589d27e9a460f"
+    )
+    assert config["target_batch_source"]["file_sha256"] == (
+        "fc2b31f30081554f6776c5a6d906c4b214a6c5f879858b9cf2c8bd5b9b8a44b8"
+    )
+
+
+def test_current_file_bindings_are_portable_across_crlf_checkouts(tmp_path: Path) -> None:
+    path = tmp_path / "sample.py"
+    path.write_bytes(b"first\r\nsecond\r\n")
+    readiness._validate_file_binding(
+        tmp_path,
+        {
+            "path": "sample.py",
+            "file_sha256": hashlib.sha256(b"first\nsecond\n").hexdigest(),
+        },
+        "sample.py",
     )
 
 

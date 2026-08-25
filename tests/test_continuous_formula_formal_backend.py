@@ -7,6 +7,7 @@ from types import SimpleNamespace
 import pytest
 
 from sigma_theory_compiler.continuous_formula_formal_backend import (
+    _DEPENDENCY_BINDING_KEYS,
     MANIFEST_SCHEMA,
     _sealed,
     _sha,
@@ -177,6 +178,26 @@ def test_config_and_manifest_contracts_are_closed(tmp_path: Path) -> None:
     manifest = _sealed({key: value for key, value in manifest.items() if key != "content_sha256"})
     with pytest.raises(ValueError, match="manifest contract"):
         validate_candidate_manifest(manifest)
+
+
+def test_config_dependency_hashes_are_line_ending_portable(tmp_path: Path) -> None:
+    config = json.loads(CONFIG.read_text(encoding="utf-8"))
+    for path_key, _ in _DEPENDENCY_BINDING_KEYS:
+        relative = Path(config[path_key])
+        source = ROOT / relative
+        target = tmp_path / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        raw = source.read_bytes()
+        try:
+            text = raw.decode("utf-8")
+        except UnicodeDecodeError:
+            target.write_bytes(raw)
+        else:
+            target.write_bytes(text.replace("\r\n", "\n").replace("\n", "\r\n").encode("utf-8"))
+
+    copied_config = tmp_path / "backend.json"
+    copied_config.write_text(json.dumps(config), encoding="utf-8")
+    assert load_backend_config(tmp_path, copied_config) == config
 
 
 def test_extraction_recomputes_exact_status_root_and_rejects_bool_counts() -> None:

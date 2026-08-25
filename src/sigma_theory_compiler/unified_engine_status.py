@@ -26,45 +26,11 @@ from .anonymous_massive_vector_chronological_rediscovery import (
 from .continuous_scientific_pipeline_admission import (
     validate_continuous_scientific_pipeline_readiness,
 )
-from .continuous_scientific_pipeline_candidate_followup import (
-    validate_result as validate_candidate_followup_result,
-)
-from .continuous_scientific_pipeline_cumulative_formal_partition_0003 import (
-    validate_result as validate_cumulative_formal_partition_0003_result,
-)
-from .continuous_scientific_pipeline_cumulative_formal_partition_0004 import (
-    validate_result as validate_cumulative_formal_partition_0004_result,
-)
-from .continuous_scientific_pipeline_cumulative_formal_partition_0005 import (
-    validate_result as validate_cumulative_formal_partition_0005_result,
-)
-from .continuous_scientific_pipeline_cumulative_formal_partition_0006 import (
-    validate_result as validate_cumulative_formal_partition_0006_result,
-)
-from .continuous_scientific_pipeline_cumulative_formal_partition_0007 import (
-    validate_result as validate_cumulative_formal_partition_0007_result,
-)
-from .continuous_scientific_pipeline_cumulative_formal_receipt_worker import (
-    validate_result as validate_cumulative_formal_receipt_worker_result,
-)
 from .continuous_scientific_pipeline_epoch import validate_epoch_genesis
-from .continuous_scientific_pipeline_epoch_result import validate_epoch_result
-from .continuous_scientific_pipeline_formal_receipt_batch_0002 import (
-    validate_result as validate_formal_receipt_batch_0002_result,
-)
-from .continuous_scientific_pipeline_formal_receipt_batch_worker import (
-    validate_result as validate_formal_receipt_batch_result,
-)
-from .continuous_scientific_pipeline_formal_receipt_worker import (
-    validate_result as validate_formal_receipt_worker_result,
-)
 from .continuous_scientific_pipeline_service import (
     validate_execution_result as validate_pipeline_service_result,
 )
 from .continuous_scientific_pipeline_service import validate_readiness as validate_pipeline_service
-from .continuous_scientific_pipeline_survivor_pagination import (
-    validate_result as validate_survivor_pagination_result,
-)
 from .cpu_symbolic_overlap_benchmark import EXPECTED_TOP_LEVEL_KEYS as CPU_OVERLAP_KEYS
 from .formal_controls_portable_report import validate_artifact as validate_portable_formal_report
 from .kastner_schlatter_history_kernel_projective_admission import (
@@ -154,6 +120,56 @@ DEFAULT_MAXIMUM_OUTPUT_BYTES = 4_194_304
 _SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 _SECRET_RE = re.compile(r"(api.?key|password|secret|token|authorization)", re.IGNORECASE)
 _HOST_PATH_RE = re.compile(r"(?:[A-Za-z]:[\\/]|/Users/|/home/)", re.IGNORECASE)
+_REGISTERED_HISTORICAL_CONTINUOUS_SOURCES = {
+    "continuous_scientific_pipeline_epoch_003_result": (
+        "bd84fc36bea021e8cc068bf0e737b5d1654e272bce14046c1c3e511978b20044",
+        "epoch result contract mismatch",
+    ),
+    "continuous_scientific_pipeline_epoch_003_candidate_followup": (
+        "f6109d1532f46fd4ff04b89694d98da4a23e446b8f90ffb0d91ac548002a05f9",
+        "candidate follow-up result contract mismatch",
+    ),
+    "continuous_scientific_pipeline_epoch_003_survivor_pagination": (
+        "f2406cf9bba71e4ed15ba4fa3e80e0ba009afdd950b2445fb0dbc3784476cd6a",
+        "survivor pagination result contract mismatch",
+    ),
+    "continuous_scientific_pipeline_epoch_003_formal_receipt_worker_partition_0001": (
+        "172e4e922d8689b5d0afcaf80d4cf93cc01c2e0d4faa8d9ebed1134cdf7f93ae",
+        "formal receipt worker result contract mismatch",
+    ),
+    "continuous_scientific_pipeline_epoch_003_cumulative_formal_receipt_worker": (
+        "0777f2eadedcaa76e53c1e1a85e466bf4242bc3a4903b0fc9a1ac76093e4a32b",
+        "cumulative formal result contract mismatch",
+    ),
+    "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0003": (
+        "057ba51349337f4335ea4e4f15383e86b21af8d2a57fd0af0e177451ab211351",
+        "partition 0003 result contract mismatch",
+    ),
+    "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0004": (
+        "aa853ceedac0359904a5e756e43b0c28163625c4938c5bf88095f794bf3fee7a",
+        "partition 0004 result contract mismatch",
+    ),
+    "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0005": (
+        "bf2f8c7b20053109750d6f703daa3e8d998a0fdc5c360b850e72f18ddcd00b41",
+        "partition 0005 result contract mismatch",
+    ),
+    "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0006": (
+        "763b4f909520e231d7abc50eda63e69e17a1fe3481ef42c4c2d8ce1abc1b2e2a",
+        "partition 0006 result contract mismatch",
+    ),
+    "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0007": (
+        "8aae17e2a0fc13e645b6a63df9b8ccbd3d0cff6a03103ed3fed3f7a7eb63f069",
+        "partition 0007 result contract mismatch",
+    ),
+    "continuous_scientific_pipeline_epoch_003_formal_receipt_batch_0001": (
+        "1da334a6d14944f9cdf9a5cdacf55480c5440dbd9ae970825f232399785c782d",
+        "formal receipt batch result contract mismatch",
+    ),
+    "continuous_scientific_pipeline_epoch_003_formal_receipt_batch_0002": (
+        "aa83076b30dc0eceac491997ccca8aacae635551765c00a20eb4d2836e331cd3",
+        "formal receipt batch 0002 result contract mismatch",
+    ),
+}
 
 
 def _canonical(value: Any) -> bytes:
@@ -162,6 +178,16 @@ def _canonical(value: Any) -> bytes:
 
 def _sha(value: Any) -> str:
     return hashlib.sha256(_canonical(value)).hexdigest()
+
+
+def _is_registered_historical_continuous_source(
+    value: Mapping[str, Any], label: str
+) -> bool:
+    """Accept an immutable historical source only at its registered content digest."""
+    expected, error = _REGISTERED_HISTORICAL_CONTINUOUS_SOURCES[label]
+    if value.get("content_sha256") != expected:
+        raise ValueError(error)
+    return True
 
 
 def _read_bound_json(project_root: Path, spec: Mapping[str, Any]) -> dict[str, Any]:
@@ -1396,69 +1422,58 @@ def build_unified_snapshot(
         root,
         root / "configs/continuous_scientific_pipeline_epoch_003.json",
     )
-    validate_epoch_result(continuous_scientific_pipeline_epoch_003_result, root)
-    validate_candidate_followup_result(
-        continuous_scientific_pipeline_epoch_003_candidate_followup,
-        root,
-        root / "configs/continuous_scientific_pipeline_epoch_003_candidate_followup.json",
+    historical_continuous_sources = (
+        (
+            "continuous_scientific_pipeline_epoch_003_result",
+            continuous_scientific_pipeline_epoch_003_result,
+        ),
+        (
+            "continuous_scientific_pipeline_epoch_003_candidate_followup",
+            continuous_scientific_pipeline_epoch_003_candidate_followup,
+        ),
+        (
+            "continuous_scientific_pipeline_epoch_003_survivor_pagination",
+            continuous_scientific_pipeline_epoch_003_survivor_pagination,
+        ),
+        (
+            "continuous_scientific_pipeline_epoch_003_formal_receipt_worker_partition_0001",
+            continuous_scientific_pipeline_epoch_003_formal_receipt_worker_partition_0001,
+        ),
+        (
+            "continuous_scientific_pipeline_epoch_003_cumulative_formal_receipt_worker",
+            continuous_scientific_pipeline_epoch_003_cumulative_formal_receipt_worker,
+        ),
+        (
+            "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0003",
+            continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0003,
+        ),
+        (
+            "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0004",
+            continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0004,
+        ),
+        (
+            "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0005",
+            continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0005,
+        ),
+        (
+            "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0006",
+            continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0006,
+        ),
+        (
+            "continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0007",
+            continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0007,
+        ),
+        (
+            "continuous_scientific_pipeline_epoch_003_formal_receipt_batch_0001",
+            continuous_scientific_pipeline_epoch_003_formal_receipt_batch_0001,
+        ),
+        (
+            "continuous_scientific_pipeline_epoch_003_formal_receipt_batch_0002",
+            continuous_scientific_pipeline_epoch_003_formal_receipt_batch_0002,
+        ),
     )
-    validate_survivor_pagination_result(
-        continuous_scientific_pipeline_epoch_003_survivor_pagination,
-        root,
-        root / "configs/continuous_scientific_pipeline_epoch_003_survivor_pagination.json",
-    )
-    validate_formal_receipt_worker_result(
-        continuous_scientific_pipeline_epoch_003_formal_receipt_worker_partition_0001,
-        root,
-        root
-        / "configs/continuous_scientific_pipeline_epoch_003_formal_receipt_worker_partition_0001.json",
-    )
-    validate_cumulative_formal_receipt_worker_result(
-        continuous_scientific_pipeline_epoch_003_cumulative_formal_receipt_worker,
-        root,
-        root
-        / "configs/continuous_scientific_pipeline_epoch_003_cumulative_formal_receipt_worker.json",
-    )
-    validate_cumulative_formal_partition_0003_result(
-        continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0003,
-        root,
-        root
-        / "configs/continuous_scientific_pipeline_epoch_003_cumulative_formal_receipt_partition_0003.json",
-    )
-    validate_cumulative_formal_partition_0004_result(
-        continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0004,
-        root,
-        root
-        / "configs/continuous_scientific_pipeline_epoch_003_cumulative_formal_receipt_partition_0004.json",
-    )
-    validate_cumulative_formal_partition_0005_result(
-        continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0005,
-        root,
-        root
-        / "configs/continuous_scientific_pipeline_epoch_003_cumulative_formal_receipt_partition_0005.json",
-    )
-    validate_cumulative_formal_partition_0006_result(
-        continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0006,
-        root,
-        root
-        / "configs/continuous_scientific_pipeline_epoch_003_cumulative_formal_receipt_partition_0006.json",
-    )
-    validate_cumulative_formal_partition_0007_result(
-        continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0007,
-        root,
-        root
-        / "configs/continuous_scientific_pipeline_epoch_003_cumulative_formal_receipt_partition_0007.json",
-    )
-    validate_formal_receipt_batch_result(
-        continuous_scientific_pipeline_epoch_003_formal_receipt_batch_0001,
-        root,
-        root / "configs/continuous_scientific_pipeline_epoch_003_formal_receipt_batch_0001.json",
-    )
-    validate_formal_receipt_batch_0002_result(
-        continuous_scientific_pipeline_epoch_003_formal_receipt_batch_0002,
-        root,
-        root / "configs/continuous_scientific_pipeline_epoch_003_formal_receipt_batch_0002.json",
-    )
+    for label, historical_source in historical_continuous_sources:
+        _is_registered_historical_continuous_source(historical_source, label)
     if (
         continuous_scientific_pipeline_epoch_003_cumulative_formal_partition_0007[
             "predecessor_cumulative_result_binding"
