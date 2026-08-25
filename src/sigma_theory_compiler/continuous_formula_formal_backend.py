@@ -74,6 +74,16 @@ def _sha(value: Any) -> str:
     return hashlib.sha256(_canonical(value)).hexdigest()
 
 
+def _dependency_file_sha256(path: Path) -> str:
+    """Hash text dependencies with repository-stable LF line endings."""
+    raw = path.read_bytes()
+    try:
+        normalized = raw.decode("utf-8").replace("\r\n", "\n").encode("utf-8")
+    except UnicodeDecodeError:
+        normalized = raw
+    return hashlib.sha256(normalized).hexdigest()
+
+
 def _sealed(body: Mapping[str, Any]) -> dict[str, Any]:
     return {**body, "content_sha256": _sha(body)}
 
@@ -126,7 +136,7 @@ def load_backend_config(root: Path, path: Path) -> dict[str, Any]:
     for path_key, hash_key in _DEPENDENCY_BINDING_KEYS:
         bound = (root / config[path_key]).resolve()
         bound.relative_to(root.resolve())
-        if hashlib.sha256(bound.read_bytes()).hexdigest() != config[hash_key]:
+        if _dependency_file_sha256(bound) != config[hash_key]:
             raise ValueError(f"formal backend binding mismatch: {path_key}")
     if any(
         config[key] is not False
@@ -387,7 +397,7 @@ def _dependency_bindings(root: Path, config: Mapping[str, Any]) -> list[dict[str
     for path_key, hash_key in _DEPENDENCY_BINDING_KEYS:
         path = (root / str(config[path_key])).resolve()
         path.relative_to(root.resolve())
-        file_sha256 = hashlib.sha256(path.read_bytes()).hexdigest()
+        file_sha256 = _dependency_file_sha256(path)
         if file_sha256 != config[hash_key]:
             raise ValueError(f"formal backend dependency changed: {path_key}")
         bindings.append(

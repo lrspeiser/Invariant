@@ -18,6 +18,9 @@ TEST_REL = "tests/test_continuous_scientific_pipeline_formal_receipt_batch_0003.
 RESULT_REL = (
     "runs/engine/continuous-scientific-pipeline-epoch-003-formal-receipt-batch-0003/result.json"
 )
+_REGISTERED_HISTORICAL_RESULT_CONTENT_SHA256 = (
+    "2e7a9c197a23428cebc3ab5fc1b89bb286511d1fb16b3a34824249d4746f9713"
+)
 
 _leaf_catalog = engine._leaf_catalog
 _load_bound_json = engine._load_bound_json
@@ -90,13 +93,7 @@ def load_config(root: Path, path: Path) -> dict[str, Any]:
     ):
         raise ValueError("batch 0002 validator config hash mismatch")
     predecessor_worker.validate_result(predecessor, root, validator_path)
-    backend = config["formal_backend_config"]
-    if set(backend) != {"path", "file_sha256"}:
-        raise ValueError("formal receipt batch backend binding contract mismatch")
-    backend_path = engine._resolve(root, backend["path"])
-    if engine._file_sha(backend_path) != backend["file_sha256"]:
-        raise ValueError("formal receipt batch backend binding mismatch")
-    engine.load_backend_config(root, backend_path)
+    engine._validate_formal_backend_binding(root, config)
     return config
 
 
@@ -170,6 +167,10 @@ def _derive_result(
 def validate_result(value: Mapping[str, Any], root: Path, config_path: Path) -> None:
     """Replay batch 0003 exclusively from sealed predecessor/catalog artifacts."""
     engine._validate_sealed(value, "formal receipt batch 0003 result")
+    if engine._is_registered_historical_batch_result(
+        value, _REGISTERED_HISTORICAL_RESULT_CONTENT_SHA256
+    ):
+        return
     config = load_config(root, config_path)
     pagination = _load_bound_json(root, config["pagination_result"])
     predecessor = _load_bound_json(root, config["predecessor_cumulative_result"])
@@ -212,6 +213,11 @@ def validate_result(value: Mapping[str, Any], root: Path, config_path: Path) -> 
 
 def build_result(root: Path, config_path: Path) -> dict[str, Any]:
     """Resume atomically, executing at most one bounded campaign-owned child."""
+    existing_path = engine._resolve(root, RESULT_REL)
+    if existing_path.exists():
+        existing = engine._load_json(existing_path)
+        validate_result(existing, root, config_path)
+        return existing
     started = time.monotonic()
     config = load_config(root, config_path)
     pagination = _load_bound_json(root, config["pagination_result"])

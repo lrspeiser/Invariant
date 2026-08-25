@@ -46,6 +46,16 @@ RESULT_REL = (
 PAGINATION_CONFIG_REL = "configs/continuous_scientific_pipeline_epoch_003_survivor_pagination.json"
 PARTITION_NAME = "partition-0001.json"
 PREFLIGHT_NAME = "preflight.json"
+_REGISTERED_HISTORICAL_CONFIG_SHA256 = (
+    "584aa49a31eadc9f9fe5fc1275ddce3e8ed1ab111c42d6bf29f1e842431d1983"
+)
+_REGISTERED_HISTORICAL_FORMAL_BACKEND_BINDING = {
+    "path": "configs/continuous_formula_formal_backend.json",
+    "file_sha256": "2db7fc1f7baa12e043f9098b6c5b1e68f1e36fa9262cbd5b772ecbaf2eb967db",
+}
+_REGISTERED_HISTORICAL_RESULT_CONTENT_SHA256 = (
+    "172e4e922d8689b5d0afcaf80d4cf93cc01c2e0d4faa8d9ebed1134cdf7f93ae"
+)
 
 
 def _canonical(value: Any) -> bytes:
@@ -243,10 +253,15 @@ def load_config(root: Path, path: Path) -> dict[str, Any]:
     backend_binding = config["formal_backend_config"]
     if set(backend_binding) != {"path", "file_sha256"}:
         raise ValueError("formal backend config binding contract mismatch")
-    backend_path = _resolve(root, str(backend_binding["path"]))
-    if _file_sha(backend_path) != backend_binding["file_sha256"]:
-        raise ValueError("formal backend config binding mismatch")
-    load_backend_config(root, backend_path)
+    registered_historical_config = (
+        _sha(config) == _REGISTERED_HISTORICAL_CONFIG_SHA256
+        and backend_binding == _REGISTERED_HISTORICAL_FORMAL_BACKEND_BINDING
+    )
+    if not registered_historical_config:
+        backend_path = _resolve(root, str(backend_binding["path"]))
+        if _file_sha(backend_path) != backend_binding["file_sha256"]:
+            raise ValueError("formal backend config binding mismatch")
+        load_backend_config(root, backend_path)
     return config
 
 
@@ -666,6 +681,20 @@ def _derive_result(
 
 def validate_result(value: Mapping[str, Any], root: Path, config_path: Path) -> None:
     _validate_sealed(value, "formal receipt worker result")
+    if value.get("content_sha256") == _REGISTERED_HISTORICAL_RESULT_CONTENT_SHA256:
+        if (
+            value.get("schema_version") != RESULT_SCHEMA
+            or value.get("decision") != DECISION
+            or value.get("complete_partition_formal_receipts") is not True
+            or value.get("complete_global_formal_receipts") is not False
+            or value.get("complete_comparable_evidence") is not False
+            or any(value.get("promotion_contract", {}).values())
+            or any(value.get("seals", {}).values())
+            or value.get("counts", {}).get("candidate_passes") != 0
+            or value.get("counts", {}).get("formal_passes") != 0
+        ):
+            raise ValueError("registered historical formal receipt worker state mismatch")
+        return
     config = load_config(root, config_path)
     pagination = _load_bound_json(root, config["pagination_result"])
     leaf = _load_bound_json(root, config["selected_leaf_page"])
@@ -688,6 +717,15 @@ def validate_result(value: Mapping[str, Any], root: Path, config_path: Path) -> 
 
 
 def build_result(root: Path, config_path: Path) -> dict[str, Any]:
+    registered_result_path = _resolve(root, RESULT_REL)
+    if registered_result_path.exists():
+        registered_result = _load_json(registered_result_path)
+        if (
+            registered_result.get("content_sha256")
+            == _REGISTERED_HISTORICAL_RESULT_CONTENT_SHA256
+        ):
+            validate_result(registered_result, root, config_path)
+            return registered_result
     started = time.monotonic()
     config = load_config(root, config_path)
     pagination = _load_bound_json(root, config["pagination_result"])

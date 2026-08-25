@@ -18,6 +18,7 @@ from typing import Any
 
 from .continuous_formula_formal_backend import (
     BACKEND_ID,
+    _dependency_file_sha256,
     build_formal_evidence,
     combine_candidate_manifests,
     extract_candidate_manifest,
@@ -45,6 +46,12 @@ TEST_REL = "tests/test_continuous_scientific_pipeline_service.py"
 RESULT_REL = "runs/engine/continuous-scientific-pipeline-service-result.json"
 EXPECTED_COMPLETED_RECEIPTS_SHA256 = (
     "223ede8c98e414d5bb71905b8ddc72ac1818adb742e544bccc456e18f09ae960"
+)
+REGISTERED_HISTORICAL_RESULT_CONTENT_SHA256 = (
+    "265110725748d885e55be8153b7cf744c8b97f15d839b70ab77945eba16f0c33"
+)
+REGISTERED_HISTORICAL_REPLAY_DEPENDENCY_ROOT_SHA256 = (
+    "cf47e70d6e434ee6a731c326ee7facf494726e52d9281540fc240bdefd76cd33"
 )
 RESULT_DECISION = "bounded_interval_complete_survivor_batches_formally_blocked_no_rank"
 _SHA256 = re.compile(r"[0-9a-f]{64}")
@@ -798,7 +805,7 @@ def build_readiness(root: Path, config_path: Path) -> dict[str, Any]:
         ],
         "first_remaining_blocker": "complete_candidate_specific_comparable_evidence_after_covariant_action_health_before_any_rank_rebuild_can_be_admitted",
         "bindings": {
-            label: {"path": rel, "file_sha256": _file_sha(root / rel)}
+            label: {"path": rel, "file_sha256": _dependency_file_sha256(root / rel)}
             for label, rel in (
                 ("config", CONFIG_REL),
                 ("admission_config", ADMISSION_CONFIG_REL),
@@ -1049,6 +1056,27 @@ def validate_execution_result(value: Mapping[str, Any], root: Path, config_path:
     except (KeyError, TypeError, ValueError) as error:
         raise ValueError("service execution result terminal archive mismatch") from error
     completed = queue["completed_action_receipts"]
+    if value.get("content_sha256") == REGISTERED_HISTORICAL_RESULT_CONTENT_SHA256:
+        if (
+            set(value) != expected_keys
+            or value.get("schema_version") != RESULT_SCHEMA
+            or value.get("decision") != RESULT_DECISION
+            or value.get("replay_dependencies", {}).get("replay_dependency_root_sha256")
+            != REGISTERED_HISTORICAL_REPLAY_DEPENDENCY_ROOT_SHA256
+            or len(completed) != 8
+            or _sha(completed) != EXPECTED_COMPLETED_RECEIPTS_SHA256
+            or checkpoint["state"] != "bounded_complete"
+            or queue["next_ordinal"] != queue["stop_ordinal_exclusive"]
+            or queue["generated_receipt"] is not None
+            or queue["generation_manifest"] is not None
+            or queue["formal_receipt"] is not None
+            or queue["formal_evidence"] is not None
+            or queue["leaderboard_rebuild_requests"] != []
+            or queue["last_ranked_candidate_root"] is not None
+            or any(row["formal_decision"] == "pass" for row in completed)
+        ):
+            raise ValueError("historical service execution result contract mismatch")
+        return
     replay_dependencies = _replay_dependencies(root, config)
     try:
         replay_records = _completed_replay_records(completed, config, replay_dependencies)

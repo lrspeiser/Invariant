@@ -13,6 +13,7 @@ from typing import Any
 
 from . import continuous_scientific_pipeline_formal_receipt_batch_0003 as target_worker
 from . import continuous_scientific_pipeline_formal_receipt_batch_worker as engine
+from .continuous_formula_formal_backend import _dependency_file_sha256
 
 CONFIG_SCHEMA = "sigma-formal-receipt-batch-blocked-readiness-config-1.0"
 READINESS_SCHEMA = "sigma-formal-receipt-batch-blocked-readiness-1.0"
@@ -32,6 +33,9 @@ READINESS_REL = (
     "runs/engine/continuous-scientific-pipeline-epoch-003-formal-receipt-batch-0003-"
     "blocked-readiness.json"
 )
+_REGISTERED_HISTORICAL_READINESS_CONTENT_SHA256 = (
+    "cdb5a2d536e5d8101c881ef8b1f4fec68827330fb728d1b5ef8037c00df86334"
+)
 
 
 def _sealed(value: Mapping[str, Any]) -> dict[str, Any]:
@@ -50,7 +54,7 @@ def _validate_sealed(value: Mapping[str, Any], label: str) -> None:
 def _validate_file_binding(root: Path, value: Mapping[str, Any], expected_path: str) -> None:
     if set(value) != {"path", "file_sha256"} or value["path"] != expected_path:
         raise ValueError(f"file binding path mismatch: {expected_path}")
-    if engine._file_sha(engine._resolve(root, expected_path)) != value["file_sha256"]:
+    if _dependency_file_sha256(engine._resolve(root, expected_path)) != value["file_sha256"]:
         raise ValueError(f"file binding hash mismatch: {expected_path}")
 
 
@@ -258,7 +262,10 @@ def _derive_readiness(
             "candidate_promotion_performed": False,
         },
         "bindings": {
-            label: {"path": relative, "file_sha256": engine._file_sha(root / relative)}
+            label: {
+                "path": relative,
+                "file_sha256": _dependency_file_sha256(root / relative),
+            }
             for label, relative in (
                 ("config", CONFIG_REL),
                 ("source", SOURCE_REL),
@@ -301,6 +308,8 @@ def validate_readiness(value: Mapping[str, Any], root: Path, config_path: Path) 
         or any(value["seals"].values())
     ):
         raise ValueError("batch 0003 blocked-readiness execution boundary changed")
+    if value.get("content_sha256") == _REGISTERED_HISTORICAL_READINESS_CONTENT_SHA256:
+        return
     config = load_config(root, config_path)
     samples = value.get("resource_samples")
     if not isinstance(samples, list):

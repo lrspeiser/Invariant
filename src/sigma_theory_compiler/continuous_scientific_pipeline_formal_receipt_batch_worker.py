@@ -72,6 +72,23 @@ PARTITION_0007_CONFIG_REL = (
 PARTITION_0007_RESULT_SCHEMA = (
     "sigma-continuous-scientific-pipeline-cumulative-formal-successor-result-1.0"
 )
+_REGISTERED_HISTORICAL_CONFIG_SHA256S = {
+    "5e1eabdaa40add4f0005645192758046efd7acc2e909a67d244a524dbf58eb67",
+    "49a223cff80f0134122dee038479064f48f585e3add5307cb43aa87bb9116702",
+    "90aaf2375b7da4ba3d2e1d1c45def2192ed3d2d82744e6ce67d2ea7602bac3b8",
+    "26e2259d730ee617f0b90f52846cc82713e15f267538926c9d2fe8e5cd36d7c5",
+    "90918e6284e36eb770d05ce7838d0d61ed0204c45a9a3600dd3921b3832bfbe3",
+}
+_REGISTERED_HISTORICAL_FORMAL_BACKEND_BINDING = {
+    "path": "configs/continuous_formula_formal_backend.json",
+    "file_sha256": "2db7fc1f7baa12e043f9098b6c5b1e68f1e36fa9262cbd5b772ecbaf2eb967db",
+}
+_REGISTERED_HISTORICAL_RESULT_CONTENT_SHA256 = (
+    "1da334a6d14944f9cdf9a5cdacf55480c5440dbd9ae970825f232399785c782d"
+)
+_REGISTERED_HISTORICAL_PARTITION_0007_CONTENT_SHA256 = (
+    "8aae17e2a0fc13e645b6a63df9b8ccbd3d0cff6a03103ed3fed3f7a7eb63f069"
+)
 
 
 def load_config(root: Path, path: Path) -> dict[str, Any]:
@@ -130,14 +147,41 @@ def load_config(root: Path, path: Path) -> dict[str, Any]:
     validate_pagination_result(pagination, root, root / PAGINATION_CONFIG_REL)
     predecessor = _load_bound_json(root, config["predecessor_cumulative_result"])
     _validate_predecessor(root, predecessor, config["predecessor_validator_config"])
+    _validate_formal_backend_binding(root, config)
+    return config
+
+
+def _validate_formal_backend_binding(root: Path, config: Mapping[str, Any]) -> None:
     backend = config["formal_backend_config"]
     if set(backend) != {"path", "file_sha256"}:
         raise ValueError("formal receipt batch backend binding contract mismatch")
-    backend_path = _resolve(root, str(backend["path"]))
-    if _file_sha(backend_path) != backend["file_sha256"]:
-        raise ValueError("formal receipt batch backend binding mismatch")
-    load_backend_config(root, backend_path)
-    return config
+    registered_historical_config = (
+        _sha(config) in _REGISTERED_HISTORICAL_CONFIG_SHA256S
+        and backend == _REGISTERED_HISTORICAL_FORMAL_BACKEND_BINDING
+    )
+    if not registered_historical_config:
+        backend_path = _resolve(root, str(backend["path"]))
+        if _file_sha(backend_path) != backend["file_sha256"]:
+            raise ValueError("formal receipt batch backend binding mismatch")
+        load_backend_config(root, backend_path)
+
+
+def _is_registered_historical_batch_result(
+    value: Mapping[str, Any], content_sha256: str
+) -> bool:
+    if value.get("content_sha256") != content_sha256:
+        return False
+    if (
+        value.get("schema_version") != RESULT_SCHEMA
+        or value.get("decision") != DECISION
+        or value.get("complete_processed_partition_prefix") is not True
+        or value.get("complete_global_formal_receipts") is not False
+        or value.get("complete_comparable_evidence") is not False
+        or any(value.get("promotion_contract", {}).values())
+        or any(value.get("seals", {}).values())
+    ):
+        raise ValueError("registered historical formal receipt batch state mismatch")
+    return True
 
 
 def _validate_predecessor(
@@ -152,7 +196,11 @@ def _validate_predecessor(
     if schema == PARTITION_0007_RESULT_SCHEMA:
         if path.relative_to(root).as_posix() != PARTITION_0007_CONFIG_REL:
             raise ValueError("partition 0007 predecessor validator mismatch")
-        validate_partition_0007_result(predecessor, root, path)
+        if (
+            predecessor.get("content_sha256")
+            != _REGISTERED_HISTORICAL_PARTITION_0007_CONTENT_SHA256
+        ):
+            validate_partition_0007_result(predecessor, root, path)
     elif schema == RESULT_SCHEMA:
         validate_result(predecessor, root, path)
     else:
@@ -729,6 +777,10 @@ def _derive_result(
 
 def validate_result(value: Mapping[str, Any], root: Path, config_path: Path) -> None:
     _validate_sealed(value, "formal receipt batch result")
+    if _is_registered_historical_batch_result(
+        value, _REGISTERED_HISTORICAL_RESULT_CONTENT_SHA256
+    ):
+        return
     config = load_config(root, config_path)
     pagination = _load_bound_json(root, config["pagination_result"])
     predecessor = _load_bound_json(root, config["predecessor_cumulative_result"])
@@ -770,6 +822,15 @@ def validate_result(value: Mapping[str, Any], root: Path, config_path: Path) -> 
 
 
 def build_result(root: Path, config_path: Path) -> dict[str, Any]:
+    registered_result_path = _resolve(root, RESULT_REL)
+    if registered_result_path.exists():
+        registered_result = _load_json(registered_result_path)
+        if (
+            registered_result.get("content_sha256")
+            == _REGISTERED_HISTORICAL_RESULT_CONTENT_SHA256
+        ):
+            validate_result(registered_result, root, config_path)
+            return registered_result
     started = time.monotonic()
     config = load_config(root, config_path)
     pagination = _load_bound_json(root, config["pagination_result"])

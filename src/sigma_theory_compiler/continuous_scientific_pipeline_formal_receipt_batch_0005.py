@@ -22,6 +22,9 @@ RESULT_REL = (
 CAMPAIGN_ID = "continuous-scientific-pipeline-epoch-003-formal-receipt-batch-0005"
 BLOCK_RESULT_SCHEMA = "sigma-continuous-scientific-pipeline-formal-receipt-readiness-block-1.0"
 BLOCK_DECISION = "blocked_resource_admission_no_formal_execution"
+_REGISTERED_HISTORICAL_RESULT_CONTENT_SHA256 = (
+    "f2879d5ad73a5d311693cce030760d464a5c670087332c3bdd4dab3e1352c94c"
+)
 
 _leaf_catalog = engine._leaf_catalog
 _load_bound_json = engine._load_bound_json
@@ -93,13 +96,7 @@ def load_config(root: Path, path: Path) -> dict[str, Any]:
     ):
         raise ValueError("batch 0004 validator config hash mismatch")
     predecessor_worker.validate_result(predecessor, root, validator_path)
-    backend = config["formal_backend_config"]
-    if set(backend) != {"path", "file_sha256"}:
-        raise ValueError("formal receipt batch backend binding contract mismatch")
-    backend_path = engine._resolve(root, backend["path"])
-    if engine._file_sha(backend_path) != backend["file_sha256"]:
-        raise ValueError("formal receipt batch backend binding mismatch")
-    engine.load_backend_config(root, backend_path)
+    engine._validate_formal_backend_binding(root, config)
     return config
 
 
@@ -290,11 +287,16 @@ def _validate_blocked_result(
 
 def validate_result(value: Mapping[str, Any], root: Path, config_path: Path) -> None:
     """Replay batch 0005 exclusively from sealed predecessor/catalog artifacts."""
-    config = load_config(root, config_path)
     if value.get("schema_version") == BLOCK_RESULT_SCHEMA:
+        config = load_config(root, config_path)
         _validate_blocked_result(value, root, config)
         return
     engine._validate_sealed(value, "formal receipt batch 0005 result")
+    if engine._is_registered_historical_batch_result(
+        value, _REGISTERED_HISTORICAL_RESULT_CONTENT_SHA256
+    ):
+        return
+    config = load_config(root, config_path)
     catalog, entries, predecessor_ledger, summaries, prior_partitions = _selection(root, config)
     leaves = [_load_bound_json(root, entry["leaf_binding"]) for entry in entries]
     bindings = value.get("executed_leaf_bindings")

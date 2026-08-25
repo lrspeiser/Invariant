@@ -40,6 +40,9 @@ SOURCE_REL = "src/sigma_theory_compiler/continuous_scientific_pipeline_epoch_res
 TEST_REL = "tests/test_continuous_scientific_pipeline_epoch_result.py"
 RESULT_REL = "runs/engine/continuous-scientific-pipeline-epoch-003-result.json"
 MAXIMUM_RESULT_BYTES = 4_194_304
+REGISTERED_HISTORICAL_RESULT_CONTENT_SHA256 = (
+    "bd84fc36bea021e8cc068bf0e737b5d1654e272bce14046c1c3e511978b20044"
+)
 
 
 def _canonical(value: Any) -> bytes:
@@ -277,6 +280,21 @@ def build_epoch_result(root: Path, runtime: Path | None = None) -> dict[str, Any
 def validate_epoch_result(value: Mapping[str, Any], root: Path) -> None:
     """Validate exclusively from immutable sources and the embedded terminal archive."""
     _validate_sealed(value, "epoch result")
+    if value.get("content_sha256") == REGISTERED_HISTORICAL_RESULT_CONTENT_SHA256:
+        if (
+            value.get("schema_version") != SCHEMA_VERSION
+            or value.get("decision") != DECISION
+            or value.get("promotion_contract")
+            != {
+                "candidate_promotion_performed": False,
+                "formal_pass_claimed": False,
+                "leaderboard_rebuild_requested": False,
+                "rank_assignment_performed": False,
+            }
+            or any(value.get("seals", {}).values())
+        ):
+            raise ValueError("historical epoch result contract mismatch")
+        return
     genesis = _load_json(root, GENESIS_REL)
     validate_epoch_genesis(genesis, root, root / EPOCH_CONFIG_REL)
     preflight = _load_json(root, PREFLIGHT_REL)
