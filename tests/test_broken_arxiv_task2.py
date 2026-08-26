@@ -53,19 +53,41 @@ def _catalog(*, future: bool) -> list[dict]:
     return rows
 
 
+def _projected_packet(config: dict, checked: dict, items: list[dict]) -> dict:
+    selected = checked["selected_release"]
+
+    def metadata_fetcher(_: str) -> dict:
+        return {
+            "id": selected["dataset_id"],
+            "sha": selected["revision"],
+            "siblings": [{"rfilename": "data/train-00000-of-00001.parquet"}],
+        }
+
+    def table_projector(_: str, columns: list[str]) -> list[dict]:
+        assert columns == ["problem_idx", "problem"]
+        return items
+
+    return task2.fetch_projected_release_packet(
+        checked,
+        config,
+        metadata_fetcher=metadata_fetcher,
+        table_projector=table_projector,
+    )
+
+
 def _staged_chain() -> tuple[dict, dict, dict, dict]:
     config = task2.load_config(ROOT)
     authorization = _authorization()
     checked = task2.evaluate_catalog(authorization, config, _catalog(future=True))
-    packet = {
-        "dataset_id": "MathArena/brokenarxiv-0726",
-        "revision": "7" * 40,
-        "items": [
-            {"problem_id": "p3", "problem": "False statement three."},
-            {"problem_id": "p1", "problem": "False statement one."},
-            {"problem_id": "p2", "problem": "False statement two."},
+    packet = _projected_packet(
+        config,
+        checked,
+        [
+            {"problem_idx": "p3", "problem": "False statement three."},
+            {"problem_idx": "p1", "problem": "False statement one."},
+            {"problem_idx": "p2", "problem": "False statement two."},
         ],
-    }
+    )
     staged = task2.stage_problem(authorization, checked, config, packet)
     task2.validate_staged_problem(staged, authorization, checked, config)
     return config, authorization, checked, staged
@@ -289,18 +311,15 @@ def test_problem_selection_is_deterministic_and_reference_blind() -> None:
     config = task2.load_config(ROOT)
     authorization = _authorization()
     checked = task2.evaluate_catalog(authorization, config, _catalog(future=True))
-    packet = {
-        "dataset_id": "MathArena/brokenarxiv-0726",
-        "revision": "7" * 40,
-        "items": [
-            {"problem_id": "p3", "problem": "False statement three."},
-            {"problem_id": "p1", "problem": "False statement one."},
-            {"problem_id": "p2", "problem": "False statement two."},
-        ],
-    }
+    raw_items = [
+        {"problem_idx": "p3", "problem": "False statement three."},
+        {"problem_idx": "p1", "problem": "False statement one."},
+        {"problem_idx": "p2", "problem": "False statement two."},
+    ]
+    packet = _projected_packet(config, checked, raw_items)
     first = task2.stage_problem(authorization, checked, config, packet)
     second = task2.stage_problem(
-        authorization, checked, config, {**packet, "items": list(reversed(packet["items"]))}
+        authorization, checked, config, _projected_packet(config, checked, list(reversed(raw_items)))
     )
     assert first == second
     assert first["blindness"]["reference_answers_read"] == 0
@@ -314,13 +333,31 @@ def test_reference_material_and_manual_resealing_fail_closed() -> None:
     config = task2.load_config(ROOT)
     authorization = _authorization()
     checked = task2.evaluate_catalog(authorization, config, _catalog(future=True))
-    packet = {
-        "dataset_id": "MathArena/brokenarxiv-0726",
-        "revision": "7" * 40,
-        "items": [{"id": "p1", "statement": "False.", "solution": "Known witness."}],
-    }
-    with pytest.raises(task2.BrokenArxivTask2Error, match="reference or judge"):
-        task2.stage_problem(authorization, checked, config, packet)
+    selected = checked["selected_release"]
+
+    def metadata_fetcher(_: str) -> dict:
+        return {
+            "id": selected["dataset_id"],
+            "sha": selected["revision"],
+            "siblings": [{"rfilename": "data/train-00000-of-00001.parquet"}],
+        }
+
+    def tainted_projector(_: str, __: list[str]) -> list[dict]:
+        return [
+            {
+                "original_problem": "Reference repair.",
+                "problem": "False.",
+                "problem_idx": 1,
+            }
+        ]
+
+    with pytest.raises(task2.BrokenArxivTask2Error, match="forbidden columns"):
+        task2.fetch_projected_release_packet(
+            checked,
+            config,
+            metadata_fetcher=metadata_fetcher,
+            table_projector=tainted_projector,
+        )
     changed = deepcopy(checked)
     changed["catalog_query"]["problem_rows_read"] = 1
     body = {key: value for key, value in changed.items() if key != "content_sha256"}

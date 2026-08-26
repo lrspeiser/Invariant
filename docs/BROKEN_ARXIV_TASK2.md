@@ -10,6 +10,13 @@ harness authorization. Once that release appears, the system hashes every stable
 the frozen seed, dataset ID, and revision, and stages the minimum-ranked problem. There is no manual
 replacement path.
 
+The `fetch-release` command verifies the selected repository SHA, locates its canonical train
+Parquet shards, and uses Parquet projection pushdown to materialize only `problem_idx` and
+`problem`. In particular, `original_problem`—which can reveal the intended repair—is forbidden from
+the materialized table. The revision-pinned file paths, projected columns, row counts, and absence
+of forbidden columns are sealed before deterministic selection. Hand-authored release packets are
+not an admitted live path.
+
 ## Real problem and gate
 
 The real problem will be one plausible-but-false research-mathematics statement from that future
@@ -46,19 +53,22 @@ Non-overlap with a finite reference answer likewise does not establish historica
 1. Commit implementation and configuration.
 2. Create and commit the authorization receipt with zero statement/reference reads.
 3. Poll official metadata only until the first eligible release exists.
-4. Stage exactly one deterministically selected statement without reference answers.
-5. Run and freeze all three matched arms; the credential is activated transiently and never stored
+4. Fetch a revision-pinned, column-projected release packet with no reference columns.
+5. Stage exactly one deterministically selected statement without reference answers.
+6. Run and freeze all three matched arms; the credential is activated transiently and never stored
    in a receipt.
-6. Give the blinded submissions to an independent exact verifier, formal kernel, official MathArena
+7. Give the blinded submissions to an independent exact verifier, formal kernel, official MathArena
    judge, or named independent reviewers. Human-only acceptance requires two named reviewers.
-7. After all 36 scores are sealed, open the private arm map and compute the frozen comparison gate.
+8. After all 36 scores are sealed, open the private arm map and compute the frozen comparison gate.
 
 The independent evaluation must score every submission and bind the canonical counterexample and
 repair-proof graph when it marks a candidate valid. A correct treatment candidate without a lower
 search cost or distinct repair is a Task-2 rejection, not a creativity success.
 
-The initial selector-only authorization at commit `16fb1eb` is preserved as a superseded preflight.
-It opened zero problem rows and zero reference answers, but it did not freeze the complete live
-runner and adjudicator. Version 2 supersedes it before any eligible release exists.
+The initial selector-only authorization at commit `16fb1eb` and the subsequent full-trial
+authorization at commit `3a0a6b2` are preserved as superseded preflights. Both opened zero problem
+rows and zero reference answers. The first lacked the complete runner; the second lacked a
+revision-pinned official-dataset projection command. Version 3 supersedes both before any eligible
+release exists.
 
-Until step 6 passes, Task 3 remains locked.
+Until step 8 passes, Task 3 remains locked.

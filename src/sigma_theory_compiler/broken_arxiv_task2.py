@@ -17,7 +17,7 @@ import secrets
 import subprocess
 import urllib.parse
 import urllib.request
-from collections.abc import Mapping, Sequence
+from collections.abc import Callable, Mapping, Sequence
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
@@ -33,10 +33,11 @@ from .claude_creativity_api import (
 from .core_credential import CredentialActivationError, activated_credential
 from .sigma_core import canonical_sha256
 
-CONFIG_SCHEMA = "invariant-broken-arxiv-task2-config-2.0"
-AUTHORIZATION_SCHEMA = "invariant-broken-arxiv-task2-authorization-2.0"
-SOURCE_CHECK_SCHEMA = "invariant-broken-arxiv-task2-source-check-2.0"
-STAGED_PROBLEM_SCHEMA = "invariant-broken-arxiv-task2-staged-problem-2.0"
+CONFIG_SCHEMA = "invariant-broken-arxiv-task2-config-3.0"
+AUTHORIZATION_SCHEMA = "invariant-broken-arxiv-task2-authorization-3.0"
+SOURCE_CHECK_SCHEMA = "invariant-broken-arxiv-task2-source-check-3.0"
+STAGED_PROBLEM_SCHEMA = "invariant-broken-arxiv-task2-staged-problem-3.0"
+RELEASE_PACKET_SCHEMA = "invariant-broken-arxiv-task2-projected-release-packet-1.0"
 PUBLIC_SUBMISSIONS_SCHEMA = "invariant-broken-arxiv-task2-public-submissions-1.0"
 GENERATION_RECEIPT_SCHEMA = "invariant-broken-arxiv-task2-generation-receipt-1.0"
 PRIVATE_COORDINATOR_SCHEMA = "invariant-broken-arxiv-task2-private-coordinator-1.0"
@@ -119,11 +120,12 @@ def load_config(root: Path, path: Path = DEFAULT_CONFIG_PATH) -> Mapping[str, An
         {
             "adjudication",
             "implementation_paths",
+            "ingestion",
             "pass_gate",
             "schema_version",
             "selection",
             "source",
-            "supersession",
+            "supersessions",
             "task_id",
             "trial",
         },
@@ -135,26 +137,41 @@ def load_config(root: Path, path: Path = DEFAULT_CONFIG_PATH) -> Mapping[str, An
     selection = config["selection"]
     trial = config["trial"]
     adjudication = config["adjudication"]
-    supersession = config["supersession"]
+    ingestion = config["ingestion"]
+    supersessions = config["supersessions"]
     gate = config["pass_gate"]
     if not isinstance(source, Mapping) or not isinstance(selection, Mapping):
         raise BrokenArxivTask2Error("Task 2 source or selection config is invalid")
-    if (
-        not isinstance(supersession, Mapping)
-        or set(supersession)
-        != {
-            "authorization_content_sha256",
-            "problem_rows_opened",
-            "reason",
-            "reference_answers_opened",
-            "source_check_content_sha256",
-        }
-        or _HASH.fullmatch(str(supersession["authorization_content_sha256"])) is None
-        or _HASH.fullmatch(str(supersession["source_check_content_sha256"])) is None
-        or supersession["problem_rows_opened"] != 0
-        or supersession["reference_answers_opened"] != 0
-    ):
+    if not isinstance(supersessions, list) or len(supersessions) != 2:
         raise BrokenArxivTask2Error("Task 2 version-1 supersession evidence changed")
+    for supersession in supersessions:
+        if (
+            not isinstance(supersession, Mapping)
+            or set(supersession)
+            != {
+                "authorization_content_sha256",
+                "problem_rows_opened",
+                "reason",
+                "reference_answers_opened",
+                "source_check_content_sha256",
+            }
+            or _HASH.fullmatch(str(supersession["authorization_content_sha256"])) is None
+            or _HASH.fullmatch(str(supersession["source_check_content_sha256"])) is None
+            or supersession["problem_rows_opened"] != 0
+            or supersession["reference_answers_opened"] != 0
+        ):
+            raise BrokenArxivTask2Error("Task 2 supersession evidence changed")
+    if (
+        not isinstance(ingestion, Mapping)
+        or ingestion.get("required_projected_columns") != ["problem_idx", "problem"]
+        or ingestion.get("projection_engine")
+        != "pyarrow_parquet_column_projection_v1"
+        or ingestion.get("manual_release_packet_allowed") is not False
+        or ingestion.get("release_and_staged_packets_private_until_submissions_frozen") is not True
+        or ingestion.get("maximum_problem_rows") != 1000
+        or "original_problem" not in ingestion.get("forbidden_materialized_columns", [])
+    ):
+        raise BrokenArxivTask2Error("Task 2 projected ingestion contract changed")
     if _month_number(source["first_eligible_release_month"]) <= _month_number(
         source["last_release_visible_before_freeze"]
     ):
@@ -286,7 +303,7 @@ def build_authorization(
         "old_system_baseline_commit": _git_resolve(
             root, config["trial"]["old_system_baseline_commit"], "old-system baseline commit"
         ),
-        "supersession": dict(config["supersession"]),
+        "supersessions": [dict(item) for item in config["supersessions"]],
         "config_sha256": canonical_sha256(config),
         "implementation_bindings": bindings,
         "source_cutoff": {
@@ -334,7 +351,7 @@ def validate_authorization(
         or authorization.get("source_cutoff", {}).get("reference_answers_read") != 0
         or authorization.get("old_system_baseline_commit")
         != config["trial"]["old_system_baseline_commit"]
-        or authorization.get("supersession") != config["supersession"]
+        or authorization.get("supersessions") != config["supersessions"]
     ):
         raise BrokenArxivTask2Error("Task 2 authorization contract changed")
     expected_bindings = [
@@ -496,6 +513,225 @@ def _field(row: Mapping[str, Any], names: Sequence[str], label: str) -> str:
     raise BrokenArxivTask2Error(f"Task 2 row has no stable {label}")
 
 
+MetadataFetcher = Callable[[str], Mapping[str, Any]]
+TableProjector = Callable[[str, Sequence[str]], Sequence[Mapping[str, Any]]]
+
+
+def _fetch_json_url(url: str) -> Mapping[str, Any]:
+    request = urllib.request.Request(
+        url, headers={"User-Agent": "Invariant-Task2-Projected-Ingestion/1.0"}
+    )
+    try:
+        with urllib.request.urlopen(request, timeout=30) as response:
+            payload = json.loads(response.read(5_000_001))
+    except (OSError, json.JSONDecodeError) as error:
+        raise BrokenArxivTask2Error("Task 2 dataset metadata request failed") from error
+    if not isinstance(payload, Mapping):
+        raise BrokenArxivTask2Error("Task 2 dataset metadata response changed")
+    return payload
+
+
+def _project_parquet_columns(
+    url: str, columns: Sequence[str]
+) -> Sequence[Mapping[str, Any]]:
+    try:
+        import fsspec
+        from pyarrow import parquet
+    except ImportError as error:
+        raise BrokenArxivTask2Error(
+            "projected ingestion requires the installed pyarrow and fsspec runtimes"
+        ) from error
+    filesystem = fsspec.filesystem(
+        "http", headers={"User-Agent": "Invariant-Task2-Projected-Ingestion/1.0"}
+    )
+    try:
+        table = parquet.read_table(url, columns=list(columns), filesystem=filesystem)
+    except Exception as error:
+        raise BrokenArxivTask2Error("Task 2 projected Parquet read failed") from error
+    if list(table.column_names) != list(columns):
+        raise BrokenArxivTask2Error("Task 2 Parquet projection returned unexpected columns")
+    return table.to_pylist()
+
+
+def fetch_projected_release_packet(
+    source_check: Mapping[str, Any],
+    config: Mapping[str, Any],
+    *,
+    metadata_fetcher: MetadataFetcher = _fetch_json_url,
+    table_projector: TableProjector = _project_parquet_columns,
+) -> dict[str, Any]:
+    """Fetch only problem IDs and false statements from the pinned official revision."""
+
+    selected = source_check.get("selected_release")
+    if not isinstance(selected, Mapping):
+        raise BrokenArxivTask2Error("no eligible release exists for projected ingestion")
+    ingestion = config["ingestion"]
+    dataset_id = selected["dataset_id"]
+    revision = selected["revision"]
+    metadata_url = ingestion["dataset_metadata_endpoint_template"].format(
+        dataset_id=urllib.parse.quote(dataset_id, safe="/")
+    )
+    metadata = metadata_fetcher(metadata_url)
+    siblings = metadata.get("siblings")
+    if (
+        metadata.get("id") != dataset_id
+        or metadata.get("sha") != revision
+        or not isinstance(siblings, list)
+    ):
+        raise BrokenArxivTask2Error("official dataset revision no longer matches source check")
+    paths = sorted(
+        item["rfilename"]
+        for item in siblings
+        if isinstance(item, Mapping)
+        and isinstance(item.get("rfilename"), str)
+        and re.fullmatch(r"data/train-[0-9]{5}-of-[0-9]{5}\.parquet", item["rfilename"])
+    )
+    if not paths:
+        raise BrokenArxivTask2Error("official dataset has no canonical train Parquet shards")
+    columns = ingestion["required_projected_columns"]
+    rows: list[dict[str, Any]] = []
+    source_files = []
+    for path in paths:
+        file_url = ingestion["dataset_file_endpoint_template"].format(
+            dataset_id=urllib.parse.quote(dataset_id, safe="/"),
+            revision=urllib.parse.quote(revision, safe=""),
+            path=urllib.parse.quote(path, safe="/"),
+        )
+        projected = table_projector(file_url, columns)
+        if not isinstance(projected, Sequence):
+            raise BrokenArxivTask2Error("Task 2 projection did not return rows")
+        before = len(rows)
+        for row in projected:
+            if not isinstance(row, Mapping) or set(row) != set(columns):
+                raise BrokenArxivTask2Error(
+                    "Task 2 projection materialized missing or forbidden columns"
+                )
+            problem_idx = row["problem_idx"]
+            problem = row["problem"]
+            if (
+                isinstance(problem_idx, bool)
+                or not isinstance(problem_idx, (int, str))
+                or not isinstance(problem, str)
+                or not problem.strip()
+            ):
+                raise BrokenArxivTask2Error("Task 2 projected problem row is invalid")
+            rows.append({"problem_id": str(problem_idx), "problem": problem.strip()})
+        source_files.append(
+            {
+                "path": path,
+                "projected_rows": len(rows) - before,
+                "revision_pinned_url_sha256": hashlib.sha256(file_url.encode()).hexdigest(),
+            }
+        )
+    if not rows or len(rows) > ingestion["maximum_problem_rows"]:
+        raise BrokenArxivTask2Error("Task 2 projected row count is outside the frozen bound")
+    if len({row["problem_id"] for row in rows}) != len(rows):
+        raise BrokenArxivTask2Error("Task 2 projected problem IDs are not unique")
+    body = {
+        "schema_version": RELEASE_PACKET_SCHEMA,
+        "dataset_id": dataset_id,
+        "revision": revision,
+        "items": sorted(rows, key=lambda row: row["problem_id"]),
+        "projection": {
+            "engine": ingestion["projection_engine"],
+            "forbidden_columns_materialized": False,
+            "materialized_columns": list(columns),
+            "metadata_url_sha256": hashlib.sha256(metadata_url.encode()).hexdigest(),
+            "source_files": source_files,
+        },
+        "status": "PASS_REVISION_PINNED_FALSE_STATEMENT_COLUMNS_ONLY",
+    }
+    return _sealed(body)
+
+
+def validate_release_packet(
+    release_packet: Mapping[str, Any],
+    source_check: Mapping[str, Any],
+    config: Mapping[str, Any],
+) -> None:
+    _validate_seal(release_packet, RELEASE_PACKET_SCHEMA, "Task 2 projected release packet")
+    selected = source_check.get("selected_release")
+    projection = release_packet.get("projection", {})
+    rows = release_packet.get("items")
+    dataset_id = release_packet.get("dataset_id")
+    revision = release_packet.get("revision")
+    metadata_url = config["ingestion"]["dataset_metadata_endpoint_template"].format(
+        dataset_id=urllib.parse.quote(str(dataset_id), safe="/")
+    )
+    if (
+        not isinstance(selected, Mapping)
+        or dataset_id != selected["dataset_id"]
+        or revision != selected["revision"]
+        or release_packet.get("status")
+        != "PASS_REVISION_PINNED_FALSE_STATEMENT_COLUMNS_ONLY"
+        or projection.get("engine") != config["ingestion"]["projection_engine"]
+        or projection.get("materialized_columns")
+        != config["ingestion"]["required_projected_columns"]
+        or projection.get("forbidden_columns_materialized") is not False
+        or set(projection)
+        != {
+            "engine",
+            "forbidden_columns_materialized",
+            "materialized_columns",
+            "metadata_url_sha256",
+            "source_files",
+        }
+        or projection.get("metadata_url_sha256")
+        != hashlib.sha256(metadata_url.encode()).hexdigest()
+        or not isinstance(projection.get("source_files"), list)
+        or not projection["source_files"]
+        or not isinstance(rows, list)
+        or not rows
+        or len(rows) > config["ingestion"]["maximum_problem_rows"]
+        or rows != sorted(rows, key=lambda row: row["problem_id"])
+        or len({row.get("problem_id") for row in rows if isinstance(row, Mapping)})
+        != len(rows)
+    ):
+        raise BrokenArxivTask2Error("Task 2 projected release packet contract changed")
+    projected_row_sum = 0
+    paths = []
+    for source_file in projection["source_files"]:
+        if not isinstance(source_file, Mapping) or set(source_file) != {
+            "path",
+            "projected_rows",
+            "revision_pinned_url_sha256",
+        }:
+            raise BrokenArxivTask2Error("Task 2 projected source-file evidence changed")
+        path = source_file["path"]
+        if not isinstance(path, str) or re.fullmatch(
+            r"data/train-[0-9]{5}-of-[0-9]{5}\.parquet", path
+        ) is None:
+            raise BrokenArxivTask2Error("Task 2 projected source path changed")
+        file_url = config["ingestion"]["dataset_file_endpoint_template"].format(
+            dataset_id=urllib.parse.quote(str(dataset_id), safe="/"),
+            revision=urllib.parse.quote(str(revision), safe=""),
+            path=urllib.parse.quote(path, safe="/"),
+        )
+        projected_rows = source_file["projected_rows"]
+        if (
+            isinstance(projected_rows, bool)
+            or not isinstance(projected_rows, int)
+            or projected_rows < 1
+            or source_file["revision_pinned_url_sha256"]
+            != hashlib.sha256(file_url.encode()).hexdigest()
+        ):
+            raise BrokenArxivTask2Error("Task 2 projected source-file binding changed")
+        projected_row_sum += projected_rows
+        paths.append(path)
+    if paths != sorted(set(paths)) or projected_row_sum != len(rows):
+        raise BrokenArxivTask2Error("Task 2 projected shard coverage changed")
+    for row in rows:
+        if (
+            not isinstance(row, Mapping)
+            or set(row) != {"problem", "problem_id"}
+            or not isinstance(row["problem_id"], str)
+            or not row["problem_id"]
+            or not isinstance(row["problem"], str)
+            or not row["problem"]
+        ):
+            raise BrokenArxivTask2Error("Task 2 projected release row changed")
+
+
 def stage_problem(
     authorization: Mapping[str, Any],
     source_check: Mapping[str, Any],
@@ -508,7 +744,7 @@ def stage_problem(
     selected_release = source_check.get("selected_release")
     if selected_release is None:
         raise BrokenArxivTask2Error("no future BrokenArXiv release is eligible yet")
-    _strict_keys(release_packet, {"dataset_id", "items", "revision"}, "release packet")
+    validate_release_packet(release_packet, source_check, config)
     if (
         release_packet["dataset_id"] != selected_release["dataset_id"]
         or release_packet["revision"] != selected_release["revision"]
@@ -551,6 +787,7 @@ def stage_problem(
             "dataset_id": release_packet["dataset_id"],
             "problem_count": len(normalized),
             "problems_sha256": canonical_sha256(normalized),
+            "release_packet_content_sha256": release_packet["content_sha256"],
             "revision": release_packet["revision"],
         },
         "selection": {
@@ -590,6 +827,7 @@ def validate_staged_problem(
         or staged.get("source_check_content_sha256") != source_check["content_sha256"]
         or release.get("dataset_id") != selected_release["dataset_id"]
         or release.get("revision") != selected_release["revision"]
+        or _HASH.fullmatch(str(release.get("release_packet_content_sha256"))) is None
         or selection.get("algorithm") != config["selection"]["algorithm"]
         or selection.get("manual_substitution") is not False
         or not isinstance(statement, str)
@@ -1319,7 +1557,7 @@ def validate_adjudication(
 
 
 def _private_output_path(root: Path, path: Path) -> Path:
-    resolved = path.resolve()
+    resolved = (path if path.is_absolute() else root / path).resolve()
     try:
         resolved.relative_to((root / "work").resolve())
     except ValueError as error:
@@ -1350,6 +1588,11 @@ def main(argv: Sequence[str] | None = None) -> int:
     check.add_argument("--authorization", type=Path, required=True)
     check.add_argument("--catalog", type=Path)
     check.add_argument("--output", type=Path, required=True)
+    fetch_release = subparsers.add_parser("fetch-release")
+    fetch_release.add_argument("--root", type=Path, default=Path.cwd())
+    fetch_release.add_argument("--authorization", type=Path, required=True)
+    fetch_release.add_argument("--source-check", type=Path, required=True)
+    fetch_release.add_argument("--output", type=Path, required=True)
     stage = subparsers.add_parser("stage")
     stage.add_argument("--root", type=Path, default=Path.cwd())
     stage.add_argument("--authorization", type=Path, required=True)
@@ -1396,12 +1639,18 @@ def main(argv: Sequence[str] | None = None) -> int:
             result = evaluate_catalog(authorization, config, catalog)
             validate_source_check(result, authorization, config)
             _write_json(args.output, result)
+        elif args.command == "fetch-release":
+            source_check = _read_json(args.source_check)
+            validate_source_check(source_check, authorization, config)
+            result = fetch_projected_release_packet(source_check, config)
+            validate_release_packet(result, source_check, config)
+            _write_json(_private_output_path(root, args.output), result)
         elif args.command == "stage":
             source_check = _read_json(args.source_check)
             packet = _read_json(args.release_packet)
             result = stage_problem(authorization, source_check, config, packet)
             validate_staged_problem(result, authorization, source_check, config)
-            _write_json(args.output, result)
+            _write_json(_private_output_path(root, args.output), result)
         else:
             source_check = _read_json(args.source_check)
             staged_problem = _read_json(args.staged_problem)

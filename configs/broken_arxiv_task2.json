@@ -1,13 +1,22 @@
 {
-  "schema_version": "invariant-broken-arxiv-task2-config-2.0",
+  "schema_version": "invariant-broken-arxiv-task2-config-3.0",
   "task_id": "task2.creative-falsification.future-broken-arxiv",
-  "supersession": {
-    "authorization_content_sha256": "73cdf2c34db00288b6e57dde3ea16cec77f0695f0deb5bf12a56fbd761ef6a86",
-    "source_check_content_sha256": "be37fa71451cfaddb93dfef88de6f2713d4ab87d73d1a3b3dceb1b0d1e4a30d7",
-    "problem_rows_opened": 0,
-    "reference_answers_opened": 0,
-    "reason": "Version 1 froze the selector but not the complete three-arm generation and independent-adjudication harness. Version 2 supersedes it before any eligible release exists."
-  },
+  "supersessions": [
+    {
+      "authorization_content_sha256": "73cdf2c34db00288b6e57dde3ea16cec77f0695f0deb5bf12a56fbd761ef6a86",
+      "source_check_content_sha256": "be37fa71451cfaddb93dfef88de6f2713d4ab87d73d1a3b3dceb1b0d1e4a30d7",
+      "problem_rows_opened": 0,
+      "reference_answers_opened": 0,
+      "reason": "Version 1 froze the selector but not the complete three-arm generation and independent-adjudication harness."
+    },
+    {
+      "authorization_content_sha256": "2088b1ecca7fbf8ecc9d2bf2bf8a49d5c77940c2c0441dd4a2e7d6813692cab9",
+      "source_check_content_sha256": "78b37cffebb3daa5be22c1decac4459dfb53cc84c5b3b4e962fe9d9938939a7a",
+      "problem_rows_opened": 0,
+      "reference_answers_opened": 0,
+      "reason": "Version 2 froze the full trial but omitted a revision-pinned projected official-dataset ingestion command."
+    }
+  ],
   "source": {
     "catalog_endpoint": "https://huggingface.co/api/datasets",
     "catalog_author": "MathArena",
@@ -27,6 +36,22 @@
     "statement_fields": ["problem", "statement", "question"],
     "select_count": 1,
     "manual_substitution_allowed": false
+  },
+  "ingestion": {
+    "dataset_metadata_endpoint_template": "https://huggingface.co/api/datasets/{dataset_id}",
+    "dataset_file_endpoint_template": "https://huggingface.co/datasets/{dataset_id}/resolve/{revision}/{path}",
+    "required_projected_columns": ["problem_idx", "problem"],
+    "forbidden_materialized_columns": [
+      "original_problem",
+      "answer",
+      "solution",
+      "reference_answer",
+      "judge"
+    ],
+    "projection_engine": "pyarrow_parquet_column_projection_v1",
+    "maximum_problem_rows": 1000,
+    "manual_release_packet_allowed": false,
+    "release_and_staged_packets_private_until_submissions_frozen": true
   },
   "trial": {
     "arms": [
