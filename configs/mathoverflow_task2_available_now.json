@@ -1,0 +1,83 @@
+{
+  "schema_version": "invariant-mathoverflow-task2-config-1.0",
+  "task_id": "task2.creative-falsification.mathoverflow-available-now",
+  "base_generation_config": "configs/broken_arxiv_task2.json",
+  "source": {
+    "api_base": "https://api.stackexchange.com/2.3",
+    "site": "mathoverflow",
+    "tagged": "counterexamples",
+    "metadata_filter": "!)G.ygo6)Xr3imSaNK-9",
+    "question_filter": "!nHkGnBX_.jXScG3_m8mHXn",
+    "answer_filter": "!4j.KUEUT_5zPEi(1_5wm",
+    "minimum_creation_epoch": 1782864000,
+    "pool_closes_at_authorization": true,
+    "require_accepted_answer": true,
+    "required_tag": "counterexamples",
+    "eligible_domain_tags_any": [
+      "co.combinatorics",
+      "graph-theory",
+      "nt.number-theory",
+      "real-analysis"
+    ],
+    "question_body_may_be_read_during_source_check": false,
+    "accepted_answer_may_be_read_before_submissions_freeze": false
+  },
+  "selection": {
+    "algorithm": "sha256_min_rank_v1",
+    "seed": "Invariant Task 2 / MathOverflow accepted counterexample / available-now v1",
+    "select_count": 1,
+    "manual_substitution_allowed": false
+  },
+  "blindness_disclosure": {
+    "preauthorization_metadata_rows_seen": 100,
+    "preauthorization_fields_seen": [
+      "question_id",
+      "creation_date",
+      "last_activity_date",
+      "answer_count",
+      "is_answered",
+      "tags"
+    ],
+    "preauthorization_title_fields_materialized_by_default_api_probe": 100,
+    "preauthorization_titles_displayed_to_operator": 0,
+    "preauthorization_titles_sent_to_candidate_generator": 0,
+    "preauthorization_question_bodies_seen": 0,
+    "preauthorization_answer_bodies_seen": 0,
+    "public_source_not_private": true,
+    "model_training_exclusion_proven": false,
+    "historical_novelty_claim_allowed": false
+  },
+  "adjudication": {
+    "allowed_verifier_kinds": [
+      "exact_executable_verifier",
+      "formal_kernel",
+      "mathoverflow_accepted_answer_plus_independent_exact_check",
+      "named_independent_human_review"
+    ],
+    "all_submissions_must_be_scored": true,
+    "arm_identity_blinded_until_scoring_complete": true,
+    "accepted_answer_may_open_only_after_submission_seal": true,
+    "minimum_named_human_reviewers_for_human_only_acceptance": 2
+  },
+  "pass_gate": {
+    "correct_counterexample_or_rejection_required": true,
+    "nonvacuous_repair_or_direct_answer_required": true,
+    "old_new_random_equal_budget_required": true,
+    "creative_arm_must_beat_both_controls_on_cost_or_distinct_valid_structure": true,
+    "accepted_answer_reference_overlap_is_not_historical_novelty": true,
+    "public_recency_is_not_proof_of_model_exclusion": true
+  },
+  "implementation_paths": [
+    "src/sigma_theory_compiler/mathoverflow_task2.py",
+    "configs/mathoverflow_task2_available_now.json",
+    "tests/test_mathoverflow_task2.py",
+    "docs/MATHOVERFLOW_TASK2_AVAILABLE_NOW.md",
+    ".github/workflows/sigma-theory-compiler.yml"
+  ],
+  "dependency_paths": [
+    "src/sigma_theory_compiler/broken_arxiv_task2.py",
+    "configs/broken_arxiv_task2.json",
+    "src/sigma_theory_compiler/claude_creativity_api.py",
+    "src/sigma_theory_compiler/core_credential.py"
+  ]
+}
