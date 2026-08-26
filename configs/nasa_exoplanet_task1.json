@@ -1,0 +1,104 @@
+{
+  "schema_version": "invariant-nasa-exoplanet-task1-config-1.0",
+  "campaign_id": "nasa-exoplanet-task1-exploratory-pilot-001",
+  "classification": {
+    "gate_eligible": false,
+    "reason": "The aggregate performance of the candidate relation on the provisional holdout was inspected while this first implementation was designed. This snapshot is debug/calibration material; a later gate-eligible run requires a fresh externally selected holdout and a new authorization manifest.",
+    "status_if_all_performance_checks_pass": "EXPLORATORY_PASS_NOT_GATE_ELIGIBLE"
+  },
+  "source": {
+    "external_principal_id": "external.nasa-exoplanet-archive",
+    "documentation_uri": "https://exoplanetarchive.ipac.caltech.edu/docs/API_PS_columns.html",
+    "tap_base_uri": "https://exoplanetarchive.ipac.caltech.edu/TAP/sync",
+    "table": "ps",
+    "query": "select hostname,pl_name,disc_year,pl_orbper,pl_orbpererr1,pl_orbpererr2,pl_orbsmax,pl_orbsmaxerr1,pl_orbsmaxerr2,st_mass,st_masserr1,st_masserr2,pl_refname from ps where default_flag=1 and pl_orbper is not null and pl_orbsmax is not null and st_mass is not null",
+    "dependency_warning": "The archive fields are real published catalog parameters, but some semi-major axes and masses are inferred or model-dependent. They are not treated as three independent direct measurements."
+  },
+  "network": {
+    "allowed_host": "exoplanetarchive.ipac.caltech.edu",
+    "maximum_response_bytes": 2000000,
+    "request_timeout_seconds": 60,
+    "user_agent": "InvariantNASAExoplanetTask1/1.0"
+  },
+  "eligibility": {
+    "maximum_relative_uncertainty": "0.5",
+    "minimum_eligible_hosts": 500,
+    "minimum_eligible_rows": 1000,
+    "require_all_six_uncertainty_bounds": true,
+    "require_positive_values": true
+  },
+  "split": {
+    "group_key": "hostname",
+    "holdout_fraction_denominator": 5,
+    "holdout_fraction_numerator": 1,
+    "order": "ascending_by_host_maximum_discovery_year_then_hostname",
+    "selection": "last_host_fraction_is_holdout"
+  },
+  "discovery": {
+    "anonymous_columns": [
+      "x0",
+      "x1",
+      "x2"
+    ],
+    "candidate_budget_per_run": 256,
+    "exponent_bound": 12,
+    "new_strategy": "new_occam",
+    "old_strategy": "old_pairwise",
+    "random_seeds": [
+      104729,
+      130363,
+      155921,
+      181081,
+      206369,
+      231779,
+      257053,
+      282413,
+      307817,
+      333269,
+      358727,
+      384253,
+      409891,
+      435437,
+      461041,
+      486653,
+      512287,
+      537937,
+      563599,
+      589289,
+      615019,
+      640759,
+      666667,
+      692543,
+      718433,
+      744341,
+      770261,
+      796181,
+      822119,
+      848057,
+      874009,
+      899981
+    ],
+    "unit_rescaling_factors": [
+      "7",
+      "11",
+      "13"
+    ]
+  },
+  "evaluation": {
+    "minimum_holdout_within_1sigma_fraction": "0.9",
+    "minimum_holdout_within_2sigma_fraction": "0.95",
+    "require_exact_target_structure": true,
+    "require_new_better_than_every_baseline": true,
+    "require_new_better_than_old": true,
+    "require_unit_rescaling_stability": true
+  },
+  "target_fixture": {
+    "path": "configs/backgrounds/nasa_exoplanet_task1_target.json",
+    "normalized_sha256": "679034e93bb39e67b69fd166fa841e94987c7e0226d587b9222d2d93e2dabce8"
+  },
+  "outputs": {
+    "receipt": "runs/math/nasa-exoplanet-task1/exploratory-pilot-v1.json",
+    "sanitized_training_rows": "runs/math/nasa-exoplanet-task1/exploratory-training-v1.json",
+    "source_snapshot": "runs/math/nasa-exoplanet-task1/nasa-ps-source-snapshot-v1.csv"
+  }
+}

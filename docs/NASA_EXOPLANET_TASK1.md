@@ -1,0 +1,114 @@
+# NASA Exoplanet Task 1: Measured-Law Calibration
+
+Task 1 is the first gate in the real-problem roadmap. It asks Invariant to recover a
+three-column multiplicative relation from a real NASA Exoplanet Archive snapshot while the
+discovery engine sees only anonymous positive columns and reported uncertainties.
+
+## Claim boundary first
+
+This is a calibration on real catalog values, not a new physical result. Exoplanet catalog
+semi-major axes and stellar masses can be inferred, model-dependent, or algebraically coupled to
+period. A recovered relation therefore demonstrates that the discovery instrument can find the
+structure present in the catalog; it does not independently confirm the underlying law.
+
+The target is classical and already occurs elsewhere in this repository. The operational
+blindness claim is narrower: the executable generic generator and its serialized input contain no
+physical names, target vector, target formula, host names, or holdout rows.
+
+## Architecture
+
+The task has four boundaries:
+
+1. `nasa_exoplanet_task1.py` retrieves and validates an external CSV snapshot, filters rows with
+   missing or very uncertain values, groups by host, and creates a chronological host-disjoint
+   split.
+2. `anonymous_monomial_discovery.py` receives only `x0`, `x1`, `x2` values and uncertainties. It
+   evaluates primitive integer exponent vectors and has no scientific-domain vocabulary.
+3. Old, new, 32 uniformly random, and unit-rescaled candidates are all frozen before the target
+   interpretation or holdout is opened.
+4. The evaluator compares the frozen candidates with the hidden structural target and scores the
+   holdout without refitting the relation's constant.
+
+Each old/new/random run receives exactly 256 candidate evaluations. The new lane uses a generic
+Occam ordering over two- and three-column primitive monomials. The old lane is limited to pairwise
+relations. Random lanes shuffle the same complete candidate pool and use a recorded seed.
+
+## Exploratory pilot
+
+Source snapshot:
+
+- NASA Planetary Systems (`ps`) default parameter rows;
+- 2,899 source rows, 2,531 eligible rows, and 1,911 eligible hosts;
+- 2,020 training rows from 1,528 hosts;
+- 511 holdout rows from 383 disjoint hosts;
+- snapshot SHA-256 `a35e75d1fd3bca2480896b29f1516815a86468ccacbba7a851e629863d53accf`.
+
+Measured result:
+
+- new best candidate: `x0^2*x1^-3*x2 = constant`;
+- old best candidate: `x0^2*x1^-3 = constant`;
+- new median holdout response log error: `0.0022723372554187549` (about 0.23%);
+- holdout rows within the propagated one-sigma interval: `0.92954990215264188`;
+- holdout rows within the propagated two-sigma interval: `0.97847358121330719`;
+- 1 of 32 uniformly random lanes recovered a candidate at least as good as the new lane;
+- the exponent vector was unchanged after independently rescaling all three column units;
+- the new relation beat the old lane, a constant predictor, the best univariate log-linear
+  predictor, unconstrained multivariate log-linear regression, and an unconstrained quadratic
+  log-predictor.
+
+All numerical checks passed. The receipt decision is nevertheless `BLOCKED`, with status
+`EXPLORATORY_PASS_NOT_GATE_ELIGIBLE`, because aggregate provisional-holdout performance was
+inspected while the first implementation and thresholds were designed. It cannot unlock Task 2.
+
+## Frozen confirmation
+
+The confirmation configuration was written before any row values from its lane were retrieved. It
+selects non-default literature parameter sets published from 2020 onward. Before freeze, only these
+availability counts were requested:
+
+- 1,028 rows with the three primary values present;
+- 841 rows with all six uncertainty bounds present;
+- 508 distinct hosts before eligibility filtering.
+
+No row values, candidate scores, or holdout performance from this alternate-reference lane were
+opened during protocol design.
+
+A confirmation run is allowed only after:
+
+1. the generator, orchestrator, test, target, configuration, and CLI registration are committed;
+2. an authorization object binds their file hashes, the Git commit, the source query, and the
+   no-prior-value-access declaration;
+3. the CLI retrieves the values itself after the authorization time—`--raw-csv` is forbidden;
+4. the same frozen performance requirements are applied without repair.
+
+If the confirmation passes, Task 1 establishes real-catalog recovery under this declared protocol.
+It still establishes neither historical novelty nor independent physical confirmation.
+
+## Commands
+
+Exploratory receipt replay:
+
+```powershell
+sigma-nasa-exoplanet-task1 validate --root .
+```
+
+Freeze the confirmation after committing the bound implementation files:
+
+```powershell
+sigma-nasa-exoplanet-task1 authorization-template `
+  --root . `
+  --config configs/nasa_exoplanet_task1_confirmation.json `
+  --output work/private/nasa-exoplanet-task1-confirmation-authorization.json
+```
+
+Retrieve and run the frozen confirmation:
+
+```powershell
+sigma-nasa-exoplanet-task1 run `
+  --root . `
+  --config configs/nasa_exoplanet_task1_confirmation.json `
+  --authorization work/private/nasa-exoplanet-task1-confirmation-authorization.json
+```
+
+The confirmation receipt is immutable. A failure makes that source lane debug material; it may not
+be repaired and relabeled blind.
