@@ -1,0 +1,71 @@
+{
+  "schema_version": "invariant-broken-arxiv-task2-config-1.0",
+  "task_id": "task2.creative-falsification.future-broken-arxiv",
+  "source": {
+    "catalog_endpoint": "https://huggingface.co/api/datasets",
+    "catalog_author": "MathArena",
+    "catalog_search": "brokenarxiv",
+    "dataset_id_pattern": "^MathArena/brokenarxiv-(0[1-9]|1[0-2])([0-9]{2})$",
+    "last_release_visible_before_freeze": "2026-06",
+    "first_eligible_release_month": "2026-07",
+    "required_release_kind": "first_published_eligible_release",
+    "problem_content_may_be_read_during_source_check": false,
+    "reference_answers_may_be_read_before_submissions_freeze": false
+  },
+  "selection": {
+    "algorithm": "sha256_min_rank_v1",
+    "seed": "Invariant Task 2 / fresh BrokenArXiv / selector v1",
+    "stable_problem_id_fields": ["problem_id", "id"],
+    "statement_fields": ["problem", "statement", "question"],
+    "select_count": 1,
+    "manual_substitution_allowed": false
+  },
+  "trial": {
+    "arms": ["creativity_first_llm", "matched_random_falsifier"],
+    "candidate_slots_per_arm": 12,
+    "verifier_invocations_per_candidate": 3,
+    "llm_roles": ["proposer", "analogue_scout", "critic", "proof_strategist"],
+    "required_origin_labels": [
+      "known_rewrite",
+      "cross_domain_synthesis",
+      "proposed_new_construction",
+      "uncertain"
+    ],
+    "random_falsifier_families": [
+      "boundary_case",
+      "degenerate_case",
+      "empty_or_singleton_case",
+      "extremal_small_parameter",
+      "normalization_break",
+      "quantifier_order",
+      "scaling_limit",
+      "sign_or_parity",
+      "symmetry_break",
+      "topology_or_compactness",
+      "zero_or_identity_element",
+      "random_small_exact_model"
+    ],
+    "matched_resources": [
+      "candidate_slots",
+      "verifier_invocations",
+      "wall_clock_limit",
+      "statement_access"
+    ]
+  },
+  "pass_gate": {
+    "false_as_written_decision_required": true,
+    "exact_counterexample_or_independent_external_rejection_required": true,
+    "smallest_failed_assumption_required": true,
+    "nonvacuous_repaired_statement_required": true,
+    "repaired_statement_bounded_proof_or_independent_external_acceptance_required": true,
+    "creative_arm_must_beat_random_on_cost_or_supply_distinct_valid_repair": true,
+    "self_reported_origin_is_not_novelty_evidence": true,
+    "finite_reference_nonoverlap_is_not_historical_novelty": true
+  },
+  "implementation_paths": [
+    "src/sigma_theory_compiler/broken_arxiv_task2.py",
+    "configs/broken_arxiv_task2.json",
+    "tests/test_broken_arxiv_task2.py",
+    "docs/BROKEN_ARXIV_TASK2.md"
+  ]
+}
