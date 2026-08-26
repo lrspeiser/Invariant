@@ -70,7 +70,9 @@ def _write_json(path: Path, value: Mapping[str, Any]) -> None:
 
 
 def _sha256_file(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    # Every bound implementation file is text. Normalize checkout line endings so the
+    # authorization replays identically on Windows and Linux CI runners.
+    return hashlib.sha256(path.read_bytes().replace(b"\r\n", b"\n")).hexdigest()
 
 
 def _month_number(value: str) -> int:
