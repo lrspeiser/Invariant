@@ -116,6 +116,39 @@ parameter sets published from 2015 through 2019 with all six uncertainty bounds 
 retrieved until the revised uncertainty semantics, thresholds, code, tests, and query are committed
 and authorized.
 
+## Version 2 confirmation: PASS
+
+Version 2 was committed at `d669c3f` before any values from the 2015–2019 lane were retrieved. Its
+authorization binds the commit, query, target, v1 shared machinery, v2 evaluator, tests, and every
+budget. It preserves v1's rejection and preregisters statistically calibrated empirical coverage
+floors:
+
+- at least 60% inside reported one-sigma propagation, compared with the 68.27% Gaussian reference;
+- at least 90% inside reported two-sigma propagation, compared with the 95.45% Gaussian reference;
+- p90 standardized residual no larger than 2.0;
+- all original structure, baseline, old/new, random-budget, unit-stability, and chronology gates.
+
+The untouched run retrieved 2,445 rows, excluded 19 over the relative-uncertainty ceiling, and
+retained:
+
+- 1,940 training rows from 1,151 hosts;
+- 486 holdout rows from 288 disjoint hosts;
+- exact winner `x0^2*x1^-3*x2 = constant`;
+- old-lane winner `x0^2*x1^-3 = constant`;
+- median holdout response log error `0.00035672743753956127` (about 0.0357%);
+- empirical one-/two-sigma coverage 98.15%/99.18%;
+- p90 standardized residual `0.15204545676513562`;
+- 1/32 uniformly random lanes matching the new winner;
+- lower median holdout error than the old lane and every frozen fitted baseline.
+
+All nine checks pass. `confirmation-v2.json` records `PASS / GATE_PASS`, and Task 1 is complete.
+
+The interpretation remains deliberately narrow. This proves that the frozen discovery instrument
+can recover and predict a known three-column structure in real external catalog values under this
+protocol. It does not prove that the method is historically creative, that the law was discovered
+from independent direct measurements, or that Invariant is generally better than random search.
+Task 2—the fresh mathematical falsification trial—is now unlocked.
+
 ## Commands
 
 Exploratory receipt replay:
@@ -140,6 +173,14 @@ sigma-nasa-exoplanet-task1 run `
   --root . `
   --config configs/nasa_exoplanet_task1_confirmation.json `
   --authorization work/private/nasa-exoplanet-task1-confirmation-authorization.json
+```
+
+Replay the passing version 2 confirmation:
+
+```powershell
+python -m sigma_theory_compiler.nasa_exoplanet_task1_v2 validate `
+  --root . `
+  --config configs/nasa_exoplanet_task1_confirmation_v2.json
 ```
 
 The confirmation receipt is immutable. A failure makes that source lane debug material; it may not

@@ -30,7 +30,9 @@ exploratory pilot recovered the classical exponent structure and beat the old la
 baselines, but remains explicitly blocked because provisional holdout aggregates were inspected
 during implementation. The first untouched alternate-reference confirmation again recovered the
 right structure and beat every baseline, but honestly rejected on its frozen reported-error
-coverage thresholds. See [`docs/NASA_EXOPLANET_TASK1.md`](docs/NASA_EXOPLANET_TASK1.md).
+coverage thresholds. A versioned, statistically calibrated protocol then passed on a different
+untouched 2015–2019 lane without changing the rejected receipt. See
+[`docs/NASA_EXOPLANET_TASK1.md`](docs/NASA_EXOPLANET_TASK1.md).
 
 The first bounded famous-open-problem shadow experiment applies the LLM-to-typed-search-to-GPU
 pipeline to the Erdős--Straus conjecture without opening the project's proof-claim gate. It tests
