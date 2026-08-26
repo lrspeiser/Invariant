@@ -1,0 +1,108 @@
+{
+  "schema_version": "invariant-nasa-exoplanet-task1-config-2.0",
+  "campaign_id": "nasa-exoplanet-task1-confirmation-002",
+  "classification": {
+    "gate_eligible": true,
+    "reason": "This query selects an untouched 2015-through-2019 alternate-reference lane. Before this configuration and implementation were frozen, only aggregate availability counts were requested; no row values, candidate scores, or holdout performance from this lane were retrieved.",
+    "status_if_all_performance_checks_pass": "GATE_PASS"
+  },
+  "source": {
+    "external_principal_id": "external.nasa-exoplanet-archive",
+    "documentation_uri": "https://exoplanetarchive.ipac.caltech.edu/docs/API_PS_columns.html",
+    "tap_base_uri": "https://exoplanetarchive.ipac.caltech.edu/TAP/sync",
+    "table": "ps",
+    "query": "select hostname,pl_name,disc_year,pl_orbper,pl_orbpererr1,pl_orbpererr2,pl_orbsmax,pl_orbsmaxerr1,pl_orbsmaxerr2,st_mass,st_masserr1,st_masserr2,pl_refname from ps where default_flag=0 and pl_pubdate>='2015-01-01' and pl_pubdate<'2020-01-01' and pl_orbper is not null and pl_orbpererr1 is not null and pl_orbpererr2 is not null and pl_orbsmax is not null and pl_orbsmaxerr1 is not null and pl_orbsmaxerr2 is not null and st_mass is not null and st_masserr1 is not null and st_masserr2 is not null order by hostname,pl_name,pl_refname",
+    "dependency_warning": "The archive fields are real published catalog parameters, but some semi-major axes and masses are inferred or model-dependent. Alternate references for one object are not independent experiments."
+  },
+  "network": {
+    "allowed_host": "exoplanetarchive.ipac.caltech.edu",
+    "maximum_response_bytes": 2000000,
+    "request_timeout_seconds": 60,
+    "user_agent": "InvariantNASAExoplanetTask1V2/2.0"
+  },
+  "eligibility": {
+    "maximum_relative_uncertainty": "0.5",
+    "minimum_eligible_hosts": 700,
+    "minimum_eligible_rows": 1000,
+    "require_all_six_uncertainty_bounds": true,
+    "require_positive_values": true
+  },
+  "split": {
+    "group_key": "hostname",
+    "holdout_fraction_denominator": 5,
+    "holdout_fraction_numerator": 1,
+    "order": "ascending_by_host_maximum_discovery_year_then_hostname",
+    "selection": "last_host_fraction_is_holdout"
+  },
+  "discovery": {
+    "anonymous_columns": [
+      "x0",
+      "x1",
+      "x2"
+    ],
+    "candidate_budget_per_run": 256,
+    "exponent_bound": 12,
+    "new_strategy": "new_occam",
+    "old_strategy": "old_pairwise",
+    "random_seeds": [
+      104729,
+      130363,
+      155921,
+      181081,
+      206369,
+      231779,
+      257053,
+      282413,
+      307817,
+      333269,
+      358727,
+      384253,
+      409891,
+      435437,
+      461041,
+      486653,
+      512287,
+      537937,
+      563599,
+      589289,
+      615019,
+      640759,
+      666667,
+      692543,
+      718433,
+      744341,
+      770261,
+      796181,
+      822119,
+      848057,
+      874009,
+      899981
+    ],
+    "unit_rescaling_factors": [
+      "7",
+      "11",
+      "13"
+    ]
+  },
+  "evaluation": {
+    "minimum_empirical_1sigma_coverage": "0.6",
+    "minimum_empirical_2sigma_coverage": "0.9",
+    "maximum_p90_standardized_residual": "2.0",
+    "reference_gaussian_1sigma_coverage": "0.682689492137086",
+    "reference_gaussian_2sigma_coverage": "0.954499736103642",
+    "require_exact_target_structure": true,
+    "require_new_better_than_every_baseline": true,
+    "require_new_better_than_old": true,
+    "require_unit_rescaling_stability": true,
+    "revision_reason": "Version 1's 0.90 one-sigma minimum was not a statistically calibrated one-sigma criterion. Version 2 preregisters coverage floors around the Gaussian 0.6827/0.9545 references and adds a p90 standardized-residual cap. Version 1 remains REJECT and is never rescored."
+  },
+  "target_fixture": {
+    "path": "configs/backgrounds/nasa_exoplanet_task1_target.json",
+    "normalized_sha256": "679034e93bb39e67b69fd166fa841e94987c7e0226d587b9222d2d93e2dabce8"
+  },
+  "outputs": {
+    "receipt": "runs/math/nasa-exoplanet-task1/confirmation-v2.json",
+    "sanitized_training_rows": "runs/math/nasa-exoplanet-task1/confirmation-training-v2.json",
+    "source_snapshot": "runs/math/nasa-exoplanet-task1/nasa-ps-alternate-2015-2019-source-snapshot-v2.csv"
+  }
+}
