@@ -33,16 +33,18 @@ from .claude_creativity_api import (
 from .core_credential import CredentialActivationError, activated_credential
 from .sigma_core import canonical_sha256
 
-CONFIG_SCHEMA = "invariant-broken-arxiv-task2-config-3.0"
-AUTHORIZATION_SCHEMA = "invariant-broken-arxiv-task2-authorization-3.0"
-SOURCE_CHECK_SCHEMA = "invariant-broken-arxiv-task2-source-check-3.0"
-STAGED_PROBLEM_SCHEMA = "invariant-broken-arxiv-task2-staged-problem-3.0"
+CONFIG_SCHEMA = "invariant-broken-arxiv-task2-config-4.0"
+AUTHORIZATION_SCHEMA = "invariant-broken-arxiv-task2-authorization-4.0"
+SOURCE_CHECK_SCHEMA = "invariant-broken-arxiv-task2-source-check-4.0"
+STAGED_PROBLEM_SCHEMA = "invariant-broken-arxiv-task2-staged-problem-4.0"
 RELEASE_PACKET_SCHEMA = "invariant-broken-arxiv-task2-projected-release-packet-1.0"
 PUBLIC_SUBMISSIONS_SCHEMA = "invariant-broken-arxiv-task2-public-submissions-1.0"
 GENERATION_RECEIPT_SCHEMA = "invariant-broken-arxiv-task2-generation-receipt-1.0"
 PRIVATE_COORDINATOR_SCHEMA = "invariant-broken-arxiv-task2-private-coordinator-1.0"
 EVALUATION_PACKET_SCHEMA = "invariant-broken-arxiv-task2-independent-evaluation-1.0"
 ADJUDICATION_SCHEMA = "invariant-broken-arxiv-task2-adjudication-1.0"
+REQUIRED_PYARROW_VERSION = "21.0.0"
+REQUIRED_FSSPEC_VERSION = "2025.7.0"
 DEFAULT_CONFIG_PATH = Path("configs/broken_arxiv_task2.json")
 _HASH = re.compile(r"[0-9a-f]{64}\Z")
 _COMMIT = re.compile(r"[0-9a-f]{40}\Z")
@@ -122,6 +124,7 @@ def load_config(root: Path, path: Path = DEFAULT_CONFIG_PATH) -> Mapping[str, An
             "implementation_paths",
             "ingestion",
             "pass_gate",
+            "preauthorization_format_probe",
             "schema_version",
             "selection",
             "source",
@@ -139,33 +142,60 @@ def load_config(root: Path, path: Path = DEFAULT_CONFIG_PATH) -> Mapping[str, An
     adjudication = config["adjudication"]
     ingestion = config["ingestion"]
     supersessions = config["supersessions"]
+    format_probe = config["preauthorization_format_probe"]
     gate = config["pass_gate"]
     if not isinstance(source, Mapping) or not isinstance(selection, Mapping):
         raise BrokenArxivTask2Error("Task 2 source or selection config is invalid")
-    if not isinstance(supersessions, list) or len(supersessions) != 2:
-        raise BrokenArxivTask2Error("Task 2 version-1 supersession evidence changed")
+    if not isinstance(supersessions, list) or len(supersessions) != 3:
+        raise BrokenArxivTask2Error("Task 2 supersession evidence changed")
     for supersession in supersessions:
         if (
             not isinstance(supersession, Mapping)
             or set(supersession)
             != {
                 "authorization_content_sha256",
-                "problem_rows_opened",
+                "eligible_problem_rows_opened",
+                "ineligible_problem_rows_materialized",
                 "reason",
                 "reference_answers_opened",
                 "source_check_content_sha256",
             }
             or _HASH.fullmatch(str(supersession["authorization_content_sha256"])) is None
             or _HASH.fullmatch(str(supersession["source_check_content_sha256"])) is None
-            or supersession["problem_rows_opened"] != 0
+            or supersession["eligible_problem_rows_opened"] != 0
+            or isinstance(supersession["ineligible_problem_rows_materialized"], bool)
+            or not isinstance(supersession["ineligible_problem_rows_materialized"], int)
+            or supersession["ineligible_problem_rows_materialized"] < 0
             or supersession["reference_answers_opened"] != 0
         ):
             raise BrokenArxivTask2Error("Task 2 supersession evidence changed")
+    if (
+        not isinstance(format_probe, Mapping)
+        or set(format_probe)
+        != {
+            "dataset_id",
+            "materialized_columns",
+            "packet_persisted",
+            "problem_rows_materialized",
+            "purpose",
+            "reference_columns_materialized",
+            "revision",
+        }
+        or format_probe["dataset_id"] != "MathArena/brokenarxiv-0626"
+        or format_probe["materialized_columns"] != ["problem_idx", "problem"]
+        or format_probe["problem_rows_materialized"] != 54
+        or format_probe["reference_columns_materialized"] != []
+        or format_probe["packet_persisted"] is not False
+        or _COMMIT.fullmatch(str(format_probe["revision"])) is None
+    ):
+        raise BrokenArxivTask2Error("Task 2 preauthorization format-probe disclosure changed")
     if (
         not isinstance(ingestion, Mapping)
         or ingestion.get("required_projected_columns") != ["problem_idx", "problem"]
         or ingestion.get("projection_engine")
         != "pyarrow_parquet_column_projection_v1"
+        or ingestion.get("required_pyarrow_version") != REQUIRED_PYARROW_VERSION
+        or ingestion.get("required_fsspec_version") != REQUIRED_FSSPEC_VERSION
         or ingestion.get("manual_release_packet_allowed") is not False
         or ingestion.get("release_and_staged_packets_private_until_submissions_frozen") is not True
         or ingestion.get("maximum_problem_rows") != 1000
@@ -203,7 +233,7 @@ def load_config(root: Path, path: Path = DEFAULT_CONFIG_PATH) -> Mapping[str, An
         "credential_env_var",
         "effort",
         "maximum_output_tokens_per_call",
-        "maximum_total_tokens",
+        "maximum_total_tokens_per_arm",
         "model",
         "timeout_seconds",
     }:
@@ -309,8 +339,10 @@ def build_authorization(
         "source_cutoff": {
             "last_visible_release_month": config["source"]["last_release_visible_before_freeze"],
             "first_eligible_release_month": config["source"]["first_eligible_release_month"],
-            "problem_rows_read": 0,
+            "eligible_problem_rows_read": 0,
+            "future_problem_rows_read": 0,
             "reference_answers_read": 0,
+            "preauthorization_format_probe": dict(config["preauthorization_format_probe"]),
         },
         "selector_commitment": canonical_sha256(
             {
@@ -347,8 +379,11 @@ def validate_authorization(
         or authorization.get("config_sha256") != canonical_sha256(config)
         or authorization.get("status")
         != "FULL_HARNESS_FROZEN_WAITING_FOR_FIRST_ELIGIBLE_RELEASE"
-        or authorization.get("source_cutoff", {}).get("problem_rows_read") != 0
+        or authorization.get("source_cutoff", {}).get("eligible_problem_rows_read") != 0
+        or authorization.get("source_cutoff", {}).get("future_problem_rows_read") != 0
         or authorization.get("source_cutoff", {}).get("reference_answers_read") != 0
+        or authorization.get("source_cutoff", {}).get("preauthorization_format_probe")
+        != config["preauthorization_format_probe"]
         or authorization.get("old_system_baseline_commit")
         != config["trial"]["old_system_baseline_commit"]
         or authorization.get("supersessions") != config["supersessions"]
@@ -536,11 +571,17 @@ def _project_parquet_columns(
 ) -> Sequence[Mapping[str, Any]]:
     try:
         import fsspec
+        import pyarrow
         from pyarrow import parquet
     except ImportError as error:
         raise BrokenArxivTask2Error(
             "projected ingestion requires the installed pyarrow and fsspec runtimes"
         ) from error
+    if (
+        pyarrow.__version__ != REQUIRED_PYARROW_VERSION
+        or fsspec.__version__ != REQUIRED_FSSPEC_VERSION
+    ):
+        raise BrokenArxivTask2Error("Task 2 projected-ingestion runtime version changed")
     filesystem = fsspec.filesystem(
         "http", headers={"User-Agent": "Invariant-Task2-Projected-Ingestion/1.0"}
     )
@@ -637,6 +678,10 @@ def fetch_projected_release_packet(
             "forbidden_columns_materialized": False,
             "materialized_columns": list(columns),
             "metadata_url_sha256": hashlib.sha256(metadata_url.encode()).hexdigest(),
+            "runtime_versions": {
+                "fsspec": ingestion["required_fsspec_version"],
+                "pyarrow": ingestion["required_pyarrow_version"],
+            },
             "source_files": source_files,
         },
         "status": "PASS_REVISION_PINNED_FALSE_STATEMENT_COLUMNS_ONLY",
@@ -674,10 +719,16 @@ def validate_release_packet(
             "forbidden_columns_materialized",
             "materialized_columns",
             "metadata_url_sha256",
+            "runtime_versions",
             "source_files",
         }
         or projection.get("metadata_url_sha256")
         != hashlib.sha256(metadata_url.encode()).hexdigest()
+        or projection.get("runtime_versions")
+        != {
+            "fsspec": config["ingestion"]["required_fsspec_version"],
+            "pyarrow": config["ingestion"]["required_pyarrow_version"],
+        }
         or not isinstance(projection.get("source_files"), list)
         or not projection["source_files"]
         or not isinstance(rows, list)
@@ -847,6 +898,7 @@ def _resource_budget(config: Mapping[str, Any]) -> dict[str, Any]:
         "llm_calls": trial["candidate_slots_per_arm"],
         "llm_model": claude["model"],
         "maximum_output_tokens_per_call": claude["maximum_output_tokens_per_call"],
+        "maximum_total_tokens_per_arm": claude["maximum_total_tokens_per_arm"],
         "statement_access": "identical_full_statement",
         "verifier_invocations_per_candidate": trial["verifier_invocations_per_candidate"],
         "wall_clock_milliseconds_per_candidate": trial[
@@ -931,8 +983,8 @@ def _client_config(config: Mapping[str, Any]) -> ClaudeAPIConfig:
         model=claude["model"],
         credential_env_var=claude["credential_env_var"],
         execution_enabled=True,
-        maximum_calls=trial["candidate_slots_per_arm"] * len(trial["arms"]),
-        maximum_total_tokens=claude["maximum_total_tokens"],
+        maximum_calls=trial["candidate_slots_per_arm"],
+        maximum_total_tokens=claude["maximum_total_tokens_per_arm"],
         maximum_output_tokens=claude["maximum_output_tokens_per_call"],
         timeout_seconds=claude["timeout_seconds"],
         effort=claude["effort"],
@@ -1219,7 +1271,10 @@ def run_generation(
     transport: Transport = urllib_transport,
 ) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
     specs = build_arm_specs(staged, config)
-    client = ClaudeCreativityClient(_client_config(config), transport)
+    clients = {
+        arm: ClaudeCreativityClient(_client_config(config), transport)
+        for arm in config["trial"]["arms"]
+    }
     public_payload = {
         "benchmark_kind": "fresh_broken_arxiv_false_statement",
         "problem_id": staged["selection"]["problem_id"],
@@ -1249,7 +1304,7 @@ def run_generation(
             environment=environment,
         ) as activation:
             for spec in ordered_specs:
-                result = client.run(
+                result = clients[spec["arm"]].run(
                     ClaudeRole(spec["role"]),
                     benchmark_id,
                     public_payload,

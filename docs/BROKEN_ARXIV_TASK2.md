@@ -14,14 +14,21 @@ The `fetch-release` command verifies the selected repository SHA, locates its ca
 Parquet shards, and uses Parquet projection pushdown to materialize only `problem_idx` and
 `problem`. In particular, `original_problem`—which can reveal the intended repair—is forbidden from
 the materialized table. The revision-pinned file paths, projected columns, row counts, and absence
-of forbidden columns are sealed before deterministic selection. Hand-authored release packets are
-not an admitted live path.
+of forbidden columns are sealed before deterministic selection. The projection runtime is pinned to
+PyArrow 21.0.0 and fsspec 2025.7.0. Hand-authored release packets are not an admitted live path.
+
+Before version 4 was authorized, this projection path was exercised once against the already
+ineligible June 2026 release: 54 rows of `problem_idx` and `problem` were materialized in memory,
+the packet was not persisted, and no `original_problem`, solution, judge, or reference-answer
+column was materialized. The authorization records this format probe separately from eligible and
+future target access, both of which remain zero.
 
 ## Real problem and gate
 
 The real problem will be one plausible-but-false research-mathematics statement from that future
 release. Three arms see the same statement and receive the same Claude model, 12 calls, 12 candidate
-slots, per-call token cap, wall-clock allowance, and three verifier invocations per candidate:
+slots, per-call token cap, wall-clock allowance, and three verifier invocations per candidate. Each
+arm also has its own 70,000-token total ceiling, so one arm cannot consume another arm's budget:
 
 1. `old_failure_first_llm` replays the frozen historical direct-falsification policy from the
    declared baseline commit;
@@ -65,10 +72,11 @@ The independent evaluation must score every submission and bind the canonical co
 repair-proof graph when it marks a candidate valid. A correct treatment candidate without a lower
 search cost or distinct repair is a Task-2 rejection, not a creativity success.
 
-The initial selector-only authorization at commit `16fb1eb` and the subsequent full-trial
-authorization at commit `3a0a6b2` are preserved as superseded preflights. Both opened zero problem
-rows and zero reference answers. The first lacked the complete runner; the second lacked a
-revision-pinned official-dataset projection command. Version 3 supersedes both before any eligible
-release exists.
+The initial selector-only authorization at commit `16fb1eb`, the full-trial authorization at commit
+`3a0a6b2`, and the first projected-ingestion authorization at commit `4c4ac26` are preserved as
+superseded preflights. The first lacked the complete runner; the second lacked revision-pinned
+official ingestion; the third used an access declaration too broad to disclose the 54-row
+ineligible format probe precisely. Version 4 supersedes all three before any eligible release
+exists. Every version opened zero eligible/future target rows and zero reference-answer rows.
 
 Until step 8 passes, Task 3 remains locked.

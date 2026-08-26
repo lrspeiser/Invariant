@@ -1,22 +1,41 @@
 {
-  "schema_version": "invariant-broken-arxiv-task2-config-3.0",
+  "schema_version": "invariant-broken-arxiv-task2-config-4.0",
   "task_id": "task2.creative-falsification.future-broken-arxiv",
   "supersessions": [
     {
       "authorization_content_sha256": "73cdf2c34db00288b6e57dde3ea16cec77f0695f0deb5bf12a56fbd761ef6a86",
       "source_check_content_sha256": "be37fa71451cfaddb93dfef88de6f2713d4ab87d73d1a3b3dceb1b0d1e4a30d7",
-      "problem_rows_opened": 0,
+      "eligible_problem_rows_opened": 0,
+      "ineligible_problem_rows_materialized": 0,
       "reference_answers_opened": 0,
       "reason": "Version 1 froze the selector but not the complete three-arm generation and independent-adjudication harness."
     },
     {
       "authorization_content_sha256": "2088b1ecca7fbf8ecc9d2bf2bf8a49d5c77940c2c0441dd4a2e7d6813692cab9",
       "source_check_content_sha256": "78b37cffebb3daa5be22c1decac4459dfb53cc84c5b3b4e962fe9d9938939a7a",
-      "problem_rows_opened": 0,
+      "eligible_problem_rows_opened": 0,
+      "ineligible_problem_rows_materialized": 0,
       "reference_answers_opened": 0,
       "reason": "Version 2 froze the full trial but omitted a revision-pinned projected official-dataset ingestion command."
+    },
+    {
+      "authorization_content_sha256": "e048d384ea4ec9da55a4d16bb7f53821273d88487af4de006d7b7f0eeb9e90c9",
+      "source_check_content_sha256": "abcb0d5196a8c99fa3259f88099906a89c5674ec7ff901026f574d7c5fa4b5bf",
+      "eligible_problem_rows_opened": 0,
+      "ineligible_problem_rows_materialized": 54,
+      "reference_answers_opened": 0,
+      "reason": "Version 3's source declaration did not distinguish the non-persisted June format probe from eligible target access. No eligible or reference rows were opened."
     }
   ],
+  "preauthorization_format_probe": {
+    "dataset_id": "MathArena/brokenarxiv-0626",
+    "revision": "73dd424784fbdeab599557fcba3d77559c89d1ee",
+    "materialized_columns": ["problem_idx", "problem"],
+    "problem_rows_materialized": 54,
+    "reference_columns_materialized": [],
+    "packet_persisted": false,
+    "purpose": "Validate revision-pinned Parquet projection against an already-ineligible release schema before freezing version 4."
+  },
   "source": {
     "catalog_endpoint": "https://huggingface.co/api/datasets",
     "catalog_author": "MathArena",
@@ -49,6 +68,8 @@
       "judge"
     ],
     "projection_engine": "pyarrow_parquet_column_projection_v1",
+    "required_pyarrow_version": "21.0.0",
+    "required_fsspec_version": "2025.7.0",
     "maximum_problem_rows": 1000,
     "manual_release_packet_allowed": false,
     "release_and_staged_packets_private_until_submissions_frozen": true
@@ -67,7 +88,7 @@
       "credential_env_var": "ANTHROPIC_API_KEY",
       "effort": "high",
       "maximum_output_tokens_per_call": 2048,
-      "maximum_total_tokens": 220000,
+      "maximum_total_tokens_per_arm": 70000,
       "model": "claude-opus-4-6",
       "timeout_seconds": 120
     },

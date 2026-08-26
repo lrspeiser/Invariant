@@ -267,8 +267,21 @@ class _DynamicClaudeTransport:
 def test_authorization_binds_implementation_selector_and_zero_target_reads() -> None:
     authorization = _authorization()
     task2.validate_authorization(authorization, ROOT)
-    assert authorization["source_cutoff"]["problem_rows_read"] == 0
+    assert authorization["source_cutoff"]["eligible_problem_rows_read"] == 0
+    assert authorization["source_cutoff"]["future_problem_rows_read"] == 0
     assert authorization["source_cutoff"]["reference_answers_read"] == 0
+    assert authorization["source_cutoff"]["preauthorization_format_probe"] == {
+        "dataset_id": "MathArena/brokenarxiv-0626",
+        "materialized_columns": ["problem_idx", "problem"],
+        "packet_persisted": False,
+        "problem_rows_materialized": 54,
+        "purpose": (
+            "Validate revision-pinned Parquet projection against an already-ineligible release "
+            "schema before freezing version 4."
+        ),
+        "reference_columns_materialized": [],
+        "revision": "73dd424784fbdeab599557fcba3d77559c89d1ee",
+    }
     assert len(authorization["implementation_bindings"]) == 4
     assert len(authorization["selector_commitment"]) == 64
 
@@ -412,7 +425,7 @@ def test_live_generation_orchestrates_all_36_structured_calls(monkeypatch) -> No
     )
     task2.validate_generation(public, receipt, coordinator, staged, config)
     assert transport.post_calls == 36
-    assert len(transport.requests) == 37
+    assert len(transport.requests) == 39
     assert receipt["generation"]["calls"] == 36
     serialized = json.dumps([public, receipt, coordinator], sort_keys=True)
     assert "test-secret-never-persisted" not in serialized
