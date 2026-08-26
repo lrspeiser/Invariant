@@ -1,0 +1,75 @@
+{
+  "config_sha256": "118ea4485e7fecf47c90f12cb44a96018fdb125185e54413aa827a223bfe2dd4",
+  "content_sha256": "8868befc9bf05d71e7b8716dd79824e4cc21b716caacb2383d056c230970af1c",
+  "frozen_at_utc": "2026-08-26T19:19:21.132411Z",
+  "git_commit": "1fab53ae28ff5399a74fec15e8fd05fbcec8c556",
+  "implementation_bindings": [
+    {
+      "path": "src/sigma_theory_compiler/broken_arxiv_task2.py",
+      "sha256": "23e641904b7fda3a7c82d25bdfc7123cca0170d073d9d2f1a1ad0c4e37ea4cc6"
+    },
+    {
+      "path": "configs/broken_arxiv_task2.json",
+      "sha256": "044973a0113121d166f8a5f314923bf145e327fc9e01ce0249d796c6077984c4"
+    },
+    {
+      "path": "tests/test_broken_arxiv_task2.py",
+      "sha256": "57c9c6468deb1cd5dfa552f7b853cd087e97b81028c1a802a53d49bdcf6ba86d"
+    },
+    {
+      "path": "docs/BROKEN_ARXIV_TASK2.md",
+      "sha256": "d467712ac71b11b7fee5da4c23dc04b6d11c9a0926db310a27b688d5882a74de"
+    }
+  ],
+  "old_system_baseline_commit": "a180d227fae9afae4964fc445cbfbb5c16afb558",
+  "schema_version": "invariant-broken-arxiv-task2-authorization-4.0",
+  "selector_commitment": "791378c4e554b3954e4633c3fea8aae006f53a5312b56424827314a656b2d4ce",
+  "source_cutoff": {
+    "eligible_problem_rows_read": 0,
+    "first_eligible_release_month": "2026-07",
+    "future_problem_rows_read": 0,
+    "last_visible_release_month": "2026-06",
+    "preauthorization_format_probe": {
+      "dataset_id": "MathArena/brokenarxiv-0626",
+      "materialized_columns": [
+        "problem_idx",
+        "problem"
+      ],
+      "packet_persisted": false,
+      "problem_rows_materialized": 54,
+      "purpose": "Validate revision-pinned Parquet projection against an already-ineligible release schema before freezing version 4.",
+      "reference_columns_materialized": [],
+      "revision": "73dd424784fbdeab599557fcba3d77559c89d1ee"
+    },
+    "reference_answers_read": 0
+  },
+  "status": "FULL_HARNESS_FROZEN_WAITING_FOR_FIRST_ELIGIBLE_RELEASE",
+  "supersessions": [
+    {
+      "authorization_content_sha256": "73cdf2c34db00288b6e57dde3ea16cec77f0695f0deb5bf12a56fbd761ef6a86",
+      "eligible_problem_rows_opened": 0,
+      "ineligible_problem_rows_materialized": 0,
+      "reason": "Version 1 froze the selector but not the complete three-arm generation and independent-adjudication harness.",
+      "reference_answers_opened": 0,
+      "source_check_content_sha256": "be37fa71451cfaddb93dfef88de6f2713d4ab87d73d1a3b3dceb1b0d1e4a30d7"
+    },
+    {
+      "authorization_content_sha256": "2088b1ecca7fbf8ecc9d2bf2bf8a49d5c77940c2c0441dd4a2e7d6813692cab9",
+      "eligible_problem_rows_opened": 0,
+      "ineligible_problem_rows_materialized": 0,
+      "reason": "Version 2 froze the full trial but omitted a revision-pinned projected official-dataset ingestion command.",
+      "reference_answers_opened": 0,
+      "source_check_content_sha256": "78b37cffebb3daa5be22c1decac4459dfb53cc84c5b3b4e962fe9d9938939a7a"
+    },
+    {
+      "authorization_content_sha256": "e048d384ea4ec9da55a4d16bb7f53821273d88487af4de006d7b7f0eeb9e90c9",
+      "eligible_problem_rows_opened": 0,
+      "ineligible_problem_rows_materialized": 54,
+      "reason": "Version 3's source declaration did not distinguish the non-persisted June format probe from eligible target access. No eligible or reference rows were opened.",
+      "reference_answers_opened": 0,
+      "source_check_content_sha256": "abcb0d5196a8c99fa3259f88099906a89c5674ec7ff901026f574d7c5fa4b5bf"
+    }
+  ],
+  "task_id": "task2.creative-falsification.future-broken-arxiv",
+  "trial_contract_sha256": "3a283dc9cff2e34861c9f828d0f38373225183b0108a86f7e83fe0a7ae47e357"
+}
