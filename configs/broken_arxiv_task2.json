@@ -1,6 +1,13 @@
 {
-  "schema_version": "invariant-broken-arxiv-task2-config-1.0",
+  "schema_version": "invariant-broken-arxiv-task2-config-2.0",
   "task_id": "task2.creative-falsification.future-broken-arxiv",
+  "supersession": {
+    "authorization_content_sha256": "73cdf2c34db00288b6e57dde3ea16cec77f0695f0deb5bf12a56fbd761ef6a86",
+    "source_check_content_sha256": "be37fa71451cfaddb93dfef88de6f2713d4ab87d73d1a3b3dceb1b0d1e4a30d7",
+    "problem_rows_opened": 0,
+    "reference_answers_opened": 0,
+    "reason": "Version 1 froze the selector but not the complete three-arm generation and independent-adjudication harness. Version 2 supersedes it before any eligible release exists."
+  },
   "source": {
     "catalog_endpoint": "https://huggingface.co/api/datasets",
     "catalog_author": "MathArena",
@@ -9,6 +16,7 @@
     "last_release_visible_before_freeze": "2026-06",
     "first_eligible_release_month": "2026-07",
     "required_release_kind": "first_published_eligible_release",
+    "eligible_release_last_modified_must_follow_authorization": true,
     "problem_content_may_be_read_during_source_check": false,
     "reference_answers_may_be_read_before_submissions_freeze": false
   },
@@ -21,10 +29,37 @@
     "manual_substitution_allowed": false
   },
   "trial": {
-    "arms": ["creativity_first_llm", "matched_random_falsifier"],
+    "arms": [
+      "old_failure_first_llm",
+      "creativity_first_llm",
+      "matched_random_falsifier"
+    ],
+    "old_system_baseline_commit": "a180d227fae9afae4964fc445cbfbb5c16afb558",
     "candidate_slots_per_arm": 12,
     "verifier_invocations_per_candidate": 3,
-    "llm_roles": ["proposer", "analogue_scout", "critic", "proof_strategist"],
+    "wall_clock_milliseconds_per_candidate": 120000,
+    "claude": {
+      "credential_env_var": "ANTHROPIC_API_KEY",
+      "effort": "high",
+      "maximum_output_tokens_per_call": 2048,
+      "maximum_total_tokens": 220000,
+      "model": "claude-opus-4-6",
+      "timeout_seconds": 120
+    },
+    "creativity_role_schedule": [
+      "proposer",
+      "analogue_scout",
+      "proof_strategist",
+      "representation_inventor",
+      "recombiner",
+      "proposer",
+      "analogue_scout",
+      "proof_strategist",
+      "representation_inventor",
+      "recombiner",
+      "proposer",
+      "analogue_scout"
+    ],
     "required_origin_labels": [
       "known_rewrite",
       "cross_domain_synthesis",
@@ -47,10 +82,39 @@
     ],
     "matched_resources": [
       "candidate_slots",
+      "llm_calls",
+      "llm_model",
+      "maximum_output_tokens",
       "verifier_invocations",
       "wall_clock_limit",
       "statement_access"
-    ]
+    ],
+    "prompt_policies": {
+      "old_failure_first_llm": {
+        "instruction": "Treat the statement as a proof obligation. Seek one direct, immediately checkable counterexample or local premise failure. Prefer familiar transformations and abandon routes that do not quickly verify. In expression, state the proposed counterexample or rejection mechanism. In proof_plan, explicitly include 'Failed assumption:', 'Repaired theorem:', and 'Repair verification:' entries.",
+        "system": "You are the frozen historical failure-first control. Return exactly one structured hypothesis. Do not claim correctness or novelty; an independent evaluator decides both."
+      },
+      "creativity_first_llm": {
+        "instruction": "Generate one maximally useful falsification-and-repair construction. Explore distant analogies, representation changes, limiting objects, invariants, and cross-domain synthesis before verification. Preserve uncertain ideas. In expression, state the exact proposed counterexample or rejection mechanism. In proof_plan, explicitly include 'Failed assumption:', 'Repaired theorem:', and 'Repair verification:' entries. Self-label lineage and name analogues; the label never prunes the idea or proves novelty.",
+        "system": "You are the frozen creativity-first treatment. Return exactly one structured hypothesis. Maximize structural diversity across the requested role while leaving correctness and novelty to independent evaluation."
+      },
+      "matched_random_falsifier": {
+        "instruction_template": "Use only the assigned falsifier lens '{family}' as the starting mechanism. Generate one concrete counterexample-or-repair attempt under that randomly assigned lens. In expression, state the proposed exact counterexample or rejection mechanism. In proof_plan, explicitly include 'Failed assumption:', 'Repaired theorem:', and 'Repair verification:' entries. Do not claim correctness or novelty.",
+        "system": "You are the frozen matched-random control. Return exactly one structured hypothesis constrained by the assigned randomly ordered generic falsifier lens. Independent evaluation decides correctness."
+      }
+    }
+  },
+  "adjudication": {
+    "allowed_verifier_kinds": [
+      "exact_executable_verifier",
+      "formal_kernel",
+      "matharena_official_judge",
+      "named_independent_human_review"
+    ],
+    "all_submissions_must_be_scored": true,
+    "arm_identity_blinded_until_scoring_complete": true,
+    "reference_material_may_open_only_after_submission_seal": true,
+    "minimum_named_human_reviewers_for_human_only_acceptance": 2
   },
   "pass_gate": {
     "false_as_written_decision_required": true,
@@ -58,6 +122,7 @@
     "smallest_failed_assumption_required": true,
     "nonvacuous_repaired_statement_required": true,
     "repaired_statement_bounded_proof_or_independent_external_acceptance_required": true,
+    "old_new_random_equal_budget_required": true,
     "creative_arm_must_beat_random_on_cost_or_supply_distinct_valid_repair": true,
     "self_reported_origin_is_not_novelty_evidence": true,
     "finite_reference_nonoverlap_is_not_historical_novelty": true
