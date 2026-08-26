@@ -63,7 +63,7 @@ inspected while the first implementation and thresholds were designed. It cannot
 ## Frozen confirmation
 
 The confirmation configuration was written before any row values from its lane were retrieved. It
-selects non-default literature parameter sets published from 2020 onward. Before freeze, only these
+selected non-default literature parameter sets published from 2020 onward. Before freeze, only these
 availability counts were requested:
 
 - 1,028 rows with the three primary values present;
@@ -71,7 +71,8 @@ availability counts were requested:
 - 508 distinct hosts before eligibility filtering.
 
 No row values, candidate scores, or holdout performance from this alternate-reference lane were
-opened during protocol design.
+opened during protocol design. The implementation was committed at `587a966`, and the authorization
+bound that commit and every executable/configuration hash before the CLI retrieved the values.
 
 A confirmation run is allowed only after:
 
@@ -81,8 +82,39 @@ A confirmation run is allowed only after:
 3. the CLI retrieves the values itself after the authorization time—`--raw-csv` is forbidden;
 4. the same frozen performance requirements are applied without repair.
 
-If the confirmation passes, Task 1 establishes real-catalog recovery under this declared protocol.
-It still establishes neither historical novelty nor independent physical confirmation.
+### Confirmation result: honest REJECT
+
+The first confirmation did not pass:
+
+- 1,028 external source rows;
+- 805 eligible rows across 429 hosts;
+- 648 training rows from 343 hosts;
+- 157 holdout rows from 86 disjoint hosts;
+- exact recovered structure: `x0^2*x1^-3*x2 = constant`;
+- median holdout response log error: `0.0037307073835366467`;
+- new lane better than the old pairwise lane and every frozen fitted baseline;
+- 1/32 uniformly random lanes matched the new winner;
+- reported-error coverage: 89.81% within one sigma and 91.72% within two sigma.
+
+The frozen requirements were 90% and 95%, so the receipt is `REJECT / PERFORMANCE_GATE_FAILED`.
+The miss is narrow at one sigma and material at two sigma. No threshold, exclusion, candidate,
+split, or uncertainty was changed after opening the data.
+
+This is precisely why the gates exist: the formula can be structurally right and predict much
+better than alternatives while the stated uncertainty model remains inadequate. Task 2 stays
+locked.
+
+### Next untouched attempt
+
+The rejected 2020-and-later lane is now debug material. A later Task-1 version may use it to develop
+asymmetric log-interval propagation and an explicitly calibrated systematic-error model, but it
+must face a different untouched lane.
+
+Only availability counts—not values—have been requested for the proposed next lane: non-default
+parameter sets published from 2015 through 2019 with all six uncertainty bounds present. It has
+2,445 candidate rows and 1,445 distinct hosts before eligibility filtering. Its values may not be
+retrieved until the revised uncertainty semantics, thresholds, code, tests, and query are committed
+and authorized.
 
 ## Commands
 

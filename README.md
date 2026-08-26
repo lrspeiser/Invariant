@@ -28,8 +28,9 @@ Archive snapshot. A domain-neutral engine searches anonymous three-column monomi
 old, new, unit-rescaled, and 32 budget-matched random lanes are frozen before holdout scoring. The
 exploratory pilot recovered the classical exponent structure and beat the old lane plus four fitted
 baselines, but remains explicitly blocked because provisional holdout aggregates were inspected
-during implementation. An untouched alternate-reference query is frozen for the gate-eligible
-confirmation. See [`docs/NASA_EXOPLANET_TASK1.md`](docs/NASA_EXOPLANET_TASK1.md).
+during implementation. The first untouched alternate-reference confirmation again recovered the
+right structure and beat every baseline, but honestly rejected on its frozen reported-error
+coverage thresholds. See [`docs/NASA_EXOPLANET_TASK1.md`](docs/NASA_EXOPLANET_TASK1.md).
 
 The first bounded famous-open-problem shadow experiment applies the LLM-to-typed-search-to-GPU
 pipeline to the Erdős--Straus conjecture without opening the project's proof-claim gate. It tests
