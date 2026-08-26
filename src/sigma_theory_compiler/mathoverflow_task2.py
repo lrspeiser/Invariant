@@ -34,9 +34,9 @@ from .claude_creativity_api import (
 from .core_credential import CredentialActivationError, activated_credential
 from .sigma_core import canonical_sha256
 
-CONFIG_SCHEMA = "invariant-mathoverflow-task2-config-1.0"
-AUTHORIZATION_SCHEMA = "invariant-mathoverflow-task2-authorization-1.0"
-SOURCE_SCHEMA = "invariant-mathoverflow-task2-source-check-1.0"
+CONFIG_SCHEMA = "invariant-mathoverflow-task2-config-2.0"
+AUTHORIZATION_SCHEMA = "invariant-mathoverflow-task2-authorization-2.0"
+SOURCE_SCHEMA = "invariant-mathoverflow-task2-source-check-2.0"
 STAGED_SCHEMA = "invariant-mathoverflow-task2-staged-problem-1.0"
 REFERENCE_SCHEMA = "invariant-mathoverflow-task2-reference-1.0"
 DEFAULT_CONFIG = Path("configs/mathoverflow_task2_available_now.json")
@@ -152,12 +152,14 @@ def load_config(root: Path, path: Path = DEFAULT_CONFIG) -> Mapping[str, Any]:
             "schema_version",
             "selection",
             "source",
+            "supersessions",
             "task_id",
         },
         "MathOverflow Task 2 config",
     )
     source = config["source"]
     disclosure = config["blindness_disclosure"]
+    supersessions = config["supersessions"]
     if (
         config["schema_version"] != CONFIG_SCHEMA
         or source.get("site") != "mathoverflow"
@@ -180,6 +182,16 @@ def load_config(root: Path, path: Path = DEFAULT_CONFIG) -> Mapping[str, Any]:
         or disclosure.get("historical_novelty_claim_allowed") is not False
     ):
         raise MathOverflowTask2Error("MathOverflow Task 2 blindness contract changed")
+    if (
+        not isinstance(supersessions, list)
+        or len(supersessions) != 1
+        or supersessions[0].get("question_titles_read") != 0
+        or supersessions[0].get("question_bodies_read") != 0
+        or supersessions[0].get("answer_bodies_read") != 0
+        or _HASH.fullmatch(str(supersessions[0].get("authorization_content_sha256"))) is None
+        or _HASH.fullmatch(str(supersessions[0].get("source_check_content_sha256"))) is None
+    ):
+        raise MathOverflowTask2Error("MathOverflow Task 2 supersession disclosure changed")
     paths = config["implementation_paths"]
     dependencies = config["dependency_paths"]
     if (

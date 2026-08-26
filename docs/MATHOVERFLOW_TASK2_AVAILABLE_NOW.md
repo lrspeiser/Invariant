@@ -20,6 +20,9 @@ trial cannot prove model-training exclusion or historical novelty.
 
 The metadata-only API filter omits titles and bodies. After authorization, staging may fetch only
 the selected question. The accepted answer remains closed until all 36 submissions are frozen.
+Version 1 failed closed because its custom filters omitted the API wrapper's `items` field; it read
+zero titles, question bodies, and answer bodies. Version 2 records that receipt and corrects all
+three filters before reauthorization.
 
 ## Creative comparison
 
