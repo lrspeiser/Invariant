@@ -1,0 +1,59 @@
+{
+  "schema_version": "invariant-gravity-g2-equivalence-config-1.0",
+  "goal": "G2",
+  "claim": "Collapse the 8,615 retained G1 exploration survivors into semantic structures and coefficient-span behavioral classes, while preserving proposer lineage and explicitly separating known families, combinations, and unresolved novelty.",
+  "g1_binding": {
+    "path": "runs/gravity/g1-atlas/repair-v3.json",
+    "file_sha256": "1816179693504fe1e915a1a4b82c099b731b118469e6bf30b5c74883e8db6af5",
+    "content_sha256": "3e56e19f8c4c116c533fd986d5f37358105b0d51aad2854b13c1d4bf7a8c549a",
+    "required_decision": "PASS_G1_ATLAS_UNION_139_OF_139",
+    "required_survivor_count": 8615,
+    "required_galaxy_count": 139
+  },
+  "canonicalization": {
+    "component_order": "sort the two semantic component IR objects by canonical JSON bytes",
+    "parameter_names": "replace A/B names with an unordered two-coefficient linear span",
+    "unit_reparameterization": "compare the two-component column span, invariant to nonzero column rescaling and invertible 2x2 basis changes",
+    "nonsemantic_fields_removed": ["llm_origin_assessment", "ordinal", "segment_id", "prediction_sha256", "fit scores"],
+    "base_laws_separate": true,
+    "feature_normalizations_separate": true
+  },
+  "behavioral_equivalence": {
+    "adversarial_design_points": 257,
+    "probe_columns": 8,
+    "projection_round_decimals": 9,
+    "maximum_projection_error_for_equivalence": "1e-8",
+    "rank_tolerance": "1e-12",
+    "definition": "same base and normalization, same numerical rank, and indistinguishable projection of deterministic adversarial probes onto the component span"
+  },
+  "mutation_controls": {
+    "positive": ["swap component order", "rescale both columns by unequal nonzero constants", "apply an invertible triangular 2x2 change of basis"],
+    "negative": ["add a 1e-3 adversarial orthogonal mutation to one component", "change one component feature identity"],
+    "positive_maximum_projection_error": "1e-10",
+    "negative_minimum_projection_error": "1e-6"
+  },
+  "authoritative_origin_status": {
+    "generalized_feature_rbf": "KNOWN_FAMILY",
+    "skew_feature_rbf": "KNOWN_FAMILY",
+    "sigmoid_transition": "COMBINATION",
+    "localized_exponential": "COMBINATION",
+    "arctan_switch": "COMBINATION",
+    "saturating_exponential": "COMBINATION",
+    "chebyshev": "KNOWN_FAMILY",
+    "legendre": "KNOWN_FAMILY",
+    "fourier_sine": "KNOWN_FAMILY",
+    "fourier_cosine": "KNOWN_FAMILY",
+    "positive_hinge": "KNOWN_FAMILY",
+    "negative_hinge": "KNOWN_FAMILY",
+    "tanh_transition": "KNOWN_FAMILY",
+    "chebyshev_feature_product": "COMBINATION",
+    "rule": "A class is COMBINATION if any component is mapped to COMBINATION; otherwise it is KNOWN_FAMILY. No class may be called novel from this corpus-only pass."
+  },
+  "confirmation_evaluator_accesses_allowed": 0,
+  "output": "runs/gravity/g2/gravity-formula-equivalence-classes-v1.json",
+  "decision": {
+    "pass": "all 8,615 survivors are assigned to sealed structural and behavioral classes, all authoritative statuses are bounded, all positive and negative mutation controls pass, and confirmation access is zero",
+    "block": "any survivor is missing or duplicated, any signature is nonfinite or unstable, any mutation control fails, G1 validation fails, or confirmation access occurs",
+    "after_pass": "authorize G3 whole-galaxy meta-law search without opening confirmation data"
+  }
+}
