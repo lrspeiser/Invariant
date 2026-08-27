@@ -1,0 +1,142 @@
+{
+  "schema_version": "invariant-gravity-g4-conditional-generator-config-4.0",
+  "goal": "G4_CONDITIONAL_FORMULA_GENERATOR",
+  "claim": "Turn every canonical G2 formula into a scalar-conditioned hyperformula and compete it against explicit baryonic-focusing and secular-speed-synchronization operators on whole-galaxy SPARC exploration folds.",
+  "predecessor_binding": {
+    "path": "runs/gravity/g4/universal-galaxy-law-construction-v3-nonlocal-profile.json",
+    "file_sha256": "58750ccb7aff516400b2e2adde1a943b60fcb3ba8b4f3ae49f79c2b183cff5af",
+    "content_sha256": "0bb2c1a6091449be85ab826595178c7ced9dd77956cb1155169a12ccb5312489",
+    "required_decision": "BLOCK_G4_NONLOCAL_PROFILE_CONSTRUCTION"
+  },
+  "g2_binding": {
+    "path": "runs/gravity/g2/gravity-formula-equivalence-classes-v1.json",
+    "file_sha256": "ddd53201176ed8eecf7fc07e4d79da8a258ab4353bc1362279d6171b60b1ea0f",
+    "content_sha256": "5b9683bf9526c62a8eef1640e779d194ed58823e0609d85b1cf49488146ef83c",
+    "required_decision": "PASS_G2_EQUIVALENCE_COLLAPSE",
+    "required_structural_classes": 8609,
+    "required_behavioral_classes": 6326
+  },
+  "g3_binding": {
+    "path": "runs/gravity/g3/galaxy-formula-meta-law-v2.json",
+    "file_sha256": "33a66552c049c3870dc9b1330653850d3bb9de9b9cef691fd607a7ad44f98589",
+    "content_sha256": "94bd8dbcd351eef44f0949ac55cd63c7250df542941179f5cb290d35336ba3bc",
+    "required_decision": "PASS_G3_FIXED_SHRINKAGE_META_LAW"
+  },
+  "whole_galaxy_cross_validation": {
+    "folds": 5,
+    "salt": "invariant-gravity-g3-whole-galaxy-v1",
+    "selection_unit": "whole galaxy",
+    "galaxy_id_available_to_formula": false,
+    "heldout_vobs_available_during_coefficient_fit": false
+  },
+  "galaxy_condition_variables": [
+    "baryonic_compactness",
+    "surface_density",
+    "gas_dominance",
+    "bulge_dominance",
+    "vacuum_fraction",
+    "radial_span",
+    "orbital_speed_coherence"
+  ],
+  "condition_definitions": {
+    "baryonic_compactness": "tanh(median(log(g_bar/g_dagger))/4)",
+    "surface_density": "tanh((median(log(1+SBtotal))-4)/4)",
+    "gas_dominance": "2*mean(gas_fraction)-1",
+    "bulge_dominance": "2*mean(bulge_fraction)-1",
+    "vacuum_fraction": "2*mean(100/(100+SBtotal))-1",
+    "radial_span": "tanh((log(r_max/r_min)-3)/2)",
+    "orbital_speed_coherence": "2*exp(-std(log(V_RAR/(1 km/s))))-1"
+  },
+  "atlas_lane": {
+    "classes_exhausted": 8609,
+    "stage_a_map": "coefficient(x)=a+b*x for both canonical components",
+    "stage_a_class_condition_pairs": 60263,
+    "stage_b_top_pairs": 64,
+    "stage_b_maps": [
+      "quadratic coefficient(x)=a+b*x+c*x^2",
+      "cubic coefficient(x)=a+b*x+c*x^2+d*x^3"
+    ],
+    "shrinkage_grid": ["0.25", "0.50", "0.75", "1.00"],
+    "maximum_universal_constants": 8,
+    "per_galaxy_fitted_constants": 0,
+    "domain_failure_policy": "retain the first target-blind galaxy counterexample and exclude that class from universal generation"
+  },
+  "baryonic_focusing_lane": {
+    "idea": "A radial field can focus toward occupied baryonic regions rather than remaining indifferent to adjacent low-density regions.",
+    "surface_density_thresholds_lsun_pc2": ["10", "100", "1000"],
+    "acceleration_occupancy_thresholds_gbar_over_gdagger": ["0.01", "0.1", "1"],
+    "log_radius_scales": ["0.25", "0.5", "1", "2"],
+    "operators": ["interior_minus_exterior_occupancy", "interior_occupancy_times_exterior_vacuum"],
+    "operator_count": 48,
+    "proposer_origin_label": "new_combination_of_known_ideas",
+    "authoritative_origin_status": "COMBINATION",
+    "historical_novelty_claimed": false
+  },
+  "secular_synchronization_lane": {
+    "idea": "Over many orbital cycles, a nonlocal response may pull local circular-speed predictions toward an interior or symmetric radial mean.",
+    "log_radius_scales": ["0.25", "0.5", "1", "2"],
+    "mean_operators": ["interior_speed_equalization", "symmetric_speed_equalization"],
+    "evolution_times_gyr": ["none", "1", "3", "10"],
+    "operator_count": 32,
+    "proposer_origin_label": "proposed_new_construction",
+    "authoritative_origin_status": "UNRESOLVED",
+    "historical_novelty_claimed": false,
+    "warning": "This is a falsifiable phenomenological relaxation operator, not a derived resonance mechanism or conserved dynamics."
+  },
+  "concept_generator": {
+    "amplitude": "alpha(x)=alpha_max*sigmoid(a+b*x)",
+    "intercepts": ["-4", "-2", "0", "2", "4"],
+    "slopes": ["-4", "-2", "-1", "0", "1", "2", "4"],
+    "focusing_alpha_max": "2",
+    "synchronization_alpha_max": "1",
+    "single_operator_cells": 19600,
+    "top_single_operators_for_pairs": 16,
+    "pair_cells": 120,
+    "top_atlas_for_hybrids": 8,
+    "top_concepts_for_hybrids": 8,
+    "hybrid_cells": 64
+  },
+  "candidate_accounting": {
+    "atlas_stage_a_cells": 241052,
+    "atlas_stage_b_parent_pairs": 64,
+    "atlas_stage_b_cells": 512,
+    "concept_single_cells": 19600,
+    "concept_pair_cells": 120,
+    "atlas_concept_hybrid_cells": 64,
+    "total_declared_cells": 261348,
+    "total_declared_candidate_galaxy_evaluations": 36327372,
+    "total_declared_candidate_point_evaluations": 710866560
+  },
+  "admission": {
+    "minimum_fractional_chi_square_gain_over_empirical_rar": "5e-3",
+    "nfw_ceiling_slack_chi_square_per_point": "2.0",
+    "maximum_fractional_chi_square_regression_vs_rar_in_any_stratum": "0.10",
+    "all_predictions_positive_and_finite": true,
+    "all_139_exploration_galaxies_predicted_once": true,
+    "per_galaxy_fitted_gravitational_constants_required": 0,
+    "confirmation_evaluator_accesses_allowed": 0
+  },
+  "diagnostic_disclosure": {
+    "user_proposed_focusing_and_synchronization_after_prior_g4_failures": true,
+    "same_exploration_population_and_folds_reused": true,
+    "result_is_independent_confirmation": false,
+    "formula_selection_is_model_development": true,
+    "confirmation_partition_remains_unopened": true
+  },
+  "forbidden": [
+    "galaxy identity as condition",
+    "observed velocity in a condition or operator",
+    "per-galaxy fitted coefficient",
+    "halo quantity",
+    "confirmation row",
+    "claiming resonance dynamics from a static curve fit",
+    "claiming historical novelty from a proposer label"
+  ],
+  "output": "runs/gravity/g4/conditional-formula-generator-v4.json",
+  "decision": {
+    "pass": "one frozen conditional generator clears every unchanged G4 exploration gate",
+    "block": "any unchanged exploration obligation fails",
+    "after_pass": "freeze the generator and authorize a separate one-shot confirmation evaluator",
+    "after_block": "retain class/operator counterexamples and keep confirmation locked"
+  }
+}
