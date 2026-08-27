@@ -1,0 +1,138 @@
+{
+  "schema_version": "invariant-gravity-g1-pilot-config-3.0",
+  "goal": "G1_PILOT_V3_REPAIR",
+  "claim": "Targeted counterexample repair for the two galaxies left uncovered by the sealed 360-million-trial v2 pilot. V3 searches target-blind baryonic-structure invariants and combines any CPU-admitted repairs with v2's retained formulas.",
+  "predecessor_binding": {
+    "path": "runs/gravity/g1-pilot/receipt-v2.json",
+    "file_sha256": "8f00b4aaf7d4487f805b02d7b3da85895f8c5aecf0751817137b5afc30e7f887",
+    "content_sha256": "58240c477b5ca0245ca48e4d6d9df45aead0e4cfa1b193036e361df7cf1aaacb",
+    "required_decision": "BLOCK_G1_PILOT_V2_UNCOVERED_OR_INCOMPLETE",
+    "required_covered_galaxies": 10,
+    "required_uncovered_galaxies": ["UGC11820", "UGC11455"]
+  },
+  "repair_galaxies": ["UGC11820", "UGC11455"],
+  "target_blind_features": [
+    {
+      "id": "log_y",
+      "definition": "log(V_bar^2/(r*a0))",
+      "center_grid": "64 equally spaced values in [-8,8], visited in increasing absolute value"
+    },
+    {
+      "id": "log_r_over_disk_peak",
+      "definition": "log(r/r_disk_peak), where r_disk_peak is the radius of maximum abs(V_disk) and reads no target",
+      "center_grid": "64 equally spaced values in [-8,8], visited in increasing absolute value"
+    },
+    {
+      "id": "gas_fraction",
+      "definition": "abs(V_gas^2)/(abs(V_gas^2)+0.5*V_disk^2+0.7*V_bulge^2)",
+      "center_grid": "64 equally spaced values in [-2,3], visited in increasing absolute value"
+    },
+    {
+      "id": "disk_fraction",
+      "definition": "0.5*V_disk^2/(abs(V_gas^2)+0.5*V_disk^2+0.7*V_bulge^2)",
+      "center_grid": "64 equally spaced values in [-2,3], visited in increasing absolute value"
+    },
+    {
+      "id": "bulge_fraction",
+      "definition": "0.7*V_bulge^2/(abs(V_gas^2)+0.5*V_disk^2+0.7*V_bulge^2)",
+      "center_grid": "64 equally spaced values in [-2,3], visited in increasing absolute value"
+    },
+    {
+      "id": "baryon_log_slope",
+      "definition": "finite-difference gradient of log(V_bar^2) with respect to log(r)",
+      "center_grid": "64 equally spaced values in [-8,8], visited in increasing absolute value"
+    },
+    {
+      "id": "mass_proxy_fraction",
+      "definition": "(V_bar^2*r)/max(V_bar^2*r)",
+      "center_grid": "64 equally spaced values in [-2,3], visited in increasing absolute value"
+    },
+    {
+      "id": "gas_to_disk",
+      "definition": "log((abs(V_gas)+1 km/s)/(abs(V_disk)+1 km/s))",
+      "center_grid": "64 equally spaced values in [-4,0], visited in increasing absolute value"
+    }
+  ],
+  "candidate_shell": {
+    "formula": "V_pred^2 = V_bar^2 + r*(A*phi_1(feature_1) + B*phi_2(feature_2))",
+    "local_constants": ["A", "B"],
+    "local_constant_dimensions": "km^2 s^-2 kpc^-1",
+    "local_constants_signed": true,
+    "fit": "the unchanged v2 two-column weighted least-squares fit on training radii only",
+    "maximum_local_constants": 2,
+    "baryonic_feature_normalizations_count_as_gravitational_constants": false,
+    "explanation": "Every feature normalization is a deterministic function of allowed baryonic inputs and is identical for proposal, training, and held-out rows; none reads V_obs. Discrete feature, center, width, and shape choices are charged in the grammar address and formula description length."
+  },
+  "arms": [
+    {
+      "id": "structured_occam",
+      "component": "phi=exp(-abs((feature-center)/width)^q)",
+      "component_count": 8192,
+      "center_count_per_feature": 64,
+      "width_grid": ["1/8", "1/4", "1/2", "1", "2", "4", "8", "16"],
+      "q_grid": ["2", "1"],
+      "pair_count": 33550336,
+      "pair_canonicalization": "component_id_1 < component_id_2",
+      "schedule": "lexicographic canonical pair enumeration with feature and center ranks ordered as declared",
+      "candidate_count_per_repair_galaxy": 10000000,
+      "origin": "counterexample_guided_baryonic_structure"
+    },
+    {
+      "id": "pseudorandom_permutation",
+      "component": "phi=exp(-z^2)*(1+kappa*tanh(z)), z=(feature-center)/width",
+      "component_count": 8192,
+      "center_count_per_feature": 64,
+      "width_grid": ["1/8", "1/4", "1/2", "1", "2", "4", "8", "16"],
+      "kappa_grid": ["-1/2", "1/2"],
+      "pair_count": 33550336,
+      "pair_canonicalization": "component_id_1 < component_id_2",
+      "schedule": "cycle-walked SplitMix Feistel pseudorandom chunk permutation with canonical-pair filtering",
+      "seed": "invariant-gravity-g1-pilot-v3-baryonic-skew-pairs",
+      "chunk_size": 65536,
+      "candidate_count_per_repair_galaxy": 10000000,
+      "origin": "counterexample_guided_baryonic_structure"
+    },
+    {
+      "id": "creativity_guided",
+      "component": "one of four bounded transition maps applied to a target-blind baryonic feature",
+      "component_count": 8192,
+      "families": [
+        "sigmoid transition: 1/(1+exp(scale*feature))",
+        "localized exponential: exp(-scale*abs(feature)^exponent)",
+        "arctan switch: 1/2+atan(scale*feature)/pi",
+        "saturating exponential: 1-exp(-scale*abs(feature)^exponent)"
+      ],
+      "scale_grid": "32 geometric values in [1/16,16]",
+      "exponent_grid": ["1/2", "1", "2", "3"],
+      "orientation_grid": ["-1", "1"],
+      "pair_count": 33550336,
+      "pair_canonicalization": "component_id_1 < component_id_2",
+      "schedule": "cycle-walked SplitMix Feistel pseudorandom chunk permutation with canonical-pair filtering",
+      "seed": "invariant-gravity-g1-pilot-v3-creative-feature-pairs",
+      "chunk_size": 65536,
+      "candidate_count_per_repair_galaxy": 10000000,
+      "origin": "new_combination_of_known_ideas",
+      "labels_authoritative_for_pruning": false,
+      "novelty_established": false
+    }
+  ],
+  "gpu_prefilter": {
+    "dtype": "float32",
+    "relative_score_slack": "1e-4",
+    "absolute_score_slack": "1e-3",
+    "coverage_count_slack": 1,
+    "retained_candidates_per_arm_galaxy_for_cpu_replay": 2048,
+    "gpu_may_accept": false,
+    "cpu_float64_replay_is_authoritative": true
+  },
+  "admission": {
+    "inherited_unchanged_from": "configs/gravity_g1_pilot_v2.json",
+    "scope": "every contiguous radial fold and aggregate out-of-fold predictions",
+    "confirmation_evaluator_accesses_allowed": 0
+  },
+  "decision": {
+    "pass": "the sealed v2 10-galaxy coverage plus CPU-FP64 v3 repairs cover all 12 original pilot galaxies after all 60 million v3 candidate-galaxy trials complete",
+    "block": "either repair galaxy remains uncovered or an arm under-runs",
+    "after_pass": "freeze the union grammar and scale to all 139 exploration galaxies without opening confirmation data"
+  }
+}
