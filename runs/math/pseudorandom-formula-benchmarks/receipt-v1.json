@@ -1,0 +1,395 @@
+{
+  "claims": {
+    "collision_free_prefix_observed": true,
+    "complete_coverage_is_by_permutation_construction": true,
+    "historical_novelty_established": false,
+    "known_results_rediscovered": 3,
+    "new_formula_discovered": false,
+    "trillion_formula_campaign_executed": false
+  },
+  "content_sha256": "e0c8f9e32357e9c9bb2f0c2e56f833dac296b56907267ac687dc5fffba6d8109",
+  "counts": {
+    "formula_candidates_actually_tested": 20905,
+    "problems": 3,
+    "problems_passed": 3,
+    "trillion_scale_ordinals_sampled_not_formula_tested": 10000
+  },
+  "generator_algorithm": "cycle_walked_splitmix_feistel_8round_v1",
+  "problems": [
+    {
+      "classification": "known_planted_rediscovery_not_novel",
+      "decision": "PASS",
+      "grammar": {
+        "candidate_count": 14641,
+        "coefficient_alphabet": [
+          -5,
+          -4,
+          -3,
+          -2,
+          -1,
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "formula": "c0 + c1*x + c2*x^2 + c3*x^3"
+      },
+      "permutation": {
+        "algorithm": "cycle_walked_splitmix_feistel_8round_v1",
+        "feistel_rounds": 8,
+        "power_of_two_domain_size": 16384,
+        "properties": {
+          "complete_coverage_if_fully_traversed": true,
+          "constant_memory_random_access": true,
+          "cryptographic_security_claimed": false,
+          "duplicates": 0
+        },
+        "seed_sha256": "2dc0eaeb91e86fc1c4716a2905bcbb3aca0d9e147addf4ff3d95ce199049941a",
+        "size": 14641
+      },
+      "problem_id": "synthetic.exact-polynomial-coefficients",
+      "search": {
+        "candidates_tested": 14641,
+        "cycle_walk_total_steps": 16384,
+        "first_exact_position_zero_based": 3952,
+        "incumbent_updates": 12,
+        "target_visit_position_zero_based": 3952
+      },
+      "source_kind": "synthetic_exact_integer_control",
+      "winner": {
+        "coefficients": [
+          5,
+          -2,
+          3,
+          0
+        ],
+        "exact_on_all_rows": true,
+        "expression": "5*1 -2*x +3*x^2"
+      }
+    },
+    {
+      "classification": "known_real_data_rediscovery_not_novel",
+      "decision": "PASS_LIMITED_REAL_DATA_REDISCOVERY",
+      "grammar": {
+        "candidate_count": 112,
+        "coefficient_range": [
+          -2,
+          2
+        ],
+        "formula": "primitive homogeneous integer linear relation",
+        "maximum_l1_norm": 4
+      },
+      "limitations": [
+        "Only four displayed measurements are available.",
+        "The source supplies no complete experimental uncertainty budget.",
+        "The previously exposed known concept is Archimedes' principle."
+      ],
+      "permutation": {
+        "algorithm": "cycle_walked_splitmix_feistel_8round_v1",
+        "feistel_rounds": 8,
+        "power_of_two_domain_size": 256,
+        "properties": {
+          "complete_coverage_if_fully_traversed": true,
+          "constant_memory_random_access": true,
+          "cryptographic_security_claimed": false,
+          "duplicates": 0
+        },
+        "seed_sha256": "95e9c9e9a5189d74e1d2e9e987e49fc0f630d977d51bbde44b839e2ea1e5aeca",
+        "size": 112
+      },
+      "problem_id": "real-data.archimedes-force-balance",
+      "search": {
+        "candidates_tested": 112,
+        "cycle_walk_total_steps": 253,
+        "incumbent_updates": 8,
+        "target_visit_position_zero_based": 87
+      },
+      "source": {
+        "config_sha256": "629952583cf469131f81df42559fcc1c6caf9bf56f51c072412df28607aa2548",
+        "measurement_rows": 4,
+        "publisher": "University of Tennessee, Knoxville Physics 221"
+      },
+      "source_kind": "real_measured_public_laboratory_readings",
+      "winner": {
+        "coefficients": [
+          1,
+          1,
+          -1,
+          -1
+        ],
+        "expression": "empty_container + object_air - object_submerged - container_with_displaced_water = 0",
+        "holdout_mean_absolute_residual_newton": "1/50",
+        "training_mean_absolute_residual_newton": "1/25"
+      }
+    },
+    {
+      "classification": "known_catalog_relation_rediscovery_not_novel",
+      "decision": "PASS_KNOWN_REAL_DATA_REDISCOVERY",
+      "grammar": {
+        "candidate_count": 6152,
+        "formula": "x0^a*x1^b*x2^c = constant",
+        "primitive_integer_exponent_bound": 12
+      },
+      "limitations": [
+        "Catalog parameters may be inferred or mutually dependent measurements.",
+        "This target and dataset were previously exposed and are calibration material.",
+        "Recovery does not independently confirm the physical law or establish novelty."
+      ],
+      "permutation": {
+        "algorithm": "cycle_walked_splitmix_feistel_8round_v1",
+        "feistel_rounds": 8,
+        "power_of_two_domain_size": 16384,
+        "properties": {
+          "complete_coverage_if_fully_traversed": true,
+          "constant_memory_random_access": true,
+          "cryptographic_security_claimed": false,
+          "duplicates": 0
+        },
+        "seed_sha256": "3223bdb83b588224446ed18966d625e8abbe2dd66fa72998ee2993e7342b5583",
+        "size": 6152
+      },
+      "problem_id": "real-data.nasa-exoplanet-anonymous-monomial",
+      "search": {
+        "candidates_tested": 6152,
+        "cycle_walk_total_steps": 16381,
+        "incumbent_updates": 9,
+        "target_visit_position_zero_based": 1208
+      },
+      "source": {
+        "external_principal_id": "external.nasa-exoplanet-archive",
+        "holdout_rows": 511,
+        "host_disjoint_split": true,
+        "snapshot_sha256": "a35e75d1fd3bca2480896b29f1516815a86468ccacbba7a851e629863d53accf",
+        "training_rows": 2020
+      },
+      "source_kind": "real_external_catalog_snapshot",
+      "winner": {
+        "exponents": [
+          2,
+          -3,
+          1
+        ],
+        "expression": "x0^2*x1^-3*x2 = constant",
+        "holdout_median_absolute_response_log_error": "0.0022723372554187549",
+        "holdout_within_1sigma_fraction": "0.92954990215264188",
+        "holdout_within_2sigma_fraction": "0.97847358121330719",
+        "training_median_absolute_log_residual": "0.0036222611721372644"
+      }
+    }
+  ],
+  "scale_probe": {
+    "claims": {
+      "formula_candidates_evaluated": 0,
+      "trillion_scale_iteration_completed": false
+    },
+    "content_sha256": "c4ab9c7e5f7fc6f6ded97b27e448e435f1c1c57e5dbaac48a1d9f89748ca2027",
+    "gpu_chunk_schedule": {
+      "descriptor": {
+        "algorithm": "pseudorandom_chunk_permutation_with_contiguous_inner_ordinals_v1",
+        "chunk_count": 212774,
+        "chunk_permutation": {
+          "algorithm": "cycle_walked_splitmix_feistel_8round_v1",
+          "feistel_rounds": 8,
+          "power_of_two_domain_size": 262144,
+          "properties": {
+            "complete_coverage_if_fully_traversed": true,
+            "constant_memory_random_access": true,
+            "cryptographic_security_claimed": false,
+            "duplicates": 0
+          },
+          "seed_sha256": "9f99cb319e329520368266c3bbcf62aee51400f07c7a51ce393b22735418ae4d",
+          "size": 212774
+        },
+        "chunk_size": 10000000,
+        "properties": {
+          "complete_nonoverlapping_coverage_if_fully_traversed": true,
+          "constant_memory_random_access_resume": true,
+          "gpu_contiguous_inner_loop": true
+        },
+        "total_size": 2127732389840
+      },
+      "first_chunks": [
+        {
+          "chunk_id": 163106,
+          "formula_count": 10000000,
+          "schedule_position": 0,
+          "start_ordinal": 1631060000000,
+          "stop_ordinal_exclusive": 1631070000000
+        },
+        {
+          "chunk_id": 161188,
+          "formula_count": 10000000,
+          "schedule_position": 1,
+          "start_ordinal": 1611880000000,
+          "stop_ordinal_exclusive": 1611890000000
+        },
+        {
+          "chunk_id": 24955,
+          "formula_count": 10000000,
+          "schedule_position": 2,
+          "start_ordinal": 249550000000,
+          "stop_ordinal_exclusive": 249560000000
+        },
+        {
+          "chunk_id": 17459,
+          "formula_count": 10000000,
+          "schedule_position": 3,
+          "start_ordinal": 174590000000,
+          "stop_ordinal_exclusive": 174600000000
+        },
+        {
+          "chunk_id": 204359,
+          "formula_count": 10000000,
+          "schedule_position": 4,
+          "start_ordinal": 2043590000000,
+          "stop_ordinal_exclusive": 2043600000000
+        },
+        {
+          "chunk_id": 159615,
+          "formula_count": 10000000,
+          "schedule_position": 5,
+          "start_ordinal": 1596150000000,
+          "stop_ordinal_exclusive": 1596160000000
+        },
+        {
+          "chunk_id": 3309,
+          "formula_count": 10000000,
+          "schedule_position": 6,
+          "start_ordinal": 33090000000,
+          "stop_ordinal_exclusive": 33100000000
+        },
+        {
+          "chunk_id": 129509,
+          "formula_count": 10000000,
+          "schedule_position": 7,
+          "start_ordinal": 1295090000000,
+          "stop_ordinal_exclusive": 1295100000000
+        },
+        {
+          "chunk_id": 122553,
+          "formula_count": 10000000,
+          "schedule_position": 8,
+          "start_ordinal": 1225530000000,
+          "stop_ordinal_exclusive": 1225540000000
+        },
+        {
+          "chunk_id": 36498,
+          "formula_count": 10000000,
+          "schedule_position": 9,
+          "start_ordinal": 364980000000,
+          "stop_ordinal_exclusive": 364990000000
+        },
+        {
+          "chunk_id": 173147,
+          "formula_count": 10000000,
+          "schedule_position": 10,
+          "start_ordinal": 1731470000000,
+          "stop_ordinal_exclusive": 1731480000000
+        },
+        {
+          "chunk_id": 54527,
+          "formula_count": 10000000,
+          "schedule_position": 11,
+          "start_ordinal": 545270000000,
+          "stop_ordinal_exclusive": 545280000000
+        },
+        {
+          "chunk_id": 126377,
+          "formula_count": 10000000,
+          "schedule_position": 12,
+          "start_ordinal": 1263770000000,
+          "stop_ordinal_exclusive": 1263780000000
+        },
+        {
+          "chunk_id": 34502,
+          "formula_count": 10000000,
+          "schedule_position": 13,
+          "start_ordinal": 345020000000,
+          "stop_ordinal_exclusive": 345030000000
+        },
+        {
+          "chunk_id": 57178,
+          "formula_count": 10000000,
+          "schedule_position": 14,
+          "start_ordinal": 571780000000,
+          "stop_ordinal_exclusive": 571790000000
+        },
+        {
+          "chunk_id": 22714,
+          "formula_count": 10000000,
+          "schedule_position": 15,
+          "start_ordinal": 227140000000,
+          "stop_ordinal_exclusive": 227150000000
+        }
+      ],
+      "sampled_chunk_count": 1000,
+      "sampled_chunk_ids_unique": true,
+      "sampled_chunks_sha256": "72de14193009a134476b81144e031fa28bebf70c757a936d23a77b011e69f13f"
+    },
+    "ordinal_prefix_receipt": {
+      "claims": {
+        "formula_candidates_evaluated": 0,
+        "historical_novelty_established": false,
+        "trillion_scale_iteration_completed": false
+      },
+      "content_sha256": "4f5db567d08185f8b59bc4280839bd4b105f4e48a64373e02cdd783a9f966f3e",
+      "permutation": {
+        "algorithm": "cycle_walked_splitmix_feistel_8round_v1",
+        "feistel_rounds": 8,
+        "power_of_two_domain_size": 4398046511104,
+        "properties": {
+          "complete_coverage_if_fully_traversed": true,
+          "constant_memory_random_access": true,
+          "cryptographic_security_claimed": false,
+          "duplicates": 0
+        },
+        "seed_sha256": "76a93dcfb073c88cf4fe9acd397940c71a0fa5999aca44238412ec74269bfbcb",
+        "size": 2127732389840
+      },
+      "sample": {
+        "all_in_range": true,
+        "all_unique": true,
+        "count": 10000,
+        "cycle_walk_maximum_steps": 17,
+        "cycle_walk_total_steps": 20543,
+        "first_ordinals": [
+          1460269033625,
+          992634722513,
+          144632733545,
+          647594106395,
+          889635869783,
+          190451411266,
+          938067871649,
+          455872340536,
+          1072444859984,
+          61628998996,
+          870776052460,
+          185450737658,
+          29257525765,
+          182094371406,
+          808262298805,
+          1909885896691
+        ],
+        "maximum_ordinal": 2127619193676,
+        "minimum_ordinal": 64396296,
+        "ordinal_sequence_sha256": "2da993df37aa54a00b28de7e705c40ccfa59e22049cb93f9b16733cd5b5d2503"
+      },
+      "schema_version": "invariant-pseudorandom-ordinal-receipt-1.0"
+    },
+    "schema_version": "invariant-pseudorandom-trillion-scale-probe-1.0"
+  },
+  "schema_version": "invariant-pseudorandom-formula-benchmarks-1.0",
+  "source_bindings": {
+    "configs/archimedes_real_data_confirmation.json": "8a11e050b76c1a279a9848cb16f6529f0956c56d289c5d936cf025c659a2aa2b",
+    "configs/nasa_exoplanet_task1.json": "2106f574e8f6c3b8c13c86aad630f3ed426a0fc14b503332a4728dd96397cbb4",
+    "runs/math/nasa-exoplanet-task1/exploratory-training-v1.json": "09ca17644e43159f4adcea4364f8bc0bdbb3d263a444b0fa298126f487d58e27",
+    "runs/math/nasa-exoplanet-task1/nasa-ps-source-snapshot-v1.csv": "a35e75d1fd3bca2480896b29f1516815a86468ccacbba7a851e629863d53accf",
+    "src/sigma_theory_compiler/anonymous_monomial_discovery.py": "9cf693812fc60a13827045efde277caed82e0eb95ad733d6d3f4f6d1b2428b5b",
+    "src/sigma_theory_compiler/archimedes_real_data_confirmation.py": "c4a5a30feae5ff638a115834502cb34a04fe802eca8c28bd02cf2c923c9ddab7",
+    "src/sigma_theory_compiler/nasa_exoplanet_task1.py": "d6e57e057295dc33946a1206f9bda473e7172ef190cdb6d56d90ff7560a811fb",
+    "src/sigma_theory_compiler/pseudorandom_formula_benchmarks.py": "7c7520a665c01685763dbcaec27dc2b43bc13c0116ee4423d6be7728334efca2",
+    "src/sigma_theory_compiler/pseudorandom_ordinal.py": "8f781a471315ce3564be83d4d26dae855ad4b8dc11a3debb33914796cf28f00e"
+  }
+}
