@@ -1,0 +1,71 @@
+{
+  "schema_version": "invariant-gravity-g1-atlas-repair-config-2.0",
+  "goal": "G1_COUNTEREXAMPLE_REPAIR",
+  "claim": "Repair the sole G1-v1 counterexample without weakening admission: use the known empirical RAR as a base prediction and search target-blind baryonic-feature residual corrections. The construction is explicitly a combination of known ideas, not a novelty claim or universal law.",
+  "predecessor_binding": {
+    "checkpoint_directory": "runs/gravity/g1-atlas/checkpoints-v1",
+    "checkpoint_count": 139,
+    "checkpoint_content_root_sha256": "f1489befe24cefc540732155a2d449a88d2f38c72477dcd4ab642c036ab7bf40",
+    "assembled_atlas_content_sha256": "cffa857882d8890cafcbffb3421296508d482049ae11503c9a097981e6c9cdf5",
+    "required_covered_galaxies": 138,
+    "required_uncovered_galaxies": ["NGC2955"],
+    "required_decision": "BLOCK_G1_ATLAS_INCOMPLETE"
+  },
+  "repair_galaxies": ["NGC2955"],
+  "candidate_budget_per_repair_galaxy": 100000000,
+  "candidate_shell": {
+    "formula": "V_pred^2=V_RAR^2+r*(A*phi_1(feature_1)+B*phi_2(feature_2))",
+    "base": "the frozen G0 empirical RAR with its frozen universal g_dagger",
+    "local_constants": ["A", "B"],
+    "local_constant_dimensions": "km^2 s^-2 kpc^-1",
+    "local_constants_signed": true,
+    "fit": "two-column weighted least squares on training radii only",
+    "maximum_local_constants": 2,
+    "proposal_reads_vobs": false,
+    "origin_assessment": "new_combination_of_known_ideas",
+    "known_base_family": "empirical_RAR_MOND_phenomenology",
+    "labels_authoritative_for_pruning": false,
+    "historical_novelty_established": false
+  },
+  "segments": [
+    {
+      "id": "rar_residual_feature_rbf_all_pairs",
+      "v3_arm": "structured_occam",
+      "candidate_count": 33550336,
+      "space_exhausted": true
+    },
+    {
+      "id": "rar_residual_feature_skew_rbf_all_pairs",
+      "v3_arm": "pseudorandom_permutation",
+      "candidate_count": 33550336,
+      "space_exhausted": true
+    },
+    {
+      "id": "rar_residual_creative_feature_pair_prefix",
+      "v3_arm": "creativity_guided",
+      "candidate_count": 32899328,
+      "space_exhausted": false,
+      "declared_parent_space": 33550336
+    }
+  ],
+  "gpu_prefilter": {
+    "dtype": "float32",
+    "relative_score_slack": "1e-4",
+    "absolute_score_slack": "1e-3",
+    "coverage_count_slack": 1,
+    "retained_candidates_per_segment_for_cpu_replay": 2048,
+    "gpu_may_accept": false,
+    "cpu_float64_replay_is_authoritative": true
+  },
+  "admission": {
+    "inherited_unchanged_from": "configs/gravity_g1_atlas.json",
+    "scope": "every frozen contiguous radial fold and aggregate out-of-fold predictions",
+    "confirmation_evaluator_accesses_allowed": 0
+  },
+  "output": "runs/gravity/g1-atlas/repair-v2.json",
+  "decision": {
+    "pass": "the sealed v1 coverage plus an admitted NGC2955 repair covers all 139 exploration galaxies after exactly 100 million repair trials",
+    "block": "NGC2955 remains uncovered, any segment under-runs, predecessor validation fails, or confirmation access occurs",
+    "after_pass": "authorize G2 equivalence collapse without opening confirmation data"
+  }
+}
