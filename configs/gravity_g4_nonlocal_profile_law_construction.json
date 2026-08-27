@@ -1,0 +1,123 @@
+{
+  "schema_version": "invariant-gravity-g4-nonlocal-profile-config-3.0",
+  "goal": "G4_NONLOCAL_PROFILE_CONSTRUCTION",
+  "claim": "Test a finite scale-free nonlocal radial grammar on real SPARC baryonic and surface-brightness profiles with universal coefficients, whole-galaxy cross-validation, and zero per-galaxy gravitational parameters.",
+  "predecessor_binding": {
+    "path": "runs/gravity/g4/universal-galaxy-law-construction-v2-photometric.json",
+    "file_sha256": "56699892a9772bea73cb263cf505b6389ae2148074999a15ded630923718c9e5",
+    "content_sha256": "ec12e1da1f8a86d5920ebcd2eef796f51fdba89c74c2b679bdf2476ff95ac958",
+    "required_decision": "BLOCK_G4_PHOTOMETRIC_CONSTRUCTION"
+  },
+  "surface_brightness_binding": {
+    "path": "configs/sparc_surface_brightness_exploration_v1.json",
+    "file_sha256": "b2661b94a4d71cbe4b747968c069b452f762ddad83b8edcb793d6e6cca5e262f",
+    "content_sha256": "a68edf2894eb87856c23026ca61beaa5bb78e77445a8bc93df4b98d7b3ff3633",
+    "required_galaxies": 139,
+    "required_rows": 2720,
+    "required_confirmation_rows": 0
+  },
+  "prior_nonlocal_evidence": [
+    {
+      "path": "runs/gpu-baryonic-screen/screened-v3.json",
+      "file_sha256": "0bf43b541b4ea7a59d3db8acdb58c6d6849240d3a456053ca1472865c6117278",
+      "content_sha256": "eba6af4048f3ea3dff217889fa0a7206d604790395b1c799d147a0517d20a88a",
+      "role": "synthetic screened-kernel motivation only"
+    },
+    {
+      "path": "runs/gpu-baryonic-screen/per-object-decomposition-full-sparc-v1.json",
+      "file_sha256": "8d6057b220d0312ee36c2cdcdc7c2fadff97c253ee7a9a415e0e741ed308f584",
+      "content_sha256": "e37c6ab0c2548639a0540851a2355955e09d228e609aa327952ab8ae2605c497",
+      "role": "real-data warning that prior screened amplitudes did not remain universal"
+    }
+  ],
+  "whole_galaxy_cross_validation": {
+    "folds": 5,
+    "salt": "invariant-gravity-g3-whole-galaxy-v1",
+    "selection_unit": "whole galaxy",
+    "galaxy_id_available_to_formula": false,
+    "heldout_vobs_available_during_coefficient_fit": false
+  },
+  "formula_family": {
+    "base": "frozen empirical RAR",
+    "equation": "V_candidate^2=V_RAR^2+r*g_dagger*(C0+sum_m C_m*Phi_m(r))",
+    "source_fields": [
+      "log_y",
+      "log1p_sb_total",
+      "gas_fraction",
+      "bulge_fraction",
+      "baryon_log_slope",
+      "sb_log_slope"
+    ],
+    "kernel_shapes": [
+      "symmetric_exponential",
+      "symmetric_gaussian",
+      "symmetric_cauchy",
+      "interior_exponential",
+      "exterior_exponential"
+    ],
+    "log_radius_scales": ["0.125", "0.25", "0.5", "1", "2", "4"],
+    "representations": ["weighted_mean", "mean_minus_local"],
+    "feature_count": 360,
+    "cascade": {
+      "univariate_features_exhausted": 360,
+      "top_univariate_features_retained": 24,
+      "all_unordered_pairs_among_retained_exhausted": 276,
+      "formula_structures": 636
+    },
+    "universal_correction_constants": "2 for a univariate feature; 3 for a retained pair",
+    "maximum_universal_correction_constants": 3,
+    "per_galaxy_gravitational_constants": 0,
+    "quadrature": "trapezoidal cell widths in log(r/kpc), with every row-normalized kernel acting only inside the same galaxy",
+    "distance_rescaling": "Phi depends on log(r_j/r_i), so a common observer-distance rescaling cancels",
+    "shrinkage_grid": [
+      "0.05", "0.10", "0.15", "0.20", "0.25", "0.30", "0.35", "0.40", "0.45", "0.50",
+      "0.55", "0.60", "0.65", "0.70", "0.75", "0.80", "0.85", "0.90", "0.95"
+    ],
+    "forbidden": [
+      "observed target velocity in a feature",
+      "observer distance as a causal feature",
+      "galaxy identifier",
+      "per-galaxy coefficient",
+      "halo quantity",
+      "confirmation row"
+    ]
+  },
+  "stratification": {
+    "dimensions": ["median_log_y", "median_gas_fraction", "median_bulge_fraction"],
+    "bins_per_dimension": 4,
+    "assignment": "unchanged balanced target-blind ranks from G4-v1"
+  },
+  "admission": {
+    "minimum_fractional_chi_square_gain_over_empirical_rar": "5e-3",
+    "nfw_ceiling_slack_chi_square_per_point": "2.0",
+    "maximum_fractional_chi_square_regression_vs_rar_in_any_stratum": "0.10",
+    "all_predictions_positive_and_finite": true,
+    "all_139_exploration_galaxies_predicted_once": true,
+    "per_galaxy_gravitational_constants_required": 0,
+    "confirmation_evaluator_accesses_allowed": 0
+  },
+  "origin_assessment": {
+    "proposer_label": "new_combination_of_known_ideas",
+    "authoritative_status": "COMBINATION",
+    "known_analogues": [
+      "nonlocal gravity kernels",
+      "scale-space smoothing",
+      "radial Green-operator summaries",
+      "RAR residual correction"
+    ],
+    "historical_novelty_claimed": false
+  },
+  "diagnostic_disclosure": {
+    "grammar_selected_after_inspecting_same_exploration_failures": true,
+    "same_exploration_folds_reused": true,
+    "result_is_independent_confirmation": false,
+    "confirmation_partition_remains_unopened": true
+  },
+  "output": "runs/gravity/g4/universal-galaxy-law-construction-v3-nonlocal-profile.json",
+  "decision": {
+    "pass": "one nonlocal profile formula clears every unchanged G4 exploration gate",
+    "block": "any unchanged exploration obligation fails",
+    "after_pass": "freeze the formula and authorize a separate one-shot confirmation evaluator",
+    "after_block": "retain the finite-family exclusion and keep confirmation locked"
+  }
+}
