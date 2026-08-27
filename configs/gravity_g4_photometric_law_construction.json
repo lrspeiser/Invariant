@@ -1,0 +1,114 @@
+{
+  "schema_version": "invariant-gravity-g4-photometric-construction-config-2.0",
+  "goal": "G4_CONSTRUCTION_REPAIR",
+  "claim": "Widen the blocked compact G4 grammar with published local disk and bulge surface-brightness profiles, while retaining two universal constants, zero local gravitational constants, whole-galaxy validation, and the original comparator gates.",
+  "predecessor_binding": {
+    "path": "runs/gravity/g4/universal-galaxy-law-construction-v1.json",
+    "file_sha256": "ed1aebbfc6af09f83992573cb65595bec3a7d13206880e8933cc61c3bbfd6b6c",
+    "content_sha256": "09fb131376f742e9225db35aff7b5774a060daf8e91b76275042b885f6292187",
+    "required_decision": "BLOCK_G4_EXPLORATION_CONSTRUCTION"
+  },
+  "surface_brightness_binding": {
+    "path": "configs/sparc_surface_brightness_exploration_v1.json",
+    "file_sha256": "b2661b94a4d71cbe4b747968c069b452f762ddad83b8edcb793d6e6cca5e262f",
+    "content_sha256": "a68edf2894eb87856c23026ca61beaa5bb78e77445a8bc93df4b98d7b3ff3633",
+    "required_galaxies": 139,
+    "required_rows": 2720,
+    "required_confirmation_rows": 0
+  },
+  "whole_galaxy_cross_validation": {
+    "folds": 5,
+    "salt": "invariant-gravity-g3-whole-galaxy-v1",
+    "selection_unit": "whole galaxy",
+    "galaxy_id_available_to_formula": false,
+    "heldout_vobs_available_during_coefficient_fit": false
+  },
+  "formula_family": {
+    "base": "frozen empirical RAR",
+    "equation": "V_candidate^2=V_RAR^2+r*g_dagger*(C0+C1*term(x))",
+    "universal_correction_constants": 2,
+    "per_galaxy_gravitational_constants": 0,
+    "allowed_dimensionless_local_features": [
+      "log_y",
+      "log_r_over_disk_peak",
+      "gas_fraction",
+      "disk_fraction",
+      "bulge_fraction",
+      "baryon_log_slope",
+      "log1p_sb_disk",
+      "log1p_sb_bulge",
+      "log1p_sb_total",
+      "sb_disk_fraction",
+      "sb_bulge_fraction",
+      "sb_log_slope"
+    ],
+    "photometric_definitions": {
+      "log1p_sb_disk": "log(1+SBdisk/(1 L_sun pc^-2))",
+      "log1p_sb_bulge": "log(1+SBbul/(1 L_sun pc^-2))",
+      "log1p_sb_total": "log(1+(SBdisk+SBbul)/(1 L_sun pc^-2))",
+      "sb_disk_fraction": "SBdisk/(SBdisk+SBbul), with zero at zero total",
+      "sb_bulge_fraction": "SBbul/(SBdisk+SBbul), with zero at zero total",
+      "sb_log_slope": "finite-difference d log(1+SBtotal/(1 L_sun pc^-2))/d log(r/kpc)"
+    },
+    "term_grammar": "each allowed feature and each commutative product with replacement of two allowed features",
+    "term_count": 90,
+    "coefficient_fit": "unchanged weighted least squares from G4-v1 on outer-training galaxies only",
+    "shrinkage_grid": [
+      "0.05",
+      "0.10",
+      "0.15",
+      "0.20",
+      "0.25",
+      "0.30",
+      "0.35",
+      "0.40",
+      "0.45",
+      "0.50",
+      "0.55",
+      "0.60",
+      "0.65",
+      "0.70",
+      "0.75",
+      "0.80",
+      "0.85",
+      "0.90",
+      "0.95"
+    ],
+    "selection": "unchanged minimum aggregate exact velocity chi-square among positive finite whole-galaxy predictions",
+    "forbidden": [
+      "observer distance",
+      "galaxy identifier",
+      "heldout velocity during coefficient fit",
+      "per-galaxy coefficient",
+      "halo quantity"
+    ]
+  },
+  "stratification": {
+    "dimensions": ["median_log_y", "median_gas_fraction", "median_bulge_fraction"],
+    "bins_per_dimension": 4,
+    "assignment": "unchanged balanced target-blind ranks from G4-v1"
+  },
+  "admission": {
+    "minimum_fractional_chi_square_gain_over_empirical_rar": "5e-3",
+    "nfw_ceiling_slack_chi_square_per_point": "2.0",
+    "maximum_fractional_chi_square_regression_vs_rar_in_any_stratum": "0.10",
+    "all_predictions_positive_and_finite": true,
+    "all_139_exploration_galaxies_predicted_once": true,
+    "per_galaxy_gravitational_constants_required": 0,
+    "confirmation_evaluator_accesses_allowed": 0
+  },
+  "diagnostic_disclosure": {
+    "photometric_grammar_selected_after_inspecting_same_exploration_data": true,
+    "same_exploration_folds_reused": true,
+    "result_is_independent_confirmation": false,
+    "historical_novelty_claimed": false,
+    "confirmation_partition_remains_unopened": true
+  },
+  "output": "runs/gravity/g4/universal-galaxy-law-construction-v2-photometric.json",
+  "decision": {
+    "pass": "one compact photometric formula clears every unchanged G4-v1 exploration gate",
+    "block": "any unchanged exploration obligation fails",
+    "after_pass": "freeze the coefficients and authorize a separate one-shot confirmation evaluator",
+    "after_block": "retain the wider finite-family exclusion and keep confirmation locked"
+  }
+}
