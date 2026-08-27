@@ -1,0 +1,69 @@
+{
+  "schema_version": "invariant-gravity-g3-fixed-shrinkage-config-2.0",
+  "goal": "G3_FIXED_SHRINKAGE_REPAIR",
+  "claim": "Re-run the G3 target-blind RAR-residual learner with one fixed shrinkage after nested selection proved unstable. This is an explicitly post-diagnostic exploration reproduction, not independent confirmation.",
+  "predecessor_binding": {
+    "path": "runs/gravity/g3/galaxy-formula-meta-law-v1.json",
+    "file_sha256": "76f6a9784e4a51b94c68bf33b424371456822cd0860ed0f068a8bd63b1574f49",
+    "content_sha256": "83510b7a44d84a0e21be2fe3dddfce243bbf07873b2fd59a59ec8dac552f1c7f",
+    "required_decision": "BLOCK_G3_META_LAW",
+    "required_predicted_galaxies": 139
+  },
+  "g2_binding": {
+    "path": "runs/gravity/g2/gravity-formula-equivalence-classes-v1.json",
+    "required_galaxies": 139,
+    "required_points": 2720
+  },
+  "whole_galaxy_cross_validation": {
+    "outer_folds": 5,
+    "outer_salt": "invariant-gravity-g3-whole-galaxy-v1",
+    "assignment": "unchanged balanced name-hash folds from G3-v1",
+    "galaxy_id_available_to_model": false,
+    "heldout_vobs_available_to_model_or_formula_projection": false
+  },
+  "learned_residual": {
+    "base": "frozen empirical RAR",
+    "target_on_training_galaxies": "delta=(V_obs^2-V_RAR^2)/(r*g_dagger)",
+    "prediction": "V_meta^2=V_RAR^2+r*g_dagger*0.3*ExtraTrees(features)",
+    "estimator": "sklearn.ensemble.ExtraTreesRegressor",
+    "n_estimators": 512,
+    "min_samples_leaf": 4,
+    "max_features": "1.0",
+    "random_state": 20260827,
+    "n_jobs": -1,
+    "fixed_shrinkage": "0.3"
+  },
+  "formula_projection": {
+    "library": "G2 structural classes having at least one member galaxy in the outer-training partition",
+    "fit_target": "the fixed-shrinkage learned V_meta^2 prediction on heldout baryonic radii, never V_obs",
+    "coefficients": "unweighted two-column least squares to the learned prediction",
+    "selection": "minimum normalized squared projection error, ties by class ID",
+    "evaluation": "the projected G2 formula and generated coefficients"
+  },
+  "baselines": {
+    "newtonian_baryons": "unchanged from G3-v1",
+    "empirical_rar": "unchanged from G3-v1",
+    "constant_residual": "unchanged from G3-v1",
+    "nearest_galaxy": "unchanged from G3-v1"
+  },
+  "admission": {
+    "minimum_fractional_chi_square_gain_over_every_baseline": "5e-3",
+    "all_predictions_positive_and_finite": true,
+    "all_projected_classes_training_only": true,
+    "all_139_galaxies_predicted_once": true,
+    "confirmation_evaluator_accesses_allowed": 0
+  },
+  "diagnostic_disclosure": {
+    "fixed_shrinkage_selected_after_inspecting_g3_v1_outer_fold_results": true,
+    "same_exploration_folds_reused": true,
+    "result_is_independent_confirmation": false,
+    "confirmation_partition_remains_unopened": true
+  },
+  "output": "runs/gravity/g3/galaxy-formula-meta-law-v2.json",
+  "decision": {
+    "pass": "the projected training-only G2 formulas beat every baseline by at least 0.5% with zero leakage and all predictions valid",
+    "block": "any admission condition fails",
+    "after_pass": "authorize G4 construction but retain the post-diagnostic disclosure; do not open confirmation until a compact zero-local-constant law is frozen",
+    "after_block": "retain counterexamples and keep G4 locked"
+  }
+}
