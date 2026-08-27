@@ -1,0 +1,70 @@
+{
+  "schema_version": "invariant-gravity-g1-atlas-interaction-repair-config-3.0",
+  "goal": "G1_COUNTEREXAMPLE_INTERACTION_REPAIR",
+  "claim": "Test whether two target-blind cross-feature components repair NGC2955 after the sealed RAR-plus-single-feature grammar failed. This is an exploration-set grammar-development reproduction, not an independent discovery or novelty test.",
+  "predecessor_binding": {
+    "path": "runs/gravity/g1-atlas/repair-v2.json",
+    "file_sha256": "e9d567b042e51037afa969302101ef348ba5e8b4d11be6806569bf7cdd9dfae0",
+    "content_sha256": "a691cdd66fbf72ddb36bd9c814fb567364fa569050e4e540d1a84d37fba30b42",
+    "required_decision": "BLOCK_G1_REPAIR",
+    "required_union_covered_galaxies": 138,
+    "required_counterexample": "NGC2955"
+  },
+  "repair_galaxies": ["NGC2955"],
+  "candidate_shell": {
+    "formula": "V_pred^2=V_RAR^2+r*(A*Phi_1(z_baryons)+B*Phi_2(z_baryons))",
+    "base": "the frozen G0 empirical RAR with its frozen universal g_dagger",
+    "feature_normalization": "each allowed baryonic feature is deterministically mapped to [-1,1] using its within-galaxy baryonic minimum and maximum; V_obs is never read",
+    "local_constants": ["A", "B"],
+    "local_constant_dimensions": "km^2 s^-2 kpc^-1",
+    "local_constants_signed": true,
+    "fit": "two-column weighted least squares on training radii only",
+    "maximum_local_constants": 2,
+    "proposal_reads_vobs": false,
+    "origin_assessment": "new_combination_of_known_ideas",
+    "known_parts": ["empirical RAR/MOND phenomenology", "Chebyshev polynomials", "Legendre polynomials", "Fourier bases", "hinge bases", "tanh transitions", "tensor-product feature interactions"],
+    "labels_authoritative_for_pruning": false,
+    "historical_novelty_established": false
+  },
+  "component_grammar": {
+    "feature_ids": ["log_y", "log_r_over_disk_peak", "gas_fraction", "disk_fraction", "bulge_fraction", "baryon_log_slope", "mass_proxy_fraction", "gas_to_disk"],
+    "single_feature_families": {
+      "chebyshev_degrees": [1, 16],
+      "legendre_degrees": [1, 16],
+      "fourier_frequencies": "24 geometric values in [1/4,16], both sin(pi*k*z) and cos(pi*k*z)",
+      "hinges": "17 centers in [-1,1], powers {1/2,1,2,3}, both orientations, omitting the two identically-zero endpoint orientations",
+      "tanh": "17 centers in [-1,1] and scales {1/2,1,2,4,8,16}"
+    },
+    "interaction_family": "T_i(z_feature_a)*T_j(z_feature_b) for every unordered feature pair and i,j in {1,...,6}",
+    "component_count": 3488,
+    "pair_canonicalization": "component_id_1 < component_id_2",
+    "candidate_count": 6081328,
+    "space_exhausted": true
+  },
+  "gpu_prefilter": {
+    "dtype": "float32",
+    "relative_score_slack": "1e-4",
+    "absolute_score_slack": "1e-3",
+    "coverage_count_slack": 1,
+    "retained_candidates_for_cpu_replay": 2048,
+    "gpu_may_accept": false,
+    "cpu_float64_replay_is_authoritative": true
+  },
+  "admission": {
+    "inherited_unchanged_from": "configs/gravity_g1_atlas.json",
+    "scope": "every frozen contiguous radial fold and aggregate out-of-fold predictions",
+    "confirmation_evaluator_accesses_allowed": 0
+  },
+  "diagnostic_disclosure": {
+    "same_exploration_counterexample_used_to_design_grammar": true,
+    "a_member_of_this_family_was_observed_to_pass_before_sealing": true,
+    "sealed_run_is": "an exhaustive reproduction and accounting test, not independent confirmation",
+    "confirmation_partition_remains_unopened": true
+  },
+  "output": "runs/gravity/g1-atlas/repair-v3.json",
+  "decision": {
+    "pass": "the sealed v1 138-galaxy coverage plus at least one CPU-FP64-admitted NGC2955 interaction formula covers all 139 exploration galaxies after all 6,081,328 unique pairs are tested",
+    "block": "NGC2955 remains uncovered, the grammar under-runs, predecessor validation fails, or confirmation access occurs",
+    "after_pass": "authorize G2 equivalence collapse while keeping confirmation data unopened"
+  }
+}
