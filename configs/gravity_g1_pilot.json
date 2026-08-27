@@ -1,0 +1,192 @@
+{
+  "schema_version": "invariant-gravity-g1-pilot-config-1.0",
+  "goal": "G1_PILOT",
+  "claim": "Run the frozen three-arm local-formula pilot on 12 baryonic-feature-diverse SPARC exploration galaxies. A pilot result is a search diagnostic, not a universal gravity law.",
+  "g0_binding": {
+    "path": "runs/gravity/g0-experiment/receipt-v1.json",
+    "file_sha256": "be81348e2e5250dde2ef7319d4b5e47eb31e1ca5ef1065fde9331298d2061aff",
+    "content_sha256": "aecbfb9731349e154b7ec9a57808c5487f7067b7c371caee0d6bf4525808db02",
+    "required_decision": "PASS_G0_EXPERIMENT_FROZEN"
+  },
+  "pilot_selection": {
+    "target_blind": true,
+    "velocity_targets_used": false,
+    "feature_order": [
+      "log1p(point_count)",
+      "log(distance_mpc)",
+      "log(max_radius/min_radius)",
+      "log(median(vbar2/radius))",
+      "sum(abs(vgas^2))/sum(abs(vgas^2)+0.5*vdisk^2+0.7*vbulge^2)",
+      "sum(0.7*vbulge^2)/sum(abs(vgas^2)+0.5*vdisk^2+0.7*vbulge^2)",
+      "log(median(0.5*vdisk^2/radius)+1e-12)"
+    ],
+    "standardization": "subtract the exploration-population median and divide by 1.4826 times median absolute deviation; use population standard deviation only for a zero-MAD feature",
+    "selection": "select the point farthest from the standardized origin, then repeatedly select the point maximizing its minimum squared Euclidean distance to a selected point; break exact ties by lexicographically greatest galaxy name",
+    "note": "The source packet has no audited morphology labels. This is baryonic-feature diversity, not a claim of formal morphology stratification.",
+    "galaxies_in_selection_order": [
+      "UGC06787",
+      "D564-8",
+      "UGC06973",
+      "NGC2403",
+      "UGC06614",
+      "F579-V1",
+      "UGCA444",
+      "NGC0300",
+      "NGC2841",
+      "UGC11820",
+      "UGC07232",
+      "UGC11455"
+    ]
+  },
+  "candidate_shell": {
+    "formula": "V_pred^2 = V_bar^2 + A * r * h(y)",
+    "y": "V_bar^2/(r*a0)",
+    "a0_km2_s2_kpc": "3.70281458e3",
+    "h_dimension": "dimensionless",
+    "local_constants": [
+      {
+        "name": "A",
+        "dimension": "km^2 s^-2 kpc^-1",
+        "constraint": "A>=0",
+        "fit": "weighted least squares in squared velocity on the complementary training radii of each contiguous fold"
+      }
+    ],
+    "fit_target": "V_obs^2 - V_bar^2",
+    "fit_sigma": "2*V_obs*e_Vobs + e_Vobs^2",
+    "held_out_targets_used_during_fit": false,
+    "full_data_constant_for_reporting_only": true
+  },
+  "arms": [
+    {
+      "id": "structured_occam",
+      "candidate_count_per_galaxy": 10000000,
+      "grammar": "h(y)=[P_5(u)/Q_5(u)]^beta, u=y^-1/2, beta in {1/3,1/2,1,2}",
+      "schedule": "enumerate all coefficients in {-1,0,1} before the coefficient shell {-2,-1,0,1,2}; exclude duplicates from the inner shell",
+      "canonical_parent_space_size": 1129900996,
+      "origin": "known_family_instance"
+    },
+    {
+      "id": "pseudorandom_permutation",
+      "candidate_count_per_galaxy": 10000000,
+      "grammar": "the G0 rational grammar with at least one coefficient equal to -3 or 3, making it disjoint from structured_occam",
+      "schedule": "cycle-walked SplitMix Feistel pseudorandom chunk permutation with contiguous GPU inner ordinals",
+      "seed": "invariant-gravity-g1-pilot-rational-outer-shell-v1",
+      "chunk_size": 65536,
+      "canonical_parent_space_size": 1129900996,
+      "origin": "known_family_instance"
+    },
+    {
+      "id": "creativity_guided",
+      "candidate_count_per_galaxy": 10000000,
+      "grammar": "h(y)=softplus(sum_{j=0}^7 c_j phi_family,j(y)), c_j in {-3,-2,-1,0,1,2,3}",
+      "schedule": "cycle-walked SplitMix Feistel pseudorandom chunk permutation over family and coefficient ordinals",
+      "seed": "invariant-gravity-g1-pilot-claude-basis-recombination-v1",
+      "chunk_size": 65536,
+      "canonical_space_size": 23059204,
+      "basis_families": [
+        {
+          "family_id": 0,
+          "name": "bounded_bernstein_transition",
+          "definition": "phi_j=C(7,j)*t^j*(1-t)^(7-j), t=1/(1+sqrt(y))",
+          "source_hypotheses": ["H01_gen_transition"],
+          "origin": "cross_domain_synthesis"
+        },
+        {
+          "family_id": 1,
+          "name": "prony_exponential_sqrt_y",
+          "definition": "phi_j=exp(-j*sqrt(y))",
+          "source_hypotheses": ["H02_exp_basis"],
+          "origin": "cross_domain_synthesis"
+        },
+        {
+          "family_id": 2,
+          "name": "arctan_switch_bank",
+          "definition": "phi_j=(2/pi)*atan(2^(j-3)*y^(-1/2))",
+          "source_hypotheses": ["H05_arctan"],
+          "origin": "proposed_new_construction"
+        },
+        {
+          "family_id": 3,
+          "name": "saturating_exponential_bank",
+          "definition": "phi_j=(1-exp(-2^(j-3)*y^(-1/2)))^(1+(j mod 4))",
+          "source_hypotheses": ["H06_sat_exp"],
+          "origin": "cross_domain_synthesis"
+        }
+      ],
+      "compiler_note": "The LLM's raw shells multiplied a fitted acceleration by a0 and were dimensionally invalid as written. Only their dimensionless basis ideas were retained inside the frozen typed shell. This repair is compiler-authored and does not upgrade the LLM origin claim."
+    }
+  ],
+  "claude_lineage": {
+    "model": "claude-opus-4-6",
+    "role": "representation_inventor",
+    "api_response_id": "msg_011CeTYmh3NJde7S9BtMtoYm",
+    "credential_persisted": false,
+    "input_tokens": 1466,
+    "output_tokens": 5766,
+    "prompt_sha256": "b3e797539cbdd016d0d8f43d14fa588bf7bf6be0410f5df6cc38fdf05975c5b8",
+    "raw_output_sha256": "309eef6fd3c4b33d8858d44ccb7eb1bf69067a419ac66f2e80591c1484653cf0",
+    "normalized_output_sha256": "5e086b829627e93c41b7e8f414530b45f2e754618ca6bae92857ff0391c661bc",
+    "origin_inventory": {
+      "known_rewrite": ["H03_pade_u"],
+      "cross_domain_synthesis": ["H01_gen_transition", "H02_exp_basis", "H04_bessel_K", "H06_sat_exp"],
+      "proposed_new_construction": ["H05_arctan", "H07_piecewise", "H08_product_factors"],
+      "uncertain": []
+    },
+    "retained_but_not_compiled_in_v1": [
+      {
+        "hypothesis_id": "H03_pade_u",
+        "reason": "covered by the wider rational control grammar and retained for G2 known-rewrite comparison"
+      },
+      {
+        "hypothesis_id": "H04_bessel_K",
+        "reason": "requires a separately benchmarked GPU special-function evaluator"
+      },
+      {
+        "hypothesis_id": "H07_piecewise",
+        "reason": "requires a separately declared change-point grammar and smoothness policy"
+      },
+      {
+        "hypothesis_id": "H08_product_factors",
+        "reason": "its stated asymptotic direction conflicts with the requested high-acceleration recovery; retained as a negative-control branch"
+      }
+    ],
+    "labels_authoritative_for_pruning": false,
+    "novelty_established": false
+  },
+  "gpu_prefilter": {
+    "dtype": "float32",
+    "batch_size": 65536,
+    "relative_score_slack": "1e-4",
+    "absolute_score_slack": "1e-3",
+    "coverage_count_slack": 1,
+    "retained_candidates_per_arm_galaxy_for_cpu_replay": 512,
+    "gpu_may_accept": false,
+    "cpu_float64_replay_is_authoritative": true
+  },
+  "admission": {
+    "scope": "each contiguous radial fold and aggregate out-of-fold predictions",
+    "must_beat_strictly": [
+      "newtonian_baryons chi-square",
+      "wrong_high_acceleration_boost chi-square"
+    ],
+    "must_not_exceed": [
+      "empirical_rar chi-square",
+      "nfw_halo_ceiling chi-square plus 2 times held-out row count"
+    ],
+    "two_sigma_coverage_minimum": "min(0.90, nfw_halo_ceiling two-sigma coverage)",
+    "maximum_local_constants": 2,
+    "forbidden": [
+      "galaxy identifier as formula input",
+      "held-out target during fold fit",
+      "confirmation galaxy or summary",
+      "dark-matter or halo input",
+      "per-galaxy baryonic recalibration"
+    ]
+  },
+  "pilot_decision": {
+    "pass": "all 12 pilot galaxies have at least one CPU-FP64-admitted formula and each arm completed 10 million distinct within-trial candidates per galaxy",
+    "block": "any galaxy remains uncovered, an arm under-runs its budget, a candidate cannot replay, or a confirmation access occurs",
+    "after_pass": "scale the same frozen pilot grammar to all 139 exploration galaxies",
+    "after_block": "retain the complete failure ledger and broaden or repair G1; do not advance to G2"
+  }
+}
