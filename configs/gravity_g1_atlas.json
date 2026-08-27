@@ -1,0 +1,61 @@
+{
+  "schema_version": "invariant-gravity-g1-atlas-config-1.0",
+  "goal": "G1",
+  "claim": "Build the 139-galaxy local formula atlas using the pilot-passed, target-blind baryonic-structure grammar. This remains a per-galaxy diagnostic atlas, not a universal gravity law.",
+  "pilot_binding": {
+    "path": "runs/gravity/g1-pilot/receipt-v3.json",
+    "file_sha256": "7d1b593779d277936c677f31b05e632dfe50e44a8afa733757e47940e02290b9",
+    "content_sha256": "33d0727b764820a9cb549a1be97bf7cdc24f81c16836a0dded2dbe908ad37d97",
+    "required_decision": "PASS_G1_PILOT_UNION_12_OF_12"
+  },
+  "population": {
+    "galaxies": 139,
+    "points": 2720,
+    "confirmation_evaluator_accesses_allowed": 0,
+    "order": "canonical admitted exploration order from sparc_full_sample.assemble"
+  },
+  "candidate_budget_per_galaxy": 100000000,
+  "segments": [
+    {
+      "id": "feature_rbf_all_pairs",
+      "v3_arm": "structured_occam",
+      "candidate_count": 33550336,
+      "space_exhausted": true
+    },
+    {
+      "id": "feature_skew_rbf_all_pairs",
+      "v3_arm": "pseudorandom_permutation",
+      "candidate_count": 33550336,
+      "space_exhausted": true
+    },
+    {
+      "id": "creative_feature_pair_prefix",
+      "v3_arm": "creativity_guided",
+      "candidate_count": 32899328,
+      "space_exhausted": false,
+      "declared_parent_space": 33550336
+    }
+  ],
+  "evaluator": {
+    "implementation": "src/sigma_theory_compiler/gravity_g1_pilot_v3.py",
+    "gpu_dtype": "float32",
+    "cpu_replay_dtype": "float64",
+    "retained_gpu_candidates_per_segment_galaxy": 256,
+    "cpu_replay_authoritative": true,
+    "folds_and_admission": "unchanged from G0 and the G1 pilot",
+    "local_constants_maximum": 2
+  },
+  "checkpoint": {
+    "directory": "runs/gravity/g1-atlas/checkpoints-v1",
+    "unit": "one completed galaxy with all three segments",
+    "content_sealed": true,
+    "resume_requires_exact_config_source_test_and_pilot_bindings": true
+  },
+  "atlas_output": "runs/gravity/g1-atlas/galaxy-formula-atlas-v1.json",
+  "decision": {
+    "pass": "all 139 galaxies have at least one CPU-FP64-admitted local formula after exactly 100 million new candidate trials each",
+    "block": "any galaxy remains uncovered, any segment under-runs, any checkpoint fails replay, or any confirmation access occurs",
+    "after_pass": "advance to G2 equivalence collapse without opening confirmation data",
+    "after_block": "retain uncovered galaxies and family failure cells, repair G1, and keep G2 locked"
+  }
+}
