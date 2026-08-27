@@ -50,7 +50,7 @@ independent phenomena that rotation curves alone cannot identify.
 
 | Gate | Goal | Real problem and data | Advance only if | Current |
 |---|---|---|---|---|
-| **G0** | Freeze the observational and compute experiment | Replay published Newtonian-baryon, empirical RAR/MOND, deliberately wrong, and flexible GR+halo comparator predictions on the 139 SPARC exploration galaxies; benchmark the real evaluator on the RTX 5090. | Source manifests, units, nuisance policy, radial folds, whole-object splits, baselines, score, formula budget, and stopping rule are frozen; leakage controls fail closed; GPU/CPU score replay agrees within the declared numerical bound. | **PARTIAL** — full SPARC data and 139/35 split exist; radial folds, modern baselines, and real evaluator throughput do not. |
+| **G0** | Freeze the observational and compute experiment | Replay published Newtonian-baryon, empirical RAR/MOND, deliberately wrong, and flexible GR+halo comparator predictions on the 139 SPARC exploration galaxies; benchmark the real evaluator on the RTX 5090. | Source manifests, units, nuisance policy, radial folds, whole-object splits, baselines, score, formula budget, and stopping rule are frozen; leakage controls fail closed; GPU/CPU score replay agrees within the declared numerical bound. | **PASS** — receipt `runs/gravity/g0-experiment/receipt-v1.json`; 139 galaxies/2,720 rows, zero confirmation evaluator accesses, 2.72 billion measured candidate-point evaluations, zero FP64 GPU/CPU mismatches. |
 | **G1** | Build a predictive per-galaxy formula atlas | For each of 139 admitted SPARC exploration galaxies, predict withheld contiguous radial blocks from baryonic observables without a halo input. | All 139 galaxies have at least one dimensionally valid, compressed formula that clears the frozen within-galaxy predictive gate; every surviving formula and every failed family is retained. | **PARTIAL/NOT PASSED** — 14 narrow spaces were fit, but there is no broad formula search and no radial-block holdout gate. |
 | **G2** | Collapse cosmetic formulas into real solution classes | Canonicalize and compare every G1 survivor across all 139 real galaxies. | Algebraic rewrites, unit reparameterizations, parameter renamings, and behaviorally indistinguishable formulas are merged or explicitly marked unresolved; mutation controls prove the equivalence detector can separate near misses. | **NOT BUILT for the atlas.** |
 | **G3** | Discover what generates the per-galaxy variation | Predict a galaxy's G2 formula class and local coefficients from measured baryonic structure—surface brightness, gas fraction, scale lengths, gradients, morphology, and allowed environment measurements—under whole-galaxy cross-validation. | A target-blind meta-law predicts held-out galaxies' local formulas and rotation curves with zero galaxy-ID input and a positive preregistered gain over constant, nearest-neighbor, and empirical-relation baselines. | **Synthetic channel controls only.** |
@@ -69,8 +69,9 @@ supporting work only when it supplies a candidate needed by this ladder.
 
 ## G0 — experiment and throughput freeze
 
-G0 must write `gravity-observation-contract-v1.json` and
-`gravity-search-throughput-v1.json`. The contract must include:
+G0 writes the frozen contract in `configs/gravity_g0_experiment.json` and its bound baseline,
+fold, data-access, and throughput evidence in
+`runs/gravity/g0-experiment/receipt-v1.json`. Together they include:
 
 - Exact source bytes, citations, transformations, units, uncertainty/covariance treatment,
   selection and exclusion rules, and the existing 139/35 split.
@@ -80,15 +81,33 @@ G0 must write `gravity-observation-contract-v1.json` and
 - Baselines: Newtonian/weak-field GR using the same baryons; a frozen empirical RAR/MOND
   relation; a deliberately false law; and a flexible GR+halo model used only as a
   performance ceiling, never as an input, target, rescue, or source of labels.
-- A covariance-aware predictive likelihood, a symbolic description-length cost, calibration
-  diagnostics, morphology-stratified residuals, and a threshold frozen from controls before
-  formula search.
+- A predictive score conditional on SPARC's published random-error column, an explicit warning
+  that systematic inclination covariance is unavailable here, a symbolic description-length
+  cost, calibration diagnostics, and thresholds frozen from controls before formula search.
 - Measured candidates/second, point-evaluations/second, memory, power or GPU time, survivor
   rate, CPU replay rate, and error bound for the actual multi-radius evaluator. Synthetic
   screen throughput may be quoted separately but may not be substituted.
 
 G0 fails if a baseline cannot be reproduced, any forbidden value reaches a proposer, a GPU
 survivor cannot be replayed, or a threshold is chosen after candidate outcomes are seen.
+
+### G0 measured result
+
+The checked G0 receipt passed on 2026-08-27. The empirical RAR comparator reduced aggregate
+held-out chi-square from `1.697326397883e+06` for Newtonian baryons to
+`1.307146893155e+05`. The deliberately wrong high-acceleration boost remained at
+`1.622323189132e+06`. The training-radius-only two-parameter NFW-shaped performance ceiling
+reached `2.801880693058e+04`. These are comparator checks, not claims that RAR or NFW is the
+true law.
+
+On the NVIDIA GeForce RTX 5090, the actual formula scorer evaluated 1,000,000 candidates on
+all 2,720 exploration rows: 2.72 billion candidate-point evaluations in about 0.957 seconds,
+or about 2.84 billion candidate-point evaluations per second. Its measured GPU memory-pool
+increment was 606,820,352 bytes. The 4,096-candidate FP64 CPU/GPU replay had zero finite-status
+or tolerance mismatches. Only 0.1053% of candidates in this broad rational grammar were finite
+at every row; this is a domain-validity prefilter rate, not an observational-survivor rate.
+
+G0 does not establish a new gravity formula. It authorizes G1 to search under the frozen rules.
 
 ## G1 — creative search and the formula atlas
 

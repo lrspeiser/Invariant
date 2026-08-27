@@ -1,0 +1,193 @@
+{
+  "schema_version": "invariant-gravity-g0-experiment-config-1.0",
+  "goal": "G0",
+  "status": "frozen_before_formula_atlas_search",
+  "claim": "Freeze and benchmark the observational experiment that will decide which per-galaxy formulas enter the G1 atlas. This configuration calibrates mechanics and comparators; it does not discover or validate a gravity law.",
+  "dataset": {
+    "path": "configs/sparc_rotation_curves_full_v1.json",
+    "file_sha256": "dde80c7fc72974358b1370e1978726b87fe1a4048f0880ae79cf513e260a7cf1",
+    "content_sha256": "af8d8da4b3ad4f44c7ffdfa673443088f50293e1fe04cdcbf5d71fb2d8dc0ad4",
+    "published_galaxies": 175,
+    "published_points": 3391,
+    "source": "Lelli, McGaugh and Schombert, AJ 152, 157 (2016)",
+    "source_url": "https://arxiv.org/abs/1606.09251"
+  },
+  "population": {
+    "split_salt": "invariant-tier7-full-sparc-per-object-decomposition-v1",
+    "exploration_before_admission": 140,
+    "admitted_exploration_galaxies": 139,
+    "admitted_exploration_points": 2720,
+    "confirmation_galaxies": 35,
+    "confirmation_evaluator_accesses_allowed": 0,
+    "split_unit": "whole_galaxy",
+    "admission_rule_source": "src/sigma_theory_compiler/sparc_full_sample.py"
+  },
+  "radial_holdout": {
+    "rule": "For a galaxy with n radius-ordered rows, k=min(5,n) folds are the contiguous half-open blocks [floor(i*n/k), floor((i+1)*n/k)) for i=0..k-1. Every row is held out exactly once; no fold interleaves radii.",
+    "maximum_folds": 5,
+    "minimum_training_rows": 3,
+    "all_rows_held_out_exactly_once": true,
+    "random_row_split_forbidden": true
+  },
+  "baryonic_model": {
+    "formula": "V_bar^2 = V_gas*abs(V_gas) + 0.5*V_disk^2 + 0.7*V_bulge^2",
+    "disk_mass_to_light_3_6um": "1/2",
+    "bulge_mass_to_light_3_6um": "7/10",
+    "per_galaxy_baryonic_recalibration": false
+  },
+  "baselines": [
+    {
+      "id": "newtonian_baryons",
+      "kind": "required_baryon_only_baseline",
+      "formula": "V_pred^2=V_bar^2",
+      "fitted_parameters_per_galaxy": 0
+    },
+    {
+      "id": "empirical_rar",
+      "kind": "required_baryon_only_empirical_comparator",
+      "formula": "g_pred=g_bar/(1-exp(-sqrt(g_bar/g_dagger)))",
+      "g_dagger_m_s2": "1.2e-10",
+      "g_dagger_km2_s2_kpc": "3.70281458e3",
+      "fitted_parameters_per_galaxy": 0,
+      "source": "McGaugh, Lelli and Schombert, Physical Review Letters 117, 201101 (2016)",
+      "source_url": "https://doi.org/10.1103/PhysRevLett.117.201101"
+    },
+    {
+      "id": "wrong_high_acceleration_boost",
+      "kind": "required_false_control",
+      "formula": "V_pred^2=V_bar^2*sqrt(1+g_bar/g_dagger)",
+      "fitted_parameters_per_galaxy": 0
+    },
+    {
+      "id": "nfw_halo_ceiling",
+      "kind": "dark_matter_performance_ceiling_only",
+      "formula": "V_pred^2=V_bar^2+A*(ln(1+r/r_s)-r/(r+r_s))/r",
+      "fitted_parameters_per_galaxy": 2,
+      "fit_scope": "training radii inside each radial fold only",
+      "amplitude_constraint": "A>=0",
+      "scale_radius_grid_size": 64,
+      "scale_radius_minimum": "minimum published radius / 3",
+      "scale_radius_maximum": "maximum published radius * 3",
+      "forbidden_uses": [
+        "formula input",
+        "target label",
+        "candidate rescue",
+        "galaxy feature",
+        "scientific truth"
+      ],
+      "source": "Navarro, Frenk and White, Astrophysical Journal 490, 493 (1997)",
+      "source_url": "https://arxiv.org/abs/astro-ph/9611107"
+    }
+  ],
+  "score": {
+    "target": "published V_obs in km/s",
+    "uncertainty": "published e_Vobs random uncertainty in km/s",
+    "primary": "sum of squared standardized held-out velocity residuals",
+    "secondary": [
+      "mean squared standardized residual",
+      "median absolute standardized residual",
+      "p90 absolute standardized residual",
+      "coverage within one, two and three published sigmas",
+      "maximum absolute standardized residual"
+    ],
+    "full_covariance_available": false,
+    "limitation": "SPARC e_Vobs excludes systematic inclination uncertainty; G0 scores are conditional on the published random-error column and must not be described as a complete likelihood."
+  },
+  "g1_formula_admission": {
+    "applies_after_g0_pass": true,
+    "per_galaxy_local_gravitational_constants_maximum": 2,
+    "typed_ir_node_maximum": 64,
+    "must_pass_every_contiguous_radial_fold": true,
+    "must_beat": [
+      "newtonian_baryons",
+      "wrong_high_acceleration_boost"
+    ],
+    "empirical_rar_rule": "candidate held-out chi-square must be no greater than empirical_rar held-out chi-square",
+    "halo_ceiling_rule": "candidate held-out chi-square may exceed nfw_halo_ceiling by at most 2 times the galaxy's held-out row count",
+    "coverage_rule": "candidate two-sigma coverage must be at least the smaller of 0.90 and the nfw_halo_ceiling two-sigma coverage",
+    "atlas_gate": "all 139 admitted exploration galaxies must have at least one admitted local formula"
+  },
+  "g1_description_length": {
+    "formula_code": "8 times the UTF-8 byte count of the canonical typed-IR JSON with sorted keys and compact separators",
+    "local_constant_code": "64 bits per fitted galaxy-local real constant",
+    "grammar_address_code": "ceiling(log2(number of canonical candidates in the declared grammar version)) bits",
+    "reported_total": "formula_code + local_constant_code + grammar_address_code",
+    "selection_rule": "description length is a Pareto objective beside held-out score, calibration, robustness, and compute; it may not be used to discard a formula that uniquely clears a predictive stratum",
+    "minimum_reporting": [
+      "typed IR node count",
+      "canonical formula bytes",
+      "local constant count",
+      "grammar size and version",
+      "total description length bits"
+    ]
+  },
+  "g1_search_budget_and_stopping": {
+    "pilot_galaxies": 12,
+    "pilot_candidates_per_arm_per_galaxy": 10000000,
+    "pilot_arms": [
+      "structured_occam",
+      "pseudorandom_permutation",
+      "creativity_guided"
+    ],
+    "pilot_minimum_distinct_candidates": 360000000,
+    "production_initial_distinct_candidates_per_galaxy": 100000000,
+    "production_first_extension_distinct_candidates_per_galaxy": 1000000000,
+    "production_ceiling_distinct_candidates_per_galaxy": 10000000000,
+    "checkpoint_every_distinct_candidates_per_galaxy": 100000000,
+    "continue_condition": "continue the current grammar while the last checkpoint creates any new admitted canonical equivalence class or improves a currently uncovered galaxy; otherwise retain failures and propose a new grammar version",
+    "anti_pruning_rule": "a branch may not be stopped solely because an LLM labels it known, uncertain, or unlikely; only typed invalidity, a frozen empirical failure, proven equivalence, or exhaustion of its declared finite cell may close it",
+    "completion_rule": "G1 passes only at 139/139 covered galaxies; reaching a compute ceiling without coverage is a visible G1 failure, not permission to advance"
+  },
+  "formula_inputs": {
+    "allowed": [
+      "galactocentric radius",
+      "published gas velocity contribution",
+      "published disk velocity contribution",
+      "published bulge velocity contribution",
+      "globally frozen mass-to-light constants",
+      "dimensionally valid derived baryonic invariants"
+    ],
+    "forbidden": [
+      "galaxy identifier",
+      "V_obs or any function of V_obs",
+      "e_Vobs during proposal generation",
+      "dark matter halo parameter",
+      "target-derived mass discrepancy",
+      "per-galaxy baryonic recalibration",
+      "confirmation galaxy row or summary",
+      "lensing-derived mass map"
+    ]
+  },
+  "throughput_benchmark": {
+    "grammar": "nu(y)=[P_5(y^-1/2)/Q_5(y^-1/2)]^beta with ten coefficients in {-3,-2,-1,0,1,2,3} and beta in {1/3,1/2,1,2}",
+    "declared_grammar_size": 1129900996,
+    "candidate_count": 1000000,
+    "candidate_batch_size": 65536,
+    "point_chunk_size": 128,
+    "full_exploration_point_count": 2720,
+    "fp64_crosscheck_candidates": 4096,
+    "minimum_measured_point_evaluations": 2720000000,
+    "required_device_substring": "RTX 5090",
+    "fp64_gpu_cpu_maximum_relative_error": "1e-10",
+    "required_measurements": [
+      "candidates per second",
+      "candidate-point evaluations per second",
+      "GPU memory-pool peak increment",
+      "GPU elapsed wall time",
+      "domain-finite candidate fraction",
+      "FP64 CPU replay rate",
+      "FP64 GPU/CPU maximum relative error"
+    ],
+    "synthetic_static_throughput_substitution_allowed": false
+  },
+  "gate": {
+    "required_baseline_ordering": [
+      "empirical_rar chi-square < newtonian_baryons chi-square",
+      "empirical_rar chi-square < wrong_high_acceleration_boost chi-square",
+      "nfw_halo_ceiling chi-square < newtonian_baryons chi-square"
+    ],
+    "required_confirmation_evaluator_accesses": 0,
+    "required_gpu_cpu_decision_mismatches": 0,
+    "required_receipt_decision": "PASS_G0_EXPERIMENT_FROZEN"
+  }
+}
