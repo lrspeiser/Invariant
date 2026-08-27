@@ -147,39 +147,51 @@ Motzkin, derangements, factorial) recovered; results sealed.
 **Discovery condition:** an exact annihilating operator for a sequence with no known
 P-finite recurrence.
 
-## DG7 — Gravity: reach a decision on the 23
+## DG7 — Gravity: local formula atlas to one no-dark-matter theory
 
-Two blocking adapters remain buildable (`uv_form_factor_operator`,
-`aqual_nu_to_kessence_inversion`).  The third, `direct_scalar_matter_coupling`, is
-**resolved**: covariant field contract amendment A1 (version 1.1) distinguishes a declared
-*universal* scalar-matter coupling, which is permitted, from unseen mass and per-object mass
-parameters, which remain forbidden absolutely and are still refused by clause (a).
+The authoritative ordered program is
+[`NO_DARK_MATTER_GRAVITY_DISCOVERY_GOALS.md`](NO_DARK_MATTER_GRAVITY_DISCOVERY_GOALS.md).
+It replaces “finish the existing 23 candidates, then look at data” with a generative,
+data-led ladder:
 
-**Completion test:** every one of the 23 candidates carries a terminal verdict —
-`FORMAL_PASS`, `FORMAL_REJECT:<rung>`, or a blocker naming the exact missing primitive.
+1. Freeze and benchmark the actual SPARC evaluator.
+2. Search a broad formula space independently on all 139 admitted exploration galaxies,
+   preserving every predictive local solution.
+3. Collapse known rewrites and behaviorally equivalent formulas, then learn which measured
+   baryonic features generate the per-galaxy variation.
+4. Remove every object-specific gravitational parameter and open the 35-galaxy confirmation
+   set once.
+5. Transfer without refit to THINGS/LITTLE THINGS, the 12 X-COP clusters, and the 25 CLASH
+   lensing clusters.
+6. Invert the surviving local laws into shared weak-field operators and covariant actions,
+   then test the same theory against Cassini, the Double Pulsar, GW170817, Planck, and DESI.
 
-**Discovery condition:** a surviving family that (a) passes the formal ladder complete,
-(b) is derivable rather than posited, and (c) survives contact with real rotation-curve
-and cluster data under the sealed no-refit protocol.
+**Immediate completion test:** G0 and G1 PASS: a frozen observational/compute contract and a
+139/139 predictive, radial-holdout, baryon-only formula atlas with origin/equivalence lineage
+and family-level exclusion certificates.
 
-**Status of (c), 2026-08-18.**  Data has been opened, but *exploratorily*, not under the
-sealed protocol.  `runs/gpu-baryonic-screen/real-data-exploratory-v1.json` confronts all 12
-families with 214 published points from 6 SPARC galaxies (Lelli, McGaugh & Schombert 2016,
-AJ 152, 157), with no halo, no unseen component, and no per-object parameter, scanning only
-universal constants on a declared grid.  All 12 are INFEASIBLE at every declared coverage
-factor, each with a re-verified Farkas certificate naming the radius.  The mandatory
-controls fired: Newtonian baryons alone are INFEASIBLE on the same rows, and so is a
-deliberately wrong law.  That receipt is exploratory by construction — fitting and testing
-used the same galaxies — so it may not be cited as confirmation; the sealed no-refit trial
-remains unspent and is the only thing that could establish (c) affirmatively.
+**Discovery condition:** one zero-object-parameter, universally coupled covariant theory
+forward-generates the galaxy and cluster solution classes and survives galaxy confirmation,
+external galaxy replication, direct lensing, local/strong-field, gravitational-wave, and
+cosmological gates without non-baryonic dark matter.
+
+**Current measured boundary.** The full repository sample contains 175 SPARC galaxies and
+3,391 points. The existing split leaves 139 admitted exploration galaxies and 35 confirmation
+galaxies. Fourteen narrow law spaces produced 1,946 independent single-galaxy fits, but every
+space's local parameter varies across the 139-galaxy population: 0/14 is universal. There is
+no broad creative formula atlas, real-data equivalence graph, reconciliation law, cluster
+result, lensing result, or direct-observation validation. Existing formal candidate work is
+supporting infrastructure, not a prerequisite for attempting G0/G1 formula discovery.
 
 ---
 
 ## Sequencing
 
-DG5 first (cheap, unblocks DG4/DG6), then DG1+DG2 in parallel as the primary discovery
-attempt, DG3 as the second shot on goal, DG4/DG6 as surveys with the instruments already
-proven.  DG7 proceeds on the adapter track while its data question waits.
+For gravity, DG7 now runs **G0 -> G1 -> G2 -> ... -> G12** in order; later empirical gates do
+not open early. Across the broader system, gravity G0/G1 and the next externally sourced
+creative-math test are the two primary generative tracks. DG5 remains a cheap enabler for
+DG4/DG6. Old formal gravity adapters proceed only when they supply or test a candidate that
+the new gravity ladder needs.
 
 ## What "we discovered something" would require
 

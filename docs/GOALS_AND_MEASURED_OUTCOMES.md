@@ -1,7 +1,7 @@
 # Invariant goals and measured outcomes
 
 This is the release-facing goal registry for the Invariant formula and proof discovery
-system, current through **2026-08-26**. It distinguishes bounded engineering success
+system, current through **2026-08-27**. It distinguishes bounded engineering success
 from mathematical, scientific, and operational completion. Counts below come from
 checked receipts, tests, and the terminal workflow linked in the release section;
 absence from a corpus is never treated as novelty, and a bounded proof is never
@@ -65,6 +65,18 @@ Overall status: **strong alpha; not yet scientifically or operationally complete
 | 30 | Cluster validation | Schema controls pass; authorized real packets opened: 0; scientific result: one BLOCK; rank writes: 0. | Awaiting authorized data. |
 | 31 | One genuine observation trial | No candidate has completed a sealed, authorized, no-refit direct-observation evaluation. The latest authorization audit performed zero target reads and zero real-data evaluations; it proves that no in-scope opening authority currently exists. | Highest external scientific gap; a trial cannot honestly start until the sealed authority packet and action-bound evaluator both exist. |
 
+### Prospective gravity program
+
+The ordered successor is
+[`NO_DARK_MATTER_GRAVITY_DISCOVERY_GOALS.md`](NO_DARK_MATTER_GRAVITY_DISCOVERY_GOALS.md).
+Its target is no longer merely a verdict on the 23 existing screened candidates. It starts by
+building a creative, predictive formula atlas for all 139 admitted SPARC exploration galaxies,
+collapses equivalent formulas, learns a shared baryonic meta-law, and only then consumes the
+35-galaxy confirmation set. Later gates require no-refit transfer to independent rotation-curve
+pipelines, X-COP cluster thermodynamics, CLASH lensing, a verified inverse lift to covariant
+actions, Cassini/Double-Pulsar/GW170817 tests, and Planck/DESI cosmology. Per-galaxy formulas are
+diagnostics; only the shared, covariant, cross-phenomenon result can count as an alternative to GR.
+
 ## F. Operations and acceleration
 
 | # | Goal | Current measured outcome | Status |
@@ -119,58 +131,52 @@ Forward-looking claims, tests, and falsifiers for this section live in
 
 ## Current priority order
 
-0. **Find a creative new law that fits the data.** This outranks every other item here.
-   The engine has ~132 gate/audit/control modules against ~26 generative ones and zero
-   novel results; the binding constraint is proposal quality, not verification rigour.
-   The credentialed LLM proposer is live in the core app. The current core receipt preserves its
-   authenticated eight-call evidence and separately requires the six-call retained-piecewise
-   descendant campaign: 24/24 ideas retained, 18 executable with independent exact agreement, and
-   six unsupported branches kept active.
-   The exact prompt lane now carries a tested two-coordinate search signature and target-blind
-   diagonal-action learner plus typed cubic/Laurent/formal-log state-pair coordinates and
-   coupled/unit uncertainty branches. Next, score the preregistered old-vs-new creativity ablation,
-   extend learned invariants to dependence-aware real observations, learned/continuous unit
-   calibration, and multivariate rational/exponential/trigonometric transformations,
-   preserve every blocked idea as a repair/recombination branch, and upgrade the FunSearch
-   loop toward AlphaEvolve (diff-based edits over whole modules, a MAP-Elites archive, an
-   evaluation cascade). Guard work is scheduled only when it unblocks a search.
-
-1. Preserve the 39/39 release baseline on every integrated change; never trade a
-   scientific increment for an unverified release head.
-2. Register the remaining 150 coordinate-free recurrence packets (45 higher K55,
-   45 higher TC2, and 60 lower-Sylvester), emit the 117,180 exact
-   rows, and resume the full-sphere D4/H7 chain.
-3. Close the global H7 energy, tube-bootstrap, and quantitative-lifespan chain, or
-   produce a decisive exact obstruction that terminates the candidate family honestly.
-4. Materialize the 132 sealed gravity/scalar A/W roots into coordinate arithmetic,
-   close the remaining 11/85 RHS rows, and use the exact 4/4 `div Q` rows to pursue
-   sourced constraint propagation before widening the cylindrical domain.
-5. Sealed no-refit Solar trial: OFF the critical path. It is publication infrastructure,
-   not search infrastructure, and has produced zero target reads since it was registered.
-   Keep a cheap held-out split during exploration instead, and revisit the formal protocol
-   only when a candidate is good enough to be worth spending it on.
-6. Extend exact D2F coverage beyond 5,324/257,499 entries per candidate, with every new
-   block carrying replayable leaf/root provenance.
-7. Let the currently running two-logical-host campaign reach its honest >=6-hour
-   duration gate, then archive its terminal queue, recovery, byte-ceiling, and receipt evidence.
-8. Extend the now-complete 200/200 bounded curriculum with genuinely external,
-   independently sourced targets while preserving the frozen isolation and proof rules.
-9. Expand the 181-record prior-art snapshot using independently sourced corpora and
-   externally checked equivalence controls; corpus absence must remain non-novelty.
-10. Resolve review feedback, reproduce the release from a clean checkout, and convert
-    draft PR #1 into an intentionally reviewed merge-ready release.
-11. Restore platform-invariant replay (Goal 45): pin the missing paths `eol=lf` and
-    regenerate the 137 CRLF-sealed receipts by re-running their campaigns. Until this
-    closes, every receipt's provenance is weaker than claimed, because verification
-    depends on which operating system runs it.
-12. Ablate the LLM lane and its lineage/non-pruning components (Goal 44). Use the result to improve
-    prompts, roles, and resource allocation; do not delete an idea lineage or capability because of
-    one underpowered or static-pack comparison.
-13. Build the declaration layer from `LANGUAGE_PROPOSAL.md`, so a new capability is a
-    declaration rather than a hand-written module. 122 of 125 capability gaps are open,
-    and each currently costs one module; this is the throughput bottleneck.
+0. **Find a creative, universal alternative to GR that explains the no-dark-matter
+   gravity data.** The binding program is the ordered G0-G12 ladder in
+   `NO_DARK_MATTER_GRAVITY_DISCOVERY_GOALS.md`. Creativity remains upstream: structured,
+   pseudorandom, and LLM-guided grammar arms all preserve their solution populations.
+   Proposer labels distinguish a rewrite, known-family instance, combination, proposed new
+   construction, or uncertainty; independent equivalence checking adjudicates those labels
+   without pruning ambiguous ideas.
+1. **G0 now:** freeze the real SPARC observational contract, contiguous radial folds,
+   Newtonian/RAR-MOND/false-law/halo-ceiling baselines, scoring, and stopping rule; measure
+   actual rotation-curve formula throughput and GPU/CPU agreement on the RTX 5090.
+2. **G1 next:** run the three-arm pilot on 12 diverse exploration galaxies at 10 million
+   canonical candidates per arm per galaxy, then build the 139/139 predictive formula atlas.
+   Start production at 13.9 billion candidates total and scale toward 139 billion or the
+   1.39-trillion stretch ceiling only while new equivalence-class yield justifies it.
+3. **G2-G3:** collapse cosmetic/known-equivalent formulas and learn, under whole-galaxy
+   cross-validation, which measured baryonic features generate the surviving per-galaxy
+   formula classes and coefficients.
+4. **G4:** remove every object-specific gravitational parameter, freeze one universal law,
+   and open the 35 SPARC confirmation galaxies once. A rejection returns to the generative
+   ladder and cannot be retuned on those galaxies.
+5. **G5-G6:** transfer the frozen law to THINGS/LITTLE THINGS and construct the X-COP
+   cluster atlas from X-ray/SZ direct observables. Reconcile clusters and galaxies without
+   a cluster-specific patch or inferred dark-matter target.
+6. **G7-G9:** discover one cross-scale weak-field operator, test its unchanged lensing
+   predictions on CLASH, and build the verified inverse graph from local solution classes
+   through shared operators to every covariant action still observationally viable.
+7. **G10-G11:** subject the same action and constants to Cassini, Double-Pulsar, GW170817,
+   Planck, and DESI gates. No phenomenon-specific switch or undeclared effective matter
+   component may rescue it.
+8. **G12:** freeze and independently replay the complete result; perform claim-specific
+   prior-art and expert review. Corpus absence and structural distance remain non-novelty.
+9. Preserve a green release baseline and platform-invariant replay around every integrated
+   scientific increment. Verification supports the search; it does not replace G0/G1 work.
+10. Use the credentialed LLM lane to propose grammar extensions, invariants, cross-domain
+    analogies, repairs, and recombinations. Finish the matched old/new/random creativity
+    ablation and retain every blocked branch with its lineage and counterexample history.
+11. Continue H7, D2F, matter-coupling, and formal-action work only when it tests or supplies
+    a candidate used by G7-G10. The remaining 150 recurrence packets and other old formal
+    blockers are not prerequisites for attempting the galaxy formula atlas.
+12. Extend the external creative-math curriculum and prior-art corpus as a parallel control
+    of general discovery ability, without taking compute committed to the gravity pilot.
+13. Build new formula/operator capabilities as declarations where possible, and upgrade the
+    search loop toward diff-based whole-module edits, a MAP-Elites archive, and a staged GPU
+    evaluation cascade.
 
 The system is credible as an exact, auditable formula-recovery and proof pipeline with
 documented success and failure modes. It is not yet a comprehensive theorem-discovery
-system, a nonlinear gravity theorem, a universal matter result, or a validated empirical
-discovery product.
+system, a nonlinear gravity theorem, a universal matter result, a no-dark-matter gravity
+theory, or a validated empirical discovery product.
