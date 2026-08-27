@@ -1,0 +1,76 @@
+{
+  "schema_version": "invariant-gravity-g3-meta-law-config-1.0",
+  "goal": "G3",
+  "claim": "Predict an unseen exploration galaxy's rotation curve and a training-only G2 formula class from baryonic structure, without galaxy ID or held-out velocities. This is exploration-set model development, not confirmation or a universal gravity law.",
+  "g2_binding": {
+    "path": "runs/gravity/g2/gravity-formula-equivalence-classes-v1.json",
+    "file_sha256": "ddd53201176ed8eecf7fc07e4d79da8a258ab4353bc1362279d6171b60b1ea0f",
+    "content_sha256": "5b9683bf9526c62a8eef1640e779d194ed58823e0609d85b1cf49488146ef83c",
+    "required_decision": "PASS_G2_EQUIVALENCE_COLLAPSE",
+    "required_galaxies": 139,
+    "required_points": 2720
+  },
+  "whole_galaxy_cross_validation": {
+    "outer_folds": 5,
+    "outer_salt": "invariant-gravity-g3-whole-galaxy-v1",
+    "assignment": "sort galaxy names by sha256(salt|name), then assign sorted rank modulo the fold count",
+    "inner_folds": 4,
+    "inner_salt": "invariant-gravity-g3-inner-shrinkage-v1",
+    "unit": "whole galaxy",
+    "galaxy_id_available_to_model": false,
+    "heldout_vobs_available_to_model_or_formula_projection": false
+  },
+  "target_blind_inputs": {
+    "local_features": ["log_y", "log_r_over_disk_peak", "gas_fraction", "disk_fraction", "bulge_fraction", "baryon_log_slope", "mass_proxy_fraction", "gas_to_disk"],
+    "galaxy_summaries_per_local_feature": ["mean", "standard_deviation", "q10", "median", "q90"],
+    "additional_galaxy_summaries": ["log_min_radius", "log_max_radius", "log_radius_span", "log_distance_mpc"],
+    "total_model_features": 52,
+    "forbidden": ["galaxy name", "galaxy ID hash", "V_obs", "e_Vobs", "G1 class label of heldout galaxy", "heldout fit coefficients", "halo quantities"]
+  },
+  "learned_residual": {
+    "base": "frozen empirical RAR",
+    "target_on_training_galaxies": "delta=(V_obs^2-V_RAR^2)/(r*g_dagger)",
+    "prediction": "V_meta^2=V_RAR^2+r*g_dagger*alpha*ExtraTrees(features)",
+    "estimator": "sklearn.ensemble.ExtraTreesRegressor",
+    "n_estimators": 512,
+    "min_samples_leaf": 4,
+    "max_features": "1.0",
+    "random_state": 20260827,
+    "n_jobs": -1,
+    "shrinkage_grid": ["0.0", "0.025", "0.05", "0.075", "0.1", "0.15", "0.2", "0.3", "0.5", "1.0"],
+    "shrinkage_selection": "minimum aggregate chi-square on inner whole-galaxy out-of-fold predictions from the outer-training galaxies only; ties choose smaller alpha"
+  },
+  "formula_projection": {
+    "library": "G2 structural classes having at least one member galaxy in the outer-training partition",
+    "fit_target": "the learned V_meta^2 prediction on heldout baryonic radii, never V_obs",
+    "coefficients": "unweighted two-column least squares to the learned prediction",
+    "selection": "minimum normalized squared projection error, ties by class ID",
+    "evaluation": "the projected G2 formula and generated coefficients, not the unprojected ensemble curve"
+  },
+  "baselines": {
+    "newtonian_baryons": "V_bar from the heldout galaxy's baryonic inputs",
+    "empirical_rar": "the frozen G0 RAR prediction",
+    "constant_residual": "outer-training median delta applied to every heldout radius",
+    "nearest_galaxy": "nearest standardized baryonic-summary training galaxy; transfer its best G1 formula and median fold coefficients"
+  },
+  "admission": {
+    "minimum_fractional_chi_square_gain_over_every_baseline": "5e-3",
+    "all_predictions_positive_and_finite": true,
+    "all_projected_classes_training_only": true,
+    "all_139_galaxies_predicted_once": true,
+    "confirmation_evaluator_accesses_allowed": 0
+  },
+  "diagnostic_disclosure": {
+    "same_exploration_folds_inspected_during_model_development": true,
+    "residual_base_leaf_size_and_shrinkage_design_informed_by_diagnostics": true,
+    "result_is_independent_confirmation": false,
+    "confirmation_partition_remains_unopened": true
+  },
+  "output": "runs/gravity/g3/galaxy-formula-meta-law-v1.json",
+  "decision": {
+    "pass": "the projected training-only G2 formulas clear every admission condition and beat every declared baseline by at least 0.5% aggregate chi-square",
+    "block": "any leakage or projection violation occurs, any galaxy lacks a prediction, or the projected meta-law misses any baseline gain",
+    "after_pass": "authorize G4 universal zero-local-constant law construction; do not open confirmation until that law is frozen",
+    "after_block": "retain fold counterexamples and return to G3 model generation without opening confirmation"
+  }
+}
