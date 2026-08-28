@@ -1,0 +1,192 @@
+{
+  "schema_version": "invariant-gravity-roadmap-item7-baryonic-composition-config-1.0",
+  "goal": "GRAVITY_ROADMAP_ITEM_07_BARYONIC_COMPOSITION",
+  "status": "scientific_design_frozen_before_any_phangs_rotation_velocity_value_access",
+  "roadmap_binding": {
+    "path": "docs/GRAVITY_HIDDEN_VARIABLE_AND_THEORY_SEARCH_GOALS.md",
+    "file_sha256": "b9db7e1aa76deaf28ce2e840cd3d7db4cf7a086b1c7ca473800780c264a0e772",
+    "item_number": 7,
+    "item_title": "Baryonic composition"
+  },
+  "predecessor": {
+    "path": "runs/gravity/roadmap/item-06-synthesis-v1.json",
+    "file_sha256": "5c29bacafe308f92b3631a831b76d5a1530030984a5b786287465470168c412d",
+    "content_sha256": "99fa4a1ccf61cd640ba38481162fe9d08864c04bf9ec0d2d9c45fc1bc88810e9",
+    "required_decision": "REJECT_ITEM6_TESTED_ACCEPT_THERMODYNAMIC_PROMOTION_RETAIN_COOLING_LEAD_ADVANCE_ITEM7"
+  },
+  "implementation_dependency": {
+    "path": "src/sigma_theory_compiler/gravity_item5_pressure_cross_support.py",
+    "file_sha256": "410a19d86f464e930dcba90b512e3bb71310f11fea2af47fd845312e9446505b",
+    "use": "deterministic whole-galaxy nested ridge selection and metric helpers only"
+  },
+  "authorization": {
+    "network_acquisition_allowed": true,
+    "paid_model_calls_allowed": false,
+    "exploration_rotation_responses_allowed_after_freeze": true,
+    "reserved_confirmation_rotation_responses_allowed": false,
+    "dark_matter_or_dynamical_mass_allowed_as_predictor": false,
+    "rotation_speed_or_curve_shape_allowed_as_predictor": false,
+    "lensing_mass_allowed_as_predictor": false,
+    "direct_lensing_likelihood_evaluations_allowed": 0,
+    "sequential_G6_G7_G8_advanced": false
+  },
+  "prefreeze_audit": {
+    "date": "2026-08-28",
+    "rotation_velocity_values_read": 0,
+    "kinematic_catalog_galaxies": 67,
+    "kinematic_radius_only_rows": 2383,
+    "physical_property_catalog_galaxies": 90,
+    "catalog_overlap_galaxies": 67,
+    "complete_hi_overlap_galaxies": 66,
+    "base_quality_galaxies": 54,
+    "radius_coverage_quality_galaxies": 45,
+    "allowed_predictors_read": [
+      "PHANGS Name, logMstar, r25, Re, lstar, logSFR, logLCO, Corr, logMHI",
+      "PHANGS ID, inclination, fCO, Rbar/Rco, Rco/R25, Nobs",
+      "PHANGS ID and Rad only for target-blind radius-coverage auditing"
+    ],
+    "response_columns_not_queried": ["VRot", "E_VRot", "e_VRot"]
+  },
+  "scientific_contract": {
+    "hypothesis": "After total baryonic mass, stellar size, inclination, and CO coverage are controlled, a universal nonlinear operator built from the relative stellar, atomic-gas, and molecular-gas fractions and their spatial-mixture proxies may predict the rotation amplitude of nearby galaxies.",
+    "creativity_label": "known_baryonic_mass_and_phase_fraction_relations_plus_potentially_new_phase_boundary_geometry_coupling",
+    "known_components": [
+      "stellar mass and disk scale length",
+      "atomic hydrogen mass with a helium correction",
+      "CO(2-1) luminosity converted with a fixed Galactic alpha_CO and R21",
+      "total baryonic mass and baryonic Tully-Fisher scaling",
+      "Newtonian mass-over-size velocity scaling",
+      "whole-galaxy held-out evaluation"
+    ],
+    "nonqualifying_rewrites": [
+      "V proportional to total baryonic mass to the one-quarter power is the known baryonic Tully-Fisher family",
+      "V squared proportional to baryonic mass divided by stellar scale length is a known Newtonian mass-size family",
+      "linear main effects of stellar, atomic, and molecular mass or their raw fractions are empirical composition baselines",
+      "using rotation velocity, a fitted dynamical or dark-matter mass, identity, or a per-galaxy coefficient is forbidden"
+    ],
+    "qualifying_boundary": "Only frozen nonlinear phase-balance, phase-boundary, and composition-by-geometry interactions that beat every total-mass, mass-size, acquisition, and phase-main-effect baseline qualify.",
+    "not_claimed": [
+      "independence of CO intensity and CO velocity measurements at the instrument level",
+      "a resolved HI or molecular surface-density profile",
+      "a plasma or ionized-gas mass measurement",
+      "historical novelty",
+      "a modified-gravity law",
+      "independent confirmation"
+    ]
+  },
+  "sources": {
+    "composition_table": {
+      "catalog_id": "J/ApJS/257/43/galaxies",
+      "description": "Leroy et al. 2021 PHANGS-ALMA global physical properties",
+      "landing_page": "https://cdsarc.cds.unistra.fr/viz-bin/cat/J/ApJS/257/43",
+      "paper": "https://doi.org/10.3847/1538-4365/ac17f3",
+      "allowed_columns": ["Name", "logMstar", "r25", "Re", "lstar", "logSFR", "logLCO", "Corr", "logMHI"],
+      "forbidden_columns": ["vlsr"]
+    },
+    "kinematic_metadata_table": {
+      "catalog_id": "J/ApJ/897/122/table1",
+      "description": "Lang et al. 2020 PHANGS CO kinematic sample metadata",
+      "landing_page": "https://cdsarc.cds.unistra.fr/viz-bin/cat/J/ApJ/897/122",
+      "paper": "https://doi.org/10.3847/1538-4357/ab9953",
+      "allowed_columns": ["ID", "i", "fCO", "Rbar/Rco", "Rco/R25", "Nobs"],
+      "forbidden_columns": ["Vsys"]
+    },
+    "rotation_curve_table": {
+      "catalog_id": "J/ApJ/897/122/tabled1",
+      "description": "Lang et al. 2020 tabulated CO rotation curves",
+      "response_columns": ["ID", "Rad", "VRot", "E_VRot", "e_VRot"]
+    }
+  },
+  "sample": {
+    "selection_salt": "invariant-gravity-item7-phangs-composition-v1-20260828",
+    "quality_rule": "catalog overlap with Mstar, Re, lstar, r25, SFR, LCO, aperture correction, and MHI present; Nobs>=15; 20<=inclination<=75 degrees; response-blind radius coverage reaches 1.5 lstar",
+    "stratification_rule": "proportional sealed holdout within low/high stellar mass crossed with atomic/molecular gas dominance, then salted SHA256 order within each cell",
+    "quality_passing_candidates": 45,
+    "exploration_count": 33,
+    "reserved_confirmation_count": 12,
+    "exploration": [
+      "IC1954", "IC5273", "NGC0628", "NGC1300", "NGC1385", "NGC1546", "NGC1559", "NGC1566", "NGC2090", "NGC2283", "NGC2903", "NGC3137", "NGC3351", "NGC3507", "NGC3621", "NGC3627", "NGC4303", "NGC4321", "NGC4496A", "NGC4535", "NGC4536", "NGC4548", "NGC4569", "NGC4579", "NGC4654", "NGC4689", "NGC4781", "NGC4941", "NGC5042", "NGC5530", "NGC5643", "NGC6300", "NGC6744"
+    ],
+    "reserved_confirmation": [
+      "NGC1087", "NGC1097", "NGC1511", "NGC1792", "NGC2997", "NGC3059", "NGC3511", "NGC3521", "NGC4207", "NGC4254", "NGC4298", "NGC5248"
+    ],
+    "cell_counts": {
+      "highM_atomic": {"all": 12, "exploration": 9, "confirmation": 3},
+      "highM_mol": {"all": 13, "exploration": 9, "confirmation": 4},
+      "lowM_atomic": {"all": 16, "exploration": 12, "confirmation": 4},
+      "lowM_mol": {"all": 4, "exploration": 3, "confirmation": 1}
+    },
+    "post_access_failure_policy": "Retain every missing or invalid exploration galaxy as a quality failure; do not replace it, relax quality, or open a reserved response."
+  },
+  "derivation": {
+    "molecular_mass": "Mmol=(4.35/0.65)*LCO(2-1)*Corr in solar masses; fixed alpha_CO includes helium",
+    "atomic_mass": "Matomic=1.36*MHI in solar masses",
+    "total_baryonic_mass": "Mbar=Mstar+Matomic+Mmol",
+    "phase_fractions": "each of Mstar, Matomic, and Mmol divided by Mbar",
+    "phase_entropy": "-sum(f_i ln f_i)/ln(3)",
+    "atomic_molecular_boundary": "4*f_atomic*f_molecular",
+    "stellar_gas_boundary": "4*f_star*(f_atomic+f_molecular)",
+    "primary_radius": "1.5*lstar",
+    "primary_response": "log10 of linearly interpolated published CO rotation velocity at 1.5*lstar",
+    "radius_robustness_response": "log10 of linearly interpolated published CO rotation velocity at 1.4*lstar",
+    "curve_shape_response": "log10[V(1.5*lstar)/V(0.75*lstar)] when both are valid",
+    "feature_builder_accepts_rotation_response": false
+  },
+  "model_families": [
+    {"id": "constant", "features": [], "fixed_coefficients": {}, "qualifying": false},
+    {"id": "btfr_fixed", "features": [], "fixed_coefficients": {"log_mbar": 0.25}, "qualifying": false},
+    {"id": "newtonian_mass_size_fixed", "features": [], "fixed_coefficients": {"log_mbar": 0.5, "log_lstar": -0.5}, "qualifying": false},
+    {"id": "stellar_mass_size", "features": ["log_mstar", "log_lstar", "log_re", "log_r25"], "fixed_coefficients": {}, "qualifying": false},
+    {"id": "total_mass_size_acquisition", "features": ["log_mbar", "log_lstar", "log_re", "log_r25", "inclination", "co_covering_fraction", "rco_over_r25", "co_aperture_correction"], "fixed_coefficients": {}, "qualifying": false},
+    {"id": "phase_main_effects", "features": ["log_mstar", "log_matomic", "log_mmol", "log_lstar", "log_re", "log_r25", "stellar_fraction", "atomic_fraction", "molecular_fraction", "inclination", "co_covering_fraction", "rco_over_r25"], "fixed_coefficients": {}, "qualifying": false},
+    {"id": "phase_balance_coupling", "features": ["log_mbar", "log_lstar", "log_re", "log_r25", "phase_entropy", "atomic_molecular_boundary", "stellar_gas_boundary", "molecular_atomic_ratio_squared", "phase_entropy_squared", "phase_entropy_x_structure"], "fixed_coefficients": {}, "qualifying": true},
+    {"id": "gas_phase_geometry_coupling", "features": ["log_mbar", "log_lstar", "log_re", "log_r25", "molecular_to_atomic", "gas_to_stars", "stellar_structure_mismatch", "molecular_atomic_x_structure", "gas_stars_x_coverage", "phase_boundary_x_coverage", "inclination", "co_covering_fraction", "rco_over_r25"], "fixed_coefficients": {}, "qualifying": true},
+    {"id": "all_composition_phase", "features": ["log_mbar", "log_mstar", "log_matomic", "log_mmol", "log_lstar", "log_re", "log_r25", "stellar_fraction", "atomic_fraction", "molecular_fraction", "phase_entropy", "atomic_molecular_boundary", "stellar_gas_boundary", "molecular_to_atomic", "gas_to_stars", "stellar_structure_mismatch", "molecular_atomic_ratio_squared", "phase_entropy_squared", "phase_entropy_x_structure", "molecular_atomic_x_structure", "gas_stars_x_coverage", "phase_boundary_x_coverage", "inclination", "co_covering_fraction", "rco_over_r25", "co_aperture_correction"], "fixed_coefficients": {}, "qualifying": true}
+  ],
+  "cross_validation": {
+    "outer_folds": 5,
+    "fold_salt": "invariant-gravity-item7-composition-folds-v1-20260828",
+    "inner_folds": 4,
+    "inner_salt": "invariant-gravity-item7-composition-inner-v1-20260828",
+    "fold_unit": "whole galaxy",
+    "selection_metric": "equal-galaxy mean squared log10 velocity error",
+    "ridge_penalties": [0.001, 0.01, 0.1, 1.0, 10.0, 100.0],
+    "permutation_count": 499,
+    "permutation_salt": "invariant-gravity-item7-composition-null-v1-20260828",
+    "permutation_scheme": "shuffle primary log velocity within response-blind total-baryonic-mass quartiles"
+  },
+  "quality": {
+    "minimum_rotation_curve_rows": 15,
+    "minimum_inclination_deg": 20.0,
+    "maximum_inclination_deg": 75.0,
+    "minimum_radius_in_lstar": 1.5,
+    "maximum_interpolated_fractional_error": 0.5,
+    "all_33_exploration_galaxies_required": true
+  },
+  "exploration_admission": {
+    "quality_contract_passes": true,
+    "unrestricted_selector_qualifying_in_at_least_folds": 4,
+    "qualifying_selector_r2_positive_overall": true,
+    "qualifying_selector_beats_each_nonqualifying_baseline_overall": true,
+    "qualifying_relative_mse_improvement_over_strongest_baseline_at_least": 0.02,
+    "qualifying_improvement_positive_in_both_mass_strata": true,
+    "qualifying_improvement_positive_in_atomic_and_molecular_dominance_strata": true,
+    "mass_stratified_permutation_p_at_most": 0.05,
+    "velocity_error_envelopes_do_not_reverse_improvement": true,
+    "radius_1_4_robustness_does_not_reverse_improvement": true,
+    "reserved_confirmation_targets_untouched": true,
+    "passing_exploration_does_not_authorize_confirmation": true
+  },
+  "claim_boundaries": {
+    "composition_operator_is_historically_new": false,
+    "composition_is_a_gravity_cause": false,
+    "alternative_to_gr_established": false,
+    "confirmation_opened": false,
+    "roadmap_item_7_complete": false
+  },
+  "sample_manifest_output": "runs/gravity/roadmap/item-07-baryonic-composition-v1-source/sample-manifest.json",
+  "source_manifest_output": "runs/gravity/roadmap/item-07-baryonic-composition-v1-source/exploration-source-manifest.json",
+  "feature_output": "runs/gravity/roadmap/item-07-baryonic-composition-v1-source/galaxy-features.tsv",
+  "extraction_summary_output": "runs/gravity/roadmap/item-07-baryonic-composition-v1-source/extraction-summary.json",
+  "output": "runs/gravity/roadmap/item-07-baryonic-composition-v1.json"
+}
