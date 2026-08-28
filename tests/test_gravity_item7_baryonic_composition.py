@@ -142,6 +142,14 @@ def test_receipt_replays_if_experiment_has_run() -> None:
     stored = json.loads(path.read_text(encoding="utf-8"))
     assert item7.build_receipt(ROOT) == stored
     item7.validate_receipt(stored, root=ROOT)
+    assert stored["decision"] == "INCONCLUSIVE_ITEM7_BARYONIC_COMPOSITION_QUALITY_GATE"
+    assert stored["gate_counts"] == {"passed": 9, "required": 11}
+    assert float(
+        stored["primary"]["qualifying_selector"][
+            "relative_mse_improvement_over_strongest_baseline"
+        ]
+    ) > 0.17
+    assert float(stored["permutation"]["p_value"]) == pytest.approx(0.11)
     assert stored["counts"]["reserved_confirmation_target_accesses"] == 0
 
 
