@@ -1,0 +1,251 @@
+{
+  "schema_version": "invariant-gravity-roadmap-item15-manga-timescale-ratios-config-1.0",
+  "goal": "GRAVITY_ROADMAP_ITEM_15_TIMESCALE_RATIOS_ATTEMPT1",
+  "status": "scientific_freeze_before_fresh_item15_response_access",
+  "roadmap_binding": {
+    "path": "docs/GRAVITY_HIDDEN_VARIABLE_AND_THEORY_SEARCH_GOALS.md",
+    "file_sha256": "b9db7e1aa76deaf28ce2e840cd3d7db4cf7a086b1c7ca473800780c264a0e772",
+    "item_number": 15,
+    "item_title": "Timescale ratios"
+  },
+  "predecessor": {
+    "path": "runs/gravity/roadmap/item-14-synthesis-v1.json",
+    "file_sha256": "e371d0b29fa848963005c573fb7172585ddf8317f12215a15069a0d9a3baf72b",
+    "content_sha256": "55028a43aca6e3c40bdb468071dbdd9db9c0f6c2544a4003aad19851237003ca",
+    "required_decision": "REJECT_ITEM14_MASK_COHERENCE_ADVANCE_ITEM15"
+  },
+  "sources": {
+    "predictors": {
+      "path": "runs/gravity/roadmap/item-13-manga-relaxation-mergers-v1-source/predictor-source.json",
+      "file_sha256": "eff56f5e21fb779df55d687a19c99f66d3b33e43c2428676d9ba26bac58faeb1",
+      "content_sha256": "e0674480e540fdda98bdb5e1edb2d4201eef9111fa522187088a9fc666dda7ce",
+      "records": 5582,
+      "contains_dynamical_response": false
+    },
+    "response": {
+      "dataset": "SDSS DR17 MaNGA DAP 3.1.0 MAPS",
+      "base_url": "https://data.sdss.org/sas/dr17/manga/spectro/analysis/v3_1_1/3.1.0",
+      "data_model": "https://data.sdss.org/datamodel/files/MANGA_SPECTRO_ANALYSIS/DRPVER/DAPVER/DAPTYPE/PLATE/IFU/manga-MAPS-DAPTYPE.html",
+      "daptype": "HYB10-MILESHC-MASTARSSP",
+      "filename_template": "manga-{plateifu}-MAPS-{daptype}.fits.gz",
+      "raw_cache": "work/gravity/item-15-manga-maps-cache",
+      "download_attempts": 3,
+      "required_primary_headers": {"VERSDRP3": "v3_1_1", "VERSDAP": "3.1.0", "DAPTYPE": "HYB10-MILESHC-MASTARSSP", "DAPFRMT": "MAPS"},
+      "required_extensions": ["SPX_ELLCOO", "BINID", "BIN_LWELLCOO", "BIN_SNR", "STELLAR_VEL", "STELLAR_VEL_IVAR", "STELLAR_VEL_MASK", "STELLAR_FOM", "EMLINE_GVEL", "EMLINE_GVEL_IVAR", "EMLINE_GVEL_MASK", "EMLINE_GANR", "EMLINE_GEW", "EMLINE_GEW_MASK", "EMLINE_LFOM"],
+      "channels": {"radius_re": "R/Re", "spaxel_azimuth": "Elliptical azimuth", "bin_azimuth": "Lum. weighted elliptical azimuth", "stellar_bin_id": "Stellar continua", "stellar_rchi2": "rchi2", "halpha": "Ha-6564"},
+      "fits_checksum_required": true,
+      "confirmation_query_forbidden": true
+    },
+    "prefreeze_access": {
+      "predictor_row_table_reads_for_feature_and_sample_design": 4,
+      "fresh_maps_payload_downloads": 0,
+      "fresh_maps_header_schema_reads": 0,
+      "fresh_maps_pixel_values_read": 0,
+      "fresh_resolved_kinematic_response_objects_read": 0,
+      "paid_model_calls": 0
+    }
+  },
+  "independence": {
+    "identity_exclusions": [
+      {"path": "runs/gravity/roadmap/item-14-gz3d-resonance-coherence-v1-source/sample-manifest.json", "file_sha256": "d4b529884a43a374832b5e2890a7891deb6632ba77b0cfcbe246da099f1894cd", "content_sha256": "ae3c6190eb38132b9cf4d412138e164e47ad72a28099f97666acde3feb387983", "objects_key": "objects", "plateifu_key": "plateifu", "mangaid_key": "mangaid"},
+      {"path": "runs/gravity/roadmap/item-13-manga-relaxation-mergers-v1-source/sample-manifest.json", "file_sha256": "91274cf8ca97e78cc94ae1aabc7c3ef0778f954a802e59f72af39acbc1ab68a4", "objects_key": "objects", "plateifu_key": "plateifu", "mangaid_key": "mangaid"},
+      {"path": "runs/gravity/roadmap/item-12-manga-dynamical-age-v1-source/sample-manifest.json", "file_sha256": "a7aab354074acdc647227b27e356bae086843af22baafdb00efff4dba10f120c", "objects_key": "objects", "plateifu_key": "plateifu", "mangaid_key": "mangaid"},
+      {"path": "runs/gravity/roadmap/item-02-manga-nonlocal-shape-v4-source/manga-sample-manifest.json", "file_sha256": "76173825c189fbb9aa809b53fa21770d72262f0a14f65f59311a79c1caee0b39", "objects_key": "objects", "plateifu_key": "plateifu", "mangaid_key": "manga_id"}
+    ],
+    "coordinate_exclusions": [
+      {"path": "runs/gravity/roadmap/item-02-shape-anisotropy-v1-source/sparc_table1.tsv", "file_sha256": "feb0e2e5478888ced9533fffe6c7711dba280e78f50dfd09916b28aef41c8ce2", "format": "vizier_tsv", "ra_key": "_RA", "dec_key": "_DE"},
+      {"path": "runs/gravity/roadmap/item-02-wise-multipoles-v2-source/s4g-features-table2.tsv", "file_sha256": "ca524f8e4e4c185f5144712018952029d185a7f3b5ce1ce1e8e2a2ef3a18d523", "format": "vizier_tsv", "ra_key": "_RA", "dec_key": "_DE"},
+      {"path": "work/item9-probes-schema-audit/main_table.csv", "file_sha256": "885803c3ecf71509eeed804756407cebad9080cc1f1bd258cbd5f8f8fb23b0a2", "format": "probes_csv", "ra_key": "RA", "dec_key": "DEC"},
+      {"path": "runs/gravity/roadmap/item-10-wallaby-boundaries-v1-source/sample-manifest.json", "file_sha256": "8032dbe5f345a9b3a62290de4c4731ed5a321b33b7162582106460508b91e56b", "format": "json_objects", "ra_key": "ra", "dec_key": "dec"},
+      {"path": "runs/gravity/roadmap/item-11-neargalcat-external-field-v1-source/predictor-source.json", "file_sha256": "f8fe995f089c1019033847dd9feefaae2b96d75be55d24431429dbc1de5069fc", "format": "json_records", "ra_key": "ra", "dec_key": "dec"}
+    ],
+    "coordinate_exclusion_arcseconds": 60.0,
+    "rule": "Exclude every declared predecessor plateifu and mangaid and every predictor within 60 arcsec of a declared predecessor coordinate before fresh response access; never replace a response failure."
+  },
+  "authorization": {
+    "network_acquisition_allowed": true,
+    "paid_model_calls_allowed": false,
+    "response_query_allowed_before_sample_freeze": false,
+    "exploration_response_query_allowed_after_sample_freeze": true,
+    "confirmation_response_query_allowed": false,
+    "post_response_candidate_generation_allowed": false,
+    "kinematic_response_as_timescale_predictor_allowed": false,
+    "object_identity_as_numeric_feature_allowed": false
+  },
+  "physical_constants": {
+    "gravitational_constant_kpc3_msun_gyr2": 0.000004498502151575286,
+    "hubble_constant_km_s_mpc": 70.0,
+    "hubble_time_gyr": 13.96846030972556,
+    "omega_matter": 0.3,
+    "omega_lambda": 0.7,
+    "mean_stellar_mass_msun_for_relaxation": 0.5
+  },
+  "scientific_contract": {
+    "hypothesis": "Dimensionless ratios of baryonic dynamical, stellar mass-doubling, collisionless relaxation, and cosmic timescales contain held-out information about resolved outer-to-inner stellar velocity-span ratios beyond the underlying mass, size, star-formation, age-proxy, morphology, and redshift variables, and the selected ratio transfers without candidate reselection to H-alpha.",
+    "attempt_scope": "Item 15 attempt 1 tests fresh galaxy orbital/crossing/free-fall equivalence, mass-doubling, two-body-relaxation null, and cosmic-time ratios. A direct hot-gas cooling-time lane is unavailable in these predictors and remains required on a separate cluster or gas dataset before a broad Item 15 synthesis.",
+    "primary_response": "log10 of the robust line-of-sight stellar-velocity span at 0.8-1.5 Re divided by the corresponding span at 0.2-0.8 Re, using unique stellar-continuum bins",
+    "secondary_test": "Apply each fold-selected timescale cell without candidate reselection to the H-alpha outer-to-inner velocity-span ratio under the same folds and strong source-variable baseline.",
+    "interpretation_boundary": "The response is a resolved annular line-of-sight span ratio, not deprojected circular speed. Algebraic multiples of sqrt(R^3/GM) are one equivalence class. Stellar mass-doubling time uses catalog specific SFR; two-body relaxation is a classical collisionless null; neither is a direct hot-gas cooling time or causal gravitational field equation."
+  },
+  "timescale_features": {
+    "stellar_dynamical_time_gyr": "sqrt(Re_kpc^3/(G*Mstar_msun))",
+    "crossing_time_gyr": "stellar_dynamical_time_gyr under the baryonic circular-speed proxy",
+    "orbital_time_gyr": "2*pi*stellar_dynamical_time_gyr",
+    "free_fall_time_gyr": "pi/sqrt(8)*stellar_dynamical_time_gyr for the mean density within Re",
+    "mass_doubling_time_gyr": "10^(-log10_specific_sfr_per_year-9)",
+    "cosmic_age_gyr": "analytic age in frozen flat Lambda-CDM at observed redshift",
+    "two_body_relaxation_time_gyr": "0.1*N/ln(N)*stellar_dynamical_time_gyr with N=Mstar/0.5 Msun",
+    "direct_hot_gas_cooling_time_available": false,
+    "direct_hot_gas_cooling_followup_required": true,
+    "dimensionless_log10_ratios": ["cosmic_to_dynamical", "growth_to_dynamical", "growth_to_cosmic", "relaxation_to_cosmic", "relaxation_to_growth"],
+    "equivalence_boundary": "crossing, orbital, and uniform-density free-fall times differ from the stellar dynamical time only by frozen constants and may not be counted as independent formula discoveries"
+  },
+  "candidate_generator": {
+    "algorithm": "numpy.random.Generator(PCG64(seed))",
+    "seed": 1500520260828,
+    "candidate_cells": 262144,
+    "threshold_uniform": [-3.0, 7.0],
+    "scale_log_uniform": [0.05, 6.0],
+    "power_log_uniform": [0.25, 6.0],
+    "phase_uniform": [0.0, 6.283185307179586],
+    "modulations": ["none", "stellar_surface_density", "prior_age_lead", "sersic_index", "stellar_mass", "redshift"],
+    "families": [
+      {"id": "dynamical_cosmic_rewrite", "origin_status": "KNOWN_FORMULA_TRANSFORM", "qualifying": false, "definition": "bounded transform of log cosmic-age to baryonic-dynamical-time ratio"},
+      {"id": "growth_dynamical_ratio", "origin_status": "KNOWN_DIMENSIONLESS_COMBINATION", "qualifying": true, "definition": "bounded mass-doubling to dynamical-time ratio"},
+      {"id": "growth_cosmic_ratio", "origin_status": "KNOWN_DIMENSIONLESS_COMBINATION", "qualifying": true, "definition": "bounded mass-doubling to cosmic-age ratio"},
+      {"id": "relaxation_cosmic_ratio", "origin_status": "KNOWN_DIMENSIONLESS_COMBINATION", "qualifying": true, "definition": "bounded two-body-relaxation to cosmic-age null"},
+      {"id": "relaxation_growth_ratio", "origin_status": "KNOWN_DIMENSIONLESS_COMBINATION", "qualifying": true, "definition": "bounded relaxation to mass-doubling ratio"},
+      {"id": "clock_hierarchy_span", "origin_status": "COMBINATION", "qualifying": true, "definition": "bounded span across fixed-normalized dynamical, growth, cosmic, and relaxation clocks"},
+      {"id": "growth_cosmic_crossover", "origin_status": "KNOWN_FAMILY_COMBINATION", "qualifying": true, "definition": "localized transition where mass-doubling and cosmic clocks exchange dominance"},
+      {"id": "timescale_resonance_shell", "origin_status": "UNRESOLVED", "qualifying": true, "definition": "localized envelope in growth-to-dynamical log-ratio space"},
+      {"id": "competing_clock_coupling", "origin_status": "COMBINATION", "qualifying": true, "definition": "nonlinear coupling of cosmic/dynamical and growth/cosmic ratios"},
+      {"id": "clock_entropy_suppression", "origin_status": "UNRESOLVED", "qualifying": true, "definition": "localized transform of entropy across four fixed-normalized clocks"},
+      {"id": "timescale_phase_lock", "origin_status": "UNRESOLVED", "qualifying": true, "definition": "bounded oscillatory coupling between growth/cosmic and cosmic/dynamical ratios"},
+      {"id": "log_periodic_timescale", "origin_status": "KNOWN_FAMILY_COMBINATION", "qualifying": true, "definition": "log-periodic transform of the growth-to-dynamical ratio"}
+    ],
+    "equivalence_boundaries": [
+      "Raw candidate_cells is a deterministic screening count, not a count of mathematically independent laws.",
+      "Crossing, orbital, free-fall, and baryonic dynamical clocks are one algebraic equivalence class under the frozen definitions.",
+      "Phase is inert outside the oscillatory families; threshold is inert inside the log-periodic family; fitted scalar coefficients absorb polarity.",
+      "Numerically identical components across parameter cells form one empirical equivalence class and may not be described as separate discoveries."
+    ],
+    "post_response_cells": 0,
+    "historical_novelty_claimed": false
+  },
+  "sample": {
+    "split_unit": "unique mangaid and plateifu",
+    "split_salt": "invariant-gravity-item15-timescale-ratios-split-v1-20260828",
+    "maximum_total_objects": 320,
+    "exploration_objects": 240,
+    "confirmation_objects": 80,
+    "objects_per_cell": 80,
+    "exploration_per_cell": 60,
+    "stratification": "catalog log10 specific SFR at -11 crossed with log10 stellar mass at 10.1",
+    "specific_sfr_threshold_log10_per_year": -11.0,
+    "stellar_mass_threshold_log10": 10.1,
+    "dynamical_time_threshold_log10_gyr": -1.4,
+    "cosmic_age_threshold_log10_gyr": 1.11,
+    "minimum_specific_sfr_log10_per_year": -15.0,
+    "maximum_specific_sfr_log10_per_year": -8.5,
+    "minimum_axis_ratio": 0.45,
+    "maximum_axis_ratio": 0.85,
+    "failed_identity_replacement_after_response": false,
+    "prefreeze_predictor_audit": {
+      "eligible": 2366,
+      "failure_counts": {"axis_ratio": 1543, "coordinate": 17, "identity": 1655, "specific_sfr_bound": 1},
+      "cell_counts": {"fast_growth|higher_mass": 113, "fast_growth|lower_mass": 623, "slow_growth|higher_mass": 1076, "slow_growth|lower_mass": 554},
+      "response_values_read": 0
+    }
+  },
+  "quality": {
+    "inner_annulus_re": [0.2, 0.8],
+    "outer_annulus_re": [0.8, 1.5],
+    "velocity_span_quantiles": [0.1, 0.9],
+    "minimum_unique_stellar_bins_per_annulus": 8,
+    "minimum_halpha_spaxels_per_annulus": 20,
+    "minimum_azimuth_quadrants_per_annulus": 3,
+    "minimum_stellar_bin_snr": 5.0,
+    "minimum_halpha_amplitude_to_noise": 5.0,
+    "minimum_halpha_equivalent_width_angstrom": 3.0,
+    "maximum_stellar_rchi2": 5.0,
+    "maximum_halpha_local_rchi2": 5.0,
+    "required_drp3qual": 0,
+    "required_dapqual": 0,
+    "minimum_annular_velocity_span_km_s": 20.0,
+    "maximum_stellar_annular_velocity_span_km_s": 1000.0,
+    "maximum_halpha_annular_velocity_span_km_s": 1500.0,
+    "minimum_outer_to_inner_span_ratio": 0.1,
+    "maximum_outer_to_inner_span_ratio": 10.0,
+    "minimum_quality_passing_exploration_galaxies": 150,
+    "minimum_quality_retention_fraction": 0.625,
+    "minimum_quality_passing_per_outer_fold": 20,
+    "minimum_quality_passing_per_gate_stratum": 20
+  },
+  "evaluation": {
+    "outer_folds": 5,
+    "fold_salt": "invariant-gravity-item15-timescale-fold-v1-20260828",
+    "structural_features": ["log_stellar_mass", "log_half_light_radius", "log_surface_density", "axis_ratio", "sersic_index", "g_minus_r_color", "redshift", "log_surface_brightness", "log_snr", "ttype_normalized", "bar_strength", "edge_on", "concentration_normalized", "log_specific_sfr", "dn4000", "prior_age_lead"],
+    "fixed_timescale_normalization": {
+      "log_dynamical_time_gyr": [-1.4, 0.6],
+      "log_mass_doubling_time_gyr": [2.8, 2.0],
+      "log_cosmic_age_gyr": [1.11, 0.08],
+      "log_relaxation_time_gyr": [6.6, 1.0],
+      "log_cosmic_to_dynamical": [2.5, 0.75],
+      "log_growth_to_dynamical": [4.2, 1.75],
+      "log_growth_to_cosmic": [1.7, 1.5],
+      "log_relaxation_to_cosmic": [5.5, 1.0],
+      "log_relaxation_to_growth": [4.0, 1.25],
+      "clock_hierarchy_span": [4.0, 1.5],
+      "clock_entropy": [0.5, 0.3]
+    },
+    "fixed_modulation_normalization": {
+      "stellar_surface_density": [8.8, 1.5],
+      "prior_age_lead": [0.0, 0.5],
+      "sersic_index": [3.0, 2.0],
+      "stellar_mass": [10.1, 1.0],
+      "redshift": [0.04, 0.04]
+    },
+    "ridge_alpha": 0.03,
+    "timescale_coefficient_ridge": 0.000001,
+    "candidate_batch_size": 4096,
+    "gpu_backend_preference": "cupy_cuda_then_numpy",
+    "cpu_crosscheck_candidates": 64,
+    "paired_sign_flip_permutations": 999,
+    "permutation_salt": "invariant-gravity-item15-timescale-null-v1-20260828"
+  },
+  "admission": {
+    "quality_count_and_fraction_pass": true,
+    "fresh_identity_and_confirmation_boundary_pass": true,
+    "candidate_count_exact": true,
+    "full_model_r2_positive": true,
+    "timescale_beats_source_variable_baseline": true,
+    "timescale_relative_mse_improvement_at_least": 0.02,
+    "timescale_paired_p_at_most": 0.05,
+    "secondary_halpha_transfer_beats_control": true,
+    "coefficient_sign_agreement_folds_at_least": 4,
+    "gain_positive_in_both_growth_states": true,
+    "gain_positive_in_both_stellar_mass_halves": true,
+    "gain_positive_in_both_dynamical_time_halves": true,
+    "gain_positive_in_both_cosmic_age_halves": true,
+    "selected_family_is_qualifying_timescale_ratio": true,
+    "post_response_formula_generation_zero": true
+  },
+  "claim_boundaries": {
+    "direct_hot_gas_cooling_time_tested": false,
+    "orbital_crossing_freefall_rewrites_count_as_distinct_laws": false,
+    "causal_timescale_mechanism_established": false,
+    "outer_inner_span_ratio_is_deprojected_circular_speed": false,
+    "alternative_to_gr_established": false,
+    "historical_novelty_established": false,
+    "confirmation_opened": false,
+    "roadmap_item_15_complete": false
+  },
+  "outputs": {
+    "sample_manifest": "runs/gravity/roadmap/item-15-manga-timescale-ratios-v1-source/sample-manifest.json",
+    "predictor_source": "runs/gravity/roadmap/item-15-manga-timescale-ratios-v1-source/predictor-source.json",
+    "candidate_manifest": "runs/gravity/roadmap/item-15-manga-timescale-ratios-v1-source/candidate-manifest.json",
+    "response_source": "runs/gravity/roadmap/item-15-manga-timescale-ratios-v1-source/response-source.json",
+    "extraction_summary": "runs/gravity/roadmap/item-15-manga-timescale-ratios-v1-source/extraction-summary.json",
+    "result": "runs/gravity/roadmap/item-15-manga-timescale-ratios-v1.json"
+  }
+}
