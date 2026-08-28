@@ -957,14 +957,17 @@ def _load_rows(
                 "side_asymmetries": asymmetries,
             }
         )
-    if len(rows) < int(config["sample"]["minimum_valid_exploration"]):
+    if len(rows) < 20:
         raise GravityItem26Error(
             f"only {len(rows)} exploration galaxies pass response quality; "
-            f"minimum is {config['sample']['minimum_valid_exploration']}"
+            "fewer than 20 cannot support the frozen diagnostic"
         )
+    minimum_valid = int(config["sample"]["minimum_valid_exploration"])
     quality_audit = {
         "frozen_exploration": int(config["sample"]["expected_exploration"]),
         "valid_exploration": len(rows),
+        "frozen_minimum_valid_exploration": minimum_valid,
+        "formal_quality_pass": len(rows) >= minimum_valid,
         "failure_counts": dict(sorted(failures.items())),
     }
     return sorted(rows, key=lambda row: int(row["identity"])), response_manifest, quality_audit
@@ -1227,7 +1230,9 @@ def _candidate_record(
 
 
 def _evaluate(
-    config: Mapping[str, Any], rows: Sequence[Mapping[str, Any]]
+    config: Mapping[str, Any],
+    rows: Sequence[Mapping[str, Any]],
+    formal_quality_pass: bool,
 ) -> tuple[dict[str, Any], dict[str, Any]]:
     xp, backend, device = _backend()
     started = time.perf_counter()
@@ -1453,6 +1458,7 @@ def _evaluate(
             all_speed_eligible,
             all(value["pass"] for value in synthetic),
             constant_pass,
+            formal_quality_pass,
         ]
     )
     phenomenon_pass = all(
@@ -1462,6 +1468,7 @@ def _evaluate(
             permutation_p <= float(config["gates"]["maximum_selection_aware_permutation_p"]),
             same_niche_folds >= int(config["gates"]["minimum_same_niche_folds"]),
             asymmetry["improvement_vs_intercept"] >= 0.0,
+            formal_quality_pass,
         ]
     )
     cpu_terms = term_matrices[primary_radius][np.asarray(observed["selected"])]
@@ -1470,6 +1477,7 @@ def _evaluate(
     elapsed = time.perf_counter() - started
     scientific = {
         "valid_objects": len(rows),
+        "formal_quality_pass": formal_quality_pass,
         "candidate_audit": candidate_audit,
         "metrics": {
             "candidate_mse": candidate_mse,
@@ -1502,6 +1510,9 @@ def _evaluate(
         "phenomenon_publication_track_pass": phenomenon_pass,
         "paper_claim_allowed": False,
         "formal_status": (
+            "INCONCLUSIVE_QUALITY"
+            if not formal_quality_pass
+            else
             "PASS_EXPLORATION_BOTH_TRACKS"
             if universal_pass and phenomenon_pass
             else "PASS_EXPLORATION_UNIVERSAL_ONLY"
@@ -1601,7 +1612,9 @@ def run_experiment(root: Path) -> Path:
     verify_science_freeze(root, config)
     verify_sample_freeze(root, config)
     rows, response_manifest, quality_audit = _load_rows(root, config)
-    scientific, compute_raw = _evaluate(config, rows)
+    scientific, compute_raw = _evaluate(
+        config, rows, bool(quality_audit["formal_quality_pass"])
+    )
     paths = _source_paths(root, config)
     compute = _content_hashed(compute_raw)
     _write_json(paths["compute_manifest"], compute)
