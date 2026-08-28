@@ -1,0 +1,231 @@
+{
+  "schema_version": "invariant-gravity-roadmap-item13-manga-relaxation-mergers-config-1.0",
+  "goal": "GRAVITY_ROADMAP_ITEM_13_RELAXATION_AND_MERGERS",
+  "status": "scientific_freeze_before_morphology_rows_or_fresh_dynamical_responses",
+  "roadmap_binding": {
+    "path": "docs/GRAVITY_HIDDEN_VARIABLE_AND_THEORY_SEARCH_GOALS.md",
+    "file_sha256": "b9db7e1aa76deaf28ce2e840cd3d7db4cf7a086b1c7ca473800780c264a0e772",
+    "item_number": 13,
+    "item_title": "Relaxation and mergers"
+  },
+  "predecessor": {
+    "path": "runs/gravity/roadmap/item-12-synthesis-v1.json",
+    "file_sha256": "b4eb3b221d22bdbd819d6caab29e23d1e3296174742103abda763c88ee38790d",
+    "content_sha256": "24bff1f81d90d02bd3b66da901aa32c2e8ac0039d87affb208eb564a9e02d0ba",
+    "required_decision": "PASS_ITEM12_EXPLORATION_LEAD_RETAINED_ADVANCE_ITEM13"
+  },
+  "sources": {
+    "item12_config": {
+      "path": "configs/gravity_item12_manga_dynamical_age_v1.json",
+      "file_sha256": "3bbcb2a7a489bf1e50a6e96f898727c3475abb4d72b50823d08672381261804b"
+    },
+    "morphology": {
+      "dataset": "SDSS DR17 MaNGA Visual Morphologies from SDSS and DESI images v2.0.1",
+      "url": "https://data.sdss.org/sas/dr17/env/MANGA_MORPHOLOGY/manga_visual_morpho/2.0.1/manga_visual_morpho-2.0.1.fits",
+      "official_sha1_url": "https://data.sdss.org/sas/dr17/env/MANGA_MORPHOLOGY/manga_visual_morpho/2.0.1/manga_morphology_manga_visual_morpho_2.0.1.sha1sum",
+      "file_sha256": "0feede0bde8d8224220140d700edbfe7385c18838fdf997de05fcb462d716eaf",
+      "official_sha1": "a62b399f95f7b55cfa9003cc3613c073414daec7",
+      "file_bytes": 1065600,
+      "hdu": 1,
+      "observed_rows": 10126,
+      "observed_columns": ["Name", "plateifu", "MANGAID", "objra", "objdec", "Type", "TType", "Unsure", "Bars", "Edge_on", "Tidal", "C", "E_C", "A", "E_A", "S", "E_S", "cas_flag"],
+      "official_catalog_page": "https://www.sdss.org/dr17/data_access/value-added-catalogs/?vac_id=80",
+      "official_data_model": "https://data.sdss.org/datamodel/files/MANGA_MORPHOLOGY/manga_visual_morpho/2.0.1/manga_visual_morpho.html",
+      "prefreeze_access": {
+        "payload_downloads_for_hash_and_header": 2,
+        "header_and_schema_reads": 2,
+        "morphology_row_values_read": 0,
+        "dynamical_response_rows_read": 0
+      }
+    },
+    "item12_predictors": {
+      "path": "runs/gravity/roadmap/item-12-manga-dynamical-age-v1-source/predictor-source.json",
+      "file_sha256": "b535c2b79006793232a0be947765ad11531e937e934081b7866dc233e5c8b6d5",
+      "content_sha256": "830b86d55e66e2fc38a42b776ec247009c71ad479fab0770842d7c74adc28544",
+      "records": 6333,
+      "contains_dynamical_response": false
+    },
+    "response": {
+      "skyserver_endpoint": "https://skyserver.sdss.org/dr17/SkyServerWS/SearchTools/SqlSearch",
+      "dap_table": "mangaDAPall",
+      "daptype": "HYB10-MILESHC-MASTARSSP",
+      "columns": ["plateifu", "stellar_sigma_1re", "stellar_rchi2_1re", "stellar_vel_lo_clip", "stellar_vel_hi_clip", "ha_gvel_lo_clip", "ha_gvel_hi_clip"],
+      "chunk_size": 75,
+      "confirmation_query_forbidden": true
+    }
+  },
+  "independence": {
+    "identity_exclusions": [
+      {"path": "runs/gravity/roadmap/item-12-manga-dynamical-age-v1-source/sample-manifest.json", "file_sha256": "a7aab354074acdc647227b27e356bae086843af22baafdb00efff4dba10f120c", "objects_key": "objects", "plateifu_key": "plateifu", "mangaid_key": "mangaid"},
+      {"path": "runs/gravity/roadmap/item-02-manga-nonlocal-shape-v4-source/manga-sample-manifest.json", "file_sha256": "76173825c189fbb9aa809b53fa21770d72262f0a14f65f59311a79c1caee0b39", "objects_key": "objects", "plateifu_key": "plateifu", "mangaid_key": "manga_id"}
+    ],
+    "coordinate_exclusions": [
+      {"path": "runs/gravity/roadmap/item-02-shape-anisotropy-v1-source/sparc_table1.tsv", "file_sha256": "feb0e2e5478888ced9533fffe6c7711dba280e78f50dfd09916b28aef41c8ce2", "format": "vizier_tsv", "ra_key": "_RA", "dec_key": "_DE"},
+      {"path": "runs/gravity/roadmap/item-02-wise-multipoles-v2-source/s4g-features-table2.tsv", "file_sha256": "ca524f8e4e4c185f5144712018952029d185a7f3b5ce1ce1e8e2a2ef3a18d523", "format": "vizier_tsv", "ra_key": "_RA", "dec_key": "_DE"},
+      {"path": "work/item9-probes-schema-audit/main_table.csv", "file_sha256": "885803c3ecf71509eeed804756407cebad9080cc1f1bd258cbd5f8f8fb23b0a2", "format": "probes_csv", "ra_key": "RA", "dec_key": "DEC"},
+      {"path": "runs/gravity/roadmap/item-10-wallaby-boundaries-v1-source/sample-manifest.json", "file_sha256": "8032dbe5f345a9b3a62290de4c4731ed5a321b33b7162582106460508b91e56b", "format": "json_objects", "ra_key": "ra", "dec_key": "dec"},
+      {"path": "runs/gravity/roadmap/item-11-neargalcat-external-field-v1-source/predictor-source.json", "file_sha256": "f8fe995f089c1019033847dd9feefaae2b96d75be55d24431429dbc1de5069fc", "format": "json_records", "ra_key": "ra", "dec_key": "dec"}
+    ],
+    "coordinate_exclusion_arcseconds": 60.0,
+    "rule": "Exclude every Item 12 and Item 2 MaNGA plateifu or mangaid and every predictor within 60 arcsec of any declared predecessor coordinate before fresh response access. Exclude duplicate plateifu or mangaid records and never replace a response failure."
+  },
+  "authorization": {
+    "network_acquisition_allowed": true,
+    "paid_model_calls_allowed": false,
+    "morphology_rows_allowed_after_scientific_freeze": true,
+    "response_query_allowed_before_sample_freeze": false,
+    "exploration_response_query_allowed_after_sample_freeze": true,
+    "confirmation_response_query_allowed": false,
+    "post_response_candidate_generation_allowed": false,
+    "dynamical_response_as_predictor_allowed": false,
+    "object_identity_as_numeric_feature_allowed": false
+  },
+  "scientific_contract": {
+    "hypothesis": "Target-blind imaging disturbance and merger-state observables add held-out information about stellar dynamical support beyond structure and the frozen Item 12 spectral-clock family, while a real history signal should preserve the age-family gain after disturbance is controlled.",
+    "primary_test": "Nested whole-galaxy selection of a seeded 262144-cell disturbance grammar on 300 fresh MaNGA exploration identities, compared with structural and structural-plus-frozen-age baselines for log stellar velocity dispersion within one effective radius.",
+    "secondary_test": "Apply each fold-selected disturbance cell without reselection to stellar velocity span as an honest secondary relaxation response.",
+    "interpretation_boundary": "A positive result identifies reproducible disturbance information, not a causal merger correction or modified gravity. Loss of the Item 12 family after disturbance would favor an ordinary-history explanation."
+  },
+  "prior_age_lead": {
+    "source_label": "SPECTRAL_CLOCK_CONSENSUS_TIMES_STELLAR_SURFACE_DENSITY",
+    "origin_status": "KNOWN_FAMILY_COMBINATION_DERIVED_FROM_ITEM12_EXPLORATION",
+    "consolidation_rule": "Unweighted arithmetic mean of the five exact Item 12 outer-fold spectral-clock-consensus components, including the repeated selection, computed before any Item 13 response and fitted with one training-fold coefficient.",
+    "fixed_clock_normalization": {
+      "dn4000": [1.5, 0.35],
+      "d4000": [1.5, 0.45],
+      "balmer": [2.0, 4.0],
+      "hbeta": [2.0, 3.0],
+      "signed_log_halpha_ew": [1.5, 1.5],
+      "log_specific_sfr": [-11.0, 1.5],
+      "mass_size_crossing_proxy": [-4.5, 1.0],
+      "log_surface_density": [8.0, 1.5],
+      "sersic_index": [2.5, 2.0],
+      "axis_ratio": [0.6, 0.25]
+    },
+    "cells": [
+      {"ordinal": 202574, "threshold": 0.8455232097988, "scale": 0.3527784866376, "power": 1.124882927856, "phase": 1.354296862423, "modulation": "stellar_surface_density"},
+      {"ordinal": 236260, "threshold": 0.5621360787649, "scale": 0.4733680873106, "power": 5.321638981286, "phase": 3.180160820287, "modulation": "stellar_surface_density"},
+      {"ordinal": 186906, "threshold": 0.9271502609622, "scale": 1.362583604078, "power": 0.5643030860461, "phase": 4.537184331739, "modulation": "stellar_surface_density"},
+      {"ordinal": 169239, "threshold": 0.8562130367788, "scale": 4.212796041278, "power": 0.589542912212, "phase": 2.587787653196, "modulation": "stellar_surface_density"},
+      {"ordinal": 236260, "threshold": 0.5621360787649, "scale": 0.4733680873106, "power": 5.321638981286, "phase": 3.180160820287, "modulation": "stellar_surface_density"}
+    ],
+    "post_item12_response_retuning": false,
+    "historical_novelty_claimed": false
+  },
+  "candidate_generator": {
+    "algorithm": "numpy.random.Generator(PCG64(seed))",
+    "seed": 1300420260828,
+    "candidate_cells": 262144,
+    "threshold_uniform": [-3.0, 3.0],
+    "scale_log_uniform": [0.05, 6.0],
+    "power_log_uniform": [0.25, 6.0],
+    "phase_uniform": [0.0, 6.283185307179586],
+    "modulations": ["none", "stellar_surface_density", "stellar_mass", "axis_ratio", "prior_age_lead"],
+    "families": [
+      {"id": "visual_tidal_debris", "origin_status": "KNOWN_CATALOG_INDICATOR", "definition": "signed-power transform of the visual tidal-debris indicator"},
+      {"id": "cas_asymmetry", "origin_status": "KNOWN_FORMULA_TRANSFORM", "definition": "signed-power transform of fixed-normalized CAS asymmetry"},
+      {"id": "cas_clumpiness", "origin_status": "KNOWN_FORMULA_TRANSFORM", "definition": "signed-power transform of fixed-normalized CAS clumpiness"},
+      {"id": "asymmetry_significance", "origin_status": "KNOWN_FAMILY_COMBINATION", "definition": "asymmetry relative to its reported uncertainty"},
+      {"id": "asymmetry_clumpiness_coherence", "origin_status": "COMBINATION", "definition": "bounded product of asymmetry and clumpiness"},
+      {"id": "tidal_asymmetry_interaction", "origin_status": "COMBINATION", "definition": "visual tidal state times nonlinear asymmetry"},
+      {"id": "merger_unclassified_state", "origin_status": "KNOWN_CATALOG_INDICATOR", "definition": "catalog TType=11 merger or unclassified state"},
+      {"id": "disturbance_consensus", "origin_status": "UNRESOLVED", "definition": "consensus of tidal, merger-state, asymmetry, and clumpiness clocks"},
+      {"id": "relaxation_deficit", "origin_status": "UNRESOLVED", "definition": "localized low-disturbance relaxation envelope"},
+      {"id": "morphological_hysteresis", "origin_status": "UNRESOLVED", "definition": "double-valued asymmetry-clumpiness branch proxy"},
+      {"id": "bar_disturbance_coupling", "origin_status": "COMBINATION", "definition": "bar strength times nonlinear asymmetry"},
+      {"id": "log_periodic_relaxation", "origin_status": "KNOWN_FAMILY_COMBINATION", "definition": "asymmetry envelope times a logarithmic-scale oscillation"}
+    ],
+    "equivalence_boundaries": [
+      "Raw candidate_cells is a deterministic screening count, not a count of mathematically independent laws.",
+      "For binary tidal and merger indicators, any nonconstant monotone transform is affine-equivalent after training-fold standardization and a fitted scalar coefficient.",
+      "Phase is inert outside the log-periodic family; polarity duplicates are omitted because the fitted scalar coefficient absorbs sign.",
+      "Threshold, scale, and power cells that produce numerically identical components are one empirical equivalence class and may not be described as separate discoveries."
+    ],
+    "post_response_cells": 0,
+    "historical_novelty_claimed": false
+  },
+  "sample": {
+    "split_unit": "unique mangaid and plateifu",
+    "split_salt": "invariant-gravity-item13-manga-relaxation-mergers-split-v1-20260828",
+    "maximum_total_objects": 400,
+    "exploration_objects": 300,
+    "confirmation_objects": 100,
+    "stratification": "target-blind visual tidal state and stellar-mass half",
+    "failed_identity_replacement": false
+  },
+  "quality": {
+    "require_cas_flag_one": true,
+    "minimum_snr_med_g": 5.0,
+    "maximum_stellar_rchi2_1re": 5.0,
+    "minimum_stellar_sigma_km_s": 30.0,
+    "maximum_stellar_sigma_km_s": 450.0,
+    "minimum_stellar_velocity_span_km_s": 20.0,
+    "maximum_stellar_velocity_span_km_s": 1000.0,
+    "minimum_quality_passing_exploration_galaxies": 190,
+    "minimum_quality_retention_fraction": 0.6
+  },
+  "evaluation": {
+    "outer_folds": 5,
+    "fold_salt": "invariant-gravity-item13-manga-relaxation-mergers-fold-v1-20260828",
+    "structural_features": ["log_stellar_mass", "log_half_light_radius", "log_surface_density", "axis_ratio", "sersic_index", "g_minus_r_color", "redshift", "log_surface_brightness", "log_snr", "ttype_normalized", "bar_strength", "edge_on", "concentration_normalized"],
+    "fixed_morphology_normalization": {
+      "concentration": [3.0, 1.0],
+      "asymmetry": [0.1, 0.15],
+      "asymmetry_error": [0.0, 0.1],
+      "clumpiness": [0.1, 0.2],
+      "clumpiness_error": [0.0, 0.1],
+      "ttype": [3.0, 5.0],
+      "bar_strength": [0.25, 0.5]
+    },
+    "fixed_modulation_normalization": {
+      "stellar_surface_density": [8.0, 1.5],
+      "stellar_mass": [10.5, 1.0],
+      "axis_ratio": [0.6, 0.25]
+    },
+    "normalization_rule": "Every morphology and prior-age component uses only frozen centers, scales, and Item 12 cells; no Item 13 predictor or response statistic sets a component normalization.",
+    "ridge_alpha": 0.03,
+    "disturbance_coefficient_ridge": 0.000001,
+    "candidate_batch_size": 4096,
+    "gpu_backend_preference": "cupy_cuda_then_numpy",
+    "cpu_crosscheck_candidates": 64,
+    "paired_sign_flip_permutations": 999,
+    "permutation_salt_disturbance": "invariant-gravity-item13-disturbance-null-v1-20260828",
+    "permutation_salt_age_replication": "invariant-gravity-item13-age-replication-null-v1-20260828",
+    "permutation_salt_age_persistence": "invariant-gravity-item13-age-persistence-null-v1-20260828"
+  },
+  "admission": {
+    "quality_count_and_fraction_pass": true,
+    "fresh_identity_and_confirmation_boundary_pass": true,
+    "candidate_count_exact": true,
+    "full_model_r2_positive": true,
+    "disturbance_beats_age_baseline": true,
+    "disturbance_relative_mse_improvement_at_least": 0.02,
+    "disturbance_paired_p_at_most": 0.05,
+    "disturbance_gain_positive_in_both_tidal_states": true,
+    "disturbance_gain_positive_in_both_stellar_mass_halves": true,
+    "disturbance_gain_positive_in_both_prior_age_halves": true,
+    "item12_age_lead_beats_structural_baseline": true,
+    "item12_age_replication_p_at_most": 0.05,
+    "item12_age_persists_after_disturbance": true,
+    "item12_age_persistence_p_at_most": 0.05,
+    "selected_family_is_disturbance_dependent": true,
+    "post_response_formula_generation_zero": true
+  },
+  "claim_boundaries": {
+    "merger_or_relaxation_cause_established": false,
+    "item12_age_family_independently_confirmed": false,
+    "alternative_to_gr_established": false,
+    "historical_novelty_established": false,
+    "confirmation_opened": false,
+    "roadmap_item_13_complete": false
+  },
+  "outputs": {
+    "morphology_raw": "runs/gravity/roadmap/item-13-manga-relaxation-mergers-v1-source/manga_visual_morpho-2.0.1.fits",
+    "predictor_source": "runs/gravity/roadmap/item-13-manga-relaxation-mergers-v1-source/predictor-source.json",
+    "sample_manifest": "runs/gravity/roadmap/item-13-manga-relaxation-mergers-v1-source/sample-manifest.json",
+    "candidate_manifest": "runs/gravity/roadmap/item-13-manga-relaxation-mergers-v1-source/candidate-manifest.json",
+    "response_source": "runs/gravity/roadmap/item-13-manga-relaxation-mergers-v1-source/response-source.json",
+    "extraction_summary": "runs/gravity/roadmap/item-13-manga-relaxation-mergers-v1-source/extraction-summary.json",
+    "result": "runs/gravity/roadmap/item-13-manga-relaxation-mergers-v1.json"
+  }
+}
