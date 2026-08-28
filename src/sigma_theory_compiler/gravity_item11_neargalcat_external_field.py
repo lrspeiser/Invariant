@@ -21,7 +21,7 @@ import numpy as np
 
 CONFIG_PATH = Path("configs/gravity_item11_neargalcat_external_field_v1.json")
 SCIENTIFIC_FREEZE_COMMIT = "dd38e82cebce836b821b4e4d93e029c202af18ce"
-SAMPLE_FREEZE_COMMIT = "PENDING_ITEM11_SAMPLE_FREEZE_COMMIT"
+SAMPLE_FREEZE_COMMIT = "ef51079ce2f2dbaa2f783d87d07f80f104e1f556"
 
 
 class GravityItem11ExternalFieldError(RuntimeError):
