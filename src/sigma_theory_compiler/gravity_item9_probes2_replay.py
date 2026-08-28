@@ -598,6 +598,8 @@ def _find_column(header: Sequence[str], aliases: Sequence[str], *, exclude: set[
     normalized = [re.sub(r"[^a-z0-9]", "", field.lower()) for field in header]
     for alias in aliases:
         key = re.sub(r"[^a-z0-9]", "", alias.lower())
+        if len(key) < 4:
+            continue
         for index, field in enumerate(normalized):
             if index not in excluded and field == key:
                 return index
@@ -624,7 +626,15 @@ def _parse_light_profile(payload: bytes, distance_mpc: float, q: float, config: 
     if sb_index is None:
         raise GravityItem9Probes2ReplayError("r light profile lacks a surface-brightness column")
     total_index = _find_column(
-        header, ("totmag_r", "totmagr", "cumulative_mag_r", "cum_mag_r", "totmag")
+        header,
+        (
+            "totmag_r",
+            "totmagr",
+            "cumulative_mag_r",
+            "cum_mag_r",
+            "totmag",
+            "ApparentMag",
+        ),
     )
     error_index = _find_column(header, ("SB_r_err", "SBr_err", "mu_r_err", "SB_e", "mu_err"))
     parsed = []
@@ -704,7 +714,19 @@ def _parse_rotation_curve(payload: bytes, distance_mpc: float, config: Mapping[s
     header, data = _rows_from_csv_payload(payload)
     radius_index = _find_column(header, ("R", "radius", "rad", "r_arcsec", "radius_arcsec", "r_kpc", "radius_kpc"))
     velocity_index = _find_column(header, ("Vrot", "V_c", "Vc", "V", "velocity", "rotation_velocity"))
-    error_index = _find_column(header, ("Vrot_err", "V_c_err", "Vc_err", "V_e", "Verr", "velocity_error", "eV"))
+    error_index = _find_column(
+        header,
+        (
+            "Vrot_err",
+            "V_c_err",
+            "Vc_err",
+            "VelocityErr",
+            "velocity_error",
+            "Verr",
+            "V_e",
+            "eV",
+        ),
+    )
     if radius_index is None or velocity_index is None or error_index is None:
         raise GravityItem9Probes2ReplayError("rotation curve lacks frozen R/V/V-error columns")
     radius_header = header[radius_index]

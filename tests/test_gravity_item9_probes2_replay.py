@@ -135,6 +135,31 @@ def test_profile_parsers_follow_frozen_header_rules() -> None:
     assert len(rc) == 2
     assert rc_receipt["radius_converted_from_kpc"] is True
     assert rc_receipt["velocity_rule"] == "published_deprojected_rotation_speed"
+    assert rc_receipt["velocity_error_column"] == "Vrot_err"
+
+    released_light = (
+        b"Radius[kpc],Radius[arcsec],SB[magarcsec^-2],ApparentMag[mag]\n"
+        + b"".join(
+            f"{index / 10},{index},{20 + index / 10},{18 - index / 100}\n".encode()
+            for index in range(1, 31)
+        )
+    )
+    released_rows, released_receipt = replay._parse_light_profile(
+        released_light, 10.0, 0.5, config
+    )
+    assert released_receipt["cumulative_magnitude_column"] == "ApparentMag[mag]"
+    assert released_receipt["cumulative_light_fallback_used"] is False
+    assert released_rows[0]["totmag"] == pytest.approx(17.99)
+
+    released_rotation = (
+        b"Radius[kpc],Radius[arcsec],Velocity[kms^-1],VelocityErr[kms^-1]\n"
+        b"1,2,40,3\n"
+    )
+    _, released_rc_receipt = replay._parse_rotation_curve(
+        released_rotation, 10.0, config
+    )
+    assert released_rc_receipt["velocity_column"] == "Velocity[kms^-1]"
+    assert released_rc_receipt["velocity_error_column"] == "VelocityErr[kms^-1]"
 
 
 def test_formula_generator_has_no_response_parameter() -> None:
