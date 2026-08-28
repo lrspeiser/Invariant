@@ -354,8 +354,8 @@ def _build_sample(root: Path, config: Mapping[str, Any], paths: Mapping[str, Pat
         gas_mass = float(constants["HI_mass_coefficient"]) * distance * distance * values["flux"]
         r83 = values["r83_arcsec"] * float(constants["arcsec_to_radian"]) * distance * 1000.0
         rd = r83 / float(constants["r83_over_exponential_Rd"])
-        star_v2 = _disk_velocity_sq(luminosity, rd, r83, float(constants["G_kpc_km2_s2_Msun"]))
-        gas_v2 = _disk_velocity_sq(gas_mass, 2.0 * rd, r83, float(constants["G_kpc_km2_s2_Msun"]))
+        star_v2 = _disk_velocity_sq(luminosity, rd, r83)
+        gas_v2 = _disk_velocity_sq(gas_mass, 2.0 * rd, r83)
         omega = math.sqrt(star_v2 + 1.4 * gas_v2) / r83 * float(constants["inverse_seconds_per_km_s_per_kpc"])
         eligible.append({
             "agc": int(agc), "other_name": str(a.get("OName", "")).strip(),
