@@ -32,7 +32,7 @@ from .gravity_item11_neargalcat_external_field import (
 
 CONFIG_PATH = Path("configs/gravity_item13_manga_relaxation_mergers_v1.json")
 SCIENTIFIC_FREEZE_COMMIT = "3c1dd44221307fd09ba0b6629105e4b556478fd9"
-SAMPLE_FREEZE_COMMIT = "PENDING_ITEM13_SAMPLE_FREEZE_COMMIT"
+SAMPLE_FREEZE_COMMIT = "a805770fb697ae11b7027ff06496d2ae5a7de4f7"
 
 
 class GravityItem13RelaxationError(RuntimeError):
