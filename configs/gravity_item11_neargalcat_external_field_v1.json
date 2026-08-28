@@ -1,0 +1,181 @@
+{
+  "schema_version": "invariant-gravity-roadmap-item11-neargalcat-external-field-config-1.0",
+  "goal": "GRAVITY_ROADMAP_ITEM_11_EXTERNAL_BARYONIC_FIELD",
+  "status": "scientific_freeze_before_neargalcat_predictor_or_response_rows",
+  "roadmap_binding": {
+    "path": "docs/GRAVITY_HIDDEN_VARIABLE_AND_THEORY_SEARCH_GOALS.md",
+    "file_sha256": "b9db7e1aa76deaf28ce2e840cd3d7db4cf7a086b1c7ca473800780c264a0e772",
+    "item_number": 11,
+    "item_title": "External baryonic field"
+  },
+  "predecessor": {
+    "path": "runs/gravity/roadmap/item-10-synthesis-v1.json",
+    "file_sha256": "103c99e427f5e6205b202cc234bd23e832cef1a2842f461c2d92da65a354cb3a",
+    "content_sha256": "7b49394438085bdce7d2d92f9db0a78f8c163bc3f747edb7a2e1ac6f6504e225",
+    "required_decision": "INCONCLUSIVE_ITEM10_SOURCE_QUALITY_NEGATIVE_DIRECTION_ADVANCE_ITEM11"
+  },
+  "source": {
+    "dataset": "Updated Nearby Galaxy Catalog (Karachentsev, Makarov, and Kaisina 2013; HEASARC NEARGALCAT mirror)",
+    "official_catalog_page": "https://heasarc.gsfc.nasa.gov/W3Browse/galaxy-catalog/neargalcat.html",
+    "official_column_page": "https://edd.ifa.hawaii.edu/describe_columns.php?table=krcng",
+    "paper": "https://doi.org/10.1088/0004-6256/145/4/101",
+    "tap_sync_endpoint": "https://heasarc.gsfc.nasa.gov/xamin/vo/tap/sync",
+    "table": "neargalcat",
+    "observed_rows": 869,
+    "observed_at": "2026-08-28",
+    "prefreeze_queries": {
+      "table_schema_only": 2,
+      "row_count_only": 1,
+      "predictor_rows_read": 0,
+      "response_rows_read": 0
+    },
+    "predictor_columns": ["__row", "name", "ra", "dec", "bmag", "ks_mag", "ks_mag_flag", "linear_diameter", "distance", "abs_bmag", "inclination", "dwarf_morph_type", "log_h1_mass", "log_h1_mass_limit", "neighbor_galaxy_name", "dwarf_surf_brightness", "bmag_int_extinction", "morph_type", "tidal_index_1", "tidal_index_2", "axial_ratio", "bmag_gal_extinction", "log_ks_lum_density", "bmag_surface_brightness", "major_axis", "log_ks_luminosity", "class"],
+    "response_columns": ["__row", "name", "h1_21_cm_50pc_width", "h1_rot_velocity"],
+    "predictor_rule": "Acquire only the declared predictor columns after the scientific freeze. Acquire response columns only for exact exploration __row identifiers after the target-blind sample and candidate manifests are committed and bound.",
+    "confirmation_query_forbidden": true
+  },
+  "independence": {
+    "normalized_identity_exclusions": [
+      {"path": "runs/gravity/roadmap/item-02-shape-anisotropy-v1-source/sparc_table1.tsv", "file_sha256": "feb0e2e5478888ced9533fffe6c7711dba280e78f50dfd09916b28aef41c8ce2", "format": "vizier_tsv", "key": "Name"},
+      {"path": "runs/gravity/roadmap/item-02-wise-multipoles-v2-source/s4g-features-table2.tsv", "file_sha256": "ca524f8e4e4c185f5144712018952029d185a7f3b5ce1ce1e8e2a2ef3a18d523", "format": "vizier_tsv", "key": "Name"},
+      {"path": "runs/gravity/roadmap/item-02-manga-nonlocal-shape-v4-source/manga-sample-manifest.json", "file_sha256": "76173825c189fbb9aa809b53fa21770d72262f0a14f65f59311a79c1caee0b39", "format": "json_objects", "key": "manga_id"},
+      {"path": "runs/gravity/roadmap/item-05-pressure-support-v1-source/sample-manifest.json", "file_sha256": "964f22e3aba543e2bbb21bfc57d203187c892321c0bd62abf94e87e49cb3a8ea", "format": "json_objects", "key": "galaxy"},
+      {"path": "runs/gravity/roadmap/item-07-baryonic-composition-v1-source/sample-manifest.json", "file_sha256": "4a14cc3929dd13256464aa0287a2704f603e462c9ddabbe0fd9d83df3aed81e3", "format": "json_objects", "key": "galaxy"},
+      {"path": "runs/gravity/roadmap/item-07-baryonic-composition-v2-source/sample-manifest.json", "file_sha256": "fa80a1993bdc9ae18e611036d56ab83c89a944d5461c846dcc03c7c33b45af29", "format": "json_objects", "key": "gass_id"},
+      {"path": "runs/gravity/roadmap/item-09-interior-exterior-v1-source/sample-manifest.json", "file_sha256": "ac7f33920fcd040c985489d553fc0f1e24465cf0e272443b357892a9e50dfec5", "format": "json_objects", "key": "name"},
+      {"path": "runs/gravity/roadmap/item-09-probes2-zero-tuning-v1-source/sample-manifest.json", "file_sha256": "16b84f27c144f114a188f32cdbc9d9ac779c9dc54951199870e246819919e8fb", "format": "json_objects", "key": "normalized_identity"},
+      {"path": "runs/gravity/roadmap/item-10-wallaby-boundaries-v1-source/sample-manifest.json", "file_sha256": "8032dbe5f345a9b3a62290de4c4731ed5a321b33b7162582106460508b91e56b", "format": "json_objects", "key": "name"}
+    ],
+    "coordinate_exclusions": [
+      {"path": "runs/gravity/roadmap/item-02-shape-anisotropy-v1-source/sparc_table1.tsv", "file_sha256": "feb0e2e5478888ced9533fffe6c7711dba280e78f50dfd09916b28aef41c8ce2", "format": "vizier_tsv", "ra_key": "_RA", "dec_key": "_DE"},
+      {"path": "runs/gravity/roadmap/item-02-wise-multipoles-v2-source/s4g-features-table2.tsv", "file_sha256": "ca524f8e4e4c185f5144712018952029d185a7f3b5ce1ce1e8e2a2ef3a18d523", "format": "vizier_tsv", "ra_key": "_RA", "dec_key": "_DE"},
+      {"path": "work/item9-probes-schema-audit/main_table.csv", "file_sha256": "885803c3ecf71509eeed804756407cebad9080cc1f1bd258cbd5f8f8fb23b0a2", "format": "probes_csv", "ra_key": "RA", "dec_key": "DEC"},
+      {"path": "runs/gravity/roadmap/item-10-wallaby-boundaries-v1-source/sample-manifest.json", "file_sha256": "8032dbe5f345a9b3a62290de4c4731ed5a321b33b7162582106460508b91e56b", "format": "json_objects", "ra_key": "ra", "dec_key": "dec"}
+    ],
+    "coordinate_exclusion_arcseconds": 60.0,
+    "rule": "Before any response access, exclude an exact normalized predecessor identity, an object within 60 arcsec of a predecessor coordinate, or every locally ambiguous duplicate normalized identity. Exclude all predecessor exploration and confirmation identities conservatively; never replace a failed identity after response access."
+  },
+  "authorization": {
+    "network_acquisition_allowed": true,
+    "paid_model_calls_allowed": false,
+    "predictor_query_allowed_after_scientific_freeze": true,
+    "response_query_allowed_before_sample_freeze": false,
+    "exploration_response_query_allowed_after_sample_freeze": true,
+    "confirmation_response_query_allowed": false,
+    "post_response_candidate_generation_allowed": false,
+    "indicative_or_dynamical_mass_features_allowed": false,
+    "bulk_radial_velocity_features_allowed": false,
+    "object_or_neighbor_identity_as_numeric_feature_allowed": false
+  },
+  "scientific_contract": {
+    "hypothesis": "Published external baryonic environment variables add held-out predictive information about galaxy rotation amplitude beyond baryonic mass, size, surface brightness, morphology, inclination, and distance.",
+    "primary_test": "Nested whole-galaxy selection of a seeded 262144-cell external-field grammar on target-blind NEARGALCAT exploration rows, compared with an identically trained flexible internal-baryon ridge baseline.",
+    "creativity_rule": "Search nearest-neighbor, collective-neighbor, density, dominance, isolation, boundary, external-field-effect, coherence, resonance, saddle, and oscillatory mechanisms. Preserve known/rewrite/combination/unresolved labels. Fit at most one universal scalar coefficient per candidate inside training folds.",
+    "interpretation_boundary": "A positive result identifies reproducible environmental information, not a gravitational cause. A negative result rejects only the tested published-summary external-field grammar and coefficient prescription."
+  },
+  "constants": {
+    "helium_mass_factor": 1.33,
+    "fixed_ks_stellar_mass_to_light": 0.6,
+    "gravitational_constant_kpc_km2_s2_msun": 4.30091e-6,
+    "dimensionless_floor": 1e-10
+  },
+  "predictor_derivation": {
+    "stellar_mass": "Mstar=0.6 L_Ks with one fixed universal mass-to-light ratio; no target fitting",
+    "gas_mass": "Mgas=1.33 M_HI for non-upper-limit H I measurements",
+    "baryonic_mass": "Mbar=Mstar+Mgas",
+    "internal_acceleration_proxy": "gbar=G Mbar/(A26/2)^2 using the published linear Holmberg diameter",
+    "environment": "Use published tidal_index_1, tidal_index_2, and log_ks_lum_density directly. Neighbor name is audit metadata only and never a numeric feature.",
+    "forbidden": "Never use log_mass_26, H I width, H I rotation velocity, radial velocity, target-derived mass, object identity, or neighbor identity in a predictor."
+  },
+  "candidate_generator": {
+    "algorithm": "numpy.random.Generator(PCG64(seed))",
+    "seed": 1100420260828,
+    "candidate_cells": 262144,
+    "threshold_uniform": [-3.0, 3.0],
+    "scale_log_uniform": [0.05, 6.0],
+    "power_log_uniform": [0.25, 6.0],
+    "phase_uniform": [0.0, 6.283185307179586],
+    "internal_modulations": ["none", "baryonic_surface_density", "gas_fraction", "size", "internal_acceleration"],
+    "families": [
+      {"id": "nearest_tidal_power", "origin_status": "KNOWN_FORMULA_TRANSFORM", "definition": "signed_power(theta1-threshold, p, scale)"},
+      {"id": "collective_tidal_power", "origin_status": "KNOWN_FORMULA_TRANSFORM", "definition": "signed_power(theta2-threshold, p, scale)"},
+      {"id": "luminosity_density_power", "origin_status": "KNOWN_FORMULA_TRANSFORM", "definition": "signed_power(rhoK-threshold, p, scale)"},
+      {"id": "dominant_minus_collective", "origin_status": "COMBINATION", "definition": "signed_power(theta1-theta2-threshold, p, scale)"},
+      {"id": "collective_plus_dominant", "origin_status": "COMBINATION", "definition": "signed_power((theta1+theta2)/2-threshold, p, scale)"},
+      {"id": "group_boundary", "origin_status": "KNOWN_FAMILY_COMBINATION", "definition": "tanh((theta1-threshold)/scale)^p_signed"},
+      {"id": "isolation_cavity", "origin_status": "UNRESOLVED", "definition": "exp(-(|theta1-threshold|/scale)^p) active toward isolation"},
+      {"id": "external_field_suppression", "origin_status": "KNOWN_FAMILY_COMBINATION", "definition": "environment/(1+(gbar/scale)^p)"},
+      {"id": "tidal_internal_resonance", "origin_status": "UNRESOLVED", "definition": "environment envelope times cos(phase+p log gbar)"},
+      {"id": "neighbor_coherence", "origin_status": "UNRESOLVED", "definition": "signed geometric coherence of theta1, theta2, and rhoK"},
+      {"id": "environment_saddle", "origin_status": "UNRESOLVED", "definition": "(theta1-theta2)(rhoK-(theta1+theta2)/2) envelope"},
+      {"id": "log_periodic_environment", "origin_status": "KNOWN_FAMILY_COMBINATION", "definition": "environment envelope times cos(phase+p log(1+|environment|))"}
+    ],
+    "polarity_parameter": "omitted because the fitted universal scalar coefficient makes sign-flipped cells algebraically equivalent",
+    "post_response_cells": 0,
+    "historical_novelty_claimed": false
+  },
+  "sample": {
+    "split_unit": "one unambiguous normalized physical identity and its unique HEASARC __row after predecessor exclusion",
+    "split_salt": "invariant-gravity-item11-neargalcat-external-field-split-v1-20260828",
+    "exploration_fraction": 0.75,
+    "confirmation_fraction": 0.25,
+    "stratification": "tidal_index_1 sign and target-blind baryonic-mass half",
+    "failed_identity_replacement": false
+  },
+  "quality": {
+    "minimum_inclination_degrees": 30.0,
+    "maximum_inclination_degrees": 80.0,
+    "minimum_rotation_velocity_km_s": 10.0,
+    "maximum_rotation_velocity_km_s": 500.0,
+    "minimum_raw_width_km_s": 15.0,
+    "maximum_width_rotation_fractional_disagreement": 0.35,
+    "minimum_quality_passing_exploration_galaxies": 150,
+    "minimum_quality_retention_fraction": 0.6
+  },
+  "evaluation": {
+    "outer_folds": 5,
+    "fold_salt": "invariant-gravity-item11-neargalcat-external-field-fold-v1-20260828",
+    "inner_scheme": "For each outer fold, rotate each of the other four folds as inner validation. Fit the fixed internal-baryon ridge on the remaining three folds, fit one scalar external-field coefficient on those training residuals, and average validation MSE.",
+    "galaxy_weighting": "equal galaxy weight",
+    "local_features": ["log_baryonic_mass", "log_stellar_mass", "gas_fraction", "log_linear_diameter", "b_surface_brightness", "morph_type", "axial_ratio", "log_distance", "inclination_sine", "b_minus_ks_color", "log_internal_acceleration"],
+    "ridge_alpha": 0.03,
+    "external_coefficient_ridge": 1e-6,
+    "candidate_batch_size": 4096,
+    "gpu_backend_preference": "cupy_cuda_then_numpy",
+    "cpu_crosscheck_candidates": 64,
+    "paired_sign_flip_permutations": 999,
+    "permutation_salt": "invariant-gravity-item11-neargalcat-external-field-null-v1-20260828",
+    "minimum_galaxies_per_environment_sign_gate": 20
+  },
+  "admission": {
+    "quality_count_and_fraction_pass": true,
+    "confirmation_responses_untouched": true,
+    "candidate_count_exact": true,
+    "selected_external_r2_positive": true,
+    "selected_external_beats_internal_baseline": true,
+    "relative_mse_improvement_over_internal_baseline_at_least": 0.02,
+    "paired_sign_flip_p_at_most": 0.05,
+    "gain_positive_in_both_tidal_index_1_signs": true,
+    "gain_positive_in_both_baryonic_mass_halves": true,
+    "gain_positive_in_both_gas_fraction_halves": true,
+    "gain_positive_in_both_distance_halves": true,
+    "selected_candidate_environment_coverage_at_least": 0.9,
+    "selected_family_is_environment_dependent": true,
+    "post_response_formula_generation_zero": true
+  },
+  "claim_boundaries": {
+    "external_field_cause_established": false,
+    "alternative_to_gr_established": false,
+    "historical_novelty_established": false,
+    "confirmation_opened": false,
+    "roadmap_item_11_complete": false
+  },
+  "outputs": {
+    "predictor_source": "runs/gravity/roadmap/item-11-neargalcat-external-field-v1-source/predictor-source.json",
+    "sample_manifest": "runs/gravity/roadmap/item-11-neargalcat-external-field-v1-source/sample-manifest.json",
+    "candidate_manifest": "runs/gravity/roadmap/item-11-neargalcat-external-field-v1-source/candidate-manifest.json",
+    "response_source": "runs/gravity/roadmap/item-11-neargalcat-external-field-v1-source/response-source.json",
+    "extraction_summary": "runs/gravity/roadmap/item-11-neargalcat-external-field-v1-source/extraction-summary.json",
+    "result": "runs/gravity/roadmap/item-11-neargalcat-external-field-v1.json"
+  }
+}
