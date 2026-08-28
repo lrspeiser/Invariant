@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import copy
 import inspect
 import json
 from pathlib import Path
@@ -144,3 +145,65 @@ def test_stored_sample_matches_builder_after_it_is_written() -> None:
     path = ROOT / config["sample_manifest_output"]
     if path.exists():
         assert json.loads(path.read_text(encoding="utf-8")) == item5v2.build_sample_manifest(ROOT)
+
+
+def test_source_receipt_accounts_for_failed_attempts_and_keeps_confirmation_closed() -> None:
+    config = item5v2.load_config(ROOT)
+    path = ROOT / config["source_manifest_output"]
+    if not path.exists():
+        pytest.skip("exploration source not acquired")
+    source = json.loads(path.read_text(encoding="utf-8"))
+    item5v2.validate_source_manifest(source, config=config)
+    boundary = source["boundary"]
+    assert len(source["records"]) == 44
+    assert boundary["cumulative_exploration_primary_response_queries"] == 96
+    assert boundary["cumulative_primary_response_rows_returned"] == 95
+    assert boundary["exploration_robustness_response_rows"] == 92
+    assert boundary["reserved_confirmation_primary_response_queries"] == 0
+    assert boundary["reserved_confirmation_robustness_response_queries"] == 0
+    assert boundary["inferred_spt_mass_values_acquired"] == 0
+    assert boundary["sigma_spt_values_acquired"] == 0
+
+
+def test_all_exploration_clusters_pass_representation_quality() -> None:
+    config = item5v2.load_config(ROOT)
+    path = ROOT / config["extraction_summary_output"]
+    if not path.exists():
+        pytest.skip("exploration not extracted")
+    summary = json.loads(path.read_text(encoding="utf-8"))
+    assert summary["decision"] == "PASS_ITEM5_PRESSURE_CROSS_SUPPORT_REPRESENTATION_QUALITY"
+    assert summary["counts"] == {
+        "exploration_clusters": 44,
+        "pooled_alternative_response_rows": 92,
+        "quality_failures": 0,
+        "quality_passing_clusters": 44,
+        "reserved_confirmation_response_accesses": 0,
+    }
+
+
+def test_receipt_replays_as_scoped_rejection() -> None:
+    config = item5v2.load_config(ROOT)
+    path = ROOT / config["output"]
+    if not path.exists():
+        pytest.skip("experiment not run")
+    stored = json.loads(path.read_text(encoding="utf-8"))
+    assert item5v2.build_receipt(ROOT) == stored
+    item5v2.validate_receipt(stored, root=ROOT)
+    assert stored["decision"] == "REJECT_ITEM5_PRESSURE_CROSS_SUPPORT_EXPLORATION"
+    assert stored["gate_counts"] == {"passed": 2, "required": 9}
+    assert stored["counts"]["reserved_confirmation_target_accesses"] == 0
+    assert float(stored["primary"]["qualifying_selector"]["metrics"]["r2"]) < 0
+    assert float(stored["permutation"]["p_value"]) == pytest.approx(0.43)
+
+
+def test_resealed_false_pass_is_rejected() -> None:
+    config = item5v2.load_config(ROOT)
+    path = ROOT / config["output"]
+    if not path.exists():
+        pytest.skip("experiment not run")
+    stored = copy.deepcopy(json.loads(path.read_text(encoding="utf-8")))
+    stored["decision"] = (
+        "PASS_ITEM5_PRESSURE_CROSS_SUPPORT_EXPLORATION_REQUIRES_CONFIRMATION_AUTHORIZATION"
+    )
+    with pytest.raises(item5v2.GravityItem5PressureCrossSupportError):
+        item5v2.validate_receipt(item5v2._seal(stored), root=ROOT)
