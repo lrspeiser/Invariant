@@ -1,0 +1,155 @@
+{
+  "schema_version": "invariant-gravity-item16-s4tm-qed-field-config-1.0",
+  "item": 16,
+  "title": "QED-like weak-field carrier and polarization search on fresh S4TM lenses",
+  "stable_goal_path": "docs/GRAVITY_HIDDEN_VARIABLE_AND_THEORY_SEARCH_GOALS.md",
+  "stable_goal_sha256": "b9db7e1aa76deaf28ce2e840cd3d7db4cf7a086b1c7ca473800780c264a0e772",
+  "scientific_freeze_commit": "TO_BE_BOUND_AFTER_SCIENCE_FREEZE",
+  "sample_freeze_commit": "TO_BE_BOUND_AFTER_SAMPLE_FREEZE",
+  "hypothesis": "A universal positive-residue mixture of weak-field carriers, with a derived matter/lensing polarization ratio and a short-distance GR limit, predicts both stellar velocity dispersion and Einstein radius from S4TM baryons better than baryon-only GR with one shared stellar-mass normalization.",
+  "scope": {
+    "exploration_only": true,
+    "confirmation_opening_authorized": false,
+    "paid_api_calls_authorized": false,
+    "post_response_candidate_generation_allowed": false,
+    "claim_ceiling": "weak_field_spherical_exploration_not_action_level_theory_or_direct_image_likelihood",
+    "forbidden_inputs": [
+      "object_identifier_as_numeric_feature",
+      "stellar_velocity_dispersion_as_candidate_input",
+      "Einstein_radius_as_candidate_input_except_as_the_declared_evaluation_radius",
+      "lensing_model_total_mass",
+      "inferred_dark_matter_fraction",
+      "per_object_coupling",
+      "per_object_stellar_mass_scale"
+    ]
+  },
+  "source": {
+    "catalog": "VizieR J/ApJ/851/48",
+    "paper": "Shu et al., The Sloan Lens ACS Survey XIII, ApJ 851, 48 (2017)",
+    "paper_bibcode": "2017ApJ...851...48S",
+    "readme_url": "https://cdsarc.cds.unistra.fr/ftp/J/ApJ/851/48/ReadMe",
+    "predictor_queries": {
+      "table1": "https://vizier.cds.unistra.fr/viz-bin/asu-tsv?-source=J/ApJ/851/48/table1&-out=Target,zL,zS,Imag,Ai,Reff,q,Class&-out.max=unlimited",
+      "table2": "https://vizier.cds.unistra.fr/viz-bin/asu-tsv?-source=J/ApJ/851/48/table2&-out=Target,logM&-out.max=unlimited"
+    },
+    "response_query_base": "https://vizier.cds.unistra.fr/viz-bin/asu-tsv",
+    "response_columns": {
+      "table1": ["Target", "Sigma", "e_Sigma"],
+      "table2": ["Target", "bSIE"]
+    },
+    "excluded_response_columns": ["logMein", "fDM", "chi2", "dof"],
+    "expected_grade_a_objects": 40,
+    "observable_lineage": {
+      "baryons": "Chabrier-IMF stellar mass from photometry plus a de Vaucouleurs effective radius; gas is assumed negligible for these early-type lenses and that assumption is a declared limitation.",
+      "dynamics": "SDSS aperture stellar velocity dispersion and published uncertainty.",
+      "lensing": "The SIE Einstein radius inferred from HST multiple-image geometry; no published total lensing mass or dark-matter fraction is read.",
+      "direct_image_likelihood": false,
+      "gr_nfw_mass_target": false
+    }
+  },
+  "sample": {
+    "selection": "all 40 table2 grade-A lenses with complete approved predictors",
+    "exploration_count": 30,
+    "confirmation_count": 10,
+    "confirmation_role_rule": "sort by predictor-only stellar mass into five equal strata and reserve the two lowest HMAC-SHA256 ranks in each stratum; the keyed rank also binds redshift",
+    "role_key": "invariant-item16-s4tm-role-v1",
+    "fold_key": "invariant-item16-s4tm-fold-v1",
+    "outer_folds": 5,
+    "minimum_exploration_objects": 24,
+    "minimum_confirmation_objects": 8,
+    "prior_identity_match_policy": "reject any exact normalized object identity previously present in a gravity response artifact"
+  },
+  "physics": {
+    "cosmology": {"H0_km_s_Mpc": 70.0, "omega_m": 0.3, "omega_lambda": 0.7},
+    "constants": {
+      "G_kpc_km2_s2_Msun": 4.30091e-6,
+      "c_km_s": 299792.458,
+      "arcsec_to_radian": 4.84813681109536e-6,
+      "au_to_kpc": 4.84813681109536e-9
+    },
+    "baryon_profile": "spherical_Hernquist_approximation_to_de_Vaucouleurs",
+    "hernquist_re_over_a": 1.81527,
+    "dynamical_virial_coefficient": 5.0,
+    "shared_stellar_mass_scale_bounds": [0.5, 2.5],
+    "matter_potential": "mu_m(r)=1+sum_j A_j f_j(r,lambda_j,Sigma_star)",
+    "lensing_potential": "mu_l(r)=1+sum_j A_j p_j f_j(r,lambda_j,Sigma_star), where p_j=(1+eta_j)/2 is fixed by the sampled polarization/slip label",
+    "short_distance_limit": "every modification basis tends to zero as r/lambda tends to zero",
+    "symmetry": "static parity-even spherical weak-field response",
+    "conservation_scope": "universal baryonic coupling is enforced; a covariant action, Ward identity, and full stress-energy conservation proof are not supplied and cannot be claimed",
+    "stability_scope": "only positive residues/amplitudes and positive matter/light response are admitted; ghost freedom of a covariant completion is not established"
+  },
+  "candidate_generator": {
+    "algorithm": "numpy.random.Generator(PCG64)",
+    "seed": 1603162026,
+    "candidate_cells": 262144,
+    "post_response_cells": 0,
+    "families": [
+      {"id": "yukawa_subtracted_massive_carrier", "creativity_label": "known_family_combination"},
+      {"id": "one_loop_log_rational_running", "creativity_label": "known_family_combination"},
+      {"id": "vacuum_polarization_crossover", "creativity_label": "known_family_combination"},
+      {"id": "density_dressed_vertex", "creativity_label": "known_family_combination"},
+      {"id": "two_pole_nonlocal_crossover", "creativity_label": "potentially_new_synthesis"},
+      {"id": "carrier_loop_vertex_product", "creativity_label": "potentially_new_synthesis"}
+    ],
+    "amplitudes": [0.125, 0.1767766953, 0.25, 0.3535533906, 0.5, 0.7071067812, 1.0, 1.4142135624, 2.0, 2.8284271247, 4.0, 5.6568542495, 8.0],
+    "secondary_amplitude_fractions": [0.0, 0.125, 0.25, 0.5, 1.0],
+    "lambda_kpc": [0.1, 0.1258925412, 0.1584893192, 0.1995262315, 0.2511886432, 0.3162277660, 0.3981071706, 0.5011872336, 0.6309573445, 0.7943282347, 1.0, 1.2589254118, 1.5848931925, 1.9952623150, 2.5118864315, 3.1622776602, 3.9810717055, 5.0118723363, 6.3095734448, 7.9432823472, 10.0, 12.5892541179, 15.8489319246, 19.9526231497, 25.1188643151, 31.6227766017, 39.8107170553, 50.1187233627, 63.0957344480, 79.4328234724, 100.0],
+    "secondary_scale_ratios": [0.25, 0.5, 2.0, 4.0, 8.0],
+    "powers": [1.0, 1.5, 2.0, 3.0, 4.0],
+    "surface_density_scales_Msun_kpc2": [10000000.0, 31622776.6017, 100000000.0, 316227766.017, 1000000000.0, 3162277660.17, 10000000000.0, 31622776601.7, 100000000000.0],
+    "density_powers": [0.5, 1.0, 2.0],
+    "polarizations": [
+      {"id": "conformal_scalar_lensing_invisible", "eta": -1.0, "lensing_to_matter": 0.0},
+      {"id": "vector_like_half_lensing", "eta": 0.0, "lensing_to_matter": 0.5},
+      {"id": "tensor_no_slip", "eta": 1.0, "lensing_to_matter": 1.0},
+      {"id": "positive_slip_mixed_mode", "eta": 2.0, "lensing_to_matter": 1.5}
+    ],
+    "equivalence_boundaries": [
+      "zero secondary amplitude erases every secondary carrier label",
+      "identical parameter tuples are exact rewrites",
+      "behaviorally identical matter and lensing predictions on the frozen predictor grid are one empirical equivalence class",
+      "the GR tensor control and a zero-amplitude rewrite are one class; zero amplitude is not sampled in qualifying cells"
+    ]
+  },
+  "evaluation": {
+    "primary_loss": "equal_object_equal_channel_mean_squared_log_residual",
+    "candidate_batch_size": 8192,
+    "cpu_crosscheck_candidates": 4096,
+    "permutation_trials": 99,
+    "permutation_seed": 161699,
+    "lens_radius_fractional_uncertainty": 0.05,
+    "stellar_mass_systematic_dex": 0.15,
+    "response_blind_selection": true,
+    "baseline_shared_imf": "baryon_only_GR_with_one_training_fitted_mass_scale_shared_by_dynamics_and_lensing",
+    "baseline_separate_calibration": "baryon_only_GR_with_separate_training_fitted_dynamics_and_lensing_offsets",
+    "baseline_flexible_nuisance": "fixed_ridge_regression_on_logM_logRe_zL_q_logSigmaStar_with_separate_channels",
+    "ridge_alpha": 1.0
+  },
+  "gates": {
+    "minimum_complete_exploration_objects": 24,
+    "confirmation_values_read": 0,
+    "post_response_candidate_cells": 0,
+    "max_local_fractional_deviation_at_1AU": 1e-5,
+    "minimum_joint_mse_improvement_vs_shared_GR": 0.10,
+    "minimum_joint_mse_improvement_vs_separate_calibration": 0.05,
+    "minimum_each_channel_improvement_vs_shared_GR": 0.0,
+    "minimum_each_mass_and_size_half_improvement_vs_shared_GR": 0.0,
+    "maximum_selection_aware_permutation_p": 0.05,
+    "minimum_same_primary_family_folds": 4,
+    "shared_stellar_mass_scale_must_remain_within_bounds": true,
+    "synthetic_injection_must_improve_over_GR": true,
+    "known_GR_control_must_not_prefer_nonzero_carrier": true
+  },
+  "paths": {
+    "source_dir": "runs/gravity/roadmap/item-16-s4tm-qed-field-v1-source",
+    "predictor_table1": "predictor-table1.tsv",
+    "predictor_table2": "predictor-table2.tsv",
+    "predictor_source_manifest": "predictor-source-manifest.json",
+    "sample_manifest": "sample-manifest.json",
+    "candidate_manifest": "candidate-manifest.json",
+    "exploration_responses": "exploration-responses.tsv",
+    "response_source_manifest": "response-source-manifest.json",
+    "compute_manifest": "compute-manifest.json",
+    "result": "runs/gravity/roadmap/item-16-s4tm-qed-field-v1.json"
+  }
+}
