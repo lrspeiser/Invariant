@@ -21,7 +21,7 @@ from . import gravity_item5_pressure_cross_support as cvcore
 from .sigma_core import canonical_json_bytes, canonical_sha256
 
 CONFIG_PATH = "configs/gravity_item8_field_gradients_curvature_2mpp_v1.json"
-SCIENTIFIC_FREEZE_COMMIT = "PENDING_ITEM8_FIELD_CURVATURE_SCIENTIFIC_FREEZE"
+SCIENTIFIC_FREEZE_COMMIT = "f6ac47f1245a76b9cbf76f939abd2c286ef64400"
 VIZIER_ENDPOINT = "https://vizier.cds.unistra.fr/viz-bin/asu-tsv"
 
 
