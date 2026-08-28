@@ -598,6 +598,60 @@ def _selected_cell(candidates: Mapping[str, np.ndarray], index: int, config: Map
     return result
 
 
+def _synthetic_controls(
+    matrix: Any,
+    gr: Any,
+    candidates: Mapping[str, np.ndarray],
+    folds: np.ndarray,
+    xp: Any,
+) -> dict[str, Any]:
+    """Replay a digest-selected injection and an exact GR control without real responses."""
+
+    columns = np.arange(min(60, matrix.shape[1]))
+    control_folds = folds[columns]
+    digest = _candidate_digest(candidates)
+    injection = int(digest[:16], 16) % len(candidates["family"])
+    truth_injected = _to_numpy(matrix[injection, columns], xp)
+    injected_candidate, selected = _oof_select(
+        matrix[:, columns], xp.asarray(truth_injected), control_folds, xp
+    )
+    injected_gr, _ = _oof_select(gr[:, columns], xp.asarray(truth_injected), control_folds, xp)
+    injected_improvement = _improvement(
+        _mse(truth_injected, injected_gr), _mse(truth_injected, injected_candidate)
+    )
+    target_family = int(candidates["family"][injection])
+    target_sign = float(candidates["sign"][injection])
+    target_range = math.log10(float(candidates["lambda_kpc"][injection]))
+    recovered = (
+        all(int(candidates["family"][index]) == target_family for index in selected)
+        and all(float(candidates["sign"][index]) == target_sign for index in selected)
+        and all(
+            abs(math.log10(float(candidates["lambda_kpc"][index])) - target_range) <= 0.75
+            for index in selected
+        )
+    )
+    gr_index = int(digest[16:24], 16) % int(gr.shape[0])
+    truth_gr = _to_numpy(gr[gr_index, columns], xp) + 1.0e-6 * np.sin(columns)
+    candidate_gr, _ = _oof_select(matrix[:, columns], xp.asarray(truth_gr), control_folds, xp)
+    baseline_gr, _ = _oof_select(gr[:, columns], xp.asarray(truth_gr), control_folds, xp)
+    gr_improvement = _improvement(
+        _mse(truth_gr, baseline_gr), _mse(truth_gr, candidate_gr)
+    )
+    return {
+        "known_GR": {
+            "candidate_improvement_vs_GR": gr_improvement,
+            "pass": gr_improvement <= 0.0,
+        },
+        "massive_phase_injection": {
+            "digest_selected_injection_index": injection,
+            "candidate_improvement_vs_GR": injected_improvement,
+            "selected_indices": selected,
+            "family_polarity_range_recovered": recovered,
+            "pass": injected_improvement > 0.5 and recovered,
+        },
+    }
+
+
 def run_experiment(root: Path) -> Path:
     config = load_config(root)
     verify_science_freeze(root, config)
@@ -689,11 +743,12 @@ def run_experiment(root: Path) -> Path:
         "gas_geometry": all(value["improvement_vs_calibrated_GR"] >= 0 for value in robustness.values()),
         "confirmation_required": True,
     }
+    synthetic = _synthetic_controls(matrix, gr, candidates, folds_np, xp)
     # Exact implementation controls: every occupation is bounded; phase-off is exactly GR.
     test_z = np.logspace(-12, 12, 10000)
     bounded = all(np.min(phase_occupation(f, test_z, 2.0, 2.0, 0.75)) >= 0 and np.max(phase_occupation(f, test_z, 2.0, 2.0, 0.75)) <= 1 for f in range(3))
-    controls = {"bounded_phase": bool(bounded), "phase_off_exact_GR": True, "synthetic_massive_phase_recovery": True, "known_GR_must_not_improve": observed_delta <= 0}
-    gravity.update({"bounded_phase_control": controls["bounded_phase"], "synthetic_control": controls["synthetic_massive_phase_recovery"], "known_GR_control": controls["known_GR_must_not_improve"]})
+    controls = {"bounded_phase": bool(bounded), "phase_off_exact_GR": True, "synthetic_massive_phase_recovery": synthetic["massive_phase_injection"], "known_GR_must_not_improve": synthetic["known_GR"]}
+    gravity.update({"bounded_phase_control": controls["bounded_phase"], "synthetic_control": controls["synthetic_massive_phase_recovery"]["pass"], "known_GR_control": controls["known_GR_must_not_improve"]["pass"]})
     result = _content_hashed({
         "schema_version": "invariant-gravity-item20-massive-phase-result-1.0",
         "item": 20, "status": "PASS" if all(gravity.values()) else "REJECT",
