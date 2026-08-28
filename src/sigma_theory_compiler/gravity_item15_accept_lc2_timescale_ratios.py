@@ -25,7 +25,7 @@ from .sigma_core import canonical_json_bytes, canonical_sha256
 
 CONFIG_PATH = "configs/gravity_item15_accept_lc2_timescale_ratios_v2.json"
 SCIENTIFIC_FREEZE_COMMIT = "e007ac9e3b13237f650482e899d87fd6706d1c27"
-SAMPLE_FREEZE_COMMIT = "PENDING_ITEM15_ACCEPT_LC2_SAMPLE_FREEZE"
+SAMPLE_FREEZE_COMMIT = "18b1dc9d1c0813e304621ea368956c93a1cbe3c2"
 
 
 class GravityItem15AcceptLC2Error(RuntimeError):
