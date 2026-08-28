@@ -466,7 +466,8 @@ def fetch_responses(root: Path) -> Path:
     verify_science_freeze(root, config)
     verify_sample_freeze(root, config)
     paths = _source_paths(root, config)
-    sample = _verify_content_hash(_read_json(paths["sample_manifest"]), "sample manifest")
+    sample = _read_json(paths["sample_manifest"])
+    _verify_content_hash(sample, "sample manifest")
     rows = [row for row in sample["objects"] if row["role"] == "exploration"]
     chunks: list[str] = []
     receipts: list[dict[str, Any]] = []
@@ -489,7 +490,8 @@ def fetch_responses(root: Path) -> Path:
 
 
 def _load_rows(paths: Mapping[str, Path], config: Mapping[str, Any]) -> list[dict[str, Any]]:
-    sample = _verify_content_hash(_read_json(paths["sample_manifest"]), "sample manifest")
+    sample = _read_json(paths["sample_manifest"])
+    _verify_content_hash(sample, "sample manifest")
     response = {_as_int(row.get("AGC", "")): row for row in _parse_path(paths["exploration_responses"], ("AGC", "logW", "e_logW"))}
     output = []
     for row in sample["objects"]:
@@ -607,7 +609,8 @@ def run_experiment(root: Path) -> Path:
     if len(rows) < int(config["sample"]["minimum_complete_exploration_objects"]):
         raise GravityItem20Error(f"only {len(rows)} quality-valid exploration rows")
     candidates = generate_candidates(config)
-    manifest = _verify_content_hash(_read_json(paths["candidate_manifest"]), "candidate manifest")
+    manifest = _read_json(paths["candidate_manifest"])
+    _verify_content_hash(manifest, "candidate manifest")
     if manifest["candidate_digest"] != _candidate_digest(candidates):
         raise GravityItem20Error("candidate replay digest changed")
     kernel = _load_kernel_table(paths["kernel_table"])
@@ -720,7 +723,8 @@ def validate_result(root: Path) -> Path:
     verify_sample_freeze(root, config)
     paths = _source_paths(root, config)
     result_path = root / str(config["paths"]["result"])
-    result = _verify_content_hash(_read_json(result_path), "result")
+    result = _read_json(result_path)
+    _verify_content_hash(result, "result")
     _verify_content_hash(_read_json(paths["compute_manifest"]), "compute manifest")
     if result["data_source_receipt"]["confirmation_opened"] != 0 or result["frozen_boundary"]["post_response_candidate_cells"] != 0:
         raise GravityItem20Error("sealed boundary failed")
