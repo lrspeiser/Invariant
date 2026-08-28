@@ -76,7 +76,10 @@ def _sha(value: Any) -> str:
 
 
 def _file_sha(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    # Git may materialize committed text with CRLF on Windows. These readiness
+    # bindings seal canonical repository text, so line-ending conversion alone
+    # must not look like a scientific-policy change.
+    return hashlib.sha256(path.read_bytes().replace(b"\r\n", b"\n")).hexdigest()
 
 
 def _sealed(value: Mapping[str, Any]) -> dict[str, Any]:

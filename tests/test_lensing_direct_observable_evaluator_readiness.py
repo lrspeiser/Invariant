@@ -64,6 +64,14 @@ def test_positive_raw_and_calibrated_controls_are_schema_only() -> None:
     lensing.validate_direct_observable_packet(calibrated)
 
 
+def test_repository_text_hash_is_line_ending_invariant(tmp_path: Path) -> None:
+    lf = tmp_path / "lf.json"
+    crlf = tmp_path / "crlf.json"
+    lf.write_bytes(b'{"gate":"closed"}\n')
+    crlf.write_bytes(b'{"gate":"closed"}\r\n')
+    assert lensing._file_sha(lf) == lensing._file_sha(crlf)
+
+
 def test_model_dependent_derived_and_latent_classes_are_not_admitted() -> None:
     for data_class in ("derived_model_output", "model_dependent", "latent"):
         packet = lensing._synthetic_packet("raw_direct_observable", "raw_detector_counts")

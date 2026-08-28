@@ -1,0 +1,93 @@
+{
+  "schema_version": "invariant-gravity-g4-cluster-lensing-exploration-config-7.0",
+  "goal": "G4_CLUSTER_LENSING_EXPLORATION",
+  "status": "exploratory_post_source_discovery_not_confirmation",
+  "claim": "Test the unchanged spherical D=3 projection of the v6 radial action and every source-compatible v5 mechanism against whole-cluster-held-out CLASH baryon-plus-lensing acceleration profiles, while keeping direct-image lensing and sequential G6-G8 gates closed.",
+  "authorization": {
+    "scope": "explore galaxy clusters and lensing with the existing mechanisms",
+    "authorized_by_user": true,
+    "date": "2026-08-27",
+    "paid_model_calls_allowed": false
+  },
+  "predecessor_binding": {
+    "path": "runs/gravity/g4/auxiliary-action-derivation-v6.json",
+    "file_sha256": "0130998658f0ab2a6933ca2c37c264de10539b3b069f753d213dd5ea7ab75ef5",
+    "content_sha256": "a06f7d7b071e5a2be831aba533ece29da8ab811ebcee8d0d3b573c2c91d3bc4e",
+    "required_decision": "BLOCK_G4_AUXILIARY_ACTION_DERIVATION"
+  },
+  "mechanism_grammar_binding": {
+    "path": "src/sigma_theory_compiler/gravity_g4_first_principles_mechanism_search.py",
+    "file_sha256": "72fd908210f59cad9b08a116d4c3cd48f945f35d488428d69b07f247114bb0ff",
+    "declared_total_specs": 281,
+    "eligible_source_rule": "retain baryonic_acceleration mechanisms and mechanisms requiring only radius, baryonic circular-speed equivalent, or baryonic orbital frequency; exclude every stellar_surface_density mechanism"
+  },
+  "source": {
+    "catalog": "VizieR J/ApJ/896/70 fig2",
+    "paper": "Tian et al., The Radial Acceleration Relation in CLASH Galaxy Clusters, ApJ 896, 70 (2020)",
+    "paper_url": "https://arxiv.org/abs/2001.08340",
+    "catalog_url": "https://vizier.cds.unistra.fr/viz-bin/asu-tsv?-source=J/ApJ/896/70/fig2&-out.all=1&-out.max=unlimited",
+    "readme_url": "https://cdsarc.cds.unistra.fr/ftp/J/ApJ/896/70/ReadMe",
+    "files": [
+      {
+        "path": "runs/gravity/g4/cluster-lensing-exploration-v7-source/fig2.tsv",
+        "file_sha256": "6ae2cc0a75e2113f2af73c054d5283099b8764b534d17c89b65d8562d799d58a"
+      },
+      {
+        "path": "runs/gravity/g4/cluster-lensing-exploration-v7-source/ReadMe",
+        "file_sha256": "c7104a7c7629984ef6c17e71661b33695e15e28800883114abbe7b296ada59e7"
+      }
+    ],
+    "expected_clusters": 20,
+    "expected_radial_points": 84,
+    "observable_lineage": {
+      "baryons": "X-ray gas profiles plus an empirically estimated stellar contribution",
+      "lensing": "strong-lensing, weak-lensing shear, and magnification constraints converted by the source paper to spherical NFW Mtot posteriors and then gtot",
+      "direct_image_or_shear_likelihood": false,
+      "gr_model_independent_target": false
+    }
+  },
+  "fixed_action_transfer": {
+    "support_dimension": 3,
+    "beta": "0.3333333333333333",
+    "log_radius_scale": "0.1666666666666667",
+    "transition_acceleration_m_s2": "1.2e-10",
+    "transition_y": "0.1",
+    "prediction": "g=g_bar*(1+chi/3)+g_dagger*psi/3",
+    "lensing_closure": "diagnostic_no_slip_assumption: photons respond to the same effective radial potential as nonrelativistic tracers",
+    "parameters_fit_to_cluster_data": 0
+  },
+  "fixed_galaxy_parent_transfer": {
+    "candidate_id": "cross-scale:y:q0p1:ell0p25:permittivity_plus_auxiliary",
+    "beta": "0.5",
+    "log_radius_scale": "0.25",
+    "parameters_fit_to_cluster_data": 0
+  },
+  "whole_cluster_evaluation": {
+    "outer_folds": 5,
+    "fold_salt": "invariant-clash-cluster-lensing-exploration-v7",
+    "selection_target": "published_log10_gtot_diagnostic",
+    "score": "sum(((log10(g_prediction)-log10(gtot))/sigma_log10_gtot)^2)",
+    "coefficient_grid": ["-4", "-2", "-1", "-0.5", "-0.25", "-0.1", "0", "0.1", "0.25", "0.5", "1", "2", "4"],
+    "object_identity_available_to_formula": false,
+    "heldout_cluster_target_available_to_selection": false,
+    "published_profile_covariance_available": false,
+    "gbar_uncertainty_in_primary_score": false,
+    "final_all_data_selection_is_generalization_evidence": false
+  },
+  "controls": {
+    "newtonian_baryons": "g=g_bar",
+    "galaxy_rar": "g=g_bar/(1-exp(-sqrt(g_bar/g_dagger))) with g_dagger=1.2e-10 m/s^2",
+    "published_cluster_low_acceleration_relation": "g=sqrt(2.02e-9 m/s^2*g_bar)",
+    "known_control_role": "pipeline recovery only; not a creative survivor"
+  },
+  "interpretation": {
+    "direct_lensing_falsification": false,
+    "direct_cluster_thermodynamic_forward_test": false,
+    "sequential_G6_G7_G8_authorized": false,
+    "historical_novelty_claimed": false,
+    "covariant_lensing_equation_derived": false,
+    "diagnostic_can_reject_the_fixed_projection": true,
+    "diagnostic_can_confirm_a_gravity_theory": false
+  },
+  "output": "runs/gravity/g4/cluster-lensing-exploration-v7.json"
+}
