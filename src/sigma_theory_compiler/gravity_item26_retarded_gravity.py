@@ -169,6 +169,7 @@ def generate_raw_candidates(config: Mapping[str, Any]) -> dict[str, np.ndarray]:
         ("radial_power", generator["radial_powers"]),
         ("compensation_power", generator["compensation_powers"]),
         ("speed_fraction", generator["propagation_speed_fractions_c"]),
+        ("propagation_transition", generator["propagation_transition_light_years"]),
         ("echo_path", generator["echo_path_multipliers"]),
         ("echo_weight", generator["echo_weights"]),
     ):
@@ -192,6 +193,7 @@ def _candidate_values(
         ("radial_power", "radial_powers"),
         ("compensation_power", "compensation_powers"),
         ("speed_fraction", "propagation_speed_fractions_c"),
+        ("propagation_transition", "propagation_transition_light_years"),
         ("echo_path", "echo_path_multipliers"),
         ("echo_weight", "echo_weights"),
     ):
@@ -229,7 +231,14 @@ def _log_mu(
     direct = growth * light_time
     luminal = direct
     compensated = direct * velocity_fraction ** values["compensation_power"][:, None]
-    finite = direct / values["speed_fraction"][:, None]
+    transition = values["propagation_transition"][:, None]
+    beta_effective = values["speed_fraction"][:, None] + (
+        1.0 - values["speed_fraction"][:, None]
+    ) / (
+        1.0
+        + (light_time / transition) ** values["radial_power"][:, None]
+    )
+    finite = direct / beta_effective
     echo = direct * (
         1.0
         + values["echo_weight"][:, None]
@@ -347,6 +356,12 @@ def _candidate_manifest(config: Mapping[str, Any]) -> dict[str, Any]:
             "generator": config["candidate_generator"],
             "physics_gates": config["physics"],
             "audit": audit,
+            "synthetic_injection_admissible_indices": config["candidate_generator"][
+                "synthetic_injection_admissible_indices"
+            ],
+            "synthetic_injection_rule": config["candidate_generator"][
+                "synthetic_injection_rule"
+            ],
             "responses_open_when_generated": False,
             "post_response_candidate_cells": 0,
         }
@@ -1172,6 +1187,7 @@ def _candidate_record(
         "radial_power",
         "compensation_power",
         "speed_fraction",
+        "propagation_transition",
         "echo_path",
         "echo_weight",
     ):
@@ -1249,9 +1265,19 @@ def _evaluate(
     ) / (len(null_improvements) + 1.0)
 
     synthetic: list[dict[str, Any]] = []
-    for niche in range(4):
-        eligible = np.where(arrays["niche"] == niche)[0]
-        injection_index = int(eligible[len(eligible) // 2])
+    frozen_injections = [
+        int(value)
+        for value in config["candidate_generator"][
+            "synthetic_injection_admissible_indices"
+        ]
+    ]
+    if len(frozen_injections) != 4:
+        raise GravityItem26Error("synthetic injection list changed")
+    for niche, injection_index in enumerate(frozen_injections):
+        if not 0 <= injection_index < len(arrays["niche"]):
+            raise GravityItem26Error("synthetic injection is outside admissible cells")
+        if int(arrays["niche"][injection_index]) != niche:
+            raise GravityItem26Error("synthetic injection niche changed")
         injected_target = base_full_prediction + term_matrices[primary_radius][injection_index]
         replay = _oof_search(
             xp,

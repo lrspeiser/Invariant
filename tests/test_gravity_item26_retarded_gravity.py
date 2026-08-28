@@ -53,6 +53,15 @@ def test_item26_admissible_candidates_are_causal_local_and_positive() -> None:
     assert audit["admitted_domain_mu_range"][1] <= 20.0
 
 
+def test_item26_frozen_injections_cover_non_equivalent_niches() -> None:
+    config = load_config(ROOT)
+    arrays, _, _ = _admissible_candidates(config)
+    indices = config["candidate_generator"]["synthetic_injection_admissible_indices"]
+    assert [int(arrays["niche"][index]) for index in indices] == [0, 1, 2, 3]
+    finite = _candidate_values(config, arrays, indices[2], indices[2] + 1, np)
+    assert float(finite["speed_fraction"][0]) < 1.0
+
+
 def test_item26_static_limit_is_exact() -> None:
     config = load_config(ROOT)
     arrays = generate_raw_candidates(config)
