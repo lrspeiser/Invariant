@@ -1,0 +1,225 @@
+{
+  "schema_version": "invariant-gravity-roadmap-item3-smooth-density-profiles-config-2.0",
+  "goal": "GRAVITY_ROADMAP_ITEM_03_SURFACE_VERSUS_VOLUME_DENSITY_ATTEMPT_2",
+  "status": "frozen_before_exploration_profile_or_radial_dynamics_access",
+  "roadmap_binding": {
+    "path": "docs/GRAVITY_HIDDEN_VARIABLE_AND_THEORY_SEARCH_GOALS.md",
+    "file_sha256": "b9db7e1aa76deaf28ce2e840cd3d7db4cf7a086b1c7ca473800780c264a0e772",
+    "item_number": 3,
+    "item_title": "Surface versus volume density"
+  },
+  "predecessor": {
+    "path": "runs/gravity/roadmap/item-03-surface-volume-density-v1.json",
+    "file_sha256": "5742559f50abb7939ef68f909870c9d8c66e0d9788d34aa7f7e1b0696d762bf4",
+    "content_sha256": "a0dff681242e6264f95433833d19dede6394af5014f73165695cfafe1c9addd9",
+    "required_decision": "INCONCLUSIVE_ITEM3_SURFACE_VOLUME_DENSITY_QUALITY_GATE"
+  },
+  "authorization": {
+    "network_acquisition_allowed": true,
+    "paid_model_calls_allowed": false,
+    "exploration_profiles_allowed_after_freeze": true,
+    "reserved_xcop_confirmation_profile_accesses_allowed": 0,
+    "sparc_confirmation_evaluator_accesses_allowed": 0,
+    "direct_lensing_likelihood_evaluations_allowed": 0,
+    "sequential_G6_G7_G8_advanced": false
+  },
+  "scientific_contract": {
+    "hypothesis": "A universal crossover built from smooth, directly observed baryonic surface- and volume-density amplitudes predicts radial gravitational response beyond baryonic acceleration, either density alone, radial scale gradient, and a galaxy/cluster label.",
+    "creativity_label": "potentially_new_synthesis_of_known_profile_scale_poisson_sources_and_density_crossover_terms",
+    "known_components": [
+      "Poisson source density",
+      "local logarithmic density scale length",
+      "SPARC baryonic acceleration",
+      "hydrostatic pressure-gradient acceleration",
+      "dimensionless transition kernels",
+      "whole-object nested cross-validation"
+    ],
+    "known_or_rewrite_controls": [
+      "surface density alone",
+      "volume density alone",
+      "baryonic acceleration polynomial",
+      "surface-volume log contrast, which is an exact function of H/r under the frozen conversion",
+      "binary galaxy/cluster population proxy",
+      "the attempt-1 dual-transition summaries"
+    ],
+    "qualifying_novelty_boundary": "Only joint density-amplitude, contrast, and crossover interactions that are not algebraically reducible to gbar, H/r, a single density, or population identity may qualify.",
+    "not_claimed": [
+      "a new gravitational field equation",
+      "historical novelty",
+      "independent galaxy confirmation",
+      "complete stellar baryons for every X-COP cluster",
+      "a lensing prediction",
+      "advancement of the separate sequential X-COP or direct-lensing gates"
+    ]
+  },
+  "constants": {
+    "transition_acceleration_m_s2": 1.2e-10,
+    "gravity_constant_kpc_km2_s2_msun": 4.30091e-6,
+    "gravity_constant_si": 6.6743e-11,
+    "solar_mass_kg": 1.98847e30,
+    "kiloparsec_m": 3.085677581491367e19,
+    "proton_mass_kg": 1.67262192369e-27,
+    "mean_molecular_weight": 0.61,
+    "kev_joule": 1.602176634e-16,
+    "fixed_sparc_disk_mass_to_light": 0.5,
+    "fixed_sparc_bulge_mass_to_light": 0.7
+  },
+  "profile_conversion": {
+    "input": "q_d(r), a radial baryonic density with support dimension d and units mass/length^d",
+    "support_dimensions": {"disk_surface_profile": 2, "cluster_volume_profile": 3},
+    "scale_length": "H=abs(d log(q_d)/dr)^-1",
+    "scale_clip": "H/r clipped to [0.05,20] before density conversion",
+    "effective_surface_density": "Sigma_eff=q_d*(2H)^(d-2)",
+    "effective_volume_density": "rho_eff=q_d/(2H)^(3-d)",
+    "surface_source": "u_surface=pi*G*Sigma_eff/g_dagger",
+    "volume_source": "u_volume=4*pi*G*r*rho_eff/(3*g_dagger)",
+    "mean_log_amplitude": "m=(log10(u_surface)+log10(u_volume))/2",
+    "log_contrast": "c=log10(u_surface)-log10(u_volume)",
+    "rewrite_identity": "c=log10(3H/(2r)); contrast alone is a nonqualifying radial-scale control",
+    "transition_kernel": "w(u)=u/(1+u)^2",
+    "qualifying_interactions": [
+      "m*c",
+      "log10(gbar/g_dagger)*m",
+      "log10(gbar/g_dagger)*c",
+      "w(u_surface)*w(u_volume)",
+      "(w(u_surface)-w(u_volume))/(w(u_surface)+w(u_volume))"
+    ]
+  },
+  "galaxy_lane": {
+    "status": "retrospective_development_because_sparc_targets_were_used_earlier;_not_independent_confirmation",
+    "surface_density_catalog": {
+      "id": "J/AJ/136/2782/table7",
+      "landing_page": "https://cdsarc.cds.unistra.fr/viz-bin/cat/J/AJ/136/2782",
+      "query_url": "https://vizier.cfa.harvard.edu/viz-bin/asu-tsv?-source=J/AJ/136/2782/table7&-out.all=1&-out.max=unlimited",
+      "components": ["SigmaHI", "SigmaH2", "SigmaStar"],
+      "helium_already_included_for_gas": true,
+      "profile_resolution_pc": [400, 800]
+    },
+    "dynamics_catalog": {
+      "landing_page": "https://astroweb.case.edu/SPARC/",
+      "archive_url": "https://astroweb.case.edu/SPARC/Rotmod_LTG.zip",
+      "archive_sha256": "0a80cc90714828cc28b7dd57923576714d209f2490328c087c4a4ad607faf588",
+      "archive_bytes": 110737,
+      "target": "g_dyn=Vobs^2/r",
+      "baryonic_baseline": "gbar=(sign(Vgas)*Vgas^2+0.5*Vdisk^2+0.7*Vbulge^2)/r"
+    },
+    "matched_development_objects": [
+      "DDO154",
+      "IC2574",
+      "NGC2403",
+      "NGC2841",
+      "NGC2976",
+      "NGC3198",
+      "NGC3521",
+      "NGC5055",
+      "NGC6946",
+      "NGC7331",
+      "NGC7793"
+    ],
+    "reserved_confirmation_objects": [],
+    "independent_next_dataset_if_exploration_passes": "LITTLE THINGS radial gas/stellar profiles and asymmetric-drift-corrected rotation curves frozen before access"
+  },
+  "cluster_lane": {
+    "release_page": "https://dominiqueeckert.wixsite.com/xcop/data",
+    "archive_url": "https://drive.switch.ch/index.php/s/j3WUOYXWgv9Jbnz/download",
+    "archive_sha256": "0edf5038b419b70d070b73b22f4801e27f318b0854db61eec52142c27c140d94",
+    "archive_bytes": 315080566,
+    "archive_last_modified_utc": "2025-09-08T13:40:21Z",
+    "selection_salt": "invariant-gravity-item3-smooth-profile-v2-clusters-20260828",
+    "selection_strata": ["mstar_profile_available", "mstar_profile_unavailable"],
+    "exploration_objects": [
+      "A1644",
+      "A1795",
+      "A2142",
+      "A2255",
+      "A2319",
+      "A3266",
+      "A85",
+      "ZW1215"
+    ],
+    "reserved_confirmation_objects": ["A2029", "A3158", "A644", "RXC1825"],
+    "exploration_with_stellar_profile": ["A1795", "A2142", "A2319", "A85", "ZW1215"],
+    "exploration_without_stellar_profile": ["A1644", "A2255", "A3266"],
+    "reserved_with_stellar_profile": ["A2029", "A644"],
+    "reserved_without_stellar_profile": ["A3158", "RXC1825"],
+    "primary_baryonic_profile": "XMM electron-density-derived gas mass density for all clusters",
+    "stellar_baryon_robustness": "add the released cumulative stellar-mass profile for the five exploration clusters where present",
+    "target": "g_dyn=-(mu*m_p*n_e)^-1*dP_e/dr from released XMM density and Planck SZ pressure profiles",
+    "forbidden_targets": [
+      "released hydrostatic mass profile",
+      "released total mass profile",
+      "gas fraction profile",
+      "NFW fit",
+      "lensing mass"
+    ],
+    "reserved_profile_accesses_allowed": 0
+  },
+  "radial_quality": {
+    "minimum_galaxy_density_points": 8,
+    "minimum_galaxy_matched_dynamics_points": 8,
+    "maximum_median_fractional_velocity_error": 0.2,
+    "minimum_cluster_density_points": 6,
+    "minimum_cluster_pressure_points": 5,
+    "minimum_cluster_matched_points": 5,
+    "minimum_fraction_pressure_steps_decreasing": 0.7,
+    "maximum_scale_clip_fraction": 0.25,
+    "minimum_valid_galaxies": 9,
+    "minimum_valid_exploration_clusters": 6,
+    "post_quality_failure_policy": "retain failures in the receipt, do not replace objects, and do not change thresholds"
+  },
+  "response": {
+    "field": "log10(g_dyn/gbar)",
+    "features_may_use_response_or_pressure": false,
+    "cluster_pressure_available_only_to_target_builder": true,
+    "prediction_reported_as": ["log response", "g_dyn", "galaxy circular speed", "cluster pressure-gradient acceleration"]
+  },
+  "model_families": [
+    {"id": "constant", "features": [], "qualifying": false},
+    {"id": "gbar_polynomial", "features": ["a", "a2", "a3"], "qualifying": false},
+    {"id": "gbar_plus_surface", "features": ["a", "a2", "a3", "s"], "qualifying": false},
+    {"id": "gbar_plus_volume", "features": ["a", "a2", "a3", "v"], "qualifying": false},
+    {"id": "gbar_plus_scale_contrast", "features": ["a", "a2", "a3", "c"], "qualifying": false},
+    {"id": "gbar_plus_population_proxy", "features": ["a", "a2", "a3", "population_proxy"], "qualifying": false},
+    {"id": "dual_density_amplitude", "features": ["a", "a2", "a3", "m", "c"], "qualifying": true},
+    {"id": "density_crossover_reduced", "features": ["a", "a2", "m", "c", "m_x_c"], "qualifying": true},
+    {"id": "density_crossover_full", "features": ["a", "a2", "a3", "m", "c", "m_x_c", "a_x_m", "a_x_c", "transition_product", "transition_balance"], "qualifying": true}
+  ],
+  "cross_validation": {
+    "outer_folds": 5,
+    "fold_salt": "invariant-gravity-item3-smooth-density-v2-object-folds-20260828",
+    "fold_unit": "whole object stratified by galaxy or cluster",
+    "loss_weighting": "equal domain weight, equal object weight within domain, equal radial weight within object",
+    "inner_selection": "training-object-only weighted mean squared error",
+    "ridge_penalties": [0.001, 0.01, 0.1, 1.0, 10.0, 100.0],
+    "stratified_object_permutation_count": 499,
+    "permutation_salt": "invariant-gravity-item3-smooth-density-v2-null-20260828",
+    "heldout_response_available_to_fit_or_selection": false
+  },
+  "exploration_admission": {
+    "quality_contract_passes": true,
+    "selected_model_qualifying_in_at_least_folds": 4,
+    "selected_density_model_r2_positive_in_each_domain": true,
+    "selected_density_model_improvement_over_gbar_baseline_positive_in_each_domain": true,
+    "selected_density_model_overall_r2_improvement_at_least": 0.02,
+    "selected_density_model_beats_each_single_density_and_scale_control_overall": true,
+    "population_proxy_not_selected_in_any_fold": true,
+    "object_stratified_permutation_p_at_most": 0.05,
+    "maximum_absolute_domain_median_residual_dex": 0.1,
+    "stellar_profile_subset_robustness_does_not_reverse_improvement": true,
+    "reserved_xcop_confirmation_profiles_untouched": true,
+    "passing_exploration_does_not_authorize_confirmation": true
+  },
+  "claim_boundaries": {
+    "contrast_is_new_relative_to_profile_scale": false,
+    "galaxy_lane_is_independent_confirmation": false,
+    "cluster_gas_only_is_complete_baryonic_mass": false,
+    "hydrostatic_equilibrium_is_gravity_theory_independent": false,
+    "roadmap_item_3_complete": false,
+    "alternative_to_gr_established": false,
+    "historical_novelty_established": false
+  },
+  "sample_manifest_output": "runs/gravity/roadmap/item-03-smooth-density-profiles-v2-source/sample-manifest.json",
+  "source_manifest_output": "runs/gravity/roadmap/item-03-smooth-density-profiles-v2-source/exploration-source-manifest.json",
+  "radial_feature_output": "runs/gravity/roadmap/item-03-smooth-density-profiles-v2-source/radial-features.tsv",
+  "output": "runs/gravity/roadmap/item-03-smooth-density-profiles-v2.json"
+}
