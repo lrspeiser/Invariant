@@ -1,0 +1,186 @@
+{
+  "schema_version": "invariant-gravity-roadmap-item8-field-gradients-curvature-config-1.0",
+  "goal": "GRAVITY_ROADMAP_ITEM_08_FIELD_GRADIENTS_AND_CURVATURE",
+  "status": "scientific_freeze_before_published_group_dispersion_access",
+  "roadmap_binding": {
+    "path": "docs/GRAVITY_HIDDEN_VARIABLE_AND_THEORY_SEARCH_GOALS.md",
+    "file_sha256": "b9db7e1aa76deaf28ce2e840cd3d7db4cf7a086b1c7ca473800780c264a0e772",
+    "item_number": 8,
+    "item_title": "Field gradients and curvature"
+  },
+  "predecessor": {
+    "path": "runs/gravity/roadmap/item-07-synthesis-v1.json",
+    "file_sha256": "a0dc220dabab7e9d72508ce4763d2c386ea628d91a6501b8439feeb39f55db8c",
+    "content_sha256": "be12107ad3ed020111f63b28123522345db36727697485c64237e4ba8725f3a2",
+    "required_decision": "REJECT_ITEM7_TESTED_GLOBAL_PHASE_COMPOSITION_GENERALIZATION_ADVANCE_ITEM8"
+  },
+  "authorization": {
+    "network_acquisition_allowed": true,
+    "paid_model_calls_allowed": false,
+    "predictor_catalogs_allowed_before_freeze": true,
+    "exploration_group_dispersion_allowed_after_freeze": true,
+    "reserved_confirmation_group_dispersion_allowed": false,
+    "member_redshift_allowed": false,
+    "virial_or_halo_mass_allowed_as_predictor": false,
+    "virial_radius_allowed_as_predictor": false,
+    "lensing_mass_allowed_as_predictor": false,
+    "direct_lensing_likelihood_evaluations_allowed": 0,
+    "sequential_G6_G7_G8_advanced": false
+  },
+  "prefreeze_audit": {
+    "date": "2026-08-28",
+    "published_group_dispersion_values_read": 0,
+    "group_rows": 813,
+    "member_rows": 4869,
+    "groups_with_exact_member_counts": 813,
+    "eligible_groups_with_at_least_8_members": 131,
+    "eligible_member_rows": 1630,
+    "allowed_group_columns_read": ["ID", "Ng", "VCM"],
+    "allowed_member_columns_read": ["ID", "Gal", "RAJ2000", "DEJ2000", "Kmag"],
+    "response_and_shortcut_columns_not_queried": ["sigma", "z", "Rvir", "Mvir"]
+  },
+  "scientific_contract": {
+    "hypothesis": "Dimensionless structure in the projected baryonic-light acceleration gradient, potential Hessian, tidal eigenvalues, third spatial derivative, and radial field curvature predicts fresh 2M++ group velocity dispersion beyond total light, size, richness, distance, virial/compactness rewrites, and ordinary second-moment shape.",
+    "creativity_label": "known_newtonian_derivative_operators_with_potentially_new_normalized_tidal_third_derivative_alignment_and_radial_curvature_synthesis",
+    "known_components": [
+      "Newtonian softened point-source potential",
+      "potential gradient and Hessian",
+      "tidal eigenvalues and invariants",
+      "third spatial derivative of the potential",
+      "virial velocity and mass-size scalings",
+      "projected luminosity moments",
+      "whole-group held-out evaluation"
+    ],
+    "nonqualifying_rewrites": [
+      "sqrt(GM/R) is a virial mass-size scaling",
+      "GM/R^2 and GM/R^3 amplitudes are algebraic mass-size rewrites",
+      "axis ratio and radial concentration are ordinary projected-shape summaries",
+      "richness, distance, group identity, Rvir, Mvir, or published sigma as a predictor is not a causal field law"
+    ],
+    "qualifying_boundary": "Only dimensionless center-field imbalance, normalized tidal invariants, normalized third-derivative strength, field/shape eigenvector alignment, and radial acceleration-profile slopes or curvature qualify beyond the strongest frozen controls.",
+    "not_claimed": [
+      "complete baryonic mass in 2M++ groups",
+      "three-dimensional tidal curvature",
+      "membership independent of redshift-space group finding",
+      "a covariant curvature scalar",
+      "a modified-gravity law",
+      "historical novelty",
+      "confirmation on the 33 sealed groups"
+    ]
+  },
+  "constants": {
+    "gravity_kpc_km2_s2_msun": 4.30091e-6,
+    "hubble_km_s_mpc": 70.0,
+    "solar_absolute_k_magnitude": 3.28,
+    "fixed_k_band_mass_to_light_msun_per_lsun": 0.6,
+    "softening_floor_kpc": 20.0,
+    "softening_fraction_r_rms": 0.05,
+    "radial_field_scales_r_rms": [0.25, 0.5, 1.0, 2.0],
+    "radial_field_directions": 512,
+    "dimensionless_floor": 1e-12
+  },
+  "sources": {
+    "catalog_id": "J/A+A/578/A61",
+    "landing_page": "https://cdsarc.cds.unistra.fr/viz-bin/cat/J/A%2BA/578/A61",
+    "article_doi": "https://doi.org/10.1051/0004-6361/201424716",
+    "group_table": "J/A+A/578/A61/tableb1",
+    "member_table": "J/A+A/578/A61/tableb2",
+    "allowed_group_predictor_columns": ["ID", "Ng", "VCM"],
+    "allowed_member_predictor_columns": ["ID", "Gal", "RAJ2000", "DEJ2000", "Kmag"],
+    "response_columns": ["ID", "sigma"],
+    "forbidden_predictor_columns": ["sigma", "z", "Rvir", "Mvir"]
+  },
+  "sample": {
+    "selection_salt": "invariant-gravity-item8-2mpp-field-curvature-v1-20260828",
+    "quality_rule": "published 2M++ FoF group with Ng>=8, positive VCM, exact predictor-only member count, finite unique member positions and K magnitudes; no sigma, member z, Rvir, or Mvir used",
+    "stratification_rule": "salted SHA256 confirmation holdout within richness 8-11, 12-19, and 20-plus",
+    "eligible_count": 131,
+    "exploration_count": 98,
+    "reserved_confirmation_count": 33,
+    "exploration": [11,24,32,46,49,50,55,58,65,66,72,79,84,96,116,134,136,137,139,141,155,163,187,188,191,203,210,215,221,227,228,230,239,240,242,249,252,261,266,273,276,277,280,284,293,305,317,334,373,375,382,403,404,433,439,441,447,453,458,482,487,524,527,535,553,558,561,565,567,576,577,582,621,623,626,634,639,650,653,656,659,682,703,705,711,714,716,736,737,744,746,757,769,772,780,787,788,809],
+    "reserved_confirmation": [6,19,22,43,100,110,147,202,250,264,267,270,274,283,290,291,300,345,369,390,444,464,506,525,544,546,652,654,658,687,722,763,801],
+    "cell_counts": {
+      "8_11": {"all": 84, "exploration": 63, "confirmation": 21},
+      "12_19": {"all": 35, "exploration": 26, "confirmation": 9},
+      "20_plus": {"all": 12, "exploration": 9, "confirmation": 3}
+    },
+    "post_access_failure_policy": "Retain every missing or invalid exploration group; do not replace it, relax quality, or query a reserved dispersion."
+  },
+  "derivation": {
+    "distance": "D_Mpc=VCM/H0; the group mean velocity is an allowed distance proxy, never the member velocity deviations or sigma",
+    "stellar_mass": "L_K=10^[-0.4(Kmag-(5log10(D_Mpc)+25)-M_Ksun)] Lsun and Mstar=0.6 L_K for every member",
+    "projected_coordinates": "luminosity-weighted tangent-plane coordinates at D_Mpc",
+    "softened_potential": "Phi(x)=-G sum_i m_i/sqrt(|x-x_i|^2+epsilon^2)",
+    "field_gradient": "a=-grad Phi",
+    "tidal_hessian": "T_ab=partial_a partial_b Phi from the frozen softened kernel",
+    "third_derivative": "C_abc=partial_c T_ab from the same frozen kernel",
+    "normalization": "acceleration, Hessian, and third-derivative structure divided by GM/R_rms^2, GM/R_rms^3, and GM/R_rms^4 respectively",
+    "radial_curvature": "mean field magnitude over 512 fixed directions at 0.25,0.5,1,2 R_rms followed by frozen log-radius finite differences",
+    "feature_builder_accepts_group_dispersion": false,
+    "feature_builder_accepts_member_redshift": false
+  },
+  "model_families": [
+    {"id": "constant", "features": [], "fixed_coefficients": {}, "qualifying": false},
+    {"id": "virial_fixed", "features": [], "fixed_coefficients": {"log10_mass": 0.5, "log10_r_rms": -0.5}, "qualifying": false},
+    {"id": "mass_size_nuisance", "features": ["log10_mass", "log10_r_rms", "log10_r90", "log10_richness", "log10_distance"], "fixed_coefficients": {}, "qualifying": false},
+    {"id": "mass_size_shape_controls", "features": ["log10_mass", "log10_r_rms", "log10_r90", "log10_richness", "log10_distance", "log10_acceleration_amplitude", "log10_tidal_amplitude", "shape_axis_ratio", "radial_concentration"], "fixed_coefficients": {}, "qualifying": false},
+    {"id": "normalized_center_tidal_invariants", "features": ["log10_mass", "log10_r_rms", "log10_richness", "shape_axis_ratio", "radial_concentration", "signed_log_center_acceleration_norm", "signed_log_tidal_trace_norm", "log10_tidal_frobenius_norm", "signed_log_tidal_determinant_norm", "tidal_eigenvalue_anisotropy"], "fixed_coefficients": {}, "qualifying": true},
+    {"id": "third_derivative_alignment", "features": ["log10_mass", "log10_r_rms", "log10_richness", "shape_axis_ratio", "radial_concentration", "log10_third_derivative_norm", "acceleration_shape_alignment", "tidal_shape_alignment", "third_x_tidal_anisotropy"], "fixed_coefficients": {}, "qualifying": true},
+    {"id": "radial_field_curvature", "features": ["log10_mass", "log10_r_rms", "log10_richness", "shape_axis_ratio", "radial_concentration", "radial_field_slope_inner", "radial_field_slope_outer", "radial_field_curvature", "radial_slope_transition"], "fixed_coefficients": {}, "qualifying": true},
+    {"id": "all_field_derivatives", "features": ["log10_mass", "log10_r_rms", "log10_r90", "log10_richness", "log10_distance", "shape_axis_ratio", "radial_concentration", "signed_log_center_acceleration_norm", "signed_log_tidal_trace_norm", "log10_tidal_frobenius_norm", "signed_log_tidal_determinant_norm", "tidal_eigenvalue_anisotropy", "log10_third_derivative_norm", "acceleration_shape_alignment", "tidal_shape_alignment", "third_x_tidal_anisotropy", "radial_field_slope_inner", "radial_field_slope_outer", "radial_field_curvature", "radial_slope_transition"], "fixed_coefficients": {}, "qualifying": true}
+  ],
+  "candidate_accounting": {
+    "preregistered_model_families": 8,
+    "nonqualifying_families": 4,
+    "qualifying_families": 4,
+    "declared_equivalence_classes": 8,
+    "post_response_formula_generation_allowed": 0
+  },
+  "cross_validation": {
+    "outer_folds": 5,
+    "fold_salt": "invariant-gravity-item8-2mpp-field-curvature-folds-v1-20260828",
+    "inner_folds": 4,
+    "inner_salt": "invariant-gravity-item8-2mpp-field-curvature-inner-v1-20260828",
+    "fold_unit": "whole group",
+    "selection_metric": "equal-group mean squared log10 published velocity-dispersion error",
+    "ridge_penalties": [0.001,0.01,0.1,1.0,10.0,100.0],
+    "permutation_count": 499,
+    "permutation_salt": "invariant-gravity-item8-2mpp-field-curvature-null-v1-20260828",
+    "permutation_scheme": "shuffle log10 sigma within frozen richness strata"
+  },
+  "quality": {
+    "minimum_members": 8,
+    "minimum_unique_positions": 8,
+    "all_98_exploration_groups_required": true,
+    "published_sigma_must_be_finite_positive": true
+  },
+  "exploration_admission": {
+    "unrestricted_selector_qualifying_in_at_least_folds": 4,
+    "qualifying_selector_r2_positive_overall": true,
+    "qualifying_selector_beats_each_nonqualifying_baseline_overall": true,
+    "qualifying_relative_mse_improvement_over_strongest_baseline_at_least": 0.02,
+    "qualifying_improvement_positive_in_all_richness_strata": true,
+    "qualifying_improvement_positive_in_both_mass_strata": true,
+    "qualifying_improvement_positive_in_both_concentration_strata": true,
+    "richness_stratified_permutation_p_at_most": 0.05,
+    "brightest_member_removal_does_not_reverse_improvement": true,
+    "reserved_confirmation_targets_untouched": true,
+    "passing_exploration_does_not_authorize_confirmation": true
+  },
+  "claim_boundaries": {
+    "projected_k_light_is_complete_baryonic_mass": false,
+    "redshift_space_membership_is_target_independent": false,
+    "normalized_derivative_synthesis_is_historically_new": false,
+    "field_curvature_is_a_gravity_cause": false,
+    "alternative_to_gr_established": false,
+    "confirmation_opened": false,
+    "roadmap_item_8_complete": false
+  },
+  "sample_manifest_output": "runs/gravity/roadmap/item-08-field-gradients-curvature-v1-source/sample-manifest.json",
+  "predictor_source_output": "runs/gravity/roadmap/item-08-field-gradients-curvature-v1-source/predictor-source-manifest.json",
+  "feature_output": "runs/gravity/roadmap/item-08-field-gradients-curvature-v1-source/group-features.tsv",
+  "brightest_removed_feature_output": "runs/gravity/roadmap/item-08-field-gradients-curvature-v1-source/group-features-brightest-removed.tsv",
+  "predictor_extraction_output": "runs/gravity/roadmap/item-08-field-gradients-curvature-v1-source/predictor-extraction-summary.json",
+  "response_source_output": "runs/gravity/roadmap/item-08-field-gradients-curvature-v1-source/exploration-response-manifest.json",
+  "output": "runs/gravity/roadmap/item-08-field-gradients-curvature-v1.json"
+}
