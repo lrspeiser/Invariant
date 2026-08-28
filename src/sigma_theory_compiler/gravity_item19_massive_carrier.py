@@ -388,7 +388,6 @@ def _build_sample(
             "hrv_s": _as_float(s.get("HRV", "")),
             "h_r": _as_float(d.get("hR", "")),
             "mu0": _as_float(d.get("mu0", "")),
-            "color": _as_float(d.get("B-K", "")),
             "flux": _as_float(s.get("Sabs", "")),
             "flux_error": _as_float(s.get("e_Sabs", "")),
             "snr": _as_float(s.get("SNR", "")),
@@ -422,7 +421,7 @@ def _build_sample(
                 "type": str(d.get("Type", "")),
                 "hR_arcsec": float(values["h_r"]),
                 "mu0_R_mag_arcsec2": float(values["mu0"]),
-                "B_minus_K": float(values["color"]),
+                "B_minus_K": _as_float(d.get("B-K", "")),
                 "K_abs_mag": float(values["k_abs"]),
                 "K_luminosity_Lsun": luminosity,
                 "distance_2025_Mpc": float(values["distance"]),
@@ -875,7 +874,6 @@ def _load_rows(
                 "hR_kpc": h_r_kpc,
                 "gas_scale_hR": scale_ratio,
                 "mu0": float(predictor["mu0_R_mag_arcsec2"]),
-                "B_minus_K": float(predictor["B_minus_K"]),
                 "gas_fraction_proxy": 1.4 * hi_mass / (0.5 * luminosity + 1.4 * hi_mass),
             }
         )
@@ -990,7 +988,6 @@ def _ridge_oof(rows: Sequence[Mapping[str, Any]], y: np.ndarray, alpha: float) -
                 math.log(row["HI_mass_Msun"]),
                 math.log(row["hR_kpc"]),
                 row["mu0"],
-                row["B_minus_K"],
             ]
             for row in rows
         ],
