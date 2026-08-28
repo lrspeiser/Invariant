@@ -140,6 +140,8 @@ def _contract_digest(config: Mapping[str, Any]) -> str:
     value = json.loads(json.dumps(config))
     value["scientific_freeze_commit"] = "<BOUND_COMMIT>"
     value["sample_freeze_commit"] = "<BOUND_COMMIT>"
+    value.pop("implementation_correction_commit", None)
+    value.pop("implementation_correction_scope", None)
     return _sha256_bytes(_canonical_bytes(value))
 
 
@@ -149,7 +151,11 @@ def verify_science_freeze(root: Path, config: Mapping[str, Any]) -> None:
     frozen = json.loads(str(_git(root, "show", f"{commit}:{CONFIG_PATH.as_posix()}")))
     if _contract_digest(frozen) != _contract_digest(config):
         raise GravityItem24Error("scientific contract differs from frozen commit")
-    module = _git(root, "show", f"{commit}:{MODULE_PATH.as_posix()}", text_mode=False)
+    module_commit = str(config.get("implementation_correction_commit", commit))
+    if module_commit.startswith("TO_BE_BOUND"):
+        raise GravityItem24Error("implementation correction has not been bound")
+    _require_ancestor(root, module_commit, "implementation correction")
+    module = _git(root, "show", f"{module_commit}:{MODULE_PATH.as_posix()}", text_mode=False)
     if not isinstance(module, bytes) or _sha256_bytes(module) != _sha256_file(root / MODULE_PATH):
         raise GravityItem24Error("Item 24 module differs from scientific freeze")
 
@@ -1488,6 +1494,13 @@ def _evaluate(
     xp, backend, device = _backend()
     start = time.perf_counter()
     log_mu = _build_log_mu_matrix(config, arrays, rows, xp)
+    sample_domain_valid = _to_numpy(xp.all(xp.isfinite(log_mu), axis=1), xp).astype(bool)
+    removed_by_sample_domain = int(np.count_nonzero(~sample_domain_valid))
+    log_mu = log_mu[xp.asarray(sample_domain_valid)]
+    arrays = {key: value[sample_domain_valid] for key, value in arrays.items()}
+    admissibility["sample_domain_nonfinite_cells_removed"] = removed_by_sample_domain
+    admissibility["sample_domain_admissible_cells"] = len(arrays["niche"])
+    admissibility["sample_domain_admissible_digest"] = _raw_candidate_digest(arrays)
     xp.cuda.Stream.null.synchronize()
     matrix_seconds = time.perf_counter() - start
     cpu_count = min(int(config["evaluation"]["cpu_crosscheck_candidates"]), len(arrays["niche"]))
@@ -1612,7 +1625,9 @@ def _evaluate(
         "backend": backend, "device": device, "numpy_version": np.__version__,
         "cupy_version": getattr(xp, "__version__", None),
         "raw_candidate_cells": int(config["candidate_generator"]["raw_candidate_cells"]),
+        "generic_domain_admissible_candidate_cells": admissibility["admissible_cells"],
         "admissible_candidate_cells": len(arrays["niche"]),
+        "sample_domain_nonfinite_cells_removed": removed_by_sample_domain,
         "objects": len(rows), "galaxies": galaxy_count, "lenses": lens_count,
         "candidate_observable_matrix_values": int(np.prod(log_mu.shape)),
         "candidate_training_residual_evaluations_observed": training_evaluations,
@@ -1630,7 +1645,10 @@ def _evaluate(
         "counts": {
             "valid_exploration_galaxies": galaxy_count, "valid_exploration_lenses": lens_count,
             "raw_candidate_cells": int(config["candidate_generator"]["raw_candidate_cells"]),
-            "admissible_candidate_cells": len(arrays["niche"]), "post_response_candidate_cells": 0,
+            "generic_domain_admissible_candidate_cells": admissibility["admissible_cells"],
+            "admissible_candidate_cells": len(arrays["niche"]),
+            "sample_domain_nonfinite_cells_removed": removed_by_sample_domain,
+            "post_response_candidate_cells": 0,
             "permutation_trials": trials, "counterexamples_vs_flexible": len(counterexamples),
         },
         "primary_metrics": {
@@ -1704,6 +1722,8 @@ def _build_receipt(
             },
             "frozen_boundary": {
                 "scientific_freeze_commit": config["scientific_freeze_commit"], "sample_freeze_commit": config["sample_freeze_commit"],
+                "implementation_correction_commit": config["implementation_correction_commit"],
+                "implementation_correction_scope": config["implementation_correction_scope"],
                 "stable_goal_sha256": config["stable_goal_sha256"], "confirmation_opened": False,
                 "confirmation_response_values_read": 0, "published_delay_answers_read": False,
                 "post_response_formula_generation": False,
