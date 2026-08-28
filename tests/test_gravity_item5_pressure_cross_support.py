@@ -106,6 +106,22 @@ def test_synthetic_vizier_payload_parsers_use_only_frozen_fields() -> None:
     assert [row["estimator"] for row in robust] == ["biweight", "gapper"]
 
 
+def test_catalog_native_act_prefix_repair_does_not_change_sample_or_gates() -> None:
+    config = item5v2.load_config(ROOT)
+    audit = config["postfreeze_acquisition_audit"]
+    assert audit["failure_cluster"] == "0232-5257"
+    assert audit["primary_response_queries_issued"] == 8
+    assert audit["reserved_confirmation_response_queries_issued"] == 0
+    assert audit["formula_model_gate_or_sample_change"] is False
+    assert item5v2._bayliss_identifier("0232-5257") == "ACT-CLJ0232-5257"
+    assert item5v2._bayliss_identifier("0000-5748") == "SPT-CLJ0000-5748"
+    parsed = item5v2.parse_metadata_payload(
+        b"ACT-CLJ0232-5257\t40\t30\t25\t5\t0.55\t0.001\t1\n",
+        cluster="0232-5257",
+    )
+    assert parsed["n_members"] == 30
+
+
 def test_response_acquisition_is_impossible_before_freeze_binding() -> None:
     if item5v2.SCIENTIFIC_FREEZE_COMMIT.startswith("PENDING_"):
         with pytest.raises(item5v2.GravityItem5PressureCrossSupportError, match="not bound"):

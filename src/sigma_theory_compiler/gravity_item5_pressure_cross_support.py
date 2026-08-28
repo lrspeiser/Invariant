@@ -100,6 +100,11 @@ def load_config(root: Path) -> dict[str, Any]:
         raise GravityItem5PressureCrossSupportError("sample roles overlap")
     if len(exploration) + len(confirmation) != sample["quality_passing_candidates"]:
         raise GravityItem5PressureCrossSupportError("quality-passing sample count changed")
+    act_prefix = {str(value) for value in sample["exploration_act_prefix"]}
+    if act_prefix != {"0232-5257", "0235-5121", "0304-4921"}:
+        raise GravityItem5PressureCrossSupportError("Bayliss identifier-prefix repair changed")
+    if not act_prefix.issubset(exploration):
+        raise GravityItem5PressureCrossSupportError("ACT-prefix repair escaped exploration")
     if config["prefreeze_audit"]["response_values_read"] != 0:
         raise GravityItem5PressureCrossSupportError("prefreeze response boundary changed")
     if config["derivation"]["feature_builder_accepts_velocity_response"]:
@@ -360,7 +365,7 @@ def parse_thermal_payload(payload: bytes, *, cluster: str) -> dict[str, Any]:
 
 
 def parse_metadata_payload(payload: bytes, *, cluster: str) -> dict[str, Any]:
-    prefix = f"SPT-CLJ{cluster}"
+    prefix = _bayliss_identifier(cluster)
     row = _one_row(payload, prefixes=(prefix,), expected_fields=8)
     assert row is not None
     if row[0] != prefix:
@@ -378,7 +383,7 @@ def parse_metadata_payload(payload: bytes, *, cluster: str) -> dict[str, Any]:
 
 
 def parse_primary_response_payload(payload: bytes, *, cluster: str) -> dict[str, Any]:
-    prefix = f"SPT-CLJ{cluster}"
+    prefix = _bayliss_identifier(cluster)
     row = _one_row(payload, prefixes=(prefix,), expected_fields=3)
     assert row is not None
     return {
@@ -427,6 +432,11 @@ def _retrieval(url: str, payload: bytes) -> dict[str, Any]:
     return {"url": url, "payload_sha256": _sha256_bytes(payload), "bytes": len(payload)}
 
 
+def _bayliss_identifier(cluster: str) -> str:
+    prefix = "ACT-CLJ" if cluster in {"0232-5257", "0235-5121", "0304-4921"} else "SPT-CLJ"
+    return f"{prefix}{cluster}"
+
+
 def acquire_exploration(root: Path) -> dict[str, Any]:
     root = root.resolve()
     config = load_config(root)
@@ -460,13 +470,13 @@ def acquire_exploration(root: Path) -> dict[str, Any]:
             str(primary_source["catalog_id"]),
             columns=primary_source["metadata_columns"],
             constraint_name="Cl",
-            constraint_value=f"SPT-CLJ{cluster}",
+            constraint_value=_bayliss_identifier(cluster),
         )
         response_url = _query_url(
             str(primary_source["catalog_id"]),
             columns=primary_source["response_columns"],
             constraint_name="Cl",
-            constraint_value=f"SPT-CLJ{cluster}",
+            constraint_value=_bayliss_identifier(cluster),
         )
         thermal_payload = _fetch(thermal_url)
         metadata_payload = _fetch(metadata_url)
@@ -517,12 +527,19 @@ def acquire_exploration(root: Path) -> dict[str, Any]:
             "sample_manifest_path": config["sample_manifest_output"],
             "sample_manifest_sha256": _sha256_file(sample_path),
         },
+        "acquisition_history": config["postfreeze_acquisition_audit"],
         "boundary": {
             "exploration_thermal_queries": len(exploration),
             "exploration_metadata_queries": len(exploration),
-            "exploration_primary_response_queries": len(exploration),
+            "successful_exploration_primary_response_queries": len(exploration),
+            "cumulative_exploration_primary_response_queries": len(exploration)
+            + int(config["postfreeze_acquisition_audit"]["primary_response_queries_issued"]),
             "exploration_primary_response_rows": len(records),
-            "exploration_robustness_response_queries": alternative_queries,
+            "cumulative_primary_response_rows_returned": len(records)
+            + int(config["postfreeze_acquisition_audit"]["primary_response_rows_returned"]),
+            "successful_exploration_robustness_response_queries": alternative_queries,
+            "cumulative_exploration_robustness_response_queries": alternative_queries
+            + int(config["postfreeze_acquisition_audit"]["robustness_response_queries_issued"]),
             "exploration_robustness_response_rows": alternative_rows,
             "reserved_confirmation_primary_response_queries": 0,
             "reserved_confirmation_robustness_response_queries": 0,
