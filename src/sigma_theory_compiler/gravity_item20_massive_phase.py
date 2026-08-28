@@ -519,7 +519,6 @@ def _prediction_matrix(rows: Sequence[Mapping[str, Any]], candidates: Mapping[st
     batch = int(config["evaluation"]["candidate_batch_size"])
     conversion = float(config["physics"]["constants"]["inverse_seconds_per_km_s_per_kpc"])
     omega_factor = float(config["physics"]["constants"]["kpc_m"]) / float(config["physics"]["constants"]["c_m_s"])
-    table = {key: xp.asarray(value) for key, value in kernel.items()}
     for start in range(0, count, batch):
         stop = min(count, start + batch)
         def get(key: str, begin: int = start, end: int = stop) -> Any:
@@ -530,9 +529,9 @@ def _prediction_matrix(rows: Sequence[Mapping[str, Any]], candidates: Mapping[st
         omega = xp.sqrt(base) / radius * conversion
         z = get("harmonic") * omega * get("lambda_kpc") * omega_factor
         occupation = phase_occupation(get("family"), z, get("quality_factor"), get("landau_power"), get("secondary_weight"), xp)
-        star_ratio = _kernel_values(3.2, rd, get("lambda_kpc"), table, xp)
+        star_ratio = _kernel_values(3.2, rd, get("lambda_kpc"), kernel, xp)
         gas_rd = gas_disk_scale * rd
-        gas_ratio = _kernel_values(3.2 / gas_disk_scale, gas_rd, get("lambda_kpc"), table, xp)
+        gas_ratio = _kernel_values(3.2 / gas_disk_scale, gas_rd, get("lambda_kpc"), kernel, xp)
         massive = stellar * star * star_ratio + gas_scale * gas * gas_ratio
         prediction_v2 = base + get("sign") * get("amplitude") * occupation * massive
         result[start:stop] = 0.5 * xp.log(xp.maximum(prediction_v2, 1.0e-30))
