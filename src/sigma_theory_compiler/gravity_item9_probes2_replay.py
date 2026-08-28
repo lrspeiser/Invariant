@@ -23,7 +23,7 @@ from sigma_theory_compiler import gravity_item9_interior_exterior as attempt1
 
 CONFIG_PATH = Path("configs/gravity_item9_probes2_zero_tuning_replay_v1.json")
 SCIENTIFIC_FREEZE_COMMIT = "036dda3e7a2fe5fc3b65517ad75d129915fbde1e"
-SAMPLE_FREEZE_COMMIT = "PENDING_SAMPLE_FREEZE_COMMIT"
+SAMPLE_FREEZE_COMMIT = "5423dfa0305bc9c146eb0a9d1db0eeaa75e5ffe3"
 
 
 class GravityItem9Probes2ReplayError(RuntimeError):
