@@ -1,0 +1,182 @@
+{
+  "schema_version": "invariant-gravity-roadmap-item2-stellar-multipoles-config-1.0",
+  "goal": "GRAVITY_ROADMAP_ITEM_02_SHAPE_ANISOTROPY_THIRD_ATTEMPT",
+  "status": "exploratory_real_data_model_development",
+  "roadmap_binding": {
+    "path": "docs/GRAVITY_HIDDEN_VARIABLE_AND_THEORY_SEARCH_GOALS.md",
+    "file_sha256": "b9db7e1aa76deaf28ce2e840cd3d7db4cf7a086b1c7ca473800780c264a0e772",
+    "item_number": 2,
+    "item_title": "Shape and anisotropy"
+  },
+  "predecessor_bindings": {
+    "item1": {
+      "path": "runs/gravity/roadmap/item-01-effective-dimension-v1.json",
+      "file_sha256": "63b027c314436b40212c434c73a817cd1010bb3de9a3161526256357bb74440e",
+      "content_sha256": "3b42f09317b430303796ca0f6e6740487e652e1a46f4c1768ad1315d182900e0",
+      "required_decision": "INCONCLUSIVE_ITEM1_EFFECTIVE_DIMENSION"
+    },
+    "item2_attempt1": {
+      "path": "runs/gravity/roadmap/item-02-shape-anisotropy-v1.json",
+      "file_sha256": "6a257d6086da4c6aaa0bbf0dc2db03be8ea89ff1b1755848a4d45dd57f29f76a",
+      "content_sha256": "13bf111dac994e5d97661fd0d00a789796b7ccf627596b06cb7bc7b3bfdb6835",
+      "required_decision": "INCONCLUSIVE_ITEM2_SHAPE_ANISOTROPY"
+    },
+    "item2_attempt2": {
+      "path": "runs/gravity/roadmap/item-02-wise-multipoles-v2.json",
+      "file_sha256": "4b550a901a133440869b7db8b3248c1252fc168144d13fd36f91f2a6defbc745",
+      "content_sha256": "5bee70308b84d35d324ef938e4c162437a841d03b4905565a222a2f2c2490b35",
+      "required_decision": "INCONCLUSIVE_ITEM2_WISE_MULTIPOLES"
+    }
+  },
+  "authorization": {
+    "scope": "execute the canonical hidden-variable and theory roadmap",
+    "authorized_by_user": true,
+    "network_acquisition_allowed": true,
+    "paid_model_calls_allowed": false,
+    "sparc_confirmation_evaluator_accesses_allowed": 0,
+    "direct_lensing_likelihood_evaluations_allowed": 0,
+    "sequential_G6_G7_G8_advanced": false
+  },
+  "sources": {
+    "galaxy_unwise_features": {
+      "path": "runs/gravity/roadmap/item-02-wise-multipoles-v2-source/unwise-neo11-w1-multipoles.tsv",
+      "file_sha256": "52b6dc56e3496b45d7651ecd0e06c9513bfa0bac80543f6fb0029c073e575806",
+      "manifest_path": "runs/gravity/roadmap/item-02-wise-multipoles-v2-source/unwise-neo11-w1-manifest.json",
+      "manifest_sha256": "19f0a8600b22cec6f7990e61558393b303804e5d0994f27a679a9fa3a6536f15",
+      "role": "quality-frozen 3.4-micron old-stellar-light morphology for 68 SPARC exploration galaxies"
+    },
+    "clash_bcg_baryons": {
+      "path": "runs/gravity/roadmap/item-02-stellar-multipoles-v3-source/clash-bcg-baryons.tsv",
+      "file_sha256": "cadfeaaa004cd6128bcbd4bde1903da878873564de0487e274a6e1feffe244d4",
+      "source_url": "https://cdsarc.cds.unistra.fr/viz-bin/cat/J/ApJ/896/70",
+      "raw_source_sha256": "6f8348a8afe33ddd8ebf2d395e64d70d018bf7f12565ecc8ed253b9f022afae3",
+      "allowed_source_columns": ["AName", "Name", "z", "M*"],
+      "forbidden_source_columns": ["RAR", "Mgas", "Mtot", "e_Mtot"]
+    },
+    "clash_xray_morphology": {
+      "path": "runs/gravity/roadmap/item-02-shape-anisotropy-v1-source/clash_xray_morphology_500kpc.tsv",
+      "file_sha256": "bbbdef427f720612a467ec1e35e95ee346b02aee71eb4f9f931332ac0abed0d3",
+      "role": "independent target-blind representation validation only",
+      "used_columns": ["concentration", "centroid_shift", "p30", "p40", "axis_ratio", "position_angle_deg"]
+    },
+    "clash_molino_catalogs": [
+      {"slug": "a209", "sha256": "66040fda2b691e23e9bc7805b28cacec600893e9581ae6ac5796ccc44f2eb295"},
+      {"slug": "a2261", "sha256": "58f03eb7eb5d4074ff24a717dfaf3fa94f6385848ed97c57d74752c5cd3b59b2"},
+      {"slug": "a383", "sha256": "6bf082c8ae326b1f4a9003295ea4ace74ba384e48009ee14f79cc822869b63d4"},
+      {"slug": "a611", "sha256": "f620e3e4d5ce6db9b0340dbe94dce8c7a788055fe618b7d9d8d3507254dd30b8"},
+      {"slug": "macs0329", "sha256": "9219ad75460d250e4bb8fe7d218c89399382f03fac8202c6d929dc14f1f8b036"},
+      {"slug": "macs0416", "sha256": "5dff727a0c49da105dab196a0202c25edf5efcf54e84e8229aa78a997e550514"},
+      {"slug": "macs0429", "sha256": "c98108d04378c3a172c4f1ba8e0e05eb5ed7ee794b8542f092255f457abf64b0"},
+      {"slug": "macs0647", "sha256": "a247827bf21887b3cc301251161a32fc88cb74398421fdb57ca160a04e1c0633"},
+      {"slug": "macs0717", "sha256": "8a4a627efd3bf1ab4b72a1eca78ba2fc170db79056c8fc9d7197ca849a72ea81"},
+      {"slug": "macs0744", "sha256": "0ac8d8bec9c2aec67a45cf8421bf962fca384b8e62ac86b758903c754b29097a"},
+      {"slug": "macs1115", "sha256": "15cd34b3eba2d26fb1af8e186390e37068c89a8a090c2fb6ff35cf54ba681f73"},
+      {"slug": "macs1149", "sha256": "17dcf46dedc4c2586fc62b3fb3957a0593c1288fa06dec3329132d44de0b59b0"},
+      {"slug": "macs1206", "sha256": "0bf59f4c2b86ef728c7bb1392cccd9f579537bbff004b5d06be719cbceccfd8d"},
+      {"slug": "macs1720", "sha256": "7ef489918e61115f625587a45e443b3c2e82646709d69adf43bd64a7650abf85"},
+      {"slug": "macs1931", "sha256": "1bad8b11b2844275dc6efda9ce58fb7b6c63debc42731fdd5da698adf9ba3fde"},
+      {"slug": "ms2137", "sha256": "e990aca08aebbd4e2494c6fa4277c0975d1aa3eb05ee8f16231d425978fbf043"},
+      {"slug": "rxj1347", "sha256": "5048d415a1f58943a75ed04a6d8ae9ba3d20232a99c71366aa21282b3aaca2a3"},
+      {"slug": "rxj1532", "sha256": "b518d17ab1a959f4b0ef07cfa2451d575476093aa91ea7637a5e63b3f43a6c34"},
+      {"slug": "rxj2129", "sha256": "d28e53f30cc8f2c7458c51cb04f1eb44ed595867a6406d4e5f8e9ed06d6eb209"},
+      {"slug": "rxj2248", "sha256": "4f59ba74fd90d8fb558cd04f13c8941fc6468e14c9504d2b179632b5f6020271"}
+    ],
+    "molino_url_template": "https://archive.stsci.edu/missions/hlsp/clash/{slug}/catalogs/molino/hlsp_clash_hst_ir_{slug}_cat-molino.txt"
+  },
+  "target_blind_extraction": {
+    "catalog_schema_columns": 102,
+    "common_aperture_kpc": 150,
+    "central_catalog_exclusion_kpc": 5,
+    "bcg_replacement": "replace central detections with the independently tabulated non-lensing-corrected BCG stellar mass at the origin",
+    "member_selection": {
+      "point_source": 0,
+      "maximum_sextractor_photoflag": 3,
+      "minimum_observed_bands": 16,
+      "minimum_detected_bands": 8,
+      "minimum_signal_to_noise": 5,
+      "stellar_mass_log10_solar_range": [6, 13],
+      "secure_specz_maximum_delta_over_one_plus_z": 0.02,
+      "photoz_interval_must_contain_cluster_z": true,
+      "photoz_maximum_delta_over_one_plus_z": 0.06,
+      "minimum_photoz_odds": 0.5
+    },
+    "weight_powers": [0, 0.5, 1],
+    "primary_weight_power": 1,
+    "common_features": {
+      "concentration_c20": "stellar weight within 30 kpc divided by weight within 150 kpc",
+      "centroid_shift": "RMS displacement of weight centroids at 0.2, 0.4, 0.6, 0.8, and 1.0 aperture divided by 150 kpc",
+      "quadrupole_amplitude": "absolute BCG-centered complex second moment divided by radial second moment",
+      "m3_aperture_amplitude": "absolute BCG-centered weighted (r/R)^3 complex moment divided by total weight",
+      "m4_aperture_amplitude": "absolute BCG-centered weighted (r/R)^4 complex moment divided by total weight"
+    },
+    "target_fields_available_to_feature_computation": false,
+    "lensing_corrected_columns_used": [],
+    "gravity_response_receipts_read_by_extractor": 0
+  },
+  "representation_validation_gate": {
+    "expected_catalogs": 20,
+    "minimum_eight_sector_footprint_kpc": 150,
+    "minimum_members_including_bcg_per_cluster": 5,
+    "minimum_median_members_including_bcg": 15,
+    "primary_directions": [
+      "concentration_c20_vs_xray_concentration_positive",
+      "centroid_shift_vs_xray_centroid_shift_positive",
+      "quadrupole_amplitude_vs_xray_ellipticity_positive",
+      "m3_vs_log_xray_p30_positive",
+      "m4_vs_log_xray_p40_positive"
+    ],
+    "minimum_primary_correlations_above_0p2": 4,
+    "maximum_joint_whole_cluster_permutation_p": 0.05,
+    "permutations": 100000,
+    "seed": 20260827,
+    "maximum_median_position_axis_difference_deg": 45,
+    "minimum_fraction_position_axis_within_30_deg": 0.4,
+    "robustness_weight_powers": [0, 0.5],
+    "maximum_robustness_joint_permutation_p": 0.1
+  },
+  "models": [
+    {"id": "constant", "features": [], "origin_label": "known_regression_baseline", "qualifying": false},
+    {"id": "linear_concentration", "features": ["concentration_c20"], "origin_label": "known_linear_scaffold", "qualifying": true},
+    {"id": "linear_centroid_shift", "features": ["centroid_shift"], "origin_label": "known_linear_scaffold", "qualifying": true},
+    {"id": "linear_quadrupole", "features": ["quadrupole_amplitude"], "origin_label": "known_multipole_scaffold", "qualifying": true},
+    {"id": "linear_m3", "features": ["m3_aperture_amplitude"], "origin_label": "known_multipole_scaffold", "qualifying": true},
+    {"id": "linear_m4", "features": ["m4_aperture_amplitude"], "origin_label": "known_multipole_scaffold", "qualifying": true},
+    {"id": "linear_multipole_energy", "features": ["multipole_energy"], "origin_label": "new_combination_of_known_multipoles", "qualifying": true},
+    {"id": "quadratic_multipole_energy", "features": ["multipole_energy", "multipole_energy_squared"], "origin_label": "known_polynomial_scaffold", "qualifying": true},
+    {"id": "log_multipole_energy", "features": ["log1p_multipole_energy_over_0p05"], "origin_label": "known_saturating_scaffold", "qualifying": true},
+    {"id": "concentration_plus_energy", "features": ["concentration_c20", "multipole_energy"], "origin_label": "new_combination_of_known_morphology_statistics", "qualifying": true},
+    {"id": "energy_concentration_interaction", "features": ["concentration_c20", "multipole_energy", "concentration_times_energy"], "origin_label": "new_combination_of_known_morphology_statistics", "qualifying": true},
+    {"id": "all_multipoles", "features": ["concentration_c20", "centroid_shift", "quadrupole_amplitude", "m3_aperture_amplitude", "m4_aperture_amplitude"], "origin_label": "new_combination_of_known_multipoles", "qualifying": true},
+    {"id": "linear_support_dimension_proxy", "features": ["support_dimension"], "origin_label": "item1_population_proxy_control", "qualifying": false},
+    {"id": "support_plus_all_multipoles", "features": ["support_dimension", "concentration_c20", "centroid_shift", "quadrupole_amplitude", "m3_aperture_amplitude", "m4_aperture_amplitude"], "origin_label": "diagnostic_population_proxy_plus_multipoles", "qualifying": false}
+  ],
+  "cross_validation": {
+    "outer_folds": 5,
+    "fold_salt": "invariant-gravity-roadmap-item2-stellar-multipoles-v3",
+    "fold_unit": "whole_object_stratified_by_population",
+    "inner_selection_target": "domain_balanced_mean_squared_error_on_training_object_beta_labels",
+    "heldout_object_target_available_to_fit_or_selection": false,
+    "ridge": "1e-8",
+    "prediction_clip": ["0", "4"],
+    "multipole_energy_overlap_minimum_objects_per_population": 5
+  },
+  "admission": {
+    "target_blind_representation_validation_must_pass": true,
+    "universal_selector_must_choose_a_qualifying_model_in_every_fold": true,
+    "universal_model_must_beat_constant_observational_score_in_each_population": true,
+    "universal_beta_r2_must_be_positive_in_each_population": true,
+    "universal_model_must_beat_support_proxy_beta_mse_in_each_population": true,
+    "universal_model_must_beat_support_proxy_in_energy_overlap_for_each_population": true,
+    "population_proxy_models_may_not_qualify": true,
+    "confirmation_or_direct_lensing_required_for_novel_physics_claim": true
+  },
+  "claim_boundaries": {
+    "stellar_light_or_catalog_mass_is_complete_baryonic_mass_map": false,
+    "member_photoz_selection_is_contamination_free": false,
+    "intrinsic_3d_shape_recovered": false,
+    "clash_target_is_direct_lensing": false,
+    "historical_novelty_established": false,
+    "alternative_to_gr_established": false
+  },
+  "output": "runs/gravity/roadmap/item-02-stellar-multipoles-v3.json"
+}
