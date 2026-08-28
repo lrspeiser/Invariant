@@ -1,0 +1,166 @@
+{
+  "schema_version": "invariant-gravity-roadmap-item12-manga-dynamical-age-config-1.0",
+  "goal": "GRAVITY_ROADMAP_ITEM_12_DYNAMICAL_AGE",
+  "status": "scientific_freeze_before_manga_predictor_or_response_rows",
+  "roadmap_binding": {
+    "path": "docs/GRAVITY_HIDDEN_VARIABLE_AND_THEORY_SEARCH_GOALS.md",
+    "file_sha256": "b9db7e1aa76deaf28ce2e840cd3d7db4cf7a086b1c7ca473800780c264a0e772",
+    "item_number": 12,
+    "item_title": "Dynamical age"
+  },
+  "predecessor": {
+    "path": "runs/gravity/roadmap/item-11-synthesis-v1.json",
+    "file_sha256": "69a03a2bfdc82987dbe570ff68741a72c97f757176362089ed868672d9a3e30a",
+    "content_sha256": "efdada16c0f74f8e3c6524933536f85c1d7406c376ff7f0812560a6ddc04972c",
+    "required_decision": "INCONCLUSIVE_ITEM11_QUALITY_NEGATIVE_DIRECTION_ADVANCE_ITEM12"
+  },
+  "source": {
+    "dataset": "SDSS DR17 MaNGA DAPall HYB10-MILESHC-MASTARSSP joined to DRPall",
+    "official_data_page": "https://www.sdss.org/dr17/manga/manga-data/data-access/",
+    "metadata_model": "https://sdss-mangadap.readthedocs.io/en/latest/metadatamodel.html",
+    "skyserver_endpoint": "https://skyserver.sdss.org/dr17/SkyServerWS/SearchTools/SqlSearch",
+    "dap_table": "mangaDAPall",
+    "drp_table": "mangaDrpAll",
+    "daptype": "HYB10-MILESHC-MASTARSSP",
+    "observed_join_rows": 10782,
+    "observed_at": "2026-08-28",
+    "prefreeze_queries": {"schema_only": 4, "count_only": 2, "predictor_rows_read": 0, "response_rows_read": 0},
+    "predictor_columns": ["plateifu", "mangaid", "objra", "objdec", "daptype", "dapqual", "snr_med_g", "sb_1re", "specindex_1re_dn4000", "specindex_1re_d4000", "specindex_1re_hdeltaa", "specindex_1re_hgammaa", "specindex_1re_hb", "emline_sew_1re_ha_6564", "sfr_1re", "sfr_tot", "nsa_elpetro_mass", "nsa_elpetro_th50_r", "nsa_elpetro_ba", "nsa_sersic_n", "nsa_sersic_absmag_g", "nsa_sersic_absmag_r", "nsa_z", "drp3qual"],
+    "response_columns": ["plateifu", "stellar_sigma_1re", "stellar_rchi2_1re", "stellar_vel_lo_clip", "stellar_vel_hi_clip", "ha_gvel_lo_clip", "ha_gvel_hi_clip"],
+    "predictor_rule": "Query only predictor columns for the fixed DAPTYPE after scientific freeze. Query response columns in exact plateifu chunks only for the committed exploration sample after sample freeze.",
+    "response_chunk_size": 75,
+    "confirmation_query_forbidden": true
+  },
+  "independence": {
+    "manga_identity_source": {"path": "runs/gravity/roadmap/item-02-manga-nonlocal-shape-v4-source/manga-sample-manifest.json", "file_sha256": "76173825c189fbb9aa809b53fa21770d72262f0a14f65f59311a79c1caee0b39", "key": "manga_id"},
+    "coordinate_exclusions": [
+      {"path": "runs/gravity/roadmap/item-02-shape-anisotropy-v1-source/sparc_table1.tsv", "file_sha256": "feb0e2e5478888ced9533fffe6c7711dba280e78f50dfd09916b28aef41c8ce2", "format": "vizier_tsv", "ra_key": "_RA", "dec_key": "_DE"},
+      {"path": "runs/gravity/roadmap/item-02-wise-multipoles-v2-source/s4g-features-table2.tsv", "file_sha256": "ca524f8e4e4c185f5144712018952029d185a7f3b5ce1ce1e8e2a2ef3a18d523", "format": "vizier_tsv", "ra_key": "_RA", "dec_key": "_DE"},
+      {"path": "work/item9-probes-schema-audit/main_table.csv", "file_sha256": "885803c3ecf71509eeed804756407cebad9080cc1f1bd258cbd5f8f8fb23b0a2", "format": "probes_csv", "ra_key": "RA", "dec_key": "DEC"},
+      {"path": "runs/gravity/roadmap/item-10-wallaby-boundaries-v1-source/sample-manifest.json", "file_sha256": "8032dbe5f345a9b3a62290de4c4731ed5a321b33b7162582106460508b91e56b", "format": "json_objects", "ra_key": "ra", "dec_key": "dec"},
+      {"path": "runs/gravity/roadmap/item-11-neargalcat-external-field-v1-source/predictor-source.json", "file_sha256": "f8fe995f089c1019033847dd9feefaae2b96d75be55d24431429dbc1de5069fc", "format": "json_records", "ra_key": "ra", "dec_key": "dec"}
+    ],
+    "coordinate_exclusion_arcseconds": 60.0,
+    "rule": "Exclude every Item 2 MaNGA mangaid and every predictor within 60 arcsec of any declared predecessor coordinate before response access. Exclude duplicate plateifu or mangaid records; never replace a failure after response access."
+  },
+  "authorization": {
+    "network_acquisition_allowed": true,
+    "paid_model_calls_allowed": false,
+    "predictor_query_allowed_after_scientific_freeze": true,
+    "response_query_allowed_before_sample_freeze": false,
+    "exploration_response_query_allowed_after_sample_freeze": true,
+    "confirmation_response_query_allowed": false,
+    "post_response_candidate_generation_allowed": false,
+    "stellar_kinematic_response_as_predictor_allowed": false,
+    "object_identity_as_numeric_feature_allowed": false
+  },
+  "scientific_contract": {
+    "hypothesis": "Target-blind stellar-population and settling clocks add held-out predictive information about stellar dynamical support beyond stellar mass, size, shape, color, redshift, surface brightness, and signal quality.",
+    "primary_test": "Nested whole-galaxy selection of a seeded 262144-cell age/settling grammar on a frozen 750-galaxy MaNGA exploration sample, compared with an identically trained structural ridge baseline for log stellar velocity dispersion within one effective radius.",
+    "creativity_rule": "Search monotonic age, young-burst, post-starburst, quenching-boundary, depletion-clock, age-SFR coherence, settling, internal crossing-time ratio, hysteresis, rejuvenation, consensus, and log-periodic clock mechanisms with explicit provenance labels and one universal scalar coefficient.",
+    "interpretation_boundary": "A positive result identifies reproducible age information, not a causal modification of gravity. A negative result rejects only the tested integrated spectral-clock representation and coefficient prescription."
+  },
+  "candidate_generator": {
+    "algorithm": "numpy.random.Generator(PCG64(seed))",
+    "seed": 1200420260828,
+    "candidate_cells": 262144,
+    "threshold_uniform": [-3.0, 3.0],
+    "scale_log_uniform": [0.03, 6.0],
+    "power_log_uniform": [0.25, 6.0],
+    "phase_uniform": [0.0, 6.283185307179586],
+    "structural_modulations": ["none", "stellar_surface_density", "sersic_index", "axis_ratio", "mass_size_crossing_proxy"],
+    "families": [
+      {"id": "monotonic_dn4000_age", "origin_status": "KNOWN_FORMULA_TRANSFORM", "definition": "signed_power(Dn4000-threshold)"},
+      {"id": "balmer_young_burst", "origin_status": "KNOWN_FORMULA_TRANSFORM", "definition": "signed_power((HdeltaA+HgammaA)/2-threshold)"},
+      {"id": "poststarburst_clock", "origin_status": "KNOWN_FAMILY_COMBINATION", "definition": "Balmer envelope times old/young Dn4000 contrast"},
+      {"id": "quenching_boundary", "origin_status": "KNOWN_FAMILY_COMBINATION", "definition": "tanh transition in Dn4000 and Halpha EW"},
+      {"id": "depletion_clock", "origin_status": "COMBINATION", "definition": "signed power of specific SFR and Halpha EW mismatch"},
+      {"id": "age_sfr_coherence", "origin_status": "UNRESOLVED", "definition": "geometric coherence of Dn4000, Balmer, and specific SFR clocks"},
+      {"id": "settling_exponential", "origin_status": "UNRESOLVED", "definition": "exp(-clock mismatch/scale) with signed old/young direction"},
+      {"id": "clock_crossing_ratio", "origin_status": "UNRESOLVED", "definition": "spectral clock divided by mass-size crossing proxy"},
+      {"id": "age_hysteresis", "origin_status": "UNRESOLVED", "definition": "Dn4000-Hdelta double-valued branch proxy"},
+      {"id": "rejuvenation_double_well", "origin_status": "UNRESOLVED", "definition": "double-well response in age and Halpha clocks"},
+      {"id": "spectral_clock_consensus", "origin_status": "COMBINATION", "definition": "robust consensus of normalized age indicators"},
+      {"id": "log_periodic_clock", "origin_status": "KNOWN_FAMILY_COMBINATION", "definition": "clock envelope times cos(phase+p log(1+|clock|))"}
+    ],
+    "polarity_parameter": "omitted because the fitted universal scalar coefficient makes sign-flipped cells algebraically equivalent",
+    "post_response_cells": 0,
+    "historical_novelty_claimed": false
+  },
+  "sample": {
+    "split_unit": "unique mangaid and plateifu",
+    "split_salt": "invariant-gravity-item12-manga-dynamical-age-split-v1-20260828",
+    "maximum_total_objects": 1000,
+    "exploration_objects": 750,
+    "confirmation_objects": 250,
+    "stratification": "target-blind Dn4000 half and stellar-mass half",
+    "failed_identity_replacement": false
+  },
+  "quality": {
+    "require_dapqual_zero": true,
+    "require_drp3qual_zero": true,
+    "minimum_snr_med_g": 5.0,
+    "maximum_stellar_rchi2_1re": 5.0,
+    "minimum_stellar_sigma_km_s": 30.0,
+    "maximum_stellar_sigma_km_s": 450.0,
+    "minimum_stellar_velocity_span_km_s": 20.0,
+    "maximum_stellar_velocity_span_km_s": 1000.0,
+    "minimum_quality_passing_exploration_galaxies": 450,
+    "minimum_quality_retention_fraction": 0.6
+  },
+  "evaluation": {
+    "outer_folds": 5,
+    "fold_salt": "invariant-gravity-item12-manga-dynamical-age-fold-v1-20260828",
+    "local_features": ["log_stellar_mass", "log_half_light_radius", "log_surface_density", "axis_ratio", "sersic_index", "g_minus_r_color", "redshift", "log_surface_brightness", "log_snr"],
+    "fixed_clock_normalization": {
+      "dn4000": [1.5, 0.35],
+      "d4000": [1.5, 0.45],
+      "balmer": [2.0, 4.0],
+      "hbeta": [2.0, 3.0],
+      "signed_log_halpha_ew": [1.5, 1.5],
+      "log_specific_sfr": [-11.0, 1.5],
+      "mass_size_crossing_proxy": [-4.5, 1.0],
+      "log_surface_density": [8.0, 1.5],
+      "sersic_index": [2.5, 2.0],
+      "axis_ratio": [0.6, 0.25]
+    },
+    "normalization_rule": "Every clock and structural modulation uses only the fixed center and scale above; no held-out predictor or response statistic sets a normalization.",
+    "ridge_alpha": 0.03,
+    "clock_coefficient_ridge": 1e-6,
+    "candidate_batch_size": 4096,
+    "gpu_backend_preference": "cupy_cuda_then_numpy",
+    "cpu_crosscheck_candidates": 64,
+    "paired_sign_flip_permutations": 999,
+    "permutation_salt": "invariant-gravity-item12-manga-dynamical-age-null-v1-20260828"
+  },
+  "admission": {
+    "quality_count_and_fraction_pass": true,
+    "confirmation_responses_untouched": true,
+    "candidate_count_exact": true,
+    "selected_clock_r2_positive": true,
+    "selected_clock_beats_structural_baseline": true,
+    "relative_mse_improvement_at_least": 0.02,
+    "paired_sign_flip_p_at_most": 0.05,
+    "gain_positive_in_both_dn4000_halves": true,
+    "gain_positive_in_both_stellar_mass_halves": true,
+    "gain_positive_in_both_sersic_halves": true,
+    "gain_positive_in_both_redshift_halves": true,
+    "selected_family_is_clock_dependent": true,
+    "post_response_formula_generation_zero": true
+  },
+  "claim_boundaries": {
+    "dynamical_age_cause_established": false,
+    "alternative_to_gr_established": false,
+    "historical_novelty_established": false,
+    "confirmation_opened": false,
+    "roadmap_item_12_complete": false
+  },
+  "outputs": {
+    "predictor_source": "runs/gravity/roadmap/item-12-manga-dynamical-age-v1-source/predictor-source.json",
+    "sample_manifest": "runs/gravity/roadmap/item-12-manga-dynamical-age-v1-source/sample-manifest.json",
+    "candidate_manifest": "runs/gravity/roadmap/item-12-manga-dynamical-age-v1-source/candidate-manifest.json",
+    "response_source": "runs/gravity/roadmap/item-12-manga-dynamical-age-v1-source/response-source.json",
+    "extraction_summary": "runs/gravity/roadmap/item-12-manga-dynamical-age-v1-source/extraction-summary.json",
+    "result": "runs/gravity/roadmap/item-12-manga-dynamical-age-v1.json"
+  }
+}

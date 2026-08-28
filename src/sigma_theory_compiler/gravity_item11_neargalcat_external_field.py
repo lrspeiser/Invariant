@@ -302,6 +302,11 @@ def _json_objects(path: Path) -> list[dict[str, Any]]:
     return [dict(row) for row in value["objects"]]
 
 
+def _json_records(path: Path) -> list[dict[str, Any]]:
+    value = json.loads(path.read_text(encoding="utf-8"))
+    return [dict(row) for row in value["records"]]
+
+
 def _probes_rows(path: Path) -> list[dict[str, str]]:
     with path.open("r", encoding="utf-8-sig", newline="") as handle:
         reader = csv.reader(handle)
@@ -316,6 +321,8 @@ def _source_rows(root: Path, entry: Mapping[str, Any]) -> list[dict[str, Any]]:
         return _vizier_rows(path)
     if entry["format"] == "json_objects":
         return _json_objects(path)
+    if entry["format"] == "json_records":
+        return _json_records(path)
     if entry["format"] == "probes_csv":
         return _probes_rows(path)
     raise GravityItem11ExternalFieldError("unknown predecessor source format")
