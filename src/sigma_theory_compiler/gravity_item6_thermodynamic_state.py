@@ -21,7 +21,7 @@ from . import gravity_item5_pressure_cross_support as cvcore
 from .sigma_core import canonical_json_bytes, canonical_sha256
 
 CONFIG_PATH = "configs/gravity_item6_thermodynamic_accept_hecs_v1.json"
-SCIENTIFIC_FREEZE_COMMIT = "PENDING_SCIENTIFIC_FREEZE_COMMIT"
+SCIENTIFIC_FREEZE_COMMIT = "4c318784364b222927a2c2484c1d0c0e195ff94a"
 VIZIER_ENDPOINT = "https://vizier.cds.unistra.fr/viz-bin/asu-tsv"
 
 
