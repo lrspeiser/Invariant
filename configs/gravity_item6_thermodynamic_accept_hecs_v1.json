@@ -1,0 +1,187 @@
+{
+  "schema_version": "invariant-gravity-roadmap-item6-thermodynamic-config-1.0",
+  "goal": "GRAVITY_ROADMAP_ITEM_06_THERMODYNAMIC_STATE",
+  "status": "scientific_design_frozen_before_any_hecs_velocity_dispersion_value_access",
+  "roadmap_binding": {
+    "path": "docs/GRAVITY_HIDDEN_VARIABLE_AND_THEORY_SEARCH_GOALS.md",
+    "file_sha256": "b9db7e1aa76deaf28ce2e840cd3d7db4cf7a086b1c7ca473800780c264a0e772",
+    "item_number": 6,
+    "item_title": "Thermodynamic state"
+  },
+  "predecessor": {
+    "path": "runs/gravity/roadmap/item-05-synthesis-v1.json",
+    "file_sha256": "57d3e2b72a791fea17c94cb42cd68217cc467f948275fdafe8d553d17eff0469",
+    "content_sha256": "1bf5ddc6912c6a18a7b982e42cc9723d75cf3ec2a881ac67c7ccec24deb38cae",
+    "required_decision": "REJECT_ITEM5_TESTED_OBSERVABLE_PRESSURE_SUPPORT_FAMILIES_ADVANCE_ITEM6"
+  },
+  "implementation_dependency": {
+    "path": "src/sigma_theory_compiler/gravity_item5_pressure_cross_support.py",
+    "file_sha256": "410a19d86f464e930dcba90b512e3bb71310f11fea2af47fd845312e9446505b",
+    "use": "deterministic whole-cluster nested ridge selection and metric helpers only"
+  },
+  "authorization": {
+    "network_acquisition_allowed": true,
+    "paid_model_calls_allowed": false,
+    "exploration_velocity_responses_allowed_after_freeze": true,
+    "reserved_confirmation_velocity_responses_allowed": false,
+    "hecs_mass_profiles_allowed": false,
+    "caustic_or_nfw_mass_allowed_as_predictor": false,
+    "lensing_mass_allowed_as_predictor": false,
+    "direct_lensing_likelihood_evaluations_allowed": 0,
+    "sequential_G6_G7_G8_advanced": false
+  },
+  "prefreeze_audit": {
+    "date": "2026-08-28",
+    "hecs_velocity_response_values_read": 0,
+    "accept_table1_rows": 320,
+    "accept_unique_cluster_names": 240,
+    "hecs_clusters": 58,
+    "coordinate_matches_within_2_arcmin": 27,
+    "additional_exact_abell_alias_within_5_arcmin": ["A2069"],
+    "quality_passing_matches": 28,
+    "allowed_thermodynamic_predictors_read": [
+      "ACCEPT Name, ObsID, z, <kT>, Notes",
+      "ACCEPT Meth, Nbin, K0, e_K0, K100, e_K100, alpha, e_alpha, p-val",
+      "HeCS Name, RAJ2000, DEJ2000, z, LX, Cat, Nm"
+    ],
+    "response_columns_not_queried": ["HeCS sig", "HeCS E_sig", "HeCS e_sig"]
+  },
+  "scientific_contract": {
+    "hypothesis": "After the known virial temperature scale is controlled, a universal thermodynamic-state operator built from core entropy, outer entropy normalization, entropy slope, a cooling-time proxy, and their phase interactions may predict collisionless galaxy velocity dispersion across clusters.",
+    "creativity_label": "known_temperature_velocity_and_entropy_profile_relations_plus_potentially_new_cooling_gradient_phase_coupling",
+    "known_components": [
+      "spectroscopic X-ray temperature",
+      "entropy K=kT n_e^(-2/3)",
+      "ACCEPT K(r)=K0+K100(r/100 kpc)^alpha profiles",
+      "approximate bremsstrahlung cooling-time scaling",
+      "cluster temperature-velocity dispersion beta_spec relation",
+      "whole-cluster held-out evaluation"
+    ],
+    "nonqualifying_rewrites": [
+      "sigma proportional to sqrt(kT) is the known virial temperature scaling family",
+      "a flexible regression on temperature, X-ray luminosity, redshift, or member count is an empirical baseline",
+      "linear main effects of K0, K100, and alpha are a known entropy-profile combination",
+      "using a HeCS caustic/NFW mass, lensing mass, target dispersion, identity, or a per-cluster coefficient is forbidden"
+    ],
+    "qualifying_boundary": "Only frozen nonlinear cooling-gradient and entropy-phase interactions beyond temperature, luminosity, nuisance, and entropy-main-effect controls qualify.",
+    "not_claimed": [
+      "a direct measured cooling-time profile",
+      "a separation of electron and ion temperature",
+      "a separation of thermal and turbulent pressure",
+      "historical novelty",
+      "a modified-gravity law",
+      "independent confirmation"
+    ]
+  },
+  "sources": {
+    "thermodynamic_table": {
+      "catalog_id": "J/ApJS/182/12/table1",
+      "description": "Cavagnolo et al. 2009 ACCEPT Chandra sample temperatures",
+      "landing_page": "https://cdsarc.cds.unistra.fr/viz-bin/cat/J/ApJS/182/12",
+      "readme": "https://cdsarc.cds.unistra.fr/ftp/J/ApJS/182/12/ReadMe",
+      "paper": "https://doi.org/10.1088/0067-0049/182/1/12",
+      "allowed_columns": ["Name", "ObsID", "z", "<kT>", "Notes"]
+    },
+    "entropy_fit_table": {
+      "catalog_id": "J/ApJS/182/12/table5",
+      "description": "ACCEPT entropy profile fits",
+      "allowed_columns": ["Name", "Meth", "Nbin", "K0", "e_K0", "K100", "e_K100", "alpha", "e_alpha", "p-val"],
+      "primary_rows": "Meth is flat or extr; exclude the blank-method K0=0 constrained control rows"
+    },
+    "dynamics_table": {
+      "catalog_id": "J/ApJ/767/15/table1",
+      "description": "Rines et al. 2013 Hectospec Cluster Survey",
+      "landing_page": "https://cdsarc.cds.unistra.fr/viz-bin/cat/J/ApJ/767/15",
+      "readme": "https://cdsarc.cds.unistra.fr/ftp/J/ApJ/767/15/ReadMe",
+      "paper": "https://doi.org/10.1088/0004-637X/767/1/15",
+      "metadata_columns": ["Name", "RAJ2000", "DEJ2000", "z", "LX", "Cat", "Nm"],
+      "response_columns": ["Name", "sig", "E_sig", "e_sig"],
+      "forbidden_products": ["caustic mass profile", "M200", "M100", "NFW fit"]
+    }
+  },
+  "sample": {
+    "selection_salt": "invariant-gravity-item6-accept-hecs-v1-20260828",
+    "matching_rule": "nearest ACCEPT X-ray center within 2 arcmin, plus an exact normalized Abell alias within 5 arcmin for A2069",
+    "quality_rule": "HeCS Nm>=60; positive ACCEPT temperature; at least one Meth=flat/extr entropy fit with Nbin>=5, K0>=0, K100>0, alpha>0",
+    "cool_core_rule": "median K0<30 keV cm^2",
+    "quality_passing_candidates": 28,
+    "exploration_count": 20,
+    "reserved_confirmation_count": 8,
+    "exploration": [
+      "A1201", "A1204", "A1361", "A1423", "A1689", "A1758", "A1763", "A1835", "A2034", "A2069", "A2111", "A2219", "A2631", "A267", "A697", "A963", "MS0906", "RXJ1720", "RXJ2129", "Zw3146"
+    ],
+    "reserved_confirmation": ["A1068", "A1413", "A1914", "A2259", "A2261", "A773", "RXJ1504", "Zw2701"],
+    "accept_name_map": {
+      "A1068": "Abell 1068", "A1201": "Abell 1201", "A1204": "Abell 1204", "A1361": "Abell 1361", "A1413": "Abell 1413", "A1423": "Abell 1423", "A1689": "Abell 1689", "A1758": "Abell 1758", "A1763": "Abell 1763", "A1835": "Abell 1835", "A1914": "Abell 1914", "A2034": "Abell 2034", "A2069": "Abell 2069", "A2111": "Abell 2111", "A2219": "Abell 2219", "A2259": "Abell 2259", "A2261": "Abell 2261", "A2631": "Abell 2631", "A267": "Abell 267", "A697": "Abell 697", "A773": "Abell 773", "A963": "Abell 963", "MS0906": "MS J0906.5+1110", "RXJ1504": "RX J1504.1-0248", "RXJ1720": "RX J1720.1+2638", "RXJ2129": "RX J2129.6+0005", "Zw2701": "Zwicky 2701", "Zw3146": "ZWCL 3146"
+    },
+    "exploration_cool_core_count": 7,
+    "confirmation_cool_core_count": 3,
+    "post_access_failure_policy": "Retain every missing or invalid exploration object; do not replace it, relax quality, or open a reserved response."
+  },
+  "derivation": {
+    "aggregation": "median across repeated positive ACCEPT <kT> rows and median across Meth=flat/extr entropy rows for the matched cluster name",
+    "known_temperature_scaling": "log10(sigma)=intercept+0.5 log10(<kT>/keV)",
+    "core_entropy": "u0=log10(1+K0/(1 keV cm^2))",
+    "entropy_normalization": "u100=log10(K100/(1 keV cm^2))",
+    "entropy_contrast": "cK=log10[(1+K0)/K100]",
+    "cooling_time_proxy": "tc=1.5 u0-log10(<kT>/keV), proportional to log bremsstrahlung cooling time up to constants",
+    "core_pressure_proxy": "pc=2.5 log10(<kT>/keV)-1.5 u0, from ne=(T/K)^(3/2)",
+    "entropy_gradient_proxy": "gK=alpha*(u100-u0)",
+    "qualifying_interactions": ["tc*alpha", "pc*alpha", "cK*logT", "gK*logT", "tc^2"],
+    "feature_builder_accepts_velocity_response": false,
+    "prediction_target": "log10 of the published HeCS projected velocity dispersion in km/s"
+  },
+  "model_families": [
+    {"id": "constant", "features": [], "fixed_coefficients": {}, "qualifying": false},
+    {"id": "redshift_nuisance", "features": ["log1pz"], "fixed_coefficients": {}, "qualifying": false},
+    {"id": "known_temperature_fixed", "features": [], "fixed_coefficients": {"log_temperature": 0.5}, "qualifying": false},
+    {"id": "flexible_temperature", "features": ["log_temperature", "log1pz"], "fixed_coefficients": {}, "qualifying": false},
+    {"id": "temperature_luminosity_nuisance", "features": ["log_temperature", "log_lx", "log1pz", "log_member_count"], "fixed_coefficients": {}, "qualifying": false},
+    {"id": "entropy_main_effects", "features": ["log_temperature", "log_core_entropy", "log_entropy_100", "entropy_slope", "log1pz"], "fixed_coefficients": {}, "qualifying": false},
+    {"id": "entropy_gradient_coupling", "features": ["log_temperature", "log_core_entropy", "log_entropy_100", "entropy_slope", "entropy_gradient_proxy", "entropy_contrast_x_temperature", "log1pz"], "fixed_coefficients": {}, "qualifying": true},
+    {"id": "cooling_state_coupling", "features": ["log_temperature", "log_lx", "cooling_time_proxy", "core_pressure_proxy", "cooling_x_slope", "pressure_x_slope", "log1pz"], "fixed_coefficients": {}, "qualifying": true},
+    {"id": "all_thermodynamic_phase", "features": ["log_temperature", "log_lx", "log_core_entropy", "log_entropy_100", "entropy_slope", "entropy_contrast", "cooling_time_proxy", "core_pressure_proxy", "entropy_gradient_proxy", "cooling_x_slope", "pressure_x_slope", "entropy_contrast_x_temperature", "gradient_x_temperature", "cooling_squared", "log1pz"], "fixed_coefficients": {}, "qualifying": true}
+  ],
+  "cross_validation": {
+    "outer_folds": 5,
+    "fold_salt": "invariant-gravity-item6-thermodynamic-folds-v1-20260828",
+    "inner_folds": 4,
+    "inner_salt": "invariant-gravity-item6-thermodynamic-inner-v1-20260828",
+    "fold_unit": "whole cluster",
+    "selection_metric": "equal-cluster mean squared log10 velocity-dispersion error",
+    "ridge_penalties": [0.001, 0.01, 0.1, 1.0, 10.0, 100.0],
+    "permutation_count": 499,
+    "permutation_salt": "invariant-gravity-item6-thermodynamic-null-v1-20260828",
+    "permutation_scheme": "shuffle primary log dispersion within frozen <kT><7 keV and >=7 keV strata"
+  },
+  "quality": {
+    "minimum_member_galaxies": 60,
+    "minimum_primary_entropy_bins": 5,
+    "maximum_velocity_dispersion_error_fraction": 0.25,
+    "all_20_exploration_clusters_required": true
+  },
+  "exploration_admission": {
+    "quality_contract_passes": true,
+    "unrestricted_selector_qualifying_in_at_least_folds": 4,
+    "qualifying_selector_r2_positive_overall": true,
+    "qualifying_selector_beats_each_nonqualifying_baseline_overall": true,
+    "qualifying_relative_mse_improvement_over_strongest_baseline_at_least": 0.02,
+    "qualifying_improvement_positive_in_both_cool_core_strata": true,
+    "temperature_stratified_permutation_p_at_most": 0.05,
+    "upper_and_lower_response_error_envelopes_do_not_reverse_improvement": true,
+    "reserved_confirmation_targets_untouched": true,
+    "passing_exploration_does_not_authorize_confirmation": true
+  },
+  "claim_boundaries": {
+    "thermodynamic_phase_coupling_is_historically_new": false,
+    "thermodynamic_state_is_a_gravity_cause": false,
+    "alternative_to_gr_established": false,
+    "confirmation_opened": false,
+    "roadmap_item_6_complete": false
+  },
+  "sample_manifest_output": "runs/gravity/roadmap/item-06-thermodynamic-state-v1-source/sample-manifest.json",
+  "source_manifest_output": "runs/gravity/roadmap/item-06-thermodynamic-state-v1-source/exploration-source-manifest.json",
+  "feature_output": "runs/gravity/roadmap/item-06-thermodynamic-state-v1-source/cluster-features.tsv",
+  "extraction_summary_output": "runs/gravity/roadmap/item-06-thermodynamic-state-v1-source/extraction-summary.json",
+  "output": "runs/gravity/roadmap/item-06-thermodynamic-state-v1.json"
+}
