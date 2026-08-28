@@ -310,8 +310,10 @@ def validate_predictor_source(source: Mapping[str, Any], root: Path) -> None:
         raise GravityItem10BoundaryError("predictor freeze binding changed")
     if int(source["counts"]["response_columns_requested"]) != 0:
         raise GravityItem10BoundaryError("response column entered predictor source")
-    if any(key in source["query"] for key in config["source"]["response_columns"]):
-        raise GravityItem10BoundaryError("response name entered predictor query")
+    columns = ",".join(config["source"]["predictor_columns"])
+    expected_query = f"SELECT {columns} FROM {config['source']['table']} ORDER BY name"
+    if source["query"] != expected_query:
+        raise GravityItem10BoundaryError("predictor query changed")
 
 
 def _probes_coordinates(root: Path, config: Mapping[str, Any]) -> np.ndarray:
