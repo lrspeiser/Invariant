@@ -272,7 +272,10 @@ def _build_sample(
         raise GravityItem18Error("predecessor-exposed join count changed")
     objects = [row for row in joined if row["ugc"] not in old | snippets]
     if len(objects) != int(config["sources"]["expected_prefreeze_clean_eligible"]):
-        raise GravityItem18Error(f"expected 40 clean objects, found {len(objects)}")
+        raise GravityItem18Error(
+            f"expected {config['sources']['expected_prefreeze_clean_eligible']} clean objects, "
+            f"found {len(objects)}"
+        )
     solar_k = float(config["physics"]["constants"]["M_K_sun"])
     for row in objects:
         luminosity = 10.0 ** (-0.4 * (float(row["K_abs_mag"]) - solar_k))
@@ -284,12 +287,16 @@ def _build_sample(
     objects.sort(key=lambda row: (row["mass_proxy_Msun"], row["name"]))
     confirmation: set[str] = set()
     role_key = str(config["sample"]["role_key"])
-    for stratum in range(4):
-        group = objects[stratum * 10 : (stratum + 1) * 10]
+    begin = 0
+    for stratum, size in enumerate(config["sample"]["mass_stratum_sizes"]):
+        group = objects[begin : begin + int(size)]
+        begin += int(size)
         for row in group:
             row["mass_stratum"] = stratum
             row["role_rank"] = _hmac_rank(role_key, row["name"])
         confirmation.update(row["name"] for row in sorted(group, key=lambda x: x["role_rank"])[:2])
+    if begin != len(objects):
+        raise GravityItem18Error("mass stratum sizes do not exhaust the clean sample")
     exploration = [row for row in objects if row["name"] not in confirmation]
     fold_key = str(config["sample"]["fold_key"])
     exploration.sort(key=lambda row: _hmac_rank(fold_key, row["name"]))
