@@ -1,0 +1,198 @@
+{
+  "schema_version": "invariant-gravity-roadmap-item9-probes2-zero-tuning-replay-config-1.0",
+  "goal": "GRAVITY_ROADMAP_ITEM_09_INTERIOR_EXTERIOR_BALANCE_ATTEMPT_2",
+  "status": "scientific_freeze_before_probes2_response_archive_access",
+  "roadmap_binding": {
+    "path": "docs/GRAVITY_HIDDEN_VARIABLE_AND_THEORY_SEARCH_GOALS.md",
+    "file_sha256": "b9db7e1aa76deaf28ce2e840cd3d7db4cf7a086b1c7ca473800780c264a0e772",
+    "item_number": 9,
+    "item_title": "Interior/exterior balance"
+  },
+  "predecessor": {
+    "path": "runs/gravity/roadmap/item-09-interior-exterior-v1.json",
+    "file_sha256": "e86833a9a97244d01856f5005b81849d14f59974a12be3994e2c95c829512ef3",
+    "content_sha256": "8aba65a3743ec95b7de1601461a7e710e6a0fb03ea4ca8a1b06fb8edca55c6b7",
+    "required_decision": "REJECT_ITEM9_INTERIOR_EXTERIOR_EXPLORATION",
+    "required_gate_counts": {"passed": 11, "required": 12}
+  },
+  "attempt1_candidate_manifest": {
+    "path": "runs/gravity/roadmap/item-09-interior-exterior-v1-source/candidate-manifest.json",
+    "file_sha256": "7ae63d5673c440f693ed5565c2b6540c9bc14fa0fa0f9ebb65996c2033053d3f",
+    "content_sha256": "9aee9bef0feafc4767ec8f79e4b9a2e81611c6fba607ab47ae88f73c6010133f"
+  },
+  "exclusion_sources": {
+    "probes1_sample": {
+      "path": "runs/gravity/roadmap/item-09-interior-exterior-v1-source/sample-manifest.json",
+      "file_sha256": "ac7f33920fcd040c985489d553fc0f1e24465cf0e272443b357892a9e50dfec5",
+      "content_sha256": "6c681ce25d04a7259725022562bcfd8a2290989c75c38411d5c5f9da89e1d1a9",
+      "exclude_all_manifest_identities": true
+    },
+    "sparc_prior": {
+      "path": "runs/gravity/g4/conditional-formula-generator-v4.json",
+      "file_sha256": "2b8e57d956e58df419745e325fca7226b740496cdb24a2afec5e58b44a8f8eb4",
+      "content_sha256": "5835d0fc8c728e140168ee8908e20a34aa8485d43108d374d63ba8b7bcf71bf6",
+      "exclude_all_reported_galaxies": true
+    },
+    "identity_normalization": "uppercase Unicode NFKD ASCII transliteration followed by removal of every non-alphanumeric character",
+    "conservative_boundary": "Any normalized identity appearing in either predecessor source is excluded even when its earlier response remained sealed."
+  },
+  "source": {
+    "dataset": "PROBES II",
+    "article_doi": "10.1093/mnras/stac1497",
+    "data_page": "https://mattfrosst.github.io/projects/11_project/",
+    "metadata_url": "https://mattfrosst.github.io/assets/probes/probes2_main_table.csv",
+    "archive_url": "https://mattfrosst.github.io/assets/probes/probes2_files.zip",
+    "observed_revision": {
+      "observed_at_utc": "2026-08-28",
+      "last_modified": "Fri, 20 Feb 2026 22:17:50 GMT",
+      "metadata_etag": "W/\"6998dd8e-1c2e9\"",
+      "metadata_bytes": 115433,
+      "archive_etag": "\"6998dd8e-edb4fe\"",
+      "archive_bytes": 15578366
+    },
+    "published_scope": "631 late-type galaxies from 25 compilations; 356 have at least three optical photometry bands; the public landing page separately describes a 716-object expanded release.",
+    "source_reconciliation_rule": "The acquired metadata row count and ZIP entry inventory control the concrete release receipt; no expected count is used to replace or cherry-pick identities."
+  },
+  "authorization": {
+    "network_acquisition_allowed": true,
+    "paid_model_calls_allowed": false,
+    "metadata_allowed_after_freeze": true,
+    "archive_container_download_allowed_after_freeze_binding": true,
+    "archive_directory_inventory_allowed_before_response_open": true,
+    "photometry_profiles_allowed_before_response_open": true,
+    "rotation_curve_entry_payload_allowed_before_sample_freeze": false,
+    "rotation_curve_entry_payload_allowed_after_sample_freeze": true,
+    "derived_mass_columns_allowed": false,
+    "post_response_formula_generation_allowed": false,
+    "probes1_confirmation_profiles_allowed": false
+  },
+  "prefreeze_audit": {
+    "http_head_requests": 2,
+    "metadata_range_bytes_read": 4096,
+    "metadata_header_rows_read": 1,
+    "metadata_data_rows_encountered_in_range": 1,
+    "metadata_data_values_used_to_design_or_select_formulas": 0,
+    "archive_bytes_downloaded": 0,
+    "archive_entries_opened": 0,
+    "rotation_curve_rows_read": 0,
+    "light_profile_rows_read": 0,
+    "paid_model_calls": 0,
+    "disclosure": "The 4096-byte schema range also contained the first public metadata row, including mass summaries. No value from that row was used; the six atomic formulas and ensemble rule were copied only from the immutable attempt-1 receipt."
+  },
+  "metadata_allowlist": ["Name", "D (Mpc)", "D_err (Mpc)", "q (b/a)", "Incl (deg)"],
+  "metadata_forbidden_columns": ["Mbar", "M_gas", "M*(g-r)", "Mh", "Mh_err", "M_Re", "Me_gmr", "Me_gmrerr", "M_R235", "M235_gmr", "M235_gmrerr", "M1kpc_gmr", "M1kpc_gmrerr", "Rho_h", "Rho_e"],
+  "scientific_contract": {
+    "hypothesis": "The acceleration-occupancy interior-minus-exterior operator that converged in all five PROBES-I outer folds predicts untouched low-mass and low-surface-brightness PROBES-II rotation curves without selecting or refitting a candidate formula.",
+    "creativity_label": "COMBINATION_REPLAY_NOT_A_HISTORICAL_NOVELTY_CLAIM",
+    "zero_tuning_rule": "Evaluate exactly the five attempt-1 fold cells, their frozen pointwise log-speed mean and median ensembles, and the exact earlier SPARC focusing cell. Select no cell, coefficient, operator, condition, ensemble weight, threshold, or gate from PROBES-II response values.",
+    "primary_prediction": "pointwise median log10 speed of the five attempt-1 fold-selected acceleration-occupancy cells",
+    "secondary_predictions": ["pointwise mean log10 speed of the five fold cells", "each of the five fold cells separately", "exact earlier SPARC focusing cell"],
+    "baseline_boundary": "The fixed stellar-only RAR is target-free. A frozen-architecture flexible local ridge is trained only out-of-fold inside PROBES II as a competitor and never changes the nonlocal predictions.",
+    "advancement_boundary": "A PASS is a replicated empirical nonlocal predictor, not a proof of modified gravity, a causal mechanism, historical novelty, or an alternative to GR."
+  },
+  "frozen_cells": [
+    {"role": "attempt1_fold_0", "candidate_id": "cell:focus:acceleration:q1:ell1:interior_minus_exterior_occupancy:surface_density:a2:b4", "operator_id": "focus:acceleration:q1:ell1:interior_minus_exterior_occupancy", "condition": "surface_density", "intercept": 2.0, "slope": 4.0, "alpha_max": 2.0, "equivalence_class": "eq-03127-8c685ef226a7", "origin_status": "COMBINATION"},
+    {"role": "attempt1_fold_1", "candidate_id": "cell:focus:acceleration:q1:ell1:interior_minus_exterior_occupancy:concentration:a4:b2", "operator_id": "focus:acceleration:q1:ell1:interior_minus_exterior_occupancy", "condition": "concentration", "intercept": 4.0, "slope": 2.0, "alpha_max": 2.0, "equivalence_class": "eq-03253-b04eccb59cb7", "origin_status": "COMBINATION"},
+    {"role": "attempt1_fold_2", "candidate_id": "cell:focus:acceleration:q1:ell1:interior_minus_exterior_occupancy:vacuum_fraction:a2:bm4", "operator_id": "focus:acceleration:q1:ell1:interior_minus_exterior_occupancy", "condition": "vacuum_fraction", "intercept": 2.0, "slope": -4.0, "alpha_max": 2.0, "equivalence_class": "eq-03183-e2d1abde26d4", "origin_status": "COMBINATION"},
+    {"role": "attempt1_fold_3", "candidate_id": "cell:focus:acceleration:q1:ell1:interior_minus_exterior_occupancy:radial_span:a4:bm4", "operator_id": "focus:acceleration:q1:ell1:interior_minus_exterior_occupancy", "condition": "radial_span", "intercept": 4.0, "slope": -4.0, "alpha_max": 2.0, "equivalence_class": "eq-03219-24299f0b5532", "origin_status": "COMBINATION"},
+    {"role": "attempt1_fold_4", "candidate_id": "cell:focus:acceleration:q1:ell1:interior_minus_exterior_occupancy:radial_span:a4:bm2", "operator_id": "focus:acceleration:q1:ell1:interior_minus_exterior_occupancy", "condition": "radial_span", "intercept": 4.0, "slope": -2.0, "alpha_max": 2.0, "equivalence_class": "eq-03220-559dba90ff83", "origin_status": "COMBINATION"},
+    {"role": "exact_prior_sparc", "candidate_id": "cell:focus:surface_brightness:q100:ell0p25:interior_occupancy_times_exterior_vacuum:surface_density:am2:b4", "operator_id": "focus:surface_brightness:q100:ell0p25:interior_occupancy_times_exterior_vacuum", "condition": "surface_density", "intercept": -2.0, "slope": 4.0, "alpha_max": 2.0, "equivalence_class": "eq-08848-a0642e9e743d", "origin_status": "COMBINATION"}
+  ],
+  "measurement": {
+    "photometry": "Use only an r-band light profile. Prefer a release-labelled DESI r profile, then an SDSS r profile, with lexicographic tie-breaking fixed before any RC payload is opened.",
+    "distance": "Use D (Mpc) from the allowlisted metadata table.",
+    "inclination": "Derive from allowlisted q using cos^2(i)=clip((q^2-q0^2)/(1-q0^2),0,1); the published Incl column is retained only for a sensitivity report and never selects a formula.",
+    "stellar_mass": "Use the same fixed r-band M/L=1 stellar-light conversion as attempt 1; do not read published gas, baryonic, stellar, dynamical, halo, density, or velocity summaries.",
+    "cumulative_light_rule": "If the selected profile supplies a cumulative r-band magnitude, use it exactly as attempt 1. Otherwise convert r-band surface brightness to luminosity surface density and integrate concentric elliptical annuli using the allowlisted q and midpoint annular areas; enforce a finite nondecreasing cumulative profile. This fallback is frozen before any RC payload is opened.",
+    "surface_brightness_correction": "Use the released r-band surface brightness as published because the PROBES-II metadata table supplies no allowlisted Galactic-extinction column; apply no target-derived or fitted offset.",
+    "rotation_radius_rule": "Use angular radii as published; if and only if the radius header explicitly labels kpc, convert kpc to arcseconds using allowlisted D and the frozen angular conversion constant.",
+    "rotation_velocity_rule": "Headers explicitly labelled line-of-sight are divided by sin(i); headers explicitly labelled rotation/circular/Vrot/Vc and an otherwise ambiguous column named only V are treated as already published deprojected rotation speeds. Report which rule each selected entry uses.",
+    "duplicate_rule": "For each normalized physical identity, select the lexicographically first eligible r-profile/RC pair. Keep all other pairs sealed and report their count.",
+    "source_family_rule": "Use the first path component below RotationCurves; if flat, use the filename prefix preceding the final object token; otherwise label UNKNOWN. This target-blind label is used only for counterexample strata.",
+    "formula_representation": "Reuse attempt-1 stellar-light feature equations, nonlocal kernels, amplitude maps, and constants exactly."
+  },
+  "constants": {
+    "gravity_kpc_km2_s2_msun": 4.30091e-6,
+    "g_dagger_km2_s2_kpc": 3702.813097,
+    "solar_absolute_r_magnitude_ab": 4.65,
+    "fixed_r_band_mass_to_light_msun_per_lsun": 1.0,
+    "arcseconds_per_radian": 206264.80624709636,
+    "intrinsic_disk_axis_ratio": 0.2,
+    "surface_brightness_conversion": 21.572,
+    "dimensionless_floor": 1e-10
+  },
+  "operator_grammar": {
+    "conditions": ["surface_density", "compactness", "vacuum_fraction", "radial_span", "concentration"],
+    "log_radius_scales": [0.25, 1.0],
+    "alpha_max": 2.0,
+    "atomic_formula_cells": 6,
+    "ensemble_formula_cells": 2,
+    "total_evaluated_formulas": 8,
+    "candidate_selection_calls": 0,
+    "post_response_cells": 0
+  },
+  "quality": {
+    "minimum_photometry_points": 20,
+    "minimum_rotation_points": 8,
+    "minimum_inclination_degrees": 30.0,
+    "maximum_inclination_degrees": 80.0,
+    "minimum_fraction_rotation_points_within_photometry": 0.8,
+    "minimum_rotation_radial_span": 1.75,
+    "minimum_corrected_speed_km_s": 8.0,
+    "maximum_fractional_speed_error": 1.0,
+    "minimum_quality_passing_galaxies": 150,
+    "minimum_quality_retention_fraction": 0.5
+  },
+  "evaluation": {
+    "folds": 5,
+    "outer_folds": 5,
+    "fold_group": "normalized physical identity",
+    "fold_salt": "invariant-gravity-item9-probes2-zero-tuning-fold-v1-20260828",
+    "point_weighting": "each selected physical identity contributes equal total weight",
+    "primary_metric": "equal-galaxy mean squared log10 speed error",
+    "local_control_features": ["log10_gbar", "log10_radius_over_r50", "log10_surface_density", "enclosed_mass_fraction", "log10_total_mass", "inclination_sine", "log10_distance"],
+    "ridge_penalties": [0.001, 0.01, 0.1, 1.0, 10.0, 100.0],
+    "paired_sign_flip_permutations": 999,
+    "permutation_salt": "invariant-gravity-item9-probes2-zero-tuning-null-v1-20260828",
+    "minimum_galaxies_per_source_gate": 10,
+    "reported_strata": ["source_family", "distance_half", "stellar_mass_half", "surface_density_half", "inclination_half"]
+  },
+  "admission": {
+    "quality_count_and_fraction_pass": true,
+    "zero_predecessor_identity_overlap": true,
+    "primary_median_ensemble_r2_positive": true,
+    "primary_median_ensemble_beats_fixed_stellar_rar": true,
+    "primary_median_ensemble_beats_oof_flexible_local_control": true,
+    "primary_relative_mse_improvement_over_strongest_baseline_at_least": 0.02,
+    "paired_sign_flip_p_at_most": 0.05,
+    "primary_gain_positive_in_all_source_families_at_minimum_count": true,
+    "primary_gain_positive_in_both_distance_halves": true,
+    "primary_gain_positive_in_both_stellar_mass_halves": true,
+    "primary_gain_positive_in_both_surface_density_halves": true,
+    "primary_gain_positive_in_both_inclination_halves": true,
+    "at_least_four_of_five_atomic_attempt1_cells_beat_fixed_stellar_rar": true,
+    "exact_prior_sparc_cell_beats_fixed_stellar_rar": true,
+    "post_response_formula_generation_zero": true
+  },
+  "claim_boundaries": {
+    "complete_baryonic_mass_used": false,
+    "thin_disk_poisson_field_used": false,
+    "historical_novelty_established": false,
+    "causal_gravity_mechanism_established": false,
+    "alternative_to_gr_established": false,
+    "item9_complete_before_synthesis": false
+  },
+  "work": {
+    "metadata": "work/gravity/item-09-probes2-zero-tuning/probes2_main_table.csv",
+    "archive": "work/gravity/item-09-probes2-zero-tuning/probes2_files.zip"
+  },
+  "outputs": {
+    "source_manifest": "runs/gravity/roadmap/item-09-probes2-zero-tuning-v1-source/source-manifest.json",
+    "sample_manifest": "runs/gravity/roadmap/item-09-probes2-zero-tuning-v1-source/sample-manifest.json",
+    "candidate_manifest": "runs/gravity/roadmap/item-09-probes2-zero-tuning-v1-source/candidate-manifest.json",
+    "feature_table": "runs/gravity/roadmap/item-09-probes2-zero-tuning-v1-source/point-features.tsv",
+    "response_table": "runs/gravity/roadmap/item-09-probes2-zero-tuning-v1-source/rotation-responses.tsv",
+    "extraction_summary": "runs/gravity/roadmap/item-09-probes2-zero-tuning-v1-source/extraction-summary.json",
+    "result": "runs/gravity/roadmap/item-09-probes2-zero-tuning-v1.json"
+  }
+}
