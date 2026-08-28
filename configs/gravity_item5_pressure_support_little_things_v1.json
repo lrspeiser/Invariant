@@ -1,0 +1,144 @@
+{
+  "schema_version": "invariant-gravity-roadmap-item5-pressure-support-config-1.0",
+  "goal": "GRAVITY_ROADMAP_ITEM_05_PRESSURE_SUPPORT",
+  "status": "frozen_before_archive_member_contents_or_target_rows_access",
+  "roadmap_binding": {
+    "path": "docs/GRAVITY_HIDDEN_VARIABLE_AND_THEORY_SEARCH_GOALS.md",
+    "file_sha256": "b9db7e1aa76deaf28ce2e840cd3d7db4cf7a086b1c7ca473800780c264a0e772",
+    "item_number": 5,
+    "item_title": "Pressure support"
+  },
+  "predecessor": {
+    "path": "runs/gravity/roadmap/item-04-synthesis-v1.json",
+    "file_sha256": "a8bcd252f4d513473e9eca794a8a44819e030199e837e3e34bf4690a8eb46441",
+    "content_sha256": "6814d6db599b58244e200f3c45822f82698a04114cbdc364ef79ee90ca71d91d",
+    "required_decision": "REJECT_ITEM4_TESTED_PROJECTED_BARYONIC_COMPACTNESS_FAMILIES_ADVANCE_ITEM5"
+  },
+  "authorization": {
+    "network_acquisition_allowed": true,
+    "paid_model_calls_allowed": false,
+    "exploration_archive_members_allowed_after_freeze": true,
+    "reserved_confirmation_archive_members_allowed": false,
+    "reserved_confirmation_target_queries_allowed": false,
+    "sparc_confirmation_evaluator_accesses_allowed": 0,
+    "direct_lensing_likelihood_evaluations_allowed": 0,
+    "sequential_G6_G7_G8_advanced": false
+  },
+  "scientific_contract": {
+    "hypothesis": "A universal observable support operator combines ordered rotation with thermal-plus-turbulent H I velocity dispersion and its radial pressure structure; a nonlocal pressure-coherence term may predict an independently reduced circular-speed curve beyond both rotation alone and the classical local asymmetric-drift formula.",
+    "creativity_label": "known_classical_asymmetric_drift_with_potentially_new_nonlocal_pressure_coherence_synthesis",
+    "known_components": [
+      "radial Euler/Jeans pressure support",
+      "classical asymmetric-drift correction",
+      "H I surface density",
+      "H I line-of-sight velocity dispersion containing unresolved thermal and turbulent broadening",
+      "ordered rotation",
+      "whole-galaxy held-out evaluation"
+    ],
+    "nonqualifying_rewrites": [
+      "V_c^2=V_rot^2+V_A^2 with V_A^2=-R sigma^2 d ln(Sigma sigma^2)/dR is the known classical formula",
+      "a rescaling of the classical pressure slope is a fitted known-family variant",
+      "using the Iorio published circular-speed column as an input to predict circular speed is target leakage",
+      "using galaxy identity or a per-galaxy coefficient is not a universal support law"
+    ],
+    "qualifying_boundary": "Only frozen pressure-curvature, nonlocal log-radius smoothing, or cumulative inner-outer pressure-memory structure may qualify beyond rotation-only and classical local pressure-support controls.",
+    "not_claimed": [
+      "thermal and turbulent H I broadening separated observationally",
+      "independent telescope data because both reductions use LITTLE THINGS cubes",
+      "a galaxy gravity law from baryons alone",
+      "a cluster thermal-support law",
+      "historical novelty"
+    ]
+  },
+  "sources": {
+    "predictor_archive": {
+      "description": "Iorio et al. 2017 3D-BAROLO online circular-velocity products",
+      "landing_page": "https://www.filippofraternali.com/downloads/index.html",
+      "paper": "https://doi.org/10.1093/mnras/stw3285",
+      "archive_url": "https://www.dropbox.com/scl/fi/7capwt3f9qndara3hkxos/finalrot.zip?rlkey=4x27ycq0629j50vlqnlwo3cxe&dl=1",
+      "audit_path": "work/item5-pressure-support-audit/finalrot.zip",
+      "file_sha256": "d4c456c65801f65742a6c5b2b377cbd7c05b30db1acca75523554d0b98ce2285",
+      "pre_freeze_access": "archive downloaded and central filenames listed; zero member-file contents read",
+      "forbidden_predictor_columns": ["published circular velocity", "published asymmetric-drift correction"]
+    },
+    "independent_pipeline_target": {
+      "catalog_id": "J/AJ/149/180",
+      "description": "Oh et al. 2015 2-D bulk-field asymmetric-drift-corrected rotation curves",
+      "landing_page": "https://cdsarc.cds.unistra.fr/viz-bin/cat/J/AJ/149/180",
+      "paper": "https://doi.org/10.1088/0004-6256/149/6/180",
+      "query_template": "https://vizier.cds.unistra.fr/viz-bin/asu-tsv?-source=J/AJ/149/180/rotdmbar&Name={name}&Type=Data&-out=Name,Type,R0.3,V0.3,R,V,e_V&-out.max=unlimited",
+      "pre_freeze_target_rows_read": 0
+    }
+  },
+  "sample": {
+    "selection_salt": "invariant-gravity-item5-pressure-support-little-things-v1-20260828",
+    "archive_member_suffix": "_onlinetab.txt",
+    "excluded": {
+      "ddo154": "opened as a retrospective Item 3 galaxy and therefore not fresh",
+      "ddo216b": "alternative reduction of DDO216 rather than an independent galaxy"
+    },
+    "expected_archive_galaxies_excluding_alternative": 17,
+    "expected_fresh_candidates": 16,
+    "exploration": 11,
+    "reserved_confirmation": 5,
+    "post_access_quality_failure_policy": "retain every failure and do not replace or relax after any exploration archive member or target row is opened"
+  },
+  "derivation": {
+    "ordered_support": "V_rot^2",
+    "random_support_speed": "sigma_HI^2, containing unresolved thermal plus turbulent broadening",
+    "pressure_proxy": "P_2D=Sigma_HI sigma_HI^2",
+    "classical_local": "V_classical^2=V_rot^2-sigma_HI^2 d ln(P_2D)/d ln(R)",
+    "curvature": "C_P=d^2 ln(P_2D)/d ln(R)^2",
+    "nonlocal_coherence": "S_nonlocal is the Gaussian-smoothed log-pressure slope over a frozen 0.35 dex log-radius width",
+    "pressure_memory": "S_memory is the cumulative interior log-radius-weighted mean pressure slope",
+    "prediction_target": "Oh2015 circular velocity interpolated only within common radial support",
+    "feature_builder_accepts_target": false
+  },
+  "model_families": [
+    {"id": "constant", "features": [], "qualifying": false},
+    {"id": "rotation_pipeline_calibration", "features": ["log10_vrot", "log10_radius"], "qualifying": false},
+    {"id": "classical_local_pressure", "features": ["log10_v_classical", "log10_radius"], "qualifying": false},
+    {"id": "rotation_plus_local_components", "features": ["log10_vrot", "local_pressure_fraction", "log10_radius"], "qualifying": false},
+    {"id": "pressure_curvature", "features": ["log10_vrot", "local_pressure_fraction", "pressure_curvature", "log10_radius"], "qualifying": true},
+    {"id": "nonlocal_pressure_coherence", "features": ["log10_vrot", "nonlocal_pressure_fraction", "local_nonlocal_slope_difference", "log10_radius"], "qualifying": true},
+    {"id": "interior_pressure_memory", "features": ["log10_vrot", "memory_pressure_fraction", "local_memory_slope_difference", "log10_radius"], "qualifying": true},
+    {"id": "all_pressure_structure", "features": ["log10_vrot", "local_pressure_fraction", "pressure_curvature", "nonlocal_pressure_fraction", "local_nonlocal_slope_difference", "memory_pressure_fraction", "local_memory_slope_difference", "log10_radius"], "qualifying": true}
+  ],
+  "cross_validation": {
+    "outer_folds": 5,
+    "fold_salt": "invariant-gravity-item5-pressure-support-folds-v1-20260828",
+    "fold_unit": "whole galaxy",
+    "inner_selection": "training-galaxy-only equal-galaxy-weighted mean squared log-velocity error",
+    "ridge_penalties": [0.001, 0.01, 0.1, 1.0, 10.0, 100.0],
+    "permutation_count": 499,
+    "permutation_salt": "invariant-gravity-item5-pressure-support-null-v1-20260828"
+  },
+  "quality": {
+    "minimum_predictor_rows": 6,
+    "minimum_common_target_rows": 5,
+    "minimum_positive_radius_velocity_dispersion_surface_density": true,
+    "maximum_common_radius_extrapolation": 0.0,
+    "all_11_exploration_galaxies_required": true
+  },
+  "exploration_admission": {
+    "quality_contract_passes": true,
+    "classical_formula_improves_Iorio_internal_positive_control_over_rotation_only": true,
+    "selected_model_qualifying_in_every_fold": true,
+    "primary_r2_positive_overall_and_in_each_frozen_pressure_stratum": true,
+    "qualifying_model_beats_rotation_and_classical_controls_overall_and_in_each_stratum": true,
+    "galaxy_level_permutation_p_at_most": 0.05,
+    "confirmation_untouched": true,
+    "passing_exploration_does_not_authorize_confirmation": true
+  },
+  "claim_boundaries": {
+    "unified_all_support_types_established": false,
+    "alternative_to_gr_established": false,
+    "historical_novelty_established": false,
+    "roadmap_item_5_complete": false
+  },
+  "sample_manifest_output": "runs/gravity/roadmap/item-05-pressure-support-v1-source/sample-manifest.json",
+  "source_manifest_output": "runs/gravity/roadmap/item-05-pressure-support-v1-source/exploration-source-manifest.json",
+  "feature_output": "runs/gravity/roadmap/item-05-pressure-support-v1-source/radial-features.tsv",
+  "extraction_summary_output": "runs/gravity/roadmap/item-05-pressure-support-v1-source/extraction-summary.json",
+  "output": "runs/gravity/roadmap/item-05-pressure-support-v1.json"
+}
