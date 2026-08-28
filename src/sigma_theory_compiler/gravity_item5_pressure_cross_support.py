@@ -49,6 +49,18 @@ def _seal(value: dict[str, Any]) -> dict[str, Any]:
     return result
 
 
+def _canonicalize_floats(value: Any) -> Any:
+    """Convert finite raw floats to stable decimal strings for canonical receipts."""
+
+    if isinstance(value, float):
+        return _metric(value)
+    if isinstance(value, dict):
+        return {key: _canonicalize_floats(child) for key, child in value.items()}
+    if isinstance(value, list):
+        return [_canonicalize_floats(child) for child in value]
+    return value
+
+
 def load_config(root: Path) -> dict[str, Any]:
     root = root.resolve()
     config = json.loads((root / CONFIG_PATH).read_text(encoding="utf-8"))
@@ -529,17 +541,33 @@ def acquire_exploration(root: Path) -> dict[str, Any]:
         },
         "acquisition_history": config["postfreeze_acquisition_audit"],
         "boundary": {
-            "exploration_thermal_queries": len(exploration),
-            "exploration_metadata_queries": len(exploration),
+            "successful_exploration_thermal_queries": len(exploration),
+            "cumulative_exploration_thermal_queries": len(exploration)
+            + int(config["postfreeze_acquisition_audit"]["prior_attempts_thermal_queries_issued"]),
+            "successful_exploration_metadata_queries": len(exploration),
+            "cumulative_exploration_metadata_queries": len(exploration)
+            + int(config["postfreeze_acquisition_audit"]["prior_attempts_metadata_queries_issued"]),
             "successful_exploration_primary_response_queries": len(exploration),
             "cumulative_exploration_primary_response_queries": len(exploration)
-            + int(config["postfreeze_acquisition_audit"]["primary_response_queries_issued"]),
+            + int(
+                config["postfreeze_acquisition_audit"][
+                    "prior_attempts_primary_response_queries_issued"
+                ]
+            ),
             "exploration_primary_response_rows": len(records),
             "cumulative_primary_response_rows_returned": len(records)
-            + int(config["postfreeze_acquisition_audit"]["primary_response_rows_returned"]),
+            + int(
+                config["postfreeze_acquisition_audit"][
+                    "prior_attempts_primary_response_rows_returned"
+                ]
+            ),
             "successful_exploration_robustness_response_queries": alternative_queries,
             "cumulative_exploration_robustness_response_queries": alternative_queries
-            + int(config["postfreeze_acquisition_audit"]["robustness_response_queries_issued"]),
+            + int(
+                config["postfreeze_acquisition_audit"][
+                    "prior_attempts_robustness_response_queries_issued"
+                ]
+            ),
             "exploration_robustness_response_rows": alternative_rows,
             "reserved_confirmation_primary_response_queries": 0,
             "reserved_confirmation_robustness_response_queries": 0,
@@ -550,7 +578,7 @@ def acquire_exploration(root: Path) -> dict[str, Any]:
         "records": records,
         "claims": dict(config["claim_boundaries"]),
     }
-    return _seal(manifest)
+    return _seal(_canonicalize_floats(manifest))
 
 
 def validate_source_manifest(manifest: Mapping[str, Any], *, config: Mapping[str, Any]) -> None:
@@ -1156,7 +1184,7 @@ def build_receipt(root: Path) -> dict[str, Any]:
             else "Retain the exact thermal-to-collisionless pressure-coherence counterexamples, synthesize both Item 5 attempts without retuning opened responses, and decide whether Item 5 is complete before Item 6."
         ),
     }
-    return _seal(receipt)
+    return _seal(_canonicalize_floats(receipt))
 
 
 def validate_receipt(receipt: Mapping[str, Any], *, root: Path) -> None:

@@ -73,8 +73,25 @@
     "primary_response_rows_returned": 7,
     "robustness_response_queries_issued": 16,
     "reserved_confirmation_response_queries_issued": 0,
+    "failed_attempt_before_canonical_serialization_repair": true,
+    "serialization_failure_reason": "All 44 frozen exploration records were acquired, but the canonical receipt layer correctly rejected unstringified floating-point values before writing the source manifest.",
+    "serialization_failure_completed_exploration_clusters": 44,
+    "serialization_failure_thermal_queries_issued": 44,
+    "serialization_failure_metadata_queries_issued": 44,
+    "serialization_failure_primary_response_queries_issued": 44,
+    "serialization_failure_primary_response_rows_returned": 44,
+    "serialization_failure_robustness_response_queries_issued": 88,
+    "prior_attempts_thermal_queries_issued": 52,
+    "prior_attempts_metadata_queries_issued": 52,
+    "prior_attempts_primary_response_queries_issued": 52,
+    "prior_attempts_primary_response_rows_returned": 51,
+    "prior_attempts_robustness_response_queries_issued": 104,
     "formula_model_gate_or_sample_change": false,
-    "mechanical_repair": "Use the catalog-native ACT-CLJ prefix for 0232-5257, 0235-5121, and 0304-4921; preserve every sample member, formula, model, fold, and gate."
+    "mechanical_repairs": [
+      "Use the catalog-native ACT-CLJ prefix for 0232-5257, 0235-5121, and 0304-4921.",
+      "Represent raw floating-point source values as canonical decimal strings before hashing.",
+      "Preserve every sample member, formula, model, fold, and gate."
+    ]
   },
   "scientific_contract": {
     "hypothesis": "A universal mapping between directly observed thermal SZ pressure support and collisionless galaxy velocity support may depend not only on integrated pressure amplitude, but on the coherence between fixed-aperture Comptonization, multi-scale matched-filter significance, and the selected filter extent.",

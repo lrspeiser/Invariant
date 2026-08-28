@@ -111,6 +111,8 @@ def test_catalog_native_act_prefix_repair_does_not_change_sample_or_gates() -> N
     audit = config["postfreeze_acquisition_audit"]
     assert audit["failure_cluster"] == "0232-5257"
     assert audit["primary_response_queries_issued"] == 8
+    assert audit["prior_attempts_primary_response_queries_issued"] == 52
+    assert audit["prior_attempts_primary_response_rows_returned"] == 51
     assert audit["reserved_confirmation_response_queries_issued"] == 0
     assert audit["formula_model_gate_or_sample_change"] is False
     assert item5v2._bayliss_identifier("0232-5257") == "ACT-CLJ0232-5257"
@@ -120,6 +122,15 @@ def test_catalog_native_act_prefix_repair_does_not_change_sample_or_gates() -> N
         cluster="0232-5257",
     )
     assert parsed["n_members"] == 30
+
+
+def test_raw_floats_are_canonicalized_before_source_hashing() -> None:
+    value = item5v2._canonicalize_floats({"measurement": 8.49, "nested": [0.5, {"count": 2}]})
+    assert value == {
+        "measurement": "8.490000000000e+00",
+        "nested": ["5.000000000000e-01", {"count": 2}],
+    }
+    assert item5v2._seal(value)["content_sha256"]
 
 
 def test_response_acquisition_is_impossible_before_freeze_binding() -> None:
