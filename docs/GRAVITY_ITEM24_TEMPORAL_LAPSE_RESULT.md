@@ -158,8 +158,12 @@ dataset can recognize or reject the same failure pattern without retuning it.
   equal-capacity test was valid, its injection control passed, and it simply was not selected by
   these held-out observables.
 - **Confirmations:** keep all 32 galaxies and four lenses sealed.
-- **Numbered roadmap:** advance to Item 25, gravity coupled to time, with a fresh response and a
-  covariant coupling that predicts both motion and light. Do not retune Item 24 on these 135 opened
-  objects.
+- **Numbered roadmap:** advance to Item 25, time-varying gravity, with a fresh response and one
+  universal cosmic/local evolution law tested against present-day and historical constraints. Do
+  not retune Item 24 on these 135 opened objects.
+
+Clerical erratum: the immutable machine receipt's `exact_next_action` sentence calls Item 25
+“gravity coupled to time.” The stable 72-item goals file controls; Item 25 is **time-varying
+gravity**. The frozen receipt is preserved rather than rewritten after responses.
 
 The machine-readable receipt is `runs/gravity/roadmap/item-24-temporal-lapse-v1.json`.
