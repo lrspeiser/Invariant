@@ -1409,7 +1409,7 @@ def _build_receipt(
                 "response_manifest_path": paths["response_source_manifest"].relative_to(root).as_posix(),
                 "compute_manifest_path": paths["compute_manifest"].relative_to(root).as_posix(),
             },
-            "exact_next_action": "Preserve every periodic family and scoped result under the equal-viability two-track policy; require unchanged independent replication before any paper claim; advance to Item 29 dimensional leakage without privileging or pruning age, periodicity, or any other distinct mechanism.",
+            "exact_next_action": "Preserve every periodic family and scoped result under the equal-viability two-track policy; require unchanged independent replication before any paper claim; advance to Item 29 nonlinear self-interaction without privileging or pruning age, periodicity, or any other distinct mechanism.",
         }
     )
 
