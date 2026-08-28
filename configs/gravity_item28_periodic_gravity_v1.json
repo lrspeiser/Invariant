@@ -6,6 +6,14 @@
   "stable_goal_sha256": "b9db7e1aa76deaf28ce2e840cd3d7db4cf7a086b1c7ca473800780c264a0e772",
   "scientific_freeze_commit": "5394a5e94f5e20d7bb092d66708c6495e9f37cb8",
   "sample_freeze_commit": "a7322b3cc8a4e192c2d6690c1ab596e383c6f176",
+  "implementation_correction_scope": "Use the documented GHASP VI VizieR column label NBins and the GHASP VII label Nbins for the same frozen minimum-velocity-bin field. VizieR silently omitted the case-mismatched GHASP VI column, causing every otherwise valid GHASP VI row to fail integer parsing. Requery only the same 49 already-authorized exploration identities; change no identity, role, fold, response value, threshold, radius grid, formula, candidate, baseline, confirmation boundary, or promotion gate.",
+  "implementation_correction_history": [
+    {
+      "commit": "TO_BE_BOUND_AFTER_SCHEMA_CORRECTION",
+      "scope": "Catalog-specific NBins/Nbins schema alias for the same published velocity-bin count."
+    }
+  ],
+  "response_access_incident": "The first post-freeze acquisition queried exactly the 49 authorized exploration identities and zero confirmations. GHASP VI returned its documented NBins column only when requested with an uppercase B, whereas the frozen generic query requested the GHASP VII spelling Nbins; VizieR silently omitted the unknown field. Thirty-five GHASP VI curves therefore failed parsing before evaluation. The correction requeries only those same 49 exploration identities using the catalog-specific schema alias and preserves every scientific boundary.",
   "dependency_sha256": {
     "src/sigma_theory_compiler/gravity_item22_polarization_superposition.py": "2cb08f9b37dbe0bc1b1373b2908873bc7c975674eb12f2d088b6ec04f3c8ab78",
     "src/sigma_theory_compiler/gravity_item24_temporal_lapse.py": "487d5ac90662fac2251e857407fe68760b1b4be82475bc8374f5217f51f8a709",

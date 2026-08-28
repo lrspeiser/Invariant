@@ -721,7 +721,7 @@ def _curve_summary(body: bytes, predictor: Mapping[str, Any], config: Mapping[st
             radius = float(row["r"])
             velocity = abs(float(row["Vrot"]))
             error = float(row["e_Vrot"])
-            bins = int(row["Nbins"])
+            bins = int(row.get("Nbins") or row.get("NBins") or "")
             side = str(row["Side"]).lower()
         except (KeyError, TypeError, ValueError):
             rejected["parse"] += 1
@@ -800,6 +800,11 @@ def acquire_responses(root: Path) -> Path:
         url = str(config["sources"]["response_query_template"]).format(
             catalog=row["response_catalog"], encoded_name=encoded
         )
+        # GHASP VI exposes the documented number-of-bins field as ``NBins``
+        # while GHASP VII exposes it as ``Nbins``. VizieR silently drops an
+        # unknown requested column, so request the catalog-specific alias.
+        if str(row["response_catalog"]) == "J/MNRAS/388/500/tablef":
+            url = url.replace(",Nbins,", ",NBins,")
         body, receipt = _download_source(url)
         return dict(row), body, receipt
 
@@ -837,7 +842,7 @@ def acquire_responses(root: Path) -> Path:
             "exploration_queries": len(exploration),
             "confirmation_queries": 0,
             "confirmation_values_read": 0,
-            "response_columns_read": ["Name", "r", "e_r", "r2", "e_r2", "Vrot", "e_Vrot", "Nbins", "Side"],
+            "response_columns_read": ["Name", "r", "e_r", "r2", "e_r2", "Vrot", "e_Vrot", "Nbins_or_NBins", "Side"],
             "valid_galaxies": valid_galaxies,
             "valid_curve_points": len(records),
             "quality_failures": dict(sorted(failures.items())),

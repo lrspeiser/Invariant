@@ -61,6 +61,10 @@ def _curve_body() -> bytes:
     return ("\n".join(lines) + "\n").encode("utf-8")
 
 
+def _curve_body_ghasp_vi_alias() -> bytes:
+    return _curve_body().replace(b"Nbins", b"NBins")
+
+
 def test_item28_contract_has_equal_viability_and_raw_capacity() -> None:
     config = load_config(ROOT)
     raw = generate_raw_candidates(config)
@@ -127,6 +131,13 @@ def test_item28_curve_parser_requires_two_sides_and_builds_frozen_grid() -> None
         3.25,
     ]
     assert all(record["approaching_velocity_km_s"] < record["receding_velocity_km_s"] for record in records)
+
+
+def test_item28_curve_parser_accepts_documented_ghasp_vi_nbins_alias() -> None:
+    config = load_config(ROOT)
+    records, audit = _curve_summary(_curve_body_ghasp_vi_alias(), _predictor(), config)
+    assert audit["failure"] is None
+    assert len(records) == 6
 
 
 def test_item28_baryonic_proxy_and_all_periodic_terms_are_finite() -> None:
