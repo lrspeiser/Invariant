@@ -1,0 +1,150 @@
+{
+  "schema_version": "invariant-gravity-roadmap-item1-effective-dimension-config-1.0",
+  "goal": "GRAVITY_ROADMAP_ITEM_01_EFFECTIVE_DIMENSION",
+  "status": "exploratory_real_data_model_development",
+  "roadmap_binding": {
+    "path": "docs/GRAVITY_HIDDEN_VARIABLE_AND_THEORY_SEARCH_GOALS.md",
+    "file_sha256": "b9db7e1aa76deaf28ce2e840cd3d7db4cf7a086b1c7ca473800780c264a0e772",
+    "item_number": 1,
+    "item_title": "Effective dimension"
+  },
+  "claim": "Test whether assumed support dimension or a target-blind continuous baryonic mass-profile dimension predicts the response coefficient of the unchanged cross-scale parent on whole-held-out real SPARC exploration galaxies and CLASH clusters.",
+  "authorization": {
+    "scope": "execute the canonical hidden-variable and theory roadmap",
+    "authorized_by_user": true,
+    "paid_model_calls_allowed": false,
+    "sparc_confirmation_evaluator_accesses_allowed": 0,
+    "direct_lensing_likelihood_evaluations_allowed": 0,
+    "sequential_G6_G7_G8_advanced": false
+  },
+  "predecessor_bindings": [
+    {
+      "path": "runs/gravity/g4/auxiliary-action-derivation-v6.json",
+      "file_sha256": "0130998658f0ab2a6933ca2c37c264de10539b3b069f753d213dd5ea7ab75ef5",
+      "content_sha256": "a06f7d7b071e5a2be831aba533ece29da8ab811ebcee8d0d3b573c2c91d3bc4e",
+      "required_decision": "BLOCK_G4_AUXILIARY_ACTION_DERIVATION"
+    },
+    {
+      "path": "runs/gravity/g4/cluster-lensing-exploration-v7.json",
+      "file_sha256": "6fdc3344d9e5e3e4de85680486f132601990f262d50f0d0c3c0cf7c4154161ed",
+      "content_sha256": "ea2c54b6df10433de27f3aaf2465b7aeaa410b14bd22e84aa27d9447a863d308",
+      "required_decision": "BLOCK_CROSS_SCALE_ACTION_CLUSTER_LENSING_EXPLORATION"
+    }
+  ],
+  "population": {
+    "sparc_exploration_galaxies": 139,
+    "sparc_exploration_points": 2720,
+    "clash_clusters": 20,
+    "clash_radial_points": 84,
+    "clash_target_status": "model_dependent_lensing_derived_acceleration_diagnostic"
+  },
+  "unchanged_parent": {
+    "candidate_id": "cross-scale:y:q0p1:ell0p25:permittivity_plus_auxiliary",
+    "transition_acceleration_m_s2": "1.2e-10",
+    "log_radius_scale": "0.25",
+    "formula": "g=g_bar+beta*(g_bar*chi+g_dagger*psi)"
+  },
+  "dimension_features": {
+    "equivalent_enclosed_mass": "M_eq proportional to g_bar*r^2",
+    "local_mass_dimension": "D_M(r)=d(log(M_eq))/d(log(r))=2+d(log(g_bar))/d(log(r))",
+    "profile_mass_dimension": "least-squares slope of log(M_eq) against log(r)",
+    "support_dimension": {
+      "disk_galaxy": 2,
+      "spherical_cluster_projection": 3,
+      "status": "assumed_geometry_class_not_a_continuous_measurement"
+    },
+    "target_fields_available_to_feature_builder": false
+  },
+  "coefficient_label_grid": {
+    "minimum": "0",
+    "maximum": "4",
+    "step": "0.01",
+    "role": "target_derived_training_label_and_forbidden_oracle_only"
+  },
+  "fixed_rules": [
+    {
+      "id": "fixed_galaxy_parent",
+      "equation": "beta=1/2",
+      "origin_label": "existing_development_parent",
+      "qualifying_first_principles_rule": false
+    },
+    {
+      "id": "inverse_support_dimension",
+      "equation": "beta=1/D_support",
+      "origin_label": "existing_post_v5_dimensional_closure",
+      "qualifying_first_principles_rule": true
+    },
+    {
+      "id": "inverse_profile_dimension",
+      "equation": "beta=1/clip(D_profile,1/4,4)",
+      "origin_label": "new_combination_of_known_dimension_ideas",
+      "qualifying_first_principles_rule": true
+    },
+    {
+      "id": "posthoc_support_bridge",
+      "equation": "beta=(1/2)*4^(D_support-2)",
+      "origin_label": "post_target_new_synthesis",
+      "qualifying_first_principles_rule": false,
+      "exclusion_reason": "constructed after the galaxy 1/2 and CLASH 2 coefficients were known"
+    }
+  ],
+  "trainable_models": [
+    {
+      "id": "constant",
+      "features": [],
+      "qualifying_continuous_dimension_model": false
+    },
+    {
+      "id": "linear_profile_dimension",
+      "features": ["profile_mass_dimension"],
+      "qualifying_continuous_dimension_model": true
+    },
+    {
+      "id": "linear_local_dimension",
+      "features": ["local_dimension_median"],
+      "qualifying_continuous_dimension_model": true
+    },
+    {
+      "id": "linear_profile_dimension_plus_iqr",
+      "features": ["profile_mass_dimension", "local_dimension_iqr"],
+      "qualifying_continuous_dimension_model": true
+    },
+    {
+      "id": "quadratic_profile_dimension",
+      "features": ["profile_mass_dimension", "profile_mass_dimension_squared"],
+      "qualifying_continuous_dimension_model": true
+    },
+    {
+      "id": "linear_support_dimension_proxy",
+      "features": ["support_dimension"],
+      "qualifying_continuous_dimension_model": false,
+      "exclusion_reason": "with only disks and spherical cluster projections this is a two-class proxy"
+    }
+  ],
+  "cross_validation": {
+    "outer_folds": 5,
+    "fold_salt": "invariant-gravity-roadmap-item1-effective-dimension-v1",
+    "fold_unit": "whole_object_stratified_by_population",
+    "inner_selection_target": "domain_balanced_mean_squared_error_on_training_object_beta_labels",
+    "heldout_object_target_available_to_fit_or_selection": false,
+    "ridge": "1e-8",
+    "prediction_clip": ["0", "4"]
+  },
+  "admission": {
+    "inverse_support_dimension_must_not_be_worse_than_fixed_parent_in_either_population": true,
+    "nested_model_must_select_a_qualifying_continuous_dimension_model_in_every_outer_fold": true,
+    "nested_model_must_beat_oof_constant_observational_score_in_each_population": true,
+    "nested_model_beta_r2_must_be_positive_in_each_population": true,
+    "posthoc_support_bridge_may_not_qualify": true,
+    "confirmation_or_direct_lensing_required_for_novel_physics_claim": true
+  },
+  "claim_boundaries": {
+    "binary_support_class_is_a_derived_fundamental_dimension": false,
+    "clash_target_is_direct_lensing": false,
+    "continuous_mass_profile_dimension_is_literal_spacetime_dimension": false,
+    "historical_novelty_established": false,
+    "roadmap_item_passed_by_posthoc_bridge": false,
+    "alternative_to_gr_established": false
+  },
+  "output": "runs/gravity/roadmap/item-01-effective-dimension-v1.json"
+}

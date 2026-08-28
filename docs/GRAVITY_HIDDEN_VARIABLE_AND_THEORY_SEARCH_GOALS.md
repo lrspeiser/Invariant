@@ -20,6 +20,13 @@ Referencing this document defines the search space and its tests. It does **not*
 itself authorize paid API calls, opening sealed confirmation data, weakening a frozen
 gate, or bypassing the ordered program in `NO_DARK_MATTER_GRAVITY_DISCOVERY_GOALS.md`.
 
+## Execution ledger
+
+| Item | Current status | Evidence | Required next move |
+|---|---|---|---|
+| **1. Effective dimension** | **INCONCLUSIVE** — the specific `beta=1/D_support` rule is rejected by the real cross-scale diagnostic; continuous baryonic mass-profile dimension does not predict the response; a binary disk/cluster label reproduces population means but is not a cause. | `GRAVITY_ITEM1_EFFECTIVE_DIMENSION_RESULT.md`; `runs/gravity/roadmap/item-01-effective-dimension-v1.json` | Continue through Item 2 to measure shape and anisotropy continuously, add intermediate/filamentary geometries, then freeze a rule before independent confirmation. |
+| **2–72** | **NOT YET EXECUTED under this roadmap ledger** | Existing repository work may supply controls or predecessor evidence but does not count as a roadmap PASS without an item-specific receipt. | Follow the numbered dependencies and real-test rule below. |
+
 ## Central target
 
 Search for a universal, measurable cause `Z` and a derived function `F(Z)` such that the
