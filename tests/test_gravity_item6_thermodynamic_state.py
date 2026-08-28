@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import copy
 import inspect
 import json
 from pathlib import Path
@@ -123,3 +124,70 @@ def test_stored_sample_matches_builder_after_it_is_written() -> None:
     path = ROOT / config["sample_manifest_output"]
     if path.exists():
         assert json.loads(path.read_text(encoding="utf-8")) == item6.build_sample_manifest(ROOT)
+
+
+def test_source_manifest_counts_failed_access_and_keeps_confirmation_closed() -> None:
+    config = item6.load_config(ROOT)
+    path = ROOT / config["source_manifest_output"]
+    if not path.exists():
+        pytest.skip("exploration source not acquired")
+    source = json.loads(path.read_text(encoding="utf-8"))
+    item6.validate_source_manifest(source, config)
+    boundary = source["boundary"]
+    assert len(source["records"]) == 20
+    assert boundary["cumulative_exploration_primary_response_queries"] == 21
+    assert boundary["cumulative_primary_response_rows_returned"] == 21
+    assert boundary["reserved_confirmation_primary_response_queries"] == 0
+    assert boundary["hecs_mass_profile_values_acquired"] == 0
+    assert boundary["lensing_mass_values_acquired"] == 0
+
+
+def test_all_exploration_clusters_pass_representation_quality() -> None:
+    config = item6.load_config(ROOT)
+    path = ROOT / config["extraction_summary_output"]
+    if not path.exists():
+        pytest.skip("exploration not extracted")
+    summary = json.loads(path.read_text(encoding="utf-8"))
+    assert summary["decision"] == "PASS_ITEM6_THERMODYNAMIC_REPRESENTATION_QUALITY"
+    assert summary["counts"] == {
+        "exploration_clusters": 20,
+        "quality_failures": 0,
+        "quality_passing_clusters": 20,
+        "reserved_confirmation_response_accesses": 0,
+    }
+
+
+def test_receipt_replays_and_preserves_nonpromoted_cooling_lead() -> None:
+    config = item6.load_config(ROOT)
+    path = ROOT / config["output"]
+    if not path.exists():
+        pytest.skip("experiment not run")
+    stored = json.loads(path.read_text(encoding="utf-8"))
+    assert item6.build_receipt(ROOT) == stored
+    item6.validate_receipt(stored, root=ROOT)
+    assert stored["decision"] == "REJECT_ITEM6_THERMODYNAMIC_STATE_EXPLORATION"
+    assert stored["gate_counts"] == {"passed": 7, "required": 9}
+    assert float(stored["primary"]["qualifying_selector"]["metrics"]["r2"]) > 0.4
+    assert (
+        float(
+            stored["primary"]["qualifying_selector"][
+                "relative_mse_improvement_over_strongest_baseline"
+            ]
+        )
+        > 0.14
+    )
+    assert float(stored["permutation"]["p_value"]) == pytest.approx(0.326)
+    assert stored["counts"]["reserved_confirmation_target_accesses"] == 0
+
+
+def test_resealed_false_pass_is_rejected() -> None:
+    config = item6.load_config(ROOT)
+    path = ROOT / config["output"]
+    if not path.exists():
+        pytest.skip("experiment not run")
+    stored = copy.deepcopy(json.loads(path.read_text(encoding="utf-8")))
+    stored["decision"] = (
+        "PASS_ITEM6_THERMODYNAMIC_STATE_EXPLORATION_REQUIRES_CONFIRMATION_AUTHORIZATION"
+    )
+    with pytest.raises(item6.GravityItem6ThermodynamicStateError):
+        item6.validate_receipt(item6._seal(stored), root=ROOT)
