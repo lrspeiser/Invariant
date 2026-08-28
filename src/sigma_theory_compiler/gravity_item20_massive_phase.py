@@ -44,12 +44,10 @@ from sigma_theory_compiler.gravity_item18_diskmass_antiscreening import (
     _disk_velocity_sq,
 )
 from sigma_theory_compiler.gravity_item19_massive_carrier import (
-    _btfr_oof,
     _kernel_values,
     _load_kernel_table,
     _oof_select,
     _prepare_kernel_table,
-    _ridge_oof,
 )
 
 CONFIG_PATH = Path("configs/gravity_item20_massive_phase_v1.json")
@@ -468,7 +466,7 @@ def fetch_responses(root: Path) -> Path:
     verify_science_freeze(root, config)
     verify_sample_freeze(root, config)
     paths = _source_paths(root, config)
-    sample = _verify_content_hash(_read_json(paths["sample_manifest"]))
+    sample = _verify_content_hash(_read_json(paths["sample_manifest"]), "sample manifest")
     rows = [row for row in sample["objects"] if row["role"] == "exploration"]
     chunks: list[str] = []
     receipts: list[dict[str, Any]] = []
@@ -491,7 +489,7 @@ def fetch_responses(root: Path) -> Path:
 
 
 def _load_rows(paths: Mapping[str, Path], config: Mapping[str, Any]) -> list[dict[str, Any]]:
-    sample = _verify_content_hash(_read_json(paths["sample_manifest"]))
+    sample = _verify_content_hash(_read_json(paths["sample_manifest"]), "sample manifest")
     response = {_as_int(row.get("AGC", "")): row for row in _parse_path(paths["exploration_responses"], ("AGC", "logW", "e_logW"))}
     output = []
     for row in sample["objects"]:
@@ -555,12 +553,39 @@ def _slice_report(rows: Sequence[Mapping[str, Any]], candidate: np.ndarray, base
     for name, values in (("mass", mass), ("size", size)):
         median = float(np.median(values))
         for label, mask in (("low", values <= median), ("high", values > median)):
-            reports[f"{name}_{label}"] = {"n": int(np.sum(mask)), "improvement": _improvement(_mse(y[mask], candidate[mask]), _mse(y[mask], baseline[mask]))}
+            reports[f"{name}_{label}"] = {"n": int(np.sum(mask)), "improvement": _improvement(_mse(y[mask], baseline[mask]), _mse(y[mask], candidate[mask]))}
     strata = np.asarray([row["phase_stratum"] for row in rows])
     for value in sorted(set(strata)):
         mask = strata == value
-        reports[f"frequency_stratum_{value}"] = {"n": int(np.sum(mask)), "improvement": _improvement(_mse(y[mask], candidate[mask]), _mse(y[mask], baseline[mask]))}
+        reports[f"frequency_stratum_{value}"] = {"n": int(np.sum(mask)), "improvement": _improvement(_mse(y[mask], baseline[mask]), _mse(y[mask], candidate[mask]))}
     return reports
+
+
+def _ridge_item20(rows: Sequence[Mapping[str, Any]], y: np.ndarray, alpha: float) -> np.ndarray:
+    features = np.asarray([[math.log(row["luminosity_I_Lsun"]), math.log(row["atomic_HI_mass_Msun"]), math.log(row["r83_kpc"]), row["surface_brightness"] or 0.0, row["type"] or 0.0, row["inclination_deg"], math.log(row["cz_km_s"])] for row in rows])
+    folds = np.asarray([row["fold"] for row in rows])
+    output = np.empty(len(rows))
+    for fold in sorted(set(folds)):
+        train, test = folds != fold, folds == fold
+        mean, std = features[train].mean(axis=0), features[train].std(axis=0)
+        std[std == 0] = 1.0
+        x_train = np.column_stack([np.ones(train.sum()), (features[train] - mean) / std])
+        x_test = np.column_stack([np.ones(test.sum()), (features[test] - mean) / std])
+        penalty = np.eye(x_train.shape[1]) * alpha
+        penalty[0, 0] = 0.0
+        coefficient = np.linalg.solve(x_train.T @ x_train + penalty, x_train.T @ y[train])
+        output[test] = x_test @ coefficient
+    return output
+
+
+def _btfr_item20(rows: Sequence[Mapping[str, Any]], y: np.ndarray) -> np.ndarray:
+    x = 0.25 * np.log(np.asarray([row["luminosity_I_Lsun"] + 1.4 * row["atomic_HI_mass_Msun"] for row in rows]))
+    folds = np.asarray([row["fold"] for row in rows])
+    output = np.empty(len(rows))
+    for fold in sorted(set(folds)):
+        train, test = folds != fold, folds == fold
+        output[test] = x[test] + float(np.mean(y[train] - x[train]))
+    return output
 
 
 def _selected_cell(candidates: Mapping[str, np.ndarray], index: int, config: Mapping[str, Any]) -> dict[str, Any]:
@@ -577,30 +602,30 @@ def run_experiment(root: Path) -> Path:
     verify_science_freeze(root, config)
     verify_sample_freeze(root, config)
     paths = _source_paths(root, config)
-    _verify_content_hash(_read_json(paths["response_source_manifest"]))
+    _verify_content_hash(_read_json(paths["response_source_manifest"]), "response source manifest")
     rows = _load_rows(paths, config)
     if len(rows) < int(config["sample"]["minimum_complete_exploration_objects"]):
         raise GravityItem20Error(f"only {len(rows)} quality-valid exploration rows")
     candidates = generate_candidates(config)
-    manifest = _verify_content_hash(_read_json(paths["candidate_manifest"]))
+    manifest = _verify_content_hash(_read_json(paths["candidate_manifest"]), "candidate manifest")
     if manifest["candidate_digest"] != _candidate_digest(candidates):
         raise GravityItem20Error("candidate replay digest changed")
     kernel = _load_kernel_table(paths["kernel_table"])
-    xp, backend = _backend()
+    xp, backend, device = _backend()
     start = time.perf_counter()
     y_np = np.asarray([row["log_velocity"] for row in rows])
     folds_np = np.asarray([row["fold"] for row in rows], dtype=int)
-    y, folds = xp.asarray(y_np), xp.asarray(folds_np)
+    y, folds = xp.asarray(y_np), folds_np
     matrix = _prediction_matrix(rows, candidates, kernel, config, xp)
     candidate_oof, selected = _oof_select(matrix, y, folds, xp)
     gr = _gr_matrix(rows, config, xp)
     calibrated_oof, _gr_selected = _oof_select(gr, y, folds, xp)
-    fixed = _to_numpy(_gr_matrix(rows, {**config, "candidate_generator": {**config["candidate_generator"], "stellar_mass_to_light_min": 1.0, "stellar_mass_to_light_max": 1.0, "stellar_mass_to_light_count": 1, "gas_mass_scales": [1.4]}}, xp)[0])
-    candidate_np, calibrated_np = _to_numpy(candidate_oof), _to_numpy(calibrated_oof)
-    btfr = _btfr_oof(rows, y_np)
-    flexible = _ridge_oof(rows, y_np, float(config["evaluation"]["ridge_alpha"]))
+    fixed = _to_numpy(_gr_matrix(rows, {**config, "candidate_generator": {**config["candidate_generator"], "stellar_mass_to_light_min": 1.0, "stellar_mass_to_light_max": 1.0, "stellar_mass_to_light_count": 1, "gas_mass_scales": [1.4]}}, xp)[0], xp)
+    candidate_np, calibrated_np = np.asarray(candidate_oof), np.asarray(calibrated_oof)
+    btfr = _btfr_item20(rows, y_np)
+    flexible = _ridge_item20(rows, y_np, float(config["evaluation"]["ridge_alpha"]))
     losses = {"candidate": _mse(y_np, candidate_np), "fixed_GR": _mse(y_np, fixed), "calibrated_GR": _mse(y_np, calibrated_np), "baryonic_TF": _mse(y_np, btfr), "flexible_nuisance": _mse(y_np, flexible)}
-    improvements = {key: _improvement(losses["candidate"], value) for key, value in losses.items() if key != "candidate"}
+    improvements = {key: _improvement(value, losses["candidate"]) for key, value in losses.items() if key != "candidate"}
     selected_cells = [_selected_cell(candidates, index, config) for index in selected]
     ordinary = min((losses[key], key) for key in ("fixed_GR", "calibrated_GR", "baryonic_TF", "flexible_nuisance"))[1]
     ordinary_prediction = {"fixed_GR": fixed, "calibrated_GR": calibrated_np, "baryonic_TF": btfr, "flexible_nuisance": flexible}[ordinary]
@@ -618,7 +643,7 @@ def run_experiment(root: Path) -> Path:
             permuted[idx] = rng.permutation(permuted[idx])
         yp = calibrated_np + permuted
         poof, _ = _oof_select(matrix, xp.asarray(yp), folds, xp)
-        delta = _mse(yp, calibrated_np) - _mse(yp, _to_numpy(poof))
+        delta = _mse(yp, calibrated_np) - _mse(yp, np.asarray(poof))
         extreme += int(delta >= observed_delta)
     p_value = (extreme + 1) / (int(config["evaluation"]["permutation_trials"]) + 1)
     robustness = {}
@@ -628,8 +653,8 @@ def run_experiment(root: Path) -> Path:
         for fold, cell in enumerate(selected):
             mask = folds == fold
             pred[mask] = altered[cell, mask]
-        pred_np = _to_numpy(pred)
-        robustness[str(scale)] = {"mse": _mse(y_np, pred_np), "improvement_vs_calibrated_GR": _improvement(_mse(y_np, pred_np), losses["calibrated_GR"])}
+        pred_np = _to_numpy(pred, xp)
+        robustness[str(scale)] = {"mse": _mse(y_np, pred_np), "improvement_vs_calibrated_GR": _improvement(losses["calibrated_GR"], _mse(y_np, pred_np))}
     family_counts = Counter(cell["family_name"] for cell in selected_cells)
     polarity_counts = Counter(cell["polarity"] for cell in selected_cells)
     ranges = np.asarray([cell["lambda_kpc"] for cell in selected_cells])
@@ -674,7 +699,7 @@ def run_experiment(root: Path) -> Path:
         "historical_novelty_claimed": False,
         "frozen_boundary": {"scientific_freeze_commit": config["scientific_freeze_commit"], "sample_freeze_commit": config["sample_freeze_commit"], "post_response_candidate_cells": 0},
         "data_source_receipt": {"quality_valid_exploration": len(rows), "confirmation_opened": 0},
-        "search": {"raw_cells": int(config["candidate_generator"]["raw_parameter_cells"]), "locally_admissible_cells": len(candidates["family"]), "residual_evaluations": int(len(candidates["family"]) * len(rows) * (1 + int(config["evaluation"]["permutation_trials"]))), "backend": backend, "elapsed_seconds": time.perf_counter() - start},
+        "search": {"raw_cells": int(config["candidate_generator"]["raw_parameter_cells"]), "locally_admissible_cells": len(candidates["family"]), "residual_evaluations": int(len(candidates["family"]) * len(rows) * (1 + int(config["evaluation"]["permutation_trials"]))), "backend": backend, "device": device, "elapsed_seconds": time.perf_counter() - start},
         "losses": losses, "improvements": improvements, "strongest_ordinary_baseline": ordinary,
         "selection_aware_permutation_p": p_value, "selected_folds": selected_cells,
         "family_counts": dict(family_counts), "polarity_counts": dict(polarity_counts), "carrier_range_clustered_folds": clustered,
@@ -695,8 +720,8 @@ def validate_result(root: Path) -> Path:
     verify_sample_freeze(root, config)
     paths = _source_paths(root, config)
     result_path = root / str(config["paths"]["result"])
-    result = _verify_content_hash(_read_json(result_path))
-    _verify_content_hash(_read_json(paths["compute_manifest"]))
+    result = _verify_content_hash(_read_json(result_path), "result")
+    _verify_content_hash(_read_json(paths["compute_manifest"]), "compute manifest")
     if result["data_source_receipt"]["confirmation_opened"] != 0 or result["frozen_boundary"]["post_response_candidate_cells"] != 0:
         raise GravityItem20Error("sealed boundary failed")
     if result["historical_novelty_claimed"] is not False:
