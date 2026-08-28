@@ -59,10 +59,18 @@ def test_metadata_parser_retains_only_allowlisted_columns(tmp_path: Path) -> Non
         config["metadata_forbidden_columns"]
     )
     path = tmp_path / "metadata.csv"
-    path.write_text(",".join(header) + "\n" + ",".join(values) + "\n", encoding="utf-8")
+    path.write_text(
+        ",".join(header)
+        + "\n"
+        + ",".join(values)
+        + "\n"
+        + ",".join(values[:-1])
+        + "\n",
+        encoding="utf-8",
+    )
     parsed_header, records = replay._metadata_records(path, config)
     assert parsed_header == header
-    assert records == [dict(zip(config["metadata_allowlist"], values[:5]))]
+    assert records == [dict(zip(config["metadata_allowlist"], values[:5]))] * 2
     assert not any(key in records[0] for key in config["metadata_forbidden_columns"])
 
 

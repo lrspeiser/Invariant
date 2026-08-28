@@ -276,8 +276,10 @@ def _metadata_records(path: Path, config: Mapping[str, Any]) -> tuple[list[str],
         for row in reader:
             if not row or all(not field.strip() for field in row):
                 continue
-            if len(row) != len(header):
-                raise GravityItem9Probes2ReplayError("PROBES-II metadata row width changed")
+            if len(row) > len(header) or len(row) <= max(indices):
+                raise GravityItem9Probes2ReplayError(
+                    "PROBES-II metadata row does not preserve the allowlisted prefix"
+                )
             records.append({name: row[index].strip() for name, index in zip(allowlist, indices)})
     return header, records
 
