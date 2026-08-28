@@ -161,7 +161,8 @@ def normalize_identity(value: str) -> str:
 
 
 def derive_predictors(row: Mapping[str, str], config: Mapping[str, Any]) -> dict[str, Any]:
-    if str(row.get("log_h1_mass_limit", "")).strip():
+    limit_flag = str(row.get("log_h1_mass_limit", "")).strip().lower()
+    if limit_flag not in {"", "null", "none", "--"}:
         raise GravityItem11ExternalFieldError("H I mass is an upper limit")
     log_luminosity = _finite(row, "log_ks_luminosity")
     log_hi_mass = _finite(row, "log_h1_mass")

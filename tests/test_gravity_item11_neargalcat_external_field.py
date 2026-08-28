@@ -48,7 +48,7 @@ def test_plain_table_parser_and_predictor_derivation() -> None:
         "distance": "5",
         "inclination": "60",
         "log_h1_mass": "8.5",
-        "log_h1_mass_limit": "",
+        "log_h1_mass_limit": "null",
         "neighbor_galaxy_name": "NGC 2",
         "morph_type": "8",
         "tidal_index_1": "-0.5",
