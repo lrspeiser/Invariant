@@ -97,13 +97,13 @@ def test_sample_seals_both_lanes_and_balances_folds() -> None:
                 }
             )
     lenses = [
-        {"name": f"L{index}", "z_lens": 0.1 + 0.05 * index} for index in range(10)
+        {"name": f"L{index}", "z_lens": 0.1 + 0.05 * index} for index in range(12)
     ]
     sample = _build_sample(galaxies, lenses, config)
     assert sample["counts"] == {
         "galaxy_motion:confirmation": 32,
         "galaxy_motion:exploration": 128,
-        "photon_delay:confirmation": 2,
+        "photon_delay:confirmation": 4,
         "photon_delay:exploration": 8,
     }
     assert all(sample["fold_counts"][f"galaxy_motion:{fold}"] == 32 for fold in range(4))
