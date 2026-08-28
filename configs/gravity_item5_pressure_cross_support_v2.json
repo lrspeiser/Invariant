@@ -1,0 +1,209 @@
+{
+  "schema_version": "invariant-gravity-roadmap-item5-pressure-cross-support-config-2.0",
+  "goal": "GRAVITY_ROADMAP_ITEM_05_PRESSURE_SUPPORT_ATTEMPT_2",
+  "status": "scientific_design_frozen_before_any_velocity_dispersion_value_access",
+  "roadmap_binding": {
+    "path": "docs/GRAVITY_HIDDEN_VARIABLE_AND_THEORY_SEARCH_GOALS.md",
+    "file_sha256": "b9db7e1aa76deaf28ce2e840cd3d7db4cf7a086b1c7ca473800780c264a0e772",
+    "item_number": 5,
+    "item_title": "Pressure support"
+  },
+  "attempt_1": {
+    "path": "runs/gravity/roadmap/item-05-pressure-support-v1.json",
+    "file_sha256": "bf7527d3ad72e2b3cdcbcef770ec2a051eaf4d58a200e40a9bbfbf53bf7de23c",
+    "content_sha256": "0a66e48046ad2eb35ee23a1710f825c8a61f26254691da8a846f90e7aaad891e",
+    "required_decision": "INCONCLUSIVE_ITEM5_PRESSURE_SUPPORT_QUALITY_GATE",
+    "repair_boundary": "Do not smooth, retune, replace, or open the five reserved LITTLE THINGS galaxies. This attempt uses a materially different cluster-scale system."
+  },
+  "authorization": {
+    "network_acquisition_allowed": true,
+    "paid_model_calls_allowed": false,
+    "exploration_velocity_responses_allowed_after_freeze": true,
+    "reserved_confirmation_velocity_responses_allowed": false,
+    "inferred_spt_mass_allowed_as_predictor": false,
+    "sz_equivalent_velocity_dispersion_allowed": false,
+    "direct_lensing_likelihood_evaluations_allowed": 0,
+    "sequential_G6_G7_G8_advanced": false
+  },
+  "prefreeze_audit": {
+    "date": "2026-08-28",
+    "response_values_read": 0,
+    "forbidden_mass_values_read_for_modeling": 0,
+    "discarded_castagna_pressure_profile_clusters": 58,
+    "castagna_overlap_bayliss_2016": 1,
+    "castagna_overlap_ruel_2014": 3,
+    "castagna_overlap_bayliss_2017": 3,
+    "reason_discarded": "At most three clusters overlap an optical-dispersion catalog, which cannot support held-out inference.",
+    "spt_catalog_identifiers": 677,
+    "bayliss_2017_identifiers": 89,
+    "spt_bayliss_overlap": 80,
+    "allowed_predictor_and_quality_columns_read": [
+      "SPT-CL",
+      "xi",
+      "theta",
+      "YSZ",
+      "e_YSZ",
+      "z",
+      "n_z",
+      "Cl",
+      "Nsp",
+      "Nmm",
+      "Npps",
+      "Nsf",
+      "e_z",
+      "Ref"
+    ],
+    "response_columns_not_queried": [
+      "Bayliss2017 sigma",
+      "Bayliss2017 e_sigma",
+      "Bayliss2016 sigmaBI",
+      "Bayliss2016 sigmaG",
+      "Ruel2014 sigmaG",
+      "Ruel2014 sigmaBI"
+    ]
+  },
+  "scientific_contract": {
+    "hypothesis": "A universal mapping between directly observed thermal SZ pressure support and collisionless galaxy velocity support may depend not only on integrated pressure amplitude, but on the coherence between fixed-aperture Comptonization, multi-scale matched-filter significance, and the selected filter extent.",
+    "creativity_label": "known_self_similar_thermal_virial_scaling_plus_potentially_new_pressure_coherence_to_collisionless_support_synthesis",
+    "known_components": [
+      "thermal Sunyaev-Zeldovich Comptonization",
+      "virial and self-similar cluster scaling",
+      "galaxy line-of-sight velocity dispersion",
+      "matched-filter scale and detection significance",
+      "whole-cluster held-out evaluation"
+    ],
+    "nonqualifying_rewrites": [
+      "sigma proportional to (Y D_A^2 E(z))^(1/5) is the known self-similar scaling family",
+      "a flexible linear regression on raw SZ amplitude, distance, redshift, significance, or filter scale is an empirical baseline",
+      "pressure amplitude divided by filter area is a known compactness-style rewrite",
+      "using M500c, sigmaSPT, a lensing mass, or a dynamical mass as a predictor is forbidden target leakage or circularity",
+      "using cluster identity or a per-cluster coefficient is not a universal law"
+    ],
+    "qualifying_boundary": "Only preregistered nonlinear coherence and phase-balance interactions among fixed-aperture YSZ, its aperture signal-to-noise, multi-scale xi, and physical filter extent qualify. They must outperform all raw-main-effect, self-similar, and pressure-compactness controls.",
+    "not_claimed": [
+      "a full radial pressure profile",
+      "a separation of thermal and turbulent intracluster support",
+      "historical novelty",
+      "a modified-gravity law",
+      "independent confirmation",
+      "advancement of the separate X-COP or direct-lensing gates"
+    ]
+  },
+  "sources": {
+    "thermal_predictor": {
+      "catalog_id": "J/ApJS/216/27/table4",
+      "description": "Bleem et al. 2015 SPT-SZ fixed 0.75 arcmin integrated Comptonization and matched-filter observables",
+      "landing_page": "https://cdsarc.cds.unistra.fr/viz-bin/cat/J/ApJS/216/27",
+      "readme": "https://cdsarc.cds.unistra.fr/ftp/J/ApJS/216/27/ReadMe",
+      "paper": "https://doi.org/10.1088/0067-0049/216/2/27",
+      "allowed_columns": ["SPT-CL", "xi", "theta", "YSZ", "e_YSZ", "z", "n_z"],
+      "forbidden_columns": ["M500c", "e_M500c"],
+      "fixed_aperture_arcmin": 0.75
+    },
+    "primary_response": {
+      "catalog_id": "J/ApJ/837/88/table2",
+      "description": "Bayliss et al. 2017 measured galaxy velocity dispersions",
+      "landing_page": "https://cdsarc.cds.unistra.fr/viz-bin/cat/J/ApJ/837/88",
+      "readme": "https://cdsarc.cds.unistra.fr/ftp/J/ApJ/837/88/ReadMe",
+      "paper": "https://doi.org/10.3847/1538-4357/aa607c",
+      "metadata_columns": ["Cl", "Nsp", "Nmm", "Npps", "Nsf", "z", "e_z", "Ref"],
+      "response_columns": ["Cl", "sigma", "e_sigma"]
+    },
+    "robustness_responses": [
+      {
+        "catalog_id": "J/ApJS/227/3/table2",
+        "description": "Bayliss et al. 2016 independent biweight and gapper reductions",
+        "readme": "https://cdsarc.cds.unistra.fr/ftp/J/ApJS/227/3/ReadMe",
+        "allowed_columns": ["SPT-CL", "sigmaBI", "e_sigmaBI", "sigmaG", "e_sigmaG"]
+      },
+      {
+        "catalog_id": "J/ApJ/792/45/table4",
+        "description": "Ruel et al. 2014 measured gapper and biweight dispersions",
+        "readme": "https://cdsarc.cds.unistra.fr/ftp/J/ApJ/792/45/ReadMe",
+        "allowed_columns": ["SPT-CL", "sigmaG", "e_sigmaG", "sigmaBI", "e_sigmaBI"],
+        "forbidden_columns": ["sigmaSPT"]
+      }
+    ]
+  },
+  "sample": {
+    "selection_salt": "invariant-gravity-item5-pressure-cross-support-v2-20260828",
+    "quality_rule": "SPT/Bayliss identifier overlap; Nmm>=20; YSZ>0; e_YSZ>0; YSZ/e_YSZ>=3; Bayliss spectroscopic z>0",
+    "overlap_candidates": 80,
+    "quality_passing_candidates": 62,
+    "exploration_count": 44,
+    "reserved_confirmation_count": 18,
+    "exploration": [
+      "0000-5748", "0014-4952", "0040-4407", "0102-4603", "0106-5943", "0142-5032", "0212-4657", "0232-5257", "0234-5831", "0235-5121", "0243-5930", "0252-4824", "0254-5857", "0304-4401", "0304-4921", "0307-6225", "0310-4647", "0334-4659", "0348-4515", "0403-5719", "0411-4819", "0417-4748", "0456-5116", "0516-5430", "0528-5300", "0542-4100", "0549-6205", "0555-6406", "0559-5249", "2017-6258", "2035-5251", "2043-5035", "2100-4548", "2115-4659", "2118-5055", "2136-4704", "2155-6048", "2159-6244", "2222-4834", "2258-4044", "2325-4111", "2331-5051", "2335-4544", "2337-5942"
+    ],
+    "reserved_confirmation": [
+      "0013-4906", "0123-4821", "0200-4852", "0243-4833", "0406-4805", "0438-5419", "0551-5709", "0655-5234", "2030-5638", "2146-4846", "2146-5736", "2218-4519", "2232-5959", "2233-5339", "2301-4023", "2306-6505", "2344-4243", "2359-5009"
+    ],
+    "post_access_failure_policy": "Retain every missing or invalid exploration response; do not replace an object, relax quality, or open a reserved response."
+  },
+  "derivation": {
+    "cosmology": "Frozen flat LambdaCDM nuisance conversion with H0=70 km/s/Mpc and Omega_m=0.3; no cosmological parameter is fitted.",
+    "thermal_energy_proxy": "A=log10[(YSZ*1e-6 arcmin^2 converted to sr) D_A(z)^2 E(z)]",
+    "known_self_similar": "log10(sigma)=intercept+0.2 A",
+    "effective_filter_extent": "theta_eff=sqrt(theta^2+0.25^2) arcmin; L=log10[D_A theta_eff]",
+    "pressure_surface_proxy": "Q=log10[(YSZ*1e-6 arcmin^2)/theta_eff^2]",
+    "detection_aperture_coherence": "C=log10[xi/(YSZ/e_YSZ)]",
+    "aperture_filter_ratio": "R=log10[0.75/theta_eff]",
+    "qualifying_interactions": ["C*L", "C*Q", "C*R", "Q*R", "C^2"],
+    "feature_builder_accepts_velocity_response": false,
+    "prediction_target": "log10 of Bayliss 2017 measured galaxy velocity dispersion in km/s"
+  },
+  "model_families": [
+    {"id": "constant", "features": [], "fixed_coefficients": {}, "qualifying": false},
+    {"id": "redshift_nuisance", "features": ["log1pz", "log_ez"], "fixed_coefficients": {}, "qualifying": false},
+    {"id": "self_similar_sz", "features": [], "fixed_coefficients": {"thermal_energy_proxy": 0.2}, "qualifying": false},
+    {"id": "flexible_sz_scaling", "features": ["log_y_sz", "log_da", "log_ez"], "fixed_coefficients": {}, "qualifying": false},
+    {"id": "raw_observable_nuisance", "features": ["log_y_sz", "log_y_snr", "log_xi", "log_theta_eff", "log1pz"], "fixed_coefficients": {}, "qualifying": false},
+    {"id": "known_pressure_compactness", "features": ["thermal_energy_proxy", "log_extent", "pressure_surface_proxy", "log1pz"], "fixed_coefficients": {}, "qualifying": false},
+    {"id": "pressure_coherence_bridge", "features": ["thermal_energy_proxy", "log_extent", "pressure_surface_proxy", "detection_aperture_coherence", "coherence_x_extent", "coherence_x_surface", "log1pz"], "fixed_coefficients": {}, "qualifying": true},
+    {"id": "pressure_phase_balance", "features": ["thermal_energy_proxy", "log_extent", "pressure_surface_proxy", "detection_aperture_coherence", "aperture_filter_ratio", "coherence_x_aperture", "surface_x_aperture", "coherence_squared", "log1pz"], "fixed_coefficients": {}, "qualifying": true},
+    {"id": "all_pressure_coherence", "features": ["thermal_energy_proxy", "log_extent", "pressure_surface_proxy", "detection_aperture_coherence", "aperture_filter_ratio", "coherence_x_extent", "coherence_x_surface", "coherence_x_aperture", "surface_x_aperture", "coherence_squared", "log1pz"], "fixed_coefficients": {}, "qualifying": true}
+  ],
+  "cross_validation": {
+    "outer_folds": 5,
+    "fold_salt": "invariant-gravity-item5-pressure-cross-support-folds-v2-20260828",
+    "inner_folds": 4,
+    "inner_salt": "invariant-gravity-item5-pressure-cross-support-inner-v2-20260828",
+    "fold_unit": "whole cluster",
+    "selection_metric": "equal-cluster mean squared log10 velocity-dispersion error",
+    "ridge_penalties": [0.001, 0.01, 0.1, 1.0, 10.0, 100.0],
+    "permutation_count": 499,
+    "permutation_salt": "invariant-gravity-item5-pressure-cross-support-null-v2-20260828",
+    "permutation_scheme": "shuffle primary log dispersion within frozen z<0.6 and z>=0.6 strata"
+  },
+  "quality": {
+    "minimum_member_galaxies": 20,
+    "minimum_ysz_signal_to_noise": 3.0,
+    "maximum_primary_fractional_sigma_error": 0.5,
+    "all_44_exploration_clusters_required": true,
+    "minimum_pooled_alternative_response_rows": 20
+  },
+  "exploration_admission": {
+    "quality_contract_passes": true,
+    "unrestricted_selector_qualifying_in_at_least_folds": 4,
+    "qualifying_selector_r2_positive_overall": true,
+    "qualifying_selector_r2_positive_in_both_redshift_strata": true,
+    "qualifying_selector_beats_each_nonqualifying_baseline_overall": true,
+    "qualifying_relative_mse_improvement_over_strongest_baseline_at_least": 0.02,
+    "redshift_stratified_permutation_p_at_most": 0.05,
+    "pooled_alternative_dispersion_robustness_does_not_reverse_improvement": true,
+    "reserved_confirmation_targets_untouched": true,
+    "passing_exploration_does_not_authorize_confirmation": true
+  },
+  "claim_boundaries": {
+    "pressure_coherence_is_historically_new": false,
+    "unified_all_support_types_established": false,
+    "alternative_to_gr_established": false,
+    "confirmation_opened": false,
+    "roadmap_item_5_complete": false
+  },
+  "sample_manifest_output": "runs/gravity/roadmap/item-05-pressure-cross-support-v2-source/sample-manifest.json",
+  "source_manifest_output": "runs/gravity/roadmap/item-05-pressure-cross-support-v2-source/exploration-source-manifest.json",
+  "feature_output": "runs/gravity/roadmap/item-05-pressure-cross-support-v2-source/cluster-features.tsv",
+  "extraction_summary_output": "runs/gravity/roadmap/item-05-pressure-cross-support-v2-source/extraction-summary.json",
+  "output": "runs/gravity/roadmap/item-05-pressure-cross-support-v2.json"
+}
