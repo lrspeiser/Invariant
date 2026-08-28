@@ -566,11 +566,22 @@ def write_candidate_manifest(root: Path) -> Path:
     return path
 
 
-def _response_scope(sample: Mapping[str, Any]) -> dict[str, Any]:
+def _response_scope(sample: Mapping[str, Any], predictor: Mapping[str, Any]) -> dict[str, Any]:
     groups: dict[str, list[Mapping[str, Any]]] = {}
     for row in sample["objects"]:
         groups.setdefault(str(row["name"]), []).append(row)
-    ambiguous = {name: rows for name, rows in groups.items() if len(rows) != 1}
+    catalogue_name_counts = Counter(
+        [str(row["name"]) for row in predictor["records"]]
+        + [str(row["name"]) for row in predictor["failures"]]
+    )
+    catalogue_duplicate_names = {
+        name for name, count in catalogue_name_counts.items() if count != 1
+    }
+    ambiguous = {
+        name: rows
+        for name, rows in groups.items()
+        if len(rows) != 1 or name in catalogue_duplicate_names
+    }
     retained = [
         rows[0]
         for name, rows in sorted(groups.items())
@@ -595,6 +606,7 @@ def _response_scope(sample: Mapping[str, Any]) -> dict[str, Any]:
         "retained_confirmation": retained_confirmation,
         "ambiguous_names": sorted(ambiguous),
         "ambiguous_release_rows": sum(len(rows) for rows in ambiguous.values()),
+        "catalogue_duplicate_names": sorted(catalogue_duplicate_names),
         "initial_attempted_unique_names": len(attempted_names),
         "scope_incident_potential_confirmation_rows": potential_confirmation_rows,
     }
@@ -606,9 +618,12 @@ def write_response_source(root: Path) -> Path:
         raise GravityItem10BoundaryError("Item 10 sample freeze is not bound")
     config = load_config(root)
     sample_path = root / config["outputs"]["sample_manifest"]
+    predictor_path = root / config["outputs"]["predictor_source"]
     sample = json.loads(sample_path.read_text(encoding="utf-8"))
+    predictor = json.loads(predictor_path.read_text(encoding="utf-8"))
     validate_sample_manifest(sample, root)
-    scope = _response_scope(sample)
+    validate_predictor_source(predictor, root)
+    scope = _response_scope(sample, predictor)
     exploration = [row["name"] for row in scope["retained_exploration"]]
     quoted = ",".join("'" + name.replace("'", "''") + "'" for name in exploration)
     columns = ",".join(config["source"]["response_columns"])
@@ -640,6 +655,7 @@ def write_response_source(root: Path) -> Path:
                 "initial_attempted_unique_names": scope["initial_attempted_unique_names"],
                 "ambiguous_multi_release_names_excluded": scope["ambiguous_names"],
                 "ambiguous_release_rows_excluded": scope["ambiguous_release_rows"],
+                "all_catalogue_duplicate_names": scope["catalogue_duplicate_names"],
                 "retained_unambiguous_exploration_names": len(exploration),
                 "retained_unambiguous_confirmation_names": len(confirmation),
                 "scope_incident_potential_confirmation_rows": scope[

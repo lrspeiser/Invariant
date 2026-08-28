@@ -159,14 +159,17 @@ def test_formula_and_predictor_builders_have_no_velocity_target_parameter() -> N
 def test_response_scope_conservatively_drops_multi_release_names() -> None:
     config = boundaries.load_config(ROOT)
     path = ROOT / config["outputs"]["sample_manifest"]
+    predictor_path = ROOT / config["outputs"]["predictor_source"]
     if not path.exists():
         pytest.skip("WALLABY sample has not been frozen")
     sample = json.loads(path.read_text(encoding="utf-8"))
-    scope = boundaries._response_scope(sample)
-    assert len(scope["retained_exploration"]) == 43
+    predictor = json.loads(predictor_path.read_text(encoding="utf-8"))
+    scope = boundaries._response_scope(sample, predictor)
+    assert len(scope["retained_exploration"]) == 38
     assert len(scope["retained_confirmation"]) == 11
-    assert len(scope["ambiguous_names"]) == 15
-    assert scope["ambiguous_release_rows"] == 31
+    assert len(scope["ambiguous_names"]) == 20
+    assert scope["ambiguous_release_rows"] == 36
+    assert len(scope["catalogue_duplicate_names"]) == 55
     assert scope["initial_attempted_unique_names"] == 55
     assert scope["scope_incident_potential_confirmation_rows"] == 2
     assert not (
