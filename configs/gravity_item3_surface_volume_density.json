@@ -1,0 +1,180 @@
+{
+  "schema_version": "invariant-gravity-roadmap-item3-surface-volume-density-config-1.0",
+  "goal": "GRAVITY_ROADMAP_ITEM_03_SURFACE_VERSUS_VOLUME_DENSITY",
+  "status": "frozen_before_item3_feature_or_fresh_group_response_access",
+  "roadmap_binding": {
+    "path": "docs/GRAVITY_HIDDEN_VARIABLE_AND_THEORY_SEARCH_GOALS.md",
+    "file_sha256": "b9db7e1aa76deaf28ce2e840cd3d7db4cf7a086b1c7ca473800780c264a0e772",
+    "item_number": 3,
+    "item_title": "Surface versus volume density"
+  },
+  "predecessor": {
+    "path": "runs/gravity/roadmap/item-02-synthesis-v1.json",
+    "file_sha256": "285a18b887eb265e1bd6e1c10e40adb13fcf47f52c2bbf111d725e1933d674fc",
+    "content_sha256": "fcccd1facb379e2bf27db05dea263169714cff7739b3c5de2e266400327b0bbf",
+    "required_decision": "REJECT_ITEM2_TESTED_PROJECTED_SHAPE_FAMILIES_ADVANCE_ITEM3"
+  },
+  "authorization": {
+    "network_acquisition_allowed": true,
+    "paid_model_calls_allowed": false,
+    "fresh_exploration_group_member_rows_allowed": true,
+    "reserved_confirmation_group_member_rows_allowed": false,
+    "sparc_confirmation_evaluator_accesses_allowed": 0,
+    "direct_lensing_likelihood_evaluations_allowed": 0,
+    "sequential_G6_G7_G8_advanced": false
+  },
+  "scientific_contract": {
+    "hypothesis": "The relative location, width, and overlap of dimensionless surface-like and volume-like baryonic source transitions predict gravitational response beyond baryonic acceleration, mass-profile slope, object class, and ordinary luminosity-size-density baselines.",
+    "creativity_label": "potentially_new_synthesis_of_known_poisson_source_terms_and_dual_density_transition_geometry",
+    "known_components": [
+      "Poisson source density",
+      "enclosed baryonic acceleration",
+      "universal acceleration threshold",
+      "surface and shell volume density",
+      "transition kernels",
+      "nested whole-object cross-validation"
+    ],
+    "exact_rewrite_excluded": "u_surface/u_volume=3/D_M is algebraically equivalent to the Item 1 local mass dimension and is a nonqualifying control",
+    "not_claimed": [
+      "a new field equation",
+      "an independent confirmation of the already-seen SPARC/CLASH labels",
+      "complete baryonic mass in optical groups",
+      "a dark-matter-free explanation",
+      "a lensing prediction",
+      "historical novelty"
+    ]
+  },
+  "constants": {
+    "transition_acceleration_m_s2": 1.2e-10,
+    "gravity_constant_kpc_km2_s2_msun": 4.30091e-6,
+    "speed_conversion_km2_s2_per_kpc_to_m_s2": 3.240779289444365e-14,
+    "fixed_group_r_band_mass_to_light_msun_per_lsun": 1.0,
+    "axes_member_luminosity_unit_lsun": 10000000000.0
+  },
+  "cross_scale_development_lane": {
+    "status": "retrospective_development_not_confirmation_because_targets_were_seen_in_items_1_and_2",
+    "objects": {"sparc_exploration_galaxies": 139, "clash_clusters": 20},
+    "parent": "g=g_bar+beta*(g_bar*chi+g_dagger*psi)",
+    "response": "the same sealed per-object Item 1 beta labels",
+    "feature_builder_target_fields_available": false,
+    "equivalent_mass": "M_eq(r)=g_bar(r)*r^2/G for both populations",
+    "local_mass_slope": "D_M=d(log(M_eq))/d(log(r)) clipped to [0.25,4] only for a nonnegative stable volume-source diagnostic",
+    "surface_source": "u_surface=pi*G*Sigma_bar/g_dagger=g_bar/g_dagger where Sigma_bar=M_eq/(pi*r^2)",
+    "volume_source": "u_volume=4*pi*G*r*rho_shell/(3*g_dagger)=D_M*g_bar/(3*g_dagger) where rho_shell=(dM_eq/dr)/(4*pi*r^2)",
+    "transition_kernel": "w(u)=u/(1+u)^2 integrated over log radius",
+    "qualifying_features": [
+      "log_transition_radius_ratio",
+      "transition_overlap_cosine",
+      "transition_area_asymmetry",
+      "log_transition_width_ratio"
+    ],
+    "nonqualifying_controls": [
+      "mean_log_surface_source",
+      "mean_log_volume_source",
+      "local_mass_dimension_median",
+      "local_mass_dimension_iqr",
+      "surface_volume_log_ratio_median",
+      "binary_population_proxy"
+    ],
+    "model_families": [
+      {"id": "constant", "blocks": [], "qualifying": false},
+      {"id": "surface_amplitude_control", "blocks": ["surface_amplitude"], "qualifying": false},
+      {"id": "item1_dimension_control", "blocks": ["item1_dimension"], "qualifying": false},
+      {"id": "surface_plus_dimension_control", "blocks": ["surface_amplitude", "item1_dimension"], "qualifying": false},
+      {"id": "binary_population_proxy", "blocks": ["population_proxy"], "qualifying": false},
+      {"id": "dual_transition_location", "blocks": ["surface_amplitude", "dual_location"], "qualifying": true},
+      {"id": "dual_transition_shape", "blocks": ["surface_amplitude", "dual_shape"], "qualifying": true},
+      {"id": "all_surface_volume_transition", "blocks": ["surface_amplitude", "all_dual_transition"], "qualifying": true}
+    ]
+  },
+  "fresh_group_lane": {
+    "catalog_id": "J/A+A/690/A52",
+    "metadata_path": "runs/gravity/roadmap/item-02-axes-group-geometry-v5-source/group-metadata-only.tsv",
+    "metadata_file_sha256": "00fc539f10c80965cd2cee98487023c21b186a36571a12d1dccfb0f4acc656ed",
+    "item2_exclusion_manifest": "runs/gravity/roadmap/item-02-axes-group-geometry-v5-source/axes-group-sample-manifest.json",
+    "item2_exclusion_file_sha256": "03de8b7e178820612d10a9cd1ef67e4333893fc34671fe55ef22ab03f753cd5d",
+    "item2_exclusion_content_sha256": "7da146a5430eb6f783a8aa7e827c6f4d552a17f1eb969c7c2d0f0378234a633f",
+    "member_query_template": "https://vizier.cds.unistra.fr/viz-bin/asu-tsv?-source=J/A%2BA/690/A52/tablec4&Group={group}&-out=Group,GalID,SpecObjID,RAJ2000,DEJ2000,zsp,Lr&-out.max=unlimited",
+    "selection_salt": "invariant-gravity-roadmap-item3-fresh-groups-v1-sample-20260828",
+    "redshift_range": [0.003, 0.06],
+    "minimum_members": 10,
+    "richness_bins": [[10, 14], [15, 24], [25, 1000]],
+    "per_richness_bin": {"exploration": 40, "reserved_confirmation": 20},
+    "expected_eligible_before_item2_exclusion": 523,
+    "expected_eligible_after_item2_exclusion": 253,
+    "expected_remaining_by_richness_bin": [116, 66, 71],
+    "expected_exploration_groups": 120,
+    "expected_reserved_confirmation_groups": 60,
+    "reserved_confirmation_target_accesses_allowed": 0,
+    "post_selection_quality_failure_policy": "retain every group as a failure and do not replace it using positions, luminosities, member redshifts, or any derived response",
+    "density_definition": {
+      "centering": "member-luminosity-weighted projected centroid using metadata redshift for angular distance",
+      "radii": "luminosity quantile radii R25,R50,R75,R90",
+      "surface_source_50": "u_surface50=G*M(<R50)/(R50^2*g_dagger)",
+      "volume_source_25_75": "u_volume25_75=G*R50*(M(<R75)-M(<R25))/(g_dagger*(R75^3-R25^3))",
+      "multiscale_features": [
+        "log10_u_surface50",
+        "log10_u_volume25_75",
+        "surface_volume_log_contrast",
+        "log_geometric_mean_sources",
+        "source_balance",
+        "surface_source_radial_gradient",
+        "volume_source_inner_outer_gradient"
+      ],
+      "geometry_only_function_accepts_member_redshift": false
+    },
+    "primary_response": "log10 recomputed Beers gapper velocity dispersion",
+    "robustness_responses": [
+      "log10 MAD velocity dispersion",
+      "log10 luminosity-normalized virial response using R50",
+      "log10 luminosity-normalized virial response using R90"
+    ],
+    "strongest_baseline": [
+      "log10 total member luminosity",
+      "log10 R50",
+      "log10 R90",
+      "log10 richness",
+      "metadata redshift",
+      "large-scale D10 environment"
+    ]
+  },
+  "cross_validation": {
+    "outer_folds": 5,
+    "cross_scale_fold_salt": "invariant-gravity-roadmap-item3-cross-scale-v1-20260828",
+    "group_fold_salt": "invariant-gravity-roadmap-item3-groups-v1-20260828",
+    "fold_unit": "whole object stratified by population or frozen richness bin",
+    "inner_selection": "training-fold-only mean squared error",
+    "ridge_penalties": [0.001, 0.01, 0.1, 1.0, 10.0, 100.0],
+    "stratified_permutation_count": 199,
+    "permutation_salt": "invariant-gravity-roadmap-item3-density-null-v1-20260828",
+    "heldout_response_available_to_fit_or_selection": false
+  },
+  "exploration_admission": {
+    "cross_scale_selected_model_qualifying_in_every_fold": true,
+    "cross_scale_beta_r2_positive_in_galaxies_and_clusters": true,
+    "cross_scale_selected_model_beats_surface_dimension_and_population_controls_in_each_population_and_overlap": true,
+    "all_120_fresh_groups_pass_quality": true,
+    "fresh_group_selected_model_qualifying_in_every_fold": true,
+    "fresh_group_r2_positive_in_every_richness_bin": true,
+    "fresh_group_density_beats_strongest_baseline_overall_and_in_every_richness_bin": true,
+    "fresh_group_permutation_p_at_most": 0.05,
+    "all_group_response_robustness_controls_pass": true,
+    "confirmation_untouched": true,
+    "both_cross_scale_and_fresh_group_lanes_must_pass": true,
+    "passing_exploration_does_not_authorize_confirmation": true
+  },
+  "claim_boundaries": {
+    "surface_volume_ratio_is_new_relative_to_item1": false,
+    "retrospective_cross_scale_lane_is_independent_confirmation": false,
+    "optical_group_luminosity_is_complete_baryonic_mass": false,
+    "group_finder_independence_established": false,
+    "roadmap_item_3_complete": false,
+    "alternative_to_gr_established": false,
+    "historical_novelty_established": false
+  },
+  "sample_manifest_output": "runs/gravity/roadmap/item-03-surface-volume-density-v1-source/fresh-group-sample-manifest.json",
+  "source_manifest_output": "runs/gravity/roadmap/item-03-surface-volume-density-v1-source/fresh-group-exploration-source-manifest.json",
+  "group_feature_output": "runs/gravity/roadmap/item-03-surface-volume-density-v1-source/fresh-group-features.tsv",
+  "cross_scale_feature_output": "runs/gravity/roadmap/item-03-surface-volume-density-v1-source/cross-scale-features.tsv",
+  "output": "runs/gravity/roadmap/item-03-surface-volume-density-v1.json"
+}
