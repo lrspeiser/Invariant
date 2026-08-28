@@ -20,7 +20,7 @@ import numpy as np
 from .sigma_core import canonical_json_bytes, canonical_sha256
 
 CONFIG_PATH = "configs/gravity_item5_pressure_cross_support_v2.json"
-SCIENTIFIC_FREEZE_COMMIT = "PENDING_SCIENTIFIC_FREEZE_COMMIT"
+SCIENTIFIC_FREEZE_COMMIT = "e7a861b656cda74e9e92ea63cd864cfcfdf2555e"
 VIZIER_ENDPOINT = "https://vizier.cds.unistra.fr/viz-bin/asu-tsv"
 
 
