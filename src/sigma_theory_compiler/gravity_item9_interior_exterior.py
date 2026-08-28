@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import copy
 import csv
 import hashlib
 import io
@@ -2116,7 +2117,12 @@ def check_receipt(root: Path) -> None:
     config = load_config(root)
     stored = json.loads((root / config["output"]).read_text(encoding="utf-8"))
     rebuilt = build_receipt(root)
-    if stored != rebuilt:
+    stored_comparable = copy.deepcopy(stored)
+    rebuilt_comparable = copy.deepcopy(rebuilt)
+    for comparable in (stored_comparable, rebuilt_comparable):
+        comparable.pop("content_sha256", None)
+        comparable["compute"].pop("elapsed_seconds", None)
+    if stored_comparable != rebuilt_comparable:
         raise GravityItem9InteriorExteriorError("Item 9 receipt drifted")
     validate_receipt(stored, root=root)
 

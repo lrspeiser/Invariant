@@ -237,3 +237,23 @@ def test_receipt_replays_if_experiment_has_run() -> None:
     assert stored["counts"]["reserved_confirmation_rotation_entries_opened"] == 0
     assert stored["counts"]["post_response_formula_cells"] == 0
     assert stored["counts"]["candidate_formula_cells"] == 12600
+
+
+def test_full_receipt_check_ignores_runtime_only_elapsed_seconds(monkeypatch: pytest.MonkeyPatch) -> None:
+    config = item9.load_config(ROOT)
+    path = ROOT / config["output"]
+    if not path.exists():
+        pytest.skip("Item 9 experiment not run")
+    stored = json.loads(path.read_text(encoding="utf-8"))
+    rebuilt = json.loads(json.dumps(stored))
+    rebuilt["compute"]["elapsed_seconds"] = "9.999000000000e+00"
+    rebuilt.pop("content_sha256")
+    rebuilt["content_sha256"] = item9.canonical_sha256(rebuilt)
+    monkeypatch.setattr(item9, "build_receipt", lambda root: rebuilt)
+    item9.check_receipt(ROOT)
+
+    rebuilt["primary"]["qualifying_selector"]["metrics"]["mse"] = "9.999000000000e+00"
+    rebuilt.pop("content_sha256")
+    rebuilt["content_sha256"] = item9.canonical_sha256(rebuilt)
+    with pytest.raises(item9.GravityItem9InteriorExteriorError, match="receipt drifted"):
+        item9.check_receipt(ROOT)
