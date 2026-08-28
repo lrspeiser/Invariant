@@ -1,0 +1,84 @@
+{
+  "schema_version": "invariant-gravity-g4-auxiliary-action-derivation-config-6.0",
+  "goal": "G4_AUXILIARY_ACTION_DERIVATION",
+  "claim": "Test whether one effective radial action with a screened auxiliary field and a directed occupancy constraint derives both terms of the fold-stable v5 cross-scale parent, with coefficient and log-radius scale fixed by disk support dimension rather than velocity fitting.",
+  "predecessor_binding": {
+    "path": "runs/gravity/g4/first-principles-mechanism-search-v5.json",
+    "file_sha256": "63db38227a000334a0935800a9e4c68cbca328e2a0111923365e730281cd0b42",
+    "content_sha256": "625ba70dbd504547c44b30188fdbba7a9d218258ad6b0d5eafcdcf79f82ee14f",
+    "required_decision": "BLOCK_G4_FIRST_PRINCIPLES_MECHANISM_SEARCH",
+    "required_parent_candidate_id": "cross-scale:y:q0p1:ell0p25:permittivity_plus_auxiliary",
+    "required_parent_beta": "0.5",
+    "required_parent_chi_square": "1.386366088187e5"
+  },
+  "effective_action": {
+    "coordinate": "x=log(r)",
+    "fields": ["Phi", "psi", "chi", "eta"],
+    "baryonic_occupancy": "q=(g_bar/g_dagger)/((g_bar/g_dagger)+y_transition)",
+    "permittivity": "A(chi)=1/(1+chi/D)",
+    "radial_auxiliary_flux": "J(chi,psi)=g_dagger*psi/(D*(1+chi/D))",
+    "phi_sector": "L_Phi=A(chi)*(d_x Phi)^2/2-J(chi,psi)*d_x Phi-source_b*Phi",
+    "screened_sector": "L_psi=(psi^2+ell^2*(d_x psi)^2)/2-q*psi",
+    "directed_constraint_sector": "L_chi=eta*(chi+ell*d_x chi-q)",
+    "integrated_flux_equation": "A(chi)*g-J(chi,psi)=g_bar",
+    "derived_acceleration": "g=g_bar*(1+chi/D)+g_dagger*psi/D",
+    "derived_velocity_squared": "V^2=V_bar^2+(V_bar^2*chi+r*g_dagger*psi)/D"
+  },
+  "dimensional_closure_hypothesis": {
+    "effective_baryonic_support_dimension": 2,
+    "reason": "SPARC systems in this gate are modeled as rotationally supported thin disks",
+    "coefficient_rule": "beta=1/D",
+    "log_radius_scale_rule": "ell=1/(2D)",
+    "predicted_beta": "0.5",
+    "predicted_log_radius_scale": "0.25",
+    "velocity_data_used_to_choose_D": false,
+    "post_v5_hypothesis": true,
+    "historical_novelty_claimed": false
+  },
+  "inherited_unresolved_quantity": {
+    "id": "y_transition",
+    "value": "0.1",
+    "status": "INHERITED_FROM_V5_NOT_DERIVED",
+    "may_count_as_first_principles": false
+  },
+  "counterfactual_dimensions": [1, 2, 3],
+  "population": {
+    "exploration_galaxies": 139,
+    "exploration_points": 2720,
+    "confirmation_evaluator_accesses_allowed": 0,
+    "cluster_evaluator_accesses_allowed": 0,
+    "lensing_evaluator_accesses_allowed": 0
+  },
+  "admission": {
+    "symbolic_euler_lagrange_residuals_zero": true,
+    "symbolic_integrated_flux_residual_zero": true,
+    "dimension_rule_reproduces_parent_beta_and_scale": true,
+    "D2_counterfactual_must_beat_D1_and_D3": true,
+    "numerical_parent_chi_square_tolerance": "1e-7",
+    "minimum_fractional_gain_over_rar": "5e-3",
+    "nfw_ceiling_slack_chi_square_per_point": "2.0",
+    "complete_covariant_conservation_stability_lensing_obligations": true,
+    "all_predictions_positive_and_finite": true,
+    "per_galaxy_fitted_gravitational_constants_required": 0
+  },
+  "claim_boundaries": {
+    "effective_radial_action_is_covariant_theory": false,
+    "directed_log_radius_constraint_is_causal_time_evolution": false,
+    "thin_disk_dimension_rule_is_derived_fundamental_law": false,
+    "parent_selection_is_independent_confirmation": false,
+    "historical_novelty_claimed": false
+  },
+  "forbidden": [
+    "observed velocity in q, psi, chi, beta, ell, or D",
+    "per-galaxy fitted gravitational parameter",
+    "halo input or target",
+    "confirmation, cluster, or lensing evaluator",
+    "calling a post-v5 dimensional closure hypothesis a derivation from fundamental symmetry",
+    "calling radial positivity a complete stability proof"
+  ],
+  "output": "runs/gravity/g4/auxiliary-action-derivation-v6.json",
+  "decision": {
+    "pass": "the action identity, parent reproduction, counterfactual, predictive, and all complete-theory obligations pass",
+    "block": "any obligation fails; retain the effective action as a scoped derivation or counterexample"
+  }
+}
