@@ -244,7 +244,7 @@ def _download_exact(url: str, path: Path, expected_bytes: int, expected_etag: st
         modified = str(response.headers.get("Last-Modified", ""))
     if len(payload) != expected_bytes:
         raise GravityItem9Probes2ReplayError(f"source byte count changed for {url}")
-    if etag != expected_etag:
+    if etag.removeprefix("W/") != expected_etag.removeprefix("W/"):
         raise GravityItem9Probes2ReplayError(f"source ETag changed for {url}")
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.with_suffix(path.suffix + ".part")

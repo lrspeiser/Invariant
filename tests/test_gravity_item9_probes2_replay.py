@@ -75,6 +75,32 @@ def test_archive_and_response_access_are_impossible_before_bindings() -> None:
             replay.extract_profiles(ROOT)
 
 
+def test_source_etag_guard_treats_only_weak_prefix_as_transport_equivalent(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    class Response:
+        headers = {"ETag": '"same"', "Last-Modified": "fixed"}
+
+        def __enter__(self) -> Response:
+            return self
+
+        def __exit__(self, *_args: object) -> None:
+            return None
+
+        def read(self) -> bytes:
+            return b"data"
+
+    monkeypatch.setattr(replay.urllib.request, "urlopen", lambda *_args, **_kwargs: Response())
+    receipt = replay._download_exact(
+        "https://example.invalid/fixed", tmp_path / "x", 4, 'W/"same"'
+    )
+    assert receipt["etag"] == '"same"'
+    with pytest.raises(replay.GravityItem9Probes2ReplayError, match="ETag changed"):
+        replay._download_exact(
+            "https://example.invalid/fixed", tmp_path / "y", 4, '"different"'
+        )
+
+
 def test_profile_parsers_follow_frozen_header_rules() -> None:
     config = replay.load_config(ROOT)
     light = (
