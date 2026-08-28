@@ -909,7 +909,10 @@ def run_experiment(root: Path) -> Path:
         null_prediction, _ = _oof_select(matrix, xp.asarray(null_y), folds, xp)
         null_delta = _mse(null_y, strongest) - _mse(null_y, null_prediction)
         extreme += int(null_delta >= observed_delta)
-    p_value = (extreme + 1) / (int(config["evaluation"]["permutation_trials"]) + 1)
+    raw_tail_p = (extreme + 1) / (
+        int(config["evaluation"]["permutation_trials"]) + 1
+    )
+    p_value = raw_tail_p if observed_delta > 0.0 else 1.0
     robustness = {}
     for scale in config["physics"]["gas_scale_robustness_stellar_Rd"]:
         altered = _prediction_matrix(rows, candidates, kernel, config, xp, float(scale))
@@ -1019,6 +1022,7 @@ def run_experiment(root: Path) -> Path:
             "improvements": improvements,
             "strongest_ordinary_baseline": strongest_name,
             "selection_aware_permutation_p": p_value,
+            "raw_permutation_tail_p_before_nonimprovement_guard": raw_tail_p,
             "selected_GR_cells": selected_gr,
             "selected_folds": selected_cells,
             "family_counts": dict(family_counts),
