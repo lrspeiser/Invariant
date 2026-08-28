@@ -3,6 +3,7 @@ from __future__ import annotations
 import inspect
 import json
 from pathlib import Path
+from typing import Self
 
 import pytest
 
@@ -79,9 +80,10 @@ def test_source_etag_guard_treats_only_weak_prefix_as_transport_equivalent(
     monkeypatch: pytest.MonkeyPatch, tmp_path: Path
 ) -> None:
     class Response:
-        headers = {"ETag": '"same"', "Last-Modified": "fixed"}
+        def __init__(self) -> None:
+            self.headers = {"ETag": '"same"', "Last-Modified": "fixed"}
 
-        def __enter__(self) -> Response:
+        def __enter__(self) -> Self:
             return self
 
         def __exit__(self, *_args: object) -> None:
