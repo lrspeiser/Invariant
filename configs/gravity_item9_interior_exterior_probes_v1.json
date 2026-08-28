@@ -1,0 +1,222 @@
+{
+  "schema_version": "invariant-gravity-roadmap-item9-interior-exterior-probes-config-1.0",
+  "goal": "GRAVITY_ROADMAP_ITEM_09_INTERIOR_EXTERIOR_BALANCE",
+  "status": "scientific_freeze_before_probes_profile_archive_access",
+  "roadmap_binding": {
+    "path": "docs/GRAVITY_HIDDEN_VARIABLE_AND_THEORY_SEARCH_GOALS.md",
+    "file_sha256": "b9db7e1aa76deaf28ce2e840cd3d7db4cf7a086b1c7ca473800780c264a0e772",
+    "item_number": 9,
+    "item_title": "Interior/exterior balance"
+  },
+  "predecessor": {
+    "path": "runs/gravity/roadmap/item-08-synthesis-v1.json",
+    "file_sha256": "0f37071fa83663eb4cd188a572cd1bd33726d0c49bdc897a3f6052f83acf2041",
+    "content_sha256": "f0c97a183dcfe4163e68561fd0209ab64793e7fd5b4b0f5c08514f1a6e47fa30",
+    "required_decision": "REJECT_ITEM8_TESTED_PROJECTED_K_LIGHT_FIELD_DERIVATIVES_ADVANCE_ITEM9"
+  },
+  "prior_lead": {
+    "path": "runs/gravity/g4/conditional-formula-generator-v4.json",
+    "file_sha256": "2b8e57d956e58df419745e325fca7226b740496cdb24a2afec5e58b44a8f8eb4",
+    "content_sha256": "5835d0fc8c728e140168ee8908e20a34aa8485d43108d374d63ba8b7bcf71bf6",
+    "required_decision": "BLOCK_G4_CONDITIONAL_GENERATOR",
+    "label": "NONCONFIRMED_SPARC_EXPLORATION_FOCUSING_LEAD",
+    "reported_fractional_chi_square_improvement": 0.1876,
+    "exact_cell": {
+      "source": "surface_brightness",
+      "threshold": 100.0,
+      "log_radius_scale": 0.25,
+      "mode": "interior_occupancy_times_exterior_vacuum",
+      "condition": "surface_density",
+      "intercept": -2.0,
+      "slope": 4.0,
+      "alpha_max": 2.0
+    },
+    "transfer_boundary": "The operator and amplitude cell are exact; PROBES supplies r-band stellar light and a stellar-only RAR base rather than SPARC's full gas-plus-stellar baryonic acceleration, so this is an independent structural replay, not an identical measurement pipeline."
+  },
+  "authorization": {
+    "network_acquisition_allowed": true,
+    "paid_model_calls_allowed": false,
+    "metadata_catalog_allowed_before_freeze": true,
+    "profile_archive_allowed_before_freeze": false,
+    "exploration_rotation_profiles_allowed_after_freeze": true,
+    "reserved_confirmation_rotation_profiles_allowed": false,
+    "model_fits_table_allowed": false,
+    "structural_parameters_table_allowed": false,
+    "dynamical_or_dark_mass_allowed": false,
+    "lensing_mass_allowed": false,
+    "post_response_formula_generation_allowed": false
+  },
+  "prefreeze_audit": {
+    "date": "2026-08-28",
+    "metadata_rows": 3163,
+    "eligible_rows": 1292,
+    "published_rotation_profile_rows_read": 0,
+    "profile_archive_bytes_downloaded": 0,
+    "model_fit_rows_read": 0,
+    "structural_parameter_rows_read": 0,
+    "metadata_columns_read": [
+      "name",
+      "distance",
+      "distance_e",
+      "distance_method",
+      "RC_survey",
+      "ext_r",
+      "has_g-band",
+      "has_r-band",
+      "has_z-band",
+      "has_w1-band",
+      "AutoProf_flags"
+    ]
+  },
+  "scientific_contract": {
+    "hypothesis": "A universal dimensionless nonlocal balance between stellar light inside and outside a radius predicts fresh resolved rotation speeds beyond stellar Newtonian acceleration, an empirical stellar-only radial-acceleration relation, and flexible local mass-profile controls.",
+    "creativity_label": "known_nonlocal_kernel_components_plus_prior_focusing_combination_and_potentially_new_outer_potential_or_lever_synthesis",
+    "known_components": [
+      "cumulative enclosed luminosity and mass fraction",
+      "Newtonian enclosed-mass acceleration approximation",
+      "empirical radial-acceleration relation",
+      "normalized interior and exterior exponential kernel means",
+      "logistic amplitude maps",
+      "whole-galaxy held-out evaluation"
+    ],
+    "nonqualifying_rewrites": [
+      "M_in/M_total and M_out/M_total are algebraically complementary",
+      "sqrt(G M_in/r) is a Newtonian enclosed-mass velocity approximation",
+      "local surface brightness, radius, total luminosity, inclination, and distance are controls rather than nonlocal discoveries",
+      "galaxy identity, observed velocity, dynamical mass, halo parameters, and per-galaxy fitted constants are forbidden"
+    ],
+    "qualifying_boundary": "A cell qualifies only if its pointwise correction depends on an exterior kernel or moment and is selected without galaxy identity or response-derived conditions. Prior focusing cells are labeled combinations; outer-potential and outer-lever cells are labeled potentially new syntheses with historical novelty unresolved.",
+    "not_claimed": [
+      "complete baryonic mass including atomic, molecular, or ionized gas",
+      "a thin-disk Poisson solution",
+      "an identical replay of the SPARC measurement pipeline",
+      "a derived conservation law or field equation",
+      "historical novelty",
+      "confirmation on the 323 sealed galaxies",
+      "an alternative to general relativity"
+    ]
+  },
+  "sources": {
+    "dataset": "PROBES I",
+    "article_doi": "https://doi.org/10.3847/1538-4365/ac83ad",
+    "dataset_doi": "https://doi.org/10.5281/zenodo.10456319",
+    "zenodo_record": 10456320,
+    "zenodo_revision": 4,
+    "metadata_url": "https://zenodo.org/api/records/10456320/files/main_table.csv/content",
+    "metadata_md5": "059bda9a25f800f48bf9424e9b99bfe3",
+    "metadata_sha256": "885803c3ecf71509eeed804756407cebad9080cc1f1bd258cbd5f8f8fb23b0a2",
+    "profile_archive_url": "https://zenodo.org/api/records/10456320/files/profiles.zip/content",
+    "profile_archive_bytes": 44773391,
+    "profile_archive_md5": "4ddaec794c8af7a0d1dfc4269412a740",
+    "predictor_entry_suffix": "_r.prof",
+    "response_entry_suffix": "_rc.prof",
+    "forbidden_files": ["model_fits.csv", "structural_parameters.csv"]
+  },
+  "sample": {
+    "selection_salt": "invariant-gravity-item9-probes-interior-exterior-split-v1-20260828",
+    "outer_fold_salt": "invariant-gravity-item9-probes-interior-exterior-folds-v1-20260828",
+    "eligibility_rule": "finite positive distance; clean AutoProf_flags '-'; g, r, z, and W1 photometry; RC_survey contains no SPARC component",
+    "stratification_rule": "sort salted SHA256 within primary RC survey by four frozen global distance bins and assign round(cell_count/4) to confirmation",
+    "distance_bin_upper_mpc": [57.186, 86.5883, 132.7287],
+    "eligible_count": 1292,
+    "exploration_count": 969,
+    "reserved_confirmation_count": 323,
+    "post_access_failure_policy": "Retain every selected identity. Mark profile, inclination, overlap, or response failures; never replace a failed exploration galaxy, relax quality, or open a confirmation rotation profile."
+  },
+  "constants": {
+    "gravity_kpc_km2_s2_msun": 4.30091e-6,
+    "g_dagger_km2_s2_kpc": 3702.813097,
+    "solar_absolute_r_magnitude_ab": 4.65,
+    "fixed_r_band_mass_to_light_msun_per_lsun": 1.0,
+    "arcseconds_per_radian": 206264.80624709636,
+    "intrinsic_disk_axis_ratio": 0.2,
+    "surface_brightness_conversion": 21.572,
+    "dimensionless_floor": 1e-10
+  },
+  "derivation": {
+    "stellar_surface_density": "Sigma_star=10^[-0.4((SB_r-ext_r)-M_sun_r-21.572)] times fixed M/L",
+    "enclosed_stellar_mass": "M_in(r)=10^[-0.4((totmag_r(r)-ext_r-DM)-M_sun_r)] times fixed M/L with monotone cumulative enforcement",
+    "inclination": "cos^2(i)=clip((q^2-q0^2)/(1-q0^2),0,1), using the median outer-half r-band isophotal q=1-ellip",
+    "observed_speed": "V_obs=abs(V_los)/sin(i); sigma_V=V_e/sin(i)",
+    "stellar_newtonian": "g_bar=G M_in/r^2 and V_Newton^2=r g_bar; this is a spherical enclosed-mass approximation and a known control",
+    "stellar_rar": "g_RAR=g_bar/[1-exp(-sqrt(g_bar/g_dagger))] and V_RAR^2=r g_RAR; this is a known empirical control",
+    "kernel": "I_in/out[q] are log-radius-cell-width-weighted, row-normalized exponential means in absolute log-radius separation, restricted to interior/exterior radii at scales 0.25,0.5,1,2; duplicate two-sided radii split one unique-radius cell weight",
+    "candidate_law": "V_cell^2=V_RAR^2+alpha(condition)*r*g_dagger*C_operator(r), alpha=2*sigmoid(a+b*condition)",
+    "feature_builder_accepts_observed_velocity": false,
+    "feature_builder_accepts_galaxy_identity_as_numeric_feature": false
+  },
+  "operator_grammar": {
+    "surface_brightness_thresholds_lsun_pc2": [10.0, 100.0, 1000.0],
+    "acceleration_thresholds_gbar_over_gdagger": [0.01, 0.1, 1.0],
+    "additional_sources": ["enclosed_mass_fraction", "outer_inverse_radius_potential", "outer_radius_lever"],
+    "log_radius_scales": [0.25, 0.5, 1.0, 2.0],
+    "modes": ["interior_minus_exterior_occupancy", "interior_occupancy_times_exterior_vacuum"],
+    "conditions": ["surface_density", "compactness", "vacuum_fraction", "radial_span", "concentration"],
+    "logistic_intercepts": [-4.0, -2.0, 0.0, 2.0, 4.0],
+    "logistic_slopes": [-4.0, -2.0, -1.0, 0.0, 1.0, 2.0, 4.0],
+    "alpha_max": 2.0,
+    "operator_count": 72,
+    "candidate_formula_cells": 12600,
+    "post_response_cells": 0,
+    "prior_exact_cell_count": 1
+  },
+  "quality": {
+    "minimum_photometry_points": 20,
+    "minimum_rotation_points": 12,
+    "minimum_inclination_degrees": 30.0,
+    "maximum_inclination_degrees": 80.0,
+    "minimum_fraction_rotation_points_within_photometry": 0.8,
+    "minimum_rotation_radial_span": 2.0,
+    "minimum_corrected_speed_km_s": 10.0,
+    "maximum_fractional_speed_error": 1.0,
+    "minimum_quality_passing_exploration_galaxies": 600,
+    "minimum_quality_retention_fraction": 0.6
+  },
+  "evaluation": {
+    "outer_folds": 5,
+    "fold_unit": "whole galaxy",
+    "point_weighting": "each galaxy contributes equal total weight",
+    "primary_metric": "equal-galaxy mean squared log10 speed error",
+    "local_control_features": ["log10_gbar", "log10_radius_over_r50", "log10_surface_density", "enclosed_mass_fraction", "log10_total_mass", "inclination_sine", "log10_distance"],
+    "ridge_penalties": [0.001, 0.01, 0.1, 1.0, 10.0, 100.0],
+    "paired_sign_flip_permutations": 499,
+    "permutation_salt": "invariant-gravity-item9-probes-interior-exterior-null-v1-20260828",
+    "minimum_galaxies_per_reported_stratum": 20,
+    "gpu_backend_preference": "cupy_cuda_then_numpy",
+    "gpu_crosscheck_candidates": 128
+  },
+  "exploration_admission": {
+    "quality_count_and_fraction_pass": true,
+    "qualifying_selector_r2_positive_overall": true,
+    "qualifying_selector_beats_fixed_stellar_rar": true,
+    "qualifying_selector_beats_strongest_local_control": true,
+    "qualifying_relative_mse_improvement_over_strongest_baseline_at_least": 0.02,
+    "qualifying_improvement_positive_in_all_primary_survey_families": true,
+    "qualifying_improvement_positive_in_all_distance_bins": true,
+    "qualifying_improvement_positive_in_both_mass_strata": true,
+    "paired_sign_flip_p_at_most": 0.05,
+    "exact_prior_focusing_cell_improves_over_fixed_stellar_rar": true,
+    "reserved_confirmation_rotation_profiles_untouched": true,
+    "post_response_formula_generation_zero": true,
+    "passing_exploration_does_not_authorize_confirmation": true
+  },
+  "claim_boundaries": {
+    "r_band_light_is_complete_baryonic_mass": false,
+    "spherical_enclosed_mass_is_exact_disk_gravity": false,
+    "probes_replay_is_identical_to_sparc_pipeline": false,
+    "selected_nonlocal_cell_is_a_gravity_cause": false,
+    "historical_novelty_established": false,
+    "alternative_to_gr_established": false,
+    "confirmation_opened": false,
+    "roadmap_item_9_complete": false
+  },
+  "metadata_source_output": "runs/gravity/roadmap/item-09-interior-exterior-v1-source/metadata-source-manifest.json",
+  "sample_manifest_output": "runs/gravity/roadmap/item-09-interior-exterior-v1-source/sample-manifest.json",
+  "candidate_manifest_output": "runs/gravity/roadmap/item-09-interior-exterior-v1-source/candidate-manifest.json",
+  "profile_source_output": "runs/gravity/roadmap/item-09-interior-exterior-v1-source/profile-source-manifest.json",
+  "feature_output": "runs/gravity/roadmap/item-09-interior-exterior-v1-source/exploration-point-features.tsv",
+  "response_output": "runs/gravity/roadmap/item-09-interior-exterior-v1-source/exploration-rotation-responses.tsv",
+  "extraction_output": "runs/gravity/roadmap/item-09-interior-exterior-v1-source/profile-extraction-summary.json",
+  "profile_archive_work_path": "work/gravity/item-09-interior-exterior/profiles.zip",
+  "output": "runs/gravity/roadmap/item-09-interior-exterior-v1.json"
+}
