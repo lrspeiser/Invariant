@@ -10,6 +10,7 @@ import numpy as np
 import pytest
 
 import sigma_theory_compiler.gravity_item3_surface_volume_density as density
+import sigma_theory_compiler.gravity_item3_surface_volume_density_experiment as experiment
 from sigma_theory_compiler.sigma_core import canonical_sha256
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -111,3 +112,100 @@ def test_resealed_sample_overclaim_is_rejected(claim: str) -> None:
     manifest["claims"][claim] = True
     with pytest.raises(density.GravityItem3SurfaceVolumeDensityError):
         density.validate_sample_manifest(_reseal(manifest), config=config)
+
+
+def test_fresh_source_acquisition_never_reuses_item2_or_confirmation() -> None:
+    config = density.load_config(ROOT)
+    sample = _load(SAMPLE)
+    manifest = _load(ROOT / density.SOURCE_MANIFEST_PATH)
+    density.validate_source_manifest(manifest, sample=sample)
+    assert manifest["counts"] == {"bytes": 549153, "groups": 120, "member_rows": 3096}
+    assert manifest["boundary"] == {
+        "fresh_exploration_groups_acquired": 120,
+        "fresh_exploration_target_accesses": 120,
+        "item2_group_target_reuse": 0,
+        "published_group_velocity_columns_read": 0,
+        "reserved_confirmation_groups_acquired": 0,
+        "reserved_confirmation_target_accesses": 0,
+    }
+    assert {row["group"] for row in manifest["records"]} == {
+        row["group"] for row in sample["objects"] if row["role"] == "exploration"
+    }
+    assert config["authorization"]["reserved_confirmation_group_member_rows_allowed"] is False
+
+
+def test_group_density_extractor_cannot_accept_member_redshifts() -> None:
+    signature = inspect.signature(density.measure_group_density_only)
+    assert tuple(signature.parameters) == (
+        "ra_deg",
+        "dec_deg",
+        "luminosity",
+        "metadata_redshift",
+        "config",
+    )
+    source = inspect.getsource(density.measure_group_density_only)
+    assert "member_redshift" not in source
+    assert "velocity" not in source
+    assert "sigma" not in source
+
+
+def test_extraction_retains_frozen_failures_and_both_lanes() -> None:
+    config = density.load_config(ROOT)
+    summary = _load(ROOT / density.EXTRACTION_SUMMARY_PATH)
+    assert summary["decision"] == "FAIL_ITEM3_EXPLORATION_REPRESENTATION_QUALITY"
+    assert summary["counts"] == {
+        "cross_scale_failures": 11,
+        "cross_scale_passing": 148,
+        "fresh_group_failures": 33,
+        "fresh_group_passing": 87,
+        "reserved_confirmation_target_accesses": 0,
+    }
+    assert len({(row["domain"], row["name"]) for row in summary["cross_scale_failures"]}) == 11
+    assert len({row["group"] for row in summary["fresh_group_failures"]}) == 33
+    assert {row["reason"] for row in summary["fresh_group_failures"]} == {
+        "non-strict luminosity quantile radii"
+    }
+    cross_rows = experiment._load_cross_rows(ROOT, config)
+    group_rows = experiment._load_group_rows(ROOT, config)
+    assert Counter(row["domain"] for row in cross_rows) == {"galaxy": 137, "cluster": 11}
+    assert Counter(row["richness_bin"] for row in group_rows) == {0: 18, 1: 29, 2: 40}
+
+
+def test_item3_receipt_replays_and_records_negative_increment() -> None:
+    stored = _load(ROOT / experiment.OUTPUT_PATH)
+    assert experiment.build_receipt(ROOT) == stored
+    experiment.validate_receipt(stored, root=ROOT)
+    assert stored["decision"] == "INCONCLUSIVE_ITEM3_SURFACE_VOLUME_DENSITY_QUALITY_GATE"
+    assert stored["counts"]["fresh_group_confirmation_target_accesses"] == 0
+    assert stored["cross_scale_result"]["fold_ledger"] == [
+        {
+            "alpha": "1.000000000000e+00",
+            "fold": fold,
+            "heldout_objects": count,
+            "inner_mse": inner_mse,
+            "model_id": "binary_population_proxy",
+            "qualifying": False,
+        }
+        for fold, count, inner_mse in (
+            (0, 31, "8.028683534986e-02"),
+            (1, 30, "7.641416948719e-02"),
+            (2, 29, "7.441940005724e-02"),
+            (3, 29, "6.807965650573e-02"),
+            (4, 29, "7.340176341117e-02"),
+        )
+    ]
+    baseline = stored["fresh_group_result"]["model_metrics"]["strongest_nuisance_baseline"]
+    augmented = stored["fresh_group_result"]["model_metrics"][
+        "surface_volume_density_augmented"
+    ]
+    assert float(baseline["overall"]["r2"]) > float(augmented["overall"]["r2"])
+    assert float(stored["fresh_group_result"]["permutation_test"]["p_value"]) == 0.795
+    assert stored["gate_checks"]["confirmation_untouched"] is True
+    assert sum(stored["gate_checks"].values()) == 1
+
+
+def test_resealed_false_item3_pass_is_rejected() -> None:
+    stored = copy.deepcopy(_load(ROOT / experiment.OUTPUT_PATH))
+    stored["decision"] = "PASS_ITEM3_SURFACE_VOLUME_DENSITY_EXPLORATION_REQUIRES_AUTHORIZATION"
+    with pytest.raises(experiment.GravityItem3ExperimentError):
+        experiment.validate_receipt(_reseal(stored), root=ROOT)

@@ -3,16 +3,31 @@
 from __future__ import annotations
 
 import argparse
+import csv
 import hashlib
 import json
 import math
+import urllib.error
+import urllib.request
 from collections import Counter, defaultdict
 from collections.abc import Mapping, Sequence
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from typing import Any
 
 import numpy as np
+from astropy.cosmology import FlatLambdaCDM
 
+from .gravity_g4_cluster_lensing_exploration import (
+    G_DAGGER,
+)
+from .gravity_g4_cluster_lensing_exploration import (
+    load_config as load_cluster_config,
+)
+from .gravity_g4_cluster_lensing_exploration import (
+    prepare_packets as prepare_cluster_packets,
+)
+from .gravity_g4_photometric_law_construction import prepare_photometric_packets
 from .sigma_core import canonical_json_bytes, canonical_sha256
 
 CONFIG_PATH = "configs/gravity_item3_surface_volume_density.json"
@@ -20,6 +35,23 @@ SAMPLE_MANIFEST_PATH = (
     "runs/gravity/roadmap/item-03-surface-volume-density-v1-source/"
     "fresh-group-sample-manifest.json"
 )
+SOURCE_MANIFEST_PATH = (
+    "runs/gravity/roadmap/item-03-surface-volume-density-v1-source/"
+    "fresh-group-exploration-source-manifest.json"
+)
+GROUP_FEATURE_PATH = (
+    "runs/gravity/roadmap/item-03-surface-volume-density-v1-source/"
+    "fresh-group-features.tsv"
+)
+CROSS_SCALE_FEATURE_PATH = (
+    "runs/gravity/roadmap/item-03-surface-volume-density-v1-source/"
+    "cross-scale-features.tsv"
+)
+EXTRACTION_SUMMARY_PATH = (
+    "runs/gravity/roadmap/item-03-surface-volume-density-v1-source/"
+    "extraction-summary.json"
+)
+FREEZE_COMMIT = "ea75fbb44225811d676444251e4f85bbc064873b"
 
 
 class GravityItem3SurfaceVolumeDensityError(RuntimeError):
@@ -28,6 +60,10 @@ class GravityItem3SurfaceVolumeDensityError(RuntimeError):
 
 def _sha256_file(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def _sha256_bytes(value: bytes) -> str:
+    return hashlib.sha256(value).hexdigest()
 
 
 def _metric(value: float) -> str:
@@ -342,10 +378,535 @@ def write_sample_manifest(root: Path) -> Path:
     return path
 
 
+def _load_sample(root: Path, config: Mapping[str, Any]) -> dict[str, Any]:
+    sample = json.loads((root / config["sample_manifest_output"]).read_text(encoding="utf-8"))
+    validate_sample_manifest(sample, config=config)
+    return sample
+
+
+def _download_member_query(url: str, path: Path) -> bytes:
+    if path.exists():
+        return path.read_bytes()
+    request = urllib.request.Request(url, headers={"User-Agent": "Invariant/1.0"})
+    try:
+        with urllib.request.urlopen(request, timeout=120) as response:
+            payload = response.read()
+    except (OSError, urllib.error.URLError) as exc:
+        raise GravityItem3SurfaceVolumeDensityError(f"member query failed: {url}") from exc
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_bytes(payload)
+    return payload
+
+
+def parse_member_payload(payload: bytes, *, expected_group: int) -> list[dict[str, Any]]:
+    try:
+        lines = payload.decode("utf-8").splitlines()
+    except UnicodeDecodeError as exc:
+        raise GravityItem3SurfaceVolumeDensityError("member response is not UTF-8") from exc
+    header = "Group\tGalID\tSpecObjID\tRAJ2000\tDEJ2000\tzsp\tLr"
+    try:
+        start = lines.index(header)
+    except ValueError as exc:
+        raise GravityItem3SurfaceVolumeDensityError(
+            f"member response header changed for group {expected_group}"
+        ) from exc
+    rows: list[dict[str, Any]] = []
+    for line in lines[start + 1 :]:
+        fields = line.split("\t")
+        if len(fields) != 7 or not fields[0].strip().isdigit():
+            continue
+        try:
+            row = {
+                "group": int(fields[0]),
+                "galaxy_id": int(fields[1]),
+                "specobjid": int(fields[2]),
+                "ra_deg": float(fields[3]),
+                "dec_deg": float(fields[4]),
+                "member_redshift": float(fields[5]),
+                "luminosity": float(fields[6]),
+            }
+        except ValueError:
+            continue
+        if row["group"] != expected_group:
+            raise GravityItem3SurfaceVolumeDensityError("query returned another group")
+        rows.append(row)
+    if not rows or len({row["galaxy_id"] for row in rows}) != len(rows):
+        raise GravityItem3SurfaceVolumeDensityError(f"invalid member rows: {expected_group}")
+    return rows
+
+
+def _acquire_one(
+    row: Mapping[str, Any], *, config: Mapping[str, Any], cache_dir: Path
+) -> dict[str, Any]:
+    group = int(row["group"])
+    url = str(config["fresh_group_lane"]["member_query_template"]).format(group=group)
+    path = cache_dir / f"members-{group}.tsv"
+    payload = _download_member_query(url, path)
+    members = parse_member_payload(payload, expected_group=group)
+    if len(members) != int(row["members"]):
+        raise GravityItem3SurfaceVolumeDensityError(
+            f"member count differs from frozen metadata: {group}"
+        )
+    return {
+        "bytes": len(payload),
+        "group": group,
+        "member_rows": len(members),
+        "sha256": _sha256_bytes(payload),
+        "url": url,
+    }
+
+
+def acquire_fresh_exploration(
+    root: Path, *, cache_dir: Path, workers: int = 8
+) -> Path:
+    root = root.resolve()
+    cache_dir = cache_dir.resolve()
+    config = load_config(root)
+    sample = _load_sample(root, config)
+    exploration = [row for row in sample["objects"] if row["role"] == "exploration"]
+    confirmation = {
+        int(row["group"]) for row in sample["objects"] if row["role"] == "reserved_confirmation"
+    }
+    if any(int(row["group"]) in confirmation for row in exploration):
+        raise GravityItem3SurfaceVolumeDensityError("fresh sample roles overlap")
+    records: list[dict[str, Any]] = []
+    errors: list[str] = []
+    with ThreadPoolExecutor(max_workers=max(1, int(workers))) as pool:
+        futures = {
+            pool.submit(_acquire_one, row, config=config, cache_dir=cache_dir): int(row["group"])
+            for row in exploration
+        }
+        for future in as_completed(futures):
+            group = futures[future]
+            try:
+                records.append(future.result())
+            except Exception as exc:  # noqa: BLE001 - report every immutable source failure
+                errors.append(f"{group}: {exc}")
+    if errors:
+        raise GravityItem3SurfaceVolumeDensityError("; ".join(sorted(errors)))
+    records.sort(key=lambda row: int(row["group"]))
+    manifest: dict[str, Any] = {
+        "schema_version": "invariant-gravity-item3-fresh-group-source-1.0",
+        "goal": config["goal"],
+        "decision": "PASS_ITEM3_FRESH_EXPLORATION_SOURCE_ACQUISITION",
+        "preregistration": {
+            "git_commit": FREEZE_COMMIT,
+            "fresh_member_rows_opened_before_commit": 0,
+        },
+        "sample_binding": {
+            "path": config["sample_manifest_output"],
+            "file_sha256": _sha256_file(root / config["sample_manifest_output"]),
+            "content_sha256": sample["content_sha256"],
+        },
+        "boundary": {
+            "fresh_exploration_groups_acquired": len(records),
+            "fresh_exploration_target_accesses": len(records),
+            "item2_group_target_reuse": 0,
+            "published_group_velocity_columns_read": 0,
+            "reserved_confirmation_groups_acquired": 0,
+            "reserved_confirmation_target_accesses": 0,
+        },
+        "counts": {
+            "bytes": sum(int(row["bytes"]) for row in records),
+            "groups": len(records),
+            "member_rows": sum(int(row["member_rows"]) for row in records),
+        },
+        "records": records,
+        "claims": {
+            "alternative_to_gr_established": False,
+            "confirmation_opened": False,
+            "roadmap_item_3_complete": False,
+        },
+    }
+    manifest["content_sha256"] = canonical_sha256(manifest)
+    validate_source_manifest(manifest, sample=sample)
+    path = root / config["source_manifest_output"]
+    path.write_bytes(canonical_json_bytes(manifest))
+    return path
+
+
+def validate_source_manifest(
+    manifest: Mapping[str, Any], *, sample: Mapping[str, Any]
+) -> None:
+    copy = dict(manifest)
+    digest = copy.pop("content_sha256", None)
+    if digest != canonical_sha256(copy):
+        raise GravityItem3SurfaceVolumeDensityError("source manifest hash changed")
+    if manifest.get("decision") != "PASS_ITEM3_FRESH_EXPLORATION_SOURCE_ACQUISITION":
+        raise GravityItem3SurfaceVolumeDensityError("fresh source acquisition did not pass")
+    boundary = manifest["boundary"]
+    if (
+        boundary["reserved_confirmation_groups_acquired"] != 0
+        or boundary["reserved_confirmation_target_accesses"] != 0
+        or boundary["item2_group_target_reuse"] != 0
+        or boundary["published_group_velocity_columns_read"] != 0
+    ):
+        raise GravityItem3SurfaceVolumeDensityError("fresh source boundary changed")
+    expected = {
+        int(row["group"]) for row in sample["objects"] if row["role"] == "exploration"
+    }
+    if {int(row["group"]) for row in manifest["records"]} != expected:
+        raise GravityItem3SurfaceVolumeDensityError("fresh source IDs changed")
+    if any(bool(value) for value in manifest["claims"].values()):
+        raise GravityItem3SurfaceVolumeDensityError("source manifest contains overclaim")
+
+
+def _weighted_quantile_radius(
+    radius: np.ndarray, luminosity: np.ndarray, quantile: float
+) -> float:
+    order = np.argsort(radius, kind="stable")
+    cumulative = np.cumsum(luminosity[order])
+    index = int(np.searchsorted(cumulative, quantile * cumulative[-1], side="left"))
+    return float(radius[order[min(index, radius.size - 1)]])
+
+
+def measure_group_density_only(
+    ra_deg: np.ndarray,
+    dec_deg: np.ndarray,
+    luminosity: np.ndarray,
+    metadata_redshift: float,
+    config: Mapping[str, Any],
+) -> dict[str, float]:
+    """Measure density features without accepting member redshifts or dynamics."""
+
+    ra = np.asarray(ra_deg, dtype=np.float64)
+    dec = np.asarray(dec_deg, dtype=np.float64)
+    light = np.asarray(luminosity, dtype=np.float64)
+    valid = np.isfinite(ra) & np.isfinite(dec) & np.isfinite(light) & (light > 0)
+    ra, dec, light = ra[valid], dec[valid], light[valid]
+    if ra.size < int(config["fresh_group_lane"]["minimum_members"]):
+        raise GravityItem3SurfaceVolumeDensityError("insufficient finite density members")
+    angle = np.deg2rad(ra)
+    mean_ra = math.atan2(
+        float(np.sum(light * np.sin(angle))), float(np.sum(light * np.cos(angle)))
+    )
+    delta_ra = np.angle(np.exp(1j * (angle - mean_ra)))
+    mean_dec = float(np.sum(light * np.deg2rad(dec)) / np.sum(light))
+    cosmology = FlatLambdaCDM(H0=70.0, Om0=0.3, Tcmb0=2.725)
+    distance_kpc = float(cosmology.angular_diameter_distance(metadata_redshift).value) * 1000.0
+    x = distance_kpc * math.cos(mean_dec) * delta_ra
+    y = distance_kpc * (np.deg2rad(dec) - mean_dec)
+    center_x = float(np.sum(light * x) / np.sum(light))
+    center_y = float(np.sum(light * y) / np.sum(light))
+    radius = np.hypot(x - center_x, y - center_y)
+    radii = {
+        quantile: _weighted_quantile_radius(radius, light, quantile)
+        for quantile in (0.25, 0.5, 0.75, 0.9)
+    }
+    if not 0 < radii[0.25] < radii[0.5] < radii[0.75] < radii[0.9]:
+        raise GravityItem3SurfaceVolumeDensityError("non-strict luminosity quantile radii")
+    constants = config["constants"]
+    mass_total = (
+        float(np.sum(light))
+        * float(constants["axes_member_luminosity_unit_lsun"])
+        * float(constants["fixed_group_r_band_mass_to_light_msun_per_lsun"])
+    )
+    gravity = float(constants["gravity_constant_kpc_km2_s2_msun"])
+    conversion = float(constants["speed_conversion_km2_s2_per_kpc_to_m_s2"])
+    threshold = float(constants["transition_acceleration_m_s2"])
+
+    def surface_source(quantile: float) -> float:
+        return (
+            gravity
+            * quantile
+            * mass_total
+            / radii[quantile] ** 2
+            * conversion
+            / threshold
+        )
+
+    u_surface25 = surface_source(0.25)
+    u_surface50 = surface_source(0.5)
+    u_surface75 = surface_source(0.75)
+    u_volume = (
+        gravity
+        * radii[0.5]
+        * (0.75 - 0.25)
+        * mass_total
+        / (radii[0.75] ** 3 - radii[0.25] ** 3)
+        * conversion
+        / threshold
+    )
+    u_volume_inner = (
+        gravity
+        * radii[0.25]
+        * 0.5
+        * mass_total
+        / radii[0.5] ** 3
+        * conversion
+        / threshold
+    )
+    outer_radius = math.sqrt(radii[0.5] * radii[0.9])
+    u_volume_outer = (
+        gravity
+        * outer_radius
+        * (0.9 - 0.5)
+        * mass_total
+        / (radii[0.9] ** 3 - radii[0.5] ** 3)
+        * conversion
+        / threshold
+    )
+    sources = (
+        u_surface25,
+        u_surface50,
+        u_surface75,
+        u_volume,
+        u_volume_inner,
+        u_volume_outer,
+    )
+    if any(not math.isfinite(value) or value <= 0 for value in sources):
+        raise GravityItem3SurfaceVolumeDensityError("invalid group density source")
+    log_surface = math.log10(u_surface50)
+    log_volume = math.log10(u_volume)
+    return {
+        "log10_r25_kpc": math.log10(radii[0.25]),
+        "log10_r50_kpc": math.log10(radii[0.5]),
+        "log10_r75_kpc": math.log10(radii[0.75]),
+        "log10_r90_kpc": math.log10(radii[0.9]),
+        "log10_total_member_luminosity": math.log10(mass_total),
+        "log10_u_surface50": log_surface,
+        "log10_u_volume25_75": log_volume,
+        "surface_volume_log_contrast": log_surface - log_volume,
+        "log_geometric_mean_sources": 0.5 * (log_surface + log_volume),
+        "source_balance": 4.0 * u_surface50 * u_volume / (u_surface50 + u_volume) ** 2,
+        "surface_source_radial_gradient": math.log(u_surface75 / u_surface25)
+        / math.log(radii[0.75] / radii[0.25]),
+        "volume_source_inner_outer_gradient": math.log(u_volume_outer / u_volume_inner)
+        / math.log(outer_radius / radii[0.25]),
+        "r50_kpc": radii[0.5],
+        "r90_kpc": radii[0.9],
+        "total_member_luminosity_catalog_units": float(np.sum(light)),
+    }
+
+
+def _gapper_dispersion(velocity: np.ndarray) -> float:
+    ordered = np.sort(velocity)
+    count = ordered.size
+    gaps = np.diff(ordered)
+    indices = np.arange(1, count, dtype=np.float64)
+    return float(
+        math.sqrt(math.pi)
+        * np.sum(indices * (count - indices) * gaps)
+        / (count * (count - 1))
+    )
+
+
+def measure_group_response_only(
+    member_redshift: np.ndarray, density: Mapping[str, float]
+) -> dict[str, float]:
+    redshift = np.asarray(member_redshift, dtype=np.float64)
+    redshift = redshift[np.isfinite(redshift)]
+    if redshift.size < 10 or np.unique(redshift).size < 8:
+        raise GravityItem3SurfaceVolumeDensityError("insufficient fresh member redshifts")
+    median = float(np.median(redshift))
+    velocity = 299792.458 * (redshift - median) / (1.0 + median)
+    gapper = _gapper_dispersion(velocity)
+    mad = 1.4826 * float(np.median(np.abs(velocity - np.median(velocity))))
+    if gapper <= 0 or mad <= 0:
+        raise GravityItem3SurfaceVolumeDensityError("nonpositive fresh group dispersion")
+    light = float(density["total_member_luminosity_catalog_units"])
+    return {
+        "log10_sigma_gap": math.log10(gapper),
+        "log10_sigma_mad": math.log10(mad),
+        "log10_eta_r50": math.log10(gapper * gapper * float(density["r50_kpc"]) / light),
+        "log10_eta_r90": math.log10(gapper * gapper * float(density["r90_kpc"]) / light),
+        "sigma_gap_km_s": gapper,
+        "sigma_mad_km_s": mad,
+        "unique_member_redshifts": int(np.unique(redshift).size),
+    }
+
+
+def extract_features(root: Path, *, cache_dir: Path) -> tuple[Path, Path, Path]:
+    root = root.resolve()
+    cache_dir = cache_dir.resolve()
+    config = load_config(root)
+    sample = _load_sample(root, config)
+    source_manifest = json.loads(
+        (root / config["source_manifest_output"]).read_text(encoding="utf-8")
+    )
+    validate_source_manifest(source_manifest, sample=sample)
+    source_by_group = {int(row["group"]): row for row in source_manifest["records"]}
+    group_rows: list[dict[str, Any]] = []
+    group_failures: list[dict[str, Any]] = []
+    for object_row in sample["objects"]:
+        if object_row["role"] != "exploration":
+            continue
+        group = int(object_row["group"])
+        path = cache_dir / f"members-{group}.tsv"
+        if _sha256_file(path) != source_by_group[group]["sha256"]:
+            raise GravityItem3SurfaceVolumeDensityError(f"fresh source hash changed: {group}")
+        members = parse_member_payload(path.read_bytes(), expected_group=group)
+        try:
+            density = measure_group_density_only(
+                np.asarray([row["ra_deg"] for row in members]),
+                np.asarray([row["dec_deg"] for row in members]),
+                np.asarray([row["luminosity"] for row in members]),
+                float(object_row["redshift"]),
+                config,
+            )
+            response = measure_group_response_only(
+                np.asarray([row["member_redshift"] for row in members]), density
+            )
+        except GravityItem3SurfaceVolumeDensityError as exc:
+            group_failures.append({"group": group, "reason": str(exc)})
+            continue
+        group_rows.append(
+            {
+                "group": group,
+                "richness_bin": int(object_row["richness_bin"]),
+                "members": int(object_row["members"]),
+                "metadata_redshift": float(object_row["redshift"]),
+                "d10": float(object_row["d10"]),
+                **density,
+                **response,
+            }
+        )
+    group_rows.sort(key=lambda row: int(row["group"]))
+    group_fields = [
+        "group",
+        "richness_bin",
+        "members",
+        "metadata_redshift",
+        "d10",
+        "log10_total_member_luminosity",
+        "log10_r25_kpc",
+        "log10_r50_kpc",
+        "log10_r75_kpc",
+        "log10_r90_kpc",
+        "log10_u_surface50",
+        "log10_u_volume25_75",
+        "surface_volume_log_contrast",
+        "log_geometric_mean_sources",
+        "source_balance",
+        "surface_source_radial_gradient",
+        "volume_source_inner_outer_gradient",
+        "sigma_gap_km_s",
+        "sigma_mad_km_s",
+        "unique_member_redshifts",
+        "log10_sigma_gap",
+        "log10_sigma_mad",
+        "log10_eta_r50",
+        "log10_eta_r90",
+    ]
+    group_path = root / config["group_feature_output"]
+    with group_path.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=group_fields, dialect="excel-tab")
+        writer.writeheader()
+        for row in group_rows:
+            writer.writerow(
+                {
+                    key: int(row[key])
+                    if key in {"group", "richness_bin", "members", "unique_member_redshifts"}
+                    else _metric(float(row[key]))
+                    for key in group_fields
+                }
+            )
+
+    cross_rows: list[dict[str, Any]] = []
+    cross_failures: list[dict[str, Any]] = []
+    for packet in sorted(prepare_photometric_packets(root), key=lambda row: row["galaxy"].name):
+        try:
+            radius = np.asarray(packet["arrays"]["radius"], dtype=np.float64)
+            gbar = G_DAGGER * np.exp(np.asarray(packet["features"]["log_y"], dtype=np.float64))
+            features = surface_volume_profile_features(radius, gbar, G_DAGGER)
+        except GravityItem3SurfaceVolumeDensityError as exc:
+            cross_failures.append(
+                {"domain": "galaxy", "name": packet["galaxy"].name, "reason": str(exc)}
+            )
+            continue
+        cross_rows.append(
+            {"domain": "galaxy", "name": packet["galaxy"].name, **features}
+        )
+    cluster_config = load_cluster_config(root)
+    for packet in prepare_cluster_packets(root, cluster_config):
+        try:
+            features = surface_volume_profile_features(
+                np.asarray(packet["arrays"]["radius"], dtype=np.float64),
+                np.asarray(packet["gbar"], dtype=np.float64),
+                G_DAGGER,
+            )
+        except GravityItem3SurfaceVolumeDensityError as exc:
+            cross_failures.append(
+                {"domain": "cluster", "name": packet["cluster"], "reason": str(exc)}
+            )
+            continue
+        cross_rows.append({"domain": "cluster", "name": packet["cluster"], **features})
+    cross_rows.sort(key=lambda row: (str(row["domain"]), str(row["name"])))
+    cross_fields = [
+        "domain",
+        "name",
+        "mean_log_surface_source",
+        "mean_log_volume_source",
+        "local_mass_dimension_median",
+        "local_mass_dimension_iqr",
+        "surface_volume_log_ratio_median",
+        "log_transition_radius_ratio",
+        "transition_overlap_cosine",
+        "transition_area_asymmetry",
+        "log_transition_width_ratio",
+        "clipped_local_dimension_fraction",
+    ]
+    cross_path = root / config["cross_scale_feature_output"]
+    with cross_path.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=cross_fields, dialect="excel-tab")
+        writer.writeheader()
+        for row in cross_rows:
+            writer.writerow(
+                {
+                    key: row[key] if key in {"domain", "name"} else _metric(float(row[key]))
+                    for key in cross_fields
+                }
+            )
+    summary: dict[str, Any] = {
+        "schema_version": "invariant-gravity-item3-density-extraction-summary-1.0",
+        "goal": config["goal"],
+        "decision": (
+            "PASS_ITEM3_EXPLORATION_REPRESENTATION_QUALITY"
+            if not group_failures and not cross_failures and len(group_rows) == 120
+            else "FAIL_ITEM3_EXPLORATION_REPRESENTATION_QUALITY"
+        ),
+        "counts": {
+            "cross_scale_failures": len(cross_failures),
+            "cross_scale_passing": len(cross_rows),
+            "fresh_group_failures": len(group_failures),
+            "fresh_group_passing": len(group_rows),
+            "reserved_confirmation_target_accesses": 0,
+        },
+        "cross_scale_failures": cross_failures,
+        "fresh_group_failures": group_failures,
+        "leakage_boundary": {
+            "cross_scale_feature_function_accepts_dynamics_target": False,
+            "fresh_group_density_finalized_before_response_function": True,
+            "fresh_group_density_function_accepts_member_redshift": False,
+            "item2_group_target_reuse": 0,
+            "reserved_confirmation_target_accesses": 0,
+        },
+        "artifacts": {
+            "cross_scale_features": {
+                "path": config["cross_scale_feature_output"],
+                "sha256": _sha256_file(cross_path),
+            },
+            "group_features": {
+                "path": config["group_feature_output"],
+                "sha256": _sha256_file(group_path),
+            },
+        },
+    }
+    summary["content_sha256"] = canonical_sha256(summary)
+    summary_path = root / EXTRACTION_SUMMARY_PATH
+    summary_path.write_bytes(canonical_json_bytes(summary))
+    return group_path, cross_path, summary_path
+
+
 def _parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("command", choices=("select", "check-sample"))
+    parser.add_argument(
+        "command",
+        choices=("select", "check-sample", "acquire-fresh", "extract-features"),
+    )
     parser.add_argument("--root", type=Path, default=Path("."))
+    parser.add_argument("--cache-dir", type=Path, default=Path("work/item3-density-v1-raw"))
+    parser.add_argument("--workers", type=int, default=8)
     return parser
 
 
@@ -355,6 +916,14 @@ def main(argv: Sequence[str] | None = None) -> int:
     if args.command == "select":
         path = write_sample_manifest(root)
         print(path)
+        return 0
+    if args.command == "acquire-fresh":
+        path = acquire_fresh_exploration(root, cache_dir=args.cache_dir, workers=args.workers)
+        print(path)
+        return 0
+    if args.command == "extract-features":
+        for path in extract_features(root, cache_dir=args.cache_dir):
+            print(path)
         return 0
     config = load_config(root)
     path = root / config["sample_manifest_output"]
