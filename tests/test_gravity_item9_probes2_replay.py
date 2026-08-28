@@ -50,6 +50,14 @@ def test_identity_normalization_is_conservative() -> None:
     assert replay.normalize_identity("UGC 1-234") == "UGC1234"
     assert replay.normalize_identity("ugc_1234") == "UGC1234"
     assert replay.normalize_identity("NGC\u00a0123") == "NGC123"
+    assignments = replay._entry_assignments(
+        ["RotationCurves/RC_UGC123_Source.csv"], ["UGC1", "UGC123"], "RC"
+    )
+    assert assignments["UGC1"] == []
+    assert assignments["UGC123"] == ["RotationCurves/RC_UGC123_Source.csv"]
+    assert replay._source_family(
+        "probes2_files/RotationCurves/RC_UGC123_2015AJ....149..180O.csv", "UGC123"
+    ) == "2015AJ....149..180O"
 
 
 def test_metadata_parser_retains_only_allowlisted_columns(tmp_path: Path) -> None:

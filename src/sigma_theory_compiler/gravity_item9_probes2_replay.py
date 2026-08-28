@@ -391,7 +391,7 @@ def _looks_like_r_profile(path: str) -> bool:
     return bool(tokens & {"r", "desir", "sdssr", "rband", "bandr"})
 
 
-def _source_family(path: str) -> str:
+def _source_family(path: str, name: str) -> str:
     parts = list(PurePosixPath(path.replace("\\", "/")).parts)
     lowered = [part.lower() for part in parts]
     for marker in ("rotationcurves", "rotation_curves"):
@@ -400,12 +400,27 @@ def _source_family(path: str) -> str:
             if index + 2 < len(parts):
                 return parts[index + 1]
     stem = PurePosixPath(path).stem
-    tokens = re.split(r"[_\-]+", stem)
-    return tokens[0] if len(tokens) > 1 and tokens[0] else "UNKNOWN"
+    exact_prefix = f"RC_{name}_"
+    if stem.lower().startswith(exact_prefix.lower()):
+        suffix = stem[len(exact_prefix) :]
+        return suffix or "UNKNOWN"
+    tokens = stem.split("_", 2)
+    return tokens[2] if len(tokens) == 3 and tokens[2] else "UNKNOWN"
 
 
-def _entry_identity_matches(path: str, normalized_identity: str) -> bool:
-    return bool(normalized_identity) and normalized_identity in normalize_identity(path)
+def _entry_assignments(
+    paths: Sequence[str], identities: Sequence[str], entry_prefix: str
+) -> dict[str, list[str]]:
+    assignments = {identity: [] for identity in identities}
+    longest_first = sorted(set(identities), key=lambda value: (-len(value), value))
+    normalized_prefix = normalize_identity(entry_prefix)
+    for path in paths:
+        stem = normalize_identity(PurePosixPath(path).stem)
+        for identity in longest_first:
+            if stem.startswith(normalized_prefix + identity):
+                assignments[identity].append(path)
+                break
+    return assignments
 
 
 def _finite_positive(value: str) -> bool:
@@ -434,6 +449,12 @@ def build_sample_manifest(root: Path) -> dict[str, Any]:
         for row in inventory
         if _classify_entry(row["path"]) == "light" and _looks_like_r_profile(row["path"])
     )
+    identities = [
+        normalize_identity(str(row["Name"]))
+        for row in source["metadata"]["retained_records"]
+    ]
+    rotation_by_identity = _entry_assignments(rotation, identities, "RC")
+    light_by_identity = _entry_assignments(light, identities, "Light")
     objects = []
     exclusion_counts: Counter[str] = Counter()
     for row in source["metadata"]["retained_records"]:
@@ -450,8 +471,8 @@ def build_sample_manifest(root: Path) -> dict[str, Any]:
             reasons.append("invalid_distance")
         if not _finite_positive(str(row["q (b/a)"])):
             reasons.append("invalid_axis_ratio")
-        rotation_matches = [path for path in rotation if _entry_identity_matches(path, identity)]
-        light_matches = [path for path in light if _entry_identity_matches(path, identity)]
+        rotation_matches = rotation_by_identity.get(identity, [])
+        light_matches = light_by_identity.get(identity, [])
         if not rotation_matches:
             reasons.append("no_rotation_entry")
         if not light_matches:
@@ -481,7 +502,7 @@ def build_sample_manifest(root: Path) -> dict[str, Any]:
                 "r_light_entry": light_matches[0],
                 "unselected_duplicate_rotation_entries": rotation_matches[1:],
                 "unselected_duplicate_r_light_entries": light_matches[1:],
-                "source_family": _source_family(rotation_matches[0]),
+                "source_family": _source_family(rotation_matches[0], name),
                 "outer_fold": _fold(identity, config),
                 "role": "zero_tuning_independent_evaluation",
                 "response_entry_opened": False,
@@ -517,7 +538,10 @@ def build_sample_manifest(root: Path) -> dict[str, Any]:
                 "rotation_curve_rows_read": 0,
             },
             "exclusion_counts": dict(sorted(exclusion_counts.items())),
-            "fold_counts": dict(sorted(Counter(row["outer_fold"] for row in objects).items())),
+            "fold_counts": {
+                str(key): value
+                for key, value in sorted(Counter(row["outer_fold"] for row in objects).items())
+            },
             "source_family_counts": dict(
                 sorted(Counter(row["source_family"] for row in objects).items())
             ),
