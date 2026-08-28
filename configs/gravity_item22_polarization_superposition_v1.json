@@ -1,0 +1,201 @@
+{
+  "schema_version": "invariant-gravity-item22-polarization-superposition-config-1.0",
+  "item": 22,
+  "title": "Multiple gravitational polarizations on fresh joint dynamics and lensing data",
+  "stable_goal_path": "docs/GRAVITY_HIDDEN_VARIABLE_AND_THEORY_SEARCH_GOALS.md",
+  "stable_goal_sha256": "b9db7e1aa76deaf28ce2e840cd3d7db4cf7a086b1c7ca473800780c264a0e772",
+  "scientific_freeze_commit": "TO_BE_BOUND_ITEM22_SCIENCE_FREEZE",
+  "sample_freeze_commit": "TO_BE_BOUND_ITEM22_SAMPLE_FREEZE",
+  "hypothesis": "A universal, scale-dependent superposition of scalar, vector, and tensor gravitational polarizations, coupled through one frozen baryonic matter rule, predicts both stellar motion and Einstein-radius lensing better than baryon-only GR and ordinary photometric nuisance models on fresh lenses.",
+  "discovery_policy": {
+    "equal_initial_viability": true,
+    "numbered_order_is_not_prior_probability": true,
+    "universal_gravity_track": "Require one unchanged field law to pass joint dynamics, lensing, stability, locality, broad-slice, and later cross-scale gates.",
+    "phenomenon_publication_track": "Retain a reproducible held-out polarization, scale, or dynamics-versus-lensing relation that beats ordinary controls even if it cannot explain all gravity.",
+    "partial_results_are_not_pruned": true,
+    "paper_claim_requires_fresh_replication": true
+  },
+  "scope": {
+    "exploration_only": true,
+    "confirmation_opening_authorized": false,
+    "paid_api_calls_authorized": false,
+    "post_response_candidate_generation_allowed": false,
+    "claim_ceiling": "photometric_baryon_proxy_and_spherical_weak_field_exploration_not_a_covariant_completion_or_direct_image_likelihood",
+    "forbidden_inputs": [
+      "object_identifier_as_numeric_feature",
+      "survey_label_as_candidate_feature",
+      "stellar_velocity_dispersion_as_candidate_input",
+      "Einstein_radius_as_formula_generator_input",
+      "lensing_inferred_total_mass",
+      "dark_matter_fraction",
+      "per_object_mass_to_light_ratio",
+      "per_object_polarization_or_coupling"
+    ]
+  },
+  "sources": {
+    "response_catalog": "VizieR J/MNRAS/498/6013/tablea1",
+    "response_paper": "Amante et al., MNRAS 498, 6013 (2020)",
+    "response_bibcode": "2020MNRAS.498.6013A",
+    "response_readme_url": "https://cdsarc.cds.unistra.fr/ftp/J/MNRAS/498/6013/ReadMe",
+    "identity_query": "https://vizier.cds.unistra.fr/viz-bin/asu-tsv?-source=J%2FMNRAS%2F498%2F6013%2Ftablea1&-out=Name%2CSurvey%2Czl%2Czs%2C_RA%2C_DE&-out.max=unlimited",
+    "identity_columns": ["Name", "Survey", "zl", "zs", "_RA", "_DE"],
+    "expected_identity_rows": 204,
+    "legacy_release": "ls-dr9",
+    "legacy_catalog_service": "https://www.legacysurvey.org/viewer/ls-dr9/cat.fits",
+    "legacy_catalog_documentation": "https://www.legacysurvey.org/dr9/catalogs/",
+    "legacy_half_width_deg": 0.002,
+    "response_columns": ["Name", "thetaE", "e_thetaE", "sigma", "E_sigma", "e_sigma", "f_sigma"],
+    "response_query_base": "https://vizier.cds.unistra.fr/viz-bin/asu-tsv",
+    "expected_prior_identity_exclusions": 95,
+    "expected_preview_exclusions_after_prior": 26,
+    "expected_missing_coordinate_exclusions_after_prior_and_preview": 6,
+    "expected_legacy_queries": 77,
+    "expected_predictor_quality_eligible": 50,
+    "predecessor_sample_manifests": [
+      "runs/gravity/roadmap/item-16-s4tm-qed-field-v1-source/sample-manifest.json",
+      "runs/gravity/roadmap/item-17-slacs-running-strength-v1-source/sample-manifest.json"
+    ],
+    "preview_exposed_identities": [
+      "J021247-055552", "J021325-074355", "J021411-040502", "J021737-051329",
+      "J021902-082934", "J022346-053418", "J022511-045433", "J022610-042011",
+      "J023251-040823", "J084847-035103", "J084909-041226", "J084959-025142",
+      "J085019-034710", "J085540-014730", "J090407-005952", "J095921+020638",
+      "J140454+520024", "J140546+524311", "J142059+563007", "J220329+020518",
+      "J220506+014703", "J222148+011542", "Q0047-2808", "CFRS03-1077",
+      "HST14176+5226", "HST15433", "SDSSJ2321-0939", "SDSSJ2341+0000"
+    ],
+    "observable_lineage": {
+      "baryons": "Extinction-corrected Legacy Survey DR9 Tractor g/r/z model fluxes provide a z-band luminosity proxy; one mass-to-light scale is fit only on each training fold.",
+      "geometry": "The independent DR9 Tractor model supplies a half-light radius and ellipticity; lens and source redshifts are identity-stage predictors.",
+      "dynamics": "The response catalog supplies spectroscopic stellar velocity dispersion and asymmetric uncertainty only after sample roles are frozen.",
+      "lensing": "The response catalog supplies the published SIS/SIE Einstein radius only after roles are frozen; it is used as the declared lens-equation evaluation radius, never as a formula-generation feature.",
+      "direct_image_likelihood": false,
+      "gr_nfw_mass_target": false
+    }
+  },
+  "predictor_quality": {
+    "maximum_center_separation_arcsec": 2.0,
+    "allowed_morphology_types": ["REX", "DEV", "EXP", "SER"],
+    "minimum_shape_radius_arcsec": 0.3,
+    "minimum_shape_signal_to_noise": 3.0,
+    "minimum_flux_signal_to_noise_each_grz": 5.0,
+    "maximum_fracmasked_each_grz": 0.4,
+    "maximum_fracflux_each_grz": 0.5,
+    "minimum_fracin_each_grz": 0.5,
+    "require_brick_primary": true,
+    "require_allmask_zero_each_grz": true,
+    "require_positive_mw_transmission_each_grz": true
+  },
+  "sample": {
+    "selection_key": "invariant-item22-polarization-selection-v1",
+    "selected_predictor_count": 50,
+    "redshift_strata": 5,
+    "objects_per_redshift_stratum": 10,
+    "confirmation_per_stratum": 2,
+    "role_key": "invariant-item22-polarization-role-v1",
+    "fold_key": "invariant-item22-polarization-fold-v1",
+    "outer_folds": 5,
+    "exploration_count": 40,
+    "confirmation_count": 10,
+    "minimum_complete_exploration_objects": 36,
+    "role_rule": "HMAC-rank exactly two confirmations inside each predictor-only lens-redshift stratum; assign the remaining objects to five balanced HMAC folds.",
+    "identity_normalization": "uppercase alphanumeric plus signs with SDSS and SL2S survey prefixes removed"
+  },
+  "physics": {
+    "cosmology": {"H0_km_s_Mpc": 70.0, "omega_m": 0.3, "omega_lambda": 0.7},
+    "constants": {
+      "G_kpc_km2_s2_Msun": 4.30091e-6,
+      "c_km_s": 299792.458,
+      "arcsec_to_radian": 4.84813681109536e-6,
+      "au_to_kpc": 4.84813681109536e-9,
+      "absolute_z_solar_AB": 4.51
+    },
+    "baryon_profile": "spherical_Hernquist_approximation_to_Tractor_half_light_profile",
+    "hernquist_re_over_a": 1.81527,
+    "dynamical_virial_coefficient": 5.0,
+    "shared_mass_to_light_bounds_Msun_per_Lzsun": [0.2, 10.0],
+    "helicity_projectors": [
+      {"id": "scalar_conformal", "spin": 0, "eta_Phi_over_Psi": -1.0, "lensing_to_matter": 0.0},
+      {"id": "vector_longitudinal", "spin": 1, "eta_Phi_over_Psi": 0.0, "lensing_to_matter": 0.5},
+      {"id": "tensor_transverse", "spin": 2, "eta_Phi_over_Psi": 1.0, "lensing_to_matter": 1.0}
+    ],
+    "carrier_basis": "B(u)=1-(1+u)exp(-u), u=r/lambda",
+    "matter_response": "log(mu_D)=s A sum_h w_h B(r/lambda_h) plus the frozen interaction term only in the interaction niche",
+    "lensing_response": "log(mu_L)=s A sum_h p_h w_h B(r/lambda_h) plus the same interaction term projected by p_ij=(p_i+p_j)/2",
+    "short_distance_limit": "B tends to zero quadratically, so every candidate tends to GR at fixed coupling as r/lambda tends to zero",
+    "positivity_completion": "The multiplicative response is exp(log(mu)), guaranteeing positive dynamics and light response while reducing to the linear pole sum at weak coupling.",
+    "symmetry": "static parity-even spherical weak-field response",
+    "conservation_scope": "Universal baryonic coupling and one shared matter/light field content are enforced; no full covariant stress-energy or Ward-identity proof is claimed.",
+    "stability_scope": "Positive multiplicative observables and real carrier ranges are enforced; ghost, gradient, radiation, and nonlinear completion stability are later formal gates."
+  },
+  "candidate_generator": {
+    "algorithm": "numpy.random.Generator(PCG64) with exactly balanced niche and polarity arrays",
+    "seed": 2203282026,
+    "candidate_cells": 262144,
+    "post_response_cells": 0,
+    "niches": [
+      {"id": "single_helicity_projector_control", "raw_cells": 65536, "creativity_label": "known_rewrite_control", "novel_relative_to_item16": false},
+      {"id": "two_helicity_two_range_linear_control", "raw_cells": 65536, "creativity_label": "known_rewrite_control", "novel_relative_to_item16": false},
+      {"id": "three_helicity_three_range_superposition", "raw_cells": 65536, "creativity_label": "known_family_extension", "novel_relative_to_item16": true},
+      {"id": "three_helicity_vertex_interference", "raw_cells": 65536, "creativity_label": "potentially_new_synthesis", "novel_relative_to_item16": true}
+    ],
+    "amplitude_magnitudes": [0.125, 0.25, 0.5, 1.0, 2.0],
+    "polarities": [-1.0, 1.0],
+    "lambda_scalar_kpc": [0.1, 0.1584893192, 0.2511886432, 0.3981071706, 0.6309573445, 1.0, 1.5848931925, 2.5118864315, 3.9810717055, 6.3095734448, 10.0, 15.8489319246, 25.1188643151, 39.8107170553, 63.0957344480, 100.0],
+    "range_ratios": [0.25, 0.5, 2.0, 4.0],
+    "pair_mixing_fractions": [0.2, 0.35, 0.5, 0.65, 0.8],
+    "triple_simplex_weights": [[0.3333333333, 0.3333333333, 0.3333333334], [0.5, 0.25, 0.25], [0.25, 0.5, 0.25], [0.25, 0.25, 0.5], [0.6, 0.2, 0.2], [0.2, 0.6, 0.2], [0.2, 0.2, 0.6]],
+    "interaction_fractions": [0.0625, 0.125, 0.25, 0.5],
+    "interaction_phases": [-1.0, 1.0],
+    "equivalence_boundaries": [
+      "The single-helicity niche is an explicit Item 16 behavior control.",
+      "The two-helicity linear niche is an explicit Item 16 two-carrier behavior control.",
+      "A three-helicity candidate counts as non-equivalent only when all weights are positive and all three ranges are distinct.",
+      "An interaction candidate collapses to the linear niche when its interaction coefficient is zero; zero is not sampled.",
+      "Historical novelty is not inferred from algebraic non-equivalence and requires a separate literature audit."
+    ]
+  },
+  "evaluation": {
+    "primary_loss": "equal_object_equal_channel_mean_squared_log_mass_balance_residual",
+    "candidate_batch_size": 8192,
+    "cpu_crosscheck_candidates": 4096,
+    "permutation_trials": 99,
+    "permutation_seed": 220699,
+    "stellar_luminosity_systematic_dex": 0.25,
+    "lens_radius_fractional_uncertainty_when_missing": 0.05,
+    "response_blind_selection": true,
+    "baseline_shared_GR": "baryon_only_GR_with_one_training_fitted_z_band_mass_to_light_ratio_shared_by_dynamics_and_lensing",
+    "baseline_separate_calibration": "baryon_only_GR_with_independent_training_fitted_dynamics_and_lensing_mass_to_light_offsets",
+    "baseline_flexible_nuisance": "fixed_ridge_on_logLz_logRe_redshift_gr_rz_axisratio_fracflux_and_survey_one_hot_with_separate_channels",
+    "ridge_alpha": 1.0
+  },
+  "gates": {
+    "confirmation_values_read": 0,
+    "post_response_candidate_cells": 0,
+    "max_local_fractional_deviation_at_1AU": 1e-5,
+    "minimum_joint_mse_improvement_vs_shared_GR": 0.10,
+    "minimum_joint_mse_improvement_vs_separate_calibration": 0.05,
+    "minimum_joint_mse_improvement_vs_flexible_nuisance": 0.0,
+    "minimum_each_channel_improvement_vs_shared_GR": 0.0,
+    "minimum_each_broad_half_improvement_vs_shared_GR": 0.0,
+    "maximum_selection_aware_permutation_p": 0.05,
+    "minimum_same_novel_niche_folds": 4,
+    "shared_mass_to_light_must_remain_within_bounds": true,
+    "synthetic_injection_must_recover_exact_niche": true,
+    "known_GR_control_must_not_prefer_nonzero_polarization": true,
+    "phenomenon_minimum_improvement_vs_flexible": 0.05,
+    "phenomenon_requires_fresh_replication_before_paper_claim": true
+  },
+  "paths": {
+    "source_dir": "runs/gravity/roadmap/item-22-polarization-superposition-v1-source",
+    "identity_catalog": "identity-catalog.tsv",
+    "legacy_predictors": "legacy-predictors.tsv",
+    "predictor_source_manifest": "predictor-source-manifest.json",
+    "sample_manifest": "sample-manifest.json",
+    "candidate_manifest": "candidate-manifest.json",
+    "exploration_responses": "exploration-responses.tsv",
+    "response_source_manifest": "response-source-manifest.json",
+    "compute_manifest": "compute-manifest.json",
+    "result": "runs/gravity/roadmap/item-22-polarization-superposition-v1.json"
+  }
+}
