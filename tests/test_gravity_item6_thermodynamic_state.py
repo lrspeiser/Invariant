@@ -87,6 +87,7 @@ def test_synthetic_source_parsers_respect_frozen_schemas() -> None:
     )
     entropy = item6.parse_entropy_payload(
         b"Abell 1201\textr\t12\t39.2\t2.0\t200.4\t5.0\t1.20\t0.05\t9.0e-01\n"
+        b"Abell 1201\tflat\t\t39.3\t2.0\t200.5\t5.0\t1.20\t0.05\t9.0e-01\n"
         b"Abell 1201\t\t\t0.0\t\t210.0\t5.0\t1.0\t0.1\t1.0e-03\n",
         accept_name="Abell 1201",
     )
@@ -100,6 +101,15 @@ def test_synthetic_source_parsers_respect_frozen_schemas() -> None:
     assert entropy[0]["core_entropy_kev_cm2"] == 39.2
     assert metadata["member_count"] == 165
     assert response["sigma_km_s"] == 780
+
+
+def test_failed_acquisition_is_counted_without_changing_science() -> None:
+    audit = item6.load_config(ROOT)["postfreeze_acquisition_audit"]
+    assert audit["failure_cluster"] == "A1201"
+    assert audit["primary_response_queries_issued"] == 1
+    assert audit["primary_response_rows_returned"] == 1
+    assert audit["reserved_confirmation_response_queries_issued"] == 0
+    assert audit["formula_model_gate_or_sample_change"] is False
 
 
 def test_response_acquisition_is_impossible_before_freeze_binding() -> None:

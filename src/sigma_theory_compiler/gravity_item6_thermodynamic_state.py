@@ -353,7 +353,7 @@ def parse_entropy_payload(payload: bytes, *, accept_name: str) -> list[dict[str,
     rows = _tsv_rows(payload, first_field=accept_name, fields=10)
     result = []
     for row in rows:
-        if row[1] not in {"flat", "extr"}:
+        if row[1] not in {"flat", "extr"} or not all(row[index] for index in range(2, 9)):
             continue
         result.append(
             {
@@ -488,12 +488,23 @@ def acquire_exploration(root: Path) -> dict[str, Any]:
                 "sample_manifest_path": config["sample_manifest_output"],
                 "sample_manifest_sha256": _sha256_file(sample_path),
             },
+            "acquisition_history": config["postfreeze_acquisition_audit"],
             "boundary": {
-                "exploration_temperature_queries": len(records),
-                "exploration_entropy_queries": len(records),
-                "exploration_metadata_queries": len(records),
-                "exploration_primary_response_queries": len(records),
+                "successful_exploration_temperature_queries": len(records),
+                "cumulative_exploration_temperature_queries": len(records)
+                + int(config["postfreeze_acquisition_audit"]["temperature_queries_issued"]),
+                "successful_exploration_entropy_queries": len(records),
+                "cumulative_exploration_entropy_queries": len(records)
+                + int(config["postfreeze_acquisition_audit"]["entropy_queries_issued"]),
+                "successful_exploration_metadata_queries": len(records),
+                "cumulative_exploration_metadata_queries": len(records)
+                + int(config["postfreeze_acquisition_audit"]["metadata_queries_issued"]),
+                "successful_exploration_primary_response_queries": len(records),
+                "cumulative_exploration_primary_response_queries": len(records)
+                + int(config["postfreeze_acquisition_audit"]["primary_response_queries_issued"]),
                 "exploration_primary_response_rows": len(records),
+                "cumulative_primary_response_rows_returned": len(records)
+                + int(config["postfreeze_acquisition_audit"]["primary_response_rows_returned"]),
                 "reserved_confirmation_primary_response_queries": 0,
                 "hecs_mass_profile_values_acquired": 0,
                 "lensing_mass_values_acquired": 0,
