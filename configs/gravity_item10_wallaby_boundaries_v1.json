@@ -1,0 +1,175 @@
+{
+  "schema_version": "invariant-gravity-roadmap-item10-wallaby-boundaries-config-1.0",
+  "goal": "GRAVITY_ROADMAP_ITEM_10_BARYONIC_BOUNDARIES",
+  "status": "scientific_freeze_before_wallaby_predictor_or_response_rows",
+  "roadmap_binding": {
+    "path": "docs/GRAVITY_HIDDEN_VARIABLE_AND_THEORY_SEARCH_GOALS.md",
+    "file_sha256": "b9db7e1aa76deaf28ce2e840cd3d7db4cf7a086b1c7ca473800780c264a0e772",
+    "item_number": 10,
+    "item_title": "Baryonic boundaries"
+  },
+  "predecessor": {
+    "path": "runs/gravity/roadmap/item-09-synthesis-v1.json",
+    "file_sha256": "e343ea8835373b8802bb287cd3a7699973dec66d67c362cc6bf8931a5cd7f5fb",
+    "content_sha256": "1d361a37383376bf52c953f45afc1255e4c0f26eebf652002ca1ffd46aef140b",
+    "required_decision": "REJECT_ITEM9_TESTED_STELLAR_LIGHT_OCCUPANCY_ADVANCE_ITEM10"
+  },
+  "source": {
+    "dataset": "WALLABY Pilot Survey DR2 public kinematic catalogue",
+    "official_page": "https://wallaby-survey.org/data/data-pilot-survey-dr2/",
+    "kinematic_catalogue_doi": "10.25919/7w8n-9h19",
+    "tap_sync_endpoint": "https://ws-uv.canfar.net/youcat/sync",
+    "table": "cirada.Wallaby_dr2_kinematic_catalogue",
+    "observed_rows": 303,
+    "observed_at": "2026-08-28",
+    "predictor_columns": ["name", "ra", "dec", "freq", "team_release", "team_release_kin", "Rad_SD", "SD_model", "e_SD_model"],
+    "response_columns": ["name", "Inc_model", "e_Inc_model", "QFlag_model", "Rad", "Vrot_model", "e_Vrot_model", "e_Vrot_model_inc"],
+    "predictor_rule": "Acquire only predictor columns after scientific freeze. Acquire response columns only for exact exploration identities after the target-blind sample manifest is committed and bound.",
+    "confirmation_query_forbidden": true
+  },
+  "prefreeze_audit": {
+    "tap_schema_queries": 3,
+    "tap_count_queries": 1,
+    "predictor_rows_read": 0,
+    "response_rows_read": 1,
+    "response_rows_used_for_formula_or_gate_design": 0,
+    "conservatively_excluded_exposed_identity": "WALLABY J101655-485238",
+    "disclosure": "An endpoint test requested TOP 1 * and exposed one complete response row. That identity is excluded from every role. No value from it is used to choose a formula, parameter range, gate, or sample rule.",
+    "paid_model_calls": 0
+  },
+  "independence": {
+    "probes1_coordinate_source_path": "work/item9-probes-schema-audit/main_table.csv",
+    "probes1_coordinate_source_sha256": "885803c3ecf71509eeed804756407cebad9080cc1f1bd258cbd5f8f8fb23b0a2",
+    "coordinate_exclusion_arcseconds": 60.0,
+    "rule": "Exclude a WALLABY identity within 60 arcsec of any PROBES-I catalogue coordinate before response access. The exposed WALLABY identity is also excluded exactly.",
+    "measurement_independence_boundary": "WALLABY ASKAP HI kinematic and surface-density products are a different instrument and reduction pipeline from the earlier SPARC and PROBES tests; physical-coordinate overlaps are still excluded conservatively when detectable."
+  },
+  "authorization": {
+    "network_acquisition_allowed": true,
+    "paid_model_calls_allowed": false,
+    "predictor_query_allowed_after_scientific_freeze": true,
+    "response_query_allowed_before_sample_freeze": false,
+    "exploration_response_query_allowed_after_sample_freeze": true,
+    "confirmation_response_query_allowed": false,
+    "post_response_candidate_generation_allowed": false,
+    "dark_or_dynamical_mass_features_allowed": false,
+    "object_identity_as_numeric_feature_allowed": false
+  },
+  "scientific_contract": {
+    "hypothesis": "A universal term derived from an observed HI edge, shell, interface, or finite baryonic domain adds held-out predictive information about resolved rotation speed beyond flexible local HI-profile variables.",
+    "primary_test": "Nested whole-galaxy selection of a seeded 131072-cell boundary grammar on target-blind WALLABY exploration identities, compared with an identically trained flexible local HI-profile ridge baseline.",
+    "creativity_rule": "Search many structurally different boundary mechanisms and preserve their declared known/rewrite/combination/unresolved labels. Fit at most one universal scalar coefficient per candidate inside training folds; never fit an object-specific coefficient.",
+    "interpretation_boundary": "A positive result identifies a reproducible boundary variable, not modified gravity. A negative result rejects only these projected-HI empirical boundary features and coefficient prescription."
+  },
+  "constants": {
+    "hi_rest_frequency_hz": 1420405751.77,
+    "speed_of_light_km_s": 299792.458,
+    "hubble_constant_km_s_mpc": 70.0,
+    "arcseconds_per_radian": 206264.80624709636,
+    "helium_mass_factor": 1.33,
+    "dimensionless_floor": 1e-10
+  },
+  "predictor_derivation": {
+    "distance": "z=nu_HI/freq-1 and D=(c/H0)z; use only finite positive low-redshift values",
+    "surface_profile": "Use published projected SD_model on Rad_SD. Do not use Vrot, inclination, QFlag, deprojected SD_FO_model, dark mass, or dynamical mass.",
+    "edge_radius": "For each threshold, linearly interpolate the outermost inward-to-outward crossing of projected Sigma_HI=q; reject that threshold for an object if no bracketed crossing exists.",
+    "edge_sharpness": "Absolute d ln Sigma_HI / d ln r at the threshold crossing using target-blind local interpolation",
+    "profile_mass": "Integrate 2 pi r Sigma_HI dr on the physical radial grid and multiply by the fixed helium factor; this is a circular projected-profile proxy, not an exact full baryonic mass",
+    "feature_boundary": "Interpolate local Sigma_HI and enclosed profile-mass fraction at response radii only after the response radius grid is opened; observed speed never enters a feature builder."
+  },
+  "candidate_generator": {
+    "algorithm": "numpy.random.Generator(PCG64(seed))",
+    "seed": 1000420260828,
+    "candidate_cells": 131072,
+    "thresholds_msun_pc2": [0.25, 0.5, 1.0, 2.0, 4.0],
+    "scale_log_uniform": [0.03, 1.5],
+    "power_log_uniform": [0.25, 6.0],
+    "phase_uniform": [0.0, 6.283185307179586],
+    "modulations": ["none", "edge_sharpness", "outer_mass_fraction", "profile_concentration", "profile_contrast"],
+    "families": [
+      {"id": "edge_rbf", "origin_status": "KNOWN_FAMILY_COMBINATION", "definition": "exp[-(|ln(r/R_edge)|/ell)^p]"},
+      {"id": "signed_edge_rbf", "origin_status": "KNOWN_FAMILY_COMBINATION", "definition": "sign(1-r/R_edge) times edge_rbf"},
+      {"id": "shell_cusp", "origin_status": "KNOWN_FAMILY_COMBINATION", "definition": "edge_rbf/(ell+|1-r/R_edge|)^p"},
+      {"id": "image_radius", "origin_status": "UNRESOLVED", "definition": "exp[-(|x-1/x|/ell)^p], x=r/R_edge; method-of-images-inspired synthesis"},
+      {"id": "finite_domain", "origin_status": "KNOWN_FAMILY_COMBINATION", "definition": "1/[1+(|1-x|/ell)^p] with finite-domain interpretation"},
+      {"id": "robin_boundary", "origin_status": "KNOWN_FAMILY_COMBINATION", "definition": "asymmetric exponential/power decay across a Robin-like boundary"},
+      {"id": "dual_edge_annulus", "origin_status": "COMBINATION", "definition": "difference of kernels at threshold q and the next higher frozen threshold"},
+      {"id": "edge_tension", "origin_status": "UNRESOLVED", "definition": "signed edge kernel multiplied by dimensionless edge sharpness"},
+      {"id": "flux_capture", "origin_status": "UNRESOLVED", "definition": "edge kernel multiplied by enclosed-fraction minus area-fraction mismatch"},
+      {"id": "reflection_interference", "origin_status": "UNRESOLVED", "definition": "edge envelope times cos[phase+p(x-1/x)]"},
+      {"id": "edge_resonance", "origin_status": "COMBINATION", "definition": "edge envelope times sin(phase+pi p x)"},
+      {"id": "log_periodic_boundary", "origin_status": "KNOWN_FAMILY_COMBINATION", "definition": "edge envelope times cos[phase+p ln x]"}
+    ],
+    "polarity_parameter": "omitted because the fitted universal scalar coefficient makes sign-flipped cells algebraically equivalent",
+    "post_response_cells": 0,
+    "historical_novelty_claimed": false
+  },
+  "sample": {
+    "split_unit": "whole WALLABY identity",
+    "split_salt": "invariant-gravity-item10-wallaby-boundary-split-v1-20260828",
+    "exploration_fraction": 0.75,
+    "confirmation_fraction": 0.25,
+    "stratification": "team_release_kin and target-blind median edge-radius bin when available",
+    "failed_identity_replacement": false
+  },
+  "quality": {
+    "required_qflag_model": 0,
+    "minimum_inclination_degrees": 30.0,
+    "maximum_inclination_degrees": 80.0,
+    "minimum_rotation_points": 8,
+    "minimum_fraction_response_radii_within_surface_profile": 0.7,
+    "minimum_speed_km_s": 10.0,
+    "maximum_fractional_speed_error": 1.0,
+    "minimum_quality_passing_exploration_galaxies": 140,
+    "minimum_quality_retention_fraction": 0.6
+  },
+  "evaluation": {
+    "outer_folds": 5,
+    "fold_salt": "invariant-gravity-item10-wallaby-boundary-fold-v1-20260828",
+    "inner_scheme": "For each outer fold, rotate each of the other four folds as inner validation. Fit the fixed local ridge on the remaining three folds, fit one scalar boundary coefficient on those training residuals, and average equal-galaxy validation MSE.",
+    "point_weighting": "each galaxy contributes equal total weight",
+    "local_features": ["log_radius_over_r1", "log_surface_density", "enclosed_mass_fraction", "log_total_profile_mass", "log_distance", "log_r1_kpc", "profile_concentration", "log_radius_squared", "log_surface_density_squared", "radius_surface_interaction"],
+    "ridge_alpha": 0.01,
+    "boundary_coefficient_ridge": 1e-06,
+    "candidate_batch_size": 2048,
+    "gpu_backend_preference": "cupy_cuda_then_numpy",
+    "cpu_crosscheck_candidates": 64,
+    "paired_sign_flip_permutations": 999,
+    "permutation_salt": "invariant-gravity-item10-wallaby-boundary-null-v1-20260828",
+    "minimum_galaxies_per_team_release_gate": 15
+  },
+  "admission": {
+    "quality_count_and_fraction_pass": true,
+    "confirmation_responses_untouched": true,
+    "candidate_count_exact": true,
+    "selected_boundary_r2_positive": true,
+    "selected_boundary_beats_local_baseline": true,
+    "relative_mse_improvement_over_local_baseline_at_least": 0.02,
+    "paired_sign_flip_p_at_most": 0.05,
+    "gain_positive_in_all_team_releases_at_minimum_count": true,
+    "gain_positive_in_both_edge_radius_halves": true,
+    "gain_positive_in_both_edge_sharpness_halves": true,
+    "gain_positive_in_both_profile_mass_halves": true,
+    "selected_candidate_edge_coverage_at_least": 0.8,
+    "selected_family_not_algebraically_equivalent_to_item9_occupancy": true,
+    "post_response_formula_generation_zero": true
+  },
+  "claim_boundaries": {
+    "complete_baryonic_mass_used": false,
+    "boundary_gravity_cause_established": false,
+    "alternative_to_gr_established": false,
+    "historical_novelty_established": false,
+    "confirmation_opened": false,
+    "roadmap_item_10_complete": false
+  },
+  "outputs": {
+    "predictor_source": "runs/gravity/roadmap/item-10-wallaby-boundaries-v1-source/predictor-source.json",
+    "sample_manifest": "runs/gravity/roadmap/item-10-wallaby-boundaries-v1-source/sample-manifest.json",
+    "candidate_manifest": "runs/gravity/roadmap/item-10-wallaby-boundaries-v1-source/candidate-manifest.json",
+    "response_source": "runs/gravity/roadmap/item-10-wallaby-boundaries-v1-source/response-source.json",
+    "point_features": "runs/gravity/roadmap/item-10-wallaby-boundaries-v1-source/point-features.tsv",
+    "rotation_responses": "runs/gravity/roadmap/item-10-wallaby-boundaries-v1-source/rotation-responses.tsv",
+    "extraction_summary": "runs/gravity/roadmap/item-10-wallaby-boundaries-v1-source/extraction-summary.json",
+    "result": "runs/gravity/roadmap/item-10-wallaby-boundaries-v1.json"
+  }
+}
