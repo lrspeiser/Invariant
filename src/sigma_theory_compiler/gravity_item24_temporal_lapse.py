@@ -700,6 +700,7 @@ def _build_sample(
             )
     lenses = sorted((dict(row) for row in lens_predictors), key=lambda row: float(row["z_lens"]))
     lens_selected: list[dict[str, Any]] = []
+    lens_records: list[tuple[dict[str, Any], int, bool]] = []
     for stratum in range(int(sample["lens_redshift_strata"])):
         begin = round(stratum * len(lenses) / int(sample["lens_redshift_strata"]))
         end = round((stratum + 1) * len(lenses) / int(sample["lens_redshift_strata"]))
@@ -713,23 +714,30 @@ def _build_sample(
         confirmations = {
             str(row["name"]) for row in group[: int(sample["lens_confirmation_per_stratum"])]
         }
-        exploration = [row for row in group if str(row["name"]) not in confirmations]
-        exploration.sort(key=lambda row: _hmac_rank(fold_key, f"lens:{row['name']}"))
-        folds = {str(row["name"]): index % int(sample["outer_folds"]) for index, row in enumerate(exploration)}
         for row in group:
             confirmation = str(row["name"]) in confirmations
-            objects.append(
-                {
-                    "lane": "photon_delay",
-                    "identity": str(row["name"]),
-                    "display_name": str(row["name"]),
-                    "redshift_stratum": stratum,
-                    "role": "confirmation" if confirmation else "exploration",
-                    "fold": None if confirmation else folds[str(row["name"])],
-                    "role_rank": _hmac_rank(role_key, f"lens:{row['name']}"),
-                    "response_read": False,
-                }
-            )
+            lens_records.append((row, stratum, confirmation))
+    lens_exploration = sorted(
+        (row for row, _, confirmation in lens_records if not confirmation),
+        key=lambda row: _hmac_rank(fold_key, f"lens:{row['name']}"),
+    )
+    lens_folds = {
+        str(row["name"]): index % int(sample["outer_folds"])
+        for index, row in enumerate(lens_exploration)
+    }
+    for row, stratum, confirmation in lens_records:
+        objects.append(
+            {
+                "lane": "photon_delay",
+                "identity": str(row["name"]),
+                "display_name": str(row["name"]),
+                "redshift_stratum": stratum,
+                "role": "confirmation" if confirmation else "exploration",
+                "fold": None if confirmation else lens_folds[str(row["name"])],
+                "role_rank": _hmac_rank(role_key, f"lens:{row['name']}"),
+                "response_read": False,
+            }
+        )
     objects.sort(key=lambda row: (str(row["lane"]), str(row["identity"])))
     counts = Counter(f"{row['lane']}:{row['role']}" for row in objects)
     fold_counts = Counter(
