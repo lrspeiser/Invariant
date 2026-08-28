@@ -33,7 +33,7 @@ from .gravity_item14_gz3d_resonance_coherence import (
 
 CONFIG_PATH = Path("configs/gravity_item15_manga_timescale_ratios_v1.json")
 SCIENTIFIC_FREEZE_COMMIT = "bfccc9118a637dc5438f60a7f935044170c8a396"
-SAMPLE_FREEZE_COMMIT = "PENDING_ITEM15_SAMPLE_FREEZE_COMMIT"
+SAMPLE_FREEZE_COMMIT = "73b9dc23f6951c8e0e490b9a4a55394c0b7509fb"
 
 
 class GravityItem15TimescaleError(RuntimeError):
