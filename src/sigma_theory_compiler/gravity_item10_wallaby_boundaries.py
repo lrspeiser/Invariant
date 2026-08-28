@@ -20,7 +20,7 @@ import numpy as np
 
 CONFIG_PATH = Path("configs/gravity_item10_wallaby_boundaries_v1.json")
 SCIENTIFIC_FREEZE_COMMIT = "d1f3ea0a303427077a07f6017abd4d0e87b23f0a"
-SAMPLE_FREEZE_COMMIT = "PENDING_ITEM10_SAMPLE_FREEZE_COMMIT"
+SAMPLE_FREEZE_COMMIT = "a7989ad42079813d7798d81671b83fd7bb6dd99e"
 
 
 class GravityItem10BoundaryError(RuntimeError):
