@@ -54,8 +54,21 @@
     "metadata_bytes": 383211,
     "metadata_allowed_columns": ["Group", "Nmemb", "zsp", "LR195", "D10"],
     "metadata_forbidden_columns": ["sigmaGAP", "e_sigmaGAP", "sigmaMAD", "R200c"],
-    "member_query_template": "https://vizier.cds.unistra.fr/viz-bin/asu-tsv?-source=J/A%2BA/690/A52/tablec4&Group={group}&-out=Group,GalID,SpecObjID,RAdeg,DEdeg,zsp,Lr&-out.max=unlimited",
-    "member_allowed_columns": ["Group", "GalID", "SpecObjID", "RAdeg", "DEdeg", "zsp", "Lr"],
+    "member_query_template": "https://vizier.cds.unistra.fr/viz-bin/asu-tsv?-source=J/A%2BA/690/A52/tablec4&Group={group}&-out=Group,GalID,SpecObjID,RAJ2000,DEJ2000,zsp,Lr&-out.max=unlimited",
+    "member_allowed_columns": ["Group", "GalID", "SpecObjID", "RAJ2000", "DEJ2000", "zsp", "Lr"],
+    "member_coordinate_schema_correction": {
+      "frozen_readme_labels": ["RAdeg", "DEdeg"],
+      "asu_service_labels": ["RAJ2000", "DEJ2000"],
+      "authorized_exploration_group": 1549,
+      "audit_queries": 2,
+      "scientific_contract_changed": false,
+      "sample_or_role_changed": false
+    },
+    "member_identity_schema": {
+      "primary_member_key": "GalID",
+      "SpecObjID_zero_is_missing_not_a_member_key": true,
+      "sample_or_scientific_contract_changed": false
+    },
     "group_response_catalog_columns_queried": 0
   },
   "target_blind_sample": {
@@ -82,6 +95,7 @@
     "cosmology": {"model": "FlatLambdaCDM", "H0_km_s_Mpc": 70.0, "Omega_m": 0.3},
     "centering": "luminosity-weighted projected member centroid",
     "weighting": "member r-band luminosity",
+    "radial_split": "inside versus outside the luminosity half-radius, requiring at least three finite members on each side",
     "global_features": [
       "projected_axis_ratio",
       "projected_ellipticity",
