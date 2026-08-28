@@ -39,6 +39,10 @@ FEATURE_PATH = (
     "runs/gravity/roadmap/item-02-manga-nonlocal-shape-v4-source/"
     "manga-exploration-features.tsv"
 )
+EXTRACTION_SUMMARY_PATH = (
+    "runs/gravity/roadmap/item-02-manga-nonlocal-shape-v4-source/"
+    "manga-exploration-extraction-summary.json"
+)
 
 
 class GravityItem2MangaNonlocalShapeError(RuntimeError):
@@ -997,6 +1001,9 @@ def _parser() -> argparse.ArgumentParser:
     extract.add_argument("--root", type=Path, default=Path.cwd())
     extract.add_argument("--cache-dir", type=Path, required=True)
     extract.add_argument("--output", type=Path, default=Path(FEATURE_PATH))
+    extract.add_argument(
+        "--summary-output", type=Path, default=Path(EXTRACTION_SUMMARY_PATH)
+    )
     return parser
 
 
@@ -1021,6 +1028,13 @@ def main(argv: Sequence[str] | None = None) -> int:
     else:
         rows, extraction = extract_exploration_features(root, cache_dir=args.cache_dir)
         write_feature_table(root, rows, args.output)
+        summary_path = (
+            args.summary_output
+            if args.summary_output.is_absolute()
+            else root / args.summary_output
+        )
+        summary_path.parent.mkdir(parents=True, exist_ok=True)
+        summary_path.write_bytes(canonical_json_bytes(extraction) + b"\n")
         print(json.dumps(extraction, sort_keys=True, separators=(",", ":")))
     return 0
 
