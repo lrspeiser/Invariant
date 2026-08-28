@@ -156,6 +156,31 @@ def load_config(root: Path) -> dict[str, Any]:
         raise GravityItem14CoherenceError("Item 14 identity-feature boundary changed")
     if int(config["candidate_generator"]["post_response_cells"]) != 0:
         raise GravityItem14CoherenceError("Item 14 post-response candidate boundary changed")
+    revision = config["sample_feasibility_revision"]
+    if int(revision["eligible_objects"]) != sum(
+        int(value) for value in revision["original_cell_counts"].values()
+    ) or int(revision["eligible_objects"]) != sum(
+        int(value) for value in revision["revised_cell_counts"].values()
+    ):
+        raise GravityItem14CoherenceError("Item 14 sample feasibility accounting changed")
+    if float(sample["bar_vote_threshold"]) != float(
+        revision["revised_thresholds"]["bar_vote_fraction"]
+    ) or float(sample["stellar_mass_threshold_log10"]) != float(
+        revision["revised_thresholds"]["stellar_mass_log10"]
+    ):
+        raise GravityItem14CoherenceError("Item 14 revised sample thresholds changed")
+    if min(int(value) for value in revision["revised_cell_counts"].values()) < int(
+        sample["objects_per_cell"]
+    ):
+        raise GravityItem14CoherenceError("Item 14 revised cells cannot fill the sample")
+    for key in (
+        "mask_payload_downloads_before_revision",
+        "mask_pixel_values_read_before_revision",
+        "maps_payload_downloads_before_revision",
+        "resolved_kinematic_response_objects_read_before_revision",
+    ):
+        if int(revision[key]) != 0:
+            raise GravityItem14CoherenceError("Item 14 feasibility revision opened forbidden data")
     quality = config["quality"]
     inner = [float(value) for value in quality["inner_annulus_re"]]
     outer = [float(value) for value in quality["outer_annulus_re"]]
@@ -196,6 +221,16 @@ def _parse_sha1_manifest(payload: bytes) -> dict[str, str]:
             raise GravityItem14CoherenceError("duplicate or invalid GZ3D SHA1 entry")
         mapping[name] = digest
     return mapping
+
+
+def _official_mask_filename(metadata_filename: str) -> str:
+    if (
+        metadata_filename != Path(metadata_filename).name
+        or not metadata_filename.endswith(".fits")
+        or metadata_filename.startswith("gz3d_")
+    ):
+        raise GravityItem14CoherenceError("invalid GZ3D metadata mask filename")
+    return f"gz3d_{metadata_filename}.gz"
 
 
 def _excluded_identities(root: Path, config: Mapping[str, Any]) -> tuple[set[str], set[str]]:
@@ -476,12 +511,12 @@ def _eligible_metadata_records(
         if separation <= separation_limit:
             failures["predecessor_coordinate"] += 1
             continue
-        file_name = _decode(metadata["file_name"])
-        if (
-            file_name != Path(file_name).name
-            or file_name not in sha1_by_name
-            or not file_name.endswith(".fits.gz")
-        ):
+        try:
+            file_name = _official_mask_filename(_decode(metadata["file_name"]))
+        except GravityItem14CoherenceError:
+            failures["invalid_metadata_mask_filename"] += 1
+            continue
+        if file_name not in sha1_by_name:
             failures["missing_official_mask_hash"] += 1
             continue
         mass_state = (

@@ -1,7 +1,7 @@
 {
   "schema_version": "invariant-gravity-roadmap-item14-gz3d-resonance-coherence-config-1.0",
   "goal": "GRAVITY_ROADMAP_ITEM_14_RESONANCE_AND_COHERENCE",
-  "status": "scientific_freeze_before_gz3d_metadata_rows_masks_or_fresh_kinematics",
+  "status": "target_blind_sample_feasibility_revision_before_masks_or_fresh_kinematics",
   "roadmap_binding": {
     "path": "docs/GRAVITY_HIDDEN_VARIABLE_AND_THEORY_SEARCH_GOALS.md",
     "file_sha256": "b9db7e1aa76deaf28ce2e840cd3d7db4cf7a086b1c7ca473800780c264a0e772",
@@ -104,6 +104,24 @@
     "kinematic_response_as_mask_predictor_allowed": false,
     "object_identity_as_numeric_feature_allowed": false
   },
+  "sample_feasibility_revision": {
+    "trigger": "The original target-blind thresholds produced only 40 eligible bar-low higher-mass galaxies, below the frozen 80-per-cell requirement.",
+    "access_boundary": "Only GZ3D metadata rows, frozen Item 13 predictors, predecessor exclusions, and the official SHA1 filename registry were used. No GZ3D mask pixels, MaNGA MAPS payloads, velocity responses, held-out outcomes, or paid models were opened.",
+    "metadata_payload_downloads_after_scientific_freeze_before_revision": 2,
+    "sha1_manifest_downloads_after_scientific_freeze_before_revision": 2,
+    "metadata_table_reads_after_scientific_freeze_before_revision": 5,
+    "mask_payload_downloads_before_revision": 0,
+    "mask_pixel_values_read_before_revision": 0,
+    "maps_payload_downloads_before_revision": 0,
+    "resolved_kinematic_response_objects_read_before_revision": 0,
+    "eligible_objects": 591,
+    "original_thresholds": {"bar_vote_fraction": 0.2, "stellar_mass_log10": 10.5},
+    "original_cell_counts": {"bar_high|higher_mass": 97, "bar_high|lower_mass": 263, "bar_low|higher_mass": 40, "bar_low|lower_mass": 191},
+    "grid": {"bar_vote_fraction": [0.1, 0.4, 0.02], "stellar_mass_log10": [9.5, 11.0, 0.05]},
+    "selection_rule": "Maximize the minimum of the four target-blind cell counts; retain the unique maximizer and do not inspect any mask or kinematic response.",
+    "revised_thresholds": {"bar_vote_fraction": 0.28, "stellar_mass_log10": 10.1},
+    "revised_cell_counts": {"bar_high|higher_mass": 170, "bar_high|lower_mass": 136, "bar_low|higher_mass": 137, "bar_low|lower_mass": 148}
+  },
   "scientific_contract": {
     "hypothesis": "Target-blind spiral and bar mode geometry contains held-out information about the resolved outer-to-inner stellar rotation-amplitude ratio beyond baryonic structure, catalog vote fractions, and the frozen Item 12 age association, and the selected geometry transfers without candidate reselection to the H-alpha outer-to-inner ratio.",
     "primary_response": "log10 of the robust line-of-sight stellar-velocity span at 0.8-1.5 Re divided by the corresponding span at 0.2-0.8 Re, using unique stellar-continuum bins",
@@ -165,11 +183,11 @@
     "exploration_objects": 240,
     "confirmation_objects": 80,
     "objects_per_cell": 80,
-    "stratification": "target-blind GZ3D bar-vote state at 0.2 and stellar-mass half",
+    "stratification": "target-blind GZ3D bar-vote state at 0.28 crossed with log10 stellar mass at 10.1",
     "minimum_total_classifications": 10,
     "minimum_spiral_vote_fraction": 0.2,
-    "bar_vote_threshold": 0.2,
-    "stellar_mass_threshold_log10": 10.5,
+    "bar_vote_threshold": 0.28,
+    "stellar_mass_threshold_log10": 10.1,
     "prior_age_threshold": 0.0,
     "minimum_axis_ratio": 0.45,
     "maximum_axis_ratio": 0.85,

@@ -41,6 +41,14 @@ def test_config_freezes_real_masks_fresh_response_and_claim_boundaries() -> None
     assert config["sample"]["maximum_total_objects"] == 320
     assert config["sample"]["exploration_objects"] == 240
     assert config["sample"]["confirmation_objects"] == 80
+    assert config["sample"]["bar_vote_threshold"] == 0.28
+    assert config["sample"]["stellar_mass_threshold_log10"] == 10.1
+    revision = config["sample_feasibility_revision"]
+    assert revision["eligible_objects"] == 591
+    assert min(revision["original_cell_counts"].values()) == 40
+    assert min(revision["revised_cell_counts"].values()) == 136
+    assert revision["mask_pixel_values_read_before_revision"] == 0
+    assert revision["resolved_kinematic_response_objects_read_before_revision"] == 0
     assert config["candidate_generator"]["candidate_cells"] == 262144
     assert len(config["candidate_generator"]["families"]) == 12
     assert config["sources"]["response"]["confirmation_query_forbidden"] is True
@@ -243,6 +251,19 @@ def test_predecessor_coordinate_loader_passes_source_descriptors(
     assert calls == [
         (ROOT, entry) for entry in config["independence"]["coordinate_exclusions"]
     ]
+
+
+def test_metadata_filename_maps_to_official_mask_filename() -> None:
+    assert coherence._official_mask_filename("1-100010_37_14715414.fits") == (
+        "gz3d_1-100010_37_14715414.fits.gz"
+    )
+    for invalid in (
+        "../1-100010_37_14715414.fits",
+        "gz3d_1-100010_37_14715414.fits.gz",
+        "1-100010_37_14715414.txt",
+    ):
+        with pytest.raises(coherence.GravityItem14CoherenceError, match="filename"):
+            coherence._official_mask_filename(invalid)
 
 
 def test_resolved_maps_response_measures_outer_inner_ratios() -> None:
