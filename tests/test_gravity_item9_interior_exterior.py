@@ -104,12 +104,13 @@ def test_feature_builder_is_response_blind_and_finite() -> None:
     assert 30.0 < predictor["inclination_degrees"] < 80.0
     features = item9.measure_point_features(
         predictor=predictor,
-        rotation_radius_arcsec=np.linspace(2.0, 28.0, 20),
+        rotation_radius_arcsec=np.concatenate(([0.0], np.linspace(2.0, 28.0, 20))),
         distance_mpc=50.0,
         config=config,
     )
-    assert len(features) == 20
-    assert all(feature["within_photometry"] for feature in features)
+    assert len(features) == 21
+    assert features[0]["within_photometry"] is False
+    assert all(feature["within_photometry"] for feature in features[1:])
     for feature in features:
         assert set(item9.POINT_FEATURE_FIELDS).issubset(feature)
         assert all(np.isfinite(float(feature[field])) for field in item9.POINT_FEATURE_FIELDS)

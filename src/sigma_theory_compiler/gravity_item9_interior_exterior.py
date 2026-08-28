@@ -855,6 +855,11 @@ def measure_point_features(
     phot_radius_arcsec = np.asarray(predictor["radius_arcsec"])
     valid &= response_radius_arcsec >= float(phot_radius_arcsec[0])
     valid &= response_radius_arcsec <= float(phot_radius_arcsec[-1])
+    # Some source curves include a central R=0 row. It is frozen-quality-ineligible,
+    # but all target-blind arrays must remain finite until the quality mask discards it.
+    safe_radius_kpc = np.where(
+        radius_kpc > 0, radius_kpc, float(np.asarray(predictor["radius_kpc"])[0])
+    )
     surface_density = np.interp(
         response_radius_arcsec, phot_radius_arcsec, predictor["surface_density"]
     )
@@ -865,16 +870,16 @@ def measure_point_features(
     enclosed_fraction = np.clip(enclosed_mass / total_mass, 0.0, 1.0)
     gravity = float(constants["gravity_kpc_km2_s2_msun"])
     g_dagger = float(constants["g_dagger_km2_s2_kpc"])
-    gbar = gravity * enclosed_mass / np.maximum(radius_kpc**2, floor)
-    newtonian_v2 = np.maximum(gbar * radius_kpc, floor)
+    gbar = gravity * enclosed_mass / np.maximum(safe_radius_kpc**2, floor)
+    newtonian_v2 = np.maximum(gbar * safe_radius_kpc, floor)
     ratio = np.maximum(gbar / g_dagger, floor)
     rar_acceleration = gbar / np.maximum(1.0 - np.exp(-np.sqrt(ratio)), floor)
-    rar_v2 = np.maximum(rar_acceleration * radius_kpc, floor)
+    rar_v2 = np.maximum(rar_acceleration * safe_radius_kpc, floor)
     phot_radius_kpc = np.asarray(predictor["radius_kpc"])
     shell_mass = np.asarray(predictor["shell_mass"])
     outer_inverse = np.zeros(len(radius_kpc), dtype=np.float64)
     outer_lever = np.zeros(len(radius_kpc), dtype=np.float64)
-    for index, radius in enumerate(radius_kpc):
+    for index, radius in enumerate(safe_radius_kpc):
         mask = phot_radius_kpc > radius
         if np.any(mask):
             outer_inverse[index] = (
@@ -922,7 +927,7 @@ def measure_point_features(
             "radius_kpc": float(radius_kpc[index]),
             "log10_gbar": math.log10(float(gbar[index])),
             "log10_radius_over_r50": math.log10(
-                float(radius_kpc[index]) / float(predictor["r50_kpc"])
+                float(safe_radius_kpc[index]) / float(predictor["r50_kpc"])
             ),
             "log10_surface_density": math.log10(float(surface_density[index])),
             "enclosed_mass_fraction": float(enclosed_fraction[index]),
