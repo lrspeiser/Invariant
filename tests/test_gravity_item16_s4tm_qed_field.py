@@ -52,7 +52,8 @@ def test_contract_digest_ignores_only_commit_binding_fields() -> None:
 
 def test_vizier_parser_requires_exact_approved_columns() -> None:
     payload = (
-        b"# metadata\nTarget\tzL\tzS\n--------------\t------\t------\nSDSSJ0000+0000\t0.1\t0.5\n"
+        b"# metadata\nTarget\tzL\tzS\n \t \t \n--------------\t------\t------\n"
+        b"SDSSJ0000+0000\t0.1\t0.5\n"
     )
     assert _parse_vizier_tsv(payload, ("Target", "zL", "zS")) == [
         {"Target": "SDSSJ0000+0000", "zL": "0.1", "zS": "0.5"}

@@ -190,6 +190,8 @@ def _parse_vizier_tsv(data: bytes, expected: Sequence[str]) -> list[dict[str, st
     reader = csv.DictReader(io.StringIO("\n".join(lines[header_index:])), delimiter="\t")
     for row in reader:
         values = {str(key): str(value).strip() for key, value in row.items() if key is not None}
+        if not values.get(expected[0], ""):
+            continue
         if all(set(value) <= {"-", " "} for value in values.values()):
             continue
         if values.get(expected[0], "").startswith("---"):
