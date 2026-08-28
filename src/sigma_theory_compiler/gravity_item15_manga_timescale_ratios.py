@@ -32,7 +32,7 @@ from .gravity_item14_gz3d_resonance_coherence import (
 )
 
 CONFIG_PATH = Path("configs/gravity_item15_manga_timescale_ratios_v1.json")
-SCIENTIFIC_FREEZE_COMMIT = "PENDING_ITEM15_SCIENTIFIC_FREEZE_COMMIT"
+SCIENTIFIC_FREEZE_COMMIT = "bfccc9118a637dc5438f60a7f935044170c8a396"
 SAMPLE_FREEZE_COMMIT = "PENDING_ITEM15_SAMPLE_FREEZE_COMMIT"
 
 
