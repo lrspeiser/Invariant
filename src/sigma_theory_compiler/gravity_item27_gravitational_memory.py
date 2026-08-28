@@ -1693,13 +1693,13 @@ def validate_result(root: Path) -> Path:
         "response_source_manifest",
         "compute_manifest",
     ):
-        _verify_content_hash(_read_json(paths[key]))
+        _verify_content_hash(_read_json(paths[key]), key)
     response_manifest = _read_json(paths["response_source_manifest"])
     if int(response_manifest["confirmation_values_read"]) != 0:
         raise GravityItem27Error("confirmation boundary was opened")
     result = root / str(config["paths"]["result"])
     payload = _read_json(result)
-    _verify_content_hash(payload)
+    _verify_content_hash(payload, "result")
     if int(payload["frozen_boundary"]["confirmation_response_values_read"]) != 0:
         raise GravityItem27Error("result contains confirmation response values")
     if int(payload["compute_and_api_cost"]["paid_model_calls"]) != 0:
