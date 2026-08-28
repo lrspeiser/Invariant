@@ -1,0 +1,183 @@
+{
+  "schema_version": "invariant-gravity-roadmap-item2-axes-group-geometry-config-1.0",
+  "goal": "GRAVITY_ROADMAP_ITEM_02_SHAPE_ANISOTROPY_FIFTH_ATTEMPT",
+  "status": "frozen_before_selected_member_redshift_access",
+  "roadmap_binding": {
+    "path": "docs/GRAVITY_HIDDEN_VARIABLE_AND_THEORY_SEARCH_GOALS.md",
+    "file_sha256": "b9db7e1aa76deaf28ce2e840cd3d7db4cf7a086b1c7ca473800780c264a0e772",
+    "item_number": 2,
+    "item_title": "Shape and anisotropy"
+  },
+  "predecessor": {
+    "path": "runs/gravity/roadmap/item-02-manga-nonlocal-shape-v4.json",
+    "file_sha256": "fea2bd9461242e3ea14a393f97250e1972b41c84ad0c09d4900275e131a76818",
+    "content_sha256": "3046daec435b42fcd8381c7664f642f58a2905c3c3531dced8472b552430d521",
+    "required_decision": "INCONCLUSIVE_ITEM2_MANGA_NONLOCAL_SHAPE_QUALITY_GATE"
+  },
+  "authorization": {
+    "network_acquisition_allowed": true,
+    "paid_model_calls_allowed": false,
+    "selected_exploration_member_rows_allowed": true,
+    "reserved_confirmation_member_rows_allowed": false,
+    "published_group_velocity_columns_allowed": false,
+    "sparc_confirmation_evaluator_accesses_allowed": 0,
+    "direct_lensing_likelihood_evaluations_allowed": 0,
+    "sequential_G6_G7_G8_advanced": false
+  },
+  "scientific_contract": {
+    "hypothesis": "At fixed luminosity, physical size, richness, redshift, and large-scale density, target-blind projected member geometry and filamentarity predict the directly recomputed line-of-sight dynamical response of real intermediate-scale galaxy groups.",
+    "creativity_label": "potentially_new_synthesis_of_known_projected_multipoles_graph_filamentarity_and_group_virial_response",
+    "known_components": [
+      "gapper velocity dispersion",
+      "projected virial scaling",
+      "luminosity-weighted multipoles",
+      "minimum-spanning-tree morphology",
+      "nested whole-group cross-validation"
+    ],
+    "not_claimed": [
+      "a new field equation",
+      "a complete baryonic mass census",
+      "independence of the published group finder",
+      "a dark-matter-free explanation",
+      "a lensing prediction",
+      "historical novelty"
+    ]
+  },
+  "catalog_sources": {
+    "catalog_id": "J/A+A/690/A52",
+    "catalog_doi": "10.26093/cds/vizier.36900052",
+    "article_doi": "10.1051/0004-6361/202449591",
+    "readme_url": "https://cdsarc.cds.unistra.fr/ftp/J/A+A/690/A52/ReadMe",
+    "metadata_query_url": "https://vizier.cds.unistra.fr/viz-bin/asu-tsv?-source=J/A%2BA/690/A52/tablec1&-out=Group,RAdeg,DEdeg,Nmemb,zsp,LR195,D10&-out.max=unlimited",
+    "metadata_path": "runs/gravity/roadmap/item-02-axes-group-geometry-v5-source/group-metadata-only.tsv",
+    "metadata_file_sha256": "00fc539f10c80965cd2cee98487023c21b186a36571a12d1dccfb0f4acc656ed",
+    "metadata_bytes": 383211,
+    "metadata_allowed_columns": ["Group", "Nmemb", "zsp", "LR195", "D10"],
+    "metadata_forbidden_columns": ["sigmaGAP", "e_sigmaGAP", "sigmaMAD", "R200c"],
+    "member_query_template": "https://vizier.cds.unistra.fr/viz-bin/asu-tsv?-source=J/A%2BA/690/A52/tablec4&Group={group}&-out=Group,GalID,SpecObjID,RAdeg,DEdeg,zsp,Lr&-out.max=unlimited",
+    "member_allowed_columns": ["Group", "GalID", "SpecObjID", "RAdeg", "DEdeg", "zsp", "Lr"],
+    "group_response_catalog_columns_queried": 0
+  },
+  "target_blind_sample": {
+    "selection_salt": "invariant-gravity-roadmap-item2-axes-groups-v5-sample-20260828",
+    "redshift_range": [0.003, 0.06],
+    "minimum_members": 10,
+    "positive_lr195_required": true,
+    "finite_d10_required": true,
+    "richness_bins": [[10, 14], [15, 24], [25, 1000]],
+    "per_richness_bin": {
+      "exploration": 60,
+      "reserved_confirmation": 30
+    },
+    "role_assignment": "within each richness stratum, deterministic SHA-256 order over metadata-only rows; the first sixty are exploration and the next thirty are reserved confirmation",
+    "post_selection_quality_failure_policy": "retain every selected group as a recorded failure and never replace it using a member redshift or response-derived fact",
+    "expected_catalog_rows_with_valid_lr195": 1166,
+    "expected_eligible_groups": 523,
+    "expected_exploration_groups": 180,
+    "expected_reserved_confirmation_groups": 90,
+    "reserved_confirmation_target_accesses_allowed": 0
+  },
+  "geometry": {
+    "distance_rule": "FlatLambdaCDM angular-diameter distance evaluated at the metadata-only group median redshift",
+    "cosmology": {"model": "FlatLambdaCDM", "H0_km_s_Mpc": 70.0, "Omega_m": 0.3},
+    "centering": "luminosity-weighted projected member centroid",
+    "weighting": "member r-band luminosity",
+    "global_features": [
+      "projected_axis_ratio",
+      "projected_ellipticity",
+      "quadrupole",
+      "m3",
+      "m4"
+    ],
+    "radial_nonlocal_features": [
+      "inner_outer_axis_ratio_difference",
+      "inner_outer_quadrupole_difference",
+      "centroid_shift_profile",
+      "axis_twist_inner_outer_sin2",
+      "outer_multipole_energy"
+    ],
+    "graph_filament_features": [
+      "mst_length_per_rms_radius",
+      "mst_diameter_efficiency",
+      "projected_linearity",
+      "angular_gap_entropy"
+    ],
+    "symmetry": "all qualifying features are dimensionless and invariant under translation after recentering, rigid rotation, reflection, uniform angular scaling, and uniform luminosity scaling",
+    "leakage_rule": "the geometry function accepts positions, luminosities, and metadata redshift only; it cannot accept member redshifts or any velocity-derived value"
+  },
+  "response": {
+    "member_velocity_equation": "v_i=c*(z_i-median(z))/(1+median(z))",
+    "primary_dispersion": "Beers gapper dispersion recomputed from exploration member redshifts",
+    "primary_equation": "eta_L=sigma_gap^2*R_lum_rms/Lr_total",
+    "primary_label": "log10_eta_lum",
+    "response_interpretation": "a luminosity-normalized projected virial response; the unknown universal luminosity-to-baryonic-mass factor changes its intercept, not its held-out rank",
+    "robustness_responses": [
+      "log10 recomputed gapper velocity dispersion",
+      "log10 eta_L using luminosity half-radius",
+      "log10 eta_L using MAD velocity dispersion"
+    ],
+    "minimum_unique_member_redshifts": 8,
+    "minimum_members_after_finite_value_filter": 10,
+    "forbidden_targets": [
+      "published sigmaGAP",
+      "published sigmaMAD",
+      "published R200c",
+      "catalog group mass",
+      "X-ray luminosity or extent",
+      "lensing-derived mass",
+      "dark-halo parameters"
+    ]
+  },
+  "model_families": [
+    {"id": "constant", "blocks": [], "qualifying": false},
+    {"id": "luminosity_size_nuisance", "blocks": ["luminosity_size"], "qualifying": false},
+    {"id": "richness_environment_nuisance", "blocks": ["luminosity_size", "richness_redshift_environment"], "qualifying": false},
+    {"id": "global_shape", "blocks": ["luminosity_size", "global_shape"], "qualifying": true},
+    {"id": "radial_nonlocal_shape", "blocks": ["luminosity_size", "radial_nonlocal_shape"], "qualifying": true},
+    {"id": "graph_filamentarity", "blocks": ["luminosity_size", "graph_filamentarity"], "qualifying": true},
+    {"id": "all_geometry", "blocks": ["luminosity_size", "all_geometry"], "qualifying": true},
+    {"id": "all_geometry_with_environment", "blocks": ["luminosity_size", "richness_redshift_environment", "all_geometry"], "qualifying": true}
+  ],
+  "cross_validation": {
+    "outer_folds": 5,
+    "fold_salt": "invariant-gravity-roadmap-item2-axes-groups-v5-outer-20260828",
+    "fold_unit": "whole_group_stratified_by_frozen_richness_bin",
+    "inner_selection": "leave-one-fold-out mean squared error on training groups only",
+    "ridge_penalties": [0.001, 0.01, 0.1, 1.0, 10.0, 100.0],
+    "heldout_response_available_to_fit_or_selection": false,
+    "stratified_permutation_count": 199,
+    "permutation_salt": "invariant-gravity-roadmap-item2-axes-groups-v5-null-20260828"
+  },
+  "exploration_admission": {
+    "all_180_exploration_groups_must_pass_frozen_quality": true,
+    "selected_model_must_be_qualifying_in_every_outer_fold": true,
+    "heldout_r2_must_be_positive_overall": true,
+    "heldout_r2_must_be_positive_in_every_richness_bin": true,
+    "selected_model_must_beat_luminosity_size_nuisance_mse_overall": true,
+    "selected_model_must_beat_richness_environment_nuisance_mse_overall": true,
+    "geometry_ablation_improvement_must_be_positive_in_every_richness_bin": true,
+    "stratified_permutation_p_must_be_at_most": 0.05,
+    "direction_and_rank_order_must_survive_all_response_robustness_controls": true,
+    "passing_exploration_does_not_authorize_reserved_confirmation_access": true
+  },
+  "provenance_limitations": [
+    "The released membership was produced by an FoF finder followed by the Clean algorithm, which uses redshifts and mass-model assumptions; this attempt tests geometry within that published selection and cannot establish independence from its membership model.",
+    "r-band member luminosity omits diffuse intragroup light, hot gas, cold gas, and object-specific stellar mass-to-light variation.",
+    "A single line of sight does not recover intrinsic three-dimensional shape or velocity anisotropy.",
+    "The primary response is a diagnostic virial coefficient, not a gravitational field equation."
+  ],
+  "claim_boundaries": {
+    "published_group_velocity_columns_opened": false,
+    "reserved_confirmation_opened": false,
+    "group_finder_independence_established": false,
+    "complete_baryonic_mass_used": false,
+    "cross_scale_beta_explained": false,
+    "roadmap_item_2_complete": false,
+    "alternative_to_gr_established": false
+  },
+  "sample_manifest_output": "runs/gravity/roadmap/item-02-axes-group-geometry-v5-source/axes-group-sample-manifest.json",
+  "source_manifest_output": "runs/gravity/roadmap/item-02-axes-group-geometry-v5-source/axes-group-exploration-source-manifest.json",
+  "feature_output": "runs/gravity/roadmap/item-02-axes-group-geometry-v5-source/axes-group-exploration-features.tsv",
+  "extraction_summary_output": "runs/gravity/roadmap/item-02-axes-group-geometry-v5-source/axes-group-exploration-extraction-summary.json",
+  "output": "runs/gravity/roadmap/item-02-axes-group-geometry-v5.json"
+}
