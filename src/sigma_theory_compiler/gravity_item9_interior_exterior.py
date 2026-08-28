@@ -23,7 +23,7 @@ from . import gravity_item5_pressure_cross_support as cvcore
 from .sigma_core import canonical_json_bytes, canonical_sha256
 
 CONFIG_PATH = "configs/gravity_item9_interior_exterior_probes_v1.json"
-SCIENTIFIC_FREEZE_COMMIT = "PENDING_ITEM9_INTERIOR_EXTERIOR_SCIENTIFIC_FREEZE"
+SCIENTIFIC_FREEZE_COMMIT = "bcf9df003f8c311ef07f591d46e3140fa3d4b889"
 
 
 class GravityItem9InteriorExteriorError(RuntimeError):
