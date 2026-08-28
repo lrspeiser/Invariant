@@ -1,0 +1,159 @@
+{
+  "schema_version": "invariant-gravity-item17-slacs-running-strength-config-1.0",
+  "item": 17,
+  "title": "One universal bounded distance-running gravitational strength law on fresh SLACS lenses",
+  "stable_goal_path": "docs/GRAVITY_HIDDEN_VARIABLE_AND_THEORY_SEARCH_GOALS.md",
+  "stable_goal_sha256": "b9db7e1aa76deaf28ce2e840cd3d7db4cf7a086b1c7ca473800780c264a0e772",
+  "scientific_freeze_commit": "TO_BE_BOUND_AFTER_SCIENCE_FREEZE",
+  "sample_freeze_commit": "TO_BE_BOUND_AFTER_SAMPLE_FREEZE",
+  "hypothesis": "One universal bounded function G_eff(r)/G, with the same no-slip response for matter and light and a Solar-System GR limit, predicts fresh SLACS stellar dynamics and Einstein radii from photometric baryonic mass beyond ordinary shared/separate calibration and stellar-population alternatives.",
+  "scope": {
+    "exploration_only": true,
+    "confirmation_opening_authorized": false,
+    "paid_api_calls_authorized": false,
+    "post_response_candidate_generation_allowed": false,
+    "claim_ceiling": "static_spherical_distance_running_exploration_not_covariant_RG_derivation_or_direct_image_likelihood",
+    "forbidden_inputs": [
+      "object_identifier_as_numeric_feature",
+      "stellar_velocity_dispersion_as_candidate_input",
+      "Einstein_radius_as_candidate_input_except_as_the_declared_evaluation_radius",
+      "published_total_lensing_mass",
+      "published_dark_matter_fraction",
+      "per_object_running_parameter",
+      "per_object_stellar_mass_scale",
+      "separate_matter_and_light_running_laws"
+    ]
+  },
+  "sources": {
+    "bolton_catalog": "VizieR J/ApJ/682/964",
+    "bolton_paper_bibcode": "2008ApJ...682..964B",
+    "bolton_readme_url": "https://cdsarc.cds.unistra.fr/ftp/J/ApJ/682/964/ReadMe",
+    "grillo_catalog": "VizieR J/A+A/501/461",
+    "grillo_paper_bibcode": "2009A&A...501..461G",
+    "grillo_readme_url": "https://cdsarc.cds.unistra.fr/ftp/J/A+A/501/461/ReadMe",
+    "predictor_queries": {
+      "bolton_table4": "https://vizier.cds.unistra.fr/viz-bin/asu-tsv?-source=J/ApJ/682/964/table4&-out=SDSS,zFG,zBG,Imag,AI,L(V555),Re,b/a,Mph,Mul,Lens,Name&-out.max=unlimited",
+      "grillo_table4": "https://vizier.cds.unistra.fr/viz-bin/asu-tsv?-source=J/A+A/501/461/table4&-out=SLACS,MSalBC,E_MSalBC,e_MSalBC,MSalM,E_MSalM,e_MSalM,MChaBC,E_MChaBC,e_MChaBC,MKroM,E_MKroM,e_MKroM&-out.max=unlimited"
+    },
+    "response_query_base": "https://vizier.cds.unistra.fr/viz-bin/asu-tsv",
+    "response_columns": {
+      "bolton_table4": ["SDSS", "Name", "sigma", "e_sigma"],
+      "bolton_table5": ["Name", "bSIE", "Good?"]
+    },
+    "excluded_response_columns": ["bLTM", "gammaLTM", "Mtotlen", "fDM"],
+    "expected_joined_objects": 57,
+    "observable_lineage": {
+      "baryons": "Four published photometric stellar-population masses (Salpeter/Chabrier/Kroupa and BC03/Maraston) plus de Vaucouleurs effective radius; gas is declared negligible for these early-type lenses.",
+      "dynamics": "SDSS aperture stellar velocity dispersion with published uncertainty.",
+      "lensing": "SIE Einstein radius from HST multiple-image geometry; published total lensing mass is never read.",
+      "direct_image_likelihood": false,
+      "gr_nfw_mass_target": false
+    }
+  },
+  "sample": {
+    "selection": "the 57 Grillo early-type grade-A SLACS systems joined to Bolton predictors without response values",
+    "exploration_count": 45,
+    "confirmation_count": 12,
+    "confirmation_role_rule": "sort by predictor-only Chabrier-BC03 stellar mass into four near-equal strata and reserve the three lowest keyed HMAC ranks in each",
+    "role_key": "invariant-item17-slacs-role-v1",
+    "fold_key": "invariant-item17-slacs-fold-v1",
+    "outer_folds": 5,
+    "minimum_exploration_objects": 35,
+    "minimum_confirmation_objects": 10,
+    "prior_identity_match_policy": "reject any exact normalized SLACS/SDSS identity previously present in a gravity response artifact"
+  },
+  "physics": {
+    "cosmology": {"H0_km_s_Mpc": 70.0, "omega_m": 0.3, "omega_lambda": 0.7},
+    "constants": {
+      "G_kpc_km2_s2_Msun": 4.30091e-6,
+      "c_km_s": 299792.458,
+      "arcsec_to_radian": 4.84813681109536e-6,
+      "au_to_kpc": 4.84813681109536e-9
+    },
+    "baryon_profile": "spherical_Hernquist_approximation_to_de_Vaucouleurs",
+    "hernquist_re_over_a": 1.81527,
+    "dynamical_virial_coefficient": 5.0,
+    "primary_stellar_mass_model": "MChaBC",
+    "alternative_stellar_mass_models": ["MSalBC", "MSalM", "MChaBC", "MKroM"],
+    "shared_stellar_mass_scale_bounds": [0.5, 2.5],
+    "running_law": "mu(r)=G_eff(r)/G=1+A*L/(1+B*L), L=log(1+(r/r0)^n)",
+    "matter_light_relation": "mu_matter(r)=mu_light(r); gravitational slip eta=1 is fixed rather than fitted",
+    "short_distance_limit": "mu tends to 1 as r/r0 tends to zero",
+    "large_distance_limit": "mu tends to 1+A/B and is finite",
+    "symmetry": "static parity-even spherical distance-only response",
+    "derivation_scope": "phenomenological bounded RG-like beta-flow solution; no microscopic beta function or covariant action is derived",
+    "stability_scope": "G_eff must stay positive from 1 AU through 10 Mpc; covariant ghost freedom is not established"
+  },
+  "candidate_generator": {
+    "algorithm": "deterministic_cartesian_grid_with_pre_response_physics_filter",
+    "positive_amplitude_log10_min": -2.0,
+    "positive_amplitude_log10_max": 0.9030899869919435,
+    "positive_amplitude_count": 31,
+    "negative_amplitudes": [-0.2, -0.15, -0.1, -0.05, -0.025],
+    "r0_log10_kpc_min": -2.0,
+    "r0_log10_kpc_max": 4.0,
+    "r0_count": 101,
+    "powers": [0.5, 0.75, 1.0, 1.5, 2.0, 3.0, 4.0],
+    "saturation_B": [0.25, 0.5, 1.0, 2.0, 4.0],
+    "post_response_cells": 0,
+    "creativity_label": "known_family_combination",
+    "known_relations": [
+      "logarithmic running coupling",
+      "bounded rational beta-flow saturation",
+      "one universal crossover scale and exponent",
+      "fixed no-slip matter/light coupling"
+    ],
+    "equivalence_boundary": "all cells instantiate one known-family law; exact parameter tuples are separate cells, and the zero-amplitude GR rewrite is represented only by the GR control"
+  },
+  "pre_response_filters": {
+    "local_radius_kpc": 4.84813681109536e-9,
+    "maximum_local_fractional_deviation": 1e-5,
+    "domain_min_kpc": 4.84813681109536e-9,
+    "domain_max_kpc": 10000.0,
+    "minimum_G_eff_over_G": 0.05
+  },
+  "evaluation": {
+    "primary_loss": "equal_object_equal_channel_mean_squared_log_residual",
+    "candidate_batch_size": 8192,
+    "cpu_crosscheck_candidates": 4096,
+    "permutation_trials": 99,
+    "permutation_seed": 171799,
+    "lens_radius_fractional_uncertainty": 0.05,
+    "stellar_mass_systematic_dex": 0.15,
+    "response_blind_selection": true,
+    "baseline_shared_imf": "baryon_only_GR_with_one_training_fitted_mass_scale_shared_by_dynamics_and_lensing",
+    "baseline_separate_calibration": "baryon_only_GR_with_separate_training_fitted_dynamics_and_lensing_offsets",
+    "baseline_flexible_nuisance": "fixed_ridge_regression_on_logM_logRe_zL_axis_ratio_with_separate_channels",
+    "ridge_alpha": 1.0
+  },
+  "gates": {
+    "minimum_complete_exploration_objects": 35,
+    "confirmation_values_read": 0,
+    "post_response_candidate_cells": 0,
+    "minimum_joint_mse_improvement_vs_shared_GR": 0.10,
+    "minimum_joint_mse_improvement_vs_separate_calibration": 0.05,
+    "minimum_joint_mse_improvement_vs_flexible_nuisance": 0.0,
+    "minimum_each_channel_improvement_vs_shared_GR": 0.0,
+    "minimum_each_mass_and_size_half_improvement_vs_shared_GR": 0.0,
+    "maximum_selection_aware_permutation_p": 0.05,
+    "minimum_same_amplitude_sign_folds": 5,
+    "minimum_transition_scale_clustered_folds": 4,
+    "maximum_transition_scale_distance_from_median_dex": 0.5,
+    "minimum_alternative_mass_models_improving_vs_shared_GR": 3,
+    "shared_stellar_mass_scale_must_remain_within_bounds": true,
+    "synthetic_injection_must_improve_over_GR": true,
+    "known_GR_control_must_not_prefer_running": true
+  },
+  "paths": {
+    "source_dir": "runs/gravity/roadmap/item-17-slacs-running-strength-v1-source",
+    "predictor_bolton_table4": "predictor-bolton-table4.tsv",
+    "predictor_grillo_table4": "predictor-grillo-table4.tsv",
+    "predictor_source_manifest": "predictor-source-manifest.json",
+    "sample_manifest": "sample-manifest.json",
+    "candidate_manifest": "candidate-manifest.json",
+    "exploration_responses": "exploration-responses.tsv",
+    "response_source_manifest": "response-source-manifest.json",
+    "compute_manifest": "compute-manifest.json",
+    "result": "runs/gravity/roadmap/item-17-slacs-running-strength-v1.json"
+  }
+}
