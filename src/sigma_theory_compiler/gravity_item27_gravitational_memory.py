@@ -109,6 +109,9 @@ def _contract_digest(config: Mapping[str, Any]) -> str:
     value = json.loads(json.dumps(config))
     value["scientific_freeze_commit"] = "<BOUND_COMMIT>"
     value["sample_freeze_commit"] = "<BOUND_COMMIT>"
+    value.pop("implementation_correction_commit", None)
+    value.pop("implementation_correction_scope", None)
+    value.pop("response_access_incident", None)
     return _sha256_bytes(_canonical_bytes(value))
 
 
@@ -118,7 +121,11 @@ def verify_science_freeze(root: Path, config: Mapping[str, Any]) -> None:
     frozen = json.loads(str(_git(root, "show", f"{commit}:{CONFIG_PATH.as_posix()}")))
     if _contract_digest(frozen) != _contract_digest(config):
         raise GravityItem27Error("scientific contract differs from frozen commit")
-    module = _git(root, "show", f"{commit}:{MODULE_PATH.as_posix()}", text_mode=False)
+    module_commit = str(config.get("implementation_correction_commit", commit))
+    _require_ancestor(root, module_commit, "implementation correction")
+    module = _git(
+        root, "show", f"{module_commit}:{MODULE_PATH.as_posix()}", text_mode=False
+    )
     if not isinstance(module, bytes) or _sha256_bytes(module) != _sha256_file(root / MODULE_PATH):
         raise GravityItem27Error("Item 27 module differs from scientific freeze")
 
@@ -813,30 +820,31 @@ def _response_summary(
 
     with fits.open(io.BytesIO(body), memmap=False) as hdus:
         table = hdus[1].data
-        names = set(table.names)
+        columns = {str(name).upper(): str(name) for name in table.names}
+        names = set(columns)
         required = {
             "BIN_ID",
             "XBIN",
             "YBIN",
             "SNR_BIN",
-            "Vp",
-            "DVp",
-            "Sp",
-            "DSp",
+            "VP",
+            "DVP",
+            "SP",
+            "DSP",
             "QC",
         }
         if not required.issubset(names):
             raise GravityItem27Error(f"V1200 schema changed: {sorted(names)}")
-        bin_id = np.asarray(table["BIN_ID"], dtype=int)
+        bin_id = np.asarray(table[columns["BIN_ID"]], dtype=int)
         _, unique = np.unique(bin_id, return_index=True)
-        x = np.asarray(table["XBIN"][unique], dtype=float)
-        y = np.asarray(table["YBIN"][unique], dtype=float)
-        snr = np.asarray(table["SNR_BIN"][unique], dtype=float)
-        velocity = np.asarray(table["Vp"][unique], dtype=float)
-        velocity_error = np.asarray(table["DVp"][unique], dtype=float)
-        dispersion = np.asarray(table["Sp"][unique], dtype=float)
-        dispersion_error = np.asarray(table["DSp"][unique], dtype=float)
-        qc = np.asarray(table["QC"][unique], dtype=float)
+        x = np.asarray(table[columns["XBIN"]][unique], dtype=float)
+        y = np.asarray(table[columns["YBIN"]][unique], dtype=float)
+        snr = np.asarray(table[columns["SNR_BIN"]][unique], dtype=float)
+        velocity = np.asarray(table[columns["VP"]][unique], dtype=float)
+        velocity_error = np.asarray(table[columns["DVP"]][unique], dtype=float)
+        dispersion = np.asarray(table[columns["SP"]][unique], dtype=float)
+        dispersion_error = np.asarray(table[columns["DSP"]][unique], dtype=float)
+        qc = np.asarray(table[columns["QC"]][unique], dtype=float)
     extraction = config["response_extraction"]
     q = float(predictor["disk_axis_ratio"])
     q0 = float(extraction["inclination_intrinsic_axis_ratio"])
@@ -1563,6 +1571,9 @@ def _build_receipt(
                 "scientific_freeze_commit": config["scientific_freeze_commit"],
                 "sample_freeze_commit": config["sample_freeze_commit"],
                 "stable_goal_sha256": config["stable_goal_sha256"],
+                "implementation_correction_commit": config["implementation_correction_commit"],
+                "implementation_correction_scope": config["implementation_correction_scope"],
+                "response_access_incident": config["response_access_incident"],
                 "confirmation_opened": False,
                 "confirmation_response_values_read": int(response_manifest["confirmation_values_read"]),
                 "post_response_formula_generation": False,
