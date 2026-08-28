@@ -1,0 +1,214 @@
+{
+  "schema_version": "invariant-gravity-roadmap-item2-manga-nonlocal-shape-config-1.0",
+  "goal": "GRAVITY_ROADMAP_ITEM_02_SHAPE_ANISOTROPY_FOURTH_ATTEMPT",
+  "status": "frozen_before_selected_kinematic_map_access",
+  "roadmap_binding": {
+    "path": "docs/GRAVITY_HIDDEN_VARIABLE_AND_THEORY_SEARCH_GOALS.md",
+    "file_sha256": "b9db7e1aa76deaf28ce2e840cd3d7db4cf7a086b1c7ca473800780c264a0e772",
+    "item_number": 2,
+    "item_title": "Shape and anisotropy"
+  },
+  "predecessor": {
+    "path": "runs/gravity/roadmap/item-02-stellar-multipoles-v3.json",
+    "file_sha256": "018656dd24b667b4b06fc13808216e17780286e26372d23139ac062dcc250465",
+    "content_sha256": "7683167d0cbaa2a0adcff5ac61de503196c5facc7a7ad76fb0533c004344ec6e",
+    "required_decision": "INCONCLUSIVE_ITEM2_STELLAR_MULTIPOLES"
+  },
+  "authorization": {
+    "network_acquisition_allowed": true,
+    "paid_model_calls_allowed": false,
+    "selected_exploration_kinematic_maps_allowed": true,
+    "reserved_confirmation_kinematic_maps_allowed": false,
+    "sparc_confirmation_evaluator_accesses_allowed": 0,
+    "direct_lensing_likelihood_evaluations_allowed": 0,
+    "sequential_G6_G7_G8_advanced": false
+  },
+  "scientific_contract": {
+    "hypothesis": "A radially resolved or nonlocal statistic of the projected stellar-mass geometry predicts the direct aperture dynamical response of pressure-supported intermediate geometries, and identifies an operator family that can be tested without retuning the five rejected global summaries.",
+    "creativity_label": "potentially_new_synthesis_of_known_multipoles_nonlocal_profile_differences_and_aperture_dynamics",
+    "known_components": [
+      "projected virial coefficient",
+      "stellar mass-to-light inference",
+      "quadrupole and higher aperture moments",
+      "radial profile differences",
+      "nested whole-object cross-validation"
+    ],
+    "not_claimed": [
+      "a new field equation",
+      "a direct measurement of intrinsic three-dimensional shape",
+      "a dark-matter-free explanation",
+      "a lensing prediction",
+      "a historically novel gravity theory"
+    ]
+  },
+  "catalog_sources": {
+    "morphology": {
+      "url": "https://data.sdss.org/sas/dr17/env/MANGA_MORPHOLOGY/deep_learning/1.1.1/manga-morphology-dl-DR17.fits",
+      "file_sha256": "5faeae90db03cd8aec49d16147d6ebf72b87852ff482893c4135a16f6b3fac4a",
+      "allowed_columns": [
+        "MANGA_ID",
+        "PLATEIFU",
+        "Z",
+        "T-Type",
+        "P_LTG",
+        "P_S0",
+        "Visual_Class",
+        "Visual_Flag"
+      ]
+    },
+    "pymorph": {
+      "url": "https://data.sdss.org/sas/dr17/env/MANGA_PHOTO/pymorph/1.1.1/manga-pymorph-DR17.fits",
+      "file_sha256": "b60b6892e5ef3d92344dbbb3523a7e10ff7a4caa57429d588223f7d01a8be29a",
+      "hdu": 3,
+      "band": "i",
+      "allowed_columns": [
+        "MANGA_ID",
+        "PLATEIFU",
+        "FLAG_FIT",
+        "A_HL_S",
+        "N_S",
+        "BA_S"
+      ]
+    },
+    "pca_url_template": "https://data.sdss.org/sas/dr17/env/MANGA_PCA/1.1.0/v3_1_1/3.1.0/{plate}/mangapca-{plateifu}.fits",
+    "dap_maps_url_template": "https://data.sdss.org/sas/dr17/manga/spectro/analysis/v3_1_1/3.1.0/HYB10-MILESHC-MASTARHC2/{plate}/{ifu}/manga-{plateifu}-MAPS-HYB10-MILESHC-MASTARHC2.fits.gz",
+    "pca_release": "1.1.0",
+    "drp_release": "v3_1_1",
+    "dap_release": "3.1.0",
+    "dap_type": "HYB10-MILESHC-MASTARHC2"
+  },
+  "target_blind_sample": {
+    "selection_salt": "invariant-gravity-roadmap-item2-manga-v4-sample-20260828",
+    "excluded_schema_audit_plateifus": ["7443-12703"],
+    "one_observation_per_manga_id": true,
+    "duplicate_observation_rule": "retain the observation with the smallest SHA-256 of selection_salt|duplicate|MANGA_ID|PLATEIFU before stratum ordering",
+    "redshift_range": [0.01, 0.1],
+    "visual_flag_required": 0,
+    "visual_classes": {
+      "1": "elliptical",
+      "2": "S0"
+    },
+    "pymorph_fit_may_not_equal": 3,
+    "minimum_i_band_sersic_half_light_major_axis_arcsec": 3.0,
+    "axis_ratio_range": [0.2, 1.0],
+    "axis_ratio_bins": [[0.2, 0.55], [0.55, 0.75], [0.75, 1.000001]],
+    "per_class_per_axis_bin": {
+      "exploration": 10,
+      "reserved_confirmation": 5
+    },
+    "role_assignment": "within each visual-class/axis-ratio stratum, deterministic SHA-256 order; first ten catalog-eligible objects are exploration and next five are reserved confirmation; transient network availability never changes an object identity",
+    "source_availability_check": "no PCA or DAP endpoint is queried during selection; constructed exploration URLs are verified only during authorized exploration acquisition and confirmation URLs remain unqueried",
+    "post_selection_quality_failure_policy": "retain the object as a recorded quality failure and do not replace it using any response-derived fact",
+    "expected_exploration_objects": 60,
+    "expected_reserved_confirmation_objects": 30,
+    "reserved_confirmation_target_accesses_allowed": 0
+  },
+  "pca_stellar_mass_map": {
+    "equation": "Mstar_spaxel_Msun=10^(MLi[0]+LOG_LUM_I)",
+    "required_mask": "MASK==0 and SUCCESS==1 and GOODFRAC[2]>=0.0001 and SNRMED>=2",
+    "minimum_goodfrac_channel_2": 0.0001,
+    "minimum_snrmed": 2.0,
+    "minimum_valid_spaxels_in_aperture": 30,
+    "minimum_valid_mass_fraction_in_aperture": 0.6,
+    "mass_systematic_floor_dex": 0.15,
+    "target_fields_available_to_shape_extraction": false
+  },
+  "aperture_and_response": {
+    "aperture": "i-band PyMorph Sersic ellipse at A_HL_S with BA_S, centered on the target-blind PCA stellar-mass centroid after one recentering pass and oriented by the PCA mass-map principal axis inside the initial circular A_HL_S aperture",
+    "circularized_radius": "R_e,circ=A_HL_S*sqrt(BA_S)*angular_scale_kpc_per_arcsec",
+    "cosmology": {"model": "FlatLambdaCDM", "H0_km_s_Mpc": 70.0, "Omega_m": 0.3},
+    "velocity_zero_point": "PCA-luminosity-weighted median STELLAR_VEL inside the aperture",
+    "dispersion_correction": "sigma_corr=sqrt(max(STELLAR_SIGMA^2-STELLAR_SIGMACORR[0]^2,0))",
+    "response_equation": "eta_ap=R_e,circ*sum(L_i*((v_i-v0)^2+sigma_corr_i^2))/sum(L_i)/(G*Mstar_ap)",
+    "response_label": "log10_eta_ap",
+    "gravity_constant_kpc_km2_s2_msun": 4.30091e-6,
+    "minimum_unique_stellar_kinematic_bins": 12,
+    "minimum_usable_luminosity_fraction": 0.6,
+    "robustness_responses": [
+      "major-axis radius instead of circularized radius",
+      "uncorrected stellar dispersion",
+      "stellar-mass rather than i-band-luminosity weighting"
+    ],
+    "forbidden_targets": [
+      "JAM or DynPop total mass",
+      "JAM or DynPop dark-matter fraction",
+      "NFW halo parameters",
+      "lensing-derived mass",
+      "rotation or dispersion supplied as a shape feature"
+    ]
+  },
+  "shape_features": {
+    "aperture_fractions": [0.25, 0.5, 0.75, 1.0],
+    "global_controls": [
+      "log10_stellar_mass_aperture",
+      "log10_circularized_radius_kpc",
+      "sersic_index",
+      "pymorph_axis_ratio",
+      "visual_class_proxy"
+    ],
+    "known_global_shape": [
+      "mass_concentration_0p25",
+      "centroid_shift_profile",
+      "quadrupole_1p0",
+      "m3_1p0",
+      "m4_1p0"
+    ],
+    "radially_resolved_nonlocal": [
+      "quadrupole_inner_outer_difference",
+      "quadrupole_profile_variance",
+      "axis_twist_inner_outer_sin2",
+      "m3_inner_outer_difference",
+      "m4_inner_outer_difference",
+      "outer_multipole_energy",
+      "profile_roughness_energy",
+      "inner_outer_centroid_alignment"
+    ],
+    "symmetry": "all qualifying features are dimensionless and invariant under translation after recentering, rigid rotation, reflection, and uniform mass rescaling",
+    "leakage_rule": "neither STELLAR_VEL nor STELLAR_SIGMA nor any response derived from them may be read while shape features are computed"
+  },
+  "model_families": [
+    {"id": "constant", "blocks": [], "qualifying": false},
+    {"id": "mass_size_nuisance", "blocks": ["mass_size"], "qualifying": false},
+    {"id": "class_proxy_nuisance", "blocks": ["mass_size", "visual_class_proxy"], "qualifying": false},
+    {"id": "pymorph_shape_control", "blocks": ["mass_size", "sersic_axis_ratio"], "qualifying": false},
+    {"id": "rejected_global_multipoles", "blocks": ["mass_size", "known_global_shape"], "qualifying": false},
+    {"id": "radial_quadrupole", "blocks": ["mass_size", "radial_quadrupole"], "qualifying": true},
+    {"id": "radial_odd_even", "blocks": ["mass_size", "radial_odd_even"], "qualifying": true},
+    {"id": "boundary_twist", "blocks": ["mass_size", "boundary_twist"], "qualifying": true},
+    {"id": "nonlocal_profile_energy", "blocks": ["mass_size", "nonlocal_profile_energy"], "qualifying": true},
+    {"id": "all_nonlocal_shape", "blocks": ["mass_size", "all_nonlocal_shape"], "qualifying": true}
+  ],
+  "cross_validation": {
+    "outer_folds": 5,
+    "fold_salt": "invariant-gravity-roadmap-item2-manga-v4-outer-20260828",
+    "fold_unit": "whole_galaxy_stratified_by_visual_class_and_axis_ratio_bin",
+    "inner_selection": "leave-one-fold-out mean squared error on training galaxies only",
+    "ridge_penalties": [0.001, 0.01, 0.1, 1.0, 10.0],
+    "heldout_response_available_to_fit_or_selection": false
+  },
+  "exploration_admission": {
+    "all_sixty_exploration_objects_must_pass_frozen_quality": true,
+    "selected_model_must_be_qualifying_in_every_outer_fold": true,
+    "heldout_r2_must_be_positive_overall": true,
+    "heldout_r2_must_be_positive_in_ellipticals_and_s0s": true,
+    "selected_model_must_beat_mass_size_nuisance_mse_overall": true,
+    "selected_model_must_beat_class_proxy_nuisance_mse_overall": true,
+    "shape_ablation_improvement_must_be_positive_in_each_class": true,
+    "direction_and_rank_order_must_survive_all_response_robustness_controls": true,
+    "passing_exploration_does_not_authorize_reserved_confirmation_access": true
+  },
+  "claim_boundaries": {
+    "aperture_virial_response_is_a_direct_gravity_law": false,
+    "stellar_mass_map_is_complete_baryonic_mass": false,
+    "projection_and_orbital_anisotropy_are_eliminated": false,
+    "imf_systematics_are_eliminated": false,
+    "manga_confirmation_opened": false,
+    "cross_scale_beta_explained": false,
+    "roadmap_item_2_complete": false,
+    "alternative_to_gr_established": false
+  },
+  "sample_manifest_output": "runs/gravity/roadmap/item-02-manga-nonlocal-shape-v4-source/manga-sample-manifest.json",
+  "feature_output": "runs/gravity/roadmap/item-02-manga-nonlocal-shape-v4-source/manga-exploration-features.tsv",
+  "source_manifest_output": "runs/gravity/roadmap/item-02-manga-nonlocal-shape-v4-source/manga-exploration-source-manifest.json",
+  "output": "runs/gravity/roadmap/item-02-manga-nonlocal-shape-v4.json"
+}
