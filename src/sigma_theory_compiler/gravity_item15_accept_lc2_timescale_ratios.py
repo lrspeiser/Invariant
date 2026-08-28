@@ -24,7 +24,7 @@ from .gravity_item11_neargalcat_external_field import _ridge_fit, _ridge_predict
 from .sigma_core import canonical_json_bytes, canonical_sha256
 
 CONFIG_PATH = "configs/gravity_item15_accept_lc2_timescale_ratios_v2.json"
-SCIENTIFIC_FREEZE_COMMIT = "PENDING_ITEM15_ACCEPT_LC2_SCIENTIFIC_FREEZE"
+SCIENTIFIC_FREEZE_COMMIT = "e007ac9e3b13237f650482e899d87fd6706d1c27"
 SAMPLE_FREEZE_COMMIT = "PENDING_ITEM15_ACCEPT_LC2_SAMPLE_FREEZE"
 
 
