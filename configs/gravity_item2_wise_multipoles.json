@@ -1,0 +1,183 @@
+{
+  "schema_version": "invariant-gravity-roadmap-item2-wise-multipoles-config-1.0",
+  "goal": "GRAVITY_ROADMAP_ITEM_02_SHAPE_ANISOTROPY_SECOND_ATTEMPT",
+  "status": "exploratory_real_data_model_development",
+  "roadmap_binding": {
+    "path": "docs/GRAVITY_HIDDEN_VARIABLE_AND_THEORY_SEARCH_GOALS.md",
+    "file_sha256": "b9db7e1aa76deaf28ce2e840cd3d7db4cf7a086b1c7ca473800780c264a0e772",
+    "item_number": 2,
+    "item_title": "Shape and anisotropy"
+  },
+  "predecessor_bindings": {
+    "item1": {
+      "path": "runs/gravity/roadmap/item-01-effective-dimension-v1.json",
+      "file_sha256": "63b027c314436b40212c434c73a817cd1010bb3de9a3161526256357bb74440e",
+      "content_sha256": "3b42f09317b430303796ca0f6e6740487e652e1a46f4c1768ad1315d182900e0",
+      "required_decision": "INCONCLUSIVE_ITEM1_EFFECTIVE_DIMENSION"
+    },
+    "item2_attempt1": {
+      "path": "runs/gravity/roadmap/item-02-shape-anisotropy-v1.json",
+      "file_sha256": "6a257d6086da4c6aaa0bbf0dc2db03be8ea89ff1b1755848a4d45dd57f29f76a",
+      "content_sha256": "13bf111dac994e5d97661fd0d00a789796b7ccf627596b06cb7bc7b3bfdb6835",
+      "required_decision": "INCONCLUSIVE_ITEM2_SHAPE_ANISOTROPY"
+    }
+  },
+  "authorization": {
+    "scope": "execute the canonical hidden-variable and theory roadmap",
+    "authorized_by_user": true,
+    "network_acquisition_allowed": true,
+    "paid_model_calls_allowed": false,
+    "sparc_confirmation_evaluator_accesses_allowed": 0,
+    "direct_lensing_likelihood_evaluations_allowed": 0,
+    "sequential_G6_G7_G8_advanced": false
+  },
+  "sources": {
+    "sparc_exploration_membership": {
+      "path": "configs/sparc_surface_brightness_exploration_v1.json",
+      "file_sha256": "b2661b94a4d71cbe4b747968c069b452f762ddad83b8edcb793d6e6cca5e262f",
+      "required_claim": "Published SPARC surface-brightness inputs for admitted exploration galaxies only; no velocity target is retained in this supplement.",
+      "used_field": "galaxy"
+    },
+    "sparc_global_properties": {
+      "path": "runs/gravity/roadmap/item-02-shape-anisotropy-v1-source/sparc_table1.tsv",
+      "file_sha256": "feb0e2e5478888ced9533fffe6c7711dba280e78f50dfd09916b28aef41c8ce2",
+      "allowed_columns": ["Name", "Dist", "i", "Reff", "_RA", "_DE"],
+      "forbidden_columns": ["Vflat", "e_Vflat", "Qual"]
+    },
+    "clash_xray_morphology": {
+      "path": "runs/gravity/roadmap/item-02-shape-anisotropy-v1-source/clash_xray_morphology_500kpc.tsv",
+      "file_sha256": "bbbdef427f720612a467ec1e35e95ee346b02aee71eb4f9f931332ac0abed0d3",
+      "aperture_kpc": 500,
+      "used_columns": ["concentration", "centroid_shift", "p30", "p40", "axis_ratio"]
+    },
+    "s4g_external_validation": {
+      "files": [
+        {
+          "path": "runs/gravity/roadmap/item-02-wise-multipoles-v2-source/s4g-cvrhs.tsv",
+          "file_sha256": "8e2aba29be4b0707e869e382c186aceeb0a621485c381b74f40eb1bba50cf94a"
+        },
+        {
+          "path": "runs/gravity/roadmap/item-02-wise-multipoles-v2-source/s4g-cvrhs-ReadMe",
+          "file_sha256": "496f2dd1540369be00829e768e42265d37cd925c46314ca153d1cac44c53480b"
+        },
+        {
+          "path": "runs/gravity/roadmap/item-02-wise-multipoles-v2-source/s4g-features-table2.tsv",
+          "file_sha256": "ca524f8e4e4c185f5144712018952029d185a7f3b5ce1ce1e8e2a2ef3a18d523"
+        },
+        {
+          "path": "runs/gravity/roadmap/item-02-wise-multipoles-v2-source/s4g-features-ReadMe",
+          "file_sha256": "fa7afcc78e9ebc62d18e0d4fba02b37610ee51bf4c7769c781e24bed3af4bf78"
+        }
+      ],
+      "role": "target-blind external check of WISE-derived quadrupole strength against published bar family and bar ellipticity"
+    },
+    "unwise_w1": {
+      "dataset": "unWISE NEO11 full-depth coadds",
+      "dataset_doi": "10.26131/IRSA524",
+      "project_index": "https://unwise.me/data/neo11/unwise-coadds/fulldepth/",
+      "cutout_service": "https://www.legacysurvey.org/viewer/fits-cutout",
+      "layer": "unwise-neo11",
+      "band": "W1",
+      "effective_wavelength_micron": 3.4,
+      "pixel_scale_arcsec": 2.75,
+      "image_product": "unblurred full-depth intensity coadd cutout",
+      "image_manifest_path": "runs/gravity/roadmap/item-02-wise-multipoles-v2-source/unwise-neo11-w1-manifest.json",
+      "image_manifest_sha256": "19f0a8600b22cec6f7990e61558393b303804e5d0994f27a679a9fa3a6536f15",
+      "derived_feature_path": "runs/gravity/roadmap/item-02-wise-multipoles-v2-source/unwise-neo11-w1-multipoles.tsv",
+      "derived_feature_sha256": "52b6dc56e3496b45d7651ecd0e06c9513bfa0bac80543f6fb0029c073e575806",
+      "raw_cache_role": "ephemeral; every URL and response SHA256 is retained in the manifest"
+    }
+  },
+  "population": {
+    "source_boundary": "the same 139 SPARC exploration names sealed in Item 1; acquire every object with published inclination at or below 65 degrees, then apply only the frozen target-blind W1 image-quality gate",
+    "galaxy_inclination_maximum_deg": 65,
+    "expected_wise_cutouts": 83,
+    "minimum_quality_wise_galaxies": 40,
+    "expected_clash_clusters": 20,
+    "expected_acquired_objects": 103,
+    "minimum_model_objects": 60,
+    "intermediate_bar_like_quadrupole_threshold": 0.15,
+    "minimum_intermediate_bar_like_galaxies": 10,
+    "minimum_external_s4g_matches": 20
+  },
+  "image_extraction": {
+    "center": "published SPARC sky coordinate, refined once by positive clipped W1 flux inside 0.2 aperture with a maximum shift of 0.08 aperture",
+    "aperture_effective_radius_multiple": 2.5,
+    "cutout_diameter_aperture_multiple": 2.8,
+    "minimum_cutout_diameter_arcsec": 176,
+    "background_annulus_aperture_fraction": [1.12, 1.35],
+    "radial_winsor_bins": 18,
+    "positive_flux_winsor_quantile": 0.995,
+    "disk_position_angle_annulus_aperture_fraction": [0.55, 1.0],
+    "deprojection_axis_ratio": "cos(published SPARC inclination)",
+    "feature_radial_minimum_aperture_fraction": 0.05,
+    "concentration_inner_aperture_fraction": 0.2,
+    "centroid_aperture_fractions": [0.2, 0.4, 0.6, 0.8, 1.0],
+    "quality_gate": {
+      "maximum_center_refinement_fraction": 0.05,
+      "minimum_central_flux_snr": 5,
+      "minimum_aperture_flux_snr": 20,
+      "minimum_aperture_pixels": 100,
+      "minimum_concentration_c20": 0.03,
+      "maximum_brightest_pixel_flux_fraction": 0.1
+    },
+    "quadrupole_definition": "absolute flux-weighted complex second moment divided by the flux-weighted radial second moment in the deprojected aperture",
+    "higher_multipole_definition": "absolute sum of flux times (r/R)^m exp(i*m*phi) divided by aperture flux",
+    "cluster_power_ratio_conversion": "A_m=sqrt(2*m^2*P_m/P_0)*abs(ln(R_aperture/kpc))",
+    "target_fields_available_to_feature_computation": false
+  },
+  "models": [
+    {"id": "constant", "features": [], "origin_label": "known_regression_baseline", "qualifying": false},
+    {"id": "linear_concentration", "features": ["concentration_c20"], "origin_label": "known_linear_scaffold", "qualifying": true},
+    {"id": "linear_centroid_shift", "features": ["centroid_shift"], "origin_label": "known_linear_scaffold", "qualifying": true},
+    {"id": "linear_quadrupole", "features": ["quadrupole_amplitude"], "origin_label": "known_multipole_scaffold", "qualifying": true},
+    {"id": "linear_m3", "features": ["m3_aperture_amplitude"], "origin_label": "known_multipole_scaffold", "qualifying": true},
+    {"id": "linear_m4", "features": ["m4_aperture_amplitude"], "origin_label": "known_multipole_scaffold", "qualifying": true},
+    {"id": "linear_multipole_energy", "features": ["multipole_energy"], "origin_label": "new_combination_of_known_multipoles", "qualifying": true},
+    {"id": "quadratic_multipole_energy", "features": ["multipole_energy", "multipole_energy_squared"], "origin_label": "known_polynomial_scaffold", "qualifying": true},
+    {"id": "log_multipole_energy", "features": ["log1p_multipole_energy_over_0p05"], "origin_label": "known_saturating_scaffold", "qualifying": true},
+    {"id": "concentration_plus_energy", "features": ["concentration_c20", "multipole_energy"], "origin_label": "new_combination_of_known_morphology_statistics", "qualifying": true},
+    {"id": "energy_concentration_interaction", "features": ["concentration_c20", "multipole_energy", "concentration_times_energy"], "origin_label": "new_combination_of_known_morphology_statistics", "qualifying": true},
+    {"id": "all_multipoles", "features": ["concentration_c20", "centroid_shift", "quadrupole_amplitude", "m3_aperture_amplitude", "m4_aperture_amplitude"], "origin_label": "new_combination_of_known_multipoles", "qualifying": true},
+    {"id": "linear_support_dimension_proxy", "features": ["support_dimension"], "origin_label": "item1_population_proxy_control", "qualifying": false},
+    {"id": "support_plus_all_multipoles", "features": ["support_dimension", "concentration_c20", "centroid_shift", "quadrupole_amplitude", "m3_aperture_amplitude", "m4_aperture_amplitude"], "origin_label": "diagnostic_population_proxy_plus_multipoles", "qualifying": false}
+  ],
+  "cross_validation": {
+    "outer_folds": 5,
+    "fold_salt": "invariant-gravity-roadmap-item2-wise-multipoles-v2",
+    "fold_unit": "whole_object_stratified_by_population",
+    "inner_selection_target": "domain_balanced_mean_squared_error_on_training_object_beta_labels",
+    "heldout_object_target_available_to_fit_or_selection": false,
+    "ridge": "1e-8",
+    "prediction_clip": ["0", "4"],
+    "multipole_energy_overlap_minimum_objects_per_population": 5
+  },
+  "external_validation_gate": {
+    "primary_statistic": "quadrupole_vs_s4g_family_spearman",
+    "minimum_quality_matched_galaxies": 20,
+    "required_sign": "positive",
+    "bar_ellipticity_statistic_role": "secondary because fewer than 20 eligible quality-passing galaxies have a published usable bar ellipticity"
+  },
+  "admission": {
+    "all_target_blind_image_cutouts_and_quality_flags_complete": true,
+    "published_s4g_bar_validation_positive": true,
+    "minimum_intermediate_bar_like_population_present": true,
+    "universal_selector_must_choose_a_qualifying_model_in_every_fold": true,
+    "universal_model_must_beat_constant_observational_score_in_each_population": true,
+    "universal_beta_r2_must_be_positive_in_each_population": true,
+    "universal_model_must_beat_support_proxy_beta_mse_in_each_population": true,
+    "universal_model_must_beat_support_proxy_in_energy_overlap_for_each_population": true,
+    "universal_beta_r2_must_be_positive_in_intermediate_bar_like_subpopulation": true,
+    "population_proxy_models_may_not_qualify": true,
+    "confirmation_or_direct_lensing_required_for_novel_physics_claim": true
+  },
+  "claim_boundaries": {
+    "wise_w1_is_pure_baryonic_mass_map": false,
+    "deprojection_recovers_intrinsic_3d_shape": false,
+    "bar_like_subpopulation_is_a_new_object_class": false,
+    "clash_target_is_direct_lensing": false,
+    "historical_novelty_established": false,
+    "alternative_to_gr_established": false
+  },
+  "output": "runs/gravity/roadmap/item-02-wise-multipoles-v2.json"
+}
