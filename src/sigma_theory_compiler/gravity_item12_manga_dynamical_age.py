@@ -32,7 +32,7 @@ from .gravity_item11_neargalcat_external_field import (
 )
 
 CONFIG_PATH = Path("configs/gravity_item12_manga_dynamical_age_v1.json")
-SCIENTIFIC_FREEZE_COMMIT = "PENDING_ITEM12_SCIENTIFIC_FREEZE_COMMIT"
+SCIENTIFIC_FREEZE_COMMIT = "a50af163f819ec757e8aeedb5aaa1124f5b47c2f"
 SAMPLE_FREEZE_COMMIT = "PENDING_ITEM12_SAMPLE_FREEZE_COMMIT"
 
 
