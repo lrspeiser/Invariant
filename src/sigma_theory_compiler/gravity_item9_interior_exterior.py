@@ -1422,7 +1422,10 @@ def build_operator_components(
                 log_radius, "exterior", float(scale)
             )
         for operator_index, operator in enumerate(operators):
-            key = (str(operator["source"]), operator["threshold"])
+            threshold = (
+                None if operator["threshold"] is None else float(operator["threshold"])
+            )
+            key = (str(operator["source"]), threshold)
             try:
                 source_field = SOURCE_FIELD_BY_DEFINITION[key]
             except KeyError as exc:

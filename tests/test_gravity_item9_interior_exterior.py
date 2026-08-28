@@ -72,6 +72,15 @@ def test_candidate_manifest_counts_labels_and_prior_cell() -> None:
     assert prior[0]["candidate_id"].endswith("surface_density:am2:b4")
     assert prior[0]["authoritative_origin_status"] == "COMBINATION"
     assert not any(row["historical_novelty_claimed"] for row in manifest["cells"])
+    stored_path = ROOT / config["candidate_manifest_output"]
+    if stored_path.exists():
+        stored = json.loads(stored_path.read_text(encoding="utf-8"))
+        assert stored == manifest
+        thresholds = {
+            None if row["threshold"] is None else float(row["threshold"])
+            for row in stored["operators"]
+        }
+        assert {None, 0.01, 0.1, 1.0, 10.0, 100.0, 1000.0}.issubset(thresholds)
 
 
 def _synthetic_photometry() -> list[dict[str, float]]:
