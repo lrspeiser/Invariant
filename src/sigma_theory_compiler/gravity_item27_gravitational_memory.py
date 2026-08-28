@@ -111,6 +111,7 @@ def _contract_digest(config: Mapping[str, Any]) -> str:
     value["sample_freeze_commit"] = "<BOUND_COMMIT>"
     value.pop("implementation_correction_commit", None)
     value.pop("implementation_correction_scope", None)
+    value.pop("implementation_correction_history", None)
     value.pop("response_access_incident", None)
     return _sha256_bytes(_canonical_bytes(value))
 
@@ -916,25 +917,33 @@ def _response_summary(
         extraction["outer_replay_annulus_disk_scale"],
         int(extraction["minimum_unique_bins_replay"]),
     )
-    missing = [label for label, value in (("primary", primary), ("inner", inner), ("outer", outer)) if value is None]
-    if missing:
+    missing = [
+        label
+        for label, value in (("primary", primary), ("inner", inner), ("outer", outer))
+        if value is None
+    ]
+    if primary is None:
         return None, {
             "failure": "annulus_quality",
             "missing_annuli": missing,
             "quality_bins": int(np.count_nonzero(base_quality)),
         }
-    assert primary is not None and inner is not None and outer is not None
+    assert primary is not None
     return {
         "primary_vrms_km_s": primary["vrms_km_s"],
-        "inner_vrms_km_s": inner["vrms_km_s"],
-        "outer_vrms_km_s": outer["vrms_km_s"],
+        "inner_vrms_km_s": float("nan") if inner is None else inner["vrms_km_s"],
+        "outer_vrms_km_s": float("nan") if outer is None else outer["vrms_km_s"],
         "primary_rotation_km_s": primary["rotation_km_s"],
         "primary_dispersion_km_s": primary["dispersion_km_s"],
         "primary_bins": primary["bins"],
-        "inner_bins": inner["bins"],
-        "outer_bins": outer["bins"],
+        "inner_bins": 0 if inner is None else inner["bins"],
+        "outer_bins": 0 if outer is None else outer["bins"],
         "median_primary_qc": primary["median_qc"],
-    }, {"failure": None, "quality_bins": int(np.count_nonzero(base_quality))}
+    }, {
+        "failure": None,
+        "missing_annuli": missing,
+        "quality_bins": int(np.count_nonzero(base_quality)),
+    }
 
 
 def acquire_responses(root: Path) -> Path:
@@ -965,6 +974,7 @@ def acquire_responses(root: Path) -> Path:
     records: list[dict[str, Any]] = []
     receipts: list[dict[str, Any]] = []
     failures: Counter[str] = Counter()
+    all_annuli = 0
     with ThreadPoolExecutor(max_workers=8) as pool:
         acquired = list(pool.map(acquire, exploration))
     for sample_row, body, receipt in acquired:
@@ -982,6 +992,8 @@ def acquire_responses(root: Path) -> Path:
         if summary is None:
             failures[str(quality["failure"])] += 1
             continue
+        if not quality.get("missing_annuli"):
+            all_annuli += 1
         records.append(
             {
                 "identity": identity,
@@ -997,7 +1009,8 @@ def acquire_responses(root: Path) -> Path:
         {
             "schema_version": "invariant-gravity-item27-memory-responses-1.0",
             "exact_exploration_files_queried": len(exploration),
-            "valid_all_annuli": len(records),
+            "valid_primary": len(records),
+            "valid_all_annuli": all_annuli,
             "quality_failures": dict(sorted(failures.items())),
             "source_receipts": receipts,
             "response_columns_read": [
@@ -1257,6 +1270,7 @@ def _load_joined_rows(
     predictors = {str(row["normalized_identity"]): row for row in _read_tsv(paths["predictors"])}
     responses = _read_tsv(paths["exploration_responses"])
     sample = _read_json(paths["sample_manifest"])
+    response_manifest = _read_json(paths["response_source_manifest"])
     roles = {str(row["identity"]): row for row in sample["objects"]}
     rows: list[dict[str, Any]] = []
     for response in responses:
@@ -1267,9 +1281,11 @@ def _load_joined_rows(
         rows.append({**predictors[identity], **response, "fold": int(role["outer_fold"]), "mass_stratum": int(role["mass_stratum"])})
     quality = {
         "frozen_exploration": int(config["sample"]["expected_exploration"]),
-        "valid_all_annuli": len(rows),
+        "valid_primary": len(rows),
+        "valid_all_annuli": int(response_manifest["valid_all_annuli"]),
         "minimum_valid_exploration": int(config["sample"]["minimum_valid_exploration"]),
-        "formal_quality_pass": len(rows) >= int(config["sample"]["minimum_valid_exploration"]),
+        "formal_quality_pass": int(response_manifest["valid_all_annuli"])
+        >= int(config["sample"]["minimum_valid_exploration"]),
         "fold_counts": dict(sorted(Counter(int(row["fold"]) for row in rows).items())),
     }
     return rows, quality
@@ -1283,14 +1299,11 @@ def _evaluate(
     xp, backend, device = _backend()
     started = time.perf_counter()
     arrays, candidate_audit = _admissible_candidates(config)
-    term_matrices = {
-        label: _build_term_matrix(config, arrays, rows, label)
-        for label in ("primary", "inner", "outer")
-    }
+    term_matrix = _build_term_matrix(config, arrays, rows, "primary")
     folds = np.asarray([int(row["fold"]) for row in rows])
     target = _target(rows, "primary")
     observed = _oof_search(
-        xp, config, rows, target, folds, term_matrices["primary"], "primary"
+        xp, config, rows, target, folds, term_matrix, "primary"
     )
     residual_evaluations = int(observed["residual_evaluations"])
     candidate_mse = _mse(target, observed["candidate"])
@@ -1316,7 +1329,7 @@ def _evaluate(
             rows,
             null_target,
             folds,
-            term_matrices["primary"],
+            term_matrix,
             "primary",
         )
         null_improvements.append(
@@ -1345,14 +1358,14 @@ def _evaluate(
     for niche, injection in enumerate(injections):
         if int(arrays["niche"][injection]) != niche:
             raise GravityItem27Error("injection niche changed")
-        injected_target = base_full_prediction + term_matrices["primary"][injection]
+        injected_target = base_full_prediction + term_matrix[injection]
         replay = _oof_search(
             xp,
             config,
             rows,
             injected_target,
             folds,
-            term_matrices["primary"],
+            term_matrix,
             "primary",
         )
         selected_niches = [int(arrays["niche"][index]) for index in replay["selected"]]
@@ -1375,7 +1388,7 @@ def _evaluate(
         rows,
         no_memory_target,
         folds,
-        term_matrices["primary"],
+        term_matrix,
         "primary",
     )
     no_memory_improvement = _improvement(
@@ -1388,22 +1401,51 @@ def _evaluate(
     residual_evaluations += int(no_memory["residual_evaluations"])
 
     replays: dict[str, Any] = {}
+    selected_by_fold = {
+        outer: index
+        for outer, index in zip(
+            sorted({int(value) for value in folds}), observed["selected"], strict=True
+        )
+    }
     for label in ("inner", "outer"):
-        replay_target = _target(rows, label)
+        replay_rows = [
+            row for row in rows if math.isfinite(float(row[f"{label}_vrms_km_s"]))
+        ]
+        replay_folds = np.asarray([int(row["fold"]) for row in replay_rows])
+        if len(replay_rows) < 20 or len(set(replay_folds.tolist())) < int(
+            config["sample"]["outer_folds"]
+        ):
+            replays[label] = {
+                "status": "INCONCLUSIVE_QUALITY",
+                "objects": len(replay_rows),
+                "folds_present": sorted(set(replay_folds.tolist())),
+                "candidate_mse": None,
+                "instantaneous_baryonic_mse": None,
+                "flexible_nuisance_mse": None,
+                "improvement_vs_instantaneous_baryonic": None,
+                "improvement_vs_flexible_nuisance": None,
+            }
+            continue
+        replay_target = _target(replay_rows, label)
+        replay_terms = _build_term_matrix(config, arrays, replay_rows, label)
+        replay_selected = [selected_by_fold[int(value)] for value in sorted(set(replay_folds.tolist()))]
         prediction = _fixed_oof(
             xp,
             config,
-            rows,
+            replay_rows,
             replay_target,
-            folds,
-            term_matrices[label],
-            observed["selected"],
+            replay_folds,
+            replay_terms,
+            replay_selected,
             label,
         )
         replay_candidate = _mse(replay_target, prediction["candidate"])
         replay_base = _mse(replay_target, prediction["base"])
         replay_flexible = _mse(replay_target, prediction["flexible"])
         replays[label] = {
+            "status": "DIAGNOSTIC",
+            "objects": len(replay_rows),
+            "folds_present": sorted(set(replay_folds.tolist())),
             "candidate_mse": replay_candidate,
             "instantaneous_baryonic_mse": replay_base,
             "flexible_nuisance_mse": replay_flexible,
@@ -1451,7 +1493,8 @@ def _evaluate(
             observed_improvement >= float(config["gates"]["minimum_improvement_vs_instantaneous_baryonic"]),
             _improvement(flexible_mse, candidate_mse) >= float(config["gates"]["minimum_improvement_vs_flexible_nuisance"]),
             all(
-                replays[label]["improvement_vs_instantaneous_baryonic"]
+                replays[label]["improvement_vs_instantaneous_baryonic"] is not None
+                and replays[label]["improvement_vs_instantaneous_baryonic"]
                 >= float(config["gates"]["minimum_each_radial_replay_improvement_vs_instantaneous"])
                 for label in replays
             ),
@@ -1485,7 +1528,7 @@ def _evaluate(
             formal_quality_pass,
         ]
     )
-    cpu_terms = term_matrices["primary"][np.asarray(observed["selected"])]
+    cpu_terms = term_matrix[np.asarray(observed["selected"])]
     gpu_terms = _to_numpy(xp.asarray(cpu_terms), xp)
     cpu_gpu_max = float(np.max(np.abs(cpu_terms - gpu_terms)))
     scientific = {
@@ -1573,6 +1616,7 @@ def _build_receipt(
                 "stable_goal_sha256": config["stable_goal_sha256"],
                 "implementation_correction_commit": config["implementation_correction_commit"],
                 "implementation_correction_scope": config["implementation_correction_scope"],
+                "implementation_correction_history": config["implementation_correction_history"],
                 "response_access_incident": config["response_access_incident"],
                 "confirmation_opened": False,
                 "confirmation_response_values_read": int(response_manifest["confirmation_values_read"]),
