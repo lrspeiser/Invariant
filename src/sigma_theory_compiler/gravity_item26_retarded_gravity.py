@@ -17,7 +17,10 @@ from typing import Any
 
 import numpy as np
 
-from sigma_theory_compiler.gravity_item16_s4tm_qed_field import _parse_vizier_tsv
+from sigma_theory_compiler.gravity_item16_s4tm_qed_field import (
+    GravityItem16Error,
+    _parse_vizier_tsv,
+)
 from sigma_theory_compiler.gravity_item22_polarization_superposition import (
     _backend,
     _download,
@@ -108,6 +111,9 @@ def _contract_digest(config: Mapping[str, Any]) -> str:
     value = json.loads(json.dumps(config))
     value["scientific_freeze_commit"] = "<BOUND_COMMIT>"
     value["sample_freeze_commit"] = "<BOUND_COMMIT>"
+    value.pop("implementation_correction_commit", None)
+    value.pop("implementation_correction_scope", None)
+    value.pop("response_access_incident", None)
     return _sha256_bytes(_canonical_bytes(value))
 
 
@@ -117,7 +123,11 @@ def verify_science_freeze(root: Path, config: Mapping[str, Any]) -> None:
     frozen = json.loads(str(_git(root, "show", f"{commit}:{CONFIG_PATH.as_posix()}")))
     if _contract_digest(frozen) != _contract_digest(config):
         raise GravityItem26Error("scientific contract differs from frozen commit")
-    module = _git(root, "show", f"{commit}:{MODULE_PATH.as_posix()}", text_mode=False)
+    module_commit = str(config.get("implementation_correction_commit", commit))
+    _require_ancestor(root, module_commit, "implementation correction")
+    module = _git(
+        root, "show", f"{module_commit}:{MODULE_PATH.as_posix()}", text_mode=False
+    )
     if not isinstance(module, bytes) or _sha256_bytes(module) != _sha256_file(root / MODULE_PATH):
         raise GravityItem26Error("Item 26 module differs from scientific freeze")
 
@@ -748,7 +758,28 @@ def acquire_responses(root: Path) -> Path:
             HRS=identity,
         )
         body, headers = _download(url)
-        raw = _parse_vizier_tsv(body, config["sources"]["response_columns"])
+        try:
+            raw = _parse_vizier_tsv(body, config["sources"]["response_columns"])
+        except GravityItem16Error:
+            data_lines = [
+                line
+                for line in body.decode("utf-8").splitlines()
+                if line.strip() and not line.startswith("#")
+            ]
+            if data_lines:
+                raise
+            raw = []
+        if not raw:
+            return [], {
+                "identity": identity,
+                "url": url,
+                "sha256": _sha256_bytes(body),
+                "bytes": len(body),
+                "rows": 0,
+                "empty_exact_query": True,
+                "etag": headers.get("etag"),
+                "last_modified": headers.get("last-modified"),
+            }
         if not raw or any(int(row["HRS"]) != identity for row in raw):
             raise GravityItem26Error(f"response query for HRS {identity} failed")
         rows = [
@@ -1519,6 +1550,13 @@ def _build_receipt(
                 "scientific_freeze_commit": config["scientific_freeze_commit"],
                 "sample_freeze_commit": config["sample_freeze_commit"],
                 "stable_goal_sha256": config["stable_goal_sha256"],
+                "implementation_correction_commit": config[
+                    "implementation_correction_commit"
+                ],
+                "implementation_correction_scope": config[
+                    "implementation_correction_scope"
+                ],
+                "response_access_incident": config["response_access_incident"],
                 "confirmation_opened": False,
                 "confirmation_response_values_read": int(
                     response_manifest["confirmation_values_read"]
