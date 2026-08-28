@@ -285,7 +285,7 @@ def _alfalfa_safe_rows(
             snr = float(raw["SNR"])
             velocity = float(raw["Vhel"])
             hi_code = int(raw["HI"])
-        except (KeyError, TypeError, ValueError):
+        except (KeyError, TypeError, ValueError, GravityItem24Error):
             counts["incomplete_predictors"] += 1
             continue
         if hi_code != int(quality["required_HI_code"]):
