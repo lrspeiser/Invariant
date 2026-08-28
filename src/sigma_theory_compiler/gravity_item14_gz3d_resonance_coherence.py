@@ -31,7 +31,7 @@ from .gravity_item11_neargalcat_external_field import (
 )
 
 CONFIG_PATH = Path("configs/gravity_item14_gz3d_resonance_coherence_v1.json")
-SCIENTIFIC_FREEZE_COMMIT = "PENDING_ITEM14_SCIENTIFIC_FREEZE_COMMIT"
+SCIENTIFIC_FREEZE_COMMIT = "095c7ddfc4ca16c8ae1e4aeaafbfbd180e902197"
 SAMPLE_FREEZE_COMMIT = "PENDING_ITEM14_SAMPLE_FREEZE_COMMIT"
 
 
