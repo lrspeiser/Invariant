@@ -226,6 +226,25 @@ def test_mask_quality_rejects_wrong_image_geometry() -> None:
         coherence.derive_mask_features(_synthetic_masks(), _predictor(), config)
 
 
+def test_predecessor_coordinate_loader_passes_source_descriptors(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    config = coherence.load_config(ROOT)
+    calls: list[tuple[Path, dict[str, object]]] = []
+
+    def source_rows(root: Path, entry: dict[str, object]) -> list[dict[str, str]]:
+        calls.append((root, entry))
+        return [{str(entry["ra_key"]): "10.0", str(entry["dec_key"]): "20.0"}]
+
+    monkeypatch.setattr(coherence, "_source_rows", source_rows)
+    coordinates = coherence._coordinates(ROOT, config)
+    assert coordinates.shape == (len(config["independence"]["coordinate_exclusions"]), 2)
+    assert all(root == ROOT for root, _ in calls)
+    assert calls == [
+        (ROOT, entry) for entry in config["independence"]["coordinate_exclusions"]
+    ]
+
+
 def test_resolved_maps_response_measures_outer_inner_ratios() -> None:
     result = coherence.derive_radial_response(
         _synthetic_maps_response(),

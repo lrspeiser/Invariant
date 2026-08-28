@@ -212,7 +212,7 @@ def _excluded_identities(root: Path, config: Mapping[str, Any]) -> tuple[set[str
 def _coordinates(root: Path, config: Mapping[str, Any]) -> np.ndarray:
     rows = []
     for entry in config["independence"]["coordinate_exclusions"]:
-        for row in _source_rows(root / entry["path"], entry["format"]):
+        for row in _source_rows(root, entry):
             try:
                 ra = float(row[entry["ra_key"]])
                 dec = float(row[entry["dec_key"]])
