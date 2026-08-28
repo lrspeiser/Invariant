@@ -182,3 +182,16 @@ def test_stored_prefreeze_artifacts_replay_if_present() -> None:
     if sample_path.exists():
         sample = json.loads(sample_path.read_text(encoding="utf-8"))
         replay.validate_sample_manifest(sample, ROOT)
+
+
+def test_stored_result_replays_if_present() -> None:
+    config = replay.load_config(ROOT)
+    path = ROOT / config["outputs"]["result"]
+    if not path.exists():
+        pytest.skip("PROBES-II replay has not run")
+    stored = json.loads(path.read_text(encoding="utf-8"))
+    replay.validate_receipt(stored, ROOT)
+    assert stored == replay.build_receipt(ROOT)
+    assert stored["counts"]["candidate_selection_calls"] == 0
+    assert stored["counts"]["post_response_formula_cells"] == 0
+    assert stored["counts"]["paid_model_calls"] == 0
