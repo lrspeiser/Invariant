@@ -21,7 +21,7 @@ from . import gravity_item5_pressure_cross_support as cvcore
 from .sigma_core import canonical_json_bytes, canonical_sha256
 
 CONFIG_PATH = "configs/gravity_item7_baryonic_composition_xcold_xgass_v2.json"
-SCIENTIFIC_FREEZE_COMMIT = "PENDING_ITEM7_REPLAY_SCIENTIFIC_FREEZE"
+SCIENTIFIC_FREEZE_COMMIT = "9eb2bf66e5ba6867cca8ffa81f4621c2881717fd"
 VIZIER_ENDPOINT = "https://vizier.cds.unistra.fr/viz-bin/asu-tsv"
 
 
