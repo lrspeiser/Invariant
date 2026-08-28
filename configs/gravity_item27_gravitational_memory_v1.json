@@ -6,11 +6,11 @@
   "stable_goal_sha256": "b9db7e1aa76deaf28ce2e840cd3d7db4cf7a086b1c7ca473800780c264a0e772",
   "scientific_freeze_commit": "534686760a2902e5b0e999a40eb7e3ca0b6660ad",
   "sample_freeze_commit": "cb1217202fd0cf2f0c452e3694e807d5139e04b1",
-  "implementation_correction_commit": "TO_BE_BOUND_AFTER_PRIMARY_ONLY_DIAGNOSTIC_CORRECTION",
+  "implementation_correction_commit": "0aae606ac358b03e149305ca8ab4610dc957336e",
   "implementation_correction_scope": "First, accept V1200 FITS column names case-insensitively because the README uses Vp/Sp/DVp/DSp while the tables expose VP/SP/DVP/DSP. Second, after only 9 of 64 exploration galaxies passed all three annuli but 26 passed the unchanged primary annulus, preserve the frozen 45-object formal gate and allow the already-frozen primary search to run diagnostically on at least 20 primary-valid galaxies; unavailable radial replays are marked insufficient and neither track can promote. These corrections change no formula, candidate, identity, role, fold, response value, quality threshold, confirmation boundary, or promotion gate.",
   "implementation_correction_history": [
     {"commit": "f66911e711b1fa00db867b4698f7ceb823300405", "scope": "Case-insensitive V1200 FITS column lookup after the official README/binary-table capitalization mismatch."},
-    {"commit": "TO_BE_BOUND_AFTER_PRIMARY_ONLY_DIAGNOSTIC_CORRECTION", "scope": "Primary-only diagnostic while retaining the failed all-annulus formal quality gate and disabling promotion."}
+    {"commit": "0aae606ac358b03e149305ca8ab4610dc957336e", "scope": "Primary-only diagnostic while retaining the failed all-annulus formal quality gate and disabling promotion."}
   ],
   "response_access_incident": "The first post-freeze exploration acquisition downloaded all 64 permitted files into the untracked cache and aborted on a case-sensitive schema check, writing no response artifact. The case-corrected acquisition queried the same 64 files and wrote a receipt showing 9 all-annulus valid galaxies, below the 45-object gate. No confirmation file was queried. The diagnostic correction reuses only those same exploration bytes and retains 26 primary-valid galaxies without changing the formal INCONCLUSIVE_QUALITY outcome.",
   "dependency_sha256": {
