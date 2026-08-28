@@ -566,6 +566,40 @@ def write_candidate_manifest(root: Path) -> Path:
     return path
 
 
+def _response_scope(sample: Mapping[str, Any]) -> dict[str, Any]:
+    groups: dict[str, list[Mapping[str, Any]]] = {}
+    for row in sample["objects"]:
+        groups.setdefault(str(row["name"]), []).append(row)
+    ambiguous = {name: rows for name, rows in groups.items() if len(rows) != 1}
+    retained = [
+        rows[0]
+        for name, rows in sorted(groups.items())
+        if name not in ambiguous and rows[0]["role"] == "exploration"
+    ]
+    retained_confirmation = [
+        rows[0]
+        for name, rows in sorted(groups.items())
+        if name not in ambiguous and rows[0]["role"] == "reserved_confirmation"
+    ]
+    attempted_names = {
+        str(row["name"]) for row in sample["objects"] if row["role"] == "exploration"
+    }
+    potential_confirmation_rows = sum(
+        row["role"] == "reserved_confirmation"
+        for name, rows in ambiguous.items()
+        if name in attempted_names
+        for row in rows
+    )
+    return {
+        "retained_exploration": retained,
+        "retained_confirmation": retained_confirmation,
+        "ambiguous_names": sorted(ambiguous),
+        "ambiguous_release_rows": sum(len(rows) for rows in ambiguous.values()),
+        "initial_attempted_unique_names": len(attempted_names),
+        "scope_incident_potential_confirmation_rows": potential_confirmation_rows,
+    }
+
+
 def write_response_source(root: Path) -> Path:
     root = root.resolve()
     if SAMPLE_FREEZE_COMMIT.startswith("PENDING_"):
@@ -574,7 +608,8 @@ def write_response_source(root: Path) -> Path:
     sample_path = root / config["outputs"]["sample_manifest"]
     sample = json.loads(sample_path.read_text(encoding="utf-8"))
     validate_sample_manifest(sample, root)
-    exploration = [row["name"] for row in sample["objects"] if row["role"] == "exploration"]
+    scope = _response_scope(sample)
+    exploration = [row["name"] for row in scope["retained_exploration"]]
     quoted = ",".join("'" + name.replace("'", "''") + "'" for name in exploration)
     columns = ",".join(config["source"]["response_columns"])
     query = (
@@ -588,9 +623,7 @@ def write_response_source(root: Path) -> Path:
     names = [row["name"] for row in rows]
     if set(names) != set(exploration) or len(names) != len(set(names)):
         raise GravityItem10BoundaryError("WALLABY exploration response scope changed")
-    confirmation = {
-        row["name"] for row in sample["objects"] if row["role"] == "reserved_confirmation"
-    }
+    confirmation = {row["name"] for row in scope["retained_confirmation"]}
     if confirmation & set(names):
         raise GravityItem10BoundaryError("WALLABY confirmation response was returned")
     manifest = _content_hashed(
@@ -602,13 +635,31 @@ def write_response_source(root: Path) -> Path:
             "query_sha256": hashlib.sha256(query.encode()).hexdigest(),
             "payload_sha256": hashlib.sha256(payload).hexdigest(),
             "records": rows,
+            "scope_repair": {
+                "reason": "The first frozen request revealed that WALLABY name is not unique across kinematic releases. Every multi-release name was excluded without replacement, and the exact unambiguous exploration subset was re-requested. No response value was inspected or used to make this repair.",
+                "initial_attempted_unique_names": scope["initial_attempted_unique_names"],
+                "ambiguous_multi_release_names_excluded": scope["ambiguous_names"],
+                "ambiguous_release_rows_excluded": scope["ambiguous_release_rows"],
+                "retained_unambiguous_exploration_names": len(exploration),
+                "retained_unambiguous_confirmation_names": len(confirmation),
+                "scope_incident_potential_confirmation_rows": scope[
+                    "scope_incident_potential_confirmation_rows"
+                ],
+                "response_values_used_in_scope_repair": 0,
+                "replacement_identities": 0,
+            },
             "counts": {
                 "exploration_response_rows": len(rows),
                 "confirmation_response_rows": 0,
+                "scope_incident_potential_confirmation_rows": scope[
+                    "scope_incident_potential_confirmation_rows"
+                ],
                 "post_response_formula_cells": 0,
                 "paid_model_calls": 0,
             },
-            "claims": {"confirmation_opened": False},
+            "claims": {
+                "confirmation_opened": bool(scope["scope_incident_potential_confirmation_rows"])
+            },
         }
     )
     path = root / config["outputs"]["response_source"]
@@ -623,6 +674,9 @@ def validate_response_source(source: Mapping[str, Any], root: Path) -> None:
         raise GravityItem10BoundaryError("response sample binding changed")
     if source["counts"]["confirmation_response_rows"] != 0:
         raise GravityItem10BoundaryError("confirmation response entered Item 10")
+    incident = int(source["counts"]["scope_incident_potential_confirmation_rows"])
+    if bool(source["claims"]["confirmation_opened"]) != bool(incident):
+        raise GravityItem10BoundaryError("confirmation scope incident disclosure changed")
     if source["counts"]["post_response_formula_cells"] != 0:
         raise GravityItem10BoundaryError("post-response formula entered Item 10")
 
@@ -868,6 +922,9 @@ def extract_profiles(root: Path) -> dict[str, Path]:
                 "quality_retention_fraction": _metric(retention),
                 "accepted_points": len(features),
                 "confirmation_response_rows": 0,
+                "scope_incident_potential_confirmation_rows": response["counts"][
+                    "scope_incident_potential_confirmation_rows"
+                ],
                 "post_response_formula_cells": 0,
                 "paid_model_calls": 0,
             },
@@ -875,7 +932,10 @@ def extract_profiles(root: Path) -> dict[str, Path]:
                 "feature_sha256": _sha256_file(feature_path),
                 "response_sha256": _sha256_file(rotation_path),
             },
-            "claims": config["claim_boundaries"],
+            "claims": {
+                **config["claim_boundaries"],
+                "confirmation_opened": response["claims"]["confirmation_opened"],
+            },
         }
     )
     summary_path = root / config["outputs"]["extraction_summary"]
@@ -1358,7 +1418,10 @@ def build_receipt(root: Path) -> dict[str, Any]:
     gates = {
         "quality_count_and_fraction_pass": data["summary"]["decision"]
         == "PASS_ITEM10_WALLABY_QUALITY",
-        "confirmation_responses_untouched": True,
+        "confirmation_responses_untouched": int(
+            data["summary"]["counts"]["scope_incident_potential_confirmation_rows"]
+        )
+        == 0,
         "candidate_count_exact": compute["candidate_cells"] == 131072,
         "selected_boundary_r2_positive": float(boundary_metrics["r2"]) > 0,
         "selected_boundary_beats_local_baseline": boundary_mse < baseline_mse,
@@ -1402,7 +1465,12 @@ def build_receipt(root: Path) -> dict[str, Any]:
                 "quality_passing_galaxies": data["summary"]["counts"]["quality_passing_galaxies"],
                 "quality_failed_galaxies": data["summary"]["counts"]["quality_failed_galaxies"],
                 "accepted_points": data["summary"]["counts"]["accepted_points"],
-                "confirmation_response_rows": 0,
+                "confirmation_response_rows": data["summary"]["counts"][
+                    "scope_incident_potential_confirmation_rows"
+                ],
+                "stored_confirmation_response_rows": data["summary"]["counts"][
+                    "confirmation_response_rows"
+                ],
                 "post_response_formula_cells": 0,
                 "paid_model_calls": 0,
             },
@@ -1438,7 +1506,10 @@ def build_receipt(root: Path) -> dict[str, Any]:
                 "stellar_mass_profile_used": False,
                 "historical_novelty_adjudicated": False,
             },
-            "claims": config["claim_boundaries"],
+            "claims": {
+                **config["claim_boundaries"],
+                "confirmation_opened": data["summary"]["claims"]["confirmation_opened"],
+            },
         }
     )
 
@@ -1451,12 +1522,23 @@ def validate_receipt(receipt: Mapping[str, Any], root: Path) -> None:
         raise GravityItem10BoundaryError("Item 10 result sample binding changed")
     if receipt["counts"]["candidate_cells"] != 131072:
         raise GravityItem10BoundaryError("Item 10 result candidate count changed")
-    if receipt["counts"]["confirmation_response_rows"] != 0:
-        raise GravityItem10BoundaryError("Item 10 confirmation entered result")
+    if receipt["counts"]["stored_confirmation_response_rows"] != 0:
+        raise GravityItem10BoundaryError("stored Item 10 confirmation entered result")
     if receipt["counts"]["post_response_formula_cells"] != 0:
         raise GravityItem10BoundaryError("Item 10 post-response formula entered result")
-    if any(bool(value) for value in receipt["claims"].values()):
+    forbidden_claims = (
+        "complete_baryonic_mass_used",
+        "boundary_gravity_cause_established",
+        "alternative_to_gr_established",
+        "historical_novelty_established",
+        "roadmap_item_10_complete",
+    )
+    if any(bool(receipt["claims"][key]) for key in forbidden_claims):
         raise GravityItem10BoundaryError("Item 10 receipt contains an overclaim")
+    if bool(receipt["claims"]["confirmation_opened"]) != bool(
+        receipt["counts"]["confirmation_response_rows"]
+    ):
+        raise GravityItem10BoundaryError("Item 10 scope incident claim changed")
 
 
 def write_receipt(root: Path) -> Path:

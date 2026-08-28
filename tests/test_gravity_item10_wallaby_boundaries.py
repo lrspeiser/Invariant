@@ -148,9 +148,31 @@ def test_formula_and_predictor_builders_have_no_velocity_target_parameter() -> N
         signature = " ".join(inspect.signature(builder).parameters).lower()
         assert "velocity" not in signature
         assert "response" not in signature
+    response_scope = inspect.getsource(boundaries._response_scope)
+    assert 'rows[0]["role"] == "exploration"' in response_scope
+    assert 'rows[0]["role"] == "reserved_confirmation"' in response_scope
     response_source = inspect.getsource(boundaries.write_response_source)
-    assert 'row["role"] == "exploration"' in response_source
-    assert 'row["role"] == "reserved_confirmation"' in response_source
+    assert 'scope["retained_exploration"]' in response_source
+    assert 'scope["retained_confirmation"]' in response_source
+
+
+def test_response_scope_conservatively_drops_multi_release_names() -> None:
+    config = boundaries.load_config(ROOT)
+    path = ROOT / config["outputs"]["sample_manifest"]
+    if not path.exists():
+        pytest.skip("WALLABY sample has not been frozen")
+    sample = json.loads(path.read_text(encoding="utf-8"))
+    scope = boundaries._response_scope(sample)
+    assert len(scope["retained_exploration"]) == 43
+    assert len(scope["retained_confirmation"]) == 11
+    assert len(scope["ambiguous_names"]) == 15
+    assert scope["ambiguous_release_rows"] == 31
+    assert scope["initial_attempted_unique_names"] == 55
+    assert scope["scope_incident_potential_confirmation_rows"] == 2
+    assert not (
+        {row["name"] for row in scope["retained_exploration"]}
+        & {row["name"] for row in scope["retained_confirmation"]}
+    )
 
 
 def test_stored_prefreeze_artifacts_replay_if_present() -> None:
@@ -178,6 +200,10 @@ def test_stored_result_replays_if_present() -> None:
     boundaries.validate_receipt(stored, ROOT)
     boundaries.check_receipt(ROOT)
     assert stored["counts"]["candidate_cells"] == 131072
-    assert stored["counts"]["confirmation_response_rows"] == 0
+    assert stored["counts"]["stored_confirmation_response_rows"] == 0
+    assert (
+        bool(stored["counts"]["confirmation_response_rows"])
+        == stored["claims"]["confirmation_opened"]
+    )
     assert stored["counts"]["post_response_formula_cells"] == 0
     assert stored["counts"]["paid_model_calls"] == 0
