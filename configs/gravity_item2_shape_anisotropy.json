@@ -1,0 +1,190 @@
+{
+  "schema_version": "invariant-gravity-roadmap-item2-shape-anisotropy-config-1.0",
+  "goal": "GRAVITY_ROADMAP_ITEM_02_SHAPE_ANISOTROPY",
+  "status": "exploratory_real_data_model_development",
+  "roadmap_binding": {
+    "path": "docs/GRAVITY_HIDDEN_VARIABLE_AND_THEORY_SEARCH_GOALS.md",
+    "file_sha256": "b9db7e1aa76deaf28ce2e840cd3d7db4cf7a086b1c7ca473800780c264a0e772",
+    "item_number": 2,
+    "item_title": "Shape and anisotropy"
+  },
+  "claim": "Test whether continuously measured projected baryonic axis ratio and inner-to-outer concentration predict the response coefficient of the unchanged cross-scale parent on whole-held-out SPARC exploration galaxies and CLASH clusters, while requiring within-population and overlapping-shape support beyond a disk-versus-cluster label.",
+  "authorization": {
+    "scope": "execute the canonical hidden-variable and theory roadmap",
+    "authorized_by_user": true,
+    "paid_model_calls_allowed": false,
+    "sparc_confirmation_evaluator_accesses_allowed": 0,
+    "direct_lensing_likelihood_evaluations_allowed": 0,
+    "sequential_G6_G7_G8_advanced": false
+  },
+  "predecessor_binding": {
+    "path": "runs/gravity/roadmap/item-01-effective-dimension-v1.json",
+    "file_sha256": "63b027c314436b40212c434c73a817cd1010bb3de9a3161526256357bb74440e",
+    "content_sha256": "3b42f09317b430303796ca0f6e6740487e652e1a46f4c1768ad1315d182900e0",
+    "required_decision": "INCONCLUSIVE_ITEM1_EFFECTIVE_DIMENSION"
+  },
+  "sources": {
+    "sparc_global_properties": {
+      "catalog": "VizieR J/AJ/152/157 table1",
+      "paper": "Lelli, McGaugh, and Schombert, AJ 152, 157 (2016)",
+      "url": "https://vizier.cds.unistra.fr/viz-bin/asu-tsv?-source=J/AJ/152/157/table1&-out.all=1&-out.max=unlimited",
+      "files": [
+        {
+          "path": "runs/gravity/roadmap/item-02-shape-anisotropy-v1-source/sparc_table1.tsv",
+          "file_sha256": "feb0e2e5478888ced9533fffe6c7711dba280e78f50dfd09916b28aef41c8ce2"
+        },
+        {
+          "path": "runs/gravity/roadmap/item-02-shape-anisotropy-v1-source/sparc_ReadMe",
+          "file_sha256": "cbc3830f34c0379135f494719e254af0a76f75fee9ebbfe78d2e655caaaf92d5"
+        }
+      ],
+      "expected_rows": 175,
+      "used_columns": ["Name", "Type", "i", "e_i", "Reff", "SBeff", "Rdisk", "SBdisk"],
+      "forbidden_columns": ["Vflat", "e_Vflat", "Qual"]
+    },
+    "clash_xray_morphology": {
+      "paper": "Donahue et al., ApJ 819, 36 (2016)",
+      "paper_url": "https://arxiv.org/abs/1601.04947",
+      "source_archive_url": "https://export.arxiv.org/e-print/1601.04947",
+      "source_archive_sha256": "6dfa69c0b22cf58b3b9d7a29151b0c7e103b56fb3540073c4bad8aa7c60865ee",
+      "table": "Table 3, X-ray Morphological Properties for the CLASH Sample 500 kpc",
+      "file": {
+        "path": "runs/gravity/roadmap/item-02-shape-anisotropy-v1-source/clash_xray_morphology_500kpc.tsv",
+        "file_sha256": "bbbdef427f720612a467ec1e35e95ee346b02aee71eb4f9f931332ac0abed0d3"
+      },
+      "expected_rows": 25,
+      "expected_target_matches": 20,
+      "used_columns": ["concentration", "centroid_shift", "p30", "p40", "axis_ratio"]
+    },
+    "clash_morphology_crosscheck": {
+      "catalog": "VizieR J/ApJ/801/44 clusters",
+      "files": [
+        {
+          "path": "runs/gravity/roadmap/item-02-shape-anisotropy-v1-source/clash_clusters.tsv",
+          "file_sha256": "73f69adf19a123a72442614c518adb161cb3405bb3c5311ae418672ebe80ad11"
+        },
+        {
+          "path": "runs/gravity/roadmap/item-02-shape-anisotropy-v1-source/clash_ReadMe",
+          "file_sha256": "1cc27b7a5afa7886047bed7b32e2f734002d6eae6d4ffcf8709232eff1e0c6f3"
+        }
+      ],
+      "expected_rows": 25,
+      "role": "independent published X-ray ellipticity and centroid-shift crosscheck only; no lensing mass fields are used"
+    }
+  },
+  "population": {
+    "sparc_exploration_galaxies": 139,
+    "sparc_exploration_points": 2720,
+    "clash_clusters": 20,
+    "clash_radial_points": 84,
+    "intermediate_or_filamentary_geometry_systems": 0,
+    "clash_target_status": "model_dependent_lensing_derived_acceleration_diagnostic"
+  },
+  "unchanged_parent": {
+    "candidate_id": "cross-scale:y:q0p1:ell0p25:permittivity_plus_auxiliary",
+    "transition_acceleration_m_s2": "1.2e-10",
+    "log_radius_scale": "0.25",
+    "formula": "g=g_bar+beta*(g_bar*chi+g_dagger*psi)",
+    "coefficient_labels": "reuse the sealed Item 1 per-object beta grid optima as training labels and forbidden oracle diagnostics"
+  },
+  "shared_shape_features": {
+    "projected_axis_ratio": {
+      "galaxy": "cos(published SPARC inclination); thin-disk projected-axis proxy",
+      "cluster": "Donahue et al. X-ray surface-brightness axis ratio within 500 kpc",
+      "caveat": "the galaxy value is orientation-dominated and is not an intrinsic disk-thickness measurement"
+    },
+    "projected_concentration_c20": {
+      "galaxy": "fraction of measured 3.6-micron disk-plus-bulge light inside 0.2 times the last photometric radius",
+      "cluster": "Donahue et al. X-ray surface-brightness concentration inside 100 versus 500 kpc",
+      "caveat": "stellar light and X-ray emissivity are different baryonic tracers despite the shared aperture ratio"
+    },
+    "target_fields_available_to_feature_builder": false
+  },
+  "models": [
+    {
+      "id": "constant",
+      "features": [],
+      "origin_label": "known_regression_baseline",
+      "qualifying_universal_shape_model": false
+    },
+    {
+      "id": "linear_projected_axis_ratio",
+      "features": ["projected_axis_ratio"],
+      "origin_label": "known_linear_scaffold",
+      "qualifying_universal_shape_model": true
+    },
+    {
+      "id": "quadratic_projected_axis_ratio",
+      "features": ["projected_axis_ratio", "projected_axis_ratio_squared"],
+      "origin_label": "known_polynomial_scaffold",
+      "qualifying_universal_shape_model": true
+    },
+    {
+      "id": "linear_projected_concentration",
+      "features": ["projected_concentration_c20"],
+      "origin_label": "known_linear_scaffold",
+      "qualifying_universal_shape_model": true
+    },
+    {
+      "id": "linear_axis_ratio_plus_concentration",
+      "features": ["projected_axis_ratio", "projected_concentration_c20"],
+      "origin_label": "new_combination_of_known_shape_statistics",
+      "qualifying_universal_shape_model": true
+    },
+    {
+      "id": "axis_concentration_interaction",
+      "features": ["projected_axis_ratio", "projected_concentration_c20", "axis_ratio_times_concentration"],
+      "origin_label": "new_combination_of_known_shape_statistics",
+      "qualifying_universal_shape_model": true
+    },
+    {
+      "id": "linear_support_dimension_proxy",
+      "features": ["support_dimension"],
+      "origin_label": "item1_population_proxy_control",
+      "qualifying_universal_shape_model": false
+    },
+    {
+      "id": "support_plus_shared_shape",
+      "features": ["support_dimension", "projected_axis_ratio", "projected_concentration_c20", "axis_ratio_times_concentration"],
+      "origin_label": "diagnostic_population_proxy_plus_shape",
+      "qualifying_universal_shape_model": false
+    },
+    {
+      "id": "domain_specific_shape_bank",
+      "features": ["support_dimension", "projected_axis_ratio", "projected_concentration_c20", "galaxy_bulge_light_fraction", "galaxy_effective_to_disk_radius", "cluster_log_centroid_shift", "cluster_log_p30"],
+      "origin_label": "diagnostic_noncommensurate_shape_bank",
+      "qualifying_universal_shape_model": false
+    }
+  ],
+  "cross_validation": {
+    "outer_folds": 5,
+    "fold_salt": "invariant-gravity-roadmap-item2-shape-anisotropy-v1",
+    "fold_unit": "whole_object_stratified_by_population",
+    "inner_selection_target": "domain_balanced_mean_squared_error_on_training_object_beta_labels",
+    "heldout_object_target_available_to_fit_or_selection": false,
+    "ridge": "1e-8",
+    "prediction_clip": ["0", "4"],
+    "axis_ratio_overlap_minimum_objects_per_population": 5
+  },
+  "admission": {
+    "universal_selector_must_choose_a_qualifying_shape_model_in_every_outer_fold": true,
+    "universal_shape_model_must_beat_oof_constant_observational_score_in_each_population": true,
+    "universal_shape_beta_r2_must_be_positive_in_each_population": true,
+    "universal_shape_model_must_beat_support_proxy_beta_mse_in_each_population": true,
+    "axis_ratio_overlap_must_contain_minimum_objects_in_each_population": true,
+    "universal_shape_model_must_beat_support_proxy_in_overlap_for_each_population": true,
+    "intrinsic_shape_or_anisotropy_must_be_measured_in_both_populations": true,
+    "intermediate_or_filamentary_geometry_must_be_included": true,
+    "post_population_proxy_models_may_not_qualify": true,
+    "confirmation_or_direct_lensing_required_for_novel_physics_claim": true
+  },
+  "claim_boundaries": {
+    "galaxy_inclination_proxy_is_intrinsic_axis_ratio": false,
+    "clash_target_is_direct_lensing": false,
+    "shared_aperture_ratio_makes_stellar_and_xray_light_identical_tracers": false,
+    "historical_novelty_established": false,
+    "roadmap_item_passed_by_population_proxy": false,
+    "alternative_to_gr_established": false
+  },
+  "output": "runs/gravity/roadmap/item-02-shape-anisotropy-v1.json"
+}
