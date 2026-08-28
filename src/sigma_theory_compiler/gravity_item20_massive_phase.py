@@ -272,6 +272,10 @@ def _angular_arcsec(a: Mapping[str, Any], b: Mapping[str, Any]) -> float:
     return math.degrees(math.acos(max(-1.0, min(1.0, value)))) * 3600.0
 
 
+def _parse_path(path: Path, expected: Sequence[str]) -> list[dict[str, str]]:
+    return _parse_vizier_tsv(path.read_bytes(), expected)
+
+
 def _prior_coordinates(root: Path, commit: str) -> list[dict[str, float]]:
     names = str(_git(root, "ls-tree", "-r", "--name-only", commit, "runs/gravity/roadmap")).splitlines()
     paths = [p for p in names if p.endswith(".json") and "sample" in Path(p).name and "manifest" in Path(p).name]
@@ -302,9 +306,9 @@ def _prior_coordinates(root: Path, commit: str) -> list[dict[str, float]]:
 
 
 def _build_sample(root: Path, config: Mapping[str, Any], paths: Mapping[str, Path]) -> dict[str, Any]:
-    photometry = _parse_vizier_tsv(paths["predictor_sfi_photometry"])
-    predictors = _parse_vizier_tsv(paths["predictor_sfi"])
-    springob = _parse_vizier_tsv(paths["predictor_springob"])
+    photometry = _parse_path(paths["predictor_sfi_photometry"], ("AGC", "OName", "RAJ2000", "DEJ2000", "TT", "r23.5", "r.83", "Isb", "ell", "e_ell", "Imag", "e_Imag", "TF"))
+    predictors = _parse_path(paths["predictor_sfi"], ("AGC", "OName", "RAJ2000", "DEJ2000", "TT", "Imagc", "gamma", "i", "cz", "r", "Gnum"))
+    springob = _parse_path(paths["predictor_springob"], ("UGC/AGC", "OName", "RAJ2000", "DEJ2000", "Sabs", "e_Sabs", "SNR", "HRV", "Tel"))
     p1 = {_as_int(row.get("AGC", "")): row for row in photometry}
     p2 = {_as_int(row.get("AGC", "")): row for row in predictors}
     p3 = {_as_int(row.get("UGC/AGC", "")): row for row in springob}
@@ -414,14 +418,21 @@ def prepare_predictors(root: Path) -> dict[str, Path]:
     paths["predictor_sfi"].parent.mkdir(parents=True, exist_ok=True)
     query_keys = ("sfi_photometry", "sfi_predictors", "springob")
     path_keys = ("predictor_sfi_photometry", "predictor_sfi", "predictor_springob")
+    expected_columns = (
+        ("AGC", "OName", "RAJ2000", "DEJ2000", "TT", "r23.5", "r.83", "Isb", "ell", "e_ell", "Imag", "e_Imag", "TF"),
+        ("AGC", "OName", "RAJ2000", "DEJ2000", "TT", "Imagc", "gamma", "i", "cz", "r", "Gnum"),
+        ("UGC/AGC", "OName", "RAJ2000", "DEJ2000", "Sabs", "e_Sabs", "SNR", "HRV", "Tel"),
+    )
     receipts = []
-    for query_key, path_key in zip(query_keys, path_keys, strict=True):
-        receipt = _download(str(config["sources"]["predictor_queries"][query_key]), paths[path_key])
-        rows = _parse_vizier_tsv(paths[path_key])
+    for query_key, path_key, columns in zip(query_keys, path_keys, expected_columns, strict=True):
+        url = str(config["sources"]["predictor_queries"][query_key])
+        body, headers = _download(url)
+        paths[path_key].write_bytes(body)
+        rows = _parse_vizier_tsv(body, columns)
         expected = int(config["sources"]["expected_rows"][query_key])
         if len(rows) != expected:
             raise GravityItem20Error(f"{query_key} row count changed: {len(rows)}")
-        receipts.append({**receipt, "name": query_key, "rows": len(rows)})
+        receipts.append({"name": query_key, "url": url, "rows": len(rows), "sha256": _sha256_bytes(body), "headers": headers})
     _write_json(paths["predictor_source_manifest"], _content_hashed({"schema_version": "invariant-gravity-item20-predictor-source-1.0", "receipts": receipts}))
     sample = _content_hashed(_build_sample(root, config, paths))
     _write_json(paths["sample_manifest"], sample)
@@ -463,14 +474,16 @@ def fetch_responses(root: Path) -> Path:
     receipts: list[dict[str, Any]] = []
     for index, row in enumerate(rows):
         temporary = paths["exploration_responses"].with_suffix(f".{row['agc']}.tmp")
-        receipt = _download(_response_url(config, int(row["agc"])), temporary)
-        parsed = _parse_vizier_tsv(temporary)
+        url = _response_url(config, int(row["agc"]))
+        body, _headers = _download(url)
+        temporary.write_bytes(body)
+        parsed = _parse_vizier_tsv(body, ("AGC", "logW", "e_logW"))
         if len(parsed) != 1 or _as_int(parsed[0].get("AGC", "")) != int(row["agc"]):
             raise GravityItem20Error(f"response row mismatch for AGC {row['agc']}")
         if index == 0:
             chunks.append("AGC\tlogW\te_logW\n")
         chunks.append("\t".join(str(parsed[0].get(key, "")).strip() for key in ("AGC", "logW", "e_logW")) + "\n")
-        receipts.append({"agc": row["agc"], "url": receipt["url"], "sha256": receipt["sha256"]})
+        receipts.append({"agc": row["agc"], "url": url, "sha256": _sha256_bytes(body)})
         temporary.unlink()
     paths["exploration_responses"].write_text("".join(chunks), encoding="utf-8", newline="")
     _write_json(paths["response_source_manifest"], _content_hashed({"schema_version": "invariant-gravity-item20-response-source-1.0", "confirmation_opened": 0, "response_rows": len(rows), "combined_sha256": _sha256_file(paths["exploration_responses"]), "receipts": receipts}))
@@ -479,7 +492,7 @@ def fetch_responses(root: Path) -> Path:
 
 def _load_rows(paths: Mapping[str, Path], config: Mapping[str, Any]) -> list[dict[str, Any]]:
     sample = _verify_content_hash(_read_json(paths["sample_manifest"]))
-    response = {_as_int(row.get("AGC", "")): row for row in _parse_vizier_tsv(paths["exploration_responses"])}
+    response = {_as_int(row.get("AGC", "")): row for row in _parse_path(paths["exploration_responses"], ("AGC", "logW", "e_logW"))}
     output = []
     for row in sample["objects"]:
         if row["role"] != "exploration":
