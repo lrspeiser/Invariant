@@ -22,7 +22,7 @@ import numpy as np
 from sigma_theory_compiler import gravity_item9_interior_exterior as attempt1
 
 CONFIG_PATH = Path("configs/gravity_item9_probes2_zero_tuning_replay_v1.json")
-SCIENTIFIC_FREEZE_COMMIT = "PENDING_SCIENTIFIC_FREEZE_COMMIT"
+SCIENTIFIC_FREEZE_COMMIT = "036dda3e7a2fe5fc3b65517ad75d129915fbde1e"
 SAMPLE_FREEZE_COMMIT = "PENDING_SAMPLE_FREEZE_COMMIT"
 
 
