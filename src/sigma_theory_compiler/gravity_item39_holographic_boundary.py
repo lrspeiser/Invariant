@@ -884,6 +884,394 @@ def write_sample_manifest(root: Path) -> Path:
     return path
 
 
+def write_wallaby_response_source(root: Path) -> Path:
+    root = root.resolve()
+    config = load_config(root)
+    if str(config["sample_freeze_commit"]).startswith("PENDING_"):
+        raise GravityItem39Error("Item 39 sample freeze is not bound")
+    sample_path = _source_path(root, config, "sample_manifest")
+    sample = _read_json(sample_path)
+    validate_sample_manifest(root, sample)
+    exploration = [row for row in sample["objects"] if row["role"] == "exploration"]
+    confirmations = {
+        (str(row["name"]), str(row["team_release_kin"]))
+        for row in sample["objects"]
+        if row["role"] == "reserved_confirmation"
+    }
+    conditions = []
+    for row in exploration:
+        name = str(row["name"]).replace("'", "''")
+        release = str(row["team_release_kin"]).replace("'", "''")
+        conditions.append(f"(name='{name}' AND team_release_kin='{release}')")
+    wallaby = config["data_sources"]["wallaby"]
+    columns = ",".join(wallaby["response_columns"])
+    query = (
+        f"SELECT {columns} FROM {wallaby['kinematic_table']} WHERE "
+        + " OR ".join(conditions)
+        + " ORDER BY name,team_release_kin"
+    )
+    payload, rows = _query_csv(
+        str(wallaby["tap_sync_endpoint"]),
+        query,
+        dialect="tap_adql",
+        user_agent="Invariant/Item39-WALLABY-Exploration-Responses",
+    )
+    expected_columns = set(wallaby["response_columns"])
+    if any(set(row) != expected_columns for row in rows):
+        raise GravityItem39Error("WALLABY response schema changed")
+    expected = {(str(row["name"]), str(row["team_release_kin"])) for row in exploration}
+    returned = {(str(row["name"]), str(row["team_release_kin"])) for row in rows}
+    if returned != expected or len(rows) != len(returned):
+        raise GravityItem39Error("WALLABY exploration response scope changed")
+    if returned & confirmations:
+        raise GravityItem39Error("WALLABY confirmation response was returned")
+    manifest = _content_hashed(
+        {
+            "schema_version": "invariant-gravity-item39-wallaby-exploration-response-1.0",
+            "item": 39,
+            "scientific_freeze_commit": config["scientific_freeze_commit"],
+            "predictor_freeze_commit": config["predictor_freeze_commit"],
+            "sample_freeze_commit": config["sample_freeze_commit"],
+            "sample_manifest_sha256": _sha256_file(sample_path),
+            "query_identity_count": len(expected),
+            "query_sha256": hashlib.sha256(query.encode()).hexdigest(),
+            "payload_sha256": hashlib.sha256(payload).hexdigest(),
+            "records": rows,
+            "counts": {
+                "exploration_response_rows": len(rows),
+                "confirmation_response_rows": 0,
+                "post_response_candidate_cells": 0,
+                "paid_model_calls": 0,
+            },
+            "claims": {
+                "confirmation_opened": False,
+                "response_scope_repaired_after_access": False,
+            },
+        }
+    )
+    path = _source_path(root, config, "wallaby_response_source")
+    _write_json(path, manifest)
+    return path
+
+
+def validate_wallaby_response_source(root: Path, source: Mapping[str, Any]) -> None:
+    config = load_config(root)
+    copy_value = dict(source)
+    digest = copy_value.pop("content_sha256", None)
+    if digest != _sha256_bytes(_canonical_bytes(copy_value)):
+        raise GravityItem39Error("WALLABY response content hash changed")
+    if source["sample_freeze_commit"] != config["sample_freeze_commit"]:
+        raise GravityItem39Error("WALLABY response sample binding changed")
+    if int(source["counts"]["confirmation_response_rows"]) != 0:
+        raise GravityItem39Error("confirmation response entered Item 39")
+    if int(source["counts"]["post_response_candidate_cells"]) != 0:
+        raise GravityItem39Error("post-response candidate entered Item 39")
+
+
+def _deserialize_wallaby_profile(row: Mapping[str, Any]) -> dict[str, Any]:
+    result = dict(row)
+    for key in (
+        "ra",
+        "dec",
+        "frequency_hz",
+        "distance_mpc",
+        "hi_mass_msun",
+        "screen_radius_kpc",
+    ):
+        result[key] = float(row[key])
+    for key in (
+        "radius_arcsec",
+        "radius_kpc",
+        "surface_density_hi_msun_pc2",
+        "surface_density_error_hi_msun_pc2",
+        "cumulative_hi_mass_msun",
+    ):
+        result[key] = np.asarray(row[key], dtype=np.float64)
+    return result
+
+
+def _write_tsv(path: Path, fields: list[str], rows: list[Mapping[str, Any]]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fields, delimiter="\t", lineterminator="\n")
+        writer.writeheader()
+        writer.writerows(rows)
+
+
+def _stellar_enclosed_mass(total_mass: float, radius: np.ndarray, scale: float) -> np.ndarray:
+    y = np.maximum(np.asarray(radius, dtype=np.float64) / scale, 0.0)
+    return total_mass * (1.0 - (1.0 + y) * np.exp(-y))
+
+
+def extract_wallaby_profiles(root: Path) -> dict[str, Path]:
+    root = root.resolve()
+    config = load_config(root)
+    wallaby_path = _source_path(root, config, "wallaby_predictor_source")
+    legacy_path = _source_path(root, config, "legacy_predictor_source")
+    sample_path = _source_path(root, config, "sample_manifest")
+    response_path = _source_path(root, config, "wallaby_response_source")
+    wallaby = _read_json(wallaby_path)
+    legacy = _read_json(legacy_path)
+    sample = _read_json(sample_path)
+    response = _read_json(response_path)
+    validate_wallaby_predictor_source(root, wallaby)
+    validate_legacy_predictor_source(root, legacy)
+    validate_sample_manifest(root, sample)
+    validate_wallaby_response_source(root, response)
+    profiles = {
+        (str(row["name"]), str(row["team_release_kin"])): _deserialize_wallaby_profile(row)
+        for row in wallaby["records"]
+    }
+    optical = {(str(row["galaxy"]), str(row["team_release_kin"])): row for row in legacy["records"]}
+    samples = {
+        (str(row["name"]), str(row["team_release_kin"])): row
+        for row in sample["objects"]
+        if row["role"] == "exploration"
+    }
+    feature_rows: list[dict[str, Any]] = []
+    response_rows: list[dict[str, Any]] = []
+    galaxy_receipts: list[dict[str, Any]] = []
+    constants = config["constants"]
+    quality = config["quality"]
+    g_constant = float(constants["gravitational_constant_kpc_km2_s2_msun"])
+    acceleration_conversion = 1.0e6 / 3.085677581491367e19
+    a0 = float(constants["acceleration_scale_m_s2"])
+    for raw in response["records"]:
+        key = (str(raw["name"]), str(raw["team_release_kin"]))
+        if key not in samples or key not in profiles or key not in optical:
+            raise GravityItem39Error(f"response identity lacks frozen predictors: {key}")
+        profile = profiles[key]
+        optical_row = optical[key]
+        sample_row = samples[key]
+        reasons: list[str] = []
+        try:
+            inclination = float(raw["Inc_model"])
+            qflag = float(raw["QFlag_model"])
+            radius_arcsec = _parse_vector(raw["Rad"])
+            velocity = _parse_vector(raw["Vrot_model"])
+            velocity_error = _parse_vector(raw["e_Vrot_model"])
+            inclination_error = _parse_vector(raw["e_Vrot_model_inc"])
+            if not (
+                len(radius_arcsec) == len(velocity) == len(velocity_error) == len(inclination_error)
+            ):
+                raise GravityItem39Error("rotation response vector lengths differ")
+        except (ValueError, GravityItem39Error) as exc:
+            galaxy_receipts.append(
+                {
+                    "name": key[0],
+                    "team_release_kin": key[1],
+                    "quality_pass": False,
+                    "quality_failure_reasons": [f"parser:{exc}"],
+                    "raw_rotation_points": 0,
+                    "accepted_rotation_points": 0,
+                }
+            )
+            continue
+        if qflag != float(quality["required_qflag_model"]):
+            reasons.append("qflag")
+        if not (
+            float(quality["minimum_inclination_degrees"])
+            <= inclination
+            <= float(quality["maximum_inclination_degrees"])
+        ):
+            reasons.append("inclination")
+        radius_kpc = (
+            radius_arcsec
+            * profile["distance_mpc"]
+            * 1000.0
+            / float(constants["arcseconds_per_radian"])
+        )
+        total_error = np.sqrt(
+            np.maximum(velocity_error, 0.0) ** 2 + np.maximum(inclination_error, 0.0) ** 2
+        )
+        within = (radius_kpc > 0.0) & (radius_kpc <= profile["screen_radius_kpc"])
+        valid = within & (velocity >= float(quality["minimum_speed_km_s"]))
+        valid &= total_error / np.maximum(velocity, 1e-12) <= float(
+            quality["maximum_fractional_speed_error"]
+        )
+        if int(np.sum(valid)) < int(quality["minimum_rotation_points"]):
+            reasons.append("insufficient_rotation_points")
+        if float(np.mean(within)) < float(quality["minimum_fraction_response_radii_within_screen"]):
+            reasons.append("screen_overlap")
+        passed = not reasons
+        accepted = int(np.sum(valid)) if passed else 0
+        if passed:
+            indices = np.flatnonzero(valid)
+            accepted_radius = radius_kpc[indices]
+            stellar_mass = float(optical_row["stellar_mass_msun"])
+            scale_radius = float(optical_row["effective_radius_kpc"]) / 1.678
+            gas_enclosed = np.interp(
+                accepted_radius,
+                profile["radius_kpc"],
+                profile["cumulative_hi_mass_msun"],
+                left=0.0,
+                right=profile["hi_mass_msun"],
+            ) * float(constants["helium_mass_factor"])
+            stellar_enclosed = _stellar_enclosed_mass(stellar_mass, accepted_radius, scale_radius)
+            baryonic_enclosed = gas_enclosed + stellar_enclosed
+            total_baryonic = stellar_mass + float(constants["helium_mass_factor"]) * float(
+                profile["hi_mass_msun"]
+            )
+            enclosed_fraction = np.clip(baryonic_enclosed / total_baryonic, 1e-8, 1.0)
+            source_radius = profile["radius_kpc"]
+            source_gas = profile["cumulative_hi_mass_msun"] * float(constants["helium_mass_factor"])
+            source_stars = _stellar_enclosed_mass(stellar_mass, source_radius, scale_radius)
+            source_baryonic = np.maximum(source_gas + source_stars, 1e-12)
+            source_slope = np.gradient(
+                np.log(source_baryonic), np.log(np.maximum(source_radius, 1e-12))
+            )
+            enclosed_slope = np.interp(
+                accepted_radius,
+                source_radius,
+                source_slope,
+                left=source_slope[0],
+                right=source_slope[-1],
+            )
+            local_sigma = np.interp(
+                accepted_radius,
+                profile["radius_kpc"],
+                profile["surface_density_hi_msun_pc2"],
+            )
+            gbar_km2_s2_kpc = g_constant * baryonic_enclosed / np.square(accepted_radius)
+            gbar_m_s2 = gbar_km2_s2_kpc * acceleration_conversion
+            u = gbar_m_s2 / a0
+            vbar = np.sqrt(g_constant * baryonic_enclosed / accepted_radius)
+            x = accepted_radius / profile["screen_radius_kpc"]
+            h_values = boundary_coordinates(enclosed_fraction, x, enclosed_slope)
+            for output_index, source_index in enumerate(indices):
+                feature_rows.append(
+                    {
+                        "galaxy": key[0],
+                        "team_release_kin": key[1],
+                        "point_index": output_index,
+                        "outer_fold": sample_row["outer_fold"],
+                        "source_cell": sample_row["source_cell"],
+                        "radius_kpc": f"{accepted_radius[output_index]:.12e}",
+                        "radius_over_screen": f"{x[output_index]:.12e}",
+                        "local_hi_surface_density": f"{local_sigma[output_index]:.12e}",
+                        "enclosed_baryonic_mass_msun": f"{baryonic_enclosed[output_index]:.12e}",
+                        "enclosed_fraction": f"{enclosed_fraction[output_index]:.12e}",
+                        "enclosed_log_slope": f"{enclosed_slope[output_index]:.12e}",
+                        "gbar_m_s2": f"{gbar_m_s2[output_index]:.12e}",
+                        "u": f"{u[output_index]:.12e}",
+                        "vbar_km_s": f"{vbar[output_index]:.12e}",
+                        "h_equipartition": f"{h_values[0, output_index]:.12e}",
+                        "h_quasilocal": f"{h_values[1, output_index]:.12e}",
+                        "h_wedge": f"{h_values[2, output_index]:.12e}",
+                        "h_flow": f"{h_values[3, output_index]:.12e}",
+                        "total_baryonic_mass_msun": sample_row["total_baryonic_mass_msun"],
+                        "gas_fraction": sample_row["gas_fraction"],
+                        "effective_to_screen_ratio": sample_row["effective_to_screen_ratio"],
+                        "axis_ratio": sample_row["axis_ratio"],
+                        "distance_mpc": sample_row["distance_mpc"],
+                        "inclination_degrees": f"{inclination:.12e}",
+                    }
+                )
+                response_rows.append(
+                    {
+                        "galaxy": key[0],
+                        "team_release_kin": key[1],
+                        "point_index": output_index,
+                        "observed_speed_km_s": f"{velocity[source_index]:.12e}",
+                        "observed_speed_error_km_s": f"{total_error[source_index]:.12e}",
+                    }
+                )
+        galaxy_receipts.append(
+            {
+                "name": key[0],
+                "team_release_kin": key[1],
+                "outer_fold": sample_row["outer_fold"],
+                "source_cell": sample_row["source_cell"],
+                "quality_pass": passed,
+                "quality_failure_reasons": reasons,
+                "raw_rotation_points": len(radius_arcsec),
+                "accepted_rotation_points": accepted,
+                "inclination_degrees": f"{inclination:.12e}",
+                "qflag_model": f"{qflag:.12e}",
+            }
+        )
+    feature_fields = [
+        "galaxy",
+        "team_release_kin",
+        "point_index",
+        "outer_fold",
+        "source_cell",
+        "radius_kpc",
+        "radius_over_screen",
+        "local_hi_surface_density",
+        "enclosed_baryonic_mass_msun",
+        "enclosed_fraction",
+        "enclosed_log_slope",
+        "gbar_m_s2",
+        "u",
+        "vbar_km_s",
+        "h_equipartition",
+        "h_quasilocal",
+        "h_wedge",
+        "h_flow",
+        "total_baryonic_mass_msun",
+        "gas_fraction",
+        "effective_to_screen_ratio",
+        "axis_ratio",
+        "distance_mpc",
+        "inclination_degrees",
+    ]
+    response_fields = [
+        "galaxy",
+        "team_release_kin",
+        "point_index",
+        "observed_speed_km_s",
+        "observed_speed_error_km_s",
+    ]
+    feature_path = _source_path(root, config, "point_features")
+    rotation_path = _source_path(root, config, "rotation_responses")
+    summary_path = _source_path(root, config, "extraction_summary")
+    _write_tsv(feature_path, feature_fields, feature_rows)
+    _write_tsv(rotation_path, response_fields, response_rows)
+    passing = sum(bool(row["quality_pass"]) for row in galaxy_receipts)
+    exploration_count = int(sample["counts"]["exploration"])
+    quality_count_pass = passing >= int(quality["minimum_quality_passing_exploration_galaxies"])
+    quality_fraction_pass = passing / max(exploration_count, 1) >= float(
+        quality["minimum_quality_retention_fraction"]
+    )
+    summary = _content_hashed(
+        {
+            "schema_version": "invariant-gravity-item39-extraction-summary-1.0",
+            "item": 39,
+            "sample_freeze_commit": config["sample_freeze_commit"],
+            "sample_manifest_sha256": _sha256_file(sample_path),
+            "response_source_sha256": _sha256_file(response_path),
+            "point_features_sha256": _sha256_file(feature_path),
+            "rotation_responses_sha256": _sha256_file(rotation_path),
+            "galaxies": galaxy_receipts,
+            "counts": {
+                "exploration_response_rows": len(response["records"]),
+                "quality_passing_galaxies": passing,
+                "quality_failing_galaxies": exploration_count - passing,
+                "accepted_rotation_points": len(response_rows),
+                "confirmation_response_rows": 0,
+                "post_response_candidate_cells": 0,
+                "paid_model_calls": 0,
+            },
+            "quality": {
+                "count_gate_passed": quality_count_pass,
+                "retention_fraction_gate_passed": quality_fraction_pass,
+                "overall_passed": quality_count_pass and quality_fraction_pass,
+            },
+            "claims": {
+                "confirmation_opened": False,
+                "failed_identity_replacement": False,
+            },
+        }
+    )
+    _write_json(summary_path, summary)
+    return {
+        "point_features": feature_path,
+        "rotation_responses": rotation_path,
+        "extraction_summary": summary_path,
+    }
+
+
 def generate_raw_candidates(config: Mapping[str, Any]) -> dict[str, np.ndarray]:
     shape = tuple(int(value) for value in config["candidate_generator"]["grid_shape_per_niche"])
     indices = np.indices(shape, dtype=np.int16).reshape(4, -1).T
@@ -1223,6 +1611,8 @@ def main() -> None:
             "wallaby-predictors",
             "legacy-predictors",
             "sample",
+            "responses",
+            "extract",
         ),
     )
     parser.add_argument("--root", type=Path, default=Path("."))
@@ -1240,8 +1630,17 @@ def main() -> None:
         print(write_wallaby_predictor_source(args.root))
     elif args.command == "legacy-predictors":
         print(write_legacy_predictor_source(args.root))
-    else:
+    elif args.command == "sample":
         print(write_sample_manifest(args.root))
+    elif args.command == "responses":
+        print(write_wallaby_response_source(args.root))
+    else:
+        print(
+            json.dumps(
+                {key: str(value) for key, value in extract_wallaby_profiles(args.root).items()},
+                sort_keys=True,
+            )
+        )
 
 
 if __name__ == "__main__":
