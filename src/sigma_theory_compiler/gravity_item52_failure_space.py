@@ -657,6 +657,13 @@ def _content_hash_valid(value: Mapping[str, Any]) -> bool:
     return expected == _sha256_bytes(_canonical_bytes(content))
 
 
+def _database_replay_view(value: Mapping[str, Any]) -> dict[str, Any]:
+    view = json.loads(json.dumps(value))
+    view.pop("content_sha256", None)
+    view["build_compute"].pop("wall_seconds", None)
+    return view
+
+
 def replay(root: Path, *, rebuild_database: bool = False) -> dict[str, Any]:
     config = load_config(root)
     database = _read_json(_source_path(root, config, "database"))
@@ -670,7 +677,9 @@ def replay(root: Path, *, rebuild_database: bool = False) -> dict[str, Any]:
         == build_aggregate_result(root),
     }
     if rebuild_database:
-        checks["database_full_gpu_rebuild"] = database == build_failure_space_database(root)
+        checks["database_full_gpu_rebuild"] = _database_replay_view(
+            database
+        ) == _database_replay_view(build_failure_space_database(root))
     return {"ok": all(checks.values()), "checks": checks}
 
 

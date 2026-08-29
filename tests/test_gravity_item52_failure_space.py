@@ -1,12 +1,15 @@
 from __future__ import annotations
 
 from pathlib import Path
+import json
 
 from sigma_theory_compiler.gravity_item49_pseudorandom_exploration import (
     load_config as load_item49_config,
 )
 from sigma_theory_compiler.gravity_item52_failure_space import (
     _formal_outer_records,
+    build_aggregate_result,
+    build_query_test,
     load_config,
     query_database,
 )
@@ -63,3 +66,28 @@ def test_query_database_filters_and_preserves_best_representatives() -> None:
     assert len(rows) == 1
     assert rows[0]["region_type"] == "binary_operator"
     assert rows[0]["best_representative_retained"] is True
+
+
+def test_recorded_item52_database_and_queries_preserve_nonpruning_contract() -> None:
+    config = load_config(ROOT)
+    source = ROOT / config["paths"]["source_dir"]
+    database = json.loads(
+        (source / config["paths"]["database"]).read_text(encoding="utf-8")
+    )
+    query = json.loads(
+        (source / config["paths"]["query_test"]).read_text(encoding="utf-8")
+    )
+    aggregate = json.loads(
+        (ROOT / config["paths"]["aggregate_result"]).read_text(encoding="utf-8")
+    )
+    assert query == build_query_test(ROOT)
+    assert aggregate == build_aggregate_result(ROOT)
+    assert database["formal_scope"]["excluded_outer_parameter_cells"] == 3760
+    assert database["empirical_scope"]["region_records"] == 1000
+    assert database["empirical_scope"]["regions_with_scheduled_threshold_passer"] == 0
+    assert all(
+        row["best_representative_retained"] and not row["global_family_pruned"]
+        for row in database["empirical_region_records"]
+    )
+    assert aggregate["claims"]["roadmap_item_52_complete"] is True
+    assert aggregate["claims"]["formula_family_pruned"] is False
