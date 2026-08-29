@@ -185,6 +185,9 @@
   },
   "evaluation": {
     "outer_folds": 5,
+    "candidate_batch_size": 4096,
+    "gpu_backend_preference": "cupy_cuda_then_numpy",
+    "cpu_gpu_tolerance": 1e-10,
     "selection_unit": "whole object",
     "balanced_score": "0.5*equal_S4TM_object_MSE+0.5*equal_CLASH_object_MSE",
     "primary_control": "Item45 geometry-density interaction",
@@ -195,13 +198,16 @@
       "matched scale-free action",
       "ordinary coordinate ridge"
     ],
-    "selection_aware_sign_flip_trials": 20000,
+    "paired_sign_flip_permutations": 19999,
+    "permutation_seed": 4801999,
+    "robust_trim_fraction": 0.1,
     "mass_scale_variants": [
-      "S4TM stellar mass -0.25 dex",
-      "S4TM stellar mass +0.25 dex",
-      "CLASH baryonic scale -0.10 dex",
-      "CLASH baryonic scale +0.10 dex"
+      ["s4tm_stellar_mass_minus_0.25_dex", "S4TM", -0.25],
+      ["s4tm_stellar_mass_plus_0.25_dex", "S4TM", 0.25],
+      ["clash_baryonic_scale_minus_0.10_dex", "CLASH", -0.10],
+      ["clash_baryonic_scale_plus_0.10_dex", "CLASH", 0.10]
     ],
+    "no_candidate_or_coefficient_may_be_selected_on_any_sealed_confirmation": true,
     "promotion_gates": {
       "all_action_derivation_and_static_health_checks_pass": true,
       "balanced_improvement_over_item45_at_least": 0.05,
