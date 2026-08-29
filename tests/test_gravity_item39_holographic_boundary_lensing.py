@@ -8,6 +8,7 @@ from sigma_theory_compiler.gravity_item39_holographic_boundary_lensing import (
     _normalize_id,
     _plain_value,
     _sersic_fraction_and_growth,
+    check,
 )
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -46,3 +47,10 @@ def test_item39_swells_sersic_projection_has_physical_fraction_and_growth() -> N
     assert np.isclose(disk_fraction, 0.5, atol=1e-4)
     assert bulge_growth > 0.0
     assert disk_growth > 0.0
+
+
+def test_item39_swells_result_replays_without_post_selection_search() -> None:
+    result = check(ROOT)
+    assert result["status"] == "ITEM39_SWELLS_TRANSFER_REPLAY_VALID"
+    assert result["post_selection_candidate_cells"] == 0
+    assert result["paid_model_calls"] == 0
