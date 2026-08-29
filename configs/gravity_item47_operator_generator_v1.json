@@ -1,0 +1,198 @@
+{
+  "schema_version": "invariant-gravity-item47-operator-generator-config-1.0",
+  "item": 47,
+  "status": "scientific_freeze_before_item47_retrospective_operator_evaluation",
+  "stable_goal_sha256": "b9db7e1aa76deaf28ce2e840cd3d7db4cf7a086b1c7ca473800780c264a0e772",
+  "scientific_freeze_commit": "UNBOUND_SCIENTIFIC_FREEZE",
+  "hypothesis": "A typed response-blind operator acting on the baryonic radial profile, shape tensor proxy, or causal age kernel can bridge galaxy and cluster lensing better than Item 45's pointwise geometry-density interaction.",
+  "scope": {
+    "all_empirical_responses_already_exposed": true,
+    "fresh_confirmation_claim_allowed": false,
+    "paid_api_calls_authorized": false,
+    "maximum_paid_api_usd": 0.0,
+    "historical_novelty_established": false,
+    "covariant_theory_established": false,
+    "measured_baryonic_history_available": false
+  },
+  "scientific_dependencies": {
+    "docs/GRAVITY_COUNTEREXAMPLE_AND_DATA_QUALITY_POLICY_V2.md": "76a032dbabb5e2e48a93dc4faa7d559c060735f66941bdaa4e40e21f4347cd4e",
+    "configs/gravity_empirical_counterexample_policy_v1.json": "aaca25628047af2bf781ab5f2ad1da5f9194fe8d7dd0f416179bc1c6783ddd6d",
+    "runs/gravity/roadmap/item-46-dimensionless-generator-v1.json": "7094f9a9c1ce581cfcc473c816110878061e9da4455ae72d0ac9c4a05694b06b",
+    "runs/gravity/roadmap/item-46-dimensionless-generator-v1-source/dimensionless-features.json": "ab1405fe006693689943bc50a920d8aa7526cc13ea6464462c4278734ab10cd2",
+    "runs/gravity/roadmap/item-46-dimensionless-generator-v1-source/joint-evaluation-result.json": "4cbe642a7eb9700243b49fceb9588393503a56f84c672853fe4189f1ade57184",
+    "runs/gravity/roadmap/item-43-cosmological-boundary-v1-source/s4tm-predictors.json": "614024b89e56bce20c78bfff89c4149b8cc423bfef079bdb2e33437392eff813",
+    "runs/gravity/roadmap/item-02-shape-anisotropy-v1-source/clash_xray_morphology_500kpc.tsv": "bbbdef427f720612a467ec1e35e95ee346b02aee71eb4f9f931332ac0abed0d3"
+  },
+  "required_predecessor": {
+    "content_sha256": "0de7202a74c5ebc6e71ebf2a257f0d17de484c6c91caa87dd9589d3ccf4a7b4e",
+    "decision": "NONPROMOTED_ITEM46_DIMENSIONLESS_GENERATOR_RESULT_RETAINED",
+    "selected_candidate_id": 560827
+  },
+  "discovery_policy": {
+    "equal_initial_viability": true,
+    "equal_cells_per_operator_class": 65536,
+    "post_evaluation_candidate_cells": 0,
+    "single_empirical_counterexample_is_not_a_formula_or_family_veto": true,
+    "counterexample_count_alone_is_never_decisive": true,
+    "finite_empirical_sample_may_prune_family": false,
+    "unchanged_independent_replication_required_for_terminal_tested_scope_rejection": true,
+    "data_quality_uncertainty_must_be_audited": true
+  },
+  "prior_art": [
+    {
+      "id": "mashhoon_nonlocal_gravity_2011",
+      "url": "https://arxiv.org/abs/1101.3752",
+      "role": "known causal constitutive nonlocal-gravity framework and integro-differential field equations"
+    },
+    {
+      "id": "mashhoon_constitutive_relations_2022",
+      "url": "https://arxiv.org/abs/2209.05817",
+      "role": "known history-dependent gravitational constitutive kernels"
+    },
+    {
+      "id": "milgrom_nonlocal_modified_inertia_1994",
+      "url": "https://arxiv.org/abs/astro-ph/9303012",
+      "role": "known need for time-nonlocality in a class of Galilei-invariant modified-inertia actions"
+    },
+    {
+      "id": "donahue_clash_xray_morphology_2016",
+      "url": "https://arxiv.org/abs/1601.04947",
+      "role": "published CLASH X-ray morphology and axis-ratio predictors"
+    }
+  ],
+  "weak_field_metric_contract": {
+    "metric": "ds^2=-(1+2*Phi/c^2)c^2dt^2+(1-2*Psi/c^2)dx^2",
+    "dynamics": "g_dyn=g_bar*nu(u,H_operator)",
+    "lensing": "g_lens=g_bar*nu under Phi=Psi",
+    "gravitational_slip": "Phi=Psi",
+    "claim_boundary": "The generated objects are bounded scalar projections of operator classes, not covariant field operators, Green functions, tensor equations, conserved actions, or causal-history reconstructions."
+  },
+  "profile_contract": {
+    "s4tm": "projected de Vaucouleurs cumulative stellar-mass profile on 128 response-blind log-radius nodes from 0.001 Rb to 100 Rb",
+    "clash": "published response-blind g_bar radial points converted to an enclosed-mass proxy and monotonized; no extrapolation beyond the published radial range",
+    "s4tm_shape": "published light axis ratio",
+    "clash_shape": "published 500-kpc X-ray axis ratio",
+    "tensor_scalar": "e=(1-axis_ratio)/(1+axis_ratio), a rotation/reflection-invariant quadrupole-amplitude proxy",
+    "history_projection": "K_tau[S]=integral_0^t exp[-(t-t')/tau]S(t')dt'/tau under the declared constant-current-state closure S(t')=S(t)",
+    "history_claim_boundary": "No measured past baryonic state is available; this only tests the age response of an exponential causal kernel under constant-state closure."
+  },
+  "operator_generator": {
+    "operator_classes": ["local", "differential", "interior_integral", "exterior_nonlocal", "tensor_scalar", "causal_history"],
+    "recipes_per_class": 16,
+    "operator_recipes": 96,
+    "sources_per_class": 4,
+    "scales_per_source": 4,
+    "radial_kernel_scales_log_radius": [0.3, 0.6, 1.0, 1.8],
+    "local_soft_scales": [0.25, 0.5, 1.0, 2.0],
+    "tensor_soft_scales": [0.1, 0.25, 0.5, 1.0],
+    "history_tau_over_t0": [0.1, 0.3, 1.0, 3.0],
+    "class_sources": {
+      "local": ["log10_u", "log10_R_over_Rb", "mass_slope_minus_one", "shape_anisotropy"],
+      "differential": ["mass_log_slope", "acceleration_log_slope", "mass_log_curvature", "radial_laplacian_proxy"],
+      "interior_integral": ["kernel_enclosed_mass", "kernel_interior_potential", "kernel_acceleration_contrast", "kernel_slope_contrast"],
+      "exterior_nonlocal": ["kernel_outer_mass", "kernel_outer_potential", "kernel_outer_acceleration_contrast", "kernel_outer_slope_contrast"],
+      "tensor_scalar": ["anisotropy_times_mass_slope", "anisotropy_times_log10_u", "anisotropy_times_geometry", "anisotropy_times_curvature"],
+      "causal_history": ["constant_state", "memory_times_log10_u", "memory_times_geometry", "memory_times_mass_slope_minus_one"]
+    },
+    "coordinate_map": "H=0.5+0.5*I/(1+abs(I))",
+    "support_rules": {
+      "local": "current radius only",
+      "differential": "Gaussian-weighted quadratic fit in log radius centered at current radius",
+      "interior_integral": "profile nodes r_prime<=R only",
+      "exterior_nonlocal": "profile nodes r_prime>R only",
+      "tensor_scalar": "axis-ratio quadrupole amplitude contracted to a rotational scalar",
+      "causal_history": "past times 0<=t_prime<=t under constant-state closure"
+    },
+    "creativity_labels": {
+      "local": "known_pointwise_operator_control",
+      "differential": "known_differential_operator_family",
+      "interior_integral": "known_cumulative_integral_family",
+      "exterior_nonlocal": "known_nonlocal_kernel_family_combination",
+      "tensor_scalar": "potentially_new_tensor_profile_observational_synthesis_not_historical_novelty",
+      "causal_history": "known_causal_kernel_with_unverified_constant_state_closure"
+    },
+    "response_values_allowed_in_operator_generation": 0
+  },
+  "candidate_generator": {
+    "seed": 4700829,
+    "operator_recipes": 96,
+    "cells_per_recipe": 4096,
+    "cells_per_operator_class": 65536,
+    "raw_candidate_cells": 393216,
+    "post_evaluation_cells": 0,
+    "parameter_grids": {
+      "amplitude": [0.02, 0.05, 0.1, 0.2, 0.3, 0.408248290463863, 0.5, 0.65, 0.8, 1.0, 1.25, 1.5, 2.0, 2.75, 4.0, 6.0],
+      "acceleration_exponent": [0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.75, 0.9, 1.1, 1.4],
+      "transition_u": [0.001, 0.003, 0.01, 0.03, 0.1, 0.3, 1.0, 3.0, 10.0, 30.0, 100.0, 300.0, 1000.0, 10000.0, 1000000.0, 100000000.0]
+    },
+    "universal_formula": "nu=1+A*u^(-p)/(1+u/u_t)*(0.05+0.95*H_operator)",
+    "admissibility": {
+      "probe_log10_u_min": -8.0,
+      "probe_log10_u_max": 8.0,
+      "probe_points": 49,
+      "probe_operator_coordinates": [0.05, 0.25, 0.5, 0.75, 0.95],
+      "minimum_multiplier": 1.0,
+      "maximum_multiplier": 1000000.0,
+      "maximum_high_acceleration_log10_deviation": 0.001,
+      "minimum_low_acceleration_multiplier": 1.02,
+      "monotone_nonincreasing_tolerance": 1e-10,
+      "behavior_signature_decimals": 6
+    }
+  },
+  "fiducial_cosmology": {
+    "hubble_constant_km_s_mpc": 70.0,
+    "omega_matter": 0.3,
+    "omega_lambda": 0.7
+  },
+  "data_roles": {
+    "s4tm": "already exposed 28-lens development set; seven confirmations remain sealed",
+    "clash": "already exposed 20-cluster, 84-point model-dependent acceleration set",
+    "selection_unit": "whole lens or whole cluster",
+    "balanced_primary_loss": "one half mean S4TM whole-object loss plus one half mean CLASH whole-cluster loss",
+    "fresh_confirmation_opened": false
+  },
+  "evaluation": {
+    "outer_folds": 5,
+    "candidate_batch_size": 4096,
+    "gpu_backend_preference": "cupy_cuda_then_numpy",
+    "cpu_gpu_tolerance": 1e-10,
+    "paired_sign_flip_permutations": 9999,
+    "permutation_seed": 4700999,
+    "robust_trim_fraction": 0.1,
+    "controls": [
+      "frozen Item 45 interaction with original fold selections",
+      "frozen Item 46 Pi generator with original fold selections",
+      "matched local-only operator search",
+      "matched scale-free parameter search",
+      "baryonic Newton",
+      "fixed MOND/RAR",
+      "cross-fitted ordinary coordinate ridge"
+    ],
+    "mass_scale_variants": [
+      ["s4tm_stellar_mass_minus_0.25_dex", "S4TM", -0.25],
+      ["s4tm_stellar_mass_plus_0.25_dex", "S4TM", 0.25],
+      ["clash_baryonic_scale_minus_0.10_dex", "CLASH", -0.10],
+      ["clash_baryonic_scale_plus_0.10_dex", "CLASH", 0.10]
+    ],
+    "no_candidate_or_coefficient_may_be_selected_on_any_sealed_confirmation": true
+  },
+  "gates": {
+    "candidate_must_beat_item45_in_s4tm": true,
+    "candidate_must_beat_item45_in_clash": true,
+    "candidate_must_beat_local_operator_balanced": true,
+    "candidate_must_beat_ordinary_ridge_balanced": true,
+    "paired_p_maximum": 0.05,
+    "leave_one_population_object_and_trim_may_not_reverse_sign": true,
+    "mass_scale_audits_may_not_all_reverse": true,
+    "confirmation_response_rows": 0,
+    "post_evaluation_candidate_cells": 0
+  },
+  "paths": {
+    "source_dir": "runs/gravity/roadmap/item-47-operator-generator-v1-source",
+    "candidate_manifest": "candidate-manifest.json",
+    "exposure_manifest": "exposure-manifest.json",
+    "feature_receipt": "operator-features.json",
+    "evaluation_result": "joint-evaluation-result.json",
+    "aggregate_result": "runs/gravity/roadmap/item-47-operator-generator-v1.json"
+  }
+}
