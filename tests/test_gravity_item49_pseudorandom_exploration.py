@@ -6,6 +6,7 @@ from pathlib import Path
 import numpy as np
 
 from sigma_theory_compiler.gravity_item49_pseudorandom_exploration import (
+    _best_behavior,
     _lane_ordinals,
     build_candidate_manifest,
     build_exposure_manifest,
@@ -57,6 +58,24 @@ def test_response_blind_primitive_receipt() -> None:
     }
 
 
+def test_behavior_selection_uses_balanced_object_loss() -> None:
+    config = load_config(ROOT)
+    arrays = {
+        "target": np.asarray([1.0, 1.0, 2.0, 2.0]),
+        "base": np.zeros(4),
+        "sigma": np.ones(4),
+        "population": np.asarray(["S4TM", "S4TM", "CLASH", "CLASH"]),
+        "object": np.asarray(["g1", "g2", "c1", "c1"]),
+    }
+    behavior = np.asarray([[0.0, 0.0, 0.0, 0.0], [1.0, 1.0, 2.0, 2.0]])
+    row, loss, _backend, count = _best_behavior(
+        behavior, arrays, np.ones(4, dtype=bool), config
+    )
+    assert row == 1
+    assert loss == 0.0
+    assert count == 8
+
+
 def test_recorded_freeze_receipts_replay_exactly() -> None:
     config = load_config(ROOT)
     source = ROOT / config["paths"]["source_dir"]
@@ -78,4 +97,3 @@ def test_recorded_freeze_receipts_replay_exactly() -> None:
     assert json.loads(
         (source / config["paths"]["exposure_manifest"]).read_text(encoding="utf-8")
     ) == build_exposure_manifest(ROOT)
-

@@ -28,6 +28,7 @@ from sigma_theory_compiler.gravity_item22_polarization_superposition import (
 from sigma_theory_compiler.gravity_item44_scale_hierarchy import _predict as _item44_predict
 from sigma_theory_compiler.gravity_item45_universal_interactions import (
     _item44_oof,
+    _object_weights,
     _ordinary_crossfit,
     _paired_p,
     _predict as _item45_predict,
@@ -752,3 +753,540 @@ def write_freeze_manifests(root: Path) -> list[Path]:
     _write_json(paths[1], build_primitive_receipt(root))
     _write_json(paths[2], build_exposure_manifest(root))
     return paths
+
+
+def _best_behavior(
+    behavior: np.ndarray,
+    arrays: Mapping[str, Any],
+    train: np.ndarray,
+    config: Mapping[str, Any],
+) -> tuple[int, float, str, int]:
+    weights_np = _object_weights(arrays, train)
+    indices = np.flatnonzero(train)
+    backend = "numpy_cpu"
+    xp: Any = np
+    try:
+        import cupy as cp
+
+        if int(cp.cuda.runtime.getDeviceCount()) > 0:
+            xp = cp
+            name = cp.cuda.runtime.getDeviceProperties(0)["name"]
+            backend = "cupy_cuda_" + (
+                name.decode() if isinstance(name, bytes) else str(name)
+            )
+    except Exception:
+        xp = np
+    residual = xp.asarray(arrays["target"][indices] - arrays["base"][indices])
+    sigma = xp.asarray(arrays["sigma"][indices])
+    weights = xp.asarray(weights_np[indices])
+    best_loss = math.inf
+    best_row = -1
+    batch_size = int(config["evaluation"]["candidate_batch_size"])
+    for begin in range(0, len(behavior), batch_size):
+        end = min(begin + batch_size, len(behavior))
+        candidate = xp.asarray(behavior[begin:end, indices])
+        errors = xp.square((candidate - residual[None, :]) / sigma[None, :])
+        losses = xp.sum(errors * weights[None, :], axis=1)
+        local = int(xp.argmin(losses).item())
+        loss = float(losses[local].item())
+        if loss < best_loss:
+            best_loss = loss
+            best_row = begin + local
+    if best_row < 0:
+        raise GravityItem49Error("no behavior program was evaluated")
+    return best_row, best_loss, backend, len(behavior) * len(indices)
+
+
+def _program_description(
+    programs: Mapping[str, np.ndarray],
+    row: int,
+    labels: Sequence[Mapping[str, Any]],
+    config: Mapping[str, Any],
+) -> dict[str, Any]:
+    grammar = config["program_grammar"]
+    left_id = int(programs["left_primitive_index"][row])
+    right_id = int(programs["right_primitive_index"][row])
+    left = labels[left_id]
+    right = labels[right_id]
+    left_transform = grammar["unary_transforms"][
+        int(programs["left_transform_index"][row])
+    ]
+    right_transform = grammar["unary_transforms"][
+        int(programs["right_transform_index"][row])
+    ]
+    operator = grammar["binary_operators"][int(programs["operator_index"][row])]
+    mixing = float(grammar["mixing_grid"][int(programs["mixing_index"][row])])
+    grids = grammar["outer_parameter_grids"]
+    source_items = sorted({int(left["source_item"]), int(right["source_item"])})
+    creativity = (
+        "potentially_new_cross_mechanism_combination"
+        if len(source_items) > 1
+        else "rewrite_or_recombination_within_a_known_generated_mechanism"
+    )
+    expression = (
+        f"{operator}({left_transform}({left['expression']}), "
+        f"{mixing:g}*{right_transform}({right['expression']}))"
+    )
+    return {
+        "behavior_class_index": row,
+        "ordinal": int(programs["ordinal"][row]),
+        "left_primitive": left,
+        "right_primitive": right,
+        "left_transform": left_transform,
+        "right_transform": right_transform,
+        "binary_operator": operator,
+        "mixing": mixing,
+        "amplitude": float(
+            grids["amplitude"][int(programs["amplitude_index"][row])]
+        ),
+        "acceleration_exponent": float(
+            grids["acceleration_exponent"][
+                int(programs["exponent_index"][row])
+            ]
+        ),
+        "transition_u": float(
+            grids["transition_u"][int(programs["transition_index"][row])]
+        ),
+        "coordinate_expression": expression,
+        "source_items": source_items,
+        "creativity_label": creativity,
+        "historical_novelty_claimed": False,
+    }
+
+
+def _fixed_behavior_oof(
+    fold_rows: Mapping[int, int],
+    behavior: np.ndarray,
+    arrays: Mapping[str, Any],
+) -> np.ndarray:
+    prediction = np.empty(len(arrays["target"]), dtype=float)
+    for fold, row in fold_rows.items():
+        test = arrays["fold"] == fold
+        prediction[test] = arrays["base"][test] + behavior[row, test]
+    return prediction
+
+
+def _item47_oof(
+    root: Path, arrays: Mapping[str, Any]
+) -> tuple[np.ndarray, dict[int, int]]:
+    config47 = _load_item47_config(root)
+    evaluation = _read_json(root / ITEM47_EVALUATION_PATH)
+    fold_ids = {
+        int(row["fold"]): int(row["selected_operator"]["candidate_id"])
+        for row in evaluation["fold_ledger"]
+    }
+    prediction = np.empty(len(arrays["target"]), dtype=float)
+    for fold, candidate_id in fold_ids.items():
+        test = arrays["fold"] == fold
+        prediction[test] = _item47_predict(
+            candidate_id, arrays, config47, bank_key="operator_bank"
+        )[test]
+    return prediction, fold_ids
+
+
+def _item48_oof(
+    root: Path, arrays: Mapping[str, Any]
+) -> tuple[np.ndarray, dict[int, int]]:
+    config48 = _load_item48_config(root)
+    evaluation = _read_json(root / ITEM48_EVALUATION_PATH)
+    fold_ids = {
+        int(row["fold"]): int(row["selected_action"]["candidate_id"])
+        for row in evaluation["fold_ledger"]
+    }
+    return (
+        _item48_fixed_oof(fold_ids, arrays, config48, "action_bank"),
+        fold_ids,
+    )
+
+
+def _program_behavior(
+    programs: Mapping[str, np.ndarray],
+    primitive_bank: np.ndarray,
+    u: np.ndarray,
+    config: Mapping[str, Any],
+) -> np.ndarray:
+    batch_size = int(config["evaluation"]["behavior_batch_size"])
+    behavior = np.empty((len(programs["ordinal"]), len(u)), dtype=float)
+    for begin in range(0, len(behavior), batch_size):
+        end = min(begin + batch_size, len(behavior))
+        behavior[begin:end] = program_log_multiplier(
+            _select_rows(programs, np.arange(begin, end)),
+            primitive_bank,
+            u,
+            config,
+        )
+    return behavior
+
+
+def _primitive_bank_from_arrays(arrays: Mapping[str, Any]) -> np.ndarray:
+    bank = np.vstack(
+        (
+            np.asarray(arrays["interaction_bank"], dtype=float),
+            np.asarray(arrays["pi_bank"], dtype=float),
+            np.asarray(arrays["operator_bank"], dtype=float),
+            np.asarray(arrays["action_bank"], dtype=float),
+        )
+    )
+    if bank.shape != (440, len(arrays["target"])):
+        raise GravityItem49Error("evaluation primitive bank shape changed")
+    return bank
+
+
+def build_evaluation_result(root: Path) -> dict[str, Any]:
+    config = load_config(root)
+    config48 = _load_item48_config(root)
+    arrays = _item48_evaluation_arrays(root, config48)
+    labels = primitive_labels(_primitive_sources(root))
+    lanes = ("pseudorandom", "sequential_ordinal_control")
+    programs: dict[str, dict[str, np.ndarray]] = {}
+    behaviors: dict[str, np.ndarray] = {}
+    lane_audits: dict[str, Any] = {}
+    for lane in lanes:
+        programs[lane], behaviors[lane], lane_audits[lane] = build_lane_programs(
+            root, config, lane
+        )
+
+    fold_rows: dict[str, dict[int, int]] = {lane: {} for lane in lanes}
+    oof: dict[str, np.ndarray] = {
+        lane: np.empty(len(arrays["target"]), dtype=float) for lane in lanes
+    }
+    ledger: list[dict[str, Any]] = []
+    backends: set[str] = set()
+    evaluations_by_lane = {lane: 0 for lane in lanes}
+    for fold in range(int(config["evaluation"]["outer_folds"])):
+        train = arrays["fold"] != fold
+        test = ~train
+        selected: dict[str, Any] = {}
+        for lane in lanes:
+            row, loss, backend, count = _best_behavior(
+                behaviors[lane], arrays, train, config
+            )
+            fold_rows[lane][fold] = row
+            oof[lane][test] = arrays["base"][test] + behaviors[lane][row, test]
+            backends.add(backend)
+            evaluations_by_lane[lane] += count
+            selected[lane] = {
+                "program": _program_description(
+                    programs[lane], row, labels, config
+                ),
+                "training_balanced_loss": loss,
+            }
+        ledger.append(
+            {
+                "fold": fold,
+                "selected_pseudorandom_program": selected["pseudorandom"]["program"],
+                "pseudorandom_training_balanced_loss": selected["pseudorandom"][
+                    "training_balanced_loss"
+                ],
+                "selected_sequential_program": selected[
+                    "sequential_ordinal_control"
+                ]["program"],
+                "sequential_training_balanced_loss": selected[
+                    "sequential_ordinal_control"
+                ]["training_balanced_loss"],
+                "heldout_s4tm_objects": sorted(
+                    set(
+                        arrays["object"][
+                            test & (arrays["population"] == "S4TM")
+                        ].tolist()
+                    )
+                ),
+                "heldout_clash_objects": sorted(
+                    set(
+                        arrays["object"][
+                            test & (arrays["population"] == "CLASH")
+                        ].tolist()
+                    )
+                ),
+            }
+        )
+
+    all_rows = np.ones(len(arrays["target"]), dtype=bool)
+    selected_rows: dict[str, int] = {}
+    selected_losses: dict[str, float] = {}
+    cpu_gpu_differences: dict[str, float] = {}
+    for lane in lanes:
+        row, loss, backend, count = _best_behavior(
+            behaviors[lane], arrays, all_rows, config
+        )
+        selected_rows[lane] = row
+        selected_losses[lane] = loss
+        evaluations_by_lane[lane] += count
+        backends.add(backend)
+        cpu_loss = _score(
+            arrays, arrays["base"] + behaviors[lane][row]
+        )["balanced_loss"]
+        cpu_gpu_differences[lane] = abs(float(cpu_loss) - loss)
+        if cpu_gpu_differences[lane] > float(
+            config["evaluation"]["cpu_gpu_tolerance"]
+        ):
+            raise GravityItem49Error(f"CPU/GPU loss cross-check failed for {lane}")
+
+    item44_oof, fold_item44 = _item44_oof(root, arrays)
+    item45_oof, fold_item45 = _item45_oof(root, arrays)
+    item46_oof, fold_item46 = _item46_oof(root, arrays)
+    item47_oof, fold_item47 = _item47_oof(root, arrays)
+    item48_oof, fold_item48 = _item48_oof(root, arrays)
+    scores = {
+        "pseudorandom_program_search": _score(arrays, oof["pseudorandom"]),
+        "sequential_ordinal_control": _score(
+            arrays, oof["sequential_ordinal_control"]
+        ),
+        "item48_action_generator": _score(arrays, item48_oof),
+        "item47_operator_generator": _score(arrays, item47_oof),
+        "item46_dimensionless_generator": _score(arrays, item46_oof),
+        "item45_universal_interaction": _score(arrays, item45_oof),
+        "item44_scale_hierarchy": _score(arrays, item44_oof),
+        "baryonic_newton": _score(arrays, arrays["base"]),
+        "mond_rar": _score(
+            arrays,
+            arrays["base"]
+            + np.log10(1.0 / (1.0 - np.exp(-np.sqrt(arrays["u"])))),
+        ),
+        "ordinary_ridge": _score(arrays, _ordinary_crossfit(arrays, config)),
+    }
+    controls = tuple(name for name in scores if name != "pseudorandom_program_search")
+    strongest = min(controls, key=lambda name: scores[name]["balanced_loss"])
+    candidate_objects = scores["pseudorandom_program_search"]["object_losses"]
+    control_objects = scores[strongest]["object_losses"]
+    object_keys = sorted(candidate_objects)
+    diff = np.asarray(
+        [control_objects[key] - candidate_objects[key] for key in object_keys]
+    )
+    raw_counterexample = diff < 0.0
+    stable_counterexample = raw_counterexample.copy()
+
+    config44 = _read_json(root / "configs/gravity_item44_scale_hierarchy_v1.json")
+    config45 = _load_item45_config(root)
+    config46 = _load_item46_config(root)
+    config47 = _load_item47_config(root)
+    shapes = _shape_by_object(root, arrays)
+    systematic_scores: dict[str, Any] = {}
+    for variant_name, population, shift in config["evaluation"]["mass_scale_variants"]:
+        varied = _item45_variant_arrays(
+            arrays, str(population), float(shift), config45
+        )
+        varied["pi_bank"] = (
+            1.0
+            / (
+                1.0
+                + np.abs(
+                    _item46_physical_log_values(varied, config46)
+                    @ np.asarray(_item46_pi_vectors(config46), dtype=float).T
+                )
+            )
+        ).T
+        varied["operator_bank"] = _item47_operator_bank_from_arrays(
+            varied, shapes, config47
+        )[1].T
+        varied["action_bank"] = _item48_action_bank_from_arrays(
+            varied, config48
+        )[1].T
+        varied_bank = _primitive_bank_from_arrays(varied)
+        varied_behavior = {
+            lane: _program_behavior(
+                programs[lane], varied_bank, np.asarray(varied["u"]), config
+            )
+            for lane in lanes
+        }
+        variant_predictions = {
+            "pseudorandom_program_search": _fixed_behavior_oof(
+                fold_rows["pseudorandom"], varied_behavior["pseudorandom"], varied
+            ),
+            "sequential_ordinal_control": _fixed_behavior_oof(
+                fold_rows["sequential_ordinal_control"],
+                varied_behavior["sequential_ordinal_control"],
+                varied,
+            ),
+            "item48_action_generator": _item48_fixed_oof(
+                fold_item48, varied, config48, "action_bank"
+            ),
+        }
+        item44_variant = np.empty(len(varied["target"]), dtype=float)
+        item45_variant = np.empty(len(varied["target"]), dtype=float)
+        item46_variant = np.empty(len(varied["target"]), dtype=float)
+        item47_variant = np.empty(len(varied["target"]), dtype=float)
+        for fold in range(int(config["evaluation"]["outer_folds"])):
+            test = varied["fold"] == fold
+            item44_variant[test] = _item44_predict(
+                fold_item44[fold], varied, config44
+            )[test]
+            item45_variant[test] = _item45_predict(
+                fold_item45[fold], varied, config45, bank_key="interaction_bank"
+            )[test]
+            item46_variant[test] = _item46_predict(
+                fold_item46[fold], varied, config46, bank_key="pi_bank"
+            )[test]
+            item47_variant[test] = _item47_predict(
+                fold_item47[fold], varied, config47, bank_key="operator_bank"
+            )[test]
+        variant_predictions.update(
+            {
+                "item47_operator_generator": item47_variant,
+                "item46_dimensionless_generator": item46_variant,
+                "item45_universal_interaction": item45_variant,
+                "item44_scale_hierarchy": item44_variant,
+                "baryonic_newton": varied["base"],
+                "mond_rar": varied["base"]
+                + np.log10(
+                    1.0 / (1.0 - np.exp(-np.sqrt(varied["u"])))
+                ),
+                "ordinary_ridge": _ordinary_crossfit(varied, config),
+            }
+        )
+        variants = {
+            name: _score(varied, prediction)
+            for name, prediction in variant_predictions.items()
+        }
+        systematic_scores[str(variant_name)] = {
+            "pseudorandom_program_search": variants[
+                "pseudorandom_program_search"
+            ],
+            "sequential_ordinal_control": variants["sequential_ordinal_control"],
+            "item45_primary_control": variants["item45_universal_interaction"],
+            "strongest_control_name": strongest,
+            "strongest_control": variants[strongest],
+        }
+        for index, key in enumerate(object_keys):
+            stable_counterexample[index] &= (
+                variants["pseudorandom_program_search"]["object_losses"][key]
+                > variants[strongest]["object_losses"][key]
+            )
+
+    leave_one = [
+        float(np.mean(np.delete(diff, index))) for index in range(len(diff))
+    ]
+    trim_count = max(
+        1,
+        int(len(diff) * float(config["evaluation"]["robust_trim_fraction"])),
+    )
+    trimmed = np.sort(diff)[trim_count:-trim_count]
+    candidate_score = scores["pseudorandom_program_search"]["balanced_loss"]
+    improvement = 100.0 * (
+        scores[strongest]["balanced_loss"] - candidate_score
+    ) / scores[strongest]["balanced_loss"]
+    improvement_item45 = 100.0 * (
+        scores["item45_universal_interaction"]["balanced_loss"] - candidate_score
+    ) / scores["item45_universal_interaction"]["balanced_loss"]
+    improvement_sequential = 100.0 * (
+        scores["sequential_ordinal_control"]["balanced_loss"] - candidate_score
+    ) / scores["sequential_ordinal_control"]["balanced_loss"]
+    policy_report = {
+        "evidence_kind": "empirical",
+        "evaluable_objects": len(object_keys),
+        "raw_counterexample_count": int(np.sum(raw_counterexample)),
+        "quality_verified_counterexample_count": int(np.sum(raw_counterexample)),
+        "uncertainty_resolved_counterexample_count": int(
+            np.sum(stable_counterexample)
+        ),
+        "independent_failure_strata": 0,
+        "unchanged_independent_replication_failures": 0,
+        "aggregate_improvement_percent": improvement,
+        "quality_gate_passed": False,
+        "strongest_baseline_failed": bool(improvement <= 0.0),
+        "leave_one_changes_sign": bool(
+            (min(leave_one) <= 0.0) != (float(np.mean(diff)) <= 0.0)
+        ),
+        "trim_changes_sign": bool(
+            (float(np.mean(trimmed)) <= 0.0) != (float(np.mean(diff)) <= 0.0)
+        ),
+        "object_level_records_preserved": True,
+        "missing_quality_limited_records_preserved": True,
+        "exclusions_frozen_before_response": True,
+    }
+    policy = assess_counterexample_evidence(
+        policy_report, load_counterexample_policy(root / POLICY_PATH)
+    )
+    return _content_hashed(
+        {
+            "schema_version": "invariant-gravity-item49-joint-evaluation-1.0",
+            "item": 49,
+            "scientific_freeze_commit": config["scientific_freeze_commit"],
+            "selected_pseudorandom_program": _program_description(
+                programs["pseudorandom"],
+                selected_rows["pseudorandom"],
+                labels,
+                config,
+            ),
+            "selected_pseudorandom_full_data_balanced_training_loss": selected_losses[
+                "pseudorandom"
+            ],
+            "selected_sequential_program": _program_description(
+                programs["sequential_ordinal_control"],
+                selected_rows["sequential_ordinal_control"],
+                labels,
+                config,
+            ),
+            "selected_sequential_full_data_balanced_training_loss": selected_losses[
+                "sequential_ordinal_control"
+            ],
+            "fold_ledger": ledger,
+            "scores": scores,
+            "strongest_control": strongest,
+            "aggregate_improvement_percent": improvement,
+            "improvement_over_item45_percent": improvement_item45,
+            "improvement_over_equal_budget_sequential_percent": improvement_sequential,
+            "paired_sign_flip_p": _paired_p(diff, config),
+            "robustness": {
+                "leave_one_min_mean_control_minus_candidate_loss": min(leave_one),
+                "leave_one_max_mean_control_minus_candidate_loss": max(leave_one),
+                "trimmed_mean_control_minus_candidate_loss": float(np.mean(trimmed)),
+            },
+            "counterexamples": [
+                {
+                    "object": key,
+                    "raw_counterexample": bool(raw_counterexample[index]),
+                    "mass_variant_stable_counterexample": bool(
+                        stable_counterexample[index]
+                    ),
+                }
+                for index, key in enumerate(object_keys)
+            ],
+            "systematic_scores": systematic_scores,
+            "counterexample_policy_report": policy_report,
+            "counterexample_policy_assessment": policy,
+            "compute": {
+                "backends": sorted(backends),
+                "program_point_fold_evaluations_by_lane": evaluations_by_lane,
+                "program_point_fold_evaluations": sum(
+                    evaluations_by_lane.values()
+                ),
+                "cpu_gpu_selected_loss_absolute_difference": cpu_gpu_differences,
+                "lane_audits": lane_audits,
+            },
+            "counts": {
+                "raw_schedule_positions": sum(
+                    audit["raw_schedule_positions"] for audit in lane_audits.values()
+                ),
+                "physically_admitted_programs": sum(
+                    audit["physically_admitted_cells"] for audit in lane_audits.values()
+                ),
+                "outcome_scored_behavior_classes": sum(
+                    audit["programs_eligible_for_response_scoring"]
+                    for audit in lane_audits.values()
+                ),
+                "s4tm_lenses": 28,
+                "clash_clusters": 20,
+                "clash_points": 84,
+                "sealed_confirmation_rows": 0,
+                "post_evaluation_candidate_cells": 0,
+                "paid_model_calls": 0,
+            },
+            "limitations": [
+                "All response rows were exposed before Item 49; grouped cross-validation is retrospective development, not fresh confirmation.",
+                "Only 2,097,152 raw ordinals were sampled from a 6,496,138,035,200-ordinal grammar; the grammar was not exhausted and no trillion-program evaluation was run.",
+                "Behavioral equivalence is defined on 112 development predictor rows and may merge programs that differ elsewhere.",
+                "The grammar recombines known and earlier generated ingredients; historical novelty is not established by a new sampled expression.",
+                "S4TM uses an analytic projected stellar profile without measured gas; CLASH uses model-dependent published acceleration profiles.",
+                "Four global baryonic-mass shifts do not exhaust measurement, geometry, selection, or lens-model uncertainty.",
+                "Empirical mismatches are retained as evidence; neither one counterexample nor their count prunes a formula family.",
+            ],
+        }
+    )
+
+
+def write_evaluation_result(root: Path) -> Path:
+    config = load_config(root)
+    path = _source_path(root, config, "evaluation_result")
+    _write_json(path, build_evaluation_result(root))
+    return path
