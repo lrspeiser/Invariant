@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 
 import numpy as np
@@ -80,3 +81,35 @@ def test_joint_feature_receipt_preserves_whole_objects_and_sealed_data() -> None
     assert len({row["object"] for row in rows if row["population"] == "S4TM"}) == 28
     assert len({row["object"] for row in rows if row["population"] == "CLASH"}) == 20
     assert all(len(row["hierarchy"]) == 4 for row in rows)
+
+
+def test_recorded_joint_result_is_a_retained_retrospective_pattern() -> None:
+    config = load_config(ROOT)
+    source_dir = ROOT / config["paths"]["source_dir"]
+    result = json.loads(
+        (source_dir / config["paths"]["evaluation_result"]).read_text(
+            encoding="utf-8"
+        )
+    )
+    aggregate = json.loads(
+        (ROOT / config["paths"]["aggregate_result"]).read_text(encoding="utf-8")
+    )
+    assert result["selected_candidate"]["lane"] == "aperture_transition_match"
+    assert all(
+        row["selected_candidate"]["lane"] == "aperture_transition_match"
+        for row in result["fold_ledger"]
+    )
+    assert result["scores"]["scale_hierarchy"]["balanced_loss"] < result[
+        "scores"
+    ]["matched_scale_free"]["balanced_loss"]
+    assert result["scores"]["scale_hierarchy"]["populations"]["S4TM"][
+        "loss"
+    ] < result["scores"]["matched_scale_free"]["populations"]["S4TM"]["loss"]
+    assert result["scores"]["scale_hierarchy"]["populations"]["CLASH"][
+        "loss"
+    ] < result["scores"]["matched_scale_free"]["populations"]["CLASH"]["loss"]
+    assert len(result["systematic_scores"]) == 4
+    assert aggregate["gates"]["mass_scale_audits_all_improve"] is False
+    assert aggregate["gates"]["fresh_confirmation_available"] is False
+    assert aggregate["claims"]["formula_family_pruned"] is False
+    assert aggregate["claims"]["single_counterexample_used_as_veto"] is False
