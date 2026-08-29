@@ -1,0 +1,98 @@
+{
+  "exact_v3_structural_kernel_controls": {
+    "canonical_orbit_invariance": {
+      "accepted_cases": {
+        "coupled": 8,
+        "geometry": 8,
+        "stellar": 8
+      },
+      "maximum_absolute_composite_difference": 4.440892098500626e-16,
+      "passed": true
+    },
+    "complete_sweep_property": "fixed_composition_of_invariant_kernels_is_invariant; complete sweep is not claimed reversible",
+    "detailed_balance": {
+      "blocks": [
+        {
+          "block_id": "direct_dynamics",
+          "metropolis_posterior_log_flux_residual": 1.4210854715202004e-14,
+          "pairs": 4096,
+          "prior_reversibility_log_residual": 4.9404924595819466e-15
+        },
+        {
+          "block_id": "direct_boundary_density",
+          "metropolis_posterior_log_flux_residual": 1.4210854715202004e-14,
+          "pairs": 4096,
+          "prior_reversibility_log_residual": 6.994405055138486e-15
+        },
+        {
+          "block_id": "direct_source_clumping_acceleration",
+          "metropolis_posterior_log_flux_residual": 1.4210854715202004e-14,
+          "pairs": 4096,
+          "prior_reversibility_log_residual": 7.105427357601002e-15
+        },
+        {
+          "block_id": "geometry_temperature_quotient",
+          "metropolis_posterior_log_flux_residual": 2.842170943040401e-14,
+          "pairs": 4096,
+          "prior_reversibility_log_residual": 7.105427357601002e-15
+        },
+        {
+          "block_id": "stellar_product_pushforward",
+          "metropolis_posterior_log_flux_residual": 2.842170943040401e-14,
+          "pairs": 4096,
+          "prior_reversibility_log_residual": 6.217248937900877e-15
+        },
+        {
+          "block_id": "global_prior_transport",
+          "metropolis_posterior_log_flux_residual": 2.842170943040401e-14,
+          "pairs": 4096,
+          "prior_reversibility_log_residual": 1.4210854715202004e-14
+        }
+      ],
+      "maximum_metropolis_posterior_log_flux_residual": 2.842170943040401e-14,
+      "maximum_prior_reversibility_log_residual": 1.4210854715202004e-14,
+      "passed": true,
+      "proof": "For each fixed primitive block, z=Phi^-1(u) has a standard-normal prior and z'=sqrt(1-beta^2)z+beta*xi is reversible with respect to that prior. The Metropolis likelihood ratio therefore targets the exact 17-uniform primitive posterior. Each fixed block is invariant; their fixed sequential composition and the canonical prior-invariant orbit composition are invariant even though the complete sweep need not be reversible. Phi maps back to the open unit cube, after which the exact clipped six-factor stellar pushforward is unchanged.",
+      "threshold": 5e-11
+    },
+    "exact_prior_and_atom_invariance": {
+      "all_primitives_covered_by_non_global_blocks": true,
+      "composite_two_sample_ks_threshold": 0.015,
+      "draws": 65536,
+      "global_block_covers_all_primitives": true,
+      "maximum_composite_two_sample_ks": 0.004974365234375,
+      "maximum_stellar_clip_atom_frequency_difference": 0.0002899169921875,
+      "maximum_uniform_marginal_ks": 0.0056894553092955436,
+      "passed": true,
+      "stellar_clip_atom_frequency_threshold": 0.005,
+      "stellar_clip_atoms": [
+        {
+          "absolute_difference": 1.52587890625e-05,
+          "atom": "lower_clip_0p4",
+          "initial_frequency": 3.0517578125e-05,
+          "transported_frequency": 4.57763671875e-05
+        },
+        {
+          "absolute_difference": 0.0002899169921875,
+          "atom": "upper_clip_2p5",
+          "initial_frequency": 0.005340576171875,
+          "transported_frequency": 0.0056304931640625
+        }
+      ],
+      "uniform_marginal_ks_threshold": 0.012
+    },
+    "passed": true
+  },
+  "full_matched_newtonian_run_launched": false,
+  "network_calls": 0,
+  "paid_or_model_calls": 0,
+  "passed": true,
+  "precision_positive_definite": true,
+  "predictor_basis_rank": 10,
+  "predictor_rows": 80,
+  "production_likelihood_evaluations": 0,
+  "real_rows": 0,
+  "schema_version": "invariant-gravity-nuisance-quotient-newtonian-controls-2.0",
+  "status": "bounded_synthetic_controls_only",
+  "sufficient_statistic_dimension": 10
+}
