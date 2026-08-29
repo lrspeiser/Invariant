@@ -81,12 +81,23 @@ def test_tables_are_parseable_nonempty_csv_with_expected_scientific_coverage() -
         row[:3] == ["act_erass_overlap", "population_gate_evaluated", "false"]
         for row in table_5[1:]
     )
+    assert any(row[:3] == ["act_erass_executor", "authorized", "false"] for row in table_5[1:])
+    assert any(row[:3] == ["act_erass_executor", "catalog_rows_opened", "0"] for row in table_5[1:])
     assert any(
         row[:3] == ["matter_lensing_theory", "template_level_gates_passed", "1"]
         for row in table_5[1:]
     )
     assert any(
         row[:3] == ["matter_lensing_symbolic", "full_H2_passed", "false"] for row in table_5[1:]
+    )
+    assert any(
+        row[:3]
+        == [
+            "matter_lensing_external_symbol",
+            "designed_u_above_one_third_failure_preserved",
+            "true",
+        ]
+        for row in table_5[1:]
     )
     table_6 = parsed["table-6-access-claims-limitations.csv"]
     assert any(
@@ -129,7 +140,27 @@ def test_tables_are_parseable_nonempty_csv_with_expected_scientific_coverage() -
         for row in table_6[1:]
     )
     assert any(
+        row == ["group_act_acquisition_boundary", "act_executor_authorized", "false"]
+        for row in table_6[1:]
+    )
+    assert any(
+        row == ["group_act_acquisition_boundary", "act_executor_catalog_rows_opened", "0"]
+        for row in table_6[1:]
+    )
+    assert any(
         row == ["matter_lensing_theory_boundary", "full_H2_passed", "false"] for row in table_6[1:]
+    )
+    assert any(
+        row == ["matter_lensing_theory_boundary", "full_H3_passed", "false"] for row in table_6[1:]
+    )
+    assert any(
+        row
+        == [
+            "matter_lensing_theory_boundary",
+            "designed_u_above_one_third_failure_preserved",
+            "true",
+        ]
+        for row in table_6[1:]
     )
     assert any(
         row

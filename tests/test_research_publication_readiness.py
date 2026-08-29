@@ -203,6 +203,11 @@ def test_independent_target_seal_and_evidence_bindings_fail_closed() -> None:
             "ACT/eRASS",
         ),
         (
+            "act_erass_overlap_executor_v2",
+            lambda value: value["access_state"].__setitem__("authorization", True),
+            "ACT/eRASS executor",
+        ),
+        (
             "matter_lensing_theory_preflight",
             lambda value: value["claim_boundary"].__setitem__("healthy_action_completed", True),
             r"matter\+lensing theory",
@@ -211,6 +216,11 @@ def test_independent_target_seal_and_evidence_bindings_fail_closed() -> None:
             "matter_lensing_symbolic_derivation",
             lambda value: value["claim_boundary"].__setitem__("full_H2_passed", True),
             "bounded symbolic",
+        ),
+        (
+            "matter_lensing_external_metric_principal_symbol",
+            lambda value: value["claim_boundary"].__setitem__("full_H3_passed", True),
+            "external-metric principal symbol",
         ),
     ],
 )
@@ -238,7 +248,7 @@ def test_stored_receipt_rebuilds_exactly_and_is_content_bound() -> None:
         "partial_gates": 5,
         "blocked_gates": 1,
         "not_started_gates": 3,
-        "bound_evidence_receipts": 32,
+        "bound_evidence_receipts": 34,
         "independent_target_rows_opened": 0,
     }
 

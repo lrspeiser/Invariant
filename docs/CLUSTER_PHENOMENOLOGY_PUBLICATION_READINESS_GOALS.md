@@ -80,10 +80,18 @@ follows the candidate acceleration law.
 - Group acquisition froze one 6,278-byte schema manifest but opened zero alias or science
   rows. The ACT DR6 x eRASS1 preflight likewise opened zero catalog rows: its overlap,
   X-COP exclusion, and 192-object population gates remain unevaluated and unauthorized.
+- The guarded ACT DR6 x eRASS1 executor is now implementation-bound at commit `b31eefcc`.
+  It remains unauthorized and unrun: no network request, file download, catalog row,
+  overlap count, X-COP exclusion result, or 192-object adjudication exists.
 - A two-scalar matter+lensing action was retained only as a feasibility template. One of
   ten template/health gates passes and nine remain blocked. A separate symbolic suite
   passes bounded scalar identities (20 symbolic and 6 numerical checks), but not general
   covariant equations, full H2, metric variation, Hamiltonian health, or joint lensing.
+- The restricted external-metric principal-symbol package at commit `d1e2491b` derives
+  only partial scalar H3 and constant-coefficient H4 evidence. It deliberately preserves
+  the negative `u>1/3` kinetic-determinant contribution; metric constraints, on-shell
+  backgrounds, global hyperbolicity, cutoff control, disformal matter, and lensing remain
+  unproved.
 
 Useful primary context includes the SPARC radial-acceleration relation
 (https://arxiv.org/abs/1609.05917), the documented residual MOND problem in X-ray groups
@@ -477,6 +485,12 @@ the overlap count, X-COP exclusion ledger, post-exclusion population, and 192-ob
 are all unevaluated. Metadata readiness does not complete CP3 or CP7 and does not make an
 independent profile packet ready.
 
+The V2 executor adds guarded download, allowlisted parsing, exhaustive spherical matching,
+global X-COP candidate tainting, and atomic publication mechanics. Those are executable
+controls, not an executed catalog result: the authorization manifest is still false and
+all network, byte, file, row, ledger, exclusion, and scoring counters remain zero. No CP3
+or CP7 task changes state.
+
 The preselection protocol is machine-bound in
 `configs/gravity_cluster_independent_replication_protocol_v1.json` and
 `runs/gravity/publication-readiness/independent-replication-protocol-v1.json`. It freezes
@@ -570,6 +584,14 @@ restricted flat-background scalar identities and local Green-function behavior; 
 explicitly leaves the general covariant scalar equations unverified and full metric
 variation, Noether/Hamiltonian closure, global hyperbolicity, screening, cosmology, and
 joint matter+lensing prediction blocked. No CP11 checkbox or scientific claim changes.
+
+The external-metric principal-symbol successor machine-derives the two-scalar block for
+constant local jets and labels H3 and H4 only `PARTIAL`. Its exact factorization changes
+sign at `u=1/3`; the retained probe above that transition has a negative kinetic
+determinant contribution. This is a serious designed obstruction, not a no-go theorem or
+a healthy-domain proof. The metric-scalar constraint system, on-shell backgrounds,
+variable-coefficient strong hyperbolicity, cutoff, disformal matter characteristics, and
+lensing are still absent, so CP11 remains blocked.
 
 - [ ] **CP11.1** Derive the weak-field law from an action or a closed field system.
 - [ ] **CP11.2** Construct the baryonic source covariantly and causally.

@@ -567,6 +567,18 @@ def _table_5(evidence: Mapping[str, Any]) -> bytes:
             "catalog rows unauthorized",
         ),
         (
+            "act_erass_executor",
+            "authorized",
+            acquisition["act_executor_authorized"],
+            "guarded executor frozen; no run",
+        ),
+        (
+            "act_erass_executor",
+            "catalog_rows_opened",
+            acquisition["act_executor_catalog_rows_opened"],
+            f"network calls={acquisition['act_executor_network_calls']}",
+        ),
+        (
             "matter_lensing_theory",
             "template_level_gates_passed",
             theory["template_level_gates_passed"],
@@ -577,6 +589,24 @@ def _table_5(evidence: Mapping[str, Any]) -> bytes:
             "full_H2_passed",
             theory["full_H2_passed"],
             "bounded scalar identities only",
+        ),
+        (
+            "matter_lensing_external_symbol",
+            "H3_scalar_external_metric",
+            theory["H3_scalar_external_metric"],
+            "partial constant-local-jet result",
+        ),
+        (
+            "matter_lensing_external_symbol",
+            "H4_constant_coefficient",
+            theory["H4_constant_coefficient"],
+            "partial; metric constraints absent",
+        ),
+        (
+            "matter_lensing_external_symbol",
+            "designed_u_above_one_third_failure_preserved",
+            theory["designed_u_above_one_third_failure_preserved"],
+            "negative determinant contribution retained",
         ),
     ]
     for injection in controls["synthetic_recovery"]["injections"]:

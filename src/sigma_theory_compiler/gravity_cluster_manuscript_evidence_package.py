@@ -30,10 +30,12 @@ SOURCE_IDS = (
     "group_scale_bridge_acquisition_v2",
     "missing_variable_preflight",
     "act_erass_overlap_preflight",
+    "act_erass_overlap_executor_v2",
     "predictor_strata_preflight",
     "cluster_strata_development_scoring",
     "matter_lensing_theory_preflight",
     "matter_lensing_symbolic_derivation",
+    "matter_lensing_external_metric_principal_symbol",
     "nuisance_quotient_sampler_implementation",
     "nuisance_quotient_sbc_v3_adjudicator",
     "matched_newtonian_control_v2",
@@ -175,8 +177,10 @@ def _validate_new_source_semantics(sources: Mapping[str, Mapping[str, Any]]) -> 
     missing = sources["missing_variable_preflight"]
     group = sources["group_scale_bridge_acquisition_v2"]
     act = sources["act_erass_overlap_preflight"]
+    act_executor = sources["act_erass_overlap_executor_v2"]
     theory = sources["matter_lensing_theory_preflight"]
     symbolic = sources["matter_lensing_symbolic_derivation"]
+    external_symbol = sources["matter_lensing_external_metric_principal_symbol"]
     if (
         shape["current_authorization"]["authorized"] is not False
         or shape["claims"]["real_scoring_executed"] is not False
@@ -226,6 +230,70 @@ def _validate_new_source_semantics(sources: Mapping[str, Mapping[str, Any]]) -> 
     ):
         raise GravityClusterManuscriptPackageError("ACT/eRASS ceiling changed")
     if (
+        act_executor["status"] != "frozen_unauthorized_executor_not_run"
+        or act_executor["decision"] != "PREPARED_NOT_AUTHORIZED_NOT_EXECUTED"
+        or act_executor["config_binding"]
+        != {
+            "content_sha256": "61ed48e0ba6143480757472a203bad74d527975d4426e230993f81405bb74a81",
+            "file_sha256": "04d2cc80e21efd688707c036f54da266d20561f24fc34f3fe4bd912fe9387b3a",
+            "path": "configs/gravity_cluster_act_dr6_erass1_overlap_executor_v2.json",
+        }
+        or act_executor["implementation_binding"]
+        != {
+            "module_file_sha256": "cb3a0aca9014609ac490d8025c35940e6878fa22f4cf352d6cf210ad3c7d277e",
+            "module_path": "src/sigma_theory_compiler/gravity_cluster_act_dr6_erass1_overlap_executor.py",
+            "test_file_sha256": "4ed1f3e71dabd7c14135743007681f12d047c9444824fd04f8dbcde2390e3b78",
+            "test_path": "tests/test_gravity_cluster_act_dr6_erass1_overlap_executor.py",
+        }
+        or act_executor["current_authorization_binding"]
+        != {
+            "authorization": False,
+            "file_sha256": "22154a9521d680317251e9315be548469357c4c75887ae2382930b7d689404b9",
+            "path": "runs/gravity/publication-readiness/act-dr6-erass1-overlap-executor-v2/authorization-current-unauthorized.json",
+            "required_status": "UNAUTHORIZED_EXECUTOR_NOT_RUN",
+        }
+        or act_executor["claims"]
+        != {
+            "CP3_complete": False,
+            "CP7_complete": False,
+            "authorized_successor_ready_to_execute": False,
+            "catalogs_downloaded": False,
+            "central_readiness_changed": False,
+            "executor_contract_frozen": True,
+            "independent_replication_ready": False,
+            "minimum_192_rule_evaluated": False,
+            "overlap_count_computed": False,
+            "xcop_exclusions_computed": False,
+        }
+        or act_executor["counts"]
+        != {
+            "catalog_rows_opened": 0,
+            "files_downloaded": 0,
+            "forbidden_values_decoded_or_logged": 0,
+            "model_or_paid_calls": 0,
+            "network_bytes_downloaded": 0,
+            "network_calls": 0,
+            "sanitized_ledger_rows_emitted": 0,
+            "scores_computed": 0,
+        }
+        or act_executor["access_state"]
+        != {
+            "authorization": False,
+            "authorized_manifest_present": False,
+            "catalog_rows_opened": 0,
+            "execution_started": False,
+            "files_downloaded": 0,
+            "forbidden_values_decoded_or_logged": 0,
+            "model_or_paid_calls": 0,
+            "network_bytes_downloaded": 0,
+            "network_calls": 0,
+            "result_directory_created": False,
+            "sanitized_ledger_rows_emitted": 0,
+            "scores_computed": 0,
+        }
+    ):
+        raise GravityClusterManuscriptPackageError("ACT/eRASS executor ceiling changed")
+    if (
         theory["counts"]["health_gates_total"] != 10
         or theory["counts"]["template_level_gates_passed"] != 1
         or theory["counts"]["health_gates_blocked"] != 9
@@ -248,6 +316,73 @@ def _validate_new_source_semantics(sources: Mapping[str, Mapping[str, Any]]) -> 
         or any(value != 0 for value in symbolic["zero_access_and_compute"].values())
     ):
         raise GravityClusterManuscriptPackageError("bounded symbolic ceiling changed")
+    if (
+        external_symbol["status"]
+        != "partial_external_metric_scalar_symbol_derived_designed_obstruction_preserved"
+        or external_symbol["decision"]
+        != "PARTIAL_H3_SCALAR_EXTERNAL_METRIC_AND_H4_CONSTANT_COEFFICIENT_SYMBOL_DERIVED_U_ONE_THIRD_OBSTRUCTION_PRESERVED"
+        or external_symbol["config_binding"]
+        != {
+            "content_sha256": "5a526c4333ebf666fefca3ca4df5a98e05fa852ffec71792ebc41b5c99193440",
+            "file_sha256": "c0c937c1e67df4ab5caa55c1ef20cf16a84f92205a4a085e56457e8009c74903",
+            "path": "configs/gravity_matter_lensing_external_metric_principal_symbol_v1.json",
+        }
+        or external_symbol["implementation_binding"]
+        != {
+            "source_file_sha256": "c47e7e8f30a135505d3ffeec2623a3a92ec803983cd0c5f35f5d44b584c1de1d",
+            "source_path": "src/sigma_theory_compiler/gravity_matter_lensing_external_metric_principal_symbol.py",
+            "test_file_sha256": "feb7517e71a588adf925e524badbcc091ad867e3976d336add4e416385e98277",
+            "test_path": "tests/test_gravity_matter_lensing_external_metric_principal_symbol.py",
+        }
+        or external_symbol["counts"]
+        != {
+            "designed_failures_preserved": 1,
+            "gpu_calls": 0,
+            "model_or_paid_calls": 0,
+            "network_calls": 0,
+            "numeric_probes": 2,
+            "numeric_probes_passed": 2,
+            "observational_files_opened": 0,
+            "symbolic_checks": 28,
+            "symbolic_checks_passed": 28,
+        }
+        or external_symbol["adjudication"]
+        != {
+            "EFT_cutoff": False,
+            "H3_scalar_external_metric": "PARTIAL_MACHINE_DERIVED_CONSTANT_LOCAL_JETS_WITH_DESIGNED_TIMELIKE_OBSTRUCTION",
+            "H4_constant_coefficient": "PARTIAL_MACHINE_DERIVED_ALIGNED_TIMELIKE_AND_SPACELIKE_BLOCKS_WITH_ALGEBRAIC_COMMON_CONE_PRECHECK",
+            "disformal_matter_characteristics": False,
+            "full_H3": False,
+            "full_H4": False,
+            "global_strong_hyperbolicity": False,
+            "lensing_completion": False,
+            "metric_constraints": False,
+            "on_shell_backgrounds": False,
+            "overall_decision": "PARTIAL_H3_SCALAR_EXTERNAL_METRIC_AND_H4_CONSTANT_COEFFICIENT_SYMBOL_DERIVED_U_ONE_THIRD_OBSTRUCTION_PRESERVED",
+        }
+        or external_symbol["claim_boundary"]
+        != {
+            "disformal_matter_system_healthy": False,
+            "eft_validity_established": False,
+            "full_H3_passed": False,
+            "full_H4_passed": False,
+            "global_strong_hyperbolicity_established": False,
+            "healthy_action_established": False,
+            "lensing_predicted": False,
+            "metric_scalar_system_healthy": False,
+            "observational_support": False,
+            "on_shell_background_exists": False,
+            "publication_readiness_changed": False,
+            "scientific_claim_allowed": False,
+        }
+        or external_symbol["designed_obstruction"]["sign"]["u>1/3"]
+        != "the X_chi contribution is negative"
+        or external_symbol["numeric_suite"]["designed_failure_preserved"] is not True
+        or any(value != 0 for value in external_symbol["zero_access_and_compute"].values())
+    ):
+        raise GravityClusterManuscriptPackageError(
+            "external-metric principal-symbol ceiling changed"
+        )
 
 
 def _score_without_rows(value: Mapping[str, Any]) -> dict[str, Any]:
@@ -273,10 +408,12 @@ def build_receipt(root: Path) -> dict[str, Any]:
     group_acquisition = sources["group_scale_bridge_acquisition_v2"]
     missing_variables = sources["missing_variable_preflight"]
     act_overlap = sources["act_erass_overlap_preflight"]
+    act_executor = sources["act_erass_overlap_executor_v2"]
     predictor_strata = sources["predictor_strata_preflight"]
     strata_scoring = sources["cluster_strata_development_scoring"]
     theory_preflight = sources["matter_lensing_theory_preflight"]
     symbolic_derivation = sources["matter_lensing_symbolic_derivation"]
+    external_symbol = sources["matter_lensing_external_metric_principal_symbol"]
     nuisance_sampler = sources["nuisance_quotient_sampler_implementation"]
     quotient_sbc = sources["nuisance_quotient_sbc_v3_adjudicator"]
     newtonian_control = sources["matched_newtonian_control_v2"]
@@ -579,6 +716,18 @@ def build_receipt(root: Path) -> dict[str, Any]:
             "act_independent_replication_ready": act_overlap["claims"][
                 "independent_replication_ready"
             ],
+            "act_executor_decision": act_executor["decision"],
+            "act_executor_authorized": act_executor["access_state"]["authorization"],
+            "act_executor_execution_started": act_executor["access_state"]["execution_started"],
+            "act_executor_network_calls": act_executor["access_state"]["network_calls"],
+            "act_executor_catalog_rows_opened": act_executor["access_state"]["catalog_rows_opened"],
+            "act_executor_overlap_count_computed": act_executor["claims"]["overlap_count_computed"],
+            "act_executor_xcop_exclusions_computed": act_executor["claims"][
+                "xcop_exclusions_computed"
+            ],
+            "act_executor_minimum_192_rule_evaluated": act_executor["claims"][
+                "minimum_192_rule_evaluated"
+            ],
         },
         "cluster_strata_boundary": {
             "preflight_decision": predictor_strata["decision"],
@@ -672,6 +821,26 @@ def build_receipt(root: Path) -> dict[str, Any]:
             "observational_files_opened": symbolic_derivation["counts"][
                 "observational_files_opened"
             ],
+            "external_symbol_decision": external_symbol["decision"],
+            "H3_scalar_external_metric": external_symbol["adjudication"][
+                "H3_scalar_external_metric"
+            ],
+            "H4_constant_coefficient": external_symbol["adjudication"]["H4_constant_coefficient"],
+            "full_H3_passed": external_symbol["claim_boundary"]["full_H3_passed"],
+            "full_H4_passed": external_symbol["claim_boundary"]["full_H4_passed"],
+            "designed_u_above_one_third_failure_preserved": external_symbol["numeric_suite"][
+                "designed_failure_preserved"
+            ],
+            "u_above_one_third_gate_contribution": external_symbol["designed_obstruction"]["sign"][
+                "u>1/3"
+            ],
+            "metric_constraints_derived": external_symbol["adjudication"]["metric_constraints"],
+            "on_shell_backgrounds_established": external_symbol["adjudication"][
+                "on_shell_backgrounds"
+            ],
+            "global_strong_hyperbolicity_established": external_symbol["claim_boundary"][
+                "global_strong_hyperbolicity_established"
+            ],
             "scientific_claim_allowed": False,
         },
         "prior_art_boundary": {
@@ -702,8 +871,10 @@ def build_receipt(root: Path) -> dict[str, Any]:
                 "The X-COP shape bridge is predictor-only, unauthorized, unscored, and cannot support an absolute pressure or temperature claim.",
                 "The missing-variable registry has four executable proxy rows but zero continuous measurements; sixteen applicable rows remain source-blocked.",
                 "The group and ACT/eRASS acquisition paths contain metadata contracts only, with zero catalog or scientific rows and unevaluated population gates.",
+                "The guarded ACT/eRASS executor is unauthorized and unrun; executable safety controls do not provide an overlap, X-COP exclusion, or population result.",
                 "The two-scalar action is a blocked feasibility template: one of ten template/health gates passes and no healthy matter+lensing theory is established.",
                 "The bounded symbolic suite verifies only restricted scalar identities; general covariant equations, full H2, metric variation, and joint lensing remain blocked.",
+                "The external-metric principal-symbol result is partial H3/H4 evidence on constant local jets and preserves a negative u>1/3 determinant contribution; it establishes neither healthy backgrounds nor a complete theory.",
             }
         ),
         "counts": {
@@ -733,9 +904,15 @@ def build_receipt(root: Path) -> dict[str, Any]:
                 "scientific_payload_rows_opened"
             ],
             "act_catalog_rows_opened": act_overlap["counts"]["catalog_rows_opened"],
+            "act_executor_catalog_rows_opened": act_executor["counts"]["catalog_rows_opened"],
+            "act_executor_network_calls": act_executor["counts"]["network_calls"],
             "theory_health_gates_passed": theory_preflight["counts"]["template_level_gates_passed"],
             "theory_health_gates_total": theory_preflight["counts"]["health_gates_total"],
             "symbolic_full_H2_passed": symbolic_derivation["claim_boundary"]["full_H2_passed"],
+            "external_symbolic_checks_passed": external_symbol["counts"]["symbolic_checks_passed"],
+            "external_designed_failures_preserved": external_symbol["counts"][
+                "designed_failures_preserved"
+            ],
             "strata_development_clusters": predictor_strata["counts"]["development_clusters"],
             "strata_new_raw_target_rows_opened": strata_scoring["compute_and_access_accounting"][
                 "new_raw_target_rows_opened"

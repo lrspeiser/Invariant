@@ -137,6 +137,13 @@ def test_new_cross_scale_group_and_strata_evidence_keeps_claim_ceilings() -> Non
     assert acquisition["group_ready_science_lanes"] == 0
     assert acquisition["act_catalog_rows_opened"] == 0
     assert acquisition["act_population_gate_evaluated"] is False
+    assert acquisition["act_executor_authorized"] is False
+    assert acquisition["act_executor_execution_started"] is False
+    assert acquisition["act_executor_network_calls"] == 0
+    assert acquisition["act_executor_catalog_rows_opened"] == 0
+    assert acquisition["act_executor_overlap_count_computed"] is False
+    assert acquisition["act_executor_xcop_exclusions_computed"] is False
+    assert acquisition["act_executor_minimum_192_rule_evaluated"] is False
     theory = receipt["matter_lensing_theory_boundary"]
     assert theory["template_level_gates_passed"] == 1
     assert theory["health_gates_total"] == 10
@@ -145,6 +152,15 @@ def test_new_cross_scale_group_and_strata_evidence_keeps_claim_ceilings() -> Non
     assert theory["symbolic_checks_passed"] == 20
     assert theory["independent_numeric_checks_passed"] == 6
     assert theory["full_H2_passed"] is False
+    assert theory["H3_scalar_external_metric"].startswith("PARTIAL_MACHINE_DERIVED")
+    assert theory["H4_constant_coefficient"].startswith("PARTIAL_MACHINE_DERIVED")
+    assert theory["full_H3_passed"] is False
+    assert theory["full_H4_passed"] is False
+    assert theory["designed_u_above_one_third_failure_preserved"] is True
+    assert theory["u_above_one_third_gate_contribution"] == ("the X_chi contribution is negative")
+    assert theory["metric_constraints_derived"] is False
+    assert theory["on_shell_backgrounds_established"] is False
+    assert theory["global_strong_hyperbolicity_established"] is False
     assert theory["scientific_claim_allowed"] is False
 
 
@@ -172,6 +188,11 @@ def test_new_cross_scale_group_and_strata_evidence_keeps_claim_ceilings() -> Non
             "ACT/eRASS",
         ),
         (
+            "act_erass_overlap_executor_v2",
+            lambda value: value["claims"].__setitem__("overlap_count_computed", True),
+            "ACT/eRASS executor",
+        ),
+        (
             "matter_lensing_theory_preflight",
             lambda value: value["claim_boundary"].__setitem__("healthy_action_completed", True),
             r"matter\+lensing theory",
@@ -180,6 +201,11 @@ def test_new_cross_scale_group_and_strata_evidence_keeps_claim_ceilings() -> Non
             "matter_lensing_symbolic_derivation",
             lambda value: value["claim_boundary"].__setitem__("full_H2_passed", True),
             "bounded symbolic",
+        ),
+        (
+            "matter_lensing_external_metric_principal_symbol",
+            lambda value: value["claim_boundary"].__setitem__("full_H4_passed", True),
+            "external-metric principal-symbol",
         ),
     ],
 )

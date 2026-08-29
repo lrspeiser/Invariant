@@ -385,6 +385,7 @@ def _load_evidence(root: Path, bindings: Sequence[Mapping[str, Any]]) -> dict[st
         "missing_variable_preflight",
         "independent_data_contract",
         "act_erass_overlap_preflight",
+        "act_erass_overlap_executor_v2",
         "matched_comparator_suite",
         "uncertainty_program",
         "nuisance_sampler_diagnostic",
@@ -399,6 +400,7 @@ def _load_evidence(root: Path, bindings: Sequence[Mapping[str, Any]]) -> dict[st
         "cluster_strata_development_scoring",
         "matter_lensing_theory_preflight",
         "matter_lensing_symbolic_derivation",
+        "matter_lensing_external_metric_principal_symbol",
         "numerical_controls",
         "independent_replication_protocol",
         "prior_art_positioning",
@@ -452,6 +454,7 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
     missing_variables = evidence["missing_variable_preflight"]
     data_contract = evidence["independent_data_contract"]
     act_overlap = evidence["act_erass_overlap_preflight"]
+    act_executor = evidence["act_erass_overlap_executor_v2"]
     comparators = evidence["matched_comparator_suite"]
     uncertainty = evidence["uncertainty_program"]
     nuisance_diagnostic = evidence["nuisance_sampler_diagnostic"]
@@ -466,6 +469,7 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
     strata_scoring = evidence["cluster_strata_development_scoring"]
     theory_preflight = evidence["matter_lensing_theory_preflight"]
     symbolic_derivation = evidence["matter_lensing_symbolic_derivation"]
+    external_symbol = evidence["matter_lensing_external_metric_principal_symbol"]
     numerical = evidence["numerical_controls"]
     replication_protocol = evidence["independent_replication_protocol"]
     prior_art = evidence["prior_art_positioning"]
@@ -731,6 +735,70 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
         or act_overlap["xcop_exclusion_ledger_contract"]["input_rows"] != 0
     ):
         raise ResearchPublicationReadinessError("ACT/eRASS overlap preflight changed")
+    if (
+        act_executor["status"] != "frozen_unauthorized_executor_not_run"
+        or act_executor["decision"] != "PREPARED_NOT_AUTHORIZED_NOT_EXECUTED"
+        or act_executor["config_binding"]
+        != {
+            "content_sha256": "61ed48e0ba6143480757472a203bad74d527975d4426e230993f81405bb74a81",
+            "file_sha256": "04d2cc80e21efd688707c036f54da266d20561f24fc34f3fe4bd912fe9387b3a",
+            "path": "configs/gravity_cluster_act_dr6_erass1_overlap_executor_v2.json",
+        }
+        or act_executor["implementation_binding"]
+        != {
+            "module_file_sha256": "cb3a0aca9014609ac490d8025c35940e6878fa22f4cf352d6cf210ad3c7d277e",
+            "module_path": "src/sigma_theory_compiler/gravity_cluster_act_dr6_erass1_overlap_executor.py",
+            "test_file_sha256": "4ed1f3e71dabd7c14135743007681f12d047c9444824fd04f8dbcde2390e3b78",
+            "test_path": "tests/test_gravity_cluster_act_dr6_erass1_overlap_executor.py",
+        }
+        or act_executor["current_authorization_binding"]
+        != {
+            "authorization": False,
+            "file_sha256": "22154a9521d680317251e9315be548469357c4c75887ae2382930b7d689404b9",
+            "path": "runs/gravity/publication-readiness/act-dr6-erass1-overlap-executor-v2/authorization-current-unauthorized.json",
+            "required_status": "UNAUTHORIZED_EXECUTOR_NOT_RUN",
+        }
+        or act_executor["claims"]
+        != {
+            "CP3_complete": False,
+            "CP7_complete": False,
+            "authorized_successor_ready_to_execute": False,
+            "catalogs_downloaded": False,
+            "central_readiness_changed": False,
+            "executor_contract_frozen": True,
+            "independent_replication_ready": False,
+            "minimum_192_rule_evaluated": False,
+            "overlap_count_computed": False,
+            "xcop_exclusions_computed": False,
+        }
+        or act_executor["counts"]
+        != {
+            "catalog_rows_opened": 0,
+            "files_downloaded": 0,
+            "forbidden_values_decoded_or_logged": 0,
+            "model_or_paid_calls": 0,
+            "network_bytes_downloaded": 0,
+            "network_calls": 0,
+            "sanitized_ledger_rows_emitted": 0,
+            "scores_computed": 0,
+        }
+        or act_executor["access_state"]
+        != {
+            "authorization": False,
+            "authorized_manifest_present": False,
+            "catalog_rows_opened": 0,
+            "execution_started": False,
+            "files_downloaded": 0,
+            "forbidden_values_decoded_or_logged": 0,
+            "model_or_paid_calls": 0,
+            "network_bytes_downloaded": 0,
+            "network_calls": 0,
+            "result_directory_created": False,
+            "sanitized_ledger_rows_emitted": 0,
+            "scores_computed": 0,
+        }
+    ):
+        raise ResearchPublicationReadinessError("ACT/eRASS executor evidence changed")
     if (
         comparators["claims"]["matched_comparator_suite_complete"] is not True
         or comparators["claims"]["independent_replication"] is not False
@@ -1036,6 +1104,72 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
         or any(value != 0 for value in symbolic_derivation["zero_access_and_compute"].values())
     ):
         raise ResearchPublicationReadinessError("bounded symbolic derivation changed")
+    if (
+        external_symbol["status"]
+        != "partial_external_metric_scalar_symbol_derived_designed_obstruction_preserved"
+        or external_symbol["decision"]
+        != "PARTIAL_H3_SCALAR_EXTERNAL_METRIC_AND_H4_CONSTANT_COEFFICIENT_SYMBOL_DERIVED_U_ONE_THIRD_OBSTRUCTION_PRESERVED"
+        or external_symbol["config_binding"]
+        != {
+            "content_sha256": "5a526c4333ebf666fefca3ca4df5a98e05fa852ffec71792ebc41b5c99193440",
+            "file_sha256": "c0c937c1e67df4ab5caa55c1ef20cf16a84f92205a4a085e56457e8009c74903",
+            "path": "configs/gravity_matter_lensing_external_metric_principal_symbol_v1.json",
+        }
+        or external_symbol["implementation_binding"]
+        != {
+            "source_file_sha256": "c47e7e8f30a135505d3ffeec2623a3a92ec803983cd0c5f35f5d44b584c1de1d",
+            "source_path": "src/sigma_theory_compiler/gravity_matter_lensing_external_metric_principal_symbol.py",
+            "test_file_sha256": "feb7517e71a588adf925e524badbcc091ad867e3976d336add4e416385e98277",
+            "test_path": "tests/test_gravity_matter_lensing_external_metric_principal_symbol.py",
+        }
+        or external_symbol["counts"]
+        != {
+            "designed_failures_preserved": 1,
+            "gpu_calls": 0,
+            "model_or_paid_calls": 0,
+            "network_calls": 0,
+            "numeric_probes": 2,
+            "numeric_probes_passed": 2,
+            "observational_files_opened": 0,
+            "symbolic_checks": 28,
+            "symbolic_checks_passed": 28,
+        }
+        or external_symbol["adjudication"]
+        != {
+            "EFT_cutoff": False,
+            "H3_scalar_external_metric": "PARTIAL_MACHINE_DERIVED_CONSTANT_LOCAL_JETS_WITH_DESIGNED_TIMELIKE_OBSTRUCTION",
+            "H4_constant_coefficient": "PARTIAL_MACHINE_DERIVED_ALIGNED_TIMELIKE_AND_SPACELIKE_BLOCKS_WITH_ALGEBRAIC_COMMON_CONE_PRECHECK",
+            "disformal_matter_characteristics": False,
+            "full_H3": False,
+            "full_H4": False,
+            "global_strong_hyperbolicity": False,
+            "lensing_completion": False,
+            "metric_constraints": False,
+            "on_shell_backgrounds": False,
+            "overall_decision": "PARTIAL_H3_SCALAR_EXTERNAL_METRIC_AND_H4_CONSTANT_COEFFICIENT_SYMBOL_DERIVED_U_ONE_THIRD_OBSTRUCTION_PRESERVED",
+        }
+        or external_symbol["claim_boundary"]
+        != {
+            "disformal_matter_system_healthy": False,
+            "eft_validity_established": False,
+            "full_H3_passed": False,
+            "full_H4_passed": False,
+            "global_strong_hyperbolicity_established": False,
+            "healthy_action_established": False,
+            "lensing_predicted": False,
+            "metric_scalar_system_healthy": False,
+            "observational_support": False,
+            "on_shell_background_exists": False,
+            "publication_readiness_changed": False,
+            "scientific_claim_allowed": False,
+        }
+        or external_symbol["designed_obstruction"]["sign"]["u>1/3"]
+        != "the X_chi contribution is negative"
+        or external_symbol["numeric_suite"]["designed_failure_preserved"] is not True
+        or external_symbol["numeric_suite"]["probes"][1]["kinetic_determinant_sign"] != "negative"
+        or any(value != 0 for value in external_symbol["zero_access_and_compute"].values())
+    ):
+        raise ResearchPublicationReadinessError("external-metric principal symbol changed")
     if (
         numerical["claims"]["all_CP6_tasks_complete"] is not True
         or numerical["claims"]["development_numerical_control_gate_passed"] is not True
