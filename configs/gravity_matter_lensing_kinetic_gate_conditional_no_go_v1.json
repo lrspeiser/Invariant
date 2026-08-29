@@ -1,0 +1,232 @@
+{
+  "schema_version": "invariant-gravity-matter-lensing-kinetic-gate-conditional-no-go-config-1.0",
+  "analysis_id": "gravity-matter-lensing-kinetic-gate-conditional-no-go-v1",
+  "status": "frozen_no_data_conditional_external_metric_timelike_gate_analysis",
+  "purpose": "Machine-derive a conditional no-go for keeping the active timelike chi-gradient mixing contribution nonnegative over an unbounded positive-u range when a smooth positive kinetic normalization Z(u) begins growing, while preserving the P-sector, background-domain, metric, matter, and cutoff caveats and preregistering structurally different remedies without claiming health.",
+  "predecessor_bindings": [
+    {
+      "binding_id": "theory_preflight",
+      "git_commit": "27d8cae534e3d75916a41a1ce5209c821559f0ad",
+      "config_path": "configs/gravity_matter_lensing_theory_preflight_v1.json",
+      "config_file_sha256": "f6625b7d3a9d35b234d7be4eeeb29cac5b9f7ae7ebf1d3238b87d6c2739564bb",
+      "module_path": "src/sigma_theory_compiler/gravity_matter_lensing_theory_preflight.py",
+      "module_file_sha256": "8d2e420e15d7beb7bb9f38dab2ae0298dc9fed500de611e0022efbe3b5142e1e",
+      "test_path": "tests/test_gravity_matter_lensing_theory_preflight.py",
+      "test_file_sha256": "1b4a1a964d3e5cbdc9a6640d9266014bb836cc687996132870842731cd32a6f2",
+      "receipt_path": "runs/gravity/theory/matter-lensing-theory-preflight-v1.json",
+      "receipt_file_sha256": "113d28f814a28cdf06dab9d7025c106c3ba458632e352a72dc4d3d35115d52d4",
+      "receipt_content_sha256": "e8537efee368b08e0571565d058754718bf78f70cd5d032740e8560e63cb4768",
+      "receipt_schema_version": "invariant-gravity-matter-lensing-theory-preflight-receipt-1.0",
+      "receipt_decision": "BLOCKED_TWO_SCALAR_COVARIANT_TEMPLATE_DEFINED_HEALTHY_MATTER_LENSING_COMPLETION_NOT_ESTABLISHED"
+    },
+    {
+      "binding_id": "bounded_symbolic_derivation",
+      "git_commit": "bd754445afa2a068c0471e5605fd4ab4aabe833c",
+      "config_path": "configs/gravity_matter_lensing_symbolic_derivation_v1.json",
+      "config_file_sha256": "20444df546a1010a90cf0086341eb0da892a330a15d2b7961d418b4b7fd045c6",
+      "module_path": "src/sigma_theory_compiler/gravity_matter_lensing_symbolic_derivation.py",
+      "module_file_sha256": "91b635c5d7cee8e37108ce072bb18727e47e16ced1bcd614cd6b8cbf46f65e1c",
+      "test_path": "tests/test_gravity_matter_lensing_symbolic_derivation.py",
+      "test_file_sha256": "8cdc0081d755225d55e8acd30633323ea8c4d412f64fa602b471b9078d3540f3",
+      "receipt_path": "runs/gravity/theory/matter-lensing-symbolic-derivation-v1.json",
+      "receipt_file_sha256": "6a7effcb994c6f91c442cba9cba1117419a2866d0ffbdaf24a5b2f45bccd604d",
+      "receipt_content_sha256": "0cd5589284fc7d38e86cfccc8f1ebdc59f856196414cee8acce55764461f8a73",
+      "receipt_schema_version": "invariant-gravity-matter-lensing-symbolic-derivation-receipt-1.0",
+      "receipt_decision": "PARTIAL_H2_BOUNDED_SCALAR_DERIVATION_PASSED_FULL_COVARIANT_HEALTH_AND_LENSING_GATES_REMAIN_BLOCKED"
+    },
+    {
+      "binding_id": "external_metric_principal_symbol",
+      "git_commit": "d1e2491baa9c4ecb408fd28424787efce66e5b9b",
+      "config_path": "configs/gravity_matter_lensing_external_metric_principal_symbol_v1.json",
+      "config_file_sha256": "c0c937c1e67df4ab5caa55c1ef20cf16a84f92205a4a085e56457e8009c74903",
+      "module_path": "src/sigma_theory_compiler/gravity_matter_lensing_external_metric_principal_symbol.py",
+      "module_file_sha256": "c47e7e8f30a135505d3ffeec2623a3a92ec803983cd0c5f35f5d44b584c1de1d",
+      "test_path": "tests/test_gravity_matter_lensing_external_metric_principal_symbol.py",
+      "test_file_sha256": "feb7517e71a588adf925e524badbcc091ad867e3976d336add4e416385e98277",
+      "receipt_path": "runs/gravity/theory/matter-lensing-external-metric-principal-symbol-v1.json",
+      "receipt_file_sha256": "55f58a6ff573bff3103a02151dfdbd7cc4cf77b6ef90c6242160ca1613a2f73e",
+      "receipt_content_sha256": "0094cb74022bebd898ddbc96cba16cdb70312fccca896b9789068201a2aaa504",
+      "receipt_schema_version": "invariant-gravity-matter-lensing-external-metric-principal-symbol-receipt-1.0",
+      "receipt_decision": "PARTIAL_H3_SCALAR_EXTERNAL_METRIC_AND_H4_CONSTANT_COEFFICIENT_SYMBOL_DERIVED_U_ONE_THIRD_OBSTRUCTION_PRESERVED"
+    }
+  ],
+  "scope_and_definitions": {
+    "metric_role": "fixed external Lorentzian metric in a local inertial patch",
+    "physical_branch": "aligned timelike local jets with X=X_phi>0, X_chi>=0, and u=beta*X^2>0",
+    "gate_regularity": "Z is positive and C2 in u on every analyzed interval",
+    "definitions": {
+      "u": "beta*X^2 with beta>0",
+      "w": "ln(Z)",
+      "q": "d ln(Z)/d ln(u)=u*w_u",
+      "t": "ln(u)",
+      "M": "Z*(Z_X+2*X*Z_XX)-4*X*Z_X^2"
+    },
+    "determinant_role": "On the chi_bar=0 aligned timelike slice, D=Z*A_phi+X_chi*M with A_phi=P_y+2*y*P_yy.",
+    "sign_scope": "For X>0, the prefactor relating M to 4*dq/dt-q-4*q^2 is positive. The equivalence reverses on X<0 and is not claimed there.",
+    "active_mixing_scope": "The physical obstruction from a negative M requires an active timelike chi gradient X_chi>0; X_chi=0 removes this contribution."
+  },
+  "analytic_contract": {
+    "chain_rule_identity": "M=(2*u*Z^2/X)*(3*w_u+4*u*w_uu-4*u*w_u^2)",
+    "log_slope_identity": "M=(2*Z^2/X)*(4*dq/dt-q-4*q^2)",
+    "timelike_sign_criterion": "For X>0 and Z>0, M>=0 iff 4*dq/dt>=q+4*q^2.",
+    "comparison_inequality": "dq/dt>=q/4+q^2",
+    "comparison_solution": "y(t)=q0*exp((t-t0)/4)/[1+4*q0*(1-exp((t-t0)/4))]",
+    "comparison_blowup_time": "T-t0=4*ln(1+1/(4*q0))",
+    "comparison_gate": "Z_eq(u)=Z0/[1+4*q0*(1-(u/u0)^(1/4))]",
+    "theorem_hypotheses": [
+      "X>0, beta>0, u=beta*X^2, and Z(u)>0 is C2 for every u>=u0",
+      "q(u0)=q0>0",
+      "M(u)>=0 for every u>=u0"
+    ],
+    "theorem_conclusion": "The comparison solution forces q and ln(Z) to diverge by finite t=ln(u), contradicting a smooth finite gate on the entire later unbounded-u interval.",
+    "conditional_no_go": "A smooth finite positive kinetic screening normalization that is growing at u0 cannot keep its active timelike chi-gradient mixing contribution nonnegative for all u>=u0.",
+    "not_concluded": [
+      "The full determinant is negative whenever M is negative.",
+      "The current action has no healthy bounded parameter/background domain.",
+      "Any covariant completion or alternative gate architecture is impossible.",
+      "The metric-scalar-disformal matter system is unhealthy on shell."
+    ]
+  },
+  "family_and_counterexample_contract": {
+    "shifted_power_family": "Z_p(u)=(1+u)^p with p>0",
+    "shifted_power_mixing": "M=(2*u*Z_p^2/X)*p*[3-(1+4*p)*u]/(1+u)^2",
+    "shifted_power_threshold": "M>=0 iff 0<u<=3/(1+4*p) on X>0",
+    "p_equals_2_regression": "For p=2 the threshold is u=1/3 and the predecessor factor is recovered exactly.",
+    "bounded_domain_counterexamples": [
+      {
+        "counterexample_id": "SHIFTED_POWER_P2_BELOW_THRESHOLD",
+        "gate": "Z=(1+u)^2",
+        "domain": "0<u<=0.3",
+        "result": "M>0 throughout the declared bounded domain"
+      },
+      {
+        "counterexample_id": "EQUALITY_GATE_BEFORE_BLOWUP",
+        "gate": "Z=Z0/[1+4*q0*(1-(u/u0)^(1/4))]",
+        "domain": "u0<=u<u0*(1+1/(4*q0))^4",
+        "result": "M=0 and Z is smooth and finite on every compact subinterval strictly below the finite blowup boundary"
+      },
+      {
+        "counterexample_id": "CONSTANT_KINETIC_NORMALIZATION",
+        "gate": "Z=constant",
+        "domain": "all u>0",
+        "result": "q=0 and M=0; this does not provide a growing kinetic screening gate"
+      }
+    ]
+  },
+  "full_determinant_caveat": {
+    "decomposition": "D=Z*A_phi+X_chi*M",
+    "definitions": "A_phi=P_y+2*y*P_yy",
+    "stabilization_if_M_negative": "For Z>0, A_phi>0, M<0, and X_chi>=0, D>=0 requires X_chi<=Z*A_phi/(-M).",
+    "interpretation": "The theorem constrains the sign of one mixing contribution. A positive P sector or a dynamically suppressed X_chi can retain a positive local determinant on a restricted domain.",
+    "health_ceiling": "A positive local two-scalar determinant is necessary on the frozen slice but does not establish full H3, H4, metric constraints, on-shell existence, global hyperbolicity, or EFT validity."
+  },
+  "remedy_preregistration": [
+    {
+      "remedy_id": "SOURCE_ONLY_GATE",
+      "architecture": "Keep the chi kinetic normalization independent of u and place the environmental gate in a covariantly derived chi source or matter coupling.",
+      "structural_difference": "The Z_X kinetic Hessian mixing targeted by the theorem is absent when the kinetic coefficient is constant.",
+      "required_future_checks": ["covariant source derivation", "Noether exchange identity", "fifth-force and lensing characteristics", "screening and cutoff"],
+      "healthy_or_working_claim": false
+    },
+    {
+      "remedy_id": "SPLIT_KINETIC_AND_MASS_GATES",
+      "architecture": "Use K(u)*X_chi-H(u)*m_chi^2*chi^2/2 with independently frozen K and H rather than one Z multiplying the full quadratic sector.",
+      "structural_difference": "K controls the principal mixing while H separately controls the lower-order range; the no-go applies to a growing K and is not automatically cured by H.",
+      "required_future_checks": ["full Hessian", "source amplitude and range", "background gradients", "radiative stability"],
+      "healthy_or_working_claim": false
+    },
+    {
+      "remedy_id": "DYNAMIC_XCHI_ENVELOPE",
+      "architecture": "Require the on-shell background dynamics to preserve X_chi<=Z*A_phi/(-M) wherever M<0.",
+      "structural_difference": "This restricts the active background gradient rather than forcing the kinetic-gate mixing term to remain nonnegative.",
+      "required_future_checks": ["invariant on-shell bound", "initial-data preservation", "source solutions", "perturbative stability"],
+      "healthy_or_working_claim": false
+    },
+    {
+      "remedy_id": "ORTHOGONAL_FIELD_SPACE_METRIC",
+      "architecture": "Replace the diagonal Z(u) chi sector with a covariant two-field kinetic metric and an independently frozen cross term designed at the action level.",
+      "structural_difference": "The relevant Schur complement comes from the full field-space Hessian rather than the single-function M combination.",
+      "required_future_checks": ["integrability from one action", "positive field-space eigenvalues", "characteristic cones", "no extra mode"],
+      "healthy_or_working_claim": false
+    },
+    {
+      "remedy_id": "AUXILIARY_NONPROPAGATING_CHANNEL",
+      "architecture": "Replace propagating chi by an algebraic or explicitly constrained auxiliary channel and integrate it out only after deriving the constraints.",
+      "structural_difference": "There is no independent chi kinetic eigenvalue or active two-propagating-scalar mixing determinant of the analyzed form.",
+      "required_future_checks": ["constraint closure", "locality and causality", "absence of hidden higher derivatives", "same-field lensing and matter response"],
+      "healthy_or_working_claim": false
+    }
+  ],
+  "machine_check_contract": {
+    "symbolic_engine": "sympy",
+    "symbolic_zero_rule": "sympy.simplify(actual-expected)==0",
+    "required_symbolic_checks": [
+      "S01_DIRECT_CHAIN_RULE_ZX",
+      "S02_DIRECT_CHAIN_RULE_ZXX",
+      "S03_MIXING_W_IDENTITY",
+      "S04_LOG_SLOPE_IDENTITY",
+      "S05_COMPARISON_SOLUTION_ODE",
+      "S06_COMPARISON_INITIAL_VALUE",
+      "S07_FINITE_BLOWUP_DENOMINATOR",
+      "S08_EQUALITY_GATE_LOG_SLOPE",
+      "S09_EQUALITY_GATE_ZERO_MIXING",
+      "S10_SHIFTED_POWER_MIXING",
+      "S11_SHIFTED_POWER_THRESHOLD_FACTOR",
+      "S12_P2_PREDECESSOR_REGRESSION",
+      "S13_CONSTANT_GATE_REGRESSION",
+      "S14_FULL_DETERMINANT_DECOMPOSITION",
+      "S15_XCHI_STABILIZATION_BOUND"
+    ],
+    "numeric_tolerance": 1e-11,
+    "numeric_cases": [
+      {"case_id": "P2_BOUNDED_POSITIVE", "family": "shifted_power", "p": 2.0, "u": 0.3, "expected_sign": "positive"},
+      {"case_id": "P2_ABOVE_THRESHOLD_NEGATIVE", "family": "shifted_power", "p": 2.0, "u": 0.5, "expected_sign": "negative"},
+      {"case_id": "P_HALF_BELOW_THRESHOLD_POSITIVE", "family": "shifted_power", "p": 0.5, "u": 0.5, "expected_sign": "positive"},
+      {"case_id": "P_HALF_ABOVE_THRESHOLD_NEGATIVE", "family": "shifted_power", "p": 0.5, "u": 1.5, "expected_sign": "negative"},
+      {"case_id": "EQUALITY_GATE_COMPACT_SUBINTERVAL", "family": "comparison_equality", "q0": 0.1, "u0": 1.0, "u": 2.0, "expected_sign": "zero"}
+    ]
+  },
+  "adjudication": {
+    "conditional_timelike_mixing_no_go": "PASS_MACHINE_DERIVED_UNDER_FROZEN_HYPOTHESES",
+    "unbounded_smooth_growing_kinetic_gate_with_M_nonnegative": false,
+    "bounded_domain_nonnegative_examples_exist": true,
+    "p2_u_one_third_regression_passed": true,
+    "full_determinant_no_go": false,
+    "full_H3": false,
+    "full_H4": false,
+    "metric_constraints": false,
+    "on_shell_backgrounds": false,
+    "global_strong_hyperbolicity": false,
+    "healthy_remedy_identified": false,
+    "overall_decision": "CONDITIONAL_NO_GO_FOR_GLOBALLY_NONNEGATIVE_TIMELIKE_MIXING_IN_SMOOTH_GROWING_KINETIC_GATES_REMEDIES_PREREGISTERED_NOT_VALIDATED"
+  },
+  "claim_boundary": {
+    "conditional_external_metric_timelike_mixing_theorem_established": true,
+    "unconditional_action_no_go_established": false,
+    "full_determinant_instability_established": false,
+    "healthy_action_established": false,
+    "full_H3_passed": false,
+    "full_H4_passed": false,
+    "on_shell_background_exists": false,
+    "global_strong_hyperbolicity_established": false,
+    "healthy_remedy_established": false,
+    "lensing_predicted": false,
+    "observational_support": false,
+    "publication_readiness_changed": false,
+    "scientific_observational_claim_allowed": false
+  },
+  "zero_access_and_compute": {
+    "observational_files_opened": 0,
+    "predictor_rows_opened": 0,
+    "response_rows_opened": 0,
+    "confirmation_rows_opened": 0,
+    "holdout_rows_opened": 0,
+    "independent_rows_opened": 0,
+    "lensing_rows_opened": 0,
+    "network_calls": 0,
+    "LLM_calls": 0,
+    "paid_calls": 0,
+    "GPU_calls": 0
+  },
+  "output_path": "runs/gravity/theory/matter-lensing-kinetic-gate-conditional-no-go-v1.json"
+}
