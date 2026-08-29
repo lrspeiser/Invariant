@@ -118,12 +118,55 @@ def run_corrected_experiment(root: Path) -> Path:
     return result_path
 
 
+def validate_corrected_result(root: Path) -> None:
+    root = root.resolve()
+    frozen.validate_checked(root)
+    config = frozen.load_config(root)
+    paths = frozen._source_paths(root, config)
+    response_manifest = frozen._read_json(paths["response_source_manifest"])
+    compute_manifest = frozen._read_json(paths["compute_manifest"])
+    result = frozen._read_json(root / str(config["paths"]["result"]))
+
+    response_correction_path = root / str(response_manifest["schema_correction"]["path"])
+    response_correction = frozen._read_json(response_correction_path)
+    frozen._verify_content_hash(response_correction, "Item 30 response schema correction")
+    if (
+        frozen._sha256_file(response_correction_path)
+        != response_manifest["schema_correction"]["sha256"]
+    ):
+        raise frozen.GravityItem30Error("Item 30 response schema correction file changed")
+    if (
+        response_correction["content_sha256"]
+        != response_manifest["schema_correction"]["content_sha256"]
+    ):
+        raise frozen.GravityItem30Error("Item 30 response schema correction binding changed")
+
+    evaluation_binding = compute_manifest["evaluation_result_key_correction"]
+    evaluation_correction_path = root / str(evaluation_binding["path"])
+    evaluation_correction = frozen._read_json(evaluation_correction_path)
+    frozen._verify_content_hash(evaluation_correction, "Item 30 evaluation key correction")
+    if frozen._sha256_file(evaluation_correction_path) != evaluation_binding["sha256"]:
+        raise frozen.GravityItem30Error("Item 30 evaluation key correction file changed")
+    if evaluation_correction["content_sha256"] != evaluation_binding["content_sha256"]:
+        raise frozen.GravityItem30Error("Item 30 evaluation key correction binding changed")
+    if result["compute"]["evaluation_result_key_correction"] != evaluation_binding:
+        raise frozen.GravityItem30Error("Item 30 result lost its evaluation correction binding")
+    if int(evaluation_correction["counts"]["candidate_cells_changed"]) != 0:
+        raise frozen.GravityItem30Error("Item 30 correction changed candidate cells")
+    if int(evaluation_correction["counts"]["confirmation_values_read"]) != 0:
+        raise frozen.GravityItem30Error("Item 30 correction opened confirmations")
+
+
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("command", choices=("run",))
+    parser.add_argument("command", choices=("run", "validate"))
     parser.add_argument("--root", type=Path, default=Path.cwd())
     args = parser.parse_args(argv)
-    print(run_corrected_experiment(args.root).as_posix())
+    if args.command == "run":
+        print(run_corrected_experiment(args.root).as_posix())
+    else:
+        validate_corrected_result(args.root)
+        print("PASS")
     return 0
 
 
