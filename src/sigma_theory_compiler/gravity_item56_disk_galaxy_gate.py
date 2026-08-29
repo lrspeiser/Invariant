@@ -398,7 +398,7 @@ def build_evaluation_result(root: Path) -> dict[str, Any]:
                 }
                 for model, losses in models.items()
             },
-            "candidate_beats_newton": (
+            "candidate_beats_newton": bool(
                 np.mean(list(models["item45_geometry_density"].values()))
                 < np.mean(list(models["newtonian_baryons"].values()))
             ),
