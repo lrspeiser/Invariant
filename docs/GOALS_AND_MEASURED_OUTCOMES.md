@@ -138,6 +138,12 @@ Forward-looking claims, tests, and falsifiers for this section live in
    Proposer labels distinguish a rewrite, known-family instance, combination, proposed new
    construction, or uncertainty; independent equivalence checking adjudicates those labels
    without pruning ambiguous ideas.
+   In parallel, preserve and evaluate bounded publishable results on their own claim track.
+   The Item 59 cluster result now follows the 122-task CP0–CP12 program in
+   `CLUSTER_PHENOMENOLOGY_PUBLICATION_READINESS_GOALS.md`. Its executable readiness receipt
+   retains the cluster evidence, treats the same-release X-COP confirmation as development
+   rather than independent replication, blocks target access until CP3–CP7 pass, and blocks
+   mechanism and universal-theory wording independently.
 1. **G0 now:** freeze the real SPARC observational contract, contiguous radial folds,
    Newtonian/RAR-MOND/false-law/halo-ceiling baselines, scoring, and stopping rule; measure
    actual rotation-curve formula throughput and GPU/CPU agreement on the RTX 5090.

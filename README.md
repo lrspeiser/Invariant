@@ -1048,6 +1048,19 @@ hashes are `54d346a8062848533df8ef56e1575383b9abd68271d772dbe272857b898302e7`,
 `f13f015f1e842d3d3bf930555d474acbe96056be8e0d7589d595cbf7bba11c78`, and
 `83219aead70d661e2000769d086d4d8b494300e431271789761a8afcfa88ef0b`.
 
+Claim-scoped publication readiness now sits above those observational packet contracts. It
+classifies bounded empirical publication, physical-mechanism, and universal-theory claims
+independently, so an adjacent-domain failure blocks broader promotion without erasing a valid
+in-domain result. The first bound project retains the Item 59 X-COP development result while
+blocking independent target access on incomplete comparator, covariance, control, and source
+freezes. Its 122-task CP0–CP12 goal file is
+[`docs/CLUSTER_PHENOMENOLOGY_PUBLICATION_READINESS_GOALS.md`](docs/CLUSTER_PHENOMENOLOGY_PUBLICATION_READINESS_GOALS.md),
+its policy is `configs/research_publication_readiness_policy_v1.json`, and its checked receipt is
+`runs/engine/gravity-cluster-publication-readiness-v1.json`. Run
+`sigma-publication-readiness status` for the next blocker and `sigma-publication-readiness check`
+for a source-bound replay. This readiness decision is not observational confirmation or a paper
+acceptance prediction.
+
 A matching sealed Solar-System protocol predicts held-out round-trip light-time, coherent
 frequency/phase ratios, and angular separation from admitted tracking and calibration records. It
 forbids fitted PPN labels, precomputed model residuals, held-out ephemeris leakage, and

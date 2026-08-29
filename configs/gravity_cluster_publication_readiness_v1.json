@@ -1,0 +1,207 @@
+{
+  "schema_version": "invariant-gravity-cluster-publication-readiness-config-1.0",
+  "project_id": "gravity-cluster-phenomenology-publication-v1",
+  "policy_binding": {
+    "path": "configs/research_publication_readiness_policy_v1.json",
+    "file_sha256": "22df23c2a0212b97466145538e42b24de2e8c813acf24d82f35c699aa75b52c9",
+    "content_sha256": "48a1d7611764f5d66be19018276da9eca6d166846fada205f6e5211cda9684de"
+  },
+  "goal_document_binding": {
+    "path": "docs/CLUSTER_PHENOMENOLOGY_PUBLICATION_READINESS_GOALS.md",
+    "file_sha256": "335135d713556cb51b6a9e3318cbf8a3a2849263b6e71158407e9369f52c1987"
+  },
+  "candidate": {
+    "candidate_id": "ITEM59-XCOP-CROSS-SCALE-BOUNDARY-BETA-1P5",
+    "source_gate": "GRAVITY_ROADMAP_ITEM_59_XCOP_FORWARD_OBSERVABLE_GATE",
+    "primary_claim_track": "bounded_empirical_publication",
+    "domain": "massive low-redshift clusters with declared X-ray and SZ thermodynamic observables",
+    "formula_refit_allowed_after_independent_target_open": false,
+    "per_cluster_gravity_parameters_allowed": false
+  },
+  "evidence_bindings": [
+    {
+      "evidence_id": "item59_forward_observable",
+      "path": "runs/gravity/roadmap/item-59-xcop-forward-observable-gate-v1.json",
+      "file_sha256": "2fd76f58bbd1754ea33b15fa0545a1397e8e12e441b6a25f11ddf8db735a5051",
+      "content_sha256": "b8d824c89779c741d4d8bccebe61fe0b378554219424d4637835ef0519696df7",
+      "schema_version": "invariant-gravity-item59-forward-observable-gate-1.0",
+      "decision": "ITEM59_XCOP_FORWARD_OBSERVABLE_GATE_PASSED_DEVELOPMENT_EVIDENCE"
+    },
+    {
+      "evidence_id": "item60_direct_lensing_readiness",
+      "path": "runs/gravity/roadmap/item-60-direct-clash-lensing-gate-v1.json",
+      "file_sha256": "12ebf32f59ef955d8a0a185044bf9545e8ba944b6ab53ef30225eafddbd57323",
+      "content_sha256": "2cb2fdf2084868a7fe7126e451ce553503c816c86437cc2d147bea1135eacae8",
+      "schema_version": "invariant-gravity-item60-direct-clash-lensing-gate-1.0",
+      "decision": "BLOCKED_THEORY_UNDERDEFINED_RETAIN_CANDIDATE_AND_DO_NOT_OPEN_TARGET_ROWS"
+    },
+    {
+      "evidence_id": "item61_cross_scale_transfer",
+      "path": "runs/gravity/roadmap/item-61-cross-scale-gate-v1.json",
+      "file_sha256": "bd8ce28f5f6ca5f39e1cb98ad753850155bfc32b92f18c5afbaaf213e1474fe8",
+      "content_sha256": "b6969690ad11afd71a3c8034c5cc56005f7c6e657e7ec8b261abb1bcf6eb8e1d",
+      "schema_version": "invariant-gravity-item61-cross-scale-gate-1.0",
+      "decision": "ITEM61_CROSS_SCALE_GATE_NOT_PASSED_EXACT_PARAMETERIZATION_RETAINED"
+    },
+    {
+      "evidence_id": "screened_descendant_adjudication",
+      "path": "runs/gravity/screened-nonlocal-boundary-v0/post-exposure-adjudication.json",
+      "file_sha256": "efe5ce2f5ff410993996606b597eee6293f2216037a7a9d8733407b79b24fb32",
+      "content_sha256": "c94d4bbf61bc101ce60739329ccb977ea4151f7c0e9458011a657fec7a9eb706",
+      "schema_version": "invariant-screened-nonlocal-boundary-post-exposure-adjudication-0.1",
+      "decision": "FINITE_GRAMMAR_CROSS_SCALE_BRIDGE_NOT_FOUND"
+    }
+  ],
+  "outcome_evidence": {
+    "in_scope_positive_evidence": true,
+    "adjacent_domain_failures": true,
+    "direct_observable_forward_model": true,
+    "same_release_confirmation": true,
+    "independent_replication": false,
+    "matched_flexibility_comparators": false,
+    "full_uncertainty_and_covariance": false,
+    "nuisance_and_alternative_cause_robustness": false,
+    "prior_art_and_reproducibility": false,
+    "causal_mechanism_and_alternative_cause_separation": false,
+    "cross_domain_transfer": false,
+    "local_and_strong_field_limits": false,
+    "same_field_lensing": false,
+    "covariant_action_and_health": false
+  },
+  "claim_language": {
+    "allowed": [
+      "development evidence for a bounded cluster thermodynamic relation",
+      "the frozen candidate predicted X-COP pressure and temperature under the declared assumptions",
+      "the unchanged exact parameterization fails broad galaxy transfer",
+      "the physical cause remains unidentified"
+    ],
+    "prohibited": [
+      "general relativity is falsified",
+      "dark matter is eliminated",
+      "a universal gravity law has been discovered",
+      "the exact formula is historically novel",
+      "the candidate predicts lensing"
+    ]
+  },
+  "gates": [
+    {
+      "gate_id": "CP0",
+      "label": "claim_scope",
+      "status": "PASS",
+      "required_for_predata": true,
+      "required_for_bounded_paper": true,
+      "task_ids": ["CP0.1", "CP0.2", "CP0.3", "CP0.4", "CP0.5"]
+    },
+    {
+      "gate_id": "CP1",
+      "label": "candidate_and_endpoint_freeze",
+      "status": "PASS",
+      "required_for_predata": true,
+      "required_for_bounded_paper": true,
+      "task_ids": ["CP1.1", "CP1.2", "CP1.3", "CP1.4", "CP1.5", "CP1.6", "CP1.7", "CP1.8"]
+    },
+    {
+      "gate_id": "CP2",
+      "label": "prior_art_and_expert_positioning",
+      "status": "PARTIAL",
+      "required_for_predata": false,
+      "required_for_bounded_paper": true,
+      "task_ids": ["CP2.1", "CP2.2", "CP2.3", "CP2.4", "CP2.5", "CP2.6"]
+    },
+    {
+      "gate_id": "CP3",
+      "label": "direct_observable_contract",
+      "status": "PARTIAL",
+      "required_for_predata": true,
+      "required_for_bounded_paper": true,
+      "task_ids": ["CP3.1", "CP3.2", "CP3.3", "CP3.4", "CP3.5", "CP3.6", "CP3.7", "CP3.8"]
+    },
+    {
+      "gate_id": "CP4",
+      "label": "matched_flexibility_comparators",
+      "status": "BLOCKED",
+      "required_for_predata": true,
+      "required_for_bounded_paper": true,
+      "task_ids": ["CP4.1", "CP4.2", "CP4.3", "CP4.4", "CP4.5", "CP4.6", "CP4.7", "CP4.8", "CP4.9", "CP4.10"]
+    },
+    {
+      "gate_id": "CP5",
+      "label": "covariance_nuisances_and_alternative_causes",
+      "status": "BLOCKED",
+      "required_for_predata": true,
+      "required_for_bounded_paper": true,
+      "task_ids": ["CP5.1", "CP5.2", "CP5.3", "CP5.4", "CP5.5", "CP5.6", "CP5.7", "CP5.8", "CP5.9", "CP5.10", "CP5.11", "CP5.12", "CP5.13", "CP5.14"]
+    },
+    {
+      "gate_id": "CP6",
+      "label": "numerical_synthetic_and_leakage_controls",
+      "status": "PARTIAL",
+      "required_for_predata": true,
+      "required_for_bounded_paper": true,
+      "task_ids": ["CP6.1", "CP6.2", "CP6.3", "CP6.4", "CP6.5", "CP6.6", "CP6.7", "CP6.8", "CP6.9", "CP6.10"]
+    },
+    {
+      "gate_id": "CP7",
+      "label": "independent_source_and_split_freeze",
+      "status": "BLOCKED",
+      "required_for_predata": true,
+      "required_for_bounded_paper": true,
+      "task_ids": ["CP7.1", "CP7.2", "CP7.3", "CP7.4", "CP7.5", "CP7.6", "CP7.7", "CP7.8", "CP7.9", "CP7.10"]
+    },
+    {
+      "gate_id": "CP8",
+      "label": "unchanged_independent_thermodynamic_replication",
+      "status": "NOT_STARTED",
+      "required_for_predata": false,
+      "required_for_bounded_paper": true,
+      "task_ids": ["CP8.1", "CP8.2", "CP8.3", "CP8.4", "CP8.5", "CP8.6", "CP8.7", "CP8.8", "CP8.9", "CP8.10", "CP8.11"]
+    },
+    {
+      "gate_id": "CP9",
+      "label": "independent_mass_probes",
+      "status": "NOT_STARTED",
+      "required_for_predata": false,
+      "required_for_bounded_paper": false,
+      "task_ids": ["CP9.1", "CP9.2", "CP9.3", "CP9.4", "CP9.5", "CP9.6", "CP9.7", "CP9.8"]
+    },
+    {
+      "gate_id": "CP10",
+      "label": "group_and_domain_boundary_map",
+      "status": "NOT_STARTED",
+      "required_for_predata": false,
+      "required_for_bounded_paper": false,
+      "task_ids": ["CP10.1", "CP10.2", "CP10.3", "CP10.4", "CP10.5", "CP10.6", "CP10.7", "CP10.8"]
+    },
+    {
+      "gate_id": "CP11",
+      "label": "gravity_theory_and_lensing_escalation",
+      "status": "BLOCKED",
+      "required_for_predata": false,
+      "required_for_bounded_paper": false,
+      "task_ids": ["CP11.1", "CP11.2", "CP11.3", "CP11.4", "CP11.5", "CP11.6", "CP11.7", "CP11.8", "CP11.9", "CP11.10", "CP11.11", "CP11.12"]
+    },
+    {
+      "gate_id": "CP12",
+      "label": "external_reproduction_and_manuscript",
+      "status": "NOT_STARTED",
+      "required_for_predata": false,
+      "required_for_bounded_paper": true,
+      "task_ids": ["CP12.1", "CP12.2", "CP12.3", "CP12.4", "CP12.5", "CP12.6", "CP12.7", "CP12.8", "CP12.9", "CP12.10", "CP12.11", "CP12.12"]
+    }
+  ],
+  "independent_data_program": {
+    "source_metadata_only": true,
+    "candidate_lanes": [
+      "CHEX_MATE_XMM_THERMODYNAMICS",
+      "LOCUSS_XRAY_AND_WEAK_LENSING",
+      "INDEPENDENT_CHANDRA_THERMODYNAMICS",
+      "ACT_OR_SPT_RADIAL_SZ"
+    ],
+    "selected_primary_lane": null,
+    "selected_secondary_lane": null,
+    "authorized_target_packets": [],
+    "independent_target_rows_opened": 0,
+    "observational_authorization": false
+  },
+  "output_path": "runs/engine/gravity-cluster-publication-readiness-v1.json"
+}

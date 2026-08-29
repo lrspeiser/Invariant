@@ -6,6 +6,14 @@ where they conflict. Work does not advance past a numbered gate until that gate 
 replayable PASS. A REJECT is retained as an exclusion result and sends the search back to
 the nearest generative stage; it is not repaired by weakening the later test.
 
+This ladder governs the **universal-theory** claim. It does not erase narrower empirical
+results that fail to advance through every domain. Bounded publication, physical-mechanism,
+and universal-theory claims are now adjudicated separately by
+`configs/research_publication_readiness_policy_v1.json`. The retained Item 59 cluster
+result has its own CP0–CP12 program in
+`CLUSTER_PHENOMENOLOGY_PUBLICATION_READINESS_GOALS.md`; galaxy failure blocks universal
+promotion but does not retroactively reject the cluster-domain development evidence.
+
 ## Claim boundary
 
 The target is one theory that predicts galaxy dynamics, cluster dynamics, and lensing from

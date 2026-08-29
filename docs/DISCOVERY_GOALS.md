@@ -9,7 +9,10 @@ actual finding.  Completing a goal is cheap; triggering its discovery condition 
 and no goal may be reported as a discovery merely by completing.
 
 Standing rules, unchanged: corpus absence is never novelty; survival is never proof;
-kernel verification happens only in the kernel; negative receipts are deliverables.
+kernel verification happens only in the kernel; negative receipts are deliverables. Every
+empirical result is also claim-scoped: bounded publication, physical mechanism, and universal
+theory are separate decisions, so failure outside a declared domain cannot silently erase a
+valid in-domain result or be hidden from broader-claim adjudication.
 
 ## Current candidate inventory (what could become a discovery)
 

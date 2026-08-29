@@ -112,3 +112,16 @@ of the same positive multiplicative response.
 
 Full accounting, formulas, trade-offs, and next grammar are in
 [EXHAUSTIVE_PERMUTATION_RESULT_V0.md](EXHAUSTIVE_PERMUTATION_RESULT_V0.md).
+
+## Bounded publication track
+
+Failure to become a universal galaxy-to-cluster law does not erase the cluster-domain
+result. The separate [cluster publication-readiness goals](../../CLUSTER_PHENOMENOLOGY_PUBLICATION_READINESS_GOALS.md)
+contain 122 tasks across 13 gates. They require matched-flexibility GR+halo and empirical
+comparators, full covariance and nuisance treatment, frozen independent source packets,
+unchanged external thermodynamic replication, and reproducible manuscript artifacts.
+
+The executable admission receipt currently says
+`DEVELOPMENT_CLUSTER_RESULT_RETAINED_BLOCKED_NOT_DATA_READY`. No independent target rows
+are authorized or opened. Lensing, groups, and a covariant action are optional for the
+bounded thermodynamic paper but mandatory before mechanism or universal-gravity wording.

@@ -54,6 +54,17 @@ existing atomic budget ledger; a tripped cap ends the epoch cleanly.
 *Output:* epoch receipt recording enforced caps, plus one control run that
 deliberately trips each cap and recovers.
 
+**A5. Claim-scoped result admission.** Every empirical result must emit the fourteen-field
+outcome packet defined by `research_publication_readiness_policy_v1.json` and receive three
+independent decisions: bounded empirical publication, physical mechanism, and universal
+theory. Adjacent-domain failure may block broader promotion but may not erase an in-domain
+result; same-release confirmation may not impersonate independent replication.
+*Output:* `sigma-publication-readiness` policy validation and a sealed receipt naming the
+next data-readiness blocker, independent-target access count, required comparator/covariance/
+nuisance work, and every claim still unavailable. The Item 59 cluster project is the first
+positive and negative control: its cluster result is retained while its mechanism and
+universal claims remain blocked.
+
 ---
 
 ## Track B — Math: from raw data to kernel-proved theorems, unattended

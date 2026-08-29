@@ -1,0 +1,93 @@
+{
+  "schema_version": "invariant-research-publication-readiness-policy-1.0",
+  "status": "frozen",
+  "purpose": "Preserve publishable bounded results while independently gating physical-mechanism and universal-theory claims.",
+  "core_rules": {
+    "publication_is_not_universality": true,
+    "adjacent_domain_failure_erases_bounded_result": false,
+    "adjacent_domain_failure_blocks_universal_promotion": true,
+    "same_release_confirmation_counts_as_independent_replication": false,
+    "single_counterexample_is_terminal": false,
+    "finite_empirical_sample_prunes_broader_family": false,
+    "direct_observables_preferred_over_model_derived_truth": true,
+    "matched_flexibility_comparators_required": true,
+    "full_uncertainty_and_covariance_required": true,
+    "nuisance_edge_selection_requires_followup": true,
+    "independent_replication_required_for_bounded_publication_ready": true,
+    "same_fields_must_predict_massive_matter_and_light_for_gravity_claim": true,
+    "historical_novelty_requires_named_human_review": true
+  },
+  "outcome_fields": [
+    "in_scope_positive_evidence",
+    "adjacent_domain_failures",
+    "direct_observable_forward_model",
+    "same_release_confirmation",
+    "independent_replication",
+    "matched_flexibility_comparators",
+    "full_uncertainty_and_covariance",
+    "nuisance_and_alternative_cause_robustness",
+    "prior_art_and_reproducibility",
+    "causal_mechanism_and_alternative_cause_separation",
+    "cross_domain_transfer",
+    "local_and_strong_field_limits",
+    "same_field_lensing",
+    "covariant_action_and_health"
+  ],
+  "claim_tracks": {
+    "bounded_empirical_publication": {
+      "description": "A declared formula or relation predicts measured observables inside a frozen population and domain.",
+      "required_true_fields": [
+        "in_scope_positive_evidence",
+        "direct_observable_forward_model",
+        "independent_replication",
+        "matched_flexibility_comparators",
+        "full_uncertainty_and_covariance",
+        "nuisance_and_alternative_cause_robustness",
+        "prior_art_and_reproducibility"
+      ],
+      "fields_that_do_not_veto_this_track": [
+        "adjacent_domain_failures"
+      ]
+    },
+    "physical_mechanism": {
+      "description": "The bounded relation is evidence for a specified physical cause rather than an empirical surrogate.",
+      "extends": "bounded_empirical_publication",
+      "required_true_fields": [
+        "causal_mechanism_and_alternative_cause_separation"
+      ]
+    },
+    "universal_theory": {
+      "description": "One theory and parameter set explains all declared domains and relevant matter and light observables.",
+      "extends": "physical_mechanism",
+      "required_true_fields": [
+        "cross_domain_transfer",
+        "local_and_strong_field_limits",
+        "same_field_lensing",
+        "covariant_action_and_health"
+      ],
+      "requires_no_adjacent_domain_failures": true
+    }
+  },
+  "automatic_findings": {
+    "same_release_confirmation": "development_confirmation_not_independent_replication",
+    "adjacent_domain_failure_with_in_scope_success": "retain_bounded_result_and_block_only_broader_claims",
+    "nuisance_selected_at_declared_edge": "require_continuous_or_independently_constrained_nuisance_followup",
+    "lensing_underdefined": "retain_massive_tracer_result_and_do_not_open_lensing_targets",
+    "derived_mass_as_target": "block_primary_observational_claim",
+    "no_independent_replication": "development_result_not_publication_ready"
+  },
+  "required_report_sections": [
+    "bounded_claim_and_domain",
+    "formula_and_forward_observables",
+    "data_provenance_and_blinding",
+    "comparators_and_effective_freedom",
+    "uncertainty_covariance_and_nuisances",
+    "absolute_and_relative_predictive_results",
+    "counterexamples_and_domain_failures",
+    "independent_replication",
+    "alternative_physical_causes",
+    "prior_art_and_novelty_boundary",
+    "reproducibility",
+    "claim_track_adjudication"
+  ]
+}
