@@ -38,7 +38,7 @@
     "maximum_prompt_bytes_per_call": 150000,
     "timeout_seconds": 180,
     "maximum_successful_calls": 9,
-    "maximum_provider_attempts": 10,
+    "maximum_provider_attempts": 11,
     "proposals_per_generation_call": 8,
     "maximum_total_proposals": 48,
     "conservative_input_usd_per_million_tokens": "10.000000",
@@ -58,13 +58,25 @@
       "claude-opus-4-8": {"input": "5.000000", "output": "25.000000"}
     },
     "pre_durable_journal_attempt_audit": {
-      "provider_attempts": 1,
-      "call_id": "opus5-mechanism",
-      "model": "claude-opus-5",
-      "provider_inference_completed": true,
-      "response_persisted": false,
-      "proposal_content_used": false,
-      "failure": "Local normalization rejected known_analogues encoded as a string before the completed response was durably journaled.",
+      "provider_attempts": 2,
+      "attempts": [
+        {
+          "call_id": "opus5-mechanism",
+          "model": "claude-opus-5",
+          "provider_inference_completed": true,
+          "response_persisted": false,
+          "proposal_content_used": false,
+          "failure": "Local normalization rejected known_analogues encoded as a string before the completed response was durably journaled."
+        },
+        {
+          "call_id": "sonnet5-mechanism",
+          "model": "claude-sonnet-5",
+          "provider_inference_completed": true,
+          "response_persisted": false,
+          "proposal_content_used": false,
+          "failure": "The provider returned multiple content blocks and the wrapper rejected the envelope before extracting and journaling its one structured text block."
+        }
+      ],
       "actual_token_usage_and_cost_recoverable": false,
       "retry_same_scientific_call_authorized_within_attempt_cap": true
     }

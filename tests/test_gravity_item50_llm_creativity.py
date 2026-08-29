@@ -55,7 +55,7 @@ def _raw_proposal() -> dict[str, object]:
 def test_item50_freeze_budget_ensemble_and_prompt_boundary() -> None:
     config = load_config(ROOT)
     assert config["provider"]["maximum_successful_calls"] == 9
-    assert config["provider"]["maximum_provider_attempts"] == 10
+    assert config["provider"]["maximum_provider_attempts"] == 11
     assert config["provider"]["maximum_total_proposals"] == 48
     assert config["provider"]["conservative_maximum_campaign_usd"] == "25.000000"
     assert config["provider"]["user_authorized_maximum_usd"] == "1000.000000"

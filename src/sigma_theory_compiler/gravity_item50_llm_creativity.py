@@ -468,16 +468,20 @@ def _provider_call(
     if response.get("stop_reason") != "end_turn" or response.get("role") != "assistant":
         raise GravityItem50Error("provider response did not complete normally")
     content = response.get("content")
-    if (
-        not isinstance(content, list)
-        or len(content) != 1
-        or not isinstance(content[0], Mapping)
-        or content[0].get("type") != "text"
-        or not isinstance(content[0].get("text"), str)
+    if not isinstance(content, list) or any(
+        not isinstance(block, Mapping) for block in content
     ):
         raise GravityItem50Error("provider structured content changed")
+    text_blocks = [
+        block
+        for block in content
+        if block.get("type") == "text" and isinstance(block.get("text"), str)
+    ]
+    if len(text_blocks) != 1:
+        raise GravityItem50Error("provider did not return exactly one structured text block")
+    text_block = text_blocks[0]
     try:
-        output = json.loads(content[0]["text"])
+        output = json.loads(text_block["text"])
     except json.JSONDecodeError as error:
         raise GravityItem50Error("provider structured text is not JSON") from error
     usage = response.get("usage", {})
@@ -502,7 +506,8 @@ def _provider_call(
         "prompt_sha256": hashlib.sha256(prompt.encode()).hexdigest(),
         "prompt_bytes": len(prompt.encode()),
         "request_schema_sha256": _sha256_bytes(_canonical_bytes(schema)),
-        "raw_output_sha256": hashlib.sha256(content[0]["text"].encode()).hexdigest(),
+        "raw_output_sha256": hashlib.sha256(text_block["text"].encode()).hexdigest(),
+        "provider_content_block_types": [str(block.get("type")) for block in content],
         "usage": {"input_tokens": input_tokens, "output_tokens": output_tokens},
         "estimated_standard_cost_usd": f"{estimated_cost:.6f}",
         "credential_persisted": False,
