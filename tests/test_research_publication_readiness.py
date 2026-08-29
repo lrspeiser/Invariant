@@ -32,8 +32,8 @@ def test_current_cluster_result_is_retained_but_not_data_or_paper_ready() -> Non
     assert receipt["readiness"]["independent_cluster_data"]["ready"] is False
     assert receipt["readiness"]["observational_authorization"] is False
     assert receipt["readiness"]["independent_target_rows_opened"] == 0
-    assert receipt["counts"]["completed_tasks"] == 35
-    assert receipt["counts"]["open_tasks"] == 87
+    assert receipt["counts"]["completed_tasks"] == 43
+    assert receipt["counts"]["open_tasks"] == 79
     cp3 = next(gate for gate in receipt["gate_ledger"] if gate["gate_id"] == "CP3")
     assert cp3["completed_task_ids"] == [
         "CP3.1",
@@ -137,13 +137,13 @@ def test_stored_receipt_rebuilds_exactly_and_is_content_bound() -> None:
         "claim_tracks": 3,
         "gates": 13,
         "tasks": 122,
-        "completed_tasks": 35,
-        "open_tasks": 87,
-        "pass_gates": 3,
-        "partial_gates": 5,
+        "completed_tasks": 43,
+        "open_tasks": 79,
+        "pass_gates": 4,
+        "partial_gates": 4,
         "blocked_gates": 1,
         "not_started_gates": 4,
-        "bound_evidence_receipts": 7,
+        "bound_evidence_receipts": 8,
         "independent_target_rows_opened": 0,
     }
 

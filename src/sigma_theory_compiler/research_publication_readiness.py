@@ -381,6 +381,7 @@ def _load_evidence(root: Path, bindings: Sequence[Mapping[str, Any]]) -> dict[st
         "independent_data_contract",
         "matched_comparator_suite",
         "uncertainty_program",
+        "numerical_controls",
     )
     if tuple(binding.get("evidence_id") for binding in bindings) != expected_ids:
         raise ResearchPublicationReadinessError("publication evidence order changed")
@@ -421,6 +422,7 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
     data_contract = evidence["independent_data_contract"]
     comparators = evidence["matched_comparator_suite"]
     uncertainty = evidence["uncertainty_program"]
+    numerical = evidence["numerical_controls"]
     if (
         item59["claims"]["xcop_forward_observable_development_gate_passed"] is not True
         or item59["counts"]["clusters"] != 12
@@ -468,6 +470,15 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
         or uncertainty["counts"]["target_rows_opened"] != 0
     ):
         raise ResearchPublicationReadinessError("uncertainty evidence changed")
+    if (
+        numerical["claims"]["all_CP6_tasks_complete"] is not True
+        or numerical["claims"]["development_numerical_control_gate_passed"] is not True
+        or numerical["claims"]["independent_replication"] is not False
+        or numerical["counts"]["item59_variants"] != 2025
+        or numerical["counts"]["null_trials"] != 4096
+        or numerical["counts"]["target_rows_opened"] != 0
+    ):
+        raise ResearchPublicationReadinessError("numerical control evidence changed")
 
 
 def classify_claim_tracks(

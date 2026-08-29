@@ -1,0 +1,112 @@
+{
+  "schema_version": "invariant-gravity-cluster-numerical-controls-config-1.0",
+  "status": "frozen_development_controls_before_independent_target_access",
+  "control_id": "gravity-cluster-numerical-controls-v1",
+  "source_bindings": {
+    "item59_config": {
+      "path": "configs/gravity_item59_xcop_forward_observable_gate_v1.json",
+      "file_sha256": "7d17fa71dce7bfb44ab517a47b1cbe0ed17826cc2ffe36f871296b4d8632878b"
+    },
+    "item59_result": {
+      "path": "runs/gravity/roadmap/item-59-xcop-forward-observable-gate-v1.json",
+      "file_sha256": "2fd76f58bbd1754ea33b15fa0545a1397e8e12e441b6a25f11ddf8db735a5051",
+      "content_sha256": "b8d824c89779c741d4d8bccebe61fe0b378554219424d4637835ef0519696df7"
+    },
+    "comparator_receipt": {
+      "path": "runs/gravity/publication-readiness/comparator-suite-v1.json",
+      "file_sha256": "bb0b87663cb8ab0d5b509823ea19a408e021fc366c21ea98374afec356369e67",
+      "content_sha256": "a58691bc601994802f94bfe40b458242360580949331f8f407a52aea522cd128"
+    },
+    "direct_observable_readiness": {
+      "path": "runs/engine/cluster-direct-observable-evaluator-readiness.json",
+      "file_sha256": "2cb451c9508287b673969acdea24b302a2eff6adc031bb9bfe6d2c3f42a3a0f9",
+      "content_sha256": "80f81e74abd635a7baf0b93722f04c8e642e4936c65c7744b041e806e848f5b1"
+    }
+  },
+  "sample_contract": {
+    "clusters": ["A1644", "A1795", "A2142", "A2255", "A2319", "A3266", "A85", "ZW1215"],
+    "allowed_splits": ["development_train", "development_holdout"],
+    "xcop_confirmation_rows_used": false,
+    "independent_source_rows_used": false,
+    "target_rows_opened": 0
+  },
+  "convergence": {
+    "density_grid_refinement_factors": [1, 2, 4],
+    "reference_factor": 4,
+    "maximum_absolute_log_prediction_difference": 0.03,
+    "maximum_holdout_score_fractional_difference": 0.05
+  },
+  "synthetic_recovery": {
+    "injections": [
+      {"injection_id": "NEWTONIAN", "source": "item59_variant", "variant_id": "newtonian_baryons:f5e95a5acff1f160", "expected_class": "newtonian_baryons", "physical_claim_allowed": true},
+      {"injection_id": "MOND_RAR", "source": "item59_variant", "variant_id": "empirical_rar:226223f71cce6935", "expected_class": "empirical_rar", "physical_claim_allowed": true},
+      {"injection_id": "ITEM59", "source": "item59_variant", "variant_id": "cross_scale_boundary:5e945be899287b75", "expected_class": "cross_scale_boundary", "physical_claim_allowed": true},
+      {"injection_id": "NFW", "source": "comparator_selected", "variant_id": "GR_PLUS_NFW", "expected_class": "GR_PLUS_NFW", "physical_claim_allowed": true},
+      {"injection_id": "WRONG_REVERSED_NFW", "source": "comparator_selected", "variant_id": "WRONG_REVERSED_NFW", "expected_class": "WRONG_REVERSED_NFW", "physical_claim_allowed": false}
+    ],
+    "log_noise_sigma": 0.01,
+    "noise_seed": 590604,
+    "selection_split": "development_train",
+    "wrong_law_recovery_action": "recover_label_and_reject_physical_claim"
+  },
+  "false_selection": {
+    "null_injection_variant_id": "newtonian_baryons:f5e95a5acff1f160",
+    "trials": 4096,
+    "log_noise_sigma": 0.05,
+    "seed": 590605,
+    "search_variants": 2025,
+    "qualifying_families": ["cross_scale_boundary", "distance_running_gravity", "qed_like_screened_coupling", "interior_resonance_equalization"],
+    "confidence_interval": "Wilson_95_percent",
+    "maximum_allowed_false_selection_fraction_for_pass": 0.05
+  },
+  "implementation_agreement": {
+    "cpu_precision": "float64",
+    "gpu_backend": "cupy_cuda_float64",
+    "gpu_required_for_gate": true,
+    "maximum_absolute_score_difference": 1e-08,
+    "selected_variant_ids_must_match": true,
+    "separate_direct_scorer_rows": 17
+  },
+  "leakage_mutations": [
+    "target_derived_predictor",
+    "object_halo_label",
+    "derived_mass_field",
+    "response_informed_exclusion",
+    "duplicate_object_and_row"
+  ],
+  "folds": {
+    "leave_one_cluster_out": true,
+    "radial_blocks_r_over_r500": [[0.0, 0.3], [0.3, 0.7], [0.7, 2.0]],
+    "instrument_observable_strata": ["Planck_SZ_pressure", "XMM_temperature"],
+    "refit_within_fold": false
+  },
+  "row_and_failure_rules": {
+    "missing_target_row": "retain_missingness_record_and_never_impute_from_candidate",
+    "censored_target": "use_only_a_preregistered_censored_likelihood_never_a_point_substitute",
+    "predictor_extrapolation": "forbidden_outside_density_support_or_beyond_unscored_outer_pressure_boundary",
+    "nonfinite_or_nonpositive_prediction": "catastrophic_prediction",
+    "maximum_catastrophic_fraction": 0.1,
+    "post_response_exclusion": "forbidden",
+    "duplicate_object": "fail_before_scoring"
+  },
+  "power_and_stopping": {
+    "paired_unit": "whole_cluster_candidate_minus_best_NFW_holdout_score",
+    "two_sided_alpha": 0.05,
+    "target_power": 0.9,
+    "conservative_effect_fraction_of_development_mean": 0.5,
+    "minimum_independent_clusters": 20,
+    "maximum_independent_clusters": 120,
+    "single_final_analysis": true,
+    "optional_stopping": false,
+    "formula_or_threshold_change_after_opening": false
+  },
+  "claim_boundary": {
+    "development_controls_only": true,
+    "independent_replication": false,
+    "full_source_covariance": false,
+    "physical_mechanism_established": false,
+    "alternative_to_gr_established": false,
+    "dark_matter_eliminated": false
+  },
+  "output_path": "runs/gravity/publication-readiness/numerical-controls-v1.json"
+}

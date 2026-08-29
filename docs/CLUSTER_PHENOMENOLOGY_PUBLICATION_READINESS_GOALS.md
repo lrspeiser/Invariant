@@ -64,7 +64,7 @@ paper, but they become mandatory if the claim is escalated.
 | CP3 | Direct-observable data contract | Yes | Yes | PARTIAL; X-COP is bound but the independent packet is absent |
 | CP4 | Matched-flexibility comparators | Yes | Yes | PASS on development data; frozen for replication |
 | CP5 | Covariance, nuisances, and alternative causes | Yes | Yes | PARTIAL; stress tests complete, source covariance and converged marginalization open |
-| CP6 | Numerical, synthetic, and leakage controls | Yes | Yes | PARTIAL |
+| CP6 | Numerical, synthetic, and leakage controls | Yes | Yes | PASS on development controls; outer-radius and power warnings retained |
 | CP7 | Independent source and split freeze | Yes | Yes | PARTIAL; metadata audit complete, no lane selected |
 | CP8 | Unchanged independent thermodynamic replication | No | Yes | NOT STARTED |
 | CP9 | Independent mass probes | No | No for bounded paper | NOT STARTED |
@@ -213,18 +213,31 @@ stable under independent implementations and resolution changes.
 - [x] **CP6.1** Preserve deterministic formula enumeration, split, and result receipts.
 - [x] **CP6.2** Preserve unit, positive-observable, boundary-alignment, and analytic-limit
   tests.
-- [ ] **CP6.3** Demonstrate radial-grid and integration convergence.
-- [ ] **CP6.4** Inject Newton/NFW, MOND/RAR, Item 59, and deliberately wrong synthetic
+- [x] **CP6.3** Demonstrate radial-grid and integration convergence.
+- [x] **CP6.4** Inject Newton/NFW, MOND/RAR, Item 59, and deliberately wrong synthetic
   universes and verify recovery/rejection.
-- [ ] **CP6.5** Measure false-selection rates across the full 2,025-variant search.
-- [ ] **CP6.6** Verify CPU, GPU, and a separately written evaluator agree within frozen
+- [x] **CP6.5** Measure false-selection rates across the full 2,025-variant search.
+- [x] **CP6.6** Verify CPU, GPU, and a separately written evaluator agree within frozen
   tolerances.
-- [ ] **CP6.7** Add target-leakage, object-label, derived-mass, response-informed-cut, and
+- [x] **CP6.7** Add target-leakage, object-label, derived-mass, response-informed-cut, and
   duplicate-object mutation controls.
-- [ ] **CP6.8** Add leave-one-cluster-out, radial-block, and instrument-stratified folds.
-- [ ] **CP6.9** Freeze missing-row, censoring, extrapolation, and catastrophic-prediction
+- [x] **CP6.8** Add leave-one-cluster-out, radial-block, and instrument-stratified folds.
+- [x] **CP6.9** Freeze missing-row, censoring, extrapolation, and catastrophic-prediction
   rules.
-- [ ] **CP6.10** Complete a prospective power analysis and stopping rule.
+- [x] **CP6.10** Complete a prospective power analysis and stopping rule.
+
+The executable control receipt is
+`runs/gravity/publication-readiness/numerical-controls-v1.json`. All five injected
+classes—Newtonian, MOND/RAR, Item 59, NFW, and a deliberately wrong reversed-NFW
+control—are recovered, and the wrong law is barred from a physical claim. Across 4,096
+Newtonian null trials and all 2,025 Item 59 variants, 70 trials select a qualifying family:
+a `1.709%` false-selection rate (95% Wilson interval `1.355%–2.154%`). CPU, RTX 5090
+CUDA, and a separately written direct scorer agree to better than `2.8e-11` in score.
+The candidate remains ahead of NFW in all eight leave-one-cluster-out folds and both
+observable/instrument strata, but loses in the outer `0.7–2.0 R500` block. A conservative
+paired power calculation calls for 192 independent clusters; a 120-cluster program has
+only approximately `72.7%` projected power. These weaknesses are retained as planning
+constraints, not used to erase the development result.
 
 ## CP7 — freeze an independent source and confirmation split
 
