@@ -231,12 +231,18 @@ def feedback_library(
             coordinate, audit = feedback_coordinate(
                 radius, cumulative_mass, lane, float(gain), config
             )
-            result[lane, index] = coordinate
+            result[lane, index] = coordinate if bool(audit["converged"]) else np.nan
             audits.append({"lane": lane, "feedback_index": index, **audit})
+    nonconverged = [
+        {"lane": int(row["lane"]), "feedback_index": int(row["feedback_index"])}
+        for row in audits
+        if not bool(row["converged"])
+    ]
     return result, {
         "all_converged": all(bool(row["converged"]) for row in audits),
         "maximum_iterations": max(int(row["iterations"]) for row in audits),
         "maximum_final_change": max(float(row["final_max_abs_change"]) for row in audits),
+        "nonconverged_cells": nonconverged,
     }
 
 
@@ -583,14 +589,15 @@ def build_sample_manifest(root: Path) -> dict[str, Any]:
     fold_salt = str(config["sample_boundary"]["fold_salt"])
     folds = int(config["sample_boundary"]["outer_folds"])
     objects: list[dict[str, Any]] = []
+    valid_feedback_cells = np.ones((4, 16), dtype=bool)
     for identity in receipt["eligible"]:
         raw = wallaby["records"][int(identity["wallaby_record_index"])]
         profile = _deserialize_wallaby_profile(raw)
         library, audit = feedback_library(
             profile["radius_kpc"], profile["cumulative_hi_mass_msun"], config
         )
-        if not bool(audit["all_converged"]):
-            raise GravityItem42Error("eligible predictor feedback failed to converge")
+        for cell in audit["nonconverged_cells"]:
+            valid_feedback_cells[int(cell["lane"]), int(cell["feedback_index"])] = False
         cumulative = profile["cumulative_hi_mass_msun"]
         half_index = int(np.searchsorted(cumulative, 0.5 * cumulative[-1]))
         key = (str(identity["name"]), str(identity["team_release_kin"]))
@@ -605,6 +612,7 @@ def build_sample_manifest(root: Path) -> dict[str, Any]:
                 "screen_radius_kpc": raw["screen_radius_kpc"],
                 "half_hi_mass_radius_fraction": f"{profile['radius_kpc'][half_index] / profile['screen_radius_kpc']:.12e}",
                 "maximum_feedback_iterations": audit["maximum_iterations"],
+                "nonconverged_feedback_cells": audit["nonconverged_cells"],
                 "feedback_library_cells": int(np.prod(library.shape[:2])),
                 "outer_fold": int(_split_hash(value, fold_salt), 16) % folds,
                 "role": "reserved_confirmation" if key in confirmations else "exploration",
@@ -625,6 +633,15 @@ def build_sample_manifest(root: Path) -> dict[str, Any]:
             "scientific_freeze_commit": config["scientific_freeze_commit"],
             "predictor_receipt_sha256": _sha256_file(receipt_path),
             "objects": objects,
+            "feedback_cells_valid_across_all_predictors": [
+                {
+                    "lane": lane,
+                    "feedback_index": gain,
+                    "valid": bool(valid_feedback_cells[lane, gain]),
+                }
+                for lane in range(4)
+                for gain in range(16)
+            ],
             "counts": {
                 "selected_total": len(objects),
                 "exploration": counts["exploration"],
@@ -632,6 +649,12 @@ def build_sample_manifest(root: Path) -> dict[str, Any]:
                 "response_rows_read": 0,
                 "confirmation_rows_read": 0,
                 "paid_model_calls": 0,
+                "feedback_cells_valid_across_all_predictors": int(
+                    np.sum(valid_feedback_cells)
+                ),
+                "feedback_cells_nonconvergent_on_at_least_one_predictor": int(
+                    np.sum(~valid_feedback_cells)
+                ),
             },
             "claims": {
                 "response_opened": False,
@@ -822,11 +845,9 @@ def extract_wallaby_profiles(root: Path) -> dict[str, Path]:
         if passed:
             indices = np.flatnonzero(valid)
             accepted_radius = radius_kpc[indices]
-            library, audit = feedback_library(
+            library, _audit = feedback_library(
                 profile["radius_kpc"], profile["cumulative_hi_mass_msun"], config
             )
-            if not bool(audit["all_converged"]):
-                raise GravityItem42Error("response-blind feedback library stopped converging")
             interpolated = np.empty((4, 16, len(indices)), dtype=np.float64)
             for lane in range(4):
                 for gain in range(16):
