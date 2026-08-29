@@ -126,3 +126,22 @@ def test_feature_generation_is_strictly_response_blind() -> None:
     assert np.all(np.isfinite(coordinates))
     assert np.all((coordinates > 0.0) & (coordinates <= 1.0))
     assert all("log10_observed_quantity" not in row for row in before["records"])
+
+
+def test_recorded_result_retains_structural_clue_without_promotion() -> None:
+    aggregate_path = ROOT / "runs/gravity/roadmap/item-46-dimensionless-generator-v1.json"
+    evaluation_path = ROOT / "runs/gravity/roadmap/item-46-dimensionless-generator-v1-source/joint-evaluation-result.json"
+    if not aggregate_path.exists() or not evaluation_path.exists():
+        pytest.skip("Item 46 evaluation artifacts are not installed")
+    aggregate = json.loads(aggregate_path.read_text(encoding="utf-8"))
+    evaluation = json.loads(evaluation_path.read_text(encoding="utf-8"))
+    assert aggregate["decision"] == "NONPROMOTED_ITEM46_DIMENSIONLESS_GENERATOR_RESULT_RETAINED"
+    assert not aggregate["gates"]["beats_item45_s4tm"]
+    assert not aggregate["gates"]["beats_item45_clash"]
+    assert not aggregate["claims"]["formula_family_pruned"]
+    assert not aggregate["claims"]["single_counterexample_used_as_veto"]
+    assert evaluation["selected_candidate"]["expression"] == "R*q**2/(Rb*H*t)"
+    assert evaluation["counterexample_policy_assessment"]["raw_counterexample_count"] == 32
+    expressions = [row["selected_pi"]["expression"] for row in evaluation["fold_ledger"]]
+    assert expressions.count("R*q**2/(Rb*H*t)") == 3
+    assert expressions.count("R*q**2/Rb") == 2
