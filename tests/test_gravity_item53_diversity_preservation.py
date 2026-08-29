@@ -1,11 +1,15 @@
 from __future__ import annotations
 
 from pathlib import Path
+import json
 
 from sigma_theory_compiler.gravity_item53_diversity_preservation import (
     _archive_diversity,
     _diversity_archive,
     _score_only_archive,
+    build_aggregate_result,
+    build_archive_manifest,
+    build_evaluation_result,
     load_config,
 )
 
@@ -57,3 +61,29 @@ def test_diversity_archive_covers_niches_score_only_misses() -> None:
     assert diverse_metrics["distinct_operator_source_niches"] == 64
     assert score_metrics["distinct_binary_operators"] < 8
     assert len({row["ordinal"] for row in diverse}) == 64
+
+
+def test_recorded_item53_archives_and_outcomes_are_exactly_replayable() -> None:
+    config = load_config(ROOT)
+    source = ROOT / config["paths"]["source_dir"]
+    archive = json.loads(
+        (source / config["paths"]["archive_manifest"]).read_text(encoding="utf-8")
+    )
+    evaluation = json.loads(
+        (source / config["paths"]["evaluation_result"]).read_text(encoding="utf-8")
+    )
+    aggregate = json.loads(
+        (ROOT / config["paths"]["aggregate_result"]).read_text(encoding="utf-8")
+    )
+    assert archive == build_archive_manifest(ROOT)
+    assert evaluation == build_evaluation_result(ROOT)
+    assert aggregate == build_aggregate_result(ROOT)
+    assert archive["diversity"]["diversity_preserving"][
+        "distinct_operator_source_niches"
+    ] == 64
+    assert archive["diversity"]["score_only"][
+        "distinct_operator_source_niches"
+    ] == 36
+    assert evaluation["diversity_to_score_only_loss_ratio"] == 1.0
+    assert aggregate["claims"]["roadmap_item_53_complete"] is True
+    assert aggregate["claims"]["formula_family_pruned"] is False
