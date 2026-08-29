@@ -379,6 +379,7 @@ def _load_evidence(root: Path, bindings: Sequence[Mapping[str, Any]]) -> dict[st
         "item61_cross_scale_transfer",
         "screened_descendant_adjudication",
         "independent_data_contract",
+        "matched_comparator_suite",
     )
     if tuple(binding.get("evidence_id") for binding in bindings) != expected_ids:
         raise ResearchPublicationReadinessError("publication evidence order changed")
@@ -417,6 +418,7 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
     item61 = evidence["item61_cross_scale_transfer"]
     descendant = evidence["screened_descendant_adjudication"]
     data_contract = evidence["independent_data_contract"]
+    comparators = evidence["matched_comparator_suite"]
     if (
         item59["claims"]["xcop_forward_observable_development_gate_passed"] is not True
         or item59["counts"]["clusters"] != 12
@@ -448,6 +450,14 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
         or data_contract["counts"]["candidate_lanes"] != 4
     ):
         raise ResearchPublicationReadinessError("independent data contract changed")
+    if (
+        comparators["claims"]["matched_comparator_suite_complete"] is not True
+        or comparators["claims"]["independent_replication"] is not False
+        or comparators["claims"]["full_covariance_used"] is not False
+        or comparators["counts"]["comparators"] != 6
+        or comparators["counts"]["target_rows_opened"] != 0
+    ):
+        raise ResearchPublicationReadinessError("matched comparator evidence changed")
 
 
 def classify_claim_tracks(

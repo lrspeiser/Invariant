@@ -62,7 +62,7 @@ paper, but they become mandatory if the claim is escalated.
 | CP1 | Freeze candidate and endpoints | Yes | Yes | PASS |
 | CP2 | Prior art and expert positioning | No | Yes | PARTIAL |
 | CP3 | Direct-observable data contract | Yes | Yes | PARTIAL; X-COP is bound but the independent packet is absent |
-| CP4 | Matched-flexibility comparators | Yes | Yes | BLOCKED |
+| CP4 | Matched-flexibility comparators | Yes | Yes | PASS on development data; frozen for replication |
 | CP5 | Covariance, nuisances, and alternative causes | Yes | Yes | BLOCKED |
 | CP6 | Numerical, synthetic, and leakage controls | Yes | Yes | PARTIAL |
 | CP7 | Independent source and split freeze | Yes | Yes | PARTIAL; metadata audit complete, no lane selected |
@@ -148,19 +148,26 @@ model-derived invisible component is treated as truth.
 Advance criteria: the candidate wins, loses, or ties against the strongest conventional
 and generic models under comparable fitting freedom.
 
-- [ ] **CP4.1** Implement GR plus NFW forward pressure and temperature prediction.
-- [ ] **CP4.2** Implement GR plus Einasto forward prediction.
-- [ ] **CP4.3** Implement a flexible hydrostatic mass reconstruction.
-- [ ] **CP4.4** Implement GNFW and/or polytropic empirical pressure models.
+- [x] **CP4.1** Implement GR plus NFW forward pressure and temperature prediction.
+- [x] **CP4.2** Implement GR plus Einasto forward prediction.
+- [x] **CP4.3** Implement a flexible hydrostatic mass reconstruction.
+- [x] **CP4.4** Implement GNFW and/or polytropic empirical pressure models.
 - [x] **CP4.5** Retain Newtonian baryons and empirical RAR/MOND controls.
-- [ ] **CP4.6** Add a generic spline or Gaussian-process ceiling with carefully separated
+- [x] **CP4.6** Add a generic spline or Gaussian-process ceiling with carefully separated
   training and predictive scoring.
-- [ ] **CP4.7** Add same-parameter-count nonphysical and wrong-law controls.
-- [ ] **CP4.8** Add ablations removing each kernel channel and transition term.
-- [ ] **CP4.9** Calculate effective degrees of freedom, including selected nuisance-grid
+- [x] **CP4.7** Add same-parameter-count nonphysical and wrong-law controls.
+- [x] **CP4.8** Add ablations removing each kernel channel and transition term.
+- [x] **CP4.9** Calculate effective degrees of freedom, including selected nuisance-grid
   freedom and boundary information.
-- [ ] **CP4.10** Freeze likelihood, cross-validation, AIC/BIC, and—where priors are
+- [x] **CP4.10** Freeze likelihood, cross-validation, AIC/BIC, and—where priors are
   defensible—Bayesian model-comparison reporting before independent responses open.
+
+The development-only comparator receipt is
+`runs/gravity/publication-readiness/comparator-suite-v1.json`. The frozen candidate's
+holdout score is `9.323`, versus `28.438` for the best GR+NFW grid and `30.913` for
+GR+Einasto. It also beats the tested GNFW, flexible-HSE, and regularized-RBF ceilings.
+This passes the pre-data implementation/freeze gate; it is not independent replication,
+does not use full covariance, and does not establish a gravity mechanism.
 
 ## CP5 — full uncertainty, nuisances, and alternative causes
 

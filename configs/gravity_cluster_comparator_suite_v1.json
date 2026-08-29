@@ -1,0 +1,141 @@
+{
+  "schema_version": "invariant-gravity-cluster-comparator-suite-config-1.0",
+  "status": "frozen_before_independent_cluster_response_access",
+  "suite_id": "gravity-cluster-comparator-suite-v1",
+  "source_bindings": {
+    "item59_config": {
+      "path": "configs/gravity_item59_xcop_forward_observable_gate_v1.json",
+      "file_sha256": "7d17fa71dce7bfb44ab517a47b1cbe0ed17826cc2ffe36f871296b4d8632878b"
+    },
+    "item59_result": {
+      "path": "runs/gravity/roadmap/item-59-xcop-forward-observable-gate-v1.json",
+      "file_sha256": "2fd76f58bbd1754ea33b15fa0545a1397e8e12e441b6a25f11ddf8db735a5051",
+      "content_sha256": "b8d824c89779c741d4d8bccebe61fe0b378554219424d4637835ef0519696df7"
+    }
+  },
+  "sample_contract": {
+    "clusters": ["A1644", "A1795", "A2142", "A2255", "A2319", "A3266", "A85", "ZW1215"],
+    "allowed_splits": ["development_train", "development_holdout"],
+    "xcop_confirmation_rows_used": false,
+    "independent_source_rows_used": false,
+    "inferred_total_mass_used_as_target": false,
+    "outer_pressure_boundary_scored": false
+  },
+  "candidate": {
+    "family_id": "cross_scale_boundary",
+    "variant_id": "cross_scale_boundary:5e945be899287b75",
+    "parameters": {"beta": 1.5},
+    "nuisances": {
+      "missing_stellar_to_gas_mass_ratio": 0.2,
+      "outer_nonthermal_fraction": 0.3,
+      "published_stellar_mass_scale": 1.3,
+      "xray_temperature_cross_calibration": 1.0
+    },
+    "refit": false,
+    "explicit_gravity_parameters": 1,
+    "selected_nuisance_dimensions": 4,
+    "discrete_variants_originally_screened": 2025
+  },
+  "shared_nuisance_grid": {
+    "outer_nonthermal_fraction": [0.0, 0.15, 0.3],
+    "published_stellar_mass_scale": [0.7, 1.0, 1.3],
+    "missing_stellar_to_gas_mass_ratio": [0.05, 0.1, 0.2],
+    "xray_temperature_cross_calibration": [0.9, 1.0, 1.1],
+    "global_not_per_cluster": true
+  },
+  "parametric_gravity_models": [
+    {
+      "model_id": "GR_PLUS_NFW",
+      "origin": "conventional_spherical_nfw_halo_plus_observed_baryons",
+      "parameter_grid": {
+        "log10_halo_m500_solar_mass": [14.0, 14.3, 14.6, 14.9, 15.2, 15.5],
+        "c500": [1.5, 2.5, 3.5, 4.5]
+      },
+      "explicit_model_parameters": 2,
+      "physical": true
+    },
+    {
+      "model_id": "GR_PLUS_EINASTO",
+      "origin": "conventional_spherical_einasto_halo_plus_observed_baryons",
+      "parameter_grid": {
+        "log10_halo_m500_solar_mass": [14.0, 14.3, 14.6, 14.9, 15.2, 15.5],
+        "c500": [1.5, 3.0, 4.5],
+        "einasto_alpha": [0.15, 0.25, 0.4]
+      },
+      "explicit_model_parameters": 3,
+      "physical": true
+    },
+    {
+      "model_id": "WRONG_REVERSED_NFW",
+      "origin": "nonphysical_radially_reversed_nfw_control",
+      "parameter_grid": {
+        "log10_halo_m500_solar_mass": [14.0, 14.3, 14.6, 14.9, 15.2, 15.5],
+        "c500": [1.5, 2.5, 3.5, 4.5]
+      },
+      "explicit_model_parameters": 2,
+      "physical": false
+    }
+  ],
+  "empirical_models": {
+    "gnfw": {
+      "model_id": "GNFW_PRESSURE_SHAPE",
+      "shape_grid": [
+        {"c500": 1.177, "alpha": 1.051, "beta": 5.491, "gamma": 0.308},
+        {"c500": 1.81, "alpha": 1.33, "beta": 4.13, "gamma": 0.31},
+        {"c500": 0.8, "alpha": 0.8, "beta": 4.0, "gamma": 0.2},
+        {"c500": 0.8, "alpha": 1.3, "beta": 6.0, "gamma": 0.6},
+        {"c500": 1.5, "alpha": 0.8, "beta": 6.0, "gamma": 0.2},
+        {"c500": 1.5, "alpha": 1.3, "beta": 4.0, "gamma": 0.6}
+      ],
+      "normalization": "one_unscored_outer_pressure_boundary_per_cluster",
+      "explicit_model_parameters": 4
+    },
+    "flexible_hydrostatic": {
+      "model_id": "FLEXIBLE_HSE_MONOTONE_PRESSURE_RECONSTRUCTION",
+      "fit_scope": "per_cluster_development_training_pressure_rows_plus_unscored_outer_boundary",
+      "interpolation": "monotone_piecewise_linear_log_pressure_in_log_radius",
+      "mass_diagnostic": "g=-dP_dr/(mu_m_p_n_e); positive gradient violations fail",
+      "explicit_model_parameters": "number_of_development_training_pressure_rows"
+    },
+    "rbf_ceiling": {
+      "model_id": "GENERIC_RBF_PRESSURE_CEILING",
+      "centers_log_r_over_r_boundary": [-3.0, -2.25, -1.5, -0.75, 0.0],
+      "length_scale_grid": [0.3, 0.6, 1.0],
+      "ridge_grid": [0.0001, 0.01, 0.1],
+      "normalization": "basis_functions_zero_at_the_unscored_outer_boundary",
+      "explicit_model_parameters": 5
+    }
+  },
+  "candidate_ablations": [
+    "REMOVE_INTERIOR_KERNEL_CHANNEL",
+    "REMOVE_SYMMETRIC_KERNEL_CHANNEL",
+    "REMOVE_OCCUPANCY_TRANSITION",
+    "REMOVE_BOTH_NONLOCAL_CHANNELS"
+  ],
+  "complexity_accounting": {
+    "information_criterion_k": "explicit_model_parameters_plus_selected_nuisance_dimensions; flexible HSE uses its fitted training-pressure values plus selected cross-calibration dimension",
+    "boundary_information": "one measured outer pressure value per cluster is reported as conditioning information and is never counted as a fitted coefficient or scored row",
+    "grid_search_reporting": "report every discrete parameter and nuisance variant screened in addition to k",
+    "rbf_effective_df": "trace_X_XtWX_plus_lambdaI_inverse_XtW",
+    "per_cluster_gravity_coefficients_for_candidate": false
+  },
+  "scoring_freeze": {
+    "likelihood": "independent_Gaussian_log_observable_rows_with_released_diagonal_errors_and_5_percent_fractional_floor",
+    "primary_predictive_score": "equal_cluster_equal_observable_mean_standardized_log_residual_square",
+    "cross_validation": "frozen_Item59_deterministic_radial_development_train_to_holdout_split",
+    "information_criteria": ["AIC", "BIC"],
+    "information_criteria_split": "development_train",
+    "predictive_comparison_split": "development_holdout",
+    "bayesian_evidence": "not_reported_no_defensible_common_prior_measure",
+    "selection_tie_break": "lexicographic_canonical_parameter_json"
+  },
+  "claim_boundary": {
+    "development_comparison_only": true,
+    "independent_replication": false,
+    "full_covariance_used": false,
+    "physical_mechanism_established": false,
+    "alternative_to_gr_established": false,
+    "dark_matter_eliminated": false
+  },
+  "output_path": "runs/gravity/publication-readiness/comparator-suite-v1.json"
+}
