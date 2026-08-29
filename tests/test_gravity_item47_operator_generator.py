@@ -139,3 +139,27 @@ def test_operator_feature_generation_is_response_blind() -> None:
     assert coordinates.shape == (112, 96)
     assert np.all((coordinates > 0.0) & (coordinates < 1.0))
     assert all("log10_observed_quantity" not in row for row in before["records"])
+
+
+def test_recorded_result_retains_nonlocal_clue_without_promotion() -> None:
+    aggregate_path = ROOT / "runs/gravity/roadmap/item-47-operator-generator-v1.json"
+    evaluation_path = ROOT / "runs/gravity/roadmap/item-47-operator-generator-v1-source/joint-evaluation-result.json"
+    if not aggregate_path.exists() or not evaluation_path.exists():
+        pytest.skip("Item 47 evaluation artifacts are not installed")
+    aggregate = json.loads(aggregate_path.read_text(encoding="utf-8"))
+    evaluation = json.loads(evaluation_path.read_text(encoding="utf-8"))
+    assert aggregate["decision"] == "NONPROMOTED_ITEM47_OPERATOR_RESULT_RETAINED"
+    assert aggregate["gates"]["beats_item45_s4tm"]
+    assert not aggregate["gates"]["beats_item45_clash"]
+    assert not aggregate["claims"]["formula_family_pruned"]
+    assert not aggregate["claims"]["single_counterexample_used_as_veto"]
+    assert not aggregate["claims"]["measured_history_tested"]
+    assert evaluation["selected_candidate"]["operator_class"] == "exterior_nonlocal"
+    assert evaluation["selected_candidate"]["source"] == "kernel_outer_potential"
+    assert evaluation["counterexample_policy_assessment"]["raw_counterexample_count"] == 23
+    assert evaluation["counterexample_policy_assessment"]["single_object_sensitive"]
+    assert all(
+        row["selected_operator"]["source"] == "kernel_outer_potential"
+        and row["selected_operator"]["scale"] == 0.6
+        for row in evaluation["fold_ledger"]
+    )
