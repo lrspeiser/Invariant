@@ -92,6 +92,21 @@ def test_proposal_schema_and_local_normalization_preserve_lineage() -> None:
     assert normalized["historical_novelty_claimed"] is False
     assert normalized["retained_regardless_of_origin_or_critic_label"] is True
 
+    off_grid = _raw_proposal()
+    off_grid["suggested_transition_u"] = 0.6
+    retained = _normalize_proposal(
+        off_grid,
+        call=config["ensemble"]["generation_calls"][0],
+        slot=2,
+        config=config,
+        config49=config49,
+    )
+    assert retained["suggested_outer_cell_physically_admitted"] is False
+    assert retained["structure_executable_for_frozen_outer_expansion"] is True
+    assert retained["local_compilation_issues"] == [
+        "suggested_outer_value_outside_frozen_grid"
+    ]
+
     bad = _raw_proposal()
     bad["origin_self_assessment"] = "genuinely_novel"
     with pytest.raises(GravityItem50Error, match="origin"):

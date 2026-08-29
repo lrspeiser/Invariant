@@ -572,9 +572,20 @@ def _normalize_proposal(
         raise GravityItem50Error("provider operator is invalid")
     if float(raw["mixing"]) not in config["proposal_contract"]["mixing_grid"]:
         raise GravityItem50Error("provider mixing value is invalid")
-    a, p, ut = _outer_indices(raw, config49)
-    parameter_index = a * 256 + p * 16 + ut
-    suggested_outer_admitted = bool(_admissible_parameter_table(config49)[parameter_index])
+    local_compilation_issues: list[str] = []
+    try:
+        a, p, ut = _outer_indices(raw, config49)
+        parameter_index = a * 256 + p * 16 + ut
+        suggested_outer_admitted = bool(
+            _admissible_parameter_table(config49)[parameter_index]
+        )
+        if not suggested_outer_admitted:
+            local_compilation_issues.append(
+                "suggested_outer_triplet_fails_frozen_physical_admission"
+            )
+    except GravityItem50Error:
+        suggested_outer_admitted = False
+        local_compilation_issues.append("suggested_outer_value_outside_frozen_grid")
     provider_id = _text(raw["proposal_id"], "provider proposal ID", 256)
     return {
         "proposal_id": f"item50-{call['call_id']}-{slot:02d}",
@@ -599,6 +610,8 @@ def _normalize_proposal(
         ),
         "suggested_transition_u": float(raw["suggested_transition_u"]),
         "suggested_outer_cell_physically_admitted": suggested_outer_admitted,
+        "structure_executable_for_frozen_outer_expansion": True,
+        "local_compilation_issues": local_compilation_issues,
         "why_not_merely_a_rewrite": _text(
             raw["why_not_merely_a_rewrite"], "rewrite explanation"
         ),
