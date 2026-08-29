@@ -1,0 +1,369 @@
+{
+  "schema_version": "invariant-gravity-missing-variable-preflight-config-1.0",
+  "preflight_id": "gravity-missing-variable-preflight-v1",
+  "status": "frozen_target_blind_predictor_contract_no_scoring",
+  "purpose": "Freeze the registry, exact definitions that are supportable before source selection, and four explicitly proxy-only predictor contracts for seven missing-variable families; leave underdefined continuous predictors source-definition-blocked without opening response, confirmation, holdout, or independent rows and without scoring any formula.",
+  "source_bindings": [
+    {
+      "source_id": "cluster_predictor_strata_receipt",
+      "path": "runs/gravity/publication-readiness/cluster-predictor-strata-preflight-v1.json",
+      "file_sha256": "8cafbd3fb5a042d125a7667420967a7343b3934e0862121b4359fca0de6d9cc1",
+      "content_sha256": "c64a0a0dc86c4bb7518c7634821b8f87e8265d79d405a16f8f72bc3ac4fc5acb",
+      "schema_version": "invariant-gravity-cluster-predictor-strata-preflight-receipt-1.0",
+      "semantic_field": "decision",
+      "semantic_value": "CP5_11_STRATA_FROZEN_CP5_13_REMAINS_OPEN_PLANNING_MATRIX_ONLY"
+    },
+    {
+      "source_id": "cluster_alternative_cause_matrix",
+      "path": "runs/gravity/publication-readiness/cluster-predictor-strata-preflight-v1/alternative-cause-preflight-matrix.json",
+      "file_sha256": "60c501bc9daa111e59f79f44f3029cea53f47e37ee7ad61f2fd7f060426b025b",
+      "content_sha256": "dd0d08d83d0deda5367c77322ff62d8d1fb0be4ec28919f3513b7c7c5ef1b751",
+      "schema_version": "invariant-gravity-cluster-alternative-cause-preflight-matrix-1.0",
+      "semantic_field": "status",
+      "semantic_value": "predictor_only_comparison_map_ready_scientific_comparisons_blocked"
+    },
+    {
+      "source_id": "cluster_public_predictor_source_receipt",
+      "path": "runs/gravity/publication-readiness/cluster-predictor-strata-preflight-v1/public-predictor-source-receipt.json",
+      "file_sha256": "6a9611f4f757ffed99f238a74597e198a6df78fb9338329933d3d0dcd754f384",
+      "content_sha256": "b301542ad629bea7b9961edb2c2b9e653ced14e744ae59ec7ebecb9843ea6669",
+      "schema_version": "invariant-gravity-cluster-public-predictor-source-receipt-1.0",
+      "semantic_field": "status",
+      "semantic_value": "authoritative_public_predictors_extracted_no_target_responses"
+    },
+    {
+      "source_id": "group_scale_source_audit",
+      "path": "runs/gravity/publication-readiness/group-scale-source-audit-v1.json",
+      "file_sha256": "7707606dfdeae6a4bbeef06b0c7553074f8f5496a7f30d45a427fce10075f73e",
+      "content_sha256": "d76a308369cf1175e418790cf2799905c9dc2484bb13ff1a1322c1f45160d3af",
+      "schema_version": "invariant-gravity-group-scale-source-audit-receipt-1.0",
+      "semantic_field": "decision",
+      "semantic_value": "METADATA_AUDIT_SEALED_DISCLOSED_EXCERPT_ZERO_READY_LANES_CP10_1_CP10_2_REMAIN_OPEN"
+    },
+    {
+      "source_id": "shared_ben_real_preflight_v2",
+      "path": "runs/gravity/shared-target-blind-ben-real-development-preflight-v2.json",
+      "file_sha256": "760d89674b8446930addc447e0040e9741270f607bc8814852f59d7e400f053d",
+      "content_sha256": "831a16ae6e15d6204031ec908c010d5a145b7505d628efe433c7c208bd259d84",
+      "schema_version": "invariant-gravity-ben-real-development-preflight-receipt-2.0",
+      "semantic_field": "decision",
+      "semantic_value": "BLOCKED_XCOP_RESPONSE_DERIVED_OUTPUT_MAPPING_UNAUTHORIZED_NO_SCORE"
+    }
+  ],
+  "lane_contract": {
+    "lane_ids": [
+      "SPARC_DEVELOPMENT_ONLY",
+      "XCOP_EIGHT_EXPOSED_DEVELOPMENT",
+      "GROUP_SOURCE_AUDIT_LANES"
+    ],
+    "lane_ids_are_metadata_not_predictors": true,
+    "object_identity_predictor_forbidden": true,
+    "domain_identity_predictor_forbidden": true,
+    "whole_object_split_required": true,
+    "post_response_variable_selection_forbidden": true,
+    "response_derived_normalization_forbidden": true
+  },
+  "public_source_catalog": [
+    {
+      "source_id": "SPARC_MASSMODELS_TABLE",
+      "public_source_or_file": "SPARC Mass Models machine-readable radial table and published baryonic-component columns",
+      "url_or_archive": "http://astroweb.cwru.edu/SPARC/",
+      "required_fields": ["Rad", "Vgas", "Vdisk", "Vbul"],
+      "current_state": "SOURCE_BLOCKED_BY_LOCAL_MIXED_PACKET_INCIDENT"
+    },
+    {
+      "source_id": "SPARC_PHOTOMETRY_HI_MAPS",
+      "public_source_or_file": "resolved 3.6 micron photometry, HI surface-density maps, and frozen distance/inclination metadata",
+      "url_or_archive": "http://astroweb.cwru.edu/SPARC/",
+      "required_fields": ["axis_ratio", "inclination", "disk_scale_height_or_prior", "Rbar90"],
+      "current_state": "SOURCE_BLOCKED_NO_HASH_BOUND_PREDICTOR_PACKET"
+    },
+    {
+      "source_id": "SPARC_RESOLVED_GAS_KINEMATICS",
+      "public_source_or_file": "resolved HI velocity-dispersion and surface-density products independent of Vobs residuals",
+      "url_or_archive": "public survey products to be source-audited",
+      "required_fields": ["sigma_gas", "Sigma_gas", "beam_covariance"],
+      "current_state": "SOURCE_BLOCKED_NO_FROZEN_FILE_MANIFEST"
+    },
+    {
+      "source_id": "SPARC_CALIBRATION_ENVIRONMENT_HISTORY",
+      "public_source_or_file": "distance/inclination covariance, neighbor catalog, and predictor-only star-formation or interaction-history products",
+      "url_or_archive": "public catalogs to be source-audited",
+      "required_fields": ["distance_covariance", "inclination_covariance", "neighbor_positions", "history_proxy"],
+      "current_state": "SOURCE_BLOCKED_NO_JOIN_AND_COVARIANCE_MANIFEST"
+    },
+    {
+      "source_id": "XCOP_MORPHOLOGY_AND_ASSEMBLY_PROXY",
+      "public_source_or_file": "bound eight-cluster concentration, centroid-shift, Gini, Zernike, cool-core, assembly-literature, and boundary-method metadata",
+      "url_or_archive": "bound cluster public-predictor source receipt",
+      "required_fields": ["c_SB", "w_x1e3", "Gini", "C_Z", "K0", "assembly_flag", "boundary_method"],
+      "current_state": "EXECUTABLE_PROXY_ONLY_FOR_EIGHT_DEVELOPMENT_CLUSTERS"
+    },
+    {
+      "source_id": "XCOP_JOINT_3D_GEOMETRY",
+      "public_source_or_file": "joint X-ray/SZ/lensing deprojection or orientation posterior with axis-ratio covariance",
+      "url_or_archive": "public object-level product to be identified and audited",
+      "required_fields": ["a_sky", "b_sky", "c_los", "axis_ratio_covariance"],
+      "current_state": "SOURCE_BLOCKED_NO_BOUND_3D_PRODUCT"
+    },
+    {
+      "source_id": "XCOP_GAS_MOTION_NONTHERMAL",
+      "public_source_or_file": "object-level gas-motion product disjoint from scored X-COP T_X and P_SZ, publishing f_nth directly with provenance/covariance or supplying sigma_3d plus temperature from a separately frozen predictor-only source",
+      "url_or_archive": "public spectroscopy or validated simulation-calibrated product to be audited",
+      "required_fields": ["direct_f_nth_or_sigma_3d", "independent_predictor_temperature_if_needed", "radial_covariance", "provenance_disjoint_from_scored_T_X_and_P_SZ"],
+      "current_state": "SOURCE_DEFINITION_BLOCKED_DISJOINT_PRODUCT_NOT_SELECTED"
+    },
+    {
+      "source_id": "XCOP_CALIBRATION_CLUMPING_BOUNDARY",
+      "public_source_or_file": "XMM/Planck calibration covariance, mean-to-median density clumping profiles, and measured outer SZ boundary with predictor-side scaling",
+      "url_or_archive": "X-COP public products and calibration releases to be audited",
+      "required_fields": ["calibration_draws", "C_rho", "P_out", "predictor_side_scale", "joint_covariance"],
+      "current_state": "SOURCE_BLOCKED_XCOP_OUTPUT_MAPPING_INCOMPLETE"
+    },
+    {
+      "source_id": "XCOP_ENVIRONMENT_AND_TIMELINE",
+      "public_source_or_file": "neighbor/tidal catalog and continuous merger or sloshing time posterior",
+      "url_or_archive": "public catalogs and primary-source supplemental products to be audited",
+      "required_fields": ["external_acceleration", "tidal_tensor", "time_since_event", "time_covariance"],
+      "current_state": "SOURCE_BLOCKED_CATEGORICAL_PROXY_ONLY"
+    },
+    {
+      "source_id": "GROUP_ALIAS_DIRECT_ENDPOINT_PACKET",
+      "public_source_or_file": "official retrievable X-GAP or replacement alias manifest plus direct density, pressure, temperature, stellar, and covariance files",
+      "url_or_archive": "https://www.astro.unige.ch/xgap/",
+      "required_fields": ["canonical_alias", "n_e", "P_e", "kT_X", "stellar_profile", "joint_covariance", "file_license"],
+      "current_state": "SOURCE_BLOCKED_ZERO_READY_GROUP_LANES"
+    },
+    {
+      "source_id": "GROUP_MISSING_VARIABLE_PRODUCTS",
+      "public_source_or_file": "group-scale geometry, gas-motion, clumping, calibration, boundary, environment, and assembly products joined by frozen aliases",
+      "url_or_archive": "XMM, Chandra, eROSITA, optical/IR, and SZ public archives after source audit",
+      "required_fields": ["q_los", "f_nth", "delta_cal", "C_rho", "P_out", "eta_env", "tau_asm", "joint_covariance"],
+      "current_state": "SOURCE_BLOCKED_NO_ALIAS_OR_FILE_MANIFEST"
+    }
+  ],
+  "variable_registry": [
+    {
+      "variable_id": "geometry_3d",
+      "label": "three-dimensional geometry and orientation",
+      "definition_status": "CONTINUOUS_DEFINITION_FROZEN_SOURCE_DATA_BLOCKED",
+      "dimensionless_predictor": {
+        "symbol": "q_los",
+        "definition": "c_los/sqrt(a_sky*b_sky)",
+        "units": "1",
+        "physical_range": "positive; q_los=1 is spherical in the declared convention",
+        "reference_convention": "a_sky and b_sky are the major and minor sky-plane semi-axes and c_los is the line-of-sight semi-axis of one source-tracer isodensity ellipsoid at R_ref=Rbar50; Rbar50 encloses 50 percent of the predictor-side baryonic mass within frozen observational support",
+        "lane_specific_tracer": {
+          "SPARC_DEVELOPMENT_ONLY": "joint stellar-plus-gas baryonic density reconstructed from predictor maps",
+          "XCOP_EIGHT_EXPOSED_DEVELOPMENT": "electron-density isosurface from predictor-side X-ray surface brightness/deprojection",
+          "GROUP_SOURCE_AUDIT_LANES": "electron-density isosurface from the frozen direct deprojection packet"
+        }
+      },
+      "physical_provenance": "A three-axis deprojection or orientation posterior, never a fit to candidate residuals or total-mass targets.",
+      "covariance_nuisance_treatment": "Carry the full axis-ratio/orientation posterior jointly with centering and radial deprojection; morphology proxies form a separately reported sensitivity channel and may not be relabeled as q_los measurements.",
+      "missingness_rule": "No imputation from object identity, residual sign, inferred mass, or response morphology; retain a missing indicator only for audit and run complete-case plus source-missingness sensitivity.",
+      "forbidden_response_derived_substitutes": ["candidate residual ellipticity", "hydrostatic or lensing total-mass axis ratio", "domain or object label"],
+      "domain_applicability": [
+        {"lane_id": "SPARC_DEVELOPMENT_ONLY", "applicability": "APPLICABLE", "measurement_or_proxy_status": "SOURCE_BLOCKED_MEASUREMENT", "required_source_ids": ["SPARC_PHOTOMETRY_HI_MAPS"], "current_execution_status": "SOURCE_BLOCKED", "blocker": "inclination and projected axis ratio do not identify c_los without a thickness/orientation prior and covariance"},
+        {"lane_id": "XCOP_EIGHT_EXPOSED_DEVELOPMENT", "applicability": "APPLICABLE", "measurement_or_proxy_status": "EXECUTABLE_PROXY_NOT_3D_MEASUREMENT", "required_source_ids": ["XCOP_MORPHOLOGY_AND_ASSEMBLY_PROXY", "XCOP_JOINT_3D_GEOMETRY"], "current_execution_status": "EXECUTABLE_PROXY_ONLY", "blocker": "bound morphology values are projected disturbance proxies; no c_los posterior is bound"},
+        {"lane_id": "GROUP_SOURCE_AUDIT_LANES", "applicability": "APPLICABLE", "measurement_or_proxy_status": "SOURCE_BLOCKED_MEASUREMENT", "required_source_ids": ["GROUP_ALIAS_DIRECT_ENDPOINT_PACKET", "GROUP_MISSING_VARIABLE_PRODUCTS"], "current_execution_status": "SOURCE_BLOCKED", "blocker": "zero group lanes have a retrievable alias-bound deprojection packet"}
+      ],
+      "prospective_test": {
+        "falsification_rule": "With q_los frozen before response access, require a preregistered monotone residual association or out-of-sample score gain in the same direction across eligible lanes; inconsistent signs or no gain at the frozen precision falsifies q_los as the shared missing variable.",
+        "ablation_rule": "Set q_los=1 and compare against posterior integration over q_los at identical formula complexity and object splits.",
+        "multiplicity_family": "missing_variable_primary_seven",
+        "run_status": "NOT_RUN_NO_RESPONSE_ACCESS"
+      }
+    },
+    {
+      "variable_id": "nonthermal_pressure",
+      "label": "nonthermal or unresolved kinetic support",
+      "definition_status": "SOURCE_DEFINITION_BLOCKED_DISJOINT_THERMAL_REFERENCE_NOT_SELECTED",
+      "dimensionless_predictor": {
+        "symbol": "f_nth",
+        "definition": "P_nth/(P_th+P_nth)",
+        "units": "1",
+        "physical_range": "0<=f_nth<1",
+        "lane_specific_conventions": {
+          "SPARC_DEVELOPMENT_ONLY": "typed cold-gas analog f_ad=sigma_R^2/(Vbar^2+sigma_R^2), with Vbar computed only from predictor-side gas and stellar mass maps; f_ad is never pooled numerically with hot-gas f_nth",
+          "XCOP_EIGHT_EXPOSED_DEVELOPMENT": "use a directly published f_nth posterior from a product disjoint from scored T_X and P_SZ, or P_nth=rho_g*sigma_3d^2/3 and P_th=rho_g*k_B*T_pred/(mu*m_p) only when T_pred comes from a separately hash-frozen predictor source not used as scored T_X",
+          "GROUP_SOURCE_AUDIT_LANES": "same hot-gas convention as X-COP after a direct f_nth product or disjoint sigma_3d plus predictor-only T_pred source is selected and alias-bound"
+        },
+        "source_selection_rule": "The direct-f_nth path and the sigma_3d-plus-T_pred path are mutually exclusive preregistered source choices; until one exact product is selected the continuous predictor is SOURCE_DEFINITION_BLOCKED."
+      },
+      "physical_provenance": "A gas-motion product whose files, reduction, covariance, and thermal reference are disjoint from scored X-COP T_X and P_SZ and from candidate residuals; the frozen morphology/cool-core/assembly channel remains only a proxy.",
+      "covariance_nuisance_treatment": "For a direct f_nth release, carry its published radial covariance. For the derived path, jointly propagate sigma_3d, rho_g, mu, and independently frozen predictor-side T_pred covariance. Scored T_X, P_SZ, response-derived thermal pressure, and the Item 59 fitted nonthermal setting are forbidden.",
+      "missingness_rule": "No morphology-to-f_nth point imputation; morphology/cool-core/assembly flags may be tested only as explicitly labeled proxies with separate missingness strata.",
+      "forbidden_response_derived_substitutes": ["Item 59 selected nonthermal coefficient", "residual-derived pressure fraction", "hydrostatic mass bias target", "scored X-COP T_X", "scored X-COP P_SZ", "thermal pressure derived from any scored response"],
+      "domain_applicability": [
+        {"lane_id": "SPARC_DEVELOPMENT_ONLY", "applicability": "APPLICABLE_TYPED_COLD_GAS_ANALOG", "measurement_or_proxy_status": "SOURCE_BLOCKED_MEASUREMENT", "required_source_ids": ["SPARC_RESOLVED_GAS_KINEMATICS"], "current_execution_status": "SOURCE_BLOCKED", "blocker": "resolved gas dispersion and beam covariance are not hash-bound"},
+        {"lane_id": "XCOP_EIGHT_EXPOSED_DEVELOPMENT", "applicability": "APPLICABLE", "measurement_or_proxy_status": "EXECUTABLE_PROXY_NOT_F_NTH_MEASUREMENT", "required_source_ids": ["XCOP_MORPHOLOGY_AND_ASSEMBLY_PROXY", "XCOP_GAS_MOTION_NONTHERMAL"], "current_execution_status": "EXECUTABLE_PROXY_ONLY", "blocker": "relaxation, cool-core, and assembly labels are proxies; no independent radial f_nth product is bound"},
+        {"lane_id": "GROUP_SOURCE_AUDIT_LANES", "applicability": "APPLICABLE", "measurement_or_proxy_status": "SOURCE_BLOCKED_MEASUREMENT", "required_source_ids": ["GROUP_ALIAS_DIRECT_ENDPOINT_PACKET", "GROUP_MISSING_VARIABLE_PRODUCTS"], "current_execution_status": "SOURCE_BLOCKED", "blocker": "no direct gas-motion packet or covariance is verified"}
+      ],
+      "prospective_test": {"falsification_rule": "Freeze f_nth(r) from independent gas-motion data and require held-out improvement without refitting the gravity law; failure to improve or a required unphysical fraction falsifies nonthermal support as the missing explanation.", "ablation_rule": "Compare full posterior integration with f_nth(r)=0 and with morphology proxies removed one at a time.", "multiplicity_family": "missing_variable_primary_seven", "run_status": "NOT_RUN_NO_RESPONSE_ACCESS"}
+    },
+    {
+      "variable_id": "calibration",
+      "label": "instrument, distance, inclination, and cross-survey calibration",
+      "definition_status": "SOURCE_DEFINITION_BLOCKED_EXACT_RELEASE_REFERENCES_NOT_SELECTED",
+      "dimensionless_predictor": {
+        "symbol": "delta_cal,k",
+        "definition": "ln(S_k/S_ref,k) for each separately named calibration source k; delta_cal is a vector and may not be collapsed to a fitted object offset",
+        "units": "1",
+        "physical_range": "real; every component is centered at zero under its hash-bound reference",
+        "lane_specific_conventions": {
+          "SPARC_DEVELOPMENT_ONLY": [
+            "k=distance: S_k=D and S_ref,k is the nominal distance in the selected hash-bound SPARC metadata row",
+            "k=inclination: S_k=sin(i) and S_ref,k=sin(i_ref) from the same selected metadata release",
+            "k=3.6um_flux: S_k is the applied 3.6um flux zero-point and S_ref,k is the exact published zero-point in the selected photometric calibration file"
+          ],
+          "XCOP_EIGHT_EXPOSED_DEVELOPMENT": [
+            "k=XMM_effective_area: S_k=A_X(E) and S_ref,k=A_ref(E) from the exact selected CCF revision; response T_X values are not S_k",
+            "k=Planck_gain: S_k=G_SZ and S_ref,k=G_ref from the exact selected map-release calibration; P_SZ values are not S_k"
+          ],
+          "GROUP_SOURCE_AUDIT_LANES": [
+            "k=instrument_effective_area: S_k=A_inst(E) and S_ref,k=A_ref(E) from the selected CALDB/CCF revision",
+            "k=SZ_or_flux_gain when present: S_k=G_inst and S_ref,k=G_ref from the selected release calibration"
+          ]
+        },
+        "source_selection_rule": "Each S_ref is the nominal value in an exact hash-bound release file; until those release identifiers are selected per lane, calibration remains SOURCE_DEFINITION_BLOCKED."
+      },
+      "physical_provenance": "Instrument or distance-scale calibration releases and their covariance, treated as nuisance information rather than a new physical law.",
+      "covariance_nuisance_treatment": "Integrate shared calibration draws across all rows and endpoints affected by one calibration source; do not diagonalize a common scale uncertainty.",
+      "missingness_rule": "A missing calibration lineage blocks the lane; no default zero uncertainty and no calibration inferred from fit residuals.",
+      "forbidden_response_derived_substitutes": ["best-fit residual offset", "per-object fitted scale", "source-inferred mass calibration"],
+      "domain_applicability": [
+        {"lane_id": "SPARC_DEVELOPMENT_ONLY", "applicability": "APPLICABLE", "measurement_or_proxy_status": "SOURCE_BLOCKED_NUISANCE", "required_source_ids": ["SPARC_PHOTOMETRY_HI_MAPS", "SPARC_CALIBRATION_ENVIRONMENT_HISTORY"], "current_execution_status": "SOURCE_BLOCKED", "blocker": "distance, inclination, flux, and mass-to-light covariance is not joined in a clean predictor-only packet"},
+        {"lane_id": "XCOP_EIGHT_EXPOSED_DEVELOPMENT", "applicability": "APPLICABLE", "measurement_or_proxy_status": "SOURCE_BLOCKED_NUISANCE", "required_source_ids": ["XCOP_CALIBRATION_CLUMPING_BOUNDARY"], "current_execution_status": "SOURCE_BLOCKED", "blocker": "full XMM/Planck shared and cross-endpoint calibration covariance is not bound"},
+        {"lane_id": "GROUP_SOURCE_AUDIT_LANES", "applicability": "APPLICABLE", "measurement_or_proxy_status": "SOURCE_BLOCKED_NUISANCE", "required_source_ids": ["GROUP_ALIAS_DIRECT_ENDPOINT_PACKET", "GROUP_MISSING_VARIABLE_PRODUCTS"], "current_execution_status": "SOURCE_BLOCKED", "blocker": "exact observation and calibration lineage is incomplete for every audited group lane"}
+      ],
+      "prospective_test": {"falsification_rule": "Require the candidate advantage to survive the preregistered joint calibration prior without posterior mass at a calibration boundary; disappearance under documented calibration uncertainty identifies calibration sensitivity rather than new physics.", "ablation_rule": "Compare joint correlated calibration draws against delta_cal=0 and against an intentionally diagonalized wrong-covariance control.", "multiplicity_family": "missing_variable_primary_seven", "run_status": "NOT_RUN_NO_RESPONSE_ACCESS"}
+    },
+    {
+      "variable_id": "clumping",
+      "label": "unresolved gas-density clumping",
+      "definition_status": "CONTINUOUS_DEFINITION_FROZEN_SOURCE_DATA_BLOCKED",
+      "dimensionless_predictor": {"symbol": "C_rho", "definition": "<n_e^2>_shell/<n_e>_shell^2 within the same deprojected radial shell and frozen mask", "units": "1", "physical_range": "C_rho>=1", "reference_convention": "shell edges, mask, background model, and mean-versus-median estimator must be frozen in the source packet before any response score"},
+      "physical_provenance": "Mean-to-median surface-brightness or validated fluctuation measurements with background, PSF, masking, and deprojection covariance.",
+      "covariance_nuisance_treatment": "Propagate C_rho jointly into density, gas mass, pressure, and baryonic acceleration; preserve radial/background covariance.",
+      "missingness_rule": "No C_rho=1 default for missing outer bins in the primary analysis; use explicit missingness sensitivity and a separately labeled no-clumping ablation.",
+      "forbidden_response_derived_substitutes": ["candidate density residual variance", "total-mass discrepancy", "morphology class relabeled as C_rho"],
+      "domain_applicability": [
+        {"lane_id": "SPARC_DEVELOPMENT_ONLY", "applicability": "NOT_APPLICABLE_HOT_GAS_DEFINITION", "measurement_or_proxy_status": "NOT_APPLICABLE", "required_source_ids": [], "current_execution_status": "NOT_APPLICABLE", "blocker": "cold-disk gas inhomogeneity requires a separately defined observable and is not C_rho"},
+        {"lane_id": "XCOP_EIGHT_EXPOSED_DEVELOPMENT", "applicability": "APPLICABLE", "measurement_or_proxy_status": "SOURCE_BLOCKED_MEASUREMENT", "required_source_ids": ["XCOP_CALIBRATION_CLUMPING_BOUNDARY"], "current_execution_status": "SOURCE_BLOCKED", "blocker": "object-level clumping profiles with joint covariance are not bound"},
+        {"lane_id": "GROUP_SOURCE_AUDIT_LANES", "applicability": "APPLICABLE", "measurement_or_proxy_status": "SOURCE_BLOCKED_MEASUREMENT", "required_source_ids": ["GROUP_ALIAS_DIRECT_ENDPOINT_PACKET", "GROUP_MISSING_VARIABLE_PRODUCTS"], "current_execution_status": "SOURCE_BLOCKED", "blocker": "no group clumping product or background covariance is verified"}
+      ],
+      "prospective_test": {"falsification_rule": "After jointly correcting density and gas mass with frozen C_rho, require held-out residual reduction without reversing the correction sign; no improvement falsifies clumping as the shared cause at the measured precision.", "ablation_rule": "Set C_rho=1 and compare with full correlated C_rho posterior while holding all other nuisance draws fixed.", "multiplicity_family": "missing_variable_primary_seven", "run_status": "NOT_RUN_NO_RESPONSE_ACCESS"}
+    },
+    {
+      "variable_id": "boundary_conditions",
+      "label": "outer boundary and finite-observation support",
+      "definition_status": "CONTINUOUS_DEFINITION_FROZEN_SOURCE_DATA_BLOCKED",
+      "dimensionless_predictor": {
+        "symbol": "b_out",
+        "definition": "b_P=G*P_out/a0^2 for hydrostatic lanes; b_R=R_last/Rbar90 for the rotation lane",
+        "units": "1",
+        "physical_range": "positive; b_P and b_R are typed predictors and must never be pooled as the same measurement",
+        "reference_convention": {
+          "hydrostatic_P_out": "the unscored outer SZ boundary measurement at the frozen outer integration radius, stored in a predictor-only boundary file disjoint from scored interior P_SZ rows",
+          "hydrostatic_P_ref": "a0^2/G using the globally frozen a0 and gravitational constant G; no P500, T500, scored T_X, or scored P_SZ normalization",
+          "rotation_R_last": "largest radius for which all required predictor-only baryonic components are present; Vobs availability cannot set R_last",
+          "rotation_Rbar90": "radius enclosing 90 percent of gas-plus-stellar baryonic mass in the frozen predictor maps"
+        }
+      },
+      "physical_provenance": "An independently measured outer SZ pressure boundary or predictor-only radial-coverage ratio fixed before response scoring.",
+      "covariance_nuisance_treatment": "Carry the boundary posterior through the full radial integration; share reference-scale covariance and keep the two typed lane definitions separate.",
+      "missingness_rule": "Missing P_out or R_bar90 blocks the primary boundary test; no extrapolation from the candidate response or fitted outer residual.",
+      "forbidden_response_derived_substitutes": ["fitted outer pressure residual", "P500 or T500 response scale used as predictor", "scored T_X or interior P_SZ normalization", "last observed response value", "Vobs availability used to set R_last"],
+      "domain_applicability": [
+        {"lane_id": "SPARC_DEVELOPMENT_ONLY", "applicability": "APPLICABLE_TYPED_RADIAL_COVERAGE", "measurement_or_proxy_status": "SOURCE_BLOCKED_MEASUREMENT", "required_source_ids": ["SPARC_MASSMODELS_TABLE", "SPARC_PHOTOMETRY_HI_MAPS"], "current_execution_status": "SOURCE_BLOCKED", "blocker": "clean predictor-only R_last and R_bar90 packet cannot be opened under the mixed-file incident"},
+        {"lane_id": "XCOP_EIGHT_EXPOSED_DEVELOPMENT", "applicability": "APPLICABLE", "measurement_or_proxy_status": "EXECUTABLE_BACKGROUND_METHOD_PROXY_NOT_BOUNDARY_MEASUREMENT", "required_source_ids": ["XCOP_MORPHOLOGY_AND_ASSEMBLY_PROXY", "XCOP_CALIBRATION_CLUMPING_BOUNDARY"], "current_execution_status": "EXECUTABLE_PROXY_ONLY", "blocker": "boundary-method label is frozen, but measured predictor-only P_out and scale mapping are unavailable"},
+        {"lane_id": "GROUP_SOURCE_AUDIT_LANES", "applicability": "APPLICABLE", "measurement_or_proxy_status": "SOURCE_BLOCKED_MEASUREMENT", "required_source_ids": ["GROUP_ALIAS_DIRECT_ENDPOINT_PACKET", "GROUP_MISSING_VARIABLE_PRODUCTS"], "current_execution_status": "SOURCE_BLOCKED", "blocker": "direct outer pressure endpoint and covariance are absent"}
+      ],
+      "prospective_test": {"falsification_rule": "Freeze boundary measurements before response access and require sensitivity-bounded predictions across radial coverage; a result driven by one boundary prior edge or background-method singleton fails the boundary robustness gate.", "ablation_rule": "Replace the measured boundary posterior with the frozen neutral boundary and separately remove the radial-coverage term without changing object splits.", "multiplicity_family": "missing_variable_primary_seven", "run_status": "NOT_RUN_NO_RESPONSE_ACCESS"}
+    },
+    {
+      "variable_id": "environment",
+      "label": "external acceleration and tidal environment",
+      "definition_status": "CONTINUOUS_DEFINITION_FROZEN_SOURCE_DATA_BLOCKED",
+      "dimensionless_predictor": {
+        "symbol": "eta_env",
+        "definition": "max(||g_ext||_2/a0, ||T_ext^TF||_F*Rbar50/a0)",
+        "units": "1",
+        "physical_range": "eta_env>=0",
+        "reference_convention": "T_ext^TF has components d(g_ext,i)/d(x_j)-delta_ij*trace(dg/dx)/3; ||T_ext^TF||_F=sqrt(sum_ij(T_ij^2)); Rbar50 encloses 50 percent of predictor-side baryonic mass within frozen support; g_ext and T_ext exclude the target object's own source model"
+      },
+      "physical_provenance": "Neighbor positions and independently calibrated baryonic or dynamical source estimates with survey selection and line-of-sight uncertainty.",
+      "covariance_nuisance_treatment": "Marginalize neighbor distance, membership, source mass proxy, incompleteness, and tidal-tensor covariance; report acceleration and tidal terms separately before any combination.",
+      "missingness_rule": "Catalog footprint or redshift incompleteness is an explicit censoring state; never encode isolated=0 solely because neighbors are missing.",
+      "forbidden_response_derived_substitutes": ["residual-correlated neighbor selection", "host mass inferred from target response", "domain identity"],
+      "domain_applicability": [
+        {"lane_id": "SPARC_DEVELOPMENT_ONLY", "applicability": "APPLICABLE", "measurement_or_proxy_status": "SOURCE_BLOCKED_MEASUREMENT", "required_source_ids": ["SPARC_CALIBRATION_ENVIRONMENT_HISTORY"], "current_execution_status": "SOURCE_BLOCKED", "blocker": "no frozen neighbor join, completeness model, or covariance"},
+        {"lane_id": "XCOP_EIGHT_EXPOSED_DEVELOPMENT", "applicability": "APPLICABLE", "measurement_or_proxy_status": "SOURCE_BLOCKED_MEASUREMENT", "required_source_ids": ["XCOP_ENVIRONMENT_AND_TIMELINE"], "current_execution_status": "SOURCE_BLOCKED", "blocker": "no bound external-field or tidal predictor packet"},
+        {"lane_id": "GROUP_SOURCE_AUDIT_LANES", "applicability": "APPLICABLE", "measurement_or_proxy_status": "SOURCE_BLOCKED_MEASUREMENT", "required_source_ids": ["GROUP_ALIAS_DIRECT_ENDPOINT_PACKET", "GROUP_MISSING_VARIABLE_PRODUCTS"], "current_execution_status": "SOURCE_BLOCKED", "blocker": "group aliases and environment joins are not frozen"}
+      ],
+      "prospective_test": {"falsification_rule": "Freeze eta_env from a response-blind catalog and require the same signed residual relation or held-out improvement across eligible populations; catalog-incompleteness sensitivity or inconsistent signs falsify a shared environment cause.", "ablation_rule": "Set eta_env=0, then remove acceleration and tidal components separately while preserving the frozen neighbor catalog and splits.", "multiplicity_family": "missing_variable_primary_seven", "run_status": "NOT_RUN_NO_RESPONSE_ACCESS"}
+    },
+    {
+      "variable_id": "assembly_history",
+      "label": "assembly, merger, sloshing, and relaxation time",
+      "definition_status": "CONTINUOUS_DEFINITION_FROZEN_SOURCE_DATA_BLOCKED",
+      "dimensionless_predictor": {
+        "symbol": "tau_asm",
+        "definition": "t_since_major_event/t_dyn(Rbar50)",
+        "units": "1",
+        "physical_range": "tau_asm>=0; categorical flags remain proxies and are not numeric tau_asm",
+        "event_convention": "latest externally identified merger or interaction with predictor-side baryonic mass ratio mu>=1/4 and pericenter<=2*Rbar90; sloshing-only onset is retained as a separate categorical proxy and cannot define t_since_major_event",
+        "dynamical_time_convention": "t_dyn(Rbar50)=sqrt(Rbar50^3/(G*Mbar(<Rbar50))); Rbar50 encloses 50 percent of predictor-side gas-plus-stellar baryonic mass within frozen support",
+        "clock_convention": "t_since_major_event is source-reported lookback time relative to the observation epoch, with cosmology and event-time posterior frozen by the source packet"
+      },
+      "physical_provenance": "Independent dynamical, morphological, spectral-age, or simulation-calibrated event-time posterior fixed without candidate residuals.",
+      "covariance_nuisance_treatment": "Carry event-time and t_dyn covariance; analyze positive literature classifications separately from explicitly unclassified objects, never as positive versus confirmed negative.",
+      "missingness_rule": "Unclassified is missing, not relaxed or no-merger; categorical proxy tests retain an explicit unclassified class and continuous tau_asm is not imputed.",
+      "forbidden_response_derived_substitutes": ["candidate residual age", "unclassified treated as nonmerger", "per-object fitted phase"],
+      "domain_applicability": [
+        {"lane_id": "SPARC_DEVELOPMENT_ONLY", "applicability": "APPLICABLE", "measurement_or_proxy_status": "SOURCE_BLOCKED_MEASUREMENT_OR_PROXY", "required_source_ids": ["SPARC_CALIBRATION_ENVIRONMENT_HISTORY"], "current_execution_status": "SOURCE_BLOCKED", "blocker": "no hash-bound interaction or star-formation-history predictor packet"},
+        {"lane_id": "XCOP_EIGHT_EXPOSED_DEVELOPMENT", "applicability": "APPLICABLE", "measurement_or_proxy_status": "EXECUTABLE_CATEGORICAL_PROXY_NOT_TAU_ASM_MEASUREMENT", "required_source_ids": ["XCOP_MORPHOLOGY_AND_ASSEMBLY_PROXY", "XCOP_ENVIRONMENT_AND_TIMELINE"], "current_execution_status": "EXECUTABLE_PROXY_ONLY", "blocker": "positive assembly and relaxation proxies are frozen, but no continuous event-time posterior exists"},
+        {"lane_id": "GROUP_SOURCE_AUDIT_LANES", "applicability": "APPLICABLE", "measurement_or_proxy_status": "SOURCE_BLOCKED_MEASUREMENT_OR_PROXY", "required_source_ids": ["GROUP_ALIAS_DIRECT_ENDPOINT_PACKET", "GROUP_MISSING_VARIABLE_PRODUCTS"], "current_execution_status": "SOURCE_BLOCKED", "blocker": "aliases and assembly metadata are not bound"}
+      ],
+      "prospective_test": {"falsification_rule": "Freeze tau_asm or the declared proxy before response access and require a preregistered temporal ordering of residuals plus held-out improvement; no ordering, sign reversal, or dependence on treating unclassified as negative falsifies assembly as the shared cause.", "ablation_rule": "Remove tau_asm, then remove relaxation and positive-assembly proxy channels separately; keep unclassified objects explicitly unclassified.", "multiplicity_family": "missing_variable_primary_seven", "run_status": "NOT_RUN_NO_RESPONSE_ACCESS"}
+    }
+  ],
+  "chronology_and_access_contract": {
+    "config_and_sources_validate_before_any_predictor_loader": true,
+    "predecessor_public_predictor_rows_read": 8,
+    "new_predictor_source_payload_rows_opened": 0,
+    "response_rows_loaded": 0,
+    "confirmation_rows_loaded": 0,
+    "holdout_rows_loaded": 0,
+    "independent_rows_loaded": 0,
+    "group_payload_rows_loaded": 0,
+    "lensing_rows_loaded": 0,
+    "inferred_mass_rows_loaded": 0,
+    "scientific_scores_computed": 0,
+    "formula_selection_events": 0,
+    "network_calls": 0,
+    "model_or_paid_calls": 0,
+    "gpu_calls": 0
+  },
+  "claim_boundary": {
+    "defined_proxy_contracts_frozen": true,
+    "all_variable_predictor_contracts_frozen": false,
+    "source_definition_blockers_present": true,
+    "proxy_executable_is_measurement_ready": false,
+    "continuous_missing_variables_measured": false,
+    "scientific_scoring_executed": false,
+    "cause_identified": false,
+    "candidate_supported_or_refuted": false,
+    "cross_domain_law_supported": false,
+    "publication_readiness_changed": false,
+    "scientific_claim_allowed": false
+  },
+  "next_actionable_acquisition": {
+    "priority": 1,
+    "source_id": "GROUP_ALIAS_DIRECT_ENDPOINT_PACKET",
+    "action": "Obtain an official retrievable X-GAP master alias manifest or an authoritative replacement, freeze its bytes, aliases, per-file terms, and X-COP overlap before opening any scientific payload.",
+    "unlocks": "Group identity reconciliation and source planning for all seven variables; it does not by itself unlock a score or complete a missing-variable measurement."
+  },
+  "output_path": "runs/gravity/publication-readiness/missing-variable-preflight-v1.json"
+}
