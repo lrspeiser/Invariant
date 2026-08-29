@@ -1,0 +1,919 @@
+{
+  "claim_boundary": {
+    "CP5_7_through_CP5_10_complete": false,
+    "calibrates_full_cluster_forward_model": false,
+    "calibrates_synthetic_quotient_inference_only": true,
+    "candidate_physics_supported": false,
+    "candidate_production_completed": false,
+    "scientific_claim_allowed": false
+  },
+  "content_sha256": "657c5c93762ca9cb90dc42252e3248f25ea6343d660d0fa276b261ee6e2c1ad4",
+  "controls": {
+    "orbit_invariance": {
+      "accepted_cases": {
+        "coupled": 8,
+        "geometry": 8,
+        "stellar": 8
+      },
+      "maximum_absolute_composite_difference": 4.440892098500626e-16,
+      "passed": true
+    },
+    "reference_algorithm": "independent_adaptive_tempering_coordinate_smc",
+    "reference_uses_candidate_orbits": false,
+    "reference_uses_candidate_transition": false
+  },
+  "counts": {
+    "actual_candidate_synthetic_likelihood_evaluations": 783053,
+    "actual_independent_reference_synthetic_likelihood_evaluations": 9952518,
+    "actual_total_synthetic_likelihood_evaluations": 10735571,
+    "frozen_maximum_total_synthetic_likelihood_evaluations": 38275072,
+    "real_forward_model_evaluations": 0
+  },
+  "data_boundary": {
+    "candidate_production_runs": 0,
+    "network_calls": 0,
+    "paid_model_calls": 0,
+    "real_confirmation_rows_loaded": 0,
+    "real_development_rows_loaded": 0,
+    "real_holdout_rows_loaded": 0,
+    "real_independent_rows_loaded": 0,
+    "synthetic_data_only": true
+  },
+  "decision": "BOUNDED_SYNTHETIC_QUOTIENT_SBC_V2_FAILED_RESULT_RETAINED",
+  "evidence": {
+    "bounded_v2_result": {
+      "file_sha256": "6d731650848aba063f0aed8fc835dc65dda4524c63f592ff2045a833fd037053",
+      "path": "runs/gravity/publication-readiness/nuisance-quotient-sbc-v2/bounded-synthetic-sbc-v2.npz"
+    },
+    "canonical_sampler": {
+      "file_sha256": "975b9f69a614d7d419dcc44ac340c86b27a85e6e9fed7ed63d6f6caff228abcb",
+      "path": "src/sigma_theory_compiler/gravity_cluster_nuisance_quotient_sampler.py"
+    },
+    "config": {
+      "file_sha256": "5251b7daf22d42c5455e2a5fa3c09ebac8be2ebb0a5f976d3632e53599c7507d",
+      "path": "configs/gravity_cluster_nuisance_quotient_sbc_v2.json"
+    },
+    "implementation_source": {
+      "file_sha256": "93b0a51fa0074e191f2c21fc04ad3e62eb1038a85c225e5cde62d90fade33c4a",
+      "path": "src/sigma_theory_compiler/gravity_cluster_nuisance_quotient_sbc_v2.py"
+    },
+    "v1_receipt": {
+      "file_sha256": "afb4aa64850fc6449272d8ac2174c7c6c7dfa20c319259c48c5cecbd11dcaa11",
+      "path": "runs/gravity/publication-readiness/nuisance-quotient-sbc-v1.json"
+    },
+    "v1_result": {
+      "file_sha256": "90071721c53e4a635443a652541fc3eeae6c5fd9822bc84a77aa460ecab375f3",
+      "path": "runs/gravity/publication-readiness/nuisance-quotient-sbc-v1/bounded-synthetic-sbc.npz"
+    }
+  },
+  "limitations": [
+    "V2 still calibrates a synthetic Gaussian likelihood in the exact nuisance quotient, not the cluster forward model.",
+    "Sixty-four simulations improve but do not provide publication-grade calibration precision.",
+    "The independent reference is finite-particle adaptive-tempering SMC and is judged by replicate agreement, ancestry, and conditional ESS gates rather than analytic exactness.",
+    "A pass cannot support candidate physics, complete CP5.7-CP5.10, or authorize production; a failure is retained without threshold repair."
+  ],
+  "principled_v2_changes": {
+    "candidate_chain_lengthening": {
+      "adaptation_sweeps_multiplier": 4,
+      "reason": "V1 maximum per-fit Rhat exceeded 3.5 in both scenarios",
+      "retained_draws_per_chain_multiplier": 4,
+      "retained_sweeps_multiplier": 8,
+      "settling_sweeps_multiplier": 8
+    },
+    "finite_simulation_threshold_basis": {
+      "continuity_allowance": "one_over_simulations_per_scenario",
+      "coverage_tolerances": {
+        "0.5": 0.34060921676911454,
+        "0.8": 0.27873737341529164,
+        "0.9": 0.2168655300614687
+      },
+      "familywise_z": 3.5,
+      "simulations_per_scenario": 32
+    },
+    "independent_reference_replacement": {
+      "adaptive_tempering_added": true,
+      "finite_prior_importance_removed": true,
+      "independent_replicates_added": 2,
+      "reason": "V1 finite-Sobol importance ESS fell to 4.32 and 399.65"
+    }
+  },
+  "replay": {
+    "candidate_production": "NOT_RUN",
+    "check": "python -m sigma_theory_compiler.gravity_cluster_nuisance_quotient_sbc_v2 check --config configs/gravity_cluster_nuisance_quotient_sbc_v2.json --expected-config-sha256 5251b7daf22d42c5455e2a5fa3c09ebac8be2ebb0a5f976d3632e53599c7507d --receipt runs/gravity/publication-readiness/nuisance-quotient-sbc-v2.json"
+  },
+  "scenario_results": [
+    {
+      "candidate_coverage": {
+        "levels": [
+          0.5,
+          0.8,
+          0.9
+        ],
+        "maximum_absolute_error_by_level": [
+          0.15625,
+          0.17500000000000004,
+          0.11875000000000002
+        ],
+        "observed_by_coordinate": [
+          [
+            0.46875,
+            0.625,
+            0.78125
+          ],
+          [
+            0.53125,
+            0.75,
+            0.90625
+          ],
+          [
+            0.59375,
+            0.84375,
+            1.0
+          ],
+          [
+            0.5,
+            0.90625,
+            0.90625
+          ],
+          [
+            0.4375,
+            0.71875,
+            0.78125
+          ],
+          [
+            0.34375,
+            0.75,
+            0.8125
+          ],
+          [
+            0.5625,
+            0.75,
+            1.0
+          ],
+          [
+            0.5625,
+            0.84375,
+            0.9375
+          ],
+          [
+            0.53125,
+            0.84375,
+            0.96875
+          ],
+          [
+            0.5625,
+            0.8125,
+            0.90625
+          ]
+        ]
+      },
+      "candidate_coverage_passed": true,
+      "candidate_rank": {
+        "bins": 8,
+        "histograms": [
+          [
+            10,
+            2,
+            1,
+            6,
+            6,
+            2,
+            2,
+            3
+          ],
+          [
+            5,
+            1,
+            6,
+            3,
+            4,
+            4,
+            5,
+            4
+          ],
+          [
+            1,
+            4,
+            4,
+            4,
+            6,
+            5,
+            4,
+            4
+          ],
+          [
+            4,
+            6,
+            3,
+            6,
+            4,
+            3,
+            2,
+            4
+          ],
+          [
+            4,
+            3,
+            4,
+            5,
+            5,
+            0,
+            5,
+            6
+          ],
+          [
+            2,
+            4,
+            1,
+            4,
+            2,
+            4,
+            8,
+            7
+          ],
+          [
+            4,
+            3,
+            6,
+            5,
+            2,
+            5,
+            3,
+            4
+          ],
+          [
+            4,
+            5,
+            5,
+            5,
+            4,
+            4,
+            3,
+            2
+          ],
+          [
+            4,
+            2,
+            2,
+            3,
+            5,
+            7,
+            4,
+            5
+          ],
+          [
+            7,
+            2,
+            2,
+            5,
+            6,
+            5,
+            4,
+            1
+          ]
+        ],
+        "maximum_absolute_mean_rank_z": 2.374606025359797,
+        "mean_normalized_rank": [
+          0.4127334024896265,
+          0.5178636807420064,
+          0.5431565779838907,
+          0.4571714059067609,
+          0.5254912130827434,
+          0.6211786062972907,
+          0.49954997559189657,
+          0.447827678789358,
+          0.5709665608982182,
+          0.45520350256285075
+        ],
+        "mean_rank_z": [
+          -1.7100690839139838,
+          0.3500552219671844,
+          0.8456927608413012,
+          -0.8392656154337067,
+          0.4995237198182421,
+          2.374606025359797,
+          -0.008818641373211445,
+          -1.022364525301255,
+          1.3906549040062655,
+          -0.8778284878792801
+        ]
+      },
+      "fraction_fits_all_coordinates_diagnostic_valid": 1.0,
+      "maximum_absolute_candidate_reference_mean_rank_difference": 0.014339954468399252,
+      "maximum_fit_rhat": 1.7675585521675952,
+      "minimum_fit_bulk_ess": 48.21302295073525,
+      "minimum_fit_tail_ess": 91.47020147640546,
+      "passed": false,
+      "reference_coverage": {
+        "levels": [
+          0.5,
+          0.8,
+          0.9
+        ],
+        "maximum_absolute_error_by_level": [
+          0.1875,
+          0.11250000000000004,
+          0.11875000000000002
+        ],
+        "observed_by_coordinate": [
+          [
+            0.46875,
+            0.71875,
+            0.8125
+          ],
+          [
+            0.46875,
+            0.75,
+            0.9375
+          ],
+          [
+            0.5625,
+            0.875,
+            1.0
+          ],
+          [
+            0.5,
+            0.875,
+            0.90625
+          ],
+          [
+            0.46875,
+            0.6875,
+            0.78125
+          ],
+          [
+            0.3125,
+            0.71875,
+            0.84375
+          ],
+          [
+            0.53125,
+            0.84375,
+            1.0
+          ],
+          [
+            0.625,
+            0.875,
+            0.9375
+          ],
+          [
+            0.5,
+            0.875,
+            0.96875
+          ],
+          [
+            0.53125,
+            0.8125,
+            0.90625
+          ]
+        ]
+      },
+      "reference_coverage_passed": true,
+      "reference_maximum_standardized_replicate_mean_difference": 0.18489403271037744,
+      "reference_minimum_stage_conditional_ess_fraction": 0.7,
+      "reference_minimum_unique_initial_ancestor_fraction": 0.08984375,
+      "reference_rank": {
+        "bins": 8,
+        "histograms": [
+          [
+            8,
+            4,
+            3,
+            4,
+            5,
+            3,
+            1,
+            4
+          ],
+          [
+            5,
+            2,
+            5,
+            2,
+            5,
+            3,
+            6,
+            4
+          ],
+          [
+            1,
+            5,
+            4,
+            3,
+            6,
+            5,
+            5,
+            3
+          ],
+          [
+            3,
+            7,
+            5,
+            2,
+            4,
+            5,
+            3,
+            3
+          ],
+          [
+            6,
+            1,
+            4,
+            5,
+            3,
+            3,
+            5,
+            5
+          ],
+          [
+            3,
+            4,
+            0,
+            4,
+            4,
+            2,
+            8,
+            7
+          ],
+          [
+            4,
+            3,
+            8,
+            4,
+            2,
+            3,
+            4,
+            4
+          ],
+          [
+            4,
+            4,
+            7,
+            3,
+            5,
+            5,
+            2,
+            2
+          ],
+          [
+            3,
+            3,
+            2,
+            3,
+            5,
+            6,
+            6,
+            4
+          ],
+          [
+            7,
+            2,
+            2,
+            3,
+            8,
+            4,
+            5,
+            1
+          ]
+        ],
+        "maximum_absolute_mean_rank_z": 2.278157025178837,
+        "mean_normalized_rank": [
+          0.4166259765625,
+          0.5313720703125,
+          0.5433197021484375,
+          0.4569854736328125,
+          0.518707275390625,
+          0.6162567138671875,
+          0.4900970458984375,
+          0.4413909912109375,
+          0.5618743896484375,
+          0.46954345703125
+        ],
+        "mean_rank_z": [
+          -1.6337905217977642,
+          0.6147645155227313,
+          0.8488893285841604,
+          -0.8429091290168187,
+          0.36658623347804886,
+          2.278157025178837,
+          -0.19405747596023956,
+          -1.148497326907982,
+          1.2124854622785384,
+          -0.596823916820706
+        ]
+      },
+      "scenario_id": "moderate_correlated_quotient_observation",
+      "simulations": 32
+    },
+    {
+      "candidate_coverage": {
+        "levels": [
+          0.5,
+          0.8,
+          0.9
+        ],
+        "maximum_absolute_error_by_level": [
+          0.15625,
+          0.11250000000000004,
+          0.08750000000000002
+        ],
+        "observed_by_coordinate": [
+          [
+            0.5,
+            0.78125,
+            0.875
+          ],
+          [
+            0.65625,
+            0.84375,
+            0.9375
+          ],
+          [
+            0.5,
+            0.8125,
+            0.9375
+          ],
+          [
+            0.46875,
+            0.75,
+            0.84375
+          ],
+          [
+            0.4375,
+            0.6875,
+            0.875
+          ],
+          [
+            0.46875,
+            0.75,
+            0.875
+          ],
+          [
+            0.625,
+            0.90625,
+            0.9375
+          ],
+          [
+            0.53125,
+            0.71875,
+            0.8125
+          ],
+          [
+            0.4375,
+            0.75,
+            0.875
+          ],
+          [
+            0.59375,
+            0.84375,
+            0.96875
+          ]
+        ]
+      },
+      "candidate_coverage_passed": true,
+      "candidate_rank": {
+        "bins": 8,
+        "histograms": [
+          [
+            4,
+            3,
+            4,
+            6,
+            3,
+            3,
+            5,
+            4
+          ],
+          [
+            4,
+            2,
+            4,
+            7,
+            6,
+            4,
+            3,
+            2
+          ],
+          [
+            1,
+            3,
+            3,
+            5,
+            3,
+            5,
+            6,
+            6
+          ],
+          [
+            3,
+            4,
+            0,
+            4,
+            5,
+            6,
+            4,
+            6
+          ],
+          [
+            6,
+            1,
+            3,
+            2,
+            4,
+            5,
+            6,
+            5
+          ],
+          [
+            5,
+            3,
+            5,
+            7,
+            2,
+            1,
+            4,
+            5
+          ],
+          [
+            2,
+            2,
+            3,
+            7,
+            5,
+            5,
+            5,
+            3
+          ],
+          [
+            5,
+            3,
+            7,
+            5,
+            2,
+            3,
+            3,
+            4
+          ],
+          [
+            7,
+            3,
+            4,
+            4,
+            3,
+            3,
+            4,
+            4
+          ],
+          [
+            3,
+            2,
+            7,
+            1,
+            6,
+            5,
+            4,
+            4
+          ]
+        ],
+        "maximum_absolute_mean_rank_z": 2.136801645278761,
+        "mean_normalized_rank": [
+          0.5041875152550648,
+          0.4789022455455211,
+          0.609043202343178,
+          0.5849630827434708,
+          0.5483509275079326,
+          0.46467689773004645,
+          0.5473440932389554,
+          0.4531211862338297,
+          0.46600408835733464,
+          0.525910727361484
+        ],
+        "mean_rank_z": [
+          0.08205820532023406,
+          -0.4134298650560338,
+          2.136801645278761,
+          1.6649295975629603,
+          0.9474808078778708,
+          -0.6921886135482594,
+          0.9277509661615331,
+          -0.9186333877926163,
+          -0.666181094922176,
+          0.5077444872000526
+        ]
+      },
+      "fraction_fits_all_coordinates_diagnostic_valid": 1.0,
+      "maximum_absolute_candidate_reference_mean_rank_difference": 0.013492665233802992,
+      "maximum_fit_rhat": 1.7521232008449714,
+      "minimum_fit_bulk_ess": 48.79898501935122,
+      "minimum_fit_tail_ess": 58.86454645935642,
+      "passed": false,
+      "reference_coverage": {
+        "levels": [
+          0.5,
+          0.8,
+          0.9
+        ],
+        "maximum_absolute_error_by_level": [
+          0.15625,
+          0.11250000000000004,
+          0.06874999999999998
+        ],
+        "observed_by_coordinate": [
+          [
+            0.5,
+            0.8125,
+            0.875
+          ],
+          [
+            0.59375,
+            0.84375,
+            0.9375
+          ],
+          [
+            0.5625,
+            0.84375,
+            0.9375
+          ],
+          [
+            0.53125,
+            0.8125,
+            0.875
+          ],
+          [
+            0.375,
+            0.6875,
+            0.84375
+          ],
+          [
+            0.4375,
+            0.71875,
+            0.875
+          ],
+          [
+            0.65625,
+            0.90625,
+            0.90625
+          ],
+          [
+            0.5625,
+            0.71875,
+            0.84375
+          ],
+          [
+            0.40625,
+            0.6875,
+            0.9375
+          ],
+          [
+            0.5625,
+            0.84375,
+            0.96875
+          ]
+        ]
+      },
+      "reference_coverage_passed": true,
+      "reference_maximum_standardized_replicate_mean_difference": 0.2295267465547804,
+      "reference_minimum_stage_conditional_ess_fraction": 0.7,
+      "reference_minimum_unique_initial_ancestor_fraction": 0.23046875,
+      "reference_rank": {
+        "bins": 8,
+        "histograms": [
+          [
+            3,
+            3,
+            7,
+            3,
+            4,
+            2,
+            6,
+            4
+          ],
+          [
+            4,
+            3,
+            5,
+            5,
+            7,
+            2,
+            4,
+            2
+          ],
+          [
+            1,
+            3,
+            3,
+            3,
+            6,
+            6,
+            4,
+            6
+          ],
+          [
+            3,
+            4,
+            1,
+            3,
+            4,
+            9,
+            2,
+            6
+          ],
+          [
+            6,
+            2,
+            1,
+            4,
+            1,
+            6,
+            7,
+            5
+          ],
+          [
+            6,
+            2,
+            6,
+            6,
+            2,
+            0,
+            6,
+            4
+          ],
+          [
+            2,
+            1,
+            4,
+            6,
+            6,
+            5,
+            6,
+            2
+          ],
+          [
+            5,
+            3,
+            8,
+            5,
+            2,
+            3,
+            2,
+            4
+          ],
+          [
+            6,
+            5,
+            3,
+            3,
+            5,
+            2,
+            4,
+            4
+          ],
+          [
+            3,
+            3,
+            6,
+            2,
+            5,
+            5,
+            4,
+            4
+          ]
+        ],
+        "maximum_absolute_mean_rank_z": 1.8724004845346998,
+        "mean_normalized_rank": [
+          0.506195068359375,
+          0.4768829345703125,
+          0.595550537109375,
+          0.58001708984375,
+          0.5547637939453125,
+          0.46282958984375,
+          0.5568389892578125,
+          0.4437713623046875,
+          0.454010009765625,
+          0.529449462890625
+        ],
+        "mean_rank_z": [
+          0.1213980512170374,
+          -0.4530001172261371,
+          1.8724004845346998,
+          1.568008326557005,
+          1.0731468123594758,
+          -0.7283883073022244,
+          1.1138121694173997,
+          -1.1018517702827162,
+          -0.9012160747984007,
+          0.5770892582484782
+        ]
+      },
+      "scenario_id": "weak_diagonal_quotient_observation",
+      "simulations": 32
+    }
+  ],
+  "schema_version": "invariant-gravity-cluster-nuisance-quotient-sbc-receipt-2.0",
+  "status": "bounded_synthetic_sbc_v2_failed_result_retained",
+  "v1_diagnosis": {
+    "finite_sobol_importance_collapse": true,
+    "short_chain_mixing_failure": true,
+    "v1_result_or_thresholds_changed": false
+  }
+}

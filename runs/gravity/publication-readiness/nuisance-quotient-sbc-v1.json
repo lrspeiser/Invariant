@@ -1,0 +1,872 @@
+{
+  "claim_boundary": {
+    "CP5_7_through_CP5_10_complete": false,
+    "calibrates_full_cluster_forward_model": false,
+    "calibrates_synthetic_quotient_inference_only": true,
+    "candidate_physics_supported": false,
+    "candidate_production_completed": false,
+    "scientific_claim_allowed": false
+  },
+  "content_sha256": "f8269d708f4fc7e82ee186597be52f3db06cd01fd2987281f25482587cc5be08",
+  "controls": {
+    "importance_reference_present": true,
+    "orbit_invariance": {
+      "accepted_cases": {
+        "coupled": 8,
+        "geometry": 8,
+        "stellar": 8
+      },
+      "maximum_absolute_composite_difference": 4.440892098500626e-16,
+      "passed": true
+    },
+    "randomized_stellar_clipping_tie_ranks": true
+  },
+  "counts": {
+    "actual_mcmc_synthetic_likelihood_evaluations": 97826,
+    "actual_total_synthetic_likelihood_evaluations": 884258,
+    "frozen_maximum_total_synthetic_likelihood_evaluations": 1033728,
+    "oracle_synthetic_likelihood_evaluations": 786432,
+    "real_forward_model_evaluations": 0
+  },
+  "data_boundary": {
+    "candidate_production_runs": 0,
+    "network_calls": 0,
+    "paid_model_calls": 0,
+    "real_confirmation_rows_loaded": 0,
+    "real_development_rows_loaded": 0,
+    "real_holdout_rows_loaded": 0,
+    "real_independent_rows_loaded": 0,
+    "synthetic_data_only": true
+  },
+  "decision": "BOUNDED_SYNTHETIC_QUOTIENT_SBC_FAILED_RESULT_RETAINED",
+  "evidence": {
+    "bounded_result": {
+      "file_sha256": "90071721c53e4a635443a652541fc3eeae6c5fd9822bc84a77aa460ecab375f3",
+      "path": "runs/gravity/publication-readiness/nuisance-quotient-sbc-v1/bounded-synthetic-sbc.npz"
+    },
+    "canonical_sampler": {
+      "file_sha256": "975b9f69a614d7d419dcc44ac340c86b27a85e6e9fed7ed63d6f6caff228abcb",
+      "path": "src/sigma_theory_compiler/gravity_cluster_nuisance_quotient_sampler.py"
+    },
+    "config": {
+      "file_sha256": "f9a9acf4ee4f1558ce97ab489423c7f43c09bb38af764c7d17de5109433b314c",
+      "path": "configs/gravity_cluster_nuisance_quotient_sbc_v1.json"
+    },
+    "implementation_source": {
+      "file_sha256": "0eaad327544454c3540bfd99e87530caf3f0ace5e9d0065798125d98de863ba3",
+      "path": "src/sigma_theory_compiler/gravity_cluster_nuisance_quotient_sbc.py"
+    }
+  },
+  "limitations": [
+    "This calibrates a synthetic Gaussian likelihood in the exact ten-dimensional nuisance quotient, not the real cluster forward model.",
+    "Forty-eight simulations provide a bounded control, not publication-grade SBC precision.",
+    "The importance reference is a finite scrambled-Sobol approximation, not an analytic posterior.",
+    "Passing cannot support the candidate physics, complete CP5.7-CP5.10, or authorize candidate production."
+  ],
+  "replay": {
+    "candidate_production": "NOT_RUN",
+    "check": "python -m sigma_theory_compiler.gravity_cluster_nuisance_quotient_sbc check --config configs/gravity_cluster_nuisance_quotient_sbc_v1.json --expected-config-sha256 f9a9acf4ee4f1558ce97ab489423c7f43c09bb38af764c7d17de5109433b314c --receipt runs/gravity/publication-readiness/nuisance-quotient-sbc-v1.json"
+  },
+  "scenario_results": [
+    {
+      "candidate_coverage": {
+        "levels": [
+          0.5,
+          0.8,
+          0.9
+        ],
+        "maximum_absolute_error_by_level": [
+          0.16666666666666669,
+          0.17500000000000004,
+          0.10833333333333339
+        ],
+        "observed_by_coordinate": [
+          [
+            0.5833333333333334,
+            0.8333333333333334,
+            0.9583333333333334
+          ],
+          [
+            0.5416666666666666,
+            0.8333333333333334,
+            0.9583333333333334
+          ],
+          [
+            0.4166666666666667,
+            0.7916666666666666,
+            0.8333333333333334
+          ],
+          [
+            0.6666666666666666,
+            0.7083333333333334,
+            0.7916666666666666
+          ],
+          [
+            0.625,
+            0.75,
+            0.7916666666666666
+          ],
+          [
+            0.4583333333333333,
+            0.625,
+            0.875
+          ],
+          [
+            0.3333333333333333,
+            0.8333333333333334,
+            0.9166666666666666
+          ],
+          [
+            0.5416666666666666,
+            0.875,
+            0.9583333333333334
+          ],
+          [
+            0.4583333333333333,
+            0.7916666666666666,
+            0.9166666666666666
+          ],
+          [
+            0.375,
+            0.6666666666666666,
+            0.9583333333333334
+          ]
+        ]
+      },
+      "candidate_rank": {
+        "bins": 8,
+        "histograms": [
+          [
+            2,
+            2,
+            4,
+            1,
+            7,
+            2,
+            4,
+            2
+          ],
+          [
+            1,
+            1,
+            5,
+            5,
+            1,
+            2,
+            6,
+            3
+          ],
+          [
+            2,
+            4,
+            2,
+            3,
+            2,
+            3,
+            5,
+            3
+          ],
+          [
+            3,
+            0,
+            3,
+            6,
+            4,
+            3,
+            1,
+            4
+          ],
+          [
+            3,
+            1,
+            6,
+            3,
+            4,
+            2,
+            2,
+            3
+          ],
+          [
+            6,
+            3,
+            2,
+            3,
+            4,
+            2,
+            1,
+            3
+          ],
+          [
+            1,
+            3,
+            1,
+            2,
+            2,
+            3,
+            8,
+            4
+          ],
+          [
+            0,
+            3,
+            1,
+            5,
+            1,
+            6,
+            5,
+            3
+          ],
+          [
+            3,
+            4,
+            5,
+            1,
+            4,
+            1,
+            4,
+            2
+          ],
+          [
+            5,
+            4,
+            1,
+            3,
+            1,
+            4,
+            2,
+            4
+          ]
+        ],
+        "maximum_absolute_mean_rank_z": 2.37173962314083,
+        "mean_normalized_rank": [
+          0.5171138211382114,
+          0.572479674796748,
+          0.5364634146341464,
+          0.5232520325203251,
+          0.4783739837398376,
+          0.4308943089430893,
+          0.6397560975609756,
+          0.6263414634146341,
+          0.44902439024390256,
+          0.4769918699186992
+        ],
+        "mean_rank_z": [
+          0.29043117549223035,
+          1.230020869127429,
+          0.6188046660725207,
+          0.39460007691580906,
+          -0.36700566594267325,
+          -1.172762466358179,
+          2.37173962314083,
+          2.144085732612478,
+          -0.8650847840077351,
+          -0.39046091526983995
+        ]
+      },
+      "fraction_fits_all_coordinates_diagnostic_valid": 0.9166666666666666,
+      "maximum_absolute_candidate_oracle_mean_rank_difference": 0.07155737631239423,
+      "maximum_fit_rhat": 4.730527265227861,
+      "minimum_fit_bulk_ess": 0.0,
+      "minimum_fit_tail_ess": 0.0,
+      "minimum_importance_effective_samples": 4.321526188318886,
+      "oracle_coverage": {
+        "levels": [
+          0.5,
+          0.8,
+          0.9
+        ],
+        "maximum_absolute_error_by_level": [
+          0.25,
+          0.13333333333333341,
+          0.19166666666666665
+        ],
+        "observed_by_coordinate": [
+          [
+            0.5833333333333334,
+            0.7916666666666666,
+            0.9166666666666666
+          ],
+          [
+            0.3333333333333333,
+            0.875,
+            0.9583333333333334
+          ],
+          [
+            0.3333333333333333,
+            0.7083333333333334,
+            0.8333333333333334
+          ],
+          [
+            0.5833333333333334,
+            0.75,
+            0.8333333333333334
+          ],
+          [
+            0.5416666666666666,
+            0.75,
+            0.8333333333333334
+          ],
+          [
+            0.375,
+            0.6666666666666666,
+            0.7083333333333334
+          ],
+          [
+            0.2916666666666667,
+            0.75,
+            0.875
+          ],
+          [
+            0.25,
+            0.7916666666666666,
+            0.9166666666666666
+          ],
+          [
+            0.5833333333333334,
+            0.8333333333333334,
+            0.9583333333333334
+          ],
+          [
+            0.4583333333333333,
+            0.7083333333333334,
+            0.7916666666666666
+          ]
+        ]
+      },
+      "oracle_rank": {
+        "bins": 8,
+        "histograms": [
+          [
+            2,
+            2,
+            2,
+            1,
+            6,
+            5,
+            3,
+            3
+          ],
+          [
+            2,
+            4,
+            2,
+            1,
+            2,
+            3,
+            6,
+            4
+          ],
+          [
+            4,
+            3,
+            1,
+            4,
+            0,
+            3,
+            4,
+            5
+          ],
+          [
+            2,
+            1,
+            2,
+            4,
+            2,
+            6,
+            3,
+            4
+          ],
+          [
+            4,
+            2,
+            5,
+            2,
+            4,
+            2,
+            2,
+            3
+          ],
+          [
+            5,
+            3,
+            1,
+            6,
+            2,
+            0,
+            3,
+            4
+          ],
+          [
+            4,
+            3,
+            1,
+            1,
+            2,
+            3,
+            4,
+            6
+          ],
+          [
+            2,
+            3,
+            2,
+            1,
+            1,
+            2,
+            4,
+            9
+          ],
+          [
+            4,
+            3,
+            5,
+            1,
+            5,
+            3,
+            1,
+            2
+          ],
+          [
+            5,
+            3,
+            3,
+            0,
+            4,
+            4,
+            2,
+            3
+          ]
+        ],
+        "maximum_absolute_mean_rank_z": 2.4865104845396977,
+        "mean_normalized_rank": [
+          0.5711968044977546,
+          0.5762132970749071,
+          0.5424161619048546,
+          0.5948094088327194,
+          0.4739850976590141,
+          0.46036537785253534,
+          0.585767422856874,
+          0.646519035425789,
+          0.43466693726515465,
+          0.468197943483531
+        ],
+        "mean_rank_z": [
+          1.2082498382202034,
+          1.2933825402780401,
+          0.7198261371559014,
+          1.608969021741687,
+          -0.4414875325732063,
+          -0.6726218421657308,
+          1.4555214313677527,
+          2.4865104845396977,
+          -1.1087388406918866,
+          -0.5396987956433535
+        ]
+      },
+      "passed": false,
+      "scenario_id": "moderate_correlated_quotient_observation",
+      "simulations": 24
+    },
+    {
+      "candidate_coverage": {
+        "levels": [
+          0.5,
+          0.8,
+          0.9
+        ],
+        "maximum_absolute_error_by_level": [
+          0.16666666666666669,
+          0.2583333333333334,
+          0.15000000000000002
+        ],
+        "observed_by_coordinate": [
+          [
+            0.3333333333333333,
+            0.75,
+            0.9166666666666666
+          ],
+          [
+            0.5,
+            0.8333333333333334,
+            0.8333333333333334
+          ],
+          [
+            0.625,
+            0.75,
+            0.8333333333333334
+          ],
+          [
+            0.5,
+            0.75,
+            0.8333333333333334
+          ],
+          [
+            0.4166666666666667,
+            0.5416666666666666,
+            0.75
+          ],
+          [
+            0.5416666666666666,
+            0.8333333333333334,
+            0.875
+          ],
+          [
+            0.4583333333333333,
+            0.7916666666666666,
+            0.8333333333333334
+          ],
+          [
+            0.625,
+            0.7916666666666666,
+            0.8333333333333334
+          ],
+          [
+            0.5416666666666666,
+            0.7083333333333334,
+            0.8333333333333334
+          ],
+          [
+            0.4166666666666667,
+            0.5416666666666666,
+            0.8333333333333334
+          ]
+        ]
+      },
+      "candidate_rank": {
+        "bins": 8,
+        "histograms": [
+          [
+            5,
+            3,
+            1,
+            3,
+            2,
+            2,
+            6,
+            2
+          ],
+          [
+            3,
+            1,
+            2,
+            4,
+            3,
+            3,
+            4,
+            4
+          ],
+          [
+            4,
+            3,
+            2,
+            4,
+            4,
+            5,
+            0,
+            2
+          ],
+          [
+            4,
+            2,
+            3,
+            2,
+            2,
+            5,
+            3,
+            3
+          ],
+          [
+            5,
+            1,
+            1,
+            1,
+            3,
+            5,
+            1,
+            7
+          ],
+          [
+            2,
+            4,
+            3,
+            2,
+            4,
+            4,
+            2,
+            3
+          ],
+          [
+            4,
+            6,
+            3,
+            3,
+            3,
+            2,
+            1,
+            2
+          ],
+          [
+            2,
+            0,
+            2,
+            2,
+            4,
+            7,
+            4,
+            3
+          ],
+          [
+            5,
+            0,
+            5,
+            3,
+            2,
+            3,
+            3,
+            3
+          ],
+          [
+            8,
+            3,
+            2,
+            4,
+            3,
+            1,
+            0,
+            3
+          ]
+        ],
+        "maximum_absolute_mean_rank_z": 2.2592923984253104,
+        "mean_normalized_rank": [
+          0.4879268292682928,
+          0.5642682926829268,
+          0.4520325203252033,
+          0.513211382113821,
+          0.573130081300813,
+          0.5100406504065041,
+          0.3957723577235773,
+          0.6070325203252033,
+          0.47182926829268296,
+          0.366869918699187
+        ],
+        "mean_rank_z": [
+          -0.204888501475515,
+          1.0906690937131032,
+          -0.8140351237074392,
+          0.22420458915670788,
+          1.2410586335166818,
+          0.17039548775910116,
+          -1.7688017433778607,
+          1.816402102306517,
+          -0.4780731701095384,
+          -2.2592923984253104
+        ]
+      },
+      "fraction_fits_all_coordinates_diagnostic_valid": 0.875,
+      "maximum_absolute_candidate_oracle_mean_rank_difference": 0.027512566713304043,
+      "maximum_fit_rhat": 3.565379684939892,
+      "minimum_fit_bulk_ess": 0.0,
+      "minimum_fit_tail_ess": 0.0,
+      "minimum_importance_effective_samples": 399.6535492044037,
+      "oracle_coverage": {
+        "levels": [
+          0.5,
+          0.8,
+          0.9
+        ],
+        "maximum_absolute_error_by_level": [
+          0.125,
+          0.21666666666666667,
+          0.06666666666666665
+        ],
+        "observed_by_coordinate": [
+          [
+            0.4166666666666667,
+            0.8333333333333334,
+            0.9583333333333334
+          ],
+          [
+            0.5416666666666666,
+            0.7083333333333334,
+            0.9166666666666666
+          ],
+          [
+            0.625,
+            0.7916666666666666,
+            0.875
+          ],
+          [
+            0.4166666666666667,
+            0.875,
+            0.875
+          ],
+          [
+            0.4166666666666667,
+            0.5833333333333334,
+            0.875
+          ],
+          [
+            0.5416666666666666,
+            0.8333333333333334,
+            0.8333333333333334
+          ],
+          [
+            0.625,
+            0.7916666666666666,
+            0.875
+          ],
+          [
+            0.5416666666666666,
+            0.7916666666666666,
+            0.8333333333333334
+          ],
+          [
+            0.4583333333333333,
+            0.6666666666666666,
+            0.875
+          ],
+          [
+            0.4583333333333333,
+            0.75,
+            0.875
+          ]
+        ]
+      },
+      "oracle_rank": {
+        "bins": 8,
+        "histograms": [
+          [
+            4,
+            3,
+            4,
+            1,
+            3,
+            2,
+            4,
+            3
+          ],
+          [
+            3,
+            1,
+            3,
+            2,
+            4,
+            4,
+            2,
+            5
+          ],
+          [
+            5,
+            2,
+            2,
+            4,
+            5,
+            4,
+            1,
+            1
+          ],
+          [
+            1,
+            7,
+            2,
+            0,
+            5,
+            3,
+            3,
+            3
+          ],
+          [
+            5,
+            0,
+            3,
+            3,
+            1,
+            3,
+            2,
+            7
+          ],
+          [
+            2,
+            4,
+            3,
+            3,
+            2,
+            5,
+            3,
+            2
+          ],
+          [
+            4,
+            2,
+            3,
+            7,
+            3,
+            2,
+            1,
+            2
+          ],
+          [
+            2,
+            1,
+            1,
+            2,
+            6,
+            4,
+            5,
+            3
+          ],
+          [
+            7,
+            1,
+            2,
+            2,
+            3,
+            4,
+            2,
+            3
+          ],
+          [
+            6,
+            4,
+            3,
+            0,
+            7,
+            1,
+            0,
+            3
+          ]
+        ],
+        "maximum_absolute_mean_rank_z": 1.8891943244964096,
+        "mean_normalized_rank": [
+          0.47343855990306855,
+          0.5743545111953382,
+          0.4352306046889825,
+          0.5045617908695886,
+          0.5526496260640473,
+          0.5089610107238152,
+          0.4232849244368813,
+          0.6057707175988007,
+          0.4666347688380585,
+          0.38867815684745416
+        ],
+        "mean_rank_z": [
+          -0.450762585854892,
+          1.261837897872833,
+          -1.0991730873065435,
+          0.07741615819778401,
+          0.8934937828037727,
+          0.15207339477828183,
+          -1.301898003598071,
+          1.7949885999619035,
+          -0.5662267490511733,
+          -1.8891943244964096
+        ]
+      },
+      "passed": false,
+      "scenario_id": "weak_diagonal_quotient_observation",
+      "simulations": 24
+    }
+  ],
+  "schema_version": "invariant-gravity-cluster-nuisance-quotient-sbc-receipt-1.0",
+  "status": "bounded_synthetic_sbc_failed_result_retained"
+}

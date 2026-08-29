@@ -1,0 +1,1089 @@
+{
+  "claim_boundary": {
+    "CP5_7_through_CP5_10_complete": false,
+    "calibrates_full_cluster_forward_model": false,
+    "calibrates_synthetic_quotient_inference_only": true,
+    "candidate_physics_supported": false,
+    "candidate_production_completed": false,
+    "scientific_claim_allowed": false
+  },
+  "content_sha256": "228782817d8aac41143b8dafb388f9c1c96a2b4e60352e544439b4039c39beca",
+  "controls": {
+    "canonical_orbit_invariance": {
+      "accepted_cases": {
+        "coupled": 8,
+        "geometry": 8,
+        "stellar": 8
+      },
+      "maximum_absolute_composite_difference": 4.440892098500626e-16,
+      "passed": true
+    },
+    "complete_sweep_property": "fixed_composition_of_invariant_kernels_is_invariant; complete sweep is not claimed reversible",
+    "detailed_balance": {
+      "blocks": [
+        {
+          "block_id": "direct_dynamics",
+          "metropolis_posterior_log_flux_residual": 1.4210854715202004e-14,
+          "pairs": 4096,
+          "prior_reversibility_log_residual": 4.9404924595819466e-15
+        },
+        {
+          "block_id": "direct_boundary_density",
+          "metropolis_posterior_log_flux_residual": 1.4210854715202004e-14,
+          "pairs": 4096,
+          "prior_reversibility_log_residual": 6.994405055138486e-15
+        },
+        {
+          "block_id": "direct_source_clumping_acceleration",
+          "metropolis_posterior_log_flux_residual": 1.4210854715202004e-14,
+          "pairs": 4096,
+          "prior_reversibility_log_residual": 7.105427357601002e-15
+        },
+        {
+          "block_id": "geometry_temperature_quotient",
+          "metropolis_posterior_log_flux_residual": 2.842170943040401e-14,
+          "pairs": 4096,
+          "prior_reversibility_log_residual": 7.105427357601002e-15
+        },
+        {
+          "block_id": "stellar_product_pushforward",
+          "metropolis_posterior_log_flux_residual": 2.842170943040401e-14,
+          "pairs": 4096,
+          "prior_reversibility_log_residual": 6.217248937900877e-15
+        },
+        {
+          "block_id": "global_prior_transport",
+          "metropolis_posterior_log_flux_residual": 2.842170943040401e-14,
+          "pairs": 4096,
+          "prior_reversibility_log_residual": 1.4210854715202004e-14
+        }
+      ],
+      "maximum_metropolis_posterior_log_flux_residual": 2.842170943040401e-14,
+      "maximum_prior_reversibility_log_residual": 1.4210854715202004e-14,
+      "passed": true,
+      "proof": "For each fixed primitive block, z=Phi^-1(u) has a standard-normal prior and z'=sqrt(1-beta^2)z+beta*xi is reversible with respect to that prior. The Metropolis likelihood ratio therefore targets the exact 17-uniform primitive posterior. Each fixed block is invariant; their fixed sequential composition and the canonical prior-invariant orbit composition are invariant even though the complete sweep need not be reversible. Phi maps back to the open unit cube, after which the exact clipped six-factor stellar pushforward is unchanged.",
+      "threshold": 5e-11
+    },
+    "exact_prior_and_atom_invariance": {
+      "all_primitives_covered_by_non_global_blocks": true,
+      "composite_two_sample_ks_threshold": 0.015,
+      "draws": 65536,
+      "global_block_covers_all_primitives": true,
+      "maximum_composite_two_sample_ks": 0.004974365234375,
+      "maximum_stellar_clip_atom_frequency_difference": 0.0002899169921875,
+      "maximum_uniform_marginal_ks": 0.0056894553092955436,
+      "passed": true,
+      "stellar_clip_atom_frequency_threshold": 0.005,
+      "stellar_clip_atoms": [
+        {
+          "absolute_difference": 1.52587890625e-05,
+          "atom": "lower_clip_0p4",
+          "initial_frequency": 3.0517578125e-05,
+          "transported_frequency": 4.57763671875e-05
+        },
+        {
+          "absolute_difference": 0.0002899169921875,
+          "atom": "upper_clip_2p5",
+          "initial_frequency": 0.005340576171875,
+          "transported_frequency": 0.0056304931640625
+        }
+      ],
+      "uniform_marginal_ks_threshold": 0.012
+    },
+    "passed": true
+  },
+  "counts": {
+    "actual_candidate_synthetic_likelihood_evaluations": 14944256,
+    "actual_independent_reference_synthetic_likelihood_evaluations": 9952518,
+    "actual_total_synthetic_likelihood_evaluations": 24896774,
+    "frozen_maximum_total_synthetic_likelihood_evaluations": 50726912,
+    "real_forward_model_evaluations": 0
+  },
+  "data_boundary": {
+    "candidate_production_runs": 0,
+    "network_calls": 0,
+    "paid_model_calls": 0,
+    "real_confirmation_rows_loaded": 0,
+    "real_development_rows_loaded": 0,
+    "real_holdout_rows_loaded": 0,
+    "real_independent_rows_loaded": 0,
+    "synthetic_data_only": true
+  },
+  "decision": "BOUNDED_SYNTHETIC_QUOTIENT_SBC_V3_PASSED_NOT_PHYSICS_OR_PRODUCTION",
+  "evidence": {
+    "bounded_v3_result": {
+      "file_sha256": "472fe23a3ea8660f0d3e7b23e9da692fb595acb9e0e6049ff5a53c23485a7f92",
+      "path": "runs/gravity/publication-readiness/nuisance-quotient-sbc-v3/bounded-synthetic-sbc-v3.npz"
+    },
+    "canonical_sampler": {
+      "file_sha256": "975b9f69a614d7d419dcc44ac340c86b27a85e6e9fed7ed63d6f6caff228abcb",
+      "path": "src/sigma_theory_compiler/gravity_cluster_nuisance_quotient_sampler.py"
+    },
+    "config": {
+      "file_sha256": "781278eab67272eaec76cece10c3789b22650bec025dacc0296399dc2868cbd3",
+      "path": "configs/gravity_cluster_nuisance_quotient_sbc_v3.json"
+    },
+    "implementation_source": {
+      "file_sha256": "cb7c6621eaa66372c5aeebd02adcd7e28f374fbed7daabe3220a952724ea6a7f",
+      "path": "src/sigma_theory_compiler/gravity_cluster_nuisance_quotient_sbc_v3.py"
+    },
+    "quotient_audit_receipt": {
+      "file_sha256": "65dd1909e11a724e01b9614b1a0bb611d7a3c2f5baf8c54edba9bd27b229af08",
+      "path": "runs/gravity/publication-readiness/nuisance-quotient-audit-v1.json"
+    },
+    "v2_receipt": {
+      "file_sha256": "da0db9cf28e97d82de19c65eccbf34cab44a90b62c1a43e2673941e7a17d674e",
+      "path": "runs/gravity/publication-readiness/nuisance-quotient-sbc-v2.json"
+    },
+    "v2_result": {
+      "file_sha256": "6d731650848aba063f0aed8fc835dc65dda4524c63f592ff2045a833fd037053",
+      "path": "runs/gravity/publication-readiness/nuisance-quotient-sbc-v2/bounded-synthetic-sbc-v2.npz"
+    }
+  },
+  "limitations": [
+    "V3 calibrates only the same synthetic Gaussian likelihood on the exact nuisance quotient, not the cluster forward model.",
+    "The pCN blocks operate on Gaussianized primitive coordinates rather than sampling an explicit quotient density; exact quotient prior preservation follows from the unchanged 17-primitive pushforward.",
+    "The V2 independent reference is finite-particle adaptive-tempering SMC, not an analytic posterior.",
+    "The paired V2 truth/noise/reference seeds isolate the kernel change but do not constitute an independent second SBC experiment.",
+    "A pass cannot support candidate physics, complete CP5.7-CP5.10, or authorize production; a failure is retained without threshold or kernel repair."
+  ],
+  "principled_v3_change": {
+    "blocks": [
+      {
+        "block_id": "direct_dynamics",
+        "initial_beta": 0.55,
+        "primitive_indices": [
+          0,
+          1
+        ],
+        "quotient_coordinates": [
+          "outer_nonthermal_fraction",
+          "nonthermal_radial_power"
+        ]
+      },
+      {
+        "block_id": "direct_boundary_density",
+        "initial_beta": 0.55,
+        "primitive_indices": [
+          3,
+          4
+        ],
+        "quotient_coordinates": [
+          "outer_pressure_boundary_sigma",
+          "density_error_sigma"
+        ]
+      },
+      {
+        "block_id": "direct_source_clumping_acceleration",
+        "initial_beta": 0.45,
+        "primitive_indices": [
+          11,
+          12,
+          16
+        ],
+        "quotient_coordinates": [
+          "missing_stellar_to_gas_mass_ratio",
+          "clumping_amplitude",
+          "spherical_acceleration_scale"
+        ]
+      },
+      {
+        "block_id": "geometry_temperature_quotient",
+        "initial_beta": 0.35,
+        "primitive_indices": [
+          2,
+          13,
+          14,
+          15
+        ],
+        "quotient_coordinates": [
+          "projected_gas_geometry_scale",
+          "published_stellar_acceleration_scale",
+          "temperature_density_calibration_scale"
+        ]
+      },
+      {
+        "block_id": "stellar_product_pushforward",
+        "initial_beta": 0.45,
+        "primitive_indices": [
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "quotient_coordinates": [
+          "published_stellar_acceleration_scale"
+        ]
+      },
+      {
+        "block_id": "global_prior_transport",
+        "initial_beta": 0.18,
+        "primitive_indices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "quotient_coordinates": [
+          "outer_nonthermal_fraction",
+          "nonthermal_radial_power",
+          "outer_pressure_boundary_sigma",
+          "density_error_sigma",
+          "missing_stellar_to_gas_mass_ratio",
+          "clumping_amplitude",
+          "spherical_acceleration_scale",
+          "projected_gas_geometry_scale",
+          "published_stellar_acceleration_scale",
+          "temperature_density_calibration_scale"
+        ]
+      }
+    ],
+    "kernel": "sequential_quotient_informed_gaussianized_primitive_pcn_blocks_metropolis_corrected_by_likelihood_ratio",
+    "scientific_gates_unchanged_from_v2": true,
+    "structural_change_from_v2": {
+      "adaptation_settling_retention_counts_unchanged": true,
+      "gaussianized_prior_reversible_transport_added": true,
+      "global_transport_bridge_added": true,
+      "quotient_informed_blocking_added": true,
+      "reason": "V2 candidate/reference ranks and coverage agreed while maximum Rhat remained above 1.75 and minimum bulk ESS remained below 50",
+      "v2_bounded_correlated_random_walk_removed": true,
+      "v2_out_of_bounds_active_proposals_removed": true
+    },
+    "sweep_counts_unchanged_from_v2": true
+  },
+  "replay": {
+    "candidate_production": "NOT_RUN",
+    "check": "python -m sigma_theory_compiler.gravity_cluster_nuisance_quotient_sbc_v3 check --config configs/gravity_cluster_nuisance_quotient_sbc_v3.json --expected-config-sha256 781278eab67272eaec76cece10c3789b22650bec025dacc0296399dc2868cbd3 --receipt runs/gravity/publication-readiness/nuisance-quotient-sbc-v3.json"
+  },
+  "scenario_results": [
+    {
+      "candidate_coverage": {
+        "levels": [
+          0.5,
+          0.8,
+          0.9
+        ],
+        "maximum_absolute_error_by_level": [
+          0.15625,
+          0.13749999999999996,
+          0.09999999999999998
+        ],
+        "observed_by_coordinate": [
+          [
+            0.46875,
+            0.71875,
+            0.8125
+          ],
+          [
+            0.5,
+            0.75,
+            0.9375
+          ],
+          [
+            0.59375,
+            0.875,
+            0.96875
+          ],
+          [
+            0.5,
+            0.84375,
+            0.90625
+          ],
+          [
+            0.46875,
+            0.6875,
+            0.8125
+          ],
+          [
+            0.34375,
+            0.75,
+            0.8125
+          ],
+          [
+            0.5625,
+            0.8125,
+            1.0
+          ],
+          [
+            0.625,
+            0.84375,
+            0.9375
+          ],
+          [
+            0.46875,
+            0.9375,
+            0.96875
+          ],
+          [
+            0.53125,
+            0.8125,
+            0.90625
+          ]
+        ]
+      },
+      "candidate_coverage_passed": true,
+      "candidate_rank": {
+        "bins": 8,
+        "histograms": [
+          [
+            8,
+            4,
+            3,
+            4,
+            5,
+            3,
+            1,
+            4
+          ],
+          [
+            5,
+            1,
+            6,
+            2,
+            6,
+            2,
+            6,
+            4
+          ],
+          [
+            1,
+            4,
+            5,
+            3,
+            6,
+            5,
+            4,
+            4
+          ],
+          [
+            3,
+            7,
+            4,
+            5,
+            2,
+            5,
+            4,
+            2
+          ],
+          [
+            6,
+            1,
+            4,
+            5,
+            4,
+            2,
+            5,
+            5
+          ],
+          [
+            3,
+            3,
+            1,
+            4,
+            4,
+            2,
+            8,
+            7
+          ],
+          [
+            4,
+            2,
+            8,
+            5,
+            2,
+            3,
+            4,
+            4
+          ],
+          [
+            4,
+            4,
+            6,
+            5,
+            4,
+            5,
+            2,
+            2
+          ],
+          [
+            4,
+            2,
+            2,
+            3,
+            5,
+            5,
+            7,
+            4
+          ],
+          [
+            8,
+            1,
+            2,
+            2,
+            8,
+            5,
+            5,
+            1
+          ]
+        ],
+        "maximum_absolute_mean_rank_z": 2.2557785695682044,
+        "mean_normalized_rank": [
+          0.41443434220161085,
+          0.5288396997803271,
+          0.5473822309006591,
+          0.45788839394679026,
+          0.5170704173785696,
+          0.6151147180864047,
+          0.49072492067366374,
+          0.4418095557725164,
+          0.5596091652428606,
+          0.4660727361484013
+        ],
+        "mean_rank_z": [
+          -1.6767376088931973,
+          0.5651403903748596,
+          0.9284983086507883,
+          -0.825215576635706,
+          0.334510498190672,
+          2.2557785695682044,
+          -0.18175369338688774,
+          -1.1402951701057413,
+          1.1680963107060374,
+          -0.6648358784415166
+        ]
+      },
+      "fraction_fits_all_coordinates_diagnostic_valid": 1.0,
+      "maximum_absolute_candidate_reference_mean_rank_difference": 0.0040625287522215725,
+      "maximum_fit_rhat": 1.0071487891371973,
+      "minimum_fit_bulk_ess": 2760.235057207742,
+      "minimum_fit_tail_ess": 3424.474939363876,
+      "passed": true,
+      "reference_coverage": {
+        "levels": [
+          0.5,
+          0.8,
+          0.9
+        ],
+        "maximum_absolute_error_by_level": [
+          0.1875,
+          0.11250000000000004,
+          0.11875000000000002
+        ],
+        "observed_by_coordinate": [
+          [
+            0.46875,
+            0.71875,
+            0.8125
+          ],
+          [
+            0.46875,
+            0.75,
+            0.9375
+          ],
+          [
+            0.5625,
+            0.875,
+            1.0
+          ],
+          [
+            0.5,
+            0.875,
+            0.90625
+          ],
+          [
+            0.46875,
+            0.6875,
+            0.78125
+          ],
+          [
+            0.3125,
+            0.71875,
+            0.84375
+          ],
+          [
+            0.53125,
+            0.84375,
+            1.0
+          ],
+          [
+            0.625,
+            0.875,
+            0.9375
+          ],
+          [
+            0.5,
+            0.875,
+            0.96875
+          ],
+          [
+            0.53125,
+            0.8125,
+            0.90625
+          ]
+        ]
+      },
+      "reference_coverage_passed": true,
+      "reference_maximum_standardized_replicate_mean_difference": 0.18489403271037744,
+      "reference_minimum_stage_conditional_ess_fraction": 0.7,
+      "reference_minimum_unique_initial_ancestor_fraction": 0.08984375,
+      "reference_rank": {
+        "bins": 8,
+        "histograms": [
+          [
+            8,
+            4,
+            3,
+            4,
+            5,
+            3,
+            1,
+            4
+          ],
+          [
+            5,
+            2,
+            5,
+            2,
+            5,
+            3,
+            6,
+            4
+          ],
+          [
+            1,
+            5,
+            4,
+            3,
+            6,
+            5,
+            5,
+            3
+          ],
+          [
+            3,
+            7,
+            5,
+            2,
+            4,
+            5,
+            3,
+            3
+          ],
+          [
+            6,
+            1,
+            4,
+            5,
+            3,
+            3,
+            5,
+            5
+          ],
+          [
+            3,
+            4,
+            0,
+            4,
+            4,
+            2,
+            8,
+            7
+          ],
+          [
+            4,
+            3,
+            8,
+            4,
+            2,
+            3,
+            4,
+            4
+          ],
+          [
+            4,
+            4,
+            7,
+            3,
+            5,
+            5,
+            2,
+            2
+          ],
+          [
+            3,
+            3,
+            2,
+            3,
+            5,
+            6,
+            6,
+            4
+          ],
+          [
+            7,
+            2,
+            2,
+            3,
+            8,
+            4,
+            5,
+            1
+          ]
+        ],
+        "maximum_absolute_mean_rank_z": 2.278157025178837,
+        "mean_normalized_rank": [
+          0.4166259765625,
+          0.5313720703125,
+          0.5433197021484375,
+          0.4569854736328125,
+          0.518707275390625,
+          0.6162567138671875,
+          0.4900970458984375,
+          0.4413909912109375,
+          0.5618743896484375,
+          0.46954345703125
+        ],
+        "mean_rank_z": [
+          -1.6337905217977642,
+          0.6147645155227313,
+          0.8488893285841604,
+          -0.8429091290168187,
+          0.36658623347804886,
+          2.278157025178837,
+          -0.19405747596023956,
+          -1.148497326907982,
+          1.2124854622785384,
+          -0.596823916820706
+        ]
+      },
+      "scenario_id": "moderate_correlated_quotient_observation",
+      "simulations": 32
+    },
+    {
+      "candidate_coverage": {
+        "levels": [
+          0.5,
+          0.8,
+          0.9
+        ],
+        "maximum_absolute_error_by_level": [
+          0.15625,
+          0.11250000000000004,
+          0.06874999999999998
+        ],
+        "observed_by_coordinate": [
+          [
+            0.5,
+            0.78125,
+            0.875
+          ],
+          [
+            0.59375,
+            0.84375,
+            0.90625
+          ],
+          [
+            0.5625,
+            0.84375,
+            0.9375
+          ],
+          [
+            0.5625,
+            0.75,
+            0.875
+          ],
+          [
+            0.34375,
+            0.71875,
+            0.90625
+          ],
+          [
+            0.4375,
+            0.75,
+            0.90625
+          ],
+          [
+            0.625,
+            0.90625,
+            0.90625
+          ],
+          [
+            0.53125,
+            0.71875,
+            0.84375
+          ],
+          [
+            0.4375,
+            0.6875,
+            0.9375
+          ],
+          [
+            0.5625,
+            0.84375,
+            0.96875
+          ]
+        ]
+      },
+      "candidate_coverage_passed": true,
+      "candidate_rank": {
+        "bins": 8,
+        "histograms": [
+          [
+            4,
+            3,
+            5,
+            5,
+            3,
+            3,
+            5,
+            4
+          ],
+          [
+            4,
+            3,
+            4,
+            7,
+            6,
+            2,
+            4,
+            2
+          ],
+          [
+            1,
+            3,
+            3,
+            3,
+            9,
+            3,
+            4,
+            6
+          ],
+          [
+            2,
+            4,
+            2,
+            3,
+            4,
+            9,
+            2,
+            6
+          ],
+          [
+            6,
+            2,
+            2,
+            3,
+            1,
+            6,
+            7,
+            5
+          ],
+          [
+            5,
+            3,
+            6,
+            5,
+            3,
+            0,
+            6,
+            4
+          ],
+          [
+            2,
+            2,
+            3,
+            7,
+            5,
+            5,
+            6,
+            2
+          ],
+          [
+            5,
+            3,
+            7,
+            6,
+            2,
+            2,
+            3,
+            4
+          ],
+          [
+            6,
+            5,
+            3,
+            6,
+            2,
+            3,
+            3,
+            4
+          ],
+          [
+            2,
+            4,
+            5,
+            2,
+            6,
+            5,
+            4,
+            4
+          ]
+        ],
+        "maximum_absolute_mean_rank_z": 1.8393593345551515,
+        "mean_normalized_rank": [
+          0.5086038564803516,
+          0.4791920917744691,
+          0.5938644129851112,
+          0.5789907249206736,
+          0.5528816817183303,
+          0.46231999023675874,
+          0.5518290822553088,
+          0.44473852819135967,
+          0.4541585306321698,
+          0.5317991823285331
+        ],
+        "mean_rank_z": [
+          0.16860046557599773,
+          -0.40775006213769355,
+          1.8393593345551515,
+          1.5478957637455806,
+          1.0362650956013981,
+          -0.7383743793842358,
+          1.0156384428979564,
+          -1.0828992669309299,
+          -0.8983056720848742,
+          0.6231341675410709
+        ]
+      },
+      "fraction_fits_all_coordinates_diagnostic_valid": 1.0,
+      "maximum_absolute_candidate_reference_mean_rank_difference": 0.0050099070025037,
+      "maximum_fit_rhat": 1.0048844096310794,
+      "minimum_fit_bulk_ess": 3743.2825872853796,
+      "minimum_fit_tail_ess": 3749.3951856692984,
+      "passed": true,
+      "reference_coverage": {
+        "levels": [
+          0.5,
+          0.8,
+          0.9
+        ],
+        "maximum_absolute_error_by_level": [
+          0.15625,
+          0.11250000000000004,
+          0.06874999999999998
+        ],
+        "observed_by_coordinate": [
+          [
+            0.5,
+            0.8125,
+            0.875
+          ],
+          [
+            0.59375,
+            0.84375,
+            0.9375
+          ],
+          [
+            0.5625,
+            0.84375,
+            0.9375
+          ],
+          [
+            0.53125,
+            0.8125,
+            0.875
+          ],
+          [
+            0.375,
+            0.6875,
+            0.84375
+          ],
+          [
+            0.4375,
+            0.71875,
+            0.875
+          ],
+          [
+            0.65625,
+            0.90625,
+            0.90625
+          ],
+          [
+            0.5625,
+            0.71875,
+            0.84375
+          ],
+          [
+            0.40625,
+            0.6875,
+            0.9375
+          ],
+          [
+            0.5625,
+            0.84375,
+            0.96875
+          ]
+        ]
+      },
+      "reference_coverage_passed": true,
+      "reference_maximum_standardized_replicate_mean_difference": 0.2295267465547804,
+      "reference_minimum_stage_conditional_ess_fraction": 0.7,
+      "reference_minimum_unique_initial_ancestor_fraction": 0.23046875,
+      "reference_rank": {
+        "bins": 8,
+        "histograms": [
+          [
+            3,
+            3,
+            7,
+            3,
+            4,
+            2,
+            6,
+            4
+          ],
+          [
+            4,
+            3,
+            5,
+            5,
+            7,
+            2,
+            4,
+            2
+          ],
+          [
+            1,
+            3,
+            3,
+            3,
+            6,
+            6,
+            4,
+            6
+          ],
+          [
+            3,
+            4,
+            1,
+            3,
+            4,
+            9,
+            2,
+            6
+          ],
+          [
+            6,
+            2,
+            1,
+            4,
+            1,
+            6,
+            7,
+            5
+          ],
+          [
+            6,
+            2,
+            6,
+            6,
+            2,
+            0,
+            6,
+            4
+          ],
+          [
+            2,
+            1,
+            4,
+            6,
+            6,
+            5,
+            6,
+            2
+          ],
+          [
+            5,
+            3,
+            8,
+            5,
+            2,
+            3,
+            2,
+            4
+          ],
+          [
+            6,
+            5,
+            3,
+            3,
+            5,
+            2,
+            4,
+            4
+          ],
+          [
+            3,
+            3,
+            6,
+            2,
+            5,
+            5,
+            4,
+            4
+          ]
+        ],
+        "maximum_absolute_mean_rank_z": 1.8724004845346998,
+        "mean_normalized_rank": [
+          0.506195068359375,
+          0.4768829345703125,
+          0.595550537109375,
+          0.58001708984375,
+          0.5547637939453125,
+          0.46282958984375,
+          0.5568389892578125,
+          0.4437713623046875,
+          0.454010009765625,
+          0.529449462890625
+        ],
+        "mean_rank_z": [
+          0.1213980512170374,
+          -0.4530001172261371,
+          1.8724004845346998,
+          1.568008326557005,
+          1.0731468123594758,
+          -0.7283883073022244,
+          1.1138121694173997,
+          -1.1018517702827162,
+          -0.9012160747984007,
+          0.5770892582484782
+        ]
+      },
+      "scenario_id": "weak_diagonal_quotient_observation",
+      "simulations": 32
+    }
+  ],
+  "schema_version": "invariant-gravity-cluster-nuisance-quotient-sbc-receipt-3.0",
+  "status": "bounded_synthetic_sbc_v3_passed_not_candidate_production",
+  "v2_isolated_failure": {
+    "candidate_maximum_rhat_exceeded_1p75": true,
+    "candidate_minimum_bulk_ess_below_50": true,
+    "independent_reference_calibration_passed": true,
+    "v2_result_or_thresholds_changed": false
+  }
+}

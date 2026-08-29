@@ -1,0 +1,67 @@
+{
+  "schema_version": "invariant-gravity-nuisance-quotient-sbc-v3-adjudicator-config-1.0",
+  "status": "frozen_append_only_strict_v3_adjudication",
+  "purpose": "Strictly reconstruct the retained V3 synthetic SBC pass from hash-bound evidence, preserve the failed V1/V2 history, permit only the matched Newtonian-control stage to unlock, and keep candidate production and scientific claims locked.",
+  "implementation_source": "src/sigma_theory_compiler/gravity_cluster_nuisance_quotient_sbc_v3_adjudicator.py",
+  "implementation_source_normalized_sha256": "cad4a844a061ebac0fcb5b8a86e754b8358f2440ac31e6d1249904d7c6e01844",
+  "verifier_test": {
+    "path": "tests/test_gravity_cluster_nuisance_quotient_sbc_v3_adjudicator.py",
+    "file_sha256": "b66c1c0a6db7a3be7c5937c559087fcdff6fd585d832c8aa268728f69daa4ec7"
+  },
+  "v3_artifacts": {
+    "v3_source": {"path": "src/sigma_theory_compiler/gravity_cluster_nuisance_quotient_sbc_v3.py", "file_sha256": "cb7c6621eaa66372c5aeebd02adcd7e28f374fbed7daabe3220a952724ea6a7f"},
+    "v3_config": {"path": "configs/gravity_cluster_nuisance_quotient_sbc_v3.json", "file_sha256": "781278eab67272eaec76cece10c3789b22650bec025dacc0296399dc2868cbd3"},
+    "v3_result": {"path": "runs/gravity/publication-readiness/nuisance-quotient-sbc-v3/bounded-synthetic-sbc-v3.npz", "file_sha256": "472fe23a3ea8660f0d3e7b23e9da692fb595acb9e0e6049ff5a53c23485a7f92"},
+    "v3_receipt": {"path": "runs/gravity/publication-readiness/nuisance-quotient-sbc-v3.json", "file_sha256": "2111cd0dec50db4fea67faaebd2705a345f7d94fe4ab9c8d2cd237a857395298"},
+    "v3_test": {"path": "tests/test_gravity_cluster_nuisance_quotient_sbc_v3.py", "file_sha256": "e17fd1ad893cda0cf6a0c312259a8738b310688bfa7aae995e68b45845b52681"}
+  },
+  "predecessor_adjudicator": {
+    "source": {"path": "src/sigma_theory_compiler/gravity_cluster_nuisance_quotient_sbc_adjudicator.py", "file_sha256": "b92f41560f06df44625a5439933dfcdacd0caa0c50b47cc8f631e3953625f94b"},
+    "config": {"path": "configs/gravity_cluster_nuisance_quotient_sbc_adjudicator_v1.json", "file_sha256": "5f65214efc2d488ebe80aafdb104b2cae12dc2689a39a6c5888a707f9475608a"},
+    "test": {"path": "tests/test_gravity_cluster_nuisance_quotient_sbc_adjudicator.py", "file_sha256": "1bb2a805cd86a84fd865d075ea5e6ede69457bde6e4c5a4d92a204655b885916"},
+    "receipt": {"path": "runs/gravity/publication-readiness/nuisance-quotient-sbc-adjudicator-v1.json", "file_sha256": "6de931dfc930f306327eb56b21034a24520ecc96325e062c1f4033c7a28df3ea"}
+  },
+  "predecessor_sbc_artifacts": {
+    "v1_source": {"path": "src/sigma_theory_compiler/gravity_cluster_nuisance_quotient_sbc.py", "file_sha256": "0eaad327544454c3540bfd99e87530caf3f0ace5e9d0065798125d98de863ba3"},
+    "v1_config": {"path": "configs/gravity_cluster_nuisance_quotient_sbc_v1.json", "file_sha256": "f9a9acf4ee4f1558ce97ab489423c7f43c09bb38af764c7d17de5109433b314c"},
+    "v1_result": {"path": "runs/gravity/publication-readiness/nuisance-quotient-sbc-v1/bounded-synthetic-sbc.npz", "file_sha256": "90071721c53e4a635443a652541fc3eeae6c5fd9822bc84a77aa460ecab375f3"},
+    "v1_receipt": {"path": "runs/gravity/publication-readiness/nuisance-quotient-sbc-v1.json", "file_sha256": "afb4aa64850fc6449272d8ac2174c7c6c7dfa20c319259c48c5cecbd11dcaa11"},
+    "v1_test": {"path": "tests/test_gravity_cluster_nuisance_quotient_sbc.py", "file_sha256": "a3c0bd9d7218ed7036a3df8f30aa92b3a8e84b8f416675d8da0aaf4639eff57a"},
+    "v2_source": {"path": "src/sigma_theory_compiler/gravity_cluster_nuisance_quotient_sbc_v2.py", "file_sha256": "93b0a51fa0074e191f2c21fc04ad3e62eb1038a85c225e5cde62d90fade33c4a"},
+    "v2_config": {"path": "configs/gravity_cluster_nuisance_quotient_sbc_v2.json", "file_sha256": "5251b7daf22d42c5455e2a5fa3c09ebac8be2ebb0a5f976d3632e53599c7507d"},
+    "v2_result": {"path": "runs/gravity/publication-readiness/nuisance-quotient-sbc-v2/bounded-synthetic-sbc-v2.npz", "file_sha256": "6d731650848aba063f0aed8fc835dc65dda4524c63f592ff2045a833fd037053"},
+    "v2_receipt": {"path": "runs/gravity/publication-readiness/nuisance-quotient-sbc-v2.json", "file_sha256": "da0db9cf28e97d82de19c65eccbf34cab44a90b62c1a43e2673941e7a17d674e"},
+    "v2_test": {"path": "tests/test_gravity_cluster_nuisance_quotient_sbc_v2.py", "file_sha256": "0fb6a209bd29dbdb0fed37110832a666f94d32fd7b38ade93800dc36509138c0"}
+  },
+  "v3_dependency_policy": "validate_hash_bound_v3_config_and_every_frozen_evidence_binding",
+  "data_boundary": {
+    "synthetic_data_only": true,
+    "real_development_rows_loaded": 0,
+    "real_holdout_rows_loaded": 0,
+    "real_confirmation_rows_loaded": 0,
+    "real_independent_rows_loaded": 0,
+    "network_calls": 0,
+    "paid_model_calls": 0,
+    "candidate_production_runs": 0,
+    "newtonian_control_production_runs": 0
+  },
+  "claim_boundary": {
+    "v1_passed": false,
+    "v2_passed": false,
+    "v3_synthetic_sbc_passed": true,
+    "newtonian_control_may_unlock": true,
+    "candidate_production_may_unlock": false,
+    "candidate_physics_supported": false,
+    "full_cluster_forward_model_calibrated": false,
+    "scientific_claim_allowed": false
+  },
+  "diagnostic_evidence_boundary": {
+    "retained_chains_present_in_sealed_npz": false,
+    "rank_and_coverage_arrays_present_and_independently_recomputed": true,
+    "rhat_and_ess_recomputed_from_retained_chains": false,
+    "rhat_and_ess_role": "sealed_summary_only",
+    "diagnostic_implementation_bound_and_control_validated": true,
+    "limitation": "Retained primitive/composite chains were not stored in the V3 NPZ. R-hat and ESS can be checked for schema, finiteness, mechanics, aggregation, and frozen thresholds, but cannot be independently recomputed without a prohibited rerun."
+  },
+  "receipt_path": "runs/gravity/publication-readiness/nuisance-quotient-sbc-v3-adjudicator-v1.json"
+}

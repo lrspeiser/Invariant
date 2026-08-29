@@ -1,0 +1,341 @@
+{
+  "call_accounting": {
+    "maximum_candidate_synthetic_likelihood_evaluations": 2492416,
+    "maximum_reference_synthetic_likelihood_evaluations": 35782656,
+    "maximum_total_synthetic_likelihood_evaluations": 38275072,
+    "real_forward_model_evaluations": 0,
+    "simulations": 64
+  },
+  "candidate_inference": {
+    "active_kernel": "canonical_symmetric_correlated_gaussian_with_whole_proposal_out_of_bounds_rejection",
+    "active_scale_bounds": [
+      0.02,
+      4.0
+    ],
+    "adaptation_gain": 0.5,
+    "adaptation_sweeps": 64,
+    "change_from_v1": {
+      "adaptation_sweeps_multiplier": 4,
+      "reason": "V1 maximum per-fit Rhat exceeded 3.5 in both scenarios",
+      "retained_draws_per_chain_multiplier": 4,
+      "retained_sweeps_multiplier": 8,
+      "settling_sweeps_multiplier": 8
+    },
+    "coupled_log_step": 0.02,
+    "covariance_refresh_during_adaptation": 8,
+    "fixed_kernel_settling_sweeps": 128,
+    "geometry_log_step": 0.03,
+    "initial_active_scale": 0.35,
+    "orbit_moves": [
+      "stellar",
+      "geometry",
+      "coupled"
+    ],
+    "particles_per_replicate": 16,
+    "replicates": 2,
+    "retained_snapshots_per_particle_chain": 128,
+    "retained_sweeps": 1024,
+    "stellar_log_step": 0.08,
+    "target_acceptance": 0.234,
+    "thin": 8
+  },
+  "canonical_sampler_binding": {
+    "file_sha256": "975b9f69a614d7d419dcc44ac340c86b27a85e6e9fed7ed63d6f6caff228abcb",
+    "path": "src/sigma_theory_compiler/gravity_cluster_nuisance_quotient_sampler.py"
+  },
+  "chronology": {
+    "failed_v2_result_retained": true,
+    "post_result_threshold_changes_forbidden": true,
+    "v1_failure_diagnosed_before_v2_design": true,
+    "v1_files_unchanged": true,
+    "v2_result_written_before_receipt": true,
+    "v2_source_config_scenarios_gates_and_budget_frozen_before_first_run": true
+  },
+  "claim_boundary": {
+    "CP5_7_through_CP5_10_complete": false,
+    "calibrates_full_cluster_forward_model": false,
+    "calibrates_synthetic_quotient_inference_only": true,
+    "candidate_physics_supported": false,
+    "candidate_production_completed": false,
+    "scientific_claim_allowed": false
+  },
+  "composite_scales": [
+    0.25,
+    0.75,
+    2.0,
+    1.0,
+    0.14,
+    0.15,
+    0.15,
+    0.2,
+    0.7,
+    0.2
+  ],
+  "data_boundary": {
+    "candidate_production_runs": 0,
+    "network_calls": 0,
+    "paid_model_calls": 0,
+    "real_confirmation_rows_loaded": 0,
+    "real_development_rows_loaded": 0,
+    "real_holdout_rows_loaded": 0,
+    "real_independent_rows_loaded": 0,
+    "synthetic_data_only": true
+  },
+  "exact_primitive_priors": [
+    {
+      "cause": "nonthermal_pressure",
+      "distribution": "uniform",
+      "high": 0.5,
+      "low": 0.0,
+      "parameter": "outer_nonthermal_fraction"
+    },
+    {
+      "cause": "nonthermal_pressure",
+      "distribution": "uniform",
+      "high": 2.0,
+      "low": 0.5,
+      "parameter": "nonthermal_radial_power"
+    },
+    {
+      "cause": "cross_calibration",
+      "distribution": "uniform",
+      "high": 1.15,
+      "low": 0.85,
+      "parameter": "xray_temperature_cross_calibration"
+    },
+    {
+      "cause": "boundary_condition",
+      "distribution": "uniform",
+      "high": 2.0,
+      "low": -2.0,
+      "parameter": "outer_pressure_boundary_sigma"
+    },
+    {
+      "cause": "density_measurement",
+      "distribution": "uniform",
+      "high": 1.0,
+      "low": -1.0,
+      "parameter": "density_error_sigma"
+    },
+    {
+      "cause": "BCG_stellar_mass",
+      "distribution": "uniform",
+      "high": 1.25,
+      "low": 0.75,
+      "parameter": "bcg_mass_scale"
+    },
+    {
+      "cause": "satellite_stellar_mass",
+      "distribution": "uniform",
+      "high": 1.25,
+      "low": 0.75,
+      "parameter": "satellite_mass_scale"
+    },
+    {
+      "cause": "missing_members",
+      "distribution": "uniform",
+      "high": 0.2,
+      "low": 0.0,
+      "parameter": "missing_member_fraction"
+    },
+    {
+      "cause": "intracluster_light",
+      "distribution": "uniform",
+      "high": 0.3,
+      "low": 0.0,
+      "parameter": "intracluster_light_fraction"
+    },
+    {
+      "cause": "IMF",
+      "distribution": "uniform",
+      "high": 1.3,
+      "low": 0.7,
+      "parameter": "imf_mass_scale"
+    },
+    {
+      "cause": "stellar_mass_to_light",
+      "distribution": "uniform",
+      "high": 1.2,
+      "low": 0.8,
+      "parameter": "mass_to_light_scale"
+    },
+    {
+      "cause": "unmeasured_stellar_profile",
+      "distribution": "uniform",
+      "high": 0.3,
+      "low": 0.02,
+      "parameter": "missing_stellar_to_gas_mass_ratio"
+    },
+    {
+      "cause": "gas_clumping",
+      "distribution": "uniform",
+      "high": 0.3,
+      "low": 0.0,
+      "parameter": "clumping_amplitude"
+    },
+    {
+      "cause": "centering",
+      "distribution": "uniform",
+      "high": 0.05,
+      "low": -0.05,
+      "parameter": "centering_radius_shift"
+    },
+    {
+      "cause": "projection",
+      "distribution": "uniform",
+      "high": 1.15,
+      "low": 0.85,
+      "parameter": "projection_density_scale"
+    },
+    {
+      "cause": "triaxiality",
+      "distribution": "uniform",
+      "high": 1.15,
+      "low": 0.85,
+      "parameter": "triaxial_radius_scale"
+    },
+    {
+      "cause": "spherical_approximation",
+      "distribution": "uniform",
+      "high": 1.15,
+      "low": 0.85,
+      "parameter": "spherical_acceleration_scale"
+    }
+  ],
+  "gates": {
+    "all_scenarios_must_pass": true,
+    "coverage_tolerances_for_32_simulations": {
+      "0.5": 0.34060921676911454,
+      "0.8": 0.27873737341529164,
+      "0.9": 0.2168655300614687
+    },
+    "failed_result_retained": true,
+    "finite_simulation_continuity_allowance": "one_over_simulations_per_scenario",
+    "finite_simulation_familywise_z": 3.5,
+    "maximum_absolute_candidate_mean_rank_z": 4.0,
+    "maximum_absolute_candidate_reference_mean_rank_difference": 0.2,
+    "maximum_absolute_reference_mean_rank_z": 4.0,
+    "maximum_orbit_composite_difference": 1e-12,
+    "maximum_rank_normalized_split_rhat": 1.2,
+    "minimum_bulk_effective_samples_per_valid_coordinate": 50.0,
+    "minimum_fraction_fits_all_coordinates_diagnostic_valid": 0.9,
+    "minimum_tail_effective_samples_per_valid_coordinate": 50.0,
+    "reference_all_replicates_must_reach_beta_one": true,
+    "reference_maximum_standardized_replicate_mean_difference": 0.35,
+    "reference_minimum_stage_conditional_ess_fraction": 0.69,
+    "reference_minimum_unique_initial_ancestor_fraction": 0.05,
+    "threshold_relaxation_after_v2_result": false,
+    "v1_thresholds_retroactively_changed": false
+  },
+  "implementation_source": "src/sigma_theory_compiler/gravity_cluster_nuisance_quotient_sbc_v2.py",
+  "implementation_source_normalized_sha256": "93b0a51fa0074e191f2c21fc04ad3e62eb1038a85c225e5cde62d90fade33c4a",
+  "independent_reference": {
+    "adaptation_gain": 0.35,
+    "adaptive_conditional_ess_fraction": 0.7,
+    "algorithm_id": "independent_adaptive_tempering_coordinate_smc",
+    "algorithmically_independent_of_candidate_kernel": true,
+    "canonical_active_transition_called": false,
+    "canonical_orbit_move_called": false,
+    "change_from_v1": {
+      "adaptive_tempering_added": true,
+      "finite_prior_importance_removed": true,
+      "independent_replicates_added": 2,
+      "reason": "V1 finite-Sobol importance ESS fell to 4.32 and 399.65"
+    },
+    "coordinate_mh_sweeps_per_stage": 17,
+    "coordinate_step_bounds": [
+      0.01,
+      0.4
+    ],
+    "initial_coordinate_step": 0.15,
+    "maximum_tempering_stages": 16,
+    "particles_per_replicate": 1024,
+    "replicates": 2,
+    "systematic_resampling_each_stage": true,
+    "target_acceptance": 0.44,
+    "terminal_beta": 1.0
+  },
+  "output_paths": {
+    "receipt": "runs/gravity/publication-readiness/nuisance-quotient-sbc-v2.json",
+    "result": "runs/gravity/publication-readiness/nuisance-quotient-sbc-v2/bounded-synthetic-sbc-v2.npz"
+  },
+  "primitive_prior_semantics": "17_independent_uniform_primitives_with_clipped_six_factor_stellar_pushforward_clip_0.4_2.5",
+  "purpose": "Separately preregistered target-blind SBC V2 that preserves the failed V1 unchanged, diagnoses short-chain mixing and finite-Sobol importance collapse, lengthens only the candidate run, and replaces the oracle with algorithmically independent adaptive-tempering coordinate SMC under finite-simulation-derived gates.",
+  "rank_protocol": {
+    "candidate_posterior_draws_per_simulation": 4096,
+    "coordinates": [
+      "outer_nonthermal_fraction",
+      "nonthermal_radial_power",
+      "outer_pressure_boundary_sigma",
+      "density_error_sigma",
+      "missing_stellar_to_gas_mass_ratio",
+      "clumping_amplitude",
+      "spherical_acceleration_scale",
+      "projected_gas_geometry_scale",
+      "published_stellar_acceleration_scale",
+      "temperature_density_calibration_scale"
+    ],
+    "coverage_levels": [
+      0.5,
+      0.8,
+      0.9
+    ],
+    "randomized_tie_ranks_for_stellar_clipping_atoms": true,
+    "rank_histogram_bins": 8,
+    "reference_particles_per_simulation": 2048,
+    "truths_are_exact_independent_17_primitive_prior_draws": true
+  },
+  "scenarios": [
+    {
+      "ar1_correlation": 0.4,
+      "normalized_noise_sigma": 0.45,
+      "relationship_to_v1": "unchanged_observation_regime_more_simulations",
+      "scenario_id": "moderate_correlated_quotient_observation",
+      "simulations": 32
+    },
+    {
+      "ar1_correlation": 0.0,
+      "normalized_noise_sigma": 0.9,
+      "relationship_to_v1": "unchanged_observation_regime_more_simulations",
+      "scenario_id": "weak_diagonal_quotient_observation",
+      "simulations": 32
+    }
+  ],
+  "schema_version": "invariant-gravity-cluster-nuisance-quotient-sbc-config-2.0",
+  "seed_lineage": {
+    "candidate_rank_tie_base": 850000,
+    "candidate_sobol_start_base": 830000,
+    "candidate_transition_base": 840000,
+    "no_seed_derived_from_v1_or_v2_observed_result": true,
+    "noise_base": 820000,
+    "reference_base": 860000,
+    "reference_rank_tie_base": 870000,
+    "reference_replicate_stride": 1,
+    "scenario_stride": 10000,
+    "simulation_stride": 10,
+    "truth_base": 810000
+  },
+  "status": "separately_preregistered_before_bounded_v2_run",
+  "uncertainty_config_binding": {
+    "file_sha256": "f5172a92a78ded788f78a9b5eda9292276aaddc3e155bcd8f0175bd875191d47",
+    "path": "configs/gravity_cluster_uncertainty_program_v1.json"
+  },
+  "v1_evidence_bindings": {
+    "config": {
+      "file_sha256": "f9a9acf4ee4f1558ce97ab489423c7f43c09bb38af764c7d17de5109433b314c",
+      "path": "configs/gravity_cluster_nuisance_quotient_sbc_v1.json"
+    },
+    "implementation_source": {
+      "file_sha256": "0eaad327544454c3540bfd99e87530caf3f0ace5e9d0065798125d98de863ba3",
+      "path": "src/sigma_theory_compiler/gravity_cluster_nuisance_quotient_sbc.py"
+    },
+    "receipt": {
+      "file_sha256": "afb4aa64850fc6449272d8ac2174c7c6c7dfa20c319259c48c5cecbd11dcaa11",
+      "path": "runs/gravity/publication-readiness/nuisance-quotient-sbc-v1.json"
+    },
+    "result": {
+      "file_sha256": "90071721c53e4a635443a652541fc3eeae6c5fd9822bc84a77aa460ecab375f3",
+      "path": "runs/gravity/publication-readiness/nuisance-quotient-sbc-v1/bounded-synthetic-sbc.npz"
+    }
+  }
+}
