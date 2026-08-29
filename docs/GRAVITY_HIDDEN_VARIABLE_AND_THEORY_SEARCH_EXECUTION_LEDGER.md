@@ -35,7 +35,13 @@ future results also report the counterexample fraction, the result after removin
 influential comparative residual, and a frozen small-fraction trimmed comparison. A one-object
 sign change retains the exact formula as `SINGLE_OBJECT_SENSITIVE` for unchanged fresh testing; it
 does not promote it and does not erase it. Only a hard theoretical inconsistency can be decisive in
-one case. The durable policy is `GRAVITY_COUNTEREXAMPLE_AND_DATA_QUALITY_POLICY.md`.
+one case. A lone empirical exception does not itself block promotion when every aggregate and
+quality gate passes. Count alone is never a rejection rule, a finite dataset cannot automatically
+prune a whole family, and even a robust within-dataset loss remains scoped negative evidence until
+the unchanged representation fails independently. The historical Items 34–37 policy remains
+byte-frozen; the mandatory Item 38+ prose and executable contracts are
+`GRAVITY_COUNTEREXAMPLE_AND_DATA_QUALITY_POLICY_V2.md` and
+`configs/gravity_empirical_counterexample_policy_v1.json`.
 
 The Item 12 spectral-clock result is an active phenomenon/publication lead. Item 13 reproduced its
 fixed consolidation on disjoint MaNGA identities after controlling for visible disturbance. Its

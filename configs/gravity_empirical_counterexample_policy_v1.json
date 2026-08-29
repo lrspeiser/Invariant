@@ -1,0 +1,65 @@
+{
+  "schema_version": "sigma-gravity-empirical-counterexample-policy-1.0",
+  "status": "frozen",
+  "scope": "All future gravity-roadmap real-data evaluations; completed immutable receipts remain historical evidence.",
+  "core_rule": "One empirical counterexample never causes terminal rejection or pruning of a formula or formula family.",
+  "empirical_evidence": {
+    "single_counterexample_action": "retain_and_audit",
+    "single_counterexample_terminal_rejection_allowed": false,
+    "single_counterexample_blocks_promotion_by_itself": false,
+    "counterexample_count_alone_is_sufficient_for_rejection": false,
+    "minimum_uncertainty_resolved_counterexamples_for_pattern": 2,
+    "family_pruning_from_finite_empirical_sample_allowed": false,
+    "unchanged_independent_replication_required_for_terminal_tested_scope_rejection": true,
+    "single_object_sensitive_formula_may_promote": false,
+    "post_response_exclusion_may_change_primary_result": false
+  },
+  "hard_theoretical_veto": {
+    "single_verified_witness_can_be_decisive": true,
+    "allowed_categories": [
+      "broken_conservation_identity",
+      "ghost_or_unbounded_hamiltonian",
+      "loss_of_hyperbolicity",
+      "negative_or_nonfinite_physical_observable",
+      "verified_local_or_strong_field_violation"
+    ],
+    "requires_declared_domain_membership": true,
+    "family_veto_requires_family_scope_proof": true
+  },
+  "required_empirical_report_fields": [
+    "evaluable_objects",
+    "raw_counterexample_count",
+    "quality_verified_counterexample_count",
+    "uncertainty_resolved_counterexample_count",
+    "aggregate_improvement_percent",
+    "quality_gate_passed",
+    "strongest_baseline_failed",
+    "leave_one_changes_sign",
+    "trim_changes_sign",
+    "independent_failure_strata",
+    "unchanged_independent_replication_failures",
+    "object_level_records_preserved",
+    "missing_quality_limited_records_preserved",
+    "exclusions_frozen_before_response"
+  ],
+  "required_data_quality_audits": [
+    "measurement uncertainty and covariance",
+    "instrument and reduction provenance",
+    "distance, inclination, and calibration sensitivity where applicable",
+    "alternate independent measurements or reductions where available",
+    "missing-variable and missing-not-at-random risks",
+    "single-most-influential-object comparison",
+    "frozen small-fraction symmetric influence trim",
+    "broad response-blind strata"
+  ],
+  "allowed_empirical_states": [
+    "INCOMPLETE_EMPIRICAL_AUDIT_RETAINED",
+    "QUALITY_LIMITED_EVIDENCE_RETAINED",
+    "NO_EMPIRICAL_COUNTEREXAMPLE",
+    "ISOLATED_EMPIRICAL_COUNTEREXAMPLE_RETAINED",
+    "SINGLE_OBJECT_SENSITIVE_RETAINED",
+    "SURVIVES_WITH_COUNTEREXAMPLES",
+    "ROBUST_SCOPED_NEGATIVE_EVIDENCE",
+    "REPLICATED_NEGATIVE_EVIDENCE_TESTED_REPRESENTATION"
+  ]
+}
