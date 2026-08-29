@@ -101,6 +101,9 @@ def _point_arrays(rows: Sequence[Mapping[str, str]]) -> dict[str, Any]:
             h[lane, gain] = np.asarray(
                 [float(row[f"h_lane{lane}_feedback{gain}"]) for row in rows]
             )
+    vbar = np.asarray([float(row["vbar_km_s"]) for row in rows])
+    if np.any(~np.isfinite(vbar)) or np.any(vbar <= 0.0):
+        raise GravityItem42Error("Item 42 baryonic velocity must be finite and positive")
     return {
         "galaxies": galaxies,
         "object_index": object_index,
@@ -114,7 +117,7 @@ def _point_arrays(rows: Sequence[Mapping[str, str]]) -> dict[str, Any]:
             0.1,
         ),
         "u": np.asarray([float(row["u"]) for row in rows]),
-        "vbar": np.asarray([float(row["vbar_km_s"]) for row in rows]),
+        "vbar": vbar,
         "h": h,
     }
 
@@ -219,11 +222,15 @@ def _screen_pool(
     selected_prediction = np.empty(len(arrays["u"]), dtype=np.float64)
     for fold in folds:
         index = int(best_index[fold])
+        if index < 0:
+            raise GravityItem42Error("no finite Item 42 candidate survived a fold search")
         prediction = _candidate_log_velocity_batch(
             candidates, index, index + 1, arrays, config, np
         )[0]
         held = point_folds == fold
         selected_prediction[held] = prediction[held]
+    if full_best_index < 0:
+        raise GravityItem42Error("no finite Item 42 candidate survived the full search")
     full_prediction = _candidate_log_velocity_batch(
         candidates, full_best_index, full_best_index + 1, arrays, config, np
     )[0]
@@ -545,6 +552,14 @@ def evaluate(root: Path, *, write: bool = True) -> dict[str, Any]:
                 "confirmation_response_rows": 0,
                 "post_response_candidate_cells": 0,
                 "paid_model_calls": 0,
+                "post_response_implementation_repair": {
+                    "count": 1,
+                    "reason": "the first evaluator attempt halted because radii inside the first HI annulus received zero enclosed gas",
+                    "repair": "use constant central surface density so M_HI(<r) scales as r^2 inside the first annulus",
+                    "formula_space_changed": False,
+                    "sample_changed": False,
+                    "response_points_removed": 0,
+                },
             },
             "quality": {
                 "passed": quality_passed,

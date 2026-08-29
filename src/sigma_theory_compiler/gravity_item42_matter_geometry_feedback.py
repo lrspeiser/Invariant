@@ -766,6 +766,7 @@ def extract_wallaby_profiles(root: Path) -> dict[str, Path]:
     feature_rows: list[dict[str, Any]] = []
     response_rows: list[dict[str, Any]] = []
     galaxy_receipts: list[dict[str, Any]] = []
+    inner_extrapolation_points = 0
     quality = config["response_quality"]
     constants = config["constants"]
     acceleration_conversion = 1.0e6 / 3.085677581491367e19
@@ -858,13 +859,21 @@ def extract_wallaby_profiles(root: Path) -> dict[str, Path]:
                         left=library[lane, gain, 0],
                         right=library[lane, gain, -1],
                     )
-            gas_enclosed = np.interp(
+            gas_enclosed_hi = np.interp(
                 accepted_radius,
                 profile["radius_kpc"],
                 profile["cumulative_hi_mass_msun"],
-                left=0.0,
+                left=profile["cumulative_hi_mass_msun"][0],
                 right=profile["hi_mass_msun"],
-            ) * float(constants["helium_mass_factor"])
+            )
+            inside_first_annulus = accepted_radius < profile["radius_kpc"][0]
+            inner_extrapolation_points += int(np.sum(inside_first_annulus))
+            gas_enclosed_hi[inside_first_annulus] = profile[
+                "cumulative_hi_mass_msun"
+            ][0] * np.square(
+                accepted_radius[inside_first_annulus] / profile["radius_kpc"][0]
+            )
+            gas_enclosed = gas_enclosed_hi * float(constants["helium_mass_factor"])
             local_sigma = np.interp(
                 accepted_radius,
                 profile["radius_kpc"],
@@ -975,10 +984,16 @@ def extract_wallaby_profiles(root: Path) -> dict[str, Path]:
                     "quality_passing_galaxies": passing,
                     "quality_failing_galaxies": len(galaxy_receipts) - passing,
                     "accepted_rotation_points": len(feature_rows),
+                    "central_surface_density_extrapolation_points": inner_extrapolation_points,
                     "post_response_candidate_cells": 0,
                     "paid_model_calls": 0,
                 },
                 "quality": quality,
+                "interpolation_contract": {
+                    "inside_first_hi_annulus": "constant central surface density, so enclosed HI mass scales as r^2 from the first published annulus",
+                    "between_hi_annuli": "linear interpolation of published cumulative HI mass",
+                    "formula_or_sample_changed_after_response": False,
+                },
                 "claims": {
                     "feedback_features_used_rotation_response": False,
                     "confirmation_opened": False,

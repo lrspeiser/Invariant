@@ -1,11 +1,13 @@
 from pathlib import Path
 
 import numpy as np
+import pytest
 
 from sigma_theory_compiler.gravity_item42_matter_geometry_feedback import load_config
 from sigma_theory_compiler.gravity_item42_matter_geometry_feedback_evaluator import (
     _candidate_log_velocity_batch,
     _candidate_pools,
+    check,
 )
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -51,3 +53,53 @@ def test_sample_remains_response_blind_with_confirmation_sealed() -> None:
     assert sample["counts"]["response_rows_read"] == 0
     assert sample["counts"]["confirmation_rows_read"] == 0
     assert sample["claims"]["failed_identity_replacement"] is False
+
+
+def test_fresh_result_is_partial_and_keeps_confirmation_sealed() -> None:
+    import json
+
+    path = (
+        ROOT
+        / "runs/gravity/roadmap/item-42-matter-geometry-feedback-v1-source/compute-manifest.json"
+    )
+    result = json.loads(path.read_text(encoding="utf-8"))
+    search = result["candidate_search"]
+    assert search["backend"] == "gpu_cupy"
+    assert search["device"] == "NVIDIA GeForce RTX 5090"
+    assert search["candidate_point_evaluations"] == 47_293_400
+    assert search["cpu_gpu_passed"] is True
+    assert search["full_exploration_candidate"]["candidate_id"] == 170142
+    assert search["full_exploration_candidate"]["lane"] == (
+        "geometry_gradient_reorganization"
+    )
+    losses = result["primary_dynamics"]["losses"]
+    assert losses["candidate"] == pytest.approx(5.415278020616004)
+    assert losses["matched_no_feedback"] == pytest.approx(5.503484025796563)
+    assert losses["gas_only_mond_RAR"] == pytest.approx(3.3306295999592517)
+    assert result["protocol"]["confirmation_response_rows"] == 0
+    assert result["protocol"]["post_response_candidate_cells"] == 0
+    assert result["protocol"]["post_response_implementation_repair"][
+        "response_points_removed"
+    ] == 0
+
+
+def test_counterexamples_are_retained_and_result_replays() -> None:
+    import json
+
+    path = (
+        ROOT
+        / "runs/gravity/roadmap/item-42-matter-geometry-feedback-v1-source/compute-manifest.json"
+    )
+    result = json.loads(path.read_text(encoding="utf-8"))
+    primary = result["primary_dynamics"]
+    assert primary["counterexample_policy_report"]["raw_counterexample_count"] == 6
+    assert primary["counterexample_policy_report"][
+        "uncertainty_resolved_counterexample_count"
+    ] == 4
+    assert primary["counterexample_assessment"]["terminal_rejection_in_tested_scope"] is False
+    assert primary["counterexample_assessment"]["formula_family_pruned"] is False
+    assert result["claim_boundaries"]["one_empirical_counterexample_is_veto"] is False
+    replay = check(ROOT)
+    assert replay["status"] == "ITEM42_DYNAMICS_REPLAY_VALID"
+    assert replay["confirmation_response_rows"] == 0
+    assert replay["paid_model_calls"] == 0
