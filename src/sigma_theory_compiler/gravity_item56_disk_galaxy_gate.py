@@ -288,12 +288,14 @@ def build_evaluation_result(root: Path) -> dict[str, Any]:
         variant: {model: {} for model in model_ids[:3]} for variant in variant_ids
     }
     a0 = float(config["predictor_contract"]["acceleration_scale_km2_s2_kpc"])
+    nfw_training_point_evaluations = 0
 
     for galaxy in population.exploration:
         arrays = _galaxy_arrays(galaxy)
         property_row = properties[galaxy.name]
         effective_radius = float(property_row["effective_radius_kpc"])
         folds = radial_folds(galaxy.count, maximum_folds=5, minimum_training_rows=3)
+        nfw_training_point_evaluations += 64 * sum(len(fold.training) for fold in folds)
         nfw_prediction, nfw_fits = _nfw_out_of_fold(arrays, folds, 64)
         predictions = {
             "item45_geometry_density": candidate_velocity(
@@ -496,6 +498,17 @@ def build_evaluation_result(root: Path) -> dict[str, Any]:
                 "confirmation_response_rows": 0,
                 "paid_model_calls": 0,
             },
+            "compute": {
+                "backend": "numpy_cpu",
+                "nominal_model_point_predictions": len(observed) * len(model_ids),
+                "fixed_candidate_point_predictions_including_systematics": len(observed)
+                * (1 + len(variant_ids)),
+                "systematic_model_point_predictions": len(observed) * len(variant_ids) * 3,
+                "nfw_scale_training_point_evaluations": nfw_training_point_evaluations,
+                "gpu_used": False,
+                "paid_api_calls": 0,
+                "paid_api_cost_usd": 0.0,
+            },
             "claims": {
                 "fixed_disk_galaxy_evaluation_completed": True,
                 "fresh_confirmation_completed": False,
@@ -603,6 +616,7 @@ def build_aggregate_result(root: Path) -> dict[str, Any]:
             ],
             "counterexample_policy_assessment": result["counterexample_policy_assessment"],
             "counts": result["counts"],
+            "compute": result["compute"],
             "source_bindings": bindings,
             "claims": {
                 "roadmap_item_56_complete": True,
