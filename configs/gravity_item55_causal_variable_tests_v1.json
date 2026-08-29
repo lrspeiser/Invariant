@@ -1,0 +1,67 @@
+{
+  "schema_version": "invariant-gravity-item55-causal-variable-tests-config-1.0",
+  "item": 55,
+  "status": "scientific_freeze_before_item55_causal_diagnostics",
+  "stable_goal_sha256": "b9db7e1aa76deaf28ce2e840cd3d7db4cf7a086b1c7ca473800780c264a0e772",
+  "scientific_freeze_commit": "PENDING_FREEZE_COMMIT",
+  "hypothesis": "The Item 45 geometry-density interaction carries within-population and cross-population predictive information beyond an implicit galaxy-versus-cluster label, making it a plausible causal-variable lead rather than only a dataset proxy.",
+  "scientific_dependencies": {
+    "configs/gravity_item54_equivalence_detection_v1.json": "926c3b550e4b5f9af84d2c8c803325e6ab8e6638fc1e6b63def74bb1a495b593",
+    "runs/gravity/roadmap/item-54-equivalence-detection-v1.json": "7a66b3551f656ff682eef986aa9d0bc57b8bd3d50d5db13b300fa98923e229a2",
+    "configs/gravity_item45_universal_interactions_v1.json": "0abedaca1326fa0159435182f8f7e854d1759799097a1b48b79cf753180c58b9",
+    "runs/gravity/roadmap/item-45-universal-interactions-v1-source/interaction-features.json": "dd5e88ab02a302b3dc43fc8c894c1c25fbda18cb00d3d4ad2d7ea3fd0b102f92",
+    "runs/gravity/roadmap/item-45-universal-interactions-v1-source/joint-evaluation-result.json": "45bba6365314c9e568c5303388d24e5043a2a2fd1ee934718d9cc7997a40e663"
+  },
+  "required_predecessor": {
+    "decision": "ITEM54_LAYERED_EQUIVALENCE_OPERATIONAL_WITH_LINEAGE_PRESERVED",
+    "content_sha256": "f92e97c9ed8aa436d80ea9b2f758c666b94314694ae8678cd29a67fb22d84654"
+  },
+  "target_candidate": {
+    "source_item": 45,
+    "full_data_candidate_id": 135082,
+    "recipe_id": 32,
+    "operands": ["geometry", "density"],
+    "operator": "gated",
+    "interpretation": "observational interaction lead, not a causal law"
+  },
+  "tests": {
+    "population_label_control": "cross-fitted mean residual by population identity only",
+    "within_population_axis_ablation": "replace one normalized primitive at a time by its training-fold population median and apply frozen Item 45 fold candidates",
+    "population_label_predictability": "leave-one-object-out nearest-centroid classification from the six primitives",
+    "common_support": "object-level standardized Euclidean nearest cross-population distance using training-pooled robust scales",
+    "common_support_caliper": 1.0,
+    "cross_population_ood": "select an Item 45 formula using one population only and apply it unchanged to the other population"
+  },
+  "evaluation": {
+    "outer_folds": 5,
+    "selection_unit": "whole object",
+    "balanced_score": "0.5*equal_S4TM_object_MSE+0.5*equal_CLASH_object_MSE",
+    "paired_sign_flip_permutations": 19999,
+    "permutation_seed": 5501999,
+    "causal_lead_gates": {
+      "item45_beats_population_label_control": true,
+      "geometry_or_density_ablation_relative_loss_increase_at_least": 0.05,
+      "geometry_and_density_cross_population_overlap_each_at_least": 0.20,
+      "nearest_cross_population_object_pairs_within_caliper_at_least": 5,
+      "each_cross_population_ood_prediction_beats_baryonic_newton": true,
+      "population_classification_accuracy_at_most": 0.80,
+      "sealed_confirmation_rows": 0,
+      "post_evaluation_tests": 0
+    }
+  },
+  "claim_policy": {
+    "observational_ablation_establishes_causality": false,
+    "matched_observational_subset_establishes_intervention": false,
+    "population_transfer_establishes_universality": false,
+    "single_counterexample_terminal": false,
+    "formula_family_pruned": false,
+    "fresh_confirmation_claim_allowed": false
+  },
+  "paths": {
+    "source_dir": "runs/gravity/roadmap/item-55-causal-variable-tests-v1-source",
+    "preflight_manifest": "preflight-manifest.json",
+    "diagnostic_result": "causal-diagnostic-result.json",
+    "aggregate_result": "runs/gravity/roadmap/item-55-causal-variable-tests-v1.json",
+    "report": "docs/GRAVITY_ITEM55_CAUSAL_VARIABLE_TESTS_RESULT.md"
+  }
+}
