@@ -124,3 +124,23 @@ def test_every_required_axis_participates_in_interactions() -> None:
     participating = {axis for recipe in catalog for axis in recipe["operands"]}
     assert participating == set(AXES)
     assert all(len(recipe["operands"]) >= 2 for recipe in catalog)
+
+
+def test_recorded_result_preserves_nonpromotion_and_mismatches() -> None:
+    aggregate_path = ROOT / "runs/gravity/roadmap/item-45-universal-interactions-v1.json"
+    evaluation_path = ROOT / "runs/gravity/roadmap/item-45-universal-interactions-v1-source/joint-evaluation-result.json"
+    if not aggregate_path.exists() or not evaluation_path.exists():
+        pytest.skip("Item 45 evaluation artifacts are not installed")
+    aggregate = json.loads(aggregate_path.read_text(encoding="utf-8"))
+    evaluation = json.loads(evaluation_path.read_text(encoding="utf-8"))
+    assert aggregate["decision"] == "NONPROMOTED_ITEM45_UNIVERSAL_INTERACTION_RESULT_RETAINED"
+    assert not aggregate["gates"]["beats_item44_s4tm"]
+    assert not aggregate["gates"]["paired_p_passes"]
+    assert not aggregate["claims"]["formula_family_pruned"]
+    assert not aggregate["claims"]["single_counterexample_used_as_veto"]
+    assert evaluation["counterexample_policy_assessment"]["raw_counterexample_count"] == 19
+    assert all(
+        row["selected_interaction"]["interaction_expression"]
+        == "geometry*tanh(2*density)"
+        for row in evaluation["fold_ledger"]
+    )
