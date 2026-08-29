@@ -1,0 +1,283 @@
+{
+  "schema_version": "invariant-gravity-cluster-independent-data-contract-1.0",
+  "status": "frozen_metadata_only",
+  "contract_id": "gravity-cluster-independent-data-contract-v1",
+  "audit_cutoff": "2026-08-29",
+  "purpose": "Freeze source-audit, provenance, unit, cosmology, transformation, leakage, and observation-opening rules before an independent cluster target is selected or opened.",
+  "metadata_sources": [
+    {
+      "source_id": "CHEX_MATE_TEMPERATURE_METHOD",
+      "lane_id": "CHEX_MATE_XMM_THERMODYNAMICS",
+      "source_type": "primary_paper",
+      "url": "https://arxiv.org/abs/2402.18653",
+      "doi": "10.1051/0004-6361/202348853",
+      "audited_fact": "CHEX-MATE contains 118 XMM-Newton clusters; the cited temperature pipeline paper demonstrates the method on a representative 30-cluster subset."
+    },
+    {
+      "source_id": "CHEX_MATE_XMM_ARCHIVE",
+      "lane_id": "CHEX_MATE_XMM_THERMODYNAMICS",
+      "source_type": "official_archive",
+      "url": "https://esdcdoi.esac.esa.int/doi/html/data/astronomy/xmm-newton/050349.html",
+      "doi": "10.57780/esa-050349",
+      "audited_fact": "ESA exposes the XMM-Newton observation collection and bibliographic associations; this does not by itself establish a complete derived-profile or covariance release."
+    },
+    {
+      "source_id": "LOCUSS_XRAY_ANALYSIS",
+      "lane_id": "LOCUSS_XRAY_AND_WEAK_LENSING",
+      "source_type": "primary_paper",
+      "url": "https://academic.oup.com/mnras/article/443/3/2342/1079309",
+      "doi": "10.1093/mnras/stu1267",
+      "audited_fact": "The paper analyzes a 50-cluster high-luminosity LoCuSS sample with Chandra and XMM-Newton and reports extracted surface-brightness and temperature profiles."
+    },
+    {
+      "source_id": "ACCEPT_HEASARC",
+      "lane_id": "INDEPENDENT_CHANDRA_THERMODYNAMICS",
+      "source_type": "official_archive",
+      "url": "https://heasarc.gsfc.nasa.gov/W3Browse/catalog/acceptcat.html",
+      "doi": "10.1088/0067-0049/182/1/12",
+      "audited_fact": "HEASARC exposes the 239-cluster ACCEPT Chandra entropy-profile catalog and identifies the public project data; it is not an SZ pressure release."
+    },
+    {
+      "source_id": "ACT_LAMBDA_RELEASES",
+      "lane_id": "ACT_OR_SPT_RADIAL_SZ",
+      "source_type": "official_archive",
+      "url": "https://lambda.gsfc.nasa.gov/product/act/actadv_prod_table.html",
+      "doi": null,
+      "audited_fact": "NASA LAMBDA exposes ACT maps and supporting products, but map availability is not an object-level deprojected pressure profile with all required predictors."
+    },
+    {
+      "source_id": "SPT_LAMBDA_RELEASES",
+      "lane_id": "ACT_OR_SPT_RADIAL_SZ",
+      "source_type": "official_archive",
+      "url": "https://lambda.gsfc.nasa.gov/product/spt/spt_prod_table.html",
+      "doi": null,
+      "audited_fact": "NASA LAMBDA exposes SPT maps, noise spectra, bandpasses, transfer functions, beams, masks, and catalogs; an independent object-level profile extraction remains required."
+    }
+  ],
+  "candidate_lanes": [
+    {
+      "lane_id": "CHEX_MATE_XMM_THERMODYNAMICS",
+      "sample_scope": "118 Planck-selected CHEX-MATE clusters; published temperature-method demonstration on 30",
+      "instrument_family": "XMM-Newton plus external SZ products",
+      "payload_opened": false,
+      "selected_role": null,
+      "readiness": {
+        "public_object_inventory": true,
+        "gas_density_profile_files_verified": false,
+        "stellar_baryon_profile_files_verified": false,
+        "sz_pressure_profile_files_verified": false,
+        "xray_temperature_profile_files_verified": false,
+        "calibration_role_files_verified": false,
+        "full_covariance_files_verified": false,
+        "license_per_file_verified": false,
+        "xcop_overlap_audited": false
+      },
+      "decision": "POTENTIAL_PRIMARY_BLOCKED_DERIVED_PAYLOAD_COVARIANCE_AND_OVERLAP_AUDIT"
+    },
+    {
+      "lane_id": "LOCUSS_XRAY_AND_WEAK_LENSING",
+      "sample_scope": "50 high-X-ray-luminosity clusters at approximately 0.15 to 0.30 redshift",
+      "instrument_family": "Chandra and XMM-Newton; Subaru weak lensing is not an allowed thermodynamic target",
+      "payload_opened": false,
+      "selected_role": null,
+      "readiness": {
+        "public_object_inventory": true,
+        "gas_density_profile_files_verified": false,
+        "stellar_baryon_profile_files_verified": false,
+        "sz_pressure_profile_files_verified": false,
+        "xray_temperature_profile_files_verified": false,
+        "calibration_role_files_verified": false,
+        "full_covariance_files_verified": false,
+        "license_per_file_verified": false,
+        "xcop_overlap_audited": false
+      },
+      "decision": "POTENTIAL_SECONDARY_BLOCKED_PROFILE_FILES_COVARIANCE_AND_PRESSURE_CHANNEL"
+    },
+    {
+      "lane_id": "INDEPENDENT_CHANDRA_THERMODYNAMICS",
+      "sample_scope": "239-cluster archival ACCEPT catalog subject to overlap and selection audits",
+      "instrument_family": "Chandra",
+      "payload_opened": false,
+      "selected_role": null,
+      "readiness": {
+        "public_object_inventory": true,
+        "gas_density_profile_files_verified": true,
+        "stellar_baryon_profile_files_verified": false,
+        "sz_pressure_profile_files_verified": false,
+        "xray_temperature_profile_files_verified": true,
+        "calibration_role_files_verified": false,
+        "full_covariance_files_verified": false,
+        "license_per_file_verified": false,
+        "xcop_overlap_audited": false
+      },
+      "decision": "POTENTIAL_SECONDARY_BLOCKED_SZ_STELLAR_COVARIANCE_AND_OVERLAP_REQUIREMENTS"
+    },
+    {
+      "lane_id": "ACT_OR_SPT_RADIAL_SZ",
+      "sample_scope": "public ACT or SPT map footprints and cluster catalogs; object set not selected",
+      "instrument_family": "ACT or SPT millimeter maps",
+      "payload_opened": false,
+      "selected_role": null,
+      "readiness": {
+        "public_object_inventory": true,
+        "gas_density_profile_files_verified": false,
+        "stellar_baryon_profile_files_verified": false,
+        "sz_pressure_profile_files_verified": false,
+        "xray_temperature_profile_files_verified": false,
+        "calibration_role_files_verified": true,
+        "full_covariance_files_verified": false,
+        "license_per_file_verified": false,
+        "xcop_overlap_audited": false
+      },
+      "decision": "MAP_LEVEL_ASSETS_AVAILABLE_BLOCKED_OBJECT_PROFILE_EXTRACTION_AND_XRAY_BARYON_CHANNELS"
+    }
+  ],
+  "source_manifest_required_fields": [
+    "packet_id",
+    "source_id",
+    "release_revision",
+    "release_date",
+    "doi_or_archive_identifier",
+    "license_or_reuse_terms",
+    "canonical_url",
+    "payload_relative_path",
+    "payload_sha256",
+    "object_identifier",
+    "object_aliases",
+    "instrument",
+    "observation_ids",
+    "reduction_pipeline_and_version",
+    "calibration_file_bindings",
+    "covariance_file_bindings",
+    "transformation_binding",
+    "overlap_classification"
+  ],
+  "role_requirements": {
+    "calibration_roles": [
+      "background_provenance",
+      "detector_or_instrument_calibration",
+      "point_spread_or_beam_response",
+      "selection_or_mask_provenance",
+      "spectral_or_bandpass_response"
+    ],
+    "covariance_roles": [
+      "calibration_covariance",
+      "measurement_uncertainty_or_covariance"
+    ],
+    "missing_role_action": "FAIL_PACKET_BEFORE_TARGET_ACCESS"
+  },
+  "unit_and_constant_freeze": {
+    "internal_units": {
+      "radius": "kpc",
+      "mass": "solar_mass",
+      "acceleration": "m_s-2",
+      "electron_number_density": "cm-3",
+      "electron_pressure": "keV_cm-3",
+      "spectroscopic_temperature": "keV",
+      "angle": "radian"
+    },
+    "constants": {
+      "kiloparsec_m": 3.0856775814913673e19,
+      "megaparsec_m": 3.0856775814913673e22,
+      "solar_mass_kg": 1.98847e30,
+      "electronvolt_joule": 1.602176634e-19,
+      "gravitational_constant_m3_kg-1_s-2": 6.6743e-11,
+      "proton_mass_kg": 1.67262192369e-27
+    },
+    "source_native_scaled_profile_rule": "Store the released dimensionless value, released scale, released physical value, and source cosmology separately; never silently substitute a new R500, P500, or T500.",
+    "uncertainty_rule": "Every deterministic unit conversion applies to samples or the complete covariance, not only to central values."
+  },
+  "cosmology_and_redshift_freeze": {
+    "reference_cosmology": {
+      "model": "flat_LCDM",
+      "H0_km_s-1_Mpc-1": 70.0,
+      "Omega_m": 0.3,
+      "Omega_lambda": 0.7
+    },
+    "angular_to_physical_rule": "r_kpc=theta_radian*D_A_kpc(z) using the frozen reference cosmology; compare against source-native radii and carry the difference as a cosmology sensitivity.",
+    "allowed_redshift_uses": [
+      "object_identity_and_duplicate_resolution",
+      "rest_frame_spectral_response_or_k_correction",
+      "angular_diameter_distance_under_the_frozen_cosmology",
+      "declared_E_z_scaling_sensitivity",
+      "predictor_blind_stratification_frozen_before_target_access"
+    ],
+    "prohibited_redshift_uses": [
+      "candidate_formula_input",
+      "object_specific_gravity_coefficient",
+      "unregistered_distance_proxy",
+      "response_informed_selection_or_exclusion",
+      "substitute_for_a_direct_thermodynamic_observable"
+    ]
+  },
+  "transformations": [
+    {
+      "transformation_id": "ANGULAR_RADIUS_TO_KPC",
+      "inputs": ["angle_radian", "spectroscopic_redshift"],
+      "outputs": ["radius_kpc"],
+      "required_uncertainty": "angle_redshift_and_cosmology_sensitivity",
+      "forbidden_outputs": ["halo_radius", "total_mass_profile"]
+    },
+    {
+      "transformation_id": "XRAY_SPECTRUM_TO_PROJECTED_TEMPERATURE",
+      "inputs": ["calibrated_xray_spectrum", "background", "spectral_response"],
+      "outputs": ["spectroscopic_temperature_keV"],
+      "required_uncertainty": "posterior_or_likelihood_with_cross_calibration_nuisance",
+      "forbidden_outputs": ["hydrostatic_mass", "latent_nonthermal_pressure"]
+    },
+    {
+      "transformation_id": "XRAY_SURFACE_BRIGHTNESS_TO_ELECTRON_DENSITY",
+      "inputs": ["calibrated_xray_surface_brightness", "background", "psf", "spectral_emissivity"],
+      "outputs": ["electron_density_cm-3"],
+      "required_uncertainty": "deprojection_geometry_emissivity_background_and_calibration_covariance",
+      "forbidden_outputs": ["hydrostatic_mass", "dark_matter_fraction"]
+    },
+    {
+      "transformation_id": "SZ_MAP_TO_ELECTRON_PRESSURE",
+      "inputs": ["calibrated_multiband_sz_map", "beam", "bandpass", "mask", "transfer_function"],
+      "outputs": ["electron_pressure_keV_cm-3"],
+      "required_uncertainty": "map_noise_beam_bandpass_foreground_and_deprojection_covariance",
+      "forbidden_outputs": ["hydrostatic_mass", "halo_pressure_truth"]
+    },
+    {
+      "transformation_id": "MEMBER_LIGHT_TO_STELLAR_BARYON_PROFILE",
+      "inputs": ["calibrated_member_photometry_or_spectra", "membership_selection", "psf", "mask"],
+      "outputs": ["stellar_baryon_profile_solar_mass"],
+      "required_uncertainty": "membership_photometry_k_correction_IMF_mass_to_light_and_ICL_nuisances",
+      "forbidden_outputs": ["abundance_matched_mass", "halo_mass"]
+    }
+  ],
+  "leakage_and_exclusion_freeze": {
+    "forbidden_predictor_or_selection_fields": [
+      "abundance_matched_mass",
+      "cluster_halo_mass",
+      "cluster_halo_profile",
+      "dark_matter_fraction",
+      "formula_selection_target",
+      "gr_derived_lensing_mass",
+      "hydrostatic_mass",
+      "nfw_fit",
+      "object_specific_gravity_parameter",
+      "total_mass_profile"
+    ],
+    "post_response_exclusions_allowed": false,
+    "target_derived_predictors_allowed": false,
+    "halo_labels_allowed": false,
+    "derived_mass_truth_allowed": false,
+    "failure_action": "FAIL_CLOSED_AND_PRESERVE_ROW_FOR_DATA_QUALITY_AUDIT"
+  },
+  "selection_state": {
+    "selected_primary_lane": null,
+    "selected_secondary_lane": null,
+    "authorized_target_packets": [],
+    "independent_target_rows_opened": 0,
+    "observational_authorization": false
+  },
+  "seals": {
+    "payload_accessed": false,
+    "target_rows_accessed": false,
+    "formula_refit_authorized": false,
+    "candidate_rank_changed": false
+  },
+  "output_path": "runs/gravity/publication-readiness/independent-data-contract-v1.json"
+}

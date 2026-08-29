@@ -33,6 +33,18 @@ def test_current_cluster_result_is_retained_but_not_data_or_paper_ready() -> Non
     assert receipt["readiness"]["independent_cluster_data"]["ready"] is False
     assert receipt["readiness"]["observational_authorization"] is False
     assert receipt["readiness"]["independent_target_rows_opened"] == 0
+    assert receipt["counts"]["completed_tasks"] == 24
+    assert receipt["counts"]["open_tasks"] == 98
+    cp3 = next(gate for gate in receipt["gate_ledger"] if gate["gate_id"] == "CP3")
+    assert cp3["completed_task_ids"] == [
+        "CP3.1",
+        "CP3.2",
+        "CP3.3",
+        "CP3.4",
+        "CP3.7",
+        "CP3.8",
+    ]
+    assert cp3["open_task_ids"] == ["CP3.5", "CP3.6"]
 
 
 def test_adjacent_domain_failure_does_not_veto_a_complete_bounded_claim() -> None:
@@ -89,6 +101,21 @@ def test_goal_document_and_machine_task_inventory_are_exactly_aligned() -> None:
     assert [gate["gate_id"] for gate in project["gates"]] == list(readiness.GATE_ORDER)
 
 
+def test_goal_checkbox_progress_and_gate_status_fail_closed() -> None:
+    policy = readiness.load_policy(ROOT)
+    project = readiness.load_project(ROOT, policy)
+    path = ROOT / project["goal_document_binding"]["path"]
+    partial = copy.deepcopy(project["gates"])
+    partial[0]["status"] = "PARTIAL"
+    with pytest.raises(readiness.ResearchPublicationReadinessError, match="mixed task"):
+        readiness._goal_task_progress(path, partial)
+
+    not_started = copy.deepcopy(project["gates"])
+    not_started[0]["status"] = "NOT_STARTED"
+    with pytest.raises(readiness.ResearchPublicationReadinessError, match="completed goal"):
+        readiness._goal_task_progress(path, not_started)
+
+
 def test_independent_target_seal_and_evidence_bindings_fail_closed() -> None:
     policy = readiness.load_policy(ROOT)
     opened = copy.deepcopy(readiness.load_project(ROOT, policy))
@@ -111,11 +138,13 @@ def test_stored_receipt_rebuilds_exactly_and_is_content_bound() -> None:
         "claim_tracks": 3,
         "gates": 13,
         "tasks": 122,
+        "completed_tasks": 24,
+        "open_tasks": 98,
         "pass_gates": 2,
-        "partial_gates": 3,
-        "blocked_gates": 4,
+        "partial_gates": 4,
+        "blocked_gates": 3,
         "not_started_gates": 4,
-        "bound_evidence_receipts": 4,
+        "bound_evidence_receipts": 5,
         "independent_target_rows_opened": 0,
     }
 

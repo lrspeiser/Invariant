@@ -37,6 +37,9 @@ BOUNDED_PAPER_GATES = (
 )
 VALID_GATE_STATUSES = frozenset({"PASS", "PARTIAL", "BLOCKED", "NOT_STARTED"})
 SHA256 = re.compile(r"^[0-9a-f]{64}$")
+GOAL_TASK = re.compile(
+    r"^- \[(?P<mark>[ xX])\] \*\*(?P<task>CP(?:[0-9]|1[0-2])\.[0-9]+)\*\*"
+)
 
 
 class ResearchPublicationReadinessError(RuntimeError):
@@ -191,6 +194,62 @@ def _validate_binding(root: Path, binding: Mapping[str, Any], *, content: bool) 
     return path
 
 
+def _goal_task_progress(
+    path: Path, gates: Sequence[Mapping[str, Any]]
+) -> dict[str, dict[str, Any]]:
+    """Read the human checklist and fail if it drifts from the machine inventory."""
+
+    documented: dict[str, bool] = {}
+    for line in path.read_text(encoding="utf-8").splitlines():
+        match = GOAL_TASK.match(line)
+        if match is None:
+            continue
+        task_id = match.group("task")
+        if task_id in documented:
+            raise ResearchPublicationReadinessError(f"duplicate goal task: {task_id}")
+        documented[task_id] = match.group("mark").lower() == "x"
+
+    configured = {
+        str(task_id)
+        for gate in gates
+        for task_id in gate["task_ids"]
+    }
+    if set(documented) != configured:
+        missing = sorted(configured - set(documented))
+        extra = sorted(set(documented) - configured)
+        raise ResearchPublicationReadinessError(
+            f"goal task inventory changed; missing={missing}, extra={extra}"
+        )
+
+    progress: dict[str, dict[str, Any]] = {}
+    for gate in gates:
+        gate_id = str(gate["gate_id"])
+        task_ids = list(map(str, gate["task_ids"]))
+        completed = [task_id for task_id in task_ids if documented[task_id]]
+        opened = [task_id for task_id in task_ids if not documented[task_id]]
+        status = str(gate["status"])
+        if status == "PASS" and opened:
+            raise ResearchPublicationReadinessError(
+                f"PASS gate has open goal tasks: {gate_id}"
+            )
+        if status == "PARTIAL" and not (completed and opened):
+            raise ResearchPublicationReadinessError(
+                f"PARTIAL gate lacks mixed task progress: {gate_id}"
+            )
+        if status == "NOT_STARTED" and completed:
+            raise ResearchPublicationReadinessError(
+                f"NOT_STARTED gate has completed goal tasks: {gate_id}"
+            )
+        progress[gate_id] = {
+            "task_count": len(task_ids),
+            "completed_task_count": len(completed),
+            "open_task_count": len(opened),
+            "completed_task_ids": completed,
+            "open_task_ids": opened,
+        }
+    return progress
+
+
 def load_project(root: Path, policy: Mapping[str, Any]) -> dict[str, Any]:
     project = _read_json(root / PROJECT_PATH)
     validate_project(project, policy, root)
@@ -226,7 +285,7 @@ def validate_project(
     policy_path = _validate_binding(root, project["policy_binding"], content=True)
     if policy_path != (root / POLICY_PATH).resolve() or _read_json(policy_path) != policy:
         raise ResearchPublicationReadinessError("publication policy binding changed")
-    _validate_binding(root, project["goal_document_binding"], content=False)
+    goal_document = _validate_binding(root, project["goal_document_binding"], content=False)
     candidate = project["candidate"]
     _strict(
         candidate,
@@ -283,6 +342,7 @@ def validate_project(
         tasks.extend(gate_tasks)
     if len(tasks) != 122 or len(set(tasks)) != 122:
         raise ResearchPublicationReadinessError("publication task inventory changed")
+    _goal_task_progress(goal_document, gates)
     language = project["claim_language"]
     if not language["allowed"] or not language["prohibited"]:
         raise ResearchPublicationReadinessError("claim language boundary is empty")
@@ -318,6 +378,7 @@ def _load_evidence(root: Path, bindings: Sequence[Mapping[str, Any]]) -> dict[st
         "item60_direct_lensing_readiness",
         "item61_cross_scale_transfer",
         "screened_descendant_adjudication",
+        "independent_data_contract",
     )
     if tuple(binding.get("evidence_id") for binding in bindings) != expected_ids:
         raise ResearchPublicationReadinessError("publication evidence order changed")
@@ -355,6 +416,7 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
     item60 = evidence["item60_direct_lensing_readiness"]
     item61 = evidence["item61_cross_scale_transfer"]
     descendant = evidence["screened_descendant_adjudication"]
+    data_contract = evidence["independent_data_contract"]
     if (
         item59["claims"]["xcop_forward_observable_development_gate_passed"] is not True
         or item59["counts"]["clusters"] != 12
@@ -378,6 +440,14 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
         or descendant["interpretation"]["broader_theory_family_pruned"] is not False
     ):
         raise ResearchPublicationReadinessError("descendant adjudication changed")
+    if (
+        data_contract["claims"]["source_metadata_audit_complete"] is not True
+        or data_contract["claims"]["independent_source_selected"] is not False
+        or data_contract["claims"]["target_rows_accessed"] is not False
+        or data_contract["counts"]["fully_ready_lanes"] != 0
+        or data_contract["counts"]["candidate_lanes"] != 4
+    ):
+        raise ResearchPublicationReadinessError("independent data contract changed")
 
 
 def classify_claim_tracks(
@@ -441,6 +511,10 @@ def build_receipt(root: Path) -> dict[str, Any]:
     predata = _gate_readiness(project["gates"], PRE_DATA_GATES)
     bounded = _gate_readiness(project["gates"], BOUNDED_PAPER_GATES)
     gates = project["gates"]
+    goal_path = _under(
+        root, str(project["goal_document_binding"]["path"]), "goal document"
+    )
+    progress = _goal_task_progress(goal_path, gates)
     if predata["next_gate"] is None:
         next_action = (
             "Keep independent targets sealed and request explicit authorization for the frozen "
@@ -496,7 +570,7 @@ def build_receipt(root: Path) -> dict[str, Any]:
                 "status": gate["status"],
                 "required_for_predata": gate["required_for_predata"],
                 "required_for_bounded_paper": gate["required_for_bounded_paper"],
-                "task_count": len(gate["task_ids"]),
+                **progress[str(gate["gate_id"])],
             }
             for gate in gates
         ],
@@ -504,6 +578,13 @@ def build_receipt(root: Path) -> dict[str, Any]:
             "claim_tracks": len(TRACK_ORDER),
             "gates": len(gates),
             "tasks": sum(len(gate["task_ids"]) for gate in gates),
+            "completed_tasks": sum(
+                gate_progress["completed_task_count"]
+                for gate_progress in progress.values()
+            ),
+            "open_tasks": sum(
+                gate_progress["open_task_count"] for gate_progress in progress.values()
+            ),
             "pass_gates": sum(gate["status"] == "PASS" for gate in gates),
             "partial_gates": sum(gate["status"] == "PARTIAL" for gate in gates),
             "blocked_gates": sum(gate["status"] == "BLOCKED" for gate in gates),

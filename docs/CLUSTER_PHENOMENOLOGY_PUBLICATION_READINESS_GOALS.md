@@ -65,7 +65,7 @@ paper, but they become mandatory if the claim is escalated.
 | CP4 | Matched-flexibility comparators | Yes | Yes | BLOCKED |
 | CP5 | Covariance, nuisances, and alternative causes | Yes | Yes | BLOCKED |
 | CP6 | Numerical, synthetic, and leakage controls | Yes | Yes | PARTIAL |
-| CP7 | Independent source and split freeze | Yes | Yes | BLOCKED |
+| CP7 | Independent source and split freeze | Yes | Yes | PARTIAL; metadata audit complete, no lane selected |
 | CP8 | Unchanged independent thermodynamic replication | No | Yes | NOT STARTED |
 | CP9 | Independent mass probes | No | No for bounded paper | NOT STARTED |
 | CP10 | Group and domain-boundary map | No | No for bounded paper | NOT STARTED |
@@ -138,9 +138,9 @@ model-derived invisible component is treated as truth.
   release revision, DOI, license, checksum, object identifier, instrument, and reduction.
 - [ ] **CP3.6** Bind calibration, background, beam/PSF, mask/selection, bandpass/spectral
   response, and covariance roles for every source packet.
-- [ ] **CP3.7** Freeze unit conversions, cosmology-dependent distance transformations,
+- [x] **CP3.7** Freeze unit conversions, cosmology-dependent distance transformations,
   and allowed redshift uses.
-- [ ] **CP3.8** Add fail-closed detection for target-derived predictors, halo labels,
+- [x] **CP3.8** Add fail-closed detection for target-derived predictors, halo labels,
   derived masses, and post-response exclusions.
 
 ## CP4 — matched-flexibility comparator suite
@@ -213,7 +213,7 @@ stable under independent implementations and resolution changes.
 Advance criteria: an eligible population is frozen without opening candidate-target
 responses and has no X-COP overlap or reduction-family dependence hidden as independence.
 
-- [ ] **CP7.1** Audit CHEX-MATE, LoCuSS, independent Chandra samples, and available
+- [x] **CP7.1** Audit CHEX-MATE, LoCuSS, independent Chandra samples, and available
   ACT/SPT thermodynamic profiles for usable direct observables and covariances.
 - [ ] **CP7.2** Select one primary independent thermodynamic sample and one secondary
   replication lane.
@@ -233,6 +233,10 @@ CHEX-MATE is a representative 118-cluster XMM program with a dedicated temperatu
 pipeline (https://arxiv.org/abs/2402.18653). LoCuSS offers an independent 50-cluster
 X-ray and weak-lensing comparison (https://arxiv.org/abs/1511.01919). Eligibility depends
 on actual public payloads, overlap, covariance, and licensing—not the paper abstract.
+The metadata-only audit and frozen transformation rules are machine-bound in
+`configs/gravity_cluster_independent_data_contract_v1.json`. It found zero fully ready
+lanes and opened zero payloads or target rows; CP7.2 therefore remains blocked rather
+than treating archive or paper availability as a complete replication packet.
 
 ## CP8 — unchanged independent thermodynamic replication
 
