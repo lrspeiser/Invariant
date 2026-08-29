@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 
 import numpy as np
@@ -96,3 +97,24 @@ def test_predictor_receipt_and_sample_remain_response_blind() -> None:
     assert sample["counts"]["reserved_confirmation"] == 3
     assert sample["counts"]["response_rows_read"] == 0
     assert all(row["response_read"] is False for row in sample["objects"])
+
+
+def test_exploration_extraction_keeps_confirmation_sealed() -> None:
+    source = json.loads(
+        (
+            ROOT
+            / "runs/gravity/roadmap/item-40-discrete-network-v1-source/wallaby-exploration-response.json"
+        ).read_text(encoding="utf-8")
+    )
+    summary = json.loads(
+        (
+            ROOT
+            / "runs/gravity/roadmap/item-40-discrete-network-v1-source/extraction-summary.json"
+        ).read_text(encoding="utf-8")
+    )
+    assert source["counts"]["exploration_response_rows"] == 11
+    assert source["counts"]["confirmation_response_rows"] == 0
+    assert source["counts"]["post_response_candidate_cells"] == 0
+    assert summary["counts"]["quality_passing_galaxies"] == 8
+    assert summary["counts"]["accepted_rotation_points"] == 43
+    assert summary["claims"]["graph_features_used_rotation_response"] is False
