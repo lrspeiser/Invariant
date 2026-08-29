@@ -383,6 +383,7 @@ def _load_evidence(root: Path, bindings: Sequence[Mapping[str, Any]]) -> dict[st
         "uncertainty_program",
         "numerical_controls",
         "independent_replication_protocol",
+        "prior_art_positioning",
     )
     if tuple(binding.get("evidence_id") for binding in bindings) != expected_ids:
         raise ResearchPublicationReadinessError("publication evidence order changed")
@@ -425,6 +426,7 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
     uncertainty = evidence["uncertainty_program"]
     numerical = evidence["numerical_controls"]
     replication_protocol = evidence["independent_replication_protocol"]
+    prior_art = evidence["prior_art_positioning"]
     if (
         item59["claims"]["xcop_forward_observable_development_gate_passed"] is not True
         or item59["counts"]["clusters"] != 12
@@ -494,6 +496,17 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
         != 192
     ):
         raise ResearchPublicationReadinessError("independent replication protocol changed")
+    if (
+        set(prior_art["completed_goal_evidence"]) != {"CP2.2", "CP2.3", "CP2.4"}
+        or set(prior_art["blocked_goal_evidence"]) != {"CP2.5", "CP2.6"}
+        or prior_art["claims"]["close_behavioral_equivalent_identified"] is not True
+        or prior_art["claims"]["corpus_absence_is_authoritative"] is not False
+        or prior_art["claims"]["historical_novelty_established"] is not False
+        or prior_art["closest_behavioral_neighbor"]["source_id"]
+        != "PENNER_MODIFIED_GRAS_AQUAL_2026"
+        or prior_art["counts"]["target_rows_opened"] != 0
+    ):
+        raise ResearchPublicationReadinessError("prior-art positioning evidence changed")
 
 
 def classify_claim_tracks(

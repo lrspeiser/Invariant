@@ -111,17 +111,29 @@ combination, and which exact claim still requires human novelty adjudication.
 
 - [x] **CP2.1** Label the present origin as a potentially new combination of known
   permittivity, nonlocal-kernel, MOND/RAR, and auxiliary-field motifs.
-- [ ] **CP2.2** Search ADS, arXiv, Crossref, OpenAlex, INSPIRE, and journal full text for
+- [x] **CP2.2** Search ADS, arXiv, Crossref, OpenAlex, INSPIRE, and journal full text for
   the exact two-kernel occupancy construction and close behavioral equivalents.
-- [ ] **CP2.3** Build an equation-by-equation comparison with MOND/AQUAL, refracted
+- [x] **CP2.3** Build an equation-by-equation comparison with MOND/AQUAL, refracted
   gravity, nonlocal gravity, STVG/MOG, emergent gravity, NFW/Einasto, and empirical
   pressure models.
-- [ ] **CP2.4** Record rewrite, known-family, known-combination, structurally unmatched,
+- [x] **CP2.4** Record rewrite, known-family, known-combination, structurally unmatched,
   and unresolved labels separately.
 - [ ] **CP2.5** Obtain named review by at least one cluster astrophysicist and one
   modified-gravity specialist.
 - [ ] **CP2.6** Keep corpus absence non-authoritative; only named human review may support
   a historical-novelty sentence.
+
+The machine-audited comparison is in
+`configs/gravity_cluster_prior_art_positioning_v1.json` and
+`runs/gravity/publication-readiness/prior-art-positioning-v1.json`. It found no exact
+algebraic rewrite of the two-kernel occupancy law, but that absence is not authoritative.
+The closest behavioral neighbor found is Penner's February 2026 modified GRAS/AQUAL law
+(https://arxiv.org/abs/2602.09249): both make an interior cluster field depend on the
+complete radial baryon distribution and an outer boundary. Penner uses the response slope
+`beta=-g/(r g')` in an inward-integrated field equation; Item 59 instead uses fixed inward
+and symmetric averages of `q[g_bar/a0]`. The whole Item 59 construction is therefore
+labeled a potentially new exact combination of known motifs with a close prior neighbor,
+not a historically novel gravity law. Named expert reviews remain required.
 
 ## CP3 — direct-observable and provenance contract
 

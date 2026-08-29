@@ -1,0 +1,256 @@
+{
+  "schema_version": "invariant-gravity-cluster-prior-art-positioning-1.0",
+  "status": "frozen_search_audit_human_novelty_review_open",
+  "audit_id": "gravity-cluster-prior-art-positioning-v1",
+  "audit_cutoff": "2026-08-29",
+  "candidate": {
+    "candidate_id": "ITEM59-XCOP-CROSS-SCALE-BOUNDARY-BETA-1P5",
+    "equations": [
+      "y(r)=g_bar(r)/a0",
+      "q(r)=y(r)/(y(r)+0.1)",
+      "g(r)=g_bar(r)+1.5*[g_bar(r)*K_in[q](r)+a0*K_sym[q](r)]"
+    ],
+    "kernel_scope": "K_in is an inward log-radius occupancy average and K_sym is a symmetric log-radius occupancy average, both at scale 0.25.",
+    "declared_origin": "new_combination_of_known_permittivity_nonlocal_kernel_MOND_RAR_and_auxiliary_field_motifs",
+    "historical_novelty_claim": false
+  },
+  "database_search_audit": [
+    {
+      "database": "NASA_ADS",
+      "method": "public ADS search URL, ADS full-text links, and ADS-indexed primary-paper backlinks",
+      "queries": [
+        "\"baryonic acceleration\" \"nonlocal\" \"galaxy cluster\"",
+        "\"gravitational permittivity\" cluster",
+        "\"modified AQUAL\" cluster radial derivative",
+        "\"occupancy\" kernel gravity"
+      ],
+      "result": "No exact two-kernel occupancy construction identified; close families and Penner 2026 retained.",
+      "authoritative_absence_claim": false
+    },
+    {
+      "database": "arXiv",
+      "method": "arXiv search and primary abstract, HTML, source, or PDF inspection",
+      "queries": [
+        "baryonic acceleration nonlocal radial kernel galaxy cluster gravity",
+        "refracted gravity galaxy clusters",
+        "nonlocal gravity modified Poisson kernel",
+        "AQUAL GRAS cluster radial derivative"
+      ],
+      "result": "Penner 2602.09249 is the closest behavioral neighbor; refracted, nonlocal, EMOND, MOG, and emergent-gravity families retained; no exact K_in plus K_sym occupancy equation identified.",
+      "authoritative_absence_claim": false
+    },
+    {
+      "database": "Crossref",
+      "method": "Crossref bibliographic API and DOI resolution",
+      "queries": [
+        "baryonic acceleration nonlocal radial kernel galaxy cluster gravity",
+        "modified AQUAL galaxy clusters radial derivative",
+        "refracted gravity galaxy clusters"
+      ],
+      "result": "Broad queries returned cluster modified-gravity and radial-acceleration literature; DOI-level candidates were resolved and inspected through primary sources.",
+      "authoritative_absence_claim": false
+    },
+    {
+      "database": "OpenAlex",
+      "method": "OpenAlex works full-text search API plus DOI and arXiv identity follow-up",
+      "queries": [
+        "baryonic acceleration nonlocal radial kernel galaxy cluster gravity",
+        "modified AQUAL galaxy clusters radial derivative",
+        "refracted gravity galaxy clusters"
+      ],
+      "result": "Broad full-text results were noisy; known-family identities were resolved, and no exact candidate equation was established.",
+      "authoritative_absence_claim": false
+    },
+    {
+      "database": "INSPIRE_HEP",
+      "method": "INSPIRE literature full-text query, record inspection, and primary e-print follow-up",
+      "queries": [
+        "fulltext \"baryonic acceleration\" and fulltext nonlocal and fulltext cluster",
+        "fulltext \"modified AQUAL\" and fulltext cluster",
+        "fulltext \"gravitational permittivity\" and fulltext cluster"
+      ],
+      "result": "Nonlocal, MOG, emergent, AQUAL, GRAS, and cluster-field records retained; no exact two-kernel occupancy construction identified.",
+      "authoritative_absence_claim": false
+    },
+    {
+      "database": "journal_full_text",
+      "method": "Equation-level inspection of publisher, ADS scan, arXiv HTML, source, or PDF for every retained close family",
+      "queries": [
+        "candidate equation and operator structure",
+        "source-conditioned transition variable",
+        "interior and exterior radial dependence",
+        "boundary condition and cluster observable"
+      ],
+      "result": "Equation-level similarities and differences are recorded below; corpus absence remains non-authoritative.",
+      "authoritative_absence_claim": false
+    }
+  ],
+  "retained_primary_sources": [
+    {
+      "source_id": "PENNER_MODIFIED_GRAS_AQUAL_2026",
+      "title": "Towards a general field equation for galaxies and galaxy clusters",
+      "url": "https://arxiv.org/abs/2602.09249",
+      "doi": "10.1007/s10509-026-04548-6",
+      "equation_anchor": "Equations 40 through 45",
+      "relevance": "Defines beta=-g/(r g'), multiplies the GRAS/AQUAL response by beta, integrates inward from an outer boundary, and makes the interior depend on the complete baryonic mass distribution.",
+      "relationship_label": "close_behavioral_equivalent_not_exact_rewrite"
+    },
+    {
+      "source_id": "BEKENSTEIN_MILGROM_AQUAL_1984",
+      "title": "Does the missing mass problem signal the breakdown of Newtonian gravity?",
+      "url": "https://articles.adsabs.harvard.edu/pdf/1984ApJ...286....7B",
+      "doi": "10.1086/162570",
+      "equation_anchor": "AQUAL modified Poisson equation",
+      "relevance": "Provides the Lagrangian-derived field-dependent interpolating function and acceleration scale underlying the MOND/AQUAL motif.",
+      "relationship_label": "known_family_parent"
+    },
+    {
+      "source_id": "MATSAKOS_DIAFERIO_REFRACTED_GRAVITY_2016",
+      "title": "Dynamics of galaxies and clusters in refracted gravity",
+      "url": "https://arxiv.org/abs/1603.04943",
+      "doi": "10.48550/arXiv.1603.04943",
+      "equation_anchor": "Equation 3",
+      "relevance": "Uses a density-dependent gravitational permittivity in a modified Poisson equation and applies it to cluster X-ray temperature profiles.",
+      "relationship_label": "known_family_parent"
+    },
+    {
+      "source_id": "CHICONE_MASHHOON_NONLOCAL_POISSON_2012",
+      "title": "Nonlocal Gravity: Modified Poisson's Equation",
+      "url": "https://arxiv.org/abs/1111.4702",
+      "doi": "10.1063/1.3702449",
+      "equation_anchor": "Equations 2 through 4",
+      "relevance": "Introduces a constitutive nonlocal kernel in the Newtonian field equation and explicitly treats the inverse problem for the kernel.",
+      "relationship_label": "known_family_parent"
+    },
+    {
+      "source_id": "ZHAO_FAMAEY_EMOND_2012",
+      "title": "Unifying all mass discrepancies with one effective gravity law?",
+      "url": "https://arxiv.org/abs/1207.6232",
+      "doi": "10.1103/PhysRevD.86.067301",
+      "equation_anchor": "Potential-dependent effective force law",
+      "relevance": "Adds gravitational-potential depth to acceleration dependence so one phenomenology can differ between galaxies and clusters.",
+      "relationship_label": "known_behavioral_motif"
+    },
+    {
+      "source_id": "MOFFAT_MOG_ACCELERATION_2016",
+      "title": "Acceleration in Modified Gravity (MOG) and the Mass-Discrepancy Baryonic Relation",
+      "url": "https://arxiv.org/abs/1610.06909",
+      "doi": "10.48550/arXiv.1610.06909",
+      "equation_anchor": "Weak-field Yukawa-like MOG acceleration law",
+      "relevance": "Provides a covariant scalar-vector-tensor parent whose weak-field acceleration depends on strength and range parameters and has been applied to galaxies and clusters.",
+      "relationship_label": "known_family_comparator"
+    },
+    {
+      "source_id": "VERLINDE_EMERGENT_GRAVITY_2016",
+      "title": "Emergent Gravity and the Dark Universe",
+      "url": "https://arxiv.org/abs/1611.02269",
+      "doi": "10.21468/SciPostPhys.2.3.016",
+      "equation_anchor": "Elastic-response apparent-dark-gravity relation",
+      "relevance": "Relates an additional force to baryonic mass and a horizon acceleration scale through a nonlocal or memory-like response motif.",
+      "relationship_label": "known_behavioral_motif"
+    },
+    {
+      "source_id": "NFW_HALO_1996",
+      "title": "The Structure of Cold Dark Matter Halos",
+      "url": "https://arxiv.org/abs/astro-ph/9508025",
+      "doi": "10.1086/177173",
+      "equation_anchor": "NFW density profile",
+      "relevance": "Conventional collisionless-halo comparator; adds a mass component rather than a baryon-conditioned acceleration operator.",
+      "relationship_label": "known_standard_comparator"
+    },
+    {
+      "source_id": "NAVARRO_EINASTO_LIKE_2004",
+      "title": "The Inner Structure of LambdaCDM Halos III: Universality and Asymptotic Slopes",
+      "url": "https://arxiv.org/abs/astro-ph/0311231",
+      "doi": "10.1111/j.1365-2966.2004.07307.x",
+      "equation_anchor": "Continuously varying logarithmic-slope halo profile",
+      "relevance": "Einasto-like conventional halo-shape comparator with flexible curvature in log radius.",
+      "relationship_label": "known_standard_comparator"
+    },
+    {
+      "source_id": "ARNAUD_GNFW_PRESSURE_2010",
+      "title": "The universal galaxy cluster pressure profile from a representative sample of nearby systems and the Y_SZ-M_500 relation",
+      "url": "https://arxiv.org/abs/0910.1234",
+      "doi": "10.1051/0004-6361/200913416",
+      "equation_anchor": "Generalized NFW pressure profile",
+      "relevance": "Flexible empirical pressure-shape comparator; predicts pressure phenomenology without being a gravity law.",
+      "relationship_label": "known_empirical_comparator"
+    }
+  ],
+  "equation_comparison": [
+    {
+      "component_id": "RATIONAL_OCCUPANCY_TRANSITION",
+      "candidate_expression": "q=y/(y+0.1), y=g_bar/a0",
+      "closest_known_structure": "MOND or RAR-style dimensionless acceleration transition and generic saturating rational response",
+      "same": "dimensionless acceleration ratio; monotone transition between weak and strong occupancy",
+      "different": "q is fed to radial kernels instead of directly multiplying a local Poisson or algebraic acceleration law",
+      "classification": "rewrite_of_known_transition_motif"
+    },
+    {
+      "component_id": "SOURCE_CONDITIONED_RESPONSE",
+      "candidate_expression": "the correction is conditioned on q[g_bar/a0]",
+      "closest_known_structure": "AQUAL field response, refracted-gravity density permittivity, and EMOND potential dependence",
+      "same": "the extra response changes with baryonic environment rather than a galaxy identity label",
+      "different": "the candidate uses acceleration occupancy and two explicit radial averages, not local field, density, or potential alone",
+      "classification": "new_combination_of_known_motifs"
+    },
+    {
+      "component_id": "INWARD_NONLOCAL_KERNEL",
+      "candidate_expression": "g_bar(r)*K_in[q](r)",
+      "closest_known_structure": "nonlocal-gravity constitutive kernels and Penner's dependence on the full exterior baryon distribution",
+      "same": "the field at one radius depends on information from other radii",
+      "different": "a one-dimensional directed log-radius occupancy average is not the covariant constitutive kernel or response-derivative ODE in the retained sources",
+      "classification": "known_operator_family_structurally_unmatched_instantiation"
+    },
+    {
+      "component_id": "SYMMETRIC_NONLOCAL_KERNEL",
+      "candidate_expression": "a0*K_sym[q](r)",
+      "closest_known_structure": "symmetric convolution kernels in nonlocal gravity and auxiliary-field Green functions",
+      "same": "nearby radial source information contributes through a fixed smoothing scale",
+      "different": "the exact normalized occupancy input, acceleration normalization, and pairing with the directed channel were not found in the retained equations",
+      "classification": "known_operator_family_structurally_unmatched_instantiation"
+    },
+    {
+      "component_id": "TWO_CHANNEL_ADDITIVE_LAW",
+      "candidate_expression": "g=g_bar+beta*(g_bar*K_in[q]+a0*K_sym[q])",
+      "closest_known_structure": "additive effective accelerations in MOG or emergent gravity plus nonlocal and permittivity motifs",
+      "same": "Newtonian baryonic acceleration plus an additional environment-dependent response",
+      "different": "the exact two-channel units, common coefficient, occupancy transition, and fixed log-radius scale were not algebraically matched",
+      "classification": "structurally_unmatched_exact_combination_novelty_unresolved"
+    },
+    {
+      "component_id": "OUTER_BOUNDARY_FORWARD_MODEL",
+      "candidate_expression": "hydrostatic integration inward from one unscored measured outer pressure point",
+      "closest_known_structure": "Penner inward integration from an outer field boundary and standard hydrostatic boundary-value modeling",
+      "same": "an outer condition anchors an inward radial prediction",
+      "different": "Item 59 anchors measured pressure while Penner anchors gravitational acceleration using the galaxy RAR",
+      "classification": "known_method_not_candidate_novelty"
+    },
+    {
+      "component_id": "CLUSTER_THERMODYNAMIC_ENDPOINT",
+      "candidate_expression": "predict Planck SZ pressure and XMM temperature from baryonic profiles",
+      "closest_known_structure": "refracted-gravity cluster temperature predictions, standard hydrostatic modeling, and GNFW pressure profiles",
+      "same": "cluster thermodynamic profiles are the empirical endpoint",
+      "different": "Item 59 jointly predicts direct pressure and temperature without fitting a released total-mass profile",
+      "classification": "known_endpoint_distinct_test_design"
+    }
+  ],
+  "candidate_adjudication": {
+    "exact_rewrite_identified": false,
+    "known_family_components_identified": true,
+    "known_combination_components_identified": true,
+    "structurally_unmatched_exact_combination": true,
+    "close_behavioral_equivalent_identified": true,
+    "closest_behavioral_source_id": "PENNER_MODIFIED_GRAS_AQUAL_2026",
+    "historical_novelty_resolved": false,
+    "allowed_label": "potentially_new_exact_combination_of_known_motifs_with_a_close_2026_behavioral_neighbor",
+    "prohibited_label": "historically_novel_gravity_law",
+    "required_manuscript_action": "Compare the candidate directly with Penner equations 40-45, AQUAL, refracted gravity, nonlocal gravity, EMOND, MOG, emergent gravity, NFW, Einasto-like halos, and GNFW pressure; obtain named expert review before any novelty sentence."
+  },
+  "human_review": {
+    "cluster_astrophysicist_named_review": false,
+    "modified_gravity_specialist_named_review": false,
+    "historical_novelty_sentence_authorized": false
+  },
+  "output_path": "runs/gravity/publication-readiness/prior-art-positioning-v1.json"
+}
