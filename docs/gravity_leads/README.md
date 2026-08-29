@@ -93,3 +93,18 @@ The preflight creates 20 deterministic child plans with zero scores and
 `execution_authorized=false`. A shared predictor/evaluator contract, fresh group bridge,
 covariant motion-and-lensing model, independent data, and publication-track gates remain
 required before any child can be executed or described as interesting evidence.
+
+## Shared target-blind evaluator scaffold
+
+The first shared evaluator scaffold is documented in
+[`GRAVITY_SHARED_TARGET_BLIND_EVALUATOR_V1.md`](../GRAVITY_SHARED_TARGET_BLIND_EVALUATOR_V1.md).
+It freezes one predictor-only, dimensionless interface before response access and runs the
+same adapter boundary across galaxy rotation, X-COP cluster thermodynamics, a group bridge,
+and metric-potential lensing. The galaxy lane currently binds exposed metadata only, the
+cluster lane performs a finite-schema smoke on eight development objects, and group/lensing
+remain injected-control lanes with empirical scoring fail-closed.
+
+All eight 64-row injected packets recover their generating Newtonian or known-law control,
+the wrong-law controls lose, and independent scalar/vector scorers agree. The B+E+N child is
+registered but deliberately unexecuted and unscored. This is a successful infrastructure
+test, not evidence that the child works, is novel, is publishable, or replaces GR.

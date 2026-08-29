@@ -1,0 +1,187 @@
+{
+  "schema_version": "invariant-gravity-shared-target-blind-evaluator-config-1.0",
+  "evaluator_id": "gravity-shared-target-blind-evaluator-v1",
+  "status": "bounded_development_scaffold_not_scientific_execution",
+  "contract_sha256": "bd6c0a3d9d60a922520a78a75d1c8172c1c1a0e60ee1a3150390727d0cfe8f85",
+  "seed": 1742041,
+  "rows_per_injected_packet": 64,
+  "single_counterexample_is_universal_veto": false,
+  "source_bindings": {
+    "parent_registry": {
+      "path": "runs/gravity/lead-programs/gravity-lead-parent-registry-v1.json",
+      "file_sha256": "0ff0ae7b8bb8fc18cea2a04b9a7b8b968195437a1b19f784960370e441959d85",
+      "content_sha256": "89cc89dc5caea84b350ddca13a9e1f2fffadb540a0472379ac8f6cdfcf5d2fe3",
+      "required_decision": "PASS_ALL_FIVE_PARENTS_REGISTERED_EVIDENCE_INTACT"
+    },
+    "recombination": {
+      "path": "runs/gravity/lead-programs/gravity-lead-recombination-v1.json",
+      "file_sha256": "74dd4de439cdfb23027b41530cc6a8658e9e635ead2c53016b797c39aada3d0f",
+      "content_sha256": "babfd6794faf53256d661c81b405ee194d6e9fddb7746cc674bf72920d6960f0",
+      "required_decision": "PASS_TARGET_BLIND_STRUCTURAL_PREFLIGHT_CHILDREN_NOT_EXECUTED",
+      "required_architecture_id": "BEN-additive-cross-scale-v1"
+    },
+    "galaxy_exposure_receipt": {
+      "path": "runs/gpu-baryonic-screen/per-object-decomposition-full-sparc-v1.json",
+      "file_sha256": "8d6057b220d0312ee36c2cdcdc7c2fadff97c253ee7a9a415e0e741ed308f584",
+      "content_sha256": "e37c6ab0c2548639a0540851a2355955e09d228e609aa327952ab8ae2605c497",
+      "required_exploration_rows": 2720,
+      "required_exploration_objects": 139
+    },
+    "xcop_config": {
+      "path": "configs/gravity_item59_xcop_forward_observable_gate_v1.json",
+      "file_sha256": "7d17fa71dce7bfb44ab517a47b1cbe0ed17826cc2ffe36f871296b4d8632878b"
+    },
+    "xcop_result": {
+      "path": "runs/gravity/roadmap/item-59-xcop-forward-observable-gate-v1.json",
+      "file_sha256": "2fd76f58bbd1754ea33b15fa0545a1397e8e12e441b6a25f11ddf8db735a5051",
+      "content_sha256": "b8d824c89779c741d4d8bccebe61fe0b378554219424d4637835ef0519696df7"
+    },
+    "xcop_source_receipt": {
+      "path": "runs/gravity/roadmap/item-59-xcop-forward-observable-gate-v1-source/source-receipt.json",
+      "file_sha256": "819360acdd40c58254cc43b18f9d6613b2c5f908122e134b7fa4b3f346b69aac",
+      "content_sha256": "da4b00265cbb3a5fe09192bed21564d8a752b6fa32bdf5b5fad84564d512c113"
+    }
+  },
+  "generation_contract": {
+    "allowed_top_level_fields": [
+      "schema_version",
+      "packet_id",
+      "architecture_binding_sha256",
+      "typed_dimensionless_variables",
+      "operator_schema",
+      "content_sha256"
+    ],
+    "typed_dimensionless_variables": [
+      {
+        "symbol": "x_source",
+        "semantic_type": "normalized_source_strength",
+        "dimension": "1",
+        "finite": true,
+        "strictly_positive": true
+      },
+      {
+        "symbol": "x_radial",
+        "semantic_type": "normalized_radial_coordinate",
+        "dimension": "1",
+        "finite": true,
+        "strictly_positive": true
+      },
+      {
+        "symbol": "x_state",
+        "semantic_type": "normalized_continuous_state",
+        "dimension": "1",
+        "finite": true,
+        "strictly_positive": false
+      },
+      {
+        "symbol": "x_geometry",
+        "semantic_type": "normalized_geometry_measure",
+        "dimension": "1",
+        "finite": true,
+        "strictly_positive": false
+      }
+    ],
+    "operator_schema": {
+      "arity": 4,
+      "allowed": ["add", "subtract", "multiply", "divide_safe", "sqrt_positive", "exp_negative", "log1p_positive"],
+      "all_intermediates_dimensionless": true
+    },
+    "forbidden_tokens": [
+      "object_id",
+      "object_name",
+      "survey",
+      "galaxy",
+      "group",
+      "cluster",
+      "class_label",
+      "outcome",
+      "observed",
+      "response",
+      "target",
+      "inferred_total_mass",
+      "target_coefficient",
+      "sealed_row",
+      "velocity",
+      "pressure",
+      "temperature",
+      "deflection"
+    ]
+  },
+  "adapters": {
+    "galaxy_rotation": {
+      "adapter_version": "1.0.0",
+      "real_data_mode": "exposure_receipt_metadata_only",
+      "raw_predictor_fields": ["rad_kpc", "vgas_km_s", "vdisk_km_s", "vbul_km_s"],
+      "raw_target_fields": ["vobs_km_s", "e_vobs_km_s"],
+      "target_passed_to_generation": false,
+      "real_formula_selection_allowed": false,
+      "contract_sha256": "629087daa61264866cbd7a9de17490920feaa230fa25c79df49fc8ecbb004ac1"
+    },
+    "xcop_thermodynamic": {
+      "adapter_version": "1.0.0",
+      "real_data_mode": "development_only_finite_schema_smoke",
+      "raw_predictor_fields": ["RW_X", "NE", "ERR_NE_LO", "ERR_NE_HI", "R500"],
+      "raw_target_fields": ["RW_SZ", "P_SZ", "eP_SZ", "RW_X", "T_X", "eT_X", "P500", "T500"],
+      "target_passed_to_generation": false,
+      "real_formula_selection_allowed": false,
+      "contract_sha256": "3662ab818e670a12caf747d9fd1143bc94da2bc94bd05422a3209f5c0ee499ab"
+    },
+    "group_bridge": {
+      "adapter_version": "1.0.0",
+      "real_data_mode": "schema_plus_injected_control_only",
+      "raw_predictor_fields": ["baryonic_acceleration_ratio", "radius_scale_ratio", "environment_ratio", "geometry_ratio"],
+      "raw_target_fields": ["dynamical_acceleration_ratio"],
+      "target_passed_to_generation": false,
+      "eligible_real_packet_exists": false,
+      "empirical_score_allowed": false,
+      "contract_sha256": "d20760c5a490a43ba098e14c32821276fe79d41b758954ccf24a73e91dfea3ab"
+    },
+    "lensing_metric": {
+      "adapter_version": "1.0.0",
+      "real_data_mode": "schema_plus_injected_metric_potential_control_only",
+      "raw_predictor_fields": ["potential_ratio_phi", "impact_parameter_ratio", "potential_ratio_psi", "geometry_ratio"],
+      "raw_target_fields": ["deflection_ratio"],
+      "target_passed_to_generation": false,
+      "photon_law_frozen": false,
+      "direct_lensing_authorized": false,
+      "empirical_score_allowed": false,
+      "contract_sha256": "cb7b13706064a0eb31c4559fd87c8d74d6a32729016df07c1df53a45c0b4e52d"
+    }
+  },
+  "control_formulas": {
+    "galaxy_rotation": {
+      "newtonian": "x_source",
+      "known_law": "x_source/(1-exp(-sqrt(x_source)))",
+      "wrong_law": "x_source*(1+0.75*x_radial)"
+    },
+    "xcop_thermodynamic": {
+      "newtonian": "x_source",
+      "known_law": "x_source+0.4*x_state/(1+x_radial)",
+      "wrong_law": "x_source-0.4*x_state/(1+x_radial)"
+    },
+    "group_bridge": {
+      "newtonian": "x_source",
+      "known_law": "sqrt(x_source*x_source+0.25*x_source)+0.1*x_state",
+      "wrong_law": "x_source/(1+x_state)"
+    },
+    "lensing_metric": {
+      "newtonian": "2*x_source",
+      "known_law": "x_source+x_state",
+      "wrong_law": "abs(x_source-x_state)"
+    }
+  },
+  "real_data_boundaries": {
+    "galaxy_rotation": "No row source is opened: the only safe current smoke is the committed exploration exposure receipt because consolidated raw packets also contain later-designated confirmation rows.",
+    "xcop_thermodynamic": "Only the eight already-exposed development objects are parsed. The four formerly sealed but historically used Item 59 holdout objects are forbidden from reuse here.",
+    "group_bridge": "No eligible real group packet exists; empirical rows and scores must remain absent.",
+    "lensing_metric": "No photon law and no direct-lensing authorization exist; empirical rows and scores must remain absent."
+  },
+  "claims": {
+    "ben_child_empirically_works": false,
+    "historical_novelty_established": false,
+    "publication_ready": false,
+    "gr_replaced": false,
+    "synthetic_recovery_is_scientific_evidence": false
+  },
+  "output_path": "runs/gravity/shared-target-blind-evaluator-v1.json"
+}
