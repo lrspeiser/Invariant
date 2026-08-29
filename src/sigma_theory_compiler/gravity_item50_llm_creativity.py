@@ -1966,3 +1966,279 @@ def write_evaluation_result(root: Path) -> Path:
     path = _source_path(root, config, "evaluation_result")
     _write_json(path, build_evaluation_result(root))
     return path
+
+
+def build_aggregate_result(root: Path) -> dict[str, Any]:
+    config = load_config(root)
+    preflight = _read_json(_source_path(root, config, "preflight_manifest"))
+    proposals = _read_json(_source_path(root, config, "proposal_receipt"))
+    critics = _read_json(_source_path(root, config, "critic_receipt"))
+    candidate = _read_json(_source_path(root, config, "candidate_manifest"))
+    evaluation = _read_json(_source_path(root, config, "evaluation_result"))
+    scores = evaluation["scores"]
+    llm = scores["llm_ensemble_search"]
+    item45 = scores["item45_universal_interaction"]
+    promotion = config["evaluation"]["promotion_gates"]
+    gates = {
+        "three_model_ensemble_completed": proposals["counts"]["models"] == 3,
+        "six_generation_calls_completed": proposals["counts"]["provider_calls"] == 6,
+        "three_independent_critic_calls_completed": critics["counts"]["critic_calls"] == 3,
+        "all_proposal_slots_retained": proposals["counts"]["proposals"] == 48,
+        "all_proposal_slots_independently_assessed": critics["counts"]["assessments"] == 48,
+        "critic_advice_pruned_no_proposals": critics["claims"][
+            "critic_advice_pruned_proposals"
+        ]
+        is False,
+        "response_blind_generation_compilation_and_equivalence": candidate[
+            "response_values_used_during_generation_compilation_or_equivalence"
+        ]
+        == 0,
+        "balanced_improvement_over_item45_at_least": float(
+            evaluation["improvement_over_item45_percent"]
+        )
+        >= 100.0 * float(promotion["balanced_improvement_over_item45_at_least"]),
+        "improves_both_populations_over_item45": all(
+            llm["populations"][population]["loss"]
+            < item45["populations"][population]["loss"]
+            for population in ("S4TM", "CLASH")
+        ),
+        "balanced_improvement_over_matched_random_at_least": float(
+            evaluation["improvement_over_matched_random_percent"]
+        )
+        >= 100.0
+        * float(promotion["balanced_improvement_over_matched_random_at_least"]),
+        "paired_p_at_most": float(evaluation["paired_sign_flip_p"])
+        <= float(promotion["paired_p_at_most"]),
+        "leave_one_and_trim_stable": bool(
+            float(
+                evaluation["robustness"][
+                    "leave_one_min_mean_control_minus_candidate_loss"
+                ]
+            )
+            > 0.0
+            and float(
+                evaluation["robustness"][
+                    "trimmed_mean_control_minus_candidate_loss"
+                ]
+            )
+            > 0.0
+        ),
+        "all_mass_scale_variants_positive": all(
+            value["llm_ensemble_search"]["balanced_loss"]
+            < value["item45_primary_control"]["balanced_loss"]
+            for value in evaluation["systematic_scores"].values()
+        ),
+        "post_evaluation_candidate_cells": int(
+            evaluation["counts"]["post_evaluation_candidate_cells"]
+        )
+        == 0,
+        "sealed_confirmation_rows": int(
+            evaluation["counts"]["sealed_confirmation_rows"]
+        )
+        == 0,
+        "fresh_confirmation_available": False,
+    }
+    operational_names = (
+        "three_model_ensemble_completed",
+        "six_generation_calls_completed",
+        "three_independent_critic_calls_completed",
+        "all_proposal_slots_retained",
+        "all_proposal_slots_independently_assessed",
+        "critic_advice_pruned_no_proposals",
+        "response_blind_generation_compilation_and_equivalence",
+        "post_evaluation_candidate_cells",
+        "sealed_confirmation_rows",
+    )
+    scientific_names = (
+        "balanced_improvement_over_item45_at_least",
+        "improves_both_populations_over_item45",
+        "balanced_improvement_over_matched_random_at_least",
+        "paired_p_at_most",
+        "leave_one_and_trim_stable",
+        "all_mass_scale_variants_positive",
+    )
+    operational_complete = all(gates[name] for name in operational_names)
+    scientific_lead = operational_complete and all(
+        gates[name] for name in scientific_names
+    )
+    decision = (
+        "RETROSPECTIVE_ITEM50_LLM_LEAD_REQUIRES_FRESH_TEST"
+        if scientific_lead
+        else (
+            "OPERATIONAL_ITEM50_COMPLETE_COMPARATIVE_VALUE_NOT_DEMONSTRATED"
+            if operational_complete
+            else "INCOMPLETE_ITEM50_LLM_PIPELINE_RETAINED"
+        )
+    )
+    return _content_hashed(
+        {
+            "schema_version": "invariant-gravity-item50-llm-creativity-result-1.0",
+            "item": 50,
+            "goal": "GRAVITY_ROADMAP_ITEM_50_LLM_CREATIVITY",
+            "decision": decision,
+            "selected_llm_program": evaluation["selected_llm_program"],
+            "selected_matched_random_program": evaluation[
+                "selected_matched_random_program"
+            ],
+            "scores": scores,
+            "strongest_control": evaluation["strongest_control"],
+            "aggregate_improvement_percent": evaluation[
+                "aggregate_improvement_percent"
+            ],
+            "improvement_over_item45_percent": evaluation[
+                "improvement_over_item45_percent"
+            ],
+            "improvement_over_matched_random_percent": evaluation[
+                "improvement_over_matched_random_percent"
+            ],
+            "paired_sign_flip_p": evaluation["paired_sign_flip_p"],
+            "gates": gates,
+            "diversity": evaluation["diversity"],
+            "counterexample_policy_assessment": evaluation[
+                "counterexample_policy_assessment"
+            ],
+            "provider": evaluation["provider"],
+            "counts": {
+                "provider_models": proposals["counts"]["models"],
+                "provider_proposal_slots": proposals["counts"]["proposals"],
+                "executable_llm_structures": evaluation["counts"][
+                    "executable_llm_structures"
+                ],
+                "matched_random_structures": evaluation["counts"][
+                    "matched_random_structures"
+                ],
+                "llm_outcome_scoring_classes": evaluation["counts"][
+                    "llm_outcome_scoring_classes"
+                ],
+                "matched_random_outcome_scoring_classes": evaluation["counts"][
+                    "matched_random_outcome_scoring_classes"
+                ],
+                "candidate_point_fold_evaluations": evaluation["compute"][
+                    "candidate_point_fold_evaluations"
+                ],
+                "successful_paid_model_calls": 9,
+                "provider_attempts": 11,
+                "s4tm_lenses": 28,
+                "clash_clusters": 20,
+                "clash_points": 84,
+                "sealed_confirmation_rows": 0,
+                "post_evaluation_candidate_cells": 0,
+            },
+            "source_bindings": {
+                "config": {"path": str(CONFIG_PATH), "sha256": _sha256_file(root / CONFIG_PATH)},
+                "preflight": {
+                    "path": str(_source_path(root, config, "preflight_manifest").relative_to(root)),
+                    "sha256": _sha256_file(_source_path(root, config, "preflight_manifest")),
+                },
+                "proposals": {
+                    "path": str(_source_path(root, config, "proposal_receipt").relative_to(root)),
+                    "sha256": _sha256_file(_source_path(root, config, "proposal_receipt")),
+                },
+                "critics": {
+                    "path": str(_source_path(root, config, "critic_receipt").relative_to(root)),
+                    "sha256": _sha256_file(_source_path(root, config, "critic_receipt")),
+                },
+                "candidate_manifest": {
+                    "path": str(_source_path(root, config, "candidate_manifest").relative_to(root)),
+                    "sha256": _sha256_file(_source_path(root, config, "candidate_manifest")),
+                },
+                "evaluation": {
+                    "path": str(_source_path(root, config, "evaluation_result").relative_to(root)),
+                    "sha256": _sha256_file(_source_path(root, config, "evaluation_result")),
+                },
+            },
+            "claims": {
+                "roadmap_item_50_complete": operational_complete,
+                "llm_pipeline_operational": operational_complete,
+                "llm_comparative_creativity_value_demonstrated": False,
+                "llm_predictive_value_over_matched_random_demonstrated": bool(
+                    evaluation["improvement_over_matched_random_percent"] > 0.0
+                ),
+                "llm_predictive_value_over_item45_demonstrated": bool(
+                    evaluation["improvement_over_item45_percent"] > 0.0
+                ),
+                "provider_or_critic_is_verifier": False,
+                "fresh_confirmation_completed": False,
+                "historical_novelty_established": False,
+                "alternative_to_gr_established": False,
+                "dark_matter_eliminated": False,
+                "formula_family_pruned": False,
+                "single_counterexample_used_as_veto": False,
+            },
+            "limitations": evaluation["limitations"],
+            "next_action": "Advance to Item 51 GPU screening. Preserve every Item 50 proposal and critique, but treat this ensemble/prompt as a failed comparative configuration unless a preregistered new campaign changes the mechanism rather than merely retrying stochastic outputs.",
+            "preflight": preflight,
+        }
+    )
+
+
+def write_aggregate_result(root: Path) -> Path:
+    config = load_config(root)
+    path = root / str(config["paths"]["aggregate_result"])
+    _write_json(path, build_aggregate_result(root))
+    return path
+
+
+def _content_hash_valid(value: Mapping[str, Any]) -> bool:
+    content = dict(value)
+    expected = content.pop("content_sha256", None)
+    return expected == _sha256_bytes(_canonical_bytes(content))
+
+
+def replay(root: Path) -> dict[str, Any]:
+    config = load_config(root)
+    proposals = _read_json(_source_path(root, config, "proposal_receipt"))
+    critics = _read_json(_source_path(root, config, "critic_receipt"))
+    checks = {
+        "provider_proposal_receipt_content_hash": _content_hash_valid(proposals),
+        "provider_critic_receipt_content_hash": _content_hash_valid(critics),
+        "candidate_manifest": _read_json(_source_path(root, config, "candidate_manifest"))
+        == build_candidate_manifest(root),
+        "evaluation_result": _read_json(_source_path(root, config, "evaluation_result"))
+        == build_evaluation_result(root),
+        "aggregate_result": _read_json(root / str(config["paths"]["aggregate_result"]))
+        == build_aggregate_result(root),
+    }
+    return {"ok": all(checks.values()), "checks": checks}
+
+
+def main(argv: Sequence[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "command",
+        choices=(
+            "preflight",
+            "propose",
+            "critique",
+            "compile",
+            "evaluate",
+            "aggregate",
+            "replay",
+        ),
+    )
+    parser.add_argument("--root", type=Path, default=Path.cwd())
+    args = parser.parse_args(argv)
+    root = args.root.resolve()
+    if args.command == "preflight":
+        result: Any = str(write_preflight_manifest(root, live=True))
+    elif args.command == "propose":
+        result = run_provider_proposals(root)
+    elif args.command == "critique":
+        result = run_provider_critiques(root)
+    elif args.command == "compile":
+        result = str(write_candidate_manifest(root))
+    elif args.command == "evaluate":
+        result = str(write_evaluation_result(root))
+    elif args.command == "aggregate":
+        result = str(write_aggregate_result(root))
+    else:
+        result = replay(root)
+        if not result["ok"]:
+            print(json.dumps(result, sort_keys=True))
+            return 1
+    print(json.dumps(result, sort_keys=True))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

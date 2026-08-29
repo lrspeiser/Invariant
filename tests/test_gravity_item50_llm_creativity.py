@@ -21,7 +21,9 @@ from sigma_theory_compiler.gravity_item50_llm_creativity import (
     _normalize_critic_output,
     _proposal_schema,
     _unique_structures,
+    build_aggregate_result,
     build_candidate_manifest,
+    build_evaluation_result,
     build_preflight_manifest,
     load_config,
 )
@@ -219,3 +221,33 @@ def test_recorded_provider_and_response_blind_candidate_receipts() -> None:
     assert candidate["lane_audits"]["matched_seeded_random"][
         "outcome_scoring_classes"
     ] == 16_128
+
+
+def test_recorded_item50_outcome_and_decision_are_exactly_replayable() -> None:
+    config = load_config(ROOT)
+    source = ROOT / config["paths"]["source_dir"]
+    evaluation = json.loads(
+        (source / config["paths"]["evaluation_result"]).read_text(encoding="utf-8")
+    )
+    aggregate = json.loads(
+        (ROOT / config["paths"]["aggregate_result"]).read_text(encoding="utf-8")
+    )
+    assert evaluation == build_evaluation_result(ROOT)
+    assert aggregate == build_aggregate_result(ROOT)
+    assert evaluation["selected_llm_program"]["ordinal"] == 3_819_576_868_615
+    assert {
+        row["selected_llm_program"]["ordinal"]
+        for row in evaluation["fold_ledger"]
+    } == {3_819_576_868_615}
+    assert evaluation["scores"]["llm_ensemble_search"]["balanced_loss"] > evaluation[
+        "scores"
+    ]["matched_seeded_random_search"]["balanced_loss"]
+    assert evaluation["scores"]["llm_ensemble_search"]["balanced_loss"] > evaluation[
+        "scores"
+    ]["item45_universal_interaction"]["balanced_loss"]
+    assert aggregate["decision"] == (
+        "OPERATIONAL_ITEM50_COMPLETE_COMPARATIVE_VALUE_NOT_DEMONSTRATED"
+    )
+    assert aggregate["claims"]["roadmap_item_50_complete"] is True
+    assert aggregate["claims"]["formula_family_pruned"] is False
+    assert aggregate["claims"]["single_counterexample_used_as_veto"] is False
