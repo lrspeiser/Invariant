@@ -383,6 +383,7 @@ def _load_evidence(root: Path, bindings: Sequence[Mapping[str, Any]]) -> dict[st
         "uncertainty_program",
         "nuisance_sampler_diagnostic",
         "nuisance_identifiability_audit",
+        "nuisance_quotient_audit",
         "numerical_controls",
         "independent_replication_protocol",
         "prior_art_positioning",
@@ -430,6 +431,7 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
     uncertainty = evidence["uncertainty_program"]
     nuisance_diagnostic = evidence["nuisance_sampler_diagnostic"]
     nuisance_identifiability = evidence["nuisance_identifiability_audit"]
+    nuisance_quotient = evidence["nuisance_quotient_audit"]
     numerical = evidence["numerical_controls"]
     replication_protocol = evidence["independent_replication_protocol"]
     prior_art = evidence["prior_art_positioning"]
@@ -519,6 +521,26 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
         or nuisance_identifiability["counts"]["paid_model_calls"] != 0
     ):
         raise ResearchPublicationReadinessError("nuisance identifiability audit changed")
+    if (
+        nuisance_quotient["completed_goal_evidence"] != {}
+        or set(nuisance_quotient["blocked_goal_evidence"])
+        != {"CP5.7", "CP5.8", "CP5.9", "CP5.10"}
+        or nuisance_quotient["claims"]["maximum_observable_nuisance_dimension"] != 10
+        or nuisance_quotient["claims"]["exact_null_dimensions"] != 7
+        or nuisance_quotient["claims"]["rank_ten_at_all_frozen_interior_anchors"]
+        is not True
+        or nuisance_quotient["claims"]["forward_symmetry_checks_passed"] is not True
+        or nuisance_quotient["claims"]["primitive_labels_separately_identified"]
+        is not False
+        or nuisance_quotient["claims"]["composite_posterior_converged"] is not False
+        or nuisance_quotient["claims"]["CP5_7_through_CP5_10_complete"] is not False
+        or nuisance_quotient["claims"]["newtonian_control_run"] is not False
+        or nuisance_quotient["counts"]["rank_anchors"] != 16
+        or nuisance_quotient["counts"]["frozen_invariance_cases"] != 88
+        or nuisance_quotient["counts"]["target_rows_opened"] != 0
+        or nuisance_quotient["counts"]["paid_model_calls"] != 0
+    ):
+        raise ResearchPublicationReadinessError("nuisance quotient audit changed")
     if (
         numerical["claims"]["all_CP6_tasks_complete"] is not True
         or numerical["claims"]["development_numerical_control_gate_passed"] is not True
@@ -697,6 +719,9 @@ def build_receipt(root: Path) -> dict[str, Any]:
             "finite_cross_scale_failure_pruned_broader_family": False,
             "nuisance_more_sampling_alone_supported": False,
             "nuisance_identifiability_redesign_required": True,
+            "nuisance_exact_composite_coordinates": 10,
+            "nuisance_primitive_null_dimensions": 7,
+            "nuisance_quotient_sampler_required": True,
         },
         "readiness": {
             "independent_cluster_data": predata,

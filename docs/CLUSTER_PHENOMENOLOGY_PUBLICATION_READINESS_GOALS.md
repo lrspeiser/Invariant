@@ -72,7 +72,7 @@ paper, but they become mandatory if the claim is escalated.
 | CP2 | Prior art and expert positioning | No | Yes | PARTIAL |
 | CP3 | Direct-observable data contract | Yes | Yes | PARTIAL; X-COP is bound but the independent packet is absent |
 | CP4 | Matched-flexibility comparators | Yes | Yes | PASS on development data; frozen for replication |
-| CP5 | Covariance, nuisances, and alternative causes | Yes | Yes | PARTIAL; stress tests complete, affine and tempered-SMC samplers improved but did not converge, source covariance and identifiability redesign open |
+| CP5 | Covariance, nuisances, and alternative causes | Yes | Yes | PARTIAL; exact 10-coordinate nuisance quotient identified, composite posterior and source covariance still open |
 | CP6 | Numerical, synthetic, and leakage controls | Yes | Yes | PASS on development controls; outer-radius and power warnings retained |
 | CP7 | Independent source and split freeze | Yes | Yes | PARTIAL; protocol frozen, no lane selected or payload committed |
 | CP8 | Unchanged independent thermodynamic replication | No | Yes | NOT STARTED |
@@ -261,6 +261,32 @@ measurements where possible, and freeze sensitivity, rank, simulation-based
 calibration, and Newtonian-control tests before another posterior run. CP5.7 through
 CP5.10 remain open, and the Newtonian control remains locked until the candidate passes
 the unchanged sampler gates.
+
+The prescribed identifiability redesign has now resolved the structural part of that
+failure. Although the program exposes 17 primitive nuisance labels, the forward
+observables depend on at most 10 exact combinations. Five directions disappear because
+the six stellar factors enter only through one clipped product; one disappears because
+centering and triaxiality enter through one radius scale. A seventh exact scale orbit
+couples geometry, density projection, effective stellar mass, and temperature
+calibration while leaving the three combinations `p*h`, `s/h^2`, and `c/p` unchanged.
+Across 16 frozen interior anchors, the development-training prediction Jacobian had rank
+10 every time: the weakest retained singular direction was at least `0.00503` of the
+leading direction, while the first null direction was at most `5.99e-11`. Eighty-eight
+separately frozen stellar-product, geometry-decomposition, and coupled-orbit mutations
+preserved all tested predictions to better than `1e-10` in absolute log difference.
+
+The induced prior is not replaced with ten independent priors. It remains the exact
+joint pushforward of the unchanged 17 primitive priors, including the low-clip,
+continuous, and high-clip mixture of the stellar product. Primitive orbit labels may no
+longer be reported as if the data measured them separately. Re-expressing the existing
+131,072 posterior draws in the ten composites improved replicate agreement, but did not
+pass: all ten trajectory R-hats exceeded `1.2` (worst `1.417`) and nonthermal radial
+power retained a standardized replicate-median spread of `0.283` versus `0.25`. The
+bound receipt is
+`runs/gravity/publication-readiness/nuisance-quotient-audit-v1.json`. The next valid
+step is a quotient-aware sampler with simulation-based calibration, followed by the
+same frozen program on the Newtonian control. This is material CP5 progress but does not
+complete CP5.7 through CP5.10 or authorize any target access.
 
 ## CP6 — numerical, synthetic, and leakage controls
 

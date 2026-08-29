@@ -1,0 +1,129 @@
+{
+  "schema_version": "invariant-gravity-cluster-nuisance-quotient-audit-1.0",
+  "status": "frozen_development_only_no_target_access",
+  "audit_id": "gravity-cluster-nuisance-quotient-audit-v1",
+  "purpose": "Identify the exact nuisance combinations visible to the cluster forward observables, verify the resulting null directions, and prevent future posterior campaigns from demanding convergence of structurally non-identifiable primitive labels.",
+  "source_bindings": [
+    {
+      "source_id": "uncertainty_config",
+      "path": "configs/gravity_cluster_uncertainty_program_v1.json",
+      "file_sha256": "f5172a92a78ded788f78a9b5eda9292276aaddc3e155bcd8f0175bd875191d47",
+      "content_sha256": null
+    },
+    {
+      "source_id": "predecessor_identifiability_audit",
+      "path": "runs/gravity/publication-readiness/nuisance-identifiability-audit-v1.json",
+      "file_sha256": "d401d95deda4f2d9991b52cc42bd2d89c4a72985b095cc7985c9c56db6c28a40",
+      "content_sha256": "2917ffbf3590f40fe3c6508428d20c1ddcdaf3223209cf6dfbc52c55e14f2f09"
+    }
+  ],
+  "sample_seal": {
+    "likelihood_split": "development_train",
+    "development_holdout_used_for_selection": false,
+    "same_release_confirmation_rows_used": false,
+    "independent_source_rows_used": false,
+    "target_rows_opened": 0,
+    "paid_model_calls": 0
+  },
+  "primitive_parameters": 17,
+  "exact_composite_coordinates": [
+    {"coordinate": "outer_nonthermal_fraction", "definition": "outer_nonthermal_fraction"},
+    {"coordinate": "nonthermal_radial_power", "definition": "nonthermal_radial_power"},
+    {"coordinate": "outer_pressure_boundary_sigma", "definition": "outer_pressure_boundary_sigma"},
+    {"coordinate": "density_error_sigma", "definition": "density_error_sigma"},
+    {"coordinate": "missing_stellar_to_gas_mass_ratio", "definition": "missing_stellar_to_gas_mass_ratio"},
+    {"coordinate": "clumping_amplitude", "definition": "clumping_amplitude"},
+    {"coordinate": "spherical_acceleration_scale", "definition": "spherical_acceleration_scale"},
+    {"coordinate": "projected_gas_geometry_scale", "definition": "projection_density_scale*(1+centering_radius_shift)*triaxial_radius_scale"},
+    {"coordinate": "published_stellar_acceleration_scale", "definition": "clip(bcg_mass_scale*satellite_mass_scale*(1+missing_member_fraction)*(1+intracluster_light_fraction)*imf_mass_scale*mass_to_light_scale,0.4,2.5)/((1+centering_radius_shift)*triaxial_radius_scale)^2"},
+    {"coordinate": "temperature_density_calibration_scale", "definition": "xray_temperature_cross_calibration/projection_density_scale"}
+  ],
+  "exact_null_structure": {
+    "stellar_product_null_dimensions": 5,
+    "centering_triaxial_decomposition_null_dimensions": 1,
+    "coupled_scale_orbit_null_dimensions": 1,
+    "total_null_dimensions": 7,
+    "coupled_scale_orbit": {
+      "geometry_scale": "h -> lambda*h",
+      "projection_density_scale": "p -> p/lambda",
+      "published_stellar_mass_scale": "s -> lambda^2*s",
+      "xray_temperature_cross_calibration": "c -> c/lambda",
+      "invariants": ["p*h", "s/h^2", "c/p"]
+    }
+  },
+  "induced_prior_rule": {
+    "primitive_priors_changed": false,
+    "rule": "Sample the unchanged 17 independent primitive priors and apply the exact deterministic pushforward to the 10 composites; never substitute independent composite marginals.",
+    "stellar_clip_mixture_retained": true,
+    "primitive_orbit_labels_reportable_as_separately_identified": false
+  },
+  "rank_protocol": {
+    "anchors": 16,
+    "anchor_design": "scrambled_sobol_seed_596001_mapped_to_unit_hypercube_0.2_to_0.8",
+    "training_rows_per_anchor": 80,
+    "central_difference_step_in_unit_coordinates": 1e-05,
+    "required_rank_at_every_anchor": 10,
+    "maximum_first_null_relative_singular_value": 1e-08,
+    "minimum_tenth_relative_singular_value": 0.001
+  },
+  "forward_invariance_protocol": {
+    "maximum_absolute_log_prediction_difference": 1e-10,
+    "coupled_scale_orbit_cases": 32,
+    "stellar_product_redistribution_cases": 40,
+    "centering_triaxial_decomposition_cases": 16,
+    "development_training_predictions_only": true
+  },
+  "unchanged_posterior_thresholds": {
+    "maximum_rhat": 1.2,
+    "minimum_effective_samples": 50,
+    "maximum_standardized_between_replicate_median_spread": 0.25,
+    "maximum_standardized_smc_to_rejuvenated_median_shift": 0.25,
+    "all_10_composite_coordinates_must_pass": true
+  },
+  "observed_results": {
+    "rank": {
+      "ranks": [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10],
+      "minimum_tenth_relative_singular_value": 0.005033712954226574,
+      "maximum_first_null_relative_singular_value": 5.9834238992941e-11,
+      "forward_evaluations": 544
+    },
+    "coupled_scale_orbit": {
+      "cases": 32,
+      "maximum_absolute_log_prediction_difference": 3.774758283725532e-15,
+      "forward_evaluations": 33
+    },
+    "composite_posterior": {
+      "source_smc_sha256": "d39d786b6936be72dcacc185d0393e84e3e05bff965601c2a7493e8a9f074396",
+      "source_rejuvenation_sha256": "19758b00d4b26b0b23bec3ade1a4b537ca4c62e033e83f1fbfc91c4adcd0456e",
+      "posterior_draws": 131072,
+      "maximum_rhat": 1.4172635605159771,
+      "minimum_effective_samples": 10550.806290405695,
+      "maximum_standardized_between_replicate_median_spread": 0.28263801399849464,
+      "maximum_standardized_smc_to_rejuvenated_median_shift": 0.19122992969151875,
+      "coordinates_above_rhat_threshold": 10,
+      "coordinates_above_median_spread_threshold": ["nonthermal_radial_power"],
+      "converged": false
+    }
+  },
+  "adjudication": {
+    "decision": "EXACT_TEN_DIMENSIONAL_NUISANCE_QUOTIENT_IDENTIFIED_COMPOSITE_POSTERIOR_NOT_CONVERGED",
+    "exact_observable_quotient_identified": true,
+    "primitive_dimension_convergence_is_valid_completion_gate": false,
+    "composite_posterior_converged": false,
+    "CP5_7_through_CP5_10_complete": false,
+    "newtonian_control_run": false,
+    "quotient_aware_sampler_required": true,
+    "simulation_based_calibration_required": true,
+    "source_covariance_required": true,
+    "do_not_weaken_thresholds": true,
+    "do_not_open_confirmation_or_independent_rows": true
+  },
+  "required_next_actions": [
+    "implement a quotient-aware candidate sampler that diagnoses only the 10 exact composites while preserving the joint pushforward of all primitive priors",
+    "freeze and run simulation-based calibration for the 10 composite coordinates",
+    "run the same quotient-aware sampler and calibration on the Newtonian nuisance-only control",
+    "retain primitive orbit coordinates only as marginalized prior labels and never claim they were separately measured",
+    "retain CP5.7-CP5.10 as open until candidate and control pass every unchanged composite gate and source covariance is available"
+  ],
+  "output_path": "runs/gravity/publication-readiness/nuisance-quotient-audit-v1.json"
+}
