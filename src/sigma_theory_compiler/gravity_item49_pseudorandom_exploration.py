@@ -1290,3 +1290,278 @@ def write_evaluation_result(root: Path) -> Path:
     path = _source_path(root, config, "evaluation_result")
     _write_json(path, build_evaluation_result(root))
     return path
+
+
+def build_aggregate_result(root: Path) -> dict[str, Any]:
+    config = load_config(root)
+    candidate = _read_json(_source_path(root, config, "candidate_manifest"))
+    primitive = _read_json(_source_path(root, config, "primitive_receipt"))
+    exposure = _read_json(_source_path(root, config, "exposure_manifest"))
+    evaluation = _read_json(_source_path(root, config, "evaluation_result"))
+    scores = evaluation["scores"]
+    random_score = scores["pseudorandom_program_search"]
+    item45 = scores["item45_universal_interaction"]
+    promotion = config["evaluation"]["promotion_gates"]
+    fold_operators = [
+        row["selected_pseudorandom_program"]["binary_operator"]
+        for row in evaluation["fold_ledger"]
+    ]
+    operator_stability = max(
+        fold_operators.count(operator) for operator in set(fold_operators)
+    )
+    gates = {
+        "balanced_improvement_over_item45_at_least": float(
+            evaluation["improvement_over_item45_percent"]
+        )
+        >= 100.0 * float(promotion["balanced_improvement_over_item45_at_least"]),
+        "improves_both_populations_over_item45": all(
+            random_score["populations"][population]["loss"]
+            < item45["populations"][population]["loss"]
+            for population in ("S4TM", "CLASH")
+        ),
+        "paired_p_at_most": float(evaluation["paired_sign_flip_p"])
+        <= float(promotion["paired_p_at_most"]),
+        "same_top_level_operator_in_at_least_folds": operator_stability
+        >= int(promotion["same_top_level_operator_in_at_least_folds"]),
+        "leave_one_and_trim_stable": bool(
+            float(
+                evaluation["robustness"][
+                    "leave_one_min_mean_control_minus_candidate_loss"
+                ]
+            )
+            > 0.0
+            and float(
+                evaluation["robustness"][
+                    "trimmed_mean_control_minus_candidate_loss"
+                ]
+            )
+            > 0.0
+        ),
+        "all_mass_scale_variants_positive": all(
+            value["pseudorandom_program_search"]["balanced_loss"]
+            < value["item45_primary_control"]["balanced_loss"]
+            for value in evaluation["systematic_scores"].values()
+        ),
+        "equal_raw_schedule_budget": all(
+            audit["raw_schedule_positions"] == 1_048_576
+            for audit in candidate["lane_audits"].values()
+        ),
+        "response_blind_generation_and_equivalence": bool(
+            candidate["response_values_used_during_program_generation"] == 0
+            and primitive["response_values_used"] == 0
+        ),
+        "post_evaluation_candidate_cells": int(
+            evaluation["counts"]["post_evaluation_candidate_cells"]
+        )
+        == 0,
+        "sealed_confirmation_rows": int(
+            evaluation["counts"]["sealed_confirmation_rows"]
+        )
+        == 0,
+        "fresh_confirmation_available": False,
+    }
+    empirical_gate_names = (
+        "balanced_improvement_over_item45_at_least",
+        "improves_both_populations_over_item45",
+        "paired_p_at_most",
+        "same_top_level_operator_in_at_least_folds",
+        "leave_one_and_trim_stable",
+        "all_mass_scale_variants_positive",
+        "equal_raw_schedule_budget",
+        "response_blind_generation_and_equivalence",
+        "post_evaluation_candidate_cells",
+        "sealed_confirmation_rows",
+    )
+    empirical_lead = all(gates[name] for name in empirical_gate_names)
+    decision = (
+        "RETROSPECTIVE_ITEM49_PSEUDORANDOM_LEAD_REQUIRES_FRESH_TEST"
+        if empirical_lead
+        else "NONPROMOTED_ITEM49_PSEUDORANDOM_RESULT_RETAINED"
+    )
+    return _content_hashed(
+        {
+            "schema_version": "invariant-gravity-item49-pseudorandom-result-1.0",
+            "item": 49,
+            "goal": "GRAVITY_ROADMAP_ITEM_49_PSEUDORANDOM_EXPLORATION",
+            "decision": decision,
+            "selected_pseudorandom_program": evaluation[
+                "selected_pseudorandom_program"
+            ],
+            "selected_sequential_program": evaluation[
+                "selected_sequential_program"
+            ],
+            "scores": scores,
+            "strongest_control": evaluation["strongest_control"],
+            "aggregate_improvement_percent": evaluation[
+                "aggregate_improvement_percent"
+            ],
+            "improvement_over_item45_percent": evaluation[
+                "improvement_over_item45_percent"
+            ],
+            "improvement_over_equal_budget_sequential_percent": evaluation[
+                "improvement_over_equal_budget_sequential_percent"
+            ],
+            "paired_sign_flip_p": evaluation["paired_sign_flip_p"],
+            "gates": gates,
+            "top_level_operator_fold_stability": {
+                "operators": fold_operators,
+                "maximum_same_operator_folds": operator_stability,
+            },
+            "counterexample_policy_assessment": evaluation[
+                "counterexample_policy_assessment"
+            ],
+            "counts": {
+                "full_addressable_ordinal_space": candidate["full_ordinal_space"],
+                "raw_schedule_positions": candidate[
+                    "total_raw_schedule_positions"
+                ],
+                "physically_admitted_programs": evaluation["counts"][
+                    "physically_admitted_programs"
+                ],
+                "symbolic_classes": sum(
+                    audit["symbolic_equivalence_classes"]
+                    for audit in candidate["lane_audits"].values()
+                ),
+                "outcome_scored_behavior_classes": evaluation["counts"][
+                    "outcome_scored_behavior_classes"
+                ],
+                "program_point_fold_evaluations": evaluation["compute"][
+                    "program_point_fold_evaluations"
+                ],
+                "s4tm_lenses": 28,
+                "clash_clusters": 20,
+                "clash_points": 84,
+                "sealed_confirmation_rows": 0,
+                "post_evaluation_candidate_cells": 0,
+                "paid_model_calls": 0,
+            },
+            "source_bindings": {
+                "config": {
+                    "path": str(CONFIG_PATH),
+                    "sha256": _sha256_file(root / CONFIG_PATH),
+                },
+                "candidate_manifest": {
+                    "path": str(
+                        _source_path(root, config, "candidate_manifest").relative_to(
+                            root
+                        )
+                    ),
+                    "sha256": _sha256_file(
+                        _source_path(root, config, "candidate_manifest")
+                    ),
+                },
+                "primitive_receipt": {
+                    "path": str(
+                        _source_path(root, config, "primitive_receipt").relative_to(
+                            root
+                        )
+                    ),
+                    "sha256": _sha256_file(
+                        _source_path(root, config, "primitive_receipt")
+                    ),
+                },
+                "exposure_manifest": {
+                    "path": str(
+                        _source_path(root, config, "exposure_manifest").relative_to(
+                            root
+                        )
+                    ),
+                    "sha256": _sha256_file(
+                        _source_path(root, config, "exposure_manifest")
+                    ),
+                },
+                "evaluation": {
+                    "path": str(
+                        _source_path(root, config, "evaluation_result").relative_to(
+                            root
+                        )
+                    ),
+                    "sha256": _sha256_file(
+                        _source_path(root, config, "evaluation_result")
+                    ),
+                },
+            },
+            "claims": {
+                "roadmap_item_49_complete": True,
+                "pseudorandom_search_beats_equal_budget_sequential_control": bool(
+                    evaluation["improvement_over_equal_budget_sequential_percent"]
+                    > 0.0
+                ),
+                "pseudorandom_search_beats_item45": bool(
+                    evaluation["improvement_over_item45_percent"] > 0.0
+                ),
+                "fresh_confirmation_completed": False,
+                "full_grammar_exhausted": False,
+                "trillion_formula_campaign_executed": False,
+                "alternative_to_gr_established": False,
+                "dark_matter_eliminated": False,
+                "historical_novelty_established": False,
+                "formula_family_pruned": False,
+                "single_counterexample_used_as_veto": False,
+            },
+            "limitations": evaluation["limitations"],
+            "next_action": "Advance to Item 50 LLM creativity with frozen known/rewrite/combination/new-synthesis labels, preserve the stable cross-mechanism weighted-difference clue as one niche, and require independent verification before promotion.",
+            "exposure": exposure,
+        }
+    )
+
+
+def write_aggregate_result(root: Path) -> Path:
+    config = load_config(root)
+    path = root / str(config["paths"]["aggregate_result"])
+    _write_json(path, build_aggregate_result(root))
+    return path
+
+
+def replay(root: Path) -> dict[str, Any]:
+    config = load_config(root)
+    checks = {
+        "candidate_manifest": _read_json(
+            _source_path(root, config, "candidate_manifest")
+        )
+        == build_candidate_manifest(root),
+        "primitive_receipt": _read_json(
+            _source_path(root, config, "primitive_receipt")
+        )
+        == build_primitive_receipt(root),
+        "exposure_manifest": _read_json(
+            _source_path(root, config, "exposure_manifest")
+        )
+        == build_exposure_manifest(root),
+        "evaluation_result": _read_json(
+            _source_path(root, config, "evaluation_result")
+        )
+        == build_evaluation_result(root),
+        "aggregate_result": _read_json(
+            root / str(config["paths"]["aggregate_result"])
+        )
+        == build_aggregate_result(root),
+    }
+    return {"ok": all(checks.values()), "checks": checks}
+
+
+def main(argv: Sequence[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "command", choices=("write-freeze", "evaluate", "aggregate", "replay")
+    )
+    parser.add_argument("--root", type=Path, default=Path.cwd())
+    args = parser.parse_args(argv)
+    root = args.root.resolve()
+    if args.command == "write-freeze":
+        result: Any = [str(path) for path in write_freeze_manifests(root)]
+    elif args.command == "evaluate":
+        result = str(write_evaluation_result(root))
+    elif args.command == "aggregate":
+        result = str(write_aggregate_result(root))
+    else:
+        result = replay(root)
+        if not result["ok"]:
+            print(json.dumps(result, sort_keys=True))
+            return 1
+    print(json.dumps(result, sort_keys=True))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

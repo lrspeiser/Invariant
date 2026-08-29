@@ -8,7 +8,9 @@ import numpy as np
 from sigma_theory_compiler.gravity_item49_pseudorandom_exploration import (
     _best_behavior,
     _lane_ordinals,
+    build_aggregate_result,
     build_candidate_manifest,
+    build_evaluation_result,
     build_exposure_manifest,
     build_primitive_receipt,
     decode_ordinals,
@@ -97,3 +99,32 @@ def test_recorded_freeze_receipts_replay_exactly() -> None:
     assert json.loads(
         (source / config["paths"]["exposure_manifest"]).read_text(encoding="utf-8")
     ) == build_exposure_manifest(ROOT)
+
+
+def test_recorded_item49_result_is_reproducible_and_not_promoted() -> None:
+    config = load_config(ROOT)
+    source = ROOT / config["paths"]["source_dir"]
+    evaluation = json.loads(
+        (source / config["paths"]["evaluation_result"]).read_text(encoding="utf-8")
+    )
+    aggregate = json.loads(
+        (ROOT / config["paths"]["aggregate_result"]).read_text(encoding="utf-8")
+    )
+    assert evaluation == build_evaluation_result(ROOT)
+    assert aggregate == build_aggregate_result(ROOT)
+    assert evaluation["counts"]["raw_schedule_positions"] == 2_097_152
+    assert evaluation["counts"]["outcome_scored_behavior_classes"] == 127_553
+    assert evaluation["compute"]["program_point_fold_evaluations"] == 71_429_680
+    assert {
+        row["selected_pseudorandom_program"]["ordinal"]
+        for row in evaluation["fold_ledger"]
+    } == {1_575_724_121_867}
+    assert evaluation["scores"]["pseudorandom_program_search"][
+        "balanced_loss"
+    ] < evaluation["scores"]["sequential_ordinal_control"]["balanced_loss"]
+    assert evaluation["scores"]["pseudorandom_program_search"][
+        "balanced_loss"
+    ] > evaluation["scores"]["item45_universal_interaction"]["balanced_loss"]
+    assert aggregate["decision"] == "NONPROMOTED_ITEM49_PSEUDORANDOM_RESULT_RETAINED"
+    assert aggregate["claims"]["formula_family_pruned"] is False
+    assert aggregate["claims"]["historical_novelty_established"] is False
