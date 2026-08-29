@@ -1,0 +1,114 @@
+{
+  "schema_version": "invariant-gravity-items62-70-formal-gates-config-1.0",
+  "items": [62, 63, 64, 65, 66, 67, 68, 69, 70],
+  "status": "scientific_freeze_before_formal_and_external_domain_audit",
+  "scientific_freeze_commit": "PENDING_FREEZE_COMMIT",
+  "stable_goal_sha256": "b9db7e1aa76deaf28ce2e840cd3d7db4cf7a086b1c7ca473800780c264a0e772",
+  "scientific_dependencies": {
+    "docs/GRAVITY_COUNTEREXAMPLE_AND_DATA_QUALITY_POLICY_V2.md": "76a032dbabb5e2e48a93dc4faa7d559c060735f66941bdaa4e40e21f4347cd4e",
+    "configs/gravity_empirical_counterexample_policy_v1.json": "aaca25628047af2bf781ab5f2ad1da5f9194fe8d7dd0f416179bc1c6783ddd6d",
+    "runs/gravity/roadmap/item-59-xcop-forward-observable-gate-v1.json": "2fd76f58bbd1754ea33b15fa0545a1397e8e12e441b6a25f11ddf8db735a5051",
+    "runs/gravity/roadmap/item-60-direct-clash-lensing-gate-v1.json": "12ebf32f59ef955d8a0a185044bf9545e8ba944b6ab53ef30225eafddbd57323",
+    "runs/gravity/roadmap/item-61-cross-scale-gate-v1.json": "bd8ce28f5f6ca5f39e1cb98ad753850155bfc32b92f18c5afbaaf213e1474fe8"
+  },
+  "target": {
+    "source_item": 59,
+    "family_id": "cross_scale_boundary",
+    "variant_id": "cross_scale_boundary:5e945be899287b75",
+    "parameters": {"beta": 1.5},
+    "transition_acceleration_m_s2": 1.2e-10,
+    "kernel_log_radius_scale": 0.25,
+    "representation_type": "static_spherical_phenomenological_acceleration_functional",
+    "declared_domain": "claimed universal baryonic gravity candidate",
+    "available_primitives": ["radial_acceleration", "radial_nonlocal_kernel"],
+    "unavailable_primitives": [
+      "action",
+      "covariant_field_equations",
+      "metric_or_lapse",
+      "massive_mode",
+      "time_evolution",
+      "photon_coupling",
+      "gravitational_slip",
+      "hamiltonian",
+      "principal_symbol",
+      "strong_field_completion",
+      "cosmological_background_equations",
+      "perturbation_growth_equations"
+    ],
+    "post_item59_refit_allowed": false
+  },
+  "gates": {
+    "62": {
+      "name": "time_variation",
+      "test": "audit explicit time, epoch, clock, or evolving coupling dependence and required clock/orbital/stellar/cosmological predictions",
+      "expected_if_absent": "NOT_APPLICABLE_CURRENT_REPRESENTATION_STATIC_TIME_DEPENDENT_FAMILIES_UNTESTED"
+    },
+    "63": {
+      "name": "massive_mode",
+      "test": "audit carrier mass, range, dispersion, polarization, and massive-mode coupling",
+      "expected_if_absent": "NOT_APPLICABLE_CURRENT_REPRESENTATION_HAS_NO_MASSIVE_MODE"
+    },
+    "64": {
+      "name": "distance_running",
+      "test": "audit the preregistered Item 59 distance-running scaffold for a universal physical length and its frozen real-cluster development score",
+      "item59_variant_id": "distance_running_gravity:752d0af752ba4ae5",
+      "parameters": {"amplitude": 4.0, "power": 0.5},
+      "training_score": 216.72175213602856,
+      "empirical_rar_training_score": 99.2101068241941,
+      "uses_object_specific_r500": true
+    },
+    "65": {
+      "name": "lensing_slip",
+      "test": "require dynamical and lensing potentials and derive their slip from the same fields"
+    },
+    "66": {
+      "name": "conservation",
+      "test": "require matter coupling, stress-energy identity, constraints, and gauge identities"
+    },
+    "67": {
+      "name": "stability",
+      "test": "require degrees of freedom, quadratic action or Hamiltonian, and perturbation spectrum"
+    },
+    "68": {
+      "name": "causality",
+      "test": "require evolution equations, principal symbol, characteristic cones, and initial-value formulation"
+    },
+    "69": {
+      "name": "strong_field",
+      "test": "apply the exact claimed-universal high-acceleration limit at Solar-System radii before allowing an unprovided screening rescue",
+      "solar_radii_au": [0.387098, 1.0, 5.2044, 30.11],
+      "maximum_allowed_fractional_acceleration_change_for_coarse_gate": 0.01,
+      "constants": {
+        "gravity_si": 6.6743e-11,
+        "solar_mass_kg": 1.98847e30,
+        "astronomical_unit_m": 149597870700.0
+      },
+      "screening_rule_available": false
+    },
+    "70": {
+      "name": "cosmology",
+      "test": "require background expansion plus BBN, CMB, BAO, growth, and lensing predictions without an implicit dark component"
+    }
+  },
+  "counterexample_policy": {
+    "single_empirical_counterexample_terminal": false,
+    "counterexample_count_alone_terminal": false,
+    "finite_empirical_sample_may_prune_family": false,
+    "verified_hard_theoretical_witness_may_veto_exact_representation_in_declared_domain": true,
+    "hard_witness_may_prune_broader_family_without_family_scope_proof": false,
+    "missing_theory_structure_is_empirical_counterexample": false
+  },
+  "claim_policy": {
+    "not_applicable_counts_as_physical_validation": false,
+    "blocked_formal_gate_counts_as_rejection": false,
+    "item69_exact_representation_veto_rejects_item59_cluster_fit": false,
+    "formula_family_pruned": false,
+    "alternative_to_gr_established": false,
+    "dark_matter_eliminated": false,
+    "historical_novelty_established": false
+  },
+  "paths": {
+    "result_template": "runs/gravity/roadmap/item-{item:02d}-{name}-gate-v1.json",
+    "matrix": "runs/gravity/roadmap/items-62-70-formal-gate-matrix-v1.json"
+  }
+}
