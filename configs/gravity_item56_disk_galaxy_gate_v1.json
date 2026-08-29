@@ -1,0 +1,109 @@
+{
+  "schema_version": "invariant-gravity-item56-disk-galaxy-gate-config-1.0",
+  "item": 56,
+  "status": "scientific_freeze_before_item56_sparc_exploration_evaluation",
+  "stable_goal_sha256": "b9db7e1aa76deaf28ce2e840cd3d7db4cf7a086b1c7ca473800780c264a0e772",
+  "scientific_freeze_commit": "PENDING_FREEZE_COMMIT",
+  "hypothesis": "The unchanged Item 45 geometry-density interaction predicts radial rotation speeds across the 139 admitted SPARC exploration galaxies from baryonic mass-model components and published photometric effective radius, with no galaxy-local gravitational coefficient.",
+  "scientific_dependencies": {
+    "docs/GRAVITY_COUNTEREXAMPLE_AND_DATA_QUALITY_POLICY_V2.md": "76a032dbabb5e2e48a93dc4faa7d559c060735f66941bdaa4e40e21f4347cd4e",
+    "configs/gravity_empirical_counterexample_policy_v1.json": "aaca25628047af2bf781ab5f2ad1da5f9194fe8d7dd0f416179bc1c6783ddd6d",
+    "runs/gravity/roadmap/item-55-causal-variable-tests-v1.json": "bfcedc9e18b6a17b7388de307f4471d41fcdad66d5a841410ea8c963a3ef8f00",
+    "runs/gravity/roadmap/item-45-universal-interactions-v1.json": "db243c2d12992c938b04da5578e5aefa800b9770f09f29907f51f3598af47c6b",
+    "configs/sparc_rotation_curves_full_v1.json": "dde80c7fc72974358b1370e1978726b87fe1a4048f0880ae79cf513e260a7cf1",
+    "configs/gravity_g0_experiment.json": "0ae750fead7a8d9d2bd68eeac72c04e0d65366041301ff15542a261e17af9f8d",
+    "runs/gravity/g0-experiment/receipt-v1.json": "be81348e2e5250dde2ef7319d4b5e47eb31e1ca5ef1065fde9331298d2061aff",
+    "runs/gravity/roadmap/item-02-shape-anisotropy-v1-source/sparc_table1.tsv": "feb0e2e5478888ced9533fffe6c7711dba280e78f50dfd09916b28aef41c8ce2"
+  },
+  "required_predecessor": {
+    "decision": "ITEM55_CAUSALITY_NOT_ESTABLISHED_PROXY_RISK_RETAINED",
+    "content_sha256": "a45b42c24865bf2e27f2a8f163d414e30b85210d0c8d76a2f84aac51a1e4fd9d"
+  },
+  "target_candidate": {
+    "source_item": 45,
+    "candidate_id": 135082,
+    "recipe_id": 32,
+    "interaction_expression": "geometry*tanh(2*density)",
+    "coordinate_expression": "H=0.5+0.5*tanh(2*(geometry*tanh(2*density)))",
+    "parameters": {
+      "amplitude": 6.0,
+      "acceleration_exponent": 0.6,
+      "transition_u": 100.0
+    },
+    "creativity_label": "potentially_new_observational_gating_synthesis_not_historical_novelty",
+    "fitted_gravitational_parameters_on_sparc": 0
+  },
+  "predictor_contract": {
+    "baryonic_velocity_squared": "Vgas*abs(Vgas)+0.5*Vdisk^2+0.7*Vbulge^2",
+    "baryonic_acceleration_coordinate": "u=[Vbar^2/R]/a0",
+    "geometry_coordinate": "log10(R/Reff), using published SPARC 3.6-micron half-light radius Reff",
+    "normalized_geometry": "x_g=log10(R/Reff)/(1+abs(log10(R/Reff)))",
+    "normalized_density": "x_d=log10(u)/(3+abs(log10(u)))",
+    "interaction": "I=x_g*tanh(2*x_d); H=0.5+0.5*tanh(2*I)",
+    "prediction": "Vpred=sqrt(Vbar^2*[1+6*u^(-0.6)/(1+u/100)*(0.05+0.95*H)])",
+    "acceleration_scale_km2_s2_kpc": 3702.81458,
+    "galaxy_identifier_allowed_as_predictor": false,
+    "observed_velocity_allowed_as_predictor": false,
+    "uncertainty_allowed_as_predictor": false,
+    "per_galaxy_gravitational_coefficient_allowed": false
+  },
+  "data_boundary": {
+    "population": "139 admitted SPARC exploration galaxies and 2720 radius-ordered rows",
+    "confirmation_galaxies_declared": 35,
+    "confirmation_response_rows_allowed": 0,
+    "fresh_confirmation_claim_allowed": false,
+    "reason_not_fresh_confirmation": "SPARC exploration responses were already exposed elsewhere in the repository, although they were not used to select the Item 45 candidate.",
+    "candidate_lineage_used_sparc_responses": false
+  },
+  "evaluation": {
+    "radial_folds": "the frozen G0 five contiguous blocks per galaxy; the fixed candidate is not refit, so every evaluated row is prediction-only",
+    "selection_unit": "none; one frozen candidate only",
+    "primary_score": "equal-galaxy mean of each galaxy's mean squared standardized velocity residual",
+    "secondary_score": "pooled SPARC conditional chi-square and calibration metrics",
+    "comparators": [
+      "newtonian_baryons",
+      "empirical_rar",
+      "nfw_halo_ceiling"
+    ],
+    "nfw_role": "two-parameter fold-trained dark-matter performance ceiling only; never a feature, label, rescue, or scientific truth",
+    "paired_sign_flip_permutations": 19999,
+    "permutation_seed": 5601999,
+    "systematic_variants": {
+      "baryonic_mass_log10_shifts": [-0.25, 0.25],
+      "inclination_endpoints": ["i-e_i", "i+e_i"],
+      "inclination_clip_degrees": [5.0, 90.0]
+    },
+    "promotion_gates": {
+      "beats_newton_equal_galaxy": true,
+      "beats_newton_pooled": true,
+      "relative_equal_galaxy_loss_vs_rar_maximum": 1.10,
+      "radial_blocks_beating_newton_minimum": 5,
+      "radial_blocks_not_worse_than_rar_minimum": 3,
+      "systematic_variants_beating_newton_minimum": 4,
+      "paired_p_vs_newton_maximum": 0.05,
+      "confirmation_response_rows": 0,
+      "post_evaluation_formula_cells": 0
+    }
+  },
+  "counterexample_policy": {
+    "single_counterexample_terminal": false,
+    "counterexample_count_terminal": false,
+    "finite_sparc_exploration_sample_may_prune_formula_family": false,
+    "unchanged_independent_replication_required_for_terminal_scope_rejection": true,
+    "retain_every_galaxy_loss_and_systematic_stability": true
+  },
+  "claim_policy": {
+    "disk_galaxy_predictive_gate_can_pass": true,
+    "causality_established_by_pass": false,
+    "alternative_to_gr_established_by_pass": false,
+    "dark_matter_eliminated_by_pass": false,
+    "historical_novelty_established_by_pass": false,
+    "formula_family_pruned_on_failure": false
+  },
+  "paths": {
+    "source_dir": "runs/gravity/roadmap/item-56-disk-galaxy-gate-v1-source",
+    "preflight_manifest": "preflight-manifest.json",
+    "evaluation_result": "disk-galaxy-evaluation.json",
+    "aggregate_result": "runs/gravity/roadmap/item-56-disk-galaxy-gate-v1.json"
+  }
+}
