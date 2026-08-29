@@ -63,7 +63,7 @@ paper, but they become mandatory if the claim is escalated.
 | CP2 | Prior art and expert positioning | No | Yes | PARTIAL |
 | CP3 | Direct-observable data contract | Yes | Yes | PARTIAL; X-COP is bound but the independent packet is absent |
 | CP4 | Matched-flexibility comparators | Yes | Yes | PASS on development data; frozen for replication |
-| CP5 | Covariance, nuisances, and alternative causes | Yes | Yes | BLOCKED |
+| CP5 | Covariance, nuisances, and alternative causes | Yes | Yes | PARTIAL; stress tests complete, source covariance and converged marginalization open |
 | CP6 | Numerical, synthetic, and leakage controls | Yes | Yes | PARTIAL |
 | CP7 | Independent source and split freeze | Yes | Yes | PARTIAL; metadata audit complete, no lane selected |
 | CP8 | Unchanged independent thermodynamic replication | No | Yes | NOT STARTED |
@@ -188,11 +188,22 @@ one plausible cluster-astrophysics correction.
 - [ ] **CP5.10** Model gas clumping, centering, projection, triaxiality, and spherical
   approximation error.
 - [ ] **CP5.11** Freeze relaxed/disturbed and cool-core/non-cool-core strata.
-- [ ] **CP5.12** Test covariance inflation and plausible missing-not-at-random behavior.
+- [x] **CP5.12** Test covariance inflation and plausible missing-not-at-random behavior.
 - [ ] **CP5.13** Compare explicitly against extra nonthermal pressure, extra member
   baryons, calibration shifts, clumping, geometry, mergers, boundary error, and flexible
   ordinary halo explanations.
-- [ ] **CP5.14** Report which physical causes remain observationally indistinguishable.
+- [x] **CP5.14** Report which physical causes remain observationally indistinguishable.
+
+The development uncertainty receipt is
+`runs/gravity/publication-readiness/uncertainty-program-v1.json`. It tests 36 radial
+correlation/error-inflation/shared-calibration covariance scenarios and 12 adversarial
+missingness scenarios without deleting real rows. The candidate beats the frozen NFW
+comparator in all 36 covariance stress scenarios. A 17-parameter continuous nuisance
+program was also attempted with 21,640 forward evaluations, but its multi-chain sampler
+did not converge (`max R-hat=12.52`, minimum estimated effective samples `14.09`). CP5.7
+through CP5.10 therefore remain open: the failed sampler is recorded as evidence of
+strong nuisance degeneracy, not mislabeled as successful marginalization. Full released
+or reconstructed source covariance and morphology/merger strata also remain missing.
 
 ## CP6 — numerical, synthetic, and leakage controls
 

@@ -380,6 +380,7 @@ def _load_evidence(root: Path, bindings: Sequence[Mapping[str, Any]]) -> dict[st
         "screened_descendant_adjudication",
         "independent_data_contract",
         "matched_comparator_suite",
+        "uncertainty_program",
     )
     if tuple(binding.get("evidence_id") for binding in bindings) != expected_ids:
         raise ResearchPublicationReadinessError("publication evidence order changed")
@@ -419,6 +420,7 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
     descendant = evidence["screened_descendant_adjudication"]
     data_contract = evidence["independent_data_contract"]
     comparators = evidence["matched_comparator_suite"]
+    uncertainty = evidence["uncertainty_program"]
     if (
         item59["claims"]["xcop_forward_observable_development_gate_passed"] is not True
         or item59["counts"]["clusters"] != 12
@@ -458,6 +460,14 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
         or comparators["counts"]["target_rows_opened"] != 0
     ):
         raise ResearchPublicationReadinessError("matched comparator evidence changed")
+    if (
+        uncertainty["claims"]["development_nuisance_marginalization_complete"] is not False
+        or uncertainty["claims"]["full_source_covariance_complete"] is not False
+        or uncertainty["claims"]["independent_replication"] is not False
+        or set(uncertainty["completed_goal_evidence"]) != {"CP5.12", "CP5.14"}
+        or uncertainty["counts"]["target_rows_opened"] != 0
+    ):
+        raise ResearchPublicationReadinessError("uncertainty evidence changed")
 
 
 def classify_claim_tracks(
