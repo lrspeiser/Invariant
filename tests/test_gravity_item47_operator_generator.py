@@ -55,7 +55,7 @@ def test_frozen_contract_preserves_counterexample_and_history_boundaries() -> No
     assert policy["counterexample_count_alone_is_never_decisive"]
     assert not policy["finite_empirical_sample_may_prune_family"]
     assert not config["scope"]["measured_baryonic_history_available"]
-    assert "constant-current-state closure" in config["profile_contract"]["history_claim_boundary"]
+    assert "constant-state closure" in config["profile_contract"]["history_claim_boundary"]
     assert config["gates"]["confirmation_response_rows"] == 0
 
 
