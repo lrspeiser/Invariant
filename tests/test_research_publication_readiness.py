@@ -28,12 +28,21 @@ def test_current_cluster_result_is_retained_but_not_data_or_paper_ready() -> Non
     assert receipt["automatic_findings"]["bounded_cluster_result_retained"] is True
     assert receipt["automatic_findings"]["galaxy_failure_erased_cluster_result"] is False
     assert receipt["automatic_findings"]["galaxy_failure_blocks_universal_promotion"] is True
+    assert receipt["automatic_findings"]["shared_ben_synthetic_plumbing_validated"] is True
+    assert receipt["automatic_findings"]["shared_ben_real_score_exists"] is False
+    assert (
+        receipt["automatic_findings"]["local_sparc_confirmation_valid_for_ben_descendant"] is False
+    )
+    assert receipt["automatic_findings"]["group_scale_ready_lanes"] == 0
+    assert receipt["automatic_findings"]["CP5_11_predictor_strata_frozen"] is True
+    assert receipt["automatic_findings"]["CP5_13_complete"] is False
+    assert receipt["automatic_findings"]["frozen_strata_explain_covariance_flips"] is False
     assert receipt["readiness"]["independent_cluster_data"]["next_gate"] == "CP3"
     assert receipt["readiness"]["independent_cluster_data"]["ready"] is False
     assert receipt["readiness"]["observational_authorization"] is False
     assert receipt["readiness"]["independent_target_rows_opened"] == 0
-    assert receipt["counts"]["completed_tasks"] == 59
-    assert receipt["counts"]["open_tasks"] == 63
+    assert receipt["counts"]["completed_tasks"] == 60
+    assert receipt["counts"]["open_tasks"] == 62
     cp3 = next(gate for gate in receipt["gate_ledger"] if gate["gate_id"] == "CP3")
     assert cp3["completed_task_ids"] == [
         "CP3.1",
@@ -44,6 +53,9 @@ def test_current_cluster_result_is_retained_but_not_data_or_paper_ready() -> Non
         "CP3.8",
     ]
     assert cp3["open_task_ids"] == ["CP3.5", "CP3.6"]
+    cp5 = next(gate for gate in receipt["gate_ledger"] if gate["gate_id"] == "CP5")
+    assert "CP5.11" in cp5["completed_task_ids"]
+    assert "CP5.13" in cp5["open_task_ids"]
     cp12 = next(gate for gate in receipt["gate_ledger"] if gate["gate_id"] == "CP12")
     assert cp12["completed_task_ids"] == [
         "CP12.1",
@@ -64,9 +76,7 @@ def test_adjacent_domain_failure_does_not_veto_a_complete_bounded_claim() -> Non
     assert tracks["bounded_empirical_publication"]["ready"] is True
     assert tracks["physical_mechanism"]["ready"] is True
     assert tracks["universal_theory"]["ready"] is False
-    assert tracks["universal_theory"]["missing_requirements"] == [
-        "no_adjacent_domain_failures"
-    ]
+    assert tracks["universal_theory"]["missing_requirements"] == ["no_adjacent_domain_failures"]
 
 
 def test_same_release_confirmation_does_not_substitute_for_independent_replication() -> None:
@@ -88,9 +98,7 @@ def test_policy_rejects_erasure_and_weakened_replication_rules() -> None:
         readiness.validate_policy(erased)
 
     same_release = copy.deepcopy(readiness.load_policy(ROOT))
-    same_release["core_rules"][
-        "same_release_confirmation_counts_as_independent_replication"
-    ] = True
+    same_release["core_rules"]["same_release_confirmation_counts_as_independent_replication"] = True
     with pytest.raises(readiness.ResearchPublicationReadinessError, match="weakened"):
         readiness.validate_policy(same_release)
 
@@ -98,13 +106,9 @@ def test_policy_rejects_erasure_and_weakened_replication_rules() -> None:
 def test_goal_document_and_machine_task_inventory_are_exactly_aligned() -> None:
     policy = readiness.load_policy(ROOT)
     project = readiness.load_project(ROOT, policy)
-    document = (ROOT / project["goal_document_binding"]["path"]).read_text(
-        encoding="utf-8"
-    )
+    document = (ROOT / project["goal_document_binding"]["path"]).read_text(encoding="utf-8")
     documented = set(re.findall(r"\*\*(CP(?:[0-9]|1[0-2])\.[0-9]+)\*\*", document))
-    configured = {
-        task_id for gate in project["gates"] for task_id in gate["task_ids"]
-    }
+    configured = {task_id for gate in project["gates"] for task_id in gate["task_ids"]}
     assert documented == configured
     assert len(configured) == 122
     assert [gate["gate_id"] for gate in project["gates"]] == list(readiness.GATE_ORDER)
@@ -139,6 +143,57 @@ def test_independent_target_seal_and_evidence_bindings_fail_closed() -> None:
         readiness._load_evidence(ROOT, bindings)
 
 
+@pytest.mark.parametrize(
+    "evidence_id,mutation,match",
+    [
+        (
+            "shared_ben_synthetic_execution",
+            lambda value: value["claim_boundary"].__setitem__(
+                "synthetic_recovery_is_scientific_evidence", True
+            ),
+            "synthetic B\\+E\\+N",
+        ),
+        (
+            "mixed_sparc_access_preflight",
+            lambda value: value["claim_boundary"].__setitem__(
+                "local_sparc_confirmation_sealed_for_descendant", True
+            ),
+            "mixed SPARC",
+        ),
+        (
+            "shared_ben_real_development_preflight_v2",
+            lambda value: value["claims"].__setitem__("real_scoring_executed", True),
+            "real B\\+E\\+N V2",
+        ),
+        (
+            "group_scale_source_audit",
+            lambda value: value["counts"].__setitem__("ready_lanes", 1),
+            "group-scale",
+        ),
+        (
+            "predictor_strata_preflight",
+            lambda value: value["readiness"].__setitem__("CP5_13_task_complete", True),
+            "predictor strata",
+        ),
+        (
+            "cluster_strata_development_scoring",
+            lambda value: value["results"]["gates"]["candidate_absolute_primary"].__setitem__(
+                "passed", True
+            ),
+            "cluster strata scoring",
+        ),
+    ],
+)
+def test_new_evidence_semantics_fail_closed(evidence_id: str, mutation: object, match: str) -> None:
+    policy = readiness.load_policy(ROOT)
+    project = readiness.load_project(ROOT, policy)
+    evidence = readiness._load_evidence(ROOT, project["evidence_bindings"])
+    changed = copy.deepcopy(evidence)
+    mutation(changed[evidence_id])  # type: ignore[operator]
+    with pytest.raises(readiness.ResearchPublicationReadinessError, match=match):
+        readiness._validate_gravity_evidence(changed)
+
+
 def test_stored_receipt_rebuilds_exactly_and_is_content_bound() -> None:
     stored = json.loads((ROOT / readiness.OUTPUT_PATH).read_text(encoding="utf-8"))
     readiness.validate_receipt(stored, ROOT)
@@ -147,13 +202,13 @@ def test_stored_receipt_rebuilds_exactly_and_is_content_bound() -> None:
         "claim_tracks": 3,
         "gates": 13,
         "tasks": 122,
-        "completed_tasks": 59,
-        "open_tasks": 63,
+        "completed_tasks": 60,
+        "open_tasks": 62,
         "pass_gates": 4,
         "partial_gates": 5,
         "blocked_gates": 1,
         "not_started_gates": 3,
-        "bound_evidence_receipts": 20,
+        "bound_evidence_receipts": 26,
         "independent_target_rows_opened": 0,
     }
 

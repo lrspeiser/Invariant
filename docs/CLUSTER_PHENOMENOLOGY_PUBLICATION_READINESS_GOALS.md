@@ -51,6 +51,24 @@ follows the candidate acceleration law.
 - One deterministic standard-library command now recreates the frozen inventory of seven
   primary CSV tables and six standalone SVG figures from that package. The artifact
   manifest binds every output hash and retains the same not-paper-ready claim boundary.
+- A target-blind synthetic B+E+N execution reduced 240 raw constructions to 60 canonical
+  AST classes and passed its frozen recovery, ablation, limit, and same-action plumbing
+  controls. This validates synthetic grammar mechanics only; it does not select or
+  empirically support a formula.
+- The first real B+E+N preflight invalidated local SPARC confirmation for this descendant
+  after a mixed development/confirmation file was exposed. No real formula was scored.
+  Its V2 successor reclassifies all locally accessible SPARC rows as development-only and
+  still blocks before payload access because a predictor-only X-COP output projection is
+  not defined. No real B+E+N ranking or scientific result exists.
+- Relaxation, cool-core, stellar-availability, assembly, and boundary-method labels are
+  now frozen for the eight already exposed development clusters. Exploratory retained-score
+  comparisons found no Holm-significant stratum that explains the pressure-covariance
+  flips; the absolute candidate gate and the per-object win gate both fail. CP5.11 is
+  complete as a freeze-and-report task, while causal alternative separation in CP5.13
+  remains open.
+- A source-only group-scale audit examined three candidate public lanes and found zero
+  lanes ready for direct thermodynamic testing. It opened no payload rows and completes
+  neither CP10.1 nor CP10.2.
 
 Useful primary context includes the SPARC radial-acceleration relation
 (https://arxiv.org/abs/1609.05917), the documented residual MOND problem in X-ray groups
@@ -77,7 +95,7 @@ paper, but they become mandatory if the claim is escalated.
 | CP7 | Independent source and split freeze | Yes | Yes | PARTIAL; protocol frozen, no lane selected or payload committed |
 | CP8 | Unchanged independent thermodynamic replication | No | Yes | NOT STARTED |
 | CP9 | Independent mass probes | No | No for bounded paper | NOT STARTED |
-| CP10 | Group and domain-boundary map | No | No for bounded paper | NOT STARTED |
+| CP10 | Group and domain-boundary map | No | No for bounded paper | NOT STARTED; metadata audit found zero ready lanes |
 | CP11 | Gravity-theory escalation | No | No for bounded paper | BLOCKED |
 | CP12 | External reproduction and manuscript package | No | Yes | PARTIAL; development package and primary renderer complete; external replay, source release, reviews, and submission open |
 
@@ -214,7 +232,7 @@ one plausible cluster-astrophysics correction.
 - [ ] **CP5.9** Marginalize outer pressure-boundary uncertainty.
 - [ ] **CP5.10** Model gas clumping, centering, projection, triaxiality, and spherical
   approximation error.
-- [ ] **CP5.11** Freeze relaxed/disturbed and cool-core/non-cool-core strata.
+- [x] **CP5.11** Freeze relaxed/disturbed and cool-core/non-cool-core strata.
 - [x] **CP5.12** Test covariance inflation and plausible missing-not-at-random behavior.
 - [ ] **CP5.13** Compare explicitly against extra nonthermal pressure, extra member
   baryons, calibration shifts, clumping, geometry, mergers, boundary error, and flexible
@@ -230,7 +248,19 @@ program was also attempted with 21,640 forward evaluations, but its multi-chain 
 did not converge (`max R-hat=12.52`, minimum estimated effective samples `14.09`). CP5.7
 through CP5.10 therefore remain open: the failed sampler is recorded as evidence of
 strong nuisance degeneracy, not mislabeled as successful marginalization. Full released
-or reconstructed source covariance and morphology/merger strata also remain missing.
+or reconstructed source covariance remains missing.
+
+The predictor-only strata preflight freezes the relaxed/disturbed and cool-core/non-cool-core
+definitions and labels for all eight already exposed development clusters, with no target
+or response rows used to choose them. A subsequent exploratory score reused retained
+per-object pressure summaries: the full-covariance candidate score was `3.8629` versus
+`12.6201` for NFW, but the candidate passed neither its absolute gate (`3.8629 > 1`) nor
+the per-object comparator gate (four wins out of eight, below the frozen five-win
+minimum). A85 and ZW1215 flipped from positive diagonal advantage to negative
+full-covariance advantage on holdout, and no frozen stratum was Holm-significant for
+explaining the flips. A3266's boundary-method class is a descriptive singleton. This
+completes CP5.11's frozen strata task but not CP5.13, a causal explanation, an independent
+replication, or a scientific claim.
 
 A follow-up diagnostic then spent 501,636 candidate forward evaluations without opening
 confirmation or independent rows. Prior-space Sobol importance sampling collapsed to one
@@ -474,6 +504,12 @@ physical value. It is mandatory before a gravity-mechanism claim.
 
 This gate is not required for the bounded cluster paper. It is required to claim a
 continuous galaxy-to-cluster mechanism.
+
+A metadata-only audit of X-GAP, the Sun et al. group sample, and an eROSITA lane froze a
+split algorithm and direct-endpoint requirements but found zero ready public lanes. The
+audit opened no payload, thermodynamic, stellar-baryon, inferred-mass, or lensing rows and
+computed no score. Direct endpoints, covariance/calibration products, licensing, and
+alias resolution remain incomplete, so CP10.1 and CP10.2 remain open.
 
 - [ ] **CP10.1** Assemble a source-audited X-ray group sample spanning roughly
   `10^13–10^14` solar masses.

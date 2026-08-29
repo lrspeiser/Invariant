@@ -37,9 +37,7 @@ BOUNDED_PAPER_GATES = (
 )
 VALID_GATE_STATUSES = frozenset({"PASS", "PARTIAL", "BLOCKED", "NOT_STARTED"})
 SHA256 = re.compile(r"^[0-9a-f]{64}$")
-GOAL_TASK = re.compile(
-    r"^- \[(?P<mark>[ xX])\] \*\*(?P<task>CP(?:[0-9]|1[0-2])\.[0-9]+)\*\*"
-)
+GOAL_TASK = re.compile(r"^- \[(?P<mark>[ xX])\] \*\*(?P<task>CP(?:[0-9]|1[0-2])\.[0-9]+)\*\*")
 
 
 class ResearchPublicationReadinessError(RuntimeError):
@@ -47,12 +45,15 @@ class ResearchPublicationReadinessError(RuntimeError):
 
 
 def _canonical_bytes(value: Any) -> bytes:
-    return json.dumps(
-        value,
-        sort_keys=True,
-        separators=(",", ":"),
-        ensure_ascii=True,
-    ).encode("utf-8") + b"\n"
+    return (
+        json.dumps(
+            value,
+            sort_keys=True,
+            separators=(",", ":"),
+            ensure_ascii=True,
+        ).encode("utf-8")
+        + b"\n"
+    )
 
 
 def _sha(value: Any) -> str:
@@ -86,9 +87,12 @@ def _content_sha(value: Mapping[str, Any]) -> str:
     body = dict(value)
     expected = body.pop("content_sha256", None)
     actual = _sha(body)
-    if expected is not None and expected != actual:
+    compact_actual = hashlib.sha256(
+        json.dumps(body, sort_keys=True, separators=(",", ":"), ensure_ascii=True).encode("utf-8")
+    ).hexdigest()
+    if expected is not None and expected not in {actual, compact_actual}:
         raise ResearchPublicationReadinessError("bound evidence content hash changed")
-    return actual
+    return str(expected) if expected is not None else actual
 
 
 def _under(root: Path, relative: str, label: str) -> Path:
@@ -175,10 +179,14 @@ def validate_policy(policy: Mapping[str, Any]) -> None:
 
 
 def _validate_binding(root: Path, binding: Mapping[str, Any], *, content: bool) -> Path:
-    expected = {"path", "file_sha256", "content_sha256"} if content else {
-        "path",
-        "file_sha256",
-    }
+    expected = (
+        {"path", "file_sha256", "content_sha256"}
+        if content
+        else {
+            "path",
+            "file_sha256",
+        }
+    )
     _strict(binding, expected, "source binding")
     path = _under(root, str(binding["path"]), "source binding")
     if _file_sha(path) != _valid_sha(binding["file_sha256"], "file"):
@@ -209,11 +217,7 @@ def _goal_task_progress(
             raise ResearchPublicationReadinessError(f"duplicate goal task: {task_id}")
         documented[task_id] = match.group("mark").lower() == "x"
 
-    configured = {
-        str(task_id)
-        for gate in gates
-        for task_id in gate["task_ids"]
-    }
+    configured = {str(task_id) for gate in gates for task_id in gate["task_ids"]}
     if set(documented) != configured:
         missing = sorted(configured - set(documented))
         extra = sorted(set(documented) - configured)
@@ -229,9 +233,7 @@ def _goal_task_progress(
         opened = [task_id for task_id in task_ids if not documented[task_id]]
         status = str(gate["status"])
         if status == "PASS" and opened:
-            raise ResearchPublicationReadinessError(
-                f"PASS gate has open goal tasks: {gate_id}"
-            )
+            raise ResearchPublicationReadinessError(f"PASS gate has open goal tasks: {gate_id}")
         if status == "PARTIAL" and not (completed and opened):
             raise ResearchPublicationReadinessError(
                 f"PARTIAL gate lacks mixed task progress: {gate_id}"
@@ -256,9 +258,7 @@ def load_project(root: Path, policy: Mapping[str, Any]) -> dict[str, Any]:
     return project
 
 
-def validate_project(
-    project: Mapping[str, Any], policy: Mapping[str, Any], root: Path
-) -> None:
+def validate_project(project: Mapping[str, Any], policy: Mapping[str, Any], root: Path) -> None:
     _strict(
         project,
         {
@@ -333,9 +333,7 @@ def validate_project(
         if gate["required_for_predata"] is not (gate_id in PRE_DATA_GATES):
             raise ResearchPublicationReadinessError(f"pre-data gate policy changed: {gate_id}")
         if gate["required_for_bounded_paper"] is not (gate_id in BOUNDED_PAPER_GATES):
-            raise ResearchPublicationReadinessError(
-                f"bounded-paper gate policy changed: {gate_id}"
-            )
+            raise ResearchPublicationReadinessError(f"bounded-paper gate policy changed: {gate_id}")
         gate_tasks = list(map(str, gate["task_ids"]))
         if not gate_tasks or any(not task.startswith(f"{gate_id}.") for task in gate_tasks):
             raise ResearchPublicationReadinessError(f"invalid task IDs: {gate_id}")
@@ -378,6 +376,10 @@ def _load_evidence(root: Path, bindings: Sequence[Mapping[str, Any]]) -> dict[st
         "item60_direct_lensing_readiness",
         "item61_cross_scale_transfer",
         "screened_descendant_adjudication",
+        "shared_ben_synthetic_execution",
+        "mixed_sparc_access_preflight",
+        "shared_ben_real_development_preflight_v2",
+        "group_scale_source_audit",
         "independent_data_contract",
         "matched_comparator_suite",
         "uncertainty_program",
@@ -389,6 +391,8 @@ def _load_evidence(root: Path, bindings: Sequence[Mapping[str, Any]]) -> dict[st
         "matched_newtonian_control_v2",
         "development_pressure_covariance",
         "a1795_covariance_source_feasibility",
+        "predictor_strata_preflight",
+        "cluster_strata_development_scoring",
         "numerical_controls",
         "independent_replication_protocol",
         "prior_art_positioning",
@@ -420,7 +424,9 @@ def _load_evidence(root: Path, bindings: Sequence[Mapping[str, Any]]) -> dict[st
             or value.get("schema_version") != binding["schema_version"]
             or value.get("decision") != binding["decision"]
         ):
-            raise ResearchPublicationReadinessError(f"evidence semantics changed: {binding['path']}")
+            raise ResearchPublicationReadinessError(
+                f"evidence semantics changed: {binding['path']}"
+            )
         result[str(binding["evidence_id"])] = value
     _validate_gravity_evidence(result)
     return result
@@ -431,6 +437,10 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
     item60 = evidence["item60_direct_lensing_readiness"]
     item61 = evidence["item61_cross_scale_transfer"]
     descendant = evidence["screened_descendant_adjudication"]
+    ben_synthetic = evidence["shared_ben_synthetic_execution"]
+    sparc_incident = evidence["mixed_sparc_access_preflight"]
+    ben_real_v2 = evidence["shared_ben_real_development_preflight_v2"]
+    group_source = evidence["group_scale_source_audit"]
     data_contract = evidence["independent_data_contract"]
     comparators = evidence["matched_comparator_suite"]
     uncertainty = evidence["uncertainty_program"]
@@ -442,6 +452,8 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
     newtonian_control = evidence["matched_newtonian_control_v2"]
     pressure_covariance = evidence["development_pressure_covariance"]
     a1795_feasibility = evidence["a1795_covariance_source_feasibility"]
+    predictor_strata = evidence["predictor_strata_preflight"]
+    strata_scoring = evidence["cluster_strata_development_scoring"]
     numerical = evidence["numerical_controls"]
     replication_protocol = evidence["independent_replication_protocol"]
     prior_art = evidence["prior_art_positioning"]
@@ -470,6 +482,117 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
         or descendant["interpretation"]["broader_theory_family_pruned"] is not False
     ):
         raise ResearchPublicationReadinessError("descendant adjudication changed")
+    if (
+        ben_synthetic["status"]
+        != "bounded_synthetic_ben_execution_passed_not_empirical_or_physical_evidence"
+        or ben_synthetic["candidate_registry"]["raw_candidate_count"] != 240
+        or ben_synthetic["candidate_registry"]["equivalence_class_count"] != 60
+        or ben_synthetic["claim_boundary"]["synthetic_grammar_mechanics_validated"] is not True
+        or ben_synthetic["claim_boundary"]["synthetic_recovery_is_scientific_evidence"] is not False
+        or ben_synthetic["claim_boundary"]["real_scientific_evaluation_unlocked"] is not False
+        or ben_synthetic["claim_boundary"]["candidate_physics_supported"] is not False
+        or ben_synthetic["claim_boundary"]["same_action_derived"] is not False
+        or ben_synthetic["claim_boundary"]["publication_ready"] is not False
+        or any(
+            ben_synthetic["data_boundary"][key] != 0
+            for key in (
+                "real_cluster_rows_read",
+                "real_galaxy_rows_read",
+                "real_group_rows_read",
+                "real_lensing_rows_read",
+                "real_formula_scores_computed",
+                "confirmation_rows_read",
+                "independent_rows_read",
+                "sealed_rows_read",
+                "network_calls",
+                "model_calls",
+                "paid_calls",
+                "gpu_calls",
+            )
+        )
+        or ben_synthetic["data_boundary"]["real_target_fields_read"] != []
+    ):
+        raise ResearchPublicationReadinessError("synthetic B+E+N evidence changed")
+    if (
+        sparc_incident["status"] != "blocked_preflight_retained_no_real_evaluation"
+        or sparc_incident["claim_boundary"]["local_sparc_confirmation_sealed_for_descendant"]
+        is not False
+        or sparc_incident["claim_boundary"]["real_ben_evaluation_executed"] is not False
+        or sparc_incident["claim_boundary"]["candidate_ranking_created"] is not False
+        or sparc_incident["claim_boundary"]["cross_domain_metric_created"] is not False
+        or sparc_incident["claim_boundary"]["scientific_claim_allowed"] is not False
+        or sparc_incident["data_boundary"]["mixed_sparc_files_opened"] != 1
+        or sparc_incident["data_boundary"]["mixed_sparc_file_bytes_read_by_process"] != 247_315
+        or any(
+            sparc_incident["data_boundary"][key] != 0
+            for key in (
+                "sparc_real_candidate_score_calls",
+                "sparc_real_metric_calls",
+                "xcop_target_files_opened",
+                "xcop_target_rows_read",
+                "xcop_real_candidate_score_calls",
+                "xcop_real_metric_calls",
+                "group_rows_read",
+                "group_score_calls",
+                "lensing_rows_read",
+                "lensing_score_calls",
+                "network_calls",
+                "model_calls",
+                "paid_calls",
+                "gpu_calls",
+            )
+        )
+    ):
+        raise ResearchPublicationReadinessError("mixed SPARC access evidence changed")
+    if (
+        ben_real_v2["status"] != "v2_pre_score_contract_blocked_no_payload_access"
+        or ben_real_v2["claims"]["all_local_sparc_rows_development_only_for_descendant"] is not True
+        or ben_real_v2["claims"]["local_sparc_confirmation_claim_survives"] is not False
+        or ben_real_v2["claims"]["predictor_only_input_mapping_frozen"] is not True
+        or ben_real_v2["claims"]["predictor_only_cross_domain_output_mapping_complete"] is not False
+        or ben_real_v2["claims"]["production_authorized"] is not False
+        or ben_real_v2["claims"]["real_scoring_executed"] is not False
+        or ben_real_v2["claims"]["scientific_claim_allowed"] is not False
+        or ben_real_v2["mapping_decision"]["blocked_before_payload_load"] is not True
+        or ben_real_v2["mapping_decision"]["xcop_input_mapping_ready"] is not True
+        or ben_real_v2["mapping_decision"]["xcop_output_mapping_ready"] is not False
+        or ben_real_v2["production_gate"]["payload_loader_present_in_v2"] is not False
+        or ben_real_v2["zero_access_chronology"]["v2_contract_frozen_before_payload_access"]
+        is not True
+        or any(
+            value != 0
+            for key, value in ben_real_v2["zero_access_chronology"].items()
+            if key != "v2_contract_frozen_before_payload_access"
+        )
+    ):
+        raise ResearchPublicationReadinessError("real B+E+N V2 preflight changed")
+    if (
+        group_source["counts"]["candidate_lanes"] != 3
+        or group_source["counts"]["ready_lanes"] != 0
+        or any(
+            group_source["counts"][key] != 0
+            for key in (
+                "payload_rows_opened",
+                "thermodynamic_rows_opened",
+                "stellar_baryon_rows_opened",
+                "inferred_mass_rows_opened",
+                "lensing_rows_opened",
+                "scientific_scores_computed",
+                "downloads",
+                "downloaded_bytes",
+                "network_calls_by_receipt_builder",
+                "paid_or_model_calls",
+            )
+        )
+        or group_source["claims"]["CP10_1_complete"] is not False
+        or group_source["claims"]["CP10_2_complete"] is not False
+        or group_source["claims"]["public_lane_ready"] is not False
+        or group_source["claims"]["scientific_data_ready"] is not False
+        or group_source["claims"]["scientific_result_emitted"] is not False
+        or group_source["claims"]["receipt_builder_zero_row_purity"] is not True
+        or group_source["claims"]["interactive_audit_zero_row_purity"] is not False
+    ):
+        raise ResearchPublicationReadinessError("group-scale source audit changed")
     if (
         data_contract["claims"]["source_metadata_audit_complete"] is not True
         or data_contract["claims"]["independent_source_selected"] is not False
@@ -533,15 +656,12 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
         raise ResearchPublicationReadinessError("nuisance identifiability audit changed")
     if (
         nuisance_quotient["completed_goal_evidence"] != {}
-        or set(nuisance_quotient["blocked_goal_evidence"])
-        != {"CP5.7", "CP5.8", "CP5.9", "CP5.10"}
+        or set(nuisance_quotient["blocked_goal_evidence"]) != {"CP5.7", "CP5.8", "CP5.9", "CP5.10"}
         or nuisance_quotient["claims"]["maximum_observable_nuisance_dimension"] != 10
         or nuisance_quotient["claims"]["exact_null_dimensions"] != 7
-        or nuisance_quotient["claims"]["rank_ten_at_all_frozen_interior_anchors"]
-        is not True
+        or nuisance_quotient["claims"]["rank_ten_at_all_frozen_interior_anchors"] is not True
         or nuisance_quotient["claims"]["forward_symmetry_checks_passed"] is not True
-        or nuisance_quotient["claims"]["primitive_labels_separately_identified"]
-        is not False
+        or nuisance_quotient["claims"]["primitive_labels_separately_identified"] is not False
         or nuisance_quotient["claims"]["composite_posterior_converged"] is not False
         or nuisance_quotient["claims"]["CP5_7_through_CP5_10_complete"] is not False
         or nuisance_quotient["claims"]["newtonian_control_run"] is not False
@@ -572,13 +692,8 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
             "scientific_claims_added": False,
             "candidate_production_claim": False,
         }
-        or nuisance_quotient_sampler["frozen_mechanics"][
-            "bounded_smoke_forward_evaluations"
-        ]
-        != 852
-        or nuisance_quotient_sampler["frozen_mechanics"][
-            "maximum_production_forward_evaluations"
-        ]
+        or nuisance_quotient_sampler["frozen_mechanics"]["bounded_smoke_forward_evaluations"] != 852
+        or nuisance_quotient_sampler["frozen_mechanics"]["maximum_production_forward_evaluations"]
         != 1_575_104
     ):
         raise ResearchPublicationReadinessError(
@@ -594,12 +709,13 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
         or quotient_sbc["adjudication"]["v3_synthetic_sbc_passed"] is not True
         or quotient_sbc["adjudication"]["newtonian_control_unlock"] is not True
         or quotient_sbc["adjudication"]["candidate_production_unlock"] is not False
-        or quotient_sbc["adjudication"]["v3_synthetic_likelihood_evaluations"]
-        != 24_896_774
+        or quotient_sbc["adjudication"]["v3_synthetic_likelihood_evaluations"] != 24_896_774
         or quotient_sbc["claim_boundary"]["scientific_claim_allowed"] is not False
         or quotient_sbc["diagnostic_evidence_boundary"]["retained_chains_present_in_sealed_npz"]
         is not False
-        or quotient_sbc["diagnostic_evidence_boundary"]["rhat_and_ess_recomputed_from_retained_chains"]
+        or quotient_sbc["diagnostic_evidence_boundary"][
+            "rhat_and_ess_recomputed_from_retained_chains"
+        ]
         is not False
         or quotient_sbc["data_boundary"]
         != {
@@ -616,8 +732,7 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
     ):
         raise ResearchPublicationReadinessError("strict quotient SBC evidence changed")
     if (
-        newtonian_control["status"]
-        != "package_prepared_strict_v3_pass_external_approval_required"
+        newtonian_control["status"] != "package_prepared_strict_v3_pass_external_approval_required"
         or newtonian_control["gates"]
         != {
             "external_approval_present": False,
@@ -626,8 +741,7 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
             "strict_v3_adjudicator_passed": True,
         }
         or newtonian_control["claim_boundary"]["package_prepared"] is not True
-        or newtonian_control["claim_boundary"]["full_matched_newtonian_run_completed"]
-        is not False
+        or newtonian_control["claim_boundary"]["full_matched_newtonian_run_completed"] is not False
         or newtonian_control["claim_boundary"]["scientific_claim_allowed"] is not False
         or newtonian_control["data_boundary"]
         != {
@@ -642,8 +756,7 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
         }
         or newtonian_control["run_request"]["maximum_newtonian_control_likelihood_evaluations"]
         != 233_504
-        or newtonian_control["run_request"]["maximum_paired_likelihood_evaluations"]
-        != 467_008
+        or newtonian_control["run_request"]["maximum_paired_likelihood_evaluations"] != 467_008
         or newtonian_control["run_request"]["maximum_paid_external_cost_usd"] != 0.0
     ):
         raise ResearchPublicationReadinessError("matched Newtonian control evidence changed")
@@ -676,27 +789,81 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
         or a1795_feasibility["adjudication"]["strict_verifier_passed"] is not True
         or a1795_feasibility["adjudication"]["complete_public_covariance_source_packet"]
         is not False
-        or a1795_feasibility["adjudication"]["CP5_2_through_CP5_6_complete"]
-        is not False
+        or a1795_feasibility["adjudication"]["CP5_2_through_CP5_6_complete"] is not False
         or a1795_feasibility["adjudication"]["observation_count"] != 6
         or a1795_feasibility["adjudication"]["planck_product_count"] != 5
-        or a1795_feasibility["adjudication"]["planck_public_bytes_manifested"]
-        != 13_314_915_231
+        or a1795_feasibility["adjudication"]["planck_public_bytes_manifested"] != 13_314_915_231
         or a1795_feasibility["claim_boundary"]["public_inputs_exist_for_a_new_a1795_reduction"]
         is not True
-        or a1795_feasibility["claim_boundary"]["complete_bounded_source_packet_frozen"]
-        is not False
-        or a1795_feasibility["claim_boundary"]["publication_claim_supported"]
-        is not False
-        or set(a1795_feasibility["cp5_statuses"])
-        != {"CP5.2", "CP5.3", "CP5.4", "CP5.5", "CP5.6"}
+        or a1795_feasibility["claim_boundary"]["complete_bounded_source_packet_frozen"] is not False
+        or a1795_feasibility["claim_boundary"]["publication_claim_supported"] is not False
+        or set(a1795_feasibility["cp5_statuses"]) != {"CP5.2", "CP5.3", "CP5.4", "CP5.5", "CP5.6"}
         or not all(
-            value.startswith("BLOCKED_")
-            for value in a1795_feasibility["cp5_statuses"].values()
+            value.startswith("BLOCKED_") for value in a1795_feasibility["cp5_statuses"].values()
         )
         or any(value != 0 for value in a1795_feasibility["data_boundary"].values())
     ):
         raise ResearchPublicationReadinessError("A1795 covariance feasibility evidence changed")
+    if (
+        predictor_strata["status"] != "predictor_preflight_pass_scientific_scoring_not_run"
+        or predictor_strata["counts"]["development_clusters"] != 8
+        or predictor_strata["counts"]["relaxed_proxy"] != 4
+        or predictor_strata["counts"]["disturbed_proxy"] != 4
+        or predictor_strata["counts"]["cool_core"] != 3
+        or predictor_strata["counts"]["non_cool_core"] != 5
+        or predictor_strata["counts"]["alternative_causes_mapped"] != 7
+        or predictor_strata["counts"]["target_or_response_rows_loaded"] != 0
+        or predictor_strata["counts"]["target_scoring_calls"] != 0
+        or predictor_strata["readiness"]["CP5_11_predictor_definition_and_labels_ready"] is not True
+        or predictor_strata["readiness"]["CP5_11_scientific_stratum_scoring_complete"] is not False
+        or predictor_strata["readiness"]["CP5_13_scientific_alternative_cause_comparison_complete"]
+        is not False
+        or predictor_strata["readiness"]["CP5_13_task_complete"] is not False
+        or predictor_strata["claim_boundary"]["cause_identified"] is not False
+        or predictor_strata["claim_boundary"]["scientific_claim_allowed"] is not False
+        or predictor_strata["data_boundary"]["target_or_response_rows_loaded"] != 0
+        or predictor_strata["data_boundary"]["holdout_rows_loaded"] != 0
+        or predictor_strata["data_boundary"]["confirmation_rows_loaded"] != 0
+        or predictor_strata["data_boundary"]["independent_rows_loaded"] != 0
+    ):
+        raise ResearchPublicationReadinessError("predictor strata evidence changed")
+    strata_gates = strata_scoring["results"]["gates"]
+    strata_whole = strata_scoring["results"]["whole_population"]["development_holdout"][
+        "full_covariance"
+    ]
+    if (
+        strata_scoring["status"] != "eight_object_exploratory_development_strata_scored"
+        or strata_gates["candidate_absolute_primary"]["observed"] != 3.862923367431524
+        or strata_gates["candidate_absolute_primary"]["threshold_max"] != 1.0
+        or strata_gates["candidate_absolute_primary"]["passed"] is not False
+        or strata_gates["candidate_vs_nfw_primary"]["observed_mean_advantage"] != 8.757178295772734
+        or strata_gates["candidate_vs_nfw_primary"]["observed_cluster_wins"] != 4
+        or strata_gates["candidate_vs_nfw_primary"]["minimum_cluster_wins"] != 5
+        or strata_gates["candidate_vs_nfw_primary"]["passed"] is not False
+        or strata_gates["covariance_flip_explained_by_any_frozen_stratum"]["passed"] is not False
+        or strata_whole["candidate_score_equal_cluster_mean"] != 3.862923367431524
+        or strata_whole["nfw_score_equal_cluster_mean"] != 12.62010166320426
+        or strata_whole["candidate_advantage_equal_cluster_mean"] != 8.757178295772734
+        or strata_whole["candidate_wins"] != 4
+        or strata_scoring["results"]["whole_population"]["development_holdout"][
+            "positive_diagonal_to_negative_full_clusters"
+        ]
+        != ["A85", "ZW1215"]
+        or strata_scoring["readiness"]["CP5_13_task_complete"] is not False
+        or strata_scoring["readiness"]["all_seven_cause_families_scientifically_compared"]
+        is not False
+        or strata_scoring["claim_boundary"]["strata_explain_covariance_flips"] is not False
+        or strata_scoring["claim_boundary"]["causal_variable_identified"] is not False
+        or strata_scoring["claim_boundary"]["scientific_claim_allowed"] is not False
+        or strata_scoring["claim_boundary"]["A3266_boundary_result_is_singleton_descriptive_only"]
+        is not True
+        or strata_scoring["compute_and_access_accounting"]["new_raw_target_rows_opened"] != 0
+        or strata_scoring["compute_and_access_accounting"]["formula_refits"] != 0
+        or strata_scoring["compute_and_access_accounting"]["nuisance_refits"] != 0
+        or strata_scoring["compute_and_access_accounting"]["confirmation_rows_opened"] != 0
+        or strata_scoring["compute_and_access_accounting"]["independent_rows_opened"] != 0
+    ):
+        raise ResearchPublicationReadinessError("cluster strata scoring evidence changed")
     if (
         numerical["claims"]["all_CP6_tasks_complete"] is not True
         or numerical["claims"]["development_numerical_control_gate_passed"] is not True
@@ -709,14 +876,12 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
     if (
         set(replication_protocol["completed_goal_evidence"])
         != {"CP7.4", "CP7.5", "CP7.6", "CP7.7", "CP7.8", "CP7.10"}
-        or set(replication_protocol["blocked_goal_evidence"])
-        != {"CP7.2", "CP7.3", "CP7.9"}
+        or set(replication_protocol["blocked_goal_evidence"]) != {"CP7.2", "CP7.3", "CP7.9"}
         or replication_protocol["claims"]["source_selected"] is not False
         or replication_protocol["claims"]["observational_authorization"] is not False
         or replication_protocol["claims"]["target_rows_accessed"] is not False
         or replication_protocol["counts"]["independent_target_rows_opened"] != 0
-        or replication_protocol["frozen_decision_summary"]["confirmatory_target_clusters"]
-        != 192
+        or replication_protocol["frozen_decision_summary"]["confirmatory_target_clusters"] != 192
     ):
         raise ResearchPublicationReadinessError("independent replication protocol changed")
     if (
@@ -767,9 +932,7 @@ def _validate_gravity_evidence(evidence: Mapping[str, Mapping[str, Any]]) -> Non
         raise ResearchPublicationReadinessError("manuscript artifact evidence changed")
 
 
-def classify_claim_tracks(
-    outcome: Mapping[str, bool], policy: Mapping[str, Any]
-) -> dict[str, Any]:
+def classify_claim_tracks(outcome: Mapping[str, bool], policy: Mapping[str, Any]) -> dict[str, Any]:
     """Classify bounded, mechanism, and universal claims without cross-track erasure."""
 
     fields = set(policy["outcome_fields"])
@@ -828,9 +991,7 @@ def build_receipt(root: Path) -> dict[str, Any]:
     predata = _gate_readiness(project["gates"], PRE_DATA_GATES)
     bounded = _gate_readiness(project["gates"], BOUNDED_PAPER_GATES)
     gates = project["gates"]
-    goal_path = _under(
-        root, str(project["goal_document_binding"]["path"]), "goal document"
-    )
+    goal_path = _under(root, str(project["goal_document_binding"]["path"]), "goal document")
     progress = _goal_task_progress(goal_path, gates)
     if predata["next_gate"] is None:
         next_action = (
@@ -878,6 +1039,15 @@ def build_receipt(root: Path) -> dict[str, Any]:
             "nuisance_exact_composite_coordinates": 10,
             "nuisance_primitive_null_dimensions": 7,
             "nuisance_quotient_sampler_required": True,
+            "shared_ben_synthetic_plumbing_validated": True,
+            "shared_ben_real_score_exists": False,
+            "local_sparc_confirmation_valid_for_ben_descendant": False,
+            "group_scale_ready_lanes": 0,
+            "CP5_11_predictor_strata_frozen": True,
+            "CP5_13_complete": False,
+            "frozen_strata_explain_covariance_flips": False,
+            "strata_candidate_absolute_gate_passed": False,
+            "strata_candidate_object_win_gate_passed": False,
         },
         "readiness": {
             "independent_cluster_data": predata,
@@ -901,8 +1071,7 @@ def build_receipt(root: Path) -> dict[str, Any]:
             "gates": len(gates),
             "tasks": sum(len(gate["task_ids"]) for gate in gates),
             "completed_tasks": sum(
-                gate_progress["completed_task_count"]
-                for gate_progress in progress.values()
+                gate_progress["completed_task_count"] for gate_progress in progress.values()
             ),
             "open_tasks": sum(
                 gate_progress["open_task_count"] for gate_progress in progress.values()

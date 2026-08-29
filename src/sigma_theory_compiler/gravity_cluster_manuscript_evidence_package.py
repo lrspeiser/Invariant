@@ -22,6 +22,12 @@ SOURCE_IDS = (
     "data_contract",
     "replication_protocol",
     "prior_art",
+    "shared_ben_synthetic_execution",
+    "mixed_sparc_access_preflight",
+    "shared_ben_real_development_preflight_v2",
+    "group_scale_source_audit",
+    "predictor_strata_preflight",
+    "cluster_strata_development_scoring",
     "nuisance_quotient_sampler_implementation",
     "nuisance_quotient_sbc_v3_adjudicator",
     "matched_newtonian_control_v2",
@@ -35,9 +41,10 @@ class GravityClusterManuscriptPackageError(RuntimeError):
 
 
 def _canonical_bytes(value: Any) -> bytes:
-    return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=True).encode(
-        "utf-8"
-    ) + b"\n"
+    return (
+        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=True).encode("utf-8")
+        + b"\n"
+    )
 
 
 def _sha(value: Any) -> str:
@@ -59,9 +66,12 @@ def _content_sha(value: Mapping[str, Any]) -> str:
     body = dict(value)
     expected = body.pop("content_sha256", None)
     actual = _sha(body)
-    if expected != actual:
+    compact_actual = hashlib.sha256(
+        json.dumps(body, sort_keys=True, separators=(",", ":"), ensure_ascii=True).encode("utf-8")
+    ).hexdigest()
+    if expected not in {actual, compact_actual}:
         raise GravityClusterManuscriptPackageError("bound source content hash changed")
-    return actual
+    return str(expected)
 
 
 def _strict(value: Mapping[str, Any], keys: set[str], label: str) -> None:
@@ -117,7 +127,7 @@ def validate_config(config: Mapping[str, Any]) -> None:
             raise GravityClusterManuscriptPackageError("evidence binding keys changed")
         if len(row["file_sha256"]) != 64 or len(row["content_sha256"]) != 64:
             raise GravityClusterManuscriptPackageError("evidence binding hash changed")
-    if len(config["included_sections"]) != 10:
+    if len(config["included_sections"]) != 12:
         raise GravityClusterManuscriptPackageError("included evidence sections changed")
     if config["claim_boundary"] != {
         "development_evidence": True,
@@ -168,6 +178,12 @@ def build_receipt(root: Path) -> dict[str, Any]:
     data_contract = sources["data_contract"]
     protocol = sources["replication_protocol"]
     prior_art = sources["prior_art"]
+    ben_synthetic = sources["shared_ben_synthetic_execution"]
+    sparc_incident = sources["mixed_sparc_access_preflight"]
+    ben_real_v2 = sources["shared_ben_real_development_preflight_v2"]
+    group_source = sources["group_scale_source_audit"]
+    predictor_strata = sources["predictor_strata_preflight"]
+    strata_scoring = sources["cluster_strata_development_scoring"]
     nuisance_sampler = sources["nuisance_quotient_sampler_implementation"]
     quotient_sbc = sources["nuisance_quotient_sbc_v3_adjudicator"]
     newtonian_control = sources["matched_newtonian_control_v2"]
@@ -201,16 +217,15 @@ def build_receipt(root: Path) -> dict[str, Any]:
             "direct_lensing_likelihood_evaluations"
         ],
         "inferred_total_mass_rows": item59["counts"]["inferred_total_mass_rows"],
-        "independent_target_rows_opened": readiness["counts"][
-            "independent_target_rows_opened"
-        ],
+        "independent_target_rows_opened": readiness["counts"]["independent_target_rows_opened"],
         "independent_observational_authorization": readiness["readiness"][
             "observational_authorization"
         ],
     }
-    if access["independent_target_rows_opened"] != 0 or access[
-        "independent_observational_authorization"
-    ] is not False:
+    if (
+        access["independent_target_rows_opened"] != 0
+        or access["independent_observational_authorization"] is not False
+    ):
         raise GravityClusterManuscriptPackageError("independent target seal changed")
 
     body = {
@@ -263,12 +278,8 @@ def build_receipt(root: Path) -> dict[str, Any]:
             "machine_statement": quotient_sbc["machine_statement"],
             "v1_passed": quotient_sbc["adjudication"]["v1_passed"],
             "v2_passed": quotient_sbc["adjudication"]["v2_passed"],
-            "v3_synthetic_sbc_passed": quotient_sbc["adjudication"][
-                "v3_synthetic_sbc_passed"
-            ],
-            "newtonian_control_unlock": quotient_sbc["adjudication"][
-                "newtonian_control_unlock"
-            ],
+            "v3_synthetic_sbc_passed": quotient_sbc["adjudication"]["v3_synthetic_sbc_passed"],
+            "newtonian_control_unlock": quotient_sbc["adjudication"]["newtonian_control_unlock"],
             "candidate_production_unlock": quotient_sbc["adjudication"][
                 "candidate_production_unlock"
             ],
@@ -279,15 +290,13 @@ def build_receipt(root: Path) -> dict[str, Any]:
             "newtonian_external_approval_present": newtonian_control["gates"][
                 "external_approval_present"
             ],
-            "newtonian_production_runs": newtonian_control["data_boundary"][
-                "production_runs"
+            "newtonian_production_runs": newtonian_control["data_boundary"]["production_runs"],
+            "newtonian_requested_likelihood_evaluations": newtonian_control["run_request"][
+                "maximum_newtonian_control_likelihood_evaluations"
             ],
-            "newtonian_requested_likelihood_evaluations": newtonian_control[
-                "run_request"
-            ]["maximum_newtonian_control_likelihood_evaluations"],
-            "newtonian_maximum_paid_external_cost_usd": newtonian_control[
-                "run_request"
-            ]["maximum_paid_external_cost_usd"],
+            "newtonian_maximum_paid_external_cost_usd": newtonian_control["run_request"][
+                "maximum_paid_external_cost_usd"
+            ],
             "scientific_claim_allowed": False,
         },
         "access_ledger": access,
@@ -299,9 +308,7 @@ def build_receipt(root: Path) -> dict[str, Any]:
             "confirmation_counterexamples_by_cluster_observable": item59[
                 "confirmation_counterexamples_by_cluster_observable"
             ],
-            "counterexample_policy_assessment": item59[
-                "counterexample_policy_assessment"
-            ],
+            "counterexample_policy_assessment": item59["counterexample_policy_assessment"],
         },
         "comparators_and_ablations": {
             "ranking": comparators["ranking"],
@@ -326,9 +333,7 @@ def build_receipt(root: Path) -> dict[str, Any]:
             "missingness_sensitivity": uncertainty["missingness_sensitivity"],
             "observationally_indistinguishable_causes": uncertainty[
                 "observational_indistinguishability"
-            ][
-                "causes_remaining_indistinguishable_with_current_single_source_diagonal_errors"
-            ],
+            ]["causes_remaining_indistinguishable_with_current_single_source_diagonal_errors"],
             "source_covariance_blockers": {
                 task: uncertainty["blocked_goal_evidence"][task]
                 for task in ("CP5.1", "CP5.2", "CP5.3", "CP5.4", "CP5.5", "CP5.6")
@@ -337,27 +342,19 @@ def build_receipt(root: Path) -> dict[str, Any]:
         },
         "development_pressure_covariance_boundary": {
             "portable_integrity_decision": pressure_covariance["decision"],
-            "reconstruction_decision": pressure_covariance["lineage"][
-                "reconstruction_decision"
-            ],
+            "reconstruction_decision": pressure_covariance["lineage"]["reconstruction_decision"],
             "scoring_decision": pressure_covariance["lineage"]["scoring_decision"],
-            "reconstructed_matrices": pressure_covariance["lineage"][
-                "reconstructed_matrices"
-            ],
-            "scored_pressure_rows": pressure_covariance["lineage"][
-                "scored_pressure_rows"
-            ],
+            "reconstructed_matrices": pressure_covariance["lineage"]["reconstructed_matrices"],
+            "scored_pressure_rows": pressure_covariance["lineage"]["scored_pressure_rows"],
             "CP5_1_status": pressure_covariance["lineage"]["CP5_1_status"],
             "archive_included": pressure_covariance["external_archive_contract"][
                 "included_in_portable_package"
             ],
-            "archive_license_verified": pressure_covariance["claims"][
-                "archive_license_verified"
-            ],
+            "archive_license_verified": pressure_covariance["claims"]["archive_license_verified"],
             "a1795_source_decision": a1795_feasibility["decision"],
-            "a1795_public_inputs_support_new_reduction": a1795_feasibility[
-                "claim_boundary"
-            ]["public_inputs_exist_for_a_new_a1795_reduction"],
+            "a1795_public_inputs_support_new_reduction": a1795_feasibility["claim_boundary"][
+                "public_inputs_exist_for_a_new_a1795_reduction"
+            ],
             "a1795_complete_source_packet": a1795_feasibility["adjudication"][
                 "complete_public_covariance_source_packet"
             ],
@@ -365,6 +362,121 @@ def build_receipt(root: Path) -> dict[str, Any]:
                 "CP5_2_through_CP5_6_complete"
             ],
             "scientific_result_changed": False,
+        },
+        "shared_ben_synthetic_and_real_boundary": {
+            "synthetic_decision": ben_synthetic["decision"],
+            "synthetic_raw_candidates": ben_synthetic["candidate_registry"]["raw_candidate_count"],
+            "synthetic_equivalence_classes": ben_synthetic["candidate_registry"][
+                "equivalence_class_count"
+            ],
+            "synthetic_grammar_mechanics_validated": ben_synthetic["claim_boundary"][
+                "synthetic_grammar_mechanics_validated"
+            ],
+            "synthetic_recovery_is_scientific_evidence": ben_synthetic["claim_boundary"][
+                "synthetic_recovery_is_scientific_evidence"
+            ],
+            "real_scientific_evaluation_unlocked": ben_synthetic["claim_boundary"][
+                "real_scientific_evaluation_unlocked"
+            ],
+            "mixed_sparc_incident_decision": sparc_incident["decision"],
+            "mixed_sparc_files_opened": sparc_incident["data_boundary"]["mixed_sparc_files_opened"],
+            "local_sparc_confirmation_sealed_for_descendant": sparc_incident["claim_boundary"][
+                "local_sparc_confirmation_sealed_for_descendant"
+            ],
+            "incident_real_ben_evaluation_executed": sparc_incident["claim_boundary"][
+                "real_ben_evaluation_executed"
+            ],
+            "v2_decision": ben_real_v2["decision"],
+            "all_local_sparc_rows_development_only": ben_real_v2["claims"][
+                "all_local_sparc_rows_development_only_for_descendant"
+            ],
+            "xcop_predictor_input_mapping_ready": ben_real_v2["mapping_decision"][
+                "xcop_input_mapping_ready"
+            ],
+            "xcop_predictor_output_mapping_ready": ben_real_v2["mapping_decision"][
+                "xcop_output_mapping_ready"
+            ],
+            "v2_blocked_before_payload_load": ben_real_v2["mapping_decision"][
+                "blocked_before_payload_load"
+            ],
+            "v2_payload_loader_present": ben_real_v2["production_gate"][
+                "payload_loader_present_in_v2"
+            ],
+            "v2_production_authorized": ben_real_v2["claims"]["production_authorized"],
+            "v2_real_scoring_executed": ben_real_v2["claims"]["real_scoring_executed"],
+            "scientific_claim_allowed": False,
+        },
+        "group_scale_source_boundary": {
+            "decision": group_source["decision"],
+            "candidate_lanes": group_source["counts"]["candidate_lanes"],
+            "ready_lanes": group_source["counts"]["ready_lanes"],
+            "payload_rows_opened": group_source["counts"]["payload_rows_opened"],
+            "scientific_scores_computed": group_source["counts"]["scientific_scores_computed"],
+            "CP10_1_complete": group_source["claims"]["CP10_1_complete"],
+            "CP10_2_complete": group_source["claims"]["CP10_2_complete"],
+            "public_lane_ready": group_source["claims"]["public_lane_ready"],
+            "receipt_builder_zero_row_purity": group_source["claims"][
+                "receipt_builder_zero_row_purity"
+            ],
+            "interactive_audit_zero_row_purity": group_source["claims"][
+                "interactive_audit_zero_row_purity"
+            ],
+            "scientific_result_emitted": group_source["claims"]["scientific_result_emitted"],
+        },
+        "cluster_strata_boundary": {
+            "preflight_decision": predictor_strata["decision"],
+            "development_clusters": predictor_strata["counts"]["development_clusters"],
+            "relaxed_proxy": predictor_strata["counts"]["relaxed_proxy"],
+            "disturbed_proxy": predictor_strata["counts"]["disturbed_proxy"],
+            "cool_core": predictor_strata["counts"]["cool_core"],
+            "non_cool_core": predictor_strata["counts"]["non_cool_core"],
+            "CP5_11_predictor_strata_frozen": predictor_strata["readiness"][
+                "CP5_11_predictor_definition_and_labels_ready"
+            ],
+            "preflight_target_or_response_rows_loaded": predictor_strata["data_boundary"][
+                "target_or_response_rows_loaded"
+            ],
+            "scoring_decision": strata_scoring["decision"],
+            "candidate_full_covariance_score": strata_scoring["results"]["gates"][
+                "candidate_absolute_primary"
+            ]["observed"],
+            "candidate_absolute_gate_passed": strata_scoring["results"]["gates"][
+                "candidate_absolute_primary"
+            ]["passed"],
+            "nfw_full_covariance_score": strata_scoring["results"]["whole_population"][
+                "development_holdout"
+            ]["full_covariance"]["nfw_score_equal_cluster_mean"],
+            "candidate_full_covariance_advantage": strata_scoring["results"]["gates"][
+                "candidate_vs_nfw_primary"
+            ]["observed_mean_advantage"],
+            "candidate_cluster_wins": strata_scoring["results"]["gates"][
+                "candidate_vs_nfw_primary"
+            ]["observed_cluster_wins"],
+            "minimum_cluster_wins": strata_scoring["results"]["gates"]["candidate_vs_nfw_primary"][
+                "minimum_cluster_wins"
+            ],
+            "candidate_object_win_gate_passed": strata_scoring["results"]["gates"][
+                "candidate_vs_nfw_primary"
+            ]["passed"],
+            "covariance_flips": strata_scoring["results"]["whole_population"][
+                "development_holdout"
+            ]["positive_diagonal_to_negative_full_clusters"],
+            "frozen_stratum_explains_covariance_flips": strata_scoring["results"]["gates"][
+                "covariance_flip_explained_by_any_frozen_stratum"
+            ]["passed"],
+            "A3266_boundary_result_singleton_descriptive_only": strata_scoring["claim_boundary"][
+                "A3266_boundary_result_is_singleton_descriptive_only"
+            ],
+            "new_raw_target_rows_opened": strata_scoring["compute_and_access_accounting"][
+                "new_raw_target_rows_opened"
+            ],
+            "CP5_13_complete": strata_scoring["readiness"]["CP5_13_task_complete"],
+            "causal_variable_identified": strata_scoring["claim_boundary"][
+                "causal_variable_identified"
+            ],
+            "scientific_claim_allowed": strata_scoring["claim_boundary"][
+                "scientific_claim_allowed"
+            ],
         },
         "prior_art_boundary": {
             "decision": prior_art["decision"],
@@ -386,6 +498,11 @@ def build_receipt(root: Path) -> dict[str, Any]:
                 *map(str, comparators["limitations"]),
                 *map(str, uncertainty["limitations"]),
                 *map(str, numerical["limitations"]),
+                "B+E+N recovery and ablation results are synthetic plumbing controls, not empirical evidence.",
+                "Mixed SPARC access invalidated local confirmation for this descendant; no real B+E+N score exists.",
+                "The V2 real B+E+N preflight blocks before payload access because predictor-only X-COP output mapping is incomplete.",
+                "The group-scale metadata audit found zero ready public lanes and completed no CP10 task.",
+                "Eight-cluster strata results are exploratory, noncausal, and fail the frozen absolute and object-win gates.",
             }
         ),
         "counts": {
@@ -401,6 +518,16 @@ def build_receipt(root: Path) -> dict[str, Any]:
             ],
             "missingness_stress_scenarios": uncertainty["counts"][
                 "missingness_sensitivity_scenarios"
+            ],
+            "shared_ben_raw_candidates": ben_synthetic["candidate_registry"]["raw_candidate_count"],
+            "shared_ben_equivalence_classes": ben_synthetic["candidate_registry"][
+                "equivalence_class_count"
+            ],
+            "shared_ben_real_scores": 0,
+            "group_scale_ready_lanes": group_source["counts"]["ready_lanes"],
+            "strata_development_clusters": predictor_strata["counts"]["development_clusters"],
+            "strata_new_raw_target_rows_opened": strata_scoring["compute_and_access_accounting"][
+                "new_raw_target_rows_opened"
             ],
             "independent_target_rows_opened": 0,
         },

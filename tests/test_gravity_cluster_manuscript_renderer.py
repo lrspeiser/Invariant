@@ -17,10 +17,7 @@ ROOT = Path(__file__).resolve().parents[1]
 def test_frozen_inventory_defines_and_renders_every_primary_artifact() -> None:
     config = renderer.load_config(ROOT)
     artifacts = renderer.build_artifacts(ROOT)
-    expected = {
-        row["filename"]
-        for row in config["primary_tables"] + config["primary_figures"]
-    }
+    expected = {row["filename"] for row in config["primary_tables"] + config["primary_figures"]}
     assert set(artifacts) == expected
     assert len(artifacts) == 13
     assert tuple(row["artifact_id"] for row in config["primary_tables"]) == renderer.TABLE_IDS
@@ -50,8 +47,7 @@ def test_tables_are_parseable_nonempty_csv_with_expected_scientific_coverage() -
     assert len(table_4) == 21
     table_5 = parsed["table-5-robustness-and-controls.csv"]
     assert any(
-        row[:3] == ["quotient_sbc", "v3_synthetic_sbc_passed", "true"]
-        for row in table_5[1:]
+        row[:3] == ["quotient_sbc", "v3_synthetic_sbc_passed", "true"] for row in table_5[1:]
     )
     assert any(
         row[:3]
@@ -62,12 +58,37 @@ def test_tables_are_parseable_nonempty_csv_with_expected_scientific_coverage() -
         ]
         for row in table_5[1:]
     )
+    assert any(row[:3] == ["shared_ben_synthetic", "raw_candidates", "240"] for row in table_5[1:])
+    assert any(
+        row[:3] == ["shared_ben_real", "real_scoring_executed", "false"] for row in table_5[1:]
+    )
+    assert any(
+        row[:3] == ["cluster_strata", "candidate_absolute_gate_passed", "false"]
+        for row in table_5[1:]
+    )
+    assert any(
+        row[:3] == ["cluster_strata", "candidate_object_win_gate_passed", "false"]
+        for row in table_5[1:]
+    )
     table_6 = parsed["table-6-access-claims-limitations.csv"]
     assert any(
         row
         == [
             "sampler_calibration_boundary",
             "candidate_production_unlock",
+            "false",
+        ]
+        for row in table_6[1:]
+    )
+    assert any(row == ["group_scale_source_boundary", "ready_lanes", "0"] for row in table_6[1:])
+    assert any(
+        row == ["cluster_strata_boundary", "CP5_13_complete", "false"] for row in table_6[1:]
+    )
+    assert any(
+        row
+        == [
+            "shared_ben_boundary",
+            "xcop_predictor_output_mapping_ready",
             "false",
         ]
         for row in table_6[1:]
@@ -125,9 +146,9 @@ def test_renderer_is_byte_deterministic_and_stored_artifacts_validate() -> None:
     second = renderer.build_artifacts(ROOT)
     assert first == second
     stored = json.loads(
-        (ROOT / "runs/gravity/publication-readiness/manuscript-artifact-manifest-v1.json").read_text(
-            encoding="utf-8"
-        )
+        (
+            ROOT / "runs/gravity/publication-readiness/manuscript-artifact-manifest-v1.json"
+        ).read_text(encoding="utf-8")
     )
     renderer.validate_receipt(stored, ROOT)
     assert stored == renderer.build_receipt(ROOT)
@@ -147,9 +168,7 @@ def test_renderer_is_byte_deterministic_and_stored_artifacts_validate() -> None:
             "artifact inventory",
         ),
         (
-            lambda value: value["source_bindings"][0].__setitem__(
-                "file_sha256", "0" * 64
-            ),
+            lambda value: value["source_bindings"][0].__setitem__("file_sha256", "0" * 64),
             "source file changed",
         ),
     ],

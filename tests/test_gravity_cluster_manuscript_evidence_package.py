@@ -46,8 +46,7 @@ def test_all_candidate_rows_and_absolute_relative_summaries_are_retained() -> No
         "confirmation",
     }
     assert all(
-        {"observed", "predicted", "error", "log_residual", "standardized_square"}
-        <= set(row)
+        {"observed", "predicted", "error", "log_residual", "standardized_square"} <= set(row)
         for row in rows
     )
     assert set(receipt["split_summaries"]) == {
@@ -96,6 +95,37 @@ def test_negative_uncertainty_prior_art_and_claim_boundaries_are_all_present() -
     }
 
 
+def test_new_cross_scale_group_and_strata_evidence_keeps_claim_ceilings() -> None:
+    receipt = package.build_receipt(ROOT)
+    ben = receipt["shared_ben_synthetic_and_real_boundary"]
+    assert ben["synthetic_raw_candidates"] == 240
+    assert ben["synthetic_equivalence_classes"] == 60
+    assert ben["synthetic_grammar_mechanics_validated"] is True
+    assert ben["synthetic_recovery_is_scientific_evidence"] is False
+    assert ben["local_sparc_confirmation_sealed_for_descendant"] is False
+    assert ben["v2_blocked_before_payload_load"] is True
+    assert ben["xcop_predictor_output_mapping_ready"] is False
+    assert ben["v2_payload_loader_present"] is False
+    assert ben["v2_real_scoring_executed"] is False
+    group = receipt["group_scale_source_boundary"]
+    assert group["candidate_lanes"] == 3
+    assert group["ready_lanes"] == 0
+    assert group["CP10_1_complete"] is False
+    assert group["CP10_2_complete"] is False
+    assert group["scientific_result_emitted"] is False
+    strata = receipt["cluster_strata_boundary"]
+    assert strata["development_clusters"] == 8
+    assert strata["CP5_11_predictor_strata_frozen"] is True
+    assert strata["candidate_absolute_gate_passed"] is False
+    assert strata["candidate_cluster_wins"] == 4
+    assert strata["minimum_cluster_wins"] == 5
+    assert strata["candidate_object_win_gate_passed"] is False
+    assert strata["frozen_stratum_explains_covariance_flips"] is False
+    assert strata["CP5_13_complete"] is False
+    assert strata["causal_variable_identified"] is False
+    assert strata["scientific_claim_allowed"] is False
+
+
 @pytest.mark.parametrize(
     "mutation,match",
     [
@@ -108,9 +138,7 @@ def test_negative_uncertainty_prior_art_and_claim_boundaries_are_all_present() -
             "environment",
         ),
         (
-            lambda value: value["source_bindings"][0].__setitem__(
-                "content_sha256", "0" * 64
-            ),
+            lambda value: value["source_bindings"][0].__setitem__("content_sha256", "0" * 64),
             "content changed",
         ),
     ],

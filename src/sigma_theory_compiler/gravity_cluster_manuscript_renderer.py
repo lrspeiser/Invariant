@@ -46,9 +46,10 @@ class GravityClusterManuscriptRendererError(RuntimeError):
 
 
 def _canonical_bytes(value: Any) -> bytes:
-    return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=True).encode(
-        "utf-8"
-    ) + b"\n"
+    return (
+        json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=True).encode("utf-8")
+        + b"\n"
+    )
 
 
 def _sha(value: Any) -> str:
@@ -141,9 +142,10 @@ def validate_config(config: Mapping[str, Any]) -> None:
             raise GravityClusterManuscriptRendererError("renderer source hash changed")
     tables = config["primary_tables"]
     figures = config["primary_figures"]
-    if tuple(row.get("artifact_id") for row in tables) != TABLE_IDS or tuple(
-        row.get("artifact_id") for row in figures
-    ) != FIGURE_IDS:
+    if (
+        tuple(row.get("artifact_id") for row in tables) != TABLE_IDS
+        or tuple(row.get("artifact_id") for row in figures) != FIGURE_IDS
+    ):
         raise GravityClusterManuscriptRendererError("primary artifact inventory changed")
     filenames: list[str] = []
     for role, rows, suffix in (("table", tables, ".csv"), ("figure", figures, ".svg")):
@@ -341,7 +343,14 @@ def _table_4(evidence: Mapping[str, Any]) -> bytes:
                 )
             )
     return _csv_bytes(
-        ("split", "cluster", "aggregate_score", "pressure_score", "temperature_score", "disposition"),
+        (
+            "split",
+            "cluster",
+            "aggregate_score",
+            "pressure_score",
+            "temperature_score",
+            "disposition",
+        ),
         rows,
     )
 
@@ -351,6 +360,8 @@ def _table_5(evidence: Mapping[str, Any]) -> bytes:
     controls = evidence["negative_and_numerical_controls"]
     calibration = evidence["quotient_sampler_calibration_and_newtonian_boundary"]
     pressure = evidence["development_pressure_covariance_boundary"]
+    ben = evidence["shared_ben_synthetic_and_real_boundary"]
+    strata = evidence["cluster_strata_boundary"]
     covariance = uncertainty["covariance_sensitivity"]
     missingness = uncertainty["missingness_sensitivity"]
     sampler = uncertainty["marginalization"]["candidate"]["posterior_sampler"]
@@ -358,25 +369,60 @@ def _table_5(evidence: Mapping[str, Any]) -> bytes:
     implementation = controls["implementation_agreement"]
     power = controls["prospective_power_and_stopping"]
     rows = [
-        ("covariance", "scenarios", len(covariance["scenarios"]), "stress models, not source covariance"),
-        ("covariance", "candidate_beats_nfw_scenarios", covariance["candidate_beats_nfw_scenarios"], ""),
+        (
+            "covariance",
+            "scenarios",
+            len(covariance["scenarios"]),
+            "stress models, not source covariance",
+        ),
+        (
+            "covariance",
+            "candidate_beats_nfw_scenarios",
+            covariance["candidate_beats_nfw_scenarios"],
+            "",
+        ),
         ("covariance", "candidate_score_range", covariance["candidate_score_range"], ""),
         ("missingness", "scenarios", len(missingness["scenarios"]), missingness["status"]),
         ("missingness", "score_range", missingness["score_range"], ""),
         ("marginalization", "candidate_sampler_converged", sampler["converged"], ""),
         ("marginalization", "candidate_maximum_rhat", sampler["maximum_rhat"], ""),
-        ("marginalization", "candidate_minimum_effective_samples", sampler["minimum_effective_samples"], ""),
+        (
+            "marginalization",
+            "candidate_minimum_effective_samples",
+            sampler["minimum_effective_samples"],
+            "",
+        ),
         ("false_selection", "trials", false_selection["trials"], ""),
         ("false_selection", "search_variants", false_selection["search_variants"], ""),
         ("false_selection", "fraction", false_selection["false_selection_fraction"], ""),
         ("false_selection", "wilson_95_percent", false_selection["wilson_95_percent"], ""),
         ("false_selection", "threshold", false_selection["threshold"], ""),
         ("implementation", "gpu_device", implementation["gpu_device"], ""),
-        ("implementation", "cpu_gpu_maximum_absolute_score_difference", implementation["cpu_gpu_maximum_absolute_score_difference"], ""),
-        ("implementation", "direct_scorer_maximum_absolute_difference", implementation["separate_direct_scorer_maximum_absolute_difference"], ""),
-        ("power", "planned_independent_clusters", power["planned_independent_clusters"], "exploratory and underpowered"),
+        (
+            "implementation",
+            "cpu_gpu_maximum_absolute_score_difference",
+            implementation["cpu_gpu_maximum_absolute_score_difference"],
+            "",
+        ),
+        (
+            "implementation",
+            "direct_scorer_maximum_absolute_difference",
+            implementation["separate_direct_scorer_maximum_absolute_difference"],
+            "",
+        ),
+        (
+            "power",
+            "planned_independent_clusters",
+            power["planned_independent_clusters"],
+            "exploratory and underpowered",
+        ),
         ("power", "planned_approximate_power", power["planned_approximate_power"], ""),
-        ("power", "calculated_required_clusters", power["calculated_required_clusters"], "frozen confirmatory target"),
+        (
+            "power",
+            "calculated_required_clusters",
+            power["calculated_required_clusters"],
+            "frozen confirmatory target",
+        ),
         ("power", "target_power", power["target_power"], ""),
         ("quotient_sbc", "v1_passed", calibration["v1_passed"], "retained failure"),
         (
@@ -439,6 +485,54 @@ def _table_5(evidence: Mapping[str, Any]) -> bytes:
             pressure["a1795_complete_source_packet"],
             "CP5.2-CP5.6 remain blocked",
         ),
+        (
+            "shared_ben_synthetic",
+            "raw_candidates",
+            ben["synthetic_raw_candidates"],
+            "synthetic plumbing only",
+        ),
+        (
+            "shared_ben_synthetic",
+            "equivalence_classes",
+            ben["synthetic_equivalence_classes"],
+            "AST-deduplicated before synthetic responses",
+        ),
+        (
+            "shared_ben_real",
+            "real_scoring_executed",
+            ben["v2_real_scoring_executed"],
+            "blocked before payload load",
+        ),
+        (
+            "cluster_strata",
+            "candidate_full_covariance_score",
+            strata["candidate_full_covariance_score"],
+            "frozen absolute maximum=1",
+        ),
+        (
+            "cluster_strata",
+            "candidate_absolute_gate_passed",
+            strata["candidate_absolute_gate_passed"],
+            "exploratory development only",
+        ),
+        (
+            "cluster_strata",
+            "candidate_cluster_wins",
+            strata["candidate_cluster_wins"],
+            f"minimum={strata['minimum_cluster_wins']}",
+        ),
+        (
+            "cluster_strata",
+            "candidate_object_win_gate_passed",
+            strata["candidate_object_win_gate_passed"],
+            "4 of 8 clusters",
+        ),
+        (
+            "cluster_strata",
+            "frozen_stratum_explains_covariance_flips",
+            strata["frozen_stratum_explains_covariance_flips"],
+            "no Holm-significant explanation",
+        ),
     ]
     for injection in controls["synthetic_recovery"]["injections"]:
         rows.append(
@@ -466,6 +560,13 @@ def _table_6(evidence: Mapping[str, Any]) -> bytes:
         rows.append(("sampler_calibration_boundary", key, value))
     for key, value in sorted(evidence["development_pressure_covariance_boundary"].items()):
         rows.append(("pressure_covariance_boundary", key, value))
+    for section, source in (
+        ("shared_ben_boundary", evidence["shared_ben_synthetic_and_real_boundary"]),
+        ("group_scale_source_boundary", evidence["group_scale_source_boundary"]),
+        ("cluster_strata_boundary", evidence["cluster_strata_boundary"]),
+    ):
+        for key, value in sorted(source.items()):
+            rows.append((section, key, value))
     for index, limitation in enumerate(evidence["limitations"], start=1):
         rows.append(("limitation", f"limitation_{index}", limitation))
     return _csv_bytes(("section", "field", "value"), rows)
@@ -489,7 +590,15 @@ def _table_7(evidence: Mapping[str, Any], spec: Mapping[str, Any]) -> bytes:
     for key, value in sorted(adjudication.items()):
         rows.append(("adjudication", key, _format(value), "", "", "", ""))
     return _csv_bytes(
-        ("row_type", "source_or_field", "title_or_value", "relationship", "equation_anchor", "doi", "url"),
+        (
+            "row_type",
+            "source_or_field",
+            "title_or_value",
+            "relationship",
+            "equation_anchor",
+            "doi",
+            "url",
+        ),
         rows,
     )
 
@@ -498,11 +607,15 @@ def _n(value: float) -> str:
     return format(value, ".3f").rstrip("0").rstrip(".")
 
 
-def _text(x: float, y: float, value: Any, size: int = 13, anchor: str = "start", **attrs: Any) -> str:
-    extra = " ".join(f'{key.replace("_", "-")}="{escape(str(item))}"' for key, item in attrs.items())
+def _text(
+    x: float, y: float, value: Any, size: int = 13, anchor: str = "start", **attrs: Any
+) -> str:
+    extra = " ".join(
+        f'{key.replace("_", "-")}="{escape(str(item))}"' for key, item in attrs.items()
+    )
     return (
         f'<text x="{_n(x)}" y="{_n(y)}" font-size="{size}" text-anchor="{anchor}"'
-        f'{(" " + extra) if extra else ""}>{escape(str(value))}</text>'
+        f"{(' ' + extra) if extra else ''}>{escape(str(value))}</text>"
     )
 
 
@@ -515,9 +628,9 @@ def _svg(title: str, subtitle: str, parts: Sequence[str]) -> bytes:
         _text(40, 40, title, 22, font_weight="700"),
         _text(40, 66, subtitle, 12, fill="#52606d"),
         *parts,
-        '</g>',
-        '</svg>',
-        '',
+        "</g>",
+        "</svg>",
+        "",
     ]
     return "\n".join(content).encode("utf-8")
 
@@ -546,7 +659,9 @@ def _scatter_panel(
     high += padding
     sx = lambda value: x0 + (value - low) / (high - low) * width
     sy = lambda value: y0 + height - (value - low) / (high - low) * height
-    parts = [_text(x0 + width / 2, y0 - 18, observable.capitalize(), 16, "middle", font_weight="700")]
+    parts = [
+        _text(x0 + width / 2, y0 - 18, observable.capitalize(), 16, "middle", font_weight="700")
+    ]
     for tick in _ticks(low, high):
         px = sx(tick)
         py = sy(tick)
@@ -576,7 +691,10 @@ def _scatter_panel(
 
 def _figure_1(evidence: Mapping[str, Any]) -> bytes:
     rows = evidence["per_row_candidate_predictions"]
-    parts = [*_scatter_panel(rows, "pressure", 80, 125, 340, 390), *_scatter_panel(rows, "temperature", 550, 125, 340, 390)]
+    parts = [
+        *_scatter_panel(rows, "pressure", 80, 125, 340, 390),
+        *_scatter_panel(rows, "temperature", 550, 125, 340, 390),
+    ]
     parts.append(_text(18, 325, "Predicted", 12, "middle", transform="rotate(-90 18 325)"))
     x = 260
     for split in ("development_train", "development_holdout", "confirmation"):
@@ -613,7 +731,15 @@ def _figure_2(evidence: Mapping[str, Any]) -> bytes:
                 _text(x0 + bar_width + 8, y + 20, f"{score:.3f}", 11),
             ]
         )
-    parts.append(_text(x0 + width / 2, 610, "Equal-cluster/equal-observable holdout score (lower is better; log scale)", 12, "middle"))
+    parts.append(
+        _text(
+            x0 + width / 2,
+            610,
+            "Equal-cluster/equal-observable holdout score (lower is better; log scale)",
+            12,
+            "middle",
+        )
+    )
     return _svg(
         "Figure 2. Matched development-holdout comparison",
         "Absolute scores are shown; relative improvement alone is not a publication claim.",
@@ -639,7 +765,16 @@ def _figure_3(evidence: Mapping[str, Any]) -> bytes:
     x0, y0, cell_width, cell_height = 260.0, 110.0, 280.0, 52.0
     parts: list[str] = []
     for column, observable in enumerate(observables):
-        parts.append(_text(x0 + (column + 0.5) * cell_width, y0 - 18, observable.capitalize(), 14, "middle", font_weight="700"))
+        parts.append(
+            _text(
+                x0 + (column + 0.5) * cell_width,
+                y0 - 18,
+                observable.capitalize(),
+                14,
+                "middle",
+                font_weight="700",
+            )
+        )
     for row_index, cluster in enumerate(clusters):
         y = y0 + row_index * cell_height
         parts.append(_text(x0 - 14, y + 32, cluster, 12, "end"))
@@ -651,13 +786,17 @@ def _figure_3(evidence: Mapping[str, Any]) -> bytes:
             parts.extend(
                 [
                     f'<rect x="{_n(x)}" y="{_n(y)}" width="{_n(cell_width)}" height="{_n(cell_height)}" fill="{color}" stroke="#ffffff"/>',
-                    _text(x + cell_width / 2, y + 32, f"{value:.3f}", 12, "middle", fill=text_color),
+                    _text(
+                        x + cell_width / 2, y + 32, f"{value:.3f}", 12, "middle", fill=text_color
+                    ),
                 ]
             )
     legend_y = 560
     for index in range(101):
         value = 10 ** (low + index / 100 * (high - low))
-        parts.append(f'<rect x="{260 + 5 * index}" y="{legend_y}" width="5" height="16" fill="{_heat_color(value, low, high)}"/>')
+        parts.append(
+            f'<rect x="{260 + 5 * index}" y="{legend_y}" width="5" height="16" fill="{_heat_color(value, low, high)}"/>'
+        )
     parts.extend(
         [
             _text(260, 595, f"{min(values):.3g}", 10),
@@ -673,7 +812,9 @@ def _figure_3(evidence: Mapping[str, Any]) -> bytes:
 
 
 def _figure_4(evidence: Mapping[str, Any]) -> bytes:
-    scenarios = evidence["uncertainty_and_alternative_cause_boundary"]["covariance_sensitivity"]["scenarios"]
+    scenarios = evidence["uncertainty_and_alternative_cause_boundary"]["covariance_sensitivity"][
+        "scenarios"
+    ]
     x_values = [math.log10(float(row["candidate_score"])) for row in scenarios]
     y_values = [math.log10(float(row["nfw_score"])) for row in scenarios]
     low = min(x_values + y_values) - 0.08
@@ -693,7 +834,9 @@ def _figure_4(evidence: Mapping[str, Any]) -> bytes:
                 _text(x0 - 10, y + 4, f"10^{tick:.1f}", 10, "end"),
             ]
         )
-    parts.append(f'<line x1="{_n(sx(low))}" y1="{_n(sy(low))}" x2="{_n(sx(high))}" y2="{_n(sy(high))}" stroke="#17212b" stroke-dasharray="6 4"/>')
+    parts.append(
+        f'<line x1="{_n(sx(low))}" y1="{_n(sy(low))}" x2="{_n(sx(high))}" y2="{_n(sy(high))}" stroke="#17212b" stroke-dasharray="6 4"/>'
+    )
     for row in scenarios:
         inflation = float(row["diagonal_error_inflation"])
         parts.append(
@@ -703,7 +846,14 @@ def _figure_4(evidence: Mapping[str, Any]) -> bytes:
         [
             f'<rect x="{x0}" y="{y0}" width="{size}" height="{size}" fill="none" stroke="#52606d"/>',
             _text(x0 + size / 2, 595, "Candidate score (log scale)", 12, "middle"),
-            _text(75, y0 + size / 2, "NFW score (log scale)", 12, "middle", transform=f"rotate(-90 75 {y0 + size / 2})"),
+            _text(
+                75,
+                y0 + size / 2,
+                "NFW score (log scale)",
+                12,
+                "middle",
+                transform=f"rotate(-90 75 {y0 + size / 2})",
+            ),
             _text(650, 140, "Points above diagonal favor candidate", 13, font_weight="700"),
             _text(650, 166, "36/36 tested stress scenarios", 13),
             _text(650, 205, "Diagonal error inflation", 12, font_weight="700"),
@@ -744,19 +894,27 @@ def _residual_panel(
     y_abs = max(abs(min(ys)), abs(max(ys))) * 1.08
     sx = lambda value: x0 + (value - x_low) / (x_high - x_low) * width
     sy = lambda value: y0 + height / 2 - value / (2 * y_abs) * height
-    parts = [_text(x0 + width / 2, y0 - 18, observable.capitalize(), 16, "middle", font_weight="700")]
+    parts = [
+        _text(x0 + width / 2, y0 - 18, observable.capitalize(), 16, "middle", font_weight="700")
+    ]
     for tick in _ticks(x_low, x_high):
         x = sx(tick)
-        parts.append(f'<line x1="{_n(x)}" y1="{y0}" x2="{_n(x)}" y2="{y0 + height}" stroke="#e7ebef"/>')
+        parts.append(
+            f'<line x1="{_n(x)}" y1="{y0}" x2="{_n(x)}" y2="{y0 + height}" stroke="#e7ebef"/>'
+        )
         parts.append(_text(x, y0 + height + 20, f"10^{tick:.1f}", 10, "middle"))
     for tick in _ticks(-y_abs, y_abs):
         y = sy(tick)
-        parts.append(f'<line x1="{x0}" y1="{_n(y)}" x2="{x0 + width}" y2="{_n(y)}" stroke="#e7ebef"/>')
+        parts.append(
+            f'<line x1="{x0}" y1="{_n(y)}" x2="{x0 + width}" y2="{_n(y)}" stroke="#e7ebef"/>'
+        )
         parts.append(_text(x0 - 8, y + 4, f"{tick:.2f}", 10, "end"))
-    parts.append(f'<line x1="{x0}" y1="{_n(sy(0))}" x2="{x0 + width}" y2="{_n(sy(0))}" stroke="#17212b" stroke-width="1.5"/>')
+    parts.append(
+        f'<line x1="{x0}" y1="{_n(sy(0))}" x2="{x0 + width}" y2="{_n(sy(0))}" stroke="#17212b" stroke-width="1.5"/>'
+    )
     for row in selected:
         parts.append(
-            f'<circle cx="{_n(sx(math.log10(float(row["radius_kpc"]))))}" cy="{_n(sy(float(row["log_residual"]))) }" r="3" fill="{SPLIT_COLORS[row["split"]]}" fill-opacity="0.72"/>'
+            f'<circle cx="{_n(sx(math.log10(float(row["radius_kpc"]))))}" cy="{_n(sy(float(row["log_residual"])))}" r="3" fill="{SPLIT_COLORS[row["split"]]}" fill-opacity="0.72"/>'
         )
     parts.extend(
         [
@@ -769,8 +927,13 @@ def _residual_panel(
 
 def _figure_5(evidence: Mapping[str, Any]) -> bytes:
     rows = evidence["per_row_candidate_predictions"]
-    parts = [*_residual_panel(rows, "pressure", 80, 125, 340, 390), *_residual_panel(rows, "temperature", 550, 125, 340, 390)]
-    parts.append(_text(18, 325, "log(observed / predicted)", 12, "middle", transform="rotate(-90 18 325)"))
+    parts = [
+        *_residual_panel(rows, "pressure", 80, 125, 340, 390),
+        *_residual_panel(rows, "temperature", 550, 125, 340, 390),
+    ]
+    parts.append(
+        _text(18, 325, "log(observed / predicted)", 12, "middle", transform="rotate(-90 18 325)")
+    )
     x = 260
     for split in ("development_train", "development_holdout", "confirmation"):
         parts.append(f'<circle cx="{x}" cy="600" r="5" fill="{SPLIT_COLORS[split]}"/>')
@@ -794,7 +957,9 @@ def _figure_6(evidence: Mapping[str, Any]) -> bytes:
     x0, y0, width, height = 100.0, 165.0, 300.0, 330.0
     for percent in range(6):
         y = y0 + height - percent / 5 * height
-        parts.append(f'<line x1="{x0}" y1="{_n(y)}" x2="{x0 + width}" y2="{_n(y)}" stroke="#e7ebef"/>')
+        parts.append(
+            f'<line x1="{x0}" y1="{_n(y)}" x2="{x0 + width}" y2="{_n(y)}" stroke="#e7ebef"/>'
+        )
         parts.append(_text(x0 - 8, y + 4, f"{percent}%", 10, "end"))
     fraction = float(false_selection["false_selection_fraction"])
     bar_height = fraction / 0.05 * height
@@ -803,19 +968,39 @@ def _figure_6(evidence: Mapping[str, Any]) -> bytes:
         [
             f'<rect x="{bar_x}" y="{_n(y0 + height - bar_height)}" width="100" height="{_n(bar_height)}" fill="#087e8b"/>',
             f'<line x1="{x0}" y1="{y0}" x2="{x0 + width}" y2="{y0}" stroke="#ff5a5f" stroke-width="2" stroke-dasharray="6 4"/>',
-            _text(bar_x + 50, y0 + height - bar_height - 10, f"{100 * fraction:.3f}%", 13, "middle", font_weight="700"),
-            _text(x0 + width / 2, 530, f"70 / {false_selection['trials']} null trials", 11, "middle"),
-            _text(x0 + width / 2, 550, "red dashed line: frozen 5% threshold", 10, "middle", fill="#52606d"),
+            _text(
+                bar_x + 50,
+                y0 + height - bar_height - 10,
+                f"{100 * fraction:.3f}%",
+                13,
+                "middle",
+                font_weight="700",
+            ),
+            _text(
+                x0 + width / 2, 530, f"70 / {false_selection['trials']} null trials", 11, "middle"
+            ),
+            _text(
+                x0 + width / 2,
+                550,
+                "red dashed line: frozen 5% threshold",
+                10,
+                "middle",
+                fill="#52606d",
+            ),
         ]
     )
     x0, y0, width, height = 570.0, 165.0, 280.0, 330.0
     for power_tick in (0.0, 0.25, 0.5, 0.75, 1.0):
         y = y0 + height - power_tick * height
-        parts.append(f'<line x1="{x0}" y1="{_n(y)}" x2="{x0 + width}" y2="{_n(y)}" stroke="#e7ebef"/>')
+        parts.append(
+            f'<line x1="{x0}" y1="{_n(y)}" x2="{x0 + width}" y2="{_n(y)}" stroke="#e7ebef"/>'
+        )
         parts.append(_text(x0 - 8, y + 4, f"{power_tick:.0%}", 10, "end"))
     target = float(power["target_power"])
     planned = float(power["planned_approximate_power"])
-    parts.append(f'<line x1="{x0}" y1="{_n(y0 + height - target * height)}" x2="{x0 + width}" y2="{_n(y0 + height - target * height)}" stroke="#ff5a5f" stroke-width="2" stroke-dasharray="6 4"/>')
+    parts.append(
+        f'<line x1="{x0}" y1="{_n(y0 + height - target * height)}" x2="{x0 + width}" y2="{_n(y0 + height - target * height)}" stroke="#ff5a5f" stroke-width="2" stroke-dasharray="6 4"/>'
+    )
     for index, (clusters, value, color) in enumerate(
         (
             (power["planned_independent_clusters"], planned, "#9aa5b1"),
@@ -824,13 +1009,31 @@ def _figure_6(evidence: Mapping[str, Any]) -> bytes:
     ):
         x = x0 + 45 + index * 140
         bar_height = value * height
-        parts.append(f'<rect x="{x}" y="{_n(y0 + height - bar_height)}" width="70" height="{_n(bar_height)}" fill="{color}"/>')
-        parts.append(_text(x + 35, y0 + height - bar_height - 10, f"{value:.1%}", 12, "middle", font_weight="700"))
+        parts.append(
+            f'<rect x="{x}" y="{_n(y0 + height - bar_height)}" width="70" height="{_n(bar_height)}" fill="{color}"/>'
+        )
+        parts.append(
+            _text(
+                x + 35,
+                y0 + height - bar_height - 10,
+                f"{value:.1%}",
+                12,
+                "middle",
+                font_weight="700",
+            )
+        )
         parts.append(_text(x + 35, 525, f"n={clusters}", 12, "middle"))
     parts.extend(
         [
             _text(710, 550, "192 is the frozen confirmatory target", 10, "middle", fill="#52606d"),
-            _text(480, 607, "Controls reduce false discovery risk; they do not create independent evidence.", 12, "middle", font_weight="700"),
+            _text(
+                480,
+                607,
+                "Controls reduce false discovery risk; they do not create independent evidence.",
+                12,
+                "middle",
+                font_weight="700",
+            ),
         ]
     )
     return _svg(
@@ -877,12 +1080,8 @@ def build_receipt(root: Path, artifacts: Mapping[str, bytes] | None = None) -> d
     sources = _load_sources(root, config)
     evidence = sources["manuscript_evidence_package"]
     rendered = dict(artifacts if artifacts is not None else build_artifacts(root))
-    metadata = {
-        row["filename"]: ("table", row)
-        for row in config["primary_tables"]
-    } | {
-        row["filename"]: ("figure", row)
-        for row in config["primary_figures"]
+    metadata = {row["filename"]: ("table", row) for row in config["primary_tables"]} | {
+        row["filename"]: ("figure", row) for row in config["primary_figures"]
     }
     if set(rendered) != set(metadata):
         raise GravityClusterManuscriptRendererError("rendered artifact inventory changed")
@@ -913,7 +1112,7 @@ def build_receipt(root: Path, artifacts: Mapping[str, bytes] | None = None) -> d
         "supersedes_snapshot_blocker": {
             "source_receipt": "manuscript_evidence_package",
             "goal_task_id": "CP12.1",
-            "reason": "The upstream package recorded CP12.1 before this downstream renderer existed."
+            "reason": "The upstream package recorded CP12.1 before this downstream renderer existed.",
         },
         "artifact_inventory": inventory,
         "counts": {
@@ -921,7 +1120,9 @@ def build_receipt(root: Path, artifacts: Mapping[str, bytes] | None = None) -> d
             "primary_figures": len(config["primary_figures"]),
             "artifacts": len(inventory),
             "source_candidate_rows": evidence["counts"]["per_row_candidate_predictions"],
-            "independent_target_rows_opened": evidence["access_ledger"]["independent_target_rows_opened"],
+            "independent_target_rows_opened": evidence["access_ledger"][
+                "independent_target_rows_opened"
+            ],
         },
         "claims": {
             "development_artifacts_reproducible": True,
@@ -977,7 +1178,9 @@ def validate_receipt(receipt: Mapping[str, Any], root: Path) -> None:
     for row in receipt["artifact_inventory"]:
         path = output_directory / str(row["filename"])
         if path.stat().st_size != row["bytes"] or _file_sha(path) != row["file_sha256"]:
-            raise GravityClusterManuscriptRendererError(f"stored artifact changed: {row['filename']}")
+            raise GravityClusterManuscriptRendererError(
+                f"stored artifact changed: {row['filename']}"
+            )
 
 
 def main(argv: Sequence[str] | None = None) -> int:
