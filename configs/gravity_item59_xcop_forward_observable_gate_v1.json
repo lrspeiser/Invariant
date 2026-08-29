@@ -1,0 +1,151 @@
+{
+  "schema_version": "invariant-gravity-item59-xcop-forward-observable-config-1.0",
+  "item": 59,
+  "status": "scientific_freeze_before_reserved_xcop_response_access",
+  "scientific_freeze_commit": "PENDING_FREEZE_COMMIT",
+  "stable_goal_sha256": "b9db7e1aa76deaf28ce2e840cd3d7db4cf7a086b1c7ca473800780c264a0e772",
+  "hypothesis": "One universal baryon-conditioned acceleration law can forward-predict held-out Planck SZ electron-pressure and XMM temperature profiles through hydrostatic integration, using measured electron density plus declared boundary-pressure, nonthermal-support, and member-baryon nuisances, without inferred total mass.",
+  "scientific_dependencies": {
+    "docs/GRAVITY_COUNTEREXAMPLE_AND_DATA_QUALITY_POLICY_V2.md": "76a032dbabb5e2e48a93dc4faa7d559c060735f66941bdaa4e40e21f4347cd4e",
+    "configs/gravity_empirical_counterexample_policy_v1.json": "aaca25628047af2bf781ab5f2ad1da5f9194fe8d7dd0f416179bc1c6783ddd6d",
+    "runs/gravity/roadmap/item-58-cluster-coefficient-gate-v1.json": "67b9de876562a6955e45d90870bda37670c378f16946676705db8ed6492bd373",
+    "runs/gravity/roadmap/item-03-smooth-density-profiles-v2.json": "8ec8309ee3e36b2d008b8687fa3c779b58de2a3fde187d0151cb726657521a64",
+    "runs/gravity/roadmap/item-03-smooth-density-profiles-v2-source/sample-manifest.json": "915374275de98a8aa8a8848daf9d4828a77ab7b6e8591e8714a5ef30c169a037",
+    "runs/gravity/roadmap/item-03-smooth-density-profiles-v2-source/exploration-source-manifest.json": "a51bf92d606f3bb9c8a79a3af0ec011c9384d34e6e17b0a54edcb7044b9f2869",
+    "configs/gravity_item3_smooth_density_profiles_v2.json": "494eb758270a2f45e281759ff2d985c7903c50bc4e70c49be2190922be5f72f8",
+    "src/sigma_theory_compiler/gravity_item3_smooth_density_profiles.py": "4dc3bb90decbd9402a9063435e1bf887b406ef86457b82105e19280b33e4692e",
+    "src/sigma_theory_compiler/gravity_g4_first_principles_mechanism_search.py": "72fd908210f59cad9b08a116d4c3cd48f945f35d488428d69b07f247114bb0ff"
+  },
+  "required_predecessor": {
+    "decision": "ITEM58_CLUSTER_COEFFICIENT_GATE_NOT_PASSED_VARIABLE_FAMILIES_RETAINED",
+    "formula_family_pruned": false,
+    "retained_lead": "baryonic compactness, boundary, and profile state"
+  },
+  "source": {
+    "project": "XMM Cluster Outskirts Project (X-COP)",
+    "release_page": "https://dominiqueeckert.wixsite.com/xcop/data",
+    "archive_url": "https://drive.switch.ch/index.php/s/j3WUOYXWgv9Jbnz/download",
+    "archive_cache": "work/item3-density-v2-audit/xcop-allfiles.tar.gz",
+    "archive_sha256": "0edf5038b419b70d070b73b22f4801e27f318b0854db61eec52142c27c140d94",
+    "archive_bytes": 315080566,
+    "allowed_member_suffixes": ["_density_L1.fits", "_pressure.fits", "_temperature.fits", "_mstar.fits"],
+    "forbidden_member_substrings": ["hydro_mass", "fgas", "mass_profiles", "entropy", "abund", "spectral_results", "mosaic", "Y-PROF-COVMAT_P-PROF-COVMAT"],
+    "density_hdu": 2,
+    "sz_pressure_hdu": 2,
+    "xray_temperature_hdu": 1,
+    "stellar_mass_hdu": 2
+  },
+  "population": {
+    "development_clusters_already_exposed": ["A1644", "A1795", "A2142", "A2255", "A2319", "A3266", "A85", "ZW1215"],
+    "independent_confirmation_clusters_sealed_until_freeze": ["A2029", "A3158", "A644", "RXC1825"],
+    "clusters_with_published_stellar_profile": ["A1795", "A2029", "A2142", "A2319", "A644", "A85", "ZW1215"],
+    "clusters_without_published_stellar_profile": ["A1644", "A2255", "A3158", "A3266", "RXC1825"],
+    "development_response_rows_may_be_reused_after_freeze": true,
+    "confirmation_response_rows_allowed_after_freeze": true,
+    "confirmation_response_rows_allowed_before_freeze": false,
+    "direct_lensing_likelihood_evaluations_allowed": 0,
+    "inferred_total_mass_rows_allowed": 0
+  },
+  "observable_contract": {
+    "baryonic_predictor": "XMM electron-density profile plus published cumulative stellar profile where available",
+    "sz_target": "released Planck SZ electron-pressure profile P_SZ times P500",
+    "xray_target": "released XMM spectroscopic temperature profile T_X times T500",
+    "boundary_condition": "outermost usable Planck SZ pressure point; never scored",
+    "pressure_equation": "dP_e/dr = -mu*m_p*n_e*g_candidate*(1-f_nonthermal(r))",
+    "temperature_equation": "kT_pred_keV=P_e_pred_keV_cm3/n_e_cm-3 times one global cross-calibration nuisance",
+    "spherical_symmetry_assumed": true,
+    "electron_density_used_as_target": false,
+    "pressure_gradient_or_hydrostatic_mass_used_as_target": false,
+    "total_mass_used_anywhere": false
+  },
+  "constants": {
+    "gravity_si": 6.6743e-11,
+    "solar_mass_kg": 1.98847e30,
+    "kiloparsec_m": 3.085677581491367e19,
+    "proton_mass_kg": 1.67262192369e-27,
+    "mean_molecular_weight": 0.61,
+    "mean_molecular_weight_per_electron": 1.148,
+    "kev_per_cubic_centimeter_j_per_cubic_meter": 1.602176634e-10,
+    "transition_acceleration_m_s2": 1.2e-10
+  },
+  "radial_split": {
+    "development_train_fraction": 0.5,
+    "salt": "invariant-gravity-item59-xcop-radial-split-v1-20260829",
+    "unit": "cluster_observable_radial_bin",
+    "minimum_train_rows_per_cluster_observable": 2,
+    "minimum_holdout_rows_per_cluster_observable": 2,
+    "confirmation_rows_all_scored": true,
+    "outer_sz_boundary_row_never_scored": true
+  },
+  "law_families": [
+    {"id": "newtonian_baryons", "origin_label": "known_physical_baseline", "qualifying": false, "parameter_grid": [{}]},
+    {"id": "empirical_rar", "origin_label": "known_empirical_galaxy_relation", "qualifying": false, "parameter_grid": [{}]},
+    {"id": "cross_scale_boundary", "origin_label": "new_combination_of_known_permittivity_and_auxiliary_field_ideas", "qualifying": true, "parameter_grid": [{"beta": 1.0}, {"beta": 1.5}, {"beta": 2.0}, {"beta": 2.5}, {"beta": 3.0}]},
+    {"id": "distance_running_gravity", "origin_label": "known_running_coupling_scaffold_with_baryonic_radius_boundary", "qualifying": true, "parameter_grid": [{"amplitude": 1.0, "power": 0.5}, {"amplitude": 2.0, "power": 0.5}, {"amplitude": 4.0, "power": 0.5}, {"amplitude": 1.0, "power": 1.0}, {"amplitude": 2.0, "power": 1.0}, {"amplitude": 4.0, "power": 1.0}]},
+    {"id": "qed_like_screened_coupling", "origin_label": "analogy_to_scale_dependent_screening_not_a_QED_derivation", "qualifying": true, "parameter_grid": [{"amplitude": 1.0, "power": 0.5}, {"amplitude": 2.0, "power": 0.5}, {"amplitude": 4.0, "power": 0.5}, {"amplitude": 1.0, "power": 1.0}, {"amplitude": 2.0, "power": 1.0}, {"amplitude": 4.0, "power": 1.0}]},
+    {"id": "interior_resonance_equalization", "origin_label": "proposed_nonlocal_orbital_equalization_proxy_not_a_time_evolution_solution", "qualifying": true, "parameter_grid": [{"amplitude": 0.5, "log_radius_scale": 0.25}, {"amplitude": 1.0, "log_radius_scale": 0.25}, {"amplitude": 2.0, "log_radius_scale": 0.25}, {"amplitude": 0.5, "log_radius_scale": 0.5}, {"amplitude": 1.0, "log_radius_scale": 0.5}, {"amplitude": 2.0, "log_radius_scale": 0.5}]}
+  ],
+  "nuisance_grid": {
+    "outer_nonthermal_fraction": [0.0, 0.15, 0.3],
+    "published_stellar_mass_scale": [0.7, 1.0, 1.3],
+    "missing_stellar_to_gas_mass_ratio": [0.05, 0.1, 0.2],
+    "xray_temperature_cross_calibration": [0.9, 1.0, 1.1],
+    "nonthermal_radial_power": 1.0,
+    "all_nuisances_global_not_per_cluster": true
+  },
+  "empirical_pressure_shape_comparator": {
+    "id": "training_only_cubic_log_pressure_shape",
+    "degree": 3,
+    "features": "powers of log(r/r_anchor)",
+    "normalization": "one measured outer pressure boundary per cluster",
+    "fit_rows": "development training pressure rows only",
+    "temperature_cross_calibration_grid": [0.9, 1.0, 1.1]
+  },
+  "scoring": {
+    "space": "log_observable",
+    "minimum_fractional_error": 0.05,
+    "weighting": "equal cluster then equal observable then equal row",
+    "selection": "minimum development-training score; deterministic variant id tie break",
+    "strongest_baseline": "minimum score separately among frozen Newtonian, empirical RAR, and training-only pressure-shape comparators",
+    "systematic_variants": ["density_minus_error", "density_plus_error", "boundary_minus_error", "boundary_plus_error", "member_baryons_low", "member_baryons_high"],
+    "influence_trim_fraction": 0.25
+  },
+  "admission": {
+    "all_12_clusters_evaluable": true,
+    "selected_law_qualifying": true,
+    "development_radial_holdout_improvement_over_every_baseline_minimum": 0.1,
+    "confirmation_cluster_improvement_over_every_baseline_minimum": 0.1,
+    "candidate_beats_every_baseline_in_each_observable_on_radial_holdout": true,
+    "candidate_beats_every_baseline_in_each_observable_on_confirmation": true,
+    "systematic_variants_preserve_positive_confirmation_improvement": true,
+    "leave_one_confirmation_cluster_preserves_positive_improvement": true,
+    "confirmation_cluster_wins_minimum": 3,
+    "direct_lensing_likelihood_evaluations": 0,
+    "inferred_total_mass_rows": 0
+  },
+  "counterexample_policy": {
+    "single_counterexample_terminal": false,
+    "counterexample_count_alone_terminal": false,
+    "finite_sample_may_prune_formula_family": false,
+    "retain_every_cluster_and_observable_where_candidate_loses": true,
+    "unchanged_confirmation_failure_may_retire_only_exact_selected_representation_in_tested_scope": true,
+    "global_family_pruning_allowed": false
+  },
+  "claim_policy": {
+    "pass_is_forward_observable_development_evidence": true,
+    "pass_establishes_alternative_to_gr": false,
+    "pass_eliminates_dark_matter": false,
+    "pass_establishes_historical_novelty": false,
+    "hydrostatic_equilibrium_is_gravity_theory_independent": false,
+    "failure_prunes_unselected_or_parent_families": false,
+    "direct_lensing_completed": false
+  },
+  "paths": {
+    "source_dir": "runs/gravity/roadmap/item-59-xcop-forward-observable-gate-v1-source",
+    "raw_dir": "raw",
+    "preflight_manifest": "preflight-manifest.json",
+    "source_receipt": "source-receipt.json",
+    "evaluation_result": "forward-observable-evaluation.json",
+    "aggregate_result": "runs/gravity/roadmap/item-59-xcop-forward-observable-gate-v1.json"
+  }
+}
