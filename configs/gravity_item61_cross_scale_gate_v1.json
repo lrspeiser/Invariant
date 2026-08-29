@@ -1,0 +1,71 @@
+{
+  "schema_version": "invariant-gravity-item61-cross-scale-config-1.0",
+  "item": 61,
+  "status": "scientific_freeze_before_cross_scale_evaluation",
+  "scientific_freeze_commit": "PENDING_FREEZE_COMMIT",
+  "stable_goal_sha256": "b9db7e1aa76deaf28ce2e840cd3d7db4cf7a086b1c7ca473800780c264a0e772",
+  "hypothesis": "The unchanged Item 59 cross-scale-boundary law with beta=1.5 and a0=1.2e-10 m/s^2 improves direct baryonic predictions across disk and dwarf galaxies as well as X-COP clusters, without an object label or scale-specific gravitational parameter.",
+  "scientific_dependencies": {
+    "docs/GRAVITY_COUNTEREXAMPLE_AND_DATA_QUALITY_POLICY_V2.md": "76a032dbabb5e2e48a93dc4faa7d559c060735f66941bdaa4e40e21f4347cd4e",
+    "configs/gravity_empirical_counterexample_policy_v1.json": "aaca25628047af2bf781ab5f2ad1da5f9194fe8d7dd0f416179bc1c6783ddd6d",
+    "runs/gravity/roadmap/item-56-disk-galaxy-gate-v1.json": "c4ef00dbead2f9d512d09843a4e04fd325b928ac6925a2608d695012b6b82c9a",
+    "runs/gravity/roadmap/item-57-independent-galaxy-gate-v1.json": "0b0564b32f64a9d67a074149e44c9654c4a5f6b90f40a06408193273f8049a30",
+    "runs/gravity/roadmap/item-59-xcop-forward-observable-gate-v1.json": "2fd76f58bbd1754ea33b15fa0545a1397e8e12e441b6a25f11ddf8db735a5051",
+    "runs/gravity/roadmap/item-60-direct-clash-lensing-gate-v1.json": "12ebf32f59ef955d8a0a185044bf9545e8ba944b6ab53ef30225eafddbd57323",
+    "configs/gravity_item57_independent_galaxy_gate_v1.json": "9b9fb7afb094b98595e14253c996d5d3e3f58edece29f6dc38532982564f18dc",
+    "runs/gravity/roadmap/item-05-pressure-support-v1-source/exploration-source-manifest.json": "a268a78adcc37b0155b63d5bce406ba3f6734089c6ea0318f84d7150e2f45652"
+  },
+  "candidate": {
+    "source_item": 59,
+    "variant_id": "cross_scale_boundary:5e945be899287b75",
+    "family_id": "cross_scale_boundary",
+    "parameters": {"beta": 1.5},
+    "transition_acceleration_m_s2": 1.2e-10,
+    "kernel_log_radius_scale": 0.25,
+    "formula_refit_allowed": false,
+    "scale_specific_parameter_allowed": false
+  },
+  "populations": {
+    "sparc_exploration": {"galaxies": 139, "rows": 2720, "responses_previously_exposed": true},
+    "little_things_exploration": {"galaxies": 11, "evaluated_rows": 199, "responses_previously_exposed": true},
+    "xcop": {"clusters": 12, "confirmation_clusters": 4, "confirmation_rows": 77},
+    "groups_and_transition_objects": {"authorized_evaluable_objects": 0, "required_for_full_gate": true},
+    "sealed_sparc_confirmation_rows_allowed": 0,
+    "new_target_queries_allowed": 0
+  },
+  "prediction_contract": {
+    "galaxy_baryonic_acceleration": "gbar=Vbar^2/R from frozen baryonic components only",
+    "candidate_acceleration": "unchanged Item 59 cross_scale_boundary acceleration evaluated over each object's ordered radii",
+    "galaxy_velocity": "Vpred=sqrt(g_candidate*R)",
+    "cluster_result": "reuse frozen Item 59 confirmation score; no re-evaluation or nuisance refit",
+    "comparators": ["newtonian_baryons", "empirical_rar"],
+    "primary_galaxy_score": "equal-object mean squared standardized velocity residual"
+  },
+  "admission": {
+    "candidate_beats_every_comparator_on_sparc": true,
+    "candidate_beats_every_comparator_on_little_things": true,
+    "item59_xcop_gate_passed": true,
+    "groups_and_transition_objects_evaluable": true,
+    "one_formula_and_parameter_set_unchanged": true,
+    "all_required": true
+  },
+  "counterexample_policy": {
+    "single_counterexample_terminal": false,
+    "counterexample_count_alone_terminal": false,
+    "finite_sample_may_prune_formula_family": false,
+    "aggregate_multi_dataset_failure_may_withhold_universal_promotion": true,
+    "global_family_pruning_allowed": false
+  },
+  "claim_policy": {
+    "evaluation_is_fresh_confirmation": false,
+    "cross_scale_failure_rejects_item59_cluster_result": false,
+    "cross_scale_failure_prunes_family": false,
+    "alternative_to_gr_established": false,
+    "dark_matter_eliminated": false,
+    "historical_novelty_established": false
+  },
+  "paths": {
+    "evaluation": "runs/gravity/roadmap/item-61-cross-scale-gate-v1-source/cross-scale-evaluation.json",
+    "aggregate": "runs/gravity/roadmap/item-61-cross-scale-gate-v1.json"
+  }
+}
