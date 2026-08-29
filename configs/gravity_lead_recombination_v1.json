@@ -1,0 +1,477 @@
+{
+  "schema_version": "invariant-gravity-lead-recombination-config-1.0",
+  "status": "frozen_metadata_only_recombination_preflight",
+  "program_id": "gravity-lead-recombination-v1",
+  "purpose": "Generate target-blind structural recombination descendants from the five hash-bound gravity leads without reading or scoring scientific payloads.",
+  "parent_registry_binding": {
+    "registry_id": "gravity-lead-parent-registry-v1",
+    "config_path": "configs/gravity_lead_parent_registry_v1.json",
+    "config_sha256": "40266b6e0664e9f3c8de915e5ce808d156a2e4204d13f61c43db55407621bc0c",
+    "implementation_sha256": "991197b6b699bcf81f213be5e97b562c15f513e6127f89e4a82f93849de35526",
+    "receipt_path": "runs/gravity/lead-programs/gravity-lead-parent-registry-v1.json",
+    "receipt_file_sha256": "0ff0ae7b8bb8fc18cea2a04b9a7b8b968195437a1b19f784960370e441959d85",
+    "receipt_content_sha256": "89cc89dc5caea84b350ddca13a9e1f2fffadb540a0472379ac8f6cdfcf5d2fe3",
+    "receipt_schema_version": "invariant-gravity-lead-parent-registry-receipt-1.0"
+  },
+  "safety_contract": {
+    "metadata_only": true,
+    "scientific_payload_rows_allowed": 0,
+    "sealed_target_rows_allowed": 0,
+    "outcome_scores_allowed": 0,
+    "network_calls_allowed": false,
+    "model_calls_allowed": false,
+    "paid_calls_allowed": false,
+    "gpu_production_allowed": false,
+    "children_executed_by_preflight": false
+  },
+  "lead_roles": {
+    "nonlocal_boundary_response": {
+      "symbol": "N",
+      "typed_role": "spatial_response_operator",
+      "mechanism_status": "candidate_additive_channel_requiring_metric_completion",
+      "interface_ids": ["normalized_acceleration", "occupancy", "nonlocal_response", "lensing_response"]
+    },
+    "baryonic_transition_variable": {
+      "symbol": "B",
+      "typed_role": "state_or_gate",
+      "mechanism_status": "predictor_only_gate_not_a_force_law",
+      "interface_ids": ["normalized_acceleration", "relativistic_compactness", "boundary_curvature", "thermal_state", "geometry_shape", "environment_gate"]
+    },
+    "dynamical_age_spectral_clock": {
+      "symbol": "A",
+      "typed_role": "nuisance_or_assembly_control",
+      "mechanism_status": "control_only_until_replaced_by_a_physical_age_ratio",
+      "interface_ids": ["physical_age_ratio"]
+    },
+    "massive_field_orbital_resonance": {
+      "symbol": "M",
+      "typed_role": "temporal_or_phase_operator",
+      "mechanism_status": "deferred_until_causal_time_dependent_action_exists",
+      "interface_ids": ["normalized_acceleration", "orbital_phase", "lensing_response"]
+    },
+    "emergent_gravity_transition": {
+      "symbol": "E",
+      "typed_role": "base_local_law",
+      "mechanism_status": "known_family_base_with_non_authoritative_transition_synthesis",
+      "interface_ids": ["normalized_acceleration", "environment_gate", "lensing_response"]
+    }
+  },
+  "dimensionless_interfaces": [
+    {
+      "interface_id": "normalized_acceleration",
+      "symbol": "u",
+      "definition": "u = g_bar / a0",
+      "dimensionless": true,
+      "allowed_consumers": ["base_local_law", "state_or_gate", "spatial_response_operator", "temporal_or_phase_operator"],
+      "status": "available_from_predictor_only_baryonic_fields"
+    },
+    {
+      "interface_id": "relativistic_compactness",
+      "symbol": "C",
+      "definition": "C = G M_b / (R c^2) = g_bar R / c^2 with declared geometry",
+      "dimensionless": true,
+      "allowed_consumers": ["state_or_gate"],
+      "status": "candidate_predictor_requires_uncertainty_propagation"
+    },
+    {
+      "interface_id": "boundary_curvature",
+      "symbol": "b",
+      "definition": "b = abs(d^2 ln(M_b) / d(ln r)^2)",
+      "dimensionless": true,
+      "allowed_consumers": ["state_or_gate", "spatial_response_operator"],
+      "status": "candidate_predictor_requires_regularized_profile_derivatives"
+    },
+    {
+      "interface_id": "thermal_state",
+      "symbol": "Theta",
+      "definition": "Theta = P / (rho c^2)",
+      "dimensionless": true,
+      "allowed_consumers": ["state_or_gate", "spatial_response_operator"],
+      "status": "cluster_available_galaxy_mapping_not_yet_common"
+    },
+    {
+      "interface_id": "geometry_shape",
+      "symbol": "Ghat",
+      "definition": "normalized eigenvalue ratios of a baryonic inertia or quadrupole tensor",
+      "dimensionless": true,
+      "allowed_consumers": ["state_or_gate", "spatial_response_operator"],
+      "status": "continuous_geometry_only_no_object_class_switch"
+    },
+    {
+      "interface_id": "occupancy",
+      "symbol": "Q",
+      "definition": "Q = u / (u + u0)",
+      "dimensionless": true,
+      "allowed_consumers": ["spatial_response_operator"],
+      "status": "available_as_a_frozen_nonlocal_kernel_input"
+    },
+    {
+      "interface_id": "nonlocal_response",
+      "symbol": "X_K",
+      "definition": "X_K = K_(ell/R)[Q] with a normalized dimensionless radial measure",
+      "dimensionless": true,
+      "allowed_consumers": ["spatial_response_operator", "state_or_gate"],
+      "status": "candidate_operator_output_not_an_empirical_success_claim"
+    },
+    {
+      "interface_id": "orbital_phase",
+      "symbol": "z",
+      "definition": "z = n Omega_b lambda / c with Omega_b = v_bar / R",
+      "dimensionless": true,
+      "allowed_consumers": ["temporal_or_phase_operator"],
+      "status": "deferred_until_a_causal_dynamic_field_is_derived"
+    },
+    {
+      "interface_id": "physical_age_ratio",
+      "symbol": "tau_hat",
+      "definition": "tau_hat = t_star / t_dyn or H0 t_star after physical calibration",
+      "dimensionless": true,
+      "allowed_consumers": ["nuisance_or_assembly_control", "state_or_gate"],
+      "status": "unavailable_current_spectral_clock_is_not_this_interface"
+    },
+    {
+      "interface_id": "environment_gate",
+      "symbol": "T_B",
+      "definition": "T_B = S_high(u) S_env(C,b,Theta,Ghat[,tau_hat])",
+      "dimensionless": true,
+      "allowed_consumers": ["base_local_law", "spatial_response_operator", "temporal_or_phase_operator"],
+      "status": "structural_template_only_thresholds_must_be_frozen_target_blind"
+    },
+    {
+      "interface_id": "lensing_response",
+      "symbol": "Sigma_lens",
+      "definition": "Sigma_lens = (Phi + Psi) / (2 Phi_N) or an equivalent metric-derived slip",
+      "dimensionless": true,
+      "allowed_consumers": ["base_local_law", "spatial_response_operator", "temporal_or_phase_operator"],
+      "status": "derived_only_from_shared_action_or_field_equations_never_independently_fit"
+    }
+  ],
+  "pairwise_recombinations": [
+    {
+      "recombination_id": "pair.nonlocal_boundary_response__baryonic_transition_variable",
+      "members": ["nonlocal_boundary_response", "baryonic_transition_variable"],
+      "disposition": "high_priority_mechanism_candidate",
+      "mechanism_members": ["nonlocal_boundary_response", "baryonic_transition_variable"],
+      "control_members": [],
+      "deferred_members": [],
+      "composition": "Use B to gate an additive N channel through continuous baryonic state variables.",
+      "reason": "This directly addresses the failure of the positive multiplicative screen without introducing an object-class switch."
+    },
+    {
+      "recombination_id": "pair.nonlocal_boundary_response__dynamical_age_spectral_clock",
+      "members": ["nonlocal_boundary_response", "dynamical_age_spectral_clock"],
+      "disposition": "control_only",
+      "mechanism_members": ["nonlocal_boundary_response"],
+      "control_members": ["dynamical_age_spectral_clock"],
+      "deferred_members": [],
+      "composition": "Evaluate N with A only as an assembly or baryonic-calibration nuisance.",
+      "reason": "A raw spectral population clock has no derived role as a nonlocal gravitational source."
+    },
+    {
+      "recombination_id": "pair.nonlocal_boundary_response__massive_field_orbital_resonance",
+      "members": ["nonlocal_boundary_response", "massive_field_orbital_resonance"],
+      "disposition": "theory_first_deferred",
+      "mechanism_members": ["nonlocal_boundary_response"],
+      "control_members": [],
+      "deferred_members": ["massive_field_orbital_resonance"],
+      "composition": "Permit spatial memory and temporal phase response only when one causal Green-function or two-field action derives both.",
+      "reason": "An arbitrary product of a static kernel and resonance window is underived and physically underidentified."
+    },
+    {
+      "recombination_id": "pair.nonlocal_boundary_response__emergent_gravity_transition",
+      "members": ["nonlocal_boundary_response", "emergent_gravity_transition"],
+      "disposition": "high_priority_mechanism_candidate",
+      "mechanism_members": ["nonlocal_boundary_response", "emergent_gravity_transition"],
+      "control_members": [],
+      "deferred_members": [],
+      "composition": "Use E as a disk-preserving local base and N as a separately ablatable additive cluster channel.",
+      "reason": "The roles are complementary if low-acceleration enhancement is not counted twice and a shared metric closure is derived."
+    },
+    {
+      "recombination_id": "pair.baryonic_transition_variable__dynamical_age_spectral_clock",
+      "members": ["baryonic_transition_variable", "dynamical_age_spectral_clock"],
+      "disposition": "control_only",
+      "mechanism_members": ["baryonic_transition_variable"],
+      "control_members": ["dynamical_age_spectral_clock"],
+      "deferred_members": [],
+      "composition": "Use A to test whether the B gate is a stellar-population, assembly, or mass-calibration proxy.",
+      "reason": "The current A measurement is not a physical dimensionless time variable and cannot define a force gate."
+    },
+    {
+      "recombination_id": "pair.baryonic_transition_variable__massive_field_orbital_resonance",
+      "members": ["baryonic_transition_variable", "massive_field_orbital_resonance"],
+      "disposition": "conditional_mechanism_deferred",
+      "mechanism_members": ["baryonic_transition_variable"],
+      "control_members": [],
+      "deferred_members": ["massive_field_orbital_resonance"],
+      "composition": "Allow B to select the amplitude of an M phase channel only after M has a causal action.",
+      "reason": "Energy, radiation, stability, and time-evolution gates precede empirical recombination."
+    },
+    {
+      "recombination_id": "pair.baryonic_transition_variable__emergent_gravity_transition",
+      "members": ["baryonic_transition_variable", "emergent_gravity_transition"],
+      "disposition": "medium_high_mechanism_candidate",
+      "mechanism_members": ["baryonic_transition_variable", "emergent_gravity_transition"],
+      "control_members": [],
+      "deferred_members": [],
+      "composition": "Let a target-blind B state variable modulate a single E susceptibility transition.",
+      "reason": "A finite grammar must prevent the added gate from duplicating the transition already present in E."
+    },
+    {
+      "recombination_id": "pair.dynamical_age_spectral_clock__massive_field_orbital_resonance",
+      "members": ["dynamical_age_spectral_clock", "massive_field_orbital_resonance"],
+      "disposition": "control_and_falsification_only",
+      "mechanism_members": [],
+      "control_members": ["dynamical_age_spectral_clock"],
+      "deferred_members": ["massive_field_orbital_resonance"],
+      "composition": "Use A to stratify or residualize M and test an ordinary assembly explanation.",
+      "reason": "Neither the raw spectral clock nor the static M window currently supplies a derived coupled force law."
+    },
+    {
+      "recombination_id": "pair.dynamical_age_spectral_clock__emergent_gravity_transition",
+      "members": ["dynamical_age_spectral_clock", "emergent_gravity_transition"],
+      "disposition": "control_only",
+      "mechanism_members": ["emergent_gravity_transition"],
+      "control_members": ["dynamical_age_spectral_clock"],
+      "deferred_members": [],
+      "composition": "Evaluate E with A as a mass-to-light and assembly nuisance only.",
+      "reason": "A stellar spectral population cannot directly define a universal spacetime entropy law."
+    },
+    {
+      "recombination_id": "pair.massive_field_orbital_resonance__emergent_gravity_transition",
+      "members": ["massive_field_orbital_resonance", "emergent_gravity_transition"],
+      "disposition": "theory_first_deferred",
+      "mechanism_members": ["emergent_gravity_transition"],
+      "control_members": [],
+      "deferred_members": ["massive_field_orbital_resonance"],
+      "composition": "Interpret M as a collective mode of E only if one action derives the mode and its couplings.",
+      "reason": "The current empirical forms have no shared dynamics and must not be multiplied after outcome access."
+    }
+  ],
+  "triple_recombinations": [
+    {
+      "recombination_id": "triple.nonlocal_boundary_response__baryonic_transition_variable__dynamical_age_spectral_clock",
+      "members": ["nonlocal_boundary_response", "baryonic_transition_variable", "dynamical_age_spectral_clock"],
+      "disposition": "valid_mechanism_with_nuisance",
+      "mechanism_members": ["nonlocal_boundary_response", "baryonic_transition_variable"],
+      "control_members": ["dynamical_age_spectral_clock"],
+      "deferred_members": [],
+      "composition": "Use B-gated additive N while A is an ordinary-physics nuisance and robustness control.",
+      "reason": "A is informative for confounding but adds no gravitational mechanism."
+    },
+    {
+      "recombination_id": "triple.nonlocal_boundary_response__baryonic_transition_variable__massive_field_orbital_resonance",
+      "members": ["nonlocal_boundary_response", "baryonic_transition_variable", "massive_field_orbital_resonance"],
+      "disposition": "conditional_theory_first",
+      "mechanism_members": ["nonlocal_boundary_response", "baryonic_transition_variable"],
+      "control_members": [],
+      "deferred_members": ["massive_field_orbital_resonance"],
+      "composition": "Let B select between spatial N and temporal M channels only after distinct observables and a common action are frozen.",
+      "reason": "The dynamic channel is not currently causal or identifiable."
+    },
+    {
+      "recombination_id": "triple.nonlocal_boundary_response__baryonic_transition_variable__emergent_gravity_transition",
+      "members": ["nonlocal_boundary_response", "baryonic_transition_variable", "emergent_gravity_transition"],
+      "disposition": "top_priority_structural_architecture",
+      "mechanism_members": ["nonlocal_boundary_response", "baryonic_transition_variable", "emergent_gravity_transition"],
+      "control_members": [],
+      "deferred_members": [],
+      "composition": "Use E as the local base plus a continuously B-gated additive N channel with all pieces separately ablated.",
+      "reason": "This is the smallest role-complete architecture aimed directly at the observed galaxy-cluster trade-off."
+    },
+    {
+      "recombination_id": "triple.nonlocal_boundary_response__dynamical_age_spectral_clock__massive_field_orbital_resonance",
+      "members": ["nonlocal_boundary_response", "dynamical_age_spectral_clock", "massive_field_orbital_resonance"],
+      "disposition": "defer_theory_with_nuisance",
+      "mechanism_members": ["nonlocal_boundary_response"],
+      "control_members": ["dynamical_age_spectral_clock"],
+      "deferred_members": ["massive_field_orbital_resonance"],
+      "composition": "Defer N plus M until an action exists and retain A only as a nuisance control.",
+      "reason": "The current roles do not form an identifiable three-mechanism law."
+    },
+    {
+      "recombination_id": "triple.nonlocal_boundary_response__dynamical_age_spectral_clock__emergent_gravity_transition",
+      "members": ["nonlocal_boundary_response", "dynamical_age_spectral_clock", "emergent_gravity_transition"],
+      "disposition": "valid_mechanism_with_nuisance",
+      "mechanism_members": ["nonlocal_boundary_response", "emergent_gravity_transition"],
+      "control_members": ["dynamical_age_spectral_clock"],
+      "deferred_members": [],
+      "composition": "Use additive E plus N and test A only as an assembly or mass-calibration nuisance.",
+      "reason": "The E plus N mechanism is coherent while A has no direct force-law role."
+    },
+    {
+      "recombination_id": "triple.nonlocal_boundary_response__massive_field_orbital_resonance__emergent_gravity_transition",
+      "members": ["nonlocal_boundary_response", "massive_field_orbital_resonance", "emergent_gravity_transition"],
+      "disposition": "reject_initial_empirical_grammar",
+      "mechanism_members": ["nonlocal_boundary_response", "emergent_gravity_transition"],
+      "control_members": [],
+      "deferred_members": ["massive_field_orbital_resonance"],
+      "composition": "Do not generate a three-channel empirical formula unless one covariant action derives all channels.",
+      "reason": "Three mechanisms without a target-blind state gate are overparameterized and underidentified."
+    },
+    {
+      "recombination_id": "triple.baryonic_transition_variable__dynamical_age_spectral_clock__massive_field_orbital_resonance",
+      "members": ["baryonic_transition_variable", "dynamical_age_spectral_clock", "massive_field_orbital_resonance"],
+      "disposition": "deferred_mechanism_with_nuisance",
+      "mechanism_members": ["baryonic_transition_variable"],
+      "control_members": ["dynamical_age_spectral_clock"],
+      "deferred_members": ["massive_field_orbital_resonance"],
+      "composition": "After an M action exists, B may gate it while A remains a confounding control.",
+      "reason": "The present M representation cannot support a dynamic mechanism claim."
+    },
+    {
+      "recombination_id": "triple.baryonic_transition_variable__dynamical_age_spectral_clock__emergent_gravity_transition",
+      "members": ["baryonic_transition_variable", "dynamical_age_spectral_clock", "emergent_gravity_transition"],
+      "disposition": "valid_mechanism_with_nuisance",
+      "mechanism_members": ["baryonic_transition_variable", "emergent_gravity_transition"],
+      "control_members": ["dynamical_age_spectral_clock"],
+      "deferred_members": [],
+      "composition": "Use a single B-gated E transition while A remains a nuisance and mass-calibration check.",
+      "reason": "This avoids interpreting the raw spectral clock as a fundamental variable."
+    },
+    {
+      "recombination_id": "triple.baryonic_transition_variable__massive_field_orbital_resonance__emergent_gravity_transition",
+      "members": ["baryonic_transition_variable", "massive_field_orbital_resonance", "emergent_gravity_transition"],
+      "disposition": "conditional_theory_first",
+      "mechanism_members": ["baryonic_transition_variable", "emergent_gravity_transition"],
+      "control_members": [],
+      "deferred_members": ["massive_field_orbital_resonance"],
+      "composition": "Permit a B-gated collective M mode in E only after a common action and orthogonal observable signatures exist.",
+      "reason": "No empirical free product of the three current formulas is scientifically identifiable."
+    },
+    {
+      "recombination_id": "triple.dynamical_age_spectral_clock__massive_field_orbital_resonance__emergent_gravity_transition",
+      "members": ["dynamical_age_spectral_clock", "massive_field_orbital_resonance", "emergent_gravity_transition"],
+      "disposition": "defer_low_priority_with_nuisance",
+      "mechanism_members": ["emergent_gravity_transition"],
+      "control_members": ["dynamical_age_spectral_clock"],
+      "deferred_members": ["massive_field_orbital_resonance"],
+      "composition": "Defer E plus M theory work and keep A only as a nuisance control.",
+      "reason": "The current data products cannot identify an emergent collective mode."
+    }
+  ],
+  "forbidden_combinations": [
+    {
+      "rule_id": "forbid_raw_spectral_clock_force_source",
+      "pattern": "A_as_direct_force_gate_or_kernel_source",
+      "reason": "The current spectral clock is an empirical population proxy, not physical dimensionless time."
+    },
+    {
+      "rule_id": "forbid_arbitrary_all_channel_product",
+      "pattern": "E_times_B_times_N_times_M",
+      "reason": "Arbitrary products erase role identifiability and can reconstruct dataset classes."
+    },
+    {
+      "rule_id": "forbid_object_survey_or_class_switch",
+      "pattern": "object_id_or_survey_id_or_galaxy_group_cluster_label_in_formula",
+      "reason": "Transitions must be continuous functions of predictor-only physical variables."
+    },
+    {
+      "rule_id": "forbid_target_derived_gate",
+      "pattern": "response_or_inferred_total_mass_or_best_fit_coefficient_in_gate",
+      "reason": "A target-derived state variable leaks the answer into generation."
+    },
+    {
+      "rule_id": "forbid_independent_lensing_fit",
+      "pattern": "photon_multiplier_selected_independently_of_dynamical_action",
+      "reason": "Motion and light must follow from the same frozen fields."
+    },
+    {
+      "rule_id": "forbid_low_acceleration_double_counting",
+      "pattern": "two_unablated_base_law_susceptibility_multipliers",
+      "reason": "E and N may not each silently reproduce the same low-acceleration enhancement."
+    },
+    {
+      "rule_id": "forbid_static_resonance_as_dynamic_proof",
+      "pattern": "M_without_time_evolution_energy_radiation_and_stability",
+      "reason": "A static resonance-shaped window is not a massive propagating field."
+    },
+    {
+      "rule_id": "forbid_dimensionally_untyped_operation",
+      "pattern": "addition_or_transition_between_incompatible_dimensions",
+      "reason": "Every generated operator must pass dimensional typing before empirical evaluation."
+    }
+  ],
+  "target_blind_generation": {
+    "allowed_inputs": ["parent_registry_metadata", "typed_dimensionless_interface_schema", "frozen_theory_priors", "seeded_structural_randomness"],
+    "forbidden_inputs": ["scientific_payload_rows", "outcome_scores", "object_identifiers", "object_labels", "survey_labels", "class_labels", "inferred_total_mass", "target_coefficients", "sealed_targets"],
+    "formula_generation_before_response_required": true,
+    "post_response_formula_cells_allowed": 0,
+    "object_label_switches_allowed": false,
+    "survey_label_switches_allowed": false,
+    "class_label_switches_allowed": false,
+    "deterministic_enumeration_required": true,
+    "random_seed": "sha256:0b6053a87ba45d0cae5afe2bb59b0cb3b95814a26d2bb37e0407274262901973",
+    "llm_proposals_in_this_preflight": 0,
+    "network_queries_in_this_preflight": 0
+  },
+  "ablation_contract": {
+    "composition_mode": "additive_orthogonal_channels",
+    "products_of_channels_allowed": false,
+    "each_added_channel_must_be_ablatable": true,
+    "required_modes": ["base_only", "base_plus_each_single_channel", "full_additive_model", "leave_one_channel_out", "gate_replaced_by_constant", "nuisance_on_off"],
+    "added_channel_must_target_nonredundant_observable_or_scale": true
+  },
+  "control_contract": {
+    "matched_complexity_required": true,
+    "whole_object_nested_selection_required": true,
+    "single_counterexample_is_universal_veto": false,
+    "controls": [
+      {"control_id": "known_base_plus_null_channel", "kind": "parameter_count_matched_physical_control", "target_blind": true},
+      {"control_id": "flexible_ordinary_predictor_only", "kind": "complexity_matched_non_gravity_control", "target_blind": true},
+      {"control_id": "seeded_random_dimensionless_expression", "kind": "grammar_depth_and_parameter_count_matched_random_control", "target_blind": true},
+      {"control_id": "seeded_random_gate_same_basis", "kind": "gate_basis_count_matched_random_control", "target_blind": true},
+      {"control_id": "constant_gate_ablation", "kind": "transition_information_ablation", "target_blind": true}
+    ]
+  },
+  "novelty_policy": {
+    "allowed_labels": ["known_rewrite", "known_combination", "potentially_new_synthesis", "unclassified"],
+    "labels_are_historical_novelty_findings": false,
+    "labels_are_authoritative": false,
+    "corpus_absence_establishes_novelty": false,
+    "specialist_prior_art_review_required": true,
+    "behavioral_uniqueness_establishes_historical_novelty": false
+  },
+  "publication_interest_gates": [
+    {
+      "track_id": "association_astronomy",
+      "required_evidence": ["unchanged_independent_source", "matched_flexible_nuisance_control", "uncertainty_propagation", "robust_predeclared_strata"],
+      "preflight_satisfies_gate": false,
+      "claim_ceiling": "association_or_calibration_result_not_modified_gravity"
+    },
+    {
+      "track_id": "bounded_phenomenology",
+      "required_evidence": ["fresh_forward_observables", "galaxy_group_bridge", "absolute_accuracy", "full_covariance_and_nuisance_sensitivity", "same_action_motion_and_light"],
+      "preflight_satisfies_gate": false,
+      "claim_ceiling": "bounded_cross_scale_formula_not_a_gr_replacement"
+    },
+    {
+      "track_id": "failure_space_methods",
+      "required_evidence": ["injected_recovery", "raw_and_equivalence_accounting", "reproducible_failure_archive", "compute_accounting", "finite_grammar_scope_disclosure"],
+      "preflight_satisfies_gate": false,
+      "claim_ceiling": "recombination_and_counterexample_search_method"
+    },
+    {
+      "track_id": "gravity_theory",
+      "required_evidence": ["covariant_action_or_field_equations", "degrees_of_freedom", "conservation", "stability", "causality", "solar_system_and_gw_limits", "cosmology", "independent_cross_scale_data"],
+      "preflight_satisfies_gate": false,
+      "claim_ceiling": "no_gravity_theory_claim_from_preflight"
+    }
+  ],
+  "top_architecture": {
+    "architecture_id": "BEN-additive-cross-scale-v1",
+    "members": ["nonlocal_boundary_response", "baryonic_transition_variable", "emergent_gravity_transition"],
+    "base_lead": "emergent_gravity_transition",
+    "gate_lead": "baryonic_transition_variable",
+    "additive_channel_lead": "nonlocal_boundary_response",
+    "nuisance_lead": "dynamical_age_spectral_clock",
+    "deferred_lead": "massive_field_orbital_resonance",
+    "formula_template": "g_dyn = g_base_E(u) + T_B(C,b,Theta,Ghat) Delta_g_N[rho_b]",
+    "lensing_rule": "derive Phi and Psi from the same frozen action before any direct-lensing target access",
+    "first_fresh_data_gate": "galaxy_group_bridge_before_direct_lensing",
+    "structural_descendants_only": true,
+    "children_empirically_work": false
+  },
+  "output_path": "runs/gravity/lead-programs/gravity-lead-recombination-v1.json",
+  "contract_sha256": "5d205fc472f789edf5c83dd06d347cec3079a95ed9dd6debae392b72381d5c62"
+}

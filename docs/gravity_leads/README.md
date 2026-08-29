@@ -42,3 +42,54 @@ The `4^10` grammar did not find a cross-scale bridge: no tested behavior matched
 the SPARC RAR and the existing X-COP result. This narrows the next search toward
 structurally different additive or two-field mechanisms, not a denser version of the
 same multiplicative response.
+
+## Executable parent registry
+
+The five folders are now registered as hash-bound parent research programs rather than
+being documentation only. The registry binds 74 evidence files, including 13 Python
+implementations, and records the safe check/replay command, interface type, target-data
+boundary, claim ceiling, and limitations for every lead. It reads no raw payload rows and
+authorizes no sealed-target, network, model, or GPU production access.
+
+Four parents have an exact bounded local replay or validation path. The emergent-gravity
+parent retains executable builder/evaluator components, but its configured compute manifest
+is absent, so exact end-to-end empirical replay is explicitly unavailable rather than
+inferred from the surviving result.
+
+```powershell
+python -m sigma_theory_compiler.gravity_lead_parent_registry check
+python -m sigma_theory_compiler.gravity_lead_parent_registry check --lead nonlocal_boundary_response
+```
+
+The canonical receipt decision is
+`PASS_ALL_FIVE_PARENTS_REGISTERED_EVIDENCE_INTACT`. This means the registered evidence and
+implementations are intact; it does not establish replication, mechanism, novelty, or an
+alternative to general relativity.
+
+## Target-blind recombination preflight
+
+A physics-specific recombination layer now generates all 10 pairwise and all 10 triple
+structural descendants. It assigns each parent a typed role, admits only dimensionless
+shared interfaces, requires additive-channel ablations and matched/random controls, and
+forbids object/survey/class switches, target-derived gates, arbitrary all-channel products,
+and independently fitted photon responses. Age remains a nuisance/assembly control until a
+physical dimensionless clock is derived; the massive-resonance branch remains theory-first
+until it has causal time evolution, energy, radiation, and stability.
+
+The top structural architecture is
+
+    g_dyn = g_base,E(u) + T_B(C,b,Theta,geometry) Delta_g_N[rho_b]
+
+where the emergent/RAR-like parent supplies a local base, the baryonic-state parent supplies
+a continuous target-blind gate, and the nonlocal parent supplies a separately ablatable
+additive cluster channel. This child is a search plan, not an empirical result.
+
+```powershell
+python -m sigma_theory_compiler.gravity_lead_recombination check-parent
+python -m sigma_theory_compiler.gravity_lead_recombination validate
+```
+
+The preflight creates 20 deterministic child plans with zero scores and
+`execution_authorized=false`. A shared predictor/evaluator contract, fresh group bridge,
+covariant motion-and-lensing model, independent data, and publication-track gates remain
+required before any child can be executed or described as interesting evidence.
