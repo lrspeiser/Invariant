@@ -99,6 +99,41 @@ def validate_config(root: Path, config: Mapping[str, Any]) -> None:
     if not bool(config["independence"]["exclude_every_item10_sample_name_and_coordinate"]):
         raise GravityItem39Error("Item 10 role exclusion changed")
 
+    transfer = config["lensing_transfer"]
+    if transfer["primary_sources"] != [
+        "https://arxiv.org/abs/1201.1677v2",
+        "https://arxiv.org/abs/1206.4310v2",
+    ]:
+        raise GravityItem39Error("SWELLS primary-source identity changed")
+    if bool(transfer["selection_use"]) or bool(transfer["lensing_only_retuning"]):
+        raise GravityItem39Error("SWELLS transfer entered selection or retuning")
+    if int(transfer["post_selection_candidate_cells"]) != 0:
+        raise GravityItem39Error("post-selection lensing candidates entered Item 39")
+    if int(transfer["paid_model_calls"]) != 0:
+        raise GravityItem39Error("paid model calls entered the SWELLS transfer")
+    if transfer["expected_eligible_names"] != [
+        "J0955+0101",
+        "J1021+2028",
+        "J1111+2234",
+        "J1135+3720",
+        "J1251-0208",
+        "J1331+3638",
+    ]:
+        raise GravityItem39Error("SWELLS eligible identity set changed")
+    selected = transfer["selected_candidate"]
+    decoded = decode_candidate(int(selected["candidate_id"]), config)
+    if int(decoded["lane_id"]) != int(selected["lane_id"]):
+        raise GravityItem39Error("SWELLS transfer candidate lane changed")
+    for key in ("amplitude", "exponent", "shape", "transition_u"):
+        if float(decoded["parameters"][key]) != float(selected[key]):
+            raise GravityItem39Error(f"SWELLS transfer candidate {key} changed")
+    compute_path = _source_path(root, config, "compute_manifest")
+    if _sha256_file(compute_path) != transfer["dynamics_compute_manifest_file_sha256"]:
+        raise GravityItem39Error("bound Item 39 dynamics compute file changed")
+    compute = _read_json(compute_path)
+    if compute.get("content_sha256") != transfer["dynamics_compute_manifest_content_sha256"]:
+        raise GravityItem39Error("bound Item 39 dynamics content changed")
+
 
 def _contract_digest(config: Mapping[str, Any]) -> str:
     value = json.loads(json.dumps(config))

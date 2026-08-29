@@ -268,11 +268,51 @@
   },
   "lensing_transfer": {
     "dataset": "SWELLS spiral strong lenses",
-    "primary_sources": ["https://arxiv.org/abs/1107.2884", "https://arxiv.org/abs/1207.3669"],
-    "role": "unchanged small-sample motion-and-light diagnostic after WALLABY selection; not a direct image-likelihood confirmation",
+    "freeze_commit": "PENDING_BIND",
+    "primary_sources": ["https://arxiv.org/abs/1201.1677v2", "https://arxiv.org/abs/1206.4310v2"],
+    "machine_sources": ["https://arxiv.org/html/1201.1677v2", "https://arxiv.org/html/1206.4310v2"],
+    "source_correction": "The originally frozen arXiv identifiers 1107.2884 and 1207.3669 were unrelated papers. They were corrected before local source acquisition to the primary SWELLS III and V records; the WALLABY-selected formula did not change.",
+    "role": "unchanged post-selection motion-and-light diagnostic: WALLABY supplies motion and SWELLS supplies light bending; this is not a blinded confirmation or a direct image-likelihood test",
+    "dynamics_result_commit": "738bcdd615f5a3bfe88bb3a2366227476e632585",
+    "dynamics_compute_manifest_file_sha256": "af413a34e105d5625595c0e5eea2e7439983163deb13e52c6a02880b8e19c88f",
+    "dynamics_compute_manifest_content_sha256": "2e41c137b56bba8f5f2f23eef89c222793cdfbcb0a20a8605bfc42f6c04a0ea1",
+    "selected_candidate": {
+      "candidate_id": 173808,
+      "lane_id": 2,
+      "lane": "entanglement_wedge_cross_ratio",
+      "creativity_label": "potentially_new_observational_synthesis_not_historical_novelty",
+      "amplitude": 1.25,
+      "exponent": 0.5,
+      "shape": 0.2,
+      "transition_u": 100000000.0
+    },
     "prefreeze_web_exposed_or_predecessor_names": ["J0820+4847", "J0822+1828", "J0841+3824", "J0915+4211", "J0930+2855", "J2141-0001"],
+    "post_selection_pre_mapping_exposure": "The complete published SWELLS III Table 1 was inspected after commit-binding the WALLABY formula but before this transfer mapping was frozen. Therefore the transfer is explicitly unblinded and diagnostic even though there is no formula or coefficient retuning.",
+    "sample_rule": "Take the exact intersection of SWELLS III modelled lenses, independently published Chabrier bulge/disk masses, and published bulge/disk half-light radii; exclude every prefreeze-exposed/predecessor identity, complex merger J1037+3517, and any incomplete row; do not replace failures.",
+    "expected_eligible_names": ["J0955+0101", "J1021+2028", "J1111+2234", "J1135+3720", "J1251-0208", "J1331+3638"],
+    "predictor_tables": {
+      "swells_iii": "Tables 3 and 4: circularized component half-light radii and Chabrier bulge/disk SPS masses",
+      "swells_v": "Table 1: physical component half-light radii and Chabrier bulge/disk SPS masses"
+    },
+    "response_table": "SWELLS III Table 1 projected mass inside the critical curve, Einstein radius, lens redshift, and quoted uncertainties",
+    "baryonic_projection": {
+      "bulge_profile": "projected Sersic n=4 with cumulative fraction P(8,b4*(R/Re)^(1/4)) and b4=7.66924944",
+      "disk_profile": "projected Sersic n=1 with cumulative fraction P(2,b1*R/Re) and b1=1.67834699",
+      "screen_radius": "four times the published disk half-light radius; no fitted screen size",
+      "enclosed_fraction": "Chabrier SPS bulge-plus-disk projected mass inside the circularized Einstein radius divided by total Chabrier SPS bulge-plus-disk mass",
+      "nested_growth": "analytic d ln Mbar(<R)/d ln R of the frozen two-component projected profile",
+      "baryonic_acceleration": "G*Mbar_projected(<R_E)/R_E^2 divided by the same a0 used for WALLABY",
+      "gas_treatment": "No homogeneous cold-gas aperture measurement is available; primary mass is stellar-only and a symmetric 0.10 dex missing-gas audit is reported without changing the primary result"
+    },
+    "metric_mapping": "Under the frozen Phi=Psi weak-field closure, use M_lens,pred=nu(u,H)*Mbar_projected(<R_E) as an aperture-level consistency proxy; do not interpret it as a solved relativistic lens equation.",
+    "loss": "mean squared log10 predicted-to-published projected lens mass, with no fitted parameter and equal lens weight",
+    "fixed_comparators": ["baryonic_newton", "mond_RAR", "item38_selected"],
+    "systematic_audits": ["stellar_mass_minus_0.25_dex", "stellar_mass_plus_0.25_dex", "missing_gas_plus_0.10_dex", "screen_radius_factor_3", "screen_radius_factor_5"],
+    "minimum_evaluable_lenses": 5,
     "selection_use": false,
     "lensing_only_retuning": false,
+    "post_selection_candidate_cells": 0,
+    "paid_model_calls": 0,
     "claim_boundary": "Published Einstein-radius/SIE-derived quantities and stellar-population masses are model-dependent summaries, so this transfer can falsify consistency but cannot establish a lensing theory."
   },
   "gates": {
@@ -304,6 +344,7 @@
     "extraction_summary": "extraction-summary.json",
     "compute_manifest": "compute-manifest.json",
     "lensing_transfer_source": "swells-transfer-source.json",
+    "lensing_transfer_result": "swells-transfer-result.json",
     "result": "runs/gravity/roadmap/item-39-holographic-boundary-v1.json"
   }
 }
