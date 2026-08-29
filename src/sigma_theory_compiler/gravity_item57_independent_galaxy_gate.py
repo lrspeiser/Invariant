@@ -272,7 +272,7 @@ def acquire_photometry(root: Path) -> Path:
             "schema_version": "invariant-gravity-item57-photometry-source-1.0",
             "item": 57,
             "scientific_freeze_commit": config["scientific_freeze_commit"],
-            "catalog": "J/AJ/144/134/table1",
+            "catalog": "J/AJ/144/134/galaxies",
             "allowed_columns": config["little_things"]["photometry_allowed_columns"],
             "records": records,
             "counts": {
